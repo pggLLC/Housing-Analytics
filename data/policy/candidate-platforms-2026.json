@@ -5,7 +5,7 @@
       "office": "Governor/Lieutenant Governor",
       "election_date": "2026-11-03",
       "candidates_source": "https://www.sos.state.co.us/pubs/elections/vote/generalCandidates.html",
-      "coverage_state": "not_researched",
+      "coverage_state": "complete",
       "roster_checked": "2026-09-26",
       "certified_candidates": [
         {
@@ -332,57 +332,198 @@
       "office": "Governor/Lieutenant Governor",
       "party": "Unity Party",
       "campaign_source": {
-        "url": null,
+        "url": "https://jeffpeckman.com/solutions-blueprint",
         "published": null,
-        "retrieved": null,
-        "archive_url": null
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260924231153/https://jeffpeckman.com/solutions-blueprint"
       },
-      "topics": [],
-      "neutral_summary": "",
-      "quote": "",
-      "coverage_state": "not_researched",
-      "verification": null,
+      "topics": [
+        "supply",
+        "fees_permitting",
+        "land_use_local_control",
+        "homelessness"
+      ],
+      "neutral_summary": "The campaign says Peckman supports reducing red tape and timelines for permitting and inspections, which it says would be more easily achieved with modular homes built to more exact specifications before they are put on foundations.",
+      "quote": "I also support reducing red tape and timelines for permitting and inspections, which will be more easily achieved with modular homes built to more exact specifications before they get put on foundations.",
+      "coverage_state": "verified_platform_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
       "proposed_appointments": [],
-      "history": [],
-      "archived": false
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "Campaign site identified from the TRACER candidate record (Web: WWW.JEFFPECKMAN.COM). The /about-jeff and /in-the-news pages could not be loaded, and linked questionnaire PDFs were not read. Zoning and building-code changes appear on the Q&A page.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://jeffpeckman.com/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://jeffpeckman.com/solutions-blueprint",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://jeffpeckman.com/candidate-q-%26-a",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://jeffpeckman.com/ai-rankings",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://jeffpeckman.com/election-fraud",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://jeffpeckman.com/press-releases",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "candidate": "Erik Underwood / Frank Atwood",
       "office": "Governor/Lieutenant Governor",
       "party": "Approval Voting Party",
       "campaign_source": {
-        "url": null,
+        "url": "https://erikunderwood.com/services/affordable-homes/",
         "published": null,
-        "retrieved": null,
-        "archive_url": null
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260629013824/https://erikunderwood.com/services/affordable-homes/"
       },
-      "topics": [],
-      "neutral_summary": "",
-      "quote": "",
-      "coverage_state": "not_researched",
-      "verification": null,
-      "proposed_appointments": [],
-      "history": [],
-      "archived": false
+      "topics": [
+        "homeownership",
+        "affordability_programs",
+        "renters",
+        "supply",
+        "homelessness"
+      ],
+      "neutral_summary": "The campaign says Underwood would create a special department within the Division of Housing to offer home loans to any Coloradan who wants to buy a home, with a minimum one year of Colorado residency.",
+      "quote": "I will create a special department within the Division of Housing to offer home loans to any Coloradan who wants to buy a home (minimum one year Colorado residency).",
+      "coverage_state": "verified_platform_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [
+        {
+          "role": "Governor’s Veterans Housing Coordinator",
+          "person": null,
+          "source": {
+            "url": "https://erikunderwood.com/services/homelessness-policy/",
+            "retrieved": "2026-09-26"
+          },
+          "quote": "I will appoint a Governor’s Veterans Housing Coordinator with authority across DOLA, CDPHE, and the Colorado Department of Military and Veterans Affairs to drive veteran homelessness toward functional zero within four years.",
+          "claim_type": "campaign_claim"
+        }
+      ],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "Campaign site identified from the TRACER candidate record (Web: WWW.ERIKUNDERWOOD.COM). The homelessness page also proposes convening a Governor’s Cabinet on Homelessness with mayors; that is a body, not a position, and is not recorded as an appointment.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://erikunderwood.com/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erikunderwood.com/issues/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erikunderwood.com/services/affordable-homes/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erikunderwood.com/services/homelessness-policy/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erikunderwood.com/services/end-tabor/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erikunderwood.com/services/water-policy/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erikunderwood.com/services/timeline-for-action/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erikunderwood.com/general-election-message/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "candidate": "Greg Lopez / Taralyn Romero",
       "office": "Governor/Lieutenant Governor",
       "party": "Unaffiliated",
       "campaign_source": {
-        "url": null,
+        "url": "https://www.greglopez.co/issues",
         "published": null,
-        "retrieved": null,
-        "archive_url": null
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260922003727/https://www.greglopez.co/issues"
       },
-      "topics": [],
-      "neutral_summary": "",
-      "quote": "",
-      "coverage_state": "not_researched",
-      "verification": null,
+      "topics": [
+        "supply",
+        "homeownership",
+        "fees_permitting",
+        "water_infrastructure"
+      ],
+      "neutral_summary": "The campaign says Lopez would ensure that 25,000 starter homes are built in his first four years.",
+      "quote": "In my first four years, I will ensure that we build 25,000 starter homes.",
+      "coverage_state": "verified_platform_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
       "proposed_appointments": [],
-      "history": [],
-      "archived": false
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "Campaign site identified from the TRACER candidate record (Web: GREGLOPEZ.CO). The same issues page names government fees, permitting delays and the cost of water and sewer taps.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://www.greglopez.co/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.greglopez.co/issues",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.greglopez.co/meet-greg",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.greglopez.co/get-involved",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "candidate": "Michael J. Allen",
