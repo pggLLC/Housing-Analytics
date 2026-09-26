@@ -13,7 +13,11 @@
   var COMPETITIVE = 'Capture scenarios do not account for competing for-sale inventory or pipeline; no supply data source exists yet. A professional market study must supply the competitive set.';
   var HUMILITY = 'Even professionally delineated market areas captured only 44% of actual applicants at the Fruita Mews benchmark; outside-area demand of 9–56% is documented. Treat capture scenarios as screening arithmetic, not achievable-sales claims.';
   var BUYER_POOL = 'potential buyer pool (moderate-income renter households) - not committed demand';
-  var FHA = 'Fruita Housing Authority ≠ Federal Housing Administration';
+  // The "not the same agency" caveat is about a named local housing authority,
+  // so it exists only when the report names one. It used to be a fixed line
+  // naming the example town's authority, which put that caveat into every
+  // jurisdiction's report — including ones that never mention it.
+  var FEDERAL_HOUSING = ' \u2260 Federal Housing Administration';
   var VERIFY = 'Verification parties: developer discussions, lender, appraiser, broker, program administrator, and local jurisdiction.';
   var LEGEND = 'Evidence labels distinguish confirmed sources, calculated estimates, owner inputs, and sources awaiting review.';
   var COMMITMENT = 'available is context, never money';
@@ -21,7 +25,7 @@
   var TRANSPARENCY = 'Owner-net transparency warning (conditional): a warning appears here whenever the public recovers all of its subsidy plus a share of the price growth and the owner walks away with less cash than they put in.';
   var INTERNAL_CAVEATS = Object.freeze([
     BANNER, 'Hypothesis to test', 'Values still needed', G2, COMPETITIVE,
-    HUMILITY, BUYER_POOL, TRANSPARENCY, FHA, VERIFY, LEGEND, COMMITMENT, SCENARIO
+    HUMILITY, BUYER_POOL, TRANSPARENCY, VERIFY, LEGEND, COMMITMENT, SCENARIO
   ]);
   var REQUIRED_CAVEATS = Object.freeze(INTERNAL_CAVEATS.slice());
 
@@ -125,6 +129,24 @@
     if (unavailable(value)) return 'Owner input required';
     return Number(value).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: digits });
   }
+  /**
+   * A count of households is a whole number of households. The engines keep
+   * full precision (CHAS rows are split across AMI bands, so the pool is
+   * routinely fractional) and every figure is still computed from it; only
+   * what the reader sees is rounded. "54,102.5 households" is not a thing.
+   */
+  function formatHouseholds(value) {
+    if (unavailable(value)) return 'Owner input required';
+    return Number(value).toLocaleString('en-US', { maximumFractionDigits: 0 });
+  }
+  // Every capture denominator is a buyer pool (households) except the one
+  // divided by the contract-survival share, which is a share and keeps its
+  // decimals.
+  var SHARE_DENOMINATOR_BASIS = 'the Phase-6 contract_fallout survival share';
+  function formatDenominatorValue(denominator) {
+    if (!denominator || unavailable(denominator.value)) return 'Owner input required';
+    return denominator.basis === SHARE_DENOMINATOR_BASIS ? rounded(denominator.value, 2) : formatHouseholds(denominator.value);
+  }
   function formatSchedule(values, total) {
     if (!Array.isArray(values)) return display(values);
     var even = values.length > 0 && values.every(function (value) {
@@ -140,7 +162,7 @@
   function zeroPool(figure) { return unavailable(figure.value) && figure.denominator && figure.denominator.value === 0; }
   function formatDenominator(figure, kind) {
     var shown = zeroPool(figure) ? 'None — the pool is empty' : display(figure.value, kind);
-    return shown + '<small>denominator: ' + rounded(figure.denominator.value, 2) + ' — ' + escape(plainBasis(figure.denominator.basis)) + '</small>';
+    return shown + '<small>denominator: ' + formatDenominatorValue(figure.denominator) + ' — ' + escape(plainBasis(figure.denominator.basis)) + '</small>';
   }
   function formatAnnualCapture(values) {
     if (!Array.isArray(values)) return display(values);
@@ -157,7 +179,7 @@
           ? 'the buyer pool is used up by earlier sales'
           : 'the estimated buyer pool is empty from the start');
       }
-      return 'Year ' + (index + 1) + ': ' + (unavailable(entry.value) ? display(entry.value) : entry.value.toLocaleString('en-US', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 })) + ' — pool ' + rounded(entry.denominator.value, 2);
+      return 'Year ' + (index + 1) + ': ' + (unavailable(entry.value) ? display(entry.value) : entry.value.toLocaleString('en-US', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 })) + ' — pool ' + formatHouseholds(entry.denominator.value);
     }).join('<br>');
   }
   function badge(value, compact) { return ProvenanceLabel.html(typeof value === 'object' ? value : { classification: value }, { compact: compact !== false }); }
@@ -188,6 +210,59 @@
    * Is the study's jurisdiction the example project's own town? Only then may
    * the report carry the example project's name and its named partners.
    */
+  /**
+   * The "Local sale prices" section, as words. The page and the downloaded
+   * report both render from this one object, so the figure, its label, its
+   * period and its caveat cannot differ between the two (PC-1: same figure,
+   * same source and year, everywhere). Before this the report had no such
+   * section at all: the screen showed a sale price and the file a reader
+   * kept did not.
+   *
+   * `evidence` is SalePriceEvidence.forPlace() output, or null when there is
+   * no jurisdiction (then there is no section, on screen or in the report).
+   */
+  var SALE_PRICE_HEADING = 'Local sale prices';
+  function salePriceFacts(evidence) {
+    if (!evidence) return null;
+    if (evidence.state === 'unavailable' || unavailable(evidence.value)) {
+      return {
+        available: false,
+        state: 'unavailable',
+        heading: SALE_PRICE_HEADING,
+        plain: 'this would show what homes near you have recently sold for. No sale-price source covers this place; the reasons are listed below.',
+        label: String(evidence.label || 'No sale-price source for this place'),
+        caveat: String(evidence.caveat || ''),
+        reasons: (evidence.reasons || []).map(function (reason) {
+          return { source: String(reason.source), detail: String(reason.detail), issue: reason.issue || null };
+        })
+      };
+    }
+    return {
+      available: true,
+      state: String(evidence.state),
+      heading: SALE_PRICE_HEADING,
+      plain: 'what homes near you have recently sold for — roughly the price a buyer with no help would face. The gaps in the affordability table are measured against a separate typical home-value estimate, so the two figures can differ.',
+      figure: display(evidence.value, 'money'),
+      label: String(evidence.label),
+      period: evidence.period ? 'Three-month period ending ' + evidence.period : null,
+      caveat: String(evidence.caveat || ''),
+      reasons: []
+    };
+  }
+  function salePriceSection(facts) {
+    if (!facts) return '';
+    if (!facts.available) {
+      return '<section class="sale-price" data-sale-price="unavailable"><h2>' + facts.heading + '</h2>' + plain(escape(facts.plain))
+        + '<p><strong>' + escape(facts.label) + '.</strong></p><p>' + escape(facts.caveat) + '</p><ul>'
+        + facts.reasons.map(function (reason) {
+          return '<li><strong>' + escape(reason.source) + '</strong> — ' + escape(reason.detail) + (reason.issue ? ' (tracked in #' + escape(reason.issue) + ')' : '') + '</li>';
+        }).join('') + '</ul></section>';
+    }
+    return '<section class="sale-price" data-sale-price="' + escape(facts.state) + '"><h2>' + facts.heading + '</h2>' + plain(escape(facts.plain))
+      + '<p class="sale-price-figure"><strong>' + facts.figure + '</strong> — ' + escape(facts.label) + '</p>'
+      + (facts.period ? '<p>' + escape(facts.period) + '.</p>' : '')
+      + '<p>' + escape(facts.caveat) + '</p></section>';
+  }
   function isExampleJurisdiction(scenario, jurisdictionLabel, jurisdictionGeoid) {
     var home = (scenario && scenario.jurisdiction) || {};
     if (!jurisdictionLabel && !jurisdictionGeoid) return true;
@@ -199,9 +274,39 @@
     return (jurisdictionLabel || jurisdictionGeoid) + ' — For-Sale Market Study (screening)';
   }
 
+  function authorityCaveat(name) { return name + FEDERAL_HOUSING; }
+  /**
+   * Housing authorities the report names, read from the rendered content so
+   * the check below is about what a reader actually sees. A name is a run of
+   * capitalised words ending in "Housing Authority"; the caveat lines
+   * themselves are removed first, so a caveat cannot count as its own
+   * reason to exist.
+   */
+  var AUTHORITY_NAME = /[A-Z][A-Za-z'-]*(?: [A-Z][A-Za-z'-]*)* Housing Authority/g;
+  var AUTHORITY_CAVEAT = /([A-Z][A-Za-z'-]*(?: [A-Z][A-Za-z'-]*)* Housing Authority) \u2260 Federal Housing Administration/g;
+  function namedAuthorities(html) {
+    var body = String(html).replace(AUTHORITY_CAVEAT, '');
+    var seen = {};
+    (body.match(AUTHORITY_NAME) || []).forEach(function (name) { seen[name] = true; });
+    return Object.keys(seen);
+  }
+  function authorityCaveatsIn(html) {
+    var out = {};
+    String(html).replace(AUTHORITY_CAVEAT, function (whole, name) { out[name] = true; return whole; });
+    return Object.keys(out);
+  }
+  /** Every caveat this content must carry: the fixed list, plus one per named authority. */
+  function requiredCaveatsFor(html) {
+    return INTERNAL_CAVEATS.concat(namedAuthorities(html).map(authorityCaveat));
+  }
+
   function assertComplete(html) {
-    INTERNAL_CAVEATS.forEach(function (entry) {
+    requiredCaveatsFor(html).forEach(function (entry) {
       if (html.indexOf(entry) === -1) throw new Error('MarketStudyReport: required caveat missing: ' + entry);
+    });
+    var named = namedAuthorities(html);
+    authorityCaveatsIn(html).forEach(function (name) {
+      if (named.indexOf(name) === -1) throw new Error('MarketStudyReport: caveat about an agency the report does not name: ' + name);
     });
   }
 
@@ -237,7 +342,7 @@
     var thirtyMonth = (model.capture.scenarios || []).filter(function (item) { return item.selloutMonths === 30; })[0];
     var penetration = thirtyMonth ? formatDenominator(thirtyMonth.totalProjectPenetration, 'rate') : null;
     return '<section class="verdict"><h2>The screening answer, so far</h2>' +
-      '<p><strong>Effective demand: ' + display(funnel.effectiveDemand) + ' households</strong> against a ' +
+      '<p><strong>Effective demand: ' + formatHouseholds(funnel.effectiveDemand) + ' households</strong> against a ' +
       display(model.scenario.program.total_units.value) + '-unit program.' +
       (penetration
         ? ' At a 30-month sellout pace, the program would need to capture ' + penetration +
@@ -282,7 +387,13 @@
       var candidate = atHome ? display(row.name || row.provider_id) : 'None identified for ' + escape(jurisdictionLabel);
       return '<tr><td>' + escape(humanize(row.role)) + '</td><td>' + candidate + '</td><td>candidate — no commitment</td><td>' + badge(row) + '</td></tr>';
     });
-    var project = '<section><h2>1. Project summary</h2>' + plain('the example project being screened: how many homes, what sizes, how many are priced for each income group, and who might build and run it. The project is an example; the market figures in section 2 are for the jurisdiction named here.') + '<p><strong>Jurisdiction:</strong> ' + escape(jurisdictionLabel) + '</p><p><strong>Total homes:</strong> ' + display(scenario.program.total_units.value) + ' ' + badge(scenario.program.total_units) + '</p><p><strong>Home type:</strong> ' + display(scenario.program.tenure_form.value) + ' ' + badge(scenario.program.tenure_form) + '</p><h3>Unit mix and sizes</h3>' + table(['Homes', 'Bedrooms', 'Size', 'Where the number comes from'], mixRows) + '<h3>Homes by income group</h3>' + table(['Income group (AMI band)', 'Homes', 'Where the number comes from'], amiRows) + '<h3>Partners</h3>' + table(['Role', 'Candidate', 'Status', 'Where the number comes from'], partnerRows) + '<p class="warning"><strong>Not the same agency:</strong> ' + FHA + '. The first is the local housing authority named as a possible land owner; the second is the federal agency that insures some home mortgages. They are different bodies.</p></section>';
+    // Only authorities this report actually lists get the disambiguation.
+    var authorityNotes = (atHome ? scenario.partners : []).filter(function (row) {
+      return typeof row.name === 'string' && / Housing Authority$/.test(row.name);
+    }).map(function (row) {
+      return '<p class="warning"><strong>Not the same agency:</strong> ' + escape(authorityCaveat(row.name)) + '. The first is the local housing authority named above as a candidate ' + escape(humanize(row.role).toLowerCase()) + '; the second is the federal agency that insures some home mortgages. They are different bodies.</p>';
+    }).join('');
+    var project = '<section><h2>1. Project summary</h2>' + plain('the example project being screened: how many homes, what sizes, how many are priced for each income group, and who might build and run it. The project is an example; the market figures in section 2 are for the jurisdiction named here.') + '<p><strong>Jurisdiction:</strong> ' + escape(jurisdictionLabel) + '</p><p><strong>Total homes:</strong> ' + display(scenario.program.total_units.value) + ' ' + badge(scenario.program.total_units) + '</p><p><strong>Home type:</strong> ' + display(scenario.program.tenure_form.value) + ' ' + badge(scenario.program.tenure_form) + '</p><h3>Unit mix and sizes</h3>' + table(['Homes', 'Bedrooms', 'Size', 'Where the number comes from'], mixRows) + '<h3>Homes by income group</h3>' + table(['Income group (AMI band)', 'Homes', 'Where the number comes from'], amiRows) + '<h3>Partners</h3>' + table(['Role', 'Candidate', 'Status', 'Where the number comes from'], partnerRows) + authorityNotes + '</section>';
 
     var bandRows = model.derived.bands.map(function (row) {
       return '<tr><td>' + display(row.band[0], 'rate') + '–' + display(row.band[1], 'rate') + '</td><td>' + display(row.count) + '</td><td>' + display(row.maxAffordablePrice, 'money') + '</td><td>' + display(row.gapVsLocalPrice, 'money') + '</td><td>' + (ASSISTANCE_ANSWERS[row.assistanceRangeCheck] || escape(row.assistanceRangeCheck)) + '</td><td>' + badge(row) + '</td></tr>';
@@ -315,7 +426,7 @@
     var equity = '<section><h2>5. Shared equity &amp; settlement</h2>' + plain('price-restricted homes come with a resale formula that caps what an owner can sell for. The goal is to keep the home affordable for the next buyer, but a cap does not guarantee it — the third column checks whether it does, ' + escape(model.selectedYear) + ' years after purchase. The market path sets one yearly rate that home values, incomes and inflation all follow.') + exampleNote + table(['Resale formula', 'Seller walks away with (net proceeds)', 'Still affordable to the next buyer?', 'Where the number comes from', 'Market path'], conventionRows) + '<h3>Where the money goes in one sale</h3>' + plain('when the home sells, selling costs are paid first, then the mortgage, then the owner gets their down payment back, then any public help is repaid. The owner\'s net proceeds are their down payment back, any improvement credit, and whatever is left after that. Public subsidy recaptured is public money paid back at the sale; public subsidy retained stays in the home rather than being paid back.') + '<p>' + escape(model.settlement.scenarioLabel) + ' ' + badge(model.settlement) + '</p><p>Public subsidy retained in home: <strong>' + display(model.settlement.publicSubsidyRetainedInHome, 'money') + '</strong></p><p>Public subsidy recaptured at sale: <strong>' + display(model.settlement.publicSubsidyRecapturedAtSale, 'money') + '</strong></p><p>Owner net proceeds: <strong>' + display(model.settlement.ownerNetProceeds, 'money') + '</strong></p><p>' + TRANSPARENCY + (model.settlement.ownerNetTransparencyWarning ? '' : ' No such warning applies to this sale.') + '</p>' + warning + '</section>';
 
     var funnelRows = model.funnel.stages.map(function (stage) {
-      return '<tr><td>' + escape(stage.id === 'observed_base' ? 'Starting pool' : plainLabel('stages', stage.id)) + '</td><td>' + display(stage.share, 'rate') + '</td><td>' + display(stage.outputCount) + '</td><td>' + escape(stage.label || '') + '</td><td>' + escape(stage.basis) + '</td><td>' + badge(stage) + '</td></tr>';
+      return '<tr><td>' + escape(stage.id === 'observed_base' ? 'Starting pool' : plainLabel('stages', stage.id)) + '</td><td>' + display(stage.share, 'rate') + '</td><td>' + formatHouseholds(stage.outputCount) + '</td><td>' + escape(stage.label || '') + '</td><td>' + escape(stage.basis) + '</td><td>' + badge(stage) + '</td></tr>';
     });
     var unresolved = model.funnel.unresolvedStages;
     var demand = '<section><h2>6. Demand (screening)</h2>' + plain('the buyer funnel. It starts from a rough count of local moderate-income renter households, taken from HUD\'s CHAS tables and split across the project\'s income groups — a potential pool, not committed buyers. Each step after it keeps only the share of households that pass that step, using a share someone has entered from local evidence. If a step is blank, every step below it stays blank, because the report will not guess.') + '<p><strong>Steps still blank:</strong> ' + escape(unresolved.length ? unresolved.map(function (id) { return plainLabel('stages', id); }).join('; ') : 'none') + '</p><p class="field-ids">Field names: ' + escape(unresolved.length ? unresolved.join(', ') : 'none') + '</p>' + table(['Step', 'Share kept', 'Households left', 'What the number means', 'Where a real share should come from', 'Where the number comes from'], funnelRows) + '<p><strong>' + BUYER_POOL + '</strong></p><p class="warning">' + G2 + ' In plain terms: HUD\'s CHAS data does not count households above the area median income, so the top income group shows no buyers here. That is a gap in the data, not a finding that nobody in that group would buy.</p></section>';
@@ -350,9 +461,11 @@
       '<dt>Denominator</dt><dd>The number a share was divided by — shown under each capture figure so you can see which pool it was measured against.</dd>' +
       '<dt>Sellout</dt><dd>Selling every home in the project; a 30-month sellout means all homes sold within 30 months.</dd>' +
       '</dl></section>';
-    var vintages = '<ul><li>Scenario: ' + escape(meta.vintages.scenario) + '</li><li>Home value: ' + escape(meta.vintages.homeValue) + '</li><li>Resale conventions: ' + escape(meta.vintages.conventions) + '</li></ul>';
+    var saleFacts = salePriceFacts(meta.salePrice || null);
+    var vintages = '<ul><li>Scenario: ' + escape(meta.vintages.scenario) + '</li><li>Home value: ' + escape(meta.vintages.homeValue) + '</li><li>Resale conventions: ' + escape(meta.vintages.conventions) + '</li>' + (saleFacts && saleFacts.period ? '<li>Local sale prices: ' + escape(saleFacts.period) + '</li>' : '') + '</ul>';
+    var salePrices = salePriceSection(saleFacts);
     var verdict = verdictSection(model);
-    var content = '<article class="report"><header><h1>' + escape(title) + '</h1><p class="banner"><strong>' + BANNER + '</strong></p><p><strong>As of:</strong> ' + escape(meta.asOf) + '</p><h2>Data vintages</h2>' + vintages + '<div class="how-to-read"><h2>How to read this report</h2><p>This is a first screen of whether a proposed group of price-restricted homes for sale could work in this market: could local working households afford them, would enough of them buy, and what happens to the price when an owner later sells. It is not a completed market study.</p><p>Each number carries a label saying where it comes from — see section 9. <strong>Owner input required</strong> marks a number that still has to come from the project sponsor or from local evidence; the report leaves it blank rather than guess. Each section opens with an <strong>In plain terms</strong> summary, and section 10 explains the terms used.</p></div></header>' + verdict + project + affordability + costSection + land + equity + demand + capture + validation + legend + glossary + '<footer><strong>' + BANNER + '</strong></footer></article>';
+    var content = '<article class="report"><header><h1>' + escape(title) + '</h1><p class="banner"><strong>' + BANNER + '</strong></p><p><strong>As of:</strong> ' + escape(meta.asOf) + '</p><h2>Data vintages</h2>' + vintages + '<div class="how-to-read"><h2>How to read this report</h2><p>This is a first screen of whether a proposed group of price-restricted homes for sale could work in this market: could local working households afford them, would enough of them buy, and what happens to the price when an owner later sells. It is not a completed market study.</p><p>Each number carries a label saying where it comes from — see section 9. <strong>Owner input required</strong> marks a number that still has to come from the project sponsor or from local evidence; the report leaves it blank rather than guess. Each section opens with an <strong>In plain terms</strong> summary, and section 10 explains the terms used.</p></div></header>' + verdict + salePrices + project + affordability + costSection + land + equity + demand + capture + validation + legend + glossary + '<footer><strong>' + BANNER + '</strong></footer></article>';
     assertComplete(content);
     return Object.freeze({ title: title, asOf: meta.asOf, content: content });
   }
@@ -381,6 +494,11 @@
     formatAnnualClosings: formatAnnualClosings,
     formatAnnualCapture: formatAnnualCapture,
     formatDenominator: formatDenominator,
+    formatDenominatorValue: formatDenominatorValue,
+    formatHouseholds: formatHouseholds,
+    salePriceFacts: salePriceFacts,
+    requiredCaveatsFor: requiredCaveatsFor,
+    authorityCaveat: authorityCaveat,
     buildReport: buildReport,
     renderReportPreview: renderReportPreview,
     renderReportHtml: renderReportHtml
