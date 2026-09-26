@@ -1873,6 +1873,11 @@
           Stack up to 5 subordinate sources (CHFA HTF, Prop 123, local PHA, sponsor loan, impact fees, etc.).
           Loans amortize from cash flow; grants reduce eligible basis under §42(d)(5)(A) and fill the gap at closing.
         </p>
+        <!-- #1937: HB26-1065 Transit Zone credit. Informational only: it adds
+             nothing to the stack, and shows only when the PMA site passes the
+             zone screen via a confirmed stop (setTransitZoneContext). -->
+        <div id="dc-tz-note" data-tz-context="none" hidden
+          style="margin:0 0 var(--sp2);padding:var(--sp2);border-left:3px solid var(--accent);background:var(--bg2);font-size:var(--small);line-height:1.45;"></div>
         <div id="dc-soft-tranches" style="display:flex;flex-direction:column;gap:var(--sp2);"></div>
         <button id="dc-add-tranche" type="button"
           style="margin-top:var(--sp2);padding:0.4rem 0.75rem;border:1px dashed var(--border);border-radius:var(--radius);background:transparent;color:var(--accent);font-size:var(--small);font-weight:600;cursor:pointer;width:100%;">
@@ -5428,6 +5433,38 @@
     note.style.display = basisBoostEligible ? 'block' : 'none';
   }
 
+  /**
+   * HB26-1065 Transit Zone (TZ) state credit — a possible source, never an
+   * amount (#1937 Phase 4). Called by the PMA transit-zone gate with a
+   * TransitZone.status() result. The line appears only when the site is
+   * within the screening radius of a confirmed stop; it adds nothing to the
+   * sources/uses, because no per-project amount exists until CHFA publishes
+   * its TZ Credit Allocation Plan. The statewide cap below must match the
+   * HB26-1065 entry in data/policy/tax-credit-legislation.json
+   * (test/transit-zone-funding-line.test.js).
+   */
+  var TZ_CREDIT = {
+    statewideCapMillions: 8.33,
+    years: '2027\u20132033',
+    qapCite: '2027\u201328 QAP Third Draft \u00a73.B.2'
+  };
+  function setTransitZoneContext(result) {
+    var note = document.getElementById('dc-tz-note');
+    if (!note) return; // calculator not yet mounted — intentional no-op
+    var passes = !!(result && result.status === 'within_2mi' && result.confirmedOnly === true);
+    note.hidden = !passes;
+    note.setAttribute('data-tz-context', passes ? 'passes' : (result ? result.status : 'none'));
+    if (!passes) { note.innerHTML = ''; return; }
+    var esc = function (v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+    note.innerHTML =
+      '<strong>Possible source, not added to this stack: Colorado Transit Zone (TZ) state credit (HB26-1065).</strong> ' +
+      'This site is within ' + esc(result.radiusMiles) + ' miles of a confirmed transit stop. CHFA may allocate up to $' +
+      TZ_CREDIT.statewideCapMillions.toFixed(2) + ' million a year statewide in ' + TZ_CREDIT.years + ', in lieu of standard state credit (' +
+      TZ_CREDIT.qapCite + '). No per-project amount exists until CHFA publishes its TZ Credit Allocation Plan, so none is modelled. ' +
+      '<span data-tz-designation="' + esc(result.designation) + '" style="color:var(--muted);">' + esc(result.designationNote) + '</span>';
+  }
+
   // SCOPE BOUNDARY — do not expand this file into a deal predictor or scoring engine.
   // This calculator is intentionally limited to early-stage feasibility sizing:
   // eligible basis, annual credits, rough equity, and gap-to-subsidy estimates.
@@ -6545,6 +6582,7 @@
     renderForTest: render,
     recalculate: recalculate,
     setDesignationContext: setDesignationContext,
+    setTransitZoneContext: setTransitZoneContext,
     /* Exposed for testing — pure functions, no DOM access */
     computeDscrStressScenarios: computeDscrStressScenarios,
     computeForSaleFeasibility:  computeForSaleFeasibility,

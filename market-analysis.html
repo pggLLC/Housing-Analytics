@@ -586,6 +586,8 @@
               <div class="pma-score-note" style="font-size:.75rem;color:var(--muted);margin-top:2px;">Relative indicator only — not a CHFA threshold</div>
               <div class="pma-score-boundary" id="pmaScoreBoundary" data-boundary="none" style="font-size:.75rem;margin-top:2px;" hidden></div>
               <div class="pma-score-tier" id="pmaScoreTier">Select a site to begin</div>
+              <!-- #1937: HB26-1065 zone gate. Beside the score, not part of it. -->
+              <div class="pma-tz-gate" id="pmaTransitZoneGate" data-tz-state="none" aria-live="polite" style="font-size:.78rem;margin-top:6px;line-height:1.4;" hidden></div>
               <div style="font-size:var(--tiny);color:var(--faint);margin-top:0.3rem"><span id="pmaTractCount">—</span> ACS tracts in buffer</div>
             </div>
           </div>
@@ -1465,6 +1467,8 @@
   <script src="js/config/basemaps.js"></script>
   <script defer src="js/market-analysis.js"></script>
   <script defer src="js/deal-calculator-math.js"></script>
+  <!-- HB26-1065 zone screen used by the PMA gate (#1937). -->
+  <script defer src="js/transit-zone.js"></script>
   <script defer src="js/deal-calculator.js"></script>
   <!-- Enhanced PMA delineation modules -->
   <script defer src="js/pma-commuting.js"></script>
