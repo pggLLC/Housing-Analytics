@@ -5,31 +5,88 @@
       "geoid": "08003",
       "level": "county",
       "name": "Alamosa County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.alamosacounty.org/166/Elections-Department",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Checked 2026-09-26: the Alamosa County Elections Department page lists only a Logic and Accuracy test notice (2026-09-24), past results and polling locations. No sample ballot, TABOR notice, ballot-content certification, or list/IGA of participating political subdivisions for the Nov 3, 2026 election is posted. County site search and DocumentCenter are JavaScript-driven and could not be enumerated; the site intermittently reset connections through the proxy.",
+        "Supporting (not a coverage basis): BOCC agendas and minutes Jun 3 - Sep 23, 2026 (AgendaCenter, saved as src-08003-bocc/) show no county-referred housing, land-use, lodging or tax question. The only county ballot topic discussed is a San Luis Valley-wide question to eliminate term limits for the 12th Judicial District Attorney (SLVCCA special meeting 2026-06-29; BOCC work sessions 2026-07-01 and 2026-07-27); it is not housing-related and its final certified text was not found. Re-check when the county posts its sample ballot / TABOR notice."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.alamosacounty.org/166/Elections-Department",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.alamosacounty.org/AgendaCenter",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0801090",
       "level": "municipal",
       "name": "Alamosa (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://cityofalamosa.diligent.community/document/95eafb63-43a5-4fe2-9eb6-359be0be5088",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participation established from the City's own documents (Ordinance No. 19-2026 approving an IGA with Alamosa County for the Nov 3, 2026 coordinated election, second reading 2026-08-19; Resolution No. 13-2026 section 1 \"An election shall be held as a coordinated election with the regular election on Tuesday, November 3, 2026\"), not from a county participating-entities list, which the county had not posted as of 2026-09-26.",
+        "Reviewed source is City Council Resolution No. 13-2026 (ballot title and text, adopted for certification to the County Clerk by 2026-09-04), not a county sample ballot or TABOR notice; neither was posted by Alamosa County as of 2026-09-26. The Ordinance 19-2026 council communication states: \"The City has no other issues at this election and would otherwise not be participating in it.\"",
+        "Excluded: City of Alamosa ballot issue (number not yet assigned, \"__\") - extension of the Streets Trust Fund one-half percent sales and use tax, 2030-2039, \"TO BE USED SOLELY TO FUND STREET MAINTENANCE AND IMPROVEMENTS\"; not housing.",
+        "Owner review: coverage state rests on the City referring resolution rather than the county-printed ballot; re-check against the county sample ballot / TABOR notice once posted."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://cityofalamosa.diligent.community/document/95eafb63-43a5-4fe2-9eb6-359be0be5088",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://cityofalamosa.community.diligentoneplatform.com/document/a1c01ceb-30e8-417e-9408-9093e8c83307",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://cityofalamosa.community.diligentoneplatform.com/document/1bb19a53-b4d0-4ff3-b324-cc930953e863",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://cityofalamosa.diligent.community/document/467f2026-16ab-49da-a636-1b1420fe70c2",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://cityofalamosa.diligent.community/Portal/MeetingInformation.aspx?Org=Cal&Id=165",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.alamosa.gov/city-clerk",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.alamosacounty.org/166/Elections-Department",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0837380",
       "level": "municipal",
       "name": "Hooper (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.alamosacounty.org/166/Elections-Department",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Checked 2026-09-26: Alamosa County has not posted a list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election, so Hooper's participation could not be determined; not marked not_applicable because no list was available.",
+        "The Town of Hooper website (https://townofhooper.colorado.gov/) returned HTTP 403 (CloudFront \"Request blocked\") via both curl and WebFetch on 2026-09-26; the Wayback Machine has no snapshot (availability API returned none; CDX requests reset). BOCC agendas/minutes Jun-Sep 2026 contain no Hooper election IGA. No Hooper measure was found in web searches (discovery only)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.alamosacounty.org/166/Elections-Department",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

@@ -5,22 +5,133 @@
       "geoid": "08014",
       "level": "county",
       "name": "Broomfield County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
-      "entry_ids": [],
-      "limitations": []
+      "coverage_state": "verified_measure_found",
+      "reviewed_source": "https://drive.google.com/file/d/1F3AQFvKIrz0N2CUw2czodGnjYRY3sSVq/view",
+      "checked": "2026-09-26",
+      "entry_ids": [
+        "2026-11-03-08014-1A"
+      ],
+      "limitations": [
+        "Consolidated City and County of Broomfield: county-level and city-level questions appear on one ballot. Question 1A (lodging tax for the Housing Authority) is attached to this county row because the sample ballot lists it under 'County Ballot Measures' and does not call it a city question; the Broomfield (city) row records no separate entry to avoid double counting.",
+        "Excluded: Broomfield Ballot Question No. 1B — approval of a twenty-year franchise contract with Public Service Company of Colorado (Xcel Energy) (Ordinance No. 2307); not housing.",
+        "Excluded: Proposed Charter Amendment No. 1C — 4-year mayoral term with two-term limit; not housing.",
+        "Excluded (non-county districts on some Broomfield ballot styles): Front Range Passenger Rail District Ballot Issue 7A (0.333% sales and use tax for passenger rail; mentions 'station area improvements', no housing earmark); 17th Judicial District Ballot Question 7E (DA term limits); Jefferson County School District R-1 mill levy/bond questions; Weld County School District RE-8 Ballot Issue 5C. None earmark housing.",
+        "Only six sample ballot styles were posted in the linked Google Drive folder as of 2026-09-26 (Styles 101-05, 110-02, 209-04, 413-01, 513-03, STATE); other styles (e.g. other school or special districts) may exist and were not reviewed. Broomfield local content 1A/1B/1C was identical on every style reviewed that carries local content.",
+        "No separate list of participating political subdivisions/IGA was found on broomfield.org; not needed for the city row since the city and county are one government."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.broomfield.org/153/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/drive/folders/1J_w2PYQsyDPaXKxduybgh-AGFRqtIx3X",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.broomfield.org/1093/TABOR-Notices",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1r47eDlIUyuj6VdEBjuJBku7ksp_AQVBE/view",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0809280",
       "level": "municipal",
       "name": "Broomfield (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://drive.google.com/file/d/1F3AQFvKIrz0N2CUw2czodGnjYRY3sSVq/view",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Consolidated City and County of Broomfield: one government and one ballot. The only housing measure, Broomfield Ballot Question No. 1A (lodging tax increase to 6% dedicated to the Housing Authority of the City and County of Broomfield), is recorded on the Broomfield County row (08014) as entry 2026-11-03-08014-1A, because the sample ballot lists it under 'County Ballot Measures' and does not call it a city question. Owner review: if the site should surface it on the city row too, reference that entry rather than duplicating it.",
+        "Reviewed and excluded: Broomfield Ballot Question No. 1B (Xcel Energy franchise, Ordinance No. 2307) and Proposed Charter Amendment No. 1C (mayoral term length) — not housing. These use 'City' wording but are not housing, so no row assignment question arises.",
+        "No separate municipal-only (non-coordinated) Broomfield election page with other measures was found on broomfield.org as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.broomfield.org/153/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.broomfield.org/1093/TABOR-Notices",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/drive/folders/1J_w2PYQsyDPaXKxduybgh-AGFRqtIx3X",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
-  "entries": []
+  "entries": [
+    {
+      "id": "2026-11-03-08014-1A",
+      "election": {
+        "date": "2026-11-03",
+        "type": "coordinated"
+      },
+      "jurisdiction": {
+        "geoid": "08014",
+        "level": "county",
+        "name": "Broomfield County"
+      },
+      "measure": {
+        "number": "1A",
+        "official_title": "Broomfield Ballot Question No. 1A (Increasing Lodging Tax)",
+        "origin": "referred",
+        "relevance": [
+          "housing_tax",
+          "housing_finance"
+        ],
+        "fiscal": {
+          "mechanism": "lodging tax (short-term rental of less than 30 consecutive days) rate increase; revenues dedicated for use by the Housing Authority of the City and County of Broomfield",
+          "rate": "increasing the lodging tax rate by four point four percent (4.4%) for a total rate of six percent (6%)",
+          "amount_cap": "up to $3,300,000.00 annually in 2027, the first full fiscal year of collection, and by whatever amount is raised annually thereafter",
+          "duration": null,
+          "sunset": null
+        }
+      },
+      "status": "on_ballot",
+      "sources": {
+        "certification": null,
+        "official_text": {
+          "url": "https://www.broomfield.org/1093/TABOR-Notices",
+          "retrieved": "2026-09-26"
+        },
+        "ballot_notice": {
+          "url": "https://drive.google.com/file/d/1F3AQFvKIrz0N2CUw2czodGnjYRY3sSVq/view",
+          "retrieved": "2026-09-26"
+        },
+        "blue_book": null,
+        "resolution": null
+      },
+      "neutral_title": "Increases the lodging tax rate by 4.4% to a total of 6%, with revenues dedicated to the Broomfield Housing Authority",
+      "detail": "",
+      "evidence": [
+        {
+          "section": "Broomfield Ballot Question No. 1A — ballot question text (official sample ballot, Style 413-01)",
+          "quote": "SHALL THE CITY AND COUNTY OF BROOMFIELD LODGING TAXES BE INCREASED UP TO $3,300,000.00 ANNUALLY IN 2027, THE FIRST FULL FISCAL YEAR OF COLLECTION, AND BY WHATEVER AMOUNT IS RAISED ANNUALLY THEREAFTER, BY INCREASING THE LODGING TAX RATE BY FOUR POINT FOUR PERCENT (4.4%) FOR A TOTAL RATE OF SIX PERCENT (6%) ON THE RENTAL FEE, PRICE, OR OTHER CONSIDERATION PAID OR CHARGED FOR THE SHORT-TERM RENTAL (LESS THAN 30 CONSECUTIVE DAYS) OF ANY ROOM, ACCOMMODATION, OR SPACE IN ANY HOTEL, INN, BED AND BREAKFAST RESIDENCE, OR ANY OTHER PLACE THAT PROVIDES SLEEPING ROOMS, SLEEPING FACILITIES, OR ACCOMMODATIONS FOR CONSIDERATION LOCATED WITHIN THE CITY AND COUNTY OF BROOMFIELD, COMMENCING ON JANUARY 1, 2027, WITH THE REVENUES OF SUCH LODGING TAX TO BE DEDICATED FOR USE BY THE HOUSING AUTHORITY OF THE CITY AND COUNTY OF BROOMFIELD TO PRESERVE AND EXPAND HOUSING OPPORTUNITIES IN BROOMFIELD, THE HOUSING AUTHORITY BEING GOVERNED BY A BOARD APPOINTED BY THE CITY COUNCIL AND REQUIRED TO PROVIDE ANNUAL EXPENDITURES REPORTS TO THE CITY COUNCIL, AND SHALL ALL REVENUES FROM SUCH TAXES AND ANY EARNINGS THEREON BE COLLECTED, RETAINED, AND SPENT AS A VOTER-APPROVED REVENUE CHANGE WITHOUT LIMITATION OR CONDITION, AND NOTWITHSTANDING ANY REVENUE OR EXPENDITURE LIMITATIONS CONTAINED IN ARTICLE X SECTION 20 OF THE COLORADO CONSTITUTION OR ANY OTHER LAW?"
+        }
+      ],
+      "verification": {
+        "level": "primary",
+        "against": "City and County of Broomfield official sample ballot, 2026 General Election, Ballot Style 413-01 (linked from broomfield.org/153/Elections 'View Sample Ballots'), cross-checked against the question text on the Broomfield TABOR Notices page",
+        "checked": "2026-09-26"
+      },
+      "limitations": [
+        "The sample ballot prints the question in all capitals; the quote reproduces it as printed. The broomfield.org TABOR Notices page gives the same text in mixed case and states it 'will be in all caps on the ballots'.",
+        "Row assignment: the City and County of Broomfield is a consolidated city-county. The sample ballot lists this question under the 'County Ballot Measures' section with a county-series number (1A) and the text refers to 'the City and County of Broomfield'; it is not labelled a city question, so it is attached to the county row (08014), not the Broomfield (city) row (0809280).",
+        "Origin 'referred' is not stated on the ballot or TABOR page; the referring ordinance/resolution was not located or read. The TABOR page says the City and County is soliciting TABOR comments on it, and a web search snippet mentions City Council Resolution No. 2026-126 'supporting' Ballot Item 1A (not read, not cited). Owner review: confirm origin.",
+        "The mailed TABOR notice itself (with pro/con comment summaries and fiscal information) was not found posted as of 2026-09-26; the TABOR Notices page carries only the comment solicitation and the full question text.",
+        "The sample ballot is hosted on Google Drive (folder linked from the official Broomfield Elections page), not on broomfield.org directly."
+      ],
+      "result": null,
+      "history": [],
+      "archived": false
+    }
+  ]
 }
