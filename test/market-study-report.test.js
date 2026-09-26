@@ -43,6 +43,21 @@ const meta = {
   },
   requiredCaveats: Report.REQUIRED_CAVEATS
 };
+// Household display is presentation only: absence, measured zero, and a
+// positive estimate smaller than one household are three different states.
+const unavailableHouseholds = Report.formatHouseholds(null);
+assert.strictEqual(unavailableHouseholds, 'Owner input required');
+[
+  [undefined, unavailableHouseholds], [NaN, unavailableHouseholds],
+  [Infinity, unavailableHouseholds], [-Infinity, unavailableHouseholds],
+  ['invalid', unavailableHouseholds], [-1, unavailableHouseholds],
+  [0, '0'], [0.01, '<1'], [0.2, '<1'], [0.49, '<1'],
+  [0.5, '<1'], [0.99, '<1'], [1, '1'], [1.4, '1'],
+  [54102.5, '54,103']
+].forEach(([value, expected]) => assert.strictEqual(Report.formatHouseholds(value), expected,
+  `household display for ${String(value)}`));
+assert.notStrictEqual(Report.formatHouseholds(0), unavailableHouseholds);
+assert.notStrictEqual(Report.formatHouseholds(0.2), Report.formatHouseholds(0));
 function money(value) {
   return value.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
 }
@@ -147,14 +162,131 @@ const evenSchedule = '≈2.08 / month × 24 months (total 50)';
 assert.strictEqual(Report.formatSchedule(resolved.capture.scenarios.find((item) => item.selloutMonths === 24).monthlyClosings, 50), evenSchedule);
 assert(captureSection.innerHTML.includes(evenSchedule));
 assert(captureSection.innerHTML.includes('25 · 25'));
-assert(captureSection.innerHTML.includes('Year 1:'));
-assert(captureSection.innerHTML.includes('Year 2:'));
+assert.strictEqual(captureSection.querySelectorAll('tbody tr')[1].children[3].innerHTML.split(/<br\s*\/?\s*>/i).length,
+  resolved.capture.scenarios.find((item) => item.selloutMonths === 30).annualCaptureRate.length,
+  'report annual capture must show one entry for each model year');
 assert(!/\d\.\d{4,}/.test(captureSection.innerHTML), 'report capture section must not expose floating-point noise');
 const pageDom = new JSDOM('<main><div id="mount"></div></main>');
 Page.render(pageDom.window.document.getElementById('mount'), resolved, data);
 const pageSchedule = pageDom.window.document.querySelector('#ms-s6 tbody tr td:nth-child(2)').textContent;
 const reportSchedule = captureSection.querySelector('tbody tr td:nth-child(2)').textContent;
 assert.strictEqual(pageSchedule, reportSchedule, 'page S6 and report §7 must use the identical shared schedule string');
+
+// Read only the annual-capture cell for a scenario, independently of its
+// surrounding sentence. Each value is checked against the unrounded engine
+// figure, then the two surfaces against each other.
+function annualLines(cell) {
+  return cell.innerHTML.split(/<br\s*\/?\s*>/i).map((html) => {
+    const node = cell.ownerDocument.createElement('span');
+    node.innerHTML = html;
+    return node.textContent;
+  });
+}
+function annualLineNumbers(line) {
+  const percents = line.match(/\d[\d,]*(?:\.\d+)?%/g) || [];
+  assert(percents.length <= 1, 'an annual-capture line shows more than one percentage: ' + line);
+  // An emptied pool has no percentage and no denominator to show.
+  if (percents.length === 0) return { percent: null, pool: null };
+  const afterPercent = line.slice(line.indexOf(percents[0]) + percents[0].length);
+  const pools = afterPercent.match(/<1|\d[\d,]*/g) || [];
+  assert.strictEqual(pools.length, 1, 'an annual-capture line needs one household denominator: ' + line);
+  return { percent: percents[0], pool: pools[0] };
+}
+function annualNumbers(cell) {
+  const first = annualLineNumbers(annualLines(cell)[0]);
+  assert(first.percent !== null, 'the first annual-capture line needs one percentage');
+  return first;
+}
+// What each model year must show: its percentage and its pool, or neither
+// when the pool is empty.
+function expectedAnnualEntry(entry) {
+  if (!Number.isFinite(entry.value)) {
+    assert.strictEqual(entry.denominator.value, 0, 'an unavailable annual capture in this fixture must be an empty pool');
+    return { percent: null, pool: null };
+  }
+  return {
+    percent: entry.value.toLocaleString('en-US', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 }),
+    pool: Report.formatHouseholds(entry.denominator.value)
+  };
+}
+function annualAgreement(captureModel, pageDocument, reportDocument) {
+  const scenarioIndex = captureModel.capture.scenarios.findIndex((item) => item.selloutMonths === 30);
+  assert(scenarioIndex >= 0, 'the 30-month scenario is missing');
+  const entry = captureModel.capture.scenarios[scenarioIndex].annualCaptureRate[0];
+  assert(Number.isFinite(entry.value) && Number.isFinite(entry.denominator.value));
+  const expected = {
+    percent: entry.value.toLocaleString('en-US', {
+      style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1
+    }),
+    pool: Report.formatHouseholds(entry.denominator.value)
+  };
+  const pageCell = pageDocument.querySelectorAll('#ms-s6 tbody tr')[scenarioIndex].children[3];
+  const section = Array.from(reportDocument.querySelectorAll('section')).find((node) =>
+    node.querySelector('h2') && node.querySelector('h2').textContent.startsWith('7. Capture scenarios'));
+  assert(section, 'the report capture section is missing');
+  const reportCell = section.querySelectorAll('tbody tr')[scenarioIndex].children[3];
+  const onPage = annualNumbers(pageCell);
+  const inReport = annualNumbers(reportCell);
+  assert.deepStrictEqual(onPage, expected, 'page annual capture disagrees with the model');
+  assert.deepStrictEqual(inReport, expected, 'report annual capture disagrees with the model');
+  assert.deepStrictEqual(onPage, inReport, 'page and report annual capture disagree');
+  return expected;
+}
+annualAgreement(resolved, pageDom.window.document, resolvedDom.window.document);
+
+// This fixture goes through the real demand and capture engines. Its positive
+// fractional pool must stay precise in division, while both renderers say <1.
+const tinyShares = Object.assign({}, shares, { [EffectiveDemand.STAGE_IDS[0]]: 0.000001 });
+const tinyModel = Page.buildModel(data, { assumptions: tinyShares });
+const tinyPool = tinyModel.funnel.effectiveDemand;
+assert(tinyPool > 0 && tinyPool < 1, 'the fixture must produce a positive sub-one buyer pool');
+const tinyYear = tinyModel.capture.scenarios.find((item) => item.selloutMonths === 30).annualCaptureRate[0];
+assert.strictEqual(tinyYear.denominator.value, tinyPool, 'capture must receive the unrounded pool');
+assert(Math.abs(tinyYear.value - tinyModel.capture.scenarios.find((item) => item.selloutMonths === 30).annualClosings[0] / tinyPool) < 1e-8,
+  'capture percentage must use the full-precision denominator');
+const tinyPage = new JSDOM('<main><div id="mount"></div></main>');
+Page.render(tinyPage.window.document.getElementById('mount'), tinyModel, data);
+const tinyReport = new JSDOM(Report.renderReportPreview(Report.buildReport(tinyModel, meta)));
+assert.strictEqual(annualAgreement(tinyModel, tinyPage.window.document, tinyReport.window.document).pool, '<1');
+assert.strictEqual(tinyModel.funnel.effectiveDemand, tinyPool, 'rendering must not round the engine result');
+assert.strictEqual(tinyYear.denominator.value, tinyPool, 'rendering must not round the capture denominator');
+const tinyFunnelPage = Array.from(tinyPage.window.document.querySelectorAll('#ms-s5 tbody tr')).at(-1).children[2].textContent.trim();
+const tinyDemandSection = Array.from(tinyReport.window.document.querySelectorAll('section')).find((node) =>
+  node.querySelector('h2') && node.querySelector('h2').textContent.startsWith('6. Demand'));
+const tinyFunnelReport = Array.from(tinyDemandSection.querySelectorAll('tbody tr')).at(-1).children[2].textContent.trim();
+assert.strictEqual(tinyFunnelPage, '<1');
+assert.strictEqual(tinyFunnelReport, tinyFunnelPage);
+
+// A contract-survival denominator is a share, and annual capture is a percent.
+// Neither inherits the household-count rounding rule.
+const survival = resolved.capture.scenarios[0].grossContractsNeeded.denominator;
+assert.strictEqual(survival.value, 0.85);
+assert.strictEqual(Report.formatDenominatorValue(survival), '0.85');
+const pageShare = pageDom.window.document.querySelector('#ms-s6 tbody tr td:nth-child(6) .ms-denominator').textContent;
+const reportShare = captureSection.querySelector('tbody tr td:nth-child(6) small').textContent;
+assert(pageShare.includes('0.85') && reportShare.includes('0.85'));
+
+// Sabotage the comparison helper without changing any repository source: a
+// harmless rewording passes; an incorrect percent or pool is rejected.
+const year = resolved.capture.scenarios.find((item) => item.selloutMonths === 30).annualCaptureRate[0];
+const expectedYear = {
+  percent: year.value.toLocaleString('en-US', {
+    style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1
+  }),
+  pool: Report.formatHouseholds(year.denominator.value)
+};
+const alternate = new JSDOM('<table><tr><td>First year used ' + expectedYear.percent + ' of ' + expectedYear.pool + ' households</td></tr></table>');
+const alternateCell = alternate.window.document.querySelector('td');
+assert.deepStrictEqual(annualNumbers(alternateCell), expectedYear);
+const originalText = alternateCell.innerHTML;
+const percentSabotage = originalText.replace(expectedYear.percent, '999.9%');
+assert.notStrictEqual(percentSabotage, originalText, 'percentage sabotage did not apply');
+alternateCell.innerHTML = percentSabotage;
+assert.throws(() => assert.deepStrictEqual(annualNumbers(alternateCell), expectedYear));
+const poolSabotage = originalText.replace(expectedYear.pool + ' households', '999 households');
+assert.notStrictEqual(poolSabotage, originalText, 'denominator sabotage did not apply');
+alternateCell.innerHTML = poolSabotage;
+assert.throws(() => assert.deepStrictEqual(annualNumbers(alternateCell), expectedYear));
 
 assert.equal(model.funnel.effectiveDemand, 'not_available');
 model.funnel.stages.forEach((stage) => assert(preview.includes(stage.basis)));
@@ -175,12 +307,25 @@ assert(preview.includes('0 of ' + (model.funnel.stages.length - 1) + ' demand-fu
 const resolvedVerdictPreview = Report.renderReportPreview(resolvedReport);
 assert(resolvedVerdictPreview.indexOf(verdictHeading) < resolvedVerdictPreview.indexOf('1. Project summary'));
 assert(resolvedVerdictPreview.includes('Effective demand: ' + Math.round(resolved.funnel.effectiveDemand).toLocaleString('en-US') + ' households'));
-// No household count anywhere in the report carries a fraction: every
-// "N households" and every "pool N" is a whole number.
+// Every annual-capture entry of every scenario, on the page and in the
+// report, shows the model's percentage and the model's pool as
+// formatHouseholds() writes it, and there is one entry per model year. Read
+// as numbers per line, so rewording the sentence around them is harmless.
 {
-  const counts = (resolvedVerdictPreview.match(/[\d,.]+(?= households)|(?<=pool )[\d,.]+/g) || []);
-  assert(counts.length >= 3, 'the household-count scan found too little to check');
-  counts.forEach((count) => assert(!/\.\d/.test(count), 'fractional household count in the report: ' + count));
+  const reportCaptureRows = Array.from(new JSDOM(resolvedVerdictPreview).window.document.querySelectorAll('section'))
+    .find((s) => s.querySelector('h2') && s.querySelector('h2').textContent.startsWith('7. Capture scenarios'))
+    .querySelectorAll('tbody tr');
+  const pageCaptureRows = pageDom.window.document.querySelectorAll('#ms-s6 tbody tr');
+  let checkedPools = 0;
+  resolved.capture.scenarios.forEach((scenario, i) => {
+    const expected = scenario.annualCaptureRate.map(expectedAnnualEntry);
+    const onPage = annualLines(pageCaptureRows[i].children[3]).map(annualLineNumbers);
+    const inReport = annualLines(reportCaptureRows[i].children[3]).map(annualLineNumbers);
+    assert.deepStrictEqual(onPage, expected, 'page annual capture disagrees with the model for ' + scenario.selloutMonths + ' months');
+    assert.deepStrictEqual(inReport, expected, 'report annual capture disagrees with the model for ' + scenario.selloutMonths + ' months');
+    checkedPools += expected.filter((e) => e.pool !== null).length;
+  });
+  assert(checkedPools >= 3, 'the annual-capture scan found too little to check');
   const demandDoc = new JSDOM(resolvedVerdictPreview).window.document;
   const demandSection = Array.from(demandDoc.querySelectorAll('section')).find((s) => s.querySelector('h2') && s.querySelector('h2').textContent.startsWith('6. Demand'));
   const left = Array.from(demandSection.querySelectorAll('tbody tr td:nth-child(3)')).map((td) => td.textContent.trim());
@@ -249,6 +394,17 @@ assert(resolvedVerdictPreview.includes(denominator), 'verdict penetration figure
   const zeroModel = Page.buildModel(data, { assumptions: zeroShares });
   assert.strictEqual(zeroModel.funnel.effectiveDemand, 0, 'fixture no longer produces a zero-demand funnel');
   const zeroReport = Report.renderReportPreview(Report.buildReport(zeroModel, meta));
+  const zeroPage = new JSDOM('<main><div id="mount"></div></main>');
+  Page.render(zeroPage.window.document.getElementById('mount'), zeroModel, data);
+  const lastPageCount = Array.from(zeroPage.window.document.querySelectorAll('#ms-s5 tbody tr')).at(-1).children[2].textContent.trim();
+  const zeroReportDoc = new JSDOM(zeroReport).window.document;
+  const zeroDemandSection = Array.from(zeroReportDoc.querySelectorAll('section')).find((node) =>
+    node.querySelector('h2') && node.querySelector('h2').textContent.startsWith('6. Demand'));
+  const lastReportCount = Array.from(zeroDemandSection.querySelectorAll('tbody tr')).at(-1).children[2].textContent.trim();
+  assert.strictEqual(lastPageCount, '0', 'page measured zero must remain zero');
+  assert.strictEqual(lastReportCount, lastPageCount, 'report measured zero must agree with page');
+  assert.notStrictEqual(lastPageCount, unavailableHouseholds, 'measured zero must differ from unavailable');
+  assert.notStrictEqual(lastPageCount, Report.formatHouseholds(tinyPool), 'measured zero must differ from positive sub-one');
   const depleted = [];
   const emptyFromStart = [];
   [[resolved, Report.renderReportPreview(resolvedReport)], [zeroModel, zeroReport]].forEach(([m, rendered]) => {
