@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T02:26:35.745Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T02:39:11.754Z. Do not edit by hand.
 
 ---
 
@@ -59,7 +59,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.0 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 141.2 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 141.9 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.5 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
@@ -83,7 +83,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 766.3 KB | ✅ | — |
+| `data/_manifest.json` | 766.4 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1674,7 +1674,7 @@
 
 ## Test Files
 
-430 test files found.
+431 test files found.
 
 | File | Size |
 |------|------|
@@ -1942,6 +1942,7 @@
 | `test/place-pages.test.js` | 5.4 KB |
 | `test/planned-sources-are-not-unknown.test.js` | 8.1 KB |
 | `test/pma-affordable-supply-label.test.js` | 3.0 KB |
+| `test/pma-affordable-supply-units.test.js` | 9.1 KB |
 | `test/pma-barrier-aware.test.js` | 8.0 KB |
 | `test/pma-barrier-data.test.js` | 6.4 KB |
 | `test/pma-boundary-clear-race.test.js` | 3.1 KB |
