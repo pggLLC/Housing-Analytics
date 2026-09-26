@@ -314,6 +314,9 @@ test('neither glossary script splices definitions into headlines or local lines'
   const doc = window.document;
   expandAll(doc);
   await settle();
+  // Open "About this feed" as a reader would: glossary.js defines only text
+  // on screen, and this guard needs something it can wrap outside the list.
+  doc.querySelectorAll('details').forEach((d) => { d.open = true; });
   window.eval(fs.readFileSync(path.join(ROOT, 'js', 'glossary.js'), 'utf8'));
   await new Promise((r) => setTimeout(r, 400));
   const wrapped = [...doc.querySelectorAll('.gl-tooltip-trigger')];
