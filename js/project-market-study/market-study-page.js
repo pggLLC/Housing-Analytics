@@ -89,6 +89,9 @@
     return (labels && labels[id]) || humanize(id);
   }
   function stageLabel(id) { return plainLabel('stages', id); }
+  // Household counts render whole, on the page and in the report alike;
+  // the engines keep the unrounded value for every calculation.
+  function households(value) { return unavailable(value) ? display(value) : MarketStudyReport.formatHouseholds(value); }
   function affordabilityAnswer(item) {
     if (typeof item.preservesAffordability !== 'boolean') return noviceText(item.preservesAffordabilityLabel);
     return (item.preservesAffordability ? '<strong>Yes</strong> — ' : '<strong>No</strong> — ') + noviceText(item.preservesAffordabilityLabel);
@@ -273,9 +276,9 @@
 
   function renderFunnel(model) {
     var rows = model.funnel.stages.map(function (stage) {
-      if (stage.id === 'observed_base') return `<tr><td>Starting pool</td><td>${display(stage.outputCount)}</td><td>${stage.label}</td><td>${stage.basis}</td><td>${pill(stage)}</td></tr>`;
+      if (stage.id === 'observed_base') return `<tr><td>Starting pool</td><td>${households(stage.outputCount)}</td><td>${stage.label}</td><td>${stage.basis}</td><td>${pill(stage)}</td></tr>`;
       var assumption = model.assumptions[stage.id];
-      return `<tr><td>${stageLabel(stage.id)}</td><td><input class="ms-share-input" data-stage-id="${stage.id}" type="number" min="0" max="1" step="0.01" placeholder="0–1" value="${assumption.share === null ? '' : assumption.share}" aria-label="${stageLabel(stage.id)} — share"></td><td>${display(stage.outputCount)}</td><td>${stage.basis}</td><td>${pill(stage)}</td></tr>`;
+      return `<tr><td>${stageLabel(stage.id)}</td><td><input class="ms-share-input" data-stage-id="${stage.id}" type="number" min="0" max="1" step="0.01" placeholder="0–1" value="${assumption.share === null ? '' : assumption.share}" aria-label="${stageLabel(stage.id)} — share"></td><td>${households(stage.outputCount)}</td><td>${stage.basis}</td><td>${pill(stage)}</td></tr>`;
     });
     var howTo = `<div class="ms-warning"><strong>How to fill this in:</strong> the first row, the starting pool, is filled in for you from public HUD data (CHAS). For each row after it, type the share of the remaining households that pass that step, as a decimal — 0.5 means half. Each step shrinks the pool, top to bottom. If a row is left blank, every row below it stays blank too, because the page will not guess. The <em>Evidence basis</em> column says where a real share should come from: buyer surveys, lender or broker records, or results from similar projects.</div>`;
     return `<section id="ms-s5" class="chart-card ms-section">${heading('5. How many local households could buy', 'effective-demand funnel')}${plain('this starts from a rough count of local moderate-income renter households, taken from HUD\'s CHAS tables and split across the project\'s income groups. It is a potential pool, not committed buyers. Each step below narrows it by a share you supply, so the result is only as good as the evidence behind those shares.')}${howTo}<p class="ms-caveat">Nothing you type is saved — reloading the page clears it.</p><p><strong>Steps still blank:</strong> ${model.funnel.unresolvedStages.length ? model.funnel.unresolvedStages.map(stageLabel).join('; ') : 'none'}</p>${table(['Stage', 'Share / output (decimal share, e.g. 0.8 = 80%)', 'Output / protected label', 'Evidence basis', 'Classification'], rows, 'Effective-demand funnel')}</section>`;
@@ -283,7 +286,7 @@
 
   function figure(value, kind) {
     var shown = unavailable(value.value) && value.denominator.value === 0 ? 'None — the pool is empty' : display(value.value, kind);
-    return `<span class="ms-figure">${shown} <span class="ms-denominator">denominator: ${value.denominator.value === NOT_AVAILABLE ? display(value.denominator.value) : value.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 2 })} — ${MarketStudyReport.plainBasis(value.denominator.basis)}</span></span>`;
+    return `<span class="ms-figure">${shown} <span class="ms-denominator">denominator: ${value.denominator.value === NOT_AVAILABLE ? display(value.denominator.value) : MarketStudyReport.formatDenominatorValue(value.denominator)} — ${MarketStudyReport.plainBasis(value.denominator.basis)}</span></span>`;
   }
   function renderCapture(model) {
     var scenarioRows = model.capture.scenarios.map(function (item) {
@@ -362,31 +365,32 @@
    * three of them Grand Junction — so the ZIP count is part of the figure, not
    * a footnote under it.
    */
+  // Rendered from MarketStudyReport.salePriceFacts, the same object the
+  // downloaded report renders, so the two cannot quote different figures.
+  function salePriceEvidence(data) { return (data.geography && data.geography.salePrice) || null; }
   function renderSalePrice(data) {
-    var evidence = data.geography && data.geography.salePrice;
-    if (!evidence) return '';
-    if (evidence.state === 'unavailable') {
-      var reasons = evidence.reasons.map(function (reason) {
+    var facts = MarketStudyReport.salePriceFacts(salePriceEvidence(data));
+    if (!facts) return '';
+    if (!facts.available) {
+      var reasons = facts.reasons.map(function (reason) {
         return '<li><strong>' + esc(reason.source) + '</strong> \u2014 ' + esc(reason.detail)
           + (reason.issue ? ' <span class="ms-caveat">(tracked in #' + esc(reason.issue) + ')</span>' : '')
           + '</li>';
       }).join('');
       return '<section id="ms-s0" class="chart-card ms-section" data-sale-price="unavailable">'
-        + '<h2>Local sale prices</h2>'
-        + plain('this would show what homes near you have recently sold for. No sale-price source covers this place; the reasons are listed below.')
-        + '<p class="ms-unavailable">' + esc(evidence.label) + '.</p>'
-        + '<p class="ms-caveat">' + esc(evidence.caveat) + '</p>'
+        + '<h2>' + esc(facts.heading) + '</h2>'
+        + plain(esc(facts.plain))
+        + '<p class="ms-unavailable">' + esc(facts.label) + '.</p>'
+        + '<p class="ms-caveat">' + esc(facts.caveat) + '</p>'
         + '<ul class="ms-reasons">' + reasons + '</ul></section>';
     }
-    return '<section id="ms-s0" class="chart-card ms-section" data-sale-price="' + esc(evidence.state) + '">'
-      + '<h2>Local sale prices</h2>'
-        + plain('what homes near you have recently sold for — roughly the price a buyer with no help would face. The gaps in section 1 are measured against a separate typical home-value estimate, so the two figures can differ.')
-      + '<p class="ms-sale-price"><strong>' + display(evidence.value, 'money') + '</strong> '
-      + '<span class="ms-pill">' + esc(evidence.label) + '</span></p>'
-      + (evidence.period
-        ? '<p class="ms-caveat">Three-month period ending ' + esc(evidence.period) + '.</p>'
-        : '')
-      + '<p class="ms-caveat">' + esc(evidence.caveat) + '</p></section>';
+    return '<section id="ms-s0" class="chart-card ms-section" data-sale-price="' + esc(facts.state) + '">'
+      + '<h2>' + esc(facts.heading) + '</h2>'
+      + plain(esc(facts.plain))
+      + '<p class="ms-sale-price"><strong>' + facts.figure + '</strong> '
+      + '<span class="ms-pill">' + esc(facts.label) + '</span></p>'
+      + (facts.period ? '<p class="ms-caveat">' + esc(facts.period) + '.</p>' : '')
+      + '<p class="ms-caveat">' + esc(facts.caveat) + '</p></section>';
   }
 
   function renderUnmeasured(id, heading, detail) {
@@ -432,7 +436,8 @@
           homeValue: baselineForReport.home_value.as_of || null,
           conventions: data.conventions.meta.as_of
         },
-        requiredCaveats: MarketStudyReport.REQUIRED_CAVEATS
+        requiredCaveats: MarketStudyReport.REQUIRED_CAVEATS,
+        salePrice: salePriceEvidence(data)
       });
       preview.innerHTML = MarketStudyReport.renderReportPreview(report);
       download.onclick = function () {
