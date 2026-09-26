@@ -26,7 +26,14 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
-  function pct(v) { return Math.round(v * 100) + '%'; }
+  // A measured share never rounds to an absolute: 0.4% is "<1%", not "0%"
+  // (which would read as no transit at all), and 99.6% is ">99%", not "100%".
+  // Same rule as the needs assessment's panel (js/hna/hna-renderers.js).
+  function pct(v) {
+    if (v > 0 && v < 0.005) return '<1%';
+    if (v < 1 && v >= 0.995) return '>99%';
+    return Math.round(v * 100) + '%';
+  }
 
   /** Returns { state, html }. Pure: no DOM, no fetch. */
   function summarize(geoid, data, mapStatus, now, designationFn) {

@@ -73,7 +73,8 @@ function runGate(lat, lon, opts) {
     // Same helper, clock pinned to the day after the stop file's build so
     // the pass/outside cases keep asserting after the file ages.
     window: { TransitZone: opts.noHelper ? undefined
-                : { create: (o) => TZ.create(Object.assign({ now: new Date(Date.parse(stops.meta.generated) + 86400e3) }, o)) },
+                : { create: (o) => TZ.create(Object.assign({ now: new Date(Date.parse(stops.meta.generated) + 86400e3) }, o)),
+                    fundingPath: TZ.fundingPath },
               __DealCalc: { setTransitZoneContext: (r) => { dcArg = r; } } },
     document: dom.window.document,
     el: (id) => dom.window.document.getElementById(id),
@@ -87,6 +88,8 @@ function runGate(lat, lon, opts) {
     _tzMapStatus = ${JSON.stringify(opts.mapStatus === undefined ? mapStatus : opts.mapStatus)};
     _tzMapStatusState = ${JSON.stringify(opts.state || 'ok')};
     _tzStopsFailed = ${!!opts.stopsFailed};
+    _tzZones = ${JSON.stringify(opts.zones || null)};
+    _tzZonesState = ${JSON.stringify(opts.zonesState || 'idle')};
     var __r = _renderTransitZoneGate(${lat}, ${lon});`, ctx);
   const box = dom.window.document.getElementById('pmaTransitZoneGate');
   return { r: ctx.__r, box, dcArg };
@@ -128,10 +131,52 @@ for (const [label, opts, re] of [
   });
 }
 
+// ── OEDIT's published map outranks the stop screen ──────────────────────────
+const UNION = [39.7527, -105.0003];     // passes the stop screen
+const PLAINS = [38.82, -102.35];        // fails it
+function box(lat, lon, d) {             // a square zone polygon around a point
+  return { type: 'Feature', properties: {}, geometry: { type: 'Polygon',
+    coordinates: [[[lon - d, lat - d], [lon + d, lat - d], [lon + d, lat + d], [lon - d, lat + d], [lon - d, lat - d]]] } };
+}
+const published = Object.assign({}, mapStatus, { status: 'published', zones_file: 'data/policy/thiz-zones.geojson' });
+const zonesAroundPlains = { type: 'FeatureCollection', features: [box(PLAINS[0], PLAINS[1], 0.05)] };
+
+test('a published map that excludes the site suppresses the funding path, even beside a stop', () => {
+  const { r, box: b, dcArg } = runGate(UNION[0], UNION[1], { mapStatus: published, zones: zonesAroundPlains, zonesState: 'ok' });
+  assert.equal(r.status, 'within_2mi', 'the stop screen still passes; only the official map excludes it');
+  assert.equal(r.designation, 'official_out');
+  assert.equal(b.querySelector('[data-tz-designation]').textContent, r.designationNote);
+  assert.doesNotMatch(b.textContent, /Soft Funding Stack/);
+  assert.equal(TZ.fundingPath(dcArg), null);
+});
+
+test('a published map that includes the site gives the funding path, even far from a stop', () => {
+  const { r, box: b } = runGate(PLAINS[0], PLAINS[1], { mapStatus: published, zones: zonesAroundPlains, zonesState: 'ok' });
+  assert.equal(r.status, 'outside');
+  assert.equal(r.designation, 'official_in');
+  assert.match(b.textContent, /Soft Funding Stack/);
+  assert.equal(TZ.fundingPath(r), 'official');
+});
+
+test('the gate waits for the published zones before answering, and fetches only a file under data/', () => {
+  const waiting = runGate(UNION[0], UNION[1], { mapStatus: published, zonesState: 'loading' });
+  assert.equal(waiting.r, null);
+  assert.equal(waiting.box.getAttribute('data-tz-state'), 'loading');
+  // Before the load starts, the gate starts it (the harness fetch never
+  // resolves, so the gate stays "checking").
+  assert.equal(runGate(UNION[0], UNION[1], { mapStatus: published }).box.getAttribute('data-tz-state'), 'loading');
+  for (const bad of ['../secrets.json', 'https://example.com/z.geojson', 'data/../x.json', 5]) {
+    const { r } = runGate(UNION[0], UNION[1], { mapStatus: Object.assign({}, published, { zones_file: bad }) });
+    assert.equal(r.designation, 'provisional', `zones_file ${bad} was used`);
+    assert.match(r.designationNote, /not been loaded/);
+  }
+});
+
 // ── The deal calculator's funding line ──────────────────────────────────────
 function dealCalc() {
   const dom = new JSDOM('<!doctype html><div id="dc-tz-note" hidden></div>', { runScripts: 'outside-only' });
   dom.window.fetch = () => Promise.reject(new Error('offline'));
+  dom.window.eval(read('js/transit-zone.js'));
   dom.window.eval(read('js/deal-calculator.js'));
   return { w: dom.window, note: dom.window.document.getElementById('dc-tz-note') };
 }
@@ -145,11 +190,20 @@ test('the line shows only for a pass via a confirmed stop, and states no amount 
   assert.match(note.textContent, /No per-project amount exists/);
   assert.equal(note.querySelector('[data-tz-designation]').textContent, PASS.designationNote);
   for (const r of [Object.assign({}, PASS, { confirmedOnly: false }), Object.assign({}, PASS, { status: 'outside' }),
+                   Object.assign({}, PASS, { designation: 'official_out' }),
                    { status: 'unavailable', unavailableReason: 'x' }, null]) {
     w.__DealCalc.setTransitZoneContext(r);
     assert.equal(note.hidden, true, JSON.stringify(r));
     assert.equal(note.textContent, '');
   }
+});
+
+test('a site on OEDIT\'s published map gets the line on that basis, not the stop screen\'s', () => {
+  const { w, note } = dealCalc();
+  w.__DealCalc.setTransitZoneContext(Object.assign({}, PASS, { status: 'outside', confirmedOnly: null, designation: 'official_in' }));
+  assert.equal(note.hidden, false);
+  assert.match(note.textContent, /inside a Transit and Housing Investment Zone on OEDIT.s published map/);
+  assert.doesNotMatch(note.textContent, /within 2 miles of a confirmed transit stop/);
 });
 
 test('the line sits in the rental-only Soft Funding Stack (ownership never sees it)', () => {
@@ -183,11 +237,32 @@ const STZ = require('../js/project-market-study/study-transit-zone.js');
 const byGeo = readJson('data/hna/transit-zone-by-geography.json');
 const FRESH = new Date(Date.parse(byGeo.meta.stops_generated) + 86400e3);
 
+// How a share must print: rounded, except that a measured share never rounds
+// to an absolute (0.4% is not "0%", 99.6% is not "100%") — the same rule the
+// needs assessment's panel follows (test/hna-transit-zone.test.js).
+function shareLabel(v) {
+  if (v > 0 && v < 0.005) return '<1%';
+  if (v < 1 && v >= 0.995) return '>99%';
+  return Math.round(v * 100) + '%';
+}
+
+test('for-sale study: a measured share never prints as 0% or 100%', () => {
+  const entries = Object.entries(byGeo.geographies);
+  const tiny = entries.find(([, x]) => x.share_within_radius_confirmed > 0 && x.share_within_radius_confirmed < 0.005);
+  const nearAll = entries.find(([, x]) => x.share_within_radius_confirmed >= 0.995 && x.share_within_radius_confirmed < 1);
+  assert.ok(tiny && nearAll, 'the per-geography file no longer has a sub-1% and a near-100% share to check');
+  for (const [id, g, want] of [[...tiny, '<1%'], [...nearAll, '>99%']]) {
+    const out = STZ.summarize(id, byGeo, mapStatus, FRESH, TZ.designation);
+    assert.ok(out.html.includes('<strong>' + want + '</strong>'), `${id} ${g.share_within_radius_confirmed}: ${out.html.slice(0, 120)}`);
+    assert.doesNotMatch(out.html, /<strong>(0|100)%<\/strong>/);
+  }
+});
+
 test('the for-sale study reports the area figure, the note, and no credit amount (PC-2)', () => {
   const [id, g] = Object.entries(byGeo.geographies).find(([, x]) => x.type === 'place' && x.share_within_radius_confirmed > 0.3);
   const out = STZ.summarize(id, byGeo, mapStatus, FRESH, TZ.designation);
   assert.equal(out.state, 'ok');
-  assert.ok(out.html.includes(Math.round(g.share_within_radius_confirmed * 100) + '%'), 'share differs from the per-geography file');
+  assert.ok(out.html.includes('<strong>' + shareLabel(g.share_within_radius_confirmed) + '</strong>'), 'share differs from the per-geography file');
   assert.ok(out.html.includes(TZ.designation(mapStatus, FRESH).note.replace(/'/g, '&#39;').replace(/"/g, '&quot;')), 'designation note missing');
   assert.match(out.html, /<em>rental<\/em> housing/);
   assert.doesNotMatch(out.html, /\$\s?\d|million|per-project/i, 'an ownership study shows a credit amount');
