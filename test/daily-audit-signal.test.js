@@ -252,7 +252,7 @@ run('the HTML report surfaces audit health and repository health before detailed
       criticalFailures: 0,
       criticalUnavailable: 1,
       internalErrors: ['GitHub Actions Health: API timeout'],
-      workflowRunUrl: 'https://github.com/pggLLC/Housing-Analytics/actions/runs/1',
+      workflowRunUrl: 'https://example.com/actions/runs/1',
       checks: [
         { name: 'Data Integrity & Completeness', critical: true, status: 'passed', summary: '0 findings' },
         { name: 'GitHub Actions Health', critical: true, status: 'unavailable', summary: 'API timeout' },
@@ -260,14 +260,14 @@ run('the HTML report surfaces audit health and repository health before detailed
     },
     repoHealth: {
       actions: {
-        failingRuns: [{ name: 'CI Checks', html_url: 'https://example.test/run/1' }],
-        overdueWorkflows: [{ name: 'Daily Audit System', html_url: 'https://example.test/run/2', lastRunAt: '2026-09-24T00:00:00Z' }],
-        lastSuccessfulDeploy: { run_started_at: '2026-09-26T12:00:00Z', html_url: 'https://example.test/run/deploy' },
+        failingRuns: [{ name: 'CI Checks', html_url: 'https://example.com/run/1' }],
+        overdueWorkflows: [{ name: 'Daily Audit System', html_url: 'https://example.com/run/2', lastRunAt: '2026-09-24T00:00:00Z' }],
+        lastSuccessfulDeploy: { run_started_at: '2026-09-26T12:00:00Z', html_url: 'https://example.com/run/deploy' },
         recentDeployFailures: [],
       },
       pullRequests: {
         openCount: 3,
-        failingChecks: [{ number: 42, title: 'Fix audit honesty', html_url: 'https://example.test/pr/42' }],
+        failingChecks: [{ number: 42, title: 'Fix audit honesty', html_url: 'https://example.com/pr/42' }],
         staleReviews: [],
         conflicts: [],
         inactive: [],
@@ -276,7 +276,7 @@ run('the HTML report surfaces audit health and repository health before detailed
         openCount: 26,
         newlyOpenedCount: 2,
         closedCount: 1,
-        highPriority: [{ number: 99, title: 'Audit degraded', html_url: 'https://example.test/issues/99' }],
+        highPriority: [{ number: 99, title: 'Audit degraded', html_url: 'https://example.com/issues/99' }],
         blockers: [],
         longstanding: [],
       },

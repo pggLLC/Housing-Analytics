@@ -36,7 +36,7 @@ const { buildEmailSubject, buildHtmlReport } = require('./audit-modules/report-g
 const HOUR = 60 * 60 * 1000;
 const DAY = 24 * HOUR;
 const NOW = Date.parse('2026-09-27T12:00:00Z');
-const ENV = { GITHUB_REPOSITORY: 'o/r', GITHUB_TOKEN: 't', GITHUB_API_URL: 'https://api.test' };
+const ENV = { GITHUB_REPOSITORY: 'o/r', GITHUB_TOKEN: 't', GITHUB_API_URL: 'https://example.com/api' };
 
 let failures = 0;
 const tests = [];
