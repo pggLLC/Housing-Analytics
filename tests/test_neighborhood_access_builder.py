@@ -10,7 +10,8 @@ them, so a rerun would have silently dropped 2,860 childcare and 121 hospital
 records that OsmAmenities.getAccessScore() scores in site selection.
 
 Every type list here is derived — from GEOJSON_SOURCES, from the committed
-file, and from the JS connector's AMENITY_TYPES — never hardcoded.
+file, and from the JS connector's SCORE_KEY_TO_TYPE (the map getAccessScore()
+iterates; AMENITY_TYPES is not read at runtime) — never hardcoded.
 """
 
 import collections
@@ -68,10 +69,10 @@ def test_every_committed_type_is_a_builder_source(builder, committed):
 
 def test_every_connector_type_is_a_builder_source(builder):
     """Every type OsmAmenities scores must be something the builder writes."""
-    m = re.search(r"var AMENITY_TYPES\s*=\s*\[([^\]]*)\]", CONNECTOR.read_text(encoding="utf-8"))
-    assert m, "AMENITY_TYPES not found in osm-amenities.js"
-    connector_types = set(re.findall(r"'([a-z_]+)'", m.group(1)))
-    assert connector_types, "AMENITY_TYPES parsed empty"
+    m = re.search(r"var SCORE_KEY_TO_TYPE\s*=\s*\{([^}]*)\}", CONNECTOR.read_text(encoding="utf-8"))
+    assert m, "SCORE_KEY_TO_TYPE not found in osm-amenities.js"
+    connector_types = set(re.findall(r":\s*'([a-z_]+)'", m.group(1)))
+    assert connector_types, "SCORE_KEY_TO_TYPE parsed empty"
     missing = connector_types - set(builder.GEOJSON_SOURCES.values())
     assert not missing, f"OsmAmenities scores {sorted(missing)} but the builder never produces them"
 
