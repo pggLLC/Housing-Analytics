@@ -236,6 +236,7 @@ def load_transit(path: Path, centroids: dict[str, dict]) -> tuple[list[dict], di
                  "not demand_response). OpenStreetMap-only stops only around a place centroid "
                  "with no confirmed stop within fallback_radius_miles, and never within that "
                  "radius of a place centroid that has one."),
+        "stops_content_sha256": transit_stops.content_fingerprint(path),
         "fallback_radius_miles": TRANSIT_FALLBACK_RADIUS_MILES,
         "places_by_basis": counts,
         "fallback_places": [

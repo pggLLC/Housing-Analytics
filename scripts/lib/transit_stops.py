@@ -38,6 +38,7 @@ stops are eligible and which basis a point is scored on.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -97,6 +98,26 @@ def load_stops(path: str | Path) -> dict[str, list[dict]]:
         elif is_osm_fallback(props):
             out[BASIS_OSM_FALLBACK].append(feat)
     return out
+
+
+def content_fingerprint(path: str | Path) -> str | None:
+    """sha256 of the stop file's CONTENT: its features, never its meta.
+
+    The weekly refresh rewrites meta.generated every run even when no stop
+    changed. Both builders record this value, and
+    scripts/hna/check_transit_stop_copies.py compares it, so a stamp-only
+    refresh rebuilds nothing and any change to a stop rebuilds both.
+    None when the file cannot be read (the check treats that as a failure).
+    """
+    try:
+        doc = json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    feats = doc.get("features") if isinstance(doc, dict) else None
+    if not isinstance(feats, list):
+        return None
+    blob = json.dumps(feats, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return hashlib.sha256(blob.encode("utf-8")).hexdigest()
 
 
 def points(features: Iterable[dict]) -> list[tuple[float, float]]:
