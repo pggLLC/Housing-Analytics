@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="css/pages.css">
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script defer src="js/colorado-elections.js"></script>
   <script src="js/scroll-fix.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
@@ -63,8 +65,26 @@
     }
     .timeline-item h4 { margin: 0 0 .3rem; font-size: .95rem; }
     .timeline-item p { margin: 0; font-size: .875rem; color: var(--muted); line-height: 1.5; }
+    .election-section { margin-block: var(--sp5); }
+    .election-card { border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp4); margin-block: var(--sp3); overflow-wrap: anywhere; }
+    .election-card h3, .election-card h4 { margin-top: 0; }
+    .election-check { color: var(--muted); font-size: .9rem; }
+    .election-section details { margin-block: var(--sp3); }
+    .election-section summary { cursor: pointer; min-height: 44px; padding-block: .65rem; }
+    .election-section blockquote { margin-inline: var(--sp3); white-space: pre-wrap; }
+    .candidate-section { border-top: 4px solid var(--accent); background: var(--bg2); padding: var(--sp4); }
+    .candidate-list { padding-left: var(--sp4); }
+    .candidate-report, .campaign-claim { border-left: 3px solid var(--border); padding-left: var(--sp3); margin-block: var(--sp3); }
+    .coverage-table-wrap { overflow-x: auto; }
+    .coverage-table { width: 100%; min-width: 48rem; border-collapse: collapse; }
+    .coverage-table th, .coverage-table td { padding: var(--sp3); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+    #coverage-county { min-height: 44px; max-width: 100%; margin-block: var(--sp3); }
+    .election-card dt { font-weight: 600; }
+    .election-card dd { margin: 0 0 var(--sp2); }
+    .election-section [hidden] { display: none !important; }
   </style>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/table-header-tips.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -184,6 +204,60 @@
       <li><a href="housing-legislation-2026.html">2026 Housing Legislation Tracker</a> — follow active bills and their progress through the General Assembly</li>
     </ul>
   </section>
+
+  <!-- Curated records follow the existing explainer and nonpartisan note. -->
+  <div id="election-data" class="no-glossary" data-load-state="loading">
+    <section id="on-the-ballot" class="election-section" aria-labelledby="ballot-heading">
+      <h2 id="ballot-heading">On the November 3, 2026 ballot</h2>
+      <p>Housing-related entries with certified or on-ballot status. An empty group does not establish that every jurisdiction has been researched.</p>
+      <div id="on-ballot-records"><p>Loading ballot records…</p></div>
+      <p id="ballot-coverage-summary" aria-live="polite" aria-atomic="true">Loading coverage…</p>
+      <p class="election-check">“Checked” includes recorded reviews, attempted checks with unavailable or unreadable sources, and jurisdictions marked not applicable. It does not mean every official ballot was available. The statewide row is separate from the local count.</p>
+    </section>
+
+    <section id="election-results" class="election-section" aria-labelledby="results-heading" hidden>
+      <h2 id="results-heading">Election results</h2>
+      <p>Reported outcomes retain their certification stage and result source. Older records move to Past elections.</p>
+      <div id="election-result-records"></div>
+    </section>
+
+    <section id="candidate-positions" class="election-section candidate-section" aria-labelledby="candidate-heading">
+      <h2 id="candidate-heading">Candidates' stated housing positions</h2>
+      <p class="candidate-disclaimer"><strong>Stated by the campaigns — not government action; COHO does not endorse or rate candidates</strong></p>
+      <div id="candidate-records"><p>Loading candidate records…</p></div>
+    </section>
+
+    <section id="people-and-roles" class="election-section" aria-labelledby="people-heading">
+      <h2 id="people-heading">People and roles</h2>
+      <p>Housing roles documented by official sources. Campaign proposals appear separately above.</p>
+      <div id="people-records"><p>Loading people and roles…</p></div>
+    </section>
+
+    <details id="past-elections" class="election-section" hidden>
+      <summary>Past elections</summary>
+      <p>Archived records and elections at least 45 days past their election date. Campaign statements remain claims, not government actions.</p>
+      <div id="past-election-records"></div>
+    </details>
+
+    <section id="ballot-coverage" class="election-section" aria-labelledby="coverage-heading">
+      <h2 id="coverage-heading">Full ballot research coverage</h2>
+      <p>All research states are shown, including jurisdictions not yet researched and official notices that are unavailable.</p>
+      <label for="coverage-county">Filter coverage by county</label>
+      <select id="coverage-county" disabled>
+        <option value="">All counties and statewide</option>
+        <option value="state">Statewide only</option>
+      </select>
+      <p id="coverage-status" role="status" aria-live="polite" aria-atomic="true">Loading coverage table…</p>
+      <div class="coverage-table-wrap" role="region" aria-label="Ballot research coverage table" tabindex="0">
+        <table class="coverage-table">
+          <caption>Coverage of housing-related ballot research by jurisdiction</caption>
+          <thead><tr><th scope="col" data-tip="The state, county, or municipality whose housing-related ballot coverage was researched.">Jurisdiction</th><th scope="col" data-tip="The county assigned to the jurisdiction in the geography directory, or statewide coverage.">County / scope</th><th scope="col" data-tip="Whether research found a measure, found none, is incomplete, or could not access an official notice. This is not a certification claim.">Research state</th><th scope="col" data-tip="The recorded date of the review or attempted check. Not yet checked means no research date is recorded.">Checked</th><th scope="col" data-tip="The official source reviewed and any limits on what the research could establish.">Source and limitations</th></tr></thead>
+          <tbody id="coverage-rows"></tbody>
+        </table>
+      </div>
+    </section>
+    <noscript><p>JavaScript is needed to load the curated records. Read the <a href="data/policy/ballot-2026/statewide.json">statewide ballot data</a>, <a href="data/policy/candidate-platforms-2026.json">candidate records</a>, and <a href="data/policy/policy-watch.json">people and roles data</a> directly.</p></noscript>
+  </div>
 
 </main>
 

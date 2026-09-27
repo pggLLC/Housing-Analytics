@@ -410,7 +410,32 @@
           "history",
           "archived"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "coverage_state": {
+                  "const": "official_material_reviewed_no_housing_position_found"
+                }
+              },
+              "required": [
+                "coverage_state"
+              ]
+            },
+            "then": {
+              "properties": {
+                "verification": {
+                  "type": "object",
+                  "required": [
+                    "level",
+                    "checked"
+                  ]
+                }
+              }
+            }
+          }
+        ]
       },
       "minItems": 0
     }
