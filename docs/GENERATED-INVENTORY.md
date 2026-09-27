@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T13:39:18.054Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T14:14:25.626Z. Do not edit by hand.
 
 ---
 
@@ -975,7 +975,7 @@
 | `data/hna/projections/08123.json` | 4.7 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 4.7 KB | ✅ | — |
 | `data/hna/projections/places.json` | 826.4 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 2.74 MB | ✅ | — |
+| `data/hna/ranking-index.json` | 3.11 MB | ✅ | — |
 | `data/hna/ranking-scenarios/balanced.json` | 48.8 KB | ✅ | — |
 | `data/hna/ranking-scenarios/commuter-pressure.json` | 48.8 KB | ✅ | — |
 | `data/hna/ranking-scenarios/large-gap.json` | 48.8 KB | ✅ | — |
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-457 test files found.
+458 test files found.
 
 | File | Size |
 |------|------|
@@ -2200,6 +2200,7 @@
 | `tests/test_policy_foundation.py` | 22.6 KB |
 | `tests/test_policy_watch.py` | 5.5 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
+| `tests/test_ranking_index_transit_zone.py` | 11.8 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
 | `tests/test_stage2_temporal.py` | 33.5 KB |
 | `tests/test_stage3_accessibility.py` | 22.4 KB |
@@ -2258,7 +2259,7 @@
 | `.github/workflows/fetch-fred-data.yml` | 5.4 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 4.1 KB |
 | `.github/workflows/fetch-kalshi.yml` | 5.3 KB |
-| `.github/workflows/fetch-parcel-zoning-data.yml` | 14.6 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 18.7 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 8.1 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.9 KB |
 | `.github/workflows/market_data_build.yml` | 17.4 KB |
