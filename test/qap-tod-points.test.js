@@ -129,13 +129,14 @@ async function checkTodPanel() {
   const elements = { pmaTodPanel: { style: {} }, pmaTodContent: { innerHTML: '' } };
   const layer = { addTo() { return this; } };
   const marker = { bindTooltip() { return this; }, addTo() { return this; } };
+  const markerOptions = [];
   let rejectFetch;
   let requests = 0;
   let fallbackCalls = 0;
   let legacyHits = [];
   const ctx = {
     window: {
-      L: { layerGroup: () => layer, circleMarker: () => marker },
+      L: { layerGroup: () => layer, circleMarker: (latlng, options) => { markerOptions.push(options); return marker; } },
       DataService: { getJSON() { requests++; return new Promise((_, reject) => { rejectFetch = reject; }); } },
       OsmAmenities: { getWithinRadius() { fallbackCalls++; return legacyHits; } }
     },
@@ -179,6 +180,8 @@ async function checkTodPanel() {
   ctx._rawLayerData.transitStops.features.push(stop({ name: 'Agency stop', operator: 'public', reliability: 'confirmed' }));
   assert.equal(render(), 2);
   assert.match(elements.pmaTodContent.innerHTML, /Likely TOD/);
+  assert.equal(markerOptions.length, 3, 'only public stops draw TOD markers');
+  assert.ok(markerOptions.every(options => options.pane === 'pointsPane'), 'TOD markers stay above polygon fills');
   console.log('TOD panel: unavailable, failed fetch, private-only, OSM-only, and mixed public sources — OK');
 }
 
