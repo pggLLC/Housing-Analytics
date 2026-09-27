@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T20:44:01.544Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T20:45:57.799Z. Do not edit by hand.
 
 ---
 
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-465 test files found.
+466 test files found.
 
 | File | Size |
 |------|------|
@@ -2128,7 +2128,7 @@
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.3 KB |
-| `test/tract-geometry-integrity.test.js` | 17.2 KB |
+| `test/tract-geometry-integrity.test.js` | 18.0 KB |
 | `test/transit-stops-consumers.test.js` | 6.2 KB |
 | `test/transit-zone-absence.test.mjs` | 37.0 KB |
 | `test/transit-zone-funding-line.test.js` | 25.3 KB |
@@ -2192,6 +2192,7 @@
 | `tests/test_fmr_extractor.py` | 3.4 KB |
 | `tests/test_fmr_parsing.py` | 5.9 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
+| `tests/test_gtfs_transit_fallback.py` | 2.7 KB |
 | `tests/test_hmda_data.py` | 6.6 KB |
 | `tests/test_hna_geography_coverage.py` | 9.2 KB |
 | `tests/test_hna_ranking_integrity.py` | 22.5 KB |
