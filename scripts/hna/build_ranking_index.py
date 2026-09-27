@@ -194,6 +194,118 @@ def _load_json(path: str) -> dict | list | None:
         return None
 
 
+# ---------------------------------------------------------------------------
+# Transit zone share — DISPLAY-ONLY (#1971, owner decision on #1937/#1943)
+# ---------------------------------------------------------------------------
+#
+# The per-geography share of the HB26-1065 transit-zone screening radius (and
+# of CHFA's ½-mile TOD distance) is copied into the index so a surface that
+# already reads the index can show it. It is NOT a need or opportunity factor:
+# it enters no score, rank, weight, percentile or composite. build() attaches
+# it only AFTER every score and rank has been assigned, and
+# tests/test_ranking_index_transit_zone.py rebuilds the index with the source
+# file perturbed and with it missing, and fails if any other field moves.
+#
+# Values are copied verbatim, never recomputed or coerced. A geography the
+# source does not cover, or a missing source file, gets null values with an
+# unavailableReason — never a 0, which would read as "no transit" (#1480).
+TRANSIT_ZONE_REL_PATH = "data/hna/transit-zone-by-geography.json"
+TRANSIT_ZONE_PATH = os.path.join(ROOT, TRANSIT_ZONE_REL_PATH)
+
+# Per-geography fields copied from the source record. The *_is_exact flags are
+# what make a 0 or a 1 honest: the source publishes an absolute only when it is
+# proven, and these say which ones are (null = not applicable to this value).
+TRANSIT_ZONE_FIELDS = (
+    "share_within_radius_confirmed",
+    "share_within_radius_any",
+    "share_within_half_mile_confirmed",
+    "confirmed_stops_inside",
+    "zero_is_exact",
+    "half_mile_zero_is_exact",
+    "full_is_exact",
+    "any_full_is_exact",
+    "half_mile_full_is_exact",
+    "nearest_confirmed_stop_to_boundary_miles",
+    "max_boundary_vertex_distance_to_confirmed_stop_miles",
+    "nearest_confirmed_stop",
+)
+_TRANSIT_ZONE_FLAGS = {f for f in TRANSIT_ZONE_FIELDS if f.endswith("_is_exact")}
+# Source meta copied into metadata.transitZone. `generated` and
+# `stops_generated` pin which build of the source (and of the stop file behind
+# it) the index copy came from; the test compares them to the source file.
+TRANSIT_ZONE_META_FIELDS = (
+    "generated",
+    "stops_generated",
+    "stops_file",
+    "radius_miles",
+    "radius_source",
+    "qap_tod_miles",
+)
+
+
+def _transit_zone_value(field: str, value: Any) -> Any:
+    """Copy one source value, keeping only the types it may honestly hold."""
+    if value is None:
+        return None
+    if field in _TRANSIT_ZONE_FLAGS:
+        return value if isinstance(value, bool) else None
+    if field == "nearest_confirmed_stop":
+        return dict(value) if isinstance(value, dict) else None
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    return value if math.isfinite(value) else None
+
+
+def load_transit_zone() -> tuple[dict, dict[str, dict]]:
+    """Return (metadata block, {geoid: record}) for the display-only copy.
+
+    Read at call time from TRANSIT_ZONE_PATH so the guard test can point it at
+    a perturbed or missing file.
+    """
+    doc = _load_json(TRANSIT_ZONE_PATH)
+    geos = doc.get("geographies") if isinstance(doc, dict) else None
+    meta_src = (doc.get("meta") or {}) if isinstance(doc, dict) else {}
+    meta: dict[str, Any] = {
+        "source": TRANSIT_ZONE_REL_PATH,
+        "displayOnly": True,
+        "note": (
+            "Display-only. Copied from the source after every score and rank is "
+            "assigned; it is not an input to any score, rank, weight, percentile "
+            "or composite. Straight-line distance, confirmed stops only unless "
+            "the field says _any."
+        ),
+    }
+    for key in TRANSIT_ZONE_META_FIELDS:
+        meta[key] = meta_src.get(key)
+    if not isinstance(geos, dict):
+        meta["unavailableReason"] = (
+            f"{TRANSIT_ZONE_REL_PATH} could not be read, so no geography has a transit zone share."
+        )
+        return meta, {}
+    meta["unavailableReason"] = None
+    return meta, {str(k): v for k, v in geos.items() if isinstance(v, dict)}
+
+
+def transit_zone_record(geoid: str, records: dict[str, dict], meta: dict) -> dict:
+    """The per-row display-only transit block. Absent means null plus a reason."""
+    rec = records.get(geoid)
+    out: dict[str, Any] = {}
+    if rec is None:
+        for field in TRANSIT_ZONE_FIELDS:
+            out[field] = None
+        out["unavailableReason"] = meta.get("unavailableReason") or (
+            f"{TRANSIT_ZONE_REL_PATH} has no record for this geography."
+        )
+        return out
+    for field in TRANSIT_ZONE_FIELDS:
+        out[field] = _transit_zone_value(field, rec.get(field))
+    reason = rec.get("unavailableReason")
+    if not reason and out["share_within_radius_confirmed"] is None:
+        reason = f"{TRANSIT_ZONE_REL_PATH} publishes no transit zone share for this geography."
+    out["unavailableReason"] = reason or None
+    return out
+
+
 _alias_doc = _load_json(os.path.join(ROOT, "data", "hna", "place-phantom-aliases.json")) or {}
 PHANTOM_ALIAS_GEOIDS = set(str(k).zfill(7) for k in (_alias_doc.get("aliases", {}) or {}))
 
@@ -2127,6 +2239,14 @@ def build(out_path: str | None = None) -> None:
             (total_ranked - e["rank"]) / max(total_ranked - 1, 1) * 100, 1
         )
 
+    # Display-only transit zone share (#1971). Attached here, after every
+    # score, rank and percentile above is final, so nothing above can read
+    # it. It lives beside `metrics`, not in it: the digest builder and other
+    # consumers iterate `metrics`, and this must not become a metric.
+    transit_zone_meta, transit_zone_records = load_transit_zone()
+    for e in entries:
+        e["transitZone"] = transit_zone_record(e["geoid"], transit_zone_records, transit_zone_meta)
+
     # Build output
     metrics_meta = [
         {
@@ -2466,6 +2586,7 @@ def build(out_path: str | None = None) -> None:
                 "Commuter pressure is an augment-only community-need multiplier, not a standalone weight. "
                 "Generated by scripts/hna/build_ranking_index.py."
             ),
+            "transitZone": transit_zone_meta,
         },
         "metrics": metrics_meta,
         "rankings": entries,

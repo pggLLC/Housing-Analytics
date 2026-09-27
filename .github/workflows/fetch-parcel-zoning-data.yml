@@ -61,7 +61,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
-          fetch-depth: 1
+          # Full history: the derived-chain step below may run paper:build,
+          # which measures the repo's own commit history. A shallow clone made
+          # it publish repo.first_commit = the build date (rebuild-bps-permits.yml).
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v7
@@ -266,12 +269,53 @@ jobs:
             node scripts/simplify-geojson.mjs --input data/market/opportunity_zones_co.geojson --keep 20 --fields county_fips,designated,geoid
           fi
 
+      # ── Ranking index copy of the transit zone share (#1971) ──────────
+      # data/hna/ranking-index.json carries a display-only copy of
+      # transit-zone-by-geography.json (scripts/hna/build_ranking_index.py,
+      # load_transit_zone). When the step above rewrites that file, the index
+      # copy is stale until the chain runs, and test:ranking-fresh plus
+      # tests/test_ranking_index_transit_zone.py fail on the NEXT unrelated PR
+      # — a bot push runs no CI of its own. So this job rebuilds the chain
+      # itself, as rebuild-bps-permits.yml does for projections (#1765).
+      #
+      # rebuild:derived, never a subset: the index has three producers and
+      # running build_ranking_index.py alone drops the augmenters' metrics
+      # (#1698). Not continue-on-error: if the chain fails, nothing is
+      # committed, so a new transit file never lands beside a stale index.
+      - name: Rebuild the derived chain when the transit zone share changed
+        id: derived-chain
+        run: |
+          if git diff --quiet -- data/hna/transit-zone-by-geography.json; then
+            echo "transit-zone-by-geography.json unchanged; the ranking index copy is current."
+            echo "rebuilt=false" >> "$GITHUB_OUTPUT"
+          else
+            npm run rebuild:derived
+            echo "rebuilt=true" >> "$GITHUB_OUTPUT"
+          fi
+
       # ── Commit all updated data ───────────────────────────────────────
       - name: Commit updated data files
         id: data-commit
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Everything rebuild:derived writes (rebuild-bps-permits.yml keeps
+          # the same list). Staged only when the chain ran. A path the chain
+          # starts writing that is missing here fails loudly rather than being
+          # silently left out of the commit.
+          chain_paths="data/hna/ranking-index.json data/hna/ranking-scenarios data/hna/jurisdiction-metrics-digest data/hna/ownership-need.json data/jurisdiction-briefs data/home-snapshot.json places/ data/paper working-paper.html methods.html AGENTS.md README.md"
+          if [ "${{ steps.derived-chain.outputs.rebuilt }}" = "true" ]; then
+            own_paths="data/market/parcel_aggregates_co.json data/market/zoning_compat_index_co.json data/market/transit_routes_co.geojson data/amenities/transit_stops_statewide_co.geojson data/market/transit_stops_coverage_co.json data/hna/transit-zone-by-geography.json data/market/schools_co.geojson data/market/opportunity_zones_co.geojson data/affordable-housing/regrid-parcels-by-place.json data/_manifest.json data/manifest.json"
+            excludes=""
+            for p in $chain_paths $own_paths; do excludes="$excludes :!$p"; done
+            outside="$(git status --porcelain -- . $excludes | head -20)"
+            if [ -n "$outside" ]; then
+              echo "::error::rebuild:derived wrote files outside the committed path list:" >&2
+              echo "$outside" >&2
+              exit 1
+            fi
+            git add $chain_paths
+          fi
           # Both manifests, in this order: data/manifest.json records the byte
           # count of data/_manifest.json (AGENTS.md, "two manifests"). Bot
           # commits run no push-triggered workflow, so nothing else repairs
