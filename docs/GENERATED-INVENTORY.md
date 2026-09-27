@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T12:40:48.662Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T12:56:23.659Z. Do not edit by hand.
 
 ---
 
@@ -38,7 +38,7 @@
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.9 KB |
-| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 16.1 KB |
+| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 16.9 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 15.9 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.7 KB |
@@ -1717,7 +1717,7 @@
 | `data/policy/soft-funding-status.json` | 25.3 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 15.0 KB | ✅ | — |
-| `data/policy/thiz-map-status.json` | 1.0 KB | ✅ | — |
+| `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 222.4 KB | ✅ | — |
@@ -1893,7 +1893,7 @@
 | `test/hna-deep-dive-batch2.test.js` | 6.2 KB |
 | `test/hna-dev-context-collision.test.js` | 4.6 KB |
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
-| `test/hna-export-matches-screen.test.js` | 24.2 KB |
+| `test/hna-export-matches-screen.test.js` | 27.8 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.5 KB |
 | `test/hna-functionality-check.js` | 60.6 KB |
 | `test/hna-geography-provenance.test.js` | 5.4 KB |
@@ -1926,7 +1926,7 @@
 | `test/hna-sub-county-and-sync.test.js` | 4.9 KB |
 | `test/hna-surplus-semantics.test.js` | 11.7 KB |
 | `test/hna-takeaways-chas-disclosure.test.js` | 1.4 KB |
-| `test/hna-transit-zone.test.js` | 27.8 KB |
+| `test/hna-transit-zone.test.js` | 31.5 KB |
 | `test/hna-unknown-geoid.test.js` | 2.8 KB |
 | `test/hna-view-content-parity.test.js` | 6.9 KB |
 | `test/hna-workflow-autosave.test.js` | 4.2 KB |
@@ -2061,7 +2061,7 @@
 | `test/public-facing-numbers.test.js` | 10.5 KB |
 | `test/public-land-contract.test.js` | 9.1 KB |
 | `test/qa-recent-changes.js` | 22.2 KB |
-| `test/qap-tod-points.test.js` | 11.9 KB |
+| `test/qap-tod-points.test.js` | 16.6 KB |
 | `test/qct-dda-designation-unknown.test.js` | 10.0 KB |
 | `test/qct-dda-embedded-agreement.test.js` | 8.3 KB |
 | `test/qct-dda-same-origin.test.js` | 3.1 KB |
@@ -2072,7 +2072,7 @@
 | `test/ranking-scenarios.test.js` | 3.1 KB |
 | `test/rebuild-derived-chain.test.mjs` | 8.3 KB |
 | `test/recommendation-leads-with-the-conclusion.test.mjs` | 25.7 KB |
-| `test/recommendation-transit-zone.test.mjs` | 9.2 KB |
+| `test/recommendation-transit-zone.test.mjs` | 13.6 KB |
 | `test/redfin-place-market-tracker.test.js` | 6.1 KB |
 | `test/registry-cross-county-consistency.test.js` | 1.8 KB |
 | `test/regrid-cache-honesty.test.js` | 8.6 KB |
@@ -2123,9 +2123,9 @@
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.3 KB |
 | `test/transit-stops-consumers.test.js` | 6.2 KB |
-| `test/transit-zone-absence.test.mjs` | 30.8 KB |
-| `test/transit-zone-funding-line.test.js` | 23.7 KB |
-| `test/transit-zone.test.js` | 27.2 KB |
+| `test/transit-zone-absence.test.mjs` | 34.6 KB |
+| `test/transit-zone-funding-line.test.js` | 24.7 KB |
+| `test/transit-zone.test.js` | 39.3 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/unit-mix-validation.test.js` | 4.7 KB |
 | `test/unit-suffix-convention.test.js` | 6.6 KB |
