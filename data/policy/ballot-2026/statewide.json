@@ -5,11 +5,50 @@
       "geoid": "08",
       "level": "state",
       "name": "Colorado",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.coloradosos.gov/pubs/elections/Initiatives/ballot/contacts/2026.html",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Measures reviewed for the November 3, 2026 general election (15): Amendments 81, 82, 83, 84, 85, 86 and 87; Propositions NN, 132, 133, 134, 135, 136 and 137; Ballot Issue 7A. The Secretary of State certified list and the 2026 Blue Book each list the same 15 (14 statewide measures plus one district measure). No official ballot title names housing, rent, home construction, land use or zoning, homelessness, or a tax or revenue earmarked for housing, so no direct measure was found and no entries were created. Proposition NN is classified indirect by owner decision (see its line below). Indirect measures are listed here and not stored as entries.",
+        "Amendment 81 (Law Enforcement Reporting Requirements to Federal Authorities): classified none.",
+        "Amendment 82 (Right to Natural Gas): classified none, confirmed by owner decision on 2026-09-26. The ballot title refers to homes only as a place of energy use: \"granting the right for consumers to purchase natural gas for cooking or heating in homes or businesses\". The Blue Book analysis (page 19) describes local building codes: \"Several municipalities in Colorado have restricted the installation of natural gas appliances in new construction or certain renovation projects.\" It does not describe a change to funding for a housing program.",
+        "Amendment 83 (Constitutional Right to Hunt and Fish): classified none.",
+        "Amendment 84 (Mail Ballot Voter Identification): classified none.",
+        "Amendment 85 (Plain Language Ballot Questions): classified none.",
+        "Amendment 86 (Congressional Redistricting): classified none.",
+        "Amendment 87 (Graduated Income Tax): classified none, confirmed by owner decision on 2026-09-26. The ballot title names home sales only in keeping the existing rate: \"WHILE MAINTAINING THE CURRENT 4.4% TAX ON INCOME FROM THE SALE OF A PRINCIPAL RESIDENCE\". The Blue Book analysis does not mention Proposition 123 or another housing program.",
+        "Proposition NN (State Public K-12 Education Funding, SB 26-135): classified indirect by owner decision on 2026-09-26; listed here and not stored as an entry. The ballot title does not name housing, and the Blue Book analysis (pages 41-47) does not mention an affordable housing program. The indirect classification rests on the measure text. The enrolled act (Section 6, PDF page 11), which prints added words in capital letters, amends section 29-32-104 (5), C.R.S. (\"Permissible expenditures - affordable housing programs - report - definitions\"), by adding only the clause \"BY AN AMOUNT GREATER THAN THE AMOUNT OF STATE PUBLIC EDUCATION FUNDING AS DEFINED IN SECTION 24-77-301 (2)\". The amended subsection, also printed in the Blue Book (page 87), reads: \"If the Legislative Council Staff's March Economic and Revenue Forecast in any given year projects revenue for the next state fiscal year will fall below the revenue limit imposed under section 20 of article X of the state constitution by an amount greater than the amount of state public education funding as defined in section 24-77-301 (2), the general assembly may reduce the funding allocated to the office required by this section for the next state fiscal year in order to balance the state budget for said state fiscal year.\" The coverage state depends only on direct measures, so this classification does not change it. The analysis also states: \"The retained revenue also must be spent to reimburse local governments for property tax exemptions, as required under current law.\"",
+        "Proposition 132 (Penalties for Fentanyl Crimes): classified none.",
+        "Proposition 133 (Penalties for Human Trafficking of a Minor): classified none.",
+        "Proposition 134 (Male and Female Participation in School Sports): classified none.",
+        "Proposition 135 (Prohibit Certain Surgeries on Minors): classified none.",
+        "Proposition 136 (Income Tax Rate Cap): classified none.",
+        "Proposition 137 (Designate Sporting Goods Sales Tax Revenue for Conservation): classified none.",
+        "Ballot Issue 7A (Front Range Passenger Rail District, SB 26-172): classified none, confirmed by owner decision on 2026-09-26. It is a district measure, not statewide, appearing only in parts of Adams, Arapahoe, Broomfield, Boulder, Denver, Douglas, El Paso, Huerfano, Jefferson, Larimer, Las Animas, Pueblo and Weld counties. The ballot title earmarks revenue for passenger rail and \"STATION AREA IMPROVEMENTS AND LOCAL CONNECTIONS TO RAIL STATIONS\" and does not name housing. The Blue Book carries the district's election notice, not a Legislative Council analysis; its district-provided \"Summary of Written Comments For Issue\" (page 102) states: \"The measure also includes a $1.5 billion local return program that station communities can use for local infrastructure, affordable housing, and other transportation projects in corridor communities.\""
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.coloradosos.gov/pubs/elections/Initiatives/ballot/contacts/2026.html",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.coloradosos.gov/pubs/newsRoom/pressReleases/2026/PR20260904BallotCertification.html",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://content.leg.colorado.gov/publications/2026-blue-book",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://content.leg.colorado.gov/sites/default/files/2026-blue-book-en-accessible.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://leg.colorado.gov/bill_files/116503/download",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
