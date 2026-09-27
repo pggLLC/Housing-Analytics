@@ -29,9 +29,17 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT      = path.resolve(__dirname, '..', '..');
+
+// Canonical transit SLA lives in the browser's inventory. The coverage
+// report is generated with the stop file and must obey the same window.
+const inventoryContext = {};
+vm.runInNewContext(await fs.readFile(path.join(ROOT, 'js/data-source-inventory.js'), 'utf8'), { window: inventoryContext });
+const transitSlaDays = inventoryContext.DataSourceInventory.getSources().find(s => s.id === 'transit-stops-statewide-co')?.maxAgeDays;
+if (!Number.isFinite(transitSlaDays) || transitSlaDays <= 0) throw new Error('Statewide transit source has no valid freshness SLA');
 
 // SLA configuration — keyed by repo-relative path. Add new entries as
 // new data files arrive. Avoid setting SLAs aggressively tight: the check
@@ -58,7 +66,8 @@ const SLA_CONFIG = [
   { file: 'data/co_ami_gap_by_place.json',                  slaDays: 95,  cadence: 'quarterly (matches county counterpart; underlying ACS + HUD income limits refresh annually)' },
   { file: 'data/market/cdphe_county_boundaries_co.geojson', slaDays: 400, cadence: 'annual (CDPHE boundary refresh)' },
   { file: 'data/market/transit_routes_co.geojson',          slaDays: 95,  cadence: 'monthly (GTFS feed refresh from Mobility Database)' },
-  { file: 'data/amenities/transit_stops_statewide_co.geojson', slaDays: 16, cadence: 'weekly (fetch-parcel-zoning-data.yml; CDOT + agency GTFS)' },
+  { file: 'data/amenities/transit_stops_statewide_co.geojson', slaDays: transitSlaDays, cadence: 'weekly (fetch-parcel-zoning-data.yml; CDOT + agency GTFS)' },
+  { file: 'data/market/transit_stops_coverage_co.json', slaDays: transitSlaDays, cadence: 'weekly (paired statewide transit coverage report)' },
 ];
 
 // Fields to probe for an in-file "updated" timestamp, in priority order.

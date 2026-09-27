@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-26T16:35:51Z",
+    "generated": "2026-09-27T04:20:59Z",
     "source": "scripts/market/build_transit_stops_co.py",
     "note": "Counts of stops found per source. A county with no stop in any source is listed under counties_without_fixed_stops: that means no fixed-route stop was found, not that the county has no transit (several run demand-response service, which has no stops).",
     "feed_match_m": 30.0,
@@ -601,7 +601,7 @@
     {
       "agency": "Agency not listed",
       "operator": "public",
-      "cdot": 116,
+      "cdot": 1,
       "agency_feed_only": 0,
       "unconfirmed": 0
     },
@@ -708,6 +708,13 @@
       "operator": "public",
       "cdot": 0,
       "agency_feed_only": 105,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "ECO Transit",
+      "operator": "public",
+      "cdot": 96,
+      "agency_feed_only": 0,
       "unconfirmed": 0
     },
     {
@@ -886,6 +893,13 @@
       "unconfirmed": 0
     },
     {
+      "agency": "TSC Transit",
+      "operator": "public",
+      "cdot": 19,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
       "agency": "The Lift",
       "operator": "public",
       "cdot": 0,
@@ -958,6 +972,9638 @@
       "MVT": 963
     },
     "rows_outside_colorado": 0,
+    "dropped_rows": [
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      },
+      {
+        "stop_id": null,
+        "name": "",
+        "agency": "MVT",
+        "coordinates": [
+          null,
+          null
+        ],
+        "reason": "no_location"
+      }
+    ],
     "stops_in_agency_feeds_not_in_cdot": {
       "Avon Transit": 22,
       "Blackhawk and Central City Tramway": 1,

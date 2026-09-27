@@ -113,12 +113,17 @@ AGENCY_ALIASES = {
     "mountain express": "Mountain Express",
     "mountain express (mtnexp)": "Mountain Express",
     "met": "Mountain Express",
+    # CME now publishes as Epic Mountain Express, not the public Mountain
+    # Express service in Crested Butte. Keep the private classification on
+    # both names: https://www.epicmountainexpress.com/history
+    "colorado mountain express": "Epic Mountain Express",
+    "epic mountain express": "Epic Mountain Express",
 }
 
 # Private shuttle operators: real stops, but not public transit service.
 PRIVATE_OPERATORS = {
     "Home James", "Groome Transportation", "Blue Sky Limo LLC",
-    "Colorado Mountain Express",
+    "Epic Mountain Express",
 }
 
 UNLISTED_AGENCY = "Agency not listed"
@@ -156,22 +161,24 @@ class PointIndex:
     CELL = 0.005  # degrees; ~450-550 m, larger than any match radius used
 
     def __init__(self) -> None:
-        self.cells: dict[tuple[int, int], list[tuple[float, float]]] = {}
+        self.cells: dict[tuple[int, int], list[tuple[float, float, object]]] = {}
 
     def _key(self, lon: float, lat: float) -> tuple[int, int]:
         return (math.floor(lon / self.CELL), math.floor(lat / self.CELL))
 
-    def add(self, lon: float, lat: float) -> None:
-        self.cells.setdefault(self._key(lon, lat), []).append((lon, lat))
+    def add(self, lon: float, lat: float, value=None) -> None:
+        self.cells.setdefault(self._key(lon, lat), []).append((lon, lat, value))
 
-    def near(self, lon: float, lat: float, radius_m: float) -> bool:
+    def matches(self, lon: float, lat: float, radius_m: float):
         kx, ky = self._key(lon, lat)
         for dx in (-1, 0, 1):
             for dy in (-1, 0, 1):
-                for plon, plat in self.cells.get((kx + dx, ky + dy), ()):
+                for plon, plat, value in self.cells.get((kx + dx, ky + dy), ()):
                     if metres(lon, lat, plon, plat) <= radius_m:
-                        return True
-        return False
+                        yield value
+
+    def near(self, lon: float, lat: float, radius_m: float) -> bool:
+        return any(True for _ in self.matches(lon, lat, radius_m))
 
 
 # ── Counties ────────────────────────────────────────────────────────────────
@@ -310,8 +317,19 @@ def load_osm_stops() -> list[dict]:
 def merge(cdot_rows, feed_rows, osm_rows, counties):
     """Return (features, report_parts). Pure function over already-fetched rows."""
     features: list[dict] = []
+    cdot_features: list[tuple[dict, dict]] = []
     cdot_idx, feed_idx = PointIndex(), PointIndex()
-    dropped_cdot = {"no_location": 0, "outside_colorado": 0, "by_agency": {}}
+    dropped_cdot = {"no_location": 0, "outside_colorado": 0, "by_agency": {}, "rows": []}
+
+    def drop(r, agency, reason):
+        dropped_cdot[reason] += 1
+        if reason == "no_location":
+            dropped_cdot["by_agency"][agency] = dropped_cdot["by_agency"].get(agency, 0) + 1
+        dropped_cdot["rows"].append({
+            "stop_id": r.get("stop_id"), "name": r.get("name"),
+            "agency": r.get("agency"), "coordinates": [r.get("lon"), r.get("lat")],
+            "reason": reason,
+        })
 
     def feature(r, agency, sources, reliability, geoid):
         return {
@@ -331,43 +349,61 @@ def merge(cdot_rows, feed_rows, osm_rows, counties):
         lon, lat = r.get("lon"), r.get("lat")
         agency = normalize_agency(r.get("agency"))
         if not isinstance(lon, (int, float)) or not isinstance(lat, (int, float)) or (lon == 0 and lat == 0):
-            dropped_cdot["no_location"] += 1
-            dropped_cdot["by_agency"][agency] = dropped_cdot["by_agency"].get(agency, 0) + 1
+            drop(r, agency, "no_location")
             continue
         geoid = county_of(lon, lat, counties) if in_colorado_bbox(lon, lat) else None
         if geoid is None:
-            dropped_cdot["outside_colorado"] += 1
+            drop(r, agency, "outside_colorado")
             continue
         cdot_idx.add(lon, lat)
-        features.append(feature(r, agency, ["cdot"], "confirmed", geoid))
+        f = feature(r, agency, ["cdot"], "confirmed", geoid)
+        features.append(f)
+        cdot_features.append((f, r))
 
     # Feed stops: add the ones CDOT lacks; record which confirm a CDOT stop.
     feed_added: dict[str, int] = {}
     seen_feed: set[tuple[float, float]] = set()
     for r in feed_rows:
+        if not in_colorado_bbox(r["lon"], r["lat"]):
+            continue
+        agency = normalize_agency(r.get("agency"))
+        # Keep every agency in the matching index even when two feeds publish
+        # the same point. An unnamed CDOT stop must not inherit an arbitrary
+        # agency just because that feed happened to be fetched first.
+        feed_idx.add(r["lon"], r["lat"], dict(r, agency=agency))
         key = (round(r["lon"], 5), round(r["lat"], 5))
         if key in seen_feed:
             continue  # the same stop published by two catalog entries
         seen_feed.add(key)
-        if not in_colorado_bbox(r["lon"], r["lat"]):
-            continue
-        feed_idx.add(r["lon"], r["lat"])
         if cdot_idx.near(r["lon"], r["lat"], FEED_MATCH_M):
             continue
         geoid = county_of(r["lon"], r["lat"], counties)
         if geoid is None:
             continue
-        agency = normalize_agency(r.get("agency"))
         features.append(feature(r, agency, ["agency_feed"], "confirmed", geoid))
         feed_added[agency] = feed_added.get(agency, 0) + 1
 
     # Mark CDOT stops that a feed also publishes.
-    for f in features:
+    for f, cdot_row in cdot_features:
         p = f["properties"]
         if p["sources"] == ["cdot"]:
             lon, lat = f["geometry"]["coordinates"]
-            if feed_idx.near(lon, lat, FEED_MATCH_M):
+            matches = list(feed_idx.matches(lon, lat, FEED_MATCH_M))
+            if matches:
                 p["sources"] = ["cdot", "agency_feed"]
+                # A shared bus stop can have several agencies within 30 m.
+                # Prefer agreement on both source stop_id and stop name;
+                # IDs alone are not globally unique between GTFS feeds.
+                stop_id = str(cdot_row.get("stop_id") or "").strip()
+                stop_name = " ".join((cdot_row.get("name") or "").casefold().split())
+                exact = [r for r in matches if stop_id and stop_name
+                         and str(r.get("stop_id") or "").strip() == stop_id
+                         and " ".join((r.get("name") or "").casefold().split()) == stop_name]
+                named = sorted({r["agency"] for r in (exact or matches)} - {UNLISTED_AGENCY})
+                if p["agency"] == UNLISTED_AGENCY and len(named) == 1:
+                    p["agency"] = named[0]
+                    p["operator"] = "private_shuttle" if named[0] in PRIVATE_OPERATORS else "public"
+                    p["agency_source"] = "agency_feed"
 
     osm_added = 0
     for r in osm_rows:
@@ -431,6 +467,7 @@ def build_report(features, parts, counties, generated, feeds_failed, feeds_used)
             "rows_without_location": parts["dropped_cdot"]["no_location"],
             "rows_without_location_by_agency": parts["dropped_cdot"]["by_agency"],
             "rows_outside_colorado": parts["dropped_cdot"]["outside_colorado"],
+            "dropped_rows": parts["dropped_cdot"]["rows"],
             "stops_in_agency_feeds_not_in_cdot": dict(sorted(parts["feed_added_by_agency"].items())),
         },
     }

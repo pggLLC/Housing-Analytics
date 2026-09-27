@@ -98,7 +98,6 @@ assert.ok(jsFiles.length > 50, 'js/ scan found too few files to be meaningful');
 for (const f of jsFiles) {
   assert.doesNotMatch(read(f), /\.(?:getNearestByType|getWithinRadius)\(\s*['"]/, `${f} passes the amenity type first`);
 }
-assert.match(maSrc, /\.getWithinRadius\(lat, lon, 'transit_stop', halfMile\)/, 'TOD fallback does not use getWithinRadius');
 // The first source must be the unscoped statewide stop cache, not the map
 // layer, which _scopeToSite trims to the previous analysis site.
 const todFn = (maSrc.match(/function _highlightTodTransit[\s\S]*?\n  \}\n/) || [])[0];
@@ -123,3 +122,67 @@ assert.deepEqual(Array.from(A.getWithinRadius(40.5, -106.0, 'transit_stop', 0.5)
 assert.equal(A.getNearestByType(39.7401, -104.99, 'transit_stop').name, 'Near');
 
 console.log(`qap-tod-points: QAP ${qapAdopted}→${qapDraft} pts, rural ${qapRuralSection}; ${jsFiles.length} js files scanned — OK`);
+
+// Exercise the real panel and fetch callback: OSM's unclassified legacy
+// fallback cannot establish statewide coverage or reintroduce private stops.
+async function checkTodPanel() {
+  const elements = { pmaTodPanel: { style: {} }, pmaTodContent: { innerHTML: '' } };
+  const layer = { addTo() { return this; } };
+  const marker = { bindTooltip() { return this; }, addTo() { return this; } };
+  let rejectFetch;
+  let requests = 0;
+  let fallbackCalls = 0;
+  let legacyHits = [];
+  const ctx = {
+    window: {
+      L: { layerGroup: () => layer, circleMarker: () => marker },
+      DataService: { getJSON() { requests++; return new Promise((_, reject) => { rejectFetch = reject; }); } },
+      OsmAmenities: { getWithinRadius() { fallbackCalls++; return legacyHits; } }
+    },
+    document: { getElementById: id => elements[id] },
+    console: { warn() {} },
+    map: { removeLayer() {} }, todMarkers: null, _rawLayerData: {},
+    siteLatLng: { lat: 39.74, lon: -104.99 },
+    LAYER_CONFIG: { transitStops: { src: layerSrcForTest() } },
+    _siteCountyFips: () => '08031', isRuralCountyFips: () => false,
+    QAP_TOD: { adoptedPoints: codeAdopted, draftPoints: codeDraft, ruralSection: codeRural },
+    QAP_TOD_POINTS_LABEL: 'QAP',
+  };
+  vm.createContext(ctx);
+  const haversineFn = (maSrc.match(/function haversine\([\s\S]*?\n  \}/) || [])[0];
+  assert.ok(haversineFn, 'real distance calculation was not found');
+  const requestStart = maSrc.indexOf('var _todStopsRequested =');
+  const requestEnd = maSrc.indexOf('/* ── Buffer selector', requestStart);
+  assert.ok(requestStart >= 0 && requestEnd > requestStart, 'TOD request and rendering functions were not found');
+  vm.runInContext(haversineFn + '\n' + maSrc.slice(requestStart, requestEnd), ctx);
+  const render = () => ctx._highlightTodTransit(39.74, -104.99, 804.67);
+  assert.equal(render(), 0);
+  assert.match(elements.pmaTodContent.innerHTML, /unavailable/i);
+  assert.match(elements.pmaTodContent.innerHTML, /not been checked/i);
+  assert.equal(fallbackCalls, 0);
+  rejectFetch(new Error('fixture network failure'));
+  await new Promise(resolve => setImmediate(resolve));
+  assert.match(elements.pmaTodContent.innerHTML, /could not be loaded/i);
+  assert.match(elements.pmaTodContent.innerHTML, /not been checked/i);
+  assert.equal(requests, 1, 'failed fetch must not trigger a retry loop');
+
+  const stop = properties => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [-104.99, 39.74] }, properties });
+  const privateStop = stop({ name: 'Private pickup', operator: 'private_shuttle', reliability: 'confirmed' });
+  legacyHits = [{ lat: 39.74, lon: -104.99, name: 'Private pickup' }];
+  ctx._rawLayerData.transitStops = { features: [privateStop] };
+  assert.equal(render(), 0, 'private-only site must not qualify through the legacy fallback');
+  assert.equal(fallbackCalls, 0);
+  assert.doesNotMatch(elements.pmaTodContent.innerHTML, /Possible TOD|Likely TOD/);
+  ctx._rawLayerData.transitStops.features.push(stop({ name: 'Mapped public stop', operator: 'public', reliability: 'unconfirmed' }));
+  assert.equal(render(), 1);
+  assert.match(elements.pmaTodContent.innerHTML, /unconfirmed stop only/i);
+  ctx._rawLayerData.transitStops.features.push(stop({ name: 'Agency stop', operator: 'public', reliability: 'confirmed' }));
+  assert.equal(render(), 2);
+  assert.match(elements.pmaTodContent.innerHTML, /Likely TOD/);
+  console.log('TOD panel: unavailable, failed fetch, private-only, OSM-only, and mixed public sources — OK');
+}
+
+function layerSrcForTest() {
+  return (maSrc.match(/transitStops:\s*\{\s*src:\s*'([^']+)'/) || [])[1];
+}
+checkTodPanel().catch(err => { console.error(err); process.exitCode = 1; });

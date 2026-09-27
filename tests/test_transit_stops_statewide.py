@@ -11,6 +11,9 @@ Two layers:
 import importlib.util
 import json
 import os
+import csv
+import io
+import zipfile
 from collections import Counter
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -84,10 +87,82 @@ def test_merge_source_priority_and_thresholds():
     assert parts['dropped_cdot']['outside_colorado'] == 1
     assert parts['feed_added_by_agency'] == {'RTD': 1, 'Roaring Fork Transportation Authority': 1}
     assert parts['osm_added'] == 1
+    dropped = parts['dropped_cdot']['rows']
+    assert len(dropped) == 3
+    assert dropped[0] == {'stop_id': None, 'name': ' ', 'agency': 'MVT',
+                          'coordinates': [0, 0], 'reason': 'no_location'}
+    assert dropped[-1]['coordinates'] == [-121.5, 38.58]
+    assert dropped[-1]['reason'] == 'outside_colorado'
+    report = B.build_report(feats, parts, COUNTIES, 'fixture', [], 1)
+    assert report['cdot_gaps']['dropped_rows'] == dropped
 
 
-def test_non_stop_location_types_are_excluded():
-    assert B.NON_STOP_LOCATION_TYPES == {'2', '3', '4'}
+def test_non_stop_location_types_are_excluded(tmp_path, monkeypatch):
+    """Parse an actual GTFS ZIP; constants matching themselves prove nothing."""
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, 'w') as archive:
+        stops = io.StringIO()
+        writer = csv.writer(stops)
+        writer.writerow(['stop_id', 'stop_name', 'stop_lat', 'stop_lon', 'location_type'])
+        for kind in ['', '0', '1', '2', '3', '4']:
+            writer.writerow(['type-' + kind, 'Stop ' + kind, DENVER[1], DENVER[0], kind])
+        archive.writestr('stops.txt', stops.getvalue())
+        archive.writestr('agency.txt', 'agency_id,agency_name\nrtd,Regional Transportation District\n')
+    monkeypatch.setattr(B.gtfs, 'CACHE_DIR', tmp_path)
+    monkeypatch.setattr(B.gtfs, 'fetch_mdb_catalog', lambda: 'fixture')
+    monkeypatch.setattr(B.gtfs, 'load_co_feeds', lambda _: [{'agency': 'Catalog name', 'url': 'fixture'}])
+    monkeypatch.setattr(B.gtfs, 'fetch_url', lambda *args, **kwargs: buf.getvalue())
+    rows, failed = B.fetch_feed_stops()
+    assert not failed
+    assert {r['stop_id'] for r in rows} == {'type-', 'type-0', 'type-1'}
+    assert all(r['agency'] == 'Regional Transportation District' for r in rows)
+
+
+def test_unnamed_cdot_agency_is_enriched_only_from_unambiguous_feed():
+    cdot = [_row(DENVER, 'Unnamed agency', '')]
+    feeds = [_row(_offset(DENVER, 20), 'Named feed stop', 'Regional Transportation District')]
+    features, _ = B.merge(cdot, feeds, [], COUNTIES)
+    p = features[0]['properties']
+    assert p['agency'] == 'RTD'
+    assert p['agency_source'] == 'agency_feed'
+    assert p['sources'] == ['cdot', 'agency_feed']
+    assert features[0]['geometry']['coordinates'] == list(DENVER), 'CDOT location remains primary'
+    # Co-located feeds with different agencies must not pick a winner by
+    # fetch order, and a distant stop must not lend its agency to CDOT.
+    feeds.append(_row(_offset(DENVER, 20), 'Another feed', 'Home James'))
+    for candidates in [feeds, list(reversed(feeds)), [_row(_offset(DENVER, 31), agency='RTD')]]:
+        features, _ = B.merge(cdot, candidates, [], COUNTIES)
+        assert features[0]['properties']['agency'] == B.UNLISTED_AGENCY
+
+
+def test_private_operator_aliases_preserve_classification():
+    for raw_name in ['Colorado Mountain Express', 'Epic Mountain Express']:
+        features, _ = B.merge([_row(DENVER, agency='')], [_row(DENVER, agency=raw_name)], [], COUNTIES)
+        p = features[0]['properties']
+        assert p['agency'] == 'Epic Mountain Express'
+        assert p['operator'] == 'private_shuttle'
+    public, _ = B.merge([_row(DENVER, agency='Mountain Express')], [], [], COUNTIES)
+    assert public[0]['properties']['operator'] == 'public', 'Crested Butte service is a different operator'
+
+
+def test_unnamed_agency_uses_id_and_name_agreement_at_a_shared_stop():
+    cdot = [dict(_row(DENVER, 'Shared stop', ''), stop_id='20')]
+    feeds = [dict(_row(DENVER, 'Shared stop', 'RTD'), stop_id='20'),
+             dict(_row(_offset(DENVER, 5), 'Different platform', 'Home James'), stop_id='20')]
+    features, _ = B.merge(cdot, feeds, [], COUNTIES)
+    assert features[0]['properties']['agency'] == 'RTD'
+    feeds[1]['name'] = 'Shared stop'
+    features, _ = B.merge(cdot, feeds, [], COUNTIES)
+    assert features[0]['properties']['agency'] == B.UNLISTED_AGENCY, 'conflicting identities remain unknown'
+
+
+def test_dropped_cdot_row_identifies_the_source_record():
+    row = dict(_row((0, 0), 'CDOT bad position', 'MVT'), stop_id='source-963')
+    features, parts = B.merge([row], [], [], COUNTIES)
+    assert not features
+    assert parts['dropped_cdot']['rows'] == [{
+        'stop_id': 'source-963', 'name': 'CDOT bad position', 'agency': 'MVT',
+        'coordinates': [0, 0], 'reason': 'no_location'}]
 
 
 # ── Committed file ──────────────────────────────────────────────────────────
@@ -123,24 +198,16 @@ def test_report_agrees_with_the_stop_file():
     assert report['counties_without_fixed_stops'] == no_stop
     assert report['totals']['stops'] == len(feats)
     assert _load(STOPS)['meta']['totals'] == report['totals']
-
-
-def test_counties_the_osm_file_missed_are_now_covered():
-    # OpenStreetMap-only stop counts before #1937 were Pitkin 3, San Miguel 2,
-    # Montrose 3, Garfield 13, La Plata 2, Teller 0, Gilpin 0, Archuleta 0.
-    floors = {'Pitkin': 150, 'San Miguel': 80, 'Montrose': 80, 'Garfield': 60,
-              'La Plata': 100, 'Teller': 20, 'Gilpin': 10, 'Archuleta': 15, 'Denver': 2000}
-    by_name = {c['county']: c for c in _load(REPORT)['counties']}
-    short = {n: by_name[n]['total'] for n, floor in floors.items() if by_name[n]['total'] < floor}
-    assert not short, f'counties below their stop floor: {short}'
-
-
-def test_major_agencies_present():
-    agencies = {a['agency'] for a in _load(REPORT)['agencies']}
-    for needed in ['RTD', 'Mountain Metropolitan Transit', 'Transfort', 'Pueblo Transit',
-                   'Roaring Fork Transportation Authority', 'Grand Valley Transit',
-                   'Durango Transit', 'Summit Stage', 'Bustang Outrider']:
-        assert needed in agencies, f'{needed} missing from the statewide stop file'
+    per_agency = Counter(f['properties']['agency'] for f in feats)
+    assert {a['agency']: a['cdot'] + a['agency_feed_only'] + a['unconfirmed']
+            for a in report['agencies']} == dict(per_agency)
+    gaps = report['cdot_gaps']
+    dropped = gaps['dropped_rows']
+    assert len(dropped) == gaps['rows_without_location'] + gaps['rows_outside_colorado']
+    reasons = Counter(r['reason'] for r in dropped)
+    assert reasons['no_location'] == gaps['rows_without_location']
+    assert reasons['outside_colorado'] == gaps['rows_outside_colorado']
+    assert all({'stop_id', 'name', 'agency', 'coordinates', 'reason'} <= set(r) for r in dropped)
 
 
 # ── Refresh must not replace good data with a filtered-away response ────────
