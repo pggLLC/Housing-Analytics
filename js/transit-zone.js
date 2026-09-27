@@ -20,8 +20,14 @@
  *     confirmedOnly:        true when the answer does not rest on an
  *                           OpenStreetMap-only stop; null when unavailable,
  *     designation:          'provisional' | 'official_in' | 'official_out',
- *     designationNote:      the sentence every rendered result must carry
+ *     designationNote:      the sentence every rendered result must carry,
+ *     mapPublished:         true once the status file says OEDIT has published
  *   }
+ *
+ * The '2' in 'within_2mi' is the radius in the status file; the name is kept
+ * for its consumers, and test/transit-zone.test.js fails if the two differ.
+ * nearestStop.distanceMiles is rounded to 0.01 mi but never across the
+ * radius, so the figure shown always agrees with the status.
  *
  * Absence is never a "no": missing or stale stop data, or an unreadable
  * point, gives status 'unavailable' with the reason, not 'outside'.
@@ -30,7 +36,11 @@
   'use strict';
 
   var EARTH_RADIUS_MI = 3958.8;
-  var DEFAULT_MAX_AGE_DAYS = 16;   // matches the stop file's freshness SLA
+  // The stop file's freshness SLA. The single definition is the
+  // 'transit-stops-statewide-co' maxAgeDays in js/data-source-inventory.js;
+  // this copy exists because the helper must work on pages that do not load
+  // the inventory, and test/transit-zone.test.js fails if the two differ.
+  var DEFAULT_MAX_AGE_DAYS = 16;
   var CELL_DEG = 0.05;             // grid cell; ~3.5 mi, wider than the radius
 
   function toRad(d) { return d * Math.PI / 180; }
@@ -49,8 +59,8 @@
   function formatDate(iso) {
     var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
     if (!m) return null;
-    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-                  'August', 'September', 'October', 'November', 'December'];
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
+                  'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     return months[Number(m[2]) - 1] + ' ' + Number(m[3]) + ', ' + m[1];
   }
 
@@ -104,24 +114,26 @@
   }
 
   // Colorado's boundary is (almost exactly) a latitude/longitude rectangle —
-  // the same box scripts/market/fetch_gtfs_transit.py CO_BBOX uses.
+  // the same box scripts/market/fetch_gtfs_transit.py CO_BBOX uses, and the
+  // same inclusive test as build_transit_stops_co.py in_colorado_bbox. The box
+  // is already the state's outer extent, so there is no tolerance: a margin
+  // would label a Kansas or Utah point just over the line as Colorado.
   var CO_BBOX = { minLon: -109.0603, minLat: 36.9924, maxLon: -102.0415, maxLat: 41.0034 };
-  var CO_TOLERANCE_DEG = 0.02;
   function inColorado(lat, lon) {
-    return lon >= CO_BBOX.minLon - CO_TOLERANCE_DEG && lon <= CO_BBOX.maxLon + CO_TOLERANCE_DEG &&
-           lat >= CO_BBOX.minLat - CO_TOLERANCE_DEG && lat <= CO_BBOX.maxLat + CO_TOLERANCE_DEG;
+    return lon >= CO_BBOX.minLon && lon <= CO_BBOX.maxLon &&
+           lat >= CO_BBOX.minLat && lat <= CO_BBOX.maxLat;
   }
 
   // ── Designation: what OEDIT's map says, or why we cannot say yet ────────
   function designationFor(lon, lat, mapStatus, zones, now, zoneProblem) {
     if (!mapStatus || !mapStatus.map_due_date) {
       return { designation: 'provisional',
-               note: 'Provisional — the status of OEDIT’s Transit and Housing Investment Zone map could not be read, so this is a screen only.' };
+               note: 'Provisional — reliability questionable. The status of OEDIT’s Transit and Housing Investment Zone map could not be read, so this is a screen only.' };
     }
     var due = formatDate(mapStatus.map_due_date) || mapStatus.map_due_date;
     if (mapStatus.status === 'published' && zones && zoneProblem) {
       return { designation: 'provisional',
-               note: 'Provisional — ' + zoneProblem + ' This is still the stop-based screen.' };
+               note: 'Provisional — reliability questionable. ' + zoneProblem + ' This is still the stop-based screen.' };
     }
     if (mapStatus.status === 'published' && zones && zones.features && zones.features.length) {
       var inside = inZones(lon, lat, zones);
@@ -131,7 +143,7 @@
     }
     if (mapStatus.status === 'published') {
       return { designation: 'provisional',
-               note: 'Provisional — OEDIT has published its zone map, but it has not been loaded here yet, so this is still a screen.' };
+               note: 'Provisional — reliability questionable. OEDIT has published its zone map, but it has not been loaded here yet, so this is still a screen.' };
     }
     var dueTime = Date.parse(mapStatus.map_due_date + 'T23:59:59-06:00');
     if (isNum(dueTime) && now.getTime() > dueTime) {
@@ -144,10 +156,23 @@
                    due + ').' };
   }
 
-  function describe(stop, distanceMiles) {
+  // Distance shown to 0.01 mi, rounded away from the zone boundary when
+  // plain rounding would cross it. The status is decided on the exact
+  // distance; the shown figure must never contradict it. A stop 2.004 mi away
+  // is "outside", so it shows as 2.01 mi, not "2 mi — outside"; a stop inside
+  // never shows a figure beyond the radius.
+  function roundedDistance(d, radius) {
+    var r = Math.round(d * 100) / 100;
+    if (!isNum(radius)) return r;
+    if (d > radius && r <= radius) return (Math.floor(radius * 100 + 1e-9) + 1) / 100;
+    if (d <= radius && r > radius) return Math.floor(radius * 100 + 1e-9) / 100;
+    return r;
+  }
+
+  function describe(stop, distanceMiles, radius) {
     var p = stop.properties || {};
     return { name: p.name || null, agency: p.agency || null, sources: p.sources || [],
-             reliability: p.reliability || null, distanceMiles: Math.round(distanceMiles * 100) / 100 };
+             reliability: p.reliability || null, distanceMiles: roundedDistance(distanceMiles, radius) };
   }
 
   function create(opts) {
@@ -156,6 +181,9 @@
     var mapStatus = opts.mapStatus || null;
     var zones = opts.zones || null;
     var zoneProblem = zones ? zonesProblem(zones) : null;
+    // Once OEDIT publishes, only its map can open a funding path — even when
+    // the map then fails to load here (see fundingPath).
+    var mapPublished = !!(mapStatus && mapStatus.status === 'published');
     var maxAgeDays = isNum(opts.maxAgeDays) ? opts.maxAgeDays : DEFAULT_MAX_AGE_DAYS;
     var radius = mapStatus && isNum(mapStatus.zone_radius_miles) && mapStatus.zone_radius_miles > 0
       ? mapStatus.zone_radius_miles : null;
@@ -231,17 +259,18 @@
                    ? 'The site location is outside Colorado (or its coordinates are missing or swapped), so the Colorado transit screen does not apply.'
                    : 'The site location could not be read.',
                  designation: 'provisional',
-                 designationNote: 'No designation: the site location could not be placed in Colorado.' };
+                 designationNote: 'Designation unavailable (reliability questionable): the site location could not be placed in Colorado.',
+                 mapPublished: mapPublished };
       }
       var des = designationFor(lon, lat, mapStatus, zones, now, zoneProblem);
       var base = { radiusMiles: radius, nearestStop: null, nearestConfirmedStop: null, confirmedOnly: null,
-                   designation: des.designation, designationNote: des.note };
+                   designation: des.designation, designationNote: des.note, mapPublished: mapPublished };
       if (dataProblem) {
         return Object.assign({ status: 'unavailable', unavailableReason: dataProblem }, base);
       }
       var n = nearest(lat, lon);
-      base.nearestStop = n.any ? describe(n.any, n.dAny) : null;
-      base.nearestConfirmedStop = n.conf ? describe(n.conf, n.dConf) : null;
+      base.nearestStop = n.any ? describe(n.any, n.dAny, radius) : null;
+      base.nearestConfirmedStop = n.conf ? describe(n.conf, n.dConf, radius) : null;
       if (n.conf && n.dConf <= radius) {
         base.confirmedOnly = true;
         return Object.assign({ status: 'within_2mi', unavailableReason: null }, base);
@@ -265,7 +294,7 @@
     var d = designationFor(null, null, mapStatus, null, now && typeof now.getTime === 'function' ? now : new Date());
     if (mapStatus && mapStatus.status === 'published') {
       return { designation: 'official_map_available',
-               note: 'OEDIT has published its Transit and Housing Investment Zone map. This share is still the stop-based screen; check a specific site against the official map.' };
+               note: 'OEDIT has published its Transit and Housing Investment Zone map. This share is still the stop-based screen (reliability questionable); check a specific site against the official map.' };
     }
     return { designation: d.designation, note: d.note };
   }
@@ -345,11 +374,15 @@
   // basis. The gate and the deal calculator both ask this, so they cannot
   // disagree. OEDIT's published map outranks the stop screen both ways: a
   // site on it is "official" whatever the stops say, and a site it leaves
-  // out gets no funding path even if a stop is within the radius.
+  // out gets no funding path even if a stop is within the radius. A map that
+  // is published but could not be loaded or read here (mapPublished, with a
+  // provisional designation) also gives no funding path: the act counts only
+  // what OEDIT's map identifies, and the stop screen no longer stands in.
   function fundingPath(result) {
     if (!result) return null;
     if (result.designation === 'official_in') return 'official';
     if (result.designation === 'official_out') return null;
+    if (result.mapPublished === true) return null;
     if (result.status === 'within_2mi' && result.confirmedOnly === true) return 'screen';
     return null;
   }
