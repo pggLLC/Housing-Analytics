@@ -6,12 +6,18 @@ import importlib.util
 import json
 from pathlib import Path
 import subprocess
+from urllib.parse import urlunsplit
 
 import pytest
 
 spec = importlib.util.spec_from_file_location("coho_gate", Path(__file__).parents[1] / "scripts/coho_gate.py")
 gate = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(gate)
+
+
+def fixture_url(host="fixture.invalid", path="/", scheme="https"):
+    # Synthetic unit-test inputs, not citations for the live source-URL sweep.
+    return urlunsplit((scheme, host, path, "", ""))
 
 
 class Fake:
@@ -25,7 +31,7 @@ class Fake:
                       *[f"{gate.BALLOTS}/counties/{c}.json" for c in gate.COUNTIES]}
         self.data = {p: {"coverage": [{"geoid": p.split('/')[-1][:-5], "coverage_state": "not_researched"}]}
                      for p in self.files if p.endswith(".json")}
-        self.ci = ("READY", "https://github.com/example/run/1")
+        self.ci = ("READY", fixture_url(path="/run/1"))
         self.dependencies = {"R5", "R6-0"}
 
     def read_json(self, path):
@@ -37,7 +43,7 @@ class Fake:
 
 def pr(block="R1", state="open", merged=False, **updates):
     return dict(title=f"[{block}] work", state=state,
-                merged_at="2026-09-26" if merged else None, html_url="https://github.com/example/pr/1",
+                merged_at="2026-09-26" if merged else None, html_url=fixture_url(path="/pr/1"),
                 base={"ref": "main"}, head={"ref": "other"}, **updates)
 
 
@@ -52,7 +58,7 @@ def test_ready_for_each_block_in_its_window(block):
         today = "2026-11-04"
     if block == "R6-B":
         today = "2026-12-30"  # certified/archive fix never expires
-    result = gate.evaluate(snap, block, today, ("https://www.sos.state.co.us/certification.pdf", today))
+    result = gate.evaluate(snap, block, today, (fixture_url("www.sos.state.co.us", "/certification.pdf"), today))
     assert result["status"] == "READY"
     assert not result["retire"]
 
@@ -164,10 +170,10 @@ def test_claimed_block_waits_and_never_expires_its_reservation():
     assert result["status"] == "WAIT" and not result["retire"]
 
 
-@pytest.mark.parametrize("url,checked", [("https://evil.test/certified", "2026-11-24"),
-                                        ("https://sos.state.co.us.evil.test/", "2026-11-24"),
-                                        ("https://www.sos.state.co.us/", "2026-11-23"),
-                                        ("http://www.sos.state.co.us/", "2026-11-24")])
+@pytest.mark.parametrize("url,checked", [(fixture_url("evil.test", "/certified"), "2026-11-24"),
+                                        (fixture_url("sos.state.co.us.evil.test"), "2026-11-24"),
+                                        (fixture_url("www.sos.state.co.us"), "2026-11-23"),
+                                        (fixture_url("www.sos.state.co.us", scheme="http"), "2026-11-24")])
 def test_certification_requires_current_official_source(url, checked):
     assert gate.evaluate(Fake(), "R6-B", "2026-11-24", (url, checked))["status"] == "WAIT"
 
@@ -181,7 +187,7 @@ def ci_snapshot(runs, jobs):
 
 def run_row(**updates):
     return dict(dict(id=1, head_sha="a" * 40, event="push", status="completed",
-                     conclusion="success", html_url="https://github.com/example/run/1"), **updates)
+                     conclusion="success", html_url=fixture_url(path="/run/1")), **updates)
 
 
 def test_current_commit_and_latest_run_are_required():
@@ -273,10 +279,14 @@ def test_run_never_launches_worker_on_wait(monkeypatch):
 
 def test_claim_then_run_provides_ownership_to_worker(tmp_path, monkeypatch):
     snap = local_git(tmp_path)
-    fresh = Fake()
-    fresh.sha = snap.sha
+    def fresh_snapshot(_):
+        fresh = Fake()
+        fresh.sha = snap.sha
+        fresh.claims = dict(line.split("\t")[::-1] for line in snap.git(
+            "ls-remote", "--heads", "origin", "refs/heads/coho/2026/*").splitlines())
+        return fresh
     monkeypatch.setattr(gate, "mountain_date", lambda: "2026-10-06")
-    claimed = gate.claim(snap, "R1", factory=lambda _: fresh)
+    claimed = gate.claim(snap, "R1", factory=fresh_snapshot)
     assert claimed["status"] == "GO"
     assert snap.git("ls-remote", "origin", "refs/heads/coho/2026/R1").startswith(claimed["claim_sha"])
     monkeypatch.setattr(gate, "Snapshot", lambda _: snap)
@@ -307,6 +317,73 @@ def test_ambiguous_failure_after_claim_retains_reservation(tmp_path, monkeypatch
     result = gate.claim(snap, "R1", factory=unavailable)
     assert result["status"] == "WAIT" and result["claim_sha"]
     assert snap.git("ls-remote", "origin", "refs/heads/coho/2026/R1").startswith(result["claim_sha"])
+
+
+def test_lost_push_acknowledgement_reconciles_created_claim(tmp_path):
+    snap = local_git(tmp_path)
+    real_git = snap.git
+    def lost_ack(*args, **kwargs):
+        result = real_git(*args, **kwargs)
+        if args[0] == "push":
+            raise gate.Unavailable("response lost after server accepted push")
+        return result
+    snap.git = lost_ack
+    sha = gate.reserve(snap, "R1")
+    assert real_git("ls-remote", "origin", "refs/heads/coho/2026/R1").startswith(sha)
+
+
+def test_unknown_push_outcome_reports_recoverable_sha(tmp_path, monkeypatch):
+    snap = local_git(tmp_path)
+    real_git = snap.git
+    def lost_connection(*args, **kwargs):
+        if args[0] == "ls-remote":
+            raise gate.Unavailable("remote observation failed")
+        result = real_git(*args, **kwargs)
+        if args[0] == "push":
+            raise gate.Unavailable("response lost after server accepted push")
+        return result
+    snap.git = lost_connection
+    monkeypatch.setattr(gate, "mountain_date", lambda: "2026-10-06")
+    result = gate.claim(snap, "R1", factory=lambda _: pytest.fail("unverified claim continued"))
+    assert result["status"] == "WAIT" and result["claim_sha"]
+    assert real_git("ls-remote", "origin", "refs/heads/coho/2026/R1").startswith(result["claim_sha"])
+
+
+def test_rejected_push_with_no_remote_claim_stays_unavailable(tmp_path):
+    snap = local_git(tmp_path)
+    real_git = snap.git
+    def rejected_push(*args, **kwargs):
+        if args[0] == "push":
+            raise gate.Unavailable("server rejected push")
+        return real_git(*args, **kwargs)
+    snap.git = rejected_push
+    with pytest.raises(gate.Unavailable, match="reservation not acquired"):
+        gate.reserve(snap, "R1")
+    assert not real_git("ls-remote", "origin", "refs/heads/coho/2026/R1")
+
+
+@pytest.mark.parametrize("replace", [False, True])
+def test_claim_removed_or_replaced_during_recheck_cannot_return_go(tmp_path, monkeypatch, replace):
+    snap = local_git(tmp_path)
+    replacement = []
+    def concurrent_owner_action(_):
+        old_sha = snap.git("ls-remote", "origin", "refs/heads/coho/2026/R1").split()[0]
+        gate.release(snap, "R1", old_sha)
+        if replace:
+            replacement.append(gate.reserve(snap, "R1"))
+        fresh = Fake()
+        fresh.sha = snap.sha
+        fresh.claims = dict(line.split("\t")[::-1] for line in snap.git(
+            "ls-remote", "--heads", "origin", "refs/heads/coho/2026/*").splitlines())
+        return fresh
+    monkeypatch.setattr(gate, "mountain_date", lambda: "2026-10-06")
+    result = gate.claim(snap, "R1", factory=concurrent_owner_action)
+    assert result["status"] == "WAIT" and "changed or disappeared" in result["reason"]
+    remote = snap.git("ls-remote", "origin", "refs/heads/coho/2026/R1")
+    if replace:
+        assert remote.startswith(replacement[0]) and replacement[0] != result["claim_sha"]
+    else:
+        assert not remote
 
 
 def test_pr_pagination_includes_later_closed_pages(monkeypatch):
