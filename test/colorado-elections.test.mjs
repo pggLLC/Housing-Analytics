@@ -112,7 +112,8 @@ test('live ballot entries are eligible, grouped, and retain their questions, sou
     assert.ok([...card.querySelectorAll('a')].some((a) => a.href === source.url));
   }
   assert.equal(requests.filter((r) => r.includes('/ballot-2026/counties/')).length, GEO.counties.length);
-  assert.ok(requests.every((r) => r.startsWith('https://pggllc.github.io/Housing-Analytics/data/')));
+  assert.ok(requests.every((r) => new URL(r).origin === new URL(doc.URL).origin
+    && new URL(r).pathname.startsWith('/Housing-Analytics/data/')));
 });
 
 test('every non-ballot status is excluded; certified and on_ballot work at every jurisdiction level', async (t) => {
