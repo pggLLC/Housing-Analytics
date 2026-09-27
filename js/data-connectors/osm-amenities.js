@@ -31,10 +31,37 @@
   };
 
   /**
+   * transit_stop records carry transit_stop_basis (scripts/lib/transit_stops.py):
+   * "confirmed" (CDOT or an agency GTFS feed publishes the stop) or
+   * "openstreetmap_unconfirmed" (only OpenStreetMap maps it). A record with no
+   * basis (the builder's seed fallback) is treated as confirmed.
+   */
+  var BASIS_CONFIRMED = 'confirmed';
+  var BASIS_UNCONFIRMED = 'openstreetmap_unconfirmed';
+  var BASIS_NONE = 'none';
+
+  /**
+   * The distance within which a stop earns transit credit: the last band of
+   * distanceToScore() with a score above 0. The OpenStreetMap-only fallback
+   * applies only when no confirmed stop is this close to the analyzed site.
+   * tests/test_transit_stop_selection.py pins the builder's
+   * TRANSIT_FALLBACK_RADIUS_MILES to the same band.
+   * @type {number}
+   */
+  var TRANSIT_SCORING_RADIUS_MILES = 2.0;
+
+  /**
    * Stored amenities array. Each item: { type, name, lat, lon }
    * @type {Array.<{type: string, name: string, lat: number, lon: number}>}
    */
   var amenities = [];
+
+  /**
+   * The transit_stop subset of amenities, kept once at load so the per-site
+   * transit rule does not rescan every record type.
+   * @type {Array.<Object>}
+   */
+  var transitRecords = [];
 
   /**
    * Whether amenity data has been loaded.
@@ -93,15 +120,21 @@
     }
 
     amenities = [];
+    transitRecords = [];
     for (var i = 0; i < data.length; i++) {
       var item = data[i];
       if (!item || !item.type) { continue; }
-      amenities.push({
+      var rec = {
         type: String(item.type),
         name: String(item.name || ''),
         lat:  parseFloat(item.lat) || 0,
         lon:  parseFloat(item.lon) || 0
-      });
+      };
+      if (rec.type === 'transit_stop') {
+        rec.transitStopBasis = item.transit_stop_basis === BASIS_UNCONFIRMED ? BASIS_UNCONFIRMED : BASIS_CONFIRMED;
+      }
+      amenities.push(rec);
+      if (rec.type === 'transit_stop') { transitRecords.push(rec); }
     }
 
     loaded = amenities.length > 0;
@@ -109,8 +142,52 @@
   }
 
   /**
+   * Which transit stops an analyzed site is scored on, decided for THAT site:
+   * the confirmed stops whenever one is within TRANSIT_SCORING_RADIUS_MILES;
+   * otherwise the OpenStreetMap-only stops when one of them is; otherwise the
+   * confirmed stops (none in range, so the site scores as it always did).
+   * Never mixed: a nearer unconfirmed stop never outranks a confirmed one in
+   * range. (Codex on #1991: the fallback used to be chosen around place
+   * centroids by the builder, not per site.)
+   * @param {number} lat
+   * @param {number} lon
+   * @returns {{ basis: string, records: Array.<Object> }}
+   */
+  function transitSelection(lat, lon) {
+    var confirmed = [], unconfirmed = [];
+    var confirmedInRange = false, unconfirmedInRange = false;
+    for (var i = 0; i < transitRecords.length; i++) {
+      var a = transitRecords[i];
+      // Great-circle distance is never less than the latitude difference
+      // alone, so a stop that far north or south cannot be in range.
+      var inRange = EARTH_RADIUS_MI * Math.abs(toRad(a.lat - lat)) <= TRANSIT_SCORING_RADIUS_MILES &&
+                    haversine(lat, lon, a.lat, a.lon) <= TRANSIT_SCORING_RADIUS_MILES;
+      if (a.transitStopBasis === BASIS_UNCONFIRMED) {
+        unconfirmed.push(a);
+        if (inRange) { unconfirmedInRange = true; }
+      } else {
+        confirmed.push(a);
+        if (inRange) { confirmedInRange = true; }
+      }
+    }
+    if (confirmedInRange) { return { basis: BASIS_CONFIRMED, records: confirmed }; }
+    if (unconfirmedInRange) { return { basis: BASIS_UNCONFIRMED, records: unconfirmed }; }
+    return { basis: BASIS_NONE, records: confirmed.length ? confirmed : unconfirmed };
+  }
+
+  var TRANSIT_BASIS_REASON = {
+    openstreetmap_unconfirmed: 'No CDOT- or agency-published stop is within ' + TRANSIT_SCORING_RADIUS_MILES +
+      ' miles of this site, so it is scored on a stop that only OpenStreetMap maps; confirm service with the agency.',
+    none: 'No transit stop is within ' + TRANSIT_SCORING_RADIUS_MILES + ' miles of this site.'
+  };
+
+  /**
    * Returns the nearest amenity of a given type to a coordinate, along with
-   * its distance in miles.
+   * its distance in miles. For transit_stop the per-site confirmed-first rule
+   * (transitSelection) decides which stops are eligible, and the result says
+   * which: transitStopBasis ("confirmed", "openstreetmap_unconfirmed" or
+   * "none"), confirmed (true, false, or null when no stop is in range) and
+   * transitStopBasisReason (null when confirmed).
    * @param {number} lat
    * @param {number} lon
    * @param {string} type  One of the AMENITY_TYPES values.
@@ -124,10 +201,15 @@
 
     var nearest = null;
     var minDist = Infinity;
+    var selection = type === 'transit_stop' ? transitSelection(lat, lon) : null;
+    var pool = selection ? selection.records : amenities;
 
-    for (var i = 0; i < amenities.length; i++) {
-      var a = amenities[i];
+    for (var i = 0; i < pool.length; i++) {
+      var a = pool[i];
       if (a.type !== type) { continue; }
+      // Exact prune: the great-circle distance is at least the latitude
+      // difference, so this record cannot beat the nearest found so far.
+      if (EARTH_RADIUS_MI * Math.abs(toRad(a.lat - lat)) >= minDist) { continue; }
 
       var d = haversine(lat, lon, a.lat, a.lon);
       if (d < minDist) {
@@ -139,11 +221,17 @@
     if (!nearest) { return null; }
 
     var dist = parseFloat(minDist.toFixed(2));
-    return {
+    var out = {
       name:          nearest.name,
       distanceMiles: dist,
       score:         distanceToScore(dist)
     };
+    if (selection) {
+      out.transitStopBasis = selection.basis;
+      out.confirmed = selection.basis === BASIS_NONE ? null : selection.basis === BASIS_CONFIRMED;
+      out.transitStopBasisReason = TRANSIT_BASIS_REASON[selection.basis] || null;
+    }
+    return out;
   }
 
   /**
@@ -154,6 +242,8 @@
    * @param {string} type          One of the AMENITY_TYPES values.
    * @param {number} radiusMiles
    * @returns {Array<{ name: string, lat: number, lon: number, distanceMiles: number }>}
+   *   transit_stop hits also carry transitStopBasis, so a caller can tell an
+   *   OpenStreetMap-only stop from a confirmed one; nothing is filtered here.
    *   Empty when nothing is in range. Null when amenity data is not loaded
    *   or the inputs are invalid, so "no data" is not mistaken for "none nearby".
    */
@@ -169,7 +259,9 @@
       if (a.type !== type) { continue; }
       var d = haversine(lat, lon, a.lat, a.lon);
       if (d <= radiusMiles) {
-        found.push({ name: a.name, lat: a.lat, lon: a.lon, distanceMiles: parseFloat(d.toFixed(2)) });
+        var hit = { name: a.name, lat: a.lat, lon: a.lon, distanceMiles: parseFloat(d.toFixed(2)) };
+        if (a.transitStopBasis) { hit.transitStopBasis = a.transitStopBasis; }
+        found.push(hit);
       }
     }
     found.sort(function (x, y) { return x.distanceMiles - y.distanceMiles; });
@@ -231,11 +323,14 @@
     // transit_bus  = nearest bus stop
     var RAIL_TYPES = { rail_station: true, tram_stop: true, rail_halt: true, transit_station: true };
     var BUS_TYPES  = { bus_stop: true, bus_station: true, platform: true };
+    // Same per-site stop set as the transit score, so a rail/bus distance
+    // never comes from an unconfirmed stop where a confirmed one is in range.
     var nearestRail = null, nearestBus = null;
     var railDist = Infinity, busDist = Infinity;
+    var transitPool = transitSelection(lat, lon).records;
 
-    for (var ti = 0; ti < amenities.length; ti++) {
-      var ta = amenities[ti];
+    for (var ti = 0; ti < transitPool.length; ti++) {
+      var ta = transitPool[ti];
       if (ta.type !== 'transit_stop') continue;
       var td = haversine(lat, lon, ta.lat, ta.lon);
       var tt = ta.transit_type || '';
