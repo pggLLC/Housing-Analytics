@@ -9,7 +9,8 @@ Sources, in priority order
 1. CDOT Statewide Transit Points (ArcGIS feature service). Primary. Every row
    with a real location inside Colorado is kept, whatever CDOT's own type or
    station fields say. Rows at 0,0 or outside Colorado are dropped and listed
-   in the coverage report so they can be sent to CDOT.
+   in the coverage report, each keyed by its CDOT FID (``cdot_fid``, the
+   layer's objectIdField), so they can be sent to CDOT.
 2. Agency GTFS feeds (the same feeds agencies publish to Google Maps), from
    the Mobility Database catalog that scripts/market/fetch_gtfs_transit.py
    already uses. A feed stop is added only when no CDOT stop is within
@@ -229,7 +230,7 @@ def fetch_cdot() -> list[dict]:
     offset = 0
     while True:
         q = urllib.parse.urlencode({
-            "where": "1=1", "outFields": "stop_id,stop_name,location_t,agency_nam",
+            "where": "1=1", "outFields": "FID,stop_id,stop_name,location_t,agency_nam",
             "outSR": 4326, "f": "json", "orderByFields": "FID",
             "resultOffset": offset, "resultRecordCount": CDOT_PAGE,
         })
@@ -249,6 +250,9 @@ def fetch_cdot() -> list[dict]:
                 "name": (a.get("stop_name") or "").strip(),
                 "agency": a.get("agency_nam"),
                 "stop_id": a.get("stop_id"),
+                # FID is the layer's objectIdField and its only unique key:
+                # stop_id is null on every no-location MVT row (#1969).
+                "cdot_fid": a.get("FID"),
             })
         offset += len(feats)
         if len(feats) < CDOT_PAGE and not payload.get("exceededTransferLimit"):
@@ -326,7 +330,7 @@ def merge(cdot_rows, feed_rows, osm_rows, counties):
         if reason == "no_location":
             dropped_cdot["by_agency"][agency] = dropped_cdot["by_agency"].get(agency, 0) + 1
         dropped_cdot["rows"].append({
-            "stop_id": r.get("stop_id"), "name": r.get("name"),
+            "cdot_fid": r.get("cdot_fid"), "stop_id": r.get("stop_id"), "name": r.get("name"),
             "agency": r.get("agency"), "coordinates": [r.get("lon"), r.get("lat")],
             "reason": reason,
         })
