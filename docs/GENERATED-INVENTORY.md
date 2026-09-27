@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T11:44:58.559Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T12:11:14.644Z. Do not edit by hand.
 
 ---
 
@@ -120,7 +120,7 @@
 | `data/chfa-lihtc.json` | 817.4 KB | ✅ | 926 features |
 | `data/chfa-qap-calendar.json` | 18.2 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 40.7 KB | ✅ | — |
+| `data/co-county-demographics.json` | 39.2 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 13.9 KB | ✅ | — |
@@ -2123,9 +2123,9 @@
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.3 KB |
 | `test/transit-stops-consumers.test.js` | 6.2 KB |
-| `test/transit-zone-absence.test.mjs` | 21.7 KB |
+| `test/transit-zone-absence.test.mjs` | 30.8 KB |
 | `test/transit-zone-funding-line.test.js` | 23.7 KB |
-| `test/transit-zone.test.js` | 14.0 KB |
+| `test/transit-zone.test.js` | 27.2 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/unit-mix-validation.test.js` | 4.7 KB |
 | `test/unit-suffix-convention.test.js` | 6.6 KB |
