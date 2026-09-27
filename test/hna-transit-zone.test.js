@@ -406,6 +406,19 @@ u = [[[0, 0], [3, 0], [3, 3], [2, 3], [2, 1], [1, 1], [1, 3], [0, 3], [0, 0]]]  
 p = b.point_inside([u])
 out["u_inside"] = b.contains([u], *p)
 out["u_mean_inside"] = b.contains([u], sum(v[0] for v in u[0][:-1]) / 8, sum(v[1] for v in u[0][:-1]) / 8)
+# A 100 x 0.001 mile sliver (one fallback sample point) straddling a row of
+# fine-grid cell centres, with a stop 0.3 mi past its west end.
+fs = (0.5 / 25) / 69.0
+sl_lat = (round(39.0 / fs) + 0.5) * fs - 0.0005 / 69.0
+sl_l, sl_w = 100 / (69.172 * 0.7771), 0.001 / 69.0
+sl = [[[-105, sl_lat], [-105 + sl_l, sl_lat], [-105 + sl_l, sl_lat + sl_w], [-105, sl_lat + sl_w], [-105, sl_lat]]]
+sl_pts, sl_step = b.sample_points([sl])
+out["sliver_n"] = len(sl_pts)
+sl_end = b.StopIndex([stop(-105 - 0.3 / (69.172 * 0.7771), sl_lat)])
+out["sliver_zero"] = b.settle_zero([sl], sl_pts, sl_step, sl_end, 0.5, b.min_distance_to_polygon_mi([sl], sl_end))
+# settle_full's raw ratio can go negative the same way (-1209 on a 10-mile
+# sliver); that fixture takes minutes, so check the clamp both paths share.
+out["clamp"] = [b.clamp_estimate(v) for v in (-1209.4282, 81.0199, 0.5)]
 print(json.dumps(out))`;
   const r = JSON.parse(execFileSync('python3', ['-c', py], { cwd: root, encoding: 'utf8', env: Object.assign({}, process.env, { PYTHONDONTWRITEBYTECODE: '1' }) }));
   assert.deepEqual(r.full_0_8, [1, true], 'a square wholly within reach was not proven full');
@@ -417,6 +430,12 @@ print(json.dumps(out))`;
   assert.ok(r.summ_half > 0.5, `½-mile share of a square with a stop at its centre: ${r.summ_half}`);
   assert.equal(r.u_mean_inside, false, 'the U fixture no longer exercises the sliver fallback');
   assert.equal(r.u_inside, true, 'the sliver fallback point is outside the polygon');
+  // An unproven estimate stays a fraction strictly inside (0, 1), even when a
+  // sliver's single fallback point makes the area ratio meaningless.
+  assert.equal(r.sliver_n, 1, 'the sliver fixture no longer falls back to one point');
+  assert.equal(r.sliver_zero[1], false, 'sliver: a reachable zero was marked proven');
+  assert.ok(r.sliver_zero[0] > 0 && r.sliver_zero[0] < 1, `sliver: unproven ½-mile share published as ${r.sliver_zero[0]}`);
+  assert.deepEqual(r.clamp, [0.0001, 0.9999, 0.5], 'an unproven estimate left (0, 1), or a normal one was moved');
 });
 
 // ── #1971 item 3: one staleness limit, the source inventory's ──────────────
