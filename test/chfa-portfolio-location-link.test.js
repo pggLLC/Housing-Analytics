@@ -91,8 +91,16 @@ withFn('absent location is a dash, never a link to 0,0', () => {
 });
 
 withFn('a property name cannot break out of the link attribute', () => {
-  const out = mapLinkFor({ PROJECT: '"><script>x</script>', _lat: 39.7, _lng: -105 });
-  assert.doesNotMatch(out, /<script>/);
+  const out = mapLinkFor({ PROJECT: '"><SCRIPT>x</SCRIPT><img src=x>', _lat: 39.7, _lng: -105 });
+  // The only markup allowed is the link itself: one opening <a ...> and one
+  // </a>. Any other '<' or unescaped quote means the name escaped its attribute.
+  const opening = /^<a [^<>]*>/.exec(out);
+  assert.ok(opening, 'output does not start with a single <a> tag: ' + out);
+  const rest = out.slice(opening[0].length);
+  assert.equal(rest, 'Map ↗</a>', 'markup leaked outside the link: ' + out);
+  const attrs = opening[0].slice(3, -1).replace(/[a-z-]+="[^"]*"/g, '').trim();
+  assert.equal(attrs, '', 'an attribute was broken by the name: ' + opening[0]);
+  assert.ok(opening[0].includes('&quot;&gt;&lt;SCRIPT&gt;'), 'the name must appear in escaped form');
 });
 
 run('header and row column counts agree', () => {
