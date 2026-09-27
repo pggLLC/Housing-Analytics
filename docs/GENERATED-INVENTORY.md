@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T14:50:19.235Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T17:31:50.853Z. Do not edit by hand.
 
 ---
 
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-461 test files found.
+462 test files found.
 
 | File | Size |
 |------|------|
@@ -2127,6 +2127,7 @@
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.3 KB |
+| `test/tract-geometry-integrity.test.js` | 17.2 KB |
 | `test/transit-stops-consumers.test.js` | 6.2 KB |
 | `test/transit-zone-absence.test.mjs` | 37.0 KB |
 | `test/transit-zone-funding-line.test.js` | 25.3 KB |
@@ -2265,7 +2266,7 @@
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 18.7 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 8.1 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.9 KB |
-| `.github/workflows/market_data_build.yml` | 17.4 KB |
+| `.github/workflows/market_data_build.yml` | 19.7 KB |
 | `.github/workflows/merge-ref-gate.yml` | 3.6 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 4.0 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |

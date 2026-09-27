@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T14:50:46.229Z",
+    "generated_at": "2026-09-27T17:32:16.670Z",
     "root": "data/",
     "file_count": 1691,
-    "total_size_bytes": 168068766,
+    "total_size_bytes": 171743990,
     "kinds": {
       "json": 1655,
       "geojson": 32,
@@ -478,7 +478,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-27T14:50:42.171Z",
+      "mtime": "2026-09-27T17:32:13.085Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -31405,8 +31405,8 @@
     {
       "path": "market/pma_tract_display_geometry.geojson",
       "kind": "geojson",
-      "size_bytes": 486690,
-      "mtime": "2026-09-25T12:55:18.977Z",
+      "size_bytes": 1054446,
+      "mtime": "2026-09-27T17:31:30.754Z",
       "shape": "geojson",
       "feature_count": 1447,
       "property_keys": [
@@ -31562,8 +31562,8 @@
     {
       "path": "market/tract_boundaries_co.geojson",
       "kind": "geojson",
-      "size_bytes": 398059,
-      "mtime": "2026-09-25T12:55:18.993Z",
+      "size_bytes": 3505527,
+      "mtime": "2026-09-27T17:31:30.767Z",
       "shape": "geojson",
       "feature_count": 1447,
       "property_keys": [
@@ -31875,7 +31875,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14707,
-      "mtime": "2026-09-27T14:50:43.930Z",
+      "mtime": "2026-09-27T17:32:14.852Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31898,7 +31898,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-27T14:50:43.557Z",
+      "mtime": "2026-09-27T17:32:14.450Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
