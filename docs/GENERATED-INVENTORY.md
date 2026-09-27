@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T13:30:50.943Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T13:39:18.054Z. Do not edit by hand.
 
 ---
 
@@ -38,7 +38,7 @@
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.9 KB |
-| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 16.9 KB |
+| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 17.6 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 15.9 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.7 KB |
@@ -2125,7 +2125,7 @@
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.3 KB |
 | `test/transit-stops-consumers.test.js` | 6.2 KB |
-| `test/transit-zone-absence.test.mjs` | 34.6 KB |
+| `test/transit-zone-absence.test.mjs` | 37.0 KB |
 | `test/transit-zone-funding-line.test.js` | 25.3 KB |
 | `test/transit-zone.test.js` | 39.3 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
