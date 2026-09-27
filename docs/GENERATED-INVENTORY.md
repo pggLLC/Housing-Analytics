@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T13:16:15.775Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T13:30:50.943Z. Do not edit by hand.
 
 ---
 
@@ -85,7 +85,7 @@
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
 | `data/_manifest.json` | 807.5 KB | ✅ | — |
-| `data/_qa-status.json` | 6.1 KB | ✅ | — |
+| `data/_qa-status.json` | 6.9 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/local-pha-roster/denver-housing-authority.json` | 919 B | ✅ | — |
@@ -2094,7 +2094,7 @@
 | `test/site-review-build-pause-regressions.test.js` | 11.0 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
-| `test/smoke-market-analysis.test.js` | 39.0 KB |
+| `test/smoke-market-analysis.test.js` | 39.9 KB |
 | `test/smoke.test.js` | 10.1 KB |
 | `test/soft-funding-tracker.test.js` | 16.5 KB |
 | `test/source-liveness-local-path.test.py` | 1.5 KB |
@@ -2126,7 +2126,7 @@
 | `test/tool-watch.test.js` | 4.3 KB |
 | `test/transit-stops-consumers.test.js` | 6.2 KB |
 | `test/transit-zone-absence.test.mjs` | 34.6 KB |
-| `test/transit-zone-funding-line.test.js` | 24.7 KB |
+| `test/transit-zone-funding-line.test.js` | 25.3 KB |
 | `test/transit-zone.test.js` | 39.3 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/unit-mix-validation.test.js` | 4.7 KB |
