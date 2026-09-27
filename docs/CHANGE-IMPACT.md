@@ -149,8 +149,6 @@ They reach `.git/refs` too, where they break plain git commands mid-operation.
 | `data/market/transit_routes_co.geojson` | nothing; the fetcher drops routes with no vertex in Colorado | `pytest tests/test_data_plausibility.py -k touch_colorado` |
 | CDOT or agency-feed failures | nothing: a failed CDOT request exits non-zero and leaves the file untouched | `npm run test:required-fetch-preserves-data` |
 
-`npm run finish-line` item **T1** reads both transit files and reopens if CDOT drops out, a stop loses its source or county, the report loses a county, or the file passes its 16-day SLA.
-
 ---
 
 ## 5. Adding or removing a file
