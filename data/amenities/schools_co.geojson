@@ -16897,25 +16897,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -102.7829101,
-          38.4837392
-        ]
-      },
-      "properties": {
-        "osm_id": 12807878874,
-        "osm_type": "node",
-        "name": "Eads School Bus Garage",
-        "amenity": "school",
-        "shop": "",
-        "leisure": "",
-        "healthcare": ""
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -102.7836134,
           38.4833207
         ]
@@ -55944,6 +55925,19 @@
     "state": "Colorado",
     "bbox": "36.9,-109.1,41.1,-102.0",
     "generated": "2026-04-07T08:10:24Z",
-    "count": 2944
+    "count": 2943,
+    "dropped": {
+      "count": 1,
+      "by_reason": {
+        "bus_garage_depot_name": 1
+      },
+      "rows": [
+        {
+          "osm_id": 12807878874,
+          "name": "Eads School Bus Garage",
+          "reason": "bus_garage_depot_name"
+        }
+      ]
+    }
   }
 }

@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-27T17:57:13.034666Z",
+  "generated": "2026-09-27T22:18:45.760969Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 826823
+      "bytes": 826822
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -102,19 +102,19 @@
       "bytes": 3939265
     },
     "data/amenities/schools_co.geojson": {
-      "featureCount": 2944,
+      "featureCount": 2943,
       "placeholder": false,
-      "bytes": 1169532
+      "bytes": 1169404
     },
     "data/amenities/transit_stops_co.geojson": {
-      "featureCount": 7888,
+      "featureCount": 7886,
       "placeholder": false,
-      "bytes": 2398871
+      "bytes": 2398663
     },
     "data/amenities/transit_stops_statewide_co.geojson": {
-      "featureCount": 14247,
+      "featureCount": 14245,
       "placeholder": false,
-      "bytes": 3962173
+      "bytes": 3961870
     },
     "data/audit/chfa-qap-watch.json": {
       "featureCount": 0,
@@ -294,7 +294,7 @@
     "data/derived/market-analysis/neighborhood_access.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4216284
+      "bytes": 4215772
     },
     "data/derived/market-analysis/site_opportunities.json": {
       "featureCount": 0,
@@ -829,7 +829,7 @@
     "data/hna/jurisdiction-metrics-digest/0801530.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41506
+      "bytes": 41508
     },
     "data/hna/jurisdiction-metrics-digest/0801640.json": {
       "featureCount": 0,
@@ -1359,7 +1359,7 @@
     "data/hna/jurisdiction-metrics-digest/08119.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40057
+      "bytes": 40053
     },
     "data/hna/jurisdiction-metrics-digest/0811975.json": {
       "featureCount": 0,
@@ -1384,7 +1384,7 @@
     "data/hna/jurisdiction-metrics-digest/08123.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40109
+      "bytes": 40107
     },
     "data/hna/jurisdiction-metrics-digest/0812325.json": {
       "featureCount": 0,
@@ -1864,7 +1864,7 @@
     "data/hna/jurisdiction-metrics-digest/0827700.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41650
+      "bytes": 41648
     },
     "data/hna/jurisdiction-metrics-digest/0827810.json": {
       "featureCount": 0,
@@ -2009,7 +2009,7 @@
     "data/hna/jurisdiction-metrics-digest/0831605.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41794
+      "bytes": 41792
     },
     "data/hna/jurisdiction-metrics-digest/0831660.json": {
       "featureCount": 0,
@@ -2064,7 +2064,7 @@
     "data/hna/jurisdiction-metrics-digest/0833695.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41846
+      "bytes": 41850
     },
     "data/hna/jurisdiction-metrics-digest/0834520.json": {
       "featureCount": 0,
@@ -2229,7 +2229,7 @@
     "data/hna/jurisdiction-metrics-digest/0839855.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41678
+      "bytes": 41676
     },
     "data/hna/jurisdiction-metrics-digest/0839965.json": {
       "featureCount": 0,
@@ -2414,7 +2414,7 @@
     "data/hna/jurisdiction-metrics-digest/0845695.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41848
+      "bytes": 41844
     },
     "data/hna/jurisdiction-metrics-digest/0845750.json": {
       "featureCount": 0,
@@ -2544,7 +2544,7 @@
     "data/hna/jurisdiction-metrics-digest/0850480.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41886
+      "bytes": 41884
     },
     "data/hna/jurisdiction-metrics-digest/0850920.json": {
       "featureCount": 0,
@@ -2664,7 +2664,7 @@
     "data/hna/jurisdiction-metrics-digest/0854880.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41550
+      "bytes": 41552
     },
     "data/hna/jurisdiction-metrics-digest/0854935.json": {
       "featureCount": 0,
@@ -2749,7 +2749,7 @@
     "data/hna/jurisdiction-metrics-digest/0857025.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41592
+      "bytes": 41590
     },
     "data/hna/jurisdiction-metrics-digest/0857245.json": {
       "featureCount": 0,
@@ -2854,7 +2854,7 @@
     "data/hna/jurisdiction-metrics-digest/0860600.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41770
+      "bytes": 41774
     },
     "data/hna/jurisdiction-metrics-digest/0860655.json": {
       "featureCount": 0,
@@ -3434,7 +3434,7 @@
     "data/hna/jurisdiction-metrics-digest/0885705.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41527
+      "bytes": 41529
     },
     "data/hna/jurisdiction-metrics-digest/0885760.json": {
       "featureCount": 0,
@@ -4509,7 +4509,7 @@
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3285795
+      "bytes": 3285871
     },
     "data/hna/ranking-scenarios/balanced.json": {
       "featureCount": 0,
@@ -7289,7 +7289,7 @@
     "data/hna/transit-zone-by-geography.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 399316
+      "bytes": 399317
     },
     "data/hna/vacancy-status.json": {
       "featureCount": 0,
@@ -7414,7 +7414,7 @@
     "data/jurisdiction-briefs/_liveness.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 279205
+      "bytes": 279251
     },
     "data/jurisdiction-briefs/_schema.json": {
       "featureCount": 0,
@@ -7674,7 +7674,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 1529920
+      "bytes": 996787
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
@@ -7799,7 +7799,7 @@
     "data/market/transit_stops_coverage_co.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 236246
+      "bytes": 236639
     },
     "data/market/travel_time_matrix_co.json": {
       "featureCount": 0,
@@ -8389,7 +8389,7 @@
     "data/reports/data-source-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7820
+      "bytes": 7833
     },
     "data/reports/developer-url-health.json": {
       "featureCount": 0,

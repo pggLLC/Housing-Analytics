@@ -354,17 +354,7 @@ jobs:
             git rebase --autostash origin/main
           fi
           git push --force --set-upstream origin "$BRANCH"
-
-          # Run ci-checks on the pushed head so the PR carries a real result.
-          # A push or PR made with GITHUB_TOKEN starts no push/pull_request
-          # workflow, and the workflow_run trigger in ci-checks.yml runs on the
-          # default branch (it verifies main, not this head). workflow_dispatch
-          # is the exception GitHub makes for GITHUB_TOKEN -- the same one
-          # .github/actions/dispatch-pages-deploy relies on for deploy.yml --
-          # and a dispatched run on this ref reports its check on the head
-          # commit, which is the PR's head. Needs `actions: write` (above).
-          gh workflow run ci-checks.yml --ref "$BRANCH"
-          echo "::notice::Dispatched ci-checks.yml on $BRANCH ($(git rev-parse --short HEAD))."
+          PUSHED_SHA=$(git rev-parse HEAD)
 
           # Only create a PR when one isn't already open for this branch.
           # NOTE: don't blanket-`|| echo` the create — that swallowed a real
@@ -384,6 +374,22 @@ jobs:
               --base main \
               --head "$BRANCH"
           fi
+
+          # Run ci-checks on the pushed head so the PR carries a real result.
+          # A push or PR made with GITHUB_TOKEN starts no push/pull_request
+          # workflow, and the workflow_run trigger in ci-checks.yml runs on the
+          # default branch (it verifies main, not this head). workflow_dispatch
+          # is the exception GitHub makes for GITHUB_TOKEN -- the same one
+          # .github/actions/dispatch-pages-deploy relies on for deploy.yml --
+          # and a dispatched run on this ref reports its check on the head
+          # commit, which is the PR's head. Needs `actions: write` (above).
+          # dispatch.sh first waits until the branch reports the SHA just
+          # pushed: dispatching the moment `git push` returns can resolve the
+          # ref to the previous tip, and verify a commit nobody changed. It
+          # fails this step if the API never catches up.
+          # It runs after the PR step so a slow API cannot stop the PR from
+          # opening or updating; the step still fails if the wait times out.
+          bash .github/actions/dispatch-ci-checks/dispatch.sh "$BRANCH" "$PUSHED_SHA"
 
   # ── Failure notification ────────────────────────────────────────────────────
   notify-failure:

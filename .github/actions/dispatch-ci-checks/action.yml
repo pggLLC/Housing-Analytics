@@ -1,0 +1,37 @@
+name: 'Dispatch ci-checks on a pushed PR branch'
+description: >
+  Run ci-checks.yml on a PR branch this job pushed with the workflow token.
+  A GITHUB_TOKEN push starts no push workflow, and the pull_request run GitHub
+  creates for a bot's PR waits at action_required for a person's approval, so
+  without this the PR shows no ci-checks at all (#1995). workflow_dispatch is
+  exempt from both.
+
+  It first waits until GitHub's API reports `sha` as the branch tip, then
+  dispatches; if the tip never catches up it FAILS the step rather than
+  dispatch on the previous commit. A job that pushes inside a run script can
+  call dispatch.sh directly (bash .github/actions/dispatch-ci-checks/dispatch.sh
+  "$BRANCH" "$(git rev-parse HEAD)"). The calling workflow needs
+  `actions: write`.
+
+inputs:
+  ref:
+    description: The PR branch that was pushed.
+    required: true
+  sha:
+    description: The commit SHA that was pushed to it.
+    required: true
+  github-token:
+    description: Token used for the branch lookup and the dispatch.
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: composite
+  steps:
+    - name: Dispatch ci-checks.yml once the branch reports the pushed SHA
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        CI_REF: ${{ inputs.ref }}
+        CI_SHA: ${{ inputs.sha }}
+      run: bash "$GITHUB_ACTION_PATH/dispatch.sh" "$CI_REF" "$CI_SHA"

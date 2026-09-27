@@ -13,6 +13,9 @@ through this module:
 
 The rule (owner decisions, 2026-09-27):
 
+  * School-only transport never counts. The OSM and statewide source
+    builders use the same exclusion below before publishing stops; selection
+    also rejects it if an older or unfiltered stop file is supplied.
   * A stop counts when the file's own fields say it is a confirmed, public,
     scheduled stop: ``reliability == "confirmed"`` (published by CDOT, an
     agency GTFS feed, or both — CDOT-only stops are mostly fixed-route), not
@@ -41,6 +44,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import re
 from pathlib import Path
 from typing import Callable, Iterable, Sequence
 
@@ -51,9 +55,59 @@ BASIS_OSM_FALLBACK = "openstreetmap_unconfirmed"
 BASIS_NONE = "none"
 BASES = (BASIS_CONFIRMED, BASIS_OSM_FALLBACK, BASIS_NONE)
 
+# School-only transport is not public transit, even as an OSM fallback.
+SCHOOL_BUS_NAME = re.compile(r"\bschool[\s_-]+bus\b", re.IGNORECASE)
+SCHOOL_SERVICE_TAGS = ("bus", "route", "network", "service")
+SCHOOL_SERVICE = re.compile(r"\bschool[\s_-]+(?:bus|transport|service)\b", re.IGNORECASE)
+SCHOOL_TRANSPORT_TAGS = (*SCHOOL_SERVICE_TAGS, "school_bus", "bus:school")
+
+
+def school_transport_reason(props: dict) -> str | None:
+    """Classify explicit school-service tags first, then the school-bus name.
+
+    Accept raw OSM tags, flattened properties, or nested ``tags``. A public
+    stop at a school (e.g. "High School & Main") is still public transit.
+    """
+    tags = dict(props)
+    tags.update(props.get("tags") or {})
+    for key in ("school_bus", "bus:school"):
+        if str(tags.get(key, "")).strip().casefold() in {"yes", "true", "1", "designated", "only"}:
+            return f"tag:{key}"
+    for key in SCHOOL_SERVICE_TAGS:
+        if any(value.strip().casefold() == "school" or SCHOOL_SERVICE.search(value)
+               for value in str(tags.get(key, "")).split(";")):
+            return f"tag:{key}"
+    if SCHOOL_BUS_NAME.search(str(props.get("name") or tags.get("name") or "")):
+        return "school_bus_name"
+    return None
+
+
+def exclude_school_transport(records):
+    """Filter OSM rows/features and return an auditable, reason-counted drop list."""
+    kept, dropped = [], []
+    for record in records:
+        props = record.get("properties", record)
+        reason = school_transport_reason(props)
+        if reason:
+            dropped.append({"osm_id": props.get("osm_id"), "name": props.get("name"), "reason": reason})
+        else:
+            kept.append(record)
+    return kept, exclusion_summary(dropped)
+
+
+def exclusion_summary(rows):
+    """Count each excluded record once, with its classification reason."""
+    by_reason = {}
+    for row in rows:
+        reason = row["reason"]
+        by_reason[reason] = by_reason.get(reason, 0) + 1
+    return {"count": len(rows), "by_reason": by_reason, "rows": rows}
+
 
 def _public_scheduled(props: dict) -> bool:
-    return props.get("operator") != "private_shuttle" and props.get("service") != "demand_response"
+    return (props.get("operator") != "private_shuttle"
+            and props.get("service") != "demand_response"
+            and school_transport_reason(props) is None)
 
 
 def counts_as_confirmed(props: dict) -> bool:
