@@ -1431,7 +1431,7 @@
       provider: 'CDOT Statewide Transit Points; transit agency GTFS feeds; OpenStreetMap (unconfirmed)',
       url: 'https://data-cdot.opendata.arcgis.com/',
       localFile: 'data/amenities/transit_stops_statewide_co.geojson',
-      lastUpdated: '2026-09-26',
+      lastUpdated: '2026-09-27',
       updateFrequency: 'Weekly',
       maxAgeDays: 16,
       geoUnit: 'Stop',
