@@ -20,6 +20,7 @@
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/workflow-progress.js"></script>
   <script defer src="js/components/jurisdiction-url-context.js"></script>
+  <script defer src="js/transit-zone.js"></script>
   <script defer src="js/workflow/recommendation-contract.js"></script>
   <script defer src="js/workflow/recommendation-page.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
@@ -188,14 +189,26 @@
               generatedAt: new Date().toISOString() }));
             return;
           }
-          return fetch('data/hna/jurisdiction-metrics-digest/' + geoid + '.json')
+          // The transit-zone conclusion reads the same summary the needs
+          // assessment's "Potential location" panel shows. Its files failing
+          // makes that one conclusion insufficient, never the whole page.
+          var json = function (url) {
+            return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+          };
+          var transit = Promise.all([json('data/hna/transit-zone-by-geography.json'), json('data/policy/thiz-map-status.json')])
+            .then(function (parts) {
+              var tz = window.TransitZone;
+              if (!tz || typeof tz.areaSummary !== 'function') return null;
+              return tz.areaSummary(parts[0], geoid, parts[1], new Date());
+            });
+          return Promise.all([fetch('data/hna/jurisdiction-metrics-digest/' + geoid + '.json')
             .then(function (response) {
               if (!response.ok) throw new Error('HTTP ' + response.status);
               return response.json();
-            })
-            .then(function (digest) {
-              paint(window.RecommendationContract.build({ digest: digest, project: project,
-                generatedAt: new Date().toISOString() }));
+            }), transit])
+            .then(function (parts) {
+              paint(window.RecommendationContract.build({ digest: parts[0], project: project,
+                transitZone: parts[1], generatedAt: new Date().toISOString() }));
             })
             .catch(function () {
               // A geoid with no digest is a real state — not every well-formed

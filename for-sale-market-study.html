@@ -175,9 +175,31 @@
       var jurisdictionReady = (window.JurisdictionUrlContext && window.JurisdictionUrlContext.resolve)
         ? window.JurisdictionUrlContext.resolve().catch(function () { return null; })
         : Promise.resolve(null);
-      jurisdictionReady.then(function () {
+      // #1973: the transit section must never stay on "Checking…". If
+      // study-transit-zone.js did not load, or the screen throws, it says so.
+      // (A missing js/transit-zone.js is handled inside render().)
+      var tzMount = document.getElementById('msTransitZoneContent');
+      function tzUnavailable(reason) {
+        if (!tzMount) return;
+        tzMount.innerHTML = '<p class="ms-unavailable">Unavailable. ' + reason + '</p>';
+        tzMount.setAttribute('data-tz-state', 'unavailable');
+      }
+      // Nor may a jurisdiction lookup that never answers hold it there: after
+      // the screen's own time limit it goes ahead with what the URL names.
+      // The data fetches start now, beside the lookup, so both waits share
+      // one time limit rather than running one after the other.
+      var tzWaitMs = (window.StudyTransitZone && window.StudyTransitZone.timeoutMs) || 20000;
+      var tzLoaded = (window.StudyTransitZone && typeof window.StudyTransitZone.load === 'function')
+        ? window.StudyTransitZone.load() : null;
+      Promise.race([jurisdictionReady, new Promise(function (resolve) { setTimeout(resolve, tzWaitMs); })]).then(function () {
+        if (!window.StudyTransitZone || typeof window.StudyTransitZone.render !== 'function') {
+          tzUnavailable('The transit zone screen script did not load, so this jurisdiction was not screened.');
+          return null;
+        }
         var ctx = window.StudyGeography && window.StudyGeography.resolve ? window.StudyGeography.resolve(window) : null;
-        if (window.StudyTransitZone) window.StudyTransitZone.render(document.getElementById('msTransitZoneContent'), ctx && ctx.geoid);
+        return window.StudyTransitZone.render(tzMount, ctx && ctx.geoid, undefined, tzLoaded);
+      }).catch(function () {
+        tzUnavailable('The transit zone screen failed while loading, so this jurisdiction was not screened.');
       });
       Promise.all([window.marketStudyLandModelsReady, jurisdictionReady]).then(function () {
         var landScript = document.createElement('script');

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-27T10:14:21.543Z",
+  "generated": "2026-09-27T10:49:11.324Z",
   "values": {
     "renter_cost_burden_pct": 49.9,
     "lihtc_property_count": 926,
@@ -43,7 +43,7 @@
       "source": "meta.generated"
     },
     "data/chfa-lihtc.json": {
-      "updated": "2026-09-27T06:22:27.496Z",
+      "updated": "2026-09-27T10:49:10.766Z",
       "source": "fetchedAt"
     },
     "data/hna/projections/08.json": {

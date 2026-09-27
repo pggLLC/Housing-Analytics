@@ -1,15 +1,15 @@
 {
-  "generated": "2026-09-27T10:46:18.264049Z",
+  "generated": "2026-09-27T13:39:38.061541Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 826810
+      "bytes": 826838
     },
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 6258
+      "bytes": 7070
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -224,7 +224,7 @@
     "data/co-county-demographics.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 41678
+      "bytes": 40183
     },
     "data/co-county-economic-indicators.json": {
       "featureCount": 64,
@@ -7289,7 +7289,7 @@
     "data/hna/transit-zone-by-geography.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 293409
+      "bytes": 399266
     },
     "data/hna/vacancy-status.json": {
       "featureCount": 0,
@@ -7799,7 +7799,7 @@
     "data/market/transit_stops_coverage_co.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 201713
+      "bytes": 227714
     },
     "data/market/travel_time_matrix_co.json": {
       "featureCount": 0,
@@ -8314,12 +8314,12 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14316
+      "bytes": 15404
     },
     "data/policy/thiz-map-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1036
+      "bytes": 2165
     },
     "data/policy/tool-watch.json": {
       "featureCount": 0,

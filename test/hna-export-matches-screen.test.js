@@ -65,8 +65,14 @@ window.HTMLCanvasElement.prototype.getContext = function () { return { canvas: t
 window.HTMLCanvasElement.prototype.toDataURL = function () { return 'data:image/png;base64,'; };
 window.HTMLAnchorElement.prototype.click = function () {};
 window.APP_CONFIG = { DATA_VERSION: 'test' };
+// A test may stand a modified data file in for the real one (by path).
+const FETCH_OVERRIDES = {};
 window.fetch = async function (url) {
   const rel = String(url).replace(/^https?:\/\/[^/]+\//, '').replace(/^\//, '').split('?')[0];
+  if (FETCH_OVERRIDES[rel] !== undefined) {
+    const text = JSON.stringify(FETCH_OVERRIDES[rel]);
+    return { ok: true, status: 200, json: async () => JSON.parse(text), text: async () => text };
+  }
   const abs = path.join(ROOT, rel);
   if (rel.startsWith('data/') && fs.existsSync(abs)) {
     const text = fs.readFileSync(abs, 'utf8');
@@ -119,6 +125,7 @@ window.ExcelJS = global.ExcelJS = { Workbook: class {
   get xlsx() { return { writeBuffer: async () => new ArrayBuffer(0) }; }
 } };
 
+freshRequire('js/transit-zone.js');
 freshRequire('js/hna/hna-utils.js');
 freshRequire('js/hna/hna-renderers.js');
 freshRequire('js/components/methodology-popover.js');
@@ -144,6 +151,13 @@ const CASES = [
     qct: { features: [], unavailableReason: 'data/qct-colorado.json and the HUD QCT service both failed to load' },
     dda: { features: [], unavailableReason: 'data/dda-colorado.json and the HUD DDA service both failed to load' } },
 ];
+
+// The stop file is dated; judge it the day after its build so the panel
+// renders figures, not "stale", whatever day the suite runs.
+const tzByGeo = readJson('data/hna/transit-zone-by-geography.json');
+const tzMapStatus = readJson('data/policy/thiz-map-status.json');
+const TZ_FRESH = new Date(Date.parse(tzByGeo.meta.stops_generated) + 86400e3);
+const Contract = require(path.join(ROOT, 'js/workflow/recommendation-contract.js'));
 
 function pageText(id) { return document.getElementById(id).textContent.trim(); }
 function isBlank(t) { return t === '' || t === '—'; }
@@ -171,6 +185,7 @@ async function exportAll(c) {
   R.renderSnapshot(summary.acsProfile, summary.acsS0801 || null, summary.geo.label, null);
   R.renderQctLayer(c.qct);
   if (c.dda) R.renderDdaLayer(c.county, c.dda, { type: c.geoType, name: summary.geo.label });
+  await R.renderTransitZonePanel(c.geoid, c.tzNow || TZ_FRESH);
   // The controller caches the LEHD blob it rendered under this key (hna-controller.js).
   window.__HNA_LEHD_CACHE = { [c.geoid]: c.lehd() };
 
@@ -330,6 +345,44 @@ async function exportAll(c) {
       }
     });
 
+    await test(`${label}: the transit zone figures are the panel's, in the PDF, CSV, workbook and recommendation (PC-1)`, async () => {
+      const r = await exportAll(c);
+      const panel = document.getElementById('hnaTransitZoneContent');
+      assert.strictEqual(panel.getAttribute('data-tz-state'), 'ok', 'fixture: the transit panel did not render');
+      const tile = (k) => panel.querySelector(`[data-tz="${k}"]`).children[0].textContent.trim();
+      const note = panel.querySelector('[data-tz-designation]').textContent.trim();
+      const radius = tzByGeo.meta.radius_miles;
+      const shareLabel = `Share within ${radius} miles of a confirmed transit stop`;
+      // The half-mile row's distance and disclosure are the data's, through
+      // TransitZone.qapTodDistance (#1961) — never a copied string.
+      const tod = window.TransitZone.qapTodDistance(tzMapStatus);
+      assert(tod, 'fixture: the zone-map status file has no readable TOD distance');
+      const halfLabel = `Share within ${tod.plainLabel} of a confirmed stop`;
+      for (const [lab, shown, disclosure] of [[shareLabel, tile('share')], [halfLabel, tile('half'), tod.disclosure],
+        ['Nearest confirmed stop from the centre', tile('nearest')], ['Zone designation', note]]) {
+        const row = summaryRow(lab);
+        assert(row, `the workbook has no "${lab}" row`);
+        assert.strictEqual(row.v, shown, `${lab}: page ${JSON.stringify(shown)}, Excel ${JSON.stringify(row.v)}`);
+        const csvRow = r.csvRows.find((x) => x[0] === lab);
+        const csvWant = disclosure ? `${shown} (${disclosure})` : shown;
+        assert(csvRow && csvRow[1] === csvWant, `${lab}: CSV ${csvRow ? JSON.stringify(csvRow[1]) : 'missing'}`);
+        assert(r.pdf.some((t) => t === pdfPlain(shown)), `${lab}: the PDF does not print ${JSON.stringify(shown)}`);
+        if (disclosure) {
+          assert(row.n && row.n.includes(disclosure), `${lab}: the workbook drops the disclosure (${JSON.stringify(row.n)})`);
+          assert(r.pdf.some((t) => t.includes(pdfPlain(disclosure))), `${lab}: the PDF drops the disclosure`);
+        }
+      }
+      assert(panel.querySelector('[data-tz="half"]').textContent.includes(tod.disclosure), 'the page tile drops the disclosure');
+      // The recommendation (step 7) shows the same share for the same place.
+      const tz = window.TransitZone.areaSummary(tzByGeo, c.geoid, tzMapStatus, TZ_FRESH);
+      const rec = Contract.build({ digest: readJson(`data/hna/jurisdiction-metrics-digest/${c.geoid}.json`), project: null,
+        generatedAt: 'x', transitZone: tz }).conclusions.find((x) => x.id === 'transit');
+      assert.strictEqual(rec.evidence[0].label, shareLabel, 'the recommendation labels the share differently');
+      assert.strictEqual(rec.evidence[0].value, tile('share'), 'the recommendation shows a different share from the panel');
+      assert.strictEqual(rec.evidence[1].value, tile('half'), 'the recommendation shows a different half-mile share');
+      assert(rec.plain.endsWith(note), 'the recommendation does not carry the panel\'s designation note');
+    });
+
     await test(`${label}: no sheet name carries an info glyph or popover text`, async () => {
       const r = await exportAll(c);
       const names = Object.keys(sheets);
@@ -342,6 +395,91 @@ async function exportAll(c) {
       assert(names.includes('Owner renter shares'), 'the chart sheet is not named after its heading: ' + names.join(', '));
     });
   }
+
+  await test('an unavailable transit panel exports its reason, never a share', async () => {
+    const stale = new Date(Date.parse(tzByGeo.meta.stops_generated) + 40 * 86400e3);
+    const r = await exportAll(Object.assign({}, CASES[0], { tzNow: stale }));
+    const panel = document.getElementById('hnaTransitZoneContent');
+    assert.strictEqual(panel.getAttribute('data-tz-state'), 'unavailable', 'fixture: stale data did not make the panel unavailable');
+    const reason = panel.textContent.replace(/^\s*Unavailable\.\s*/, '').trim();
+    const rows = sheets.Summary.rows.filter((x) => /confirmed (transit )?stop|Zone designation/.test(x.k || ''));
+    assert.strictEqual(rows.length, 4, 'the workbook dropped transit rows instead of marking them unavailable');
+    for (const row of rows) {
+      assert.strictEqual(row.v, 'Unavailable', `${row.k}: ${JSON.stringify(row.v)}`);
+      assert.strictEqual(row.n, reason, `${row.k}: the reason is not the panel's`);
+    }
+    assert(!r.csvRows.some((x) => /confirmed (transit )?stop/.test(x[0] || '') && /\d%/.test(x[1] || '')), 'the CSV printed a share for an unavailable panel');
+    assert(r.pdf.some((t) => t.includes(pdfPlain(reason))), 'the PDF does not carry the reason');
+  });
+
+  await test('a transit panel for another geography, or still loading, is never exported as this one\'s', async () => {
+    const tzRows = () => sheets.Summary.rows.filter((x) => /confirmed (transit )?stop|Zone designation/.test(x.k || ''));
+    // Panel rendered for Mesa, then the page switches to Fruita before the
+    // panel re-renders (the controller does not await it).
+    await exportAll(CASES[0]);
+    assert.strictEqual(document.getElementById('hnaTransitZoneContent').getAttribute('data-tz-geoid'), '08077');
+    const geoSelect = document.getElementById('geoSelect');
+    geoSelect.innerHTML = '<option value="0828745" selected>Fruita</option>';
+    geoSelect.value = '0828745';
+    let data = window.__HNA_buildReportData();
+    assert.strictEqual(data.transitZone.state, 'other_geography');
+    sheets = {};
+    await window.__HNA_exportExcel(data, 't.xlsx');
+    assert.strictEqual(tzRows().length, 4);
+    for (const row of tzRows()) {
+      assert.strictEqual(row.v, 'Unavailable', `${row.k}: Mesa's figure exported under Fruita (${JSON.stringify(row.v)})`);
+      assert.match(row.n, /had not loaded for this geography/);
+    }
+    // The re-render has started but not finished.
+    const pending = window.HNARenderers.renderTransitZonePanel('0828745', TZ_FRESH);
+    data = window.__HNA_buildReportData();
+    assert.strictEqual(data.transitZone.state, 'loading');
+    sheets = {};
+    await window.__HNA_exportExcel(data, 't.xlsx');
+    for (const row of tzRows()) {
+      assert.strictEqual(row.v, 'Unavailable', `${row.k}: exported mid-load as ${JSON.stringify(row.v)}`);
+      assert.match(row.n, /still loading/);
+    }
+    await pending;
+    assert.strictEqual(window.__HNA_buildReportData().transitZone.state, 'ok', 'fixture: the panel never finished for Fruita');
+  });
+
+  // #1961: the straight-line / walking disclosure is the data's. Change the
+  // measure in the status file and every export must say the new thing, not
+  // the old; remove the distance and no export prints a half-mile share.
+  await test('the half-mile disclosure in the PDF, CSV and workbook follows the status file\'s method fields', async () => {
+    const STATUS = 'data/policy/thiz-map-status.json';
+    const before = window.TransitZone.qapTodDistance(tzMapStatus);
+    const walked = JSON.parse(JSON.stringify(tzMapStatus));
+    walked.qap_tod_distance.method = 'walking';
+    const after = window.TransitZone.qapTodDistance(walked);
+    assert(after && after.disclosure !== before.disclosure, 'fixture: changing the method did not change the disclosure');
+    FETCH_OVERRIDES[STATUS] = walked;
+    try {
+      const r = await exportAll(CASES[1]);
+      const row = sheets.Summary.rows.find((x) => x.k === `Share within ${after.plainLabel} of a confirmed stop`);
+      assert(row && row.n.includes(after.disclosure) && !row.n.includes(before.disclosure), `workbook: ${row && JSON.stringify(row.n)}`);
+      const csvRow = r.csvRows.find((x) => x[0] === row.k);
+      assert(csvRow && csvRow[1].includes(after.disclosure) && !csvRow[1].includes(before.disclosure), `CSV: ${csvRow && csvRow[1]}`);
+      assert(r.pdf.some((t) => t.includes(pdfPlain(after.disclosure))), 'the PDF does not print the new disclosure');
+      assert(!r.pdf.some((t) => t.includes(pdfPlain(before.disclosure))), 'the PDF still prints the old disclosure');
+
+      const gone = JSON.parse(JSON.stringify(tzMapStatus));
+      delete gone.qap_tod_distance;
+      FETCH_OVERRIDES[STATUS] = gone;
+      const g = await exportAll(CASES[1]);
+      const rows = sheets.Summary.rows.filter((x) => /transit-oriented distance of a confirmed stop/.test(x.k || ''));
+      assert.strictEqual(rows.length, 1, 'with no TOD distance the workbook lost or duplicated the half-mile row');
+      assert.strictEqual(rows[0].v, 'Unavailable');
+      assert.match(rows[0].n, /could not be read/);
+      const halfCsv = g.csvRows.find((x) => x[0] === rows[0].k);
+      assert(halfCsv && !/\d%/.test(halfCsv[1]), `the CSV printed a half-mile share with no distance: ${halfCsv && halfCsv[1]}`);
+      assert(summaryRow(`Share within ${tzByGeo.meta.radius_miles} miles of a confirmed transit stop`).v !== 'Unavailable',
+        'a missing TOD distance withdrew the zone-radius share too');
+    } finally {
+      delete FETCH_OVERRIDES[STATUS];
+    }
+  });
 
   await test('a 0 AMI gap is exercised: Mesa\'s 60% AMI gap is 0 in the data', async () => {
     assert.strictEqual(rankOf('08077').metrics.ami_gap_60pct, 0, 'fixture changed: pick another zero-gap jurisdiction');

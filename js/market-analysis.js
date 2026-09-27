@@ -55,8 +55,8 @@
   var map          = null;
   var siteMarker   = null;
   var bufferCircle = null;
-  var todCircle    = null;   // ½-mile TOD ring (CHFA QAP transit points, see QAP_TOD)
-  var todMarkers   = null;   // L.layerGroup for highlighted transit stops in ½-mile
+  var todCircle    = null;   // QAP transit-oriented (TOD) ring; distance from _qapTod()
+  var todMarkers   = null;   // L.layerGroup for highlighted transit stops inside the TOD ring
   var isochroneRingsLayer = null;  // L.featureGroup of walking + biking rings
   var siteLatLng   = null;
   // Must match the `selected` option of #pmaBufferSelect in
@@ -4385,7 +4385,7 @@
 
     if (siteMarker) map.removeLayer(siteMarker);
     if (bufferCircle) map.removeLayer(bufferCircle);
-    if (todCircle) map.removeLayer(todCircle);
+    if (todCircle) { map.removeLayer(todCircle); todCircle = null; }
     if (todMarkers) map.removeLayer(todMarkers);
 
     siteMarker = L.circleMarker([lat, lon], {
@@ -4401,17 +4401,11 @@
       fillOpacity: 0.05, weight: 1.5, dashArray: '6 4'
     }).addTo(map);
 
-    // ½-mile TOD ring — CHFA QAP transit points (see QAP_TOD)
-    var HALF_MILE_M = 804.67;
-    todCircle = L.circle([lat, lon], {
-      radius: HALF_MILE_M,
-      color: '#0ea5e9', fillColor: '#0ea5e9',
-      fillOpacity: 0.06, weight: 2, dashArray: '4 4'
-    }).addTo(map);
-    todCircle.bindTooltip('½-mile TOD ring (' + QAP_TOD_POINTS_LABEL + ')', { sticky: true, className: 'pma-tooltip' });
-
-    // Highlight transit stops within ½ mile
-    _highlightTodTransit(lat, lon, HALF_MILE_M);
+    // QAP TOD ring and stop check. The distance is read from the zone-map
+    // status file (see _qapTod); until it arrives nothing is drawn and the
+    // TOD panel says it is checking. _tzEnsureMapStatus redraws on arrival.
+    _tzEnsureMapStatus();
+    _drawTodRing(lat, lon);
 
     // HB26-1065 transit-zone gate, beside the headline score (#1937 Phase 4)
     _renderTransitZoneGate(lat, lon);
@@ -4506,18 +4500,26 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
+  // One fetch of the zone-map status file serves the gate and the TOD ring
+  // (it holds both the zone radius and the QAP transit-oriented distance).
+  function _tzEnsureMapStatus() {
+    if (_tzMapStatusState !== 'idle') return;
+    _tzMapStatusState = 'loading';
+    fetch('data/policy/thiz-map-status.json')
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (j) { _tzMapStatus = j; _tzMapStatusState = 'ok'; })
+      .catch(function () { _tzMapStatusState = 'failed'; })
+      .then(function () {
+        if (!siteLatLng) return;
+        _renderTransitZoneGate(siteLatLng.lat, siteLatLng.lon);
+        _drawTodRing(siteLatLng.lat, siteLatLng.lon, _tzStopsFailed && !_rawLayerData['transitStops']);
+      });
+  }
   function _renderTransitZoneGate(lat, lon) {
     var box = el('pmaTransitZoneGate');
     if (!box) return null;
     box.hidden = false;
-    if (_tzMapStatusState === 'idle') {
-      _tzMapStatusState = 'loading';
-      fetch('data/policy/thiz-map-status.json')
-        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-        .then(function (j) { _tzMapStatus = j; _tzMapStatusState = 'ok'; })
-        .catch(function () { _tzMapStatusState = 'failed'; })
-        .then(function () { if (siteLatLng) _renderTransitZoneGate(siteLatLng.lat, siteLatLng.lon); });
-    }
+    _tzEnsureMapStatus();
     var stops = _rawLayerData['transitStops'];
     var dc = window.__DealCalc;
     function show(state, html, result) {
@@ -4534,7 +4536,7 @@
     }
     if (_tzMapStatusState === 'ok' && _tzZonesState === 'idle') _tzLoadZones();
     if (!stops || _tzMapStatusState !== 'ok' || _tzZonesState === 'loading') {
-      if (!stops) _requestTodStops(804.67);
+      if (!stops) _requestTodStops();
       return show('loading', 'Transit zone (HB26-1065): checking…', null);
     }
     // A published map that did not load leaves the helper without zones, so
@@ -4566,7 +4568,39 @@
   }
 
   var _todStopsRequested = false;
-  function _requestTodStops(radiusM) {
+
+  // The CHFA QAP transit-oriented (TOD) distance and its straight-line /
+  // walking disclosure, from data/policy/thiz-map-status.json through
+  // TransitZone.qapTodDistance (#1961) — the same value the needs assessment,
+  // the recommendation and the exports use. Null while the file is loading or
+  // when it cannot be read: the ring is then not drawn and the TOD panel says
+  // why. There is no fallback distance.
+  function _qapTod() {
+    var TZ = window.TransitZone;
+    return _tzMapStatusState === 'ok' && TZ && typeof TZ.qapTodDistance === 'function'
+      ? TZ.qapTodDistance(_tzMapStatus) : null;
+  }
+
+  // stopsFailed: pass true when redrawing for a site whose stop fetch already
+  // failed, so the redraw reports the failure instead of fetching again.
+  function _drawTodRing(lat, lon, stopsFailed) {
+    var L = window.L;
+    if (!L || !map) return;
+    if (todCircle) { map.removeLayer(todCircle); todCircle = null; }
+    var tod = _qapTod();
+    if (tod) {
+      todCircle = L.circle([lat, lon], {
+        radius: tod.meters,
+        color: '#0ea5e9', fillColor: '#0ea5e9',
+        fillOpacity: 0.06, weight: 2, dashArray: '4 4'
+      }).addTo(map);
+      todCircle.bindTooltip(tod.label + ' TOD ring (' + QAP_TOD_POINTS_LABEL + '). ' + tod.disclosure,
+        { sticky: true, className: 'pma-tooltip' });
+    }
+    _highlightTodTransit(lat, lon, stopsFailed);
+  }
+
+  function _requestTodStops() {
     if (_todStopsRequested || _rawLayerData['transitStops']) return;
     _todStopsRequested = true;
     var DS = window.DataService;
@@ -4578,24 +4612,24 @@
     p.then(function (gj) {
       if (!gj || !Array.isArray(gj.features)) throw new Error('no features');
       if (!_rawLayerData['transitStops']) _rawLayerData['transitStops'] = gj;
-      if (siteLatLng) _highlightTodTransit(siteLatLng.lat, siteLatLng.lon, radiusM);
+      if (siteLatLng) _highlightTodTransit(siteLatLng.lat, siteLatLng.lon);
       if (siteLatLng) _renderTransitZoneGate(siteLatLng.lat, siteLatLng.lon);
     }).catch(function (err) {
       _todStopsRequested = false;   // allow a retry on the next site
       _tzStopsFailed = true;
       if (siteLatLng) _renderTransitZoneGate(siteLatLng.lat, siteLatLng.lon);
       console.warn('[market-analysis] statewide transit stops unavailable for the TOD check:', err);
-      if (siteLatLng) _highlightTodTransit(siteLatLng.lat, siteLatLng.lon, radiusM, true);
+      if (siteLatLng) _highlightTodTransit(siteLatLng.lat, siteLatLng.lon, true);
     });
   }
 
-  function _highlightTodTransit(lat, lon, radiusM, loadFailed) {
+  function _highlightTodTransit(lat, lon, loadFailed) {
     var L = window.L;
     if (!L) return;
     if (todMarkers) map.removeLayer(todMarkers);
     todMarkers = L.layerGroup().addTo(map);
 
-    var halfMile = radiusM / 1609.34; // convert to miles for haversine
+    var tod = _qapTod();
     var count = 0;
     var stopDataChecked = false;
 
@@ -4608,9 +4642,9 @@
     // amenities file has no operator classification and cannot safely fill
     // in for it: it could reintroduce a private shuttle we just excluded.
     var rawStops = _rawLayerData['transitStops'];
-    if (!rawStops && !loadFailed) _requestTodStops(radiusM);
+    if (!rawStops && !loadFailed) _requestTodStops();
     var unconfirmedCount = 0;
-    if (rawStops && Array.isArray(rawStops.features)) {
+    if (tod && rawStops && Array.isArray(rawStops.features)) {
       stopDataChecked = true;
       rawStops.features.forEach(function (f) {
         var c = f && f.geometry && f.geometry.type === 'Point' ? f.geometry.coordinates : null;
@@ -4618,7 +4652,7 @@
         // Private airport/hotel shuttle pickups are mapped, but they are not
         // public transit, so they do not count toward TOD points.
         if (f.properties && f.properties.operator === 'private_shuttle') return;
-        if (haversine(lat, lon, c[1], c[0]) <= halfMile) {
+        if (haversine(lat, lon, c[1], c[0]) <= tod.miles) {
           count++;
           if (f.properties && f.properties.reliability === 'unconfirmed') unconfirmedCount++;
           L.circleMarker([c[1], c[0]], {
@@ -4640,8 +4674,10 @@
     // boundaries), show a neutral framing instead of a red ✗.
     //
     // The count is straight-line, and the QAP measures walk distance, so
-    // an eligible result is a screen, not a scoring determination. With no
-    // stop data loaded the result is "Unavailable", never "No transit".
+    // an eligible result is a screen, not a scoring determination: every
+    // result branch ends with tod.disclosure, the shared wording built from
+    // the data's method fields. With no stop data, or no readable TOD
+    // distance, the result is "Unavailable", never "No transit".
     var todPanel = document.getElementById('pmaTodPanel');
     var todContent = document.getElementById('pmaTodContent');
     if (todPanel && todContent) {
@@ -4653,24 +4689,34 @@
                        ' (' + QAP_TOD.section + '); the ' + QAP_TOD.draftPlan + ' proposes ' +
                        QAP_TOD.draftPoints + ' and adds TOC sites.';
       var iconColor, iconSym, headline, detail;
-      if (eligible && unconfirmedCount === count) {
+      var within = tod ? ' within ' + tod.label : '';
+      var disclosure = tod ? ' <span data-tod-disclosure>' + String(tod.disclosure).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      }) + '</span>' : '';
+      if (!tod) {
+        iconColor = 'var(--muted,#6b7280)';
+        iconSym   = '?';
+        headline  = 'Transit check unavailable';
+        detail    = _tzMapStatusState === 'failed' || _tzMapStatusState === 'ok' || !window.TransitZone
+          ? 'The CHFA QAP transit-oriented distance could not be read from the zone-map status file, so this site has not been checked.'
+          : 'The zone-map status file that sets the CHFA QAP transit-oriented distance is still loading. This site has not been checked; the result will update when it arrives.';
+      } else if (eligible && unconfirmedCount === count) {
         // Only OpenStreetMap stops, which neither CDOT nor an agency feed
         // publishes: a lead to check, not a finding.
         iconColor = 'var(--warn,#d97706)';
         iconSym   = '?';
         headline  = 'Possible TOD site — unconfirmed stop only';
-        detail    = count + ' stop' + (count !== 1 ? 's' : '') + ' within ½ mile ' +
+        detail    = count + ' stop' + (count !== 1 ? 's' : '') + within + ' ' +
                     'appear only in OpenStreetMap; neither CDOT nor the transit ' +
                     'agency lists ' + (count !== 1 ? 'them' : 'it') + '. Confirm ' +
                     'service with the agency before counting ' + QAP_TOD.section +
-                    ' points. ' + pointsNote;
+                    ' points. ' + pointsNote + disclosure;
       } else if (eligible) {
         iconColor = 'var(--good,#16a34a)';
         iconSym   = '✓';
         headline  = 'Likely TOD site — ' + QAP_TOD_POINTS_LABEL;
-        detail    = count + ' transit stop' + (count !== 1 ? 's' : '') +
-                    ' within ½ mile (straight-line). The QAP counts walk ' +
-                    'distance, so confirm the walking route. ' + pointsNote;
+        detail    = count + ' transit stop' + (count !== 1 ? 's' : '') + within + '. ' +
+                    pointsNote + disclosure;
       } else if (!stopDataChecked) {
         iconColor = 'var(--muted,#6b7280)';
         iconSym   = '?';
@@ -4682,18 +4728,18 @@
         iconColor = 'var(--warn,#d97706)';
         iconSym   = 'ℹ';
         headline  = 'Rural site — TOD criterion doesn\'t apply';
-        detail    = 'No fixed-route transit stop found within ½ mile ' +
+        detail    = 'No fixed-route transit stop found' + within + ' ' +
                     '(common in a rural CO county). Non-metro projects ' +
                     'score location points under ' + QAP_TOD.ruralSection +
-                    ', which doesn\'t require transit proximity.';
+                    ', which doesn\'t require transit proximity.' + disclosure;
       } else {
         iconColor = 'var(--bad,#dc2626)';
         iconSym   = '✗';
-        headline  = 'No transit stop found within ½ mile';
-        detail    = 'No stop within ½ mile in the statewide stop data (CDOT, ' +
+        headline  = 'No transit stop found' + within;
+        detail    = 'No stop' + within + ' in the statewide stop data (CDOT, ' +
                     'agency feeds and OpenStreetMap). A new or seasonal stop ' +
                     'can be missing, so check the transit agency\'s map before ' +
-                    'ruling out ' + QAP_TOD.section + ' points.';
+                    'ruling out ' + QAP_TOD.section + ' points.' + disclosure;
       }
       todContent.innerHTML =
         '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">' +

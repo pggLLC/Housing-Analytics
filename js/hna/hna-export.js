@@ -337,6 +337,88 @@
     });
   }
 
+  // Potential location: transit zone (HB26-1065, #1937). Read from the panel
+  // as rendered — renderTransitZonePanel draws it from
+  // TransitZone.areaSummary, the same summary the recommendation uses — so
+  // the export shows the page's figures, rounding and designation note, and
+  // an unrendered or unavailable panel exports its reason, never a 0%.
+  function _transitZoneFromPanel(geoid) {
+    var mount = document.getElementById('hnaTransitZoneContent');
+    var state = mount ? mount.getAttribute('data-tz-state') : null;
+    // A panel still showing (or loading) another geography is not this
+    // report's: its figures would print under this place's name.
+    if (mount && state && String(mount.getAttribute('data-tz-geoid') || '') !== String(geoid || '')) {
+      return { state: 'other_geography', radiusMiles: null,
+        unavailableReason: 'The transit zone panel had not loaded for this geography when exported.' };
+    }
+    if (state === 'loading') {
+      return { state: 'loading', radiusMiles: null,
+        unavailableReason: 'The transit zone panel was still loading when exported.' };
+    }
+    if (state !== 'ok') {
+      var shown = mount && state === 'unavailable'
+        ? String(mount.textContent || '').replace(/^\s*Unavailable\.\s*/, '').trim() : '';
+      return { state: state || 'not_rendered', radiusMiles: null,
+        unavailableReason: shown || 'Not loaded on the page when exported.' };
+    }
+    function tile(key, i) {
+      var el = mount.querySelector('[data-tz="' + key + '"]');
+      var part = el && el.children[i];
+      return part ? String(part.textContent || '').trim() : '';
+    }
+    var des = mount.querySelector('[data-tz-designation]');
+    // The half-mile tile carries its own distance label and the shared
+    // straight-line/walking disclosure (TransitZone.qapTodDistance). Every
+    // writer below prints that disclosure beside the figure (#1961).
+    var halfEl = mount.querySelector('[data-tz="half"]');
+    var halfOk = !!(halfEl && halfEl.getAttribute('data-tz-half-state') === 'ok');
+    var disc = halfOk ? halfEl.querySelector('[data-tz-disclosure]') : null;
+    return {
+      state: 'ok',
+      radiusMiles: _numOrNull(mount.getAttribute('data-tz-radius')),
+      stopsGenerated: mount.getAttribute('data-tz-stops-generated') || null,
+      share: tile('share', 0),
+      halfMile: halfOk ? tile('half', 0) : '',
+      halfMilePlainLabel: halfOk ? (halfEl.getAttribute('data-tz-half-label') || null) : null,
+      halfMileDisclosure: disc ? String(disc.textContent || '').trim() : null,
+      halfMileReason: halfEl && !halfOk ? tile('half', 1) || null : null,
+      nearest: tile('nearest', 0),
+      nearestWhat: tile('nearest', 1),
+      designation: des ? des.getAttribute('data-tz-designation') : null,
+      designationNote: des ? String(des.textContent || '').trim() : '',
+      unavailableReason: null
+    };
+  }
+
+  function _transitZoneRows(d) {
+    var t = (d && d.transitZone) || { state: 'not_rendered', unavailableReason: 'Not loaded on the page when exported.' };
+    // Distances come from the rendered panel; when it did not render, the
+    // label names the measure without a number rather than assuming one.
+    var radius = Number.isFinite(t.radiusMiles) && t.radiusMiles > 0 ? t.radiusMiles : null;
+    var halfLabel = t.halfMilePlainLabel || null;
+    var rows = [
+      { key: 'share', label: radius !== null ? 'Share within ' + radius + ' miles of a confirmed transit stop'
+          : 'Share within the zone-screen radius of a confirmed transit stop',
+        value: t.share, sub: radius !== null ? 'HB26-1065 ' + radius + '-mile screen' : 'HB26-1065 zone screen' },
+      { key: 'halfMile', label: halfLabel ? 'Share within ' + halfLabel + ' of a confirmed stop'
+          : 'Share within the CHFA QAP transit-oriented distance of a confirmed stop',
+        value: t.halfMile, sub: 'CHFA QAP transit-oriented distance',
+        disclosure: t.halfMileDisclosure || null, unavailableReason: t.halfMileReason || null },
+      { key: 'nearest', label: 'Nearest confirmed stop from the centre', value: t.nearest, sub: t.nearestWhat || '' },
+      { key: 'designation', label: 'Zone designation', value: t.designationNote, sub: t.designation || '' },
+    ];
+    return rows.map(function (r) {
+      var text = t.state === 'ok' && !_isBlankText(r.value) ? String(r.value).trim() : '';
+      r.display = text === '' ? UNAVAILABLE : text;
+      // A blank tile on a rendered panel carries the page's own explanation
+      // beside it (e.g. "no confirmed stop found in Colorado data").
+      r.reason = text === '' ? ((t.state === 'ok' && (r.unavailableReason || r.sub)) || t.unavailableReason || 'Not shown on the page.') : null;
+      // A disclosure travels only with a figure; an unavailable row has none.
+      r.disclosure = r.reason ? null : (r.disclosure || null);
+      return r;
+    });
+  }
+
   // ---------------------------------------------------------------------------
   // buildReportData — collect rendered values from the live DOM
   // ---------------------------------------------------------------------------
@@ -645,6 +727,7 @@
         ddaUnavailableReason: /^(unavailable|not available)$/i.test(ddaText)
           ? (_elText('statDdaNote') || _overlayReason('layerDda') || 'HUD DDA data did not load, so DDA status is unknown here.') : null,
       },
+      transitZone: _transitZoneFromPanel(geoid),
       dataQuality: idxRec ? {
         approximatedFields:  (idxRec.dataQuality && idxRec.dataQuality.approximated_fields) || [],
         approximationBasis:  (idxRec.dataQuality && idxRec.dataQuality.approximation_basis) || null,
@@ -898,6 +981,11 @@
       ['SECTION', 'LIHTC'],
     ]).concat(_lihtcRows(d).map(function (r) {
       return [r.label, r.reason ? r.display + ' \u2014 ' + r.reason : r.display + (r.sub ? ' (' + r.sub + ')' : '')];
+    })).concat([
+      ['', ''],
+      ['SECTION', 'Potential location: transit zone (HB26-1065)'],
+    ]).concat(_transitZoneRows(d).map(function (r) {
+      return [r.label, r.reason ? r.display + ' \u2014 ' + r.reason : r.display + (r.disclosure ? ' (' + r.disclosure + ')' : '')];
     })).concat([
       ['', ''],
 
@@ -1294,6 +1382,21 @@
       }));
       lihtcRows.forEach(function (r) { if (r.reason) drawNarrative(_pdfPlain(r.label + ': ' + r.reason)); });
 
+      // ── 9. Potential location: transit zone ──
+      const tzRadius = data.transitZone && Number.isFinite(data.transitZone.radiusMiles) && data.transitZone.radiusMiles > 0
+        ? data.transitZone.radiusMiles : null;
+      drawSectionHeader('9. Potential location: transit zone (HB26-1065)', 'How much of this area is within the ' +
+        (tzRadius !== null ? tzRadius + '-mile' : 'zone') + ' screen of a confirmed transit stop. A screen, not an eligibility finding.');
+      const tzRows = _transitZoneRows(data);
+      drawTableSimple(tzRows.filter(function (r) { return r.key !== 'designation'; }).map(function (r) {
+        return { label: _pdfPlain(r.label), value: _pdfPlain(r.display) };
+      }));
+      tzRows.forEach(function (r) {
+        if (r.reason) drawNarrative(_pdfPlain(r.label + ': ' + r.reason));
+        else if (r.key === 'designation') drawNarrative(_pdfPlain(r.display));
+        else if (r.disclosure) drawNarrative(_pdfPlain(r.label + ': ' + r.disclosure));
+      });
+
       // ── Methodology + sources ──
       drawSectionHeader('Methodology & sources', '');
       drawTableSimple([
@@ -1338,6 +1441,11 @@
   window.__HNA_exportPdfScreenshot  = exportPdf;
   window.__HNA_exportCsv       = exportCsv;
   window.__HNA_exportJson      = exportJson;
+  // The transit-zone rows every export writes, for the panel as it stands
+  // for `geoid` (test/transit-zone-absence.test.mjs).
+  window.__HNA_transitZoneRows = function (geoid) {
+    return _transitZoneRows({ transitZone: _transitZoneFromPanel(geoid) });
+  };
 
   // ---------------------------------------------------------------------------
   // HNAExport facade — convenience wrapper used by UI event handlers
@@ -1468,6 +1576,13 @@
       _lihtcRows(d).forEach(function (r) {
         var n = _numOrNull(String(r.display).replace(/,/g, ''));
         summary.addRow({ k: r.label, v: r.reason ? UNAVAILABLE : (n !== null && /^[\d,]+$/.test(r.display) ? n : r.display), n: r.reason || r.sub });
+      });
+
+      // Potential location: transit zone, as the page's panel shows it.
+      summary.addRow({});
+      summary.addRow({ k: 'Potential location: transit zone (HB26-1065)', n: 'Screen only; see the designation row.' });
+      _transitZoneRows(d).forEach(function (r) {
+        summary.addRow({ k: r.label, v: r.display, n: r.reason || (r.disclosure ? r.sub + '. ' + r.disclosure : r.sub) });
       });
 
       // Sources, with the vintages the PDF prints.
