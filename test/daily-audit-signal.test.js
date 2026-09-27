@@ -35,6 +35,7 @@ const path = require('node:path');
 const ROOT = path.resolve(__dirname, '..');
 const { countyEntriesIn } = require('./audit-modules/data-integrity.js');
 const { classifyNullField } = require('./audit-modules/logic-validation.js');
+const { buildEmailSubject, buildHtmlReport } = require('./audit-modules/report-generator.js');
 
 let failures = 0;
 function run(name, fn) {
@@ -175,6 +176,22 @@ run('the daily audit restores its history from a durable artifact before it runs
     'actions/cache is best-effort and lost the history within a day; do not reintroduce it');
 });
 
+run('the workflow gives the audit GitHub read access and does not hide a failed audit step', () => {
+  const wf = fs.readFileSync(WORKFLOW, 'utf8');
+  assert.match(wf, /permissions:[\s\S]{0,200}actions:\s*read/,
+    'repo-health checks need Actions read access');
+  assert.match(wf, /permissions:[\s\S]{0,260}issues:\s*read/,
+    'repo-health checks read the issues backlog from the GitHub API');
+  assert.match(wf, /permissions:[\s\S]{0,320}pull-requests:\s*read/,
+    'repo-health checks read open pull requests from the GitHub API');
+  const auditStep = wf.match(/- name: Run Daily Audit System[\s\S]{0,500}?run: node test\/daily-audit-system\.js[\s\S]{0,120}/);
+  assert.ok(auditStep, 'precondition: the workflow runs the daily audit script');
+  assert.match(auditStep[0], /GITHUB_TOKEN:\s*\$\{\{\s*github\.token\s*\}\}/,
+    'the audit step must receive github.token so repo-health checks can call the API');
+  assert.doesNotMatch(auditStep[0], /continue-on-error:\s*true/,
+    'the audit step itself must fail visibly when critical checks fail or are unavailable');
+});
+
 run('the daily audit saves its history back to the same artifact after it runs', () => {
   const wf = fs.readFileSync(WORKFLOW, 'utf8');
   const auditAt = wf.indexOf('run: node test/daily-audit-system.js');
@@ -208,6 +225,135 @@ run('with no prior snapshot everything is new and nothing is resolved or persist
   const a = { file: 'x.json', type: 'schema', description: 'field A missing' };
   const result = compareWithPrior([a], null);
   assert.deepEqual(result, { newIssues: [a], resolvedIssues: [], persistentIssues: [] });
+});
+
+run('the HTML report surfaces audit health and repository health before detailed findings', () => {
+  const html = buildHtmlReport({
+    summary: { critical: 0, high: 1, medium: 0, low: 0, total: 1, linkChecks: 12 },
+    allIssues: [{
+      severity: 'high',
+      file: 'PR #42',
+      type: 'repo',
+      description: 'Open PR has failing checks',
+      expected: '',
+      actual: 'https://github.com/pggLLC/Housing-Analytics/pull/42',
+      recommendation: 'Fix the failing checks.',
+    }],
+    comparison: { newIssues: [], resolvedIssues: [], persistentIssues: [] },
+    priorDate: '2026-09-26',
+    trend: [],
+    runDurationMs: 2500,
+    auditHealth: {
+      totalChecks: 4,
+      passed: 2,
+      failed: 1,
+      skipped: 0,
+      unavailable: 1,
+      criticalFailures: 0,
+      criticalUnavailable: 1,
+      internalErrors: ['GitHub Actions Health: API timeout'],
+      workflowRunUrl: 'https://example.com/actions/runs/1',
+      checks: [
+        { name: 'Data Integrity & Completeness', critical: true, status: 'passed', summary: '0 findings' },
+        { name: 'GitHub Actions Health', critical: true, status: 'unavailable', summary: 'API timeout' },
+      ],
+    },
+    repoHealth: {
+      actions: {
+        failingRuns: [{ name: 'CI Checks', html_url: 'https://example.com/run/1' }],
+        overdueWorkflows: [{ name: 'Daily Audit System', html_url: 'https://example.com/run/2', lastRunAt: '2026-09-24T00:00:00Z' }],
+        lastSuccessfulDeploy: { run_started_at: '2026-09-26T12:00:00Z', html_url: 'https://example.com/run/deploy' },
+        recentDeployFailures: [],
+      },
+      pullRequests: {
+        openCount: 3,
+        failingChecks: [{ number: 42, title: 'Fix audit honesty', html_url: 'https://example.com/pr/42' }],
+        staleReviews: [],
+        conflicts: [],
+        inactive: [],
+      },
+      issueInventory: {
+        openCount: 26,
+        newlyOpenedCount: 2,
+        closedCount: 1,
+        highPriority: [{ number: 99, title: 'Audit degraded', html_url: 'https://example.com/issues/99' }],
+        blockers: [],
+        longstanding: [],
+      },
+    },
+  });
+
+  assert.match(html, /🩺 Audit Health/,
+    'the report must summarize the audit run itself, not only the findings');
+  assert.match(html, /🔍 Repository Health Summary/,
+    'the report must include a repository-health section');
+  assert.match(html, /✅ Passed/);
+  assert.match(html, /⚠️ Unavailable/);
+  assert.ok(html.indexOf('🔍 Repository Health Summary') < html.indexOf('📋 Detailed Findings'),
+    'the repo-health summary must appear before detailed findings');
+  assert.doesNotMatch(html, /🟢 All Systems Healthy/,
+    'a critical unavailable check must block the all-clear banner');
+});
+
+run('the email subject gives repo-health blockers precedence over a nominally clean audit', () => {
+  const subject = buildEmailSubject({
+    summary: { critical: 0, high: 0, medium: 0, low: 0, total: 0 },
+    auditHealth: {
+      criticalUnavailable: 0,
+    },
+    repoHealth: {
+      actions: {
+        lastSuccessfulDeploy: null,
+        recentDeployFailures: [],
+      },
+      issueInventory: {
+        highPriority: [{ number: 1 }],
+      },
+    },
+    reportDate: new Date('2026-09-27T00:00:00Z'),
+  });
+  assert.match(subject, /^🔴 DEPLOY BLOCKED/,
+    'deployment trouble must take precedence over an otherwise clean issue summary');
+});
+
+run('the report keeps pre-repo-health status when repository health was not collected', () => {
+  const html = buildHtmlReport({
+    summary: { critical: 0, high: 1, medium: 0, low: 0, total: 1, linkChecks: 5 },
+    allIssues: [{
+      severity: 'high',
+      file: 'x',
+      type: 'logic',
+      description: 'High-priority finding',
+      expected: '',
+      actual: '',
+      recommendation: '',
+    }],
+    comparison: { newIssues: [], resolvedIssues: [], persistentIssues: [] },
+    priorDate: null,
+    trend: [],
+    runDurationMs: 1000,
+    auditHealth: {
+      totalChecks: 1,
+      passed: 0,
+      failed: 1,
+      skipped: 0,
+      unavailable: 0,
+      criticalFailures: 0,
+      criticalUnavailable: 0,
+      internalErrors: [],
+      workflowRunUrl: '',
+      checks: [{ name: 'Logic & Methodology Validation', critical: true, status: 'failed', summary: '1 finding' }],
+    },
+  });
+  const subject = buildEmailSubject({
+    summary: { critical: 0, high: 1, medium: 0, low: 0, total: 1 },
+    auditHealth: { criticalUnavailable: 0 },
+    reportDate: new Date('2026-09-27T00:00:00Z'),
+  });
+  assert.doesNotMatch(html, /🔴 Repo Health Alert/,
+    'missing repo-health data must not be treated as a blocked deploy');
+  assert.match(subject, /^🟠 Housing Analytics Audit — 1 High Priority Issue/,
+    'without repo-health data the subject should fall back to the issue-based wording');
 });
 
 console.log(failures === 0
