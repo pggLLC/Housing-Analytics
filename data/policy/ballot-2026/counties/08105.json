@@ -5,41 +5,105 @@
       "geoid": "08105",
       "level": "county",
       "name": "Rio Grande County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://riograndecounty.colorado.gov/how-do-i/elections/voter-information",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county clerk's election page had the Notice of Election (ballots mail from October 2) but no sample ballot, TABOR notice, ballot certification or participating-entities list on 2026-09-26.",
+        "Commissioner resolutions through 2026-32, minutes through 2026-08-12 and September agendas contain no ballot referral; the 2026-08-19 and 2026-08-26 agendas and minutes are not posted."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://riograndecounty.colorado.gov/how-do-i/elections/voter-information",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://riograndecounty.colorado.gov/elected-officials/commissioners",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0819795",
       "level": "municipal",
       "name": "Del Norte (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://riograndecounty.colorado.gov/how-do-i/elections/voter-information",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county clerk's election page had the Notice of Election (ballots mail from October 2) but no sample ballot, TABOR notice, ballot certification or participating-entities list on 2026-09-26.",
+        "Participation unknown. Town board agendas June through October 2026 contain no ballot referral or county election IGA; the town held its regular election on 2026-04-07."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://riograndecounty.colorado.gov/how-do-i/elections/voter-information",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://riograndecounty.colorado.gov/elected-officials/commissioners",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.delnortecolorado.com/minutes-agendas/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0851635",
       "level": "municipal",
       "name": "Monte Vista (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://riograndecounty.colorado.gov/how-do-i/elections/voter-information",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county clerk's election page had the Notice of Election (ballots mail from October 2) but no sample ballot, TABOR notice, ballot certification or participating-entities list on 2026-09-26.",
+        "Participation unknown. City council agendas and packets 2026-06-18 through 2026-09-17 contain no ballot referral; the city has no elections page."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://riograndecounty.colorado.gov/how-do-i/elections/voter-information",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://riograndecounty.colorado.gov/elected-officials/commissioners",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.montevista.gov/agendasandpackets",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0872395",
       "level": "municipal",
       "name": "South Fork (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://riograndecounty.colorado.gov/how-do-i/elections/voter-information",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county clerk's election page had the Notice of Election (ballots mail from October 2) but no sample ballot, TABOR notice, ballot certification or participating-entities list on 2026-09-26.",
+        "Participation unknown. The town clerk page states: 'The Town is not responsible for General Elections or Elections coordinated with Rio Grande County in November.' Town resolution and ordinance indexes through 2026-09-08 list no ballot referral."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://riograndecounty.colorado.gov/how-do-i/elections/voter-information",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://riograndecounty.colorado.gov/elected-officials/commissioners",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofsouthfork.colorado.gov/town-clerk",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

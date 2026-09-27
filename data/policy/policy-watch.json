@@ -2,12 +2,13 @@
   "schema": "policy-watch/v1",
   "meta": {
     "title": "Policy watch",
-    "as_of": "2026-09-24",
+    "as_of": "2026-09-26",
     "method": "Curated, not a feed. An entry is listed only after someone has read its source. verification.level \"primary\" means checked against the primary document itself; \"reported\" means taken from a named outlet whose page was read, without checking the primary document. Each primary entry carries the exact source wording it rests on in `evidence`. A topic nobody has checked yet is listed in known_gaps rather than filled from search results. `derived` records a figure computed from the evidence (a sum), and `redline` records a struck and inserted amount that the PDF text runs together.",
     "known_gaps": [
       "Local county and city housing questions on the November 3, 2026 ballot: not yet loaded. Each needs checking against the county clerk's ballot notice before it is listed.",
       "Statewide ballot measures for November 3, 2026: not yet loaded.",
-      "Housing appointments and candidates' housing platforms: not yet loaded.",
+      "Housing appointments (checked 2026-09-26 against official pages): listed are the DOLA Executive Director, the Division of Housing Director, CHFA's Executive Director and CEO and its Board Chair, the eight State Housing Board members, and OEDIT's Director of Innovative Funding for Housing Programs. Not listed: a director of the Office of Homeless Initiatives (the Division of Housing's page names the office but no director); a named Proposition 123 program lead at DOLA (DOLA's Proposition 123 pages name only a community support team); and a Governor's senior housing policy adviser (the Governor's office site, governorsoffice.colorado.gov, has no staff page, and its Cabinet page and housing announcements name no such adviser).",
+      "Candidates' housing platforms: not yet loaded.",
       "The final 2027–2028 QAP: the QAP entries here are from the third draft, not the adopted plan."
     ]
   },
@@ -232,6 +233,684 @@
           "quote": "may not meet with or contact CHFA employees, or Bboard members, or state gap funders about a proposed competitive project(s) competing in the round",
           "note": "Redline: \"or state gap funders\" is inserted text."
         }
+      ]
+    },
+    {
+      "id": "people-dola-executive-director",
+      "section": "people",
+      "status": "in office",
+      "date": null,
+      "title": "Executive Director, Colorado Department of Local Affairs: Maria De Cambra",
+      "detail": "DOLA lists Maria De Cambra as Executive Director. By statute (C.R.S. 24-1-125(1)) the Governor appoints the executive director, with the consent of the Senate. The page gives no appointment date.",
+      "programs": [
+        "DOLA"
+      ],
+      "source": {
+        "label": "Colorado Department of Local Affairs, Leadership",
+        "url": "https://cdola.colorado.gov/leadership"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "DOLA's leadership page and C.R.S. 24-1-125(1)",
+        "checked": "2026-09-26"
+      },
+      "evidence": [
+        {
+          "section": "Leadership",
+          "quote": "Executive Director Maria De Cambra"
+        },
+        {
+          "section": "C.R.S. 24-1-125(1)",
+          "quote": "The executive director shall be appointed by the governor, with the consent of the senate, and shall serve at the pleasure of the governor.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        }
+      ],
+      "role": "Executive Director",
+      "agency": "Colorado Department of Local Affairs",
+      "appointing_authority": "Governor, with the consent of the Senate (C.R.S. 24-1-125(1))",
+      "person": {
+        "name": "Maria De Cambra"
+      },
+      "action": "appointed",
+      "dates": {
+        "nominated": null,
+        "confirmed": null,
+        "effective": null,
+        "term_end": null
+      },
+      "predecessor": null,
+      "relevance": [
+        "C.R.S. 24-1-125(1) makes the executive director the head of the Department of Local Affairs, which contains the Division of Housing (C.R.S. 24-32-704)."
+      ]
+    },
+    {
+      "id": "people-doh-director",
+      "section": "people",
+      "status": "in office",
+      "date": null,
+      "title": "Director, DOLA Division of Housing: Tyler Jaeckel",
+      "detail": "DOLA lists Tyler Jaeckel as Division of Housing Director. By statute (C.R.S. 24-32-704(1)) the division is headed by the state director of housing, appointed by DOLA's executive director. The page gives no appointment date.",
+      "programs": [
+        "DOLA"
+      ],
+      "source": {
+        "label": "Colorado Department of Local Affairs, Leadership",
+        "url": "https://cdola.colorado.gov/leadership"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "DOLA's leadership page and C.R.S. 24-32-704(1)",
+        "checked": "2026-09-26"
+      },
+      "evidence": [
+        {
+          "section": "Leadership",
+          "quote": "Tyler Jaeckel, Division of Housing Director"
+        },
+        {
+          "section": "C.R.S. 24-32-704(1)",
+          "quote": "The division shall be headed by the state director of housing appointed by the executive director of the department of local affairs in accordance with section 13 of article XII of the state constitution.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        }
+      ],
+      "role": "Director, Division of Housing",
+      "agency": "Colorado Department of Local Affairs, Division of Housing",
+      "appointing_authority": "Executive Director of the Department of Local Affairs (C.R.S. 24-32-704(1))",
+      "person": {
+        "name": "Tyler Jaeckel"
+      },
+      "action": "appointed",
+      "dates": {
+        "nominated": null,
+        "confirmed": null,
+        "effective": null,
+        "term_end": null
+      },
+      "predecessor": null,
+      "relevance": [
+        "C.R.S. 24-32-704(1): the state director of housing heads the Division of Housing."
+      ]
+    },
+    {
+      "id": "people-chfa-executive-director",
+      "section": "people",
+      "status": "in office",
+      "date": null,
+      "title": "Executive Director and CEO, Colorado Housing and Finance Authority: Thomas Bryan",
+      "detail": "CHFA lists Thomas Bryan as Executive Director and CEO. CHFA's leadership page (www.chfainfo.com/about-chfa/leadership) says its Board of Directors appoints the Executive Director. The page gives no appointment date.",
+      "programs": [
+        "CHFA"
+      ],
+      "source": {
+        "label": "CHFA, Executive and Senior Management",
+        "url": "https://www.chfainfo.com/about-chfa/leadership/executive"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "CHFA's executive and senior management page and its leadership page",
+        "checked": "2026-09-26"
+      },
+      "evidence": [
+        {
+          "section": "Executive and Senior Management",
+          "quote": "Thomas Bryan\nExecutive Director and CEO"
+        },
+        {
+          "section": "Leadership: Board of Directors",
+          "quote": "appoints the Executive Director and other members of the Executive Team",
+          "note": "In the list of what the Board of Directors does, on https://www.chfainfo.com/about-chfa/leadership"
+        }
+      ],
+      "role": "Executive Director and CEO",
+      "agency": "Colorado Housing and Finance Authority",
+      "appointing_authority": "CHFA Board of Directors",
+      "person": {
+        "name": "Thomas Bryan"
+      },
+      "action": "appointed",
+      "dates": {
+        "nominated": null,
+        "confirmed": null,
+        "effective": null,
+        "term_end": null
+      },
+      "predecessor": null,
+      "relevance": [
+        "CHFA's leadership page names the Executive Director/Chief Executive Officer first among the Executive Team, which sets the vision and strategic direction for CHFA's operations."
+      ]
+    },
+    {
+      "id": "people-chfa-board-chair",
+      "section": "people",
+      "status": "in office",
+      "date": null,
+      "title": "Board Chair, Colorado Housing and Finance Authority: Albus Brooks",
+      "detail": "CHFA lists Albus Brooks as Board Chair, with a board term that expires 07.01.2027. CHFA's leadership page (www.chfainfo.com/about-chfa/leadership) says eight board members are appointed by the Governor and confirmed by the State Senate; it does not say how the chair is chosen.",
+      "programs": [
+        "CHFA"
+      ],
+      "source": {
+        "label": "CHFA, Board of Directors",
+        "url": "https://www.chfainfo.com/about-chfa/leadership/board"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "CHFA's board of directors page and its leadership page",
+        "checked": "2026-09-26"
+      },
+      "evidence": [
+        {
+          "section": "Board of Directors",
+          "quote": "Albus Brooks\nVice President of Business Development and Public Affairs, Milender White Construction Company\nBoard Chair"
+        },
+        {
+          "section": "Board of Directors",
+          "quote": "Term expires 07.01.2027."
+        },
+        {
+          "section": "Leadership: About CHFA's Board",
+          "quote": "CHFA is governed by an 11-member board of directors consisting of: the State Auditor, a member of the Governor’s cabinet, a member of the Colorado general assembly, and eight members appointed to four-year terms by the Governor and confirmed by the State Senate.",
+          "note": "On https://www.chfainfo.com/about-chfa/leadership"
+        }
+      ],
+      "role": "Board Chair",
+      "agency": "Colorado Housing and Finance Authority",
+      "appointing_authority": "Governor, confirmed by the State Senate, for the board seat; CHFA's page does not say who selects the chair",
+      "person": {
+        "name": "Albus Brooks"
+      },
+      "action": "appointed",
+      "dates": {
+        "nominated": null,
+        "confirmed": null,
+        "effective": null,
+        "term_end": "2027-07-01"
+      },
+      "predecessor": null,
+      "relevance": [
+        "CHFA's leadership page: the Board of Directors is the governing body of CHFA and is vested with all of CHFA's statutory authority."
+      ]
+    },
+    {
+      "id": "people-oedit-housing-programs-director",
+      "section": "people",
+      "status": "in office",
+      "date": null,
+      "title": "Director of Innovative Funding for Housing Programs, OEDIT: Hilary Cooper",
+      "detail": "OEDIT's staff directory lists Hilary Cooper as Director of Innovative Funding for Housing Programs. OEDIT's announcement of the appointment, dated July 11, 2023 (oedit.colorado.gov/press-release/oedit-announces-former-san-miguel-county-commissioner-as-head-of-new-innovative), says the director oversees implementation of three housing programs, including Proposition 123. The current directory does not restate that assignment.",
+      "programs": [
+        "Prop 123",
+        "OEDIT"
+      ],
+      "source": {
+        "label": "Colorado Office of Economic Development and International Trade, Staff",
+        "url": "https://oedit.colorado.gov/staff"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "OEDIT's staff directory and OEDIT's July 11, 2023 announcement",
+        "checked": "2026-09-26"
+      },
+      "evidence": [
+        {
+          "section": "Staff",
+          "quote": "Hilary Cooper\nDirector of Innovative Funding for Housing Programs"
+        },
+        {
+          "section": "Announcement",
+          "quote": "Tuesday, July 11, 2023",
+          "note": "The date line of the announcement at https://oedit.colorado.gov/press-release/oedit-announces-former-san-miguel-county-commissioner-as-head-of-new-innovative"
+        },
+        {
+          "section": "Announcement",
+          "quote": "The Business Funding & Incentives Division (BF&I) within the Colorado Office of Economic Development & International Trade (OEDIT) has named Hilary Cooper as Director of Innovative Funding for Housing Programs to support new housing initiatives within OEDIT.",
+          "note": "From https://oedit.colorado.gov/press-release/oedit-announces-former-san-miguel-county-commissioner-as-head-of-new-innovative"
+        },
+        {
+          "section": "Announcement",
+          "quote": "She will oversee the implementation of three new housing programs. Proposition 123 supports the development of low-and middle-income, multi-family units through land banking, concessionary debt and equity financing for affordable housing development."
+        }
+      ],
+      "role": "Director of Innovative Funding for Housing Programs",
+      "agency": "Colorado Office of Economic Development and International Trade",
+      "appointing_authority": "OEDIT Business Funding & Incentives Division (per OEDIT's announcement)",
+      "person": {
+        "name": "Hilary Cooper"
+      },
+      "action": "appointed",
+      "dates": {
+        "nominated": null,
+        "confirmed": null,
+        "effective": null,
+        "term_end": null
+      },
+      "predecessor": null,
+      "relevance": [
+        "OEDIT's July 11, 2023 announcement: the director oversees the implementation of Proposition 123, the Middle Income Housing Authority and the Innovative Housing Incentive Program."
+      ]
+    },
+    {
+      "id": "people-state-housing-board-cd1",
+      "section": "people",
+      "status": "in office",
+      "date": null,
+      "title": "State Housing Board, Congressional District 1: Anthea Martin",
+      "detail": "The Division of Housing lists Anthea Martin as the State Housing Board member for Congressional District 1, with a term that expires January 31, 2027. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "programs": [
+        "DOLA"
+      ],
+      "source": {
+        "label": "Colorado Division of Housing, State Housing Board Members",
+        "url": "https://doh.colorado.gov/state-housing-board-members"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
+        "checked": "2026-09-26"
+      },
+      "evidence": [
+        {
+          "section": "State Housing Board Members",
+          "quote": "Anthea Martin\nCongressional District 1\nTerm Expires January 31, 2027"
+        },
+        {
+          "section": "C.R.S. 24-32-706(1)",
+          "quote": "The governor shall appoint one member from each congressional district in the state to the board.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        },
+        {
+          "section": "C.R.S. 24-32-706(2)",
+          "quote": "All members shall be appointed with the consent of the senate.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        }
+      ],
+      "role": "Member, State Housing Board (Congressional District 1)",
+      "agency": "Colorado Department of Local Affairs, Division of Housing",
+      "appointing_authority": "Governor, with the consent of the Senate (C.R.S. 24-32-706)",
+      "person": {
+        "name": "Anthea Martin"
+      },
+      "action": "appointed",
+      "dates": {
+        "nominated": null,
+        "confirmed": null,
+        "effective": null,
+        "term_end": "2027-01-31"
+      },
+      "predecessor": null,
+      "relevance": [
+        "The Division of Housing: the State Housing Board advises the General Assembly, the Governor and the Division of Housing on Colorado housing needs, and reviews financing requests."
+      ]
+    },
+    {
+      "id": "people-state-housing-board-cd2",
+      "section": "people",
+      "status": "in office",
+      "date": null,
+      "title": "State Housing Board, Congressional District 2: Ryan Jones",
+      "detail": "The Division of Housing lists Ryan Jones as the State Housing Board member for Congressional District 2, with a term that expires January 31, 2029. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "programs": [
+        "DOLA"
+      ],
+      "source": {
+        "label": "Colorado Division of Housing, State Housing Board Members",
+        "url": "https://doh.colorado.gov/state-housing-board-members"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
+        "checked": "2026-09-26"
+      },
+      "evidence": [
+        {
+          "section": "State Housing Board Members",
+          "quote": "Ryan Jones\nCongressional District 2\nTerm Expires January 31, 2029"
+        },
+        {
+          "section": "C.R.S. 24-32-706(1)",
+          "quote": "The governor shall appoint one member from each congressional district in the state to the board.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        },
+        {
+          "section": "C.R.S. 24-32-706(2)",
+          "quote": "All members shall be appointed with the consent of the senate.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        }
+      ],
+      "role": "Member, State Housing Board (Congressional District 2)",
+      "agency": "Colorado Department of Local Affairs, Division of Housing",
+      "appointing_authority": "Governor, with the consent of the Senate (C.R.S. 24-32-706)",
+      "person": {
+        "name": "Ryan Jones"
+      },
+      "action": "appointed",
+      "dates": {
+        "nominated": null,
+        "confirmed": null,
+        "effective": null,
+        "term_end": "2029-01-31"
+      },
+      "predecessor": null,
+      "relevance": [
+        "The Division of Housing: the State Housing Board advises the General Assembly, the Governor and the Division of Housing on Colorado housing needs, and reviews financing requests."
+      ]
+    },
+    {
+      "id": "people-state-housing-board-cd3",
+      "section": "people",
+      "status": "in office",
+      "date": null,
+      "title": "State Housing Board, Congressional District 3: Monique Terpstra",
+      "detail": "The Division of Housing lists Monique Terpstra as the State Housing Board member for Congressional District 3, with a term that expires January 31, 2027. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "programs": [
+        "DOLA"
+      ],
+      "source": {
+        "label": "Colorado Division of Housing, State Housing Board Members",
+        "url": "https://doh.colorado.gov/state-housing-board-members"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
+        "checked": "2026-09-26"
+      },
+      "evidence": [
+        {
+          "section": "State Housing Board Members",
+          "quote": "Monique Terpstra\nCongressional District 3\nTerm Expires January 31, 2027"
+        },
+        {
+          "section": "C.R.S. 24-32-706(1)",
+          "quote": "The governor shall appoint one member from each congressional district in the state to the board.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        },
+        {
+          "section": "C.R.S. 24-32-706(2)",
+          "quote": "All members shall be appointed with the consent of the senate.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        }
+      ],
+      "role": "Member, State Housing Board (Congressional District 3)",
+      "agency": "Colorado Department of Local Affairs, Division of Housing",
+      "appointing_authority": "Governor, with the consent of the Senate (C.R.S. 24-32-706)",
+      "person": {
+        "name": "Monique Terpstra"
+      },
+      "action": "appointed",
+      "dates": {
+        "nominated": null,
+        "confirmed": null,
+        "effective": null,
+        "term_end": "2027-01-31"
+      },
+      "predecessor": null,
+      "relevance": [
+        "The Division of Housing: the State Housing Board advises the General Assembly, the Governor and the Division of Housing on Colorado housing needs, and reviews financing requests."
+      ]
+    },
+    {
+      "id": "people-state-housing-board-cd4",
+      "section": "people",
+      "status": "in office",
+      "date": null,
+      "title": "State Housing Board, Congressional District 4: Candace Payne",
+      "detail": "The Division of Housing lists Candace Payne as the State Housing Board member for Congressional District 4, with a term that expires January 31, 2029. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "programs": [
+        "DOLA"
+      ],
+      "source": {
+        "label": "Colorado Division of Housing, State Housing Board Members",
+        "url": "https://doh.colorado.gov/state-housing-board-members"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
+        "checked": "2026-09-26"
+      },
+      "evidence": [
+        {
+          "section": "State Housing Board Members",
+          "quote": "Candace Payne\nCongressional District 4\nTerm Expires January 31, 2029"
+        },
+        {
+          "section": "C.R.S. 24-32-706(1)",
+          "quote": "The governor shall appoint one member from each congressional district in the state to the board.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        },
+        {
+          "section": "C.R.S. 24-32-706(2)",
+          "quote": "All members shall be appointed with the consent of the senate.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        }
+      ],
+      "role": "Member, State Housing Board (Congressional District 4)",
+      "agency": "Colorado Department of Local Affairs, Division of Housing",
+      "appointing_authority": "Governor, with the consent of the Senate (C.R.S. 24-32-706)",
+      "person": {
+        "name": "Candace Payne"
+      },
+      "action": "appointed",
+      "dates": {
+        "nominated": null,
+        "confirmed": null,
+        "effective": null,
+        "term_end": "2029-01-31"
+      },
+      "predecessor": null,
+      "relevance": [
+        "The Division of Housing: the State Housing Board advises the General Assembly, the Governor and the Division of Housing on Colorado housing needs, and reviews financing requests."
+      ]
+    },
+    {
+      "id": "people-state-housing-board-cd5",
+      "section": "people",
+      "status": "in office",
+      "date": null,
+      "title": "State Housing Board, Congressional District 5: J. Ryan Moses",
+      "detail": "The Division of Housing lists J. Ryan Moses as the State Housing Board member for Congressional District 5, with a term that expires January 31, 2029. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "programs": [
+        "DOLA"
+      ],
+      "source": {
+        "label": "Colorado Division of Housing, State Housing Board Members",
+        "url": "https://doh.colorado.gov/state-housing-board-members"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
+        "checked": "2026-09-26"
+      },
+      "evidence": [
+        {
+          "section": "State Housing Board Members",
+          "quote": "J. Ryan Moses\nCongressional District 5\nTerm Expires January 31, 2029"
+        },
+        {
+          "section": "C.R.S. 24-32-706(1)",
+          "quote": "The governor shall appoint one member from each congressional district in the state to the board.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        },
+        {
+          "section": "C.R.S. 24-32-706(2)",
+          "quote": "All members shall be appointed with the consent of the senate.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        }
+      ],
+      "role": "Member, State Housing Board (Congressional District 5)",
+      "agency": "Colorado Department of Local Affairs, Division of Housing",
+      "appointing_authority": "Governor, with the consent of the Senate (C.R.S. 24-32-706)",
+      "person": {
+        "name": "J. Ryan Moses"
+      },
+      "action": "appointed",
+      "dates": {
+        "nominated": null,
+        "confirmed": null,
+        "effective": null,
+        "term_end": "2029-01-31"
+      },
+      "predecessor": null,
+      "relevance": [
+        "The Division of Housing: the State Housing Board advises the General Assembly, the Governor and the Division of Housing on Colorado housing needs, and reviews financing requests."
+      ]
+    },
+    {
+      "id": "people-state-housing-board-cd6",
+      "section": "people",
+      "status": "in office",
+      "date": null,
+      "title": "State Housing Board, Congressional District 6: Nancy Jackson",
+      "detail": "The Division of Housing lists Nancy Jackson as the State Housing Board member for Congressional District 6, with a term that expires January 31, 2027. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "programs": [
+        "DOLA"
+      ],
+      "source": {
+        "label": "Colorado Division of Housing, State Housing Board Members",
+        "url": "https://doh.colorado.gov/state-housing-board-members"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
+        "checked": "2026-09-26"
+      },
+      "evidence": [
+        {
+          "section": "State Housing Board Members",
+          "quote": "Nancy Jackson\nCongressional District 6\nTerm Expires January 31, 2027"
+        },
+        {
+          "section": "C.R.S. 24-32-706(1)",
+          "quote": "The governor shall appoint one member from each congressional district in the state to the board.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        },
+        {
+          "section": "C.R.S. 24-32-706(2)",
+          "quote": "All members shall be appointed with the consent of the senate.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        }
+      ],
+      "role": "Member, State Housing Board (Congressional District 6)",
+      "agency": "Colorado Department of Local Affairs, Division of Housing",
+      "appointing_authority": "Governor, with the consent of the Senate (C.R.S. 24-32-706)",
+      "person": {
+        "name": "Nancy Jackson"
+      },
+      "action": "appointed",
+      "dates": {
+        "nominated": null,
+        "confirmed": null,
+        "effective": null,
+        "term_end": "2027-01-31"
+      },
+      "predecessor": null,
+      "relevance": [
+        "The Division of Housing: the State Housing Board advises the General Assembly, the Governor and the Division of Housing on Colorado housing needs, and reviews financing requests."
+      ]
+    },
+    {
+      "id": "people-state-housing-board-cd7",
+      "section": "people",
+      "status": "in office",
+      "date": null,
+      "title": "State Housing Board, Congressional District 7: LaDawn Sperling",
+      "detail": "The Division of Housing lists LaDawn Sperling as the State Housing Board member for Congressional District 7, with a term that expires January 31, 2028. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "programs": [
+        "DOLA"
+      ],
+      "source": {
+        "label": "Colorado Division of Housing, State Housing Board Members",
+        "url": "https://doh.colorado.gov/state-housing-board-members"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
+        "checked": "2026-09-26"
+      },
+      "evidence": [
+        {
+          "section": "State Housing Board Members",
+          "quote": "LaDawn Sperling\nCongressional District 7\nTerm Expires January 31, 2028"
+        },
+        {
+          "section": "C.R.S. 24-32-706(1)",
+          "quote": "The governor shall appoint one member from each congressional district in the state to the board.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        },
+        {
+          "section": "C.R.S. 24-32-706(2)",
+          "quote": "All members shall be appointed with the consent of the senate.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        }
+      ],
+      "role": "Member, State Housing Board (Congressional District 7)",
+      "agency": "Colorado Department of Local Affairs, Division of Housing",
+      "appointing_authority": "Governor, with the consent of the Senate (C.R.S. 24-32-706)",
+      "person": {
+        "name": "LaDawn Sperling"
+      },
+      "action": "appointed",
+      "dates": {
+        "nominated": null,
+        "confirmed": null,
+        "effective": null,
+        "term_end": "2028-01-31"
+      },
+      "predecessor": null,
+      "relevance": [
+        "The Division of Housing: the State Housing Board advises the General Assembly, the Governor and the Division of Housing on Colorado housing needs, and reviews financing requests."
+      ]
+    },
+    {
+      "id": "people-state-housing-board-cd8",
+      "section": "people",
+      "status": "in office",
+      "date": null,
+      "title": "State Housing Board, Congressional District 8: James Martinez",
+      "detail": "The Division of Housing lists James Martinez as the State Housing Board member for Congressional District 8, with a term that expires January 31, 2030. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "programs": [
+        "DOLA"
+      ],
+      "source": {
+        "label": "Colorado Division of Housing, State Housing Board Members",
+        "url": "https://doh.colorado.gov/state-housing-board-members"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
+        "checked": "2026-09-26"
+      },
+      "evidence": [
+        {
+          "section": "State Housing Board Members",
+          "quote": "James Martinez\nCongressional District 8\nTerm Expires January 31, 2030"
+        },
+        {
+          "section": "C.R.S. 24-32-706(1)",
+          "quote": "The governor shall appoint one member from each congressional district in the state to the board.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        },
+        {
+          "section": "C.R.S. 24-32-706(2)",
+          "quote": "All members shall be appointed with the consent of the senate.",
+          "note": "Colorado Revised Statutes 2024, Title 24, as published by the Office of Legislative Legal Services: https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf"
+        }
+      ],
+      "role": "Member, State Housing Board (Congressional District 8)",
+      "agency": "Colorado Department of Local Affairs, Division of Housing",
+      "appointing_authority": "Governor, with the consent of the Senate (C.R.S. 24-32-706)",
+      "person": {
+        "name": "James Martinez"
+      },
+      "action": "appointed",
+      "dates": {
+        "nominated": null,
+        "confirmed": null,
+        "effective": null,
+        "term_end": "2030-01-31"
+      },
+      "predecessor": null,
+      "relevance": [
+        "The Division of Housing: the State Housing Board advises the General Assembly, the Governor and the Division of Housing on Colorado housing needs, and reviews financing requests."
       ]
     }
   ]

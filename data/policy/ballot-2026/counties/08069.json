@@ -5,71 +5,158 @@
       "geoid": "08069",
       "level": "county",
       "name": "Larimer County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.larimer.gov/sites/default/files/2026ge-larimer-county-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the full official county sample ballot (all contests) and TABOR notice. Only county question is 1A: 0.3% countywide sales and use tax (up to $34.5M first year) for wildfire/drinking water/natural hazard resilience; bridges, roads, parks, trails, open space; community resilience and public safety incl. 'administration and funding of public benefits' and 'other county priorities and emerging community needs'. Excluded: not earmarked for housing/homelessness.",
+        "No participating-entities/IGA list is posted on the Larimer County 2026 Elections page (checked 2026-09-26), so not_applicable was not used."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.larimer.gov/sites/default/files/tabor-notice-07-final.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0806255",
       "level": "municipal",
       "name": "Berthoud (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.larimer.gov/sites/default/files/2026ge-larimer-county-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating (town clerk page confirms IGAs with Larimer and Weld clerks). Only town measure: Ballot Issue 3G, $28,000,000 sales and use tax revenue bonds (max repayment $60,000,000) for parks and recreation / Mountain Vista Park. Excluded: not housing.",
+        "Weld County portion of Berthoud not separately reviewed here (same town issue)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.larimer.gov/sites/default/files/tabor-notice-07-final.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.berthoud.org/165/Elections-Voter-Information",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0825115",
       "level": "municipal",
       "name": "Estes Park (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.larimer.gov/sites/default/files/2026ge-larimer-county-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
+        "No Town of Estes Park question on the county all-contests sample ballot or TABOR notice. Town clerk page lists only the April 7, 2026 regular election; town does not appear to have a Nov 2026 measure. Town Board packet of 2026-09-22 shows only a resolution supporting Estes Valley FPD 6D.",
+        "Estes Valley Fire Protection District 6D (0.5% sales tax, fire) is on the ballot for Estes-area voters - not a town measure and not housing."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.larimer.gov/sites/default/files/tabor-notice-07-final.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://estespark.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0827425",
       "level": "municipal",
       "name": "Fort Collins (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.larimer.gov/sites/default/files/2026ge-larimer-county-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
+        "County sample ballot states it 'contains all contests in Larimer County'; it has no City of Fort Collins question. TABOR notice has no Fort Collins issue. City 'On the Ballot' page mentions only 'possible local ballot questions' for Nov 3, 2026, none named; no city election notice posted.",
+        "Web lead about a Fort Collins 3-mill affordable-housing property tax ('2B') refers to a prior election, not found on the 2026 ballot."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.larimer.gov/sites/default/files/tabor-notice-07-final.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.fortcollins.gov/Government/Elections/On-the-Ballot",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0846465",
       "level": "municipal",
       "name": "Loveland (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.larimer.gov/sites/default/files/2026ge-larimer-county-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
+        "County all-contests sample ballot and TABOR notice contain no City of Loveland question.",
+        "City clerk elections page (lovgov.org) returned HTTP 403 via proxy - not reviewed. Loveland regular elections are in odd-numbered years.",
+        "Weld County portion of Loveland not reviewed."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.larimer.gov/sites/default/files/tabor-notice-07-final.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0877510",
       "level": "municipal",
       "name": "Timnath (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.larimer.gov/sites/default/files/2026ge-larimer-county-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
+        "No Town of Timnath question on the county all-contests sample ballot or TABOR notice. Town elections page covers only the April 7, 2026 regular election.",
+        "Weld County portion of Timnath not reviewed."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.larimer.gov/sites/default/files/tabor-notice-07-final.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://timnath.org/elections/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0883230",
       "level": "municipal",
       "name": "Wellington (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.larimer.gov/sites/default/files/2026ge-larimer-county-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating. Only town measure: Ballot Issue 2A, 0.50% sales and use tax (~$995,000/yr) for law enforcement and related public safety services. Excluded: not housing."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.larimer.gov/sites/default/files/tabor-notice-07-final.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://wellingtoncolorado.gov/458/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
