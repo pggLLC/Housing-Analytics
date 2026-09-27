@@ -5,21 +5,46 @@
       "geoid": "08065",
       "level": "county",
       "name": "Lake County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.lakecountyco.gov/354/Elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "County Clerk's Elections page on 2026-09-26 shows only the June 30, 2026 Primary notice; no TABOR notice, sample ballot, ballot-content certification, or participating-entities list for Nov 3, 2026 was posted.",
+        "County site search is JavaScript-rendered and returned no usable results via curl.",
+        "Web searches for Lake County (CO) 2026 housing ballot questions surfaced no leads for a county housing measure (results were for 2021 Leadville 2A lodging tax and 2024 LLCRHA 6A, and for other states' Lake Counties)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.lakecountyco.gov/394/Elections-Voting",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://electionhistory.lakecountyco.gov/eng/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0844320",
       "level": "municipal",
       "name": "Leadville (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.lakecountyco.gov/354/Elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No county participating-entities list posted, so not_applicable cannot be used.",
+        "City of Leadville website (www.leadville-co.gov, including /city-clerk) returned HTTP 403 Forbidden to both curl and WebFetch on 2026-09-26; page could not be read.",
+        "County has not posted any Nov 3, 2026 notice/sample ballot, so no county-side source for Leadville measures either.",
+        "No news leads found for a Leadville 2026 housing ballot question (Leadville Herald government page reviewed as a lead only)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.leadville-co.gov/city-clerk",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
