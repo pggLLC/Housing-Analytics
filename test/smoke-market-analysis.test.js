@@ -133,7 +133,7 @@ if (fileExists('js/market-analysis-scoring.js') && fileExists('docs/PMA_SCORING.
   const WEIGHTS = require(path.join(ROOT, 'js/market-analysis-scoring.js')).WEIGHTS;
   const DOC_ROW_KEY = {
     'Demand': 'demand', 'Capture Risk': 'captureRisk', 'Rent Pressure': 'rentPressure',
-    'Land / Supply': 'landSupply', 'Workforce': 'workforce',
+    'Market Tightness': 'landSupply', 'Workforce': 'workforce',
   };
   const doc = readFile('docs/PMA_SCORING.md');
   const rows = [...doc.matchAll(/^\|\s*\*\*([^*]+)\*\*\s*\|\s*(\d+)%\s*\|/gm)];
@@ -149,6 +149,19 @@ if (fileExists('js/market-analysis-scoring.js') && fileExists('docs/PMA_SCORING.
   });
   const missing = Object.keys(WEIGHTS).filter(function (k) { return !seen.has(k); });
   if (missing.length) fail('PMA_SCORING.md weight table has no row for WEIGHTS: ' + missing.join(', '));
+
+  // The page's score breakdown weights each dimension it shows by exactly one
+  // WEIGHTS entry, and covers them all. (The explainer is held to these labels
+  // in test/transit-zone-funding-line.test.js.)
+  const maSrc = readFile('js/market-analysis.js');
+  const driver = (maSrc.match(/var DRIVER_DIMS = \[([\s\S]*?)\];/) || [])[1] || '';
+  const used = [...driver.matchAll(/weight:\s*WEIGHTS\.(\w+)/g)].map(function (m) { return m[1]; });
+  const keys = Object.keys(WEIGHTS);
+  if (used.length === keys.length && keys.every(function (k) { return used.filter(function (u) { return u === k; }).length === 1; })) {
+    pass('score breakdown weights each of the ' + keys.length + ' WEIGHTS entries exactly once');
+  } else {
+    fail('score breakdown weights [' + used.join(', ') + '] but WEIGHTS has [' + keys.join(', ') + ']');
+  }
 } else {
   fail('js/market-analysis-scoring.js or docs/PMA_SCORING.md not found');
 }
