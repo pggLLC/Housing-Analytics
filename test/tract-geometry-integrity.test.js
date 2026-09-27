@@ -324,6 +324,24 @@ for (const [rel, doc] of [[CANONICAL, canonical], [DISPLAY, display]]) {
     } finally {
       fs.writeFileSync(abs, working);
     }
+    // Same geometry but a real data update (#1990 review): the pass is still
+    // skipped, and the update is kept -- never replaced by the committed copy.
+    try {
+      const updated = clone(fallback);
+      const target = updated.features[0];
+      const before = target.properties.AREALAND;
+      target.properties.AREALAND = Number(before) + 1;
+      fs.writeFileSync(abs, JSON.stringify(updated, null, 2));
+      const run = spawnSync(process.execPath, [...args, '--input', CANONICAL, '--if-geometry-changed'], { cwd: ROOT, encoding: 'utf8' });
+      const out = run.status === 0 ? JSON.parse(fs.readFileSync(abs, 'utf8')) : null;
+      if (!out) fail(`--if-geometry-changed with a property update exited ${run.status}: ${run.stderr}`);
+      else if (out.features[0].properties.AREALAND !== Number(before) + 1) fail('--if-geometry-changed discarded a property update on unchanged geometry');
+      else if (vertices(out) !== vertices(canonical)) fail(`--if-geometry-changed ran a simplify pass on unchanged geometry (${vertices(canonical)} -> ${vertices(out)} vertices)`);
+      else if (JSON.stringify(out.features[0].geometry) !== JSON.stringify(canonical.features[0].geometry)) fail('--if-geometry-changed altered unchanged geometry');
+      else ok('property update on unchanged geometry: update kept, no simplify pass, geometry untouched');
+    } finally {
+      fs.writeFileSync(abs, working);
+    }
     // The other way: without the flag, the same input loses vertices -- the
     // defect the flag exists to stop. Run outside the repo so nothing tracked
     // is touched.
