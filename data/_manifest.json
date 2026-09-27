@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T17:57:09.373Z",
+    "generated_at": "2026-09-27T18:18:04.734Z",
     "root": "data/",
     "file_count": 1691,
-    "total_size_bytes": 173490501,
+    "total_size_bytes": 172957368,
     "kinds": {
       "json": 1655,
       "geojson": 32,
@@ -1347,7 +1347,7 @@
       "path": "environmental/epa-superfund-co.json",
       "kind": "json",
       "size_bytes": 331979,
-      "mtime": "2026-09-27T14:43:28.482Z",
+      "mtime": "2026-09-27T18:17:58.820Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -29368,7 +29368,7 @@
       "path": "home-snapshot.json",
       "kind": "json",
       "size_bytes": 2173,
-      "mtime": "2026-09-27T17:56:21.448Z",
+      "mtime": "2026-09-27T18:18:02.955Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30526,7 +30526,7 @@
       "path": "market/acs_tract_metrics_co.json",
       "kind": "json",
       "size_bytes": 1347353,
-      "mtime": "2026-09-27T14:43:28.701Z",
+      "mtime": "2026-09-27T18:17:55.194Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31118,8 +31118,8 @@
     {
       "path": "market/hud_lihtc_co.geojson",
       "kind": "geojson",
-      "size_bytes": 1529920,
-      "mtime": "2026-09-27T10:49:11.239Z",
+      "size_bytes": 996787,
+      "mtime": "2026-09-27T18:17:59.264Z",
       "shape": "geojson",
       "feature_count": 926,
       "property_keys": [
