@@ -225,13 +225,190 @@ def sample_points(polys):
                 pts.append((x, y))
             x += step
         y += step
-    if not pts:  # sliver: fall back to the ring vertices' mean
-        pts = [(sum(xs) / len(xs), sum(ys) / len(ys))]
-    return pts
+    if not pts:  # sliver: no grid point landed inside
+        pts = [point_inside(polys)]
+    return pts, step
+
+
+def point_inside(polys):
+    """A point guaranteed to lie inside the geography (#1971). The mean of
+    the ring vertices can fall outside a crescent or a multi-part sliver, so
+    instead take the largest ring's horizontal scanline through the middle of
+    its vertical extent, and return the midpoint of the widest span the ring
+    (less its holes) covers on that line. Spans come from the even-odd rule,
+    so each midpoint is inside by construction; contains() confirms it."""
+    best = None
+    for poly in polys:
+        ys = [p[1] for p in poly[0]]
+        lo, hi = min(ys), max(ys)
+        for frac in (0.5, 0.25, 0.75, 0.125, 0.375, 0.625, 0.875):
+            y = lo + (hi - lo) * frac
+            xs = []
+            for ring in poly:
+                for i in range(len(ring) - 1):
+                    (x0, y0), (x1, y1) = ring[i][:2], ring[i + 1][:2]
+                    if (y0 > y) != (y1 > y):
+                        xs.append(x0 + (y - y0) * (x1 - x0) / (y1 - y0))
+            xs.sort()
+            for a, b in zip(xs[0::2], xs[1::2]):
+                m = ((a + b) / 2, y)
+                if b > a and contains(polys, m[0], m[1]) and (best is None or b - a > best[0]):
+                    best = (b - a, m)
+            if best:
+                break
+    if best is None:   # degenerate ring with no area: nothing is inside
+        ring = polys[0][0]
+        return (ring[0][0], ring[0][1])
+    return best[1]
+
+
+# ── Settling the absolutes (#1971) ─────────────────────────────────────────
+# A grid share of exactly 0 or 1 is only what the samples saw: an edge strip
+# near a stop, or a corner out of reach, can fall between grid points. Only a
+# proof may publish an absolute. Otherwise the builder publishes a measured
+# estimate that stays off the absolute (so the shared label rounds it to
+# "<1%" / ">99%", never "0%" / "100%") and records why.
+
+FULL_PROOF_DEPTH = 5          # a failing grid cell is split in four up to this depth
+ABSOLUTE_FLOOR = 0.0001       # smallest share that is still published as "some"
+
+
+def _kx(lat):
+    return 69.172 * math.cos(math.radians(lat))
+
+
+def _cell_halfdiag_mi(lat, w):
+    return 0.5 * math.hypot(w * _kx(lat), w * 69.0)
+
+
+def _segments(polys):
+    for poly in polys:
+        for ring in poly:
+            for i in range(len(ring) - 1):
+                yield ring[i], ring[i + 1]
+
+
+def _dist_to_boundary_mi(polys, lon, lat):
+    return min(_seg_dist_mi(lon, lat, a, b) for a, b in _segments(polys))
+
+
+def max_vertex_distance_mi(polys, idx, confirmed_only=True):
+    """Largest distance from any boundary vertex to its nearest stop. Above
+    the radius it disproves full coverage outright: that vertex is in the
+    geography and out of reach."""
+    worst = 0.0
+    for poly in polys:
+        for lon, lat in (p[:2] for p in poly[0]):
+            _, d = idx.nearest(lat, lon, confirmed_only)
+            worst = max(worst, d)
+    return worst
+
+
+def full_coverage(polys, pts, step, idx, miles, confirmed_only):
+    """Prove every point of the geography is within `miles` of a stop.
+
+    Cover the geography with the sample grid's cells: every cell whose
+    centre is inside (the samples), plus every cell within one cell of a
+    boundary point densified to half a cell. A cell that meets the geography
+    either has its centre inside or holds a piece of the boundary, so this
+    covers all of it. A cell is proven when its centre is within `miles`
+    less the cell's half-diagonal of a stop (triangle inequality); a cell
+    that is not is split in four, down to FULL_PROOF_DEPTH, and a child that
+    provably misses the geography is dropped. Returns the leaf cells that
+    could not be proven: empty means full coverage is proven."""
+    xs = [p[0] for poly in polys for p in poly[0]]
+    ys = [p[1] for poly in polys for p in poly[0]]
+    minx, miny = min(xs), min(ys)
+    cells = {(round((x - minx) / step - 0.5), round((y - miny) / step - 0.5)) for x, y in pts}
+    for a, b in _segments(polys):
+        k = max(1, math.ceil(max(abs(b[0] - a[0]), abs(b[1] - a[1])) / (step / 2)))
+        for t in range(k + 1):
+            bx, by = a[0] + (b[0] - a[0]) * t / k, a[1] + (b[1] - a[1]) * t / k
+            i, j = math.floor((bx - minx) / step), math.floor((by - miny) / step)
+            for di in (-1, 0, 1):
+                for dj in (-1, 0, 1):
+                    cells.add((i + di, j + dj))
+    stack = [(minx + (i + 0.5) * step, miny + (j + 0.5) * step, step, 0) for i, j in cells]
+    failing = []
+    while stack:
+        cx, cy, w, depth = stack.pop()
+        hd = _cell_halfdiag_mi(cy, w)
+        if depth > 0 and not contains(polys, cx, cy) and _dist_to_boundary_mi(polys, cx, cy) > hd:
+            continue                        # this cell misses the geography
+        if miles > hd and idx.any_within(cy, cx, miles - hd, confirmed_only):
+            continue                        # the whole cell is within reach
+        if depth >= FULL_PROOF_DEPTH:
+            failing.append((cx, cy, w))
+            continue
+        q = w / 4
+        for sx in (-q, q):
+            for sy in (-q, q):
+                stack.append((cx + sx, cy + sy, w / 2, depth + 1))
+    return failing
+
+
+def clamp_estimate(share):
+    """An unproven share stays strictly between 0 and 1. The fine-grid area
+    is divided by the sampled area (points x step squared), and for a sliver
+    that fell back to a single point the two can disagree by orders of
+    magnitude, so the raw ratio can land far outside [0, 1] (#1981 review)."""
+    return min(max(round(share, 4), ABSOLUTE_FLOOR), 1 - ABSOLUTE_FLOOR)
+
+
+def settle_full(polys, pts, step, idx, miles, confirmed_only):
+    """A sampled share of 1.0: (share, is_exact). Proven → (1.0, True).
+    Otherwise estimate the unreached area from the unproven cells and
+    publish it below 1, never above ABSOLUTE_FLOOR short of it."""
+    failing = full_coverage(polys, pts, step, idx, miles, confirmed_only)
+    if not failing:
+        return 1.0, True
+    missed = 0.0
+    for cx, cy, w in failing:
+        f = w / 4
+        for i in range(4):
+            for j in range(4):
+                x, y = cx - w / 2 + (i + 0.5) * f, cy - w / 2 + (j + 0.5) * f
+                if contains(polys, x, y) and not idx.any_within(y, x, miles, confirmed_only):
+                    missed += f * f
+    share = 1 - missed / (len(pts) * step * step)
+    return clamp_estimate(share), False
+
+
+def settle_zero(polys, pts, step, idx, miles, boundary_d):
+    """A sampled share of 0 near confirmed stops: (share, is_exact). Proven
+    when the exact boundary distance is beyond `miles` (or no stop is within
+    BOUNDARY_SEARCH_MI). Otherwise measure the reachable area on a fine grid
+    around each stop within `miles` of the geography, and publish at least
+    ABSOLUTE_FLOOR — a stop in reach means some of the area is."""
+    if boundary_d is None or boundary_d > miles:
+        return 0.0, True
+    fs = (miles / 25) / 69.0
+    xs = [p[0] for poly in polys for p in poly[0]]
+    ys = [p[1] for poly in polys for p in poly[0]]
+    pad_lat = miles / 69.0
+    pad_lon = miles / _kx(max(abs(min(ys)), abs(max(ys))))
+    box = (min(xs) - pad_lon, max(xs) + pad_lon, min(ys) - pad_lat, max(ys) + pad_lat)
+    hit = set()
+    for cell in idx.cells.values():
+        for slon, slat, props in cell:
+            if props.get("reliability") == "unconfirmed":
+                continue
+            if not (box[0] <= slon <= box[1] and box[2] <= slat <= box[3]):
+                continue
+            dlon = miles / _kx(slat)
+            for i in range(math.floor((slon - dlon) / fs), math.floor((slon + dlon) / fs) + 1):
+                for j in range(math.floor((slat - pad_lat) / fs), math.floor((slat + pad_lat) / fs) + 1):
+                    if (i, j) in hit:
+                        continue
+                    x, y = (i + 0.5) * fs, (j + 0.5) * fs
+                    if haversine_mi(y, x, slat, slon) <= miles and contains(polys, x, y):
+                        hit.add((i, j))
+    share = len(hit) * fs * fs / (len(pts) * step * step)
+    return clamp_estimate(share), False
 
 
 def summarize(polys, centre, idx, radius):
-    pts = sample_points(polys)
+    pts, step = sample_points(polys)
     n = len(pts)
     if centre is None:
         centre = representative_point(polys, pts)
@@ -245,20 +422,50 @@ def summarize(polys, centre, idx, radius):
                 stops_inside += 1
     near, d = idx.nearest(centre[1], centre[0], True)
     # A sampled zero is only a lower bound: an edge strip can fall between
-    # grid points. Measure the exact distance to settle it.
-    boundary_d = min_distance_to_polygon_mi(polys, idx) if conf == 0 else None
+    # grid points. Measure the exact distance to settle it. The ½-mile share
+    # needs it whenever its sample saw nothing (which includes conf == 0).
+    boundary_d = min_distance_to_polygon_mi(polys, idx) if half == 0 else None
     if boundary_d is not None:
         boundary_d = round(boundary_d, 3)   # decide exactness from the value we publish
+
+    # The 2-mile share keeps a sampled 0 with zero_is_exact (the shared label
+    # reads zero_is_exact=False as "<1%", an edge strip). A sampled 1.0 is
+    # settled here; so is every absolute of the ½-mile share.
+    share_conf, full_exact = (round(conf / n, 4), None) if conf != n else settle_full(polys, pts, step, idx, radius, True)
+    share_any, any_full_exact = (round(anyk / n, 4), None) if anyk != n else settle_full(polys, pts, step, idx, radius, False)
+    if half == 0:
+        share_half, half_zero_exact = settle_zero(polys, pts, step, idx, QAP_TOD_MILES, boundary_d)
+        half_full_exact = None
+    elif half == n:
+        share_half, half_full_exact = settle_full(polys, pts, step, idx, QAP_TOD_MILES, True)
+        half_zero_exact = None
+    else:
+        share_half, half_zero_exact, half_full_exact = round(half / n, 4), None, None
+    # Estimates made separately must still nest: more stops never shrink the
+    # share, and the ½-mile area lies inside the radius area.
+    share_any = max(share_any, share_conf)
+    share_half = min(share_half, share_conf)
     return {
-        # Only set when no sample was within the radius: the exact distance
-        # from the boundary to the nearest confirmed stop, or None when none
-        # is within BOUNDARY_SEARCH_MI. zero_is_exact is True when either
-        # proves no part of the geography is within the radius.
+        # Set whenever no sample was within ½ mile (so always when none was
+        # within the radius): the exact distance from the boundary to the
+        # nearest confirmed stop, or None when none is within
+        # BOUNDARY_SEARCH_MI. zero_is_exact (radius) and
+        # half_mile_zero_is_exact (½ mile) are True when it proves no part of
+        # the geography is that close.
         "nearest_confirmed_stop_to_boundary_miles": boundary_d,
-        "zero_is_exact": (conf == 0 and (boundary_d is None or boundary_d > radius)) if conf == 0 else None,
-        "share_within_radius_confirmed": round(conf / n, 4),
-        "share_within_radius_any": round(anyk / n, 4),
-        "share_within_half_mile_confirmed": round(half / n, 4),
+        "zero_is_exact": (boundary_d is None or boundary_d > radius) if conf == 0 else None,
+        "half_mile_zero_is_exact": half_zero_exact,
+        # Set only when every sample was within reach: True when the whole
+        # geography is proven within reach (full_coverage), False when it is
+        # not, and the share is then an estimate kept below 1.
+        "full_is_exact": full_exact,
+        "any_full_is_exact": any_full_exact,
+        "half_mile_full_is_exact": half_full_exact,
+        "max_boundary_vertex_distance_to_confirmed_stop_miles":
+            round(max_vertex_distance_mi(polys, idx), 3) if conf == n else None,
+        "share_within_radius_confirmed": share_conf,
+        "share_within_radius_any": share_any,
+        "share_within_half_mile_confirmed": share_half,
         "confirmed_stops_inside": stops_inside,
         "nearest_confirmed_stop": None if near is None else {
             "name": near.get("name") or None,
@@ -291,6 +498,8 @@ def main() -> int:
         if feat is None:
             out[geoid] = {"name": label, "type": kind, "share_within_radius_confirmed": None,
                           "nearest_confirmed_stop_to_boundary_miles": None, "zero_is_exact": None,
+                          "half_mile_zero_is_exact": None, "full_is_exact": None, "any_full_is_exact": None,
+                          "half_mile_full_is_exact": None, "max_boundary_vertex_distance_to_confirmed_stop_miles": None,
                           "share_within_radius_any": None, "share_within_half_mile_confirmed": None,
                           "confirmed_stops_inside": None, "nearest_confirmed_stop": None, "samples": 0,
                           "unavailableReason": "No boundary for this geography, so its area near transit could not be measured."}
@@ -320,7 +529,11 @@ def main() -> int:
                        "excluded: they are not public transit. Nearest stop is measured from a "
                        "point inside the geography (its centre when that lies inside). When no "
                        "sample is within the radius, nearest_confirmed_stop_to_boundary_miles "
-                       "gives the exact distance from the boundary, so a zero is proven, not sampled."),
+                       "gives the exact distance from the boundary, so a zero is proven, not sampled. "
+                       "A sampled 0 or 100% is published as an absolute only when proven "
+                       "(zero_is_exact, half_mile_zero_is_exact, full_is_exact, any_full_is_exact, "
+                       "half_mile_full_is_exact); otherwise the share is a finer local estimate "
+                       "kept off the absolute, so it reads as under 1% or over 99%."),
             "geography_count": len(out),
         },
         "geographies": out,
