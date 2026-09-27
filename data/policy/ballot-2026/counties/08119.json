@@ -5,41 +5,98 @@
       "geoid": "08119",
       "level": "county",
       "name": "Teller County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.tellercounty.gov/DocumentCenter/View/5208/Sample-Ballot-to-Include-Federal-and-State-Only-Question-PDF",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "All six official sample ballot styles were read. Every style has only county offices (commissioner, clerk, treasurer, assessor, sheriff, surveyor, coroner) under 'Teller County Offices'. None has a Teller County ballot issue or question.",
+        "No TABOR notice or separate participating-entities list or IGA is posted on the county elections page as of 2026-09-26.",
+        "The county commissioners' agendas (tellercoco.portal.civicclerk.com) were not reviewed. With no county question on any sample ballot style, a referring resolution would not change this row."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.tellercounty.gov/DocumentCenter/View/5208/Sample-Ballot-to-Include-Federal-and-State-Only-Question-PDF",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.tellercounty.gov/DocumentCenter/View/5213/Sample-Ballot-to-Include-City-of-Cripple-Creek-Question-PDF",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.tellercounty.gov/DocumentCenter/View/5214/-Sample-Ballot-to-Include-City-of-Woodland-Park-Question-PDF",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.tellercounty.gov/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0818530",
       "level": "municipal",
       "name": "Cripple Creek (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.tellercounty.gov/DocumentCenter/View/5213/Sample-Ballot-to-Include-City-of-Cripple-Creek-Question-PDF",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The Cripple Creek sample ballot style has one municipal measure. Verbatim: 'City of Cripple Creek Ballot Question 2A Shall the proposed home rule charter for the City of Cripple Creek be adopted?' It adopts a governance charter, with no housing tax, fee or land-use provision in the question text, so it is excluded. If the owner treats home rule adoption as land use, the charter text itself has not been reviewed.",
+        "The city's own site (cripplecreekgov.com) had no election or ballot links in its homepage HTML. Council's ballot-title resolution was not located."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.tellercounty.gov/DocumentCenter/View/5213/Sample-Ballot-to-Include-City-of-Cripple-Creek-Question-PDF",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0880865",
       "level": "municipal",
       "name": "Victor (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.tellercounty.gov/Elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county posts one sample ballot style for each local question set: Federal/State only, Green Mountain Falls, Rainbow Valley WD, Florissant FPD, Cripple Creek and Woodland Park. There is no City of Victor style and no Victor question on any style. 'None found' rests on that complete set of posted styles. No explicit county list of participating entities was available to confirm that Victor is absent.",
+        "The City of Victor website (cityofvictor.com) returned 403 (Cloudflare challenge), so the city clerk's page and council resolutions could not be checked. The owner may prefer official_notice_unavailable until a participating list or TABOR notice is posted."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.tellercounty.gov/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.tellercounty.gov/DocumentCenter/View/5208/Sample-Ballot-to-Include-Federal-and-State-Only-Question-PDF",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0886090",
       "level": "municipal",
       "name": "Woodland Park (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.tellercounty.gov/DocumentCenter/View/5214/-Sample-Ballot-to-Include-City-of-Woodland-Park-Question-PDF",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The Woodland Park style has one municipal measure, City of Woodland Park Ballot Issue 2B. Verbatim: 'SHALL WOODLAND PARK'S SALES TAXES BE INCREASED BY $805,306.75 ANNUALLY, COMMENCING JANUARY 1, 2027, AND BY WHATEVER ADDITIONAL AMOUNTS ARE RAISED ANNUALLY THEREAFTER, FROM A .25% (ONE-QUARTER OF ONE PERCENT) SALES TAX INCREASE, TO BE SPENT AS A VOTER APPROVED REVENUE CHANGE AND AS AN EXCEPTION TO THE LIMITS WHICH WOULD OTHERWISE APPLY, TO ASSIST WOODLAND PARK SCHOOL DISTRICT RE-2 WITH PAYMENTS OF EXISTING CERTIFICATE OF PARTICIPATION DEBT?' The revenue is earmarked for school district debt, not housing, so it is excluded.",
+        "The city elections page (woodlandpark.gov/166/Elections) covers only the April 7, 2026 municipal election. The council's November ballot ordinance or resolution was not located. www.city-of-woodlandpark.org failed through the proxy (502)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.tellercounty.gov/DocumentCenter/View/5214/-Sample-Ballot-to-Include-City-of-Woodland-Park-Question-PDF",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://woodlandpark.gov/166/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
