@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  actions: write         # dispatch ci-checks.yml on the PR branch
 
 concurrency:
   group: docs-sync-generated-inventory
@@ -68,6 +69,17 @@ jobs:
             git rebase --autostash origin/main
           fi
           git push --force-with-lease="refs/heads/$BRANCH:$REMOTE_BRANCH_SHA" --set-upstream origin "$BRANCH"
+
+          # Run ci-checks on the pushed head so the PR carries a real result.
+          # A PR or push made with GITHUB_TOKEN starts no push workflow, and
+          # its pull_request run is held at "action_required" until someone
+          # approves it -- on the PR that reads as "only CodeQL ran". A
+          # workflow_dispatch is the exception GitHub makes for GITHUB_TOKEN,
+          # and the dispatched run reports its check on the branch head, which
+          # is the PR head. Same pattern as market_data_build.yml (#1990).
+          # Needs `actions: write` (above).
+          gh workflow run ci-checks.yml --ref "$BRANCH"
+          echo "::notice::Dispatched ci-checks.yml on $BRANCH ($(git rev-parse --short HEAD))."
 
           TITLE="docs: regenerate inventory and refresh deprecated-doc banners [$(date +%Y-%m-%d)]"
           BODY="Automated weekly docs sync. Updates \`docs/GENERATED-INVENTORY.md\` with current HTML pages, data files, test files, workflows, and .gitignore status. Also refreshes the auto-sync banners in all superseded/deprecated docs so their notices always reflect live repo stats."
