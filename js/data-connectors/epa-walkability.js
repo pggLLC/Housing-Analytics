@@ -4,6 +4,12 @@
  * Loads block-group data from data/market/epa_sld_co.json and provides
  * walkability/bikeability scores for any lat/lon in Colorado.
  *
+ * A site is located by point-in-polygon against the 2010 block-group
+ * boundaries in data/market/epa_sld_bg_geometry_co.geojson (same GEOID set as
+ * the EPA file; EPA SLD v3 is published on 2010 block groups, so the repo's
+ * TIGER 2020 tracts cannot be used to join it). A site that falls in no block
+ * group gets null and an unavailable reason — never another place's values.
+ *
  * Exposes window.EpaWalkability.
  *
  * Depends on: js/data-service-portable.js (DataService.getEpaSld),
@@ -18,22 +24,23 @@
   /** @type {boolean} */
   var _loaded = false;
 
-  /** @type {Array.<{geoid:string,lat:number,lon:number}>|null} */
-  var _bgCentroids = null;
+  /**
+   * Block-group boundaries, indexed for point-in-polygon.
+   * @type {Array.<{geoid:string,bbox:number[],polys:Array}>|null}
+   */
+  var _bgIndex = null;
 
-  /* ── Earth constants ──────────────────────────────────────────────── */
-  var EARTH_R_MI = 3958.8;
+  /** @type {string|null} Why the boundary file is not available, once known */
+  var _geometryFailure = null;
 
-  function _toRad(d) { return d * Math.PI / 180; }
+  var SLD_URL      = 'data/market/epa_sld_co.json';
+  var BG_GEOM_URL  = 'data/market/epa_sld_bg_geometry_co.geojson';
 
-  function _haversine(lat1, lon1, lat2, lon2) {
-    var dLat = _toRad(lat2 - lat1);
-    var dLon = _toRad(lon2 - lon1);
-    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(_toRad(lat1)) * Math.cos(_toRad(lat2)) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    return EARTH_R_MI * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  }
+  // The boundary file is simplified server-side (maxAllowableOffset 0.0005°,
+  // see scripts/market/fetch_epa_sld_bg_geometry.py), polygon by polygon, which
+  // opens slivers between neighbours. A site in a sliver is matched to the
+  // nearest boundary within that tolerance and no further.
+  var SIMPLIFY_TOL_DEG = 0.0005;
 
   /* ── Value range constants (from Colorado EPA SLD data) ───────────── */
   var WALK_MAX      = 200;   // D3b intersection density cap for scoring (99th pctile ≈ 180)
@@ -54,12 +61,34 @@
     }
     _blockGroups = data.blockGroups;
     _loaded = true;
-
-    // Pre-compute approximate centroids from GEOIDs for nearest-match lookup.
-    // Colorado block-group GEOIDs are 12 digits: SSCCCTTTTTTB.
-    // We'll use a spatial index built lazily on first query.
-    _bgCentroids = null;
     console.log('[EpaWalkability] Loaded ' + Object.keys(_blockGroups).length + ' block groups');
+  }
+
+  /**
+   * Load the 2010 block-group boundaries used to locate a site.
+   * Accepts the parsed GeoJSON from data/market/epa_sld_bg_geometry_co.geojson.
+   * @param {object} fc - FeatureCollection; properties.geoid on each feature
+   */
+  function loadGeometry(fc) {
+    if (!fc || !Array.isArray(fc.features) || !fc.features.length) {
+      _bgIndex = null;
+      _geometryFailure = 'block-group boundary file had no features';
+      console.warn('[EpaWalkability] No block-group boundaries provided');
+      return;
+    }
+    var index = [];
+    for (var i = 0; i < fc.features.length; i++) {
+      var f = fc.features[i];
+      var geoid = f && f.properties ? String(f.properties.geoid || '') : '';
+      var g = f && f.geometry;
+      if (!geoid || !g) continue;
+      var polys = g.type === 'Polygon' ? [g.coordinates]
+        : g.type === 'MultiPolygon' ? g.coordinates : null;
+      if (!polys) continue;
+      index.push({ geoid: geoid, bbox: _bboxOf(polys), polys: polys });
+    }
+    _bgIndex = index;
+    _geometryFailure = null;
   }
 
   /**
@@ -71,32 +100,88 @@
       setTimeout(autoLoad, 100);
       return;
     }
-    fetch('data/market/epa_sld_co.json')
+    fetch(SLD_URL)
       .then(function (data) { if (data) load(data); })
       .catch(function () { console.warn('[EpaWalkability] Could not auto-load EPA SLD'); });
+    fetch(BG_GEOM_URL)
+      .then(function (fc) {
+        if (fc) loadGeometry(fc);
+        else _geometryFailure = 'block-group boundary file did not load';
+      })
+      .catch(function () {
+        _geometryFailure = 'block-group boundary file did not load';
+        console.warn('[EpaWalkability] Could not auto-load block-group boundaries');
+      });
   }
 
   /* ── Lookup ────────────────────────────────────────────────────────── */
 
   /**
-   * Find the nearest block group(s) to a lat/lon by matching tract GEOIDs
-   * from PMAEngine's buffer, or by brute-force nearest block-group centroid.
+   * Find the EPA SLD block group(s) a site sits in.
    *
    * @param {number} lat
    * @param {number} lon
-   * @returns {object|null} EPA SLD metrics for the best-matching block group(s)
+   * @returns {{blockGroups: string[], method: string|null, unavailableReason: string|null}}
+   *   blockGroups is empty exactly when unavailableReason is set. method is
+   *   'contains', or 'within-simplification-tolerance' for a sliver match.
+   */
+  function resolveSite(lat, lon) {
+    function none(reason) { return { blockGroups: [], method: null, unavailableReason: reason }; }
+    if (typeof lat !== 'number' || typeof lon !== 'number' || !isFinite(lat) || !isFinite(lon)) {
+      return none('site coordinates are missing or not numeric');
+    }
+    if (!_loaded || !_blockGroups) return none('EPA Smart Location Database has not loaded');
+    if (!_bgIndex) return none(_geometryFailure || 'block-group boundaries have not loaded yet');
+
+    var hits = [];
+    for (var i = 0; i < _bgIndex.length; i++) {
+      var bg = _bgIndex[i];
+      var b = bg.bbox;
+      if (lon < b[0] || lat < b[1] || lon > b[2] || lat > b[3]) continue;
+      if (!_blockGroups[bg.geoid]) continue;
+      for (var p = 0; p < bg.polys.length; p++) {
+        if (_inPolygon(lon, lat, bg.polys[p])) { hits.push(bg.geoid); break; }
+      }
+    }
+    if (hits.length) return { blockGroups: hits, method: 'contains', unavailableReason: null };
+
+    var best = null, bestD = SIMPLIFY_TOL_DEG;
+    for (var k = 0; k < _bgIndex.length; k++) {
+      var c = _bgIndex[k], cb = c.bbox;
+      if (lon < cb[0] - bestD || lat < cb[1] - bestD || lon > cb[2] + bestD || lat > cb[3] + bestD) continue;
+      if (!_blockGroups[c.geoid]) continue;
+      var d = _distToPolys(lon, lat, c.polys);
+      if (d <= bestD) { bestD = d; best = c.geoid; }
+    }
+    if (best) return { blockGroups: [best], method: 'within-simplification-tolerance', unavailableReason: null };
+    return none('site is not inside any Colorado block group in the EPA Smart Location Database');
+  }
+
+  /**
+   * EPA SLD metrics for the block group(s) containing a site.
+   *
+   * @param {number} lat
+   * @param {number} lon
+   * @returns {object|null} null when the site cannot be located; see
+   *   getUnavailableReason() for why.
    */
   function getMetrics(lat, lon) {
-    if (!_loaded || !_blockGroups) return null;
+    var site = resolveSite(lat, lon);
+    if (!site.blockGroups.length) return null;
+    return _averageForBlockGroups(site.blockGroups);
+  }
 
-    // Strategy 1: Use PMAEngine buffered tract GEOIDs if available
-    var tractGeoids = _getTractGeoids(lat, lon);
-    if (tractGeoids && tractGeoids.length > 0) {
-      return _averageForTracts(tractGeoids);
-    }
-
-    // Strategy 2: Find nearest block group by lat/lon approximation
-    return _nearestBlockGroup(lat, lon);
+  /**
+   * Why getMetrics()/getScores() return null for a site, or null when they do not.
+   * @param {number} lat
+   * @param {number} lon
+   * @returns {string|null}
+   */
+  function getUnavailableReason(lat, lon) {
+    var site = resolveSite(lat, lon);
+    if (site.unavailableReason) return site.unavailableReason;
+    if (!getMetrics(lat, lon)) return 'EPA Smart Location Database has no intersection density for this block group';
+    return null;
   }
 
   /**
@@ -171,38 +256,63 @@
     return 'Very Low';
   }
 
-  /**
-   * Try to get tract GEOIDs from PMAEngine for the analysis buffer.
-   */
-  function _getTractGeoids(lat, lon) {
-    var pma = window.PMAEngine;
-    if (!pma || typeof pma.tractsInBuffer !== 'function') return null;
-    try {
-      var tracts = pma.tractsInBuffer(lat, lon, 3);
-      if (tracts && tracts.length) {
-        return tracts.map(function (t) { return t.geoid; });
+  function _bboxOf(polys) {
+    var b = [Infinity, Infinity, -Infinity, -Infinity];
+    for (var p = 0; p < polys.length; p++) {
+      var outer = polys[p][0] || [];
+      for (var i = 0; i < outer.length; i++) {
+        var x = outer[i][0], y = outer[i][1];
+        if (x < b[0]) b[0] = x;
+        if (y < b[1]) b[1] = y;
+        if (x > b[2]) b[2] = x;
+        if (y > b[3]) b[3] = y;
       }
-    } catch (e) { /* ignore */ }
-    return null;
+    }
+    return b;
+  }
+
+  /** Planar distance, in degrees, from a point to the nearest polygon edge. */
+  function _distToPolys(x, y, polys) {
+    var best = Infinity;
+    for (var p = 0; p < polys.length; p++) {
+      for (var r = 0; r < polys[p].length; r++) {
+        var ring = polys[p][r];
+        for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+          var ax = ring[j][0], ay = ring[j][1], dx = ring[i][0] - ax, dy = ring[i][1] - ay;
+          var len2 = dx * dx + dy * dy;
+          var t = len2 ? Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / len2)) : 0;
+          var ex = ax + t * dx - x, ey = ay + t * dy - y;
+          var d = Math.sqrt(ex * ex + ey * ey);
+          if (d < best) best = d;
+        }
+      }
+    }
+    return best;
+  }
+
+  /** Even-odd ray cast over every ring, so holes are excluded. */
+  function _inPolygon(x, y, rings) {
+    var inside = false;
+    for (var r = 0; r < rings.length; r++) {
+      var ring = rings[r];
+      for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        var xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1];
+        if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) inside = !inside;
+      }
+    }
+    return inside;
   }
 
   /**
-   * Average EPA SLD metrics across block groups matching tract GEOIDs.
+   * Average EPA SLD metrics across the given block groups.
    */
-  function _averageForTracts(tractGeoids) {
-    var tractSet = {};
-    for (var i = 0; i < tractGeoids.length; i++) {
-      tractSet[tractGeoids[i]] = true;
-    }
-
+  function _averageForBlockGroups(bgIds) {
     var sums = { walkability: 0, transitAccess: 0, landUseMix: 0, autoNetDensity: 0, empDensity: 0 };
     var counts = { walkability: 0, transitAccess: 0, landUseMix: 0, autoNetDensity: 0, empDensity: 0 };
 
-    var bgIds = Object.keys(_blockGroups);
     for (var j = 0; j < bgIds.length; j++) {
-      var tractPrefix = bgIds[j].substring(0, 11);
-      if (!tractSet[tractPrefix]) continue;
       var bg = _blockGroups[bgIds[j]];
+      if (!bg) continue;
       if (bg.walkability != null)    { sums.walkability    += bg.walkability;    counts.walkability++;    }
       if (bg.transitAccess != null)  { sums.transitAccess  += bg.transitAccess;  counts.transitAccess++;  }
       if (bg.landUseMix != null)     { sums.landUseMix     += bg.landUseMix;     counts.landUseMix++;     }
@@ -222,52 +332,8 @@
     };
   }
 
-  /**
-   * Nearest block-group fallback using tract centroid data.
-   * Approximates block-group location from the tract centroid file.
-   */
-  function _nearestBlockGroup(lat, lon) {
-    // Build centroid index lazily from tract_centroids_co.json data
-    if (!_bgCentroids) {
-      _bgCentroids = [];
-      // Use tract centroids: each block group shares its tract's centroid
-      var ds = window.DataService;
-      if (ds && ds._tractCentroidsCache) {
-        var tracts = ds._tractCentroidsCache;
-        for (var i = 0; i < tracts.length; i++) {
-          _bgCentroids.push({
-            geoid: tracts[i].geoid,
-            lat:   tracts[i].lat,
-            lon:   tracts[i].lon
-          });
-        }
-      }
-    }
-
-    // Find 3 nearest tracts and average their block groups
-    if (_bgCentroids.length === 0) {
-      // Last resort: pick the first block group (better than nothing)
-      var firstKey = Object.keys(_blockGroups)[0];
-      return firstKey ? _blockGroups[firstKey] : null;
-    }
-
-    var nearest = [];
-    for (var k = 0; k < _bgCentroids.length; k++) {
-      var c = _bgCentroids[k];
-      var d = _haversine(lat, lon, c.lat, c.lon);
-      if (nearest.length < 3 || d < nearest[nearest.length - 1].dist) {
-        nearest.push({ geoid: c.geoid, dist: d });
-        nearest.sort(function (a, b) { return a.dist - b.dist; });
-        if (nearest.length > 3) nearest.pop();
-      }
-    }
-
-    var tractGeoids = nearest.map(function (n) { return n.geoid; });
-    return _averageForTracts(tractGeoids);
-  }
-
-  /** @returns {boolean} */
-  function isLoaded() { return _loaded; }
+  /** @returns {boolean} true once both the metrics and the boundaries have loaded */
+  function isLoaded() { return _loaded && !!_bgIndex; }
 
   /* ── Init ──────────────────────────────────────────────────────────── */
   if (document.readyState === 'loading') {
@@ -278,10 +344,13 @@
 
   /* ── Expose ────────────────────────────────────────────────────────── */
   window.EpaWalkability = {
-    load:       load,
-    isLoaded:   isLoaded,
-    getMetrics: getMetrics,
-    getScores:  getScores
+    load:                 load,
+    loadGeometry:         loadGeometry,
+    isLoaded:             isLoaded,
+    resolveSite:          resolveSite,
+    getMetrics:           getMetrics,
+    getScores:            getScores,
+    getUnavailableReason: getUnavailableReason
   };
 
 }());
