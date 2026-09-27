@@ -50,7 +50,14 @@ concurrency:
 jobs:
   fetch-parcel-zoning:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # Was 30. Recent runs take 11-12 min (runs 28-29, 2026-09-20/27), of which
+    # the network fetches vary most (parcel fetch 1-5 min, zoning ~5 min). The
+    # derived-chain step adds `npm run rebuild:derived` when the transit zone
+    # content changes: 169 s locally (2026-09-27; the digest step is 129 s),
+    # so budget ~5 min on a runner. 40 keeps >20 min of headroom for a slow
+    # fetch week that is also a rebuild week. `cancelled` on this job means
+    # this limit was hit (AGENTS.md).
+    timeout-minutes: 40
     env:
       # Scheduled Regrid requests resume only by explicit owner opt-in.
       # One-off: dispatch with regrid_enabled=true. Scheduled: set the
@@ -282,16 +289,34 @@ jobs:
       # running build_ranking_index.py alone drops the augmenters' metrics
       # (#1698). Not continue-on-error: if the chain fails, nothing is
       # committed, so a new transit file never lands beside a stale index.
-      - name: Rebuild the derived chain when the transit zone share changed
+      #
+      # Gated on CONTENT, not on a file diff. The source gets new
+      # generated/stops_generated stamps on every run even when no geography
+      # changed; a plain `git diff` gate would rebuild the chain and commit
+      # ~570 timestamp-only files every week. check_transit_zone_copy.py
+      # compares the index's copy with the source row by row, ignoring stamps:
+      # exit 0 = current, 1 = stale, anything else = the check broke (fail).
+      # Runtime: see the job's timeout-minutes comment.
+      - name: Rebuild the derived chain when the transit zone content changed
         id: derived-chain
         run: |
-          if git diff --quiet -- data/hna/transit-zone-by-geography.json; then
-            echo "transit-zone-by-geography.json unchanged; the ranking index copy is current."
-            echo "rebuilt=false" >> "$GITHUB_OUTPUT"
-          else
-            npm run rebuild:derived
-            echo "rebuilt=true" >> "$GITHUB_OUTPUT"
-          fi
+          set +e
+          python3 scripts/hna/check_transit_zone_copy.py
+          rc=$?
+          set -e
+          case "$rc" in
+            0)
+              echo "rebuilt=false" >> "$GITHUB_OUTPUT"
+              ;;
+            1)
+              npm run rebuild:derived
+              echo "rebuilt=true" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "::error::check_transit_zone_copy.py could not run (exit $rc)" >&2
+              exit "$rc"
+              ;;
+          esac
 
       # ── Commit all updated data ───────────────────────────────────────
       - name: Commit updated data files

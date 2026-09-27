@@ -230,12 +230,13 @@ TRANSIT_ZONE_FIELDS = (
     "nearest_confirmed_stop",
 )
 _TRANSIT_ZONE_FLAGS = {f for f in TRANSIT_ZONE_FIELDS if f.endswith("_is_exact")}
-# Source meta copied into metadata.transitZone. `generated` and
-# `stops_generated` pin which build of the source (and of the stop file behind
-# it) the index copy came from; the test compares them to the source file.
+# Source meta copied into metadata.transitZone: only fields that change when
+# the content does. The source's `generated` / `stops_generated` stamps are
+# deliberately NOT copied: they move on every weekly run even when no
+# geography changes, and copying them would force a full chain rebuild (and
+# ~570 timestamp-only files) every week. Surfaces that judge staleness read the
+# source file's own stamps (js/transit-zone.js).
 TRANSIT_ZONE_META_FIELDS = (
-    "generated",
-    "stops_generated",
     "stops_file",
     "radius_miles",
     "radius_source",
@@ -303,6 +304,26 @@ def transit_zone_record(geoid: str, records: dict[str, dict], meta: dict) -> dic
     if not reason and out["share_within_radius_confirmed"] is None:
         reason = f"{TRANSIT_ZONE_REL_PATH} publishes no transit zone share for this geography."
     out["unavailableReason"] = reason or None
+    return out
+
+
+def transit_zone_copy_disagreements(index_doc: dict) -> list[str]:
+    """What in an index's transit copy disagrees with the source file now.
+
+    The one definition of "the copy is current", shared by the freshness test
+    and scripts/hna/check_transit_zone_copy.py (the weekly workflow's gate).
+    Compares content only — every row's block and the copied meta fields —
+    so a source rewritten with nothing but new stamps is still current.
+    """
+    meta, records = load_transit_zone()
+    index_meta = (index_doc.get("metadata") or {}).get("transitZone")
+    out: list[str] = []
+    if index_meta != meta:
+        out.append("metadata.transitZone")
+    for row in index_doc.get("rankings") or []:
+        geoid = str(row.get("geoid"))
+        if row.get("transitZone") != transit_zone_record(geoid, records, meta):
+            out.append(geoid)
     return out
 
 

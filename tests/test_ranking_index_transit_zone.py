@@ -12,12 +12,13 @@ data/hna/transit-zone-by-geography.json (#1971; owner decision on #1937 and
    composite, and every existing metric. Wire a transit field into any of them
    and the perturbed build moves it, and this fails.
 
-2. The copy agrees with its source. The index's `metadata.transitZone` must
-   name the same build of the source (`generated`, `stops_generated`) and
-   every row must equal what the builder derives from the committed source
-   record. When fetch-parcel-zoning-data.yml refreshes the source without
-   rebuilding the chain, this fails — so that workflow must run the chain,
-   which the last test checks.
+2. The copy agrees with its source, in CONTENT. Every row and the copied
+   meta fields must equal what the builder derives from the committed source
+   (build_ranking_index.transit_zone_copy_disagreements). The source's
+   generated/stops_generated stamps are not copied and not compared: they
+   move on every weekly run even when nothing changed. The same comparison is
+   fetch-parcel-zoning-data.yml's gate (scripts/hna/check_transit_zone_copy.py):
+   a stamp-only refresh must not rebuild the chain, a content change must.
 
 Absence: a geography with no share carries null and an unavailableReason,
 never 0 (#1480).
@@ -27,6 +28,8 @@ import copy
 import importlib.util
 import json
 import re
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -35,6 +38,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 BUILDER = REPO_ROOT / "scripts" / "hna" / "build_ranking_index.py"
 INDEX = REPO_ROOT / "data" / "hna" / "ranking-index.json"
 WORKFLOWS = REPO_ROOT / ".github" / "workflows"
+GATE = REPO_ROOT / "scripts" / "hna" / "check_transit_zone_copy.py"
 
 
 def _load_builder():
@@ -172,28 +176,69 @@ def test_absent_is_null_with_a_reason_never_zero(builds):
         assert all(v is None for v in numbers), f"{row['geoid']}: a value survived a missing source: {row['transitZone']}"
 
 
-def test_committed_index_copy_agrees_with_the_committed_source(builder, source):
-    """The freshness pin: fails when the source is refreshed and the chain is not rerun."""
+
+def test_committed_index_copy_agrees_with_the_committed_source(builder):
+    """The freshness pin: every row and the copied meta equal what the source gives now.
+
+    Content, not stamps — the source's generated/stops_generated move every
+    week without any geography changing, and are not copied.
+    """
     index = json.loads(INDEX.read_text(encoding="utf-8"))
     meta = index["metadata"].get("transitZone")
     assert meta, "metadata.transitZone is missing — the ranking index chain has not been rerun"
-    for key in ("generated", "stops_generated"):
-        assert meta.get(key) == source["meta"].get(key), (
-            f"ranking-index.json holds the transit zone copy from {key}={meta.get(key)}, but "
-            f"{builder.TRANSIT_ZONE_REL_PATH} is {key}={source['meta'].get(key)}. Run `npm run rebuild:derived`."
-        )
-    tz_meta, records = builder.load_transit_zone()
-    stale = []
-    for row in index["rankings"]:
-        want = builder.transit_zone_record(row["geoid"], records, tz_meta)
-        if row.get("transitZone") != want:
-            stale.append(row["geoid"])
-    assert not stale, f"{len(stale)} rows disagree with the source, e.g. {stale[:5]}. Run `npm run rebuild:derived`."
+    assert len(index["rankings"]) >= 500, "the scan found almost no rows to compare"
+    stale = builder.transit_zone_copy_disagreements(index)
+    assert not stale, (
+        f"ranking-index.json's transit zone copy disagrees with {builder.TRANSIT_ZONE_REL_PATH} "
+        f"in {len(stale)} place(s), e.g. {stale[:5]}. Run `npm run rebuild:derived`."
+    )
 
 
-def test_the_workflow_that_refreshes_the_source_rebuilds_the_chain(builder):
-    """Relational: whichever workflow commits the builder's source must run the chain after writing it."""
+def _gate_on(builder, tmp_path, name, mutate):
+    """Run the gate's comparison against the committed index with a mutated source."""
+    src = json.loads(Path(builder.TRANSIT_ZONE_PATH).read_text(encoding="utf-8"))
+    before = json.dumps(src, sort_keys=True)
+    mutate(src)
+    assert json.dumps(src, sort_keys=True) != before, f"{name}: the mutation did not apply"
+    path = tmp_path / f"{name}.json"
+    path.write_text(json.dumps(src), encoding="utf-8")
+    saved = builder.TRANSIT_ZONE_PATH
+    builder.TRANSIT_ZONE_PATH = str(path)
+    try:
+        return builder.transit_zone_copy_disagreements(json.loads(INDEX.read_text(encoding="utf-8")))
+    finally:
+        builder.TRANSIT_ZONE_PATH = saved
+
+
+def test_gate_ignores_a_stamp_only_refresh(builder, tmp_path):
+    """The weekly run rewrites the stamps whether or not anything changed; that must not rebuild."""
+    def restamp(src):
+        src["meta"]["generated"] = "2099-01-01T00:00:00Z"
+        src["meta"]["stops_generated"] = "2099-01-01T00:00:00Z"
+    assert _gate_on(builder, tmp_path, "restamp", restamp) == []
+
+
+@pytest.mark.parametrize("name,mutate", [
+    ("one-share", lambda s: next(iter(s["geographies"].values())).update(
+        share_within_half_mile_confirmed=0.4321)),
+    ("one-flag", lambda s: next(iter(s["geographies"].values())).update(full_is_exact=False)),
+    ("radius", lambda s: s["meta"].update(radius_miles=3)),
+])
+def test_gate_fires_on_a_content_change(builder, tmp_path, name, mutate):
+    assert _gate_on(builder, tmp_path, name, mutate), f"{name}: a content change did not mark the copy stale"
+
+
+def test_gate_script_runs_and_reports_current_on_the_committed_tree():
+    """Exit 0 means 'checked and current' — prove the script really ran the comparison."""
+    res = subprocess.run([sys.executable, str(GATE)], capture_output=True, text=True, cwd=REPO_ROOT)
+    assert res.returncode == 0, res.stdout + res.stderr
+    assert "agrees" in res.stdout
+
+
+def test_the_workflow_that_refreshes_the_source_rebuilds_the_chain_on_content(builder):
+    """Relational: any workflow committing the source runs the chain, gated on the content check."""
     rel = builder.TRANSIT_ZONE_REL_PATH
+    gate_rel = str(GATE.relative_to(REPO_ROOT))
     committers = []
     for wf in sorted(WORKFLOWS.glob("*.yml")):
         src = wf.read_text(encoding="utf-8")
@@ -201,14 +246,19 @@ def test_the_workflow_that_refreshes_the_source_rebuilds_the_chain(builder):
         if commit_at < 0 or rel not in src[:commit_at]:
             continue
         committers.append(wf.name)
-        chain_at = src.find("npm run rebuild:derived")
+        # The invocation (a command line of its own), not a mention in a comment.
+        m = re.search(r"^[ \t]+npm run rebuild:derived[ \t]*$", src, re.M)
+        chain_at = m.start() if m else -1
         assert 0 <= chain_at < commit_at, (
             f"{wf.name} commits {rel} but does not run `npm run rebuild:derived` before committing it"
         )
-        # If the chain is gated on a diff, the gate must be the file the index copies.
-        gates = re.findall(r"git diff --quiet -- ([^\s;]+)", src[:chain_at])
-        assert gates and gates[-1] == rel, (
-            f"{wf.name} gates the chain on {gates[-1] if gates else 'nothing'}, not on {rel}"
+        step = src[src.rfind("- name:", 0, chain_at):chain_at]
+        assert gate_rel in step, (
+            f"{wf.name}: the rebuild step is not gated on {gate_rel}, the content check"
+        )
+        assert not re.search(r"git diff --quiet -- " + re.escape(rel), step), (
+            f"{wf.name} gates the chain on a plain file diff of {rel}: every stamp-only weekly "
+            "refresh would rebuild the chain and commit ~570 timestamp-only files"
         )
         staged = src[chain_at:commit_at]
         for path in ("data/hna/ranking-index.json", "data/hna/ranking-scenarios"):
