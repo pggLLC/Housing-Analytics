@@ -1,10 +1,10 @@
 {
  "meta": {
   "boundary_search_miles": 10.0,
-  "generated": "2026-09-26T17:45:36Z",
+  "generated": "2026-09-27T10:12:49Z",
   "source": "scripts/market/build_transit_zone_by_geography.py (#1937)",
   "stops_file": "data/amenities/transit_stops_statewide_co.geojson",
-  "stops_generated": "2026-09-26T16:35:51Z",
+  "stops_generated": "2026-09-27T04:20:59Z",
   "radius_miles": 2,
   "radius_source": "data/policy/thiz-map-status.json",
   "qap_tod_miles": 0.5,
@@ -422,7 +422,7 @@
    "confirmed_stops_inside": 247,
    "nearest_confirmed_stop": {
     "name": "LAKE CREEK BLVD @ HILLCREST",
-    "agency": "Agency not listed",
+    "agency": "ECO Transit",
     "distance_miles": 4.1
    },
    "samples": 1736,
@@ -2879,7 +2879,7 @@
    "confirmed_stops_inside": 5,
    "nearest_confirmed_stop": {
     "name": "5TH ST + WALL ST",
-    "agency": "Agency not listed",
+    "agency": "ECO Transit",
     "distance_miles": 0.73
    },
    "samples": 683,
@@ -3677,7 +3677,7 @@
    "confirmed_stops_inside": 1,
    "nearest_confirmed_stop": {
     "name": "Green Mountain Falls Bus Stop",
-    "agency": "Agency not listed",
+    "agency": "TSC Transit",
     "distance_miles": 0.18
    },
    "samples": 1346,
@@ -3761,7 +3761,7 @@
    "confirmed_stops_inside": 19,
    "nearest_confirmed_stop": {
     "name": "ECO TRANSIT PARK AND RIDE",
-    "agency": "Agency not listed",
+    "agency": "ECO Transit",
     "distance_miles": 1.47
    },
    "samples": 308,
@@ -4916,7 +4916,7 @@
    "confirmed_stops_inside": 11,
    "nearest_confirmed_stop": {
     "name": "REDCLIFF - INTOWN",
-    "agency": "Agency not listed",
+    "agency": "ECO Transit",
     "distance_miles": 1.72
    },
    "samples": 455,
@@ -5819,7 +5819,7 @@
    "confirmed_stops_inside": 1,
    "nearest_confirmed_stop": {
     "name": "REDCLIFF - INTOWN",
-    "agency": "Agency not listed",
+    "agency": "ECO Transit",
     "distance_miles": 0.29
    },
    "samples": 533,
@@ -6995,7 +6995,7 @@
    "confirmed_stops_inside": 18,
    "nearest_confirmed_stop": {
     "name": "Post Office South Avenue (By Request)",
-    "agency": "Agency not listed",
+    "agency": "TSC Transit",
     "distance_miles": 0.2
    },
    "samples": 732,
@@ -7709,7 +7709,7 @@
    "confirmed_stops_inside": 0,
    "nearest_confirmed_stop": {
     "name": "Green Mountain Falls Bus Stop",
-    "agency": "Agency not listed",
+    "agency": "TSC Transit",
     "distance_miles": 1.26
    },
    "samples": 812,
@@ -8192,7 +8192,7 @@
    "confirmed_stops_inside": 1,
    "nearest_confirmed_stop": {
     "name": "DOTSERO TRAILER PARK",
-    "agency": "Agency not listed",
+    "agency": "ECO Transit",
     "distance_miles": 0.44
    },
    "samples": 1043,
@@ -8297,7 +8297,7 @@
    "confirmed_stops_inside": 19,
    "nearest_confirmed_stop": {
     "name": "HIGHWAY 6 and BULL RUN RD",
-    "agency": "Agency not listed",
+    "agency": "ECO Transit",
     "distance_miles": 2.57
    },
    "samples": 843,
@@ -8633,7 +8633,7 @@
    "confirmed_stops_inside": 0,
    "nearest_confirmed_stop": {
     "name": "HIGHWAY 6 and BULL RUN RD",
-    "agency": "Agency not listed",
+    "agency": "ECO Transit",
     "distance_miles": 9.21
    },
    "samples": 937,
@@ -9410,7 +9410,7 @@
    "confirmed_stops_inside": 10,
    "nearest_confirmed_stop": {
     "name": "MOUNTAIN VIEW DR and EAGLES NEST",
-    "agency": "Agency not listed",
+    "agency": "ECO Transit",
     "distance_miles": 0.53
    },
    "samples": 1183,
@@ -11384,7 +11384,7 @@
    "confirmed_stops_inside": 0,
    "nearest_confirmed_stop": {
     "name": "Tamarac Business Center Research - DMV (By Request)",
-    "agency": "Agency not listed",
+    "agency": "TSC Transit",
     "distance_miles": 10.7
    },
    "samples": 703,
@@ -11426,7 +11426,7 @@
    "confirmed_stops_inside": 0,
    "nearest_confirmed_stop": {
     "name": "LAKE CREEK BLVD @ HILLCREST",
-    "agency": "Agency not listed",
+    "agency": "ECO Transit",
     "distance_miles": 4.33
    },
    "samples": 1034,
