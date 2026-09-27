@@ -348,6 +348,51 @@ def test_feed_stop_services_older_flex_spelling_and_demand_only_feed():
     assert B.feed_stop_services(z) == {}, 'no trips at all is no evidence, not on-demand'
 
 
+def test_flex_feed_listing_location_group_stops_first_still_reads_stops(tmp_path, monkeypatch):
+    """Codex on #1991: a suffix match on "stops.txt" picked location_group_stops.txt.
+
+    About 16 GTFS-Flex feeds list that member first; the feed then contributed
+    no stops, so its windowed stops were never tagged demand_response.
+    """
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, 'w') as archive:
+        # Order is the point of this fixture: the Flex member precedes stops.txt.
+        archive.writestr('location_group_stops.txt', 'location_group_id,stop_id\ng1,member\n')
+        archive.writestr('location_group_stop_times.txt', 'trip_id,stop_id\n')
+        archive.writestr('stops.txt',
+                         'stop_id,stop_name,stop_lat,stop_lon\n'
+                         f'fixed,Fixed,{DENVER[1]},{DENVER[0]}\n'
+                         f'flex,Flex,{DENVER[1]},{DENVER[0]}\n'
+                         f'member,Member,{DENVER[1]},{DENVER[0]}\n')
+        archive.writestr('stop_times.txt',
+                         'trip_id,arrival_time,departure_time,stop_id,location_group_id,'
+                         'start_pickup_drop_off_window,end_pickup_drop_off_window\n'
+                         't1,08:00:00,08:00:00,fixed,,,\n'
+                         't2,,,flex,,08:00:00,17:00:00\n'
+                         't3,,,,g1,08:00:00,17:00:00\n')
+        archive.writestr('sub_agency.txt', 'agency_id,agency_name\nx,Wrong Agency\n')
+        archive.writestr('agency.txt', 'agency_id,agency_name\na,Flex Agency\n')
+    names = zipfile.ZipFile(io.BytesIO(buf.getvalue())).namelist()
+    assert names.index('location_group_stops.txt') < names.index('stops.txt'), 'fixture order did not apply'
+    monkeypatch.setattr(B.gtfs, 'CACHE_DIR', tmp_path)
+    monkeypatch.setattr(B.gtfs, 'fetch_mdb_catalog', lambda: 'fixture')
+    monkeypatch.setattr(B.gtfs, 'load_co_feeds', lambda _: [{'agency': 'Catalog name', 'url': 'fixture'}])
+    monkeypatch.setattr(B.gtfs, 'fetch_url', lambda *args, **kwargs: buf.getvalue())
+    rows, failed = B.fetch_feed_stops()
+    assert not failed
+    got = {r['stop_id']: r['service'] for r in rows}
+    assert got == {'fixed': B.SERVICE_FIXED, 'flex': B.SERVICE_DEMAND, 'member': B.SERVICE_DEMAND}, got
+    assert {r['agency'] for r in rows} == {'Flex Agency'}
+
+
+def test_gtfs_member_matches_basename_and_prefers_the_root():
+    names = ['location_group_stops.txt', 'feed/stops.txt', 'stops.txt', 'x/stop_times.txt']
+    assert B.gtfs_member(names, 'stops.txt') == 'stops.txt'
+    assert B.gtfs_member(names, 'stop_times.txt') == 'x/stop_times.txt'
+    assert B.gtfs_member(['location_group_stops.txt'], 'stops.txt') is None
+    assert B.gtfs_member(names, 'trips.txt') is None
+
+
 def test_merge_service_needs_feed_evidence():
     fixed_feed = dict(_row(_offset(DENVER, 10), 'Civic Center', 'RTD'), service=B.SERVICE_FIXED)
     demand_feed = dict(_row(_offset(DENVER, 10), 'Civic Center', 'Envida'), service=B.SERVICE_DEMAND)

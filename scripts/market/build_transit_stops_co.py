@@ -44,6 +44,7 @@ import csv
 import io
 import json
 import math
+import posixpath
 import sys
 import urllib.parse
 import urllib.request
@@ -118,14 +119,29 @@ def combine_services(services) -> str:
     return SERVICE_UNKNOWN
 
 
+def gtfs_member(names, basename: str) -> str | None:
+    """The archive member that IS ``basename``, preferring one at the root.
+
+    Matched on exact basename, never a suffix: ``n.endswith("stops.txt")``
+    also matches ``location_group_stops.txt``, which GTFS-Flex feeds often
+    list first, and the feed then contributed no stops at all.
+    """
+    matches = [n for n in names if posixpath.basename(n) == basename]
+    if not matches:
+        return None
+    root = [n for n in matches if "/" not in n.strip("/")]
+    return (root or matches)[0]
+
+
 def feed_stop_services(z: zipfile.ZipFile) -> dict[str, str]:
     """{stop_id: service} for one GTFS feed, from stop_times.txt (GTFS-Flex aware)."""
-    full = {n.rsplit("/", 1)[-1]: n for n in z.namelist()}
+    names = z.namelist()
 
     def rows(name):
-        if name not in full:
+        member = gtfs_member(names, name)
+        if member is None:
             return iter(())
-        return csv.DictReader(io.TextIOWrapper(z.open(full[name]), encoding="utf-8-sig"))
+        return csv.DictReader(io.TextIOWrapper(z.open(member), encoding="utf-8-sig"))
 
     groups: dict[str, set[str]] = {}
     for r in rows("location_group_stops.txt"):
@@ -375,12 +391,12 @@ def fetch_feed_stops() -> tuple[list[dict], list[dict]]:
             failed.append({"agency": feed["agency"], "reason": str(exc)[:160]})
             continue
         names = z.namelist()
-        stop_file = next((n for n in names if n.endswith("stops.txt")), None)
+        stop_file = gtfs_member(names, "stops.txt")
         if not stop_file:
             failed.append({"agency": feed["agency"], "reason": "no stops.txt"})
             continue
         agency = feed["agency"]
-        agency_file = next((n for n in names if n.endswith("agency.txt")), None)
+        agency_file = gtfs_member(names, "agency.txt")
         if agency_file:
             try:
                 first = next(csv.DictReader(io.TextIOWrapper(z.open(agency_file), encoding="utf-8-sig")))
