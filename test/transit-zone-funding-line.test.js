@@ -50,6 +50,21 @@ test('the methodology explainer names the dimensions the weights have', () => {
   }
 });
 
+test('the methodology explainer\'s source is the file the weights live in (#1973)', () => {
+  // Agreement, not copy: every file the explainer cites must exist, and the
+  // one holding `var WEIGHTS = {…}` must be among them — the same file the
+  // test above reads the dimensions from.
+  const ex = read('js/methodology-explainer.js');
+  const source = (ex.match(/'pma-composite':\s*\{[\s\S]*?source:\s*'([^']*)'/) || [])[1];
+  assert.ok(source, 'pma-composite explainer source not found');
+  const cited = source.match(/[\w./-]+\.js\b/g) || [];
+  assert.ok(cited.length > 0, `explainer source names no file: "${source}"`);
+  for (const f of cited) assert.ok(fs.existsSync(path.join(root, f)), `explainer cites ${f}, which does not exist`);
+  const holders = cited.filter((f) => /var WEIGHTS = \{/.test(read(f)));
+  assert.equal(holders.length, 1, `explainer source "${source}" does not name the one file that defines the PMA weights`);
+  assert.equal(read(holders[0]), scoring, `explainer cites ${holders[0]}, not the file the weights above are read from`);
+});
+
 // ── The PMA gate ────────────────────────────────────────────────────────────
 const ma = read('js/market-analysis.js');
 const gateSrc = (ma.match(/  var _tzMapStatus = null[\s\S]*?\n  function _renderTransitZoneGate[\s\S]*?\n  \}\n/) || [])[0];
