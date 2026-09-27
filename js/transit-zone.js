@@ -270,6 +270,77 @@
     return { designation: d.designation, note: d.note };
   }
 
+  // ── Area summary: one geography's figures, for every surface ─────────────
+  // The needs assessment panel, the for-sale study, the recommendation and
+  // the HNA exports all show the same area figures from
+  // data/hna/transit-zone-by-geography.json. They read them through this one
+  // function, so the share, its rounding, the unavailable reasons and the
+  // designation note cannot drift apart between surfaces (finish line PC-1,
+  // #1937 T3). Pure: the caller supplies the files and the clock.
+  //
+  // A measured share never rounds to an absolute: 0.4% is "<1%" (not "0%",
+  // which reads as no transit at all) and 99.6% is ">99%" (not "100%").
+  function shareLabel(v) {
+    if (!isNum(v)) return null;
+    if (v > 0 && v < 0.005) return '<1%';
+    if (v < 1 && v >= 0.995) return '>99%';
+    return Math.round(v * 100) + '%';
+  }
+
+  function areaSummary(data, geoid, mapStatus, now) {
+    now = now && typeof now.getTime === 'function' ? now : new Date();
+    function unavailable(code, reason) {
+      return { status: 'unavailable', unavailableCode: code, unavailableReason: reason, geoid: geoid || null };
+    }
+    if (!geoid) return unavailable('no_geography', 'No jurisdiction is selected, so there is no area to screen.');
+    if (!data || !data.geographies) return unavailable('not_loaded', 'Transit zone data did not load.');
+    var rec = data.geographies[geoid];
+    if (!rec) return unavailable('not_covered', 'No transit zone figures for this geography.');
+    if (rec.unavailableReason) return unavailable('geography', rec.unavailableReason);
+    var stopsGenerated = (data.meta && data.meta.stops_generated) || null;
+    var gen = Date.parse(stopsGenerated || '');
+    if (!isNum(gen)) return unavailable('undated', 'The transit stop data has no build date, so its age cannot be confirmed.');
+    var ageDays = Math.floor((now.getTime() - gen) / 86400000);
+    if (ageDays > DEFAULT_MAX_AGE_DAYS) {
+      return unavailable('stale', 'The transit stop data is ' + ageDays + ' days old (limit ' + DEFAULT_MAX_AGE_DAYS +
+        '), so these figures may miss new or moved stops.');
+    }
+    var radius = data.meta && data.meta.radius_miles;
+    var share = rec.share_within_radius_confirmed;
+    var half = rec.share_within_half_mile_confirmed;
+    if (!isNum(share) || !isNum(half) || !(radius > 0)) {
+      return unavailable('incomplete', 'The transit zone figures for this geography are incomplete.');
+    }
+    var des = designation(mapStatus, now);
+    // A sampled zero is only proven when the builder measured the exact
+    // boundary distance (zero_is_exact). Otherwise part of an edge strip is
+    // within the radius, so the share is "under 1%", not "none".
+    var edgeOnly = share === 0 && rec.zero_is_exact === false;
+    var shareAny = isNum(rec.share_within_radius_any) ? rec.share_within_radius_any : null;
+    return {
+      status: 'ok',
+      unavailableCode: null,
+      unavailableReason: null,
+      geoid: geoid,
+      name: rec.name || null,
+      radiusMiles: radius,
+      share: share,
+      shareLabel: edgeOnly ? '<1%' : shareLabel(share),
+      shareAny: shareAny,
+      shareAnyLabel: shareLabel(shareAny),
+      shareHalfMile: half,
+      halfMileLabel: shareLabel(half),
+      edgeOnly: edgeOnly,
+      noneWithinRadius: share === 0 && !edgeOnly,
+      nearestConfirmedStop: rec.nearest_confirmed_stop || null,
+      nearestToBoundaryMiles: isNum(rec.nearest_confirmed_stop_to_boundary_miles) ? rec.nearest_confirmed_stop_to_boundary_miles : null,
+      stopsGenerated: stopsGenerated,
+      ageDays: ageDays,
+      designation: des.designation,
+      designationNote: des.note
+    };
+  }
+
   // Whether a site result may point at the Transit Zone credit, and on what
   // basis. The gate and the deal calculator both ask this, so they cannot
   // disagree. OEDIT's published map outranks the stop screen both ways: a
@@ -283,7 +354,8 @@
     return null;
   }
 
-  var api = { create: create, designation: designation, fundingPath: fundingPath, haversineMiles: haversineMiles };
+  var api = { create: create, designation: designation, fundingPath: fundingPath, areaSummary: areaSummary,
+              shareLabel: shareLabel, MAX_AGE_DAYS: DEFAULT_MAX_AGE_DAYS, haversineMiles: haversineMiles };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   if (root) root.TransitZone = api;
 }(typeof window !== 'undefined' ? window : null));
