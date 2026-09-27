@@ -5481,17 +5481,21 @@
     var a27 = _tzMoney(main && main['2027']);
     var a28 = _tzMoney(main && main['2028']);
     if (!a27 || !a28) return 'The draft QAP’s per-project amounts could not be read, so none is shown. ';
+    // The draft pairs annual credit; HB26-1065 credit is claimed in each of
+    // six credit years, so an amount without its unit reads as a total.
+    if (p.unit !== 'annual') return 'The draft QAP’s per-project amounts could not be read, so none is shown. ';
     var s = is4Pct
       ? 'For a 4% application in Round Two, the draft QAP (§3.L, not yet adopted) lets CHFA pair up to ' + a27 +
-        ' in 2027 or ' + a28 + ' in 2028 of standard state credit or TZ credit, where eligible, alongside accelerated state credit. '
+        ' a year (2027 awards) or ' + a28 + ' a year (2028 awards) of annual standard state credit or TZ credit, where eligible, alongside accelerated state credit. '
       : 'For a 9% application, the draft QAP (§3.L, not yet adopted) pairs, if requested, a fixed ' + a27 +
-        ' in 2027 or ' + a28 + ' in 2028 of standard state credit or TZ credit, where eligible. ';
+        ' a year (2027 awards) or ' + a28 + ' a year (2028 awards) of annual standard state credit or TZ credit, where eligible. ';
+    s += 'These are annual amounts, claimed in each credit year, not a project total. ';
     s += 'It is one allowance: TZ credit replaces standard state credit, it does not add to it. ';
     var b27 = _tzMoney(alt && alt['2027']);
     var b28 = _tzMoney(alt && alt['2028']);
     if (b27 && b28) {
       s += 'If state gap funds are not available under the §3.B.9 pilot, §3.L.1 sets ' + (is4Pct ? 'up to ' : '') +
-        b27 + ' (2027) and ' + b28 + ' (2028) instead. ';
+        b27 + ' a year (2027) and ' + b28 + ' a year (2028) instead. ';
     }
     return s + 'Check the final QAP before relying on these amounts. ';
   }

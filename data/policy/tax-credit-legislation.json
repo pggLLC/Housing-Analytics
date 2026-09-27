@@ -172,6 +172,7 @@
         "source": "CHFA 2027-28 QAP Third Draft, Section 3.L Maximum Credit Award (not yet adopted); amounts confirmed against its Summary of Changes",
         "source_url": "https://www.chfainfo.com/getattachment/452dbf9f-b714-44f7-8a75-f3adf9c1c16f/2027-2028-QAP-Third-Draft-Summary-of-Changes.pdf",
         "in_lieu_of_standard_state_credit": true,
+        "unit": "annual",
         "note": "Standard annual state credit OR TZ credit where eligible, paired if requested; one allowance, not additive. Amounts are annual state credit per project.",
         "nine_percent": { "basis": "fixed", "2027": 650000, "2028": 675000 },
         "four_percent_round_two": { "basis": "up_to", "2027": 675000, "2028": 600000 },

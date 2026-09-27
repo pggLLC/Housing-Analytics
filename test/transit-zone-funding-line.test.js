@@ -268,6 +268,11 @@ test('the pairing data agrees with the QAP Third Draft and its summary of change
   assert.ok(draft.includes(`up to ${money(alt.four_percent_round_two['2027'])} in 2027 and ${money(alt.four_percent_round_two['2028'])} in 2028 of standard State Credit or TZ Credit, where eligible, to pair in Round Two`),
     '§3.L.1 4% alternative is not in the QAP draft');
   assert.equal(PAIR.status, 'draft');
+  // The unit is a claim that must match the QAP, not a wording choice: the
+  // draft pairs "standard annual state credit".
+  assert.equal(PAIR.unit, 'annual');
+  assert.ok(draft.includes('in 2028 of standard annual state credit or Transit Zone (TZ) credit where eligible, with federal 9 percent'),
+    'the QAP no longer describes the 9% pairing as annual state credit');
   assert.equal(PAIR.in_lieu_of_standard_state_credit, true);
 });
 
@@ -278,8 +283,10 @@ test('a 9% deal shows the fixed pairing from the data, one allowance, not added 
   const t = note.textContent;
   assert.equal(note.querySelector('[data-tz-pairing]').getAttribute('data-tz-pairing'), '9pct');
   assert.ok(t.includes('For a 9% application'), t);
-  assert.ok(t.includes(`a fixed ${money(PAIR.nine_percent['2027'])} in 2027 or ${money(PAIR.nine_percent['2028'])} in 2028`), t);
-  assert.ok(t.includes(`${money(PAIR.if_no_state_gap_funds.nine_percent['2027'])} (2027) and ${money(PAIR.if_no_state_gap_funds.nine_percent['2028'])} (2028) instead`), t);
+  assert.ok(t.includes(`a fixed ${money(PAIR.nine_percent['2027'])} a year (2027 awards) or ${money(PAIR.nine_percent['2028'])} a year (2028 awards)`), t);
+  assert.ok(t.includes(`${money(PAIR.if_no_state_gap_funds.nine_percent['2027'])} a year (2027) and ${money(PAIR.if_no_state_gap_funds.nine_percent['2028'])} a year (2028) instead`), t);
+  // The unit shown agrees with the data's unit (#1976 review).
+  assert.match(t, /annual amounts, claimed in each credit year, not a project total/);
   assert.match(t, /§3\.L, not yet adopted/);
   assert.match(t, /replaces standard state credit, it does not add to it/);
   assert.match(t, /not added to this stack/);
@@ -293,8 +300,9 @@ test('a 4% deal shows the Round Two "up to" pairing, and the toggle re-renders i
   w.__DealCalc.setTransitZoneContext(PASS);
   const t = note.textContent;
   assert.equal(note.querySelector('[data-tz-pairing]').getAttribute('data-tz-pairing'), '4pct');
-  assert.ok(t.includes(`in Round Two`) && t.includes(`pair up to ${money(PAIR.four_percent_round_two['2027'])} in 2027 or ${money(PAIR.four_percent_round_two['2028'])} in 2028`), t);
-  assert.ok(t.includes(`up to ${money(PAIR.if_no_state_gap_funds.four_percent_round_two['2027'])} (2027)`), t);
+  assert.ok(t.includes(`in Round Two`) && t.includes(`pair up to ${money(PAIR.four_percent_round_two['2027'])} a year (2027 awards) or ${money(PAIR.four_percent_round_two['2028'])} a year (2028 awards)`), t);
+  assert.match(t, /annual amounts, claimed in each credit year, not a project total/);
+  assert.ok(t.includes(`up to ${money(PAIR.if_no_state_gap_funds.four_percent_round_two['2027'])} a year (2027)`), t);
   assert.doesNotMatch(t, /a fixed \$/, 'a 4% deal was shown the fixed 9% pairing');
   // The page's own credit-rate handler re-renders the note on a switch.
   const src = read('js/deal-calculator.js');
@@ -311,8 +319,14 @@ test('unreadable pairing data shows no amount; a site that does not pass shows n
   const { w, note } = dealCalc();
   const broken = JSON.parse(JSON.stringify(LEG));
   broken.entries.find((x) => /^hb26-1065/i.test(x.id)).tz_credit_pairing.nine_percent['2027'] = null;
+  const unitless = JSON.parse(JSON.stringify(LEG));
+  delete unitless.entries.find((x) => /^hb26-1065/i.test(x.id)).tz_credit_pairing.unit;
   w.__DealCalc.setTransitZoneContext(PASS);
   w.__DealCalc.setTzCreditPairing(broken);
+  assert.match(note.textContent, /could not be read, so none is shown/);
+  assert.doesNotMatch(note.textContent, /\$\d{3},\d{3}/);
+  // An amount whose unit is not recorded as annual is not shown either.
+  w.__DealCalc.setTzCreditPairing(unitless);
   assert.match(note.textContent, /could not be read, so none is shown/);
   assert.doesNotMatch(note.textContent, /\$\d{3},\d{3}/);
   w.__DealCalc.setTzCreditPairing(LEG);
