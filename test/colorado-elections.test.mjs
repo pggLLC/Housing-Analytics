@@ -71,7 +71,7 @@ function assertCoverage(doc, files) {
 
 // R6-0 scenarios use synthetic data only, with no live results or network calls.
 function electionFixtures() {
-  const source = { url: 'https://example.test/ballot', retrieved: '2026-09-27' };
+  const source = { url: 'https://example.com/ballot', retrieved: '2026-09-27' };
   const coverage = (geoid, coverage_state) => ({
     geoid, name: 'Fixture jurisdiction', coverage_state, reviewed_source: source.url,
     checked: source.retrieved, entry_ids: [], limitations: []
@@ -97,7 +97,7 @@ function electionFixtures() {
       schema: 'candidate-platforms/v1',
       races: [{ office: 'Governor/Lieutenant Governor', election_date: ballot.election.date,
         certified_candidates: [identity], coverage_state: 'complete', archived: false,
-        candidates_source: 'https://example.test/candidate-list', roster_checked: source.retrieved }],
+        candidates_source: 'https://example.com/candidate-list', roster_checked: source.retrieved }],
       candidates: [{ ...identity, office: 'Governor/Lieutenant Governor',
         coverage_state: 'verified_platform_found', archived: false,
         neutral_summary: 'A stated housing position.', quote: 'Original campaign wording.',
@@ -109,7 +109,7 @@ function electionFixtures() {
 
 function fixtureResult(outcome = 'passed', stage = 'unofficial') {
   const date = stage === 'certified' ? '2026-12-01' : '2026-11-04';
-  return { outcome, stage, as_of: date, source: { url: 'https://example.test/results', retrieved: date } };
+  return { outcome, stage, as_of: date, source: { url: 'https://example.com/results', retrieved: date } };
 }
 
 test('R6-0: each result line agrees with its outcome, stage, date and evidence URL', async (t) => {
@@ -204,7 +204,7 @@ test('R6-0: candidate result fields never render before, after or in Past electi
     const candidate = fixtures.candidates.candidates[0];
     const forbidden = 'CANDIDATE_RESULT_FIXTURE winner elected 99.9%';
     for (const record of [race, candidate, race.certified_candidates[0]]) {
-      record.result = { outcome: forbidden, source: { url: 'https://example.test/candidate-result' } };
+      record.result = { outcome: forbidden, source: { url: 'https://example.com/candidate-result' } };
       record.winner = forbidden;
     }
     candidate.archived = archived;
@@ -213,7 +213,7 @@ test('R6-0: candidate result fields never render before, after or in Past electi
     assert.equal(cards.length, 1, 'the check must inspect a rendered candidate');
     assert.ok(cards[0].textContent.includes(candidate.neutral_summary));
     assert.doesNotMatch(doc.querySelector('main').textContent, /CANDIDATE_RESULT_FIXTURE|99\.9%/);
-    assert.equal(doc.querySelector('a[href="https://example.test/candidate-result"]'), null);
+    assert.equal(doc.querySelector('a[href="https://example.com/candidate-result"]'), null);
     assert.equal(doc.querySelector('#candidate-records .election-result, #past-election-records .candidate-race .election-result'), null);
   }
 });
