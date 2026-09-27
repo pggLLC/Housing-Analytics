@@ -38,15 +38,21 @@ test('the PMA score has no transit dimension', () => {
   assert.ok(!weightKeys.some((k) => /transit|tod|zone/i.test(k)), `WEIGHTS includes a transit dimension: ${weightKeys}`);
 });
 
-test('the methodology explainer names the dimensions the weights have', () => {
+test('the methodology explainer names the dimensions the page shows', () => {
+  // Agreement with the score breakdown on market-analysis.html, not with the
+  // internal WEIGHTS key names: `landSupply` weights a rental-vacancy score the
+  // page labels "Market Tightness", and the explainer used to call it "land
+  // supply" because this test derived its words from the key.
   const ex = read('js/methodology-explainer.js');
   const what = (ex.match(/'pma-composite':\s*\{[\s\S]*?what:\s*'([^']*)'/) || [])[1];
   assert.ok(what, 'pma-composite explainer not found');
+  const driver = (read('js/market-analysis.js').match(/var DRIVER_DIMS = \[([\s\S]*?)\];/) || [])[1] || '';
+  const shown = [...driver.matchAll(/label:\s*'([^']+)',\s*weight:\s*WEIGHTS\.(\w+)/g)];
+  assert.equal(shown.length, weightKeys.length, `score breakdown scan found ${shown.length} dimensions; WEIGHTS has ${weightKeys.length}`);
   const n = Number((what.match(/blending (\d+)/) || [])[1]);
-  assert.equal(n, weightKeys.length, `explainer says ${n} dimensions; WEIGHTS has ${weightKeys.length}`);
-  for (const k of weightKeys) {
-    const words = k.replace(/([A-Z])/g, ' $1').toLowerCase();
-    assert.ok(what.toLowerCase().includes(words), `explainer omits the "${words}" dimension`);
+  assert.equal(n, shown.length, `explainer says ${n} dimensions; the page shows ${shown.length}`);
+  for (const [, label] of shown) {
+    assert.ok(what.toLowerCase().includes(label.toLowerCase()), `explainer omits the "${label}" dimension the page shows`);
   }
 });
 
