@@ -56,6 +56,25 @@
 
   function isNum(v) { return Number.isFinite(v); }
 
+  // ── Which stops count as transit ─────────────────────────────────────────
+  // The one JS copy of scripts/lib/transit_stops.py's rule, for every page
+  // that reads data/amenities/transit_stops_statewide_co.geojson: the zone
+  // screen below and the PMA transit score (js/pma-transit.js).
+  //   * Private airport/hotel shuttle pickups are mapped but are not public
+  //     transit, and on-demand (GTFS-Flex) stops are not a defined route
+  //     (owner decision 2026-09-27): neither counts. service "unknown" still
+  //     counts; unknown is not demand response.
+  //   * A counted stop is also confirmed: published by CDOT, an agency GTFS
+  //     feed, or both. OpenStreetMap-only stops are "unconfirmed".
+  // test/pma-transit-stops.test.js runs this over the committed stop file
+  // and compares the result with scripts/lib/transit_stops.py.
+  function isPublicScheduledStop(props) {
+    return !!props && props.operator !== 'private_shuttle' && props.service !== 'demand_response';
+  }
+  function countsAsConfirmedStop(props) {
+    return isPublicScheduledStop(props) && props.reliability === 'confirmed';
+  }
+
   function formatDate(iso) {
     var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
     if (!m) return null;
@@ -175,6 +194,13 @@
              reliability: p.reliability || null, distanceMiles: roundedDistance(distanceMiles, radius) };
   }
 
+  // The zone screening radius, from the status file (never hardcoded):
+  // a positive number, or null when the file or the value is missing.
+  function zoneRadiusMiles(mapStatus) {
+    return mapStatus && isNum(mapStatus.zone_radius_miles) && mapStatus.zone_radius_miles > 0
+      ? mapStatus.zone_radius_miles : null;
+  }
+
   function create(opts) {
     opts = opts || {};
     var now = opts.now && typeof opts.now.getTime === 'function' ? opts.now : new Date();
@@ -185,8 +211,7 @@
     // the map then fails to load here (see fundingPath).
     var mapPublished = !!(mapStatus && mapStatus.status === 'published');
     var maxAgeDays = isNum(opts.maxAgeDays) ? opts.maxAgeDays : DEFAULT_MAX_AGE_DAYS;
-    var radius = mapStatus && isNum(mapStatus.zone_radius_miles) && mapStatus.zone_radius_miles > 0
-      ? mapStatus.zone_radius_miles : null;
+    var radius = zoneRadiusMiles(mapStatus);
 
     // Why the stop data cannot answer, if it cannot. Decided once.
     var dataProblem = null;
@@ -214,12 +239,10 @@
       for (var i = 0; i < feats.length; i++) {
         var c = feats[i] && feats[i].geometry && feats[i].geometry.coordinates;
         if (!c || !isNum(c[0]) || !isNum(c[1])) continue;
-        // Private airport/hotel shuttle pickups are mapped but are not public
-        // transit, and on-demand (GTFS-Flex) stops are not a defined route
-        // (owner decision 2026-09-27), so neither counts toward the zone
-        // screen. Same rule as scripts/lib/transit_stops.py.
-        if (feats[i].properties && feats[i].properties.operator === 'private_shuttle') continue;
-        if (feats[i].properties && feats[i].properties.service === 'demand_response') continue;
+        // Private shuttles and demand-response stops never count toward the
+        // zone screen (isPublicScheduledStop, the shared rule above). A stop
+        // with no properties at all is kept, as it always was.
+        if (feats[i].properties && !isPublicScheduledStop(feats[i].properties)) continue;
         var key = Math.floor(c[0] / CELL_DEG) + ',' + Math.floor(c[1] / CELL_DEG);
         (grid[key] = grid[key] || []).push(feats[i]);
       }
@@ -439,7 +462,9 @@
   }
 
   var api = { create: create, designation: designation, fundingPath: fundingPath, areaSummary: areaSummary,
-              qapTodDistance: qapTodDistance, shareLabel: shareLabel, MAX_AGE_DAYS: DEFAULT_MAX_AGE_DAYS, haversineMiles: haversineMiles };
+              qapTodDistance: qapTodDistance, shareLabel: shareLabel, MAX_AGE_DAYS: DEFAULT_MAX_AGE_DAYS, haversineMiles: haversineMiles,
+              isPublicScheduledStop: isPublicScheduledStop, countsAsConfirmedStop: countsAsConfirmedStop,
+              zoneRadiusMiles: zoneRadiusMiles };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   if (root) root.TransitZone = api;
 }(typeof window !== 'undefined' ? window : null));

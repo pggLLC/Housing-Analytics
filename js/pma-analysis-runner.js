@@ -260,20 +260,32 @@
             progress('schools', 'Schools module unavailable');
           });
 
-      var transitP = (pmaTransit && ds)
+      // Transit is scored from confirmed stops in the statewide stop file,
+      // at the two HB26-1065 distances in data/policy/thiz-map-status.json
+      // (both fetched once per page by DataService), never from route
+      // geometry. A file that did not load gives a null score with
+      // transitUnavailableReason, not a 0.
+      var transitP = (pmaTransit && ds && typeof ds.fetchTransitStops === 'function')
         ? Promise.all([
-            ds.fetchNTDData(bbox),
-            ds.fetchEPASmartLocation(bbox)
+            ds.fetchTransitStops(),
+            ds.fetchEPASmartLocation(bbox),
+            typeof ds.fetchTransitZoneStatus === 'function'
+              ? ds.fetchTransitZoneStatus()
+              : Promise.resolve({ mapStatus: null, unavailableReason: null })
           ]).then(function (res) {
-            var ntdResult = res[0] || {};
+            var stopResult = res[0] || {};
             var epaResult = res[1] || {};
-            var transitScore = pmaTransit.calculateTransitScore(lat, lon, ntdResult.transitRoutes || [], epaResult);
+            var statusResult = res[2] || {};
+            var stopsInput = stopResult.geojson || { unavailableReason: stopResult.unavailableReason || null };
+            var statusInput = statusResult.mapStatus || { unavailableReason: statusResult.unavailableReason || null };
+            var transitScore = pmaTransit.calculateTransitScore(lat, lon, stopsInput, epaResult, statusInput);
             results.transit = pmaTransit.getTransitJustification();
             // Propagate data source info
-            results.transit._ntdDataSource = ntdResult._dataSource || 'unknown';
+            results.transit._stopDataSource = stopResult._dataSource || 'unknown';
             results.transit._epaDataSource = epaResult._dataSource || 'unknown';
             var label = 'Scoring transit accessibility';
-            if (ntdResult._dataSource === 'local-gtfs') label += ' (local GTFS data)';
+            if (transitScore === null) label += ' — not scored (transit data unavailable)';
+            else if (stopResult._dataSource === 'local-stops') label += ' (confirmed transit stops)';
             if (epaResult._dataSource === 'epa-sld-local') label += ' (local EPA SLD data)';
             else if (epaResult._dataSource === 'epa-unavailable') label += ' — EPA walkability unavailable';
             progress('transit', label + '…');

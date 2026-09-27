@@ -8,6 +8,7 @@
 const path = require('path');
 global.window = global;
 
+require(path.join(__dirname, '../../js/transit-zone.js'));
 require(path.join(__dirname, '../../js/pma-transit.js'));
 
 let passed = 0, failed = 0;
@@ -21,6 +22,7 @@ function test(name, fn) {
 }
 
 const T = global.PMATransit;
+const MAP_STATUS = JSON.parse(require('fs').readFileSync(path.join(__dirname, '../../data/policy/thiz-map-status.json'), 'utf8'));
 
 test('PMATransit exposed on window', function () {
   assert(typeof T === 'object',                              'PMATransit is an object');
@@ -36,27 +38,30 @@ test('TRANSIT_WEIGHTS sum to 1.0', function () {
   assert(Math.abs(sum - 1.0) < 0.001, 'TRANSIT_WEIGHTS sum ≈ 1.0 (got ' + sum + ')');
 });
 
-test('calculateTransitScore — no routes → low score', function () {
-  const score = T.calculateTransitScore(39.7, -104.9, [], {});
+// A stop file as data/amenities/transit_stops_statewide_co.geojson writes it.
+function stopFile(points) {
+  return { type: 'FeatureCollection', features: points.map(function (p) {
+    return { type: 'Feature', geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
+      properties: { name: 'S', agency: 'A', operator: 'public', reliability: 'confirmed', service: 'fixed_route' } };
+  }) };
+}
+
+test('calculateTransitScore — no stops nearby → low score', function () {
+  const score = T.calculateTransitScore(39.7, -104.9, stopFile([{ lat: 37.0, lon: -102.1 }]), {}, MAP_STATUS);
   assert(score >= 0 && score <= 100, 'score in [0,100]');
-  assert(score < 50, 'no routes → score < 50');
+  assert(score < 50, 'no stops nearby → score < 50');
 });
 
-test('calculateTransitScore — high-freq nearby routes → higher score', function () {
-  const routes = [
-    { routeId: 'R1', headwayMinutes: 10,
-      stops: [{ lat: 39.701, lon: -104.901 }] },  // within 0.5 miles
-    { routeId: 'R2', headwayMinutes: 12,
-      stops: [{ lat: 39.702, lon: -104.902 }] }
-  ];
-  const score = T.calculateTransitScore(39.7, -104.9, routes, { transitAccessibility: 70, walkScore: 65 });
-  assert(score > 0, 'score > 0 when routes present');
+test('calculateTransitScore — nearby confirmed stops → higher score', function () {
+  const stops = stopFile([{ lat: 39.701, lon: -104.901 }, { lat: 39.702, lon: -104.902 }]);  // within 0.5 miles
+  const score = T.calculateTransitScore(39.7, -104.9, stops, { transitAccessibility: 70, walkScore: 65 }, MAP_STATUS);
+  assert(score > 0, 'score > 0 when stops present');
   assert(score <= 100, 'score ≤ 100');
 });
 
 test('calculateTransitScore — EPA index normalisation (0–20 range)', function () {
   // EPA D4a values are 0–20; module should scale ×5 to get 0–100
-  const score = T.calculateTransitScore(39.7, -104.9, [], { transitAccessibility: 10, walkScore: 8 });
+  const score = T.calculateTransitScore(39.7, -104.9, stopFile([{ lat: 37.0, lon: -102.1 }]), { transitAccessibility: 10, walkScore: 8 }, MAP_STATUS);
   assert(score >= 0 && score <= 100, 'score in [0,100] for EPA 0-20 input');
 });
 
@@ -93,7 +98,7 @@ test('getTransitJustification — shape', function () {
     assert(j.walkScoreAvailable === false,
       'a null walkScore is reported as unavailable, not as a real zero');
   }
-  assert(typeof j.nearbyRouteCount          === 'number', 'nearbyRouteCount is number');
+  assert(typeof j.nearbyStopCount           === 'number', 'nearbyStopCount is number');
   assert(typeof j.serviceGaps               === 'number', 'serviceGaps is number');
 });
 

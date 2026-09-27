@@ -3,10 +3,12 @@
  * test/pma-transit.test.js
  *
  * Unit tests for js/pma-transit.js — transit-accessibility scoring for
- * primary market area analysis. Covers calculateTransitScore, the
- * walk-distance filter, high-frequency threshold, EPA-data weight
- * redistribution, identifyTransitDeserts, getTransitLayer, and
- * getTransitJustification.
+ * primary market area analysis, measured from confirmed transit stops
+ * (owner decision 2026-09-27). Covers calculateTransitScore, the distance
+ * tiers, frequency (not measurable from stops: null, never false), EPA-data
+ * weight redistribution, identifyTransitDeserts, getTransitLayer, and
+ * getTransitJustification. The stop-selection rule and the absence cases
+ * are in test/pma-transit-stops.test.js.
  *
  * Module exports a CommonJS surface, so no DOM / browser context needed.
  *
@@ -16,6 +18,12 @@
 const assert = require('node:assert/strict');
 
 const Transit = require('../js/pma-transit.js');
+const fs = require('node:fs');
+const path = require('node:path');
+
+// The two distances come from the status file, as on the page.
+const MAP_STATUS = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data/policy/thiz-map-status.json'), 'utf8'));
+const calc = (lat, lon, stops, epa) => Transit.calculateTransitScore(lat, lon, stops, epa, MAP_STATUS);
 
 /* ── Test harness ───────────────────────────────────────────────────── */
 
@@ -44,30 +52,22 @@ const SITE = { lat: 39.7392, lon: -104.9903 };
 // Half-mile ≈ 0.00725° lat, 0.00945° lon at ~40°N
 // A stop 0.4 mi due north is clearly within the 0.5-mi walk catchment
 const NEAR_STOP = { lat: 39.7450, lon: -104.9903 };   // ~0.4 mi from site
-const FAR_STOP  = { lat: 39.8000, lon: -104.9903 };   // ~4.2 mi from site
+const FAR_STOP  = { lat: 39.7610, lon: -104.9903 };   // ~1.5 mi from site: beyond ½ mi, inside the 2-mi zone radius
 
-function route({ id, stops, headwayMinutes = 30 }) {
-  return { id, stops, headwayMinutes };
+// A confirmed public scheduled stop, as the statewide stop file writes it.
+function stopFeature({ lat, lon }, extra = {}) {
+  return { type: 'Feature', geometry: { type: 'Point', coordinates: [lon, lat] },
+    properties: Object.assign({ name: 'Stop', agency: 'Test Transit', operator: 'public',
+      sources: ['cdot'], reliability: 'confirmed', service: 'fixed_route' }, extra) };
 }
-
-// A high-frequency near route (headway 10 min, stop 0.4 mi away)
-const HIGH_FREQ_NEAR = route({
-  id:             'rt-high-near',
-  stops:          [NEAR_STOP],
-  headwayMinutes: 10,
-});
-// A low-frequency near route (headway 45 min, stop 0.4 mi away)
-const LOW_FREQ_NEAR = route({
-  id:             'rt-low-near',
-  stops:          [NEAR_STOP],
-  headwayMinutes: 45,
-});
-// A route with all stops out of the 0.5-mi catchment — should not count
-const FAR_ROUTE = route({
-  id:             'rt-far',
-  stops:          [FAR_STOP],
-  headwayMinutes: 10,
-});
+function stopFile(points, extra) {
+  return { type: 'FeatureCollection', meta: { generated: '2026-09-27T00:00:00Z' },
+    features: points.map((p) => stopFeature(p, extra)) };
+}
+// A stop file that loaded but has no stop anywhere near the site.
+const NOWHERE = stopFile([{ lat: 37.0, lon: -102.1 }]);
+const NEAR = stopFile([NEAR_STOP]);
+const FAR  = stopFile([FAR_STOP]);
 
 // EPA data shapes
 const EPA_LIVE = {
@@ -99,113 +99,91 @@ group('1. API surface', () => {
 });
 
 group('2. calculateTransitScore — empty / edge cases', () => {
-  test('no routes + no EPA data → score 0', () => {
-    const s = Transit.calculateTransitScore(SITE.lat, SITE.lon, [], EPA_MISSING);
+  test('no stop within the zone radius + no EPA data → measured score 0', () => {
+    const s = calc(SITE.lat, SITE.lon, NOWHERE, EPA_MISSING);
     assert.equal(s, 0);
   });
 
-  test('no routes + EPA live → score > 0 (EPA weight redistributes)', () => {
-    const s = Transit.calculateTransitScore(SITE.lat, SITE.lon, [], EPA_LIVE);
+  test('no stop within the zone radius + EPA live → score > 0 (EPA is still measured)', () => {
+    const s = calc(SITE.lat, SITE.lon, NOWHERE, EPA_LIVE);
     assert.ok(s > 0, `expected positive score from EPA-only input, got ${s}`);
   });
 
   test('returns value in [0, 100]', () => {
-    const s = Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR], EPA_LIVE);
+    const s = calc(SITE.lat, SITE.lon, NEAR, EPA_LIVE);
     assert.ok(s >= 0 && s <= 100, `score out of range: ${s}`);
   });
 });
 
-group('3. Distance-decay scoring (4 tiers)', () => {
-  // Updated 2026-05-09 (#782): replaced binary 0.5-mi catchment with
-  // 4-tier distance-decay model. Walk tier (≤0.5 mi) = 100% credit,
-  // bike/drop-off (0.5-2 mi) = 50%, drive-and-ride (2-5 mi) = 20%,
-  // beyond 5 mi = 0%. Rural CO sites with intercity bus access (e.g.
-  // Bustang stops 1-3 mi away) now get partial credit instead of 0.
-
-  test('route in drive-and-ride tier (2-5 mi) contributes partial credit', () => {
-    // FAR_STOP at ~4.2 mi falls in the drive-and-ride tier (20% credit).
-    // Pre-#782 returned 0; now returns small non-zero score.
-    const withFar  = Transit.calculateTransitScore(SITE.lat, SITE.lon, [FAR_ROUTE], EPA_MISSING);
-    const empty    = Transit.calculateTransitScore(SITE.lat, SITE.lon, [], EPA_MISSING);
-    assert.ok(withFar > empty,
-      'route in 2-5 mi tier should contribute partial credit (was 0 pre-#782)');
-    assert.ok(withFar < 50,
-      'partial credit should be substantially less than walk-tier credit');
+group('3. Distance tiers (QAP TOD distance, zone radius — from the status file)', () => {
+  test('stop between the TOD distance and the zone radius contributes partial credit', () => {
+    const withFar  = calc(SITE.lat, SITE.lon, FAR, EPA_MISSING);
+    const empty    = calc(SITE.lat, SITE.lon, NOWHERE, EPA_MISSING);
+    assert.ok(withFar > empty, 'a stop in the zone tier should contribute partial credit');
+    assert.ok(withFar < 50, 'partial credit should be substantially less than TOD-tier credit');
   });
 
-  test('route beyond 5 mi does NOT contribute (no meaningful access)', () => {
-    const VERY_FAR = { lat: 40.5, lon: -104.9903 };  // ~52 mi north of site
-    const veryFarRoute = route({ id: 'rt-very-far', stops: [VERY_FAR], headwayMinutes: 60 });
-    const withVeryFar = Transit.calculateTransitScore(SITE.lat, SITE.lon, [veryFarRoute], EPA_MISSING);
-    const empty       = Transit.calculateTransitScore(SITE.lat, SITE.lon, [], EPA_MISSING);
-    assert.equal(withVeryFar, empty,
-      'route > 5 mi should still produce 0 transit credit');
+  test('stop beyond the zone radius does NOT contribute', () => {
+    const veryFar = stopFile([{ lat: 39.8000, lon: -104.9903 }]);  // ~4.2 mi north of site
+    const withVeryFar = calc(SITE.lat, SITE.lon, veryFar, EPA_MISSING);
+    const empty       = calc(SITE.lat, SITE.lon, NOWHERE, EPA_MISSING);
+    assert.equal(withVeryFar, empty, 'a stop beyond the zone radius should produce 0 transit credit');
   });
 
-  test('walk-tier route (≤0.5 mi) gets full credit', () => {
-    const withNear = Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR], EPA_MISSING);
-    assert.ok(withNear > 0, 'near-stop route should add to the score');
+  test('TOD-tier stop (≤ the QAP TOD distance) gets credit', () => {
+    const withNear = calc(SITE.lat, SITE.lon, NEAR, EPA_MISSING);
+    assert.ok(withNear > 0, 'near stop should add to the score');
   });
 
-  test('getTransitJustification.nearbyRouteCount = walk-tier only (back-compat)', () => {
-    Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR, FAR_ROUTE], EPA_MISSING);
+  test('getTransitJustification.nearbyStopCount = TOD-tier stops only', () => {
+    calc(SITE.lat, SITE.lon, stopFile([NEAR_STOP, FAR_STOP]), EPA_MISSING);
     const j = Transit.getTransitJustification();
-    assert.equal(j.nearbyRouteCount, 1,
-      'nearbyRouteCount counts only walk-tier (≤0.5 mi); FAR_ROUTE is in drive-and-ride tier');
+    assert.equal(j.nearbyStopCount, 1, 'nearbyStopCount counts only stops within the TOD distance; FAR_STOP is in the zone tier');
+    assert.equal(j.stopsWithinZoneRadius, 2);
+    assert.equal('nearbyRouteCount' in j, false, 'the old route-count field must not survive with a stop count in it');
   });
 
-  test('walk-tier route scores higher than drive-and-ride tier route', () => {
-    const withNear = Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR], EPA_MISSING);
-    const withFar  = Transit.calculateTransitScore(SITE.lat, SITE.lon, [FAR_ROUTE],      EPA_MISSING);
-    assert.ok(withNear > withFar,
-      'walk-tier route (full credit) should outscore drive-and-ride tier (20% credit)');
+  test('TOD-tier stop scores higher than zone-tier stop', () => {
+    const withNear = calc(SITE.lat, SITE.lon, NEAR, EPA_MISSING);
+    const withFar  = calc(SITE.lat, SITE.lon, FAR,  EPA_MISSING);
+    assert.ok(withNear > withFar, 'TOD-tier stop (full credit) should outscore a zone-tier stop (half credit)');
   });
 });
 
-group('4. High-frequency threshold (15 min headway)', () => {
-  test('headway ≤ 15 min counts as high frequency', () => {
-    Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR], EPA_MISSING);
+group('4. Frequency is not measurable from the stop file', () => {
+  test('hasHighFrequencyService is null with a reason, never false', () => {
+    calc(SITE.lat, SITE.lon, NEAR, EPA_MISSING);
     const j = Transit.getTransitJustification();
-    assert.equal(j.hasHighFrequencyService, true);
+    assert.equal(j.hasHighFrequencyService, null);
+    assert.match(j.highFrequencyUnavailableReason, /no schedule/);
+    assert.equal(j._dataSources.frequencyData, 'unavailable');
   });
 
-  test('headway > 15 min alone does NOT flag high-frequency', () => {
-    Transit.calculateTransitScore(SITE.lat, SITE.lon, [LOW_FREQ_NEAR], EPA_MISSING);
-    const j = Transit.getTransitJustification();
-    assert.equal(j.hasHighFrequencyService, false);
-  });
-
-  test('mixed: at least one high-freq route flags true', () => {
-    Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR, LOW_FREQ_NEAR], EPA_MISSING);
-    const j = Transit.getTransitJustification();
-    assert.equal(j.hasHighFrequencyService, true);
-  });
-
-  test('high-frequency routes produce higher score than low-frequency-only', () => {
-    const hi = Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR], EPA_MISSING);
-    const lo = Transit.calculateTransitScore(SITE.lat, SITE.lon, [LOW_FREQ_NEAR],  EPA_MISSING);
-    assert.ok(hi > lo, `hi-freq score (${hi}) should beat lo-freq (${lo})`);
+  test('no stop property the file does not carry changes the score', () => {
+    const plain = calc(SITE.lat, SITE.lon, NEAR, EPA_MISSING);
+    const withHeadway = calc(SITE.lat, SITE.lon, stopFile([NEAR_STOP], { headwayMinutes: 5 }), EPA_MISSING);
+    assert.equal(withHeadway, plain, 'a headway field is not read, so it cannot move the score');
   });
 });
 
 group('5. EPA data availability & weight redistribution', () => {
-  test('EPA live data raises score above route-only baseline', () => {
-    const routeOnly = Transit.calculateTransitScore(SITE.lat, SITE.lon, [LOW_FREQ_NEAR], EPA_MISSING);
-    const withEpa   = Transit.calculateTransitScore(SITE.lat, SITE.lon, [LOW_FREQ_NEAR], EPA_LIVE);
-    assert.ok(withEpa > routeOnly,
-      `EPA-live should push score up: route-only ${routeOnly} vs with-EPA ${withEpa}`);
+  test('EPA live data raises score above stop-only baseline', () => {
+    const stopOnly = calc(SITE.lat, SITE.lon, NEAR, EPA_MISSING);
+    const withEpa  = calc(SITE.lat, SITE.lon, NEAR, EPA_LIVE);
+    assert.ok(withEpa > stopOnly,
+      `EPA-live should push score up: stop-only ${stopOnly} vs with-EPA ${withEpa}`);
   });
 
   test('epa-sld-local _dataSource is accepted', () => {
     const epaLocal = { transitAccessibility: 60, walkScore: 60, _dataSource: 'epa-sld-local' };
-    Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR], epaLocal);
+    calc(SITE.lat, SITE.lon, NEAR, epaLocal);
     const j = Transit.getTransitJustification();
     assert.equal(j.epaDataAvailable, true);
   });
 
   test('EPA data without _dataSource flag is treated as unavailable', () => {
     const epaNoFlag = { transitAccessibility: 60, walkScore: 60 };
-    Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR], epaNoFlag);
+    calc(SITE.lat, SITE.lon, NEAR, epaNoFlag);
     const j = Transit.getTransitJustification();
     assert.equal(j.epaDataAvailable, false,
       'EPA values without _dataSource should not be trusted');
@@ -218,8 +196,8 @@ group('5. EPA data availability & weight redistribution', () => {
     // Compare against a straight 0-100 value of 18.
     const epaLow  = { transitAccessibility: 18, walkScore: 18, _dataSource: 'epa-live' };
     const epaMid  = { transitAccessibility: 50, walkScore: 50, _dataSource: 'epa-live' };
-    const sLow  = Transit.calculateTransitScore(SITE.lat, SITE.lon, [], epaLow);
-    const sMid  = Transit.calculateTransitScore(SITE.lat, SITE.lon, [], epaMid);
+    const sLow  = calc(SITE.lat, SITE.lon, NOWHERE, epaLow);
+    const sMid  = calc(SITE.lat, SITE.lon, NOWHERE, epaMid);
     // The 0-20 branch multiplies by 5, so 18 → 90. That should beat 50 on a
     // straight-through 0-100 interpretation.
     assert.ok(sLow > sMid,
@@ -276,13 +254,13 @@ group('6. identifyTransitDeserts', () => {
         [-104.99, 39.73],
       ]],
     };
-    const d = Transit.identifyTransitDeserts(poly, []);
+    const d = Transit.identifyTransitDeserts(poly, [], MAP_STATUS);
     assert.ok(Array.isArray(d));
     assert.ok(d.length > 0,
       'polygon with no routes should produce desert cells; got 0');
   });
 
-  test('polygon densely covered by near routes produces fewer deserts', () => {
+  test('polygon densely covered by near stops produces fewer deserts', () => {
     const poly = {
       coordinates: [[
         [-104.99, 39.73],
@@ -292,15 +270,15 @@ group('6. identifyTransitDeserts', () => {
         [-104.99, 39.73],
       ]],
     };
-    const emptyDeserts = Transit.identifyTransitDeserts(poly, []);
-    // Cover the polygon with 10 synthetic routes at its corners
-    const routes = [];
+    const emptyDeserts = Transit.identifyTransitDeserts(poly, [], MAP_STATUS);
+    // Cover the polygon with a grid of stops
+    const stops = [];
     for (let lat = 39.73; lat <= 39.78; lat += 0.01) {
       for (let lon = -104.99; lon <= -104.94; lon += 0.01) {
-        routes.push(route({ id: `cov-${lat}-${lon}`, stops: [{lat, lon}], headwayMinutes: 20 }));
+        stops.push({ lat, lon });
       }
     }
-    const coveredDeserts = Transit.identifyTransitDeserts(poly, routes);
+    const coveredDeserts = Transit.identifyTransitDeserts(poly, stops, MAP_STATUS);
     assert.ok(coveredDeserts.length < emptyDeserts.length,
       `dense coverage should reduce deserts: empty=${emptyDeserts.length}, covered=${coveredDeserts.length}`);
   });
@@ -308,12 +286,12 @@ group('6. identifyTransitDeserts', () => {
 
 group('7. getTransitLayer', () => {
   test('returns a GeoJSON FeatureCollection', () => {
-    const layer = Transit.getTransitLayer([HIGH_FREQ_NEAR]);
+    const layer = Transit.getTransitLayer([NEAR_STOP]);
     assert.equal(layer.type, 'FeatureCollection');
-    assert.ok(Array.isArray(layer.features));
+    assert.equal(layer.features.length, 1);
   });
 
-  test('empty routes → empty feature array', () => {
+  test('empty stops → empty feature array', () => {
     const layer = Transit.getTransitLayer([]);
     assert.equal(layer.features.length, 0);
   });
@@ -321,21 +299,22 @@ group('7. getTransitLayer', () => {
 
 group('8. getTransitJustification shape', () => {
   test('returns every documented key', () => {
-    Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR], EPA_LIVE);
+    calc(SITE.lat, SITE.lon, NEAR, EPA_LIVE);
     const j = Transit.getTransitJustification();
     for (const k of [
-      'transitAccessibilityScore', 'walkScore', 'walkScoreAvailable',
-      'epaDataAvailable', 'nearbyRouteCount', 'serviceGaps',
-      'hasHighFrequencyService', '_dataSources',
+      'transitAccessibilityScore', 'transitUnavailableReason', 'walkScore', 'walkScoreAvailable',
+      'epaDataAvailable', 'nearbyStopCount', 'stopsWithinZoneRadius', 'nearbyAgencyCount',
+      'todMiles', 'zoneRadiusMiles', 'nearestConfirmedStop', 'noConfirmedStopWithinZoneRadius', 'serviceGaps',
+      'hasHighFrequencyService', 'highFrequencyUnavailableReason', '_dataSources',
     ]) {
       assert.ok(k in j, `missing key: ${k}`);
     }
   });
 
-  test('_dataSources captures routeData, epaData, walkData', () => {
-    Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR], EPA_LIVE);
+  test('_dataSources captures stopData, epaData, walkData', () => {
+    calc(SITE.lat, SITE.lon, NEAR, EPA_LIVE);
     const j = Transit.getTransitJustification();
-    assert.equal(j._dataSources.routeData, 'local-gtfs');
+    assert.equal(j._dataSources.stopData, 'local-stops');
     assert.equal(j._dataSources.epaData,   'epa-live');
     assert.equal(j._dataSources.walkData,  'epa-live');
   });
@@ -353,7 +332,7 @@ group('9. no score before calculation; score tagged with its site (#1937)', () =
   });
 
   test('the score carries the site it was computed for', () => {
-    Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR], EPA_LIVE);
+    calc(SITE.lat, SITE.lon, NEAR, EPA_LIVE);
     const j = Transit.getTransitJustification();
     assert.equal(j.siteLat, SITE.lat);
     assert.equal(j.siteLon, SITE.lon);
