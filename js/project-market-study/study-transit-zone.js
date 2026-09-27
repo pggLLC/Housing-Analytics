@@ -51,11 +51,23 @@
     return { state: 'ok', html: html };
   }
 
+  // A fetch that never answers is a failed load, not a reason to keep the
+  // section on "Checking…" (#1973): after api.timeoutMs it resolves null, the
+  // same as a failed or 404 fetch, and summarize() says the data is missing.
+  function get(url) {
+    var ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timer;
+    var gaveUp = new Promise(function (resolve) {
+      timer = setTimeout(function () { if (ctrl) ctrl.abort(); resolve(null); }, api.timeoutMs);
+    });
+    var got = fetch(url, ctrl ? { signal: ctrl.signal } : undefined)
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; });
+    return Promise.race([got, gaveUp]).then(function (v) { clearTimeout(timer); return v; });
+  }
+
   function render(mount, geoid, now) {
     if (!mount) return Promise.resolve(null);
-    var get = function (url) {
-      return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
-    };
     return Promise.all([get('data/hna/transit-zone-by-geography.json'), get('data/policy/thiz-map-status.json')])
       .then(function (parts) {
         var tz = typeof window !== 'undefined' ? window.TransitZone : null;
@@ -66,5 +78,6 @@
       });
   }
 
-  return { summarize: summarize, render: render };
+  var api = { summarize: summarize, render: render, timeoutMs: 20000 };
+  return api;
 }));
