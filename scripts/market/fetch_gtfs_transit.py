@@ -343,12 +343,19 @@ def main() -> int:
         "features": all_features,
     }
 
-    # Fallback to existing file when fetch produced nothing
+    # Fallback when the fetch produced nothing: leave the committed file
+    # exactly as it is. This used to set `result = existing` and carry on,
+    # but the dedup below reassigns result["features"] from the (empty)
+    # fetch list, so a catalog outage wrote an empty FeatureCollection.
+    # Not rewriting the file also keeps the workflow's byte-diff gate from
+    # re-simplifying geometry that is already simplified.
     if not all_features and OUT_FILE.exists():
         existing = json.loads(OUT_FILE.read_text())
         if existing.get("features"):
-            log("[fallback] Using existing transit_routes_co.geojson", level="WARN")
-            result = existing
+            log(f"[fallback] Fetch produced no routes; keeping the committed "
+                f"{OUT_FILE.name} ({len(existing['features'])} features) unchanged",
+                level="WARN")
+            return 0
 
     # Dedup duplicate routes from agencies with multiple MDB feeds
     # (e.g. RTD Denver appears in MDB twice with slightly different
