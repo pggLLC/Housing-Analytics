@@ -68,6 +68,7 @@ const SLA_CONFIG = [
   { file: 'data/market/transit_routes_co.geojson',          slaDays: 95,  cadence: 'monthly (GTFS feed refresh from Mobility Database)' },
   { file: 'data/amenities/transit_stops_statewide_co.geojson', slaDays: transitSlaDays, cadence: 'weekly (fetch-parcel-zoning-data.yml; CDOT + agency GTFS)' },
   { file: 'data/market/transit_stops_coverage_co.json', slaDays: transitSlaDays, cadence: 'weekly (paired statewide transit coverage report)' },
+  { file: 'data/hna/transit-zone-by-geography.json',       slaDays: transitSlaDays, cadence: 'weekly (fetch-parcel-zoning-data.yml, after the stop file)' },
 ];
 
 // Fields to probe for an in-file "updated" timestamp, in priority order.

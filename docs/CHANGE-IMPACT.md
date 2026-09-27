@@ -149,6 +149,8 @@ They reach `.git/refs` too, where they break plain git commands mid-operation.
 | `data/market/transit_routes_co.geojson` | nothing; the fetcher drops routes with no vertex in Colorado | `pytest tests/test_data_plausibility.py -k touch_colorado` |
 | `js/transit-zone.js` (the one zone answer) | nothing else computes zone status; pages call `TransitZone.create(...).status(lat, lon)` | `npm run test:transit-zone` |
 | `data/policy/thiz-map-status.json` (radius, OEDIT due date, publication status) | the HB26-1065 entry in `data/policy/tax-credit-legislation.json` must give the same due date and radius; when OEDIT publishes, set `status`, commit the zones and name them in `zones_file` | `npm run test:transit-zone` |
+| `data/hna/transit-zone-by-geography.json` (HNA "Potential location" panel) | rebuilt by `scripts/market/build_transit_zone_by_geography.py` from the stop file, the zone radius and the boundaries; never edit it by hand | `npm run test:hna-transit-zone` |
+| the HNA "Potential location: transit zone" section | it is a canonical-page section: rerun `python3 scripts/hna/build_hna_views.py` (it lives in `hna-what-to-do.html`) | `npm run test:hna-views-fresh`, `npm run test:hna-transit-zone` |
 | CDOT or agency-feed failures | nothing: a failed CDOT request exits non-zero and leaves the file untouched | `npm run test:required-fetch-preserves-data` |
 
 The TOD panel uses only the statewide file, which already incorporates
