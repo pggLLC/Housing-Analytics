@@ -134,7 +134,12 @@ async function checkTodPanel() {
   let requests = 0;
   let fallbackCalls = 0;
   let legacyHits = [];
+  // The zone gate (#1947) is re-rendered by the same fetch handlers; it is
+  // defined outside the slice run here, so record its calls instead.
+  const gateCalls = [];
   const ctx = {
+    _renderTransitZoneGate: (lat, lon) => gateCalls.push([lat, lon]),
+    _tzStopsFailed: false,
     window: {
       L: { layerGroup: () => layer, circleMarker: (latlng, options) => { markerOptions.push(options); return marker; } },
       DataService: { getJSON() { requests++; return new Promise((_, reject) => { rejectFetch = reject; }); } },
@@ -166,6 +171,8 @@ async function checkTodPanel() {
   assert.match(elements.pmaTodContent.innerHTML, /could not be loaded/i);
   assert.match(elements.pmaTodContent.innerHTML, /not been checked/i);
   assert.equal(requests, 1, 'failed fetch must not trigger a retry loop');
+  assert.equal(ctx._tzStopsFailed, true, 'a failed stop fetch must mark the zone gate unavailable');
+  assert.deepEqual(gateCalls, [[39.74, -104.99]], 'a failed stop fetch must re-render the zone gate for the site');
 
   const stop = properties => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [-104.99, 39.74] }, properties });
   const privateStop = stop({ name: 'Private pickup', operator: 'private_shuttle', reliability: 'confirmed' });
