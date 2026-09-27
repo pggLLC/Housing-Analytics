@@ -148,6 +148,62 @@ run('a rate limit is named as one and is not retried; a 5XX is retried once', as
         'a single 503 is retried, the same policy as the source-URL sweep (#1545)');
 });
 
+run('a GitHub API call that never answers times out, is retried once, then goes unavailable', async () => {
+    const { REQUEST_TIMEOUT_MS } = require('./audit-modules/repo-health.js');
+    assert.ok(REQUEST_TIMEOUT_MS >= 10000 && REQUEST_TIMEOUT_MS <= 30000,
+        'the production limit must sit well inside the job\'s 30-minute timeout-minutes');
+    const hung = fakeGithub([[() => true, () => new Promise(() => {})]]);
+    let watchdog;
+    const health = await Promise.race([
+        collectRepoHealth({ env: ENV, fetchImpl: hung.fetchImpl, now: NOW, timeoutMs: 20 }),
+        new Promise(resolve => { watchdog = setTimeout(() => resolve(null), 5000); }),
+    ]);
+    clearTimeout(watchdog);
+    assert.ok(health, 'the audit must come back, not hang until the job\'s timeout-minutes cancels it');
+    for (const check of health.checks) {
+        assert.equal(check.status, 'unavailable', check.name);
+        assert.match(check.details, /timed out/, 'the reason travels with the status');
+    }
+    assert.equal(hung.calls.length, 6, 'each section: one attempt plus one retry');
+
+    // A stall on the first attempt only is recovered by the retry.
+    const routes = healthyRoutes();
+    let stalled = false;
+    routes.unshift([url => url.includes('/issues?state=open') && !stalled, () => { stalled = true; return new Promise(() => {}); }]);
+    const once = fakeGithub(routes);
+    const recovered = await collectRepoHealth({ env: ENV, fetchImpl: once.fetchImpl, now: NOW, timeoutMs: 20 });
+    assert.equal(recovered.checks.find(c => c.name === 'Issues Inventory').status, 'passed');
+});
+
+run('an active scheduled workflow that has never run is a finding once it has had time to run', async () => {
+    const [scheduled] = parseScheduledWorkflows().filter(w => w.file === 'daily-audit-system.yml');
+    assert.ok(scheduled, 'precondition: a real scheduled workflow to point the fake API at');
+    const workflow = createdAt => ({ id: 77, path: scheduled.path, state: 'active', html_url: 'w', created_at: createdAt });
+    const routesFor = remote => {
+        const routes = healthyRoutes();
+        routes.unshift([url => url.includes('/actions/workflows?'), () => response(200, { workflows: [remote] })]);
+        routes.unshift([url => url.includes('/actions/workflows/77/runs'), () => response(200, { workflow_runs: [] })]);
+        return routes;
+    };
+
+    const old = await collectRepoHealth({ env: ENV, fetchImpl: fakeGithub(routesFor(workflow(iso(NOW - 30 * DAY)))).fetchImpl, now: NOW });
+    const check = old.checks.find(c => c.name === 'GitHub Actions Health');
+    assert.equal(check.status, 'failed', 'a workflow that never fires must not leave the check green');
+    const finding = old.issues.find(i => i.file === scheduled.path);
+    assert.ok(finding, 'it must become a finding, not only an entry nobody reads');
+    assert.ok(['medium', 'high'].includes(finding.severity), 'worth a look, never critical: ' + finding.severity);
+    assert.deepEqual(old.actions.neverRun.map(w => w.path), [scheduled.path]);
+    const html = buildHtmlReport({ summary: quiet, allIssues: [], comparison: { newIssues: [], resolvedIssues: [], persistentIssues: [] },
+        priorDate: null, trend: [], runDurationMs: 1, repoHealth: old });
+    const card = html.slice(html.indexOf('GitHub Actions Health'), html.indexOf('Pull Request Triage'));
+    assert.ok(card.includes(scheduled.name), 'the report must name the workflow that never ran');
+
+    const fresh = await collectRepoHealth({ env: ENV, fetchImpl: fakeGithub(routesFor(workflow(iso(NOW - HOUR)))).fetchImpl, now: NOW });
+    assert.equal(fresh.checks.find(c => c.name === 'GitHub Actions Health').status, 'passed',
+        'a workflow added an hour ago has not had its first scheduled slot yet');
+    assert.deepEqual(fresh.actions.neverRun, []);
+});
+
 run('a missing token is unavailable and emits no finding', async () => {
     const health = await collectRepoHealth({ env: { GITHUB_REPOSITORY: 'o/r' }, fetchImpl: () => { throw new Error('must not call'); }, now: NOW });
     assert.equal(health.checks.length, 1);
@@ -261,10 +317,28 @@ run('a deploy cancelled by cancel-in-progress does not block; a failure since th
     const cancelled = { status: 'completed', conclusion: 'cancelled', created_at: iso(NOW - HOUR) };
     const failed = { status: 'completed', conclusion: 'failure', created_at: iso(NOW - HOUR) };
     const oldFailure = { status: 'completed', conclusion: 'failure', created_at: iso(NOW - 6 * HOUR) };
-    assert.equal(deployState([ok, cancelled]).deployBlocked, false);
+    const newer = (conclusion, status = 'completed') => ({ status, conclusion, created_at: iso(NOW - 10 * 60 * 1000) });
+    for (const superseding of [newer('success'), newer('failure'), newer(null, 'in_progress')]) {
+        const label = superseding.conclusion || superseding.status;
+        const state = deployState([ok, cancelled, superseding]);
+        assert.ok(!state.recentDeployFailures.includes(cancelled),
+            `a cancelled deploy with a newer (${label}) run behind it was superseded, not failed`);
+    }
+    assert.equal(deployState([ok, cancelled, newer(null, 'in_progress')]).deployBlocked, false);
     assert.equal(deployState([ok, oldFailure]).deployBlocked, false, 'a failure already fixed by a later success');
     assert.equal(deployState([ok, failed]).deployBlocked, true);
     assert.equal(deployState([cancelled]).deployBlocked, true, 'no success on record at all');
+});
+
+run('the newest deploy cancelled with nothing after it is blocked, whatever succeeded before', () => {
+    // Cancelled by hand, or by timeout-minutes (which also reports `cancelled`):
+    // the newest commit may never have deployed, and an older success says
+    // nothing about it.
+    const ok = { status: 'completed', conclusion: 'success', created_at: iso(NOW - 3 * HOUR) };
+    const cancelled = { status: 'completed', conclusion: 'cancelled', created_at: iso(NOW - HOUR) };
+    const state = deployState([ok, cancelled]);
+    assert.equal(state.deployBlocked, true);
+    assert.deepEqual(state.recentDeployFailures, [cancelled], 'the run that left main undeployed is named');
 });
 
 // ── 4. Overdue allows for GitHub's documented schedule lateness ─────────────
