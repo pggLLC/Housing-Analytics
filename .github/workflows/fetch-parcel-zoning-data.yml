@@ -57,6 +57,12 @@ jobs:
     # so budget ~5 min on a runner. 40 keeps >20 min of headroom for a slow
     # fetch week that is also a rebuild week. `cancelled` on this job means
     # this limit was hit (AGENTS.md).
+    # Re-measured 2026-09-27 with the stop-content gate: the chain 197 s,
+    # build_neighborhood_access.py 2 s, the stop build 26 s from the feed
+    # cache (it now also reads each feed's stop_times.txt for the service
+    # tag), the transit-zone build 173 s (already inside the 11-12 min).
+    # A stop change and a zone change rebuild the chain once, not twice, so
+    # the worst week is still ~12 + 5 min: 40 keeps ~20 min of headroom.
     timeout-minutes: 40
     env:
       # Scheduled Regrid requests resume only by explicit owner opt-in.
@@ -297,26 +303,42 @@ jobs:
       # compares the index's copy with the source row by row, ignoring stamps:
       # exit 0 = current, 1 = stale, anything else = the check broke (fail).
       # Runtime: see the job's timeout-minutes comment.
-      - name: Rebuild the derived chain when the transit zone content changed
+      #
+      # The stop file itself is a second input (owner decision 2026-09-27):
+      # both transit amenity outputs are built from it —
+      # data/derived/market-analysis/neighborhood_access.json by
+      # build_neighborhood_access.py, and amenity_access_score in the index.
+      # check_transit_stop_copies.py compares the stop CONTENT fingerprint
+      # each output recorded with the file (features only, never
+      # meta.generated), same exit codes. A stop change rebuilds neighborhood
+      # access first, then the chain; a stamp-only refresh rebuilds nothing.
+      - name: Rebuild transit outputs and the derived chain when their input content changed
         id: derived-chain
         run: |
           set +e
           python3 scripts/hna/check_transit_zone_copy.py
-          rc=$?
+          zone_rc=$?
+          python3 scripts/hna/check_transit_stop_copies.py
+          stops_rc=$?
           set -e
-          case "$rc" in
-            0)
-              echo "rebuilt=false" >> "$GITHUB_OUTPUT"
-              ;;
-            1)
-              npm run rebuild:derived
-              echo "rebuilt=true" >> "$GITHUB_OUTPUT"
-              ;;
-            *)
-              echo "::error::check_transit_zone_copy.py could not run (exit $rc)" >&2
-              exit "$rc"
-              ;;
-          esac
+          for rc in "$zone_rc" "$stops_rc"; do
+            if [ "$rc" != 0 ] && [ "$rc" != 1 ]; then
+              echo "::error::a transit content check could not run (zone exit $zone_rc, stops exit $stops_rc)" >&2
+              exit 2
+            fi
+          done
+          neighborhood=false
+          if [ "$stops_rc" = 1 ]; then
+            python3 scripts/market-analysis/build_neighborhood_access.py
+            neighborhood=true
+          fi
+          rebuilt=false
+          if [ "$zone_rc" = 1 ] || [ "$stops_rc" = 1 ]; then
+            npm run rebuild:derived
+            rebuilt=true
+          fi
+          echo "neighborhood=$neighborhood" >> "$GITHUB_OUTPUT"
+          echo "rebuilt=$rebuilt" >> "$GITHUB_OUTPUT"
 
       # ── Commit all updated data ───────────────────────────────────────
       - name: Commit updated data files
@@ -330,7 +352,7 @@ jobs:
           # silently left out of the commit.
           chain_paths="data/hna/ranking-index.json data/hna/ranking-scenarios data/hna/jurisdiction-metrics-digest data/hna/ownership-need.json data/jurisdiction-briefs data/home-snapshot.json places/ data/paper working-paper.html methods.html AGENTS.md README.md"
           if [ "${{ steps.derived-chain.outputs.rebuilt }}" = "true" ]; then
-            own_paths="data/market/parcel_aggregates_co.json data/market/zoning_compat_index_co.json data/market/transit_routes_co.geojson data/amenities/transit_stops_statewide_co.geojson data/market/transit_stops_coverage_co.json data/hna/transit-zone-by-geography.json data/market/schools_co.geojson data/market/opportunity_zones_co.geojson data/affordable-housing/regrid-parcels-by-place.json data/_manifest.json data/manifest.json"
+            own_paths="data/market/parcel_aggregates_co.json data/market/zoning_compat_index_co.json data/market/transit_routes_co.geojson data/amenities/transit_stops_statewide_co.geojson data/market/transit_stops_coverage_co.json data/hna/transit-zone-by-geography.json data/derived/market-analysis/neighborhood_access.json data/market/schools_co.geojson data/market/opportunity_zones_co.geojson data/affordable-housing/regrid-parcels-by-place.json data/_manifest.json data/manifest.json"
             excludes=""
             for p in $chain_paths $own_paths; do excludes="$excludes :!$p"; done
             outside="$(git status --porcelain -- . $excludes | head -20)"
@@ -353,6 +375,7 @@ jobs:
                   data/amenities/transit_stops_statewide_co.geojson \
                   data/market/transit_stops_coverage_co.json \
                   data/hna/transit-zone-by-geography.json \
+                  data/derived/market-analysis/neighborhood_access.json \
                   data/market/schools_co.geojson \
                   data/market/opportunity_zones_co.geojson \
                   data/affordable-housing/regrid-parcels-by-place.json \

@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated": "2026-09-27T11:24:00Z",
+    "generated": "2026-09-27T16:06:22Z",
     "source": "scripts/market/build_transit_stops_co.py",
     "note": "Counts of stops found per source. A county with no stop in any source is listed under counties_without_fixed_stops: that means no fixed-route stop was found, not that the county has no transit (several run demand-response service, which has no stops).",
     "feed_match_m": 30.0,
     "osm_match_m": 60.0,
-    "agency_feeds_used": 44,
+    "agency_feeds_used": 68,
     "agency_feeds_failed": [
       {
         "agency": "Rocky Mountain National Park",
@@ -14,19 +14,19 @@
     ]
   },
   "totals": {
-    "stops": 14183,
+    "stops": 14247,
     "cdot": 12280,
-    "agency_feed_only": 772,
-    "unconfirmed": 1131
+    "agency_feed_only": 838,
+    "unconfirmed": 1129
   },
   "counties": [
     {
       "county_fips": "08001",
       "county": "Adams",
       "cdot": 1072,
-      "agency_feed_only": 72,
+      "agency_feed_only": 73,
       "unconfirmed": 28,
-      "total": 1172,
+      "total": 1173,
       "fixed_route_stops_found": true
     },
     {
@@ -42,9 +42,9 @@
       "county_fips": "08005",
       "county": "Arapahoe",
       "cdot": 1179,
-      "agency_feed_only": 17,
+      "agency_feed_only": 18,
       "unconfirmed": 182,
-      "total": 1378,
+      "total": 1379,
       "fixed_route_stops_found": true
     },
     {
@@ -60,10 +60,10 @@
       "county_fips": "08009",
       "county": "Baca",
       "cdot": 0,
-      "agency_feed_only": 0,
+      "agency_feed_only": 1,
       "unconfirmed": 0,
-      "total": 0,
-      "fixed_route_stops_found": false
+      "total": 1,
+      "fixed_route_stops_found": true
     },
     {
       "county_fips": "08011",
@@ -150,10 +150,10 @@
       "county_fips": "08027",
       "county": "Custer",
       "cdot": 0,
-      "agency_feed_only": 0,
+      "agency_feed_only": 1,
       "unconfirmed": 0,
-      "total": 0,
-      "fixed_route_stops_found": false
+      "total": 1,
+      "fixed_route_stops_found": true
     },
     {
       "county_fips": "08029",
@@ -177,9 +177,9 @@
       "county_fips": "08033",
       "county": "Dolores",
       "cdot": 2,
-      "agency_feed_only": 2,
+      "agency_feed_only": 3,
       "unconfirmed": 0,
-      "total": 4,
+      "total": 5,
       "fixed_route_stops_found": true
     },
     {
@@ -195,9 +195,9 @@
       "county_fips": "08037",
       "county": "Eagle",
       "cdot": 222,
-      "agency_feed_only": 29,
+      "agency_feed_only": 42,
       "unconfirmed": 2,
-      "total": 253,
+      "total": 266,
       "fixed_route_stops_found": true
     },
     {
@@ -213,27 +213,27 @@
       "county_fips": "08041",
       "county": "El Paso",
       "cdot": 1044,
-      "agency_feed_only": 20,
+      "agency_feed_only": 24,
       "unconfirmed": 12,
-      "total": 1076,
+      "total": 1080,
       "fixed_route_stops_found": true
     },
     {
       "county_fips": "08043",
       "county": "Fremont",
       "cdot": 0,
-      "agency_feed_only": 3,
+      "agency_feed_only": 6,
       "unconfirmed": 3,
-      "total": 6,
+      "total": 9,
       "fixed_route_stops_found": true
     },
     {
       "county_fips": "08045",
       "county": "Garfield",
       "cdot": 90,
-      "agency_feed_only": 3,
+      "agency_feed_only": 6,
       "unconfirmed": 1,
-      "total": 94,
+      "total": 97,
       "fixed_route_stops_found": true
     },
     {
@@ -249,18 +249,18 @@
       "county_fips": "08049",
       "county": "Grand",
       "cdot": 128,
-      "agency_feed_only": 80,
+      "agency_feed_only": 81,
       "unconfirmed": 10,
-      "total": 218,
+      "total": 219,
       "fixed_route_stops_found": true
     },
     {
       "county_fips": "08051",
       "county": "Gunnison",
       "cdot": 9,
-      "agency_feed_only": 48,
+      "agency_feed_only": 49,
       "unconfirmed": 6,
-      "total": 63,
+      "total": 64,
       "fixed_route_stops_found": true
     },
     {
@@ -294,63 +294,63 @@
       "county_fips": "08059",
       "county": "Jefferson",
       "cdot": 1217,
-      "agency_feed_only": 65,
+      "agency_feed_only": 66,
       "unconfirmed": 234,
-      "total": 1516,
+      "total": 1517,
       "fixed_route_stops_found": true
     },
     {
       "county_fips": "08061",
       "county": "Kiowa",
       "cdot": 0,
-      "agency_feed_only": 0,
+      "agency_feed_only": 1,
       "unconfirmed": 0,
-      "total": 0,
-      "fixed_route_stops_found": false
+      "total": 1,
+      "fixed_route_stops_found": true
     },
     {
       "county_fips": "08063",
       "county": "Kit Carson",
       "cdot": 0,
-      "agency_feed_only": 0,
+      "agency_feed_only": 1,
       "unconfirmed": 0,
-      "total": 0,
-      "fixed_route_stops_found": false
+      "total": 1,
+      "fixed_route_stops_found": true
     },
     {
       "county_fips": "08065",
       "county": "Lake",
       "cdot": 62,
-      "agency_feed_only": 0,
+      "agency_feed_only": 3,
       "unconfirmed": 3,
-      "total": 65,
+      "total": 68,
       "fixed_route_stops_found": true
     },
     {
       "county_fips": "08067",
       "county": "La Plata",
       "cdot": 21,
-      "agency_feed_only": 107,
+      "agency_feed_only": 109,
       "unconfirmed": 1,
-      "total": 129,
+      "total": 131,
       "fixed_route_stops_found": true
     },
     {
       "county_fips": "08069",
       "county": "Larimer",
       "cdot": 769,
-      "agency_feed_only": 11,
+      "agency_feed_only": 13,
       "unconfirmed": 80,
-      "total": 860,
+      "total": 862,
       "fixed_route_stops_found": true
     },
     {
       "county_fips": "08071",
       "county": "Las Animas",
       "cdot": 0,
-      "agency_feed_only": 2,
+      "agency_feed_only": 3,
       "unconfirmed": 2,
-      "total": 4,
+      "total": 5,
       "fixed_route_stops_found": true
     },
     {
@@ -375,9 +375,9 @@
       "county_fips": "08077",
       "county": "Mesa",
       "cdot": 399,
-      "agency_feed_only": 10,
+      "agency_feed_only": 11,
       "unconfirmed": 9,
-      "total": 418,
+      "total": 419,
       "fixed_route_stops_found": true
     },
     {
@@ -429,9 +429,9 @@
       "county_fips": "08089",
       "county": "Otero",
       "cdot": 7,
-      "agency_feed_only": 5,
+      "agency_feed_only": 6,
       "unconfirmed": 7,
-      "total": 19,
+      "total": 20,
       "fixed_route_stops_found": true
     },
     {
@@ -465,27 +465,27 @@
       "county_fips": "08097",
       "county": "Pitkin",
       "cdot": 260,
-      "agency_feed_only": 7,
-      "unconfirmed": 1,
-      "total": 268,
+      "agency_feed_only": 12,
+      "unconfirmed": 0,
+      "total": 272,
       "fixed_route_stops_found": true
     },
     {
       "county_fips": "08099",
       "county": "Prowers",
       "cdot": 6,
-      "agency_feed_only": 0,
+      "agency_feed_only": 1,
       "unconfirmed": 0,
-      "total": 6,
+      "total": 7,
       "fixed_route_stops_found": true
     },
     {
       "county_fips": "08101",
       "county": "Pueblo",
       "cdot": 359,
-      "agency_feed_only": 43,
+      "agency_feed_only": 53,
       "unconfirmed": 0,
-      "total": 402,
+      "total": 412,
       "fixed_route_stops_found": true
     },
     {
@@ -510,9 +510,9 @@
       "county_fips": "08107",
       "county": "Routt",
       "cdot": 132,
-      "agency_feed_only": 1,
-      "unconfirmed": 2,
-      "total": 135,
+      "agency_feed_only": 8,
+      "unconfirmed": 1,
+      "total": 141,
       "fixed_route_stops_found": true
     },
     {
@@ -599,367 +599,760 @@
   ],
   "agencies": [
     {
-      "agency": "Agency not listed",
+      "agency": "Adams County",
       "operator": "public",
-      "cdot": 1,
-      "agency_feed_only": 0,
-      "unconfirmed": 0
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
     },
     {
       "agency": "All Points Transit",
       "operator": "public",
       "cdot": 198,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 133,
+        "unknown": 65
+      }
     },
     {
       "agency": "Avon Transit",
       "operator": "public",
       "cdot": 0,
       "agency_feed_only": 22,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 22
+      }
+    },
+    {
+      "agency": "Baca Area Transportation",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
     },
     {
       "agency": "Bent County Transit",
       "operator": "public",
       "cdot": 21,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 21
+      }
     },
     {
       "agency": "Blackhawk and Central City Tramway",
       "operator": "public",
       "cdot": 18,
       "agency_feed_only": 1,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 19
+      }
     },
     {
       "agency": "Blue Sky Limo LLC",
       "operator": "private_shuttle",
       "cdot": 0,
       "agency_feed_only": 12,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 12
+      }
     },
     {
       "agency": "Breckenridge Free Ride",
       "operator": "public",
       "cdot": 120,
       "agency_feed_only": 3,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 118,
+        "unknown": 5
+      }
     },
     {
       "agency": "Bustang Outrider",
       "operator": "public",
       "cdot": 0,
       "agency_feed_only": 58,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 51,
+        "unknown": 7
+      }
     },
     {
       "agency": "COLT",
       "operator": "public",
       "cdot": 142,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "unknown": 139,
+        "fixed_route": 3
+      }
+    },
+    {
+      "agency": "City of Aspen",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 8,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 8
+      }
     },
     {
       "agency": "City of Fountain Transit",
       "operator": "public",
       "cdot": 35,
       "agency_feed_only": 2,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 35,
+        "unknown": 2
+      }
     },
     {
       "agency": "City of Golden",
       "operator": "public",
       "cdot": 0,
       "agency_feed_only": 23,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 23
+      }
+    },
+    {
+      "agency": "City of Loveland Transit",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
     },
     {
       "agency": "Clear Creek County Transit",
       "operator": "public",
       "cdot": 47,
       "agency_feed_only": 5,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 32,
+        "unknown": 20
+      }
     },
     {
       "agency": "Colorado Department of Transportation",
       "operator": "public",
       "cdot": 0,
       "agency_feed_only": 20,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 18,
+        "unknown": 2
+      }
     },
     {
       "agency": "Continuum",
       "operator": "public",
       "cdot": 0,
       "agency_feed_only": 1,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
+    },
+    {
+      "agency": "Core Transit",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 15,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 15
+      }
     },
     {
       "agency": "Cripple Creek Transportation",
       "operator": "public",
       "cdot": 20,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 16,
+        "unknown": 4
+      }
+    },
+    {
+      "agency": "Discover Goodwill",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 2,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 2
+      }
+    },
+    {
+      "agency": "Dolores County",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 2,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 2
+      }
     },
     {
       "agency": "Durango Transit",
       "operator": "public",
       "cdot": 0,
       "agency_feed_only": 105,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 105
+      }
     },
     {
       "agency": "ECO Transit",
       "operator": "public",
       "cdot": 96,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 96
+      }
+    },
+    {
+      "agency": "Easy Ride Transportation",
+      "operator": "public",
+      "cdot": 1,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
     },
     {
       "agency": "Envida",
       "operator": "public",
       "cdot": 28,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "unknown": 15,
+        "fixed_route": 13
+      }
     },
     {
       "agency": "Estes Transit",
       "operator": "public",
       "cdot": 65,
       "agency_feed_only": 2,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 54,
+        "unknown": 13
+      }
+    },
+    {
+      "agency": "Fremont County Transit",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 6,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 6
+      }
     },
     {
       "agency": "Garden of the Gods",
       "operator": "public",
       "cdot": 66,
       "agency_feed_only": 4,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 57,
+        "unknown": 13
+      }
     },
     {
       "agency": "Grand Valley Transit",
       "operator": "public",
       "cdot": 399,
-      "agency_feed_only": 8,
-      "unconfirmed": 0
+      "agency_feed_only": 9,
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 399,
+        "unknown": 8,
+        "demand_response": 1
+      }
     },
     {
       "agency": "Greeley-Evans Transit",
       "operator": "public",
       "cdot": 309,
       "agency_feed_only": 1,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "unknown": 12,
+        "fixed_route": 298
+      }
     },
     {
       "agency": "Groome Transportation",
       "operator": "private_shuttle",
       "cdot": 0,
       "agency_feed_only": 11,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 11
+      }
     },
     {
       "agency": "Gunnison Valley RTA",
       "operator": "public",
       "cdot": 0,
-      "agency_feed_only": 25,
-      "unconfirmed": 0
+      "agency_feed_only": 26,
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 25,
+        "demand_response": 1
+      }
     },
     {
       "agency": "Home James",
       "operator": "private_shuttle",
       "cdot": 0,
       "agency_feed_only": 72,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 72
+      }
+    },
+    {
+      "agency": "Kiowa County Transit",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
+    },
+    {
+      "agency": "La Junta Transit",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
+    },
+    {
+      "agency": "Lake County Senior Center Transportation Program",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
     },
     {
       "agency": "Lake County Transit",
       "operator": "public",
       "cdot": 42,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "unknown": 21,
+        "fixed_route": 21
+      }
+    },
+    {
+      "agency": "Lakewood Rides",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
     },
     {
       "agency": "MVT",
       "operator": "public",
       "cdot": 40,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "unknown": 37,
+        "fixed_route": 3
+      }
     },
     {
       "agency": "Mountain Express",
       "operator": "public",
       "cdot": 63,
       "agency_feed_only": 19,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1,
+        "unknown": 40,
+        "fixed_route": 41
+      }
+    },
+    {
+      "agency": "Mountain Family Center",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
     },
     {
       "agency": "Mountain Metropolitan Transit",
       "operator": "public",
       "cdot": 977,
       "agency_feed_only": 5,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 981,
+        "unknown": 1
+      }
+    },
+    {
+      "agency": "Omnibus",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
     },
     {
       "agency": "OpenStreetMap only",
       "operator": "public",
       "cdot": 0,
       "agency_feed_only": 0,
-      "unconfirmed": 1131
+      "unconfirmed": 1129,
+      "service": {
+        "unknown": 1129
+      }
+    },
+    {
+      "agency": "Outback Express",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
     },
     {
       "agency": "Parachute Area Transit System",
       "operator": "public",
       "cdot": 16,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "unknown": 15,
+        "fixed_route": 1
+      }
     },
     {
       "agency": "Prairie Express Transit",
       "operator": "public",
       "cdot": 21,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 17,
+        "unknown": 4
+      }
+    },
+    {
+      "agency": "Prowers Area Transit",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
     },
     {
       "agency": "Pueblo Transit",
       "operator": "public",
       "cdot": 359,
-      "agency_feed_only": 40,
-      "unconfirmed": 0
+      "agency_feed_only": 48,
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 392,
+        "unknown": 15
+      }
+    },
+    {
+      "agency": "RCCOA Transportation",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 5,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 5
+      }
     },
     {
       "agency": "RTD",
       "operator": "public",
       "cdot": 7505,
       "agency_feed_only": 261,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 7578,
+        "unknown": 188
+      }
     },
     {
       "agency": "Road Runner Transit",
       "operator": "public",
       "cdot": 21,
       "agency_feed_only": 2,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 22,
+        "unknown": 1
+      }
     },
     {
       "agency": "Roaring Fork Transportation Authority",
       "operator": "public",
       "cdot": 255,
       "agency_feed_only": 9,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 247,
+        "demand_response": 12,
+        "unknown": 5
+      }
     },
     {
       "agency": "Rocky Mountain National Park Shuttles",
       "operator": "public",
       "cdot": 12,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 12
+      }
+    },
+    {
+      "agency": "SCCOG Transit",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
+    },
+    {
+      "agency": "SRDA",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
     },
     {
       "agency": "San Miguel Authority for Regional Transportation",
       "operator": "public",
       "cdot": 69,
       "agency_feed_only": 2,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 66,
+        "unknown": 5
+      }
+    },
+    {
+      "agency": "Silver Key Senior Services",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
     },
     {
       "agency": "Snowmass Village Transportation",
       "operator": "public",
       "cdot": 85,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "unknown": 36,
+        "fixed_route": 49
+      }
+    },
+    {
+      "agency": "Southwest Rides",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "service": {
+        "demand_response": 1
+      }
     },
     {
       "agency": "Steamboat Springs Transit",
       "operator": "public",
       "cdot": 91,
-      "agency_feed_only": 0,
-      "unconfirmed": 0
+      "agency_feed_only": 2,
+      "unconfirmed": 0,
+      "service": {
+        "unknown": 12,
+        "fixed_route": 81
+      }
     },
     {
       "agency": "Steamboat Springs Yellow Zone",
       "operator": "public",
       "cdot": 57,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 57
+      }
     },
     {
       "agency": "Summit Stage",
       "operator": "public",
       "cdot": 142,
       "agency_feed_only": 8,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "unknown": 8,
+        "fixed_route": 142
+      }
     },
     {
       "agency": "TSC Transit",
       "operator": "public",
       "cdot": 19,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 19
+      }
     },
     {
       "agency": "The Lift",
       "operator": "public",
       "cdot": 0,
       "agency_feed_only": 3,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 3
+      }
     },
     {
       "agency": "Town of Mountain Village",
       "operator": "public",
       "cdot": 3,
       "agency_feed_only": 4,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 7
+      }
     },
     {
       "agency": "Transfort",
       "operator": "public",
       "cdot": 489,
-      "agency_feed_only": 3,
-      "unconfirmed": 0
+      "agency_feed_only": 4,
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 487,
+        "unknown": 5,
+        "demand_response": 1
+      }
     },
     {
       "agency": "University of Colorado Boulder",
       "operator": "public",
       "cdot": 0,
       "agency_feed_only": 21,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 11,
+        "unknown": 10
+      }
     },
     {
       "agency": "Vail Transit",
       "operator": "public",
       "cdot": 111,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "unknown": 8,
+        "fixed_route": 103
+      }
     },
     {
       "agency": "Via Mobility Services",
       "operator": "public",
       "cdot": 210,
       "agency_feed_only": 20,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 178,
+        "unknown": 52
+      }
     },
     {
       "agency": "Winter Park Transit",
       "operator": "public",
       "cdot": 128,
       "agency_feed_only": 0,
-      "unconfirmed": 0
+      "unconfirmed": 0,
+      "service": {
+        "fixed_route": 93,
+        "unknown": 35
+      }
     }
   ],
   "counties_without_fixed_stops": [
-    "Baca",
     "Cheyenne",
     "Costilla",
     "Crowley",
-    "Custer",
     "Elbert",
     "Hinsdale",
     "Jackson",
-    "Kiowa",
-    "Kit Carson",
     "Lincoln",
     "Phillips",
     "Rio Blanco",
@@ -11568,35 +11961,57 @@
       }
     ],
     "stops_in_agency_feeds_not_in_cdot": {
+      "Adams County": 1,
       "Avon Transit": 22,
+      "Baca Area Transportation": 1,
       "Blackhawk and Central City Tramway": 1,
       "Blue Sky Limo LLC": 12,
       "Breckenridge Free Ride": 3,
       "Bustang Outrider": 58,
+      "City of Aspen": 8,
       "City of Fountain Transit": 2,
       "City of Golden": 23,
+      "City of Loveland Transit": 1,
       "Clear Creek County Transit": 5,
       "Colorado Department of Transportation": 20,
       "Continuum": 1,
+      "Core Transit": 15,
+      "Discover Goodwill": 2,
+      "Dolores County": 2,
       "Durango Transit": 105,
       "Estes Transit": 2,
+      "Fremont County Transit": 6,
       "Garden of the Gods": 4,
-      "Grand Valley Transit": 8,
+      "Grand Valley Transit": 9,
       "Greeley-Evans Transit": 1,
       "Groome Transportation": 11,
-      "Gunnison Valley RTA": 25,
+      "Gunnison Valley RTA": 26,
       "Home James": 72,
+      "Kiowa County Transit": 1,
+      "La Junta Transit": 1,
+      "Lake County Senior Center Transportation Program": 1,
+      "Lakewood Rides": 1,
       "Mountain Express": 19,
+      "Mountain Family Center": 1,
       "Mountain Metropolitan Transit": 5,
-      "Pueblo Transit": 40,
+      "Omnibus": 1,
+      "Outback Express": 1,
+      "Prowers Area Transit": 1,
+      "Pueblo Transit": 48,
+      "RCCOA Transportation": 5,
       "RTD": 261,
       "Road Runner Transit": 2,
       "Roaring Fork Transportation Authority": 9,
+      "SCCOG Transit": 1,
+      "SRDA": 1,
       "San Miguel Authority for Regional Transportation": 2,
+      "Silver Key Senior Services": 1,
+      "Southwest Rides": 1,
+      "Steamboat Springs Transit": 2,
       "Summit Stage": 8,
       "The Lift": 3,
       "Town of Mountain Village": 4,
-      "Transfort": 3,
+      "Transfort": 4,
       "University of Colorado Boulder": 21,
       "Via Mobility Services": 20
     }

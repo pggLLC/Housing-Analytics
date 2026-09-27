@@ -1,14 +1,14 @@
 {
  "meta": {
   "boundary_search_miles": 10.0,
-  "generated": "2026-09-27T11:29:57Z",
+  "generated": "2026-09-27T16:12:58Z",
   "source": "scripts/market/build_transit_zone_by_geography.py (#1937)",
   "stops_file": "data/amenities/transit_stops_statewide_co.geojson",
-  "stops_generated": "2026-09-27T10:43:20Z",
+  "stops_generated": "2026-09-27T16:06:22Z",
   "radius_miles": 2,
   "radius_source": "data/policy/thiz-map-status.json",
   "qap_tod_miles": 0.5,
-  "method": "Share of a regular grid of points inside each boundary (about 2,000 per geography) lying within the radius of a stop, straight-line. 'confirmed' means CDOT or an agency feed publishes the stop; 'any' also counts OpenStreetMap-only stops. Private airport/hotel shuttle pickups are excluded: they are not public transit. Nearest stop is measured from a point inside the geography (its centre when that lies inside). When no sample is within the radius, nearest_confirmed_stop_to_boundary_miles gives the exact distance from the boundary, so a zero is proven, not sampled. A sampled 0 or 100% is published as an absolute only when proven (zero_is_exact, half_mile_zero_is_exact, full_is_exact, any_full_is_exact, half_mile_full_is_exact); otherwise the share is a finer local estimate kept off the absolute, so it reads as under 1% or over 99%.",
+  "method": "Share of a regular grid of points inside each boundary (about 2,000 per geography) lying within the radius of a stop, straight-line. 'confirmed' means CDOT or an agency feed publishes the stop; 'any' also counts OpenStreetMap-only stops. Private airport/hotel shuttle pickups are excluded: they are not public transit. So are demand-response (on-demand, GTFS-Flex) stops: they are not a defined route. Nearest stop is measured from a point inside the geography (its centre when that lies inside). When no sample is within the radius, nearest_confirmed_stop_to_boundary_miles gives the exact distance from the boundary, so a zero is proven, not sampled. A sampled 0 or 100% is published as an absolute only when proven (zero_is_exact, half_mile_zero_is_exact, full_is_exact, any_full_is_exact, half_mile_full_is_exact); otherwise the share is a finer local estimate kept off the absolute, so it reads as under 1% or over 99%.",
   "geography_count": 546
  },
  "geographies": {
@@ -77,7 +77,7 @@
    "share_within_radius_confirmed": 0.2065,
    "share_within_radius_any": 0.2065,
    "share_within_half_mile_confirmed": 0.1207,
-   "confirmed_stops_inside": 1196,
+   "confirmed_stops_inside": 1195,
    "nearest_confirmed_stop": {
     "name": "Watkins, CO, USA",
     "agency": "Via Mobility Services",
@@ -100,14 +100,14 @@
    "any_full_is_exact": null,
    "half_mile_full_is_exact": null,
    "max_boundary_vertex_distance_to_confirmed_stop_miles": null,
-   "share_within_radius_confirmed": 0.0406,
-   "share_within_radius_any": 0.0406,
-   "share_within_half_mile_confirmed": 0.0068,
-   "confirmed_stops_inside": 28,
+   "share_within_radius_confirmed": 0.0308,
+   "share_within_radius_any": 0.0308,
+   "share_within_half_mile_confirmed": 0.0062,
+   "confirmed_stops_inside": 27,
    "nearest_confirmed_stop": {
-    "name": "Archuleta County, CO, USA",
+    "name": "Pagosa Springs MC",
     "agency": "Mountain Express",
-    "distance_miles": 0.22
+    "distance_miles": 4.22
    },
    "samples": 1625,
    "centre": [
@@ -204,10 +204,10 @@
    "any_full_is_exact": null,
    "half_mile_full_is_exact": null,
    "max_boundary_vertex_distance_to_confirmed_stop_miles": null,
-   "share_within_radius_confirmed": 0.807,
-   "share_within_radius_any": 0.807,
-   "share_within_half_mile_confirmed": 0.2046,
-   "confirmed_stops_inside": 40,
+   "share_within_radius_confirmed": 0.7852,
+   "share_within_radius_any": 0.7866,
+   "share_within_half_mile_confirmed": 0.18,
+   "confirmed_stops_inside": 39,
    "nearest_confirmed_stop": {
     "name": "North Broomfield",
     "agency": "RTD",
@@ -519,7 +519,7 @@
    "share_within_radius_confirmed": 0.1313,
    "share_within_radius_any": 0.1313,
    "share_within_half_mile_confirmed": 0.0259,
-   "confirmed_stops_inside": 247,
+   "confirmed_stops_inside": 245,
    "nearest_confirmed_stop": {
     "name": "LAKE CREEK BLVD @ HILLCREST",
     "agency": "ECO Transit",
@@ -622,8 +622,8 @@
    "max_boundary_vertex_distance_to_confirmed_stop_miles": null,
    "share_within_radius_confirmed": 0.0523,
    "share_within_radius_any": 0.0523,
-   "share_within_half_mile_confirmed": 0.0072,
-   "confirmed_stops_inside": 93,
+   "share_within_half_mile_confirmed": 0.0063,
+   "confirmed_stops_inside": 92,
    "nearest_confirmed_stop": {
     "name": "Metro Park",
     "agency": "Parachute Area Transit System",
@@ -1297,9 +1297,9 @@
    "half_mile_full_is_exact": null,
    "max_boundary_vertex_distance_to_confirmed_stop_miles": null,
    "share_within_radius_confirmed": 0.1093,
-   "share_within_radius_any": 0.1214,
+   "share_within_radius_any": 0.1093,
    "share_within_half_mile_confirmed": 0.0243,
-   "confirmed_stops_inside": 266,
+   "confirmed_stops_inside": 257,
    "nearest_confirmed_stop": {
     "name": "Fairway Drive (Uphill)",
     "agency": "Snowmass Village Transportation",
@@ -1351,7 +1351,7 @@
    "share_within_radius_confirmed": 0.055,
    "share_within_radius_any": 0.055,
    "share_within_half_mile_confirmed": 0.0165,
-   "confirmed_stops_inside": 402,
+   "confirmed_stops_inside": 410,
    "nearest_confirmed_stop": {
     "name": "Roselawn - Aspen",
     "agency": "Pueblo Transit",
@@ -1429,7 +1429,7 @@
    "share_within_radius_confirmed": 0.0294,
    "share_within_radius_any": 0.0294,
    "share_within_half_mile_confirmed": 0.0047,
-   "confirmed_stops_inside": 132,
+   "confirmed_stops_inside": 134,
    "nearest_confirmed_stop": {
     "name": "Milner US Hwy. 40 & Main St. - Eastbound",
     "agency": "Steamboat Springs Transit",
@@ -1871,7 +1871,7 @@
    "share_within_radius_confirmed": 1.0,
    "share_within_radius_any": 1.0,
    "share_within_half_mile_confirmed": 0.9941,
-   "confirmed_stops_inside": 118,
+   "confirmed_stops_inside": 112,
    "nearest_confirmed_stop": {
     "name": "Hwy 82 + Cemetery Ln",
     "agency": "Roaring Fork Transportation Authority",
@@ -1923,7 +1923,7 @@
    "share_within_radius_confirmed": 0.6065,
    "share_within_radius_any": 0.6127,
    "share_within_half_mile_confirmed": 0.3487,
-   "confirmed_stops_inside": 895,
+   "confirmed_stops_inside": 894,
    "nearest_confirmed_stop": {
     "name": "13th Ave & Lisbon St",
     "agency": "RTD",
@@ -1974,8 +1974,8 @@
    "max_boundary_vertex_distance_to_confirmed_stop_miles": 0.856,
    "share_within_radius_confirmed": 1.0,
    "share_within_radius_any": 1.0,
-   "share_within_half_mile_confirmed": 0.7811,
-   "confirmed_stops_inside": 8,
+   "share_within_half_mile_confirmed": 0.7774,
+   "confirmed_stops_inside": 7,
    "nearest_confirmed_stop": {
     "name": "Downtown Basalt",
     "agency": "Roaring Fork Transportation Authority",
@@ -2388,14 +2388,14 @@
    "any_full_is_exact": null,
    "half_mile_full_is_exact": null,
    "max_boundary_vertex_distance_to_confirmed_stop_miles": null,
-   "share_within_radius_confirmed": 0.8093,
-   "share_within_radius_any": 0.8265,
-   "share_within_half_mile_confirmed": 0.2491,
-   "confirmed_stops_inside": 67,
+   "share_within_radius_confirmed": 0.7921,
+   "share_within_radius_any": 0.811,
+   "share_within_half_mile_confirmed": 0.2285,
+   "confirmed_stops_inside": 66,
    "nearest_confirmed_stop": {
-    "name": "Broomfield, CO, USA",
-    "agency": "Agency not listed",
-    "distance_miles": 1.09
+    "name": "North Broomfield",
+    "agency": "RTD",
+    "distance_miles": 1.93
    },
    "samples": 582,
    "centre": [
@@ -2549,9 +2549,9 @@
    "share_within_half_mile_confirmed": 0.0,
    "confirmed_stops_inside": 0,
    "nearest_confirmed_stop": {
-    "name": "Glenwood Springs Middle School",
+    "name": "Hwy 6 + Soccer Field Rd",
     "agency": "Roaring Fork Transportation Authority",
-    "distance_miles": 12.74
+    "distance_miles": 12.81
    },
    "samples": 1341,
    "centre": [
@@ -4367,7 +4367,7 @@
    "share_within_radius_confirmed": 1.0,
    "share_within_radius_any": 1.0,
    "share_within_half_mile_confirmed": 0.707,
-   "confirmed_stops_inside": 42,
+   "confirmed_stops_inside": 41,
    "nearest_confirmed_stop": {
     "name": "Glenwood Rec Center",
     "agency": "Roaring Fork Transportation Authority",
@@ -7097,7 +7097,7 @@
    "share_within_radius_confirmed": 0.9128,
    "share_within_radius_any": 0.9128,
    "share_within_half_mile_confirmed": 0.58,
-   "confirmed_stops_inside": 393,
+   "confirmed_stops_inside": 401,
    "nearest_confirmed_stop": {
     "name": "Transit Center (Court St)",
     "agency": "Pueblo Transit",
@@ -7825,7 +7825,7 @@
    "share_within_radius_confirmed": 0.7831,
    "share_within_radius_any": 0.7831,
    "share_within_half_mile_confirmed": 0.1832,
-   "confirmed_stops_inside": 99,
+   "confirmed_stops_inside": 98,
    "nearest_confirmed_stop": {
     "name": "Snowmass Mountain Condos 2",
     "agency": "Snowmass Village Transportation",
@@ -7929,7 +7929,7 @@
    "share_within_radius_confirmed": 1.0,
    "share_within_radius_any": 1.0,
    "share_within_half_mile_confirmed": 0.7354,
-   "confirmed_stops_inside": 126,
+   "confirmed_stops_inside": 128,
    "nearest_confirmed_stop": {
     "name": "Eagle Point",
     "agency": "Steamboat Springs Yellow Zone",
@@ -10295,7 +10295,7 @@
    "share_within_radius_confirmed": 0.9607,
    "share_within_radius_any": 0.9607,
    "share_within_half_mile_confirmed": 0.465,
-   "confirmed_stops_inside": 11,
+   "confirmed_stops_inside": 10,
    "nearest_confirmed_stop": {
     "name": "JW Dr + Deer Run",
     "agency": "Roaring Fork Transportation Authority",

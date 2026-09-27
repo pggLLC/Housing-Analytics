@@ -152,6 +152,7 @@ const INTERNAL_METRICS = new Set([
   'home_value_confidence',
   'missing_ami_tiers',
   'opportunity_geography_level',
+  'transit_stop_basis',
 ]);
 
 const RATE_DENOMINATORS = {

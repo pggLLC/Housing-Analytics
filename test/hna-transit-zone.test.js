@@ -238,9 +238,35 @@ test('the panel names its geography, and a slow earlier request never overwrites
   });
 });
 
-test('private shuttle pickups never reach the figures', () => {
-  const src = read('scripts/market/build_transit_zone_by_geography.py');
-  assert.match(src, /"operator"\) == "private_shuttle":\s*\n\s*continue/, 'the builder counts private shuttle pickups');
+test('private shuttle pickups and demand-response stops never reach the figures', () => {
+  // Behaviour, not source text: index one stop of each kind with the
+  // builder's own StopIndex, and ask js/transit-zone.js the same question.
+  // Both must see only the public scheduled stop (scripts/lib/transit_stops.py;
+  // owner decision 2026-09-27: on-demand providers are not defined routes).
+  const { execFileSync } = require('node:child_process');
+  const kinds = [
+    { name: 'fixed', props: { operator: 'public', reliability: 'confirmed', service: 'fixed_route' } },
+    { name: 'unknown', props: { operator: 'public', reliability: 'confirmed', service: 'unknown' } },
+    { name: 'shuttle', props: { operator: 'private_shuttle', reliability: 'confirmed', service: 'fixed_route' } },
+    { name: 'flex', props: { operator: 'public', reliability: 'confirmed', service: 'demand_response' } },
+  ];
+  const feats = kinds.map((k, i) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [-104.99 + i * 0.001, 39.74] },
+    properties: Object.assign({ name: k.name }, k.props) }));
+  const py = 'import importlib.util, json, sys\n' +
+    'spec = importlib.util.spec_from_file_location("tz", "scripts/market/build_transit_zone_by_geography.py")\n' +
+    'm = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)\n' +
+    'idx = m.StopIndex(json.loads(sys.stdin.read()))\n' +
+    'print(json.dumps(sorted(p["name"] for cell in idx.cells.values() for _, _, p in cell)))\n';
+  const indexed = JSON.parse(execFileSync('python3', ['-c', py], { cwd: root, encoding: 'utf8', input: JSON.stringify(feats),
+    env: Object.assign({}, process.env, { PYTHONDONTWRITEBYTECODE: '1' }) }));
+  assert.deepEqual(indexed, ['fixed', 'unknown'], 'the zone builder counts a private shuttle or a demand-response stop');
+  for (const k of kinds) {
+    const only = { type: 'FeatureCollection', meta: { generated: new Date().toISOString() },
+      features: [feats.find((f) => f.properties.name === k.name)] };
+    const r = TZ.create({ stops: only, mapStatus }).status(39.74, -104.99);
+    const counted = r.status === 'within_2mi';
+    assert.equal(counted, indexed.includes(k.name), `js/transit-zone.js and the builder disagree on a ${k.name} stop`);
+  }
   const shuttles = stops.features.filter((f) => f.properties.operator === 'private_shuttle');
   assert.ok(shuttles.length > 0, 'no private shuttle stops in the stop file — the scan found nothing to check');
   const names = new Set(shuttles.map((f) => f.properties.name));
@@ -248,6 +274,18 @@ test('private shuttle pickups never reach the figures', () => {
     const n = g.nearest_confirmed_stop;
     if (n && names.has(n.name) && shuttles.some((f) => f.properties.name === n.name && f.properties.agency === n.agency)) {
       assert.fail(`${id}: nearest confirmed stop is a private shuttle pickup (${n.name}, ${n.agency})`);
+    }
+  }
+  const flex = stops.features.filter((f) => f.properties.service === 'demand_response');
+  assert.ok(flex.length > 0, 'no demand-response stops in the stop file — the scan found nothing to check');
+  const flexKeys = new Set(flex.map((f) => f.properties.name + '|' + f.properties.agency));
+  const scheduled = new Set(stops.features.filter((f) => f.properties.service !== 'demand_response' &&
+    f.properties.operator !== 'private_shuttle').map((f) => f.properties.name + '|' + f.properties.agency));
+  for (const [id, g] of Object.entries(data.geographies)) {
+    const n = g.nearest_confirmed_stop;
+    const key = n && (n.name + '|' + n.agency);
+    if (key && flexKeys.has(key) && !scheduled.has(key)) {
+      assert.fail(`${id}: nearest confirmed stop is a demand-response stop (${n.name}, ${n.agency})`);
     }
   }
 });
