@@ -5,21 +5,56 @@
       "geoid": "08007",
       "level": "county",
       "name": "Archuleta County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.archuletacounty.gov/wp-content/uploads/2026-Archuleta-County-General-Election-Sample-Ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the official 2026 Archuleta County General Election sample ballot PDF (clerk states it combines all ballot styles and contains all ballot issues). Local questions on it: County 1A, School District 50JT 5A, Upper San Juan Health Service District 7B.",
+        "Excluded: Archuleta County Ballot Issue 1A - raises county lodging tax (short-term accommodations, excluding the Town of Pagosa Springs) from 2% to 6%; revenue split 80% county roads, 10% public safety/emergency dispatch, 10% childcare for local workforce; no housing earmark. Exclusion confirmed by owner decision (2026-09-26).",
+        "Excluded: School District 50JT Ballot Issue 5A - school bond/debt ($79,900,000) for school facilities; not housing.",
+        "Excluded: Upper San Juan Health Service District Ballot Issue 7B - general revenue retention (de-Brucing) for the health service district; no housing earmark.",
+        "No TABOR notice or participating-entities list/IGA was posted on the county clerk election pages as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.archuletacounty.gov/county-government/elected-offices/clerk-recorder/elections/general-election-november-3-2026/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.archuletacounty.gov/county-government/elected-offices/clerk-recorder/elections/general-election-november-3-2026/2026-archuleta-county-sample-ballot/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0856860",
       "level": "municipal",
       "name": "Pagosa Springs (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.archuletacounty.gov/wp-content/uploads/2026-Archuleta-County-General-Election-Sample-Ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list/IGA for the Nov 3, 2026 coordinated election was posted by the Archuleta County Clerk as of 2026-09-26, so participation could not be confirmed from a list; state is based on reading the county's combined sample ballot, which the clerk says contains all ballot issues across all ballot styles and shows no Town of Pagosa Springs question.",
+        "Town Clerk page (checked 2026-09-26) shows no Nov 3, 2026 town election or ballot measure; the town's regular municipal election was held April 2026. Town Public Notices page (checked 2026-09-26) lists only Ordinances 1039/1040, neither a ballot referral.",
+        "County Ballot Issue 1A (lodging tax) expressly excludes the Town of Pagosa Springs and is not housing-earmarked; not an entry for the town.",
+        "www.pagosasprings.co.gov intermittently reset connections through the proxy; pages were read after retries."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.archuletacounty.gov/county-government/elected-offices/clerk-recorder/elections/general-election-november-3-2026/2026-archuleta-county-sample-ballot/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.pagosasprings.co.gov/327/Town-Clerk",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.pagosasprings.co.gov/261/Public-Notices",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

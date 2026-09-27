@@ -5,132 +5,470 @@
       "geoid": "08005",
       "level": "county",
       "name": "Arapahoe County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Sample ballot (linked from Election Resources, file timestamp 2026-09-21) contains no Arapahoe County ballot issue/question (no 1A-1Z or 200-series measure); county contests are candidate offices only.",
+        "The 2026 Arapahoe County TABOR notice was not posted on the Election Resources page as of 2026-09-26 (only the English/Spanish sample ballots are linked); probed likely file URLs returned 404.",
+        "Arapahoe County has not published a list of participating political subdivisions/IGAs for the Nov 3, 2026 election as of 2026-09-26 (Coordinating Jurisdictions page describes the process only; no list found). Coverage is based on the county sample ballot, which states it 'will contain all contests in Arapahoe County'."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/index.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/coordinating_jurisdictions.php",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0804000",
       "level": "municipal",
       "name": "Aurora (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Excluded 3A: new 0.129% sales and use tax and revenue bonds for community facilities (libraries, recreation, parks) — not housing.",
+        "Excluded 3B: new 0.064% sales and use tax and revenue bonds for public safety infrastructure — not housing.",
+        "Excluded 3C: new 0.132% sales and use tax and revenue bonds for transportation infrastructure — not housing.",
+        "Excluded 3D: charter amendment moving regular municipal elections to even-numbered years — not housing.",
+        "City's own 2026 Election page lists the same four measures (3A-3D).",
+        "The 2026 Arapahoe County TABOR notice was not posted on the Election Resources page as of 2026-09-26 (only the English/Spanish sample ballots are linked); probed likely file URLs returned 404."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/index.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/coordinating_jurisdictions.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.auroragov.org/city_hall/elections/upcoming_election",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0808070",
       "level": "municipal",
       "name": "Bow Mar (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No Town of Bow Mar contest or measure appears on the Arapahoe County sample ballot, which states it contains all contests in the county.",
+        "Town's Elections page shows only the cancelled April 7, 2026 regular election; no November 2026 election or measure listed.",
+        "Bow Mar also lies partly in Jefferson County; the Jefferson County ballot was not reviewed.",
+        "Arapahoe County has not published a list of participating political subdivisions/IGAs for the Nov 3, 2026 election as of 2026-09-26 (Coordinating Jurisdictions page describes the process only; no list found). Coverage is based on the county sample ballot, which states it 'will contain all contests in Arapahoe County'."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/index.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/coordinating_jurisdictions.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townofbowmar.org/elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0812815",
       "level": "municipal",
       "name": "Centennial (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Excluded 2A: additional 1.00% sales and use tax for public works (streets, roads, bridges, sidewalks) — not housing.",
+        "City Clerk's Election Information page does not list 2026 measures; it points to arapahoevotes.gov.",
+        "The 2026 Arapahoe County TABOR notice was not posted on the Election Resources page as of 2026-09-26 (only the English/Spanish sample ballots are linked); probed likely file URLs returned 404."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/index.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/coordinating_jurisdictions.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.centennialco.gov/Government/Departments/City-Clerk/Election-Information",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0813845",
       "level": "municipal",
       "name": "Cherry Hills Village (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
-      "entry_ids": [],
-      "limitations": []
+      "coverage_state": "verified_measure_found",
+      "reviewed_source": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [
+        "2026-11-03-0813845-2C"
+      ],
+      "limitations": [
+        "City also has candidate contests (Mayor; Council Districts 2, 4, 6). No other CHV measure on the sample ballot."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/index.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/coordinating_jurisdictions.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.cherryhillsvillage.com/153/Election-Information",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0816385",
       "level": "municipal",
       "name": "Columbine Valley (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No Town of Columbine Valley contest or measure appears on the Arapahoe County sample ballot.",
+        "Town website states municipal elections are held in April of even-numbered years; site search for 'election'/'ballot' found no November 2026 election page.",
+        "Arapahoe County has not published a list of participating political subdivisions/IGAs for the Nov 3, 2026 election as of 2026-09-26 (Coordinating Jurisdictions page describes the process only; no list found). Coverage is based on the county sample ballot, which states it 'will contain all contests in Arapahoe County'."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/index.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/coordinating_jurisdictions.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://columbinevalley.org/mayor-board-trustees/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0819630",
       "level": "municipal",
       "name": "Deer Trail (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No Town of Deer Trail contest or measure appears on the Arapahoe County sample ballot.",
+        "Town website (townofdeertrail.colorado.gov) returned HTTP 403 to curl and WebFetch on 2026-09-26; own clerk page NOT reviewed.",
+        "Arapahoe County has not published a list of participating political subdivisions/IGAs for the Nov 3, 2026 election as of 2026-09-26 (Coordinating Jurisdictions page describes the process only; no list found). Coverage is based on the county sample ballot, which states it 'will contain all contests in Arapahoe County'."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/index.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/coordinating_jurisdictions.php",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0824785",
       "level": "municipal",
       "name": "Englewood (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No City of Englewood contest or measure appears on the Arapahoe County sample ballot.",
+        "City's own 2026 General Election page and the citizen-initiated charter amendment (ranked choice voting) petition page at englewoodco.gov returned HTTP 403 to curl and WebFetch on 2026-09-26 (Wayback also unreachable); own clerk page NOT read. Search snippets indicate a ranked-choice-voting charter petition (signatures due Aug 5, 2026) — not housing in any case, and it does not appear on the county sample ballot.",
+        "Arapahoe County has not published a list of participating political subdivisions/IGAs for the Nov 3, 2026 election as of 2026-09-26 (Coordinating Jurisdictions page describes the process only; no list found). Coverage is based on the county sample ballot, which states it 'will contain all contests in Arapahoe County'."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/index.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/coordinating_jurisdictions.php",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0828105",
       "level": "municipal",
       "name": "Foxfield (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No Town of Foxfield contest or measure appears on the Arapahoe County sample ballot.",
+        "Town Elections page (townoffoxfield.colorado.gov/government/elections) returned HTTP 403 on 2026-09-26; own clerk page NOT read (search snippet only mentions cancelled April 7, 2026 election).",
+        "Arapahoe County has not published a list of participating political subdivisions/IGAs for the Nov 3, 2026 election as of 2026-09-26 (Coordinating Jurisdictions page describes the process only; no list found). Coverage is based on the county sample ballot, which states it 'will contain all contests in Arapahoe County'."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/index.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/coordinating_jurisdictions.php",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0830340",
       "level": "municipal",
       "name": "Glendale (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Excluded 2B: grant of a utility franchise to Public Service Company of Colorado (Xcel Energy), Jan 1, 2028 - Dec 31, 2048 — not housing.",
+        "City's Municipal Elections page (April even-year elections) lists no November measures.",
+        "The 2026 Arapahoe County TABOR notice was not posted on the Election Resources page as of 2026-09-26 (only the English/Spanish sample ballots are linked); probed likely file URLs returned 404."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/index.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/coordinating_jurisdictions.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.glendale.co.us/322/Municipal-Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0833035",
       "level": "municipal",
       "name": "Greenwood Village (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No Greenwood Village contest or measure appears on the Arapahoe County sample ballot.",
+        "City's Election & Voting page shows only 2025 municipal election information; no November 2026 election or measure listed.",
+        "Arapahoe County has not published a list of participating political subdivisions/IGAs for the Nov 3, 2026 election as of 2026-09-26 (Coordinating Jurisdictions page describes the process only; no list found). Coverage is based on the county sample ballot, which states it 'will contain all contests in Arapahoe County'."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/index.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/coordinating_jurisdictions.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.greenwoodvillage.com/1320/Election-Voting",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0845255",
       "level": "municipal",
       "name": "Littleton (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No City of Littleton contest or measure appears on the Arapahoe County sample ballot.",
+        "City Clerk Elections page lists elections through 2025 (odd-year regular elections); no 2026 election or measure listed.",
+        "Littleton also lies partly in Douglas and Jefferson counties; those ballots were not reviewed.",
+        "Arapahoe County has not published a list of participating political subdivisions/IGAs for the Nov 3, 2026 election as of 2026-09-26 (Coordinating Jurisdictions page describes the process only; no list found). Coverage is based on the county sample ballot, which states it 'will contain all contests in Arapahoe County'."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/index.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/coordinating_jurisdictions.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.littletonco.gov/Government/Departments/City-Clerk/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0869645",
       "level": "municipal",
       "name": "Sheridan (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Excluded 2D: 0.50 percent sales and use tax increase for public safety — not housing.",
+        "City's Elections page does not list 2026 measures; it points to the Arapahoe County Clerk.",
+        "The 2026 Arapahoe County TABOR notice was not posted on the Election Resources page as of 2026-09-26 (only the English/Spanish sample ballots are linked); probed likely file URLs returned 404."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/index.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.arapahoeco.gov/your_county/arapahoevotes/election_resources/coordinating_jurisdictions.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.ci.sheridan.co.us/91/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
-  "entries": []
+  "entries": [
+    {
+      "id": "2026-11-03-0813845-2C",
+      "election": {
+        "date": "2026-11-03",
+        "type": "coordinated"
+      },
+      "jurisdiction": {
+        "geoid": "0813845",
+        "level": "municipal",
+        "name": "Cherry Hills Village (city)"
+      },
+      "measure": {
+        "number": "2C",
+        "official_title": "City of Cherry Hills Village Ballot Question 2C",
+        "origin": "referred",
+        "relevance": [
+          "land_use"
+        ],
+        "fiscal": {
+          "mechanism": null,
+          "rate": null,
+          "amount_cap": null,
+          "duration": null,
+          "sunset": null
+        }
+      },
+      "status": "on_ballot",
+      "sources": {
+        "certification": null,
+        "official_text": {
+          "url": "https://www.cherryhillsvillage.com/153/Election-Information",
+          "retrieved": "2026-09-26"
+        },
+        "ballot_notice": {
+          "url": "https://www.arapahoeco.gov/Clerk%20and%20Recorder/ArapahoeVotes/Documents-Articles/2026%20Sample%20Ballots/2026%20Arapahoe%20County%20General%20Election%20Sample%20Ballot%20-%20English.pdf",
+          "retrieved": "2026-09-26"
+        },
+        "blue_book": null,
+        "resolution": null
+      },
+      "neutral_title": "Amends the city home rule charter to state that planning, zoning, density and land development are regulated only under the charter and city ordinances, irrespective of state mandates",
+      "detail": "",
+      "evidence": [
+        {
+          "section": "City of Cherry Hills Village Ballot Question 2C — ballot question text",
+          "quote": "Shall Article 1 of the City of Cherry Hills Village Home Rule Charter, entitled \"General Provisions,\" be amended to add a new Section 1.6 entitled \"Home Rule Authority to Regulate the Use of Land\", as set forth below? 1.6. Home Rule Authority to Regulate the Use of Land. The authority to plan for, zone, and regulate density, the uses of land, the location and character of structures, and the development of real property within the City are matters of local and municipal concern vested in the City by the Colorado Constitution and this Charter, and such matters shall be regulated only in accordance with this Charter and ordinances enacted pursuant to this Charter. The City shall not be required to adopt or implement laws, standards, approval processes, assessments, plans, or reports on such matters other than as may be enacted by the City Council pursuant to Section 3.1 of this Charter or the voters of the City pursuant to Section 13.11 of this Charter, irrespective of state mandates to do so."
+        }
+      ],
+      "verification": {
+        "level": "primary",
+        "against": "Arapahoe County 2026 General Election Sample Ballot (English), Arapahoe County Clerk and Recorder",
+        "checked": "2026-09-26"
+      },
+      "limitations": [
+        "No TABOR notice applies (not a tax/debt issue). Question text also matches the City's Election Information page, which states Council referred it by Ordinance 8, Series 2026 on August 18, 2026.",
+        "Ordinance 8, Series 2026 PDF was downloaded but has no extractable text (image-only scan); its content was not read, so it is not cited as the resolution source.",
+        "Classified land_use because it concerns authority over zoning, density and land use in relation to state mandates; the legal effect on state housing/land-use laws is not assessed here. Inclusion confirmed by owner decision (2026-09-26)."
+      ],
+      "result": null,
+      "history": [],
+      "archived": false
+    }
+  ]
 }
