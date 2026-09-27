@@ -125,11 +125,21 @@ console.log(`qap-tod-points: QAP ${qapAdopted}→${qapDraft} pts, rural ${qapRur
 
 // Exercise the real panel and fetch callback: OSM's unclassified legacy
 // fallback cannot establish statewide coverage or reintroduce private stops.
+//
+// #1961: the TOD distance is thiz-map-status.json's, read through
+// TransitZone.qapTodDistance, and every result the panel gives carries that
+// helper's straight-line / walking disclosure. The disclosure is compared
+// with the helper's output for the status file in force, never with a copy.
+const TZ = require('../js/transit-zone.js');
+const mapStatus = JSON.parse(read('data/policy/thiz-map-status.json'));
+const tod = TZ.qapTodDistance(mapStatus);
+assert.ok(tod, 'thiz-map-status.json has no readable qap_tod_distance');
 async function checkTodPanel() {
   const elements = { pmaTodPanel: { style: {} }, pmaTodContent: { innerHTML: '' } };
   const layer = { addTo() { return this; } };
   const marker = { bindTooltip() { return this; }, addTo() { return this; } };
   const markerOptions = [];
+  const rings = [];
   let rejectFetch;
   let requests = 0;
   let fallbackCalls = 0;
@@ -140,14 +150,19 @@ async function checkTodPanel() {
   const ctx = {
     _renderTransitZoneGate: (lat, lon) => gateCalls.push([lat, lon]),
     _tzStopsFailed: false,
+    _tzMapStatus: mapStatus,
+    _tzMapStatusState: 'ok',
     window: {
-      L: { layerGroup: () => layer, circleMarker: (latlng, options) => { markerOptions.push(options); return marker; } },
+      TransitZone: TZ,
+      L: { layerGroup: () => layer, circleMarker: (latlng, options) => { markerOptions.push(options); return marker; },
+           circle: (latlng, options) => { const ring = { options, tip: null, bindTooltip(t) { this.tip = t; return this; }, addTo() { return this; } };
+             rings.push(ring); return ring; } },
       DataService: { getJSON() { requests++; return new Promise((_, reject) => { rejectFetch = reject; }); } },
       OsmAmenities: { getWithinRadius() { fallbackCalls++; return legacyHits; } }
     },
     document: { getElementById: id => elements[id] },
     console: { warn() {} },
-    map: { removeLayer() {} }, todMarkers: null, _rawLayerData: {},
+    map: { removeLayer() {} }, todMarkers: null, todCircle: null, _rawLayerData: {},
     siteLatLng: { lat: 39.74, lon: -104.99 },
     LAYER_CONFIG: { transitStops: { src: layerSrcForTest() } },
     _siteCountyFips: () => '08031', isRuralCountyFips: () => false,
@@ -161,7 +176,7 @@ async function checkTodPanel() {
   const requestEnd = maSrc.indexOf('/* ── Buffer selector', requestStart);
   assert.ok(requestStart >= 0 && requestEnd > requestStart, 'TOD request and rendering functions were not found');
   vm.runInContext(haversineFn + '\n' + maSrc.slice(requestStart, requestEnd), ctx);
-  const render = () => ctx._highlightTodTransit(39.74, -104.99, 804.67);
+  const render = () => ctx._highlightTodTransit(39.74, -104.99);
   assert.equal(render(), 0);
   assert.match(elements.pmaTodContent.innerHTML, /unavailable/i);
   assert.match(elements.pmaTodContent.innerHTML, /not been checked/i);
@@ -189,7 +204,73 @@ async function checkTodPanel() {
   assert.match(elements.pmaTodContent.innerHTML, /Likely TOD/);
   assert.equal(markerOptions.length, 3, 'only public stops draw TOD markers');
   assert.ok(markerOptions.every(options => options.pane === 'pointsPane'), 'TOD markers stay above polygon fills');
-  console.log('TOD panel: unavailable, failed fetch, private-only, OSM-only, and mixed public sources — OK');
+
+  // Every result branch carries the shared disclosure: unconfirmed-only,
+  // likely, and both "no stop found" branches (metro and rural).
+  const disclosed = (what) => {
+    const d = elements.pmaTodContent.innerHTML.match(/<span data-tod-disclosure>([^<]*)<\/span>/);
+    assert.ok(d, `${what}: the TOD result has no disclosure`);
+    return d[1];
+  };
+  assert.equal(disclosed('likely'), tod.disclosure);
+  ctx._rawLayerData.transitStops = { features: [stop({ name: 'Mapped public stop', operator: 'public', reliability: 'unconfirmed' })] };
+  assert.equal(render(), 1);
+  assert.match(elements.pmaTodContent.innerHTML, /unconfirmed stop only/i);
+  assert.equal(disclosed('unconfirmed only'), tod.disclosure);
+  const far = { type: 'Feature', geometry: { type: 'Point', coordinates: [-104.90, 39.74] }, properties: { name: 'Far', operator: 'public', reliability: 'confirmed' } };
+  ctx._rawLayerData.transitStops = { features: [far] };
+  assert.equal(render(), 0);
+  assert.match(elements.pmaTodContent.innerHTML, new RegExp('No transit stop found within ' + tod.label));
+  assert.equal(disclosed('no stop found'), tod.disclosure);
+  ctx.isRuralCountyFips = () => true;
+  assert.equal(render(), 0);
+  assert.match(elements.pmaTodContent.innerHTML, /Rural site/);
+  assert.equal(disclosed('rural, no stop found'), tod.disclosure);
+  ctx.isRuralCountyFips = () => false;
+
+  // The distance is the data's: a stop just inside it counts, just outside
+  // it does not.
+  const at = (miles) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [-104.99 + (miles * 1609.344) / (111320 * Math.cos(39.74 * Math.PI / 180)), 39.74] },
+    properties: { name: 'Edge', operator: 'public', reliability: 'confirmed' } });
+  ctx._rawLayerData.transitStops = { features: [at(tod.miles * 0.98)] };
+  assert.equal(render(), 1, 'a stop just inside the data\'s TOD distance was not counted');
+  ctx._rawLayerData.transitStops = { features: [at(tod.miles * 1.02)] };
+  assert.equal(render(), 0, 'a stop just outside the data\'s TOD distance was counted');
+
+  // Change the measure in the status file: the rendered text follows it.
+  const walked = JSON.parse(JSON.stringify(mapStatus));
+  walked.qap_tod_distance.method = 'walking';
+  const after = TZ.qapTodDistance(walked);
+  assert.notEqual(after.disclosure, tod.disclosure, 'fixture: the method change did not change the disclosure');
+  ctx._tzMapStatus = walked;
+  ctx._rawLayerData.transitStops = { features: [far] };
+  render();
+  assert.equal(disclosed('after a method change'), after.disclosure);
+
+  // The ring is drawn at the data's distance, with the disclosure on it.
+  ctx._tzMapStatus = mapStatus;
+  ctx._drawTodRing(39.74, -104.99);
+  assert.equal(rings.length, 1);
+  assert.equal(rings[0].options.radius, tod.meters, 'the TOD ring is not the data\'s distance');
+  assert.ok(rings[0].tip.includes(tod.disclosure), 'the TOD ring tooltip drops the disclosure');
+
+  // No readable distance: no ring, no count, and the panel says why —
+  // never a result from a fallback distance.
+  ctx.todCircle = null;
+  for (const [state, status, re] of [['loading', null, /still loading/], ['failed', null, /could not be read/],
+    ['ok', Object.assign({}, mapStatus, { qap_tod_distance: undefined }), /could not be read/]]) {
+    ctx._tzMapStatusState = state;
+    ctx._tzMapStatus = status;
+    ctx._rawLayerData.transitStops = { features: [at(0.01)] };
+    const before = rings.length;
+    ctx._drawTodRing(39.74, -104.99);
+    assert.equal(rings.length, before, `${state}: a TOD ring was drawn without a distance`);
+    assert.equal(render(), 0, `${state}: stops were counted without a distance`);
+    assert.match(elements.pmaTodContent.innerHTML, /unavailable/i);
+    assert.match(elements.pmaTodContent.innerHTML, re);
+    assert.doesNotMatch(elements.pmaTodContent.innerHTML, /Likely TOD|No transit stop found|Rural site/);
+  }
+  console.log('TOD panel: unavailable, failed fetch, private-only, OSM-only, mixed public sources, disclosure on every result, data distance — OK');
 }
 
 function layerSrcForTest() {

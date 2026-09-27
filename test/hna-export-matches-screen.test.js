@@ -65,8 +65,14 @@ window.HTMLCanvasElement.prototype.getContext = function () { return { canvas: t
 window.HTMLCanvasElement.prototype.toDataURL = function () { return 'data:image/png;base64,'; };
 window.HTMLAnchorElement.prototype.click = function () {};
 window.APP_CONFIG = { DATA_VERSION: 'test' };
+// A test may stand a modified data file in for the real one (by path).
+const FETCH_OVERRIDES = {};
 window.fetch = async function (url) {
   const rel = String(url).replace(/^https?:\/\/[^/]+\//, '').replace(/^\//, '').split('?')[0];
+  if (FETCH_OVERRIDES[rel] !== undefined) {
+    const text = JSON.stringify(FETCH_OVERRIDES[rel]);
+    return { ok: true, status: 200, json: async () => JSON.parse(text), text: async () => text };
+  }
   const abs = path.join(ROOT, rel);
   if (rel.startsWith('data/') && fs.existsSync(abs)) {
     const text = fs.readFileSync(abs, 'utf8');
@@ -347,15 +353,26 @@ async function exportAll(c) {
       const note = panel.querySelector('[data-tz-designation]').textContent.trim();
       const radius = tzByGeo.meta.radius_miles;
       const shareLabel = `Share within ${radius} miles of a confirmed transit stop`;
-      for (const [lab, shown] of [[shareLabel, tile('share')], ['Share within 1/2 mile of a confirmed stop', tile('half')],
+      // The half-mile row's distance and disclosure are the data's, through
+      // TransitZone.qapTodDistance (#1961) — never a copied string.
+      const tod = window.TransitZone.qapTodDistance(tzMapStatus);
+      assert(tod, 'fixture: the zone-map status file has no readable TOD distance');
+      const halfLabel = `Share within ${tod.plainLabel} of a confirmed stop`;
+      for (const [lab, shown, disclosure] of [[shareLabel, tile('share')], [halfLabel, tile('half'), tod.disclosure],
         ['Nearest confirmed stop from the centre', tile('nearest')], ['Zone designation', note]]) {
         const row = summaryRow(lab);
         assert(row, `the workbook has no "${lab}" row`);
         assert.strictEqual(row.v, shown, `${lab}: page ${JSON.stringify(shown)}, Excel ${JSON.stringify(row.v)}`);
         const csvRow = r.csvRows.find((x) => x[0] === lab);
-        assert(csvRow && csvRow[1] === shown, `${lab}: CSV ${csvRow ? JSON.stringify(csvRow[1]) : 'missing'}`);
+        const csvWant = disclosure ? `${shown} (${disclosure})` : shown;
+        assert(csvRow && csvRow[1] === csvWant, `${lab}: CSV ${csvRow ? JSON.stringify(csvRow[1]) : 'missing'}`);
         assert(r.pdf.some((t) => t === pdfPlain(shown)), `${lab}: the PDF does not print ${JSON.stringify(shown)}`);
+        if (disclosure) {
+          assert(row.n && row.n.includes(disclosure), `${lab}: the workbook drops the disclosure (${JSON.stringify(row.n)})`);
+          assert(r.pdf.some((t) => t.includes(pdfPlain(disclosure))), `${lab}: the PDF drops the disclosure`);
+        }
       }
+      assert(panel.querySelector('[data-tz="half"]').textContent.includes(tod.disclosure), 'the page tile drops the disclosure');
       // The recommendation (step 7) shows the same share for the same place.
       const tz = window.TransitZone.areaSummary(tzByGeo, c.geoid, tzMapStatus, TZ_FRESH);
       const rec = Contract.build({ digest: readJson(`data/hna/jurisdiction-metrics-digest/${c.geoid}.json`), project: null,
@@ -425,6 +442,43 @@ async function exportAll(c) {
     }
     await pending;
     assert.strictEqual(window.__HNA_buildReportData().transitZone.state, 'ok', 'fixture: the panel never finished for Fruita');
+  });
+
+  // #1961: the straight-line / walking disclosure is the data's. Change the
+  // measure in the status file and every export must say the new thing, not
+  // the old; remove the distance and no export prints a half-mile share.
+  await test('the half-mile disclosure in the PDF, CSV and workbook follows the status file\'s method fields', async () => {
+    const STATUS = 'data/policy/thiz-map-status.json';
+    const before = window.TransitZone.qapTodDistance(tzMapStatus);
+    const walked = JSON.parse(JSON.stringify(tzMapStatus));
+    walked.qap_tod_distance.method = 'walking';
+    const after = window.TransitZone.qapTodDistance(walked);
+    assert(after && after.disclosure !== before.disclosure, 'fixture: changing the method did not change the disclosure');
+    FETCH_OVERRIDES[STATUS] = walked;
+    try {
+      const r = await exportAll(CASES[1]);
+      const row = sheets.Summary.rows.find((x) => x.k === `Share within ${after.plainLabel} of a confirmed stop`);
+      assert(row && row.n.includes(after.disclosure) && !row.n.includes(before.disclosure), `workbook: ${row && JSON.stringify(row.n)}`);
+      const csvRow = r.csvRows.find((x) => x[0] === row.k);
+      assert(csvRow && csvRow[1].includes(after.disclosure) && !csvRow[1].includes(before.disclosure), `CSV: ${csvRow && csvRow[1]}`);
+      assert(r.pdf.some((t) => t.includes(pdfPlain(after.disclosure))), 'the PDF does not print the new disclosure');
+      assert(!r.pdf.some((t) => t.includes(pdfPlain(before.disclosure))), 'the PDF still prints the old disclosure');
+
+      const gone = JSON.parse(JSON.stringify(tzMapStatus));
+      delete gone.qap_tod_distance;
+      FETCH_OVERRIDES[STATUS] = gone;
+      const g = await exportAll(CASES[1]);
+      const rows = sheets.Summary.rows.filter((x) => /transit-oriented distance of a confirmed stop/.test(x.k || ''));
+      assert.strictEqual(rows.length, 1, 'with no TOD distance the workbook lost or duplicated the half-mile row');
+      assert.strictEqual(rows[0].v, 'Unavailable');
+      assert.match(rows[0].n, /could not be read/);
+      const halfCsv = g.csvRows.find((x) => x[0] === rows[0].k);
+      assert(halfCsv && !/\d%/.test(halfCsv[1]), `the CSV printed a half-mile share with no distance: ${halfCsv && halfCsv[1]}`);
+      assert(summaryRow(`Share within ${tzByGeo.meta.radius_miles} miles of a confirmed transit stop`).v !== 'Unavailable',
+        'a missing TOD distance withdrew the zone-radius share too');
+    } finally {
+      delete FETCH_OVERRIDES[STATUS];
+    }
   });
 
   await test('a 0 AMI gap is exercised: Mesa\'s 60% AMI gap is 0 in the data', async () => {

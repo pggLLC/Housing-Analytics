@@ -363,11 +363,18 @@
   var TRANSIT_SOURCE = 'transit-stops-statewide-co';
 
   function transitConclusion(tz, dealMode) {
-    var radius = tz && tz.radiusMiles;
-    var within = 'Share within ' + (radius || 2) + ' miles of a confirmed transit stop';
-    var half = 'Share within \u00bd mile of a confirmed stop (QAP transit-oriented distance)';
-    function item(key, label, value) {
-      var ok = !!(tz && tz.status === 'ok');
+    // Both distances come from the summary (the zone-map status file); an
+    // unknown one is left out of the label, never filled in.
+    var radius = tz && Number.isFinite(tz.radiusMiles) && tz.radiusMiles > 0 ? tz.radiusMiles : null;
+    var hm = tz && tz.halfMile || null;
+    var within = radius !== null
+      ? 'Share within ' + radius + ' miles of a confirmed transit stop'
+      : 'Share within the zone-screen radius of a confirmed transit stop';
+    var half = hm
+      ? 'Share within ' + hm.label + ' of a confirmed stop (QAP transit-oriented distance)'
+      : 'Share within the QAP transit-oriented distance of a confirmed stop';
+    function item(key, label, value, extra, missing) {
+      var ok = !!(tz && tz.status === 'ok') && !missing;
       return {
         key: key, label: label,
         value: ok ? value : null,
@@ -377,15 +384,22 @@
         confidence: null,
         geographyLevel: null,
         state: ok ? PROVISIONAL : INSUFFICIENT,
-        why: ok ? tz.designationNote
-          : (tz && tz.unavailableReason) || 'The transit zone figures were not loaded for this page.',
+        why: ok ? tz.designationNote + (extra ? ' ' + extra : '')
+          : missing || (tz && tz.unavailableReason) || 'The transit zone figures were not loaded for this page.',
         borrowedFrom: null
       };
     }
-    var items = [
-      item('transit_share_within_radius_confirmed', within, tz && tz.shareLabel),
-      item('transit_share_within_half_mile_confirmed', half, tz && tz.halfMileLabel)
-    ];
+    // The half-mile share always carries the shared straight-line / walking
+    // disclosure (TransitZone.qapTodDistance, #1961).
+    var halfMissing = tz && tz.status === 'ok' && !hm
+      ? (tz.halfMileUnavailableReason || 'The transit-oriented distance could not be read.') : null;
+    var radiusItem = item('transit_share_within_radius_confirmed', within, tz && tz.shareLabel);
+    var halfItem = item('transit_share_within_half_mile_confirmed', half, tz && tz.halfMileLabel,
+      tz && tz.halfMileDisclosure, halfMissing);
+    // The verdict rests on the radius share alone. A half-mile share that
+    // cannot be shown is listed as insufficient evidence, but does not
+    // withdraw the zone screen's answer.
+    var items = halfMissing ? [radiusItem] : [radiusItem, halfItem];
     var result = conclusion('transit', 'Could a site here be in a Transit Zone?', items, function () {
       var name = tz.name || 'this jurisdiction';
       var credit = dealMode === 'ownership'
@@ -408,6 +422,10 @@
       }
       return { verdict: verdict, plain: plain + credit + ' ' + tz.designationNote, basis: tz.designation };
     });
+    if (halfMissing) {
+      result.evidence = [radiusItem, halfItem];
+      result.evidenceCount = result.evidence.length;
+    }
     return result;
   }
 
