@@ -1,18 +1,18 @@
 {
   "meta": {
-    "generated": "2026-09-27T16:14:41.072906+00:00",
+    "generated": "2026-09-27T20:57:46.599014+00:00",
     "source": "OpenStreetMap Overpass API + seed fallback; statewide transit stops (CDOT + agency GTFS; OpenStreetMap-only as a flagged fallback); HIFLD/CDPHE hospitals; CDHS licensed child care facilities",
     "sources_detail": [
       "grocery_co.geojson: 2182 features",
       "healthcare_co.geojson: 2880 features",
-      "schools_co.geojson: 2553 features",
+      "schools_co.geojson: 2552 features",
       "parks_co.geojson: 3267 features",
-      "transit_stops_statewide_co.geojson: 14081 features",
+      "transit_stops_statewide_co.geojson: 14079 features",
       "hospitals_co.geojson: 121 features",
       "childcare_co.geojson: 2860 features"
     ],
     "note": "Includes grocery, healthcare, school, park, transit_stop, hospital, childcare. Refresh sources with scripts/amenities/build_osm_amenities.py, scripts/market/build_transit_stops_co.py, scripts/market/fetch_hospitals.py and scripts/market/fetch_childcare.py, then rerun this script.",
-    "record_count": 27740,
+    "record_count": 27737,
     "amenity_types": [
       "grocery",
       "healthcare",
@@ -25,17 +25,17 @@
     "transit": {
       "source": "data/amenities/transit_stops_statewide_co.geojson",
       "selection": "scripts/lib/transit_stops.py",
-      "rule": "Records: confirmed public scheduled stops (reliability confirmed; not private_shuttle; not demand_response) with transit_stop_basis 'confirmed', and OpenStreetMap-only public stops (not private_shuttle; not demand_response) with transit_stop_basis 'openstreetmap_unconfirmed'. Scoring (js/data-connectors/osm-amenities.js), per analyzed site: the nearest confirmed stop when one is within fallback_radius_miles; otherwise the nearest OpenStreetMap-only stop when one is, flagged as unconfirmed; otherwise the nearest confirmed stop, out of range.",
-      "stops_content_sha256": "fe104ee3a54607880c465f3a65a4ad051dc11d1167913d10be6ecba2c9b90f1f",
+      "rule": "Records: confirmed public scheduled stops (reliability confirmed; not private_shuttle; not demand_response) with transit_stop_basis 'confirmed', and OpenStreetMap-only public stops (not private_shuttle; not demand_response) with transit_stop_basis 'openstreetmap_unconfirmed'. Scoring (js/data-connectors/osm-amenities.js), per analyzed site: the nearest confirmed stop when one is within fallback_radius_miles; otherwise the nearest OpenStreetMap-only stop when one is, flagged as unconfirmed; otherwise the nearest confirmed stop, out of range. School-bus names and school-service tags are excluded from both classes by the shared selection rule.",
+      "stops_content_sha256": "a88b2337b714be51e4620b75b112d6361afaba5b87706b3effcb7f0f6aac505f",
       "fallback_radius_miles": 2.0,
       "records_by_basis": {
         "confirmed": 12952,
-        "openstreetmap_unconfirmed": 1129
+        "openstreetmap_unconfirmed": 1127
       },
       "places_by_basis": {
         "confirmed": 252,
-        "openstreetmap_unconfirmed": 9,
-        "none": 221
+        "openstreetmap_unconfirmed": 8,
+        "none": 222
       },
       "fallback_places": [
         {
@@ -51,11 +51,6 @@
         {
           "geoid": "0850040",
           "name": "Merino town",
-          "openstreetmap_stops": 1
-        },
-        {
-          "geoid": "0850480",
-          "name": "Milliken town",
           "openstreetmap_stops": 1
         },
         {
@@ -35654,12 +35649,6 @@
       "name": "Eads School Cafeteria",
       "lat": 38.483375,
       "lon": -102.782768
-    },
-    {
-      "type": "school",
-      "name": "Eads School Bus Garage",
-      "lat": 38.483739,
-      "lon": -102.78291
     },
     {
       "type": "school",
@@ -160972,13 +160961,6 @@
     },
     {
       "type": "transit_stop",
-      "name": "BVSD school bus stop",
-      "lat": 39.978344,
-      "lon": -105.16438,
-      "transit_stop_basis": "openstreetmap_unconfirmed"
-    },
-    {
-      "type": "transit_stop",
       "name": "S Clermont Dr & E Yale Ave",
       "lat": 39.667073,
       "lon": -104.936321,
@@ -161255,13 +161237,6 @@
       "name": "Town Hall",
       "lat": 39.482287,
       "lon": -106.047975,
-      "transit_stop_basis": "openstreetmap_unconfirmed"
-    },
-    {
-      "type": "transit_stop",
-      "name": "School Bus Stop",
-      "lat": 40.327922,
-      "lon": -104.842669,
       "transit_stop_basis": "openstreetmap_unconfirmed"
     },
     {

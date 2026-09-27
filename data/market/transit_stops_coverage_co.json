@@ -11,13 +11,31 @@
         "agency": "Rocky Mountain National Park",
         "reason": "Failed after 2 attempts: HTTP Error 404: Not Found"
       }
-    ]
+    ],
+    "dropped_osm_school_transport": {
+      "count": 2,
+      "by_reason": {
+        "school_bus_name": 2
+      },
+      "rows": [
+        {
+          "osm_id": null,
+          "name": "BVSD school bus stop",
+          "reason": "school_bus_name"
+        },
+        {
+          "osm_id": null,
+          "name": "School Bus Stop",
+          "reason": "school_bus_name"
+        }
+      ]
+    }
   },
   "totals": {
-    "stops": 14247,
+    "stops": 14245,
     "cdot": 12280,
     "agency_feed_only": 838,
-    "unconfirmed": 1129
+    "unconfirmed": 1127
   },
   "counties": [
     {
@@ -79,8 +97,8 @@
       "county": "Boulder",
       "cdot": 1277,
       "agency_feed_only": 83,
-      "unconfirmed": 129,
-      "total": 1489,
+      "unconfirmed": 128,
+      "total": 1488,
       "fixed_route_stops_found": true
     },
     {
@@ -583,8 +601,8 @@
       "county": "Weld",
       "cdot": 306,
       "agency_feed_only": 9,
-      "unconfirmed": 10,
-      "total": 325,
+      "unconfirmed": 9,
+      "total": 324,
       "fixed_route_stops_found": true
     },
     {
@@ -1053,9 +1071,9 @@
       "operator": "public",
       "cdot": 0,
       "agency_feed_only": 0,
-      "unconfirmed": 1129,
+      "unconfirmed": 1127,
       "service": {
-        "unknown": 1129
+        "unknown": 1127
       }
     },
     {
