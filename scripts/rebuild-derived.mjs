@@ -136,6 +136,7 @@ export const NOT_DERIVED = {
   'scripts/validate-critical-data.js': 'validator — asserts required data files parse and carry required keys',
   'scripts/validate_hna_coverage.py': 'validator — asserts every geography in the registry has HNA coverage',
   'scripts/validate_hna_pages.js': 'validator — asserts the HNA pages reference geographies that exist',
+  'scripts/hna/check_transit_zone_copy.py': 'validator — decides whether the index transit copy is stale (fetch-parcel-zoning-data.yml gate); writes nothing',
 
   // Upstream of the index, not downstream. Both edit the LIHTC source layer
   // that the augmenters then read; running them here would invert the order.

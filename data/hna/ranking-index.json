@@ -12,8 +12,6 @@
       "source": "data/hna/transit-zone-by-geography.json",
       "displayOnly": true,
       "note": "Display-only. Copied from the source after every score and rank is assigned; it is not an input to any score, rank, weight, percentile or composite. Straight-line distance, confirmed stops only unless the field says _any.",
-      "generated": "2026-09-27T11:29:57Z",
-      "stops_generated": "2026-09-27T10:43:20Z",
       "stops_file": "data/amenities/transit_stops_statewide_co.geojson",
       "radius_miles": 2,
       "radius_source": "data/policy/thiz-map-status.json",
