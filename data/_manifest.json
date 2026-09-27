@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T06:22:29.824Z",
+    "generated_at": "2026-09-27T06:31:51.662Z",
     "root": "data/",
     "file_count": 1689,
-    "total_size_bytes": 167252361,
+    "total_size_bytes": 166719619,
     "kinds": {
       "json": 1653,
       "geojson": 32,
@@ -1346,7 +1346,7 @@
       "path": "environmental/epa-superfund-co.json",
       "kind": "json",
       "size_bytes": 331979,
-      "mtime": "2026-09-25T12:55:18.624Z",
+      "mtime": "2026-09-27T06:31:45.829Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -29352,7 +29352,7 @@
       "path": "home-snapshot.json",
       "kind": "json",
       "size_bytes": 2173,
-      "mtime": "2026-09-27T06:22:27.984Z",
+      "mtime": "2026-09-27T06:31:49.909Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30509,8 +30509,8 @@
     {
       "path": "market/acs_tract_metrics_co.json",
       "kind": "json",
-      "size_bytes": 1346881,
-      "mtime": "2026-09-25T12:55:18.827Z",
+      "size_bytes": 1347353,
+      "mtime": "2026-09-27T06:31:31.616Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31102,8 +31102,8 @@
     {
       "path": "market/hud_lihtc_co.geojson",
       "kind": "geojson",
-      "size_bytes": 1529920,
-      "mtime": "2026-09-27T06:22:27.909Z",
+      "size_bytes": 996787,
+      "mtime": "2026-09-27T06:31:46.008Z",
       "shape": "geojson",
       "feature_count": 926,
       "property_keys": [
@@ -31390,8 +31390,8 @@
     {
       "path": "market/pma_tract_display_geometry.geojson",
       "kind": "geojson",
-      "size_bytes": 486690,
-      "mtime": "2026-09-25T12:55:18.977Z",
+      "size_bytes": 486649,
+      "mtime": "2026-09-27T06:31:46.776Z",
       "shape": "geojson",
       "feature_count": 1447,
       "property_keys": [
@@ -31547,8 +31547,8 @@
     {
       "path": "market/tract_boundaries_co.geojson",
       "kind": "geojson",
-      "size_bytes": 398059,
-      "mtime": "2026-09-25T12:55:18.993Z",
+      "size_bytes": 398019,
+      "mtime": "2026-09-27T06:31:46.680Z",
       "shape": "geojson",
       "feature_count": 1447,
       "property_keys": [

@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-27T06:26:26.339504Z",
+  "generated": "2026-09-27T06:31:55.717233Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 825865
+      "bytes": 825864
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7514,7 +7514,7 @@
     "data/market/acs_tract_metrics_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1346881
+      "bytes": 1347353
     },
     "data/market/apartment_list_co.json": {
       "featureCount": 0,
@@ -7669,7 +7669,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 1529920
+      "bytes": 996787
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
@@ -7739,7 +7739,7 @@
     "data/market/pma_tract_display_geometry.geojson": {
       "featureCount": 1447,
       "placeholder": false,
-      "bytes": 486690
+      "bytes": 486649
     },
     "data/market/qct_dda_designations_co.json": {
       "featureCount": 0,
@@ -7779,7 +7779,7 @@
     "data/market/tract_boundaries_co.geojson": {
       "featureCount": 1447,
       "placeholder": false,
-      "bytes": 398059
+      "bytes": 398019
     },
     "data/market/tract_centroids_co.json": {
       "featureCount": 0,
