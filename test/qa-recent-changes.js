@@ -56,6 +56,26 @@ function record(category, name, status, detail) {
   console.log(`  ${colorOpen}${sym}${colorClose} [${category}] ${name}${detail ? '  — ' + detail : ''}`);
 }
 
+// The amenity types OsmAmenities scores: the values of SCORE_KEY_TO_TYPE,
+// which getAccessScore() iterates. (AMENITY_TYPES in the same file is not
+// read at runtime, so it can fall behind without anything breaking.)
+function connectorAmenityTypes() {
+  const src = fs.readFileSync(path.join(ROOT, 'js/data-connectors/osm-amenities.js'), 'utf8');
+  const m = src.match(/var SCORE_KEY_TO_TYPE\s*=\s*\{([^}]*)\}/);
+  const types = m ? Array.from(m[1].matchAll(/:\s*'([a-z_]+)'/g), (x) => x[1]) : [];
+  if (!types.length) throw new Error('SCORE_KEY_TO_TYPE not found in osm-amenities.js');
+  return types;
+}
+
+// Per-type record counts in the committed amenity file.
+function amenityFileCounts() {
+  const d = JSON.parse(fs.readFileSync(
+    path.join(ROOT, 'data/derived/market-analysis/neighborhood_access.json'), 'utf8'));
+  const counts = {};
+  for (const a of d.amenities || []) counts[a.type] = (counts[a.type] || 0) + 1;
+  return counts;
+}
+
 function section(title) {
   console.log('\n\x1b[1m' + title + '\x1b[0m');
 }
@@ -156,13 +176,13 @@ function runSchemaChecks() {
       }
     },
     {
-      name: 'OSM amenities — ≥20K records covering all expected types',
+      name: 'OSM amenities — ≥20K records covering every type OsmAmenities scores',
       file: 'data/derived/market-analysis/neighborhood_access.json',
       check: (d) => {
         const a = d.amenities || [];
         if (a.length < 20000) return 'only ' + a.length + ' amenities; expected ≥20K';
         const types = new Set(a.map(x => x.type));
-        for (const t of ['grocery', 'healthcare', 'school', 'park', 'transit_stop']) {
+        for (const t of connectorAmenityTypes()) {
           if (!types.has(t)) return 'missing amenity type: ' + t;
         }
         return null;
@@ -443,19 +463,40 @@ async function runSmokeTest() {
       /Delta/i.test(hna.blsHeader || '') ? 'pass' : 'fail',
       'header: ' + hna.blsHeader);
 
-    // PMA page — load + verify amenity panel exists
+    // PMA page — the connector must load exactly what the amenity file holds,
+    // for every type it scores. (#1945: this used to call a getAll() the
+    // connector never had, so it read 0 whether or not anything loaded.)
     await page.goto(baseUrl + '/market-analysis.html', { waitUntil: 'networkidle2' });
-    await new Promise(r => setTimeout(r, 3000));
+    await page.waitForFunction(
+      () => window.OsmAmenities && window.OsmAmenities.isLoaded(), { timeout: 15000 }
+    ).catch(() => {});
     const pma = await page.evaluate(() => ({
       hasOsmAmenities: !!window.OsmAmenities,
-      amenityCount: window.OsmAmenities && window.OsmAmenities.getAll
-        ? window.OsmAmenities.getAll().length : 0,
+      hasCountByType: !!(window.OsmAmenities && window.OsmAmenities.countByType),
+      loadedCounts: window.OsmAmenities && window.OsmAmenities.countByType
+        ? window.OsmAmenities.countByType() : null,
       satelliteToggle: !!document.querySelector('.leaflet-control-layers')
     }));
 
-    record('smoke', 'PMA — OsmAmenities loaded ≥20K records',
-      pma.amenityCount >= 20000 ? 'pass' : 'fail',
-      'got ' + pma.amenityCount);
+    const fileCounts = amenityFileCounts();
+    const expectedTypes = connectorAmenityTypes();
+    let amenityProblem = null;
+    if (!pma.hasOsmAmenities) amenityProblem = 'window.OsmAmenities is absent';
+    else if (!pma.hasCountByType) amenityProblem = 'OsmAmenities.countByType is absent';
+    else {
+      for (const t of expectedTypes) {
+        if (!fileCounts[t]) { amenityProblem = 'amenity file has no ' + t + ' records'; break; }
+        if (pma.loadedCounts[t] !== fileCounts[t]) {
+          amenityProblem = t + ': loaded ' + (pma.loadedCounts[t] || 0) + ', file has ' + fileCounts[t];
+          break;
+        }
+      }
+    }
+    const loadedTotal = pma.loadedCounts
+      ? Object.values(pma.loadedCounts).reduce((s, n) => s + n, 0) : 0;
+    record('smoke', 'PMA — OsmAmenities loads every scored type at the file\'s counts',
+      amenityProblem ? 'fail' : 'pass',
+      amenityProblem || (loadedTotal + ' records, ' + expectedTypes.length + ' types match the file'));
 
     record('smoke', 'PMA — Satellite tile-layer toggle present',
       pma.satelliteToggle ? 'pass' : 'fail');

@@ -263,12 +263,28 @@
     return loaded;
   }
 
+  /**
+   * Returns how many loaded records there are of each type, e.g.
+   * { grocery: 2178, hospital: 121, ... }. A fresh object each call; types
+   * with no records are absent, not 0. Empty object before data loads.
+   * @returns {Object.<string, number>}
+   */
+  function countByType() {
+    var counts = {};
+    for (var i = 0; i < amenities.length; i++) {
+      var t = amenities[i].type;
+      counts[t] = (counts[t] || 0) + 1;
+    }
+    return counts;
+  }
+
   window.OsmAmenities = {
     loadAmenities: loadAmenities,
     getNearestByType: getNearestByType,
     getWithinRadius: getWithinRadius,
     getAccessScore: getAccessScore,
-    isLoaded: isLoaded
+    isLoaded: isLoaded,
+    countByType: countByType
   };
 
 }());
