@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T11:18:40.728Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T11:43:25.271Z. Do not edit by hand.
 
 ---
 
@@ -1615,7 +1615,7 @@
 | `data/market/state-trend-analysis.json` | 6.8 KB | ✅ | — |
 | `data/market/tax-credit-transfer-pricing.json` | 3.4 KB | ✅ | — |
 | `data/market/tract_centroids_co.json` | 344.9 KB | ✅ | — |
-| `data/market/transit_stops_coverage_co.json` | 197.0 KB | ✅ | — |
+| `data/market/transit_stops_coverage_co.json` | 222.4 KB | ✅ | — |
 | `data/market/travel_time_matrix_co.json` | 4.23 MB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/yardi-matrix-national-multifamily.json` | 3.8 KB | ✅ | — |
@@ -1716,7 +1716,7 @@
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 25.3 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 14.0 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 15.0 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 1.0 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
@@ -2124,7 +2124,7 @@
 | `test/tool-watch.test.js` | 4.3 KB |
 | `test/transit-stops-consumers.test.js` | 6.2 KB |
 | `test/transit-zone-absence.test.mjs` | 21.7 KB |
-| `test/transit-zone-funding-line.test.js` | 16.6 KB |
+| `test/transit-zone-funding-line.test.js` | 23.7 KB |
 | `test/transit-zone.test.js` | 14.0 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/unit-mix-validation.test.js` | 4.7 KB |
@@ -2202,7 +2202,7 @@
 | `tests/test_stage2_temporal.py` | 33.5 KB |
 | `tests/test_stage3_accessibility.py` | 22.4 KB |
 | `tests/test_stage3_visualization.py` | 21.9 KB |
-| `tests/test_transit_stops_statewide.py` | 11.7 KB |
+| `tests/test_transit_stops_statewide.py` | 13.9 KB |
 | `tests/test_upstream_schema_check.py` | 5.0 KB |
 
 ---
