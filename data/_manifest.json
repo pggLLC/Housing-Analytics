@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T11:19:07.263Z",
+    "generated_at": "2026-09-27T11:45:26.246Z",
     "root": "data/",
     "file_count": 1691,
-    "total_size_bytes": 167548635,
+    "total_size_bytes": 167575722,
     "kinds": {
       "json": 1655,
       "geojson": 32,
@@ -478,7 +478,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-27T11:19:03.354Z",
+      "mtime": "2026-09-27T11:45:22.078Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -31615,8 +31615,8 @@
     {
       "path": "market/transit_stops_coverage_co.json",
       "kind": "json",
-      "size_bytes": 201713,
-      "mtime": "2026-09-27T10:43:36.839Z",
+      "size_bytes": 227714,
+      "mtime": "2026-09-27T11:43:25.227Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31874,8 +31874,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14707,
-      "mtime": "2026-09-27T11:19:05.138Z",
+      "size_bytes": 14705,
+      "mtime": "2026-09-27T11:45:23.883Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31898,7 +31898,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-27T11:19:04.739Z",
+      "mtime": "2026-09-27T11:45:23.476Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34191,8 +34191,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 14316,
-      "mtime": "2026-09-25T12:43:43.385Z",
+      "size_bytes": 15404,
+      "mtime": "2026-09-27T11:41:44.215Z",
       "shape": "object",
       "keys": [
         "schema",
