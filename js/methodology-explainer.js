@@ -58,7 +58,7 @@
     },
     'pma-composite': {
       title: 'PMA composite score',
-      what: 'Composite score (0-100) blending 9 dimensions: rent pressure, transit, employment access, school quality, etc. Designed to match NH&RA / Novogradac PMA standards.',
+      what: 'Composite score (0-100) blending 5 weighted dimensions: demand, capture risk, rent pressure, land supply and workforce. Transit access is not one of them; the HB26-1065 transit-zone screen is shown beside the score as a separate gate.',
       how: 'Each dimension is normalized to 0-100, then weighted-averaged. Weights are documented in the PMA scoring engine source.',
       caveats: 'It\'s a market-positioning benchmark, not a CHFA QAP score. CHFA QAP scoring is a separate model.',
       source: 'js/market-analysis.js + js/pma-confidence.js',
