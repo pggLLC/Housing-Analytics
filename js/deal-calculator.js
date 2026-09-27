@@ -2917,6 +2917,8 @@
           if (pabNote) pabNote.style.display = is4Pct ? 'block' : 'none';
           // F25: refresh the note with the current county's bond cap when shown.
           if (is4Pct) _renderPabNote(_countyFips);
+          // #1973: the TZ pairing differs for 9% and 4% applications.
+          setTransitZoneContext(_tzLastResult);
 
           // Update equity price default to match credit rate scenario
           var newDefault = _getCreditPricingDefault(is4Pct);
@@ -4943,6 +4945,14 @@
       }
     }).catch(function () { /* generic PAB note remains */ });
 
+    // #1973: the draft QAP's TZ per-project pairing, read from the HB26-1065
+    // entry. Soft-fail — the funding note then says the amounts could not be
+    // loaded rather than show a number.
+    fetch(_gapResolver('data/policy/tax-credit-legislation.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) { setTzCreditPairing(data); })
+      .catch(function () { setTzCreditPairing(null); });
+
     fetch(_gapResolver('data/policy/soft-funding-status.json')).then(function (r) {
       return r.ok ? r.json() : null;
     }).then(function (data) {
@@ -5434,21 +5444,59 @@
   }
 
   /**
-   * HB26-1065 Transit Zone (TZ) state credit — a possible source, never an
-   * amount (#1937 Phase 4). Called by the PMA transit-zone gate with a
-   * TransitZone.status() result. The line appears only when the site is
-   * within the screening radius of a confirmed stop; it adds nothing to the
-   * sources/uses, because no per-project amount exists until CHFA publishes
-   * its TZ Credit Allocation Plan. The statewide cap below must match the
-   * HB26-1065 entry in data/policy/tax-credit-legislation.json
+   * HB26-1065 Transit Zone (TZ) state credit — a possible source, never
+   * added to the stack (#1937 Phase 4, #1973). Called by the PMA transit-zone
+   * gate with a TransitZone.status() result. The line appears only when the
+   * site passes TransitZone.fundingPath. It states the draft QAP's per-project
+   * pairing for the selected credit type. The amounts live only in the
+   * HB26-1065 entry's `tz_credit_pairing` in
+   * data/policy/tax-credit-legislation.json, pinned to the QAP text in
+   * data/audit/chfa-qap-watch.json; until that file loads no amount is shown.
+   * The statewide cap below must match the same entry
    * (test/transit-zone-funding-line.test.js).
    */
   var TZ_CREDIT = {
     statewideCapMillions: 8.33,
-    years: '2027\u20132033',
-    qapCite: '2027\u201328 QAP Third Draft \u00a73.B.2'
+    years: '2027–2033',
+    qapCite: '2027–28 QAP Third Draft §3.B.2'
   };
+  var _tzPairing = null;        // HB26-1065 entry's tz_credit_pairing, once loaded
+  var _tzLastResult = null;     // last TransitZone result, for re-rendering
+  function setTzCreditPairing(legislation) {
+    var entries = legislation && Array.isArray(legislation.entries) ? legislation.entries : [];
+    var entry = entries.filter(function (e) { return /^hb26-1065/i.test((e && e.id) || ''); })[0];
+    var p = entry && entry.tz_credit_pairing;
+    _tzPairing = (p && p.nine_percent && p.four_percent_round_two) ? p : null;
+    setTransitZoneContext(_tzLastResult);
+  }
+  function _tzMoney(n) {
+    return (typeof n === 'number' && n > 0) ? '$' + n.toLocaleString('en-US') : null;
+  }
+  function _tzPairingSentence(is4Pct) {
+    var p = _tzPairing;
+    if (!p) return 'The draft QAP’s per-project amounts could not be loaded, so none is shown. ';
+    var main = is4Pct ? p.four_percent_round_two : p.nine_percent;
+    var alt = p.if_no_state_gap_funds &&
+      (is4Pct ? p.if_no_state_gap_funds.four_percent_round_two : p.if_no_state_gap_funds.nine_percent);
+    var a27 = _tzMoney(main && main['2027']);
+    var a28 = _tzMoney(main && main['2028']);
+    if (!a27 || !a28) return 'The draft QAP’s per-project amounts could not be read, so none is shown. ';
+    var s = is4Pct
+      ? 'For a 4% application in Round Two, the draft QAP (§3.L, not yet adopted) lets CHFA pair up to ' + a27 +
+        ' in 2027 or ' + a28 + ' in 2028 of standard state credit or TZ credit, where eligible, alongside accelerated state credit. '
+      : 'For a 9% application, the draft QAP (§3.L, not yet adopted) pairs, if requested, a fixed ' + a27 +
+        ' in 2027 or ' + a28 + ' in 2028 of standard state credit or TZ credit, where eligible. ';
+    s += 'It is one allowance: TZ credit replaces standard state credit, it does not add to it. ';
+    var b27 = _tzMoney(alt && alt['2027']);
+    var b28 = _tzMoney(alt && alt['2028']);
+    if (b27 && b28) {
+      s += 'If state gap funds are not available under the §3.B.9 pilot, §3.L.1 sets ' + (is4Pct ? 'up to ' : '') +
+        b27 + ' (2027) and ' + b28 + ' (2028) instead. ';
+    }
+    return s + 'Check the final QAP before relying on these amounts. ';
+  }
   function setTransitZoneContext(result) {
+    _tzLastResult = result || null;
     var note = document.getElementById('dc-tz-note');
     if (!note) return; // calculator not yet mounted — intentional no-op
     // The rule lives in TransitZone.fundingPath so this line and the PMA gate
@@ -5460,14 +5508,17 @@
     if (!path) { note.innerHTML = ''; return; }
     var esc = function (v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+    var is4Pct = _activeCreditIs4Pct();
     note.innerHTML =
       '<strong>Possible source, not added to this stack: Colorado Transit Zone (TZ) state credit (HB26-1065).</strong> ' +
       (path === 'official'
-        ? 'This site is inside a Transit and Housing Investment Zone on OEDIT\u2019s published map. '
+        ? 'This site is inside a Transit and Housing Investment Zone on OEDIT’s published map. '
         : 'This site is within ' + esc(result.radiusMiles) + ' miles of a confirmed transit stop. ') +
       'CHFA may allocate up to $' +
       TZ_CREDIT.statewideCapMillions.toFixed(2) + ' million a year statewide in ' + TZ_CREDIT.years + ', in lieu of standard state credit (' +
-      TZ_CREDIT.qapCite + '). No per-project amount exists until CHFA publishes its TZ Credit Allocation Plan, so none is modelled. ' +
+      TZ_CREDIT.qapCite + '). ' +
+      '<span data-tz-pairing="' + (_tzPairing ? (is4Pct ? '4pct' : '9pct') : 'unavailable') + '">' +
+      esc(_tzPairingSentence(is4Pct)) + '</span>' +
       '<span data-tz-designation="' + esc(result.designation) + '" style="color:var(--muted);">' + esc(result.designationNote) + '</span>';
   }
 
@@ -6589,6 +6640,7 @@
     recalculate: recalculate,
     setDesignationContext: setDesignationContext,
     setTransitZoneContext: setTransitZoneContext,
+    setTzCreditPairing: setTzCreditPairing,
     /* Exposed for testing — pure functions, no DOM access */
     computeDscrStressScenarios: computeDscrStressScenarios,
     computeForSaleFeasibility:  computeForSaleFeasibility,
