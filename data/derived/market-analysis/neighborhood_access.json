@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-27T14:09:02.313160+00:00",
+    "generated": "2026-09-27T14:25:59.840804+00:00",
     "source": "OpenStreetMap Overpass API + seed fallback; statewide transit stops (CDOT + agency GTFS; OpenStreetMap-only as a flagged fallback); HIFLD/CDPHE hospitals; CDHS licensed child care facilities",
     "sources_detail": [
       "grocery_co.geojson: 2182 features",
@@ -26,6 +26,7 @@
       "source": "data/amenities/transit_stops_statewide_co.geojson",
       "selection": "scripts/lib/transit_stops.py",
       "rule": "Confirmed public scheduled stops (reliability confirmed; not private_shuttle; not demand_response). OpenStreetMap-only stops only around a place centroid with no confirmed stop within fallback_radius_miles, and never within that radius of a place centroid that has one.",
+      "stops_content_sha256": "9a1872a586a9b68cc83d8dadb459ecffc710828dc4ae7f132e8ab243c069ef94",
       "fallback_radius_miles": 2.0,
       "places_by_basis": {
         "confirmed": 252,
