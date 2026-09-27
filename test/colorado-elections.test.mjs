@@ -1,4 +1,4 @@
-/** R5: rendered claims agree with independent source files, not frozen wording. */
+/** R5/R6-0: rendered claims agree with source data and fixture election states. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -18,7 +18,7 @@ const WATCH = read('data/policy/policy-watch.json');
 const allEntries = (files) => files.flatMap((file) => file.entries);
 const normalized = (text) => text.replace(/\s+/g, ' ').trim();
 
-async function page(t, { ballots = BALLOTS, candidates = CANDIDATES, watch = WATCH,
+async function page(t, { ballots = BALLOTS, candidates = CANDIDATES, watch = WATCH, geo = GEO,
   now = '2026-09-27T12:00:00Z', fail = '', malformed = '', base = 'https://pggllc.github.io/Housing-Analytics/' } = {}) {
   const dom = new JSDOM(HTML, { url: base + 'colorado-elections.html', runScripts: 'outside-only' });
   t.after(() => dom.window.close());
@@ -28,8 +28,9 @@ async function page(t, { ballots = BALLOTS, candidates = CANDIDATES, watch = WAT
     constructor(...args) { super(...(args.length ? args : [now])); }
     static now() { return new RealDate(now).getTime(); }
   };
-  const payloads = new Map(BALLOT_PATHS.map((name, i) => [name, ballots[i]]));
-  payloads.set('data/hna/geo-config.json', GEO);
+  const ballotPaths = ['data/policy/ballot-2026/statewide.json', ...geo.counties.map((c) => `data/policy/ballot-2026/counties/${c.geoid}.json`)];
+  const payloads = new Map(ballotPaths.map((name, i) => [name, ballots[i]]));
+  payloads.set('data/hna/geo-config.json', geo);
   payloads.set('data/policy/candidate-platforms-2026.json', candidates);
   payloads.set('data/policy/policy-watch.json', watch);
   const requests = [];
@@ -67,6 +68,190 @@ function assertCoverage(doc, files) {
     assert.equal(Number(node.textContent), value, `${key} must agree with local coverage files`);
   }
 }
+
+// R6-0 scenarios use synthetic data only, with no live results or network calls.
+function electionFixtures() {
+  const source = { url: 'https://example.test/ballot', retrieved: '2026-09-27' };
+  const coverage = (geoid, coverage_state) => ({
+    geoid, name: 'Fixture jurisdiction', coverage_state, reviewed_source: source.url,
+    checked: source.retrieved, entry_ids: [], limitations: []
+  });
+  const ballot = {
+    id: 'fixture-measure', election: { date: '2026-11-03' },
+    jurisdiction: { name: 'Fixture state', level: 'state', geoid: '08' },
+    status: 'on_ballot', neutral_title: 'Fixture housing measure', detail: 'Original ballot description.',
+    sources: { certification: source, ballot_notice: source, official_text: null, resolution: null },
+    evidence: [{ section: 'Question', quote: 'Original ballot question.' }],
+    verification: { level: 'primary', against: 'official ballot', checked: source.retrieved },
+    limitations: [], result: null, archived: false
+  };
+  const identity = { candidate: 'Fixture candidate', party: 'Fixture label' };
+  return {
+    geo: { counties: [{ geoid: '08001', label: 'Fixture county' }] },
+    ballots: [
+      { schema: 'ballot/v1', coverage: [coverage('08', 'verified_measure_found')], entries: [ballot] },
+      { schema: 'ballot/v1', coverage: [coverage('08001', 'official_ballot_reviewed_none_found'),
+        coverage('0800100', 'not_researched')], entries: [] }
+    ],
+    candidates: {
+      schema: 'candidate-platforms/v1',
+      races: [{ office: 'Governor/Lieutenant Governor', election_date: ballot.election.date,
+        certified_candidates: [identity], coverage_state: 'complete', archived: false,
+        candidates_source: 'https://example.test/candidate-list', roster_checked: source.retrieved }],
+      candidates: [{ ...identity, office: 'Governor/Lieutenant Governor',
+        coverage_state: 'verified_platform_found', archived: false,
+        neutral_summary: 'A stated housing position.', quote: 'Original campaign wording.',
+        campaign_source: source, verification: ballot.verification, proposed_appointments: [] }]
+    },
+    watch: { schema: 'policy-watch/v1', entries: [] }
+  };
+}
+
+function fixtureResult(outcome = 'passed', stage = 'unofficial') {
+  const date = stage === 'certified' ? '2026-12-01' : '2026-11-04';
+  return { outcome, stage, as_of: date, source: { url: 'https://example.test/results', retrieved: date } };
+}
+
+test('R6-0: each result line agrees with its outcome, stage, date and evidence URL', async (t) => {
+  for (const outcome of ['passed', 'failed']) for (const stage of ['unofficial', 'certified']) {
+    const fixtures = electionFixtures();
+    const entry = fixtures.ballots[0].entries[0];
+    entry.status = outcome;
+    entry.result = fixtureResult(outcome, stage);
+    const { doc } = await page(t, { ...fixtures, now: '2026-12-02T12:00:00Z' });
+    const card = doc.querySelector('#election-result-records [data-ballot-id]');
+    assert.ok(card, 'a terminal result must remain reachable');
+    const lines = card.querySelectorAll('.election-result');
+    assert.equal(lines.length, 1, 'replace the R5 line instead of adding a second result');
+    const line = lines[0];
+    assert.match(line.textContent, new RegExp(`^${outcome}\\b`, 'i'));
+    assert.ok(line.textContent.includes(entry.result.as_of));
+    assert.ok(line.textContent.includes(stage));
+    assert.equal(line.querySelector('a').href, entry.result.source.url);
+    assert.doesNotMatch(card.textContent, /Result:|Election result source|%|\\b(?:winner|loser|margin)\\b/i);
+    if (stage === 'unofficial') assert.match(line.textContent, /unofficial, may change/);
+    else assert.doesNotMatch(line.textContent, /unofficial|may change/);
+  }
+});
+
+test('R6-0: litigation shows its limitation without an outcome, including in the archive', async (t) => {
+  for (const archived of [false, true]) for (const result of [null, fixtureResult()]) {
+    const fixtures = electionFixtures();
+    const entry = fixtures.ballots[0].entries[0];
+    Object.assign(entry, { status: 'litigated', result, archived,
+      limitations: ['Court review is unresolved.', 'Additional research note.'] });
+    const { doc } = await page(t, { ...fixtures, now: '2026-11-04T12:00:00Z' });
+    const cards = doc.querySelectorAll(`[data-ballot-id="${entry.id}"]`);
+    assert.equal(cards.length, 1);
+    const card = cards[0];
+    assert.ok(card.closest(archived ? '#past-election-records' : '#election-result-records'));
+    assert.match(card.querySelector('.election-result').textContent, /^Result pending:/);
+    assert.ok(card.querySelector('.election-result').textContent.includes(entry.limitations[0]));
+    assert.doesNotMatch(card.textContent, /\\b(?:passed|failed|winner|loser)\\b/i);
+    assert.equal(doc.querySelector('#on-ballot-records [data-ballot-id]'), null);
+  }
+});
+
+test('R6-0: malformed result outcomes cannot produce a settled outcome or disappear', async (t) => {
+  // Recount is not a valid stored outcome in the merged schema. Exercise it as
+  // untrusted input without adding a new schema value or writing result data.
+  for (const outcome of ['recount', 'unknown']) for (const status of ['on_ballot', 'passed']) {
+    const fixtures = electionFixtures();
+    const entry = fixtures.ballots[0].entries[0];
+    Object.assign(entry, { status, result: fixtureResult(outcome) });
+    const { doc } = await page(t, { ...fixtures, now: '2026-11-04T12:00:00Z' });
+    const cards = doc.querySelectorAll(`[data-ballot-id="${entry.id}"]`);
+    assert.equal(cards.length, 1);
+    assert.ok(cards[0].closest('#election-result-records'));
+    assert.match(cards[0].querySelector('.election-result').textContent, /Result pending: .+/);
+    assert.doesNotMatch(cards[0].textContent, /\\b(?:passed|failed|undefined)\\b/i);
+  }
+});
+
+test('R6-0: fixed Denver midnight switches the headings and preserves coverage counts', async (t) => {
+  for (const [now, after] of [
+    ['2026-11-03T06:59:59Z', false], ['2026-11-03T07:00:00Z', false],
+    ['2026-11-04T06:59:59Z', false], ['2026-11-04T07:00:00Z', true],
+    ['2026-11-05T12:00:00Z', true]
+  ]) {
+    const fixtures = electionFixtures();
+    const { doc } = await page(t, { ...fixtures, now });
+    const ballotHeading = doc.getElementById('ballot-heading').textContent;
+    const candidateHeading = doc.getElementById('candidate-heading').textContent;
+    const coverage = doc.getElementById('ballot-coverage-summary').textContent;
+    assertCoverage(doc, fixtures.ballots);
+    if (after) {
+      const electionDate = fixtures.ballots[0].entries[0].election.date;
+      const humanDate = new Date(electionDate + 'T12:00:00Z').toLocaleDateString('en-US', {
+        timeZone: 'America/Denver', month: 'long', day: 'numeric', year: 'numeric'
+      });
+      assert.ok(ballotHeading.includes(humanDate), 'the heading must name the fixture election date');
+      assert.match(coverage, /checked before the election/);
+      assert.match(candidateHeading, /housing positions before the election/i);
+    } else {
+      assert.match(ballotHeading, /on the ballot/i);
+      assert.doesNotMatch(coverage + candidateHeading, /before the election/);
+    }
+  }
+});
+
+test('R6-0: candidate result fields never render before, after or in Past elections', async (t) => {
+  for (const archived of [false, true]) for (const now of [
+    '2026-11-03T12:00:00Z', '2026-11-04T12:00:00Z', '2026-12-18T07:00:00Z'
+  ]) {
+    const fixtures = electionFixtures();
+    const race = fixtures.candidates.races[0];
+    const candidate = fixtures.candidates.candidates[0];
+    const forbidden = 'CANDIDATE_RESULT_FIXTURE winner elected 99.9%';
+    for (const record of [race, candidate, race.certified_candidates[0]]) {
+      record.result = { outcome: forbidden, source: { url: 'https://example.test/candidate-result' } };
+      record.winner = forbidden;
+    }
+    candidate.archived = archived;
+    const { doc } = await page(t, { ...fixtures, now });
+    const cards = doc.querySelectorAll('[data-candidate]');
+    assert.equal(cards.length, 1, 'the check must inspect a rendered candidate');
+    assert.ok(cards[0].textContent.includes(candidate.neutral_summary));
+    assert.doesNotMatch(doc.querySelector('main').textContent, /CANDIDATE_RESULT_FIXTURE|99\.9%/);
+    assert.equal(doc.querySelector('a[href="https://example.test/candidate-result"]'), null);
+    assert.equal(doc.querySelector('#candidate-records .election-result, #past-election-records .candidate-race .election-result'), null);
+  }
+});
+
+test('R6-0: explicit archives retain pre-election text and one linked result only in Past elections', async (t) => {
+  const fixtures = electionFixtures();
+  const entry = fixtures.ballots[0].entries[0];
+  entry.result = fixtureResult();
+  const { doc: before } = await page(t, { ...fixtures, now: '2026-11-03T12:00:00Z' });
+  const original = before.querySelector('#on-ballot-records [data-ballot-id]');
+  assert.ok(original);
+  entry.archived = true;
+  const { doc: after } = await page(t, { ...fixtures, now: '2026-11-04T12:00:00Z' });
+  const cards = after.querySelectorAll(`[data-ballot-id="${entry.id}"]`);
+  assert.equal(cards.length, 1);
+  assert.ok(cards[0].closest('#past-election-records'));
+  assert.equal(cards[0].textContent, original.textContent);
+  assert.equal(cards[0].querySelector('.election-result a').href, entry.result.source.url);
+  assert.equal(after.getElementById('past-elections').open, false);
+});
+
+test('R6-0: result dates and pending limitations escape as text; unsafe result URLs stay inert', async (t) => {
+  const injection = '<img src=x onerror="window.r6Injected=true"> & <script>window.r6Injected=true</script>';
+  for (const pending of [false, true]) {
+    const fixtures = electionFixtures();
+    const entry = fixtures.ballots[0].entries[0];
+    entry.status = pending ? 'litigated' : 'passed';
+    entry.result = fixtureResult();
+    entry.result.as_of = injection;
+    entry.result.source.url = 'javascript:alert(1)';
+    entry.limitations = [injection];
+    const { doc, window } = await page(t, { ...fixtures, now: '2026-11-04T12:00:00Z' });
+    const line = doc.querySelector('.election-result');
+    assert.ok(line.textContent.includes(injection));
+    assert.equal(line.querySelector('img, script, a'), null);
+    assert.equal(window.r6Injected, undefined);
+  }
+});
 
 function forbiddenTerms(doc) {
   const root = doc.querySelector('main').cloneNode(true);
@@ -136,7 +321,7 @@ test('terminal results remain visible before day 45, outside On the ballot, with
     record.status = status;
     record.result = { outcome: status, stage: 'unofficial', as_of: '2026-11-04',
       source: { url: record.sources.ballot_notice.url + '#election-results', retrieved: '2026-11-04' } };
-    for (const [now, archived] of [['2026-11-04T12:00:00Z', false], ['2026-12-18T00:00:00Z', true]]) {
+    for (const [now, archived] of [['2026-11-04T12:00:00Z', false], ['2026-12-18T07:00:00Z', true]]) {
       const { doc } = await page(t, { ballots, now });
       assert.equal(doc.querySelector(`#on-ballot-records [data-ballot-id="${record.id}"]`), null);
       const group = archived ? '#past-election-records' : '#election-result-records';
@@ -254,7 +439,7 @@ test('people section renders only official people entries and preserves role/sou
 });
 
 test('archive boundary is day 45, and all past groups are collapsed initially', async (t) => {
-  for (const [now, past] of [['2026-12-17T23:59:59Z', false], ['2026-12-18T00:00:00Z', true]]) {
+  for (const [now, past] of [['2026-12-18T06:59:59Z', false], ['2026-12-18T07:00:00Z', true]]) {
     const { doc } = await page(t, { now });
     assert.equal(doc.querySelectorAll('#on-ballot-records [data-ballot-id]').length, past ? 0 : allEntries(BALLOTS).filter((e) => ['certified', 'on_ballot'].includes(e.status)).length);
     assert.equal(doc.querySelectorAll('#candidate-records .candidate-race').length, past ? 0 : CANDIDATES.races.length);

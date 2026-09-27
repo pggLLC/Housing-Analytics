@@ -3,6 +3,14 @@
   'use strict';
   var DAY = 86400000;
   var ELECTION = '2026-11-03';
+  // Calendar boundaries belong to Colorado, regardless of the visitor's zone.
+  var dateParts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Denver', year: 'numeric', month: '2-digit', day: '2-digit'
+  }).formatToParts(new Date());
+  var today = ['year', 'month', 'day'].map(function (type) {
+    return dateParts.find(function (part) { return part.type === type; }).value;
+  }).join('-');
+  var afterElection = today > ELECTION;
   var STATES = {
     not_researched: 'Not yet researched',
     verified_measure_found: 'Housing-related measure found (see certification status)',
@@ -40,8 +48,8 @@
   }
   function expired(record, electionDate) {
     var time = Date.parse((electionDate || '') + 'T00:00:00Z');
-    var today = Date.parse(new Date().toISOString().slice(0, 10) + 'T00:00:00Z');
-    return record.archived === true || (Number.isFinite(time) && today - time >= 45 * DAY);
+    var calendarDay = Date.parse(today + 'T00:00:00Z');
+    return record.archived === true || (Number.isFinite(time) && calendarDay - time >= 45 * DAY);
   }
   function pastGroup(title) {
     document.getElementById('past-elections').hidden = false;
@@ -65,26 +73,47 @@
     var list = add(detail, 'ul');
     limitations.forEach(function (text) { add(list, 'li', text); });
   }
+  function resultPending(entry) {
+    // The merged schema supports passed/failed only. Malformed outcomes (such
+    // as recount) must never be presented as a settled result.
+    return entry.status === 'litigated' || (entry.result &&
+      (!['passed', 'failed'].includes(entry.result.outcome) ||
+       !['unofficial', 'certified'].includes(entry.result.stage)));
+  }
+  function ballotResult(card, entry) {
+    var result = entry.result;
+    var label;
+    if (resultPending(entry)) {
+      label = 'Result pending: ' + (entry.limitations[0] || 'No outcome is available.');
+    } else if (result) {
+      label = (result.outcome === 'passed' ? 'Passed' : 'Failed') +
+        (result.stage === 'certified' ? ' — certified ' + result.as_of :
+          ' — unofficial results as of ' + result.as_of + ' (unofficial, may change)');
+    } else return;
+    var line = add(card, 'p', null, 'election-result');
+    if (result) link(line, label, result.source && result.source.url);
+    else line.textContent = label;
+  }
   function ballotCard(parent, entry, heading) {
     var card = add(parent, 'article', null, 'election-card');
     card.dataset.ballotId = entry.id;
     add(card, heading || 'h4', entry.jurisdiction.name + ' — ' + entry.neutral_title);
-    add(card, 'p', 'Status: ' + entry.status.replace(/_/g, ' ') + ' · Election: ' + entry.election.date, 'election-check');
+    var status = entry.status.replace(/_/g, ' ');
+    if (resultPending(entry) && ['passed', 'failed'].includes(entry.status)) status = 'Result pending';
+    add(card, 'p', 'Status: ' + status + ' · Election: ' + entry.election.date, 'election-check');
     if (entry.detail) add(card, 'p', entry.detail);
     excerpts(card, 'Official question and source excerpts', entry.evidence);
     var source = entry.sources.certification || entry.sources.ballot_notice || entry.sources.official_text || entry.sources.resolution;
     link(card, 'Official source', source && source.url);
     check(card, entry.verification);
     notes(card, entry.limitations);
-    if (entry.result) {
-      add(card, 'p', 'Result: ' + entry.result.outcome + ' (' + entry.result.stage + '), as of ' + entry.result.as_of);
-      link(card, 'Election result source', entry.result.source.url);
-    }
+    ballotResult(card, entry);
   }
   function renderBallots(files, counties) {
     var entries = files.flatMap(function (file) { return file.entries; });
     var active = entries.filter(function (e) {
-      return !expired(e, e.election.date) && e.election.date === ELECTION && ['certified', 'on_ballot'].includes(e.status);
+      return !expired(e, e.election.date) && !resultPending(e) &&
+        e.election.date === ELECTION && ['certified', 'on_ballot'].includes(e.status);
     });
     var host = document.getElementById('on-ballot-records');
     host.replaceChildren();
@@ -95,10 +124,10 @@
       if (!items.length) add(section, 'p', 'No certified or on-ballot housing entries are listed here. Check the coverage table for research status.');
       items.forEach(function (e) { ballotCard(section, e); });
     });
-    // Terminal statuses are not on-ballot entries. Keep their results reachable
+    // Terminal and disputed statuses are not on-ballot entries. Keep them reachable
     // during the interval before the same day-45 archive rule takes effect.
     var results = entries.filter(function (e) {
-      return !expired(e, e.election.date) && ['passed', 'failed'].includes(e.status);
+      return !expired(e, e.election.date) && (['passed', 'failed'].includes(e.status) || resultPending(e));
     });
     var resultHost = document.getElementById('election-result-records');
     resultHost.replaceChildren();
@@ -115,7 +144,7 @@
     var checked = localRows.length - unchecked;
     var summary = document.getElementById('ballot-coverage-summary');
     summary.replaceChildren();
-    summary.append('Local ballots checked: ');
+    summary.append(afterElection ? 'Local ballots checked before the election: ' : 'Local ballots checked: ');
     add(summary, 'span', checked).dataset.count = 'checked';
     summary.append(' of ');
     add(summary, 'span', localRows.length).dataset.count = 'total';
@@ -278,6 +307,12 @@
     el.dataset.loadState = 'unavailable';
   }
   async function load() {
+    document.getElementById('ballot-heading').textContent = afterElection ?
+      'On the ' + new Intl.DateTimeFormat('en-US', {
+        timeZone: 'UTC', month: 'long', day: 'numeric', year: 'numeric'
+      }).format(new Date(ELECTION + 'T00:00:00Z')) + ' ballot' : 'On the ballot';
+    document.getElementById('candidate-heading').textContent = afterElection ?
+      'Stated housing positions before the election' : "Candidates' stated housing positions";
     await Promise.all([
       (async function () {
         try {
