@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T10:14:24.578Z",
+    "generated_at": "2026-09-27T10:28:30.860Z",
     "root": "data/",
-    "file_count": 1690,
-    "total_size_bytes": 167253795,
+    "file_count": 1691,
+    "total_size_bytes": 167547631,
     "kinds": {
-      "json": 1654,
+      "json": 1655,
       "geojson": 32,
       "csv": 4
     }
@@ -478,7 +478,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-27T10:04:46.969Z",
+      "mtime": "2026-09-27T10:28:26.931Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -3110,8 +3110,8 @@
     {
       "path": "hna/hna-views.json",
       "kind": "json",
-      "size_bytes": 12037,
-      "mtime": "2026-09-25T12:55:18.653Z",
+      "size_bytes": 12464,
+      "mtime": "2026-09-27T10:27:39.819Z",
       "shape": "object",
       "keys": [
         "_comment",
@@ -29319,6 +29319,21 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "hna/transit-zone-by-geography.json",
+      "kind": "json",
+      "size_bytes": 293409,
+      "mtime": "2026-09-27T10:27:40.000Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "geographies"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "hna/vacancy-status.json",
       "kind": "json",
       "size_bytes": 469032,
@@ -31860,7 +31875,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14707,
-      "mtime": "2026-09-27T10:14:22.579Z",
+      "mtime": "2026-09-27T10:28:28.696Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31883,7 +31898,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-27T10:14:22.210Z",
+      "mtime": "2026-09-27T10:28:28.307Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
