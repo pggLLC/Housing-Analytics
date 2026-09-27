@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-27T09:58:26.420205Z",
+  "generated": "2026-09-27T10:04:53.326776Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -294,7 +294,7 @@
     "data/derived/market-analysis/neighborhood_access.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2855530
+      "bytes": 2855812
     },
     "data/derived/market-analysis/site_opportunities.json": {
       "featureCount": 0,
