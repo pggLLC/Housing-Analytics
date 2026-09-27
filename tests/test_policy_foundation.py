@@ -352,7 +352,8 @@ def test_candidate_no_position_and_unavailable_need_no_invented_quotes(candidate
     candidates['races'][0]['coverage_state'] = 'complete'
     validate_candidates(candidates, TODAY)
     c['verification'] = None
-    with pytest.raises(AssertionError, match='requires primary verification'):
+    assert not validator('candidate-platforms-2026').is_valid(candidates)
+    with pytest.raises(AssertionError, match='verification'):
         validate_candidates(candidates, TODAY)
 
 
