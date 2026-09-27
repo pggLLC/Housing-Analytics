@@ -1,0 +1,13 @@
+{
+  "schema": "thiz-map-status/1",
+  "program": "Transit and Housing Investment Zones (HB26-1065)",
+  "statute": "C.R.S. 24-48.5-136",
+  "zone_radius_miles": 2,
+  "map_due_date": "2026-10-30",
+  "map_publisher": "Colorado Office of Economic Development and International Trade (OEDIT)",
+  "map_source_url": "https://oedit.colorado.gov/programs-and-funding/transit-and-housing-investment-zone-program",
+  "status": "not_published",
+  "zones_file": null,
+  "last_checked": "2026-09-26",
+  "note": "Until OEDIT publishes its Transit and Housing Investment Zone map, every zone result on this site is a screen: within two miles of a transit stop in data/amenities/transit_stops_statewide_co.geojson. The act counts only transportation facilities OEDIT identifies on that map, so a stop-based result can overstate eligibility. When the map is published, set status to \"published\", commit the zones as GeoJSON polygons, and name that file in zones_file; js/transit-zone.js then reports the official designation beside the screen result."
+}
