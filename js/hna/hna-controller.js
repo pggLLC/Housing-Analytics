@@ -4318,6 +4318,11 @@
     // Housing Policy Commitment scorecard (loads scorecard JSON, non-blocking)
     window.HNARenderers.renderHnaScorecardPanel(geoid);
 
+    // Potential location: HB26-1065 transit zone screen (#1937). Non-blocking.
+    if (window.HNARenderers.renderTransitZonePanel) {
+      window.HNARenderers.renderTransitZonePanel(geoid);
+    }
+
     // F185 — DOLA SYA (county/state) + live ACS B01001 (place) for dual-bar age charts.
     // DOLA SYA is published only at county/state level, so for places we add a
     // live ACS 5-year B01001 fetch and bin its 23 single+grouped age bands into

@@ -215,6 +215,8 @@
        before hna-controller.js, which calls the view per selection. -->
   <script defer src="js/hna/county-comparison.js"></script>
   <script defer src="js/hna/county-comparison-view.js"></script>
+  <!-- HB26-1065 zone designation note; must load before hna-renderers.js. -->
+  <script defer src="js/transit-zone.js"></script>
   <script defer src="js/hna/hna-renderers.js"></script>
   <script defer src="js/hna/hna-export.js"></script>
   <script defer src="js/compliance-checklist.js"></script>
@@ -870,6 +872,19 @@
            presentations frame "how do we actually unlock affordable housing
            here?" with the cap-stack tools at hand. -->
       <section class="chart-card span-12" id="hnaRedevPanel" aria-label="Downtown redevelopment opportunities" hidden></section>
+
+      <!-- #1937: HB26-1065 transit zone screen. Filled by renderTransitZonePanel()
+           from data/hna/transit-zone-by-geography.json. -->
+      <section class="chart-card span-12" id="hnaTransitZonePanel" aria-labelledby="hnaTransitZoneH">
+        <h2 id="hnaTransitZoneH">Potential location: transit zone (HB26-1065)</h2>
+        <p style="color:var(--muted)">
+          Colorado's Transit and Housing Investment Zones give a state tax credit to affordable housing within two miles of a
+          transit facility on OEDIT's zone map. This shows how much of the selected area passes that two-mile screen today.
+        </p>
+        <div id="hnaTransitZoneContent" aria-live="polite">
+          <p style="color:var(--muted)">Select a geography to see how much of it is near transit.</p>
+        </div>
+      </section>
 
       <!-- Economic Indicators (Employment, Wages, Industry) -->
       
