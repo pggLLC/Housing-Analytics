@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-27T12:13:09.687185Z",
+  "generated": "2026-09-27T12:17:13.892056Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7289,7 +7289,7 @@
     "data/hna/transit-zone-by-geography.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 293409
+      "bytes": 399266
     },
     "data/hna/vacancy-status.json": {
       "featureCount": 0,
