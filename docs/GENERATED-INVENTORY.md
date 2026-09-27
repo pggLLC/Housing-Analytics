@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T12:12:40.521Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T12:16:45.110Z. Do not edit by hand.
 
 ---
 
@@ -1531,7 +1531,7 @@
 | `data/hna/summary/0886310.json` | 4.0 KB | ✅ | — |
 | `data/hna/summary/0886475.json` | 3.9 KB | ✅ | — |
 | `data/hna/summary/0886750.json` | 4.0 KB | ✅ | — |
-| `data/hna/transit-zone-by-geography.json` | 286.5 KB | ✅ | — |
+| `data/hna/transit-zone-by-geography.json` | 389.9 KB | ✅ | — |
 | `data/hna/vacancy-status.json` | 458.0 KB | ✅ | — |
 | `data/hna/zhvi-place-crosswalk.json` | 45.1 KB | ✅ | — |
 | `data/home-snapshot.json` | 2.1 KB | ✅ | — |
@@ -1926,7 +1926,7 @@
 | `test/hna-sub-county-and-sync.test.js` | 4.9 KB |
 | `test/hna-surplus-semantics.test.js` | 11.7 KB |
 | `test/hna-takeaways-chas-disclosure.test.js` | 1.4 KB |
-| `test/hna-transit-zone.test.js` | 16.8 KB |
+| `test/hna-transit-zone.test.js` | 27.8 KB |
 | `test/hna-unknown-geoid.test.js` | 2.8 KB |
 | `test/hna-view-content-parity.test.js` | 6.9 KB |
 | `test/hna-workflow-autosave.test.js` | 4.2 KB |

@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T12:13:06.367Z",
+    "generated_at": "2026-09-27T12:17:10.548Z",
     "root": "data/",
     "file_count": 1691,
-    "total_size_bytes": 167574229,
+    "total_size_bytes": 167680086,
     "kinds": {
       "json": 1655,
       "geojson": 32,
@@ -478,7 +478,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-27T12:13:02.322Z",
+      "mtime": "2026-09-27T12:17:06.994Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -29321,8 +29321,8 @@
     {
       "path": "hna/transit-zone-by-geography.json",
       "kind": "json",
-      "size_bytes": 293409,
-      "mtime": "2026-09-27T10:46:05.855Z",
+      "size_bytes": 399266,
+      "mtime": "2026-09-27T12:16:24.772Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31875,7 +31875,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14707,
-      "mtime": "2026-09-27T12:13:04.004Z",
+      "mtime": "2026-09-27T12:17:08.703Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31898,7 +31898,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-27T12:13:03.643Z",
+      "mtime": "2026-09-27T12:17:08.340Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
