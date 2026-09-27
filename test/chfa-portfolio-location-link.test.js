@@ -103,6 +103,22 @@ withFn('a property name cannot break out of the link attribute', () => {
   assert.ok(opening[0].includes('&quot;&gt;&lt;SCRIPT&gt;'), 'the name must appear in escaped form');
 });
 
+withFn('the link meets the 44 x 44 px touch-target minimum (copilot-instructions Rule 14)', () => {
+  const out = mapLinkFor({ PROJECT: 'X', _lat: 39.7, _lng: -105 });
+  const cls = /class="([^"]*)"/.exec(out);
+  assert.ok(cls, 'the Map link has no class, so nothing sizes it: ' + out);
+  for (const c of cls[1].split(/\s+/)) {
+    const rule = new RegExp('\\.' + c + '\\s*\\{([^}]*)\\}').exec(html);
+    if (!rule) continue;
+    const px = (prop) => {
+      const m = new RegExp(prop + ':\\s*(\\d+)px').exec(rule[1]);
+      return m ? Number(m[1]) : 0;
+    };
+    if (px('min-height') >= 44 && px('min-width') >= 44) return;
+  }
+  assert.fail('no class on the Map link (' + cls[1] + ') sets min-height and min-width of at least 44px');
+});
+
 run('header and row column counts agree', () => {
   const thead = html.slice(html.indexOf('<thead>'), html.indexOf('</thead>'));
   const headers = (thead.match(/<th[\s>]/g) || []).length;
