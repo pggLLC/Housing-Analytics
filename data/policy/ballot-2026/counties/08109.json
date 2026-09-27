@@ -5,61 +5,163 @@
       "geoid": "08109",
       "level": "county",
       "name": "Saguache County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://saguachecoclerk.colorado.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county clerk's elections page had only 2026 primary sample ballots and the Notice of 2026 General Election on 2026-09-26: no general-election sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "The commissioners agenda page has no archive, so no election IGA or county ballot referral could be checked."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://saguachecoclerk.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://saguachecoclerk.colorado.gov/news-articles/notice-of-2026-general-election/aviso-de-las-elecciones-generales-de-2026",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://saguachecounty.colorado.gov/board-of-county-commissioners-agendas",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0807571",
       "level": "municipal",
       "name": "Bonanza (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://saguachecoclerk.colorado.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county clerk's elections page had only 2026 primary sample ballots and the Notice of 2026 General Election on 2026-09-26: no general-election sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "Participation unknown; no official Town of Bonanza website was found."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://saguachecoclerk.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://saguachecoclerk.colorado.gov/news-articles/notice-of-2026-general-election/aviso-de-las-elecciones-generales-de-2026",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0812855",
       "level": "municipal",
       "name": "Center (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://saguachecoclerk.colorado.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county clerk's elections page had only 2026 primary sample ballots and the Notice of 2026 General Election on 2026-09-26: no general-election sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "Participation unknown. Town board agendas April through September 2026 contain no ballot referral or county election IGA (agenda text only; packets not read)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://saguachecoclerk.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://saguachecoclerk.colorado.gov/news-articles/notice-of-2026-general-election/aviso-de-las-elecciones-generales-de-2026",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.centerco.gov/agendas",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0818420",
       "level": "municipal",
       "name": "Crestone (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://saguachecoclerk.colorado.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county clerk's elections page had only 2026 primary sample ballots and the Notice of 2026 General Election on 2026-09-26: no general-election sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "Participation unknown. Town board agendas April through September 2026 contain no ballot referral or county election IGA (agenda text only; packets not read)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://saguachecoclerk.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://saguachecoclerk.colorado.gov/news-articles/notice-of-2026-general-election/aviso-de-las-elecciones-generales-de-2026",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofcrestone.gov/news/%F0%9F%97%B3%EF%B8%8F-town-of-crestone-election-%F0%9F%97%B3%EF%B8%8F",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0851250",
       "level": "municipal",
       "name": "Moffat (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://saguachecoclerk.colorado.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county clerk's elections page had only 2026 primary sample ballots and the Notice of 2026 General Election on 2026-09-26: no general-election sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "Participation unknown. Town minutes and agendas June through September 2026 discuss housing projects and policies as board business; none refers a ballot question."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://saguachecoclerk.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://saguachecoclerk.colorado.gov/news-articles/notice-of-2026-general-election/aviso-de-las-elecciones-generales-de-2026",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townofmoffatco.gov/documents",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0867005",
       "level": "municipal",
       "name": "Saguache (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://saguachecoclerk.colorado.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county clerk's elections page had only 2026 primary sample ballots and the Notice of 2026 General Election on 2026-09-26: no general-election sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "Participation unknown. The town website posts no 2026 agendas or minutes (latest agenda August 2025)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://saguachecoclerk.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://saguachecoclerk.colorado.gov/news-articles/notice-of-2026-general-election/aviso-de-las-elecciones-generales-de-2026",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townofsaguache.org/agendas",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townofsaguache.org/documents",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
