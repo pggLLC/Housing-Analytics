@@ -215,8 +215,11 @@
         var c = feats[i] && feats[i].geometry && feats[i].geometry.coordinates;
         if (!c || !isNum(c[0]) || !isNum(c[1])) continue;
         // Private airport/hotel shuttle pickups are mapped but are not public
-        // transit, so they never count toward the zone screen.
+        // transit, and on-demand (GTFS-Flex) stops are not a defined route
+        // (owner decision 2026-09-27), so neither counts toward the zone
+        // screen. Same rule as scripts/lib/transit_stops.py.
         if (feats[i].properties && feats[i].properties.operator === 'private_shuttle') continue;
+        if (feats[i].properties && feats[i].properties.service === 'demand_response') continue;
         var key = Math.floor(c[0] / CELL_DEG) + ',' + Math.floor(c[1] / CELL_DEG);
         (grid[key] = grid[key] || []).push(feats[i]);
       }

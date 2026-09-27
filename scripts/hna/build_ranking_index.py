@@ -27,6 +27,9 @@ from decimal import Decimal, ROUND_HALF_UP
 from typing import Any
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.insert(0, os.path.join(ROOT, "scripts", "lib"))
+
+import transit_stops  # noqa: E402  (the one statewide stop-selection rule)
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -665,6 +668,86 @@ def _load_point_features(rel_path: str) -> list[tuple[float, float]]:
     return sorted(result)
 
 
+# Transit part of amenity_access_score (owner decision 2026-09-27). The stops
+# are the statewide file's, selected by scripts/lib/transit_stops.py: confirmed
+# public scheduled stops (CDOT and/or an agency feed; no private shuttles, no
+# demand-response). A place with none within TRANSIT_RADIUS_MILES of its
+# centroid but with an OpenStreetMap-only stop in range is scored on the
+# OpenStreetMap-only stops instead of 0, and says so in
+# metrics.transit_stop_basis. tests/test_transit_stop_selection.py pins both.
+TRANSIT_STOPS_REL_PATH = transit_stops.STATEWIDE_STOPS_REL
+TRANSIT_RADIUS_MILES = 3.0
+
+
+def load_transit_points() -> tuple[list[tuple[float, float]], list[tuple[float, float]]]:
+    """(confirmed points, OpenStreetMap-only fallback points), each sorted (lat, lon)."""
+    stops = transit_stops.load_stops(os.path.join(ROOT, TRANSIT_STOPS_REL_PATH))
+    return (
+        transit_stops.points(stops[transit_stops.BASIS_CONFIRMED]),
+        transit_stops.points(stops[transit_stops.BASIS_OSM_FALLBACK]),
+    )
+
+
+def _rounded_miles(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """The distance amenity_component compares with its radius."""
+    return round(_haversine_miles(lat1, lon1, lat2, lon2), 4)
+
+
+def amenity_component(lat: float, lon: float, points: list[tuple[float, float]], radius: float) -> tuple[float, int]:
+    """(0-100 score, count within radius) for one amenity type at a centroid."""
+    distances = sorted(_rounded_miles(lat, lon, plat, plon) for plat, plon in points)
+    within = [d for d in distances if d <= radius]
+    nearest = min(distances) if distances else None
+    count_score = min(len(within), 5) / 5 * 40
+    distance_score = 0.0
+    if nearest is not None and nearest <= radius:
+        distance_score = max(0.0, (1 - nearest / radius) * 60)
+    return _round_half_up(min(100.0, count_score + distance_score), 0), len(within)
+
+
+def transit_stops_meta() -> dict:
+    """metadata.transitStops: which stops the transit component used.
+
+    stops_content_sha256 is the stop file's content fingerprint (features,
+    never stamps); scripts/hna/check_transit_stop_copies.py compares it with
+    the file so the weekly refresh rebuilds only when a stop changed.
+    """
+    confirmed, osm_fallback = load_transit_points()
+    return {
+        "source": TRANSIT_STOPS_REL_PATH,
+        "selection": "scripts/lib/transit_stops.py",
+        "radius_miles": TRANSIT_RADIUS_MILES,
+        "confirmed_stops": len(confirmed),
+        "openstreetmap_fallback_candidates": len(osm_fallback),
+        "stops_content_sha256": transit_stops.content_fingerprint(os.path.join(ROOT, TRANSIT_STOPS_REL_PATH)),
+        "note": (
+            "Transit part of amenity_access_score: confirmed public scheduled stops (CDOT and/or an "
+            "agency feed; no private shuttles, no demand-response). A place with none within "
+            "radius_miles but an OpenStreetMap-only stop there is scored on the OpenStreetMap-only "
+            "stops; metrics.transit_stop_basis says which."
+        ),
+    }
+
+
+def load_fixed_amenity_points() -> dict[str, tuple[list[tuple[float, float]], float]]:
+    """{type: (points, radius miles)} for the amenity types scored on a fixed list.
+
+    Transit is not here: its stops are chosen per centroid (select_transit_points).
+    """
+    return {
+        "grocery": (_load_point_features("data/amenities/grocery_co.geojson"), 8.0),
+        "healthcare": (_load_point_features("data/amenities/healthcare_co.geojson"), 10.0),
+        "schools": (_load_point_features("data/amenities/schools_co.geojson"), 6.0),
+    }
+
+
+def select_transit_points(lat: float, lon: float, confirmed, osm_fallback) -> tuple[str, list[tuple[float, float]]]:
+    """(transit_stop_basis, the stops this centroid's transit score uses)."""
+    return transit_stops.select_for_point(
+        lat, lon, TRANSIT_RADIUS_MILES, confirmed, osm_fallback, _rounded_miles
+    )
+
+
 def build_opportunity_context() -> dict[str, dict]:
     """Aggregate tract/amenity opportunity layers to place and county GEOIDs.
 
@@ -716,12 +799,9 @@ def build_opportunity_context() -> dict[str, dict]:
 
     centroids_data = _load_json(os.path.join(ROOT, "data", "co-place-centroids.json")) or {}
     centroids = centroids_data.get("byGeoid", {}) if isinstance(centroids_data, dict) else {}
-    amenities = {
-        "grocery": (_load_point_features("data/amenities/grocery_co.geojson"), 8.0),
-        "healthcare": (_load_point_features("data/amenities/healthcare_co.geojson"), 10.0),
-        "schools": (_load_point_features("data/amenities/schools_co.geojson"), 6.0),
-        "transit": (_load_point_features("data/amenities/transit_stops_co.geojson"), 3.0),
-    }
+    amenities = load_fixed_amenity_points()
+    # Transit is chosen per centroid (select_transit_points), not a fixed list.
+    transit_confirmed, transit_osm_fallback = load_transit_points()
     populations = load_summary_populations()
 
     place_context: dict[str, dict] = {}
@@ -764,17 +844,16 @@ def build_opportunity_context() -> dict[str, dict]:
         centroid = centroids.get(str(place_geoid).zfill(7), {})
         lat = safe_float(centroid.get("lat"), default=float("nan"))
         lon = safe_float(centroid.get("lng"), default=float("nan"))
+        # No centroid means transit access was not measured: "missing", never "none".
+        transit_stop_basis = "missing"
         if math.isfinite(lat) and math.isfinite(lon):
-            for key, (points, radius) in sorted(amenities.items()):
-                distances = sorted(round(_haversine_miles(lat, lon, plat, plon), 4) for plat, plon in points)
-                within = [d for d in distances if d <= radius]
-                nearest = min(distances) if distances else None
-                count_score = min(len(within), 5) / 5 * 40
-                distance_score = 0.0
-                if nearest is not None and nearest <= radius:
-                    distance_score = max(0.0, (1 - nearest / radius) * 60)
-                amenity_scores[key] = _round_half_up(min(100.0, count_score + distance_score), 0)
-                amenity_counts[key] = len(within)
+            transit_stop_basis, transit_points = select_transit_points(
+                lat, lon, transit_confirmed, transit_osm_fallback
+            )
+            per_type = dict(amenities)
+            per_type["transit"] = (transit_points, TRANSIT_RADIUS_MILES)
+            for key, (points, radius) in sorted(per_type.items()):
+                amenity_scores[key], amenity_counts[key] = amenity_component(lat, lon, points, radius)
         amenity_access_score = _weighted([(v, 1.0) for v in amenity_scores.values()])
         amenity_context = "rural_sparsity" if amenity_counts and sum(amenity_counts.values()) == 0 else "centroid_radius"
 
@@ -786,6 +865,7 @@ def build_opportunity_context() -> dict[str, dict]:
             "qct_share_pct": _round_half_up(qct_share * 100, 1),
             "dda_share_pct": _round_half_up(dda_share * 100, 1),
             "amenity_access_context": amenity_context,
+            "transit_stop_basis": transit_stop_basis,
             "opportunity_geography_level": "place",
             "_opportunity_aggregated_fields": [],
         }
@@ -826,6 +906,8 @@ def build_opportunity_context() -> dict[str, dict]:
             ])
             rec[key] = _round_half_up(val, 1) if val is not None else None
         rec["amenity_access_context"] = "county_context"
+        # A county row aggregates its places; each place row carries its own basis.
+        rec["transit_stop_basis"] = "county_context"
         rec["opportunity_geography_level"] = "county_context"
         rec["_opportunity_aggregated_fields"] = [
             "opportunity_mobility_score",
@@ -1560,6 +1642,7 @@ def compute_metrics(
     dda_share = opp.get("dda_share_pct")
     opportunity_geography_level = opp.get("opportunity_geography_level", "missing")
     amenity_access_context = opp.get("amenity_access_context", "missing")
+    transit_stop_basis = opp.get("transit_stop_basis", "missing")
 
     imputed_score_factors: list[str] = []
     if housing_gap_rate_lte30 is None:
@@ -1755,6 +1838,7 @@ def compute_metrics(
         "dda_share_pct": dda_share,
         "opportunity_geography_level": opportunity_geography_level,
         "amenity_access_context": amenity_access_context,
+        "transit_stop_basis": transit_stop_basis,
         "vacancy_rate_pct": vacancy_rate,
         "active_market_vacancy_rate_pct": active_market_vacancy_rate,
         "raw_rental_vacancy_rate_pct": raw_rental_vacancy_rate,
@@ -1975,6 +2059,7 @@ def build(out_path: str | None = None) -> None:
                 "dda_share_pct": None,
                 "opportunity_geography_level": "missing",
                 "amenity_access_context": "missing",
+                "transit_stop_basis": "missing",
                 "vacancy_rate_pct": 0.0,
                 "active_market_vacancy_rate_pct": None,
                 "raw_rental_vacancy_rate_pct": None,
@@ -2322,7 +2407,7 @@ def build(out_path: str | None = None) -> None:
         {
             "id": "amenity_access_score",
             "label": "Amenity Access Score",
-            "description": "Centroid-radius access score for grocery, healthcare, schools, and transit stops; rural sparsity is labeled in context fields",
+            "description": "Centroid-radius access score for grocery, healthcare, schools, and transit stops (statewide stop file: confirmed public scheduled stops; OpenStreetMap-only stops only where no confirmed stop is in range, flagged in transit_stop_basis); rural sparsity is labeled in context fields",
             "unit": "score",
             "sortOrder": "descending",
         },
@@ -2608,6 +2693,7 @@ def build(out_path: str | None = None) -> None:
                 "Generated by scripts/hna/build_ranking_index.py."
             ),
             "transitZone": transit_zone_meta,
+            "transitStops": transit_stops_meta(),
         },
         "metrics": metrics_meta,
         "rankings": entries,

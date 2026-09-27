@@ -1417,7 +1417,7 @@
       geoUnit: 'Stop',
       coverage: 'Colorado stops mapped in OpenStreetMap; sparse outside the Front Range',
       features: 7888,
-      description: 'Transit stop points extracted from OpenStreetMap. No agency or schedule fields. Used for the ½-mile TOD check and amenity access scoring. Transit routes come separately from agency GTFS feeds (data/market/transit_routes_co.geojson).',
+      description: 'Transit stop points extracted from OpenStreetMap. No agency or schedule fields. An input to the statewide stop file (data/amenities/transit_stops_statewide_co.geojson), where stops CDOT and agency feeds lack are marked unconfirmed; the ½-mile TOD check and amenity access scoring read the statewide file. Transit routes come separately from agency GTFS feeds (data/market/transit_routes_co.geojson).',
       tags: ['transit', 'osm', 'bus', 'rail', 'transportation'],
       apiEndpoint: 'https://overpass-api.de/api/interpreter'
     },
@@ -1436,8 +1436,8 @@
       maxAgeDays: 16,
       geoUnit: 'Stop',
       coverage: 'All 64 Colorado counties; per-county counts in data/market/transit_stops_coverage_co.json',
-      features: 14183,
-      description: 'Every transit stop CDOT publishes, plus stops that only an agency GTFS feed publishes, plus OpenStreetMap stops neither confirms (marked unconfirmed). Each stop carries agency, source and county. Built by scripts/market/build_transit_stops_co.py (#1937).',
+      features: 14247,
+      description: 'Every transit stop CDOT publishes, plus stops that only an agency GTFS feed publishes, plus OpenStreetMap stops neither confirms (marked unconfirmed). Each stop carries agency, source, county and a service type (fixed_route, demand_response or unknown, read from GTFS-Flex in the agency feeds). Both transit amenity scores count its confirmed public scheduled stops. Built by scripts/market/build_transit_stops_co.py (#1937).',
       tags: ['transit', 'cdot', 'gtfs', 'bus', 'rail', 'transportation'],
       apiEndpoint: 'https://services.arcgis.com/yzB9WM8W0BO3Ql7d/arcgis/rest/services/Statewide_Transit_Points/FeatureServer/0'
     },

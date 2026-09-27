@@ -191,7 +191,7 @@ Site_Score = 0.35 × PMA_Score
 | Component | Definition | Data Source |
 |---|---|---|
 | PMA_Score | Weighted PMA score from §2 above | Derived |
-| Proximity_to_Services | Composite score: transit access + walkability index + grocery/healthcare proximity | OpenStreetMap (Overpass API), GTFS feeds |
+| Proximity_to_Services | Composite score: transit access + walkability index + grocery/healthcare proximity | OpenStreetMap (Overpass API) amenities; transit stops from `data/amenities/transit_stops_statewide_co.geojson` (CDOT + agency GTFS; OpenStreetMap-only stops only as a flagged fallback) |
 | Land_Feasibility | Composite: parcel size adequacy + zoning compatibility + slope (terrain) + environmental constraint index | County assessor data, FEMA, USGS |
 | Competition_Risk | Inverse of: LIHTC saturation + pipeline density within 2-mile radius | HUD LIHTC database, CHFA ArcGIS |
 | Policy_Incentives | Prop 123 status + local inclusionary zoning rate + available subsidy programs | `data/prop123_jurisdictions.json`, DOLA |

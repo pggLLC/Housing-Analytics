@@ -10,7 +10,21 @@ OSM sources (built by scripts/amenities/build_osm_amenities.py):
   - data/amenities/healthcare_co.geojson    → type: "healthcare"
   - data/amenities/schools_co.geojson       → type: "school"
   - data/amenities/parks_co.geojson         → type: "park"
-  - data/amenities/transit_stops_co.geojson → type: "transit_stop"
+
+Transit (built by scripts/market/build_transit_stops_co.py):
+  - data/amenities/transit_stops_statewide_co.geojson → type: "transit_stop"
+    Selected by scripts/lib/transit_stops.py, the rule the ranking index
+    shares: confirmed public scheduled stops (CDOT and/or an agency GTFS feed;
+    no private shuttles, no demand-response), with transit_stop_basis
+    "confirmed". Every public, non-demand-response OpenStreetMap-only stop
+    is also published, with transit_stop_basis "openstreetmap_unconfirmed".
+    The fallback is decided per ANALYZED SITE, by the connector
+    (OsmAmenities, js/data-connectors/osm-amenities.js): a site is scored on
+    confirmed stops whenever one is within TRANSIT_FALLBACK_RADIUS_MILES, and
+    on OpenStreetMap-only stops only when none is. Choosing the fallback here,
+    around preselected place centroids, let a nearer unconfirmed stop outrank
+    a confirmed one at a site near such a centroid, and gave a site far from
+    every centroid no fallback at all (Codex on #1991).
 
 State registry sources:
   - data/market/hospitals_co.geojson        → type: "hospital"
@@ -32,11 +46,23 @@ Writes: data/derived/market-analysis/neighborhood_access.json
 """
 
 import json
+import math
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO_ROOT / "scripts" / "lib"))
+
+import transit_stops  # noqa: E402  (the one statewide stop-selection rule)
+
+TRANSIT_SOURCE = transit_stops.STATEWIDE_STOPS_REL
+# OsmAmenities.distanceToScore() gives a transit stop no credit beyond 2 miles,
+# so that is the range in which "no confirmed stop" would score a place 0.
+# tests/test_transit_stop_selection.py pins this to the connector.
+TRANSIT_FALLBACK_RADIUS_MILES = 2.0
+CENTROIDS_PATH = REPO_ROOT / "data" / "co-place-centroids.json"
+EARTH_RADIUS_MI = 3958.8  # the connector's haversine radius
 OUTPUT_DIR = REPO_ROOT / "data" / "derived" / "market-analysis"
 OUTPUT_PATH = OUTPUT_DIR / "neighborhood_access.json"
 
@@ -48,7 +74,7 @@ GEOJSON_SOURCES = {
     "data/amenities/healthcare_co.geojson":     "healthcare",
     "data/amenities/schools_co.geojson":        "school",
     "data/amenities/parks_co.geojson":          "park",
-    "data/amenities/transit_stops_co.geojson":  "transit_stop",
+    TRANSIT_SOURCE:                             "transit_stop",
     "data/market/hospitals_co.geojson":         "hospital",
     "data/market/childcare_co.geojson":         "childcare",
 }
@@ -143,6 +169,84 @@ def load_geojson(filepath: Path, amenity_type: str, registry: bool = False) -> l
     return records
 
 
+def _miles(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    dphi, dlam = math.radians(lat2 - lat1), math.radians(lon2 - lon1)
+    a = math.sin(dphi / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dlam / 2) ** 2
+    return EARTH_RADIUS_MI * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+
+def _transit_record(feat: dict, basis: str) -> dict:
+    """One transit_stop record. Unlike an OSM amenity, an unnamed statewide stop
+    is still a stop (CDOT/agency published, or the only one a fallback town
+    has), so it is kept under a label that says it has no name."""
+    lon, lat = feat["geometry"]["coordinates"][:2]
+    props = feat.get("properties") or {}
+    name = (props.get("name") or "").strip() or f"Unnamed stop ({props.get('agency') or 'agency not listed'})"
+    return {"type": "transit_stop", "name": name, "lat": round(lat, 6), "lon": round(lon, 6),
+            "transit_stop_basis": basis}
+
+
+def load_centroids(path: Path = CENTROIDS_PATH) -> dict[str, dict]:
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    return {str(g).zfill(7): c for g, c in sorted((doc.get("byGeoid") or {}).items())
+            if isinstance(c.get("lat"), (int, float)) and isinstance(c.get("lng"), (int, float))}
+
+
+def place_transit_bases(stops: dict[str, list[dict]], centroids: dict[str, dict]) -> dict[str, str]:
+    """{place geoid: transit_stop_basis} at each place centroid, via the shared
+    rule — the basis the connector's per-site rule picks at that point."""
+    confirmed = transit_stops.points(stops[transit_stops.BASIS_CONFIRMED])
+    osm = transit_stops.points(stops[transit_stops.BASIS_OSM_FALLBACK])
+    return {
+        geoid: transit_stops.basis_for_point(c["lat"], c["lng"], TRANSIT_FALLBACK_RADIUS_MILES,
+                                             confirmed, osm, _miles)
+        for geoid, c in centroids.items()
+    }
+
+
+def load_transit(path: Path, centroids: dict[str, dict]) -> tuple[list[dict], dict]:
+    """(transit_stop records, meta.transit). Every confirmed stop, and every
+    public OpenStreetMap-only stop flagged as unconfirmed; the connector picks
+    between them per analyzed site."""
+    stops = transit_stops.load_stops(path)
+    records = [_transit_record(f, transit_stops.BASIS_CONFIRMED) for f in stops[transit_stops.BASIS_CONFIRMED]]
+    records += [_transit_record(f, transit_stops.BASIS_OSM_FALLBACK) for f in stops[transit_stops.BASIS_OSM_FALLBACK]]
+    # Informational: what the per-site rule gives at each place centroid.
+    bases = place_transit_bases(stops, centroids)
+    counts = {b: sum(1 for v in bases.values() if v == b) for b in transit_stops.BASES}
+    r = TRANSIT_FALLBACK_RADIUS_MILES
+    osm_pts = transit_stops.points(stops[transit_stops.BASIS_OSM_FALLBACK])
+    meta = {
+        "source": TRANSIT_SOURCE,
+        "selection": "scripts/lib/transit_stops.py",
+        "rule": ("Records: confirmed public scheduled stops (reliability confirmed; not private_shuttle; "
+                 "not demand_response) with transit_stop_basis 'confirmed', and OpenStreetMap-only public "
+                 "stops (not private_shuttle; not demand_response) with transit_stop_basis "
+                 "'openstreetmap_unconfirmed'. Scoring (js/data-connectors/osm-amenities.js), per analyzed "
+                 "site: the nearest confirmed stop when one is within fallback_radius_miles; otherwise the "
+                 "nearest OpenStreetMap-only stop when one is, flagged as unconfirmed; otherwise the "
+                 "nearest confirmed stop, out of range."),
+        "stops_content_sha256": transit_stops.content_fingerprint(path),
+        "fallback_radius_miles": r,
+        "records_by_basis": {
+            transit_stops.BASIS_CONFIRMED: len(stops[transit_stops.BASIS_CONFIRMED]),
+            transit_stops.BASIS_OSM_FALLBACK: len(stops[transit_stops.BASIS_OSM_FALLBACK]),
+        },
+        "places_by_basis": counts,
+        "fallback_places": [
+            {
+                "geoid": g,
+                "name": centroids[g].get("name"),
+                "openstreetmap_stops": sum(1 for lat, lon in osm_pts
+                                           if _miles(centroids[g]["lat"], centroids[g]["lng"], lat, lon) <= r),
+            }
+            for g in sorted(g for g, b in bases.items() if b == transit_stops.BASIS_OSM_FALLBACK)
+        ],
+    }
+    return records, meta
+
+
 def build(output_path: Path) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc).isoformat()
@@ -154,10 +258,14 @@ def build(output_path: Path) -> None:
 
     # Track which categories got live data
     live_types: set[str] = set()
+    transit_meta = None
 
     for rel_path, amenity_type in GEOJSON_SOURCES.items():
         registry = rel_path in REGISTRY_SOURCES
-        records = load_geojson(REPO_ROOT / rel_path, amenity_type, registry=registry)
+        if rel_path == TRANSIT_SOURCE:
+            records, transit_meta = load_transit(REPO_ROOT / rel_path, load_centroids())
+        else:
+            records = load_geojson(REPO_ROOT / rel_path, amenity_type, registry=registry)
         if records:
             (registry_amenities if registry else osm_amenities).extend(records)
             live_types.add(amenity_type)
@@ -200,17 +308,20 @@ def build(output_path: Path) -> None:
             "generated": now,
             "source": (
                 "OpenStreetMap Overpass API + seed fallback; "
+                "statewide transit stops (CDOT + agency GTFS; OpenStreetMap-only as a flagged fallback); "
                 "HIFLD/CDPHE hospitals; CDHS licensed child care facilities"
             ),
             "sources_detail": sources_used,
             "note": (
                 f"Includes {', '.join(amenity_types)}. "
                 "Refresh sources with scripts/amenities/build_osm_amenities.py, "
+                "scripts/market/build_transit_stops_co.py, "
                 "scripts/market/fetch_hospitals.py and scripts/market/fetch_childcare.py, "
                 "then rerun this script."
             ),
             "record_count": len(deduped),
             "amenity_types": amenity_types,
+            "transit": transit_meta,
         },
         "amenities": deduped,
     }

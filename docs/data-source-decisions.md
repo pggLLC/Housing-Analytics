@@ -201,7 +201,7 @@ incorporated:
 | CDPHE Trauma Centers | (within `data/market/hospitals_co.geojson`) | Healthcare amenity layer |
 | CDPHE County Boundaries | `data/market/cdphe_county_boundaries_co.geojson` | Independent boundary source for cross-validation |
 | TIGER (Census Bureau boundaries) | `data/co-county-boundaries.json`, `data/boundaries/counties_co.geojson`, `data/market/tract_boundaries_co.geojson` | Primary boundary source |
-| OpenStreetMap (via Overpass) | `data/amenities/*.geojson` | Grocery, healthcare, parks, retail nodes, schools, transit stops |
+| OpenStreetMap (via Overpass) | `data/amenities/*.geojson` | Grocery, healthcare, parks, retail nodes, schools; transit stops only as an input to the statewide stop file (`data/amenities/transit_stops_statewide_co.geojson`, CDOT + agency GTFS first), which is what transit amenity scoring reads |
 | Zillow ZHVI/ZORI | `data/zillow*.json` | Home value + rent indices |
 | Bridge | (real-time API; no committed file) | Land cost / market velocity |
 

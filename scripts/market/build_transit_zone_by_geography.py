@@ -90,9 +90,12 @@ class StopIndex:
         self.cells: dict[tuple[int, int], list] = {}
         for f in features:
             # Private airport/hotel shuttle pickups are mapped but are not
-            # public transit: they never count toward the screen (same rule
-            # as js/transit-zone.js and the TOD check).
-            if (f.get("properties") or {}).get("operator") == "private_shuttle":
+            # public transit, and on-demand (GTFS-Flex) stops are not a
+            # defined route (owner decision 2026-09-27): neither counts
+            # toward the screen. Same rule as scripts/lib/transit_stops.py,
+            # js/transit-zone.js and the TOD check.
+            props = f.get("properties") or {}
+            if props.get("operator") == "private_shuttle" or props.get("service") == "demand_response":
                 continue
             lon, lat = f["geometry"]["coordinates"][:2]
             key = (math.floor(lon / CELL_DEG), math.floor(lat / CELL_DEG))
@@ -544,7 +547,8 @@ def main() -> int:
                        "geography) lying within the radius of a stop, straight-line. 'confirmed' "
                        "means CDOT or an agency feed publishes the stop; 'any' also counts "
                        "OpenStreetMap-only stops. Private airport/hotel shuttle pickups are "
-                       "excluded: they are not public transit. Nearest stop is measured from a "
+                       "excluded: they are not public transit. So are demand-response "
+                       "(on-demand, GTFS-Flex) stops: they are not a defined route. Nearest stop is measured from a "
                        "point inside the geography (its centre when that lies inside). When no "
                        "sample is within the radius, nearest_confirmed_stop_to_boundary_miles "
                        "gives the exact distance from the boundary, so a zero is proven, not sampled. "
