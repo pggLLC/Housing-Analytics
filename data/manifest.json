@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-27T10:04:53.326776Z",
+  "generated": "2026-09-27T10:14:27.875037Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4504,7 +4504,7 @@
     "data/hna/projections/places.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 846230
+      "bytes": 846224
     },
     "data/hna/ranking-index.json": {
       "featureCount": 0,
