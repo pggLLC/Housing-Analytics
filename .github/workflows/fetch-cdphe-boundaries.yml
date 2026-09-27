@@ -48,7 +48,7 @@ jobs:
       - name: Simplify changed browser map geometry
         run: |
           if ! git diff --quiet -- data/market/cdphe_county_boundaries_co.geojson; then
-            node scripts/simplify-geojson.mjs --input data/market/cdphe_county_boundaries_co.geojson --keep 20 --fields county_fips5,county_name
+            node scripts/simplify-geojson.mjs --input data/market/cdphe_county_boundaries_co.geojson --keep 20 --fields county_fips5,county_name --if-geometry-changed
           fi
 
       - name: Install pytest (plausibility check dependency)

@@ -276,10 +276,10 @@ jobs:
       - name: Simplify changed browser map geometry
         run: |
           if ! git diff --quiet -- data/market/transit_routes_co.geojson; then
-            node scripts/simplify-geojson.mjs --input data/market/transit_routes_co.geojson --keep 1.5 --fields agency,route_type,shape_id --no-repair
+            node scripts/simplify-geojson.mjs --input data/market/transit_routes_co.geojson --keep 1.5 --fields agency,route_type,shape_id --no-repair --if-geometry-changed
           fi
           if ! git diff --quiet -- data/market/opportunity_zones_co.geojson; then
-            node scripts/simplify-geojson.mjs --input data/market/opportunity_zones_co.geojson --keep 20 --fields county_fips,designated,geoid
+            node scripts/simplify-geojson.mjs --input data/market/opportunity_zones_co.geojson --keep 20 --fields county_fips,designated,geoid --if-geometry-changed
           fi
 
       # ── Ranking index copy of the transit zone share (#1971) ──────────
