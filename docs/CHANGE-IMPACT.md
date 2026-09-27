@@ -139,6 +139,42 @@ find . \( -path ./node_modules -o -path ./.git \) -prune -o \( -name "* [0-9].*"
 
 They reach `.git/refs` too, where they break plain git commands mid-operation.
 
+### Transit data (#1937)
+
+| You changed | Also update | Gate |
+|---|---|---|
+| `scripts/market/build_transit_stops_co.py` or its sources | regenerate `data/amenities/transit_stops_statewide_co.geojson` **and** `data/market/transit_stops_coverage_co.json` together (one run writes both) | `pytest tests/test_transit_stops_statewide.py` (report must agree with the stop file) |
+| the statewide stop file's shape (property names) | `js/market-analysis.js` TOD check (`reliability`), `data-map-browser.html` popup, `js/data-source-inventory.js` entry | `npm run test:qap-tod-points`, `npm run test:data-source-inventory-paths` |
+| `data/amenities/transit_stops_co.geojson` (OpenStreetMap) | nothing directly: it is an input to the statewide file, where its stops are marked `unconfirmed`. It still feeds `build_ranking_index.py` and `build_neighborhood_access.py` until #1937 Phase 3 | `pytest tests/test_transit_stops_statewide.py` |
+| `data/market/transit_routes_co.geojson` | nothing; the fetcher drops routes with no vertex in Colorado | `pytest tests/test_data_plausibility.py -k touch_colorado` |
+| CDOT or agency-feed failures | nothing: a failed CDOT request exits non-zero and leaves the file untouched | `npm run test:required-fetch-preserves-data` |
+
+The TOD panel uses only the statewide file, which already incorporates
+OpenStreetMap stops with their reliability and operator classification. An
+unloaded or failed file means the site has not been checked; the older
+unclassified amenity file cannot substitute for it. `test:qap-tod-points`
+exercises loading, failure, private-only and public-stop cases.
+
+CDOT keeps its position and stop name. Missing agency names may be filled
+from matching feeds within 30 m: prefer agreement on both stop ID and name,
+otherwise require all matching named feeds to agree on the agency. Ambiguous
+or unmatched rows remain unnamed. The coverage report's `cdot_gaps.dropped_rows`
+carries each rejected source row's ID, name, agency, coordinates and reason.
+The county floors and major-agency checks live in `tests/test_data_plausibility.py`
+so the QA status generator runs them as well as PR CI.
+
+The statewide source's `maxAgeDays` in `js/data-source-inventory.js` is the
+canonical freshness window. `scripts/audit/data-freshness-check.mjs` reads it
+for both the stop file and its paired coverage report; `test:transit-stops-consumers`
+checks that agreement and runs the data-map popup against the committed stops.
+
+Colorado Mountain Express publishes its GTFS agency name as **Epic Mountain
+Express**, its [current brand](https://www.epicmountainexpress.com/history).
+Both names normalize to that private operator; the public **Mountain Express**
+service remains separate. In the 2026-09-27 source check, all 26 Epic feed rows
+matched CDOT points within 30 m, so none added a separate feed-only stop. Zero
+new points is not evidence that the operator or its feed is absent.
+
 ---
 
 ## 5. Adding or removing a file

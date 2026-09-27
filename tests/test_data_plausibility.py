@@ -396,6 +396,33 @@ def test_ranking_ami_source_flag_present(ranking):
 
 # ── Transit coverage plausibility ───────────────────────────────────
 
+def test_statewide_transit_stops_county_floors():
+    """QA status must detect the rural coverage losses OSM alone concealed."""
+    from collections import Counter
+    # Conservative floors below the initial CDOT-first build, including
+    # Mesa (418 stops) and Weld (325), not counts derived from today's file.
+    floors = {'08097': 150, '08113': 80, '08085': 80, '08045': 60,
+              '08067': 100, '08119': 20, '08047': 10, '08007': 15,
+              '08031': 2000, '08077': 300, '08123': 200}
+    path = os.path.join(REPO_ROOT, 'data/amenities/transit_stops_statewide_co.geojson')
+    with open(path, encoding='utf-8') as fh:
+        features = json.load(fh)['features']
+    counts = Counter(f['properties']['county_fips'] for f in features)
+    short = {fips: counts[fips] for fips, floor in floors.items() if counts[fips] < floor}
+    assert not short, f'county stop counts below plausibility floors: {short}'
+
+
+def test_statewide_transit_stops_major_agencies():
+    path = os.path.join(REPO_ROOT, 'data/amenities/transit_stops_statewide_co.geojson')
+    with open(path, encoding='utf-8') as fh:
+        features = json.load(fh)['features']
+    agencies = {f['properties']['agency'] for f in features}
+    needed = {'RTD', 'Mountain Metropolitan Transit', 'Transfort', 'Pueblo Transit',
+              'Roaring Fork Transportation Authority', 'Grand Valley Transit',
+              'Greeley-Evans Transit', 'Durango Transit', 'Summit Stage', 'Bustang Outrider'}
+    assert needed <= agencies, f'major statewide stop agencies missing: {sorted(needed - agencies)}'
+
+
 def test_transit_routes_minimum_agency_coverage():
     """transit_routes_co.geojson must include ≥30 distinct agencies.
 

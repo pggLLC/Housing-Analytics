@@ -3533,7 +3533,7 @@
     lihtc:             { src: null, style: null },                                                           // handled by initOverlayLayers
     sma:               { src: 'co-county-boundaries.json',                    style: { color: '#6366f1', weight: 1, fillOpacity: 0.05 } },
     transit:           { src: 'market/transit_routes_co.geojson',              style: { color: '#0ea5e9', weight: 2, opacity: 0.7 } },
-    transitStops:      { src: 'amenities/transit_stops_co.geojson',            siteRadius: true,
+    transitStops:      { src: 'amenities/transit_stops_statewide_co.geojson',  siteRadius: true,
                          pointStyle: { radius: 4, fillColor: '#0ea5e9', color: '#fff', weight: 1, fillOpacity: 0.8 } },
     // Stays on the NCES file deliberately. data/amenities/schools_co.geojson has
     // 2,944 features to this one's 1,941, but it is OSM-derived and carries only
@@ -4474,7 +4474,28 @@
    * Find transit stops within ½ mile and render as highlighted markers.
    * Also counts them for the TOD score panel.
    */
-  function _highlightTodTransit(lat, lon, radiusM) {
+  var _todStopsRequested = false;
+  function _requestTodStops(radiusM) {
+    if (_todStopsRequested || _rawLayerData['transitStops']) return;
+    _todStopsRequested = true;
+    var DS = window.DataService;
+    var src = LAYER_CONFIG.transitStops.src;
+    var url = (DS && typeof DS.baseData === 'function') ? DS.baseData(src) : ('data/' + src);
+    var p = (DS && typeof DS.getJSON === 'function')
+      ? DS.getJSON(url)
+      : fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+    p.then(function (gj) {
+      if (!gj || !Array.isArray(gj.features)) throw new Error('no features');
+      if (!_rawLayerData['transitStops']) _rawLayerData['transitStops'] = gj;
+      if (siteLatLng) _highlightTodTransit(siteLatLng.lat, siteLatLng.lon, radiusM);
+    }).catch(function (err) {
+      _todStopsRequested = false;   // allow a retry on the next site
+      console.warn('[market-analysis] statewide transit stops unavailable for the TOD check:', err);
+      if (siteLatLng) _highlightTodTransit(siteLatLng.lat, siteLatLng.lon, radiusM, true);
+    });
+  }
+
+  function _highlightTodTransit(lat, lon, radiusM, loadFailed) {
     var L = window.L;
     if (!L) return;
     if (todMarkers) map.removeLayer(todMarkers);
@@ -4487,14 +4508,25 @@
     // Check the cached statewide stop file first. Not the rendered layer:
     // that is trimmed to the previous analysis site (_scopeToSite), so for a
     // new site it could hold none of the nearby stops and report "none".
+    // The statewide file loads with the Transit Stops layer; if the layer has
+    // not been opened, fetch it once and re-run this check when it arrives.
+    // The statewide file already includes unconfirmed OSM stops. The older
+    // amenities file has no operator classification and cannot safely fill
+    // in for it: it could reintroduce a private shuttle we just excluded.
     var rawStops = _rawLayerData['transitStops'];
+    if (!rawStops && !loadFailed) _requestTodStops(radiusM);
+    var unconfirmedCount = 0;
     if (rawStops && Array.isArray(rawStops.features)) {
       stopDataChecked = true;
       rawStops.features.forEach(function (f) {
         var c = f && f.geometry && f.geometry.type === 'Point' ? f.geometry.coordinates : null;
         if (!c || typeof c[0] !== 'number' || typeof c[1] !== 'number') return;
+        // Private airport/hotel shuttle pickups are mapped, but they are not
+        // public transit, so they do not count toward TOD points.
+        if (f.properties && f.properties.operator === 'private_shuttle') return;
         if (haversine(lat, lon, c[1], c[0]) <= halfMile) {
           count++;
+          if (f.properties && f.properties.reliability === 'unconfirmed') unconfirmedCount++;
           L.circleMarker([c[1], c[0]], {
             pane: 'pointsPane',
             radius: 7, fillColor: '#facc15', color: '#0ea5e9',
@@ -4504,28 +4536,6 @@
           ).addTo(todMarkers);
         }
       });
-    }
-
-    // Also check the neighborhood_access / OSM amenities data.
-    // getWithinRadius returns null when that data is not loaded, which is
-    // different from an empty list: only a real search can report "none".
-    if (!count) {
-      var amenities = window.OsmAmenities;
-      if (amenities && typeof amenities.getWithinRadius === 'function') {
-        var nearby = amenities.getWithinRadius(lat, lon, 'transit_stop', halfMile);
-        if (nearby) stopDataChecked = true;
-        if (nearby && nearby.length) {
-          nearby.forEach(function (a) {
-            count++;
-            L.circleMarker([a.lat, a.lon], {
-              pane: 'pointsPane',
-              radius: 7, fillColor: '#facc15', color: '#0ea5e9',
-              weight: 2, fillOpacity: 0.9
-            }).bindTooltip(a.name || 'Transit stop', { sticky: true, className: 'pma-tooltip' })
-             .addTo(todMarkers);
-          });
-        }
-      }
     }
 
     // Update TOD panel.
@@ -4549,7 +4559,18 @@
                        ' (' + QAP_TOD.section + '); the ' + QAP_TOD.draftPlan + ' proposes ' +
                        QAP_TOD.draftPoints + ' and adds TOC sites.';
       var iconColor, iconSym, headline, detail;
-      if (eligible) {
+      if (eligible && unconfirmedCount === count) {
+        // Only OpenStreetMap stops, which neither CDOT nor an agency feed
+        // publishes: a lead to check, not a finding.
+        iconColor = 'var(--warn,#d97706)';
+        iconSym   = '?';
+        headline  = 'Possible TOD site — unconfirmed stop only';
+        detail    = count + ' stop' + (count !== 1 ? 's' : '') + ' within ½ mile ' +
+                    'appear only in OpenStreetMap; neither CDOT nor the transit ' +
+                    'agency lists ' + (count !== 1 ? 'them' : 'it') + '. Confirm ' +
+                    'service with the agency before counting ' + QAP_TOD.section +
+                    ' points. ' + pointsNote;
+      } else if (eligible) {
         iconColor = 'var(--good,#16a34a)';
         iconSym   = '✓';
         headline  = 'Likely TOD site — ' + QAP_TOD_POINTS_LABEL;
@@ -4560,9 +4581,9 @@
         iconColor = 'var(--muted,#6b7280)';
         iconSym   = '?';
         headline  = 'Transit check unavailable';
-        detail    = 'Transit stop data has not loaded, so this site could ' +
-                    'not be checked. Reload the page or turn on the transit ' +
-                    'stops layer.';
+        detail    = loadFailed
+          ? 'The statewide transit stop file could not be loaded. This site has not been checked. Reload the page or turn on the transit stops layer to retry.'
+          : 'The statewide transit stop file is still loading. This site has not been checked; the result will update when the file arrives.';
       } else if (isRural) {
         iconColor = 'var(--warn,#d97706)';
         iconSym   = 'ℹ';
@@ -4575,9 +4596,10 @@
         iconColor = 'var(--bad,#dc2626)';
         iconSym   = '✗';
         headline  = 'No transit stop found within ½ mile';
-        detail    = 'No stop within ½ mile in the stop data. That data is ' +
-                    'incomplete outside the Front Range, so check the transit ' +
-                    'agency\'s map before ruling out ' + QAP_TOD.section + ' points.';
+        detail    = 'No stop within ½ mile in the statewide stop data (CDOT, ' +
+                    'agency feeds and OpenStreetMap). A new or seasonal stop ' +
+                    'can be missing, so check the transit agency\'s map before ' +
+                    'ruling out ' + QAP_TOD.section + ' points.';
       }
       todContent.innerHTML =
         '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">' +
