@@ -113,14 +113,21 @@ let failures = 0;
 let passed = 0;
 const covered = {};       // surface -> conditions checked
 async function check(surface, condition, fn) {
+  // A case that never settles must fail by name. Without the limit, node exits
+  // on the unsettled await with code 13 and no word about which case hung.
+  let limit;
   try {
-    await fn();
+    await Promise.race([fn(), new Promise((_, reject) => {
+      limit = setTimeout(() => reject(new Error('did not finish within 10 s: something it waits on never answers')), 10000);
+    })]);
     (covered[surface] = covered[surface] || []).push(condition);
     passed += 1;
     console.log(`  ✓ ${surface}: ${condition}`);
   } catch (e) {
     failures += 1;
     console.log(`  ✗ ${surface}: ${condition} — ${e.message}`);
+  } finally {
+    clearTimeout(limit);
   }
 }
 
@@ -409,12 +416,14 @@ async function renderStudy(geoid, now, { fail = {}, noHelper } = {}) {
   const dom = new JSDOM('<!doctype html><div id="m"></div>', { runScripts: 'outside-only' });
   const w = dom.window;
   w.fetch = (url) => {
+    if (fail[url] === 'hang') return new Promise(() => {});
     if (fail[url] === 'reject') return Promise.reject(new Error('offline'));
     if (fail[url] === 404) return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null) });
     return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(json(url)) });
   };
   if (!noHelper) w.eval(read('js/transit-zone.js'));
   w.eval(read(STUDY));
+  w.StudyTransitZone.timeoutMs = 30;   // a hung fetch gives up in 30 ms, not 20 s
   const mount = w.document.getElementById('m');
   const out = await w.StudyTransitZone.render(mount, geoid, now);
   return { out, mount };
@@ -426,6 +435,8 @@ for (const [condition, geoid, now, o] of [
   ['render: area data 404', PLACE, FRESH_AREA, { fail: { [AREA]: 404 } }],
   ['render: map-status fetch failed, area data stale', PLACE, STALE_AREA, { fail: { [STATUS]: 'reject' } }],
   ['render: both fetches failed', PLACE, FRESH_AREA, { fail: { [AREA]: 'reject', [STATUS]: 'reject' } }],
+  ['render: area data fetch never answers', PLACE, FRESH_AREA, { fail: { [AREA]: 'hang' } }],
+  ['render: both fetches never answer', PLACE, FRESH_AREA, { fail: { [AREA]: 'hang', [STATUS]: 'hang' } }],
   ['render: helper script missing', PLACE, FRESH_AREA, { noHelper: true }],
   ['render: example study, no jurisdiction', null, FRESH_AREA, {}],
 ]) {
@@ -455,21 +466,23 @@ await check(STUDY, 'render: map-status fetch failed (area data fresh)', async ()
 // section's initial text is the "Checking…" placeholder; the page must
 // replace it with "Unavailable." and a reason, never leave it waiting.
 const FSMS = 'for-sale-market-study.html';
-async function runStudyPage({ noHelper, noStudy, study, area } = {}) {
+async function runStudyPage({ noHelper, noStudy, study, area, hangJurisdiction, hangData, timeoutMs = 30 } = {}) {
   const dom = new JSDOM(read(FSMS), { runScripts: 'outside-only', url: 'http://127.0.0.1/for-sale-market-study.html' });
   const w = dom.window;
   w.fetch = (url) => {
     const rel = String(url).replace(/^https?:\/\/[^/]+\//, '').split('?')[0];
+    if (hangData && (rel === AREA || rel === STATUS)) return new Promise(() => {});
     if (rel === AREA && area) return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(area) });
     if (!fs.existsSync(path.join(ROOT, rel))) return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null) });
     return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(json(rel)) });
   };
-  w.JurisdictionUrlContext = { resolve: () => Promise.resolve({ geoid: PLACE }) };
+  w.JurisdictionUrlContext = { resolve: () => (hangJurisdiction ? new Promise(() => {}) : Promise.resolve({ geoid: PLACE })) };
   w.StudyGeography = { resolve: () => ({ geoid: PLACE }) };
   w.marketStudyLandModelsReady = new Promise(() => {});   // the study body is not under test
   if (!noHelper) w.eval(read('js/transit-zone.js'));
   if (study) w.StudyTransitZone = study;
   else if (!noStudy) w.eval(read(STUDY));
+  if (w.StudyTransitZone && !study) w.StudyTransitZone.timeoutMs = timeoutMs;   // hung calls give up fast in tests
   const mount = w.document.getElementById('msTransitZoneContent');
   assert.match(mount.textContent, /Checking/, 'fixture: the page lost its "Checking…" placeholder — update this sweep');
   const loader = [...w.document.querySelectorAll('script:not([src])')]
@@ -483,9 +496,11 @@ async function runStudyPage({ noHelper, noStudy, study, area } = {}) {
   try {
     w.eval(loader[0]);
     w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
-    for (let i = 0; i < 200 && !mount.getAttribute('data-tz-state'); i += 1) {
+    const started = Date.now();
+    for (let i = 0; i < 600 && !mount.getAttribute('data-tz-state'); i += 1) {
       await new Promise((r) => setTimeout(r, 5));
     }
+    mount.elapsedMs = Date.now() - started;
     await new Promise((r) => setTimeout(r, 5));
   } finally {
     process.off('unhandledRejection', onEscape);
@@ -499,6 +514,8 @@ for (const [condition, opts] of [
   ['page: js/transit-zone.js missing', { noHelper: true }],
   ['page: the screen throws', { study: { render: () => { throw new Error('boom'); } } }],
   ['page: the screen rejects', { study: { render: () => Promise.reject(new Error('boom')) } }],
+  ['page: the transit data never answers', { hangData: true }],
+  ['page: the jurisdiction lookup and the data never answer', { hangJurisdiction: true, hangData: true }],
 ]) {
   await check(STUDY, condition, async () => {
     const mount = await runStudyPage(opts);
@@ -514,6 +531,20 @@ await check(STUDY, 'page: fixture — both scripts and fresh data do answer', as
   const mount = await runStudyPage({ area: fresh });
   assert.equal(mount.getAttribute('data-tz-state'), 'ok', `did not answer: ${mount.textContent}`);
   assert.match(mount.querySelector('[data-tz="share"]').textContent, /\d+%/);
+});
+await check(STUDY, 'page: one time limit covers the lookup and the data together', async () => {
+  // With both stalled, the waits must overlap: about one limit, not two back
+  // to back (the #1987 review). 500 ms each way leaves room for a slow runner.
+  const mount = await runStudyPage({ hangJurisdiction: true, hangData: true, timeoutMs: 500 });
+  assert.equal(mount.getAttribute('data-tz-state'), 'unavailable', `still showing: ${mount.textContent}`);
+  assert.ok(mount.elapsedMs < 900, `the section waited ${mount.elapsedMs} ms: the lookup and data limits ran one after the other`);
+});
+await check(STUDY, 'page: a jurisdiction lookup that never answers does not hold the section', async () => {
+  // The screen goes ahead with the geography the URL names once its time
+  // limit passes, and still answers from fresh data.
+  const fresh = Object.assign({}, byGeo, { meta: Object.assign({}, byGeo.meta, { stops_generated: new Date(Date.now() - DAY).toISOString() }) });
+  const mount = await runStudyPage({ area: fresh, hangJurisdiction: true });
+  assert.equal(mount.getAttribute('data-tz-state'), 'ok', `did not answer: ${mount.textContent}`);
 });
 
 // ── recommendation.html + js/workflow/recommendation-contract.js ───────────
