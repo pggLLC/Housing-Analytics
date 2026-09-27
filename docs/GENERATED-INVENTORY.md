@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T11:08:30.322Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T11:18:40.728Z. Do not edit by hand.
 
 ---
 
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-454 test files found.
+455 test files found.
 
 | File | Size |
 |------|------|
@@ -2123,6 +2123,7 @@
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.3 KB |
 | `test/transit-stops-consumers.test.js` | 6.2 KB |
+| `test/transit-zone-absence.test.mjs` | 21.7 KB |
 | `test/transit-zone-funding-line.test.js` | 16.6 KB |
 | `test/transit-zone.test.js` | 14.0 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
