@@ -316,6 +316,46 @@ run('the email subject gives repo-health blockers precedence over a nominally cl
     'deployment trouble must take precedence over an otherwise clean issue summary');
 });
 
+run('the report keeps pre-repo-health status when repository health was not collected', () => {
+  const html = buildHtmlReport({
+    summary: { critical: 0, high: 1, medium: 0, low: 0, total: 1, linkChecks: 5 },
+    allIssues: [{
+      severity: 'high',
+      file: 'x',
+      type: 'logic',
+      description: 'High-priority finding',
+      expected: '',
+      actual: '',
+      recommendation: '',
+    }],
+    comparison: { newIssues: [], resolvedIssues: [], persistentIssues: [] },
+    priorDate: null,
+    trend: [],
+    runDurationMs: 1000,
+    auditHealth: {
+      totalChecks: 1,
+      passed: 0,
+      failed: 1,
+      skipped: 0,
+      unavailable: 0,
+      criticalFailures: 0,
+      criticalUnavailable: 0,
+      internalErrors: [],
+      workflowRunUrl: '',
+      checks: [{ name: 'Logic & Methodology Validation', critical: true, status: 'failed', summary: '1 finding' }],
+    },
+  });
+  const subject = buildEmailSubject({
+    summary: { critical: 0, high: 1, medium: 0, low: 0, total: 1 },
+    auditHealth: { criticalUnavailable: 0 },
+    reportDate: new Date('2026-09-27T00:00:00Z'),
+  });
+  assert.doesNotMatch(html, /🔴 Repo Health Alert/,
+    'missing repo-health data must not be treated as a blocked deploy');
+  assert.match(subject, /^🟠 Housing Analytics Audit — 1 High Priority Issue/,
+    'without repo-health data the subject should fall back to the issue-based wording');
+});
+
 console.log(failures === 0
   ? '  all daily-audit-signal guards passed'
   : '  ' + failures + ' guard(s) failed');

@@ -204,7 +204,7 @@ function buildRepositoryHealthSection(repoHealth) {
                         .concat(pulls.staleReviews || [])
                         .concat(pulls.conflicts || [])
                         .concat(pulls.inactive || []),
-                    pr => `<li style="margin-bottom:6px;"><a href="${escHtml(pr.html_url || '')}">PR #${escHtml(pr.number)} — ${escHtml(pr.title || '')}</a></li>`,
+                    pr => `<li style="margin-bottom:6px;"><a href="${escHtml(pr.html_url || pr.url || '')}">PR #${escHtml(pr.number)} — ${escHtml(pr.title || '')}</a></li>`,
                     'No PRs need triage.'
                 )}
             </div>
@@ -226,8 +226,9 @@ function buildRepositoryHealthSection(repoHealth) {
 }
 
 function buildOverallStatus(summary, auditHealth, repoHealth) {
-    const deployBlocked = !repoHealth || !repoHealth.actions || !repoHealth.actions.lastSuccessfulDeploy ||
-        (repoHealth.actions.recentDeployFailures || []).length > 0;
+    const hasDeployStatus = !!(repoHealth && repoHealth.actions);
+    const deployBlocked = hasDeployStatus &&
+        (!repoHealth.actions.lastSuccessfulDeploy || (repoHealth.actions.recentDeployFailures || []).length > 0);
     if ((auditHealth && (auditHealth.criticalFailures > 0 || auditHealth.criticalUnavailable > 0)) || summary.critical > 0 || deployBlocked) {
         return '<div style="background:#f8d7da;color:#721c24;padding:16px 24px;border-radius:8px;font-size:22px;font-weight:bold;margin-bottom:24px;">🔴 Repo Health Alert</div>';
     }
@@ -242,8 +243,9 @@ function buildOverallStatus(summary, auditHealth, repoHealth) {
 
 function buildEmailSubject({ summary, auditHealth, repoHealth, reportDate = new Date() }) {
     const stamp = reportDate.toDateString();
-    const deployBlocked = !repoHealth || !repoHealth.actions || !repoHealth.actions.lastSuccessfulDeploy ||
-        (repoHealth.actions.recentDeployFailures || []).length > 0;
+    const hasDeployStatus = !!(repoHealth && repoHealth.actions);
+    const deployBlocked = hasDeployStatus &&
+        (!repoHealth.actions.lastSuccessfulDeploy || (repoHealth.actions.recentDeployFailures || []).length > 0);
     if ((auditHealth && auditHealth.criticalUnavailable > 0) || deployBlocked) {
         return `🔴 DEPLOY BLOCKED — Housing Analytics Audit — ${stamp}`;
     }

@@ -50,6 +50,27 @@ async function githubJson(apiPath, token) {
     return res.json();
 }
 
+async function githubGraphql(query, variables, token) {
+    const base = process.env.GITHUB_API_URL || 'https://api.github.com';
+    const url = process.env.GITHUB_GRAPHQL_URL || `${base}/graphql`;
+    const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+            ...githubHeaders(token),
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query, variables }),
+    });
+    if (!res.ok) {
+        throw new Error(`graphql returned HTTP ${res.status}`);
+    }
+    const data = await res.json();
+    if (data.errors && data.errors.length > 0) {
+        throw new Error(data.errors.map(error => error.message).join('; '));
+    }
+    return data.data;
+}
+
 function parseScheduledWorkflows() {
     if (!fs.existsSync(WORKFLOWS_DIR)) return [];
     return fs.readdirSync(WORKFLOWS_DIR)
@@ -169,6 +190,13 @@ async function collectActionsHealth(owner, repo, token) {
 
     const workflowsResponse = await githubJson(`/repos/${owner}/${repo}/actions/workflows?per_page=100`, token);
     const workflowByPath = new Map((workflowsResponse.workflows || []).map(workflow => [workflow.path, workflow]));
+    const recentScheduledRuns = await githubJson(`/repos/${owner}/${repo}/actions/runs?branch=main&event=schedule&per_page=100`, token);
+    const latestScheduledByWorkflowId = new Map();
+    for (const run of (recentScheduledRuns.workflow_runs || [])) {
+        if (!latestScheduledByWorkflowId.has(run.workflow_id)) {
+            latestScheduledByWorkflowId.set(run.workflow_id, run);
+        }
+    }
     const scheduled = parseScheduledWorkflows();
     const overdue = [];
     const unsupportedSchedules = [];
@@ -185,8 +213,11 @@ async function collectActionsHealth(owner, repo, token) {
         }
         const remote = workflowByPath.get(workflow.path);
         if (!remote || remote.state !== 'active') continue;
-        const runs = await githubJson(`/repos/${owner}/${repo}/actions/workflows/${remote.id}/runs?branch=main&event=schedule&per_page=1`, token);
-        const lastRun = (runs.workflow_runs || [])[0];
+        let lastRun = latestScheduledByWorkflowId.get(remote.id) || null;
+        if (!lastRun) {
+            const runs = await githubJson(`/repos/${owner}/${repo}/actions/workflows/${remote.id}/runs?branch=main&event=schedule&per_page=1`, token);
+            lastRun = (runs.workflow_runs || [])[0] || null;
+        }
         if (!lastRun) {
             overdue.push({
                 name: workflow.name,
@@ -282,34 +313,50 @@ async function collectActionsHealth(owner, repo, token) {
 }
 
 async function collectPullRequestHealth(owner, repo, token) {
-    const pulls = await githubJson(`/repos/${owner}/${repo}/pulls?state=open&per_page=100&sort=updated&direction=desc`, token);
+    const data = await githubGraphql(`
+        query RepoHealthPullRequests($owner: String!, $repo: String!, $count: Int!) {
+          repository(owner: $owner, name: $repo) {
+            pullRequests(states: OPEN, first: $count, orderBy: { field: UPDATED_AT, direction: DESC }) {
+              nodes {
+                number
+                title
+                url
+                updatedAt
+                mergeable
+                reviewRequests(first: 1) {
+                  totalCount
+                }
+                commits(last: 1) {
+                  nodes {
+                    commit {
+                      statusCheckRollup {
+                        state
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+    `, { owner, repo, count: 100 }, token);
+    const pulls = (((data || {}).repository || {}).pullRequests || {}).nodes || [];
     const failingChecks = [];
     const staleReviews = [];
     const conflicts = [];
     const inactive = [];
-    const warnings = [];
-
-    await Promise.all((pulls || []).map(async pr => {
-        const updatedAtMs = new Date(pr.updated_at).getTime();
-        if ((pr.requested_reviewers || []).length > 0 || (pr.requested_teams || []).length > 0) {
-            if (Date.now() - updatedAtMs > 3 * ONE_DAY_MS) staleReviews.push(pr);
+    for (const pr of pulls) {
+        const updatedAtMs = new Date(pr.updatedAt).getTime();
+        if ((pr.reviewRequests && pr.reviewRequests.totalCount > 0) && Date.now() - updatedAtMs > 3 * ONE_DAY_MS) {
+            staleReviews.push(pr);
         }
         if (Date.now() - updatedAtMs > 7 * ONE_DAY_MS) inactive.push(pr);
 
-        try {
-            const status = await githubJson(`/repos/${owner}/${repo}/commits/${pr.head.sha}/status`, token);
-            if (['failure', 'error'].includes(status.state)) failingChecks.push(pr);
-        } catch (err) {
-            warnings.push(`Status lookup failed for PR #${pr.number}: ${err.message}`);
-        }
-
-        try {
-            const detail = await githubJson(`/repos/${owner}/${repo}/pulls/${pr.number}`, token);
-            if (detail.mergeable === false || detail.mergeable_state === 'dirty') conflicts.push(detail);
-        } catch (err) {
-            warnings.push(`Mergeability lookup failed for PR #${pr.number}: ${err.message}`);
-        }
-    }));
+        const rollup = (((pr.commits || {}).nodes || [])[0] || {}).commit;
+        const state = rollup && rollup.statusCheckRollup ? rollup.statusCheckRollup.state : null;
+        if (state === 'FAILURE' || state === 'ERROR') failingChecks.push(pr);
+        if (pr.mergeable === 'CONFLICTING') conflicts.push(pr);
+    }
 
     const issues = [];
     for (const pr of failingChecks.slice(0, 10)) {
@@ -318,9 +365,9 @@ async function collectPullRequestHealth(owner, repo, token) {
             'repo',
             `PR #${pr.number}`,
             `Open PR has failing checks: ${pr.title}`,
-            pr.html_url,
+            pr.url,
             'Open the PR checks tab and fix or rerun the failing jobs.',
-            { link: pr.html_url }
+            { link: pr.url }
         ));
     }
     for (const pr of staleReviews.slice(0, 10)) {
@@ -329,9 +376,9 @@ async function collectPullRequestHealth(owner, repo, token) {
             'repo',
             `PR #${pr.number}`,
             `Review request is stale (>3 days): ${pr.title}`,
-            `Last activity ${pr.updated_at}`,
+            `Last activity ${pr.updatedAt}`,
             'Nudge reviewers or update the PR so the requested review can move.',
-            { link: pr.html_url }
+            { link: pr.url }
         ));
     }
     for (const pr of conflicts.slice(0, 10)) {
@@ -340,9 +387,9 @@ async function collectPullRequestHealth(owner, repo, token) {
             'repo',
             `PR #${pr.number}`,
             `PR has merge conflicts: ${pr.title}`,
-            pr.html_url,
+            pr.url,
             'Update the branch and resolve conflicts before merge.',
-            { link: pr.html_url }
+            { link: pr.url }
         ));
     }
     for (const pr of inactive.slice(0, 10)) {
@@ -351,9 +398,9 @@ async function collectPullRequestHealth(owner, repo, token) {
             'repo',
             `PR #${pr.number}`,
             `PR inactive for >7 days: ${pr.title}`,
-            `Last activity ${pr.updated_at}`,
+            `Last activity ${pr.updatedAt}`,
             'Confirm whether the PR still needs action or should be closed.',
-            { link: pr.html_url }
+            { link: pr.url }
         ));
     }
 
@@ -365,16 +412,12 @@ async function collectPullRequestHealth(owner, repo, token) {
             staleReviews,
             conflicts,
             inactive,
-            warnings,
         },
         check: {
             name: 'Pull Request Triage',
             critical: false,
-            status: warnings.length > 0 ? 'unavailable' : checkStatus(
-                failingChecks.length > 0 || staleReviews.length > 0 || conflicts.length > 0 || inactive.length > 0
-            ),
+            status: checkStatus(failingChecks.length > 0 || staleReviews.length > 0 || conflicts.length > 0 || inactive.length > 0),
             summary: `${pulls.length} open PRs`,
-            details: warnings.join(' | '),
         },
     };
 }
