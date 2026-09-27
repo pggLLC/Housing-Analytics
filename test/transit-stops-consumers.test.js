@@ -17,6 +17,13 @@ const { spawnSync } = require('node:child_process');
 const root = path.resolve(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 
+// Run the source fixtures and independent published-data guard in ci:part-4,
+// alongside the other transit-stop consumer checks (also discovered by pytest).
+const schoolTransport = spawnSync('python3', ['-m', 'pytest', '-q', 'tests/test_school_transport_exclusion.py'],
+  { cwd: root, encoding: 'utf8' });
+assert.equal(schoolTransport.status, 0, schoolTransport.stdout + schoolTransport.stderr);
+process.stdout.write(schoolTransport.stdout);
+
 // ── The file the consumers point at ─────────────────────────────────────────
 const ma = read('js/market-analysis.js');
 const layerSrc = (ma.match(/transitStops:\s*\{\s*src:\s*'([^']+)'/) || [])[1];

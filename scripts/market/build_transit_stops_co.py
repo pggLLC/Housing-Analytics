@@ -19,6 +19,8 @@ Sources, in priority order
 3. OpenStreetMap stops (data/amenities/transit_stops_co.geojson, written by
    scripts/amenities/build_osm_amenities.py). Added only when nothing above is
    within ``OSM_MATCH_M`` metres, and marked ``reliability: "unconfirmed"``.
+   School-bus names and school-service tags are excluded by the shared rule
+   in scripts/lib/transit_stops.py, even if the OSM input is unfiltered.
 
 Outputs
 -------
@@ -35,6 +37,7 @@ Usage
 -----
     python3 scripts/market/build_transit_stops_co.py
     python3 scripts/market/build_transit_stops_co.py --skip-feeds   # CDOT + OSM only
+    python3 scripts/market/build_transit_stops_co.py --filter-cached  # offline correction, no freshness bump
 """
 
 from __future__ import annotations
@@ -54,8 +57,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(ROOT / "scripts"))
 
 import fetch_gtfs_transit as gtfs  # noqa: E402  (shared catalog, fetch and CO_BBOX)
+from lib.transit_stops import exclude_school_transport, exclusion_summary
 
 OUT_STOPS = ROOT / "data" / "amenities" / "transit_stops_statewide_co.geojson"
 OUT_REPORT = ROOT / "data" / "market" / "transit_stops_coverage_co.json"
@@ -434,8 +439,8 @@ def load_osm_stops() -> list[dict]:
     for f in feats:
         c = (f.get("geometry") or {}).get("coordinates") or []
         if len(c) >= 2:
-            out.append({"lon": c[0], "lat": c[1], "name": (f.get("properties") or {}).get("name") or "",
-                        "osm_id": (f.get("properties") or {}).get("osm_id")})
+            out.append({**(f.get("properties") or {}), "lon": c[0], "lat": c[1],
+                        "name": (f.get("properties") or {}).get("name") or ""})
     return out
 
 
@@ -544,6 +549,7 @@ def merge(cdot_rows, feed_rows, osm_rows, counties):
                     p["agency_source"] = "agency_feed"
 
     osm_added = 0
+    osm_rows, dropped_osm = exclude_school_transport(osm_rows)
     for r in osm_rows:
         if cdot_idx.near(r["lon"], r["lat"], OSM_MATCH_M) or feed_idx.near(r["lon"], r["lat"], OSM_MATCH_M):
             continue
@@ -553,7 +559,8 @@ def merge(cdot_rows, feed_rows, osm_rows, counties):
         features.append(feature(r, "OpenStreetMap only", ["osm"], "unconfirmed", geoid))
         osm_added += 1
 
-    return features, {"dropped_cdot": dropped_cdot, "feed_added_by_agency": feed_added, "osm_added": osm_added}
+    return features, {"dropped_cdot": dropped_cdot, "feed_added_by_agency": feed_added,
+                      "osm_added": osm_added, "dropped_osm_school_transport": dropped_osm}
 
 
 def service_totals(features) -> dict[str, int]:
@@ -603,6 +610,7 @@ def build_report(features, parts, counties, generated, feeds_failed, feeds_used)
             "osm_match_m": OSM_MATCH_M,
             "agency_feeds_used": feeds_used,
             "agency_feeds_failed": feeds_failed,
+            "dropped_osm_school_transport": parts["dropped_osm_school_transport"],
         },
         "totals": {
             "stops": len(features),
@@ -658,7 +666,13 @@ def cdot_shortfall(features: list[dict], previous: int | None) -> str | None:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--skip-feeds", action="store_true", help="CDOT + OSM only (no GTFS downloads)")
+    ap.add_argument("--filter-cached", action="store_true",
+                    help="Reapply school-transport exclusion to cached OSM-only stops and rebuild coverage offline")
     args = ap.parse_args()
+    if args.filter_cached:
+        if args.skip_feeds:
+            ap.error("--filter-cached cannot be combined with --skip-feeds")
+        return filter_cached()
 
     counties = load_counties()
     generated = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -708,6 +722,7 @@ def main() -> int:
             "note": "Rebuild via scripts/market/build_transit_stops_co.py (#1937).",
             "service_basis": SERVICE_BASIS,
             "service_totals": service_totals(features),
+            "dropped_osm_school_transport": parts["dropped_osm_school_transport"],
         },
         "features": features,
     }
@@ -717,6 +732,42 @@ def main() -> int:
     log(f"Wrote {t['stops']} stops ({t['cdot']} CDOT, {t['agency_feed_only']} agency feed, "
         f"{t['unconfirmed']} unconfirmed) → {OUT_STOPS.relative_to(ROOT)}")
     log(f"Counties with no fixed stop: {len(report['counties_without_fixed_stops'])}")
+    return 0
+
+
+def filter_cached() -> int:
+    """Correct an existing snapshot without refreshing or reconstructing feeds.
+
+    Keep confirmed records and source freshness verbatim. Recompute coverage
+    using the same report builder as a live fetch, preserving CDOT gap evidence.
+    """
+    stops = json.loads(OUT_STOPS.read_text(encoding="utf-8"))
+    old_report = json.loads(OUT_REPORT.read_text(encoding="utf-8"))
+    osm = [f for f in stops["features"] if f["properties"]["sources"] == ["osm"]]
+    kept, dropped = exclude_school_transport(osm)
+    kept_ids = {id(f) for f in kept}
+    features = [f for f in stops["features"]
+                if f["properties"]["sources"] != ["osm"] or id(f) in kept_ids]
+    prior = (stops["meta"].get("dropped_osm_school_transport") or {}).get("rows", [])
+    dropped = exclusion_summary(prior + dropped["rows"])
+    gaps = old_report["cdot_gaps"]
+    parts = {
+        "dropped_cdot": {"no_location": gaps["rows_without_location"],
+                         "by_agency": gaps["rows_without_location_by_agency"],
+                         "outside_colorado": gaps["rows_outside_colorado"],
+                         "rows": gaps["dropped_rows"]},
+        "feed_added_by_agency": gaps["stops_in_agency_feeds_not_in_cdot"],
+        "dropped_osm_school_transport": dropped,
+    }
+    meta = old_report["meta"]
+    report = build_report(features, parts, load_counties(), meta["generated"],
+                          meta["agency_feeds_failed"], meta["agency_feeds_used"])
+    stops["features"] = features
+    stops["meta"].update(count=len(features), totals=report["totals"],
+                         service_totals=service_totals(features), dropped_osm_school_transport=dropped)
+    OUT_STOPS.write_text(json.dumps(stops, separators=(",", ":"), ensure_ascii=False) + "\n", encoding="utf-8")
+    OUT_REPORT.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    log(f"Reapplied exclusions: {dropped['count']} OSM school-transport stops removed; {len(features)} retained")
     return 0
 
 
