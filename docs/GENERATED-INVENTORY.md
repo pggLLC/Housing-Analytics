@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T02:20:44.027Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T03:10:52.328Z. Do not edit by hand.
 
 ---
 
@@ -1627,14 +1627,14 @@
 | `data/paper/model-parameters.json` | 6.1 KB | ✅ | — |
 | `data/pipeline/content.json` | 42.8 KB | ✅ | — |
 | `data/policy/affordability-models.json` | 14.1 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08001.json` | 2.0 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08003.json` | 785 B | ✅ | — |
-| `data/policy/ballot-2026/counties/08005.json` | 3.2 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08007.json` | 553 B | ✅ | — |
-| `data/policy/ballot-2026/counties/08009.json` | 1.7 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08011.json` | 544 B | ✅ | — |
-| `data/policy/ballot-2026/counties/08013.json` | 2.4 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08014.json` | 550 B | ✅ | — |
+| `data/policy/ballot-2026/counties/08001.json` | 13.9 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08003.json` | 5.5 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08005.json` | 26.2 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08007.json` | 3.7 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08009.json` | 16.0 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08011.json` | 4.5 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08013.json` | 18.3 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08014.json` | 9.3 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08015.json` | 8.0 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08017.json` | 3.2 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08019.json` | 7.9 KB | ✅ | — |
