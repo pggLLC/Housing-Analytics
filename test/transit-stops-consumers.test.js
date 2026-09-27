@@ -11,6 +11,8 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const vm = require('node:vm');
+const { spawnSync } = require('node:child_process');
 
 const root = path.resolve(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
@@ -56,24 +58,36 @@ assert.ok(compared.length > 0, 'the TOD check compares no stop property — the 
 for (const [k, v] of compared) {
   assert.ok(values[k] && values[k].has(v), `the TOD check compares ${k} to '${v}', a value no stop in ${dmbUrl} has`);
 }
-// Private shuttle pickups are mapped but are not public transit: the TOD check
-// must skip them, using the operator value the builder actually writes.
-assert.match(todFn, /f\.properties\.operator === 'private_shuttle'\) return;/, 'the TOD check counts private shuttle pickups as transit');
-assert.match(builder_src(), /"private_shuttle" if agency in PRIVATE_OPERATORS/, 'the builder no longer marks private shuttles');
-function builder_src() { return read('scripts/market/build_transit_stops_co.py'); }
+// Run the real popup against the file, independently classifying the source.
+// This catches a renamed reliability token without pinning builder source
+// text, and permits harmless rewrites of the explanatory copy.
+const popup = vm.runInNewContext('(' + dmbBlock.replace(/,$/, '') + ')');
+let osmChecked = 0;
+let confirmedChecked = 0;
+for (const f of stops.features) {
+  const p = f.properties;
+  const osmOnly = p.sources.length === 1 && p.sources[0] === 'osm';
+  const row = popup.popupRows(p).find(r => r.k === 'Reliability');
+  assert.ok(row, 'popup omitted the reliability claim');
+  assert.equal(/unconfirmed/i.test(row.v), osmOnly, `popup reliability disagrees with sources for ${p.name}`);
+  if (osmOnly) osmChecked++; else confirmedChecked++;
+}
+assert.ok(osmChecked > 0 && confirmedChecked > 0, 'popup check must exercise both source classes');
 
-// And the value it singles out must be the one the builder writes for OSM-only stops.
-const builder = read('scripts/market/build_transit_stops_co.py');
-assert.match(builder, /\["osm"\], "unconfirmed"/, 'the builder no longer marks OpenStreetMap-only stops "unconfirmed"');
-
-// The TOD check's fallback reads neighborhood_access.json, which is built
-// from the OpenStreetMap stop file — so its hits must count as unconfirmed.
-const na = JSON.parse(read('data/derived/market-analysis/neighborhood_access.json'));
-const naTransitSource = (na.meta && na.meta.sources_detail || []).find((d) => /^transit_stops/.test(d)) || '';
-assert.match(naTransitSource, /^transit_stops_co\.geojson/, 'neighborhood_access transit stops no longer come from the OSM file — revisit the TOD fallback');
-const fallback = (todFn.match(/getWithinRadius\([\s\S]*?\n    \}\n/) || [])[0] || '';
-assert.ok(fallback, 'TOD fallback block not found');
-assert.match(fallback, /unconfirmedCount\+\+/, 'TOD fallback hits (OpenStreetMap) are not counted as unconfirmed');
+// Both outputs are produced in one build; their freshness monitor must use
+// the same canonical window that the Data Trust Center publishes.
+const inventoryWindow = {};
+vm.runInNewContext(read('js/data-source-inventory.js'), { window: inventoryWindow });
+const source = inventoryWindow.DataSourceInventory.getSources().find(s => s.localFile === dmbUrl);
+assert.ok(source && Number.isFinite(source.maxAgeDays) && source.maxAgeDays > 0);
+const freshness = spawnSync(process.execPath, ['scripts/audit/data-freshness-check.mjs', '--json'], { cwd: root, encoding: 'utf8' });
+assert.ok([0, 1].includes(freshness.status), freshness.stderr || 'freshness check could not run');
+const checks = JSON.parse(freshness.stdout).results;
+for (const file of [dmbUrl, 'data/market/transit_stops_coverage_co.json']) {
+  const check = checks.find(r => r.file === file);
+  assert.ok(check && check.present, `missing freshness check for ${file}`);
+  assert.equal(check.slaDays, source.maxAgeDays, `${file}: monitor SLA disagrees with the source inventory`);
+}
 
 // The weekly job that commits the stop file must refresh BOTH manifests, in
 // order, and stage both (AGENTS.md "two manifests"; bot commits trigger no

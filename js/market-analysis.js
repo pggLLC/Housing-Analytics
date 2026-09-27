@@ -4491,10 +4491,11 @@
     }).catch(function (err) {
       _todStopsRequested = false;   // allow a retry on the next site
       console.warn('[market-analysis] statewide transit stops unavailable for the TOD check:', err);
+      if (siteLatLng) _highlightTodTransit(siteLatLng.lat, siteLatLng.lon, radiusM, true);
     });
   }
 
-  function _highlightTodTransit(lat, lon, radiusM) {
+  function _highlightTodTransit(lat, lon, radiusM, loadFailed) {
     var L = window.L;
     if (!L) return;
     if (todMarkers) map.removeLayer(todMarkers);
@@ -4509,9 +4510,11 @@
     // new site it could hold none of the nearby stops and report "none".
     // The statewide file loads with the Transit Stops layer; if the layer has
     // not been opened, fetch it once and re-run this check when it arrives.
-    // Until then the amenity data below answers, and says so.
+    // The statewide file already includes unconfirmed OSM stops. The older
+    // amenities file has no operator classification and cannot safely fill
+    // in for it: it could reintroduce a private shuttle we just excluded.
     var rawStops = _rawLayerData['transitStops'];
-    if (!rawStops) _requestTodStops(radiusM);
+    if (!rawStops && !loadFailed) _requestTodStops(radiusM);
     var unconfirmedCount = 0;
     if (rawStops && Array.isArray(rawStops.features)) {
       stopDataChecked = true;
@@ -4533,31 +4536,6 @@
           ).addTo(todMarkers);
         }
       });
-    }
-
-    // Also check the neighborhood_access / OSM amenities data.
-    // getWithinRadius returns null when that data is not loaded, which is
-    // different from an empty list: only a real search can report "none".
-    if (!count) {
-      var amenities = window.OsmAmenities;
-      if (amenities && typeof amenities.getWithinRadius === 'function') {
-        var nearby = amenities.getWithinRadius(lat, lon, 'transit_stop', halfMile);
-        if (nearby) stopDataChecked = true;
-        if (nearby && nearby.length) {
-          nearby.forEach(function (a) {
-            count++;
-            // neighborhood_access.json is built from the OpenStreetMap stop
-            // file, so these hits carry no CDOT or agency confirmation.
-            unconfirmedCount++;
-            L.circleMarker([a.lat, a.lon], {
-              pane: 'pointsPane',
-              radius: 7, fillColor: '#facc15', color: '#0ea5e9',
-              weight: 2, fillOpacity: 0.9
-            }).bindTooltip(a.name || 'Transit stop', { sticky: true, className: 'pma-tooltip' })
-             .addTo(todMarkers);
-          });
-        }
-      }
     }
 
     // Update TOD panel.
@@ -4603,9 +4581,9 @@
         iconColor = 'var(--muted,#6b7280)';
         iconSym   = '?';
         headline  = 'Transit check unavailable';
-        detail    = 'Transit stop data has not loaded, so this site could ' +
-                    'not be checked. Reload the page or turn on the transit ' +
-                    'stops layer.';
+        detail    = loadFailed
+          ? 'The statewide transit stop file could not be loaded. This site has not been checked. Reload the page or turn on the transit stops layer to retry.'
+          : 'The statewide transit stop file is still loading. This site has not been checked; the result will update when the file arrives.';
       } else if (isRural) {
         iconColor = 'var(--warn,#d97706)';
         iconSym   = 'ℹ';
