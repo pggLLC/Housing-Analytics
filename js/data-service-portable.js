@@ -492,14 +492,31 @@
   }
 
   /**
-   * Given a bounding box, find tract GEOIDs whose centroids fall inside.
+   * Given already-loaded tract centroids and a bounding box, return the GEOIDs
+   * whose centroids fall inside. Synchronous.
+   *
+   * Not to be confused with the async _tractsInBbox(bbox) further down. The two
+   * used to share that name; function declarations hoist, so the async one
+   * replaced this one and fetchEPASmartLocation got a Promise instead of an
+   * array — the local EPA SLD file was never read.
    */
-  function _tractsInBbox(tracts, bbox) {
+  function _tractGeoidsInBbox(tracts, bbox) {
     return tracts.filter(function (t) {
       return t.lat >= bbox.minLat && t.lat <= bbox.maxLat &&
              t.lon >= bbox.minLon && t.lon <= bbox.maxLon;
     }).map(function (t) { return t.geoid; });
   }
+
+  // EPA SLD D4A is the distance in metres from a block group's population-
+  // weighted centroid to the nearest transit stop (EPA's own field alias), not a
+  // 0-100 index and not service frequency — lower is better, and EPA leaves it
+  // blank beyond ~3/4 mile. Scored as an index it rewards being far from
+  // transit, so it is carried under its real name and never as
+  // transitAccessibility; PMATransit then redistributes the EPA transit weight
+  // to its GTFS frequency/coverage components. Converting distance to a score
+  // is a methodology decision that has not been made.
+  var EPA_D4A_NOT_A_SCORE_REASON = 'EPA SLD D4A is distance to the nearest transit stop (metres), not a transit ' +
+    'accessibility index, so no EPA transit score was calculated; walkability (D3B) is used.';
 
   /**
    * Average EPA SLD metrics across block groups matching the given tract GEOIDs.
@@ -531,14 +548,18 @@
     if (n === 0) return null;
 
     return {
-      transitAccessibility: counts.transitAccess > 0 ? Math.round(sums.transitAccess / counts.transitAccess) : null,
+      transitAccessibility: null,
       walkScore:            counts.walkability > 0    ? Math.round(sums.walkability / counts.walkability)       : null,
       D3b:                  counts.walkability > 0    ? Math.round((sums.walkability / counts.walkability) * 100) / 100 : null,
-      D4a:                  counts.transitAccess > 0  ? Math.round((sums.transitAccess / counts.transitAccess) * 100) / 100 : null,
+      // Mean over block groups that HAVE a stop within EPA's cutoff; the rest are
+      // blank in the source, so this is not an area-wide average distance.
+      nearestTransitStopMeters: counts.transitAccess > 0 ? Math.round(sums.transitAccess / counts.transitAccess) : null,
+      transitStopBlockGroupCount: counts.transitAccess,
       jobAccess:            counts.jobAccess > 0      ? Math.round(sums.jobAccess / counts.jobAccess)           : null,
       landUseMix:           counts.landUseMix > 0     ? Math.round((sums.landUseMix / counts.landUseMix) * 1000) / 1000 : null,
       empDensity:           counts.empDensity > 0     ? Math.round((sums.empDensity / counts.empDensity) * 100) / 100 : null,
       blockGroupCount:      n,
+      unavailableReason:    EPA_D4A_NOT_A_SCORE_REASON,
       _dataSource: 'epa-sld-local'
     };
   }
@@ -572,7 +593,7 @@
       // Otherwise find tracts in bbox via centroids
       if (bbox) {
         return _loadTractCentroids().then(function (tracts) {
-          var tractGeoids = _tractsInBbox(tracts, bbox);
+          var tractGeoids = _tractGeoidsInBbox(tracts, bbox);
           if (!tractGeoids.length) {
             console.warn('[DataService] No tract centroids in bbox — falling back to live API');
             return null;
@@ -603,15 +624,23 @@
         .then(function (data) {
           var features = (data && data.features) ? data.features : [];
           if (!features.length) return { transitAccessibility: null, walkScore: null, _dataSource: 'epa-empty' };
-          var d4aSum = 0, d3bSum = 0;
+          // D4A is a distance, not a score (see EPA_D4A_NOT_A_SCORE_REASON), so it
+          // is not averaged into transitAccessibility here either. D3B uses the same
+          // scale as the local file; EPA's -99999 sentinel is absence, not a value.
+          var d3bSum = 0, d3bN = 0;
           features.forEach(function (f) {
             var a = (f.attributes || {});
-            d4aSum += parseFloat(a.D4A || a.D4a || 0);
-            d3bSum += parseFloat(a.D3B || a.D3b || 0);
+            var v = a.D3B != null ? a.D3B : a.D3b;
+            if (v == null || v === '') return;
+            v = parseFloat(v);
+            if (!isFinite(v) || v < 0) return;
+            d3bSum += v; d3bN++;
           });
+          if (!d3bN) return { transitAccessibility: null, walkScore: null, _dataSource: 'epa-empty' };
           return {
-            transitAccessibility: Math.min(100, Math.round((d4aSum / features.length) * 5)),
-            walkScore:            Math.min(100, Math.round((d3bSum / features.length) * 5)),
+            transitAccessibility: null,
+            walkScore:            Math.round(d3bSum / d3bN),
+            unavailableReason:    EPA_D4A_NOT_A_SCORE_REASON,
             _dataSource: 'epa-live'
           };
         })

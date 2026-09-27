@@ -75291,21 +75291,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -105.1643798,
-          39.9783437
-        ]
-      },
-      "properties": {
-        "osm_id": 5073688518,
-        "osm_type": "node",
-        "name": "BVSD school bus stop"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -104.990783,
           39.7458343
         ]
@@ -80354,21 +80339,6 @@
         "osm_id": 6953122522,
         "osm_type": "node",
         "name": "S University Blvd & E Weaver Ave"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -104.8426694,
-          40.3279223
-        ]
-      },
-      "properties": {
-        "osm_id": 7007087724,
-        "osm_type": "node",
-        "name": "School Bus Stop"
       }
     },
     {
@@ -118328,6 +118298,24 @@
     "state": "Colorado",
     "bbox": "36.9,-109.1,41.1,-102.0",
     "generated": "2026-04-07T08:27:06Z",
-    "count": 7888
+    "count": 7886,
+    "dropped": {
+      "count": 2,
+      "by_reason": {
+        "school_bus_name": 2
+      },
+      "rows": [
+        {
+          "osm_id": 5073688518,
+          "name": "BVSD school bus stop",
+          "reason": "school_bus_name"
+        },
+        {
+          "osm_id": 7007087724,
+          "name": "School Bus Stop",
+          "reason": "school_bus_name"
+        }
+      ]
+    }
   }
 }

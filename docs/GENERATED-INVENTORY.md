@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T17:56:42.809Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T22:18:13.885Z. Do not edit by hand.
 
 ---
 
@@ -84,7 +84,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 807.5 KB | ✅ | — |
+| `data/_manifest.json` | 807.4 KB | ✅ | — |
 | `data/_qa-status.json` | 6.9 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1615,7 +1615,7 @@
 | `data/market/state-trend-analysis.json` | 6.8 KB | ✅ | — |
 | `data/market/tax-credit-transfer-pricing.json` | 3.4 KB | ✅ | — |
 | `data/market/tract_centroids_co.json` | 344.9 KB | ✅ | — |
-| `data/market/transit_stops_coverage_co.json` | 230.7 KB | ✅ | — |
+| `data/market/transit_stops_coverage_co.json` | 231.1 KB | ✅ | — |
 | `data/market/travel_time_matrix_co.json` | 4.23 MB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/yardi-matrix-national-multifamily.json` | 3.8 KB | ✅ | — |
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-465 test files found.
+469 test files found.
 
 | File | Size |
 |------|------|
@@ -1773,6 +1773,7 @@
 | `test/basemap-honours-tilelayer-contract.test.js` | 6.6 KB |
 | `test/basemap-provider-single-source.test.js` | 8.1 KB |
 | `test/boards-advocates-search-links.test.js` | 3.1 KB |
+| `test/bot-pr-dispatches-ci-checks.test.js` | 18.9 KB |
 | `test/both-surfaces-answer-the-same-question.test.mjs` | 5.9 KB |
 | `test/branded-404.test.js` | 2.1 KB |
 | `test/bridge-token-guidance.test.js` | 2.4 KB |
@@ -1850,6 +1851,7 @@
 | `test/effective-demand.test.js` | 6.6 KB |
 | `test/energy-retrofit-funding.test.js` | 5.2 KB |
 | `test/entry-path-starts-at-jurisdiction.test.mjs` | 16.6 KB |
+| `test/epa-sld-local-lookup.test.js` | 7.5 KB |
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
 | `test/every-guard-runs-or-says-why.test.mjs` | 8.5 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
@@ -1955,7 +1957,7 @@
 | `test/integration/housing-needs-assessment.test.js` | 34.3 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.7 KB |
-| `test/inventory-mtime-sync.test.js` | 23.1 KB |
+| `test/inventory-mtime-sync.test.js` | 25.4 KB |
 | `test/inventory-sync-push.test.js` | 15.7 KB |
 | `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.9 KB |
 | `test/jurisdiction-metrics-digest.test.js` | 31.4 KB |
@@ -2128,8 +2130,8 @@
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.3 KB |
-| `test/tract-geometry-integrity.test.js` | 17.2 KB |
-| `test/transit-stops-consumers.test.js` | 6.2 KB |
+| `test/tract-geometry-integrity.test.js` | 18.0 KB |
+| `test/transit-stops-consumers.test.js` | 6.7 KB |
 | `test/transit-zone-absence.test.mjs` | 37.0 KB |
 | `test/transit-zone-funding-line.test.js` | 25.3 KB |
 | `test/transit-zone.test.js` | 39.3 KB |
@@ -2192,6 +2194,7 @@
 | `tests/test_fmr_extractor.py` | 3.4 KB |
 | `tests/test_fmr_parsing.py` | 5.9 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
+| `tests/test_gtfs_transit_fallback.py` | 2.7 KB |
 | `tests/test_hmda_data.py` | 6.6 KB |
 | `tests/test_hna_geography_coverage.py` | 9.2 KB |
 | `tests/test_hna_ranking_integrity.py` | 22.5 KB |
@@ -2206,6 +2209,7 @@
 | `tests/test_policy_watch.py` | 5.5 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_ranking_index_transit_zone.py` | 11.8 KB |
+| `tests/test_school_transport_exclusion.py` | 9.6 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
 | `tests/test_stage2_temporal.py` | 33.5 KB |
 | `tests/test_stage3_accessibility.py` | 22.4 KB |
@@ -2237,7 +2241,7 @@
 | `.github/workflows/car-data-update.yml` | 2.4 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
 | `.github/workflows/chfa-qap-watch.yml` | 10.8 KB |
-| `.github/workflows/ci-checks.yml` | 18.4 KB |
+| `.github/workflows/ci-checks.yml` | 19.9 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 6.0 KB |
@@ -2255,7 +2259,7 @@
 | `.github/workflows/developer-url-health.yml` | 3.2 KB |
 | `.github/workflows/discover-agenda-urls.yml` | 3.4 KB |
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.6 KB |
-| `.github/workflows/docs-sync.yml` | 3.0 KB |
+| `.github/workflows/docs-sync.yml` | 4.0 KB |
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 3.7 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.7 KB |
@@ -2268,8 +2272,8 @@
 | `.github/workflows/fetch-kalshi.yml` | 5.3 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 20.3 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 8.1 KB |
-| `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.9 KB |
-| `.github/workflows/market_data_build.yml` | 19.7 KB |
+| `.github/workflows/jurisdiction-briefs-monthly.yml` | 5.2 KB |
+| `.github/workflows/market_data_build.yml` | 20.1 KB |
 | `.github/workflows/merge-ref-gate.yml` | 3.6 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 4.0 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
@@ -2278,12 +2282,12 @@
 | `.github/workflows/rebuild-place-od-flows.yml` | 4.5 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-co-demographics.yml` | 3.8 KB |
-| `.github/workflows/refresh-state-trend-analysis.yml` | 2.5 KB |
+| `.github/workflows/refresh-state-trend-analysis.yml` | 3.8 KB |
 | `.github/workflows/refresh-working-paper.yml` | 3.5 KB |
 | `.github/workflows/run-all-workflows.yml` | 17.3 KB |
 | `.github/workflows/scrape-agenda-items.yml` | 3.3 KB |
 | `.github/workflows/site-audit.yml` | 3.0 KB |
-| `.github/workflows/source-liveness-weekly.yml` | 2.3 KB |
+| `.github/workflows/source-liveness-weekly.yml` | 3.6 KB |
 | `.github/workflows/source-url-sweep.yml` | 2.4 KB |
 | `.github/workflows/sync-data-mtimes.yml` | 7.5 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.1 KB |
