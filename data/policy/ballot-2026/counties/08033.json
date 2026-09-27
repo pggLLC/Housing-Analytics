@@ -5,31 +5,70 @@
       "geoid": "08033",
       "level": "county",
       "name": "Dolores County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://dolocnty.colorado.gov/sites/g/files/lrnvjt3251/files/documents/sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No county question appears on the sample ballot; the county section lists candidate offices only. Telluride School District R-1 Ballot Issue 5A (school mill levy override) was read and excluded.",
+        "The sample ballot and the signed Notice of General Election are scanned images without a text layer; they were read visually.",
+        "Only ballot style 001-02 was posted; no second style was available (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://dolocnty.colorado.gov/sites/g/files/lrnvjt3251/files/documents/Election-Notice.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://dolocnty.colorado.gov/clerk-and-recorder",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0821265",
       "level": "municipal",
       "name": "Dove Creek (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://dolocnty.colorado.gov/sites/g/files/lrnvjt3251/files/documents/Election-Notice.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The signed Notice of General Election (2026-09-17) gives the ballot content as \"General Election – Federal– State – County- School District\" and names no municipality. No formal participating-entities list is published. Town agendas show Resolution No. 2, Series 2026, cancelling the April 7, 2026 regular municipal election, and no November ballot item.",
+        "The sample ballot and the signed Notice of General Election are scanned images without a text layer; they were read visually."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://townofdovecreek.colorado.gov/meeting-agendas",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0864090",
       "level": "municipal",
       "name": "Rico (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://townofrico.colorado.gov/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The Town of Rico is not on the county coordinated ballot (the notice names no municipality and the Rico-area ballot style 001-02 has no town contest), but the town home page states: \"The Town of Rico's Municipal Election will be held on November 3, 2026, for the purpose of electing two (2) Board of Trustees.\" No town sample ballot or TABOR notice had been posted (checked 2026-09-26). No ballot question or referral appears in June–September 2026 board agendas or Ordinances 2026-03 to 2026-09."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://dolocnty.colorado.gov/sites/g/files/lrnvjt3251/files/documents/Election-Notice.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://dolocnty.colorado.gov/sites/g/files/lrnvjt3251/files/documents/sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofrico.colorado.gov/government/board-of-trustees",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
