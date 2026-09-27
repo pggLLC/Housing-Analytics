@@ -51,12 +51,31 @@
     return { state: 'ok', html: html };
   }
 
-  function render(mount, geoid, now) {
+  // A fetch that never answers is a failed load, not a reason to keep the
+  // section on "Checking…" (#1973): after api.timeoutMs it resolves null, the
+  // same as a failed or 404 fetch, and summarize() says the data is missing.
+  function get(url) {
+    var ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timer;
+    var gaveUp = new Promise(function (resolve) {
+      timer = setTimeout(function () { if (ctrl) ctrl.abort(); resolve(null); }, api.timeoutMs);
+    });
+    var got = fetch(url, ctrl ? { signal: ctrl.signal } : undefined)
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; });
+    return Promise.race([got, gaveUp]).then(function (v) { clearTimeout(timer); return v; });
+  }
+
+  // Both files, each under the time limit. The page starts this at load,
+  // alongside its jurisdiction lookup, so the two waits overlap and the whole
+  // section is bounded by one timeoutMs, not one after the other.
+  function load() {
+    return Promise.all([get('data/hna/transit-zone-by-geography.json'), get('data/policy/thiz-map-status.json')]);
+  }
+
+  function render(mount, geoid, now, loaded) {
     if (!mount) return Promise.resolve(null);
-    var get = function (url) {
-      return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
-    };
-    return Promise.all([get('data/hna/transit-zone-by-geography.json'), get('data/policy/thiz-map-status.json')])
+    return (loaded || load())
       .then(function (parts) {
         var tz = typeof window !== 'undefined' ? window.TransitZone : null;
         var out = summarize(geoid, parts[0], parts[1], now, tz);
@@ -66,5 +85,6 @@
       });
   }
 
-  return { summarize: summarize, render: render };
+  var api = { summarize: summarize, render: render, load: load, timeoutMs: 20000 };
+  return api;
 }));
