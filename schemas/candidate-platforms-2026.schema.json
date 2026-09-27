@@ -1,0 +1,424 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "candidate-platforms/v1",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "candidate-platforms/v1"
+    },
+    "races": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "office": {
+            "enum": [
+              "Governor/Lieutenant Governor",
+              "Attorney General",
+              "Secretary of State",
+              "Treasurer"
+            ]
+          },
+          "election_date": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "candidates_source": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https:\\/\\/[^/\\s?#]+(?:/[^\\s]*)?$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "coverage_state": {
+            "enum": [
+              "not_researched",
+              "complete"
+            ]
+          },
+          "roster_checked": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "certified_candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "candidate": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "party": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              },
+              "required": [
+                "candidate",
+                "party"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "office",
+          "election_date",
+          "candidates_source",
+          "coverage_state",
+          "roster_checked",
+          "certified_candidates"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "candidate": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "office": {
+            "enum": [
+              "Governor/Lieutenant Governor",
+              "Attorney General",
+              "Secretary of State",
+              "Treasurer"
+            ]
+          },
+          "party": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "campaign_source": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uri",
+                    "pattern": "^https:\\/\\/[^/\\s?#]+(?:/[^\\s]*)?$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "published": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "retrieved": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "archive_url": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uri",
+                    "pattern": "^https:\\/\\/[^/\\s?#]+(?:/[^\\s]*)?$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "url",
+              "published",
+              "retrieved",
+              "archive_url"
+            ],
+            "additionalProperties": false
+          },
+          "topics": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "supply",
+                "affordability_programs",
+                "renters",
+                "homeownership",
+                "fees_permitting",
+                "land_use_local_control",
+                "homelessness",
+                "property_tax",
+                "water_infrastructure"
+              ]
+            },
+            "minItems": 0
+          },
+          "neutral_summary": {
+            "type": "string"
+          },
+          "quote": {
+            "type": "string"
+          },
+          "coverage_state": {
+            "enum": [
+              "verified_platform_found",
+              "official_material_reviewed_no_housing_position_found",
+              "not_researched",
+              "campaign_source_unavailable"
+            ]
+          },
+          "verification": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "level": {
+                    "enum": [
+                      "primary",
+                      "reported"
+                    ]
+                  },
+                  "checked": {
+                    "type": "string",
+                    "format": "date",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "by": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  }
+                },
+                "required": [
+                  "level",
+                  "checked"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "level": {
+                          "const": "reported"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "by"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "proposed_appointments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "person": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "source": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "format": "uri",
+                      "pattern": "^https:\\/\\/[^/\\s?#]+(?:/[^\\s]*)?$"
+                    },
+                    "retrieved": {
+                      "type": "string",
+                      "format": "date",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                    }
+                  },
+                  "required": [
+                    "url",
+                    "retrieved"
+                  ],
+                  "additionalProperties": false
+                },
+                "quote": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "claim_type": {
+                  "const": "campaign_claim"
+                }
+              },
+              "required": [
+                "role",
+                "person",
+                "source",
+                "quote",
+                "claim_type"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "checked": {
+                  "type": "string",
+                  "format": "date",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
+                "note": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "source": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "url": {
+                          "type": "string",
+                          "format": "uri",
+                          "pattern": "^https:\\/\\/[^/\\s?#]+(?:/[^\\s]*)?$"
+                        },
+                        "retrieved": {
+                          "type": "string",
+                          "format": "date",
+                          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                        }
+                      },
+                      "required": [
+                        "url",
+                        "retrieved"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "checked",
+                "note",
+                "source"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0
+          },
+          "archived": {
+            "type": "boolean"
+          },
+          "reviewed_sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^https:\\/\\/[^/\\s?#]+(?:/[^\\s]*)?$"
+                },
+                "retrieved": {
+                  "type": "string",
+                  "format": "date",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                }
+              },
+              "required": [
+                "url",
+                "retrieved"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "candidate",
+          "office",
+          "party",
+          "campaign_source",
+          "topics",
+          "neutral_summary",
+          "quote",
+          "coverage_state",
+          "verification",
+          "proposed_appointments",
+          "history",
+          "archived"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "schema",
+    "races",
+    "candidates"
+  ],
+  "additionalProperties": false
+}

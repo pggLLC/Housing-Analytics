@@ -572,14 +572,18 @@
       }
       host.innerHTML = curated.map(function (brief) {
         var link = (brief.articles && brief.articles[0] && brief.articles[0].link) || '';
+        try {
+          if (!/^https?:$/.test(new URL(link, window.location.href).protocol)) link = '';
+        } catch (_) { link = ''; }
         var sentences = String(brief.summary || '').split(/(?<=\.)\s+(?=[A-Z])/).slice(0, 2).join(' ');
         var label = brief.is_curated && brief.source_reviewed ? 'Source-reviewed brief' : 'Research brief';
         var when = Date.parse(brief.generated);
         return '<article class="research-card"><div class="research-card__kick">' + escapeHtml(label) + '</div>' +
-          '<h3>' + (link ? '<a href="' + escapeHtml(link) + '" target="_blank" rel="noopener">' + escapeHtml(brief.title) + '</a>' : escapeHtml(brief.title)) + '</h3>' +
+          '<h3><a href="research-brief.html?id=' + encodeURIComponent(brief.id) + '">' + escapeHtml(brief.title) + '</a></h3>' +
           (sentences ? '<p>' + escapeHtml(sentences) + '</p>' : '') +
           '<div class="research-card__meta">' + escapeHtml((brief.sources || []).slice(0, 2).join(', ')) +
-          (isNaN(when) ? '' : ' · ' + shortDate(when) + ', ' + new Date(when).getUTCFullYear()) + '</div></article>';
+          (isNaN(when) ? '' : ' · ' + shortDate(when) + ', ' + new Date(when).getUTCFullYear()) +
+          (link ? ' · <a href="' + escapeHtml(link) + '" target="_blank" rel="noopener">Technical method</a>' : '') + '</div></article>';
       }).join('');
     }
 

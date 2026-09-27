@@ -334,6 +334,9 @@
         dimensions: result.dimensions,
         flags:      result.flags,
         capture:    result.capture,
+        // Existing affordable units ÷ qualified renters (PMAEngine.MEASURE_NAMES).
+        captureMeasure: window.PMAEngine && window.PMAEngine.MEASURE_NAMES
+          ? window.PMAEngine.MEASURE_NAMES.penetration : 'Existing affordable penetration',
         rentRatio:  result.rentRatio
       },
       acs: result.acs || {},

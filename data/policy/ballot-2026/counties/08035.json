@@ -1,0 +1,266 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08035",
+      "level": "county",
+      "name": "Douglas County",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.douglasco.gov/documents/accessible-version-2026-general-election-composite-sample-ballot.pdf/",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "County questions read and excluded as governance measures with no housing, land-use or tax earmark: Ballot Question 200 (expand the Board of County Commissioners from 3 to 5), Ballot Question 201 (election method for a 5-member board), Ballot Question 1A (continued at-large election of commissioners).",
+        "The county TABOR notice booklet is described on the On the Ballot page but was not yet linked (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.douglasco.gov/documents/2026-general-election-composite-sample-ballot.pdf/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.douglasco.gov/elections/election-information/on-the-ballot/",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0812387",
+      "level": "municipal",
+      "name": "Castle Pines (city)",
+      "coverage_state": "verified_measure_found",
+      "reviewed_source": "https://www.douglasco.gov/documents/accessible-version-2026-general-election-composite-sample-ballot.pdf/",
+      "checked": "2026-09-26",
+      "entry_ids": [
+        "ballot-2026-0812387-q300",
+        "ballot-2026-0812387-q301"
+      ],
+      "limitations": [
+        "Participation confirmed by the city Notice of Election: \"the City of Castle Pines will participate in the November 3, 2026 Coordinated General Election with Douglas County.\" The composite ballot shows Ballot Questions 300 and 301 and no other Castle Pines contest.",
+        "The city elections page still showed 2025 content (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.castlepinesco.gov/wp-content/uploads/2026/08/2026-08-21-Election-Notice-for-Proposed-Charter-Amendments-lcm.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.castlepinesco.gov/august-25-city-council-meeting-wrap-up/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.castlepinesco.gov/city-services/city-departments/city-clerk/elections/",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0812415",
+      "level": "municipal",
+      "name": "Castle Rock (town)",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.douglasco.gov/documents/accessible-version-2026-general-election-composite-sample-ballot.pdf/",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "Participating with Mayor and Council District 3 and 5 contests only; no Castle Rock ballot question or issue appears on the composite ballot or the town election pages.",
+        "The county TABOR notice booklet is described on the On the Ballot page but was not yet linked (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.crgov.com/2401/Town-Council-Election",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.crgov.com/1938/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0843550",
+      "level": "municipal",
+      "name": "Larkspur (town)",
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.douglasco.gov/documents/accessible-version-2026-general-election-composite-sample-ballot.pdf/",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official composite sample ballot, which the On the Ballot page says \"includes ALL districts and contests\". This row is absent from it.",
+        "The Town of Larkspur website returned a Cloudflare challenge (HTTP 403) and could not be checked. Larkspur Fire Protection District Ballot Issues 6A and 6B belong to a special district (fire and emergency services) and were excluded."
+      ]
+    },
+    {
+      "geoid": "0845955",
+      "level": "municipal",
+      "name": "Lone Tree (city)",
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.douglasco.gov/documents/accessible-version-2026-general-election-composite-sample-ballot.pdf/",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official composite sample ballot, which the On the Ballot page says \"includes ALL districts and contests\". This row is absent from it.",
+        "The city elections page lists the \"May 5, 2026 City Council Election\" under previous city elections."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://cityoflonetree.com/city-clerk/elections/",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0857630",
+      "level": "municipal",
+      "name": "Parker (town)",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.douglasco.gov/documents/accessible-version-2026-general-election-composite-sample-ballot.pdf/",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "Participating with a Councilmember contest (vote for three) only; the town page states the Nov. 3, 2026 regular election will \"elect three (3) Councilmembers\". No Parker ballot question or issue appears on the composite ballot.",
+        "The county TABOR notice booklet is described on the On the Ballot page but was not yet linked (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.parkerco.gov/2386/2026-Election-Information",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "id": "ballot-2026-0812387-q300",
+      "election": {
+        "date": "2026-11-03",
+        "type": "coordinated"
+      },
+      "jurisdiction": {
+        "geoid": "0812387",
+        "level": "municipal",
+        "name": "Castle Pines (city)"
+      },
+      "measure": {
+        "number": "300",
+        "official_title": "City of Castle Pines Ballot Question 300",
+        "origin": "initiated",
+        "relevance": [
+          "land_use"
+        ],
+        "fiscal": {
+          "mechanism": null,
+          "rate": null,
+          "amount_cap": null,
+          "duration": null,
+          "sunset": null
+        }
+      },
+      "status": "on_ballot",
+      "sources": {
+        "certification": null,
+        "official_text": {
+          "url": "https://www.castlepinesco.gov/wp-content/uploads/2026/08/2026-08-21-Election-Notice-for-Proposed-Charter-Amendments-lcm.pdf",
+          "retrieved": "2026-09-26"
+        },
+        "ballot_notice": {
+          "url": "https://www.douglasco.gov/documents/accessible-version-2026-general-election-composite-sample-ballot.pdf/",
+          "retrieved": "2026-09-26"
+        },
+        "blue_book": null,
+        "resolution": null
+      },
+      "neutral_title": "Charter amendment requiring voter approval to annex property over 20 acres",
+      "detail": "Citizen-initiated amendment to the Castle Pines Home Rule Charter. Annexation of property over 20 acres held by one owner or group, or part of a common plan of development, would require approval by city voters; serial annexations of multiple parcels would be aggregated.",
+      "evidence": [
+        {
+          "section": "Douglas County 2026 General Election composite sample ballot (accessible version), City of Castle Pines, Ballot Question 300",
+          "quote": "Should the City of Castle Pines Home Rule Charter be amended to include the following provision: Property in excess of 20 acres owned or controlled by a single owner or ownership group or that are part of a common plan of development or related transactions may be annexed into the City only upon approval by the voters at an election of the registered electors of the City of Castle Pines, Colorado, and for purposes of this provision, any single, successive, cumulative, serial or simultaneous annexations of multiple parcels shall be aggregated and treated as a single annexation as provided in C.R.S. Section 31-12-104(1)(a)?"
+        },
+        {
+          "section": "City of Castle Pines Notice of Election (2026-08-21), question heading",
+          "quote": "Citizen Initiated Charter Amendment"
+        }
+      ],
+      "verification": {
+        "level": "primary",
+        "against": "Douglas County Clerk and Recorder, 2026 General Election composite sample ballot (accessible version), and City of Castle Pines Notice of Election",
+        "checked": "2026-09-26"
+      },
+      "limitations": [
+        "Resolutions 26-50 and 26-51 set the ballot titles for the two citizen-initiated charter amendments but are scanned PDFs without a text layer; which resolution corresponds to which question was not established, so sources.resolution is null. URLs: https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-50-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf ; https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-51-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf",
+        "The city Notice of Election prints the statute citation as \"31-12-104(1)(A)\"; the county ballot prints \"(1)(a)\". The quote follows the county ballot.",
+        "Classified under land use as a growth control (voter approval of annexations); the question creates no tax, fee or housing earmark."
+      ],
+      "result": null,
+      "history": [],
+      "archived": false
+    },
+    {
+      "id": "ballot-2026-0812387-q301",
+      "election": {
+        "date": "2026-11-03",
+        "type": "coordinated"
+      },
+      "jurisdiction": {
+        "geoid": "0812387",
+        "level": "municipal",
+        "name": "Castle Pines (city)"
+      },
+      "measure": {
+        "number": "301",
+        "official_title": "City of Castle Pines Ballot Question 301",
+        "origin": "initiated",
+        "relevance": [
+          "land_use"
+        ],
+        "fiscal": {
+          "mechanism": null,
+          "rate": null,
+          "amount_cap": null,
+          "duration": null,
+          "sunset": null
+        }
+      },
+      "status": "on_ballot",
+      "sources": {
+        "certification": null,
+        "official_text": {
+          "url": "https://www.castlepinesco.gov/wp-content/uploads/2026/08/2026-08-21-Election-Notice-for-Proposed-Charter-Amendments-lcm.pdf",
+          "retrieved": "2026-09-26"
+        },
+        "ballot_notice": {
+          "url": "https://www.douglasco.gov/documents/accessible-version-2026-general-election-composite-sample-ballot.pdf/",
+          "retrieved": "2026-09-26"
+        },
+        "blue_book": null,
+        "resolution": null
+      },
+      "neutral_title": "Charter amendment referring annexations over 20 acres made within 180 days to a voter ratification election",
+      "detail": "Citizen-initiated amendment to the Castle Pines Home Rule Charter. A parcel over 20 acres annexed within 180 days of the provision taking effect would be referred to city voters for ratification; if no such annexation occurs in that period, Council may repeal the provision by ordinance.",
+      "evidence": [
+        {
+          "section": "Douglas County 2026 General Election composite sample ballot (accessible version), City of Castle Pines, Ballot Question 301",
+          "quote": "Should the City of Castle Pines Home Rule Charter be amended to include the following provision: Any parcel over 20 acres owned or controlled by a single owner or ownership group annexed within 180 days of the effective date of this section shall be referred for ratification at an election of the registered electors of the City of Castle Pines, Colorado, and if no such annexation occurs within such 180-day period, this section may be repealed by Council ordinance without a vote of the registered electors of the City of Castle Pines, Colorado?"
+        },
+        {
+          "section": "City of Castle Pines Notice of Election (2026-08-21), question heading",
+          "quote": "Citizen Initiated Charter Amendment"
+        }
+      ],
+      "verification": {
+        "level": "primary",
+        "against": "Douglas County Clerk and Recorder, 2026 General Election composite sample ballot (accessible version), and City of Castle Pines Notice of Election",
+        "checked": "2026-09-26"
+      },
+      "limitations": [
+        "Resolutions 26-50 and 26-51 set the ballot titles for the two citizen-initiated charter amendments but are scanned PDFs without a text layer; which resolution corresponds to which question was not established, so sources.resolution is null. URLs: https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-50-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf ; https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-51-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf",
+        "The city Notice of Election prints the statute citation as \"31-12-104(1)(A)\"; the county ballot prints \"(1)(a)\". The quote follows the county ballot.",
+        "Classified under land use as a growth control (voter approval of annexations); the question creates no tax, fee or housing earmark."
+      ],
+      "result": null,
+      "history": [],
+      "archived": false
+    }
+  ]
+}

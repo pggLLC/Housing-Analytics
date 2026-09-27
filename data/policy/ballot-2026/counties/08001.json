@@ -1,0 +1,86 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08001",
+      "level": "county",
+      "name": "Adams County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0806090",
+      "level": "municipal",
+      "name": "Bennett (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0808675",
+      "level": "municipal",
+      "name": "Brighton (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0816495",
+      "level": "municipal",
+      "name": "Commerce City (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0826270",
+      "level": "municipal",
+      "name": "Federal Heights (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0854330",
+      "level": "municipal",
+      "name": "Northglenn (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0877290",
+      "level": "municipal",
+      "name": "Thornton (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0883835",
+      "level": "municipal",
+      "name": "Westminster (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

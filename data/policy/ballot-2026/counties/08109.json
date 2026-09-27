@@ -1,0 +1,66 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08109",
+      "level": "county",
+      "name": "Saguache County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0807571",
+      "level": "municipal",
+      "name": "Bonanza (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0812855",
+      "level": "municipal",
+      "name": "Center (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0818420",
+      "level": "municipal",
+      "name": "Crestone (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0851250",
+      "level": "municipal",
+      "name": "Moffat (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0867005",
+      "level": "municipal",
+      "name": "Saguache (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

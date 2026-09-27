@@ -1,0 +1,36 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08097",
+      "level": "county",
+      "name": "Pitkin County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0803620",
+      "level": "municipal",
+      "name": "Aspen (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0871755",
+      "level": "municipal",
+      "name": "Snowmass Village (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

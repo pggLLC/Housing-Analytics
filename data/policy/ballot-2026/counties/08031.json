@@ -1,0 +1,62 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08031",
+      "level": "county",
+      "name": "Denver County",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.denvergov.org/files/assets/public/v/1/clerk-and-recorder/documents/elections-division/2026/documents/26-general-election/final-2026-general-sample-ballot-engspa-2.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "City and County of Denver measures read on the sample ballot, all excluded: Referred Question 2H (Auditor wage-law enforcement), 2I (two-year budget), 2J (Civil Service and Department of Safety), 2K (Xcel Energy franchise) and Initiated Ordinance 311 (force-feeding birds). None concerns housing revenue, homelessness, land use or zoning.",
+        "Other measures on Denver ballots belong to other districts and were excluded: Denver Public Schools Ballot Issue 4A (school property tax, the only measure in the TABOR notice) and Front Range Passenger Rail District Ballot Issue 7A (sales tax and debt for passenger rail; no housing earmark).",
+        "Denver is a consolidated city and county; the same five City and County measures are reviewed for both the county and the municipal row. Denver publishes no participating-entities list; the Upcoming Elections page states that the linked ballots contain all contests in Denver.",
+        "The English Ballot Information Booklet is listed but not linked on the notice page (checked 2026-09-26); the Spanish booklet was read instead."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.denvergov.org/files/assets/public/v/1/clerk-and-recorder/documents/elections-division/2026/documents/26-general-election/2026-eng-tabor-notice_final-draft.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Denver-Clerk-and-Recorder/Elections-Division/Upcoming-Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Denver-Clerk-and-Recorder/Elections-Division/Upcoming-Elections/Read-the-Ballot-Issue-Notice-and-Ballot-Information-Booklet",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.denvergov.org/files/assets/public/v/1/clerk-and-recorder/documents/elections-division/2026/documents/26-general-election/2026-esp-ballot-info-book.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0820000",
+      "level": "municipal",
+      "name": "Denver (city)",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Denver-Clerk-and-Recorder/Elections-Division/Upcoming-Elections",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "City and County of Denver measures read on the sample ballot, all excluded: Referred Question 2H (Auditor wage-law enforcement), 2I (two-year budget), 2J (Civil Service and Department of Safety), 2K (Xcel Energy franchise) and Initiated Ordinance 311 (force-feeding birds). None concerns housing revenue, homelessness, land use or zoning.",
+        "Denver is a consolidated city and county; the same five City and County measures are reviewed for both the county and the municipal row. Denver publishes no participating-entities list; the Upcoming Elections page states that the linked ballots contain all contests in Denver."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.denvergov.org/files/assets/public/v/1/clerk-and-recorder/documents/elections-division/2026/documents/26-general-election/final-2026-general-sample-ballot-engspa-2.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.denvergov.org/files/assets/public/v/1/clerk-and-recorder/documents/elections-division/2026/documents/26-general-election/2026-eng-tabor-notice_final-draft.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    }
+  ],
+  "entries": []
+}

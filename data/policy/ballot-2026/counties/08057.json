@@ -1,0 +1,51 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08057",
+      "level": "county",
+      "name": "Jackson County",
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://jacksoncounty.colorado.gov/clerk",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "Checked 2026-09-26: the county clerk page has no election section, sample ballot, TABOR notice or participating-entities list for November 3, 2026.",
+        "Board of County Commissioners agendas from June to September 2026 list a request for a marijuana retail initiative on the November ballot (8/25) and a special-session discussion (8/28); no ballot text was found. Not housing on its face; recheck when the notice is posted."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://jacksoncounty.colorado.gov/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://jacksoncounty.colorado.gov/commissioners",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0882130",
+      "level": "municipal",
+      "name": "Walden (town)",
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://jacksoncounty.colorado.gov/clerk",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "Checked 2026-09-26: no county participating-entities list or sample ballot is posted, so participation could not be confirmed or ruled out. Town Board agendas from May to September 2026 mention no ballot question, election or election IGA."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.townofwaldenco.com/agendas",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townofwaldenco.com/",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    }
+  ],
+  "entries": []
+}

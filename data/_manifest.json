@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-09-26T14:23:11.505Z",
+    "generated_at": "2026-09-27T01:39:50.195Z",
     "root": "data/",
-    "file_count": 1621,
-    "total_size_bytes": 163019671,
+    "file_count": 1687,
+    "total_size_bytes": 163083410,
     "kinds": {
-      "json": 1586,
+      "json": 1652,
       "geojson": 31,
       "csv": 4
     }
@@ -461,7 +461,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-26T14:23:07.807Z",
+      "mtime": "2026-09-27T01:39:48.032Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30461,8 +30461,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 205591,
-      "mtime": "2026-09-26T13:20:57.080Z",
+      "size_bytes": 214348,
+      "mtime": "2026-09-27T01:39:19.825Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31569,10 +31569,10 @@
     {
       "path": "market/transit_routes_co.geojson",
       "kind": "geojson",
-      "size_bytes": 4877911,
-      "mtime": "2026-09-25T12:55:19.109Z",
+      "size_bytes": 4719509,
+      "mtime": "2026-09-26T17:03:54.903Z",
       "shape": "geojson",
-      "feature_count": 1703,
+      "feature_count": 1675,
       "property_keys": [
         "shape_id",
         "agency",
@@ -31815,8 +31815,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14706,
-      "mtime": "2026-09-26T14:23:09.514Z",
+      "size_bytes": 14707,
+      "mtime": "2026-09-27T01:39:49.120Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31839,7 +31839,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-26T14:23:09.155Z",
+      "mtime": "2026-09-27T01:39:48.881Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -31913,6 +31913,1646 @@
       ]
     },
     {
+      "path": "policy/ballot-2026/counties/08001.json",
+      "kind": "json",
+      "size_bytes": 2017,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 8,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08003.json",
+      "kind": "json",
+      "size_bytes": 785,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 3,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08005.json",
+      "kind": "json",
+      "size_bytes": 3251,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 13,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08007.json",
+      "kind": "json",
+      "size_bytes": 553,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 2,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08009.json",
+      "kind": "json",
+      "size_bytes": 1754,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 7,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08011.json",
+      "kind": "json",
+      "size_bytes": 544,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 2,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08013.json",
+      "kind": "json",
+      "size_bytes": 2486,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 10,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08014.json",
+      "kind": "json",
+      "size_bytes": 550,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 2,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08015.json",
+      "kind": "json",
+      "size_bytes": 1038,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08017.json",
+      "kind": "json",
+      "size_bytes": 797,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 3,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08019.json",
+      "kind": "json",
+      "size_bytes": 1287,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 5,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08021.json",
+      "kind": "json",
+      "size_bytes": 1511,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 6,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08023.json",
+      "kind": "json",
+      "size_bytes": 787,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 3,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08025.json",
+      "kind": "json",
+      "size_bytes": 1278,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 5,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08027.json",
+      "kind": "json",
+      "size_bytes": 793,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 3,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08029.json",
+      "kind": "json",
+      "size_bytes": 1759,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 7,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08031.json",
+      "kind": "json",
+      "size_bytes": 4304,
+      "mtime": "2026-09-26T19:23:40.058Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 2,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08033.json",
+      "kind": "json",
+      "size_bytes": 3536,
+      "mtime": "2026-09-26T19:23:40.058Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 3,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08035.json",
+      "kind": "json",
+      "size_bytes": 14228,
+      "mtime": "2026-09-26T19:23:40.058Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 6,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08037.json",
+      "kind": "json",
+      "size_bytes": 9543,
+      "mtime": "2026-09-26T19:23:40.058Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 8,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08039.json",
+      "kind": "json",
+      "size_bytes": 3721,
+      "mtime": "2026-09-26T19:23:40.058Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08041.json",
+      "kind": "json",
+      "size_bytes": 7567,
+      "mtime": "2026-09-26T19:23:40.058Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 9,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08043.json",
+      "kind": "json",
+      "size_bytes": 5660,
+      "mtime": "2026-09-26T19:23:40.058Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 7,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08045.json",
+      "kind": "json",
+      "size_bytes": 9481,
+      "mtime": "2026-09-26T19:23:40.058Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 8,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08047.json",
+      "kind": "json",
+      "size_bytes": 3942,
+      "mtime": "2026-09-26T19:03:35.411Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 3,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08049.json",
+      "kind": "json",
+      "size_bytes": 7396,
+      "mtime": "2026-09-26T19:03:35.411Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 7,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08051.json",
+      "kind": "json",
+      "size_bytes": 9780,
+      "mtime": "2026-09-26T19:03:35.412Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 6,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08053.json",
+      "kind": "json",
+      "size_bytes": 2980,
+      "mtime": "2026-09-26T19:03:35.412Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 2,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08055.json",
+      "kind": "json",
+      "size_bytes": 6114,
+      "mtime": "2026-09-26T19:03:35.412Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 3,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08057.json",
+      "kind": "json",
+      "size_bytes": 1902,
+      "mtime": "2026-09-26T19:03:35.412Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 2,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08059.json",
+      "kind": "json",
+      "size_bytes": 12328,
+      "mtime": "2026-09-26T19:03:35.412Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 9,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08061.json",
+      "kind": "json",
+      "size_bytes": 2902,
+      "mtime": "2026-09-26T19:03:35.412Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08063.json",
+      "kind": "json",
+      "size_bytes": 1758,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 7,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08065.json",
+      "kind": "json",
+      "size_bytes": 543,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 2,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08067.json",
+      "kind": "json",
+      "size_bytes": 1030,
+      "mtime": "2026-09-26T17:11:11.166Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08069.json",
+      "kind": "json",
+      "size_bytes": 1767,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 7,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08071.json",
+      "kind": "json",
+      "size_bytes": 1758,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 7,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08073.json",
+      "kind": "json",
+      "size_bytes": 1262,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 5,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08075.json",
+      "kind": "json",
+      "size_bytes": 1746,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 7,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08077.json",
+      "kind": "json",
+      "size_bytes": 1518,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 6,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08079.json",
+      "kind": "json",
+      "size_bytes": 551,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 2,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08081.json",
+      "kind": "json",
+      "size_bytes": 784,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 3,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08083.json",
+      "kind": "json",
+      "size_bytes": 1028,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08085.json",
+      "kind": "json",
+      "size_bytes": 1270,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 5,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08087.json",
+      "kind": "json",
+      "size_bytes": 1523,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 6,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08089.json",
+      "kind": "json",
+      "size_bytes": 1754,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 7,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08091.json",
+      "kind": "json",
+      "size_bytes": 782,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 3,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08093.json",
+      "kind": "json",
+      "size_bytes": 781,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 3,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08095.json",
+      "kind": "json",
+      "size_bytes": 1026,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08097.json",
+      "kind": "json",
+      "size_bytes": 792,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 3,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08099.json",
+      "kind": "json",
+      "size_bytes": 1506,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 6,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08101.json",
+      "kind": "json",
+      "size_bytes": 1020,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08103.json",
+      "kind": "json",
+      "size_bytes": 788,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 3,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08105.json",
+      "kind": "json",
+      "size_bytes": 1040,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08107.json",
+      "kind": "json",
+      "size_bytes": 1277,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 5,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08109.json",
+      "kind": "json",
+      "size_bytes": 1513,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 6,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08111.json",
+      "kind": "json",
+      "size_bytes": 547,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 2,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08113.json",
+      "kind": "json",
+      "size_bytes": 1523,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 6,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08115.json",
+      "kind": "json",
+      "size_bytes": 1029,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08117.json",
+      "kind": "json",
+      "size_bytes": 1766,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 7,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08119.json",
+      "kind": "json",
+      "size_bytes": 1038,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08121.json",
+      "kind": "json",
+      "size_bytes": 784,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 3,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08123.json",
+      "kind": "json",
+      "size_bytes": 6609,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 27,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/counties/08125.json",
+      "kind": "json",
+      "size_bytes": 1018,
+      "mtime": "2026-09-26T17:11:11.167Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations"
+      ]
+    },
+    {
+      "path": "policy/ballot-2026/statewide.json",
+      "kind": "json",
+      "size_bytes": 6140,
+      "mtime": "2026-09-27T01:39:19.953Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "coverage",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "coverage",
+      "primary_array_length": 1,
+      "primary_array_first_keys": [
+        "geoid",
+        "level",
+        "name",
+        "coverage_state",
+        "reviewed_source",
+        "checked",
+        "entry_ids",
+        "limitations",
+        "reviewed_sources"
+      ]
+    },
+    {
       "path": "policy/buyer-assistance-programs.json",
       "kind": "json",
       "size_bytes": 1971,
@@ -31939,6 +33579,35 @@
         "repayment_triggers",
         "lien_priority",
         "term_years"
+      ]
+    },
+    {
+      "path": "policy/candidate-platforms-2026.json",
+      "kind": "json",
+      "size_bytes": 37538,
+      "mtime": "2026-09-26T19:47:39.913Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "races",
+        "candidates"
+      ],
+      "key_count": 3,
+      "primary_array_key": "candidates",
+      "primary_array_length": 19,
+      "primary_array_first_keys": [
+        "candidate",
+        "office",
+        "party",
+        "campaign_source",
+        "topics",
+        "neutral_summary",
+        "quote",
+        "coverage_state",
+        "verification",
+        "proposed_appointments",
+        "history",
+        "archived"
       ]
     },
     {

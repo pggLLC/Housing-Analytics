@@ -1,0 +1,46 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08095",
+      "level": "county",
+      "name": "Phillips County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0834960",
+      "level": "municipal",
+      "name": "Haxtun (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0837270",
+      "level": "municipal",
+      "name": "Holyoke (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0857245",
+      "level": "municipal",
+      "name": "Paoli (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

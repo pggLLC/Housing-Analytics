@@ -137,7 +137,7 @@
     'LTC': 'Loan-to-Cost — the ratio of mortgage debt to total development cost (TDC). Used in construction-loan sizing.',
     'BMR': 'Below Market Rate — a unit restricted to rent or sell at less than market price, usually via deed restriction, inclusionary zoning, or covenant.',
     'IZ': 'Inclusionary Zoning — a local policy requiring or incentivizing affordable units in new market-rate residential development.',
-    'TOD': 'Transit-Oriented Development — projects within walking distance (typically ½ mile) of a fixed-route transit stop. Qualifies for 3 CHFA QAP points.',
+    'TOD': 'Transit-Oriented Development — projects within a ½-mile walk of transit. Earns 3 CHFA QAP points under the 2025–26 QAP (§5.B.2.b); the 2027–28 Third Draft proposes 5 and adds TOC sites.',
     'TIF': 'Tax Increment Financing — local public financing tool that diverts future property-tax growth from a defined district to pay for current redevelopment.',
     'PIS': 'Placed In Service — the date a LIHTC project is first available for occupancy. Triggers the 15-year compliance period and locks in the income-limit table used.',
     // Market intel / providers

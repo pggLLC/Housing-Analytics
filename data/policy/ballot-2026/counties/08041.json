@@ -1,0 +1,157 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08041",
+      "level": "county",
+      "name": "El Paso County",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://epc-assets.elpasoco.com/wp-content/uploads/sites/5/SampleBallot_EN_Prod.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "El Paso County Ballot Issue 1A (extends the existing 0.23% public safety sales and use tax to January 1, 2037) read and excluded; it is the only county question. School, fire and other district measures (4B, 4C, 6A, 7B and others) were also excluded.",
+        "The county TABOR notice was listed as \"available soon\" (checked 2026-09-26).",
+        "The sample ballot PDF uses a shifted font encoding; its text was decoded (each character offset by 29) before reading."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://clerkandrecorder.elpasoco.com/elections/election-information/",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0811260",
+      "level": "municipal",
+      "name": "Calhan (town)",
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://epc-assets.elpasoco.com/wp-content/uploads/sites/5/SampleBallot_EN_Prod.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official sample ballot, which the county describes as including all the local and state races and measures. This row is absent from it.",
+        "The county TABOR notice was listed as \"available soon\" (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.calhan.co/government/town_government.php",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0816000",
+      "level": "municipal",
+      "name": "Colorado Springs (city)",
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://epc-assets.elpasoco.com/wp-content/uploads/sites/5/SampleBallot_EN_Prod.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official sample ballot, which the county describes as including all the local and state races and measures. This row is absent from it.",
+        "The city election page gives the next municipal election as April 6, 2027.",
+        "The county TABOR notice was listed as \"available soon\" (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://coloradosprings.gov/election",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0827865",
+      "level": "municipal",
+      "name": "Fountain (city)",
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://epc-assets.elpasoco.com/wp-content/uploads/sites/5/SampleBallot_EN_Prod.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official sample ballot, which the county describes as including all the local and state races and measures. This row is absent from it.",
+        "The city website returned HTTP 403 and could not be checked.",
+        "The county TABOR notice was listed as \"available soon\" (checked 2026-09-26)."
+      ]
+    },
+    {
+      "geoid": "0832650",
+      "level": "municipal",
+      "name": "Green Mountain Falls (town)",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://epc-assets.elpasoco.com/wp-content/uploads/sites/5/SampleBallot_EN_Prod.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "Town of Green Mountain Falls Ballot Issue 3A (0.5% sales tax for 2027–2030 for the Old Town Marshal's building) read and excluded; no housing earmark. The town website returned HTTP 403.",
+        "The county TABOR notice was listed as \"available soon\" (checked 2026-09-26)."
+      ]
+    },
+    {
+      "geoid": "0848445",
+      "level": "municipal",
+      "name": "Manitou Springs (city)",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://epc-assets.elpasoco.com/wp-content/uploads/sites/5/SampleBallot_EN_Prod.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "City of Manitou Springs Ballot Issue 2A (admissions excise tax increase) read and excluded; no short-term-rental, lodging or housing question is on the ballot.",
+        "The county TABOR notice was listed as \"available soon\" (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.manitouspringsco.gov/852/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0851800",
+      "level": "municipal",
+      "name": "Monument (town)",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://epc-assets.elpasoco.com/wp-content/uploads/sites/5/SampleBallot_EN_Prod.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "Town of Monument Ballot Issue 2B (use tax on construction materials and equipment raised for streets and stormwater) read and excluded: revenue is not earmarked for housing. It taxes construction materials, including for housing construction.",
+        "The county TABOR notice was listed as \"available soon\" (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.townofmonument.org/167/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0857025",
+      "level": "municipal",
+      "name": "Palmer Lake (town)",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://epc-assets.elpasoco.com/wp-content/uploads/sites/5/SampleBallot_EN_Prod.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "Participating with Mayor and Trustee contests only; no Palmer Lake ballot question or issue appears on the sample ballot. The town website was unreachable (checked 2026-09-26).",
+        "The county TABOR notice was listed as \"available soon\" (checked 2026-09-26)."
+      ]
+    },
+    {
+      "geoid": "0862660",
+      "level": "municipal",
+      "name": "Ramah (town)",
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://epc-assets.elpasoco.com/wp-content/uploads/sites/5/SampleBallot_EN_Prod.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official sample ballot, which the county describes as including all the local and state races and measures. This row is absent from it.",
+        "No town website was found.",
+        "The county TABOR notice was listed as \"available soon\" (checked 2026-09-26)."
+      ]
+    }
+  ],
+  "entries": []
+}

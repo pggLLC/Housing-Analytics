@@ -1,0 +1,76 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08009",
+      "level": "county",
+      "name": "Baca County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0811645",
+      "level": "municipal",
+      "name": "Campo (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0861315",
+      "level": "municipal",
+      "name": "Pritchett (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0873330",
+      "level": "municipal",
+      "name": "Springfield (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0879270",
+      "level": "municipal",
+      "name": "Two Buttes (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0881030",
+      "level": "municipal",
+      "name": "Vilas (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0882460",
+      "level": "municipal",
+      "name": "Walsh (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

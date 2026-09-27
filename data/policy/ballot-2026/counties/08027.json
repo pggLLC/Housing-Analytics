@@ -1,0 +1,36 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08027",
+      "level": "county",
+      "name": "Custer County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0870250",
+      "level": "municipal",
+      "name": "Silver Cliff (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0883450",
+      "level": "municipal",
+      "name": "Westcliffe (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}
