@@ -5,71 +5,195 @@
       "geoid": "08029",
       "level": "county",
       "name": "Delta County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.deltacountyco.gov/DocumentCenter/View/18519",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the county's \"Sample Ballot Content 2026 General\" document (unformatted ballot content, not a proof ballot).",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "No Delta County ballot question appears. Excluded (special district, not housing): Hotchkiss Fire District Ballot Issue 6A (sales and use tax for fire protection).",
+        "No TABOR notice was posted on the county clerk election page as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.deltacountyco.gov/325/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.deltacountyco.gov/DocumentCenter/View/18519",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0812635",
       "level": "municipal",
       "name": "Cedaredge (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.deltacountyco.gov/DocumentCenter/View/18519",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the county's \"Sample Ballot Content 2026 General\" document (unformatted ballot content, not a proof ballot).",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "Excluded (no housing earmark): Town of Cedaredge Ballot Issue 2C, additional 1% sales and use tax for public roadways, public recreation, public safety and economic development.",
+        "Town website checked 2026-09-26 has no election content; the referring resolution was not found."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.deltacountyco.gov/325/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.deltacountyco.gov/DocumentCenter/View/18519",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://cedaredgecolorado.com/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0817925",
       "level": "municipal",
       "name": "Crawford (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.deltacountyco.gov/DocumentCenter/View/18519",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the county's \"Sample Ballot Content 2026 General\" document (unformatted ballot content, not a proof ballot).",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "No Crawford question appears; town website checked 2026-09-26 has no election content."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.deltacountyco.gov/325/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.deltacountyco.gov/DocumentCenter/View/18519",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofcrawford.colorado.gov/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0819850",
       "level": "municipal",
       "name": "Delta (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.deltacountyco.gov/DocumentCenter/View/18519",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the county's \"Sample Ballot Content 2026 General\" document (unformatted ballot content, not a proof ballot).",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "No City of Delta question appears. The city's election pages (https://www.cityofdelta.net/administration/page/notice-election) returned HTTP 403 (Cloudflare challenge) on 2026-09-26 and could not be read. Owner review: confirm the city has no November 3, 2026 measure."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.deltacountyco.gov/325/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.deltacountyco.gov/DocumentCenter/View/18519",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0837545",
       "level": "municipal",
       "name": "Hotchkiss (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.deltacountyco.gov/DocumentCenter/View/18519",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the county's \"Sample Ballot Content 2026 General\" document (unformatted ballot content, not a proof ballot).",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "No Town of Hotchkiss question appears (Ballot Issue 6A belongs to the Hotchkiss Fire District); town clerk page checked 2026-09-26 has no election content."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.deltacountyco.gov/325/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.deltacountyco.gov/DocumentCenter/View/18519",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofhotchkiss.colorado.gov/departments/town-clerk",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0855980",
       "level": "municipal",
       "name": "Orchard City (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.deltacountyco.gov/DocumentCenter/View/18519",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the county's \"Sample Ballot Content 2026 General\" document (unformatted ballot content, not a proof ballot).",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "Excluded (general fund, no housing earmark): Town of Orchard City Ballot Issue 2B, 0.75% sales tax for town services, employees and roads."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.deltacountyco.gov/325/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.deltacountyco.gov/DocumentCenter/View/18519",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://orchardcityco.org/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0857300",
       "level": "municipal",
       "name": "Paonia (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.deltacountyco.gov/DocumentCenter/View/18519",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the county's \"Sample Ballot Content 2026 General\" document (unformatted ballot content, not a proof ballot).",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "Excluded (any lawful municipal purpose): Town of Paonia Ballot Issue 2A, replacing the marijuana occupational tax with a 5% marijuana sales tax."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.deltacountyco.gov/325/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.deltacountyco.gov/DocumentCenter/View/18519",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofpaonia.colorado.gov/government/public-notices/hearings",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofpaonia.colorado.gov/sites/g/files/lrnvjt1996/files/documents/R-20-26-Marijuana-Tax-Change-Ballot-Issue.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

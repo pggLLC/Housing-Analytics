@@ -5,41 +5,120 @@
       "geoid": "08095",
       "level": "county",
       "name": "Phillips County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://phillipscounty.colorado.gov/sites/g/files/lrnvjt1351/files/notice-of-general-election-2026.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county clerk's Notice of General Election (ballot content certified 2026-09-23) lists no Phillips County ballot issue or question; its local measures are Town of Haxtun 2A, City of Holyoke 2B and Holyoke District RE 1-J 5A.",
+        "The county sample ballot PDFs have a garbled text layer; the certified ballot content in the notice was used instead.",
+        "phillipscounty.colorado.gov returns HTTP 403 to non-browser clients; pages were retrieved with a browser user agent."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://phillipscounty.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://phillipscounty.colorado.gov/sites/g/files/lrnvjt1351/files/notice-of-general-election-2026.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://phillipscounty.colorado.gov/sites/g/files/lrnvjt1351/files/November-2026-Sample-Ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0834960",
       "level": "municipal",
       "name": "Haxtun (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://phillipscounty.colorado.gov/sites/g/files/lrnvjt1351/files/tabor-notice-Haxtun-2026.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating: Town of Haxtun Ballot Measure 2A is in the county-certified ballot content.",
+        "Excluded 2A (not housing): it reallocates the town's existing 0.5% sales and use tax between the community center and street, street repair and drainage projects.",
+        "The town website has no election page or posted 2026 ordinance; the TABOR notice prepared by the town clerk was the municipal source read."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://phillipscounty.colorado.gov/sites/g/files/lrnvjt1351/files/notice-of-general-election-2026.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://phillipscounty.colorado.gov/sites/g/files/lrnvjt1351/files/tabor-notice-Haxtun-2026.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://phillipscounty.colorado.gov/sites/g/files/lrnvjt1351/files/November-2026-Sample-Ballot-Town-of-Haxtun.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofhaxtun.colorado.gov/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0837270",
       "level": "municipal",
       "name": "Holyoke (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://phillipscounty.colorado.gov/sites/g/files/lrnvjt1351/files/TABOR-HOLYOKE-2026.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating: City of Holyoke Ballot Measure 2B is in the county-certified ballot content; the 2026-08-04 council agenda approves the election IGA with Phillips County.",
+        "Excluded 2B (lodging tax, not dedicated to housing): it extends the city's 2.5% lodging tax for the city's recreation programs to December 31, 2032.",
+        "A long-term infrastructure debt question discussed at the 2026-07-07 council meeting does not appear in the certified ballot content."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://phillipscounty.colorado.gov/sites/g/files/lrnvjt1351/files/notice-of-general-election-2026.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://phillipscounty.colorado.gov/sites/g/files/lrnvjt1351/files/TABOR-HOLYOKE-2026.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://phillipscounty.colorado.gov/sites/g/files/lrnvjt1351/files/November-2026-Sample-Ballot-RE-1-J-and-City-of-Holyoke.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.cityofholyoke-co.gov/departments/forms_documents.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.cityofholyoke-co.gov/Documents/Department/Forms%20and%20Documents/August%204,%202026%20Agenda.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.cityofholyoke-co.gov/Documents/Department/Forms%20and%20Documents/August%2018,%202026%20Agenda.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0857245",
       "level": "municipal",
       "name": "Paoli (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://phillipscounty.colorado.gov/sites/g/files/lrnvjt1351/files/notice-of-general-election-2026.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county's certified ballot content lists no Town of Paoli ballot issue or question.",
+        "Participation could not be confirmed: the county posts no participating-entities list and the town website did not respond on 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://phillipscounty.colorado.gov/sites/g/files/lrnvjt1351/files/notice-of-general-election-2026.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

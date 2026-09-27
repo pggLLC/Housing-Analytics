@@ -5,41 +5,80 @@
       "geoid": "08115",
       "level": "county",
       "name": "Sedgwick County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://sedgwickcounty.colorado.gov/sites/g/files/lrnvjt3351/files/documents/2026-General-Election-Notice.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The only county question is Sedgwick County Ballot Issue 1A. It was excluded because it funds emergency medical services, not housing. Full text as printed on the sample ballot: 'SHALL SEDGWICK COUNTY TAXES BE INCREASED $467,000.00 ANNUALLY, (ESTIMATED FIRST YEAR DOLLAR INCREASE) BY LEVYING A TEMPORARY 1% SALES AND USE TAX THAT SHALL SUNSET FOUR YEARS AFTER ITS IMPLEMENTATION TO BE DEPOSITED INTO THE SEDGWICK COUNTY EMERGENCY MEDICAL SERVICES FUND FOR SEDGWICK COUNTY AMBULANCE SERVICE AND SHALL SEDGWICK COUNTY BE AUTHORIZED TO RECEIVE, RETAIN AND SPEND IN THE YEAR 2027 AND EACH SUBSEQUENT YEAR, ALL REVENUES, INCLUDING INVESTMENT INCOME IT RECEIVES FROM THIS NEW SALES AND USE TAX AND ITS MILL LEVY, AS A VOTER APPROVED REVENUE CHANGE WITHOUT LIMITATION OR CONDITION UNDER ARTICLE X, SECTION 20 OF THE COLORADO CONSTITUTION OR ANY OTHER LAW; ALL PURSUANT TO AND AS FURTHER PROVIDED IN PROPOSAL AND THIS RESOLUTION OF THE BOARD OF COUNTY COMMISSIONERS OF THE COUNTY?'",
+        "The Election Notice PDF has no text layer. I read it from the embedded page image, so no machine text was extracted.",
+        "The posted sample ballot is a single style (003-02). The complete listing comes from the certified General Notice, not from the sample ballot.",
+        "The only non-county local measure is Holyoke School District RE-1J Question #5A, which asks to accept a $37,511,924.54 BEST grant. It is not housing."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://sedgwickcounty.colorado.gov/sites/g/files/lrnvjt3351/files/documents/2026-General-Election-Notice.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://sedgwickcounty.colorado.gov/sites/g/files/lrnvjt3351/files/documents/2026-General-Sample-Ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0839965",
       "level": "municipal",
       "name": "Julesburg (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://sedgwickcounty.colorado.gov/sites/g/files/lrnvjt3351/files/documents/2026-General-Election-Notice.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The clerk's certified 'complete listing of ballot content for Sedgwick County, Colorado ballots' (Sept 21, 2026) lists no municipal ballot measures. No separate participating-entities list or IGA list is posted. I did not check the town's own website."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://sedgwickcounty.colorado.gov/sites/g/files/lrnvjt3351/files/documents/2026-General-Election-Notice.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0856475",
       "level": "municipal",
       "name": "Ovid (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://sedgwickcounty.colorado.gov/sites/g/files/lrnvjt3351/files/documents/2026-General-Election-Notice.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The certified complete listing of Sedgwick County ballot content (Sept 21, 2026) lists no municipal ballot measures. No separate participating-entities list is posted."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://sedgwickcounty.colorado.gov/sites/g/files/lrnvjt3351/files/documents/2026-General-Election-Notice.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0868930",
       "level": "municipal",
       "name": "Sedgwick (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://sedgwickcounty.colorado.gov/sites/g/files/lrnvjt3351/files/documents/2026-General-Election-Notice.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The certified complete listing of Sedgwick County ballot content (Sept 21, 2026) lists no municipal ballot measures. No separate participating-entities list is posted."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://sedgwickcounty.colorado.gov/sites/g/files/lrnvjt3351/files/documents/2026-General-Election-Notice.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

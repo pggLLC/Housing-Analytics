@@ -5,41 +5,115 @@
       "geoid": "08083",
       "level": "county",
       "name": "Montezuma County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://montezumacounty.gov/wp-content/uploads/2026/09/Sample-Style-2-2026-General.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read all four official sample ballot styles (scanned PDFs, read from page images).",
+        "Excluded: County Ballot Measure 1A (removes term limits for the Assessor, Clerk and Recorder, Surveyor and Treasurer). Not housing.",
+        "Excluded: County Lodging Tax Question 1B (county lodging tax from 2% to 5%, outside Cortez). Revenue is designated for tourism promotion and marketing, recreation, visitor infrastructure, destination development, tourism resiliency and administration, with no housing designation.",
+        "No separate local TABOR notice was posted as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://montezumacounty.gov/2026-general-election-information/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://montezumacounty.gov/wp-content/uploads/2026/09/Sample-Style-1-2026-General.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://montezumacounty.gov/wp-content/uploads/2026/09/Sample-Style-2-2026-General.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://montezumacounty.gov/wp-content/uploads/2026/09/Sample-Style-3-2026-General.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://montezumacounty.gov/wp-content/uploads/2026/09/Sample-Style-4-2026-General.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0817375",
       "level": "municipal",
       "name": "Cortez (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://montezumacounty.gov/wp-content/uploads/2026/09/Sample-Style-1-2026-General.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating: City of Cortez Ballot Question 2A appears on sample ballot Style 1. The city clerk's elections page lists the same single November question (Ordinance No. 1375, Series 2026).",
+        "Excluded: 2A (city lodgers' tax from 2% to 6%). Revenue is designated for tourism marketing, economic development and redevelopment of properties and infrastructure, and arts and cultural events, with no housing designation."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://montezumacounty.gov/wp-content/uploads/2026/09/Sample-Style-1-2026-General.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.cortezco.gov/248/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0820770",
       "level": "municipal",
       "name": "Dolores (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://montezumacounty.gov/wp-content/uploads/2026/09/Sample-Style-2-2026-General.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. None of the four official sample ballot styles, which together cover all precincts, carries a Town of Dolores question. The town's elections page shows only its April 7, 2026 election."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://montezumacounty.gov/wp-content/uploads/2026/09/Sample-Style-1-2026-General.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://montezumacounty.gov/wp-content/uploads/2026/09/Sample-Style-2-2026-General.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://montezumacounty.gov/wp-content/uploads/2026/09/Sample-Style-3-2026-General.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://montezumacounty.gov/wp-content/uploads/2026/09/Sample-Style-4-2026-General.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofdolores.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0848115",
       "level": "municipal",
       "name": "Mancos (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://montezumacounty.gov/wp-content/uploads/2026/09/Sample-Style-3-2026-General.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating: Town of Mancos Ballot Question 2B appears on sample ballot Style 3.",
+        "Excluded: 2B (additional town sales tax of .40% for street improvements and broadband). Not housing.",
+        "The town clerk's own site could not be reached from the research environment on 2026-09-26; the review rests on the county sample ballot."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://montezumacounty.gov/wp-content/uploads/2026/09/Sample-Style-3-2026-General.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
