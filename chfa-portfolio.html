@@ -310,16 +310,26 @@
           <th data-col="AwardYear" title="Year CHFA awarded the tax credits (AwardYear). CHFA publishes no placed-in-service year; a property typically opens two to three years after its award.">Award Year</th>
           <th data-col="YR_ALLOC" title="Year CHFA reserved the credits (ReservationYear, or the award year where none is recorded). Usually the same as the award year.">Reservation Yr</th>
           <th data-col="CREDIT">Credit Type</th>
+          <th title="Opens Google Maps at the location CHFA publishes for the property. CHFA publishes no property website.">Location <a href="#locationNote" class="portfolio-note-ref" aria-label="About the Location column">&dagger;</a></th>
           <th>DDA/QCT <a href="#ddaQctNote" class="portfolio-note-ref" aria-label="About the DDA and QCT column">*</a></th>
         </tr>
       </thead>
       <tbody id="portfolioBody">
-        <tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted);">Loading…</td></tr>
+        <tr><td colspan="10" style="text-align:center;padding:2rem;color:var(--muted);">Loading…</td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="pagination" id="pagination" aria-label="Table pagination"></div>
+
+  <p class="data-note" id="locationNote">
+    <strong>&dagger; About the Location column.</strong>
+    CHFA's portfolio feed publishes no property website, so this column can't link to one. Instead,
+    <em>Map</em> opens Google Maps at the coordinates CHFA publishes for the property. Hover over the link
+    to see the street address. Once the map opens, the property's own listing and website, where it
+    has them, are usually one click away. A property with no coordinates is looked up by street address,
+    and one with neither shows a dash rather than a guessed location.
+  </p>
 
   <p class="data-note" id="ddaQctNote">
     <strong>* About the DDA/QCT column.</strong>
@@ -422,6 +432,33 @@
     return y == null ? '—' : String(y);
   }
 
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // Location link. CHFA publishes no property website, so the row links to
+  // the point CHFA geocoded the property to. A missing or non-numeric
+  // coordinate is absence, not 0 — Number(null) === 0 would send the user
+  // to the Gulf of Guinea — so each is guarded before it is read as a number.
+  function coord(v) {
+    if (v === null || v === undefined || v === '') return null;
+    var n = Number(v);
+    return Number.isFinite(n) && n !== 0 ? n : null;
+  }
+  function mapLinkFor(r) {
+    var lat = coord(r._lat), lng = coord(r._lng);
+    var addr = [r.PROJ_ADD, r.PROJ_CTY, r.PROJ_ST || 'CO'].filter(Boolean).join(', ');
+    var query = (lat !== null && lng !== null) ? lat + ',' + lng
+      : (r.PROJ_ADD ? addr : null);
+    if (!query) return '<span title="CHFA publishes no coordinates or street address for this property">—</span>';
+    var label = 'Open ' + (r.PROJECT || 'this property') + ' on Google Maps' + (r.PROJ_ADD ? ' — ' + addr : '');
+    return '<a href="https://www.google.com/maps/search/?api=1&amp;query=' + encodeURIComponent(query) +
+      '" target="_blank" rel="noopener" title="' + esc(label) + '" aria-label="' + esc(label) +
+      ' (opens in a new tab)">Map ↗</a>';
+  }
+
   function setStatus(msg, isError) {
     const el = document.getElementById('statusBar');
     el.textContent = msg;
@@ -486,7 +523,7 @@
     const slice = filtered.slice(start, start + PAGE_SIZE);
 
     if (!slice.length) {
-      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted);">No properties match the current filters.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:2rem;color:var(--muted);">No properties match the current filters.</td></tr>';
       return;
     }
 
@@ -515,6 +552,7 @@
         <td>${fmtYear(r)}</td>
         <td>${(parseInt(r.YR_ALLOC,10) >= 1986 && parseInt(r.YR_ALLOC,10) <= 2030) ? r.YR_ALLOC : '—'}</td>
         <td>${creditLabel(r.CREDIT)}</td>
+        <td style="white-space:nowrap;">${mapLinkFor(r)}</td>
         <td>${boost}</td>
       </tr>`;
     }).join('');
@@ -612,7 +650,9 @@
 
         allRows = features.map(f => {
           const p = f.properties || f;
-          return Object.assign({}, p, { _county: deriveCounty(p) });
+          const c = (f.geometry && f.geometry.type === 'Point' && Array.isArray(f.geometry.coordinates))
+            ? f.geometry.coordinates : [null, null];
+          return Object.assign({}, p, { _county: deriveCounty(p), _lng: c[0], _lat: c[1] });
         });
 
         // F116 — Compute the live-feed max AwardDate so the vintage banner
@@ -635,7 +675,7 @@
       .catch(function (err) {
         setStatus('Unable to load portfolio data. ' + err.message, true);
         document.getElementById('portfolioBody').innerHTML =
-          '<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--bad);">Failed to load data. Please try again later.</td></tr>';
+          '<tr><td colspan="10" style="text-align:center;padding:2rem;color:var(--bad);">Failed to load data. Please try again later.</td></tr>';
       });
   }
 
