@@ -273,22 +273,36 @@ for (const [rel, doc] of [[CANONICAL, canonical], [DISPLAY, display]]) {
 }
 
 /* ── the workflow gate that prevents the compounding ───────────────────── */
-// Agreement between the workflow and the simplifier: every simplify call in
-// the market-data workflow must carry --if-geometry-changed, and the flag must
-// turn a fallback run (committed geometry, rewritten bytes) into a no-op.
+// Agreement between the workflows and the simplifier: every simplify call in
+// EVERY workflow must carry --if-geometry-changed, and the flag must turn a
+// fallback run (committed geometry, rewritten bytes) into a no-op. The scan
+// covers all workflows, not just market_data_build.yml: fetch-cdphe-boundaries
+// and fetch-parcel-zoning-data ran the same unflagged byte-diff -> simplify
+// pattern until the audit after #1990; only upstream failures had kept them
+// from compounding.
 {
-  const WF = '.github/workflows/market_data_build.yml';
-  const wf = fs.readFileSync(path.join(ROOT, WF), 'utf8');
-  const calls = wf.split('\n').filter((l) => /node scripts\/simplify-geojson\.mjs/.test(l) && !l.trim().startsWith('#'));
-  const tractCall = calls.find((l) => l.includes(CANONICAL));
-  const ungated = calls.filter((l) => !l.includes('--if-geometry-changed'));
+  const WF_DIR = '.github/workflows';
+  const MARKET = `${WF_DIR}/market_data_build.yml`;
+  const calls = [];
+  for (const name of fs.readdirSync(path.join(ROOT, WF_DIR)).filter((f) => /\.ya?ml$/.test(f)).sort()) {
+    const rel = `${WF_DIR}/${name}`;
+    fs.readFileSync(path.join(ROOT, rel), 'utf8').split('\n')
+      .filter((l) => /node scripts\/simplify-geojson\.mjs/.test(l) && !l.trim().startsWith('#'))
+      .forEach((l) => calls.push({ rel, line: l.trim() }));
+  }
+  const tractCall = calls.find((c) => c.rel === MARKET && c.line.includes(CANONICAL));
+  const ungated = calls.filter((c) => !c.line.includes('--if-geometry-changed'));
+  const files = new Set(calls.map((c) => c.rel));
   if (!tractCall) {
-    fail(`${WF} no longer simplifies ${CANONICAL} — update this guard to follow the producer`);
+    fail(`${MARKET} no longer simplifies ${CANONICAL} — update this guard to follow the producer`);
+  } else if (files.size < 3) {
+    fail(`found simplify calls in only ${files.size} workflow(s) (${[...files].join(', ')}); `
+      + 'the scan has stopped seeing the producers it exists to check');
   } else if (ungated.length) {
-    fail(`${WF}: simplify call(s) without --if-geometry-changed would re-simplify a fallback copy:\n      - `
-      + ungated.map((l) => l.trim()).join('\n      - '));
+    fail('simplify call(s) without --if-geometry-changed would re-simplify a fallback copy:\n      - '
+      + ungated.map((c) => `${c.rel}: ${c.line}`).join('\n      - '));
   } else {
-    ok(`${WF}: all ${calls.length} simplify calls carry --if-geometry-changed`);
+    ok(`all ${calls.length} simplify calls across ${files.size} workflows carry --if-geometry-changed`);
   }
 }
 
