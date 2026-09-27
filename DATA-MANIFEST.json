@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-09-27T14:43:31Z",
+  "generated": "2026-09-27T22:15:36Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -70,7 +70,7 @@
       "update_method": "cached",
       "status": "seed",
       "fallback_rule": "Hide schools amenity layer on map; suppress school proximity scoring",
-      "last_update": "2026-04-07T13:14:43Z",
+      "last_update": "2026-09-27T21:05:53Z",
       "description": "Point features for K-12 schools in Colorado used to assess educational facility proximity as part of the Housing Needs Assessment amenity scoring model."
     },
     {
