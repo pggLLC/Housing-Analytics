@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T20:46:15.221Z",
+    "generated_at": "2026-09-27T20:49:47.350Z",
     "root": "data/",
     "file_count": 1691,
-    "total_size_bytes": 172957367,
+    "total_size_bytes": 172957426,
     "kinds": {
       "json": 1655,
       "geojson": 32,
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-27T20:46:12.774Z",
+      "mtime": "2026-09-27T20:49:44.697Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1347,7 +1347,7 @@
       "path": "environmental/epa-superfund-co.json",
       "kind": "json",
       "size_bytes": 331979,
-      "mtime": "2026-09-27T18:17:58.820Z",
+      "mtime": "2026-09-27T20:49:44.698Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -29368,7 +29368,7 @@
       "path": "home-snapshot.json",
       "kind": "json",
       "size_bytes": 2173,
-      "mtime": "2026-09-27T18:18:02.955Z",
+      "mtime": "2026-09-27T20:49:44.699Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -29970,8 +29970,8 @@
     {
       "path": "jurisdiction-briefs/_liveness.json",
       "kind": "json",
-      "size_bytes": 279205,
-      "mtime": "2026-09-25T12:55:18.819Z",
+      "size_bytes": 279251,
+      "mtime": "2026-09-27T20:46:09.706Z",
       "shape": "object",
       "keys": [
         "summary",
@@ -30495,7 +30495,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 214909,
-      "mtime": "2026-09-27T20:43:43.094Z",
+      "mtime": "2026-09-27T20:49:44.721Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30526,7 +30526,7 @@
       "path": "market/acs_tract_metrics_co.json",
       "kind": "json",
       "size_bytes": 1347353,
-      "mtime": "2026-09-27T18:17:55.194Z",
+      "mtime": "2026-09-27T20:49:44.699Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31119,7 +31119,7 @@
       "path": "market/hud_lihtc_co.geojson",
       "kind": "geojson",
       "size_bytes": 996787,
-      "mtime": "2026-09-27T18:17:59.264Z",
+      "mtime": "2026-09-27T20:49:44.709Z",
       "shape": "geojson",
       "feature_count": 926,
       "property_keys": [
@@ -31875,7 +31875,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14707,
-      "mtime": "2026-09-27T20:46:13.931Z",
+      "mtime": "2026-09-27T20:49:44.712Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31898,7 +31898,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-27T20:46:13.676Z",
+      "mtime": "2026-09-27T20:49:44.712Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34554,8 +34554,8 @@
     {
       "path": "reports/data-source-health.json",
       "kind": "json",
-      "size_bytes": 7820,
-      "mtime": "2026-09-25T12:55:19.127Z",
+      "size_bytes": 7833,
+      "mtime": "2026-09-27T20:46:10.209Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -34678,7 +34678,7 @@
       "path": "source-registry.json",
       "kind": "json",
       "size_bytes": 6362,
-      "mtime": "2026-09-25T12:55:19.131Z",
+      "mtime": "2026-09-27T20:46:10.214Z",
       "shape": "object",
       "keys": [
         "generated_at",
