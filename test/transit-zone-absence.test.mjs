@@ -25,7 +25,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
-import { JSDOM } from 'jsdom';
+import { JSDOM, VirtualConsole } from 'jsdom';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -61,9 +61,54 @@ const FORBIDDEN = [
   [/Soft Funding Stack|may be eligible|Possible (funding )?source/, 'a credit pointer'],
   [/official_(in|out)/, 'an official designation'],
 ];
+// A bare "No" or "Outside" (any case) next to "Unavailable" reads as a
+// negative answer — "Unavailable. No, this place is outside the transit
+// zone." is the shape this rule exists to catch (#1977). The only uses
+// allowed are these phrases, each of which says what is missing or why the
+// screen does not apply, never what the answer is. Each is the whole phrase
+// the product renders, so a bare "No" or "Outside" beside it still fails.
+const ALLOWED_NO_OUTSIDE = [
+  // The out-of-state case is itself the reason the Colorado screen does not
+  // apply (js/transit-zone.js status(), rendered by the PMA gate).
+  [/\boutside Colorado\b/gi, 'the site is not in Colorado, so the screen does not apply'],
+  // The PMA gate's designation note for that same out-of-state site: there
+  // is no designation to give, and the clause says why.
+  [/\bNo designation: the site location could not be placed in Colorado\./g, 'no designation exists for an out-of-state site'],
+  // areaSummary / the for-sale study: the file has no row for this place.
+  [/\bNo transit zone figures for this (geography|jurisdiction)\./g, 'the data has no figures for the place'],
+  // No place picked (areaSummary; the for-sale study's example mode).
+  [/\bNo jurisdiction is selected\b/g, 'no input to screen'],
+  [/\bwith no jurisdiction selected\b/g, 'no input to screen'],
+  [/\bthere is no area to screen\b/g, 'no input to screen'],
+  // recommendation-page.js renders a null metric value as "no figure".
+  [/\bno figure\b/g, 'the page\'s own null placeholder'],
+  // Unavailable reasons in js/transit-zone.js not reached by a swept
+  // condition today, allowed so the undated / empty-map cases may be added.
+  [/\bhas no build date\b/g, 'the stop file cannot be dated'],
+  [/\bhas no zones to check against\b/g, 'the official map is empty'],
+];
+function unavailableClean(text, where) {
+  let rest = String(text);
+  for (const [re] of ALLOWED_NO_OUTSIDE) rest = rest.replace(re, ' ');
+  for (const [re, what] of [[/\bNo\b/i, 'a bare "No"'], [/\bOutside\b/i, 'a bare "Outside"']]) {
+    const m = rest.match(new RegExp(`[^.]*${re.source}[^.]*`, 'i'));
+    assert.ok(!m, `${where}: an unknown rendered ${what}: "${m && m[0].trim()}"`);
+  }
+}
 function clean(text, where) {
   for (const [re, what] of FORBIDDEN) assert.doesNotMatch(String(text), re, `${where}: an unknown rendered ${what}`);
+  unavailableClean(text, where);
 }
+// The rule must bite: the mutation from the #1977 review, and each allowed
+// phrase with a bare negative beside it, fail; the allowed phrases alone pass.
+for (const bad of ['Unavailable. No, this place is outside the transit zone.', 'Unavailable. Outside.',
+  'Unavailable. NO transit here.', 'Unavailable. The site is outside Colorado. No.',
+  'Unavailable. No designation.', 'Unavailable. No transit zone figures.']) {
+  assert.throws(() => clean(bad, 'self-test'), /bare/, `the bare No/Outside rule let through: ${bad}`);
+}
+clean('Unavailable. The site location is outside Colorado (or its coordinates are missing or swapped). ' +
+  'No designation: the site location could not be placed in Colorado. No transit zone figures for this geography. ' +
+  'No jurisdiction is selected, so there is no area to screen. no figure', 'self-test');
 
 let failures = 0;
 let passed = 0;
@@ -170,6 +215,22 @@ for (const [condition, o, lat, lon] of [
   });
 }
 
+// Still loading: nothing is known yet, so the gate says it is checking and
+// offers the calculator nothing.
+for (const [condition, o, lat, lon] of [
+  ['loading: stop data not arrived yet', { noStops: true }, ...UNION],
+  ['loading: zone-map status in flight', { state: 'loading' }, ...UNION],
+  ['loading: OEDIT zone file in flight', { mapStatus: published, zonesState: 'loading' }, 38.82, -102.35],
+]) {
+  await check(GATE, condition, () => {
+    const { box, dc } = runGate(lat, lon, o);
+    assert.equal(box.getAttribute('data-tz-state'), 'loading');
+    assert.match(box.textContent, /checking/);
+    clean(box.textContent, GATE);
+    assert.ok(dc.calls.length && dc.calls.every((r) => r === null), 'a loading gate handed the deal calculator a result');
+  });
+}
+
 // ── js/deal-calculator.js — the funding line ───────────────────────────────
 const DEAL = 'js/deal-calculator.js';
 const dealDom = new JSDOM('<!doctype html><div id="dc-tz-note" hidden></div>', { runScripts: 'outside-only' });
@@ -205,7 +266,12 @@ await check(DEAL, 'helper script missing', () => {
 const PANEL = 'js/hna/hna-renderers.js';
 const EXPORT = 'js/hna/hna-export.js';
 function hnaPage(fetchImpl, { noHelper } = {}) {
-  const dom = new JSDOM('<!doctype html><div id="hnaTransitZoneContent"></div>', { runScripts: 'outside-only' });
+  // The CSV writer's download clicks a blob: link, which jsdom cannot
+  // navigate to; that notice is expected, anything else is reported.
+  const virtualConsole = new VirtualConsole();
+  virtualConsole.on('jsdomError', (e) => { if (!/navigation/.test(e.message)) console.error(e); });
+  const dom = new JSDOM('<!doctype html><select id="geoSelect"></select><div id="hnaTransitZoneContent"></div>',
+    { runScripts: 'outside-only', virtualConsole });
   const w = dom.window;
   w.fetch = fetchImpl;
   w.HNAState = { state: {} };
@@ -214,6 +280,35 @@ function hnaPage(fetchImpl, { noHelper } = {}) {
   w.eval(read(PANEL));
   w.eval(read(EXPORT));
   return w;
+}
+// The real CSV writer (window.__HNA_exportCsv, building its report from the
+// page as the Export button does), not only the row hook: returns the rows of
+// its transit section as [label, value].
+async function csvTransitRows(w, geoid) {
+  const sel = w.document.getElementById('geoSelect');
+  sel.innerHTML = `<option value="${geoid}" selected>x</option>`;
+  const blobs = [];
+  w.URL.createObjectURL = (b) => { blobs.push(b); return 'blob:csv'; };
+  w.URL.revokeObjectURL = () => {};
+  w.__HNA_exportCsv();
+  assert.equal(blobs.length, 1, 'the CSV writer produced no file');
+  const lines = (await blobs[0].text()).split(/\r?\n/);
+  const start = lines.findIndex((l) => /^"SECTION","Potential location: transit zone/.test(l));
+  assert.ok(start !== -1, 'the CSV lost its transit section');
+  const rows = [];
+  for (const l of lines.slice(start + 1)) {
+    const m = l.match(/^"((?:[^"]|"")*)","((?:[^"]|"")*)"$/);
+    if (!m || m[1] === '') break;
+    rows.push([m[1], m[2].replace(/""/g, '"')]);
+  }
+  assert.equal(rows.length, 4, `the CSV transit section has ${rows.length} rows`);
+  return rows;
+}
+async function checkCsv(w, geoid, where) {
+  for (const [label, value] of await csvTransitRows(w, geoid)) {
+    assert.match(value, /^Unavailable \u2014 .{10,}/, `${label}: ${value}`);
+    clean(value, where);
+  }
 }
 function files(overrides = {}) {
   return (url) => {
@@ -248,29 +343,45 @@ for (const [condition, fetchImpl, geoid, now, o] of [
       clean(r.display + ' ' + r.reason, EXPORT);
     }
   });
+  await check(EXPORT, `CSV writer: ${condition}`, () => checkCsv(w, geoid, `${EXPORT} CSV`));
 }
 {
   // The panel for one place, the export for another; and mid-load.
   const w = hnaPage(files());
   await w.HNARenderers.renderTransitZonePanel(PLACE, FRESH_AREA);
   assert.equal(w.document.getElementById('hnaTransitZoneContent').getAttribute('data-tz-state'), 'ok', 'fixture: the panel did not render');
-  await check(EXPORT, 'panel is for another geography', () => {
+  await check(EXPORT, 'panel is for another geography', async () => {
     for (const r of w.__HNA_transitZoneRows('08017')) {
       assert.equal(r.display, 'Unavailable');
       clean(r.display + ' ' + r.reason, EXPORT);
     }
+    await checkCsv(w, '08017', `${EXPORT} CSV`);
+  });
+  await check(EXPORT, 'CSV writer: fixture — a loaded panel does export figures', async () => {
+    // Without this the CSV checks would pass on a writer that never exports
+    // the transit section's figures at all.
+    const rows = await csvTransitRows(w, PLACE);
+    assert.match(rows[0][1], /\d+%/, `share row: ${rows[0][1]}`);
   });
   const pending = w.HNARenderers.renderTransitZonePanel('08017', FRESH_AREA);
-  await check(EXPORT, 'panel still loading', () => {
-    for (const r of w.__HNA_transitZoneRows('08017')) {
-      assert.equal(r.display, 'Unavailable');
-      assert.match(r.reason, /loading/);
-    }
-  });
   await check(PANEL, 'still loading', () => {
     const mount = w.document.getElementById('hnaTransitZoneContent');
     assert.equal(mount.getAttribute('data-tz-state'), 'loading');
     clean(mount.textContent, PANEL);
+  });
+  await check(EXPORT, 'panel still loading', async () => {
+    assert.equal(w.document.getElementById('hnaTransitZoneContent').getAttribute('data-tz-state'), 'loading',
+      'fixture: the panel finished loading before the export ran');
+    for (const r of w.__HNA_transitZoneRows('08017')) {
+      assert.equal(r.display, 'Unavailable');
+      assert.match(r.reason, /loading/);
+    }
+    // The writer runs synchronously inside csvTransitRows, before any await,
+    // so it sees the panel mid-load.
+    for (const [label, value] of await csvTransitRows(w, '08017')) {
+      assert.match(value, /^Unavailable \u2014 .*loading/, `${label}: ${value}`);
+      clean(value, `${EXPORT} CSV`);
+    }
   });
   await pending;
 }
@@ -292,6 +403,52 @@ for (const [condition, args] of [
     clean(text, STUDY);
   });
 }
+
+// The page wrapper, render(): it fetches both files itself, so a failed or
+// 404 fetch — not a null this test passes in — is what gets checked.
+async function renderStudy(geoid, now, { fail = {}, noHelper } = {}) {
+  const dom = new JSDOM('<!doctype html><div id="m"></div>', { runScripts: 'outside-only' });
+  const w = dom.window;
+  w.fetch = (url) => {
+    if (fail[url] === 'reject') return Promise.reject(new Error('offline'));
+    if (fail[url] === 404) return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null) });
+    return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(json(url)) });
+  };
+  if (!noHelper) w.eval(read('js/transit-zone.js'));
+  w.eval(read(STUDY));
+  const mount = w.document.getElementById('m');
+  const out = await w.StudyTransitZone.render(mount, geoid, now);
+  return { out, mount };
+}
+const AREA = 'data/hna/transit-zone-by-geography.json';
+const STATUS = 'data/policy/thiz-map-status.json';
+for (const [condition, geoid, now, o] of [
+  ['render: area data fetch failed', PLACE, FRESH_AREA, { fail: { [AREA]: 'reject' } }],
+  ['render: area data 404', PLACE, FRESH_AREA, { fail: { [AREA]: 404 } }],
+  ['render: map-status fetch failed, area data stale', PLACE, STALE_AREA, { fail: { [STATUS]: 'reject' } }],
+  ['render: both fetches failed', PLACE, FRESH_AREA, { fail: { [AREA]: 'reject', [STATUS]: 'reject' } }],
+  ['render: helper script missing', PLACE, FRESH_AREA, { noHelper: true }],
+  ['render: example study, no jurisdiction', null, FRESH_AREA, {}],
+]) {
+  await check(STUDY, condition, async () => {
+    const { mount } = await renderStudy(geoid, now, o);
+    assert.equal(mount.getAttribute('data-tz-state'), 'unavailable');
+    assert.match(mount.textContent, /^Unavailable\./);
+    clean(mount.textContent, STUDY);
+  });
+}
+await check(STUDY, 'render: map-status fetch failed (area data fresh)', async () => {
+  // The share is still known; the official designation is not, so the note
+  // must stay provisional and name nothing official.
+  for (const how of ['reject', 404]) {
+    const { mount } = await renderStudy(PLACE, FRESH_AREA, { fail: { [STATUS]: how } });
+    assert.equal(mount.getAttribute('data-tz-state'), 'ok', 'fixture: fresh area data did not render');
+    const des = mount.querySelector('[data-tz-designation]');
+    assert.equal(des.getAttribute('data-tz-designation'), 'provisional');
+    assert.match(des.textContent, /could not be read/);
+    assert.doesNotMatch(mount.textContent, /Outside every|Inside a Transit|official_|Soft Funding Stack|may be eligible/);
+  }
+});
 
 // ── recommendation.html + js/workflow/recommendation-contract.js ───────────
 const REC = 'recommendation.html';
