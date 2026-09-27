@@ -5,71 +5,117 @@
       "geoid": "08043",
       "level": "county",
       "name": "Fremont County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.fremontcountyelectionsco.gov/elections/ballots/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No county question appears on any of the 37 English precinct sample ballots; the county section lists offices only. Cañon City School District RE-1 Ballot Issue 4A (mill levy override) and Deer Mountain Fire Protection District Ballot Issue 6A (fire mill levy) were read and excluded.",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ]
     },
     {
       "geoid": "0809115",
       "level": "municipal",
       "name": "Brookside (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.fremontcountyelectionsco.gov/elections/ballots/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official precinct sample ballots (all 37 English ballot styles, proofs dated 2026-09-09), which together cover every ballot style in the county. This row is absent from it.",
+        "The town website returned HTTP 403 and could not be checked.",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ]
     },
     {
       "geoid": "0811810",
       "level": "municipal",
       "name": "Cañon City (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.fremontcountyelectionsco.gov/elections/ballots/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "City of Cañon City Ballot Issue 2A (continued collection of the temporary 0.3% sales and use tax for construction and operations of a community pool) read and excluded; no housing earmark. The city election page lists only this question.",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.fremontcountyelectionsco.gov/webadmin/uploads/ballots/007-006.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://canoncity.gov/170/Election-Official",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0815330",
       "level": "municipal",
       "name": "Coal Creek (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.fremontcountyelectionsco.gov/elections/ballots/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official precinct sample ballots (all 37 English ballot styles, proofs dated 2026-09-09), which together cover every ballot style in the county. This row is absent from it.",
+        "The town website could not be reached.",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ]
     },
     {
       "geoid": "0827040",
       "level": "municipal",
       "name": "Florence (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.fremontcountyelectionsco.gov/elections/ballots/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official precinct sample ballots (all 37 English ballot styles, proofs dated 2026-09-09), which together cover every ballot style in the county. This row is absent from it.",
+        "The city elections link leads only to its 2025 election page.",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ]
     },
     {
       "geoid": "0864970",
       "level": "municipal",
       "name": "Rockvale (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.fremontcountyelectionsco.gov/webadmin/uploads/ballots/006-004.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating with a Board of Trustees contest only; no town ballot question or issue. The town website returned HTTP 403.",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.fremontcountyelectionsco.gov/elections/ballots/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0885155",
       "level": "municipal",
       "name": "Williamsburg (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.fremontcountyelectionsco.gov/webadmin/uploads/ballots/006-003.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating with Mayor and Board of Trustees contests only; no town ballot question or issue. The town website returned HTTP 403.",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.fremontcountyelectionsco.gov/elections/ballots/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
