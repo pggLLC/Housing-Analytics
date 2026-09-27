@@ -13,6 +13,8 @@ jobs:
     permissions:
       contents: read
       actions: read   # list + download the prior run's audit-history artifact
+      issues: read
+      pull-requests: read
 
     steps:
       # ── Setup ───────────────────────────────────────────────────────────────
@@ -118,8 +120,8 @@ jobs:
           EMAIL_USER:        ${{ secrets.EMAIL_USER }}
           EMAIL_PASSWORD:    ${{ secrets.EMAIL_PASSWORD }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          GITHUB_TOKEN:      ${{ github.token }}
         run: node test/daily-audit-system.js
-        continue-on-error: true
 
       # Saved immediately after the audit, and with if: always(), so a failure
       # in one of the legacy checks below cannot cost us the day's snapshot.

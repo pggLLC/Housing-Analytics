@@ -18,6 +18,13 @@ const SEVERITY_CONFIG = {
     low:      { emoji: '🟢', label: 'Low Priority / Improvements',        bg: '#d4edda', color: '#155724', border: '#c3e6cb' },
 };
 
+const CHECK_STATUS_CONFIG = {
+    passed: { emoji: '✅', label: 'Passed', bg: '#d4edda', color: '#155724', border: '#c3e6cb' },
+    failed: { emoji: '❌', label: 'Failed', bg: '#f8d7da', color: '#721c24', border: '#f5c6cb' },
+    skipped: { emoji: '⏭️', label: 'Skipped', bg: '#eef2f7', color: '#495057', border: '#ced4da' },
+    unavailable: { emoji: '⚠️', label: 'Unavailable', bg: '#fff3cd', color: '#856404', border: '#ffeeba' },
+};
+
 /**
  * Builds a comparison section for the HTML report.
  * @param {{ newIssues, resolvedIssues, persistentIssues }} comparison
@@ -105,6 +112,154 @@ function escHtml(str) {
         .replace(/'/g, '&#39;');
 }
 
+function statusBadge(status) {
+    const cfg = CHECK_STATUS_CONFIG[status] || CHECK_STATUS_CONFIG.unavailable;
+    return `<span style="display:inline-block;padding:4px 10px;border-radius:999px;background:${cfg.bg};color:${cfg.color};border:1px solid ${cfg.border};font-size:12px;font-weight:bold;">${cfg.emoji} ${cfg.label}</span>`;
+}
+
+function buildChecksTable(checks) {
+    if (!checks || checks.length === 0) return '<p>No audit checks were recorded.</p>';
+    return `
+    <table style="border-collapse:collapse;width:100%;margin-top:12px;font-size:13px;">
+        <tr style="background:#f8f9fa;">
+            <th style="padding:10px 14px;text-align:left;border:1px solid #dee2e6;">Check</th>
+            <th style="padding:10px 14px;text-align:left;border:1px solid #dee2e6;">Status</th>
+            <th style="padding:10px 14px;text-align:left;border:1px solid #dee2e6;">Notes</th>
+        </tr>
+        ${checks.map(check => `
+        <tr>
+            <td style="padding:10px 14px;border:1px solid #dee2e6;">${escHtml(check.name || '')}${check.critical ? ' <span style="color:#721c24;font-size:12px;">(critical)</span>' : ''}</td>
+            <td style="padding:10px 14px;border:1px solid #dee2e6;">${statusBadge(check.status)}</td>
+            <td style="padding:10px 14px;border:1px solid #dee2e6;color:#555;">${escHtml(check.summary || check.details || '')}</td>
+        </tr>`).join('')}
+    </table>`;
+}
+
+function buildLinkedList(items, renderer, emptyText, limit = 6) {
+    if (!items || items.length === 0) return `<p style="margin:8px 0 0;color:#155724;">${escHtml(emptyText)}</p>`;
+    const visible = items.slice(0, limit);
+    const more = items.length - visible.length;
+    return `<ul style="margin:8px 0 0 18px;padding:0;">${visible.map(renderer).join('')}</ul>` +
+        (more > 0 ? `<p style="margin:8px 0 0;color:#666;">…and ${more} more.</p>` : '');
+}
+
+function buildAuditHealthSection(auditHealth) {
+    if (!auditHealth) return '';
+    const warnings = auditHealth.internalErrors || [];
+    return `
+    <div style="background:#f8f9fa;border:1px solid #dee2e6;border-radius:8px;padding:20px;margin-bottom:28px;">
+        <h2 style="margin-top:0;">🩺 Audit Health</h2>
+        <table style="border-collapse:collapse;width:100%;margin-bottom:12px;">
+            <tr style="background:#fff;">
+                <td style="padding:10px 16px;border:1px solid #dee2e6;">Checks Run</td>
+                <td style="padding:10px 16px;border:1px solid #dee2e6;font-weight:bold;">${auditHealth.totalChecks || 0}</td>
+                <td style="padding:10px 16px;border:1px solid #dee2e6;">✅ Passed</td>
+                <td style="padding:10px 16px;border:1px solid #dee2e6;font-weight:bold;color:#155724;">${auditHealth.passed || 0}</td>
+            </tr>
+            <tr style="background:#fff;">
+                <td style="padding:10px 16px;border:1px solid #dee2e6;">❌ Failed</td>
+                <td style="padding:10px 16px;border:1px solid #dee2e6;font-weight:bold;color:#721c24;">${auditHealth.failed || 0}</td>
+                <td style="padding:10px 16px;border:1px solid #dee2e6;">⏭️ Skipped / ⚠️ Unavailable</td>
+                <td style="padding:10px 16px;border:1px solid #dee2e6;font-weight:bold;color:#856404;">${(auditHealth.skipped || 0) + (auditHealth.unavailable || 0)}</td>
+            </tr>
+        </table>
+        ${warnings.length > 0 ? `<p style="margin:0 0 8px;color:#856404;"><strong>Warnings:</strong> ${escHtml(warnings.join(' | '))}</p>` : ''}
+        ${auditHealth.workflowRunUrl ? `<p style="margin:0 0 12px;"><a href="${escHtml(auditHealth.workflowRunUrl)}">View this workflow run</a></p>` : ''}
+        ${buildChecksTable(auditHealth.checks)}
+    </div>`;
+}
+
+function buildRepositoryHealthSection(repoHealth) {
+    if (!repoHealth) return '';
+    const actions = repoHealth.actions || {};
+    const pulls = repoHealth.pullRequests || {};
+    const issues = repoHealth.issueInventory || {};
+    const deployText = actions.lastSuccessfulDeploy
+        ? `${escHtml(actions.lastSuccessfulDeploy.run_started_at || actions.lastSuccessfulDeploy.created_at || 'unknown')} · <a href="${escHtml(actions.lastSuccessfulDeploy.html_url || '')}">view run</a>`
+        : 'No successful deploy found';
+
+    return `
+    <div style="background:#f8f9fa;border:1px solid #dee2e6;border-radius:8px;padding:20px;margin-bottom:28px;">
+        <h2 style="margin-top:0;">🔍 Repository Health Summary</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
+            <div style="background:#fff;border:1px solid #dee2e6;border-radius:8px;padding:16px;">
+                <h3 style="margin-top:0;">GitHub Actions Health</h3>
+                <p style="margin:0 0 8px;"><strong>Failed/cancelled on main (24h):</strong> ${(actions.failingRuns || []).length}</p>
+                <p style="margin:0 0 8px;"><strong>Overdue scheduled workflows:</strong> ${(actions.overdueWorkflows || []).length}</p>
+                <p style="margin:0 0 8px;"><strong>Last successful deploy:</strong> ${deployText}</p>
+                ${buildLinkedList(
+                    (actions.failingRuns || []).concat(actions.overdueWorkflows || []),
+                    item => `<li style="margin-bottom:6px;"><a href="${escHtml(item.html_url || '')}">${escHtml(item.name || item.path || 'Workflow')}</a>${item.lastRunAt ? ` — last run ${escHtml(item.lastRunAt)}` : ''}</li>`,
+                    'No failing or overdue workflows.'
+                )}
+            </div>
+            <div style="background:#fff;border:1px solid #dee2e6;border-radius:8px;padding:16px;">
+                <h3 style="margin-top:0;">Pull Request Triage</h3>
+                <p style="margin:0 0 8px;"><strong>Open PRs:</strong> ${pulls.openCount || 0}</p>
+                <p style="margin:0 0 8px;"><strong>Failing checks:</strong> ${(pulls.failingChecks || []).length} · <strong>Stale reviews:</strong> ${(pulls.staleReviews || []).length}</p>
+                <p style="margin:0 0 8px;"><strong>Conflicts:</strong> ${(pulls.conflicts || []).length} · <strong>Inactive &gt;7d:</strong> ${(pulls.inactive || []).length}</p>
+                ${buildLinkedList(
+                    []
+                        .concat(pulls.failingChecks || [])
+                        .concat(pulls.staleReviews || [])
+                        .concat(pulls.conflicts || [])
+                        .concat(pulls.inactive || []),
+                    pr => `<li style="margin-bottom:6px;"><a href="${escHtml(pr.html_url || '')}">PR #${escHtml(pr.number)} — ${escHtml(pr.title || '')}</a></li>`,
+                    'No PRs need triage.'
+                )}
+            </div>
+            <div style="background:#fff;border:1px solid #dee2e6;border-radius:8px;padding:16px;">
+                <h3 style="margin-top:0;">Issues Inventory</h3>
+                <p style="margin:0 0 8px;"><strong>Open:</strong> ${issues.openCount || 0} · <strong>New (24h):</strong> ${issues.newlyOpenedCount || 0} · <strong>Closed (24h):</strong> ${issues.closedCount || 0}</p>
+                <p style="margin:0 0 8px;"><strong>High-priority:</strong> ${(issues.highPriority || []).length} · <strong>Blockers:</strong> ${(issues.blockers || []).length} · <strong>Inactive &gt;30d:</strong> ${(issues.longstanding || []).length}</p>
+                ${buildLinkedList(
+                    []
+                        .concat(issues.highPriority || [])
+                        .concat(issues.blockers || [])
+                        .concat(issues.longstanding || []),
+                    issue => `<li style="margin-bottom:6px;"><a href="${escHtml(issue.html_url || '')}">Issue #${escHtml(issue.number)} — ${escHtml(issue.title || '')}</a></li>`,
+                    'No issue backlog hotspots detected.'
+                )}
+            </div>
+        </div>
+    </div>`;
+}
+
+function buildOverallStatus(summary, auditHealth, repoHealth) {
+    const deployBlocked = !repoHealth || !repoHealth.actions || !repoHealth.actions.lastSuccessfulDeploy ||
+        (repoHealth.actions.recentDeployFailures || []).length > 0;
+    if ((auditHealth && (auditHealth.criticalFailures > 0 || auditHealth.criticalUnavailable > 0)) || summary.critical > 0 || deployBlocked) {
+        return '<div style="background:#f8d7da;color:#721c24;padding:16px 24px;border-radius:8px;font-size:22px;font-weight:bold;margin-bottom:24px;">🔴 Repo Health Alert</div>';
+    }
+    if (repoHealth && repoHealth.issueInventory && (repoHealth.issueInventory.highPriority || []).length > 0) {
+        return `<div style="background:#fff8e1;color:#7b5e00;padding:16px 24px;border-radius:8px;font-size:22px;font-weight:bold;margin-bottom:24px;">🟡 ${(repoHealth.issueInventory.highPriority || []).length} High-Priority Issue(s)</div>`;
+    }
+    if (summary.high > 0 || summary.total > 0 || (auditHealth && (auditHealth.failed > 0 || auditHealth.unavailable > 0 || auditHealth.skipped > 0))) {
+        return '<div style="background:#fff3cd;color:#856404;padding:16px 24px;border-radius:8px;font-size:22px;font-weight:bold;margin-bottom:24px;">🟠 Attention Needed</div>';
+    }
+    return '<div style="background:#d4edda;color:#155724;padding:16px 24px;border-radius:8px;font-size:22px;font-weight:bold;margin-bottom:24px;">🟢 All Systems Healthy</div>';
+}
+
+function buildEmailSubject({ summary, auditHealth, repoHealth, reportDate = new Date() }) {
+    const stamp = reportDate.toDateString();
+    const deployBlocked = !repoHealth || !repoHealth.actions || !repoHealth.actions.lastSuccessfulDeploy ||
+        (repoHealth.actions.recentDeployFailures || []).length > 0;
+    if ((auditHealth && auditHealth.criticalUnavailable > 0) || deployBlocked) {
+        return `🔴 DEPLOY BLOCKED — Housing Analytics Audit — ${stamp}`;
+    }
+    const highPriorityCount = repoHealth && repoHealth.issueInventory ? (repoHealth.issueInventory.highPriority || []).length : 0;
+    if (highPriorityCount > 0) {
+        return `🟡 ${highPriorityCount} HIGH-PRIORITY ISSUES — Housing Analytics Audit — ${stamp}`;
+    }
+    if (summary.critical > 0) {
+        return `🔴 [CRITICAL] Housing Analytics Audit — ${summary.critical} Critical Issue(s) — ${stamp}`;
+    }
+    if (summary.high > 0) {
+        return `🟠 Housing Analytics Audit — ${summary.high} High Priority Issue(s) — ${stamp}`;
+    }
+    return `🟢 Housing Analytics Audit — All Clear — ${stamp}`;
+}
+
 /**
  * Builds the full HTML email body for the audit report.
  * @param {object} params
@@ -116,17 +271,10 @@ function escHtml(str) {
  * @param {number} params.runDurationMs
  * @returns {string} HTML
  */
-function buildHtmlReport({ summary, allIssues, comparison, priorDate, trend, runDurationMs }) {
+function buildHtmlReport({ summary, allIssues, comparison, priorDate, trend, runDurationMs, auditHealth, repoHealth }) {
     const { critical, high, medium, low, total } = summary;
     const runSeconds = runDurationMs ? (runDurationMs / 1000).toFixed(1) : 'N/A';
-
-    const overallStatus = critical > 0
-        ? '<div style="background:#f8d7da;color:#721c24;padding:16px 24px;border-radius:8px;font-size:22px;font-weight:bold;margin-bottom:24px;">🔴 Critical Issues Detected</div>'
-        : high > 0
-            ? '<div style="background:#fff3cd;color:#856404;padding:16px 24px;border-radius:8px;font-size:22px;font-weight:bold;margin-bottom:24px;">🟠 High Priority Issues Found</div>'
-            : total === 0
-                ? '<div style="background:#d4edda;color:#155724;padding:16px 24px;border-radius:8px;font-size:22px;font-weight:bold;margin-bottom:24px;">🟢 All Systems Healthy</div>'
-                : '<div style="background:#fff8e1;color:#7b5e00;padding:16px 24px;border-radius:8px;font-size:22px;font-weight:bold;margin-bottom:24px;">🟡 Minor Issues Detected</div>';
+    const overallStatus = buildOverallStatus(summary, auditHealth, repoHealth);
 
     const summaryTable = `
     <h2>Executive Summary</h2>
@@ -180,8 +328,10 @@ function buildHtmlReport({ summary, allIssues, comparison, priorDate, trend, run
     <p><strong>Date:</strong> ${new Date().toUTCString()}</p>
     ${overallStatus}
     ${summaryTable}
+    ${buildAuditHealthSection(auditHealth)}
     ${buildComparisonSection(comparison, priorDate)}
     ${trendSection}
+    ${buildRepositoryHealthSection(repoHealth)}
     <h2>📋 Detailed Findings</h2>
     ${total === 0 ? '<p style="color:#155724;background:#d4edda;padding:16px;border-radius:8px;">No issues found. All checks passed. ✅</p>' : severitySections}
     <hr style="border:none;border-top:1px solid #dee2e6;margin:32px 0;">
@@ -272,6 +422,7 @@ async function sendSlackAlert(payload, webhookUrl) {
 
 module.exports = {
     buildHtmlReport,
+    buildEmailSubject,
     buildSlackPayload,
     sendEmailReport,
     sendSlackAlert,
