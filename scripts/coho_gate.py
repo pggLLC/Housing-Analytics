@@ -32,6 +32,12 @@ class Unavailable(RuntimeError):
     pass
 
 
+class ReservationUncertain(Unavailable):
+    def __init__(self, sha):
+        super().__init__("push acknowledgement and remote ownership check failed")
+        self.sha = sha
+
+
 def command(args, cwd, input=None, env=None):
     try:
         return subprocess.run(args, cwd=cwd, input=input, text=True, capture_output=True,
@@ -236,7 +242,17 @@ def reserve(snapshot, block):
     message = f"COHO gate reservation {block}\n\nOwner token: {uuid4()}\nBase: {snapshot.sha}\n"
     sha = snapshot.git("-c", "user.name=COHO gate", "-c", "user.email=coho-gate@users.noreply.github.com",
                        "commit-tree", tree, "-p", snapshot.sha, input=message)
-    snapshot.git("push", "--porcelain", f"--force-with-lease={ref}:", "origin", f"{sha}:{ref}")
+    try:
+        snapshot.git("push", "--porcelain", f"--force-with-lease={ref}:", "origin", f"{sha}:{ref}")
+    except Unavailable:
+        # The server may have accepted the branch even if the response was lost.
+        # Reconcile the exact ref; never blindly retry a reservation push.
+        try:
+            observed = snapshot.git("ls-remote", "--heads", "origin", ref)
+        except Unavailable as exc:
+            raise ReservationUncertain(sha) from exc
+        if observed != f"{sha}\t{ref}":
+            raise Unavailable("reservation not acquired; remote branch is absent or belongs to another session")
     return sha
 
 
@@ -258,13 +274,22 @@ def claim(snapshot, block, certification=None, factory=Snapshot):
     result = evaluate(snapshot, block, mountain_date(), certification)
     if result["status"] != "READY":
         return result
-    sha = reserve(snapshot, block)
+    try:
+        sha = reserve(snapshot, block)
+    except ReservationUncertain as exc:
+        return decision(block, "WAIT", "reservation ownership unverified after failed push; owner must inspect",
+                        claim_sha=exc.sha, branch=branch_for(block))
     try:
         fresh = factory(snapshot.root)
         checked = evaluate(fresh, block, mountain_date(), certification, ignore_claim=True)
         if fresh.sha != snapshot.sha or checked["status"] != "READY":
             release(snapshot, block, sha)
             return decision(block, "WAIT", "main or gate state changed during reservation; recheck")
+        # This property is fetched only now: ignore_claim bypasses it above.
+        # A deleted/replaced claim must not grant permission to launch a worker.
+        if fresh.claims.get(f"refs/heads/{branch_for(block)}") != sha:
+            return decision(block, "WAIT", "reservation changed or disappeared; do not start work",
+                            claim_sha=sha, branch=branch_for(block))
     except (Unavailable, ValueError):
         # Ambiguous network failures retain the claim, preventing a duplicate worker.
         return decision(block, "WAIT", "reservation retained after failed recheck; owner must inspect/resume",

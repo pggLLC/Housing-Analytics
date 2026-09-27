@@ -27,7 +27,11 @@ bash scripts/coho-gate.sh claim R2-B5 --json
 `coho/2026/<BLOCK>`, only if that branch does not exist. Competing sessions
 cannot both win, even if both checked readiness first. It rechecks the gate and
 main after reserving; a change releases only its own unchanged reservation and
-returns WAIT. An ambiguous network failure keeps the reservation for recovery.
+returns WAIT. A lost push acknowledgement is reconciled against the exact remote
+ref. If ownership cannot be verified, WAIT includes the generated claim SHA for
+recovery. Before GO, the gate reads the remote branch again and requires that it
+still points to this session's claim; a deleted or replaced claim cannot launch
+a worker.
 
 Work on the returned branch, preserving the reservation commit:
 
