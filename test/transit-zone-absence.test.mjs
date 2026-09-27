@@ -466,7 +466,7 @@ await check(STUDY, 'render: map-status fetch failed (area data fresh)', async ()
 // section's initial text is the "Checking…" placeholder; the page must
 // replace it with "Unavailable." and a reason, never leave it waiting.
 const FSMS = 'for-sale-market-study.html';
-async function runStudyPage({ noHelper, noStudy, study, area, hangJurisdiction, hangData } = {}) {
+async function runStudyPage({ noHelper, noStudy, study, area, hangJurisdiction, hangData, timeoutMs = 30 } = {}) {
   const dom = new JSDOM(read(FSMS), { runScripts: 'outside-only', url: 'http://127.0.0.1/for-sale-market-study.html' });
   const w = dom.window;
   w.fetch = (url) => {
@@ -482,7 +482,7 @@ async function runStudyPage({ noHelper, noStudy, study, area, hangJurisdiction, 
   if (!noHelper) w.eval(read('js/transit-zone.js'));
   if (study) w.StudyTransitZone = study;
   else if (!noStudy) w.eval(read(STUDY));
-  if (w.StudyTransitZone && !study) w.StudyTransitZone.timeoutMs = 30;   // hung calls give up in 30 ms
+  if (w.StudyTransitZone && !study) w.StudyTransitZone.timeoutMs = timeoutMs;   // hung calls give up fast in tests
   const mount = w.document.getElementById('msTransitZoneContent');
   assert.match(mount.textContent, /Checking/, 'fixture: the page lost its "Checking…" placeholder — update this sweep');
   const loader = [...w.document.querySelectorAll('script:not([src])')]
@@ -496,9 +496,11 @@ async function runStudyPage({ noHelper, noStudy, study, area, hangJurisdiction, 
   try {
     w.eval(loader[0]);
     w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
-    for (let i = 0; i < 200 && !mount.getAttribute('data-tz-state'); i += 1) {
+    const started = Date.now();
+    for (let i = 0; i < 600 && !mount.getAttribute('data-tz-state'); i += 1) {
       await new Promise((r) => setTimeout(r, 5));
     }
+    mount.elapsedMs = Date.now() - started;
     await new Promise((r) => setTimeout(r, 5));
   } finally {
     process.off('unhandledRejection', onEscape);
@@ -529,6 +531,13 @@ await check(STUDY, 'page: fixture — both scripts and fresh data do answer', as
   const mount = await runStudyPage({ area: fresh });
   assert.equal(mount.getAttribute('data-tz-state'), 'ok', `did not answer: ${mount.textContent}`);
   assert.match(mount.querySelector('[data-tz="share"]').textContent, /\d+%/);
+});
+await check(STUDY, 'page: one time limit covers the lookup and the data together', async () => {
+  // With both stalled, the waits must overlap: about one limit, not two back
+  // to back (the #1987 review). 500 ms each way leaves room for a slow runner.
+  const mount = await runStudyPage({ hangJurisdiction: true, hangData: true, timeoutMs: 500 });
+  assert.equal(mount.getAttribute('data-tz-state'), 'unavailable', `still showing: ${mount.textContent}`);
+  assert.ok(mount.elapsedMs < 900, `the section waited ${mount.elapsedMs} ms: the lookup and data limits ran one after the other`);
 });
 await check(STUDY, 'page: a jurisdiction lookup that never answers does not hold the section', async () => {
   // The screen goes ahead with the geography the URL names once its time
