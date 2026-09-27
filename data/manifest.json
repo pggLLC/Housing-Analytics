@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-27T11:19:10.719366Z",
+  "generated": "2026-09-27T11:43:54.103195Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7799,7 +7799,7 @@
     "data/market/transit_stops_coverage_co.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 201713
+      "bytes": 227714
     },
     "data/market/travel_time_matrix_co.json": {
       "featureCount": 0,
@@ -7859,7 +7859,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14707
+      "bytes": 14705
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -8314,7 +8314,7 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14316
+      "bytes": 15404
     },
     "data/policy/thiz-map-status.json": {
       "featureCount": 0,
