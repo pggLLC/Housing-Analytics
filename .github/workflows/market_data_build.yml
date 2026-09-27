@@ -24,6 +24,7 @@ permissions:
   contents: write
   issues: write
   pull-requests: write   # needed for gh pr create
+  actions: write         # needed to dispatch ci-checks.yml on the PR branch
 
 concurrency:
   group: data-commits
@@ -217,20 +218,34 @@ jobs:
             echo "tract_centroids_co.json not found — skipping"
           fi
 
+      # --if-geometry-changed: a byte diff is not a geometry change. When a
+      # fetch fails the builder falls back to the committed, already simplified
+      # file and rewrites it pretty-printed, and bbox_fix.py adds a bbox to every
+      # feature, so `git diff` reports a change and the old gate simplified the
+      # previous output again. Every such run removed another share of the
+      # vertices: tract_boundaries_co.geojson went from 166,496 vertices to 9,559
+      # and #1925 dropped the vertex Conejos tracts 08021974800/08021974900
+      # share, cutting 08021974800 to 56% of its land area. With the flag an
+      # unchanged geometry restores the committed bytes and is not simplified.
+      # test/tract-geometry-integrity.test.js checks the result against TIGER
+      # land+water area and the centroid file's TIGER bboxes.
       - name: Simplify changed browser map geometry
         run: |
           if ! git diff --quiet -- data/market/transit_routes_co.geojson; then
-            node scripts/simplify-geojson.mjs --input data/market/transit_routes_co.geojson --keep 1.5 --fields agency,route_type,shape_id --no-repair
+            node scripts/simplify-geojson.mjs --input data/market/transit_routes_co.geojson --keep 1.5 --fields agency,route_type,shape_id --no-repair --if-geometry-changed
           fi
           if ! git diff --quiet -- data/market/flood_zones_co.geojson; then
-            node scripts/simplify-geojson.mjs --input data/market/flood_zones_co.geojson --keep 5 --fields FLD_ZONE,risk_category,sfha
+            node scripts/simplify-geojson.mjs --input data/market/flood_zones_co.geojson --keep 5 --fields FLD_ZONE,risk_category,sfha --if-geometry-changed
           fi
           if ! git diff --quiet -- data/market/tract_boundaries_co.geojson; then
-            node scripts/simplify-geojson.mjs --input data/market/tract_boundaries_co.geojson --keep 20 --fields GEOID,AREALAND,AREAWATER
-            node scripts/market-analysis/build_pma_tract_display_geometry.mjs
+            node scripts/simplify-geojson.mjs --input data/market/tract_boundaries_co.geojson --keep 20 --fields GEOID,AREALAND,AREAWATER --if-geometry-changed
+            # Rebuild the display derivative only when the canonical really changed.
+            if ! git diff --quiet -- data/market/tract_boundaries_co.geojson; then
+              node scripts/market-analysis/build_pma_tract_display_geometry.mjs
+            fi
           fi
           if ! git diff --quiet -- data/market/opportunity_zones_co.geojson; then
-            node scripts/simplify-geojson.mjs --input data/market/opportunity_zones_co.geojson --keep 20 --fields county_fips,designated,geoid
+            node scripts/simplify-geojson.mjs --input data/market/opportunity_zones_co.geojson --keep 20 --fields county_fips,designated,geoid --if-geometry-changed
           fi
 
       - name: Validate artifact completeness
@@ -328,12 +343,28 @@ jobs:
           # branch already existing locally too.
           git fetch origin "$BRANCH" || true
           git checkout -B "$BRANCH"
-          git commit -m "chore(data): rebuild market data artifacts [skip ci]"
+          # No CI-skip directive in this message. It never stopped anything a
+          # GITHUB_TOKEN push would trigger (such a push triggers no push or
+          # pull_request workflow at all), but it did suppress ci-checks when a
+          # human later reopened or re-synced the PR on this head. #1925 ran
+          # only CodeQL. ci-checks is now dispatched on this branch below.
+          git commit -m "chore(data): rebuild market data artifacts"
           if [ "${{ github.ref_name }}" = "main" ]; then
             git fetch origin main
             git rebase --autostash origin/main
           fi
           git push --force --set-upstream origin "$BRANCH"
+
+          # Run ci-checks on the pushed head so the PR carries a real result.
+          # A push or PR made with GITHUB_TOKEN starts no push/pull_request
+          # workflow, and the workflow_run trigger in ci-checks.yml runs on the
+          # default branch (it verifies main, not this head). workflow_dispatch
+          # is the exception GitHub makes for GITHUB_TOKEN -- the same one
+          # .github/actions/dispatch-pages-deploy relies on for deploy.yml --
+          # and a dispatched run on this ref reports its check on the head
+          # commit, which is the PR's head. Needs `actions: write` (above).
+          gh workflow run ci-checks.yml --ref "$BRANCH"
+          echo "::notice::Dispatched ci-checks.yml on $BRANCH ($(git rev-parse --short HEAD))."
 
           # Only create a PR when one isn't already open for this branch.
           # NOTE: don't blanket-`|| echo` the create — that swallowed a real

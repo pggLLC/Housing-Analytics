@@ -34,6 +34,8 @@
   <script defer src="js/project-market-study/forsale-capture.js"></script>
   <script defer src="js/provenance-label.js"></script>
   <script defer src="js/project-market-study/market-study-report.js"></script>
+  <script defer src="js/transit-zone.js"></script>
+  <script defer src="js/project-market-study/study-transit-zone.js"></script>
   <script>
     window.marketStudyLandModelsReady = fetch('data/policy/land-disposition-models.json')
       .then(function (response) { return response.json(); })
@@ -141,6 +143,12 @@
     <div id="marketStudyMount" aria-live="polite">
       <div class="ms-warning">Loading real project fixtures and policy datasets…</div>
     </div>
+    <!-- #1937: HB26-1065 transit zone. Unnumbered: it screens the jurisdiction,
+         not the example project, and carries no credit amount (PC-2). -->
+    <section id="ms-transit-zone" class="chart-card ms-section" aria-labelledby="msTransitZoneH">
+      <h2 id="msTransitZoneH">Location: transit zone (HB26-1065)</h2>
+      <div id="msTransitZoneContent" aria-live="polite"><p class="ms-caveat">Checking the transit zone screen…</p></div>
+    </section>
     <section id="ms-s7" class="chart-card ms-section">
       <h2>7. Report (screening draft)</h2>
       <p class="ms-plain"><strong>In plain terms:</strong> the same screen written up as a document you can save or share with the professionals who would check it — lenders, appraisers, attorneys and market analysts. Each section opens with a plain-language summary, and the report ends with a list of the terms it uses.</p>
@@ -167,6 +175,32 @@
       var jurisdictionReady = (window.JurisdictionUrlContext && window.JurisdictionUrlContext.resolve)
         ? window.JurisdictionUrlContext.resolve().catch(function () { return null; })
         : Promise.resolve(null);
+      // #1973: the transit section must never stay on "Checking…". If
+      // study-transit-zone.js did not load, or the screen throws, it says so.
+      // (A missing js/transit-zone.js is handled inside render().)
+      var tzMount = document.getElementById('msTransitZoneContent');
+      function tzUnavailable(reason) {
+        if (!tzMount) return;
+        tzMount.innerHTML = '<p class="ms-unavailable">Unavailable. ' + reason + '</p>';
+        tzMount.setAttribute('data-tz-state', 'unavailable');
+      }
+      // Nor may a jurisdiction lookup that never answers hold it there: after
+      // the screen's own time limit it goes ahead with what the URL names.
+      // The data fetches start now, beside the lookup, so both waits share
+      // one time limit rather than running one after the other.
+      var tzWaitMs = (window.StudyTransitZone && window.StudyTransitZone.timeoutMs) || 20000;
+      var tzLoaded = (window.StudyTransitZone && typeof window.StudyTransitZone.load === 'function')
+        ? window.StudyTransitZone.load() : null;
+      Promise.race([jurisdictionReady, new Promise(function (resolve) { setTimeout(resolve, tzWaitMs); })]).then(function () {
+        if (!window.StudyTransitZone || typeof window.StudyTransitZone.render !== 'function') {
+          tzUnavailable('The transit zone screen script did not load, so this jurisdiction was not screened.');
+          return null;
+        }
+        var ctx = window.StudyGeography && window.StudyGeography.resolve ? window.StudyGeography.resolve(window) : null;
+        return window.StudyTransitZone.render(tzMount, ctx && ctx.geoid, undefined, tzLoaded);
+      }).catch(function () {
+        tzUnavailable('The transit zone screen failed while loading, so this jurisdiction was not screened.');
+      });
       Promise.all([window.marketStudyLandModelsReady, jurisdictionReady]).then(function () {
         var landScript = document.createElement('script');
         landScript.src = 'js/project-market-study/land-disposition.js';

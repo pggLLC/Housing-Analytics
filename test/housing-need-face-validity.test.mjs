@@ -20,16 +20,19 @@
  * workforce-housing layer already flags as under pressure, may not rank in the
  * bottom half of housing need.
  *
- * The thresholds are stable from 12x/70 to 20x/80 — asserted below, including
- * where the stability ENDS. Below 12x the set grows to include Granby (10.8x)
- * and Red Cliff (11.6x), which are not extreme markets, so 12x is where
- * "expensive" stops being a judgement call. Recording the boundary matters as
+ * The thresholds are stable from 12x/70 to 13.5x/80 — asserted below, including
+ * where the stability ENDS at both ends. Below 12x the set grows to include
+ * Granby (10.8x) and Red Cliff (11.6x), which are not extreme markets, so 12x is
+ * where "expensive" stops being a judgement call. Above 13.5x it loses Larkspur
+ * (13.52x) and shrinks to the three older entries, which hold through 20x/80.
+ * The range was 12x-20x until Larkspur joined the ledger (#1991); it narrowed
+ * because a real failure sits inside it, not because a threshold was tuned. Recording the boundary matters as
  * much as recording the rule: a threshold with no stated range of validity is
  * a number someone picked.
  *
  * ── Why this file is red-by-design, and why it still passes ──
  *
- * Three places fail the rule today. They are listed, by name, with their
+ * Four places fail the rule today. They are listed, by name, with their
  * numbers. That ledger is NOT an exemption list:
  *
  *   - a fourth place failing breaks the build,
@@ -150,6 +153,17 @@ const KNOWN_FAILURES = {
     needWhenPinned: 40.1, rankWhenPinned: 313,
     why: 'a house costs 24.57x local income and affordability intensity is 99.2, but it hosts only 59 '
        + 'low-wage jobs and has 59 affordable units, so the job-based reading correctly sees no gap' },
+  // Larkspur joined 2026-09-27 (#1991, owner decision). Its own inputs did not
+  // change: transit amenity scoring moved from the OpenStreetMap stop file to
+  // every confirmed CDOT and agency stop, other places gained opportunity
+  // credit, and its percentile slipped past the midline. Same diagnosis as the
+  // rest of the ledger: 18 local low-wage jobs, so the job-based reading has
+  // nothing to measure.
+  '0843550': { name: 'Larkspur (town)',
+    evidence: { workforce: 82.2, priceToIncome: 13.52 },
+    needWhenPinned: 43.3, rankWhenPinned: 279,
+    why: 'a house costs 13.52x local income, but it hosts 18 low-wage jobs, so the job-based gap reading '
+       + 'sees almost nothing; it slipped when statewide confirmed transit lifted other places (#1991)' },
   '0853010': { name: 'Nathrop (CDP)',
     evidence: { workforce: 81.9, priceToIncome: 23.88 },
     needWhenPinned: 39.1, rankWhenPinned: 324,
@@ -220,8 +234,8 @@ test('the inputs the rule depends on are present and populated', () => {
 
 test('the failing set is stable across the range the rule claims', () => {
   // A rule that only works at one setting is a rule reverse-engineered from
-  // its answer. This one holds from 12x/70 to 20x/80.
-  const RANGE = [[12, 70], [12, 75], [15, 75], [18, 78], [20, 80]];
+  // its answer. This one holds from 12x/70 to 13.5x/80.
+  const RANGE = [[12, 70], [12, 75], [13, 75], [13.5, 78], [13.5, 80]];
   const sets = RANGE.map(([p, w]) => failing(p, w).map((x) => x.geoid).sort().join(','));
   const distinct = [...new Set(sets)];
   assert.strictEqual(distinct.length, 1,
@@ -239,6 +253,12 @@ test('and the rule stops being stable where it says it does', () => {
   assert.notStrictEqual(at10, at12,
     'the set no longer grows below 12x. That is good news about the data, but the '
     + 'stated range in this file is now wrong — re-derive it and update the docstring');
+  // And the top end: by 15x the set has lost a member. If it has not, the
+  // range is wider than this file says and should be restated.
+  const at15 = failing(15, 75).map((p) => p.geoid).sort().join(',');
+  assert.notStrictEqual(at15, at12,
+    'the set no longer shrinks by 15x, so the stable range reaches further than 13.5x — '
+    + 're-derive it and update the docstring');
 });
 
 /* ── The rule itself ─────────────────────────────────────────────────────── */
@@ -351,7 +371,7 @@ test('and that comparison would actually notice', () => {
 });
 
 test('the ledger stays short', () => {
-  // Three is a defect. Ten would be a methodology that has stopped working,
+  // Four is a defect. Ten would be a methodology that has stopped working,
   // and a list long enough to stop reading.
   assert.ok(Object.keys(KNOWN_FAILURES).length <= 5,
     `${Object.keys(KNOWN_FAILURES).length} places on the ledger — this is no longer a list of `

@@ -28,7 +28,7 @@
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { execSync } from 'node:child_process';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -58,14 +58,16 @@ function tryRun(cmd) {
  * Parse data-freshness-check output into structured records.
  * Output format per line: "OK  3.4d  SLA 9d   field:meta.generated  data/...json"
  */
-function parseFreshnessOutput(output) {
+export function parseFreshnessOutput(output) {
   const records = [];
   for (const line of output.split('\n')) {
-    const m = /^\s*(OK|STALE|MISSING)\s+([\d.]+)d?\s+SLA\s+(\d+)d\s+(\S+)\s+(\S+)/.exec(line);
+    // An undated row prints its age as "?d" — it is stale because it cannot
+    // be dated, so keep it (age null) rather than drop it from the report.
+    const m = /^\s*(OK|STALE|MISSING)\s+([\d.]+|\?)d?\s+SLA\s+(\d+)d\s+(\S+)\s+(\S+)/.exec(line);
     if (m) {
       records.push({
         status: m[1],
-        ageDays: parseFloat(m[2]),
+        ageDays: m[2] === '?' ? null : parseFloat(m[2]),
         slaDays: parseInt(m[3], 10),
         source: m[4],
         file: m[5],
@@ -207,7 +209,9 @@ async function main() {
   }
 }
 
-main().catch(err => {
-  console.error('QA status generator crashed:', err);
-  process.exit(1);
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
+  main().catch(err => {
+    console.error('QA status generator crashed:', err);
+    process.exit(1);
+  });
+}

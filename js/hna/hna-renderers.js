@@ -8179,6 +8179,106 @@
     });
   }
 
+  /**
+   * Potential location: transit zone (#1937 Phase 3).
+   * How much of this geography passes the HB26-1065 2-mile screen, from
+   * data/hna/transit-zone-by-geography.json (built weekly from the CDOT-first
+   * statewide stop file). Every figure carries the provisional note from
+   * TransitZone.designation(), so it never reads as an eligibility finding.
+   * Missing, stale or unmatched data renders "Unavailable" with the reason.
+   */
+  var _transitZoneRenderSeq = 0;
+  function renderTransitZonePanel(geoid, now) {
+    var mount = document.getElementById('hnaTransitZoneContent');
+    if (!mount) return Promise.resolve(null);
+    now = (now && typeof now.getTime === 'function') ? now : new Date();
+    // The panel says which geography it is showing (data-tz-geoid) and is
+    // cleared the moment another is asked for, so an export taken mid-load
+    // cannot pass off the previous place's figures as this one's. Only the
+    // latest request may write: a slow earlier fetch never overwrites it.
+    var seq = ++_transitZoneRenderSeq;
+    mount.innerHTML = '<p class="hna-tz__loading">Loading transit zone figures\u2026</p>';
+    mount.setAttribute('data-tz-state', 'loading');
+    mount.setAttribute('data-tz-geoid', String(geoid == null ? '' : geoid));
+    mount.removeAttribute('data-tz-radius');
+    mount.removeAttribute('data-tz-stops-generated');
+    function unavailable(reason) {
+      if (seq !== _transitZoneRenderSeq) return null;
+      mount.innerHTML = '<p class="hna-tz__unavailable"><strong>Unavailable.</strong> ' + escHtml(reason) + '</p>';
+      mount.setAttribute('data-tz-state', 'unavailable');
+      return null;
+    }
+    var TZ = window.TransitZone;
+    if (!TZ || typeof TZ.areaSummary !== 'function') {
+      return Promise.resolve(unavailable('The transit zone screen did not load.'));
+    }
+    return Promise.all([
+      fetch('data/hna/transit-zone-by-geography.json').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
+      fetch('data/policy/thiz-map-status.json').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
+    ]).then(function (parts) {
+      // Every figure, label and reason comes from TransitZone.areaSummary —
+      // the same summary the recommendation, the for-sale study and the
+      // exports read — so this panel cannot disagree with them.
+      if (seq !== _transitZoneRenderSeq) return null;   // superseded
+      var tz = TZ.areaSummary(parts[0], geoid, parts[1], now);
+      if (tz.status !== 'ok') {
+        return unavailable(tz.unavailableCode === 'not_covered' || tz.unavailableCode === 'no_geography'
+          ? 'Transit zone figures cover Colorado counties, towns and CDPs; pick one to see them.'
+          : tz.unavailableReason);
+      }
+      var rec = parts[0].geographies[geoid];
+      var radius = escHtml(String(tz.radiusMiles));
+      var name = escHtml(tz.name || 'this area');
+      var near = tz.nearestConfirmedStop;
+      var html = '';
+      html += '<div class="hna-tz__tiles" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:.6rem;margin:.4rem 0 .8rem;">' +
+        '<div class="hna-tz__tile" data-tz="share"><div style="font-size:1.6rem;font-weight:700;">' + escHtml(tz.shareLabel) + '</div>' +
+          '<div style="color:var(--muted);">of ' + name + ' is within ' + radius + ' miles of a confirmed transit stop</div></div>' +
+        // The half-mile tile: its distance, label and disclosure all come
+        // from TransitZone.qapTodDistance (thiz-map-status.json), so the
+        // figure never appears without "measured straight-line; CHFA scores
+        // walking distance" (#1961). The exports read these attributes.
+        (tz.halfMile
+          ? '<div class="hna-tz__tile" data-tz="half" data-tz-half-state="ok" data-tz-half-label="' + escHtml(tz.halfMile.plainLabel) + '">' +
+              '<div style="font-size:1.6rem;font-weight:700;">' + escHtml(tz.halfMileLabel) + '</div>' +
+              '<div style="color:var(--muted);">is within ' + escHtml(tz.halfMile.label) + ' of a confirmed stop (CHFA QAP transit-oriented distance)</div>' +
+              '<div class="hna-tz__disclosure" data-tz-disclosure style="color:var(--muted);font-size:.85rem;">' + escHtml(tz.halfMileDisclosure) + '</div></div>'
+          : '<div class="hna-tz__tile" data-tz="half" data-tz-half-state="unavailable">' +
+              '<div style="font-size:1.6rem;font-weight:700;">Unavailable</div>' +
+              '<div style="color:var(--muted);">' + escHtml(tz.halfMileUnavailableReason) + '</div></div>') +
+        '<div class="hna-tz__tile" data-tz="nearest"><div style="font-size:1.6rem;font-weight:700;">' +
+          (near ? escHtml(String(near.distance_miles)) + ' mi' : '—') + '</div>' +
+          '<div style="color:var(--muted);">' + (near
+            ? 'from the centre to the nearest confirmed stop: ' + escHtml(near.name || 'unnamed stop') + ' (' + escHtml(near.agency || 'agency not listed') + ')'
+            : 'no confirmed stop found in Colorado data') + '</div></div>' +
+        '</div>';
+      if (tz.edgeOnly) {
+        html += '<p>Less than 1% of ' + name + ' — a strip along its edge — is within ' + radius + ' miles of a confirmed stop; ' +
+          'the nearest is ' + escHtml(String(tz.nearestToBoundaryMiles)) + ' miles from the boundary. Only sites on that edge could pass the screen.</p>';
+      } else if (tz.noneWithinRadius) {
+        html += '<p>No part of ' + name + ' is within ' + radius + ' miles of a fixed-route stop that CDOT or a transit agency publishes. ' +
+          'Demand-response (dial-a-ride) service and private shuttle pickups have no public stops, so they do not count toward this screen.</p>';
+      }
+      if (tz.shareAny !== null && tz.shareAny > tz.share) {
+        html += '<p style="color:var(--muted);">Counting OpenStreetMap stops that neither CDOT nor an agency confirms, the share rises to ' + escHtml(tz.shareAnyLabel) +
+          '. Those stops are unconfirmed, so they are left out of the figures above. Private airport and hotel shuttle pickups are left out of every figure: they are not public transit.</p>';
+      }
+      html += '<p><strong>Transit Zone credit.</strong> Only housing inside an OEDIT-designated Transit and Housing Investment Zone can receive the HB26-1065 credit. ' +
+        (tz.share > 0 ? 'Sites in the ' + escHtml(tz.shareLabel) + ' above pass the ' + radius + '-mile screen and are worth checking; sites elsewhere in ' + name + ' do not.'
+         : tz.edgeOnly ? 'Only a site on that edge strip could pass the ' + radius + '-mile screen.'
+         : 'No site here passes the ' + radius + '-mile screen.') + '</p>';
+      html += '<p class="hna-tz__designation" data-tz-designation="' + escHtml(tz.designation) + '" style="padding:.5rem .7rem;border-left:3px solid var(--warn);background:var(--warn-dim);">' +
+        escHtml(tz.designationNote) + '</p>';
+      html += '<p style="color:var(--muted);font-size:.95rem;">Source: CDOT Statewide Transit Points, transit agency schedule feeds and OpenStreetMap, merged weekly; ' +
+        'about ' + escHtml(String(rec.samples)) + ' sample points inside this boundary. Distances are straight-line.</p>';
+      mount.innerHTML = html;
+      mount.setAttribute('data-tz-state', 'ok');
+      mount.setAttribute('data-tz-radius', String(tz.radiusMiles));
+      mount.setAttribute('data-tz-stops-generated', String(tz.stopsGenerated));
+      return rec;
+    });
+  }
+
   function renderHnaScorecardPanel(geoid) {
     // container is the detailed panel this view may or may not carry (the
     // split views only include a subset of the canonical page's sections).
@@ -9404,6 +9504,7 @@
     renderChasAffordabilityGap,
     renderFmrPanel,
     renderHnaScorecardPanel,
+    renderTransitZonePanel,
   };
 
 })();
