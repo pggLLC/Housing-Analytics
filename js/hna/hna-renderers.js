@@ -8187,60 +8187,54 @@
    * TransitZone.designation(), so it never reads as an eligibility finding.
    * Missing, stale or unmatched data renders "Unavailable" with the reason.
    */
-  var TRANSIT_ZONE_MAX_AGE_DAYS = 16;   // the stop file's freshness SLA
+  var _transitZoneRenderSeq = 0;
   function renderTransitZonePanel(geoid, now) {
     var mount = document.getElementById('hnaTransitZoneContent');
     if (!mount) return Promise.resolve(null);
     now = (now && typeof now.getTime === 'function') ? now : new Date();
+    // The panel says which geography it is showing (data-tz-geoid) and is
+    // cleared the moment another is asked for, so an export taken mid-load
+    // cannot pass off the previous place's figures as this one's. Only the
+    // latest request may write: a slow earlier fetch never overwrites it.
+    var seq = ++_transitZoneRenderSeq;
+    mount.innerHTML = '<p class="hna-tz__loading">Loading transit zone figures\u2026</p>';
+    mount.setAttribute('data-tz-state', 'loading');
+    mount.setAttribute('data-tz-geoid', String(geoid == null ? '' : geoid));
+    mount.removeAttribute('data-tz-radius');
+    mount.removeAttribute('data-tz-stops-generated');
     function unavailable(reason) {
+      if (seq !== _transitZoneRenderSeq) return null;
       mount.innerHTML = '<p class="hna-tz__unavailable"><strong>Unavailable.</strong> ' + escHtml(reason) + '</p>';
       mount.setAttribute('data-tz-state', 'unavailable');
       return null;
     }
-    // A measured share never rounds to an absolute: 0.4% is "<1%", not "0%"
-    // (which would read as no transit at all), and 99.6% is ">99%", not "100%".
-    function pct(v) {
-      if (v > 0 && v < 0.005) return '<1%';
-      if (v < 1 && v >= 0.995) return '>99%';
-      return Math.round(v * 100) + '%';
+    var TZ = window.TransitZone;
+    if (!TZ || typeof TZ.areaSummary !== 'function') {
+      return Promise.resolve(unavailable('The transit zone screen did not load.'));
     }
     return Promise.all([
       fetch('data/hna/transit-zone-by-geography.json').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
       fetch('data/policy/thiz-map-status.json').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
     ]).then(function (parts) {
-      var data = parts[0], mapStatus = parts[1];
-      if (!data || !data.geographies) return unavailable('Transit zone data did not load.');
-      var rec = data.geographies[geoid];
-      if (!rec) return unavailable('Transit zone figures cover Colorado counties, towns and CDPs; pick one to see them.');
-      if (rec.unavailableReason) return unavailable(rec.unavailableReason);
-      var gen = Date.parse((data.meta && data.meta.stops_generated) || '');
-      if (!Number.isFinite(gen)) return unavailable('The transit stop data has no build date, so its age cannot be confirmed.');
-      var ageDays = Math.floor((now.getTime() - gen) / 86400000);
-      if (ageDays > TRANSIT_ZONE_MAX_AGE_DAYS) {
-        return unavailable('The transit stop data is ' + ageDays + ' days old (limit ' + TRANSIT_ZONE_MAX_AGE_DAYS + '), so these figures may miss new or moved stops.');
+      // Every figure, label and reason comes from TransitZone.areaSummary —
+      // the same summary the recommendation, the for-sale study and the
+      // exports read — so this panel cannot disagree with them.
+      if (seq !== _transitZoneRenderSeq) return null;   // superseded
+      var tz = TZ.areaSummary(parts[0], geoid, parts[1], now);
+      if (tz.status !== 'ok') {
+        return unavailable(tz.unavailableCode === 'not_covered' || tz.unavailableCode === 'no_geography'
+          ? 'Transit zone figures cover Colorado counties, towns and CDPs; pick one to see them.'
+          : tz.unavailableReason);
       }
-      var radius = data.meta && data.meta.radius_miles;
-      var share = rec.share_within_radius_confirmed;
-      var shareAny = rec.share_within_radius_any;
-      var half = rec.share_within_half_mile_confirmed;
-      if (typeof share !== 'number' || typeof half !== 'number' || !(radius > 0)) {
-        return unavailable('The transit zone figures for this geography are incomplete.');
-      }
-      var des = (window.TransitZone && typeof window.TransitZone.designation === 'function')
-        ? window.TransitZone.designation(mapStatus, now)
-        : { designation: 'provisional', note: 'Provisional — the zone-map status could not be read, so this is a screen only.' };
-      var name = escHtml(rec.name || 'this area');
-      // A sampled zero is only proven when the builder measured the exact
-      // boundary distance (zero_is_exact). Otherwise part of an edge strip
-      // is within the radius, so the share is "under 1%", not "none".
-      var edgeOnly = share === 0 && rec.zero_is_exact === false;
-      var shareLabel = edgeOnly ? '<1%' : pct(share);
-      var near = rec.nearest_confirmed_stop;
+      var rec = parts[0].geographies[geoid];
+      var radius = escHtml(String(tz.radiusMiles));
+      var name = escHtml(tz.name || 'this area');
+      var near = tz.nearestConfirmedStop;
       var html = '';
       html += '<div class="hna-tz__tiles" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:.6rem;margin:.4rem 0 .8rem;">' +
-        '<div class="hna-tz__tile" data-tz="share"><div style="font-size:1.6rem;font-weight:700;">' + shareLabel + '</div>' +
-          '<div style="color:var(--muted);">of ' + name + ' is within ' + escHtml(String(radius)) + ' miles of a confirmed transit stop</div></div>' +
-        '<div class="hna-tz__tile" data-tz="half"><div style="font-size:1.6rem;font-weight:700;">' + pct(half) + '</div>' +
+        '<div class="hna-tz__tile" data-tz="share"><div style="font-size:1.6rem;font-weight:700;">' + escHtml(tz.shareLabel) + '</div>' +
+          '<div style="color:var(--muted);">of ' + name + ' is within ' + radius + ' miles of a confirmed transit stop</div></div>' +
+        '<div class="hna-tz__tile" data-tz="half"><div style="font-size:1.6rem;font-weight:700;">' + escHtml(tz.halfMileLabel) + '</div>' +
           '<div style="color:var(--muted);">is within ½ mile of a confirmed stop (CHFA QAP TOD distance, straight-line)</div></div>' +
         '<div class="hna-tz__tile" data-tz="nearest"><div style="font-size:1.6rem;font-weight:700;">' +
           (near ? escHtml(String(near.distance_miles)) + ' mi' : '—') + '</div>' +
@@ -8248,27 +8242,29 @@
             ? 'from the centre to the nearest confirmed stop: ' + escHtml(near.name || 'unnamed stop') + ' (' + escHtml(near.agency || 'agency not listed') + ')'
             : 'no confirmed stop found in Colorado data') + '</div></div>' +
         '</div>';
-      if (edgeOnly) {
-        html += '<p>Less than 1% of ' + name + ' — a strip along its edge — is within ' + escHtml(String(radius)) + ' miles of a confirmed stop; ' +
-          'the nearest is ' + escHtml(String(rec.nearest_confirmed_stop_to_boundary_miles)) + ' miles from the boundary. Only sites on that edge could pass the screen.</p>';
-      } else if (share === 0) {
-        html += '<p>No part of ' + name + ' is within ' + escHtml(String(radius)) + ' miles of a fixed-route stop that CDOT or a transit agency publishes. ' +
+      if (tz.edgeOnly) {
+        html += '<p>Less than 1% of ' + name + ' — a strip along its edge — is within ' + radius + ' miles of a confirmed stop; ' +
+          'the nearest is ' + escHtml(String(tz.nearestToBoundaryMiles)) + ' miles from the boundary. Only sites on that edge could pass the screen.</p>';
+      } else if (tz.noneWithinRadius) {
+        html += '<p>No part of ' + name + ' is within ' + radius + ' miles of a fixed-route stop that CDOT or a transit agency publishes. ' +
           'Demand-response (dial-a-ride) service and private shuttle pickups have no public stops, so they do not count toward this screen.</p>';
       }
-      if (typeof shareAny === 'number' && shareAny > share) {
-        html += '<p style="color:var(--muted);">Counting OpenStreetMap stops that neither CDOT nor an agency confirms, the share rises to ' + pct(shareAny) +
+      if (tz.shareAny !== null && tz.shareAny > tz.share) {
+        html += '<p style="color:var(--muted);">Counting OpenStreetMap stops that neither CDOT nor an agency confirms, the share rises to ' + escHtml(tz.shareAnyLabel) +
           '. Those stops are unconfirmed, so they are left out of the figures above. Private airport and hotel shuttle pickups are left out of every figure: they are not public transit.</p>';
       }
       html += '<p><strong>Transit Zone credit.</strong> Only housing inside an OEDIT-designated Transit and Housing Investment Zone can receive the HB26-1065 credit. ' +
-        (share > 0 ? 'Sites in the ' + pct(share) + ' above pass the ' + escHtml(String(radius)) + '-mile screen and are worth checking; sites elsewhere in ' + name + ' do not.'
-         : edgeOnly ? 'Only a site on that edge strip could pass the ' + escHtml(String(radius)) + '-mile screen.'
-         : 'No site here passes the ' + escHtml(String(radius)) + '-mile screen.') + '</p>';
-      html += '<p class="hna-tz__designation" data-tz-designation="' + escHtml(des.designation) + '" style="padding:.5rem .7rem;border-left:3px solid var(--warn);background:var(--warn-dim);">' +
-        escHtml(des.note) + '</p>';
+        (tz.share > 0 ? 'Sites in the ' + escHtml(tz.shareLabel) + ' above pass the ' + radius + '-mile screen and are worth checking; sites elsewhere in ' + name + ' do not.'
+         : tz.edgeOnly ? 'Only a site on that edge strip could pass the ' + radius + '-mile screen.'
+         : 'No site here passes the ' + radius + '-mile screen.') + '</p>';
+      html += '<p class="hna-tz__designation" data-tz-designation="' + escHtml(tz.designation) + '" style="padding:.5rem .7rem;border-left:3px solid var(--warn);background:var(--warn-dim);">' +
+        escHtml(tz.designationNote) + '</p>';
       html += '<p style="color:var(--muted);font-size:.95rem;">Source: CDOT Statewide Transit Points, transit agency schedule feeds and OpenStreetMap, merged weekly; ' +
         'about ' + escHtml(String(rec.samples)) + ' sample points inside this boundary. Distances are straight-line.</p>';
       mount.innerHTML = html;
       mount.setAttribute('data-tz-state', 'ok');
+      mount.setAttribute('data-tz-radius', String(tz.radiusMiles));
+      mount.setAttribute('data-tz-stops-generated', String(tz.stopsGenerated));
       return rec;
     });
   }
