@@ -83,8 +83,12 @@ jobs:
       - name: Verify README + AGENTS.md inventory
         run: |
           # PRs and merges to main: the inventory line is generated, not carried
-          # (see the regeneration step below for why main is included).
-          if [ "${{ github.event_name }}" = "pull_request" ] || [ "${{ github.event_name }}" = "push" ]; then
+          # (see the regeneration step below for why main is included). A
+          # dispatch on a branch other than main counts as a PR: that is how
+          # the bot workflows that open PRs get ci-checks at all (#1990), and
+          # how a person re-runs a PR head by hand.
+          if [ "${{ github.event_name }}" = "pull_request" ] || [ "${{ github.event_name }}" = "push" ] \
+             || { [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ github.ref_name }}" != "${{ github.event.repository.default_branch }}" ]; }; then
             node scripts/compute-inventory.mjs --write
           fi
           node scripts/compute-inventory.mjs
@@ -340,7 +344,18 @@ jobs:
         # 2026-09-27). The schedule and workflow_run triggers deliberately do
         # NOT regenerate: they check what bots committed, and a stale manifest
         # there is a real failure that should stay visible.
-        if: github.event_name == 'pull_request' || github.event_name == 'push'
+        #
+        # A workflow_dispatch on a branch other than main stands in for the
+        # pull_request run: GITHUB_TOKEN-opened PRs (docs-sync,
+        # source-liveness-weekly, market_data_build, ...) get their ci-checks
+        # only by dispatching it on the PR branch, because their pull_request
+        # run waits for approval. Checked like a PR, so a bot PR is held to
+        # exactly the rules a person's PR is -- no more, no fewer. A dispatch
+        # on main is still verified as committed.
+        if: >-
+          github.event_name == 'pull_request' || github.event_name == 'push'
+          || (github.event_name == 'workflow_dispatch'
+              && github.ref_name != github.event.repository.default_branch)
         run: |
           npm run -s paper:build
           npm run -s audit:file-manifest
