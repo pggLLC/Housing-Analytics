@@ -15,12 +15,16 @@ Transit (built by scripts/market/build_transit_stops_co.py):
   - data/amenities/transit_stops_statewide_co.geojson → type: "transit_stop"
     Selected by scripts/lib/transit_stops.py, the rule the ranking index
     shares: confirmed public scheduled stops (CDOT and/or an agency GTFS feed;
-    no private shuttles, no demand-response). OpenStreetMap-only stops are
-    added only around a place whose centroid has no confirmed stop within
-    TRANSIT_FALLBACK_RADIUS_MILES but has an OpenStreetMap-only stop there,
-    and never within that radius of a place that does have a confirmed stop.
-    Every transit record says which it is in "transit_stop_basis", and
-    meta.transit lists the fallback places.
+    no private shuttles, no demand-response), with transit_stop_basis
+    "confirmed". Every public, non-demand-response OpenStreetMap-only stop
+    is also published, with transit_stop_basis "openstreetmap_unconfirmed".
+    The fallback is decided per ANALYZED SITE, by the connector
+    (OsmAmenities, js/data-connectors/osm-amenities.js): a site is scored on
+    confirmed stops whenever one is within TRANSIT_FALLBACK_RADIUS_MILES, and
+    on OpenStreetMap-only stops only when none is. Choosing the fallback here,
+    around preselected place centroids, let a nearer unconfirmed stop outrank
+    a confirmed one at a site near such a centroid, and gave a site far from
+    every centroid no fallback at all (Codex on #1991).
 
 State registry sources:
   - data/market/hospitals_co.geojson        → type: "hospital"
@@ -190,7 +194,8 @@ def load_centroids(path: Path = CENTROIDS_PATH) -> dict[str, dict]:
 
 
 def place_transit_bases(stops: dict[str, list[dict]], centroids: dict[str, dict]) -> dict[str, str]:
-    """{place geoid: transit_stop_basis} at each place centroid, via the shared rule."""
+    """{place geoid: transit_stop_basis} at each place centroid, via the shared
+    rule — the basis the connector's per-site rule picks at that point."""
     confirmed = transit_stops.points(stops[transit_stops.BASIS_CONFIRMED])
     osm = transit_stops.points(stops[transit_stops.BASIS_OSM_FALLBACK])
     return {
@@ -201,54 +206,42 @@ def place_transit_bases(stops: dict[str, list[dict]], centroids: dict[str, dict]
 
 
 def load_transit(path: Path, centroids: dict[str, dict]) -> tuple[list[dict], dict]:
-    """(transit_stop records, meta.transit). Confirmed stops everywhere;
-    OpenStreetMap-only stops only around fallback places, never within range
-    of a place that has a confirmed stop."""
+    """(transit_stop records, meta.transit). Every confirmed stop, and every
+    public OpenStreetMap-only stop flagged as unconfirmed; the connector picks
+    between them per analyzed site."""
     stops = transit_stops.load_stops(path)
-    bases = place_transit_bases(stops, centroids)
-    fallback = {g: centroids[g] for g, b in bases.items() if b == transit_stops.BASIS_OSM_FALLBACK}
-    served = {g: centroids[g] for g, b in bases.items() if b == transit_stops.BASIS_CONFIRMED}
-
     records = [_transit_record(f, transit_stops.BASIS_CONFIRMED) for f in stops[transit_stops.BASIS_CONFIRMED]]
-    per_place: dict[str, int] = {g: 0 for g in fallback}
-    blocked_by: dict[str, set[str]] = {g: set() for g in fallback}
-    r = TRANSIT_FALLBACK_RADIUS_MILES
-    for feat in stops[transit_stops.BASIS_OSM_FALLBACK]:
-        lon, lat = feat["geometry"]["coordinates"][:2]
-        near_fallback = [g for g, c in fallback.items() if _miles(c["lat"], c["lng"], lat, lon) <= r]
-        if not near_fallback:
-            continue
-        near_served = [g for g, c in served.items() if _miles(c["lat"], c["lng"], lat, lon) <= r]
-        if near_served:
-            # A place with a confirmed stop never gets OpenStreetMap-only stops,
-            # even when that leaves a neighbouring fallback place without one.
-            for g in near_fallback:
-                blocked_by[g].update(near_served)
-            continue
-        records.append(_transit_record(feat, transit_stops.BASIS_OSM_FALLBACK))
-        for g in near_fallback:
-            per_place[g] += 1
+    records += [_transit_record(f, transit_stops.BASIS_OSM_FALLBACK) for f in stops[transit_stops.BASIS_OSM_FALLBACK]]
+    # Informational: what the per-site rule gives at each place centroid.
+    bases = place_transit_bases(stops, centroids)
     counts = {b: sum(1 for v in bases.values() if v == b) for b in transit_stops.BASES}
+    r = TRANSIT_FALLBACK_RADIUS_MILES
+    osm_pts = transit_stops.points(stops[transit_stops.BASIS_OSM_FALLBACK])
     meta = {
         "source": TRANSIT_SOURCE,
         "selection": "scripts/lib/transit_stops.py",
-        "rule": ("Confirmed public scheduled stops (reliability confirmed; not private_shuttle; "
-                 "not demand_response). OpenStreetMap-only stops only around a place centroid "
-                 "with no confirmed stop within fallback_radius_miles, and never within that "
-                 "radius of a place centroid that has one."),
+        "rule": ("Records: confirmed public scheduled stops (reliability confirmed; not private_shuttle; "
+                 "not demand_response) with transit_stop_basis 'confirmed', and OpenStreetMap-only public "
+                 "stops (not private_shuttle; not demand_response) with transit_stop_basis "
+                 "'openstreetmap_unconfirmed'. Scoring (js/data-connectors/osm-amenities.js), per analyzed "
+                 "site: the nearest confirmed stop when one is within fallback_radius_miles; otherwise the "
+                 "nearest OpenStreetMap-only stop when one is, flagged as unconfirmed; otherwise the "
+                 "nearest confirmed stop, out of range."),
         "stops_content_sha256": transit_stops.content_fingerprint(path),
-        "fallback_radius_miles": TRANSIT_FALLBACK_RADIUS_MILES,
+        "fallback_radius_miles": r,
+        "records_by_basis": {
+            transit_stops.BASIS_CONFIRMED: len(stops[transit_stops.BASIS_CONFIRMED]),
+            transit_stops.BASIS_OSM_FALLBACK: len(stops[transit_stops.BASIS_OSM_FALLBACK]),
+        },
         "places_by_basis": counts,
         "fallback_places": [
             {
                 "geoid": g,
                 "name": centroids[g].get("name"),
-                "openstreetmap_stops": per_place[g],
-                # Non-empty only when every in-range OpenStreetMap-only stop is
-                # also within range of these places, which have confirmed stops.
-                "withheld_because_near": sorted(blocked_by[g]) if not per_place[g] else [],
+                "openstreetmap_stops": sum(1 for lat, lon in osm_pts
+                                           if _miles(centroids[g]["lat"], centroids[g]["lng"], lat, lon) <= r),
             }
-            for g in sorted(fallback)
+            for g in sorted(g for g, b in bases.items() if b == transit_stops.BASIS_OSM_FALLBACK)
         ],
     }
     return records, meta

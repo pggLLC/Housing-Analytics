@@ -264,7 +264,28 @@ def test_neighborhood_confirmed_records_are_exactly_the_file_defined_set(na_doc,
         f"(e.g. {sorted(got - want)[:3]}), {len(want - got)} it defines are missing (e.g. {sorted(want - got)[:3]})")
 
 
-def test_neighborhood_fallback_is_only_where_no_confirmed_stop_is_in_range(na_doc, expected, centroids, neighborhood):
+def test_neighborhood_publishes_every_fallback_candidate_flagged(na_doc, expected):
+    """Codex on #1991: the fallback is chosen per analyzed site by the
+    connector (test/osm-amenities-transit-basis.test.js), so the builder must
+    publish every public OpenStreetMap-only stop, flagged — not only those near
+    preselected place centroids. A subset here leaves a site far from every
+    centroid with no fallback; mixing them in unflagged lets a nearer
+    unconfirmed stop outrank a confirmed one."""
+    osm_recs = {(a["lat"], a["lon"]) for a in na_doc["amenities"]
+                if a["type"] == "transit_stop" and a["transit_stop_basis"] == "openstreetmap_unconfirmed"}
+    want = {(round(lat, 6), round(lon, 6)) for lat, lon in expected["fallback_pts"]}
+    assert osm_recs == want, (
+        f"{len(want - osm_recs)} OpenStreetMap-only candidate(s) not published (e.g. {sorted(want - osm_recs)[:3]}), "
+        f"{len(osm_recs - want)} published that the file does not define (e.g. {sorted(osm_recs - want)[:3]})")
+    meta = na_doc["meta"]["transit"]
+    assert meta["records_by_basis"] == {"confirmed": len(expected["counted"]),
+                                        "openstreetmap_unconfirmed": len(expected["fallback"])}
+    assert "withheld_because_near" not in json.dumps(meta), "the place-centroid withholding rule is gone"
+
+
+def test_neighborhood_place_bases_agree_with_the_file(na_doc, expected, centroids, neighborhood):
+    """meta.transit reports what the per-site rule gives at each place
+    centroid; recomputed here from the file, independently of the helper."""
     radius = neighborhood.TRANSIT_FALLBACK_RADIUS_MILES
     bases = {g: _basis(c["lat"], c["lng"], radius, expected["counted_pts"], expected["fallback_pts"], rnd=False)
              for g, c in centroids.items()}
@@ -272,29 +293,11 @@ def test_neighborhood_fallback_is_only_where_no_confirmed_stop_is_in_range(na_do
     assert {p["geoid"] for p in meta["fallback_places"]} == {g for g, b in bases.items() if b == "openstreetmap_unconfirmed"}
     assert meta["places_by_basis"] == dict(collections.Counter(bases.values()), **{
         k: 0 for k in ("confirmed", "openstreetmap_unconfirmed", "none") if k not in bases.values()})
-
-    osm_recs = [a for a in na_doc["amenities"]
-                if a["type"] == "transit_stop" and a["transit_stop_basis"] == "openstreetmap_unconfirmed"]
-    fallback_pts = {(round(lat, 6), round(lon, 6)) for lat, lon in expected["fallback_pts"]}
-    served = [centroids[g] for g, b in bases.items() if b == "confirmed"]
-    for a in osm_recs:
-        assert (a["lat"], a["lon"]) in fallback_pts, f"{a['name']}: not an OpenStreetMap-only stop in the file"
-        leak = [c["name"] for c in served if _miles(c["lat"], c["lng"], a["lat"], a["lon"]) <= radius]
-        assert not leak, f"OpenStreetMap-only stop {a['name']!r} leaks into place(s) with a confirmed stop: {leak}"
-
     for p in meta["fallback_places"]:
         c = centroids[p["geoid"]]
-        near = [a for a in osm_recs if _miles(c["lat"], c["lng"], a["lat"], a["lon"]) <= radius]
-        assert len(near) == p["openstreetmap_stops"], p
-        if near:
-            assert not p["withheld_because_near"], p
-            continue
-        # Scoring 0 is allowed only when the no-mixing rule forced it, and the
-        # file must show why: an OSM-only stop in range that is also in range
-        # of each named place, and each of those places has a confirmed stop.
-        assert p["withheld_because_near"], f"{p['name']}: a fallback place was left scoring 0 with no reason"
-        for g in p["withheld_because_near"]:
-            assert bases[g] == "confirmed", (p, g)
+        near = [pt for pt in expected["fallback_pts"] if _miles(c["lat"], c["lng"], pt[0], pt[1]) <= radius]
+        # Every fallback place now has its stop: nothing is withheld.
+        assert near and len(near) == p["openstreetmap_stops"], p
 
 
 def test_neighborhood_has_a_fallback_record_somewhere(na_doc):
