@@ -82,7 +82,9 @@ jobs:
       # exactly as committed.
       - name: Verify README + AGENTS.md inventory
         run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
+          # PRs and merges to main: the inventory line is generated, not carried
+          # (see the regeneration step below for why main is included).
+          if [ "${{ github.event_name }}" = "pull_request" ] || [ "${{ github.event_name }}" = "push" ]; then
             node scripts/compute-inventory.mjs --write
           fi
           node scripts/compute-inventory.mjs
@@ -323,13 +325,22 @@ jobs:
         # the same way chfa-qap-watch.yml does.
         run: pip install pytest python-dateutil jsonschema requests pandas pypdf==5.1.0 cryptography==50.0.1
 
-      - name: Regenerate paper figures and manifests (PRs only)
+      - name: Regenerate paper figures and manifests (PRs and merges to main)
         # See "Verify README + AGENTS.md inventory" above. Order matters:
         # the paper quotes the inventory line, and rebuild_manifest.py
         # records the byte count of data/_manifest.json, so it follows that
         # rebuild. Then re-sync the Data Trust Center's manifest file count,
         # just as the post-merge workflow does, before the drift gate runs.
-        if: github.event_name == 'pull_request'
+        #
+        # `push` is a merge to main. PRs never carry these generated files;
+        # archive-audit-post-merge.yml commits them minutes after the merge.
+        # Without this step every merge that changed a data file failed here
+        # on "manifest byte counts are stale" until that commit landed, so a
+        # red main stopped meaning anything (#1976, #1978 and #1981 on
+        # 2026-09-27). The schedule and workflow_run triggers deliberately do
+        # NOT regenerate: they check what bots committed, and a stale manifest
+        # there is a real failure that should stay visible.
+        if: github.event_name == 'pull_request' || github.event_name == 'push'
         run: |
           npm run -s paper:build
           npm run -s audit:file-manifest
