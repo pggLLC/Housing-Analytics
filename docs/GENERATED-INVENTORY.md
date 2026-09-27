@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T12:57:48.049Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T13:10:08.356Z. Do not edit by hand.
 
 ---
 
@@ -17,7 +17,7 @@
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | Colorado Public Data Reference | 17.9 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.4 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.3 KB |
-| `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 32.2 KB |
+| `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 39.9 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 136.2 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 17.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1006 B |
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-455 test files found.
+457 test files found.
 
 | File | Size |
 |------|------|
@@ -1784,6 +1784,8 @@
 | `test/chas-tier-shares.test.js` | 4.9 KB |
 | `test/chfa-dda-qct-absence.test.js` | 12.5 KB |
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
+| `test/chfa-portfolio-filters.test.js` | 6.3 KB |
+| `test/chfa-portfolio-location-link.test.js` | 6.1 KB |
 | `test/chfa-qap-calendar.test.js` | 12.8 KB |
 | `test/ci-tools-are-declared.test.mjs` | 9.3 KB |
 | `test/ci-verifies-bot-commits.test.js` | 5.4 KB |
