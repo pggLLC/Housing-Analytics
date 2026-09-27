@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T20:45:57.799Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T22:05:07.816Z. Do not edit by hand.
 
 ---
 
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-466 test files found.
+467 test files found.
 
 | File | Size |
 |------|------|
@@ -1773,6 +1773,7 @@
 | `test/basemap-honours-tilelayer-contract.test.js` | 6.6 KB |
 | `test/basemap-provider-single-source.test.js` | 8.1 KB |
 | `test/boards-advocates-search-links.test.js` | 3.1 KB |
+| `test/bot-pr-dispatches-ci-checks.test.js` | 18.9 KB |
 | `test/both-surfaces-answer-the-same-question.test.mjs` | 5.9 KB |
 | `test/branded-404.test.js` | 2.1 KB |
 | `test/bridge-token-guidance.test.js` | 2.4 KB |
@@ -2238,7 +2239,7 @@
 | `.github/workflows/car-data-update.yml` | 2.4 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
 | `.github/workflows/chfa-qap-watch.yml` | 10.8 KB |
-| `.github/workflows/ci-checks.yml` | 18.4 KB |
+| `.github/workflows/ci-checks.yml` | 19.9 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 6.0 KB |
@@ -2256,7 +2257,7 @@
 | `.github/workflows/developer-url-health.yml` | 3.2 KB |
 | `.github/workflows/discover-agenda-urls.yml` | 3.4 KB |
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.6 KB |
-| `.github/workflows/docs-sync.yml` | 3.0 KB |
+| `.github/workflows/docs-sync.yml` | 4.0 KB |
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 3.7 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.7 KB |
@@ -2269,8 +2270,8 @@
 | `.github/workflows/fetch-kalshi.yml` | 5.3 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 20.3 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 8.1 KB |
-| `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.9 KB |
-| `.github/workflows/market_data_build.yml` | 19.7 KB |
+| `.github/workflows/jurisdiction-briefs-monthly.yml` | 5.2 KB |
+| `.github/workflows/market_data_build.yml` | 20.1 KB |
 | `.github/workflows/merge-ref-gate.yml` | 3.6 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 4.0 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
@@ -2279,12 +2280,12 @@
 | `.github/workflows/rebuild-place-od-flows.yml` | 4.5 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-co-demographics.yml` | 3.8 KB |
-| `.github/workflows/refresh-state-trend-analysis.yml` | 2.5 KB |
+| `.github/workflows/refresh-state-trend-analysis.yml` | 3.8 KB |
 | `.github/workflows/refresh-working-paper.yml` | 3.5 KB |
 | `.github/workflows/run-all-workflows.yml` | 17.3 KB |
 | `.github/workflows/scrape-agenda-items.yml` | 3.3 KB |
 | `.github/workflows/site-audit.yml` | 3.0 KB |
-| `.github/workflows/source-liveness-weekly.yml` | 2.3 KB |
+| `.github/workflows/source-liveness-weekly.yml` | 3.6 KB |
 | `.github/workflows/source-url-sweep.yml` | 2.4 KB |
 | `.github/workflows/sync-data-mtimes.yml` | 7.5 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.1 KB |
