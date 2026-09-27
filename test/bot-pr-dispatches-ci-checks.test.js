@@ -10,27 +10,44 @@
 // the workflow token, so each such workflow dispatches ci-checks.yml on the
 // branch it pushed.
 //
+// The dispatch must also wait for the push to land. `gh workflow run --ref B`
+// resolves B server-side when it is called, and right after `git push` the API
+// can still report the previous tip -- ci-checks would then pass on a commit
+// nobody changed while the new head goes unverified. Every dispatch therefore
+// goes through .github/actions/dispatch-ci-checks, which polls until the
+// branch reports the pushed SHA and fails the step if it never does.
+//
 // This is structural, not a pinned string. For every job in every workflow it
 // finds the steps that write a bot branch -- peter-evans/create-pull-request,
 // `gh pr create`, or a `git push` of a branch the job created -- works out
-// which branch that is, and requires a `gh workflow run ci-checks.yml --ref R`
-// after it whose R resolves to the SAME branch, with `actions: write` and a
-// token for gh. Renaming the branch on one side only fails; rewording comments
-// or the notice line does not.
+// which branch that is, and requires a waited dispatch after it whose ref
+// resolves to the SAME branch and whose SHA is the one that step pushed, with
+// `actions: write`. A bare `gh workflow run ci-checks` anywhere fails. The
+// wait itself is exercised against a fake `gh`. Renaming the branch on one side
+// only fails; rewording comments or notices does not.
 //
 // It also asserts the other half of the agreement: ci-checks.yml accepts
-// workflow_dispatch, and every step it runs only for PRs and merges (the
-// generated-file regeneration) also runs for a dispatch, so a dispatched run
-// judges a bot PR by the same rules as a pull_request run would.
+// workflow_dispatch, and every step it gates on pull_request also runs for a
+// dispatch on a non-default branch (or is allowlisted with a reason), so a
+// dispatched run judges a bot PR by the same rules a pull_request run would.
 'use strict';
 
 const assert = require('assert');
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
+const { spawnSync } = require('child_process');
 const yaml = require('js-yaml');
 
 const ROOT = path.resolve(__dirname, '..');
 const WF_DIR = process.env.BOT_PR_WF_DIR || path.join(ROOT, '.github', 'workflows');
+const ACTION_DIR = process.env.BOT_PR_ACTION_DIR || path.join(ROOT, '.github', 'actions', 'dispatch-ci-checks');
+const ACTION_USES = /^\.\/\.github\/actions\/dispatch-ci-checks\/?$/;
+const SCRIPT_CALL = /\.github\/actions\/dispatch-ci-checks\/dispatch\.sh\b/;
+
+// ci-checks steps gated on pull_request that deliberately do NOT run for a
+// branch dispatch. Each needs the reason. Empty today.
+const PR_ONLY_ALLOW = {};
 
 let passed = 0;
 function test(name, fn) {
@@ -85,6 +102,9 @@ const commandLines = (run) => String(run || '').split('\n')
   .map((l, i) => ({ l: l.replace(/(^|\s)#.*$/, ''), i }))
   .filter(({ l }) => l.trim());
 
+// Shell words of a line, keeping quoted words (which may hold spaces) whole.
+const words = (l) => (l.match(/"[^"]*"|'[^']*'|\S+/g) || []);
+
 // Destination branch of a `git push` line, or null for deletes and bare pushes.
 function pushTarget(line) {
   const toks = line.trim().split(/\s+/);
@@ -121,13 +141,12 @@ function writers(f, doc) {
               token: checkoutToken && checkoutToken.token });
           }
         }
-        const pr = l.match(/\bgh\s+pr\s+create\b/);
-        if (pr) {
+        if (/\bgh\s+pr\s+create\b/.test(l)) {
           // --head may sit on a continuation line.
           const rest = lines.filter((x) => x.i >= i).map((x) => x.l).join(' ');
           const head = (rest.match(/--head\s+(\S+)/) || [])[1];
           // The PR head is what the job pushed; the dispatch must follow that
-          // push, and may precede `gh pr create` (market_data_build.yml does).
+          // push, and may precede `gh pr create`.
           const push = lines.find((x) => x.i < i && /(^|[\s;&|(])git\s+push\b/.test(x.l));
           out.push({ f, jobId, job, steps, idx, line: push ? push.i : i, ctx, how: 'gh pr create',
             branchExpr: head || null, token: ghToken });
@@ -138,19 +157,49 @@ function writers(f, doc) {
   return out;
 }
 
-// Every `gh workflow run ci-checks.yml --ref X` in a job, with its position.
-function dispatches(steps, doc, job) {
+// Every ci-checks dispatch in a job: through the waiting action or its script
+// (waited), or a bare `gh workflow run ci-checks` (not waited).
+function dispatches(steps) {
   const out = [];
   steps.forEach((step, idx) => {
+    if (ACTION_USES.test(step.uses || '')) {
+      const w = step.with || {};
+      out.push({ idx, line: -1, step, ref: w.ref, sha: w.sha, waited: true });
+      return;
+    }
     for (const { l, i } of commandLines(step.run)) {
-      if (!/\bgh\s+workflow\s+run\s+["']?ci-checks(\.yml)?["']?(\s|$)/.test(l)) continue;
-      const ref = (l.match(/--ref[=\s]+(\S+)/) || [])[1];
-      const token = (step.env && (step.env.GH_TOKEN || step.env.GITHUB_TOKEN))
-        || (job.env && job.env.GH_TOKEN) || (doc.env && doc.env.GH_TOKEN);
-      out.push({ idx, line: i, step, ref, token });
+      if (SCRIPT_CALL.test(l)) {
+        const ws = words(l);
+        const at = ws.findIndex((x) => SCRIPT_CALL.test(x));
+        out.push({ idx, line: i, step, ref: ws[at + 1], sha: ws[at + 2], waited: true });
+      } else if (/\bgh\s+workflow\s+run\s+["']?ci-checks(\.yml)?["']?(\s|$)/.test(l)) {
+        out.push({ idx, line: i, step, ref: (l.match(/--ref[=\s]+(\S+)/) || [])[1], waited: false });
+      }
     }
   });
   return out;
+}
+
+const REV_PARSE_HEAD = /^\$\(git rev-parse HEAD\)$/;
+
+// Is `d.sha` the commit writer `w` pushed?
+function shaIsPushed(d, w) {
+  if (d.sha == null) return false;
+  const e = unquote(d.sha);
+  if (w.how === 'create-pull-request') {
+    const m = e.match(/^\$\{\{\s*steps\.([A-Za-z0-9_-]+)\.outputs\.pull-request-head-sha\s*\}\}$/);
+    return !!m && m[1] === w.steps[w.idx].id;
+  }
+  // A push in a run script: HEAD after the push, read after the push line.
+  if (d.idx !== w.idx) return false;
+  if (REV_PARSE_HEAD.test(e)) return d.line > w.line;
+  const v = e.match(/^\$\{?([A-Za-z_][A-Za-z0-9_]*)\}?$/);
+  if (!v) return false;
+  const assigns = commandLines(d.step.run)
+    .filter(({ l }) => new RegExp('^\\s*(?:export\\s+)?' + v[1] + '=').test(l));
+  const last = assigns.filter((a) => a.i < d.line).pop();
+  if (!last) return false;
+  return last.i > w.line && REV_PARSE_HEAD.test(unquote(last.l.trim().slice(last.l.trim().indexOf('=') + 1)));
 }
 
 const files = fs.readdirSync(WF_DIR).filter((f) => /\.ya?ml$/.test(f)).sort();
@@ -167,13 +216,13 @@ test('the scan finds the bot-branch writers it is about (non-vacuous)', () => {
   assert.ok(names.size >= 2);
 });
 
-test('every GITHUB_TOKEN bot branch dispatches ci-checks.yml on that same branch', () => {
+test('every GITHUB_TOKEN bot branch dispatches ci-checks.yml on that branch, for the SHA it pushed', () => {
   const problems = [];
   for (const w of tokenWriters) {
     const where = w.f + ' (' + w.jobId + ', ' + w.how + ')';
     const branch = resolve(w.branchExpr, w.ctx);
     if (!branch) { problems.push(where + ': cannot tell which branch it writes (' + w.branchExpr + ')'); continue; }
-    const after = dispatches(w.steps, w.ctx.doc, w.job)
+    const after = dispatches(w.steps)
       .filter((d) => d.idx > w.idx || (d.idx === w.idx && d.line > w.line));
     const same = after.filter((d) => resolve(d.ref, { ...w.ctx, step: d.step }) === branch);
     if (!same.length) {
@@ -182,11 +231,155 @@ test('every GITHUB_TOKEN bot branch dispatches ci-checks.yml on that same branch
         + (seen.length ? ' (dispatches: ' + seen.join(', ') + ')' : ''));
       continue;
     }
+    const waited = same.filter((d) => d.waited);
+    if (!waited.length) {
+      problems.push(where + ': dispatches ci-checks on ' + branch + ' without waiting for the pushed SHA '
+        + '-- use .github/actions/dispatch-ci-checks');
+      continue;
+    }
+    if (!waited.some((d) => shaIsPushed(d, w))) {
+      problems.push(where + ': waits for ' + waited.map((d) => d.sha).join(', ')
+        + ', which is not the commit this step pushed');
+    }
     const perms = w.job.permissions || w.ctx.doc.permissions || {};
     if (perms.actions !== 'write') problems.push(where + ': dispatches ci-checks without `actions: write`');
-    if (!same.some((d) => d.token)) problems.push(where + ': the dispatch step sets no GH_TOKEN for gh');
   }
   assert.deepStrictEqual(problems, []);
+});
+
+test('no workflow dispatches ci-checks.yml without the SHA wait', () => {
+  const bare = [];
+  for (const f of files) {
+    for (const [jobId, job] of Object.entries(docs[f].jobs || {})) {
+      for (const d of dispatches(job.steps || [])) {
+        if (!d.waited) bare.push(f + ' (' + jobId + '): gh workflow run ci-checks --ref ' + d.ref);
+      }
+    }
+  }
+  assert.deepStrictEqual(bare, []);
+});
+
+test('the dispatch action runs dispatch.sh with its ref and sha inputs, in that order', () => {
+  const action = yaml.load(fs.readFileSync(path.join(ACTION_DIR, 'action.yml'), 'utf8'));
+  for (const k of ['ref', 'sha']) assert.ok(action.inputs && action.inputs[k] && action.inputs[k].required, 'input ' + k + ' must be required');
+  const step = (action.runs.steps || []).find((s) => /dispatch\.sh/.test(s.run || ''));
+  assert.ok(step, 'action.yml runs no dispatch.sh');
+  const ws = words(commandLines(step.run).find(({ l }) => /dispatch\.sh/.test(l)).l);
+  const at = ws.findIndex((x) => /dispatch\.sh/.test(unquote(x)));
+  const inputOf = (tok) => {
+    let e = unquote(tok || '');
+    const v = e.match(/^\$\{?([A-Za-z_][A-Za-z0-9_]*)\}?$/);
+    if (v && step.env) e = String(step.env[v[1]] || '');
+    return (e.match(/^\$\{\{\s*inputs\.([A-Za-z0-9_-]+)\s*\}\}$/) || [])[1];
+  };
+  assert.deepStrictEqual([inputOf(ws[at + 1]), inputOf(ws[at + 2])], ['ref', 'sha']);
+});
+
+// ── the wait, exercised: dispatch.sh against a fake `gh` ────────────────────
+{
+  const SCRIPT = path.join(ACTION_DIR, 'dispatch.sh');
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'dispatch-ci-'));
+  const bin = path.join(tmp, 'bin');
+  fs.mkdirSync(bin);
+  // `gh api .../branches/B` prints the next line of $FAKE_TIPS (the last one
+  // repeats); `gh workflow run` logs and exits $FAKE_DISPATCH_EXIT.
+  fs.writeFileSync(path.join(bin, 'gh'), [
+    '#!/usr/bin/env bash',
+    'echo "$*" >> "$FAKE_LOG"',
+    'if [ "$1" = api ]; then',
+    '  n=$(grep -c "^api " "$FAKE_LOG")',
+    '  total=$(wc -l < "$FAKE_TIPS")',
+    '  [ "$n" -gt "$total" ] && n=$total',
+    '  sed -n "${n}p" "$FAKE_TIPS"; exit 0',
+    'fi',
+    'if [ "$1" = workflow ]; then exit "${FAKE_DISPATCH_EXIT:-0}"; fi',
+  ].join('\n'), { mode: 0o755 });
+
+  const OLD = 'a'.repeat(40);
+  const NEW = 'b'.repeat(40);
+  const run = (args, tips, env = {}) => {
+    const id = Math.random().toString(36).slice(2);
+    const log = path.join(tmp, 'log-' + id);
+    const tipsFile = path.join(tmp, 'tips-' + id);
+    fs.writeFileSync(log, '');
+    fs.writeFileSync(tipsFile, tips.join('\n') + '\n');
+    const r = spawnSync('bash', [SCRIPT, ...args], {
+      encoding: 'utf8',
+      env: { ...process.env, PATH: bin + path.delimiter + process.env.PATH, GITHUB_REPOSITORY: 'o/r',
+        FAKE_LOG: log, FAKE_TIPS: tipsFile, DISPATCH_ATTEMPTS: '4', DISPATCH_SLEEP: '0', ...env },
+    });
+    const calls = fs.readFileSync(log, 'utf8').trim().split('\n').filter(Boolean);
+    return { code: r.status, out: r.stdout + r.stderr, calls };
+  };
+  const dispatchCalls = (r) => r.calls.filter((c) => c.startsWith('workflow run ci-checks.yml'));
+
+  test('dispatch.sh waits while the branch still reports the previous tip, then dispatches on it', () => {
+    const r = run(['chore/x', NEW], [OLD, OLD, NEW]);
+    assert.strictEqual(r.code, 0, r.out);
+    assert.strictEqual(r.calls.filter((c) => c.startsWith('api ')).length, 3, 'polled until the tip matched');
+    assert.ok(r.calls[0].includes('repos/o/r/branches/chore/x'), 'asks for the pushed branch');
+    const d = dispatchCalls(r);
+    assert.strictEqual(d.length, 1);
+    assert.match(d[0], /--ref chore\/x(\s|$)/);
+    assert.ok(r.calls.indexOf(d[0]) > r.calls.lastIndexOf(r.calls.filter((c) => c.startsWith('api ')).pop()),
+      'dispatches only after the matching poll');
+  });
+
+  test('dispatch.sh fails loudly, and does not dispatch, when the tip never catches up', () => {
+    const r = run(['chore/x', NEW], [OLD]);
+    assert.notStrictEqual(r.code, 0);
+    assert.deepStrictEqual(dispatchCalls(r), []);
+    assert.strictEqual(r.calls.length, 4, 'tries every attempt before giving up');
+    assert.match(r.out, /::error::/);
+  });
+
+  test('dispatch.sh refuses a missing SHA or main, and fails when the dispatch itself fails', () => {
+    for (const args of [['chore/x', ''], ['chore/x'], ['main', NEW]]) {
+      const r = run(args, [NEW]);
+      assert.notStrictEqual(r.code, 0, JSON.stringify(args));
+      assert.deepStrictEqual(r.calls, [], 'no API call or dispatch for ' + JSON.stringify(args));
+    }
+    const r = run(['chore/x', NEW], [NEW], { FAKE_DISPATCH_EXIT: '1' });
+    assert.notStrictEqual(r.code, 0);
+  });
+
+  fs.rmSync(tmp, { recursive: true, force: true });
+}
+
+// ── ci-checks: a branch dispatch is checked like a pull_request ────────────
+const ci = docs['ci-checks.yml'];
+
+test('ci-checks.yml accepts workflow_dispatch (the dispatches above would 422 otherwise)', () => {
+  const on = ci.on || ci[true];
+  assert.ok(on && Object.prototype.hasOwnProperty.call(on, 'workflow_dispatch'), 'ci-checks.yml has no workflow_dispatch trigger');
+});
+
+test('every pull_request-gated ci-checks step or job also runs for a dispatch on a PR branch', () => {
+  const units = [];
+  for (const [jobId, job] of Object.entries(ci.jobs)) {
+    units.push({ name: 'job ' + jobId, text: String(job.if || '') });
+    for (const s of job.steps || []) units.push({ name: s.name || s.uses, text: [s.if, s.run].filter(Boolean).join('\n') });
+  }
+  const gated = units.filter((u) => /\bpull_request\b/.test(u.text));
+  // The inventory line, the regeneration and the changed-files URL sweep.
+  assert.ok(gated.length >= 3, 'expected at least 3 pull_request-gated steps, found ' + gated.length);
+  const missing = gated
+    .filter((u) => !(/workflow_dispatch/.test(u.text) && /default_branch/.test(u.text)))
+    .filter((u) => !PR_ONLY_ALLOW[u.name])
+    .map((u) => u.name);
+  assert.deepStrictEqual(missing, [], 'these run for a PR but not for the dispatch that stands in for one');
+  for (const [name, reason] of Object.entries(PR_ONLY_ALLOW)) {
+    assert.ok(reason && reason.length > 20, 'PR_ONLY_ALLOW[' + name + '] needs a reason');
+    assert.ok(gated.some((u) => u.name === name), 'PR_ONLY_ALLOW names no pull_request-gated step: ' + name);
+  }
+});
+
+test('no ci-checks expression reads github.base_ref without a fallback (empty on a dispatch)', () => {
+  const text = fs.readFileSync(path.join(WF_DIR, 'ci-checks.yml'), 'utf8');
+  const exprs = [...text.matchAll(/\$\{\{([^}]*)\}\}/g)].map((m) => m[1]).filter((e) => /github\.base_ref/.test(e));
+  assert.ok(exprs.length >= 1, 'no github.base_ref read found; is the changed-files sweep still here?');
+  const bare = exprs.filter((e) => !/github\.base_ref\s*\|\|/.test(e));
+  assert.deepStrictEqual(bare, []);
 });
 
 test('no bot-branch commit carries the CI-skip directive', () => {
@@ -201,27 +394,6 @@ test('no bot-branch commit carries the CI-skip directive', () => {
   }
   // A person who later re-syncs the PR would inherit the suppression (#1990).
   assert.deepStrictEqual(bad, []);
-});
-
-const ci = docs['ci-checks.yml'];
-
-test('ci-checks.yml accepts workflow_dispatch (the dispatches above would 422 otherwise)', () => {
-  const on = ci.on || ci[true];
-  assert.ok(on && Object.prototype.hasOwnProperty.call(on, 'workflow_dispatch'), 'ci-checks.yml has no workflow_dispatch trigger');
-});
-
-test('a dispatched ci-checks run treats a branch like a PR wherever pull_request and push are special-cased', () => {
-  const steps = Object.values(ci.jobs).flatMap((j) => j.steps || []);
-  const prOnly = steps.filter((s) => {
-    const t = [s.if, s.run].filter(Boolean).join('\n');
-    return /pull_request/.test(t) && /["']push["']/.test(t);
-  });
-  assert.ok(prOnly.length >= 2, 'expected the inventory and regeneration steps, found ' + prOnly.length);
-  const missing = prOnly.filter((s) => {
-    const t = [s.if, s.run].filter(Boolean).join('\n');
-    return !(/workflow_dispatch/.test(t) && /default_branch/.test(t));
-  }).map((s) => s.name);
-  assert.deepStrictEqual(missing, [], 'these run for PRs but not for a dispatch on a PR branch');
 });
 
 // Report the audit so a CI log shows what was checked.

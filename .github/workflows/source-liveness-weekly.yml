@@ -78,12 +78,13 @@ jobs:
       # it -- on the PR that reads as "only CodeQL ran" (#1995). A
       # workflow_dispatch is the exception GitHub makes for GITHUB_TOKEN, and
       # the dispatched run reports its check on the branch head, which is the
-      # PR head. Same pattern as market_data_build.yml (#1990). Needs
-      # `actions: write` (above). Skipped when the action made no commit.
+      # PR head. The action waits until the branch reports the SHA the PR
+      # step pushed, so it never verifies the previous tip, and fails the step
+      # if it does not catch up. Needs `actions: write` (above). Skipped when
+      # the action made no commit.
       - name: Dispatch ci-checks on the PR branch
         if: steps.cpr.outputs.pull-request-operation == 'created' || steps.cpr.outputs.pull-request-operation == 'updated'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh workflow run ci-checks.yml --repo "$GITHUB_REPOSITORY" --ref "$PR_BRANCH"
-          echo "::notice::Dispatched ci-checks.yml on $PR_BRANCH (${{ steps.cpr.outputs.pull-request-head-sha }})."
+        uses: ./.github/actions/dispatch-ci-checks
+        with:
+          ref: ${{ env.PR_BRANCH }}
+          sha: ${{ steps.cpr.outputs.pull-request-head-sha }}
