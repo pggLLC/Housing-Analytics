@@ -1436,7 +1436,7 @@
       maxAgeDays: 16,
       geoUnit: 'Stop',
       coverage: 'All 64 Colorado counties; per-county counts in data/market/transit_stops_coverage_co.json',
-      features: 14183,
+      features: 14247,
       description: 'Every transit stop CDOT publishes, plus stops that only an agency GTFS feed publishes, plus OpenStreetMap stops neither confirms (marked unconfirmed). Each stop carries agency, source, county and a service type (fixed_route, demand_response or unknown, read from GTFS-Flex in the agency feeds). Both transit amenity scores count its confirmed public scheduled stops. Built by scripts/market/build_transit_stops_co.py (#1937).',
       tags: ['transit', 'cdot', 'gtfs', 'bus', 'rail', 'transportation'],
       apiEndpoint: 'https://services.arcgis.com/yzB9WM8W0BO3Ql7d/arcgis/rest/services/Statewide_Transit_Points/FeatureServer/0'
