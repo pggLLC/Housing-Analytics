@@ -259,7 +259,7 @@
                    ? 'The site location is outside Colorado (or its coordinates are missing or swapped), so the Colorado transit screen does not apply.'
                    : 'The site location could not be read.',
                  designation: 'provisional',
-                 designationNote: 'No designation (reliability questionable): the site location could not be placed in Colorado.',
+                 designationNote: 'Designation unavailable (reliability questionable): the site location could not be placed in Colorado.',
                  mapPublished: mapPublished };
       }
       var des = designationFor(lon, lat, mapStatus, zones, now, zoneProblem);
