@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-27T09:11:00.893471Z",
+  "generated": "2026-09-27T09:58:26.420205Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 825865
+      "bytes": 826434
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -8310,6 +8310,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 14316
+    },
+    "data/policy/thiz-map-status.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1036
     },
     "data/policy/tool-watch.json": {
       "featureCount": 0,

@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "be04faff8",
+  "generated_from_commit": "e2227facb",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-09-27",
-    "total_commits": 7209,
+    "total_commits": 7224,
     "partial_month": "2026-09",
     "commits_by_month": [
       {
@@ -44,8 +44,8 @@
       },
       {
         "month": "2026-09",
-        "commits": 1041,
-        "pct_of_peak": 76.3
+        "commits": 1056,
+        "pct_of_peak": 77.4
       }
     ]
   },
@@ -56,16 +56,16 @@
     "workflows": 72,
     "scripts": 270,
     "docs": 479,
-    "data_files": 1727,
+    "data_files": 1728,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 60,
-    "test_files": 396,
-    "absence_test_cases": 178,
-    "absence_tests": 63,
+    "test_files": 397,
+    "absence_test_cases": 181,
+    "absence_tests": 64,
     "lihtc_features": 926
   },
   "case": {
@@ -241,7 +241,7 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 371970,
+    "hand_written_lines": 372481,
     "generated_place_page_lines": 226828,
     "top_level_pages": 65,
     "html_nonblank_lines": 47169,
@@ -310,7 +310,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "be04faff8",
+    "extracted_at_commit": "e2227facb",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {

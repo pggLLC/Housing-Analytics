@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T04:54:23.625Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T09:58:00.458Z. Do not edit by hand.
 
 ---
 
@@ -80,11 +80,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1654 JSON files found.
+1655 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 805.5 KB | ✅ | — |
+| `data/_manifest.json` | 806.5 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -111,7 +111,7 @@
 | `data/car-market-report-2026-05.json` | 64.3 KB | ✅ | — |
 | `data/car-market-report-2026-06.json` | 64.3 KB | ✅ | — |
 | `data/car-market-report-2026-07.json` | 64.3 KB | ✅ | — |
-| `data/car-market-report-2026-08.json` | 64.3 KB | ✅ | — |
+| `data/car-market-report-2026-08.json` | 64.4 KB | ✅ | — |
 | `data/car-market-report-2026-09.json` | 2.5 KB | ✅ | — |
 | `data/car-market.json` | 514 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
@@ -397,7 +397,7 @@
 | `data/hna/jurisdiction-metrics-digest/0818640.json` | 40.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0818750.json` | 40.4 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0819080.json` | 40.7 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0819150.json` | 39.2 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0819150.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0819355.json` | 40.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0819630.json` | 40.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0819795.json` | 40.6 KB | ✅ | — |
@@ -648,7 +648,7 @@
 | `data/hna/jurisdiction-metrics-digest/0860655.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0860765.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0861315.json` | 40.0 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0862000.json` | 40.8 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0862000.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0862220.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0862660.json` | 40.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0862880.json` | 40.1 KB | ✅ | — |
@@ -1300,7 +1300,7 @@
 | `data/hna/summary/0842110.json` | 4.1 KB | ✅ | — |
 | `data/hna/summary/0842165.json` | 3.8 KB | ✅ | — |
 | `data/hna/summary/0842330.json` | 3.9 KB | ✅ | — |
-| `data/hna/summary/0842495.json` | 3.6 KB | ✅ | — |
+| `data/hna/summary/0842495.json` | 3.7 KB | ✅ | — |
 | `data/hna/summary/0843000.json` | 4.2 KB | ✅ | — |
 | `data/hna/summary/0843110.json` | 4.0 KB | ✅ | — |
 | `data/hna/summary/0843220.json` | 4.0 KB | ✅ | — |
@@ -1575,7 +1575,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 209.3 KB | ✅ | — |
+| `data/manifest.json` | 209.6 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1716,6 +1716,7 @@
 | `data/policy/soft-funding-status.json` | 25.3 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 14.0 KB | ✅ | — |
+| `data/policy/thiz-map-status.json` | 1.0 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 222.4 KB | ✅ | — |
@@ -1743,7 +1744,7 @@
 
 ## Test Files
 
-448 test files found.
+449 test files found.
 
 | File | Size |
 |------|------|
@@ -2118,6 +2119,7 @@
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.3 KB |
 | `test/transit-stops-consumers.test.js` | 6.2 KB |
+| `test/transit-zone.test.js` | 14.0 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/unit-mix-validation.test.js` | 4.7 KB |
 | `test/unit-suffix-convention.test.js` | 6.6 KB |
