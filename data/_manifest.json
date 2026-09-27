@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T13:39:36.054Z",
+    "generated_at": "2026-09-27T14:50:46.229Z",
     "root": "data/",
     "file_count": 1691,
-    "total_size_bytes": 167682027,
+    "total_size_bytes": 168068766,
     "kinds": {
       "json": 1655,
       "geojson": 32,
@@ -478,7 +478,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-27T13:39:33.126Z",
+      "mtime": "2026-09-27T14:50:42.171Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1346,7 +1346,7 @@
       "path": "environmental/epa-superfund-co.json",
       "kind": "json",
       "size_bytes": 331979,
-      "mtime": "2026-09-25T12:55:18.624Z",
+      "mtime": "2026-09-27T14:43:28.482Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -18659,8 +18659,8 @@
     {
       "path": "hna/ranking-index.json",
       "kind": "json",
-      "size_bytes": 2875775,
-      "mtime": "2026-09-27T10:10:45.390Z",
+      "size_bytes": 3262042,
+      "mtime": "2026-09-27T14:14:07.262Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -29367,7 +29367,7 @@
       "path": "home-snapshot.json",
       "kind": "json",
       "size_bytes": 2173,
-      "mtime": "2026-09-27T10:49:11.325Z",
+      "mtime": "2026-09-27T14:43:28.692Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30524,8 +30524,8 @@
     {
       "path": "market/acs_tract_metrics_co.json",
       "kind": "json",
-      "size_bytes": 1346881,
-      "mtime": "2026-09-25T12:55:18.827Z",
+      "size_bytes": 1347353,
+      "mtime": "2026-09-27T14:43:28.701Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31875,7 +31875,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14707,
-      "mtime": "2026-09-27T13:39:34.370Z",
+      "mtime": "2026-09-27T14:50:43.930Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31898,7 +31898,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-27T13:39:34.087Z",
+      "mtime": "2026-09-27T14:50:43.557Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

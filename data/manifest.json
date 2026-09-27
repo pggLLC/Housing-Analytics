@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-27T13:39:38.061541Z",
+  "generated": "2026-09-27T14:50:49.698128Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4509,7 +4509,7 @@
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2875775
+      "bytes": 3262042
     },
     "data/hna/ranking-scenarios/balanced.json": {
       "featureCount": 0,
@@ -7519,7 +7519,7 @@
     "data/market/acs_tract_metrics_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1346881
+      "bytes": 1347353
     },
     "data/market/apartment_list_co.json": {
       "featureCount": 0,
