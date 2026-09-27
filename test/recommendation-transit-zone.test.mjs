@@ -48,13 +48,15 @@ const test = (name, fn) => {
   catch (e) { failures += 1; console.log(`  ✗ ${name} — ${e.message}`); }
 };
 
-// How a share must print, stated here independently of the code under test.
+// How a share must print: TransitZone.shareLabel, the one rounding rule the
+// needs assessment panel uses, plus the edge-strip rule (a sampled zero the
+// builder did not prove is "<1%", not none). The rule itself is held below by
+// fixtures chosen as "a measured share plain rounding would print as 0% or
+// 100%", not by the helper's own cut-offs.
 function expectedLabel(g) {
   const v = g.share_within_radius_confirmed;
   if (v === 0 && g.zero_is_exact === false) return '<1%';
-  if (v > 0 && v < 0.005) return '<1%';
-  if (v < 1 && v >= 0.995) return '>99%';
-  return Math.round(v * 100) + '%';
+  return TZ.shareLabel(v);
 }
 function transitFor(geoid, opts = {}) {
   const summary = 'transitZone' in opts ? opts.transitZone : TZ.areaSummary(byGeo, geoid, mapStatus, opts.now || FRESH);
@@ -85,6 +87,25 @@ test('every jurisdiction shows the share the per-geography file holds', () => {
   }
   assert.ok(checked >= 500, `only ${checked} jurisdictions had transit figures to check`);
   assert.deepEqual(wrong.slice(0, 5), [], `${wrong.length} disagreements`);
+});
+
+test('a measured share that plain rounding would print as 0% or 100% never does', () => {
+  const measured = Object.entries(byGeo.geographies).filter(([, g]) => {
+    const v = g.share_within_radius_confirmed;
+    return typeof v === 'number' && v > 0 && v < 1 && [0, 100].includes(Math.round(v * 100));
+  });
+  // The real file has such shares today; if it ever stops having them, a
+  // synthetic pair keeps both ends of the rule exercised.
+  const fixtures = measured.length ? measured : [
+    ['08097', Object.assign({}, byGeo.geographies['08097'], { share_within_radius_confirmed: 0.004, zero_is_exact: null })],
+    ['08097', Object.assign({}, byGeo.geographies['08097'], { share_within_radius_confirmed: 0.996, zero_is_exact: null })],
+  ];
+  for (const [geoid, g] of fixtures) {
+    const summary = TZ.areaSummary(Object.assign({}, byGeo, { geographies: { [geoid]: g } }), geoid, mapStatus, FRESH);
+    const { t } = transitFor(geoid, { transitZone: summary });
+    assert.doesNotMatch(t.evidence[0].value, /^(0|100)%$/, `${geoid}: measured share ${g.share_within_radius_confirmed} printed as ${t.evidence[0].value}`);
+    assert.doesNotMatch(t.verdict || '', /^(0|100)% of/, `${geoid}: verdict ${t.verdict}`);
+  }
 });
 
 test('an area figure is never "established": it is a screen until a site is checked', () => {
@@ -157,6 +178,57 @@ test('the page and the PDF carry the transit verdict, its standing and the desig
   assert.ok(body.includes(t.verdict + '  [Provisional]'), 'the PDF omits the transit verdict or its standing');
   assert.ok(body.includes(note), 'the PDF omits the designation note');
   assert.ok(body.includes('transit-stops-statewide-co'), 'the PDF sources omit the stop file');
+});
+
+// #1961: the half-mile evidence row carries the shared straight-line /
+// walking disclosure, which is TransitZone.qapTodDistance's for the status
+// file — so it follows the data, and every jurisdiction carries it.
+const tod = TZ.qapTodDistance(mapStatus);
+const halfItem = (t) => t.evidence.find((e) => e.key === 'transit_share_within_half_mile_confirmed');
+
+test('every jurisdiction\'s half-mile share carries the shared disclosure and the data\'s distance', () => {
+  assert.ok(tod, 'thiz-map-status.json has no readable qap_tod_distance');
+  const digests = new Set(fs.readdirSync(path.join(ROOT, DIGEST_DIR)).filter((f) => /^\d+\.json$/.test(f)).map((f) => f.replace('.json', '')));
+  let n = 0;
+  for (const [geoid, g] of Object.entries(byGeo.geographies)) {
+    if (g.unavailableReason || !digests.has(geoid)) continue;
+    const h = halfItem(transitFor(geoid).t);
+    assert.ok(h && h.value !== null, `${geoid}: no half-mile share`);
+    assert.ok(h.why.includes(tod.disclosure), `${geoid}: the half-mile row drops the disclosure: ${h.why}`);
+    assert.ok(h.label.includes(`within ${tod.label} of`), `${geoid}: the label does not name the data's distance: ${h.label}`);
+    n++;
+  }
+  assert.ok(n >= 500, `only ${n} jurisdictions checked`);
+});
+
+test('the disclosure follows the status file\'s method, on the page too', () => {
+  const walked = JSON.parse(JSON.stringify(mapStatus));
+  walked.qap_tod_distance.method = 'walking';
+  const after = TZ.qapTodDistance(walked);
+  assert.notEqual(after.disclosure, tod.disclosure, 'fixture: the method change did not change the disclosure');
+  const { contract, t } = transitFor('08097', { transitZone: TZ.areaSummary(byGeo, '08097', walked, FRESH) });
+  assert.ok(halfItem(t).why.includes(after.disclosure));
+  assert.ok(!halfItem(t).why.includes(tod.disclosure), 'the old disclosure survived a method change');
+  const dom = new JSDOM('<div id="m"></div>');
+  const mount = dom.window.document.getElementById('m');
+  Page.render(mount, contract);
+  const row = [...mount.querySelectorAll('[data-conclusion="transit"] tr')].find((tr) => tr.textContent.includes(halfItem(t).label));
+  assert.ok(row, 'the page has no half-mile evidence row');
+  assert.ok(row.textContent.includes(after.disclosure), 'the page\'s half-mile evidence row drops the disclosure');
+});
+
+test('no readable TOD distance: the half-mile row is insufficient with the reason; the zone answer stands', () => {
+  const gone = JSON.parse(JSON.stringify(mapStatus));
+  delete gone.qap_tod_distance;
+  const { t } = transitFor('08097', { transitZone: TZ.areaSummary(byGeo, '08097', gone, FRESH) });
+  const h = halfItem(t);
+  assert.equal(h.value, null);
+  assert.equal(h.state, Contract.INSUFFICIENT);
+  assert.match(h.why, /could not be read/);
+  assert.doesNotMatch(h.label, /\d/, `an unknown distance was given a number: ${h.label}`);
+  assert.equal(t.state, Contract.PROVISIONAL, 'a missing half-mile distance withdrew the zone-radius answer');
+  assert.ok(t.verdict);
+  assert.equal(t.evidenceCount, 2);
 });
 
 test('the recommendation page reads the same two files the needs assessment panel reads', () => {

@@ -9,7 +9,11 @@
 //      data/policy/thiz-map-status.json, and that file must agree with the
 //      HB26-1065 entry in data/policy/tax-credit-legislation.json — the helper
 //      holds no copy of either;
-//   3. the real stop file answers for every Colorado place, fast enough to use.
+//   3. the real stop file answers for every Colorado place, fast enough to use;
+//   4. the CHFA QAP transit-oriented (half-mile) distance (#1961): one value,
+//      in thiz-map-status.json, that agrees with the QAP text the repo
+//      archives; no transit code holds a copy of it; and every surface that
+//      shows a half-mile result reads it, and its disclosure, from here.
 
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -451,6 +455,186 @@ test('the zone-map status file goes stale unless last_checked is refreshed, whil
     const p = freshness(day(fresh.slaDays + 30), pub);
     assert.equal(p.stale, false, 'a published map still ages');
     assert.equal(p.notApplicable, true);
+  }
+});
+
+// ── 4. the QAP transit-oriented distance (#1961) ─────────────────────────────
+const tod = mapStatus.qap_tod_distance;
+
+test('the TOD distance agrees with the QAP text the repo archives', () => {
+  assert.ok(tod, 'thiz-map-status.json has no qap_tod_distance');
+  const watch = JSON.parse(read(tod.qap_archive));
+  const doc = (watch.documents || []).find((d) => d.url === tod.qap_source_url);
+  assert.ok(doc && doc.text, `${tod.qap_archive} holds no text for ${tod.qap_source_url}`);
+  // The citation names the plan the archived document is.
+  const cite = tod.qap_citation.match(/^(.+?)\s+§(\d+)\.([A-Z])\.(\d+)\.([a-z])$/);
+  assert.ok(cite, `qap_citation is not "<plan> §N.L.N.l": ${tod.qap_citation}`);
+  const plan = doc.title.replace(/\s*\(PDF\)\s*$/, '').replace(/\s+-\s+/g, ' ').replace(/(\d{4})-(\d{2})/, '$1–$2');
+  assert.equal(cite[1], plan, `qap_citation names "${cite[1]}", the archived document is "${doc.title}"`);
+  // The quoted words are in the plan, under that section.
+  const text = doc.text.replace(/\s+/g, ' ');
+  const at = text.indexOf(tod.qap_quote);
+  assert.ok(at > 0, `the quote "${tod.qap_quote}" is not in the archived plan text`);
+  const [, , sec, letter, item, sub] = cite;
+  const secAt = text.lastIndexOf(`${sec}.${letter} `, at);
+  const itemAt = text.indexOf(` ${item}. `, secAt);
+  const subAt = text.lastIndexOf(` ${sub}. `, at);
+  assert.ok(secAt > 0 && secAt < itemAt && itemAt < subAt && subAt < at,
+    `the quote is not under §${sec}.${letter}.${item}.${sub} (section ${secAt}, item ${itemAt}, sub-item ${subAt}, quote ${at})`);
+  assert.ok(!text.slice(itemAt + 1, at).includes(` ${Number(item) + 1}. `), `the quote falls past item ${item}`);
+  // The nearest sub-item marker before the quote is the cited one (a. comes
+  // before b., so "the last b. before the quote" alone would accept an "a").
+  const subs = [...text.slice(itemAt, at).matchAll(/ ([a-z])\. [A-Z]/g)].map((m) => m[1]);
+  assert.equal(subs[subs.length - 1], sub, `the quote sits under sub-item ${subs[subs.length - 1]}, not ${sub}`);
+  // What the quote says is what the data says: the distance, and how CHFA
+  // measures it.
+  const said = tod.qap_quote.match(/within an? (quarter|half|three-quarter|one)-mile (walk|walking|driving|drive|straight-line) distance/);
+  assert.ok(said, `the quote does not state a distance and a measure: ${tod.qap_quote}`);
+  const MILES = { quarter: 0.25, half: 0.5, 'three-quarter': 0.75, one: 1 };
+  const MEASURE = { walk: 'walking', walking: 'walking', drive: 'driving', driving: 'driving', 'straight-line': 'straight_line' };
+  assert.equal(tod.miles, MILES[said[1]], `qap_tod_distance.miles ${tod.miles} disagrees with the QAP's "${said[1]}-mile"`);
+  assert.equal(tod.qap_method, MEASURE[said[2]], `qap_method ${tod.qap_method} disagrees with the QAP's "${said[2]} distance"`);
+  // Owner decision 4 (#1961): the site measures straight-line.
+  assert.equal(tod.method, 'straight_line');
+});
+
+test('qapTodDistance reads the value and builds the disclosure from the method fields', () => {
+  const t = TZ.qapTodDistance(mapStatus);
+  assert.ok(t, 'the helper could not read qap_tod_distance');
+  assert.equal(t.miles, tod.miles);
+  assert.ok(Math.abs(t.meters - tod.miles * 1609.344) < 1e-9);
+  assert.ok(t.disclosure.includes(tod.qap_citation), 'the disclosure does not cite the QAP');
+  // A method written as data reads as words: straight_line → straight-line.
+  const words = (m) => m.replace(/_/g, m === 'straight_line' ? '-' : ' ');
+  assert.ok(t.disclosure.includes(words(tod.method)), `the disclosure does not name the site's measure: ${t.disclosure}`);
+  assert.ok(t.disclosure.includes(words(tod.qap_method)), `the disclosure does not name CHFA's measure: ${t.disclosure}`);
+  // Change either method and the wording follows it.
+  const alt = (patch) => TZ.qapTodDistance({ qap_tod_distance: Object.assign({}, tod, patch) });
+  const same = alt({ method: tod.qap_method });
+  assert.notEqual(same.disclosure, t.disclosure);
+  assert.doesNotMatch(same.disclosure, new RegExp(words(tod.method)), 'a changed method kept the old measure in the disclosure');
+  assert.notEqual(alt({ qap_method: 'straight_line' }).disclosure, t.disclosure);
+  // Unreadable is null — callers show "unavailable", never a fallback.
+  for (const bad of [null, {}, { qap_tod_distance: null }, { qap_tod_distance: Object.assign({}, tod, { miles: 0 }) }, { qap_tod_distance: Object.assign({}, tod, { miles: null }) },
+    { qap_tod_distance: Object.assign({}, tod, { miles: '0.5' }) }, { qap_tod_distance: Object.assign({}, tod, { method: 'guessed' }) },
+    { qap_tod_distance: Object.assign({}, tod, { qap_method: undefined }) }, { qap_tod_distance: Object.assign({}, tod, { qap_citation: '' }) }]) {
+    assert.equal(TZ.qapTodDistance(bad), null, `read ${JSON.stringify(bad)} as a distance`);
+  }
+});
+
+// No transit code holds its own half-mile. The value is data; the words for it
+// ("½ mile") come from qapTodDistance's label. js/pma-transit.js is left out on
+// purpose: its WALK_TO_TRANSIT_MILES is the PMA transit score's generic walk
+// catchment (it weights route frequency and marks transit deserts), not the
+// QAP TOD measure, and it never claims QAP points.
+const TRANSIT_CODE = ['js/transit-zone.js', 'js/market-analysis.js', 'js/hna/hna-renderers.js', 'js/hna/hna-export.js',
+  'js/workflow/recommendation-contract.js', 'js/workflow/recommendation-page.js', 'js/project-market-study/study-transit-zone.js',
+  'recommendation.html', 'scripts/market/build_transit_zone_by_geography.py'];
+const HALF_MILE_LITERALS = [
+  [/\b804\.\d+/, 'half a mile in metres'],
+  [/\b0?\.5\s*\*\s*1609|1609(?:\.\d+)?\s*\*\s*0?\.5\b|1609(?:\.\d+)?\s*\/\s*2\b/, 'half a mile computed from metres'],
+  [/(?:HALF|TOD|WALK|QAP)\w*\s*[=:]\s*0?\.5\b/i, 'a half-mile constant'],
+  [/(['"`])(?:(?!\1).)*(?:½|\\u00bd|1\/2|\bhalf)[- ]mile(?:(?!\1).)*\1/i, 'half-mile wording in a string'],
+];
+function stripComments(src, file) {
+  if (file.endsWith('.py')) return src.replace(/"{3}[\s\S]*?"{3}/g, '').replace(/(^|\s)#.*$/gm, '$1');
+  return src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"\\])\/\/.*$/gm, '$1').replace(/<!--[\s\S]*?-->/g, '');
+}
+function halfMileLiterals(file, src) {
+  const code = stripComments(src, file);
+  return HALF_MILE_LITERALS.filter(([re]) => re.test(code)).map(([re, what]) => `${file}: ${what} (${code.match(re)[0].slice(0, 80)})`);
+}
+
+test('no transit code holds a literal half-mile value', () => {
+  const found = [];
+  for (const f of TRANSIT_CODE) {
+    const src = read(f);
+    assert.ok(src.length > 1000, `${f} is missing or empty — the scan would check nothing`);
+    found.push(...halfMileLiterals(f, src));
+  }
+  assert.deepEqual(found, []);
+  // Non-vacuity: every pattern fires on the forms it exists to catch.
+  for (const [f, sample] of [['x.js', 'var HALF_MILE_M = 804.67;'], ['x.js', 'var r = 0.5 * 1609.34;'], ['x.js', "_requestTodStops(1609.34 / 2);"],
+    ['x.js', 'var QAP_TOD_MILES = 0.5;'], ['x.js', "label = 'within \u00bd mile';"], ['x.js', "l = 'Share within 1/2 mile';"],
+    ['x.js', 'h = "a half-mile walk";'], ['x.py', 'QAP_TOD_MILES = 0.5']]) {
+    assert.ok(halfMileLiterals(f, sample).length > 0, `the scan misses ${sample}`);
+  }
+  // …and does not fire on what is allowed: the helper's fraction table, a
+  // comment, or the data key.
+  assert.deepEqual(halfMileLiterals('x.js', "var F = { 0.5: ['\\u00bd', '1/2'] }; // a ½ mile ring\nread(q.qap_tod_distance);"), []);
+});
+
+test('the builder reads the TOD distance from the status file, and refuses any measure but straight-line', () => {
+  const { execFileSync } = require('node:child_process');
+  const os = require('node:os');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tod-'));
+  try {
+    const cases = { same: mapStatus, double: { qap_tod_distance: Object.assign({}, tod, { miles: tod.miles * 2 }) },
+      walked: { qap_tod_distance: Object.assign({}, tod, { method: 'walking' }) }, missing: {} };
+    for (const [k, v] of Object.entries(cases)) fs.writeFileSync(path.join(dir, k + '.json'), JSON.stringify(v));
+    const py = `
+import json, sys, pathlib
+sys.path.insert(0, 'scripts/market')
+import build_transit_zone_by_geography as b
+out = {"module": b.QAP_TOD_MILES}
+for k in ("same", "double", "walked", "missing"):
+    b.MAP_STATUS = pathlib.Path(sys.argv[1]) / (k + ".json")
+    b.ROOT = pathlib.Path("/")
+    try: out[k] = b._qap_tod_miles()
+    except ValueError as e: out[k] = "refused: " + str(e)
+print(json.dumps(out))`;
+    const r = JSON.parse(execFileSync('python3', ['-c', py, dir], { cwd: root, encoding: 'utf8', env: Object.assign({}, process.env, { PYTHONDONTWRITEBYTECODE: '1' }) }));
+    assert.equal(r.module, tod.miles, 'the builder\'s QAP_TOD_MILES is not the status file\'s');
+    assert.equal(r.same, tod.miles);
+    assert.equal(r.double, tod.miles * 2, 'the builder does not follow the status file');
+    assert.match(String(r.walked), /^refused: .*straight-line/, 'the builder accepted a measure it does not compute');
+    assert.match(String(r.missing), /^refused: /, 'the builder ran with no TOD distance');
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+// #1974: the zone radius is the status file's too. No surface falls back to
+// a number of its own when the radius is unknown; it omits the number.
+test('no transit code falls back to a hard-coded zone radius', () => {
+  const RADIUS_FALLBACKS = [
+    [/radius\w*\s*\|\|\s*\d/i, 'a radius fallback'],
+    [/(['"`])(?:(?!\1).)*\b\d+(?:\.\d+)?[- ]miles? screen(?:(?!\1).)*\1/i, 'a radius written into screen wording'],
+  ];
+  const scan = (f, src) => RADIUS_FALLBACKS.filter(([re]) => re.test(stripComments(src, f))).map(([, what]) => `${f}: ${what}`);
+  const found = [];
+  for (const f of TRANSIT_CODE) found.push(...scan(f, read(f)));
+  assert.deepEqual(found, []);
+  for (const sample of ["var within = 'Share within ' + (radius || 2) + ' miles';", "sub: 'HB26-1065 2-mile screen'"]) {
+    assert.ok(scan('x.js', sample).length > 0, `the scan misses ${sample}`);
+  }
+  assert.deepEqual(scan('x.js', "sub: 'HB26-1065 ' + radius + '-mile screen'"), []);
+});
+
+// Every surface that renders a half-mile result is registered here with the
+// test that renders it and holds it to TransitZone.qapTodDistance's
+// disclosure. A new file that starts showing one fails until it is added.
+const HALF_MILE_SURFACES = {
+  'js/hna/hna-renderers.js': 'test/hna-transit-zone.test.js',
+  'js/hna/hna-export.js': 'test/hna-export-matches-screen.test.js',
+  'js/workflow/recommendation-contract.js': 'test/recommendation-transit-zone.test.mjs',
+  'js/market-analysis.js': 'test/qap-tod-points.test.js',
+};
+test('every file that shows a half-mile result is a registered, tested surface', () => {
+  const files = [];
+  (function walk(dir) {
+    for (const ent of fs.readdirSync(path.join(root, dir), { withFileTypes: true })) {
+      const rel = path.posix.join(dir, ent.name);
+      if (ent.isDirectory()) { if (ent.name !== 'vendor') walk(rel); } else if (/\.(js|mjs)$/.test(ent.name)) files.push(rel);
+    }
+  })('js');
+  assert.ok(files.length > 200, `only ${files.length} js files found — the scan would check nothing`);
+  const HALF = /halfMile(?:Label|Disclosure)|shareHalfMile|share_within_half_mile|qapTodDistance|_qapTod\b/;
+  const users = files.filter((f) => f !== 'js/transit-zone.js' && HALF.test(read(f))).sort();
+  assert.deepEqual(users, Object.keys(HALF_MILE_SURFACES).sort(), 'a file shows a half-mile result but is not a registered surface');
+  for (const [surface, t] of Object.entries(HALF_MILE_SURFACES)) {
+    const body = read(t);
+    assert.ok(/qapTodDistance/.test(body) && /\.disclosure\b/.test(body), `${t} does not hold ${surface} to the shared disclosure`);
   }
 });
 

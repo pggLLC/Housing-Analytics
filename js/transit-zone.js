@@ -299,6 +299,41 @@
     return { designation: d.designation, note: d.note };
   }
 
+  // ── The CHFA QAP transit-oriented (TOD) distance (#1961) ─────────────────
+  // One value, in data: thiz-map-status.json qap_tod_distance, beside the
+  // zone radius. The market analysis TOD ring and check, the needs
+  // assessment's share tile, the recommendation and the HNA exports all read
+  // it through this function, and every one of them prints `disclosure`
+  // beside its result. The disclosure is built from the data's method fields,
+  // so if the measure changes the wording follows it on every surface
+  // (test/transit-zone.test.js and the surface tests fail otherwise).
+  //
+  // Returns null when the entry is missing or unreadable: callers show the
+  // half-mile result as unavailable, never a figure from a fallback distance.
+  var METERS_PER_MILE = 1609.344;
+  var METHOD_WORDS = { straight_line: 'straight-line', walking: 'walking', street_network: 'street-network' };
+  var FRACTIONS = { 0.25: ['\u00bc', '1/4'], 0.5: ['\u00bd', '1/2'], 0.75: ['\u00be', '3/4'] };
+  function milesLabel(m, plain) {
+    var f = FRACTIONS[m];
+    if (f) return f[plain ? 1 : 0] + ' mile';
+    return m + (m === 1 ? ' mile' : ' miles');
+  }
+  function qapTodDistance(mapStatus) {
+    var q = mapStatus && mapStatus.qap_tod_distance;
+    if (!q || !isNum(q.miles) || !(q.miles > 0)) return null;
+    var measured = METHOD_WORDS[q.method];
+    var scored = METHOD_WORDS[q.qap_method];
+    var cite = typeof q.qap_citation === 'string' && q.qap_citation ? q.qap_citation : null;
+    if (!measured || !scored || !cite) return null;
+    var disclosure = q.method === q.qap_method
+      ? 'Measured as ' + measured + ' distance, the way CHFA scores it (' + cite + ').'
+      : 'Measured as ' + measured + ' distance; CHFA scores ' + scored + ' distance (' + cite +
+        '), so confirm the ' + scored + ' route before counting QAP points.';
+    return { miles: q.miles, meters: q.miles * METERS_PER_MILE, method: q.method, qapMethod: q.qap_method,
+             citation: cite, label: milesLabel(q.miles, false), plainLabel: milesLabel(q.miles, true),
+             disclosure: disclosure };
+  }
+
   // ── Area summary: one geography's figures, for every surface ─────────────
   // The needs assessment panel, the for-sale study, the recommendation and
   // the HNA exports all show the same area figures from
@@ -341,6 +376,16 @@
       return unavailable('incomplete', 'The transit zone figures for this geography are incomplete.');
     }
     var des = designation(mapStatus, now);
+    // The half-mile share is shown only with its distance and disclosure, and
+    // only when the file was built for the distance the status file now gives.
+    var tod = qapTodDistance(mapStatus);
+    var builtFor = data.meta && data.meta.qap_tod_miles;
+    var halfReason = !tod
+      ? 'The CHFA QAP transit-oriented distance and how it is measured could not be read from the zone-map status file.'
+      : builtFor !== tod.miles
+        ? 'These figures were built for a ' + (isNum(builtFor) ? builtFor + '-mile' : 'different') +
+          ' transit-oriented distance, not the ' + tod.miles + '-mile distance the zone-map status file gives.'
+        : null;
     // A sampled zero is only proven when the builder measured the exact
     // boundary distance (zero_is_exact). Otherwise part of an edge strip is
     // within the radius, so the share is "under 1%", not "none".
@@ -357,8 +402,11 @@
       shareLabel: edgeOnly ? '<1%' : shareLabel(share),
       shareAny: shareAny,
       shareAnyLabel: shareLabel(shareAny),
-      shareHalfMile: half,
-      halfMileLabel: shareLabel(half),
+      shareHalfMile: halfReason ? null : half,
+      halfMileLabel: halfReason ? null : shareLabel(half),
+      halfMile: halfReason ? null : tod,
+      halfMileDisclosure: halfReason ? null : tod.disclosure,
+      halfMileUnavailableReason: halfReason,
       edgeOnly: edgeOnly,
       noneWithinRadius: share === 0 && !edgeOnly,
       nearestConfirmedStop: rec.nearest_confirmed_stop || null,
@@ -388,7 +436,7 @@
   }
 
   var api = { create: create, designation: designation, fundingPath: fundingPath, areaSummary: areaSummary,
-              shareLabel: shareLabel, MAX_AGE_DAYS: DEFAULT_MAX_AGE_DAYS, haversineMiles: haversineMiles };
+              qapTodDistance: qapTodDistance, shareLabel: shareLabel, MAX_AGE_DAYS: DEFAULT_MAX_AGE_DAYS, haversineMiles: haversineMiles };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   if (root) root.TransitZone = api;
 }(typeof window !== 'undefined' ? window : null));

@@ -9,7 +9,7 @@ screening radius of a transit stop (#1937 Phase 3).
 Inputs
 ------
     data/amenities/transit_stops_statewide_co.geojson   stops (Phase 1)
-    data/policy/thiz-map-status.json                    radius (Phase 2)
+    data/policy/thiz-map-status.json                    radius (Phase 2), QAP TOD distance
     data/co-place-boundaries.geojson                    place / CDP polygons
     data/co-county-boundaries.json                      county polygons
     data/co-place-centroids.json                        place centres
@@ -55,7 +55,25 @@ GEO_CONFIG = ROOT / "data" / "hna" / "geo-config.json"
 OUT = ROOT / "data" / "hna" / "transit-zone-by-geography.json"
 
 EARTH_RADIUS_MI = 3958.8
-QAP_TOD_MILES = 0.5      # CHFA QAP TOD distance (js/market-analysis.js HALF_MILE_M)
+
+
+def _qap_tod_miles() -> float:
+    """The CHFA QAP transit-oriented (TOD) distance, from the zone-map status
+    file (qap_tod_distance, beside zone_radius_miles) — the one value every
+    page reads through js/transit-zone.js qapTodDistance (#1961). This builder
+    measures straight-line distance, so it refuses a status file that says the
+    measure is anything else rather than publish shares under the wrong name."""
+    q = json.loads(MAP_STATUS.read_text()).get("qap_tod_distance") or {}
+    miles = q.get("miles")
+    if isinstance(miles, bool) or not isinstance(miles, (int, float)) or not miles > 0:
+        raise ValueError(f"{MAP_STATUS.relative_to(ROOT)}: qap_tod_distance.miles is missing or not a positive number")
+    if q.get("method") != "straight_line":
+        raise ValueError(f"{MAP_STATUS.relative_to(ROOT)}: qap_tod_distance.method is {q.get('method')!r}; "
+                         "this builder measures straight-line distance only")
+    return miles
+
+
+QAP_TOD_MILES = _qap_tod_miles()
 TARGET_SAMPLES = 2000
 CELL_DEG = 0.05
 

@@ -456,5 +456,68 @@ test('the panel goes stale exactly at the source inventory\'s maxAgeDays', () =>
   }));
 });
 
+// ── #1961: one half-mile value, and its disclosure on every tile ───────────
+// The tile's distance and its "straight-line; CHFA scores walking distance"
+// sentence are TransitZone.qapTodDistance's, built from thiz-map-status.json.
+// Agreement, not copy: whatever the status file says, the tile says.
+const tod = TZ.qapTodDistance(mapStatus);
+const STATUS_URL = 'data/policy/thiz-map-status.json';
+const withTod = (patch) => {
+  const ms = JSON.parse(JSON.stringify(mapStatus));
+  if (patch === null) delete ms.qap_tod_distance; else Object.assign(ms.qap_tod_distance, patch);
+  return ms;
+};
+
+test('the file was built for the status file\'s TOD distance', () => {
+  assert.ok(tod, 'thiz-map-status.json has no readable qap_tod_distance');
+  assert.equal(data.meta.qap_tod_miles, tod.miles, 'transit-zone-by-geography.json was built for a different half-mile distance');
+});
+
+test('every rendered ½-mile tile carries the shared disclosure (all 546)', () => shown.then((out) => {
+  let n = 0;
+  for (const r of Object.values(out)) {
+    if (!r) continue;
+    n++;
+    assert.ok(r.half.includes(tod.disclosure), `a ½-mile tile without the disclosure: ${r.half}`);
+    assert.ok(r.half.includes(`within ${tod.label} of a confirmed stop`), `a ½-mile tile that does not name the data's distance: ${r.half}`);
+  }
+  assert.ok(n > 540, `only ${n} tiles rendered — the scan found too little to check`);
+}));
+
+test('the tile\'s disclosure follows the status file\'s method fields', () => {
+  const walked = withTod({ method: 'walking' });
+  const after = TZ.qapTodDistance(walked);
+  assert.notEqual(after.disclosure, tod.disclosure, 'fixture: the method change did not change the disclosure');
+  const w = page(realFetch({ [STATUS_URL]: walked }));
+  return w.HNARenderers.renderTransitZonePanel(sample[0], FRESH).then(() => {
+    const half = w.document.querySelector('[data-tz="half"]');
+    assert.equal(half.querySelector('[data-tz-disclosure]').textContent, after.disclosure);
+    assert.ok(!half.textContent.includes(tod.disclosure), 'the tile kept the old disclosure');
+  });
+});
+
+for (const [label, ms, doc, reason] of [
+  ['the status file has no TOD distance', () => withTod(null), () => data, /could not be read/],
+  ['the status file names an unknown measure', () => withTod({ method: 'as_the_crow_guesses' }), () => data, /could not be read/],
+  ['the status file failed to load', () => 'fail', () => data, /could not be read/],
+  ['the file was built for another distance', () => mapStatus,
+    () => Object.assign({}, data, { meta: Object.assign({}, data.meta, { qap_tod_miles: tod.miles * 2 }) }), /built for a/],
+]) {
+  test(`${label} → the ½-mile tile is "Unavailable" with the reason, never a share`, () => {
+    const w = page(realFetch({ [STATUS_URL]: ms(), 'data/hna/transit-zone-by-geography.json': doc() }));
+    return w.HNARenderers.renderTransitZonePanel(sample[0], FRESH).then(() => {
+      const el = w.document.getElementById('hnaTransitZoneContent');
+      assert.equal(el.getAttribute('data-tz-state'), 'ok', 'the whole panel went unavailable over the half-mile distance');
+      const half = el.querySelector('[data-tz="half"]');
+      assert.equal(half.getAttribute('data-tz-half-state'), 'unavailable');
+      assert.match(half.textContent, /Unavailable/);
+      assert.match(half.textContent, reason);
+      assert.doesNotMatch(half.textContent, /\d+%/);
+      assert.ok(el.querySelector('[data-tz="share"]').textContent.startsWith(shareLabel(sample[1].share_within_radius_confirmed)),
+        'the zone-radius share should still show');
+    });
+  });
+}
+
 Promise.all(pending).then(() => console.log(`hna-transit-zone: ${passed} passed`))
   .catch((e) => { console.error(e); process.exit(1); });
