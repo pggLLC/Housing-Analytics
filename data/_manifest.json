@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T04:10:40.392Z",
+    "generated_at": "2026-09-27T04:54:49.223Z",
     "root": "data/",
-    "file_count": 1687,
-    "total_size_bytes": 163441691,
+    "file_count": 1689,
+    "total_size_bytes": 167251924,
     "kinds": {
-      "json": 1652,
-      "geojson": 31,
+      "json": 1653,
+      "geojson": 32,
       "csv": 4
     }
   },
@@ -421,6 +421,23 @@
       "geometry_type": "Point"
     },
     {
+      "path": "amenities/transit_stops_statewide_co.geojson",
+      "kind": "geojson",
+      "size_bytes": 3608520,
+      "mtime": "2026-09-27T04:54:02.386Z",
+      "shape": "geojson",
+      "feature_count": 14183,
+      "property_keys": [
+        "name",
+        "agency",
+        "operator",
+        "sources",
+        "reliability",
+        "county_fips"
+      ],
+      "geometry_type": "Point"
+    },
+    {
       "path": "audit/chfa-qap-watch.json",
       "kind": "json",
       "size_bytes": 2971529,
@@ -461,7 +478,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-27T04:10:36.389Z",
+      "mtime": "2026-09-27T04:54:45.691Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -31581,6 +31598,33 @@
       "geometry_type": "LineString"
     },
     {
+      "path": "market/transit_stops_coverage_co.json",
+      "kind": "json",
+      "size_bytes": 201713,
+      "mtime": "2026-09-27T04:54:02.825Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "totals",
+        "counties",
+        "agencies",
+        "counties_without_fixed_stops",
+        "cdot_gaps"
+      ],
+      "key_count": 6,
+      "primary_array_key": "counties",
+      "primary_array_length": 64,
+      "primary_array_first_keys": [
+        "county_fips",
+        "county",
+        "cdot",
+        "agency_feed_only",
+        "unconfirmed",
+        "total",
+        "fixed_route_stops_found"
+      ]
+    },
+    {
       "path": "market/travel_time_matrix_co.json",
       "kind": "json",
       "size_bytes": 4435192,
@@ -31816,7 +31860,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14707,
-      "mtime": "2026-09-27T04:10:38.099Z",
+      "mtime": "2026-09-27T04:54:47.444Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31839,7 +31883,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-27T04:10:37.733Z",
+      "mtime": "2026-09-27T04:54:47.065Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
