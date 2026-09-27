@@ -84,6 +84,7 @@
     .election-section [hidden] { display: none !important; }
   </style>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/table-header-tips.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -250,7 +251,7 @@
       <div class="coverage-table-wrap" role="region" aria-label="Ballot research coverage table" tabindex="0">
         <table class="coverage-table">
           <caption>Coverage of housing-related ballot research by jurisdiction</caption>
-          <thead><tr><th scope="col">Jurisdiction</th><th scope="col">County / scope</th><th scope="col">Research state</th><th scope="col">Checked</th><th scope="col">Source and limitations</th></tr></thead>
+          <thead><tr><th scope="col" data-tip="The state, county, or municipality whose housing-related ballot coverage was researched.">Jurisdiction</th><th scope="col" data-tip="The county assigned to the jurisdiction in the geography directory, or statewide coverage.">County / scope</th><th scope="col" data-tip="Whether research found a measure, found none, is incomplete, or could not access an official notice. This is not a certification claim.">Research state</th><th scope="col" data-tip="The recorded date of the review or attempted check. Not yet checked means no research date is recorded.">Checked</th><th scope="col" data-tip="The official source reviewed and any limits on what the research could establish.">Source and limitations</th></tr></thead>
           <tbody id="coverage-rows"></tbody>
         </table>
       </div>
