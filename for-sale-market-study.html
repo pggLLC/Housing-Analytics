@@ -184,7 +184,10 @@
         tzMount.innerHTML = '<p class="ms-unavailable">Unavailable. ' + reason + '</p>';
         tzMount.setAttribute('data-tz-state', 'unavailable');
       }
-      jurisdictionReady.then(function () {
+      // Nor may a jurisdiction lookup that never answers hold it there: after
+      // the screen's own time limit it goes ahead with what the URL names.
+      var tzWaitMs = (window.StudyTransitZone && window.StudyTransitZone.timeoutMs) || 20000;
+      Promise.race([jurisdictionReady, new Promise(function (resolve) { setTimeout(resolve, tzWaitMs); })]).then(function () {
         if (!window.StudyTransitZone || typeof window.StudyTransitZone.render !== 'function') {
           tzUnavailable('The transit zone screen script did not load, so this jurisdiction was not screened.');
           return null;
