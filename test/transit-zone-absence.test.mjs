@@ -63,29 +63,23 @@ const FORBIDDEN = [
 ];
 // A bare "No" or "Outside" (any case) next to "Unavailable" reads as a
 // negative answer — "Unavailable. No, this place is outside the transit
-// zone." is the shape this rule exists to catch (#1977). The only uses
-// allowed are these phrases, each of which says what is missing or why the
-// screen does not apply, never what the answer is. Each is the whole phrase
-// the product renders, so a bare "No" or "Outside" beside it still fails.
+// zone." is the shape this rule exists to catch (#1977). The rule is about
+// meaning, not wording: "no" is allowed only when what follows is a thing
+// that is missing (an input, a figure, a date, a map) rather than the
+// answer, and "outside" only as "outside Colorado", the reason the screen
+// does not apply. Rewording a reason keeps it green; turning it into an
+// answer ("No, …", "No transit here", "Outside the zone") fails.
+const MISSING = [
+  String.raw`(?:transit zone\s+)?figures?`,                    // the data has no figures / "no figure" placeholder
+  String.raw`jurisdiction\b(?=[^.]*\b(?:selected|chosen|picked)\b)`, // no input chosen
+  String.raw`area to screen`,                                   // no input to screen
+  String.raw`build date`,                                       // the stop file cannot be dated
+  String.raw`zones to check`,                                   // the official map is empty
+  String.raw`designation\b(?=\s*(?::|\(|—|,?\s*because\b))`,  // only with the reason attached
+];
 const ALLOWED_NO_OUTSIDE = [
-  // The out-of-state case is itself the reason the Colorado screen does not
-  // apply (js/transit-zone.js status(), rendered by the PMA gate).
+  [new RegExp(String.raw`\bno\s+(?:${MISSING.join('|')})`, 'gi'), 'says what is missing, not what the answer is'],
   [/\boutside Colorado\b/gi, 'the site is not in Colorado, so the screen does not apply'],
-  // The PMA gate's designation note for that same out-of-state site: there
-  // is no designation to give, and the clause says why.
-  [/\bNo designation: the site location could not be placed in Colorado\./g, 'no designation exists for an out-of-state site'],
-  // areaSummary / the for-sale study: the file has no row for this place.
-  [/\bNo transit zone figures for this (geography|jurisdiction)\./g, 'the data has no figures for the place'],
-  // No place picked (areaSummary; the for-sale study's example mode).
-  [/\bNo jurisdiction is selected\b/g, 'no input to screen'],
-  [/\bwith no jurisdiction selected\b/g, 'no input to screen'],
-  [/\bthere is no area to screen\b/g, 'no input to screen'],
-  // recommendation-page.js renders a null metric value as "no figure".
-  [/\bno figure\b/g, 'the page\'s own null placeholder'],
-  // Unavailable reasons in js/transit-zone.js not reached by a swept
-  // condition today, allowed so the undated / empty-map cases may be added.
-  [/\bhas no build date\b/g, 'the stop file cannot be dated'],
-  [/\bhas no zones to check against\b/g, 'the official map is empty'],
 ];
 function unavailableClean(text, where) {
   let rest = String(text);
@@ -103,12 +97,17 @@ function clean(text, where) {
 // phrase with a bare negative beside it, fail; the allowed phrases alone pass.
 for (const bad of ['Unavailable. No, this place is outside the transit zone.', 'Unavailable. Outside.',
   'Unavailable. NO transit here.', 'Unavailable. The site is outside Colorado. No.',
-  'Unavailable. No designation.', 'Unavailable. No transit zone figures.']) {
+  'Unavailable. No designation.', 'Unavailable. No transit zone.', 'Unavailable. No jurisdiction is in the zone.',
+  'Unavailable. No area of this place qualifies.', 'Unavailable. No zones overlap this site.', 'Unavailable. Outside the zone.']) {
   assert.throws(() => clean(bad, 'self-test'), /bare/, `the bare No/Outside rule let through: ${bad}`);
 }
 clean('Unavailable. The site location is outside Colorado (or its coordinates are missing or swapped). ' +
   'No designation: the site location could not be placed in Colorado. No transit zone figures for this geography. ' +
   'No jurisdiction is selected, so there is no area to screen. no figure', 'self-test');
+// Rewordings of the same reasons stay green — the rule pins meaning, not copy.
+clean('Unavailable. No jurisdiction has been chosen yet, so there is no area to screen. ' +
+  'The stop file has no build date. The official map has no zones to check against. ' +
+  'No figures for this place. No designation, because the site could not be placed in Colorado.', 'self-test');
 
 let failures = 0;
 let passed = 0;
@@ -446,6 +445,7 @@ await check(STUDY, 'render: map-status fetch failed (area data fresh)', async ()
     const des = mount.querySelector('[data-tz-designation]');
     assert.equal(des.getAttribute('data-tz-designation'), 'provisional');
     assert.match(des.textContent, /could not be read/);
+    unavailableClean(des.textContent, `${STUDY} designation note`);
     assert.doesNotMatch(mount.textContent, /Outside every|Inside a Transit|official_|Soft Funding Stack|may be eligible/);
   }
 });
