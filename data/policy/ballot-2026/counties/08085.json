@@ -5,51 +5,109 @@
       "geoid": "08085",
       "level": "county",
       "name": "Montrose County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.montrosecounty.net/73/Elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Checked 2026-09-26: the elections page states the 2026 General Election sample ballot will be available in October. The Ballot Issue Notices page has no 2026 material. No participating-entities list was posted."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.montrosecounty.net/73/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://montrosecounty.net/939/Ballot-Issue-Notices",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0851745",
       "level": "municipal",
       "name": "Montrose (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.montrosecounty.net/73/Elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating (special coordinated municipal election, November 3, 2026, per the city).",
+        "Reviewed the city's 2026 Proposed City Charter Amendments document (question numbers blank). Its four questions are excluded as not housing: moving the regular municipal election from April to November of even years; an 8-year lifetime term limit for councilmembers; council approval of the appointment or discharge of the Police Chief; council approval of the appointment or discharge of the City Clerk.",
+        "The county sample ballot is not yet posted, so the city's question list could not be confirmed against it."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.montrosecounty.net/73/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.cityofmontrose.org/188/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.cityofmontrose.org/DocumentCenter/View/55126/2026-Proposed-City-Charter-Amendments",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0853120",
       "level": "municipal",
       "name": "Naturita (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.montrosecounty.net/73/Elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town website has no election or ballot content."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.montrosecounty.net/73/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofnaturita.colorado.gov/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0854935",
       "level": "municipal",
       "name": "Nucla (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.montrosecounty.net/73/Elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town's 2026 election page (townofnucla.colorado.gov) returned a Cloudflare challenge or HTTP 403 on 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.montrosecounty.net/73/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0855540",
       "level": "municipal",
       "name": "Olathe (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.montrosecounty.net/73/Elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town website (townofolathe.org) returned a Cloudflare challenge or HTTP 403 on 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.montrosecounty.net/73/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

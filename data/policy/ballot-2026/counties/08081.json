@@ -5,31 +5,83 @@
       "geoid": "08081",
       "level": "county",
       "name": "Moffat County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://moffatcounty.colorado.gov/government/elected-officials/county-clerk-and-recorder/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Checked 2026-09-26: the elections page posts no sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "Excluded, from Resolution 2026-100 (adopted August 25, 2026): three county questions on term limits for the Clerk and Recorder, Assessor and Treasurer. Not housing. Ballot letters are not known.",
+        "Commissioners' minutes July 14 to September 8, 2026 show no other county ballot referral."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://moffatcounty.colorado.gov/government/elected-officials/county-clerk-and-recorder/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://moffatcounty.colorado.gov/sites/g/files/lrnvjt1901/files/Aug25_Docs_2.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://moffatcounty.colorado.gov/sites/g/files/lrnvjt1901/files/082526.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://moffatcounty.colorado.gov/sites/g/files/lrnvjt1901/files/090826.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0817760",
       "level": "municipal",
       "name": "Craig (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://moffatcounty.colorado.gov/government/elected-officials/county-clerk-and-recorder/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out.",
+        "City council agendas April 28 to August 25, 2026 contain no city ballot-question resolution or coordinated-election agreement. The August 25 agenda includes direction on a Yampa Valley Regional Transportation Authority ballot question; that is a separate district and its text was not read."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://moffatcounty.colorado.gov/government/elected-officials/county-clerk-and-recorder/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.ci.craig.co.us/government/city_council/2026.php",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0820495",
       "level": "municipal",
       "name": "Dinosaur (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://moffatcounty.colorado.gov/government/elected-officials/county-clerk-and-recorder/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out.",
+        "The town held its regular election on April 7, 2026. Town agendas June 23 to September 15, 2026 contain no coordinated-election agreement or November ballot question. Signed minutes are scanned images and were not read."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://moffatcounty.colorado.gov/government/elected-officials/county-clerk-and-recorder/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofdinosaur.org/election-notices-and-news",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofdinosaur.org/town-council-board-meetings?year=2026",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
