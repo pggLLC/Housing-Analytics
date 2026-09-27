@@ -65,10 +65,10 @@
     var list = add(detail, 'ul');
     limitations.forEach(function (text) { add(list, 'li', text); });
   }
-  function ballotCard(parent, entry) {
+  function ballotCard(parent, entry, heading) {
     var card = add(parent, 'article', null, 'election-card');
     card.dataset.ballotId = entry.id;
-    add(card, 'h4', entry.jurisdiction.name + ' — ' + entry.neutral_title);
+    add(card, heading || 'h4', entry.jurisdiction.name + ' — ' + entry.neutral_title);
     add(card, 'p', 'Status: ' + entry.status.replace(/_/g, ' ') + ' · Election: ' + entry.election.date, 'election-check');
     if (entry.detail) add(card, 'p', entry.detail);
     excerpts(card, 'Official question and source excerpts', entry.evidence);
@@ -76,7 +76,10 @@
     link(card, 'Official source', source && source.url);
     check(card, entry.verification);
     notes(card, entry.limitations);
-    if (entry.result) add(card, 'p', 'Result: ' + entry.result.outcome + ' (' + entry.result.stage + '), as of ' + entry.result.as_of);
+    if (entry.result) {
+      add(card, 'p', 'Result: ' + entry.result.outcome + ' (' + entry.result.stage + '), as of ' + entry.result.as_of);
+      link(card, 'Election result source', entry.result.source.url);
+    }
   }
   function renderBallots(files, counties) {
     var entries = files.flatMap(function (file) { return file.entries; });
@@ -92,6 +95,15 @@
       if (!items.length) add(section, 'p', 'No certified or on-ballot housing entries are listed here. Check the coverage table for research status.');
       items.forEach(function (e) { ballotCard(section, e); });
     });
+    // Terminal statuses are not on-ballot entries. Keep their results reachable
+    // during the interval before the same day-45 archive rule takes effect.
+    var results = entries.filter(function (e) {
+      return !expired(e, e.election.date) && ['passed', 'failed'].includes(e.status);
+    });
+    var resultHost = document.getElementById('election-result-records');
+    resultHost.replaceChildren();
+    document.getElementById('election-results').hidden = !results.length;
+    results.forEach(function (e) { ballotCard(resultHost, e, 'h3'); });
     var old = entries.filter(function (e) { return expired(e, e.election.date); });
     if (old.length) {
       var archive = pastGroup('Ballot measures');

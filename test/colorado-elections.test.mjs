@@ -128,6 +128,27 @@ test('every non-ballot status is excluded; certified and on_ballot work at every
   assert.deepEqual(ids, ['certified', 'on_ballot'].flatMap((s) => ['state', 'county', 'municipal'].map((l) => `${s}-${l}`)).sort());
 });
 
+test('terminal results remain visible before day 45, outside On the ballot, with their own source link', async (t) => {
+  for (const status of ['passed', 'failed']) {
+    const ballots = structuredClone(BALLOTS);
+    const record = allEntries(ballots)[0];
+    record.status = status;
+    record.result = { outcome: status, stage: 'unofficial', as_of: '2026-11-04',
+      source: { url: record.sources.ballot_notice.url + '#election-results', retrieved: '2026-11-04' } };
+    for (const [now, archived] of [['2026-11-04T12:00:00Z', false], ['2026-12-18T00:00:00Z', true]]) {
+      const { doc } = await page(t, { ballots, now });
+      assert.equal(doc.querySelector(`#on-ballot-records [data-ballot-id="${record.id}"]`), null);
+      const group = archived ? '#past-election-records' : '#election-result-records';
+      const card = doc.querySelector(`${group} [data-ballot-id="${record.id}"]`);
+      assert.ok(card, `${status} must remain reachable ${archived ? 'after' : 'before'} archival`);
+      assert.ok(card.textContent.includes(status) && card.textContent.includes(record.result.stage));
+      assert.ok(card.textContent.includes(record.result.as_of));
+      assert.ok([...card.querySelectorAll('a')].some((a) => a.href === record.result.source.url));
+      assert.equal(doc.querySelector('#election-results').hidden, archived);
+    }
+  }
+});
+
 test('live coverage figures and every table row agree with files; county filter retains every state', async (t) => {
   const { doc, window } = await page(t);
   assertCoverage(doc, BALLOTS);
