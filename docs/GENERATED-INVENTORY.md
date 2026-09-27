@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T10:48:11.646Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T10:50:50.869Z. Do not edit by hand.
 
 ---
 
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-452 test files found.
+453 test files found.
 
 | File | Size |
 |------|------|
@@ -1991,6 +1991,7 @@
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
 | `test/orphan-nav-cleanup.test.js` | 3.9 KB |
+| `test/osm-amenities-count-by-type.test.js` | 1.9 KB |
 | `test/ownership-answer-leads.test.js` | 6.4 KB |
 | `test/ownership-decision-chain.test.js` | 7.3 KB |
 | `test/ownership-finance.test.js` | 22.5 KB |
@@ -2059,7 +2060,7 @@
 | `test/public-config-no-secrets.test.js` | 4.8 KB |
 | `test/public-facing-numbers.test.js` | 10.5 KB |
 | `test/public-land-contract.test.js` | 9.1 KB |
-| `test/qa-recent-changes.js` | 20.1 KB |
+| `test/qa-recent-changes.js` | 22.2 KB |
 | `test/qap-tod-points.test.js` | 11.9 KB |
 | `test/qct-dda-designation-unknown.test.js` | 10.0 KB |
 | `test/qct-dda-embedded-agreement.test.js` | 8.3 KB |
