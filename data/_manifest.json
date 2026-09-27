@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T12:41:14.566Z",
+    "generated_at": "2026-09-27T12:56:50.877Z",
     "root": "data/",
     "file_count": 1691,
-    "total_size_bytes": 167680086,
+    "total_size_bytes": 167681215,
     "kinds": {
       "json": 1655,
       "geojson": 32,
@@ -478,7 +478,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-27T12:41:10.446Z",
+      "mtime": "2026-09-27T12:56:46.898Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -31875,7 +31875,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14707,
-      "mtime": "2026-09-27T12:41:12.156Z",
+      "mtime": "2026-09-27T12:56:48.675Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31898,7 +31898,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-27T12:41:11.795Z",
+      "mtime": "2026-09-27T12:56:48.287Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34219,14 +34219,15 @@
     {
       "path": "policy/thiz-map-status.json",
       "kind": "json",
-      "size_bytes": 1036,
-      "mtime": "2026-09-27T09:57:42.498Z",
+      "size_bytes": 2165,
+      "mtime": "2026-09-27T12:56:23.603Z",
       "shape": "object",
       "keys": [
         "schema",
         "program",
         "statute",
         "zone_radius_miles",
+        "qap_tod_distance",
         "map_due_date",
         "map_publisher",
         "map_source_url",
@@ -34235,7 +34236,7 @@
         "last_checked",
         "note"
       ],
-      "key_count": 11,
+      "key_count": 12,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
