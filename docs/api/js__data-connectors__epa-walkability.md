@@ -49,16 +49,24 @@ Get walkability and bikeability scores (0-100) for a location.
 @param {number} lat
 @param {number} lon
 @returns {{
-  walkScore: number,
-  bikeScore: number,
-  walkLabel: string,
-  bikeLabel: string,
+  walkScore: number|null,
+  bikeScore: number|null,
+  walkLabel: string|null,
+  bikeLabel: string|null,
   intersectionDensity: number|null,
-  transitFrequency: number|null,
+  nearestTransitStopMeters: number|null,
+  transitStopBlockGroupCount: number,
+  transitScoreUnavailableReason: string,
   landUseMix: number|null,
   autoNetDensity: number|null,
   blockGroupCount: number
 }|null}
+
+### `_blend(parts)`
+
+Weighted mean over the components that were measured. A missing component
+is dropped and its weight shared out; it is never scored as 0 or as the
+worst case. Null when nothing was measured.
 
 ### `_getTractGeoids(lat, lon)`
 

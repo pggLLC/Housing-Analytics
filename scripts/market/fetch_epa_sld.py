@@ -42,7 +42,12 @@ CACHE_DIR = Path(os.environ.get("TMPDIR", "/tmp")) / "pma_epa_sld_cache"
 CACHE_TTL_HOURS = 720  # 30 days
 
 # EPA Smart Location Database ArcGIS REST endpoint
-# Layer 14 ("Transit service frequency") contains ALL SLD fields and supports pagination
+# Layer 14 contains ALL SLD fields and supports pagination. Its layer NAME is
+# "Transit service frequency", which describes D4C, not D4A; the D4A field alias
+# on the same layer is "Distance from the population-weighted centroid to
+# nearest transit stop (meters)". D4A was labelled with the layer name here
+# until 2026-09, and js/data-connectors/epa-walkability.js scored it as a
+# frequency on the strength of that label.
 EPA_SLD_ARCGIS_URL = (
     "https://geodata.epa.gov/arcgis/rest/services/OA/"
     "SmartLocationDatabase/MapServer/14/query"
@@ -58,7 +63,7 @@ SLD_FIELDS = [
     "GEOID20",     # 12-digit block group FIPS
     "STATEFP",     # state FIPS
     "D3B",         # pedestrian-oriented intersection density (walkability)
-    "D4A",         # transit service frequency
+    "D4A",         # distance (m) from pop-weighted centroid to nearest transit stop; blank beyond ~3/4 mi
     "D2A_JPHH",    # jobs per household
     "D5AR",        # regional job accessibility (auto)
     "D2B_E8MIX",   # employment entropy / land use mix
@@ -257,9 +262,12 @@ def build_output(records: list[dict]) -> dict:
             "vintage": "2021",
             "fetched": today_str(),
             "blockGroups": len(block_groups),
+            "fieldNotes": {
+                "transitAccess": "Labelled 'D4a - transit service frequency' in files built before 2026-09. That was EPA layer 14's name, not the D4A field: D4A is a distance, not a frequency or a 0-100 score.",
+            },
             "fields": {
                 "walkability": "D3b - pedestrian-oriented intersection density",
-                "transitAccess": "D4a - transit service frequency",
+                "transitAccess": "D4a - distance (meters) from population-weighted centroid to nearest transit stop; lower is better; blank beyond ~3/4 mile or where EPA has no transit feed",
                 "jobAccess": "D5ar - regional job accessibility (auto)",
                 "landUseMix": "D2b_E8MiX - employment entropy",
                 "empDensity": "D1C - gross employment density",
