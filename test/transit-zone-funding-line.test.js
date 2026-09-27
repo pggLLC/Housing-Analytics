@@ -173,8 +173,8 @@ test('the gate waits for the published zones before answering, and fetches only 
 });
 
 // ── The deal calculator's funding line ──────────────────────────────────────
-function dealCalc() {
-  const dom = new JSDOM('<!doctype html><div id="dc-tz-note" hidden></div>', { runScripts: 'outside-only' });
+function dealCalc(extraHtml) {
+  const dom = new JSDOM('<!doctype html><div id="dc-tz-note" hidden></div>' + (extraHtml || ''), { runScripts: 'outside-only' });
   dom.window.fetch = () => Promise.reject(new Error('offline'));
   dom.window.eval(read('js/transit-zone.js'));
   dom.window.eval(read('js/deal-calculator.js'));
@@ -187,7 +187,11 @@ test('the line shows only for a pass via a confirmed stop, and states no amount 
   w.__DealCalc.setTransitZoneContext(PASS);
   assert.equal(note.hidden, false);
   assert.match(note.textContent, /not added to this stack/);
-  assert.match(note.textContent, /No per-project amount exists/);
+  // The legislation file has not loaded (fetch is offline here): no amount.
+  assert.equal(note.querySelector('[data-tz-pairing]').getAttribute('data-tz-pairing'), 'unavailable');
+  assert.match(note.textContent, /per-project amounts could not be loaded, so none is shown/);
+  assert.doesNotMatch(note.textContent, /\$\d{3},\d{3}/, 'an amount shown before the pairing data loaded');
+  assert.doesNotMatch(note.textContent, /No per-project amount exists/, 'the retired claim is back (#1973)');
   assert.equal(note.querySelector('[data-tz-designation]').textContent, PASS.designationNote);
   for (const r of [Object.assign({}, PASS, { confirmedOnly: false }), Object.assign({}, PASS, { status: 'outside' }),
                    Object.assign({}, PASS, { designation: 'official_out' }),
@@ -230,6 +234,91 @@ test('the statewide cap and QAP section agree with the repo\'s sources', () => {
   assert.match(qap, /TZ Credit may be awarded in lieu of standard state credit\. 3\.B\.3/,
     'the QAP text no longer places the TZ in-lieu rule at the end of 3.B.2');
   assert.match(note.textContent, /in lieu of standard state credit \(2027–28 QAP Third Draft §3\.B\.2\)/);
+});
+
+// ── The draft QAP's per-project pairing (#1973) ────────────────────────────
+// The amounts live only in the HB26-1065 entry's tz_credit_pairing. The note
+// must show exactly those amounts for the selected credit type, and the data
+// must agree with the QAP text the repo archived.
+const LEG = readJson('data/policy/tax-credit-legislation.json');
+const PAIR = LEG.entries.find((x) => /^hb26-1065/i.test(x.id)).tz_credit_pairing;
+const money = (n) => '$' + n.toLocaleString('en-US');
+
+test('the pairing data agrees with the QAP Third Draft and its summary of changes', () => {
+  const docs = readJson('data/audit/chfa-qap-watch.json').documents;
+  const flat = (d) => (d.text || '').replace(/\s+/g, ' ');
+  const draft = flat(docs.find((d) => /Third Draft \(PDF\)$/.test(d.title)));
+  const summary = flat(docs.find((d) => /Third Draft - Summary of Changes/.test(d.title)));
+  assert.ok(draft.length > 100000 && summary.length > 1000, 'QAP texts not found in chfa-qap-watch.json');
+  // The summary lists 2027 then 2028 under "Maximum Credit Award".
+  const start = summary.indexOf('Maximum Credit Award 2027');
+  const mid = summary.indexOf(' 2028 ', start);
+  const end = summary.indexOf('Maximum Credit Award if state gap funds', mid);
+  assert.ok(start >= 0 && mid > start && end > mid, 'summary of changes no longer has the Maximum Credit Award years');
+  const y27 = summary.slice(start, mid), y28 = summary.slice(mid, end);
+  for (const [y, sec] of [['2027', y27], ['2028', y28]]) {
+    assert.ok(sec.includes('Federal 9 Percent Housing Tax Credit Applications to ' + money(PAIR.nine_percent[y])),
+      `9% ${y}: ${money(PAIR.nine_percent[y])} is not in the QAP summary`);
+    assert.ok(sec.includes('amount optional to pair up to ' + money(PAIR.four_percent_round_two[y])),
+      `4% ${y}: ${money(PAIR.four_percent_round_two[y])} is not in the QAP summary`);
+  }
+  const alt = PAIR.if_no_state_gap_funds;
+  assert.ok(draft.includes(`A fixed amount of ${money(alt.nine_percent['2027'])} in 2027 and ${money(alt.nine_percent['2028'])} in 2028 of standard State Credit or TZ Credit, where eligible, with federal 9 percent`),
+    '§3.L.1 9% alternative is not in the QAP draft');
+  assert.ok(draft.includes(`up to ${money(alt.four_percent_round_two['2027'])} in 2027 and ${money(alt.four_percent_round_two['2028'])} in 2028 of standard State Credit or TZ Credit, where eligible, to pair in Round Two`),
+    '§3.L.1 4% alternative is not in the QAP draft');
+  assert.equal(PAIR.status, 'draft');
+  assert.equal(PAIR.in_lieu_of_standard_state_credit, true);
+});
+
+test('a 9% deal shows the fixed pairing from the data, one allowance, not added to the stack', () => {
+  const { w, note } = dealCalc();
+  w.__DealCalc.setTransitZoneContext(PASS);
+  w.__DealCalc.setTzCreditPairing(LEG);
+  const t = note.textContent;
+  assert.equal(note.querySelector('[data-tz-pairing]').getAttribute('data-tz-pairing'), '9pct');
+  assert.ok(t.includes('For a 9% application'), t);
+  assert.ok(t.includes(`a fixed ${money(PAIR.nine_percent['2027'])} in 2027 or ${money(PAIR.nine_percent['2028'])} in 2028`), t);
+  assert.ok(t.includes(`${money(PAIR.if_no_state_gap_funds.nine_percent['2027'])} (2027) and ${money(PAIR.if_no_state_gap_funds.nine_percent['2028'])} (2028) instead`), t);
+  assert.match(t, /§3\.L, not yet adopted/);
+  assert.match(t, /replaces standard state credit, it does not add to it/);
+  assert.match(t, /not added to this stack/);
+  assert.doesNotMatch(t, /round two/i, 'a 9% deal was shown the 4% pairing');
+});
+
+test('a 4% deal shows the Round Two "up to" pairing, and the toggle re-renders it', () => {
+  const html = '<input id="dc-rate-9" type="radio" name="r" value="0.09"><input id="dc-rate-4" type="radio" name="r" value="0.04" checked>';
+  const { w, note } = dealCalc(html);
+  w.__DealCalc.setTzCreditPairing(LEG);
+  w.__DealCalc.setTransitZoneContext(PASS);
+  const t = note.textContent;
+  assert.equal(note.querySelector('[data-tz-pairing]').getAttribute('data-tz-pairing'), '4pct');
+  assert.ok(t.includes(`in Round Two`) && t.includes(`pair up to ${money(PAIR.four_percent_round_two['2027'])} in 2027 or ${money(PAIR.four_percent_round_two['2028'])} in 2028`), t);
+  assert.ok(t.includes(`up to ${money(PAIR.if_no_state_gap_funds.four_percent_round_two['2027'])} (2027)`), t);
+  assert.doesNotMatch(t, /a fixed \$/, 'a 4% deal was shown the fixed 9% pairing');
+  // The page's own credit-rate handler re-renders the note on a switch.
+  const src = read('js/deal-calculator.js');
+  const h = src.indexOf("['dc-rate-9', 'dc-rate-4'].forEach");
+  assert.ok(h > 0 && src.slice(h, h + 1500).includes('setTransitZoneContext(_tzLastResult)'),
+    'switching 9%/4% no longer re-renders the Transit Zone note');
+  // …and re-rendering after a switch reads the same data for the other type.
+  w.document.getElementById('dc-rate-9').checked = true;
+  w.__DealCalc.setTransitZoneContext(PASS);
+  assert.equal(note.querySelector('[data-tz-pairing]').getAttribute('data-tz-pairing'), '9pct');
+});
+
+test('unreadable pairing data shows no amount; a site that does not pass shows nothing', () => {
+  const { w, note } = dealCalc();
+  const broken = JSON.parse(JSON.stringify(LEG));
+  broken.entries.find((x) => /^hb26-1065/i.test(x.id)).tz_credit_pairing.nine_percent['2027'] = null;
+  w.__DealCalc.setTransitZoneContext(PASS);
+  w.__DealCalc.setTzCreditPairing(broken);
+  assert.match(note.textContent, /could not be read, so none is shown/);
+  assert.doesNotMatch(note.textContent, /\$\d{3},\d{3}/);
+  w.__DealCalc.setTzCreditPairing(LEG);
+  w.__DealCalc.setTransitZoneContext({ status: 'unavailable', unavailableReason: 'x' });
+  assert.equal(note.hidden, true);
+  assert.equal(note.textContent, '');
 });
 
 // ── The for-sale market study ───────────────────────────────────────────────
