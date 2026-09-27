@@ -136,7 +136,8 @@ test('the Colorado box is the one the route fetcher uses', () => {
 const fewStops = stopsWith([stop(east(SITE.lat, SITE.lon, 1), 'A', 'confirmed')]);
 const DUE_WORDS = (() => {
   const [y, m, d] = mapStatus.map_due_date.split('-').map(Number);
-  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  // #1937's provisional wording: "(due Oct 30, 2026)".
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   return `${months[m - 1]} ${d}, ${y}`;
 })();
 
@@ -144,7 +145,7 @@ test('before the due date: provisional, naming the due date from the status file
   const s = TZ.create({ stops: fewStops, mapStatus, now: NOW }).status(SITE.lat, SITE.lon);
   assert.equal(s.designation, 'provisional');
   assert.match(s.designationNote, /reliability questionable/);
-  assert.ok(s.designationNote.includes(DUE_WORDS), s.designationNote);
+  assert.ok(s.designationNote.includes(`(due ${DUE_WORDS})`), s.designationNote);
 });
 
 test('after the due date with no map loaded: still provisional, says to check', () => {
@@ -241,6 +242,216 @@ test('the real stop file answers for every Colorado place', () => {
   assert.equal(denver.confirmedOnly, true);
   assert.ok(denver.nearestStop.distanceMiles < 0.2);
   console.log(`    ${ids.length} places: ${counts.within_2mi} within ${mapStatus.zone_radius_miles} mi, ${counts.outside} outside (${ms} ms)`);
+});
+
+// ── 4. #1970 merge-bar checklist, #1973 map-failure funding path ────────────
+const { spawnSync } = require('node:child_process');
+const vm = require('node:vm');
+const RADIUS = mapStatus.zone_radius_miles;
+
+// A stop placed so its haversine distance from SITE is `miles` to the bit:
+// the radius is then set to exactly that distance, so the boundary case is
+// the real comparison, not a rounding accident.
+function exactBoundary(reliability) {
+  const pt = east(SITE.lat, SITE.lon, 1.8);
+  const d = TZ.haversineMiles(SITE.lat, SITE.lon, pt[1], pt[0]);
+  return { pt, ms: Object.assign({}, mapStatus, { zone_radius_miles: d }), reliability };
+}
+
+test('a stop exactly at the radius is within (confirmed and OpenStreetMap-only)', () => {
+  for (const rel of ['confirmed', 'unconfirmed']) {
+    const { pt, ms } = exactBoundary(rel);
+    const s = TZ.create({ stops: stopsWith([stop(pt, 'Edge', rel)]), mapStatus: ms, now: NOW }).status(SITE.lat, SITE.lon);
+    assert.equal(s.status, 'within_2mi', `${rel} stop at exactly the radius`);
+    assert.equal(s.confirmedOnly, rel === 'confirmed');
+  }
+});
+
+// A point due east of SITE whose haversine distance is `miles` (to ~1e-9 mi).
+function atMiles(miles) {
+  let lo = 0, hi = 0.1;
+  for (let i = 0; i < 80; i++) {
+    const mid = (lo + hi) / 2;
+    if (TZ.haversineMiles(SITE.lat, SITE.lon, SITE.lat, SITE.lon + mid) < miles) lo = mid; else hi = mid;
+  }
+  return [SITE.lon + hi, SITE.lat];
+}
+
+test('the shown distance never contradicts the status, on either side of the boundary', () => {
+  const cases = [[2.004, 'outside'], [2.0001, 'outside'], [1.996, 'within_2mi'], [1.9999, 'within_2mi']];
+  let crossing = 0;
+  for (const [miles, want] of cases) {
+    const pt = atMiles(miles);
+    const d = TZ.haversineMiles(SITE.lat, SITE.lon, pt[1], pt[0]);
+    if ((d > RADIUS) !== (Math.round(d * 100) / 100 > RADIUS)) crossing++;
+    const s = TZ.create({ stops: stopsWith([stop(pt, 'S', 'confirmed')]), mapStatus, now: NOW }).status(SITE.lat, SITE.lon);
+    assert.equal(s.status, want, `${miles} mi (${d})`);
+    for (const shown of [s.nearestStop.distanceMiles, s.nearestConfirmedStop.distanceMiles]) {
+      assert.equal(shown > RADIUS, want === 'outside', `${d} mi shown as ${shown} with status ${s.status}`);
+      assert.ok(Math.abs(shown - d) <= 0.01, `${d} mi shown as ${shown}`);
+      assert.ok(Math.abs(Math.round(shown * 100) - shown * 100) < 1e-6, `${shown} is not to 0.01 mi`);
+    }
+  }
+  assert.ok(crossing >= 1, 'no case would round across the radius, so the scan checks nothing');
+  // Away from the boundary, plain rounding is unchanged.
+  const far = TZ.create({ stops: stopsWith([stop(east(SITE.lat, SITE.lon, 1.5), 'S', 'confirmed')]), mapStatus, now: NOW }).status(SITE.lat, SITE.lon);
+  const pt = east(SITE.lat, SITE.lon, 1.5);
+  assert.equal(far.nearestStop.distanceMiles, Math.round(TZ.haversineMiles(SITE.lat, SITE.lon, pt[1], pt[0]) * 100) / 100);
+});
+
+test('the status name carries the radius in the status file', () => {
+  const src = read('js/transit-zone.js');
+  const names = [...src.matchAll(/within_(\d+(?:\.\d+)?)mi/g)].map((m) => Number(m[1]));
+  assert.ok(names.length >= 2, 'no within_<n>mi status found in js/transit-zone.js');
+  for (const n of names) assert.equal(n, RADIUS, `status within_${n}mi but zone_radius_miles is ${RADIUS}`);
+});
+
+// The private-shuttle marker: helper, builder and the shipped stop file.
+function shuttleAgreement(builderSrc, helperSrc, fileValues) {
+  const helper = (helperSrc.match(/properties\.operator === '([^']+)'\) continue;/) || [])[1];
+  assert.ok(helper, 'the helper no longer skips an operator value');
+  const emitted = new Set([...builderSrc.matchAll(/"operator"\]?\s*[:=]\s*"([^"]+)" if [^\n]*? else "([^"]+)"/g)].flatMap((m) => [m[1], m[2]]));
+  assert.ok(emitted.size >= 2, 'no operator values found in build_transit_stops_co.py');
+  assert.ok(emitted.has(helper), `the helper skips operator "${helper}"; the builder writes ${[...emitted].join(', ')}`);
+  assert.ok(fileValues.has(helper), `the stop file has no operator "${helper}" (it has ${[...fileValues].join(', ')})`);
+  for (const v of fileValues) assert.ok(emitted.has(v), `the stop file has operator "${v}", which the builder does not write`);
+  return helper;
+}
+const realStops = JSON.parse(read('data/amenities/transit_stops_statewide_co.geojson'));
+const builderSrc = read('scripts/market/build_transit_stops_co.py');
+
+test('the private-shuttle value agrees with the builder and the real stop file', () => {
+  const fileValues = new Set(realStops.features.map((f) => f.properties.operator));
+  const helperValue = shuttleAgreement(builderSrc, read('js/transit-zone.js'), fileValues);
+  // A renamed builder value must break the agreement (proves the scan bites).
+  const renamed = builderSrc.replace(/"private_shuttle"/g, '"private_bus"');
+  assert.notEqual(renamed, builderSrc, 'rename did not apply');
+  assert.throws(() => shuttleAgreement(renamed, read('js/transit-zone.js'), fileValues), /builder writes/);
+  // And the real shuttle stops are what the helper skips.
+  const shuttles = realStops.features.filter((f) => f.properties.operator === helperValue);
+  assert.ok(shuttles.length > 0, 'the real stop file has no private shuttle stops to check');
+  const [lon, lat] = shuttles[0].geometry.coordinates;
+  const z = TZ.create({ stops: stopsWith([shuttles[0], stop([lon + 0.5, lat], 'Far', 'confirmed')]), mapStatus, now: NOW });
+  const s = z.status(lat, lon);
+  assert.equal(s.nearestStop && s.nearestStop.name, 'Far', 'a real private shuttle stop counted as transit');
+});
+
+test('the stop-age limit equals the inventory\'s maxAgeDays for the stop file', () => {
+  const ctx = {};
+  vm.runInNewContext(read('js/data-source-inventory.js'), { window: ctx });
+  const src = ctx.DataSourceInventory.getSources().find((x) => x.id === 'transit-stops-statewide-co');
+  assert.ok(src && Number.isFinite(src.maxAgeDays), 'transit-stops-statewide-co has no maxAgeDays in the inventory');
+  assert.equal(TZ.MAX_AGE_DAYS, src.maxAgeDays, 'js/transit-zone.js stop-age limit differs from js/data-source-inventory.js');
+  // And it is the limit create() applies by default.
+  const gen = new Date(NOW.getTime() - (src.maxAgeDays + 1) * 86400000).toISOString();
+  const s = TZ.create({ stops: stopsWith(fewStops.features, gen), mapStatus, now: NOW }).status(SITE.lat, SITE.lon);
+  assert.match(s.unavailableReason, new RegExp(`limit ${src.maxAgeDays}\\)`));
+});
+
+test('every note that is not an official designation says "reliability questionable"', () => {
+  const pub = Object.assign({}, mapStatus, { status: 'published' });
+  const later = new Date(Date.parse(mapStatus.map_due_date) + 5 * 86400000);
+  const badZones = { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: null }] };
+  const notes = [
+    TZ.create({ stops: fewStops, mapStatus, now: NOW }).status(SITE.lat, SITE.lon),
+    TZ.create({ stops: stopsWith(fewStops.features, later.toISOString()), mapStatus, now: later }).status(SITE.lat, SITE.lon),
+    TZ.create({ stops: fewStops, mapStatus: null, now: NOW }).status(SITE.lat, SITE.lon),
+    TZ.create({ stops: fewStops, mapStatus: pub, zones: null, now: NOW }).status(SITE.lat, SITE.lon),
+    TZ.create({ stops: fewStops, mapStatus: pub, zones: badZones, now: NOW }).status(SITE.lat, SITE.lon),
+    TZ.create({ stops: fewStops, mapStatus, now: NOW }).status(0, 0),
+    TZ.designation(mapStatus, NOW), TZ.designation(mapStatus, later), TZ.designation(null, NOW), TZ.designation(pub, NOW),
+  ].map((r) => r.designationNote || r.note);
+  // Point and area share three notes; the other seven variants are distinct.
+  assert.ok(new Set(notes).size >= 7, `only ${new Set(notes).size} distinct notes scanned`);
+  for (const n of notes) assert.match(n, /reliability questionable/, n);
+});
+
+test('the Colorado box agrees with the builder\'s in_colorado_bbox (no tolerance)', () => {
+  const pts = [
+    [38.5, -102.03, 'Kansas, just east of the line'], [38.5, -102.0416, 'Kansas, a hair east'],
+    [38.5, -102.0415, 'on the eastern line'], [38.5, -102.06, 'Colorado, near the line'],
+    [39.0, -109.07, 'Utah, just west'], [36.98, -105.0, 'New Mexico, just south'],
+    [41.01, -105.0, 'Wyoming, just north'], [39.7392, -104.9903, 'Denver'],
+  ];
+  const py = spawnSync('python3', ['-c', `import sys,json; sys.path.insert(0,'scripts/market'); import build_transit_stops_co as b; print(json.dumps([b.in_colorado_bbox(x, y) for y, x in json.loads(sys.argv[1])]))`,
+    JSON.stringify(pts.map(([la, lo]) => [la, lo]))], { cwd: root, encoding: 'utf8' });
+  assert.equal(py.status, 0, py.stderr);
+  const builder = JSON.parse(py.stdout);
+  assert.ok(builder.includes(true) && builder.includes(false), 'the point scan does not straddle the line');
+  const z = TZ.create({ stops: fewStops, mapStatus, now: NOW });
+  pts.forEach(([la, lo, why], i) => {
+    const helperIn = !/outside Colorado/.test(z.status(la, lo).unavailableReason || '');
+    assert.equal(helperIn, builder[i], `${why}: helper says ${helperIn ? 'Colorado' : 'not Colorado'}, builder ${builder[i]}`);
+  });
+});
+
+test('a published OEDIT map that fails to load or read gives no funding path (#1973)', () => {
+  const pub = Object.assign({}, mapStatus, { status: 'published', zones_file: 'data/policy/thiz-zones.geojson' });
+  const badZones = { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: null }] };
+  const before = TZ.create({ stops: fewStops, mapStatus, now: NOW }).status(SITE.lat, SITE.lon);
+  assert.equal(TZ.fundingPath(before), 'screen', 'before publication, a confirmed stop is the screen path');
+  for (const [label, zones] of [['not loaded (fetch failed or zones_file rejected)', null], ['unreadable', badZones]]) {
+    const s = TZ.create({ stops: fewStops, mapStatus: pub, zones, now: NOW }).status(SITE.lat, SITE.lon);
+    assert.equal(s.status, 'within_2mi', label);
+    assert.equal(s.confirmedOnly, true, label);
+    assert.equal(s.designation, 'provisional', label);
+    assert.equal(TZ.fundingPath(s), null, `${label}: a published map that did not load still opened the screen path`);
+  }
+});
+
+// The status file's own freshness: while the map is unpublished, last_checked
+// must be refreshed (scripts/audit/data-freshness-check.mjs).
+const os = require('node:os');
+function freshness(asOf, statusOverride, text) {
+  let cwd = root;
+  if (statusOverride !== undefined) {
+    // A throwaway root with only the files the check needs for this row.
+    cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'thiz-fresh-'));
+    for (const f of ['scripts/audit/data-freshness-check.mjs', 'js/data-source-inventory.js']) {
+      fs.mkdirSync(path.dirname(path.join(cwd, f)), { recursive: true });
+      fs.copyFileSync(path.join(root, f), path.join(cwd, f));
+    }
+    fs.mkdirSync(path.join(cwd, 'data/policy'), { recursive: true });
+    fs.writeFileSync(path.join(cwd, 'data/policy/thiz-map-status.json'), JSON.stringify(statusOverride));
+  }
+  const args = ['scripts/audit/data-freshness-check.mjs', `--as-of=${asOf}`].concat(text ? [] : ['--json']);
+  const r = spawnSync(process.execPath, args, { cwd, encoding: 'utf8' });
+  if (cwd !== root) fs.rmSync(cwd, { recursive: true, force: true });
+  assert.ok([0, 1, 2].includes(r.status) && r.stdout, r.stderr || 'freshness check did not run');
+  if (text) return r.stdout;
+  const row = JSON.parse(r.stdout).results.find((x) => x.file === 'data/policy/thiz-map-status.json');
+  assert.ok(row && row.present, 'no freshness row for data/policy/thiz-map-status.json');
+  return row;
+}
+
+test('the zone-map status file goes stale unless last_checked is refreshed, while unpublished', () => {
+  const checked = Date.parse(mapStatus.last_checked);
+  assert.ok(Number.isFinite(checked), 'thiz-map-status.json has no readable last_checked');
+  const day = (n) => new Date(checked + n * 86400000).toISOString().slice(0, 10);
+  const fresh = freshness(day(1));
+  assert.equal(fresh.source, 'last_checked');
+  assert.equal(fresh.stale, false);
+  assert.equal(freshness(day(fresh.slaDays + 2)).stale, true, 'an old last_checked did not go stale');
+  if (mapStatus.status !== 'published') {
+    const noCheck = Object.assign({}, mapStatus); delete noCheck.last_checked;
+    assert.equal(freshness(day(1), noCheck).stale, true, 'a status file with no last_checked counted as fresh');
+    // The public QA status parses the checker's text output; the undated
+    // row it flags must reach that report as stale, not vanish from it.
+    const report = spawnSync(process.execPath, ['--input-type=module', '-e',
+      "import { parseFreshnessOutput } from './scripts/audit/qa-status-generator.mjs';" +
+      'let s = ""; process.stdin.on("data", (d) => { s += d; }).on("end", () => ' +
+      'process.stdout.write(JSON.stringify(parseFreshnessOutput(s))));'],
+      { cwd: root, encoding: 'utf8', input: freshness(day(1), noCheck, true) });
+    assert.equal(report.status, 0, report.stderr);
+    const rec = JSON.parse(report.stdout).find((x) => x.file === 'data/policy/thiz-map-status.json');
+    assert.ok(rec, 'the QA status report dropped the undated zone-map status row');
+    assert.equal(rec.status, 'STALE');
+    assert.equal(rec.ageDays, null, 'an undated row reached the QA report with an age');
+    const pub = Object.assign({}, mapStatus, { status: 'published' });
+    const p = freshness(day(fresh.slaDays + 30), pub);
+    assert.equal(p.stale, false, 'a published map still ages');
+    assert.equal(p.notApplicable, true);
+  }
 });
 
 console.log(`transit-zone: ${passed} passed`);
