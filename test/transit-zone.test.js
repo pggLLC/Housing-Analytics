@@ -538,7 +538,14 @@ const HALF_MILE_LITERALS = [
 ];
 function stripComments(src, file) {
   if (file.endsWith('.py')) return src.replace(/"{3}[\s\S]*?"{3}/g, '').replace(/(^|\s)#.*$/gm, '$1');
-  return src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"\\])\/\/.*$/gm, '$1').replace(/<!--[\s\S]*?-->/g, '');
+  // Only for scanning source text, never for output. Repeated until stable so
+  // that removing one comment cannot join the halves of another.
+  let out = src, prev;
+  do {
+    prev = out;
+    out = out.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"\\])\/\/.*$/gm, '$1').replace(/<!--[\s\S]*?-->/g, '');
+  } while (out !== prev);
+  return out;
 }
 function halfMileLiterals(file, src) {
   const code = stripComments(src, file);
