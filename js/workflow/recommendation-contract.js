@@ -358,7 +358,8 @@
      PC-2: the Transit Zone credit is a rental-housing credit. For a project
      recorded as ownership, the conclusion names it only as a reason to add a
      rental component — never as a source for the project. No amount is shown
-     for anyone: none exists until CHFA publishes its allocation plan. */
+     here: the draft QAP's per-project pairing depends on the deal's credit
+     type, so it is stated in the deal calculator (#1973), not at area level. */
   var TRANSIT_SOURCE = 'transit-stops-statewide-co';
 
   function transitConclusion(tz, dealMode) {
@@ -389,7 +390,7 @@
       var name = tz.name || 'this jurisdiction';
       var credit = dealMode === 'ownership'
         ? ' The Transit Zone credit is for rental housing, so for this for-sale project it matters only if a rental component is added.'
-        : ' A rental project on a site inside an OEDIT-designated zone may be eligible for the Transit Zone state credit (HB26-1065); CHFA has not published a per-project amount.';
+        : ' A rental project on a site inside an OEDIT-designated zone may be eligible for the Transit Zone state credit (HB26-1065); CHFA\u2019s draft 2027\u201328 QAP sets the per-project amount by credit type (see the deal calculator).';
       var verdict;
       var plain;
       if (tz.noneWithinRadius) {
