@@ -20,6 +20,7 @@
  *   node scripts/audit/data-freshness-check.mjs
  *   node scripts/audit/data-freshness-check.mjs --json      (machine output)
  *   node scripts/audit/data-freshness-check.mjs --quiet     (only print failures)
+ *   node scripts/audit/data-freshness-check.mjs --as-of=2026-11-01  (judge ages as of a date; tests)
  *
  * To add a new file, append a row to SLA_CONFIG with a reasonable SLA in days.
  * The SLA should be comfortably longer than the pipeline's refresh cadence —
@@ -69,6 +70,18 @@ const SLA_CONFIG = [
   { file: 'data/amenities/transit_stops_statewide_co.geojson', slaDays: transitSlaDays, cadence: 'weekly (fetch-parcel-zoning-data.yml; CDOT + agency GTFS)' },
   { file: 'data/market/transit_stops_coverage_co.json', slaDays: transitSlaDays, cadence: 'weekly (paired statewide transit coverage report)' },
   { file: 'data/hna/transit-zone-by-geography.json',       slaDays: transitSlaDays, cadence: 'weekly (fetch-parcel-zoning-data.yml, after the stop file)' },
+  // OEDIT's zone map (HB26-1065) is checked by hand. While it is unpublished,
+  // every zone result on the site rests on "not published as of last_checked",
+  // so that check has to be repeated: last_checked is the timestamp (never the
+  // mtime — an edit to the note is not a check), and a missing one is stale.
+  // Once status is "published" the file no longer ages (#1970, #1963).
+  {
+    file: 'data/policy/thiz-map-status.json',
+    slaDays: 14,
+    cadence: 'manual check of OEDIT\'s THIZ program page, while status is not "published"',
+    timestampField: 'last_checked',
+    appliesWhile: (d) => !d || d.status !== 'published',
+  },
 ];
 
 // Fields to probe for an in-file "updated" timestamp, in priority order.
@@ -92,6 +105,7 @@ function parseArgs() {
   return {
     quiet: args.includes('--quiet'),
     json:  args.includes('--json'),
+    asOf:  (args.find(a => a.startsWith('--as-of=')) || '').slice('--as-of='.length) || null,
   };
 }
 
@@ -125,7 +139,7 @@ async function readJsonSafe(relPath) {
   }
 }
 
-async function checkOne(entry) {
+async function checkOne(entry, nowMs) {
   const full = path.join(ROOT, entry.file);
   let stat;
   try {
@@ -137,6 +151,21 @@ async function checkOne(entry) {
   // Prefer an in-file timestamp when available.
   let recordedTs = null;
   let source     = 'mtime';
+  if (entry.timestampField) {
+    // A named field is the only evidence: no mtime fallback.
+    const data = await readJsonSafe(entry.file);
+    if (entry.appliesWhile && !entry.appliesWhile(data)) {
+      return { ...entry, present: true, notApplicable: true, source: entry.timestampField, stale: false };
+    }
+    const v = data && data[entry.timestampField];
+    const t = typeof v === 'string' ? Date.parse(v) : NaN;
+    if (!Number.isFinite(t)) {
+      return { ...entry, present: true, source: entry.timestampField, asOf: null, ageDays: null, stale: true };
+    }
+    const ageDays = (nowMs - t) / 86_400_000;
+    return { ...entry, present: true, asOf: new Date(t).toISOString(), source: entry.timestampField,
+             ageDays: Math.round(ageDays * 10) / 10, stale: ageDays > entry.slaDays };
+  }
   if (entry.file.endsWith('.json') || entry.file.endsWith('.geojson')) {
     const data = await readJsonSafe(entry.file);
     const found = findTimestamp(data);
@@ -146,7 +175,7 @@ async function checkOne(entry) {
     }
   }
   const asOf = recordedTs || new Date(stat.mtime);
-  const ageMs = Date.now() - asOf.getTime();
+  const ageMs = nowMs - asOf.getTime();
   const ageDays = ageMs / 86_400_000;
   return {
     ...entry,
@@ -160,20 +189,23 @@ async function checkOne(entry) {
 
 function format(result) {
   if (!result.present) return `MISSING       ${result.file}  (SLA ${result.slaDays}d)`;
+  if (result.notApplicable) return `  N/A           SLA ${result.slaDays}d`.padEnd(30) + `  ${result.file}  (published; no longer ages)`;
   const badge = result.stale
     ? (result.warnOnly ? 'WARN    ' : 'STALE   ')
     : '  OK    ';
-  const age   = `${String(result.ageDays).padStart(5)}d`;
+  const age   = result.ageDays === null ? '    ?d' : `${String(result.ageDays).padStart(5)}d`;
   const sla   = `SLA ${result.slaDays}d`;
   const src   = result.source === 'mtime' ? 'mtime' : `field:${result.source}`;
   return `${badge}  ${age}  ${sla.padEnd(10)}  ${src.padEnd(22)}  ${result.file}`;
 }
 
 async function main() {
-  const { quiet, json } = parseArgs();
+  const { quiet, json, asOf } = parseArgs();
+  const nowMs = asOf ? Date.parse(asOf) : Date.now();
+  if (!Number.isFinite(nowMs)) throw new Error(`--as-of is not a date: ${asOf}`);
   const results = [];
   for (const entry of SLA_CONFIG) {
-    results.push(await checkOne(entry));
+    results.push(await checkOne(entry, nowMs));
   }
 
   const missing       = results.filter(r => !r.present);
@@ -206,7 +238,7 @@ async function main() {
       console.log('\nStale files (past SLA):');
       for (const r of stale) {
         console.log(
-          `  [${r.warnOnly ? 'warning' : 'blocking'} · ${r.ageDays}d past SLA of ${r.slaDays}d]  ${r.file}  (cadence: ${r.cadence})`,
+          `  [${r.warnOnly ? 'warning' : 'blocking'} · ${r.ageDays === null ? 'undated' : r.ageDays + 'd'} past SLA of ${r.slaDays}d]  ${r.file}  (cadence: ${r.cadence})`,
         );
         if (r.exception) console.log(`    exception: ${r.exception}`);
       }
