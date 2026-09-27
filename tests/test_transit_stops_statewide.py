@@ -57,8 +57,8 @@ def _row(pt, name='S', agency='RTD'):
 def test_merge_source_priority_and_thresholds():
     cdot = [
         _row(DENVER, 'Civic Center', 'RTD'),
-        {'lon': 0, 'lat': 0, 'name': ' ', 'agency': 'MVT'},        # null island
-        {'lon': None, 'lat': None, 'name': '', 'agency': 'MVT'},    # no geometry
+        {'lon': 0, 'lat': 0, 'name': ' ', 'agency': 'MVT', 'cdot_fid': 7},        # null island
+        {'lon': None, 'lat': None, 'name': '', 'agency': 'MVT', 'cdot_fid': 8},    # no geometry
         _row((-121.5, 38.58), 'Sacramento', 'El Dorado Transit'),    # outside Colorado
     ]
     feeds = [
@@ -89,7 +89,7 @@ def test_merge_source_priority_and_thresholds():
     assert parts['osm_added'] == 1
     dropped = parts['dropped_cdot']['rows']
     assert len(dropped) == 3
-    assert dropped[0] == {'stop_id': None, 'name': ' ', 'agency': 'MVT',
+    assert dropped[0] == {'cdot_fid': 7, 'stop_id': None, 'name': ' ', 'agency': 'MVT',
                           'coordinates': [0, 0], 'reason': 'no_location'}
     assert dropped[-1]['coordinates'] == [-121.5, 38.58]
     assert dropped[-1]['reason'] == 'outside_colorado'
@@ -157,11 +157,11 @@ def test_unnamed_agency_uses_id_and_name_agreement_at_a_shared_stop():
 
 
 def test_dropped_cdot_row_identifies_the_source_record():
-    row = dict(_row((0, 0), 'CDOT bad position', 'MVT'), stop_id='source-963')
+    row = dict(_row((0, 0), 'CDOT bad position', 'MVT'), stop_id='source-963', cdot_fid=963)
     features, parts = B.merge([row], [], [], COUNTIES)
     assert not features
     assert parts['dropped_cdot']['rows'] == [{
-        'stop_id': 'source-963', 'name': 'CDOT bad position', 'agency': 'MVT',
+        'cdot_fid': 963, 'stop_id': 'source-963', 'name': 'CDOT bad position', 'agency': 'MVT',
         'coordinates': [0, 0], 'reason': 'no_location'}]
 
 
@@ -207,7 +207,52 @@ def test_report_agrees_with_the_stop_file():
     reasons = Counter(r['reason'] for r in dropped)
     assert reasons['no_location'] == gaps['rows_without_location']
     assert reasons['outside_colorado'] == gaps['rows_outside_colorado']
-    assert all({'stop_id', 'name', 'agency', 'coordinates', 'reason'} <= set(r) for r in dropped)
+    assert all({'cdot_fid', 'stop_id', 'name', 'agency', 'coordinates', 'reason'} <= set(r) for r in dropped)
+
+
+def test_every_dropped_cdot_row_is_individually_identifiable():
+    """stop_id is null on CDOT's no-location MVT rows, so without the layer's
+    FID the report listed 963 byte-identical rows nobody could send back to
+    CDOT (#1969). Each row must carry an integer FID, and no two rows may be
+    the same record."""
+    dropped = _load(REPORT)['cdot_gaps']['dropped_rows']
+    assert dropped, 'no dropped rows to check'
+    for r in dropped:
+        fid = r.get('cdot_fid')
+        assert isinstance(fid, int) and not isinstance(fid, bool), f'dropped row without an integer CDOT FID: {r}'
+    fids = [r['cdot_fid'] for r in dropped]
+    assert len(set(fids)) == len(fids), 'two dropped rows carry the same CDOT FID'
+    rows = [json.dumps(r, sort_keys=True) for r in dropped]
+    assert len(set(rows)) == len(rows), 'dropped rows are not distinguishable from each other'
+
+
+def test_fetch_cdot_requests_and_keeps_the_fid(monkeypatch):
+    """The FID must be requested (outFields) and carried onto each row;
+    ordering by it without asking for it was the original gap (#1969)."""
+    import urllib.parse
+    seen = []
+
+    class _Resp:
+        def __init__(self, body): self.body = body
+        def read(self): return self.body
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+
+    def fake_urlopen(req, timeout=None):
+        q = urllib.parse.parse_qs(urllib.parse.urlparse(req.full_url).query)
+        seen.append(q)
+        fields = q['outFields'][0].split(',')
+        feats = [{'attributes': {k: v for k, v in {'FID': 41, 'stop_id': None, 'stop_name': '',
+                                                   'agency_nam': 'MVT'}.items() if k in fields},
+                  'geometry': None}]
+        return _Resp(json.dumps({'features': feats}).encode())
+
+    monkeypatch.setattr(B.urllib.request, 'urlopen', fake_urlopen)
+    rows = B.fetch_cdot()
+    assert seen and seen[0]['orderByFields'] == ['FID']
+    assert rows == [{'lon': None, 'lat': None, 'name': '', 'agency': 'MVT', 'stop_id': None, 'cdot_fid': 41}]
+    _, parts = B.merge(rows, [], [], COUNTIES)
+    assert parts['dropped_cdot']['rows'][0]['cdot_fid'] == 41
 
 
 # ── Refresh must not replace good data with a filtered-away response ────────
