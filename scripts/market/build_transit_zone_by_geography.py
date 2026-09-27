@@ -347,6 +347,14 @@ def full_coverage(polys, pts, step, idx, miles, confirmed_only):
     return failing
 
 
+def clamp_estimate(share):
+    """An unproven share stays strictly between 0 and 1. The fine-grid area
+    is divided by the sampled area (points x step squared), and for a sliver
+    that fell back to a single point the two can disagree by orders of
+    magnitude, so the raw ratio can land far outside [0, 1] (#1981 review)."""
+    return min(max(round(share, 4), ABSOLUTE_FLOOR), 1 - ABSOLUTE_FLOOR)
+
+
 def settle_full(polys, pts, step, idx, miles, confirmed_only):
     """A sampled share of 1.0: (share, is_exact). Proven → (1.0, True).
     Otherwise estimate the unreached area from the unproven cells and
@@ -363,7 +371,7 @@ def settle_full(polys, pts, step, idx, miles, confirmed_only):
                 if contains(polys, x, y) and not idx.any_within(y, x, miles, confirmed_only):
                     missed += f * f
     share = 1 - missed / (len(pts) * step * step)
-    return min(round(share, 4), 1 - ABSOLUTE_FLOOR), False
+    return clamp_estimate(share), False
 
 
 def settle_zero(polys, pts, step, idx, miles, boundary_d):
@@ -396,7 +404,7 @@ def settle_zero(polys, pts, step, idx, miles, boundary_d):
                     if haversine_mi(y, x, slat, slon) <= miles and contains(polys, x, y):
                         hit.add((i, j))
     share = len(hit) * fs * fs / (len(pts) * step * step)
-    return max(round(share, 4), ABSOLUTE_FLOOR), False
+    return clamp_estimate(share), False
 
 
 def summarize(polys, centre, idx, radius):
