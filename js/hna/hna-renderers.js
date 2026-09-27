@@ -8234,8 +8234,18 @@
       html += '<div class="hna-tz__tiles" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:.6rem;margin:.4rem 0 .8rem;">' +
         '<div class="hna-tz__tile" data-tz="share"><div style="font-size:1.6rem;font-weight:700;">' + escHtml(tz.shareLabel) + '</div>' +
           '<div style="color:var(--muted);">of ' + name + ' is within ' + radius + ' miles of a confirmed transit stop</div></div>' +
-        '<div class="hna-tz__tile" data-tz="half"><div style="font-size:1.6rem;font-weight:700;">' + escHtml(tz.halfMileLabel) + '</div>' +
-          '<div style="color:var(--muted);">is within ½ mile of a confirmed stop (CHFA QAP TOD distance, straight-line)</div></div>' +
+        // The half-mile tile: its distance, label and disclosure all come
+        // from TransitZone.qapTodDistance (thiz-map-status.json), so the
+        // figure never appears without "measured straight-line; CHFA scores
+        // walking distance" (#1961). The exports read these attributes.
+        (tz.halfMile
+          ? '<div class="hna-tz__tile" data-tz="half" data-tz-half-state="ok" data-tz-half-label="' + escHtml(tz.halfMile.plainLabel) + '">' +
+              '<div style="font-size:1.6rem;font-weight:700;">' + escHtml(tz.halfMileLabel) + '</div>' +
+              '<div style="color:var(--muted);">is within ' + escHtml(tz.halfMile.label) + ' of a confirmed stop (CHFA QAP transit-oriented distance)</div>' +
+              '<div class="hna-tz__disclosure" data-tz-disclosure style="color:var(--muted);font-size:.85rem;">' + escHtml(tz.halfMileDisclosure) + '</div></div>'
+          : '<div class="hna-tz__tile" data-tz="half" data-tz-half-state="unavailable">' +
+              '<div style="font-size:1.6rem;font-weight:700;">Unavailable</div>' +
+              '<div style="color:var(--muted);">' + escHtml(tz.halfMileUnavailableReason) + '</div></div>') +
         '<div class="hna-tz__tile" data-tz="nearest"><div style="font-size:1.6rem;font-weight:700;">' +
           (near ? escHtml(String(near.distance_miles)) + ' mi' : '—') + '</div>' +
           '<div style="color:var(--muted);">' + (near
