@@ -130,6 +130,15 @@
       color: var(--accent);
     }
     .badge-green { background: var(--good-dim, #d1fae5); color: var(--good, #059669); }
+    /* Rule 14: the per-row Map link is a repeated touch target, so it gets
+       the 44 x 44 px minimum rather than the size of its text. */
+    .portfolio-map-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      min-width: 44px;
+    }
     /* Absence is not a badge. It gets the muted, un-pill treatment so it can
        never be mistaken at a glance for a measured "no". */
     .portfolio-unpublished {
@@ -206,8 +215,8 @@
 <h1>CHFA Multifamily Portfolio</h1>
     <p class="sub" style="max-width:none;font-size:0.97rem;line-height:1.7;">
       Browse Colorado's affordable multifamily housing portfolio — LIHTC-funded properties sourced from
-      the CHFA ArcGIS Feature Service and the HUD LIHTC Database. Filter by county, credit type, or the
-      year CHFA awarded the credits.
+      the CHFA ArcGIS Feature Service and the HUD LIHTC Database. Filter by county, credit type,
+      development type, setting, population served, income targeting, or the year CHFA awarded the credits.
     </p>
   </section>
 
@@ -267,6 +276,45 @@
       </select>
     </label>
     <label>
+      Development
+      <select id="filterDevType" aria-label="Filter by development type">
+        <option value="">Any Type</option>
+        <option value="new">New construction</option>
+        <option value="rehab">Rehab</option>
+        <option value="mixed">New + rehab</option>
+      </select>
+    </label>
+    <label>
+      Setting
+      <select id="filterSetting" aria-label="Filter by urban, rural, or mountain setting">
+        <option value="">All Settings</option>
+        <option value="Urban">Urban</option>
+        <option value="Rural">Rural</option>
+        <option value="Mountain">Mountain</option>
+      </select>
+    </label>
+    <label>
+      Serves
+      <select id="filterServes" aria-label="Filter by population served">
+        <option value="">Any Population</option>
+        <option value="family">Families</option>
+        <option value="senior">Seniors</option>
+        <option value="supportive">Supportive housing</option>
+        <option value="homeless">People experiencing homelessness</option>
+        <option value="special">Special populations</option>
+        <option value="veteran">Veterans</option>
+      </select>
+    </label>
+    <label>
+      Income targeting
+      <select id="filterIncome" aria-label="Filter by income targeting">
+        <option value="">Any Income Level</option>
+        <option value="le30">Has units at &le;30% AMI</option>
+        <option value="le50">Has units at &le;50% AMI</option>
+        <option value="gt60">Has units above 60% AMI</option>
+      </select>
+    </label>
+    <label>
       Award year from
       <input type="number" id="filterYearFrom" min="1987" max="2030" placeholder="e.g. 2010" aria-label="Filter from CHFA award year">
     </label>
@@ -310,16 +358,39 @@
           <th data-col="AwardYear" title="Year CHFA awarded the tax credits (AwardYear). CHFA publishes no placed-in-service year; a property typically opens two to three years after its award.">Award Year</th>
           <th data-col="YR_ALLOC" title="Year CHFA reserved the credits (ReservationYear, or the award year where none is recorded). Usually the same as the award year.">Reservation Yr</th>
           <th data-col="CREDIT">Credit Type</th>
+          <th data-col="_devType" title="Whether CHFA recorded the project as new construction, rehab of an existing building, or both. This is the kind of deal, not the building form: CHFA publishes no building type (walk-up, townhome, single-family).">Development</th>
+          <th title="Opens Google Maps at the location CHFA publishes for the property. CHFA publishes no property website.">Location <a href="#locationNote" class="portfolio-note-ref" aria-label="About the Location column">&dagger;</a></th>
           <th>DDA/QCT <a href="#ddaQctNote" class="portfolio-note-ref" aria-label="About the DDA and QCT column">*</a></th>
         </tr>
       </thead>
       <tbody id="portfolioBody">
-        <tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted);">Loading…</td></tr>
+        <tr><td colspan="11" style="text-align:center;padding:2rem;color:var(--muted);">Loading…</td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="pagination" id="pagination" aria-label="Table pagination"></div>
+
+  <p class="data-note" id="locationNote">
+    <strong>&dagger; About the Location column.</strong>
+    CHFA's portfolio feed publishes no property website, so this column can't link to one. Instead,
+    <em>Map</em> opens Google Maps at the coordinates CHFA publishes for the property. Hover over the link
+    to see the street address. Once the map opens, the property's own listing and website, where it
+    has them, are usually one click away. A property with no coordinates is looked up by street address,
+    and one with neither shows a dash rather than a guessed location.
+  </p>
+
+  <p class="data-note" id="developmentNote">
+    <strong>About the Development, Setting, Serves and Income filters.</strong>
+    Each one uses a field CHFA publishes for every property. <em>Development</em> is the kind of deal
+    (new construction, rehab of an existing building, or both). It is not the building form:
+    CHFA publishes no building type, so this page can't tell a three-story walk-up from townhomes or
+    single-family homes, and doesn't guess. <em>Serves</em> and <em>Income targeting</em> match a
+    property with at least one unit in that group.
+    <span id="breakdownGapNote">A few properties have no population or income breakdown in CHFA's
+    data. They appear under &ldquo;Any&rdquo; but drop out when you pick a specific group, because
+    the source doesn't say whether they serve it.</span>
+  </p>
 
   <p class="data-note" id="ddaQctNote">
     <strong>* About the DDA/QCT column.</strong>
@@ -398,6 +469,50 @@
     return true;
   }
 
+  // Development type, from CHFA's ProjectType. Every record carries one of
+  // five values; anything else is left unclassified ('—'), never folded into
+  // a category it might not belong to.
+  var DEV_TYPE_LABELS = { new: 'New construction', rehab: 'Rehab', mixed: 'New + rehab' };
+  function devType(r) {
+    var s = String(r.ProjectType || '');
+    var isNew = /New Construction/i.test(s);
+    var isRehab = /Rehab/i.test(s);
+    if (isNew && isRehab) return 'mixed';
+    if (isNew) return 'new';
+    if (isRehab) return 'rehab';
+    return null;
+  }
+
+  // Population served: at least one unit set aside for the group. A record
+  // whose breakdown is all zero has no breakdown at all (every LIHTC unit
+  // serves someone), so it matches no specific group rather than "none".
+  function unitCount(v) {
+    return (v === null || v === undefined || v === '') ? null
+      : (Number.isFinite(Number(v)) ? Number(v) : null);
+  }
+  function hasBreakdown(group) {
+    if (!group || typeof group !== 'object') return false;
+    return Object.keys(group).some(function (k) { return unitCount(group[k]) > 0; });
+  }
+  function matchesServes(r, key) {
+    if (!key) return true;
+    var g = r.PopulationUnits;
+    return hasBreakdown(g) && unitCount(g[key]) > 0;
+  }
+
+  // Income targeting, from CHFA's AMI-band unit counts.
+  var INCOME_BANDS = {
+    le30: ['lte20', 'ami30'],
+    le50: ['lte20', 'ami30', 'ami40', 'ami50'],
+    gt60: ['ami70', 'ami80', 'ami100', 'ami120']
+  };
+  function matchesIncome(r, key) {
+    if (!key) return true;
+    var g = r.AMIUnits;
+    if (!hasBreakdown(g) || !INCOME_BANDS[key]) return false;
+    return INCOME_BANDS[key].some(function (b) { return unitCount(g[b]) > 0; });
+  }
+
   function fmt(n) {
     if (n == null || n === '') return '—';
     return Number(n).toLocaleString();
@@ -420,6 +535,33 @@
   function fmtYear(r) {
     var y = safeYear(r);
     return y == null ? '—' : String(y);
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // Location link. CHFA publishes no property website, so the row links to
+  // the point CHFA geocoded the property to. A missing or non-numeric
+  // coordinate is absence, not 0 — Number(null) === 0 would send the user
+  // to the Gulf of Guinea — so each is guarded before it is read as a number.
+  function coord(v) {
+    if (v === null || v === undefined || v === '') return null;
+    var n = Number(v);
+    return Number.isFinite(n) && n !== 0 ? n : null;
+  }
+  function mapLinkFor(r) {
+    var lat = coord(r._lat), lng = coord(r._lng);
+    var addr = [r.PROJ_ADD, r.PROJ_CTY, r.PROJ_ST || 'CO'].filter(Boolean).join(', ');
+    var query = (lat !== null && lng !== null) ? lat + ',' + lng
+      : (r.PROJ_ADD ? addr : null);
+    if (!query) return '<span title="CHFA publishes no coordinates or street address for this property">—</span>';
+    var label = 'Open ' + (r.PROJECT || 'this property') + ' on Google Maps' + (r.PROJ_ADD ? ' — ' + addr : '');
+    return '<a class="portfolio-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=' + encodeURIComponent(query) +
+      '" target="_blank" rel="noopener" title="' + esc(label) + '" aria-label="' + esc(label) +
+      ' (opens in a new tab)">Map ↗</a>';
   }
 
   function setStatus(msg, isError) {
@@ -450,10 +592,18 @@
     const fromYr  = parseInt(document.getElementById('filterYearFrom').value, 10) || 0;
     const toYr    = parseInt(document.getElementById('filterYearTo').value, 10) || 9999;
     const search  = document.getElementById('filterSearch').value.toLowerCase().trim();
+    const dev     = document.getElementById('filterDevType').value;
+    const setting = document.getElementById('filterSetting').value;
+    const serves  = document.getElementById('filterServes').value;
+    const income  = document.getElementById('filterIncome').value;
 
     filtered = allRows.filter(r => {
       if (county && r._county !== county) return false;
       if (!matchesCreditCategory(r.CREDIT, credit)) return false;
+      if (dev && r._devType !== dev) return false;
+      if (setting && r.UrbanRural !== setting) return false;
+      if (!matchesServes(r, serves)) return false;
+      if (!matchesIncome(r, income)) return false;
       const yr = safeYear(r) || 0;
       if (fromYr && yr < fromYr) return false;
       if (toYr < 9999 && yr > toYr) return false;
@@ -486,7 +636,7 @@
     const slice = filtered.slice(start, start + PAGE_SIZE);
 
     if (!slice.length) {
-      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted);">No properties match the current filters.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;padding:2rem;color:var(--muted);">No properties match the current filters.</td></tr>';
       return;
     }
 
@@ -515,6 +665,8 @@
         <td>${fmtYear(r)}</td>
         <td>${(parseInt(r.YR_ALLOC,10) >= 1986 && parseInt(r.YR_ALLOC,10) <= 2030) ? r.YR_ALLOC : '—'}</td>
         <td>${creditLabel(r.CREDIT)}</td>
+        <td>${DEV_TYPE_LABELS[r._devType] || '—'}</td>
+        <td style="white-space:nowrap;">${mapLinkFor(r)}</td>
         <td>${boost}</td>
       </tr>`;
     }).join('');
@@ -612,7 +764,11 @@
 
         allRows = features.map(f => {
           const p = f.properties || f;
-          return Object.assign({}, p, { _county: deriveCounty(p) });
+          const c = (f.geometry && f.geometry.type === 'Point' && Array.isArray(f.geometry.coordinates))
+            ? f.geometry.coordinates : [null, null];
+          return Object.assign({}, p, {
+            _county: deriveCounty(p), _lng: c[0], _lat: c[1], _devType: devType(p)
+          });
         });
 
         // F116 — Compute the live-feed max AwardDate so the vintage banner
@@ -635,7 +791,7 @@
       .catch(function (err) {
         setStatus('Unable to load portfolio data. ' + err.message, true);
         document.getElementById('portfolioBody').innerHTML =
-          '<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--bad);">Failed to load data. Please try again later.</td></tr>';
+          '<tr><td colspan="11" style="text-align:center;padding:2rem;color:var(--bad);">Failed to load data. Please try again later.</td></tr>';
       });
   }
 
@@ -702,7 +858,7 @@
     loadData();
     loadR1Bridge();
 
-    ['filterCounty', 'filterCredit'].forEach(id =>
+    ['filterCounty', 'filterCredit', 'filterDevType', 'filterSetting', 'filterServes', 'filterIncome'].forEach(id =>
       document.getElementById(id).addEventListener('change', applyFilters));
     ['filterYearFrom', 'filterYearTo', 'filterSearch'].forEach(id =>
       document.getElementById(id).addEventListener('input', applyFilters));

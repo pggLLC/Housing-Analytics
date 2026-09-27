@@ -27,6 +27,9 @@ from decimal import Decimal, ROUND_HALF_UP
 from typing import Any
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.insert(0, os.path.join(ROOT, "scripts", "lib"))
+
+import transit_stops  # noqa: E402  (the one statewide stop-selection rule)
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -192,6 +195,139 @@ def _load_json(path: str) -> dict | list | None:
     except (FileNotFoundError, json.JSONDecodeError) as exc:
         print(f"  [warn] could not load {path}: {exc}", file=sys.stderr)
         return None
+
+
+# ---------------------------------------------------------------------------
+# Transit zone share — DISPLAY-ONLY (#1971, owner decision on #1937/#1943)
+# ---------------------------------------------------------------------------
+#
+# The per-geography share of the HB26-1065 transit-zone screening radius (and
+# of CHFA's ½-mile TOD distance) is copied into the index so a surface that
+# already reads the index can show it. It is NOT a need or opportunity factor:
+# it enters no score, rank, weight, percentile or composite. build() attaches
+# it only AFTER every score and rank has been assigned, and
+# tests/test_ranking_index_transit_zone.py rebuilds the index with the source
+# file perturbed and with it missing, and fails if any other field moves.
+#
+# Values are copied verbatim, never recomputed or coerced. A geography the
+# source does not cover, or a missing source file, gets null values with an
+# unavailableReason — never a 0, which would read as "no transit" (#1480).
+TRANSIT_ZONE_REL_PATH = "data/hna/transit-zone-by-geography.json"
+TRANSIT_ZONE_PATH = os.path.join(ROOT, TRANSIT_ZONE_REL_PATH)
+
+# Per-geography fields copied from the source record. The *_is_exact flags are
+# what make a 0 or a 1 honest: the source publishes an absolute only when it is
+# proven, and these say which ones are (null = not applicable to this value).
+TRANSIT_ZONE_FIELDS = (
+    "share_within_radius_confirmed",
+    "share_within_radius_any",
+    "share_within_half_mile_confirmed",
+    "confirmed_stops_inside",
+    "zero_is_exact",
+    "half_mile_zero_is_exact",
+    "full_is_exact",
+    "any_full_is_exact",
+    "half_mile_full_is_exact",
+    "nearest_confirmed_stop_to_boundary_miles",
+    "max_boundary_vertex_distance_to_confirmed_stop_miles",
+    "nearest_confirmed_stop",
+)
+_TRANSIT_ZONE_FLAGS = {f for f in TRANSIT_ZONE_FIELDS if f.endswith("_is_exact")}
+# Source meta copied into metadata.transitZone: only fields that change when
+# the content does. The source's `generated` / `stops_generated` stamps are
+# deliberately NOT copied: they move on every weekly run even when no
+# geography changes, and copying them would force a full chain rebuild (and
+# ~570 timestamp-only files) every week. Surfaces that judge staleness read the
+# source file's own stamps (js/transit-zone.js).
+TRANSIT_ZONE_META_FIELDS = (
+    "stops_file",
+    "radius_miles",
+    "radius_source",
+    "qap_tod_miles",
+)
+
+
+def _transit_zone_value(field: str, value: Any) -> Any:
+    """Copy one source value, keeping only the types it may honestly hold."""
+    if value is None:
+        return None
+    if field in _TRANSIT_ZONE_FLAGS:
+        return value if isinstance(value, bool) else None
+    if field == "nearest_confirmed_stop":
+        return dict(value) if isinstance(value, dict) else None
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    return value if math.isfinite(value) else None
+
+
+def load_transit_zone() -> tuple[dict, dict[str, dict]]:
+    """Return (metadata block, {geoid: record}) for the display-only copy.
+
+    Read at call time from TRANSIT_ZONE_PATH so the guard test can point it at
+    a perturbed or missing file.
+    """
+    doc = _load_json(TRANSIT_ZONE_PATH)
+    geos = doc.get("geographies") if isinstance(doc, dict) else None
+    meta_src = (doc.get("meta") or {}) if isinstance(doc, dict) else {}
+    meta: dict[str, Any] = {
+        "source": TRANSIT_ZONE_REL_PATH,
+        "displayOnly": True,
+        "note": (
+            "Display-only. Copied from the source after every score and rank is "
+            "assigned; it is not an input to any score, rank, weight, percentile "
+            "or composite. Straight-line distance, confirmed stops only unless "
+            "the field says _any."
+        ),
+    }
+    for key in TRANSIT_ZONE_META_FIELDS:
+        meta[key] = meta_src.get(key)
+    if not isinstance(geos, dict):
+        meta["unavailableReason"] = (
+            f"{TRANSIT_ZONE_REL_PATH} could not be read, so no geography has a transit zone share."
+        )
+        return meta, {}
+    meta["unavailableReason"] = None
+    return meta, {str(k): v for k, v in geos.items() if isinstance(v, dict)}
+
+
+def transit_zone_record(geoid: str, records: dict[str, dict], meta: dict) -> dict:
+    """The per-row display-only transit block. Absent means null plus a reason."""
+    rec = records.get(geoid)
+    out: dict[str, Any] = {}
+    if rec is None:
+        for field in TRANSIT_ZONE_FIELDS:
+            out[field] = None
+        out["unavailableReason"] = meta.get("unavailableReason") or (
+            f"{TRANSIT_ZONE_REL_PATH} has no record for this geography."
+        )
+        return out
+    for field in TRANSIT_ZONE_FIELDS:
+        out[field] = _transit_zone_value(field, rec.get(field))
+    reason = rec.get("unavailableReason")
+    if not reason and out["share_within_radius_confirmed"] is None:
+        reason = f"{TRANSIT_ZONE_REL_PATH} publishes no transit zone share for this geography."
+    out["unavailableReason"] = reason or None
+    return out
+
+
+def transit_zone_copy_disagreements(index_doc: dict) -> list[str]:
+    """What in an index's transit copy disagrees with the source file now.
+
+    The one definition of "the copy is current", shared by the freshness test
+    and scripts/hna/check_transit_zone_copy.py (the weekly workflow's gate).
+    Compares content only — every row's block and the copied meta fields —
+    so a source rewritten with nothing but new stamps is still current.
+    """
+    meta, records = load_transit_zone()
+    index_meta = (index_doc.get("metadata") or {}).get("transitZone")
+    out: list[str] = []
+    if index_meta != meta:
+        out.append("metadata.transitZone")
+    for row in index_doc.get("rankings") or []:
+        geoid = str(row.get("geoid"))
+        if row.get("transitZone") != transit_zone_record(geoid, records, meta):
+            out.append(geoid)
+    return out
 
 
 _alias_doc = _load_json(os.path.join(ROOT, "data", "hna", "place-phantom-aliases.json")) or {}
@@ -532,6 +668,86 @@ def _load_point_features(rel_path: str) -> list[tuple[float, float]]:
     return sorted(result)
 
 
+# Transit part of amenity_access_score (owner decision 2026-09-27). The stops
+# are the statewide file's, selected by scripts/lib/transit_stops.py: confirmed
+# public scheduled stops (CDOT and/or an agency feed; no private shuttles, no
+# demand-response). A place with none within TRANSIT_RADIUS_MILES of its
+# centroid but with an OpenStreetMap-only stop in range is scored on the
+# OpenStreetMap-only stops instead of 0, and says so in
+# metrics.transit_stop_basis. tests/test_transit_stop_selection.py pins both.
+TRANSIT_STOPS_REL_PATH = transit_stops.STATEWIDE_STOPS_REL
+TRANSIT_RADIUS_MILES = 3.0
+
+
+def load_transit_points() -> tuple[list[tuple[float, float]], list[tuple[float, float]]]:
+    """(confirmed points, OpenStreetMap-only fallback points), each sorted (lat, lon)."""
+    stops = transit_stops.load_stops(os.path.join(ROOT, TRANSIT_STOPS_REL_PATH))
+    return (
+        transit_stops.points(stops[transit_stops.BASIS_CONFIRMED]),
+        transit_stops.points(stops[transit_stops.BASIS_OSM_FALLBACK]),
+    )
+
+
+def _rounded_miles(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """The distance amenity_component compares with its radius."""
+    return round(_haversine_miles(lat1, lon1, lat2, lon2), 4)
+
+
+def amenity_component(lat: float, lon: float, points: list[tuple[float, float]], radius: float) -> tuple[float, int]:
+    """(0-100 score, count within radius) for one amenity type at a centroid."""
+    distances = sorted(_rounded_miles(lat, lon, plat, plon) for plat, plon in points)
+    within = [d for d in distances if d <= radius]
+    nearest = min(distances) if distances else None
+    count_score = min(len(within), 5) / 5 * 40
+    distance_score = 0.0
+    if nearest is not None and nearest <= radius:
+        distance_score = max(0.0, (1 - nearest / radius) * 60)
+    return _round_half_up(min(100.0, count_score + distance_score), 0), len(within)
+
+
+def transit_stops_meta() -> dict:
+    """metadata.transitStops: which stops the transit component used.
+
+    stops_content_sha256 is the stop file's content fingerprint (features,
+    never stamps); scripts/hna/check_transit_stop_copies.py compares it with
+    the file so the weekly refresh rebuilds only when a stop changed.
+    """
+    confirmed, osm_fallback = load_transit_points()
+    return {
+        "source": TRANSIT_STOPS_REL_PATH,
+        "selection": "scripts/lib/transit_stops.py",
+        "radius_miles": TRANSIT_RADIUS_MILES,
+        "confirmed_stops": len(confirmed),
+        "openstreetmap_fallback_candidates": len(osm_fallback),
+        "stops_content_sha256": transit_stops.content_fingerprint(os.path.join(ROOT, TRANSIT_STOPS_REL_PATH)),
+        "note": (
+            "Transit part of amenity_access_score: confirmed public scheduled stops (CDOT and/or an "
+            "agency feed; no private shuttles, no demand-response). A place with none within "
+            "radius_miles but an OpenStreetMap-only stop there is scored on the OpenStreetMap-only "
+            "stops; metrics.transit_stop_basis says which."
+        ),
+    }
+
+
+def load_fixed_amenity_points() -> dict[str, tuple[list[tuple[float, float]], float]]:
+    """{type: (points, radius miles)} for the amenity types scored on a fixed list.
+
+    Transit is not here: its stops are chosen per centroid (select_transit_points).
+    """
+    return {
+        "grocery": (_load_point_features("data/amenities/grocery_co.geojson"), 8.0),
+        "healthcare": (_load_point_features("data/amenities/healthcare_co.geojson"), 10.0),
+        "schools": (_load_point_features("data/amenities/schools_co.geojson"), 6.0),
+    }
+
+
+def select_transit_points(lat: float, lon: float, confirmed, osm_fallback) -> tuple[str, list[tuple[float, float]]]:
+    """(transit_stop_basis, the stops this centroid's transit score uses)."""
+    return transit_stops.select_for_point(
+        lat, lon, TRANSIT_RADIUS_MILES, confirmed, osm_fallback, _rounded_miles
+    )
+
+
 def build_opportunity_context() -> dict[str, dict]:
     """Aggregate tract/amenity opportunity layers to place and county GEOIDs.
 
@@ -583,12 +799,9 @@ def build_opportunity_context() -> dict[str, dict]:
 
     centroids_data = _load_json(os.path.join(ROOT, "data", "co-place-centroids.json")) or {}
     centroids = centroids_data.get("byGeoid", {}) if isinstance(centroids_data, dict) else {}
-    amenities = {
-        "grocery": (_load_point_features("data/amenities/grocery_co.geojson"), 8.0),
-        "healthcare": (_load_point_features("data/amenities/healthcare_co.geojson"), 10.0),
-        "schools": (_load_point_features("data/amenities/schools_co.geojson"), 6.0),
-        "transit": (_load_point_features("data/amenities/transit_stops_co.geojson"), 3.0),
-    }
+    amenities = load_fixed_amenity_points()
+    # Transit is chosen per centroid (select_transit_points), not a fixed list.
+    transit_confirmed, transit_osm_fallback = load_transit_points()
     populations = load_summary_populations()
 
     place_context: dict[str, dict] = {}
@@ -631,17 +844,16 @@ def build_opportunity_context() -> dict[str, dict]:
         centroid = centroids.get(str(place_geoid).zfill(7), {})
         lat = safe_float(centroid.get("lat"), default=float("nan"))
         lon = safe_float(centroid.get("lng"), default=float("nan"))
+        # No centroid means transit access was not measured: "missing", never "none".
+        transit_stop_basis = "missing"
         if math.isfinite(lat) and math.isfinite(lon):
-            for key, (points, radius) in sorted(amenities.items()):
-                distances = sorted(round(_haversine_miles(lat, lon, plat, plon), 4) for plat, plon in points)
-                within = [d for d in distances if d <= radius]
-                nearest = min(distances) if distances else None
-                count_score = min(len(within), 5) / 5 * 40
-                distance_score = 0.0
-                if nearest is not None and nearest <= radius:
-                    distance_score = max(0.0, (1 - nearest / radius) * 60)
-                amenity_scores[key] = _round_half_up(min(100.0, count_score + distance_score), 0)
-                amenity_counts[key] = len(within)
+            transit_stop_basis, transit_points = select_transit_points(
+                lat, lon, transit_confirmed, transit_osm_fallback
+            )
+            per_type = dict(amenities)
+            per_type["transit"] = (transit_points, TRANSIT_RADIUS_MILES)
+            for key, (points, radius) in sorted(per_type.items()):
+                amenity_scores[key], amenity_counts[key] = amenity_component(lat, lon, points, radius)
         amenity_access_score = _weighted([(v, 1.0) for v in amenity_scores.values()])
         amenity_context = "rural_sparsity" if amenity_counts and sum(amenity_counts.values()) == 0 else "centroid_radius"
 
@@ -653,6 +865,7 @@ def build_opportunity_context() -> dict[str, dict]:
             "qct_share_pct": _round_half_up(qct_share * 100, 1),
             "dda_share_pct": _round_half_up(dda_share * 100, 1),
             "amenity_access_context": amenity_context,
+            "transit_stop_basis": transit_stop_basis,
             "opportunity_geography_level": "place",
             "_opportunity_aggregated_fields": [],
         }
@@ -693,6 +906,8 @@ def build_opportunity_context() -> dict[str, dict]:
             ])
             rec[key] = _round_half_up(val, 1) if val is not None else None
         rec["amenity_access_context"] = "county_context"
+        # A county row aggregates its places; each place row carries its own basis.
+        rec["transit_stop_basis"] = "county_context"
         rec["opportunity_geography_level"] = "county_context"
         rec["_opportunity_aggregated_fields"] = [
             "opportunity_mobility_score",
@@ -1427,6 +1642,7 @@ def compute_metrics(
     dda_share = opp.get("dda_share_pct")
     opportunity_geography_level = opp.get("opportunity_geography_level", "missing")
     amenity_access_context = opp.get("amenity_access_context", "missing")
+    transit_stop_basis = opp.get("transit_stop_basis", "missing")
 
     imputed_score_factors: list[str] = []
     if housing_gap_rate_lte30 is None:
@@ -1622,6 +1838,7 @@ def compute_metrics(
         "dda_share_pct": dda_share,
         "opportunity_geography_level": opportunity_geography_level,
         "amenity_access_context": amenity_access_context,
+        "transit_stop_basis": transit_stop_basis,
         "vacancy_rate_pct": vacancy_rate,
         "active_market_vacancy_rate_pct": active_market_vacancy_rate,
         "raw_rental_vacancy_rate_pct": raw_rental_vacancy_rate,
@@ -1842,6 +2059,7 @@ def build(out_path: str | None = None) -> None:
                 "dda_share_pct": None,
                 "opportunity_geography_level": "missing",
                 "amenity_access_context": "missing",
+                "transit_stop_basis": "missing",
                 "vacancy_rate_pct": 0.0,
                 "active_market_vacancy_rate_pct": None,
                 "raw_rental_vacancy_rate_pct": None,
@@ -2127,6 +2345,14 @@ def build(out_path: str | None = None) -> None:
             (total_ranked - e["rank"]) / max(total_ranked - 1, 1) * 100, 1
         )
 
+    # Display-only transit zone share (#1971). Attached here, after every
+    # score, rank and percentile above is final, so nothing above can read
+    # it. It lives beside `metrics`, not in it: the digest builder and other
+    # consumers iterate `metrics`, and this must not become a metric.
+    transit_zone_meta, transit_zone_records = load_transit_zone()
+    for e in entries:
+        e["transitZone"] = transit_zone_record(e["geoid"], transit_zone_records, transit_zone_meta)
+
     # Build output
     metrics_meta = [
         {
@@ -2181,7 +2407,7 @@ def build(out_path: str | None = None) -> None:
         {
             "id": "amenity_access_score",
             "label": "Amenity Access Score",
-            "description": "Centroid-radius access score for grocery, healthcare, schools, and transit stops; rural sparsity is labeled in context fields",
+            "description": "Centroid-radius access score for grocery, healthcare, schools, and transit stops (statewide stop file: confirmed public scheduled stops; OpenStreetMap-only stops only where no confirmed stop is in range, flagged in transit_stop_basis); rural sparsity is labeled in context fields",
             "unit": "score",
             "sortOrder": "descending",
         },
@@ -2466,6 +2692,8 @@ def build(out_path: str | None = None) -> None:
                 "Commuter pressure is an augment-only community-need multiplier, not a standalone weight. "
                 "Generated by scripts/hna/build_ranking_index.py."
             ),
+            "transitZone": transit_zone_meta,
+            "transitStops": transit_stops_meta(),
         },
         "metrics": metrics_meta,
         "rankings": entries,

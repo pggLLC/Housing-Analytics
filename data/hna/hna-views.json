@@ -8,7 +8,7 @@
     "by selecting sections, which is why no figure is ever authored twice.",
     "",
     "Sections are matched on their <h2> text (prefix match, case-insensitive).",
-    "Every one of the 53 sections appears exactly once below, either in a view",
+    "Every one of the 54 sections appears exactly once below, either in a view",
     "or in 'shared'. The generator fails if that stops being true.",
     "",
     "'review': true marks a placement I am not confident in -- these are the",
@@ -32,6 +32,13 @@
           "js/components/affordable-housing-layer.js",
           "js/components/map-home-btn.js",
           "js/prop123-map.js"
+        ]
+      },
+      {
+        "needs_id": "hnaTransitZonePanel",
+        "why": "The HB26-1065 zone note. Only renderTransitZonePanel() reads window.TransitZone, and it returns first when #hnaTransitZoneContent is absent, so views without the panel never call it.",
+        "files": [
+          "js/transit-zone.js"
         ]
       }
     ]
@@ -374,6 +381,10 @@
         {
           "n": 50,
           "title": "Housing Type Feasibility Analysis"
+        },
+        {
+          "n": 54,
+          "title": "Potential location: transit zone (HB26-1065)"
         },
         {
           "n": 52,

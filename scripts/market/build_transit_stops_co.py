@@ -9,7 +9,8 @@ Sources, in priority order
 1. CDOT Statewide Transit Points (ArcGIS feature service). Primary. Every row
    with a real location inside Colorado is kept, whatever CDOT's own type or
    station fields say. Rows at 0,0 or outside Colorado are dropped and listed
-   in the coverage report so they can be sent to CDOT.
+   in the coverage report, each keyed by its CDOT FID (``cdot_fid``, the
+   layer's objectIdField), so they can be sent to CDOT.
 2. Agency GTFS feeds (the same feeds agencies publish to Google Maps), from
    the Mobility Database catalog that scripts/market/fetch_gtfs_transit.py
    already uses. A feed stop is added only when no CDOT stop is within
@@ -43,6 +44,7 @@ import csv
 import io
 import json
 import math
+import posixpath
 import sys
 import urllib.parse
 import urllib.request
@@ -69,6 +71,121 @@ OSM_MATCH_M = 60.0    # OSM positions are hand-placed, so allow more slack
 
 # GTFS location_type values that are not boardable stops.
 NON_STOP_LOCATION_TYPES = {"2", "3", "4"}
+
+# ── Service type (owner decision: on-demand providers are not defined routes) ─
+# Each stop carries `service`: "fixed_route", "demand_response" or "unknown".
+# The only signal used is GTFS-Flex in the agency feeds, which is how a feed
+# says a stop is served on demand rather than on a schedule:
+#   * a stop_times row that references the stop (stop_id) WITHOUT a
+#     pickup/drop-off window is a scheduled trip calling at it -> fixed route.
+#     Times may be blank there (non-timepoint stops on a fixed route).
+#   * a row WITH a window (start_pickup_drop_off_window; the older draft
+#     spelling start_pickup_dropoff_window too) that references the stop,
+#     directly or through a location group, is on-demand service.
+#   * a feed with on-demand trips and no scheduled stop call at all is an
+#     on-demand-only feed; every stop it lists is on-demand.
+# A stop with any fixed-route evidence is fixed_route. A stop with only
+# on-demand evidence is demand_response. A stop no trip references, and every
+# stop with no feed behind it (CDOT has no service-type field; OSM has none),
+# is "unknown" — which is not the same as fixed_route and is kept separate.
+# Agency names are NOT used: several agencies named "Transit"/"Mobility" run
+# both kinds of service from one feed.
+SERVICE_FIXED = "fixed_route"
+SERVICE_DEMAND = "demand_response"
+SERVICE_UNKNOWN = "unknown"
+FLEX_WINDOW_COLUMNS = (
+    "start_pickup_drop_off_window", "end_pickup_drop_off_window",
+    "start_pickup_dropoff_window", "end_pickup_dropoff_window",
+)
+SERVICE_BASIS = (
+    "GTFS-Flex in the agency feeds (Mobility Database catalog). fixed_route: a "
+    "stop_times row calls at the stop without a pickup/drop-off window. "
+    "demand_response: the stop is referenced only by windowed (on-demand) "
+    "stop_times rows, directly or through location_group_stops, or is listed by a "
+    "feed whose every trip is on-demand (no scheduled stop call). A CDOT stop takes "
+    "the service of the feed stops within feed_match_m of it (any fixed_route wins; "
+    "demand_response only when every match says so). unknown: no feed evidence "
+    "(CDOT's layer has no service-type field; OpenStreetMap has none)."
+)
+
+
+def combine_services(services) -> str:
+    """One stop's service from the evidence of every feed stop at it."""
+    services = list(services)
+    if SERVICE_FIXED in services:
+        return SERVICE_FIXED
+    if services and all(s == SERVICE_DEMAND for s in services):
+        return SERVICE_DEMAND
+    return SERVICE_UNKNOWN
+
+
+def gtfs_member(names, basename: str) -> str | None:
+    """The archive member that IS ``basename``, preferring one at the root.
+
+    Matched on exact basename, never a suffix: ``n.endswith("stops.txt")``
+    also matches ``location_group_stops.txt``, which GTFS-Flex feeds often
+    list first, and the feed then contributed no stops at all.
+    """
+    matches = [n for n in names if posixpath.basename(n) == basename]
+    if not matches:
+        return None
+    root = [n for n in matches if "/" not in n.strip("/")]
+    return (root or matches)[0]
+
+
+def feed_stop_services(z: zipfile.ZipFile) -> dict[str, str]:
+    """{stop_id: service} for one GTFS feed, from stop_times.txt (GTFS-Flex aware)."""
+    names = z.namelist()
+
+    def rows(name):
+        member = gtfs_member(names, name)
+        if member is None:
+            return iter(())
+        return csv.DictReader(io.TextIOWrapper(z.open(member), encoding="utf-8-sig"))
+
+    groups: dict[str, set[str]] = {}
+    for r in rows("location_group_stops.txt"):
+        g, s = (r.get("location_group_id") or "").strip(), (r.get("stop_id") or "").strip()
+        if g and s:
+            groups.setdefault(g, set()).add(s)
+    # The older Flex draft listed members in location_groups.txt (location_id).
+    for r in rows("location_groups.txt"):
+        g, s = (r.get("location_group_id") or "").strip(), (r.get("location_id") or "").strip()
+        if g and s:
+            groups.setdefault(g, set()).add(s)
+
+    fixed: set[str] = set()
+    demand: set[str] = set()
+    windowed_rows = 0
+    for r in rows("stop_times.txt"):
+        windowed = any((r.get(c) or "").strip() for c in FLEX_WINDOW_COLUMNS)
+        windowed_rows += windowed
+        refs = set()
+        stop_id = (r.get("stop_id") or "").strip()
+        if stop_id:
+            refs.add(stop_id)
+        for key in ("location_group_id", "stop_id"):
+            refs |= groups.get((r.get(key) or "").strip(), set())
+        if windowed:
+            demand |= refs
+        elif stop_id:
+            fixed.add(stop_id)
+    out = {s: SERVICE_DEMAND for s in demand}
+    out.update({s: SERVICE_FIXED for s in fixed})
+    if demand_only_feed(fixed, windowed_rows):
+        # A feed whose every trip is on-demand publishes no scheduled service,
+        # so a stop it lists (often a placeholder such as "Baca County, CO,
+        # USA" for a zone) is served on demand if at all.
+        for r in rows("stops.txt"):
+            sid = (r.get("stop_id") or "").strip()
+            if sid:
+                out.setdefault(sid, SERVICE_DEMAND)
+    return out
+
+
+def demand_only_feed(fixed_stop_ids, windowed_rows: int) -> bool:
+    """True when a feed has on-demand trips and not one scheduled stop call."""
+    return windowed_rows > 0 and not fixed_stop_ids
 
 # One name per agency, whichever source spelled it. Keys are lower-cased,
 # parenthetical suffixes removed, whitespace collapsed.
@@ -229,7 +346,7 @@ def fetch_cdot() -> list[dict]:
     offset = 0
     while True:
         q = urllib.parse.urlencode({
-            "where": "1=1", "outFields": "stop_id,stop_name,location_t,agency_nam",
+            "where": "1=1", "outFields": "FID,stop_id,stop_name,location_t,agency_nam",
             "outSR": 4326, "f": "json", "orderByFields": "FID",
             "resultOffset": offset, "resultRecordCount": CDOT_PAGE,
         })
@@ -249,6 +366,9 @@ def fetch_cdot() -> list[dict]:
                 "name": (a.get("stop_name") or "").strip(),
                 "agency": a.get("agency_nam"),
                 "stop_id": a.get("stop_id"),
+                # FID is the layer's objectIdField and its only unique key:
+                # stop_id is null on every no-location MVT row (#1969).
+                "cdot_fid": a.get("FID"),
             })
         offset += len(feats)
         if len(feats) < CDOT_PAGE and not payload.get("exceededTransferLimit"):
@@ -271,18 +391,24 @@ def fetch_feed_stops() -> tuple[list[dict], list[dict]]:
             failed.append({"agency": feed["agency"], "reason": str(exc)[:160]})
             continue
         names = z.namelist()
-        stop_file = next((n for n in names if n.endswith("stops.txt")), None)
+        stop_file = gtfs_member(names, "stops.txt")
         if not stop_file:
             failed.append({"agency": feed["agency"], "reason": "no stops.txt"})
             continue
         agency = feed["agency"]
-        agency_file = next((n for n in names if n.endswith("agency.txt")), None)
+        agency_file = gtfs_member(names, "agency.txt")
         if agency_file:
             try:
                 first = next(csv.DictReader(io.TextIOWrapper(z.open(agency_file), encoding="utf-8-sig")))
                 agency = (first.get("agency_name") or agency).strip() or agency
             except (StopIteration, UnicodeDecodeError, csv.Error):
                 pass
+        try:
+            services = feed_stop_services(z)
+        except (UnicodeDecodeError, csv.Error, KeyError) as exc:
+            # No usable stop_times: every stop in this feed is "unknown", never fixed_route.
+            log(f"  {agency}: stop_times unreadable ({exc}); service unknown")
+            services = {}
         n = 0
         for r in csv.DictReader(io.TextIOWrapper(z.open(stop_file), encoding="utf-8-sig")):
             if (r.get("location_type") or "").strip() in NON_STOP_LOCATION_TYPES:
@@ -293,7 +419,8 @@ def fetch_feed_stops() -> tuple[list[dict], list[dict]]:
             except ValueError:
                 continue
             stops.append({"lon": lon, "lat": lat, "name": (r.get("stop_name") or "").strip(),
-                          "agency": agency, "stop_id": r.get("stop_id")})
+                          "agency": agency, "stop_id": r.get("stop_id"),
+                          "service": services.get((r.get("stop_id") or "").strip(), SERVICE_UNKNOWN)})
             n += 1
         log(f"  [{i}/{len(feeds)}] {agency}: {n} stops")
     return stops, failed
@@ -326,7 +453,7 @@ def merge(cdot_rows, feed_rows, osm_rows, counties):
         if reason == "no_location":
             dropped_cdot["by_agency"][agency] = dropped_cdot["by_agency"].get(agency, 0) + 1
         dropped_cdot["rows"].append({
-            "stop_id": r.get("stop_id"), "name": r.get("name"),
+            "cdot_fid": r.get("cdot_fid"), "stop_id": r.get("stop_id"), "name": r.get("name"),
             "agency": r.get("agency"), "coordinates": [r.get("lon"), r.get("lat")],
             "reason": reason,
         })
@@ -342,6 +469,7 @@ def merge(cdot_rows, feed_rows, osm_rows, counties):
                 "sources": sources,
                 "reliability": reliability,
                 "county_fips": geoid,
+                "service": SERVICE_UNKNOWN,   # set from feed evidence below
             },
         }
 
@@ -363,6 +491,8 @@ def merge(cdot_rows, feed_rows, osm_rows, counties):
     # Feed stops: add the ones CDOT lacks; record which confirm a CDOT stop.
     feed_added: dict[str, int] = {}
     seen_feed: set[tuple[float, float]] = set()
+    services_at: dict[tuple[float, float], list[str]] = {}
+    feed_only: list[tuple[dict, tuple[float, float]]] = []
     for r in feed_rows:
         if not in_colorado_bbox(r["lon"], r["lat"]):
             continue
@@ -372,6 +502,7 @@ def merge(cdot_rows, feed_rows, osm_rows, counties):
         # agency just because that feed happened to be fetched first.
         feed_idx.add(r["lon"], r["lat"], dict(r, agency=agency))
         key = (round(r["lon"], 5), round(r["lat"], 5))
+        services_at.setdefault(key, []).append(r.get("service") or SERVICE_UNKNOWN)
         if key in seen_feed:
             continue  # the same stop published by two catalog entries
         seen_feed.add(key)
@@ -380,8 +511,13 @@ def merge(cdot_rows, feed_rows, osm_rows, counties):
         geoid = county_of(r["lon"], r["lat"], counties)
         if geoid is None:
             continue
-        features.append(feature(r, agency, ["agency_feed"], "confirmed", geoid))
+        f = feature(r, agency, ["agency_feed"], "confirmed", geoid)
+        features.append(f)
+        feed_only.append((f, key))
         feed_added[agency] = feed_added.get(agency, 0) + 1
+    # A feed-only stop's service: every catalog entry that publishes that point.
+    for f, key in feed_only:
+        f["properties"]["service"] = combine_services(services_at[key])
 
     # Mark CDOT stops that a feed also publishes.
     for f, cdot_row in cdot_features:
@@ -389,6 +525,8 @@ def merge(cdot_rows, feed_rows, osm_rows, counties):
         if p["sources"] == ["cdot"]:
             lon, lat = f["geometry"]["coordinates"]
             matches = list(feed_idx.matches(lon, lat, FEED_MATCH_M))
+            # CDOT has no service-type field: the feed stops at this point decide.
+            p["service"] = combine_services(r.get("service") or SERVICE_UNKNOWN for r in matches)
             if matches:
                 p["sources"] = ["cdot", "agency_feed"]
                 # A shared bus stop can have several agencies within 30 m.
@@ -418,6 +556,15 @@ def merge(cdot_rows, feed_rows, osm_rows, counties):
     return features, {"dropped_cdot": dropped_cdot, "feed_added_by_agency": feed_added, "osm_added": osm_added}
 
 
+def service_totals(features) -> dict[str, int]:
+    """Stops per service value, every value always present (0 is a real count here)."""
+    out = {SERVICE_FIXED: 0, SERVICE_DEMAND: 0, SERVICE_UNKNOWN: 0}
+    for f in features:
+        svc = f["properties"].get("service") or SERVICE_UNKNOWN
+        out[svc] = out.get(svc, 0) + 1
+    return out
+
+
 def build_report(features, parts, counties, generated, feeds_failed, feeds_used):
     by_county = {geoid: {"county_fips": geoid, "county": name, "cdot": 0, "agency_feed_only": 0,
                          "unconfirmed": 0, "total": 0}
@@ -427,7 +574,10 @@ def build_report(features, parts, counties, generated, feeds_failed, feeds_used)
         p = f["properties"]
         c = by_county[p["county_fips"]]
         a = by_agency.setdefault(p["agency"], {"agency": p["agency"], "operator": p["operator"],
-                                               "cdot": 0, "agency_feed_only": 0, "unconfirmed": 0})
+                                               "cdot": 0, "agency_feed_only": 0, "unconfirmed": 0,
+                                               "service": {}})
+        svc = p.get("service") or SERVICE_UNKNOWN
+        a["service"][svc] = a["service"].get(svc, 0) + 1
         if "cdot" in p["sources"]:
             c["cdot"] += 1
             a["cdot"] += 1
@@ -556,6 +706,8 @@ def main() -> int:
             "reliability_note": ("'confirmed' = published by CDOT or an agency feed; 'unconfirmed' = "
                                  "OpenStreetMap only. Coverage report: data/market/transit_stops_coverage_co.json"),
             "note": "Rebuild via scripts/market/build_transit_stops_co.py (#1937).",
+            "service_basis": SERVICE_BASIS,
+            "service_totals": service_totals(features),
         },
         "features": features,
     }

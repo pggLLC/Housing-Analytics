@@ -57,8 +57,8 @@ def _row(pt, name='S', agency='RTD'):
 def test_merge_source_priority_and_thresholds():
     cdot = [
         _row(DENVER, 'Civic Center', 'RTD'),
-        {'lon': 0, 'lat': 0, 'name': ' ', 'agency': 'MVT'},        # null island
-        {'lon': None, 'lat': None, 'name': '', 'agency': 'MVT'},    # no geometry
+        {'lon': 0, 'lat': 0, 'name': ' ', 'agency': 'MVT', 'cdot_fid': 7},        # null island
+        {'lon': None, 'lat': None, 'name': '', 'agency': 'MVT', 'cdot_fid': 8},    # no geometry
         _row((-121.5, 38.58), 'Sacramento', 'El Dorado Transit'),    # outside Colorado
     ]
     feeds = [
@@ -89,7 +89,7 @@ def test_merge_source_priority_and_thresholds():
     assert parts['osm_added'] == 1
     dropped = parts['dropped_cdot']['rows']
     assert len(dropped) == 3
-    assert dropped[0] == {'stop_id': None, 'name': ' ', 'agency': 'MVT',
+    assert dropped[0] == {'cdot_fid': 7, 'stop_id': None, 'name': ' ', 'agency': 'MVT',
                           'coordinates': [0, 0], 'reason': 'no_location'}
     assert dropped[-1]['coordinates'] == [-121.5, 38.58]
     assert dropped[-1]['reason'] == 'outside_colorado'
@@ -157,11 +157,11 @@ def test_unnamed_agency_uses_id_and_name_agreement_at_a_shared_stop():
 
 
 def test_dropped_cdot_row_identifies_the_source_record():
-    row = dict(_row((0, 0), 'CDOT bad position', 'MVT'), stop_id='source-963')
+    row = dict(_row((0, 0), 'CDOT bad position', 'MVT'), stop_id='source-963', cdot_fid=963)
     features, parts = B.merge([row], [], [], COUNTIES)
     assert not features
     assert parts['dropped_cdot']['rows'] == [{
-        'stop_id': 'source-963', 'name': 'CDOT bad position', 'agency': 'MVT',
+        'cdot_fid': 963, 'stop_id': 'source-963', 'name': 'CDOT bad position', 'agency': 'MVT',
         'coordinates': [0, 0], 'reason': 'no_location'}]
 
 
@@ -207,7 +207,52 @@ def test_report_agrees_with_the_stop_file():
     reasons = Counter(r['reason'] for r in dropped)
     assert reasons['no_location'] == gaps['rows_without_location']
     assert reasons['outside_colorado'] == gaps['rows_outside_colorado']
-    assert all({'stop_id', 'name', 'agency', 'coordinates', 'reason'} <= set(r) for r in dropped)
+    assert all({'cdot_fid', 'stop_id', 'name', 'agency', 'coordinates', 'reason'} <= set(r) for r in dropped)
+
+
+def test_every_dropped_cdot_row_is_individually_identifiable():
+    """stop_id is null on CDOT's no-location MVT rows, so without the layer's
+    FID the report listed 963 byte-identical rows nobody could send back to
+    CDOT (#1969). Each row must carry an integer FID, and no two rows may be
+    the same record."""
+    dropped = _load(REPORT)['cdot_gaps']['dropped_rows']
+    assert dropped, 'no dropped rows to check'
+    for r in dropped:
+        fid = r.get('cdot_fid')
+        assert isinstance(fid, int) and not isinstance(fid, bool), f'dropped row without an integer CDOT FID: {r}'
+    fids = [r['cdot_fid'] for r in dropped]
+    assert len(set(fids)) == len(fids), 'two dropped rows carry the same CDOT FID'
+    rows = [json.dumps(r, sort_keys=True) for r in dropped]
+    assert len(set(rows)) == len(rows), 'dropped rows are not distinguishable from each other'
+
+
+def test_fetch_cdot_requests_and_keeps_the_fid(monkeypatch):
+    """The FID must be requested (outFields) and carried onto each row;
+    ordering by it without asking for it was the original gap (#1969)."""
+    import urllib.parse
+    seen = []
+
+    class _Resp:
+        def __init__(self, body): self.body = body
+        def read(self): return self.body
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+
+    def fake_urlopen(req, timeout=None):
+        q = urllib.parse.parse_qs(urllib.parse.urlparse(req.full_url).query)
+        seen.append(q)
+        fields = q['outFields'][0].split(',')
+        feats = [{'attributes': {k: v for k, v in {'FID': 41, 'stop_id': None, 'stop_name': '',
+                                                   'agency_nam': 'MVT'}.items() if k in fields},
+                  'geometry': None}]
+        return _Resp(json.dumps({'features': feats}).encode())
+
+    monkeypatch.setattr(B.urllib.request, 'urlopen', fake_urlopen)
+    rows = B.fetch_cdot()
+    assert seen and seen[0]['orderByFields'] == ['FID']
+    assert rows == [{'lon': None, 'lat': None, 'name': '', 'agency': 'MVT', 'stop_id': None, 'cdot_fid': 41}]
+    _, parts = B.merge(rows, [], [], COUNTIES)
+    assert parts['dropped_cdot']['rows'][0]['cdot_fid'] == 41
 
 
 # ── Refresh must not replace good data with a filtered-away response ────────
@@ -241,3 +286,150 @@ def test_out_of_state_cdot_response_does_not_overwrite(tmp_path, monkeypatch):
     monkeypatch.setattr(sys, 'argv', ['build_transit_stops_co.py', '--skip-feeds'])
     assert B.main() == 1
     assert (stops.read_bytes(), report.read_bytes()) == before
+
+
+# ── Service type (owner decision: on-demand service is not a defined route) ──
+#
+# The only signal is GTFS-Flex in the agency feeds. These tests parse real
+# ZIPs, and pin the committed file to the agreement "a service other than
+# unknown only where a feed publishes the stop" — never a count.
+
+def _gtfs_zip(stops, stop_times, group_stops=None, window_col='start_pickup_drop_off_window'):
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, 'w') as archive:
+        s = io.StringIO()
+        w = csv.writer(s)
+        w.writerow(['stop_id', 'stop_name', 'stop_lat', 'stop_lon'])
+        for sid in stops:
+            w.writerow([sid, 'Stop ' + sid, DENVER[1], DENVER[0]])
+        archive.writestr('stops.txt', s.getvalue())
+        s = io.StringIO()
+        w = csv.writer(s)
+        end_col = window_col.replace('start_', 'end_')
+        w.writerow(['trip_id', 'arrival_time', 'departure_time', 'stop_id', 'location_group_id',
+                    'location_id', window_col, end_col])
+        for row in stop_times:
+            w.writerow(row)
+        archive.writestr('stop_times.txt', s.getvalue())
+        if group_stops is not None:
+            archive.writestr('location_group_stops.txt',
+                             'location_group_id,stop_id\n' + ''.join(f'{g},{sid}\n' for g, sid in group_stops))
+        archive.writestr('agency.txt', 'agency_id,agency_name\na,Agency\n')
+    buf.seek(0)
+    return zipfile.ZipFile(buf)
+
+
+def test_feed_stop_services_reads_gtfs_flex():
+    z = _gtfs_zip(
+        stops=['fixed', 'untimed', 'flex', 'both', 'member', 'idle'],
+        stop_times=[
+            ['t1', '08:00:00', '08:00:00', 'fixed', '', '', '', ''],
+            ['t1', '', '', 'untimed', '', '', '', ''],                  # non-timepoint stop on a fixed trip
+            ['t2', '', '', 'flex', '', '', '08:00:00', '17:00:00'],
+            ['t2', '', '', 'both', '', '', '08:00:00', '17:00:00'],
+            ['t1', '08:05:00', '08:05:00', 'both', '', '', '', ''],
+            ['t3', '', '', '', 'g1', '', '08:00:00', '17:00:00'],     # a location group, on demand
+            ['t4', '', '', '', '', 'zone_1', '08:00:00', '17:00:00'],  # a polygon zone: no stop
+        ],
+        group_stops=[('g1', 'member')])
+    got = B.feed_stop_services(z)
+    assert got == {'fixed': B.SERVICE_FIXED, 'untimed': B.SERVICE_FIXED, 'flex': B.SERVICE_DEMAND,
+                   'both': B.SERVICE_FIXED, 'member': B.SERVICE_DEMAND}
+    assert 'idle' not in got, 'a stop no trip calls at in a mixed feed has no evidence: unknown'
+
+
+def test_feed_stop_services_older_flex_spelling_and_demand_only_feed():
+    z = _gtfs_zip(stops=['a', 'placeholder'],
+                  stop_times=[['t', '', '', 'a', '', '', '08:00:00', '17:00:00']],
+                  window_col='start_pickup_dropoff_window')
+    assert B.feed_stop_services(z) == {'a': B.SERVICE_DEMAND, 'placeholder': B.SERVICE_DEMAND}, \
+        'a feed with only on-demand trips lists no scheduled stop'
+    z = _gtfs_zip(stops=['a', 'b'], stop_times=[])
+    assert B.feed_stop_services(z) == {}, 'no trips at all is no evidence, not on-demand'
+
+
+def test_flex_feed_listing_location_group_stops_first_still_reads_stops(tmp_path, monkeypatch):
+    """Codex on #1991: a suffix match on "stops.txt" picked location_group_stops.txt.
+
+    About 16 GTFS-Flex feeds list that member first; the feed then contributed
+    no stops, so its windowed stops were never tagged demand_response.
+    """
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, 'w') as archive:
+        # Order is the point of this fixture: the Flex member precedes stops.txt.
+        archive.writestr('location_group_stops.txt', 'location_group_id,stop_id\ng1,member\n')
+        archive.writestr('location_group_stop_times.txt', 'trip_id,stop_id\n')
+        archive.writestr('stops.txt',
+                         'stop_id,stop_name,stop_lat,stop_lon\n'
+                         f'fixed,Fixed,{DENVER[1]},{DENVER[0]}\n'
+                         f'flex,Flex,{DENVER[1]},{DENVER[0]}\n'
+                         f'member,Member,{DENVER[1]},{DENVER[0]}\n')
+        archive.writestr('stop_times.txt',
+                         'trip_id,arrival_time,departure_time,stop_id,location_group_id,'
+                         'start_pickup_drop_off_window,end_pickup_drop_off_window\n'
+                         't1,08:00:00,08:00:00,fixed,,,\n'
+                         't2,,,flex,,08:00:00,17:00:00\n'
+                         't3,,,,g1,08:00:00,17:00:00\n')
+        archive.writestr('sub_agency.txt', 'agency_id,agency_name\nx,Wrong Agency\n')
+        archive.writestr('agency.txt', 'agency_id,agency_name\na,Flex Agency\n')
+    names = zipfile.ZipFile(io.BytesIO(buf.getvalue())).namelist()
+    assert names.index('location_group_stops.txt') < names.index('stops.txt'), 'fixture order did not apply'
+    monkeypatch.setattr(B.gtfs, 'CACHE_DIR', tmp_path)
+    monkeypatch.setattr(B.gtfs, 'fetch_mdb_catalog', lambda: 'fixture')
+    monkeypatch.setattr(B.gtfs, 'load_co_feeds', lambda _: [{'agency': 'Catalog name', 'url': 'fixture'}])
+    monkeypatch.setattr(B.gtfs, 'fetch_url', lambda *args, **kwargs: buf.getvalue())
+    rows, failed = B.fetch_feed_stops()
+    assert not failed
+    got = {r['stop_id']: r['service'] for r in rows}
+    assert got == {'fixed': B.SERVICE_FIXED, 'flex': B.SERVICE_DEMAND, 'member': B.SERVICE_DEMAND}, got
+    assert {r['agency'] for r in rows} == {'Flex Agency'}
+
+
+def test_gtfs_member_matches_basename_and_prefers_the_root():
+    names = ['location_group_stops.txt', 'feed/stops.txt', 'stops.txt', 'x/stop_times.txt']
+    assert B.gtfs_member(names, 'stops.txt') == 'stops.txt'
+    assert B.gtfs_member(names, 'stop_times.txt') == 'x/stop_times.txt'
+    assert B.gtfs_member(['location_group_stops.txt'], 'stops.txt') is None
+    assert B.gtfs_member(names, 'trips.txt') is None
+
+
+def test_merge_service_needs_feed_evidence():
+    fixed_feed = dict(_row(_offset(DENVER, 10), 'Civic Center', 'RTD'), service=B.SERVICE_FIXED)
+    demand_feed = dict(_row(_offset(DENVER, 10), 'Civic Center', 'Envida'), service=B.SERVICE_DEMAND)
+    cdot = [_row(DENVER, 'Civic Center', 'RTD')]
+    for feeds, want in [([fixed_feed, demand_feed], B.SERVICE_FIXED),
+                        ([demand_feed], B.SERVICE_DEMAND),
+                        ([], B.SERVICE_UNKNOWN),
+                        ([dict(demand_feed, service=B.SERVICE_UNKNOWN), demand_feed], B.SERVICE_UNKNOWN)]:
+        features, _ = B.merge(cdot, feeds, [], COUNTIES)
+        assert features[0]['properties']['service'] == want, (feeds, want)
+    # A feed-only stop published by two catalog entries at the same point.
+    feeds = [dict(_row(ASPEN, 'Rubey Park', 'RFTA'), service=B.SERVICE_DEMAND),
+             dict(_row(ASPEN, 'Rubey Park', 'RFTA'), service=B.SERVICE_FIXED)]
+    features, _ = B.merge([], feeds, [{'lon': _offset(ASPEN, 900)[0], 'lat': ASPEN[1], 'name': 'OSM'}], COUNTIES)
+    by_name = {f['properties']['name']: f['properties'] for f in features}
+    assert by_name['Rubey Park']['service'] == B.SERVICE_FIXED
+    assert by_name['OSM']['service'] == B.SERVICE_UNKNOWN, 'OpenStreetMap carries no service signal'
+
+
+def test_committed_service_agrees_with_its_sources():
+    doc = _load(STOPS)
+    feats = doc['features']
+    services = Counter(f['properties'].get('service') for f in feats)
+    assert set(services) <= {B.SERVICE_FIXED, B.SERVICE_DEMAND, B.SERVICE_UNKNOWN}
+    assert services[B.SERVICE_FIXED] > 0, 'no fixed-route stop at all: the feed signal was not read'
+    for f in feats:
+        p = f['properties']
+        if 'agency_feed' not in p['sources']:
+            assert p['service'] == B.SERVICE_UNKNOWN, f'service without feed evidence: {p}'
+    totals = doc['meta']['service_totals']
+    assert totals == {k: services.get(k, 0) for k in totals}
+    assert sum(totals.values()) == len(feats)
+    assert doc['meta']['service_basis'], 'the meta must say how service was decided'
+    per_agency = {}
+    for f in feats:
+        p = f['properties']
+        per_agency.setdefault(p['agency'], Counter())[p['service']] += 1
+    report = _load(REPORT)
+    assert {a['agency']: dict(a['service']) for a in report['agencies']} == \
+        {k: dict(v) for k, v in per_agency.items()}

@@ -30,10 +30,13 @@ const {
 } = require('./audit-modules/audit-history');
 const {
     buildHtmlReport,
+    buildEmailSubject,
     buildSlackPayload,
     sendEmailReport,
     sendSlackAlert,
 } = require('./audit-modules/report-generator');
+const { collectRepoHealth } = require('./audit-modules/repo-health');
+const { auditExitCode, summarizeChecks } = require('./audit-modules/audit-status');
 
 // ── Configuration ─────────────────────────────────────────────────────────────
 const WEBSITE_URL        = process.env.WEBSITE_URL        || 'https://pggllc.github.io/Housing-Analytics/';
@@ -72,6 +75,44 @@ async function runWithConcurrency(tasks, limit) {
     const workers = Array.from({ length: Math.min(limit, tasks.length) }, () => worker());
     await Promise.all(workers);
     return results;
+}
+
+/**
+ * Runs one audit check and captures pass/fail/unavailable state.
+ * @param {object} definition
+ * @param {string} definition.name
+ * @param {boolean} [definition.critical]
+ * @param {Function} definition.run
+ * @returns {Promise<object>}
+ */
+async function runAuditCheck({ name, critical = false, run }) {
+    const startedAt = Date.now();
+    try {
+        const result = await run();
+        const issues = Array.isArray(result) ? result : (result.issues || []);
+        const rest = Array.isArray(result) ? {} : result;
+        return {
+            name,
+            critical,
+            status: issues.length > 0 ? 'failed' : 'passed',
+            durationMs: Date.now() - startedAt,
+            issueCount: issues.length,
+            issues,
+            ...rest,
+        };
+    } catch (err) {
+        const message = err && err.message ? err.message : String(err);
+        return {
+            name,
+            critical,
+            status: 'unavailable',
+            durationMs: Date.now() - startedAt,
+            issueCount: 0,
+            issues: [],
+            details: message,
+            error: message,
+        };
+    }
 }
 
 /**
@@ -153,7 +194,19 @@ async function runLinkChecks() {
     let pageText;
 
     try {
-        const res = await fetch(WEBSITE_URL, { timeout: REQUEST_TIMEOUT_MS });
+        // One retry on a network error or 5XX, the same policy as the source-URL
+        // sweep (#1545): with continue-on-error gone, a single dropped
+        // connection would otherwise fail the scheduled job as "site down".
+        let res;
+        for (let attempt = 0; attempt < 2; attempt += 1) {
+            try {
+                res = await fetch(WEBSITE_URL, { timeout: REQUEST_TIMEOUT_MS });
+            } catch (err) {
+                if (attempt === 1) throw err;
+                continue;
+            }
+            if (res.ok || res.status < 500) break;
+        }
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         pageText = await res.text();
     } catch (err) {
@@ -310,27 +363,37 @@ async function main() {
 
     // ── Run all audit modules ──
     const [
-        dataIssues,
-        logicIssues,
-        uiIssues,
-        { issues: linkIssues, linkChecks },
-        perfIssues,
+        dataCheck,
+        logicCheck,
+        uiCheck,
+        linkCheck,
+        perfCheck,
+        repoHealth,
     ] = await Promise.all([
-        runDataIntegrityChecks(),
-        runLogicValidationChecks(),
-        runUiValidationChecks(),
-        runLinkChecks(),
-        runPerformanceChecks(),
+        runAuditCheck({ name: 'Data Integrity & Completeness', critical: true, run: runDataIntegrityChecks }),
+        runAuditCheck({ name: 'Logic & Methodology Validation', critical: true, run: runLogicValidationChecks }),
+        runAuditCheck({ name: 'UI/UX & Rendering Validation', critical: true, run: runUiValidationChecks }),
+        runAuditCheck({ name: 'Link Detection & Validation', critical: true, run: runLinkChecks }),
+        runAuditCheck({ name: 'Performance & Dependency Monitoring', critical: false, run: runPerformanceChecks }),
+        collectRepoHealth(),
     ]);
+
+    const repoChecks = (repoHealth.checks || []).map(check => ({
+        durationMs: 0,
+        issueCount: 0,
+        ...check,
+    }));
+    const checks = [dataCheck, logicCheck, uiCheck, linkCheck, perfCheck, ...repoChecks];
 
     // Stamp detection time
     const now = new Date().toUTCString();
     const allIssues = [
-        ...dataIssues,
-        ...logicIssues,
-        ...uiIssues,
-        ...linkIssues,
-        ...perfIssues,
+        ...dataCheck.issues,
+        ...logicCheck.issues,
+        ...uiCheck.issues,
+        ...linkCheck.issues,
+        ...perfCheck.issues,
+        ...(repoHealth.issues || []),
     ].map(issue => ({ ...issue, detectedAt: issue.detectedAt || now }));
 
     // ── Build summary ──
@@ -340,8 +403,15 @@ async function main() {
         medium:   allIssues.filter(i => i.severity === 'medium').length,
         low:      allIssues.filter(i => i.severity === 'low').length,
         total:    allIssues.length,
-        linkChecks,
+        linkChecks: linkCheck.linkChecks || 0,
     };
+
+    const auditHealth = summarizeChecks(
+        checks,
+        process.env.GITHUB_SERVER_URL && process.env.GITHUB_REPOSITORY && process.env.GITHUB_RUN_ID
+            ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
+            : ''
+    );
 
     console.log('\n── Audit Summary ──────────────────────────────────────────');
     console.log(`  🔴 Critical: ${summary.critical}`);
@@ -349,11 +419,14 @@ async function main() {
     console.log(`  🟡 Medium:   ${summary.medium}`);
     console.log(`  🟢 Low:      ${summary.low}`);
     console.log(`  📊 Total:    ${summary.total}`);
-    console.log(`  🔗 Links:    ${linkChecks}`);
+    console.log(`  🔗 Links:    ${summary.linkChecks}`);
+    console.log(`  ✅ Passed:   ${auditHealth.passed}`);
+    console.log(`  ❌ Failed:   ${auditHealth.failed}`);
+    console.log(`  ⚠️  Unavail:  ${auditHealth.unavailable}`);
     console.log('──────────────────────────────────────────────────────────');
 
     // ── Audit history & comparison ──
-    const auditResult = { summary, allIssues };
+    const auditResult = { summary, allIssues, auditHealth, repoHealth };
     const priorSnapshot = loadPriorSnapshot();
     const priorDate = priorSnapshot ? priorSnapshot.date : null;
     const comparison = compareWithPrior(allIssues, priorSnapshot);
@@ -374,23 +447,30 @@ async function main() {
     const ts = new Date().toISOString().replace(/[:.]/g, '-');
     const jsonReportPath = path.join(REPORTS_DIR, `audit-${ts}.json`);
     fs.writeFileSync(jsonReportPath, JSON.stringify(
-        { date: new Date().toISOString(), summary, comparison: { newIssues: comparison.newIssues.length, resolvedIssues: comparison.resolvedIssues.length, persistentIssues: comparison.persistentIssues.length }, allIssues },
+        {
+            date: new Date().toISOString(),
+            summary,
+            auditHealth,
+            repoHealth,
+            comparison: {
+                newIssues: comparison.newIssues.length,
+                resolvedIssues: comparison.resolvedIssues.length,
+                persistentIssues: comparison.persistentIssues.length,
+            },
+            allIssues,
+        },
         null, 2
     ));
     console.log(`[report] JSON report saved: ${jsonReportPath}`);
 
     // ── Build and send email report ──
     const runDurationMs = Date.now() - runStart;
-    const htmlBody = buildHtmlReport({ summary, allIssues, comparison, priorDate, trend, runDurationMs });
+    const htmlBody = buildHtmlReport({ summary, allIssues, comparison, priorDate, trend, runDurationMs, auditHealth, repoHealth });
     const htmlReportPath = path.join(REPORTS_DIR, `audit-${ts}.html`);
     fs.writeFileSync(htmlReportPath, htmlBody);
     console.log(`[report] HTML report saved: ${htmlReportPath}`);
 
-    const subject = summary.critical > 0
-        ? `🔴 [CRITICAL] Housing Analytics Audit — ${summary.critical} Critical Issue(s) — ${new Date().toDateString()}`
-        : summary.high > 0
-            ? `🟠 Housing Analytics Audit — ${summary.high} High Priority Issue(s) — ${new Date().toDateString()}`
-            : `🟢 Housing Analytics Audit — All Clear — ${new Date().toDateString()}`;
+    const subject = buildEmailSubject({ summary, auditHealth, repoHealth, reportDate: new Date() });
 
     if (!SKIP_EMAIL) {
         await sendEmailReport({ htmlBody, subject, recipientEmail: RECIPIENT_EMAIL, emailUser: EMAIL_USER, emailPassword: EMAIL_PASSWORD });
@@ -408,9 +488,14 @@ async function main() {
 
     console.log(`\n✅ Audit complete in ${(runDurationMs / 1000).toFixed(1)}s`);
 
-    // Exit with non-zero code if critical issues found (makes CI fail visibly)
-    if (summary.critical > 0) {
-        console.error(`[audit] Exiting with code 1 — ${summary.critical} critical issue(s) detected.`);
+    // Exit non-zero on a critical finding, or when a critical local check
+    // crashed (the audit silently not running). Repo-health API outages are
+    // reported as unavailable and never fail the job — see audit-status.js.
+    if (auditExitCode(summary, auditHealth) !== 0) {
+        console.error(
+            `[audit] Exiting with code 1 — critical findings: ${summary.critical}, ` +
+            `critical checks unavailable: ${auditHealth.criticalUnavailable}.`
+        );
         process.exit(1);
     }
 }
