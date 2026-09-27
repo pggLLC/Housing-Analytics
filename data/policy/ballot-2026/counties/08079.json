@@ -5,21 +5,61 @@
       "geoid": "08079",
       "level": "county",
       "name": "Mineral County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://www.mineralcountycolorado.com/clerk-recorder/page/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "mineralcountycolorado.com (elections page, clerk page and linked PDFs) returned HTTP 403 behind a Cloudflare challenge on 2026-09-26, with and without www and with browser headers; no archived copy was found. The sample ballot, TABOR notice and participating-entities list could not be read.",
+        "Re-check once the county site is reachable, or confirm with the Mineral County Clerk and Recorder."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.mineralcountycolorado.com/clerk-recorder/page/elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0814765",
       "level": "municipal",
       "name": "City of Creede (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://www.mineralcountycolorado.com/clerk-recorder/page/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating: the August 4, 2026 board packet contains the Mineral County Election Services Intergovernmental Agreement for the November 3, 2026 election, and the August 4 minutes record the board authorizing its execution.",
+        "The county ballot could not be read (see the Mineral County row), so the state is source_unreadable.",
+        "Excluded, from the city's referring resolutions in the August 4 packet: Resolution No. 26-26 (publishing ordinances by title only) and Resolution No. 26-27 (not publishing bills and contract proceedings in a newspaper). Neither concerns housing. Ballot letters are not known.",
+        "A lodging or short-term-rental tax was discussed at board meetings in July to September 2026; minutes through September 15 show no referral of it to the 2026 ballot."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.mineralcountycolorado.com/clerk-recorder/page/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://towncloud.io/go/creede-co/agendas/344/pdf_packet/get_agenda_document_link",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://towncloud.io/go/creede-co/agendas/344/minutes/get_agenda_document_link",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://towncloud.io/go/creede-co/agendas/348/minutes/get_agenda_document_link",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://towncloud.io/go/creede-co/agendas/349/minutes/get_agenda_document_link",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://towncloud.io/go/creede-co/agendas/350/minutes/get_agenda_document_link",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

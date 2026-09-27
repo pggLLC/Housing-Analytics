@@ -5,41 +5,110 @@
       "geoid": "08125",
       "level": "county",
       "name": "Yuma County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://yumacounty.net/clerk-and-recorder/elections/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "As of 2026-09-26 the county has posted no Nov 3, 2026 sample ballot, notice, TABOR notice or participating-entities list (I checked the elections page and the full media library).",
+        "The BOCC minutes for Jul 30, 2026 mention 'future election ballot questions' without naming any. I found no referral resolution among the posted minutes (Jul 6 – Aug 13) or the Sep 5 agenda."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://yumacounty.net/clerk-and-recorder/elections/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://yumacounty.net/wp-content/uploads/2026/09/Minutes2026.07.30.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://yumacounty.net/wp-content/uploads/2026/09/Minutes2026.08.13.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://yumacounty.net/wp-content/uploads/2026/09/Agenda2026.09.05.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0823025",
       "level": "municipal",
       "name": "Eckley (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://townofeckley.colorado.gov/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The town website's agenda archive stops at 2023, and no election documents are posted. The county has no participating list or ballot content, so I cannot tell whether Eckley participates."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://townofeckley.colorado.gov/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0886310",
       "level": "municipal",
       "name": "Wray (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://cityofwray.org/AgendaCenter",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The city's AgendaCenter posts 2026 agendas only through Jun 9, 2026. Those agendas and minutes contain no ballot or election items. Guessed IDs for July–September agendas returned 404, or the connection was reset.",
+        "A 9news story, surfaced only in search snippets, says Wray has a combined question on marijuana manufacturing and an excise tax. The 9news page itself returned 403 and I could not confirm its date. The snippet's 'November 2' date does not match 2026, so it is probably from an earlier year. It is not housing in any case, and I have no official text.",
+        "A search snippet mentions Resolution 17-2025, a coordinated-election participation resolution on the Jun 10, 2025 agenda. That relates to the 2025 election, not 2026."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://cityofwray.org/AgendaCenter",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://cityofwray.org/AgendaCenter/ViewFile/Agenda/_06092026-167",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://cityofwray.org/AgendaCenter/ViewFile/Minutes/_05122026-166",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0886750",
       "level": "municipal",
       "name": "Yuma (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://cityofyuma.colorado.gov/minutes",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The city council minutes for Jun 2 – Aug 3, 2026 contain no ballot, election or IGA items. The Sep 1 minutes (MIN090126.pdf, 'COUNCIL MINUTES 090126.pdf') and the Sep 3 minutes (MIN090326.pdf) are scans with no text layer and were not read. The Aug 17/18 minutes were not posted.",
+        "News snippets mention a Yuma marijuana tax question. That appears to be the 2021 question (Resolution #27, Series of 2021), not 2026. It is not housing either way.",
+        "The county has no participating list or ballot content, so I cannot tell whether the city participates."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://cityofyuma.colorado.gov/minutes",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://cityofyuma.colorado.gov/sites/cityofyuma/files/documents/MIN072126.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://cityofyuma.colorado.gov/sites/cityofyuma/files/documents/MIN080326.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://cityofyuma.colorado.gov/sites/cityofyuma/files/documents/MIN0707626.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

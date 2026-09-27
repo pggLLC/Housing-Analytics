@@ -5,51 +5,119 @@
       "geoid": "08019",
       "level": "county",
       "name": "Clear Creek County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.clearcreekcounty.us/104/Clerk-Recorder",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The Clear Creek County Clerk and Recorder page posts no sample ballot, ballot-content certification or TABOR notice for November 3, 2026 as of 2026-09-26.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "Owner review (no entry created): Resolution R-26-55 in the Board of County Commissioners' September 1, 2026 agenda packet (https://www.clearcreekcounty.us/AgendaCenter/ViewFile/Item/11382?fileID=23240) refers \"Clear Creek County Ballot Issue 1 A -- Lodging Tax Revenue – Additional Allowable Uses and Allocations\" to the November 3, 2026 election. The packet copy has an unsigned adoption block, the September 1 minutes were not posted, and the agenda lists a formal objection to R-26-55, so adoption and ballot placement are not confirmed by an official ballot or notice. Resolution text of the question: \"SHALL CLEAR CREEK COUNTY LODGING TAXES BE INCREASED BY $800,000.00 ANNUALLY COMMENCING ON JANUARY 1, 2027, AND BY WHATEVER AMOUNTS ARE RAISED ANNUALLY THEREAFTER, BY INCREASING THE LODGING TAX RATE FROM TWO PERCENT (2%) TO SIX PERCENT (6%) ON THE RENTAL FEE, PRICE, OR OTHER CONSIDERATION PAID OR CHARGED FOR THE LEASING, RENTAL, SALE OR FURNISHING OF A ROOM OR ACCOMMODATION FOR A SHORT-TERM PERIOD OF LESS THAN THIRTY (30) CONSECUTIVE DAYS IN CLEAR CREEK COUNTY, EXCLUDING THE MUNICIPALITY OF THE TOWN OF GEORGETOWN THAT CURRENTLY HAS ITS OWN ADOPTED LODGING TAX, AND SHALL THE ALLOCATION OF COUNTY LODGING TAX REVENUE BE MODIFIED SO THAT THE REVENUE COLLECTED FROM THE SIX PERCENT (6%) COUNTY LODGING TAX SHALL BE USED AS FOLLOWS: • UP TO 60% OF THE REVENUE FOR PUBLIC INFRASTRUCTURE MAINTENANCE OR IMPROVEMENTS; AND ENHANCING PUBLIC SAFETY MEASURES; • AT LEAST TWENTY PERCENT (20%) OF THE REVENUE TO PROVIDE CHILDCARE FOR THE TOURISM-RELATED WORKFORCE, INCLUDING SEASONAL WORKERS, AND FOR OTHER WORKERS IN THE COMMUNITY; • AT LEAST TEN PERCENT (10%) OF THE REVENUE TO PROVIDE HOUSING FOR THE TOURISM-RELATED WORKFORCE, INCLUDING SEASONAL WORKERS, AND FOR OTHER WORKERS IN THE COMMUNITY; • AT LEAST TEN PERCENT (10%) OF THE REVENUE FOR ADVERTISING AND MARKETING OF LOCAL TOURISM, AS REQUIRED BY STATE LAW; AND WITH ALL SUCH EXPENDITURES SUBJECT TO AN ANNUAL INDEPENDENT AUDIT AND SPENT IN COMPLIANCE WITH LOCAL GOVERNMENT BUDGET LAWS, AND SHALL THE FIRST-YEAR REVENUE, AND WHATEVER ADDITIONAL AMOUNTS ARE RAISED ANNUALLY THEREAFTER, BE COLLECTED AND SPENT AS A VOTER APPROVED REVENUE CHANGE NOTWITHSTANDING ANY LIMITATION OR CONDITION UNDER ARTICLE X, SECTION 20 OF THE COLORADO CONSTITUTION OR ANY OTHER PROVISION OF LAW?\"",
+        "Recheck when the county posts its sample ballot or TABOR notice; if 1A appears, create an entry (it earmarks lodging tax revenue for housing)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.clearcreekcounty.us/104/Clerk-Recorder",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.clearcreekcounty.us/AgendaCenter/ViewFile/Item/11382?fileID=23240",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0824620",
       "level": "municipal",
       "name": "Empire (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.clearcreekcounty.us/104/Clerk-Recorder",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The Clear Creek County Clerk and Recorder page posts no sample ballot, ballot-content certification or TABOR notice for November 3, 2026 as of 2026-09-26.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "Town website checked 2026-09-26: no November 3, 2026 ballot question listed."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.clearcreekcounty.us/104/Clerk-Recorder",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofempire.colorado.gov/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0829735",
       "level": "municipal",
       "name": "Georgetown (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.clearcreekcounty.us/104/Clerk-Recorder",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The Clear Creek County Clerk and Recorder page posts no sample ballot, ballot-content certification or TABOR notice for November 3, 2026 as of 2026-09-26.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "Town election page checked 2026-09-26 still shows the 2025 election and nothing for 2026.",
+        "Georgetown is excluded from the area of the county lodging tax question in Resolution R-26-55."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.clearcreekcounty.us/104/Clerk-Recorder",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townofgeorgetown.us/town_government/election/index.php",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0838370",
       "level": "municipal",
       "name": "Idaho Springs (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.clearcreekcounty.us/104/Clerk-Recorder",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The Clear Creek County Clerk and Recorder page posts no sample ballot, ballot-content certification or TABOR notice for November 3, 2026 as of 2026-09-26.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "The City of Idaho Springs website (idahospringsco.com) returned HTTP 403 on 2026-09-26 and could not be read."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.clearcreekcounty.us/104/Clerk-Recorder",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0870360",
       "level": "municipal",
       "name": "Silver Plume (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.clearcreekcounty.us/104/Clerk-Recorder",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The Clear Creek County Clerk and Recorder page posts no sample ballot, ballot-content certification or TABOR notice for November 3, 2026 as of 2026-09-26.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "Town ordinances/resolutions page checked 2026-09-26 lists no 2026 ballot-question ordinance. Resolution 2026-02 (scanned PDF, no text layer, read visually) cancelled the April 7, 2026 regular election."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.clearcreekcounty.us/104/Clerk-Recorder",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://silverplumetown.com/ordinances-resolutions/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

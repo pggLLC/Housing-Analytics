@@ -5,31 +5,86 @@
       "geoid": "08097",
       "level": "county",
       "name": "Pitkin County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.pitkinvotes.com/_files/ugd/3441d8_258593275a0a4040a05a9e4ba5b24f11.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The official sample ballot PDF has no text layer; its pages were rendered and read visually on 2026-09-26 (no OCR). The sample ballot states it contains all races and ballot measures on any ballot style in Pitkin County.",
+        "Excluded Pitkin County 1A (not housing): a new 0.853 mill levy continuing the Healthy Community Fund for health and human services and community non-profits.",
+        "The county TABOR notice was not yet posted on 2026-09-26 (the clerk says it will be mailed by October 2)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.pitkinvotes.com/2026-general-info",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.pitkinvotes.com/2026-sample-ballot",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.pitkinvotes.com/_files/ugd/3441d8_258593275a0a4040a05a9e4ba5b24f11.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.pitkinvotes.com/_files/ugd/3441d8_c4a60609fde94424b0e4957b11a95799.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0803620",
       "level": "municipal",
       "name": "Aspen (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.pitkinvotes.com/_files/ugd/3441d8_258593275a0a4040a05a9e4ba5b24f11.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating: City of Aspen Ballot Issue 2A is on the county sample ballot.",
+        "Excluded 2A (not housing): water treatment facility revenue bond debt, payable from water enterprise revenue.",
+        "The city's 2026 Coordinated Election page states the city has one municipal ballot measure.",
+        "The official sample ballot PDF has no text layer; its pages were rendered and read visually on 2026-09-26 (no OCR). The sample ballot states it contains all races and ballot measures on any ballot style in Pitkin County."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.pitkinvotes.com/_files/ugd/3441d8_258593275a0a4040a05a9e4ba5b24f11.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.aspen.gov/1760/2026-Coordinated-Election",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://aspen.gov/DocumentCenter/View/17200",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0871755",
       "level": "municipal",
       "name": "Snowmass Village (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.pitkinvotes.com/_files/ugd/3441d8_258593275a0a4040a05a9e4ba5b24f11.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating: the Town of Snowmass Village Town Council race is on the county sample ballot; the town elections page states it is coordinating with Pitkin County.",
+        "No Town of Snowmass Village ballot question appears on the sample ballot. Snowmass Water and Sanitation District 6A and Snowmass-Wildcat Fire Protection District 6B are special-district measures and not housing.",
+        "The official sample ballot PDF has no text layer; its pages were rendered and read visually on 2026-09-26 (no OCR). The sample ballot states it contains all races and ballot measures on any ballot style in Pitkin County."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.pitkinvotes.com/_files/ugd/3441d8_258593275a0a4040a05a9e4ba5b24f11.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.tosv.com/190/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
