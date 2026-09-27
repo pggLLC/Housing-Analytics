@@ -463,6 +463,51 @@ check('an mtime of now cannot move lastUpdated — only content can', () => {
 
 // --- 7. --dry-run reports without writing ----------------------------------
 
+check('cache filtering retains OSM source vintage; a real fetch advances it', () => {
+  withSandbox(HONEST_COUNTS, (dir) => {
+    const inventoryPath = path.join(dir, INVENTORY_REL);
+    const sources = ['amenities-schools-co', 'ntd-transit-co'];
+    const sourceDoc = { meta: { generated: '2026-04-07T08:27:06Z' }, features: [{}] };
+    const additions = sources.map((id) => `    {
+      id: '${id}',
+      localFile: 'data/${id}.geojson',
+      lastUpdated: '2026-09-27',
+      features: 2,
+    },`).join('\n');
+    fs.writeFileSync(inventoryPath, inventoryOf(dir).replace('\n  ];', '\n' + additions + '\n  ];'));
+    for (const id of sources) {
+      fs.writeFileSync(path.join(dir, `data/${id}.geojson`), JSON.stringify(sourceDoc));
+      commitFileAt(dir, `data/${id}.geojson`, '2026-09-27T12:00:00Z');
+    }
+    const dateOf = (id) => new RegExp(`id: '${id}',[\\s\\S]*?lastUpdated: '([^']+)'`).exec(inventoryOf(dir))[1];
+    assert.strictEqual(run(dir).status, 0);
+    for (const id of sources) {
+      assert.strictEqual(dateOf(id), '2026-04-07', 'cache correction must not pretend to be a fresh fetch');
+      assert.strictEqual(declaredFeatures(inventoryOf(dir), id), 1, 'counts must still be corrected');
+    }
+    const first = inventoryOf(dir);
+    assert.strictEqual(run(dir).status, 0);
+    assert.strictEqual(inventoryOf(dir), first, 'source-date correction must be idempotent');
+
+    // A real new extraction changes the authoritative stamp; the old commit
+    // and the previous inventory date must not prevent it moving forward.
+    for (const id of sources) {
+      fs.writeFileSync(path.join(dir, `data/${id}.geojson`), JSON.stringify({
+        ...sourceDoc, meta: { generated: '2026-09-28T09:00:00Z' },
+      }));
+    }
+    assert.strictEqual(run(dir).status, 0);
+    for (const id of sources) assert.strictEqual(dateOf(id), '2026-09-28');
+
+    // A missing stamp is not permission to substitute today's commit date.
+    for (const id of sources) fs.writeFileSync(path.join(dir, `data/${id}.geojson`), JSON.stringify({ features: [{}] }));
+    const missing = run(dir);
+    assert.strictEqual(missing.status, 0);
+    assert.match(missing.output, /cannot read source timestamp/);
+    for (const id of sources) assert.strictEqual(dateOf(id), '2026-09-28');
+  });
+});
+
 check('--dry-run reports drift without writing', () => {
   withSandbox({ ...HONEST_COUNTS, nestedPath: TRUE_COUNTS.nestedPath + 1 }, (dir) => {
     const before = inventoryOf(dir);

@@ -13,6 +13,8 @@ Categories fetched:
 
 Usage:
     python scripts/amenities/build_osm_amenities.py [--category CATEGORY]
+    python scripts/amenities/build_osm_amenities.py --category transit_stops --filter-cached
+    python scripts/amenities/build_osm_amenities.py --category schools --filter-cached
 
 Environment variables (optional):
     OVERPASS_URL  - Override default Overpass endpoint
@@ -26,6 +28,7 @@ Notes:
 
 import json
 import os
+import re
 import sys
 import time
 import urllib.request
@@ -36,7 +39,12 @@ from pathlib import Path
 from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+from lib.transit_stops import (SCHOOL_TRANSPORT_TAGS, exclude_school_transport,
+                              exclusion_summary)
+
 OUT_DIR = ROOT / "data" / "amenities"
+BUS_GARAGE_DEPOT = re.compile(r"\bbus[\s_-]+(?:garage|depot)\b", re.IGNORECASE)
 
 OVERPASS_URL = os.environ.get("OVERPASS_URL", "https://overpass-api.de/api/interpreter")
 
@@ -208,6 +216,8 @@ def osm_to_geojson(osm_result: dict, name_tag: str = "name") -> dict:
             "healthcare": tags.get("healthcare", ""),
             "transit_type": transit_type,
         }
+        # Keep the classification evidence through the cached-file boundary.
+        props.update({key: tags[key] for key in SCHOOL_TRANSPORT_TAGS if key in tags})
         features.append({
             "type": "Feature",
             "geometry": {"type": "Point", "coordinates": [lon, lat]},
@@ -217,6 +227,44 @@ def osm_to_geojson(osm_result: dict, name_tag: str = "name") -> dict:
         "type": "FeatureCollection",
         "features": features,
     }
+
+
+def filter_category(geojson: dict, category: str) -> dict:
+    """Apply the source exclusions to a fetched or already cached snapshot.
+
+    Preserve previous drop evidence on a repeated cached run. Source freshness
+    (meta.generated) is never advanced by filtering a cache.
+    """
+    features = geojson["features"]
+    if category == "transit_stops":
+        features, dropped = exclude_school_transport(features)
+    elif category == "schools":
+        kept, rows = [], []
+        for feature in features:
+            props = feature.get("properties") or {}
+            if BUS_GARAGE_DEPOT.search(props.get("name") or ""):
+                rows.append({"osm_id": props.get("osm_id"), "name": props.get("name"),
+                             "reason": "bus_garage_depot_name"})
+            else:
+                kept.append(feature)
+        features, dropped = kept, exclusion_summary(rows)
+    else:
+        return geojson
+    meta = geojson.setdefault("meta", {})
+    prior = (meta.get("dropped") or {}).get("rows", [])
+    meta["dropped"] = exclusion_summary(prior + dropped["rows"])
+    meta["count"] = len(features)
+    geojson["features"] = features
+    return geojson
+
+
+def filter_cached_category(cat_name: str, cat_cfg: dict, out_dir: Path) -> bool:
+    """Reapply exclusions offline, retaining the cache's source timestamp."""
+    path = out_dir / cat_cfg["output"]
+    doc = filter_category(json.loads(path.read_text(encoding="utf-8")), cat_name)
+    path.write_text(json.dumps(doc, indent=2), encoding="utf-8")
+    print(f"  [{cat_name}] {doc['meta']['count']} retained; {doc['meta']['dropped']['count']} excluded")
+    return True
 
 
 def build_category(cat_name: str, cat_cfg: dict, out_dir: Path) -> bool:
@@ -246,8 +294,9 @@ def build_category(cat_name: str, cat_cfg: dict, out_dir: Path) -> bool:
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "count": len(geojson["features"]),
     }
+    filter_category(geojson, cat_name)
     out_path.write_text(json.dumps(geojson, indent=2), encoding="utf-8")
-    print(f"  [{cat_name}] ✅ {len(geojson['features'])} features → {out_path.relative_to(ROOT)}")
+    print(f"  [{cat_name}] ✅ {len(geojson['features'])} features → {out_path}")
     return True
 
 
@@ -276,7 +325,14 @@ def main():
         default=None,
         help="Fetch only this category (default: all)",
     )
+    parser.add_argument("--filter-cached", action="store_true",
+                        help="Reapply exclusions offline; requires --category schools or transit_stops")
     args = parser.parse_args()
+    if args.filter_cached and args.category not in ("schools", "transit_stops"):
+        parser.error("--filter-cached requires --category schools or transit_stops")
+    if args.filter_cached:
+        filter_cached_category(args.category, CATEGORIES[args.category], OUT_DIR)
+        return
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     categories = {args.category: CATEGORIES[args.category]} if args.category else CATEGORIES

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-27T18:18:02.954Z",
+  "generated": "2026-09-27T21:03:53.445Z",
   "values": {
     "renter_cost_burden_pct": 49.9,
     "lihtc_property_count": 926,
@@ -35,7 +35,7 @@
   },
   "source_vintages": {
     "data/hna/ranking-index.json": {
-      "updated": "2026-09-27T16:17:59Z",
+      "updated": "2026-09-27T20:59:14Z",
       "source": "metadata.generatedAt"
     },
     "data/market/acs_tract_metrics_co.json": {
