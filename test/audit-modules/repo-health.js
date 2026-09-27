@@ -47,35 +47,67 @@ function describeHttpFailure(label, res) {
     return `${label} returned HTTP ${res.status}`;
 }
 
+// Per-attempt limit. node-fetch has no default timeout, so one stalled
+// connection would otherwise hang until the job's timeout-minutes cancels the
+// whole audit and the report is never sent.
+const REQUEST_TIMEOUT_MS = 25 * 1000;
+
 /**
- * One request, retried once on a 5XX or a network failure — the same policy
- * as the source-URL sweep (#1545). 4XX (auth, rate limit, not found) is not
- * retried: it will not clear in a second.
+ * Runs one attempt — the request AND reading its JSON body — under a timeout.
+ * The AbortController stops a real node-fetch; the race covers a fetch that
+ * ignores the signal, so the limit holds whatever the implementation.
  */
-async function requestWithRetry(fetchImpl, url, options, label) {
+async function timedAttempt(fetchImpl, url, options, timeoutMs) {
+    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    let timer;
+    const timeout = new Promise((_, reject) => {
+        timer = setTimeout(() => {
+            if (controller) controller.abort();
+            reject(new Error(`timed out after ${timeoutMs} ms`));
+        }, timeoutMs);
+    });
+    try {
+        return await Promise.race([
+            (async () => {
+                const res = await fetchImpl(url, controller ? { ...options, signal: controller.signal } : options);
+                if (!res.ok) return { res, body: null };
+                return { res, body: await res.json() };
+            })(),
+            timeout,
+        ]);
+    } finally {
+        clearTimeout(timer);
+    }
+}
+
+/**
+ * One request, retried once on a 5XX, a network failure or a timeout — the
+ * same policy as the source-URL sweep (#1545). 4XX (auth, rate limit, not
+ * found) is not retried: it will not clear in a second. Returns the JSON body.
+ */
+async function requestWithRetry(fetchImpl, url, options, label, timeoutMs = REQUEST_TIMEOUT_MS) {
     let lastError = null;
     for (let attempt = 0; attempt < 2; attempt += 1) {
-        let res;
+        let result;
         try {
-            res = await fetchImpl(url, options);
+            result = await timedAttempt(fetchImpl, url, options, timeoutMs);
         } catch (err) {
             lastError = new Error(`${label} failed: ${err && err.message ? err.message : String(err)}`);
             continue;
         }
-        if (res.ok) return res;
-        lastError = new Error(describeHttpFailure(label, res));
-        if (res.status < 500) break;
+        if (result.res.ok) return result.body;
+        lastError = new Error(describeHttpFailure(label, result.res));
+        if (result.res.status < 500) break;
     }
     throw lastError;
 }
 
-function createGithubClient({ token, fetchImpl = fetch, env = process.env } = {}) {
+function createGithubClient({ token, fetchImpl = fetch, env = process.env, timeoutMs = REQUEST_TIMEOUT_MS } = {}) {
     const base = env.GITHUB_API_URL || 'https://api.github.com';
     const graphqlUrl = env.GITHUB_GRAPHQL_URL || `${base}/graphql`;
 
     async function json(apiPath) {
-        const res = await requestWithRetry(fetchImpl, `${base}${apiPath}`, { headers: githubHeaders(token) }, apiPath);
-        return res.json();
+        return requestWithRetry(fetchImpl, `${base}${apiPath}`, { headers: githubHeaders(token) }, apiPath, timeoutMs);
     }
 
     /**
@@ -96,12 +128,11 @@ function createGithubClient({ token, fetchImpl = fetch, env = process.env } = {}
     }
 
     async function graphql(query, variables) {
-        const res = await requestWithRetry(fetchImpl, graphqlUrl, {
+        const data = await requestWithRetry(fetchImpl, graphqlUrl, {
             method: 'POST',
             headers: { ...githubHeaders(token), 'Content-Type': 'application/json' },
             body: JSON.stringify({ query, variables }),
-        }, 'graphql');
-        const data = await res.json();
+        }, 'graphql', timeoutMs);
         if (data.errors && data.errors.length > 0) {
             throw new Error(data.errors.map(error => error.message).join('; '));
         }
@@ -264,17 +295,26 @@ function failingLatestRuns(runs) {
 }
 
 /**
+ * Is the newest commit on main deployed? Walks deploy runs newest-first.
+ *
  * deploy.yml runs with `concurrency: pages, cancel-in-progress: true`, so a
- * `cancelled` deploy is normally just superseded by the next push. Only a
- * failure since the last success, or no success at all, blocks the site.
+ * `cancelled` run is usually superseded by the next push — but only if a
+ * newer run exists. A cancelled run with nothing newer (cancelled by hand, or
+ * by timeout-minutes, which also reports `cancelled`) means the latest commit
+ * may never have deployed, and an older success does not cover it.
  */
 function deployState(runs) {
-    const ordered = newestFirst(runs).filter(run => !run.status || run.status === 'completed');
-    const successIndex = ordered.findIndex(run => run.conclusion === 'success');
+    const ordered = newestFirst(runs);
+    const isCompleted = run => !run.status || run.status === 'completed';
+    const successIndex = ordered.findIndex(run => isCompleted(run) && run.conclusion === 'success');
     const lastSuccessfulDeploy = successIndex >= 0 ? ordered[successIndex] : null;
     const sinceSuccess = successIndex >= 0 ? ordered.slice(0, successIndex) : ordered;
-    const recentDeployFailures = sinceSuccess.filter(run =>
-        FAILED_CONCLUSIONS.has(run.conclusion) && run.conclusion !== 'cancelled');
+    const recentDeployFailures = sinceSuccess.filter((run, index) => {
+        if (!isCompleted(run) || !FAILED_CONCLUSIONS.has(run.conclusion)) return false;
+        // Superseded only by a newer run of any kind: in progress, succeeded or failed.
+        if (run.conclusion === 'cancelled') return index === 0;
+        return true;
+    });
     return {
         lastSuccessfulDeploy,
         recentDeployFailures,
@@ -320,7 +360,12 @@ async function collectActionsHealth(owner, repo, client, nowMs) {
             lastRun = (runs.workflow_runs || [])[0] || null;
         }
         if (!lastRun) {
-            neverRun.push({ name: workflow.name, path: workflow.path, cron: workflow.crons.join(', '), lastRunAt: null, html_url: remote.html_url });
+            // A new workflow legitimately has no run yet. The workflows API
+            // gives each file's created_at, so hold off until it has had a
+            // full cadence plus the lateness allowance to fire once.
+            if (!remote.created_at || isScheduleOverdue(remote.created_at, intervalMs, nowMs)) {
+                neverRun.push({ name: workflow.name, path: workflow.path, cron: workflow.crons.join(', '), lastRunAt: null, createdAt: remote.created_at || null, html_url: remote.html_url });
+            }
             continue;
         }
         const lastRunAt = lastRun.run_started_at || lastRun.created_at;
@@ -355,6 +400,18 @@ async function collectActionsHealth(owner, repo, client, nowMs) {
             `Scheduled workflow overdue: ${workflow.name}`,
             `Last run ${workflow.lastRunAt}`,
             'Inspect the workflow schedule and the last run for stalls or missed dispatches.',
+            { link: workflow.html_url }
+        ));
+    }
+    for (const workflow of neverRun.slice(0, 12)) {
+        // medium, not critical: a missing first run is worth a look, not a red job.
+        issues.push(repoIssue(
+            'medium',
+            'repo',
+            workflow.path,
+            `Scheduled workflow has never run: ${workflow.name}`,
+            `No scheduled run on record${workflow.createdAt ? ` since the workflow was added ${workflow.createdAt}` : ''}`,
+            'Check the cron expression and that schedules are enabled for this workflow.',
             { link: workflow.html_url }
         ));
     }
@@ -395,8 +452,8 @@ async function collectActionsHealth(owner, repo, client, nowMs) {
         check: {
             name: 'GitHub Actions Health',
             critical: false,
-            status: checkStatus(failingRuns.length > 0 || overdue.length > 0 || deploy.deployBlocked),
-            summary: `${recent.complete ? failingRuns.length : 'unknown number of'} failing main workflows, ${overdue.length} overdue schedules`,
+            status: checkStatus(failingRuns.length > 0 || overdue.length > 0 || neverRun.length > 0 || deploy.deployBlocked),
+            summary: `${recent.complete ? failingRuns.length : 'unknown number of'} failing main workflows, ${overdue.length} overdue schedules, ${neverRun.length} never run`,
         },
     };
 }
@@ -555,7 +612,7 @@ function unavailableCheck(name, summary, details) {
  * its data `null` — never as zero findings. None of these checks is critical:
  * an API hiccup is not a defect in the site.
  */
-async function collectRepoHealth({ env = process.env, fetchImpl = fetch, now = Date.now() } = {}) {
+async function collectRepoHealth({ env = process.env, fetchImpl = fetch, now = Date.now(), timeoutMs = REQUEST_TIMEOUT_MS } = {}) {
     const repoSlug = parseRepositorySlug(env);
     const token = env.GITHUB_TOKEN || '';
     const empty = { issues: [], actions: null, pullRequests: null, issueInventory: null };
@@ -581,7 +638,7 @@ async function collectRepoHealth({ env = process.env, fetchImpl = fetch, now = D
     }
 
     const { owner, repo } = repoSlug;
-    const client = createGithubClient({ token, fetchImpl, env });
+    const client = createGithubClient({ token, fetchImpl, env, timeoutMs });
     const result = { ...empty, checks: [] };
     const sections = [
         { key: 'actions', name: 'GitHub Actions Health', collect: collectActionsHealth },
@@ -612,5 +669,6 @@ module.exports = {
     isScheduleOverdue,
     parseScheduledWorkflows,
     workflowIntervalMs,
+    REQUEST_TIMEOUT_MS,
     SCHEDULE_LATENESS_MS,
 };

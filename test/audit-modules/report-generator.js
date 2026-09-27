@@ -196,9 +196,10 @@ function buildActionsCard(actions) {
                 <h3 style="margin-top:0;">GitHub Actions Health</h3>
                 <p style="margin:0 0 8px;"><strong>Main workflows whose latest run failed (24h):</strong> ${countOrUnavailable(actions.failingRuns)}</p>
                 <p style="margin:0 0 8px;"><strong>Overdue scheduled workflows:</strong> ${countOrUnavailable(actions.overdueWorkflows)}</p>
+                <p style="margin:0 0 8px;"><strong>Scheduled workflows never run:</strong> ${countOrUnavailable(actions.neverRun)}</p>
                 <p style="margin:0 0 8px;"><strong>Last successful deploy:</strong> ${deployText}</p>
                 ${buildLinkedList(
-                    (actions.failingRuns || []).concat(actions.overdueWorkflows || []),
+                    (actions.failingRuns || []).concat(actions.overdueWorkflows || []).concat(actions.neverRun || []),
                     item => `<li style="margin-bottom:6px;"><a href="${escHtml(item.html_url || '')}">${escHtml(item.name || item.path || 'Workflow')}</a>${item.lastRunAt ? ` — last run ${escHtml(item.lastRunAt)}` : ''}</li>`,
                     Array.isArray(actions.failingRuns) ? 'No failing or overdue workflows.' : 'No overdue workflows; the failing-run list was incomplete.'
                 )}
