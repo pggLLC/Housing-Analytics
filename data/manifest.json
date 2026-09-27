@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-27T14:14:50.423596Z",
+  "generated": "2026-09-27T14:44:59.689441Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7519,7 +7519,7 @@
     "data/market/acs_tract_metrics_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1346881
+      "bytes": 1347353
     },
     "data/market/apartment_list_co.json": {
       "featureCount": 0,
