@@ -4650,8 +4650,10 @@
         var c = f && f.geometry && f.geometry.type === 'Point' ? f.geometry.coordinates : null;
         if (!c || typeof c[0] !== 'number' || typeof c[1] !== 'number') return;
         // Private airport/hotel shuttle pickups are mapped, but they are not
-        // public transit, so they do not count toward TOD points.
+        // public transit, and on-demand (GTFS-Flex) stops are not a defined
+        // route (owner decision 2026-09-27), so neither counts toward TOD points.
         if (f.properties && f.properties.operator === 'private_shuttle') return;
+        if (f.properties && f.properties.service === 'demand_response') return;
         if (haversine(lat, lon, c[1], c[0]) <= tod.miles) {
           count++;
           if (f.properties && f.properties.reliability === 'unconfirmed') unconfirmedCount++;
