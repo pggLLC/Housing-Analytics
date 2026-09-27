@@ -37,8 +37,19 @@
 
   /* ── Value range constants (from Colorado EPA SLD data) ───────────── */
   var WALK_MAX      = 200;   // D3b intersection density cap for scoring (99th pctile ≈ 180)
-  var TRANSIT_MAX   = 1200;  // D4a transit service frequency cap
   var AUTO_MAX      = 48;    // D3apo auto network density cap
+
+  // transitAccess in epa_sld_co.json is EPA SLD D4A: the distance in metres
+  // from a block group's population-weighted centroid to the nearest transit
+  // stop (EPA's own field alias), not service frequency and not an index.
+  // Lower is better, and EPA leaves it blank beyond ~3/4 mile, so half of
+  // Colorado's block groups have no value. It used to be divided by a 1200
+  // "frequency cap" and added to the walk score, which rewarded being far from
+  // transit. It is now carried as a distance and kept out of both scores;
+  // turning distance into a score is a methodology decision not yet made.
+  var EPA_D4A_NOT_A_SCORE_REASON = 'EPA SLD D4A is distance to the nearest transit stop (metres), not transit ' +
+    'service frequency or an index, so it is not part of the walkability score; walkability uses intersection ' +
+    'density (D3B) and land-use mix.';
 
   /* ── Load ──────────────────────────────────────────────────────────── */
 
@@ -104,12 +115,14 @@
    * @param {number} lat
    * @param {number} lon
    * @returns {{
-   *   walkScore: number,
-   *   bikeScore: number,
-   *   walkLabel: string,
-   *   bikeLabel: string,
+   *   walkScore: number|null,
+   *   bikeScore: number|null,
+   *   walkLabel: string|null,
+   *   bikeLabel: string|null,
    *   intersectionDensity: number|null,
-   *   transitFrequency: number|null,
+   *   nearestTransitStopMeters: number|null,
+   *   transitStopBlockGroupCount: number,
+   *   transitScoreUnavailableReason: string,
    *   landUseMix: number|null,
    *   autoNetDensity: number|null,
    *   blockGroupCount: number
@@ -119,49 +132,67 @@
     var m = getMetrics(lat, lon);
     if (!m) return null;
 
-    var walkRaw = m.walkability != null ? m.walkability : 0;
-    var transitRaw = m.transitAccess != null ? m.transitAccess : 0;
-    var mixRaw = m.landUseMix != null ? m.landUseMix : 0;
-    var autoRaw = m.autoNetDensity != null ? m.autoNetDensity : AUTO_MAX;
+    var walk = _num(m.walkability);
+    var mix = _num(m.landUseMix);
+    var auto = _num(m.autoNetDensity);
+    var intersectionPts = walk != null ? Math.min(walk / WALK_MAX, 1) * 100 : null;
+    var mixPts = mix != null ? mix * 100 : null;
 
-    // Walkability score: blend intersection density (60%) + transit freq (20%) + land-use mix (20%)
-    var walkIntersection = Math.min(walkRaw / WALK_MAX, 1) * 100;
-    var walkTransit = Math.min(transitRaw / TRANSIT_MAX, 1) * 100;
-    var walkMix = mixRaw * 100;
-    var walkScore = Math.round(
-      walkIntersection * 0.60 +
-      walkTransit * 0.20 +
-      walkMix * 0.20
-    );
-    walkScore = Math.max(0, Math.min(100, walkScore));
+    // Walkability: intersection density (75%) + land-use mix (25%). This was
+    // 60/20/20 with D4A as the middle term; D4A's share went to the other two
+    // pro rata (see EPA_D4A_NOT_A_SCORE_REASON).
+    var walkScore = _blend([
+      { value: intersectionPts, weight: 0.75 },
+      { value: mixPts,          weight: 0.25 }
+    ]);
 
-    // Bikeability score: low auto-orientation (40%) + land-use mix (30%) + intersection density (30%)
+    // Bikeability: low auto-orientation (40%) + land-use mix (30%) + intersection density (30%)
     // Low auto-net density = more bike-friendly
-    var bikeAuto = (1 - Math.min(autoRaw / AUTO_MAX, 1)) * 100;
-    var bikeIntersection = Math.min(walkRaw / WALK_MAX, 1) * 100;
-    var bikeMix = mixRaw * 100;
-    var bikeScore = Math.round(
-      bikeAuto * 0.40 +
-      bikeMix * 0.30 +
-      bikeIntersection * 0.30
-    );
-    bikeScore = Math.max(0, Math.min(100, bikeScore));
+    var bikeScore = _blend([
+      { value: auto != null ? (1 - Math.min(auto / AUTO_MAX, 1)) * 100 : null, weight: 0.40 },
+      { value: mixPts,          weight: 0.30 },
+      { value: intersectionPts, weight: 0.30 }
+    ]);
 
+    var d4a = _num(m.transitAccess);
     return {
       walkScore:           walkScore,
       bikeScore:           bikeScore,
-      walkLabel:           _scoreLabel(walkScore),
-      bikeLabel:           _scoreLabel(bikeScore),
-      intersectionDensity: m.walkability != null ? Math.round(m.walkability * 10) / 10 : null,
-      transitFrequency:    m.transitAccess != null ? Math.round(m.transitAccess) : null,
-      landUseMix:          m.landUseMix != null ? Math.round(m.landUseMix * 100) / 100 : null,
-      autoNetDensity:      m.autoNetDensity != null ? Math.round(m.autoNetDensity * 10) / 10 : null,
+      walkLabel:           walkScore != null ? _scoreLabel(walkScore) : null,
+      bikeLabel:           bikeScore != null ? _scoreLabel(bikeScore) : null,
+      intersectionDensity: walk != null ? Math.round(walk * 10) / 10 : null,
+      // Mean over the block groups that HAVE a stop within EPA's cutoff; the
+      // rest are blank in the source, so this is not an area-wide average.
+      nearestTransitStopMeters:   d4a != null ? Math.round(d4a) : null,
+      transitStopBlockGroupCount: m._transitCount != null ? m._transitCount : (d4a != null ? 1 : 0),
+      transitScoreUnavailableReason: EPA_D4A_NOT_A_SCORE_REASON,
+      landUseMix:          mix != null ? Math.round(mix * 100) / 100 : null,
+      autoNetDensity:      auto != null ? Math.round(auto * 10) / 10 : null,
       empDensity:          m.empDensity != null ? Math.round(m.empDensity * 100) / 100 : null,
       blockGroupCount:     m._count || 1
     };
   }
 
   /* ── Internal helpers ──────────────────────────────────────────────── */
+
+  function _num(v) {
+    return (typeof v === 'number' && isFinite(v)) ? v : null;
+  }
+
+  /**
+   * Weighted mean over the components that were measured. A missing component
+   * is dropped and its weight shared out; it is never scored as 0 or as the
+   * worst case. Null when nothing was measured.
+   */
+  function _blend(parts) {
+    var sum = 0, w = 0;
+    for (var i = 0; i < parts.length; i++) {
+      if (parts[i].value == null) continue;
+      sum += parts[i].value * parts[i].weight;
+      w += parts[i].weight;
+    }
+    return w > 0 ? Math.max(0, Math.min(100, Math.round(sum / w))) : null;
+  }
 
   function _scoreLabel(score) {
     if (score >= 80) return 'Excellent';
@@ -218,7 +249,8 @@
       landUseMix:     counts.landUseMix > 0     ? sums.landUseMix / counts.landUseMix         : null,
       autoNetDensity: counts.autoNetDensity > 0 ? sums.autoNetDensity / counts.autoNetDensity : null,
       empDensity:     counts.empDensity > 0     ? sums.empDensity / counts.empDensity         : null,
-      _count:         counts.walkability
+      _count:         counts.walkability,
+      _transitCount:  counts.transitAccess
     };
   }
 
