@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 
 function usage(message) {
   if (message) console.error(`error: ${message}`);
-  console.error('Usage: node scripts/simplify-geojson.mjs --input <file> --keep <percent> --fields <a,b,c>');
+  console.error('Usage: node scripts/simplify-geojson.mjs --input <file> --keep <percent> --fields <a,b,c> [--no-repair] [--drop-empty] [--if-geometry-changed]');
   process.exit(2);
 }
 
@@ -24,6 +24,7 @@ const keep = Number(value('--keep'));
 const fields = String(value('--fields') || '').split(',').map((field) => field.trim()).filter(Boolean);
 const noRepair = args.includes('--no-repair');
 const dropEmpty = args.includes('--drop-empty');
+const ifGeometryChanged = args.includes('--if-geometry-changed');
 if (!inputArg) usage('--input is required');
 if (!Number.isFinite(keep) || keep <= 0 || keep > 100) usage('--keep must be greater than 0 and at most 100');
 if (!fields.length) usage('--fields must contain at least one property name');
@@ -41,6 +42,44 @@ if (original.type !== 'FeatureCollection' || !Array.isArray(original.features)) 
 }
 const originalCount = original.features.length;
 const originalBytes = Buffer.byteLength(originalText);
+
+// --if-geometry-changed: simplify only when the geometry differs from the
+// committed copy, and otherwise restore the committed bytes.
+//
+// Simplification is lossy and not idempotent: every pass removes a share of
+// whatever vertices are left. The market-data workflow gated this call on
+// `git diff --quiet`, but when an upstream fetch fails the builder falls back
+// to the committed (already simplified) file and rewrites it pretty-printed,
+// and bbox_fix.py then adds a bbox to every feature. The bytes differ, the
+// geometry does not, and the gate ran a second 20% pass over the previous
+// output. Weekly, that took tract_boundaries_co.geojson from 166,496 vertices
+// (#1370's one intended pass) to 9,559 and moved tract boundaries by up to
+// 10 km -- the #1925 drop of the vertex shared by Conejos tracts 08021974800
+// and 08021974900 was just the latest pass. Comparing geometry, not bytes,
+// makes the step a no-op on a fallback run.
+if (ifGeometryChanged) {
+  const rel = path.relative(root, input);
+  const head = spawnSync('git', ['show', `HEAD:${rel}`], {
+    cwd: root, encoding: 'utf8', maxBuffer: 1024 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  if (head.status === 0) {
+    const committed = JSON.parse(head.stdout);
+    const sameGeometry = Array.isArray(committed.features)
+      && committed.features.length === originalCount
+      && committed.features.every((feature, index) => (
+        JSON.stringify(feature.geometry) === JSON.stringify(original.features[index].geometry)
+      ));
+    if (sameGeometry) {
+      fs.writeFileSync(input, head.stdout);
+      console.log(JSON.stringify({
+        file: rel,
+        skipped: true,
+        reason: 'geometry identical to HEAD (already simplified); committed bytes restored',
+      }, null, 2));
+      process.exit(0);
+    }
+  }
+}
 
 const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'coho-mapshaper-'));
 try {
