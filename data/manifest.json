@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-27T10:31:44.350772Z",
+  "generated": "2026-09-27T10:46:18.264049Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7794,7 +7794,7 @@
     "data/market/transit_routes_co.geojson": {
       "featureCount": 1675,
       "placeholder": false,
-      "bytes": 4719509
+      "bytes": 4720382
     },
     "data/market/transit_stops_coverage_co.json": {
       "featureCount": 64,

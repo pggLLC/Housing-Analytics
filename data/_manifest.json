@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T10:28:30.860Z",
+    "generated_at": "2026-09-27T10:46:11.725Z",
     "root": "data/",
     "file_count": 1691,
-    "total_size_bytes": 167547631,
+    "total_size_bytes": 167548635,
     "kinds": {
       "json": 1655,
       "geojson": 32,
@@ -424,7 +424,7 @@
       "path": "amenities/transit_stops_statewide_co.geojson",
       "kind": "geojson",
       "size_bytes": 3608520,
-      "mtime": "2026-09-27T04:54:02.386Z",
+      "mtime": "2026-09-27T10:43:36.822Z",
       "shape": "geojson",
       "feature_count": 14183,
       "property_keys": [
@@ -29322,7 +29322,7 @@
       "path": "hna/transit-zone-by-geography.json",
       "kind": "json",
       "size_bytes": 293409,
-      "mtime": "2026-09-27T10:27:40.000Z",
+      "mtime": "2026-09-27T10:46:05.855Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -30493,8 +30493,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 214777,
-      "mtime": "2026-09-27T10:04:06.417Z",
+      "size_bytes": 214908,
+      "mtime": "2026-09-27T10:35:28.616Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31495,7 +31495,7 @@
       "path": "market/schools_co.geojson",
       "kind": "geojson",
       "size_bytes": 1243277,
-      "mtime": "2026-09-25T12:55:18.981Z",
+      "mtime": "2026-09-27T10:46:07.771Z",
       "shape": "geojson",
       "feature_count": 1941,
       "property_keys": [
@@ -31601,8 +31601,8 @@
     {
       "path": "market/transit_routes_co.geojson",
       "kind": "geojson",
-      "size_bytes": 4719509,
-      "mtime": "2026-09-26T17:03:54.903Z",
+      "size_bytes": 4720382,
+      "mtime": "2026-09-27T10:46:09.866Z",
       "shape": "geojson",
       "feature_count": 1675,
       "property_keys": [
@@ -31616,7 +31616,7 @@
       "path": "market/transit_stops_coverage_co.json",
       "kind": "json",
       "size_bytes": 201713,
-      "mtime": "2026-09-27T04:54:02.825Z",
+      "mtime": "2026-09-27T10:43:36.839Z",
       "shape": "object",
       "keys": [
         "meta",

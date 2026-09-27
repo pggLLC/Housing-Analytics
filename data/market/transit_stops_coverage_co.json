@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-27T04:20:59Z",
+    "generated": "2026-09-27T10:43:20Z",
     "source": "scripts/market/build_transit_stops_co.py",
     "note": "Counts of stops found per source. A county with no stop in any source is listed under counties_without_fixed_stops: that means no fixed-route stop was found, not that the county has no transit (several run demand-response service, which has no stops).",
     "feed_match_m": 30.0,
