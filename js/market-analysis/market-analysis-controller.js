@@ -838,14 +838,16 @@
             ' — ' + policyMetrics.overlayCount + ' supportive overlays, score=' + policyMetrics.totalScore);
         }
 
-        // ── PMA transit metrics — wire the real transit composite into
+        // ── PMA transit metrics — wire the stop-based transit score into
         // scoreAccess instead of relying solely on nearest-stop distance.
-        // PMATransit.calculateTransitScore() (called by the PMA runner
-        // when present) blends frequency, coverage, and EPA SLD walk-to-
-        // transit; its output captures bus + rail service quality, not
-        // just proximity. When the runner hasn't scored this site or
-        // PMATransit isn't loaded, leave transitMetrics null and scoreAccess
-        // falls back to the legacy distance proxy.
+        // PMATransit.calculateTransitScore() (called by the PMA runner) scores
+        // confirmed stops from the statewide stop file by distance tier,
+        // blended with EPA SLD where available. When the runner hasn't scored
+        // this site or PMATransit isn't loaded, transitMetrics stays null and
+        // scoreAccess uses the nearest-stop distance proxy. When the runner
+        // scored this site but the stop file did not load, the score is null
+        // and its reason is passed on, so scoreAccess can disclose it (and
+        // leave transit out if it has no distance either) instead of a 0.
         var transitMetrics = null;
         if (typeof window !== 'undefined' && window.PMATransit &&
             typeof window.PMATransit.getTransitJustification === 'function') {
@@ -859,11 +861,14 @@
           var sameSite = tj && typeof tj.siteLat === 'number' && typeof tj.siteLon === 'number' &&
             typeof lat === 'number' && typeof lon === 'number' &&
             tj.siteLat.toFixed(5) === lat.toFixed(5) && tj.siteLon.toFixed(5) === lon.toFixed(5);
-          if (sameSite && Number.isFinite(tj.transitAccessibilityScore)) {
+          if (sameSite && (Number.isFinite(tj.transitAccessibilityScore) || tj.transitUnavailableReason)) {
             transitMetrics = {
-              transitAccessibilityScore: tj.transitAccessibilityScore,
-              nearbyRouteCount:          tj.nearbyRouteCount,
-              hasHighFrequencyService:   tj.hasHighFrequencyService
+              transitAccessibilityScore: Number.isFinite(tj.transitAccessibilityScore) ? tj.transitAccessibilityScore : null,
+              transitUnavailableReason:  tj.transitUnavailableReason || null,
+              nearbyStopCount:           tj.nearbyStopCount,
+              noConfirmedStopWithinZoneRadius: tj.noConfirmedStopWithinZoneRadius,
+              hasHighFrequencyService:   tj.hasHighFrequencyService,
+              highFrequencyUnavailableReason: tj.highFrequencyUnavailableReason || null
             };
           }
         }

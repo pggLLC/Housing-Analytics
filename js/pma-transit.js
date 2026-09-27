@@ -3,71 +3,116 @@
  * Transit accessibility weighting for PMA delineation.
  *
  * Responsibilities:
- *  - fetchNTDData(boundingBox) — National Transit Database service levels
+ *  - fetchTransitStops() — the statewide transit stop file, once per page
+ *  - fetchTransitZoneStatus() — data/policy/thiz-map-status.json, once per page
  *  - fetchEPASmartLocation(boundingBox) — EPA transit accessibility metrics
- *  - calculateTransitScore(siteLat, siteLon, routes, epaData) — 0–100 score
- *  - identifyTransitDeserts(pmaPolygon, routes) — gaps in service
- *  - getTransitLayer() — GeoJSON layer for map display
+ *  - calculateTransitScore(siteLat, siteLon, stopsGeojson, epaData, mapStatus)
+ *    — 0–100 score from CONFIRMED STOPS, or null when it cannot be measured
+ *  - distanceTiers(mapStatus) — the two distances the score uses
+ *  - measureStops(siteLat, siteLon, countedStops, tiers) — the stop counts
+ *  - identifyTransitDeserts(pmaPolygon, stops, mapStatus) — gaps in service
+ *  - getTransitLayer() — GeoJSON layer of the counted stops
  *  - getTransitJustification() — audit-ready transit metrics
  *
  * Exposed as window.PMATransit.
+ *
+ * ── What the score is measured from (owner decisions 2026-09-27) ─────────
+ * Confirmed transit stops in data/amenities/transit_stops_statewide_co.geojson,
+ * selected by TransitZone.countsAsConfirmedStop (js/transit-zone.js) — the
+ * same rule as scripts/lib/transit_stops.py and the zone screen: published by
+ * CDOT or an agency GTFS feed, not a private shuttle, not demand-response.
+ *
+ * It used to be measured from route LINES (the route-line file in data/market/):
+ * every route with a vertex in a ~10-mile box, with every floor(n/10)th vertex
+ * taken as a pseudo-stop. That made the score a function of how many vertices
+ * a route file happened to have — a lossless reformat changed the route count
+ * at 614 of 2,157 replayed sites — and the "headway" it used for frequency was
+ * invented from route_type. The route lines are still drawn on the map; they
+ * are not scored.
+ *
+ * ── Distances: HB26-1065 administration, from the status file ────────────
+ * Exactly two distances, both read at runtime from
+ * data/policy/thiz-map-status.json through js/transit-zone.js, never
+ * hardcoded here:
+ *   * qap_tod_distance.miles (TransitZone.qapTodDistance) — the CHFA QAP
+ *     transit-oriented distance: stops this close get full credit;
+ *   * zone_radius_miles (TransitZone.zoneRadiusMiles) — the Transit and
+ *     Housing Investment Zone screening radius: stops beyond the TOD
+ *     distance and within it get half credit.
+ * Beyond the zone radius a stop does not count. A status file that did not
+ * load, or lacks either value, gives a null score with a reason.
+ *
+ * ── Frequency ────────────────────────────────────────────────────────────
+ * The stop file carries no schedule, headway, route or mode field, so service
+ * frequency cannot be measured here. hasHighFrequencyService is null with
+ * highFrequencyUnavailableReason, and the frequency weight is excluded from
+ * the composite (redistributed over the components that were measured),
+ * never scored as "not high frequency".
+ *
+ * ── Absence ──────────────────────────────────────────────────────────────
+ *  - Stop file or status file did not load (or the selection rule is not on
+ *    the page): transitAccessibilityScore null + transitUnavailableReason.
+ *  - Both loaded and no confirmed stop within the zone radius: a MEASURED
+ *    zero coverage, flagged noConfirmedStopWithinZoneRadius: true.
  */
 (function () {
   'use strict';
 
   /* ── Constants ────────────────────────────────────────────────────── */
   var EARTH_RADIUS_MI      = 3958.8;
-  var WALK_TO_TRANSIT_MILES = 0.5;   // half-mile walk catchment standard
-  var HIGH_FREQUENCY_MIN   = 15;     // headway ≤ 15 min = high frequency
-  var DESERT_RADIUS_MILES  = 1;      // grid cell size for desert detection
+  var DESERT_CELL_MILES    = 1;      // grid cell size for desert detection
 
-  /* ── Distance-decay tiers for transit accessibility ─────────────────
+  /* Credit per tier. The DISTANCES come from the status file (distanceTiers);
+   * these are only the weights: a stop within the QAP TOD distance counts in
+   * full, one beyond it but inside the zone radius counts half. */
+  var TOD_TIER_CREDIT  = 1.0;
+  var ZONE_TIER_CREDIT = 0.5;
+
+  /* Coverage: each tier contributes up to (credit × 100) points, reached at
+   * STOPS_FOR_FULL_TIER confirmed stops in that tier; the tiers add and the
+   * sum is capped at 100.
    *
-   * Pre-2026-05-09 the transit score used a binary catchment: any route
-   * stop > 0.5 mi from site → 0 transit credit. That punished rural CO
-   * sites with intercity bus access (e.g. a Bustang stop 1.5 mi away)
-   * even when they had real transit access. With #781 expanding agency
-   * coverage from 4 to 55 (Mountain Metro, Pueblo Transit, RFTA, etc.),
-   * the binary catchment had become the limiting factor on accuracy.
-   *
-   * Distance-decay model (each route counted at the credit of the
-   * nearest tier it qualifies for):
-   *
-   *   ≤ 0.5 mi        →  100% credit  (urban walk catchment, unchanged)
-   *   0.5–2 mi        →   50% credit  (bike or drop-off pattern)
-   *   2–5 mi          →   20% credit  (drive-and-ride pattern, common rural)
-   *   > 5 mi          →    0% credit  (no meaningful access)
-   *
-   * Urban scoring is unchanged at the 0.5-mi tier — the 0.5–2 / 2–5 mi
-   * tiers add credit only for sites that previously scored 0. Rural
-   * Bustang corridor sites should now register a real transit score.
-   */
-  var DISTANCE_DECAY_TIERS = [
-    { maxMiles: 0.5, credit: 1.00, label: 'walk' },
-    { maxMiles: 2.0, credit: 0.50, label: 'bike/drop-off' },
-    { maxMiles: 5.0, credit: 0.20, label: 'drive-and-ride' }
-    // beyond 5.0: not counted (implicit 0)
-  ];
+   * Why a per-tier cap and not a per-stop sum: stops come in dense clusters
+   * (both directions, every ~¼ mile), so a plain credit-weighted stop count
+   * would give a site at the edge of the zone radius from a small town's bus
+   * loop the same coverage as a site on the loop. Twenty stops is about two
+   * bidirectional routes' worth of stops at ¼-mile spacing across a one-mile
+   * line. */
+  var STOPS_FOR_FULL_TIER = 20;
 
   /* ── Score weights ────────────────────────────────────────────────── */
   var TRANSIT_WEIGHTS = {
-    frequency:   0.35,  // service headway
-    coverage:    0.30,  // route density near site
+    frequency:   0.35,  // service headway — not measurable from the stop file; always excluded
+    coverage:    0.30,  // confirmed stops near the site, by distance tier
     epaIndex:    0.25,  // EPA Smart Location transit accessibility index
     walkScore:   0.10   // pedestrian environment
   };
   var EPA_UNAVAILABLE_REASON = 'EPA Smart Location data is unavailable; no EPA transit or walkability score was calculated.';
+  var STOPS_UNAVAILABLE_REASON = 'The statewide transit stop file did not load, so transit access was not scored.';
+  var RULE_UNAVAILABLE_REASON = 'The transit stop rules (js/transit-zone.js) are not loaded on this page, so transit access was not scored.';
+  var STATUS_UNAVAILABLE_REASON = 'The zone-map status file (data/policy/thiz-map-status.json) did not load or lacks the zone radius or the QAP transit-oriented distance, so transit access was not scored.';
+  var FREQUENCY_UNAVAILABLE_REASON = 'The statewide transit stop file has no schedule, headway, route or mode data, so service frequency is not measured and is not part of the score.';
+  var SELECTION_LABEL = 'confirmed public scheduled stops (CDOT or agency GTFS; no private shuttles, no demand-response)';
 
   /* ── Internal state ───────────────────────────────────────────────── */
-  var lastRoutes       = [];
+  var lastStops        = [];     // counted stops: { lat, lon, name, agency }
+  var lastTiers        = null;   // distanceTiers() of the last scored site
   var lastEpaData      = null;
   // null until calculateTransitScore() runs, and tagged with the site it was
   // computed for, so a caller cannot read a 0 or a previous site's score as
   // this site's transit access (#1937).
   var lastScore        = null;
   var lastSite         = null;
-  var lastWalkScore    = 0;
+  var lastWalkScore    = null;
   var lastDeserts      = [];
+  var lastMeasure      = null;
+  var lastTransitReason = null;
+  var _lastDataSources = {};
+
+  // The counted stops of the last FeatureCollection seen, so a page that
+  // scores several sites against the same file selects them once.
+  var _selectedFrom = null;
+  var _selected     = null;
 
   /* ── Utility helpers ─────────────────────────────────────────────── */
   function toRad(deg) { return deg * Math.PI / 180; }
@@ -81,23 +126,62 @@
     return EARTH_RADIUS_MI * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
+  // Only for values already known to be present (EPA fields behind hasEpa).
   function toNum(v) { var n = parseFloat(v); return isFinite(n) ? n : 0; }
 
   function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
 
+  function transitZone() {
+    if (typeof window !== 'undefined' && window.TransitZone) return window.TransitZone;
+    if (typeof module !== 'undefined' && module.exports && typeof require === 'function') {
+      try { return require('./transit-zone.js'); } catch (e) { return null; }
+    }
+    return null;
+  }
+
+  // Points for identifyTransitDeserts / getTransitLayer: counted stops
+  // ({lat, lon}), or legacy route objects carrying a stops array.
+  function toPoints(list) {
+    var pts = [];
+    (list || []).forEach(function (s) {
+      if (!s) return;
+      if (Array.isArray(s.stops)) {
+        s.stops.forEach(function (p) {
+          if (p && Number.isFinite(p.lat) && Number.isFinite(p.lon)) {
+            pts.push({ lat: p.lat, lon: p.lon, name: s.name || s.routeName || null, agency: s.agency || null });
+          }
+        });
+      } else if (Number.isFinite(s.lat) && Number.isFinite(s.lon)) {
+        pts.push(s);
+      }
+    });
+    return pts;
+  }
+
   /* ── Core API ────────────────────────────────────────────────────── */
 
   /**
-   * Fetch National Transit Database service level data.
-   * @param {{minLat,minLon,maxLat,maxLon}} boundingBox
-   * @returns {Promise<{transitRoutes: Array, serviceMetrics: object}>}
+   * The statewide transit stop file, via DataService (fetched once per page).
+   * @returns {Promise<{geojson: object|null, unavailableReason: string|null, _dataSource: string}>}
    */
-  function fetchNTDData(boundingBox) {
+  function fetchTransitStops() {
     var ds = (typeof window !== 'undefined') ? window.DataService : null;
-    if (ds && typeof ds.fetchNTDData === 'function') {
-      return ds.fetchNTDData(boundingBox);
+    if (ds && typeof ds.fetchTransitStops === 'function') {
+      return ds.fetchTransitStops();
     }
-    return Promise.resolve({ transitRoutes: [], serviceMetrics: {} });
+    return Promise.resolve({ geojson: null, unavailableReason: STOPS_UNAVAILABLE_REASON, _dataSource: 'unavailable' });
+  }
+
+  /**
+   * The zone-map status file, via DataService (fetched once per page).
+   * @returns {Promise<{mapStatus: object|null, unavailableReason: string|null}>}
+   */
+  function fetchTransitZoneStatus() {
+    var ds = (typeof window !== 'undefined') ? window.DataService : null;
+    if (ds && typeof ds.fetchTransitZoneStatus === 'function') {
+      return ds.fetchTransitZoneStatus();
+    }
+    return Promise.resolve({ mapStatus: null, unavailableReason: STATUS_UNAVAILABLE_REASON });
   }
 
   /**
@@ -119,176 +203,232 @@
   }
 
   /**
-   * Calculate a comprehensive 0–100 transit accessibility score.
-   * When EPA data is unavailable (null values from failed API), the score
-   * is based solely on local route data and flagged accordingly.
+   * The two distance tiers, from the zone-map status file.
+   * @param {object|null} mapStatus - data/policy/thiz-map-status.json
+   * @returns {{ tiers: Array|null, todMiles: number|null, zoneRadiusMiles: number|null,
+   *             todLabel: string|null, todDisclosure: string|null, unavailableReason: string|null }}
+   */
+  function distanceTiers(mapStatus) {
+    var tz = transitZone();
+    if (!tz || typeof tz.qapTodDistance !== 'function' || typeof tz.zoneRadiusMiles !== 'function') {
+      return { tiers: null, todMiles: null, zoneRadiusMiles: null, todLabel: null, todDisclosure: null,
+               unavailableReason: RULE_UNAVAILABLE_REASON };
+    }
+    var tod = tz.qapTodDistance(mapStatus);
+    var radius = tz.zoneRadiusMiles(mapStatus);
+    if (!tod || radius === null) {
+      return { tiers: null, todMiles: tod ? tod.miles : null, zoneRadiusMiles: radius, todLabel: tod ? tod.label : null,
+               todDisclosure: null, unavailableReason: (mapStatus && mapStatus.unavailableReason) || STATUS_UNAVAILABLE_REASON };
+    }
+    return {
+      tiers: [
+        { maxMiles: tod.miles, credit: TOD_TIER_CREDIT,  label: 'tod' },
+        { maxMiles: radius,    credit: ZONE_TIER_CREDIT, label: 'zone' }
+      ],
+      todMiles: tod.miles,
+      zoneRadiusMiles: radius,
+      todLabel: tod.label,
+      // How the TOD distance is measured versus how CHFA scores it; every
+      // surface that shows a TOD-distance count carries it (#1961).
+      todDisclosure: tod.disclosure,
+      unavailableReason: null
+    };
+  }
+
+  /**
+   * The counted stops of a stop FeatureCollection, by the shared rule.
+   * @returns {{ stops: Array|null, unavailableReason: string|null }}
+   */
+  function selectCountedStops(stopsGeojson) {
+    var feats = stopsGeojson && Array.isArray(stopsGeojson.features) ? stopsGeojson.features : null;
+    if (!feats || !feats.length) {
+      return { stops: null, unavailableReason: (stopsGeojson && stopsGeojson.unavailableReason) || STOPS_UNAVAILABLE_REASON };
+    }
+    var tz = transitZone();
+    if (!tz || typeof tz.countsAsConfirmedStop !== 'function') {
+      return { stops: null, unavailableReason: RULE_UNAVAILABLE_REASON };
+    }
+    if (_selectedFrom === stopsGeojson && _selected) return { stops: _selected, unavailableReason: null };
+    var out = [];
+    for (var i = 0; i < feats.length; i++) {
+      var f = feats[i];
+      var g = f && f.geometry;
+      var c = g && g.type === 'Point' ? g.coordinates : null;
+      if (!c || !Number.isFinite(c[0]) || !Number.isFinite(c[1])) continue;
+      var p = f.properties || {};
+      if (!tz.countsAsConfirmedStop(p)) continue;
+      out.push({ lat: c[1], lon: c[0], name: p.name || null, agency: p.agency || null });
+    }
+    _selectedFrom = stopsGeojson;
+    _selected = out;
+    return { stops: out, unavailableReason: null };
+  }
+
+  /**
+   * What the counted stops look like from one site.
+   * @param {number} siteLat
+   * @param {number} siteLon
+   * @param {Array<{lat,lon,name,agency}>} countedStops
+   * @param {Array} tiers - distanceTiers(mapStatus).tiers, innermost first
+   */
+  function measureStops(siteLat, siteLon, countedStops, tiers) {
+    var tierCounts = {};
+    tiers.forEach(function (t) { tierCounts[t.label] = 0; });
+    var outer = tiers.reduce(function (m, t) { return Math.max(m, t.maxMiles); }, 0);
+    var inner = tiers[0].maxMiles;
+    var agenciesNear = {}, agenciesZone = {};
+    var nearest = null, dNearest = Infinity;
+    for (var i = 0; i < countedStops.length; i++) {
+      var s = countedStops[i];
+      var d = haversine(siteLat, siteLon, s.lat, s.lon);
+      if (d < dNearest) { dNearest = d; nearest = s; }
+      if (d > outer) continue;
+      for (var t = 0; t < tiers.length; t++) {
+        if (d <= tiers[t].maxMiles) { tierCounts[tiers[t].label]++; break; }
+      }
+      if (s.agency) {
+        agenciesZone[s.agency] = true;
+        if (d <= inner) agenciesNear[s.agency] = true;
+      }
+    }
+    var coverage = 0;
+    var inTiers = 0;
+    tiers.forEach(function (tier) {
+      coverage += tier.credit * 100 * Math.min(1, tierCounts[tier.label] / STOPS_FOR_FULL_TIER);
+      inTiers += tierCounts[tier.label];
+    });
+    return {
+      tierBreakdown:        tierCounts,
+      stopsWithinTodDistance: tierCounts[tiers[0].label],
+      stopsWithinZoneRadius:  inTiers,
+      nearbyAgencyCount:    Object.keys(agenciesNear).length,
+      agenciesWithinZoneRadius: Object.keys(agenciesZone).sort(),
+      nearestConfirmedStop: nearest ? { name: nearest.name, agency: nearest.agency,
+                                        distanceMiles: Math.round(dNearest * 100) / 100 } : null,
+      coverageScore:        Math.round(clamp(coverage, 0, 100) * 10) / 10
+    };
+  }
+
+  function unavailable(reason, dataSources) {
+    lastStops = [];
+    lastMeasure = null;
+    lastScore = null;
+    lastTransitReason = reason;
+    _lastDataSources = dataSources;
+    return null;
+  }
+
+  /**
+   * Calculate the 0–100 transit accessibility score from confirmed stops.
    *
    * @param {number} siteLat
    * @param {number} siteLon
-   * @param {Array}  routes   - Transit routes with stops/headways
+   * @param {object|null} stopsGeojson - data/amenities/transit_stops_statewide_co.geojson
+   *   (a FeatureCollection). null / no features → null, with
+   *   transitUnavailableReason (stopsGeojson.unavailableReason when given).
    * @param {object} epaData  - EPA Smart Location metrics (may have null values)
-   * @returns {number} 0–100 score
+   * @param {object|null} mapStatus - data/policy/thiz-map-status.json, the
+   *   source of both distances. Missing either value → null with a reason.
+   * @returns {number|null} 0–100 score, or null when it could not be measured
    */
-  function calculateTransitScore(siteLat, siteLon, routes, epaData) {
-    routes  = routes  || lastRoutes;
-    epaData = epaData || lastEpaData || {};
-
-    lastRoutes  = routes;
+  function calculateTransitScore(siteLat, siteLon, stopsGeojson, epaData, mapStatus) {
+    epaData = epaData || {};
     lastEpaData = epaData;
     lastSite    = { lat: siteLat, lon: siteLon };
+    lastDeserts = [];
 
-    // Track which data sources are available
-    var hasRoutes = routes && routes.length > 0;
     var epaSource = epaData._dataSource || '';
     var epaAvail  = epaSource === 'epa-live' || epaSource === 'epa-sld-local';
-    var hasEpa = epaData.transitAccessibility != null && epaAvail;
+    var hasEpa  = epaData.transitAccessibility != null && epaAvail;
     var hasWalk = epaData.walkScore != null && epaAvail;
+    var epaReason = (!hasEpa || !hasWalk) ? (epaData.unavailableReason || EPA_UNAVAILABLE_REASON) : null;
 
-    // For each route, compute the minimum distance from site to any stop
-    // and assign a credit weight based on the distance-decay tier.
-    // Returns objects: { route, minDist, credit, tier }
-    var weightedRoutes = (routes || [])
-      .map(function (r) {
-        var stops = r.stops || [];
-        if (!stops.length) { return null; }
-        var minDist = Infinity;
-        for (var i = 0; i < stops.length; i++) {
-          var d = haversine(siteLat, siteLon, toNum(stops[i].lat), toNum(stops[i].lon));
-          if (d < minDist) { minDist = d; }
-        }
-        // Find the tightest distance tier this route qualifies for
-        for (var t = 0; t < DISTANCE_DECAY_TIERS.length; t++) {
-          if (minDist <= DISTANCE_DECAY_TIERS[t].maxMiles) {
-            return {
-              route:    r,
-              minDist:  minDist,
-              credit:   DISTANCE_DECAY_TIERS[t].credit,
-              tier:     DISTANCE_DECAY_TIERS[t].label
-            };
-          }
-        }
-        return null;  // beyond all tiers (>5 mi)
-      })
-      .filter(function (x) { return x !== null; });
-
-    // Backward-compat: `nearbyRoutes` retains the original "within
-    // walk distance" semantics so any external consumer that reads
-    // _lastDataSources.nearbyRouteCount sees the urban-catchment count,
-    // not the inflated decay-weighted count.
-    var nearbyRoutes = weightedRoutes
-      .filter(function (w) { return w.minDist <= WALK_TO_TRANSIT_MILES; })
-      .map(function (w) { return w.route; });
-
-    // Headway proxy: total credit-weighted "route count equivalent" of
-    // routes that qualify as high-frequency. Sites with a few high-freq
-    // routes within walking distance score the same as before; rural
-    // sites with intercity bus 2 mi away contribute partial credit.
-    var highFreqCredit = weightedRoutes
-      .filter(function (w) {
-        return w.route.headwayMinutes != null &&
-               toNum(w.route.headwayMinutes) <= HIGH_FREQUENCY_MIN;
-      })
-      .reduce(function (sum, w) { return sum + w.credit; }, 0);
-
-    // Total credit-weighted route count across all distance tiers
-    var totalCredit = weightedRoutes.reduce(
-      function (sum, w) { return sum + w.credit; }, 0
-    );
-
-    // Frequency score: ABSOLUTE credit-weighted high-frequency routes.
-    // Pre-distance-decay this was a ratio (highFreq / total), which made
-    // a single far high-frequency route score identical to a single near
-    // high-freq route — defeating the point of the decay tiers. Switching
-    // to absolute scaling so the urban-vs-rural gap reflects credit:
-    //   1 walk-tier high-freq route   → 30 pts
-    //   3 walk-tier high-freq routes  → 90 pts (+ bonus)
-    //   1 drive-and-ride high-freq    →  6 pts (20% credit)
-    var freqScore = clamp(
-      highFreqCredit * 30 + (totalCredit > 2 ? 20 : 0),
-      0, 100
-    );
-
-    // Coverage score: 15 points per credit-weighted route equivalent
-    // (matches prior scaling: 7 routes within walk distance → 100).
-    // Now naturally rewards rural sites with multiple distant routes
-    // without overweighting them vs urban sites.
-    var coverageScore = clamp(totalCredit * 15, 0, 100);
-
-    // EPA index — use real data if available, otherwise exclude from weighting
-    var epaScore = 0;
-    var walkScore = 0;
-    var effectiveWeights = Object.assign({}, TRANSIT_WEIGHTS);
-
-    if (hasEpa) {
-      var epaRaw  = toNum(epaData.transitAccessibility || epaData.D4a);
-      epaScore = epaRaw <= 20 ? clamp(epaRaw * 5, 0, 100) : clamp(epaRaw, 0, 100);
-    } else {
-      // Redistribute EPA weight to frequency and coverage
-      effectiveWeights.frequency += effectiveWeights.epaIndex / 2;
-      effectiveWeights.coverage  += effectiveWeights.epaIndex / 2;
-      effectiveWeights.epaIndex   = 0;
-    }
-
+    var walkScore = null;
     if (hasWalk) {
       var walkRaw = toNum(epaData.walkScore || epaData.D3b);
       walkScore = walkRaw <= 20 ? clamp(walkRaw * 5, 0, 100) : clamp(walkRaw, 0, 100);
-    } else {
-      // Redistribute walk weight to frequency and coverage
-      effectiveWeights.frequency += effectiveWeights.walkScore / 2;
-      effectiveWeights.coverage  += effectiveWeights.walkScore / 2;
-      effectiveWeights.walkScore  = 0;
     }
-    lastWalkScore = hasWalk ? walkScore : null;
+    lastWalkScore = walkScore;
 
-    lastScore = Math.round(
-      effectiveWeights.frequency * freqScore  +
-      effectiveWeights.coverage  * coverageScore +
-      effectiveWeights.epaIndex  * epaScore   +
-      effectiveWeights.walkScore * walkScore
-    );
+    var dist = distanceTiers(mapStatus);
+    lastTiers = dist;
+    function sources(extra) {
+      var o = {
+        selection:         SELECTION_LABEL,
+        epaData:           hasEpa ? epaSource : 'unavailable',
+        walkData:          hasWalk ? epaSource : 'unavailable',
+        frequencyData:     'unavailable',
+        todMiles:          dist.todMiles,
+        zoneRadiusMiles:   dist.zoneRadiusMiles,
+        unavailableReason: epaReason
+      };
+      Object.keys(extra).forEach(function (k) { o[k] = extra[k]; });
+      return o;
+    }
 
-    // Store data availability for justification + tier breakdown
-    // for the audit trail. Tier counts let downstream UIs explain
-    // "site has 1 route walkable + 3 routes drive-and-ride" rather
-    // than just a single number.
-    var tierCounts = { walk: 0, 'bike/drop-off': 0, 'drive-and-ride': 0 };
-    weightedRoutes.forEach(function (w) {
-      if (tierCounts[w.tier] != null) { tierCounts[w.tier] += 1; }
+    if (!(Number.isFinite(siteLat) && Number.isFinite(siteLon))) {
+      return unavailable('The site location could not be read, so transit access was not scored.',
+        sources({ stopData: 'unavailable', countedStops: null, coverageScore: null, tierBreakdown: null }));
+    }
+    var sel = selectCountedStops(stopsGeojson);
+    if (!sel.stops) {
+      return unavailable(sel.unavailableReason,
+        sources({ stopData: 'unavailable', countedStops: null, coverageScore: null, tierBreakdown: null }));
+    }
+    if (!dist.tiers) {
+      return unavailable(dist.unavailableReason,
+        sources({ stopData: 'local-stops', countedStops: sel.stops.length, coverageScore: null, tierBreakdown: null }));
+    }
+
+    lastStops = sel.stops;
+    lastTransitReason = null;
+    var m = measureStops(siteLat, siteLon, sel.stops, dist.tiers);
+    lastMeasure = m;
+
+    // Frequency is never measured (see header); the composite is the
+    // weighted mean of the components that were.
+    var parts = [{ w: TRANSIT_WEIGHTS.coverage, v: m.coverageScore }];
+    if (hasEpa) {
+      var epaRaw = toNum(epaData.transitAccessibility || epaData.D4a);
+      parts.push({ w: TRANSIT_WEIGHTS.epaIndex, v: epaRaw <= 20 ? clamp(epaRaw * 5, 0, 100) : clamp(epaRaw, 0, 100) });
+    }
+    if (hasWalk) parts.push({ w: TRANSIT_WEIGHTS.walkScore, v: walkScore });
+    var wSum = 0, vSum = 0;
+    parts.forEach(function (p) { wSum += p.w; vSum += p.w * p.v; });
+    lastScore = clamp(Math.round(vSum / wSum), 0, 100);
+
+    _lastDataSources = sources({
+      stopData:          'local-stops',
+      countedStops:      sel.stops.length,
+      coverageScore:     m.coverageScore,
+      tierBreakdown:     m.tierBreakdown          // tod / zone stop counts
     });
-    _lastDataSources = {
-      routeData:        hasRoutes ? 'local-gtfs' : 'none',
-      epaData:          hasEpa ? epaSource : 'unavailable',
-      walkData:         hasWalk ? epaSource : 'unavailable',
-      nearbyRouteCount: nearbyRoutes.length,        // walk-tier only (back-compat)
-      totalRouteCount:  weightedRoutes.length,      // all tiers combined
-      tierBreakdown:    tierCounts,                 // walk / bike / drive-and-ride counts
-      totalCredit:      Math.round(totalCredit * 100) / 100, // credit-weighted equivalent
-      unavailableReason: (!hasEpa || !hasWalk)
-        ? (epaData.unavailableReason || EPA_UNAVAILABLE_REASON)
-        : null
-    };
 
-    return clamp(lastScore, 0, 100);
+    return lastScore;
   }
 
-  var _lastDataSources = {};
-
   /**
-   * Identify transit deserts — zones within the PMA that lack route coverage.
-   * Uses a grid-based approach: cells without a nearby route are "deserts".
+   * Identify transit deserts — cells of the PMA with no counted stop within
+   * the QAP transit-oriented distance. Grid-based.
    *
    * @param {object} pmaPolygon - GeoJSON Polygon geometry
-   * @param {Array}  routes
-   * @returns {Array} desert zone descriptors
+   * @param {Array}  [stops]    - counted stops ({lat, lon}); defaults to the
+   *                              last scored site's. Legacy route objects with
+   *                              a `stops` array are also accepted.
+   * @param {object} [mapStatus] - the status file; defaults to the distances
+   *                              of the last scored site.
+   * @returns {Array|null} desert cells; null when the distance is unknown
    */
-  function identifyTransitDeserts(pmaPolygon, routes) {
-    routes = routes || lastRoutes;
-    if (!pmaPolygon || !routes) { return []; }
-
+  function identifyTransitDeserts(pmaPolygon, stops, mapStatus) {
+    if (!pmaPolygon) { return []; }
     var coords = (pmaPolygon.coordinates && pmaPolygon.coordinates[0]) || [];
     if (!coords.length) { return []; }
 
-    // Compute PMA bounding box
+    var dist = mapStatus ? distanceTiers(mapStatus) : lastTiers;
+    var reach = dist && dist.tiers ? dist.todMiles : null;
+    if (reach === null) { lastDeserts = []; return null; }
+    var pts = toPoints(stops || lastStops);
+
     var lats = coords.map(function (c) { return c[1]; });
     var lons = coords.map(function (c) { return c[0]; });
     var minLat = Math.min.apply(null, lats);
@@ -296,16 +436,13 @@
     var minLon = Math.min.apply(null, lons);
     var maxLon = Math.max.apply(null, lons);
 
-    var stepDeg = DESERT_RADIUS_MILES / 69.0;
+    var stepDeg = DESERT_CELL_MILES / 69.0;
     var deserts = [];
 
     for (var lat = minLat; lat <= maxLat; lat += stepDeg) {
       for (var lon = minLon; lon <= maxLon; lon += stepDeg) {
-        // Check if any route stop is within walk distance
-        var served = routes.some(function (r) {
-          return (r.stops || []).some(function (s) {
-            return haversine(lat, lon, toNum(s.lat), toNum(s.lon)) <= WALK_TO_TRANSIT_MILES;
-          });
+        var served = pts.some(function (s) {
+          return haversine(lat, lon, s.lat, s.lon) <= reach;
         });
         if (!served) {
           deserts.push({ lat: lat, lon: lon, type: 'transit-desert' });
@@ -318,59 +455,65 @@
   }
 
   /**
-   * Build a GeoJSON FeatureCollection for the transit route layer.
-   * @param {Array} [routes]
+   * GeoJSON FeatureCollection of counted stops (the last scored site's
+   * stops within the zone radius when called with no argument).
+   * @param {Array} [stops]
    * @returns {object} GeoJSON FeatureCollection
    */
-  function getTransitLayer(routes) {
-    routes = routes || lastRoutes;
-    var features = (routes || []).map(function (r) {
-      var stops = (r.stops || []).map(function (s) {
+  function getTransitLayer(stops) {
+    var radius = lastTiers && lastTiers.tiers ? lastTiers.zoneRadiusMiles : null;
+    var pts = toPoints(stops || (lastSite && radius !== null ? lastStops.filter(function (s) {
+      return haversine(lastSite.lat, lastSite.lon, s.lat, s.lon) <= radius;
+    }) : []));
+    return {
+      type: 'FeatureCollection',
+      features: pts.map(function (s) {
         return {
           type: 'Feature',
-          geometry: { type: 'Point', coordinates: [toNum(s.lon), toNum(s.lat)] },
-          properties: {
-            routeId:   r.routeId || r.id || 'unknown',
-            routeName: r.name || r.routeName || 'Transit Route',
-            // Pass through null when headway is unknown rather than
-            // fabricating a 60-minute default. Map layers / downstream
-            // consumers should render "—" for null.
-            headway:   r.headwayMinutes != null ? toNum(r.headwayMinutes) : null,
-            mode:      r.mode || 'Bus'
-          }
+          geometry: { type: 'Point', coordinates: [s.lon, s.lat] },
+          properties: { name: s.name || null, agency: s.agency || null }
         };
-      });
-      return stops;
-    }).reduce(function (acc, val) { return acc.concat(val); }, []);
-
-    return { type: 'FeatureCollection', features: features };
+      })
+    };
   }
 
   /**
    * Export transit analysis for ScoreRun audit trail.
-   * Includes _dataSources so the UI can distinguish real vs. unavailable data.
    * @returns {object}
    */
   function getTransitJustification() {
     var epaAvailable = _lastDataSources.epaData === 'epa-live' || _lastDataSources.epaData === 'epa-sld-local';
     var walkAvailable = _lastDataSources.walkData === 'epa-live' || _lastDataSources.walkData === 'epa-sld-local';
     var epa = lastEpaData || {};
+    var m = lastMeasure;
+    var dist = lastTiers || {};
     return {
       transitAccessibilityScore: lastScore,
+      // Why transitAccessibilityScore is null (stop or status data unreadable).
+      transitUnavailableReason:  lastTransitReason,
       siteLat:                   lastSite ? lastSite.lat : null,
       siteLon:                   lastSite ? lastSite.lon : null,
       walkScore:                 lastWalkScore,
       walkScoreAvailable:        walkAvailable,
       epaDataAvailable:          epaAvailable,
+      // EPA Smart Location unavailability (the transit reason is above).
       unavailableReason:         _lastDataSources.unavailableReason || null,
-      nearbyRouteCount:          _lastDataSources.nearbyRouteCount || lastRoutes.length,
+      // The two distances, from data/policy/thiz-map-status.json.
+      todMiles:                  m ? dist.todMiles : null,
+      todLabel:                  m ? dist.todLabel : null,
+      todDisclosure:             m ? dist.todDisclosure : null,
+      zoneRadiusMiles:           m ? dist.zoneRadiusMiles : null,
+      // Confirmed stops by distance; null (not 0) when nothing was measured.
+      nearbyStopCount:           m ? m.stopsWithinTodDistance : null,
+      stopsWithinZoneRadius:     m ? m.stopsWithinZoneRadius : null,
+      nearbyAgencyCount:         m ? m.nearbyAgencyCount : null,
+      agenciesWithinZoneRadius:  m ? m.agenciesWithinZoneRadius : null,
+      nearestConfirmedStop:      m ? m.nearestConfirmedStop : null,
+      // A measured zero: the files loaded and no confirmed stop is in range.
+      noConfirmedStopWithinZoneRadius: m ? m.stopsWithinZoneRadius === 0 : null,
       serviceGaps:               lastDeserts.length,
-      hasHighFrequencyService:   lastRoutes.some(function (r) {
-        // Only "known high-frequency" counts — unknown headways don't
-        // get a manufactured 60-minute default that would exclude them
-        // or (worse) falsely include them in the justification.
-        return r.headwayMinutes != null && toNum(r.headwayMinutes) <= HIGH_FREQUENCY_MIN;
-      }),
+      hasHighFrequencyService:   null,
+      highFrequencyUnavailableReason: FREQUENCY_UNAVAILABLE_REASON,
       // Extended EPA SLD metrics (available when _dataSource is epa-sld-local)
       jobAccess:                 epa.jobAccess != null ? epa.jobAccess : null,
       landUseMix:                epa.landUseMix != null ? epa.landUseMix : null,
@@ -381,28 +524,25 @@
   }
 
   /* ── Public API ──────────────────────────────────────────────────── */
+  var api = {
+    fetchTransitStops:       fetchTransitStops,
+    fetchTransitZoneStatus:  fetchTransitZoneStatus,
+    fetchEPASmartLocation:   fetchEPASmartLocation,
+    distanceTiers:           distanceTiers,
+    selectCountedStops:      selectCountedStops,
+    measureStops:            measureStops,
+    calculateTransitScore:   calculateTransitScore,
+    identifyTransitDeserts:  identifyTransitDeserts,
+    getTransitLayer:         getTransitLayer,
+    getTransitJustification: getTransitJustification,
+    TRANSIT_WEIGHTS:         TRANSIT_WEIGHTS,
+    STOPS_FOR_FULL_TIER:     STOPS_FOR_FULL_TIER
+  };
   if (typeof window !== 'undefined') {
-    window.PMATransit = {
-      fetchNTDData:            fetchNTDData,
-      fetchEPASmartLocation:   fetchEPASmartLocation,
-      calculateTransitScore:   calculateTransitScore,
-      identifyTransitDeserts:  identifyTransitDeserts,
-      getTransitLayer:         getTransitLayer,
-      getTransitJustification: getTransitJustification,
-      TRANSIT_WEIGHTS:         TRANSIT_WEIGHTS
-    };
+    window.PMATransit = api;
   }
-
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-      fetchNTDData:            fetchNTDData,
-      fetchEPASmartLocation:   fetchEPASmartLocation,
-      calculateTransitScore:   calculateTransitScore,
-      identifyTransitDeserts:  identifyTransitDeserts,
-      getTransitLayer:         getTransitLayer,
-      getTransitJustification: getTransitJustification,
-      TRANSIT_WEIGHTS:         TRANSIT_WEIGHTS
-    };
+    module.exports = api;
   }
 
 }());

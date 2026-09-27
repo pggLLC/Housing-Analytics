@@ -223,16 +223,45 @@
       );
     }
 
-    // Transit
+    // Transit — scored from confirmed stops (js/pma-transit.js) at the two
+    // distances in data/policy/thiz-map-status.json, which travel with the
+    // result (todLabel, zoneRadiusMiles) so this text cannot name others.
+    // Three cases, never conflated: not measured (null + reason), measured
+    // with no confirmed stop within the zone radius (a real 0 coverage), and
+    // measured with stops.
     var t = scoreRun.transit || {};
-    var tScore = toNum(t.transitAccessibilityScore || 0);
-    if (tScore > 0) {
-      var tDesc = tScore >= 70 ? 'strong' : tScore >= 40 ? 'moderate' : 'limited';
+    var tScore = Number.isFinite(t.transitAccessibilityScore) ? t.transitAccessibilityScore : null;
+    var epaNote = t.unavailableReason ? t.unavailableReason + ' ' : '';
+    var radiusText = typeof t.zoneRadiusMiles === 'number'
+      ? t.zoneRadiusMiles + (t.zoneRadiusMiles === 1 ? ' mile' : ' miles') : null;
+    if (tScore === null && t.transitUnavailableReason) {
+      parts.push('Transit accessibility was not scored: ' + t.transitUnavailableReason);
+    } else if (tScore !== null && t.noConfirmedStopWithinZoneRadius === true && radiusText) {
+      var nearestFar = t.nearestConfirmedStop;
       parts.push(
-        'Transit accessibility within the PMA is ' + tDesc + ', ' +
-        'with a composite score of ' + tScore + '/100 ' +
-        '(walk score: ' + (t.walkScore || 'N/A') + '). ' +
-        (t.unavailableReason ? t.unavailableReason + ' ' : '') +
+        'No confirmed transit stop was found within ' + radiusText + ' of the site' +
+        (nearestFar && typeof nearestFar.distanceMiles === 'number'
+          ? ' (the nearest is ' + nearestFar.distanceMiles + ' miles away)' : '') +
+        ', so stop coverage is measured as zero; the composite transit score is ' + tScore + '/100. ' +
+        epaNote +
+        'On-site parking and car-share programs are recommended to address service gaps.'
+      );
+    } else if (tScore !== null) {
+      var tDesc = tScore >= 70 ? 'strong' : tScore >= 40 ? 'moderate' : 'limited';
+      var near = typeof t.nearbyStopCount === 'number' ? t.nearbyStopCount : null;
+      var zone = typeof t.stopsWithinZoneRadius === 'number' ? t.stopsWithinZoneRadius : null;
+      var stopsNote = (near !== null && zone !== null && t.todLabel && radiusText)
+        ? near + ' confirmed transit stop(s) within ' + t.todLabel + ' and ' + zone + ' within ' + radiusText +
+          (typeof t.nearbyAgencyCount === 'number' && t.nearbyAgencyCount > 0
+            ? ' (' + t.nearbyAgencyCount + ' agenc' + (t.nearbyAgencyCount === 1 ? 'y' : 'ies') + ' within ' + t.todLabel + ')' : '') + ', '
+        : '';
+      parts.push(
+        'Transit accessibility within the PMA is ' + tDesc + ', with ' + stopsNote +
+        'a composite score of ' + tScore + '/100 ' +
+        '(walk score: ' + (t.walkScore === null || t.walkScore === undefined ? 'N/A' : t.walkScore) + '). ' +
+        (stopsNote && t.todDisclosure ? t.todDisclosure + ' ' : '') +
+        epaNote +
+        (t.highFrequencyUnavailableReason ? 'Service frequency is not scored: the stop data has no schedules. ' : '') +
         (tScore < 40 ? 'On-site parking and car-share programs are recommended to address service gaps.' : '')
       );
     }
@@ -366,7 +395,7 @@
     var present = 0, total = 5;
     if (commuting && (toNum(commuting.lodesWorkplaces || commuting.captureRate) > 0)) present++;
     if (schools   && toNum(schools.schoolsAligned || schools.schoolDistrictsAligned) > 0) present++;
-    if (transit   && toNum(transit.transitAccessibilityScore) > 0) present++;
+    if (transit   && Number.isFinite(transit.transitAccessibilityScore)) present++;
     if (opps      && (toNum(opps.opportunityZoneShare) > 0 || toNum(opps.fairHousingScore) > 0)) present++;
     if (infra     && toNum(infra.compositeScore)       > 0) present++;
     if (present === total) return 'HIGH';
