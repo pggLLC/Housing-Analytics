@@ -355,3 +355,17 @@ test('both R5 and deferred H1 tests are reachable from ci:part-7', () => {
     assert.equal(scripts[`test:${name}`], `node --test test/${file}`);
   }
 });
+
+test('a no-position record without a check date does not blank the candidates section', async (t) => {
+  const candidates = structuredClone(CANDIDATES);
+  const record = candidates.candidates.find((c) => c.coverage_state === 'official_material_reviewed_no_housing_position_found');
+  assert.ok(record, 'fixture needs a no-position record');
+  record.verification = null;
+  const { doc } = await page(t, { candidates });
+  const host = doc.getElementById('candidate-records');
+  assert.doesNotMatch(host.textContent, /could not be loaded/);
+  assert.equal(host.querySelectorAll('.candidate-race').length,
+    candidates.races.filter((r) => r.certified_candidates.length).length);
+  const card = [...host.querySelectorAll('[data-candidate]')].find((el) => el.dataset.candidate === record.candidate);
+  assert.match(normalized(card.textContent), /No housing position found in published campaign material(?! \(checked)/);
+});

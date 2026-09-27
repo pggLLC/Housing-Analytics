@@ -175,7 +175,8 @@
     var campaign = records.find(function (c) { return !c.verification || c.verification.level !== 'reported'; });
     if (campaign) {
       if (campaign.coverage_state === 'official_material_reviewed_no_housing_position_found') {
-        add(card, 'p', 'No housing position found in published campaign material (checked ' + campaign.verification.checked + ')');
+        add(card, 'p', 'No housing position found in published campaign material' +
+          (campaign.verification && campaign.verification.checked ? ' (checked ' + campaign.verification.checked + ')' : ''));
       } else if (campaign.coverage_state === 'campaign_source_unavailable') {
         add(card, 'p', 'Campaign source unavailable. No housing position can be established from this record.');
       } else if (campaign.coverage_state === 'not_researched') {
