@@ -326,12 +326,15 @@ jobs:
       - name: Regenerate paper figures and manifests (PRs only)
         # See "Verify README + AGENTS.md inventory" above. Order matters:
         # the paper quotes the inventory line, and rebuild_manifest.py
-        # records the byte count of data/_manifest.json, so it runs last.
+        # records the byte count of data/_manifest.json, so it follows that
+        # rebuild. Then re-sync the Data Trust Center's manifest file count,
+        # just as the post-merge workflow does, before the drift gate runs.
         if: github.event_name == 'pull_request'
         run: |
           npm run -s paper:build
           npm run -s audit:file-manifest
           python3 scripts/rebuild_manifest.py
+          node scripts/audit/refresh-inventory-mtimes.mjs
 
       - name: Run unified CI test suite
         run: npm run test:ci

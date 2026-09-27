@@ -1,0 +1,155 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08045",
+      "level": "county",
+      "name": "Garfield County",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/6/Final-composite.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "No county question appears on the composite ballot; the county section has only the Commissioner District 1 contest. Other districts' measures read and excluded: Garfield School District RE-2 4A (salaries), Garfield County Public Library District 6B, Glenwood Springs Rural Fire Protection District 6A.",
+        "Excluded by owner decision (2026-09-26); not a county question and no entry created. Garfield School District RE-2 Ballot Issue 4B lists affordable rental housing for district staff as one of several bond purposes. Exact text: \"WITHOUT IMPOSING A NEW TAX, SHALL GARFIELD SCHOOL DISTRICT NO. RE-2 DEBT BE INCREASED UP TO $118 MILLION WITH A REPAYMENT COST OF UP TO $225 MILLION, AND SHALL ANNUAL BOND REDEMPTION TAXES APPROVED BY DISTRICT VOTERS IN 2006 AND CURRENTLY RECEIVED BY THE DISTRICT BE EXTENDED TO PAY THE DEBT TO BE INCURRED FOR THE PURPOSE OF ACQUIRING, CONSTRUCTING, REPAIRING, EQUIPPING AND IMPROVING DISTRICT CAPITAL ASSETS, TO THE EXTENT OF AVAILABLE FUNDS, INCLUDING: CONSTRUCTING A NEW ACCESS ROAD AT RIFLE HIGH SCHOOL TO IMPROVE SAFETY AND TRAFFIC CIRCULATION FOR STUDENTS, STAFF, AND COMMUNITY MEMBERS; RENOVATING SCIENCE CLASSROOMS AND AGING LAB SYSTEMS, AND CONVERTING OUTDATED COMPUTER LABS INTO DEDICATED CAREER-READY AND ENGINEERING LABS AT RIFLE HIGH SCHOOL; CONSTRUCTING AN ADDITION AND RELATED RENOVATIONS AT COAL RIDGE HIGH SCHOOL TO EXPAND TRADES, AGRICULTURAL, AND CAREER-READY TRAINING, ATHLETIC FACILITIES, AND PERFORMING ARTS SPACES; BUILDING A NEW EARLY LEARNING CENTER TO PROVIDE ESSENTIAL EARLY CHILDHOOD EDUCATION AND CARE SERVICES; ACQUIRING AND CONSTRUCTING AFFORDABLE RENTAL HOUSING IN RIFLE, SILT, AND NEW CASTLE TO ATTRACT AND RETAIN DISTRICT TEACHERS AND STAFF (SUCH AS BUS DRIVERS, PARAPROFESSIONALS, AND KITCHEN STAFF); AND UPGRADING DISTRICT-WIDE TECHNOLOGY INFRASTRUCTURE AND ACQUIRING RELATED CAPITAL ASSETS, CRITICAL FOR TEACHING AND LEARNING AT ALL SCHOOLS; THROUGH ISSUANCE OF GENERAL OBLIGATION BONDS WHICH SHALL BEAR INTEREST, MATURE, BE SUBJECT TO REDEMPTION, WITH OR WITHOUT PREMIUM, AND BE ISSUED AT SUCH TIME, AT SUCH PRICE (AT, ABOVE OR BELOW PAR) AND IN SUCH MANNER AND CONTAINING SUCH TERMS, NOT INCONSISTENT WITH THIS BALLOT ISSUE, AS THE BOARD OF EDUCATION MAY DETERMINE; AND SHALL AD VALOREM PROPERTY TAXES BE LEVIED WITHOUT LIMIT AS TO THE MILL RATE BUT BY NOT MORE THAN $9.2 MILLION ANNUALLY, TO GENERATE AMOUNTS SUFFICIENT IN EACH YEAR TO PAY THE PRINCIPAL OF AND INTEREST ON THE BONDS AND TO FUND ANY RESERVES FOR THE PAYMENT THEREOF?\"",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.garfieldcountyco.gov/clerk-recorder/elections/",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0812030",
+      "level": "municipal",
+      "name": "Carbonate (town)",
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/6/Final-composite.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official composite sample ballot, which lists every local ballot measure under \"Local Ballot Measures\". This row is absent from it.",
+        "No town website was found.",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ]
+    },
+    {
+      "geoid": "0812045",
+      "level": "municipal",
+      "name": "Carbondale (town)",
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/6/Final-composite.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official composite sample ballot, which lists every local ballot measure under \"Local Ballot Measures\". This row is absent from it.",
+        "The town elections page gives the next municipal election as April 4, 2028.",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.carbondalegov.org/departments/administration/town_clerk/elections.php",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0830780",
+      "level": "municipal",
+      "name": "Glenwood Springs (city)",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/6/Final-composite.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "City of Glenwood Springs Ballot Issue 2B (7.9 mill property tax for fire, rescue and emergency medical services) read and excluded; no housing earmark. The city approved the coordinated-election IGA by Resolution 2026-19.",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://cogs.us/947/2026-Ballot-Issue",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://cogs.us/Archive/ViewFile/Item/3185",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0853395",
+      "level": "municipal",
+      "name": "New Castle (town)",
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/6/Final-composite.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official composite sample ballot, which lists every local ballot measure under \"Local Ballot Measures\". This row is absent from it.",
+        "The town website returned HTTP 403 and could not be checked.",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ]
+    },
+    {
+      "geoid": "0857400",
+      "level": "municipal",
+      "name": "Parachute (town)",
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/6/Final-composite.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official composite sample ballot, which lists every local ballot measure under \"Local Ballot Measures\". This row is absent from it.",
+        "The town elections page covers only the April 7, 2026 election.",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.parachute.gov/page/municipalelections",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0864255",
+      "level": "municipal",
+      "name": "Rifle (city)",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/6/Final-composite.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "City of Rifle Ballot Issue 2A (lodging tax increase for visitor improvements, historic preservation, events, beautification and promotion) read and excluded; the revenue is not dedicated to housing. The city page lists 2A as its only measure. Resolution No. 20 of 2026 is scanned without a text layer and was not read.",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.rifleco.org/407/Municipal-Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0870195",
+      "level": "municipal",
+      "name": "Silt (town)",
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/6/Final-composite.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official composite sample ballot, which lists every local ballot measure under \"Local Ballot Measures\". This row is absent from it.",
+        "The county TABOR notice was not posted (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.townofsilt.org/town_clerk",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    }
+  ],
+  "entries": []
+}

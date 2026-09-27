@@ -1,0 +1,75 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08039",
+      "level": "county",
+      "name": "Elbert County",
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.elbertcounty-co.gov/290/Elections",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "As of 2026-09-26 the Elbert County Clerk had posted no sample ballot, TABOR notice, ballot-content certification or participating-entities list for the 2026 General Election; the only 2026 General documents were a logic and accuracy test notice and voter instructions. The previously indexed /640/2026-Sample-Ballot page returned 404."
+      ]
+    },
+    {
+      "geoid": "0823740",
+      "level": "municipal",
+      "name": "Elizabeth (town)",
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.elbertcounty-co.gov/290/Elections",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "As of 2026-09-26 the Elbert County Clerk had posted no sample ballot, TABOR notice, ballot-content certification or participating-entities list for the 2026 General Election; the only 2026 General documents were a logic and accuracy test notice and voter instructions. The previously indexed /640/2026-Sample-Ballot page returned 404.",
+        "The Town of Elizabeth notice of election and election pages returned a Cloudflare challenge (HTTP 403) and could not be read (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.townofelizabeth.org/townclerk/page/notice-election-town-elizabeth",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0840790",
+      "level": "municipal",
+      "name": "Kiowa (town)",
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.elbertcounty-co.gov/290/Elections",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "As of 2026-09-26 the Elbert County Clerk had posted no sample ballot, TABOR notice, ballot-content certification or participating-entities list for the 2026 General Election; the only 2026 General documents were a logic and accuracy test notice and voter instructions. The previously indexed /640/2026-Sample-Ballot page returned 404.",
+        "The town site states the November ballot will carry the Mayor and Trustee seats; no ballot question appears in its notices, but no town notice of election or ballot content was posted."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://townofkiowa.colorado.gov/election",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0870635",
+      "level": "municipal",
+      "name": "Simla (town)",
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.elbertcounty-co.gov/290/Elections",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "As of 2026-09-26 the Elbert County Clerk had posted no sample ballot, TABOR notice, ballot-content certification or participating-entities list for the 2026 General Election; the only 2026 General documents were a logic and accuracy test notice and voter instructions. The previously indexed /640/2026-Sample-Ballot page returned 404.",
+        "The town site states its regular elections are held in April of even years; participation in the November election could not be confirmed without a county list."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://townofsimla.com/pages/voting-elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    }
+  ],
+  "entries": []
+}

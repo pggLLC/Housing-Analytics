@@ -1,0 +1,243 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08059",
+      "level": "county",
+      "name": "Jefferson County",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.jeffco.us/DocumentCenter/View/59081/2026-General-TABOR-Booklet-PDF",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "No Jefferson County (1-series) ballot issue or question appears in the TABOR booklet or on the On the Ballot page.",
+        "Excluded (special districts, not housing): Jeffco School District R-1 5A and 5B; 6A Blue Mountain Water; 6B Golden Gate Fire; 6C Arvada Fire; 6D and 6E Columbine Knolls Grove Metropolitan Recreation District; 7A Front Range Passenger Rail District (transit; station-area improvements, no housing earmark); 7B Evergreen Fire; 7C West Metro Fire; 7D Conifer Fire.",
+        "Jefferson County has posted no separate participating-entities list; the county On the Ballot page (local ballot measures and local candidate races) was used as the list. The PDF sample ballot was marked \"coming soon\" on 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.jeffco.us/4652/On-the-Ballot",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.jeffco.us/5015/Upcoming-Election",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0803455",
+      "level": "municipal",
+      "name": "Arvada (city)",
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.jeffco.us/4652/On-the-Ballot",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "The City of Arvada has no measure or race on the county list (Arvada Fire Protection District 6C is a separate special district). The city elections page gives its next election as November 2, 2027. Arvada territory in Adams County was not reviewed.",
+        "Jefferson County has posted no separate participating-entities list; the county On the Ballot page (local ballot measures and local candidate races) was used as the list. The PDF sample ballot was marked \"coming soon\" on 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.arvadaco.gov/279/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0823135",
+      "level": "municipal",
+      "name": "Edgewater (city)",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.jeffco.us/DocumentCenter/View/59081/2026-General-TABOR-Booklet-PDF",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "Excluded: City of Edgewater Issue 2K, a 0.5% sales tax \"USED SOLELY FOR THE PURPOSES OF INCREASING AND IMPROVING ACCESSIBILITY AND MOBILITY THROUGHOUT THE CITY\"; not housing.",
+        "The city elections page (edgewaterco.gov) returned HTTP 403 to automated access on 2026-09-26 and was not read."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.jeffco.us/4652/On-the-Ballot",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0830835",
+      "level": "municipal",
+      "name": "Golden (city)",
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.jeffco.us/4652/On-the-Ballot",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "The City of Golden has no measure or race on the county list (Golden Gate Fire Protection District 6B is a separate special district). The city elections page states that regular elections are held in odd-numbered years.",
+        "Jefferson County has posted no separate participating-entities list; the county On the Ballot page (local ballot measures and local candidate races) was used as the list. The PDF sample ballot was marked \"coming soon\" on 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.cityofgolden.gov/government/elections.php",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0842495",
+      "level": "municipal",
+      "name": "Lakeside (town)",
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.jeffco.us/4652/On-the-Ballot",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "The Town of Lakeside has no measure or race on the county list. The town website (lakeside.town) returned HTTP 403 to automated access on 2026-09-26 and was not read.",
+        "Jefferson County has posted no separate participating-entities list; the county On the Ballot page (local ballot measures and local candidate races) was used as the list. The PDF sample ballot was marked \"coming soon\" on 2026-09-26."
+      ]
+    },
+    {
+      "geoid": "0843000",
+      "level": "municipal",
+      "name": "Lakewood (city)",
+      "coverage_state": "verified_measure_found",
+      "reviewed_source": "https://www.jeffco.us/DocumentCenter/View/59081/2026-General-TABOR-Booklet-PDF",
+      "checked": "2026-09-26",
+      "entry_ids": [
+        "ballot-2026-0843000-2g"
+      ],
+      "limitations": [
+        "Excluded: Lakewood Questions 2H (start of newly elected terms), 2I (repeal of Charter 12.12 and voter approval for property tax increases; no housing earmark) and 2J (initiative and referendum election time frames).",
+        "The city website (lakewoodco.gov) returned HTTP 403 to automated access on 2026-09-26 and was not read."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.jeffco.us/4652/On-the-Ballot",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0852075",
+      "level": "municipal",
+      "name": "Morrison (town)",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.jeffco.us/DocumentCenter/View/59081/2026-General-TABOR-Booklet-PDF",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "Excluded: Town of Morrison Issues 2D (removes a lodging tax exemption) and 2E (lodging tax from 6% to 8%); both revenues are \"TO BE SPENT ON ANY LAWFUL MUNICIPAL PURPOSE\", not dedicated to housing. Question 2F (trustee terms) is governance."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.jeffco.us/4652/On-the-Ballot",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.morrisonco.us/251/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "geoid": "0852350",
+      "level": "municipal",
+      "name": "Mountain View (town)",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.jeffco.us/4652/On-the-Ballot",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "Excluded: Town of Mountain View Questions 2B (council-manager form of government) and 2C (repeal of charter Article VIII, boards and commissions); governance. These non-tax questions are on the county On the Ballot page, not in the TABOR booklet.",
+        "The town website (tomv.org) returned HTTP 403 to automated access on 2026-09-26 and was not read."
+      ]
+    },
+    {
+      "geoid": "0884440",
+      "level": "municipal",
+      "name": "Wheat Ridge (city)",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.jeffco.us/DocumentCenter/View/59081/2026-General-TABOR-Booklet-PDF",
+      "checked": "2026-09-26",
+      "entry_ids": [],
+      "limitations": [
+        "Excluded: City of Wheat Ridge Issue 2A, a 1.0% sales and use tax for streets, bike and pedestrian safety, community spaces, the Anderson Park pool, and police and city facilities; not housing. The city holds a special municipal election coordinated with the county for this question."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.jeffco.us/4652/On-the-Ballot",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.ci.wheatridge.co.us/2118/2026-Ballot-Question",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.ci.wheatridge.co.us/742/Municipal-Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "id": "ballot-2026-0843000-2g",
+      "election": {
+        "date": "2026-11-03",
+        "type": "coordinated"
+      },
+      "jurisdiction": {
+        "geoid": "0843000",
+        "level": "municipal",
+        "name": "Lakewood (city)"
+      },
+      "measure": {
+        "number": "2G",
+        "official_title": "City of Lakewood Ballot Issue 2G",
+        "origin": "referred",
+        "relevance": [
+          "homelessness"
+        ],
+        "fiscal": {
+          "mechanism": "AN ADDITIONAL SALES AND USE TAX OF 0.5%",
+          "rate": "INCREASING CITY’S SALES AND USE TAX RATE FROM THREE PERCENT (3%) TO THREE AND A HALF PERCENT (3.5%)",
+          "amount_cap": "UP TO $17,600,000 IN THE FIRST FULL FISCAL YEAR (COMMENCING JANUARY 1, 2027)",
+          "duration": null,
+          "sunset": null
+        }
+      },
+      "status": "on_ballot",
+      "sources": {
+        "certification": null,
+        "official_text": null,
+        "ballot_notice": {
+          "url": "https://www.jeffco.us/DocumentCenter/View/59081/2026-General-TABOR-Booklet-PDF",
+          "retrieved": "2026-09-26"
+        },
+        "blue_book": null,
+        "resolution": null
+      },
+      "neutral_title": "Sales and use tax increase for public safety, including homelessness response, and traffic safety",
+      "detail": "Adds a 0.5% sales and use tax, raising the city rate from 3% to 3.5%, with food exempt; up to $17,600,000 in the first full fiscal year, commencing January 1, 2027. Revenue is restricted to public safety purposes, including crime prevention and homelessness response, and to traffic safety improvements.",
+      "evidence": [
+        {
+          "section": "Jefferson County 2026 General TABOR Booklet, City of Lakewood Ballot Issue 2G",
+          "quote": "SHALL CITY OF LAKEWOOD TAXES BE INCREASED BY UP TO $17,600,000 IN THE FIRST FULL FISCAL YEAR (COMMENCING JANUARY 1, 2027) AND BY WHATEVER ADDITIONAL AMOUNTS AS ARE RAISED ANNUALLY IN EACH SUBSEQUENT YEAR, THROUGH THE IMPOSITION OF AN ADDITIONAL SALES AND USE TAX OF 0.5% (INCREASING CITY’S SALES AND USE TAX RATE FROM THREE PERCENT (3%) TO THREE AND A HALF PERCENT (3.5%)), PROVIDED THAT: • FOOD, AS DEFINED IN LAKEWOOD MUNICIPAL CODE SECTION 3.01.430 (WHICH INCLUDES GROCERIES), SHALL BE EXEMPT FROM SUCH ADDITIONAL HALF-PERCENT SALES AND USE TAX, AND SHALL THE TAX REVENUES FROM SUCH ADDITIONAL HALF PERCENT SALES TAX BE USED ONLY FOR THE FOLLOWING SPECIFIC PURPOSES: • PUBLIC SAFETY PURPOSES, INCLUDING INVESTING IN CRIME PREVENTION AND HOMELESSNESS RESPONSE; AND • TRAFFIC SAFETY IMPROVEMENTS, INCLUDING MAINTENANCE AND CONSTRUCTION OF STREETS AND SIDEWALKS, ROAD IMPROVEMENTS TO REDUCE VEHICLE SPEEDS, AND PEDESTRIAN AND BICYCLE SAFETY ENHANCEMENTS. AND SHALL SUCH ADDITIONAL HALF PERCENT SALES AND USE TAX BE COLLECTED, RETAINED AND SPENT AS A VOTER APPROVED REVENUE CHANGE NOTWITHSTANDING ANY REVENUE OR EXPENDITURE LIMIT CONTAINED WITHIN ARTICLE X, SECTION 20, OF THE COLORADO CONSTITUTION OR ANY OTHER LAW?"
+        }
+      ],
+      "verification": {
+        "level": "primary",
+        "against": "Jefferson County 2026 General TABOR Booklet (DocumentCenter/View/59081)",
+        "checked": "2026-09-26"
+      },
+      "limitations": [
+        "Mixed-purpose measure: homelessness response is one named use within public safety purposes, alongside crime prevention and traffic safety improvements. The question does not allocate a share of revenue to homelessness. Included as a homelessness measure by owner decision on 2026-09-26.",
+        "The quote is from the TABOR booklet with line breaks normalized to single spaces.",
+        "The referring ordinance or resolution was not read: the city website (lakewoodco.gov) returned HTTP 403 on 2026-09-26. The county PDF sample ballot was not yet posted.",
+        "The question states no duration or sunset."
+      ],
+      "result": null,
+      "history": [],
+      "archived": false
+    }
+  ]
+}

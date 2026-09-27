@@ -1,0 +1,46 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08101",
+      "level": "county",
+      "name": "Pueblo County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0807795",
+      "level": "municipal",
+      "name": "Boone (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0862000",
+      "level": "municipal",
+      "name": "Pueblo (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0866895",
+      "level": "municipal",
+      "name": "Rye (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

@@ -131,7 +131,9 @@
   }
 
   function activeClass(targetHref) {
-    const cur = location.pathname.split('/').pop() || 'index.html';
+    const page = location.pathname.split('/').pop() || 'index.html';
+    // Research articles belong to Housing News; a bare reader URL has no brief.
+    const cur = page === 'research-brief.html' ? 'policy-briefs.html' : page;
     const t = targetHref.split('/').pop();
     return cur.toLowerCase() === t.toLowerCase() ? 'is-active' : '';
   }

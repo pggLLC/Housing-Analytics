@@ -55,7 +55,7 @@
   var map          = null;
   var siteMarker   = null;
   var bufferCircle = null;
-  var todCircle    = null;   // ½-mile TOD isochrone (CHFA 3-pt scoring)
+  var todCircle    = null;   // ½-mile TOD ring (CHFA QAP transit points, see QAP_TOD)
   var todMarkers   = null;   // L.layerGroup for highlighted transit stops in ½-mile
   var isochroneRingsLayer = null;  // L.featureGroup of walking + biking rings
   var siteLatLng   = null;
@@ -64,6 +64,21 @@
   // guarded by a three-way agreement test in test/pma-scoring.test.js
   // (#1160). bindBufferSelect() re-syncs from the live select at init.
   var bufferMiles  = 3;
+
+  // CHFA QAP transit points (Project Location criterion). The adopted plan
+  // and the draft differ, so both are shown and labelled. Must agree with the
+  // "b. Three Five points … TOC or TOD site" redline in
+  // data/audit/chfa-qap-watch.json — guarded by test/qap-tod-points.test.js.
+  var QAP_TOD = {
+    section:       '§5.B.2.b',
+    adoptedPoints: 3,
+    adoptedPlan:   '2025–26 QAP',
+    draftPoints:   5,
+    draftPlan:     '2027–28 QAP Third Draft',
+    ruralSection:  '§5.B.3.b'
+  };
+  var QAP_TOD_POINTS_LABEL = QAP_TOD.adoptedPoints + ' CHFA pts (' +
+    QAP_TOD.draftPoints + ' proposed)';
 
   // Walking + biking ring radii (miles). The ½-mile walking ring is the
   // canonical CHFA TOD-scoring ring drawn separately as `todCircle` — skipped
@@ -1208,7 +1223,12 @@
       flags.push({ level: 'bad', text: 'High cost-burden pressure (≥45%)' });
     }
     if (captureObj.capture >= RISK.captureHigh) {
-      flags.push({ level: 'warn', text: 'High capture risk (≥25% of qualified renters)' });
+      // captureObj.capture is (existing + proposed units) ÷ qualified
+      // renters. With no proposed units (the headline) it is existing
+      // affordable penetration alone, not a capture rate for any project.
+      flags.push({ level: 'warn', text: 'High ' + MEASURE_NAMES.penetration.toLowerCase() +
+        (proposedUnits > 0 ? ' including the ' + proposedUnits + ' proposed units' : '') +
+        ' (≥' + Math.round(RISK.captureHigh * 100) + '% of qualified renters)' });
     }
     if (!rentPressureObj.unavailable && rentPressureObj.ratio >= RISK.rentPressureElev) {
       flags.push({ level: 'warn', text: 'Elevated rent pressure (market ÷ affordable ≥ 1.10)' });
@@ -1371,6 +1391,21 @@
     return { proposedUnits: proposedUnits, captureRate: captureRate, risk: risk };
   }
 
+  /*
+   * Two ratios on this page share one denominator, and must not share a
+   * name. The headline divides EXISTING affordable units by qualified renter
+   * households: that is penetration of the existing stock. The simulator and
+   * the scenario table divide the PROPOSED project's units by the same
+   * households: that is the project's capture rate, the measure CHFA means
+   * by "capture rate". Both were called "Capture rate". These names are used
+   * on screen and in the exports; market-analysis.html and its Help dialog
+   * must agree with them (test/pma-capture-naming.test.js).
+   */
+  var MEASURE_NAMES = {
+    penetration: 'Existing affordable penetration',
+    capture:     'Proposed-project capture'
+  };
+
   /**
    * The one denominator every capture rate on this page divides by (audit
    * F3). The headline and the simulator divided by CHAS LIHTC-eligible
@@ -1396,7 +1431,7 @@
   function _denominatorLine(den) {
     return den
       ? '\u00f7 ' + den.value.toLocaleString() + ' ' + den.label
-      : 'No renter-household count for this PMA, so no capture rate.';
+      : 'No renter-household count for this PMA, so no penetration or capture rate.';
   }
 
   /* ── Tier label ─────────────────────────────────────────────────── */
@@ -1598,7 +1633,7 @@
     var dimLabels = ['Demand', 'Competitive Density', 'Rent Pressure', 'Market Tightness', 'Workforce'];
     var dimDescs  = [
       'Income-qualified renter demand within the buffer. Higher = more households at LIHTC-eligible incomes relative to existing supply.',
-      'Ratio of total affordable units to renter households — not a traditional capture rate. Lower density = higher score.',
+      MEASURE_NAMES.penetration + ': existing affordable units ÷ renter households — not the ' + MEASURE_NAMES.capture.toLowerCase() + ' rate. Lower density = higher score.',
       'How far market rents have pulled above the capped rents an income-restricted building may charge. The wider that gap, the more people are priced out of the open market and the more demand there is for restricted units.',
       'How fully occupied existing housing stock is (vacancy signal). Low vacancy = tight market = strong demand. This does NOT measure land availability for new construction.',
       'Workforce housing alignment: commuting patterns, major employer proximity, and job-to-housing ratio within the buffer.'
@@ -2240,7 +2275,7 @@
     var mix = validateUnitMix();
     if (!mix.valid) {
       simEl.innerHTML =
-        '<div class="pma-empty">Capture rate unavailable — fix the unit-mix error above.</div>';
+        '<div class="pma-empty">' + MEASURE_NAMES.capture + ' rate unavailable — fix the unit-mix error above.</div>';
       return;
     }
 
@@ -2269,7 +2304,7 @@
     simEl.innerHTML =
       '<div class="pma-stat-grid">' +
         '<div class="pma-stat"><div class="pma-stat-value">' + sim.proposedUnits + '</div><div class="pma-stat-label">Proposed units</div></div>' +
-        '<div class="pma-stat"><div class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">Capture rate</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">' + MEASURE_NAMES.capture + ' rate</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value" style="color:' +
           (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' +
           sim.risk + '</div><div class="pma-stat-label">Risk level</div></div>' +
@@ -2414,10 +2449,10 @@
         '<thead><tr>' +
           '<th style="text-align:left;padding:0.2rem 0.5rem;color:var(--faint)">Scenario</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">PMA Score</th>' +
-          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Capture Rate</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">' + MEASURE_NAMES.capture + ' rate</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Risk</th>' +
         '</tr></thead><tbody>' + rows + '</tbody></table>' +
-      '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">Capture rate = proposed units ' + _denominatorLine(scenDen) + '.</p>';
+      '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">' + MEASURE_NAMES.capture + ' rate = proposed units ' + _denominatorLine(scenDen) + '. Not the ' + MEASURE_NAMES.penetration.toLowerCase() + ' above, which divides existing units.</p>';
   }
 
   /* ── Run analysis ───────────────────────────────────────────────── */
@@ -3369,55 +3404,62 @@
   }
 
   /* ── Map legend ─────────────────────────────────────────────────── */
+  /*
+   * The PMA map legend (F211): default-collapsed, header toggles .is-collapsed.
+   * Built here rather than inline in onAdd so the glossary guard can test the
+   * page's real legend markup (test/glossary-skips-hidden-text.test.js).
+   */
+  function buildPmaLegend(overlayMaps) {
+    // F211 — Collapsible legend (matches OF + AHL pattern). Default-collapsed
+    // per F184 site-wide policy so the legend doesn't obscure the map on
+    // mobile or eat space on desktop. Click the header → toggle .is-collapsed.
+    var div = L.DomUtil.create('div', 'pma-legend is-collapsed');
+    var items = [];
+    if (overlayMaps['County Boundaries']) {
+      items.push('<span class="pma-legend-swatch" style="border:2px solid #334155;background:transparent"></span> Counties');
+    }
+    if (overlayMaps['Qualified Census Tracts']) {
+      items.push('<span class="pma-legend-swatch" style="background:#7c3aed;opacity:.6"></span> QCT');
+    }
+    if (overlayMaps['Difficult Dev Areas']) {
+      items.push('<span class="pma-legend-swatch" style="background:#b45309;opacity:.6"></span> DDA');
+    }
+    if (overlayMaps['LIHTC Projects']) {
+      items.push('<span class="pma-legend-swatch pma-legend-circle" style="background:#0a7e74"></span> LIHTC');
+    }
+    div.innerHTML =
+      '<button type="button" class="pma-legend-toggle" aria-label="Toggle legend" aria-expanded="false" ' +
+               'style="background:none;border:none;cursor:pointer;font-weight:700;font-size:.8rem;color:var(--text);padding:0;display:flex;align-items:center;gap:6px;width:100%;text-align:left;">' +
+        '<span class="pma-legend-caret" style="display:inline-block;transition:transform .15s;">▸</span>' +
+        '<span>Legend</span>' +
+      '</button>' +
+      // F216 — body display driven by CSS via .is-collapsed class (single
+      // source of truth). Previously inline display:none + class toggle
+      // were both used; if anyone removed the inline thinking the class
+      // handled it, the toggle silently broke.
+      '<div class="pma-legend-body" style="margin-top:6px;">' +
+        items.map(function (i) { return '<div>' + i + '</div>'; }).join('') +
+      '</div>';
+    // Prevent map drag/zoom propagation when clicking inside the legend
+    L.DomEvent.disableClickPropagation(div);
+    L.DomEvent.disableScrollPropagation(div);
+    // Toggle handler
+    var btn = div.querySelector('.pma-legend-toggle');
+    var caret = div.querySelector('.pma-legend-caret');
+    btn.addEventListener('click', function () {
+      var collapsed = div.classList.toggle('is-collapsed');
+      btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+      if (caret) caret.style.transform = collapsed ? 'rotate(0deg)' : 'rotate(90deg)';
+    });
+    return div;
+  }
+
   function addMapLegend(overlayMaps) {
     var L = window.L;
     if (!L || !map || !Object.keys(overlayMaps).length) return;
 
     var legend = L.control({ position: 'bottomleft' });
-    legend.onAdd = function () {
-      // F211 — Collapsible legend (matches OF + AHL pattern). Default-collapsed
-      // per F184 site-wide policy so the legend doesn't obscure the map on
-      // mobile or eat space on desktop. Click the header → toggle .is-collapsed.
-      var div = L.DomUtil.create('div', 'pma-legend is-collapsed');
-      var items = [];
-      if (overlayMaps['County Boundaries']) {
-        items.push('<span class="pma-legend-swatch" style="border:2px solid #334155;background:transparent"></span> Counties');
-      }
-      if (overlayMaps['Qualified Census Tracts']) {
-        items.push('<span class="pma-legend-swatch" style="background:#7c3aed;opacity:.6"></span> QCT');
-      }
-      if (overlayMaps['Difficult Dev Areas']) {
-        items.push('<span class="pma-legend-swatch" style="background:#b45309;opacity:.6"></span> DDA');
-      }
-      if (overlayMaps['LIHTC Projects']) {
-        items.push('<span class="pma-legend-swatch pma-legend-circle" style="background:#0a7e74"></span> LIHTC');
-      }
-      div.innerHTML =
-        '<button type="button" class="pma-legend-toggle" aria-label="Toggle legend" aria-expanded="false" ' +
-                 'style="background:none;border:none;cursor:pointer;font-weight:700;font-size:.8rem;color:var(--text);padding:0;display:flex;align-items:center;gap:6px;width:100%;text-align:left;">' +
-          '<span class="pma-legend-caret" style="display:inline-block;transition:transform .15s;">▸</span>' +
-          '<span>Legend</span>' +
-        '</button>' +
-        // F216 — body display driven by CSS via .is-collapsed class (single
-        // source of truth). Previously inline display:none + class toggle
-        // were both used; if anyone removed the inline thinking the class
-        // handled it, the toggle silently broke.
-        '<div class="pma-legend-body" style="margin-top:6px;">' +
-          items.map(function (i) { return '<div>' + i + '</div>'; }).join('') +
-        '</div>';
-      // Prevent map drag/zoom propagation when clicking inside the legend
-      L.DomEvent.disableClickPropagation(div);
-      L.DomEvent.disableScrollPropagation(div);
-      // Toggle handler
-      var btn = div.querySelector('.pma-legend-toggle');
-      var caret = div.querySelector('.pma-legend-caret');
-      btn.addEventListener('click', function () {
-        var collapsed = div.classList.toggle('is-collapsed');
-        btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-        if (caret) caret.style.transform = collapsed ? 'rotate(0deg)' : 'rotate(90deg)';
-      });
-      return div;
-    };
+    legend.onAdd = function () { return buildPmaLegend(overlayMaps); };
     legend.addTo(map);
   }
 
@@ -4359,14 +4401,14 @@
       fillOpacity: 0.05, weight: 1.5, dashArray: '6 4'
     }).addTo(map);
 
-    // ½-mile TOD isochrone — CHFA awards 3 points for transit-oriented development
+    // ½-mile TOD ring — CHFA QAP transit points (see QAP_TOD)
     var HALF_MILE_M = 804.67;
     todCircle = L.circle([lat, lon], {
       radius: HALF_MILE_M,
       color: '#0ea5e9', fillColor: '#0ea5e9',
       fillOpacity: 0.06, weight: 2, dashArray: '4 4'
     }).addTo(map);
-    todCircle.bindTooltip('½-mile TOD zone (CHFA 3 pts)', { sticky: true, className: 'pma-tooltip' });
+    todCircle.bindTooltip('½-mile TOD ring (' + QAP_TOD_POINTS_LABEL + ')', { sticky: true, className: 'pma-tooltip' });
 
     // Highlight transit stops within ½ mile
     _highlightTodTransit(lat, lon, HALF_MILE_M);
@@ -4440,31 +4482,38 @@
 
     var halfMile = radiusM / 1609.34; // convert to miles for haversine
     var count = 0;
+    var stopDataChecked = false;
 
-    // Check cached transit stops layer first
-    var transitStopsLayer = _mapLayers['transitStops'];
-    if (transitStopsLayer) {
-      transitStopsLayer.eachLayer(function (layer) {
-        var ll = layer.getLatLng ? layer.getLatLng() : null;
-        if (!ll) return;
-        if (haversine(lat, lon, ll.lat, ll.lng) <= halfMile) {
+    // Check the cached statewide stop file first. Not the rendered layer:
+    // that is trimmed to the previous analysis site (_scopeToSite), so for a
+    // new site it could hold none of the nearby stops and report "none".
+    var rawStops = _rawLayerData['transitStops'];
+    if (rawStops && Array.isArray(rawStops.features)) {
+      stopDataChecked = true;
+      rawStops.features.forEach(function (f) {
+        var c = f && f.geometry && f.geometry.type === 'Point' ? f.geometry.coordinates : null;
+        if (!c || typeof c[0] !== 'number' || typeof c[1] !== 'number') return;
+        if (haversine(lat, lon, c[1], c[0]) <= halfMile) {
           count++;
-          L.circleMarker([ll.lat, ll.lng], {
+          L.circleMarker([c[1], c[0]], {
             pane: 'pointsPane',
             radius: 7, fillColor: '#facc15', color: '#0ea5e9',
             weight: 2, fillOpacity: 0.9
-          }).bindTooltip((layer.feature && layer.feature.properties && layer.feature.properties.name) || 'Transit stop',
+          }).bindTooltip((f.properties && f.properties.name) || 'Transit stop',
             { sticky: true, className: 'pma-tooltip' }
           ).addTo(todMarkers);
         }
       });
     }
 
-    // Also check the neighborhood_access / OSM amenities data
+    // Also check the neighborhood_access / OSM amenities data.
+    // getWithinRadius returns null when that data is not loaded, which is
+    // different from an empty list: only a real search can report "none".
     if (!count) {
       var amenities = window.OsmAmenities;
-      if (amenities && typeof amenities.getNearestByType === 'function') {
-        var nearby = amenities.getNearestByType('transit_stop', lat, lon, halfMile);
+      if (amenities && typeof amenities.getWithinRadius === 'function') {
+        var nearby = amenities.getWithinRadius(lat, lon, 'transit_stop', halfMile);
+        if (nearby) stopDataChecked = true;
         if (nearby && nearby.length) {
           nearby.forEach(function (a) {
             count++;
@@ -4481,14 +4530,14 @@
 
     // Update TOD panel.
     //
-    // Rural framing: CHFA's QAP awards TOD points (§5.B) but ALSO has
-    // rural-set-aside scoring categories. Sites in rural counties that
-    // lack ½-mile transit access aren't "failing" — they're competing
-    // under a different scoring path. The red ✗ + "No transit" framing
-    // wrongly implied a penalty for rural sites. When the site county
-    // is non-metro (per HUD MSA boundaries), surface a neutral
-    // "rural — TOD doesn't apply" framing instead and reference the
-    // rural set-aside path.
+    // Rural framing: sites in non-metro counties that lack ½-mile transit
+    // aren't "failing" — the QAP scores non-metro location separately
+    // (QAP_TOD.ruralSection). When the site county is non-metro (per HUD MSA
+    // boundaries), show a neutral framing instead of a red ✗.
+    //
+    // The count is straight-line, and the QAP measures walk distance, so
+    // an eligible result is a screen, not a scoring determination. With no
+    // stop data loaded the result is "Unavailable", never "No transit".
     var todPanel = document.getElementById('pmaTodPanel');
     var todContent = document.getElementById('pmaTodContent');
     if (todPanel && todContent) {
@@ -4496,32 +4545,39 @@
       var eligible = count > 0;
       var ruralFips = _siteCountyFips(lat, lon);
       var isRural = isRuralCountyFips(ruralFips);
-      // Three states now: TOD-eligible (green ✓), TOD-not-eligible
-      // (red ✗) for urban sites, neutral (amber ℹ) for rural where
-      // the TOD criterion just doesn't apply.
+      var pointsNote = QAP_TOD.adoptedPoints + ' points under the ' + QAP_TOD.adoptedPlan +
+                       ' (' + QAP_TOD.section + '); the ' + QAP_TOD.draftPlan + ' proposes ' +
+                       QAP_TOD.draftPoints + ' and adds TOC sites.';
       var iconColor, iconSym, headline, detail;
       if (eligible) {
         iconColor = 'var(--good,#16a34a)';
         iconSym   = '✓';
-        headline  = 'TOD Eligible — 3 CHFA points';
+        headline  = 'Likely TOD site — ' + QAP_TOD_POINTS_LABEL;
         detail    = count + ' transit stop' + (count !== 1 ? 's' : '') +
-                    ' within ½-mile walking distance. Site qualifies for ' +
-                    'Transit-Oriented Development scoring under CHFA QAP §5.B.';
+                    ' within ½ mile (straight-line). The QAP counts walk ' +
+                    'distance, so confirm the walking route. ' + pointsNote;
+      } else if (!stopDataChecked) {
+        iconColor = 'var(--muted,#6b7280)';
+        iconSym   = '?';
+        headline  = 'Transit check unavailable';
+        detail    = 'Transit stop data has not loaded, so this site could ' +
+                    'not be checked. Reload the page or turn on the transit ' +
+                    'stops layer.';
       } else if (isRural) {
         iconColor = 'var(--warn,#d97706)';
         iconSym   = 'ℹ';
         headline  = 'Rural site — TOD criterion doesn\'t apply';
-        detail    = 'No fixed-route transit within ½ mile (expected for a ' +
-                    'rural CO county). The CHFA QAP\'s ½-mile TOD scoring ' +
-                    '(§5.B) targets urban/suburban sites; rural projects ' +
-                    'compete under the rural set-aside scoring path ' +
-                    '(§5.D), which doesn\'t require transit proximity.';
+        detail    = 'No fixed-route transit stop found within ½ mile ' +
+                    '(common in a rural CO county). Non-metro projects ' +
+                    'score location points under ' + QAP_TOD.ruralSection +
+                    ', which doesn\'t require transit proximity.';
       } else {
         iconColor = 'var(--bad,#dc2626)';
         iconSym   = '✗';
-        headline  = 'No transit within ½ mile';
-        detail    = '0 transit stops within ½-mile walking distance. ' +
-                    'Site does not qualify for §5.B TOD points.';
+        headline  = 'No transit stop found within ½ mile';
+        detail    = 'No stop within ½ mile in the stop data. That data is ' +
+                    'incomplete outside the Front Range, so check the transit ' +
+                    'agency\'s map before ruling out ' + QAP_TOD.section + ' points.';
       }
       todContent.innerHTML =
         '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">' +
@@ -4798,10 +4854,13 @@
         affordableDuplicatesReason:    r.affordableDuplicatesReason,
         prop123ProjectsInBuffer: r.prop123Count
       },
-      // The rate and the count it divides by travel together (F3).
+      // The rate and the count it divides by travel together (F3). The key
+      // is kept for existing consumers; `measure` names what it is: existing
+      // affordable units ÷ qualified renters, not a capture rate.
       captureRate: (function () {
         var den = captureDenominator(r);
         return {
+          measure: MEASURE_NAMES.penetration,
           existingPct: den && Number.isFinite(r.capture) ? +(r.capture * 100).toFixed(1) : null,
           denominator: den ? den.value : null,
           denominatorSource: den ? den.source : null,
@@ -5092,6 +5151,7 @@
       ['affordable_units_unknown_projects', r.affordableUnitsUnknownCount],
       ['affordable_units_total_units_fallback_projects', r.affordableUnitsFallbackCount],
       ['affordable_duplicates_removed', r.affordableDuplicatesRemoved],
+      ['capture_rate_measure', MEASURE_NAMES.penetration],
       ['capture_rate', captureDenominator(r) ? r.capture : ''],
       ['capture_rate_denominator', captureDenominator(r) ? captureDenominator(r).value : ''],
       ['capture_rate_denominator_source', captureDenominator(r) ? captureDenominator(r).source : ''],
@@ -5685,6 +5745,9 @@
     // Lets a test drive the real export buttons on a result it built with
     // computePma()/aggregateAcs() (test/pma-suppressed-acs-not-zero.test.js).
     _setLastResultForTest:   function (result) { lastResult = result; },
+    // Renders the simulator and scenario table from a result a test builds
+    // (test/pma-capture-naming.test.js).
+    _renderCaptureSurfacesForTest: function (result) { updateSimulator(result); renderScenarios(result); },
     _polygonBufferShareFromGeometry: _polygonBufferShareFromGeometry,
     _bboxBufferShare:        _bboxBufferShare,
     computePma:              computePma,
@@ -5692,6 +5755,8 @@
     generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
     captureDenominator:      captureDenominator,
+    buildPmaLegend:          buildPmaLegend,
+    MEASURE_NAMES:           MEASURE_NAMES,
     scoreScaleLegend:        scoreScaleLegend,
     scoreTier:               scoreTier,
     aggregateAcs:            aggregateAcs,
