@@ -22,6 +22,8 @@
  *   5. The PMA scoring path does not load the route-line file: the runner is
  *      run end to end against a recording fetch, and the scoring files are
  *      scanned for the file name.
+ *   6. The displayed site-selection score waits for the stop-based score in
+ *      both the circular-buffer and the enhanced-runner flows.
  *
  * Run: node test/pma-transit-stops.test.js
  */
@@ -390,7 +392,107 @@ test('no file on the PMA transit scoring path names the route-line file', () => 
     assert.ok(!src.includes(ROUTES_FILE), `${f} references ${ROUTES_FILE}; PMA transit is scored from stops`);
   }
   // The runner's transit step is the one scanned: it calls the scorer.
-  assert.match(read('js/pma-analysis-runner.js'), /calculateTransitScore\(lat, lon, stopsInput/);
+  assert.match(read('js/pma-analysis-runner.js'), /pmaTransit\.scoreSite\(lat, lon/);
+});
+
+// ── 6. The displayed site-selection score waits for the stop-based score ──
+// Codex review of #1996: the controller read PMATransit synchronously, before
+// the runner's fetches finished (and the circular-buffer flow never runs the
+// runner), so the access score silently used the nearest-distance proxy.
+// These drive the real controller with the stop file held back.
+function controllerPage({ holdStops = true, failStops = false } = {}) {
+  const calls = { stops: 0, status: 0, rendered: [], states: [], errors: [] };
+  const timers = [];
+  const win = { APP_CONFIG: {},
+    console: { log() {}, warn() {}, info() {}, error(...a) { calls.errors.push(a.map(String).join(' ')); } },
+    // Zero-delay timers run only when the test flushes, so "pending" is
+    // observable; the controller's long safety timeout never fires here.
+    setTimeout: (fn, ms) => { if (!ms) timers.push(fn); return timers.length; } };
+  win.window = win;
+  win.CustomEvent = function (t, o) { this.type = t; this.detail = o && o.detail; };
+  win.document = { readyState: 'complete', getElementById: () => null, addEventListener() {}, dispatchEvent() {},
+    querySelector: () => null, querySelectorAll: () => [] };
+  let releaseStops;
+  const stopsGate = new Promise((r) => { releaseStops = r; });
+  const stopsFile = fc([feature(north(SITE, 0.3), { name: 'Confirmed' }), feature(north(SITE, 1.2), {})]);
+  win.safeFetchJSON = (url) => {
+    if (url.endsWith(STOPS_PATH)) {
+      calls.stops++;
+      if (failStops) return Promise.reject(new Error('HTTP 503'));
+      return holdStops ? stopsGate.then(() => stopsFile) : Promise.resolve(stopsFile);
+    }
+    if (url.endsWith(STATUS_PATH)) { calls.status++; return Promise.resolve(MAP_STATUS); }
+    return Promise.reject(new Error('not in fixture: ' + url));
+  };
+  const ctx = vm.createContext(win);
+  for (const m of ['js/data-service-portable.js', 'js/transit-zone.js', 'js/pma-transit.js', 'js/pma-justification.js',
+    'js/pma-analysis-runner.js', 'js/market-analysis/site-selection-score.js', 'js/market-analysis/market-analysis-controller.js']) {
+    vm.runInContext(read(m), ctx, { filename: m });
+  }
+  calls.epa = 0;
+  win.DataService.fetchEPASmartLocation = () => { calls.epa++; return Promise.resolve({ transitAccessibility: null, walkScore: null, _dataSource: 'epa-unavailable' }); };
+  // A nearest-stop distance exists, so the proxy WOULD score if it were used.
+  win.OsmAmenities = { isLoaded: () => true, getAccessScore: () => ({
+    grocery: { distanceMiles: 0.4 }, transit: { distanceMiles: 0.2 }, transit_rail: null, transit_bus: { distanceMiles: 0.2 },
+    parks: { distanceMiles: 0.2 }, healthcare: { distanceMiles: 0.9 }, schools: { distanceMiles: 0.4 } }) };
+  win.MAState = { setState(s) { if (s && s.scores !== undefined) calls.states.push(s.scores); }, getState: () => ({}) };
+  win.MARenderers = new Proxy({}, { get: (t, k) => (k === 'renderExecutiveSummary'
+    ? (scores) => calls.rendered.push(scores) : () => {}) });
+  const flush = async () => {
+    for (let i = 0; i < 20; i++) {
+      while (timers.length) timers.shift()();
+      await new Promise((r) => setImmediate(r));
+    }
+  };
+  return { win, calls, flush, releaseStops };
+}
+
+test('circular-buffer mode: the displayed score waits for, and uses, the stop-based transit score', async () => {
+  const page = controllerPage();
+  page.win.MAController.runAnalysis(SITE.lat, SITE.lon, 3);   // the buffer flow: no PMA runner at all
+  await page.flush();
+  assert.equal(page.calls.rendered.length, 0, 'a score was rendered while the transit score was still pending');
+  assert.equal(page.calls.states.length, 0, 'scores were published while the transit score was still pending');
+  page.releaseStops();
+  await page.flush();
+  assert.equal(page.calls.rendered.length, 1, 'the score was never rendered: ' + page.calls.errors.join(' | '));
+  const scores = page.calls.rendered[0];
+  assert.equal(scores.accessTransitSource, 'pma', 'the displayed access score used the nearest-distance proxy, not the stop-based score');
+  assert.equal(page.calls.stops, 1, 'the stop file is fetched once');
+});
+
+test('enhanced-runner mode: controller and runner share one stop-based score, whichever finishes first', async () => {
+  const page = controllerPage();
+  const done = new Promise((resolve, reject) => page.win.PMAAnalysisRunner
+    .run(SITE.lat, SITE.lon, { method: 'hybrid', bufferMiles: 3 }).on('complete', resolve).on('error', reject));
+  page.win.MAController.runAnalysis(SITE.lat, SITE.lon, 3);
+  await page.flush();
+  assert.equal(page.calls.rendered.length, 0, 'a score was rendered while the transit score was still pending');
+  page.releaseStops();
+  await page.flush();
+  const run = await done;
+  const scores = page.calls.rendered[0];
+  assert.ok(scores, 'the score was never rendered: ' + page.calls.errors.join(' | '));
+  assert.equal(scores.accessTransitSource, 'pma');
+  const t = run._analysisResults.transit;
+  assert.equal(typeof t.transitAccessibilityScore, 'number');
+  assert.equal(t.nearbyStopCount, 1);
+  const ssPts = page.win.SiteSelectionScore.scoreAccess({ grocery: 99, parks: 99, healthcare: 99, schools: 99 }, null,
+    { transitAccessibilityScore: t.transitAccessibilityScore }).transitPoints;
+  assert.ok(ssPts !== null, 'the runner narrative score is not a number');
+  // One transit computation for the site: the narrative and the displayed
+  // score cannot rest on different inputs (e.g. different EPA boxes).
+  assert.equal(page.calls.epa, 1, 'runner and controller computed the transit score separately');
+});
+
+test('a stop file that fails still reaches the displayed score as null with a reason, not a proxy passed off as measured', async () => {
+  const page = controllerPage({ failStops: true });
+  page.win.MAController.runAnalysis(SITE.lat, SITE.lon, 3);
+  await page.flush();
+  const scores = page.calls.rendered[0];
+  assert.ok(scores, 'the score was never rendered: ' + page.calls.errors.join(' | '));
+  assert.equal(scores.accessTransitSource, 'distance', 'a measured nearest-stop distance is still used');
+  assert.match(scores.accessTransitUnavailableReason || '', /could not be loaded/, 'the reason the stop score is missing was dropped');
 });
 
 (async () => {

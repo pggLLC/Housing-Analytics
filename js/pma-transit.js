@@ -523,8 +523,56 @@
     };
   }
 
+  /**
+   * The transit score for one site, computed once and shared: the PMA runner
+   * (commuting / hybrid / tract modes) and the site-selection score
+   * (market-analysis-controller.js, every mode including the circular
+   * buffer) both ask for it, so the score shown and the narrative always
+   * rest on the same computation, and neither has to wait for the other.
+   *
+   * The stop and status files are fetched once per page (DataService), so
+   * this is cheap. The latest site's promise is kept; a result that could
+   * not be measured (a file did not load) is dropped so the next run retries.
+   *
+   * @param {number} siteLat
+   * @param {number} siteLon
+   * @param {{bbox?: object}} [opts] - bbox for the EPA SLD lookup only; the
+   *   transit distances always come from the status file.
+   * @returns {Promise<object>} a getTransitJustification() snapshot, with
+   *   _stopDataSource / _epaDataSource. Never rejects.
+   */
+  var _siteRun = null;
+  function scoreSite(siteLat, siteLon, opts) {
+    opts = opts || {};
+    var key = (Number.isFinite(siteLat) && Number.isFinite(siteLon))
+      ? siteLat.toFixed(5) + ',' + siteLon.toFixed(5) : null;
+    if (key !== null && _siteRun && _siteRun.key === key) return _siteRun.promise;
+    function settle(p, fallback) {
+      return Promise.resolve().then(function () { return p(); }).catch(function () { return fallback; });
+    }
+    var p = Promise.all([
+      settle(fetchTransitStops, { geojson: null, unavailableReason: STOPS_UNAVAILABLE_REASON, _dataSource: 'unavailable' }),
+      settle(fetchTransitZoneStatus, { mapStatus: null, unavailableReason: STATUS_UNAVAILABLE_REASON }),
+      opts.bbox ? settle(function () { return fetchEPASmartLocation(opts.bbox); }, {}) : Promise.resolve({})
+    ]).then(function (res) {
+      var stopResult = res[0] || {}, statusResult = res[1] || {}, epa = res[2] || {};
+      calculateTransitScore(siteLat, siteLon,
+        stopResult.geojson || { unavailableReason: stopResult.unavailableReason || null },
+        epa,
+        statusResult.mapStatus || { unavailableReason: statusResult.unavailableReason || null });
+      var j = getTransitJustification();
+      j._stopDataSource = stopResult._dataSource || 'unknown';
+      j._epaDataSource = epa._dataSource || 'unknown';
+      if (j.transitAccessibilityScore === null && _siteRun && _siteRun.promise === p) _siteRun = null;
+      return j;
+    });
+    _siteRun = key === null ? null : { key: key, promise: p };
+    return p;
+  }
+
   /* ── Public API ──────────────────────────────────────────────────── */
   var api = {
+    scoreSite:               scoreSite,
     fetchTransitStops:       fetchTransitStops,
     fetchTransitZoneStatus:  fetchTransitZoneStatus,
     fetchEPASmartLocation:   fetchEPASmartLocation,
