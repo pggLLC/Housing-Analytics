@@ -56,13 +56,14 @@ function record(category, name, status, detail) {
   console.log(`  ${colorOpen}${sym}${colorClose} [${category}] ${name}${detail ? '  — ' + detail : ''}`);
 }
 
-// The amenity types the OsmAmenities connector scores, read from its source
-// so these checks follow the connector instead of a copied list.
+// The amenity types OsmAmenities scores: the values of SCORE_KEY_TO_TYPE,
+// which getAccessScore() iterates. (AMENITY_TYPES in the same file is not
+// read at runtime, so it can fall behind without anything breaking.)
 function connectorAmenityTypes() {
   const src = fs.readFileSync(path.join(ROOT, 'js/data-connectors/osm-amenities.js'), 'utf8');
-  const m = src.match(/var AMENITY_TYPES\s*=\s*\[([^\]]*)\]/);
-  const types = m ? Array.from(m[1].matchAll(/'([a-z_]+)'/g), (x) => x[1]) : [];
-  if (!types.length) throw new Error('AMENITY_TYPES not found in osm-amenities.js');
+  const m = src.match(/var SCORE_KEY_TO_TYPE\s*=\s*\{([^}]*)\}/);
+  const types = m ? Array.from(m[1].matchAll(/:\s*'([a-z_]+)'/g), (x) => x[1]) : [];
+  if (!types.length) throw new Error('SCORE_KEY_TO_TYPE not found in osm-amenities.js');
   return types;
 }
 
