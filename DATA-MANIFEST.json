@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-09-27T09:32:57Z",
+  "generated": "2026-09-27T14:43:31Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -30,7 +30,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Show statewide ACS summary only; disable per-tract choropleth layer",
-      "last_update": "2026-09-20T11:17:43Z",
+      "last_update": "2026-09-27T14:04:45Z",
       "description": "Census tract-level housing and economic indicators for Colorado, including renter/owner household counts, median gross rent, median household income, cost burden rate, and vacancy rate (15 tracts)."
     },
     {
