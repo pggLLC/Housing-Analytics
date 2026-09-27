@@ -383,12 +383,20 @@ jobs:
       - name: Coverage audit — report-only (F144)
         run: npm run audit:coverage
 
+      # A dispatch on a branch other than main is a bot PR's stand-in for its
+      # pull_request run (see the regeneration step above), so it is swept the
+      # same way. It has no github.base_ref; bot PRs target the default branch,
+      # so that is the base. `...` diffs from the merge base either way, so the
+      # branch tip here gives the same added lines as the PR's merge ref.
       - name: Run source URL sweep on changed files (blocking on PRs)
-        if: github.event_name == 'pull_request'
+        if: >-
+          github.event_name == 'pull_request'
+          || (github.event_name == 'workflow_dispatch'
+              && github.ref_name != github.event.repository.default_branch)
         shell: bash
         run: |
           set -euo pipefail
-          base_ref="${{ github.base_ref }}"
+          base_ref="${{ github.base_ref || github.event.repository.default_branch }}"
           git fetch origin "$base_ref"
           changed=$(git diff --name-only "origin/$base_ref"...HEAD | tr '\n' ',' | sed 's/,$//')
           if [ -z "$changed" ]; then
