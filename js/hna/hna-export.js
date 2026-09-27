@@ -1418,6 +1418,11 @@
   window.__HNA_exportPdfScreenshot  = exportPdf;
   window.__HNA_exportCsv       = exportCsv;
   window.__HNA_exportJson      = exportJson;
+  // The transit-zone rows every export writes, for the panel as it stands
+  // for `geoid` (test/transit-zone-absence.test.mjs).
+  window.__HNA_transitZoneRows = function (geoid) {
+    return _transitZoneRows({ transitZone: _transitZoneFromPanel(geoid) });
+  };
 
   // ---------------------------------------------------------------------------
   // HNAExport facade — convenience wrapper used by UI event handlers
