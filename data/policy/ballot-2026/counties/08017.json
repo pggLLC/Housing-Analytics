@@ -5,31 +5,68 @@
       "geoid": "08017",
       "level": "county",
       "name": "Cheyenne County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The Cheyenne County Clerk and Recorder page posts no sample ballot, ballot-content certification or TABOR notice for November 3, 2026 as of 2026-09-26 (only a proposed polling-locations document).",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0814175",
       "level": "municipal",
       "name": "Cheyenne Wells (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The Cheyenne County Clerk and Recorder page posts no sample ballot, ballot-content certification or TABOR notice for November 3, 2026 as of 2026-09-26 (only a proposed polling-locations document).",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "Town website checked 2026-09-26: no election or ballot question content."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofcheyennewells.com/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0841010",
       "level": "municipal",
       "name": "Kit Carson (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The Cheyenne County Clerk and Recorder page posts no sample ballot, ballot-content certification or TABOR notice for November 3, 2026 as of 2026-09-26 (only a proposed polling-locations document).",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "Town website checked 2026-09-26: no election or ballot question content."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townofkitcarson.com/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

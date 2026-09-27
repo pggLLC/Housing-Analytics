@@ -5,71 +5,161 @@
       "geoid": "08117",
       "level": "county",
       "name": "Summit County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.summitcountyco.gov/services/clerk_recorder/elections/2026_general_election.php",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "As of 2026-09-26 the county clerk's 2026 General Election page has no sample ballot, TABOR notice, ballot content certification or list of participating political subdivisions. It lists only dates: Logic & Accuracy test Sept 30, ballots mailed the week of Oct 5, drop boxes open Oct 2.",
+        "The only county referral found is BOCC Resolution 2026-57, Summit County Referred Measure 1A. It extends the existing 4.652-mill Strong Future property tax indefinitely for wildfire prevention, mental health/substance abuse/suicide prevention, early childhood care, public buildings/community facilities, and recycling/waste diversion. Excluded: the question text does not earmark housing. (A recital mentions reducing 'homelessness' as a result of mental-health programs, but the submission clause does not fund housing or homelessness.) Exhibit A submission clause: 'Without raising any additional taxes and to continue funding for: Wildfire prevention; Mental health, substance abuse services, and suicide prevention programs for Summit County youth and adults; Affordable early childhood care and learning for Summit County families and workers; Improving public buildings/community facilities and extending their useful life; and Sustaining recycling and waste diversion programs, shall Summit County be authorized to continue to collect and expend revenues previously approved by Summit County voters in 2018 by Summit County Referred Measure 1A by the ongoing extension of the existing four and six hundred fifty-two thousandths mill levy property tax commencing January 1, 2028, and continuing thereafter as a voter-approved revenue change, without limitation or condition under Article X, Section 20 of the Colorado Constitution or any other law, with all expenditures made in consideration of independent citizen advisory committee recommendations and subject to annual independent financial audit?'",
+        "The 2026 resolutions index has numbering gaps (e.g. 2026-56, 2026-58 to 2026-63 not posted), so another county referral cannot be ruled out until the sample ballot or TABOR notice is posted.",
+        "News in 2025 reported a possible November 2026 regional transportation authority question. Later reporting (Oct 2025) said the county paused RTA planning. No official referral was found. It would be transit, not housing, unless its text earmarks housing.",
+        "The Diligent BOCC agenda portal (summitcountyco.community.diligentoneplatform.com) was reached, but agenda packets were not machine-readable. Agendas were not reviewed item by item."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.summitcountyco.gov/services/clerk_recorder/elections/2026_general_election.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.summitcountyco.gov/government/manager_s_office/ordinances_resolutions.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.summitcountyco.gov/Documents/Government/Managers%20Office/Ordinances%20and%20Resolutions/Resos%202026/2026-57%20Strong%20Future%20Ballot%20Measure%201A.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0807410",
       "level": "municipal",
       "name": "Blue River (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://townofblueriver.colorado.gov/town-information/resolutions",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county has posted no participating-entities list or ballot content, so participation cannot be confirmed.",
+        "The town's posted 2026 resolutions (2026-01 to 2026-12, including 2026-05 'Election Cancellation and Board Terms' for the April election) and 2026 ordinances (2026-01 to 2026-05, including 2026-03 STR moratorium emergency ordinance) contain no resolution or ordinance setting a ballot title for November 3, 2026. That is not an official statement that no measures exist, and later documents may not be posted yet."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://townofblueriver.colorado.gov/town-information/resolutions",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofblueriver.colorado.gov/town-information/2025-2026-passed-ordinances",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0808400",
       "level": "municipal",
       "name": "Breckenridge (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://www.townofbreckenridge.com/government/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "townofbreckenridge.com (www and non-www) returned HTTP 403 (CloudFront 'Request blocked') to curl and WebFetch, so the town clerk and election pages and council ordinances could not be read.",
+        "The county has posted no sample ballot, TABOR notice or participating list as of 2026-09-26.",
+        "Search results show only the town's April 7, 2026 regular municipal election. No news report of a November 2026 town ballot question was found."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.townofbreckenridge.com/government/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.summitcountyco.gov/services/clerk_recorder/elections/2026_general_election.php",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0820440",
       "level": "municipal",
       "name": "Dillon (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://www.dillonco.gov/government/election-info",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "dillonco.gov and townofdillon.com returned HTTP 403 (CloudFront block) to curl and WebFetch. The GovDelivery bulletin archive (CODILLON) was not listable.",
+        "Search results show Dillon's April 7, 2026 election (charter amendments). No official or news source found for a November 3, 2026 town question. A 2022 Summit Daily article on November STR ballot measures relates to 2022, not 2026.",
+        "The county has posted no sample ballot, TABOR notice or participating list as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.dillonco.gov/government/election-info",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townofdillon.com/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0828690",
       "level": "municipal",
       "name": "Frisco (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.friscogov.com/departments/town-clerk/elections/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The Frisco Town Clerk elections page covers only the April 7, 2026 regular election (council seats only) and names April 4, 2028 as the next regular election. It lists no November 3, 2026 coordinated-ballot measure, but it is not an explicit statement that none exists. Council ordinances and resolutions for Aug–Sept 2026 were not reviewed.",
+        "The county has posted no sample ballot, TABOR notice or participating list as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.friscogov.com/departments/town-clerk/elections/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0851690",
       "level": "municipal",
       "name": "Montezuma (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.townofmontezuma.com/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The town website posts no election, ballot, resolution, ordinance or minutes documents (only the land use code, street criteria and agenda procedure).",
+        "The county has posted no sample ballot, TABOR notice or participating list as of 2026-09-26.",
+        "No news of a November 2026 Montezuma (Summit County) question was found. Search results for 'Montezuma' return Montezuma County measures, which are unrelated."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.townofmontezuma.com/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0870525",
       "level": "municipal",
       "name": "Silverthorne (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://www.silverthorne.org/town-government/town-clerk/voter-information",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "silverthorne.org (www and non-www) returned HTTP 403 (CloudFront block) to curl and WebFetch, so the clerk voter-information page and council ordinances could not be read.",
+        "The county has posted no sample ballot, TABOR notice or participating list as of 2026-09-26.",
+        "No news report of a November 2026 Silverthorne question was found. Earlier lodging-tax and workforce-housing debt questions were from prior elections."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.silverthorne.org/town-government/town-clerk/voter-information",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

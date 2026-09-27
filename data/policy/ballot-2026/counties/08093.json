@@ -5,31 +5,68 @@
       "geoid": "08093",
       "level": "county",
       "name": "Park County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.parkcountyco.gov/273/Elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Checked 2026-09-26: no sample ballot, ballot certification or TABOR notice is posted. The Notice of 2026 General Election lists voting locations only, with no questions or participating entities.",
+        "Commissioners' agendas June to September 2026 contain no ballot referral. A Park County lodging-tax question found in search was on the November 2025 ballot, not 2026."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.parkcountyco.gov/273/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.parkcountyco.gov/DocumentCenter/View/10089/Notice-of-2026-General-Election_signed_seal---Copy",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0801530",
       "level": "municipal",
       "name": "Alma (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.parkcountyco.gov/273/Elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town elections page shows only its April 2026 election."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.parkcountyco.gov/273/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofalma.com/elections/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0825610",
       "level": "municipal",
       "name": "Fairplay (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.parkcountyco.gov/273/Elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town's election documents concern its April 7, 2026 regular election only."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.parkcountyco.gov/273/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.fairplayco.us/307/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
