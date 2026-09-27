@@ -5,51 +5,302 @@
       "geoid": "08107",
       "level": "county",
       "name": "Routt County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.co.routt.co.us/967/2026-General-Election-Sample-Ballots",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The eight official sample ballot styles (posted by 2026-09-26) are scanned PDFs with no text layer; every page of all eight styles was rendered and read visually on 2026-09-26 (no OCR).",
+        "No Routt County ballot issue or question appears on any style. Local measures on the ballot: Yampa Valley Regional Transportation Authority 7A (transit sales tax), Town of Oak Creek 2A, Hayden School District RE-1 4A and 4B, Eagle County School District RE50J 5B, West Routt Fire Protection District 6A and Morrison Creek Metropolitan Water & Sanitation District 6B; none is a housing measure.",
+        "No TABOR notice was posted on the county election pages on 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.co.routt.co.us/221/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/967/2026-General-Election-Sample-Ballots",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20509",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20510",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20508",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20511",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20504",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20505",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20506",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20507",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/AgendaCenter/ViewFile/Item/28617?fileID=27477",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0835070",
       "level": "municipal",
       "name": "Hayden (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.co.routt.co.us/967/2026-General-Election-Sample-Ballots",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating: the county's 2026 pending ballot issues list shows 'Town of Hayden - signed IGA', and the IGA is in the 2026-07-09 town council packet.",
+        "No Town of Hayden ballot question appears on any sample ballot style; town council packets through 2026-09-17 contain no ballot referral.",
+        "The eight official sample ballot styles (posted by 2026-09-26) are scanned PDFs with no text layer; every page of all eight styles was rendered and read visually on 2026-09-26 (no OCR)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.co.routt.co.us/221/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/967/2026-General-Election-Sample-Ballots",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20509",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20510",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20508",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20511",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20504",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20505",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20506",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20507",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/AgendaCenter/ViewFile/Item/28617?fileID=27477",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.haydencolorado.com/AgendaCenter/ViewFile/Agenda/_07092026-39?html=true",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0855155",
       "level": "municipal",
       "name": "Oak Creek (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.co.routt.co.us/967/2026-General-Election-Sample-Ballots",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating: Town of Oak Creek Ballot Issue 2A is on the sample ballot.",
+        "Excluded 2A (not housing): a 2.00% sales tax rate increase deposited into the general fund for the construction and rehabilitation of capital improvements.",
+        "The town website returned HTTP 403 on 2026-09-26; the draft Ordinance No. 677 in the 2026-07-23 joint county/town packet matches the ballot text.",
+        "The eight official sample ballot styles (posted by 2026-09-26) are scanned PDFs with no text layer; every page of all eight styles was rendered and read visually on 2026-09-26 (no OCR)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.co.routt.co.us/221/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/967/2026-General-Election-Sample-Ballots",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20509",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20510",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20508",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20511",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20504",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20505",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20506",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20507",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/AgendaCenter/ViewFile/Item/28617?fileID=27477",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/AgendaCenter/ViewFile/Item/28569?fileID=27379",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0873825",
       "level": "municipal",
       "name": "Steamboat Springs (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.co.routt.co.us/AgendaCenter/ViewFile/Item/28617?fileID=27477",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The City of Steamboat Springs is absent from the county's '2026 Pending Ballot Issues for Routt County' list.",
+        "That list was attached to the 2026-08-03 commissioners agenda, before the certification deadline; all eight official sample ballot styles were also read and contain no City of Steamboat Springs contest or question.",
+        "City council agendas June through September 2026 contain no ballot referral; the 2026-08-21 special meeting discussed the Regional Transit Authority measure, which the authority refers, not the city."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.co.routt.co.us/AgendaCenter/ViewFile/Item/28617?fileID=27477",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://steamboatsprings.net/703/Election-Information",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20509",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20510",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20508",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20511",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20504",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20505",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20506",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20507",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0886475",
       "level": "municipal",
       "name": "Yampa (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://www.co.routt.co.us/AgendaCenter/ViewFile/Item/28617?fileID=27477",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The Town of Yampa is absent from the county's '2026 Pending Ballot Issues for Routt County' list.",
+        "That list was attached to the 2026-08-03 commissioners agenda, before the certification deadline; all eight official sample ballot styles were also read and contain no Town of Yampa contest or question.",
+        "Town board packets 2026-06-17 through 2026-09-16 contain no election IGA or ballot referral."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.co.routt.co.us/AgendaCenter/ViewFile/Item/28617?fileID=27477",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20509",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20510",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20508",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20511",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20504",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20505",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20506",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.co.routt.co.us/DocumentCenter/View/20507",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

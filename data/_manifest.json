@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-26T17:12:00.576Z",
+    "generated_at": "2026-09-27T02:21:09.499Z",
     "root": "data/",
     "file_count": 1687,
-    "total_size_bytes": 162947129,
+    "total_size_bytes": 163353853,
     "kinds": {
       "json": 1652,
       "geojson": 31,
@@ -461,7 +461,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-26T17:11:56.722Z",
+      "mtime": "2026-09-27T02:21:05.957Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30461,8 +30461,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 205591,
-      "mtime": "2026-09-26T13:20:57.080Z",
+      "size_bytes": 214366,
+      "mtime": "2026-09-27T02:20:23.713Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31816,7 +31816,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14707,
-      "mtime": "2026-09-26T17:11:58.490Z",
+      "mtime": "2026-09-27T02:21:07.732Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31839,7 +31839,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-26T17:11:58.085Z",
+      "mtime": "2026-09-27T02:21:07.319Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -32115,8 +32115,8 @@
     {
       "path": "policy/ballot-2026/counties/08015.json",
       "kind": "json",
-      "size_bytes": 1038,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 8169,
+      "mtime": "2026-09-27T02:18:51.671Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32134,14 +32134,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08017.json",
       "kind": "json",
-      "size_bytes": 797,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 3267,
+      "mtime": "2026-09-27T02:18:51.671Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32159,14 +32160,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08019.json",
       "kind": "json",
-      "size_bytes": 1287,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 8119,
+      "mtime": "2026-09-27T02:18:51.671Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32184,14 +32186,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08021.json",
       "kind": "json",
-      "size_bytes": 1511,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 6529,
+      "mtime": "2026-09-27T02:18:51.672Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32209,14 +32212,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08023.json",
       "kind": "json",
-      "size_bytes": 787,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 2333,
+      "mtime": "2026-09-27T02:18:51.672Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32240,8 +32244,8 @@
     {
       "path": "policy/ballot-2026/counties/08025.json",
       "kind": "json",
-      "size_bytes": 1278,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 8877,
+      "mtime": "2026-09-27T02:18:51.672Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32259,14 +32263,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08027.json",
       "kind": "json",
-      "size_bytes": 793,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 4971,
+      "mtime": "2026-09-27T02:18:51.672Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32284,14 +32289,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08029.json",
       "kind": "json",
-      "size_bytes": 1759,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 9089,
+      "mtime": "2026-09-27T02:18:51.672Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32309,14 +32315,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08031.json",
       "kind": "json",
-      "size_bytes": 542,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 4304,
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32334,14 +32341,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08033.json",
       "kind": "json",
-      "size_bytes": 786,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 3536,
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32359,14 +32367,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08035.json",
       "kind": "json",
-      "size_bytes": 1523,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 14228,
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32384,14 +32393,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08037.json",
       "kind": "json",
-      "size_bytes": 1986,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 9543,
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32409,14 +32419,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08039.json",
       "kind": "json",
-      "size_bytes": 1025,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 3721,
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32440,8 +32451,8 @@
     {
       "path": "policy/ballot-2026/counties/08041.json",
       "kind": "json",
-      "size_bytes": 2271,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 7567,
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32459,14 +32470,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08043.json",
       "kind": "json",
-      "size_bytes": 1770,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 5660,
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32490,8 +32502,8 @@
     {
       "path": "policy/ballot-2026/counties/08045.json",
       "kind": "json",
-      "size_bytes": 2011,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 9481,
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32509,14 +32521,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08047.json",
       "kind": "json",
-      "size_bytes": 793,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 3942,
+      "mtime": "2026-09-26T19:03:35.411Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32534,14 +32547,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08049.json",
       "kind": "json",
-      "size_bytes": 1771,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 7396,
+      "mtime": "2026-09-26T19:03:35.411Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32559,14 +32573,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08051.json",
       "kind": "json",
-      "size_bytes": 1530,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 9780,
+      "mtime": "2026-09-26T19:03:35.412Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32584,14 +32599,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08053.json",
       "kind": "json",
-      "size_bytes": 547,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 2980,
+      "mtime": "2026-09-26T19:03:35.412Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32609,14 +32625,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08055.json",
       "kind": "json",
-      "size_bytes": 790,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 6114,
+      "mtime": "2026-09-26T19:03:35.412Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32634,14 +32651,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08057.json",
       "kind": "json",
-      "size_bytes": 543,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 1902,
+      "mtime": "2026-09-26T19:03:35.412Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32659,14 +32677,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08059.json",
       "kind": "json",
-      "size_bytes": 2253,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 12328,
+      "mtime": "2026-09-26T19:03:35.412Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32684,14 +32703,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08061.json",
       "kind": "json",
-      "size_bytes": 1029,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 2902,
+      "mtime": "2026-09-26T19:03:35.412Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32709,14 +32729,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08063.json",
       "kind": "json",
-      "size_bytes": 1758,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 10141,
+      "mtime": "2026-09-27T02:17:48.690Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32740,8 +32761,8 @@
     {
       "path": "policy/ballot-2026/counties/08065.json",
       "kind": "json",
-      "size_bytes": 543,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 2189,
+      "mtime": "2026-09-27T02:17:48.690Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32759,14 +32780,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08067.json",
       "kind": "json",
-      "size_bytes": 1030,
-      "mtime": "2026-09-26T17:11:11.166Z",
+      "size_bytes": 5763,
+      "mtime": "2026-09-27T02:17:48.690Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32784,14 +32806,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08069.json",
       "kind": "json",
-      "size_bytes": 1767,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 8400,
+      "mtime": "2026-09-27T02:17:48.690Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32809,14 +32832,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08071.json",
       "kind": "json",
-      "size_bytes": 1758,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 4783,
+      "mtime": "2026-09-27T02:17:48.690Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32834,14 +32858,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08073.json",
       "kind": "json",
-      "size_bytes": 1262,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 7056,
+      "mtime": "2026-09-27T02:17:48.690Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32859,14 +32884,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08075.json",
       "kind": "json",
-      "size_bytes": 1746,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 21946,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32884,14 +32910,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08077.json",
       "kind": "json",
-      "size_bytes": 1518,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 17169,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32909,14 +32936,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08079.json",
       "kind": "json",
-      "size_bytes": 551,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 3085,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32934,14 +32962,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08081.json",
       "kind": "json",
-      "size_bytes": 784,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 3918,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32959,14 +32988,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08083.json",
       "kind": "json",
-      "size_bytes": 1028,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 5329,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32984,14 +33014,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08085.json",
       "kind": "json",
-      "size_bytes": 1270,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 4461,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33009,14 +33040,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08087.json",
       "kind": "json",
-      "size_bytes": 1523,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 6680,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33034,14 +33066,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08089.json",
       "kind": "json",
-      "size_bytes": 1754,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 6206,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33059,14 +33092,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08091.json",
       "kind": "json",
-      "size_bytes": 782,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 3010,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33084,14 +33118,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08093.json",
       "kind": "json",
-      "size_bytes": 781,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 2660,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33109,14 +33144,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08095.json",
       "kind": "json",
-      "size_bytes": 1026,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 5727,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33134,14 +33170,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08097.json",
       "kind": "json",
-      "size_bytes": 792,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 4187,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33159,14 +33196,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08099.json",
       "kind": "json",
-      "size_bytes": 1506,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 7000,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33184,14 +33222,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08101.json",
       "kind": "json",
-      "size_bytes": 1020,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 5505,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33209,14 +33248,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08103.json",
       "kind": "json",
-      "size_bytes": 788,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 3691,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33234,14 +33274,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08105.json",
       "kind": "json",
-      "size_bytes": 1040,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 4744,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33259,14 +33300,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08107.json",
       "kind": "json",
-      "size_bytes": 1277,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 12019,
+      "mtime": "2026-09-27T02:17:48.691Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33284,14 +33326,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08109.json",
       "kind": "json",
-      "size_bytes": 1513,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 7166,
+      "mtime": "2026-09-27T02:17:48.692Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33309,14 +33352,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08111.json",
       "kind": "json",
-      "size_bytes": 547,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 8396,
+      "mtime": "2026-09-27T02:18:51.672Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33334,14 +33378,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08113.json",
       "kind": "json",
-      "size_bytes": 1523,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 8029,
+      "mtime": "2026-09-27T02:18:51.673Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33359,14 +33404,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08115.json",
       "kind": "json",
-      "size_bytes": 1029,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 4723,
+      "mtime": "2026-09-27T02:18:51.673Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33384,14 +33430,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08117.json",
       "kind": "json",
-      "size_bytes": 1766,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 9840,
+      "mtime": "2026-09-27T02:18:51.673Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33409,14 +33456,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08119.json",
       "kind": "json",
-      "size_bytes": 1038,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 5932,
+      "mtime": "2026-09-27T02:18:51.673Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33434,14 +33482,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08121.json",
       "kind": "json",
-      "size_bytes": 784,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 3781,
+      "mtime": "2026-09-27T02:18:51.673Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33459,14 +33508,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08123.json",
       "kind": "json",
-      "size_bytes": 6609,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 30290,
+      "mtime": "2026-09-27T02:18:51.673Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33484,14 +33534,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/counties/08125.json",
       "kind": "json",
-      "size_bytes": 1018,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 5041,
+      "mtime": "2026-09-27T02:18:51.674Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33509,14 +33560,15 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
       "path": "policy/ballot-2026/statewide.json",
       "kind": "json",
-      "size_bytes": 292,
-      "mtime": "2026-09-26T17:11:11.167Z",
+      "size_bytes": 6140,
+      "mtime": "2026-09-27T01:39:19.953Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33534,7 +33586,8 @@
         "reviewed_source",
         "checked",
         "entry_ids",
-        "limitations"
+        "limitations",
+        "reviewed_sources"
       ]
     },
     {
@@ -33569,8 +33622,8 @@
     {
       "path": "policy/candidate-platforms-2026.json",
       "kind": "json",
-      "size_bytes": 76,
-      "mtime": "2026-09-26T17:11:11.168Z",
+      "size_bytes": 37538,
+      "mtime": "2026-09-26T19:47:39.913Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33578,9 +33631,22 @@
         "candidates"
       ],
       "key_count": 3,
-      "primary_array_key": null,
-      "primary_array_length": null,
-      "primary_array_first_keys": null
+      "primary_array_key": "candidates",
+      "primary_array_length": 19,
+      "primary_array_first_keys": [
+        "candidate",
+        "office",
+        "party",
+        "campaign_source",
+        "topics",
+        "neutral_summary",
+        "quote",
+        "coverage_state",
+        "verification",
+        "proposed_appointments",
+        "history",
+        "archived"
+      ]
     },
     {
       "path": "policy/chfa-awards-historical.json",
@@ -33901,8 +33967,8 @@
     {
       "path": "policy/policy-watch.json",
       "kind": "json",
-      "size_bytes": 10786,
-      "mtime": "2026-09-25T12:55:19.120Z",
+      "size_bytes": 43371,
+      "mtime": "2026-09-27T02:18:51.674Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33911,7 +33977,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "entries",
-      "primary_array_length": 6,
+      "primary_array_length": 19,
       "primary_array_first_keys": [
         "id",
         "section",

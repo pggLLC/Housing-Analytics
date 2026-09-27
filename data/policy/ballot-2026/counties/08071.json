@@ -5,71 +5,99 @@
       "geoid": "08071",
       "level": "county",
       "name": "Las Animas County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "County official election page checked 2026-09-26: no TABOR notice, sample ballot, ballot-content certification, or participating-entities list posted, so not_applicable cannot be established and no ballot text could be read.",
+        "BOCC 2026 resolutions folder reviewed as context only: no ballot-referral resolution listed; 26-014, 26-018, 26-019 absent from listing."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/drive/folders/1Fmhh-TAt9qyVX0gI6LFV1yAYkCOlyXZE",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0800760",
       "level": "municipal",
       "name": "Aguilar (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "County official election page checked 2026-09-26: no TABOR notice, sample ballot, ballot-content certification, or participating-entities list posted, so not_applicable cannot be established and no ballot text could be read."
+      ]
     },
     {
       "geoid": "0808345",
       "level": "municipal",
       "name": "Branson (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "County official election page checked 2026-09-26: no TABOR notice, sample ballot, ballot-content certification, or participating-entities list posted, so not_applicable cannot be established and no ballot text could be read."
+      ]
     },
     {
       "geoid": "0815550",
       "level": "municipal",
       "name": "Cokedale (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "County official election page checked 2026-09-26: no TABOR notice, sample ballot, ballot-content certification, or participating-entities list posted, so not_applicable cannot be established and no ballot text could be read."
+      ]
     },
     {
       "geoid": "0840570",
       "level": "municipal",
       "name": "Kim (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "County official election page checked 2026-09-26: no TABOR notice, sample ballot, ballot-content certification, or participating-entities list posted, so not_applicable cannot be established and no ballot text could be read."
+      ]
     },
     {
       "geoid": "0873715",
       "level": "municipal",
       "name": "Starkville (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "County official election page checked 2026-09-26: no TABOR notice, sample ballot, ballot-content certification, or participating-entities list posted, so not_applicable cannot be established and no ballot text could be read."
+      ]
     },
     {
       "geoid": "0878610",
       "level": "municipal",
       "name": "Trinidad (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.trinidad.co.gov/services/city_clerk/elections.php",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "County official election page checked 2026-09-26: no TABOR notice, sample ballot, ballot-content certification, or participating-entities list posted, so not_applicable cannot be established and no ballot text could be read.",
+        "Trinidad City Clerk Elections page checked 2026-09-26: no 2026 ballot question or notice posted."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

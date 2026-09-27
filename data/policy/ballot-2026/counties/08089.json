@@ -5,71 +5,158 @@
       "geoid": "08089",
       "level": "county",
       "name": "Otero County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://oterocounty.colorado.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Checked 2026-09-26: the elections page posts no sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "Commissioners' public-hearing packets June 8 to September 14, 2026 show no county ballot referral (the September 14 packet is mostly scanned; its agenda has no ballot item)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://oterocounty.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://oterocounty.colorado.gov/public-hearing-packets",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0813460",
       "level": "municipal",
       "name": "Cheraw (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://oterocounty.colorado.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town website has no agendas or election information."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://oterocounty.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofcheraw.colorado.gov/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0827975",
       "level": "municipal",
       "name": "Fowler (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://oterocounty.colorado.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town website (fowlercolorado.com) returned HTTP 403 on 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://oterocounty.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0842110",
       "level": "municipal",
       "name": "La Junta (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://oterocounty.colorado.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. City council agendas and minutes June 1 to September 8, 2026 contain no ballot question, election resolution or county election agreement."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://oterocounty.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://lajuntaco.portal.civicclerk.com/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0848500",
       "level": "municipal",
       "name": "Manzanola (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://oterocounty.colorado.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. Town board agendas May to September 9, 2026 contain no ballot or election item."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://oterocounty.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofmanzanola.colorado.gov/agendas-meeting-minutes/agendas",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0865190",
       "level": "municipal",
       "name": "Rocky Ford (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://oterocounty.colorado.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating: the July 28, 2026 council agenda lists Resolution No. 3 Series 2026 calling a special election on November 3, 2026, and the August 25 agenda lists an agreement with the Otero County Clerk and Recorder for the 2026 General Election.",
+        "Excluded, from the city's own page: Ballot Question 2A (temporary 1.5% sales and use tax for police, fire and EMS). Not housing.",
+        "The county ballot is not yet posted, so the city's question could not be read on it."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://oterocounty.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.cityofrockyfordco.gov/ballot-question-2a-public-safety-sales-tax-measure",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.cityofrockyfordco.gov/files/b8ffd2b45/RF+AGENDA+-+07.28.26.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.cityofrockyfordco.gov/files/05b82ff6b/RF+AGENDA+-+08.25.26.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0875970",
       "level": "municipal",
       "name": "Swink (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://oterocounty.colorado.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. No town website with agendas or election information was found."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://oterocounty.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
