@@ -15,7 +15,7 @@ The PMA score summarises affordable housing site viability in five dimensions:
 | **Demand** | 30% | Affordability pressure, renter household share |
 | **Capture Risk** | 25% | Existing + proposed units vs. qualified renters |
 | **Rent Pressure** | 15% | Market rent vs. affordable rent threshold |
-| **Land / Supply** | 15% | Vacancy rate bands |
+| **Market Tightness** | 15% | STR-adjusted rental vacancy bands |
 | **Workforce** | 15% | Measured LODES job accessibility and ACS income proxy |
 
 A higher score means **stronger market support** for an affordable housing project.
@@ -115,7 +115,7 @@ rentScore      = max(0, min(100, (rentRatio − 0.70) / (1.50 − 0.70) × 100))
 
 Where `AMI` = Colorado statewide Area Median Income. See [HUD Income Limits](https://www.huduser.gov/portal/datasets/il.html) for the current AMI value and vintage year.
 
-### 4. Land / Supply (15%)
+### 4. Market Tightness (15%)
 
 Measures rental-market supply tightness via **STR-adjusted rental vacancy**
 (#1163/#1171).
