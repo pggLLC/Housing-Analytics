@@ -271,6 +271,7 @@
   const DATA_MAP_GEOJSON_EXCLUSIONS = {
     'data/boundaries/counties_co.geojson': 'Duplicate county geometry; Data Map uses data/co-county-boundaries.json as the canonical county boundary layer.',
     'data/amenities/schools_co.geojson': 'Duplicate school point layer; Data Map uses data/market/schools_co.geojson because it carries richer NCES and enrollment fields.',
+    'data/amenities/transit_stops_co.geojson': 'OpenStreetMap stop input to data/amenities/transit_stops_statewide_co.geojson, which the Transit stops layer shows; its stops that CDOT and agency feeds lack appear there marked unconfirmed.',
     'data/environmental/fema-flood-co.geojson': 'Legacy 4-record stub kept only for source-comparison transparency; local flood coverage uses data/market/flood_zones_co.geojson and live NFHL remains available.',
     'data/market/cdphe_county_boundaries_co.geojson': 'Duplicate county geometry from CDPHE; county boundaries already covered by the canonical Counties layer.',
     'data/market/pma_tract_display_geometry.geojson': 'Internal PMA display derivative of tract_boundaries_co.geojson; not a standalone user-facing Data Map layer.',
@@ -361,12 +362,14 @@
 
     /* Amenities */
     { key: 'transit', name: 'Transit stops', group: 'Amenities',
-      url: 'data/amenities/transit_stops_co.geojson', color: '#0891b2', kind: 'point',
+      url: 'data/amenities/transit_stops_statewide_co.geojson', color: '#0891b2', kind: 'point',
       popupRows: function (p) {
+        var SRC = { cdot: 'CDOT', agency_feed: 'Agency schedule feed', osm: 'OpenStreetMap' };
         return [
-          { k: 'Name',     v: p.name || '(unnamed stop)' },
-          { k: 'OSM type', v: p.osm_type },
-          { k: 'OSM id',   v: p.osm_id },
+          { k: 'Name',        v: p.name || '(unnamed stop)' },
+          { k: 'Agency',      v: p.agency },
+          { k: 'Source',      v: (p.sources || []).map(function (s) { return SRC[s] || s; }).join(', ') },
+          { k: 'Reliability', v: p.reliability === 'unconfirmed' ? 'Unconfirmed (OpenStreetMap only)' : 'Confirmed' },
         ];
       } },
     { key: 'schools', name: 'Schools', group: 'Amenities',
