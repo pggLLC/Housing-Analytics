@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T12:16:45.110Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T12:40:48.662Z. Do not edit by hand.
 
 ---
 
@@ -1789,7 +1789,7 @@
 | `test/ci-verifies-bot-commits.test.js` | 5.4 KB |
 | `test/co-historical-allocations.test.js` | 12.9 KB |
 | `test/co-lihtc-map.test.js` | 8.8 KB |
-| `test/colorado-elections.test.mjs` | 22.5 KB |
+| `test/colorado-elections.test.mjs` | 32.7 KB |
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
 | `test/combined-geo.test.js` | 46.4 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
