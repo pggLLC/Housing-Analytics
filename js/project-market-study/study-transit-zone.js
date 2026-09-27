@@ -66,9 +66,16 @@
     return Promise.race([got, gaveUp]).then(function (v) { clearTimeout(timer); return v; });
   }
 
-  function render(mount, geoid, now) {
+  // Both files, each under the time limit. The page starts this at load,
+  // alongside its jurisdiction lookup, so the two waits overlap and the whole
+  // section is bounded by one timeoutMs, not one after the other.
+  function load() {
+    return Promise.all([get('data/hna/transit-zone-by-geography.json'), get('data/policy/thiz-map-status.json')]);
+  }
+
+  function render(mount, geoid, now, loaded) {
     if (!mount) return Promise.resolve(null);
-    return Promise.all([get('data/hna/transit-zone-by-geography.json'), get('data/policy/thiz-map-status.json')])
+    return (loaded || load())
       .then(function (parts) {
         var tz = typeof window !== 'undefined' ? window.TransitZone : null;
         var out = summarize(geoid, parts[0], parts[1], now, tz);
@@ -78,6 +85,6 @@
       });
   }
 
-  var api = { summarize: summarize, render: render, timeoutMs: 20000 };
+  var api = { summarize: summarize, render: render, load: load, timeoutMs: 20000 };
   return api;
 }));
