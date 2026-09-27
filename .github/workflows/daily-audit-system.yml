@@ -13,6 +13,10 @@ jobs:
     permissions:
       contents: read
       actions: read   # list + download the prior run's audit-history artifact
+      issues: read
+      pull-requests: read
+      checks: read     # statusCheckRollup on open PRs (Pull Request Triage)
+      statuses: read   # ditto, for commit statuses
 
     steps:
       # ── Setup ───────────────────────────────────────────────────────────────
@@ -118,8 +122,8 @@ jobs:
           EMAIL_USER:        ${{ secrets.EMAIL_USER }}
           EMAIL_PASSWORD:    ${{ secrets.EMAIL_PASSWORD }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          GITHUB_TOKEN:      ${{ github.token }}
         run: node test/daily-audit-system.js
-        continue-on-error: true
 
       # Saved immediately after the audit, and with if: always(), so a failure
       # in one of the legacy checks below cannot cost us the day's snapshot.
@@ -142,14 +146,17 @@ jobs:
 
       # ── Legacy Checks (kept for compatibility) ───────────────────────────────
       - name: Verify script loads
+        if: ${{ !cancelled() }}   # still run when the audit step exits 1
         run: node test/verify-script-loads.js
         continue-on-error: true
 
       - name: Test fallback mechanisms
+        if: ${{ !cancelled() }}   # still run when the audit step exits 1
         run: node test/test-fallback-mechanisms.js
         continue-on-error: true
 
       - name: Run Lighthouse audit
+        if: ${{ !cancelled() }}   # still run when the audit step exits 1
         run: node test/lighthouse-audit.js
         continue-on-error: true
 
