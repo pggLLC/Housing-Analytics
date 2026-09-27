@@ -36,6 +36,7 @@ const {
     sendSlackAlert,
 } = require('./audit-modules/report-generator');
 const { collectRepoHealth } = require('./audit-modules/repo-health');
+const { auditExitCode, summarizeChecks } = require('./audit-modules/audit-status');
 
 // ── Configuration ─────────────────────────────────────────────────────────────
 const WEBSITE_URL        = process.env.WEBSITE_URL        || 'https://pggllc.github.io/Housing-Analytics/';
@@ -193,7 +194,19 @@ async function runLinkChecks() {
     let pageText;
 
     try {
-        const res = await fetch(WEBSITE_URL, { timeout: REQUEST_TIMEOUT_MS });
+        // One retry on a network error or 5XX, the same policy as the source-URL
+        // sweep (#1545): with continue-on-error gone, a single dropped
+        // connection would otherwise fail the scheduled job as "site down".
+        let res;
+        for (let attempt = 0; attempt < 2; attempt += 1) {
+            try {
+                res = await fetch(WEBSITE_URL, { timeout: REQUEST_TIMEOUT_MS });
+            } catch (err) {
+                if (attempt === 1) throw err;
+                continue;
+            }
+            if (res.ok || res.status < 500) break;
+        }
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         pageText = await res.text();
     } catch (err) {
@@ -393,22 +406,12 @@ async function main() {
         linkChecks: linkCheck.linkChecks || 0,
     };
 
-    const auditHealth = {
+    const auditHealth = summarizeChecks(
         checks,
-        totalChecks: checks.length,
-        passed: checks.filter(check => check.status === 'passed').length,
-        failed: checks.filter(check => check.status === 'failed').length,
-        skipped: checks.filter(check => check.status === 'skipped').length,
-        unavailable: checks.filter(check => check.status === 'unavailable').length,
-        criticalFailures: checks.filter(check => check.critical && check.status === 'failed').length,
-        criticalUnavailable: checks.filter(check => check.critical && check.status === 'unavailable').length,
-        internalErrors: checks
-            .filter(check => check.status === 'unavailable')
-            .map(check => `${check.name}: ${check.details || check.error || 'Unavailable'}`),
-        workflowRunUrl: process.env.GITHUB_SERVER_URL && process.env.GITHUB_REPOSITORY && process.env.GITHUB_RUN_ID
+        process.env.GITHUB_SERVER_URL && process.env.GITHUB_REPOSITORY && process.env.GITHUB_RUN_ID
             ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
-            : '',
-    };
+            : ''
+    );
 
     console.log('\n── Audit Summary ──────────────────────────────────────────');
     console.log(`  🔴 Critical: ${summary.critical}`);
@@ -485,11 +488,13 @@ async function main() {
 
     console.log(`\n✅ Audit complete in ${(runDurationMs / 1000).toFixed(1)}s`);
 
-    // Exit with non-zero code if a critical check failed/unavailable or critical findings were emitted.
-    if (summary.critical > 0 || auditHealth.criticalFailures > 0 || auditHealth.criticalUnavailable > 0) {
+    // Exit non-zero on a critical finding, or when a critical local check
+    // crashed (the audit silently not running). Repo-health API outages are
+    // reported as unavailable and never fail the job — see audit-status.js.
+    if (auditExitCode(summary, auditHealth) !== 0) {
         console.error(
             `[audit] Exiting with code 1 — critical findings: ${summary.critical}, ` +
-            `critical checks failed: ${auditHealth.criticalFailures}, unavailable: ${auditHealth.criticalUnavailable}.`
+            `critical checks unavailable: ${auditHealth.criticalUnavailable}.`
         );
         process.exit(1);
     }

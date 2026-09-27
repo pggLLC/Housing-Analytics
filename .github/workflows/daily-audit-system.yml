@@ -15,6 +15,8 @@ jobs:
       actions: read   # list + download the prior run's audit-history artifact
       issues: read
       pull-requests: read
+      checks: read     # statusCheckRollup on open PRs (Pull Request Triage)
+      statuses: read   # ditto, for commit statuses
 
     steps:
       # ── Setup ───────────────────────────────────────────────────────────────
@@ -144,14 +146,17 @@ jobs:
 
       # ── Legacy Checks (kept for compatibility) ───────────────────────────────
       - name: Verify script loads
+        if: ${{ !cancelled() }}   # still run when the audit step exits 1
         run: node test/verify-script-loads.js
         continue-on-error: true
 
       - name: Test fallback mechanisms
+        if: ${{ !cancelled() }}   # still run when the audit step exits 1
         run: node test/test-fallback-mechanisms.js
         continue-on-error: true
 
       - name: Run Lighthouse audit
+        if: ${{ !cancelled() }}   # still run when the audit step exits 1
         run: node test/lighthouse-audit.js
         continue-on-error: true
 

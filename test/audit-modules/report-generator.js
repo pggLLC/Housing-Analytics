@@ -9,6 +9,7 @@
 
 const nodemailer = require('nodemailer');
 const fetch = require('node-fetch');
+const { overallStatus } = require('./audit-status');
 
 // Severity display config
 const SEVERITY_CONFIG = {
@@ -169,35 +170,49 @@ function buildAuditHealthSection(auditHealth) {
     </div>`;
 }
 
-function buildRepositoryHealthSection(repoHealth) {
-    if (!repoHealth) return '';
-    const actions = repoHealth.actions || {};
-    const pulls = repoHealth.pullRequests || {};
-    const issues = repoHealth.issueInventory || {};
+const UNAVAILABLE = '<span style="color:#856404;">unavailable</span>';
+
+/** A count, or "unavailable" — a count we could not take is never shown as 0. */
+function countOrUnavailable(value) {
+    if (Array.isArray(value)) return String(value.length);
+    return typeof value === 'number' && Number.isFinite(value) ? String(value) : UNAVAILABLE;
+}
+
+function unavailableCard(title) {
+    return `
+            <div style="background:#fff;border:1px solid #dee2e6;border-radius:8px;padding:16px;">
+                <h3 style="margin-top:0;">${escHtml(title)}</h3>
+                <p style="margin:0;color:#856404;">⚠️ Unavailable — the GitHub API could not be read for this section, so nothing here was checked.</p>
+            </div>`;
+}
+
+function buildActionsCard(actions) {
+    if (!actions) return unavailableCard('GitHub Actions Health');
     const deployText = actions.lastSuccessfulDeploy
         ? `${escHtml(actions.lastSuccessfulDeploy.run_started_at || actions.lastSuccessfulDeploy.created_at || 'unknown')} · <a href="${escHtml(actions.lastSuccessfulDeploy.html_url || '')}">view run</a>`
         : 'No successful deploy found';
-
     return `
-    <div style="background:#f8f9fa;border:1px solid #dee2e6;border-radius:8px;padding:20px;margin-bottom:28px;">
-        <h2 style="margin-top:0;">🔍 Repository Health Summary</h2>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
             <div style="background:#fff;border:1px solid #dee2e6;border-radius:8px;padding:16px;">
                 <h3 style="margin-top:0;">GitHub Actions Health</h3>
-                <p style="margin:0 0 8px;"><strong>Failed/cancelled on main (24h):</strong> ${(actions.failingRuns || []).length}</p>
-                <p style="margin:0 0 8px;"><strong>Overdue scheduled workflows:</strong> ${(actions.overdueWorkflows || []).length}</p>
+                <p style="margin:0 0 8px;"><strong>Main workflows whose latest run failed (24h):</strong> ${countOrUnavailable(actions.failingRuns)}</p>
+                <p style="margin:0 0 8px;"><strong>Overdue scheduled workflows:</strong> ${countOrUnavailable(actions.overdueWorkflows)}</p>
                 <p style="margin:0 0 8px;"><strong>Last successful deploy:</strong> ${deployText}</p>
                 ${buildLinkedList(
                     (actions.failingRuns || []).concat(actions.overdueWorkflows || []),
                     item => `<li style="margin-bottom:6px;"><a href="${escHtml(item.html_url || '')}">${escHtml(item.name || item.path || 'Workflow')}</a>${item.lastRunAt ? ` — last run ${escHtml(item.lastRunAt)}` : ''}</li>`,
-                    'No failing or overdue workflows.'
+                    Array.isArray(actions.failingRuns) ? 'No failing or overdue workflows.' : 'No overdue workflows; the failing-run list was incomplete.'
                 )}
-            </div>
+            </div>`;
+}
+
+function buildPullsCard(pulls) {
+    if (!pulls) return unavailableCard('Pull Request Triage');
+    return `
             <div style="background:#fff;border:1px solid #dee2e6;border-radius:8px;padding:16px;">
                 <h3 style="margin-top:0;">Pull Request Triage</h3>
-                <p style="margin:0 0 8px;"><strong>Open PRs:</strong> ${pulls.openCount || 0}</p>
-                <p style="margin:0 0 8px;"><strong>Failing checks:</strong> ${(pulls.failingChecks || []).length} · <strong>Stale reviews:</strong> ${(pulls.staleReviews || []).length}</p>
-                <p style="margin:0 0 8px;"><strong>Conflicts:</strong> ${(pulls.conflicts || []).length} · <strong>Inactive &gt;7d:</strong> ${(pulls.inactive || []).length}</p>
+                <p style="margin:0 0 8px;"><strong>Open PRs:</strong> ${countOrUnavailable(pulls.openCount)}</p>
+                <p style="margin:0 0 8px;"><strong>Failing checks:</strong> ${countOrUnavailable(pulls.failingChecks)} · <strong>Stale reviews:</strong> ${countOrUnavailable(pulls.staleReviews)}</p>
+                <p style="margin:0 0 8px;"><strong>Conflicts:</strong> ${countOrUnavailable(pulls.conflicts)} · <strong>Inactive &gt;7d:</strong> ${countOrUnavailable(pulls.inactive)}</p>
                 ${buildLinkedList(
                     []
                         .concat(pulls.failingChecks || [])
@@ -207,11 +222,16 @@ function buildRepositoryHealthSection(repoHealth) {
                     pr => `<li style="margin-bottom:6px;"><a href="${escHtml(pr.html_url || pr.url || '')}">PR #${escHtml(pr.number)} — ${escHtml(pr.title || '')}</a></li>`,
                     'No PRs need triage.'
                 )}
-            </div>
+            </div>`;
+}
+
+function buildIssuesCard(issues) {
+    if (!issues) return unavailableCard('Issues Inventory');
+    return `
             <div style="background:#fff;border:1px solid #dee2e6;border-radius:8px;padding:16px;">
                 <h3 style="margin-top:0;">Issues Inventory</h3>
-                <p style="margin:0 0 8px;"><strong>Open:</strong> ${issues.openCount || 0} · <strong>New (24h):</strong> ${issues.newlyOpenedCount || 0} · <strong>Closed (24h):</strong> ${issues.closedCount || 0}</p>
-                <p style="margin:0 0 8px;"><strong>High-priority:</strong> ${(issues.highPriority || []).length} · <strong>Blockers:</strong> ${(issues.blockers || []).length} · <strong>Inactive &gt;30d:</strong> ${(issues.longstanding || []).length}</p>
+                <p style="margin:0 0 8px;"><strong>Open:</strong> ${countOrUnavailable(issues.openCount)} · <strong>New (24h):</strong> ${countOrUnavailable(issues.newlyOpenedCount)} · <strong>Closed (24h):</strong> ${countOrUnavailable(issues.closedCount)}</p>
+                <p style="margin:0 0 8px;"><strong>High-priority:</strong> ${countOrUnavailable(issues.highPriority)} · <strong>Blockers:</strong> ${countOrUnavailable(issues.blockers)} · <strong>Inactive &gt;30d:</strong> ${countOrUnavailable(issues.longstanding)}</p>
                 ${buildLinkedList(
                     []
                         .concat(issues.highPriority || [])
@@ -220,46 +240,68 @@ function buildRepositoryHealthSection(repoHealth) {
                     issue => `<li style="margin-bottom:6px;"><a href="${escHtml(issue.html_url || '')}">Issue #${escHtml(issue.number)} — ${escHtml(issue.title || '')}</a></li>`,
                     'No issue backlog hotspots detected.'
                 )}
-            </div>
+            </div>`;
+}
+
+function buildRepositoryHealthSection(repoHealth) {
+    if (!repoHealth) return '';
+    return `
+    <div style="background:#f8f9fa;border:1px solid #dee2e6;border-radius:8px;padding:20px;margin-bottom:28px;">
+        <h2 style="margin-top:0;">🔍 Repository Health Summary</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
+            ${buildActionsCard(repoHealth.actions)}
+            ${buildPullsCard(repoHealth.pullRequests)}
+            ${buildIssuesCard(repoHealth.issueInventory)}
         </div>
     </div>`;
 }
 
+const BANNER_STYLE = {
+    red:    'background:#f8d7da;color:#721c24;',
+    orange: 'background:#fff3cd;color:#856404;',
+    yellow: 'background:#fff8e1;color:#7b5e00;',
+    green:  'background:#d4edda;color:#155724;',
+};
+
+function banner(tone, text) {
+    return `<div style="${BANNER_STYLE[tone]}padding:16px 24px;border-radius:8px;font-size:22px;font-weight:bold;margin-bottom:24px;">${text}</div>`;
+}
+
 function buildOverallStatus(summary, auditHealth, repoHealth) {
-    const hasDeployStatus = !!(repoHealth && repoHealth.actions);
-    const deployBlocked = hasDeployStatus &&
-        (!repoHealth.actions.lastSuccessfulDeploy || (repoHealth.actions.recentDeployFailures || []).length > 0);
-    if ((auditHealth && (auditHealth.criticalFailures > 0 || auditHealth.criticalUnavailable > 0)) || summary.critical > 0 || deployBlocked) {
-        return '<div style="background:#f8d7da;color:#721c24;padding:16px 24px;border-radius:8px;font-size:22px;font-weight:bold;margin-bottom:24px;">🔴 Repo Health Alert</div>';
+    const status = overallStatus({ summary, auditHealth, repoHealth });
+    switch (status.key) {
+        case 'deploy-blocked':       return banner('red', '🔴 Deploy Blocked');
+        case 'critical':             return banner('red', '🔴 Critical Issues Detected');
+        case 'audit-incomplete':     return banner('red', `🔴 Audit Incomplete — ${status.count} Critical Check(s) Unavailable`);
+        case 'high-priority-issues': return banner('yellow', `🟡 ${status.count} High-Priority Issue(s)`);
+        case 'high':                 return banner('orange', '🟠 High Priority Issues Found');
+        case 'checks-not-run':       return banner('orange', `🟠 ${status.count} Check(s) Did Not Run`);
+        case 'minor':                return banner('yellow', '🟡 Minor Issues Detected');
+        default:                     return banner('green', '🟢 All Systems Healthy');
     }
-    if (repoHealth && repoHealth.issueInventory && (repoHealth.issueInventory.highPriority || []).length > 0) {
-        return `<div style="background:#fff8e1;color:#7b5e00;padding:16px 24px;border-radius:8px;font-size:22px;font-weight:bold;margin-bottom:24px;">🟡 ${(repoHealth.issueInventory.highPriority || []).length} High-Priority Issue(s)</div>`;
-    }
-    if (summary.high > 0 || summary.total > 0 || (auditHealth && (auditHealth.failed > 0 || auditHealth.unavailable > 0 || auditHealth.skipped > 0))) {
-        return '<div style="background:#fff3cd;color:#856404;padding:16px 24px;border-radius:8px;font-size:22px;font-weight:bold;margin-bottom:24px;">🟠 Attention Needed</div>';
-    }
-    return '<div style="background:#d4edda;color:#155724;padding:16px 24px;border-radius:8px;font-size:22px;font-weight:bold;margin-bottom:24px;">🟢 All Systems Healthy</div>';
 }
 
 function buildEmailSubject({ summary, auditHealth, repoHealth, reportDate = new Date() }) {
     const stamp = reportDate.toDateString();
-    const hasDeployStatus = !!(repoHealth && repoHealth.actions);
-    const deployBlocked = hasDeployStatus &&
-        (!repoHealth.actions.lastSuccessfulDeploy || (repoHealth.actions.recentDeployFailures || []).length > 0);
-    if ((auditHealth && auditHealth.criticalUnavailable > 0) || deployBlocked) {
-        return `🔴 DEPLOY BLOCKED — Housing Analytics Audit — ${stamp}`;
+    const status = overallStatus({ summary, auditHealth, repoHealth });
+    switch (status.key) {
+        case 'deploy-blocked':
+            return `🔴 DEPLOY BLOCKED — Housing Analytics Audit — ${stamp}`;
+        case 'critical':
+            return `🔴 [CRITICAL] Housing Analytics Audit — ${status.count} Critical Issue(s) — ${stamp}`;
+        case 'audit-incomplete':
+            return `🔴 AUDIT INCOMPLETE — Housing Analytics Audit — ${status.count} Critical Check(s) Unavailable — ${stamp}`;
+        case 'high-priority-issues':
+            return `🟡 ${status.count} HIGH-PRIORITY ISSUES — Housing Analytics Audit — ${stamp}`;
+        case 'high':
+            return `🟠 Housing Analytics Audit — ${status.count} High Priority Issue(s) — ${stamp}`;
+        case 'checks-not-run':
+            return `🟠 Housing Analytics Audit — ${status.count} Check(s) Did Not Run — ${stamp}`;
+        default:
+            // 'minor' keeps its pre-repo-health subject: medium/low findings
+            // alone have always read as All Clear in the subject line.
+            return `🟢 Housing Analytics Audit — All Clear — ${stamp}`;
     }
-    const highPriorityCount = repoHealth && repoHealth.issueInventory ? (repoHealth.issueInventory.highPriority || []).length : 0;
-    if (highPriorityCount > 0) {
-        return `🟡 ${highPriorityCount} HIGH-PRIORITY ISSUES — Housing Analytics Audit — ${stamp}`;
-    }
-    if (summary.critical > 0) {
-        return `🔴 [CRITICAL] Housing Analytics Audit — ${summary.critical} Critical Issue(s) — ${stamp}`;
-    }
-    if (summary.high > 0) {
-        return `🟠 Housing Analytics Audit — ${summary.high} High Priority Issue(s) — ${stamp}`;
-    }
-    return `🟢 Housing Analytics Audit — All Clear — ${stamp}`;
 }
 
 /**
