@@ -402,7 +402,7 @@ test('a published OEDIT map that fails to load or read gives no funding path (#1
 // The status file's own freshness: while the map is unpublished, last_checked
 // must be refreshed (scripts/audit/data-freshness-check.mjs).
 const os = require('node:os');
-function freshness(asOf, statusOverride) {
+function freshness(asOf, statusOverride, text) {
   let cwd = root;
   if (statusOverride !== undefined) {
     // A throwaway root with only the files the check needs for this row.
@@ -414,9 +414,11 @@ function freshness(asOf, statusOverride) {
     fs.mkdirSync(path.join(cwd, 'data/policy'), { recursive: true });
     fs.writeFileSync(path.join(cwd, 'data/policy/thiz-map-status.json'), JSON.stringify(statusOverride));
   }
-  const r = spawnSync(process.execPath, ['scripts/audit/data-freshness-check.mjs', '--json', `--as-of=${asOf}`], { cwd, encoding: 'utf8' });
+  const args = ['scripts/audit/data-freshness-check.mjs', `--as-of=${asOf}`].concat(text ? [] : ['--json']);
+  const r = spawnSync(process.execPath, args, { cwd, encoding: 'utf8' });
   if (cwd !== root) fs.rmSync(cwd, { recursive: true, force: true });
   assert.ok([0, 1, 2].includes(r.status) && r.stdout, r.stderr || 'freshness check did not run');
+  if (text) return r.stdout;
   const row = JSON.parse(r.stdout).results.find((x) => x.file === 'data/policy/thiz-map-status.json');
   assert.ok(row && row.present, 'no freshness row for data/policy/thiz-map-status.json');
   return row;
@@ -433,6 +435,18 @@ test('the zone-map status file goes stale unless last_checked is refreshed, whil
   if (mapStatus.status !== 'published') {
     const noCheck = Object.assign({}, mapStatus); delete noCheck.last_checked;
     assert.equal(freshness(day(1), noCheck).stale, true, 'a status file with no last_checked counted as fresh');
+    // The public QA status parses the checker's text output; the undated
+    // row it flags must reach that report as stale, not vanish from it.
+    const report = spawnSync(process.execPath, ['--input-type=module', '-e',
+      "import { parseFreshnessOutput } from './scripts/audit/qa-status-generator.mjs';" +
+      'let s = ""; process.stdin.on("data", (d) => { s += d; }).on("end", () => ' +
+      'process.stdout.write(JSON.stringify(parseFreshnessOutput(s))));'],
+      { cwd: root, encoding: 'utf8', input: freshness(day(1), noCheck, true) });
+    assert.equal(report.status, 0, report.stderr);
+    const rec = JSON.parse(report.stdout).find((x) => x.file === 'data/policy/thiz-map-status.json');
+    assert.ok(rec, 'the QA status report dropped the undated zone-map status row');
+    assert.equal(rec.status, 'STALE');
+    assert.equal(rec.ageDays, null, 'an undated row reached the QA report with an age');
     const pub = Object.assign({}, mapStatus, { status: 'published' });
     const p = freshness(day(fresh.slaDays + 30), pub);
     assert.equal(p.stale, false, 'a published map still ages');
