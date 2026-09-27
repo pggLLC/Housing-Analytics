@@ -121,13 +121,14 @@ function realFetch(overrides) {
     return Promise.resolve({ ok: true, json: () => Promise.resolve(body) });
   };
 }
-// How the panel must print a share: rounded, except that a measured share
-// never rounds to an absolute (0.4% is not "0%", 99.6% is not "100%").
-function shareLabel(v) {
-  if (v > 0 && v < 0.005) return '<1%';
-  if (v < 1 && v >= 0.995) return '>99%';
-  return Math.round(v * 100) + '%';
-}
+// How the panel must print a share is TZ.shareLabel (js/transit-zone.js):
+// rounded, except that a measured share never rounds to an absolute (0.4% is
+// not "0%", 99.6% is not "100%"). The panel must agree with it; this file does
+// not restate the rule (#1973).
+const shareLabel = TZ.shareLabel;
+// A measured share that plain rounding would print as an absolute.
+const roundsToZero = (v) => v > 0 && Math.round(v * 100) === 0;
+const roundsToAll = (v) => v < 1 && Math.round(v * 100) === 100;
 const FRESH = new Date(Date.parse(data.meta.stops_generated) + 86400e3);
 // A place whose three shares all differ, so a tile showing the wrong one fails.
 const sample = Object.entries(data.geographies).find(([, g]) => g.type !== 'county' && g.nearest_confirmed_stop
@@ -193,8 +194,8 @@ test('an edge-only zero says "less than 1%", never "no part"', () => {
 
 test('a measured share never prints as 0% or 100%', () => {
   const entries = Object.entries(data.geographies);
-  const tiny = entries.find(([, g]) => g.share_within_radius_confirmed > 0 && g.share_within_radius_confirmed < 0.005);
-  const nearAll = entries.find(([, g]) => g.share_within_radius_confirmed >= 0.995 && g.share_within_radius_confirmed < 1);
+  const tiny = entries.find(([, g]) => roundsToZero(g.share_within_radius_confirmed));
+  const nearAll = entries.find(([, g]) => roundsToAll(g.share_within_radius_confirmed));
   const cases = [tiny || ['TINY', Object.assign({}, sample[1], { name: 'Tiny', share_within_radius_confirmed: 0.004, share_within_radius_any: 0.004, zero_is_exact: null })],
                  nearAll || ['NEAR', Object.assign({}, sample[1], { name: 'Near', share_within_radius_confirmed: 0.996, share_within_radius_any: 0.996, zero_is_exact: null })]];
   return Promise.all(cases.map(([id, g]) => {

@@ -50,6 +50,21 @@ test('the methodology explainer names the dimensions the weights have', () => {
   }
 });
 
+test('the methodology explainer\'s source is the file the weights live in (#1973)', () => {
+  // Agreement, not copy: every file the explainer cites must exist, and the
+  // one holding `var WEIGHTS = {…}` must be among them — the same file the
+  // test above reads the dimensions from.
+  const ex = read('js/methodology-explainer.js');
+  const source = (ex.match(/'pma-composite':\s*\{[\s\S]*?source:\s*'([^']*)'/) || [])[1];
+  assert.ok(source, 'pma-composite explainer source not found');
+  const cited = source.match(/[\w./-]+\.js\b/g) || [];
+  assert.ok(cited.length > 0, `explainer source names no file: "${source}"`);
+  for (const f of cited) assert.ok(fs.existsSync(path.join(root, f)), `explainer cites ${f}, which does not exist`);
+  const holders = cited.filter((f) => /var WEIGHTS = \{/.test(read(f)));
+  assert.equal(holders.length, 1, `explainer source "${source}" does not name the one file that defines the PMA weights`);
+  assert.equal(read(holders[0]), scoring, `explainer cites ${holders[0]}, not the file the weights above are read from`);
+});
+
 // ── The PMA gate ────────────────────────────────────────────────────────────
 const ma = read('js/market-analysis.js');
 const gateSrc = (ma.match(/  var _tzMapStatus = null[\s\S]*?\n  function _renderTransitZoneGate[\s\S]*?\n  \}\n/) || [])[0];
@@ -340,19 +355,16 @@ const STZ = require('../js/project-market-study/study-transit-zone.js');
 const byGeo = readJson('data/hna/transit-zone-by-geography.json');
 const FRESH = new Date(Date.parse(byGeo.meta.stops_generated) + 86400e3);
 
-// How a share must print: rounded, except that a measured share never rounds
-// to an absolute (0.4% is not "0%", 99.6% is not "100%") — the same rule the
-// needs assessment's panel follows (test/hna-transit-zone.test.js).
-function shareLabel(v) {
-  if (v > 0 && v < 0.005) return '<1%';
-  if (v < 1 && v >= 0.995) return '>99%';
-  return Math.round(v * 100) + '%';
-}
+// How a share must print is TZ.shareLabel (js/transit-zone.js) — the same
+// rule the needs assessment's panel follows. The study must agree with it;
+// this file does not restate the rule (#1973).
+const shareLabel = TZ.shareLabel;
 
 test('for-sale study: a measured share never prints as 0% or 100%', () => {
   const entries = Object.entries(byGeo.geographies);
-  const tiny = entries.find(([, x]) => x.share_within_radius_confirmed > 0 && x.share_within_radius_confirmed < 0.005);
-  const nearAll = entries.find(([, x]) => x.share_within_radius_confirmed >= 0.995 && x.share_within_radius_confirmed < 1);
+  // A measured share that plain rounding would print as an absolute.
+  const tiny = entries.find(([, x]) => x.share_within_radius_confirmed > 0 && Math.round(x.share_within_radius_confirmed * 100) === 0);
+  const nearAll = entries.find(([, x]) => x.share_within_radius_confirmed < 1 && Math.round(x.share_within_radius_confirmed * 100) === 100);
   assert.ok(tiny && nearAll, 'the per-geography file no longer has a sub-1% and a near-100% share to check');
   for (const [id, g, want] of [[...tiny, '<1%'], [...nearAll, '>99%']]) {
     const out = STZ.summarize(id, byGeo, mapStatus, FRESH, TZ);
