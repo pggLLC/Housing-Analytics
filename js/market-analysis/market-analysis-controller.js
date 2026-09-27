@@ -799,16 +799,24 @@
           }
         }
 
-        // Enrich with EPA walkability / bikeability when loaded.
+        // Enrich with EPA walkability / bikeability for the site's own block
+        // group. When it cannot be located, carry the reason to the renderer
+        // rather than dropping the section silently.
         var walkabilityCtx = null;
+        var walkabilityUnavailableReason = null;
         var epaWalk = window.EpaWalkability;
-        if (epaWalk && epaWalk.isLoaded()) {
+        if (epaWalk && typeof epaWalk.getScores === 'function') {
           walkabilityCtx = _safe(function () { return epaWalk.getScores(lat, lon); }, null);
           if (walkabilityCtx) {
             _log('walkability: walk=' + walkabilityCtx.walkScore +
               ' (' + walkabilityCtx.walkLabel + '), bike=' + walkabilityCtx.bikeScore +
               ' (' + walkabilityCtx.bikeLabel + ')');
+          } else {
+            walkabilityUnavailableReason = _safe(function () { return epaWalk.getUnavailableReason(lat, lon); }, null) ||
+              'EPA walkability could not be computed for this site';
           }
+        } else {
+          walkabilityUnavailableReason = 'EPA walkability connector is not loaded on this page';
         }
 
         // ── Enrich with EJI environmental data ──────────────────────
@@ -999,6 +1007,7 @@
             ren.renderNeighborhoodAccess({
               amenities:    inputs.amenities,
               walkability:  walkabilityCtx,
+              walkabilityUnavailableReason: walkabilityUnavailableReason,
               access_score: scores ? scores.access_score : null
             });
           });

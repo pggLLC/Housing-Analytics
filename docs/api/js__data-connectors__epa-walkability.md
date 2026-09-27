@@ -5,6 +5,12 @@ EPA Smart Location Database walkability & bikeability connector.
 Loads block-group data from data/market/epa_sld_co.json and provides
 walkability/bikeability scores for any lat/lon in Colorado.
 
+A site is located by point-in-polygon against the 2010 block-group
+boundaries in data/market/epa_sld_bg_geometry_co.geojson (same GEOID set as
+the EPA file; EPA SLD v3 is published on 2010 block groups, so the repo's
+TIGER 2020 tracts cannot be used to join it). A site that falls in no block
+group gets null and an unavailable reason — never another place's values.
+
 Exposes window.EpaWalkability.
 
 Depends on: js/data-service-portable.js (DataService.getEpaSld),
@@ -20,9 +26,14 @@ Depends on: js/data-service-portable.js (DataService.getEpaSld),
 
 @type {boolean}
 
-### `_bgCentroids`
+### `_bgIndex`
 
-@type {Array.<{geoid:string,lat:number,lon:number}>|null}
+Block-group boundaries, indexed for point-in-polygon.
+@type {Array.<{geoid:string,bbox:number[],polys:Array}>|null}
+
+### `_geometryFailure`
+
+@type {string|null} Why the boundary file is not available, once known
 
 ### `load(data)`
 
@@ -30,18 +41,41 @@ Load EPA SLD block-group data. Call once at page init.
 Accepts the parsed JSON from data/market/epa_sld_co.json.
 @param {object} data - { blockGroups: { "080010094092": { walkability, ... } } }
 
+### `loadGeometry(fc)`
+
+Load the 2010 block-group boundaries used to locate a site.
+Accepts the parsed GeoJSON from data/market/epa_sld_bg_geometry_co.geojson.
+@param {object} fc - FeatureCollection; properties.geoid on each feature
+
 ### `autoLoad()`
 
 Auto-load from DataService if available.
 
-### `getMetrics(lat, lon)`
+### `resolveSite(lat, lon)`
 
-Find the nearest block group(s) to a lat/lon by matching tract GEOIDs
-from PMAEngine's buffer, or by brute-force nearest block-group centroid.
+Find the EPA SLD block group(s) a site sits in.
 
 @param {number} lat
 @param {number} lon
-@returns {object|null} EPA SLD metrics for the best-matching block group(s)
+@returns {{blockGroups: string[], method: string|null, unavailableReason: string|null}}
+  blockGroups is empty exactly when unavailableReason is set. method is
+  'contains', or 'within-simplification-tolerance' for a sliver match.
+
+### `getMetrics(lat, lon)`
+
+EPA SLD metrics for the block group(s) containing a site.
+
+@param {number} lat
+@param {number} lon
+@returns {object|null} null when the site cannot be located; see
+  getUnavailableReason() for why.
+
+### `getUnavailableReason(lat, lon)`
+
+Why getMetrics()/getScores() return null for a site, or null when they do not.
+@param {number} lat
+@param {number} lon
+@returns {string|null}
 
 ### `getScores(lat, lon)`
 
@@ -60,19 +94,18 @@ Get walkability and bikeability scores (0-100) for a location.
   blockGroupCount: number
 }|null}
 
-### `_getTractGeoids(lat, lon)`
+### `_distToPolys(x, y, polys)`
 
-Try to get tract GEOIDs from PMAEngine for the analysis buffer.
+Planar distance, in degrees, from a point to the nearest polygon edge.
 
-### `_averageForTracts(tractGeoids)`
+### `_inPolygon(x, y, rings)`
 
-Average EPA SLD metrics across block groups matching tract GEOIDs.
+Even-odd ray cast over every ring, so holes are excluded.
 
-### `_nearestBlockGroup(lat, lon)`
+### `_averageForBlockGroups(bgIds)`
 
-Nearest block-group fallback using tract centroid data.
-Approximates block-group location from the tract centroid file.
+Average EPA SLD metrics across the given block groups.
 
 ### `isLoaded()`
 
-@returns {boolean}
+@returns {boolean} true once both the metrics and the boundaries have loaded
