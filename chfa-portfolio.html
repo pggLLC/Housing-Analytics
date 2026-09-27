@@ -130,6 +130,15 @@
       color: var(--accent);
     }
     .badge-green { background: var(--good-dim, #d1fae5); color: var(--good, #059669); }
+    /* Rule 14: the per-row Map link is a repeated touch target, so it gets
+       the 44 x 44 px minimum rather than the size of its text. */
+    .portfolio-map-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      min-width: 44px;
+    }
     /* Absence is not a badge. It gets the muted, un-pill treatment so it can
        never be mistaken at a glance for a measured "no". */
     .portfolio-unpublished {
@@ -550,7 +559,7 @@
       : (r.PROJ_ADD ? addr : null);
     if (!query) return '<span title="CHFA publishes no coordinates or street address for this property">—</span>';
     var label = 'Open ' + (r.PROJECT || 'this property') + ' on Google Maps' + (r.PROJ_ADD ? ' — ' + addr : '');
-    return '<a href="https://www.google.com/maps/search/?api=1&amp;query=' + encodeURIComponent(query) +
+    return '<a class="portfolio-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=' + encodeURIComponent(query) +
       '" target="_blank" rel="noopener" title="' + esc(label) + '" aria-label="' + esc(label) +
       ' (opens in a new tab)">Map ↗</a>';
   }
