@@ -450,6 +450,72 @@ await check(STUDY, 'render: map-status fetch failed (area data fresh)', async ()
   }
 });
 
+// The page's own mount (the inline loader in for-sale-market-study.html),
+// with either transit script missing or the screen throwing (#1973). The
+// section's initial text is the "Checking…" placeholder; the page must
+// replace it with "Unavailable." and a reason, never leave it waiting.
+const FSMS = 'for-sale-market-study.html';
+async function runStudyPage({ noHelper, noStudy, study, area } = {}) {
+  const dom = new JSDOM(read(FSMS), { runScripts: 'outside-only', url: 'http://127.0.0.1/for-sale-market-study.html' });
+  const w = dom.window;
+  w.fetch = (url) => {
+    const rel = String(url).replace(/^https?:\/\/[^/]+\//, '').split('?')[0];
+    if (rel === AREA && area) return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(area) });
+    if (!fs.existsSync(path.join(ROOT, rel))) return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null) });
+    return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(json(rel)) });
+  };
+  w.JurisdictionUrlContext = { resolve: () => Promise.resolve({ geoid: PLACE }) };
+  w.StudyGeography = { resolve: () => ({ geoid: PLACE }) };
+  w.marketStudyLandModelsReady = new Promise(() => {});   // the study body is not under test
+  if (!noHelper) w.eval(read('js/transit-zone.js'));
+  if (study) w.StudyTransitZone = study;
+  else if (!noStudy) w.eval(read(STUDY));
+  const mount = w.document.getElementById('msTransitZoneContent');
+  assert.match(mount.textContent, /Checking/, 'fixture: the page lost its "Checking…" placeholder — update this sweep');
+  const loader = [...w.document.querySelectorAll('script:not([src])')]
+    .map((el) => el.textContent).filter((s) => s.includes('msTransitZoneContent'));
+  assert.equal(loader.length, 1, `${FSMS} no longer has one inline loader that mounts the transit section — update this sweep`);
+  // An error the loader lets escape is a failure of this case, not a crash
+  // of the whole sweep.
+  const escaped = [];
+  const onEscape = (e) => escaped.push(e);
+  process.on('unhandledRejection', onEscape);
+  try {
+    w.eval(loader[0]);
+    w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
+    for (let i = 0; i < 200 && !mount.getAttribute('data-tz-state'); i += 1) {
+      await new Promise((r) => setTimeout(r, 5));
+    }
+    await new Promise((r) => setTimeout(r, 5));
+  } finally {
+    process.off('unhandledRejection', onEscape);
+  }
+  assert.deepEqual(escaped.map((e) => String(e && e.message || e)), [], 'the page loader let an error escape');
+  return mount;
+}
+for (const [condition, opts] of [
+  ['page: study-transit-zone.js missing', { noStudy: true }],
+  ['page: both transit scripts missing', { noStudy: true, noHelper: true }],
+  ['page: js/transit-zone.js missing', { noHelper: true }],
+  ['page: the screen throws', { study: { render: () => { throw new Error('boom'); } } }],
+  ['page: the screen rejects', { study: { render: () => Promise.reject(new Error('boom')) } }],
+]) {
+  await check(STUDY, condition, async () => {
+    const mount = await runStudyPage(opts);
+    assert.equal(mount.getAttribute('data-tz-state'), 'unavailable', `still showing: ${mount.textContent}`);
+    assert.doesNotMatch(mount.textContent, /Checking/);
+    assert.match(mount.textContent, /^Unavailable\. .{10,}/);
+    clean(mount.textContent, `${FSMS} mount`);
+  });
+}
+await check(STUDY, 'page: fixture — both scripts and fresh data do answer', async () => {
+  // Without this the cases above would pass on a page that never answers.
+  const fresh = Object.assign({}, byGeo, { meta: Object.assign({}, byGeo.meta, { stops_generated: new Date(Date.now() - DAY).toISOString() }) });
+  const mount = await runStudyPage({ area: fresh });
+  assert.equal(mount.getAttribute('data-tz-state'), 'ok', `did not answer: ${mount.textContent}`);
+  assert.match(mount.querySelector('[data-tz="share"]').textContent, /\d+%/);
+});
+
 // ── recommendation.html + js/workflow/recommendation-contract.js ───────────
 const REC = 'recommendation.html';
 const recDigest = json(`data/hna/jurisdiction-metrics-digest/${PLACE}.json`);
