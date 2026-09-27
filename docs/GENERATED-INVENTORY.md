@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T14:44:30.506Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T14:50:19.235Z. Do not edit by hand.
 
 ---
 
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-458 test files found.
+461 test files found.
 
 | File | Size |
 |------|------|
@@ -1763,9 +1763,11 @@
 | `test/analytics.test.js` | 18.2 KB |
 | `test/api-config-wrapper-url-sanitization.test.js` | 3.0 KB |
 | `test/audit-modules/audit-history.js` | 5.5 KB |
+| `test/audit-modules/audit-status.js` | 3.5 KB |
 | `test/audit-modules/data-integrity.js` | 18.9 KB |
 | `test/audit-modules/logic-validation.js` | 14.0 KB |
-| `test/audit-modules/report-generator.js` | 13.7 KB |
+| `test/audit-modules/repo-health.js` | 27.9 KB |
+| `test/audit-modules/report-generator.js` | 25.4 KB |
 | `test/audit-modules/ui-validation.js` | 12.4 KB |
 | `test/augment-local-resources-nondestructive.test.js` | 7.2 KB |
 | `test/basemap-honours-tilelayer-contract.test.js` | 6.6 KB |
@@ -1803,8 +1805,9 @@
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/cross-surface-vintage-labels.test.js` | 6.6 KB |
-| `test/daily-audit-signal.test.js` | 11.6 KB |
-| `test/daily-audit-system.js` | 17.1 KB |
+| `test/daily-audit-repo-health.test.js` | 27.9 KB |
+| `test/daily-audit-signal.test.js` | 17.4 KB |
+| `test/daily-audit-system.js` | 20.3 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
@@ -2238,7 +2241,7 @@
 | `.github/workflows/contrast-audit.yml` | 10.8 KB |
 | `.github/workflows/coverage-audit-nightly.yml` | 2.6 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.8 KB |
-| `.github/workflows/daily-audit-system.yml` | 7.9 KB |
+| `.github/workflows/daily-audit-system.yml` | 8.3 KB |
 | `.github/workflows/data-freshness-check.yml` | 8.0 KB |
 | `.github/workflows/data-quality-check.yml` | 6.5 KB |
 | `.github/workflows/data-refresh.yml` | 5.9 KB |
