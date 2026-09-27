@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T06:22:29.824Z",
+    "generated_at": "2026-09-27T09:58:23.369Z",
     "root": "data/",
-    "file_count": 1689,
-    "total_size_bytes": 167252361,
+    "file_count": 1690,
+    "total_size_bytes": 167253397,
     "kinds": {
-      "json": 1653,
+      "json": 1654,
       "geojson": 32,
       "csv": 4
     }
@@ -478,7 +478,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-27T04:54:45.691Z",
+      "mtime": "2026-09-27T09:58:19.812Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -952,7 +952,7 @@
       "path": "co-county-demographics.json",
       "kind": "json",
       "size_bytes": 41678,
-      "mtime": "2026-09-26T12:18:17.627Z",
+      "mtime": "2026-09-27T09:57:42.156Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -972,7 +972,7 @@
       "path": "co-county-economic-indicators.json",
       "kind": "json",
       "size_bytes": 15327,
-      "mtime": "2026-09-26T12:18:17.627Z",
+      "mtime": "2026-09-27T09:57:42.156Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1512,7 +1512,7 @@
       "path": "fred-data.json",
       "kind": "json",
       "size_bytes": 1252853,
-      "mtime": "2026-09-26T11:30:16.967Z",
+      "mtime": "2026-09-27T09:57:42.173Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30437,7 +30437,7 @@
       "path": "kalshi/prediction-market.json",
       "kind": "json",
       "size_bytes": 1428,
-      "mtime": "2026-09-25T12:55:18.822Z",
+      "mtime": "2026-09-27T09:57:42.344Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30479,7 +30479,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 214655,
-      "mtime": "2026-09-27T05:45:24.870Z",
+      "mtime": "2026-09-27T09:57:42.345Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31860,7 +31860,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14707,
-      "mtime": "2026-09-27T06:19:03.411Z",
+      "mtime": "2026-09-27T09:58:21.371Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31883,7 +31883,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-27T06:19:03.022Z",
+      "mtime": "2026-09-27T09:58:20.995Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34200,6 +34200,30 @@
         "last_verified",
         "review_by"
       ]
+    },
+    {
+      "path": "policy/thiz-map-status.json",
+      "kind": "json",
+      "size_bytes": 1036,
+      "mtime": "2026-09-27T09:57:42.498Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "program",
+        "statute",
+        "zone_radius_miles",
+        "map_due_date",
+        "map_publisher",
+        "map_source_url",
+        "status",
+        "zones_file",
+        "last_checked",
+        "note"
+      ],
+      "key_count": 11,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "policy/tool-watch.json",
