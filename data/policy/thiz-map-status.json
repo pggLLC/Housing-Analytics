@@ -3,6 +3,16 @@
   "program": "Transit and Housing Investment Zones (HB26-1065)",
   "statute": "C.R.S. 24-48.5-136",
   "zone_radius_miles": 2,
+  "qap_tod_distance": {
+    "miles": 0.5,
+    "method": "straight_line",
+    "qap_method": "walking",
+    "qap_citation": "2027–28 QAP Third Draft §5.B.2.b",
+    "qap_quote": "within a half-mile walk distance of transit corridors",
+    "qap_source_url": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf",
+    "qap_archive": "data/audit/chfa-qap-watch.json",
+    "note": "The CHFA QAP transit-oriented (TOD) distance used for every half-mile figure on this site: the HNA panel's half-mile share, the market analysis TOD ring and check, the recommendation and the HNA exports. CHFA scores walking distance; this site measures straight-line distance (owner decision on #1961), so every half-mile result carries the disclosure js/transit-zone.js builds from method and qap_method. Kept beside zone_radius_miles so the two distances have one home; scripts/market/build_transit_zone_by_geography.py reads miles from here and refuses any method but straight_line. test/transit-zone.test.js holds miles, qap_method and qap_citation to qap_quote in the archived QAP text."
+  },
   "map_due_date": "2026-10-30",
   "map_publisher": "Colorado Office of Economic Development and International Trade (OEDIT)",
   "map_source_url": "https://oedit.colorado.gov/programs-and-funding/transit-and-housing-investment-zone-program",
