@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-27T10:14:27.875037Z",
+  "generated": "2026-09-27T10:28:34.269297Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 826434
+      "bytes": 826810
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -734,7 +734,7 @@
     "data/hna/hna-views.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12037
+      "bytes": 12464
     },
     "data/hna/home-value-cascade.json": {
       "featureCount": 64,
@@ -7285,6 +7285,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 4108
+    },
+    "data/hna/transit-zone-by-geography.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 293409
     },
     "data/hna/vacancy-status.json": {
       "featureCount": 0,
