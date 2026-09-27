@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-27T10:43:20Z",
+    "generated": "2026-09-27T11:24:00Z",
     "source": "scripts/market/build_transit_stops_co.py",
     "note": "Counts of stops found per source. A county with no stop in any source is listed under counties_without_fixed_stops: that means no fixed-route stop was found, not that the county has no transit (several run demand-response service, which has no stops).",
     "feed_match_m": 30.0,
@@ -974,6 +974,7 @@
     "rows_outside_colorado": 0,
     "dropped_rows": [
       {
+        "cdot_fid": 11811,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -984,6 +985,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11815,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -994,6 +996,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11957,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1004,6 +1007,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11958,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1014,6 +1018,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11959,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1024,6 +1029,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11960,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1034,6 +1040,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11961,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1044,6 +1051,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11962,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1054,6 +1062,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11963,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1064,6 +1073,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11964,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1074,6 +1084,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11965,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1084,6 +1095,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11966,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1094,6 +1106,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11967,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1104,6 +1117,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11968,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1114,6 +1128,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11969,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1124,6 +1139,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11970,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1134,6 +1150,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11971,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1144,6 +1161,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11972,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1154,6 +1172,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11973,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1164,6 +1183,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11974,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1174,6 +1194,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11975,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1184,6 +1205,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11976,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1194,6 +1216,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11977,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1204,6 +1227,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11978,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1214,6 +1238,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11979,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1224,6 +1249,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11980,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1234,6 +1260,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11981,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1244,6 +1271,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11982,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1254,6 +1282,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11983,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1264,6 +1293,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11984,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1274,6 +1304,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11985,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1284,6 +1315,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11986,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1294,6 +1326,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11987,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1304,6 +1337,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11988,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1314,6 +1348,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11989,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1324,6 +1359,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11990,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1334,6 +1370,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11991,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1344,6 +1381,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11992,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1354,6 +1392,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11993,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1364,6 +1403,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11994,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1374,6 +1414,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11995,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1384,6 +1425,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11996,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1394,6 +1436,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11997,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1404,6 +1447,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11998,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1414,6 +1458,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 11999,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1424,6 +1469,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12000,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1434,6 +1480,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12001,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1444,6 +1491,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12002,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1454,6 +1502,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12003,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1464,6 +1513,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12004,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1474,6 +1524,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12005,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1484,6 +1535,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12006,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1494,6 +1546,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12007,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1504,6 +1557,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12008,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1514,6 +1568,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12009,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1524,6 +1579,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12010,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1534,6 +1590,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12011,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1544,6 +1601,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12012,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1554,6 +1612,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12013,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1564,6 +1623,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12014,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1574,6 +1634,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12015,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1584,6 +1645,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12016,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1594,6 +1656,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12017,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1604,6 +1667,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12018,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1614,6 +1678,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12019,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1624,6 +1689,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12020,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1634,6 +1700,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12021,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1644,6 +1711,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12022,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1654,6 +1722,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12023,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1664,6 +1733,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12024,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1674,6 +1744,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12025,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1684,6 +1755,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12026,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1694,6 +1766,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12027,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1704,6 +1777,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12028,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1714,6 +1788,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12029,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1724,6 +1799,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12030,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1734,6 +1810,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12031,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1744,6 +1821,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12032,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1754,6 +1832,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12033,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1764,6 +1843,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12034,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1774,6 +1854,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12035,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1784,6 +1865,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12036,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1794,6 +1876,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12037,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1804,6 +1887,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12038,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1814,6 +1898,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12039,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1824,6 +1909,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12040,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1834,6 +1920,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12041,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1844,6 +1931,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12042,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1854,6 +1942,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12043,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1864,6 +1953,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12044,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1874,6 +1964,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12045,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1884,6 +1975,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12046,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1894,6 +1986,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12047,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1904,6 +1997,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12048,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1914,6 +2008,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12049,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1924,6 +2019,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12050,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1934,6 +2030,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12051,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1944,6 +2041,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12052,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1954,6 +2052,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12053,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1964,6 +2063,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12054,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1974,6 +2074,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12055,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1984,6 +2085,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12056,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -1994,6 +2096,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12057,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2004,6 +2107,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12058,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2014,6 +2118,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12059,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2024,6 +2129,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12060,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2034,6 +2140,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12061,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2044,6 +2151,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12062,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2054,6 +2162,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12063,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2064,6 +2173,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12064,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2074,6 +2184,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12065,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2084,6 +2195,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12066,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2094,6 +2206,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12067,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2104,6 +2217,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12068,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2114,6 +2228,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12069,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2124,6 +2239,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12070,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2134,6 +2250,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12071,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2144,6 +2261,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12072,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2154,6 +2272,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12073,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2164,6 +2283,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12074,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2174,6 +2294,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12075,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2184,6 +2305,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12076,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2194,6 +2316,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12077,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2204,6 +2327,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12078,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2214,6 +2338,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12079,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2224,6 +2349,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12080,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2234,6 +2360,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12081,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2244,6 +2371,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12082,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2254,6 +2382,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12083,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2264,6 +2393,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12084,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2274,6 +2404,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12085,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2284,6 +2415,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12086,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2294,6 +2426,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12087,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2304,6 +2437,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12088,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2314,6 +2448,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12089,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2324,6 +2459,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12090,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2334,6 +2470,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12091,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2344,6 +2481,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12092,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2354,6 +2492,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12093,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2364,6 +2503,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12094,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2374,6 +2514,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12095,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2384,6 +2525,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12096,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2394,6 +2536,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12097,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2404,6 +2547,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12098,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2414,6 +2558,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12099,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2424,6 +2569,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12100,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2434,6 +2580,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12101,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2444,6 +2591,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12102,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2454,6 +2602,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12103,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2464,6 +2613,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12104,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2474,6 +2624,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12105,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2484,6 +2635,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12106,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2494,6 +2646,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12107,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2504,6 +2657,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12108,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2514,6 +2668,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12109,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2524,6 +2679,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12110,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2534,6 +2690,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12111,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2544,6 +2701,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12112,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2554,6 +2712,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12113,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2564,6 +2723,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12114,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2574,6 +2734,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12115,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2584,6 +2745,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12116,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2594,6 +2756,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12117,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2604,6 +2767,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12118,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2614,6 +2778,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12119,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2624,6 +2789,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12120,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2634,6 +2800,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12121,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2644,6 +2811,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12122,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2654,6 +2822,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12123,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2664,6 +2833,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12124,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2674,6 +2844,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12125,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2684,6 +2855,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12126,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2694,6 +2866,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12127,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2704,6 +2877,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12128,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2714,6 +2888,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12129,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2724,6 +2899,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12130,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2734,6 +2910,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12131,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2744,6 +2921,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12132,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2754,6 +2932,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12133,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2764,6 +2943,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12134,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2774,6 +2954,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12135,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2784,6 +2965,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12136,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2794,6 +2976,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12137,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2804,6 +2987,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12138,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2814,6 +2998,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12139,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2824,6 +3009,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12140,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2834,6 +3020,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12141,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2844,6 +3031,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12142,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2854,6 +3042,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12143,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2864,6 +3053,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12144,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2874,6 +3064,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12145,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2884,6 +3075,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12146,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2894,6 +3086,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12147,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2904,6 +3097,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12148,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2914,6 +3108,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12149,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2924,6 +3119,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12150,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2934,6 +3130,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12151,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2944,6 +3141,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12152,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2954,6 +3152,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12153,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2964,6 +3163,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12154,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2974,6 +3174,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12155,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2984,6 +3185,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12156,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -2994,6 +3196,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12157,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3004,6 +3207,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12158,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3014,6 +3218,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12159,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3024,6 +3229,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12160,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3034,6 +3240,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12161,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3044,6 +3251,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12162,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3054,6 +3262,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12163,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3064,6 +3273,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12164,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3074,6 +3284,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12165,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3084,6 +3295,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12166,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3094,6 +3306,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12167,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3104,6 +3317,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12168,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3114,6 +3328,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12169,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3124,6 +3339,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12170,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3134,6 +3350,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12171,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3144,6 +3361,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12172,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3154,6 +3372,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12173,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3164,6 +3383,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12174,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3174,6 +3394,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12175,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3184,6 +3405,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12176,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3194,6 +3416,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12177,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3204,6 +3427,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12178,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3214,6 +3438,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12179,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3224,6 +3449,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12180,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3234,6 +3460,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12181,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3244,6 +3471,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12182,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3254,6 +3482,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12183,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3264,6 +3493,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12184,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3274,6 +3504,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12185,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3284,6 +3515,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12186,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3294,6 +3526,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12187,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3304,6 +3537,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12188,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3314,6 +3548,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12189,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3324,6 +3559,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12190,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3334,6 +3570,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12191,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3344,6 +3581,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12192,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3354,6 +3592,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12193,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3364,6 +3603,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12194,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3374,6 +3614,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12195,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3384,6 +3625,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12196,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3394,6 +3636,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12197,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3404,6 +3647,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12198,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3414,6 +3658,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12199,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3424,6 +3669,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12200,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3434,6 +3680,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12201,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3444,6 +3691,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12202,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3454,6 +3702,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12203,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3464,6 +3713,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12204,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3474,6 +3724,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12205,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3484,6 +3735,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12206,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3494,6 +3746,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12207,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3504,6 +3757,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12208,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3514,6 +3768,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12209,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3524,6 +3779,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12210,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3534,6 +3790,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12211,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3544,6 +3801,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12212,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3554,6 +3812,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12213,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3564,6 +3823,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12214,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3574,6 +3834,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12215,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3584,6 +3845,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12216,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3594,6 +3856,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12217,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3604,6 +3867,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12218,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3614,6 +3878,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12219,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3624,6 +3889,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12220,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3634,6 +3900,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12221,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3644,6 +3911,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12222,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3654,6 +3922,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12223,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3664,6 +3933,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12224,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3674,6 +3944,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12225,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3684,6 +3955,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12226,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3694,6 +3966,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12227,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3704,6 +3977,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12228,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3714,6 +3988,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12229,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3724,6 +3999,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12230,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3734,6 +4010,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12231,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3744,6 +4021,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12232,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3754,6 +4032,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12233,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3764,6 +4043,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12234,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3774,6 +4054,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12235,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3784,6 +4065,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12236,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3794,6 +4076,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12237,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3804,6 +4087,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12238,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3814,6 +4098,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12239,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3824,6 +4109,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12240,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3834,6 +4120,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12241,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3844,6 +4131,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12242,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3854,6 +4142,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12243,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3864,6 +4153,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12244,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3874,6 +4164,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12245,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3884,6 +4175,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12246,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3894,6 +4186,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12247,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3904,6 +4197,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12248,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3914,6 +4208,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12249,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3924,6 +4219,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12250,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3934,6 +4230,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12251,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3944,6 +4241,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12252,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3954,6 +4252,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12253,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3964,6 +4263,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12254,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3974,6 +4274,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12255,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3984,6 +4285,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12256,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -3994,6 +4296,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12257,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4004,6 +4307,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12258,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4014,6 +4318,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12259,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4024,6 +4329,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12260,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4034,6 +4340,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12261,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4044,6 +4351,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12262,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4054,6 +4362,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12263,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4064,6 +4373,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12264,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4074,6 +4384,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12265,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4084,6 +4395,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12266,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4094,6 +4406,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12267,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4104,6 +4417,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12268,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4114,6 +4428,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12269,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4124,6 +4439,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12270,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4134,6 +4450,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12271,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4144,6 +4461,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12272,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4154,6 +4472,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12273,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4164,6 +4483,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12274,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4174,6 +4494,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12275,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4184,6 +4505,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12276,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4194,6 +4516,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12277,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4204,6 +4527,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12278,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4214,6 +4538,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12279,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4224,6 +4549,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12280,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4234,6 +4560,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12281,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4244,6 +4571,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12282,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4254,6 +4582,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12283,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4264,6 +4593,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12284,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4274,6 +4604,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12285,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4284,6 +4615,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12286,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4294,6 +4626,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12287,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4304,6 +4637,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12288,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4314,6 +4648,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12289,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4324,6 +4659,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12290,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4334,6 +4670,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12291,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4344,6 +4681,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12292,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4354,6 +4692,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12293,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4364,6 +4703,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12294,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4374,6 +4714,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12295,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4384,6 +4725,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12296,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4394,6 +4736,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12297,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4404,6 +4747,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12298,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4414,6 +4758,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12299,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4424,6 +4769,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12300,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4434,6 +4780,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12301,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4444,6 +4791,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12302,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4454,6 +4802,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12303,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4464,6 +4813,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12304,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4474,6 +4824,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12305,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4484,6 +4835,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12306,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4494,6 +4846,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12307,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4504,6 +4857,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12308,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4514,6 +4868,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12309,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4524,6 +4879,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12310,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4534,6 +4890,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12311,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4544,6 +4901,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12312,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4554,6 +4912,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12313,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4564,6 +4923,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12314,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4574,6 +4934,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12315,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4584,6 +4945,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12316,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4594,6 +4956,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12317,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4604,6 +4967,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12318,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4614,6 +4978,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12319,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4624,6 +4989,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12320,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4634,6 +5000,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12321,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4644,6 +5011,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12322,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4654,6 +5022,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12323,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4664,6 +5033,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12324,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4674,6 +5044,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12325,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4684,6 +5055,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12326,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4694,6 +5066,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12327,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4704,6 +5077,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12328,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4714,6 +5088,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12329,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4724,6 +5099,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12330,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4734,6 +5110,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12331,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4744,6 +5121,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12332,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4754,6 +5132,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12333,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4764,6 +5143,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12334,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4774,6 +5154,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12335,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4784,6 +5165,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12336,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4794,6 +5176,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12337,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4804,6 +5187,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12338,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4814,6 +5198,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12339,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4824,6 +5209,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12340,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4834,6 +5220,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12341,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4844,6 +5231,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12342,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4854,6 +5242,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12343,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4864,6 +5253,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12344,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4874,6 +5264,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12345,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4884,6 +5275,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12346,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4894,6 +5286,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12347,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4904,6 +5297,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12348,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4914,6 +5308,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12349,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4924,6 +5319,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12350,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4934,6 +5330,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12351,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4944,6 +5341,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12352,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4954,6 +5352,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12353,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4964,6 +5363,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12354,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4974,6 +5374,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12355,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4984,6 +5385,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12356,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -4994,6 +5396,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12357,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5004,6 +5407,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12358,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5014,6 +5418,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12359,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5024,6 +5429,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12360,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5034,6 +5440,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12361,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5044,6 +5451,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12362,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5054,6 +5462,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12363,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5064,6 +5473,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12364,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5074,6 +5484,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12365,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5084,6 +5495,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12366,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5094,6 +5506,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12367,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5104,6 +5517,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12368,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5114,6 +5528,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12369,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5124,6 +5539,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12370,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5134,6 +5550,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12371,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5144,6 +5561,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12372,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5154,6 +5572,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12373,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5164,6 +5583,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12374,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5174,6 +5594,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12375,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5184,6 +5605,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12376,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5194,6 +5616,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12377,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5204,6 +5627,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12378,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5214,6 +5638,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12379,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5224,6 +5649,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12380,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5234,6 +5660,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12381,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5244,6 +5671,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12382,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5254,6 +5682,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12383,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5264,6 +5693,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12384,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5274,6 +5704,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12385,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5284,6 +5715,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12386,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5294,6 +5726,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12387,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5304,6 +5737,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12388,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5314,6 +5748,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12389,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5324,6 +5759,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12390,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5334,6 +5770,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12391,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5344,6 +5781,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12392,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5354,6 +5792,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12393,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5364,6 +5803,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12394,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5374,6 +5814,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12395,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5384,6 +5825,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12396,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5394,6 +5836,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12397,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5404,6 +5847,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12398,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5414,6 +5858,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12399,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5424,6 +5869,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12400,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5434,6 +5880,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12401,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5444,6 +5891,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12402,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5454,6 +5902,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12403,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5464,6 +5913,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12404,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5474,6 +5924,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12405,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5484,6 +5935,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12406,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5494,6 +5946,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12407,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5504,6 +5957,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12408,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5514,6 +5968,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12409,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5524,6 +5979,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12410,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5534,6 +5990,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12411,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5544,6 +6001,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12412,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5554,6 +6012,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12413,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5564,6 +6023,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12414,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5574,6 +6034,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12415,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5584,6 +6045,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12416,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5594,6 +6056,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12417,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5604,6 +6067,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12418,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5614,6 +6078,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12419,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5624,6 +6089,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12420,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5634,6 +6100,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12421,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5644,6 +6111,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12422,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5654,6 +6122,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12423,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5664,6 +6133,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12424,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5674,6 +6144,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12425,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5684,6 +6155,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12426,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5694,6 +6166,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12427,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5704,6 +6177,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12428,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5714,6 +6188,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12429,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5724,6 +6199,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12430,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5734,6 +6210,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12431,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5744,6 +6221,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12432,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5754,6 +6232,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12433,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5764,6 +6243,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12434,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5774,6 +6254,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12435,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5784,6 +6265,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12436,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5794,6 +6276,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12437,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5804,6 +6287,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12438,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5814,6 +6298,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12439,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5824,6 +6309,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12440,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5834,6 +6320,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12441,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5844,6 +6331,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12442,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5854,6 +6342,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12443,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5864,6 +6353,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12444,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5874,6 +6364,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12445,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5884,6 +6375,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12446,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5894,6 +6386,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12447,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5904,6 +6397,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12448,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5914,6 +6408,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12449,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5924,6 +6419,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12450,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5934,6 +6430,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12451,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5944,6 +6441,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12452,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5954,6 +6452,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12453,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5964,6 +6463,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12454,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5974,6 +6474,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12455,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5984,6 +6485,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12456,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -5994,6 +6496,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12457,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6004,6 +6507,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12458,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6014,6 +6518,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12459,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6024,6 +6529,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12460,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6034,6 +6540,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12461,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6044,6 +6551,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12462,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6054,6 +6562,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12463,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6064,6 +6573,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12464,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6074,6 +6584,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12465,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6084,6 +6595,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12466,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6094,6 +6606,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12467,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6104,6 +6617,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12468,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6114,6 +6628,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12469,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6124,6 +6639,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12470,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6134,6 +6650,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12471,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6144,6 +6661,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12472,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6154,6 +6672,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12473,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6164,6 +6683,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12474,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6174,6 +6694,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12475,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6184,6 +6705,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12476,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6194,6 +6716,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12477,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6204,6 +6727,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12478,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6214,6 +6738,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12479,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6224,6 +6749,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12480,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6234,6 +6760,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12481,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6244,6 +6771,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12482,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6254,6 +6782,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12483,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6264,6 +6793,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12484,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6274,6 +6804,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12485,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6284,6 +6815,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12486,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6294,6 +6826,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12487,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6304,6 +6837,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12488,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6314,6 +6848,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12489,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6324,6 +6859,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12490,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6334,6 +6870,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12491,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6344,6 +6881,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12492,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6354,6 +6892,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12493,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6364,6 +6903,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12494,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6374,6 +6914,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12495,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6384,6 +6925,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12496,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6394,6 +6936,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12497,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6404,6 +6947,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12498,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6414,6 +6958,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12499,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6424,6 +6969,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12500,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6434,6 +6980,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12501,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6444,6 +6991,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12502,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6454,6 +7002,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12503,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6464,6 +7013,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12504,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6474,6 +7024,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12505,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6484,6 +7035,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12506,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6494,6 +7046,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12507,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6504,6 +7057,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12508,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6514,6 +7068,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12509,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6524,6 +7079,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12510,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6534,6 +7090,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12511,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6544,6 +7101,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12512,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6554,6 +7112,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12513,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6564,6 +7123,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12514,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6574,6 +7134,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12515,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6584,6 +7145,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12516,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6594,6 +7156,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12517,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6604,6 +7167,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12518,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6614,6 +7178,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12519,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6624,6 +7189,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12520,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6634,6 +7200,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12521,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6644,6 +7211,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12522,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6654,6 +7222,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12523,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6664,6 +7233,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12524,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6674,6 +7244,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12525,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6684,6 +7255,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12526,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6694,6 +7266,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12527,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6704,6 +7277,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12528,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6714,6 +7288,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12529,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6724,6 +7299,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12530,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6734,6 +7310,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12531,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6744,6 +7321,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12532,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6754,6 +7332,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12533,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6764,6 +7343,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12534,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6774,6 +7354,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12535,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6784,6 +7365,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12536,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6794,6 +7376,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12537,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6804,6 +7387,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12538,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6814,6 +7398,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12539,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6824,6 +7409,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12540,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6834,6 +7420,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12541,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6844,6 +7431,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12542,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6854,6 +7442,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12543,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6864,6 +7453,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12544,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6874,6 +7464,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12545,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6884,6 +7475,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12546,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6894,6 +7486,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12547,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6904,6 +7497,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12548,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6914,6 +7508,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12549,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6924,6 +7519,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12550,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6934,6 +7530,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12551,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6944,6 +7541,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12552,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6954,6 +7552,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12553,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6964,6 +7563,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12554,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6974,6 +7574,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12555,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6984,6 +7585,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12556,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -6994,6 +7596,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12557,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7004,6 +7607,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12558,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7014,6 +7618,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12559,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7024,6 +7629,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12560,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7034,6 +7640,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12561,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7044,6 +7651,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12562,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7054,6 +7662,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12563,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7064,6 +7673,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12564,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7074,6 +7684,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12565,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7084,6 +7695,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12566,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7094,6 +7706,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12567,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7104,6 +7717,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12568,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7114,6 +7728,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12569,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7124,6 +7739,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12570,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7134,6 +7750,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12571,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7144,6 +7761,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12572,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7154,6 +7772,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12573,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7164,6 +7783,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12574,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7174,6 +7794,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12575,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7184,6 +7805,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12576,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7194,6 +7816,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12577,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7204,6 +7827,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12578,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7214,6 +7838,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12579,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7224,6 +7849,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12580,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7234,6 +7860,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12581,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7244,6 +7871,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12582,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7254,6 +7882,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12583,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7264,6 +7893,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12584,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7274,6 +7904,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12585,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7284,6 +7915,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12586,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7294,6 +7926,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12587,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7304,6 +7937,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12588,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7314,6 +7948,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12589,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7324,6 +7959,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12590,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7334,6 +7970,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12591,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7344,6 +7981,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12592,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7354,6 +7992,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12593,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7364,6 +8003,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12594,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7374,6 +8014,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12595,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7384,6 +8025,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12596,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7394,6 +8036,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12597,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7404,6 +8047,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12598,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7414,6 +8058,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12599,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7424,6 +8069,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12600,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7434,6 +8080,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12601,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7444,6 +8091,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12602,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7454,6 +8102,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12603,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7464,6 +8113,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12604,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7474,6 +8124,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12605,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7484,6 +8135,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12606,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7494,6 +8146,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12607,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7504,6 +8157,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12608,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7514,6 +8168,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12609,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7524,6 +8179,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12610,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7534,6 +8190,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12611,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7544,6 +8201,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12612,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7554,6 +8212,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12613,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7564,6 +8223,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12614,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7574,6 +8234,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12615,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7584,6 +8245,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12616,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7594,6 +8256,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12617,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7604,6 +8267,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12618,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7614,6 +8278,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12619,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7624,6 +8289,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12620,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7634,6 +8300,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12621,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7644,6 +8311,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12622,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7654,6 +8322,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12623,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7664,6 +8333,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12624,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7674,6 +8344,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12625,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7684,6 +8355,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12626,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7694,6 +8366,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12627,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7704,6 +8377,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12628,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7714,6 +8388,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12629,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7724,6 +8399,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12630,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7734,6 +8410,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12631,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7744,6 +8421,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12632,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7754,6 +8432,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12633,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7764,6 +8443,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12634,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7774,6 +8454,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12635,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7784,6 +8465,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12636,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7794,6 +8476,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12637,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7804,6 +8487,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12638,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7814,6 +8498,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12639,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7824,6 +8509,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12640,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7834,6 +8520,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12641,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7844,6 +8531,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12642,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7854,6 +8542,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12643,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7864,6 +8553,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12644,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7874,6 +8564,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12645,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7884,6 +8575,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12646,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7894,6 +8586,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12647,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7904,6 +8597,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12648,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7914,6 +8608,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12649,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7924,6 +8619,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12650,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7934,6 +8630,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12651,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7944,6 +8641,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12652,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7954,6 +8652,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12653,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7964,6 +8663,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12654,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7974,6 +8674,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12655,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7984,6 +8685,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12656,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -7994,6 +8696,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12657,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8004,6 +8707,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12658,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8014,6 +8718,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12659,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8024,6 +8729,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12660,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8034,6 +8740,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12661,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8044,6 +8751,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12662,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8054,6 +8762,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12663,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8064,6 +8773,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12664,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8074,6 +8784,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12665,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8084,6 +8795,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12666,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8094,6 +8806,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12667,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8104,6 +8817,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12668,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8114,6 +8828,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12669,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8124,6 +8839,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12670,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8134,6 +8850,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12671,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8144,6 +8861,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12672,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8154,6 +8872,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12673,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8164,6 +8883,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12674,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8174,6 +8894,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12675,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8184,6 +8905,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12676,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8194,6 +8916,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12677,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8204,6 +8927,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12678,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8214,6 +8938,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12679,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8224,6 +8949,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12680,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8234,6 +8960,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12681,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8244,6 +8971,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12682,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8254,6 +8982,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12683,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8264,6 +8993,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12684,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8274,6 +9004,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12685,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8284,6 +9015,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12686,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8294,6 +9026,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12687,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8304,6 +9037,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12688,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8314,6 +9048,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12689,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8324,6 +9059,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12690,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8334,6 +9070,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12691,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8344,6 +9081,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12692,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8354,6 +9092,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12693,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8364,6 +9103,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12694,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8374,6 +9114,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12695,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8384,6 +9125,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12696,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8394,6 +9136,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12697,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8404,6 +9147,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12698,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8414,6 +9158,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12699,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8424,6 +9169,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12700,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8434,6 +9180,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12701,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8444,6 +9191,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12702,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8454,6 +9202,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12703,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8464,6 +9213,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12704,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8474,6 +9224,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12705,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8484,6 +9235,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12706,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8494,6 +9246,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12707,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8504,6 +9257,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12708,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8514,6 +9268,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12709,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8524,6 +9279,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12710,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8534,6 +9290,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12711,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8544,6 +9301,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12712,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8554,6 +9312,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12713,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8564,6 +9323,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12714,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8574,6 +9334,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12715,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8584,6 +9345,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12716,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8594,6 +9356,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12717,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8604,6 +9367,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12718,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8614,6 +9378,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12719,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8624,6 +9389,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12720,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8634,6 +9400,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12721,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8644,6 +9411,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12722,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8654,6 +9422,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12723,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8664,6 +9433,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12724,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8674,6 +9444,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12725,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8684,6 +9455,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12726,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8694,6 +9466,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12727,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8704,6 +9477,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12728,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8714,6 +9488,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12729,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8724,6 +9499,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12730,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8734,6 +9510,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12731,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8744,6 +9521,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12732,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8754,6 +9532,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12733,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8764,6 +9543,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12734,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8774,6 +9554,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12735,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8784,6 +9565,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12736,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8794,6 +9576,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12737,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8804,6 +9587,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12738,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8814,6 +9598,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12739,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8824,6 +9609,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12740,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8834,6 +9620,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12741,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8844,6 +9631,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12742,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8854,6 +9642,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12743,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8864,6 +9653,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12744,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8874,6 +9664,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12745,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8884,6 +9675,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12746,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8894,6 +9686,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12747,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8904,6 +9697,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12748,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8914,6 +9708,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12749,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8924,6 +9719,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12750,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8934,6 +9730,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12751,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8944,6 +9741,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12752,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8954,6 +9752,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12753,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8964,6 +9763,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12754,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8974,6 +9774,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12755,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8984,6 +9785,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12756,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -8994,6 +9796,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12757,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9004,6 +9807,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12758,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9014,6 +9818,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12759,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9024,6 +9829,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12760,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9034,6 +9840,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12761,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9044,6 +9851,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12762,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9054,6 +9862,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12763,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9064,6 +9873,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12764,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9074,6 +9884,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12765,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9084,6 +9895,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12766,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9094,6 +9906,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12767,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9104,6 +9917,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12768,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9114,6 +9928,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12769,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9124,6 +9939,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12770,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9134,6 +9950,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12771,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9144,6 +9961,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12772,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9154,6 +9972,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12773,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9164,6 +9983,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12774,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9174,6 +9994,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12775,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9184,6 +10005,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12776,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9194,6 +10016,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12777,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9204,6 +10027,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12778,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9214,6 +10038,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12779,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9224,6 +10049,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12780,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9234,6 +10060,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12781,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9244,6 +10071,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12782,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9254,6 +10082,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12783,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9264,6 +10093,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12784,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9274,6 +10104,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12785,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9284,6 +10115,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12786,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9294,6 +10126,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12787,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9304,6 +10137,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12788,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9314,6 +10148,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12789,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9324,6 +10159,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12790,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9334,6 +10170,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12791,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9344,6 +10181,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12792,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9354,6 +10192,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12793,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9364,6 +10203,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12794,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9374,6 +10214,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12795,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9384,6 +10225,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12796,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9394,6 +10236,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12797,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9404,6 +10247,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12798,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9414,6 +10258,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12799,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9424,6 +10269,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12800,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9434,6 +10280,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12801,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9444,6 +10291,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12802,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9454,6 +10302,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12803,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9464,6 +10313,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12804,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9474,6 +10324,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12805,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9484,6 +10335,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12806,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9494,6 +10346,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12807,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9504,6 +10357,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12808,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9514,6 +10368,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12809,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9524,6 +10379,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12810,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9534,6 +10390,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12811,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9544,6 +10401,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12812,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9554,6 +10412,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12813,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9564,6 +10423,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12814,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9574,6 +10434,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12815,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9584,6 +10445,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12816,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9594,6 +10456,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12817,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9604,6 +10467,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12818,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9614,6 +10478,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12819,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9624,6 +10489,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12820,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9634,6 +10500,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12821,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9644,6 +10511,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12822,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9654,6 +10522,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12823,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9664,6 +10533,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12824,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9674,6 +10544,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12825,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9684,6 +10555,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12826,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9694,6 +10566,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12827,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9704,6 +10577,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12828,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9714,6 +10588,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12829,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9724,6 +10599,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12830,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9734,6 +10610,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12831,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9744,6 +10621,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12832,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9754,6 +10632,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12833,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9764,6 +10643,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12834,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9774,6 +10654,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12835,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9784,6 +10665,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12836,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9794,6 +10676,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12837,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9804,6 +10687,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12838,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9814,6 +10698,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12839,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9824,6 +10709,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12840,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9834,6 +10720,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12841,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9844,6 +10731,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12842,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9854,6 +10742,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12843,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9864,6 +10753,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12844,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9874,6 +10764,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12845,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9884,6 +10775,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12846,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9894,6 +10786,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12847,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9904,6 +10797,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12848,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9914,6 +10808,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12849,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9924,6 +10819,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12850,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9934,6 +10830,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12851,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9944,6 +10841,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12852,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9954,6 +10852,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12853,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9964,6 +10863,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12854,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9974,6 +10874,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12855,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9984,6 +10885,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12856,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -9994,6 +10896,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12857,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10004,6 +10907,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12858,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10014,6 +10918,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12859,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10024,6 +10929,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12860,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10034,6 +10940,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12861,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10044,6 +10951,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12862,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10054,6 +10962,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12863,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10064,6 +10973,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12864,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10074,6 +10984,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12865,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10084,6 +10995,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12866,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10094,6 +11006,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12867,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10104,6 +11017,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12868,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10114,6 +11028,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12869,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10124,6 +11039,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12870,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10134,6 +11050,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12871,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10144,6 +11061,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12872,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10154,6 +11072,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12873,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10164,6 +11083,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12874,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10174,6 +11094,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12875,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10184,6 +11105,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12876,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10194,6 +11116,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12877,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10204,6 +11127,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12878,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10214,6 +11138,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12879,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10224,6 +11149,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12880,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10234,6 +11160,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12881,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10244,6 +11171,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12882,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10254,6 +11182,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12883,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10264,6 +11193,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12884,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10274,6 +11204,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12885,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10284,6 +11215,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12886,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10294,6 +11226,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12887,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10304,6 +11237,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12888,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10314,6 +11248,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12889,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10324,6 +11259,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12890,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10334,6 +11270,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12891,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10344,6 +11281,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12892,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10354,6 +11292,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12893,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10364,6 +11303,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12894,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10374,6 +11314,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12895,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10384,6 +11325,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12896,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10394,6 +11336,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12897,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10404,6 +11347,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12898,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10414,6 +11358,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12899,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10424,6 +11369,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12900,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10434,6 +11380,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12901,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10444,6 +11391,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12902,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10454,6 +11402,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12903,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10464,6 +11413,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12904,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10474,6 +11424,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12905,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10484,6 +11435,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12906,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10494,6 +11446,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12907,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10504,6 +11457,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12908,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10514,6 +11468,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12909,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10524,6 +11479,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12910,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10534,6 +11490,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12911,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10544,6 +11501,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12912,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10554,6 +11512,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12913,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10564,6 +11523,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12914,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10574,6 +11534,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12915,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10584,6 +11545,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12916,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
@@ -10594,6 +11556,7 @@
         "reason": "no_location"
       },
       {
+        "cdot_fid": 12917,
         "stop_id": null,
         "name": "",
         "agency": "MVT",
