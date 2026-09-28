@@ -45,6 +45,7 @@ export function isStampable(relPath) {
 // dashboards, the homepage, place profiles) gets it at the foot of <main>.
 export const ARTICLE_PAGES = new Set([
   'about.html',
+  'apa-white-paper.html',
   'colorado-deep-dive.html',
   'colorado-elections.html',
   'cra-expansion-analysis.html',
