@@ -103,13 +103,31 @@ both, which is why "districts aligned" was really "schools nearby".
 @param {{minLat,minLon,maxLat,maxLon}} bbox
 @returns {Promise<{schoolDistricts: Array, schools: Array, _dataSource: string}>}
 
-### `fetchNTDData(bbox)`
+### `TRANSIT_STOPS_PATH`
 
-Fetch transit route data.
-Loads from local transit_routes_co.geojson (GTFS-derived, 508 routes)
-when available; falls back to empty array otherwise.
-@param {{minLat,minLon,maxLat,maxLon}} bbox
-@returns {Promise<{transitRoutes: Array, serviceMetrics: object, _dataSource: string}>}
+The statewide transit stop file, for the PMA transit score.
+
+Scoring reads confirmed stops, never route geometry (owner decision
+2026-09-27): the old fetchNTDData() sampled ~10 vertices per route from
+the route-line file as pseudo-stops, so the score moved with the file's
+vertex count rather than with where transit is.
+
+The file is ~4 MB and does not change within a page visit, so it is
+fetched once per page and the parsed copy is shared by every PMA run
+(and by the market-analysis TOD check). A failed load is not cached:
+the next run tries again.
+
+Resolves (never rejects) to
+  { geojson: FeatureCollection|null, unavailableReason: string|null,
+    _dataSource: 'local-stops'|'unavailable', path }
+
+### `TRANSIT_ZONE_STATUS_PATH`
+
+The zone-map status file: the two HB26-1065 distances the PMA transit
+score uses (zone_radius_miles and qap_tod_distance.miles), read through
+js/transit-zone.js. Fetched once per page; a failed load is not cached.
+
+Resolves (never rejects) to { mapStatus: object|null, unavailableReason }.
 
 ### `_loadEpaSldLocal()`
 

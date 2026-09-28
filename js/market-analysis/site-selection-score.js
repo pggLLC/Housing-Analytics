@@ -274,15 +274,19 @@
    * @param {object|null} [walkabilityCtx] - From EpaWalkability.getScores().
    *   Keys: walkScore (0-100), bikeScore (0-100).
    * @param {object|null} [transitMetrics] - From PMATransit.getTransitJustification().
-   *   Optional richer transit data than distance-based proxy. Keys:
-   *     transitAccessibilityScore (0-100) — composite from
-   *       calculateTransitScore() blending frequency + coverage + EPA index
-   *     nearbyRouteCount (number) — distinct routes within walk-to-transit dist
-   *     hasHighFrequencyService (boolean) — any nearby route ≤ 30-min headway
-   *   When present, replaces the distance-based 25-pt transit component
-   *   with a real-data-driven score. Closes the gap where map-rendered
-   *   transit routes (bus + rail) weren't influencing the composite — the
-   *   distance proxy only captured nearest-stop, not service quality.
+   *   The stop-based PMA transit score. Keys:
+   *     transitAccessibilityScore (0-100 | null) — from calculateTransitScore():
+   *       confirmed transit stops by distance tier (the QAP TOD distance and
+   *       the zone radius in data/policy/thiz-map-status.json), blended
+   *       with the EPA SLD index where available. null when the stop file
+   *       or the status file did not load.
+   *     transitUnavailableReason (string|null) — why the score is null.
+   *     nearbyStopCount (number|null) — confirmed stops within the QAP TOD distance
+   *     hasHighFrequencyService (null) — the stop file has no frequency data
+   *   A numeric score replaces the distance-based 25-pt transit component.
+   *   A null score with a reason falls back to the nearest-stop distance
+   *   when there is one, and otherwise leaves transit out of the access
+   *   score (the other components are rescaled to 100) — never a 0.
    * @returns {{ score: number|null, unavailable: boolean, reason?: string }}
    *   When `amenities` is missing or not an object, returns
    *   `{ score: null, unavailable: true, reason: 'amenity distances unavailable' }`
@@ -313,22 +317,33 @@
     var healthcare = _distPts(_safe(amenities.healthcare, 3), 1.0,  3.0, 20);
     var schools    = _distPts(_safe(amenities.schools,    1), 0.5,  2.0, 15);
 
-    // Transit scoring: prefer the real PMA transit composite when
-    // available (it accounts for bus + rail routes, headway, coverage,
-    // and EPA SLD walk-to-transit). Fall back to nearest-stop distance
-    // proxy when not.
+    // Transit scoring: prefer the stop-based PMA transit score when it was
+    // measured for this site. Otherwise use the nearest-stop distance proxy
+    // when a transit distance was measured. With neither, transit is not
+    // scored at all (transitSource 'unavailable'): it drops out of the sum
+    // and the rest is rescaled, because a missing measurement is not a 0.
     var transitPts;
+    var transitSource;
     var hasRealTransitScore = transitMetrics && typeof transitMetrics === 'object' &&
       typeof transitMetrics.transitAccessibilityScore === 'number' &&
       isFinite(transitMetrics.transitAccessibilityScore);
+    var pmaTransitReason = (transitMetrics && typeof transitMetrics === 'object' &&
+      !hasRealTransitScore && transitMetrics.transitUnavailableReason) || null;
+    var hasTransitDistance = [amenities.transit, amenities.transit_rail, amenities.transit_bus]
+      .some(function (d) { return typeof d === 'number' && isFinite(d); });
 
     if (hasRealTransitScore) {
       // PMA transit composite is on a 0–100 scale; rescale to the 25-pt
       // budget allocated to transit within scoreAccess.
       var pmaTransit = _clamp(+transitMetrics.transitAccessibilityScore);
       transitPts = _clamp((pmaTransit / 100) * 25);
+      transitSource = 'pma';
+    } else if (pmaTransitReason && !hasTransitDistance) {
+      transitPts = null;
+      transitSource = 'unavailable';
     } else {
       // Distance-based fallback: differentiate fixed rail/tram from bus stops.
+      transitSource = 'distance';
       transitPts = 0;
       var railDist  = _safe(amenities.transit_rail, 99);
       var busDist   = _safe(amenities.transit_bus, 99);
@@ -345,7 +360,9 @@
       }
     }
 
-    var distanceScore = _clamp(grocery + transitPts + parks + healthcare + schools);
+    var distanceScore = transitPts === null
+      ? _clamp((grocery + parks + healthcare + schools) * 100 / 75)
+      : _clamp(grocery + transitPts + parks + healthcare + schools);
     var finalScore = distanceScore;
 
     // If walkability context is available, blend it into the access score.
@@ -365,7 +382,11 @@
     return {
       score: finalScore,
       unavailable: false,
-      transitSource: hasRealTransitScore ? 'pma' : 'distance'
+      transitSource: transitSource,
+      // The transit component on its 25-point budget; null when not scored.
+      transitPoints: transitPts === null ? null : Math.round(transitPts * 10) / 10,
+      // Why the stop-based score was not used (the stop file did not load).
+      transitUnavailableReason: pmaTransitReason
     };
   }
 
@@ -520,6 +541,13 @@
       access_score, policy_score, market_score,
       unavailableDimensions
     );
+    // Say when access was scored without the stop-based transit score.
+    if (!accessResult.unavailable && accessResult.transitUnavailableReason) {
+      narrative += ' ' + (accessResult.transitSource === 'unavailable'
+        ? 'Neighborhood access is scored without transit: '
+        : 'Neighborhood access uses nearest-stop distance for transit: ') +
+        accessResult.transitUnavailableReason;
+    }
 
     return {
       demand_score:          demand_score,
@@ -535,6 +563,8 @@
       dimensionsUnavailable: unavailableDimensions.length,
       unavailableDimensions: unavailableDimensions,
       subsidyUnavailableReason: subsidyUnavailableReason,
+      accessTransitSource:   accessResult.unavailable ? null : accessResult.transitSource,
+      accessTransitUnavailableReason: accessResult.unavailable ? null : (accessResult.transitUnavailableReason || null),
       narrative:             narrative
     };
   }

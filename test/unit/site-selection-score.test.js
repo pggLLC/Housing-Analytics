@@ -357,7 +357,7 @@ test('scoreAccess uses PMA transitMetrics when provided (transitSource: pma)', f
 
   // With a strong PMA transit score, transit contributes 25 pts max
   const withPmaHigh = SSS.scoreAccess(farAmenities, null,
-    { transitAccessibilityScore: 100, nearbyRouteCount: 12, hasHighFrequencyService: true });
+    { transitAccessibilityScore: 100, nearbyStopCount: 12, hasHighFrequencyService: null });
   assert(withPmaHigh.score === 25,
     'PMA score=100 → 25 transit pts (got ' + withPmaHigh.score + ')');
   assert(withPmaHigh.transitSource === 'pma',         'transitSource: pma');
@@ -373,7 +373,7 @@ test('scoreAccess: missing transitAccessibilityScore falls back to distance', fu
   const amenities = { grocery: 0.4, transit: 0.2, parks: 0.2, healthcare: 0.9, schools: 0.4 };
   // transitMetrics provided but without transitAccessibilityScore — falls back
   const fallback = SSS.scoreAccess(amenities, null,
-    { nearbyRouteCount: 12, hasHighFrequencyService: true });
+    { nearbyStopCount: 12, hasHighFrequencyService: null });
   assert(fallback.transitSource === 'distance',
     'metrics without numeric transitAccessibilityScore → distance fallback');
 

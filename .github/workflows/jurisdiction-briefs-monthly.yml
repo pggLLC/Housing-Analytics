@@ -19,11 +19,15 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  actions: write         # dispatch ci-checks.yml on the PR branch (see the last step)
 
 jobs:
   surface-needs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      # One name for the branch the PR step pushes and the ref ci-checks runs on.
+      PR_BRANCH: chore/brief-monthly-snapshot
     steps:
       - name: Checkout main
         uses: actions/checkout@v7
@@ -67,9 +71,10 @@ jobs:
 
       - name: Open PR with brief-management snapshot
         if: steps.changes.outputs.changed == 'true'
+        id: cpr
         uses: peter-evans/create-pull-request@v8
         with:
-          branch: chore/brief-monthly-snapshot
+          branch: ${{ env.PR_BRANCH }}
           commit-message: |
             chore(briefs): monthly snapshot — candidates + stale briefs
 
@@ -99,3 +104,20 @@ jobs:
 
             **Validator status:** `scripts/validate-jurisdiction-briefs.py`
             ran clean before this PR opened.
+
+      # Run ci-checks on the pushed head so the PR carries a real result. A PR
+      # or push made with GITHUB_TOKEN starts no push workflow, and its
+      # pull_request run is held at "action_required" until someone approves
+      # it -- on the PR that reads as "only CodeQL ran" (#1995). A
+      # workflow_dispatch is the exception GitHub makes for GITHUB_TOKEN, and
+      # the dispatched run reports its check on the branch head, which is the
+      # PR head. The action waits until the branch reports the SHA the PR
+      # step pushed, so it never verifies the previous tip, and fails the step
+      # if it does not catch up. Needs `actions: write` (above). Skipped when
+      # the action made no commit.
+      - name: Dispatch ci-checks on the PR branch
+        if: steps.cpr.outputs.pull-request-operation == 'created' || steps.cpr.outputs.pull-request-operation == 'updated'
+        uses: ./.github/actions/dispatch-ci-checks
+        with:
+          ref: ${{ env.PR_BRANCH }}
+          sha: ${{ steps.cpr.outputs.pull-request-head-sha }}

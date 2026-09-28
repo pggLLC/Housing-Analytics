@@ -1,7 +1,7 @@
 {
  "meta": {
   "boundary_search_miles": 10.0,
-  "generated": "2026-09-27T16:12:58Z",
+  "generated": "2026-09-27T20:58:57Z",
   "source": "scripts/market/build_transit_zone_by_geography.py (#1937)",
   "stops_file": "data/amenities/transit_stops_statewide_co.geojson",
   "stops_generated": "2026-09-27T16:06:22Z",
@@ -1635,7 +1635,7 @@
    "half_mile_full_is_exact": null,
    "max_boundary_vertex_distance_to_confirmed_stop_miles": null,
    "share_within_radius_confirmed": 0.0493,
-   "share_within_radius_any": 0.052,
+   "share_within_radius_any": 0.0493,
    "share_within_half_mile_confirmed": 0.0087,
    "confirmed_stops_inside": 315,
    "nearest_confirmed_stop": {
@@ -6055,7 +6055,7 @@
    "half_mile_full_is_exact": null,
    "max_boundary_vertex_distance_to_confirmed_stop_miles": null,
    "share_within_radius_confirmed": 0.0277,
-   "share_within_radius_any": 0.4775,
+   "share_within_radius_any": 0.0277,
    "share_within_half_mile_confirmed": 0.0,
    "confirmed_stops_inside": 0,
    "nearest_confirmed_stop": {
