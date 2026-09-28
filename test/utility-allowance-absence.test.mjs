@@ -18,7 +18,7 @@ try { hudJson = JSON.parse(read('data/hud-fmr-income-limits.json')); } catch (_)
 
 function mountWith(subject) {
   const dom = new JSDOM('<!doctype html><body><div id="sp"></div><div id="rc"></div></body>',
-    { runScripts: 'outside-only', url: 'https://cohoanalytics.test/market-analysis.html' });
+    { runScripts: 'outside-only', url: 'https://example.org/market-analysis.html' });
   const w = dom.window;
   w.fetch = (url) => {
     const body = String(url).includes('chfa-income-rent-limits') ? chfaJson
