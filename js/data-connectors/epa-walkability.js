@@ -33,6 +33,12 @@
   /** @type {string|null} Why the boundary file is not available, once known */
   var _geometryFailure = null;
 
+  // Settles once both files have loaded or failed. The boundary file is
+  // 2.5 MB, so an analysis started at page load can otherwise run before it
+  // arrives and report walkability as unavailable for a site it could score.
+  var _settleReady;
+  var _ready = new Promise(function (resolve) { _settleReady = resolve; });
+
   var SLD_URL      = 'data/market/epa_sld_co.json';
   var BG_GEOM_URL  = 'data/market/epa_sld_bg_geometry_co.geojson';
 
@@ -72,6 +78,7 @@
     }
     _blockGroups = data.blockGroups;
     _loaded = true;
+    if (_bgIndex) _settleReady();
     console.log('[EpaWalkability] Loaded ' + Object.keys(_blockGroups).length + ' block groups');
   }
 
@@ -100,7 +107,16 @@
     }
     _bgIndex = index;
     _geometryFailure = null;
+    if (_loaded) _settleReady();
   }
+
+  /**
+   * Resolves when both EPA files have loaded or failed; never rejects. After
+   * it resolves, getScores() and getUnavailableReason() give their final
+   * answer for a site.
+   * @returns {Promise<void>}
+   */
+  function whenReady() { return _ready; }
 
   /**
    * Auto-load from DataService if available.
@@ -111,10 +127,10 @@
       setTimeout(autoLoad, 100);
       return;
     }
-    fetch(SLD_URL)
+    var sld = fetch(SLD_URL)
       .then(function (data) { if (data) load(data); })
       .catch(function () { console.warn('[EpaWalkability] Could not auto-load EPA SLD'); });
-    fetch(BG_GEOM_URL)
+    var geom = fetch(BG_GEOM_URL)
       .then(function (fc) {
         if (fc) loadGeometry(fc);
         else _geometryFailure = 'block-group boundary file did not load';
@@ -123,6 +139,7 @@
         _geometryFailure = 'block-group boundary file did not load';
         console.warn('[EpaWalkability] Could not auto-load block-group boundaries');
       });
+    Promise.all([sld, geom]).then(function () { _settleReady(); });
   }
 
   /* ── Lookup ────────────────────────────────────────────────────────── */
@@ -379,6 +396,7 @@
     load:                 load,
     loadGeometry:         loadGeometry,
     isLoaded:             isLoaded,
+    whenReady:            whenReady,
     resolveSite:          resolveSite,
     getMetrics:           getMetrics,
     getScores:            getScores,
