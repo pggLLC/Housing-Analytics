@@ -159,6 +159,15 @@
         </div>
       </section>
 
+      <!-- Tools we compare against. Moved from the Housing News side column
+           (2026-09-28): it describes COHO's own product, not the news. -->
+      <section id="tools-we-compare-against" class="chart-card" aria-labelledby="tools-heading" style="margin-bottom:var(--sp4);">
+        <h2 id="tools-heading" style="margin:0 0 var(--sp3);">Tools We Compare Against</h2>
+        <p style="color:var(--muted);line-height:1.7;">Public analysis tools COHO compares its own features against. These are descriptions, not endorsements, and each links to the vendor's or agency's own page.</p>
+        <ul id="tool-watch-list" class="no-glossary" style="list-style:none;margin:var(--sp2) 0 0;padding:0;display:flex;flex-direction:column;gap:var(--sp2);"><li>Loading tools…</li></ul>
+        <p id="tool-watch-asof" style="font-size:var(--small);color:var(--muted);margin-top:var(--sp2);"></p>
+      </section>
+
       <!-- Updates -->
       <section class="chart-card" style="margin-bottom:var(--sp5);">
         <h2 style="margin:0 0 var(--sp3);">Updates &amp; Maintenance</h2>
@@ -174,5 +183,30 @@
   </main>
 
   <script src="js/contrast-guard.js"></script>
+  <script>
+    /* Tools we compare against: data/policy/tool-watch.json. */
+    document.addEventListener('DOMContentLoaded', function () {
+      var host = document.getElementById('tool-watch-list');
+      if (!host) return;
+      function esc(v) {
+        return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+      var url = window.resolveAssetUrl ? window.resolveAssetUrl('data/policy/tool-watch.json') : 'data/policy/tool-watch.json';
+      (window.fetchWithTimeout || window.fetch)(url, {}, 15000)
+        .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
+        .then(function (doc) {
+          var entries = doc && Array.isArray(doc.entries) ? doc.entries : [];
+          if (!entries.length) { host.innerHTML = '<li>No tools are listed yet.</li>'; return; }
+          host.innerHTML = entries.map(function (e) {
+            return '<li data-tool-id="' + esc(e.id) + '"><a href="' + esc(e.source_url) + '" target="_blank" rel="noopener" style="font-weight:600;">' +
+              esc(e.title) + '</a><span style="display:block;font-size:var(--small);color:var(--muted);">' + esc(e.capability_summary) +
+              ' <em>Why we look at it:</em> ' + esc(e.relevance_to_coho) + '</span></li>';
+          }).join('');
+          var checked = doc.meta && doc.meta.last_verified;
+          document.getElementById('tool-watch-asof').textContent = checked ? 'Checked ' + checked + '.' : '';
+        })
+        .catch(function () { host.innerHTML = '<li>The tool list could not be loaded. Try again later.</li>'; });
+    });
+  </script>
 </body>
 </html>
