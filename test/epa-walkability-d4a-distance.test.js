@@ -142,7 +142,10 @@ check(rm && !('transitFrequency' in rm), 'no transitFrequency field is emitted')
 check(rm && typeof rm.transitScoreUnavailableReason === 'string' && /D4A/.test(rm.transitScoreUnavailableReason) &&
   /distance/i.test(rm.transitScoreUnavailableReason), 'a reason says D4A is a distance and not scored');
 
-console.log('\n4. D4A does not move the walk or bike score');
+// The walk score is EPA's National Walkability Index, which includes EPA's own
+// ranking of D4A (d4aRanked); what must not move it is COHO reading the raw
+// distance. Deleting transitAccess leaves walkIndex and d4aRanked in place.
+console.log('\n4. The raw D4A distance does not move the walk or bike score');
 const stripped = JSON.parse(JSON.stringify(DATA));
 Object.values(stripped.blockGroups).forEach(b => { delete b.transitAccess; });
 const scoresStripped = loadConnector(stripped);
@@ -155,9 +158,11 @@ check(probe.length > 100, `scan covers every tract with a D4A value (${probe.len
 check(moved.length === 0, `walk/bike scores identical with D4A deleted (${moved.length} tracts differ${moved.length ? ', e.g. ' + moved[0] : ''})`);
 
 console.log('\n5. Absent inputs are dropped, not scored as 0');
-const probeAbsent = loadConnector({ blockGroups: { '080010000001': { walkability: 200 } } });
+const probeAbsent = loadConnector({ blockGroups: { '080010000001': { walkability: 200, autoNetDensity: 0 } } });
 const pa = probeAbsent(['08001000000']);
-check(pa && pa.walkScore === 100, `walk score with land-use mix missing uses what was measured (got ${pa && pa.walkScore})`);
+check(pa && pa.bikeScore === 100, `bike score with land-use mix missing uses what was measured (got ${pa && pa.bikeScore})`);
+check(pa && pa.walkScore === null,
+  `no EPA walkability index gives no walk score, not a blend of what else was measured (got ${pa && pa.walkScore})`);
 const probeNone = loadConnector({ blockGroups: { '080010000001': {} } });
 check(probeNone(['08001000000']) === null || probeNone(['08001000000']).walkScore === null,
   'nothing measured gives no walk score, not 0');
@@ -174,10 +179,9 @@ check(tb.includes('Nearest Transit Stop None reported') && !/Nearest Transit Sto
 const tn = text(renderAccess({ walkScore: null, bikeScore: null, nearestTransitStopMeters: null }));
 check(/Walkability Unavailable/.test(tn) && !/Walkability 0\b/.test(tn), 'a null walk score renders Unavailable, not 0');
 
-console.log('\n7. The glossary states the weights the connector applies');
-// Measure weights by probing: one component at 100, the others at 0.
-function measured(bg) { return loadConnector({ blockGroups: { '080010000001': bg } })(['08001000000']); }
-const walkW = { intersection: measured({ walkability: 200, landUseMix: 0 }).walkScore, mix: measured({ walkability: 0, landUseMix: 1 }).walkScore };
+console.log('\n7. The glossary states what the connector and the data actually do');
+// Bike: weights measured by probing, one component at 100, the others at 0.
+function measured(bg) { return loadConnector({ blockGroups: { '080010000001': Object.assign({ walkability: 0 }, bg) } })(['08001000000']); }
 const bikeW = {
   auto: measured({ walkability: 0, landUseMix: 0, autoNetDensity: 0 }).bikeScore,
   mix: measured({ walkability: 0, landUseMix: 1, autoNetDensity: 48 }).bikeScore,
@@ -201,11 +205,36 @@ function statedWeights(def) {
 const walkDef = (find('Walkability Score') || {}).definition || '';
 const bikeDef = (find('Bikeability Score') || {}).definition || '';
 check(walkDef && bikeDef, 'glossary has Walkability Score and Bikeability Score entries');
-const gw = statedWeights(walkDef), gb = statedWeights(bikeDef);
-check(JSON.stringify(gw) === JSON.stringify(walkW),
-  `walkability weights: glossary ${JSON.stringify(gw)} = connector ${JSON.stringify(walkW)}`);
+const gb = statedWeights(bikeDef);
 check(JSON.stringify(Object.keys(gb).sort().map(k => [k, gb[k]])) === JSON.stringify(Object.keys(bikeW).sort().map(k => [k, bikeW[k]])),
   `bikeability weights: glossary ${JSON.stringify(gb)} = connector ${JSON.stringify(bikeW)}`);
+
+// Walk: the glossary's stated index weights must reproduce EPA's index in the
+// data file for every block group, and the connector's walk score must be that
+// index on the stated 1-20 -> 0-100 scale.
+const fracRe = /(intersection density|proximity to the nearest transit stop|employment and household mix|employment mix)\s*\((\d+)\/(\d+)\)/g;
+const gwk = {}; let fm;
+while ((fm = fracRe.exec(walkDef))) gwk[fm[1]] = Number(fm[2]) / Number(fm[3]);
+const rankKey = { 'intersection density': 'd3bRanked', 'proximity to the nearest transit stop': 'd4aRanked',
+  'employment and household mix': 'd2aRanked', 'employment mix': 'd2bRanked' };
+check(Object.keys(gwk).length === 4, `glossary states four walkability index weights (${JSON.stringify(gwk)})`);
+const withIndex = Object.entries(DATA.blockGroups).filter(([, b]) => b.walkIndex != null);
+const offFormula = withIndex.filter(([, b]) =>
+  Math.abs(Object.entries(gwk).reduce((s, [k, w]) => s + b[rankKey[k]] * w, 0) - b.walkIndex) > 0.01);
+check(withIndex.length === Object.keys(DATA.blockGroups).length,
+  `every block group carries EPA's walkability index (${withIndex.length} of ${Object.keys(DATA.blockGroups).length})`);
+check(offFormula.length === 0, `glossary weights reproduce the data file's index for every block group (${offFormula.length} differ)`);
+const scaleM = /rescaled from EPA's (\d+)[–-](\d+) scale to (\d+)[–-](\d+)/.exec(walkDef);
+check(!!scaleM, 'glossary states the rescaling');
+if (scaleM) {
+  const [lo, hi, a, b] = scaleM.slice(1).map(Number);
+  const probes = [lo, hi, (lo + hi) / 2, 7.25, 16];
+  const off = probes.filter(ix => measured({ walkIndex: ix }).walkScore !== Math.round(a + (ix - lo) / (hi - lo) * (b - a)));
+  check(off.length === 0, `connector walk score = glossary rescaling at ${JSON.stringify(probes)} (${off.length} differ)`);
+}
+const labelOf = ix => measured({ walkIndex: ix }).walkLabel;
+check([[16, 'Most walkable'], [12, 'Above average'], [8, 'Below average'], [3, 'Least walkable']]
+  .every(([ix, l]) => labelOf(ix) === l && walkDef.includes(l)), 'walk labels are EPA\'s categories, as the glossary states');
 
 console.log(`\n${passed} passed, ${failed} failed`);
 process.exit(failed ? 1 : 0);
