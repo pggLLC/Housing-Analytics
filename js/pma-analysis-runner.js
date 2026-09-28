@@ -327,15 +327,13 @@
             progress('competitive', 'Competitive set module unavailable');
           });
 
-      var opportunitiesP = (pmaOpps && ds)
+      var opportunitiesP = pmaOpps
         ? Promise.all([
-            ds.fetchOpportunityZones(bbox),
-            ds.fetchHudAFFH(bbox),
-            ds.fetchHudOpportunityAtlas(bbox)
+            pmaOpps.fetchOpportunityZones(),
+            pmaOpps.fetchHudAFFH(bbox),
+            pmaOpps.fetchHudOpportunityAtlas(bbox)
           ]).then(function (res) {
-            var ozShare = pmaOpps.calculateOpportunityShare(results.boundary || null, res[0].zones || []);
-            var oppScore = pmaOpps.scoreOpportunityIndex(lat, lon, res[1], res[2]);
-            pmaOpps.determineIncentiveEligibility(ozShare, res[1].opportunityIndex, res[2].mobilityIndex);
+            pmaOpps.scoreOpportunityIndex(lat, lon, res[1], res[2], res[0]);
             results.opportunities = pmaOpps.getOpportunityJustification();
             progress('opportunities', 'Calculating opportunity overlays…');
           })

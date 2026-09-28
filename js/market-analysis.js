@@ -572,6 +572,91 @@
     });
   }
 
+  /* ── Custom PMA readiness (#1932) ──────────────────────────────── */
+  /**
+   * A custom PMA's conclusions — the score, capture rate and competitive
+   * density — describe that PMA only when three bindings are all in place:
+   * a site anchor, a mapped boundary covering every selected tract, and a
+   * tract record for every selected tract. Missing any one of them, the old
+   * path still produced a score: a null boundary silently counted supply in
+   * a radius around the site while the card said "whole census tracts you
+   * selected", and an unbound tract was dropped from the demand pool without
+   * a word.
+   *
+   * Returns null when the custom PMA is bound, otherwise the reason its
+   * conclusions are not yet available. Never a default.
+   */
+  function _htmlEscape(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function _listGeoids(ids) {
+    return ids.length <= 5 ? ids.join(', ') : ids.slice(0, 5).join(', ') + ' and ' + (ids.length - 5) + ' more';
+  }
+  function customPmaBlockReason(lat, lon, geoids, boundary, boundTracts, acsIdx) {
+    if (typeof lat !== 'number' || typeof lon !== 'number' || !isFinite(lat) || !isFinite(lon)
+        || (lat === 0 && lon === 0)) {
+      return 'no site anchor — place the site (address, parcel or coordinates) on the map first';
+    }
+    var wanted = (Array.isArray(geoids) ? geoids : []).map(String).filter(Boolean);
+    if (!wanted.length) {
+      return 'no census tracts are selected — pick the tracts that make up the market area';
+    }
+    var features = boundary && Array.isArray(boundary.features) ? boundary.features : null;
+    if (!features || !features.length) {
+      return 'the market-area boundary has not been mapped — the tract boundary file did not load, so the selected tracts cannot be drawn or used to count supply';
+    }
+    var mapped = {};
+    features.forEach(function (f) {
+      var p = (f && f.properties) || {};
+      var gid = p.GEOID || p.geoid || p.GEOID20;
+      if (gid) mapped[String(gid)] = true;
+    });
+    var unmapped = wanted.filter(function (g) { return !mapped[g]; });
+    if (unmapped.length) {
+      return unmapped.length + ' of ' + wanted.length + ' selected tracts have no mapped boundary (' + _listGeoids(unmapped) + ')';
+    }
+    var bound = {};
+    (boundTracts || []).forEach(function (t) { bound[String(t.geoid || t.GEOID || '')] = true; });
+    var unbound = wanted.filter(function (g) { return !bound[g] || !(acsIdx && acsIdx[g]); });
+    if (unbound.length) {
+      return unbound.length + ' of ' + wanted.length + ' selected tracts have no ACS tract record (' + _listGeoids(unbound) + ')';
+    }
+    return null;
+  }
+
+  /** The same check against the data this page has loaded, for other modules. */
+  function customPmaReadiness(lat, lon, options) {
+    options = options || {};
+    var geoids = Array.isArray(options.tractGeoids) ? options.tractGeoids : [];
+    // Same recovery runAnalysis() does: the module copies can be empty while
+    // the page-wide cache holds the loaded files.
+    var cache = window.PMADataCache;
+    if (cache) {
+      if ((!tractCentroids || !(tractCentroids.tracts || tractCentroids).length) && cache.has('tractCentroids')) {
+        tractCentroids = cache.get('tractCentroids');
+      }
+      if ((!acsMetrics || !(acsMetrics.tracts || []).length) && cache.has('acsMetrics')) {
+        acsMetrics = cache.get('acsMetrics');
+      }
+    }
+    var reason = customPmaBlockReason(lat, lon, geoids, options.tractBoundary || null,
+      tractsByGeoids(geoids), buildAcsIndex(acsMetrics && acsMetrics.tracts));
+    return { ready: reason === null, reason: reason };
+  }
+
+  /* No conclusion is shown for a custom PMA that is not bound: the previous
+     result is cleared (exports refuse without it), the result cards are
+     hidden, and the score card says what is missing. */
+  function blockCustomPma(reason) {
+    setResultPending(true);
+    var uic = window.PMAUIController;
+    if (uic && uic.hideChartLoading) uic.hideChartLoading('pmaRadarChart');
+    setHtml('pmaScoreWrap', '<div class="pma-empty" data-custom-pma-blocked="true">'
+      + 'Custom PMA conclusions are not yet available — ' + _htmlEscape(reason) + '.</div>');
+  }
+
   /* ── Statewide tract coverage utility ──────────────────────────── */
   /**
    * Compute statewide tract coverage vs. expected Colorado tract count.
@@ -2506,6 +2591,10 @@
     var bufTracts = analysisMethod === 'tract'
       ? tractsByGeoids(selectedTractGeoids)
       : tractsInBuffer(lat, lon, bufferMiles);
+    if (analysisMethod === 'tract') {
+      var customBlock = customPmaBlockReason(lat, lon, selectedTractGeoids, selectedTractBoundary, bufTracts, acsIdx);
+      if (customBlock) { blockCustomPma(customBlock); return; }
+    }
     var barrierAwareContext = null;
     function applyBarrierAware(tracts) {
       var BA = window.PMABarrierAware;
@@ -3036,9 +3125,12 @@
           lihtc: nearbyLihtc || []
         });
       }
+      var _isCentroid = !!(_jurisdictionCentroid &&
+        _jurisdictionCentroid.lat === lat && _jurisdictionCentroid.lon === lon);
       // The radius the PMA actually used (ACS fallback may widen it), so the
       // saved buffer and score describe the same analysis.
-      MAC.runAnalysis(lat, lon, effectiveBuffer);
+      MAC.runAnalysis(lat, lon, effectiveBuffer,
+        { siteSource: _isCentroid ? 'jurisdiction_centroid' : 'site' });
     } else {
       console.warn('[market-analysis] MAController not available — report sections will not render.');
     }
@@ -4377,8 +4469,14 @@
     }
   }
 
-  function placeSiteMarker(lat, lon) {
+  // Set when placeSiteMarker() is given a jurisdiction centroid (the ?auto=1
+  // deep-link run) instead of a chosen site; any other placement clears it.
+  // runAnalysis() tells MAController so QCT/DDA stays unknown for a centroid.
+  var _jurisdictionCentroid = null;
+
+  function placeSiteMarker(lat, lon, opts) {
     siteLatLng = { lat: lat, lon: lon };
+    _jurisdictionCentroid = (opts && opts.jurisdictionCentroid) ? { lat: lat, lon: lon } : null;
     // Keep PMAEngine shim up-to-date so other modules can read last site coords.
     if (window.PMAEngine) {
       window.PMAEngine._lastLat = lat;
@@ -4776,7 +4874,8 @@
     sel.addEventListener('change', function () {
       bufferMiles = parseInt(sel.value, 10) || 3;
       if (siteLatLng) {
-        placeSiteMarker(siteLatLng.lat, siteLatLng.lon);
+        // Same point, new buffer: a centroid stays a centroid.
+        placeSiteMarker(siteLatLng.lat, siteLatLng.lon, { jurisdictionCentroid: !!_jurisdictionCentroid });
         runAnalysis(siteLatLng.lat, siteLatLng.lon);
       }
     });
@@ -5904,7 +6003,7 @@
     // runAnalysis was only callable via map click, so deep-links populated
     // the map + jurisdiction banner but never the PMA Site Summary card.
     runAnalysis:             function (lat, lon, options) { return runAnalysis(lat, lon, options); },
-    placeSiteMarker:         function (lat, lon) { return placeSiteMarker(lat, lon); },
+    placeSiteMarker:         function (lat, lon, opts) { return placeSiteMarker(lat, lon, opts); },
     haversine:               haversine,
     tractInBuffer:           tractInBuffer,
     tractBufferShare:        tractBufferShare,
@@ -5925,6 +6024,7 @@
     _bboxBufferShare:        _bboxBufferShare,
     computePma:              computePma,
     computeCoverage:         computeCoverage,
+    customPmaReadiness:      customPmaReadiness,
     generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
     captureDenominator:      captureDenominator,

@@ -237,13 +237,6 @@
       dealInputs = bridge.toDealInputs(needProfile, dealInputs);
     }
 
-    // Extract QCT/DDA from justification
-    if (scoreRun && scoreRun.opportunities) {
-      var elig = scoreRun.opportunities.incentiveEligibility || {};
-      if (elig.qct !== undefined) dealInputs.isQct = !!elig.qct;
-      if (elig.dda !== undefined) dealInputs.isDda = !!elig.dda;
-    }
-
     // Wire CHFA historical awards — count projects in selected county with
     // YR_ALLOC in last 5 years (2021-2026) from cached chfa-lihtc.json
     var countyFips = dealInputs.geoid || null;
@@ -598,9 +591,10 @@
       var opps = scoreRun.opportunities || {};
       var elig = opps.incentiveEligibility || {};
       var badges = [];
-      if (elig.qualifiedOpportunityZone) badges.push({ label: 'Opportunity Zone', color: '#1a6b3c' });
-      if (elig.lihtcBasisStepDown)       badges.push({ label: 'LIHTC Basis Step-down', color: '#096e65' });
-      if (elig.newMarketsTaxCredit)       badges.push({ label: 'NMTC Eligible', color: '#6b4800' });
+      if (opps.siteOpportunityZone && opps.siteOpportunityZone.inZone === true &&
+          elig.qualifiedOpportunityZone === true) {
+        badges.push({ label: 'Opportunity Zone (site)', color: '#1a6b3c' });
+      }
       badgeWrap.innerHTML = badges.map(function (b) {
         return '<span style="display:inline-block;padding:.2rem .6rem;border-radius:12px;font-size:.75em;' +
                'background:' + b.color + ';color:#fff;">' + _esc(b.label) + '</span>';
@@ -716,6 +710,25 @@
       }
       runOptions.tractGeoids   = pickedER;
       runOptions.tractBoundary = pickerER.getBoundary();
+      // The justification narrative and the concept-card recommendation are
+      // conclusions about this PMA too. PMAEngine.runAnalysis has already
+      // said on the score card why it is not bound; nothing is drawn here
+      // either, and the previous run's narrative is taken down (#1932).
+      var engER = window.PMAEngine;
+      var readyER = engER && typeof engER.customPmaReadiness === 'function'
+        ? engER.customPmaReadiness(lat, lon, runOptions)
+        : { ready: false, reason: 'the market-analysis engine did not load' };
+      if (!readyER.ready) {
+        _lastScoreRun = null;
+        ['pmaJustificationCard', 'lihtcConceptCard'].forEach(function (id) {
+          var c = $id(id);
+          if (c) c.hidden = true;
+        });
+        _running = false;
+        _hideChartLoading('pmaRadarChart');
+        _progressHide();
+        return;
+      }
     }
 
     // The site this run belongs to, as the page records it (lat/lon above
