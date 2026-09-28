@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-28T04:02:38.072Z",
+    "generated_at": "2026-09-28T04:39:54.845Z",
     "root": "data/",
     "file_count": 1692,
-    "total_size_bytes": 175512282,
+    "total_size_bytes": 175926203,
     "kinds": {
       "json": 1655,
       "geojson": 33,
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-28T04:02:34.345Z",
+      "mtime": "2026-09-28T04:39:51.237Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1527,8 +1527,8 @@
     {
       "path": "glossary.json",
       "kind": "json",
-      "size_bytes": 36689,
-      "mtime": "2026-09-28T02:01:23.265Z",
+      "size_bytes": 36860,
+      "mtime": "2026-09-28T04:39:28.461Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30933,8 +30933,8 @@
     {
       "path": "market/epa_sld_co.json",
       "kind": "json",
-      "size_bytes": 733069,
-      "mtime": "2026-09-25T12:55:18.850Z",
+      "size_bytes": 1146817,
+      "mtime": "2026-09-28T04:39:28.465Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31886,8 +31886,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14705,
-      "mtime": "2026-09-28T04:02:36.159Z",
+      "size_bytes": 14707,
+      "mtime": "2026-09-28T04:39:53.015Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31910,7 +31910,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-28T04:02:35.746Z",
+      "mtime": "2026-09-28T04:39:52.633Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

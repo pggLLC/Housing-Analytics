@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-28T04:02:41.919069Z",
+  "generated": "2026-09-28T04:39:58.740849Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 827125
+      "bytes": 827126
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -349,7 +349,7 @@
     "data/glossary.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 36689
+      "bytes": 36860
     },
     "data/hmda/co-county-aggregates.json": {
       "featureCount": 64,
@@ -7624,7 +7624,7 @@
     "data/market/epa_sld_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 733069
+      "bytes": 1146817
     },
     "data/market/fhfa_hpi_subcounty_co.json": {
       "featureCount": 54,
@@ -7864,7 +7864,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14705
+      "bytes": 14707
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,

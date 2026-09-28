@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T04:02:11.711Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T04:39:28.512Z. Do not edit by hand.
 
 ---
 
@@ -143,7 +143,7 @@
 | `data/fixtures/fruita-commons-family.scenario.json` | 5.0 KB | ✅ | — |
 | `data/fixtures/fruita-commons.scenario.json` | 4.9 KB | ✅ | — |
 | `data/fred-data.json` | 1.19 MB | ✅ | — |
-| `data/glossary.json` | 35.8 KB | ✅ | — |
+| `data/glossary.json` | 36.0 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
 | `data/hna/benchmarks.json` | 9.1 KB | ✅ | — |
@@ -1593,7 +1593,7 @@
 | `data/market/developable_land_context_co.json` | 1.37 MB | ✅ | — |
 | `data/market/dola_demographics_co.json` | 24.3 KB | ✅ | — |
 | `data/market/dola_rent_survey_co.json` | 730 B | ✅ | — |
-| `data/market/epa_sld_co.json` | 715.9 KB | ✅ | — |
+| `data/market/epa_sld_co.json` | 1.09 MB | ✅ | — |
 | `data/market/fhfa_hpi_subcounty_co.json` | 512.0 KB | ✅ | — |
 | `data/market/flood_zones_co.json` | 605.2 KB | ✅ | — |
 | `data/market/fmr_co.json` | 22.2 KB | ✅ | — |
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-474 test files found.
+475 test files found.
 
 | File | Size |
 |------|------|
@@ -1853,8 +1853,8 @@
 | `test/energy-retrofit-funding.test.js` | 5.2 KB |
 | `test/entry-path-starts-at-jurisdiction.test.mjs` | 16.6 KB |
 | `test/epa-sld-local-lookup.test.js` | 13.2 KB |
-| `test/epa-walkability-d4a-distance.test.js` | 12.2 KB |
-| `test/epa-walkability-site-lookup.test.js` | 9.5 KB |
+| `test/epa-walkability-d4a-distance.test.js` | 14.4 KB |
+| `test/epa-walkability-site-lookup.test.js` | 11.1 KB |
 | `test/epa-walkability-waits-for-geometry.test.js` | 9.6 KB |
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
 | `test/every-guard-runs-or-says-why.test.mjs` | 8.5 KB |
@@ -2194,6 +2194,7 @@
 | `tests/test_chfa_qap_trust_label.py` | 7.1 KB |
 | `tests/test_chfa_qap_watch.py` | 22.7 KB |
 | `tests/test_data_plausibility.py` | 23.4 KB |
+| `tests/test_epa_sld_walk_index.py` | 2.1 KB |
 | `tests/test_fee_reductions.py` | 11.2 KB |
 | `tests/test_fetch_regrid_pipeline_parcels.py` | 7.3 KB |
 | `tests/test_fmr_extractor.py` | 3.4 KB |
@@ -2222,7 +2223,7 @@
 | `tests/test_transit_stop_gate.py` | 9.2 KB |
 | `tests/test_transit_stop_selection.py` | 15.9 KB |
 | `tests/test_transit_stops_statewide.py` | 21.9 KB |
-| `tests/test_upstream_schema_check.py` | 5.0 KB |
+| `tests/test_upstream_schema_check.py` | 7.7 KB |
 
 ---
 
