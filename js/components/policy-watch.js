@@ -47,7 +47,7 @@
   var DESTINATIONS = {
     qap: { href: 'housing-legislation-2026.html#policy-watch', page: 'Policy & Legislation' },
     ballot: { href: 'housing-legislation-2026.html#policy-watch', page: 'Policy & Legislation' },
-    people: { href: 'colorado-elections.html#people-and-roles', page: 'Elections & Officials' },
+    people: { href: 'colorado-elections.html#people-and-roles', page: 'Colorado Elections' },
     gaps: { href: 'housing-legislation-2026.html#policy-watch-gaps', page: 'Policy & Legislation' }
   };
 
