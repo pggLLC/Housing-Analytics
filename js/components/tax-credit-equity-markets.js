@@ -122,7 +122,8 @@
       target.innerHTML = '<p style="color:var(--muted);">No policy entries loaded.</p>';
       return;
     }
-    target.innerHTML = entries.map(function (entry) {
+    var summary = global.ReviewStatus ? global.ReviewStatus.summaryHtml(entries, null, 'policy entries') : '';
+    target.innerHTML = summary + entries.map(function (entry) {
       var meta = [
         entry.effective_date ? 'Effective ' + entry.effective_date : null,
         entry.sunset_date ? 'Sunset ' + entry.sunset_date : null,
@@ -140,6 +141,7 @@
           '<span>' + esc(meta || 'Date pending') + '</span>' +
           global.ProvenanceLabel.html(entry) +
         '</div>' +
+        (global.ReviewStatus ? global.ReviewStatus.html(entry) : '') +
       '</article>';
     }).join('');
   }
