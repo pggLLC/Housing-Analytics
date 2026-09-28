@@ -272,7 +272,9 @@
    * @param {object|null} amenities - Distances in miles.
    *   Keys: grocery, transit, parks, healthcare, schools.
    * @param {object|null} [walkabilityCtx] - From EpaWalkability.getScores().
-   *   Keys: walkScore (0-100), bikeScore (0-100).
+   *   Keys: walkScore (0-100), bikeScore (0-100). When absent, the access
+   *   score is the distance score alone and the result carries
+   *   walkabilitySource 'unavailable' plus walkabilityUnavailableReason.
    * @param {object|null} [transitMetrics] - From PMATransit.getTransitJustification().
    *   The stop-based PMA transit score. Keys:
    *     transitAccessibilityScore (0-100 | null) — from calculateTransitScore():
@@ -292,7 +294,7 @@
    *   `{ score: null, unavailable: true, reason: 'amenity distances unavailable' }`
    *   so the composite can redistribute this dimension's weight.
    */
-  function scoreAccess(amenities, walkabilityCtx, transitMetrics) {
+  function scoreAccess(amenities, walkabilityCtx, transitMetrics, walkabilityUnavailableReason) {
     if (!amenities || typeof amenities !== 'object') {
       return {
         score: null,
@@ -369,7 +371,12 @@
     // This captures whether the measured distances are actually traversable
     // on foot or bike (street network connectivity, intersection density,
     // car-orientation of the built environment).
-    if (walkabilityCtx && typeof walkabilityCtx.walkScore === 'number') {
+    // Without it the distance score stands alone: walkability is dropped
+    // and the rest rescaled, as for transit, because a missing measurement
+    // is not a 0. That can score higher than a measured, poorly walkable
+    // site, so the result says so rather than passing it off as blended.
+    var hasWalkability = !!(walkabilityCtx && typeof walkabilityCtx.walkScore === 'number');
+    if (hasWalkability) {
       var walkPts = _clamp(walkabilityCtx.walkScore);
       var bikePts = _clamp(_safe(walkabilityCtx.bikeScore, walkPts));
       finalScore = _clamp(Math.round(
@@ -386,7 +393,10 @@
       // The transit component on its 25-point budget; null when not scored.
       transitPoints: transitPts === null ? null : Math.round(transitPts * 10) / 10,
       // Why the stop-based score was not used (the stop file did not load).
-      transitUnavailableReason: pmaTransitReason
+      transitUnavailableReason: pmaTransitReason,
+      walkabilitySource: hasWalkability ? 'epa' : 'unavailable',
+      walkabilityUnavailableReason: hasWalkability ? null
+        : (walkabilityUnavailableReason || 'EPA walkability was not available for this site')
     };
   }
 
@@ -491,7 +501,7 @@
     var W = COMPONENT_WEIGHTS;
 
     var demandResult  = scoreDemand(i.acs);
-    var accessResult  = scoreAccess(i.amenities, i.walkabilityCtx, i.transitMetrics);
+    var accessResult  = scoreAccess(i.amenities, i.walkabilityCtx, i.transitMetrics, i.walkabilityUnavailableReason);
 
     // Subsidy, feasibility, policy, market take primitive inputs — a missing
     // flag is the absence of a bonus, not the absence of measurement, so
@@ -548,6 +558,11 @@
         : 'Neighborhood access uses nearest-stop distance for transit: ') +
         accessResult.transitUnavailableReason;
     }
+    // And when it was scored on amenity distances alone, without walkability.
+    if (!accessResult.unavailable && accessResult.walkabilityUnavailableReason) {
+      narrative += ' Neighborhood access is scored on amenity distances alone, without walkability: ' +
+        accessResult.walkabilityUnavailableReason + '.';
+    }
 
     return {
       demand_score:          demand_score,
@@ -565,6 +580,8 @@
       subsidyUnavailableReason: subsidyUnavailableReason,
       accessTransitSource:   accessResult.unavailable ? null : accessResult.transitSource,
       accessTransitUnavailableReason: accessResult.unavailable ? null : (accessResult.transitUnavailableReason || null),
+      accessWalkabilitySource: accessResult.unavailable ? null : accessResult.walkabilitySource,
+      accessWalkabilityUnavailableReason: accessResult.unavailable ? null : accessResult.walkabilityUnavailableReason,
       narrative:             narrative
     };
   }

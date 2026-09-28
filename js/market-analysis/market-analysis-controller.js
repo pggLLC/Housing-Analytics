@@ -741,7 +741,7 @@
     // rendered: the newer run owns the page. The EPA walkability files are
     // waited for the same way, for the same reason.
     setTimeout(function () {
-      Promise.all([_siteTransitMetrics(lat, lon, bufferMiles), _walkabilityReady()]).then(function (waited) {
+      Promise.all([_siteTransitMetrics(lat, lon, bufferMiles), _walkabilityReady(lat, lon, bufferMiles)]).then(function (waited) {
       var siteTransitMetrics = waited[0];
       if (!_currentSite || _currentSite.lat !== lat || _currentSite.lon !== lon) return;
       try {
@@ -879,6 +879,7 @@
           cleanupFlag:      ejiMetrics.riskCategory === 'high',
           amenities:        amenityInputs,
           walkabilityCtx:   walkabilityCtx,
+          walkabilityUnavailableReason: walkabilityUnavailableReason,
           transitMetrics:   transitMetrics,
           ejiMetrics:       ejiMetrics,
           zoningCapacity:   policyMetrics.zoningCapacity,
@@ -1084,13 +1085,30 @@
    * Resolves once EpaWalkability has loaded (or failed to load) both of its
    * files, so walkability is scored from the site's block group rather than
    * reported unavailable because the 2.5 MB boundary file was still in
-   * flight. Bounded like the transit wait; never rejects.
+   * flight. Bounded like the transit wait; never rejects. If the wait times
+   * out and the files load afterwards, the site is analysed again once, so a
+   * slow connection ends with the site's walkability rather than without it.
    */
-  function _walkabilityReady() {
+  function _walkabilityReady(lat, lon, bufferMiles) {
     var ew = typeof window !== 'undefined' ? window.EpaWalkability : null;
     if (!ew || typeof ew.whenReady !== 'function') return Promise.resolve();
-    var timedOut = new Promise(function (resolve) { setTimeout(resolve, WALKABILITY_WAIT_MS); });
-    return Promise.race([ew.whenReady(), timedOut]).then(null, function () {});
+    var ready = false;
+    var whenReady = ew.whenReady().then(function () { ready = true; });
+    var timedOut = new Promise(function (resolve) {
+      setTimeout(function () {
+        if (!ready) {
+          whenReady.then(function () {
+            var same = _currentSite && _currentSite.lat === lat && _currentSite.lon === lon;
+            if (same && typeof ew.isLoaded === 'function' && ew.isLoaded()) {
+              _log('EPA walkability arrived after the wait; re-running the analysis for this site');
+              runAnalysis(lat, lon, bufferMiles);
+            }
+          });
+        }
+        resolve();
+      }, WALKABILITY_WAIT_MS);
+    });
+    return Promise.race([whenReady, timedOut]).then(null, function () {});
   }
 
   /**
