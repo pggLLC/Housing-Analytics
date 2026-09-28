@@ -11,8 +11,9 @@
  *   - every row's count equals what its destination renders, and the anchor
  *     the row opens exists on that page;
  *   - every current entry is shown in full on exactly one page;
- *   - the rail stays a summary: at most 5 rows, at most 3 research titles,
- *     no entry detail, and no link to a raw .md or .json file.
+ *   - the rail stays a summary: at most 5 rows, at most 3 research titles
+ *     (each opening its own page), no entry detail, and no link to a raw .md
+ *     or .json file.
  * Rewording a row stays green. Dropping an entry from a destination, sending
  * a row to a missing anchor, or reprinting entries in the rail fails.
  */
@@ -57,11 +58,13 @@ async function newsPage(watch = WATCH) {
         const u = String(url);
         if (/jurisdiction-metrics-digest/.test(u)) return Promise.resolve({ ok: false, json: () => Promise.resolve(null) });
         if (u.includes('policy-watch.json')) return Promise.resolve({ ok: !!watch, json: () => Promise.resolve(structuredClone(watch)) });
+        if (u.includes('insights/catalog.json')) return Promise.resolve({ ok: true, json: () => Promise.resolve(readJson('data/insights/catalog.json')) });
         if (u.includes('glossary.json')) return Promise.resolve({ ok: false, json: () => Promise.resolve(null) });
         return Promise.resolve({ ok: true, json: () => Promise.resolve(u.includes('curated') ? curated : briefs) });
       };
       window.eval(readText('js/workflow/recommendation-contract.js'));
       window.eval(PW);
+      window.eval(readText('js/components/research-catalog.js'));
     },
   });
   const doc = dom.window.document;
@@ -126,9 +129,10 @@ test('the side column is a summary, not a second copy of the lists', async () =>
   assert.ok(cards.length > 0 && cards.length <= 3, `${cards.length} research items; the rail holds 1 to 3`);
   assert.equal(doc.querySelectorAll('#researchList p').length, 0, 'research summaries are printed in the rail');
   for (const card of cards) {
-    for (const a of card.querySelectorAll('a')) {
-      assert.equal(new URL(a.href).pathname, '/Housing-Analytics/research-brief.html', `a research card links outside the reader: ${a.href}`);
-    }
+    const links = [...card.querySelectorAll('a')];
+    assert.equal(links.length, 1, 'a research card links somewhere besides its own page');
+    const page = new URL(links[0].href).pathname.replace('/Housing-Analytics/', '');
+    assert.ok(/\.html$/.test(page) && fs.existsSync(path.join(ROOT, page)), `a research card opens ${links[0].href}, not a page`);
   }
   const aside = doc.querySelector('.news-aside');
   for (const a of aside.querySelectorAll('a')) {

@@ -36,7 +36,7 @@ import { JSDOM } from 'jsdom';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const HTML = fs.readFileSync(path.join(ROOT, 'policy-briefs.html'), 'utf8');
 
-async function runPage(briefs, curated = { briefs: [] }, digests = {}, watch = null) {
+async function runPage(briefs, curated = { briefs: [] }, digests = {}, watch = null, catalog = null) {
   const dom = new JSDOM(HTML, {
     runScripts: 'dangerously',
     url: 'http://localhost/policy-briefs.html',
@@ -51,6 +51,9 @@ async function runPage(briefs, curated = { briefs: [] }, digests = {}, watch = n
         if (u.includes('policy-watch.json')) {
           return Promise.resolve({ ok: !!watch, json: () => Promise.resolve(watch) });
         }
+        if (u.includes('insights/catalog.json')) {
+          return Promise.resolve({ ok: !!catalog, json: () => Promise.resolve(catalog) });
+        }
         if (u.includes('glossary.json')) {
           const terms = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'glossary.json'), 'utf8'));
           return Promise.resolve({ ok: true, json: () => Promise.resolve(terms) });
@@ -62,6 +65,7 @@ async function runPage(briefs, curated = { briefs: [] }, digests = {}, watch = n
       // <script src> jsdom does not fetch.
       window.eval(fs.readFileSync(path.join(ROOT, 'js', 'workflow', 'recommendation-contract.js'), 'utf8'));
       window.eval(fs.readFileSync(path.join(ROOT, 'js', 'components', 'policy-watch.js'), 'utf8'));
+      window.eval(fs.readFileSync(path.join(ROOT, 'js', 'components', 'research-catalog.js'), 'utf8'));
     },
   });
   const doc = dom.window.document;
@@ -286,7 +290,8 @@ test('no clickable container wraps links', async () => {
 test('the committed data renders newest first, every story reachable', async () => {
   const briefs = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'policy_briefs.json'), 'utf8'));
   const curated = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'policy_briefs_curated.json'), 'utf8'));
-  const { window } = await runPage(briefs, curated);
+  const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'insights', 'catalog.json'), 'utf8'));
+  const { window } = await runPage(briefs, curated, {}, null, catalog);
   const doc = window.document;
   expandAll(doc);
   const dates = storyDates(doc);
@@ -294,21 +299,22 @@ test('the committed data renders newest first, every story reachable', async () 
   assert.ok(isNewestFirst(dates), 'the committed data does not render newest first');
   const advertised = Number((doc.getElementById('newsCount').textContent.match(/^(\d+)/) || [])[1]);
   assert.equal(dates.length, advertised, 'the header count and the stories a reader can reach disagree');
-  const cards = [...doc.querySelectorAll('#researchList h3 a')];
+  // Latest research: the newest three dated items across the Research &
+  // Analysis catalog and the curated briefs (test/research-catalog.test.mjs
+  // checks the same list against the hub).
   const research = curated.briefs.filter((brief) => brief.is_curated);
   assert.ok(research.length > 0, 'no curated ids found to check');
-  // The newest three, newest first.
-  const newest = research.slice().sort((a, b) => Date.parse(b.generated) - Date.parse(a.generated)).slice(0, 3);
-  assert.deepEqual(cards.map((c) => new URL(c.href).searchParams.get('id')), newest.map((b) => b.id));
+  const newest = [
+    ...catalog.entries.filter((e) => e.section === 'analysis' && e.published).map((e) => ({ href: e.url, title: e.title, published: e.published })),
+    ...research.map((b) => ({ href: 'research-brief.html?id=' + encodeURIComponent(b.id), title: b.title, published: b.generated.slice(0, 10) })),
+  ].sort((a, b) => b.published.localeCompare(a.published)).slice(0, 3);
+  const cards = [...doc.querySelectorAll('#researchList h3 a')];
+  assert.deepEqual(cards.map((c) => c.getAttribute('href')), newest.map((n) => n.href));
   for (const card of cards) {
-    const url = new URL(card.href);
-    assert.equal(url.pathname, '/research-brief.html');
-    assert.ok(fs.existsSync(path.join(ROOT, 'research-brief.html')), 'the reader page must exist');
-    const brief = research.find((item) => item.id === url.searchParams.get('id'));
-    assert.ok(brief, `card href names no existing curated brief: ${card.href}`);
-    assert.equal(card.textContent, brief.title);
+    assert.ok(fs.existsSync(path.join(ROOT, new URL(card.href).pathname.slice(1))), `${card.href} is not a page`);
+    assert.equal(card.textContent, newest.find((n) => n.href === card.getAttribute('href')).title);
     assert.equal(card.hasAttribute('target'), false);
-    assert.equal(card.closest('.research-card').querySelectorAll('a').length, 1, 'a research card links somewhere besides the reader');
+    assert.equal(card.closest('.research-card').querySelectorAll('a').length, 1, 'a research card links somewhere besides its page');
   }
 });
 

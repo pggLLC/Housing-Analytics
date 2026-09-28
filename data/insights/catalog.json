@@ -1,0 +1,171 @@
+{
+  "schema": "insights-catalog/v1",
+  "meta": {
+    "title": "Research & Analysis catalog",
+    "updated": "2026-09-28",
+    "method": "One list of what the Research & Analysis page (insights.html) shows. Each entry holds metadata and a link only: no figures. How an item is kept current is its maintenance: \"reviewed\" items take their check and review dates from the data file named in review_from, so the dates live in one place; \"dated\" items are published once and not updated, so they show their publication date; \"generated\" items are rebuilt from the repository whenever it changes; \"live-data\" pages render from data files and show those files' vintages themselves. Curated research briefs are listed from data/policy_briefs_curated.json and are not repeated here.",
+    "sections": [
+      { "key": "current", "label": "Current policy status", "note": "Checked against official sources on a schedule. A review badge appears when a check is due." },
+      { "key": "analysis", "label": "Analysis and research briefs", "note": "Dated pieces, newest first. They are not updated after publication; the date says how current they are." },
+      { "key": "papers", "label": "Papers and methods", "note": "COHO's own method, written up and regenerated from the repository." },
+      { "key": "reference", "label": "Reference and guides", "note": "Standing references and practical guides." },
+      { "key": "data", "label": "Data explorations", "note": "Pages that render from COHO's data files. Each shows the vintage of the data it uses." }
+    ]
+  },
+  "entries": [
+    {
+      "id": "policy-and-legislation",
+      "section": "current",
+      "type": "Policy status",
+      "title": "Policy & Legislation",
+      "url": "housing-legislation-2026.html",
+      "summary": "The 21st Century ROAD to Housing Act (H.R. 6644) became law July 11, 2026; the enacted text is a housing-supply and HUD-program reform law and does not include the LIHTC cap expansion described in earlier versions. Also the tax-credit policy watchlist and the Colorado policy watch.",
+      "sources": ["Congress.gov", "GovInfo", "CHFA"],
+      "maintenance": "reviewed",
+      "review_from": { "file": "data/policy/tax-credit-legislation.json", "ids": ["hr6644-road-act"] }
+    },
+    {
+      "id": "ahcia",
+      "section": "current",
+      "type": "Policy status",
+      "title": "Affordable Housing Credit Improvement Act (AHCIA)",
+      "url": "lihtc-enhancement-ahcia.html",
+      "summary": "Two AHCIA provisions, the 12% Housing Credit ceiling increase and the 25% bond test, became law in July 2025. The rest of the bill is pending as H.R. 2725 and S. 1515; their status is read from the watchlist.",
+      "sources": ["Congress.gov", "GovTrack", "NCSHA"],
+      "maintenance": "reviewed",
+      "review_from": { "file": "data/policy/tax-credit-legislation.json", "ids": ["ahcia-2025-hr2725", "ahcia-2025-s1515", "obbba-lihtc-ceiling-12pct", "obbba-lihtc-bond-25pct-test"] }
+    },
+    {
+      "id": "fair-housing-rollback",
+      "section": "analysis",
+      "type": "Policy analysis",
+      "title": "Fair Housing Without the Rulebook",
+      "url": "article-fair-housing-rollback.html",
+      "summary": "The Fair Housing Act was not repealed and disparate-impact claims still exist under Inclusive Communities. What has been dismantled is the administrative machinery, and HUD's Title VI proposal takes public comment until 9 October 2026.",
+      "sources": ["Federal Register", "U.S. Supreme Court", "Congress.gov", "NLIHC"],
+      "maintenance": "dated",
+      "published": "2026-09-14"
+    },
+    {
+      "id": "co-housing-costs",
+      "section": "analysis",
+      "type": "Regional analysis",
+      "title": "Colorado Housing Costs: County-Level Analysis",
+      "url": "article-co-housing-costs.html",
+      "summary": "County maps of rent and price change over 10- and 15-year windows, with a drivers-of-change model for all 64 Colorado counties, built from ACS, FHFA HPI, BLS and Census building permits.",
+      "sources": ["Census Bureau", "FHFA", "BLS", "Census BPS"],
+      "maintenance": "dated",
+      "published": "2026-03-27",
+      "updated": "2026-06-10"
+    },
+    {
+      "id": "cra-scenarios",
+      "section": "analysis",
+      "type": "Hypothetical scenarios",
+      "title": "CRA Expansion Impact: Hypothetical Pricing Scenarios",
+      "url": "cra-expansion-analysis.html",
+      "summary": "What LIHTC pricing could do if Community Reinvestment Act rules widened the investor base. These are scenarios with author-estimated probabilities, not forecasts: no such expansion is enacted or pending. The actual CRA rule status is in the watchlist.",
+      "sources": ["Federal Register", "OCC", "Novogradac"],
+      "maintenance": "dated",
+      "published": "2026-02-20",
+      "updated": "2026-09-28",
+      "review_from": { "file": "data/policy/tax-credit-legislation.json", "ids": ["cra-2025-rescission-npr"] }
+    },
+    {
+      "id": "working-paper",
+      "section": "papers",
+      "type": "Working paper",
+      "title": "Instrumenting Housing Need",
+      "url": "working-paper.html",
+      "summary": "How this system learned to say \"we don't know\", and why a coerced zero misallocates as well as misinforms: the place-level method, the apportionment and PITI decisions, a worked jurisdiction, and what is still missing.",
+      "sources": ["COHO repository"],
+      "maintenance": "generated",
+      "published": "2026-09-15"
+    },
+    {
+      "id": "white-paper",
+      "section": "papers",
+      "type": "White paper",
+      "title": "Deciding About Housing With Public Data",
+      "url": "apa-white-paper.html",
+      "summary": "A plain-language companion to the working paper for planners: what the evidence can and cannot establish, with a worked Colorado example.",
+      "sources": ["COHO repository"],
+      "maintenance": "dated",
+      "published": "2026-09-28"
+    },
+    {
+      "id": "methods",
+      "section": "papers",
+      "type": "Methods",
+      "title": "What the Numbers Actually Do",
+      "url": "methods.html",
+      "summary": "The full computational specification: tract-to-place apportionment, the ACS household anchor, cost burden, the ownership affordability models, the scoring chain and the absence rules. Every constant is read from the file that defines it.",
+      "sources": ["COHO repository"],
+      "maintenance": "generated",
+      "published": "2026-09-15"
+    },
+    {
+      "id": "tax-credit-equity-markets",
+      "section": "reference",
+      "type": "Market reference",
+      "title": "Tax Credit Equity Markets",
+      "url": "article-pricing.html",
+      "summary": "LIHTC equity pricing history, Novogradac national and regional benchmarks, transfer-credit pricing, and the federal policy watchlist, all rendered from data files.",
+      "sources": ["Novogradac", "Crux", "IRS", "Federal Register"],
+      "maintenance": "reviewed",
+      "review_from": { "file": "data/market/novogradac-equity-pricing.json" }
+    },
+    {
+      "id": "lihtc-basics",
+      "section": "reference",
+      "type": "Guide",
+      "title": "LIHTC Basics",
+      "url": "lihtc-guide-for-stakeholders.html",
+      "summary": "A practical guide for developers, housing authorities and investors: development timelines, financing structures, QAP strategy and due diligence.",
+      "sources": ["HUD", "IRS", "NCSHA"],
+      "maintenance": "dated",
+      "published": "2026-02-20"
+    },
+    {
+      "id": "help-for-homebuyers",
+      "section": "reference",
+      "type": "Consumer guide",
+      "title": "Help for Homebuyers",
+      "url": "help-for-homebuyers.html",
+      "summary": "Plain-language cards for Colorado and federal homebuyer credits, grants, down-payment assistance and property-tax relief, from source-linked program data.",
+      "sources": ["CHFA", "metroDPA", "CHAC", "IRS", "Congress.gov"],
+      "maintenance": "reviewed",
+      "review_from": { "file": "data/policy/homeownership-programs.json" }
+    },
+    {
+      "id": "colorado-deep-dive",
+      "section": "data",
+      "type": "Data exploration",
+      "title": "Colorado Affordable Housing Market Analysis",
+      "url": "colorado-deep-dive.html",
+      "summary": "County-level maps and tables: DDAs and QCTs with LIHTC projects, income-band gaps, concessions, foreclosures and Proposition 123 commitments.",
+      "sources": ["HUD", "Colorado Association of Realtors", "CHFA", "AAMD", "Census Bureau", "FHFA"],
+      "maintenance": "live-data"
+    },
+    {
+      "id": "market-intelligence",
+      "section": "data",
+      "type": "Data exploration",
+      "title": "Colorado Market Intelligence",
+      "url": "market-intelligence.html",
+      "summary": "Statewide demand and supply signals, affordable inventory and a policy landscape, rendered from COHO's data files.",
+      "sources": ["BLS", "Census Bureau", "DOLA", "CHFA", "HUD"],
+      "maintenance": "live-data"
+    },
+    {
+      "id": "historical-trends",
+      "section": "data",
+      "type": "Data exploration",
+      "title": "Historical Trends & Benchmarks",
+      "url": "historical-trends.html",
+      "summary": "What past LIHTC deals in Colorado looked like: CHFA awards by year and credit type, the LIHTC stock over time, and peer project benchmarks.",
+      "sources": ["CHFA", "HUD"],
+      "maintenance": "live-data"
+    }
+  ]
+}

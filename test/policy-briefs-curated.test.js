@@ -140,8 +140,13 @@ const feeClaims = feeText.toLowerCase();
 const page = fs.readFileSync(pagePath, 'utf8');
 assert.match(page, /CURATED_BRIEFS_URL/);
 assert.match(page, /data\/policy_briefs_curated\.json/);
-assert.match(page, /brief\.is_curated/);
-assert.match(page, /Source-reviewed/);
+// Housing News lists curated briefs through the Research & Analysis list
+// (js/components/research-catalog.js), which keeps only is_curated briefs
+// and labels the source-reviewed ones.
+assert.match(page, /js\/components\/research-catalog\.js/);
+const catalogJs = fs.readFileSync(path.join(root, 'js', 'components', 'research-catalog.js'), 'utf8');
+assert.match(catalogJs, /b\.is_curated/);
+assert.match(catalogJs, /Source-reviewed/);
 assert.match(page, /Promise\.all\(\[/);
 
 console.log('policy briefs curated feed regression tests passed');
