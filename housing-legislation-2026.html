@@ -163,6 +163,7 @@
 
   <footer id="site-footer"></footer>
 
+  <script src="js/components/review-status.js"></script>
   <script src="js/legislative-tracker.js"></script>
   <script src="js/contrast-guard.js"></script>
   <script>
@@ -230,8 +231,14 @@
             '</div>' +
             '<p style="color:var(--muted);font-size:var(--small);line-height:1.55;margin:var(--sp2) 0 0;">' + esc(bill.summary || '') + '</p>' +
             '<div style="color:var(--muted);font-size:var(--tiny);margin-top:var(--sp2);display:flex;flex-wrap:wrap;gap:.35rem .5rem;">' + meta + '</div>' +
+            (window.ReviewStatus ? window.ReviewStatus.html({ review_by: bill.reviewBy, last_verified: bill.lastVerified }) : '') +
             '</div>';
         }).join('');
+        if (window.ReviewStatus) {
+          container.insertAdjacentHTML('afterbegin', window.ReviewStatus.summaryHtml(bills.map(function (b) {
+            return { review_by: b.reviewBy, last_verified: b.lastVerified };
+          }), null, 'watchlist entries'));
+        }
 
         if (liveRegion) {
           liveRegion.textContent = bills.length + ' bills tracked. ' +
