@@ -1918,24 +1918,16 @@
   function savePmaToProject() {
     if (!window.WorkflowState) return false;
     try {
-      // Fix #3: use correct DOM IDs (#pmaScoreCircle / #pmaScoreTier).
-      // The old IDs (#pmaScore, #pmaScoreLabel, #pmaLat, #pmaLon) never existed.
-      var scoreEl  = document.getElementById('pmaScoreCircle');
-      var scoreLbl = document.getElementById('pmaScoreTier');
-      // lat/lon come from PMAState when available; there are no DOM elements for them.
-      var lat = null, lon = null;
-      try {
-        if (window.PMAState && window.PMAState.site) {
-          lat = window.PMAState.site.lat != null ? window.PMAState.site.lat : null;
-          lon = window.PMAState.site.lon != null ? window.PMAState.site.lon : null;
-        }
-      } catch (_) {}
+      var site = window.MAController && window.MAController.getCurrentSite();
+      if (!site || !Number.isFinite(site.lat) || !Number.isFinite(site.lon)) return false;
       var snapshot = {
         completedAt: new Date().toISOString(),
-        score:       scoreEl  ? scoreEl.textContent.trim()  : null,
-        label:       scoreLbl ? scoreLbl.textContent.trim() : null,
-        lat:         lat,
-        lon:         lon
+        siteLat:     site.lat,
+        siteLon:     site.lon,
+        bufferMiles: site.bufferMiles,
+        pmaScore:    site.pmaScore,
+        qctFlag:     site.qctFlag,
+        ddaFlag:     site.ddaFlag
       };
       WorkflowState.setStep('market', snapshot);
       return true;
