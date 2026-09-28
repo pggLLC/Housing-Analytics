@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T11:45:28.912Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T12:11:03.016Z. Do not edit by hand.
 
 ---
 
@@ -60,7 +60,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.0 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 142.7 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 143.1 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.6 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
@@ -1746,7 +1746,7 @@
 
 ## Test Files
 
-479 test files found.
+481 test files found.
 
 | File | Size |
 |------|------|
@@ -2107,6 +2107,7 @@
 | `test/shared-money-format.test.js` | 6.6 KB |
 | `test/signals-that-cry-wolf.test.mjs` | 8.1 KB |
 | `test/site-comparison-null-score.test.js` | 7.2 KB |
+| `test/site-qct-dda-evidence.test.js` | 19.1 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.0 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
@@ -2156,13 +2157,14 @@
 | `test/unit/pma-employment-centers.test.js` | 15.9 KB |
 | `test/unit/pma-infrastructure.test.js` | 5.8 KB |
 | `test/unit/pma-justification.test.js` | 5.8 KB |
-| `test/unit/pma-opportunities.test.js` | 4.9 KB |
+| `test/unit/pma-opportunities.test.js` | 16.5 KB |
 | `test/unit/pma-schools.test.js` | 5.0 KB |
 | `test/unit/pma-transit.test.js` | 5.0 KB |
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
 | `test/unwired-suite.test.js` | 10.3 KB |
 | `test/url-health-policy.test.mjs` | 13.0 KB |
+| `test/utility-allowance-absence.test.mjs` | 6.8 KB |
 | `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
 | `test/walkthrough-record.test.mjs` | 8.6 KB |

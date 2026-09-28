@@ -231,7 +231,7 @@ test('a save made before the HUD lookup resolves receives the resolved flags', a
 test('the controller runs on the radius the PMA result records', () => {
   const src = read('js/market-analysis.js');
   const recorded = src.match(/lastResult = Object\.assign\(\{\}, pma, \{\s*lat: lat, lon: lon, bufferMiles: (\w+)/);
-  const passed = src.match(/MAC\.runAnalysis\(lat, lon, (\w+)\)/);
+  const passed = src.match(/MAC\.runAnalysis\(lat, lon, (\w+)[,)]/);
   assert.ok(recorded && passed, 'both the recorded radius and the controller call must be found');
   assert.equal(passed[1], recorded[1],
     'getCurrentSite() matches the PMA score on bufferMiles; a fallback radius must not null a visible score');

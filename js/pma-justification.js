@@ -268,13 +268,17 @@
 
     // Opportunities
     var o = scoreRun.opportunities || {};
-    var ozPct = Math.round(toNum(o.opportunityZoneShare || 0) * 100);
-    if (ozPct > 0) {
-      parts.push(
-        ozPct + ' % of the PMA falls within a federally designated Opportunity Zone, ' +
-        'making the project potentially eligible for LIHTC basis step-down incentives ' +
-        'and New Markets Tax Credits.'
-      );
+    var oz = o.siteOpportunityZone || {};
+    var ozSource = (oz.vintage ? ' Designation vintage: ' + oz.vintage + '.' : '') +
+      (oz.source_url ? ' Source: ' + oz.source_url : '');
+    if (oz.inZone === true) {
+      parts.push('The exact site is within a federally designated Opportunity Zone' +
+        (oz.geoid ? ' (GEOID ' + oz.geoid + ')' : '') + '.' + ozSource);
+    } else if (oz.inZone === false) {
+      parts.push('The exact site is outside the mapped Opportunity Zone polygons.' + ozSource);
+    } else {
+      parts.push('The site’s Opportunity Zone status is unavailable: ' +
+        (oz.unavailableReason || 'exact site coordinates and designation polygons are required.'));
     }
 
     // Infrastructure
@@ -396,7 +400,8 @@
     if (commuting && (toNum(commuting.lodesWorkplaces || commuting.captureRate) > 0)) present++;
     if (schools   && toNum(schools.schoolsAligned || schools.schoolDistrictsAligned) > 0) present++;
     if (transit   && Number.isFinite(transit.transitAccessibilityScore)) present++;
-    if (opps      && (toNum(opps.opportunityZoneShare) > 0 || toNum(opps.fairHousingScore) > 0)) present++;
+    if (opps && ((opps.siteOpportunityZone && typeof opps.siteOpportunityZone.inZone === 'boolean') ||
+        Number.isFinite(opps.fairHousingScore) || Number.isFinite(opps.economicMobilityPercentile))) present++;
     if (infra     && toNum(infra.compositeScore)       > 0) present++;
     if (present === total) return 'HIGH';
     if (present >= 3)      return 'MEDIUM';
