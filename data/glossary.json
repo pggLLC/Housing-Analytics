@@ -169,12 +169,12 @@
     {
       "term": "EPA SLD",
       "full": "EPA Smart Location Database",
-      "definition": "A nationwide dataset from the U.S. Environmental Protection Agency that summarizes land use, transit access, walkability, and employment characteristics at the census block-group level. COHO uses SLD metrics (intersection density, transit frequency, land-use mix, auto network density) to compute walkability and bikeability scores for site screening."
+      "definition": "A nationwide dataset from the U.S. Environmental Protection Agency that summarizes land use, transit access, walkability, and employment characteristics at the census block-group level. COHO uses SLD metrics (intersection density, land-use mix, auto network density) to compute walkability and bikeability scores for site screening, and reports SLD's distance to the nearest transit stop (D4A) as a distance, not a score."
     },
     {
       "term": "Walkability Score",
       "full": "Walkability Score (0–100)",
-      "definition": "A composite score derived from EPA Smart Location Database metrics: pedestrian-oriented intersection density (60% weight), transit service frequency (20%), and land-use mix (20%). Higher scores indicate areas where destinations are reachable on foot via connected street networks. Scores above 60 are considered 'Good'; above 80 is 'Excellent'."
+      "definition": "A composite score derived from EPA Smart Location Database metrics: pedestrian-oriented intersection density (75% weight) and land-use mix (25%). Transit is not part of this score: the SLD transit field COHO holds (D4A) is distance in metres to the nearest stop, not service frequency, and is shown separately as a distance. Higher scores indicate areas where destinations are reachable on foot via connected street networks. Scores above 60 are considered 'Good'; above 80 is 'Excellent'."
     },
     {
       "term": "Bikeability Score",
