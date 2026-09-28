@@ -1927,7 +1927,10 @@
         bufferMiles: site.bufferMiles,
         pmaScore:    site.pmaScore,
         qctFlag:     site.qctFlag,
-        ddaFlag:     site.ddaFlag
+        ddaFlag:     site.ddaFlag,
+        // The QCT/DDA evidence behind the Subsidy card (matched tract GEOID,
+        // DDA name/code, HUD year/source), or null while the check is pending.
+        qctDdaEvidence: site.qctDdaEvidence || null
       };
       WorkflowState.setStep('market', snapshot);
       return true;
@@ -2101,12 +2104,14 @@
         _autoRanThisLoad = true;
         try {
           if (engine && typeof engine.placeSiteMarker === 'function') {
-            engine.placeSiteMarker(lat, lng);
+            // A centroid, not a chosen site: QCT/DDA must stay unknown.
+            engine.placeSiteMarker(lat, lng, { jurisdictionCentroid: true });
           }
           if (hasRun) {
             engine.runAnalysis(lat, lng);
           } else {
-            window.MAController.runAnalysis(lat, lng, isPlace ? 1.5 : 3.0);
+            window.MAController.runAnalysis(lat, lng, isPlace ? 1.5 : 3.0,
+              { siteSource: 'jurisdiction_centroid' });
           }
         } catch (e) {
           console.warn('[market-analysis] auto-run failed:', e);
