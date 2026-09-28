@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-import { execFile } from 'node:child_process';
+import { execFile, spawn } from 'node:child_process';
 import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
+import { contentChangedDate, isArticle, isStampable, parseHistory, stampPage, visibleText } from './lib/page-dates.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = process.env.COHO_PUBLIC_DIST
@@ -203,6 +204,7 @@ async function main() {
   await filterPublicManifests();
   await generateSearchIndex();
   await injectStructuredData();
+  await stampPageDates();
   await generateSitemap();
   await validateServedHtmlLinks();
 
@@ -313,34 +315,115 @@ function xmlEscape(value) {
     .replace(/'/g, '&apos;');
 }
 
+// Reads blobs through one long-lived `git cat-file --batch`, so dating ~540
+// pages costs one process rather than thousands.
+function blobReader() {
+  const proc = spawn('git', ['cat-file', '--batch'], { cwd: ROOT, stdio: ['pipe', 'pipe', 'ignore'] });
+  let buffer = Buffer.alloc(0);
+  const waiting = [];
+  proc.stdout.on('data', (chunk) => {
+    buffer = Buffer.concat([buffer, chunk]);
+    while (waiting.length) {
+      const nl = buffer.indexOf(10);
+      if (nl < 0) return;
+      const header = buffer.subarray(0, nl).toString();
+      if (/ missing$/.test(header)) {
+        buffer = buffer.subarray(nl + 1);
+        waiting.shift()(null);
+        continue;
+      }
+      const size = Number(header.split(' ')[2]);
+      if (buffer.length < nl + 1 + size + 1) return;
+      const body = buffer.subarray(nl + 1, nl + 1 + size).toString('utf8');
+      buffer = buffer.subarray(nl + 1 + size + 1);
+      waiting.shift()(body);
+    }
+  });
+  return {
+    read(spec) {
+      return new Promise((resolve) => { waiting.push(resolve); proc.stdin.write(`${spec}\n`); });
+    },
+    close() { proc.stdin.end(); }
+  };
+}
+
+// Per-page content dates (scripts/lib/page-dates.mjs), or null when the clone
+// is shallow and cannot say. deploy.yml sets COHO_REQUIRE_PAGE_DATES so a
+// shallow deploy fails instead of shipping undated pages.
+let pageDatesPromise = null;
+function loadPageDates() {
+  if (!pageDatesPromise) pageDatesPromise = (async () => {
+    let shallow = true;
+    try {
+      const { stdout } = await execFileAsync('git', ['rev-parse', '--is-shallow-repository'], { cwd: ROOT });
+      shallow = stdout.trim() !== 'false';
+    } catch (_) { /* not a git checkout */ }
+    if (shallow) {
+      const msg = 'Page dates unavailable: this clone is shallow or not a git checkout, so no "Last updated" stamps or sitemap <lastmod> are written.';
+      if (process.env.COHO_REQUIRE_PAGE_DATES === '1') throw new Error(`${msg} Check out with fetch-depth: 0.`);
+      console.warn(msg);
+      return null;
+    }
+    const { stdout } = await execFileAsync('git',
+      ['log', '--format=@%H %cs', '--name-only', '--', '*.html'],
+      { cwd: ROOT, maxBuffer: 256 * 1024 * 1024 });
+    const history = parseHistory(stdout);
+    const reader = blobReader();
+    const dates = new Map();
+    try {
+      for (const [relPath, commits] of history) {
+        const date = await contentChangedDate(commits, async (sha) => {
+          const body = await reader.read(`${sha}:${relPath}`);
+          return body === null ? null : visibleText(body);
+        });
+        if (date) dates.set(relPath, date);
+      }
+    } finally {
+      reader.close();
+    }
+    return dates;
+  })();
+  return pageDatesPromise;
+}
+
+async function stampPageDates() {
+  const lastChanged = await loadPageDates();
+  if (!lastChanged) return;
+  let stamped = 0;
+  const undated = [];
+  async function walk(rel = '') {
+    const entries = await readdir(path.join(DIST, rel || '.'), { withFileTypes: true });
+    for (const entry of entries) {
+      const childRel = rel ? `${rel}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) { await walk(childRel); continue; }
+      if (!isStampable(childRel)) continue;
+      const filePath = path.join(DIST, childRel);
+      const html = await readFile(filePath, 'utf8');
+      if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue;
+      const iso = lastChanged.get(toPosix(childRel));
+      if (!iso) { undated.push(toPosix(childRel)); continue; }
+      const next = stampPage(html, iso, { article: isArticle(childRel) });
+      if (next !== html) { await writeFile(filePath, next); stamped++; }
+    }
+  }
+  await walk();
+  console.log(`Stamped "Last updated" on ${stamped} pages.`);
+  if (undated.length) {
+    const msg = `No commit date for ${undated.length} served page(s): ${undated.slice(0, 10).join(', ')}`;
+    if (process.env.COHO_REQUIRE_PAGE_DATES === '1') throw new Error(msg);
+    console.warn(msg);
+  }
+}
+
 async function generateSitemap() {
   const domain = await publicDomain();
   const base = `https://${domain}/`;
   const skip = new Set(['404.html', 'places/_template.html']);
   const urls = [];
-  const lastmodCache = new Map();
-
-  async function gitLastmod(relPath) {
-    const posix = toPosix(relPath);
-    if (lastmodCache.has(posix)) return lastmodCache.get(posix);
-    try {
-      const { stdout } = await execFileAsync('git', ['log', '-1', '--format=%cs', '--', posix], {
-        cwd: ROOT,
-        maxBuffer: 1024 * 1024
-      });
-      const date = stdout.trim();
-      if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-        lastmodCache.set(posix, date);
-        return date;
-      }
-    } catch (_) {
-      // Fall through to file mtime below; still deterministic for copied build artifacts.
-    }
-    const info = await stat(path.join(ROOT, relPath)).catch(() => null);
-    const date = info ? info.mtime.toISOString().slice(0, 10) : '2026-06-26';
-    lastmodCache.set(posix, date);
-    return date;
-  }
+  const lastChanged = await loadPageDates();
+  // Unknown (shallow clone, untracked file) omits <lastmod>, which the sitemap
+  // protocol allows; a guessed date would tell crawlers something false.
+  const gitLastmod = async (relPath) => (lastChanged ? lastChanged.get(toPosix(relPath)) || null : null);
 
   async function walk(rel = '') {
     const entries = await readdir(path.join(DIST, rel || '.'), { withFileTypes: true });
@@ -359,7 +442,9 @@ async function generateSitemap() {
         for (const brief of curated.briefs.filter((item) => item.is_curated)) {
           urls.push({
             loc: `${base}research-brief.html?id=${encodeURIComponent(brief.id)}`,
-            lastmod: await gitLastmod('data/policy_briefs_curated.json')
+            // Each brief's own date, the one its page prints as "Published";
+            // the feed's commit date would re-date every brief on any edit.
+            lastmod: /^\d{4}-\d{2}-\d{2}/.test(brief.generated || '') ? brief.generated.slice(0, 10) : null
           });
         }
         continue;
@@ -375,7 +460,9 @@ async function generateSitemap() {
   await walk();
   urls.sort((a, b) => a.loc.localeCompare(b.loc));
   const body = urls.map(({ loc, lastmod }) =>
-    `  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`
+    `  <url>\n    <loc>${xmlEscape(loc)}</loc>\n` +
+    (lastmod ? `    <lastmod>${lastmod}</lastmod>\n` : '') +
+    `  </url>`
   ).join('\n');
   await writeFile(
     path.join(DIST, 'sitemap.xml'),
