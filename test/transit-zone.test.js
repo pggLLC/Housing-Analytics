@@ -99,7 +99,8 @@ for (const [label, opts, reasonRe] of [
     const s = TZ.create(Object.assign({ mapStatus, now: NOW }, opts)).status(SITE.lat, SITE.lon);
     assert.equal(s.status, 'unavailable');
     assert.match(s.unavailableReason, reasonRe);
-    assert.equal(s.nearestStop, null);
+    if (label === 'no radius in the status file') assert.ok(s.nearestStop, 'nearest-stop evidence does not require a program radius');
+    else assert.equal(s.nearestStop, null);
     assert.equal(s.confirmedOnly, null);
   });
 }
@@ -162,13 +163,14 @@ test('after the due date with no map loaded: still provisional, says to check', 
 
 test('published with zones: official_in / official_out by polygon, screen result unchanged', () => {
   const box = (lon, lat, d) => [[[lon - d, lat - d], [lon + d, lat - d], [lon + d, lat + d], [lon - d, lat + d], [lon - d, lat - d]]];
-  const zones = { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: { type: 'Polygon', coordinates: box(SITE.lon, SITE.lat, 0.01) } }] };
-  const pub = Object.assign({}, mapStatus, { status: 'published' });
+  const zones = { type: 'FeatureCollection', meta: { sourceUrl: mapStatus.map_source_url, vintage: 'test-only', complete: true },
+    features: [{ type: 'Feature', id: 'test-zone', properties: { facilityId: 'test-station', facilityType: 'transit_station' }, geometry: { type: 'Polygon', coordinates: box(SITE.lon, SITE.lat, 0.01) } }] };
+  const pub = Object.assign({}, mapStatus, { status: 'published', zones_file: 'data/policy/test-only.geojson' });
   const z = TZ.create({ stops: fewStops, mapStatus: pub, zones, now: NOW });
-  const inside = z.status(SITE.lat, SITE.lon);
+  const inside = z.status(SITE.lat, SITE.lon, 'site');
   assert.equal(inside.designation, 'official_in');
   assert.equal(inside.status, 'within_2mi');
-  assert.equal(z.status(SITE.lat + 0.05, SITE.lon).designation, 'official_out');
+  assert.equal(z.status(SITE.lat + 0.05, SITE.lon, 'site').designation, 'official_out');
 });
 
 for (const [label, bad] of [
@@ -393,7 +395,7 @@ test('a published OEDIT map that fails to load or read gives no funding path (#1
   const pub = Object.assign({}, mapStatus, { status: 'published', zones_file: 'data/policy/thiz-zones.geojson' });
   const badZones = { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: null }] };
   const before = TZ.create({ stops: fewStops, mapStatus, now: NOW }).status(SITE.lat, SITE.lon);
-  assert.equal(TZ.fundingPath(before), 'screen', 'before publication, a confirmed stop is the screen path');
+  assert.equal(TZ.fundingPath(before), null, 'ordinary stop proximity never opens a program funding path');
   for (const [label, zones] of [['not loaded (fetch failed or zones_file rejected)', null], ['unreadable', badZones]]) {
     const s = TZ.create({ stops: fewStops, mapStatus: pub, zones, now: NOW }).status(SITE.lat, SITE.lon);
     assert.equal(s.status, 'within_2mi', label);

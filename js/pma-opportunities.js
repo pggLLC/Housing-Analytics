@@ -90,23 +90,23 @@
       result.unavailableReason = (zones && zones.unavailableReason) || 'Opportunity Zone polygon data is unavailable.';
       return result;
     }
-    // Validate the whole collection before concluding outside: a broken polygon
-    // could be the one containing this site.
-    var valid = features.every(function (f) {
+    var valid = features.filter(function (f) {
       var g = f && f.geometry;
       return g && (g.type === 'Polygon' ? validPolygon(g.coordinates) :
         g.type === 'MultiPolygon' && Array.isArray(g.coordinates) && g.coordinates.length > 0 &&
           g.coordinates.every(validPolygon));
     });
-    if (!valid) {
-      result.unavailableReason = 'Opportunity Zone polygon geometry is missing or invalid.';
-      return result;
-    }
-    var match = features.find(function (f) {
+    // Inside a valid polygon is conclusive whatever else is broken. Outside is
+    // only conclusive when every polygon is valid: a broken one could hold the site.
+    var match = valid.find(function (f) {
       var g = f.geometry;
       return g.type === 'Polygon' ? pointInPolygon(lon, lat, g.coordinates) :
         g.coordinates.some(function (rings) { return pointInPolygon(lon, lat, rings); });
     });
+    if (!match && valid.length < features.length) {
+      result.unavailableReason = 'Opportunity Zone polygon geometry is missing or invalid.';
+      return result;
+    }
     result.inZone = !!match;
     result.geoid = match ? ((match.properties || {}).geoid || (match.properties || {}).GEOID || null) : null;
     return result;

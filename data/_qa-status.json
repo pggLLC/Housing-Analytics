@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-27T13:18:23.762Z",
+  "generated_at": "2026-09-28T15:56:22.132Z",
   "summary": {
     "schema": "pass",
     "sentinel": "pass",
@@ -10,7 +10,7 @@
   "layers": {
     "schema": {
       "status": "pass",
-      "output_tail": "=== JSON Schema Validation — Critical Artifacts ===\n\n[validate] data/manifest.json\n\n[validate] data/fred-data.json\n\n[validate] data/chfa-lihtc.json\n\n[validate] data/co_ami_gap_by_county.json\n\n=== Market Data Artifacts (Phase 3) ===\n\n[validate] data/market/lodes_co.json (LODES workforce commuting)\n  ℹ️  [data/market/lodes_co.json] 1447 tract entries\n\n[validate] data/market/food_access_co.json (USDA Food Access Atlas)\n  ℹ️  [data/market/food_access_co.json] 1242 entries in `tracts`\n\n[validate] data/market/opportunity_insights_co.json (Opportunity Insights mobility)\n  ℹ️  [data/market/opportunity_insights_co.json] 1226 entries in `tracts`\n\n[validate] data/market/flood_zones_co.json (FEMA flood zones)\n  ℹ️  [data/market/flood_zones_co.json] 1605 entries in `tracts`\n\n[validate] data/market/epa_sld_co.json (EPA Smart Location Database)\n  ℹ️  [data/market/epa_sld_co.json] 3532 entries in `blockGroups`\n\n[validate] data/market/dola_demographics_co.json (DOLA demographics)\n\n[validate] data/market/climate_hazards_co.json (Climate hazards)\n\n[validate] data/market/utility_capacity_co.geojson (Utility capacity service areas)\n  ℹ️  [data/market/utility_capacity_co.geojson] 351 features\n\n[validate] data/market/environmental_constraints_co.geojson (Environmental constraints)\n  ℹ️  [data/market/environmental_constraints_co.geojson] 1070 features\n\n====================================================\nResults: 85 passed, 0 failed\n\nAll schema validations passed ✅\n",
+      "output_tail": "=== JSON Schema Validation — Critical Artifacts ===\n\n[validate] data/manifest.json\n\n[validate] data/fred-data.json\n\n[validate] data/chfa-lihtc.json\n\n[validate] data/co_ami_gap_by_county.json\n\n=== Market Data Artifacts (Phase 3) ===\n\n[validate] data/market/lodes_co.json (LODES workforce commuting)\n  ℹ️  [data/market/lodes_co.json] 1447 tract entries\n\n[validate] data/market/food_access_co.json (USDA Food Access Atlas)\n  ℹ️  [data/market/food_access_co.json] 1242 entries in `tracts`\n\n[validate] data/market/opportunity_insights_co.json (Opportunity Insights mobility)\n  ℹ️  [data/market/opportunity_insights_co.json] 1226 entries in `tracts`\n\n[validate] data/market/flood_zones_co.json (FEMA flood zones)\n  ℹ️  [data/market/flood_zones_co.json] 1605 entries in `tracts`\n\n[validate] data/market/epa_sld_co.json (EPA Smart Location Database)\n  ℹ️  [data/market/epa_sld_co.json] 3532 entries in `blockGroups`\n\n[validate] data/market/epa_sld_bg_geometry_co.geojson (EPA SLD block-group boundaries (2010))\n  ℹ️  [data/market/epa_sld_bg_geometry_co.geojson] 3532 features\n\n[validate] data/market/dola_demographics_co.json (DOLA demographics)\n\n[validate] data/market/climate_hazards_co.json (Climate hazards)\n\n[validate] data/market/utility_capacity_co.geojson (Utility capacity service areas)\n  ℹ️  [data/market/utility_capacity_co.geojson] 351 features\n\n[validate] data/market/environmental_constraints_co.geojson (Environmental constraints)\n  ℹ️  [data/market/environmental_constraints_co.geojson] 1070 features\n\n====================================================\nResults: 92 passed, 0 failed\n\nAll schema validations passed ✅\n",
       "error": null
     },
     "sentinel": {
@@ -20,7 +20,7 @@
     },
     "bounds": {
       "status": "pass",
-      "output_tail": "OK data/co-county-boundaries.json: 64 features\nOK data/boundaries/counties_co.geojson: 64 features\nOK data/qct-colorado.json: 224 features\nOK data/dda-colorado.json: 10 features\nCritical data validation passed.\nOK (market) data/market/acs_tract_metrics_co.json: 1447 features/records\nOK (market) data/market/tract_centroids_co.json: 1447 features/records\nOK (market) data/market/tract_boundaries_co.geojson: 1447 features/records\nOK (market) data/chfa-lihtc.json: 926 features/records\nOK (market) data/chfa-lihtc.json: max YR_PIS 2025\nOK (market) data/market/hud_lihtc_co.geojson: 926 features/records\n  (bounds) Checked 4343 values across 6 files\nAll numeric bound checks passed.\nOK data/hud-fmr-income-limits.json: 53 distinct counties[].income_limits.ami_4person values\nOK data/policy/soft-funding-status.json: lastUpdated=2026-07-18 age 71 days (SLA 90)\nOK url-health sweep coverage: data/policy/*.json is included in the weekly URL-health sweep.\nOK data/policy/soft-funding-status.json: 22/23 programs expose non-null contactUrl for weekly URL-health sweep coverage.\n",
+      "output_tail": "OK data/co-county-boundaries.json: 64 features\nOK data/boundaries/counties_co.geojson: 64 features\nOK data/qct-colorado.json: 224 features\nOK data/dda-colorado.json: 10 features\nCritical data validation passed.\nOK (market) data/market/acs_tract_metrics_co.json: 1447 features/records\nOK (market) data/market/tract_centroids_co.json: 1447 features/records\nOK (market) data/market/tract_boundaries_co.geojson: 1447 features/records\nOK (market) data/chfa-lihtc.json: 926 features/records\nOK (market) data/chfa-lihtc.json: max YR_PIS 2025\nOK (market) data/market/hud_lihtc_co.geojson: 926 features/records\n  (bounds) Checked 4343 values across 6 files\nAll numeric bound checks passed.\nOK data/hud-fmr-income-limits.json: 53 distinct counties[].income_limits.ami_4person values\nOK data/policy/soft-funding-status.json: lastUpdated=2026-07-18 age 72 days (SLA 90)\nOK url-health sweep coverage: data/policy/*.json is included in the weekly URL-health sweep.\nOK data/policy/soft-funding-status.json: 22/23 programs expose non-null contactUrl for weekly URL-health sweep coverage.\n",
       "error": null
     },
     "freshness": {
@@ -28,49 +28,49 @@
       "files": [
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 0.8,
           "slaDays": 9,
           "source": "field:metadata.generatedAt",
           "file": "data/hna/ranking-index.json"
         },
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 0.2,
           "slaDays": 10,
           "source": "field:updated",
           "file": "data/fred-data.json"
         },
         {
           "status": "OK",
-          "ageDays": 7.3,
+          "ageDays": 0.9,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/market/acs_tract_metrics_co.json"
         },
         {
           "status": "OK",
-          "ageDays": 0.6,
+          "ageDays": 1.7,
           "slaDays": 16,
           "source": "field:updated",
           "file": "data/co-county-economic-indicators.json"
         },
         {
           "status": "OK",
-          "ageDays": 15,
+          "ageDays": 16.1,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hud-fmr-income-limits.json"
         },
         {
           "status": "OK",
-          "ageDays": 140.4,
+          "ageDays": 141.5,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hna/chas_affordability_gap.json"
         },
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 1.2,
           "slaDays": 95,
           "source": "field:fetchedAt",
           "file": "data/market/hud_lihtc_co.geojson"
@@ -91,42 +91,42 @@
         },
         {
           "status": "OK",
-          "ageDays": 142.3,
+          "ageDays": 143.4,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/market/cdphe_county_boundaries_co.geojson"
         },
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 1.2,
           "slaDays": 95,
           "source": "field:meta.generated",
           "file": "data/market/transit_routes_co.geojson"
         },
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 1,
           "slaDays": 16,
           "source": "field:meta.generated",
           "file": "data/amenities/transit_stops_statewide_co.geojson"
         },
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 1,
           "slaDays": 16,
           "source": "field:meta.generated",
           "file": "data/market/transit_stops_coverage_co.json"
         },
         {
           "status": "OK",
-          "ageDays": 0.1,
+          "ageDays": 0.8,
           "slaDays": 16,
           "source": "field:meta.generated",
           "file": "data/hna/transit-zone-by-geography.json"
         },
         {
           "status": "OK",
-          "ageDays": 1.6,
+          "ageDays": 2.7,
           "slaDays": 14,
           "source": "field:last_checked",
           "file": "data/policy/thiz-map-status.json"
@@ -140,7 +140,7 @@
       "status": "pass",
       "passed": 21,
       "failed": 0,
-      "output_tail": ".....................                                                    [100%]\nWCAG COMPLIANCE SCORE: 100%\n21 passed, 844 deselected in 1.20s\n"
+      "output_tail": ".....................                                                    [100%]\nWCAG COMPLIANCE SCORE: 100%\n21 passed, 947 deselected in 1.95s\n"
     }
   },
   "qa_doc": "docs/CONTRIBUTING.md#qaqc-layers",

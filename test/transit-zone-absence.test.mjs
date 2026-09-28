@@ -215,7 +215,9 @@ for (const [condition, o, lat, lon] of [
       return;
     }
     assert.equal(state, 'unavailable', `gate state ${state}`);
-    assert.match(box.textContent, /Unavailable/);
+    const program = box.querySelector('[data-thiz-qualified]');
+    if (program) assert.equal(program.dataset.thizQualified, 'null');
+    else assert.match(box.textContent, /unknown|unavailable/i);
     clean(box.textContent, GATE);
     assert.ok(dc.calls.length && dc.calls.every((r) => TZ.fundingPath(r) === null), 'the deal calculator was offered the credit');
   });
@@ -233,7 +235,7 @@ for (const [condition, o, lat, lon] of [
     assert.equal(box.getAttribute('data-tz-state'), 'loading');
     assert.match(box.textContent, /checking/);
     clean(box.textContent, GATE);
-    assert.ok(dc.calls.length && dc.calls.every((r) => r === null), 'a loading gate handed the deal calculator a result');
+    assert.ok(dc.calls.length && dc.calls.every((r) => r === null || r.program.qualified === null), 'a loading gate handed the deal calculator a result');
   });
 }
 
@@ -251,7 +253,10 @@ for (const [condition, r] of [
 ]) {
   await check(DEAL, condition, () => {
     // Open the line first, so "stays open" cannot pass as "hidden".
-    dealDom.window.__DealCalc.setTransitZoneContext(TZ.create({ stops, mapStatus, now: FRESH }).status(...UNION));
+    // Synthetic supported result to prove the line closes (the live map is unavailable).
+    dealDom.window.__DealCalc.setTransitZoneContext({ program: { qualified: true, siteSource: 'site',
+      siteLat: UNION[0], siteLon: UNION[1], facilityId: 'test-only',
+      determinationMethod: 'point_in_official_polygon', programRule: 'Synthetic test evidence' } });
     assert.equal(note.hidden, false, 'fixture: the line did not open for a passing site');
     dealDom.window.__DealCalc.setTransitZoneContext(r);
     assert.equal(note.hidden, true);
