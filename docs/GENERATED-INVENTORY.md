@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T18:17:12.323Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T22:54:44.892Z. Do not edit by hand.
 
 ---
 
@@ -1746,7 +1746,7 @@
 
 ## Test Files
 
-485 test files found.
+486 test files found.
 
 | File | Size |
 |------|------|
@@ -2110,6 +2110,7 @@
 | `test/shared-money-format.test.js` | 6.6 KB |
 | `test/signals-that-cry-wolf.test.mjs` | 8.1 KB |
 | `test/site-comparison-null-score.test.js` | 7.2 KB |
+| `test/site-comparison-save.test.js` | 8.7 KB |
 | `test/site-qct-dda-evidence.test.js` | 19.1 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.0 KB |
 | `test/site-transit-evidence.test.js` | 14.5 KB |

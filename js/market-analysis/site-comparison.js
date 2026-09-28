@@ -10,7 +10,7 @@
  *   js/site-state.js           (persistence)
  *   js/market-analysis/site-selection-score.js (scoring output)
  *   js/market-analysis/market-analysis-state.js (MAState — live results)
- *   js/pma-ui-controller.js    (triggers after scoring)
+ *   js/market-analysis/market-analysis-controller.js (current site and completion event)
  */
 (function (global) {
   'use strict';
@@ -47,36 +47,15 @@
    * Returns null if no scored site is available.
    */
   function _captureSnapshot() {
-    // Try MAState first (market analysis controller state)
+    var site = global.MAController && global.MAController.getCurrentSite
+      ? global.MAController.getCurrentSite() : null;
     var state = global.MAState && global.MAState.getState ? global.MAState.getState() : null;
-    var pma   = global.SiteState ? global.SiteState.getPmaResults() : null;
+    var dims = state && state.scores;
 
-    // We need at minimum a scored site with coordinates
-    var lat = null, lon = null, score = null, bufferMiles = null;
-
-    if (state && state.siteLat != null) {
-      lat = state.siteLat;
-      lon = state.siteLon;
-      score = state.siteScore || state.score || null;
-      bufferMiles = state.bufferMiles || null;
-    } else if (pma) {
-      lat = pma.lat || pma.siteLat;
-      lon = pma.lon || pma.siteLon;
-      score = pma.score || pma.siteScore || null;
-      bufferMiles = pma.bufferMiles || null;
-    }
-
-    if (lat == null || lon == null) return null;
-
-    // Extract dimension scores
-    var dims = null;
-    if (state && state.siteScoreResult) {
-      dims = state.siteScoreResult;
-    } else if (pma && pma.siteScoreResult) {
-      dims = pma.siteScoreResult;
-    } else if (score && typeof score === 'object') {
-      dims = score;
-    }
+    // The controller clears scores when a run starts. Wait for that run's
+    // result so a previous site's scores cannot be saved at the new point.
+    if (!site || !dims || site.lat == null || site.lon == null) return null;
+    var lat = site.lat, lon = site.lon, bufferMiles = site.bufferMiles;
 
     // A dimension the scorer could not measure is null, not 0.
     // site-selection-score.js returns subsidy_score: null (with
@@ -86,7 +65,6 @@
     // the site to the bottom of its column. No scoring result at all is the
     // same unknown for every dimension.
     var finalScore    = _scoreOrNull(dims && dims.final_score);
-    if (finalScore === null) finalScore = _scoreOrNull(score);
     var band          = (dims && dims.opportunity_band)  || _band(finalScore);
     var demandScore   = _scoreOrNull(dims && dims.demand_score);
     var subsidyScore  = _scoreOrNull(dims && dims.subsidy_score);
@@ -101,9 +79,8 @@
 
     // QCT/DDA flags: true / false are answers; null or absent is unknown and
     // must not render as "No".
-    var src = state || pma || {};
-    var qct = _flagOrNull(src.qctFlag, src.qct);
-    var dda = _flagOrNull(src.ddaFlag, src.dda);
+    var qct = _flagOrNull(site.qctFlag);
+    var dda = _flagOrNull(site.ddaFlag);
 
     // Gap coverage from HNA state (if available)
     var gapCoverage = null;
@@ -111,15 +88,13 @@
       gapCoverage = global.HNAState.state.affordabilityGap;
     }
 
-    // Address/label
-    var address = '';
-    if (state && state.siteAddress) address = state.siteAddress;
+    // Label the exact selected point.
     var coordLabel = _fmtCoord(lat) + ', ' + _fmtCoord(lon);
 
     return {
       id:             'site_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
       savedAt:        new Date().toISOString(),
-      label:          address || coordLabel,
+      label:          coordLabel,
       lat:            lat,
       lon:            lon,
       bufferMiles:    bufferMiles,
@@ -144,9 +119,9 @@
     return (typeof v === 'number' && isFinite(v)) ? v : null;
   }
 
-  function _flagOrNull(a, b) {
-    if (a === true || b === true) return true;
-    if (a === false || b === false) return false;
+  function _flagOrNull(value) {
+    if (value === true) return true;
+    if (value === false) return false;
     return null;
   }
 
@@ -356,27 +331,15 @@
       });
     }
 
-    // Re-render when PMA scoring completes (show save button)
-    document.addEventListener('pma:scored', function () {
-      setTimeout(_render, 100);
-    });
-    document.addEventListener('ma:analysis-complete', function () {
-      setTimeout(_render, 100);
-    });
+    // A completed controller run makes its snapshot available for saving.
+    document.addEventListener('ma:analysis-complete', _render);
 
-    // No events dispatched by scoring engine — use MutationObserver on
-    // the score display element to detect when a new score renders.
-    var scoreWatch = document.getElementById('maPmaTool');
-    if (scoreWatch && typeof MutationObserver !== 'undefined') {
-      var _lastCheck = null;
-      new MutationObserver(function () {
-        var snap = _captureSnapshot();
-        var newCheck = snap ? (snap.lat + ',' + snap.lon + ',' + snap.finalScore) : null;
-        if (newCheck && newCheck !== _lastCheck) {
-          _lastCheck = newCheck;
-          _render();
-        }
-      }).observe(scoreWatch, { childList: true, subtree: true, characterData: true });
+    // Hide saving immediately while the next run is pending or after reset.
+    // Completion is rendered by the event above, after the report sections.
+    if (global.MAState && global.MAState.subscribe) {
+      global.MAState.subscribe(function (state) {
+        if (!state.scores) _render();
+      });
     }
 
     _render();

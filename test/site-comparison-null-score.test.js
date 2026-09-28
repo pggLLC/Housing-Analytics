@@ -56,13 +56,14 @@ function load(state, saved) {
     { runScripts: 'outside-only' });
   const w = dom.window;
   w.MAState = { getState: () => state };
-  w.SiteState = { get: () => saved || null, set() {}, getPmaResults: () => null };
+  w.MAController = { getCurrentSite: () => state && state.site };
+  w.SiteState = { get: () => saved || null, set() {} };
   w.eval(read('js/market-analysis/site-comparison.js'));
   return w;
 }
 
 // ── capture: null stays null, with its reason ────────────────────────────────
-const unknownState = { siteLat: 39.7, siteLon: -105.0, siteScoreResult: unknown, qctFlag: null, ddaFlag: null };
+const unknownState = { site: { lat: 39.7, lon: -105.0, qctFlag: null, ddaFlag: null }, scores: unknown };
 const snap = load(unknownState).SiteComparison.capture();
 assert.ok(snap, 'no snapshot captured for a scored site');
 assert.strictEqual(snap.subsidy, null, `unknown subsidy was captured as ${snap.subsidy}, not null`);
@@ -76,7 +77,7 @@ DIMS.forEach((k) => {
     `${k}: snapshot ${snap[k]} disagrees with the scorer's ${expected}`);
 });
 
-const knownSnap = load({ siteLat: 39.7, siteLon: -105.0, siteScoreResult: known, qctFlag: false, ddaFlag: false })
+const knownSnap = load({ site: { lat: 39.7, lon: -105.0, qctFlag: false, ddaFlag: false }, scores: known })
   .SiteComparison.capture();
 assert.strictEqual(knownSnap.subsidy, known.subsidy_score, 'a known subsidy score was not carried through');
 assert.strictEqual(knownSnap.subsidyUnavailableReason, null);
@@ -84,7 +85,7 @@ assert.strictEqual(knownSnap.qct, false, 'a verified "not in a QCT" must stay fa
 
 // A genuine 0 is a value, not an absence.
 const zero = Object.assign({}, known, { policy_score: 0 });
-const zeroSnap = load({ siteLat: 39.7, siteLon: -105.0, siteScoreResult: zero }).SiteComparison.capture();
+const zeroSnap = load({ site: { lat: 39.7, lon: -105.0 }, scores: zero }).SiteComparison.capture();
 assert.strictEqual(zeroSnap.policy, 0, 'a measured 0 was turned into null');
 
 // ── render: unavailable is shown as unavailable, never as 0 ─────────────────
