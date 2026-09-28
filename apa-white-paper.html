@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics</title>
+  <meta name="description" content="A plain-language white paper for planners on how COHO Analytics connects housing need, market demand, affordability, feasibility and policy, what the evidence can and cannot establish, and a worked Colorado example. Independent; not endorsed by APA or AICP.">
+  <meta property="og:title" content="Deciding About Housing With Public Data: A White Paper for Planners">
+  <meta property="og:description" content="How housing need, demand, affordability, feasibility and policy fit together, what public data can and cannot establish, and how a planner would use it. Worked example: Fruita, Mesa County.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/table-header-tips.js"></script>
+  <style>
+    /* Scoped to .ap (the planners' white paper) so nothing leaks into the
+       rest of the site. Same reading measure and opaque-panel rule as
+       working-paper.html (.wp): js/contrast-guard.js measures an rgba panel
+       as if it were opaque, so panels here use var(--card), never alpha. */
+    .ap { --ap-measure: 68ch; max-width: 1080px; margin: 0 auto; padding-inline: 4px; }
+    .ap p, .ap ul, .ap ol { max-width: var(--ap-measure); }
+    .ap p { margin: 0 0 1.1rem; line-height: 1.7; }
+    .ap li { line-height: 1.65; margin-bottom: .45rem; }
+    .ap-masthead { border-bottom: 2px solid var(--text); padding-bottom: 1.6rem; margin-bottom: 2.4rem; }
+    .ap-kicker { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-muted); margin: 0 0 1rem; font-weight: 600; }
+    .ap h1 { font-size: clamp(2rem, 5.5vw, 3.1rem); line-height: 1.08; letter-spacing: -.018em; margin: 0 0 1rem; text-wrap: balance; max-width: 22ch; }
+    .ap-standfirst { font-size: clamp(1.05rem, 2.2vw, 1.22rem); line-height: 1.5; color: var(--text-secondary); margin: 0; max-width: 60ch; }
+    .ap-byline { font-size: .78rem; color: var(--text-muted); margin-top: 1.4rem; display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; }
+    .ap-note { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--accent); padding: 1rem 1.2rem; margin: 1.6rem 0 0; border-radius: 4px; max-width: var(--ap-measure); line-height: 1.65; font-size: .94rem; }
+    .ap section { margin-top: 3.2rem; scroll-margin-top: 6rem; }
+    .ap h2 { font-size: clamp(1.4rem, 3.2vw, 1.85rem); line-height: 1.22; letter-spacing: -.01em; margin: 0 0 1.1rem; text-wrap: balance; display: flex; gap: 1rem; align-items: baseline; }
+    .ap h2 .num { font-size: .72rem; font-weight: 600; color: var(--accent); letter-spacing: .08em; flex: none; padding-top: .35em; }
+    .ap h3 { font-size: 1.05rem; font-weight: 700; margin: 2.1rem 0 .7rem; }
+    .ap-scroll { overflow-x: auto; margin: 1.5rem 0; }
+    .ap table { border-collapse: collapse; width: 100%; font-size: .9rem; font-variant-numeric: tabular-nums; min-width: 520px; }
+    .ap th, .ap td { padding: .55rem .7rem; text-align: left; vertical-align: top; line-height: 1.5; }
+    .ap thead th { border-bottom: 1.5px solid var(--text); font-weight: 700; font-size: .8rem; vertical-align: bottom; }
+    .ap tbody tr { border-bottom: 1px solid var(--border-soft, var(--border)); }
+    .ap tbody th { font-weight: 600; }
+    .ap-source { font-size: .8rem; color: var(--text-muted); margin-top: -.6rem; }
+    .ap-toc { margin: 2rem 0 0; font-size: .9rem; }
+    .ap-toc ol { columns: 2 18rem; padding-left: 1.2rem; margin: .4rem 0 0; }
+    @media print { .ap-toc { display: none; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <main id="main-content" class="js-glossary-auto">
+    <div class="container" style="max-width:var(--page-max, 1920px);">
+      <nav class="breadcrumb" aria-label="Breadcrumb" style="padding-top:var(--sp4);">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <a href="insights.html">Insights</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">White Paper for Planners</span>
+      </nav>
+
+      <article class="ap">
+        <header class="ap-masthead">
+          <p class="ap-kicker">White paper · Companion to the working paper</p>
+          <h1>Deciding About Housing With Public Data</h1>
+          <p class="ap-standfirst">A planner's guide to what COHO Analytics is trying to help communities decide, how housing need, market demand, affordability, feasibility and policy fit together, and what the evidence can and cannot establish.</p>
+          <div class="ap-byline"><span>COHO Analytics</span><span>Draft, September 2026</span><span>Figures as published on 27 September 2026</span></div>
+          <aside class="ap-note" aria-label="About this paper"><strong>About this paper.</strong> Written for practicing planners, including AICP and FAICP members, and for anyone who wants to understand how COHO Analytics reaches its conclusions. It is an independent paper. It has not been reviewed or endorsed by the American Planning Association, the American Institute of Certified Planners, or any public agency. Where it describes a law, it says whether the law is in effect, pending or proposed, and as of what date. The technical derivation of every figure is in the <a href="working-paper.html">working paper</a> and the <a href="methods.html">methods page</a>.</aside>
+          <nav class="ap-toc" aria-label="Contents"><strong>Contents</strong>
+            <ol>
+              <li><a href="#what-the-site-is-for">What the site is for</a></li>
+              <li><a href="#five-questions-and-why-they-are-different">Five questions, and why they are different</a></li>
+              <li><a href="#terms-used-in-this-paper">Terms used in this paper</a></li>
+              <li><a href="#a-worked-example-fruita-mesa-county">A worked example: Fruita, Mesa County</a></li>
+              <li><a href="#reading-the-site-s-charts">Reading the site's charts</a></li>
+              <li><a href="#what-the-evidence-can-and-cannot-establish">What the evidence can and cannot establish</a></li>
+              <li><a href="#current-policy-as-of-28-september-2026">Current policy, as of 28 September 2026</a></li>
+              <li><a href="#using-the-work-in-practice">Using the work in practice</a></li>
+              <li><a href="#relationship-to-the-technical-working-paper">Relationship to the technical working paper</a></li>
+            </ol>
+          </nav>
+        </header>
+
+<section id="summary" aria-labelledby="summary-h">
+<h2 id="summary-h">Summary</h2>
+<p>COHO Analytics is a free public website that compiles federal, state and local data on housing in Colorado. It is built to help a town, county or developer answer five questions in order:</p>
+<ul><li><strong>Need:</strong> who in the community is struggling with housing costs?</li><li><strong>Demand:</strong> who is likely to rent or buy new housing in a particular place?</li><li><strong>Affordability:</strong> how far apart are local incomes and local prices?</li><li><strong>Feasibility:</strong> could a project serving those households actually be financed?</li><li><strong>Policy:</strong> what programs and obligations apply to this jurisdiction?</li></ul>
+<p>The questions are related, but none of them answers another. A community can have severe need and little market demand. A project can be feasible and still miss the households under the most pressure. Much of the confusion in local housing debates comes from treating one question as if it settled another.</p>
+<p>The site covers all 546 Colorado counties, municipalities and census-designated places. For each one it gives measured values with their sources and dates. When a value cannot be measured, the site says so rather than showing a zero. Everything on the site is a screening tool. It helps decide where to look closely and what to ask. It does not replace a commissioned market study, lender underwriting, a housing authority's review, or local knowledge.</p>
+<p>This paper explains how the pieces fit together and works through one real example: the City of Fruita in Mesa County. It sets out what the evidence can and cannot establish, and how a planner might use it in a housing needs assessment, a Proposition 123 commitment, a comprehensive plan, or a staff report.</p>
+</section>
+<section id="what-the-site-is-for" aria-labelledby="what-the-site-is-for-h">
+<h2 id="what-the-site-is-for-h"><span class="num">01</span>What the site is for</h2>
+<p>Most Colorado jurisdictions have to make housing decisions without a housing staff. A town of 5,000 people may have one planner, who also handles zoning, subdivisions and floodplains. When the council asks "how much housing do we need, and for whom?", that planner usually has three options:</p>
+<ul><li>quote figures from a regional study several years old;</li><li>commission a new study, often costing tens of thousands of dollars;</li><li>assemble Census tables by hand.</li></ul>
+<p>COHO is an attempt at a fourth option. It is a consistent, sourced starting point that is the same for every jurisdiction in the state and is refreshed as its sources are updated.</p>
+<p>It is meant to support decisions like these:</p>
+<ul><li>whether to adopt a Proposition 123 commitment, and at what level;</li><li>which income groups a housing strategy should prioritize;</li><li>whether a proposed site is worth a closer look for a tax-credit project;</li><li>whether an ownership program or a rental program better fits local conditions;</li><li>how a community compares with its neighbors and with places of similar size.</li></ul>
+<p>It is <strong>not</strong> built to decide whether a specific project should be approved, to estimate the value of a particular parcel, or to predict whether an application will win a competitive award. The site tries to be explicit about these boundaries, and so does this paper.</p>
+</section>
+<section id="five-questions-and-why-they-are-different" aria-labelledby="five-questions-and-why-they-are-different-h">
+<h2 id="five-questions-and-why-they-are-different-h"><span class="num">02</span>Five questions, and why they are different</h2>
+<h3>2.1 Need</h3>
+<p><em>Need</em> means households already living in the community whose housing costs are more than they can reasonably pay. The standard federal measure is <strong>cost burden</strong>: a household spending more than 30 percent of its gross income on housing is <em>cost-burdened</em>, and one spending more than 50 percent is <em>severely cost-burdened</em>. For renters, housing cost means rent plus utilities. For owners, it means the mortgage payment, property taxes, insurance and utilities.</p>
+<p>The main source is the U.S. Department of Housing and Urban Development's <strong>CHAS</strong> tables. CHAS stands for Comprehensive Housing Affordability Strategy; it is a special tabulation of Census Bureau survey data. CHAS is used because it is the only public source that cross-tabulates cost burden by income group and tenure (renting or owning). The current CHAS release covers 2018–2022.</p>
+<p>Need describes a population, not a building program. Saying that 385 renter households are cost-burdened does not mean 385 units should be built. Some of those households need a lower rent in the unit they already have. Some need a higher income. Some would be served by a housing voucher. And some burdened households have chosen to spend more on housing.</p>
+<h3>2.2 Demand</h3>
+<p><em>Demand</em> means the households likely to move into a particular kind of housing, in a particular place, at a particular price. It is always tied to an area. The site uses a <strong>primary market area (PMA)</strong>: the geography from which most residents of a proposed development would be expected to come. The market analysis tool draws a PMA around a site and estimates two things.</p>
+<p><strong>Capture rate.</strong> This is the share of income-qualified households in the PMA that a project would need to attract to fill its units. Colorado's housing finance agency, CHFA, uses capture rate as a check in reviewing tax-credit applications. A high capture rate means the project depends on attracting an unusually large share of the eligible market.</p>
+<p><strong>Market conditions.</strong> These include rent levels, vacancy, recent construction, and other assisted housing already in the area.</p>
+<p>Demand and need can point in different directions. A rural community with a high burden rate may have too few income-qualified renters within a reasonable distance to fill a 60-unit building. A growing suburb with moderate burden rates may have deep demand.</p>
+<h3>2.3 Affordability</h3>
+<p><em>Affordability</em> compares local incomes with local prices. Incomes are measured against <strong>Area Median Income (AMI)</strong>, the median family income that HUD publishes each year for each county or metropolitan area, adjusted for household size. Program eligibility is set as a percentage of AMI: 30 percent ("extremely low income"), 50 percent ("very low income"), 60 percent (the usual tax-credit ceiling) and 80 percent ("low income").</p>
+<p>The site turns each AMI level into the monthly rent a household at that level could pay at 30 percent of income. It then counts two things for each level:</p>
+<ul><li>how many renter households have incomes at or below that level;</li><li>how many rental units are priced at or below the matching rent.</li></ul>
+<p>The difference between the two counts is the <strong>affordability gap</strong> for that income level.</p>
+<p>There is one important limitation. The unit count reflects what a unit costs, not who lives in it. A unit priced for a household at 50 percent of AMI may be rented by a household earning much more. The gap is therefore a lower bound on the mismatch, not a count of vacant affordable units.</p>
+<h3>2.4 Feasibility</h3>
+<p><em>Feasibility</em> asks whether a project could be financed. For affordable rental housing in Colorado, the main federal tool is the <strong>Low-Income Housing Tax Credit (LIHTC)</strong>. The federal government gives states tax credits, which state agencies award to developers. Developers sell the credits to investors, and the investors' money pays for part of construction, so the project needs less debt and can charge lower rents. LIHTC comes in two forms:</p>
+<ul><li><strong>9 percent credits.</strong> These are scarce and awarded competitively by CHFA against a published scoring plan, the Qualified Allocation Plan (QAP).</li><li><strong>4 percent credits.</strong> These are paired with tax-exempt bond financing. They are not competitive in the same way, but they provide less equity per unit.</li></ul>
+<p>The site's deal calculator estimates the gap between what a project costs and what its rents, debt and credits can support. It states its own limits: it does not model several items a lender or CHFA would review, and it is "not a substitute for lender underwriting or CHFA review." For an ownership project, the site never shows tax-credit or rental-income figures, because those do not apply.</p>
+<h3>2.5 Policy</h3>
+<p><em>Policy</em> covers the rules and programs that change the answers to the other four questions:</p>
+<ul><li>state funding conditions, such as Proposition 123;</li><li>state land-use requirements, such as the transit-oriented communities law;</li><li>federal program changes;</li><li>local tools such as fee waivers, inclusionary requirements and land donation.</li></ul>
+<p>Policy changes often, and the difference between an enacted law, a draft rule and a bill still being debated matters. Section 7 lists current status as of the date of this paper.</p>
+<h3>2.6 How the site puts them in order</h3>
+<p>The site's guided path follows these steps:</p>
+<ol><li>Choose a jurisdiction.</li><li>Screen statewide opportunities.</li><li>Read the housing needs assessment.</li><li>Analyze a market area.</li><li>Test growth scenarios.</li><li>Size a deal.</li><li>Review a summary recommendation.</li></ol>
+<p>Each step saves its inputs so the next one can use them. The ordering is deliberate. Need comes first, because a strategy should begin with who is struggling. Demand and feasibility come later, because they test whether a particular response is practical.</p>
+</section>
+<section id="terms-used-in-this-paper" aria-labelledby="terms-used-in-this-paper-h">
+<h2 id="terms-used-in-this-paper-h"><span class="num">03</span>Terms used in this paper</h2>
+<div class="ap-scroll" role="region" tabindex="0" aria-label="Terms used in this paper"><table>
+<thead><tr><th scope="col">Term</th><th scope="col">Meaning</th></tr></thead><tbody>
+<tr><th scope="row"><strong>ACS</strong></th><td>American Community Survey. A continuous Census Bureau survey; the site uses five-year estimates (currently 2020–2024), which pool five years of responses to produce reliable figures for small places.</td></tr>
+<tr><th scope="row"><strong>AMI</strong></th><td>Area Median Income, published by HUD for each county. Mesa County's four-person AMI for 2026 is $100,600.</td></tr>
+<tr><th scope="row"><strong>CHAS</strong></th><td>HUD's cross-tabulation of ACS data by income, tenure and housing problems. Current vintage: 2018–2022.</td></tr>
+<tr><th scope="row"><strong>Cost burden</strong></th><td>Housing costs above 30% of gross income. <strong>Severe</strong> cost burden: above 50%.</td></tr>
+<tr><th scope="row"><strong>Tenure</strong></th><td>Whether a household owns or rents its home.</td></tr>
+<tr><th scope="row"><strong>PMA</strong></th><td>Primary market area. The area expected to supply most residents of a proposed development.</td></tr>
+<tr><th scope="row"><strong>Capture rate</strong></th><td>The share of eligible households in the PMA a project must attract to fill.</td></tr>
+<tr><th scope="row"><strong>LIHTC</strong></th><td>Low-Income Housing Tax Credit. The main federal subsidy for affordable rental construction.</td></tr>
+<tr><th scope="row"><strong>QCT / DDA</strong></th><td>Qualified Census Tract / Difficult Development Area. HUD designations that let a tax-credit project claim up to 30% more eligible cost.</td></tr>
+<tr><th scope="row"><strong>Percentile score</strong></th><td>A position among comparable places (0–100), not a measure of absolute severity. A score of 84 means the place ranks above 84% of places of its type on that measure.</td></tr>
+<tr><th scope="row"><strong>Screening</strong></th><td>An estimate used to decide where to look more closely. It is not a finding for approval or financing.</td></tr>
+</tbody></table></div>
+</section>
+<section id="a-worked-example-fruita-mesa-county" aria-labelledby="a-worked-example-fruita-mesa-county-h">
+<h2 id="a-worked-example-fruita-mesa-county-h"><span class="num">04</span>A worked example: Fruita, Mesa County</h2>
+<p>Fruita is a city of about 13,700 people in the Grand Valley, west of Grand Junction. It makes a useful example because the data for it is nearly complete, and because it shows several of the traps described above.</p>
+<p>All figures below are those published on the COHO site on 27 September 2026.</p>
+<h3>4.1 Who lives there</h3>
+<p><strong>Households.</strong> Fruita has 5,273 households. 4,212 own their homes and 1,061 rent, so renters are about 20 percent of households.</p>
+<p><strong>Income and housing costs.</strong></p>
+<ul><li>Median household income: $87,184.</li><li>Median gross rent: $1,472 a month.</li><li>Typical home value: $486,295 (Zillow's home value index for May 2026), about 5.6 times the median household income.</li></ul>
+<p>Source: ACS 2020–2024 five-year estimates; Zillow Home Value Index.</p>
+<h3>4.2 Need: who is cost-burdened</h3>
+<p>CHAS 2018–2022, with Fruita's counts adjusted to match its current ACS household totals, gives:</p>
+<div class="ap-scroll" role="region" tabindex="0" aria-label="Fruita cost burden by tenure"><table>
+<thead><tr><th scope="col"></th><th scope="col">Renters</th><th scope="col">Owners</th></tr></thead><tbody>
+<tr><th scope="row">Households</th><td>1,061</td><td>4,212</td></tr>
+<tr><th scope="row">Cost-burdened (&gt;30%)</th><td>385 (36%)</td><td>1,066 (25%)</td></tr>
+<tr><th scope="row">Severely cost-burdened (&gt;50%)</th><td>263 (25%)</td><td>376 (9%)</td></tr>
+</tbody></table></div>
+<p>Two things stand out.</p>
+<p><strong>The burden is heavily concentrated at the lowest incomes.</strong> Of the roughly 222 renter households at or below 30 percent of AMI, about 98 percent are cost-burdened and 89 percent are severely burdened. Of the 252 owner households in that income group, 95 percent are burdened. At 51–80 percent of AMI the renter burden rate falls to 25 percent.</p>
+<p><strong>There are almost three times as many burdened owners as burdened renters.</strong> About 270 of the 591 owner households between 51 and 80 percent of AMI are cost-burdened. A strategy built only around new rental units would miss most of the burdened households in the city. Owner-focused tools such as repair and rehabilitation assistance, property tax deferral or relief for fixed-income households, and preserving existing modest homes deserve equal attention.</p>
+<p><strong>Two sources, two answers.</strong> The site also reports a renter cost-burden rate of 43.6 percent, which comes from a different ACS table (gross rent as a percentage of income) and a later period (2020–2024). CHAS gives 36.3 percent for 2018–2022.</p>
+<p>Neither figure is wrong. They measure the same idea with different tables, periods and treatments of households with no reported income. A staff report should give one figure, name its source and period, and if both appear, explain why they differ. Quoting the higher figure in one paragraph and the lower in another invites challenge.</p>
+<h3>4.3 Affordability: the gap by income level</h3>
+<p>Mesa County's 2026 AMI for a four-person household is $100,600. At 30 percent of income, the affordable monthly rents are:</p>
+<div class="ap-scroll" role="region" tabindex="0" aria-label="Fruita rental affordability gap by income level"><table>
+<thead><tr><th scope="col">Income level</th><th scope="col">Affordable rent</th><th scope="col">Renter households at or below</th><th scope="col">Rental units priced at or below</th><th scope="col">Shortfall</th></tr></thead><tbody>
+<tr><th scope="row">≤30% AMI</th><td>$754</td><td>295</td><td>192</td><td>103</td></tr>
+<tr><th scope="row">≤50% AMI</th><td>$1,258</td><td>590</td><td>358</td><td>232</td></tr>
+<tr><th scope="row">≤60% AMI</th><td>$1,509</td><td>637</td><td>433</td><td>204</td></tr>
+<tr><th scope="row">≤80% AMI</th><td>$2,012</td><td>738</td><td>701</td><td>37</td></tr>
+</tbody></table></div>
+<p class="ap-source">Source: ACS 2020–2024 (renter households by income; gross rent), HUD FY2026 income limits.</p>
+<p><strong>How to read this table.</strong> The rows are cumulative. The ≤50% row includes everyone in the ≤30% row. So the right reading is not "232 units are needed at 50 percent of AMI." It is: "counting all renters at or below 50 percent of AMI, there are 232 more such households than there are units they could afford."</p>
+<p><strong>What the table shows.</strong> The shortfall is largest at 50 percent of AMI and nearly disappears by 80 percent. Fruita's rental problem is therefore mostly a problem of very low and extremely low incomes. Tax-credit rents set at 60 percent of AMI ($1,509 for this household size, before utilities) would not reach the deepest need without additional subsidy, such as project-based vouchers or income averaging.</p>
+<p><strong>What the table does not show.</strong> Whether the 701 units priced at or below 80 percent of AMI are actually occupied by households in that income range.</p>
+<p><strong>County context.</strong> Mesa County as a whole has 5,873 renter households at or below 30 percent of AMI and 2,766 units priced for them, a shortfall of about 3,100. At 60 percent of AMI, units priced within reach slightly outnumber the households. Fruita's pattern is the county's pattern at a smaller scale.</p>
+<h3>4.4 Supply already in place</h3>
+<p>CHFA's tax-credit property records list two projects in Fruita:</p>
+<ul><li><strong>Grand Mesa:</strong> 24 units, 23 of them income-restricted. Credits awarded in 2005.</li><li><strong>Fruita Mews:</strong> 50 units, 43 income-restricted. Credits awarded in 2022.</li></ul>
+<p>Mesa County as a whole has 17 tax-credit properties with about 1,130 income-restricted units.</p>
+<h3>4.5 How Fruita compares</h3>
+<p>The site ranks all 546 Colorado geographies on a composite of need and opportunity:</p>
+<ul><li><strong>Overall:</strong> Fruita ranks 73rd.</li><li><strong>Community need score:</strong> 84.5. This combines the affordability gap, cost burden, affordability intensity, projected growth pressure and overcrowding.</li><li><strong>Opportunity score:</strong> 56.1. This combines economic mobility, walkability, access to amenities and QCT/DDA status.</li></ul>
+<p>These are <strong>percentile</strong> scores. They say Fruita's need is higher than about 84 percent of comparable places. They do not say that 84 percent of anything is unmet. A community ranked 300th may still have hundreds of severely burdened households.</p>
+<p>The ranking is useful for choosing between places, as a state agency or regional funder must. It is much less useful for deciding what a single community should do.</p>
+<h3>4.6 Policy context</h3>
+<p><strong>Proposition 123.</strong> Fruita, Mesa County and Grand Junction have all filed Proposition 123 commitments, in 2024, 2023 and 2023 respectively. That makes them eligible for the state's dedicated affordable-housing funds, subject to meeting their growth commitments.</p>
+<p><strong>Transit zones (HB26-1065).</strong> About 94 percent of the city's area lies within two miles of one of 18 confirmed Grand Valley Transit stops. About 41 percent lies within half a mile, measured in a straight line. That looks favorable under Colorado's 2026 transit-zone law, but it is a <strong>screen only</strong>. The state's official zone map is due from the Office of Economic Development and International Trade by 30 October 2026 and had not been published on the date of this paper. Until it is, no site is eligible for the law's benefits, whatever its distance from a stop. Straight-line distance can also overstate access compared with the walking distance CHFA uses.</p>
+<h3>4.7 What a planner could reasonably conclude</h3>
+<p>From this evidence, a Fruita planner could defensibly tell a council:</p>
+<ol><li>Housing cost pressure is concentrated among households below half of area median income, both renters and owners.</li><li>The rental shortfall at those incomes is in the low hundreds of households: about 230 at or below 50 percent of AMI. It is not in the thousands.</li><li>More cost-burdened owners than renters live in the city, so owner-stabilization tools belong in the strategy alongside rental production.</li><li>A conventional 60-percent-AMI tax-credit project would serve a real but narrower slice of need, unless it is paired with deeper rental subsidy.</li><li>Transit-zone eligibility cannot be claimed until the state map is published.</li></ol>
+<p>The planner could <strong>not</strong> conclude from this evidence alone:</p>
+<ul><li>how many units a specific site can support, which needs a site-specific market study;</li><li>that a project would win a 9 percent award, which depends on the QAP competition in a given round;</li><li>that the burden figures describe conditions today. CHAS reflects 2018–2022, before the steepest recent rent increases in many Colorado markets.</li></ul>
+</section>
+<section id="reading-the-site-s-charts" aria-labelledby="reading-the-site-s-charts-h">
+<h2 id="reading-the-site-s-charts-h"><span class="num">05</span>Reading the site's charts</h2>
+<p>The housing needs assessment pages use a small number of chart types. Each answers a specific question.</p>
+<ul><li><strong>Stacked bars of cost burden by income group.</strong> Each bar is an income range: ≤30%, 31–50%, 51–80%, 81–100% of AMI, and above. The segments split the bar into not burdened, burdened and severely burdened. Compare the <em>heights</em> of the burdened segments to see where most burdened households are. Compare the <em>proportions</em> to see where burden is most intense. These can point to different income groups.</li><li><strong>Affordability gap bars.</strong> These show the cumulative shortfall at each AMI level. Because the levels are cumulative, the bars should not be added together.</li><li><strong>Tenure and housing-type doughnuts.</strong> Share of owners and renters, and share of single-family, attached and multifamily homes. They are useful for seeing whether a community's stock can house a range of household types at all.</li><li><strong>Population projection lines.</strong> State Demography Office projections, with the historical trend for comparison. The scenario builder lets users change migration and household-formation assumptions. Its preset migration levels are illustrative, not forecasts, and the page labels them that way.</li><li><strong>Age pyramid.</strong> Population by age and sex, from the State Demography Office's 2024 estimates. It is useful for anticipating demand for senior housing or for starter homes.</li><li><strong>Market-area radar chart.</strong> On the market analysis page, it shows a site's scores on five dimensions: demand, capture risk, rent pressure, land supply and workforce. A lopsided shape matters more than the total. A site strong on demand but weak on capture risk is a different proposition from one that is middling everywhere.</li><li><strong>Maps.</strong> These show the market area around a site, existing tax-credit properties, and statewide screening results. Map boundaries are drawn from Census geography and do not always match municipal limits as they stand today.</li></ul>
+<p>Every chart names its source and data year. When part of a chart has no data, the site shows the gap and says why. It does not draw a zero.</p>
+</section>
+<section id="what-the-evidence-can-and-cannot-establish" aria-labelledby="what-the-evidence-can-and-cannot-establish-h">
+<h2 id="what-the-evidence-can-and-cannot-establish-h"><span class="num">06</span>What the evidence can and cannot establish</h2>
+<p><strong>It can establish:</strong></p>
+<ul><li>the approximate number and income profile of cost-burdened households, by tenure;</li><li>how local rents and home values compare with what local incomes can support;</li><li>where a community stands relative to comparable Colorado places;</li><li>the existing stock of income-restricted housing;</li><li>which state and federal programs a jurisdiction is currently eligible for.</li></ul>
+<p><strong>It cannot establish:</strong></p>
+<ul><li><strong>Current conditions.</strong> The most important sources lag. CHAS covers 2018–2022, and the ACS five-year estimates cover 2020–2024. In markets where rents rose sharply after 2021, current burden is likely higher than reported.</li><li><strong>Precision in small places.</strong> ACS figures for towns of a few thousand people carry wide margins of error. A change of a few percentage points between years may be noise. Treat small-place figures as ranges.</li><li><strong>Place-level totals that add up.</strong> Some place figures are apportioned from census tracts that cross municipal boundaries. The site keeps each place's estimate as accurate as it can, which means place figures should not be summed to produce a county or regional total. Use the county figure instead.</li><li><strong>Absolute severity from a ranking.</strong> Percentile scores compare places; they do not measure need.</li><li><strong>Project feasibility.</strong> The deal calculator is a screen. It leaves out several items a lender or CHFA would examine, and says so.</li><li><strong>Future growth.</strong> Projections depend on assumptions about migration and household formation that the user can change. They are scenarios, not predictions.</li><li><strong>Legal eligibility where the state has not yet acted.</strong> The transit-zone law is one example.</li></ul>
+<p><strong>How the site handles missing data.</strong> When a value cannot be measured, the site reports it as unavailable and gives the reason. It does not show zero. The distinction matters: a town with no tax-credit projects has a measured zero, while a town whose rent data was suppressed for sample size has an unknown. Showing both as "0" would mislead. The technical working paper describes how this rule is enforced.</p>
+</section>
+<section id="current-policy-as-of-28-september-2026" aria-labelledby="current-policy-as-of-28-september-2026-h">
+<h2 id="current-policy-as-of-28-september-2026-h"><span class="num">07</span>Current policy, as of 28 September 2026</h2>
+<p>This table records what the COHO site reports as of the date above. Status can change. Check the cited source before relying on any row.</p>
+<div class="ap-scroll" role="region" tabindex="0" aria-label="Current policy status"><table>
+<thead><tr><th scope="col">Measure</th><th scope="col">Level</th><th scope="col">Status</th><th scope="col">What it does (brief)</th></tr></thead><tbody>
+<tr><th scope="row"><strong>Proposition 123</strong></th><td>State (voter-approved 2022)</td><td>In effect</td><td>Dedicates state revenue (an amount equal to one-tenth of one percent of taxable income, which would otherwise be refunded under TABOR) to affordable housing. Local governments become eligible by filing commitments to increase affordable housing.</td></tr>
+<tr><th scope="row"><strong>HB26-1313</strong></th><td>State</td><td>Enacted; effective 12 Aug 2026</td><td>Changes the Proposition 123 local commitment requirement for the cycle beginning 1 January 2027.</td></tr>
+<tr><th scope="row"><strong>HB24-1313</strong> (transit-oriented communities)</th><td>State</td><td>Enacted (2024)</td><td>Sets housing-capacity goals near qualifying transit for certain jurisdictions.</td></tr>
+<tr><th scope="row"><strong>HB26-1065</strong> (transit and housing investment zones)</th><td>State</td><td>Enacted; effective 27 May 2026</td><td>Creates incentives in zones within two miles of qualifying transit. <strong>No zone is designated yet.</strong> The state map is due 30 October 2026. The matching CHFA QAP provision is still a draft.</td></tr>
+<tr><th scope="row"><strong>Affordable Housing Credit Improvement Act (AHCIA)</strong></th><td>Federal</td><td><strong>Partly enacted, partly pending</strong></td><td>Two of its central provisions, a 12 percent increase in 9 percent credit allocations and a lower bond-financing threshold for 4 percent projects, were enacted in the July 2025 federal budget reconciliation law. The rest remains in pending bills (H.R. 2725 / S. 1515).</td></tr>
+<tr><th scope="row"><strong>21st Century ROAD to Housing Act (H.R. 6644)</strong></th><td>Federal</td><td>Enacted 11 July 2026</td><td>Housing supply and HUD program reforms. It does <strong>not</strong> include the tax-credit expansions described in earlier versions.</td></tr>
+<tr><th scope="row"><strong>CHFA 2027–28 QAP</strong></th><td>State agency</td><td>Draft</td><td>Sets scoring for competitive 9 percent credits. It is not final until adopted.</td></tr>
+</tbody></table></div>
+<p><strong>Historical context</strong> (for example, the 2023 federal Community Reinvestment Act rule, which was enjoined before it took effect) belongs in background sections. It should not be presented as current policy.</p>
+</section>
+<section id="using-the-work-in-practice" aria-labelledby="using-the-work-in-practice-h">
+<h2 id="using-the-work-in-practice-h"><span class="num">08</span>Using the work in practice</h2>
+<p><strong>For a housing needs assessment.</strong> Treat the site as the first draft of the data chapter. It already gives the standard tables: households by tenure and income, cost burden by income, affordability gap, housing stock, projections. Download them with their sources. Then add what the data cannot show: local rent surveys, employer interviews, recent development activity, and the experience of residents and service providers. Cite the vintage of each figure.</p>
+<p><strong>For a Proposition 123 decision.</strong> Use the gap table (Section 4.3) to judge whether a commitment level is achievable and which income levels new units should serve. The commitment requirements are changing for the 2027 cycle (HB26-1313), so check current state guidance before setting a target.</p>
+<p><strong>For a comprehensive plan housing element.</strong> The five questions make a useful outline:</p>
+<ul><li>who needs housing;</li><li>what the market will support;</li><li>the gap between incomes and prices;</li><li>what can be financed;</li><li>which tools the community controls.</li></ul>
+<p>The Fruita example shows why tenure matters. A plan that measures need only among renters will miss a large share of burdened households.</p>
+<p><strong>For development review and staff reports.</strong> When a developer's market study makes claims about demand or capture rate, compare them with the site's market analysis for the same area. Large differences are not necessarily errors, since the developer's study may use newer or more local data, but they are worth asking about.</p>
+<p><strong>For public meetings.</strong> The site's charts are designed to be shown. When presenting, say what each chart measures, what year it describes, and what it cannot tell the audience. "This shows how many renter households earn less than the income needed for the rents in town, as of the 2020–2024 survey" is more persuasive, and harder to dispute, than a number with no context.</p>
+<p><strong>What to verify locally before relying on any figure:</strong></p>
+<ul><li>current rents from local property managers;</li><li>recent building permits and projects under construction;</li><li>whether municipal boundaries have changed since the Census geography was drawn;</li><li>the current status of any law or program named.</li></ul>
+</section>
+<section id="relationship-to-the-technical-working-paper" aria-labelledby="relationship-to-the-technical-working-paper-h">
+<h2 id="relationship-to-the-technical-working-paper-h"><span class="num">09</span>Relationship to the technical working paper</h2>
+<p>The COHO working paper, <a href="working-paper.html"><em>Instrumenting Housing Need</em></a>, and the <a href="methods.html">computational methods page</a> are written for developers, researchers and reviewers of the software. They document how each figure is computed, the weights in each score, the tests that check the calculations, and the known weaknesses in the methods. A planner who needs to defend a figure in a public hearing can find its full derivation there.</p>
+<p>This paper describes the same system from the other side: what it is for and how to use it. Where the two differ in emphasis, the technical paper governs questions of method.</p>
+</section>
+<section id="sources" aria-labelledby="sources-h">
+<h2 id="sources-h">Sources</h2>
+<p>Figures in this paper were published on the COHO Analytics site on 27 September 2026.</p>
+<ul><li>U.S. Department of Housing and Urban Development, Comprehensive Housing Affordability Strategy (CHAS) data, 2018–2022. huduser.gov/portal/datasets/cp.html</li><li>U.S. Census Bureau, American Community Survey 5-year estimates, 2020–2024: tables DP02, DP04 and B25118, and gross rent as a percentage of household income. data.census.gov</li><li>U.S. Department of Housing and Urban Development, FY2026 Income Limits. huduser.gov/portal/datasets/il.html</li><li>Colorado Housing and Finance Authority, LIHTC property inventory (retrieved 27 September 2026) and the draft 2027–28 Qualified Allocation Plan. chfainfo.com</li><li>Colorado Department of Local Affairs, State Demography Office, 2024 population estimates and projections; Proposition 123 commitment filings. dola.colorado.gov</li><li>Colorado Office of Economic Development and International Trade, Transit and Housing Investment Zone map status (checked 26 September 2026). oedit.colorado.gov</li><li>Zillow Home Value Index, May 2026.</li><li>Colorado General Assembly, bill records for HB24-1313, HB26-1065 and HB26-1313. leg.colorado.gov</li><li>Congress.gov, H.R. 6644 (119th Congress); H.R. 2725 and S. 1515 (119th Congress).</li><li>COHO Analytics, <em>Instrumenting Housing Need</em> (working paper) and <em>What the Numbers Actually Do</em> (methods), cohoanalytics.com.</li></ul>
+</section>
+
+      </article>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>
