@@ -200,6 +200,19 @@ def test_check_dola_population_returns_warning_when_dola_stays_unreachable():
     assert sleep.call_count == _MOD.NETWORK_RETRY_ATTEMPTS - 1
 
 
+def test_check_dola_population_keeps_non_transient_url_errors_fatal():
+    bad_certificate = urllib.error.URLError(ValueError("certificate verify failed"))
+
+    with (
+        mock.patch.object(_MOD.urllib.request, "urlopen", side_effect=bad_certificate),
+        mock.patch.object(_MOD.time, "sleep") as sleep,
+    ):
+        with pytest.raises(RuntimeError, match="certificate verify failed"):
+            _MOD.check_dola_population()
+
+    assert sleep.call_count == 0
+
+
 def test_check_dola_population_keeps_contract_breaks_fatal():
     def fake_urlopen(req, timeout):
         raise urllib.error.HTTPError(
