@@ -710,6 +710,25 @@
       }
       runOptions.tractGeoids   = pickedER;
       runOptions.tractBoundary = pickerER.getBoundary();
+      // The justification narrative and the concept-card recommendation are
+      // conclusions about this PMA too. PMAEngine.runAnalysis has already
+      // said on the score card why it is not bound; nothing is drawn here
+      // either, and the previous run's narrative is taken down (#1932).
+      var engER = window.PMAEngine;
+      var readyER = engER && typeof engER.customPmaReadiness === 'function'
+        ? engER.customPmaReadiness(lat, lon, runOptions)
+        : { ready: false, reason: 'the market-analysis engine did not load' };
+      if (!readyER.ready) {
+        _lastScoreRun = null;
+        ['pmaJustificationCard', 'lihtcConceptCard'].forEach(function (id) {
+          var c = $id(id);
+          if (c) c.hidden = true;
+        });
+        _running = false;
+        _hideChartLoading('pmaRadarChart');
+        _progressHide();
+        return;
+      }
     }
 
     // The site this run belongs to, as the page records it (lat/lon above

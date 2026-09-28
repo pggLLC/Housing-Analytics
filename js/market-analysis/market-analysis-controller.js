@@ -734,19 +734,9 @@
       qctFlag: null, ddaFlag: null, qctDdaEvidence: null, transitMetrics: null };
     _currentSite = site;
 
-    // Invalidate the saved site's evidence immediately, including after reload.
-    _safe(function () {
-      var wf = window.WorkflowState;
-      if (!wf || !wf.getActiveProject()) return;
-      var saved = wf.getStep('market');
-      if (saved.siteLat !== lat || saved.siteLon !== lon || saved.bufferMiles !== site.bufferMiles) {
-        wf.setStep('market', {
-          siteLat: lat, siteLon: lon, bufferMiles: site.bufferMiles,
-          qctFlag: null, ddaFlag: null, qctDdaEvidence: null, pmaScore: null, dimensions: null,
-          completedAt: null, exportReady: false
-        });
-      }
-    });
+    // The project's saved market step is left alone: it still pairs the saved
+    // site's coordinates with that site's evidence. Only savePmaToProject()
+    // replaces it, and getCurrentSite() never offers this site stale evidence.
 
     _log('runAnalysis(): lat=' + lat + ', lon=' + lon + ', buffer=' + bufferMiles + 'mi' +
       ' — MAState=' + (st ? 'ok' : 'missing') +
