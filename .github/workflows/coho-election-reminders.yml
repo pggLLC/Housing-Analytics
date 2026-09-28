@@ -1,0 +1,53 @@
+name: COHO election reminders
+
+on:
+  schedule:
+    - cron: '51 9 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Print due reminders without creating issues or a label
+        type: boolean
+        default: true
+  # Exercise new workflow code before merge and register it for branch dispatch.
+  pull_request:
+    paths:
+      - '.github/coho-reminders/**'
+      - '.github/workflows/coho-election-reminders.yml'
+      - 'scripts/coho/**'
+      - 'test/coho-reminders.test.mjs'
+
+permissions: { contents: read, issues: write }
+
+# Serialize schedule/dispatch/PR runs so two creators cannot pass the same marker check.
+concurrency:
+  group: coho-election-reminders
+  cancel-in-progress: false
+
+jobs:
+  reminders:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout reminder code
+        uses: actions/checkout@v7
+        with:
+          path: reminder-code
+          persist-credentials: false
+      - name: Checkout main data
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          path: main
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Open due reminders (branch and PR runs are always dry)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: ${{ github.event_name == 'pull_request' || github.ref != 'refs/heads/main' || inputs.dry_run == true }}
+        run: |
+          args=(--repo-root main)
+          if [ "$DRY_RUN" = "true" ]; then args+=(--dry-run); fi
+          node reminder-code/scripts/coho/open-reminders.mjs "${args[@]}"
