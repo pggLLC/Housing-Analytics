@@ -3036,7 +3036,10 @@
           lihtc: nearbyLihtc || []
         });
       }
-      MAC.runAnalysis(lat, lon, bufferMiles);
+      var _isCentroid = !!(_jurisdictionCentroid &&
+        _jurisdictionCentroid.lat === lat && _jurisdictionCentroid.lon === lon);
+      MAC.runAnalysis(lat, lon, bufferMiles,
+        { siteSource: _isCentroid ? 'jurisdiction_centroid' : 'site' });
     } else {
       console.warn('[market-analysis] MAController not available — report sections will not render.');
     }
@@ -4375,8 +4378,14 @@
     }
   }
 
-  function placeSiteMarker(lat, lon) {
+  // Set when placeSiteMarker() is given a jurisdiction centroid (the ?auto=1
+  // deep-link run) instead of a chosen site; any other placement clears it.
+  // runAnalysis() tells MAController so QCT/DDA stays unknown for a centroid.
+  var _jurisdictionCentroid = null;
+
+  function placeSiteMarker(lat, lon, opts) {
     siteLatLng = { lat: lat, lon: lon };
+    _jurisdictionCentroid = (opts && opts.jurisdictionCentroid) ? { lat: lat, lon: lon } : null;
     // Keep PMAEngine shim up-to-date so other modules can read last site coords.
     if (window.PMAEngine) {
       window.PMAEngine._lastLat = lat;
@@ -4774,7 +4783,8 @@
     sel.addEventListener('change', function () {
       bufferMiles = parseInt(sel.value, 10) || 3;
       if (siteLatLng) {
-        placeSiteMarker(siteLatLng.lat, siteLatLng.lon);
+        // Same point, new buffer: a centroid stays a centroid.
+        placeSiteMarker(siteLatLng.lat, siteLatLng.lon, { jurisdictionCentroid: !!_jurisdictionCentroid });
         runAnalysis(siteLatLng.lat, siteLatLng.lon);
       }
     });
@@ -5902,7 +5912,7 @@
     // runAnalysis was only callable via map click, so deep-links populated
     // the map + jurisdiction banner but never the PMA Site Summary card.
     runAnalysis:             function (lat, lon, options) { return runAnalysis(lat, lon, options); },
-    placeSiteMarker:         function (lat, lon) { return placeSiteMarker(lat, lon); },
+    placeSiteMarker:         function (lat, lon, opts) { return placeSiteMarker(lat, lon, opts); },
     haversine:               haversine,
     tractInBuffer:           tractInBuffer,
     tractBufferShare:        tractBufferShare,

@@ -293,12 +293,29 @@
    * is never reported as false: false would untick the deal calculator's
    * basis-boost box and drop the site's subsidy points.
    *
+   * A jurisdiction centroid (siteSource 'jurisdiction_centroid', the ?auto=1
+   * deep-link run) is not a site: a centroid inside or outside a QCT says
+   * nothing about a parcel, so every flag is null with a reason.
+   *
+   * `designationEvidence` is HudEgis's evidence object (matched tract GEOID,
+   * DDA name/code, HUD year/source from the data files), or null.
+   *
    * @param {number} lat
    * @param {number} lon
+   * @param {string} [siteSource]
    * @returns {{ qctFlag: boolean|null, ddaFlag: boolean|null,
-   *             basisBoostEligible: boolean|null, designationUnavailableReason: string|null }}
+   *             basisBoostEligible: boolean|null, designationUnavailableReason: string|null,
+   *             designationEvidence: Object|null }}
    */
-  function _getDesignationFlags(lat, lon) {
+  function _getDesignationFlags(lat, lon, siteSource) {
+    if (siteSource === 'jurisdiction_centroid') {
+      return {
+        qctFlag: null, ddaFlag: null, basisBoostEligible: null,
+        designationUnavailableReason: 'No site selected — the point analyzed is the jurisdiction centroid; ' +
+          'place a site on the map to check QCT/DDA designation',
+        designationEvidence: null
+      };
+    }
     var hudEgis = window.HudEgis;
     if (hudEgis && typeof hudEgis.checkDesignation === 'function') {
       try {
@@ -309,7 +326,8 @@
           qctFlag:          result.in_qct,
           ddaFlag:          result.in_dda,
           basisBoostEligible: result.basis_boost_eligible,
-          designationUnavailableReason: result.unavailableReason || null
+          designationUnavailableReason: result.unavailableReason || null,
+          designationEvidence: result.evidence || null
         };
       } catch (e) {
         _err('_getDesignationFlags() — HudEgis.checkDesignation() failed', e);
@@ -320,7 +338,8 @@
     _log('_getDesignationFlags(): HudEgis unavailable — QCT/DDA designation unknown');
     return {
       qctFlag: null, ddaFlag: null, basisBoostEligible: null,
-      designationUnavailableReason: 'HUD QCT/DDA designation lookup (HudEgis) unavailable'
+      designationUnavailableReason: 'HUD QCT/DDA designation lookup (HudEgis) unavailable',
+      designationEvidence: null
     };
   }
 
@@ -699,14 +718,19 @@
    * @param {number} lat         - Site latitude.
    * @param {number} lon         - Site longitude.
    * @param {number} bufferMiles - Analysis buffer radius in miles.
+   * @param {Object} [opts]
+   * @param {string} [opts.siteSource] - 'jurisdiction_centroid' when the point
+   *   is a place/county centroid rather than a chosen site (QCT/DDA then
+   *   stays unknown). Defaults to 'site'.
    */
-  function runAnalysis(lat, lon, bufferMiles) {
+  function runAnalysis(lat, lon, bufferMiles, opts) {
     var st  = _state();
     var scr = _scorer();
     var ren = _rend();
 
     // Store current site for ACS fallback aggregation
-    _currentSite = { lat: lat, lon: lon, bufferMiles: bufferMiles || 5 };
+    _currentSite = { lat: lat, lon: lon, bufferMiles: bufferMiles || 5,
+      siteSource: (opts && opts.siteSource) || 'site' };
 
     _log('runAnalysis(): lat=' + lat + ', lon=' + lon + ', buffer=' + bufferMiles + 'mi' +
       ' — MAState=' + (st ? 'ok' : 'missing') +
@@ -771,7 +795,7 @@
         // ── 2. Gather data ───────────────────────────────────────────
         var acs   = _getAcs();
         var lihtc = _getLihtc();
-        var flags = _getDesignationFlags(lat, lon);
+        var flags = _getDesignationFlags(lat, lon, _currentSite && _currentSite.siteSource);
 
         // Notify the deal calculator of the designation result so the UI can
         // pre-check the QCT/DDA checkbox when the site qualifies for a basis boost.
@@ -920,6 +944,8 @@
                   qctFlag:            flags.qctFlag,
                   ddaFlag:            flags.ddaFlag,
                   basisBoostEligible: flags.basisBoostEligible,
+                  designationUnavailableReason: flags.designationUnavailableReason,
+                  designationEvidence: flags.designationEvidence,
                   fmrRatio:           inputs.fmrRatio,
                   nearbySubsidized:   inputs.nearbySubsidized,
                   subsidy_score:      scores ? scores.subsidy_score : null
@@ -979,6 +1005,7 @@
               ddaFlag:            flags.ddaFlag,
               basisBoostEligible: flags.basisBoostEligible,
               designationUnavailableReason: flags.designationUnavailableReason,
+              designationEvidence: flags.designationEvidence,
               fmrRatio:           inputs.fmrRatio,
               nearbySubsidized:   inputs.nearbySubsidized,
               subsidy_score:      scores ? scores.subsidy_score : null
