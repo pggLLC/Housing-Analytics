@@ -118,11 +118,15 @@ QCT = Qualified Census Tract (high poverty / low-income area; IRC §42(d)(5)(B)(
 DDA = Difficult Development Area (high construction costs; IRC §42(d)(5)(B)(iii))
 Either designation qualifies the project for up to 130% eligible basis boost.
 
-Returns safe defaults when HudEgis is unavailable or data has not yet loaded.
+A flag is null (unknown, with `designationUnavailableReason`) when
+HudEgis is unavailable or a layer has not loaded / loaded empty. Unknown
+is never reported as false: false would untick the deal calculator's
+basis-boost box and drop the site's subsidy points.
 
 @param {number} lat
 @param {number} lon
-@returns {{ qctFlag: boolean, ddaFlag: boolean, basisBoostEligible: boolean }}
+@returns {{ qctFlag: boolean|null, ddaFlag: boolean|null,
+            basisBoostEligible: boolean|null, designationUnavailableReason: string|null }}
 
 ### `_computeFmrRatio(lat, lon, acs)`
 
@@ -218,6 +222,20 @@ Orchestrate a full site analysis:
 @param {number} lat         - Site latitude.
 @param {number} lon         - Site longitude.
 @param {number} bufferMiles - Analysis buffer radius in miles.
+
+### `_walkabilityReady(lat, lon, bufferMiles)`
+
+Resolves once EpaWalkability has loaded (or failed to load) both of its
+files, so walkability is scored from the site's block group rather than
+reported unavailable because the 2.5 MB boundary file was still in
+flight. Bounded like the transit wait; never rejects. If the wait times
+out and the files load afterwards, the site is analysed again once, so a
+slow connection ends with the site's walkability rather than without it.
+
+### `TRANSIT_WAIT_MS`
+
+This site's stop-based transit metrics for scoreAccess, or null when
+PMATransit is not on the page. Never rejects.
 
 ### `_buildOpportunities(scores)`
 
