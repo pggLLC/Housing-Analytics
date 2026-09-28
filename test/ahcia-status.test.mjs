@@ -56,10 +56,15 @@ test('the watchlist carries the pending bills with a source, a check date and a 
 });
 
 test('the page source types no bill status', () => {
-  const visible = HTML.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<!--[\s\S]*?-->/g, '');
+  // The text a reader sees without scripts: parse the page, drop script
+  // elements, read the body text (comments are not text).
+  const doc = new JSDOM(HTML).window.document;
+  doc.querySelectorAll('script').forEach((el) => el.remove());
+  const visible = doc.body.textContent;
+  assert.ok(visible.length > 1000, 'the page text is nearly empty; this guard would pass vacuously');
   assert.doesNotMatch(visible, /\b\d+\+?\s+cosponsors\b/i, 'a cosponsor count is typed into the page');
   assert.doesNotMatch(visible, /Referred to/i, 'a committee referral is typed into the page');
-  const cells = [...new JSDOM(HTML).window.document.querySelectorAll('[data-field="status"]')];
+  const cells = [...doc.querySelectorAll('[data-field="status"]')];
   assert.equal(cells.length, PENDING.length, 'the status cells this guard reads are missing');
 });
 
