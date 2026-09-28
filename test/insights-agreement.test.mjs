@@ -47,8 +47,19 @@ assert(Number.isInteger(meta.hud_income_limits_year), 'co_ami_gap_by_county.json
 for (const file of ['colorado-deep-dive.html', 'js/hna/hna-renderers.js', 'ic-summary.html']) {
   const src = read(file);
   assert(src.includes('co_ami_gap_by_') || src.includes('acsAmiData'), `${file} no longer reads the AMI-gap files; drop it from this guard`);
-  const typed = src.match(/HUD (?:FY ?)?20\d\d income limits/g);
-  assert(!typed, `${file} types a HUD income-limit year (${typed && typed[0]}); read meta.hud_income_limits_year instead`);
+  // A year may appear only inside a [data-ami-il-year] slot the page fills
+  // from meta, and that slot's no-JS fallback must match the data.
+  const slots = [...src.matchAll(/<span data-ami-il-year>([^<]*)<\/span>/g)].map((m) => m[1]);
+  for (const slot of slots) {
+    assert.equal(slot, `FY${meta.hud_income_limits_year}`, `${file}: a [data-ami-il-year] fallback reads ${slot}, the data says FY${meta.hud_income_limits_year}`);
+  }
+  if (slots.length) {
+    assert(/querySelectorAll\('\[data-ami-il-year\]'\)[\s\S]{0,200}hud_income_limits_year/.test(src),
+      `${file} has [data-ami-il-year] slots but never fills them from meta.hud_income_limits_year`);
+  }
+  const unslotted = src.replace(/<span data-ami-il-year>[^<]*<\/span>/g, 'SLOT');
+  const typed = unslotted.match(/(?:FY\s?)?20\d\d\s+(?:county\s+)?income limits/gi);
+  assert(!typed, `${file} types a HUD income-limit year (${typed && typed[0]}); put it in a [data-ami-il-year] slot or read meta.hud_income_limits_year`);
 }
 
 // 4. Every data file a page cites by path in <code> must exist. The scan is
