@@ -4,7 +4,8 @@
  * cross-reference each source's `localFile:` against the committed data
  * file, and rewrite two fields that otherwise rot:
  *
- *   - `lastUpdated:` → the file's real mtime, when on-disk is newer.
+ *   - `lastUpdated:` → the source extraction date for cache-filterable OSM
+ *     files; otherwise the date of the file's last content change in git.
  *   - `features:`    → the actual record count in the file, for every
  *     source listed in JSON_COUNT_PATHS.
  *
@@ -27,9 +28,8 @@
  * -----
  *   - If localFile is null or the path doesn't exist on disk → skip
  *     (those are reference entries with no cached file).
- *   - If mtime is newer than the declared lastUpdated → update.
- *   - If mtime is *older* than the declared lastUpdated → leave alone
- *     (someone curated a manual date — don't overwrite it backward).
+ *   - Correct lastUpdated in either direction to its authoritative date.
+ *     A cache correction must not make an old source appear freshly fetched.
  *   - `features:` is synced in *both* directions — the gate asserts exact
  *     equality, so a count that shrank is drift just the same.
  *   - `features: null` entries are left alone. Those declare
@@ -58,6 +58,26 @@ const { JSON_COUNT_PATHS, valueAt, collectionCount, countFor } = countPaths;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO      = path.resolve(__dirname, "..", "..");
 const INVENTORY = path.join(REPO, "js", "data-source-inventory.js");
+
+// These builders can filter a retained OSM snapshot without fetching again.
+// A correction commit must not restart their freshness clock: meta.generated
+// is the extraction date, and only a real fetch advances it.
+const SOURCE_DATE_PATHS = {
+  'amenities-schools-co': 'meta.generated',
+  'ntd-transit-co': 'meta.generated',
+};
+
+function sourceDate(entry, abs) {
+  try {
+    const stamp = valueAt(JSON.parse(fs.readFileSync(abs, 'utf8')), SOURCE_DATE_PATHS[entry.id]);
+    if (typeof stamp === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(stamp)
+        && Number.isFinite(Date.parse(stamp))) return stamp.slice(0, 10);
+    throw new Error('missing or invalid extraction timestamp');
+  } catch (error) {
+    console.warn(`[refresh-mtimes] ${entry.id}: cannot read source timestamp (${error.message}); leaving lastUpdated alone`);
+    return null;
+  }
+}
 
 const dryRun = process.argv.includes("--dry-run");
 
@@ -195,7 +215,7 @@ const updates = [];
 const repoIsShallow = isShallow(REPO);
 if (repoIsShallow) {
   console.warn(
-    "[refresh-mtimes] shallow clone — cannot read real content dates, leaving lastUpdated untouched. " +
+    "[refresh-mtimes] shallow clone — cannot read real content dates; only source timestamps can refresh lastUpdated. " +
     "Set fetch-depth: 0 on the checkout."
   );
 }
@@ -210,8 +230,9 @@ for (const e of entries) {
   // every data file's mtime is the checkout time: each scheduled run bumped
   // all 47 sources to the same date and nothing could ever read as stale.
   // The commit that last changed the file is the honest answer.
-  const resolved = contentDate(REPO, e.localFile, { shallow: repoIsShallow });
-  const mtimeIso = resolved.date;
+  const mtimeIso = SOURCE_DATE_PATHS[e.id]
+    ? sourceDate(e, abs)
+    : contentDate(REPO, e.localFile, { shallow: repoIsShallow }).date;
   if (!mtimeIso) {
     skippedNoHistory += 1;
     continue;

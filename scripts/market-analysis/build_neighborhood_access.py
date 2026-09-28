@@ -226,7 +226,8 @@ def load_transit(path: Path, centroids: dict[str, dict]) -> tuple[list[dict], di
                  "'openstreetmap_unconfirmed'. Scoring (js/data-connectors/osm-amenities.js), per analyzed "
                  "site: the nearest confirmed stop when one is within fallback_radius_miles; otherwise the "
                  "nearest OpenStreetMap-only stop when one is, flagged as unconfirmed; otherwise the "
-                 "nearest confirmed stop, out of range."),
+                 "nearest confirmed stop, out of range. School-bus names and school-service tags "
+                 "are excluded from both classes by the shared selection rule."),
         "stops_content_sha256": transit_stops.content_fingerprint(path),
         "fallback_radius_miles": r,
         "records_by_basis": {

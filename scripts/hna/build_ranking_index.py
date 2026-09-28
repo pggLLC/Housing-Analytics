@@ -724,7 +724,8 @@ def transit_stops_meta() -> dict:
             "Transit part of amenity_access_score: confirmed public scheduled stops (CDOT and/or an "
             "agency feed; no private shuttles, no demand-response). A place with none within "
             "radius_miles but an OpenStreetMap-only stop there is scored on the OpenStreetMap-only "
-            "stops; metrics.transit_stop_basis says which."
+            "stops; metrics.transit_stop_basis says which. School-bus names and school-service tags "
+            "are excluded from both classes by the shared selection rule."
         ),
     }
 

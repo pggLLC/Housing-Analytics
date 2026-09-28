@@ -137,17 +137,28 @@ def test_the_stop_file_exercises_every_class(stops_doc, expected):
 
 
 def test_helper_tokens_are_the_ones_js_transit_zone_compares():
-    """The screen (js/transit-zone.js) and the builders read the same file with
-    the same tokens for private shuttles and unconfirmed stops."""
+    """The screen and PMA score (js/transit-zone.js) and the builders read the
+    same file with the same tokens. The JS rule excludes by operator and
+    service (!==) and marks confirmed/unconfirmed by reliability (===); every
+    token it compares must be one scripts/lib/transit_stops.py acts on the
+    same way. test/pma-transit-stops.test.js compares the selected sets."""
     helper = _load(HELPER, "transit_stops_tokens")
     js = TRANSIT_ZONE_JS.read_text(encoding="utf-8")
-    ops = set(re.findall(r"\.operator\s*===\s*'([^']+)'", js))
-    rels = set(re.findall(r"\.reliability\s*===\s*'([^']+)'", js))
-    assert ops and rels, "js/transit-zone.js compares no operator/reliability token — the scan found nothing"
-    assert not helper.counts_as_confirmed({"reliability": "confirmed", "operator": next(iter(ops))})
+    ops = set(re.findall(r"\.operator\s*[!=]==\s*'([^']+)'", js))
+    services = set(re.findall(r"\.service\s*[!=]==\s*'([^']+)'", js))
+    rels = set(re.findall(r"\.reliability\s*[!=]==\s*'([^']+)'", js))
+    assert ops and services and rels, (
+        "js/transit-zone.js compares no operator/service/reliability token — the scan found nothing")
+    public = {"reliability": "confirmed", "operator": "public", "service": "fixed_route"}
+    assert helper.counts_as_confirmed(public)
+    for tok in ops:
+        assert not helper.counts_as_confirmed(dict(public, operator=tok)), f"JS excludes operator {tok!r}; Python counts it"
+    for tok in services:
+        assert not helper.counts_as_confirmed(dict(public, service=tok)), f"JS excludes service {tok!r}; Python counts it"
     for tok in rels:
-        assert not helper.counts_as_confirmed({"reliability": tok, "operator": "public"})
-        assert helper.is_osm_fallback({"reliability": tok, "operator": "public"})
+        confirmed = helper.counts_as_confirmed(dict(public, reliability=tok))
+        fallback = helper.is_osm_fallback(dict(public, reliability=tok))
+        assert confirmed != fallback, f"JS compares reliability {tok!r}, which Python does not classify"
 
 
 def test_helper_selects_exactly_the_file_defined_sets(expected):

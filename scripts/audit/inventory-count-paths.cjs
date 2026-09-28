@@ -26,6 +26,9 @@
 // way back. The header above promises these two consumers never disagree; this
 // is what keeping that promise requires.
 const JSON_COUNT_PATHS = {
+  'amenities-schools-co': 'features',
+  'ntd-transit-co': 'features',
+  'transit-stops-statewide-co': 'features',
   'epa-cleanup-co': ['superfundSites', 'brownfieldSites'],
   'lihtc-trends-county': 'counties',
   'co-historical-allocations': 'allocations',
