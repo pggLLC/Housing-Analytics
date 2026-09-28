@@ -738,9 +738,11 @@
     // at all, so the score silently fell back to the distance proxy (Codex
     // review of #1996). Sections keep their loading state meanwhile, so no
     // proxy score is shown as final. A site moved in the meantime is not
-    // rendered: the newer run owns the page.
+    // rendered: the newer run owns the page. The EPA walkability files are
+    // waited for the same way, for the same reason.
     setTimeout(function () {
-      _siteTransitMetrics(lat, lon, bufferMiles).then(function (siteTransitMetrics) {
+      Promise.all([_siteTransitMetrics(lat, lon, bufferMiles), _walkabilityReady()]).then(function (waited) {
+      var siteTransitMetrics = waited[0];
       if (!_currentSite || _currentSite.lat !== lat || _currentSite.lon !== lon) return;
       try {
         // ── 1b. Barrier-based tract exclusion ────────────────────────
@@ -1074,6 +1076,21 @@
       }
       });
     }, 0);
+  }
+
+  var WALKABILITY_WAIT_MS = 20000;
+
+  /**
+   * Resolves once EpaWalkability has loaded (or failed to load) both of its
+   * files, so walkability is scored from the site's block group rather than
+   * reported unavailable because the 2.5 MB boundary file was still in
+   * flight. Bounded like the transit wait; never rejects.
+   */
+  function _walkabilityReady() {
+    var ew = typeof window !== 'undefined' ? window.EpaWalkability : null;
+    if (!ew || typeof ew.whenReady !== 'function') return Promise.resolve();
+    var timedOut = new Promise(function (resolve) { setTimeout(resolve, WALKABILITY_WAIT_MS); });
+    return Promise.race([ew.whenReady(), timedOut]).then(null, function () {});
   }
 
   /**
