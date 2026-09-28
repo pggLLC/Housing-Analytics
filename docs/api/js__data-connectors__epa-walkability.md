@@ -47,6 +47,13 @@ Load the 2010 block-group boundaries used to locate a site.
 Accepts the parsed GeoJSON from data/market/epa_sld_bg_geometry_co.geojson.
 @param {object} fc - FeatureCollection; properties.geoid on each feature
 
+### `whenReady()`
+
+Resolves when both EPA files have loaded or failed; never rejects. After
+it resolves, getScores() and getUnavailableReason() give their final
+answer for a site.
+@returns {Promise<void>}
+
 ### `autoLoad()`
 
 Auto-load from DataService if available.
