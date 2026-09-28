@@ -32,6 +32,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          # Full commit history (trees, no file contents) so every page's
+          # "Last updated" stamp and sitemap <lastmod> is its own last commit.
+          # The default depth-1 clone made all 547 sitemap URLs report the
+          # deploy day. scripts/lib/page-dates.mjs.
+          fetch-depth: 0
+          filter: blob:none
 
       # Generates the PUBLIC client config. Anything written here is served to
       # every visitor at the site path /js/config.js, so no secret
@@ -91,6 +98,8 @@ jobs:
         run: node test/pages-availability-check.js
 
       - name: Build public site artifact
+        env:
+          COHO_REQUIRE_PAGE_DATES: '1'
         run: node scripts/build-public-site.mjs
 
       - name: Guard public site artifact
