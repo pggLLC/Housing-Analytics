@@ -39,7 +39,7 @@ function analyze(site, zones, affh = {}, atlas = {}) {
 function renderers() {
   const dom = new JSDOM('<div id="pmaJustificationCard"><div id="pmaJustificationNarrative"></div>' +
     '<div id="pmaIncentiveBadges"></div></div><div id="dcSoftFundingBreakdown"></div>',
-  { url: 'https://example.test/market-analysis.html', runScripts: 'outside-only' });
+  { url: 'https://example.com/market-analysis.html', runScripts: 'outside-only' });
   const w = dom.window;
   w.console = { log() {}, warn() {}, error() {} };
   w.fetch = async () => ({ ok: false });
