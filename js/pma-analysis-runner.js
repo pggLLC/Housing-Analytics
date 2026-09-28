@@ -56,6 +56,15 @@
     };
   }
 
+  // The box the runner's data lookups use (barriers, schools, EPA SLD).
+  // Exposed so the site-selection score asks PMATransit.scoreSite for the
+  // same EPA box. Tract picker mode widens to cover the chosen tracts.
+  function bboxFor(lat, lon, options) {
+    options = options || {};
+    var bufferMiles = toNum(options.bufferMiles || 3);
+    return _bbox(lat, lon, (options.method === 'tract') ? 15 : Math.max(bufferMiles, 10));
+  }
+
   /* ── Event emitter (minimal) ─────────────────────────────────────── */
   function EventEmitter() {
     this._handlers = {};
@@ -96,8 +105,7 @@
     // click radius — widen to 15 mi so downstream barrier/transit fetches
     // pull data over the chosen tracts even if they extend past the
     // default 10-mi window.
-    var bboxMiles = (method === 'tract') ? 15 : Math.max(bufferMiles, 10);
-    var bbox    = _bbox(lat, lon, bboxMiles);
+    var bbox    = bboxFor(lat, lon, { method: method, bufferMiles: bufferMiles });
     var stepIdx = 0;
     var cumulativeWeight = 0;
 
@@ -260,24 +268,22 @@
             progress('schools', 'Schools module unavailable');
           });
 
-      var transitP = (pmaTransit && ds)
-        ? Promise.all([
-            ds.fetchNTDData(bbox),
-            ds.fetchEPASmartLocation(bbox)
-          ]).then(function (res) {
-            var ntdResult = res[0] || {};
-            var epaResult = res[1] || {};
-            var transitScore = pmaTransit.calculateTransitScore(lat, lon, ntdResult.transitRoutes || [], epaResult);
-            results.transit = pmaTransit.getTransitJustification();
-            // Propagate data source info
-            results.transit._ntdDataSource = ntdResult._dataSource || 'unknown';
-            results.transit._epaDataSource = epaResult._dataSource || 'unknown';
+      // Transit is scored from confirmed stops in the statewide stop file,
+      // at the two HB26-1065 distances in data/policy/thiz-map-status.json,
+      // never from route geometry. PMATransit.scoreSite computes it once per
+      // site and shares it with the site-selection score, so the narrative
+      // and the displayed score agree. A file that did not load gives a null
+      // score with transitUnavailableReason, not a 0.
+      var transitP = (pmaTransit && typeof pmaTransit.scoreSite === 'function')
+        ? pmaTransit.scoreSite(lat, lon, { bbox: bbox }).then(function (j) {
+            results.transit = j;
             var label = 'Scoring transit accessibility';
-            if (ntdResult._dataSource === 'local-gtfs') label += ' (local GTFS data)';
-            if (epaResult._dataSource === 'epa-sld-local') label += ' (local EPA SLD data)';
-            else if (epaResult._dataSource === 'epa-unavailable') label += ' — EPA walkability unavailable';
+            if (j.transitAccessibilityScore === null) label += ' — not scored (transit data unavailable)';
+            else if (j._stopDataSource === 'local-stops') label += ' (confirmed transit stops)';
+            if (j._epaDataSource === 'epa-sld-local') label += ' (local EPA SLD data)';
+            else if (j._epaDataSource === 'epa-unavailable') label += ' — EPA walkability unavailable';
             progress('transit', label + '…');
-            return transitScore;
+            return j.transitAccessibilityScore;
           })
           .catch(function () {
             results.transit = {};
@@ -507,11 +513,12 @@
   /* ── Public API ──────────────────────────────────────────────────── */
   if (typeof window !== 'undefined') {
     window.PMAAnalysisRunner = {
-      run:   run,
-      STEPS: STEPS
+      run:     run,
+      bboxFor: bboxFor,
+      STEPS:   STEPS
     };
   }
 
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { run: run, STEPS: STEPS };
+    module.exports = { run: run, bboxFor: bboxFor, STEPS: STEPS };
   }}());
