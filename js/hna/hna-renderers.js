@@ -7750,15 +7750,21 @@
         // F30: flag place-level vs county-fallback so a place that lacks
         // place-level data (and thus shows its county's gap) is honest.
         const placeFellBackToCounty = wantPlace && !acsIsPlace;
+        // The income-limit year comes from the file the figures came from; a
+        // typed year said "HUD 2025" for months over 2026 limits (#2008).
+        const ilMeta = ((acsIsPlace ? placeAmiData : acsAmiData) || {}).meta || {};
+        const ilLabel = ilMeta.hud_income_limits_year
+          ? 'HUD ' + ilMeta.hud_income_limits_year + ' income limits'
+          : 'HUD income limits (year unavailable)';
         confEl.textContent = acsIsPlace ? 'ACS-derived (place)'
                             : placeFellBackToCounty ? 'County (no place data)'
                             : 'ACS-derived';
         confEl.className   = 'data-reliability-badge ' + (placeFellBackToCounty ? 'drb--warn' : 'drb--ok');
         confEl.title       = (acsIsPlace
-            ? 'Place-level rental shortfall for the selected jurisdiction (Census ACS B25118 renter households + B25063 gross rent at place geography vs HUD 2025 income limits). '
+            ? 'Place-level rental shortfall for the selected jurisdiction (Census ACS B25118 renter households + B25063 gross rent at place geography vs ' + ilLabel + '). '
             : placeFellBackToCounty
             ? 'No place-level AMI-gap data for this jurisdiction — showing its CONTAINING COUNTY’s shortfall as a fallback. Place totals will be smaller. '
-            : 'Cumulative rental shortfall computed from ACS B25118 renter households by income + B25063 gross rent against HUD 2025 income limits. ')
+            : 'Cumulative rental shortfall computed from ACS B25118 renter households by income + B25063 gross rent against ' + ilLabel + '. ')
           + '7-band granularity (30/40/50/60/70/80/100% AMI).';
       } else if (usingChasFallback) {
         confEl.textContent = 'HUD CHAS';

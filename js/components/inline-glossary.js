@@ -115,7 +115,7 @@
     'AHTC': 'Affordable Housing Tax Credit — alternate name some states use for the federal LIHTC program (or for layered state credits).',
     'MTSP': 'Multifamily Tax Subsidy Project — HUD\'s annually-published income and rent limits used for LIHTC and tax-exempt-bond projects. Sets the maximum rent allowed at each AMI tier.',
     'HERA': 'Housing and Economic Recovery Act of 2008 — federal law that created the "HERA Special" income limits, a hold-harmless protection for LIHTC projects placed in service on or before 2008-12-31 in certain counties.',
-    'AHCIA': 'Affordable Housing Credit Improvement Act — proposed federal legislation that would expand and strengthen the LIHTC program (lower bond-financing test, automatic basis boost in rural and Tribal areas, etc.).',
+    'AHCIA': 'Affordable Housing Credit Improvement Act — federal LIHTC legislation, partly enacted: its 12% increase in 9% credit allocations and lower (25%) bond-financing test became law in July 2025; its remaining provisions (e.g. automatic basis boost in rural and Tribal areas) are still pending in Congress.',
     'NCHMA': 'National Council of Housing Market Analysts — the industry body that publishes professional standards for LIHTC market studies (capture-rate methodology, comparable selection, demand calculations).',
     // Markets, demographics, geography
     'OZ': 'Opportunity Zone — a federally-designated low-income census tract where investors get capital-gains tax deferral and reduction in exchange for long-term investment.',
