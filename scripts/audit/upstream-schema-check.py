@@ -402,14 +402,9 @@ def check_dola_population() -> dict:
             "status": "unreachable",
             "warning": f"DOLA SDO profile endpoint unavailable after {NETWORK_RETRY_ATTEMPTS} attempts ({exc})",
         }
-    if 500 <= status <= 599:
-        return {
-            "ok": True,
-            "status": "unreachable",
-            "warning": f"DOLA SDO profile endpoint unavailable (HTTP {status})",
-        }
     # DOLA accepts the query but returns plain-text or JSON depending on
-    # parameters. 200 = endpoint live; 4xx = endpoint moved/broken.
+    # parameters. 200 = endpoint live; any HTTP status here stays fatal so
+    # upstream contract/service regressions still fail the check.
     assert status == 200, f"DOLA SDO profile endpoint returned {status}"
     return {"ok": True, "status": status}
 
