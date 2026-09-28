@@ -434,13 +434,31 @@
     };
   }
 
+  // Renter households at or below 80% AMI minus the rental units priced for
+  // them, floored at 0. The stored gap field has a different sign in each
+  // file (#2013): data/co_ami_gap_by_county.json stores units − households,
+  // data/co_ami_gap_by_place.json and combined-geo store households − units.
+  // Callers tag the record with gapSource; an untagged record is recomputed
+  // from its household and unit counts, which mean the same thing in both
+  // files, rather than guessing a sign — and is null when those are absent.
   function rentalGap(amiGapEntry) {
-    var gaps = amiGapEntry && amiGapEntry.gap_units_minus_households_le_ami_pct;
-    if (!gaps) return null;
-    var raw = num(gaps['80'] != null ? gaps['80'] : gaps[80]);
-    if (raw == null) return null;
-    var source = amiGapEntry.gapSource || amiGapEntry._gapSource || amiGapEntry.sourceFile || null;
-    return source === 'county' ? Math.max(0, -raw) : Math.max(0, raw);
+    if (!amiGapEntry) return null;
+    // num() alone would turn a stored null into 0 (Number(null) === 0), so an
+    // absent band is checked before conversion.
+    var pick = function (series) {
+      if (!series) return null;
+      var v = series['80'] != null ? series['80'] : series[80];
+      return v == null || v === '' ? null : num(v);
+    };
+    var gaps = amiGapEntry.gap_units_minus_households_le_ami_pct;
+    var raw = pick(gaps);
+    var source = amiGapEntry.gapSource || amiGapEntry._gapSource || null;
+    if (raw != null && source === 'county') return Math.max(0, -raw);
+    if (raw != null && (source === 'place' || source === 'combined')) return Math.max(0, raw);
+    var hh = pick(amiGapEntry.households_le_ami_pct);
+    var units = pick(amiGapEntry.units_priced_affordable_le_ami_pct);
+    if (hh == null || units == null) return null;
+    return Math.max(0, hh - units);
   }
 
   function unavailable(input) {
@@ -615,6 +633,7 @@
     monthlyMortgageFactor: monthlyMortgageFactor,
     ownerValueSupplySeries: ownerValueSupplySeries,
     priceBandDemandScreen: priceBandDemandScreen,
+    rentalGap: rentalGap,
     PRICE_BAND_SCREEN_LABEL: PRICE_BAND_SCREEN_LABEL,
     CHAS_TOP_BAND_LIMIT: CHAS_TOP_BAND_LIMIT,
     OWNER_VALUE_BINS: OWNER_VALUE_BINS,
