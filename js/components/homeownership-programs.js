@@ -60,6 +60,12 @@
     return 'Amount not yet verified';
   }
 
+  // Review-date warning (js/components/review-status.js). Absent helper: no
+  // warning rather than a broken card.
+  function reviewHtml(record) {
+    return global.ReviewStatus ? global.ReviewStatus.html(record) : '';
+  }
+
   function renderProgramCard(program) {
     return '<article class="chart-card" data-homeownership-program-id="' + esc(program.id) + '" style="padding:var(--sp3);">' +
       '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--sp2);">' +
@@ -82,6 +88,7 @@
         (program.sunset_date ? '<span>Sunset ' + esc(program.sunset_date) + '</span>' : '') +
         '<a href="' + esc(program.source_url) + '" target="_blank" rel="noopener">Official source</a>' +
       '</div>' +
+      reviewHtml(program) +
     '</article>';
   }
 
@@ -93,7 +100,8 @@
       return;
     }
 
-    target.innerHTML = ['federal', 'colorado', 'metro'].map(function (level) {
+    var summary = global.ReviewStatus ? global.ReviewStatus.summaryHtml(programs, null, 'programs') : '';
+    target.innerHTML = summary + ['federal', 'colorado', 'metro'].map(function (level) {
       var group = programs.filter(function (program) { return program.level === level; });
       if (!group.length) return '';
       return '<section aria-labelledby="homebuyer-' + esc(level) + '-heading" style="margin:var(--sp4) 0;">' +
