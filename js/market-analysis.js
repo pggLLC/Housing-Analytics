@@ -2096,7 +2096,7 @@
     // Enhanced pipeline data sources (from PMA Analysis Runner).
     //
     // Each label gets a known-cached default — all six data files DO exist
-    // in the repo (transit_routes_co.geojson, epa_sld_co.json,
+    // in the repo (transit_stops_statewide_co.geojson, epa_sld_co.json,
     // opportunity_insights_co.json, utility_capacity_co.geojson,
     // food_access_co.json) — so the prior all-null initialisation that left
     // the panel showing six "unavailable" rows was misleading. The default
@@ -2104,8 +2104,8 @@
     // override with 'live' / 'stub' / 'unavailable' when it observes the
     // actual status during a run.
     var pipelineSources = [
-      { label: 'Transit Routes',     source: result._transitDataSource || 'cached',
-        file: 'data/market/transit_routes_co.geojson' },
+      { label: 'Transit Stops',      source: 'cached',
+        file: 'data/amenities/transit_stops_statewide_co.geojson' },
       { label: 'EPA Walkability',    source: result._epaDataSource     || 'cached',
         file: 'data/market/epa_sld_co.json' },
       { label: 'HUD AFFH',           source: 'cached',
@@ -2121,7 +2121,9 @@
     // Derive source info from the analysis runner results if available
     var ar = result._analysisResults || {};
     if (ar.transit) {
-      pipelineSources[0].source = ar.transit._ntdDataSource || (ar.transit.nearbyRouteCount > 0 ? 'local-gtfs' : pipelineSources[0].source);
+      // The PMA transit score reads the local stop file ('local-stops');
+      // 'unavailable' when it did not load (the score is then null).
+      if (ar.transit._stopDataSource === 'unavailable') pipelineSources[0].source = 'unavailable';
       pipelineSources[1].source = ar.transit._epaDataSource || (ar.transit.epaDataAvailable ? 'epa-live' : pipelineSources[1].source);
     }
     if (ar.opportunities && ar.opportunities._dataSources) {
@@ -4606,7 +4608,12 @@
     var DS = window.DataService;
     var src = LAYER_CONFIG.transitStops.src;
     var url = (DS && typeof DS.baseData === 'function') ? DS.baseData(src) : ('data/' + src);
-    var p = (DS && typeof DS.getJSON === 'function')
+    // DataService.fetchTransitStops is the same file, fetched once per page
+    // and shared with the PMA transit score; use it when it is on the page.
+    // (test/pma-transit-stops.test.js checks the two paths are one file.)
+    var p = (DS && typeof DS.fetchTransitStops === 'function')
+      ? DS.fetchTransitStops().then(function (r) { if (!r.geojson) throw new Error(r.unavailableReason); return r.geojson; })
+      : (DS && typeof DS.getJSON === 'function')
       ? DS.getJSON(url)
       : fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
     p.then(function (gj) {

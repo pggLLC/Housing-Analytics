@@ -639,8 +639,25 @@
       if (walkability.intersectionDensity != null) {
         html += _miniMetric('Intersection Density', walkability.intersectionDensity);
       }
-      if (walkability.transitFrequency != null) {
-        html += _miniMetric('Transit Frequency', walkability.transitFrequency);
+      // EPA D4A is a distance, not a frequency or a score (see
+      // EPA_D4A_NOT_A_SCORE_REASON in epa-walkability.js). Blank in EPA's data
+      // means no stop within ~3/4 mile or no transit feed, never 0 m.
+      html += _miniMetric('Nearest Transit Stop',
+        typeof walkability.nearestTransitStopMeters === 'number'
+          ? _fmtN(walkability.nearestTransitStopMeters, 0) + ' m (' +
+            _fmtN(walkability.nearestTransitStopMeters / 1609.344, 2) + ' mi)'
+          : 'None reported');
+      if (walkability.transitScoreUnavailableReason) {
+        html += '<div style="grid-column:1 / -1;color:var(--muted);font-size:0.72rem;line-height:1.35;">' +
+          _esc(walkability.transitScoreUnavailableReason) +
+          (typeof walkability.nearestTransitStopMeters === 'number'
+            ? ' Distance is averaged over ' + walkability.transitStopBlockGroupCount + ' of ' +
+              walkability.blockGroupCount + ' block group(s)' +
+              (walkability.transitStopBlockGroupCount < walkability.blockGroupCount
+                ? '; EPA leaves the rest blank (no stop within ~3/4 mile, or no transit feed).'
+                : '.')
+            : ' EPA reports no stop within ~3/4 mile (or no transit feed) for these block groups.') +
+          '</div>';
       }
       if (walkability.landUseMix != null) {
         html += _miniMetric('Land-Use Mix', walkability.landUseMix);
@@ -675,7 +692,10 @@
    * @private
    */
   function _walkBikeRow(label, score, labelText) {
-    var s = typeof score === 'number' ? score : 0;
+    if (typeof score !== 'number') {
+      return _metricRow(label, 'Unavailable');
+    }
+    var s = score;
     var color = (s >= 60) ? 'var(--good)' : (s >= 40) ? 'var(--warn)' : 'var(--bad)';
     return (
       '<div style="display:flex;justify-content:space-between;align-items:center;' +

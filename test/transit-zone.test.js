@@ -312,7 +312,7 @@ test('the status name carries the radius in the status file', () => {
 
 // The private-shuttle marker: helper, builder and the shipped stop file.
 function shuttleAgreement(builderSrc, helperSrc, fileValues) {
-  const helper = (helperSrc.match(/properties\.operator === '([^']+)'\) continue;/) || [])[1];
+  const helper = (helperSrc.match(/function isPublicScheduledStop\([^)]*\) \{[^}]*?\.operator !== '([^']+)'/) || [])[1];
   assert.ok(helper, 'the helper no longer skips an operator value');
   const emitted = new Set([...builderSrc.matchAll(/"operator"\]?\s*[:=]\s*"([^"]+)" if [^\n]*? else "([^"]+)"/g)].flatMap((m) => [m[1], m[2]]));
   assert.ok(emitted.size >= 2, 'no operator values found in build_transit_stops_co.py');
@@ -529,7 +529,8 @@ test('qapTodDistance reads the value and builds the disclosure from the method f
 // QAP TOD measure, and it never claims QAP points.
 const TRANSIT_CODE = ['js/transit-zone.js', 'js/market-analysis.js', 'js/hna/hna-renderers.js', 'js/hna/hna-export.js',
   'js/workflow/recommendation-contract.js', 'js/workflow/recommendation-page.js', 'js/project-market-study/study-transit-zone.js',
-  'recommendation.html', 'scripts/market/build_transit_zone_by_geography.py'];
+  'recommendation.html', 'scripts/market/build_transit_zone_by_geography.py',
+  'js/pma-transit.js'];
 const HALF_MILE_LITERALS = [
   [/\b804\.\d+/, 'half a mile in metres'],
   [/\b0?\.5\s*\*\s*1609|1609(?:\.\d+)?\s*\*\s*0?\.5\b|1609(?:\.\d+)?\s*\/\s*2\b/, 'half a mile computed from metres'],
@@ -626,6 +627,7 @@ const HALF_MILE_SURFACES = {
   'js/hna/hna-export.js': 'test/hna-export-matches-screen.test.js',
   'js/workflow/recommendation-contract.js': 'test/recommendation-transit-zone.test.mjs',
   'js/market-analysis.js': 'test/qap-tod-points.test.js',
+  'js/pma-transit.js': 'test/pma-transit-stops.test.js',
 };
 test('every file that shows a half-mile result is a registered, tested surface', () => {
   const files = [];
