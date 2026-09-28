@@ -296,7 +296,7 @@ function saveSnapshot(site) {
   const saved = [];
   const ctx = vm.createContext({
     window: { MAController: { getCurrentSite: () => site } },
-    WorkflowState: { setStep: (k, v) => saved.push([k, v]) },
+    WorkflowState: { getStep: () => ({}), setStep: (k, v) => saved.push([k, v]) },
     Number, console,
   });
   ctx.window.WorkflowState = ctx.WorkflowState;

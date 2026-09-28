@@ -1932,6 +1932,16 @@
         // DDA name/code, HUD year/source), or null while the check is pending.
         qctDdaEvidence: site.qctDdaEvidence || null
       };
+      // Saving a different point or radius: fields this save does not write
+      // describe the previously saved site, so they must not merge into this one.
+      var prev = WorkflowState.getStep('market') || {};
+      if (prev.siteLat !== site.lat || prev.siteLon !== site.lon || prev.bufferMiles !== site.bufferMiles) {
+        snapshot.siteAddress = null;
+        snapshot.dimensions = null;
+        snapshot.fmrRents = null;
+        snapshot.bridgeLandContext = null;
+        snapshot.exportReady = false;
+      }
       WorkflowState.setStep('market', snapshot);
       return true;
     } catch (e) {
