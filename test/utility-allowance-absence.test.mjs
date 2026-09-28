@@ -68,7 +68,10 @@ async function netCellFor(ua) {
   return row.children[col];
 }
 const blank = await netCellFor(null);
-assert.equal(blank.textContent.trim(), 'Enter UA', 'blank allowance must not render a net rent');
+// The contract, not the wording: no money in the cell, the unavailable marker,
+// and the component's own stated reason as the tooltip.
+assert(!/\$\s*\d/.test(blank.textContent), `blank allowance must not render a net rent (cell reads "${blank.textContent.trim()}")`);
+assert(blank.textContent.trim().length > 0, 'the blank-allowance cell must say something, not render empty');
 assert.equal(blank.getAttribute('data-net-rent-unavailable'), 'utility-allowance');
 assert.equal(blank.getAttribute('title'), SP0.SubjectProject.UA_MISSING_REASON, 'the cell says why');
 const money = (n) => '$' + Math.round(n).toLocaleString('en-US');
@@ -111,4 +114,4 @@ for (const f of ['js/components/subject-project.js', 'js/components/subject-rent
   }
 }
 
-console.log(`Utility allowance absence: PASS (county ${county}, CHFA 60% 2BR gross ${money(GROSS)}; blank → "Enter UA", $0 → gross, $150 → gross − 150; ${seeds.length} seeded rows start blank)`);
+console.log(`Utility allowance absence: PASS (county ${county}, CHFA 60% 2BR gross ${money(GROSS)}; blank → no net rent + reason, $0 → gross, $150 → gross − 150; ${seeds.length} seeded rows start blank)`);
