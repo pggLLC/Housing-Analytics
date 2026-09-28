@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-28T02:02:40.885929Z",
+  "generated": "2026-09-28T02:29:35.302841Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 826822
+      "bytes": 827125
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7615,6 +7615,11 @@
       "featureCount": 1070,
       "placeholder": false,
       "bytes": 511275
+    },
+    "data/market/epa_sld_bg_geometry_co.geojson": {
+      "featureCount": 3532,
+      "placeholder": false,
+      "bytes": 2555192
     },
     "data/market/epa_sld_co.json": {
       "featureCount": 0,
