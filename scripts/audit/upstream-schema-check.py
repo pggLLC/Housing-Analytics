@@ -452,7 +452,10 @@ def main() -> int:
             indent=2,
         ))
     else:
-        print(f"\n{executed - failed}/{executed} checks passed.")
+        summary = f"\n{executed - failed}/{executed} checks passed."
+        if skipped:
+            summary += f" ({skipped} skipped)"
+        print(summary)
 
     return 0 if failed == 0 else 1
 

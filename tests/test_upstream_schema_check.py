@@ -238,4 +238,4 @@ def test_main_returns_zero_when_only_warning_is_dola_unreachable(capsys):
     captured = capsys.readouterr()
     assert exit_code == 0
     assert "⚠ dola.population: DOLA SDO profile endpoint unavailable" in captured.out
-    assert "1/1 checks passed." in captured.out
+    assert "1/1 checks passed. (7 skipped)" in captured.out
