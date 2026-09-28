@@ -62,7 +62,7 @@
       "id": "cra-scenarios",
       "section": "analysis",
       "type": "Hypothetical scenarios",
-      "title": "CRA Expansion Impact: Hypothetical Pricing Scenarios",
+      "title": "CRA Expansion Impact on LIHTC Pricing",
       "url": "cra-expansion-analysis.html",
       "summary": "What LIHTC pricing could do if Community Reinvestment Act rules widened the investor base. These are scenarios with author-estimated probabilities, not forecasts: no such expansion is enacted or pending. The actual CRA rule status is in the watchlist.",
       "sources": ["Federal Register", "OCC", "Novogradac"],
@@ -112,8 +112,7 @@
       "url": "article-pricing.html",
       "summary": "LIHTC equity pricing history, Novogradac national and regional benchmarks, transfer-credit pricing, and the federal policy watchlist, all rendered from data files.",
       "sources": ["Novogradac", "Crux", "IRS", "Federal Register"],
-      "maintenance": "reviewed",
-      "review_from": { "file": "data/market/novogradac-equity-pricing.json" }
+      "maintenance": "live-data"
     },
     {
       "id": "lihtc-basics",

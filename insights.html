@@ -65,14 +65,13 @@
            (test/research-catalog.test.mjs). Each card says how current it is:
            checked on a schedule, published once, regenerated, or live data. -->
       <div id="researchCatalog" class="rc-hub">
-        <p class="rc-loading">Loading research and analysis…</p>
         <noscript>
           <ul class="rc-noscript">
             <li><a href="housing-legislation-2026.html">Policy &amp; Legislation</a></li>
             <li><a href="lihtc-enhancement-ahcia.html">Affordable Housing Credit Improvement Act (AHCIA)</a></li>
             <li><a href="article-fair-housing-rollback.html">Fair Housing Without the Rulebook</a></li>
             <li><a href="article-co-housing-costs.html">Colorado Housing Costs: County-Level Analysis</a></li>
-            <li><a href="cra-expansion-analysis.html">CRA Expansion Impact: Hypothetical Pricing Scenarios</a></li>
+            <li><a href="cra-expansion-analysis.html">CRA Expansion Impact on LIHTC Pricing</a></li>
             <li><a href="working-paper.html">Instrumenting Housing Need</a></li>
             <li><a href="apa-white-paper.html">Deciding About Housing With Public Data</a></li>
             <li><a href="methods.html">What the Numbers Actually Do</a></li>
@@ -241,7 +240,7 @@
                   <span>CO Unemployment</span>
                   <strong style="color:var(--good);" id="insightsRiskUnemp">—</strong>
                 </div>
-                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;"><span style="color:var(--good);font-weight:700;">DATA</span> · 2025 annual, unweighted mean of 64 county rates (not the statewide rate) · <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a></div>
+                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;"><span style="color:var(--good);font-weight:700;">DATA</span> · <span id="insightsRiskUnempBasis">unweighted mean of county rates (not the statewide rate)</span> · <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a></div>
                 <div class="progress-bar"><div class="progress-fill" id="insightsRiskUnempBar" style="width:0%;"></div></div>
               </div>
               <div class="progress-row">
@@ -264,9 +263,11 @@
             <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;">Sources linked per row · LIVE / DATA = read from COHO data files; STATIC = snapshot from public report; QUAL = directional judgment from underlying series.</div>
             <script>
             /* F119 — wire BLS LAUS unemployment into the Risk Indicators progress row.
-               Mirrors the wiring in the page hero (F118-2). Same data file. Width
-               of the progress bar scales 0–10% → 0–100% so the bar communicates
-               proximity to the 10% recession-warning band. */
+               The figure is an unweighted mean of the county rates in the file,
+               not Colorado's statewide rate. The label says how many counties it
+               averaged and which period the file says the rates are for, both
+               read from the file. Width of the progress bar scales 0–10% →
+               0–100% so the bar communicates proximity to the 10% band. */
             (function () {
               'use strict';
               fetch('data/co-county-economic-indicators.json', { cache: 'no-cache' })
@@ -282,6 +283,12 @@
                   var bar = document.getElementById('insightsRiskUnempBar');
                   if (el) el.textContent = avg.toFixed(1) + '%';
                   if (bar) bar.style.width = Math.min(100, avg * 10).toFixed(0) + '%';
+                  var basis = document.getElementById('insightsRiskUnempBasis');
+                  var period = String(d.source || '').match(/unemployment (\d{4}) annual/i);
+                  if (basis) {
+                    basis.textContent = (period ? period[1] + ' annual, ' : '') + 'unweighted mean of ' + vals.length +
+                      ' county rates (not the statewide rate)';
+                  }
                 })
                 .catch(function () {});
             })();
@@ -375,6 +382,9 @@
     var RC = window.ResearchCatalog;
     var host = document.getElementById('researchCatalog');
     if (!RC || !host) return;
+    // Written by the script, so a reader without JavaScript sees only the
+    // fallback list, never a loading message that cannot finish.
+    host.insertAdjacentHTML('afterbegin', '<p class="rc-loading">Loading research and analysis…</p>');
     var get = function (path) {
       var url = typeof window.resolveAssetUrl === 'function' ? window.resolveAssetUrl(path) : path;
       return (window.fetchWithTimeout || window.fetch)(url, {}, 15000)

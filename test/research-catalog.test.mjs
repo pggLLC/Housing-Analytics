@@ -82,7 +82,7 @@ function expectedCheck(entry) {
   if (entry.review_from.ids) {
     return entry.review_from.ids.map((id) => doc.entries.find((e) => e.id === id).last_verified).sort()[0];
   }
-  return doc.meta.last_verified || doc.meta.as_of;
+  return doc.meta.last_verified;
 }
 
 test('the catalog is well formed and points at real pages and files', () => {
@@ -138,6 +138,18 @@ test('the Housing News panel shows the hub\'s newest dated research, in order', 
   assert.deepEqual(panel, dated, 'the Housing News panel is not the newest three dated research items');
   const hubAnalysis = [...hubDoc.querySelectorAll('[data-catalog-section="analysis"] .rc-card')].map((c) => c.dataset.catalogId);
   assert.deepEqual(hubAnalysis.slice(0, 3), dated, 'the hub\'s analysis section does not lead with the same items');
+});
+
+test('each card is titled with its page\'s name', () => {
+  // The page's <h1> or its <title> before the site suffix: a card that names a
+  // page differently from the page itself is the drift this list replaced.
+  const norm = (t) => t.toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, ' ').trim();
+  for (const e of CATALOG.entries) {
+    const doc = new JSDOM(read(e.url)).window.document;
+    const pageNames = [doc.querySelector('h1'), doc.querySelector('title')].filter(Boolean)
+      .map((el) => norm(el.textContent.split('|')[0]));
+    assert.ok(pageNames.some((n) => n.includes(norm(e.title))), `card "${e.title}" is not what ${e.url} calls itself (${pageNames.join(' / ')})`);
+  }
 });
 
 test('without JavaScript the hub still lists every catalog page', () => {

@@ -202,3 +202,20 @@ test('a reported entry says so where it is shown in full; no file hides the rail
   const empty = await newsPage(null);
   assert.equal(empty.getElementById('policyWatchPanel').hidden, true, 'the panel shows with no data behind it');
 });
+
+test('a section with mixed statuses shows each; a malformed source is text, not a link', async () => {
+  const entry = (id, status, url) => ({ id, section: 'qap', status, date: null, title: `Entry ${id}`,
+    source: { label: 'CHFA', url }, verification: { level: 'primary', against: 'the plan', checked: '2026-09-24' } });
+  const watch = { schema: 'policy-watch/v1', meta: { as_of: '2026-09-24', known_gaps: [] },
+    entries: [entry('a', 'third draft', 'https://example.org/a'), entry('b', 'adopted', 'javascript:alert(1)')] };
+  const news = await newsPage(watch);
+  const row = rowsOf(news).find((r) => r.dataset.watchRow === 'qap');
+  assert.match(row.textContent, /third draft/);
+  assert.match(row.textContent, /adopted/, 'one status stands for a section whose entries differ');
+  const leg = await legislationPage(watch);
+  const hrefs = [...leg.querySelectorAll('#policy-watch-list a')].map((a) => a.getAttribute('href'));
+  assert.ok(hrefs.includes('https://example.org/a'), 'a valid source is not linked');
+  assert.ok(!hrefs.some((h) => /^javascript:/i.test(h)), 'a javascript: source became a link');
+  assert.match(leg.querySelector('[data-watch-id="b"] .watch-item__title').textContent, /Entry b/, 'the malformed entry is not shown at all');
+});
+
