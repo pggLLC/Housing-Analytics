@@ -43,8 +43,26 @@
   var SIMPLIFY_TOL_DEG = 0.0005;
 
   /* ── Value range constants (from Colorado EPA SLD data) ───────────── */
-  var WALK_MAX      = 200;   // D3b intersection density cap for scoring (99th pctile ≈ 180)
+  var WALK_MAX      = 200;   // D3b intersection density cap for the bike score (99th pctile ≈ 180)
   var AUTO_MAX      = 48;    // D3apo auto network density cap
+
+  // The walk score is EPA's National Walkability Index (walkIndex, 1-20),
+  // rescaled to 0-100. EPA builds it from national quantile ranks:
+  //   d3bRanked/3 + d4aRanked/3 + d2aRanked/6 + d2bRanked/6
+  // (intersection density, proximity to transit, employment-household mix,
+  // employment mix); scripts/market/fetch_epa_sld.py checks every block group
+  // against that formula. It replaced a COHO blend that was 75% intersection
+  // density, which scored dense cul-de-sac subdivisions as walkable as
+  // downtown (Parker 97, Pueblo's Bethlehem Square 100).
+  var WALK_INDEX_MIN = 1;
+  var WALK_INDEX_MAX = 20;
+  // EPA's own category breaks for the index.
+  var WALK_INDEX_CATEGORIES = [
+    { min: 15.26, label: 'Most walkable' },
+    { min: 10.51, label: 'Above average' },
+    { min: 5.76,  label: 'Below average' },
+    { min: -Infinity, label: 'Least walkable' }
+  ];
 
   // transitAccess in epa_sld_co.json is EPA SLD D4A: the distance in metres
   // from a block group's population-weighted centroid to the nearest transit
@@ -52,11 +70,12 @@
   // Lower is better, and EPA leaves it blank beyond ~3/4 mile, so half of
   // Colorado's block groups have no value. It used to be divided by a 1200
   // "frequency cap" and added to the walk score, which rewarded being far from
-  // transit. It is now carried as a distance and kept out of both scores;
-  // turning distance into a score is a methodology decision not yet made.
+  // transit. COHO still does not turn the distance into a score itself; the
+  // walk score includes it only through EPA's own ranking (d4aRanked), which
+  // ranks closer stops higher and no stop within ~3/4 mile lowest.
   var EPA_D4A_NOT_A_SCORE_REASON = 'EPA SLD D4A is distance to the nearest transit stop (metres), not transit ' +
-    'service frequency or an index, so it is not part of the walkability score; walkability uses intersection ' +
-    'density (D3B) and land-use mix.';
+    'service frequency or an index, so COHO does not score it directly. It reaches the walkability score only ' +
+    'through EPA\'s National Walkability Index, which ranks closer stops higher.';
 
   /* ── Load ──────────────────────────────────────────────────────────── */
 
@@ -202,8 +221,9 @@
    * @returns {{
    *   walkScore: number|null,
    *   bikeScore: number|null,
-   *   walkLabel: string|null,
+   *   walkLabel: string|null,       EPA's category for the index
    *   bikeLabel: string|null,
+   *   walkabilityIndex: number|null, EPA National Walkability Index, 1-20
    *   intersectionDensity: number|null,
    *   nearestTransitStopMeters: number|null,
    *   transitStopBlockGroupCount: number,
@@ -223,13 +243,12 @@
     var intersectionPts = walk != null ? Math.min(walk / WALK_MAX, 1) * 100 : null;
     var mixPts = mix != null ? mix * 100 : null;
 
-    // Walkability: intersection density (75%) + land-use mix (25%). This was
-    // 60/20/20 with D4A as the middle term; D4A's share went to the other two
-    // pro rata (see EPA_D4A_NOT_A_SCORE_REASON).
-    var walkScore = _blend([
-      { value: intersectionPts, weight: 0.75 },
-      { value: mixPts,          weight: 0.25 }
-    ]);
+    // Walkability: EPA's National Walkability Index, rescaled 1-20 -> 0-100.
+    // No index means no walk score; it never falls back to a COHO blend.
+    var walkIndex = _num(m.walkIndex);
+    var walkScore = walkIndex != null
+      ? Math.max(0, Math.min(100, Math.round((walkIndex - WALK_INDEX_MIN) / (WALK_INDEX_MAX - WALK_INDEX_MIN) * 100)))
+      : null;
 
     // Bikeability: low auto-orientation (40%) + land-use mix (30%) + intersection density (30%)
     // Low auto-net density = more bike-friendly
@@ -243,8 +262,9 @@
     return {
       walkScore:           walkScore,
       bikeScore:           bikeScore,
-      walkLabel:           walkScore != null ? _scoreLabel(walkScore) : null,
+      walkLabel:           walkIndex != null ? _walkIndexLabel(walkIndex) : null,
       bikeLabel:           bikeScore != null ? _scoreLabel(bikeScore) : null,
+      walkabilityIndex:    walkIndex != null ? Math.round(walkIndex * 10) / 10 : null,
       intersectionDensity: walk != null ? Math.round(walk * 10) / 10 : null,
       // Mean over the block groups that HAVE a stop within EPA's cutoff; the
       // rest are blank in the source, so this is not an area-wide average.
@@ -277,6 +297,13 @@
       w += parts[i].weight;
     }
     return w > 0 ? Math.max(0, Math.min(100, Math.round(sum / w))) : null;
+  }
+
+  function _walkIndexLabel(index) {
+    for (var i = 0; i < WALK_INDEX_CATEGORIES.length; i++) {
+      if (index >= WALK_INDEX_CATEGORIES[i].min) return WALK_INDEX_CATEGORIES[i].label;
+    }
+    return null;
   }
 
   function _scoreLabel(score) {
@@ -338,8 +365,8 @@
    * Average EPA SLD metrics across the given block groups.
    */
   function _averageForBlockGroups(bgIds) {
-    var sums = { walkability: 0, transitAccess: 0, landUseMix: 0, autoNetDensity: 0, empDensity: 0 };
-    var counts = { walkability: 0, transitAccess: 0, landUseMix: 0, autoNetDensity: 0, empDensity: 0 };
+    var sums = { walkability: 0, transitAccess: 0, landUseMix: 0, autoNetDensity: 0, empDensity: 0, walkIndex: 0 };
+    var counts = { walkability: 0, transitAccess: 0, landUseMix: 0, autoNetDensity: 0, empDensity: 0, walkIndex: 0 };
 
     for (var j = 0; j < bgIds.length; j++) {
       var bg = _blockGroups[bgIds[j]];
@@ -349,6 +376,7 @@
       if (bg.landUseMix != null)     { sums.landUseMix     += bg.landUseMix;     counts.landUseMix++;     }
       if (bg.autoNetDensity != null) { sums.autoNetDensity += bg.autoNetDensity; counts.autoNetDensity++; }
       if (bg.empDensity != null)     { sums.empDensity     += bg.empDensity;     counts.empDensity++;     }
+      if (bg.walkIndex != null)      { sums.walkIndex      += bg.walkIndex;      counts.walkIndex++;      }
     }
 
     if (counts.walkability === 0) return null;
@@ -359,6 +387,7 @@
       landUseMix:     counts.landUseMix > 0     ? sums.landUseMix / counts.landUseMix         : null,
       autoNetDensity: counts.autoNetDensity > 0 ? sums.autoNetDensity / counts.autoNetDensity : null,
       empDensity:     counts.empDensity > 0     ? sums.empDensity / counts.empDensity         : null,
+      walkIndex:      counts.walkIndex > 0      ? sums.walkIndex / counts.walkIndex           : null,
       _count:         counts.walkability,
       _transitCount:  counts.transitAccess
     };

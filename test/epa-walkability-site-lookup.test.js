@@ -133,7 +133,11 @@ const OLD_CONSTANT_BG = Object.keys(SLD.blockGroups)[0]; // what every site used
     assert(m && m.walkability === rec.walkability && m.landUseMix === rec.landUseMix &&
       m.autoNetDensity === rec.autoNetDensity,
       s.name + ' metrics equal epa_sld_co.json[' + s.bg + ']');
-    scored.push({ name: s.name, scores: E.getScores(s.lat, s.lon) });
+    const sc = E.getScores(s.lat, s.lon);
+    assert(sc && rec.walkIndex != null && sc.walkabilityIndex === Math.round(rec.walkIndex * 10) / 10 &&
+      sc.walkScore === Math.round((rec.walkIndex - 1) / 19 * 100),
+      s.name + ' walk score ' + (sc && sc.walkScore) + ' is EPA\'s index ' + rec.walkIndex + ' on 0-100');
+    scored.push({ name: s.name, scores: sc });
   }
 
   console.log('\n[test] sites far apart no longer share one answer');
@@ -186,6 +190,24 @@ const OLD_CONSTANT_BG = Object.keys(SLD.blockGroups)[0]; // what every site used
     amenities: { grocery: 0.4 }, walkability: null, walkabilityUnavailableReason: reason, access_score: 50,
   });
   const out = html.maNeighborhoodAccessContent || '';
+  rctx.window.MARenderers.renderNeighborhoodAccess({ amenities: { grocery: 0.4 }, walkability: scored[0].scores, access_score: 80 });
+  const shown = html.maNeighborhoodAccessContent || '';
+  const d = scored[0].scores;
+  assert(shown.includes(d.walkabilityIndex.toFixed(1) + ' of 20') && shown.includes(d.walkLabel),
+    'panel shows EPA\'s index (' + d.walkabilityIndex + ' of 20) and its category (' + d.walkLabel + ')');
+  const colorOf = { 'Most walkable': 'good', 'Above average': 'good', 'Below average': 'warn', 'Least walkable': 'bad' };
+  const breakColor = (v) => (v >= 60 ? 'good' : v >= 40 ? 'warn' : 'bad');
+  let discriminating = 0;
+  for (const x of scored) {
+    rctx.window.MARenderers.renderNeighborhoodAccess({ amenities: { grocery: 0.4 }, walkability: x.scores, access_score: 80 });
+    const h = html.maNeighborhoodAccessContent || '';
+    const walkRow = h.slice(h.indexOf('Walkability</span>'), h.indexOf('Bikeability</span>'));
+    const want = colorOf[x.scores.walkLabel];
+    if (want !== breakColor(x.scores.walkScore)) discriminating++;
+    assert(new RegExp('color:var\\(--' + want + '\\)').test(walkRow),
+      x.name + ': walk bar colour ' + want + ' agrees with EPA\'s category (' + x.scores.walkLabel + ', score ' + x.scores.walkScore + ')');
+  }
+  assert(discriminating > 0, 'at least one site where category colour and score-break colour differ (' + discriminating + '), so the check can fail');
   assert(out.includes('Walkability') && out.includes('Unavailable') && out.includes(reason.slice(1)),
     'Neighborhood Access renders "Unavailable" and the connector\'s own reason');
   assert(!out.includes('&amp;amp;'), 'section heading is escaped once, not twice');

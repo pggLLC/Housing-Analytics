@@ -68,6 +68,11 @@ SLD_FIELDS = [
     "D5AR",        # regional job accessibility (auto)
     "D2B_E8MIX",   # employment entropy / land use mix
     "D1C",         # gross employment density
+    "NatWalkInd",  # EPA National Walkability Index, 1-20 (see WALK_INDEX_WEIGHTS)
+    "D3B_Ranked",  # quantile rank 1-20 of D3B (intersection density)
+    "D4A_Ranked",  # quantile rank of D4A (1, 13-20): closer to transit ranks higher, none within ~3/4 mi = 1
+    "D2A_Ranked",  # quantile rank 1-20 of D2A_EPHHM (employment and household mix)
+    "D2B_Ranked",  # quantile rank 1-20 of D2B_E8MIXA (employment mix)
     "D3APO",       # auto-oriented network density
 ]
 
@@ -217,6 +222,12 @@ def safe_float(val, default=None):
         return default
 
 
+# EPA's published formula for the National Walkability Index. build_output()
+# checks every block group against it, so a changed or misread source field
+# fails the fetch instead of reaching the walkability score.
+WALK_INDEX_WEIGHTS = {"d3bRanked": 1 / 3, "d4aRanked": 1 / 3, "d2aRanked": 1 / 6, "d2bRanked": 1 / 6}
+
+
 def build_output(records: list[dict]) -> dict:
     """Transform raw records into the output JSON structure."""
     block_groups = {}
@@ -253,6 +264,23 @@ def build_output(records: list[dict]) -> dict:
         if d3apo is not None:
             bg["autoNetDensity"] = round(d3apo, 2)
 
+        nwi = safe_float(rec.get("NatWalkInd"))
+        ranks = {
+            "d3bRanked": safe_float(rec.get("D3B_Ranked") or rec.get("D3b_Ranked")),
+            "d4aRanked": safe_float(rec.get("D4A_Ranked") or rec.get("D4a_Ranked")),
+            "d2aRanked": safe_float(rec.get("D2A_Ranked") or rec.get("D2a_Ranked")),
+            "d2bRanked": safe_float(rec.get("D2B_Ranked") or rec.get("D2b_Ranked")),
+        }
+        if nwi is not None:
+            if any(v is None for v in ranks.values()):
+                raise RuntimeError(f"{geoid}: NatWalkInd {nwi} without all four component ranks")
+            expected = sum(ranks[k] * w for k, w in WALK_INDEX_WEIGHTS.items())
+            if abs(expected - nwi) > 0.01:
+                raise RuntimeError(f"{geoid}: NatWalkInd {nwi} != EPA formula {expected:.4f}")
+            bg["walkIndex"] = round(nwi, 4)
+            for k, v in ranks.items():
+                bg[k] = int(v)
+
         if bg:
             block_groups[geoid] = bg
 
@@ -273,6 +301,11 @@ def build_output(records: list[dict]) -> dict:
                 "empDensity": "D1C - gross employment density",
                 "jobsPerHH": "D2a_JPHH - jobs per household",
                 "autoNetDensity": "D3apo - auto-oriented network density",
+                "walkIndex": "NatWalkInd - EPA National Walkability Index, 1 (least walkable) to 20 (most): d3bRanked/3 + d4aRanked/3 + d2aRanked/6 + d2bRanked/6",
+                "d3bRanked": "D3B_Ranked - quantile rank 1-20 of intersection density (D3b)",
+                "d4aRanked": "D4A_Ranked - quantile rank of distance to nearest transit stop (D4a); closer ranks higher; 1 where no stop is within ~3/4 mile",
+                "d2aRanked": "D2A_Ranked - quantile rank 1-20 of employment and household mix (D2a_EpHHm)",
+                "d2bRanked": "D2B_Ranked - quantile rank 1-20 of employment mix (D2b_E8MixA)",
             },
         },
         "blockGroups": block_groups,
