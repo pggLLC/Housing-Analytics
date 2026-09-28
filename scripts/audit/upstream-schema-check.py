@@ -404,13 +404,17 @@ def main() -> int:
 
     skips = {s.strip().lower() for s in args.skip.split(",") if s.strip()}
     results: dict[str, dict] = {}
+    skipped = 0
+    executed = 0
     failed = 0
     warned = 0
 
     for name, fn in checks.items():
         if any(name.startswith(s + ".") or name == s for s in skips):
             results[name] = {"skipped": True}
+            skipped += 1
             continue
+        executed += 1
         try:
             r = fn()
             r.setdefault("ok", True)
@@ -437,13 +441,18 @@ def main() -> int:
     if args.json:
         print(json.dumps(
             {
-                "summary": {"checked": len(checks), "failed": failed, "warned": warned},
+                "summary": {
+                    "checked": executed,
+                    "failed": failed,
+                    "warned": warned,
+                    "skipped": skipped,
+                },
                 "results": results,
             },
             indent=2,
         ))
     else:
-        print(f"\n{len(checks) - failed}/{len(checks)} checks passed.")
+        print(f"\n{executed - failed}/{executed} checks passed.")
 
     return 0 if failed == 0 else 1
 
