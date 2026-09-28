@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generated_at": "2026-09-28T02:02:38.787Z",
+    "generated_at": "2026-09-28T02:29:32.260Z",
     "root": "data/",
-    "file_count": 1691,
-    "total_size_bytes": 172956954,
+    "file_count": 1692,
+    "total_size_bytes": 175512146,
     "kinds": {
       "json": 1655,
-      "geojson": 32,
+      "geojson": 33,
       "csv": 4
     }
   },
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-28T02:02:36.099Z",
+      "mtime": "2026-09-28T02:29:28.927Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30919,6 +30919,18 @@
       "geometry_type": "Point"
     },
     {
+      "path": "market/epa_sld_bg_geometry_co.geojson",
+      "kind": "geojson",
+      "size_bytes": 2555192,
+      "mtime": "2026-09-28T02:28:53.563Z",
+      "shape": "geojson",
+      "feature_count": 3532,
+      "property_keys": [
+        "geoid"
+      ],
+      "geometry_type": "Polygon"
+    },
+    {
       "path": "market/epa_sld_co.json",
       "kind": "json",
       "size_bytes": 733069,
@@ -31875,7 +31887,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14707,
-      "mtime": "2026-09-28T02:02:37.403Z",
+      "mtime": "2026-09-28T02:29:30.365Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31898,7 +31910,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-28T02:02:37.099Z",
+      "mtime": "2026-09-28T02:29:30.033Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

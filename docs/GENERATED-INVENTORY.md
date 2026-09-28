@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T02:02:20.595Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T02:29:09.925Z. Do not edit by hand.
 
 ---
 
@@ -29,7 +29,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.3 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.6 KB |
-| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 69.4 KB |
+| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 69.6 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.9 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 74.7 KB |
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-471 test files found.
+472 test files found.
 
 | File | Size |
 |------|------|
@@ -1852,7 +1852,8 @@
 | `test/energy-retrofit-funding.test.js` | 5.2 KB |
 | `test/entry-path-starts-at-jurisdiction.test.mjs` | 16.6 KB |
 | `test/epa-sld-local-lookup.test.js` | 7.5 KB |
-| `test/epa-walkability-d4a-distance.test.js` | 11.8 KB |
+| `test/epa-walkability-d4a-distance.test.js` | 12.2 KB |
+| `test/epa-walkability-site-lookup.test.js` | 9.5 KB |
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
 | `test/every-guard-runs-or-says-why.test.mjs` | 8.5 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
@@ -2243,7 +2244,7 @@
 | `.github/workflows/car-data-update.yml` | 2.4 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
 | `.github/workflows/chfa-qap-watch.yml` | 10.8 KB |
-| `.github/workflows/ci-checks.yml` | 19.9 KB |
+| `.github/workflows/ci-checks.yml` | 20.1 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 6.0 KB |
