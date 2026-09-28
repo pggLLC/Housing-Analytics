@@ -276,15 +276,16 @@ function checkRenderer(asSite) {
 }
 
 // ── 7. Saved PMA snapshot ────────────────────────────────────────────────────
-function checkSnapshot(asSite) {
+function saveSnapshot(asSite, currentSite) {
   const html = read('market-analysis.html');
-  const start = html.indexOf('function _qctDdaEvidence()');
+  const start = html.indexOf('function _currentSite()');
   const end = html.indexOf('document.addEventListener(\'DOMContentLoaded\'', start);
-  assert(start > 0 && end > start, 'market-analysis.html defines _qctDdaEvidence / savePmaToProject');
+  assert(start > 0 && end > start, 'market-analysis.html defines _currentSite / _qctDdaEvidence / savePmaToProject');
   const saved = [];
   const ctx = vm.createContext({
     window: {
       WorkflowState: {},
+      PMAEngine: currentSite ? { _lastLat: currentSite.lat, _lastLon: currentSite.lon } : undefined,
       MAState: { getState: () => ({ sections: { subsidy: {
         qctFlag: asSite.qctFlag, ddaFlag: asSite.ddaFlag,
         designationUnavailableReason: asSite.designationUnavailableReason, designationEvidence: asSite.designationEvidence } } }) },
@@ -296,12 +297,35 @@ function checkSnapshot(asSite) {
   ctx.window.WorkflowState = ctx.WorkflowState;
   vm.runInContext(html.slice(start, end) + '\nthis.__ok = savePmaToProject();', ctx);
   assert.strictEqual(ctx.__ok, true, 'savePmaToProject ran');
-  const snap = saved[0] && saved[0][1];
+  assert.strictEqual(saved[0] && saved[0][0], 'market');
+  return saved[0][1];
+}
+
+function checkSnapshot(asSite) {
+  // Saved for the site the evidence belongs to.
+  const snap = saveSnapshot(asSite, IN_QCT);
   assert(snap && snap.qctDdaEvidence, 'the saved snapshot carries qctDdaEvidence');
   assert.strictEqual(snap.qctDdaEvidence.qctFlag, true);
   assert.strictEqual(snap.qctDdaEvidence.evidence.qct.tractGeoid, asSite.designationEvidence.qct.tractGeoid,
     'the snapshot keeps the matched tract GEOID');
   assert.strictEqual(snap.qctDdaEvidence.evidence.qct.year, metaYear(QCT), 'the snapshot keeps the HUD year');
+  // The canonical fields the next steps read agree with the evidence.
+  const hos = read('js/housing-outcome-score.js');
+  assert(/market\.qctFlag/.test(hos) && /market\.ddaFlag/.test(hos),
+    'HousingOutcomeScore no longer reads market.qctFlag/ddaFlag; update this guard to what it reads');
+  assert.strictEqual(snap.qctFlag, snap.qctDdaEvidence.qctFlag, 'market.qctFlag agrees with the evidence');
+  assert.strictEqual(snap.ddaFlag, snap.qctDdaEvidence.ddaFlag, 'market.ddaFlag agrees with the evidence');
+  assert.strictEqual(snap.lat, IN_QCT.lat, 'the snapshot records the current site');
+
+  // Saved while a new site's report is still running: the subsidy section
+  // still holds the previous site's evidence. It must not be saved as this
+  // site's designation.
+  const stale = saveSnapshot(asSite, OUTSIDE);
+  assert.strictEqual(stale.qctFlag, null, 'another site\'s QCT answer is not this site\'s');
+  assert.strictEqual(stale.ddaFlag, null);
+  assert.strictEqual(stale.qctDdaEvidence.evidence, null, 'another site\'s tract is not saved');
+  assert(stale.qctDdaEvidence.unavailableReason, 'the stale case says why');
+  assert.strictEqual(stale.lat, OUTSIDE.lat);
 }
 
 (async () => {
