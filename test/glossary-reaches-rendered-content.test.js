@@ -46,7 +46,7 @@ test('wrapping re-runs when content arrives, not once at load', () => {
   assert.ok(/new MutationObserver\(/.test(SRC),
     'glossary.js no longer constructs an observer — it goes back to seeing only '
     + 'the static shell, and every dynamically rendered panel loses its definitions');
-  assert.ok(/\)\.observe\(host,/.test(SRC),
+  assert.ok(/observer\.observe\(host,/.test(SRC),
     'the observer is constructed but never attached to the content host');
   assert.ok(/childList:\s*true/.test(SRC) && /subtree:\s*true/.test(SRC),
     'the observer is not watching the subtree, so nested renders are missed');
@@ -59,10 +59,16 @@ test('the re-run is debounced', () => {
     'the sweep is not debounced');
 });
 
-test('the observer ignores the mutations the sweep itself causes', () => {
+test('the observer ignores the mutations the sweep itself causes, and only those', () => {
   // Wrapping inserts nodes, which fires the observer, which sweeps again.
-  assert.ok(/if \(mutating\) return;/.test(SRC),
-    'the observer does not skip self-inflicted mutations and will chase its own tail');
+  // The sweep is synchronous, so takeRecords() right after it discards exactly
+  // its own records. The flag it replaced stayed up until a setTimeout(0) and
+  // also dropped page renders landing in that window (2026-09-28).
+  const sweep = SRC.slice(SRC.indexOf('function sweep('), SRC.indexOf('function scheduleSweep('));
+  assert.ok(/autoTooltip\(terms, root\)[\s\S]*observer\.takeRecords\(\)/.test(sweep),
+    'the sweep does not discard its own records, and will chase its own tail');
+  assert.ok(!/mutating/.test(SRC),
+    'a mutating flag is back; it drops page mutations, not just the sweep\'s own');
 });
 
 test('a term is wrapped once per SECTION, not once per page', () => {
@@ -76,12 +82,13 @@ test('a term is wrapped once per SECTION, not once per page', () => {
     'the section container list has changed; check it still matches the HNA panels');
 });
 
-test('bookkeeping survives between passes', () => {
-  // Content arrives repeatedly; a per-invocation map would re-wrap the same
-  // term on every sweep.
-  assert.ok(/var _wrapped = Object\.create\(null\)/.test(SRC),
-    'the wrapped map is no longer module-scoped, so repeat sweeps re-wrap');
-  assert.ok(/var wrapped = _wrapped;/.test(SRC), 'autoTooltip is not using the persistent map');
+test('"already wrapped" is read from the DOM, not remembered', () => {
+  // A remembered map outlived the markup it described: a re-rendered section
+  // lost its tooltips for good, depending on sweep timing. Reading the
+  // triggers present in the DOM still stops repeat wrapping, and makes the
+  // result a function of the final content. Behaviour: glossary-rerender.test.js.
+  assert.ok(/var wrapped = wrappedInDom\(\);/.test(SRC), 'autoTooltip is not reading wrapped state from the DOM');
+  assert.ok(!/_wrapped/.test(SRC), 'a module-scoped wrapped map is back');
 });
 
 test('text is wrapped in ONE pass, never by re-scanning its own output', () => {

@@ -11,8 +11,11 @@
  *   CONTRAST_FIX=1      Apply contrast-guard fixes in the browser context and report before/after ratios
  *   CONTRAST_JSON=1     Print the full JSON report to stdout instead of the text summary
  *   CONTRAST_REPORT_FILE=<path>  Write the JSON report to a file (can combine with CONTRAST_JSON)
+ *   CONTRAST_SETTLE_TIMEOUT_MS   How long a page may keep changing before it is reported as
+ *                       not scanned (default 20000)
  *
- * Scans key pages served via http-server, capped at 2000 nodes/page.
+ * Scans key pages served via http-server, capped at 2000 nodes/page, once the
+ * page has settled (see waitForSettled) — never at an arbitrary load event.
  * Skips aria-hidden elements, opacity < 0.9, and font-size < 10px.
  * Thresholds: 4.5 normal text / 3.0 large text (WCAG AA).
  *
@@ -65,6 +68,90 @@ const THRESHOLD_LARGE    = 3.0;
  * redirect rather than scanned, and never as a pass. */
 var META_REFRESH_RE = /<meta[^>]+http-equiv=["']?refresh["']?[^>]*content=["']?\s*\d+\s*;\s*url=([^"'>\s]+)/i;
 
+/* The scan used to run the moment DOMContentLoaded fired, which is also the
+ * moment js/navigation.js injects the header and requests css/navigation.css
+ * as a non-blocking <link>. For the next ~500 ms the header is in flux:
+ * the stylesheet lands at a varying point, and js/contrast-guard.js patches
+ * the active nav link on `nav:rendered`, repatches it on DOMContentLoaded,
+ * then clears both patches 350 ms after dark-mode-toggle.js sets the theme
+ * class. Which of those states the scan caught depended on runner speed, so
+ * the same page passed one run and failed the next (2026-09-28:
+ * housing-legislation-2026.html on #2014, economic-dashboard.html on #2016,
+ * both reproduced on unchanged main).
+ *
+ * So the page is measured only once it has stopped changing: every
+ * stylesheet applied, fonts loaded, no finite animation or transition
+ * running, and the computed colours of every scanned node identical across
+ * a quiet window longer than contrast-guard's 350 ms debounce. A page that
+ * never gets there is reported as not scanned, never as a pass or a fail. */
+const SETTLE_QUIET_MS   = 1000;
+const SETTLE_POLL_MS    = 100;
+const SETTLE_TIMEOUT_MS = +process.env.CONTRAST_SETTLE_TIMEOUT_MS || 20000;
+const SCAN_SELECTOR     = 'h1,h2,h3,h4,h5,h6,p,span,a,li,td,th,label,button';
+
+async function waitForSettled(page) {
+  // Network idle is best-effort: a page that polls never reaches it, and the
+  // style-stability check below is what actually decides.
+  await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(function () {});
+  const settled = await page.evaluate(function (p) {
+    function stylesheetsReady() {
+      var links = document.querySelectorAll('link[rel~="stylesheet"]');
+      for (var i = 0; i < links.length; i++) {
+        var l = links[i];
+        if (l.disabled || l.media === 'print') continue;
+        // .sheet stays null until the sheet has loaded (or failed); a failed
+        // load is flagged by the error listener below.
+        if (!l.sheet && !l.__contrastAuditFailed) return false;
+      }
+      return true;
+    }
+    function finiteAnimationRunning() {
+      if (!document.getAnimations) return false;
+      return document.getAnimations().some(function (a) {
+        if (a.playState !== 'running') return false;
+        var t = a.effect && a.effect.getComputedTiming && a.effect.getComputedTiming();
+        // An infinite spinner never ends; waiting on it would never settle.
+        return !t || isFinite(t.endTime);
+      });
+    }
+    function signature() {
+      var nodes = document.body ? document.body.querySelectorAll(p.SELECTOR) : [];
+      var parts = [nodes.length];
+      for (var i = 0; i < nodes.length && i < p.MAX_NODES; i++) {
+        var el = nodes[i];
+        var cs = getComputedStyle(el);
+        parts.push(cs.color + cs.backgroundColor + cs.opacity + cs.display + (el.textContent || '').length);
+      }
+      // Ancestor backgrounds matter too, but they are covered: every
+      // background that ends up in a measurement belongs to a scanned node
+      // or changes the node count / text when it is injected.
+      return parts.join('|');
+    }
+    document.querySelectorAll('link[rel~="stylesheet"]').forEach(function (l) {
+      l.addEventListener('error', function () { l.__contrastAuditFailed = true; }, { once: true });
+    });
+    return new Promise(function (resolve) {
+      var start = performance.now();
+      var lastSig = null, quietSince = null;
+      function tick() {
+        var now = performance.now();
+        var ready = stylesheetsReady() && !finiteAnimationRunning();
+        var sig = ready ? signature() : null;
+        if (ready && sig === lastSig) {
+          if (now - quietSince >= p.QUIET_MS) return resolve({ settled: true, ms: Math.round(now - start) });
+        } else {
+          lastSig = sig; quietSince = now;
+        }
+        if (now - start > p.TIMEOUT_MS) return resolve({ settled: false, ms: Math.round(now - start) });
+        setTimeout(tick, p.POLL_MS);
+      }
+      (document.fonts ? document.fonts.ready : Promise.resolve()).then(tick, tick);
+    });
+  }, { SELECTOR: SCAN_SELECTOR, MAX_NODES: MAX_NODES_PER_PAGE, QUIET_MS: SETTLE_QUIET_MS,
+       POLL_MS: SETTLE_POLL_MS, TIMEOUT_MS: SETTLE_TIMEOUT_MS });
+  return settled;
+}
+
 async function auditPage(page, url, doFix) {
   // The markup is fetched separately: the browser may have evicted the
   // navigation response's body by the time it is read ("No resource with
@@ -73,7 +160,12 @@ async function auditPage(page, url, doFix) {
   if (!raw.ok()) throw new Error('HTTP ' + raw.status() + ' for ' + url);
   const refresh = META_REFRESH_RE.exec(await raw.text());
   if (refresh) return { redirect: refresh[1] };
-  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+  const settle = await waitForSettled(page);
+  if (!settle.settled) {
+    throw new Error('page did not settle within ' + SETTLE_TIMEOUT_MS + ' ms; ' +
+      'its colours were still changing, so any result would be a sample of a moving target');
+  }
 
   return page.evaluate(function (params) {
     var MAX_NODES = params.MAX_NODES;
@@ -95,24 +187,53 @@ async function auditPage(page, url, doFix) {
     }
     /* Matches rgb(R,G,B) and rgba(R,G,B,A) — captures r[1], g[2], b[3], a[4]. */
     var RGB_RE = /rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)(?:\s*,\s*([\d.]+))?\s*\)/i;
+    /* Computed colours are not always rgb(): color-mix() computes to
+     * oklab(...) and a colour with alpha can come back as color(srgb ...).
+     * Those used to fail the regex and be skipped as if transparent, so the
+     * active nav link's color-mix() background was never seen. A 1x1 canvas
+     * converts any colour the browser accepts to sRGB. */
+    var probeCtx = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
     function parseRgb(str) {
       if (!str) return null;
       var m = str.match(RGB_RE);
-      if (!m) return null;
-      return { r: +m[1], g: +m[2], b: +m[3], a: m[4] === undefined ? 1 : +m[4] };
+      if (m) return { r: +m[1], g: +m[2], b: +m[3], a: m[4] === undefined ? 1 : +m[4] };
+      if (!probeCtx) return null;
+      probeCtx.clearRect(0, 0, 1, 1);
+      probeCtx.fillStyle = 'transparent';
+      probeCtx.fillStyle = str;           // an unparseable value leaves 'transparent'
+      probeCtx.fillRect(0, 0, 1, 1);
+      var d = probeCtx.getImageData(0, 0, 1, 1).data;
+      return { r: d[0], g: d[1], b: d[2], a: d[3] / 255 };
+    }
+    function over(top, under) {
+      var a = top.a;
+      return {
+        r: top.r * a + under.r * (1 - a),
+        g: top.g * a + under.g * (1 - a),
+        b: top.b * a + under.b * (1 - a),
+        a: 1
+      };
     }
 
-    /* Walk up the DOM to find the nearest opaque background colour. */
+    /* The background the text is actually drawn on: every translucent layer
+     * from the element up to <html>, composited over the white canvas.
+     * This used to stop at the first layer with alpha > 0.02 and use its
+     * r/g/b as if it were opaque, so a 10% teal wash (rgba(9,110,101,.1),
+     * which renders near-white) was measured as solid teal. That is the
+     * state housing-legislation-2026.html was caught in on #2014 (link blue
+     * on "teal", 1.17:1), and the same mistake in js/contrast-guard.js is
+     * what painted economic-dashboard.html's nav text near-white (#2016). */
     function getOpaqueBg(el) {
-      var cur = el;
-      while (cur && cur !== document.documentElement) {
-        var cs  = window.getComputedStyle(cur);
-        var bg  = parseRgb(cs.backgroundColor);
-        if (bg && bg.a > 0.02) return bg;
-        cur = cur.parentElement;
+      var layers = [];
+      for (var cur = el; cur; cur = cur.parentElement) {
+        var bg = parseRgb(window.getComputedStyle(cur).backgroundColor);
+        if (!bg || bg.a <= 0) continue;
+        layers.push(bg);
+        if (bg.a >= 1) break;               // nothing beneath an opaque layer shows
       }
-      return parseRgb(window.getComputedStyle(document.body).backgroundColor)
-        || { r: 255, g: 255, b: 255, a: 1 };
+      var result = { r: 255, g: 255, b: 255, a: 1 };
+      for (var i = layers.length - 1; i >= 0; i--) result = over(layers[i], result);
+      return { r: Math.round(result.r), g: Math.round(result.g), b: Math.round(result.b), a: 1 };
     }
 
     function isLargeText(el) {
@@ -138,9 +259,13 @@ async function auditPage(page, url, doFix) {
     }
 
     /* ── Scan ──────────────────────────────────────────────────────────── */
-    var root  = document.querySelector('main, header, footer') || document.body;
-    var sel   = 'h1,h2,h3,h4,h5,h6,p,span,a,li,td,th,label,button';
-    var nodes = Array.from(root.querySelectorAll(sel)).slice(0, MAX_NODES);
+    /* The whole body. This used to be querySelector('main, header, footer'),
+     * which returns the first of those in document order — and since
+     * js/navigation.js injects <header class="site-header"> at the top of
+     * <body> on every page, that was always the nav. Nothing in <main> had
+     * been scanned, so a low-contrast element added to page content passed. */
+    var root  = document.body;
+    var nodes = Array.from(root.querySelectorAll(params.SELECTOR)).slice(0, MAX_NODES);
 
     var violations = [];
     var fixes      = [];
@@ -155,9 +280,10 @@ async function auditPage(page, url, doFix) {
       if (parseFloat(cs.opacity   || '1')  < 0.9) continue;
 
       var fg  = parseRgb(cs.color);
-      if (!fg) continue;
+      if (!fg || fg.a <= 0) continue;
 
       var bg        = getOpaqueBg(el);
+      if (fg.a < 1) fg = over(fg, bg);    // translucent text blends with what is under it
       var large     = isLargeText(el);
       var threshold = large ? T_LARGE : T_NORMAL;
       var fgL       = lum(fg.r, fg.g, fg.b);
@@ -222,7 +348,8 @@ async function auditPage(page, url, doFix) {
     }
 
     return { violations: violations, fixes: fixes };
-  }, { MAX_NODES: MAX_NODES_PER_PAGE, T_NORMAL: THRESHOLD_NORMAL, T_LARGE: THRESHOLD_LARGE, DO_FIX: doFix });
+  }, { MAX_NODES: MAX_NODES_PER_PAGE, T_NORMAL: THRESHOLD_NORMAL, T_LARGE: THRESHOLD_LARGE, DO_FIX: doFix,
+       SELECTOR: SCAN_SELECTOR });
 }
 
 /* ── Main ─────────────────────────────────────────────────────────────── */

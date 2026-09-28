@@ -5,11 +5,36 @@
  * using the site-theme CSS variables.
  */
 (function () {
+  // Computed colours are not always rgb(): color-mix() computes to oklab(...)
+  // and a translucent colour can come back as color(srgb ...). Those used to
+  // fail the regex and be skipped as transparent. A 1x1 canvas converts any
+  // colour the browser accepts to sRGB.
+  var probeCtx = null;
   function parseRGB(str) {
     if (!str) return null;
     const m = str.match(/rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)(?:\s*,\s*([\d.]+))?\s*\)/i);
-    if (!m) return null;
-    return { r: +m[1], g: +m[2], b: +m[3], a: m[4] === undefined ? 1 : +m[4] };
+    if (m) return { r: +m[1], g: +m[2], b: +m[3], a: m[4] === undefined ? 1 : +m[4] };
+    try {
+      if (!probeCtx) probeCtx = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+      probeCtx.clearRect(0, 0, 1, 1);
+      probeCtx.fillStyle = 'transparent';
+      probeCtx.fillStyle = str;           // an unparseable value leaves 'transparent'
+      probeCtx.fillRect(0, 0, 1, 1);
+      const d = probeCtx.getImageData(0, 0, 1, 1).data;
+      return { r: d[0], g: d[1], b: d[2], a: d[3] / 255 };
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function over(top, under) {
+    const a = top.a;
+    return {
+      r: top.r * a + under.r * (1 - a),
+      g: top.g * a + under.g * (1 - a),
+      b: top.b * a + under.b * (1 - a),
+      a: 1
+    };
   }
 
   function srgbToLin(c) {
@@ -30,16 +55,23 @@
     return (lighter + 0.05) / (darker + 0.05);
   }
 
+  // The background the text is actually drawn on: every translucent layer
+  // from the element up, composited over white. This used to take the first
+  // layer with alpha > 0.02 and use its r/g/b as if it were opaque, so a 10%
+  // teal wash (--accent-dim, which renders near-white) read as solid teal and
+  // nav text on it was repainted near-white (economic-dashboard.html,
+  // 2026-09-28). working-paper.html's style block works around the same bug.
   function getOpaqueBg(el) {
-    let cur = el;
-    while (cur && cur !== document.documentElement) {
-      const cs = window.getComputedStyle(cur);
-      const bg = parseRGB(cs.backgroundColor);
-      if (bg && bg.a > 0.02) return bg;
-      cur = cur.parentElement;
+    const layers = [];
+    for (let cur = el; cur; cur = cur.parentElement) {
+      const bg = parseRGB(window.getComputedStyle(cur).backgroundColor);
+      if (!bg || bg.a <= 0) continue;
+      layers.push(bg);
+      if (bg.a >= 1) break;
     }
-    const rootBg = parseRGB(window.getComputedStyle(document.body).backgroundColor) || { r: 255, g: 255, b: 255, a: 1 };
-    return rootBg;
+    let result = { r: 255, g: 255, b: 255, a: 1 };
+    for (let i = layers.length - 1; i >= 0; i--) result = over(layers[i], result);
+    return result;
   }
 
   // Pick whichever text color produces the higher actual contrast ratio
@@ -110,10 +142,11 @@
       if (el.closest('[data-no-contrast-guard]')) continue;
 
       const cs = window.getComputedStyle(el);
-      const fg = parseRGB(cs.color);
+      let fg = parseRGB(cs.color);
       if (!fg || fg.a < 0.02) continue;
 
       const bg = getOpaqueBg(el);
+      if (fg.a < 1) fg = over(fg, bg);
       const ratio = contrastRatio(fg, bg);
       const min = isLargeText(el) ? 3.0 : 4.5;
 
@@ -132,6 +165,7 @@
         if (bestRatio >= min && bestRatio > ratio) {
           var prevColor = el.style.color;
           var prevBgColor = el.style.backgroundColor;
+          el.__contrastGuardPrev = { color: prevColor, bg: prevBgColor };
           el.style.color = 'rgb(' + bestRgb.r + ',' + bestRgb.g + ',' + bestRgb.b + ')';
           var ownBg = parseRGB(cs.backgroundColor);
           if (!ownBg || ownBg.a < 0.02) {
@@ -152,6 +186,7 @@
           if (verifyRatio < min) {
             el.style.color = prevColor;
             el.style.backgroundColor = prevBgColor;
+            delete el.__contrastGuardPrev;
           } else {
             el.classList.add('contrast-guard-fixed');
           }
@@ -160,13 +195,93 @@
     }
   }
 
+  // Undo every patch from an earlier pass, restoring the element's own inline
+  // values. Each pass must start from the page's authored colours: the guard
+  // first runs on `nav:rendered`, before the stylesheets navigation.js injects
+  // have loaded, and used to leave whatever it patched then in place until a
+  // theme change. Which patches survived into the finished page depended on
+  // whether the stylesheet or the guard's next pass won the race, so the same
+  // page settled differently from one load to the next. Clearing and
+  // re-scanning inside one task never paints the intermediate state.
+  function clearFixes() {
+    document.querySelectorAll('.contrast-guard-fixed').forEach(function (el) {
+      var prev = el.__contrastGuardPrev || { color: '', bg: '' };
+      el.style.color = prev.color;
+      el.style.backgroundColor = prev.bg;
+      el.classList.remove('contrast-guard-fixed');
+      delete el.__contrastGuardPrev;
+    });
+  }
+
+  // Transitions are suspended while the guard measures and writes. Clearing a
+  // patch and re-reading the colour in the same task otherwise returns the
+  // START of the transition back to the authored colour — i.e. the patched
+  // colour — so the pass saw a pass, did not re-patch, and the element then
+  // animated back to failing. Styles are flushed before the rule is removed,
+  // so no transition is started by the guard's own writes. run() waits for
+  // running transitions first, so none is cut short.
+  function scanNow() {
+    var freeze = document.createElement('style');
+    freeze.textContent = '*,*::before,*::after{transition:none !important}';
+    (document.head || document.documentElement).appendChild(freeze);
+    try {
+      clearFixes();
+      scan(document);
+    } catch (e) {
+      /* no-op */
+    } finally {
+      void document.documentElement.offsetHeight;   // flush with transitions off
+      freeze.remove();
+    }
+  }
+
+  // A colour read mid-transition is neither the old colour nor the new one.
+  // The "Data current" badge transitions its colour over 150 ms when it turns
+  // green, and a pass that landed inside that window measured an in-between
+  // grey-green, passed it, and left the settled badge unpatched. Wait for
+  // running finite animations and transitions to finish, then scan.
   function run() {
-    try { scan(document); } catch (e) { /* no-op */ }
+    var running = [];
+    try {
+      running = document.getAnimations ? document.getAnimations().filter(function (a) {
+        if (a.playState !== 'running') return false;
+        var t = a.effect && a.effect.getComputedTiming && a.effect.getComputedTiming();
+        return !!t && isFinite(t.endTime);   // an infinite spinner never finishes
+      }) : [];
+    } catch (e) { running = []; }
+    if (!running.length) return scanNow();
+    Promise.all(running.map(function (a) { return a.finished.catch(function () {}); })).then(run);
   }
 
   document.addEventListener('DOMContentLoaded', run);
   document.addEventListener('nav:rendered', run);
   window.addEventListener('load', run);
+
+  // Content rendered after the last of those events used to be guarded or not
+  // depending on timing: economic-dashboard.html's "Data current" badge turns
+  // green when its fetches resolve, and was patched on 7 loads in 10 and left
+  // failing (4.27:1) on the other 3. Re-scan when content changes, debounced,
+  // with a ceiling so a page that never stops updating still gets scanned.
+  // Only childList/characterData are observed: the guard itself writes style
+  // and class attributes, so it cannot trigger itself.
+  var CONTENT_DEBOUNCE_MS = 250;
+  var CONTENT_MAX_WAIT_MS = 1000;
+  var _contentTimer = null, _contentFirst = 0;
+  function onContentChange() {
+    var now = Date.now();
+    if (!_contentTimer) _contentFirst = now;
+    clearTimeout(_contentTimer);
+    var wait = Math.max(0, Math.min(CONTENT_DEBOUNCE_MS, _contentFirst + CONTENT_MAX_WAIT_MS - now));
+    _contentTimer = setTimeout(function () { _contentTimer = null; run(); }, wait);
+  }
+  function observeContent() {
+    try {
+      new MutationObserver(onContentChange)
+        .observe(document.body, { childList: true, characterData: true, subtree: true });
+    } catch (e) { /* MutationObserver not available — graceful degrade */ }
+  }
+  if (document.body) observeContent();
+  else document.addEventListener('DOMContentLoaded', observeContent);
 
   // F122 — re-scan on theme change. Without this, contrast-guard ran once at
   // load against the INITIAL theme; if the user then toggled to dark mode
@@ -190,14 +305,9 @@
     // evaluates the page 1 500 ms later.
     setTimeout(function () {
       _pendingRescan = false;
-      // Clear previous fixes so contrast-guard re-evaluates against the new
-      // theme; otherwise an element forced to dark-text in light mode stays
-      // dark-text in dark mode.
-      document.querySelectorAll('.contrast-guard-fixed').forEach(function (el) {
-        el.style.color = '';
-        el.style.backgroundColor = '';
-        el.classList.remove('contrast-guard-fixed');
-      });
+      // run() clears previous fixes first, so contrast-guard re-evaluates
+      // against the new theme; otherwise an element forced to dark-text in
+      // light mode stays dark-text in dark mode.
       run();
     }, 350);
   }
