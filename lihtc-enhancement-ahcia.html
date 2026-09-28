@@ -253,8 +253,12 @@
           function total(e) { return e && e.bill && e.bill.cosponsors && Number.isFinite(e.bill.cosponsors.total) ? e.bill.cosponsors.total : null; }
           if (stat && total(house) != null && total(senate) != null) {
             stat.textContent = total(house) + ' · ' + total(senate);
+            // Each bill has its own check date; name both unless they match.
+            var checked = house.last_verified === senate.last_verified
+              ? 'checked ' + longDate(house.last_verified)
+              : 'House checked ' + longDate(house.last_verified) + ', Senate checked ' + longDate(senate.last_verified);
             lbl.textContent = 'Cosponsors of the remaining AHCIA bills: House (' + house.bill.number + ') · Senate (' +
-              senate.bill.number + '), checked ' + longDate(house.last_verified);
+              senate.bill.number + '), ' + checked;
           }
           var pill = document.querySelector('[data-ahcia="pending-pill"]');
           if (pill && bills.length) {

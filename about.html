@@ -198,12 +198,19 @@
           var entries = doc && Array.isArray(doc.entries) ? doc.entries : [];
           if (!entries.length) { host.innerHTML = '<li>No tools are listed yet.</li>'; return; }
           host.innerHTML = entries.map(function (e) {
-            return '<li data-tool-id="' + esc(e.id) + '"><a href="' + esc(e.source_url) + '" target="_blank" rel="noopener" style="font-weight:600;">' +
-              esc(e.title) + '</a><span style="display:block;font-size:var(--small);color:var(--muted);">' + esc(e.capability_summary) +
+            // Only an http(s) source becomes a link; anything else stays text.
+            var url = /^https?:\/\//i.test(String(e.source_url || '')) ? e.source_url : '';
+            var name = url
+              ? '<a href="' + esc(url) + '" target="_blank" rel="noopener" style="font-weight:600;">' + esc(e.title) + '</a>'
+              : '<strong>' + esc(e.title) + '</strong>';
+            return '<li data-tool-id="' + esc(e.id) + '">' + name + '<span style="display:block;font-size:var(--small);color:var(--muted);">' + esc(e.capability_summary) +
               ' <em>Why we look at it:</em> ' + esc(e.relevance_to_coho) + '</span></li>';
           }).join('');
           var checked = doc.meta && doc.meta.last_verified;
-          document.getElementById('tool-watch-asof').textContent = checked ? 'Checked ' + checked + '.' : '';
+          var when = checked && !isNaN(Date.parse(checked + 'T12:00:00Z'))
+            ? new Date(checked + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
+            : '';
+          document.getElementById('tool-watch-asof').textContent = when ? 'Checked ' + when + '.' : '';
         })
         .catch(function () { host.innerHTML = '<li>The tool list could not be loaded. Try again later.</li>'; });
     });

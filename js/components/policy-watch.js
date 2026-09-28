@@ -57,6 +57,12 @@
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
+  // A source link only if it is http(s); a malformed entry renders as text,
+  // as colorado-elections.js does with the same data.
+  function safeUrl(url) {
+    return /^https?:\/\//i.test(String(url || '')) ? String(url) : '';
+  }
+
   function longDate(iso) {
     var t = Date.parse(String(iso || '') + 'T12:00:00Z');
     return isNaN(t) ? '' : MONTHS[new Date(t).getUTCMonth()] + ' ' + new Date(t).getUTCDate() + ', ' + new Date(t).getUTCFullYear();
@@ -75,12 +81,21 @@
     return 'Not yet checked';
   }
 
+  // The Denver calendar date, as js/colorado-elections.js computes it. A UTC
+  // date would turn over at 6 pm Mountain and drop an entry from this count
+  // hours before the elections page drops it.
+  function todayDenver() {
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'America/Denver', year: 'numeric', month: '2-digit', day: '2-digit'
+    }).format(new Date());
+  }
+
   // Mirrors expired() in js/colorado-elections.js, which renders the people.
   function isCurrent(entry, todayIso) {
     if (!entry || entry.archived === true) return false;
     var electionDate = entry.election_date || (entry.election && entry.election.date);
     var time = Date.parse((electionDate || '') + 'T00:00:00Z');
-    var today = Date.parse((todayIso || new Date().toISOString().slice(0, 10)) + 'T00:00:00Z');
+    var today = Date.parse((todayIso || todayDenver()) + 'T00:00:00Z');
     return !(Number.isFinite(time) && today - time >= 45 * DAY);
   }
 
@@ -110,7 +125,11 @@
       var items = bySection(doc, sec.key, todayIso);
       if (!items.length) return;
       var checked = shortDate(newestCheck(items));
-      var status = items[0].status || '';
+      // Every distinct status in the section, so one entry moving on (say, to
+      // "adopted") is not shown as the status of all of them.
+      var statuses = [];
+      items.forEach(function (e) { if (e.status && statuses.indexOf(e.status) === -1) statuses.push(e.status); });
+      var status = statuses.join(', ');
       rows.push({
         key: sec.key,
         count: items.length,
@@ -153,7 +172,7 @@
       if (!items.length) return;
       html += '<div class="watch-group" data-watch-section="' + esc(sec.key) + '"><h3>' + esc(sec.label) + '</h3><ul class="watch-list">' +
         items.map(function (e) {
-          var url = e.source && e.source.url;
+          var url = safeUrl(e.source && e.source.url);
           var title = url ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(e.title) + '</a>' : esc(e.title);
           var meta = [];
           if (e.status) meta.push('<span class="watch-item__status">' + esc(e.status) + '</span>');
@@ -180,6 +199,7 @@
     longDate: longDate,
     checkLine: checkLine,
     isCurrent: isCurrent,
+    safeUrl: safeUrl,
     summaryRows: summaryRows,
     summaryHtml: summaryHtml,
     fullHtml: fullHtml,

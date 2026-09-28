@@ -66,7 +66,9 @@
 
   // { last_verified, review_by } for a reviewed item, from the file it names.
   // With ids: the earliest dates among those entries, so the item is due when
-  // its first entry is. Without: the file's own meta.
+  // its first entry is. Without: the file's own meta. Only those two fields
+  // count: a data vintage (as_of) is not a check, and a provider's next
+  // release date is not a review deadline, so neither stands in for them.
   function reviewOf(entry, docs) {
     var from = entry && entry.review_from;
     if (!from || !docs || !docs[from.file]) return null;
@@ -78,7 +80,7 @@
       if (rows.some(function (r) { return !r; })) return null;
     } else {
       var m = doc.meta || {};
-      rows = [{ last_verified: m.last_verified || m.as_of, review_by: m.review_by || m.next_expected_update }];
+      rows = [{ last_verified: m.last_verified, review_by: m.review_by }];
     }
     var earliest = function (key) {
       var vals = rows.map(function (r) { return day(r[key]); });

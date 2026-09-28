@@ -167,10 +167,10 @@
           <p style="color:var(--muted);line-height:1.7;">Colorado rule changes and ballot questions, curated by COHO rather than pulled from a feed. Each entry names its source and says how it was checked. Housing officials are listed on <a href="colorado-elections.html#people-and-roles">Colorado Elections</a>.</p>
           <p id="policy-watch-asof" class="policy-watch__asof"></p>
           <div id="policy-watch-list" class="no-glossary"><p>Loading policy watch…</p></div>
-          <div id="policy-watch-gaps" hidden>
+          <div id="policy-watch-gaps">
             <h3>Not yet covered</h3>
             <p style="color:var(--muted);">Topics nobody has checked yet. They are listed so their absence is not read as “nothing happened”.</p>
-            <div id="policy-watch-gap-list"></div>
+            <div id="policy-watch-gap-list"><p>Loading…</p></div>
           </div>
         </section>
 
@@ -197,6 +197,7 @@
   <script src="js/components/review-status.js"></script>
   <script src="js/legislative-tracker.js"></script>
   <script src="js/components/policy-watch.js"></script>
+  <script src="js/components/settle-anchor.js"></script>
   <script src="js/contrast-guard.js"></script>
   <script>
     /* ── Colorado Policy Watch, in full ── */
@@ -218,11 +219,13 @@
           var gaps = PW.gapsHtml(doc);
           if (gaps) {
             document.getElementById('policy-watch-gap-list').innerHTML = gaps;
-            document.getElementById('policy-watch-gaps').hidden = false;
+          } else {
+            document.getElementById('policy-watch-gaps').hidden = true;
           }
         })
         .catch(function () {
           host.innerHTML = '<p>Policy watch could not be loaded. Try again later.</p>';
+          document.getElementById('policy-watch-gap-list').innerHTML = '<p>Could not be loaded.</p>';
         });
     });
   </script>
