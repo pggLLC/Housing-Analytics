@@ -134,32 +134,51 @@ Resolves (never rejects) to { mapStatus: object|null, unavailableReason }.
 Load the local EPA SLD block-group data file (fetched by fetch_epa_sld.py).
 Returns the parsed JSON or null if the file is unavailable.
 
-### `_loadTractCentroids()`
+### `_loadEpaSldGeometry()`
 
-Load tract centroids for bbox-to-tract matching.
+Load the 2010 block-group boundaries the EPA SLD is published on
+(data/market/epa_sld_bg_geometry_co.geojson, same GEOID set as
+epa_sld_co.json) and index each one by its envelope.
 
-### `_tractsInBbox(tracts, bbox)`
+The repo's tract file is TIGER 2020. EPA SLD v3 is on 2010 block groups, so
+selecting by 2020 tract prefix could never reach the 667 block groups whose
+2010 tract no longer exists, and found nothing for the 384 2020 tracts with
+no 2010 namesake.
 
-Given a bounding box, find tract GEOIDs whose centroids fall inside.
+Resolves null when the file is unavailable, so the caller falls back.
 
-### `_averageEpaSldForTracts(sldData, tractGeoids)`
+### `_pointInRings(x, y, rings)`
 
-Average EPA SLD metrics across block groups matching the given tract GEOIDs.
-Block group GEOID (12 digits) shares first 11 digits with tract GEOID (11 digits).
+Even-odd ray cast over every ring of one polygon, so holes are excluded.
 
-### `fetchEPASmartLocation(bbox, tractFips)`
+### `_segmentHitsBbox(ax, ay, bx, by, bbox)`
+
+Liang-Barsky: does segment (ax,ay)-(bx,by) touch the bbox?
+
+### `_epaBlockGroupsInBbox(index, bbox)`
+
+GEOIDs of every 2010 block group whose boundary intersects the bbox — the
+polygon, not its envelope, which would take in a rural block group that
+only wraps around a corner. A polygon meets a rectangle exactly when one of
+its edges touches the rectangle or the rectangle lies wholly inside it.
+
+### `_averageEpaSldForBlockGroups(sldData, bgIds)`
+
+Average EPA SLD metrics across the given 12-digit block-group GEOIDs.
+
+### `fetchEPASmartLocation(bbox)`
 
 Fetch EPA Smart Location Database transit accessibility metrics.
 
 Strategy:
-  1. Try local file (data/market/epa_sld_co.json) — match block groups
-     to tracts whose centroids fall within the bounding box.
-  2. Fall back to live EPA ArcGIS API if local file unavailable.
+  1. Try local files — average the block groups in data/market/epa_sld_co.json
+     whose 2010 boundaries (epa_sld_bg_geometry_co.geojson) intersect the bbox.
+  2. Fall back to live EPA ArcGIS API if a local file is unavailable or no
+     block group intersects the bbox.
   3. Return null values if both fail.
 
 @param {{minLat,minLon,maxLat,maxLon}} bbox
-@param {string} [tractFips] - Optional 11-digit tract GEOID for direct lookup
-@returns {Promise<{transitAccessibility: number, walkScore: number, _dataSource: string}>}
+@returns {Promise<{transitAccessibility: null, walkScore: number|null, _dataSource: string}>}
 
 ### `fetchHudNhpd(bbox)`
 

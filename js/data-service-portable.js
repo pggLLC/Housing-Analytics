@@ -453,7 +453,8 @@
   /* ── EPA SLD local cache ──────────────────────────────────────────── */
   var _epaSldCache = null;       // cached parsed JSON from epa_sld_co.json
   var _epaSldLoading = null;     // in-flight promise (avoid duplicate fetches)
-  var _tractCentroidsCache = null;
+  var _epaBgIndex = null;        // 2010 block-group boundaries, indexed for bbox tests
+  var _epaBgIndexLoading = null;
 
   /**
    * Load the local EPA SLD block-group data file (fetched by fetch_epa_sld.py).
@@ -479,32 +480,108 @@
   }
 
   /**
-   * Load tract centroids for bbox-to-tract matching.
+   * Load the 2010 block-group boundaries the EPA SLD is published on
+   * (data/market/epa_sld_bg_geometry_co.geojson, same GEOID set as
+   * epa_sld_co.json) and index each one by its envelope.
+   *
+   * The repo's tract file is TIGER 2020. EPA SLD v3 is on 2010 block groups, so
+   * selecting by 2020 tract prefix could never reach the 667 block groups whose
+   * 2010 tract no longer exists, and found nothing for the 384 2020 tracts with
+   * no 2010 namesake.
+   *
+   * Resolves null when the file is unavailable, so the caller falls back.
    */
-  function _loadTractCentroids() {
-    if (_tractCentroidsCache) return Promise.resolve(_tractCentroidsCache);
-    return getJSON('data/market/tract_centroids_co.json')
-      .then(function (data) {
-        _tractCentroidsCache = (data && data.tracts) ? data.tracts : [];
-        return _tractCentroidsCache;
+  function _loadEpaSldGeometry() {
+    if (_epaBgIndex) return Promise.resolve(_epaBgIndex);
+    if (_epaBgIndexLoading) return _epaBgIndexLoading;
+    _epaBgIndexLoading = getJSON('data/market/epa_sld_bg_geometry_co.geojson')
+      .then(function (fc) {
+        var feats = (fc && Array.isArray(fc.features)) ? fc.features : [];
+        var index = [];
+        for (var i = 0; i < feats.length; i++) {
+          var f = feats[i];
+          var geoid = f && f.properties ? String(f.properties.geoid || '') : '';
+          var g = f && f.geometry;
+          if (!geoid || !g) continue;
+          var polys = g.type === 'Polygon' ? [g.coordinates]
+            : g.type === 'MultiPolygon' ? g.coordinates : null;
+          if (!polys) continue;
+          var env = [Infinity, Infinity, -Infinity, -Infinity];
+          for (var p = 0; p < polys.length; p++) {
+            var outer = polys[p][0] || [];
+            for (var k = 0; k < outer.length; k++) {
+              if (outer[k][0] < env[0]) env[0] = outer[k][0];
+              if (outer[k][1] < env[1]) env[1] = outer[k][1];
+              if (outer[k][0] > env[2]) env[2] = outer[k][0];
+              if (outer[k][1] > env[3]) env[3] = outer[k][1];
+            }
+          }
+          index.push({ geoid: geoid, env: env, polys: polys });
+        }
+        _epaBgIndex = index.length ? index : null;
+        _epaBgIndexLoading = null;
+        return _epaBgIndex;
       })
-      .catch(function () { return []; });
+      .catch(function () {
+        console.warn('[DataService] EPA SLD block-group boundaries not found — will fall back to live API');
+        _epaBgIndexLoading = null;
+        return null;
+      });
+    return _epaBgIndexLoading;
+  }
+
+  /** Even-odd ray cast over every ring of one polygon, so holes are excluded. */
+  function _pointInRings(x, y, rings) {
+    var inside = false;
+    for (var r = 0; r < rings.length; r++) {
+      var ring = rings[r];
+      for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        var xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1];
+        if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) inside = !inside;
+      }
+    }
+    return inside;
+  }
+
+  /** Liang-Barsky: does segment (ax,ay)-(bx,by) touch the bbox? */
+  function _segmentHitsBbox(ax, ay, bx, by, bbox) {
+    var t0 = 0, t1 = 1, dx = bx - ax, dy = by - ay;
+    var p = [-dx, dx, -dy, dy];
+    var q = [ax - bbox.minLon, bbox.maxLon - ax, ay - bbox.minLat, bbox.maxLat - ay];
+    for (var i = 0; i < 4; i++) {
+      if (p[i] === 0) { if (q[i] < 0) return false; continue; }
+      var t = q[i] / p[i];
+      if (p[i] < 0) { if (t > t1) return false; if (t > t0) t0 = t; }
+      else          { if (t < t0) return false; if (t < t1) t1 = t; }
+    }
+    return true;
   }
 
   /**
-   * Given already-loaded tract centroids and a bounding box, return the GEOIDs
-   * whose centroids fall inside. Synchronous.
-   *
-   * Not to be confused with the async _tractsInBbox(bbox) further down. The two
-   * used to share that name; function declarations hoist, so the async one
-   * replaced this one and fetchEPASmartLocation got a Promise instead of an
-   * array — the local EPA SLD file was never read.
+   * GEOIDs of every 2010 block group whose boundary intersects the bbox — the
+   * polygon, not its envelope, which would take in a rural block group that
+   * only wraps around a corner. A polygon meets a rectangle exactly when one of
+   * its edges touches the rectangle or the rectangle lies wholly inside it.
    */
-  function _tractGeoidsInBbox(tracts, bbox) {
-    return tracts.filter(function (t) {
-      return t.lat >= bbox.minLat && t.lat <= bbox.maxLat &&
-             t.lon >= bbox.minLon && t.lon <= bbox.maxLon;
-    }).map(function (t) { return t.geoid; });
+  function _epaBlockGroupsInBbox(index, bbox) {
+    var out = [];
+    for (var i = 0; i < index.length; i++) {
+      var bg = index[i], e = bg.env;
+      if (e[2] < bbox.minLon || e[0] > bbox.maxLon || e[3] < bbox.minLat || e[1] > bbox.maxLat) continue;
+      var hit = false;
+      for (var p = 0; p < bg.polys.length && !hit; p++) {
+        var rings = bg.polys[p];
+        for (var r = 0; r < rings.length && !hit; r++) {
+          var ring = rings[r];
+          for (var a = 0, b = ring.length - 1; a < ring.length; b = a++) {
+            if (_segmentHitsBbox(ring[b][0], ring[b][1], ring[a][0], ring[a][1], bbox)) { hit = true; break; }
+          }
+        }
+        if (!hit && _pointInRings(bbox.minLon, bbox.minLat, rings)) hit = true;
+      }
+      if (hit) out.push(bg.geoid);
+    }
+    return out;
   }
 
   // EPA SLD D4A is the distance in metres from a block group's population-
@@ -519,24 +596,16 @@
     'accessibility index, so no EPA transit score was calculated; walkability (D3B) is used.';
 
   /**
-   * Average EPA SLD metrics across block groups matching the given tract GEOIDs.
-   * Block group GEOID (12 digits) shares first 11 digits with tract GEOID (11 digits).
+   * Average EPA SLD metrics across the given 12-digit block-group GEOIDs.
    */
-  function _averageEpaSldForTracts(sldData, tractGeoids) {
+  function _averageEpaSldForBlockGroups(sldData, bgIds) {
     var bgs = sldData.blockGroups;
     var sums = { walkability: 0, transitAccess: 0, jobAccess: 0, landUseMix: 0, empDensity: 0 };
     var counts = { walkability: 0, transitAccess: 0, jobAccess: 0, landUseMix: 0, empDensity: 0 };
 
-    // Build a set of tract prefixes for fast lookup
-    var tractSet = {};
-    tractGeoids.forEach(function (g) { tractSet[g] = true; });
-
-    var bgIds = Object.keys(bgs);
     for (var i = 0; i < bgIds.length; i++) {
-      var bgId = bgIds[i];
-      var tractPrefix = bgId.substring(0, 11);
-      if (!tractSet[tractPrefix]) continue;
-      var bg = bgs[bgId];
+      var bg = bgs[bgIds[i]];
+      if (!bg) continue;
       if (bg.walkability != null)   { sums.walkability   += bg.walkability;   counts.walkability++;   }
       if (bg.transitAccess != null) { sums.transitAccess += bg.transitAccess; counts.transitAccess++; }
       if (bg.jobAccess != null)     { sums.jobAccess     += bg.jobAccess;     counts.jobAccess++;     }
@@ -568,42 +637,29 @@
    * Fetch EPA Smart Location Database transit accessibility metrics.
    *
    * Strategy:
-   *   1. Try local file (data/market/epa_sld_co.json) — match block groups
-   *      to tracts whose centroids fall within the bounding box.
-   *   2. Fall back to live EPA ArcGIS API if local file unavailable.
+   *   1. Try local files — average the block groups in data/market/epa_sld_co.json
+   *      whose 2010 boundaries (epa_sld_bg_geometry_co.geojson) intersect the bbox.
+   *   2. Fall back to live EPA ArcGIS API if a local file is unavailable or no
+   *      block group intersects the bbox.
    *   3. Return null values if both fail.
    *
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
-   * @param {string} [tractFips] - Optional 11-digit tract GEOID for direct lookup
-   * @returns {Promise<{transitAccessibility: number, walkScore: number, _dataSource: string}>}
+   * @returns {Promise<{transitAccessibility: null, walkScore: number|null, _dataSource: string}>}
    */
-  function fetchEPASmartLocation(bbox, tractFips) {
-    if (!bbox && !tractFips) return Promise.resolve({ transitAccessibility: null, walkScore: null, _dataSource: 'none' });
+  function fetchEPASmartLocation(bbox) {
+    if (!bbox) return Promise.resolve({ transitAccessibility: null, walkScore: null, _dataSource: 'none' });
 
-    // Try local file first
-    return _loadEpaSldLocal().then(function (sldData) {
-      if (!sldData) return null; // local file unavailable, will fall back
+    // Try local files first
+    return Promise.all([_loadEpaSldLocal(), _loadEpaSldGeometry()]).then(function (loaded) {
+      var sldData = loaded[0], bgIndex = loaded[1];
+      if (!sldData || !bgIndex) return null; // local files unavailable, will fall back
 
-      // If tractFips provided directly, use it
-      if (tractFips) {
-        var result = _averageEpaSldForTracts(sldData, [tractFips]);
-        if (result) return result;
+      var bgIds = _epaBlockGroupsInBbox(bgIndex, bbox);
+      if (!bgIds.length) {
+        console.warn('[DataService] No EPA SLD block groups intersect bbox — falling back to live API');
+        return null;
       }
-
-      // Otherwise find tracts in bbox via centroids
-      if (bbox) {
-        return _loadTractCentroids().then(function (tracts) {
-          var tractGeoids = _tractGeoidsInBbox(tracts, bbox);
-          if (!tractGeoids.length) {
-            console.warn('[DataService] No tract centroids in bbox — falling back to live API');
-            return null;
-          }
-          var result = _averageEpaSldForTracts(sldData, tractGeoids);
-          if (result) return result;
-          return null;
-        });
-      }
-      return null;
+      return _averageEpaSldForBlockGroups(sldData, bgIds);
     }).then(function (localResult) {
       if (localResult) return localResult;
 
