@@ -440,6 +440,9 @@
         salePrice: salePriceEvidence(data)
       });
       preview.innerHTML = MarketStudyReport.renderReportPreview(report);
+      // A render for a market that could not be screened disabled this; one
+      // that can must not inherit that refusal (#1932).
+      download.disabled = false;
       download.onclick = function () {
         var blob = new Blob([MarketStudyReport.renderReportHtml(report)], { type: 'text/html;charset=utf-8' });
         var url = URL.createObjectURL(blob);

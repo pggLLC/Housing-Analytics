@@ -83,6 +83,7 @@
         completedAt: null, siteAddress: null, siteLat: null, siteLon: null,
         bufferMiles: 3, pmaScore: null, dimensions: null,
         qctFlag: null, ddaFlag: null, fmrRents: null,  // null = designation unknown (not checked), never "not in a QCT"
+        qctDdaEvidence: null,  // tract GEOID, DDA name/code and HUD year behind the flags; null until checked
         bridgeLandContext: null, exportReady: false
       },
       scenario: {
