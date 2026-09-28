@@ -8,8 +8,7 @@
 //     methodology explainer names the dimensions the weights actually have;
 //   * the PMA gate is the TransitZone answer (same helper, same files) and it
 //     is what the deal calculator receives;
-//   * the deal calculator's Transit Zone line appears only for a pass via a
-//     confirmed stop, adds no amount, and quotes the statewide cap and QAP
+//   * the deal calculator's Transit Zone line appears only for an exact site in authoritative mapped geography, adds no amount, and quotes the statewide cap and QAP
 //     section the repo's own sources state.
 
 const assert = require('node:assert/strict');
@@ -118,22 +117,24 @@ function runGate(lat, lon, opts) {
 // Real stops are dated; judge them the day after their build.
 const zone = TZ.create({ stops, mapStatus, now: new Date(Date.parse(stops.meta.generated) + 86400e3) });
 
-test('a site near confirmed transit passes, and the deal calculator gets the same answer', () => {
+test('a site near confirmed transit has access but unknown THIZ; the calculator gets the same evidence', () => {
   const { r, box, dcArg } = runGate(39.7527, -105.0003);   // Union Station
   const expect = zone.status(39.7527, -105.0003);
   assert.equal(r.status, expect.status);
   assert.equal(r.status, 'within_2mi');
   assert.equal(box.getAttribute('data-tz-state'), 'within_2mi');
-  assert.match(box.textContent, /Passes the 2-mile screen/);
-  assert.match(box.textContent, /Soft Funding Stack/);
-  assert.equal(box.querySelector('[data-tz-designation]').textContent, r.designationNote);
+  assert.equal(r.program.qualified, null);
+  assert.equal(box.querySelector('[data-thiz-qualified]').dataset.thizQualified, 'null');
+  assert.doesNotMatch(box.textContent, /Soft Funding Stack/);
+  assert.equal(box.querySelector('[data-tz-designation]').textContent, r.program.unavailableReason);
   assert.equal(dcArg, r, 'the deal calculator did not receive the gate result');
 });
 
 test('a site far from transit is outside, with no funding pointer', () => {
   const { r, box } = runGate(38.82, -102.35);               // Cheyenne County plains
   assert.equal(r.status, 'outside');
-  assert.match(box.textContent, /Outside the 2-mile screen/);
+  assert.equal(r.program.qualified, null);
+  assert.equal(box.querySelector('[data-thiz-qualified]').dataset.thizQualified, 'null');
   assert.doesNotMatch(box.textContent, /Soft Funding Stack/);
 });
 
@@ -144,11 +145,12 @@ for (const [label, opts, re] of [
 ]) {
   test(`${label} → Unavailable, and the deal calculator is cleared`, () => {
     const { r, box, dcArg } = runGate(39.7527, -105.0003, opts);
-    assert.equal(r, null);
+    assert.equal(r && r.program.qualified, null);
     assert.equal(box.getAttribute('data-tz-state'), 'unavailable');
-    assert.match(box.textContent, /Unavailable/);
-    assert.match(box.textContent, re);
-    assert.equal(dcArg, null);
+    if (r) assert.equal(box.querySelector('[data-thiz-qualified]').dataset.thizQualified, 'null');
+    assert.equal(TZ.fundingPath(dcArg), null);
+    if (r) assert.ok(r.program.unavailableReason);
+    else assert.match(box.textContent, re);
   });
 }
 
@@ -156,17 +158,19 @@ for (const [label, opts, re] of [
 const UNION = [39.7527, -105.0003];     // passes the stop screen
 const PLAINS = [38.82, -102.35];        // fails it
 function box(lat, lon, d) {             // a square zone polygon around a point
-  return { type: 'Feature', properties: {}, geometry: { type: 'Polygon',
+  return { type: 'Feature', id: 'test-zone', properties: { facilityId: 'test-station', facilityType: 'transit_station' }, geometry: { type: 'Polygon',
     coordinates: [[[lon - d, lat - d], [lon + d, lat - d], [lon + d, lat + d], [lon - d, lat + d], [lon - d, lat - d]]] } };
 }
 const published = Object.assign({}, mapStatus, { status: 'published', zones_file: 'data/policy/thiz-zones.geojson' });
-const zonesAroundPlains = { type: 'FeatureCollection', features: [box(PLAINS[0], PLAINS[1], 0.05)] };
+// Synthetic official-map contract fixture; no live OEDIT geography is available.
+const zonesAroundPlains = { type: 'FeatureCollection', meta: { sourceUrl: published.map_source_url, vintage: 'test-only', complete: true }, features: [box(PLAINS[0], PLAINS[1], 0.05)] };
 
 test('a published map that excludes the site suppresses the funding path, even beside a stop', () => {
   const { r, box: b, dcArg } = runGate(UNION[0], UNION[1], { mapStatus: published, zones: zonesAroundPlains, zonesState: 'ok' });
   assert.equal(r.status, 'within_2mi', 'the stop screen still passes; only the official map excludes it');
   assert.equal(r.designation, 'official_out');
-  assert.equal(b.querySelector('[data-tz-designation]').textContent, r.designationNote);
+  assert.equal(r.program.qualified, false);
+  assert.equal(b.querySelector('[data-thiz-qualified]').dataset.thizQualified, 'false');
   assert.doesNotMatch(b.textContent, /Soft Funding Stack/);
   assert.equal(TZ.fundingPath(dcArg), null);
 });
@@ -181,7 +185,7 @@ test('a published map that includes the site gives the funding path, even far fr
 
 test('the gate waits for the published zones before answering, and fetches only a file under data/', () => {
   const waiting = runGate(UNION[0], UNION[1], { mapStatus: published, zonesState: 'loading' });
-  assert.equal(waiting.r, null);
+  assert.equal(waiting.r.program.qualified, null);
   assert.equal(waiting.box.getAttribute('data-tz-state'), 'loading');
   // Before the load starts, the gate starts it (the harness fetch never
   // resolves, so the gate stays "checking").
@@ -201,9 +205,9 @@ function dealCalc(extraHtml) {
   dom.window.eval(read('js/deal-calculator.js'));
   return { w: dom.window, note: dom.window.document.getElementById('dc-tz-note') };
 }
-const PASS = { status: 'within_2mi', confirmedOnly: true, radiusMiles: 2, designation: 'provisional', designationNote: 'Provisional — test note.' };
+const PASS = TZ.create({ stops, mapStatus: published, zones: zonesAroundPlains, now: new Date(Date.parse(stops.meta.generated) + 86400e3) }).status(...PLAINS, 'site');
 
-test('the line shows only for a pass via a confirmed stop, and states no amount for the project', () => {
+test('the line shows only for supported site eligibility, and states no amount for the project', () => {
   const { w, note } = dealCalc();
   w.__DealCalc.setTransitZoneContext(PASS);
   assert.equal(note.hidden, false);
@@ -213,9 +217,10 @@ test('the line shows only for a pass via a confirmed stop, and states no amount 
   assert.match(note.textContent, /per-project amounts could not be loaded, so none is shown/);
   assert.doesNotMatch(note.textContent, /\$\d{3},\d{3}/, 'an amount shown before the pairing data loaded');
   assert.doesNotMatch(note.textContent, /No per-project amount exists/, 'the retired claim is back (#1973)');
-  assert.equal(note.querySelector('[data-tz-designation]').textContent, PASS.designationNote);
-  for (const r of [Object.assign({}, PASS, { confirmedOnly: false }), Object.assign({}, PASS, { status: 'outside' }),
-                   Object.assign({}, PASS, { designation: 'official_out' }),
+  assert.equal(note.querySelector('[data-tz-designation]').textContent, PASS.program.programRule);
+  for (const r of [Object.assign({}, PASS, { program: Object.assign({}, PASS.program, { qualified: null }) }),
+                   Object.assign({}, PASS, { program: Object.assign({}, PASS.program, { qualified: false }) }),
+                   Object.assign({}, PASS, { program: null }),
                    { status: 'unavailable', unavailableReason: 'x' }, null]) {
     w.__DealCalc.setTransitZoneContext(r);
     assert.equal(note.hidden, true, JSON.stringify(r));

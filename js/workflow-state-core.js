@@ -80,7 +80,8 @@
         exportReady: false
       },
       market: {
-        completedAt: null, siteAddress: null, siteLat: null, siteLon: null,
+        completedAt: null, siteAddress: null, siteLat: null, siteLon: null, siteSource: null,
+        transitEvidence: null, // exact-site THIZ program result and separate stop accessibility evidence
         bufferMiles: 3, pmaScore: null, dimensions: null,
         qctFlag: null, ddaFlag: null, fmrRents: null,  // null = designation unknown (not checked), never "not in a QCT"
         qctDdaEvidence: null,  // tract GEOID, DDA name/code and HUD year behind the flags; null until checked
