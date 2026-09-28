@@ -75,6 +75,14 @@ Build a small component score chip.
 Render the market demand section.
 @param {object|null} acs - Aggregated ACS metrics.
 
+### `_medianBasisNote(acs)`
+
+The two medians above are averages of the Census tract medians in the
+market area, not a median measured for the area itself. A tract the
+Census published no median for is left out of that average rather than
+counted as $0, and this line says how many were left out.
+@private
+
 ### `_burdenColor(rate)`
 
 @private
@@ -115,7 +123,7 @@ Render the site feasibility section.
 Render the neighborhood access section with walkability & bikeability.
 @param {object|null} accessData - { amenities, walkability, access_score }.
 
-### `_walkBikeRow(label, score, labelText)`
+### `WALK_CATEGORY_COLORS`
 
 Build a walkability/bikeability score row with gauge bar.
 @private
