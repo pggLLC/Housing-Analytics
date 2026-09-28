@@ -959,8 +959,11 @@
       padding: 2px 8px; border-radius: 9999px;
       font-weight: 800; font-variant-numeric: tabular-nums;
     }
-    .lof-civic-high { background: color-mix(in oklab, var(--good) 28%, var(--card) 72%); color: var(--good); }
-    .lof-civic-med  { background: color-mix(in oklab, var(--warn) 26%, var(--card) 74%); color: var(--warn); }
+    /* The text is the same hue as the tint, so the tint has to stay light:
+       at 28% / 26% the high and medium pills measured 4.47:1 and 4.03:1.
+       15% gives 5.59 / 4.76 (light) and 6.70 / 7.52 (dark). */
+    .lof-civic-high { background: color-mix(in oklab, var(--good) 15%, var(--card) 85%); color: var(--good); }
+    .lof-civic-med  { background: color-mix(in oklab, var(--warn) 15%, var(--card) 85%); color: var(--warn); }
     .lof-civic-low  { background: color-mix(in oklab, var(--muted) 18%, var(--card) 82%); color: var(--muted); }
     .lof-civic-unk  { background: var(--bg2); color: var(--muted); border: 1px dashed var(--border); }
 

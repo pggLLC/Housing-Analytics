@@ -157,7 +157,12 @@
   --on-accent:    #ffffff;
   --accent2:      #c86f0d;
   --accent2-dim:  rgba(200,111,13,.10);
-  --good:         #047857;
+  /* #047857 was 3.65–4.47:1 on its own --good-dim wash and on the
+     color-mix() tints built from it — about 420 contrast-audit failures
+     site-wide (badges, finder cells, confidence pills). #036549 clears
+     4.5:1 on the darkest of those (4.72:1). The wash keeps the old hue,
+     so the tints look the same. */
+  --good:         #036549;
   --good-dim:     rgba(4,120,87,.10);
   --warn:         #a84608;
   --warn-dim:     rgba(168,70,8,.10);
@@ -1682,7 +1687,7 @@ html.light-mode {
   --on-accent:     #ffffff; /* F122 — see top of file for paired-token rationale */
   --accent2:       #c86f0d;
   --accent2-dim:   rgba(200,111,13,.10);
-  --good:          #047857;
+  --good:          #036549;   /* see the first :root block */
   --good-dim:      rgba(4,120,87,.10);
   --warn:          #a84608;
   --warn-dim:      rgba(168,70,8,.10);

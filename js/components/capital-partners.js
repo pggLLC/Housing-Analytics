@@ -68,7 +68,7 @@
       '.cp-item__area { font-size:.78rem; color:var(--muted); }',
       '.cp-item__deal-types { display:flex; flex-wrap:wrap; gap:.25rem; margin-top:.25rem; }',
       '.cp-deal-tag { font-size:.68rem; padding:1px 6px; border-radius:9px;',
-      '               background:rgba(16,185,129,.12); color:#047857;',
+      '               background:rgba(16,185,129,.12); color:var(--good, #036549);',
       '               border:1px solid rgba(16,185,129,.3); font-weight:600; }',
       '.dark-mode .cp-deal-tag { background:rgba(16,185,129,.18); color:#34d399; }',
       '.cp-item__notes { font-size:.78rem; margin-top:.3rem; line-height:1.4; }',
