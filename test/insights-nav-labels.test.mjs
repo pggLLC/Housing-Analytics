@@ -70,9 +70,18 @@ function insightsGroup() {
     .map(([, label, href]) => ({ label, href: href || null }));
 }
 
-test('the Insights menu is grouped into Current, Research and Guides', () => {
-  const headers = insightsGroup().filter((i) => !i.href).map((i) => norm(i.label));
-  assert.deepEqual(headers, ['current', 'research', 'guides']);
+test('the Insights menu is grouped, and no group is empty', () => {
+  // The structure, not the header words: an ungrouped list of 11 items is
+  // what overflowed, and a header with nothing under it is a dead label.
+  const items = insightsGroup();
+  const headers = items.filter((i) => !i.href);
+  assert.ok(headers.length >= 2, `the Insights menu has ${headers.length} group headers; it is not grouped`);
+  assert.equal(items[0].href, null, 'the Insights menu starts with an item outside any group');
+  items.forEach((item, i) => {
+    if (item.href) return;
+    const next = items[i + 1];
+    assert.ok(next && next.href, `the "${item.label}" group has nothing in it`);
+  });
 });
 
 test('every Insights menu label appears in the heading of the page it opens', () => {

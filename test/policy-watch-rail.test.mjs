@@ -219,3 +219,21 @@ test('a section with mixed statuses shows each; a malformed source is text, not 
   assert.match(leg.querySelector('[data-watch-id="b"] .watch-item__title').textContent, /Entry b/, 'the malformed entry is not shown at all');
 });
 
+test('the anchor on a destination page is held until its data can have arrived', () => {
+  // settle-anchor.js keeps a linked section in view while the lists above it
+  // load. Its safety bound must outlast the slowest fetch those pages allow,
+  // or a slow response pushes the section away after it has stopped.
+  const bound = Number((readText('js/components/settle-anchor.js').match(/SETTLE_MS = (\d+)/) || [])[1]);
+  assert.ok(bound > 0, 'settle-anchor.js has no SETTLE_MS');
+  const timeouts = [];
+  for (const file of ['housing-legislation-2026.html', 'js/colorado-elections.js']) {
+    const found = [...readText(file).matchAll(/\}\s*,\s*(\d{4,6})\s*\)/g)].map((m) => Number(m[1]));
+    assert.ok(found.length > 0, `${file} passes no fetch timeout this guard can read`);
+    timeouts.push(...found);
+  }
+  for (const page of ['housing-legislation-2026.html', 'colorado-elections.html']) {
+    assert.ok(readText(page).includes('js/components/settle-anchor.js'), `${page} is linked from Housing News but does not hold its anchor`);
+  }
+  assert.ok(bound > Math.max(...timeouts), `settle-anchor stops after ${bound} ms; the pages wait up to ${Math.max(...timeouts)} ms for data`);
+});
+

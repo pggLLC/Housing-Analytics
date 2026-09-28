@@ -10,7 +10,9 @@
  *   - the page source carries no typed stage, committee or cosponsor count;
  *   - what the page renders equals the watchlist entry, so changing the data
  *     changes the page and a stale copy cannot survive;
- *   - a missing entry says so instead of leaving a placeholder.
+ *   - a missing entry is marked unavailable instead of left as a placeholder;
+ *   - without JavaScript each status cell still links the bill's official
+ *     page, the same URL the watchlist cites.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -37,7 +39,7 @@ async function render(watch = WATCH) {
     },
   });
   const doc = dom.window.document;
-  for (let i = 0; i < 200 && [...doc.querySelectorAll('[data-field="status"]')].some((el) => /Loading/.test(el.textContent)); i++) {
+  for (let i = 0; i < 200 && [...doc.querySelectorAll('[data-field="status"]')].some((el) => !el.dataset.state); i++) {
     await new Promise((r) => setTimeout(r, 5));
   }
   return doc;
@@ -66,6 +68,14 @@ test('the page source types no bill status', () => {
   assert.doesNotMatch(visible, /Referred to/i, 'a committee referral is typed into the page');
   const cells = [...doc.querySelectorAll('[data-field="status"]')];
   assert.equal(cells.length, PENDING.length, 'the status cells this guard reads are missing');
+  // What a reader without JavaScript gets: the bill's official page, the same
+  // one its watchlist entry cites.
+  for (const cell of cells) {
+    const entry = WATCH.entries.find((x) => x.id === cell.dataset.ahciaBill);
+    const link = cell.querySelector('a');
+    assert.ok(link, `${cell.dataset.ahciaBill}: without JavaScript the status cell links nowhere`);
+    assert.equal(link.getAttribute('href'), entry.source_url, `${cell.dataset.ahciaBill}: the fallback link and the watchlist source disagree`);
+  }
 });
 
 test('what the page shows is what the watchlist says', async () => {
@@ -85,10 +95,15 @@ test('changing the data changes the page; a missing entry says so', async () => 
   const changed = structuredClone(WATCH);
   changed.entries.find((x) => x.id === 'ahcia-2025-s1515').bill.cosponsors.total = 77;
   let doc = await render(changed);
-  assert.match(doc.querySelector('[data-ahcia-bill="ahcia-2025-s1515"][data-field="status"]').textContent, /\b77 cosponsors\b/);
+  const changedCell = doc.querySelector('[data-ahcia-bill="ahcia-2025-s1515"][data-field="status"]');
+  assert.equal(changedCell.dataset.state, 'loaded');
+  assert.match(changedCell.textContent, /\b77 cosponsors\b/);
   const without = structuredClone(WATCH);
   without.entries = without.entries.filter((x) => x.id !== 'ahcia-2025-hr2725');
   doc = await render(without);
-  assert.match(doc.querySelector('[data-ahcia-bill="ahcia-2025-hr2725"][data-field="status"]').textContent, /Not in the watchlist/);
+  const missing = doc.querySelector('[data-ahcia-bill="ahcia-2025-hr2725"][data-field="status"]');
+  assert.equal(missing.dataset.state, 'unavailable', 'a bill missing from the watchlist is not marked unavailable');
+  assert.ok(missing.textContent.trim().length > 0, 'a missing bill leaves its status cell empty');
+  assert.doesNotMatch(missing.textContent, /\bcosponsors\b/, 'a missing bill still shows a cosponsor count');
   assert.equal(doc.querySelector('[data-ahcia="cosponsor-stat"]').textContent, '—', 'a partial total is shown as if complete');
 });

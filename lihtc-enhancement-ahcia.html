@@ -115,13 +115,13 @@
 <td>House</td>
 <td>H.R. 2725</td>
 <td data-ahcia-bill="ahcia-2025-hr2725" data-field="sponsor">Rep. Darin LaHood (R-IL)</td>
-<td data-ahcia-bill="ahcia-2025-hr2725" data-field="status">Loading status…</td>
+<td data-ahcia-bill="ahcia-2025-hr2725" data-field="status"><a href="https://www.congress.gov/bill/119th-congress/house-bill/2725" rel="noopener" target="_blank">Current status on Congress.gov</a></td>
 </tr>
 <tr>
 <td>Senate</td>
 <td>S. 1515</td>
 <td data-ahcia-bill="ahcia-2025-s1515" data-field="sponsor">Sen. Todd Young (R-IN)</td>
-<td data-ahcia-bill="ahcia-2025-s1515" data-field="status">Loading status…</td>
+<td data-ahcia-bill="ahcia-2025-s1515" data-field="status"><a href="https://www.congress.gov/bill/119th-congress/senate-bill/1515" rel="noopener" target="_blank">Current status on Congress.gov</a></td>
 </tr>
 </tbody>
 </table>
@@ -215,9 +215,6 @@
        checked 168 and 41 on 2026-09-28). Nothing about status is typed now. */
     document.addEventListener('DOMContentLoaded', function () {
       var PENDING = ['ahcia-2025-hr2725', 'ahcia-2025-s1515'];
-      function esc(v) {
-        return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-      }
       function longDate(iso) {
         var t = Date.parse(String(iso || '') + 'T12:00:00Z');
         if (isNaN(t)) return '';
@@ -233,6 +230,7 @@
           PENDING.forEach(function (id) {
             if (byId[id] && byId[id].bill) return;
             each('[data-ahcia-bill="' + id + '"][data-field="status"]', function (el) {
+              el.dataset.state = 'unavailable';
               el.textContent = 'Not in the watchlist; see Congress.gov.';
             });
           });
@@ -243,6 +241,7 @@
               .filter(Boolean).join(', ');
             var count = Number.isFinite(c.total) ? c.total + ' cosponsors' : '';
             each('[data-ahcia-bill="' + e.id + '"][data-field="status"]', function (el) {
+              el.dataset.state = 'loaded';
               el.textContent = [status, count].filter(Boolean).join('; ');
             });
             each('[data-ahcia-bill="' + e.id + '"][data-field="sponsor"]', function (el) { if (b.sponsor) el.textContent = b.sponsor; });
@@ -272,7 +271,11 @@
           }
         })
         .catch(function () {
-          each('[data-field="status"]', function (el) { el.textContent = 'Status could not be loaded; see Congress.gov.'; });
+          each('[data-field="status"]', function (el) {
+            // Keep the Congress.gov link the cell starts with; say why it is all there is.
+            el.dataset.state = 'unavailable';
+            el.insertAdjacentText('afterbegin', 'Watchlist status could not be loaded. ');
+          });
         });
     });
   </script>
