@@ -1161,6 +1161,10 @@
           _warn('MARenderers not loaded; skipping section rendering.');
         }
 
+        // Only the run that still owns the page may announce completion.
+        if (_currentSite !== site) return;
+        document.dispatchEvent(new CustomEvent('ma:analysis-complete'));
+
       } catch (e) {
         _err('runAnalysis failed', e);
         var errMsg = (e && e.message) ? e.message : 'An unexpected error occurred.';
