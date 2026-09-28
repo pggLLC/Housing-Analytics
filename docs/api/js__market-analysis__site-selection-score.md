@@ -37,6 +37,13 @@ The remaining three scorers (`scoreSubsidy`, `scoreFeasibility`,
 inputs and are treated as always-available — a missing flag is
 the absence of a bonus, not the absence of measurement.
 
+One exception: a QCT/DDA designation passed as explicit `null`
+(HudEgis.checkDesignation() could not tell — layer not loaded or
+globally empty) is an unknown, not a "no". Scoring it as "no" would
+silently drop up to 40 subsidy points, so `computeScore` marks the
+subsidy dimension unavailable, redistributes its weight like the
+others, and reports why in `subsidyUnavailableReason`.
+
 ## Symbols
 
 ### `COMPONENT_WEIGHTS`
@@ -144,15 +151,19 @@ With walkability context: 55% distance + 25% walkability + 20% bikeability.
 @param {object|null} [walkabilityCtx] - From EpaWalkability.getScores().
   Keys: walkScore (0-100), bikeScore (0-100).
 @param {object|null} [transitMetrics] - From PMATransit.getTransitJustification().
-  Optional richer transit data than distance-based proxy. Keys:
-    transitAccessibilityScore (0-100) — composite from
-      calculateTransitScore() blending frequency + coverage + EPA index
-    nearbyRouteCount (number) — distinct routes within walk-to-transit dist
-    hasHighFrequencyService (boolean) — any nearby route ≤ 30-min headway
-  When present, replaces the distance-based 25-pt transit component
-  with a real-data-driven score. Closes the gap where map-rendered
-  transit routes (bus + rail) weren't influencing the composite — the
-  distance proxy only captured nearest-stop, not service quality.
+  The stop-based PMA transit score. Keys:
+    transitAccessibilityScore (0-100 | null) — from calculateTransitScore():
+      confirmed transit stops by distance tier (the QAP TOD distance and
+      the zone radius in data/policy/thiz-map-status.json), blended
+      with the EPA SLD index where available. null when the stop file
+      or the status file did not load.
+    transitUnavailableReason (string|null) — why the score is null.
+    nearbyStopCount (number|null) — confirmed stops within the QAP TOD distance
+    hasHighFrequencyService (null) — the stop file has no frequency data
+  A numeric score replaces the distance-based 25-pt transit component.
+  A null score with a reason falls back to the nearest-stop distance
+  when there is one, and otherwise leaves transit out of the access
+  score (the other components are rescaled to 100) — never a 0.
 @returns {{ score: number|null, unavailable: boolean, reason?: string }}
   When `amenities` is missing or not an object, returns
   `{ score: null, unavailable: true, reason: 'amenity distances unavailable' }`
@@ -205,7 +216,7 @@ across the remaining available components — no fabricated neutral
 @param {number}  inputs.serviceStrength    - Service employment share 0–1.
 @returns {{
   demand_score: number|null,
-  subsidy_score: number,
+  subsidy_score: number|null,
   feasibility_score: number,
   access_score: number|null,
   policy_score: number,
@@ -216,8 +227,17 @@ across the remaining available components — no fabricated neutral
   dimensionsAvailable: number,
   dimensionsUnavailable: number,
   unavailableDimensions: string[],
+  subsidyUnavailableReason: string|null,
   narrative: string
 }}
+
+### `_designationUnknownReason(i)`
+
+Why the QCT/DDA designation is unknown, or null when it is known.
+Only an explicit null counts as unknown; an absent (undefined) flag keeps
+its historical meaning of "no bonus" for callers that never pass one.
+A known `true` on either layer is enough — the basis boost is one election.
+@private
 
 ### `_buildNarrative(final, band, demand, subsidy, feasibility, access, policy, market, unavailableDimensions)`
 

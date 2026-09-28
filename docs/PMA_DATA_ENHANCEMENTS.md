@@ -80,17 +80,16 @@ Returns `{ schoolDistricts: GeoJSON[], schools: GeoJSON[] }`. Used by `PMASchool
 
 ---
 
-### #21 National Transit Database (NTD)
+### #21 Transit stops (replaces the NTD placeholder)
 
 | Property | Value |
 |---|---|
-| Provider | Federal Transit Administration |
-| Endpoint | Annual bulk download (no live spatial query API) |
-| DataService method | `DataService.fetchNTDData(bbox)` |
-| Cache TTL | 7 days |
-| Fallback | Empty stub — transit score uses EPA index only |
+| Provider | CDOT Statewide Transit Points + agency GTFS feeds (`data/amenities/transit_stops_statewide_co.geojson`) |
+| Distances | `data/policy/thiz-map-status.json`: `qap_tod_distance.miles` and `zone_radius_miles` (HB26-1065 administration) |
+| DataService methods | `DataService.fetchTransitStops()`, `DataService.fetchTransitZoneStatus()` (each fetched once per page) |
+| Fallback | None: a file that does not load gives a null transit score with `transitUnavailableReason` |
 
-Returns `{ transitRoutes: [], serviceMetrics: {} }` until NTD live spatial API is available. Used by `PMATransit`.
+`PMATransit.calculateTransitScore` counts confirmed public scheduled stops (the `TransitZone.countsAsConfirmedStop` rule, same as `scripts/lib/transit_stops.py`) within the two distances. Route geometry is drawn on the map but not scored (owner decision 2026-09-27).
 
 ---
 

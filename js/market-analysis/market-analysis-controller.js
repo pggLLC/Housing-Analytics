@@ -731,7 +731,17 @@
     // main thread is occupied.  requestAnimationFrame is not available in
     // all environments targeted by this ES5 module, so setTimeout(fn, 0)
     // is used as the equivalent portable deferral mechanism.
+    // The site-selection score waits for this site's stop-based transit
+    // score (PMATransit.scoreSite; the stop and status files are cached per
+    // page). Reading it synchronously raced the PMA runner, which usually
+    // had not finished, and the circular-buffer flow never runs the runner
+    // at all, so the score silently fell back to the distance proxy (Codex
+    // review of #1996). Sections keep their loading state meanwhile, so no
+    // proxy score is shown as final. A site moved in the meantime is not
+    // rendered: the newer run owns the page.
     setTimeout(function () {
+      _siteTransitMetrics(lat, lon, bufferMiles).then(function (siteTransitMetrics) {
+      if (!_currentSite || _currentSite.lat !== lat || _currentSite.lon !== lon) return;
       try {
         // ── 1b. Barrier-based tract exclusion ────────────────────────
         // Identify tracts behind major barriers BEFORE ACS aggregation
@@ -838,35 +848,14 @@
             ' — ' + policyMetrics.overlayCount + ' supportive overlays, score=' + policyMetrics.totalScore);
         }
 
-        // ── PMA transit metrics — wire the real transit composite into
-        // scoreAccess instead of relying solely on nearest-stop distance.
-        // PMATransit.calculateTransitScore() (called by the PMA runner
-        // when present) blends frequency, coverage, and EPA SLD walk-to-
-        // transit; its output captures bus + rail service quality, not
-        // just proximity. When the runner hasn't scored this site or
-        // PMATransit isn't loaded, leave transitMetrics null and scoreAccess
-        // falls back to the legacy distance proxy.
-        var transitMetrics = null;
-        if (typeof window !== 'undefined' && window.PMATransit &&
-            typeof window.PMATransit.getTransitJustification === 'function') {
-          var tj = _safe(function () { return window.PMATransit.getTransitJustification(); }, null);
-          // Only a score computed for THIS site counts. Before the runner's
-          // transit step finishes, the score is null or belongs to the
-          // previous site; either way fall back to the distance proxy.
-          // Compare at 5 decimals (~1 m): the runner reads the site back from
-          // #pmaSiteCoords, which placeSiteMarker() writes with toFixed(5),
-          // while this call gets the unrounded marker position.
-          var sameSite = tj && typeof tj.siteLat === 'number' && typeof tj.siteLon === 'number' &&
-            typeof lat === 'number' && typeof lon === 'number' &&
-            tj.siteLat.toFixed(5) === lat.toFixed(5) && tj.siteLon.toFixed(5) === lon.toFixed(5);
-          if (sameSite && Number.isFinite(tj.transitAccessibilityScore)) {
-            transitMetrics = {
-              transitAccessibilityScore: tj.transitAccessibilityScore,
-              nearbyRouteCount:          tj.nearbyRouteCount,
-              hasHighFrequencyService:   tj.hasHighFrequencyService
-            };
-          }
-        }
+        // ── PMA transit metrics: the stop-based transit score for THIS
+        // site (PMATransit.scoreSite, awaited before this block runs; see
+        // _siteTransitMetrics). null only when PMATransit is not on the
+        // page, and then scoreAccess uses the nearest-stop distance proxy.
+        // A score that could not be measured arrives as null with its
+        // reason, so scoreAccess discloses it (and leaves transit out if it
+        // has no distance either) instead of scoring a 0.
+        var transitMetrics = siteTransitMetrics;
 
         // Build scoring inputs from available data.
         var inputs = {
@@ -1074,7 +1063,43 @@
         }
         _showAllError(errMsg);
       }
+      });
     }, 0);
+  }
+
+  /**
+   * This site's stop-based transit metrics for scoreAccess, or null when
+   * PMATransit is not on the page. Never rejects.
+   */
+  var TRANSIT_WAIT_MS = 20000;
+  function _siteTransitMetrics(lat, lon, bufferMiles) {
+    var pt = typeof window !== 'undefined' ? window.PMATransit : null;
+    if (!pt || typeof pt.scoreSite !== 'function') return Promise.resolve(null);
+    var runner = window.PMAAnalysisRunner;
+    var bbox = runner && typeof runner.bboxFor === 'function'
+      ? runner.bboxFor(lat, lon, { method: 'buffer', bufferMiles: bufferMiles }) : null;
+    // A fetch that never settles must not hold the whole report on its
+    // loading state: after TRANSIT_WAIT_MS transit is scored as unavailable.
+    var timedOut = new Promise(function (resolve) {
+      setTimeout(function () { resolve({ transitAccessibilityScore: null,
+        transitUnavailableReason: 'The transit stop data took too long to load, so transit access was not scored.' }); }, TRANSIT_WAIT_MS);
+    });
+    return Promise.race([pt.scoreSite(lat, lon, { bbox: bbox }), timedOut]).then(function (tj) {
+      if (!tj) return null;
+      var score = Number.isFinite(tj.transitAccessibilityScore) ? tj.transitAccessibilityScore : null;
+      return {
+        transitAccessibilityScore: score,
+        transitUnavailableReason:  score === null
+          ? (tj.transitUnavailableReason || 'The transit score could not be computed for this site.') : null,
+        nearbyStopCount:           tj.nearbyStopCount,
+        noConfirmedStopWithinZoneRadius: tj.noConfirmedStopWithinZoneRadius,
+        hasHighFrequencyService:   tj.hasHighFrequencyService,
+        highFrequencyUnavailableReason: tj.highFrequencyUnavailableReason || null
+      };
+    }, function () {
+      return { transitAccessibilityScore: null,
+               transitUnavailableReason: 'The transit score could not be computed for this site.' };
+    });
   }
 
   /* ── Opportunities builder ──────────────────────────────────────── */
@@ -1296,7 +1321,8 @@
   window.MAController = {
     init:        init,
     runAnalysis: runAnalysis,
-    resetAll:    resetAll
+    resetAll:    resetAll,
+    _siteTransitMetrics: _siteTransitMetrics
   };
 
 }());
