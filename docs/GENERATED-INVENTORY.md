@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-27T22:18:13.885Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T00:08:28.100Z. Do not edit by hand.
 
 ---
 
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-469 test files found.
+470 test files found.
 
 | File | Size |
 |------|------|
@@ -2049,7 +2049,8 @@
 | `test/pma-small-area-confidence.test.js` | 1.9 KB |
 | `test/pma-suppressed-acs-not-zero.test.js` | 17.6 KB |
 | `test/pma-tract-display.test.js` | 8.4 KB |
-| `test/pma-transit.test.js` | 16.8 KB |
+| `test/pma-transit-stops.test.js` | 30.4 KB |
+| `test/pma-transit.test.js` | 15.9 KB |
 | `test/pmi-gate-is-one-rule.test.mjs` | 11.2 KB |
 | `test/policy-briefs-curated.test.js` | 8.0 KB |
 | `test/policy-data-currency.test.js` | 3.0 KB |
@@ -2134,7 +2135,7 @@
 | `test/transit-stops-consumers.test.js` | 6.7 KB |
 | `test/transit-zone-absence.test.mjs` | 37.0 KB |
 | `test/transit-zone-funding-line.test.js` | 25.3 KB |
-| `test/transit-zone.test.js` | 39.3 KB |
+| `test/transit-zone.test.js` | 39.4 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/unit-mix-validation.test.js` | 4.7 KB |
 | `test/unit-suffix-convention.test.js` | 6.6 KB |
@@ -2148,7 +2149,7 @@
 | `test/unit/pma-justification.test.js` | 5.8 KB |
 | `test/unit/pma-opportunities.test.js` | 4.9 KB |
 | `test/unit/pma-schools.test.js` | 5.0 KB |
-| `test/unit/pma-transit.test.js` | 4.5 KB |
+| `test/unit/pma-transit.test.js` | 5.0 KB |
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
 | `test/unwired-suite.test.js` | 10.3 KB |
@@ -2215,7 +2216,7 @@
 | `tests/test_stage3_accessibility.py` | 22.4 KB |
 | `tests/test_stage3_visualization.py` | 21.9 KB |
 | `tests/test_transit_stop_gate.py` | 9.2 KB |
-| `tests/test_transit_stop_selection.py` | 15.2 KB |
+| `tests/test_transit_stop_selection.py` | 15.9 KB |
 | `tests/test_transit_stops_statewide.py` | 21.9 KB |
 | `tests/test_upstream_schema_check.py` | 5.0 KB |
 
