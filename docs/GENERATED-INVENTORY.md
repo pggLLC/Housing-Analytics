@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T03:32:44.719Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T04:02:11.711Z. Do not edit by hand.
 
 ---
 
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-473 test files found.
+474 test files found.
 
 | File | Size |
 |------|------|
@@ -1855,6 +1855,7 @@
 | `test/epa-sld-local-lookup.test.js` | 13.2 KB |
 | `test/epa-walkability-d4a-distance.test.js` | 12.2 KB |
 | `test/epa-walkability-site-lookup.test.js` | 9.5 KB |
+| `test/epa-walkability-waits-for-geometry.test.js` | 9.6 KB |
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
 | `test/every-guard-runs-or-says-why.test.mjs` | 8.5 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
