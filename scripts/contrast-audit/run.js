@@ -111,7 +111,7 @@ async function waitForSettled(page) {
         if (a.playState !== 'running') return false;
         var t = a.effect && a.effect.getComputedTiming && a.effect.getComputedTiming();
         // An infinite spinner never ends; waiting on it would never settle.
-        return !t || isFinite(t.endTime);
+        return !t || Number.isFinite(t.endTime);
       });
     }
     function signature() {
