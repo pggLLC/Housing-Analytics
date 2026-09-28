@@ -628,7 +628,11 @@
     if (walkability) {
       html += '<div style="margin-top:0.75rem;"></div>' +
         _sectionHeading('Walkability & Bikeability') +
-        _walkBikeRow('Walkability', walkability.walkScore, walkability.walkLabel) +
+        // The walk score is EPA's National Walkability Index rescaled to 0-100,
+        // so its colour follows EPA's category (the label), not the 40 / 60
+        // score breaks used for the bike score.
+        _walkBikeRow('Walkability', walkability.walkScore, walkability.walkLabel,
+          WALK_CATEGORY_COLORS[walkability.walkLabel] || null) +
         _walkBikeRow('Bikeability', walkability.bikeScore, walkability.bikeLabel);
 
       // Supporting EPA metrics
@@ -636,6 +640,9 @@
         '<div style="font-weight:600;color:var(--muted);margin-bottom:0.35rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.04em;">EPA Smart Location Factors</div>' +
         '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.25rem 1rem;">';
 
+      if (walkability.walkabilityIndex != null) {
+        html += _miniMetric('EPA Walkability Index', _fmtN(walkability.walkabilityIndex, 1) + ' of 20');
+      }
       if (walkability.intersectionDensity != null) {
         html += _miniMetric('Intersection Density', walkability.intersectionDensity);
       }
@@ -691,12 +698,20 @@
    * Build a walkability/bikeability score row with gauge bar.
    * @private
    */
-  function _walkBikeRow(label, score, labelText) {
+  var WALK_CATEGORY_COLORS = {
+    'Most walkable':  'var(--good)',
+    'Above average':  'var(--good)',
+    'Below average':  'var(--warn)',
+    'Least walkable': 'var(--bad)'
+  };
+
+  function _walkBikeRow(label, score, labelText, colorOverride) {
     if (typeof score !== 'number') {
       return _metricRow(label, 'Unavailable');
     }
     var s = score;
-    var color = (s >= 60) ? 'var(--good)' : (s >= 40) ? 'var(--warn)' : 'var(--bad)';
+    var color = colorOverride ||
+      ((s >= 60) ? 'var(--good)' : (s >= 40) ? 'var(--warn)' : 'var(--bad)');
     return (
       '<div style="display:flex;justify-content:space-between;align-items:center;' +
              'padding:0.45rem 0;border-bottom:1px solid var(--border);">' +

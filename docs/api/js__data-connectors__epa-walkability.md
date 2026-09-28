@@ -92,8 +92,9 @@ Get walkability and bikeability scores (0-100) for a location.
 @returns {{
   walkScore: number|null,
   bikeScore: number|null,
-  walkLabel: string|null,
+  walkLabel: string|null,       EPA's category for the index
   bikeLabel: string|null,
+  walkabilityIndex: number|null, EPA National Walkability Index, 1-20
   intersectionDensity: number|null,
   nearestTransitStopMeters: number|null,
   transitStopBlockGroupCount: number,
