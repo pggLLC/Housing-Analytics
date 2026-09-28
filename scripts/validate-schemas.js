@@ -348,6 +348,12 @@ function validateAllMarketData() {
     tractKey: 'blockGroups'
   });
 
+  validateMarketDataFile('data/market/epa_sld_bg_geometry_co.geojson', {
+    label: 'EPA SLD block-group boundaries (2010)',
+    metaKey: 'meta',
+    geojson: true
+  });
+
   validateMarketDataFile('data/market/dola_demographics_co.json', {
     label: 'DOLA demographics',
     metaKey: 'meta'
