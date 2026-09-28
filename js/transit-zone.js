@@ -11,7 +11,9 @@
  *     zones:     <OEDIT zone polygons, once published; else null>,
  *     now:       new Date()          // optional, for tests
  *   });
- *   zone.status(lat, lon)  →  {
+ *   zone.status(lat, lon, siteSource)  →  {
+ *     program: { qualified: true | false | null, ... }, // sole eligibility evidence
+ *     // The remaining fields describe the legacy stop screen, not eligibility:
  *     status:               'within_2mi' | 'outside' | 'unavailable',
  *     unavailableReason:    string | null,
  *     radiusMiles:          number | null,  // from mapStatus, never hardcoded
@@ -93,7 +95,17 @@
     return inside;
   }
 
-  function inZones(lon, lat, zones) {
+  function onRing(lon, lat, ring) {
+    for (var i = 1; i < ring.length; i++) {
+      var a = ring[i - 1], b = ring[i];
+      var cross = (lon - a[0]) * (b[1] - a[1]) - (lat - a[1]) * (b[0] - a[0]);
+      if (Math.abs(cross) < 1e-12 && lon >= Math.min(a[0], b[0]) && lon <= Math.max(a[0], b[0]) &&
+          lat >= Math.min(a[1], b[1]) && lat <= Math.max(a[1], b[1])) return true;
+    }
+    return false;
+  }
+
+  function zoneAt(lon, lat, zones) {
     var feats = (zones && zones.features) || [];
     for (var f = 0; f < feats.length; f++) {
       var g = feats[f] && feats[f].geometry;
@@ -104,11 +116,13 @@
         if (!poly || !poly.length || !inRing(lon, lat, poly[0])) continue;
         var inHole = false;
         for (var h = 1; h < poly.length; h++) if (inRing(lon, lat, poly[h])) { inHole = true; break; }
-        if (!inHole) return true;
+        if (!inHole) return feats[f];
       }
     }
-    return false;
+    return null;
   }
+
+  function inZones(lon, lat, zones) { return !!zoneAt(lon, lat, zones); }
 
   // Every zone must be a Polygon/MultiPolygon whose rings are closed lists
   // of at least four numeric positions. One unreadable zone makes the whole
@@ -123,8 +137,9 @@
       var ok = Array.isArray(polys) && polys.length > 0 && polys.every(function (poly) {
         return Array.isArray(poly) && poly.length > 0 && poly.every(function (ring) {
           return Array.isArray(ring) && ring.length >= 4 && ring.every(function (pt) {
-            return Array.isArray(pt) && isNum(pt[0]) && isNum(pt[1]);
-          });
+            return Array.isArray(pt) && isNum(pt[0]) && isNum(pt[1]) &&
+              Math.abs(pt[0]) <= 180 && Math.abs(pt[1]) <= 90;
+          }) && ring[0][0] === ring[ring.length - 1][0] && ring[0][1] === ring[ring.length - 1][1];
         });
       });
       if (!ok) bad++;
@@ -141,6 +156,78 @@
   function inColorado(lat, lon) {
     return lon >= CO_BBOX.minLon && lon <= CO_BBOX.maxLon &&
            lat >= CO_BBOX.minLat && lat <= CO_BBOX.maxLat;
+  }
+
+  // Exact-site program evidence is separate from the legacy stop screen.
+  // OEDIT's map is not available in the tracked data as of 2026-09-28.
+  // Future ingestion must retain the official polygons and facility linkage;
+  // see the source/adapter contract in docs/TRANSIT-SITE-EVIDENCE.md.
+  function isExactSite(source) {
+    return ['site', 'map_point', 'geocoded_address', 'parcel', 'manual_coordinates'].indexOf(source) !== -1;
+  }
+
+  function programStatus(lat, lon, siteSource, mapStatus, zones, now) {
+    var r = {
+      qualified: null, siteLat: isNum(lat) ? lat : null, siteLon: isNum(lon) ? lon : null,
+      siteSource: siteSource || null, facilityId: null, facilityName: null, facilityType: null,
+      facilityLat: null, facilityLon: null, zoneId: null,
+      distanceMiles: null, distanceMethod: null, thresholdMiles: 2,
+      programRule: 'C.R.S. 24-48.5-136(3): within two miles of a transportation facility identified on OEDIT’s THIZ map. Official mapped geography controls.',
+      ruleSourceUrl: 'https://leg.colorado.gov/bills/HB26-1065',
+      source: 'Colorado Office of Economic Development and International Trade (OEDIT)',
+      dataset: 'Transit and Housing Investment Zone map',
+      sourceUrl: (mapStatus && mapStatus.map_source_url) || null,
+      sourceFile: (mapStatus && mapStatus.zones_file) || null,
+      vintage: null, checkedAt: now.toISOString(),
+      mapLastChecked: (mapStatus && mapStatus.last_checked) || null,
+      determinationMethod: null, unavailableReason: null
+    };
+    function unknown(reason) { r.unavailableReason = reason; return r; }
+    if (!isExactSite(siteSource) || !isNum(lat) || !isNum(lon)) {
+      return unknown('No project site selected — transit-program eligibility requires an exact site.');
+    }
+    if (!inColorado(lat, lon)) return unknown('The project site could not be placed in Colorado.');
+    if (!mapStatus || mapStatus.status !== 'published') {
+      return unknown('The official OEDIT THIZ map is not available here. Nearby transit stops do not establish program eligibility.');
+    }
+    var problem = zonesProblem(zones);
+    if (problem) return unknown(problem);
+    var meta = zones.meta || {};
+    if (!r.sourceUrl || !r.sourceFile || meta.sourceUrl !== r.sourceUrl ||
+        !meta.vintage || meta.complete !== true) {
+      return unknown('The official THIZ map’s source, vintage or complete Colorado coverage is unresolved.');
+    }
+    // A station type alone is insufficient: the linkage must come from the
+    // official map, never from a nearby ordinary stop or a generated buffer.
+    var ambiguous = zones.features.some(function (f) {
+      var p = f.properties || {};
+      return f.id == null || !p.facilityId ||
+        ['transit_station', 'passenger_rail_station'].indexOf(p.facilityType) === -1;
+    });
+    if (ambiguous) return unknown('The official THIZ map’s qualifying-facility linkage is unresolved.');
+    r.vintage = meta.vintage;
+    var boundary = zones.features.some(function (f) {
+      var g = f.geometry, polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
+      return polys.some(function (poly) { return poly.some(function (ring) { return onRing(lon, lat, ring); }); });
+    });
+    if (boundary) return unknown('The site lies on a mapped THIZ boundary; confirm the site with OEDIT.');
+    r.determinationMethod = 'point_in_official_polygon';
+    var matched = zoneAt(lon, lat, zones);
+    r.qualified = !!matched;
+    if (matched) {
+      var p = matched.properties;
+      r.zoneId = matched.id;
+      r.facilityId = p.facilityId;
+      r.facilityName = p.facilityName || null;
+      r.facilityType = p.facilityType;
+      if (isNum(p.facilityLat) && isNum(p.facilityLon) && inColorado(p.facilityLat, p.facilityLon)) {
+        r.facilityLat = p.facilityLat;
+        r.facilityLon = p.facilityLon;
+        r.distanceMiles = haversineMiles(lat, lon, p.facilityLat, p.facilityLon);
+        r.distanceMethod = 'straight_line_haversine';
+      }
+    }
+    return r;
   }
 
   // ── Designation: what OEDIT's map says, or why we cannot say yet ────────
@@ -190,8 +277,10 @@
 
   function describe(stop, distanceMiles, radius) {
     var p = stop.properties || {};
-    return { name: p.name || null, agency: p.agency || null, sources: p.sources || [],
-             reliability: p.reliability || null, distanceMiles: roundedDistance(distanceMiles, radius) };
+    return { id: p.stop_id || stop.id || null, name: p.name || null, agency: p.agency || null, sources: p.sources || [],
+             reliability: p.reliability || null, distanceMiles: roundedDistance(distanceMiles, radius),
+             distanceMethod: 'straight_line_haversine', service: p.service || null,
+             lat: stop.geometry.coordinates[1], lon: stop.geometry.coordinates[0] };
   }
 
   // The zone screening radius, from the status file (never hardcoded):
@@ -203,7 +292,8 @@
 
   function create(opts) {
     opts = opts || {};
-    var now = opts.now && typeof opts.now.getTime === 'function' ? opts.now : new Date();
+    var fixedClock = opts.now && typeof opts.now.getTime === 'function';
+    var now = fixedClock ? opts.now : new Date();
     var mapStatus = opts.mapStatus || null;
     var zones = opts.zones || null;
     var zoneProblem = zones ? zonesProblem(zones) : null;
@@ -219,8 +309,6 @@
     var feats = stops && Array.isArray(stops.features) ? stops.features : null;
     if (!feats || !feats.length) {
       dataProblem = 'Transit stop data did not load, so distance to transit could not be checked.';
-    } else if (radius === null) {
-      dataProblem = 'The zone radius could not be read from the zone-map status file.';
     } else {
       var gen = Date.parse((stops.meta && stops.meta.generated) || '');
       if (!isNum(gen)) {
@@ -274,7 +362,7 @@
       return { any: bestAny, dAny: dAny, conf: bestConf, dConf: dConf };
     }
 
-    function status(lat, lon) {
+    function stopStatus(lat, lon) {
       // A location we cannot trust gets no designation at all: a missing
       // (0,0), swapped or out-of-state point would otherwise read "outside"
       // or "official_out" — a false negative, not an unknown.
@@ -297,6 +385,8 @@
       var n = nearest(lat, lon);
       base.nearestStop = n.any ? describe(n.any, n.dAny, radius) : null;
       base.nearestConfirmedStop = n.conf ? describe(n.conf, n.dConf, radius) : null;
+      if (radius === null) return Object.assign({ status: 'unavailable',
+        unavailableReason: 'The zone radius could not be read from the zone-map status file.' }, base);
       if (n.conf && n.dConf <= radius) {
         base.confirmedOnly = true;
         return Object.assign({ status: 'within_2mi', unavailableReason: null }, base);
@@ -309,6 +399,26 @@
       return Object.assign({ status: 'outside', unavailableReason: null }, base);
     }
 
+    function status(lat, lon, siteSource) {
+      var result = stopStatus(lat, lon);
+      result.program = programStatus(lat, lon, siteSource, mapStatus, zones, fixedClock ? now : new Date());
+      if (result.program.qualified === null && result.designation !== 'provisional') {
+        result.designation = 'provisional';
+        result.designationNote = result.program.unavailableReason;
+      }
+      result.stopsVintage = stops && stops.meta ? stops.meta.generated || null : null;
+      result.stopsSource = stops && stops.meta ? stops.meta.source || null : null;
+      result.stopsSourceUrl = stops && stops.meta ? stops.meta.cdot_url || null : null;
+      result.stopsSourceFile = 'data/amenities/transit_stops_statewide_co.geojson';
+      // A centroid may describe area access elsewhere, but is not site evidence.
+      if (!isExactSite(siteSource) && siteSource != null) {
+        result.status = 'unavailable';
+        result.unavailableReason = result.program.unavailableReason;
+        result.nearestStop = result.nearestConfirmedStop = null;
+        result.confirmedOnly = null;
+      }
+      return result;
+    }
     return { status: status, radiusMiles: radius, dataProblem: dataProblem };
   }
 
@@ -444,21 +554,13 @@
     };
   }
 
-  // Whether a site result may point at the Transit Zone credit, and on what
-  // basis. The gate and the deal calculator both ask this, so they cannot
-  // disagree. OEDIT's published map outranks the stop screen both ways: a
-  // site on it is "official" whatever the stops say, and a site it leaves
-  // out gets no funding path even if a stop is within the radius. A map that
-  // is published but could not be loaded or read here (mapPublished, with a
-  // provisional designation) also gives no funding path: the act counts only
-  // what OEDIT's map identifies, and the stop screen no longer stands in.
+  // Ordinary stops, legacy provisional results and centroids never open
+  // the credit line. The exact-site program determination is the only gate.
   function fundingPath(result) {
-    if (!result) return null;
-    if (result.designation === 'official_in') return 'official';
-    if (result.designation === 'official_out') return null;
-    if (result.mapPublished === true) return null;
-    if (result.status === 'within_2mi' && result.confirmedOnly === true) return 'screen';
-    return null;
+    var p = result && result.program;
+    return p && p.qualified === true && isExactSite(p.siteSource) &&
+      isNum(p.siteLat) && isNum(p.siteLon) && p.facilityId &&
+      p.determinationMethod === 'point_in_official_polygon' ? 'official' : null;
   }
 
   var api = { create: create, designation: designation, fundingPath: fundingPath, areaSummary: areaSummary,

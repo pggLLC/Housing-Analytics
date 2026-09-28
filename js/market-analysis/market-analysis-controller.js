@@ -704,6 +704,31 @@
       });
   }
 
+  // The map gate writes into the existing site state before analysis starts.
+  // This also invalidates an in-flight run as soon as the point moves.
+  function setSiteTransitEvidence(lat, lon, siteSource, evidence) {
+    var same = _currentSite && _currentSite.lat === lat && _currentSite.lon === lon &&
+      _currentSite.siteSource === siteSource;
+    if (!same) _currentSite = { lat: lat, lon: lon, siteSource: siteSource,
+      qctFlag: null, ddaFlag: null, qctDdaEvidence: null, transitMetrics: null };
+    var p = evidence && evidence.program;
+    _currentSite.transitEvidence = p && p.siteLat === lat && p.siteLon === lon &&
+      p.siteSource === siteSource ? evidence : null;
+    _safe(function () {
+      var wf = window.WorkflowState;
+      if (!wf || !wf.getActiveProject()) return;
+      var saved = wf.getStep('market');
+      var savedSame = saved.siteLat === lat && saved.siteLon === lon && saved.siteSource === siteSource;
+      // Exploring another point or provenance must leave the saved site intact.
+      // Only a lookup for that saved site can update its pending evidence.
+      if (!savedSame) return;
+      // Clear first: WorkflowState deep-merges objects, which otherwise keeps
+      // an old facility's fields when a later result is incomplete.
+      wf.setStep('market', { transitEvidence: null });
+      wf.setStep('market', { transitEvidence: _currentSite.transitEvidence });
+    });
+  }
+
   /* ── Core analysis pipeline ─────────────────────────────────────── */
 
   /**
@@ -731,8 +756,15 @@
     // Each run owns its evidence; a delayed previous run cannot repopulate it.
     var site = { lat: lat, lon: lon, bufferMiles: bufferMiles || 5,
       siteSource: (opts && opts.siteSource) || 'site',
-      qctFlag: null, ddaFlag: null, qctDdaEvidence: null, transitMetrics: null };
+      qctFlag: null, ddaFlag: null, qctDdaEvidence: null, transitMetrics: null, transitEvidence: null };
+    if (_currentSite && _currentSite.lat === lat && _currentSite.lon === lon &&
+        _currentSite.siteSource === site.siteSource) site.transitEvidence = _currentSite.transitEvidence;
     _currentSite = site;
+    _safe(function () {
+      if (window.__DealCalc && typeof window.__DealCalc.setTransitZoneContext === 'function') {
+        window.__DealCalc.setTransitZoneContext(site.transitEvidence);
+      }
+    });
 
     // The project's saved market step is left alone: it still pairs the saved
     // site's coordinates with that site's evidence. Only savePmaToProject()
@@ -1129,6 +1161,10 @@
           _warn('MARenderers not loaded; skipping section rendering.');
         }
 
+        // Only the run that still owns the page may announce completion.
+        if (_currentSite !== site) return;
+        document.dispatchEvent(new CustomEvent('ma:analysis-complete'));
+
       } catch (e) {
         _err('runAnalysis failed', e);
         var errMsg = (e && e.message) ? e.message : 'An unexpected error occurred.';
@@ -1428,6 +1464,7 @@
   window.MAController = {
     init:        init,
     runAnalysis: runAnalysis,
+    setSiteTransitEvidence: setSiteTransitEvidence,
     getCurrentSite: function () {
       if (!_currentSite) return null;
       var site = Object.assign({}, _currentSite);
