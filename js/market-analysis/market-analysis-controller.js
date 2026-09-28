@@ -323,8 +323,8 @@
         _log('_getDesignationFlags(): QCT=' + result.in_qct + ', DDA=' + result.in_dda +
           ', basisBoostEligible=' + result.basis_boost_eligible);
         return {
-          qctFlag:          result.in_qct,
-          ddaFlag:          result.in_dda,
+          qctFlag:          typeof result.in_qct === 'boolean' ? result.in_qct : null,
+          ddaFlag:          typeof result.in_dda === 'boolean' ? result.in_dda : null,
           basisBoostEligible: result.basis_boost_eligible,
           designationUnavailableReason: result.unavailableReason || null,
           designationEvidence: result.evidence || null
@@ -728,9 +728,25 @@
     var scr = _scorer();
     var ren = _rend();
 
-    // Store current site for ACS fallback aggregation
-    _currentSite = { lat: lat, lon: lon, bufferMiles: bufferMiles || 5,
-      siteSource: (opts && opts.siteSource) || 'site' };
+    // Each run owns its evidence; a delayed previous run cannot repopulate it.
+    var site = { lat: lat, lon: lon, bufferMiles: bufferMiles || 5,
+      siteSource: (opts && opts.siteSource) || 'site',
+      qctFlag: null, ddaFlag: null, qctDdaEvidence: null, transitMetrics: null };
+    _currentSite = site;
+
+    // Invalidate the saved site's evidence immediately, including after reload.
+    _safe(function () {
+      var wf = window.WorkflowState;
+      if (!wf || !wf.getActiveProject()) return;
+      var saved = wf.getStep('market');
+      if (saved.siteLat !== lat || saved.siteLon !== lon || saved.bufferMiles !== site.bufferMiles) {
+        wf.setStep('market', {
+          siteLat: lat, siteLon: lon, bufferMiles: site.bufferMiles,
+          qctFlag: null, ddaFlag: null, qctDdaEvidence: null, pmaScore: null, dimensions: null,
+          completedAt: null, exportReady: false
+        });
+      }
+    });
 
     _log('runAnalysis(): lat=' + lat + ', lon=' + lon + ', buffer=' + bufferMiles + 'mi' +
       ' — MAState=' + (st ? 'ok' : 'missing') +
@@ -740,9 +756,13 @@
     // ── 1. Set loading state ────────────────────────────────────────
     if (st) {
       _safe(function () {
+        var previous = st.getState();
+        if (previous.scores) st.setState({ scores: null });
         st.setState({
           loading:   true,
           error:     null,
+          dataReady: false,
+          sections:  {},
           site:      { lat: lat, lon: lon, bufferMiles: bufferMiles || 5 }
         });
       });
@@ -767,7 +787,7 @@
     setTimeout(function () {
       Promise.all([_siteTransitMetrics(lat, lon, bufferMiles), _walkabilityReady(lat, lon, bufferMiles)]).then(function (waited) {
       var siteTransitMetrics = waited[0];
-      if (!_currentSite || _currentSite.lat !== lat || _currentSite.lon !== lon) return;
+      if (_currentSite !== site) return;
       try {
         // ── 1b. Barrier-based tract exclusion ────────────────────────
         // Identify tracts behind major barriers BEFORE ACS aggregation
@@ -795,7 +815,31 @@
         // ── 2. Gather data ───────────────────────────────────────────
         var acs   = _getAcs();
         var lihtc = _getLihtc();
-        var flags = _getDesignationFlags(lat, lon, _currentSite && _currentSite.siteSource);
+        var flags = _getDesignationFlags(lat, lon, site.siteSource);
+        site.qctFlag = flags.qctFlag;
+        site.ddaFlag = flags.ddaFlag;
+        // The evidence behind the flags (matched tract GEOID, DDA name/code,
+        // HUD year/source), saved with the site so a later step can show
+        // what the yes/no was checked against.
+        site.qctDdaEvidence = {
+          qctFlag: flags.qctFlag, ddaFlag: flags.ddaFlag,
+          unavailableReason: flags.designationUnavailableReason || null,
+          evidence: flags.designationEvidence || null
+        };
+        site.transitMetrics = siteTransitMetrics;
+
+        // A save made while this lookup was pending recorded the designation
+        // as unknown. Publish the resolved flags to that same saved site.
+        _safe(function () {
+          var wf = window.WorkflowState;
+          if (!wf || !wf.getActiveProject()) return;
+          var saved = wf.getStep('market');
+          if (saved.completedAt && saved.siteLat === lat && saved.siteLon === lon &&
+              saved.bufferMiles === site.bufferMiles) {
+            wf.setStep('market', { qctFlag: site.qctFlag, ddaFlag: site.ddaFlag,
+              qctDdaEvidence: site.qctDdaEvidence });
+          }
+        });
 
         // Notify the deal calculator of the designation result so the UI can
         // pre-check the QCT/DDA checkbox when the site qualifies for a basis boost.
@@ -960,6 +1004,7 @@
                 access: {
                   amenities:      inputs.amenities,
                   walkability:    walkabilityCtx,
+                  transitMetrics: transitMetrics,
                   access_score:   scores ? scores.access_score : null
                 },
                 policy: {
@@ -1253,6 +1298,7 @@
   function resetAll() {
     var st  = _state();
     var ren = _rend();
+    _currentSite = null;
 
     if (st) {
       _safe(function () { st.reset(); });
@@ -1392,6 +1438,19 @@
   window.MAController = {
     init:        init,
     runAnalysis: runAnalysis,
+    getCurrentSite: function () {
+      if (!_currentSite) return null;
+      var site = Object.assign({}, _currentSite);
+      // The primary PMA score is distinct from the site-selection index.
+      // Never save a DOM score or engine result left over from another point.
+      var pma = _pma();
+      var result = pma && pma._state && pma._state.getLastResult
+        ? pma._state.getLastResult() : null;
+      site.pmaScore = result && result.lat === site.lat && result.lon === site.lon &&
+        result.bufferMiles === site.bufferMiles && Number.isFinite(result.overall)
+        ? result.overall : null;
+      return site;
+    },
     resetAll:    resetAll,
     _siteTransitMetrics: _siteTransitMetrics
   };
