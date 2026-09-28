@@ -443,9 +443,12 @@
   // files, rather than guessing a sign — and is null when those are absent.
   function rentalGap(amiGapEntry) {
     if (!amiGapEntry) return null;
+    // num() alone would turn a stored null into 0 (Number(null) === 0), so an
+    // absent band is checked before conversion.
     var pick = function (series) {
       if (!series) return null;
-      return num(series['80'] != null ? series['80'] : series[80]);
+      var v = series['80'] != null ? series['80'] : series[80];
+      return v == null || v === '' ? null : num(v);
     };
     var gaps = amiGapEntry.gap_units_minus_households_le_ami_pct;
     var raw = pick(gaps);

@@ -77,5 +77,13 @@ assert.deepStrictEqual(consumerWrong.slice(0, 10), [], `rentalGap disagrees with
 assert.strictEqual(rentalGap({ gap_units_minus_households_le_ami_pct: { 80: -500 } }), null,
   'an untagged record without counts must be null, not a sign guess');
 assert.strictEqual(rentalGap(null), null);
+// An explicitly null band is absent, not 0 (Number(null) === 0).
+assert.strictEqual(rentalGap({ households_le_ami_pct: { 80: null }, units_priced_affordable_le_ami_pct: { 80: 100 } }), null,
+  'null households must not become a 0 gap');
+assert.strictEqual(rentalGap({ households_le_ami_pct: { 80: 500 }, units_priced_affordable_le_ami_pct: { 80: null } }), null,
+  'null units must not become a 500 gap');
+assert.strictEqual(rentalGap({ gapSource: 'county', gap_units_minus_households_le_ami_pct: { 80: null },
+  households_le_ami_pct: { 80: 5 }, units_priced_affordable_le_ami_pct: { 80: 2 } }), 3,
+  'a null stored gap falls back to the counts, not to 0');
 
 console.log(`AMI gap sign convention: PASS (${checked} stored band values agree with their file's counts; rentalGap matches households − units on ${consumerChecked} tagged and untagged records)`);
