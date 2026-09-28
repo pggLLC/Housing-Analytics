@@ -3036,7 +3036,9 @@
           lihtc: nearbyLihtc || []
         });
       }
-      MAC.runAnalysis(lat, lon, bufferMiles);
+      // The radius the PMA actually used (ACS fallback may widen it), so the
+      // saved buffer and score describe the same analysis.
+      MAC.runAnalysis(lat, lon, effectiveBuffer);
     } else {
       console.warn('[market-analysis] MAController not available — report sections will not render.');
     }
