@@ -246,7 +246,7 @@
       running = document.getAnimations ? document.getAnimations().filter(function (a) {
         if (a.playState !== 'running') return false;
         var t = a.effect && a.effect.getComputedTiming && a.effect.getComputedTiming();
-        return !!t && isFinite(t.endTime);   // an infinite spinner never finishes
+        return !!t && Number.isFinite(t.endTime);   // an infinite spinner never finishes
       }) : [];
     } catch (e) { running = []; }
     if (!running.length) return scanNow();
