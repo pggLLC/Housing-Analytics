@@ -191,23 +191,25 @@ test('rendered positive badge and calculator require qualified true; accessibili
   assert.ok(gate.textContent.includes(p.evidence().program.unavailableReason));
 });
 
-test('movement clears facility/distance and saved evidence immediately, even before another analysis', async () => {
+test('movement clears current evidence while the saved site changes only on save', async () => {
   const p = page(); p.select(A); p.save();
   assert.equal(p.saved().transitEvidence.program.qualified, true);
+  const savedA = p.saved();
   // A programmatic controller run must also clear the calculator before lookup.
   p.win.MAController.runAnalysis(B.lat, B.lon, 3);
   assert.equal(p.dom.window.document.getElementById('dc-tz-note').hidden, true);
   assert.equal(p.win.MAController.getCurrentSite().transitEvidence, null);
-  assert.equal(p.saved().transitEvidence, null);
+  assert.deepEqual(p.saved(), savedA, 'exploring B leaves saved A intact');
   p.select(B);
-  assert.equal(p.saved().transitEvidence.program.siteLat, B.lat);
-  assert.equal(p.saved().transitEvidence.program.facilityId, null);
+  assert.deepEqual(p.saved(), savedA, 'B lookup must not write into saved A');
   assert.equal(p.evidence().program.qualified, false);
   for (const key of ['facilityId', 'facilityName', 'distanceMiles', 'distanceMethod']) assert.equal(p.evidence().program[key], null);
   p.save();
+  assert.deepEqual([p.saved().siteLat, p.saved().siteLon], [B.lat, B.lon]);
   assert.deepEqual(p.saved().transitEvidence, p.evidence());
+  const savedB = p.saved();
   const reloaded = page(p.storage); reloaded.select(A);
-  assert.equal(reloaded.saved().transitEvidence, null, 'saved B evidence invalidates after reload');
+  assert.deepEqual(reloaded.saved(), savedB, 'exploring A after reload preserves saved B');
   // A late prior controller run must not become current after movement.
   let release;
   p.win.PMATransit = { scoreSite: () => new Promise(r => { release = r; }) };
@@ -215,6 +217,7 @@ test('movement clears facility/distance and saved evidence immediately, even bef
   p.select(A); release({ transitAccessibilityScore: 99 }); await p.flush();
   assert.equal(p.win.MAController.getCurrentSite().lat, A.lat);
   assert.equal(p.evidence().program.facilityId, 'test-facility');
+  assert.deepEqual(p.saved(), savedB, 'late results cannot overwrite the saved site');
 });
 
 test('PMA/buffer changes preserve program evidence; source changes at identical coordinates invalidate it', async () => {
@@ -225,10 +228,15 @@ test('PMA/buffer changes preserve program evidence; source changes at identical 
     assert.deepEqual(p.evidence(), before);
     p.save(); assert.deepEqual(p.saved().transitEvidence, before);
   }
+  p.win.WorkflowState.setStep('market', { siteAddress: 'Exact site A', dimensions: { access: 80 } });
+  const savedSite = p.saved();
   p.select(A, true);
-  assert.equal(p.saved().transitEvidence, null);
+  assert.deepEqual(p.saved(), savedSite, 'unsaved provenance change preserves the saved exact site');
   assert.equal(p.evidence().program.qualified, null);
   p.save(); assert.equal(p.saved().transitEvidence.program.qualified, null);
+  assert.equal(p.saved().siteSource, 'jurisdiction_centroid');
+  assert.equal(p.saved().siteAddress, null, 'saving a proxy must not retain an exact-site address');
+  assert.equal(p.saved().dimensions, null, 'saving a proxy must not retain exact-site scores');
 });
 
 test('snapshot round-trips full evidence and receives a lookup completed after saving', () => {

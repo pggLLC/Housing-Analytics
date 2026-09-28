@@ -39,10 +39,12 @@ in the existing WorkflowState market step, including site provenance. It keeps
 program tri-state/reason, coordinates, facility/zone references, source/file,
 map vintage (when available), check time, rule, method and distance, alongside
 nearest-stop accessibility, stop-data vintage/source and reliability. Selecting
-a different point or changing provenance clears old evidence before drawing
-or analysis. A delayed load checks the current point, and saves made while
-loading receive the resolved evidence. Buffer-only changes keep the program
-result. No second state store or PMA-runner eligibility system was added.
+a different point or changing provenance clears current evidence before drawing
+or analysis. The project's saved site remains intact until the user saves the
+new selection. A delayed load updates saved evidence only when the coordinates
+and provenance still match that saved site, including saves made while loading.
+Buffer-only changes keep the program result. No second state store or PMA-runner
+eligibility system was added.
 
 ## Official-map ingestion contract
 

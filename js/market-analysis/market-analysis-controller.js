@@ -719,10 +719,13 @@
       if (!wf || !wf.getActiveProject()) return;
       var saved = wf.getStep('market');
       var savedSame = saved.siteLat === lat && saved.siteLon === lon && saved.siteSource === siteSource;
+      // Exploring another point or provenance must leave the saved site intact.
+      // Only a lookup for that saved site can update its pending evidence.
+      if (!savedSame) return;
       // Clear first: WorkflowState deep-merges objects, which otherwise keeps
       // an old facility's fields when a later result is incomplete.
       wf.setStep('market', { transitEvidence: null });
-      if (savedSame) wf.setStep('market', { transitEvidence: _currentSite.transitEvidence });
+      wf.setStep('market', { transitEvidence: _currentSite.transitEvidence });
     });
   }
 
@@ -763,22 +766,9 @@
       }
     });
 
-    // Invalidate the saved site's evidence immediately, including after reload.
-    _safe(function () {
-      var wf = window.WorkflowState;
-      if (!wf || !wf.getActiveProject()) return;
-      var saved = wf.getStep('market');
-      if (saved.siteLat !== lat || saved.siteLon !== lon || saved.siteSource !== site.siteSource) {
-        wf.setStep('market', { transitEvidence: null });
-      }
-      if (saved.siteLat !== lat || saved.siteLon !== lon || saved.bufferMiles !== site.bufferMiles || saved.siteSource !== site.siteSource) {
-        wf.setStep('market', {
-          siteLat: lat, siteLon: lon, siteSource: site.siteSource, bufferMiles: site.bufferMiles,
-          qctFlag: null, ddaFlag: null, qctDdaEvidence: null, pmaScore: null, dimensions: null,
-          completedAt: null, exportReady: false
-        });
-      }
-    });
+    // The project's saved market step is left alone: it still pairs the saved
+    // site's coordinates with that site's evidence. Only savePmaToProject()
+    // replaces it, and getCurrentSite() never offers this site stale evidence.
 
     _log('runAnalysis(): lat=' + lat + ', lon=' + lon + ', buffer=' + bufferMiles + 'mi' +
       ' — MAState=' + (st ? 'ok' : 'missing') +
