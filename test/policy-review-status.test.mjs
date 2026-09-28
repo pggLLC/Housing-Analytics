@@ -108,6 +108,7 @@ const fixture = {
   'data/policy/homeownership-programs.json': { programs: [
     { id: 'a', name: 'A', status: 'active', last_verified: '2026-07-18', review_by: '2026-10-16', source_url: 'https://example.gov/a' },
     { id: 'b', name: 'B', status: 'active', last_verified: '2026-07-18', review_by: '2027-01-15', source_url: 'https://example.gov/b' },
+    { id: 'a2', name: 'A2', status: 'active', last_verified: '2026-07-18', review_by: '2026-10-18', source_url: 'https://example.gov/a2' },
   ] },
   'data/policy/tax-credit-legislation.json': { entries: [
     { id: 'c', title: 'C', status: 'enacted', last_verified: '2026-09-21', review_by: '2026-12-21' },
@@ -116,11 +117,24 @@ const fixture = {
 assert.deepEqual(dueReviews(fixture, '2026-10-08'), [], 'nothing opens before the lead window');
 const opened = dueReviews(fixture, '2026-10-09');
 assert.equal(opened.length, 1, 'one issue for the file with a record inside the 7-day window');
-assert(opened[0].body.startsWith('<!-- policy-review:data/policy/homeownership-programs.json:2026-10-16 -->'));
-assert(opened[0].body.includes('**A** (`a`)') && !opened[0].body.includes('**B**'), 'lists only the records coming due');
-assert(opened[0].body.includes('https://example.gov/a'), 'links the official source');
-assert.deepEqual(dueReviews(fixture, '2026-10-20', markersFromIssues(opened)), [], 'never opens the same wave twice');
-assert(dueReviews(fixture, '2026-10-20')[0].body.includes('1 already past review'), 'says when records are already overdue');
+assert.deepEqual(opened[0].markers, ['<!-- policy-review:data/policy/homeownership-programs.json#a@2026-10-16 -->']);
+assert(opened[0].body.includes(opened[0].markers[0]), 'each listed record carries its marker in the body');
+assert(opened[0].body.includes('**A** (`a`)') && !opened[0].body.includes('**B**') && !opened[0].body.includes('**A2**'),
+  'lists only the records coming due');
+assert(/\[official source\]\(https:\/\/example\.gov\/a\)/.test(opened[0].body), 'links the official source');
+const seen = markersFromIssues([{ body: opened[0].body }]);
+assert.deepEqual(dueReviews(fixture, '2026-10-10', seen), [], 'never reminds the same record twice for one review date');
+// A record entering the window after an earlier issue opened still gets its own reminder.
+const later = dueReviews(fixture, '2026-10-11', seen);
+assert.equal(later.length, 1, 'a record that comes due later is reminded even while the earlier issue is open');
+assert(later[0].body.includes('**A2**') && !later[0].body.includes('**A** ('), 'the later issue lists only the newly due record');
+assert(dueReviews(fixture, '2026-10-20')[0].body.includes('already past review'), 'says when records are already overdue');
+// Once re-verified with a new review_by, the next due date is a new reminder.
+const reverified = JSON.parse(JSON.stringify(fixture));
+reverified['data/policy/homeownership-programs.json'].programs[0].review_by = '2027-01-10';
+const next = dueReviews(reverified, '2027-01-05', seen);
+assert(next.length && next[0].markers.includes('<!-- policy-review:data/policy/homeownership-programs.json#a@2027-01-10 -->'),
+  'a record re-verified with a new review date is reminded again when that date approaches');
 
 // Against the real files: at their earliest review date, both files come due.
 const real = Object.fromEntries(FILES.map(({ file }) => [file, JSON.parse(read(file))]));
