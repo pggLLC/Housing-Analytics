@@ -106,9 +106,9 @@ for (const [page, renderer] of [['help-for-homebuyers.html', 'homeownership-prog
 // ── 4. Reminder issues ─────────────────────────────────────────────────────
 const fixture = {
   'data/policy/homeownership-programs.json': { programs: [
-    { id: 'a', name: 'A', status: 'active', last_verified: '2026-07-18', review_by: '2026-10-16', source_url: 'https://example.gov/a' },
-    { id: 'b', name: 'B', status: 'active', last_verified: '2026-07-18', review_by: '2027-01-15', source_url: 'https://example.gov/b' },
-    { id: 'a2', name: 'A2', status: 'active', last_verified: '2026-07-18', review_by: '2026-10-18', source_url: 'https://example.gov/a2' },
+    { id: 'a', name: 'A', status: 'active', last_verified: '2026-07-18', review_by: '2026-10-16', source_url: 'https://example.org/a' },
+    { id: 'b', name: 'B', status: 'active', last_verified: '2026-07-18', review_by: '2027-01-15', source_url: 'https://example.org/b' },
+    { id: 'a2', name: 'A2', status: 'active', last_verified: '2026-07-18', review_by: '2026-10-18', source_url: 'https://example.org/a2' },
   ] },
   'data/policy/tax-credit-legislation.json': { entries: [
     { id: 'c', title: 'C', status: 'enacted', last_verified: '2026-09-21', review_by: '2026-12-21' },
@@ -121,7 +121,7 @@ assert.deepEqual(opened[0].markers, ['<!-- policy-review:data/policy/homeownersh
 assert(opened[0].body.includes(opened[0].markers[0]), 'each listed record carries its marker in the body');
 assert(opened[0].body.includes('**A** (`a`)') && !opened[0].body.includes('**B**') && !opened[0].body.includes('**A2**'),
   'lists only the records coming due');
-assert(/\[official source\]\(https:\/\/example\.gov\/a\)/.test(opened[0].body), 'links the official source');
+assert(/\[official source\]\(https:\/\/example\.org\/a\)/.test(opened[0].body), 'links the official source');
 const seen = markersFromIssues([{ body: opened[0].body }]);
 assert.deepEqual(dueReviews(fixture, '2026-10-10', seen), [], 'never reminds the same record twice for one review date');
 // A record entering the window after an earlier issue opened still gets its own reminder.
