@@ -3,12 +3,12 @@
  * Opportunity and incentive overlay analysis for PMA scoring.
  *
  * Responsibilities:
- *  - fetchOpportunityZones(boundingBox) — IRS QOZ dataset
+ *  - fetchOpportunityZones() — tracked CDFI designation polygons
  *  - fetchHudAFFH(boundingBox) — HUD AFFH fair housing opportunity index
  *  - fetchHudOpportunityAtlas(boundingBox) — economic mobility percentiles
- *  - calculateOpportunityShare(pmaPolygon, ozZones) — % area in OZ
- *  - scoreOpportunityIndex(lat, lon, affhData, atlasData) — 0–100 composite
- *  - determineIncentiveEligibility(opportunityShare, affhScore, atlasPercentile)
+ *  - siteOpportunityZone(lat, lon, zones) — exact site point-in-polygon
+ *  - scoreOpportunityIndex(lat, lon, affhData, atlasData, zones) — 0–100 composite
+ *  - determineIncentiveEligibility(siteStatus)
  *  - getOpportunityLayer() — GeoJSON for map display
  *  - getOpportunityJustification() — audit-ready opportunity metrics
  *
@@ -18,9 +18,7 @@
   'use strict';
 
   /* ── Constants ────────────────────────────────────────────────────── */
-  var OZ_BASIS_STEP_DOWN_THRESHOLD = 0.20; // >20 % OZ area → LIHTC basis eligible
-  var NMTC_SCORE_THRESHOLD         = 50;   // AFFH or atlas score < 50 → NMTC eligible
-  var EARTH_RADIUS_MI              = 3958.8;
+  var OZ_PATH = 'data/market/opportunity_zones_co.geojson';
 
   /* ── Score weights ────────────────────────────────────────────────── */
   var OPP_WEIGHTS = {
@@ -30,48 +28,103 @@
   };
 
   /* ── Internal state ───────────────────────────────────────────────── */
-  var lastOzShare         = 0;
-  var lastFairHousingScore = 50;
-  var lastMobilityPct     = 50;
-  var lastOpportunityScore = 50;
-  var lastEligibility     = {};
+  var lastSiteOz = siteOpportunityZone(null, null, null);
+  var lastFairHousingScore = null;
+  var lastMobilityPct = null;
+  var lastOpportunityScore = null;
 
   /* ── Utility helpers ─────────────────────────────────────────────── */
   function toNum(v) { var n = parseFloat(v); return isFinite(n) ? n : 0; }
   function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
 
+  // A ring returns 0 outside, 1 inside, or 2 on its boundary. Treat polygon
+  // boundaries as included, and hole interiors as excluded.
+  function pointInRing(lon, lat, ring) {
+    var inside = false;
+    for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      var a = ring[j], b = ring[i];
+      var cross = (lon - a[0]) * (b[1] - a[1]) - (lat - a[1]) * (b[0] - a[0]);
+      if (cross === 0 && lon >= Math.min(a[0], b[0]) && lon <= Math.max(a[0], b[0]) &&
+          lat >= Math.min(a[1], b[1]) && lat <= Math.max(a[1], b[1])) return 2;
+      if ((a[1] > lat) !== (b[1] > lat) &&
+          lon < (b[0] - a[0]) * (lat - a[1]) / (b[1] - a[1]) + a[0]) inside = !inside;
+    }
+    return inside ? 1 : 0;
+  }
+
+  function pointInPolygon(lon, lat, rings) {
+    var outer = pointInRing(lon, lat, rings[0]);
+    if (outer !== 1) return outer === 2;
+    for (var i = 1; i < rings.length; i++) {
+      var hole = pointInRing(lon, lat, rings[i]);
+      if (hole === 2) return true;
+      if (hole === 1) return false;
+    }
+    return true;
+  }
+
+  function validPolygon(rings) {
+    return Array.isArray(rings) && rings.length > 0 && rings.every(function (ring) {
+      return Array.isArray(ring) && ring.length >= 4 && ring.every(function (p) {
+        return Array.isArray(p) && Number.isFinite(p[0]) && Number.isFinite(p[1]);
+      }) && ring[0][0] === ring[ring.length - 1][0] && ring[0][1] === ring[ring.length - 1][1];
+    });
+  }
+
   /**
-   * Estimate the fraction of a bounding box that overlaps a list of OZ features.
-   * Uses a point-in-bbox approximation proportional to zone count.
-   * @private
+   * Check the exact site against CDFI designation polygons (GeoJSON or features).
+   * Missing coordinates, missing data and invalid geometry are unknown, not out.
+   * @returns {{inZone: boolean|null, geoid: string|null, unavailableReason: string|null,
+   *            vintage: string|null, source_url: string|null}}
    */
-  function _estimateOzShare(bbox, ozZones) {
-    if (!ozZones || !ozZones.length || !bbox) return 0;
-    var bboxArea = Math.abs((bbox.maxLon - bbox.minLon) * (bbox.maxLat - bbox.minLat));
-    if (bboxArea === 0) return 0;
-    var overlapCount = ozZones.filter(function (z) {
-      var zLat = toNum(z.lat || z.centroidLat || (bbox.minLat + bbox.maxLat) / 2);
-      var zLon = toNum(z.lon || z.centroidLon || (bbox.minLon + bbox.maxLon) / 2);
-      return zLat >= bbox.minLat && zLat <= bbox.maxLat &&
-             zLon >= bbox.minLon && zLon <= bbox.maxLon;
-    }).length;
-    // Rough share: proportion of OZ features within bbox × typical OZ area fraction
-    return clamp(overlapCount / Math.max(ozZones.length, 1) * 0.8, 0, 1);
+  function siteOpportunityZone(lat, lon, zones) {
+    var meta = (zones && zones.meta) || {};
+    var result = { inZone: null, geoid: null, unavailableReason: null,
+      vintage: meta.vintage || null, source_url: meta.source_url || null };
+    if (!Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
+      result.unavailableReason = 'Exact site coordinates are missing or invalid.';
+      return result;
+    }
+    var features = Array.isArray(zones) ? zones : zones && zones.features;
+    if (!features || !Array.isArray(features) || !features.length || zones.unavailableReason) {
+      result.unavailableReason = (zones && zones.unavailableReason) || 'Opportunity Zone polygon data is unavailable.';
+      return result;
+    }
+    // Validate the whole collection before concluding outside: a broken polygon
+    // could be the one containing this site.
+    var valid = features.every(function (f) {
+      var g = f && f.geometry;
+      return g && (g.type === 'Polygon' ? validPolygon(g.coordinates) :
+        g.type === 'MultiPolygon' && Array.isArray(g.coordinates) && g.coordinates.length > 0 &&
+          g.coordinates.every(validPolygon));
+    });
+    if (!valid) {
+      result.unavailableReason = 'Opportunity Zone polygon geometry is missing or invalid.';
+      return result;
+    }
+    var match = features.find(function (f) {
+      var g = f.geometry;
+      return g.type === 'Polygon' ? pointInPolygon(lon, lat, g.coordinates) :
+        g.coordinates.some(function (rings) { return pointInPolygon(lon, lat, rings); });
+    });
+    result.inZone = !!match;
+    result.geoid = match ? ((match.properties || {}).geoid || (match.properties || {}).GEOID || null) : null;
+    return result;
   }
 
   /* ── Core API ────────────────────────────────────────────────────── */
 
-  /**
-   * Fetch Opportunity Zones dataset for a bounding box.
-   * @param {{minLat,minLon,maxLat,maxLon}} boundingBox
-   * @returns {Promise<{zones: Array, designationYear: Array}>}
-   */
-  function fetchOpportunityZones(boundingBox) {
-    var ds = (typeof window !== 'undefined') ? window.DataService : null;
-    if (ds && typeof ds.fetchOpportunityZones === 'function') {
-      return ds.fetchOpportunityZones(boundingBox);
-    }
-    return Promise.resolve({ zones: [], designationYear: [] });
+  /** Load the same tracked CDFI polygons as the map; preserve their metadata. */
+  function fetchOpportunityZones() {
+    var base = (typeof window !== 'undefined' && window.APP_BASE_PATH) || '';
+    return Promise.resolve().then(function () {
+      return fetch(base + OZ_PATH);
+    }).then(function (response) {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.json();
+    }).catch(function () {
+      return { features: [], unavailableReason: 'Opportunity Zone polygon data could not be loaded.' };
+    });
   }
 
   /**
@@ -82,9 +135,10 @@
   function fetchHudAFFH(boundingBox) {
     var ds = (typeof window !== 'undefined') ? window.DataService : null;
     if (ds && typeof ds.fetchHudAFFH === 'function') {
-      return ds.fetchHudAFFH(boundingBox);
+      return Promise.resolve().then(function () { return ds.fetchHudAFFH(boundingBox); })
+        .catch(function () { return { opportunityIndex: null }; });
     }
-    return Promise.resolve({ opportunityIndex: 50, segregationMetrics: {} });
+    return Promise.resolve({ opportunityIndex: null, segregationMetrics: {} });
   }
 
   /**
@@ -95,40 +149,15 @@
   function fetchHudOpportunityAtlas(boundingBox) {
     var ds = (typeof window !== 'undefined') ? window.DataService : null;
     if (ds && typeof ds.fetchHudOpportunityAtlas === 'function') {
-      return ds.fetchHudOpportunityAtlas(boundingBox);
+      return Promise.resolve().then(function () { return ds.fetchHudOpportunityAtlas(boundingBox); })
+        .catch(function () { return { mobilityIndex: null }; });
     }
-    return Promise.resolve({ mobilityIndex: 50, percentiles: [] });
+    return Promise.resolve({ mobilityIndex: null, percentiles: [] });
   }
 
-  /**
-   * Calculate the fraction of the PMA polygon area that falls within
-   * Opportunity Zones.
-   *
-   * @param {object} pmaPolygon - GeoJSON Polygon geometry
-   * @param {Array}  ozZones    - OZ feature array from fetchOpportunityZones
-   * @returns {number} share 0.0–1.0
-   */
-  function calculateOpportunityShare(pmaPolygon, ozZones) {
-    ozZones = ozZones || [];
-    if (!pmaPolygon || !ozZones.length) {
-      lastOzShare = 0;
-      return 0;
-    }
-
-    var coords = (pmaPolygon.coordinates && pmaPolygon.coordinates[0]) || [];
-    if (!coords.length) { lastOzShare = 0; return 0; }
-
-    var lats = coords.map(function (c) { return c[1]; });
-    var lons = coords.map(function (c) { return c[0]; });
-    var bbox = {
-      minLat: Math.min.apply(null, lats),
-      maxLat: Math.max.apply(null, lats),
-      minLon: Math.min.apply(null, lons),
-      maxLon: Math.max.apply(null, lons)
-    };
-
-    lastOzShare = Math.round(_estimateOzShare(bbox, ozZones) * 100) / 100;
-    return lastOzShare;
+  /** PMA area share is not measured. Retained for existing API consumers. */
+  function calculateOpportunityShare() {
+    return null;
   }
 
   /**
@@ -138,9 +167,10 @@
    * @param {number} lon
    * @param {object} affhData   - {opportunityIndex: number} from fetchHudAFFH
    * @param {object} atlasData  - {mobilityIndex: number} from fetchHudOpportunityAtlas
-   * @returns {number} 0–100
+   * @param {object} zones - tracked CDFI GeoJSON, including meta
+   * @returns {number|null} 0–100, or null when every component is unavailable
    */
-  function scoreOpportunityIndex(lat, lon, affhData, atlasData) {
+  function scoreOpportunityIndex(lat, lon, affhData, atlasData, zones) {
     affhData  = affhData  || {};
     atlasData = atlasData || {};
 
@@ -151,11 +181,16 @@
     lastFairHousingScore = affhIsStub  ? null : clamp(toNum(affhData.opportunityIndex), 0, 100);
     lastMobilityPct      = atlasIsStub ? null : clamp(toNum(atlasData.mobilityIndex), 0, 100);
 
-    var ozScore = clamp(lastOzShare * 100, 0, 100);
+    lastSiteOz = siteOpportunityZone(lat, lon, zones);
+    var ozScore = lastSiteOz.inZone === true ? 100 : lastSiteOz.inZone === false ? 0 : null;
 
     // Only include dimensions with real data in the composite
-    var totalWeight = OPP_WEIGHTS.opportunityZone;
-    var weightedSum = OPP_WEIGHTS.opportunityZone * ozScore;
+    var totalWeight = 0;
+    var weightedSum = 0;
+    if (ozScore !== null) {
+      totalWeight += OPP_WEIGHTS.opportunityZone;
+      weightedSum += OPP_WEIGHTS.opportunityZone * ozScore;
+    }
 
     if (lastFairHousingScore != null) {
       totalWeight += OPP_WEIGHTS.fairHousing;
@@ -172,39 +207,18 @@
     _lastDataSources = {
       affh: affhIsStub ? 'unavailable' : 'live',
       atlas: atlasIsStub ? 'unavailable' : 'live',
-      opportunityZones: lastOzShare > 0 ? 'live' : 'none'
+      opportunityZones: ozScore === null ? 'unavailable' : 'tracked'
     };
 
-    return lastOpportunityScore != null ? clamp(lastOpportunityScore, 0, 100) : 0;
+    return lastOpportunityScore;
   }
 
   var _lastDataSources = {};
 
-  /**
-   * Determine program incentive eligibility based on opportunity metrics.
-   *
-   * @param {number} opportunityShare - fraction of PMA in OZ (0–1)
-   * @param {number} affhScore        - 0–100 fair housing score
-   * @param {number} atlasPercentile  - 0–100 economic mobility percentile
-   * @returns {{lihtcBasisStepDown: boolean, newMarketsTaxCredit: boolean, qualifiedOpportunityZone: boolean}}
-   */
-  function determineIncentiveEligibility(opportunityShare, affhScore, atlasPercentile) {
-    opportunityShare = typeof opportunityShare === 'number' ? opportunityShare : lastOzShare;
-    affhScore        = typeof affhScore        === 'number' ? affhScore        : lastFairHousingScore;
-    atlasPercentile  = typeof atlasPercentile  === 'number' ? atlasPercentile  : lastMobilityPct;
-
-    // NMTC eligibility requires real AFFH/Atlas data — do not grant based on stubs
-    var canEvaluateNmtc = affhScore != null && atlasPercentile != null;
-
-    lastEligibility = {
-      lihtcBasisStepDown:    opportunityShare > OZ_BASIS_STEP_DOWN_THRESHOLD,
-      newMarketsTaxCredit:   canEvaluateNmtc
-        ? (affhScore < NMTC_SCORE_THRESHOLD || atlasPercentile < NMTC_SCORE_THRESHOLD)
-        : false,  // Cannot determine without real data
-      qualifiedOpportunityZone: opportunityShare > 0,
-      _dataLimitations: canEvaluateNmtc ? [] : ['AFFH/Atlas data unavailable — NMTC eligibility cannot be confirmed']
-    };
-    return lastEligibility;
+  /** Only exact-site OZ geography establishes this designation. */
+  function determineIncentiveEligibility(siteStatus) {
+    var inZone = siteStatus && siteStatus.inZone;
+    return { qualifiedOpportunityZone: typeof inZone === 'boolean' ? inZone : null };
   }
 
   /**
@@ -213,19 +227,7 @@
    * @returns {object}
    */
   function getOpportunityLayer(ozZones) {
-    var features = (ozZones || []).map(function (z) {
-      var lat = toNum(z.lat || z.centroidLat || 0);
-      var lon = toNum(z.lon || z.centroidLon || 0);
-      return {
-        type: 'Feature',
-        geometry: { type: 'Point', coordinates: [lon, lat] },
-        properties: {
-          censustract:      z.censusTract || z.GEOID || null,
-          designationYear:  toNum(z.designationYear || 2018),
-          state:            z.state || 'CO'
-        }
-      };
-    });
+    var features = Array.isArray(ozZones) ? ozZones : (ozZones && ozZones.features) || [];
     return { type: 'FeatureCollection', features: features };
   }
 
@@ -235,11 +237,12 @@
    */
   function getOpportunityJustification() {
     return {
-      opportunityZoneShare:      lastOzShare,
+      opportunityZoneShare:      null,
+      siteOpportunityZone:      Object.assign({}, lastSiteOz),
       fairHousingScore:          lastFairHousingScore,
       economicMobilityPercentile: lastMobilityPct,
       opportunityIndex:          lastOpportunityScore,
-      incentiveEligibility:      Object.assign({}, lastEligibility),
+      incentiveEligibility:      determineIncentiveEligibility(lastSiteOz),
       _dataSources: Object.assign({}, _lastDataSources)
     };
   }
@@ -248,6 +251,7 @@
   if (typeof window !== 'undefined') {
     window.PMAOpportunities = {
       fetchOpportunityZones:        fetchOpportunityZones,
+      siteOpportunityZone:         siteOpportunityZone,
       fetchHudAFFH:                 fetchHudAFFH,
       fetchHudOpportunityAtlas:     fetchHudOpportunityAtlas,
       calculateOpportunityShare:    calculateOpportunityShare,
@@ -262,6 +266,7 @@
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
       fetchOpportunityZones:        fetchOpportunityZones,
+      siteOpportunityZone:         siteOpportunityZone,
       fetchHudAFFH:                 fetchHudAFFH,
       fetchHudOpportunityAtlas:     fetchHudOpportunityAtlas,
       calculateOpportunityShare:    calculateOpportunityShare,

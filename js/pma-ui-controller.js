@@ -237,13 +237,6 @@
       dealInputs = bridge.toDealInputs(needProfile, dealInputs);
     }
 
-    // Extract QCT/DDA from justification
-    if (scoreRun && scoreRun.opportunities) {
-      var elig = scoreRun.opportunities.incentiveEligibility || {};
-      if (elig.qct !== undefined) dealInputs.isQct = !!elig.qct;
-      if (elig.dda !== undefined) dealInputs.isDda = !!elig.dda;
-    }
-
     // Wire CHFA historical awards — count projects in selected county with
     // YR_ALLOC in last 5 years (2021-2026) from cached chfa-lihtc.json
     var countyFips = dealInputs.geoid || null;
@@ -598,9 +591,10 @@
       var opps = scoreRun.opportunities || {};
       var elig = opps.incentiveEligibility || {};
       var badges = [];
-      if (elig.qualifiedOpportunityZone) badges.push({ label: 'Opportunity Zone', color: '#1a6b3c' });
-      if (elig.lihtcBasisStepDown)       badges.push({ label: 'LIHTC Basis Step-down', color: '#096e65' });
-      if (elig.newMarketsTaxCredit)       badges.push({ label: 'NMTC Eligible', color: '#6b4800' });
+      if (opps.siteOpportunityZone && opps.siteOpportunityZone.inZone === true &&
+          elig.qualifiedOpportunityZone === true) {
+        badges.push({ label: 'Opportunity Zone (site)', color: '#1a6b3c' });
+      }
       badgeWrap.innerHTML = badges.map(function (b) {
         return '<span style="display:inline-block;padding:.2rem .6rem;border-radius:12px;font-size:.75em;' +
                'background:' + b.color + ';color:#fff;">' + _esc(b.label) + '</span>';
