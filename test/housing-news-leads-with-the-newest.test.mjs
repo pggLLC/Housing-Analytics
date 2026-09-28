@@ -19,7 +19,9 @@
  *   - a story naming a place can be filtered by that place and its region,
  *     and shows that place's own numbers from its metrics digest, with no
  *     missing value rendered as 0;
- *   - tool evaluations and research briefs go to their own panels;
+ *   - tool evaluations stay out of the news, and research briefs show as
+ *     titles that open the reader (the side column is a summary;
+ *     test/policy-watch-rail.test.mjs checks it against the pages it opens);
  *   - no clickable container wraps links (the old role="button" card).
  * The last test runs the committed data, so the page is checked against what
  * it will actually render.
@@ -59,6 +61,7 @@ async function runPage(briefs, curated = { briefs: [] }, digests = {}, watch = n
       // The page grades digest figures with the real contract, loaded by a
       // <script src> jsdom does not fetch.
       window.eval(fs.readFileSync(path.join(ROOT, 'js', 'workflow', 'recommendation-contract.js'), 'utf8'));
+      window.eval(fs.readFileSync(path.join(ROOT, 'js', 'components', 'policy-watch.js'), 'utf8'));
     },
   });
   const doc = dom.window.document;
@@ -252,7 +255,7 @@ test('filtering keeps the order and shows only matches', async () => {
   assert.ok(doc.querySelector('.story--lead'), 'clearing filters did not restore the full list');
 });
 
-test('tool evaluations and research briefs go to their own panels', async () => {
+test('tool evaluations stay out of the news; research briefs open the reader', async () => {
   const curated = { briefs: [{ id: 'x', is_curated: true, source_reviewed: true, title: 'A reviewed research brief',
     summary: 'First sentence. Second sentence. Third sentence.', sources: ['Minneapolis Fed'],
     articles: [{ link: 'https://news.localhost/brief' }], generated: '2026-07-26T00:00:00Z' }] };
@@ -261,8 +264,8 @@ test('tool evaluations and research briefs go to their own panels', async () => 
   expandAll(doc);
   const news = doc.getElementById('newsLatestBody').textContent + doc.getElementById('newsRiverBody').textContent;
   assert.doesNotMatch(news, /Rent & Income Limit Calculator/, 'a tool evaluation is mixed into the news');
-  assert.match(doc.getElementById('toolWatchList').textContent, /Rent & Income Limit Calculator/);
-  assert.equal(doc.getElementById('toolWatchPanel').hidden, false);
+  // The tools list is on about.html (test/tool-watch.test.js); it is not news.
+  assert.doesNotMatch(doc.querySelector('.news-aside').textContent, /Rent & Income Limit Calculator/);
   assert.match(doc.getElementById('researchList').textContent, /Source-reviewed brief[\s\S]*A reviewed research brief/);
   const titleLink = doc.querySelector('#researchList h3 a');
   const url = new URL(titleLink.href);
@@ -270,7 +273,8 @@ test('tool evaluations and research briefs go to their own panels', async () => 
   assert.ok(curated.briefs.some((brief) => brief.id === url.searchParams.get('id')),
     'the card does not name an existing curated id');
   assert.equal(titleLink.hasAttribute('target'), false, 'the reader should open in the same tab');
-  assert.equal(doc.querySelector('.research-card__meta a').href, curated.briefs[0].articles[0].link);
+  // The reader lists the sources; the rail links only the reader.
+  assert.equal(doc.querySelectorAll('.research-card a').length, 1, 'a research card links somewhere besides the reader');
 });
 
 test('no clickable container wraps links', async () => {
@@ -293,7 +297,9 @@ test('the committed data renders newest first, every story reachable', async () 
   const cards = [...doc.querySelectorAll('#researchList h3 a')];
   const research = curated.briefs.filter((brief) => brief.is_curated);
   assert.ok(research.length > 0, 'no curated ids found to check');
-  assert.equal(cards.length, research.length);
+  // The newest three, newest first.
+  const newest = research.slice().sort((a, b) => Date.parse(b.generated) - Date.parse(a.generated)).slice(0, 3);
+  assert.deepEqual(cards.map((c) => new URL(c.href).searchParams.get('id')), newest.map((b) => b.id));
   for (const card of cards) {
     const url = new URL(card.href);
     assert.equal(url.pathname, '/research-brief.html');
@@ -302,7 +308,7 @@ test('the committed data renders newest first, every story reachable', async () 
     assert.ok(brief, `card href names no existing curated brief: ${card.href}`);
     assert.equal(card.textContent, brief.title);
     assert.equal(card.hasAttribute('target'), false);
-    assert.equal(card.closest('.research-card').querySelector('.research-card__meta a').href, brief.articles[0].link);
+    assert.equal(card.closest('.research-card').querySelectorAll('a').length, 1, 'a research card links somewhere besides the reader');
   }
 });
 
@@ -342,42 +348,33 @@ test('neither glossary script splices definitions into headlines or local lines'
   await new Promise((r) => setTimeout(r, 400));
   const wrapped = [...doc.querySelectorAll('.gl-tooltip-trigger')];
   assert.ok(wrapped.length > 0, 'glossary.js wrapped nothing anywhere; this guard would pass vacuously');
-  const inNews = wrapped.filter((el) => el.closest('#newsLatestBody, #newsRiverBody, #toolWatchList'));
+  const inNews = wrapped.filter((el) => el.closest('#newsLatestBody, #newsRiverBody'));
   assert.deepEqual(inNews.map((el) => el.textContent.slice(0, 30)), [],
     'glossary definitions were spliced into the news list');
 });
 
-test('the policy watch shows each entry with how it was checked, and what is not covered', async () => {
+test('the policy watch summarises each section and says what is not covered', async () => {
+  // The full entries, with how each was checked, are on the pages these rows
+  // open; test/policy-watch-rail.test.mjs checks the rows against them.
   const watch = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'policy', 'policy-watch.json'), 'utf8'));
   const { window } = await runPage(fixture(), { briefs: [] }, {}, watch);
   const doc = window.document;
   const panel = doc.getElementById('policyWatchPanel');
   assert.equal(panel.hidden, false, 'the policy watch panel is hidden although the file has entries');
-  const items = [...panel.querySelectorAll('.watch-item')];
-  assert.equal(items.length, watch.entries.length, 'not every entry is shown');
-  for (const [i, entry] of watch.entries.entries()) {
-    const item = items.find((el) => el.querySelector('.watch-item__title').textContent === entry.title);
-    assert.ok(item, `entry ${i} (${entry.id}) is not shown under its own title`);
-    assert.equal(item.querySelector('a').getAttribute('href'), entry.source.url, `${entry.id} does not link its source`);
-    const check = item.querySelector('.watch-item__check').textContent;
-    if (entry.verification.level === 'primary') {
-      assert.ok(check.startsWith('Checked against ' + entry.verification.against), `${entry.id}: ${check}`);
-    }
+  const rows = [...panel.querySelectorAll('[data-watch-row]')];
+  const sections = [...new Set(watch.entries.map((e) => e.section))];
+  assert.ok(sections.length > 0, 'the file has no sections to summarise');
+  for (const section of sections) {
+    assert.ok(rows.some((r) => r.dataset.watchRow === section), `section ${section} has no row`);
   }
-  const gaps = [...panel.querySelectorAll('.watch-gaps li')].map((li) => li.textContent);
-  assert.deepEqual(gaps, watch.meta.known_gaps, 'the gaps the file declares are not all shown');
+  const gapRow = rows.find((r) => r.dataset.watchRow === 'gaps');
+  assert.ok(gapRow, 'the topics not yet covered have no row');
+  assert.equal(Number(gapRow.dataset.count), watch.meta.known_gaps.length);
+  assert.match(doc.getElementById('policyWatchAsOf').textContent, /Updated/);
 });
 
-test('a reported entry says it was not checked against the primary document; no file hides the panel', async () => {
-  const watch = { schema: 'policy-watch/v1', meta: { as_of: '2026-09-24', known_gaps: [] }, entries: [{
-    id: 'x', section: 'ballot', status: 'on ballot', date: '2026-11-03', title: 'A county lodging tax for housing',
-    source: { label: 'Some Outlet', url: 'https://news.localhost/ballot' },
-    verification: { level: 'reported', by: 'Some Outlet', checked: '2026-09-24' } }] };
-  let { window } = await runPage(fixture(), { briefs: [] }, {}, watch);
-  const check = window.document.querySelector('#policyWatchPanel .watch-item__check').textContent;
-  assert.match(check, /^As reported by Some Outlet/);
-  assert.match(check, /Not checked against a primary document/);
-  ({ window } = await runPage(fixture(), { briefs: [] }, {}, null));
+test('no policy watch file hides the panel', async () => {
+  const { window } = await runPage(fixture(), { briefs: [] }, {}, null);
   assert.equal(window.document.getElementById('policyWatchPanel').hidden, true,
     'the panel shows with no data behind it');
 });
