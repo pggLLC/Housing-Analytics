@@ -263,7 +263,9 @@
     var SS = global.SiteState;
     var pma = SS && typeof SS.getPmaResults === 'function' ? SS.getPmaResults() : null;
     var opps = pma && pma.opportunities;
-    var isOz = opps && (opps.qualifiedOpportunityZone || (opps.opportunityZoneShare && opps.opportunityZoneShare > 0));
+    var elig = opps && opps.incentiveEligibility;
+    var isOz = elig && elig.qualifiedOpportunityZone === true &&
+      opps.siteOpportunityZone && opps.siteOpportunityZone.inZone === true;
 
     if (!isOz) {
       if (existing) existing.hidden = true;

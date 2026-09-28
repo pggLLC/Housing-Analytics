@@ -491,7 +491,8 @@
 
   /**
    * Render the subsidy opportunities section.
-   * @param {object|null} subsidyData - e.g. { qct, dda, fmrRatio, nearbySubsidized, subsidy_score }.
+   * @param {object|null} subsidyData - e.g. { qct, dda, fmrRatio, nearbySubsidized, subsidy_score,
+   *   designationEvidence } (designationEvidence from HudEgis.checkDesignation).
    */
   function renderSubsidyOpportunities(subsidyData) {
     if (!subsidyData || typeof subsidyData !== 'object') {
@@ -507,6 +508,25 @@
     var unknownPill = '<span class="pill" title="' +
       _esc(subsidyData.designationUnavailableReason || 'HUD designation data unavailable') +
       '">Unknown</span>';
+    // What matched and which HUD vintage said so (HudEgis evidence): the QCT
+    // tract GEOID / DDA name when inside, and "HUD <year> QCT/DDA" from the
+    // data file's own metadata. No year in the file → no year shown.
+    var ev = subsidyData.designationEvidence || null;
+    function _desigSource(layer, label) {
+      if (!layer) return '';
+      var src = 'HUD ' + (layer.year != null ? layer.year + ' ' : '') + label;
+      return '<span class="ma-desig-source" data-desig-source="' + _esc(label) + '"' +
+        ' title="' + _esc((layer.source || 'source not stated') + (layer.file ? ' — ' + layer.file : '')) + '"' +
+        ' style="color:var(--muted);font-weight:400;font-size:var(--small);margin-left:0.4rem;">' +
+        _esc(src) + '</span>';
+    }
+    var qctMatch = ev && ev.qct && ev.qct.inside === true && ev.qct.tractGeoid
+      ? ' <span class="ma-desig-match" data-qct-tract="' + _esc(ev.qct.tractGeoid) + '">Tract ' + _esc(ev.qct.tractGeoid) + '</span>' : '';
+    var ddaMatch = ev && ev.dda && ev.dda.inside === true && (ev.dda.ddaName || ev.dda.ddaCode)
+      ? ' <span class="ma-desig-match" data-dda-code="' + _esc(ev.dda.ddaCode || '') + '">' +
+        _esc(ev.dda.ddaName || ev.dda.ddaCode) + '</span>' : '';
+    var qctSrc = ev && ev.qct && ev.qct.inside != null ? _desigSource(ev.qct, 'QCT') : '';
+    var ddaSrc = ev && ev.dda && ev.dda.inside != null ? _desigSource(ev.dda, 'DDA') : '';
     var fmr    = subsidyData.fmrRatio;
     var nearby = subsidyData.nearbySubsidized;
     var score  = subsidyData.subsidy_score;
@@ -515,9 +535,11 @@
       '<div style="display:grid;gap:0.5rem;">' +
         _sectionHeading('Subsidy Eligibility') +
         _metricRow('Qualified Census Tract (QCT)',
-          qct ? '<span class="pill good">Yes</span>' : (qctUnknown ? unknownPill : '<span class="pill">No</span>')) +
+          (qct ? '<span class="pill good">Yes</span>' + qctMatch : (qctUnknown ? unknownPill : '<span class="pill">No</span>')) +
+            (qctUnknown ? '' : qctSrc)) +
         _metricRow('Difficult Development Area (DDA)',
-          dda ? '<span class="pill good">Yes</span>' : (ddaUnknown ? unknownPill : '<span class="pill">No</span>')) +
+          (dda ? '<span class="pill good">Yes</span>' + ddaMatch : (ddaUnknown ? unknownPill : '<span class="pill">No</span>')) +
+            (ddaUnknown ? '' : ddaSrc)) +
         (fmr !== null && fmr !== undefined
           ? _metricRow('Market / FMR Ratio', _fmtN(fmr, 2),
               fmr >= 1.1 ? 'var(--warn)' : 'var(--good)')

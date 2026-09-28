@@ -117,7 +117,7 @@ test('unknown, missing, failed and partial HUD designations preserve null', asyn
   }
 });
 
-test('moving the point clears saved and in-memory evidence before the new lookup completes', async () => {
+test('moving the point keeps the saved site until the new one is saved', async () => {
   const p = page();
   p.win.PMATransit = { scoreSite: () => Promise.resolve({ transitAccessibilityScore: 72 }) };
   p.score(A);
@@ -127,22 +127,29 @@ test('moving the point clears saved and in-memory evidence before the new lookup
   const access = p.win.MAState.getState().sections.access;
   assert.equal(access.transitMetrics.transitAccessibilityScore, 72);
   // The schema's dimensions field may contain a saved access/transit breakdown.
-  p.win.WorkflowState.setStep('market', { dimensions: { access } });
+  p.win.WorkflowState.setStep('market', { dimensions: { access: 60 }, siteAddress: '1 A St' });
+  const savedA = p.market();
   let release;
   p.win.PMATransit.scoreSite = () => new Promise((resolve) => { release = resolve; });
+
+  // Exploring B without saving must not touch the project's saved site A.
   p.run(B);
-  for (const key of ['qctFlag', 'ddaFlag', 'pmaScore', 'dimensions', 'completedAt']) {
-    assert.equal(p.market()[key], null, key + ' must clear immediately when the site moves');
-  }
+  assert.deepEqual(p.market(), savedA, 'running an analysis is not a save');
   const current = p.win.MAController.getCurrentSite();
   assert.deepEqual([current.qctFlag, current.ddaFlag, current.transitMetrics, current.pmaScore],
-    [null, null, null, null]);
+    [null, null, null, null], 'B is never offered A\'s evidence');
   assert.equal(p.win.MAState.getState().scores, null);
   assert.ok(!p.win.MAState.getState().sections.subsidy);
   assert.ok(!p.win.MAState.getState().sections.access);
+
+  // Saving B replaces A wholesale: nothing of A merges into B's step.
   p.save();
-  assert.equal(p.market().pmaScore, null, 'the old engine score must not be re-saved for the new site');
-  assert.deepEqual([p.market().qctFlag, p.market().ddaFlag], [null, null]);
+  const early = p.market();
+  assert.deepEqual([early.siteLat, early.siteLon], [B.lat, B.lon]);
+  assert.equal(early.pmaScore, null, 'the old engine score must not be re-saved for the new site');
+  for (const key of ['qctFlag', 'ddaFlag', 'qctDdaEvidence', 'dimensions', 'siteAddress']) {
+    assert.equal(early[key], null, key + ' from site A must not survive a save of site B');
+  }
   await p.flush();
   assert.equal(typeof release, 'function', 'the new transit lookup must actually be pending');
   p.score(B, 41);
@@ -153,11 +160,18 @@ test('moving the point clears saved and in-memory evidence before the new lookup
   assert.deepEqual([p.market().qctFlag, p.market().ddaFlag, p.market().pmaScore], [false, true, 41]);
   assert.equal(p.win.MAController.getCurrentSite().transitMetrics.transitAccessibilityScore, 23);
 
-  // A fresh controller must also invalidate evidence loaded from the project.
+  // Re-saving the same site keeps fields other writers attached to it.
+  p.win.WorkflowState.setStep('market', { siteAddress: '2 B St' });
+  p.save();
+  assert.equal(p.market().siteAddress, '2 B St');
+
+  // Reopening the project and exploring A leaves saved B intact, and B's
+  // late-resolving flags never write into it.
+  const savedB = p.market();
   const reopened = page(p.storage);
   reopened.run(A);
-  assert.deepEqual([reopened.market().qctFlag, reopened.market().ddaFlag, reopened.market().pmaScore],
-    [null, null, null]);
+  await reopened.flush();
+  assert.deepEqual(reopened.market(), savedB);
 });
 
 test('late results cannot restore evidence after A → B → A or a buffer change', async () => {
@@ -231,7 +245,7 @@ test('a save made before the HUD lookup resolves receives the resolved flags', a
 test('the controller runs on the radius the PMA result records', () => {
   const src = read('js/market-analysis.js');
   const recorded = src.match(/lastResult = Object\.assign\(\{\}, pma, \{\s*lat: lat, lon: lon, bufferMiles: (\w+)/);
-  const passed = src.match(/MAC\.runAnalysis\(lat, lon, (\w+)\)/);
+  const passed = src.match(/MAC\.runAnalysis\(lat, lon, (\w+)[,)]/);
   assert.ok(recorded && passed, 'both the recorded radius and the controller call must be found');
   assert.equal(passed[1], recorded[1],
     'getCurrentSite() matches the PMA score on bufferMiles; a fallback radius must not null a visible score');
