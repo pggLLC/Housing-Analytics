@@ -214,3 +214,25 @@ test('production code never reads window.PMAState and this test is reachable fro
     scripts[name].includes('npm run test:market-site-point-persisted')));
   assert.equal(scripts['test:market-site-point-persisted'], 'node test/market-site-point-persisted.test.js');
 });
+
+test('a save made before the HUD lookup resolves receives the resolved flags', async () => {
+  const p = page();
+  p.score(A);
+  p.run(A);
+  // The Save button enables when the score renders, before the controller's waits end.
+  assert.equal(p.save(), true);
+  assert.deepEqual([p.market().qctFlag, p.market().ddaFlag], [null, null]);
+  await p.flush();
+  assert.deepEqual([p.market().qctFlag, p.market().ddaFlag], [true, false],
+    'the resolved designation must reach the step saved for this same site');
+  assert.equal(p.market().pmaScore, 67);
+});
+
+test('the controller runs on the radius the PMA result records', () => {
+  const src = read('js/market-analysis.js');
+  const recorded = src.match(/lastResult = Object\.assign\(\{\}, pma, \{\s*lat: lat, lon: lon, bufferMiles: (\w+)/);
+  const passed = src.match(/MAC\.runAnalysis\(lat, lon, (\w+)\)/);
+  assert.ok(recorded && passed, 'both the recorded radius and the controller call must be found');
+  assert.equal(passed[1], recorded[1],
+    'getCurrentSite() matches the PMA score on bufferMiles; a fallback radius must not null a visible score');
+});

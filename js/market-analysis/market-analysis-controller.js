@@ -796,6 +796,18 @@
         site.ddaFlag = flags.ddaFlag;
         site.transitMetrics = siteTransitMetrics;
 
+        // A save made while this lookup was pending recorded the designation
+        // as unknown. Publish the resolved flags to that same saved site.
+        _safe(function () {
+          var wf = window.WorkflowState;
+          if (!wf || !wf.getActiveProject()) return;
+          var saved = wf.getStep('market');
+          if (saved.completedAt && saved.siteLat === lat && saved.siteLon === lon &&
+              saved.bufferMiles === site.bufferMiles) {
+            wf.setStep('market', { qctFlag: site.qctFlag, ddaFlag: site.ddaFlag });
+          }
+        });
+
         // Notify the deal calculator of the designation result so the UI can
         // pre-check the QCT/DDA checkbox when the site qualifies for a basis boost.
         // setDesignationContext is a no-op when the deal calculator is not mounted.
