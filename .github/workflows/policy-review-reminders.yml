@@ -1,0 +1,56 @@
+name: Policy review reminders
+
+# Opens an issue when hand-verified homebuyer-program or tax-credit policy
+# records come due for re-checking (#2009). Readers already see a warning on
+# the page once a review date passes (js/components/review-status.js); this
+# asks a person to re-check the record before that happens.
+# Commits nothing. Daily, off :00 and off every minute other crons use.
+
+on:
+  schedule:
+    - cron: '39 8 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Print due review issues without creating them
+        type: boolean
+        default: true
+  pull_request:
+    paths:
+      - '.github/workflows/policy-review-reminders.yml'
+      - 'scripts/audit/policy-review-reminders.mjs'
+      - 'test/policy-review-status.test.mjs'
+
+permissions: { contents: read, issues: write }
+
+concurrency:
+  group: policy-review-reminders
+  cancel-in-progress: false
+
+jobs:
+  reminders:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout reminder code
+        uses: actions/checkout@v7
+        with:
+          path: reminder-code
+          persist-credentials: false
+      - name: Checkout main data
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          path: main
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Open due review issues (branch and PR runs are always dry)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: ${{ github.event_name == 'pull_request' || github.ref != 'refs/heads/main' || inputs.dry_run == true }}
+        run: |
+          args=(--repo-root main)
+          if [ "$DRY_RUN" = "true" ]; then args+=(--dry-run); fi
+          node reminder-code/scripts/audit/policy-review-reminders.mjs "${args[@]}"
