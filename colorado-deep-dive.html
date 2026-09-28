@@ -1354,7 +1354,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
           </table>
         </div>
         <p class="data-sources-small" style="margin-top:.75rem;">
-          Local file fallback: <code>data/prop123_jurisdictions.json</code>
+          Local file fallback: <code>data/policy/prop123_jurisdictions.json</code>
         </p>
       </div>
     </div>
@@ -1771,7 +1771,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
         try { new Chart(el, cfg); } catch(e) { console.warn("Chart failed", id, e); }
       }
       // AMI need chart — now reads real statewide totals from
-      // data/co_ami_gap_by_county.json (HUD 2025 income limits × ACS 2024
+      // data/co_ami_gap_by_county.json (HUD income limits × ACS 5-year; years from d.meta)
       // 5-year HH distribution). Previously hard-coded "(index)" values
       // with no source and no Y-axis unit. Loads JSON, plots cumulative
       // HHs vs. priced-affordable units at each AMI tier in thousands.
@@ -1844,7 +1844,8 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
             var note = document.createElement('p');
             note.style.cssText = 'font-size:.72rem;color:var(--muted,rgba(255,255,255,.6));margin:.4rem 0 0;line-height:1.45;';
             note.innerHTML =
-              'Source: HUD 2025 income limits × ACS 2024 5-year household distribution ' +
+              'Source: HUD ' + ((d.meta && d.meta.hud_income_limits_year) || '(year unavailable)') + ' income limits × ACS ' +
+              ((d.meta && d.meta.acs_year) || '(year unavailable)') + ' 5-year household distribution ' +
               '(<code>data/co_ami_gap_by_county.json</code>, statewide aggregate). ' +
               'Vintage: ' + (d.meta && d.meta.generated_at ? d.meta.generated_at.slice(0,10) : '—') + '. ' +
               'Counts are <em>cumulative</em>: ≤ 60% AMI includes all households ≤ 60% (not just the 50–60% band).';
