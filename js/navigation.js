@@ -100,6 +100,7 @@
         { label: "Housing News",           href: "policy-briefs.html",             desc: "Colorado housing headlines, newest first — always check the linked source" },
         { label: "Market Insights",       href: "insights.html",                  desc: "Analysis & commentary" },
         { label: "Working Paper",         href: "working-paper.html",             desc: "Instrumenting Housing Need — the methodology, written up" },
+        { label: "White Paper for Planners", href: "apa-white-paper.html",        desc: "Plain-language companion: what the evidence can and cannot establish" },
         { label: "Methods",               href: "methods.html",                   desc: "How every figure in the paper is computed" },
         { label: "Market Intelligence",   href: "market-intelligence.html",       desc: "Statewide demand & supply data" },
         { label: "Housing Legislation",   href: "housing-legislation-2026.html",  desc: "2026 bills tracker" },

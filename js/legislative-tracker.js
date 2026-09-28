@@ -111,6 +111,7 @@
       effectiveDate: entry.effective_date || null,
       sunsetDate: entry.sunset_date || null,
       lastVerified: entry.last_verified || null,
+      reviewBy: entry.review_by || null,
       lastUpdated: entry.last_verified || entry.effective_date || null,
       summary: entry.pricing_impact || '',
       sourceUrl: entry.source_url || null,
