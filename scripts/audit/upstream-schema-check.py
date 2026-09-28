@@ -35,7 +35,7 @@ Each check fetches a small, well-known query and asserts the response:
 
 Exit codes
 ----------
-  0 — all checks passed
+  0 — all checks passed (or only non-fatal upstream availability warnings occurred)
   1 — at least one check failed (log indicates which)
   2 — internal error (non-data failure)
 
@@ -49,9 +49,12 @@ Usage
 from __future__ import annotations
 
 import argparse
+import errno
 import json
 import os
+import socket
 import sys
+import time
 import urllib.error
 import urllib.request
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
@@ -59,6 +62,8 @@ from typing import Any, Callable
 
 USER_AGENT = "HousingAnalytics/1.0 upstream-schema-check"
 TIMEOUT = 30
+NETWORK_RETRY_ATTEMPTS = 3
+NETWORK_RETRY_DELAY_SECONDS = 1.0
 CENSUS_API_KEY = os.environ.get("CENSUS_API_KEY", "").strip()
 
 _CENSUS_HOST = "api.census.gov"
@@ -70,6 +75,10 @@ _HUD_HOST = "www.huduser.gov"
 _HUD_CHAS_PATH = "/portal/datasets/cp/2018thru2022-140-csv.zip"
 _DOLA_HOST = "gis.dola.colorado.gov"
 _DOLA_PROFILE_PATH = "/lookups/profile"
+
+
+class UpstreamUnavailableError(RuntimeError):
+    """Transient upstream/network failure distinct from a contract break."""
 
 
 def build_https_url(
@@ -172,6 +181,70 @@ def http_status(url: str) -> int:
         raise RuntimeError(
             f"http_status failed for {final_url}: {type(exc).__name__}: {exc}"
         ) from exc
+
+
+def is_transient_network_error(exc: Exception) -> bool:
+    if isinstance(exc, urllib.error.HTTPError):
+        return False
+    if isinstance(exc, urllib.error.URLError):
+        reason = exc.reason
+        if isinstance(reason, str):
+            return False
+        if isinstance(
+            reason,
+            (
+                TimeoutError,
+                socket.timeout,
+                ConnectionRefusedError,
+                ConnectionResetError,
+                ConnectionAbortedError,
+                BrokenPipeError,
+            ),
+        ):
+            return True
+        if isinstance(reason, OSError):
+            return getattr(reason, "errno", None) in {
+                errno.ECONNABORTED,
+                errno.ECONNREFUSED,
+                errno.ECONNRESET,
+                errno.EHOSTUNREACH,
+                errno.ENETUNREACH,
+                errno.ETIMEDOUT,
+            }
+        return False
+    return isinstance(
+        exc,
+        (
+            TimeoutError,
+            socket.timeout,
+            ConnectionRefusedError,
+            ConnectionResetError,
+            ConnectionAbortedError,
+            BrokenPipeError,
+        ),
+    )
+
+
+def http_status_with_retries(
+    url: str,
+    *,
+    attempts: int = NETWORK_RETRY_ATTEMPTS,
+    delay_seconds: float = NETWORK_RETRY_DELAY_SECONDS,
+) -> int:
+    last_exc: Exception | None = None
+    for attempt in range(1, attempts + 1):
+        try:
+            return http_status(url)
+        except RuntimeError as exc:
+            cause = exc.__cause__
+            if not isinstance(cause, Exception) or not is_transient_network_error(cause):
+                raise
+            last_exc = exc
+            if attempt == attempts:
+                break
+            time.sleep(delay_seconds)
+    message = str(last_exc) if last_exc else f"http_status failed for {url}: upstream unavailable"
+    raise UpstreamUnavailableError(message)
 
 
 # ── Check definitions ─────────────────────────────────────────────────
@@ -321,9 +394,17 @@ def check_dola_population() -> dict:
             "format": "json",
         },
     )
-    status = http_status(url)
+    try:
+        status = http_status_with_retries(url)
+    except UpstreamUnavailableError as exc:
+        return {
+            "ok": True,
+            "status": "unreachable",
+            "warning": f"DOLA SDO profile endpoint unavailable after {NETWORK_RETRY_ATTEMPTS} attempts ({exc})",
+        }
     # DOLA accepts the query but returns plain-text or JSON depending on
-    # parameters. 200 = endpoint live; 4xx/5xx = endpoint moved/broken.
+    # parameters. 200 = endpoint live; any HTTP status here stays fatal so
+    # upstream contract/service regressions still fail the check.
     assert status == 200, f"DOLA SDO profile endpoint returned {status}"
     return {"ok": True, "status": status}
 
@@ -354,18 +435,29 @@ def main() -> int:
 
     skips = {s.strip().lower() for s in args.skip.split(",") if s.strip()}
     results: dict[str, dict] = {}
+    skipped = 0
+    executed = 0
     failed = 0
+    warned = 0
 
     for name, fn in checks.items():
         if any(name.startswith(s + ".") or name == s for s in skips):
             results[name] = {"skipped": True}
+            skipped += 1
             continue
+        executed += 1
         try:
             r = fn()
             r.setdefault("ok", True)
             results[name] = r
+            warning = r.get("warning")
+            if warning:
+                warned += 1
             if not args.json:
-                print(f"  ✓ {name}")
+                if warning:
+                    print(f"  ⚠ {name}: {warning}")
+                else:
+                    print(f"  ✓ {name}")
         except AssertionError as e:
             results[name] = {"ok": False, "error": str(e)}
             failed += 1
@@ -379,11 +471,22 @@ def main() -> int:
 
     if args.json:
         print(json.dumps(
-            {"summary": {"checked": len(checks), "failed": failed}, "results": results},
+            {
+                "summary": {
+                    "checked": executed,
+                    "failed": failed,
+                    "warned": warned,
+                    "skipped": skipped,
+                },
+                "results": results,
+            },
             indent=2,
         ))
     else:
-        print(f"\n{len(checks) - failed}/{len(checks)} checks passed.")
+        summary = f"\n{executed - failed}/{executed} checks passed."
+        if skipped:
+            summary += f" ({skipped} skipped)"
+        print(summary)
 
     return 0 if failed == 0 else 1
 

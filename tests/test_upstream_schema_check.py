@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import io
+import sys
 import urllib.error
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
@@ -167,3 +168,87 @@ def test_problematic_literal_api_urls_are_absent_from_source():
 
     assert census_base not in source
     assert f"{fred_base}?" not in source
+
+
+def test_check_dola_population_retries_transient_url_errors_before_success():
+    refused = urllib.error.URLError(ConnectionRefusedError(111, "Connection refused"))
+    responses = [refused, refused, _DummyResponse(b"", status=200)]
+
+    with (
+        mock.patch.object(_MOD.urllib.request, "urlopen", side_effect=responses),
+        mock.patch.object(_MOD.time, "sleep") as sleep,
+    ):
+        result = _MOD.check_dola_population()
+
+    assert result == {"ok": True, "status": 200}
+    assert sleep.call_count == 2
+
+
+def test_check_dola_population_returns_warning_when_dola_stays_unreachable():
+    refused = urllib.error.URLError(ConnectionRefusedError(111, "Connection refused"))
+
+    with (
+        mock.patch.object(_MOD.urllib.request, "urlopen", side_effect=refused),
+        mock.patch.object(_MOD.time, "sleep") as sleep,
+    ):
+        result = _MOD.check_dola_population()
+
+    assert result["ok"] is True
+    assert result["status"] == "unreachable"
+    assert "warning" in result
+    assert "Connection refused" in result["warning"]
+    assert sleep.call_count == _MOD.NETWORK_RETRY_ATTEMPTS - 1
+
+
+def test_check_dola_population_keeps_non_transient_url_errors_fatal():
+    bad_certificate = urllib.error.URLError(ValueError("certificate verify failed"))
+
+    with (
+        mock.patch.object(_MOD.urllib.request, "urlopen", side_effect=bad_certificate),
+        mock.patch.object(_MOD.time, "sleep") as sleep,
+    ):
+        with pytest.raises(RuntimeError, match="certificate verify failed"):
+            _MOD.check_dola_population()
+
+    assert sleep.call_count == 0
+
+
+def test_check_dola_population_keeps_contract_breaks_fatal():
+    def fake_urlopen(req, timeout):
+        raise urllib.error.HTTPError(
+            req.full_url,
+            404,
+            "Not Found",
+            hdrs=None,
+            fp=io.BytesIO(b""),
+        )
+
+    with mock.patch.object(_MOD.urllib.request, "urlopen", side_effect=fake_urlopen):
+        with pytest.raises(AssertionError, match="returned 404"):
+            _MOD.check_dola_population()
+
+
+def test_main_returns_zero_when_only_warning_is_dola_unreachable(capsys):
+    argv = [
+        "upstream-schema-check.py",
+        "--skip",
+        "census,hud,fred",
+    ]
+    with (
+        mock.patch.object(sys, "argv", argv),
+        mock.patch.object(
+            _MOD,
+            "check_dola_population",
+            return_value={
+                "ok": True,
+                "status": "unreachable",
+                "warning": "DOLA SDO profile endpoint unavailable",
+            },
+        ),
+    ):
+        exit_code = _MOD.main()
+
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert "⚠ dola.population: DOLA SDO profile endpoint unavailable" in captured.out
+    assert "1/1 checks passed. (7 skipped)" in captured.out
