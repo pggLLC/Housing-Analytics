@@ -1915,6 +1915,20 @@
   }
 
   /* ── Save PMA to project ──────────────────────────────────────────── */
+  function _qctDdaEvidence() {
+    try {
+      var st = window.MAState && window.MAState.getState && window.MAState.getState();
+      var sub = st && st.sections && st.sections.subsidy;
+      if (!sub) return null;
+      return {
+        qctFlag: sub.qctFlag === undefined ? null : sub.qctFlag,
+        ddaFlag: sub.ddaFlag === undefined ? null : sub.ddaFlag,
+        unavailableReason: sub.designationUnavailableReason || null,
+        evidence: sub.designationEvidence || null
+      };
+    } catch (_) { return null; }
+  }
+
   function savePmaToProject() {
     if (!window.WorkflowState) return false;
     try {
@@ -1935,7 +1949,10 @@
         score:       scoreEl  ? scoreEl.textContent.trim()  : null,
         label:       scoreLbl ? scoreLbl.textContent.trim() : null,
         lat:         lat,
-        lon:         lon
+        lon:         lon,
+        // The QCT/DDA evidence behind the Subsidy card (matched tract GEOID,
+        // DDA name/code, HUD year/source), or null when there is none.
+        qctDdaEvidence: _qctDdaEvidence()
       };
       WorkflowState.setStep('market', snapshot);
       return true;
@@ -2109,12 +2126,14 @@
         _autoRanThisLoad = true;
         try {
           if (engine && typeof engine.placeSiteMarker === 'function') {
-            engine.placeSiteMarker(lat, lng);
+            // A centroid, not a chosen site: QCT/DDA must stay unknown.
+            engine.placeSiteMarker(lat, lng, { jurisdictionCentroid: true });
           }
           if (hasRun) {
             engine.runAnalysis(lat, lng);
           } else {
-            window.MAController.runAnalysis(lat, lng, isPlace ? 1.5 : 3.0);
+            window.MAController.runAnalysis(lat, lng, isPlace ? 1.5 : 3.0,
+              { siteSource: 'jurisdiction_centroid' });
           }
         } catch (e) {
           console.warn('[market-analysis] auto-run failed:', e);

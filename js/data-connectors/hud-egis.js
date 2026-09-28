@@ -126,6 +126,40 @@
     return false;
   }
 
+  /**
+   * The first feature in a FeatureCollection that contains the point, or null.
+   * checkDesignation() uses it to report WHICH tract / DDA matched, not only
+   * that one did.
+   * @private
+   */
+  function _findInCollection(lat, lon, fc) {
+    if (!fc || !Array.isArray(fc.features)) return null;
+    for (var i = 0; i < fc.features.length; i++) {
+      if (_pointInFeature(lat, lon, fc.features[i])) return fc.features[i];
+    }
+    return null;
+  }
+
+  /**
+   * The HUD designation year and source, read from the loaded file's own
+   * metadata. The cache workflow (cache-hud-gis-data.yml) stamps `source`
+   * with the HUD layer name, e.g. "HUD ArcGIS Qualified_Census_Tracts_2026
+   * FeatureServer"; the year is the four digits HUD puts in that layer name.
+   * A file whose source does not name a year yields year:null — the year is
+   * never assumed.
+   * @private
+   */
+  function _layerMeta(fc, file) {
+    var source = fc && typeof fc.source === 'string' ? fc.source : null;
+    var m = source ? /_(\d{4})\b/.exec(source) : null;
+    return {
+      file: file,
+      year: m ? Number(m[1]) : null,
+      source: source,
+      fetchedAt: fc && typeof fc.fetchedAt === 'string' ? fc.fetchedAt : null
+    };
+  }
+
   /* ── Data loading ─────────────────────────────────────────────────── */
 
   /**
@@ -262,15 +296,28 @@
    *
    * @param {number} lat - Site latitude.
    * @param {number} lon - Site longitude.
+   * Non-finite coordinates (no site selected — e.g. only a jurisdiction)
+   * make every flag null with a reason: a jurisdiction is not a site.
+   *
+   * `evidence` records what matched: the QCT tract GEOID, the DDA name/code,
+   * and the HUD year/source read from each data file's own metadata.
+   *
    * @returns {{ in_qct: boolean|null, in_dda: boolean|null,
-   *             basis_boost_eligible: boolean|null, unavailableReason: string|null }}
+   *             basis_boost_eligible: boolean|null, unavailableReason: string|null,
+   *             evidence: Object }}
    */
   function checkDesignation(lat, lon) {
-    var qctReason = _layerUnavailableReason(localQctData, 'QCT', 'data/qct-colorado.json');
-    var ddaReason = _layerUnavailableReason(localDdaData, 'DDA', 'data/dda-colorado.json');
-    var in_qct = qctReason ? null : _isInCollection(lat, lon, localQctData);
-    var in_dda = ddaReason ? null : _isInCollection(lat, lon, localDdaData);
-    var reasons = [qctReason, ddaReason].filter(Boolean);
+    var QCT_FILE = 'data/qct-colorado.json', DDA_FILE = 'data/dda-colorado.json';
+    var noSite = (typeof lat !== 'number' || !isFinite(lat) || typeof lon !== 'number' || !isFinite(lon))
+      ? 'No site coordinates — QCT/DDA designation needs a site point, not a jurisdiction'
+      : null;
+    var qctReason = noSite || _layerUnavailableReason(localQctData, 'QCT', QCT_FILE);
+    var ddaReason = noSite || _layerUnavailableReason(localDdaData, 'DDA', DDA_FILE);
+    var qctHit = qctReason ? null : _findInCollection(lat, lon, localQctData);
+    var ddaHit = ddaReason ? null : _findInCollection(lat, lon, localDdaData);
+    var in_qct = qctReason ? null : !!qctHit;
+    var in_dda = ddaReason ? null : !!ddaHit;
+    var reasons = noSite ? [noSite] : [qctReason, ddaReason].filter(Boolean);
     if (reasons.length) {
       console.warn('[HudEgis] checkDesignation(): designation unknown — ' + reasons.join('; ') + '.');
     }
@@ -278,11 +325,47 @@
     if (in_qct === true || in_dda === true) basis_boost_eligible = true;
     else if (in_qct === false && in_dda === false) basis_boost_eligible = false;
     else basis_boost_eligible = null;
+    var unavailableReason = reasons.length ? reasons.join('; ') : null;
+    var qp = (qctHit && qctHit.properties) || {};
+    var dp = (ddaHit && ddaHit.properties) || {};
+    var qMeta = _layerMeta(qctReason ? null : localQctData, QCT_FILE);
+    var dMeta = _layerMeta(ddaReason ? null : localDdaData, DDA_FILE);
+    // What matched, and which HUD vintage said so. Plain data (no functions)
+    // so a saved PMA snapshot can persist it as-is. Every field is null when
+    // it is not known — a tract GEOID only when the site is inside a QCT, a
+    // DDA name/code only when inside a DDA.
+    var evidence = {
+      lat: noSite ? null : lat,
+      lon: noSite ? null : lon,
+      qct: {
+        inside:     in_qct,
+        tractGeoid: qp.GEOID != null ? String(qp.GEOID) : null,
+        tractName:  qp.NAME != null ? String(qp.NAME) : null,
+        year:       qMeta.year,
+        source:     qMeta.source,
+        fetchedAt:  qMeta.fetchedAt,
+        file:       QCT_FILE,
+        unavailableReason: qctReason
+      },
+      dda: {
+        inside:    in_dda,
+        ddaName:   (dp.DDA_NAME || dp.NAME) != null ? String(dp.DDA_NAME || dp.NAME) : null,
+        ddaCode:   dp.DDA_CODE != null ? String(dp.DDA_CODE) : null,
+        ddaType:   (dp.DDA_TYPE || dp.DDATYPE) != null ? String(dp.DDA_TYPE || dp.DDATYPE) : null,
+        year:      dMeta.year,
+        source:    dMeta.source,
+        fetchedAt: dMeta.fetchedAt,
+        file:      DDA_FILE,
+        unavailableReason: ddaReason
+      },
+      unavailableReason: unavailableReason
+    };
     return {
       in_qct: in_qct,
       in_dda: in_dda,
       basis_boost_eligible: basis_boost_eligible,
-      unavailableReason: reasons.length ? reasons.join('; ') : null
+      unavailableReason: unavailableReason,
+      evidence: evidence
     };
   }
 
