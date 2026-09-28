@@ -136,9 +136,12 @@ console.log('='.repeat(46));
   );
   assert(!craText.includes('Medium-Low (25%)'), 'CRA page no longer shows stale hardcoded passage probability card');
 
-  const insightsHtml = fs.readFileSync(path.join(root, 'insights.html'), 'utf8');
-  assert(insightsHtml.includes('Tax Credit Equity Markets'), 'insights page features the retitled equity markets page');
-  assert(insightsHtml.includes('federal policy watchlist'), 'insights card describes the data-backed policy watch');
+  // Research & Analysis cards render from data/insights/catalog.json.
+  const catalog = JSON.parse(fs.readFileSync(path.join(root, 'data', 'insights', 'catalog.json'), 'utf8'));
+  const pricingCard = catalog.entries.find((e) => e.url === 'article-pricing.html');
+  assert(pricingCard, 'Research & Analysis lists the equity markets page');
+  assert.strictEqual(pricingCard.title, 'Tax Credit Equity Markets', 'Research & Analysis uses the page title');
+  assert(pricingCard.summary.includes('federal policy watchlist'), 'Research & Analysis card describes the data-backed policy watch');
 
   console.log('All Tax Credit Equity Markets render tests passed.');
 })().catch((err) => {

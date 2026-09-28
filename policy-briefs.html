@@ -134,6 +134,7 @@
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/workflow/recommendation-contract.js"></script>
   <script defer src="js/components/policy-watch.js"></script>
+  <script defer src="js/components/research-catalog.js"></script>
 </head>
 <body data-page="policy-briefs.html">
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -241,6 +242,9 @@
     var CURATED_BRIEFS_URL = (typeof window.resolveAssetUrl === 'function')
       ? window.resolveAssetUrl('data/policy_briefs_curated.json')
       : 'data/policy_briefs_curated.json';
+    var CATALOG_URL = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/insights/catalog.json')
+      : 'data/insights/catalog.json';
 
     // Headlines are shown this many at a time. There is no cap: "Show earlier"
     // reaches every story. The old page showed 25 articles per topic card with no
@@ -563,26 +567,22 @@
       });
     }
 
-    // Latest research: the newest few briefs as titles. Each opens the reader
-    // (research-brief.html), which carries the summary and every source; the
-    // full list is on the Research & Analysis page.
+    // Latest research: the newest dated analysis and research briefs, as
+    // titles. The list is the Research & Analysis page's own
+    // (js/components/research-catalog.js), so the two cannot disagree; each
+    // brief opens the reader, which carries its summary and sources.
     var RESEARCH_COUNT = 3;
-    function renderResearch(curated) {
+    function renderResearch(items) {
       var host = $('researchList');
-      if (!curated.length) {
-        host.innerHTML = '<p class="news-note">No research briefs yet.</p>';
+      if (!items.length) {
+        host.innerHTML = '<p class="news-note">No research yet.</p>';
         return;
       }
-      var newest = curated.slice().sort(function (a, b) {
-        return (Date.parse(b.generated) || 0) - (Date.parse(a.generated) || 0);
-      }).slice(0, RESEARCH_COUNT);
-      host.innerHTML = newest.map(function (brief) {
-        var label = brief.is_curated && brief.source_reviewed ? 'Source-reviewed brief' : 'Research brief';
-        var when = Date.parse(brief.generated);
-        var meta = [(brief.sources || [])[0] || '', isNaN(when) ? '' : shortDate(when) + ', ' + new Date(when).getUTCFullYear()]
+      host.innerHTML = items.slice(0, RESEARCH_COUNT).map(function (item) {
+        var meta = [(item.sources || [])[0] || '', item.published ? window.ResearchCatalog.shortDate(item.published) : '']
           .filter(Boolean).join(' · ');
-        return '<article class="research-card"><div class="research-card__kick">' + escapeHtml(label) + '</div>' +
-          '<h3><a href="research-brief.html?id=' + encodeURIComponent(brief.id) + '">' + escapeHtml(brief.title) + '</a></h3>' +
+        return '<article class="research-card" data-catalog-id="' + escapeHtml(item.id) + '"><div class="research-card__kick">' + escapeHtml(item.type) + '</div>' +
+          '<h3><a href="' + escapeHtml(item.url) + '">' + escapeHtml(item.title) + '</a></h3>' +
           (meta ? '<div class="research-card__meta">' + escapeHtml(meta) + '</div>' : '') + '</article>';
       }).join('');
     }
@@ -627,15 +627,17 @@
           .catch(function () { return { briefs: [] }; }),
         fetcher(POLICY_WATCH_URL, {}, 15000)
           .then(function (res) { return res.ok ? res.json() : null; })
+          .catch(function () { return null; }),
+        fetcher(CATALOG_URL, {}, 15000)
+          .then(function (res) { return res.ok ? res.json() : null; })
           .catch(function () { return null; })
       ]).then(function (payloads) {
         var data = payloads[0], curatedData = payloads[1];
         renderPolicyWatch(payloads[2]);
-        var curated = Array.isArray(curatedData) ? curatedData
-          : (curatedData && Array.isArray(curatedData.briefs) ? curatedData.briefs : []);
+        var RC = window.ResearchCatalog;
         stories = readStories(data);
         renderPipelineStatus(data && data.meta);
-        renderResearch(curated.filter(function (brief) { return brief.is_curated; }));
+        renderResearch(RC ? RC.latest(RC.items(payloads[3], curatedData, null)) : []);
         if (!stories.length) {
           $('briefsStatus').textContent = 'No headlines are available right now. The feed refreshes weekly.';
           $('newsLatest').hidden = true;

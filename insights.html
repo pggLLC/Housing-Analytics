@@ -26,6 +26,22 @@
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
+  <style>
+    /* Research & Analysis cards (js/components/research-catalog.js). */
+    .rc-hub { display: flex; flex-direction: column; gap: var(--sp5); margin-top: var(--sp3); }
+    .rc-section h2 { margin: 0 0 var(--sp1); }
+    .rc-section__note { margin: 0 0 var(--sp3); color: var(--muted); max-width: 72ch; }
+    .rc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: var(--sp3); }
+    .rc-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp3); display: flex; flex-direction: column; gap: .4rem; }
+    .rc-card__type { font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+    .rc-card__title { margin: 0; font-size: 1.05rem; line-height: 1.35; }
+    .rc-card__title a { color: var(--text); text-decoration: none; }
+    .rc-card__title a:hover { color: var(--link); text-decoration: underline; }
+    .rc-card__summary { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.55; }
+    .rc-card__meta { margin-top: auto; display: flex; flex-direction: column; gap: .15rem; font-size: .78rem; color: var(--muted); }
+    .rc-card__date { font-weight: 600; color: var(--text); }
+    .rc-archive > summary { font-weight: 700; }
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -43,61 +59,32 @@
         <p class="page-sub">COHO's analysis, research briefs and reference on Colorado affordable housing. Each item says when it was published and what it draws on.</p>
       </div>
 
-      <!-- Featured: Colorado Deep Dive -->
-      <section class="chart-card" style="border-top:3px solid var(--accent2);" aria-label="Featured analysis">
-        <span class="tag tag-orange" style="margin-bottom:var(--sp3);display:inline-block;">Featured Analysis</span>
-        <h2 style="margin:0 0 var(--sp2);">Colorado Affordable Housing Market Deep Dive</h2>
-        <p style="color:var(--muted);line-height:1.6;margin-bottom:var(--sp3);">
-          Comprehensive analysis featuring interactive maps of DDAs &amp; QCTs, AMI breakdowns, record-breaking
-          concessions data, foreclosure trends, consumer confidence metrics, and detailed comparisons to national trends.
-        </p>
-        <!-- F118-2 — stats-strip badged + unemployment now wired live from BLS LAUS feed. -->
-        <div class="stats-strip" style="margin:0 0 var(--sp3);">
-          <div class="stat-card">
-            <div class="stat-value">$169</div>
-            <div class="stat-label">Avg Concession/Month</div>
-            <div style="font-size:.68rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Q4 2025</a></div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">7.6%</div>
-            <div class="stat-label">Denver Vacancy (16-yr high)</div>
-            <div style="font-size:.68rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Q4 2025</a></div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value" id="insightsUnemp">—</div>
-            <div class="stat-label">CO Unemployment</div>
-            <div style="font-size:.68rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a></div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value" style="color:var(--good);">LOW</div>
-            <div class="stat-label">Foreclosure Risk</div>
-            <div style="font-size:.68rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--warn);font-weight:700;">QUAL</span> · <a href="https://www.attomdata.com/solutions/market-trends-data/foreclosure-activity-report/" target="_blank" rel="noopener">ATTOM</a></div>
-          </div>
-        </div>
-        <a href="colorado-deep-dive.html" class="btn">View Full Analysis →</a>
-        <script>
-        /* F118-2 — wire BLS LAUS unemployment into the insights hero strip.
-           Mirrors the deep-dive wiring (averages all 64 CO counties from the
-           BLS LAUS snapshot refreshed weekly by the data pipeline). */
-        (function () {
-          'use strict';
-          var el = document.getElementById('insightsUnemp');
-          if (!el) return;
-          fetch('data/co-county-economic-indicators.json', { cache: 'no-cache' })
-            .then(function (r) { return r.ok ? r.json() : null; })
-            .then(function (d) {
-              if (!d || !d.counties) return;
-              var vals = Object.values(d.counties)
-                .map(function (c) { return c.unemployment_rate; })
-                .filter(function (v) { return v != null && isFinite(v); });
-              if (!vals.length) return;
-              var avg = vals.reduce(function (s, v) { return s + v; }, 0) / vals.length;
-              el.textContent = avg.toFixed(1) + '%';
-            })
-            .catch(function () {});
-        })();
-        </script>
-      </section>
+      <!-- Research & Analysis, rendered by js/components/research-catalog.js from
+           data/insights/catalog.json and the curated research briefs. The
+           Housing News "Latest research" panel reads the same list
+           (test/research-catalog.test.mjs). Each card says how current it is:
+           checked on a schedule, published once, regenerated, or live data. -->
+      <div id="researchCatalog" class="rc-hub">
+        <p class="rc-loading">Loading research and analysis…</p>
+        <noscript>
+          <ul class="rc-noscript">
+            <li><a href="housing-legislation-2026.html">Policy &amp; Legislation</a></li>
+            <li><a href="lihtc-enhancement-ahcia.html">Affordable Housing Credit Improvement Act (AHCIA)</a></li>
+            <li><a href="article-fair-housing-rollback.html">Fair Housing Without the Rulebook</a></li>
+            <li><a href="article-co-housing-costs.html">Colorado Housing Costs: County-Level Analysis</a></li>
+            <li><a href="cra-expansion-analysis.html">CRA Expansion Impact: Hypothetical Pricing Scenarios</a></li>
+            <li><a href="working-paper.html">Instrumenting Housing Need</a></li>
+            <li><a href="apa-white-paper.html">Deciding About Housing With Public Data</a></li>
+            <li><a href="methods.html">What the Numbers Actually Do</a></li>
+            <li><a href="article-pricing.html">Tax Credit Equity Markets</a></li>
+            <li><a href="lihtc-guide-for-stakeholders.html">LIHTC Basics</a></li>
+            <li><a href="help-for-homebuyers.html">Help for Homebuyers</a></li>
+            <li><a href="colorado-deep-dive.html">Colorado Affordable Housing Market Analysis</a></li>
+            <li><a href="market-intelligence.html">Colorado Market Intelligence</a></li>
+            <li><a href="historical-trends.html">Historical Trends &amp; Benchmarks</a></li>
+          </ul>
+        </noscript>
+      </div>
 
       <!-- F237: National housing context — JCHS State of the Nation's Housing 2026.
            Headline national benchmarks every CO IC memo measures against.
@@ -188,163 +175,6 @@
         </script>
       </section>
 
-      <!-- Featured Articles -->
-      <section aria-labelledby="articles-heading" style="margin-top:var(--sp4);">
-        <div class="section-header">
-          <h2 id="articles-heading">Featured Insights</h2>
-        </div>
-        <div style="display:grid;gap:var(--sp3);">
-
-          <a class="feature-card" href="methods.html">
-            <span class="tag tag-orange" style="margin-bottom:var(--sp2);display:inline-block;">Methods</span>
-            <h3>What the Numbers Actually Do</h3>
-            <p>The full computational specification, for review: tract-to-place apportionment and its weight, the ACS occupied-household anchor, cost burden and published shares, the seven ownership affordability models, the whole scoring chain, and the absence-propagation rules. Every constant is read out of the source file that defines it, so the published formulas are provably the ones that execute.</p>
-          </a>
-
-          <a class="feature-card" href="working-paper.html">
-            <span class="tag tag-orange" style="margin-bottom:var(--sp2);display:inline-block;">Working Paper</span>
-            <h3>Instrumenting Housing Need</h3>
-            <p>How this system learned to say &ldquo;we don&rsquo;t know,&rdquo; and why a coerced zero does not merely misinform but misallocates. Covers the place-level method, the apportionment and PITI decisions and their rejected alternatives, a worked jurisdiction, and what is still missing. Every figure is regenerated from the repository rather than typed.</p>
-          </a>
-
-          <a class="feature-card" href="article-fair-housing-rollback.html">
-            <span class="tag tag-orange" style="margin-bottom:var(--sp2);display:inline-block;">Policy</span>
-            <h3>Fair Housing Without the Rulebook</h3>
-            <p>The Fair Housing Act was not repealed and disparate-impact claims still exist under <em>Inclusive Communities</em>. What has been dismantled is the administrative machinery &mdash; and HUD&rsquo;s Title VI proposal is open for comment until 9 October 2026.</p>
-          </a>
-
-          <a class="feature-card" href="article-co-housing-costs.html">
-            <span class="tag tag-orange" style="margin-bottom:var(--sp2);display:inline-block;">Regional Focus</span>
-            <h3>Colorado Housing Costs: County-Level Analysis</h3>
-            <p>Interactive county maps and data pipeline integrating ACS, FHFA HPI, BLS PPI/QCEW, and Census Building Permits. Includes 10-year and 15-year windowed rent change maps and a drivers-of-change regression model for all 64 Colorado counties.</p>
-            <div class="card-footer">
-              Published: Mar 27, 2026 · 10 min read · <em>Sources: Census Bureau, FHFA, BLS, Census BPS</em>
-              <span class="read-more" style="margin-left:auto;float:right;">Read full analysis →</span>
-            </div>
-          </a>
-
-          <a class="feature-card" href="housing-legislation-2026.html">
-            <span class="tag tag-green" style="margin-bottom:var(--sp2);display:inline-block;">Legislative Analysis</span>
-            <h3>21st Century ROAD to Housing Act (H.R. 6644): Status Update</h3>
-            <p>House passed Feb 9, 2026 (390–9); Senate passed with substitute amendment Mar 12, 2026; House concurred with the Senate amendment May 20, 2026 (396–13). Became law July 11, 2026. The enacted text is a housing-supply and HUD-program reform law (CDBG, HOME, manufactured housing, vouchers, homeownership); it does not include the LIHTC cap expansion described in earlier versions.</p>
-            <div class="card-footer">
-              Updated: Jul 16, 2026 · 15 min read · <em>Sources: Congress.gov, HUD, CHFA</em>
-              <span class="read-more" style="margin-left:auto;float:right;">Read full analysis →</span>
-            </div>
-          </a>
-
-          <a class="feature-card" href="article-pricing.html">
-            <span class="tag tag-red" style="margin-bottom:var(--sp2);display:inline-block;">Market Data</span>
-            <h3>Tax Credit Equity Markets</h3>
-            <p>LIHTC pricing history and forecast context, Novogradac national and regional benchmarks, transfer-credit pricing snapshots, and a federal policy watchlist.</p>
-            <div class="card-footer">
-              Updated: Jul 16, 2026 · Reference page · <em>Sources: Novogradac, Crux, IRS, Federal Register</em>
-              <span class="read-more" style="margin-left:auto;float:right;">Read full analysis →</span>
-            </div>
-          </a>
-
-          <a class="feature-card" href="help-for-homebuyers.html">
-            <span class="tag tag-green" style="margin-bottom:var(--sp2);display:inline-block;">Homebuyer Resource</span>
-            <h3>Help for Homebuyers</h3>
-            <p>Plain-language cards for Colorado and federal homebuyer credits, grants, down-payment assistance, and property-tax relief, rendered from source-linked program data.</p>
-            <div class="card-footer">
-              Updated: Jul 16, 2026 · Consumer guide · <em>Sources: CHFA, metroDPA, CHAC, IRS, Congress.gov</em>
-              <span class="read-more" style="margin-left:auto;float:right;">Explore programs →</span>
-            </div>
-          </a>
-
-          <a class="feature-card" href="colorado-deep-dive.html">
-            <span class="tag tag-blue" style="margin-bottom:var(--sp2);display:inline-block;">Regional Focus</span>
-            <h3>Colorado Market Analysis &amp; Forecast</h3>
-            <p>Deep dive into Colorado's $287M LIHTC market, including Denver metro trends, CHFA priorities, and econometric forecasts through 2028.</p>
-            <div class="card-footer">
-              Published: Feb 10, 2026 · 8 min read · <em>Sources: CHFA, Census Bureau, FRED</em>
-              <span class="read-more" style="margin-left:auto;float:right;">Read full analysis →</span>
-            </div>
-          </a>
-
-          <a class="feature-card" href="cra-expansion-analysis.html">
-            <span class="tag tag-teal" style="margin-bottom:var(--sp2);display:inline-block;">Policy Analysis</span>
-            <h3>CRA Expansion Impact: Hypothetical Pricing Scenarios</h3>
-            <p>Scenario modeling for CRA-driven investor demand, updated with the 2025 CRA rescission NPR and the shared tax-credit legislation watchlist.</p>
-            <div class="card-footer">
-              Updated: Sep 28, 2026 · 12 min read · <em>Sources: Federal Register, OCC, Novogradac</em>
-              <span class="read-more" style="margin-left:auto;float:right;">Read full analysis →</span>
-            </div>
-          </a>
-
-          <a class="feature-card" href="lihtc-enhancement-ahcia.html">
-            <span class="tag tag-green" style="margin-bottom:var(--sp2);display:inline-block;">Legislative Deep Dive</span>
-            <h3>AHCIA Status Update: Enacted Provisions and What Remains</h3>
-            <p>Two of the AHCIA's largest provisions — a permanent 12% Housing Credit allocation increase and a permanent 25% private activity bond financing threshold (down from 50%, effective 2026) — were signed into law on July 4, 2025. The remaining AHCIA provisions are still pending as H.R. 2725 and S. 1515 in the 119th Congress.</p>
-            <div class="card-footer">
-              Internal resource · <em>Sources: Congress.gov, Novogradac, NCSHA</em>
-              <span class="read-more" style="margin-left:auto;float:right;">Read full analysis →</span>
-            </div>
-          </a>
-
-          <a class="feature-card" href="lihtc-guide-for-stakeholders.html">
-            <span class="tag tag-blue" style="margin-bottom:var(--sp2);display:inline-block;">Stakeholder Guide</span>
-            <h3>LIHTC Basics</h3>
-            <p>A practical guide for developers, housing authorities, and investors covering project development timelines, financing structures, QAP strategy, and due diligence frameworks.</p>
-            <div class="card-footer">
-              Reference guide · <em>Sources: HUD, IRS, NCSHA</em>
-              <span class="read-more" style="margin-left:auto;float:right;">Read guide →</span>
-            </div>
-          </a>
-
-        </div>
-      </section>
-
-      <!-- Key Market Trends -->
-      <section class="chart-card" style="margin-top:var(--sp4);" aria-labelledby="trends-heading">
-        <div class="chart-header">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:var(--sp2);">
-            <div>
-              <h3 class="chart-title" id="trends-heading">Key Market Trends — 2026</h3>
-              <p class="chart-subtitle">What's shaping the LIHTC landscape</p>
-            </div>
-            <div id="trendsVerifiedBadge" style="font-size:var(--tiny);color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.25rem .6rem;max-width:100%;align-self:flex-start;" aria-live="polite" aria-atomic="true">
-              Checking…
-            </div>
-          </div>
-        </div>
-        <div class="trend-list" style="padding-top:var(--sp2);">
-          <div class="trend-item">
-            <div class="trend-icon up">↑</div>
-            <div class="trend-body">
-              <h4>Rising Investor Demand</h4>
-              <p>Corporate tax credit appetites have strengthened, with major banks and insurance companies increasing LIHTC allocations by 15–20% year-over-year.</p>
-              <div class="trend-source">Source: Novogradac investor surveys, Q4 2025</div>
-            </div>
-          </div>
-          <div class="trend-item">
-            <div class="trend-icon warning">⚠</div>
-            <div class="trend-body">
-              <h4>Construction Cost Pressures</h4>
-              <p>While material costs have stabilized, labor shortages continue to impact timelines. Developers are adjusting underwriting assumptions and seeking additional gap financing.</p>
-              <div class="trend-source">Source: AGC Construction Cost Reports, BLS Producer Price Index</div>
-            </div>
-          </div>
-          <div class="trend-item">
-            <div class="trend-icon info">✦</div>
-            <div class="trend-body">
-              <h4>QAP Evolution</h4>
-              <p>State housing agencies are refining scoring criteria to prioritize climate resilience, transit access, and extremely low-income targeting.</p>
-              <div class="trend-source">Source: NCSHA QAP analysis, State HFA policy announcements</div>
-            </div>
-          </div>
-          <div class="trend-item">
-            <div class="trend-icon accent">◆</div>
-            <div class="trend-body">
-              <h4>Mixed-Income Models Gain Traction</h4>
-              <p>Developers are increasingly combining 4% and 9% credits with market-rate units to create financially stable, economically integrated communities.</p>
-              <div class="trend-source">Source: HUD LIHTC Database project analysis</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <!-- Market Data Snapshot -->
       <section aria-labelledby="snapshot-heading" style="margin-top:var(--sp4);">
         <div class="section-header">
@@ -411,7 +241,7 @@
                   <span>CO Unemployment</span>
                   <strong style="color:var(--good);" id="insightsRiskUnemp">—</strong>
                 </div>
-                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · 64-county avg · <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a></div>
+                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;"><span style="color:var(--good);font-weight:700;">DATA</span> · 2025 annual, unweighted mean of 64 county rates (not the statewide rate) · <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a></div>
                 <div class="progress-bar"><div class="progress-fill" id="insightsRiskUnempBar" style="width:0%;"></div></div>
               </div>
               <div class="progress-row">
@@ -431,7 +261,7 @@
                 <div class="progress-bar"><div class="progress-fill" style="width:56%;"></div></div>
               </div>
             </div>
-            <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;">Sources linked per row · LIVE = fetched from data files; STATIC = snapshot from public report; QUAL = directional judgment from underlying series.</div>
+            <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;">Sources linked per row · LIVE / DATA = read from COHO data files; STATIC = snapshot from public report; QUAL = directional judgment from underlying series.</div>
             <script>
             /* F119 — wire BLS LAUS unemployment into the Risk Indicators progress row.
                Mirrors the wiring in the page hero (F118-2). Same data file. Width
@@ -461,45 +291,57 @@
         </div>
       </section>
 
-      <!-- 2026 Outlook -->
-      <section class="chart-card" style="margin-top:var(--sp4);" aria-labelledby="outlook-heading">
+      <!-- Archived, not maintained: the Q1 2026 trends read, dated by
+           data/insights-meta.json. Kept as a record of what was said and when;
+           the live evidence is on the pages the catalog links. -->
+      <details class="chart-card rc-archive" style="margin-top:var(--sp4);">
+        <summary>Archived: LIHTC market trends as read in Q1 2026</summary>
         <div class="chart-header">
-          <h3 class="chart-title" id="outlook-heading">2026 Market Outlook</h3>
-          <p class="chart-subtitle">Expert projections and strategic considerations</p>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px, 100%),1fr));gap:var(--sp4);padding-top:var(--sp2);">
-          <div>
-            <h4 style="margin-bottom:var(--sp2);">Credit Pricing Forecast</h4>
-            <p style="color:var(--muted);font-size:var(--small);line-height:1.6;margin-bottom:var(--sp2);">9% credit pricing expected to stabilize in the $0.93–$0.96 range through 2026, supported by sustained investor appetite and controlled inflation.</p>
-            <ul style="color:var(--muted);font-size:var(--small);line-height:1.7;margin-left:var(--sp3);">
-              <li>Banks increasing CRA-driven investments</li>
-              <li>Insurance companies seeking stable yields</li>
-              <li>Corporate tax appetite remains strong</li>
-            </ul>
-            <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;margin-top:var(--sp2);">Source: Consensus forecast from industry analysts</div>
-          </div>
-          <div>
-            <h4 style="margin-bottom:var(--sp2);">Development Pipeline</h4>
-            <p style="color:var(--muted);font-size:var(--small);line-height:1.6;margin-bottom:var(--sp2);">Housing starts projected to increase 8–12% nationally, with particularly strong growth in Sun Belt and Mountain West markets.</p>
-            <ul style="color:var(--muted);font-size:var(--small);line-height:1.7;margin-left:var(--sp3);">
-              <li>Increased state QAP allocations</li>
-              <li>Basis boost driving feasibility</li>
-              <li>Public land initiatives expanding</li>
-            </ul>
-            <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;margin-top:var(--sp2);">Source: Census Bureau, NCSHA allocation data</div>
-          </div>
-          <div>
-            <h4 style="margin-bottom:var(--sp2);">Key Risks to Monitor</h4>
-            <p style="color:var(--muted);font-size:var(--small);line-height:1.6;margin-bottom:var(--sp2);">Primary concerns include labor market tightness, potential regulatory changes, and regional market variations in rental demand.</p>
-            <ul style="color:var(--muted);font-size:var(--small);line-height:1.7;margin-left:var(--sp3);">
-              <li>Construction labor availability</li>
-              <li>Interest rate volatility</li>
-              <li>Local zoning constraints</li>
-            </ul>
-            <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;margin-top:var(--sp2);">Source: AGC, Federal Reserve, State HFAs</div>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:var(--sp2);">
+            <div>
+              <h3 class="chart-title" id="trends-heading">Key Market Trends, Q1 2026</h3>
+              <p class="chart-subtitle">Not updated since it was checked. Use the linked sources for current conditions.</p>
+            </div>
+            <div id="trendsVerifiedBadge" style="font-size:var(--tiny);color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.25rem .6rem;max-width:100%;align-self:flex-start;" aria-live="polite" aria-atomic="true">
+              Checking…
+            </div>
           </div>
         </div>
-      </section>
+        <div class="trend-list" style="padding-top:var(--sp2);">
+          <div class="trend-item">
+            <div class="trend-icon up">↑</div>
+            <div class="trend-body">
+              <h4>Rising Investor Demand</h4>
+              <p>Corporate tax credit appetites have strengthened, with major banks and insurance companies increasing LIHTC allocations by 15–20% year-over-year.</p>
+              <div class="trend-source">Source: Novogradac investor surveys, Q4 2025</div>
+            </div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-icon warning">⚠</div>
+            <div class="trend-body">
+              <h4>Construction Cost Pressures</h4>
+              <p>While material costs have stabilized, labor shortages continue to impact timelines. Developers are adjusting underwriting assumptions and seeking additional gap financing.</p>
+              <div class="trend-source">Source: AGC Construction Cost Reports, BLS Producer Price Index</div>
+            </div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-icon info">✦</div>
+            <div class="trend-body">
+              <h4>QAP Evolution</h4>
+              <p>State housing agencies are refining scoring criteria to prioritize climate resilience, transit access, and extremely low-income targeting.</p>
+              <div class="trend-source">Source: NCSHA QAP analysis, State HFA policy announcements</div>
+            </div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-icon accent">◆</div>
+            <div class="trend-body">
+              <h4>Mixed-Income Models Gain Traction</h4>
+              <p>Developers are increasingly combining 4% and 9% credits with market-rate units to create financially stable, economically integrated communities.</p>
+              <div class="trend-source">Source: HUD LIHTC Database project analysis</div>
+            </div>
+          </div>
+        </div>
+      </details>
 
       <!-- Sources -->
       <div class="sources-box" style="margin-top:var(--sp4);">
@@ -522,40 +364,57 @@
     </div>
   </main>
 
+  <script src="js/components/review-status.js"></script>
+  <script src="js/components/research-catalog.js"></script>
   <script src="js/contrast-guard.js"></script>
+  <script>
+  /* Research & Analysis cards: the catalog, the curated briefs, and the
+     files the reviewed items take their check dates from. */
+  (function () {
+    'use strict';
+    var RC = window.ResearchCatalog;
+    var host = document.getElementById('researchCatalog');
+    if (!RC || !host) return;
+    var get = function (path) {
+      var url = typeof window.resolveAssetUrl === 'function' ? window.resolveAssetUrl(path) : path;
+      return (window.fetchWithTimeout || window.fetch)(url, {}, 15000)
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    };
+    get(RC.CATALOG_URL).then(function (catalog) {
+      if (!catalog) {
+        host.innerHTML = '<p>The research list could not be loaded. Try again later.</p>';
+        return;
+      }
+      var files = RC.reviewFiles(catalog);
+      return Promise.all([get(RC.BRIEFS_URL)].concat(files.map(get))).then(function (payloads) {
+        var docs = {};
+        files.forEach(function (f, i) { if (payloads[i + 1]) docs[f] = payloads[i + 1]; });
+        host.innerHTML = RC.hubHtml(catalog, RC.items(catalog, payloads[0], docs), window.ReviewStatus);
+      });
+    });
+  }());
+  </script>
   <script>
   (function () {
     'use strict';
-    var STALE_DAYS = 30;
+    // The trends block is archived: say when it was checked and that it is
+    // not maintained, rather than asking for a review nobody will do.
     var META_URL = (typeof window.resolveAssetUrl === 'function')
       ? window.resolveAssetUrl('data/insights-meta.json')
       : 'data/insights-meta.json';
     var badge = document.getElementById('trendsVerifiedBadge');
     if (!badge) return;
 
-    function daysSince(dateObj) {
-      return Math.floor((Date.now() - dateObj.getTime()) / 86400000);
-    }
-
     fetch(META_URL)
       .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
       .then(function (meta) {
         var d = meta.lastVerified;
-        if (!d) { badge.textContent = 'Unverified'; return; }
-        var verified = new Date(d);
-        var ageDays = daysSince(verified);
-        var fmt = verified.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-        if (ageDays > STALE_DAYS) {
-          badge.textContent = '⚠ Last verified: ' + fmt + ' (' + ageDays + 'd ago — review recommended)';
-          badge.style.borderColor = 'var(--warn)';
-          badge.style.color = 'var(--warn)';
-        } else {
-          badge.textContent = '✓ Last verified: ' + fmt;
-          badge.style.borderColor = 'var(--good)';
-          badge.style.color = 'var(--good)';
-        }
+        if (!d) { badge.textContent = 'Check date unavailable. Archived: not maintained.'; return; }
+        var fmt = new Date(d + 'T12:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+        badge.textContent = 'Checked ' + fmt + '. Archived: not updated since.';
       })
-      .catch(function () { badge.textContent = 'Verification status unavailable'; });
+      .catch(function () { badge.textContent = 'Check date unavailable. Archived: not maintained.'; });
   }());
   </script>
 </body>

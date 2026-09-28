@@ -9,16 +9,17 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 const read = (p) => readFileSync(p, 'utf8');
 
-// 1. An Insights card that links to the legislation page must carry that
+// 1. The Research & Analysis card for the legislation page must carry that
 //    page's status. If the page says Enacted <date>, the card must say the
 //    bill became law on that date and must not describe it as still moving.
+//    Cards render from data/insights/catalog.json, so the card text is the
+//    catalog entry's title and summary.
 const legislation = read('housing-legislation-2026.html');
 const status = legislation.match(/H\.R\. 6644 Status:\s*(Enacted)\s+([A-Z][a-z]+) (\d{1,2}), (\d{4})/);
 assert(status, 'housing-legislation-2026.html no longer prints an "H.R. 6644 Status: Enacted <date>" line; update this guard with it');
-const insights = read('insights.html');
-const card = insights.match(/<a class="feature-card" href="housing-legislation-2026\.html">([\s\S]*?)<\/a>/);
-assert(card, 'insights.html has no card linking to housing-legislation-2026.html');
-const cardText = card[1].replace(/<[^>]+>/g, ' ');
+const catalogEntry = JSON.parse(read('data/insights/catalog.json')).entries.find((e) => e.url === 'housing-legislation-2026.html');
+assert(catalogEntry, 'the Research & Analysis catalog has no card linking to housing-legislation-2026.html');
+const cardText = `${catalogEntry.title} ${catalogEntry.summary}`;
 const shortMonth = status[2].slice(0, 3);
 assert(new RegExp(`became law\\s+(${status[2]}|${shortMonth})\\.?\\s+${status[3]},\\s+${status[4]}`, 'i').test(cardText),
   `the Insights ROAD Act card must say it became law ${status[2]} ${status[3]}, ${status[4]}, as the legislation page does`);
