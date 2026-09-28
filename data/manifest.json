@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-28T00:08:53.960103Z",
+  "generated": "2026-09-28T02:02:40.885929Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -349,7 +349,7 @@
     "data/glossary.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 36474
+      "bytes": 36689
     },
     "data/hmda/co-county-aggregates.json": {
       "featureCount": 64,

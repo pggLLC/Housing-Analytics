@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T00:08:28.100Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T02:02:20.595Z. Do not edit by hand.
 
 ---
 
@@ -143,7 +143,7 @@
 | `data/fixtures/fruita-commons-family.scenario.json` | 5.0 KB | ✅ | — |
 | `data/fixtures/fruita-commons.scenario.json` | 4.9 KB | ✅ | — |
 | `data/fred-data.json` | 1.19 MB | ✅ | — |
-| `data/glossary.json` | 35.6 KB | ✅ | — |
+| `data/glossary.json` | 35.8 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
 | `data/hna/benchmarks.json` | 9.1 KB | ✅ | — |
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-470 test files found.
+471 test files found.
 
 | File | Size |
 |------|------|
@@ -1852,6 +1852,7 @@
 | `test/energy-retrofit-funding.test.js` | 5.2 KB |
 | `test/entry-path-starts-at-jurisdiction.test.mjs` | 16.6 KB |
 | `test/epa-sld-local-lookup.test.js` | 7.5 KB |
+| `test/epa-walkability-d4a-distance.test.js` | 11.8 KB |
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
 | `test/every-guard-runs-or-says-why.test.mjs` | 8.5 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
