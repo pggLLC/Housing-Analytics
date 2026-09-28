@@ -627,7 +627,7 @@
     // Walkability & Bikeability section
     if (walkability) {
       html += '<div style="margin-top:0.75rem;"></div>' +
-        _sectionHeading('Walkability &amp; Bikeability') +
+        _sectionHeading('Walkability & Bikeability') +
         _walkBikeRow('Walkability', walkability.walkScore, walkability.walkLabel) +
         _walkBikeRow('Bikeability', walkability.bikeScore, walkability.bikeLabel);
 
@@ -667,6 +667,16 @@
       }
 
       html += '</div></div>';
+    } else if (accessData.walkabilityUnavailableReason) {
+      html += '<div style="margin-top:0.75rem;"></div>' +
+        _sectionHeading('Walkability & Bikeability') +
+        _metricRow('Walkability', 'Unavailable') +
+        _metricRow('Bikeability', 'Unavailable') +
+        '<div style="color:var(--muted);font-size:0.72rem;line-height:1.35;margin-top:0.35rem;">' +
+          _esc(String(accessData.walkabilityUnavailableReason).charAt(0).toUpperCase() +
+            String(accessData.walkabilityUnavailableReason).slice(1)) +
+          '. The access score uses amenity distances only.' +
+        '</div>';
     }
 
     html += (typeof score === 'number'
