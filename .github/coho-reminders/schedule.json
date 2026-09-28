@@ -1,0 +1,41 @@
+[
+  {
+    "id": "adams-sample-ballot",
+    "open_on": "2026-10-01",
+    "title": "COHO: Adams County sample ballot due — re-check Adams rows",
+    "body": "adams-sample-ballot.md",
+    "condition": "adams_notice_unavailable"
+  },
+  {
+    "id": "r2-second-pass",
+    "open_on": "2026-10-06",
+    "title": "COHO [R2-Bn-P2]: second pass over official_notice_unavailable rows",
+    "body": "r2-second-pass.md",
+    "condition": "r2_notice_unavailable"
+  },
+  {
+    "id": "r6a-unofficial",
+    "open_on": "2026-11-04",
+    "title": "COHO [R6-A]: record unofficial results (Nov 4–20)",
+    "body": "r6a-unofficial.md"
+  },
+  {
+    "id": "r6b-certified",
+    "open_on": "2026-11-24",
+    "title": "COHO [R6-B]: certified results + archive — must merge before 2026-12-18",
+    "body": "r6b-certified.md"
+  },
+  {
+    "id": "governor-appointments",
+    "open_on": "2026-12-01",
+    "title": "COHO: governor-elect housing appointments (task text not yet written)",
+    "body": "governor-appointments.md"
+  },
+  {
+    "id": "currency-warning",
+    "open_on": "2026-12-11",
+    "title": "COHO: 7 days until the 45-day currency test fails CI",
+    "body": "currency-warning.md",
+    "condition": "unarchived_election_records"
+  }
+]
