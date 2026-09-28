@@ -29,7 +29,7 @@ async function page(t, { hud = true } = {}) {
   const dom = new JSDOM(`
     <div id="scSaveButtons" style="display:none"><button id="scSaveSiteBtn">Save Current Site</button></div>
     <div id="siteCompTable"></div><div id="siteCompActions" style="display:none"></div>`,
-  { runScripts: 'outside-only', url: 'https://example.test/market-analysis.html' });
+  { runScripts: 'outside-only', url: 'http://localhost/market-analysis.html' });
   t.after(() => dom.window.close());
   const win = dom.window;
   const timers = [], errors = [], completed = [], rendered = [];
