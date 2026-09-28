@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T12:18:19.431Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T16:17:11.599Z. Do not edit by hand.
 
 ---
 
@@ -60,7 +60,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.0 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 143.1 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 143.6 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.6 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
@@ -86,7 +86,7 @@
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
 | `data/_manifest.json` | 807.7 KB | ✅ | — |
-| `data/_qa-status.json` | 6.9 KB | ✅ | — |
+| `data/_qa-status.json` | 7.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/local-pha-roster/denver-housing-authority.json` | 919 B | ✅ | — |
@@ -137,7 +137,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 4.02 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 240.3 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 251.4 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1746,7 +1746,7 @@
 
 ## Test Files
 
-481 test files found.
+483 test files found.
 
 | File | Size |
 |------|------|
@@ -1808,6 +1808,7 @@
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/cross-surface-vintage-labels.test.js` | 6.6 KB |
+| `test/custom-pma-conclusions-blocked.test.js` | 11.0 KB |
 | `test/daily-audit-repo-health.test.js` | 27.9 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
 | `test/daily-audit-system.js` | 20.3 KB |
@@ -1985,7 +1986,8 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 3.4 KB |
-| `test/market-site-point-persisted.test.js` | 11.2 KB |
+| `test/market-geography-binding.test.mjs` | 17.7 KB |
+| `test/market-site-point-persisted.test.js` | 11.7 KB |
 | `test/market-study-page.test.js` | 20.5 KB |
 | `test/market-study-report.test.js` | 29.3 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
@@ -2157,7 +2159,7 @@
 | `test/unit/pma-employment-centers.test.js` | 15.9 KB |
 | `test/unit/pma-infrastructure.test.js` | 5.8 KB |
 | `test/unit/pma-justification.test.js` | 5.8 KB |
-| `test/unit/pma-opportunities.test.js` | 16.5 KB |
+| `test/unit/pma-opportunities.test.js` | 17.4 KB |
 | `test/unit/pma-schools.test.js` | 5.0 KB |
 | `test/unit/pma-transit.test.js` | 5.0 KB |
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
