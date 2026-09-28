@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T02:29:09.925Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T03:30:52.880Z. Do not edit by hand.
 
 ---
 
@@ -84,7 +84,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 807.4 KB | ✅ | — |
+| `data/_manifest.json` | 807.7 KB | ✅ | — |
 | `data/_qa-status.json` | 6.9 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1576,7 +1576,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 209.9 KB | ✅ | — |
+| `data/manifest.json` | 210.0 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-472 test files found.
+473 test files found.
 
 | File | Size |
 |------|------|
@@ -1794,6 +1794,7 @@
 | `test/ci-verifies-bot-commits.test.js` | 5.4 KB |
 | `test/co-historical-allocations.test.js` | 12.9 KB |
 | `test/co-lihtc-map.test.js` | 8.8 KB |
+| `test/coho-reminders.test.mjs` | 15.7 KB |
 | `test/colorado-elections.test.mjs` | 32.7 KB |
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
 | `test/combined-geo.test.js` | 46.4 KB |
@@ -1851,7 +1852,7 @@
 | `test/effective-demand.test.js` | 6.6 KB |
 | `test/energy-retrofit-funding.test.js` | 5.2 KB |
 | `test/entry-path-starts-at-jurisdiction.test.mjs` | 16.6 KB |
-| `test/epa-sld-local-lookup.test.js` | 7.5 KB |
+| `test/epa-sld-local-lookup.test.js` | 13.2 KB |
 | `test/epa-walkability-d4a-distance.test.js` | 12.2 KB |
 | `test/epa-walkability-site-lookup.test.js` | 9.5 KB |
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
@@ -2226,7 +2227,7 @@
 
 ## GitHub Actions Workflows
 
-72 workflow files found.
+73 workflow files found.
 
 | File | Size |
 |------|------|
@@ -2247,6 +2248,7 @@
 | `.github/workflows/ci-checks.yml` | 20.1 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
+| `.github/workflows/coho-election-reminders.yml` | 1.6 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 6.0 KB |
 | `.github/workflows/console-error-audit.yml` | 7.7 KB |
 | `.github/workflows/contrast-audit.yml` | 10.8 KB |
