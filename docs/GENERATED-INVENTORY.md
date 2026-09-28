@@ -1,21 +1,22 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T06:24:31.053Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T11:09:36.053Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-65 pages found.
+66 pages found.
 
 | File | Title | Size |
 |------|-------|------|
 | `404.html` | Page not found | Colorado Affordable Housing Data Reference | 3.5 KB |
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
 | `about.html` | About | COHO Analytics | 14.7 KB |
+| `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 40.8 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.9 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | Colorado Public Data Reference | 17.9 KB |
-| `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.4 KB |
+| `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.5 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 39.9 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 136.9 KB |
@@ -24,7 +25,7 @@
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.4 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.6 KB |
-| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 22.4 KB |
+| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 22.5 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.5 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.3 KB |
@@ -39,7 +40,7 @@
 | `developer.html` | Developer Home — COHO | 13.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.9 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 17.6 KB |
-| `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
+| `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.7 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 15.9 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.7 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 35.8 KB |
@@ -48,7 +49,7 @@
 | `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 162.0 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 165.5 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 134.3 KB |
-| `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
+| `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.8 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 238.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 39.6 KB |
@@ -72,7 +73,7 @@
 | `research-brief.html` | Research Brief | COHO Analytics | 15.9 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.6 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 11.6 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 11.9 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 797 B |
 | `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 75.2 KB |
 
@@ -1745,7 +1746,7 @@
 
 ## Test Files
 
-477 test files found.
+478 test files found.
 
 | File | Size |
 |------|------|
@@ -2060,6 +2061,7 @@
 | `test/pmi-gate-is-one-rule.test.mjs` | 11.2 KB |
 | `test/policy-briefs-curated.test.js` | 8.0 KB |
 | `test/policy-data-currency.test.js` | 3.0 KB |
+| `test/policy-review-status.test.mjs` | 10.1 KB |
 | `test/polymarket-resolved.test.js` | 7.8 KB |
 | `test/preservation.test.js` | 17.3 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
@@ -2231,7 +2233,7 @@
 
 ## GitHub Actions Workflows
 
-73 workflow files found.
+74 workflow files found.
 
 | File | Size |
 |------|------|
@@ -2286,6 +2288,7 @@
 | `.github/workflows/merge-ref-gate.yml` | 3.6 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 4.0 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
+| `.github/workflows/policy-review-reminders.yml` | 1.8 KB |
 | `.github/workflows/qa-status.yml` | 10.0 KB |
 | `.github/workflows/rebuild-bps-permits.yml` | 11.1 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 4.5 KB |
