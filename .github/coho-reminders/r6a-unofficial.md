@@ -1,7 +1,9 @@
 <!-- coho-reminder:r6a-unofficial -->
 Owner decision: 2026-09-27 — move the dated COHO election follow-ups from the deleted Claude Code routines into the repository.
 
-the merged schema allows `result.outcome` only
+## Schema correction for R6-A (owner handoff)
+
+The merged schema allows `result.outcome` only
 `passed|failed`, and the source URL lives at `result.source.url`. There is no `recount` outcome. For a
 too-close / recount / contested measure, set `status: "litigated"` and add a `limitations[]` line quoting the
 official notice; do not add a result. The R6-A text below still says "recount" — follow the schema, not the text.
