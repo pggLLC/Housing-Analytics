@@ -19,6 +19,10 @@ assert.deepEqual(history.get('c.html'), [{ sha: 'bbb2222', date: '2026-07-01' }]
 assert.equal(visibleText('<p class="a">Hello <b>world</b></p><script>x=1</script><!-- c -->'),
   visibleText('<div style="x"><p>Hello   world</p></div><style>p{}</style>'));
 assert.notEqual(visibleText('<p>Pending in the Senate</p>'), visibleText('<p>Became law July 11, 2026</p>'));
+// Embedded JSON data IS content: place profiles render their figures from it.
+const placeV1 = '<script id="place-data" type="application/json">{"renter_gap": 103}</script><main><h1>Fruita</h1></main><script>render()</script>';
+assert.notEqual(visibleText(placeV1), visibleText(placeV1.replace('103', '118')), 'a data-only rebuild must change the date');
+assert.equal(visibleText(placeV1), visibleText(placeV1.replace('render()', 'renderAll()')), 'executable script edits are not content');
 
 // A layout-only commit on top of a text change keeps the text change's date:
 // the defect this rule exists for (AHCIA page text from June, last commit a
@@ -45,6 +49,7 @@ assert.equal(formatLongDate('2026-13-01'), null);
 assert(isStampable('index.html') && isStampable('places/0828745.html'));
 assert(!isStampable('404.html') && !isStampable('og-card.html') && !isStampable('places/_template.html'));
 assert(!isStampable('assets/co-housing-costs/maps/x.html'), 'iframe map fragments are not pages');
+assert(!isStampable('research-brief.html'), 'the brief reader dates each brief from its own record');
 assert(isArticle('article-pricing.html') && isArticle('help-for-homebuyers.html') && !isArticle('deal-calculator.html'));
 
 const page = '<html><head><title>t</title></head><body><main><h1>Title</h1><p>Body</p></main></body></html>';
@@ -116,6 +121,16 @@ const aboutStamp = about.match(/<meta name="coho:page-updated" content="([^"]+)"
 const aboutLastmod = sitemap.match(/<loc>https:\/\/[^<]+\/about\.html<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/);
 assert(aboutStamp && aboutLastmod, 'about.html needs both a page stamp and a sitemap <lastmod>');
 assert.equal(aboutLastmod[1], aboutStamp[1], 'sitemap <lastmod> and the page\'s visible date must agree');
+// Each research brief URL is dated by its own record, not by the shared feed.
+const curated = JSON.parse(await readFile('data/policy_briefs_curated.json', 'utf8'));
+const briefs = curated.briefs.filter((b) => b.is_curated);
+assert(briefs.length > 0, 'no curated briefs to check');
+for (const brief of briefs) {
+  const re = new RegExp(`research-brief\\.html\\?id=${brief.id}</loc>\\s*<lastmod>([^<]+)</lastmod>`);
+  const hit = sitemap.match(re);
+  assert(hit, `sitemap has no <lastmod> for brief ${brief.id}`);
+  assert.equal(hit[1], String(brief.generated).slice(0, 10), `brief ${brief.id} must carry its own date`);
+}
 const distinct = new Set(sitemap.match(/<lastmod>[^<]+<\/lastmod>/g) || []);
 assert(distinct.size > 1, 'every sitemap URL has the same <lastmod>: pages are being dated by the build, not by their history');
 

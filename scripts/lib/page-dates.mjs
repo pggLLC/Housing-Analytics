@@ -28,10 +28,14 @@ export const STAMP_CLASS = 'coho-page-date';
 
 // Pages that are not reader-facing documents: a social-card render target, a
 // not-found page, the place-page template, and map fragments embedded in iframes.
+// research-brief.html is a shell for several briefs loaded by ?id=; each brief
+// prints its own "Published" date from its record, and one file date stamped on
+// the shell would be wrong for all but one of them.
 export function isStampable(relPath) {
   const p = relPath.split('\\').join('/');
   if (!p.endsWith('.html')) return false;
   if (p === '404.html' || p === 'og-card.html' || p === 'places/_template.html') return false;
+  if (p === 'research-brief.html') return false;
   if (p.startsWith('assets/')) return false;
   return true;
 }
@@ -82,11 +86,15 @@ export function parseHistory(stdout) {
   return history;
 }
 
-// What a reader sees, as a comparable string: no scripts, styles, comments,
-// tags or attribute values, whitespace collapsed, two common entities decoded.
+// What a reader sees, as a comparable string: no executable scripts, styles,
+// comments, tags or attribute values, whitespace collapsed, two common
+// entities decoded. Embedded JSON data blocks are KEPT: the 482 place profiles
+// render their figures from <script id="place-data" type="application/json">,
+// so a data rebuild changes what a reader sees without touching a text node.
 export function visibleText(html) {
   return String(html)
     .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/<script\b[^>]*\btype\s*=\s*["']application\/(?:ld\+)?json["'][^>]*>([\s\S]*?)<\/script>/gi, ' $1 ')
     .replace(/<(script|style|noscript|template)\b[\s\S]*?<\/\1>/gi, ' ')
     .replace(/<[^>]*>/g, ' ')
     .replace(/&nbsp;/g, ' ')

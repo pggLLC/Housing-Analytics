@@ -365,17 +365,13 @@ function loadPageDates() {
       return null;
     }
     const { stdout } = await execFileAsync('git',
-      ['log', '--format=@%H %cs', '--name-only', '--', '*.html', 'data/policy_briefs_curated.json'],
+      ['log', '--format=@%H %cs', '--name-only', '--', '*.html'],
       { cwd: ROOT, maxBuffer: 256 * 1024 * 1024 });
     const history = parseHistory(stdout);
     const reader = blobReader();
     const dates = new Map();
     try {
       for (const [relPath, commits] of history) {
-        if (!relPath.endsWith('.html')) {
-          dates.set(relPath, commits[0].date);
-          continue;
-        }
         const date = await contentChangedDate(commits, async (sha) => {
           const body = await reader.read(`${sha}:${relPath}`);
           return body === null ? null : visibleText(body);
@@ -446,7 +442,9 @@ async function generateSitemap() {
         for (const brief of curated.briefs.filter((item) => item.is_curated)) {
           urls.push({
             loc: `${base}research-brief.html?id=${encodeURIComponent(brief.id)}`,
-            lastmod: await gitLastmod('data/policy_briefs_curated.json')
+            // Each brief's own date, the one its page prints as "Published";
+            // the feed's commit date would re-date every brief on any edit.
+            lastmod: /^\d{4}-\d{2}-\d{2}/.test(brief.generated || '') ? brief.generated.slice(0, 10) : null
           });
         }
         continue;
