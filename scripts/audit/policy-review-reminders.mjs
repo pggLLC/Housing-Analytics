@@ -4,12 +4,13 @@
 //
 // Each record in the files below carries last_verified and review_by. Pages
 // warn readers once a date passes (js/components/review-status.js); this makes
-// sure a person is asked to re-check BEFORE that happens. One issue per file
-// per review wave, listing every record due within LEAD_DAYS or already
-// overdue. The issue body carries a marker naming the file and the earliest
-// due date in the wave, so a daily run never opens it twice; once the records
-// are re-verified and their review_by moves forward, the next wave gets a new
-// marker.
+// sure a person is asked to re-check BEFORE that happens. Every record due
+// within LEAD_DAYS (or already overdue) is reminded exactly once per review
+// date: each listed record carries its own hidden marker (file, id, review_by),
+// and a run lists only records no earlier issue has marked. Records that
+// enter the window on later days get their own issue even while earlier ones
+// are still open; once a record is re-verified and its review_by moves
+// forward, its next due date gets a new marker.
 //
 // The re-check itself cannot be automated honestly: program amounts,
 // eligibility and bill status have to be read from the official source by a
@@ -39,6 +40,10 @@ export function markersFromIssues(issues) {
     [...(body || '').matchAll(/<!-- policy-review:[^\r\n]*? -->/g)].map(([m]) => m)));
 }
 
+export function recordMarker(file, record) {
+  return `<!-- policy-review:${file}#${record.id}@${isoDay(record.review_by) || 'undated'} -->`;
+}
+
 /** Pure: which review issues are due today. No clock, filesystem or network. */
 export function dueReviews(docs, todayDenver, existingMarkers = new Set(), leadDays = LEAD_DAYS) {
   const horizon = addDays(todayDenver, leadDays);
@@ -47,22 +52,20 @@ export function dueReviews(docs, todayDenver, existingMarkers = new Set(), leadD
     const doc = docs[spec.file];
     if (!doc || !Array.isArray(doc[spec.key])) throw new Error(`${spec.file}: no ${spec.key} array`);
     const records = doc[spec.key];
-    const due = records.filter((r) => { const by = isoDay(r.review_by); return !by || by <= horizon; });
+    const due = records
+      .filter((r) => { const by = isoDay(r.review_by); return !by || by <= horizon; })
+      .filter((r) => !existingMarkers.has(recordMarker(spec.file, r)));
     if (!due.length) continue;
-    const dated = due.map((r) => isoDay(r.review_by)).filter(Boolean).sort();
-    const wave = dated[0] || 'undated';
-    const marker = `<!-- policy-review:${spec.file}:${wave} -->`;
-    if (existingMarkers.has(marker)) continue;
+    due.sort((a, b) => String(a.review_by || '').localeCompare(String(b.review_by || '')));
+    const first = isoDay(due[0].review_by) || 'undated';
     const overdue = due.filter((r) => { const by = isoDay(r.review_by); return by && by < todayDenver; }).length;
-    const rows = due
-      .sort((a, b) => String(a.review_by || '').localeCompare(String(b.review_by || '')))
-      .map((r) => `- [ ] **${spec.name(r)}** (\`${r.id}\`) — status \`${r.status || 'unset'}\`, ` +
-        `last checked ${isoDay(r.last_verified) || 'never'}, review by ${isoDay(r.review_by) || '**not set**'}` +
-        (r.source_url ? ` — [official source](${r.source_url})` : ' — **no source URL**'));
+    const rows = due.map((r) => `- [ ] **${spec.name(r)}** (\`${r.id}\`) — status \`${r.status || 'unset'}\`, ` +
+      `last checked ${isoDay(r.last_verified) || 'never'}, review by ${isoDay(r.review_by) || '**not set**'}` +
+      (r.source_url ? ` — [official source](${r.source_url})` : ' — **no source URL**') +
+      ` ${recordMarker(spec.file, r)}`);
     const body = [
-      marker,
-      `${due.length} of ${records.length} records in \`${spec.file}\` ${overdue ? `include ${overdue} already past review; the rest are ` : 'are '}due for review by ${addDays(todayDenver, leadDays)}.`,
-      `Readers of \`${spec.page}\` see a "review due" or "review overdue" warning on each of these until it is re-checked.`,
+      `${due.length} record${due.length === 1 ? '' : 's'} in \`${spec.file}\` ${overdue ? `(${overdue} already past review) ` : ''}${due.length === 1 ? 'is' : 'are'} due for re-checking by ${horizon}.`,
+      `Readers of \`${spec.page}\` see a "review due" or "review overdue" warning on each until it is re-checked.`,
       '',
       '### Records to re-check',
       ...rows,
@@ -70,13 +73,14 @@ export function dueReviews(docs, todayDenver, existingMarkers = new Set(), leadD
       '### How to re-check a record',
       '1. Open its official source and confirm status, amounts, eligibility, dates and deadlines.',
       '2. Update any field that changed. Do not carry forward a figure the source no longer states — use `null` with a `source_note` saying why.',
-      `3. Set \`last_verified\` to the day you checked and \`review_by\` to the next check (about 90 days on; sooner if a deadline or vote is near).`,
+      '3. Set `last_verified` to the day you checked and `review_by` to the next check (about 90 days on; sooner if a deadline or vote is near).',
       '4. If the source cannot be reached, keep the last verified values and dates, and say so in `source_note`. The page keeps showing the overdue warning, which is correct.',
-      `5. Update \`meta.last_verified\` / \`meta.review_by\` in the file, then open one PR for the batch.`,
+      '5. Update `meta.last_verified` / `meta.review_by` in the file, then open one PR for the batch.',
       '',
-      `Opened by \`scripts/audit/policy-review-reminders.mjs\` (daily). It opens one issue per file per review wave.`,
+      'Opened by `scripts/audit/policy-review-reminders.mjs` (daily). Each record is reminded once per review date.',
     ].join('\n');
-    issues.push({ marker, title: `Review due: ${spec.title} (${due.length} record${due.length === 1 ? '' : 's'}, from ${wave})`, body });
+    issues.push({ markers: due.map((r) => recordMarker(spec.file, r)),
+      title: `Review due: ${spec.title} (${due.length} record${due.length === 1 ? '' : 's'}, from ${first})`, body });
   }
   return issues;
 }
