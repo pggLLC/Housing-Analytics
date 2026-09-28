@@ -114,6 +114,22 @@ test('Civic Center is outside every tracked polygon, a measured false with score
   await assertRendered(result, false);
 });
 
+test('one broken polygon cannot hide a real match, but still blocks a conclusion of outside', async () => {
+  const broken = { properties: { geoid: '08000000000' }, geometry: { type: 'Polygon', coordinates: [[[1, 1], [2, 2]]] } };
+  const damaged = fc([broken, ...ZONES.features]);
+  assert.equal(damaged.features.length, ZONES.features.length + 1);
+  const inside = analyze(INSIDE, damaged);
+  assert.equal(inside.siteOpportunityZone.inZone, true);
+  assert.equal(inside.siteOpportunityZone.geoid, analyze(INSIDE, ZONES).siteOpportunityZone.geoid);
+  assert.equal(inside.siteOpportunityZone.unavailableReason, null);
+  await assertRendered(inside, true);
+  const outside = analyze(OUTSIDE, damaged);
+  assert.equal(outside.siteOpportunityZone.inZone, null);
+  assert.ok(outside.siteOpportunityZone.unavailableReason);
+  assert.deepEqual(outside.incentiveEligibility, { qualifiedOpportunityZone: null });
+  await assertRendered(outside, false);
+});
+
 test('absent coordinates, missing data and malformed polygons remain unknown through rendering', async () => {
   const cases = [
     [INSIDE, null], [INSIDE, undefined], [INSIDE, []], [INSIDE, fc([])],
