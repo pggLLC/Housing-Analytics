@@ -101,6 +101,7 @@ test('R6-A correction precedes legacy task and agrees with merged schema', () =>
   assert.match(correction, /do not add a result/);
   assert.ok(correction.includes('result.source.url'));
   assert.ok(result.source.properties.url);
+  assert.ok(body.indexOf('Schema correction') >= 0);
   assert.ok(body.indexOf('Schema correction') < body.indexOf('Repo pggLLC/'));
 });
 
