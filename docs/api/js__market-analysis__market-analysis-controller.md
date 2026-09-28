@@ -223,12 +223,14 @@ Orchestrate a full site analysis:
 @param {number} lon         - Site longitude.
 @param {number} bufferMiles - Analysis buffer radius in miles.
 
-### `_walkabilityReady()`
+### `_walkabilityReady(lat, lon, bufferMiles)`
 
 Resolves once EpaWalkability has loaded (or failed to load) both of its
 files, so walkability is scored from the site's block group rather than
 reported unavailable because the 2.5 MB boundary file was still in
-flight. Bounded like the transit wait; never rejects.
+flight. Bounded like the transit wait; never rejects. If the wait times
+out and the files load afterwards, the site is analysed again once, so a
+slow connection ends with the site's walkability rather than without it.
 
 ### `TRANSIT_WAIT_MS`
 

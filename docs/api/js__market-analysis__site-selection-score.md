@@ -138,7 +138,7 @@ replace Phase I ESA, geotechnical survey, or FEMA LOMA determination.
 @param {boolean} cleanupFlag - True when EJI burden is in high percentile.
 @returns {number} 0–100
 
-### `scoreAccess(amenities, walkabilityCtx, transitMetrics)`
+### `scoreAccess(amenities, walkabilityCtx, transitMetrics, walkabilityUnavailableReason)`
 
 Score neighborhood amenity access, optionally blended with EPA SLD
 walkability and bikeability scores.
@@ -149,7 +149,9 @@ With walkability context: 55% distance + 25% walkability + 20% bikeability.
 @param {object|null} amenities - Distances in miles.
   Keys: grocery, transit, parks, healthcare, schools.
 @param {object|null} [walkabilityCtx] - From EpaWalkability.getScores().
-  Keys: walkScore (0-100), bikeScore (0-100).
+  Keys: walkScore (0-100), bikeScore (0-100). When absent, the access
+  score is the distance score alone and the result carries
+  walkabilitySource 'unavailable' plus walkabilityUnavailableReason.
 @param {object|null} [transitMetrics] - From PMATransit.getTransitJustification().
   The stop-based PMA transit score. Keys:
     transitAccessibilityScore (0-100 | null) — from calculateTransitScore():

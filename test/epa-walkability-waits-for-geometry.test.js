@@ -29,6 +29,7 @@ const read = (rel) => fs.readFileSync(path.resolve(ROOT, rel), 'utf8');
 const SLD = JSON.parse(read('data/market/epa_sld_co.json'));
 const GEOM = JSON.parse(read('data/market/epa_sld_bg_geometry_co.geojson'));
 const DENVER = { lat: 39.7392, lon: -104.9903, bg: '080310020001' };
+const FRUITA = { lat: 39.1589, lon: -108.7290, bg: '080770015012' };
 
 let passed = 0;
 let failed = 0;
@@ -107,6 +108,9 @@ function page(geometry) {
     const withWalk = p.win.SiteSelectionScore.scoreAccess(
       { grocery: 0.4, transit: 0.2, transit_bus: 0.2, parks: 0.2, healthcare: 0.9, schools: 0.4 }, expected).score;
     assert(a && a.access_score === withWalk, 'the access score is the one blended with walkability (' + withWalk + ')');
+    const sc = p.rendered.scores[0];
+    assert(sc && sc.accessWalkabilitySource === 'epa' && sc.accessWalkabilityUnavailableReason === null,
+      'scores say access was blended with walkability');
   }
 
   console.log('\n[test] boundary file fails: rendered promptly as unavailable, with the reason');
@@ -121,6 +125,14 @@ function page(geometry) {
     const why = p.win.EpaWalkability.getUnavailableReason(DENVER.lat, DENVER.lon);
     assert(a && typeof why === 'string' && why.length > 0 && a.walkabilityUnavailableReason === why,
       'the rendered reason is the connector\'s (' + why + ')');
+    const sc = p.rendered.scores[0];
+    assert(sc && sc.accessWalkabilitySource === 'unavailable' && sc.accessWalkabilityUnavailableReason === why,
+      'scores say access was scored without walkability, and why');
+    assert(sc && typeof sc.narrative === 'string' && sc.narrative.includes(why),
+      'the narrative discloses it with the same reason');
+    const distOnly = p.win.SiteSelectionScore.scoreAccess(
+      { grocery: 0.4, transit: 0.2, transit_bus: 0.2, parks: 0.2, healthcare: 0.9, schools: 0.4 }, null).score;
+    assert(a && a.access_score === Math.round(distOnly), 'the access score is the distance score alone (' + Math.round(distOnly) + ')');
   }
 
   console.log('\n[test] boundary file never settles: the wait is bounded');
@@ -135,6 +147,43 @@ function page(geometry) {
     assert(!!a, 'rendered after the timeout rather than hanging');
     assert(a && a.walkability === null && typeof a.walkabilityUnavailableReason === 'string' &&
       a.walkabilityUnavailableReason.length > 0, 'reported unavailable with a reason');
+  }
+
+  console.log('\n[test] boundary file arrives after the timeout: the site is analysed again, once');
+  {
+    const p = page('hold');
+    await p.flush();
+    p.win.MAController.runAnalysis(DENVER.lat, DENVER.lon, 3);
+    await p.flush();
+    await p.fireLongTimers();
+    assert(p.rendered.access.length === 1 && p.rendered.access[0].walkability === null,
+      'after the timeout the site renders without walkability');
+    p.release();
+    await p.flush();
+    await p.fireLongTimers();
+    const expected = p.win.EpaWalkability.getScores(DENVER.lat, DENVER.lon);
+    const last = p.rendered.access[p.rendered.access.length - 1];
+    assert(p.rendered.access.length === 2, 'exactly one re-run when the file lands (' + p.rendered.access.length + ' renders)');
+    assert(last && JSON.stringify(last.walkability) === JSON.stringify(expected),
+      'the re-run shows the site\'s walkability (walk ' + (last && last.walkability && last.walkability.walkScore) + ')');
+  }
+
+  console.log('\n[test] late file after the user moved on: the old site is not re-run over the new one');
+  {
+    const p = page('hold');
+    await p.flush();
+    p.win.MAController.runAnalysis(DENVER.lat, DENVER.lon, 3);
+    await p.flush();
+    await p.fireLongTimers();                                  // Denver timed out, rendered without walkability
+    p.win.MAController.runAnalysis(FRUITA.lat, FRUITA.lon, 3); // user picks another site, still waiting
+    await p.flush();
+    p.release();
+    await p.flush();
+    await p.fireLongTimers();
+    const fruita = p.win.EpaWalkability.getScores(FRUITA.lat, FRUITA.lon);
+    const last = p.rendered.access[p.rendered.access.length - 1];
+    assert(p.rendered.access.length === 2, 'Denver once, Fruita once, no Denver re-run (' + p.rendered.access.length + ' renders)');
+    assert(last && JSON.stringify(last.walkability) === JSON.stringify(fruita), 'the page ends on Fruita\'s walkability');
   }
 
   console.log('\n' + passed + ' passed, ' + failed + ' failed');
