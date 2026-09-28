@@ -704,6 +704,28 @@
       });
   }
 
+  // The map gate writes into the existing site state before analysis starts.
+  // This also invalidates an in-flight run as soon as the point moves.
+  function setSiteTransitEvidence(lat, lon, siteSource, evidence) {
+    var same = _currentSite && _currentSite.lat === lat && _currentSite.lon === lon &&
+      _currentSite.siteSource === siteSource;
+    if (!same) _currentSite = { lat: lat, lon: lon, siteSource: siteSource,
+      qctFlag: null, ddaFlag: null, qctDdaEvidence: null, transitMetrics: null };
+    var p = evidence && evidence.program;
+    _currentSite.transitEvidence = p && p.siteLat === lat && p.siteLon === lon &&
+      p.siteSource === siteSource ? evidence : null;
+    _safe(function () {
+      var wf = window.WorkflowState;
+      if (!wf || !wf.getActiveProject()) return;
+      var saved = wf.getStep('market');
+      var savedSame = saved.siteLat === lat && saved.siteLon === lon && saved.siteSource === siteSource;
+      // Clear first: WorkflowState deep-merges objects, which otherwise keeps
+      // an old facility's fields when a later result is incomplete.
+      wf.setStep('market', { transitEvidence: null });
+      if (savedSame) wf.setStep('market', { transitEvidence: _currentSite.transitEvidence });
+    });
+  }
+
   /* ── Core analysis pipeline ─────────────────────────────────────── */
 
   /**
@@ -731,17 +753,27 @@
     // Each run owns its evidence; a delayed previous run cannot repopulate it.
     var site = { lat: lat, lon: lon, bufferMiles: bufferMiles || 5,
       siteSource: (opts && opts.siteSource) || 'site',
-      qctFlag: null, ddaFlag: null, qctDdaEvidence: null, transitMetrics: null };
+      qctFlag: null, ddaFlag: null, qctDdaEvidence: null, transitMetrics: null, transitEvidence: null };
+    if (_currentSite && _currentSite.lat === lat && _currentSite.lon === lon &&
+        _currentSite.siteSource === site.siteSource) site.transitEvidence = _currentSite.transitEvidence;
     _currentSite = site;
+    _safe(function () {
+      if (window.__DealCalc && typeof window.__DealCalc.setTransitZoneContext === 'function') {
+        window.__DealCalc.setTransitZoneContext(site.transitEvidence);
+      }
+    });
 
     // Invalidate the saved site's evidence immediately, including after reload.
     _safe(function () {
       var wf = window.WorkflowState;
       if (!wf || !wf.getActiveProject()) return;
       var saved = wf.getStep('market');
-      if (saved.siteLat !== lat || saved.siteLon !== lon || saved.bufferMiles !== site.bufferMiles) {
+      if (saved.siteLat !== lat || saved.siteLon !== lon || saved.siteSource !== site.siteSource) {
+        wf.setStep('market', { transitEvidence: null });
+      }
+      if (saved.siteLat !== lat || saved.siteLon !== lon || saved.bufferMiles !== site.bufferMiles || saved.siteSource !== site.siteSource) {
         wf.setStep('market', {
-          siteLat: lat, siteLon: lon, bufferMiles: site.bufferMiles,
+          siteLat: lat, siteLon: lon, siteSource: site.siteSource, bufferMiles: site.bufferMiles,
           qctFlag: null, ddaFlag: null, qctDdaEvidence: null, pmaScore: null, dimensions: null,
           completedAt: null, exportReady: false
         });
@@ -1438,6 +1470,7 @@
   window.MAController = {
     init:        init,
     runAnalysis: runAnalysis,
+    setSiteTransitEvidence: setSiteTransitEvidence,
     getCurrentSite: function () {
       if (!_currentSite) return null;
       var site = Object.assign({}, _currentSite);

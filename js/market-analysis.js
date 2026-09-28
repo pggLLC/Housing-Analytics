@@ -4393,6 +4393,8 @@
       window.PMAEngine._lastLat = lat;
       window.PMAEngine._lastLon = lon;
     }
+    // Publish/clear site evidence immediately, even before map drawing or analysis.
+    _renderTransitZoneGate(lat, lon);
     var L = window.L;
     if (!L) return;
 
@@ -4419,9 +4421,6 @@
     // TOD panel says it is checking. _tzEnsureMapStatus redraws on arrival.
     _tzEnsureMapStatus();
     _drawTodRing(lat, lon);
-
-    // HB26-1065 transit-zone gate, beside the headline score (#1937 Phase 4)
-    _renderTransitZoneGate(lat, lon);
 
     // Walking + biking concentric rings (toggleable; off by default)
     _refreshIsochroneRings(lat, lon);
@@ -4492,7 +4491,7 @@
   // the HNA panel and the deal calculator cannot disagree.
   var _tzMapStatus = null, _tzMapStatusState = 'idle', _tzStopsFailed = false;
   var _tzZones = null, _tzZonesState = 'idle';
-  var _tzHelper = null, _tzHelperStops = null, _tzHelperZones = null;
+  var _tzHelper = null, _tzHelperStops = null, _tzHelperZones = null, _tzHelperStatus = null;
   // OEDIT's zone polygons, once thiz-map-status.json says they are published
   // and names the committed file. Only a file under data/ is fetched.
   function _tzLoadZones() {
@@ -4530,54 +4529,76 @@
   }
   function _renderTransitZoneGate(lat, lon) {
     var box = el('pmaTransitZoneGate');
-    if (!box) return null;
-    box.hidden = false;
+    if (box) box.hidden = false;
     _tzEnsureMapStatus();
     var stops = _rawLayerData['transitStops'];
+    var source = typeof _jurisdictionCentroid !== 'undefined' && _jurisdictionCentroid
+      ? 'jurisdiction_centroid' : 'site';
     var dc = window.__DealCalc;
     function show(state, html, result) {
-      box.setAttribute('data-tz-state', state);
-      box.innerHTML = html;
+      if (box) {
+        box.setAttribute('data-tz-state', state);
+        box.innerHTML = html;
+      }
+      var controller = window.MAController;
+      if (controller && typeof controller.setSiteTransitEvidence === 'function') {
+        controller.setSiteTransitEvidence(lat, lon, source, result);
+      }
       if (dc && typeof dc.setTransitZoneContext === 'function') dc.setTransitZoneContext(result || null);
       return result || null;
     }
-    if (!window.TransitZone || _tzMapStatusState === 'failed' || (!stops && _tzStopsFailed)) {
-      return show('unavailable', '<strong>Transit zone (HB26-1065): Unavailable.</strong> ' +
-        (!window.TransitZone ? 'The zone screen did not load.'
-          : _tzMapStatusState === 'failed' ? 'The zone-map status file did not load.'
-          : 'Transit stop data did not load.'), null);
+    if (!window.TransitZone) {
+      return show('unavailable', '<strong>THIZ / transit-program status: Unknown.</strong> The zone screen did not load. Transit accessibility: Unavailable.', null);
     }
     if (_tzMapStatusState === 'ok' && _tzZonesState === 'idle') _tzLoadZones();
-    if (!stops || _tzMapStatusState !== 'ok' || _tzZonesState === 'loading') {
-      if (!stops) _requestTodStops();
-      return show('loading', 'Transit zone (HB26-1065): checking…', null);
-    }
-    // A published map that did not load leaves the helper without zones, so
-    // the result stays provisional and its note says the map was not loaded.
+    if (!stops && !_tzStopsFailed) _requestTodStops();
+    // Program geography is independent of stop-data success and PMA radius.
     var zones = _tzZonesState === 'ok' ? _tzZones : null;
-    if (_tzHelperStops !== stops || _tzHelperZones !== zones) {
-      _tzHelper = window.TransitZone.create({ stops: stops, mapStatus: _tzMapStatus, zones: zones });
+    var status = _tzMapStatusState === 'ok' ? _tzMapStatus : null;
+    if (!_tzHelper || _tzHelperStops !== stops || _tzHelperZones !== zones || _tzHelperStatus !== status) {
+      _tzHelper = window.TransitZone.create({ stops: stops, mapStatus: status, zones: zones });
       _tzHelperStops = stops;
       _tzHelperZones = zones;
+      _tzHelperStatus = status;
     }
-    var r = _tzHelper.status(lat, lon);
-    var label, cls;
-    if (r.status === 'within_2mi' && r.confirmedOnly) { label = 'Passes the ' + r.radiusMiles + '-mile screen'; cls = 'good'; }
-    else if (r.status === 'within_2mi') { label = 'Within ' + r.radiusMiles + ' miles of an unconfirmed stop only'; cls = 'warn'; }
-    else if (r.status === 'outside') { label = 'Outside the ' + r.radiusMiles + '-mile screen'; cls = 'bad'; }
-    else { label = 'Unavailable'; cls = 'muted'; }
-    var near = r.nearestConfirmedStop || r.nearestStop;
-    var html = '<div><strong>Transit zone (HB26-1065):</strong> <span class="pma-tz-pill" data-tz-status="' + _tzEscape(r.status) +
-      '" style="font-weight:700;color:var(--' + cls + ',inherit);">' + _tzEscape(label) + '</span></div>';
-    if (r.status === 'unavailable') html += '<div>' + _tzEscape(r.unavailableReason) + '</div>';
-    else if (near) html += '<div>Nearest ' + (r.nearestConfirmedStop ? 'confirmed ' : '') + 'stop: ' + _tzEscape(near.name || 'unnamed') +
-      ' (' + _tzEscape(near.agency || 'agency not listed') + '), ' + _tzEscape(near.distanceMiles) + ' mi.</div>';
-    html += '<div class="pma-tz-designation" data-tz-designation="' + _tzEscape(r.designation) + '" style="color:var(--muted);">' +
-      _tzEscape(r.designationNote) + '</div>';
+    var r = _tzHelper.status(lat, lon, source);
+    var p = r.program;
+    var loading = _tzMapStatusState === 'loading' || _tzZonesState === 'loading' || (!stops && !_tzStopsFailed);
+    var label = p.qualified === true ? 'Yes' : p.qualified === false ? 'No' : 'Unknown';
+    var designation = p.qualified === true ? 'official_in' : p.qualified === false ? 'official_out' : 'provisional';
+    var html = '<div><strong>THIZ / transit-program status:</strong> <span data-thiz-qualified="' +
+      String(p.qualified) + '"' + (p.qualified === true ? ' class="pma-tz-pill"' : '') + '>' + label + '</span></div>';
+    html += '<div data-tz-designation="' + designation + '">' +
+      _tzEscape(p.unavailableReason || (p.qualified ? 'The site is inside the official mapped zone.' : 'The site is outside the complete official mapped zones.')) + '</div>';
+    if (p.facilityId) {
+      html += '<div>Qualifying facility: ' + _tzEscape(p.facilityName || p.facilityId) +
+        ' (' + _tzEscape(p.facilityType) + '; ID ' + _tzEscape(p.facilityId) + ')' +
+        (p.distanceMiles != null ? ' · ' + _tzEscape(p.distanceMiles.toFixed(2)) + ' mi, straight-line (haversine).' : '.') + '</div>';
+    }
+    html += '<div>' + _tzEscape(p.programRule) + '</div><div>Source: ' + _tzEscape(p.source) +
+      ' · ' + _tzEscape(p.dataset) + (p.vintage ? ' · ' + _tzEscape(p.vintage) : ' · map vintage unavailable') + '</div>';
+    var sourceUrl = p.vintage ? p.sourceUrl : p.ruleSourceUrl;
+    if (sourceUrl && /^https:\/\//.test(sourceUrl)) html += '<div><a href="' + _tzEscape(sourceUrl) + '">' +
+      (p.vintage ? 'Controlling map' : 'Program rule') + '</a></div>';
+    html += '<div><strong>Transit accessibility:</strong> ';
+    var near = r.nearestStop;
+    if (near) {
+      html += 'Nearest stop: ' + _tzEscape(near.name || 'unnamed') +
+        (near.id ? ' (ID ' + _tzEscape(near.id) + ')' : '') + ' · ' + _tzEscape(near.distanceMiles) +
+        ' mi, straight-line (haversine) · ' + _tzEscape(near.agency || 'agency unavailable') +
+        ' · ' + _tzEscape(near.reliability || 'reliability unavailable') +
+        (near.service ? ' · service: ' + _tzEscape(near.service.replace(/_/g, ' ')) : '') +
+        '. Routes and frequency are unavailable in this stop dataset.';
+    } else {
+      html += 'Unavailable. ' + _tzEscape(r.unavailableReason || 'No stop distance could be measured.');
+    }
+    html += '</div>' + (r.stopsVintage ? '<div>Stop data: ' + _tzEscape(r.stopsVintage) + '</div>' : '');
+    html += '<div>The PMA describes resident demand. Nearby transit does not establish THIZ eligibility.</div>';
+    if (loading) html += '<div>Transit evidence: checking available sources…</div>';
     if (window.TransitZone.fundingPath(r)) {
-      html += '<div>Possible funding source: the Transit Zone state credit — see the deal calculator\u2019s Soft Funding Stack.</div>';
+      html += '<div>Possible funding source: the Transit Zone state credit — see the deal calculator’s Soft Funding Stack.</div>';
     }
-    return show(r.status, html, r);
+    return show(loading ? 'loading' : r.status, html, r);
   }
 
   var _todStopsRequested = false;
