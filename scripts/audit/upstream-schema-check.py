@@ -49,8 +49,10 @@ Usage
 from __future__ import annotations
 
 import argparse
+import errno
 import json
 import os
+import socket
 import sys
 import time
 import urllib.error
@@ -185,8 +187,42 @@ def is_transient_network_error(exc: Exception) -> bool:
     if isinstance(exc, urllib.error.HTTPError):
         return False
     if isinstance(exc, urllib.error.URLError):
-        return True
-    return isinstance(exc, (TimeoutError, ConnectionError, OSError))
+        reason = exc.reason
+        if isinstance(reason, str):
+            return False
+        if isinstance(
+            reason,
+            (
+                TimeoutError,
+                socket.timeout,
+                ConnectionRefusedError,
+                ConnectionResetError,
+                ConnectionAbortedError,
+                BrokenPipeError,
+            ),
+        ):
+            return True
+        if isinstance(reason, OSError):
+            return getattr(reason, "errno", None) in {
+                errno.ECONNABORTED,
+                errno.ECONNREFUSED,
+                errno.ECONNRESET,
+                errno.EHOSTUNREACH,
+                errno.ENETUNREACH,
+                errno.ETIMEDOUT,
+            }
+        return False
+    return isinstance(
+        exc,
+        (
+            TimeoutError,
+            socket.timeout,
+            ConnectionRefusedError,
+            ConnectionResetError,
+            ConnectionAbortedError,
+            BrokenPipeError,
+        ),
+    )
 
 
 def http_status_with_retries(
