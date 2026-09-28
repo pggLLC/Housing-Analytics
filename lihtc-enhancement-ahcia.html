@@ -43,7 +43,7 @@
 <div class="meta">
 <span>Published: June 10, 2026</span>
 <span class="pill">Enacted provisions: 12% credit increase · 25% bond threshold (Jul 2025 reconciliation)</span>
-<span class="pill">Remaining AHCIA: H.R. 2725 · S. 1515 (in committee)</span>
+<span class="pill" data-ahcia="pending-pill">Remaining AHCIA: H.R. 2725 · S. 1515</span>
 </div>
 <section aria-label="Key stats" class="grid stats">
 <div class="stat">
@@ -59,8 +59,8 @@
 <p class="lbl">Additional affordable homes projected over a decade if full AHCIA enacts (per the bipartisan sponsors)</p>
 </div>
 <div class="stat">
-<p class="num">100+ R + D</p>
-<p class="lbl">House cosponsors of the remaining AHCIA bill (59 R / 58 D); 30 in the Senate</p>
+<p class="num" data-ahcia="cosponsor-stat">—</p>
+<p class="lbl" data-ahcia="cosponsor-label">Cosponsors of the remaining AHCIA bills, from the tax-credit watchlist</p>
 </div>
 </section>
 <section class="grid">
@@ -88,8 +88,9 @@
             H.R. 2725 (House) and S. 1515 (Senate) carry additional AHCIA provisions that did not move
             with the July 2025 reconciliation bill — including expanded rural/tribal feasibility,
             tenant-population set-asides, qualified census tract designation adjustments, and program
-            simplification. Both measures remain referred to their tax-writing committees (Ways &amp; Means;
-            Senate Finance) and are most likely to advance as part of a broader tax extenders package.
+            simplification. Their current stage, committee and cosponsors are in the table below, read from
+            the tax-credit watchlist with the date each was last checked. If they advance, the likeliest
+            vehicle is a broader tax package.
           </p>
 </article>
 </section>
@@ -113,20 +114,23 @@
 <tr>
 <td>House</td>
 <td>H.R. 2725</td>
-<td>Rep. Darin LaHood (R-IL)</td>
-<td>Referred to Ways &amp; Means (Apr 8, 2025); 100+ cosponsors</td>
+<td data-ahcia-bill="ahcia-2025-hr2725" data-field="sponsor">Rep. Darin LaHood (R-IL)</td>
+<td data-ahcia-bill="ahcia-2025-hr2725" data-field="status">Loading status…</td>
 </tr>
 <tr>
 <td>Senate</td>
 <td>S. 1515</td>
-<td>Sen. Todd Young (R-IN)</td>
-<td>Referred to Finance (Apr 29, 2025); 30 cosponsors</td>
+<td data-ahcia-bill="ahcia-2025-s1515" data-field="sponsor">Sen. Todd Young (R-IN)</td>
+<td data-ahcia-bill="ahcia-2025-s1515" data-field="status">Loading status…</td>
 </tr>
 </tbody>
 </table>
 </div>
+<div data-ahcia="review"></div>
 <p class="footer">
-          Official bill text and actions are tracked on Congress.gov. Public summaries may lag behind the bill text.
+          Status comes from COHO's <a href="housing-legislation-2026.html#bill-status-panel">tax-credit watchlist</a>, which
+          records when each entry was last checked and when it is due for review. Official bill text and actions are
+          on Congress.gov.
         </p>
 </article>
 <article class="card">
@@ -202,6 +206,71 @@
 </main>
 <div id="site-footer"></div>
 
+  <script src="js/components/review-status.js"></script>
   <script src="js/contrast-guard.js"></script>
+  <script>
+    /* AHCIA status from data/policy/tax-credit-legislation.json. The pending
+       bills' stage, committee and cosponsors were typed here and went stale
+       (the page said 100+ House and 30 Senate cosponsors; the watchlist
+       checked 168 and 41 on 2026-09-28). Nothing about status is typed now. */
+    document.addEventListener('DOMContentLoaded', function () {
+      var PENDING = ['ahcia-2025-hr2725', 'ahcia-2025-s1515'];
+      function esc(v) {
+        return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+      function longDate(iso) {
+        var t = Date.parse(String(iso || '') + 'T12:00:00Z');
+        if (isNaN(t)) return '';
+        return new Date(t).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+      }
+      function each(sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); }
+      var url = window.resolveAssetUrl ? window.resolveAssetUrl('data/policy/tax-credit-legislation.json') : 'data/policy/tax-credit-legislation.json';
+      (window.fetchWithTimeout || window.fetch)(url, {}, 15000)
+        .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
+        .then(function (doc) {
+          var byId = {};
+          (doc.entries || []).forEach(function (e) { byId[e.id] = e; });
+          PENDING.forEach(function (id) {
+            if (byId[id] && byId[id].bill) return;
+            each('[data-ahcia-bill="' + id + '"][data-field="status"]', function (el) {
+              el.textContent = 'Not in the watchlist; see Congress.gov.';
+            });
+          });
+          var bills = PENDING.map(function (id) { return byId[id]; }).filter(function (e) { return e && e.bill; });
+          bills.forEach(function (e) {
+            var b = e.bill, c = b.cosponsors || {};
+            var status = [b.stage, b.committee ? 'in ' + b.committee : '', b.introduced ? 'introduced ' + longDate(b.introduced) : '']
+              .filter(Boolean).join(', ');
+            var count = Number.isFinite(c.total) ? c.total + ' cosponsors' : '';
+            each('[data-ahcia-bill="' + e.id + '"][data-field="status"]', function (el) {
+              el.textContent = [status, count].filter(Boolean).join('; ');
+            });
+            each('[data-ahcia-bill="' + e.id + '"][data-field="sponsor"]', function (el) { if (b.sponsor) el.textContent = b.sponsor; });
+          });
+          var house = byId['ahcia-2025-hr2725'], senate = byId['ahcia-2025-s1515'];
+          var stat = document.querySelector('[data-ahcia="cosponsor-stat"]');
+          var lbl = document.querySelector('[data-ahcia="cosponsor-label"]');
+          function total(e) { return e && e.bill && e.bill.cosponsors && Number.isFinite(e.bill.cosponsors.total) ? e.bill.cosponsors.total : null; }
+          if (stat && total(house) != null && total(senate) != null) {
+            stat.textContent = total(house) + ' · ' + total(senate);
+            lbl.textContent = 'Cosponsors of the remaining AHCIA bills: House (' + house.bill.number + ') · Senate (' +
+              senate.bill.number + '), checked ' + longDate(house.last_verified);
+          }
+          var pill = document.querySelector('[data-ahcia="pending-pill"]');
+          if (pill && bills.length) {
+            pill.textContent = 'Remaining AHCIA: ' + bills.map(function (e) { return e.bill.number; }).join(' · ') +
+              (bills.every(function (e) { return e.status === 'proposed'; }) ? ' (not enacted)' : '');
+          }
+          var review = document.querySelector('[data-ahcia="review"]');
+          if (review && window.ReviewStatus && bills.length) {
+            review.innerHTML = window.ReviewStatus.summaryHtml(bills, null, 'bill status entries') +
+              bills.map(function (e) { return window.ReviewStatus.html(e); }).join('');
+          }
+        })
+        .catch(function () {
+          each('[data-field="status"]', function (el) { el.textContent = 'Status could not be loaded; see Congress.gov.'; });
+        });
+    });
+  </script>
 </body>
 </html>
