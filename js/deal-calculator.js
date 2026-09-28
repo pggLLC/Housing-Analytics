@@ -1874,8 +1874,8 @@
           Loans amortize from cash flow; grants reduce eligible basis under §42(d)(5)(A) and fill the gap at closing.
         </p>
         <!-- #1937: HB26-1065 Transit Zone credit. Informational only: it adds
-             nothing to the stack, and shows only when the PMA site passes the
-             zone screen via a confirmed stop (setTransitZoneContext). -->
+             nothing to the stack, and shows only for an exact site with
+             supported THIZ program evidence (setTransitZoneContext). -->
         <div id="dc-tz-note" data-tz-context="none" hidden
           style="margin:0 0 var(--sp2);padding:var(--sp2);border-left:3px solid var(--accent);background:var(--bg2);font-size:var(--small);line-height:1.45;"></div>
         <div id="dc-soft-tranches" style="display:flex;flex-direction:column;gap:var(--sp2);"></div>
@@ -5515,15 +5515,13 @@
     var is4Pct = _activeCreditIs4Pct();
     note.innerHTML =
       '<strong>Possible source, not added to this stack: Colorado Transit Zone (TZ) state credit (HB26-1065).</strong> ' +
-      (path === 'official'
-        ? 'This site is inside a Transit and Housing Investment Zone on OEDIT’s published map. '
-        : 'This site is within ' + esc(result.radiusMiles) + ' miles of a confirmed transit stop. ') +
+      'This site is inside a Transit and Housing Investment Zone on OEDIT’s published map. ' +
       'CHFA may allocate up to $' +
       TZ_CREDIT.statewideCapMillions.toFixed(2) + ' million a year statewide in ' + TZ_CREDIT.years + ', in lieu of standard state credit (' +
       TZ_CREDIT.qapCite + '). ' +
       '<span data-tz-pairing="' + (_tzPairing ? (is4Pct ? '4pct' : '9pct') : 'unavailable') + '">' +
       esc(_tzPairingSentence(is4Pct)) + '</span>' +
-      '<span data-tz-designation="' + esc(result.designation) + '" style="color:var(--muted);">' + esc(result.designationNote) + '</span>';
+      '<span data-tz-designation="' + esc(result.designation) + '" style="color:var(--muted);">' + esc(result.program.programRule) + '</span>';
   }
 
   // SCOPE BOUNDARY — do not expand this file into a deal predictor or scoring engine.

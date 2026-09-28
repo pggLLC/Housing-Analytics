@@ -1924,6 +1924,8 @@
         completedAt: new Date().toISOString(),
         siteLat:     site.lat,
         siteLon:     site.lon,
+        siteSource:  site.siteSource || null,
+        transitEvidence: site.transitEvidence || null,
         bufferMiles: site.bufferMiles,
         pmaScore:    site.pmaScore,
         qctFlag:     site.qctFlag,
@@ -1932,10 +1934,10 @@
         // DDA name/code, HUD year/source), or null while the check is pending.
         qctDdaEvidence: site.qctDdaEvidence || null
       };
-      // Saving a different point or radius: fields this save does not write
+      // Saving a different point, radius or provenance: fields this save does not write
       // describe the previously saved site, so they must not merge into this one.
       var prev = WorkflowState.getStep('market') || {};
-      if (prev.siteLat !== site.lat || prev.siteLon !== site.lon || prev.bufferMiles !== site.bufferMiles) {
+      if (prev.siteLat !== site.lat || prev.siteLon !== site.lon || prev.bufferMiles !== site.bufferMiles || prev.siteSource !== site.siteSource) {
         snapshot.siteAddress = null;
         snapshot.dimensions = null;
         snapshot.fmrRents = null;
