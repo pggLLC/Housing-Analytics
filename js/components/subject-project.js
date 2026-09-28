@@ -35,6 +35,7 @@
  *   • subscribe(fn)               — fire on every change
  *   • computeLihtcMaxRent(c,fips,tier,br,opts) — published CHFA rent
  *   • computeIncomeLimit(c,fips,tier,size,opts) — published CHFA income
+ *   • maxNetRent(maxGross, utilityAllowance) — null when the allowance is blank
  *   • loadChfa() / loadHud()      — singleton data loaders
  *   • DEFAULT_SUBJECT             — empty starter shape
  */
@@ -244,6 +245,24 @@
     return sign + (n).toFixed(1) + '%';
   }
 
+  // Tenant-paid LIHTC max rent = max gross rent − utility allowance (#1934).
+  // A blank allowance is unknown, not $0: `+'' || 0` used to turn it into $0
+  // and show the full gross rent as the net rent, overstating what the unit
+  // may charge by the whole allowance. An entered 0 is a real value (the
+  // owner pays every utility) and is kept.
+  var UA_MISSING_REASON = 'Enter the utility allowance ($0 only if the owner pays all utilities) to see the max net rent.';
+  function _allowance(v) {
+    if (v == null || v === '') return null;
+    var n = +v;
+    return isFinite(n) && n >= 0 ? n : null;
+  }
+  function maxNetRent(maxGross, utilityAllowance) {
+    if (maxGross == null || !isFinite(+maxGross)) return null;
+    var ua = _allowance(utilityAllowance);
+    if (ua == null) return null;
+    return Math.max(0, +maxGross - ua);
+  }
+
   // ── Renderer ────────────────────────────────────────────────────────
   function _renderRow(row, idx, onChange, onRemove, chfa, subject) {
     var lihtc = null;
@@ -252,8 +271,8 @@
         { useHera: !!subject.use_hera_special });
     }
     var maxRent = lihtc ? lihtc.gross_rent : null;
-    var ua = +row.utility_allowance || 0;
-    var maxNet = maxRent != null ? Math.max(0, maxRent - ua) : null;
+    var maxNet = maxNetRent(maxRent, row.utility_allowance);
+    var netMissingUa = maxRent != null && maxNet == null;
     var proposed = +row.proposed_gross_rent || 0;
     var overMax  = maxRent != null && proposed > maxRent;
 
@@ -303,8 +322,11 @@
                           fontWeight: overMax ? '600' : '400' } }, [
         maxRent == null ? '—' : $fmtMoney(maxRent)
       ]),
-      $h('td', { style: { padding: '4px 6px', textAlign: 'right', color: 'var(--muted)' } }, [
-        maxNet == null ? '—' : $fmtMoney(maxNet)
+      $h('td', netMissingUa
+        ? { style: { padding: '4px 6px', textAlign: 'right', color: 'var(--muted)' },
+            title: UA_MISSING_REASON, 'data-net-rent-unavailable': 'utility-allowance' }
+        : { style: { padding: '4px 6px', textAlign: 'right', color: 'var(--muted)' } }, [
+        maxNet != null ? $fmtMoney(maxNet) : (netMissingUa ? 'Enter UA' : '—')
       ]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'center' } }, [
         $h('button', {
@@ -605,7 +627,7 @@
         var s = getSubject();
         s.unit_mix = s.unit_mix || [];
         s.unit_mix.push({ bedrooms: '2BR', ami_tier: 60, count: 1, sqft: null,
-          proposed_gross_rent: null, utility_allowance: 0 });
+          proposed_gross_rent: null, utility_allowance: null });
         setSubject(s);
         _redrawRows();
         _redrawTotals();
@@ -613,11 +635,11 @@
       btnBar.appendChild(btn('+ Family preset (30/50/60 mix)', function () {
         var s = getSubject();
         s.unit_mix = [
-          { bedrooms: '1BR', ami_tier: 30, count: 4, sqft: 650, proposed_gross_rent: null, utility_allowance: 0 },
-          { bedrooms: '1BR', ami_tier: 60, count: 8, sqft: 650, proposed_gross_rent: null, utility_allowance: 0 },
-          { bedrooms: '2BR', ami_tier: 50, count: 8, sqft: 900, proposed_gross_rent: null, utility_allowance: 0 },
-          { bedrooms: '2BR', ami_tier: 60, count: 12, sqft: 900, proposed_gross_rent: null, utility_allowance: 0 },
-          { bedrooms: '3BR', ami_tier: 60, count: 8, sqft: 1150, proposed_gross_rent: null, utility_allowance: 0 }
+          { bedrooms: '1BR', ami_tier: 30, count: 4, sqft: 650, proposed_gross_rent: null, utility_allowance: null },
+          { bedrooms: '1BR', ami_tier: 60, count: 8, sqft: 650, proposed_gross_rent: null, utility_allowance: null },
+          { bedrooms: '2BR', ami_tier: 50, count: 8, sqft: 900, proposed_gross_rent: null, utility_allowance: null },
+          { bedrooms: '2BR', ami_tier: 60, count: 12, sqft: 900, proposed_gross_rent: null, utility_allowance: null },
+          { bedrooms: '3BR', ami_tier: 60, count: 8, sqft: 1150, proposed_gross_rent: null, utility_allowance: null }
         ];
         s.target_population = 'family';
         setSubject(s);
@@ -627,10 +649,10 @@
       btnBar.appendChild(btn('+ Senior preset (50/60 mix)', function () {
         var s = getSubject();
         s.unit_mix = [
-          { bedrooms: '1BR', ami_tier: 30, count: 6, sqft: 600, proposed_gross_rent: null, utility_allowance: 0 },
-          { bedrooms: '1BR', ami_tier: 50, count: 12, sqft: 600, proposed_gross_rent: null, utility_allowance: 0 },
-          { bedrooms: '1BR', ami_tier: 60, count: 14, sqft: 600, proposed_gross_rent: null, utility_allowance: 0 },
-          { bedrooms: '2BR', ami_tier: 60, count: 8, sqft: 850, proposed_gross_rent: null, utility_allowance: 0 }
+          { bedrooms: '1BR', ami_tier: 30, count: 6, sqft: 600, proposed_gross_rent: null, utility_allowance: null },
+          { bedrooms: '1BR', ami_tier: 50, count: 12, sqft: 600, proposed_gross_rent: null, utility_allowance: null },
+          { bedrooms: '1BR', ami_tier: 60, count: 14, sqft: 600, proposed_gross_rent: null, utility_allowance: null },
+          { bedrooms: '2BR', ami_tier: 60, count: 8, sqft: 850, proposed_gross_rent: null, utility_allowance: null }
         ];
         s.target_population = 'senior';
         setSubject(s);
@@ -696,6 +718,8 @@
     subscribe: subscribe,
     computeLihtcMaxRent: computeLihtcMaxRent,
     computeIncomeLimit: computeIncomeLimit,
+    maxNetRent: maxNetRent,
+    UA_MISSING_REASON: UA_MISSING_REASON,
     loadChfa: loadChfa,
     loadHud: loadHud,
     AMI_TIERS: AMI_TIERS,
