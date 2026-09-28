@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T16:19:04.276Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T17:04:35.324Z. Do not edit by hand.
 
 ---
 
@@ -59,7 +59,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.0 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.3 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 143.6 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.6 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
@@ -1746,7 +1746,7 @@
 
 ## Test Files
 
-483 test files found.
+484 test files found.
 
 | File | Size |
 |------|------|
@@ -1761,6 +1761,7 @@
 | `test/affordability-defaults-inventory.test.js` | 6.7 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 3.2 KB |
 | `test/ami-gap-evidence-language.test.js` | 4.8 KB |
+| `test/ami-gap-sign-convention.test.js` | 4.9 KB |
 | `test/analytics.test.js` | 18.2 KB |
 | `test/api-config-wrapper-url-sanitization.test.js` | 3.0 KB |
 | `test/audit-modules/audit-history.js` | 5.5 KB |
