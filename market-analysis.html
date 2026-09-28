@@ -1915,75 +1915,22 @@
   }
 
   /* ── Save PMA to project ──────────────────────────────────────────── */
-  // The site on the map now (PMAEngine records it in placeSiteMarker).
-  function _currentSite() {
-    var e = window.PMAEngine;
-    return e && typeof e._lastLat === 'number' && typeof e._lastLon === 'number'
-      ? { lat: e._lastLat, lon: e._lastLon } : null;
-  }
-
-  function _qctDdaEvidence() {
-    try {
-      var st = window.MAState && window.MAState.getState && window.MAState.getState();
-      var sub = st && st.sections && st.sections.subsidy;
-      if (!sub) return null;
-      // A new site's report can take ~20s (transit, walkability) while the
-      // previous site's subsidy section is still in state and Save is already
-      // enabled. Evidence that belongs to another point is not this site's:
-      // save the designation as unknown rather than the last site's tract.
-      var ev = sub.designationEvidence || null;
-      var here = _currentSite();
-      if (ev && here && typeof ev.lat === 'number' && typeof ev.lon === 'number' &&
-          (Math.abs(ev.lat - here.lat) > 1e-7 || Math.abs(ev.lon - here.lon) > 1e-7)) {
-        return {
-          qctFlag: null, ddaFlag: null,
-          unavailableReason: 'The QCT/DDA check for this site had not finished when it was saved',
-          evidence: null
-        };
-      }
-      return {
-        qctFlag: sub.qctFlag === undefined ? null : sub.qctFlag,
-        ddaFlag: sub.ddaFlag === undefined ? null : sub.ddaFlag,
-        unavailableReason: sub.designationUnavailableReason || null,
-        evidence: sub.designationEvidence || null
-      };
-    } catch (_) { return null; }
-  }
-
   function savePmaToProject() {
     if (!window.WorkflowState) return false;
     try {
-      // Fix #3: use correct DOM IDs (#pmaScoreCircle / #pmaScoreTier).
-      // The old IDs (#pmaScore, #pmaScoreLabel, #pmaLat, #pmaLon) never existed.
-      var scoreEl  = document.getElementById('pmaScoreCircle');
-      var scoreLbl = document.getElementById('pmaScoreTier');
-      // lat/lon come from PMAState when available; there are no DOM elements for them.
-      var lat = null, lon = null;
-      try {
-        if (window.PMAState && window.PMAState.site) {
-          lat = window.PMAState.site.lat != null ? window.PMAState.site.lat : null;
-          lon = window.PMAState.site.lon != null ? window.PMAState.site.lon : null;
-        }
-      } catch (_) {}
-      if (lat == null || lon == null) {
-        var here = _currentSite();
-        if (here) { lat = here.lat; lon = here.lon; }
-      }
-      var designation = _qctDdaEvidence();
+      var site = window.MAController && window.MAController.getCurrentSite();
+      if (!site || !Number.isFinite(site.lat) || !Number.isFinite(site.lon)) return false;
       var snapshot = {
         completedAt: new Date().toISOString(),
-        score:       scoreEl  ? scoreEl.textContent.trim()  : null,
-        label:       scoreLbl ? scoreLbl.textContent.trim() : null,
-        lat:         lat,
-        lon:         lon,
-        // The canonical designation fields other steps read
-        // (HousingOutcomeScore reads market.qctFlag / market.ddaFlag); null
-        // stays "not checked", never "not in a QCT".
-        qctFlag:     designation ? designation.qctFlag : null,
-        ddaFlag:     designation ? designation.ddaFlag : null,
+        siteLat:     site.lat,
+        siteLon:     site.lon,
+        bufferMiles: site.bufferMiles,
+        pmaScore:    site.pmaScore,
+        qctFlag:     site.qctFlag,
+        ddaFlag:     site.ddaFlag,
         // The QCT/DDA evidence behind the Subsidy card (matched tract GEOID,
-        // DDA name/code, HUD year/source), or null when there is none.
-        qctDdaEvidence: designation
+        // DDA name/code, HUD year/source), or null while the check is pending.
+        qctDdaEvidence: site.qctDdaEvidence || null
       };
       WorkflowState.setStep('market', snapshot);
       return true;

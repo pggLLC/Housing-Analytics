@@ -244,7 +244,17 @@ async function checkController() {
   assert.strictEqual(asCentroid.basisBoostEligible, null);
   assert.strictEqual(asCentroid.designationEvidence, null, 'no evidence for a centroid');
   assert.match(asCentroid.designationUnavailableReason || '', /No site selected/, 'the centroid case says why');
-  return asSite;
+  const centroidSite = win.MAController.getCurrentSite();
+
+  // Saved while a new site's lookup is still pending: the controller's current
+  // site has no designation yet, whatever the previous run found.
+  win.MAController.runAnalysis(IN_QCT.lat, IN_QCT.lon, 3);
+  await flush();
+  const resolvedSite = win.MAController.getCurrentSite();
+  win.MAController.runAnalysis(OUTSIDE.lat, OUTSIDE.lon, 3);
+  const pendingSite = win.MAController.getCurrentSite();
+  await flush();
+  return { asSite, resolvedSite, pendingSite, centroidSite };
 }
 
 // ── 6. Subsidy card ──────────────────────────────────────────────────────────
@@ -276,23 +286,18 @@ function checkRenderer(asSite) {
 }
 
 // ── 7. Saved PMA snapshot ────────────────────────────────────────────────────
-function saveSnapshot(asSite, currentSite) {
+// savePmaToProject() as the page defines it, fed the controller's real
+// getCurrentSite() result for each case.
+function saveSnapshot(site) {
   const html = read('market-analysis.html');
-  const start = html.indexOf('function _currentSite()');
+  const start = html.indexOf('function savePmaToProject()');
   const end = html.indexOf('document.addEventListener(\'DOMContentLoaded\'', start);
-  assert(start > 0 && end > start, 'market-analysis.html defines _currentSite / _qctDdaEvidence / savePmaToProject');
+  assert(start > 0 && end > start, 'market-analysis.html defines savePmaToProject');
   const saved = [];
   const ctx = vm.createContext({
-    window: {
-      WorkflowState: {},
-      PMAEngine: currentSite ? { _lastLat: currentSite.lat, _lastLon: currentSite.lon } : undefined,
-      MAState: { getState: () => ({ sections: { subsidy: {
-        qctFlag: asSite.qctFlag, ddaFlag: asSite.ddaFlag,
-        designationUnavailableReason: asSite.designationUnavailableReason, designationEvidence: asSite.designationEvidence } } }) },
-    },
+    window: { MAController: { getCurrentSite: () => site } },
     WorkflowState: { setStep: (k, v) => saved.push([k, v]) },
-    document: { getElementById: () => null },
-    console,
+    Number, console,
   });
   ctx.window.WorkflowState = ctx.WorkflowState;
   vm.runInContext(html.slice(start, end) + '\nthis.__ok = savePmaToProject();', ctx);
@@ -301,9 +306,9 @@ function saveSnapshot(asSite, currentSite) {
   return saved[0][1];
 }
 
-function checkSnapshot(asSite) {
+function checkSnapshot({ asSite, resolvedSite, pendingSite, centroidSite }) {
   // Saved for the site the evidence belongs to.
-  const snap = saveSnapshot(asSite, IN_QCT);
+  const snap = saveSnapshot(resolvedSite);
   assert(snap && snap.qctDdaEvidence, 'the saved snapshot carries qctDdaEvidence');
   assert.strictEqual(snap.qctDdaEvidence.qctFlag, true);
   assert.strictEqual(snap.qctDdaEvidence.evidence.qct.tractGeoid, asSite.designationEvidence.qct.tractGeoid,
@@ -315,24 +320,29 @@ function checkSnapshot(asSite) {
     'HousingOutcomeScore no longer reads market.qctFlag/ddaFlag; update this guard to what it reads');
   assert.strictEqual(snap.qctFlag, snap.qctDdaEvidence.qctFlag, 'market.qctFlag agrees with the evidence');
   assert.strictEqual(snap.ddaFlag, snap.qctDdaEvidence.ddaFlag, 'market.ddaFlag agrees with the evidence');
-  assert.strictEqual(snap.lat, IN_QCT.lat, 'the snapshot records the current site');
+  assert.strictEqual(snap.siteLat, IN_QCT.lat, 'the snapshot records the current site');
 
-  // Saved while a new site's report is still running: the subsidy section
-  // still holds the previous site's evidence. It must not be saved as this
-  // site's designation.
-  const stale = saveSnapshot(asSite, OUTSIDE);
-  assert.strictEqual(stale.qctFlag, null, 'another site\'s QCT answer is not this site\'s');
-  assert.strictEqual(stale.ddaFlag, null);
-  assert.strictEqual(stale.qctDdaEvidence.evidence, null, 'another site\'s tract is not saved');
-  assert(stale.qctDdaEvidence.unavailableReason, 'the stale case says why');
-  assert.strictEqual(stale.lat, OUTSIDE.lat);
+  // Saved while a new site's lookup is pending: nothing from the previous
+  // site's tract is saved as this site's designation.
+  const pending = saveSnapshot(pendingSite);
+  assert.strictEqual(pending.siteLat, OUTSIDE.lat, 'the pending snapshot is for the new site');
+  assert.strictEqual(pending.qctFlag, null, 'another site\'s QCT answer is not this site\'s');
+  assert.strictEqual(pending.ddaFlag, null);
+  assert.strictEqual(pending.qctDdaEvidence, null, 'another site\'s tract is not saved');
+
+  // A jurisdiction centroid saves unknown flags with the reason, no tract.
+  const centroid = saveSnapshot(centroidSite);
+  assert.strictEqual(centroid.qctFlag, null);
+  assert.strictEqual(centroid.qctDdaEvidence.evidence, null, 'no tract saved for a centroid');
+  assert.match(centroid.qctDdaEvidence.unavailableReason || '', /No site selected/);
 }
 
 (async () => {
   checkConnector();
-  const asSite = await checkController();
+  const sites = await checkController();
+  const asSite = sites.asSite;
   checkRenderer(asSite);
-  checkSnapshot(asSite);
+  checkSnapshot(sites);
   console.log('site-qct-dda-evidence: PASS (tract ' + qctFeature.properties.GEOID + ' @ ' +
     IN_QCT.lat.toFixed(4) + ',' + IN_QCT.lon.toFixed(4) + '; DDA ' + ddaFeature.properties.DDA_NAME +
     '; outside @ ' + OUTSIDE.lat.toFixed(2) + ',' + OUTSIDE.lon.toFixed(2) + '; HUD ' + metaYear(QCT) + ')');
