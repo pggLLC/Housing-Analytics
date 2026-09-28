@@ -380,67 +380,74 @@
   }
 
   /**
-   * Fetch transit route data.
-   * Loads from local transit_routes_co.geojson (GTFS-derived, 508 routes)
-   * when available; falls back to empty array otherwise.
-   * @param {{minLat,minLon,maxLat,maxLon}} bbox
-   * @returns {Promise<{transitRoutes: Array, serviceMetrics: object, _dataSource: string}>}
+   * The statewide transit stop file, for the PMA transit score.
+   *
+   * Scoring reads confirmed stops, never route geometry (owner decision
+   * 2026-09-27): the old fetchNTDData() sampled ~10 vertices per route from
+   * the route-line file as pseudo-stops, so the score moved with the file's
+   * vertex count rather than with where transit is.
+   *
+   * The file is ~4 MB and does not change within a page visit, so it is
+   * fetched once per page and the parsed copy is shared by every PMA run
+   * (and by the market-analysis TOD check). A failed load is not cached:
+   * the next run tries again.
+   *
+   * Resolves (never rejects) to
+   *   { geojson: FeatureCollection|null, unavailableReason: string|null,
+   *     _dataSource: 'local-stops'|'unavailable', path }
    */
-  function fetchNTDData(bbox) {
-    if (!bbox) return Promise.resolve({ transitRoutes: [], serviceMetrics: {}, _dataSource: 'none' });
-    // Load local GTFS-derived transit routes GeoJSON
-    return getJSON('data/market/transit_routes_co.geojson')
+  var TRANSIT_STOPS_PATH = 'data/amenities/transit_stops_statewide_co.geojson';
+  var _transitStopsPromise = null;
+  function fetchTransitStops() {
+    if (_transitStopsPromise) return _transitStopsPromise;
+    var p = getJSON(TRANSIT_STOPS_PATH)
       .then(function (geojson) {
-        var features = (geojson && geojson.features) ? geojson.features : [];
-        if (!features.length) {
-          return { transitRoutes: [], serviceMetrics: {}, _dataSource: 'stub' };
+        if (!geojson || !Array.isArray(geojson.features) || !geojson.features.length) {
+          throw new Error('the file holds no stops');
         }
-        // Filter features within the bounding box
-        var inBbox = features.filter(function (f) {
-          if (!f.geometry || !f.geometry.coordinates) return false;
-          var coords = f.geometry.coordinates;
-          // Check if any coordinate falls within bbox
-          return coords.some(function (c) {
-            var lon = c[0], lat = c[1];
-            return lat >= bbox.minLat && lat <= bbox.maxLat &&
-                   lon >= bbox.minLon && lon <= bbox.maxLon;
-          });
-        });
-        // Convert GeoJSON features to transit route objects for scoring
-        var routes = inBbox.map(function (f) {
-          var props = f.properties || {};
-          var coords = f.geometry.coordinates || [];
-          // Sample stops from the route linestring (every ~20th coordinate)
-          var stops = [];
-          var step = Math.max(1, Math.floor(coords.length / 10));
-          for (var i = 0; i < coords.length; i += step) {
-            stops.push({ lat: coords[i][1], lon: coords[i][0] });
-          }
-          // route_type: 0=tram, 1=subway, 2=rail, 3=bus
-          var mode = { 0: 'Tram', 1: 'Subway', 2: 'Rail', 3: 'Bus' }[props.route_type] || 'Bus';
-          // Estimate headway from route type (real headways need GTFS frequencies.txt)
-          var headway = props.route_type <= 1 ? 10 : props.route_type === 2 ? 15 : 30;
-          return {
-            routeId:        props.shape_id || 'unknown',
-            routeName:      (props.agency || 'Transit') + ' ' + mode,
-            mode:           mode,
-            headwayMinutes: headway,
-            stops:          stops
-          };
-        });
-        return {
-          transitRoutes: routes,
-          serviceMetrics: {
-            totalRoutes: routes.length,
-            busRoutes:   routes.filter(function (r) { return r.mode === 'Bus'; }).length,
-            railRoutes:  routes.filter(function (r) { return r.mode !== 'Bus'; }).length
-          },
-          _dataSource: 'local-gtfs'
-        };
+        return { geojson: geojson, unavailableReason: null, _dataSource: 'local-stops', path: TRANSIT_STOPS_PATH };
       })
-      .catch(function () {
-        return { transitRoutes: [], serviceMetrics: {}, _dataSource: 'stub' };
+      .catch(function (err) {
+        if (_transitStopsPromise === p) _transitStopsPromise = null;   // let the next run retry
+        return {
+          geojson: null,
+          unavailableReason: 'The statewide transit stop file could not be loaded' +
+            (err && err.message ? ' (' + err.message + ')' : '') + ', so transit access was not scored.',
+          _dataSource: 'unavailable',
+          path: TRANSIT_STOPS_PATH
+        };
       });
+    _transitStopsPromise = p;
+    return p;
+  }
+
+  /**
+   * The zone-map status file: the two HB26-1065 distances the PMA transit
+   * score uses (zone_radius_miles and qap_tod_distance.miles), read through
+   * js/transit-zone.js. Fetched once per page; a failed load is not cached.
+   *
+   * Resolves (never rejects) to { mapStatus: object|null, unavailableReason }.
+   */
+  var TRANSIT_ZONE_STATUS_PATH = 'data/policy/thiz-map-status.json';
+  var _transitZoneStatusPromise = null;
+  function fetchTransitZoneStatus() {
+    if (_transitZoneStatusPromise) return _transitZoneStatusPromise;
+    var p = getJSON(TRANSIT_ZONE_STATUS_PATH)
+      .then(function (status) {
+        if (!status || typeof status !== 'object') throw new Error('the file is empty');
+        return { mapStatus: status, unavailableReason: null };
+      })
+      .catch(function (err) {
+        if (_transitZoneStatusPromise === p) _transitZoneStatusPromise = null;
+        return {
+          mapStatus: null,
+          unavailableReason: 'The zone-map status file could not be loaded' +
+            (err && err.message ? ' (' + err.message + ')' : '') +
+            ', so the transit distances are unknown and transit access was not scored.'
+        };
+      });
+    _transitZoneStatusPromise = p;
+    return p;
   }
 
   /* ── EPA SLD local cache ──────────────────────────────────────────── */
@@ -1368,7 +1375,8 @@
     fetchNLCDLandCover:     fetchNLCDLandCover,
     fetchStateHighways:     fetchStateHighways,
     fetchSchoolBoundaries:  fetchSchoolBoundaries,
-    fetchNTDData:           fetchNTDData,
+    fetchTransitStops:      fetchTransitStops,
+    fetchTransitZoneStatus: fetchTransitZoneStatus,
     fetchEPASmartLocation:  fetchEPASmartLocation,
     fetchHudNhpd:           fetchHudNhpd,
     fetchHudOpportunityAtlas: fetchHudOpportunityAtlas,
