@@ -214,7 +214,7 @@ test('a section with mixed statuses shows each; a malformed source is text, not 
   assert.match(row.textContent, /adopted/, 'one status stands for a section whose entries differ');
   const leg = await legislationPage(watch);
   const hrefs = [...leg.querySelectorAll('#policy-watch-list a')].map((a) => a.getAttribute('href'));
-  assert.ok(hrefs.includes('https://example.org/a'), 'a valid source is not linked');
+  assert.equal(new Set(hrefs).has('https://example.org/a'), true, 'a valid source is not linked');
   assert.ok(!hrefs.some((h) => /^javascript:/i.test(h)), 'a javascript: source became a link');
   assert.match(leg.querySelector('[data-watch-id="b"] .watch-item__title').textContent, /Entry b/, 'the malformed entry is not shown at all');
 });
