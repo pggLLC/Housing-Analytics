@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T05:44:00.123Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T06:24:31.053Z. Do not edit by hand.
 
 ---
 
@@ -18,7 +18,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.4 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 39.9 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 136.2 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 136.9 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 17.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1006 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.4 KB |
@@ -50,7 +50,7 @@
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 134.3 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 238.0 KB |
-| `ic-summary.html` | IC Summary — COHO Analytics | 17.6 KB |
+| `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 39.6 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
 | `insights.html` | Market Insights | Colorado Public Data Reference | 35.9 KB |
@@ -60,7 +60,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.0 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 143.2 KB |
-| `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.5 KB |
+| `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.6 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-476 test files found.
+477 test files found.
 
 | File | Size |
 |------|------|
@@ -1955,6 +1955,7 @@
 | `test/hud-fetch-hardening.test.py` | 1.6 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
 | `test/input-provenance.test.js` | 6.4 KB |
+| `test/insights-agreement.test.mjs` | 5.2 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/economic-indicators.test.js` | 12.2 KB |
 | `test/integration/hna-ranking.test.js` | 12.4 KB |
