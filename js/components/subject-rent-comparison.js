@@ -148,7 +148,8 @@
           { useHera: useHera });
         var maxGross = lihtc ? lihtc.gross_rent : null;
         var proposed = +r.proposed_gross_rent || null;
-        var ua = +r.utility_allowance || 0;
+        // Blank is unknown and shows as —; an entered $0 shows as $0 (#1934).
+        var ua = (r.utility_allowance == null || r.utility_allowance === '') ? null : +r.utility_allowance;
         var headroom = (maxGross != null && proposed != null) ? maxGross - proposed : null;
         var over = (maxGross != null && proposed != null && proposed > maxGross);
         var fmrKey = BR_TO_FMR_KEY[r.bedrooms];
@@ -171,7 +172,7 @@
           $h('td', { style: { padding: '5px 6px', textAlign: 'right',
             color: over ? 'var(--bad,#c14545)' : 'var(--text)',
             fontWeight: over ? '600' : '400' } }, [$money(proposed)]),
-          $h('td', { style: { padding: '5px 6px', textAlign: 'right', color: 'var(--muted)' } }, [$money(ua || null)]),
+          $h('td', { style: { padding: '5px 6px', textAlign: 'right', color: 'var(--muted)' } }, [$money(ua)]),
           $h('td', { style: { padding: '5px 6px', textAlign: 'right' } }, [$money(maxGross)]),
           $h('td', { style: { padding: '5px 6px', textAlign: 'right',
             color: headroom == null ? 'var(--muted)' : (headroom < 0 ? 'var(--bad,#c14545)' : 'var(--good,#3da670)') } }, [
