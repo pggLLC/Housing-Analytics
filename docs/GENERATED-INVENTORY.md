@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T04:40:57.627Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T05:44:00.123Z. Do not edit by hand.
 
 ---
 
@@ -1745,7 +1745,7 @@
 
 ## Test Files
 
-475 test files found.
+476 test files found.
 
 | File | Size |
 |------|------|
@@ -2011,6 +2011,7 @@
 | `test/ownership-rental-separation.test.js` | 16.1 KB |
 | `test/ownership-resale.test.js` | 14.5 KB |
 | `test/package-4-user-visible.test.js` | 8.3 KB |
+| `test/page-dates.test.mjs` | 9.4 KB |
 | `test/pages-availability-check.js` | 16.9 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/paper-figures-fresh.test.js` | 20.6 KB |
@@ -2262,7 +2263,7 @@
 | `.github/workflows/data-refresh.yml` | 5.9 KB |
 | `.github/workflows/data-sentinels-check.yml` | 6.1 KB |
 | `.github/workflows/data-source-monitoring.yml` | 13.5 KB |
-| `.github/workflows/deploy.yml` | 4.2 KB |
+| `.github/workflows/deploy.yml` | 4.6 KB |
 | `.github/workflows/developer-url-health.yml` | 3.2 KB |
 | `.github/workflows/discover-agenda-urls.yml` | 3.4 KB |
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.6 KB |
