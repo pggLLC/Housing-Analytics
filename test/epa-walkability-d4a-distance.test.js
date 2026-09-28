@@ -51,10 +51,13 @@ function check(cond, msg) {
   else { failed++; console.log('  ❌ FAIL: ' + msg); }
 }
 
-/** Run the real connector; tracts are chosen through its declared PMAEngine hook. */
+/**
+ * Run the real connector. A tract is chosen by handing loadGeometry() one
+ * square per block group of that tract, all covering the probe point, so the
+ * connector's own point-in-polygon lookup selects exactly those block groups.
+ */
 function loadConnector(data) {
-  let tracts = [];
-  const window = { PMAEngine: { tractsInBuffer: () => tracts.map(g => ({ geoid: g })) } };
+  const window = {};
   const sandbox = {
     window, document: { readyState: 'complete' },
     console: { log() {}, warn() {}, error() {}, info() {} },
@@ -62,7 +65,14 @@ function loadConnector(data) {
   };
   vm.runInNewContext(fs.readFileSync(CONNECTOR, 'utf8'), sandbox, { filename: CONNECTOR });
   window.EpaWalkability.load(data);
-  return function scoresFor(geoids) { tracts = geoids; return window.EpaWalkability.getScores(39.7, -105); };
+  const square = [[[-105.01, 39.69], [-104.99, 39.69], [-104.99, 39.71], [-105.01, 39.71], [-105.01, 39.69]]];
+  return function scoresFor(tractGeoids) {
+    const bgs = Object.keys(data.blockGroups).filter(id => tractGeoids.includes(id.slice(0, 11)));
+    window.EpaWalkability.loadGeometry({ features: bgs.map(geoid => ({
+      properties: { geoid }, geometry: { type: 'Polygon', coordinates: square }
+    })) });
+    return window.EpaWalkability.getScores(39.7, -105);
+  };
 }
 
 function renderAccess(walkability) {
