@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T17:06:05.703Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-28T18:17:12.323Z. Do not edit by hand.
 
 ---
 
@@ -60,7 +60,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.0 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.3 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 143.6 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 143.8 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.6 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
@@ -1746,7 +1746,7 @@
 
 ## Test Files
 
-484 test files found.
+485 test files found.
 
 | File | Size |
 |------|------|
@@ -2112,6 +2112,7 @@
 | `test/site-comparison-null-score.test.js` | 7.2 KB |
 | `test/site-qct-dda-evidence.test.js` | 19.1 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.0 KB |
+| `test/site-transit-evidence.test.js` | 14.5 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
 | `test/smoke-market-analysis.test.js` | 39.9 KB |
@@ -2146,9 +2147,9 @@
 | `test/tool-watch.test.js` | 4.3 KB |
 | `test/tract-geometry-integrity.test.js` | 18.0 KB |
 | `test/transit-stops-consumers.test.js` | 6.7 KB |
-| `test/transit-zone-absence.test.mjs` | 37.0 KB |
-| `test/transit-zone-funding-line.test.js` | 25.3 KB |
-| `test/transit-zone.test.js` | 39.4 KB |
+| `test/transit-zone-absence.test.mjs` | 37.4 KB |
+| `test/transit-zone-funding-line.test.js` | 26.0 KB |
+| `test/transit-zone.test.js` | 39.7 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/unit-mix-validation.test.js` | 4.7 KB |
 | `test/unit-suffix-convention.test.js` | 6.6 KB |
