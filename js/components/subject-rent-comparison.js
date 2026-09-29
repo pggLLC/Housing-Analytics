@@ -94,6 +94,8 @@
       var hudRow  = _hudCountyRow(hud, subject.county_fips);
       var fmr = hudRow ? hudRow.fmr : null;
       var useHera = !!subject.use_hera_special;
+      var basisStatus = limits.allowanceBasisStatus(subject.utility_allowance_basis, subject.county_fips);
+      var basisCaption = limits.allowanceBasisCaption(subject.utility_allowance_basis, subject.county_fips);
       var rentLimits = subject.unit_mix.map(function (r) {
         return limits.maxGrossRent(chfa, subject.county_fips, r.ami_tier, r.bedrooms, { useHera: useHera });
       });
@@ -128,8 +130,8 @@
       var t = $h('table', { style: { width: '100%', borderCollapse: 'collapse',
         fontSize: '.78rem' } });
       t.appendChild($h('caption', { 'data-role': 'chfa-table-vintage', style: { textAlign: 'left', padding: '6px' } }, [
-        tableLimit ? 'CHFA ' + (tableLimit.tableYear || '—') + ' · effective ' + (tableLimit.effectiveDate || '—')
-          : 'CHFA rent limits unavailable for these rows'
+        (tableLimit ? 'CHFA ' + (tableLimit.tableYear || '—') + ' · effective ' + (tableLimit.effectiveDate || '—')
+          : 'CHFA rent limits unavailable for these rows') + (basisCaption ? ' · ' + basisCaption : '')
       ]));
       var thead = $h('thead', { style: { background: 'var(--card2,#1a1a1a)',
         textTransform: 'uppercase', fontSize: '.66rem', letterSpacing: '.03em',
@@ -156,8 +158,9 @@
 
       subject.unit_mix.forEach(function (r, i) {
         var maxGross = rentLimits[i].grossRent;
-        var net = limits.maxContractRent({ grossRent: maxGross, utilityAllowance: r.utility_allowance, fees: r.fees });
-        var reason = maxGross == null ? rentLimits[i].unavailableReason : net.unavailableReason;
+        var net = limits.maxContractRent({ grossRent: maxGross, utilityAllowance: r.utility_allowance, fees: r.fees, basisStatus: basisStatus });
+        var reason = !basisStatus.complete ? basisStatus.unavailableReason :
+          (maxGross == null ? rentLimits[i].unavailableReason : net.unavailableReason);
         var fees = net.feesEntered ? (Number.isFinite(+r.fees) && +r.fees >= 0 ? +r.fees : null) : 0;
         var proposed = +r.proposed_gross_rent || null;
         // Blank is unknown and shows as —; an entered $0 shows as $0 (#1934).
@@ -193,8 +196,7 @@
             'data-net-rent-unavailable': reason || '',
             title: reason === 'utility_allowance_missing' ? SP.UA_MISSING_REASON : (reason || '') }, [
             net.contractRent != null ? $money(net.contractRent) :
-              (reason === 'deductions_exceed_gross_rent' ? 'Allowance exceeds max rent' :
-                (reason === 'utility_allowance_missing' ? 'Enter UA' : '—'))
+              limits.unavailableMessage(reason)
           ]),
           $h('td', { style: { padding: '5px 6px', textAlign: 'right',
             color: headroom == null ? 'var(--muted)' : (headroom < 0 ? 'var(--bad,#c14545)' : 'var(--good,#3da670)') } }, [
