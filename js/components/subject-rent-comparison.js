@@ -94,10 +94,15 @@
       var hudRow  = _hudCountyRow(hud, subject.county_fips);
       var fmr = hudRow ? hudRow.fmr : null;
       var useHera = !!subject.use_hera_special;
+      var hera = useHera && limits.heraStatus(chfa, subject.county_fips, { useHera: useHera, pisDate: subject.pis_date });
+      if (hera && !hera.complete) {
+        _renderEmpty(container, limits.unavailableMessage(hera.unavailableReason));
+        return;
+      }
       var basisStatus = limits.allowanceBasisStatus(subject.utility_allowance_basis, subject.county_fips);
       var basisCaption = limits.allowanceBasisCaption(subject.utility_allowance_basis, subject.county_fips);
       var rentLimits = subject.unit_mix.map(function (r) {
-        return limits.maxGrossRent(chfa, subject.county_fips, r.ami_tier, r.bedrooms, { useHera: useHera });
+        return limits.maxGrossRent(chfa, subject.county_fips, r.ami_tier, r.bedrooms, { useHera: useHera, pisDate: subject.pis_date });
       });
       var tableLimit = rentLimits.find(function (r) { return r.grossRent != null; });
 
