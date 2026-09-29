@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-29T05:45:55.853Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-29T08:28:02.392Z. Do not edit by hand.
 
 ---
 
@@ -1747,7 +1747,7 @@
 
 ## Test Files
 
-492 test files found.
+493 test files found.
 
 | File | Size |
 |------|------|
@@ -1794,6 +1794,7 @@
 | `test/chfa-portfolio-filters.test.js` | 6.3 KB |
 | `test/chfa-portfolio-location-link.test.js` | 6.1 KB |
 | `test/chfa-qap-calendar.test.js` | 12.8 KB |
+| `test/chfa-rent-limits.test.js` | 10.0 KB |
 | `test/ci-tools-are-declared.test.mjs` | 9.3 KB |
 | `test/ci-verifies-bot-commits.test.js` | 5.4 KB |
 | `test/co-historical-allocations.test.js` | 12.9 KB |
@@ -2176,7 +2177,7 @@
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
 | `test/unwired-suite.test.js` | 10.3 KB |
 | `test/url-health-policy.test.mjs` | 13.0 KB |
-| `test/utility-allowance-absence.test.mjs` | 6.8 KB |
+| `test/utility-allowance-absence.test.mjs` | 10.3 KB |
 | `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
 | `test/walkthrough-record.test.mjs` | 8.6 KB |
