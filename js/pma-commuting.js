@@ -27,7 +27,8 @@
   var lastWorkplaces    = [];
   var lastFlows         = [];
   var lastBoundary      = null;
-  var lastCaptureRate   = 0;
+  var lastCaptureRate   = null;
+  var lastCaptureUnavailableReason = 'Commuting capture has not been calculated.';
   var lastOriginZones   = [];
   var lastDataCoverage  = 'fallback'; // tracks whether real LODES data was used
 
@@ -197,8 +198,16 @@
    * @returns {{originZones: Array, totalWorkers: number}}
    */
   function analyzeCommutingFlows(workplaces) {
+    // Every analysis replaces the previous run, including an empty response.
+    lastWorkplaces = workplaces || [];
+    lastFlows = [];
+    lastOriginZones = [];
+    lastBoundary = null;
+    lastCaptureRate = null;
+    lastCaptureUnavailableReason = 'Commuting capture is unavailable: no workplace data.';
     if (!workplaces || !workplaces.length) {
-      return { originZones: [], totalWorkers: 0, captureRate: 0 };
+      return { originZones: [], totalWorkers: 0, captureRate: null,
+        captureUnavailableReason: lastCaptureUnavailableReason };
     }
 
     lastWorkplaces = workplaces;
@@ -247,12 +256,15 @@
 
     lastFlows = zones;
     lastOriginZones = selected;
-    lastCaptureRate = totalJobs > 0 ? running / totalJobs : 0;
+    lastCaptureRate = totalJobs > 0 ? Math.min(running / totalJobs, 1.0) : null;
+    lastCaptureUnavailableReason = lastCaptureRate === null
+      ? 'Commuting capture is unavailable: no positive worker total.' : null;
 
     return {
       originZones:   selected,
       totalWorkers:  totalJobs,
-      captureRate:   Math.min(lastCaptureRate, 1.0),
+      captureRate:   lastCaptureRate,
+      captureUnavailableReason: lastCaptureUnavailableReason,
       vintage:       '2023',
       dataNote:      'LEHD LODES 2023 \u2014 employment data has 2\u20133 year lag'
     };
@@ -266,10 +278,15 @@
    * @param {number} siteLat
    * @param {number} siteLon
    * @param {{originZones: Array}} flowResult - output of analyzeCommutingFlows
-   * @returns {{boundary: object|null, captureRate: number, zoneCentroids: Array}}
+   * @returns {{boundary: object|null, captureRate: number|null, zoneCentroids: Array}}
    */
   function generateCommutingBoundary(siteLat, siteLon, flowResult) {
     var zones = (flowResult && flowResult.originZones) ? flowResult.originZones : lastOriginZones;
+    if (flowResult) {
+      lastCaptureRate = Number.isFinite(flowResult.captureRate) ? flowResult.captureRate : null;
+      lastCaptureUnavailableReason = lastCaptureRate === null
+        ? (flowResult.captureUnavailableReason || 'Commuting capture has not been calculated.') : null;
+    }
 
     if (!zones || zones.length < 3) {
       // Not enough zones — fall back to a 5-mile circular approximation
@@ -277,6 +294,7 @@
       return {
         boundary:      lastBoundary,
         captureRate:   lastCaptureRate,
+        captureUnavailableReason: lastCaptureUnavailableReason,
         zoneCentroids: zones || [],
         fallback:      true
       };
@@ -293,6 +311,7 @@
     return {
       boundary:      hull,
       captureRate:   lastCaptureRate,
+      captureUnavailableReason: lastCaptureUnavailableReason,
       zoneCentroids: zones,
       fallback:      false
     };
@@ -323,6 +342,7 @@
       lodesWorkplaces:    lastWorkplaces.length,
       residentOriginZones: lastOriginZones.slice(),
       captureRate:        lastCaptureRate,
+      captureUnavailableReason: lastCaptureUnavailableReason,
       totalFlowZones:     lastFlows.length,
       boundary:           lastBoundary,
       dataCoverage:       lastDataCoverage,

@@ -43,6 +43,19 @@
   function _ts()    { return new Date().toISOString(); }
   function toNum(v) { var n = parseFloat(v); return isFinite(n) ? n : 0; }
 
+  // Old saved buffer/tract runs used 0 for an unmeasured quantity. A real
+  // zero needs workplace evidence; keep it numeric at every consumer.
+  function commutingCapture(commuting) {
+    var c = commuting || {};
+    var measured = Number.isFinite(c.captureRate) && c.captureRate >= 0 && c.captureRate <= 1
+      && (c.captureRate > 0 || c.lodesWorkplaces > 0) && !c.captureUnavailableReason;
+    return Object.assign({}, c, {
+      captureRate: measured ? c.captureRate : null,
+      captureUnavailableReason: measured ? null : (c.captureUnavailableReason ||
+        'Commuting capture is unavailable: no measured commuting flow capture.')
+    });
+  }
+
   /**
    * Render a tract-GEOID list compactly for the narrative. Up to 12 GEOIDs
    * inline; longer lists collapse to "first … last (N total)" so the
@@ -79,7 +92,7 @@
     overrides = overrides || {};
     lastRunId = _generateRunId();
 
-    var commuting   = _safeGet('PMACommuting',       'getJustificationData',    overrides.commuting);
+    var commuting   = commutingCapture(_safeGet('PMACommuting', 'getJustificationData', overrides.commuting));
     var barriers    = _safeGet('PMABarriers',         'getBarrierSummary',       overrides.barriers);
     var employment  = {
       centers: (overrides.employmentCenters ||
@@ -160,9 +173,9 @@
       }
     } else {
       // Opening: legacy boundary methods (commuting / buffer)
-      var c = scoreRun.commuting || {};
-      var captureRate = toNum(c.captureRate || 0);
-      if (captureRate > 0) {
+      var c = commutingCapture(scoreRun.commuting);
+      var captureRate = c.captureRate;
+      if (captureRate !== null) {
         parts.push(
           'This PMA boundary was delineated using LEHD/LODES commuting flow analysis ' +
           '(vintage ' + scoreRun.lodes_vintage + '), capturing approximately ' +
@@ -173,7 +186,8 @@
         );
       } else {
         parts.push(
-          'This PMA boundary was delineated using a standard circular buffer method. ' +
+          (c.method === 'buffer' ? 'This PMA boundary was delineated using a standard circular buffer method. ' : '') +
+          c.captureUnavailableReason + ' ' +
           'Note: this is a screening boundary and does not satisfy CHFA Market ' +
           'Study Guide (Appendix A, 2025-26 QAP), which requires the boundary to ' +
           'be defined by whole census tracts.'
@@ -336,7 +350,7 @@
       schema_version:       SCHEMA_VERSION,
       data_vintage:         scoreRun.data_vintage || DATA_VINTAGE,
       lodes_vintage:        scoreRun.lodes_vintage || LODES_VINTAGE,
-      narrative:            lastNarrative || generateNarrative(scoreRun),
+      narrative:            generateNarrative(scoreRun),
       layers:               getLayerOrder(),
       component_weights: {
         commuting:    'LEHD/LODES ' + (scoreRun.lodes_vintage || LODES_VINTAGE),
@@ -361,7 +375,15 @@
     scoreRun = scoreRun || lastScoreRun;
     if (!scoreRun) { return '{}'; }
     var trail = generateAuditTrail(scoreRun);
-    var full  = Object.assign({}, scoreRun, { auditTrail: trail });
+    var full  = Object.assign({}, scoreRun, { commuting: commutingCapture(scoreRun.commuting), auditTrail: trail });
+    if (scoreRun._analysisResults && scoreRun._analysisResults.commuting) {
+      full._analysisResults = Object.assign({}, scoreRun._analysisResults, {
+        commuting: commutingCapture(scoreRun._analysisResults.commuting)
+      });
+    }
+    if (scoreRun.justification) {
+      full.justification = Object.assign({}, scoreRun.justification, { narrative: trail.narrative });
+    }
     return JSON.stringify(full, null, 2);
   }
 
@@ -397,7 +419,7 @@
 
   function _assessDataQuality(commuting, schools, transit, opps, infra) {
     var present = 0, total = 5;
-    if (commuting && (toNum(commuting.lodesWorkplaces || commuting.captureRate) > 0)) present++;
+    if (commuting && (toNum(commuting.lodesWorkplaces) > 0 || commutingCapture(commuting).captureRate !== null)) present++;
     if (schools   && toNum(schools.schoolsAligned || schools.schoolDistrictsAligned) > 0) present++;
     if (transit   && Number.isFinite(transit.transitAccessibilityScore)) present++;
     if (opps && ((opps.siteOpportunityZone && typeof opps.siteOpportunityZone.inZone === 'boolean') ||

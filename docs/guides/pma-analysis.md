@@ -86,6 +86,29 @@ Walking (0.25 / 0.75 / 1.0 mi) + biking (2 / 3 / 5 mi) straight-line buffers dra
 
 ## Outputs
 
+### Saved custom PMAs
+
+The custom tract picker requires a site anchor, selected tracts, a mapped
+boundary covering those tracts, and current centroid/ACS records for every
+selected tract. Saved sessions use the same `PMAEngine.customPmaReadiness`
+check as a new run. Startup waits for the current source load before checking
+the saved inputs; choosing another site or starting work cancels that restore.
+Missing bindings leave a reason on the score card, clear earlier conclusions,
+and disable explanation and export access. A saved narrative or concept card
+cannot bypass the check. Valid saved sessions retain their existing behavior.
+
+Commuting-flow capture is separate from project capture and competitive supply
+share. When commuting capture was not calculated (tract or buffer mode), or no
+workplace/positive worker total is available, its value is `null` with
+`captureUnavailableReason`. The narrative, audit JSON and commute-support
+summary preserve that absence. A supported measured zero remains zero; an old
+saved placeholder zero with no workplace evidence is unavailable. These rules
+do not change the boundary geometry or the for-sale capture calculation.
+
+Regression coverage: `npm run test:custom-pma-blocked`,
+`node test/unit/pma-commuting.test.js` and
+`node test/unit/pma-justification.test.js`.
+
 Panels on `market-analysis.html`:
 
 | Panel | What it shows |
