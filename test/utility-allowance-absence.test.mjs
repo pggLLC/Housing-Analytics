@@ -27,6 +27,7 @@ function mountWith(subject) {
   };
   w.alert = () => {}; w.confirm = () => true;
   w.localStorage.setItem('coho.subjectProject.v1', JSON.stringify(subject));
+  w.eval(read('js/chfa-rent-limits.js'));
   w.eval(read('js/components/subject-project.js'));
   return w;
 }
@@ -52,11 +53,13 @@ assert.equal(maxNetRent(GROSS, 0), GROSS, 'an entered $0 allowance is real: net 
 assert.equal(maxNetRent(GROSS, 150), GROSS - 150);
 assert.equal(maxNetRent(GROSS, -5), null, 'a negative allowance is not a value');
 assert.equal(maxNetRent(null, 150), null);
+assert.equal(maxNetRent(GROSS, GROSS + 1), null, 'allowance above gross → unknown, never clamped $0');
+assert.equal(maxNetRent(GROSS, GROSS - 10, 11), null, 'allowance plus fees above gross → unknown');
 
 // ── 2. The rendered table, against computeLihtcMaxRent ─────────────────────
-async function netCellFor(ua) {
+async function netCellFor(ua, fees) {
   const w = mountWith({ county_fips: county, unit_mix: [
-    { bedrooms: '2BR', ami_tier: 60, count: 4, sqft: 900, proposed_gross_rent: null, utility_allowance: ua }
+    { bedrooms: '2BR', ami_tier: 60, count: 4, sqft: 900, proposed_gross_rent: null, utility_allowance: ua, fees }
   ] });
   w.SubjectProject.mount(w.document.getElementById('sp'));
   await settle();
@@ -77,6 +80,17 @@ assert.equal(blank.getAttribute('title'), SP0.SubjectProject.UA_MISSING_REASON, 
 const money = (n) => '$' + Math.round(n).toLocaleString('en-US');
 assert.equal((await netCellFor(0)).textContent.trim(), money(GROSS), 'UA $0 → net = CHFA gross');
 assert.equal((await netCellFor(150)).textContent.trim(), money(GROSS - 150), 'UA $150 → net = CHFA gross − 150');
+assert.equal((await netCellFor(150, 40)).textContent.trim(), money(GROSS - 190), 'fees reduce the contract limit');
+assert.equal((await netCellFor(GROSS, 0)).textContent.trim(), money(0), 'deductions equal to gross support a genuine zero');
+for (const [ua, fees] of [[GROSS + 1, undefined], [GROSS - 10, 11]]) {
+  const cell = await netCellFor(ua, fees);
+  const result = SP0.ChfaRentLimits.maxContractRent({ grossRent: GROSS, utilityAllowance: ua, fees });
+  assert(!/\$\s*\d/.test(cell.textContent), 'over-deduction must not render a money amount');
+  assert(cell.textContent.trim().length > 0, 'over-deduction must show an explanation');
+  assert.equal(cell.getAttribute('title'), result.unavailableReason);
+  assert.equal(cell.getAttribute('data-net-rent-unavailable'), result.unavailableReason);
+}
+
 
 // ── 3. No seeded row starts with an allowance nobody entered ──────────────
 // Non-vacuity on the scan: the component seeds rows in several places.
@@ -112,6 +126,44 @@ for (const f of ['js/components/subject-project.js', 'js/components/subject-rent
   } else {
     assert.fail('SubjectRentComparison.render is not exposed; update this guard to the component\'s entry point');
   }
+}
+
+// ── 5. Both tables carry module provenance and fee-adjusted net rents ──────
+{
+  const w = mountWith({ county_fips: county, unit_mix: [
+    { bedrooms: '2BR', ami_tier: 60, count: 4, utility_allowance: 150, fees: 40 },
+    { bedrooms: '2BR', ami_tier: 60, count: 4, utility_allowance: GROSS + 1 },
+    { bedrooms: '2BR', ami_tier: 60, count: 4, utility_allowance: 0 }
+  ] });
+  // Distinct returned metadata proves the captions consume the module result.
+  const original = w.ChfaRentLimits.maxGrossRent;
+  w.ChfaRentLimits.maxGrossRent = (...args) => ({ ...original(...args), tableYear: 2099, effectiveDate: '2099-06-17' });
+  w.SubjectProject.mount(w.document.getElementById('sp'));
+  w.eval(read('js/components/subject-rent-comparison.js'));
+  w.SubjectRentComparison.render(w.document.getElementById('rc'));
+  await settle();
+  for (const id of ['sp', 'rc']) {
+    const caption = w.document.querySelector('#' + id + ' caption');
+    assert(caption && caption.textContent.includes('2099') && caption.textContent.includes('2099-06-17'), id + ': caption must show module table year and date');
+    const headers = [...w.document.querySelectorAll('#' + id + ' thead th')].map((th) => th.textContent.trim());
+    const col = headers.indexOf('LIHTC max net');
+    assert(col >= 0);
+    const rows = [...w.document.querySelectorAll('#' + id + ' tbody tr')];
+    assert.equal(rows[0].children[col].textContent.trim(), money(GROSS - 190));
+    assert(!/\$\s*\d/.test(rows[1].children[col].textContent), id + ': over-deduction must have no rent amount');
+    assert.equal(rows[1].children[col].getAttribute('title'), 'deductions_exceed_gross_rent');
+    assert.equal(rows[2].children[col].textContent.trim(), money(GROSS));
+  }
+  assert.equal(w.document.querySelectorAll('#rc [data-fees-entered="false"]').length, 2);
+  assert.equal(w.document.querySelectorAll('#rc [data-fees-entered="true"]').length, 1);
+  const input = w.document.querySelector('#sp input[data-key="fees"]');
+  assert(input, 'the subject row provides a fees input');
+  input.value = '55';
+  input.dispatchEvent(new w.Event('change', { bubbles: true }));
+  assert.equal(w.SubjectProject.get().unit_mix[0].fees, 55, 'fees persist with the subject row');
+  const headers = [...w.document.querySelectorAll('#sp thead th')].map((th) => th.textContent.trim());
+  assert.equal(w.document.querySelector('#sp tbody tr').children[headers.indexOf('LIHTC max net')].textContent.trim(), money(GROSS - 205));
+  w.close();
 }
 
 console.log(`Utility allowance absence: PASS (county ${county}, CHFA 60% 2BR gross ${money(GROSS)}; blank → no net rent + reason, $0 → gross, $150 → gross − 150; ${seeds.length} seeded rows start blank)`);

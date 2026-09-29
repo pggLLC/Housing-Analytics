@@ -43,18 +43,12 @@
   'use strict';
   if (global.SubjectProject) return;
 
+  var RentLimits = global.ChfaRentLimits ||
+    (typeof module === 'object' && module.exports ? require('../chfa-rent-limits.js') : null);
+
   var STORAGE_KEY = 'coho.subjectProject.v1';
   var CHFA_DATA_URL = 'data/chfa-income-rent-limits-2026.json';
   var HUD_DATA_URL = 'data/hud-fmr-income-limits.json';  // kept for HUD FMR market comp
-
-  // IRS §42 LIHTC max-rent imputed household size by bedroom count.
-  var BR_HH_SIZE = {
-    'efficiency': 1.0,
-    '1BR':        1.5,
-    '2BR':        3.0,
-    '3BR':        4.5,
-    '4BR':        6.0
-  };
 
   // CHFA-published AMI tiers (regular counties). Rural-resort counties also
   // get 130/140/150/160 per Prop 123.
@@ -64,11 +58,6 @@
   // short; users can still type any tier the data file supports.
   var AMI_TIERS = [30, 40, 50, 60, 70, 80, 90, 110, 120];
   var BEDROOMS  = ['efficiency', '1BR', '2BR', '3BR', '4BR'];
-
-  // Bedroom → CHFA's max_rents key.
-  var BR_TO_CHFA_KEY = {
-    'efficiency': '0br', '1BR': '1br', '2BR': '2br', '3BR': '3br', '4BR': '4br'
-  };
 
   var DEFAULT_SUBJECT = {
     project_name: '',
@@ -84,7 +73,7 @@
     target_population: 'family',   // 'family', 'senior', 'PSH', 'workforce'
     use_hera_special: false,       // true for projects with PIS ≤ 12.31.2008 in a HERA county
     pis_date: null,                // optional placed-in-service date (informational)
-    unit_mix: [],                  // rows: {bedrooms, ami_tier, count, sqft, proposed_gross_rent, utility_allowance}
+    unit_mix: [],                  // rows: {bedrooms, ami_tier, count, sqft, proposed_gross_rent, utility_allowance, fees}
     amenities: [],                 // free-text checklist
     notes: '',
     updated_at: null
@@ -110,61 +99,19 @@
     return _hudCache;
   }
 
-  function _countyRow(data, fips) {
-    if (!data || !data.counties || !fips) return null;
-    fips = String(fips).padStart(5, '0');
-    return data.counties.find(function (c) { return c.fips === fips; }) || null;
-  }
-
-  // Pick the right tier bucket given HERA preference.
-  function _tiersBucket(countyRow, useHera) {
-    if (!countyRow) return null;
-    if (useHera && countyRow.hera_special && countyRow.hera_tiers) {
-      // HERA-flagged counties only publish HERA limits for a subset of tiers
-      // (30/40/45/50/55/60 typically). For tiers above the HERA range, fall
-      // back to regular limits.
-      return { hera: countyRow.hera_tiers, regular: countyRow.regular_tiers };
-    }
-    return { regular: countyRow.regular_tiers };
-  }
-
-  function _findTier(buckets, tier) {
-    if (!buckets) return null;
-    var key = String(tier);
-    if (buckets.hera && buckets.hera[key]) return { row: buckets.hera[key], hera: true };
-    if (buckets.regular && buckets.regular[key]) return { row: buckets.regular[key], hera: false };
-    return null;
-  }
-
-  // Read CHFA-published income limit at a tier × HH size. Returns dollars or null.
+  // Keep the component's public API while sharing all lookup rules.
   function computeIncomeLimit(chfa, fips, tier, familySize, opts) {
-    var row = _countyRow(chfa, fips);
-    if (!row) return null;
-    var buckets = _tiersBucket(row, opts && opts.useHera);
-    var hit = _findTier(buckets, tier);
-    if (!hit || !hit.row.income_limits) return null;
-    var key = familySize + 'p';
-    var val = hit.row.income_limits[key];
-    return val != null ? +val : null;
+    return RentLimits.incomeLimit(chfa, fips, tier, familySize, opts).incomeLimit;
   }
 
-  // Read CHFA-published LIHTC max gross rent at a tier × bedroom.
-  // Returns { gross_rent, source: "CHFA published", hera }.
   function computeLihtcMaxRent(chfa, fips, tier, bedrooms, opts) {
-    var row = _countyRow(chfa, fips);
-    if (!row) return null;
-    var buckets = _tiersBucket(row, opts && opts.useHera);
-    var hit = _findTier(buckets, tier);
-    if (!hit || !hit.row.max_rents) return null;
-    var brKey = BR_TO_CHFA_KEY[bedrooms];
-    if (!brKey) return null;
-    var rent = hit.row.max_rents[brKey];
-    if (rent == null) return null;
+    var result = RentLimits.maxGrossRent(chfa, fips, tier, bedrooms, opts);
+    if (result.grossRent == null) return null;
     return {
-      gross_rent: +rent,
+      gross_rent: result.grossRent,
       source: 'CHFA published',
-      hera: hit.hera,
-      family_size: BR_HH_SIZE[bedrooms] || null
+      hera: result.hera,
+      family_size: result.familySize
     };
   }
 
@@ -245,34 +192,23 @@
     return sign + (n).toFixed(1) + '%';
   }
 
-  // Tenant-paid LIHTC max rent = max gross rent − utility allowance (#1934).
-  // A blank allowance is unknown, not $0: `+'' || 0` used to turn it into $0
-  // and show the full gross rent as the net rent, overstating what the unit
-  // may charge by the whole allowance. An entered 0 is a real value (the
-  // owner pays every utility) and is kept.
+  // Preserve the existing number-or-null API; reasons stay on the module result.
   var UA_MISSING_REASON = 'Enter the utility allowance ($0 only if the owner pays all utilities) to see the max net rent.';
-  function _allowance(v) {
-    if (v == null || v === '') return null;
-    var n = +v;
-    return isFinite(n) && n >= 0 ? n : null;
-  }
-  function maxNetRent(maxGross, utilityAllowance) {
-    if (maxGross == null || !isFinite(+maxGross)) return null;
-    var ua = _allowance(utilityAllowance);
-    if (ua == null) return null;
-    return Math.max(0, +maxGross - ua);
+  function maxNetRent(maxGross, utilityAllowance, fees) {
+    return RentLimits.maxContractRent({ grossRent: maxGross,
+      utilityAllowance: utilityAllowance, fees: fees }).contractRent;
   }
 
   // ── Renderer ────────────────────────────────────────────────────────
-  function _renderRow(row, idx, onChange, onRemove, chfa, subject) {
-    var lihtc = null;
-    if (subject.county_fips) {
-      lihtc = computeLihtcMaxRent(chfa, subject.county_fips, row.ami_tier, row.bedrooms,
-        { useHera: !!subject.use_hera_special });
-    }
-    var maxRent = lihtc ? lihtc.gross_rent : null;
-    var maxNet = maxNetRent(maxRent, row.utility_allowance);
-    var netMissingUa = maxRent != null && maxNet == null;
+  function _renderRow(row, idx, onChange, onRemove, rentLimit) {
+    var maxRent = rentLimit.grossRent;
+    var net = RentLimits.maxContractRent({ grossRent: maxRent,
+      utilityAllowance: row.utility_allowance, fees: row.fees });
+    var maxNet = net.contractRent;
+    var reason = maxRent == null ? rentLimit.unavailableReason : net.unavailableReason;
+    var netMissingUa = maxRent != null && reason === 'utility_allowance_missing';
+    var overDeducted = reason === 'deductions_exceed_gross_rent';
+
     var proposed = +row.proposed_gross_rent || 0;
     var overMax  = maxRent != null && proposed > maxRent;
 
@@ -317,16 +253,17 @@
       $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, [input('sqft', 'number', row.sqft, '70px')]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, [input('proposed_gross_rent', 'number', row.proposed_gross_rent, '78px')]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, [input('utility_allowance', 'number', row.utility_allowance, '60px')]),
+      $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, [input('fees', 'number', row.fees, '60px')]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'right',
                           color: overMax ? 'var(--bad,#c14545)' : 'var(--muted)',
                           fontWeight: overMax ? '600' : '400' } }, [
         maxRent == null ? '—' : $fmtMoney(maxRent)
       ]),
-      $h('td', netMissingUa
-        ? { style: { padding: '4px 6px', textAlign: 'right', color: 'var(--muted)' },
-            title: UA_MISSING_REASON, 'data-net-rent-unavailable': 'utility-allowance' }
-        : { style: { padding: '4px 6px', textAlign: 'right', color: 'var(--muted)' } }, [
-        maxNet != null ? $fmtMoney(maxNet) : (netMissingUa ? 'Enter UA' : '—')
+      $h('td', { style: { padding: '4px 6px', textAlign: 'right', color: 'var(--muted)' },
+        title: netMissingUa ? UA_MISSING_REASON : (reason || ''),
+        'data-net-rent-unavailable': netMissingUa ? 'utility-allowance' : (reason || '') }, [
+        maxNet != null ? $fmtMoney(maxNet) : (overDeducted ? 'Allowance exceeds max rent' :
+          (netMissingUa ? 'Enter UA' : '—'))
       ]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'center' } }, [
         $h('button', {
@@ -455,7 +392,7 @@
         var s = getSubject();
         s[key] = val;
         if (key === 'county_fips') {
-          var row = _countyRow(chfa, val);
+          var row = RentLimits.countyRow(chfa, val);
           s.county_name = row ? row.county_name : '';
           // If the user picks a non-HERA county, force HERA toggle off.
           if (row && !row.hera_special) s.use_hera_special = false;
@@ -513,7 +450,7 @@
       // Auto-disable when county is not HERA-eligible
       function _refreshHeraEnabled() {
         var s = getSubject();
-        var row = _countyRow(chfa, s.county_fips);
+        var row = RentLimits.countyRow(chfa, s.county_fips);
         var enable = !!(row && row.hera_special);
         heraCb.disabled = !enable;
         heraWrap.style.opacity = enable ? '1' : '.55';
@@ -529,7 +466,8 @@
         'LIHTC max gross rent is read directly from CHFA\'s published "Income Limit and ' +
         'Maximum Rent Tables for All Colorado Counties" (' + amiSrc + ', HUD effective ' +
         amiEff + '). Tiers below match the LIHTC-common set; the underlying CHFA file covers ' +
-        '20–120% AMI (plus 130–160% for the 12 Prop 123 rural-resort counties).'
+        '20–120% AMI (plus 130–160% for the 12 Prop 123 rural-resort counties). ' +
+        'Max net rent subtracts the resident-paid utility allowance and required nonoptional fees. Blank fees default to $0.'
       ]));
 
       var tableWrap = $h('div', { style: { overflowX: 'auto', border: '1px solid var(--border)',
@@ -546,11 +484,14 @@
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Sqft']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Proposed gross rent']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Utility allow.']),
+          $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Nonoptional fees']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['LIHTC max gross']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['LIHTC max net']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'center' } }, ['']),
         ])
       ]);
+      var caption = $h('caption', { 'data-role': 'chfa-table-vintage', style: { textAlign: 'left', padding: '6px' } });
+      table.appendChild(caption);
       var tbody = $h('tbody', {});
       table.appendChild(thead);
       table.appendChild(tbody);
@@ -560,7 +501,11 @@
       function _redrawRows() {
         var s = getSubject();
         tbody.innerHTML = '';
+        var tableLimit = null;
         (s.unit_mix || []).forEach(function (row, i) {
+          var rentLimit = RentLimits.maxGrossRent(chfa, s.county_fips, row.ami_tier, row.bedrooms,
+            { useHera: !!s.use_hera_special });
+          if (rentLimit.grossRent != null) tableLimit = rentLimit;
           tbody.appendChild(_renderRow(row, i, function (idx, el) {
             var s2 = getSubject();
             var k = el.getAttribute('data-key');
@@ -577,11 +522,13 @@
             setSubject(s3);
             _redrawRows();
             _redrawTotals();
-          }, chfa, s));
+          }, rentLimit));
         });
+        caption.textContent = tableLimit ? 'CHFA ' + (tableLimit.tableYear || '—') +
+          ' · effective ' + (tableLimit.effectiveDate || '—') : 'CHFA rent limits unavailable for these rows';
         if ((s.unit_mix || []).length === 0) {
           tbody.appendChild($h('tr', {}, [
-            $h('td', { colspan: '9', style: { padding: '14px 8px', textAlign: 'center',
+            $h('td', { colspan: '10', style: { padding: '14px 8px', textAlign: 'center',
               color: 'var(--muted)', fontSize: '.8rem' } }, [
               'No unit-mix rows yet. Use the buttons below to add a row.'
             ])
@@ -726,7 +673,7 @@
     AMI_TIERS_REGULAR: AMI_TIERS_REGULAR,
     AMI_TIERS_RURAL_RESORT: AMI_TIERS_RURAL_RESORT,
     BEDROOMS: BEDROOMS,
-    BR_HH_SIZE: BR_HH_SIZE,
+    BR_HH_SIZE: RentLimits.BR_HH_SIZE,
     DEFAULT_SUBJECT: DEFAULT_SUBJECT
   };
 
