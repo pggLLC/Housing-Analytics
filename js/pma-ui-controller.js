@@ -93,6 +93,24 @@
   var _bufferMiles  = 3;
   var _lastScoreRun = null;
   var _running      = false;
+  var _conclusionRevision = 0;
+
+  // Invalidate both the displayed conclusions and callbacks from older runs.
+  function _clearConclusions() {
+    _conclusionRevision++;
+    _lastScoreRun = null;
+    ['pmaJustificationCard', 'lihtcConceptCard', 'pmaExplainScoreBtn'].forEach(function (id) {
+      var c = $id(id);
+      if (c) c.hidden = true;
+    });
+    ['pmaJustificationNarrative', 'pmaSubsidyRiskList', 'pmaAbsorptionRiskBody',
+      'pmaIncentiveBadges', 'lihtcConceptCard'].forEach(function (id) {
+      var c = $id(id);
+      if (c) c.textContent = '';
+    });
+    var audit = $id('pmaExportAuditJson');
+    if (audit) audit.disabled = true;
+  }
 
   /* ── Preload CHFA LIHTC and AMI gap data for predictor enrichment ── */
   (function _preloadPredictorData() {
@@ -682,6 +700,7 @@
     if (_running) return;
     var runner = window.PMAAnalysisRunner;
     if (!runner) return;   // fall through to existing buffer flow
+    var revision = ++_conclusionRevision;
 
     _running = true;
     _showChartLoading('pmaRadarChart');
@@ -719,11 +738,7 @@
         ? engER.customPmaReadiness(lat, lon, runOptions)
         : { ready: false, reason: 'the market-analysis engine did not load' };
       if (!readyER.ready) {
-        _lastScoreRun = null;
-        ['pmaJustificationCard', 'lihtcConceptCard'].forEach(function (id) {
-          var c = $id(id);
-          if (c) c.hidden = true;
-        });
+        _clearConclusions();
         _running = false;
         _hideChartLoading('pmaRadarChart');
         _progressHide();
@@ -742,6 +757,7 @@
       _running = false;
       _hideChartLoading('pmaRadarChart');
       _progressComplete();
+      if (revision !== _conclusionRevision) return;
       // The site moved while this run was in flight: its result, boundaries
       // and permalink describe the previous site. Discard the whole
       // completion rather than drawing it over the new one (Codex review of
@@ -756,6 +772,8 @@
       _renderJustification(scoreRun);
       _renderConceptCard(scoreRun);
       if (explainBtn) explainBtn.hidden = false;
+      var auditBtn = $id('pmaExportAuditJson');
+      if (auditBtn) auditBtn.disabled = false;
 
       // Persist result to localStorage (survives page refresh for 24 h)
       if (window.PMADataCache && window.PMADataCache.saveLastResult) {
@@ -814,6 +832,7 @@
 
     tabs.forEach(function (tab) {
       tab.addEventListener('click', function () {
+        _conclusionRevision++;
         if (tab.dataset.pmaMethod === 'tract' && !TRACT_PICKER_ENABLED) {
           return;
         }
@@ -937,6 +956,7 @@
      do next, instead of silently running a circular buffer. Returns false
      when the picker cannot start, so the caller falls back to its old path. */
   function beginTractPma(lat, lon) {
+    _conclusionRevision++;
     if (!TRACT_PICKER_ENABLED || !_startTractPicker(lat, lon)) return false;
     var circle = $id('pmaScoreCircle');
     if (circle) { circle.textContent = '\u2014'; circle.style.borderColor = ''; circle.style.background = ''; }
@@ -1166,6 +1186,7 @@
     btn.addEventListener('click', function () {
       var just = window.PMAJustification;
       if (!just) { alert('PMAJustification module not loaded.'); return; }
+      if (!_lastScoreRun) return; // never fall back to the module's older run
       var json  = just.exportToJSON(_lastScoreRun);
       var blob  = new Blob([json], { type: 'application/json' });
       var url   = URL.createObjectURL(blob);
@@ -1240,6 +1261,30 @@
       stored = window.PMADataCache.loadLastResult();
     }
 
+    // A cached conclusion has no exemption from today's site, boundary and
+    // ACS bindings. Check before even the missing-coordinate early return.
+    var storedOptions = (stored && stored.options) || {};
+    if (stored && stored.scoreRun && (storedOptions.method === 'tract' || stored.scoreRun.pmaTractSelection)) {
+      var eng = window.PMAEngine;
+      var ready = eng && typeof eng.customPmaReadiness === 'function'
+        ? eng.customPmaReadiness(stored.lat, stored.lon, storedOptions)
+        : { ready: false, reason: 'the market-analysis engine did not load' };
+      if (!ready.ready) {
+        _clearConclusions();
+        if (eng && eng.blockCustomPma) {
+          eng.blockCustomPma(ready.reason);
+        } else {
+          document.body.setAttribute('data-pma-result-state', 'pending');
+          document.querySelectorAll('[id^="pmaExport"]').forEach(function (b) { b.disabled = true; });
+          var wrap = $id('pmaScoreWrap');
+          if (wrap) wrap.textContent = 'Custom PMA conclusions are unavailable — ' + ready.reason;
+        }
+        var oldBanner = $id('pmaRestoredBanner');
+        if (oldBanner) oldBanner.remove();
+        return;
+      }
+    }
+
     // Resolve the source of restoration parameters (permalink has priority)
     var source = null;
     if (permalink) {
@@ -1248,9 +1293,9 @@
       source = {
         lat:           stored.lat,
         lon:           stored.lon,
-        method:        stored.options.method,
-        bufferMiles:   stored.options.bufferMiles,
-        proposedUnits: stored.options.proposedUnits
+        method:        storedOptions.method,
+        bufferMiles:   storedOptions.bufferMiles,
+        proposedUnits: storedOptions.proposedUnits
       };
     }
     if (!source || !source.lat || !source.lon) return;
@@ -1324,6 +1369,8 @@
       _renderConceptCard(stored.scoreRun);
       var explainBtn = $id('pmaExplainScoreBtn');
       if (explainBtn) explainBtn.hidden = false;
+      var auditBtn = $id('pmaExportAuditJson');
+      if (auditBtn) auditBtn.disabled = false;
       console.log('[PMAUIController] Restored previous scoreRun from localStorage');
     }
   }
@@ -1336,7 +1383,16 @@
     _initExplainScore();
     _initExportAudit();
     _wireTractRationaleInput();
-    _restoreLastRun();
+    // DOMContentLoaded starts the engine's asynchronous source load first.
+    // Wait for it, and abandon restoration if the user has since begun work.
+    var revision = _conclusionRevision;
+    var engine = window.PMAEngine;
+    var engineRevision = engine && engine.getContextRevision ? engine.getContextRevision() : null;
+    var dataReady = engine && engine.whenDataReady ? engine.whenDataReady() : Promise.resolve();
+    dataReady.then(function () {
+      if (engineRevision !== null && engine.getContextRevision() !== engineRevision) return;
+      if (revision === _conclusionRevision && !_lastScoreRun) _restoreLastRun();
+    });
   }
 
   if (typeof document !== 'undefined') {
@@ -1353,6 +1409,7 @@
       getMethod:        function () { return _method; },
       beginTractPma:    beginTractPma,
       getLastScoreRun:  function () { return _lastScoreRun; },
+      clearConclusions: _clearConclusions,
       runEnhanced:      _runEnhancedAnalysis,
       showChartLoading: _showChartLoading,
       hideChartLoading: _hideChartLoading,

@@ -142,6 +142,8 @@
     }
   });
   var dataLoaded   = false;  // true once loadData() has settled
+  var dataReadyPromise = null; // saved custom PMAs must use the loaded bindings
+  var contextRevision = 0; // includes direct engine calls from jurisdiction deep links
 
   // ── CHFA rural classification ─────────────────────────────────────
   // Colorado counties that fall inside a HUD MSA or HMFA (per the FMR
@@ -652,6 +654,7 @@
   function blockCustomPma(reason) {
     setResultPending(true);
     var uic = window.PMAUIController;
+    if (uic && uic.clearConclusions) uic.clearConclusions();
     if (uic && uic.hideChartLoading) uic.hideChartLoading('pmaRadarChart');
     setHtml('pmaScoreWrap', '<div class="pma-empty" data-custom-pma-blocked="true">'
       + 'Custom PMA conclusions are not yet available — ' + _htmlEscape(reason) + '.</div>');
@@ -2544,6 +2547,7 @@
 
   /* ── Run analysis ───────────────────────────────────────────────── */
   function runAnalysis(lat, lon, options) {
+    contextRevision++;
     options = options || {};
     var analysisMethod = options.method || 'buffer';
     var selectedTractGeoids = Array.isArray(options.tractGeoids) ? options.tractGeoids : [];
@@ -4475,6 +4479,7 @@
   var _jurisdictionCentroid = null;
 
   function placeSiteMarker(lat, lon, opts) {
+    contextRevision++;
     siteLatLng = { lat: lat, lon: lon };
     _jurisdictionCentroid = (opts && opts.jurisdictionCentroid) ? { lat: lat, lon: lon } : null;
     // Keep PMAEngine shim up-to-date so other modules can read last site coords.
@@ -5941,7 +5946,7 @@
       _showLayerToast('✓ Regrid parcels (' + gj.features.length + ')', false);
     });
 
-    loadData().then(function () {
+    dataReadyPromise = loadData().then(function () {
       // Load overlay layers after main data is ready (lihtcFeatures now set)
       loadOverlays();
     }).catch(function (err) {
@@ -5966,7 +5971,7 @@
    * @param {number} lon
    * @param {string} [method]      - "buffer" | "commuting" | "hybrid" (default: "buffer")
    * @param {number} [bufferMiles] - radius for buffer method (default: 5)
-   * @returns {Promise<{polygon: object|null, method: string, captureRate: number}>}
+   * @returns {Promise<{polygon: object|null, method: string, captureRate: number|null}>}
    */
   function generatePmaPolygon(lat, lon, method, bufferMiles) {
     // F82: default switched to 'hybrid' (LODES tract-shed + buffer fallback)
@@ -5981,7 +5986,8 @@
       var poly = commMod
         ? commMod._buildCirclePolygon(lat, lon, bufferMiles, 32)
         : null;
-      return Promise.resolve({ polygon: poly, method: 'buffer', captureRate: 0 });
+      return Promise.resolve({ polygon: poly, method: 'buffer', captureRate: null,
+        captureUnavailableReason: 'Commuting capture was not calculated for the buffer boundary.' });
     }
 
     var pmaComm = window.PMACommuting;
@@ -6001,6 +6007,7 @@
           polygon:     boundResult.boundary,
           method:      'hybrid',
           captureRate: boundResult.captureRate,
+          captureUnavailableReason: boundResult.captureUnavailableReason,
           zoneCentroids: boundResult.zoneCentroids
         };
       }
@@ -6009,6 +6016,7 @@
         polygon:     boundResult.boundary,
         method:      'commuting',
         captureRate: boundResult.captureRate,
+        captureUnavailableReason: boundResult.captureUnavailableReason,
         zoneCentroids: boundResult.zoneCentroids
       };
     }).catch(function () {
@@ -6046,6 +6054,9 @@
     computePma:              computePma,
     computeCoverage:         computeCoverage,
     customPmaReadiness:      customPmaReadiness,
+    blockCustomPma:          blockCustomPma,
+    whenDataReady:           function () { return dataReadyPromise || Promise.resolve(); },
+    getContextRevision:     function () { return contextRevision; },
     generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
     captureDenominator:      captureDenominator,
