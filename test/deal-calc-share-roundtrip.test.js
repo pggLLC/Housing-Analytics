@@ -205,6 +205,7 @@ async function roundTrip(sender, label) {
     setField(s, 'dc-gross-sf', 52000);
     setField(s, 'dc-units-60-studio', 6);
     setField(s, 'dc-units-60-1br', 9);
+    setSelector(s, '#dc-rent-limit-regime', 'ami_formula');
     setField(s, 'dc-const-rent-burden', 28);
     setField(s, 'dc-vacancy', 6);
     setField(s, 'dc-gsf-efficiency', 0.83);
@@ -219,6 +220,8 @@ async function roundTrip(sender, label) {
     const { recipient } = await roundTrip(s, 'Rental');
     assert.strictEqual(recipient.d.getElementById('dc-units-60-studio').value, '6', 'studio split did not arrive');
     assert(recipient.d.getElementById('dc-rate-4').checked, '4% credit rate did not arrive');
+    assert.strictEqual(recipient.d.getElementById('dc-rent-limit-regime').value, 'ami_formula', 'rent-limit regime did not arrive');
+    assert(!recipient.d.getElementById('dc-const-rent-burden').disabled, 'formula rent burden remains editable');
   });
 
   await test('every form control on the page is shared or excluded with a reason', async () => {

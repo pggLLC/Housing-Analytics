@@ -17,7 +17,8 @@
  *      (AwardYear, or YR_ALLOC for HUD-schema records).
  *   2. No file that consumes the feed labels a year "placed in service" /
  *      "PIS", unless that line reads a real placed-in-service field
- *      (year_placed_in_service) or is a disclosure saying the feed has none.
+ *      (year_placed_in_service), is a disclosure saying the feed has none,
+ *      or is the static HERA policy cutoff verified against rent-table metadata.
  *   3. Every LIHTC project record embedded in client JS names a project that
  *      exists in data/chfa-lihtc.json. Three stand-in lists (97 invented
  *      projects between them) used to be served as real comps when a load
@@ -107,6 +108,36 @@ const consumers = files.filter((f) => {
 });
 assert(consumers.length >= 20, `non-vacuity: found ${consumers.length} feed-consuming files, expected at least 20`);
 
+// The calculator also describes HERA eligibility. That fixed policy cutoff is
+// independent of the property feed; verify its date, not its prose. Exempt only
+// one literal paragraph, never a dynamic project year or another PIS label.
+const { JSDOM } = require('jsdom');
+const heraNote = JSON.parse(read('data/chfa-income-rent-limits-2026.json')).meta.hera_special_note;
+const cutoff = /\b(\d{2})\.(\d{2})\.(\d{4})\b/.exec(heraNote);
+assert(cutoff, 'the CHFA HERA note names a cutoff date');
+function withoutHeraPolicy(line) {
+  if (!line.includes('dc-rent-limit-hera-note') || FEED_REF.test(line) || /\$\{|['"`]\s*\+/.test(line)) return line;
+  const fragment = JSDOM.fragment(line.trim());
+  const p = fragment.firstElementChild;
+  if (fragment.childNodes.length !== 1 || !p || p.tagName !== 'P' || p.id !== 'dc-rent-limit-hera-note' ||
+      [...p.childNodes].some((node) => node.nodeType !== 3)) return line;
+  const dates = [...p.textContent.matchAll(/\b(\d{2})[./](\d{2})[./](\d{4})\b/g)];
+  const numbers = p.textContent.match(/\d+/g) || [];
+  if (!/\bHERA\b/.test(p.textContent) || dates.length !== 1 ||
+      dates[0].slice(1).join('-') !== cutoff.slice(1).join('-') ||
+      numbers.join('-') !== cutoff.slice(1).join('-')) return line;
+  return '';
+}
+const policy = (text) => '<p id="dc-rent-limit-hera-note">' + text + '</p>';
+assert.strictEqual(withoutHeraPolicy(policy('HERA eligibility requires a project placed in service by ' + cutoff.slice(1).join('/') + '.')), '',
+  'a reworded static policy with the source cutoff is allowed');
+for (const invalid of [
+  policy('HERA: placed in service by 12/31/' + (+cutoff[3] + 1)),
+  policy('HERA: placed in service ${project.AwardYear}; cutoff ' + cutoff.slice(1).join('/')),
+  policy('HERA: placed in service ${project.year}; cutoff ' + cutoff.slice(1).join('/')),
+  '<span>Placed in service: 2026</span>',
+]) assert.strictEqual(withoutHeraPolicy(invalid), invalid, 'wrong cutoffs and project-year labels remain subject to the guard');
+
 const failures = [];
 
 if (pisIsProxy) {
@@ -136,7 +167,7 @@ if (pisIsProxy) {
       labelLinesScanned++;
       if (!(LABEL.test(line) || LABEL_ABBR.test(line)) || REAL_FIELD.test(line)) return;
       const prevTail = (lines[i - 1] || '').slice(-80);
-      const rest = (prevTail + '\u0000' + line).replace(DISCLOSURE, '').split('\u0000').pop();
+      const rest = withoutHeraPolicy((prevTail + '\u0000' + line).replace(DISCLOSURE, '').split('\u0000').pop());
       if (!LABEL.test(rest) && !LABEL_ABBR.test(rest)) return;
       failures.push(`${f}:${i + 1} labels a year "placed in service" in a file that reads the CHFA feed, whose only year is the award year:\n    ${line.trim().slice(0, 160)}`);
     });

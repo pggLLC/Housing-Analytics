@@ -69,6 +69,11 @@
     SP.loadChfa().then(function (chfa) {
       if (!chfa) { _renderEmpty(container, 'Could not load CHFA income limits.'); return; }
       var useHera = !!subject.use_hera_special;
+      var hera = useHera && global.ChfaRentLimits.heraStatus(chfa, subject.county_fips, { useHera: useHera, pisDate: subject.pis_date });
+      if (hera && !hera.complete) {
+        _renderEmpty(container, global.ChfaRentLimits.unavailableMessage(hera.unavailableReason));
+        return;
+      }
 
       container.innerHTML = '';
       container.appendChild($h('h2', { style: { margin: '0 0 .25rem' } }, [
@@ -111,7 +116,7 @@
           ? null
           : 'Household size unavailable because the bedroom type is missing or unrecognized.';
         var max = hasHouseholdSize
-          ? SP.computeIncomeLimit(chfa, subject.county_fips, r.ami_tier, hh, { useHera: useHera })
+          ? SP.computeIncomeLimit(chfa, subject.county_fips, r.ami_tier, hh, { useHera: useHera, pisDate: subject.pis_date })
           : null;
         var proposed = +r.proposed_gross_rent || null;
         var min = (proposed != null) ? Math.round(proposed * 12 / 0.40) : null;
