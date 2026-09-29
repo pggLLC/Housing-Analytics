@@ -128,6 +128,12 @@ async function test(name, fn) {
       change(w, 'dc-br-60', 'studio');
       assert(!/\$\s*\d/.test(w.document.getElementById('dc-r-rents').textContent), 'missing ceiling blocks revenue');
       assert(!/\$\s*\d/.test(w.document.getElementById('dc-r-mortgage').textContent), 'missing ceiling blocks mortgage');
+      for (const regime of ['chfa_lihtc', 'ami_formula', 'market']) {
+        change(w, 'dc-rent-limit-regime', regime);
+        w.__DealCalc.updateAmiLimitsFromFmr(null);
+        assert(!/\$\s*\d/.test(w.document.getElementById('dc-r-rents').textContent), regime + ': no county leaves revenue unknown');
+        assert(!/\$\s*\d/.test(w.document.getElementById('dc-r-mortgage').textContent), regime + ': no county leaves the mortgage unknown');
+      }
     } finally { w.close(); }
   });
   await test('market has no ceiling and uses the existing market rents for the rent roll', async () => {
