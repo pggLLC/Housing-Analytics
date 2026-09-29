@@ -140,6 +140,7 @@ function page(storage = new Map()) {
     fetch: () => new Promise(() => {}),
     el: id => dom.window.document.getElementById(id),
     _rawLayerData: { transitStops: stops }, siteLatLng: null, _jurisdictionCentroid: null,
+    contextRevision: 0, // module state used by the extracted marker to cancel saved-PMA restoration
     _requestTodStops() {}, _drawTodRing() {},
     SiteSelectionScore: { computeScore: () => ({ final_score: 88 }) },
     TransitZone: { ...TZ, create: o => TZ.create({ ...o, now }) } };
