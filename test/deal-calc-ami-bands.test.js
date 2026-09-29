@@ -102,10 +102,14 @@ async function main() {
   };
   require('../js/data-connectors/hud-fmr.js');
   await window.HudFmr.load();
-  // FY2026 Denver 4-person AMI = $144,000. Gross-rent screen is
-  // round(AMI × band × 30% / 12): 110% = $3,960; 120% = $4,320.
-  assert.strictEqual(window.HudFmr.getGrossRentLimit('08031', 110), 3960, 'Denver County 110% AMI gross rent spot value');
-  assert.strictEqual(window.HudFmr.getGrossRentLimit('08031', 120), 4320, 'Denver County 120% AMI gross rent spot value');
+  const rentLimitsModule = require('../js/chfa-rent-limits.js');
+  const chfa = require('../data/chfa-income-rent-limits-2026.json');
+  const denver = chfa.counties.find((c) => c.fips === '08031');
+  for (const tier of [110, 120]) {
+    assert.strictEqual(rentLimitsModule.rentCeiling({ chfaTable: chfa, fips: denver.fips,
+      tier, bedrooms: '2BR' }).grossRent, denver.regular_tiers[tier].max_rents['2br']);
+  }
+  assert.strictEqual(window.HudFmr.getGrossRentLimit, undefined, 'duplicate helper retired');
 
   delete require.cache[require.resolve('../js/deal-calculator.js')];
   dom = makeDom();

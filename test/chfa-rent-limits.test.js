@@ -38,7 +38,7 @@ test('agreement: gross rents equal the data across counties, tiers, bedrooms, HE
     for (const [bedroom, key, size] of bedrooms) {
       const expected = county[bucket][tier].max_rents[key];
       assert(Number.isFinite(expected), 'the independent table value must be a number');
-      const actual = limits.maxGrossRent(table, county.fips, tier, bedroom, { useHera });
+      const actual = limits.maxGrossRent(table, county.fips, tier, bedroom, { useHera, pisDate: '2008-12-31' });
       assert.equal(actual.grossRent, expected, `${county.fips}/${tier}/${bedroom}/${bucket}`);
       assert.equal(actual.familySize, size);
       assert.equal(actual.hera, bucket === 'hera_tiers');
@@ -55,9 +55,9 @@ test('delegation: SubjectProject gross rent agrees with both the data and the mo
   for (const {county, tier, useHera, bucket} of samples) {
     for (const [bedroom, key, size] of bedrooms) {
       const expected = county[bucket][tier].max_rents[key];
-      const actual = SP.computeLihtcMaxRent(table, county.fips, tier, bedroom, { useHera });
+      const actual = SP.computeLihtcMaxRent(table, county.fips, tier, bedroom, { useHera, pisDate: '2008-12-31' });
       assert.equal(actual.gross_rent, expected, `${county.fips}/${tier}/${bedroom}: delegated table answer`);
-      assert.equal(actual.gross_rent, limits.maxGrossRent(table, county.fips, tier, bedroom, { useHera }).grossRent);
+      assert.equal(actual.gross_rent, limits.maxGrossRent(table, county.fips, tier, bedroom, { useHera, pisDate: '2008-12-31' }).grossRent);
       assert.deepEqual(plain(actual), { gross_rent: expected, source: 'CHFA published', hera: bucket === 'hera_tiers', family_size: size });
     }
   }
@@ -66,20 +66,20 @@ test('delegation: SubjectProject gross rent agrees with both the data and the mo
 test('income limits and legacy numeric adapter agree with the data and metadata', () => {
   for (const {county, tier, useHera, bucket} of samples) {
     for (let size = 1; size <= 8; size++) {
-      const actual = limits.incomeLimit(table, county.fips, tier, size, { useHera });
+      const actual = limits.incomeLimit(table, county.fips, tier, size, { useHera, pisDate: '2008-12-31' });
       assert.equal(actual.incomeLimit, county[bucket][tier].income_limits[size + 'p']);
       assert.equal(actual.familySize, size);
       assert.equal(actual.hera, bucket === 'hera_tiers');
       assert.equal(actual.tableYear, table.meta.fiscal_year);
       assert.equal(actual.effectiveDate, table.meta.effective_date);
       assert.equal(actual.sourceUrl, table.meta.source_url);
-      assert.equal(SP.computeIncomeLimit(table, county.fips, tier, size, { useHera }), actual.incomeLimit);
+      assert.equal(SP.computeIncomeLimit(table, county.fips, tier, size, { useHera, pisDate: '2008-12-31' }), actual.incomeLimit);
     }
   }
   const fallbackTier = Object.keys(hera.regular_tiers).find((tier) => !hera.hera_tiers[tier]);
   assert(fallbackTier, 'real HERA county needs a regular-only tier for fallback coverage');
-  assert.equal(limits.maxGrossRent(table, hera.fips, fallbackTier, '2BR', { useHera: true }).hera, false);
-  assert.equal(limits.incomeLimit(table, hera.fips, fallbackTier, 2, { useHera: true }).incomeLimit, hera.regular_tiers[fallbackTier].income_limits['2p']);
+  assert.equal(limits.maxGrossRent(table, hera.fips, fallbackTier, '2BR', { useHera: true, pisDate: '2008-12-31' }).hera, false);
+  assert.equal(limits.incomeLimit(table, hera.fips, fallbackTier, 2, { useHera: true, pisDate: '2008-12-31' }).incomeLimit, hera.regular_tiers[fallbackTier].income_limits['2p']);
 });
 
 test('arithmetic: owner-paid utilities, resident-paid utilities and fees', () => {
@@ -145,7 +145,7 @@ test('one implementation: adapters call the module and retain legacy shapes', ()
     limits.maxGrossRent = (...args) => { calls.push(args); return { grossRent: 123, hera: true, familySize: 3 }; };
     limits.incomeLimit = (...args) => { calls.push(args); return { incomeLimit: 456 }; };
     limits.maxContractRent = (...args) => { calls.push(args); return { contractRent: 78 }; };
-    const opts = { useHera: true };
+    const opts = { useHera: true, pisDate: '2008-12-31' };
     assert.deepEqual(plain(SP.computeLihtcMaxRent(table, '08077', 60, '2BR', opts)), { gross_rent: 123, source: 'CHFA published', hera: true, family_size: 3 });
     assert.deepEqual(calls.pop(), [table, '08077', 60, '2BR', opts]);
     assert.equal(SP.computeIncomeLimit(table, '08077', 60, 2, opts), 456);

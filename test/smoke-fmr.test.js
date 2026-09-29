@@ -158,7 +158,6 @@ if (fileExists(CONNECTOR)) {
     { pattern: /getFmrByFips/,        label: 'getFmrByFips() function present' },
     { pattern: /getIncomeLimitsByFips/, label: 'getIncomeLimitsByFips() function present' },
     { pattern: /computeFmrRatio/,     label: 'computeFmrRatio() function present' },
-    { pattern: /getGrossRentLimit/,   label: 'getGrossRentLimit() function present' },
     { pattern: /safeFetchJSON/,       label: 'Uses safeFetchJSON (fetch-helper)' },
     { pattern: /hud-fmr-income-limits\.json/, label: 'References data file path' },
   ];
@@ -244,7 +243,6 @@ if (fileExists(DEAL_CALC)) {
   const checks = [
     { pattern: /HudFmr/,                   label: 'References window.HudFmr' },
     { pattern: /dc-county-select/,         label: 'County selector (#dc-county-select) present' },
-    { pattern: /getGrossRentLimit/,        label: 'Uses getGrossRentLimit()' },
     { pattern: /updateAmiLimitsFromFmr/,   label: 'updateAmiLimitsFromFmr() function present' },
     { pattern: /_amiLimits/,               label: 'Uses dynamic _amiLimits' },
   ];
@@ -258,6 +256,13 @@ if (fileExists(DEAL_CALC)) {
 } else {
   fail(DEAL_CALC + ' not found');
 }
+
+const rentLimits = require('../js/chfa-rent-limits.js');
+const chfa = parseJSON('data/chfa-income-rent-limits-2026.json');
+const sample = chfa.counties[0];
+if (rentLimits.rentCeiling({ chfaTable: chfa, fips: sample.fips, tier: 60, bedrooms: '2BR' }).grossRent === sample.regular_tiers['60'].max_rents['2br']) {
+  pass('Shared CHFA ceiling agrees with the published county data');
+} else fail('Shared CHFA ceiling does not agree with the data');
 
 // ─── 7. Python fetch script ───────────────────────────────────────────────────
 console.log('\n── 7. scripts/fetch_fmr_api.py ──');
