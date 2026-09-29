@@ -198,10 +198,27 @@
   }
 
   var _sectionSeq = 0;
-  // Survives across passes: content arrives late and is scanned repeatedly, so
-  // "already wrapped" has to outlive a single invocation or the same term gets
-  // wrapped again on every mutation.
-  var _wrapped = Object.create(null);
+
+  // "Already wrapped in this section" is read from the tooltips actually in
+  // the DOM at the start of every pass, not remembered between passes.
+  //
+  // It used to be a map that outlived the markup it described: once a section
+  // had an AMI tooltip, a renderer that replaced the section's innerHTML left
+  // the new AMI plain for good. Whether a sweep landed between a renderer's
+  // first and final render was timing, so the same page settled with or
+  // without its definitions from one load to the next — on
+  // lihtc-opportunity-finder.html the results table and summary line came out
+  // wrapped on roughly four loads in five (2026-09-28). Reading the DOM makes
+  // the finished page a function of its final content. It still prevents
+  // repeat wrapping: a term already wrapped is found in the DOM next pass.
+  function wrappedInDom() {
+    var wrapped = Object.create(null);
+    var triggers = document.querySelectorAll('.gl-tooltip-trigger[data-glossary-term]');
+    for (var i = 0; i < triggers.length; i++) {
+      wrapped[sectionKeyFor(triggers[i]) + '|' + triggers[i].getAttribute('data-glossary-term')] = true;
+    }
+    return wrapped;
+  }
 
   function autoTooltip(terms, root) {
     if (!terms || !terms.length) return;
@@ -221,7 +238,7 @@
         return a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       }).join('|') + ')\\b', 'g');
 
-    var wrapped = _wrapped;
+    var wrapped = wrappedInDom();
     var hiddenCache = new Map();   // per pass: element -> not on screen
 
     // Walk text nodes in <main> only (avoid nav/header/footer/scripts)
@@ -433,12 +450,10 @@
         try { autoTooltip(terms, root || null); } catch (e) { /* non-fatal */ }
       });
     },
-    // For renderers that REPLACE a section's prose. "Already wrapped" is
-    // remembered per section so late-arriving content is not re-wrapped on
-    // every pass — but that memory outlives the wrapped span when the
-    // section's innerHTML is swapped, so the new text would never get its
-    // first-occurrence tooltip back. Forgetting the section gives it a fresh
-    // key; the next sweep (observer or rescan) treats it as new content.
+    // Kept for existing callers (hna-renderers.js). No longer needed:
+    // "already wrapped" is now read from the DOM each pass, so a section whose
+    // prose is replaced gets its tooltips back without being forgotten.
+    // Dropping the key is harmless — the next pass assigns a fresh one.
     forget: function (el) {
       var host = el && el.closest ? el.closest('section, .chart-card, article, main') : null;
       if (host && host.__glKey) delete host.__glKey;
@@ -468,14 +483,16 @@
     // text it was for.
     loadTerms(function (terms) {
       var pending = null;
-      var mutating = false;
+      var observer = null;
       function sweep(root) {
-        // Our own insertions fire the observer. Without this the sweep
-        // re-triggers itself on every pass, forever, on a page that renders
-        // continuously.
-        mutating = true;
         try { autoTooltip(terms, root); } catch (e) { /* never break the page for a tooltip */ }
-        finally { setTimeout(function () { mutating = false; }, 0); }
+        // Our own insertions fire the observer; without this the sweep
+        // re-triggers itself forever on a page that renders continuously.
+        // The sweep is synchronous, so the records queued now are exactly
+        // the ones it made: discard those and nothing else. The flag this
+        // replaces stayed up until a setTimeout(0), and silently dropped any
+        // page render that landed in that window.
+        if (observer) observer.takeRecords();
       }
       function scheduleSweep() {
         if (pending) clearTimeout(pending);
@@ -487,8 +504,7 @@
         setTimeout(function () { sweep(null); }, 150);
         var host = document.querySelector('main') || document.body;
         if (!host || typeof MutationObserver !== 'function') return;
-        new MutationObserver(function (records) {
-          if (mutating) return;
+        observer = new MutationObserver(function (records) {
           for (var i = 0; i < records.length; i++) {
             if (records[i].addedNodes && records[i].addedNodes.length) { scheduleSweep(); return; }
             // A legend, tab, <details> or inline-styled panel opening reveals
@@ -500,7 +516,8 @@
             if (records[i].type === 'attributes' &&
                 !(t.closest && t.closest('.leaflet-pane, .gl-tooltip-trigger, .gl-tooltip-popup'))) { scheduleSweep(); return; }
           }
-        }).observe(host, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden', 'open', 'style'] });
+        });
+        observer.observe(host, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden', 'open', 'style'] });
       }
       if (document.readyState === 'complete' || document.readyState === 'interactive') {
         start();
