@@ -17,6 +17,10 @@ let hudJson = null;
 try { hudJson = JSON.parse(read('data/hud-fmr-income-limits.json')); } catch (_) { /* optional */ }
 
 function mountWith(subject) {
+  subject = { ...subject, utility_allowance_basis: {
+    method: 'pha', reference: 'Test county PHA schedule', effective_date: '2026-01-01',
+    resident_paid: ['heat'], bound_county_fips: subject.county_fips
+  } };
   const dom = new JSDOM('<!doctype html><body><div id="sp"></div><div id="rc"></div></body>',
     { runScripts: 'outside-only', url: 'https://example.org/market-analysis.html' });
   const w = dom.window;
@@ -45,7 +49,12 @@ assert(lihtc && lihtc.gross_rent > 0, 'CHFA max gross rent should be a positive 
 const GROSS = lihtc.gross_rent;
 
 // ── 1. The pure rule ───────────────────────────────────────────────────────
-const { maxNetRent } = SP0.SubjectProject;
+const basisStatus = SP0.ChfaRentLimits.allowanceBasisStatus({
+  method: 'pha', reference: 'Test county PHA schedule', effective_date: '2026-01-01',
+  resident_paid: ['heat'], bound_county_fips: county
+}, county);
+assert.equal(basisStatus.complete, true);
+const maxNetRent = (gross, allowance, fees) => SP0.SubjectProject.maxNetRent(gross, allowance, fees, basisStatus);
 assert.equal(maxNetRent(GROSS, null), null, 'blank allowance → unknown net rent');
 assert.equal(maxNetRent(GROSS, ''), null, 'empty-string allowance → unknown net rent');
 assert.equal(maxNetRent(GROSS, undefined), null);
@@ -84,7 +93,7 @@ assert.equal((await netCellFor(150, 40)).textContent.trim(), money(GROSS - 190),
 assert.equal((await netCellFor(GROSS, 0)).textContent.trim(), money(0), 'deductions equal to gross support a genuine zero');
 for (const [ua, fees] of [[GROSS + 1, undefined], [GROSS - 10, 11]]) {
   const cell = await netCellFor(ua, fees);
-  const result = SP0.ChfaRentLimits.maxContractRent({ grossRent: GROSS, utilityAllowance: ua, fees });
+  const result = SP0.ChfaRentLimits.maxContractRent({ grossRent: GROSS, utilityAllowance: ua, fees, basisStatus });
   assert(!/\$\s*\d/.test(cell.textContent), 'over-deduction must not render a money amount');
   assert(cell.textContent.trim().length > 0, 'over-deduction must show an explanation');
   assert.equal(cell.getAttribute('title'), result.unavailableReason);
