@@ -370,7 +370,19 @@ test('startup waits for current ACS bindings before restoring a valid saved sess
   assertRestored(w, saved);
 });
 
-test('a changed site cancels startup restoration while sources are loading', async () => {
+[
+  ['tract-picker site change', w => w.PMAUIController.beginTractPma(40, -105)],
+  ['direct site placement', w => {
+    w.fetch = () => Promise.reject(new Error('network disabled in fixture'));
+    w.PMAEngine.placeSiteMarker(40, -105);
+  }],
+  ['jurisdiction deep link', w => {
+    w.fetch = () => Promise.reject(new Error('network disabled in fixture'));
+    w.PMAEngine.placeSiteMarker(40, -105, { jurisdictionCentroid: true });
+    w.PMAEngine.runAnalysis(40, -105);
+  }],
+  ['direct engine analysis', w => w.PMAEngine.runAnalysis(SITE.lat, SITE.lon)]
+].forEach(([label, start]) => test(label + ' cancels startup restoration while sources are loading', async () => {
   let release;
   const acs = new Promise(resolve => { release = resolve; });
   const w = page({ cold: true, dataService: { baseData: p => p, getJSON(p) {
@@ -380,13 +392,13 @@ test('a changed site cancels startup restoration while sources are loading', asy
   } } });
   store(w, savedRun());
   await tick();
-  w.PMAUIController.beginTractPma(40, -105);
+  start(w);
   release(ACS);
   await w.PMAEngine.whenDataReady();
   await tick();
   assert.strictEqual(w.PMAUIController.getLastScoreRun(), null);
   assert.strictEqual(w.document.getElementById('pmaJustificationNarrative').textContent, '');
-});
+}));
 
 (async () => {
   for (const [name, fn] of tests) {
