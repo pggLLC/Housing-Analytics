@@ -197,6 +197,34 @@ async function test(name, fn) {
       assert.equal(gross(), limits.unavailableMessage('hera_pis_missing'));
     } finally { w.close(); }
   });
+  await test('both HERA subject panels pass the saved PIS date and block invalid HERA without stale totals', async () => {
+    const county = chfa.counties.find((c) => c.hera_special && c.hera_tiers['60']);
+    const w = new JSDOM('<div id="rent"></div><div id="income"></div>', { url: 'https://example.org/', runScripts: 'outside-only' }).window;
+    w.fetch = (url) => Promise.resolve({ json: () => Promise.resolve(String(url).includes('chfa-') ? chfa : hud) });
+    w.localStorage.setItem('coho.subjectProject.v1', JSON.stringify({ county_fips: county.fips, use_hera_special: true, pis_date: '2008-12-31',
+      utility_allowance_basis: { method: 'owner_pays_all', resident_paid: [] },
+      unit_mix: [{ bedrooms: '2BR', ami_tier: 60, count: 1, proposed_gross_rent: 1000, utility_allowance: 0 }] }));
+    for (const file of ['js/chfa-rent-limits.js', 'js/components/subject-project.js', 'js/components/subject-rent-comparison.js', 'js/components/subject-income-eligibility.js']) w.eval(read(file));
+    const rent = w.document.getElementById('rent'), income = w.document.getElementById('income');
+    async function render() { w.SubjectRentComparison.render(rent); w.SubjectIncomeEligibility.render(income); await settle(); }
+    try {
+      await render();
+      assert.equal(rent.querySelector('tbody tr').children[6].textContent, money(county.hera_tiers['60'].max_rents['2br']));
+      assert.equal(income.querySelector('tbody tr').children[6].textContent, money(county.hera_tiers['60'].income_limits['3p']));
+      for (const [date, reason] of [['', 'hera_pis_missing'], ['2008-02-30', 'hera_pis_missing'], ['2009-01-01', 'hera_pis_after_2008']]) {
+        w.SubjectProject.set({ ...w.SubjectProject.get(), pis_date: date });
+        await render();
+        for (const panel of [rent, income]) {
+          assert.equal(panel.querySelector('tbody'), null, 'blocked HERA clears previous table and aggregate');
+          assert.equal(panel.textContent, limits.unavailableMessage(reason));
+        }
+      }
+      w.SubjectProject.set({ ...w.SubjectProject.get(), use_hera_special: false });
+      await render();
+      assert.equal(rent.querySelector('tbody tr').children[6].textContent, money(county.regular_tiers['60'].max_rents['2br']));
+      assert.equal(income.querySelector('tbody tr').children[6].textContent, money(county.regular_tiers['60'].income_limits['3p']));
+    } finally { w.close(); }
+  });
   await test('live examples, captions, share inputs and JSON/PDF metadata agree with the chosen regime', async () => {
     const w = await calculator();
     try {
