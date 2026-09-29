@@ -80,7 +80,7 @@ const FIXTURES = {
 /* Serves the repo, plus the fixtures, with the stylesheets a slow runner
  * would be slow on delayed by a random amount per request. */
 const server = http.createServer((req, res) => {
-  const url = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+  const url = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
   const send = (type, body) => { res.writeHead(200, { 'content-type': type }); res.end(body); };
   if (url.startsWith('/__fixtures__/')) {
     const name = url.slice('/__fixtures__/'.length);
