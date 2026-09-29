@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-28T15:22:52.197Z
+**Scan timestamp:** 2026-09-29T14:01:36.614Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1697 |
-| New (unregistered) | 1666 |
+| Files scanned | 1698 |
+| New (unregistered) | 1667 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
@@ -58,7 +58,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (4117 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (240 KB)
+- `data/discovery-reports/latest.json` (251 KB)
 - `data/environmental/epa-superfund-co.json` (324 KB)
 - `data/environmental/fema-flood-co.geojson` (2 KB)
 - `data/fixtures/fruita-commons-broad-income.scenario.json` (5 KB)
@@ -1459,6 +1459,7 @@
 - `data/hna/vacancy-status.json` (458 KB)
 - `data/hna/zhvi-place-crosswalk.json` (45 KB)
 - `data/home-snapshot.json` (2 KB)
+- `data/insights/catalog.json` (9 KB)
 - `data/insights-meta.json` (1 KB)
 - `data/jurisdiction-briefs/0803620.json` (27 KB)
 - `data/jurisdiction-briefs/08045.json` (29 KB)
@@ -1653,7 +1654,7 @@
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (25 KB)
 - `data/policy/stewardship-providers.json` (2 KB)
-- `data/policy/tax-credit-legislation.json` (15 KB)
+- `data/policy/tax-credit-legislation.json` (18 KB)
 - `data/policy/thiz-map-status.json` (2 KB)
 - `data/policy/tool-watch.json` (5 KB)
 - `data/policy/unit-size-standards.json` (5 KB)
