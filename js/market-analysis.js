@@ -143,6 +143,7 @@
   });
   var dataLoaded   = false;  // true once loadData() has settled
   var dataReadyPromise = null; // saved custom PMAs must use the loaded bindings
+  var contextRevision = 0; // includes direct engine calls from jurisdiction deep links
 
   // ── CHFA rural classification ─────────────────────────────────────
   // Colorado counties that fall inside a HUD MSA or HMFA (per the FMR
@@ -2546,6 +2547,7 @@
 
   /* ── Run analysis ───────────────────────────────────────────────── */
   function runAnalysis(lat, lon, options) {
+    contextRevision++;
     options = options || {};
     var analysisMethod = options.method || 'buffer';
     var selectedTractGeoids = Array.isArray(options.tractGeoids) ? options.tractGeoids : [];
@@ -4477,6 +4479,7 @@
   var _jurisdictionCentroid = null;
 
   function placeSiteMarker(lat, lon, opts) {
+    contextRevision++;
     siteLatLng = { lat: lat, lon: lon };
     _jurisdictionCentroid = (opts && opts.jurisdictionCentroid) ? { lat: lat, lon: lon } : null;
     // Keep PMAEngine shim up-to-date so other modules can read last site coords.
@@ -6053,6 +6056,7 @@
     customPmaReadiness:      customPmaReadiness,
     blockCustomPma:          blockCustomPma,
     whenDataReady:           function () { return dataReadyPromise || Promise.resolve(); },
+    getContextRevision:     function () { return contextRevision; },
     generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
     captureDenominator:      captureDenominator,

@@ -1387,8 +1387,10 @@
     // Wait for it, and abandon restoration if the user has since begun work.
     var revision = _conclusionRevision;
     var engine = window.PMAEngine;
+    var engineRevision = engine && engine.getContextRevision ? engine.getContextRevision() : null;
     var dataReady = engine && engine.whenDataReady ? engine.whenDataReady() : Promise.resolve();
     dataReady.then(function () {
+      if (engineRevision !== null && engine.getContextRevision() !== engineRevision) return;
       if (revision === _conclusionRevision && !_lastScoreRun) _restoreLastRun();
     });
   }
