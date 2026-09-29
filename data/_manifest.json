@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-29T08:28:29.624Z",
+    "generated_at": "2026-09-29T12:59:34.440Z",
     "root": "data/",
     "file_count": 1693,
-    "total_size_bytes": 175949879,
+    "total_size_bytes": 175950152,
     "kinds": {
       "json": 1656,
       "geojson": 33,
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-29T08:28:25.846Z",
+      "mtime": "2026-09-29T12:59:31.226Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1512,8 +1512,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1252853,
-      "mtime": "2026-09-28T11:45:07.487Z",
+      "size_bytes": 1253146,
+      "mtime": "2026-09-29T12:58:55.957Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30521,7 +30521,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 215164,
-      "mtime": "2026-09-29T02:17:51.426Z",
+      "mtime": "2026-09-29T12:58:56.126Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31912,8 +31912,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14705,
-      "mtime": "2026-09-29T08:28:27.634Z",
+      "size_bytes": 14703,
+      "mtime": "2026-09-29T12:59:32.652Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31936,7 +31936,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-29T08:28:27.251Z",
+      "mtime": "2026-09-29T12:59:32.317Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34394,8 +34394,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 17832,
-      "mtime": "2026-09-28T12:09:59.096Z",
+      "size_bytes": 17814,
+      "mtime": "2026-09-29T12:58:56.282Z",
       "shape": "object",
       "keys": [
         "updated",
