@@ -3473,7 +3473,7 @@
     // against no income), a $0 first mortgage and a sensitivity chart of $0
     // bars for anyone reaching this page without a jurisdiction (G3 dry run,
     // 2026-09-25).
-    if ((!_amiLimits && !_amiLimitsByBr) || rentInputsMissing) {
+    if (!_amiLimits && !_amiLimitsByBr) {
       annualRents = NaN;
     }
 
