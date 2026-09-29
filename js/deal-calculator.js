@@ -13,6 +13,7 @@
   var _cfg = window.COHO_DEFAULTS || {};
   var _amiLimits = null;       // legacy flat: { 30: $$, 40: $$, ... } (= 2BR ceiling per tier)
   var _amiLimitsByBr = null;   // P7: { 30: { studio, 1br, 2br, 3br, 4br }, ... }
+  var _chfaRentTable = null;
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
   var _creditRate = _cfg.creditRate9Pct || 0.09;
   var _equityPricingDefaults = {
@@ -1187,95 +1188,89 @@
     };
   }
 
-  /**
-   * Update _amiLimits from HudFmr for the given county FIPS.
-   *
-   * LIHTC rent ceiling formula:
-   *   monthly_rent_limit = (AMI_4person × tier_pct × rent_burden_pct) / 12
-   *
-   * The rent_burden_pct is a tunable constant (`_constants.rentBurdenPct`,
-   * default 0.30). When the user changes it via the Methodology &
-   * Formulas panel, the ceilings recompute and propagate to the deal.
-   *
-   * Computed locally rather than calling HudFmr.getGrossRentLimit so the
-   * burden % is honored — that helper has 0.30 hardcoded.
-   *
-   * @param {string} fips  5-digit county FIPS, or null/'' for default.
-   */
+  function rentLimitRegime() {
+    var select = document.getElementById('dc-rent-limit-regime');
+    return select && select.value || 'chfa_lihtc';
+  }
+
+  // Resolve at calculation time: market-analysis loads this file before the module.
+  function rentCeilingFor(tier, br) {
+    var limits = window.ChfaRentLimits;
+    var hud = window.HudFmr;
+    if (!limits) return { grossRent: null, regime: rentLimitRegime(), unavailableReason: 'rent_module_unavailable' };
+    return limits.rentCeiling({ regime: rentLimitRegime(), chfaTable: _chfaRentTable,
+      hudTable: hud && hud.isLoaded() ? { meta: hud.getMeta(), counties: hud.getAllCounties() } : null,
+      fips: _countyFips, tier: tier,
+      bedrooms: { studio: 'efficiency', '1br': '1BR', '2br': '2BR', '3br': '3BR', '4br': '4BR' }[br],
+      rentBurden: _constants.rentBurdenPct, useHera: false });
+  }
+
+  function getRentLimitsMetadata() {
+    var result = rentCeilingFor(60, '2br');
+    return { regime: result.regime, method: result.method || null, source: result.source || null,
+      tableYear: result.tableYear == null ? null : result.tableYear, effectiveDate: result.effectiveDate || null };
+  }
+
+  function setChfaRentTable(table) {
+    _chfaRentTable = table;
+    updateAmiLimitsFromFmr(_countyFips);
+  }
+
+  function rentLimitText(result) {
+    return result.grossRent != null ? '$' + Math.round(result.grossRent).toLocaleString('en-US') + '/mo' :
+      (window.ChfaRentLimits ? window.ChfaRentLimits.unavailableMessage(result.unavailableReason) : 'Rent limits unavailable');
+  }
+
+  function renderRentLimitContext() {
+    var result = rentCeilingFor(60, '2br');
+    var regime = result.regime;
+    var labels = { chfa_lihtc: 'CHFA LIHTC', ami_formula: 'Other AMI-restricted rental', market: 'Market-rate' };
+    var caption = document.getElementById('dc-rent-limit-caption');
+    if (caption) caption.textContent = (labels[regime] || regime) + ' · ' + (result.source || 'Source unavailable') +
+      (result.tableYear == null ? '' : ' · ' + result.tableYear);
+    var burden = document.getElementById('dc-const-rent-burden');
+    if (burden) burden.disabled = regime !== 'ami_formula';
+    var explanation = document.getElementById('dc-rent-burden-help');
+    if (explanation) explanation.textContent = regime === 'ami_formula'
+      ? 'Applies only to the non-CHFA income-based formula.'
+      : regime === 'market' ? 'Market-rate rents have no income-based ceiling.'
+      : 'Published CHFA rents are fixed; rent burden does not change them.';
+    var hera = document.getElementById('dc-rent-limit-hera-note');
+    if (hera) hera.hidden = regime !== 'chfa_lihtc';
+    var formula = document.getElementById('dc-rent-limit-formula');
+    if (formula) formula.textContent = regime === 'ami_formula'
+      ? 'Non-CHFA formula: household income limit × (AMI tier ÷ 50) × rent burden ÷ 12.'
+      : regime === 'market' ? 'No restricted limit (market-rate)' : 'Published CHFA maximum gross rent by county, tier and bedroom size.';
+    var example = '@ 60% AMI (2BR): ' + rentLimitText(result);
+    ['dc-formula-ceiling-eg', 'dc-rent-limit-example'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) { el.textContent = example; el.dataset.grossRent = result.grossRent == null ? '' : String(result.grossRent); }
+    });
+    var note = document.getElementById('dc-fmr-note');
+    if (note) {
+      note.textContent = DEAL_AMI_BANDS.map(function (tier) {
+        return tier + '% AMI (2BR): ' + rentLimitText(rentCeilingFor(tier, '2br'));
+      }).join(' · ');
+      note.style.color = '';
+    }
+  }
+
+  /** Populate every tier/bedroom from the selected shared rent-limit regime. */
   function updateAmiLimitsFromFmr(fips) {
-    var hudFmr = window.HudFmr;
-    if (!fips || !hudFmr || !hudFmr.isLoaded()) return;
-    var il = hudFmr.getIncomeLimitsByFips(fips);
-    if (!il || !il.ami_4person) return;
-    var burden = +_constants.rentBurdenPct;
-    if (!isFinite(burden) || burden <= 0) burden = DEFAULT_CONSTANTS.rentBurdenPct;
-
-    // P6/P7 — CHFA §42 LIHTC rent methodology, per-BR
-    // ------------------------------------------------------------------
-    // The IRC §42 statute computes the LIHTC rent ceiling using IMPUTED
-    // household size = 1.5 × bedroom count:
-    //   Studio = 1 person   1BR = 1.5 person   2BR = 3 person
-    //   3BR = 4.5 person    4BR = 6 person
-    //
-    // We build per-BR per-tier rent ceilings. Backwards-compat: the
-    // `computed[pct]` flat number is the 2BR ceiling (used by any code
-    // path that doesn't know about BR mix yet). The per-BR breakdown
-    // lives on `_amiLimitsByBr` keyed as `_amiLimitsByBr[pct][br]`.
-    //
-    // For 1BR / 3BR we linear-interp between adjacent person sizes;
-    // for 4BR (6 person) we don't have il50_5/il50_6 in the cached IL
-    // file, so we approximate using il50_4 × 1.04 (3BR) and × 1.16 (4BR)
-    // following HUD's published 8%/4% adjustment factors. Best-effort
-    // until the IL refresh includes 5-8 person.
-    var il50_1p = +il.il50_1person;
-    var il50_2p = +il.il50_2person;
-    var il50_3p = +il.il50_3person;
-    var il50_4p = +il.il50_4person;
-
-    var computed = {};
-    var computedByBr = {};
-    var hasIL = Number.isFinite(il50_3p) && il50_3p > 0;
-
-    if (hasIL) {
-      // 50% AMI income limits by imputed household size
-      var il50ByBr = {
-        'studio': il50_1p,                        // 1 person
-        '1br':    (il50_1p + il50_2p) / 2,        // 1.5 person interp
-        '2br':    il50_3p,                        // 3 person
-        '3br':    (il50_4p) * 1.04,               // 4.5 person ≈ il50_4 × 1.04 (HUD adjustment factor proxy)
-        '4br':    il50_4p * 1.16                  // 6 person ≈ il50_4 × 1.16 (HUD adjustment factor proxy)
-      };
-      DEAL_AMI_BANDS.forEach(function (pct) {
-        var tier_factor = pct / 50;
-        computedByBr[pct] = {};
-        Object.keys(il50ByBr).forEach(function (br) {
-          var tier_ami = il50ByBr[br] * tier_factor;
-          computedByBr[pct][br] = Math.round((tier_ami * burden) / 12);
-        });
-        // Backwards-compat flat number = 2BR ceiling
-        computed[pct] = computedByBr[pct]['2br'];
-      });
-    } else {
-      // Fallback: if IL data is missing (rare), use the prior 4-person
-      // AMI approach so we don't silently zero out rents.
-      var ami4 = +il.ami_4person;
-      DEAL_AMI_BANDS.forEach(function (pct) {
-        var v = Math.round((ami4 * (pct / 100) * burden) / 12);
-        computed[pct] = v;
-        computedByBr[pct] = { studio: v, '1br': v, '2br': v, '3br': v, '4br': v };
+    _countyFips = fips || null;
+    _amiLimits = null;
+    _amiLimitsByBr = null;
+    if (_countyFips || rentLimitRegime() === 'market') {
+      _amiLimits = {};
+      _amiLimitsByBr = {};
+      DEAL_AMI_BANDS.forEach(function (tier) {
+        _amiLimitsByBr[tier] = {};
+        SPLIT_BR_TYPES.forEach(function (br) { _amiLimitsByBr[tier][br] = rentCeilingFor(tier, br).grossRent; });
+        _amiLimits[tier] = _amiLimitsByBr[tier]['2br'];
       });
     }
-    _amiLimits = computed;
-    _amiLimitsByBr = computedByBr;
-    _countyFips = fips;
-    // F25: refresh the 4% bond PAB note for the newly selected county.
-    _renderPabNote(fips);
-    // M1: recompute downstream now that AMI limits are available. Previously
-    // recalculate() ran on initial load with _amiLimits=null and never re-fired
-    // after FMR loaded async, so the rent roll stayed $0 until the user
-    // touched an unrelated input. Trigger a fresh recalc here so rents +
-    // mortgage + pro forma + exit analysis pick up the new limits immediately.
-    try { recalculate(); } catch (_) { /* recalculate not yet defined during initial wiring */ }
+    _renderPabNote(_countyFips);
+    recalculate();
   }
 
   /**
@@ -1472,6 +1467,14 @@
         </label>
 
         <div id="dc-rental-ami-mix" data-dc-mode="rental" style="margin-bottom:var(--sp2);">
+          <label for="dc-rent-limit-regime" style="display:block;margin-bottom:var(--sp2);">Rent limits
+            <select id="dc-rent-limit-regime" style="display:block;width:100%;min-height:44px;background:var(--bg2);color:var(--text);">
+              <option value="chfa_lihtc" selected>CHFA LIHTC</option>
+              <option value="ami_formula">Other AMI-restricted rental (non-CHFA formula)</option>
+              <option value="market">Market-rate (unrestricted)</option>
+            </select>
+          </label>
+          <p id="dc-rent-limit-hera-note" style="font-size:var(--tiny);color:var(--muted);">Regular CHFA limits — HERA applies only to projects placed in service by 12/31/2008.</p>
           <label style="display:block;margin-bottom:var(--sp2);">
             <span style="font-size:var(--small);color:var(--muted);">Federal minimum set-aside election</span>
             <select id="dc-minimum-set-aside"
@@ -1928,30 +1931,22 @@
           </p>
 
           <div style="margin-bottom:var(--sp3);">
-            <strong style="display:block;margin-bottom:0.25rem;">1. LIHTC monthly gross rent ceiling — §42 / CHFA methodology (default 2BR)</strong>
-            <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;">
-              ceiling = MTSP_AMI<sub>3-person</sub> × (tier_pct ÷ 50) × <span style="background:var(--warn-dim,#fef3c7);padding:0 0.15rem;">rent_burden</span> ÷ 12
-            </code>
+            <strong style="display:block;margin-bottom:0.25rem;">1. Monthly gross rent ceiling (2BR example)</strong>
+            <p id="dc-rent-limit-formula"></p>
             <div style="margin-top:0.4rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
-              <label style="font-size:var(--tiny);color:var(--muted);">rent_burden:</label>
-              <input id="dc-const-rent-burden" type="number" min="20" max="50" step="1" value="30"
+              <label for="dc-const-rent-burden" style="font-size:var(--tiny);color:var(--muted);">Rent burden:</label>
+              <input id="dc-const-rent-burden" disabled aria-describedby="dc-rent-burden-help" type="number" min="20" max="50" step="1" value="30"
                 style="width:5rem;padding:0.25rem 0.4rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:var(--small);"> <span style="font-size:var(--tiny);color:var(--muted);">%</span>
               <span id="dc-formula-ceiling-eg" style="font-size:var(--tiny);color:var(--muted);margin-left:auto;">—</span>
             </div>
             <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;line-height:1.5;">
-              <strong>Why MTSP 3-person, not 4-person AMI:</strong> <abbr data-glossary="IRC §42">IRC §42</abbr> uses
-              imputed household size = 1.5 × bedroom count (Studio = 1p, 1BR = 1.5p,
-              2BR = 3p, 3BR = 4.5p, 4BR = 6p). CHFA underwrites to this rule. We
-              default to 2BR (the most common LIHTC unit type) using HUD MTSP's
-              published 50% AMI 3-person income limit and scale linearly to each
-              tier. The widely-circulated <code>ami_4person × pct</code> shortcut
-              over-estimates Studio/1BR ceilings and under-estimates 3BR+.
-              <br>
-              <strong>30% rent burden</strong> is HUD-standard. Some affordable
-              programs (FHA 221(d)(4), select state HFAs) underwrite at 28%.
-              <br>
+              <span id="dc-rent-burden-help"></span><br>
+              The non-CHFA formula uses HUD Income Limits: Studio = 1 person, 1BR = average of 1 and 2,
+              2BR = 3, 3BR = 4-person × 1.04, and 4BR = 4-person × 1.16.
+              <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD household-size adjustments</a>.
+              This formula is not a published program limit.<br>
               <strong>Gross vs net rent:</strong> these are GROSS rent ceilings
-              (the §42 maximum). Tenant-paid NET rent = gross − utility
+              (published for CHFA or calculated for other AMI restrictions). Tenant-paid NET rent = gross − utility
               allowance, published per-jurisdiction by HUD or the local PHA.
               The pro forma below uses gross rent as a conservative ceiling;
               real underwriting subtracts UA.
@@ -2124,9 +2119,8 @@
         <p id="dc-gap-note" style="margin-top:var(--sp2);font-size:var(--tiny);color:var(--muted);display:none;"></p>
         <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
           ⚠ Verify: Annual credits and equity are illustrative — confirm equity pricing with your syndicator
-          (CO market typically $0.85–$0.95/credit). Gross rents use
-          <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY2026</a>
-          published limits (lags ~18 mo); spot-check against current market rents before underwriting.
+          (CO market typically $0.85–$0.95/credit). Gross rents follow the selected rent-limit setting;
+          the rent comparison names its source and year. Spot-check against current market rents before underwriting.
         </p>
         </div>
 
@@ -2395,15 +2389,16 @@
       <fieldset data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Rent Achievability Check</legend>
         <p id="dc-rent-ach-intro" style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
-          Compares LIHTC rent ceilings (at each AMI tier) against the county's HUD FMR 2BR market rent.
+          Compares the selected rent ceilings (at each AMI tier) against the county's HUD FMR 2BR market rent.
           When the ceiling exceeds market rent, proforma revenue at the ceiling is over-stated and the
           deal's actual DSCR will come in below underwriting.
         </p>
         <table id="dc-rent-ach-table" style="width:100%;border-collapse:collapse;font-size:var(--small);">
+          <caption id="dc-rent-limit-caption" style="text-align:left;" aria-live="polite"></caption>
           <thead>
             <tr>
               <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">AMI Tier</th>
-              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">LIHTC Ceiling</th>
+              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Rent ceiling</th>
               <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">HUD FMR 2BR</th>
               <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Gap</th>
               <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Status</th>
@@ -2437,7 +2432,7 @@
           </table>
         </div>
         <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
-          ⚠ LIHTC rent ceilings assume 4-person AMI (HUD standard); actual per-bedroom limits vary ±10%. HUD FMR is the 40th-percentile
+          <span id="dc-rent-limit-example"></span><br>HUD FMR is the 40th-percentile
           market rent for the area and lags ~18 mo. For a binding market-rent test, commission a rent comparability study
           before closing. Source:
           <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY2026</a>.
@@ -2686,6 +2681,15 @@
     if (taxExemptSel) taxExemptSel.addEventListener('change', recalculate);
     var saleTargetSel = document.getElementById('dc-sale-target-ami');
     if (saleTargetSel) saleTargetSel.addEventListener('change', recalculate);
+    var rentRegime = document.getElementById('dc-rent-limit-regime');
+    if (rentRegime) {
+      ['input', 'change'].forEach(function (event) {
+        rentRegime.addEventListener(event, function () {
+          updateAmiLimitsFromFmr(_countyFips);
+          if (typeof window.__announceUpdate === 'function') window.__announceUpdate('Rent limits updated.');
+        });
+      });
+    }
     var minimumSetAsideSel = document.getElementById('dc-minimum-set-aside');
     if (minimumSetAsideSel) minimumSetAsideSel.addEventListener('change', recalculate);
     ['dc-mode-rental', 'dc-mode-ownership'].forEach(function (id) {
@@ -3271,19 +3275,20 @@
     var amiUnitSum = 0;
     var minimumSetAsideElection = currentMinimumSetAsideElection();
     var designatedUnitsByPct = {};
-    // _amiLimits is null until the user selects a county. Skip the rent roll
-    // entirely rather than fabricating Denver MSA rents — NaN propagation
-    // through the pro-forma would mislead more than a visible zero.
-    // P7: per-tier BR-type selector. Each tier's rent = units × per-BR rent
-    // ceiling × 12. Falls back to the legacy flat _amiLimits[pct] (= 2BR
-    // default) if the BR breakdown isn't available yet.
-    //
-    // Q5: When the "achievable-rent cap" toggle is ON, the 70%-120% AMI
-    // workforce/middle-income tiers underwrite at min(ceiling, ZORI market). The
-    // 20-60% AMI LIHTC ceilings rarely exceed market and are not capped.
+    // Missing ceilings block revenue; market mode uses the existing ZORI/FMR
+    // bedroom estimates rather than inventing an income-based restriction.
+    var marketRegime = rentLimitRegime() === 'market';
+    var rentInputsMissing = false;
     var capChk = document.getElementById('dc-achievable-cap');
-    var capOn = !!(capChk && capChk.checked);
-    var perBrMarket = (capOn && _countyFips) ? getZoriPerBrRent(_countyFips) : null;
+    var capOn = !marketRegime && !!(capChk && capChk.checked);
+    var perBrMarket = ((capOn || marketRegime) && _countyFips) ? getZoriPerBrRent(_countyFips) : null;
+    function tierRent(tier, br) {
+      var value = marketRegime ? perBrMarket && perBrMarket[br]
+        : _amiLimitsByBr ? _amiLimitsByBr[tier] && _amiLimitsByBr[tier][br]
+        : _amiLimits && _amiLimits[tier];
+      if (typeof value !== 'number' || !isFinite(value)) { rentInputsMissing = true; return NaN; }
+      return value;
+    }
     var capBindings = [];   // tiers where the cap actually reduced revenue
     function _nonNegInt(v) {
       var n = parseInt(v, 10);
@@ -3314,12 +3319,7 @@
             SPLIT_BR_TYPES.forEach(function (splitBr) {
               var splitUnits = split[splitBr];
               if (!splitUnits) return;
-              var splitRent = 0;
-              if (_amiLimitsByBr && _amiLimitsByBr[pct] && _amiLimitsByBr[pct][splitBr]) {
-                splitRent = _amiLimitsByBr[pct][splitBr];
-              } else if (_amiLimits && _amiLimits[pct]) {
-                splitRent = _amiLimits[pct];
-              }
+              var splitRent = tierRent(pct, splitBr);
               if (capOn && perBrMarket && pct >= 70) {
                 var splitMkt = perBrMarket[splitBr];
                 if (typeof splitMkt === 'number' && splitMkt > 0 && splitMkt < splitRent) {
@@ -3330,12 +3330,7 @@
               annualRents += splitUnits * splitRent * 12;
             });
           } else {
-            var perUnitRent = 0;
-            if (_amiLimitsByBr && _amiLimitsByBr[pct] && _amiLimitsByBr[pct][br]) {
-              perUnitRent = _amiLimitsByBr[pct][br];
-            } else if (_amiLimits && _amiLimits[pct]) {
-              perUnitRent = _amiLimits[pct];  // legacy 2BR fallback
-            }
+            var perUnitRent = u > 0 ? tierRent(pct, br) : 0;
             // Q5: apply market-rent cap only to workforce tiers (pct ≥ 70)
             if (capOn && perBrMarket && pct >= 70) {
               var mkt = perBrMarket[br];
@@ -3348,7 +3343,7 @@
           }
         }
         amiUnitSum += u; // count all tier units regardless of checkbox
-        if (chk.checked) {
+        if (chk.checked && !marketRegime) {
           designatedUnitsByPct[pct] = u;
         }
       }
@@ -3478,7 +3473,7 @@
     // against no income), a $0 first mortgage and a sensitivity chart of $0
     // bars for anyone reaching this page without a jurisdiction (G3 dry run,
     // 2026-09-25).
-    if (!_amiLimits && !_amiLimitsByBr) {
+    if ((!_amiLimits && !_amiLimitsByBr) || rentInputsMissing) {
       annualRents = NaN;
     }
 
@@ -3562,17 +3557,20 @@
 
     // Why NOI or the rent roll is unknown, carried with it so each message
     // names the fix that applies rather than assuming there is no county.
+    var rentDataReason = !_countyFips ? 'Select a county to load AMI rent limits.'
+      : marketRegime ? 'Market rent data is unavailable for the selected bedrooms.'
+      : 'Rent limits are unavailable for one or more selected tiers or bedrooms.';
     var noiUnknownReason = null;
     if (!(autoNoi && autoNoi.checked) && !isFinite(noi)) {
       noiUnknownReason = 'Enter NOI, or turn on auto-compute.';
     } else if (unitMixError) {
       noiUnknownReason = 'Fix the unit mix: the AMI-tier units do not add up to Total Units.';
-    } else if (!_amiLimits && !_amiLimitsByBr) {
-      noiUnknownReason = 'Select a county to load AMI rent limits.';
+    } else if ((!_amiLimits && !_amiLimitsByBr) || rentInputsMissing) {
+      noiUnknownReason = rentDataReason;
     }
     var rentsUnknownReason = unitMixError
       ? 'Fix the unit mix: the AMI-tier units do not add up to Total Units.'
-      : (!_amiLimits && !_amiLimitsByBr) ? 'Select a county to load AMI rent limits.'
+      : ((!_amiLimits && !_amiLimitsByBr) || rentInputsMissing) ? rentDataReason
       : !(annualRents > 0) ? 'Add units to at least one AMI tier.'
       : null;
 
@@ -3827,23 +3825,7 @@
       });
     }
 
-    // ── Render the live formula example (60% AMI ceiling) ──────────
-    // Surfaces "AMI 124,100 × 60% × 30% / 12 = $1,862" so the user
-    // can see what their rent-burden % choice produces at the most
-    // common LIHTC tier.
-    var ceilingEgEl = document.getElementById('dc-formula-ceiling-eg');
-    if (ceilingEgEl) {
-      var hudFmr2 = window.HudFmr;
-      var il = (hudFmr2 && _countyFips) ? hudFmr2.getIncomeLimitsByFips(_countyFips) : null;
-      if (il && il.ami_4person) {
-        var burdenPct = (_constants.rentBurdenPct * 100).toFixed(0);
-        var ceilingAt60 = Math.round((il.ami_4person * 0.60 * _constants.rentBurdenPct) / 12);
-        ceilingEgEl.textContent = '@ 60% AMI: $' + il.ami_4person.toLocaleString() +
-          ' × 60% × ' + burdenPct + '% ÷ 12 = ' + fmt(ceilingAt60) + '/mo';
-      } else {
-        ceilingEgEl.textContent = 'Select a county to see the live example';
-      }
-    }
+    renderRentLimitContext();
 
     // ── Render rent-achievability table ────────────────────────────
     // Pulls the AMI-tier rent ceilings from _amiLimits (already populated
@@ -3858,7 +3840,12 @@
       fmr:       fmrData
     }) : null;
 
-    if (achBody && achResult) {
+    if (achBody && marketRegime) {
+      achBody.innerHTML = DEAL_AMI_BANDS.map(function (tier) {
+        return '<tr><td>' + tier + '% AMI</td><td colspan="4">No restricted limit (market-rate)</td></tr>';
+      }).join('');
+      if (fmrGrid) fmrGrid.style.display = 'none';
+    } else if (achBody && achResult) {
       var statusLabel = {
         clear:       '✓ Rents clear market',
         tight:       '~ Tight — thin buffer',
@@ -3871,7 +3858,9 @@
         concerning:  'var(--warn, #d97706)',
         misaligned:  'var(--bad, #dc2626)'
       };
-      achBody.innerHTML = achResult.tiers.map(function (t) {
+      achBody.innerHTML = DEAL_AMI_BANDS.map(function (tier) {
+        var t = achResult.tiers.find(function (entry) { return entry.pct === tier; });
+        if (!t) return '<tr><td>' + tier + '% AMI</td><td colspan="4">' + rentLimitText(rentCeilingFor(tier, '2br')) + '</td></tr>';
         var gapSign = t.gap > 0 ? '+' : (t.gap < 0 ? '' : '');
         var gapColor = t.gap <= 0 ? 'var(--good, #047857)'
                      : t.gap <= 50 ? 'var(--text)'
@@ -4752,6 +4741,10 @@
     var mount = document.getElementById('dealCalcMount');
     if (!mount) return;
     render(mount);
+    var chfaLoad = window.__DealCalcChfaTablePromise || fetch('data/chfa-income-rent-limits-2026.json').then(function (r) {
+      return r.ok ? r.json() : null;
+    });
+    chfaLoad.then(setChfaRentTable).catch(function () { setChfaRentTable(null); });
 
     // Phase-4 follow-up — re-scan for <abbr data-glossary> tags now that the
     // output panel HTML has been injected. The inline-glossary boot fires on
@@ -4872,34 +4865,7 @@
 
       countySel.addEventListener('change', function () {
         var fips = this.value;
-        if (fips) {
-          updateAmiLimitsFromFmr(fips);
-        } else {
-          // No county selected — clear rent limits rather than defaulting to
-          // Denver MSA, which systematically over-estimates rent capacity
-          // for the ~56 non-metro CO counties.
-          _amiLimits = null;
-          _countyFips = null;
-        }
-        // Update the FMR note
-        var noteEl = document.getElementById('dc-fmr-note');
-        if (noteEl) {
-          if (_amiLimits) {
-            // P6: surface the \u00a742 / CHFA methodology basis so reviewers see
-            // we're not using ami_4person \u00d7 pct (a common but wrong shortcut).
-            noteEl.innerHTML = '<strong>2BR gross rent ceilings (\u00a742 / CHFA methodology):</strong> ' +
-              DEAL_AMI_BANDS.map(function (p) {
-                return p + '% AMI = $' + _amiLimits[p].toLocaleString();
-              }).join(' \u2022 ') +
-              '<br><span style="opacity:.85;">Formula: 50% AMI 3-person \u00d7 (tier \u00f7 50) \u00d7 ' +
-              Math.round((+_constants.rentBurdenPct) * 100) + '% \u00f7 12.&nbsp;' +
-              'Imputed household = 1.5 \u00d7 bedrooms; 2BR = 3-person. 110%/120% are middle-income planning bands, not LIHTC-credit-eligible. Subtract utility allowance for net rent.</span>';
-            noteEl.style.color = '';
-          } else {
-            noteEl.textContent = 'Select a county above to load HUD-published AMI rent limits for that county.';
-            noteEl.style.color = 'var(--warn, #e6a23c)';
-          }
-        }
+        updateAmiLimitsFromFmr(fips);
         _renderAmiGapInfo(fips, _getActivePlaceGeoid());
         _runDealPredictor(fips);
         _renderCrossCountyDisclosure(fips);
@@ -6640,6 +6606,10 @@
     init: init,
     renderForTest: render,
     recalculate: recalculate,
+    updateAmiLimitsFromFmr: updateAmiLimitsFromFmr,
+    setChfaRentTable: setChfaRentTable,
+    getRentLimitsMetadata: getRentLimitsMetadata,
+    getAmiLimitsByBr: function () { return _amiLimitsByBr == null ? null : JSON.parse(JSON.stringify(_amiLimitsByBr)); },
     setDesignationContext: setDesignationContext,
     setTransitZoneContext: setTransitZoneContext,
     setTzCreditPairing: setTzCreditPairing,

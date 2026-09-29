@@ -72,7 +72,7 @@
     in_migration_pct: 0,           // default conservative (0 = all PMA-resident demand)
     target_population: 'family',   // 'family', 'senior', 'PSH', 'workforce'
     use_hera_special: false,       // true for projects with PIS ≤ 12.31.2008 in a HERA county
-    pis_date: null,                // optional placed-in-service date (informational)
+    pis_date: null,                // required when requesting HERA Special limits
     utility_allowance_basis: null, // older saved projects must choose a method explicitly
     unit_mix: [],                  // rows: {bedrooms, ami_tier, count, sqft, proposed_gross_rent, utility_allowance, fees}
     amenities: [],                 // free-text checklist
@@ -310,7 +310,7 @@
       $h('td', { style: { padding: '4px 6px', textAlign: 'right',
                           color: overMax ? 'var(--bad,#c14545)' : 'var(--muted)',
                           fontWeight: overMax ? '600' : '400' } }, [
-        maxRent == null ? '—' : $fmtMoney(maxRent)
+        maxRent == null ? RentLimits.unavailableMessage(rentLimit.unavailableReason) : $fmtMoney(maxRent)
       ]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'right', color: 'var(--muted)' },
         title: netMissingUa ? UA_MISSING_REASON : (reason || ''),
@@ -492,20 +492,22 @@
         $h('input', { id: 'sp-use_hera_special', type: 'checkbox', 'data-key': 'use_hera_special' }),
         $h('span', {}, ['Use HERA Special limits']),
         $h('span', { style: { fontSize: '.7rem', color: 'var(--muted)' } }, [
-          ' — only for Housing Tax Credit projects with PIS ≤ 2008-12-31 in a HERA county.'
+          chfa.meta && chfa.meta.hera_special_note || 'HERA requires a placed-in-service date on or before 2008-12-31.'
         ])
       ]);
       var heraCb = heraLabel.querySelector('input');
       heraCb.checked = !!subject.use_hera_special;
       heraCb.addEventListener('change', _onMetaChange);
+      heraWrap.appendChild(field('Placed-in-service date (required for HERA)', 'pis_date', 'date'));
       heraWrap.appendChild(heraLabel);
       // Auto-disable when county is not HERA-eligible
       function _refreshHeraEnabled() {
         var s = getSubject();
         var row = RentLimits.countyRow(chfa, s.county_fips);
-        var enable = !!(row && row.hera_special);
+        var enable = !!(row && row.hera_special && s.pis_date);
+        heraCb.checked = !!s.use_hera_special;
         heraCb.disabled = !enable;
-        heraWrap.style.opacity = enable ? '1' : '.55';
+        heraLabel.style.opacity = enable ? '1' : '.55';
       }
       _refreshHeraEnabled();
       _renderUnsubs.push(subscribe(_refreshHeraEnabled));
@@ -653,7 +655,7 @@
         var ownerPays = !!(s.utility_allowance_basis && s.utility_allowance_basis.method === 'owner_pays_all');
         (s.unit_mix || []).forEach(function (row, i) {
           var rentLimit = RentLimits.maxGrossRent(chfa, s.county_fips, row.ami_tier, row.bedrooms,
-            { useHera: !!s.use_hera_special });
+            { useHera: !!s.use_hera_special, pisDate: s.pis_date });
           if (rentLimit.grossRent != null) tableLimit = rentLimit;
           tbody.appendChild(_renderRow(row, i, function (idx, el) {
             var s2 = getSubject();
@@ -765,7 +767,7 @@
         }
         (s.unit_mix || []).forEach(function (r) {
           var lihtc = computeLihtcMaxRent(chfa, s.county_fips, r.ami_tier, r.bedrooms,
-            { useHera: !!s.use_hera_special });
+            { useHera: !!s.use_hera_special, pisDate: s.pis_date });
           if (lihtc) r.proposed_gross_rent = lihtc.gross_rent;
         });
         setSubject(s);

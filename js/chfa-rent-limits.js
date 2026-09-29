@@ -69,7 +69,14 @@
       fees_invalid: 'Enter valid nonoptional fees',
       county_missing: 'County rent limits unavailable',
       tier_missing: 'AMI tier unavailable',
-      bedroom_size_missing: 'Bedroom size unavailable'
+      bedroom_size_missing: 'Bedroom size unavailable',
+      income_limit_missing: 'Household income limit unavailable',
+      rent_burden_invalid: 'Enter a valid rent burden',
+      regime_unknown: 'Choose a rent-limit setting',
+      unrestricted_market: 'No restricted limit (market-rate)',
+      hera_pis_missing: 'Enter a valid placed-in-service date for HERA',
+      hera_pis_after_2008: 'HERA requires a placed-in-service date on or before 2008-12-31',
+      hera_county_unavailable: 'HERA Special limits are unavailable for this county'
     };
     return messages[reason] || 'Rent unavailable';
   }
@@ -139,9 +146,27 @@
     };
   }
 
+  // CHFA meta.hera_special_note is the authority for the PIS cutoff.
+  function heraStatus(table, fips, opts) {
+    if (!opts || !opts.useHera) return { complete: true, unavailableReason: null };
+    var date = opts.pisDate;
+    var parsed = typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date) ? new Date(date + 'T00:00:00Z') : null;
+    var reason = null;
+    if (!parsed || !isFinite(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== date) reason = 'hera_pis_missing';
+    else if (date > '2008-12-31') reason = 'hera_pis_after_2008';
+    else {
+      var county = _countyRow(table, fips);
+      if (!county || !county.hera_special) reason = 'hera_county_unavailable';
+    }
+    return { complete: !reason, unavailableReason: reason,
+      sourceNote: table && table.meta ? table.meta.hera_special_note : null };
+  }
+
   function _lookup(table, fips, tier, opts) {
     var county = _countyRow(table, fips);
     if (!county) return { unavailableReason: 'county_missing' };
+    var hera = heraStatus(table, fips, opts);
+    if (!hera.complete) return { unavailableReason: hera.unavailableReason };
     var hit = _findTier(_tiersBucket(county, opts && opts.useHera), tier);
     return hit || { unavailableReason: 'tier_missing' };
   }
@@ -161,6 +186,62 @@
     var limit = hit.row.income_limits ? _allowance(hit.row.income_limits[householdSize + 'p']) : null;
     if (limit == null) return { incomeLimit: null, unavailableReason: 'household_size_missing' };
     return Object.assign({ incomeLimit: limit }, _metadata(table, hit, +householdSize));
+  }
+
+  var FORMULA_METHOD = 'Formula ceiling for a non-CHFA AMI-restricted rental — not a published program limit';
+  var HUD_IL_URL = 'https://www.huduser.gov/portal/datasets/il.html';
+
+  function rentCeiling(args) {
+    args = args || {};
+    var regime = args.regime || 'chfa_lihtc';
+    var table = regime === 'chfa_lihtc' ? args.chfaTable : args.hudTable;
+    var meta = table && table.meta || {};
+    var result = { grossRent: null, regime: regime, method: null, source: null,
+      tableYear: null, effectiveDate: null, sourceUrl: null, unavailableReason: null };
+    function blocked(reason) { result.unavailableReason = reason; return result; }
+    if (regime === 'market') {
+      result.method = 'Unrestricted market rent';
+      result.source = 'Market rents';
+      return blocked('unrestricted_market');
+    }
+    if (regime === 'chfa_lihtc') {
+      result.method = 'CHFA published maximum gross rent';
+      result.source = meta.source || 'CHFA';
+      result.tableYear = meta.fiscal_year == null ? null : meta.fiscal_year;
+      result.effectiveDate = meta.effective_date || null;
+      result.sourceUrl = meta.source_url || null;
+      var published = maxGrossRent(table, args.fips, args.tier, args.bedrooms,
+        { useHera: args.useHera, pisDate: args.pisDate });
+      result.grossRent = published.grossRent;
+      result.unavailableReason = published.unavailableReason || null;
+      return result;
+    }
+    if (regime !== 'ami_formula') return blocked('regime_unknown');
+    result.method = FORMULA_METHOD;
+    result.source = 'HUD Income Limits';
+    result.tableYear = meta.income_limits_fiscal_year || meta.fiscal_year || null;
+    result.effectiveDate = meta.income_limits_effective_date || meta.effective_date || null;
+    result.sourceUrl = meta.url_il || HUD_IL_URL;
+    var county = _countyRow(table, args.fips);
+    if (!county) return blocked('county_missing');
+    // HUD family-size adjustments: 5 persons = 108%, 6 = 116% of 4p.
+    // 3BR imputes 4.5 persons: average of 100% and 108% = 104%.
+    // Source: https://www.huduser.gov/portal/datasets/il.html
+    var sizes = { efficiency: [1], '1BR': [1, 2], '2BR': [3], '3BR': [4], '4BR': [4] };
+    var persons = sizes[args.bedrooms];
+    if (!persons) return blocked('bedroom_size_missing');
+    var il = county.income_limits || {};
+    var values = persons.map(function (n) { return _allowance(il['il50_' + n + 'person']); });
+    if (values.some(function (v) { return v == null || v <= 0; })) return blocked('income_limit_missing');
+    var limit = values.reduce(function (sum, v) { return sum + v; }, 0) / values.length;
+    if (args.bedrooms === '3BR') limit *= 1.04;
+    if (args.bedrooms === '4BR') limit *= 1.16;
+    var tier = _allowance(args.tier);
+    var burden = _allowance(args.rentBurden);
+    if (tier == null || tier <= 0) return blocked('tier_missing');
+    if (burden == null || burden <= 0 || burden > 1) return blocked('rent_burden_invalid');
+    result.grossRent = limit * (tier / 50) * burden / 12;
+    return result;
   }
 
   function maxContractRent(args) {
@@ -187,6 +268,8 @@
     allowanceBasisStatus: allowanceBasisStatus,
     allowanceBasisCaption: allowanceBasisCaption,
     unavailableMessage: unavailableMessage,
+    rentCeiling: rentCeiling,
+    heraStatus: heraStatus,
     maxGrossRent: maxGrossRent,
     incomeLimit: incomeLimit,
     maxContractRent: maxContractRent,
