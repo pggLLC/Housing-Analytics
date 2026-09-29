@@ -28,6 +28,7 @@
   var lastFlows         = [];
   var lastBoundary      = null;
   var lastCaptureRate   = null;
+  var lastTotalWorkers  = null;
   var lastCaptureUnavailableReason = 'Commuting capture has not been calculated.';
   var lastOriginZones   = [];
   var lastDataCoverage  = 'fallback'; // tracks whether real LODES data was used
@@ -204,6 +205,7 @@
     lastOriginZones = [];
     lastBoundary = null;
     lastCaptureRate = null;
+    lastTotalWorkers = null;
     lastCaptureUnavailableReason = 'Commuting capture is unavailable: no workplace data.';
     if (!workplaces || !workplaces.length) {
       return { originZones: [], totalWorkers: 0, captureRate: null,
@@ -256,6 +258,7 @@
 
     lastFlows = zones;
     lastOriginZones = selected;
+    lastTotalWorkers = totalJobs;
     lastCaptureRate = totalJobs > 0 ? Math.min(running / totalJobs, 1.0) : null;
     lastCaptureUnavailableReason = lastCaptureRate === null
       ? 'Commuting capture is unavailable: no positive worker total.' : null;
@@ -283,7 +286,9 @@
   function generateCommutingBoundary(siteLat, siteLon, flowResult) {
     var zones = (flowResult && flowResult.originZones) ? flowResult.originZones : lastOriginZones;
     if (flowResult) {
-      lastCaptureRate = Number.isFinite(flowResult.captureRate) ? flowResult.captureRate : null;
+      lastTotalWorkers = Number.isFinite(flowResult.totalWorkers) ? flowResult.totalWorkers : null;
+      lastCaptureRate = Number.isFinite(flowResult.captureRate)
+        && (flowResult.captureRate > 0 || lastTotalWorkers > 0) ? flowResult.captureRate : null;
       lastCaptureUnavailableReason = lastCaptureRate === null
         ? (flowResult.captureUnavailableReason || 'Commuting capture has not been calculated.') : null;
     }
@@ -342,6 +347,7 @@
       lodesWorkplaces:    lastWorkplaces.length,
       residentOriginZones: lastOriginZones.slice(),
       captureRate:        lastCaptureRate,
+      totalWorkers:       lastTotalWorkers,
       captureUnavailableReason: lastCaptureUnavailableReason,
       totalFlowZones:     lastFlows.length,
       boundary:           lastBoundary,

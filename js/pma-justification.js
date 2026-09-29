@@ -44,11 +44,12 @@
   function toNum(v) { var n = parseFloat(v); return isFinite(n) ? n : 0; }
 
   // Old saved buffer/tract runs used 0 for an unmeasured quantity. A real
-  // zero needs workplace evidence; keep it numeric at every consumer.
+  // zero needs a positive worker denominator; keep it numeric at every consumer.
   function commutingCapture(commuting) {
     var c = commuting || {};
     var measured = Number.isFinite(c.captureRate) && c.captureRate >= 0 && c.captureRate <= 1
-      && (c.captureRate > 0 || c.lodesWorkplaces > 0) && !c.captureUnavailableReason;
+      && (c.captureRate > 0 || (Number.isFinite(c.totalWorkers) && c.totalWorkers > 0))
+      && !c.captureUnavailableReason;
     return Object.assign({}, c, {
       captureRate: measured ? c.captureRate : null,
       captureUnavailableReason: measured ? null : (c.captureUnavailableReason ||
