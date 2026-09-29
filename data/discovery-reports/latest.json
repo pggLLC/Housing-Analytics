@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-09-28T15:22:52.197Z",
-  "totalScanned": 1697,
-  "newSourceCount": 1666,
+  "scanTimestamp": "2026-09-29T14:01:36.614Z",
+  "totalScanned": 1698,
+  "newSourceCount": 1667,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 827126,
+      "sizeBytes": 827673,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7070,
+      "sizeBytes": 7235,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -272,7 +272,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 246054,
+      "sizeBytes": 257421,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8677,6 +8677,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/insights/catalog.json",
+      "sizeBytes": 9260,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/insights-meta.json",
       "sizeBytes": 970,
       "inDataManifest": false,
@@ -9302,7 +9308,7 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 14707,
+      "sizeBytes": 14703,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9842,7 +9848,7 @@
     },
     {
       "path": "data/policy/tax-credit-legislation.json",
-      "sizeBytes": 15404,
+      "sizeBytes": 18151,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9878,7 +9884,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 17832,
+      "sizeBytes": 17814,
       "inDataManifest": false,
       "inFilesManifest": true
     },
