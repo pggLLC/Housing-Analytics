@@ -158,7 +158,7 @@ test('UMD browser export works without a DOM and loads immediately before Subjec
   vm.runInNewContext(fs.readFileSync('js/chfa-rent-limits.js', 'utf8'), context);
   assert.equal(typeof context.window.ChfaRentLimits.maxGrossRent, 'function');
   const html = fs.readFileSync('market-analysis.html', 'utf8');
-  const scripts = [...html.matchAll(/<script\b[^>]*src="([^"]+)"[^>]*><\/script>/g)].map((m) => m[1]);
+  const scripts = [...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)].map((m) => m[1]);
   assert.equal(scripts[scripts.indexOf('js/components/subject-project.js') - 1], 'js/chfa-rent-limits.js');
   const pkg = require('../package.json');
   assert.equal(pkg.scripts['test:chfa-rent-limits'], 'node test/chfa-rent-limits.test.js');
