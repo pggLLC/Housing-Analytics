@@ -124,6 +124,7 @@
   var _renderUnsubs = [];
 
   var _allowanceCountyNotice = false;
+  var _allowanceSourceNotice = false;
   function _newAllowanceBasis() {
     return { method: 'pha', reference: '', effective_date: '', resident_paid: [], bound_county_fips: '' };
   }
@@ -147,7 +148,20 @@
     var basis = next.utility_allowance_basis;
     var previousBasis = previous.utility_allowance_basis;
     var ownerPays = basis && basis.method === 'owner_pays_all';
-    var leavingOwnerPays = previousBasis && previousBasis.method === 'owner_pays_all' && !ownerPays;
+    var oldBasis = previousBasis || {};
+    var newBasis = basis || {};
+    var methodChanged = hadStored && oldBasis.method !== newBasis.method;
+    // Compare before clearing method-specific metadata, so unchanged save/input
+    // events preserve amounts while any source-defining edit invalidates them.
+    var sourceFieldsChanged = hadStored && (
+      oldBasis.reference !== newBasis.reference ||
+      oldBasis.effective_date !== newBasis.effective_date ||
+      JSON.stringify(Array.isArray(oldBasis.resident_paid) ? oldBasis.resident_paid.slice().sort() : oldBasis.resident_paid) !==
+        JSON.stringify(Array.isArray(newBasis.resident_paid) ? newBasis.resident_paid.slice().sort() : newBasis.resident_paid));
+    if (methodChanged && basis) {
+      basis = Object.assign({}, basis, { reference: '', effective_date: '' });
+      next.utility_allowance_basis = basis;
+    }
     var countyChanged = hadStored && previous.county_fips !== next.county_fips;
     if (countyChanged && !ownerPays) {
       if (basis) {
@@ -156,13 +170,17 @@
       }
       _allowanceCountyNotice = true;
     }
-    if (ownerPays || leavingOwnerPays || countyChanged) {
+    if (ownerPays || methodChanged || sourceFieldsChanged || countyChanged) {
       next.unit_mix = (next.unit_mix || []).map(function (row) {
         var updated = Object.assign({}, row);
         updated.utility_allowance = ownerPays ? 0 : null;
         return updated;
       });
     }
+    if ((methodChanged || sourceFieldsChanged) && !ownerPays) _allowanceSourceNotice = true;
+    if (ownerPays || ((next.unit_mix || []).length && next.unit_mix.every(function (row) {
+      return row.utility_allowance != null && row.utility_allowance !== '';
+    }))) _allowanceSourceNotice = false;
     if (ownerPays || RentLimits.allowanceBasisStatus(basis, next.county_fips).complete) _allowanceCountyNotice = false;
     next.updated_at = new Date().toISOString();
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch (e) {}
@@ -542,6 +560,8 @@
       basisPanel.appendChild(basisStatusText);
       basisPanel.appendChild(countyNotice);
       wrap.appendChild(basisPanel);
+      var sourceNotice = $h('p', { 'data-role': 'allowance-source-notice', 'aria-live': 'polite', 'aria-atomic': 'true' });
+      wrap.appendChild(sourceNotice);
 
       function updateBasis(key, value) {
         var s = getSubject();
@@ -582,6 +602,8 @@
         if (ownerPays && status.complete) basisStatusText.textContent = 'Owner pays all utilities — $0 allowance';
         countyNotice.textContent = _allowanceCountyNotice
           ? 'County changed: the utility allowance must be re-sourced for the new county.' : '';
+        sourceNotice.textContent = _allowanceSourceNotice
+          ? 'Allowance source changed — re-enter the amounts from the new source.' : '';
       }
 
       // ── Unit mix table ──

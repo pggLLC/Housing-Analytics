@@ -44,15 +44,16 @@ function netCells(w, id) {
   assert(cells.length > 0 && cells.every(Boolean), id + ': rows exist');
   return cells;
 }
-function blockedTables(w, reason) {
+function blockedTables(w, reason, basisComplete = false) {
   for (const id of ['sp', 'rc']) {
     for (const cell of netCells(w, id)) {
-      assert.equal(cell.getAttribute('data-net-rent-unavailable'), reason, id);
-      assert.equal(cell.title, reason);
+      const missingAmount = reason === 'utility_allowance_missing';
+      assert.equal(cell.getAttribute('data-net-rent-unavailable'), missingAmount && id === 'sp' ? 'utility-allowance' : reason, id);
+      assert.equal(cell.title, missingAmount ? w.SubjectProject.UA_MISSING_REASON : reason);
       assert(cell.textContent.trim(), 'visible reason');
       assert(!/\$\s*\d/.test(cell.textContent), 'blocked net rent has no money');
     }
-    assert(!w.document.querySelector('#' + id + ' caption').textContent.includes('Utility allowance:'), 'incomplete basis not presented as complete');
+    assert.equal(w.document.querySelector('#' + id + ' caption').textContent.includes('Utility allowance:'), basisComplete, 'caption agrees with basis completeness');
   }
 }
 let passed = 0, failed = 0;
@@ -108,7 +109,7 @@ async function test(name, fn) {
           blockedTables(w, reason);
           assert.equal(w.SubjectProject.get().utility_allowance_basis.bound_county_fips, basis.bound_county_fips);
         }
-      } finally { w.close(); }
+      } finally { await settle(); w.close(); }
     }
   });
   await test('valid calendar dates include today and leap day', () => {
@@ -129,9 +130,10 @@ async function test(name, fn) {
       assert.equal(w.document.getElementById('sp-ua-method').value, '');
       blockedTables(w, 'allowance_method_missing');
       change(w, '#sp-ua-method', 'pha');
-      assert.equal(w.SubjectProject.get().unit_mix[0].utility_allowance, 150, 'choosing a method does not migrate old amounts');
+      await settle();
+      assert.equal(w.SubjectProject.get().unit_mix[0].utility_allowance, null, 'choosing a method invalidates the old amounts');
       assert.equal(limits.allowanceBasisStatus(w.SubjectProject.get().utility_allowance_basis, county).complete, false);
-    } finally { w.close(); }
+    } finally { await settle(); w.close(); }
   });
   await test('complete resident basis agrees with module, captions, persisted fields and all UI options', async () => {
     const w = await app(project());
@@ -160,7 +162,71 @@ async function test(name, fn) {
       assert.equal(stored.bound_county_fips, county);
       await settle();
       for (const id of ['sp', 'rc']) assert(w.document.querySelector('#' + id + ' caption').textContent.includes(stored.effective_date));
-    } finally { w.close(); }
+    } finally { await settle(); w.close(); }
+  });
+  await test('PHA amounts are invalidated when the method changes, before either table can relabel them', async () => {
+    for (const mode of ['picker', 'set']) {
+      const s = project(); s.unit_mix.push({ ...s.unit_mix[0], bedrooms: '1BR', utility_allowance: 100 });
+      const w = await app(s);
+      try {
+        if (mode === 'picker') change(w, '#sp-ua-method', 'energy_model');
+        else w.SubjectProject.set({ ...w.SubjectProject.get(), utility_allowance_basis: { ...completeBasis(), method: 'energy_model' } });
+        await settle();
+        const changed = w.SubjectProject.get();
+        assert.equal(changed.utility_allowance_basis.method, 'energy_model');
+        assert.equal(changed.utility_allowance_basis.reference, '');
+        assert.equal(changed.utility_allowance_basis.effective_date, '');
+        assert.deepEqual(plain(changed.utility_allowance_basis.resident_paid), completeBasis().resident_paid);
+        assert(changed.unit_mix.every((r) => r.utility_allowance === null), mode + ': all old source amounts cleared');
+        assert([...w.document.querySelectorAll('[data-key="utility_allowance"]')].every((c) => c.value === '' && !c.disabled));
+        blockedTables(w, 'allowance_reference_missing');
+        const methodLabel = limits.ALLOWANCE_METHODS.find((m) => m.method === 'energy_model').label;
+        for (const id of ['sp', 'rc']) assert(!w.document.querySelector('#' + id + ' caption').textContent.includes(methodLabel));
+        const notice = w.document.querySelector('[data-role="allowance-source-notice"]');
+        assert(notice.textContent.trim(), 'source-change notice is visible');
+        assert.equal(notice.previousElementSibling.dataset.role, 'utility-allowance-basis');
+        change(w, '#sp-ua-reference', 'New energy model');
+        change(w, '#sp-ua-effective_date', '2026-02-01');
+        await settle();
+        blockedTables(w, 'utility_allowance_missing', true);
+        change(w, '[data-key="utility_allowance"]', '175');
+        await settle();
+        assert.equal(w.SubjectProject.get().unit_mix[0].utility_allowance, 175, 'new source amounts can be entered');
+      } finally { await settle(); w.close(); }
+    }
+  });
+  await test('reference, date and resident utility edits retain the new basis and clear every row amount', async () => {
+    for (const [key, selector, value, expected] of [
+      ['reference', '#sp-ua-reference', 'Replacement PHA schedule', 'Replacement PHA schedule'],
+      ['effective_date', '#sp-ua-effective_date', '2026-02-01', '2026-02-01'],
+      ['resident_paid', '[data-utility="trash"]', true, ['heat', 'water', 'trash']]
+    ]) {
+      const s = project(); s.unit_mix.push({ ...s.unit_mix[0], bedrooms: '1BR', utility_allowance: 100 });
+      const w = await app(s);
+      try {
+        change(w, selector, value);
+        await settle();
+        const changed = w.SubjectProject.get();
+        assert.deepEqual(plain(changed.utility_allowance_basis), { ...completeBasis(), [key]: expected });
+        assert(changed.unit_mix.every((r) => r.utility_allowance === null), key + ': all row amounts cleared');
+        assert([...w.document.querySelectorAll('[data-key="utility_allowance"]')].every((c) => c.value === ''));
+        blockedTables(w, 'utility_allowance_missing', true);
+        assert(w.document.querySelector('[data-role="allowance-source-notice"]').textContent.trim());
+      } finally { await settle(); w.close(); }
+    }
+  });
+  await test('unchanged basis events and unrelated edits preserve entered allowances', async () => {
+    const w = await app(project());
+    try {
+      change(w, '#sp-ua-method', 'pha');
+      change(w, '#sp-ua-reference', completeBasis().reference);
+      change(w, '#sp-ua-effective_date', completeBasis().effective_date);
+      change(w, '[data-utility="water"]', true);
+      change(w, '#sp-project_name', 'Same allowance source');
+      await settle();
+      assert.equal(w.SubjectProject.get().unit_mix[0].utility_allowance, 150);
+      for (const id of ['sp', 'rc']) assert.equal(netCells(w, id)[0].textContent.trim(), money(gross - 175));
+    } finally { await settle(); w.close(); }
   });
   await test('owner pays all sets zero, disables controls, includes fees and clears amounts when switched back', async () => {
     const w = await app(project());
@@ -188,7 +254,7 @@ async function test(name, fn) {
       assert([...w.document.querySelectorAll('[data-utility]')].every((c) => !c.disabled));
       assert.equal(w.SubjectProject.get().utility_allowance_basis.reference, '');
       assert.equal(w.SubjectProject.get().utility_allowance_basis.effective_date, '');
-    } finally { w.close(); }
+    } finally { await settle(); w.close(); }
   });
   await test('county change clears source/date/row amounts but keeps method and resident utilities', async () => {
     for (const mode of ['picker', 'set', 'site']) {
@@ -211,7 +277,7 @@ async function test(name, fn) {
         change(w, '#sp-ua-effective_date', '2026-02-01');
         assert.equal(w.SubjectProject.get().utility_allowance_basis.bound_county_fips, otherCounty);
         assert(changed.unit_mix.every((r) => r.utility_allowance === null), 'new source must not revive old amounts');
-      } finally { w.close(); }
+      } finally { await settle(); w.close(); }
     }
   });
   await test('new suite is reachable from the CI chain', () => {
