@@ -10,6 +10,12 @@ const browser = { window: { ChfaRentLimits: limits } };
 vm.runInNewContext(source, browser);
 const SP = browser.window.SubjectProject;
 const plain = (v) => JSON.parse(JSON.stringify(v));
+const basisStatus = limits.allowanceBasisStatus({
+  method: 'pha', reference: 'Test PHA schedule', effective_date: '2026-01-01',
+  resident_paid: ['heat'], bound_county_fips: '08077'
+}, '08077');
+assert.equal(basisStatus.complete, true);
+
 let passed = 0, failed = 0;
 function test(name, fn) {
   try { fn(); passed++; console.log('  PASS ' + name); }
@@ -79,10 +85,10 @@ test('income limits and legacy numeric adapter agree with the data and metadata'
 test('arithmetic: owner-paid utilities, resident-paid utilities and fees', () => {
   const gross = standard[0].regular_tiers['60'].max_rents['2br'];
   for (const [ua, fees] of [[0, undefined], [150, undefined], [150, 40], [0, 0], [gross, 0]]) {
-    const actual = limits.maxContractRent({ grossRent: gross, utilityAllowance: ua, fees });
+    const actual = limits.maxContractRent({ grossRent: gross, utilityAllowance: ua, fees, basisStatus });
     assert.equal(actual.contractRent, gross - ua - (fees == null ? 0 : fees));
     assert.equal(actual.feesEntered, fees != null);
-    assert.equal(SP.maxNetRent(gross, ua, fees), actual.contractRent);
+    assert.equal(SP.maxNetRent(gross, ua, fees, basisStatus), actual.contractRent);
   }
   for (const fees of [undefined, null, '', ' ']) {
     assert.deepEqual(limits.maxContractRent({ grossRent: gross, utilityAllowance: 0, fees }), { contractRent: gross, feesEntered: false });
@@ -93,10 +99,10 @@ test('arithmetic: owner-paid utilities, resident-paid utilities and fees', () =>
 test('over-deduction: module and legacy wrapper return unknown, never a clamped zero', () => {
   const gross = standard[0].regular_tiers['60'].max_rents['2br'];
   for (const [ua, fees] of [[gross + 1, undefined], [gross - 10, 11]]) {
-    const actual = limits.maxContractRent({ grossRent: gross, utilityAllowance: ua, fees });
+    const actual = limits.maxContractRent({ grossRent: gross, utilityAllowance: ua, fees, basisStatus });
     assert.equal(actual.contractRent, null);
     assert.equal(actual.unavailableReason, 'deductions_exceed_gross_rent');
-    assert.equal(SP.maxNetRent(gross, ua, fees), null);
+    assert.equal(SP.maxNetRent(gross, ua, fees, basisStatus), null);
   }
 });
 
@@ -144,8 +150,8 @@ test('one implementation: adapters call the module and retain legacy shapes', ()
     assert.deepEqual(calls.pop(), [table, '08077', 60, '2BR', opts]);
     assert.equal(SP.computeIncomeLimit(table, '08077', 60, 2, opts), 456);
     assert.deepEqual(calls.pop(), [table, '08077', 60, 2, opts]);
-    assert.equal(SP.maxNetRent(100, 20, 2), 78);
-    assert.deepEqual(plain(calls.pop()), [{ grossRent: 100, utilityAllowance: 20, fees: 2 }]);
+    assert.equal(SP.maxNetRent(100, 20, 2, basisStatus), 78);
+    assert.deepEqual(plain(calls.pop()), [{ grossRent: 100, utilityAllowance: 20, fees: 2, basisStatus }]);
   } finally { Object.assign(limits, originals); }
   for (const name of ['_countyRow', '_tiersBucket', '_findTier', '_allowance', 'BR_TO_CHFA_KEY']) {
     assert(!new RegExp('(?:function|var|const|let)\\s+' + name + '\\b').test(source), 'component must not define ' + name);

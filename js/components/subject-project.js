@@ -73,6 +73,7 @@
     target_population: 'family',   // 'family', 'senior', 'PSH', 'workforce'
     use_hera_special: false,       // true for projects with PIS ≤ 12.31.2008 in a HERA county
     pis_date: null,                // optional placed-in-service date (informational)
+    utility_allowance_basis: null, // older saved projects must choose a method explicitly
     unit_mix: [],                  // rows: {bedrooms, ami_tier, count, sqft, proposed_gross_rent, utility_allowance, fees}
     amenities: [],                 // free-text checklist
     notes: '',
@@ -122,19 +123,47 @@
   // tracked unsub fns before re-rendering.
   var _renderUnsubs = [];
 
+  var _allowanceCountyNotice = false;
+  function _newAllowanceBasis() {
+    return { method: 'pha', reference: '', effective_date: '', resident_paid: [], bound_county_fips: '' };
+  }
+
   function getSubject() {
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return Object.assign({}, DEFAULT_SUBJECT, { unit_mix: [] });
+      if (!raw) return Object.assign({}, DEFAULT_SUBJECT, { unit_mix: [], utility_allowance_basis: _newAllowanceBasis() });
       var parsed = JSON.parse(raw);
       return Object.assign({}, DEFAULT_SUBJECT, parsed);
     } catch (e) {
-      return Object.assign({}, DEFAULT_SUBJECT, { unit_mix: [] });
+      return Object.assign({}, DEFAULT_SUBJECT, { unit_mix: [], utility_allowance_basis: _newAllowanceBasis() });
     }
   }
 
   function setSubject(s) {
+    var previous = getSubject();
+    var hadStored = false;
+    try { hadStored = localStorage.getItem(STORAGE_KEY) != null; } catch (e) {}
     var next = Object.assign({}, DEFAULT_SUBJECT, s);
+    var basis = next.utility_allowance_basis;
+    var previousBasis = previous.utility_allowance_basis;
+    var ownerPays = basis && basis.method === 'owner_pays_all';
+    var leavingOwnerPays = previousBasis && previousBasis.method === 'owner_pays_all' && !ownerPays;
+    var countyChanged = hadStored && previous.county_fips !== next.county_fips;
+    if (countyChanged && !ownerPays) {
+      if (basis) {
+        basis = Object.assign({}, basis, { reference: '', effective_date: '', bound_county_fips: '' });
+        next.utility_allowance_basis = basis;
+      }
+      _allowanceCountyNotice = true;
+    }
+    if (ownerPays || leavingOwnerPays || countyChanged) {
+      next.unit_mix = (next.unit_mix || []).map(function (row) {
+        var updated = Object.assign({}, row);
+        updated.utility_allowance = ownerPays ? 0 : null;
+        return updated;
+      });
+    }
+    if (ownerPays || RentLimits.allowanceBasisStatus(basis, next.county_fips).complete) _allowanceCountyNotice = false;
     next.updated_at = new Date().toISOString();
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch (e) {}
     _subscribers.forEach(function (fn) {
@@ -194,20 +223,20 @@
 
   // Preserve the existing number-or-null API; reasons stay on the module result.
   var UA_MISSING_REASON = 'Enter the utility allowance ($0 only if the owner pays all utilities) to see the max net rent.';
-  function maxNetRent(maxGross, utilityAllowance, fees) {
+  function maxNetRent(maxGross, utilityAllowance, fees, basisStatus) {
     return RentLimits.maxContractRent({ grossRent: maxGross,
-      utilityAllowance: utilityAllowance, fees: fees }).contractRent;
+      utilityAllowance: utilityAllowance, fees: fees, basisStatus: basisStatus }).contractRent;
   }
 
   // ── Renderer ────────────────────────────────────────────────────────
-  function _renderRow(row, idx, onChange, onRemove, rentLimit) {
+  function _renderRow(row, idx, onChange, onRemove, rentLimit, basisStatus, ownerPays) {
     var maxRent = rentLimit.grossRent;
     var net = RentLimits.maxContractRent({ grossRent: maxRent,
-      utilityAllowance: row.utility_allowance, fees: row.fees });
+      utilityAllowance: row.utility_allowance, fees: row.fees, basisStatus: basisStatus });
     var maxNet = net.contractRent;
-    var reason = maxRent == null ? rentLimit.unavailableReason : net.unavailableReason;
+    var reason = !basisStatus.complete ? basisStatus.unavailableReason :
+      (maxRent == null ? rentLimit.unavailableReason : net.unavailableReason);
     var netMissingUa = maxRent != null && reason === 'utility_allowance_missing';
-    var overDeducted = reason === 'deductions_exceed_gross_rent';
 
     var proposed = +row.proposed_gross_rent || 0;
     var overMax  = maxRent != null && proposed > maxRent;
@@ -246,13 +275,19 @@
       return { value: t, label: t + '%' };
     }));
 
+    var uaInput = input('utility_allowance', 'number', row.utility_allowance, '60px');
+    uaInput.disabled = ownerPays;
+    var uaContents = [uaInput];
+    if (ownerPays) uaContents.push($h('span', { 'data-role': 'owner-paid-allowance',
+      style: { display: 'block', fontSize: '.7rem' } }, ['Owner pays all utilities — $0 allowance']));
+
     var tr = $h('tr', {}, [
       $h('td', { style: { padding: '4px 6px' } }, [brSel]),
       $h('td', { style: { padding: '4px 6px' } }, [amiSel]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, [input('count', 'number', row.count)]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, [input('sqft', 'number', row.sqft, '70px')]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, [input('proposed_gross_rent', 'number', row.proposed_gross_rent, '78px')]),
-      $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, [input('utility_allowance', 'number', row.utility_allowance, '60px')]),
+      $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, uaContents),
       $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, [input('fees', 'number', row.fees, '60px')]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'right',
                           color: overMax ? 'var(--bad,#c14545)' : 'var(--muted)',
@@ -262,8 +297,7 @@
       $h('td', { style: { padding: '4px 6px', textAlign: 'right', color: 'var(--muted)' },
         title: netMissingUa ? UA_MISSING_REASON : (reason || ''),
         'data-net-rent-unavailable': netMissingUa ? 'utility-allowance' : (reason || '') }, [
-        maxNet != null ? $fmtMoney(maxNet) : (overDeducted ? 'Allowance exceeds max rent' :
-          (netMissingUa ? 'Enter UA' : '—'))
+        maxNet != null ? $fmtMoney(maxNet) : RentLimits.unavailableMessage(reason)
       ]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'center' } }, [
         $h('button', {
@@ -287,7 +321,7 @@
   function render(container) {
     if (!container) return;
     var subject = _syncFromSiteState(getSubject());
-    setSubject(subject);  // ensures updated_at
+    subject = setSubject(subject);  // applies any SiteState county change before rendering
 
     // Clear any subscribers registered by a prior render of this panel so
     // re-mounts don't leak listeners. External subscribers (other components
@@ -459,6 +493,97 @@
       _renderUnsubs.push(subscribe(_refreshHeraEnabled));
       wrap.appendChild(heraWrap);
 
+      // ── Project-wide utility allowance basis ──
+      var basisPanel = $h('fieldset', { 'data-role': 'utility-allowance-basis', style: {
+        margin: '0 0 .85rem', padding: '.6rem .75rem', minWidth: '0', fontSize: '.82rem',
+        border: '1px solid var(--border)', borderRadius: '4px'
+      } });
+      basisPanel.appendChild($h('legend', {}, ['Utility allowance basis']));
+      var basisGrid = $h('div', { style: { display: 'grid', gap: '.5rem',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))' } });
+      function basisField(label, key, node) {
+        node.id = 'sp-ua-' + key;
+        node.style.width = '100%';
+        node.style.minHeight = '44px';
+        node.style.background = 'var(--card)';
+        node.style.color = 'var(--text)';
+        basisGrid.appendChild($h('div', { style: { minWidth: '0' } }, [$h('label', { for: node.id }, [label]), node]));
+        node.addEventListener('change', function () { updateBasis(key, node.value); });
+        if (key !== 'method') node.addEventListener('input', function () { updateBasis(key, node.value); });
+      }
+      var methodSelect = $h('select');
+      methodSelect.appendChild($h('option', { value: '' }, ['— choose method —']));
+      RentLimits.ALLOWANCE_METHODS.forEach(function (m) {
+        methodSelect.appendChild($h('option', { value: m.method }, [m.label + ' — ' + m.applicability]));
+      });
+      basisField('Method', 'method', methodSelect);
+      var referenceInput = $h('input', { type: 'text' });
+      basisField('Schedule, authority or model', 'reference', referenceInput);
+      var dateInput = $h('input', { type: 'date' });
+      basisField('Effective date', 'effective_date', dateInput);
+      basisPanel.appendChild(basisGrid);
+      basisPanel.appendChild($h('p', { 'data-role': 'allowance-applicability' }));
+      var utilityFields = $h('fieldset', { style: { border: '0', padding: '0', margin: '.4rem 0' } });
+      utilityFields.appendChild($h('legend', {}, ['Utilities residents pay']));
+      var utilityChecks = {};
+      Object.keys(RentLimits.RESIDENT_UTILITIES).forEach(function (key) {
+        var cb = $h('input', { type: 'checkbox', 'data-utility': key });
+        utilityChecks[key] = cb;
+        cb.addEventListener('change', function () {
+          updateBasis('resident_paid', Object.keys(utilityChecks).filter(function (k) { return utilityChecks[k].checked; }));
+        });
+        utilityFields.appendChild($h('label', { style: { display: 'inline-flex', alignItems: 'center',
+          minHeight: '44px', minWidth: '44px', gap: '.3rem', marginRight: '.8rem' } }, [cb, RentLimits.RESIDENT_UTILITIES[key]]));
+      });
+      basisPanel.appendChild(utilityFields);
+      basisPanel.appendChild($h('a', { href: RentLimits.REGULATION_URL, target: '_blank', rel: 'noopener noreferrer' }, ['26 CFR §1.42-10 — utility allowance rules']));
+      var basisStatusText = $h('p', { 'data-role': 'allowance-basis-status', 'aria-live': 'polite', 'aria-atomic': 'true' });
+      var countyNotice = $h('p', { 'data-role': 'allowance-county-notice', 'aria-live': 'polite', 'aria-atomic': 'true' });
+      basisPanel.appendChild(basisStatusText);
+      basisPanel.appendChild(countyNotice);
+      wrap.appendChild(basisPanel);
+
+      function updateBasis(key, value) {
+        var s = getSubject();
+        var basis = Object.assign({}, s.utility_allowance_basis || _newAllowanceBasis());
+        basis[key] = value;
+        // Only naming a source binds it to this county; changing a date or
+        // utility checkbox must not rebind a saved source from elsewhere.
+        if (key === 'reference') basis.bound_county_fips = s.county_fips;
+        if (key === 'method' && (value === 'owner_pays_all' ||
+            (s.utility_allowance_basis && s.utility_allowance_basis.method === 'owner_pays_all'))) {
+          basis.reference = '';
+          basis.effective_date = '';
+          basis.resident_paid = [];
+        }
+        s.utility_allowance_basis = basis;
+        setSubject(s);
+        if (typeof global.__announceUpdate === 'function') global.__announceUpdate(basisStatusText.textContent);
+      }
+      function refreshBasis() {
+        var s = getSubject();
+        var basis = s.utility_allowance_basis || {};
+        var ownerPays = basis.method === 'owner_pays_all';
+        methodSelect.value = basis.method || '';
+        referenceInput.value = basis.reference || '';
+        dateInput.value = basis.effective_date || '';
+        referenceInput.disabled = dateInput.disabled = ownerPays;
+        Object.keys(utilityChecks).forEach(function (key) {
+          utilityChecks[key].checked = Array.isArray(basis.resident_paid) && basis.resident_paid.indexOf(key) !== -1;
+          utilityChecks[key].disabled = ownerPays;
+        });
+        var method = RentLimits.ALLOWANCE_METHODS.find(function (m) { return m.method === basis.method; });
+        basisPanel.querySelector('[data-role="allowance-applicability"]').textContent = method
+          ? method.applicability + (method.paragraph ? ' §1.42-10' + method.paragraph : '') : '';
+        var status = RentLimits.allowanceBasisStatus(basis, s.county_fips);
+        basisStatusText.setAttribute('data-unavailable-reason', status.unavailableReason || '');
+        basisStatusText.textContent = status.complete ? 'Allowance basis complete. Enter the sourced amounts on each row.'
+          : RentLimits.unavailableMessage(status.unavailableReason);
+        if (ownerPays && status.complete) basisStatusText.textContent = 'Owner pays all utilities — $0 allowance';
+        countyNotice.textContent = _allowanceCountyNotice
+          ? 'County changed: the utility allowance must be re-sourced for the new county.' : '';
+      }
+
       // ── Unit mix table ──
       wrap.appendChild($h('h3', { style: { margin: '0 0 .35rem', fontSize: '.95rem' } }, ['Unit mix']));
       wrap.appendChild($h('p', { style: { margin: '0 0 .4rem', fontSize: '.74rem',
@@ -502,6 +627,8 @@
         var s = getSubject();
         tbody.innerHTML = '';
         var tableLimit = null;
+        var basisStatus = RentLimits.allowanceBasisStatus(s.utility_allowance_basis, s.county_fips);
+        var ownerPays = !!(s.utility_allowance_basis && s.utility_allowance_basis.method === 'owner_pays_all');
         (s.unit_mix || []).forEach(function (row, i) {
           var rentLimit = RentLimits.maxGrossRent(chfa, s.county_fips, row.ami_tier, row.bedrooms,
             { useHera: !!s.use_hera_special });
@@ -522,10 +649,12 @@
             setSubject(s3);
             _redrawRows();
             _redrawTotals();
-          }, rentLimit));
+          }, rentLimit, basisStatus, ownerPays));
         });
         caption.textContent = tableLimit ? 'CHFA ' + (tableLimit.tableYear || '—') +
           ' · effective ' + (tableLimit.effectiveDate || '—') : 'CHFA rent limits unavailable for these rows';
+        var basisCaption = RentLimits.allowanceBasisCaption(s.utility_allowance_basis, s.county_fips);
+        if (basisCaption) caption.textContent += ' · ' + basisCaption;
         if ((s.unit_mix || []).length === 0) {
           tbody.appendChild($h('tr', {}, [
             $h('td', { colspan: '10', style: { padding: '14px 8px', textAlign: 'center',
@@ -623,7 +752,7 @@
       }));
       btnBar.appendChild(btn('Clear all', function () {
         if (!confirm('Clear all Subject Project data?')) return;
-        setSubject(Object.assign({}, DEFAULT_SUBJECT, { unit_mix: [] }));
+        setSubject(Object.assign({}, DEFAULT_SUBJECT, { unit_mix: [], utility_allowance_basis: _newAllowanceBasis() }));
         _redrawRows();
         _redrawTotals();
         // Force re-render of meta inputs
@@ -652,6 +781,8 @@
       });
       wrap.appendChild(notesWrap);
 
+      _renderUnsubs.push(subscribe(function () { refreshBasis(); _redrawRows(); }));
+      refreshBasis();
       _redrawRows();
       _redrawTotals();
     });
