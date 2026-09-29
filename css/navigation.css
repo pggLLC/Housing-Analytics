@@ -70,13 +70,19 @@ nav.site-nav a {
   font-size: .92rem;
 }
 
+/* Text on these washes is var(--link), forced by site-theme.css with
+   !important, so the wash is what has to leave room for it. At 40% accent the
+   active link measured 3.79:1 (light) and 3.72:1 (dark), and hover at 30% was
+   4.49:1 — all under WCAG AA 4.5:1. 25% / 20% give 4.86 / 5.29 (light) and
+   5.35 / 5.96 (dark). The contrast audit could not see this until it learned
+   to read color-mix(), which computes to oklab(). */
 nav.site-nav a:hover {
-  background: color-mix(in oklab, var(--card) 70%, var(--accent) 30%);
+  background: color-mix(in oklab, var(--card) 80%, var(--accent) 20%);
   border-color: color-mix(in oklab, var(--border) 60%, var(--accent) 40%);
 }
 
 nav.site-nav a.is-active {
-  background: color-mix(in oklab, var(--card) 60%, var(--accent) 40%);
+  background: color-mix(in oklab, var(--card) 75%, var(--accent) 25%);
   border-color: color-mix(in oklab, var(--border) 40%, var(--accent) 60%);
 }
 

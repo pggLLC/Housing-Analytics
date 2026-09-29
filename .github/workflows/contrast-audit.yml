@@ -219,6 +219,16 @@ jobs:
               body: body
             });
 
+      # The per-page audit above is only worth reading if it is deterministic
+      # and measures the rendered page. This proves both on fixtures (a
+      # deliberate failure in <main> is caught; a failure that exists only
+      # before a slow stylesheet loads is not) and on the two pages that
+      # flaked on 2026-09-28. It runs last so a failure here still leaves the
+      # report and PR comment in place, and it is blocking: a
+      # nondeterministic audit is the defect it guards against.
+      - name: Contrast audit determinism self-test
+        run: npm run test:contrast-audit-settle
+
       # The scripts/monitoring/alert.js step was removed when this workflow moved to
       # the external monitor (.github/workflows/workflow-outcome-monitor.yml).
       #
