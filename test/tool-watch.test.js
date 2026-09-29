@@ -72,7 +72,11 @@ for (const entry of entries) {
 assert(generator.includes('TOOL_WATCH_FILE'), 'generator loads tool-watch data');
 assert(generator.includes("'topic': 'tool_watch'"), 'generator maps entries to tool_watch alerts');
 assert(generator.includes('build_tool_watch_brief'), 'generator has a dedicated tool-watch brief builder');
-assert(page.includes('brief.is_tool_evaluation'), 'policy-briefs page preserves tool-evaluation articles');
+// The tools are about COHO's product, not the news: about.html lists them from
+// the watchlist itself, and Housing News no longer carries a tools panel.
+const about = readText('about.html');
+assert(about.includes('data/policy/tool-watch.json') && about.includes('id="tool-watch-list"'), 'about.html lists the tool watch');
+assert(!page.includes('toolWatchPanel'), 'Housing News carries a tools panel again; it belongs on about.html');
 assert(freshness.includes('data/policy/tool-watch.json'), 'freshness advisory checks tool-watch review dates');
 
 const toolBrief = (briefs.briefs || []).find((brief) => brief.is_tool_evaluation);

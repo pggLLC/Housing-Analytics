@@ -1,5 +1,16 @@
 # Market Trends Update Protocol
 
+> **Archived 2026-09-28.** The monthly check below was last done on
+> 2026-03-17 and not since, so the trends block on `insights.html` (now
+> Research & Analysis) was presenting a March read as current. It is now a
+> collapsed, dated archive that says when it was checked and that it is not
+> maintained. The page's current material comes from
+> `data/insights/catalog.json`, where each item names how it is kept current.
+> To bring the trends back as a maintained section, give it a catalog entry
+> with `"maintenance": "reviewed"` and a `review_from` file, so the review date
+> lives in data and shows a badge when it is due. This protocol is kept for
+> that case.
+
 **Page:** `insights.html` — Key Market Trends — 2026  
 **Update cadence:** First Monday of each month (aligned with HNA data refresh)  
 **Owner:** COHO Analytics team  
