@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-09-28T22:55:12.377Z",
+    "generated_at": "2026-09-29T02:14:02.573Z",
     "root": "data/",
-    "file_count": 1692,
-    "total_size_bytes": 175937756,
+    "file_count": 1693,
+    "total_size_bytes": 175949765,
     "kinds": {
-      "json": 1655,
+      "json": 1656,
       "geojson": 33,
       "csv": 4
     }
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-28T22:55:08.169Z",
+      "mtime": "2026-09-29T02:13:58.862Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -29423,6 +29423,32 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "insights/catalog.json",
+      "kind": "json",
+      "size_bytes": 9260,
+      "mtime": "2026-09-29T02:13:35.471Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "entries",
+      "primary_array_length": 14,
+      "primary_array_first_keys": [
+        "id",
+        "section",
+        "type",
+        "title",
+        "url",
+        "summary",
+        "sources",
+        "maintenance",
+        "review_from"
+      ]
+    },
+    {
       "path": "jurisdiction-briefs/0803620.json",
       "kind": "json",
       "size_bytes": 27299,
@@ -31886,8 +31912,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14705,
-      "mtime": "2026-09-28T22:55:09.956Z",
+      "size_bytes": 14707,
+      "mtime": "2026-09-29T02:14:00.652Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31910,7 +31936,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-28T22:55:09.560Z",
+      "mtime": "2026-09-29T02:14:00.268Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34203,8 +34229,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 15404,
-      "mtime": "2026-09-27T11:41:44.215Z",
+      "size_bytes": 18151,
+      "mtime": "2026-09-29T02:13:35.472Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -34213,7 +34239,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "entries",
-      "primary_array_length": 15,
+      "primary_array_length": 17,
       "primary_array_first_keys": [
         "id",
         "title",
