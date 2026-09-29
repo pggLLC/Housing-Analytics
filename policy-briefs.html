@@ -57,7 +57,9 @@
     @media (max-width: 960px) {
       .news-layout { display: flex; flex-direction: column; gap: 1.5rem; }
       .news-main, .news-aside { display: contents; }
-      #newsLatest { order: 1; } #policyWatchPanel { order: 2; } #researchPanel { order: 3; } #newsRiver { order: 4; } #toolWatchPanel { order: 5; } #aboutFeed { order: 6; }
+      /* News first: the side column is a few rows, so it may sit between the
+         latest stories and the rest, but the full lists live on other pages. */
+      #newsLatest { order: 1; } #policyWatchPanel { order: 2; } #newsRiver { order: 3; } #researchPanel { order: 4; }
     }
 
     .news-label { display: flex; align-items: center; gap: .6rem; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0 0 .6rem; }
@@ -107,35 +109,32 @@
     .research-card h3 { margin: .3rem 0 .45rem; font-size: 1rem; line-height: 1.35; }
     .research-card h3 a { color: var(--text); text-decoration: none; }
     .research-card h3 a:hover { color: var(--link); text-decoration: underline; }
-    .research-card p { margin: 0; color: var(--muted); font-size: .85rem; }
-    .research-card__meta { margin-top: .5rem; font-size: .78rem; color: var(--faint); }
-    .watch-group + .watch-group { margin-top: 1rem; }
-    .watch-group h3 { margin: 0 0 .35rem; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
-    .watch-list { list-style: none; margin: 0; padding: 0; }
-    .watch-item { padding-block: .55rem; border-bottom: 1px solid var(--border); }
-    .watch-item__title { font-weight: 600; font-size: .9rem; line-height: 1.35; }
-    .watch-item__title a { color: var(--text); text-decoration: none; }
-    .watch-item__title a:hover { color: var(--link); text-decoration: underline; }
-    .watch-item p { margin: .25rem 0 0; font-size: .82rem; color: var(--muted); line-height: 1.45; }
-    .watch-item__meta { margin-top: .3rem; font-size: .74rem; color: var(--faint); }
-    .watch-item__status { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }
-    .watch-item__check { display: block; margin-top: .15rem; }
-    .watch-gaps { margin: .75rem 0 0; padding-left: 1.1rem; font-size: .78rem; color: var(--muted); }
-    .tool-list { list-style: none; margin: 0; padding: 0; }
-    .tool-list li { padding-block: .45rem; border-bottom: 1px solid var(--border); }
-    .tool-list a { color: var(--link); text-decoration: none; font-weight: 600; }
-    .tool-list a:hover { text-decoration: underline; }
-    .tool-list span { display: block; font-size: .78rem; color: var(--faint); }
-    .news-note { margin-top: .5rem; font-size: .78rem; color: var(--faint); line-height: 1.45; }
-    details.news-about { border-top: 1px solid var(--border-strong); padding-top: .75rem; }
-    details.news-about summary { cursor: pointer; font-weight: 700; font-size: .9rem; }
-    details.news-about p { font-size: .85rem; color: var(--muted); line-height: 1.55; margin: .55rem 0 0; }
+    .research-card__meta { margin-top: .1rem; font-size: .78rem; color: var(--faint); }
+    /* Policy watch here is a summary: one row per section, linked to the page
+       that lists it in full (js/components/policy-watch.js). */
+    .watch-rows { list-style: none; margin: 0; padding: 0; }
+    .watch-row { padding-block: .55rem; border-bottom: 1px solid var(--border); }
+    .watch-row a { display: block; font-weight: 600; font-size: .9rem; line-height: 1.35; color: var(--text); text-decoration: none; }
+    .watch-row a:hover { color: var(--link); text-decoration: underline; }
+    .watch-row__meta { display: block; margin-top: .15rem; font-size: .76rem; color: var(--faint); }
+    .news-panel__more { margin: .6rem 0 0; font-size: .85rem; }
+    .news-panel__more a { color: var(--link); font-weight: 600; }
+    .news-note { margin: 0 0 .4rem; font-size: .78rem; color: var(--faint); line-height: 1.45; }
+    /* One quiet disclosure under the header, not a card: the site's default
+       <details> styling is a bordered panel. */
+    details.news-about { border: 0; border-radius: 0; margin: 0 auto; overflow: visible; padding-block: 0 .6rem; }
+    details.news-about > summary { display: inline-flex; justify-content: flex-start; gap: .35rem; padding: 0; min-height: 44px; background: none; font-size: .85rem; font-weight: 600; color: var(--link) !important; }
+    details.news-about[open] > summary { background: none; border-bottom: 0; }
+    details.news-about > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    details.news-about p { font-size: .85rem; color: var(--muted); line-height: 1.55; margin: .55rem 0 0; max-width: 78ch; }
     .news-related { border-top: 1px solid var(--border); padding-block: 1.25rem 2rem; }
     .news-related h2 { font-size: 1rem; margin: 0 0 .5rem; }
     .news-related ul { font-size: .88rem; color: var(--muted); line-height: 2; margin: 0; }
   </style>
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/workflow/recommendation-contract.js"></script>
+  <script defer src="js/components/policy-watch.js"></script>
+  <script defer src="js/components/research-catalog.js"></script>
 </head>
 <body data-page="policy-briefs.html">
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -149,9 +148,20 @@
       <div class="news-head__meta">
         <span id="newsCount" aria-live="polite"></span>
         <span id="alertPipelineStatus" aria-live="polite" aria-atomic="true">Checking the feed…</span>
-        <a href="#aboutFeed" id="aboutFeedLink">About this feed</a>
       </div>
     </header>
+
+    <!-- The only place that says how this page is put together, so it sits
+         under the header link that opens it, not below the last story. -->
+    <details id="aboutFeed" class="news-wrap news-about">
+      <summary>About this feed: what it includes and how entries are checked</summary>
+      <p><strong>What it is.</strong> Headlines about Colorado affordable housing and the federal policy that shapes Colorado deals (HUD, Congress, Treasury, LIHTC trade press), pulled from public news feeds and refreshed weekly. Stories that are only about other states are left out.</p>
+      <p><strong>What it is not.</strong> Editorial reporting. Headlines and publisher names are the publishers' own, and COHO does not rewrite them. The same story from several outlets is shown once, with the other outlets listed under it.</p>
+      <p><strong>Places and local numbers.</strong> A headline that names a Colorado city, town, CDP or county is tagged with that place and its region, the same ones the Housing Needs Assessment uses, and shows one line of that place's own numbers with their survey vintage. A number the data does not have is left out, not shown as zero. The line describes the place, not the project in the story.</p>
+      <p><strong>Policy watch</strong> is curated by hand, not pulled from a feed. Each entry says how it was checked: against the primary document, with the exact wording it rests on kept in the data, or as reported by a named outlet. Topics nobody has checked yet are listed as not covered, rather than filled in from search results. This page shows a summary; each row opens the page that lists those entries in full.</p>
+      <p><strong>Before you quote it.</strong> Open the original article. If a link is blocked, "Alt. link" searches Google News for the same headline.</p>
+      <p><strong>Research briefs</strong> marked source-reviewed have been checked against the sources they link. They are analytical summaries, not substitutes for the original research. Each opens in a reader that lists its sources.</p>
+    </details>
 
     <div class="news-toolbar">
       <div class="news-wrap">
@@ -190,31 +200,21 @@
         </section>
       </div>
 
-      <aside class="news-aside" aria-label="Policy watch, research and about this feed">
-        <section id="researchPanel" class="news-panel" aria-labelledby="researchLabel">
-          <h2 class="news-label" id="researchLabel">Research &amp; analysis</h2>
-          <div id="researchList"></div>
-        </section>
+      <!-- A summary rail, not a second page: a few rows, each linked to where
+           the full list lives. It used to print every Policy watch entry and
+           ran 6,804px beside ~3,050px of news (2026-09-28). -->
+      <aside class="news-aside" aria-label="Policy watch and latest research">
         <section id="policyWatchPanel" class="news-panel" aria-labelledby="policyWatchLabel" hidden>
           <h2 class="news-label" id="policyWatchLabel">Policy watch</h2>
-          <p><a href="colorado-elections.html">2026 ballot measures, candidates and housing appointments</a></p>
-          <div id="policyWatchList" class="no-glossary"></div>
           <p class="news-note" id="policyWatchAsOf"></p>
+          <ul id="policyWatchList" class="watch-rows no-glossary"></ul>
+          <p class="news-panel__more"><a href="colorado-elections.html">2026 ballot, candidates and housing officials</a></p>
         </section>
-        <section id="toolWatchPanel" class="news-panel" aria-labelledby="toolWatchLabel" hidden>
-          <h2 class="news-label" id="toolWatchLabel">Tools we're evaluating</h2>
-          <ul class="tool-list no-glossary" id="toolWatchList"></ul>
-          <p class="news-note">Analysis tools COHO compares its own features against. These are not news or endorsements.</p>
+        <section id="researchPanel" class="news-panel" aria-labelledby="researchLabel">
+          <h2 class="news-label" id="researchLabel">Latest research</h2>
+          <div id="researchList" class="no-glossary"></div>
+          <p class="news-panel__more"><a href="insights.html">All research &amp; analysis →</a></p>
         </section>
-        <details id="aboutFeed" class="news-panel news-about">
-          <summary>About this feed</summary>
-          <p><strong>What it is.</strong> Headlines about Colorado affordable housing and the federal policy that shapes Colorado deals (HUD, Congress, Treasury, LIHTC trade press), pulled from public news feeds and refreshed weekly. Stories that are only about other states are left out.</p>
-          <p><strong>What it is not.</strong> Editorial reporting. Headlines and publisher names are the publishers' own, and COHO does not rewrite them. The same story from several outlets is shown once, with the other outlets listed under it.</p>
-          <p><strong>Places and local numbers.</strong> A headline that names a Colorado city, town, CDP or county is tagged with that place and its region, the same ones the Housing Needs Assessment uses, and shows one line of that place's own numbers with their survey vintage. A number the data does not have is left out, not shown as zero. The line describes the place, not the project in the story.</p>
-          <p><strong>Policy watch</strong> is curated by hand, not pulled from a feed. Each entry says how it was checked: against the primary document, with the exact wording it rests on kept in the data, or as reported by a named outlet. Topics nobody has checked yet are listed as not covered, rather than filled in from search results.</p>
-          <p><strong>Before you quote it.</strong> Open the original article. If a link is blocked, "Alt. link" searches Google News for the same headline.</p>
-          <p><strong>Research briefs</strong> marked source-reviewed have been checked against the sources they link. They are analytical summaries, not substitutes for the original research.</p>
-        </details>
       </aside>
     </div>
 
@@ -242,6 +242,9 @@
     var CURATED_BRIEFS_URL = (typeof window.resolveAssetUrl === 'function')
       ? window.resolveAssetUrl('data/policy_briefs_curated.json')
       : 'data/policy_briefs_curated.json';
+    var CATALOG_URL = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/insights/catalog.json')
+      : 'data/insights/catalog.json';
 
     // Headlines are shown this many at a time. There is no cap: "Show earlier"
     // reaches every story. The old page showed 25 articles per topic card with no
@@ -562,91 +565,42 @@
         clearTimeout(timer);
         timer = setTimeout(function () { state.q = e.target.value.trim(); state.shown = PAGE; render(); }, 200);
       });
-      $('aboutFeedLink').addEventListener('click', function () { $('aboutFeed').open = true; });
     }
 
-    function renderResearch(curated) {
+    // Latest research: the newest dated analysis and research briefs, as
+    // titles. The list is the Research & Analysis page's own
+    // (js/components/research-catalog.js), so the two cannot disagree; each
+    // brief opens the reader, which carries its summary and sources.
+    var RESEARCH_COUNT = 3;
+    function renderResearch(items) {
       var host = $('researchList');
-      if (!curated.length) {
-        host.innerHTML = '<p class="news-note">No research briefs yet.</p>';
+      if (!items.length) {
+        host.innerHTML = '<p class="news-note">No research yet.</p>';
         return;
       }
-      host.innerHTML = curated.map(function (brief) {
-        var link = (brief.articles && brief.articles[0] && brief.articles[0].link) || '';
-        try {
-          if (!/^https?:$/.test(new URL(link, window.location.href).protocol)) link = '';
-        } catch (_) { link = ''; }
-        var sentences = String(brief.summary || '').split(/(?<=\.)\s+(?=[A-Z])/).slice(0, 2).join(' ');
-        var label = brief.is_curated && brief.source_reviewed ? 'Source-reviewed brief' : 'Research brief';
-        var when = Date.parse(brief.generated);
-        return '<article class="research-card"><div class="research-card__kick">' + escapeHtml(label) + '</div>' +
-          '<h3><a href="research-brief.html?id=' + encodeURIComponent(brief.id) + '">' + escapeHtml(brief.title) + '</a></h3>' +
-          (sentences ? '<p>' + escapeHtml(sentences) + '</p>' : '') +
-          '<div class="research-card__meta">' + escapeHtml((brief.sources || []).slice(0, 2).join(', ')) +
-          (isNaN(when) ? '' : ' · ' + shortDate(when) + ', ' + new Date(when).getUTCFullYear()) +
-          (link ? ' · <a href="' + escapeHtml(link) + '" target="_blank" rel="noopener">Technical method</a>' : '') + '</div></article>';
+      host.innerHTML = items.slice(0, RESEARCH_COUNT).map(function (item) {
+        var meta = [(item.sources || [])[0] || '', item.published ? window.ResearchCatalog.shortDate(item.published) : '']
+          .filter(Boolean).join(' · ');
+        return '<article class="research-card" data-catalog-id="' + escapeHtml(item.id) + '"><div class="research-card__kick">' + escapeHtml(item.type) + '</div>' +
+          '<h3><a href="' + escapeHtml(item.url) + '">' + escapeHtml(item.title) + '</a></h3>' +
+          (meta ? '<div class="research-card__meta">' + escapeHtml(meta) + '</div>' : '') + '</article>';
       }).join('');
     }
 
     // ── Policy watch ─────────────────────────────────────────────────────
-    // data/policy/policy-watch.json: rule changes, ballot questions and people
-    // in housing roles. Every entry says how it was checked: against the
-    // primary document, or as reported by a named outlet. What the file does
-    // not yet cover is listed, not left for the reader to assume.
-    var WATCH_SECTIONS = [['qap', 'CHFA allocation plan'], ['ballot', 'On the ballot'], ['people', 'People and roles']];
-    function longDate(iso) {
-      var t = Date.parse(String(iso || '') + 'T12:00:00Z');
-      return isNaN(t) ? '' : MONTH[new Date(t).getUTCMonth()] + ' ' + new Date(t).getUTCDate() + ', ' + new Date(t).getUTCFullYear();
-    }
-    function checkLine(v) {
-      if (!v || !v.level) return 'Not yet checked';
-      var when = longDate(v.checked);
-      if (v.level === 'primary') return 'Checked against ' + (v.against || 'the primary source') + (when ? ' on ' + when : '');
-      if (v.level === 'reported') return 'As reported by ' + (v.by || 'the linked outlet') + (when ? '; link checked ' + when : '') + '. Not checked against a primary document.';
-      return 'Not yet checked';
-    }
+    // data/policy/policy-watch.json, as a summary: one row per section with its
+    // count and newest check date, linked to the page that lists it in full
+    // (js/components/policy-watch.js says where). No file, no panel.
     function renderPolicyWatch(doc) {
-      var entries = doc && Array.isArray(doc.entries) ? doc.entries : [];
-      if (!entries.length) return;
-      var html = '';
-      WATCH_SECTIONS.forEach(function (sec) {
-        var items = entries.filter(function (e) { return e.section === sec[0]; });
-        if (!items.length) return;
-        items.sort(function (a, b) { return String(b.date || '').localeCompare(String(a.date || '')); });
-        html += '<div class="watch-group"><h3>' + escapeHtml(sec[1]) + '</h3><ul class="watch-list">' +
-          items.map(function (e) {
-            var url = e.source && e.source.url;
-            var title = url ? '<a href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' + escapeHtml(e.title) + '</a>' : escapeHtml(e.title);
-            var meta = [];
-            if (e.status) meta.push('<span class="watch-item__status">' + escapeHtml(e.status) + '</span>');
-            if (e.date) meta.push(escapeHtml(longDate(e.date)));
-            if (e.source && e.source.label) meta.push(escapeHtml(e.source.label));
-            return '<li class="watch-item"><div class="watch-item__title">' + title + '</div>' +
-              (e.detail ? '<p>' + escapeHtml(e.detail) + '</p>' : '') +
-              '<div class="watch-item__meta">' + meta.join(' · ') +
-              '<span class="watch-item__check">' + escapeHtml(checkLine(e.verification)) + '</span></div></li>';
-          }).join('') + '</ul></div>';
-      });
-      var gaps = doc.meta && Array.isArray(doc.meta.known_gaps) ? doc.meta.known_gaps : [];
-      if (gaps.length) {
-        html += '<div class="watch-group"><h3>Not yet covered</h3><ul class="watch-gaps">' +
-          gaps.map(function (g) { return '<li>' + escapeHtml(g) + '</li>'; }).join('') + '</ul></div>';
-      }
-      $('policyWatchList').innerHTML = html;
-      var asOf = doc.meta && doc.meta.as_of ? longDate(doc.meta.as_of) : '';
+      var PW = window.PolicyWatch;
+      if (!PW || !doc || !Array.isArray(doc.entries) || !doc.entries.length) return;
+      var rows = PW.summaryHtml(doc);
+      if (!rows) return;
+      $('policyWatchList').innerHTML = rows;
+      var asOf = doc.meta && doc.meta.as_of ? PW.longDate(doc.meta.as_of) : '';
       $('policyWatchAsOf').textContent = (asOf ? 'Updated ' + asOf + '. ' : '') +
-        'Curated by COHO, not a feed. Open the source before relying on an entry.';
+        'Curated by COHO. Each entry says how it was checked.';
       $('policyWatchPanel').hidden = false;
-    }
-
-    function renderToolWatch(briefList) {
-      var tool = briefList.filter(function (brief) { return brief.is_tool_evaluation; })[0];
-      if (!tool || !Array.isArray(tool.articles) || !tool.articles.length) return;
-      $('toolWatchList').innerHTML = tool.articles.map(function (a) {
-        return '<li>' + (a.link ? '<a href="' + escapeHtml(a.link) + '" target="_blank" rel="noopener">' + escapeHtml(a.title) + '</a>' : escapeHtml(a.title)) +
-          '<span>' + escapeHtml(a.source || '') + '</span></li>';
-      }).join('');
-      $('toolWatchPanel').hidden = false;
     }
 
     function renderPipelineStatus(meta) {
@@ -673,17 +627,17 @@
           .catch(function () { return { briefs: [] }; }),
         fetcher(POLICY_WATCH_URL, {}, 15000)
           .then(function (res) { return res.ok ? res.json() : null; })
+          .catch(function () { return null; }),
+        fetcher(CATALOG_URL, {}, 15000)
+          .then(function (res) { return res.ok ? res.json() : null; })
           .catch(function () { return null; })
       ]).then(function (payloads) {
         var data = payloads[0], curatedData = payloads[1];
         renderPolicyWatch(payloads[2]);
-        var list = Array.isArray(data) ? data : (data && Array.isArray(data.briefs) ? data.briefs : []);
-        var curated = Array.isArray(curatedData) ? curatedData
-          : (curatedData && Array.isArray(curatedData.briefs) ? curatedData.briefs : []);
+        var RC = window.ResearchCatalog;
         stories = readStories(data);
         renderPipelineStatus(data && data.meta);
-        renderResearch(curated.filter(function (brief) { return brief.is_curated; }));
-        renderToolWatch(list);
+        renderResearch(RC ? RC.latest(RC.items(payloads[3], curatedData, null)) : []);
         if (!stories.length) {
           $('briefsStatus').textContent = 'No headlines are available right now. The feed refreshes weekly.';
           $('newsLatest').hidden = true;

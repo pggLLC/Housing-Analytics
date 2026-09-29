@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference</title>
-  <meta name="description" content="H.R. 6644, the 21st Century ROAD to Housing Act, became law on July 11, 2026. Verified summary of enacted housing-supply, CDBG, HOME, manufactured housing, voucher, and homeownership provisions.">
-  <meta property="og:title" content="21st Century ROAD to Housing Act Enacted">
+  <title>Policy &amp; Legislation | Colorado Public Data Reference</title>
+  <meta name="description" content="Federal and Colorado housing laws, rules and plan changes COHO tracks. H.R. 6644, the 21st Century ROAD to Housing Act, became law on July 11, 2026. Verified summary of enacted housing-supply, CDBG, HOME, manufactured housing, voucher, and homeownership provisions.">
+  <meta property="og:title" content="Policy &amp; Legislation">
   <meta property="og:description" content="Enacted status and verified housing provisions from the enrolled H.R. 6644 text.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
@@ -28,6 +28,20 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
+  <style>
+    /* Colorado Policy Watch (js/components/policy-watch.js, full mode). */
+    .policy-watch__asof { font-size: var(--small); color: var(--muted); margin: 0 0 var(--sp2); }
+    .policy-watch .watch-group { margin-top: var(--sp3); }
+    .policy-watch .watch-group h3 { margin: 0 0 var(--sp1); font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .policy-watch .watch-list { list-style: none; margin: 0; padding: 0; }
+    .policy-watch .watch-item { padding-block: var(--sp2); border-bottom: 1px solid var(--border); }
+    .policy-watch .watch-item__title { font-weight: 600; line-height: 1.4; }
+    .policy-watch .watch-item p { margin: .3rem 0 0; color: var(--muted); line-height: 1.55; max-width: 78ch; }
+    .policy-watch .watch-item__meta { margin-top: .35rem; font-size: var(--tiny); color: var(--muted); }
+    .policy-watch .watch-item__status { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }
+    .policy-watch .watch-item__check { display: block; margin-top: .15rem; }
+    .policy-watch .watch-gaps { margin: var(--sp2) 0 0; padding-left: 1.2rem; color: var(--muted); line-height: 1.55; max-width: 78ch; }
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -44,11 +58,13 @@
         <span class="breadcrumb-sep" aria-hidden="true">/</span>
         <a href="insights.html">Insights</a>
         <span class="breadcrumb-sep" aria-hidden="true">/</span>
-        <span aria-current="page">21st Century ROAD to Housing Act</span>
+        <span aria-current="page">Policy &amp; Legislation</span>
       </nav>
 
       <span class="tag tag-green" style="margin:var(--sp3) 0 var(--sp2);display:inline-block;">Legislative Analysis</span>
-      <h1 style="margin-bottom:var(--sp2);">21st Century ROAD to Housing Act (H.R. 6644)</h1>
+      <h1 style="margin-bottom:var(--sp2);">Policy &amp; Legislation</h1>
+      <p style="color:var(--muted);line-height:1.7;margin-bottom:var(--sp3);">Federal and Colorado housing laws, rules and plan changes COHO tracks. On this page: the <a href="#road-act">21st Century ROAD to Housing Act</a>, the <a href="#bill-status-panel">tax-credit policy watchlist</a> and the <a href="#policy-watch">Colorado policy watch</a>. Each entry names its source and the date it was checked.</p>
+      <h2 id="road-act" style="margin:var(--sp4) 0 var(--sp2);">21st Century ROAD to Housing Act (H.R. 6644)</h2>
       <p style="font-size:1.1rem;color:var(--muted);line-height:1.7;margin-bottom:var(--sp2);">H.R. 6644 became law on July 11, 2026. The enrolled text is a housing-supply and HUD-program reform law; it does not enact the previously described LIHTC cap expansion or CRA expansion package.</p>
       <div class="page-meta"><span>Published: June 10, 2026</span><span>Updated: July 16, 2026</span><span>H.R. 6644 Status: Enacted July 11, 2026</span></div>
 
@@ -143,6 +159,21 @@
           </div>
         </section>
 
+        <!-- Policy watch in full (data/policy/policy-watch.json): the Colorado
+             rule changes and ballot questions COHO has checked, each with how
+             it was checked. Housing News shows a summary that links here. -->
+        <section id="policy-watch" class="policy-watch" aria-labelledby="policy-watch-heading" style="margin:var(--sp5) 0;">
+          <h2 id="policy-watch-heading">Colorado Policy Watch</h2>
+          <p style="color:var(--muted);line-height:1.7;">Colorado rule changes and ballot questions, curated by COHO rather than pulled from a feed. Each entry names its source and says how it was checked. Housing officials are listed on <a href="colorado-elections.html#people-and-roles">Colorado Elections</a>.</p>
+          <p id="policy-watch-asof" class="policy-watch__asof"></p>
+          <div id="policy-watch-list" class="no-glossary"><p>Loading policy watch…</p></div>
+          <div id="policy-watch-gaps">
+            <h3>Not yet covered</h3>
+            <p style="color:var(--muted);">Topics nobody has checked yet. They are listed so their absence is not read as “nothing happened”.</p>
+            <div id="policy-watch-gap-list"><p>Loading…</p></div>
+          </div>
+        </section>
+
         <div class="sources-box">
           <h3>Data Sources</h3>
           <ul>
@@ -165,7 +196,39 @@
 
   <script src="js/components/review-status.js"></script>
   <script src="js/legislative-tracker.js"></script>
+  <script src="js/components/policy-watch.js"></script>
+  <script src="js/components/settle-anchor.js"></script>
   <script src="js/contrast-guard.js"></script>
+  <script>
+    /* ── Colorado Policy Watch, in full ── */
+    document.addEventListener('DOMContentLoaded', function () {
+      var host = document.getElementById('policy-watch-list');
+      var PW = window.PolicyWatch;
+      if (!host || !PW) return;
+      var url = window.resolveAssetUrl ? window.resolveAssetUrl('data/policy/policy-watch.json') : 'data/policy/policy-watch.json';
+      (window.fetchWithTimeout || window.fetch)(url, {}, 15000)
+        .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
+        .then(function (doc) {
+          // Every section whose full view is this page (PolicyWatch.DESTINATIONS).
+          var mine = PW.SECTIONS.map(function (s) { return s.key; }).filter(function (key) {
+            return PW.DESTINATIONS[key].href.indexOf('housing-legislation-2026.html') === 0;
+          });
+          host.innerHTML = PW.fullHtml(doc, mine) || '<p>No current Colorado entries are listed.</p>';
+          var asOf = doc.meta && doc.meta.as_of ? PW.longDate(doc.meta.as_of) : '';
+          document.getElementById('policy-watch-asof').textContent = asOf ? 'Updated ' + asOf + '.' : '';
+          var gaps = PW.gapsHtml(doc);
+          if (gaps) {
+            document.getElementById('policy-watch-gap-list').innerHTML = gaps;
+          } else {
+            document.getElementById('policy-watch-gaps').hidden = true;
+          }
+        })
+        .catch(function () {
+          host.innerHTML = '<p>Policy watch could not be loaded. Try again later.</p>';
+          document.getElementById('policy-watch-gap-list').innerHTML = '<p>Could not be loaded.</p>';
+        });
+    });
+  </script>
   <script>
     /* ── Populate bill-status-cards using LegislativeTracker ── */
     document.addEventListener('DOMContentLoaded', function () {

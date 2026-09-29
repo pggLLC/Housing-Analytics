@@ -1180,8 +1180,8 @@
       maxAgeDays: 180,
       geoUnit: 'Statewide',
       coverage: 'Federal and Colorado tax-credit policy watchlist',
-      features: 15,
-      description: '15 tax-credit legislation watchlist entries with status, source, and verification metadata.',
+      features: 17,
+      description: '17 tax-credit legislation watchlist entries with status, source, and verification metadata.',
       tags: ['legislation', 'policy', 'colorado'],
       apiEndpoint: null
     },

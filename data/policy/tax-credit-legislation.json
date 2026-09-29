@@ -3,7 +3,7 @@
   "meta": {
     "title": "Tax Credit Legislation Watchlist",
     "as_of": "2026-09-21",
-    "last_updated": "2026-09-24",
+    "last_updated": "2026-09-28",
     "last_verified": "2026-09-21",
     "review_by": "2026-12-21",
     "methodology": "Curated federal and state tax-credit policy entries. Legislative status source_url fields point to official federal or state legislative sources; market impact text is directional and should be re-reviewed quarterly."
@@ -47,6 +47,66 @@
       "source_note": "Public Law 119-21, section 70422(b), tax-exempt bond financing requirement.",
       "last_verified": "2026-07-15",
       "review_by": "2026-10-15"
+    },
+    {
+      "id": "ahcia-2025-hr2725",
+      "title": "Affordable Housing Credit Improvement Act of 2025 (H.R. 2725): remaining provisions",
+      "scope": "lihtc",
+      "status": "proposed",
+      "effective_date": null,
+      "sunset_date": null,
+      "pricing_impact": "Remaining AHCIA provisions (rural and tribal feasibility, tenant set-asides, QCT designation changes, program simplification) are not law. Do not size credit volume or equity pricing from them until enacted.",
+      "source_url": "https://www.congress.gov/bill/119th-congress/house-bill/2725",
+      "related_source_urls": [
+        "https://www.govtrack.us/congress/bills/119/hr2725"
+      ],
+      "source_note": "Status, committee referral and cosponsor count read from GovTrack, which mirrors Congress.gov, on 2026-09-28; congress.gov refused automated access that day. Re-check against the Congress.gov bill page.",
+      "bill": {
+        "number": "H.R. 2725",
+        "chamber": "House",
+        "sponsor": "Rep. Darin LaHood (R-IL)",
+        "introduced": "2025-04-08",
+        "committee": "House Ways and Means",
+        "stage": "Introduced; referred to committee",
+        "cosponsors": {
+          "total": 168,
+          "democrats": 84,
+          "republicans": 83,
+          "independents": 1
+        }
+      },
+      "last_verified": "2026-09-28",
+      "review_by": "2026-12-28"
+    },
+    {
+      "id": "ahcia-2025-s1515",
+      "title": "Affordable Housing Credit Improvement Act of 2025 (S. 1515): remaining provisions",
+      "scope": "lihtc",
+      "status": "proposed",
+      "effective_date": null,
+      "sunset_date": null,
+      "pricing_impact": "Remaining AHCIA provisions (rural and tribal feasibility, tenant set-asides, QCT designation changes, program simplification) are not law. Do not size credit volume or equity pricing from them until enacted.",
+      "source_url": "https://www.congress.gov/bill/119th-congress/senate-bill/1515",
+      "related_source_urls": [
+        "https://www.govtrack.us/congress/bills/119/s1515"
+      ],
+      "source_note": "Status, committee referral and cosponsor count read from GovTrack, which mirrors Congress.gov, on 2026-09-28; congress.gov refused automated access that day. Re-check against the Congress.gov bill page.",
+      "bill": {
+        "number": "S. 1515",
+        "chamber": "Senate",
+        "sponsor": "Sen. Todd Young (R-IN)",
+        "introduced": "2025-04-29",
+        "committee": "Senate Finance",
+        "stage": "Introduced; referred to committee",
+        "cosponsors": {
+          "total": 41,
+          "democrats": 21,
+          "republicans": 20,
+          "independents": 0
+        }
+      },
+      "last_verified": "2026-09-28",
+      "review_by": "2026-12-28"
     },
     {
       "id": "obbba-168k-permanent-bonus-depreciation",

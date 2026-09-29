@@ -15,15 +15,20 @@
  *   Land Value & Negotiation
  *
  * EXPLORE (comparative & context):
- *   Compare Jurisdictions, Colorado Deep Dive, CHFA Portfolio,
- *   Economic Dashboard, LIHTC Allocations, Preservation Tracking
+ *   Compare Jurisdictions, Colorado Deep Dive, Market Intelligence,
+ *   CHFA Portfolio, Economic Dashboard, LIHTC Allocations, Preservation
+ *   Tracking
  *
  * DATA (transparency & quality):
  *   Data Health, Data Quality, Data Review, Census Explorer
  *
- * INSIGHTS (news, policy & reference):
- *   Housing News, Market Insights, Market Intelligence,
- *   Housing Legislation, CRA Expansion, About COHO
+ * INSIGHTS, in three groups (2026-09-28):
+ *   Current: Housing News, Policy & Legislation, Colorado Elections
+ *   Research: Research & Analysis, Tax Credit Equity Markets, the papers
+ *   Guides: Help for Homebuyers
+ *   It was 11 ungrouped items that overflowed a 1280x720 screen. About and
+ *   Sitemap are in the footer. Each label matches the <h1> of the page it
+ *   opens (test/insights-nav-labels.test.mjs).
  * ─────────────────────────────────────────────────────────────────────────
  */
 (function () {
@@ -59,6 +64,7 @@
         { label: "Compare Opportunity Scores", href: "compare.html",                 desc: "Side-by-side 2–6 jurisdictions across every LIHTC score dimension", isNew: true },
         { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Rank 546 geographies by housing need" },
         { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "County-level LIHTC & market overview" },
+        { label: "Colorado Market Intelligence", href: "market-intelligence.html", desc: "Statewide demand and supply signals" },
         { label: "CHFA Portfolio",        href: "chfa-portfolio.html",            desc: "Browse CHFA LIHTC projects" },
         { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
         { label: "Land Value & Negotiation", href: "land-value.html",            desc: "Market comps + residual bid for site negotiation" },
@@ -96,17 +102,18 @@
     {
       label: "Insights",
       items: [
-        { label: "Help for Homebuyers",     href: "help-for-homebuyers.html",       desc: "Assistance programs for buyers" },
-        { label: "Housing News",           href: "policy-briefs.html",             desc: "Colorado housing headlines, newest first — always check the linked source" },
-        { label: "Market Insights",       href: "insights.html",                  desc: "Analysis & commentary" },
-        { label: "Working Paper",         href: "working-paper.html",             desc: "Instrumenting Housing Need — the methodology, written up" },
-        { label: "White Paper for Planners", href: "apa-white-paper.html",        desc: "Plain-language companion: what the evidence can and cannot establish" },
-        { label: "Methods",               href: "methods.html",                   desc: "How every figure in the paper is computed" },
-        { label: "Market Intelligence",   href: "market-intelligence.html",       desc: "Statewide demand & supply data" },
-        { label: "Housing Legislation",   href: "housing-legislation-2026.html",  desc: "2026 bills tracker" },
-        { label: "CRA Expansion",         href: "cra-expansion-analysis.html",    desc: "CRA opportunity areas" },
-        { label: "About this site",       href: "about.html",                     desc: "Methodology, sources, and privacy" },
-        { label: "Sitemap",               href: "sitemap.html",                   desc: "Every page on the site, in one list" },
+        { label: "— Current —", isHeader: true },
+        { label: "Housing News",           href: "policy-briefs.html",             desc: "Check the linked source" },
+        { label: "Policy & Legislation",   href: "housing-legislation-2026.html",  desc: "Laws and rules we track" },
+        { label: "Colorado Elections",     href: "colorado-elections.html",        desc: "2026 ballot and officials" },
+        { label: "— Research —", isHeader: true },
+        { label: "Research & Analysis",    href: "insights.html",                  desc: "Dated analysis and briefs" },
+        { label: "Tax Credit Equity Markets", href: "article-pricing.html",        desc: "Equity pricing benchmarks" },
+        { label: "Working Paper",         href: "working-paper.html",             desc: "The methodology, written up" },
+        { label: "White Paper for Planners", href: "apa-white-paper.html",        desc: "Plain-language companion" },
+        { label: "Methods",               href: "methods.html",                   desc: "How each figure is computed" },
+        { label: "— Guides —", isHeader: true },
+        { label: "Help for Homebuyers",     href: "help-for-homebuyers.html",       desc: "Down-payment help, credits" },
       ]
     }
   ];
@@ -401,8 +408,10 @@
           <strong>Explore &amp; Learn</strong>
           <a href="${normalizeHref('hna-comparative-analysis.html')}">Compare Jurisdictions</a>
           <a href="${normalizeHref('lihtc-guide-for-stakeholders.html')}">LIHTC Guide</a>
-          <a href="${normalizeHref('insights.html')}">Market Insights</a>
+          <a href="${normalizeHref('insights.html')}">Research &amp; Analysis</a>
           <a href="${normalizeHref('policy-briefs.html')}">Housing News</a>
+          <a href="${normalizeHref('about.html')}">About this site</a>
+          <a href="${normalizeHref('sitemap.html')}">Sitemap</a>
         </div>
         <div class="footer-disclaimer">
           <small>This site is a public-data reference. Data is sourced from public datasets (FRED, HUD, Census Bureau, CHFA, DOLA). Not financial or legal advice.</small>
