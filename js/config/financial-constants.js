@@ -28,7 +28,7 @@
     equityPrice4Pct: 0.84,         // 4%/bond deals (national average)
 
     // ── AMI Rent Limits (county-resolved) ──────────────────────────
-    // AMI-indexed rent limits MUST come from HudFmr.getGrossRentLimit(fips, pct)
+    // Rental ceilings come from ChfaRentLimits.rentCeiling for the selected regime
     // — there is intentionally NO statewide fallback. Colorado 4-person AMI
     // ranges from ~$52k (Alamosa) to ~$124k (Denver MSA); a Denver-MSA
     // default silently over-stated rents by up to 64% for ~56 non-metro

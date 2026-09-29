@@ -25,8 +25,14 @@ assert(dcSrc.includes("lihtcUnits + ' LIHTC units / ' + units"), 'applicable-fra
 assert(dcSrc.includes('lihtcUnits < units && lihtcUnits > 0'), 'applicable-fraction note renders for unrestricted-unit mixed deals');
 assert(dcSrc.includes('Market-rate and unrestricted units generate rent but no federal LIHTC credits'), 'applicable-fraction note discloses unrestricted units');
 
-assert(dcSrc.includes("'4br':    il50_4p * 1.16"), '4BR LIHTC rent proxy uses 1.16 HUD adjustment factor');
-assert(!dcSrc.includes("'4br':    il50_4p * 1.10"), 'stale 1.10 4BR proxy removed');
+const rentLimits = require('../js/chfa-rent-limits.js');
+const hud = require('../data/hud-fmr-income-limits.json');
+for (const county of hud.counties.slice(0, 3)) {
+  const result = rentLimits.rentCeiling({ regime: 'ami_formula', hudTable: hud,
+    fips: county.fips, tier: 60, bedrooms: '4BR', rentBurden: 0.30 });
+  assert.strictEqual(result.grossRent, county.income_limits.il50_4person * 1.16 * (60 / 50) * 0.30 / 12,
+    '4BR non-CHFA formula uses the HUD six-person adjustment on the county income limit');
+}
 
 assert(!dcSrc.includes("safeVal('dc-vacancy') || 5"), 'vacancy reads no longer default legitimate 0% to 5%');
 assert(!dcSrc.includes("safeVal('dc-vacancy') || 7"), 'vacancy reads no longer default legitimate 0% to 7%');

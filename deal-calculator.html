@@ -82,6 +82,12 @@
   <script defer src="js/hna/hna-ownership-need.js"></script>
   <script defer src="js/provenance-label.js"></script>
   <script defer src="js/hna/ownership-resale.js"></script>
+  <script defer src="js/chfa-rent-limits.js"></script>
+  <script>
+    window.__DealCalcChfaTablePromise = fetch('data/chfa-income-rent-limits-2026.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; });
+  </script>
   <!-- Deferred: deal calculator (renders into #dealCalcMount) -->
   <script defer src="js/deal-calculator.js"></script>
   <!-- F202 — Share / PDF / JSON export. html2canvas + jsPDF are loaded from CDN
@@ -192,7 +198,7 @@
     <div class="dc-hero">
       <div class="kicker">Step 6 of 7 &middot; Deal Calculator</div>
       <h1><span data-dc-mode="rental">LIHTC Pro Forma &amp; Capital Stack</span><span data-dc-mode="ownership" hidden>For-Sale Ownership Feasibility</span></h1>
-      <p class="dc-lead" data-dc-mode="rental">Model your tax credit deal: eligible basis, credit amount, equity, gap financing, and debt service. Uses HUD FMR rent limits for your selected county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
+      <p class="dc-lead" data-dc-mode="rental">Model your tax credit deal: eligible basis, credit amount, equity, gap financing, and debt service. Choose published CHFA limits, a non-CHFA AMI formula, or unrestricted market rents for your county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
       <p class="dc-lead" data-dc-mode="ownership" hidden>Test whether a for-sale project closes: development cost per home against the price a household at the target income can afford, the subsidy gap between them, and what the public keeps at resale. Uses HUD income limits for your selected county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
       <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;" role="note"><strong>Screening tool only.</strong> Outputs are planning-level estimates based on simplified assumptions. They are not a substitute for lender underwriting, investor pricing, legal advice, or a CHFA-required market analysis.</p>
     </div>
@@ -251,7 +257,7 @@
     <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.PageContext) PageContext.render('pageContext', {
-        what: 'Concept-stage LIHTC pro forma: eligible basis estimation, 4% vs 9% credit sizing, equity pricing, supportable first mortgage, developer fee, and gap analysis. Uses HUD FMR rent limits for your selected county.',
+        what: 'Concept-stage LIHTC pro forma: eligible basis estimation, 4% vs 9% credit sizing, equity pricing, supportable first mortgage, developer fee, and gap analysis. Choose published CHFA limits, a non-CHFA AMI formula, or unrestricted market rents for your county.',
         why: 'Financial feasibility is the ultimate test. This calculator helps you determine early whether a concept can close its funding gap before investing $50K+ in predevelopment costs (ESA, survey, architect, legal).',
         not: 'This does not model construction loan interest, actual eligible basis (uses % proxy), applicable fraction, or investor-specific underwriting requirements. Equity pricing is a point-in-time snapshot. Operating expenses use a statewide default. This is not a substitute for lender underwriting, syndicator pre-screening, or legal advice.',
         nextSteps: [
@@ -1110,6 +1116,7 @@
         tdc:          safeVal('dc-tdc'),
         units:        safeVal('dc-units'),
         minimumSetAsideElection: safeVal('dc-minimum-set-aside'),
+        rentLimits: window.__DealCalc ? window.__DealCalc.getRentLimitsMetadata() : null,
         basisPct:     safeVal('dc-basis-pct'),
         qctDda:       safeChecked('dc-qct-dda'),
         equityPrice:  safeVal('dc-equity-price'),
