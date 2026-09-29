@@ -124,6 +124,10 @@ test('boundary consumer preserves an explicitly measured zero capture', function
     { originZones: [], totalWorkers: 100, captureRate: 0 });
   assert(boundary.captureRate === 0, 'known denominator and no captured workers preserve zero');
   assert(boundary.captureUnavailableReason === null, 'measured zero has no absence reason');
+  assert(C.getJustificationData().totalWorkers === 100, 'audit retains the denominator supporting measured zero');
+  const unknown = C.generateCommutingBoundary(39.7, -104.9,
+    { originZones: [], totalWorkers: 0, captureRate: 0 });
+  assert(unknown.captureRate === null, 'boundary consumer rejects a legacy zero with no positive denominator');
 });
 
 test('real runner propagates unmeasured capture through narrative and audit consumers', async function () {

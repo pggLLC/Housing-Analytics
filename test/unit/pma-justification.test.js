@@ -157,6 +157,8 @@ test('legacy cached unmeasured zero is unavailable at the consumer', function ()
   const raw = { captureRate: 0, lodesWorkplaces: 0 };
   const legacy = J.synthesizePMA({ commuting: raw });
   assert(legacy.commuting.captureRate === null, 'legacy placeholder zero is not measured capture');
+  const zeroWorkers = J.synthesizePMA({ commuting: { captureRate: 0, lodesWorkplaces: 10, totalWorkers: 0 } });
+  assert(zeroWorkers.commuting.captureRate === null, 'workplace count alone cannot support a zero capture ratio');
   assert(!/\b0\s*%/.test(J.generateNarrative(legacy)), 'legacy placeholder creates no zero-percent claim');
   const exported = JSON.parse(J.exportToJSON({ commuting: raw, _analysisResults: { commuting: raw },
     justification: { narrative: 'STALE NARRATIVE' } }));

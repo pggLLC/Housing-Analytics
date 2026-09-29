@@ -102,7 +102,7 @@ share. When commuting capture was not calculated (tract or buffer mode), or no
 workplace/positive worker total is available, its value is `null` with
 `captureUnavailableReason`. The narrative, audit JSON and commute-support
 summary preserve that absence. A supported measured zero remains zero; an old
-saved placeholder zero with no workplace evidence is unavailable. These rules
+saved placeholder zero without a positive worker denominator is unavailable. These rules
 do not change the boundary geometry or the for-sale capture calculation.
 
 Regression coverage: `npm run test:custom-pma-blocked`,
