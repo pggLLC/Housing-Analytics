@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-29T03:04:34.091Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-29T05:45:55.853Z. Do not edit by hand.
 
 ---
 
@@ -1812,7 +1812,7 @@
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/cross-surface-vintage-labels.test.js` | 6.6 KB |
-| `test/custom-pma-conclusions-blocked.test.js` | 11.0 KB |
+| `test/custom-pma-conclusions-blocked.test.js` | 20.5 KB |
 | `test/daily-audit-repo-health.test.js` | 27.9 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
 | `test/daily-audit-system.js` | 20.3 KB |
@@ -2120,7 +2120,7 @@
 | `test/site-comparison-save.test.js` | 8.7 KB |
 | `test/site-qct-dda-evidence.test.js` | 19.1 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.0 KB |
-| `test/site-transit-evidence.test.js` | 14.5 KB |
+| `test/site-transit-evidence.test.js` | 14.6 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
 | `test/smoke-market-analysis.test.js` | 39.9 KB |
@@ -2164,11 +2164,11 @@
 | `test/unit/cohort-component-model.test.js` | 13.0 KB |
 | `test/unit/fema-flood.test.js` | 14.7 KB |
 | `test/unit/pma-barriers.test.js` | 4.0 KB |
-| `test/unit/pma-commuting.test.js` | 4.5 KB |
+| `test/unit/pma-commuting.test.js` | 8.1 KB |
 | `test/unit/pma-competitive-set.test.js` | 9.2 KB |
 | `test/unit/pma-employment-centers.test.js` | 15.9 KB |
 | `test/unit/pma-infrastructure.test.js` | 5.8 KB |
-| `test/unit/pma-justification.test.js` | 5.8 KB |
+| `test/unit/pma-justification.test.js` | 8.5 KB |
 | `test/unit/pma-opportunities.test.js` | 17.4 KB |
 | `test/unit/pma-schools.test.js` | 5.0 KB |
 | `test/unit/pma-transit.test.js` | 5.0 KB |
