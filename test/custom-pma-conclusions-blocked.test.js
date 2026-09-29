@@ -43,10 +43,9 @@ const SITE = { lat: 39.1589, lon: -108.7290 };
 const PICKED = ['08077001504', '08077001503', '08077001402'];
 
 let failures = 0;
-function test(name, fn) {
-  try { fn(); console.log('  ✓ ' + name); }
-  catch (e) { failures += 1; console.log('  ✗ ' + name + ' — ' + e.message); }
-}
+const tests = [];
+const windows = [];
+function test(name, fn) { tests.push([name, fn]); }
 
 function tract(geoid) {
   const t = TRACTS.find((x) => x.geoid === geoid);
@@ -63,13 +62,13 @@ function boundaryFor(geoids) {
     features: geoids.map(feature) };
 }
 
-function page() {
+function page({ acs = ACS, cold = false, dataService } = {}) {
   const dom = new JSDOM(
     '<!doctype html><body>' +
     '<div class="pma-card" data-pma-keep><div id="pmaScoreWrap"><div id="pmaScoreCircle"></div>' +
     '<div id="pmaScoreTier"></div><div id="pmaScoreBoundary"></div></div></div>' +
     '<button id="pmaExportJsonBtn"></button><button id="pmaExportCsvBtn"></button>' +
-    '<button id="pmaExplainScoreBtn" hidden></button>' +
+    '<button id="pmaExplainScoreBtn" hidden></button><button id="pmaExportAuditJson"></button>' +
     '<div class="pma-card" id="pmaJustificationCard" hidden><p id="pmaJustificationNarrative"></p></div>' +
     '<div id="lihtcConceptCard" hidden></div>' +
     '<input id="pmaProposedUnits" value="60"></body>',
@@ -77,10 +76,13 @@ function page() {
   const w = dom.window;
   w.console.log = w.console.warn = w.console.error = w.console.info = () => {};
   w.alert = () => {};
-  w.PMADataCache = {
-    has: (k) => k === 'tractCentroids' || k === 'acsMetrics',
-    get: (k) => (k === 'tractCentroids' ? CENTROIDS : ACS)
-  };
+  windows.push(w);
+  w.eval(read('js/market-analysis-cache-fix.js'));
+  if (!cold) {
+    w.PMADataCache.set('tractCentroids', CENTROIDS);
+    w.PMADataCache.set('acsMetrics', acs);
+  }
+  if (dataService) w.DataService = dataService;
   const quiet = { warn: console.warn, error: console.error };
   console.warn = console.error = () => {};
   try {
@@ -91,6 +93,8 @@ function page() {
       'js/market-analysis-scoring.js',
       'js/market-analysis-supply.js',
       'js/market-analysis.js',
+      'js/pma-justification.js',
+      'js/lihtc-deal-predictor.js',
       'js/pma-ui-controller.js'
     ].forEach((rel) => w.eval(read(rel)));
   } finally { Object.assign(console, quiet); }
@@ -104,6 +108,10 @@ function run(w, lat, lon, geoids, boundary) {
   console.warn = console.error = console.log = () => {};
   try { w.PMAEngine.runAnalysis(lat, lon, { method: 'tract', tractGeoids: geoids, tractBoundary: boundary }); }
   finally { Object.assign(console, quiet); }
+  return screen(w);
+}
+
+function screen(w) {
   const doc = w.document;
   const circle = doc.getElementById('pmaScoreCircle');
   const blocked = doc.querySelector('[data-custom-pma-blocked]');
@@ -213,8 +221,191 @@ test('the narrative and recommendation runner is not called for an unbound custo
   assert.deepStrictEqual(calls[0].tractGeoids, PICKED);
 });
 
-if (failures) {
-  console.log('\n' + failures + ' failing');
-  process.exit(1);
+// Use the actual cache serialization and narrative renderer. The score stored
+// here came from the real engine above, not a second implementation of it.
+function savedRun() {
+  const w = page();
+  const result = run(w, SITE.lat, SITE.lon, PICKED, boundaryFor(PICKED)).result;
+  const scoreRun = w.PMAJustification.synthesizePMA({
+    commuting: { method: 'tract-picker', captureRate: null, lodesWorkplaces: 0 }
+  });
+  scoreRun.pma = result;
+  scoreRun.pmaTractSelection = { selected: PICKED.slice(), curated: true };
+  w.PMADataCache.saveLastResult(SITE.lat, SITE.lon,
+    { method: 'tract', tractGeoids: PICKED, tractBoundary: boundaryFor(PICKED), proposedUnits: 60 }, scoreRun);
+  return JSON.parse(w.localStorage.getItem('pma_last_result_v1'));
 }
-console.log('\nall passing');
+function store(w, saved) { w.localStorage.setItem('pma_last_result_v1', JSON.stringify(saved)); }
+function assertRestored(w, saved) {
+  const restored = w.PMAUIController.getLastScoreRun();
+  assert.ok(restored, 'the valid saved result was not restored');
+  assert.strictEqual(restored.run_id, saved.scoreRun.run_id);
+  assert.deepStrictEqual(JSON.parse(JSON.stringify(restored.pma)), saved.scoreRun.pma);
+  assert.strictEqual(w.document.getElementById('pmaJustificationCard').hidden, false);
+  assert.strictEqual(w.document.getElementById('pmaJustificationNarrative').textContent,
+    w.PMAJustification.generateNarrative(restored), 'restored narrative must describe this saved run');
+  assert.strictEqual(w.document.getElementById('lihtcConceptCard').hidden, false);
+  assert.ok(w.document.getElementById('lihtcExportConceptBtn'), 'valid saved concept has no export');
+  assert.strictEqual(w.document.getElementById('pmaExplainScoreBtn').hidden, false);
+  assert.strictEqual(w.document.getElementById('pmaExportAuditJson').disabled, false);
+}
+
+test('a valid saved custom PMA restores its narrative, explanation and audit export', () => {
+  const w = page();
+  const saved = savedRun();
+  store(w, saved);
+  w.PMAUIController.restoreLastRun();
+  assertRestored(w, saved);
+});
+
+const RESTORE_CASES = [
+  ['missing site', s => { s.lat = null; s.lon = null; }],
+  ['missing selected tracts', s => { s.options.tractGeoids = []; }],
+  ['missing boundary', s => { s.options.tractBoundary = null; }],
+  ['partially mapped boundary', s => { s.options.tractBoundary = boundaryFor(PICKED.slice(1)); }],
+  ['missing tract source binding', s => { s.options.tractGeoids.push(UNBOUND);
+    s.options.tractBoundary.features.push(Object.assign(feature(PICKED[0]), { properties: { GEOID: UNBOUND } })); }],
+  ['missing current ACS row', () => {}, { tracts: ACS.tracts.filter(t => t.geoid !== PICKED[0]) }]
+];
+RESTORE_CASES.forEach(([label, corrupt, acs]) => {
+  test('restoring ' + label + ' clears prior conclusions and disables all exports', () => {
+    const w = page({ acs });
+    const saved = savedRun();
+    // Seed a prior conclusion, including an earlier enhanced run where current
+    // bindings permit one, then corrupt only the persisted context.
+    if (!acs) { store(w, saved); w.PMAUIController.restoreLastRun(); assertRestored(w, saved); }
+    w.PMAEngine._setLastResultForTest(saved.scoreRun.pma);
+    const doc = w.document;
+    doc.getElementById('pmaScoreCircle').textContent = saved.scoreRun.pma.pma_score;
+    doc.getElementById('pmaJustificationNarrative').textContent = 'PRIOR CONCLUSION';
+    doc.getElementById('pmaJustificationCard').hidden = false;
+    doc.getElementById('lihtcConceptCard').innerHTML = '<button id="lihtcExportConceptBtn">PRIOR CONCEPT</button>';
+    doc.getElementById('lihtcConceptCard').hidden = false;
+    doc.getElementById('pmaExplainScoreBtn').hidden = false;
+    corrupt(saved);
+    store(w, saved);
+    const ready = w.PMAEngine.customPmaReadiness(saved.lat, saved.lon, saved.options);
+    assert.strictEqual(ready.ready, false);
+    let conceptCalls = 0;
+    w.LIHTCDealPredictor = { predictConcept() { conceptCalls++; return {}; } };
+    w.PMAUIController.restoreLastRun();
+    assertBlocked(screen(w), ready.reason, label);
+    assert.strictEqual(w.PMAUIController.getLastScoreRun(), null);
+    assert.strictEqual(doc.getElementById('pmaJustificationNarrative').textContent, '');
+    assert.strictEqual(doc.getElementById('pmaJustificationCard').hidden, true);
+    assert.strictEqual(doc.getElementById('lihtcConceptCard').textContent, '');
+    assert.strictEqual(doc.getElementById('lihtcConceptCard').hidden, true);
+    assert.strictEqual(conceptCalls, 0, 'the saved concept was regenerated before readiness');
+    assert.strictEqual(doc.getElementById('pmaExplainScoreBtn').hidden, true);
+    assert.strictEqual(doc.getElementById('pmaExportAuditJson').disabled, true);
+    assert.strictEqual(doc.getElementById('lihtcExportConceptBtn'), null);
+  });
+});
+
+for (const method of ['buffer', 'commuting', 'hybrid']) {
+  test('saved ' + method + ' session keeps its existing restore behavior', () => {
+    const w = page();
+    const saved = savedRun();
+    saved.options = { method, bufferMiles: 3, proposedUnits: 60 };
+    delete saved.scoreRun.pmaTractSelection;
+    store(w, saved);
+    w.PMAUIController.restoreLastRun();
+    assertRestored(w, saved);
+  });
+}
+
+test('buffer polygon output does not claim measured commuting capture', async () => {
+  const w = page();
+  const polygon = await w.PMAEngine.generatePmaPolygon(SITE.lat, SITE.lon, 'buffer', 3);
+  assert.strictEqual(polygon.captureRate, null);
+  assert.ok(polygon.captureUnavailableReason);
+});
+
+test('blocked restore cannot export the justification module’s earlier run or revive an in-flight run', async () => {
+  const w = page();
+  await tick(); // install the production click handlers
+  const saved = savedRun();
+  store(w, saved);
+  w.PMAUIController.restoreLastRun();
+  w.PMAJustification.synthesizePMA(saved.scoreRun); // module-level fallback exists
+  let complete;
+  const emitter = { on(event, fn) { if (event === 'complete') complete = fn; return emitter; } };
+  w.PMAAnalysisRunner = { run: () => emitter };
+  w.PMATractPicker = { getSelectedGeoids: () => PICKED.slice(), getBoundary: () => boundaryFor(PICKED) };
+  w.PMAUIController.runEnhanced(SITE.lat, SITE.lon);
+  assert.ok(complete, 'a prior enhanced run must be in flight');
+  saved.options.tractBoundary = null;
+  store(w, saved);
+  w.PMAUIController.restoreLastRun();
+  let exports = 0;
+  w.PMAJustification.exportToJSON = () => { exports++; return '{}'; };
+  w.URL.createObjectURL = () => 'blob:test';
+  w.URL.revokeObjectURL = () => {};
+  // Dispatch bypasses the browser's disabled-button click suppression.
+  w.document.getElementById('pmaExportAuditJson').dispatchEvent(new w.Event('click'));
+  assert.strictEqual(exports, 0, 'audit handler fell back to a previous module result');
+  complete(saved.scoreRun);
+  assert.strictEqual(w.PMAUIController.getLastScoreRun(), null, 'late completion revived the invalid result');
+  assert.strictEqual(w.document.getElementById('pmaJustificationNarrative').textContent, '');
+});
+
+// Real DOMContentLoaded/data-load ordering, with a deliberately delayed ACS
+// response: a warm-cache-only test would miss this valid-session regression.
+const tick = () => new Promise(resolve => setTimeout(resolve, 0));
+test('startup waits for current ACS bindings before restoring a valid saved session', async () => {
+  let release;
+  const acs = new Promise(resolve => { release = resolve; });
+  const w = page({ cold: true, dataService: { baseData: p => p, getJSON(p) {
+    if (p.includes('acs_tract_metrics')) return acs;
+    if (p.includes('tract_centroids')) return Promise.resolve(CENTROIDS);
+    return Promise.resolve({ features: [] });
+  } } });
+  const saved = savedRun();
+  store(w, saved);
+  await tick();
+  assert.strictEqual(w.PMAUIController.getLastScoreRun(), null, 'restored before ACS loaded');
+  release(ACS);
+  await w.PMAEngine.whenDataReady();
+  await tick();
+  assertRestored(w, saved);
+});
+
+[
+  ['tract-picker site change', w => w.PMAUIController.beginTractPma(40, -105)],
+  ['direct site placement', w => {
+    w.fetch = () => Promise.reject(new Error('network disabled in fixture'));
+    w.PMAEngine.placeSiteMarker(40, -105);
+  }],
+  ['jurisdiction deep link', w => {
+    w.fetch = () => Promise.reject(new Error('network disabled in fixture'));
+    w.PMAEngine.placeSiteMarker(40, -105, { jurisdictionCentroid: true });
+    w.PMAEngine.runAnalysis(40, -105);
+  }],
+  ['direct engine analysis', w => w.PMAEngine.runAnalysis(SITE.lat, SITE.lon)]
+].forEach(([label, start]) => test(label + ' cancels startup restoration while sources are loading', async () => {
+  let release;
+  const acs = new Promise(resolve => { release = resolve; });
+  const w = page({ cold: true, dataService: { baseData: p => p, getJSON(p) {
+    if (p.includes('acs_tract_metrics')) return acs;
+    if (p.includes('tract_centroids')) return Promise.resolve(CENTROIDS);
+    return Promise.resolve({ features: [] });
+  } } });
+  store(w, savedRun());
+  await tick();
+  start(w);
+  release(ACS);
+  await w.PMAEngine.whenDataReady();
+  await tick();
+  assert.strictEqual(w.PMAUIController.getLastScoreRun(), null);
+  assert.strictEqual(w.document.getElementById('pmaJustificationNarrative').textContent, '');
+}));
+
+(async () => {
+  for (const [name, fn] of tests) {
+    try { await fn(); console.log('  ✓ ' + name); }
+    catch (e) { failures++; console.log('  ✗ ' + name + ' — ' + e.message); }
+    finally { windows.splice(0).forEach(w => w.close()); }
+  }
+  if (failures) { console.log('\n' + failures + ' failing'); process.exitCode = 1; }
+  else console.log('\nall passing');
+})();
