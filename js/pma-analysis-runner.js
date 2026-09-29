@@ -150,7 +150,8 @@
       results.boundary  = tractBoundary || null;
       results.commuting = {
         lodesWorkplaces:     0,
-        captureRate:         0,
+        captureRate:         null,
+        captureUnavailableReason: 'Commuting capture was not calculated for the selected tract boundary.',
         residentOriginZones: [],
         method:              'tract-picker',
         tractGeoids:         tractGeoids || [],
@@ -170,13 +171,17 @@
           return results;
         });
     } else {
-      // Buffer: quick synthetic commuting justification
+      // Buffer geometry does not measure commuting capture.
       if (pmaComm) {
         results.boundary = pmaComm._buildCirclePolygon
           ? pmaComm._buildCirclePolygon(lat, lon, bufferMiles, 32)
           : null;
       }
-      results.commuting = { lodesWorkplaces: 0, captureRate: 0, residentOriginZones: [] };
+      results.commuting = { lodesWorkplaces: 0, captureRate: null, residentOriginZones: [],
+        method: method,
+        captureUnavailableReason: method === 'buffer'
+          ? 'Commuting capture was not calculated for the buffer boundary.'
+          : 'Commuting capture is unavailable because the commuting module did not load.' };
       progress('commuting', 'Using buffer geometry (legacy mode)…');
       commutingPromise = Promise.resolve(results);
     }
@@ -490,7 +495,8 @@
         bufferProximity:    parseFloat(bufferProximity.toFixed(2)),
         overallConfidence:  overallConfidence,
         confidenceBadge:    confidenceBadge,
-        commuteSupport:     sources.commuting !== 'fallback' ? 0.80 : 0.30,
+        commuteSupport:     Number.isFinite(results.commuting.captureRate) ? 0.80 : null,
+        commuteSupportUnavailableReason: results.commuting.captureUnavailableReason || null,
         rentContextCoverage: lihtcCoverage,
         jobAccessCoverage:  (results.employmentCenters && results.employmentCenters.length > 0) ? 0.88 : 0.40,
         fallbackModes:      fallbackModes

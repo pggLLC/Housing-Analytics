@@ -127,6 +127,44 @@ test('exportToJSON — no scoreRun → returns {}', function () {
   assert(typeof json === 'string', 'exportToJSON returns string even without arg');
 });
 
+test('capture absence and measured zero remain distinct in narrative, quality and export', function () {
+  const suppliedReason = 'SOURCE REQUIRED FOR THIS PMA';
+  const common = { schools: { schoolsAligned: 1 }, transit: { transitAccessibilityScore: 50 },
+    opportunities: {}, infrastructure: {} };
+  const measured = J.synthesizePMA(Object.assign({}, common, {
+    commuting: { lodesWorkplaces: 10, totalWorkers: 100, captureRate: 0, residentOriginZones: [] }
+  }));
+  const measuredText = J.generateNarrative(measured);
+  assert(/\b0\s*%/.test(measuredText), 'consumer retains measured zero as a percentage');
+  assert(measured.dataQuality === 'MEDIUM', 'measured commuting evidence counts toward data quality');
+  const unknown = J.synthesizePMA(Object.assign({}, common, {
+    commuting: { lodesWorkplaces: 0, captureRate: null, captureUnavailableReason: suppliedReason }
+  }));
+  const unknownText = J.generateNarrative(unknown);
+  assert(unknownText.includes(suppliedReason), 'absence disclosure agrees with the supplied reason');
+  assert(!/\d+\s*%/.test(unknownText), 'unknown capture creates no percentage');
+  assert(!/circular buffer/i.test(unknownText), 'absence does not invent a boundary method');
+  assert(unknown.dataQuality === 'LOW', 'absent capture creates no data-quality credit');
+  J.generateNarrative(measured); // export must not inherit this older conclusion
+  const exported = JSON.parse(J.exportToJSON(unknown));
+  assert(exported.commuting.captureRate === null, 'unknown capture remains null in JSON');
+  assert(exported.auditTrail.narrative === unknownText, 'audit narrative belongs to the exported run');
+  assert(JSON.parse(J.exportToJSON(measured)).commuting.captureRate === 0,
+    'a measured zero stays zero in JSON');
+});
+
+test('legacy cached unmeasured zero is unavailable at the consumer', function () {
+  const raw = { captureRate: 0, lodesWorkplaces: 0 };
+  const legacy = J.synthesizePMA({ commuting: raw });
+  assert(legacy.commuting.captureRate === null, 'legacy placeholder zero is not measured capture');
+  assert(!/\b0\s*%/.test(J.generateNarrative(legacy)), 'legacy placeholder creates no zero-percent claim');
+  const exported = JSON.parse(J.exportToJSON({ commuting: raw, _analysisResults: { commuting: raw },
+    justification: { narrative: 'STALE NARRATIVE' } }));
+  assert(exported._analysisResults.commuting.captureRate === null, 'raw audit components normalize legacy zero too');
+  assert(exported.justification.narrative === exported.auditTrail.narrative,
+    'all exported narrative copies describe the exported run');
+});
+
 console.log('\n' + '='.repeat(50));
 console.log('Results:', passed, 'passed,', failed, 'failed');
 if (failed > 0) process.exitCode = 1;
