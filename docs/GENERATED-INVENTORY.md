@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-29T12:59:11.874Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-29T20:51:48.969Z. Do not edit by hand.
 
 ---
 
@@ -33,7 +33,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 69.6 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.9 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 74.7 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 75.1 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.1 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -137,7 +137,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 4.02 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 251.4 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 251.5 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1747,7 +1747,7 @@
 
 ## Test Files
 
-494 test files found.
+495 test files found.
 
 | File | Size |
 |------|------|
@@ -1794,7 +1794,7 @@
 | `test/chfa-portfolio-filters.test.js` | 6.3 KB |
 | `test/chfa-portfolio-location-link.test.js` | 6.1 KB |
 | `test/chfa-qap-calendar.test.js` | 12.8 KB |
-| `test/chfa-rent-limits.test.js` | 10.3 KB |
+| `test/chfa-rent-limits.test.js` | 10.5 KB |
 | `test/ci-tools-are-declared.test.mjs` | 9.3 KB |
 | `test/ci-verifies-bot-commits.test.js` | 5.4 KB |
 | `test/co-historical-allocations.test.js` | 12.9 KB |
@@ -1831,8 +1831,8 @@
 | `test/dc-peer-deals.test.js` | 9.3 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
 | `test/deal-calc-absence-semantics.test.js` | 12.0 KB |
-| `test/deal-calc-ami-bands.test.js` | 6.4 KB |
-| `test/deal-calc-correctness.test.js` | 3.4 KB |
+| `test/deal-calc-ami-bands.test.js` | 6.5 KB |
+| `test/deal-calc-correctness.test.js` | 3.7 KB |
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 17.1 KB |
 | `test/deal-calc-minimum-set-aside.test.js` | 6.6 KB |
@@ -1840,7 +1840,7 @@
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
-| `test/deal-calc-share-roundtrip.test.js` | 16.6 KB |
+| `test/deal-calc-share-roundtrip.test.js` | 16.9 KB |
 | `test/deal-calc-soft-funding-links-wrap.test.js` | 2.5 KB |
 | `test/deal-calc-studio-units.test.js` | 2.7 KB |
 | `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |
@@ -1983,7 +1983,7 @@
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
-| `test/lihtc-award-year-not-pis.test.js` | 8.1 KB |
+| `test/lihtc-award-year-not-pis.test.js` | 10.2 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
 | `test/lihtc-guide-accuracy.test.js` | 2.3 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 3.0 KB |
@@ -2105,6 +2105,7 @@
 | `test/registry-cross-county-consistency.test.js` | 1.8 KB |
 | `test/regrid-cache-honesty.test.js` | 8.6 KB |
 | `test/rendered-absence-not-zero.test.js` | 4.2 KB |
+| `test/rent-ceiling-regime.test.js` | 17.5 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
 | `test/research-brief.test.mjs` | 15.9 KB |
@@ -2123,7 +2124,7 @@
 | `test/site-review-build-pause-regressions.test.js` | 11.0 KB |
 | `test/site-transit-evidence.test.js` | 14.6 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
-| `test/smoke-fmr.test.js` | 10.6 KB |
+| `test/smoke-fmr.test.js` | 10.9 KB |
 | `test/smoke-market-analysis.test.js` | 39.9 KB |
 | `test/smoke.test.js` | 10.1 KB |
 | `test/soft-funding-tracker.test.js` | 16.5 KB |
