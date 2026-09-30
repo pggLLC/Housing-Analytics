@@ -150,7 +150,9 @@ async function test(name, fn) {
       change(w, 'dc-units', 1, 'input');
       change(w, 'dc-units-60', 1, 'input');
       assert.equal(w.document.getElementById('dc-r-rents').textContent.trim(), money(market['2br'] * 12));
-      assert.equal(w.document.getElementById('dc-r-equity').textContent.trim(), money(0), 'unrestricted units generate no LIHTC equity');
+      assert.equal(w.document.getElementById('dc-su-equity').textContent.trim(), money(0), 'unrestricted units generate no LIHTC equity');
+      assert.equal(w.document.getElementById('dc-r-equity').dataset.lihtcApplicable, 'false');
+      assert(w.document.getElementById('dc-r-equity').textContent.includes('CHFA'), 'KPI explains why credits do not apply');
       for (const row of Object.values(w.__DealCalc.getAmiLimitsByBr())) assert(Object.values(row).every((v) => v === null));
       const rows = [...w.document.querySelectorAll('#dc-rent-ach-body tr')];
       assert.equal(rows.length, tiers.length);

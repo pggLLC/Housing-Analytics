@@ -54,8 +54,46 @@
     return { complete: true, unavailableReason: null };
   }
 
+  // Package C remains the only source of entered allowance amounts and fees.
+  // Missing bedrooms remain null; the calculator checks only bedrooms it uses.
+  function allowanceByBedroom(subject, countyFips) {
+    var result = { applied: false, reason: null, perBedroom: {}, feesPerBedroom: {},
+      basis: { method: null, reference: null, effectiveDate: null } };
+    var bedrooms = Object.keys(BR_TO_CHFA_KEY);
+    bedrooms.forEach(function (br) { result.perBedroom[br] = null; result.feesPerBedroom[br] = 0; });
+    function blocked(reason) { result.reason = reason; return result; }
+    if (!subject) return blocked('subject_project_unavailable');
+    var basis = subject.utility_allowance_basis;
+    var status = allowanceBasisStatus(basis, countyFips);
+    if (!status.complete) return blocked(status.unavailableReason);
+    if (!countyFips || subject.county_fips !== countyFips) return blocked('allowance_basis_other_geography');
+    result.basis = { method: basis.method, reference: basis.reference || null, effectiveDate: basis.effective_date || null };
+    var rows = Array.isArray(subject.unit_mix) ? subject.unit_mix : [];
+    for (var i = 0; i < bedrooms.length; i++) {
+      var br = bedrooms[i];
+      var matching = rows.filter(function (row) { return row.bedrooms === br; });
+      var allowances = matching.map(function (row) { return _allowance(row.utility_allowance); });
+      var fees = matching.map(function (row) {
+        return row.fees == null || (typeof row.fees === 'string' && !row.fees.trim()) ? 0 : _allowance(row.fees);
+      });
+      if (fees.some(function (v) { return v == null; })) return blocked('fees_invalid:' + br);
+      var known = allowances.filter(function (v) { return v != null; });
+      if ((basis.method !== 'owner_pays_all' && known.some(function (v) { return v !== known[0]; })) ||
+          fees.some(function (v) { return v !== fees[0]; })) return blocked('allowance_conflict:' + br);
+      result.perBedroom[br] = basis.method === 'owner_pays_all' ? 0
+        : allowances.length && allowances.every(function (v) { return v != null; }) ? allowances[0] : null;
+      result.feesPerBedroom[br] = fees.length ? fees[0] : 0;
+    }
+    result.applied = true;
+    return result;
+  }
+
   function unavailableMessage(reason) {
     var messages = {
+      subject_project_unavailable: 'Subject project unavailable',
+      rent_module_unavailable: 'Rent module unavailable',
+      allowance_conflict: 'Conflicting utility allowances or fees',
+      allowance_bedroom_missing: 'Utility allowance missing for bedroom size',
       allowance_method_missing: 'Choose a utility allowance method',
       allowance_reference_missing: 'Enter the allowance schedule, authority or model',
       allowance_date_missing: 'Enter a valid allowance effective date',
@@ -78,7 +116,8 @@
       hera_pis_after_2008: 'HERA requires a placed-in-service date on or before 2008-12-31',
       hera_county_unavailable: 'HERA Special limits are unavailable for this county'
     };
-    return messages[reason] || 'Rent unavailable';
+    var parts = String(reason || '').split(':');
+    return (messages[parts[0]] || 'Rent unavailable') + (parts[1] ? ' — ' + parts[1] : '');
   }
 
   function allowanceBasisCaption(basis, countyFips) {
@@ -266,6 +305,7 @@
     ALLOWANCE_METHODS: ALLOWANCE_METHODS,
     RESIDENT_UTILITIES: RESIDENT_UTILITIES,
     allowanceBasisStatus: allowanceBasisStatus,
+    allowanceByBedroom: allowanceByBedroom,
     allowanceBasisCaption: allowanceBasisCaption,
     unavailableMessage: unavailableMessage,
     rentCeiling: rentCeiling,

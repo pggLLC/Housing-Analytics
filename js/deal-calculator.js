@@ -46,6 +46,11 @@
   // units could not be entered. Kept as one constant because the previous
   // duplicate literal appeared at six call sites and drifted.
   var SPLIT_BR_TYPES = ['studio', '1br', '2br', '3br', '4br'];
+  var RENT_BEDROOMS = { studio: 'efficiency', '1br': '1BR', '2br': '2BR', '3br': '3BR', '4br': '4BR' };
+  var NO_LIHTC_CREDITS = 'No LIHTC credits — CHFA allocates all Colorado housing tax credits; this rent setting is not a CHFA LIHTC deal';
+  var _utilityAllowance = { applied: false, reason: 'subject_project_unavailable' };
+  var _subjectProjectSubscription = null;
+  var _unsubscribeSubjectProject = null;
   // Q5: Zillow ZORI market-rent index (smoothed, seasonally-adjusted, monthly).
   // Used for the "achievable-rent cap" toggle that under-writes 70%-120% AMI
   // units at min(planning ceiling, market rent) in weak markets where higher-AMI
@@ -885,6 +890,14 @@
       var label = document.getElementById('dc-ami-label-' + pct);
       if (label) label.innerHTML = amiBandLabelHtml(pct, result.election);
     });
+    var applicable = rentLimitRegime() === 'chfa_lihtc';
+    var election = document.getElementById('dc-minimum-set-aside');
+    if (election) election.disabled = !applicable;
+    if (!applicable) {
+      if (help) help.textContent = NO_LIHTC_CREDITS;
+      if (status) { status.textContent = 'Not applicable'; status.style.borderColor = 'var(--border)'; }
+      return;
+    }
     if (help) {
       if (result.election === '20-50') {
         help.textContent = 'The 20-50 election requires at least 20% of residential units at 50% AMI or below. Units up to 60% AMI can still contribute to qualified basis.';
@@ -1201,8 +1214,59 @@
     return limits.rentCeiling({ regime: rentLimitRegime(), chfaTable: _chfaRentTable,
       hudTable: hud && hud.isLoaded() ? { meta: hud.getMeta(), counties: hud.getAllCounties() } : null,
       fips: _countyFips, tier: tier,
-      bedrooms: { studio: 'efficiency', '1br': '1BR', '2br': '2BR', '3br': '3BR', '4br': '4BR' }[br],
+      bedrooms: RENT_BEDROOMS[br],
       rentBurden: _constants.rentBurdenPct, useHera: false });
+  }
+
+  function observeSubjectProject() {
+    var subjectProject = window.SubjectProject;
+    if (subjectProject === _subjectProjectSubscription) return;
+    if (_unsubscribeSubjectProject) _unsubscribeSubjectProject();
+    _subjectProjectSubscription = subjectProject;
+    _unsubscribeSubjectProject = subjectProject && typeof subjectProject.subscribe === 'function'
+      ? subjectProject.subscribe(recalculate) : null;
+  }
+
+  function resolveUtilityAllowance() {
+    var limits = window.ChfaRentLimits;
+    var subjectProject = window.SubjectProject;
+    if (rentLimitRegime() === 'market') return { applied: false, reason: 'unrestricted_market' };
+    if (!limits) return { applied: false, reason: 'rent_module_unavailable' };
+    var subject = subjectProject && typeof subjectProject.get === 'function' ? subjectProject.get() : null;
+    var allowance = limits.allowanceByBedroom(subject, _countyFips);
+    if (allowance.applied) {
+      var mix = collectBedroomMix();
+      var missing = SPLIT_BR_TYPES.find(function (br) { return mix[br] > 0 && allowance.perBedroom[RENT_BEDROOMS[br]] == null; });
+      if (missing) return { applied: false, reason: 'allowance_bedroom_missing:' + RENT_BEDROOMS[missing] };
+    }
+    return allowance;
+  }
+
+  // Export the same allowance record used for the currently displayed revenue.
+  function getUtilityAllowanceMetadata() {
+    if (!_utilityAllowance.applied) return { applied: false, reason: _utilityAllowance.reason };
+    return { applied: true, method: _utilityAllowance.basis.method, reference: _utilityAllowance.basis.reference,
+      effectiveDate: _utilityAllowance.basis.effectiveDate,
+      perBedroom: Object.assign({}, _utilityAllowance.perBedroom), feesPerBedroom: Object.assign({}, _utilityAllowance.feesPerBedroom) };
+  }
+
+  function renderUtilityAllowanceContext(blockedReason) {
+    var allowance = _utilityAllowance;
+    var limits = window.ChfaRentLimits;
+    var reason = blockedReason || allowance.reason;
+    var message = reason && limits ? limits.unavailableMessage(reason) : 'Subject project unavailable';
+    var text = blockedReason ? 'Rent revenue unavailable: ' + message
+      : allowance.applied ? 'Utility allowance applied from ' + (allowance.basis.reference || 'Owner pays all utilities') +
+        (allowance.basis.effectiveDate ? ' · effective ' + allowance.basis.effectiveDate : '')
+      : 'Upper bound — utility allowance not applied: ' + message + '. Set it in Market Analysis → Subject project.';
+    ['dc-rent-allowance-status', 'dc-noi-allowance-status'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.hidden = rentLimitRegime() === 'market';
+      el.dataset.allowanceApplied = String(allowance.applied);
+      el.dataset.unavailableReason = reason || '';
+      el.textContent = el.hidden ? '' : text;
+    });
   }
 
   function getRentLimitsMetadata() {
@@ -2113,9 +2177,10 @@
           <dt style="color:var(--muted);">10-Year Credit Equity</dt>
           <dd id="dc-r-equity" style="font-weight:700;text-align:right;">—</dd>
 
-          <dt style="color:var(--muted);">Est. Annual Gross Rents</dt>
+          <dt style="color:var(--muted);">Est. Annual Rent Revenue</dt>
           <dd id="dc-r-rents" style="font-weight:700;text-align:right;">—</dd>
         </dl>
+        <p id="dc-rent-allowance-status" role="status" aria-live="polite" style="font-size:var(--tiny);line-height:1.45;"></p>
         <p id="dc-gap-note" style="margin-top:var(--sp2);font-size:var(--tiny);color:var(--muted);display:none;"></p>
         <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
           ⚠ Verify: Annual credits and equity are illustrative — confirm equity pricing with your syndicator
@@ -2308,6 +2373,7 @@
       <!-- Debt Service Coverage & Stress -->
       <fieldset data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Debt Service Coverage &amp; Stress Tests</legend>
+        <p id="dc-noi-allowance-status" role="status" aria-live="polite" style="font-size:var(--tiny);line-height:1.45;"></p>
         <dl id="dc-dscr-summary" style="display:grid;grid-template-columns:1fr auto;gap:0.5rem 1rem;font-size:var(--small);">
           <dt style="color:var(--muted);"><abbr data-glossary="NOI">NOI</abbr> (stabilized, annual)</dt>
           <dd id="dc-r-noi-stab" style="font-weight:700;text-align:right;">—</dd>
@@ -3190,6 +3256,7 @@
   }
 
   function recalculate() {
+    observeSubjectProject();
     updateGrossSfEstimate();
     renderPermitContext(_countyFips);
     function fmt(n) {
@@ -3278,6 +3345,9 @@
     // Missing ceilings block revenue; market mode uses the existing ZORI/FMR
     // bedroom estimates rather than inventing an income-based restriction.
     var marketRegime = rentLimitRegime() === 'market';
+    var chfaRegime = rentLimitRegime() === 'chfa_lihtc';
+    _utilityAllowance = resolveUtilityAllowance();
+    var allowanceRevenueReason = null;
     var rentInputsMissing = false;
     var capChk = document.getElementById('dc-achievable-cap');
     var capOn = !marketRegime && !!(capChk && capChk.checked);
@@ -3287,6 +3357,18 @@
         : _amiLimitsByBr ? _amiLimitsByBr[tier] && _amiLimitsByBr[tier][br]
         : _amiLimits && _amiLimits[tier];
       if (typeof value !== 'number' || !isFinite(value)) { rentInputsMissing = true; return NaN; }
+      if (_utilityAllowance.applied) {
+        var bedrooms = RENT_BEDROOMS[br];
+        var contract = window.ChfaRentLimits.maxContractRent({ grossRent: value,
+          utilityAllowance: _utilityAllowance.perBedroom[bedrooms], fees: _utilityAllowance.feesPerBedroom[bedrooms],
+          basisStatus: { complete: _utilityAllowance.applied, unavailableReason: _utilityAllowance.reason } });
+        if (contract.contractRent == null) {
+          allowanceRevenueReason = contract.unavailableReason;
+          rentInputsMissing = true;
+          return NaN;
+        }
+        value = contract.contractRent;
+      }
       return value;
     }
     var capBindings = [];   // tiers where the cap actually reduced revenue
@@ -3343,7 +3425,7 @@
           }
         }
         amiUnitSum += u; // count all tier units regardless of checkbox
-        if (chk.checked && !marketRegime) {
+        if (chk.checked && chfaRegime) {
           designatedUnitsByPct[pct] = u;
         }
       }
@@ -3353,6 +3435,8 @@
     var lihtcUnits = minimumSetAsideResult.countedLihtcUnits;
     renderMinimumSetAsideStatus(minimumSetAsideResult);
 
+    renderUtilityAllowanceContext(allowanceRevenueReason);
+
     // Q5: surface the achievable-rent cap status on the UI.
     _renderAchievableCapStatus(capOn, perBrMarket, capBindings);
 
@@ -3360,7 +3444,8 @@
     // qualified basis = eligible basis × min(unit fraction, floor-area fraction).
     // We don't track floor area separately, so use the unit fraction.
     // For pure-LIHTC deals (no market units), this is 1.0.
-    var applicableFraction = window.DealCalculatorMath.computeApplicableFraction(lihtcUnits, units);
+    var applicableFraction = lihtcUnits > 0
+      ? window.DealCalculatorMath.computeApplicableFraction(lihtcUnits, units) : 0;
 
     // LIHTC credit calculations — grants reduce eligible basis per
     // §42(d)(5)(A); applicable fraction prorates basis when market-rate
@@ -3459,7 +3544,7 @@
       annualCredits = NaN;
       equity = NaN;
       var msaStatus = document.getElementById('dc-minimum-set-aside-status');
-      if (msaStatus) {
+      if (msaStatus && chfaRegime) {
         msaStatus.innerHTML = '<strong>Not evaluated.</strong> AMI-tier units (' + amiUnitSum +
           ') exceed Total Units (' + units + '), so the minimum set-aside cannot be tested. ' +
           'Fix the unit mix above.';
@@ -3557,7 +3642,8 @@
 
     // Why NOI or the rent roll is unknown, carried with it so each message
     // names the fix that applies rather than assuming there is no county.
-    var rentDataReason = !_countyFips ? 'Select a county to load AMI rent limits.'
+    var rentDataReason = allowanceRevenueReason ? window.ChfaRentLimits.unavailableMessage(allowanceRevenueReason)
+      : !_countyFips ? 'Select a county to load AMI rent limits.'
       : marketRegime ? 'Market rent data is unavailable for the selected bedrooms.'
       : 'Rent limits are unavailable for one or more selected tiers or bedrooms.';
     var noiUnknownReason = null;
@@ -3666,8 +3752,14 @@
 
     // Update LIHTC results
     document.getElementById('dc-r-basis').textContent = tdc > 0 ? fmt(eligibleBasis) : '—';
-    document.getElementById('dc-r-credits').textContent = tdc > 0 ? fmt(annualCredits) : '—';
-    document.getElementById('dc-r-equity').textContent = tdc > 0 ? fmt(equity) : '—';
+    document.getElementById('dc-results').style.gridTemplateColumns = chfaRegime ? '1fr auto' : 'minmax(0, 1fr) minmax(0, 1.5fr)';
+    [['dc-r-credits', annualCredits], ['dc-r-equity', equity]].forEach(function (entry) {
+      var el = document.getElementById(entry[0]);
+      el.textContent = chfaRegime ? (tdc > 0 ? fmt(entry[1]) : '—') : NO_LIHTC_CREDITS;
+      el.dataset.lihtcApplicable = String(chfaRegime);
+      el.style.fontSize = chfaRegime ? '' : 'var(--tiny)';
+      el.style.marginLeft = chfaRegime ? '' : '0';
+    });
     document.getElementById('dc-r-rents').textContent = fmt(annualRents);
 
     // F257-6 — Development budget breakdown. Typical CHFA Colorado
@@ -6602,6 +6694,12 @@
     _initChfaComparables();
   }
 
+  if (typeof window.addEventListener === 'function') {
+    window.addEventListener('storage', function (event) {
+      if ((event.key === 'coho.subjectProject.v1' || event.key === null) && document.getElementById('dc-r-rents')) recalculate();
+    });
+  }
+
   window.__DealCalc = {
     init: init,
     renderForTest: render,
@@ -6609,6 +6707,7 @@
     updateAmiLimitsFromFmr: updateAmiLimitsFromFmr,
     setChfaRentTable: setChfaRentTable,
     getRentLimitsMetadata: getRentLimitsMetadata,
+    getUtilityAllowanceMetadata: getUtilityAllowanceMetadata,
     getAmiLimitsByBr: function () { return _amiLimitsByBr == null ? null : JSON.parse(JSON.stringify(_amiLimitsByBr)); },
     setDesignationContext: setDesignationContext,
     setTransitZoneContext: setTransitZoneContext,
