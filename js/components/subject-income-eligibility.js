@@ -64,6 +64,9 @@
 
   function render(container) {
     if (!container) return;
+    // Invalidate pending work even when this render takes a synchronous early return.
+    var generation = (container._subjectRenderGeneration || 0) + 1;
+    container._subjectRenderGeneration = generation;
     var SP = global.SubjectProject;
     if (!SP) { _renderEmpty(container, 'SubjectProject not loaded.'); return; }
     var subject = SP.get();
@@ -83,6 +86,7 @@
       return;
     }
     SP.loadChfa().then(function (chfa) {
+      if (container._subjectRenderGeneration !== generation) return;
       if (!chfa) { _renderEmpty(container, 'Could not load CHFA income limits.'); _marketRows(container, marketRows); return; }
       var useHera = !!subject.use_hera_special;
       var hera = useHera && global.ChfaRentLimits.heraStatus(chfa, subject.county_fips, { useHera: useHera, pisDate: subject.pis_date });

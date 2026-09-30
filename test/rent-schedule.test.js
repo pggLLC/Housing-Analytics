@@ -54,6 +54,44 @@ async function app(subject, { data = chfa, beforeMount } = {}) {
   await settle();
   return w;
 }
+// Keep real project storage/subscriptions, but control when each card loader resolves.
+// Independent CHFA/HUD requests also exercise out-of-order completion in comparison.
+function delayedCard(name, file) {
+  const w = new JSDOM('<div id="card"></div>',
+    { url: 'https://example.org/market-analysis.html', runScripts: 'outside-only' }).window;
+  const requests = [];
+  function delay(data) {
+    return new Promise((resolve) => requests.push((available = true) => resolve(available ? data : null)));
+  }
+  w.fetch = (url) => {
+    assert.equal(url, 'data/co_ami_gap_by_county.json');
+    return delay(gap).then((data) => ({ json: () => Promise.resolve(data) }));
+  };
+  w.localStorage.setItem('coho.subjectProject.v1', JSON.stringify(project()));
+  for (const p of ['js/chfa-rent-limits.js', 'js/components/subject-project.js', file]) w.eval(read(p));
+  w.SubjectProject.loadChfa = () => delay(chfa);
+  w.SubjectProject.loadHud = () => delay(hud);
+  const container = w.document.getElementById('card');
+  w[name].attach(container);
+  assert(requests.length > 0, 'restricted render must start a delayed loader');
+  assert.equal(container.children.length, 0, 'loader has not resolved yet');
+  return { w, container, requests };
+}
+function assertMarketOnly(container, comparison) {
+  assert.equal(container.querySelectorAll('[data-market-rate="true"]').length, 1);
+  assert.equal(container.querySelector('[data-market-rate="false"]'), null);
+  assert.equal(container.querySelectorAll('tbody tr').length, comparison ? 1 : 0);
+}
+async function assertStaleIsSilent(w, container, release) {
+  const writes = [];
+  const observer = new w.MutationObserver((records) => writes.push(...records));
+  observer.observe(container, { childList: true, subtree: true, characterData: true, attributes: true });
+  try {
+    release();
+    await settle();
+    assert.equal(writes.length, 0, 'obsolete loader must not touch the current DOM');
+  } finally { observer.disconnect(); }
+}
 function change(w, selector, value) {
   const node = w.document.querySelector(selector);
   assert(node, selector + ' exists');
@@ -306,6 +344,47 @@ function change(w, selector, value) {
       } finally { await settle(); w.close(); }
     }
   });
+  for (const [name, file] of [
+    ['SubjectCaptureStack', 'js/components/subject-capture-stack.js'],
+    ['SubjectIncomeEligibility', 'js/components/subject-income-eligibility.js'],
+    ['SubjectRentComparison', 'js/components/subject-rent-comparison.js']
+  ]) {
+    const comparison = name === 'SubjectRentComparison';
+    await test(name + ': delayed restricted render cannot replace the all-market view', async () => {
+      // Both successful and unavailable obsolete results must leave the new view alone.
+      for (const available of [true, false]) {
+        const { w, container, requests } = delayedCard(name, file);
+        try {
+          const oldRequests = requests.slice();
+          w.SubjectProject.set({ ...project(), total_units: 6, unit_mix: [marketRow()] });
+          const marketRequests = requests.slice(oldRequests.length);
+          assert.equal(marketRequests.length, comparison ? 2 : 0);
+          marketRequests.forEach((release) => release());
+          await settle();
+          assertMarketOnly(container, comparison);
+          await assertStaleIsSilent(w, container, () => oldRequests.forEach((release) => release(available)));
+          assertMarketOnly(container, comparison);
+        } finally { w.close(); }
+      }
+    });
+    await test(name + ': all-market to restricted without county keeps Pick a county after delayed loads', async () => {
+      for (const available of [true, false]) {
+        const { w, container, requests } = delayedCard(name, file);
+        try {
+          // Capture/income use a synchronous all-market view: retain a pending earlier
+          // restricted load so this transition still has obsolete work to invalidate.
+          w.SubjectProject.set({ total_units: 6, vacancy_rate: 0, unit_mix: [marketRow()] });
+          const pendingCount = requests.length;
+          w.SubjectProject.set({ ...project(), county_fips: '' });
+          assert.equal(requests.length, pendingCount, 'missing county must not start another load');
+          assert.match(container.textContent, /Pick a county/i);
+          await assertStaleIsSilent(w, container, () => requests.forEach((release) => release(available)));
+          assert.match(container.textContent, /Pick a county/i);
+          assert.equal(container.querySelector('table, [data-market-rate="true"]'), null);
+        } finally { w.close(); }
+      }
+    });
+  }
   await test('the schedule suite is reachable from CI and components no longer keep independent rent sums', () => {
     const pkg = require('../package.json');
     assert.equal(pkg.scripts['test:rent-schedule'], 'node test/rent-schedule.test.js');
