@@ -13,9 +13,9 @@
  *
  * Hydration: on DOMContentLoaded the script reads URL params and populates
  * matching <input>/<select> elements, then dispatches an `input` event so the
- * Deal Calc's existing listeners run their normal recalculate() chain. No
- * direct call into __DealCalc is needed — we just nudge the same inputs the
- * user would have edited by hand.
+ * Deal Calc's existing listeners run their normal recalculate() chain. The
+ * resolved utility allowance is restored separately as scenario state through
+ * __DealCalc; it never writes to the recipient's Subject Project.
  *
  * The shareable inputs are read from the page (every form control whose id
  * starts with dc- or pf-), so a new input round-trips without an edit here.
@@ -330,6 +330,9 @@
     });
     var tr = _exportedTranches();
     if (tr) params.set('tr', tr);
+    if (_dealMode() === 'rental' && window.__DealCalc && window.__DealCalc.getUtilityAllowanceMetadata) {
+      params.set('utilityAllowance', JSON.stringify(window.__DealCalc.getUtilityAllowanceMetadata()));
+    }
     // Active jurisdiction (county FIPS) so the partner lands on the same
     // basis-boost / county context.
     try {
@@ -348,6 +351,15 @@
       var key = id.replace(/^dc-/, '');
       if (params.has(key)) _writeVal(id, params.get(key));
     });
+    if (window.__DealCalc && window.__DealCalc.setSharedUtilityAllowance) {
+      var allowance = null;
+      if (params.has('utilityAllowance')) {
+        try { allowance = JSON.parse(params.get('utilityAllowance')) || {}; } catch (_) { allowance = {}; }
+      }
+      window.__DealCalc.setSharedUtilityAllowance(allowance, {
+        countyFips: params.get('county-select'), regime: params.get('rent-limit-regime')
+      });
+    }
     if (params.has('tr')) _applyTranches(params.get('tr'));
     // The resale picker is re-rendered by each recalculate, so it is looked up
     // afresh for each key, after the id-keyed inputs have settled.
@@ -481,7 +493,11 @@
       // unaffected. Display text, null where the page shows no value.
       outputs: _readOutputs(_dealMode())
     };
-    if (snapshot.dealMode === 'rental') snapshot.rentLimits = window.__DealCalc ? window.__DealCalc.getRentLimitsMetadata() : null;
+    if (snapshot.dealMode === 'rental') {
+      snapshot.rentLimits = window.__DealCalc ? window.__DealCalc.getRentLimitsMetadata() : null;
+      snapshot.utilityAllowance = window.__DealCalc && window.__DealCalc.getUtilityAllowanceMetadata
+        ? window.__DealCalc.getUtilityAllowanceMetadata() : { applied: false, reason: 'subject_project_unavailable' };
+    }
     _exportedKeys().forEach(function (id) {
       var v = _readVal(id);
       if (v != null) snapshot.inputs[id.replace(/^dc-/, '')] = v;
@@ -535,12 +551,13 @@
       var jsPDF = window.jspdf.jsPDF;
       var node = document.querySelector('main') || document.body;
       var bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#ffffff';
-      var rentLimits = buildSnapshot().rentLimits;
+      var snapshot = buildSnapshot();
+      var rentLimits = snapshot.rentLimits;
       var canvas = await window.html2canvas(node, { scale: 2, useCORS: true, backgroundColor: bg });
       var imgData = canvas.toDataURL('image/png');
       var pdf = new jsPDF({ orientation: 'p', unit: 'pt', format: 'letter' });
       if (rentLimits && typeof pdf.setProperties === 'function') {
-        pdf.setProperties({ subject: JSON.stringify({ rentLimits: rentLimits }) });
+        pdf.setProperties({ subject: JSON.stringify({ rentLimits: rentLimits, utilityAllowance: snapshot.utilityAllowance }) });
       }
       var pageW = pdf.internal.pageSize.getWidth();
       var pageH = pdf.internal.pageSize.getHeight();

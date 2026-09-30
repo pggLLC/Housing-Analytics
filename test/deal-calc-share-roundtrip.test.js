@@ -66,7 +66,7 @@ function fileFetch(url) {
 const pageSrc = fs.readFileSync(path.join(root, PAGE), 'utf8');
 const openPages = [];
 
-async function openPage(search) {
+async function openPage(search, savedSubject) {
   const vc = new VirtualConsole();
   const errors = [];
   // jsdom's "Not implemented" notices (canvas, scrolling) are not page errors.
@@ -80,6 +80,7 @@ async function openPage(search) {
   // Every page is a first visit: jsdom shares storage across instances of the
   // same origin, and the recipient of a share link has none of the sender's.
   try { w.localStorage.clear(); w.sessionStorage.clear(); } catch (_) { /* storage unavailable */ }
+  if (savedSubject) w.localStorage.setItem('coho.subjectProject.v1', JSON.stringify(savedSubject));
   w.matchMedia = () => ({ matches: false, addListener() {}, removeListener() {}, addEventListener() {}, removeEventListener() {} });
   // Classic scripts (head and inline) run as parsed; deferred ones after the
   // parse, in order; then DOMContentLoaded. CDN libraries (PDF export) skipped.
@@ -149,10 +150,10 @@ function shareSearch(page) {
   return new URL(snap.url).search;
 }
 
-async function roundTrip(sender, label) {
+async function roundTrip(sender, label, savedSubject) {
   const sent = visibleOutputs(sender);
   const search = shareSearch(sender);
-  const recipient = await openPage(search);
+  const recipient = await openPage(search, savedSubject);
   assert.deepStrictEqual(recipient.errors, [], label + ' recipient page raised errors while hydrating');
   const got = visibleOutputs(recipient);
   const diffs = Object.keys(sent).filter((id) => sent[id] !== got[id])
@@ -222,6 +223,41 @@ async function roundTrip(sender, label) {
     assert(recipient.d.getElementById('dc-rate-4').checked, '4% credit rate did not arrive');
     assert.strictEqual(recipient.d.getElementById('dc-rent-limit-regime').value, 'ami_formula', 'rent-limit regime did not arrive');
     assert(!recipient.d.getElementById('dc-const-rent-burden').disabled, 'formula rent burden remains editable');
+  });
+
+  await test('applied allowance URLs and JSON reproduce the sender despite absent or different recipient storage', async () => {
+    const saved = (amount) => ({ county_fips: MESA, utility_allowance_basis: {
+      method: 'pha', reference: 'Mesa PHA schedule', effective_date: '2026-01-01', resident_paid: ['heat'], bound_county_fips: MESA
+    }, unit_mix: ['efficiency', '1BR', '2BR', '3BR', '4BR'].map((bedrooms) => ({ bedrooms, count: 1, utility_allowance: amount, fees: 15 })) });
+    const s = await openPage('', saved(150));
+    setSelector(s, '#dc-county-select', MESA); await sleep(300);
+    const snap = JSON.parse(JSON.stringify(s.w.__DealCalcShare.buildSnapshot()));
+    assert.strictEqual(snap.utilityAllowance.applied, true);
+    assert.strictEqual(snap.utilityAllowance.perBedroom['2BR'], 150);
+    assert.strictEqual(snap.utilityAllowance.countyFips, MESA);
+    assert.deepStrictEqual(JSON.parse(new URL(snap.url).searchParams.get('utilityAllowance')), snap.utilityAllowance);
+    ['dc-r-rents', 'dc-r-noi-stab', 'dc-su-gap'].forEach((id) => assert(/\$[\d,]+/.test(visibleOutputs(s)[id]), id + ' must be measured'));
+    for (const local of [null, saved(300)]) {
+      const { recipient } = await roundTrip(s, 'Saved allowance', local);
+      assert.strictEqual(recipient.w.localStorage.getItem('coho.subjectProject.v1'), local ? JSON.stringify(local) : null,
+        'opening a shared scenario must never write its record to Subject Project');
+      const label = recipient.d.getElementById('dc-rent-allowance-status');
+      assert.strictEqual(label.dataset.allowanceSource, 'shared');
+      assert(label.textContent.includes(snap.utilityAllowance.reference) && label.textContent.includes(snap.utilityAllowance.effectiveDate));
+      assert.deepStrictEqual(JSON.parse(JSON.stringify(recipient.w.__DealCalcShare.buildSnapshot().utilityAllowance)), snap.utilityAllowance);
+    }
+    const gross = await openPage(''); setSelector(gross, '#dc-county-select', MESA); await sleep(300);
+    const absent = gross.w.__DealCalcShare.buildSnapshot().utilityAllowance;
+    assert.strictEqual(absent.applied, false);
+    const { recipient } = await roundTrip(gross, 'Shared gross upper bound', saved(300));
+    assert.strictEqual(recipient.d.getElementById('dc-rent-allowance-status').dataset.unavailableReason, absent.reason);
+    assert(recipient.d.getElementById('dc-rent-allowance-status').textContent.includes(s.w.ChfaRentLimits.unavailableMessage(absent.reason)));
+    const old = new URL(snap.url); old.searchParams.delete('utilityAllowance');
+    const oldRecipient = await openPage(old.search, saved(300));
+    const localPage = await openPage('', saved(300)); setSelector(localPage, '#dc-county-select', MESA); await sleep(300);
+    assert.deepStrictEqual(visibleOutputs(oldRecipient), visibleOutputs(localPage), 'older links must retain normal local lookup');
+    assert.notStrictEqual(visibleOutputs(oldRecipient)['dc-r-rents'], visibleOutputs(s)['dc-r-rents'], 'the local fixture must differ from the sender');
+    assert.strictEqual(oldRecipient.d.getElementById('dc-rent-allowance-status').dataset.allowanceSource, 'local');
   });
 
   await test('every form control on the page is shared or excluded with a reason', async () => {
