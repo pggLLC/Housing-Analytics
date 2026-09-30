@@ -278,11 +278,15 @@
           var source = bill.sourceUrl
             ? '<a href="' + esc(bill.sourceUrl) + '" target="_blank" rel="noopener" style="color:var(--accent);">Source</a>'
             : '';
+          var analysis = bill.analysisUrl
+            ? '<a href="' + esc(bill.analysisUrl) + '" style="color:var(--accent);font-weight:600;">Read analysis</a>'
+            : '';
           var meta = [
             metaRow('Effective', bill.effectiveDate),
             metaRow('Sunset', bill.sunsetDate),
             metaRow('Verified', bill.lastVerified),
-            source
+            source,
+            analysis
           ].filter(Boolean).join(' <span aria-hidden="true">&middot;</span> ');
           return '<div role="listitem" class="chart-card" style="padding:var(--sp3);">' +
             '<div style="display:flex;justify-content:space-between;align-items:flex-start;">' +
