@@ -850,7 +850,7 @@
         });
       }
       Object.keys(Object.assign({}, state.countyName, hudByCounty)).forEach(function (fips) {
-        state.marketByCounty[fips] = _marketForCounty(parts[26], fips, hudByCounty[fips]);
+        state.marketByCounty[fips] = _marketForCounty(parts[26], fips, hudByCounty[fips], hudIl && hudIl.meta);
       });
 
       // F16: per-place centroids from 2024 Census Gazetteer (parts[15]).
@@ -1706,7 +1706,7 @@
     };
   }
 
-  function _marketForCounty(chfaTable, fips, hudCounty) {
+  function _marketForCounty(chfaTable, fips, hudCounty, hudMeta) {
     var limit = window.ChfaRentLimits
       ? window.ChfaRentLimits.maxGrossRent(chfaTable, fips, 60, '2BR')
       : { grossRent: null };
@@ -1714,6 +1714,7 @@
     var fmr2br = fmr != null && fmr !== '' && Number.isFinite(Number(fmr)) ? Number(fmr) : null;
     return {
       fmr2br: fmr2br,
+      fmrYear: hudMeta && hudMeta.fiscal_year || null,
       lihtc60ami2br: limit.grossRent,
       tableYear: limit.tableYear || null,
       effectiveDate: limit.effectiveDate || null,
@@ -1728,6 +1729,10 @@
       ' (CHFA ' + market.tableYear + ')';
   }
 
+  function _fmrVintageLabel(market) {
+    return market && market.fmrYear != null ? 'HUD FMR FY' + market.fmrYear : 'HUD FMR year unavailable';
+  }
+
   function _marketCaptureFacts(market) {
     var html = escHtml(_chfaRentLabel(market));
     if (!market) return html;
@@ -1738,7 +1743,7 @@
       html += ' · capture advantage <strong>' + (ca > 0 ? '+' : ca < 0 ? '−' : '') + '$' + Math.abs(ca).toLocaleString() + '/mo</strong>' +
         (ca > 0 ? ' · LIHTC undercuts market — easy lease-up' : ca === 0 ? ' · narrow margin — review unit mix carefully' : ' · LIHTC above market — needs deeper AMI mix (40-50%) or extra soft debt to pencil');
     }
-    if (market.fmrAreaName) html += '<br>FMR area: ' + escHtml(market.fmrAreaName) + ' · source: HUD FMR FY2026';
+    if (market.fmrAreaName) html += '<br>FMR area: ' + escHtml(market.fmrAreaName) + ' · source: ' + escHtml(_fmrVintageLabel(market));
     return html;
   }
 
@@ -2066,7 +2071,7 @@
     }
 
     var fmrSign = ca > 0 ? '+' : (ca === 0 ? '±' : '−');
-    var tip = 'FMR: ' + fmrSign + '$' + Math.abs(ca).toLocaleString() + ' (HUD FY25, ~2022-23 data)' +
+    var tip = 'FMR: ' + fmrSign + '$' + Math.abs(ca).toLocaleString() + ' (' + _fmrVintageLabel(m) + ', lagged rent data)' +
               ' · FMR 2BR: $' + m.fmr2br.toLocaleString() +
               ' · ' + _chfaRentLabel(m) +
               (ca < 0 ? ' · LIHTC above market — needs deeper AMI mix to pencil'
