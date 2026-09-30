@@ -5407,71 +5407,100 @@
   }
 
   /* ── Export ─────────────────────────────────────────────────────── */
-  function exportJson() {
+  function exportJson(download) {
     if (!lastResult) return;
-    var blob = new Blob([JSON.stringify(lastResult, null, 2)], { type: 'application/json' });
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'pma-result.json';
-    a.click();
+    var result = Object.assign({}, lastResult);
+    var SP = window.SubjectProject, limits = window.ChfaRentLimits;
+    // Capture the subject at click time, before waiting for the shared table.
+    var subject = SP && typeof SP.get === 'function' ? SP.get() : null;
+    function finish(schedule) {
+      result.rentSchedule = schedule;
+      if (download !== false) {
+        var blob = new Blob([JSON.stringify(result, null, 2)], { type: 'application/json' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'pma-result.json';
+        a.click();
+      }
+      return result;
+    }
+    if (!subject || !limits || !SP.loadChfa) return finish({ unavailableReason: 'subject_project_unavailable' });
+    return SP.loadChfa().then(function (table) {
+      return finish(limits.rentSchedule(subject, { chfaTable: table }));
+    }, function () {
+      return finish({ unavailableReason: 'chfa_table_unavailable' });
+    });
   }
 
   function exportCsv() {
     if (!lastResult) return;
-    var r = lastResult;
-    var d = r.dimensions;
-    var rows = [
-      ['field', 'value'],
-      ['overall_score', r.overall],
-      ['tier', scoreTier(r.overall).label],
-      ['lat', r.lat],
-      ['lon', r.lon],
-      ['buffer_miles', r.bufferMiles],
-      ['pma_mode', r.commuteShapedPma && r.commuteShapedPma.enabled ? r.commuteShapedPma.mode_label : 'Circular buffer PMA'],
-      ['commute_shaped_disclosure', r.commuteShapedPma ? (r.commuteShapedPma.disclosure || '') : ''],
-      ['commute_shaped_extension_tracts', r.commuteShapedPma ? ((r.commuteShapedPma.extension_tracts || []).join(';')) : ''],
-      ['commute_context_overlay', r.commuteContextOverlay ? r.commuteContextOverlay.mode_label : 'Commute context overlay off'],
-      ['commute_context_disclosure', r.commuteContextOverlay ? r.commuteContextOverlay.legend : ''],
-      ['tract_count', r.tractCount],
-      ['renter_hh', r.acs.renter_hh],
-      ['cost_burden_rate', r.acs.cost_burden_rate],
-      ['median_gross_rent', r.acs.median_gross_rent == null ? '' : r.acs.median_gross_rent],
-      ['median_gross_rent_excluded_tracts', r.acs.median_gross_rent_excluded_tracts || 0],
-      ['median_hh_income', r.acs.median_hh_income == null ? '' : r.acs.median_hh_income],
-      ['median_hh_income_excluded_tracts', r.acs.median_hh_income_excluded_tracts || 0],
-      ['vacancy_rate', r.acs.vacancy_rate],
-      ['lihtc_count', r.lihtcCount],
-      ['lihtc_units', r.lihtcUnits],
-      ['other_assisted_count', r.otherAssistedCount],
-      ['other_assisted_units', r.otherAssistedUnits],
-      ['affordable_count', r.affordableCount],
-      ['affordable_units', r.affordableUnits],
-      ['affordable_units_unknown_projects', r.affordableUnitsUnknownCount],
-      ['affordable_units_total_units_fallback_projects', r.affordableUnitsFallbackCount],
-      ['affordable_duplicates_removed', r.affordableDuplicatesRemoved],
-      ['capture_rate_measure', MEASURE_NAMES.penetration],
-      ['capture_rate', captureDenominator(r) ? r.capture : ''],
-      ['capture_rate_denominator', captureDenominator(r) ? captureDenominator(r).value : ''],
-      ['capture_rate_denominator_source', captureDenominator(r) ? captureDenominator(r).source : ''],
-      ['dim_demand', d.demand],
-      ['dim_capture_risk', d.captureRisk],
-      ['dim_rent_pressure', d.rentPressure],
-      ['dim_land_supply', d.landSupply],
-      ['dim_workforce', d.workforce],
-      ['confidence_score', r.confidence ? r.confidence.score : ''],
-      ['confidence_level', r.confidence ? r.confidence.level : ''],
-      ['confidence_completeness', r.confidence ? r.confidence.factors.completeness : ''],
-      ['confidence_freshness', r.confidence ? r.confidence.factors.freshness : ''],
-      ['confidence_lihtc_coverage', r.confidence ? r.confidence.factors.lihtcCoverage : ''],
-      ['confidence_sample_size', r.confidence ? r.confidence.factors.sampleSize : ''],
-      ['confidence_buffer_depth', r.confidence ? r.confidence.factors.bufferDepth : '']
-    ];
-    var csv = rows.map(function (row) { return row.join(','); }).join('\n');
-    var blob = new Blob([csv], { type: 'text/csv' });
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'pma-result.csv';
-    a.click();
+    var exported = exportJson(false);
+    function download(r) {
+      var d = r.dimensions;
+      var rows = [
+        ['field', 'value'],
+        ['overall_score', r.overall],
+        ['tier', scoreTier(r.overall).label],
+        ['lat', r.lat],
+        ['lon', r.lon],
+        ['buffer_miles', r.bufferMiles],
+        ['pma_mode', r.commuteShapedPma && r.commuteShapedPma.enabled ? r.commuteShapedPma.mode_label : 'Circular buffer PMA'],
+        ['commute_shaped_disclosure', r.commuteShapedPma ? (r.commuteShapedPma.disclosure || '') : ''],
+        ['commute_shaped_extension_tracts', r.commuteShapedPma ? ((r.commuteShapedPma.extension_tracts || []).join(';')) : ''],
+        ['commute_context_overlay', r.commuteContextOverlay ? r.commuteContextOverlay.mode_label : 'Commute context overlay off'],
+        ['commute_context_disclosure', r.commuteContextOverlay ? r.commuteContextOverlay.legend : ''],
+        ['tract_count', r.tractCount],
+        ['renter_hh', r.acs.renter_hh],
+        ['cost_burden_rate', r.acs.cost_burden_rate],
+        ['median_gross_rent', r.acs.median_gross_rent == null ? '' : r.acs.median_gross_rent],
+        ['median_gross_rent_excluded_tracts', r.acs.median_gross_rent_excluded_tracts || 0],
+        ['median_hh_income', r.acs.median_hh_income == null ? '' : r.acs.median_hh_income],
+        ['median_hh_income_excluded_tracts', r.acs.median_hh_income_excluded_tracts || 0],
+        ['vacancy_rate', r.acs.vacancy_rate],
+        ['lihtc_count', r.lihtcCount],
+        ['lihtc_units', r.lihtcUnits],
+        ['other_assisted_count', r.otherAssistedCount],
+        ['other_assisted_units', r.otherAssistedUnits],
+        ['affordable_count', r.affordableCount],
+        ['affordable_units', r.affordableUnits],
+        ['affordable_units_unknown_projects', r.affordableUnitsUnknownCount],
+        ['affordable_units_total_units_fallback_projects', r.affordableUnitsFallbackCount],
+        ['affordable_duplicates_removed', r.affordableDuplicatesRemoved],
+        ['capture_rate_measure', MEASURE_NAMES.penetration],
+        ['capture_rate', captureDenominator(r) ? r.capture : ''],
+        ['capture_rate_denominator', captureDenominator(r) ? captureDenominator(r).value : ''],
+        ['capture_rate_denominator_source', captureDenominator(r) ? captureDenominator(r).source : ''],
+        ['dim_demand', d.demand],
+        ['dim_capture_risk', d.captureRisk],
+        ['dim_rent_pressure', d.rentPressure],
+        ['dim_land_supply', d.landSupply],
+        ['dim_workforce', d.workforce],
+        ['confidence_score', r.confidence ? r.confidence.score : ''],
+        ['confidence_level', r.confidence ? r.confidence.level : ''],
+        ['confidence_completeness', r.confidence ? r.confidence.factors.completeness : ''],
+        ['confidence_freshness', r.confidence ? r.confidence.factors.freshness : ''],
+        ['confidence_lihtc_coverage', r.confidence ? r.confidence.factors.lihtcCoverage : ''],
+        ['confidence_sample_size', r.confidence ? r.confidence.factors.sampleSize : ''],
+        ['confidence_buffer_depth', r.confidence ? r.confidence.factors.bufferDepth : '']
+      ];
+      var schedule = r.rentSchedule;
+      if (schedule.rows) {
+        schedule.rows.forEach(function (row) { rows.push(['rent_schedule.row.' + row.rowNumber, JSON.stringify(row)]); });
+        rows.push(['rent_schedule.totals', JSON.stringify(schedule.totals)]);
+        rows.push(['rent_schedule.sources', JSON.stringify(schedule.sourceMeta)]);
+        rows.push(['rent_schedule.unavailable_reason', schedule.totals.unavailableReason || schedule.totals.effectiveRentUnavailableReason || '']);
+      } else rows.push(['rent_schedule.unavailable_reason', schedule.unavailableReason]);
+      var csv = rows.map(function (row) { return row.map(function (value) {
+        var text = value == null ? '' : String(value);
+        return /[",\r\n]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text;
+      }).join(','); }).join('\n');
+      var blob = new Blob([csv], { type: 'text/csv' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'pma-result.csv';
+      a.click();
+    }
+    return exported && typeof exported.then === 'function' ? exported.then(download) : download(exported);
   }
 
   function exportWithFullMetadata() {
