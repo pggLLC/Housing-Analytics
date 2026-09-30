@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-29T20:51:48.969Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-30T04:20:27.625Z. Do not edit by hand.
 
 ---
 
@@ -33,7 +33,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 69.6 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.9 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 75.1 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 75.2 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.1 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -1747,7 +1747,7 @@
 
 ## Test Files
 
-495 test files found.
+496 test files found.
 
 | File | Size |
 |------|------|
@@ -1837,10 +1837,11 @@
 | `test/deal-calc-for-sale-feasibility.test.js` | 17.1 KB |
 | `test/deal-calc-minimum-set-aside.test.js` | 6.6 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
+| `test/deal-calc-net-rent.test.js` | 23.3 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
-| `test/deal-calc-share-roundtrip.test.js` | 16.9 KB |
+| `test/deal-calc-share-roundtrip.test.js` | 20.1 KB |
 | `test/deal-calc-soft-funding-links-wrap.test.js` | 2.5 KB |
 | `test/deal-calc-studio-units.test.js` | 2.7 KB |
 | `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |
@@ -2105,7 +2106,7 @@
 | `test/registry-cross-county-consistency.test.js` | 1.8 KB |
 | `test/regrid-cache-honesty.test.js` | 8.6 KB |
 | `test/rendered-absence-not-zero.test.js` | 4.2 KB |
-| `test/rent-ceiling-regime.test.js` | 17.5 KB |
+| `test/rent-ceiling-regime.test.js` | 17.7 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
 | `test/research-brief.test.mjs` | 15.9 KB |
