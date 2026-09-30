@@ -1229,6 +1229,211 @@
       ? subjectProject.subscribe(recalculate) : null;
   }
 
+  var _resolvedDealMix = null;
+  var _manualBaseValues = null;
+  var _rentScheduleSnapshot = null;
+  var _sharedRentSchedule = null;
+  var _scheduleSourceChanged = false;
+  var _sharedScheduleHydrated = false;
+  var _hydratingSharedScenario = false;
+  var MANUAL_MIX_KEY = 'coho.dealCalc.manualMix.v1';
+
+  function mixPreference() {
+    var input = document.getElementById('dc-unit-mix-source');
+    return input && input.value === 'manual' ? 'manual' : 'auto';
+  }
+
+  function pendingSharedSchedule() {
+    return !_sharedScheduleHydrated && new URLSearchParams(window.location.search).has('rentSchedule');
+  }
+
+  function clearSharedRentSchedule() {
+    _sharedRentSchedule = null;
+    _scheduleSourceChanged = true;
+    var input = document.getElementById('dc-unit-mix-source');
+    if (input) input.value = 'auto';
+  }
+
+  function resolveDealMix() {
+    if (currentDealMode() !== 'rental') return { available: false, reason: 'ownership_mode' };
+    if (_sharedRentSchedule && _sharedRentSchedule.regime !== rentLimitRegime()) clearSharedRentSchedule();
+    if (pendingSharedSchedule()) return { available: false, reason: 'shared_schedule_loading' };
+    if (_sharedRentSchedule) return _sharedRentSchedule.mix;
+    if (mixPreference() === 'manual') return { available: false, reason: 'manual_selection' };
+    var limits = window.ChfaRentLimits, SP = window.SubjectProject;
+    if (!limits || !SP || typeof SP.get !== 'function') return { available: false, reason: 'schedule_unavailable:subject_project_unavailable' };
+    return limits.dealMixFromSchedule(limits.rentSchedule(SP.get(), { chfaTable: _chfaRentTable }),
+      { countyFips: _countyFips, regime: rentLimitRegime() });
+  }
+
+  function getRentScheduleMetadata() {
+    return _rentScheduleSnapshot ? JSON.parse(JSON.stringify(_rentScheduleSnapshot)) : null;
+  }
+
+  // Shared prices are resolved calculation state, never a write to SubjectProject.
+  function setSharedRentSchedule(record, context) {
+    _sharedScheduleHydrated = true;
+    _sharedRentSchedule = null;
+    _scheduleSourceChanged = false;
+    context = context || {};
+    if (record != null) {
+      var county = context.countyFips || null;
+      var regime = context.regime || rentLimitRegime();
+      var mix = { available: false, reason: 'shared_schedule_invalid' };
+      if (record.mode === 'manual') {
+        mix.reason = typeof record.reason === 'string' ? record.reason : 'manual_selection';
+      } else if (record.mode === 'schedule' && record.countyFips === county && regime === 'chfa_lihtc' &&
+          record.regime === regime && record.sourceMeta && record.sourceMeta.countyFips === county &&
+          Array.isArray(record.rows) && record.rows.length &&
+          typeof record.vacancyRate === 'number' && record.vacancyRate >= 0 && record.vacancyRate <= 1) {
+        var valid = record.rows.every(function (r) {
+          return r && Object.keys(RENT_BEDROOMS).some(function (br) { return RENT_BEDROOMS[br] === r.bedrooms; }) &&
+            Number.isInteger(r.units) && r.units > 0 &&
+            (r.tier === 'market' ? typeof r.rent === 'number' && Number.isFinite(r.rent) && r.rent > 0 && typeof r.source === 'string' && r.source.trim()
+              : typeof r.tier === 'number' && Number.isFinite(r.tier) && r.tier > 0 && typeof r.contractRent === 'number' && Number.isFinite(r.contractRent) && r.contractRent >= 0);
+        });
+        var total = record.rows.reduce(function (sum, r) { return sum + (r && r.units); }, 0);
+        if (valid && total === record.totalUnits) mix = { available: true, totalUnits: total, vacancyRate: record.vacancyRate,
+          restrictedRows: record.rows.filter(function (r) { return r.tier !== 'market'; }),
+          marketRows: record.rows.filter(function (r) { return r.tier === 'market'; }), sourceMeta: record.sourceMeta };
+      }
+      _sharedRentSchedule = { mix: JSON.parse(JSON.stringify(mix)), countyFips: county, regime: regime };
+    }
+    recalculate();
+  }
+
+  function manualMixInputs() {
+    var inputs = Array.prototype.slice.call(document.querySelectorAll('#dc-manual-unit-mix input, #dc-manual-unit-mix select'));
+    ['dc-units', 'dc-vacancy', 'dc-unrepresented-schedule-rows', 'dc-unit-mix-source'].forEach(function (id) {
+      var el = document.getElementById(id); if (el) inputs.push(el);
+    });
+    return inputs;
+  }
+
+  function saveManualMix() {
+    if (mixPreference() !== 'manual' || _hydratingSharedScenario || _sharedRentSchedule) return;
+    var values = {};
+    manualMixInputs().forEach(function (el) { values[el.id] = el.type === 'checkbox' ? el.checked : el.value; });
+    try { localStorage.setItem(MANUAL_MIX_KEY, JSON.stringify(values)); } catch (_) {}
+  }
+
+  function restoreManualMix() {
+    // A URL carries its own inputs and must win over this browser's saved choice.
+    if (window.location.search) return;
+    try {
+      var values = JSON.parse(localStorage.getItem(MANUAL_MIX_KEY));
+      if (!values || values['dc-unit-mix-source'] !== 'manual') return;
+      manualMixInputs().forEach(function (el) {
+        if (!Object.prototype.hasOwnProperty.call(values, el.id)) return;
+        if (el.type === 'checkbox') el.checked = values[el.id] === true;
+        else el.value = values[el.id];
+      });
+    } catch (_) {}
+  }
+
+  function editMixHere() {
+    var mix = _resolvedDealMix;
+    var input = document.getElementById('dc-unit-mix-source');
+    if (!mix || !mix.available) {
+      input.value = 'auto';
+      try { localStorage.removeItem(MANUAL_MIX_KEY); } catch (_) {}
+      _sharedRentSchedule = null;
+      recalculate();
+      return;
+    }
+    DEAL_AMI_BANDS.forEach(function (tier) {
+      document.getElementById('dc-chk-' + tier).checked = false;
+      document.getElementById('dc-units-' + tier).value = '0';
+      SPLIT_BR_TYPES.forEach(function (br) { document.getElementById('dc-units-' + tier + '-' + br).value = '0'; });
+    });
+    var omitted = [];
+    mix.restrictedRows.forEach(function (r) {
+      var br = SPLIT_BR_TYPES.find(function (key) { return RENT_BEDROOMS[key] === r.bedrooms; });
+      var cell = br && document.getElementById('dc-units-' + r.tier + '-' + br);
+      if (!cell) { omitted.push(r); return; }
+      cell.value = String(Number(cell.value) + r.units);
+      var count = document.getElementById('dc-units-' + r.tier);
+      count.value = String(Number(count.value) + r.units);
+      document.getElementById('dc-chk-' + r.tier).checked = true;
+    });
+    mix.marketRows.forEach(function (r) { omitted.push(Object.assign({ tier: 'market' }, r)); });
+    document.getElementById('dc-unrepresented-schedule-rows').value = JSON.stringify(omitted);
+    input.value = 'manual';
+    _manualBaseValues = null;
+    _sharedRentSchedule = null;
+    // Manual editing resumes the D2 local allowance lookup. Shared schedule
+    // metadata says deductions are already included; it is not a new allowance.
+    _sharedUtilityAllowance = null;
+    recalculate();
+  }
+
+  function renderDealMixContext(mix) {
+    var active = mix.available;
+    var status = document.getElementById('dc-unit-mix-status');
+    if (!status) return;
+    status.dataset.mode = active ? 'schedule' : 'manual';
+    status.dataset.unavailableReason = active ? '' : mix.reason;
+    status.textContent = active ? 'Unit mix source: From Market Analysis rent schedule — edit it there' +
+      (_sharedRentSchedule ? ' (from shared scenario)' : '')
+      : mixPreference() === 'manual' || mix.reason === 'manual_selection' ? "Unit mix source: Using this page's unit mix — manual editing selected"
+      : "Using this page's unit mix — Market Analysis schedule unavailable: " + mix.reason;
+    var notice = document.getElementById('dc-schedule-local-notice');
+    notice.hidden = !_scheduleSourceChanged;
+    notice.textContent = _scheduleSourceChanged ? 'County or rent setting changed — unit mix now uses your local Market Analysis schedule when available.' : '';
+    var edit = document.getElementById('dc-edit-unit-mix');
+    edit.hidden = !active && mixPreference() !== 'manual';
+    edit.textContent = active ? 'Edit here instead' : 'Use Market Analysis schedule';
+    document.getElementById('dc-manual-unit-mix').hidden = active;
+    var cap = document.getElementById('dc-achievable-cap-wrap');
+    if (cap) cap.hidden = active;
+    if (active && !_manualBaseValues) _manualBaseValues = {
+      'dc-units': document.getElementById('dc-units').value,
+      'dc-vacancy': document.getElementById('dc-vacancy').value };
+    ['dc-units', 'dc-vacancy'].forEach(function (id) {
+      var el = document.getElementById(id);
+      el.readOnly = active;
+      if (!active && _manualBaseValues) el.value = _manualBaseValues[id];
+      if (active) el.value = String(id === 'dc-units' ? mix.totalUnits : mix.vacancyRate * 100);
+    });
+    if (!active) _manualBaseValues = null;
+    var omitted = [];
+    try {
+      var savedOmissions = JSON.parse(document.getElementById('dc-unrepresented-schedule-rows').value || '[]');
+      if (Array.isArray(savedOmissions)) omitted = savedOmissions.filter(function (r) { return r && Number.isInteger(r.units) && r.units > 0; });
+    } catch (_) {}
+    var omittedNote = document.getElementById('dc-unrepresented-schedule-notice');
+    omittedNote.hidden = active || !omitted.length;
+    omittedNote.textContent = omitted.map(function (r) {
+      return (r.tier === 'market' ? 'Market rate' : r.tier + '% AMI') + ' · ' + r.bedrooms + ' · ' + r.units + ' units: not representable in this grid';
+    }).join('; ') + (omitted.length ? '. Manual rents use the grid ceilings and allowance rules, not the schedule prices.' : '');
+    var host = document.getElementById('dc-schedule-table');
+    host.hidden = !active;
+    host.replaceChildren();
+    if (!active) return;
+    var table = document.createElement('table');
+    table.style.cssText = 'width:100%;font-size:var(--small);border-collapse:collapse;';
+    var caption = document.createElement('caption');
+    var meta = mix.sourceMeta;
+    caption.textContent = 'Scheduled contract rents · CHFA ' + (meta.tableYear || '—') + ' · effective ' + (meta.effectiveDate || '—');
+    table.appendChild(caption);
+    var header = table.createTHead().insertRow();
+    ['Tier', 'Bedrooms', 'Units', 'Monthly rent', 'Source'].forEach(function (label) {
+      var th = document.createElement('th'); th.textContent = label; header.appendChild(th);
+    });
+    var body = table.createTBody();
+    mix.restrictedRows.concat(mix.marketRows.map(function (r) { return Object.assign({ tier: 'market' }, r); })).forEach(function (r) {
+      var tr = body.insertRow();
+      tr.dataset.tier = String(r.tier); tr.dataset.units = String(r.units);
+      var rent = r.tier === 'market' ? r.rent : r.contractRent;
+      tr.dataset.rent = String(rent);
+      [r.tier === 'market' ? 'Market rate' : r.tier + '% AMI', r.bedrooms, r.units,
+        '$' + rent.toLocaleString('en-US'), r.tier === 'market' ? r.source : 'Subject project · net of allowance and fees'].forEach(function (value) {
+        var cell = tr.insertCell(); cell.textContent = String(value);
+      });
+    });
+    host.appendChild(table);
+  }
+
   // A shared record is calculation state only; never save it to SubjectProject.
   function setSharedUtilityAllowance(record, context) {
     _sharedUtilityAllowance = null;
@@ -1269,6 +1474,8 @@
     var limits = window.ChfaRentLimits;
     var subjectProject = window.SubjectProject;
     if (_sharedUtilityAllowance && _sharedUtilityAllowance.regime !== rentLimitRegime()) clearSharedUtilityAllowance();
+    if (_resolvedDealMix && _resolvedDealMix.available) return { applied: false, reason: 'included_in_schedule_rents' };
+    if (pendingSharedSchedule()) return { applied: false, reason: 'shared_schedule_loading' };
     if (rentLimitRegime() === 'market') return { applied: false, reason: 'unrestricted_market' };
     if (!limits) return { applied: false, reason: 'rent_module_unavailable' };
     var allowance = _sharedUtilityAllowance ? _sharedUtilityAllowance.allowance
@@ -1300,6 +1507,7 @@
       : allowance.applied ? 'Utility allowance applied from ' + (allowance.basis.reference || 'Owner pays all utilities') +
         (allowance.basis.effectiveDate ? ' · effective ' + allowance.basis.effectiveDate : '')
       : 'Upper bound — utility allowance not applied: ' + message + '. Set it in Market Analysis → Subject project.';
+    if (_resolvedDealMix && _resolvedDealMix.available) text = 'Schedule contract rents already include utility allowances and fees — no second deduction.';
     if (allowance.source === 'shared' && allowance.applied) {
       text = 'Utility allowance from shared scenario: ' + (allowance.basis.reference || 'Owner pays all utilities') +
         ' · effective ' + (allowance.basis.effectiveDate || 'not required') +
@@ -1378,6 +1586,8 @@
     // options arrive. Only an actual county change can discard the record.
     if (_sharedUtilityAllowance && (fips || null) !== _countyFips &&
         (fips || null) !== _sharedUtilityAllowance.countyFips) clearSharedUtilityAllowance();
+    if (_sharedRentSchedule && (fips || null) !== _countyFips &&
+        (fips || null) !== _sharedRentSchedule.countyFips) clearSharedRentSchedule();
     _countyFips = fips || null;
     _amiLimits = null;
     _amiLimitsByBr = null;
@@ -1610,6 +1820,14 @@
             The default 40-60 election requires at least 40% of residential units at 60% AMI or below.
             Changing this control changes federal credit eligibility; it does not change the units you entered.
           </div>
+          <input id="dc-unit-mix-source" type="hidden" value="auto">
+          <input id="dc-unrepresented-schedule-rows" type="hidden" value="[]">
+          <p id="dc-unit-mix-status" role="status" aria-live="polite"></p>
+          <button id="dc-edit-unit-mix" type="button" style="min-height:44px;">Edit here instead</button>
+          <p id="dc-schedule-local-notice" hidden role="status"></p>
+          <p id="dc-unrepresented-schedule-notice" hidden></p>
+          <div id="dc-schedule-table" hidden style="overflow-x:auto;"></div>
+          <div id="dc-manual-unit-mix">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:0.4rem;flex-wrap:wrap;">
             <span style="font-size:var(--small);color:var(--muted);">AMI Mix &amp; Units per Tier</span>
             <!-- F257 — "Pre-fill from local need" wires the AMI tier defaults
@@ -1678,6 +1896,7 @@
             `;}).join('')}
           </div>
 
+          </div><!-- manual unit mix -->
           <div id="dc-minimum-set-aside-status" role="status" aria-live="polite"
             style="font-size:var(--tiny);line-height:1.45;margin:.55rem 0;padding:.5rem .65rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);"></div>
 
@@ -2777,7 +2996,8 @@
 </section>`;
 
     // Attach event listeners
-    const ids = ['dc-tdc', 'dc-gross-sf', 'dc-units', 'dc-sale-target-ami', 'dc-basis-pct',
+    document.getElementById('dc-edit-unit-mix').addEventListener('click', editMixHere);
+    const ids = ['dc-unit-mix-source', 'dc-unrepresented-schedule-rows', 'dc-tdc', 'dc-gross-sf', 'dc-units', 'dc-sale-target-ami', 'dc-basis-pct',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
       'dc-own-resale-years', 'dc-own-resale-principal', 'dc-own-resale-costs',
@@ -3152,6 +3372,7 @@
       });
     }
 
+    restoreManualMix();
     recalculate();
   }
 
@@ -3248,6 +3469,13 @@
   function collectBedroomMix() {
     var mix = {};
     SPLIT_BR_TYPES.forEach(function (b) { mix[b] = 0; });
+    if (_resolvedDealMix && _resolvedDealMix.available) {
+      _resolvedDealMix.restrictedRows.concat(_resolvedDealMix.marketRows).forEach(function (r) {
+        var br = SPLIT_BR_TYPES.find(function (b) { return RENT_BEDROOMS[b] === r.bedrooms; });
+        if (br) mix[br] += r.units;
+      });
+      return mix;
+    }
     DEAL_AMI_BANDS.forEach(function (pct) {
       var chk = document.getElementById('dc-chk-' + pct);
       if (!chk || !chk.checked) return;
@@ -3314,7 +3542,12 @@
   }
 
   function recalculate() {
+    if (_hydratingSharedScenario) return;
     observeSubjectProject();
+    _resolvedDealMix = resolveDealMix();
+    var scheduleMode = _resolvedDealMix.available;
+    renderDealMixContext(_resolvedDealMix);
+    saveManualMix();
     updateGrossSfEstimate();
     renderPermitContext(_countyFips);
     function fmt(n) {
@@ -3331,12 +3564,13 @@
       return parseFloat(el.value);
     }
     function vacFrac() {
+      if (scheduleMode) return _resolvedDealMix.vacancyRate;
       var v = safeVal('dc-vacancy');
       return (Number.isFinite(v) ? v : 7) / 100;
     }
 
     var tdc = safeVal('dc-tdc') || 0;
-    var units = safeVal('dc-units') || 0;
+    var units = scheduleMode ? _resolvedDealMix.totalUnits : safeVal('dc-units') || 0;
     var basisPct = (safeVal('dc-basis-pct') || 80) / 100;
     updateDealModeUi();
     var saleTargetAmiPct = (safeVal('dc-sale-target-ami') || 80) / 100;
@@ -3408,7 +3642,7 @@
     var allowanceRevenueReason = null;
     var rentInputsMissing = false;
     var capChk = document.getElementById('dc-achievable-cap');
-    var capOn = !marketRegime && !!(capChk && capChk.checked);
+    var capOn = !scheduleMode && !marketRegime && !!(capChk && capChk.checked);
     var perBrMarket = ((capOn || marketRegime) && _countyFips) ? getZoriPerBrRent(_countyFips) : null;
     function tierRent(tier, br) {
       var value = marketRegime ? perBrMarket && perBrMarket[br]
@@ -3429,6 +3663,7 @@
       }
       return value;
     }
+    var pricedRows = [];
     var capBindings = [];   // tiers where the cap actually reduced revenue
     function _nonNegInt(v) {
       var n = parseInt(v, 10);
@@ -3445,7 +3680,21 @@
       });
       return out;
     }
-    DEAL_AMI_BANDS.forEach(function (pct) {
+    if (scheduleMode) {
+      _resolvedDealMix.restrictedRows.forEach(function (r) {
+        annualRents += r.contractRent * r.units * 12;
+        amiUnitSum += r.units;
+        if (isLihtcCreditEligiblePct(r.tier, minimumSetAsideElection)) {
+          designatedUnitsByPct[r.tier] = (designatedUnitsByPct[r.tier] || 0) + r.units;
+        }
+        pricedRows.push(Object.assign({}, r));
+      });
+      _resolvedDealMix.marketRows.forEach(function (r) {
+        annualRents += r.rent * r.units * 12;
+        amiUnitSum += r.units;
+        pricedRows.push(Object.assign({ tier: 'market' }, r));
+      });
+    } else DEAL_AMI_BANDS.forEach(function (pct) {
       var chk = document.getElementById('dc-chk-' + pct);
       var uInput = document.getElementById('dc-units-' + pct);
       var brSel = document.getElementById('dc-br-' + pct);
@@ -3468,6 +3717,8 @@
                 }
               }
               annualRents += splitUnits * splitRent * 12;
+              pricedRows.push({ tier: pct, bedrooms: RENT_BEDROOMS[splitBr], units: splitUnits,
+                contractRent: isFinite(splitRent) ? splitRent : null });
             });
           } else {
             var perUnitRent = u > 0 ? tierRent(pct, br) : 0;
@@ -3480,6 +3731,8 @@
               }
             }
             annualRents += u * perUnitRent * 12;
+            if (u > 0) pricedRows.push({ tier: pct, bedrooms: RENT_BEDROOMS[br], units: u,
+              contractRent: isFinite(perUnitRent) ? perUnitRent : null });
           }
         }
         amiUnitSum += u; // count all tier units regardless of checkbox
@@ -3488,6 +3741,12 @@
         }
       }
     });
+
+    _rentScheduleSnapshot = { mode: scheduleMode ? 'schedule' : 'manual', rows: pricedRows,
+      countyFips: _countyFips, regime: rentLimitRegime(), totalUnits: units, vacancyRate: vacFrac(),
+      reason: scheduleMode ? null : _resolvedDealMix.reason,
+      sourceMeta: scheduleMode ? _resolvedDealMix.sourceMeta : { countyFips: _countyFips,
+        rentLimits: getRentLimitsMetadata(), utilityAllowance: getUtilityAllowanceMetadata(), vacancyRate: vacFrac() } };
 
     var minimumSetAsideResult = evaluateMinimumSetAside(minimumSetAsideElection, units, designatedUnitsByPct);
     var lihtcUnits = minimumSetAsideResult.countedLihtcUnits;
@@ -3616,7 +3875,7 @@
     // against no income), a $0 first mortgage and a sensitivity chart of $0
     // bars for anyone reaching this page without a jurisdiction (G3 dry run,
     // 2026-09-25).
-    if (!_amiLimits && !_amiLimitsByBr) {
+    if (!scheduleMode && !_amiLimits && !_amiLimitsByBr) {
       annualRents = NaN;
     }
 
@@ -3709,12 +3968,12 @@
       noiUnknownReason = 'Enter NOI, or turn on auto-compute.';
     } else if (unitMixError) {
       noiUnknownReason = 'Fix the unit mix: the AMI-tier units do not add up to Total Units.';
-    } else if ((!_amiLimits && !_amiLimitsByBr) || rentInputsMissing) {
+    } else if ((!scheduleMode && !_amiLimits && !_amiLimitsByBr) || rentInputsMissing) {
       noiUnknownReason = rentDataReason;
     }
     var rentsUnknownReason = unitMixError
       ? 'Fix the unit mix: the AMI-tier units do not add up to Total Units.'
-      : ((!_amiLimits && !_amiLimitsByBr) || rentInputsMissing) ? rentDataReason
+      : ((!scheduleMode && !_amiLimits && !_amiLimitsByBr) || rentInputsMissing) ? rentDataReason
       : !(annualRents > 0) ? 'Add units to at least one AMI tier.'
       : null;
 
@@ -6766,6 +7025,10 @@
     setChfaRentTable: setChfaRentTable,
     getRentLimitsMetadata: getRentLimitsMetadata,
     getUtilityAllowanceMetadata: getUtilityAllowanceMetadata,
+    getRentScheduleMetadata: getRentScheduleMetadata,
+    setSharedRentSchedule: setSharedRentSchedule,
+    beginSharedScenario: function () { _hydratingSharedScenario = true; _manualBaseValues = null; },
+    endSharedScenario: function () { _hydratingSharedScenario = false; recalculate(); },
     setSharedUtilityAllowance: setSharedUtilityAllowance,
     getAmiLimitsByBr: function () { return _amiLimitsByBr == null ? null : JSON.parse(JSON.stringify(_amiLimitsByBr)); },
     setDesignationContext: setDesignationContext,

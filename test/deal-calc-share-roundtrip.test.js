@@ -260,6 +260,26 @@ async function roundTrip(sender, label, savedSubject) {
     assert.strictEqual(oldRecipient.d.getElementById('dc-rent-allowance-status').dataset.allowanceSource, 'local');
   });
 
+  await test('a mixed-income schedule survives full-page hydration and delayed county/table loads', async () => {
+    const limits = require('../js/chfa-rent-limits.js');
+    const chfa = require('../data/chfa-income-rent-limits-2026.json');
+    const restricted = (tier, count) => ({ ami_tier: tier, bedrooms: '2BR', count,
+      proposed_gross_rent: limits.maxGrossRent(chfa, MESA, tier, '2BR').grossRent - 20, utility_allowance: 150, fees: 5 });
+    const subject = { county_fips: MESA, total_units: 10, vacancy_rate: 0.03,
+      utility_allowance_basis: { method: 'pha', reference: 'County PHA schedule', effective_date: '2026-01-01', resident_paid: ['heat'], bound_county_fips: MESA },
+      unit_mix: [restricted(60, 6), restricted(90, 1), restricted(110, 1),
+        { ami_tier: 'market', bedrooms: '2BR', count: 2, market_rent: limits.maxGrossRent(chfa, MESA, 100, '2BR').grossRent,
+          market_rent_source: 'Comparable property survey' }] };
+    const sender = await openPage('', subject);
+    setSelector(sender, '#dc-county-select', MESA); await sleep(300);
+    const result = limits.rentSchedule(subject, { chfaTable: chfa });
+    assert.strictEqual(sender.d.getElementById('dc-r-rents').textContent, '$' + result.totals.annualScheduledRent.toLocaleString('en-US'));
+    const { recipient } = await roundTrip(sender, 'Market Analysis schedule');
+    assert.strictEqual(recipient.w.localStorage.getItem('coho.subjectProject.v1'), null);
+    assert.deepStrictEqual(JSON.parse(JSON.stringify(recipient.w.__DealCalcShare.buildSnapshot().rentSchedule)),
+      JSON.parse(JSON.stringify(sender.w.__DealCalcShare.buildSnapshot().rentSchedule)));
+  });
+
   await test('every form control on the page is shared or excluded with a reason', async () => {
     const p = await openPage('');
     const audit = JSON.parse(JSON.stringify(p.w.__DealCalcShare.auditInputs()));
