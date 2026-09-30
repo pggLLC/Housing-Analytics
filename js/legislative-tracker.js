@@ -116,6 +116,7 @@
       summary: entry.pricing_impact || '',
       sourceUrl: entry.source_url || null,
       sourceNote: entry.source_note || null,
+      analysisUrl: entry.analysis_url || null,
       tags: _tagsForEntry(entry)
     }, impacts);
   }
