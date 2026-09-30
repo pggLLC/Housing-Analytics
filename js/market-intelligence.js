@@ -490,7 +490,7 @@
     if (affordEl) {
       var medRent = demo && (demo.median_gross_rent_current || demo.median_gross_rent);
       var matched = demo && demo.affordable_rent_60pct;
-      var available = Number.isFinite(matched);
+      var available = Number.isFinite(matched) && matched > 0;
       var reason = '60% AMI affordable rent unavailable for this geography';
       var label = 'Rent affordable at 60% AMI (HUD, bedroom-mix weighted) — not a CHFA LIHTC limit';
       affordEl.title = available ? label : reason;

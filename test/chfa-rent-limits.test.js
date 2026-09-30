@@ -124,6 +124,21 @@ test('absence: missing county, tier, bedroom or household size names the missing
   assert.equal(limits.maxGrossRent(missing, standard[0].fips, 60, '2BR').unavailableReason, 'bedroom_size_missing');
 });
 
+test('absence: nonpositive published rents are unavailable to all rent adapters', () => {
+  const fixture = structuredClone(table);
+  const county = fixture.counties.find((c) => c.fips === standard[0].fips);
+  for (const value of [0, '0', -1]) {
+    county.regular_tiers['60'].max_rents['2br'] = value;
+    const actual = limits.maxGrossRent(fixture, county.fips, 60, '2BR');
+    assert.equal(actual.grossRent, null, `published rent ${JSON.stringify(value)} is unavailable`);
+    assert.equal(actual.unavailableReason, 'bedroom_size_missing');
+    assert.equal(SP.computeLihtcMaxRent(fixture, county.fips, 60, '2BR'), null);
+    const ceiling = limits.rentCeiling({ regime: 'chfa_lihtc', chfaTable: fixture, fips: county.fips, tier: 60, bedrooms: '2BR' });
+    assert.equal(ceiling.grossRent, null);
+    assert.equal(ceiling.unavailableReason, actual.unavailableReason);
+  }
+});
+
 test('absence: missing or invalid arithmetic inputs never become numeric rents', () => {
   for (const ua of [null, undefined, '', ' ', -1, NaN, Infinity, 'unknown', false]) {
     const result = limits.maxContractRent({ grossRent: 1000, utilityAllowance: ua });

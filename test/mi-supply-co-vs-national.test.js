@@ -63,6 +63,13 @@ render({ ami_estimate: 999999, median_gross_rent: 1800, affordable_rent_60pct: 1
 assert.equal(card.textContent, '-300/mo', 'gap uses only the supplied bedroom-weighted rent');
 assert(caption.textContent.includes('$1,500/mo'));
 assert.match(caption.textContent, /HUD.*bedroom-mix weighted.*not a CHFA LIHTC limit/);
+for (const value of [0, -1]) {
+  render({ ami_estimate: 120000, median_gross_rent: 1800, affordable_rent_60pct: value });
+  assert.equal(card.textContent, '—', `nonpositive affordable rent ${value} is unavailable`);
+  assert.equal(card.title, '60% AMI affordable rent unavailable for this geography');
+  assert.equal(caption.textContent, card.title, 'nonpositive rent has a visible unavailable reason');
+  assert.equal(card.className, 'risk-value', 'nonpositive rent clears the previous gap status');
+}
 render({ ami_estimate: 120000, median_gross_rent: 1800 });
 assert.equal(card.className, 'risk-value', 'missing data clears the previous gap status');
 console.log('Market Intelligence affordable-rent source and absence: PASS');

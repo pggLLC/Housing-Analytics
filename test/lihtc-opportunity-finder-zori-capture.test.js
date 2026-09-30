@@ -137,6 +137,16 @@ for (const table of [null, { counties: [] }]) {
   assert.strictEqual(lof.zoriCaptureForMarket(missing, '08067', 'Durango'), null);
   assert.strictEqual(lof.passesCaptureRequirement(missing), true);
 }
+const zeroRentTable = structuredClone(chfa);
+zeroRentTable.counties.find((c) => c.fips === '08031').regular_tiers['60'].max_rents['2br'] = 0;
+const zeroRentMarket = lof.marketForCounty(zeroRentTable, '08031', hud.counties.find((c) => c.fips === '08031'), hud.meta);
+assert.strictEqual(zeroRentMarket.lihtc60ami2br, null, 'zero published CHFA rent is unavailable, not free rent');
+assert.strictEqual(zeroRentMarket.captureAdvantage, null, 'zero published rent cannot create a capture advantage');
+assert.match(lof.captureCell({ market: zeroRentMarket }), /CHFA 60% 2BR limit unavailable/);
+assert.match(lof.marketCaptureFacts(zeroRentMarket), /CHFA 60% 2BR limit unavailable/);
+assert(!lof.marketCaptureFacts(zeroRentMarket).includes('$0'));
+assert.strictEqual(lof.zoriCaptureForMarket(zeroRentMarket, '08067', 'Durango'), null);
+assert.strictEqual(lof.passesCaptureRequirement(zeroRentMarket), true, 'unavailable capture keeps the existing fail-open screen');
 const noHud = lof.marketForCounty(chfa, '08031', null);
 assert.strictEqual(noHud.captureAdvantage, null);
 assert.strictEqual(noHud.fmr2br, null);
