@@ -58,6 +58,9 @@
 
   function render(container) {
     if (!container) return;
+    // Invalidate pending work even when this render takes a synchronous early return.
+    var generation = (container._subjectRenderGeneration || 0) + 1;
+    container._subjectRenderGeneration = generation;
     var SP = global.SubjectProject;
     if (!SP) { _renderEmpty(container, 'SubjectProject module not loaded.'); return; }
     var subject = SP.get();
@@ -73,6 +76,7 @@
     // Load CHFA (max rents + income limits) AND HUD (FMR — used as the market
     // benchmark only, not for max-rent computation).
     Promise.all([SP.loadChfa(), SP.loadHud()]).then(function (results) {
+      if (container._subjectRenderGeneration !== generation) return;
       var chfa = results[0], hud = results[1];
       var limits = global.ChfaRentLimits;
       var chfaRow = limits.countyRow(chfa, subject.county_fips);

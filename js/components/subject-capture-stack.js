@@ -94,6 +94,9 @@
 
   function render(container) {
     if (!container) return;
+    // Invalidate pending work even when this render takes a synchronous early return.
+    var generation = (container._subjectRenderGeneration || 0) + 1;
+    container._subjectRenderGeneration = generation;
     var SP = global.SubjectProject;
     if (!SP) { _renderEmpty(container, 'SubjectProject not loaded.'); return; }
     var subject = SP.get();
@@ -114,6 +117,7 @@
     }
 
     loadGap().then(function (gap) {
+      if (container._subjectRenderGeneration !== generation) return;
       if (!gap) { _renderEmpty(container, 'Could not load AMI-gap data.'); _marketRows(container, marketRows); return; }
       var countyRow = _findCounty(gap, subject.county_fips);
       if (!countyRow) {
