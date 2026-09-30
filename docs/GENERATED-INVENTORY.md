@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-30T11:56:10.933Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-30T12:34:08.383Z. Do not edit by hand.
 
 ---
 
@@ -1747,7 +1747,7 @@
 
 ## Test Files
 
-497 test files found.
+498 test files found.
 
 | File | Size |
 |------|------|
@@ -2108,6 +2108,7 @@
 | `test/rendered-absence-not-zero.test.js` | 4.2 KB |
 | `test/rent-ceiling-regime.test.js` | 17.7 KB |
 | `test/rent-formula-single-source.test.js` | 7.8 KB |
+| `test/rent-schedule.test.js` | 24.5 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
 | `test/research-brief.test.mjs` | 15.9 KB |
