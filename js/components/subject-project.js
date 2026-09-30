@@ -63,6 +63,8 @@
     project_name: '',
     address: '',
     county_fips: '',
+    jurisdiction_geoid: '',
+    location_cleared: false,
     county_name: '',
     total_units: 0,
     vacancy_rate: null,            // entered fraction (0..1); blank remains unknown
@@ -130,7 +132,7 @@
     return { method: 'pha', reference: '', effective_date: '', resident_paid: [], bound_county_fips: '' };
   }
 
-  function getSubject() {
+  function _readSubject() {
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return Object.assign({}, DEFAULT_SUBJECT, { unit_mix: [], utility_allowance_basis: _newAllowanceBasis() });
@@ -141,11 +143,26 @@
     }
   }
 
+  function _activeJurisdiction() {
+    var ws = global.WorkflowState;
+    return ws && typeof ws.getJurisdiction === 'function' ? ws.getJurisdiction() : null;
+  }
+
+  function getSubject() {
+    var s = _readSubject();
+    var jurisdiction = _activeJurisdiction();
+    // Covers a change on another page while this component was not loaded.
+    return jurisdiction && jurisdiction.geoid && s.jurisdiction_geoid !== jurisdiction.geoid
+      ? _syncFromSiteState(s) : s;
+  }
+
   function setSubject(s) {
-    var previous = getSubject();
+    var previous = _readSubject();
     var hadStored = false;
     try { hadStored = localStorage.getItem(STORAGE_KEY) != null; } catch (e) {}
     var next = Object.assign({}, DEFAULT_SUBJECT, s);
+    var jurisdiction = _activeJurisdiction();
+    if (!next.jurisdiction_geoid && jurisdiction && jurisdiction.geoid) next.jurisdiction_geoid = jurisdiction.geoid;
     var basis = next.utility_allowance_basis;
     var previousBasis = previous.utility_allowance_basis;
     var ownerPays = basis && basis.method === 'owner_pays_all';
@@ -164,14 +181,30 @@
       next.utility_allowance_basis = basis;
     }
     var countyChanged = hadStored && previous.county_fips !== next.county_fips;
-    if (countyChanged && !ownerPays) {
+    var transition = global.SiteState && global.SiteState.get ? global.SiteState.get('jurisdictionChange') : null;
+    var legacyMoved = !previous.jurisdiction_geoid && transition && transition.geoid === next.jurisdiction_geoid &&
+      (!previous.updated_at || transition.changedAt >= previous.updated_at);
+    var jurisdictionChanged = hadStored && (previous.jurisdiction_geoid
+      ? previous.jurisdiction_geoid !== next.jurisdiction_geoid : !!legacyMoved);
+    var locationChanged = countyChanged || jurisdictionChanged;
+    if (locationChanged) {
+      next.address = '';
+      ['lat', 'lon', 'lng', 'latitude', 'longitude', 'site_lat', 'site_lon', 'siteLat', 'siteLon', 'coordinates'].forEach(function (key) {
+        if (Object.prototype.hasOwnProperty.call(next, key)) next[key] = null;
+      });
+      next.unit_mix = (next.unit_mix || []).map(function (row) {
+        return Object.assign({}, row, { market_rent: null, market_rent_source: '' });
+      });
+      next.location_cleared = true;
+    }
+    if (locationChanged && !ownerPays) {
       if (basis) {
         basis = Object.assign({}, basis, { reference: '', effective_date: '', bound_county_fips: '' });
         next.utility_allowance_basis = basis;
       }
       _allowanceCountyNotice = true;
     }
-    if (ownerPays || methodChanged || sourceFieldsChanged || countyChanged) {
+    if (ownerPays || methodChanged || sourceFieldsChanged || locationChanged) {
       next.unit_mix = (next.unit_mix || []).map(function (row) {
         var updated = Object.assign({}, row);
         updated.utility_allowance = ownerPays ? 0 : null;
@@ -197,17 +230,27 @@
     return function () { _subscribers = _subscribers.filter(function (s) { return s !== fn; }); };
   }
 
-  // Sync county from SiteState on load.
+  // Every location sync uses setSubject's one invalidation path, including
+  // render-time county fallback and changes made while the panel is unmounted.
   function _syncFromSiteState(s) {
-    if (global.SiteState && typeof global.SiteState.getCounty === 'function') {
-      var c = global.SiteState.getCounty();
-      if (c && c.fips && (!s.county_fips || s.county_fips !== c.fips)) {
-        s.county_fips = c.fips;
-        s.county_name = c.name || '';
-      }
+    var jurisdiction = _activeJurisdiction();
+    var county = global.SiteState && global.SiteState.getCounty ? global.SiteState.getCounty() : null;
+    var next = Object.assign({}, s);
+    if (jurisdiction && jurisdiction.geoid) {
+      next.jurisdiction_geoid = jurisdiction.geoid;
+      next.county_fips = jurisdiction.countyFips || '';
+      next.county_name = jurisdiction.countyName || '';
+    } else if (county && county.fips) {
+      next.county_fips = county.fips;
+      next.county_name = county.name || '';
     }
-    return s;
+    return next.jurisdiction_geoid !== s.jurisdiction_geoid || next.county_fips !== s.county_fips
+      ? setSubject(next) : s;
   }
+
+  if (typeof document !== 'undefined') document.addEventListener('workflow:step-updated', function (event) {
+    if (event.detail && event.detail.stepKey === 'jurisdiction') _syncFromSiteState(_readSubject());
+  });
 
   // ── DOM helpers ─────────────────────────────────────────────────────
   function $h(tag, attrs, children) {
@@ -361,9 +404,26 @@
     _renderUnsubs = [];
 
     loadChfa().then(function (chfa) {
+      // The jurisdiction may have changed while the table was loading.
+      subject = getSubject();
       container.innerHTML = '';
       var wrap = $h('div', { class: 'subject-project-wrap' });
       container.appendChild(wrap);
+      var locationNotice = $h('p', { 'data-role': 'subject-location-cleared', role: 'status', 'aria-live': 'polite' });
+      wrap.appendChild(locationNotice);
+      function refreshLocationNotice() {
+        var current = _readSubject();
+        locationNotice.hidden = !current.location_cleared;
+        locationNotice.textContent = current.location_cleared
+          ? 'Location changed — cleared site address and coordinates, market rents and sources, and location-specific utility allowances.' : '';
+        // Metadata inputs must not keep displaying the cleared address.
+        var address = wrap.querySelector('[data-key="address"]');
+        if (address) address.value = current.address || '';
+        var county = wrap.querySelector('[data-key="county_fips"]');
+        if (county) county.value = current.county_fips || '';
+      }
+      _renderUnsubs.push(subscribe(refreshLocationNotice));
+      refreshLocationNotice();
 
       var amiSrc = chfa && chfa.meta ? chfa.meta.fiscal_year : '—';
       var amiEff = chfa && chfa.meta ? chfa.meta.effective_date : '—';
@@ -628,7 +688,7 @@
           : RentLimits.unavailableMessage(status.unavailableReason);
         if (ownerPays && status.complete) basisStatusText.textContent = 'Owner pays all utilities — $0 allowance';
         countyNotice.textContent = _allowanceCountyNotice
-          ? 'County changed: the utility allowance must be re-sourced for the new county.' : '';
+          ? 'Location changed: the utility allowance must be re-sourced for the new jurisdiction.' : '';
         sourceNotice.textContent = _allowanceSourceNotice
           ? 'Allowance source changed — re-enter the amounts from the new source.' : '';
       }

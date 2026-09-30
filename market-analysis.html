@@ -2014,9 +2014,10 @@
           return;
         }
         // County fallback (also used when place lookup is missing / not yet loaded).
+        var jurisdiction = window.WorkflowState && window.WorkflowState.getJurisdiction
+          ? window.WorkflowState.getJurisdiction() : null;
         var cfips = target.kind === 'county' ? target.fips
-                  : target.fips.length === 7 ? '08' + target.fips.slice(2, 5)  // place GEOID → county fips
-                  : null;
+                  : jurisdiction && jurisdiction.geoid === target.fips ? jurisdiction.countyFips : null;
         if (cfips && _CO_CENTROIDS[cfips]) {
           window._cohoMap.invalidateSize(false);
           window._cohoMap.setView(_CO_CENTROIDS[cfips], 10, { animate: false });

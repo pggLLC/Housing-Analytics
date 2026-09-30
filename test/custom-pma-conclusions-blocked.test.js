@@ -77,6 +77,7 @@ function page({ acs = ACS, cold = false, dataService } = {}) {
   w.console.log = w.console.warn = w.console.error = w.console.info = () => {};
   w.alert = () => {};
   windows.push(w);
+  w.WorkflowState = { getJurisdiction: () => ({ geoid: '0828745', countyFips: '08077', name: 'Fruita' }) };
   w.eval(read('js/market-analysis-cache-fix.js'));
   if (!cold) {
     w.PMADataCache.set('tractCentroids', CENTROIDS);
@@ -311,6 +312,24 @@ for (const method of ['buffer', 'commuting', 'hybrid']) {
     store(w, saved);
     w.PMAUIController.restoreLastRun();
     assertRestored(w, saved);
+  });
+  test('saved ' + method + ' session refuses a different jurisdiction', () => {
+    const w = page();
+    const saved = savedRun();
+    saved.options = { method, bufferMiles: 3, proposedUnits: 60 };
+    delete saved.scoreRun.pmaTractSelection;
+    store(w, saved);
+    w.PMAUIController.restoreLastRun();
+    assertRestored(w, saved);
+    w.WorkflowState.getJurisdiction = () => ({ geoid: '0845970', countyFips: '08013', name: 'Longmont' });
+    w.PMAUIController.restoreLastRun();
+    assert.strictEqual(w.PMAUIController.getLastScoreRun(), null);
+    assert.strictEqual(w.PMAEngine._state.getLastResult(), null);
+    assert.strictEqual(w.document.getElementById('pmaScoreWrap').dataset.unavailableReason, 'saved_jurisdiction_mismatch');
+    assert(w.document.getElementById('pmaScoreWrap').textContent.includes('Fruita'));
+    assert(w.document.getElementById('pmaScoreWrap').textContent.includes('Longmont'));
+    assert.strictEqual(w.document.getElementById('pmaJustificationNarrative').textContent, '');
+    assert.strictEqual(w.document.getElementById('pmaExportAuditJson').disabled, true);
   });
 }
 
