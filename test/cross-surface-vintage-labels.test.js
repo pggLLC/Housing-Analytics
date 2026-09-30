@@ -112,13 +112,49 @@ assertExcludes(lof, 'HUD QCT 2025', 'LIHTC Opportunity Finder stale QCT vintage'
 assertExcludes(lof, 'HUD DDA 2025', 'LIHTC Opportunity Finder stale DDA vintage');
 assertIncludes(lof, 'datasets/qct.html', 'LIHTC Opportunity Finder consolidated QCT/DDA source link');
 assertExcludes(lof, 'datasets/dda.html', 'LIHTC Opportunity Finder retired DDA source link');
-assertIncludes(
-  lof,
-  '2BR FMR (FY2026) minus LIHTC 60% AMI 2BR max rent (from HUD income limits FY2026)',
-  'LIHTC Opportunity Finder capture label splits FMR and income-limit vintages'
-);
-assertIncludes(lofJs, 'HUD FMR FY2026 + IL FY2026', 'LIHTC Opportunity Finder runtime capture comment uses current vintages');
-assertIncludes(lofJs, 'HUD FMR FY2026 + Income Limits FY2026', 'LIHTC Opportunity Finder runtime capture label uses current vintages');
+// Compare rendered amounts and source vintages with the files, without
+// pinning the retired HUD-income formula or the surrounding label wording.
+const { JSDOM } = require('jsdom');
+const vm = require('node:vm');
+const chfa = JSON.parse(read('data/chfa-income-rent-limits-2026.json'));
+const hud = JSON.parse(read('data/hud-fmr-income-limits.json'));
+const limits = require('../js/chfa-rent-limits.js');
+const doc = new JSDOM(lof).window;
+const captureHeading = doc.document.querySelector('th[data-sort="captureAdvantage"]').title;
+assert(captureHeading.includes('FMR (FY' + hud.meta.fiscal_year + ')'), 'capture heading agrees with the HUD file vintage');
+assert(captureHeading.includes('CHFA ' + chfa.meta.fiscal_year), 'capture heading agrees with the CHFA file vintage');
+assert(/CHFA.*60%.*2BR.*gross/.test(captureHeading), 'heading identifies the published CHFA gross limit');
+assert(!/from HUD income limits/i.test(captureHeading), 'heading does not claim a HUD-income rent calculation');
+const context = { window: { ChfaRentLimits: limits }, document: { addEventListener() {}, getElementById() { return null; }, querySelector() { return null; } } };
+vm.runInNewContext(lofJs, context);
+const finder = context.window.__LOF._test;
+for (const fips of ['08031', '08077']) {
+  // The oracle is the published table, not the module's lookup or metadata adapter.
+  const expected = chfa.counties.find((c) => c.fips === fips).regular_tiers['60'].max_rents['2br'];
+  assert(Number.isFinite(expected), 'non-vacuous published limit');
+  const hudCounty = hud.counties.find((c) => c.fips === fips);
+  const record = finder.marketForCounty(chfa, fips, hudCounty, hud.meta);
+  const rendered = doc.document.createElement('div');
+  rendered.innerHTML = finder.captureCell({ market: record });
+  const capture = rendered.querySelector('span').title;
+  assert(capture.includes('$' + expected.toLocaleString()), 'runtime label names the published CHFA amount');
+  assert(capture.includes('CHFA ' + chfa.meta.fiscal_year), 'runtime label names the CHFA table year');
+  assert(capture.includes('HUD FMR FY' + hud.meta.fiscal_year), 'capture tooltip agrees with the HUD file vintage');
+  rendered.innerHTML = finder.marketCaptureFacts(record);
+  assert(rendered.textContent.includes('$' + expected.toLocaleString()), 'detail label names the published CHFA amount');
+  assert(rendered.textContent.includes('CHFA ' + chfa.meta.fiscal_year), 'detail label names the CHFA table year');
+  assert(rendered.textContent.includes(chfa.meta.effective_date), 'detail label names the table effective date');
+  assert(rendered.textContent.includes('HUD FMR FY' + hud.meta.fiscal_year), 'detail FMR source uses the same HUD vintage');
+  // A changed metadata year must change the rendered year; a current literal is insufficient.
+  const changedMeta = { ...hud.meta, fiscal_year: hud.meta.fiscal_year + 1 };
+  const changed = finder.marketForCounty(chfa, fips, hudCounty, changedMeta);
+  rendered.innerHTML = finder.captureCell({ market: changed });
+  assert(rendered.querySelector('span').title.includes('HUD FMR FY' + changedMeta.fiscal_year), 'tooltip reads the supplied HUD metadata');
+  const undated = finder.marketForCounty(chfa, fips, hudCounty, null);
+  rendered.innerHTML = finder.captureCell({ market: undated });
+  assert(!/HUD FMR FY\d/.test(rendered.querySelector('span').title), 'missing metadata never invents a fiscal year');
+}
+doc.close();
 
 const market = read('market-analysis.html');
 const marketJs = read('js/market-analysis.js');

@@ -8,6 +8,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
+const hud = require('../data/hud-fmr-income-limits.json');
 
 global.window = global;
 global.document = {
@@ -47,6 +48,7 @@ lof.setZoriForTest(
 
 const durangoMarket = {
   fmr2br: 1589,
+  fmrYear: hud.meta.fiscal_year,
   lihtc60ami2br: 1448,
   captureAdvantage: 141
 };
@@ -65,7 +67,7 @@ const durangoCell = lof.captureCell({
 });
 
 assert(/>\+\$141\/mo<\/span>/.test(durangoCell), 'visible Capture pill should keep FMR +$141 baseline');
-assert(/FMR: \+\$141 \(HUD FY25, ~2022-23 data\)/.test(durangoCell), 'tooltip should show FMR capture with vintage caveat');
+assert(durangoCell.includes('FMR: +$141') && durangoCell.includes('HUD FMR FY' + hud.meta.fiscal_year), 'tooltip should show FMR capture with the data file vintage');
 assert(/current market \(Zillow ZORI place 2026-04-30\): ~\+\$572/.test(durangoCell), 'tooltip should show current-ZORI capture');
 
 assert.strictEqual(
@@ -105,12 +107,11 @@ console.log('LIHTC Opportunity Finder ZORI capture: PASS');
 
 // Exercise the same builder used by loadAll, against published CHFA values.
 const chfa = require('../data/chfa-income-rent-limits-2026.json');
-const hud = require('../data/hud-fmr-income-limits.json');
 for (const fips of ['08031', '08077', '08067', '08097']) {
   const expected = ChfaRentLimits.maxGrossRent(chfa, fips, 60, '2BR');
   assert(Number.isFinite(expected.grossRent), fips + ': real CHFA fixture');
   const hudCounty = hud.counties.find((c) => c.fips === fips);
-  const market = lof.marketForCounty(chfa, fips, hudCounty);
+  const market = lof.marketForCounty(chfa, fips, hudCounty, hud.meta);
   assert.strictEqual(market.lihtc60ami2br, expected.grossRent, fips + ': published CHFA limit, not HUD income arithmetic');
   assert.strictEqual(market.tableYear, expected.tableYear);
   assert.strictEqual(market.effectiveDate, expected.effectiveDate);
@@ -164,7 +165,10 @@ console.log('Opportunity Finder CHFA agreement, provenance and absence: PASS (4 
   } };
   await lof.loadAll();
   assert(loaded.includes('data/chfa-income-rent-limits-2026.json'));
-  for (const fips of counties) assert.strictEqual(lof.loadedMarket(fips).lihtc60ami2br, ChfaRentLimits.maxGrossRent(chfa, fips, 60, '2BR').grossRent);
+  for (const fips of counties) {
+    assert.strictEqual(lof.loadedMarket(fips).lihtc60ami2br, ChfaRentLimits.maxGrossRent(chfa, fips, 60, '2BR').grossRent);
+    assert.strictEqual(lof.loadedMarket(fips).fmrYear, hud.meta.fiscal_year, 'loader retains the HUD file vintage');
+  }
   tableAvailable = false;
   await lof.loadAll();
   for (const fips of counties) {
