@@ -49,6 +49,8 @@
   var RENT_BEDROOMS = { studio: 'efficiency', '1br': '1BR', '2br': '2BR', '3br': '3BR', '4br': '4BR' };
   var NO_LIHTC_CREDITS = 'No LIHTC credits — CHFA allocates all Colorado housing tax credits; this rent setting is not a CHFA LIHTC deal';
   var _utilityAllowance = { applied: false, reason: 'subject_project_unavailable' };
+  var _sharedUtilityAllowance = null;
+  var _allowanceSourceChanged = false;
   var _subjectProjectSubscription = null;
   var _unsubscribeSubjectProject = null;
   // Q5: Zillow ZORI market-rent index (smoothed, seasonally-adjusted, monthly).
@@ -1227,13 +1229,50 @@
       ? subjectProject.subscribe(recalculate) : null;
   }
 
+  // A shared record is calculation state only; never save it to SubjectProject.
+  function setSharedUtilityAllowance(record, context) {
+    _sharedUtilityAllowance = null;
+    _allowanceSourceChanged = false;
+    if (record != null) {
+      context = context || {};
+      var county = context.countyFips || null;
+      var allowance = { applied: false, reason: 'shared_allowance_invalid', source: 'shared' };
+      if (record.applied === false && typeof record.reason === 'string') {
+        allowance.reason = record.reason;
+      } else if (record.applied === true && typeof record.method === 'string' && record.countyFips === county) {
+        var perBedroom = {}, feesPerBedroom = {};
+        var valid = Object.keys(RENT_BEDROOMS).every(function (br) {
+          var key = RENT_BEDROOMS[br];
+          var amount = record.perBedroom && record.perBedroom[key];
+          var fee = record.feesPerBedroom && record.feesPerBedroom[key];
+          perBedroom[key] = amount;
+          feesPerBedroom[key] = fee;
+          return (amount === null || (typeof amount === 'number' && isFinite(amount) && amount >= 0)) &&
+            typeof fee === 'number' && isFinite(fee) && fee >= 0;
+        });
+        if (valid) allowance = { applied: true, reason: null, source: 'shared', countyFips: county,
+          basis: { method: record.method, reference: typeof record.reference === 'string' ? record.reference : null,
+            effectiveDate: typeof record.effectiveDate === 'string' ? record.effectiveDate : null },
+          perBedroom: perBedroom, feesPerBedroom: feesPerBedroom };
+      }
+      _sharedUtilityAllowance = { allowance: allowance, countyFips: county, regime: context.regime || rentLimitRegime() };
+    }
+    recalculate();
+  }
+
+  function clearSharedUtilityAllowance() {
+    _sharedUtilityAllowance = null;
+    _allowanceSourceChanged = true;
+  }
+
   function resolveUtilityAllowance() {
     var limits = window.ChfaRentLimits;
     var subjectProject = window.SubjectProject;
+    if (_sharedUtilityAllowance && _sharedUtilityAllowance.regime !== rentLimitRegime()) clearSharedUtilityAllowance();
     if (rentLimitRegime() === 'market') return { applied: false, reason: 'unrestricted_market' };
     if (!limits) return { applied: false, reason: 'rent_module_unavailable' };
-    var subject = subjectProject && typeof subjectProject.get === 'function' ? subjectProject.get() : null;
-    var allowance = limits.allowanceByBedroom(subject, _countyFips);
+    var allowance = _sharedUtilityAllowance ? _sharedUtilityAllowance.allowance
+      : limits.allowanceByBedroom(subjectProject && typeof subjectProject.get === 'function' ? subjectProject.get() : null, _countyFips);
     if (allowance.applied) {
       var mix = collectBedroomMix();
       var missing = SPLIT_BR_TYPES.find(function (br) { return mix[br] > 0 && allowance.perBedroom[RENT_BEDROOMS[br]] == null; });
@@ -1245,7 +1284,8 @@
   // Export the same allowance record used for the currently displayed revenue.
   function getUtilityAllowanceMetadata() {
     if (!_utilityAllowance.applied) return { applied: false, reason: _utilityAllowance.reason };
-    return { applied: true, method: _utilityAllowance.basis.method, reference: _utilityAllowance.basis.reference,
+    return { applied: true, reason: null, countyFips: _utilityAllowance.countyFips || _countyFips,
+      method: _utilityAllowance.basis.method, reference: _utilityAllowance.basis.reference,
       effectiveDate: _utilityAllowance.basis.effectiveDate,
       perBedroom: Object.assign({}, _utilityAllowance.perBedroom), feesPerBedroom: Object.assign({}, _utilityAllowance.feesPerBedroom) };
   }
@@ -1254,16 +1294,29 @@
     var allowance = _utilityAllowance;
     var limits = window.ChfaRentLimits;
     var reason = blockedReason || allowance.reason;
-    var message = reason && limits ? limits.unavailableMessage(reason) : 'Subject project unavailable';
+    var message = reason === 'shared_allowance_invalid' ? 'Shared utility allowance record is invalid'
+      : reason && limits ? limits.unavailableMessage(reason) : 'Subject project unavailable';
     var text = blockedReason ? 'Rent revenue unavailable: ' + message
       : allowance.applied ? 'Utility allowance applied from ' + (allowance.basis.reference || 'Owner pays all utilities') +
         (allowance.basis.effectiveDate ? ' · effective ' + allowance.basis.effectiveDate : '')
       : 'Upper bound — utility allowance not applied: ' + message + '. Set it in Market Analysis → Subject project.';
+    if (allowance.source === 'shared' && allowance.applied) {
+      text = 'Utility allowance from shared scenario: ' + (allowance.basis.reference || 'Owner pays all utilities') +
+        ' · effective ' + (allowance.basis.effectiveDate || 'not required') +
+        (blockedReason ? '. Rent revenue unavailable: ' + message : '');
+    }
+    var notice = document.getElementById('dc-allowance-local-notice');
+    if (notice) {
+      notice.hidden = !_allowanceSourceChanged;
+      notice.textContent = _allowanceSourceChanged
+        ? 'County or rent setting changed — utility allowance now uses your local Subject project.' : '';
+    }
     ['dc-rent-allowance-status', 'dc-noi-allowance-status'].forEach(function (id) {
       var el = document.getElementById(id);
       if (!el) return;
       el.hidden = rentLimitRegime() === 'market';
       el.dataset.allowanceApplied = String(allowance.applied);
+      el.dataset.allowanceSource = allowance.source || 'local';
       el.dataset.unavailableReason = reason || '';
       el.textContent = el.hidden ? '' : text;
     });
@@ -1321,6 +1374,10 @@
 
   /** Populate every tier/bedroom from the selected shared rent-limit regime. */
   function updateAmiLimitsFromFmr(fips) {
+    // Repeated async table loads may recalculate before the shared county's
+    // options arrive. Only an actual county change can discard the record.
+    if (_sharedUtilityAllowance && (fips || null) !== _countyFips &&
+        (fips || null) !== _sharedUtilityAllowance.countyFips) clearSharedUtilityAllowance();
     _countyFips = fips || null;
     _amiLimits = null;
     _amiLimitsByBr = null;
@@ -2181,6 +2238,7 @@
           <dd id="dc-r-rents" style="font-weight:700;text-align:right;">—</dd>
         </dl>
         <p id="dc-rent-allowance-status" role="status" aria-live="polite" style="font-size:var(--tiny);line-height:1.45;"></p>
+        <p id="dc-allowance-local-notice" role="status" hidden style="font-size:var(--tiny);"></p>
         <p id="dc-gap-note" style="margin-top:var(--sp2);font-size:var(--tiny);color:var(--muted);display:none;"></p>
         <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
           ⚠ Verify: Annual credits and equity are illustrative — confirm equity pricing with your syndicator
@@ -6708,6 +6766,7 @@
     setChfaRentTable: setChfaRentTable,
     getRentLimitsMetadata: getRentLimitsMetadata,
     getUtilityAllowanceMetadata: getUtilityAllowanceMetadata,
+    setSharedUtilityAllowance: setSharedUtilityAllowance,
     getAmiLimitsByBr: function () { return _amiLimitsByBr == null ? null : JSON.parse(JSON.stringify(_amiLimitsByBr)); },
     setDesignationContext: setDesignationContext,
     setTransitZoneContext: setTransitZoneContext,
