@@ -382,24 +382,14 @@ test('PAB cap caveat added for large projects without pabCapAvailable', () => {
   assert(hasCaveat, 'PAB status caveat added when large project and pabCapAvailable not set');
 });
 
-// ── Phase 3: HUD FMR alignment ────────────────────────────────────────────────
-
-test('fmrAlignment returned when fmrData provided', () => {
-  var rec = predictor.predictConcept({
-    proposedUnits: 60,
-    fmrData: { oneBedroomFMR: 1400, twoBedroomFMR: 1700, threeBedroomFMR: 2100 }
-  });
-  assert(rec.fmrAlignment !== null, 'fmrAlignment is not null when fmrData provided');
-  assert(typeof rec.fmrAlignment === 'object', 'fmrAlignment is an object');
-  assert(typeof rec.fmrAlignment.oneBR === 'object', 'fmrAlignment.oneBR is present');
-  assert(rec.fmrAlignment.oneBR.fmr === 1400, 'FMR value preserved: ' + rec.fmrAlignment.oneBR.fmr);
-  assert(rec.fmrAlignment.oneBR.maxRentAt60Ami > 0, 'maxRentAt60Ami computed');
-  assert(rec.fmrAlignment.oneBR.maxRentAt30Ami < rec.fmrAlignment.oneBR.maxRentAt60Ami, 'AMI rent tiers descend');
+// Removed estimates must not reappear, including when callers pass legacy FMR data.
+test('fmrAlignment is absent even when fmrData is provided', () => {
+  var rec = predictor.predictConcept({ proposedUnits: 60,
+    fmrData: { oneBedroomFMR: 1400, twoBedroomFMR: 1700, threeBedroomFMR: 2100 } });
+  assert(!('fmrAlignment' in rec), 'no unused FMR rent estimate');
 });
-
-test('fmrAlignment is null when fmrData not provided', () => {
-  var rec = predictor.predictConcept({ proposedUnits: 60 });
-  assert(rec.fmrAlignment === null, 'fmrAlignment null without fmrData');
+test('fmrAlignment is absent without fmrData', () => {
+  assert(!('fmrAlignment' in predictor.predictConcept({ proposedUnits: 60 })), 'no unused field');
 });
 
 // ── Phase 3: Scenario sensitivity ────────────────────────────────────────────
@@ -459,14 +449,14 @@ test('chfaAwardContext is null when no award context inputs provided', () => {
 test('predictConcept returns all Phase 3 output fields', () => {
   var rec = predictor.predictConcept({ proposedUnits: 60 });
   assert('pabCapNote' in rec,          'pabCapNote field present');
-  assert('fmrAlignment' in rec,        'fmrAlignment field present');
+  assert(!('fmrAlignment' in rec),     'unused fmrAlignment field absent');
   assert('scenarioSensitivity' in rec, 'scenarioSensitivity field present');
   assert('chfaAwardContext' in rec,    'chfaAwardContext field present');
 });
 
 test('Exported helper functions available on module', () => {
   assert(typeof predictor._computeScenarioSensitivity === 'function', '_computeScenarioSensitivity exported');
-  assert(typeof predictor._computeFmrAlignment === 'function',        '_computeFmrAlignment exported');
+  assert(!('_computeFmrAlignment' in predictor), 'unused FMR helper absent');
   assert(typeof predictor._computeChfaAwardContext === 'function',    '_computeChfaAwardContext exported');
 });
 

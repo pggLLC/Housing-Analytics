@@ -319,6 +319,28 @@ async function test(name, fn) {
       assert.equal(recipient.__DealCalc.getUtilityAllowanceMetadata().reason, 'shared_allowance_invalid');
     } finally { sender.close(); recipient.close(); }
   });
+  await test('shared allowance from a different county is invalid and keeps the gross upper bound', async () => {
+    const local = subject(), w = await calculator(local), rows = [{ tier: 60, br: '2br', units: 60 }];
+    try {
+      mix(w, rows);
+      const snapshot = plain(w.__DealCalcShare.buildSnapshot());
+      assert.equal(snapshot.utilityAllowance.applied, true);
+      const url = new URL(snapshot.url);
+      snapshot.utilityAllowance.countyFips = '08077';
+      url.searchParams.set('utilityAllowance', JSON.stringify(snapshot.utilityAllowance));
+      w.history.replaceState({}, '', url.href); w.__DealCalcShare.hydrate();
+      assert.equal(w.document.getElementById('dc-county-select').value, fips);
+      checkRevenue(w, expected('chfa_lihtc', rows, local, false));
+      for (const id of ['dc-rent-allowance-status', 'dc-noi-allowance-status']) {
+        const el = w.document.getElementById(id);
+        assert(!el.hidden, 'invalid-record disclosure stays visible');
+        assert.equal(el.dataset.allowanceApplied, 'false');
+        assert.equal(el.dataset.unavailableReason, 'shared_allowance_invalid');
+        assert.match(el.textContent, /upper bound.*shared.*invalid/i);
+      }
+      assert.deepEqual(plain(w.__DealCalcShare.buildSnapshot().utilityAllowance), { applied: false, reason: 'shared_allowance_invalid' });
+    } finally { w.close(); }
+  });
   await test('page loads SubjectProject after the rent module and CI reaches this test', () => {
     const w = new JSDOM(read('deal-calculator.html')).window;
     const scripts = [...w.document.querySelectorAll('script[src]')].map((s) => s.getAttribute('src'));

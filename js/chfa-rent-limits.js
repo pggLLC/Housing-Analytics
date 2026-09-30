@@ -215,7 +215,7 @@
     if (hit.unavailableReason) return { grossRent: null, unavailableReason: hit.unavailableReason };
     var key = BR_TO_CHFA_KEY[bedrooms];
     var rent = key && hit.row.max_rents ? _allowance(hit.row.max_rents[key]) : null;
-    if (rent == null) return { grossRent: null, unavailableReason: 'bedroom_size_missing' };
+    if (rent == null || rent <= 0) return { grossRent: null, unavailableReason: 'bedroom_size_missing' };
     return Object.assign({ grossRent: rent }, _metadata(table, hit, BR_HH_SIZE[bedrooms]));
   }
 
