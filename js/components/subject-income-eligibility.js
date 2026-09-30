@@ -53,13 +53,32 @@
     } }, [msg]));
   }
 
+  function _marketRows(container, rows) {
+    rows.filter(function (r) { return r.ami_tier === 'market'; }).forEach(function (r) {
+      container.appendChild($h('p', { 'data-market-rate': 'true' }, [
+        (r.bedrooms || 'Bedroom unavailable') + ' · ' + (r.count == null ? 'Count unavailable' : r.count + ' units') +
+        ' · Market rate — excluded from restricted demand and income limits.'
+      ]));
+    });
+  }
+
   function render(container) {
     if (!container) return;
+    // Invalidate pending work even when this render takes a synchronous early return.
+    var generation = (container._subjectRenderGeneration || 0) + 1;
+    container._subjectRenderGeneration = generation;
     var SP = global.SubjectProject;
     if (!SP) { _renderEmpty(container, 'SubjectProject not loaded.'); return; }
     var subject = SP.get();
+    var marketRows = (subject.unit_mix || []).filter(function (r) { return r.ami_tier === 'market'; });
+    if (marketRows.length && marketRows.length === subject.unit_mix.length) {
+      container.innerHTML = '';
+      _marketRows(container, marketRows);
+      return;
+    }
     if (!subject.county_fips) {
       _renderEmpty(container, 'Pick a county in the Subject Project above to compute income limits.');
+      _marketRows(container, marketRows);
       return;
     }
     if (!subject.unit_mix || subject.unit_mix.length === 0) {
@@ -67,11 +86,13 @@
       return;
     }
     SP.loadChfa().then(function (chfa) {
-      if (!chfa) { _renderEmpty(container, 'Could not load CHFA income limits.'); return; }
+      if (container._subjectRenderGeneration !== generation) return;
+      if (!chfa) { _renderEmpty(container, 'Could not load CHFA income limits.'); _marketRows(container, marketRows); return; }
       var useHera = !!subject.use_hera_special;
       var hera = useHera && global.ChfaRentLimits.heraStatus(chfa, subject.county_fips, { useHera: useHera, pisDate: subject.pis_date });
       if (hera && !hera.complete) {
         _renderEmpty(container, global.ChfaRentLimits.unavailableMessage(hera.unavailableReason));
+        _marketRows(container, marketRows);
         return;
       }
 
@@ -110,6 +131,7 @@
       var impossibleCount = 0;
 
       subject.unit_mix.forEach(function (r) {
+        if (r.ami_tier === 'market') return;
         var hasHouseholdSize = Object.prototype.hasOwnProperty.call(BR_HH_INT, r.bedrooms);
         var hh = hasHouseholdSize ? BR_HH_INT[r.bedrooms] : null;
         var householdSizeUnavailableReason = hasHouseholdSize
@@ -152,6 +174,8 @@
       t.appendChild(thead); t.appendChild(tbody);
       tableWrap.appendChild(t);
       container.appendChild(tableWrap);
+
+      _marketRows(container, marketRows);
 
       // Bottom strip
       if (impossibleCount > 0) {

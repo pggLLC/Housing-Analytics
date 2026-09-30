@@ -49,20 +49,6 @@
     return sign + n.toFixed(1) + '%';
   }
 
-  var BR_TO_FMR_KEY = {
-    'efficiency': 'efficiency',
-    '1BR': 'one_br',
-    '2BR': 'two_br',
-    '3BR': 'three_br',
-    '4BR': 'four_br'
-  };
-
-  function _hudCountyRow(hud, fips) {
-    if (!hud || !fips) return null;
-    fips = String(fips).padStart(5, '0');
-    return (hud.counties || []).find(function (c) { return c.fips === fips; }) || null;
-  }
-
   function _renderEmpty(container, msg) {
     container.innerHTML = '';
     container.appendChild($h('div', { class: 'pma-empty', style: {
@@ -72,10 +58,13 @@
 
   function render(container) {
     if (!container) return;
+    // Invalidate pending work even when this render takes a synchronous early return.
+    var generation = (container._subjectRenderGeneration || 0) + 1;
+    container._subjectRenderGeneration = generation;
     var SP = global.SubjectProject;
     if (!SP) { _renderEmpty(container, 'SubjectProject module not loaded.'); return; }
     var subject = SP.get();
-    if (!subject.county_fips) {
+    if (!subject.county_fips && (subject.unit_mix || []).some(function (r) { return r.ami_tier !== 'market'; })) {
       _renderEmpty(container, 'Pick a county in the Subject Project above to compute LIHTC max rents.');
       return;
     }
@@ -87,24 +76,19 @@
     // Load CHFA (max rents + income limits) AND HUD (FMR — used as the market
     // benchmark only, not for max-rent computation).
     Promise.all([SP.loadChfa(), SP.loadHud()]).then(function (results) {
+      if (container._subjectRenderGeneration !== generation) return;
       var chfa = results[0], hud = results[1];
-      if (!chfa) { _renderEmpty(container, 'Could not load CHFA income/rent limits.'); return; }
       var limits = global.ChfaRentLimits;
       var chfaRow = limits.countyRow(chfa, subject.county_fips);
-      var hudRow  = _hudCountyRow(hud, subject.county_fips);
-      var fmr = hudRow ? hudRow.fmr : null;
       var useHera = !!subject.use_hera_special;
       var hera = useHera && limits.heraStatus(chfa, subject.county_fips, { useHera: useHera, pisDate: subject.pis_date });
-      if (hera && !hera.complete) {
+      if (hera && !hera.complete && subject.unit_mix.every(function (r) { return r.ami_tier !== 'market'; })) {
         _renderEmpty(container, limits.unavailableMessage(hera.unavailableReason));
         return;
       }
-      var basisStatus = limits.allowanceBasisStatus(subject.utility_allowance_basis, subject.county_fips);
+      var schedule = limits.rentSchedule(subject, { chfaTable: chfa, hudTable: hud });
       var basisCaption = limits.allowanceBasisCaption(subject.utility_allowance_basis, subject.county_fips);
-      var rentLimits = subject.unit_mix.map(function (r) {
-        return limits.maxGrossRent(chfa, subject.county_fips, r.ami_tier, r.bedrooms, { useHera: useHera, pisDate: subject.pis_date });
-      });
-      var tableLimit = rentLimits.find(function (r) { return r.grossRent != null; });
+      var tableLimit = schedule.rows.map(function (r) { return r.limit; }).find(function (r) { return r.grossRent != null; });
 
       container.innerHTML = '';
       var hdr = $h('div', { style: { marginBottom: '.4rem',
@@ -145,62 +129,52 @@
           $h('th', { style: { padding: '6px 6px', textAlign: 'left' } }, ['Bedrooms']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'left' } }, ['AMI']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Units']),
-          $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Proposed gross']),
+          $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Proposed gross / market rent']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Util. allow.']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Nonoptional fees']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['LIHTC max gross']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['LIHTC max net']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Headroom']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['HUD FMR']),
-          $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['vs FMR'])
+          $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['vs FMR']),
+          $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Scheduled contract rent'])
         ])
       ]);
       var tbody = $h('tbody', {});
       t.appendChild(thead); t.appendChild(tbody);
 
-      var totalUnits = 0, sumProposed = 0, sumLihtcCap = 0, overMax = 0;
-      var sumFmr = 0, countWithFmr = 0;
-
       subject.unit_mix.forEach(function (r, i) {
-        var maxGross = rentLimits[i].grossRent;
-        var net = limits.maxContractRent({ grossRent: maxGross, utilityAllowance: r.utility_allowance, fees: r.fees, basisStatus: basisStatus });
-        var reason = !basisStatus.complete ? basisStatus.unavailableReason :
-          (maxGross == null ? rentLimits[i].unavailableReason : net.unavailableReason);
-        var fees = net.feesEntered ? (Number.isFinite(+r.fees) && +r.fees >= 0 ? +r.fees : null) : 0;
-        var proposed = +r.proposed_gross_rent || null;
-        // Blank is unknown and shows as —; an entered $0 shows as $0 (#1934).
-        var ua = (r.utility_allowance == null || r.utility_allowance === '') ? null : +r.utility_allowance;
-        var headroom = (maxGross != null && proposed != null) ? maxGross - proposed : null;
-        var over = (maxGross != null && proposed != null && proposed > maxGross);
-        var fmrKey = BR_TO_FMR_KEY[r.bedrooms];
-        var fmrVal = (fmr && fmrKey && fmr[fmrKey] != null) ? +fmr[fmrKey] : null;
-        var vsFmr = (proposed != null && fmrVal) ? ((proposed - fmrVal) / fmrVal) * 100 : null;
-        var count = +r.count || 0;
+        var result = schedule.rows[i];
+        var market = result.isMarket;
+        var maxGross = result.limit.grossRent;
+        var reason = result.maxNetReason;
+        var fees = result.fees;
+        var proposed = result.grossResidentRent;
+        var ua = result.utilityAllowance;
+        var headroom = result.headroom;
+        var over = result.rowReason === 'over_chfa_max';
+        var fmrVal = result.fmr;
+        var vsFmr = result.vsFmr;
+        var count = result.count;
 
-        totalUnits += count;
-        if (proposed != null) sumProposed += proposed * count;
-        if (maxGross != null) sumLihtcCap += maxGross * count;
-        if (fmrVal != null) { sumFmr += fmrVal * count; countWithFmr += count; }
-        if (over) overMax += count;
-
-        tbody.appendChild($h('tr', {
+        tbody.appendChild($h('tr', { 'data-market-rate': String(market), 'data-row-reason': result.rowReason || '',
           style: { background: over ? 'rgba(193,69,69,0.07)' : 'transparent' }
         }, [
           $h('td', { style: { padding: '5px 6px' } }, [r.bedrooms === 'efficiency' ? 'Eff' : r.bedrooms]),
-          $h('td', { style: { padding: '5px 6px' } }, [r.ami_tier + '%']),
-          $h('td', { style: { padding: '5px 6px', textAlign: 'right' } }, [String(count)]),
+          $h('td', { style: { padding: '5px 6px' } }, [market ? 'Market rate' : r.ami_tier + '%']),
+          $h('td', { style: { padding: '5px 6px', textAlign: 'right' } }, [count == null ? '—' : String(count)]),
           $h('td', { style: { padding: '5px 6px', textAlign: 'right',
             color: over ? 'var(--bad,#c14545)' : 'var(--text)',
             fontWeight: over ? '600' : '400' } }, [$money(proposed)]),
-          $h('td', { style: { padding: '5px 6px', textAlign: 'right', color: 'var(--muted)' } }, [$money(ua)]),
+          $h('td', { style: { padding: '5px 6px', textAlign: 'right', color: 'var(--muted)' } }, [market ? 'Not deducted' : $money(ua)]),
           $h('td', { style: { padding: '5px 6px', textAlign: 'right' },
-            'data-fees-entered': String(net.feesEntered),
-            title: net.feesEntered ? 'Required nonoptional fees entered' : 'Fees not entered; $0 used' }, [$money(fees)]),
-          $h('td', { style: { padding: '5px 6px', textAlign: 'right' } }, [$money(maxGross)]),
+            'data-fees-entered': String(result.feesEntered),
+            title: market ? 'Market rent is used directly' : result.feesEntered ? 'Required nonoptional fees entered' : 'Fees not entered; $0 used' }, [market ? 'Not deducted' : $money(fees)]),
+          $h('td', { style: { padding: '5px 6px', textAlign: 'right' } }, [market ? 'Market rate' : $money(maxGross)]),
           $h('td', { style: { padding: '5px 6px', textAlign: 'right' },
             'data-net-rent-unavailable': reason || '',
             title: reason === 'utility_allowance_missing' ? SP.UA_MISSING_REASON : (reason || '') }, [
-            net.contractRent != null ? $money(net.contractRent) :
+            result.maxNetRent != null ? $money(result.maxNetRent) :
               limits.unavailableMessage(reason)
           ]),
           $h('td', { style: { padding: '5px 6px', textAlign: 'right',
@@ -211,6 +185,10 @@
           $h('td', { style: { padding: '5px 6px', textAlign: 'right',
             color: vsFmr == null ? 'var(--muted)' : (vsFmr < 0 ? 'var(--good,#3da670)' : 'var(--bad,#c14545)') } }, [
             $pct(vsFmr)
+          ]),
+          $h('td', { 'data-role': 'scheduled-contract-rent', 'data-row-reason': result.rowReason || '', title: result.rowReason || '' }, [
+            result.contractRent == null ? limits.unavailableMessage(result.rowReason) : $money(result.contractRent),
+            market && result.marketRentSource ? ' · Source: ' + result.marketRentSource : ''
           ])
         ]));
       });
@@ -218,46 +196,49 @@
       tableWrap.appendChild(t);
       container.appendChild(tableWrap);
 
-      // Summary strip
-      var avgProposed = totalUnits ? sumProposed / totalUnits : null;
-      var avgLihtc    = totalUnits ? sumLihtcCap / totalUnits : null;
-      var avgFmr      = countWithFmr ? sumFmr / countWithFmr : null;
-      var overallVsFmr = (avgProposed != null && avgFmr) ?
-        ((avgProposed - avgFmr) / avgFmr) * 100 : null;
-
-      container.appendChild($h('div', { style: {
-        marginTop: '.55rem', padding: '.55rem .7rem',
-        background: 'var(--card2,#1a1a1a)', border: '1px solid var(--border)',
-        borderRadius: '4px', fontSize: '.78rem', lineHeight: '1.55'
-      } }, [
-        $h('div', {}, [
-          $h('strong', {}, ['Portfolio averages — ']),
-          'Proposed: ', $money(avgProposed), ' · ',
-          'LIHTC max: ', $money(avgLihtc), ' · ',
-          'HUD FMR: ', $money(avgFmr)
+      // All weighted figures come from the same schedule and the same priced rows.
+      var comparison = schedule.comparison;
+      function summaryMoney(key, label) {
+        return $h('div', { 'data-comparison': key, 'data-value': comparison[key] == null ? '' : String(comparison[key]) },
+          [label + ': ' + (comparison[key] == null ? 'unavailable' : $money(comparison[key]))]);
+      }
+      var summary = $h('div', { 'data-role': 'rent-comparison-summary',
+        'data-unavailable-reason': comparison.unavailableReason || '',
+        style: { marginTop: '.55rem', padding: '.55rem .7rem', border: '1px solid var(--border)', fontSize: '.78rem' }
+      }, [
+        $h('strong', {}, ['Unit-weighted averages — priced rows only']),
+        $h('p', { 'data-role': 'missing-rent-count', 'data-count': String(schedule.missingRentRows.length) }, [
+          schedule.missingRentRows.length + ' row(s) missing a rent; ' + comparison.pricedRows + ' priced row(s).'
         ]),
-        overallVsFmr != null ? $h('div', { style: { marginTop: '.25rem',
-          color: overallVsFmr < 0 ? 'var(--good,#3da670)' : 'var(--bad,#c14545)' } }, [
-          'Weighted rent advantage vs HUD FMR: ', $pct(overallVsFmr),
-          overallVsFmr < 0 ? ' — proposed rent is below market on average (market-achievable).'
-                           : ' — proposed rent is at or above market. Re-test demand.'
-        ]) : null,
-        overMax > 0 ? $h('div', { style: { marginTop: '.25rem', color: 'var(--bad,#c14545)',
-          fontWeight: '600' } }, [
-          '⚠ ' + overMax + ' unit' + (overMax === 1 ? '' : 's') +
-          ' priced over LIHTC max — non-compliant. Lower proposed rent or change AMI tier.'
-        ]) : null
+        summaryMoney('grossResidentRent', 'Proposed gross / market rent'),
+        summaryMoney('contractRent', 'Contract rent'),
+        summaryMoney('utilityAllowance', 'Utility allowance'),
+        summaryMoney('maxGrossRent', 'CHFA max gross (priced restricted rows)'),
+        summaryMoney('fmr', 'HUD FMR (same priced rows)'),
+        $h('div', { 'data-comparison': 'vsFmr', 'data-value': comparison.vsFmr == null ? '' : String(comparison.vsFmr) }, [
+          'Weighted rent advantage vs HUD FMR: ' + (comparison.vsFmr == null ? 'unavailable' : $pct(comparison.vsFmr))
+        ])
+      ]);
+      if (comparison.unavailableReason) summary.appendChild($h('p', {}, [
+        limits.unavailableMessage(comparison.unavailableReason) +
+        (comparison.unavailableReason === 'unit_count_mismatch' ? ': scheduled ' + schedule.scheduledUnits + ' units; project total ' + schedule.projectUnits : '')
       ]));
+      if (schedule.unpricedRows.length) summary.appendChild($h('p', {}, [
+        'Complete-project totals unavailable. ' + schedule.unpricedRows.map(function (r) {
+          return 'Row ' + r.rowNumber + ': ' + limits.unavailableMessage(r.rowReason);
+        }).join('; ')
+      ]));
+      container.appendChild(summary);
 
       // Methodology note + source attribution
       container.appendChild($h('p', { style: { marginTop: '.45rem',
         fontSize: '.7rem', color: 'var(--muted)' } }, [
-        'LIHTC max gross rent is read directly from CHFA\'s published ' + chfa.meta.fiscal_year +
+        'LIHTC max gross rent is read directly from CHFA\'s published ' + (chfa && chfa.meta ? chfa.meta.fiscal_year : '—') +
         ' rent tables (no formula — the table is the authority). HERA Special limits apply ' +
         'only to Housing Tax Credit projects placed in service on or before 12.31.2008. ',
         'FMR = HUD-published Fair Market Rent for the county. Sources: ',
-        $h('a', { href: chfa.meta.source_url, target: '_blank', rel: 'noopener' },
-          ['CHFA Income & Rent Limits ' + chfa.meta.fiscal_year]),
+        $h('a', { href: (chfa && chfa.meta ? chfa.meta.source_url : ''), target: '_blank', rel: 'noopener' },
+          ['CHFA Income & Rent Limits ' + (chfa && chfa.meta ? chfa.meta.fiscal_year : '—')]),
         ' · ',
         $h('a', { href: 'https://www.huduser.gov/portal/datasets/fmr.html', target: '_blank', rel: 'noopener' },
           ['HUD FMR FY' + (hud && hud.meta ? hud.meta.fiscal_year : '2026')])

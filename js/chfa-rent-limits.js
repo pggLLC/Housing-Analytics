@@ -104,6 +104,18 @@
       utility_allowance_missing: 'Enter UA',
       deductions_exceed_gross_rent: 'Allowance exceeds max rent',
       gross_rent_missing: 'Gross rent unavailable',
+      proposed_rent_missing: 'Enter a positive proposed gross rent',
+      market_rent_missing: 'Enter a positive market rent',
+      market_rent_source_missing: 'Enter the market-rent source citation',
+      over_chfa_max: 'Proposed gross rent exceeds the CHFA maximum',
+      row_unit_count_invalid: 'Enter a positive whole-number row count',
+      unit_count_invalid: 'Enter valid project and row unit counts',
+      unit_count_mismatch: 'Scheduled units do not match the project total',
+      schedule_empty: 'Add units to the rent schedule',
+      unpriced_rows: 'Rent unavailable for rows',
+      no_priced_rows: 'Rent unavailable — no priced rows',
+      vacancy_rate_missing: 'Enter the vacancy rate to see effective rent',
+      vacancy_rate_invalid: 'Vacancy rate must be between 0% and 100%',
       fees_invalid: 'Enter valid nonoptional fees',
       county_missing: 'County rent limits unavailable',
       tier_missing: 'AMI tier unavailable',
@@ -300,7 +312,119 @@
     return { contractRent: gross - ua - fees, feesEntered: feesEntered };
   }
 
-  return {
+  // Monthly, per-unit rents; annual revenue is contract rent before expenses.
+  // vacancy_rate is an entered fraction (0..1), never an assumed rate.
+  // hudTable is optional and supplies comparison benchmarks only.
+  function rentSchedule(subject, opts) {
+    subject = subject || {};
+    opts = opts || {};
+    var basisStatus = api.allowanceBasisStatus(subject.utility_allowance_basis, subject.county_fips);
+    var ownerPays = subject.utility_allowance_basis && subject.utility_allowance_basis.method === 'owner_pays_all';
+    var hudCounty = _countyRow(opts.hudTable, subject.county_fips);
+    var fmrKeys = { efficiency: 'efficiency', '1BR': 'one_br', '2BR': 'two_br', '3BR': 'three_br', '4BR': 'four_br' };
+    var rows = (Array.isArray(subject.unit_mix) ? subject.unit_mix : []).map(function (row, i) {
+      var market = row.ami_tier === 'market';
+      var count = _allowance(row.count);
+      var gross = _allowance(market ? row.market_rent : row.proposed_gross_rent);
+      var rentMissing = gross == null || gross <= 0;
+      var ua = market || ownerPays ? 0 : _allowance(row.utility_allowance);
+      var feesEntered = row.fees != null && !(typeof row.fees === 'string' && !row.fees.trim());
+      var fees = market || !feesEntered ? 0 : _allowance(row.fees);
+      var limit = market ? { grossRent: null, unavailableReason: 'unrestricted_market' }
+        : api.maxGrossRent(opts.chfaTable, subject.county_fips, row.ami_tier, row.bedrooms,
+          { useHera: !!subject.use_hera_special, pisDate: subject.pis_date });
+      // Keep the published net ceiling available independently of proposed rent.
+      var maxNet = market ? { contractRent: null, unavailableReason: 'unrestricted_market' }
+        : api.maxContractRent({ grossRent: limit.grossRent, utilityAllowance: ua, fees: row.fees, basisStatus: basisStatus });
+      var maxNetReason = market ? 'unrestricted_market' : !basisStatus.complete ? basisStatus.unavailableReason
+        : limit.grossRent == null ? limit.unavailableReason : maxNet.unavailableReason || null;
+      var reason = null, contract = null;
+      if (count == null || !Number.isInteger(count) || count <= 0) reason = 'row_unit_count_invalid';
+      else if (rentMissing) reason = market ? 'market_rent_missing' : 'proposed_rent_missing';
+      else if (market) {
+        if (typeof row.market_rent_source !== 'string' || !row.market_rent_source.trim()) reason = 'market_rent_source_missing';
+        else contract = gross;
+      } else if (limit.grossRent == null) reason = limit.unavailableReason;
+      else if (gross > limit.grossRent) reason = 'over_chfa_max';
+      else {
+        var net = api.maxContractRent({ grossRent: gross, utilityAllowance: ua, fees: row.fees, basisStatus: basisStatus });
+        reason = net.unavailableReason || null;
+        contract = net.contractRent;
+      }
+      var fmr = hudCounty && hudCounty.fmr ? _allowance(hudCounty.fmr[fmrKeys[row.bedrooms]]) : null;
+      if (fmr != null && fmr <= 0) fmr = null;
+      return { rowNumber: i + 1, bedrooms: row.bedrooms, amiTier: row.ami_tier, count: count,
+        isMarket: market, rentMissing: rentMissing, rowReason: reason,
+        grossResidentRent: rentMissing ? null : gross, contractRent: reason ? null : contract,
+        utilityAllowance: ua, fees: fees, feesEntered: !market && feesEntered,
+        marketRentSource: market && typeof row.market_rent_source === 'string' ? row.market_rent_source.trim() : null,
+        limit: limit, maxNetRent: maxNetReason ? null : maxNet.contractRent, maxNetReason: maxNetReason,
+        headroom: !market && limit.grossRent != null && !rentMissing ? limit.grossRent - gross : null,
+        fmr: fmr, vsFmr: !rentMissing && fmr != null ? (gross - fmr) / fmr * 100 : null };
+    });
+    var invalidCounts = rows.some(function (r) { return r.count == null || !Number.isInteger(r.count) || r.count <= 0; });
+    var scheduledUnits = invalidCounts ? null : rows.reduce(function (n, r) { return n + r.count; }, 0);
+    var projectUnits = _allowance(subject.total_units);
+    var countReason = scheduledUnits != null && scheduledUnits !== projectUnits ? 'unit_count_mismatch' : null;
+    if (!countReason && (invalidCounts || projectUnits == null || !Number.isInteger(projectUnits) || projectUnits <= 0)) countReason = 'unit_count_invalid';
+    if (!countReason && rows.length === 0) countReason = 'schedule_empty';
+    var unpricedRows = rows.filter(function (r) { return r.rowReason; }).map(function (r) {
+      return { rowNumber: r.rowNumber, bedrooms: r.bedrooms, amiTier: r.amiTier, rowReason: r.rowReason };
+    });
+    var missingRentRows = rows.filter(function (r) { return r.rentMissing; }).map(function (r) { return r.rowNumber; });
+    var reason = countReason || (unpricedRows.length ? 'unpriced_rows' : null);
+    var vacancy = _allowance(subject.vacancy_rate);
+    var vacancyReason = vacancy == null ? 'vacancy_rate_missing' : vacancy > 1 ? 'vacancy_rate_invalid' : null;
+    var totals = { restrictedUnits: null, marketUnits: null, le80Units: null, le80Share: null,
+      contractRent: null, grossResidentRent: null, utilityAllowance: null,
+      annualScheduledRent: null, effectiveRentAfterVacancy: null,
+      unavailableReason: reason, effectiveRentUnavailableReason: reason || vacancyReason };
+    function weighted(priced, key) {
+      var units = priced.reduce(function (n, r) { return n + r.count; }, 0);
+      return units > 0 ? priced.reduce(function (sum, r) { return sum + r[key] * r.count; }, 0) / units : null;
+    }
+    if (!reason) {
+      totals.restrictedUnits = rows.reduce(function (n, r) { return n + (r.isMarket ? 0 : r.count); }, 0);
+      totals.marketUnits = scheduledUnits - totals.restrictedUnits;
+      totals.le80Units = rows.reduce(function (n, r) { return n + (!r.isMarket && +r.amiTier <= 80 ? r.count : 0); }, 0);
+      totals.le80Share = totals.le80Units / scheduledUnits;
+      totals.contractRent = weighted(rows, 'contractRent');
+      totals.grossResidentRent = weighted(rows, 'grossResidentRent');
+      totals.utilityAllowance = weighted(rows, 'utilityAllowance');
+      totals.annualScheduledRent = rows.reduce(function (sum, r) { return sum + r.contractRent * r.count * 12; }, 0);
+      if (!vacancyReason) totals.effectiveRentAfterVacancy = totals.annualScheduledRent * (1 - vacancy);
+    }
+    // The comparison may describe only priced rows when rents are still blank.
+    // It is not a complete-project revenue total. Other defects block it, too.
+    var comparisonReason = countReason || (rows.some(function (r) {
+      return r.rowReason && r.rowReason !== 'proposed_rent_missing' && r.rowReason !== 'market_rent_missing';
+    }) ? 'unpriced_rows' : null);
+    var priced = rows.filter(function (r) { return !r.rowReason; });
+    if (!comparisonReason && !priced.length) comparisonReason = 'no_priced_rows';
+    var comparison = { unavailableReason: comparisonReason, pricedRows: priced.length,
+      pricedUnits: null, grossResidentRent: null, contractRent: null, utilityAllowance: null,
+      maxGrossRent: null, fmr: null, vsFmr: null };
+    if (!comparisonReason) {
+      comparison.pricedUnits = priced.reduce(function (n, r) { return n + r.count; }, 0);
+      comparison.grossResidentRent = weighted(priced, 'grossResidentRent');
+      comparison.contractRent = weighted(priced, 'contractRent');
+      comparison.utilityAllowance = weighted(priced, 'utilityAllowance');
+      var restricted = priced.filter(function (r) { return !r.isMarket; });
+      if (restricted.length) comparison.maxGrossRent = restricted.reduce(function (sum, r) {
+        return sum + r.limit.grossRent * r.count;
+      }, 0) / restricted.reduce(function (n, r) { return n + r.count; }, 0);
+      // Never compare averages drawn from different sets of units.
+      if (priced.every(function (r) { return r.fmr != null; })) {
+        comparison.fmr = weighted(priced, 'fmr');
+        comparison.vsFmr = (comparison.grossResidentRent - comparison.fmr) / comparison.fmr * 100;
+      }
+    }
+    return { rows: rows, scheduledUnits: scheduledUnits, projectUnits: projectUnits,
+      unpricedRows: unpricedRows, missingRentRows: missingRentRows, totals: totals, comparison: comparison,
+      basisStatus: basisStatus, vacancyRate: vacancyReason ? null : vacancy };
+  }
+
+  var api = {
     REGULATION_URL: REGULATION_URL,
     ALLOWANCE_METHODS: ALLOWANCE_METHODS,
     RESIDENT_UTILITIES: RESIDENT_UTILITIES,
@@ -313,8 +437,10 @@
     maxGrossRent: maxGrossRent,
     incomeLimit: incomeLimit,
     maxContractRent: maxContractRent,
+    rentSchedule: rentSchedule,
     // County picker metadata and the existing SubjectProject public constant.
     countyRow: _countyRow,
     BR_HH_SIZE: BR_HH_SIZE
   };
+  return api;
 });

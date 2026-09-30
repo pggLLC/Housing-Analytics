@@ -65,6 +65,7 @@
     county_fips: '',
     county_name: '',
     total_units: 0,
+    vacancy_rate: null,            // entered fraction (0..1); blank remains unknown
     site_acres: null,
     buildings: null,
     construction_type: 'new_construction', // or 'acquisition_rehab', 'preservation'
@@ -74,7 +75,7 @@
     use_hera_special: false,       // true for projects with PIS ≤ 12.31.2008 in a HERA county
     pis_date: null,                // required when requesting HERA Special limits
     utility_allowance_basis: null, // older saved projects must choose a method explicitly
-    unit_mix: [],                  // rows: {bedrooms, ami_tier, count, sqft, proposed_gross_rent, utility_allowance, fees}
+    unit_mix: [],                  // numeric ami_tier: proposed_gross_rent, utility_allowance, fees; 'market': market_rent, market_rent_source
     amenities: [],                 // free-text checklist
     notes: '',
     updated_at: null
@@ -247,17 +248,15 @@
   }
 
   // ── Renderer ────────────────────────────────────────────────────────
-  function _renderRow(row, idx, onChange, onRemove, rentLimit, basisStatus, ownerPays) {
+  function _renderRow(row, idx, onChange, onRemove, scheduleRow, ownerPays) {
+    var rentLimit = scheduleRow.limit;
+    var market = scheduleRow.isMarket;
     var maxRent = rentLimit.grossRent;
-    var net = RentLimits.maxContractRent({ grossRent: maxRent,
-      utilityAllowance: row.utility_allowance, fees: row.fees, basisStatus: basisStatus });
-    var maxNet = net.contractRent;
-    var reason = !basisStatus.complete ? basisStatus.unavailableReason :
-      (maxRent == null ? rentLimit.unavailableReason : net.unavailableReason);
+    var maxNet = scheduleRow.maxNetRent;
+    var reason = scheduleRow.maxNetReason;
     var netMissingUa = maxRent != null && reason === 'utility_allowance_missing';
 
-    var proposed = +row.proposed_gross_rent || 0;
-    var overMax  = maxRent != null && proposed > maxRent;
+    var overMax = scheduleRow.rowReason === 'over_chfa_max';
 
     var input = function (key, type, val, w) {
       return $h('input', {
@@ -266,7 +265,8 @@
         value: val == null ? '' : val,
         'data-key': key,
         'data-idx': idx,
-        style: { width: w || '78px', padding: '3px 5px', border: '1px solid var(--border)',
+        'aria-label': key.replace(/_/g, ' ') + ' — row ' + (idx + 1),
+        style: { width: w || '78px', minHeight: '44px', padding: '3px 5px', border: '1px solid var(--border)',
                  borderRadius: '3px', background: 'var(--card)', color: 'var(--text)',
                  fontSize: '.78rem' }
       });
@@ -274,13 +274,14 @@
     var select = function (key, val, opts) {
       var sel = $h('select', {
         'data-key': key, 'data-idx': idx,
-        style: { padding: '3px 5px', border: '1px solid var(--border)',
+        'aria-label': key.replace(/_/g, ' ') + ' — row ' + (idx + 1),
+        style: { minHeight: '44px', padding: '3px 5px', border: '1px solid var(--border)',
                  borderRadius: '3px', background: 'var(--card)', color: 'var(--text)',
                  fontSize: '.78rem' }
       });
       opts.forEach(function (o) {
         var op = $h('option', { value: o.value }, [o.label]);
-        if (o.value === val) op.selected = true;
+        if (String(o.value) === String(val)) op.selected = true;
         sel.appendChild(op);
       });
       return sel;
@@ -289,9 +290,15 @@
     var brSel  = select('bedrooms', row.bedrooms, BEDROOMS.map(function (b) {
       return { value: b, label: b === 'efficiency' ? 'Eff' : b };
     }));
-    var amiSel = select('ami_tier', row.ami_tier, AMI_TIERS.map(function (t) {
+    var amiOptions = AMI_TIERS.map(function (t) {
       return { value: t, label: t + '%' };
-    }));
+    });
+    // A saved table-supported tier outside the short list must remain visible.
+    if (row.ami_tier != null && row.ami_tier !== 'market' && !amiOptions.some(function (o) {
+      return String(o.value) === String(row.ami_tier);
+    })) amiOptions.push({ value: row.ami_tier, label: row.ami_tier + '%' });
+    amiOptions.push({ value: 'market', label: 'Market-rate' });
+    var amiSel = select('ami_tier', row.ami_tier, amiOptions);
 
     var uaInput = input('utility_allowance', 'number', row.utility_allowance, '60px');
     uaInput.disabled = ownerPays;
@@ -299,14 +306,16 @@
     if (ownerPays) uaContents.push($h('span', { 'data-role': 'owner-paid-allowance',
       style: { display: 'block', fontSize: '.7rem' } }, ['Owner pays all utilities — $0 allowance']));
 
-    var tr = $h('tr', {}, [
+    var sourceInput = input('market_rent_source', 'text', row.market_rent_source, '180px');
+    sourceInput.required = true;
+    var tr = $h('tr', { 'data-row-number': idx + 1, 'data-market-rate': String(market) }, [
       $h('td', { style: { padding: '4px 6px' } }, [brSel]),
-      $h('td', { style: { padding: '4px 6px' } }, [amiSel]),
+      $h('td', { style: { padding: '4px 6px' } }, [amiSel, market ? $h('span', { 'data-role': 'market-rate-label' }, ['Market rate']) : null]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, [input('count', 'number', row.count)]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, [input('sqft', 'number', row.sqft, '70px')]),
-      $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, [input('proposed_gross_rent', 'number', row.proposed_gross_rent, '78px')]),
-      $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, uaContents),
-      $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, [input('fees', 'number', row.fees, '60px')]),
+      $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, [market ? input('market_rent', 'number', row.market_rent, '78px') : input('proposed_gross_rent', 'number', row.proposed_gross_rent, '78px')]),
+      $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, market ? [sourceInput] : uaContents),
+      $h('td', { style: { padding: '4px 6px', textAlign: 'right' } }, market ? ['Market rate — no allowance deducted'] : [input('fees', 'number', row.fees, '60px')]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'right',
                           color: overMax ? 'var(--bad,#c14545)' : 'var(--muted)',
                           fontWeight: overMax ? '600' : '400' } }, [
@@ -316,6 +325,10 @@
         title: netMissingUa ? UA_MISSING_REASON : (reason || ''),
         'data-net-rent-unavailable': netMissingUa ? 'utility-allowance' : (reason || '') }, [
         maxNet != null ? $fmtMoney(maxNet) : RentLimits.unavailableMessage(reason)
+      ]),
+      $h('td', { 'data-role': 'scheduled-contract-rent', 'data-row-reason': scheduleRow.rowReason || '',
+        title: scheduleRow.rowReason || '', style: { padding: '4px 6px', textAlign: 'right' } }, [
+        scheduleRow.contractRent == null ? RentLimits.unavailableMessage(scheduleRow.rowReason) : $fmtMoney(scheduleRow.contractRent)
       ]),
       $h('td', { style: { padding: '4px 6px', textAlign: 'center' } }, [
         $h('button', {
@@ -420,7 +433,7 @@
           });
         } else {
           node = $h('input', { id: id, type: type || 'text', 'data-key': key,
-            value: subject[key] == null ? '' : subject[key],
+            value: subject[key] == null ? '' : key === 'vacancy_rate' ? subject[key] * 100 : subject[key],
             style: { width: '100%', padding: '4px 6px', border: '1px solid var(--border)',
                      borderRadius: '3px', background: 'var(--card)', color: 'var(--text)',
                      fontSize: '.82rem' } });
@@ -442,7 +455,7 @@
         if (el.type === 'checkbox') val = el.checked;
         else if (el.type === 'number') val = val === '' ? null : +val;
         var s = getSubject();
-        s[key] = val;
+        s[key] = key === 'vacancy_rate' && val != null ? val / 100 : val;
         if (key === 'county_fips') {
           var row = RentLimits.countyRow(chfa, val);
           s.county_name = row ? row.county_name : '';
@@ -476,6 +489,18 @@
         { value: '4% PAB', label: '4% PAB' },
         { value: 'Other', label: 'Other / mixed' }
       ]));
+      var unitField = field('Project total units', 'total_units', 'number');
+      unitField.querySelector('input').setAttribute('min', '1');
+      unitField.querySelector('input').setAttribute('step', '1');
+      unitField.querySelector('input').style.minHeight = '44px';
+      meta.appendChild(unitField);
+      var vacancyField = field('Vacancy rate (%) — required for effective rent', 'vacancy_rate', 'number');
+      vacancyField.querySelector('input').setAttribute('min', '0');
+      vacancyField.querySelector('input').setAttribute('max', '100');
+      vacancyField.querySelector('input').setAttribute('step', '0.1');
+      vacancyField.querySelector('input').style.minHeight = '44px';
+      vacancyField.querySelector('input').required = true;
+      meta.appendChild(vacancyField);
       meta.appendChild(field('Site (acres)', 'site_acres', 'number'));
       meta.appendChild(field('Buildings', 'buildings', 'number'));
       meta.appendChild(field('In-migration assumption (%)', 'in_migration_pct', 'number'));
@@ -492,7 +517,7 @@
         $h('input', { id: 'sp-use_hera_special', type: 'checkbox', 'data-key': 'use_hera_special' }),
         $h('span', {}, ['Use HERA Special limits']),
         $h('span', { style: { fontSize: '.7rem', color: 'var(--muted)' } }, [
-          chfa.meta && chfa.meta.hera_special_note || 'HERA requires a placed-in-service date on or before 2008-12-31.'
+          chfa && chfa.meta && chfa.meta.hera_special_note || 'HERA requires a placed-in-service date on or before 2008-12-31.'
         ])
       ]);
       var heraCb = heraLabel.querySelector('input');
@@ -631,11 +656,12 @@
           $h('th', { style: { padding: '6px 6px', textAlign: 'left' } }, ['AMI']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Count']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Sqft']),
-          $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Proposed gross rent']),
-          $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Utility allow.']),
-          $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Nonoptional fees']),
+          $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Proposed gross / market rent']),
+          $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Utility allow. / market source']),
+          $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Nonoptional fees / market status']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['LIHTC max gross']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['LIHTC max net']),
+          $h('th', { style: { padding: '6px 6px', textAlign: 'right' } }, ['Scheduled contract rent']),
           $h('th', { style: { padding: '6px 6px', textAlign: 'center' } }, ['']),
         ])
       ]);
@@ -649,20 +675,24 @@
 
       function _redrawRows() {
         var s = getSubject();
+        // Row edits refresh calculated cells; keep typing in the same input.
+        var active = document.activeElement;
+        var focusKey = active && tbody.contains(active) && active.getAttribute('data-key');
+        var focusIndex = focusKey ? active.getAttribute('data-idx') : null;
+        var caret = focusKey && active.type === 'text' ? active.selectionStart : null;
         tbody.innerHTML = '';
         var tableLimit = null;
-        var basisStatus = RentLimits.allowanceBasisStatus(s.utility_allowance_basis, s.county_fips);
+        var schedule = RentLimits.rentSchedule(s, { chfaTable: chfa });
         var ownerPays = !!(s.utility_allowance_basis && s.utility_allowance_basis.method === 'owner_pays_all');
         (s.unit_mix || []).forEach(function (row, i) {
-          var rentLimit = RentLimits.maxGrossRent(chfa, s.county_fips, row.ami_tier, row.bedrooms,
-            { useHera: !!s.use_hera_special, pisDate: s.pis_date });
+          var rentLimit = schedule.rows[i].limit;
           if (rentLimit.grossRent != null) tableLimit = rentLimit;
           tbody.appendChild(_renderRow(row, i, function (idx, el) {
             var s2 = getSubject();
             var k = el.getAttribute('data-key');
             var v = el.value;
             if (el.type === 'number') v = v === '' ? null : +v;
-            if (k === 'ami_tier') v = +v;
+            if (k === 'ami_tier' && v !== 'market') v = +v;
             s2.unit_mix[idx][k] = v;
             setSubject(s2);
             _redrawRows();
@@ -673,7 +703,7 @@
             setSubject(s3);
             _redrawRows();
             _redrawTotals();
-          }, rentLimit, basisStatus, ownerPays));
+          }, schedule.rows[i], ownerPays));
         });
         caption.textContent = tableLimit ? 'CHFA ' + (tableLimit.tableYear || '—') +
           ' · effective ' + (tableLimit.effectiveDate || '—') : 'CHFA rent limits unavailable for these rows';
@@ -681,35 +711,57 @@
         if (basisCaption) caption.textContent += ' · ' + basisCaption;
         if ((s.unit_mix || []).length === 0) {
           tbody.appendChild($h('tr', {}, [
-            $h('td', { colspan: '10', style: { padding: '14px 8px', textAlign: 'center',
+            $h('td', { colspan: '11', style: { padding: '14px 8px', textAlign: 'center',
               color: 'var(--muted)', fontSize: '.8rem' } }, [
               'No unit-mix rows yet. Use the buttons below to add a row.'
             ])
           ]));
         }
-      }
-
-      var totals = $h('div', { style: { fontSize: '.78rem', color: 'var(--muted)',
-        margin: '.35rem 0 .65rem' } });
-      function _redrawTotals() {
-        var s = getSubject();
-        var totalUnits = (s.unit_mix || []).reduce(function (a, r) { return a + (+r.count || 0); }, 0);
-        var tierCounts = {};
-        AMI_TIERS.forEach(function (t) { tierCounts[t] = 0; });
-        (s.unit_mix || []).forEach(function (r) {
-          if (tierCounts[r.ami_tier] != null) tierCounts[r.ami_tier] += (+r.count || 0);
-        });
-        var bits = ['Total: ' + totalUnits + ' units'];
-        AMI_TIERS.forEach(function (t) {
-          if (tierCounts[t] > 0) bits.push(t + '% AMI: ' + tierCounts[t]);
-        });
-        totals.textContent = bits.join(' · ');
-        if (totalUnits !== s.total_units) {
-          s.total_units = totalUnits;
-          setSubject(s);
+        if (focusKey) {
+          var replacement = tbody.querySelector('[data-key="' + focusKey + '"][data-idx="' + focusIndex + '"]');
+          if (replacement) {
+            replacement.focus();
+            if (caret != null) replacement.setSelectionRange(caret, caret);
+          }
         }
       }
 
+      var totals = $h('div', { 'data-role': 'rent-schedule-summary', 'aria-live': 'polite', 'aria-atomic': 'true',
+        style: { fontSize: '.78rem', color: 'var(--text)', margin: '.35rem 0 .65rem' } });
+      function _redrawTotals() {
+        var schedule = RentLimits.rentSchedule(getSubject(), { chfaTable: chfa });
+        var t = schedule.totals;
+        totals.innerHTML = '';
+        totals.setAttribute('data-unavailable-reason', t.unavailableReason || '');
+        totals.appendChild($h('p', { 'data-role': 'schedule-unit-count' }, [
+          'Scheduled: ' + (schedule.scheduledUnits == null ? 'unavailable' : schedule.scheduledUnits) +
+          ' units · Project total: ' + (schedule.projectUnits == null ? 'unavailable' : schedule.projectUnits)
+        ]));
+        if (t.unavailableReason) totals.appendChild($h('p', { 'data-role': 'schedule-blocked' }, [
+          RentLimits.unavailableMessage(t.unavailableReason) + (schedule.unpricedRows.length ?
+            ' · ' + schedule.unpricedRows.map(function (r) {
+              return 'Row ' + r.rowNumber + ' (' + r.bedrooms + ', ' + (r.amiTier === 'market' ? 'market rate' : r.amiTier + '% AMI') + '): ' + RentLimits.unavailableMessage(r.rowReason);
+            }).join('; ') : '')
+        ]));
+        function figure(key, label, value) {
+          totals.appendChild($h('div', { 'data-total': key, 'data-value': t[key] == null ? '' : String(t[key]) },
+            [label + ': ' + (t[key] == null ? 'unavailable' : value)]));
+        }
+        figure('restrictedUnits', 'Restricted units', String(t.restrictedUnits));
+        figure('marketUnits', 'Market-rate units', String(t.marketUnits));
+        figure('le80Units', '≤80% AMI units', String(t.le80Units));
+        figure('le80Share', '≤80% AMI share', t.le80Share == null ? '' : (t.le80Share * 100).toFixed(1) + '%');
+        figure('contractRent', 'Unit-weighted monthly contract rent', $fmtMoney(t.contractRent));
+        figure('grossResidentRent', 'Unit-weighted monthly gross resident rent', $fmtMoney(t.grossResidentRent));
+        figure('utilityAllowance', 'Unit-weighted monthly utility allowance', $fmtMoney(t.utilityAllowance));
+        figure('annualScheduledRent', 'Annual scheduled rent', $fmtMoney(t.annualScheduledRent));
+        figure('effectiveRentAfterVacancy', 'Annual effective rent after vacancy', $fmtMoney(t.effectiveRentAfterVacancy));
+        if (t.effectiveRentUnavailableReason && !t.unavailableReason) totals.appendChild($h('p', {
+          'data-role': 'vacancy-reason', 'data-unavailable-reason': t.effectiveRentUnavailableReason
+        }, [RentLimits.unavailableMessage(t.effectiveRentUnavailableReason)]));
+        totals.appendChild($h('p', { 'data-role': 'pre-expense-disclosure' }, ['Scheduled rent is pre-expense revenue — not NOI or supportable debt']));
+        totals.appendChild($h('p', { 'data-role': 'ami-planning-disclosure' }, ['≤80% AMI share is a planning indicator — not the Average Income Test, minimum set-aside, applicable fraction or a tax opinion']));
+      }
       wrap.appendChild(totals);
 
       // Quick-add buttons
@@ -765,10 +817,11 @@
           alert('Pick a county above first — LIHTC max rents are county-specific.');
           return;
         }
-        (s.unit_mix || []).forEach(function (r) {
-          var lihtc = computeLihtcMaxRent(chfa, s.county_fips, r.ami_tier, r.bedrooms,
-            { useHera: !!s.use_hera_special, pisDate: s.pis_date });
-          if (lihtc) r.proposed_gross_rent = lihtc.gross_rent;
+        var schedule = RentLimits.rentSchedule(s, { chfaTable: chfa });
+        (s.unit_mix || []).forEach(function (r, i) {
+          if (!schedule.rows[i].isMarket && schedule.rows[i].limit.grossRent != null) {
+            r.proposed_gross_rent = schedule.rows[i].limit.grossRent;
+          }
         });
         setSubject(s);
         _redrawRows();
@@ -805,7 +858,7 @@
       });
       wrap.appendChild(notesWrap);
 
-      _renderUnsubs.push(subscribe(function () { refreshBasis(); _redrawRows(); }));
+      _renderUnsubs.push(subscribe(function () { refreshBasis(); _redrawRows(); _redrawTotals(); }));
       refreshBasis();
       _redrawRows();
       _redrawTotals();
