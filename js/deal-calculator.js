@@ -3809,7 +3809,7 @@
     }
 
     // Update LIHTC results
-    document.getElementById('dc-r-basis').textContent = tdc > 0 ? fmt(eligibleBasis) : '—';
+    document.getElementById('dc-r-basis').textContent = chfaRegime ? (tdc > 0 ? fmt(eligibleBasis) : '—') : 'Not applicable';
     document.getElementById('dc-results').style.gridTemplateColumns = chfaRegime ? '1fr auto' : 'minmax(0, 1fr) minmax(0, 1.5fr)';
     [['dc-r-credits', annualCredits], ['dc-r-equity', equity]].forEach(function (entry) {
       var el = document.getElementById(entry[0]);
