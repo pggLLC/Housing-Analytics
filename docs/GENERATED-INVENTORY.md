@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-30T04:20:27.625Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-30T06:35:17.535Z. Do not edit by hand.
 
 ---
 
@@ -59,7 +59,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 15.9 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.1 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.3 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 131.9 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 143.8 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.6 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
@@ -1747,7 +1747,7 @@
 
 ## Test Files
 
-496 test files found.
+497 test files found.
 
 | File | Size |
 |------|------|
@@ -1794,7 +1794,7 @@
 | `test/chfa-portfolio-filters.test.js` | 6.3 KB |
 | `test/chfa-portfolio-location-link.test.js` | 6.1 KB |
 | `test/chfa-qap-calendar.test.js` | 12.8 KB |
-| `test/chfa-rent-limits.test.js` | 10.5 KB |
+| `test/chfa-rent-limits.test.js` | 11.3 KB |
 | `test/ci-tools-are-declared.test.mjs` | 9.3 KB |
 | `test/ci-verifies-bot-commits.test.js` | 5.4 KB |
 | `test/co-historical-allocations.test.js` | 12.9 KB |
@@ -1812,7 +1812,7 @@
 | `test/county-demographics-contract.test.js` | 19.4 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
-| `test/cross-surface-vintage-labels.test.js` | 6.6 KB |
+| `test/cross-surface-vintage-labels.test.js` | 9.5 KB |
 | `test/custom-pma-conclusions-blocked.test.js` | 20.5 KB |
 | `test/daily-audit-repo-health.test.js` | 27.9 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
@@ -1837,7 +1837,7 @@
 | `test/deal-calc-for-sale-feasibility.test.js` | 17.1 KB |
 | `test/deal-calc-minimum-set-aside.test.js` | 6.6 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
-| `test/deal-calc-net-rent.test.js` | 23.3 KB |
+| `test/deal-calc-net-rent.test.js` | 24.7 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
@@ -1985,9 +1985,9 @@
 | `test/land-disposition.test.js` | 8.0 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-award-year-not-pis.test.js` | 10.2 KB |
-| `test/lihtc-deal-predictor.test.js` | 12.4 KB |
+| `test/lihtc-deal-predictor.test.js` | 12.8 KB |
 | `test/lihtc-guide-accuracy.test.js` | 2.3 KB |
-| `test/lihtc-opportunity-finder-zori-capture.test.js` | 3.0 KB |
+| `test/lihtc-opportunity-finder-zori-capture.test.js` | 8.8 KB |
 | `test/local-resources-discovery.test.js` | 2.0 KB |
 | `test/local-resources-entry-completeness.test.js` | 3.3 KB |
 | `test/lodes-tract-od.test.js` | 5.6 KB |
@@ -2002,7 +2002,7 @@
 | `test/metric-semantics-wording.test.js` | 4.3 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
 | `test/metric-truth-crosssurface.test.js` | 8.1 KB |
-| `test/mi-supply-co-vs-national.test.js` | 1.4 KB |
+| `test/mi-supply-co-vs-national.test.js` | 3.5 KB |
 | `test/mobile-overflow-css-rules-present.test.js` | 5.6 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/navigation-pill-label.test.js` | 2.7 KB |
@@ -2107,6 +2107,7 @@
 | `test/regrid-cache-honesty.test.js` | 8.6 KB |
 | `test/rendered-absence-not-zero.test.js` | 4.2 KB |
 | `test/rent-ceiling-regime.test.js` | 17.7 KB |
+| `test/rent-formula-single-source.test.js` | 7.8 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
 | `test/research-brief.test.mjs` | 15.9 KB |
@@ -2150,7 +2151,7 @@
 | `test/test_hna_market_bridge.js` | 14.6 KB |
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
 | `test/test_legislative_tracker.js` | 8.9 KB |
-| `test/test_lihtc_deal_predictor.js` | 22.1 KB |
+| `test/test_lihtc_deal_predictor.js` | 21.5 KB |
 | `test/test_public_land_overlay.js` | 12.0 KB |
 | `test/test_qcew_annual_slice.py` | 8.0 KB |
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
