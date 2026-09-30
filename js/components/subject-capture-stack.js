@@ -83,13 +83,32 @@
     return { color: 'var(--bad,#c14545)', label: 'Saturation risk' };
   }
 
+  function _marketRows(container, rows) {
+    rows.filter(function (r) { return r.ami_tier === 'market'; }).forEach(function (r) {
+      container.appendChild($h('p', { 'data-market-rate': 'true' }, [
+        (r.bedrooms || 'Bedroom unavailable') + ' · ' + (r.count == null ? 'Count unavailable' : r.count + ' units') +
+        ' · Market rate — excluded from restricted demand and income limits.'
+      ]));
+    });
+  }
+
   function render(container) {
     if (!container) return;
+    // Invalidate pending work even when this render takes a synchronous early return.
+    var generation = (container._subjectRenderGeneration || 0) + 1;
+    container._subjectRenderGeneration = generation;
     var SP = global.SubjectProject;
     if (!SP) { _renderEmpty(container, 'SubjectProject not loaded.'); return; }
     var subject = SP.get();
+    var marketRows = (subject.unit_mix || []).filter(function (r) { return r.ami_tier === 'market'; });
+    if (marketRows.length && marketRows.length === subject.unit_mix.length) {
+      container.innerHTML = '';
+      _marketRows(container, marketRows);
+      return;
+    }
     if (!subject.county_fips) {
       _renderEmpty(container, 'Pick a county in the Subject Project above to compute demand.');
+      _marketRows(container, marketRows);
       return;
     }
     if (!subject.unit_mix || subject.unit_mix.length === 0) {
@@ -98,10 +117,12 @@
     }
 
     loadGap().then(function (gap) {
-      if (!gap) { _renderEmpty(container, 'Could not load AMI-gap data.'); return; }
+      if (container._subjectRenderGeneration !== generation) return;
+      if (!gap) { _renderEmpty(container, 'Could not load AMI-gap data.'); _marketRows(container, marketRows); return; }
       var countyRow = _findCounty(gap, subject.county_fips);
       if (!countyRow) {
         _renderEmpty(container, 'No AMI-gap data for the selected county yet.');
+        _marketRows(container, marketRows);
         return;
       }
       var hhByTier = countyRow.households_le_ami_pct || {};
@@ -123,6 +144,7 @@
       // Tally subject units per tier
       var subjectByTier = {};
       subject.unit_mix.forEach(function (r) {
+        if (r.ami_tier === 'market') return;
         var t = +r.ami_tier;
         if (!t) return;
         subjectByTier[t] = (subjectByTier[t] || 0) + (+r.count || 0);
@@ -188,6 +210,8 @@
       tableWrap.appendChild(t);
       container.appendChild(tableWrap);
 
+      _marketRows(container, marketRows);
+
       // Portfolio summary
       var portfolioRate = (grandHh > 0) ? (grandSubject / grandHh) * 100 : null;
       var port = _captureLabel(portfolioRate);
@@ -224,7 +248,7 @@
         'see the "When to commission a professional market study" card below.'
       ]));
 
-      if (rowsRendered === 0) {
+      if (rowsRendered === 0 && marketRows.length === 0) {
         _renderEmpty(container, 'No AMI tiers in the Subject Project unit mix yet.');
         return;
       }
