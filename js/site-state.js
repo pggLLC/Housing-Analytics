@@ -166,10 +166,23 @@
       return _get('pmaResults') || null;
     },
 
-    clearPmaResults: function () {
+    clearPmaResults: function (reason) {
       storageClear('pmaResults');
       _state.pmaResults = null;
       _notify('pmaResults', null);
+      // Reuse the engine's pending-result path: it also cancels deferred
+      // inventory reruns and invalidates enhanced-run callbacks and exports.
+      if (reason) {
+        var engine = global.PMAEngine;
+        if (engine && engine.blockCustomPma) engine.blockCustomPma(reason);
+        else if (global.PMAUIController && global.PMAUIController.clearConclusions) global.PMAUIController.clearConclusions();
+        document.body.setAttribute('data-pma-result-state', 'pending');
+        document.querySelectorAll('[id^="pmaExport"]').forEach(function (button) { button.disabled = true; });
+        var wrap = document.getElementById('pmaScoreWrap');
+        if (wrap) { wrap.textContent = reason; wrap.setAttribute('role', 'status'); }
+        var banner = document.getElementById('pmaRestoredBanner');
+        if (banner) banner.remove();
+      }
     },
 
     /* ── Award / Scoring Context ──────────────────────────────────────────── */

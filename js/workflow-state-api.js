@@ -108,6 +108,22 @@
     return payload;
   }
 
+  // One invalidation path for API callers and the jurisdiction picker.
+  function _clearMarketOnJurisdictionChange(previous, next) {
+    if (previous.geoid === next.geoid) return;
+    var ap = _getActive();
+    ap.market = _defaultSteps().market;
+    // A subject panel may be on another page. Keep the transition so an
+    // older subject without a GEOID can distinguish a real move from first binding.
+    if (global.SiteState && global.SiteState.set) global.SiteState.set('jurisdictionChange', {
+      geoid: next.geoid, previousGeoid: previous.geoid, changedAt: new Date().toISOString()
+    });
+    if (global.SiteState && global.SiteState.clearPmaResults) {
+      global.SiteState.clearPmaResults('Jurisdiction changed — run a new market analysis for ' + (next.name || next.geoid || 'this jurisdiction') + '.');
+    }
+    WorkflowState.setStep('market', {});
+  }
+
   /* ══════════════════════════════════════════════════════════════════════════
    * Public API — window.WorkflowState
    * ══════════════════════════════════════════════════════════════════════════ */
@@ -369,6 +385,11 @@
         WorkflowState.newProject(projName);
       }
       var payload = _deepMerge(_normalizeJurisdiction(data), { completedAt: new Date().toISOString() });
+      var previous = _normalizeJurisdiction(WorkflowState.getJurisdiction());
+      // Publish the new identity before any clear notifications reach consumers.
+      _getActive().jurisdiction = previous.geoid === payload.geoid
+        ? _deepMerge(_getActive().jurisdiction, payload) : payload;
+      _clearMarketOnJurisdictionChange(previous, payload);
       WorkflowState.setStep('jurisdiction', payload);
 
       // Backward-compat sync to SiteState
@@ -377,6 +398,7 @@
           var syncFips = payload.geoType === 'county' ? payload.geoid : payload.countyFips;
           var syncName = payload.geoType === 'county' ? payload.name : payload.countyName;
           if (syncFips) global.SiteState.setCounty(syncFips, syncName || null);
+          else if (global.SiteState.clearCounty) global.SiteState.clearCounty();
         }
       } catch (e) {
         console.warn('[WorkflowState] SiteState.setCounty sync failed:', e);

@@ -140,7 +140,7 @@
 
   /**
    * Persist the last PMA run to localStorage so results survive page refresh.
-   * Stored entry contains: lat, lon, options, scoreRun, and a timestamp.
+   * Stored entry contains: lat, lon, jurisdiction, options, scoreRun, and a timestamp.
    * Entries older than LS_TTL (24 h) are automatically discarded on load.
    *
    * @param {number} lat
@@ -150,7 +150,11 @@
    */
   function saveLastResult(lat, lon, options, scoreRun) {
     if (lat == null || lon == null || !scoreRun) return;
+    var jurisdiction = window.WorkflowState && window.WorkflowState.getJurisdiction
+      ? window.WorkflowState.getJurisdiction() : null;
     _lsSet(LS_KEY, {
+      jurisdiction: jurisdiction ? { geoid: jurisdiction.geoid || null,
+        countyFips: jurisdiction.countyFips || null, name: jurisdiction.name || null } : null,
       ts:       Date.now(),
       lat:      lat,
       lon:      lon,
@@ -174,7 +178,7 @@
       try { localStorage.removeItem(LS_KEY); } catch (_) {}
       return null;
     }
-    return { lat: entry.lat, lon: entry.lon, options: entry.options, scoreRun: entry.scoreRun };
+    return { lat: entry.lat, lon: entry.lon, jurisdiction: entry.jurisdiction || null, options: entry.options, scoreRun: entry.scoreRun };
   }
 
   /**

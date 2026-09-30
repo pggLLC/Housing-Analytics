@@ -1261,6 +1261,36 @@
       stored = window.PMADataCache.loadLastResult();
     }
 
+    // Every cached method belongs to its recorded jurisdiction. Legacy entries
+    // cannot establish that binding and must be run again.
+    if (stored && stored.scoreRun) {
+      var currentJurisdiction = window.WorkflowState && window.WorkflowState.getJurisdiction
+        ? window.WorkflowState.getJurisdiction() : null;
+      var savedJurisdiction = stored.jurisdiction;
+      var jurisdictionMissing = !savedJurisdiction || !savedJurisdiction.geoid || !savedJurisdiction.countyFips;
+      if (jurisdictionMissing || !currentJurisdiction || savedJurisdiction.geoid !== currentJurisdiction.geoid ||
+          savedJurisdiction.countyFips !== currentJurisdiction.countyFips) {
+        var reason = jurisdictionMissing
+          ? 'Your last analysis has no saved jurisdiction. Run a new analysis for the selected jurisdiction.'
+          : 'Your last analysis was for ' + (savedJurisdiction.name || savedJurisdiction.geoid) +
+            '; run a new one for ' + (currentJurisdiction && (currentJurisdiction.name || currentJurisdiction.geoid) || 'your selected jurisdiction') + '.';
+        _clearConclusions();
+        if (window.PMAEngine && window.PMAEngine.blockCustomPma) window.PMAEngine.blockCustomPma(reason);
+        if (window.SiteState && window.SiteState.clearPmaResults) window.SiteState.clearPmaResults();
+        document.body.setAttribute('data-pma-result-state', 'pending');
+        document.querySelectorAll('[id^="pmaExport"]').forEach(function (b) { b.disabled = true; });
+        var jurisdictionWrap = $id('pmaScoreWrap');
+        if (jurisdictionWrap) {
+          jurisdictionWrap.textContent = reason;
+          jurisdictionWrap.setAttribute('role', 'status');
+          jurisdictionWrap.dataset.unavailableReason = jurisdictionMissing ? 'saved_jurisdiction_missing' : 'saved_jurisdiction_mismatch';
+        }
+        var staleBanner = $id('pmaRestoredBanner');
+        if (staleBanner) staleBanner.remove();
+        return;
+      }
+    }
+
     // A cached conclusion has no exemption from today's site, boundary and
     // ACS bindings. Check before even the missing-coordinate early return.
     var storedOptions = (stored && stored.options) || {};
