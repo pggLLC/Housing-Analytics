@@ -211,9 +211,10 @@ async function test(name, fn) {
     try {
       mix(w, [{ tier: 60, br: '2br', units: 3 }]);
       const chfaCredits = text(w, 'dc-r-credits'); assert(/^\$[1-9]/.test(chfaCredits));
+      const chfaBasis = text(w, 'dc-r-basis');
       for (const regime of ['ami_formula', 'market']) {
         change(w, 'dc-rent-limit-regime', regime);
-        assert.equal(text(w, 'dc-r-basis'), money(0), 'no designated LIHTC units or eligible basis');
+        assert.equal(text(w, 'dc-r-basis'), 'Not applicable', 'eligible basis applies only to CHFA LIHTC');
         assert.equal(text(w, 'dc-su-equity'), money(0), 'no LIHTC equity in the capital stack');
         for (const id of ['dc-r-credits', 'dc-r-equity']) {
           assert.equal(w.document.getElementById(id).dataset.lihtcApplicable, 'false');
@@ -221,11 +222,12 @@ async function test(name, fn) {
         }
         assert.equal(text(w, 'dc-minimum-set-aside-status'), 'Not applicable');
         mix(w, []);
-        assert.equal(text(w, 'dc-r-basis'), money(0), 'zero total units cannot restore the helper’s 100% applicable-fraction fallback');
+        assert.equal(text(w, 'dc-r-basis'), 'Not applicable', 'zero total units do not make LIHTC basis applicable');
         assert.equal(text(w, 'dc-su-equity'), money(0));
         mix(w, [{ tier: 60, br: '2br', units: 3 }]);
       }
       change(w, 'dc-rent-limit-regime', 'chfa_lihtc'); assert.equal(text(w, 'dc-r-credits'), chfaCredits);
+      assert.equal(text(w, 'dc-r-basis'), chfaBasis, 'returning to CHFA restores the numeric eligible basis');
     } finally { w.close(); }
   });
   await test('same-page and cross-tab edits recalculate; JSON and PDF capture the applied record and its absence', async () => {
