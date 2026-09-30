@@ -137,6 +137,22 @@ const feeClaims = feeText.toLowerCase();
   assert.ok(!feeClaims.includes(unsupported), 'unsupported framing must not appear in the fee brief: ' + unsupported);
 });
 
+const legislation = JSON.parse(fs.readFileSync(path.join(root, 'data', 'policy', 'tax-credit-legislation.json'), 'utf8'));
+const hb = legislation.entries.find((entry) => entry.id === 'hb26-1065-transit-housing-investment-zones');
+const hbBrief = payload.briefs.find((brief) => brief.id === 'hb26-1065-thiz-qap-2026');
+assert.ok(hb && hbBrief, 'HB26-1065 record and public brief must both exist');
+assert.strictEqual(hbBrief.is_curated, true);
+assert.strictEqual(hbBrief.source_reviewed, true);
+assert.strictEqual(hbBrief.related_data, 'data/policy/tax-credit-legislation.json');
+assert.strictEqual(hb.analysis_url, 'research-brief.html?id=hb26-1065-thiz-qap-2026');
+assert.strictEqual(payload.meta.brief_count, payload.briefs.length);
+assert.match(hbBrief.summary, /in lieu of standard state credit, not in addition to it/i);
+assert.match(hbBrief.summary, /not final until adopted/i);
+assert.match(hbBrief.implications, /do not themselves establish THIZ eligibility/i);
+assert.match(hbBrief.implications, /does not create a distinct rural credit set-aside/i);
+assert.ok(hbBrief.articles.some((article) => article.link === hb.source_url));
+assert.ok(hbBrief.articles.some((article) => article.link === hb.tz_credit_pairing.source_url));
+
 const page = fs.readFileSync(pagePath, 'utf8');
 assert.match(page, /CURATED_BRIEFS_URL/);
 assert.match(page, /data\/policy_briefs_curated\.json/);
