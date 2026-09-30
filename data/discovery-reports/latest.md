@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-29T14:01:36.614Z
+**Scan timestamp:** 2026-09-30T13:38:39.846Z
 
 ## Summary
 
@@ -58,7 +58,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (4117 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (251 KB)
+- `data/discovery-reports/latest.json` (252 KB)
 - `data/environmental/epa-superfund-co.json` (324 KB)
 - `data/environmental/fema-flood-co.geojson` (2 KB)
 - `data/fixtures/fruita-commons-broad-income.scenario.json` (5 KB)
@@ -1659,7 +1659,7 @@
 - `data/policy/tool-watch.json` (5 KB)
 - `data/policy/unit-size-standards.json` (5 KB)
 - `data/policy_briefs.json` (222 KB)
-- `data/policy_briefs_curated.json` (9 KB)
+- `data/policy_briefs_curated.json` (14 KB)
 - `data/polymarket-data.json` (17 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)

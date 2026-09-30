@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-09-29T14:01:36.614Z",
+  "scanTimestamp": "2026-09-30T13:38:39.846Z",
   "totalScanned": 1698,
   "newSourceCount": 1667,
   "existingCount": 30,
@@ -8,13 +8,13 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 827673,
+      "sizeBytes": 827674,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7235,
+      "sizeBytes": 7237,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -272,7 +272,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 257421,
+      "sizeBytes": 257564,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9308,7 +9308,7 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 14703,
+      "sizeBytes": 14701,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9848,7 +9848,7 @@
     },
     {
       "path": "data/policy/tax-credit-legislation.json",
-      "sizeBytes": 18151,
+      "sizeBytes": 18391,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9878,7 +9878,7 @@
     },
     {
       "path": "data/policy_briefs_curated.json",
-      "sizeBytes": 9312,
+      "sizeBytes": 14081,
       "inDataManifest": false,
       "inFilesManifest": true
     },
