@@ -74,12 +74,19 @@ group('1. Public API surface', () => {
       'recommendedExecution', 'conceptType', 'suggestedUnitMix',
       'suggestedAMIMix', 'indicativeCapitalStack', 'keyRationale',
       'keyRisks', 'caveats', 'confidence', 'confidenceBadge',
-      'alternativePath', 'pabCapNote', 'fmrAlignment',
+      'alternativePath', 'pabCapNote',
       'scenarioSensitivity', 'chfaAwardContext',
     ];
     for (const k of expected) {
       assert.ok(k in rec, `missing key: ${k}`);
     }
+  });
+
+  test('unused FMR alignment is absent with and without HUD input', () => {
+    for (const fmrData of [undefined, { oneBedroomFMR: 1400, twoBedroomFMR: 1700, threeBedroomFMR: 2100 }]) {
+      assert.equal('fmrAlignment' in Predictor.predictConcept(baseInputs({ fmrData })), false);
+    }
+    assert.equal('_computeFmrAlignment' in Predictor, false);
   });
 
   test('predict({}) returns legacy DealScore shape', () => {

@@ -58,7 +58,6 @@
  * @property {string}   confidenceBadge       — emoji badge for UI display
  * @property {string}   alternativePath       — description of the alternate credit type path
  * @property {Object}   scenarioSensitivity   — sensitivity ranges for key risk factors
- * @property {Object}   fmrAlignment          — how proposed rents align with HUD FMR (if fmrData provided)
  * @property {Object}   chfaAwardContext       — CHFA historical award context for county
  */
 
@@ -713,53 +712,6 @@
     return 'PAB volume cap status unknown. Verify availability with CHFA before committing to 4% execution path.';
   }
 
-  /* ── HUD FMR alignment ───────────────────────────────────────────── */
-
-  function _computeFmrAlignment(inputs, suggestedAMIMix) {
-    var fmr = inputs.fmrData;
-    if (!fmr || typeof fmr !== 'object') return null;
-
-    var oneFMR   = _num(fmr.oneBedroomFMR, 0);
-    var twoFMR   = _num(fmr.twoBedroomFMR, 0);
-    var threeFMR = _num(fmr.threeBedroomFMR, 0);
-
-    if (!oneFMR && !twoFMR && !threeFMR) return null;
-
-    // LIHTC max gross rents at 60% AMI are typically ~90–95% of FMR
-    // At 50% AMI ~75–80%, at 30% AMI ~45–50%
-    var fmrPctAt60 = 0.92;
-    var fmrPctAt50 = 0.77;
-    var fmrPctAt30 = 0.47;
-
-    var result = {};
-    if (oneFMR) {
-      result.oneBR = {
-        fmr: Math.round(oneFMR),
-        maxRentAt60Ami: Math.round(oneFMR * fmrPctAt60),
-        maxRentAt50Ami: Math.round(oneFMR * fmrPctAt50),
-        maxRentAt30Ami: Math.round(oneFMR * fmrPctAt30)
-      };
-    }
-    if (twoFMR) {
-      result.twoBR = {
-        fmr: Math.round(twoFMR),
-        maxRentAt60Ami: Math.round(twoFMR * fmrPctAt60),
-        maxRentAt50Ami: Math.round(twoFMR * fmrPctAt50),
-        maxRentAt30Ami: Math.round(twoFMR * fmrPctAt30)
-      };
-    }
-    if (threeFMR) {
-      result.threeBR = {
-        fmr: Math.round(threeFMR),
-        maxRentAt60Ami: Math.round(threeFMR * fmrPctAt60),
-        maxRentAt50Ami: Math.round(threeFMR * fmrPctAt50),
-        maxRentAt30Ami: Math.round(threeFMR * fmrPctAt30)
-      };
-    }
-    result.note = 'LIHTC max gross rents are estimated as a % of HUD FMR. Actual LIHTC max rents must be calculated using HUD Area Median Income limits.';
-    return result;
-  }
-
   /* ── Scenario sensitivity ────────────────────────────────────────── */
 
   function _computeScenarioSensitivity(inputs, execution, conceptType) {
@@ -932,7 +884,6 @@
 
     var capitalStack         = _computeCapitalStack(inputs, execution, suggestedUnitMix, conceptType);
     var pabCapNote           = _pabCapNote(execution, inputs, risks);
-    var fmrAlignment         = _computeFmrAlignment(inputs, suggestedAMIMix);
     var scenarioSensitivity  = _computeScenarioSensitivity(inputs, execution, conceptType);
     var chfaAwardContext     = _computeChfaAwardContext(inputs, execution);
 
@@ -950,7 +901,6 @@
       confidenceBadge:        _confidenceBadge(confidence),
       alternativePath:        _alternativePath(execution, inputs),
       pabCapNote:             pabCapNote,
-      fmrAlignment:           fmrAlignment,
       scenarioSensitivity:    scenarioSensitivity,
       chfaAwardContext:       chfaAwardContext
     };
@@ -985,7 +935,6 @@
     _getEquityPricingDefaults:   _getEquityPricingDefaults,
     _resetPricingDefaultsForTest: _resetPricingDefaultsForTest,
     _computeScenarioSensitivity: _computeScenarioSensitivity,
-    _computeFmrAlignment:        _computeFmrAlignment,
     _computeChfaAwardContext:    _computeChfaAwardContext
   };
 }));
