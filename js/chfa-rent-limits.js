@@ -71,7 +71,7 @@
     var rows = Array.isArray(subject.unit_mix) ? subject.unit_mix : [];
     for (var i = 0; i < bedrooms.length; i++) {
       var br = bedrooms[i];
-      var matching = rows.filter(function (row) { return row.bedrooms === br; });
+      var matching = rows.filter(function (row) { return row.ami_tier !== 'market' && row.bedrooms === br; });
       var allowances = matching.map(function (row) { return _allowance(row.utility_allowance); });
       var fees = matching.map(function (row) {
         return row.fees == null || (typeof row.fees === 'string' && !row.fees.trim()) ? 0 : _allowance(row.fees);
@@ -419,9 +419,37 @@
         comparison.vsFmr = (comparison.grossResidentRent - comparison.fmr) / comparison.fmr * 100;
       }
     }
-    return { rows: rows, scheduledUnits: scheduledUnits, projectUnits: projectUnits,
+    // Carry provenance with the priced result so downstream consumers never need
+    // to re-read a different subject or infer its county from a rent amount.
+    var meta = opts.chfaTable && opts.chfaTable.meta || {};
+    var basis = subject.utility_allowance_basis || {};
+    var sourceMeta = { countyFips: subject.county_fips || null,
+      tableYear: meta.fiscal_year == null ? null : meta.fiscal_year,
+      effectiveDate: meta.effective_date || null, sourceUrl: meta.source_url || null,
+      allowanceBasis: { method: basis.method || null, reference: basis.reference || null, effectiveDate: basis.effective_date || null },
+      marketRentSources: rows.filter(function (r) { return r.isMarket; }).map(function (r) {
+        return { rowNumber: r.rowNumber, bedrooms: r.bedrooms, source: r.marketRentSource };
+      }), vacancyRate: vacancyReason ? null : vacancy };
+    return { countyFips: subject.county_fips || null, sourceMeta: sourceMeta,
+      rows: rows, scheduledUnits: scheduledUnits, projectUnits: projectUnits,
       unpricedRows: unpricedRows, missingRentRows: missingRentRows, totals: totals, comparison: comparison,
       basisStatus: basisStatus, vacancyRate: vacancyReason ? null : vacancy };
+  }
+
+  // Convert already-priced rows; this adapter performs no rent arithmetic.
+  function dealMixFromSchedule(schedule, opts) {
+    opts = opts || {};
+    var reason = !schedule || !schedule.totals ? 'subject_project_unavailable'
+      : schedule.totals.unavailableReason || schedule.totals.effectiveRentUnavailableReason;
+    if (reason) return { available: false, reason: 'schedule_unavailable:' + reason };
+    if (!opts.countyFips || schedule.countyFips !== opts.countyFips) return { available: false, reason: 'schedule_other_county' };
+    if (opts.regime !== 'chfa_lihtc') return { available: false, reason: 'schedule_requires_chfa_setting' };
+    return { available: true, totalUnits: schedule.scheduledUnits, vacancyRate: schedule.vacancyRate,
+      restrictedRows: schedule.rows.filter(function (r) { return !r.isMarket; }).map(function (r) {
+        return { tier: Number(r.amiTier), bedrooms: r.bedrooms, units: r.count, contractRent: r.contractRent };
+      }), marketRows: schedule.rows.filter(function (r) { return r.isMarket; }).map(function (r) {
+        return { bedrooms: r.bedrooms, units: r.count, rent: r.contractRent, source: r.marketRentSource };
+      }), sourceMeta: JSON.parse(JSON.stringify(schedule.sourceMeta)) };
   }
 
   var api = {
@@ -438,6 +466,7 @@
     incomeLimit: incomeLimit,
     maxContractRent: maxContractRent,
     rentSchedule: rentSchedule,
+    dealMixFromSchedule: dealMixFromSchedule,
     // County picker metadata and the existing SubjectProject public constant.
     countyRow: _countyRow,
     BR_HH_SIZE: BR_HH_SIZE

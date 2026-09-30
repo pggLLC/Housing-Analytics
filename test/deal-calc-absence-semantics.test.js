@@ -151,8 +151,18 @@ test('a deal with no county has an unknown rent roll, not a $0 one', () => {
   // are none, and the sum used to read $0 — an NOI of -$399,000, a $0 first
   // mortgage and $0 sensitivity bars for anyone arriving without a
   // jurisdiction (G3 dry run, 2026-09-25).
-  assert.ok(/if \(!_amiLimits && !_amiLimitsByBr\) \{\s*\n\s*annualRents = NaN;/.test(SRC),
-    'the no-county path no longer marks the rent roll unknown');
+  const guard = SRC.match(/if \(([^)\n]*_amiLimits[^)\n]*)\) \{\s*\n\s*annualRents = NaN;\s*\n\s*\}/);
+  assert.ok(guard, 'the no-county path no longer marks the rent roll unknown');
+  // Execute the production guard: manual rents still need their county tables;
+  // resolved shared-schedule rents already carry their own validated prices.
+  for (const scheduleMode of [false, true]) {
+    for (const [flat, byBr] of [[null, null], [{ 60: 1234 }, null], [null, { 60: { '2br': 1234 } }]]) {
+      const ctx = { scheduleMode, _amiLimits: flat, _amiLimitsByBr: byBr, annualRents: 12345 };
+      vm.runInNewContext(guard[0], ctx);
+      if (!scheduleMode && !flat && !byBr) assert(Number.isNaN(ctx.annualRents), 'missing manual ceilings must block');
+      else assert.strictEqual(ctx.annualRents, 12345, 'known rent roll must survive');
+    }
+  }
 });
 
 test('a blank manual NOI is unknown, not $0', () => {

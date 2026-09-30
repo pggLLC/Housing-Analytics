@@ -332,6 +332,7 @@
     if (tr) params.set('tr', tr);
     if (_dealMode() === 'rental' && window.__DealCalc && window.__DealCalc.getUtilityAllowanceMetadata) {
       params.set('utilityAllowance', JSON.stringify(window.__DealCalc.getUtilityAllowanceMetadata()));
+      if (window.__DealCalc.getRentScheduleMetadata) params.set('rentSchedule', JSON.stringify(window.__DealCalc.getRentScheduleMetadata()));
     }
     // Active jurisdiction (county FIPS) so the partner lands on the same
     // basis-boost / county context.
@@ -347,6 +348,7 @@
   function _hydrate() {
     var params = new URLSearchParams(window.location.search);
     if (!Array.from(params.keys()).length) return;  // no params, nothing to do
+    if (window.__DealCalc && window.__DealCalc.beginSharedScenario) window.__DealCalc.beginSharedScenario();
     shareKeys().forEach(function (id) {
       var key = id.replace(/^dc-/, '');
       if (params.has(key)) _writeVal(id, params.get(key));
@@ -360,6 +362,20 @@
         countyFips: params.get('county-select'), regime: params.get('rent-limit-regime')
       });
     }
+    if (window.__DealCalc && window.__DealCalc.setSharedRentSchedule) {
+      var schedule = null;
+      if (params.has('rentSchedule')) {
+        try { schedule = JSON.parse(params.get('rentSchedule')) || {}; } catch (_) { schedule = {}; }
+      } else {
+        // Legacy links carried a manual grid. Preserve it and the D2 allowance lookup.
+        var preference = _getEl('dc-unit-mix-source');
+        if (preference) preference.value = 'manual';
+      }
+      window.__DealCalc.setSharedRentSchedule(schedule, {
+        countyFips: params.get('county-select'), regime: params.get('rent-limit-regime')
+      });
+    }
+    if (window.__DealCalc && window.__DealCalc.endSharedScenario) window.__DealCalc.endSharedScenario();
     if (params.has('tr')) _applyTranches(params.get('tr'));
     // The resale picker is re-rendered by each recalculate, so it is looked up
     // afresh for each key, after the id-keyed inputs have settled.
@@ -495,6 +511,7 @@
     };
     if (snapshot.dealMode === 'rental') {
       snapshot.rentLimits = window.__DealCalc ? window.__DealCalc.getRentLimitsMetadata() : null;
+      snapshot.rentSchedule = window.__DealCalc && window.__DealCalc.getRentScheduleMetadata ? window.__DealCalc.getRentScheduleMetadata() : null;
       snapshot.utilityAllowance = window.__DealCalc && window.__DealCalc.getUtilityAllowanceMetadata
         ? window.__DealCalc.getUtilityAllowanceMetadata() : { applied: false, reason: 'subject_project_unavailable' };
     }
@@ -557,7 +574,7 @@
       var imgData = canvas.toDataURL('image/png');
       var pdf = new jsPDF({ orientation: 'p', unit: 'pt', format: 'letter' });
       if (rentLimits && typeof pdf.setProperties === 'function') {
-        pdf.setProperties({ subject: JSON.stringify({ rentLimits: rentLimits, utilityAllowance: snapshot.utilityAllowance }) });
+        pdf.setProperties({ subject: JSON.stringify({ rentLimits: rentLimits, utilityAllowance: snapshot.utilityAllowance, rentSchedule: snapshot.rentSchedule }) });
       }
       var pageW = pdf.internal.pageSize.getWidth();
       var pageH = pdf.internal.pageSize.getHeight();
