@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-30T12:34:08.383Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-30T15:36:24.304Z. Do not edit by hand.
 
 ---
 
@@ -1747,7 +1747,7 @@
 
 ## Test Files
 
-498 test files found.
+499 test files found.
 
 | File | Size |
 |------|------|
@@ -1830,7 +1830,7 @@
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
 | `test/dc-peer-deals.test.js` | 9.3 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
-| `test/deal-calc-absence-semantics.test.js` | 12.0 KB |
+| `test/deal-calc-absence-semantics.test.js` | 12.7 KB |
 | `test/deal-calc-ami-bands.test.js` | 6.5 KB |
 | `test/deal-calc-correctness.test.js` | 3.7 KB |
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
@@ -1840,8 +1840,9 @@
 | `test/deal-calc-net-rent.test.js` | 24.7 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
+| `test/deal-calc-schedule.test.js` | 22.3 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
-| `test/deal-calc-share-roundtrip.test.js` | 20.1 KB |
+| `test/deal-calc-share-roundtrip.test.js` | 21.7 KB |
 | `test/deal-calc-soft-funding-links-wrap.test.js` | 2.5 KB |
 | `test/deal-calc-studio-units.test.js` | 2.7 KB |
 | `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |

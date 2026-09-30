@@ -1,50 +1,50 @@
 {
-  "generated_from_commit": "7d9a02b1f",
+  "generated_from_commit": "6bb7368af",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-09-30",
-    "total_commits": 7584,
+    "total_commits": 7590,
     "partial_month": "2026-09",
     "commits_by_month": [
       {
         "month": "2026-02",
         "commits": 482,
-        "pct_of_peak": 34
+        "pct_of_peak": 33.9
       },
       {
         "month": "2026-03",
         "commits": 1365,
-        "pct_of_peak": 96.4
+        "pct_of_peak": 96
       },
       {
         "month": "2026-04",
         "commits": 1074,
-        "pct_of_peak": 75.8
+        "pct_of_peak": 75.5
       },
       {
         "month": "2026-05",
         "commits": 665,
-        "pct_of_peak": 47
+        "pct_of_peak": 46.8
       },
       {
         "month": "2026-06",
         "commits": 1175,
-        "pct_of_peak": 83
+        "pct_of_peak": 82.6
       },
       {
         "month": "2026-07",
         "commits": 824,
-        "pct_of_peak": 58.2
+        "pct_of_peak": 57.9
       },
       {
         "month": "2026-08",
         "commits": 583,
-        "pct_of_peak": 41.2
+        "pct_of_peak": 41
       },
       {
         "month": "2026-09",
-        "commits": 1416,
+        "commits": 1422,
         "pct_of_peak": 100
       }
     ]
@@ -63,9 +63,9 @@
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 62,
-    "test_files": 444,
-    "absence_test_cases": 225,
-    "absence_tests": 82,
+    "test_files": 445,
+    "absence_test_cases": 227,
+    "absence_tests": 83,
     "lihtc_features": 926
   },
   "case": {
@@ -241,7 +241,7 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 394464,
+    "hand_written_lines": 395160,
     "generated_place_page_lines": 226828,
     "top_level_pages": 66,
     "html_nonblank_lines": 47741,
@@ -310,7 +310,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "7d9a02b1f",
+    "extracted_at_commit": "6bb7368af",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
