@@ -1930,7 +1930,7 @@
                 <th data-sort="projectCount" data-priority="tertiary" title="LIHTC projects in jurisdiction">Projects</th>
                 <th data-sort="needScore" data-priority="tertiary" title="Need percentile: where this jurisdiction's housing-need score ranks among all Colorado jurisdictions of its type, 0–100 (higher = more need). Different from Score, which is the composite for the active deal type that this need percentile feeds into.">Need pctl</th>
                 <th data-sort="population" data-priority="tertiary" title="Approx population (HHs ≤100% AMI × 2.5)">Pop.</th>
-                <th data-sort="captureAdvantage" data-priority="primary" title="Market capture advantage = 2BR FMR (FY2026) minus LIHTC 60% AMI 2BR max rent (from HUD income limits FY2026). Positive = LIHTC undercuts market (good lease-up). Negative = LIHTC above market (needs deeper AMI mix).">Capture</th>
+                <th data-sort="captureAdvantage" data-priority="primary" title="Market capture advantage = 2BR FMR (FY2026) minus CHFA 60% AMI 2BR max gross rent (CHFA 2026). Positive = LIHTC undercuts market (good lease-up). Negative = LIHTC above market (needs deeper AMI mix).">Capture</th>
                 <th data-sort="civicScore" data-priority="secondary" title="Civic-capacity score: Prop 123 + HNA + comp plan + housing authority + nonprofits + IZ + local funding (0–100); icons: Prop 123 / HNA / Comp plan">Civic</th>
                 <th data-sort="prop123" data-priority="secondary" title="Prop 123 commitment filed with DOLA — referenced in CHFA QAP scoring criteria for eligible jurisdictions. CDPs cannot file (unincorporated).">Prop 123</th>
                 <th data-sort="progress" data-priority="secondary" title="Curated policy progress (top ~33 CO jurisdictions): HNA / Land bank / dedicated income stream / Tap-fee reduction. Click any pill for the source URL.">Progress</th>
@@ -2123,17 +2123,13 @@
               <p style="margin:.4rem 0;">
                 <strong>No — they're related but different numbers.</strong>
                 CHFA <em>does</em> publish annual <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--accent);">Multifamily Rent &amp; Income Limits tables</a>
-                (released ~30 days after HUD's MTSP income-limit announcement), but those tables are CHFA's
-                derivative output — not an independent source. They're computed from HUD's published
-                <em>income limits</em> for the county using the §42 formula, which treats each bedroom as
-                1.5 people — so a 2-bedroom home uses the 3-person income limit:
+                for Colorado counties. This page reads the county's published 60% AMI 2BR
+                maximum gross rent directly from that table. The capture tooltip names the CHFA
+                table year; the detail panel also shows its effective date.
               </p>
-              <code style="display:block;background:var(--card);padding:.5rem .65rem;border-radius:6px;font-size:.82rem;margin:.4rem 0;">
-                2-bedroom LIHTC monthly rent ceiling = income limit<sub>3-person, at the AMI tier</sub> × 30% ÷ 12
-              </code>
               <p style="margin:.4rem 0;">
                 The "Capture" column compares <strong>HUD FMR (the 2BR Fair Market Rent for
-                vouchers/Section 8)</strong> against this LIHTC 60% AMI 2BR ceiling. FMR is the
+                vouchers/Section 8)</strong> against this published CHFA 60% AMI 2BR gross ceiling. FMR is the
                 best free public proxy for actual market rent, but it's an APPROXIMATION:
               </p>
               <ul style="margin:.4rem 0;padding-left:1.25rem;">
@@ -2484,6 +2480,7 @@
   <script src="js/rent-burden-reliability.js" defer></script>
   <script src="js/map-panes.js" defer></script>
   <script src="js/config/basemaps.js"></script>
+  <script src="js/chfa-rent-limits.js" defer></script>
   <script src="js/lihtc-opportunity-finder.js" defer></script>
 </body>
 </html>

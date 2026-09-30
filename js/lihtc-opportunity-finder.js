@@ -697,7 +697,8 @@
       // panel callout that surfaces the immediate filing gates (LOI +
       // application deadlines) for the selected jurisdiction. Soft
       // load: a missing file just hides the callout.
-      loadSoft('data/policy/soft-funding-status.json')
+      loadSoft('data/policy/soft-funding-status.json'),
+      loadSoft('data/chfa-income-rent-limits-2026.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -840,30 +841,17 @@
         });
       }
 
-      // F10: Build per-county market-capture lookup from HUD FMR FY2026 + IL FY2026 data.
-      // LIHTC §42 max rent at 60% AMI for 2BR = (60%-AMI 3-person income × 30%) / 12.
-      // 60% AMI 3-person = il50_3person × 1.2 (HUD scales 50→60 linearly).
-      // FMR 2BR is the HUD "market rent" proxy used by LIHTC underwriting.
-      // Capture advantage = FMR 2BR − LIHTC 60% AMI 2BR max rent. Positive
-      // means LIHTC undercuts market → easy lease-up; negative means LIHTC
-      // can't compete at 60% AMI (needs deeper AMI mix to pencil).
+      // Published CHFA gross limits and HUD FMR are distinct sources.
       var hudIl = parts[14];
+      var hudByCounty = {};
       if (hudIl && Array.isArray(hudIl.counties)) {
         hudIl.counties.forEach(function (c) {
-          var fips = (c.fips || '').padStart(5, '0');
-          var fmr2br = c.fmr && Number(c.fmr.two_br);
-          var il50_3p = c.income_limits && Number(c.income_limits.il50_3person);
-          if (!fips || !Number.isFinite(fmr2br) || !Number.isFinite(il50_3p)) return;
-          var income60AMI_3p = il50_3p * 1.2;
-          var lihtc60ami2br = Math.round((income60AMI_3p * 0.30) / 12);
-          state.marketByCounty[fips] = {
-            fmr2br: fmr2br,
-            lihtc60ami2br: lihtc60ami2br,
-            captureAdvantage: fmr2br - lihtc60ami2br,
-            fmrAreaName: c.fmr_area_name || null
-          };
+          hudByCounty[String(c.fips || '').padStart(5, '0')] = c;
         });
       }
+      Object.keys(Object.assign({}, state.countyName, hudByCounty)).forEach(function (fips) {
+        state.marketByCounty[fips] = _marketForCounty(parts[26], fips, hudByCounty[fips], hudIl && hudIl.meta);
+      });
 
       // F16: per-place centroids from 2024 Census Gazetteer (parts[15]).
       // Primary source for marker placement on the map — replaces the F11
@@ -1718,6 +1706,47 @@
     };
   }
 
+  function _marketForCounty(chfaTable, fips, hudCounty, hudMeta) {
+    var limit = window.ChfaRentLimits
+      ? window.ChfaRentLimits.maxGrossRent(chfaTable, fips, 60, '2BR')
+      : { grossRent: null };
+    var fmr = hudCounty && hudCounty.fmr && hudCounty.fmr.two_br;
+    var fmr2br = fmr != null && fmr !== '' && Number.isFinite(Number(fmr)) ? Number(fmr) : null;
+    return {
+      fmr2br: fmr2br,
+      fmrYear: hudMeta && hudMeta.fiscal_year || null,
+      lihtc60ami2br: limit.grossRent,
+      tableYear: limit.tableYear || null,
+      effectiveDate: limit.effectiveDate || null,
+      captureAdvantage: Number.isFinite(fmr2br) && Number.isFinite(limit.grossRent) ? fmr2br - limit.grossRent : null,
+      fmrAreaName: hudCounty && hudCounty.fmr_area_name || null
+    };
+  }
+
+  function _chfaRentLabel(market) {
+    if (!market || !Number.isFinite(market.lihtc60ami2br)) return 'CHFA 60% 2BR limit unavailable';
+    return 'CHFA 60% AMI 2BR max gross rent: $' + market.lihtc60ami2br.toLocaleString() +
+      ' (CHFA ' + market.tableYear + ')';
+  }
+
+  function _fmrVintageLabel(market) {
+    return market && market.fmrYear != null ? 'HUD FMR FY' + market.fmrYear : 'HUD FMR year unavailable';
+  }
+
+  function _marketCaptureFacts(market) {
+    var html = escHtml(_chfaRentLabel(market));
+    if (!market) return html;
+    if (market.effectiveDate) html += ' · effective ' + escHtml(market.effectiveDate);
+    html += Number.isFinite(market.fmr2br) ? ' · 2BR FMR <strong>$' + market.fmr2br.toLocaleString() + '</strong>' : ' · HUD 2BR FMR unavailable';
+    if (Number.isFinite(market.captureAdvantage)) {
+      var ca = market.captureAdvantage;
+      html += ' · capture advantage <strong>' + (ca > 0 ? '+' : ca < 0 ? '−' : '') + '$' + Math.abs(ca).toLocaleString() + '/mo</strong>' +
+        (ca > 0 ? ' · LIHTC undercuts market — easy lease-up' : ca === 0 ? ' · narrow margin — review unit mix carefully' : ' · LIHTC above market — needs deeper AMI mix (40-50%) or extra soft debt to pencil');
+    }
+    if (market.fmrAreaName) html += '<br>FMR area: ' + escHtml(market.fmrAreaName) + ' · source: ' + escHtml(_fmrVintageLabel(market));
+    return html;
+  }
+
   function _zoriCaptureForMarket(market, fips, placeName) {
     if (!market || !Number.isFinite(market.lihtc60ami2br)) return null;
     var zori = _getZoriMarketRent(fips, placeName);
@@ -1733,7 +1762,9 @@
   }
 
   function _passesCaptureRequirement(op) {
-    if (!op || op.captureAdvantage == null) return true; // preserve fail-open for missing HUD FMR/IL.
+    // Missing FMR or CHFA limits do not establish an unviable market. Keep the
+    // jurisdiction visible with its unavailable label instead of screening it out.
+    if (!op || op.captureAdvantage == null) return true;
     if (op.captureAdvantage > 0) return true;
     return Number.isFinite(op.zoriCaptureAdvantage) && op.zoriCaptureAdvantage > 0;
   }
@@ -1763,14 +1794,8 @@
       // Drops jurisdictions where the deal can't pencil at 60% without
       // a deeper AMI mix (typical of low-rent rural CO counties).
       //
-      // F255 — Fail-OPEN when captureAdvantage is null. Our HUD FMR cache
-      // currently covers only 17 of 64 CO counties — places in the other
-      // 47 (La Plata, Delta, Montrose, Routt, San Miguel, etc.) silently
-      // fell out of the table whenever this filter was on. That's the
-      // bug behind "Bayfield/Ignacio were near the top, then moved on
-      // refresh." Fix: filter only on KNOWN negative capture, not on
-      // missing data. The capture column already shows "—" when null so
-      // the missing-data state is visible.
+      // Missing FMR or CHFA coverage remains visible; only measured capture
+      // can screen a jurisdiction out (see _passesCaptureRequirement).
       if (f.requireCapture && !_passesCaptureRequirement(op)) return false;
       // F240 — downtown redev: must have URA match or OZ overlap.
       // op.hasUra + op.ozCount are stamped at compute-time when the redev
@@ -1984,7 +2009,8 @@
   function _captureCell(op) {
     var m = op.market;
     if (!m || !Number.isFinite(m.captureAdvantage)) {
-      return '<span class="lof-capture-pill lof-capture-na" title="No FMR/IL data for this county">—</span>';
+      return '<span class="lof-capture-pill lof-capture-na" title="' + escHtml(_chfaRentLabel(m)) + '">' +
+        (!m || !Number.isFinite(m.lihtc60ami2br) ? 'CHFA 60% 2BR limit unavailable' : escHtml(_chfaRentLabel(m)) + ' · HUD 2BR FMR unavailable') + '</span>';
     }
     var ca = m.captureAdvantage;
     var cls = ca >= 100 ? 'lof-capture-strong'
@@ -2009,7 +2035,7 @@
       var zoriGeo = zoriRec.geography_level === 'place' ? 'place' : 'county';
       zoriLine = ' · current market (Zillow ZORI ' + zoriGeo + ' ' + (zoriRec.vintage_month || 'latest') + '): ~' +
         zoriSign + '$' + Math.abs(zoriCap).toLocaleString() +
-        ' vs LIHTC 60% AMI 2BR max; ZORI rent $' + zoriRec.rent.toLocaleString() + yoyStr;
+        ' vs CHFA 60% AMI 2BR max gross rent; ZORI rent $' + zoriRec.rent.toLocaleString() + yoyStr;
     }
 
     // F96 — Apartment List triangulation. AL publishes city-level 1BR/2BR
@@ -2045,16 +2071,16 @@
     }
 
     var fmrSign = ca > 0 ? '+' : (ca === 0 ? '±' : '−');
-    var tip = 'FMR: ' + fmrSign + '$' + Math.abs(ca).toLocaleString() + ' (HUD FY25, ~2022-23 data)' +
+    var tip = 'FMR: ' + fmrSign + '$' + Math.abs(ca).toLocaleString() + ' (' + _fmrVintageLabel(m) + ', lagged rent data)' +
               ' · FMR 2BR: $' + m.fmr2br.toLocaleString() +
-              ' · LIHTC 60% AMI 2BR max: $' + m.lihtc60ami2br.toLocaleString() +
+              ' · ' + _chfaRentLabel(m) +
               (ca < 0 ? ' · LIHTC above market — needs deeper AMI mix to pencil'
                       : ca === 0 ? ' · LIHTC ≈ market — narrow margin'
                       : ' · LIHTC undercuts market — easy lease-up') +
               acsLine +
               zoriLine +
               alLine +
-              ' · Sources: HUD Fair Market Rent; Zillow Observed Rent Index (ZORI)';
+              ' · Sources: CHFA income and rent limits; HUD Fair Market Rent; Zillow Observed Rent Index (ZORI)';
     return '<span class="lof-capture-pill ' + cls + '" title="' + escHtml(tip) + '">' +
       sign + '$' + amt + '/mo</span>';
   }
@@ -3184,10 +3210,10 @@
     // 1. Strong market capture — most actionable signal
     if (op.captureAdvantage != null && op.captureAdvantage >= 100) {
       reasons.push('<strong>Strong market capture:</strong> +$' + op.captureAdvantage +
-        '/mo headroom vs LIHTC 60% AMI max rent — easy lease-up.');
+        '/mo headroom vs ' + escHtml(_chfaRentLabel(op.market)) + ' — easy lease-up.');
     } else if (op.captureAdvantage != null && op.captureAdvantage > 0) {
       reasons.push('<strong>Positive capture margin:</strong> +$' + op.captureAdvantage +
-        '/mo vs LIHTC 60% AMI max — viable at 60% AMI with care on unit mix.');
+        '/mo vs ' + escHtml(_chfaRentLabel(op.market)) + ' — viable at 60% AMI with care on unit mix.');
     }
     // 2. Recency / saturation headroom
     /* F146 — `op.lastYear` is now the max of the feed award year *and* recent CHFA
@@ -3251,7 +3277,7 @@
   // F13: Optional warning to surface in the action panel.
   function _opActionWarning(op) {
     if (op.captureAdvantage != null && op.captureAdvantage < 0) {
-      return 'LIHTC 60% AMI max rent is $' + Math.abs(op.captureAdvantage) +
+      return 'CHFA 60% AMI 2BR max gross rent is $' + Math.abs(op.captureAdvantage) +
         '/mo ABOVE market FMR here — deal won\'t pencil at 60% AMI without a deeper-AMI mix (40-50%) or extra soft debt.';
     }
     if (op.type === 'cdp') {
@@ -3566,22 +3592,7 @@
       '</dd>' +
       // F10: market-capture facts.
       '<dt>Market capture (2BR)</dt><dd>' +
-        (op.market
-          ? '2BR FMR <strong>$' + op.market.fmr2br.toLocaleString() + '</strong> · ' +
-            'LIHTC 60% AMI 2BR max <strong>$' + op.market.lihtc60ami2br.toLocaleString() + '</strong>' +
-            ' · capture advantage ' +
-            (op.market.captureAdvantage > 0
-              ? '<span style="color:var(--good);font-weight:700">+$' + op.market.captureAdvantage + '/mo</span>' +
-                ' <span class="lof-pill lof-pill--accent">LIHTC undercuts market — easy lease-up</span>'
-              : op.market.captureAdvantage === 0
-              ? '<span style="font-weight:700">$0/mo</span>' +
-                ' <span class="lof-pill">narrow margin — review unit mix carefully</span>'
-              : '<span style="color:var(--warn);font-weight:700">−$' + Math.abs(op.market.captureAdvantage) + '/mo</span>' +
-                ' <span class="lof-pill lof-pill--urgent">LIHTC above market — needs deeper AMI mix (40-50%) or extra soft debt to pencil</span>'
-            ) +
-            (op.market.fmrAreaName ? '<br><span style="color:var(--muted);font-size:.76rem">FMR area: ' + escHtml(op.market.fmrAreaName) + ' · source: HUD FMR FY2026 + Income Limits FY2026</span>' : '')
-          : '<span style="color:var(--muted)">No FMR/IL data on file for this county.</span>'
-        ) +
+        _marketCaptureFacts(op.market) +
       '</dd>' +
       '<dt>3 nearest LIHTC properties (for PMA scoping)</dt><dd>' +
         (op.nearestLihtc.length === 0
@@ -4917,6 +4928,11 @@
     },
     _test: {
       captureCell: _captureCell,
+      marketForCounty: _marketForCounty,
+      loadAll: loadAll,
+      loadedMarket: function (fips) { return state.marketByCounty[fips]; },
+      marketCaptureFacts: _marketCaptureFacts,
+      actionReasons: _opActionReasons,
       passesCaptureRequirement: _passesCaptureRequirement,
       zoriCaptureForMarket: _zoriCaptureForMarket,
       setZoriForTest: function (byCounty, meta, byCity) {
