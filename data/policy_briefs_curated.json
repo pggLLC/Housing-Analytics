@@ -1,7 +1,7 @@
 {
   "meta": {
-    "updated": "2026-09-26T00:00:00Z",
-    "brief_count": 2,
+    "updated": "2026-09-29T00:00:00Z",
+    "brief_count": 3,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
@@ -11,8 +11,8 @@
       "policy_topic": "Homeownership & Household Formation",
       "is_curated": true,
       "source_reviewed": true,
-      "summary": "The Federal Reserve Bank of Minneapolis proposes the Homeowners-to-Population Ratio (HPOP), a person-based complement to the household-based owner-occupancy rate. Using American Community Survey microdata, HPOP classifies adult reference persons and their spouses or unmarried partners in owner-occupied homes as homeowners. For 2024, the researchers estimate that 53% of U.S. adults were homeowners, compared with an owner-occupancy rate of roughly 65%. HPOP sits about 12 points below the roughly 65% household-based owner-occupancy rate \u2014 the gap reflecting adults who live in owner-occupied homes without being the owner or their spouse/partner (e.g., adult children or other relatives). Among adults under 35, HPOP was about 22% \u2014 well below the roughly 37% owner-occupancy rate for households headed by someone under 35, which is a household-based measure and therefore not directly comparable. For Colorado, 2024 HPOP was 57.2% versus a 66.0% owner-occupancy rate \u2014 above the national HPOP. Because HPOP is published only at the state and metro (CBSA) levels, the available Colorado geographies are the state plus four metros: Fort Collins (HPOP 68.9%), Colorado Springs (68.5%), Denver-Aurora-Lakewood (63.2%), and Pueblo (41.5%). HPOP is not published for counties or places, so it cannot be reported for smaller Colorado jurisdictions such as Ignacio or Fruita. Source: Minneapolis Fed HPOP data, 2024.",
-      "implications": "For COHO, HPOP should complement\u2014not replace\u2014the owner-occupancy rate. It can add person-level context to developer-oriented ownership analysis, including co-resident adults, delayed household formation, and disparities by age and demographic group. HPOP does not verify deed title for every adult, prove that co-resident adults will form separate households, or guarantee future rental demand. Local application should pair available state or metro HPOP estimates with household formation, cost burden, income, tenure, and supply data.",
+      "summary": "The Federal Reserve Bank of Minneapolis proposes the Homeowners-to-Population Ratio (HPOP), a person-based complement to the household-based owner-occupancy rate. Using American Community Survey microdata, HPOP classifies adult reference persons and their spouses or unmarried partners in owner-occupied homes as homeowners. For 2024, the researchers estimate that 53% of U.S. adults were homeowners, compared with an owner-occupancy rate of roughly 65%. HPOP sits about 12 points below the roughly 65% household-based owner-occupancy rate — the gap reflecting adults who live in owner-occupied homes without being the owner or their spouse/partner (e.g., adult children or other relatives). Among adults under 35, HPOP was about 22% — well below the roughly 37% owner-occupancy rate for households headed by someone under 35, which is a household-based measure and therefore not directly comparable. For Colorado, 2024 HPOP was 57.2% versus a 66.0% owner-occupancy rate — above the national HPOP. Because HPOP is published only at the state and metro (CBSA) levels, the available Colorado geographies are the state plus four metros: Fort Collins (HPOP 68.9%), Colorado Springs (68.5%), Denver-Aurora-Lakewood (63.2%), and Pueblo (41.5%). HPOP is not published for counties or places, so it cannot be reported for smaller Colorado jurisdictions such as Ignacio or Fruita. Source: Minneapolis Fed HPOP data, 2024.",
+      "implications": "For COHO, HPOP should complement—not replace—the owner-occupancy rate. It can add person-level context to developer-oriented ownership analysis, including co-resident adults, delayed household formation, and disparities by age and demographic group. HPOP does not verify deed title for every adult, prove that co-resident adults will form separate households, or guarantee future rental demand. Local application should pair available state or metro HPOP estimates with household formation, cost burden, income, tenure, and supply data.",
       "related_data": "https://www.minneapolisfed.org/community-development-and-engagement/data-and-resources/homeowners-to-population-data",
       "sources": [
         "Federal Reserve Bank of Minneapolis",
@@ -51,8 +51,8 @@
       "policy_topic": "Local Fees & Land Use",
       "is_curated": true,
       "source_reviewed": true,
-      "summary": "COHO read the codes, fee schedules and council records of 39 Colorado jurisdictions and verified 105 local fee measures and 50 land-use or zoning incentives that lower the cost of affordable housing. Most fee relief is discretionary \u2014 60 of 92 one-time fee measures need council or staff approval \u2014 and 83 of 105 fee measures do not say how the waived money is replaced. State law lets a local government waive an impact fee for low- or moderate-income or affordable employee housing (C.R.S. 29-20-104.5(5)) but does not require it, and a water or sewer utility run as an enterprise must keep grants from state and local governments under 10% of its annual revenue to stay outside TABOR. Consistent with that, utility fees are the ones cities repay from another fund: Loveland's Community Housing Development Fund repaid up to $366,070 of waived utility fees for Mirasol Phase III, while up to $504,807 of capital expansion fees on the same project were waived with no repayment, and Longmont may subsidize water and sewer system development fees only with money appropriated outside its utility funds. The regions differ. Mountain resort towns mostly waive fees outright for deed-restricted homes without an income cap \u2014 Mountain Village charges $21,650 per tap for a deed-restricted employee condo against $43,300 for a single-family home, and Telluride waives the in-town water and sewer tap attributable to a deed-restricted unit. Western Slope programs scale by income: Grand Junction waives 100% of city impact fees for rentals at or below 70% AMI, 75% at 71\u201380% AMI and 50% at 81\u201390% AMI, for a 30-year commitment. Front Range cities lean toward partial reductions, rebates after payment and income-qualified utility bill help: Colorado Springs rebates up to 100% of development charges after they are paid, Fort Collins credits up to $14,000 per unit, Littleton rebates $2,500 per affordable unit, Denver cuts the building permit fee $6,500 per income-restricted unit, and Westminster credits income-qualified households $360 a year on water bills. Deferrals (Fort Collins, Lafayette, Salida, Avon) are listed separately because a deferred fee is still owed. Screening context, not a study: what a jurisdiction offers is not what a project will receive.",
-      "implications": "Four practical points. First, check who charges each fee: a town waiver may not reach a separate district \u2014 Aspen cannot waive school or sanitation district fees, and Grand Junction's program covers only city water and sewer, not Ute Water or Clifton Water. A special district has its own power to waive, amortize or defer its taps for affordable housing (C.R.S. 32-1-1001(1)(j)(II)), so the district is a separate ask. Second, count a waiver only once it is committed to the project; most are discretionary and several are subject to annual appropriation. Third, model a deferral as a loan with its trigger, not as a cost cut. Fourth, ask how a waiver is paid for: programs that name the paying fund (Grand Junction, Brighton, Loveland, Longmont) show where the money comes from; most do not. On land use, the 50 verified incentives in 31 jurisdictions are mostly inclusionary zoning with offsets, 90-day expedited review tied to the Proposition 123 fast-track, density bonuses and parking reductions. The Proposition 123 fast-track is a review deadline, not a fee rule. No Colorado statute found requires a local fee waiver for affordable housing; state bills since 2021 list fee waivers only as one optional strategy (HB21-1117, HB21-1271, HB24-1152, HB24-1313, SB24-174). Each jurisdiction's verified measures appear in its Housing Needs Assessment under local resources. The legal basis, how waived fees are paid for, the trends and numbered sources are in docs/methodology/LOCAL-JURISDICTION-HOUSING-CONTRIBUTIONS.md; the data is data/policy/fee-reductions.json.",
+      "summary": "COHO read the codes, fee schedules and council records of 39 Colorado jurisdictions and verified 105 local fee measures and 50 land-use or zoning incentives that lower the cost of affordable housing. Most fee relief is discretionary — 60 of 92 one-time fee measures need council or staff approval — and 83 of 105 fee measures do not say how the waived money is replaced. State law lets a local government waive an impact fee for low- or moderate-income or affordable employee housing (C.R.S. 29-20-104.5(5)) but does not require it, and a water or sewer utility run as an enterprise must keep grants from state and local governments under 10% of its annual revenue to stay outside TABOR. Consistent with that, utility fees are the ones cities repay from another fund: Loveland's Community Housing Development Fund repaid up to $366,070 of waived utility fees for Mirasol Phase III, while up to $504,807 of capital expansion fees on the same project were waived with no repayment, and Longmont may subsidize water and sewer system development fees only with money appropriated outside its utility funds. The regions differ. Mountain resort towns mostly waive fees outright for deed-restricted homes without an income cap — Mountain Village charges $21,650 per tap for a deed-restricted employee condo against $43,300 for a single-family home, and Telluride waives the in-town water and sewer tap attributable to a deed-restricted unit. Western Slope programs scale by income: Grand Junction waives 100% of city impact fees for rentals at or below 70% AMI, 75% at 71–80% AMI and 50% at 81–90% AMI, for a 30-year commitment. Front Range cities lean toward partial reductions, rebates after payment and income-qualified utility bill help: Colorado Springs rebates up to 100% of development charges after they are paid, Fort Collins credits up to $14,000 per unit, Littleton rebates $2,500 per affordable unit, Denver cuts the building permit fee $6,500 per income-restricted unit, and Westminster credits income-qualified households $360 a year on water bills. Deferrals (Fort Collins, Lafayette, Salida, Avon) are listed separately because a deferred fee is still owed. Screening context, not a study: what a jurisdiction offers is not what a project will receive.",
+      "implications": "Four practical points. First, check who charges each fee: a town waiver may not reach a separate district — Aspen cannot waive school or sanitation district fees, and Grand Junction's program covers only city water and sewer, not Ute Water or Clifton Water. A special district has its own power to waive, amortize or defer its taps for affordable housing (C.R.S. 32-1-1001(1)(j)(II)), so the district is a separate ask. Second, count a waiver only once it is committed to the project; most are discretionary and several are subject to annual appropriation. Third, model a deferral as a loan with its trigger, not as a cost cut. Fourth, ask how a waiver is paid for: programs that name the paying fund (Grand Junction, Brighton, Loveland, Longmont) show where the money comes from; most do not. On land use, the 50 verified incentives in 31 jurisdictions are mostly inclusionary zoning with offsets, 90-day expedited review tied to the Proposition 123 fast-track, density bonuses and parking reductions. The Proposition 123 fast-track is a review deadline, not a fee rule. No Colorado statute found requires a local fee waiver for affordable housing; state bills since 2021 list fee waivers only as one optional strategy (HB21-1117, HB21-1271, HB24-1152, HB24-1313, SB24-174). Each jurisdiction's verified measures appear in its Housing Needs Assessment under local resources. The legal basis, how waived fees are paid for, the trends and numbered sources are in docs/methodology/LOCAL-JURISDICTION-HOUSING-CONTRIBUTIONS.md; the data is data/policy/fee-reductions.json.",
       "related_data": "data/policy/fee-reductions.json",
       "sources": [
         "Colorado municipal codes, fee schedules and council records",
@@ -90,6 +90,59 @@
         "Statewide"
       ],
       "generated": "2026-09-26T00:00:00Z"
+    },
+    {
+      "id": "hb26-1065-thiz-qap-2026",
+      "title": "HB26-1065 and Colorado’s Transit Zone credit: what the law establishes, what the draft QAP proposes, and what remains unknown",
+      "policy_topic": "Colorado Housing Policy & LIHTC",
+      "is_curated": true,
+      "source_reviewed": true,
+      "summary": "Colorado HB26-1065 became law on May 27, 2026 and created Transit and Housing Investment Zones (THIZ), a state affordable-housing income-tax credit, and a separate sales-tax-increment mechanism for qualifying transit investment projects. The housing credit may be allocated by CHFA from 2027 through 2033, up to $8,333,333 annually, and is claimed over six credit years. Geographic eligibility depends on the official OEDIT THIZ map: the statute uses a two-mile zone around transportation facilities identified on that map. COHO’s tracked source was last checked September 26, 2026 and still recorded the map as not published, with publication due October 30, 2026. Transit-stop proximity therefore remains a screen, not an eligibility determination. CHFA’s 2027–2028 QAP Third Draft calls the housing credit the Transit Zone (TZ) credit. The draft says it may be awarded under a separate TZ Credit Allocation Plan in lieu of standard state credit, not in addition to it. Under the draft maximum-credit schedule, a 9% award may pair with a fixed $650,000 annual state or TZ credit in 2027 and $675,000 in 2028; a Round Two 4% award may pair with up to $675,000 annually in 2027 and $600,000 in 2028. Alternative amounts apply if the proposed state gap-funding pilot is unavailable. These are annual credit amounts, not total project proceeds, and the QAP terms are not final until adopted.",
+      "implications": "The law, the OEDIT map and the QAP answer different questions. HB26-1065 creates the programs and statutory limits. OEDIT’s map determines whether an exact site is inside an eligible THIZ. CHFA’s QAP and separate allocation plan govern how an eligible rental project competes for and pairs the TZ credit. The draft QAP’s ordinary TOD/TOC location criterion is separate: it proposes five points for a qualifying site within a half-mile walk of transit, but those points do not themselves establish THIZ eligibility and are not TZ-credit-specific. The enacted bill and fiscal note do not create a distinct rural credit set-aside, bonus or enhanced rural amount; statewide geographic equity is a consideration for transit investment projects, not a substitute for zone eligibility. Until OEDIT publishes the authoritative map and CHFA adopts final rules, a project should record the exact site, retain the screen as preliminary, show TZ funding as unavailable rather than zero, and avoid adding draft credit proceeds to a development budget. The Deal Calculator reads the same canonical legislation record and displays the applicable 9% or 4% draft pairing only after supported map eligibility; it does not silently add the amount to the capital stack.",
+      "related_data": "data/policy/tax-credit-legislation.json",
+      "sources": [
+        "Colorado General Assembly",
+        "Colorado OEDIT",
+        "Colorado Housing and Finance Authority"
+      ],
+      "articles": [
+        {
+          "title": "HB26-1065 — Transit and Housing Investment Zones",
+          "source": "Colorado General Assembly",
+          "link": "https://leg.colorado.gov/bills/HB26-1065",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "2026 Session Laws, chapter 157",
+          "source": "Colorado General Assembly",
+          "link": "https://leg.colorado.gov/laws/session-laws/HB26-1065/157/download",
+          "date": "2026-05-27"
+        },
+        {
+          "title": "2027–2028 Qualified Allocation Plan Third Draft",
+          "source": "Colorado Housing and Finance Authority",
+          "link": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf",
+          "date": "2026-09-18"
+        },
+        {
+          "title": "2027–2028 QAP Third Draft Summary of Changes",
+          "source": "Colorado Housing and Finance Authority",
+          "link": "https://www.chfainfo.com/getattachment/452dbf9f-b714-44f7-8a75-f3adf9c1c16f/2027-2028-QAP-Third-Draft-Summary-of-Changes.pdf",
+          "date": "2026-09-18"
+        },
+        {
+          "title": "Transit and Housing Investment Zone Program",
+          "source": "Colorado Office of Economic Development and International Trade",
+          "link": "https://oedit.colorado.gov/programs-and-funding/transit-and-housing-investment-zone-program",
+          "date": ""
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
+        "Colorado",
+        "Statewide"
+      ],
+      "generated": "2026-09-29T00:00:00Z"
     }
   ]
 }

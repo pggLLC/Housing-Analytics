@@ -137,6 +137,47 @@ const feeClaims = feeText.toLowerCase();
   assert.ok(!feeClaims.includes(unsupported), 'unsupported framing must not appear in the fee brief: ' + unsupported);
 });
 
+const legislation = JSON.parse(fs.readFileSync(path.join(root, 'data', 'policy', 'tax-credit-legislation.json'), 'utf8'));
+const hb = legislation.entries.find((entry) => entry.id === 'hb26-1065-transit-housing-investment-zones');
+const hbBrief = payload.briefs.find((brief) => brief.id === 'hb26-1065-thiz-qap-2026');
+assert.ok(hb && hbBrief, 'HB26-1065 record and public brief must both exist');
+assert.strictEqual(hbBrief.is_curated, true);
+assert.strictEqual(hbBrief.source_reviewed, true);
+assert.strictEqual(hbBrief.related_data, 'data/policy/tax-credit-legislation.json');
+assert.strictEqual(hb.analysis_url, 'research-brief.html?id=hb26-1065-thiz-qap-2026');
+assert.strictEqual(payload.meta.brief_count, payload.briefs.length);
+assert.match(hbBrief.summary, /in lieu of standard state credit, not in addition to it/i);
+assert.match(hbBrief.summary, /not final until adopted/i);
+assert.match(hbBrief.implications, /do not themselves establish THIZ eligibility/i);
+const hbBriefText = hbBrief.summary + ' ' + hbBrief.implications;
+const statesNoRuralSetAside = (text) =>
+  /(?:\bno\b|\bnot\b|\bdo(?:es)? not\b)[^.]{0,120}\brural\b[^.]{0,80}\bset-aside\b/i.test(text);
+assert.match(
+  hb.source_note,
+  /no rural credit set-aside, bonus, or enhanced credit/i,
+  'canonical HB26-1065 evidence must retain the no-rural-set-aside finding'
+);
+assert.ok(
+  statesNoRuralSetAside(hbBriefText) && statesNoRuralSetAside(hb.source_note),
+  'brief and canonical HB26-1065 record must agree that there is no rural set-aside'
+);
+
+const hbBriefDollars = [...hbBrief.summary.matchAll(/\$\s*([\d,]+)/g)]
+  .map((match) => Number(match[1].replace(/,/g, '')))
+  .sort((a, b) => a - b);
+const hbCanonicalDollars = [
+  8333333,
+  ...Object.values(hb.tz_credit_pairing.nine_percent).filter(Number.isFinite),
+  ...Object.values(hb.tz_credit_pairing.four_percent_round_two).filter(Number.isFinite)
+].sort((a, b) => a - b);
+assert.deepStrictEqual(
+  hbBriefDollars,
+  hbCanonicalDollars,
+  'brief dollar amounts must equal the statutory cap and canonical QAP pairing values'
+);
+assert.ok(hbBrief.articles.some((article) => article.link === hb.source_url));
+assert.ok(hbBrief.articles.some((article) => article.link === hb.tz_credit_pairing.source_url));
+
 const page = fs.readFileSync(pagePath, 'utf8');
 assert.match(page, /CURATED_BRIEFS_URL/);
 assert.match(page, /data\/policy_briefs_curated\.json/);

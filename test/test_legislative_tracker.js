@@ -92,12 +92,14 @@ test('expected policy entries and tags are available from real JSON', () => {
   const roadAct = tracker.getBill('hr6644-road-act');
   const phasedOut = tracker.getBill('obbba-25c-25d-termination');
   const windSolar = tracker.getBill('obbba-45y-48e-wind-solar-deadlines');
+  const hb1065 = tracker.getBill('hb26-1065-transit-housing-investment-zones');
   check(lihtc.length >= 2, 'LIHTC-tagged entries loaded');
   check(cra.length >= 1, 'CRA-tagged entries loaded');
   check(nhia && nhia.stage === tracker.STAGES.COMMITTEE, 'NHIA proposed entry maps to committee stage');
   check(roadAct && roadAct.status === 'enacted' && roadAct.stage === tracker.STAGES.SIGNED, 'ROAD Act enacted entry maps to signed law');
   check(phasedOut && phasedOut.stage === tracker.STAGES.SIGNED, 'phased-out enacted-law entry does not map to failed stage');
   check(windSolar && windSolar.status === 'enacted' && windSolar.stage === tracker.STAGES.SIGNED, '45Y/48E entry maps to enacted law');
+  check(hb1065 && hb1065.analysisUrl === 'research-brief.html?id=hb26-1065-thiz-qap-2026', 'HB26-1065 exposes its public analysis link');
 });
 
 test('market summary reflects loaded JSON and stays bounded', () => {
@@ -155,6 +157,8 @@ test('housing legislation page renders watchlist statuses without passage heuris
   check(rendered.includes('obbba-25c-25d-termination'), 'phased-out entry rendered');
   check(rendered.includes('Phased-out'), 'phased-out status pill rendered');
   check(rendered.includes('obbba-45y-48e-wind-solar-deadlines'), '45Y/48E entry rendered');
+  check(rendered.includes('research-brief.html?id=hb26-1065-thiz-qap-2026'), 'HB26-1065 analysis link rendered');
+  check(rendered.includes('Read analysis'), 'bill analysis link has a plain-language label');
   check(rendered.includes('Enacted'), 'enacted status pill rendered');
   check(!rendered.includes('Failed'), 'rendered watchlist never labels enacted/phased-out entries as Failed');
   check(!rendered.includes('% passage'), 'rendered watchlist never shows passage percentages');
