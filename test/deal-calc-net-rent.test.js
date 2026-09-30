@@ -50,6 +50,11 @@ async function calculator(saved = subject(), { lateModule = false, noSubject = f
   w.eval(read('js/deal-calculator-share.js'));
   assert.deepEqual(errors, [], 'no runtime errors');
   w.__DealCalc.setChfaRentTable(chfa);
+  // This fast fixture disables async county-population timers. Supply the
+  // two counties exercised here so its share URL carries the visible county.
+  const county = w.document.getElementById('dc-county-select');
+  for (const code of [fips, '08077']) if (![...county.options].some((o) => o.value === code)) county.add(new w.Option(code, code));
+  county.value = fips;
   w.__DealCalc.updateAmiLimitsFromFmr(fips);
   return w;
 }
@@ -234,7 +239,7 @@ async function test(name, fn) {
       w.dispatchEvent(new w.StorageEvent('storage', { key: 'coho.subjectProject.v1', newValue: raw, storageArea: w.localStorage }));
       checkRevenue(w, expected('chfa_lihtc', rows, changed));
       const resolved = limits.allowanceByBedroom(changed, fips);
-      const expectedMeta = { applied: true, ...resolved.basis, perBedroom: resolved.perBedroom, feesPerBedroom: resolved.feesPerBedroom };
+      const expectedMeta = { applied: true, reason: null, countyFips: fips, ...resolved.basis, perBedroom: resolved.perBedroom, feesPerBedroom: resolved.feesPerBedroom };
       const metadata = plain(w.__DealCalcShare.buildSnapshot().utilityAllowance); assert.deepEqual(metadata, expectedMeta);
       let properties;
       w.html2canvas = async () => ({ width: 600, height: 600, toDataURL: () => 'image' });
@@ -247,6 +252,70 @@ async function test(name, fn) {
       w.localStorage.clear(); w.dispatchEvent(new w.StorageEvent('storage', { key: null, storageArea: w.localStorage }));
       assert.equal(w.__DealCalcShare.buildSnapshot().utilityAllowance.applied, false);
     } finally { w.close(); }
+  });
+  await test('shared applied allowances reproduce revenue, NOI and gap without reading or writing the recipient basis', async () => {
+    const saved = subject(); saved.unit_mix.forEach((r) => { r.utility_allowance = 150; });
+    const sender = await calculator(saved), rows = [{ tier: 60, br: '2br', units: 60 }];
+    const figures = (w) => ['dc-r-rents', 'dc-r-noi-stab', 'dc-su-gap'].map((id) => text(w, id));
+    try {
+      change(sender, 'dc-county-select', fips); mix(sender, rows);
+      const snapshot = plain(sender.__DealCalcShare.buildSnapshot());
+      assert.deepEqual(JSON.parse(new URL(snapshot.url).searchParams.get('utilityAllowance')), snapshot.utilityAllowance);
+      assert.equal(snapshot.utilityAllowance.countyFips, fips);
+      assert.equal(snapshot.utilityAllowance.perBedroom['2BR'], 150);
+      assert(figures(sender).every((v) => /\$-?[\d,]+/.test(v)), 'sender figures are measured: ' + JSON.stringify(figures(sender)));
+      for (const noSubject of [true, false]) {
+        const local = subject(); local.unit_mix.forEach((r) => { r.utility_allowance = 350; });
+        const recipient = await calculator(noSubject ? null : local, { noSubject });
+        try {
+          const before = recipient.localStorage.getItem('coho.subjectProject.v1');
+          recipient.history.replaceState({}, '', snapshot.url);
+          recipient.__DealCalcShare.hydrate();
+          assert.deepEqual(figures(recipient), figures(sender));
+          assert.equal(recipient.localStorage.getItem('coho.subjectProject.v1'), before, 'shared basis never enters Subject Project storage');
+          assert.deepEqual(plain(recipient.__DealCalcShare.buildSnapshot().utilityAllowance), snapshot.utilityAllowance);
+          for (const id of ['dc-rent-allowance-status', 'dc-noi-allowance-status']) {
+            const el = recipient.document.getElementById(id);
+            assert.equal(el.dataset.allowanceSource, 'shared');
+            assert(el.textContent.includes(snapshot.utilityAllowance.reference));
+            assert(el.textContent.includes(snapshot.utilityAllowance.effectiveDate));
+          }
+          if (!noSubject) {
+            local.unit_mix.forEach((r) => { r.utility_allowance = 400; }); recipient.SubjectProject.set(local);
+            assert.deepEqual(figures(recipient), figures(sender), 'local edits cannot replace a shared allowance');
+            change(recipient, 'dc-rent-limit-regime', 'ami_formula');
+            checkRevenue(recipient, expected('ami_formula', rows, local));
+            assert.equal(recipient.document.getElementById('dc-rent-allowance-status').dataset.allowanceSource, 'local');
+            assert(!recipient.document.getElementById('dc-allowance-local-notice').hidden);
+          }
+        } finally { recipient.close(); }
+      }
+    } finally { sender.close(); }
+  });
+  await test('shared absence keeps the sender reason; older links use local allowances; county edits discard the shared record', async () => {
+    const saved = subject(); delete saved.utility_allowance_basis;
+    const sender = await calculator(saved), local = subject(), rows = [{ tier: 60, br: '2br', units: 60 }];
+    const recipient = await calculator(local);
+    try {
+      change(sender, 'dc-county-select', fips); mix(sender, rows);
+      const snapshot = sender.__DealCalcShare.buildSnapshot();
+      recipient.history.replaceState({}, '', snapshot.url); recipient.__DealCalcShare.hydrate();
+      checkRevenue(recipient, expected('chfa_lihtc', rows, local, false)); checkDisclosure(recipient, 'allowance_method_missing');
+      for (const id of ['dc-r-noi-stab', 'dc-su-gap']) assert.equal(text(recipient, id), text(sender, id));
+      change(recipient, 'dc-county-select', '08077');
+      checkDisclosure(recipient, 'allowance_basis_other_geography');
+      assert(!recipient.document.getElementById('dc-allowance-local-notice').hidden);
+      change(recipient, 'dc-county-select', fips); checkRevenue(recipient, expected('chfa_lihtc', rows, local));
+      const old = new URL(snapshot.url); old.searchParams.delete('utilityAllowance');
+      recipient.history.replaceState({}, '', old.href); recipient.__DealCalcShare.hydrate();
+      checkRevenue(recipient, expected('chfa_lihtc', rows, local));
+      assert.equal(recipient.document.getElementById('dc-rent-allowance-status').dataset.allowanceSource, 'local');
+      // Malformed new records must not silently substitute local deductions.
+      old.searchParams.set('utilityAllowance', '{broken');
+      recipient.history.replaceState({}, '', old.href); recipient.__DealCalcShare.hydrate();
+      checkRevenue(recipient, expected('chfa_lihtc', rows, local, false));
+      assert.equal(recipient.__DealCalc.getUtilityAllowanceMetadata().reason, 'shared_allowance_invalid');
+    } finally { sender.close(); recipient.close(); }
   });
   await test('page loads SubjectProject after the rent module and CI reaches this test', () => {
     const w = new JSDOM(read('deal-calculator.html')).window;
