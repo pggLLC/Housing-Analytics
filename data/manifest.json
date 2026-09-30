@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-30T11:19:20.771977Z",
+  "generated": "2026-09-30T11:56:35.946052Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 827673
+      "bytes": 827674
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7869,7 +7869,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14705
+      "bytes": 14707
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -8324,7 +8324,7 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 18151
+      "bytes": 18391
     },
     "data/policy/thiz-map-status.json": {
       "featureCount": 0,
@@ -8349,7 +8349,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9312
+      "bytes": 14081
     },
     "data/polymarket-data.json": {
       "featureCount": 0,

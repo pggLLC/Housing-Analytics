@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-30T06:35:47.799Z",
+    "generated_at": "2026-09-30T11:56:32.917Z",
     "root": "data/",
     "file_count": 1693,
-    "total_size_bytes": 175950299,
+    "total_size_bytes": 175955644,
     "kinds": {
       "json": 1656,
       "geojson": 33,
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-30T06:35:43.126Z",
+      "mtime": "2026-09-30T11:56:30.103Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1512,8 +1512,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1253146,
-      "mtime": "2026-09-29T13:00:22.692Z",
+      "size_bytes": 1253480,
+      "mtime": "2026-09-30T11:55:18.987Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30521,7 +30521,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 215164,
-      "mtime": "2026-09-29T20:51:27.747Z",
+      "mtime": "2026-09-30T11:56:10.893Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31912,8 +31912,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14705,
-      "mtime": "2026-09-30T06:35:45.124Z",
+      "size_bytes": 14707,
+      "mtime": "2026-09-30T11:56:31.511Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31936,7 +31936,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-30T06:35:44.652Z",
+      "mtime": "2026-09-30T11:56:31.192Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34229,8 +34229,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 18151,
-      "mtime": "2026-09-29T02:13:35.472Z",
+      "size_bytes": 18391,
+      "mtime": "2026-09-30T11:55:19.312Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -34366,8 +34366,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 9312,
-      "mtime": "2026-09-26T06:30:24.776Z",
+      "size_bytes": 14081,
+      "mtime": "2026-09-30T11:55:19.313Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34375,7 +34375,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 2,
+      "primary_array_length": 3,
       "primary_array_first_keys": [
         "id",
         "title",
@@ -34395,7 +34395,7 @@
       "path": "polymarket-data.json",
       "kind": "json",
       "size_bytes": 17814,
-      "mtime": "2026-09-29T13:00:23.022Z",
+      "mtime": "2026-09-30T11:55:19.313Z",
       "shape": "object",
       "keys": [
         "updated",
