@@ -315,26 +315,61 @@
    */
   function renderGeographyBanner(data) {
     var geography = data.geography;
+    var methodLink = '<a href="https://github.com/pggLLC/Housing-Analytics/blob/main/docs/MARKET_ANALYSIS_METHOD.md#jurisdiction-market-area-and-project-site">What\'s the difference?</a>';
     if (!geography || geography.mode !== 'jurisdiction') {
       return '<aside class="ms-geography ms-geography--example" role="note" data-study-mode="example">'
         + '<p><strong>Example study.</strong> No jurisdiction is selected, so this page screens an example project '
         + 'against its own town. The arithmetic is real; the place is not yours.</p>'
-        + '<p><a href="select-jurisdiction.html">Choose your jurisdiction</a> to run the same screen on your market.</p>'
+        + '<p><a href="select-jurisdiction.html">Choose your jurisdiction</a> to run the same screen on your market. ' + methodLink + '</p>'
         + '</aside>';
     }
-    var name = esc(geography.context.name || geography.context.geoid);
+    var context = geography.context;
+    var name = esc(context.name || context.geoid);
+    var baseline = geography.localBaseline || {};
+    var need = geography.ownershipNeed;
+    var sale = geography.salePrice;
+    function hasValue(record) { return record && Number.isFinite(record.value); }
+    function scope(key, label, level, geoid, sourceName, detail) {
+      return '<li data-study-figure="' + key + '" data-geography-level="' + level + '" data-geoid="' + esc(geoid || '') + '">'
+        + '<strong>' + label + ':</strong> ' + (level === 'unavailable' ? 'unavailable'
+          : level + ' — ' + esc(sourceName || geoid) + ' (' + esc(geoid) + ')')
+        + (detail ? '; ' + esc(detail) : '') + '</li>';
+    }
+    var countyName = context.countyName || context.countyFips;
+    var amiAvailable = hasValue(baseline.ami_4person) && context.countyFips;
+    // These are the already-bound source records, not fresh lookups or a
+    // second fallback cascade. HUD AMI is a county input even on a place row.
+    var homeSource = (need && need.affordabilityTest && need.affordabilityTest.source)
+      || (baseline.home_value && baseline.home_value.source) || '';
+    var homeCounty = context.geoLevel === 'county' || /county_fallback|county_acs|fhfa_county_hpi_anchor/.test(homeSource);
+    var homeGeoid = homeCounty ? context.countyFips : context.geoid;
+    var homeAvailable = hasValue(baseline.home_value) && homeGeoid;
+    var saleAvailable = hasValue(baseline.median_sale_price) && sale && sale.sourceLevel === 'redfin_zip_to_place_modeled';
+    var poolAvailable = need && !geography.unavailable;
+    var scopes = [
+      scope('ami_4person', 'Income limits', amiAvailable ? 'county' : 'unavailable', amiAvailable ? context.countyFips : null,
+        countyName, amiAvailable ? 'HUD county income limits used for this jurisdiction' : 'No bound county income limits'),
+      scope('home_value', 'Home value', homeAvailable ? (homeCounty ? 'county' : context.geoLevel) : 'unavailable',
+        homeAvailable ? homeGeoid : null, homeCounty ? countyName : context.name,
+        homeAvailable ? (homeCounty && context.geoLevel !== 'county' ? 'County fallback: ' : 'Source: ') + homeSource : 'No bound home value'),
+      scope('median_sale_price', 'Sale price', saleAvailable ? 'ZIP-allocated' : 'unavailable', saleAvailable ? context.geoid : null,
+        context.name, sale && sale.label || 'No bound sale-price geography'),
+      scope('buyer_pool', 'Buyer pool', poolAvailable ? need.geoLevel : 'unavailable', poolAvailable ? need.geographyId : null,
+        need && need.geographyName, poolAvailable ? 'HUD CHAS household pool; project filters are screening assumptions'
+          : geography.unavailable && geography.unavailable.detail || 'Buyer pool not screened')
+    ].join('');
     var note = geography.unavailable
       ? '<p class="ms-caveat">' + esc(geography.unavailable.detail) + ' Sections 5 and 6 cannot be screened here.</p>'
       : '';
-    return '<aside class="ms-geography" role="note" data-study-mode="jurisdiction" data-study-geoid="' + esc(geography.context.geoid) + '">'
-      + '<p><strong>Market: ' + name + '.</strong> The income limits and home values in section 1, the sale prices, '
-      + 'and the buyer pool in sections 5 and 6 are ' + name + "'s. "
+    return '<aside class="ms-geography" role="note" data-study-mode="jurisdiction" data-study-geoid="' + esc(context.geoid) + '">'
+      + '<p><strong>Market: ' + name + '.</strong> Each figure below names the geography of its bound source. '
       + 'The project itself is still an example program — nobody has supplied a real one — so read this as '
       + '"what would a project like this meet in ' + name + '".</p>'
+      + '<ul>' + scopes + '</ul>'
       + '<p>Sections 2 to 4 (land, resale and settlement) are not ' + name + "'s data: they run on fixed example "
       + 'inputs, the same for every jurisdiction, and each is labelled <em>Example only</em>.</p>'
       + note
-      + '<p><a href="select-jurisdiction.html">Change jurisdiction</a></p>'
+      + '<p><a href="select-jurisdiction.html">Change jurisdiction</a> · ' + methodLink + '</p>'
       + '</aside>';
   }
 

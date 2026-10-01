@@ -6,6 +6,46 @@ and scoring formula used by the Public Market Analysis (PMA) scoring engine in
 
 ---
 
+## Jurisdiction, market area and project site
+
+These are three different geographies, and each answers a different question.
+
+- **Jurisdiction** is the place, CDP, county or state you are studying. It sets
+  the context for HNA figures, policy and the county income limits used by the
+  screen. A figure can have a different source geography: the for-sale banner
+  identifies HUD county income limits, place or county home values, and sale
+  prices allocated from ZIP data. A county fallback or missing source is named
+  for that figure, rather than presented as a place observation.
+- **Market area (PMA)** is the area from which the study measures housing demand
+  and competition. It is drawn around the project site or assembled from the
+  census tracts you select. A circular buffer is a screening area, not the city
+  boundary or a CHFA-compliant tract PMA. The banner and score card use the same
+  result's radius or tract count, rather than the controls for a future run.
+- **Exact project site** is the point where site-eligibility checks such as
+  transit proximity, QCT/DDA and THIZ are tested. A jurisdiction centroid is
+  context for exploring a market, not evidence of a project's eligibility.
+
+A city boundary describes a government jurisdiction; housing demand and nearby
+competition can extend across that line. A legitimate project can sit just
+outside the selected city. The site check therefore gives a notice, not a
+block, when the point **appears to be** outside the selected place/CDP or county
+polygon. These boundaries are simplified, so the notice is not a parcel or
+legal boundary determination. Missing or failed geometry is reported as
+**Boundary check unavailable**. Statewide selections skip this check.
+
+Changing to a different jurisdiction clears the saved workflow market step and
+current PMA conclusions. SubjectProject keeps its name, unit counts, bedroom mix
+and AMI tiers, but clears its address/coordinates, market rents and citations,
+and location-specific utility allowance sources and amounts. This also applies
+to a change between two places in the same county. Owner-paid utilities retain
+their existing zero-allowance behavior. First binding from an empty jurisdiction
+preserves entered subject details, and re-selecting the same GEOID preserves
+state. Cached PMA runs must match the current GEOID and county binding; unbound
+legacy runs and runs for another jurisdiction require a new analysis. Statewide
+runs can restore for the same statewide selection with no county binding.
+
+---
+
 ## Data Sources
 
 All data is **free and publicly available** — no API key is required for the
