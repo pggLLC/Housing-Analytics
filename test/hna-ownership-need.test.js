@@ -247,6 +247,22 @@ test('county gap-source convention does not turn surplus into place fallback sho
   assert.equal(out.existingRentalGap, 0);
 });
 
+test('combined rentalGap preserves null or missing shortfall and a measured zero', () => {
+  const entry = {
+    gapSource: 'combined',
+    households_le_ami_pct: {80: 20},
+    units_priced_affordable_le_ami_pct: {80: 10},
+  };
+  for (const series of [{80: null}, {}, undefined]) {
+    assert.strictEqual(Ownership.rentalGap(Object.assign({}, entry, {
+      shortfall_households_minus_units_le_ami_pct: series,
+    })), null, 'a missing combined shortfall is unknown, not zero or a recomputed net difference');
+  }
+  assert.strictEqual(Ownership.rentalGap(Object.assign({}, entry, {
+    shortfall_households_minus_units_le_ami_pct: {80: 0},
+  })), 0, 'a measured combined zero remains zero');
+});
+
 test('affordability test classifies cheap, stretch, expensive, and missing home values', () => {
   const cheap = compute({ placeChasEntry: fixtureEntry({ modRenter: 1600 }), amiGapEntry: amiGap, homeValueEntry: { value: 180000, source: 'test' } });
   assert.equal(cheap.affordabilityTest.classification, 'market-attainable');
