@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-01T04:28:58.722Z",
+    "generated_at": "2026-10-01T13:25:42.983Z",
     "root": "data/",
     "file_count": 1694,
-    "total_size_bytes": 175958435,
+    "total_size_bytes": 175952533,
     "kinds": {
       "json": 1657,
       "geojson": 33,
@@ -731,8 +731,8 @@
     {
       "path": "car-market-report-2026-08.json",
       "kind": "json",
-      "size_bytes": 66043,
-      "mtime": "2026-10-01T04:28:11.729Z",
+      "size_bytes": 66119,
+      "mtime": "2026-10-01T13:25:31.102Z",
       "shape": "object",
       "keys": [
         "month",
@@ -861,7 +861,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-09-30T12:42:17.219Z",
+      "mtime": "2026-10-01T13:25:36.538Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -977,7 +977,7 @@
       "path": "co-county-demographics.json",
       "kind": "json",
       "size_bytes": 40183,
-      "mtime": "2026-09-30T12:42:14.462Z",
+      "mtime": "2026-10-01T13:25:33.761Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1536,8 +1536,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1253480,
-      "mtime": "2026-09-30T11:55:18.987Z",
+      "size_bytes": 1253781,
+      "mtime": "2026-10-01T13:25:31.128Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30545,7 +30545,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 215290,
-      "mtime": "2026-10-01T04:28:11.962Z",
+      "mtime": "2026-10-01T13:25:40.582Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31901,7 +31901,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 92895,
-      "mtime": "2026-09-30T12:42:17.283Z",
+      "mtime": "2026-10-01T13:25:36.633Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34418,8 +34418,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 17814,
-      "mtime": "2026-09-30T11:55:19.313Z",
+      "size_bytes": 11535,
+      "mtime": "2026-10-01T13:25:31.466Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -34430,8 +34430,8 @@
         "events"
       ],
       "key_count": 6,
-      "primary_array_key": null,
-      "primary_array_length": null,
+      "primary_array_key": "dropped_settled",
+      "primary_array_length": 3,
       "primary_array_first_keys": null
     },
     {
