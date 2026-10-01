@@ -115,7 +115,7 @@
     ap.market = _defaultSteps().market;
     // A subject panel may be on another page. Keep the transition so an
     // older subject without a GEOID can distinguish a real move from first binding.
-    if (global.SiteState && global.SiteState.set) global.SiteState.set('jurisdictionChange', {
+    if (previous.geoid && global.SiteState && global.SiteState.set) global.SiteState.set('jurisdictionChange', {
       geoid: next.geoid, previousGeoid: previous.geoid, changedAt: new Date().toISOString()
     });
     if (global.SiteState && global.SiteState.clearPmaResults) {
