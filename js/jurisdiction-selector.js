@@ -474,7 +474,7 @@
     state.countyFocusIdx = -1;
   }
 
-  function selectCounty(county) {
+  function selectCounty(county, deferSave) {
     state.selectedCounty = county;
     state.selectedCity = null;
 
@@ -508,7 +508,7 @@
     el.sjContinueBtn.disabled = false;
     el.sjActionNote.textContent = 'Ready to begin. You can optionally select a city above.';
 
-    persistSelection();
+    if (!deferSave) persistSelection();
   }
 
   function handleCountyKeydown(e) {
@@ -547,7 +547,7 @@
     state.cityFocusIdx = -1;
   }
 
-  function selectCity(cityName) {
+  function selectCity(cityName, deferSave) {
     state.selectedCity = cityName || null;
     el.citySearch.value = cityName || '';
     hideCityResults();
@@ -558,7 +558,7 @@
       el.sjSelectionSub.textContent = cityName ? cityName + ', CO' : '';
     }
 
-    persistSelection();
+    if (!deferSave) persistSelection();
   }
 
   function renderCityResults(items, isGlobalSearch) {
@@ -630,15 +630,15 @@
       }
       if (countyObj) {
         // Use the existing selectCounty path — it loads cities, badges, etc.
-        selectCounty(countyObj);
+        selectCounty(countyObj, true);
       }
     }
     // Then set the city name in the field + state.
     el.citySearch.value = match.name;
-    selectCity(match.name);
+    selectCity(match.name, true);
     state.selectedCity = match;
-    // Again, now that state.selectedCity carries the place record: selectCity
-    // saved it by name, and a CDP that shares a name needs the geoid.
+    // Commit the final place once. An intermediate county save would clear
+    // location state even when the user re-selects the same place.
     persistSelection();
     el.sjActionNote.textContent = 'Ready: ' + match.name +
       (countyFips ? ' (auto-set ' + (state.selectedCounty ? formatCountyName(state.selectedCounty.name) + ')' : 'county)') : ')') +
@@ -898,15 +898,6 @@
         global.WorkflowState.setJurisdiction(payload);
       } catch (e) {
         console.warn('[jurisdiction-selector] WorkflowState.setJurisdiction failed:', e);
-      }
-    }
-
-    // Also sync to SiteState directly (belt-and-suspenders)
-    if (global.SiteState && typeof global.SiteState.setCounty === 'function') {
-      try {
-        global.SiteState.setCounty(fips, countyName);
-      } catch (e) {
-        console.warn('[jurisdiction-selector] SiteState.setCounty failed:', e);
       }
     }
   }
