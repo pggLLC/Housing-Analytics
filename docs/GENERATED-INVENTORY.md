@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-01T03:24:04.760Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-01T04:28:32.120Z. Do not edit by hand.
 
 ---
 
@@ -60,7 +60,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 15.9 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 131.9 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 143.9 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 147.2 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.6 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
@@ -81,7 +81,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1657 JSON files found.
+1658 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -112,8 +112,9 @@
 | `data/car-market-report-2026-05.json` | 64.3 KB | ✅ | — |
 | `data/car-market-report-2026-06.json` | 64.3 KB | ✅ | — |
 | `data/car-market-report-2026-07.json` | 64.3 KB | ✅ | — |
-| `data/car-market-report-2026-08.json` | 64.4 KB | ✅ | — |
+| `data/car-market-report-2026-08.json` | 64.5 KB | ✅ | — |
 | `data/car-market-report-2026-09.json` | 2.5 KB | ✅ | — |
+| `data/car-market-report-2026-10.json` | 2.4 KB | ✅ | — |
 | `data/car-market.json` | 514 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
@@ -1578,7 +1579,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 210.1 KB | ✅ | — |
+| `data/manifest.json` | 210.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1747,7 +1748,7 @@
 
 ## Test Files
 
-500 test files found.
+501 test files found.
 
 | File | Size |
 |------|------|
@@ -1889,6 +1890,7 @@
 | `test/freshness-guard-dirty-tree.test.js` | 12.5 KB |
 | `test/funding-context-card.test.js` | 7.7 KB |
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
+| `test/geography-naming.test.js` | 22.8 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/glossary-reaches-rendered-content.test.js` | 7.2 KB |
 | `test/glossary-rerender.test.js` | 4.9 KB |
