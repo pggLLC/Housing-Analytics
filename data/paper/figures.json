@@ -1,50 +1,50 @@
 {
-  "generated_from_commit": "6bb7368af",
+  "generated_from_commit": "bf69122c1",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-09-30",
-    "total_commits": 7590,
+    "total_commits": 7594,
     "partial_month": "2026-09",
     "commits_by_month": [
       {
         "month": "2026-02",
         "commits": 482,
-        "pct_of_peak": 33.9
+        "pct_of_peak": 33.8
       },
       {
         "month": "2026-03",
         "commits": 1365,
-        "pct_of_peak": 96
+        "pct_of_peak": 95.7
       },
       {
         "month": "2026-04",
         "commits": 1074,
-        "pct_of_peak": 75.5
+        "pct_of_peak": 75.3
       },
       {
         "month": "2026-05",
         "commits": 665,
-        "pct_of_peak": 46.8
+        "pct_of_peak": 46.6
       },
       {
         "month": "2026-06",
         "commits": 1175,
-        "pct_of_peak": 82.6
+        "pct_of_peak": 82.4
       },
       {
         "month": "2026-07",
         "commits": 824,
-        "pct_of_peak": 57.9
+        "pct_of_peak": 57.8
       },
       {
         "month": "2026-08",
         "commits": 583,
-        "pct_of_peak": 41
+        "pct_of_peak": 40.9
       },
       {
         "month": "2026-09",
-        "commits": 1422,
+        "commits": 1426,
         "pct_of_peak": 100
       }
     ]
@@ -63,7 +63,7 @@
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 62,
-    "test_files": 445,
+    "test_files": 446,
     "absence_test_cases": 227,
     "absence_tests": 83,
     "lihtc_features": 926
@@ -241,11 +241,11 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 395160,
+    "hand_written_lines": 395706,
     "generated_place_page_lines": 226828,
     "top_level_pages": 66,
-    "html_nonblank_lines": 47741,
-    "html_distinct_lines": 19212,
+    "html_nonblank_lines": 47742,
+    "html_distinct_lines": 19214,
     "html_distinct_share": 0.402,
     "substantial_tools": 26,
     "declared_data_sources": 65,
@@ -310,7 +310,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "6bb7368af",
+    "extracted_at_commit": "bf69122c1",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
