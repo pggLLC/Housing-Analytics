@@ -18,6 +18,15 @@ circulation, mechanical and common space the building has — commonly
 15-25%. Guessing it would produce a plausible number that is wrong in a
 consistent direction, which is worse than no number at all.
 
+### `selectedPublicInterestOutcome(screen)`
+
+The public / steward is the third actor on the ownership panel (#1815).
+Its claim used to live only inside the resale comparison table. This row
+lifts the selected mechanism's moderate-scenario outcome onto the panel:
+the capped next-buyer price (how the public interest is expressed under
+fixed, lesser-of and shared-appreciation conventions) and any subsidy the
+public recovers in cash (recapture conventions). Screening only.
+
 ### `setCostPerSf(result)`
 
 Cost per gross SF, or a dash that says why.
@@ -43,24 +52,16 @@ ZORI county data or HUD FMR for the county is missing.
 
 ### `updateAmiLimitsFromFmr(fips)`
 
-Update _amiLimits from HudFmr for the given county FIPS.
-
-LIHTC rent ceiling formula:
-  monthly_rent_limit = (AMI_4person × tier_pct × rent_burden_pct) / 12
-
-The rent_burden_pct is a tunable constant (`_constants.rentBurdenPct`,
-default 0.30). When the user changes it via the Methodology &
-Formulas panel, the ceilings recompute and propagate to the deal.
-
-Computed locally rather than calling HudFmr.getGrossRentLimit so the
-burden % is honored — that helper has 0.30 hardcoded.
-
-@param {string} fips  5-digit county FIPS, or null/'' for default.
+Populate every tier/bedroom from the selected shared rent-limit regime.
 
 ### `populateCountySelector(sel)`
 
 Populate the county selector dropdown from HudFmr data.
 @param {HTMLSelectElement} sel
+
+### `collectBedroomMix()`
+
+Units by bedroom type across every checked AMI tier (split rows win over the tier dropdown).
 
 ### `_findAmiGapCounty(fips)`
 
@@ -137,3 +138,16 @@ manual control per the principle that the designation does not
 automatically apply the 130% boost (IRC §42(d)(5)(B) requires election).
 
 @param {boolean} basisBoostEligible - True when site is in a QCT or DDA.
+
+### `TZ_CREDIT`
+
+HB26-1065 Transit Zone (TZ) state credit — a possible source, never
+added to the stack (#1937 Phase 4, #1973). Called by the PMA transit-zone
+gate with a TransitZone.status() result. The line appears only when the
+site passes TransitZone.fundingPath. It states the draft QAP's per-project
+pairing for the selected credit type. The amounts live only in the
+HB26-1065 entry's `tz_credit_pairing` in
+data/policy/tax-credit-legislation.json, pinned to the QAP text in
+data/audit/chfa-qap-watch.json; until that file loads no amount is shown.
+The statewide cap below must match the same entry
+(test/transit-zone-funding-line.test.js).

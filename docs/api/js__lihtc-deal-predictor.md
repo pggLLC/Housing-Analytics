@@ -59,7 +59,6 @@ Exposed as window.LIHTCDealPredictor (browser) and module.exports (Node/test).
 @property {string}   confidenceBadge       — emoji badge for UI display
 @property {string}   alternativePath       — description of the alternate credit type path
 @property {Object}   scenarioSensitivity   — sensitivity ranges for key risk factors
-@property {Object}   fmrAlignment          — how proposed rents align with HUD FMR (if fmrData provided)
 @property {Object}   chfaAwardContext       — CHFA historical award context for county
 
 ## Symbols

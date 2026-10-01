@@ -21,28 +21,6 @@ distinction is the entire subject of this codebase.
 
 ## Symbols
 
-### `GUIDED_PATH`
-
-The guided path, READ from the one place a step number is written down.
-
-This used to be a hand-written table of six steps, and it went stale without
-a sound. The route changed three times on 2026-09-16 — the entry point moved
-from the Opportunity Finder to the jurisdiction, and a seventh step was
-added — and this constant still described the old one. G1 kept reporting
-PASS the whole time, because all it asks is whether six named files exist,
-and they did.
-
-That is the failure this audit exists to catch, sitting inside the audit: a
-green that is true about something other than what it claims. Worse, a test
-asserted `GUIDED_PATH.length === 6`, so a guard was holding the wrong answer
-in place and would have failed anyone who corrected it.
-
-So it is derived. The component's STEPS table is the route; if that table's
-shape changes the parse returns nothing and G1 goes OPEN rather than passing
-on an empty list. test:entry-path separately holds the component and the
-twelve hard-coded rails to each other, so reading the component reads what
-the pages actually render.
-
 ### `evaluateGuidedPath(route, existsFn)`
 
 Decide G1 from a route and a file-existence oracle.

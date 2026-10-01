@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-01T04:28:32.120Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-01T13:04:00.122Z. Do not edit by hand.
 
 ---
 
@@ -75,7 +75,7 @@
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.6 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 12.1 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 797 B |
-| `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 75.2 KB |
+| `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 75.3 KB |
 
 ---
 
@@ -85,7 +85,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 808.3 KB | ✅ | — |
+| `data/_manifest.json` | 808.8 KB | ✅ | — |
 | `data/_qa-status.json` | 7.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -112,7 +112,7 @@
 | `data/car-market-report-2026-05.json` | 64.3 KB | ✅ | — |
 | `data/car-market-report-2026-06.json` | 64.3 KB | ✅ | — |
 | `data/car-market-report-2026-07.json` | 64.3 KB | ✅ | — |
-| `data/car-market-report-2026-08.json` | 64.5 KB | ✅ | — |
+| `data/car-market-report-2026-08.json` | 64.6 KB | ✅ | — |
 | `data/car-market-report-2026-09.json` | 2.5 KB | ✅ | — |
 | `data/car-market-report-2026-10.json` | 2.4 KB | ✅ | — |
 | `data/car-market.json` | 514 B | ✅ | — |
@@ -1628,7 +1628,7 @@
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 90.7 KB | ✅ | — |
 | `data/paper/compute-footprint.json` | 1.8 KB | ✅ | — |
-| `data/paper/figures.json` | 14.4 KB | ✅ | — |
+| `data/paper/figures.json` | 14.5 KB | ✅ | — |
 | `data/paper/model-parameters.json` | 6.1 KB | ✅ | — |
 | `data/pipeline/content.json` | 42.8 KB | ✅ | — |
 | `data/policy/affordability-models.json` | 14.1 KB | ✅ | — |
@@ -1725,7 +1725,7 @@
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 222.4 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 13.8 KB | ✅ | — |
-| `data/polymarket-data.json` | 17.4 KB | ✅ | — |
+| `data/polymarket-data.json` | 11.3 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |

@@ -84,7 +84,7 @@ Returns null on any error.
 ### `saveLastResult(lat, lon, options, scoreRun)`
 
 Persist the last PMA run to localStorage so results survive page refresh.
-Stored entry contains: lat, lon, options, scoreRun, and a timestamp.
+Stored entry contains: lat, lon, jurisdiction, options, scoreRun, and a timestamp.
 Entries older than LS_TTL (24 h) are automatically discarded on load.
 
 @param {number} lat

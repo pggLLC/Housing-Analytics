@@ -94,18 +94,6 @@ Return the FMR area name for a county (e.g. "Denver-Aurora-Lakewood HUD Metro FM
 @param {string|number} fips
 @returns {string|null}
 
-### `getGrossRentLimit(fips, pctAmi)`
-
-Compute the gross rent limit for a given %AMI and bedroom size.
-
-Uses HUD's standard formula: (AMI × pctAmi × 0.30) / 12.
-When a county FIPS is provided, uses the county-specific 4-person AMI.
-When no FIPS (or FIPS not found), returns null.
-
-@param {string|number} fips     5-digit county FIPS.
-@param {number}        pctAmi   AMI percentage (e.g. 30, 50, 60, 80).
-@returns {number|null}          Monthly gross rent limit in $USD, or null.
-
 ### `computeFmrRatio(fips, marketRent)`
 
 Compute the ratio of a given market rent to the 2-bedroom FMR.

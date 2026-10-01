@@ -5,7 +5,7 @@ js/historical-trends.js
 Renders three panels on historical-trends.html:
   1. Annual awards by credit type (projects or units, from the CHFA live feed)
      plus typical-deal tiles and the latest CHFA round's award-report figures
-  2. LIHTC stock trajectory (cumulative units by placed-in-service year)
+  2. LIHTC stock trajectory (cumulative units by award year — the feed has no opening year)
   3. Peer benchmark table (given user-chosen county + unit count, find similar LIHTC projects)
 
 Data sources (all local, no external API):
