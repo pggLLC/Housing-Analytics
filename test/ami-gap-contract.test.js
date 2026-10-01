@@ -1,6 +1,7 @@
 'use strict';
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const vm = require('node:vm');
 const { execFileSync } = require('node:child_process');
 const { JSDOM } = require('jsdom');
 const read = p => fs.readFileSync(p, 'utf8');
@@ -57,6 +58,76 @@ for (const sign of ['units_minus_households', 'households_minus_units']) {
   }
 }
 console.log(`PASS declared signs: ${records} records, ${bands} bands, builder literals and null components`);
+
+// Execute both producer handlers with fixture HTTP responses. The only source
+// adaptation is exposing the ES-module default export to the isolated VM.
+async function serverlessEndpoints() {
+  const fixtures = county.counties.map((row, index) => ({
+    fips_code: row.fips + '99999', county_name: row.county_name,
+    ami: row.ami_4person, rentBinCount: index % 2 ? 100 : 10,
+  }));
+  for (const file of ['serverless/vercel/api/co-ami-gap.js', 'serverless/cloudflare-worker/co-ami-gap-worker.js']) {
+    const requests = [];
+    const fetchFixture = async input => {
+      const url = new URL(input); requests.push(url);
+      let data;
+      if (url.hostname === 'www.huduser.gov') {
+        if (url.pathname.endsWith('/listCounties/CO')) data = {data: fixtures};
+        else {
+          const match = fixtures.find(row => url.pathname.endsWith('/il/data/' + row.fips_code));
+          assert(match, 'known HUD fixture: ' + url.pathname);
+          data = {data: {median_income: match.ami}};
+        }
+      } else {
+        assert.equal(url.hostname, 'api.census.gov', 'no live or unexpected fetch');
+        const fips = '08' + url.searchParams.get('for').split(':')[1];
+        const fixture = fixtures.find(row => row.fips_code.startsWith(fips));
+        assert(fixture, 'known Census fixture county');
+        const variables = url.searchParams.get('get').split(',');
+        data = [variables, variables.map(v => {
+          if (v === 'B25118_014E') return '1100';
+          if (v === 'B19001_001E') return '1600';
+          if (v.startsWith('B25063')) return String(fixture.rentBinCount);
+          return '100';
+        })];
+      }
+      return {ok: true, json: async () => data};
+    };
+    const env = {HUD_USER_TOKEN: 'fixture', CENSUS_API_KEY: 'fixture'};
+    const sandbox = {fetch: fetchFixture, process: {env}, URL, Request, Response,
+      caches: {default: {match: async () => null, put: async () => {}}}};
+    const src = read(file);
+    assert.equal(src.split('export default ').length, 2, 'one handler export');
+    vm.runInNewContext(src.replace('export default ', 'globalThis.endpoint = '), sandbox, {filename: file});
+    let payload;
+    if (file.includes('/vercel/')) {
+      let status;
+      await sandbox.endpoint({query: {}}, {setHeader() {}, status(code) {status = code; return this;}, json(value) {payload = value;}});
+      assert.equal(status, 200, file);
+    } else {
+      const pending = [];
+      const response = await sandbox.endpoint.fetch(new Request('https://fixture.local/co-ami-gap'), env,
+        {waitUntil(promise) {pending.push(promise);}});
+      await Promise.all(pending);
+      assert.equal(response.status, 200, file);
+      payload = await response.json();
+    }
+    assert.equal(payload.meta.gap_sign, county.meta.gap_sign, file + ': live sign equals committed county sign');
+    assert.equal(payload.counties.length, fixtures.length, 'every fixture county was computed');
+    assert.equal(requests.length, 1 + fixtures.length * 4, 'both HUD and all three Census tables were read');
+    assert.equal(payload.bands.length, county.bands.length);
+    let checked = 0;
+    for (const row of [...payload.counties, payload.statewide]) {
+      checkRecord(row, payload.bands, payload.meta.gap_sign);
+      checked += payload.bands.length;
+    }
+    assert.equal(checked, 65 * county.bands.length, 'all county and statewide bands checked');
+    const gaps = payload.counties.flatMap(row => Object.values(row[field]));
+    assert(gaps.some(gap => gap < 0) && gaps.some(gap => gap > 0), 'fixtures exercise both signs');
+    await endpoint(payload, true);
+    console.log('PASS ' + file + ': handler metadata, ' + checked + ' computed bands, and front-end acceptance');
+  }
+}
 
 async function endpoint(payload, available) {
   const w = new JSDOM(read('colorado-deep-dive.html'), { runScripts: 'outside-only', url: 'https://example.org/colorado-deep-dive.html' }).window;
@@ -136,6 +207,7 @@ function combinedExport() {
   } finally { w.close(); }
 }
 (async () => {
+  await serverlessEndpoints();
   await endpoint(county, true);
   await endpoint({...county, meta: {...county.meta, gap_sign: 'households_minus_units'}}, false);
   await endpoint(place, false);
