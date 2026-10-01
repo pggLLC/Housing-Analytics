@@ -1727,15 +1727,19 @@
     var boundaryEl = document.getElementById('maJurisdictionBoundary');
     var notice = document.getElementById('maSiteBoundaryNotice');
     if (!banner || !nameEl || !boundaryEl || !notice) return;
-    var jurisdiction = window.WorkflowState && window.WorkflowState.getJurisdiction
-      ? window.WorkflowState.getJurisdiction() : null;
-    // Deep links are resolved before WorkflowState is hydrated on some entry
-    // paths. Once bound, the active workflow jurisdiction owns this banner.
-    if (!jurisdiction || !jurisdiction.geoid) {
+    var jurisdiction = null;
+    // A deep link drives the map and analysis even when another project is
+    // stored. Use that same context for both this label and the polygon check.
+    var params = new URLSearchParams(window.location.search);
+    if (params.has('geoid') || params.has('fips')) {
       var ctx = window.JurisdictionUrlContext && window.JurisdictionUrlContext.resolveSync
         ? window.JurisdictionUrlContext.resolveSync() : null;
       jurisdiction = ctx && { geoid: ctx.geoid || ctx.fips, geoType: ctx.geoType,
-        name: ctx.displayName || ctx.countyName };
+        name: ctx.geoType === 'county' ? ctx.countyName || ctx.displayName : ctx.displayName };
+    }
+    if (!jurisdiction || !jurisdiction.geoid) {
+      jurisdiction = window.WorkflowState && window.WorkflowState.getJurisdiction
+        ? window.WorkflowState.getJurisdiction() : null;
     }
     if (!jurisdiction || !jurisdiction.geoid) {
       var county = window.SiteState && window.SiteState.getCounty();
@@ -1746,6 +1750,7 @@
     if (maBannerGeoid && maBannerGeoid !== geoid) maBannerSite = null;
     maBannerGeoid = geoid;
     var name = jurisdiction && (jurisdiction.name || jurisdiction.displayName || geoid) || 'Not selected';
+    if (type === 'county' && !/county$/i.test(name)) name += ' County';
     nameEl.textContent = name;
     boundaryEl.textContent = type === 'state' ? ' (statewide)'
       : type === 'county' ? ' (county boundary)'
