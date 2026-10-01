@@ -28,7 +28,7 @@ function loadRenderersDom() {
     '<a data-decision-key="ownership" href="#affordable-ownership-need-section"><strong id="decisionOwnershipValue">—</strong><span id="decisionOwnershipRead">Loading</span></a>' +
     '<a data-decision-key="confidence" href="#hnaGapCoveragePanel"><strong id="decisionConfidenceValue">—</strong><span id="decisionConfidenceRead">Loading</span></a>' +
     '</section>' +
-    '<div id="hnaBanner"></div><div id="geoContextPill"></div><div id="execNarrative"></div>' +
+    '<div id="hnaBanner"></div><div id="geoContextPill"></div><div id="execNarrative"></div><div id="hnaGapNetLine"></div>' +
     '<div id="statPop"></div><div id="statPopSrc"></div><div id="statMhi"></div><div id="statMhiSrc"></div>' +
     '<div id="statHomeValue"></div><div id="statHomeValueSrc"></div><div id="statRent"></div><div id="statRentSrc"></div>' +
     '<div id="statTenure"></div><div id="statTenureSrc"></div><div id="statRentBurden"></div>' +
@@ -212,13 +212,38 @@ test('per-band gap clamping yields monotonic cumulative gaps', () => {
     { geoType: 'place', geoid: '0800001' },
     { geoType: 'place', geoid: '0800002' },
   ], fixtureDatasets());
-  const gaps = out.amiGapEntry.gap_units_minus_households_le_ami_pct;
+  const gaps = out.amiGapEntry.shortfall_households_minus_units_le_ami_pct;
   let prev = 0;
   for (const band of Combined.GAP_BANDS) {
     assert.ok(gaps[band] >= prev, 'gap at ' + band + ' should be monotonic');
     prev = gaps[band];
   }
   assert.ok(gaps['40'] >= 0);
+});
+
+test('combined shortfall renderer keeps missing values unavailable and preserves measured zero', () => {
+  const dom = loadRenderersDom();
+  const out = Combined.aggregate([
+    { geoType: 'place', geoid: '0800001' },
+    { geoType: 'place', geoid: '0800002' },
+  ], fixtureDatasets());
+  const series = out.amiGapEntry.shortfall_households_minus_units_le_ami_pct;
+  const line = dom.window.document.getElementById('hnaGapNetLine');
+  try {
+    assert(series['100'] > 0, 'real combined fixture must have a positive shortfall');
+    dom.window.HNARenderers.renderCombinedAssessment(out);
+    assert(line.textContent.includes('~' + series['100'].toLocaleString('en-US')));
+    for (const absent of [null, '', '   ', undefined]) {
+      series['100'] = absent;
+      dom.window.HNARenderers.renderCombinedAssessment(out);
+      assert.match(line.textContent, /not available|unavailable/i);
+      assert(!line.textContent.includes('~0'), 'absent shortfall must not become zero');
+    }
+    series['100'] = 0;
+    dom.window.HNARenderers.renderCombinedAssessment(out);
+    assert(line.textContent.includes('~0'), 'a measured zero remains available');
+    assert(!/not available|unavailable/i.test(line.textContent));
+  } finally { dom.window.close(); }
 });
 
 test('overlap rejection catches place plus containing county', () => {

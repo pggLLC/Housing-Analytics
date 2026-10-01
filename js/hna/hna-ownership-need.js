@@ -437,7 +437,7 @@
   // Renter households at or below 80% AMI minus the rental units priced for
   // them, floored at 0. The stored gap field has a different sign in each
   // file (#2013): data/co_ami_gap_by_county.json stores units − households,
-  // data/co_ami_gap_by_place.json and combined-geo store households − units.
+  // data/co_ami_gap_by_place.json stores households − units.
   // Callers tag the record with gapSource; an untagged record is recomputed
   // from its household and unit counts, which mean the same thing in both
   // files, rather than guessing a sign — and is null when those are absent.
@@ -450,11 +450,13 @@
       var v = series['80'] != null ? series['80'] : series[80];
       return v == null || v === '' ? null : num(v);
     };
+    var source = amiGapEntry.gapSource || amiGapEntry._gapSource || null;
+    // Combined areas use the cumulative sum of positive band shortfalls, as in HNA exports.
+    if (source === 'combined') return pick(amiGapEntry.shortfall_households_minus_units_le_ami_pct);
     var gaps = amiGapEntry.gap_units_minus_households_le_ami_pct;
     var raw = pick(gaps);
-    var source = amiGapEntry.gapSource || amiGapEntry._gapSource || null;
     if (raw != null && source === 'county') return Math.max(0, -raw);
-    if (raw != null && (source === 'place' || source === 'combined')) return Math.max(0, raw);
+    if (raw != null && source === 'place') return Math.max(0, raw);
     var hh = pick(amiGapEntry.households_le_ami_pct);
     var units = pick(amiGapEntry.units_priced_affordable_le_ami_pct);
     if (hh == null || units == null) return null;
