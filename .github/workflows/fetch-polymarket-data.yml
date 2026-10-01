@@ -25,7 +25,7 @@ jobs:
         run: |
           echo "── Starting Polymarket fetch at $(date -u) ──"
           python3 - <<'PY'
-          import json, sys, datetime, urllib.request, urllib.error
+          import json, sys, time, datetime, urllib.request, urllib.error
 
           API = "https://gamma-api.polymarket.com"
 
@@ -49,9 +49,6 @@ jobs:
               "fed-decision-in-january-20260729233815502",
               # housing -- the reason this panel is on this site at all
               "will-the-30-year-mortgage-rate-hit-in-2026",
-              "what-will-the-median-home-value-in-the-us-be-on-september-30-20260630175540363",
-              "what-will-the-median-home-value-in-miami-be-on-september-30-20260630172328034",
-              "what-will-the-median-home-value-in-new-york-city-be-on-september-30-20260630180215064",
           ]
 
           # Anything matching this in an event title counts as housing content.
@@ -61,14 +58,21 @@ jobs:
 
           def fetch_event(slug):
               url = f"{API}/events?slug={slug}"
-              try:
-                  req = urllib.request.Request(url, headers={"User-Agent": "housing-analytics-bot/1.0"})
-                  with urllib.request.urlopen(req, timeout=15) as resp:
-                      data = json.loads(resp.read().decode())
-                      if data and len(data) > 0:
-                          return data[0]
-              except Exception as e:
-                  print(f"  WARN: {slug}: {e}", file=sys.stderr)
+              # An empty API response is not evidence of settlement. Retry it
+              # like a transport failure; never publish a partial refresh.
+              for attempt in range(3):
+                  try:
+                      req = urllib.request.Request(url, headers={"User-Agent": "housing-analytics-bot/1.0"})
+                      with urllib.request.urlopen(req, timeout=15) as resp:
+                          data = json.loads(resp.read().decode())
+                          event = next((e for e in data if e.get("slug") == slug), None)
+                          if event:
+                              return event
+                  except Exception as e:
+                      print(f"  WARN: {slug}: {e}", file=sys.stderr)
+                  if attempt < 2:
+                      print(f"  RETRY ({slug} not returned)")
+                      time.sleep(attempt + 1)
               return None
 
           now = datetime.datetime.now(datetime.timezone.utc)
@@ -96,7 +100,7 @@ jobs:
               print(f"  Fetching {slug}...", end=" ")
               event = fetch_event(slug)
               if not event:
-                  print("SKIP (not returned)")
+                  print("MISSING (not returned after retries)")
                   missing.append(slug)
                   continue
               settled, why = is_settled(event)
@@ -135,6 +139,10 @@ jobs:
           for slug in missing:
               print(f"   missing: {slug}")
           print(f"   housing markets remaining: {len(housing)}")
+
+          if missing:
+              print("::error::incomplete Polymarket response; keeping the existing cache unchanged")
+              sys.exit(1)
 
           # A resolved market is normal and gets dropped quietly. A list that
           # has decayed to nothing is a curation problem, and saying so here is
