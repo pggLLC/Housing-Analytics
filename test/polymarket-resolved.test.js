@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * The prediction-market panel must not publish markets that have already
- * settled, and the page must not reference markets that are not published.
+ * settled. Curated live markets may fall back to the API when absent from cache.
  *
  * ── What was wrong ──
  *
@@ -28,11 +28,14 @@
  * ── What it asserts now ──
  *
  * That the published cache is current, that it carries the metadata needed to
- * know that, and that the page and the data file name the same markets.
+ * know that, and that the page and fetcher agree on the curated markets.
+ * Missing responses must preserve the cache and render an honest fallback.
  */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { spawnSync } = require('node:child_process');
+const { JSDOM } = require('jsdom');
 
 const ROOT = path.resolve(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
@@ -111,13 +114,22 @@ const requested = [...new Set(
     .map((m) => m.replace(/getEvent\('/, '').replace(/'\)/, '')),
 )];
 
-const missingFromData = pageSlugs.filter((s) => !slugs.includes(s));
-assert.deepEqual(missingFromData, [],
-  `the page links markets that are not in the cache: ${missingFromData.join(', ')}`);
-
-const requestedButAbsent = requested.filter((s) => !slugs.includes(s));
-assert.deepEqual(requestedButAbsent, [],
-  `the page calls getEvent() for markets that are not in the cache, which renders "Loading…" forever: ${requestedButAbsent.join(', ')}`);
+// An empty response dropped the still-live October Fed event on October 1.
+// Cache absence alone cannot justify retiring a market. Pin the curation and
+// confirmed settlements here, then exercise the real fallback below.
+const curated = [...workflow.match(/EVENTS = \[([\s\S]*?)\n          \]/)[1].matchAll(/"([a-z0-9-]+)"/g)]
+  .map((m) => m[1]);
+assert.deepEqual([...pageSlugs].sort(), [...curated].sort(), 'dashboard cards must match the fetcher');
+assert.deepEqual([...requested].sort(), [...curated].sort(), 'dashboard requests must match the fetcher');
+const retired = [
+  'what-will-the-median-home-value-in-the-us-be-on-september-30-20260630175540363',
+  'what-will-the-median-home-value-in-miami-be-on-september-30-20260630172328034',
+  'what-will-the-median-home-value-in-new-york-city-be-on-september-30-20260630180215064',
+];
+for (const slug of new Set([...retired, ...(data.dropped_settled || [])])) {
+  assert(!curated.includes(slug), `confirmed settled market still curated: ${slug}`);
+  assert(!dashboard.includes(slug), `confirmed settled market still in dashboard: ${slug}`);
+}
 
 const unusedInPage = slugs.filter((s) => !pageSlugs.includes(s) && !requested.includes(s));
 assert.deepEqual(unusedInPage, [],
@@ -150,4 +162,129 @@ assert(/"endDate": event\.get\("endDate"\)/.test(workflow),
 assert(!/\bactive\b\s*is\s*True/.test(workflow),
   'the workflow appears to treat `active` as a liveness signal; `closed` is the signal');
 
-console.log(`polymarket-resolved: PASS (${slugs.length} live events, ${housing.length} housing, 0 settled)`);
+
+/* ── run the actual workflow Python against controlled API responses ────── */
+
+const fetchPython = workflow.match(/python3 - <<'PY'\n([\s\S]*?)\n          PY/)[1].replace(/^ {10}/gm, '');
+const fedSlug = 'fed-decision-in-october-20260617190323537';
+assert(curated.includes(fedSlug), 'the October Fed market remains curated');
+const fetchCheck = spawnSync('python3', ['-c', `
+import contextlib, io, json, os, sys, tempfile, time, urllib.request
+from pathlib import Path
+from unittest.mock import patch
+case = json.load(sys.stdin)
+for mode in ['empty_then_live', 'error_then_live', 'missing', 'wrong_slug', 'settled']:
+    calls = {}
+    def response(req, timeout):
+        slug = req.full_url.split('slug=')[1]
+        calls[slug] = calls.get(slug, 0) + 1
+        event = dict(slug=slug, title='Mortgage rate fixture', closed=False,
+                     endDate='2099-10-29T03:59:00Z', markets=[])
+        if mode == 'settled':
+            if slug == case['curated'][0]: event['closed'] = True
+            if slug == case['curated'][1]: event['endDate'] = '2000-01-01T00:00:00Z'
+        if slug == case['fed']:
+            if mode == 'error_then_live' and calls[slug] == 1: raise OSError('temporary API error')
+            if mode == 'missing' or (mode == 'empty_then_live' and calls[slug] == 1):
+                return io.BytesIO(b'[]')
+            if mode == 'wrong_slug': event['slug'] = 'unrelated-event'
+        return io.BytesIO(json.dumps([event]).encode())
+    with tempfile.TemporaryDirectory() as tmp:
+        previous = os.getcwd()
+        try:
+            os.chdir(tmp)
+            Path('data').mkdir()
+            output = Path('data/polymarket-data.json')
+            output.write_text('existing cache must survive')
+            code = 0
+            with patch.object(urllib.request, 'urlopen', response), patch.object(time, 'sleep'), contextlib.redirect_stdout(io.StringIO()):
+                try: exec(compile(case['source'], 'fetch-polymarket-data.yml', 'exec'), {})
+                except SystemExit as ex: code = ex.code
+            if mode in ['missing', 'wrong_slug']:
+                assert code != 0, mode + ': partial refresh must fail'
+                assert output.read_text() == 'existing cache must survive', mode + ': cache overwritten'
+                assert calls[case['fed']] == 3, mode + ': missing response was not retried'
+            else:
+                assert code == 0, mode + ': refresh failed'
+                payload = json.loads(output.read_text())
+                assert case['fed'] in payload['events'], mode + ': live October event dropped'
+                if mode.endswith('_then_live'):
+                    assert calls[case['fed']] == 2, mode + ': API failure was not retried'
+                if mode == 'settled':
+                    assert payload['dropped_settled'] == case['curated'][:2], 'closed and expired events must be dropped'
+                    assert len(payload['events']) == len(case['curated']) - 2
+                else: assert len(payload['events']) == len(case['curated'])
+            print('fetcher: ' + mode + ' PASS')
+        finally: os.chdir(previous)
+`], { input: JSON.stringify({ source: fetchPython, curated, fed: fedSlug }), encoding: 'utf8' });
+assert.equal(fetchCheck.status, 0, fetchCheck.stdout + fetchCheck.stderr);
+process.stdout.write(fetchCheck.stdout);
+
+/* ── run the dashboard renderer, including absent-cache/API responses ───── */
+
+const fixture = (question, probability) => ({
+  markets: [{ groupItemTitle: question, outcomePrices: JSON.stringify([probability, 1 - probability]), volume: '100' }],
+});
+const cardCases = [
+  ['us-recession-by-end-of-2026', 'pm-recession-detail', 'Recession', .11],
+  [fedSlug, 'pm-fed-oct-detail', 'No change', .72],
+  ['how-many-fed-rate-cuts-in-2026', 'pm-fed-cuts-detail', '2 cuts', .33],
+  ['how-high-will-inflation-get-in-2026', 'pm-inflation-detail', '4%', .44],
+  ['gdp-growth-in-2026', 'pm-gdp-detail', '3% growth', .55],
+  ['fed-decision-in-january-20260729233815502', 'pm-fed-jan-yes', 'No change', .64],
+  ['tech-layoffs-up-or-down-in-2026', 'pm-layoffs', 'Up', .22],
+  ['will-the-30-year-mortgage-rate-hit-in-2026', 'pm-mortgage-detail', 'Below 6%', .31],
+];
+assert.equal(cardCases.length, curated.length, 'exercise every remaining card');
+
+async function render(cache, live) {
+  const dom = new JSDOM(dashboard, { runScripts: 'outside-only', url: 'https://example.test/economic-dashboard.html' });
+  const requests = [];
+  const w = dom.window;
+  w.fetch = async (url) => {
+    const slug = new URL(url, w.location).searchParams.get('slug');
+    if (slug) requests.push(slug);
+    const body = slug ? (live[slug] ? [live[slug]] : []) : cache;
+    return { ok: true, json: async () => body };
+  };
+  const script = [...w.document.scripts].find((el) => el.textContent.includes('function loadPolymarket()'));
+  assert(script, 'execute the real Polymarket renderer');
+  w.eval(script.textContent);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(w.document.getElementById('pm-refresh').disabled, false, 'load completed');
+  assert.doesNotMatch(w.document.getElementById('pm-updated').textContent, /failed/i);
+  return { dom, document: w.document, requests };
+}
+
+(async () => {
+  const fixtures = Object.fromEntries(cardCases.map(([slug, , label, prob]) => [slug, fixture(label, prob)]));
+  const cached = { ...fixtures };
+  delete cached[fedSlug];
+  const live = await render({ events: cached }, { [fedSlug]: fixtures[fedSlug] });
+  try {
+    assert.deepEqual(live.requests, [fedSlug], 'missing live October event uses the API fallback');
+    for (const [slug, id, , prob] of cardCases) {
+      assert(live.document.getElementById(id).textContent.includes(Math.round(prob * 100) + '%'),
+        `${slug} must render its own probabilities after removing three requests`);
+    }
+    assert.equal(live.document.getElementById('pm-fed-oct').textContent, '72%');
+    for (const id of ['pm-home', 'pm-home-detail', 'pm-miami-detail', 'pm-nyc-top', 'pm-co-denver', 'pm-co-payment', 'pm-co-ratio']) {
+      assert.equal(live.document.getElementById(id), null, `${id} no longer presents a retired market`);
+    }
+  } finally { live.dom.window.close(); }
+
+  // Exercise every absent response, including the production cache's missing
+  // Fed event. No live network or hand-edited cache is needed for this guard.
+  const absent = await render({ events: {} }, {});
+  try {
+    assert.deepEqual([...absent.requests].sort(), [...curated].sort());
+    const panel = absent.document.getElementById('polymarket-section');
+    assert.doesNotMatch(panel.textContent, /Loading/);
+    assert.match(absent.document.getElementById('pm-fed-oct-detail').textContent, /unavailable/i);
+    assert.match(absent.document.getElementById('pm-mortgage-detail').textContent, /unavailable/i);
+    for (const grid of panel.querySelectorAll('.hp-binary-grid')) {
+      assert(grid.querySelector('a'), 'removing settled cards leaves no empty section');
+    }
+  } finally { absent.dom.window.close(); }
+  console.log(`polymarket-resolved: PASS (${slugs.length} cached live events, ${housing.length} housing, ${cardCases.length} rendered cards, 0 settled)`);
+})().catch((error) => { console.error(error); process.exitCode = 1; });

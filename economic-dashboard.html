@@ -401,7 +401,7 @@ document.addEventListener('DOMContentLoaded', function () {
   </div>
   <div class="kpi-strip-item">
     <div class="kpi-strip-value" id="pm-fed-oct">—</div>
-    <div class="kpi-strip-label">Fed Holds in April</div>
+    <div class="kpi-strip-label">Fed Holds in October</div>
     <div class="kpi-delta" id="pm-fed-oct-vol">—</div>
     <div class="kpi-source">Polymarket</div>
   </div>
@@ -423,32 +423,11 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="kpi-delta" id="pm-gdp-prob">—</div>
     <div class="kpi-source">Polymarket</div>
   </div>
-  <div class="kpi-strip-item">
-    <div class="kpi-strip-value" id="pm-home">—</div>
-    <div class="kpi-strip-label">US Median Home Value (Apr)</div>
-    <div class="kpi-delta" id="pm-home-prob">—</div>
-    <div class="kpi-source">Polymarket · Parcl Labs</div>
-  </div>
 </div>
 
 <!-- Colorado Impact Analysis -->
 <h3 class="hp-section-heading">Colorado Real Estate &amp; Affordability Impact</h3>
 <div class="hp-co-grid" id="pm-co-grid" style="margin-bottom:1.25rem;">
-  <div class="hp-co-item">
-    <div class="hp-co-label">Denver Median Home (implied)</div>
-    <div class="hp-co-value" id="pm-co-denver">—</div>
-    <div class="hp-co-range">~1.35× national median</div>
-  </div>
-  <div class="hp-co-item">
-    <div class="hp-co-label">Monthly Payment (20% dn)</div>
-    <div class="hp-co-value" id="pm-co-payment">—</div>
-    <div class="hp-co-range">30yr @ current rate</div>
-  </div>
-  <div class="hp-co-item">
-    <div class="hp-co-label">Payment-to-Income</div>
-    <div class="hp-co-value" id="pm-co-ratio">—</div>
-    <div class="hp-co-range">CO median: $87,600</div>
-  </div>
   <div class="hp-co-item">
     <div class="hp-co-label">Construction Cost Pressure</div>
     <div class="hp-co-value" id="pm-co-cost">—</div>
@@ -468,13 +447,13 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="hp-category-badge">Fed Policy</div>
     <div class="hp-binary-label">Fed Decision — October 2026</div>
     <div class="hp-binary-desc">FOMC meeting October 27-28. Directly sets short-term rate environment for construction loans and variable-rate debt.</div>
-    <div id="pm-fed-oct-detail">Loading…</div>
+    <div id="pm-fed-oct-detail">Unavailable</div>
   </a>
   <a class="hp-binary-card" href="https://polymarket.com/event/how-many-fed-rate-cuts-in-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#1a73e8;">
     <div class="hp-category-badge">Fed Policy</div>
     <div class="hp-binary-label">Rate Cuts in 2026</div>
     <div class="hp-binary-desc">Number of 25bp cuts expected this year. Fewer cuts = higher mortgage rates = tighter affordability for Colorado buyers.</div>
-    <div id="pm-fed-cuts-detail">Loading…</div>
+    <div id="pm-fed-cuts-detail">Unavailable</div>
   </a>
   <a class="hp-binary-card" href="https://polymarket.com/event/fed-decision-in-january-20260729233815502" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#1a73e8;">
     <div class="hp-category-badge">Fed Policy</div>
@@ -492,32 +471,11 @@ document.addEventListener('DOMContentLoaded', function () {
 <!-- Housing & Home Values -->
 <h3 class="hp-section-heading">Real Estate &amp; Home Values</h3>
 <div class="hp-binary-grid" style="margin-bottom:1.25rem;">
-  <a class="hp-binary-card" href="https://polymarket.com/event/what-will-the-median-home-value-in-the-us-be-on-september-30-20260630175540363" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#2e7d32;">
-    <div class="hp-category-badge" style="background:#2e7d32;">Housing</div>
-    <div class="hp-binary-label">US Median Home Value — Sept 30</div>
-    <div class="hp-binary-desc">National benchmark via Parcl Labs index. Denver typically trades ~35% above national median.</div>
-    <div id="pm-home-detail">Loading…</div>
-  </a>
-  <a class="hp-binary-card" href="https://polymarket.com/event/what-will-the-median-home-value-in-miami-be-on-september-30-20260630172328034" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#2e7d32;">
-    <div class="hp-category-badge" style="background:#2e7d32;">Housing</div>
-    <div class="hp-binary-label">Miami Median — Sept 30</div>
-    <div class="hp-binary-desc">Comparable high-cost metro. Miami and Denver share a supply-constrained, in-migration-driven price pattern.</div>
-    <div id="pm-miami-detail">Loading…</div>
-  </a>
-  <a class="hp-binary-card" href="https://polymarket.com/event/what-will-the-median-home-value-in-new-york-city-be-on-september-30-20260630180215064" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#2e7d32;">
-    <div class="hp-category-badge" style="background:#2e7d32;">Housing</div>
-    <div class="hp-binary-label">NYC Median — Sept 30</div>
-    <div class="hp-binary-desc">The largest US rental market, and a useful counterweight to the Sun Belt metros.</div>
-    <div class="hp-odds-row">
-      <div class="hp-odds-yes"><span class="hp-odds-pct" id="pm-nyc-top">—</span><span class="hp-odds-lbl" id="pm-nyc-lbl">range</span></div>
-    </div>
-    <div class="hp-binary-bar"><div class="hp-binary-bar-fill" id="pm-nyc-bar" style="width:0%"></div></div>
-  </a>
   <a class="hp-binary-card" href="https://polymarket.com/event/will-the-30-year-mortgage-rate-hit-in-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#2e7d32;">
     <div class="hp-category-badge" style="background:#2e7d32;">Housing</div>
     <div class="hp-binary-label">30-Year Mortgage Rate in 2026</div>
     <div class="hp-binary-desc">Sets the debt constant on every ownership pro forma and the affordability ceiling for first-time buyers.</div>
-    <div id="pm-mortgage-detail">Loading…</div>
+    <div id="pm-mortgage-detail">Unavailable</div>
   </a>
 </div>
 
@@ -528,20 +486,20 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="hp-category-badge" style="background:#c62828;">Recession</div>
     <div class="hp-binary-label">US Recession by End of 2026?</div>
     <div class="hp-binary-desc">Two consecutive negative GDP quarters or NBER announcement. A recession would sharply curtail new CO construction starts and LIHTC deal flow.</div>
-    <div id="pm-recession-detail">Loading…</div>
+    <div id="pm-recession-detail">Unavailable</div>
   </a>
   <a class="hp-binary-card" href="https://polymarket.com/event/gdp-growth-in-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#1565c0;">
     <div class="hp-category-badge" style="background:#1565c0;">GDP</div>
     <div class="hp-binary-label">GDP Growth in 2026</div>
     <div class="hp-binary-desc">Full-year real GDP growth. Stronger growth supports CO job market, in-migration, and housing demand along the Front Range.</div>
-    <div id="pm-gdp-detail">Loading…</div>
+    <div id="pm-gdp-detail">Unavailable</div>
   </a>
   <!-- #b84500 (was #e65100) passes AA 4.5:1 with white text at 8pt bold; #e65100 was 3.78:1. -->
   <a class="hp-binary-card" href="https://polymarket.com/event/how-high-will-inflation-get-in-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#b84500;">
     <div class="hp-category-badge" style="background:#b84500;">Inflation</div>
     <div class="hp-binary-label">Inflation Peak in 2026</div>
     <div class="hp-binary-desc">CPI thresholds during any month. Higher inflation = rising construction material costs, eroding LIHTC rent affordability margins.</div>
-    <div id="pm-inflation-detail">Loading…</div>
+    <div id="pm-inflation-detail">Unavailable</div>
   </a>
 </div>
 
@@ -1432,12 +1390,6 @@ function getKey(){ return CONFIG_KEY || ""; }
     if (n >= 1e3) return '$' + (n / 1e3).toFixed(1) + 'K';
     return '$' + Math.round(n);
   }
-  function fmt$(n) { return '$' + Number(n).toLocaleString('en-US', { maximumFractionDigits: 0 }); }
-  function monthlyPayment(principal, rate, years) {
-    var r = rate / 12, n = years * 12;
-    return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-  }
-
   function pmIsResolved(prices) {
     if (!Array.isArray(prices) || prices.length < 2) return false;
     var nums = prices.map(Number).filter(function(n) { return !isNaN(n); });
@@ -1452,7 +1404,7 @@ function getKey(){ return CONFIG_KEY || ""; }
       var prices = [0, 0];
       try { prices = JSON.parse(m.outcomePrices); } catch(e) {}
       return {
-        question: m.question || '',
+        question: m.groupItemTitle || m.question || '',
         prob: parseFloat(prices[0]) || 0,
         prices: prices,
         resolved: pmIsResolved(prices),
@@ -1478,7 +1430,7 @@ function getKey(){ return CONFIG_KEY || ""; }
         '<span class="hp-prob-pct" style="' + (isTop && !b.resolved ? 'color:var(--color-primary,#1a73e8);' : '') + '">' + (b.resolved ? 'Settled' : pct(b.prob)) + '</span>' +
         '</div>';
     });
-    el.innerHTML = html;
+    el.innerHTML = html || 'Unavailable';
   }
 
   function markSettledValue(id, noteId, note) {
@@ -1532,22 +1484,15 @@ function getKey(){ return CONFIG_KEY || ""; }
         getEvent('how-many-fed-rate-cuts-in-2026'),
         getEvent('how-high-will-inflation-get-in-2026'),
         getEvent('gdp-growth-in-2026'),
-        getEvent('what-will-the-median-home-value-in-the-us-be-on-september-30-20260630175540363'),
-        getEvent('what-will-the-median-home-value-in-miami-be-on-september-30-20260630172328034'),
         getEvent('fed-decision-in-january-20260729233815502'),
-        getEvent('what-will-the-median-home-value-in-new-york-city-be-on-september-30-20260630180215064'),
         getEvent('tech-layoffs-up-or-down-in-2026'),
         getEvent('will-the-30-year-mortgage-rate-hit-in-2026')
       ]);
     }).then(function(results) {
       // Positional, so the order here must match the Promise.all above exactly.
-      // Renamed with the markets they now hold: these used to read fedOct /
-      // miamiHome / fedJan / nycHome while carrying October, Miami, January and
-      // New York data.
       var recession = results[0], fedOct = results[1], fedCuts = results[2],
-          inflation = results[3], gdp = results[4], usHome = results[5],
-          miamiHome = results[6], fedJan = results[7], nycHome = results[8],
-          techLayoffs = results[9], mortgageRate = results[10];
+          inflation = results[3], gdp = results[4], fedJan = results[5],
+          techLayoffs = results[6], mortgageRate = results[7];
 
       // ── Recession ──
       if (recession) {
@@ -1604,8 +1549,12 @@ function getKey(){ return CONFIG_KEY || ""; }
           setText('pm-fed-oct-vol', fmtVol(faBrackets.reduce(function(s, b) { return s + b.volume; }, 0)) + ' volume');
         }
         renderBrackets('pm-fed-oct-detail', faBrackets.map(function(b) {
-          return { label: b.question.replace(/Fed decision in April:\s*/i, '').replace(/\?$/, ''), prob: b.prob, resolved: b.resolved };
+          return { label: b.question.replace(/Fed decision in October:\s*/i, '').replace(/\?$/, ''), prob: b.prob, resolved: b.resolved };
         }));
+      } else {
+        setText('pm-fed-oct', 'Unavailable');
+        setText('pm-fed-oct-vol', 'Market data unavailable');
+        setText('pm-fed-oct-detail', 'Unavailable');
       }
 
       // ── Fed Cuts ──
@@ -1656,41 +1605,6 @@ function getKey(){ return CONFIG_KEY || ""; }
         }));
       }
 
-      // ── US Home Value ──
-      if (usHome) {
-        var homeBrackets = parseMarkets(usHome);
-        if (pmEventIsResolved(homeBrackets)) {
-          markSettledValue('pm-home', 'pm-home-prob', 'Parcl April market settled');
-        } else if (homeBrackets.length) {
-          setText('pm-home', homeBrackets[0].question.substring(0, 20));
-          setText('pm-home-prob', pct(homeBrackets[0].prob) + ' probability');
-
-          // Colorado implied
-          var nationalMid = 433000;
-          var denverImplied = Math.round(nationalMid * 1.35);
-          setText('pm-co-denver', fmt$(denverImplied));
-
-          // Payment calc
-          var payment = monthlyPayment(denverImplied * 0.8, 0.0665, 30);
-          setText('pm-co-payment', fmt$(Math.round(payment)) + '/mo');
-          var ratio = ((payment * 12) / 87600 * 100).toFixed(1);
-          setText('pm-co-ratio', ratio + '%');
-          var ratioEl = document.getElementById('pm-co-ratio');
-          if (ratioEl) ratioEl.style.color = ratio > 35 ? 'var(--bad,#c62828)' : ratio > 28 ? 'var(--warn,#e65100)' : 'var(--good,#2e7d32)';
-        }
-        renderBrackets('pm-home-detail', homeBrackets.map(function(b) {
-          return { label: b.question, prob: b.prob, resolved: b.resolved };
-        }));
-      }
-
-      // ── Miami Home ──
-      if (miamiHome) {
-        var laBrackets = parseMarkets(miamiHome);
-        renderBrackets('pm-miami-detail', laBrackets.map(function(b) {
-          return { label: b.question, prob: b.prob, resolved: b.resolved };
-        }));
-      }
-
       // ── 30-year mortgage rate ──
       if (mortgageRate) {
         var mrBrackets = parseMarkets(mortgageRate);
@@ -1713,22 +1627,6 @@ function getKey(){ return CONFIG_KEY || ""; }
           setText('pm-fed-jan-no', pct(1 - fjNoChange.prob));
           var fjBar = document.getElementById('pm-fed-jan-bar');
           if (fjBar) fjBar.style.width = (fjNoChange.prob * 100) + '%';
-        }
-      }
-
-      // ── Chicago ──
-      if (nycHome) {
-        var chiBrackets = parseMarkets(nycHome);
-        if (pmEventIsResolved(chiBrackets)) {
-          markSettledValue('pm-nyc-top');
-          setText('pm-nyc-lbl', 'settled');
-          var chiSettledBar = document.getElementById('pm-nyc-bar');
-          if (chiSettledBar) chiSettledBar.style.width = '0%';
-        } else if (chiBrackets.length) {
-          setText('pm-nyc-top', pct(chiBrackets[0].prob));
-          setText('pm-nyc-lbl', chiBrackets[0].question.substring(0, 15));
-          var chiBar = document.getElementById('pm-nyc-bar');
-          if (chiBar) chiBar.style.width = (chiBrackets[0].prob * 100) + '%';
         }
       }
 
