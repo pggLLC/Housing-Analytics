@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-01T03:24:27.197Z",
+    "generated_at": "2026-10-01T04:28:58.722Z",
     "root": "data/",
-    "file_count": 1693,
-    "total_size_bytes": 175955646,
+    "file_count": 1694,
+    "total_size_bytes": 175958435,
     "kinds": {
-      "json": 1656,
+      "json": 1657,
       "geojson": 33,
       "csv": 4
     }
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-01T03:24:24.039Z",
+      "mtime": "2026-10-01T04:28:54.833Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -731,8 +731,8 @@
     {
       "path": "car-market-report-2026-08.json",
       "kind": "json",
-      "size_bytes": 65967,
-      "mtime": "2026-09-27T06:22:25.014Z",
+      "size_bytes": 66043,
+      "mtime": "2026-10-01T04:28:11.729Z",
       "shape": "object",
       "keys": [
         "month",
@@ -769,6 +769,30 @@
         "estimated",
         "estimated_scopes",
         "estimate_basis",
+        "statewide",
+        "metro_areas",
+        "notes"
+      ],
+      "key_count": 11,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "car-market-report-2026-10.json",
+      "kind": "json",
+      "size_bytes": 2494,
+      "mtime": "2026-10-01T04:28:11.729Z",
+      "shape": "object",
+      "keys": [
+        "month",
+        "generated_at",
+        "estimated",
+        "estimated_scopes",
+        "estimate_basis",
+        "source",
+        "source_url",
+        "version",
         "statewide",
         "metro_areas",
         "notes"
@@ -30520,8 +30544,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 215165,
-      "mtime": "2026-09-30T15:36:02.948Z",
+      "size_bytes": 215290,
+      "mtime": "2026-10-01T04:28:11.962Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31912,8 +31936,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14707,
-      "mtime": "2026-10-01T03:24:25.476Z",
+      "size_bytes": 14801,
+      "mtime": "2026-10-01T04:28:56.602Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31936,7 +31960,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-01T03:24:25.149Z",
+      "mtime": "2026-10-01T04:28:56.200Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
