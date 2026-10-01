@@ -1267,11 +1267,17 @@
       var currentJurisdiction = window.WorkflowState && window.WorkflowState.getJurisdiction
         ? window.WorkflowState.getJurisdiction() : null;
       var savedJurisdiction = stored.jurisdiction;
-      var jurisdictionMissing = !savedJurisdiction || !savedJurisdiction.geoid || !savedJurisdiction.countyFips;
-      if (jurisdictionMissing || !currentJurisdiction || savedJurisdiction.geoid !== currentJurisdiction.geoid ||
-          savedJurisdiction.countyFips !== currentJurisdiction.countyFips) {
+      var jurisdictionMissing = !savedJurisdiction || !savedJurisdiction.geoid;
+      var savedCountyFips = savedJurisdiction && savedJurisdiction.countyFips || null;
+      var currentCountyFips = currentJurisdiction && currentJurisdiction.countyFips || null;
+      // The cache records GEOIDs, not geoType: counties use 5 digits and
+      // places/CDPs use 7. A statewide GEOID has no county binding.
+      var countyMissing = !jurisdictionMissing && /^(?:\d{5}|\d{7})$/.test(savedJurisdiction.geoid) && !savedCountyFips;
+      if (jurisdictionMissing || countyMissing || !currentJurisdiction || savedJurisdiction.geoid !== currentJurisdiction.geoid ||
+          savedCountyFips !== currentCountyFips) {
         var reason = jurisdictionMissing
           ? 'Your last analysis has no saved jurisdiction. Run a new analysis for the selected jurisdiction.'
+          : countyMissing ? 'Your last analysis has no saved county binding. Run a new analysis for the selected jurisdiction.'
           : 'Your last analysis was for ' + (savedJurisdiction.name || savedJurisdiction.geoid) +
             '; run a new one for ' + (currentJurisdiction && (currentJurisdiction.name || currentJurisdiction.geoid) || 'your selected jurisdiction') + '.';
         _clearConclusions();
@@ -1283,7 +1289,8 @@
         if (jurisdictionWrap) {
           jurisdictionWrap.textContent = reason;
           jurisdictionWrap.setAttribute('role', 'status');
-          jurisdictionWrap.dataset.unavailableReason = jurisdictionMissing ? 'saved_jurisdiction_missing' : 'saved_jurisdiction_mismatch';
+          jurisdictionWrap.dataset.unavailableReason = jurisdictionMissing ? 'saved_jurisdiction_missing'
+            : countyMissing ? 'saved_county_missing' : 'saved_jurisdiction_mismatch';
         }
         var staleBanner = $id('pmaRestoredBanner');
         if (staleBanner) staleBanner.remove();

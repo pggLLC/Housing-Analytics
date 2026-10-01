@@ -180,13 +180,12 @@
       basis = Object.assign({}, basis, { reference: '', effective_date: '' });
       next.utility_allowance_basis = basis;
     }
-    var countyChanged = hadStored && previous.county_fips !== next.county_fips;
+    var countyChanged = hadStored && !!previous.county_fips && previous.county_fips !== next.county_fips;
     var transition = global.SiteState && global.SiteState.get ? global.SiteState.get('jurisdictionChange') : null;
-    var legacyMoved = !previous.jurisdiction_geoid && transition && transition.geoid === next.jurisdiction_geoid &&
+    var legacyMoved = !previous.jurisdiction_geoid && transition && transition.previousGeoid && transition.geoid === next.jurisdiction_geoid &&
       (!previous.updated_at || transition.changedAt >= previous.updated_at);
-    var jurisdictionChanged = hadStored && (previous.jurisdiction_geoid
-      ? previous.jurisdiction_geoid !== next.jurisdiction_geoid : !!legacyMoved);
-    var locationChanged = countyChanged || jurisdictionChanged;
+    var jurisdictionChanged = hadStored && !!previous.jurisdiction_geoid && previous.jurisdiction_geoid !== next.jurisdiction_geoid;
+    var locationChanged = countyChanged || jurisdictionChanged || (hadStored && !!legacyMoved);
     if (locationChanged) {
       next.address = '';
       ['lat', 'lon', 'lng', 'latitude', 'longitude', 'site_lat', 'site_lon', 'siteLat', 'siteLon', 'coordinates'].forEach(function (key) {

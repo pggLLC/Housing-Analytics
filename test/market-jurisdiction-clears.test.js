@@ -157,6 +157,40 @@ async function test(name, fn) { try { await fn(); passed++; console.log('  PASS 
       console.log('    fields checked per market: ' + JSON.stringify(counts));
     } finally { w.close(); }
   });
+  await test('first jurisdiction binding keeps entered address and market rents without a cleared notice', async () => {
+    const w = await page();
+    try {
+      assert(!w.WorkflowState.getJurisdiction() || !w.WorkflowState.getJurisdiction().geoid);
+      const entered = { address: '123 Main St, Fruita', county_fips: '', unit_mix: [
+        { count: 3, bedrooms: '1BR', ami_tier: 'market', market_rent: 1100, market_rent_source: 'my survey' }
+      ] };
+      w.SubjectProject.set(entered);
+      const host = w.document.body.appendChild(w.document.createElement('div'));
+      w.SubjectProject.mount(host); await tick();
+      w.WorkflowState.setJurisdiction(MARKETS[0]);
+      const subject = w.SubjectProject.get();
+      assert.equal(subject.address, entered.address);
+      assert.deepEqual(plain(subject.unit_mix), entered.unit_mix);
+      assert.equal(subject.county_fips, MARKETS[0].countyFips);
+      assert.equal(subject.jurisdiction_geoid, MARKETS[0].geoid);
+      assert.equal(subject.location_cleared, false);
+      assert(!w.SiteState.get('jurisdictionChange'), 'first binding is not recorded as a move');
+      const notice = host.querySelector('[data-role="subject-location-cleared"]');
+      assert(notice && notice.hidden && !notice.textContent.trim());
+      assert.equal(host.querySelector('[data-key="address"]').value, entered.address);
+      assert.equal(host.querySelector('[data-key="market_rent"]').value, String(entered.unit_mix[0].market_rent));
+
+      // An older saved transition from first binding is not evidence of a move.
+      const legacy = { ...entered, county_fips: MARKETS[0].countyFips };
+      w.localStorage.setItem(KEY, JSON.stringify(legacy));
+      w.SiteState.set('jurisdictionChange', { geoid: MARKETS[0].geoid, previousGeoid: '', changedAt: new Date().toISOString() });
+      const rebound = w.SubjectProject.get();
+      assert.equal(rebound.address, entered.address);
+      assert.deepEqual(plain(rebound.unit_mix), entered.unit_mix);
+      assert.equal(rebound.location_cleared, false);
+      assert(notice.hidden && !notice.textContent.trim());
+    } finally { w.close(); }
+  });
   await test('same-county GEOID change clears market rents, address and allowance sources but keeps the project program', async () => {
     const w = await page();
     try {
@@ -241,7 +275,7 @@ async function test(name, fn) { try { await fn(); passed++; console.log('  PASS 
     try {
       w.WorkflowState.setJurisdiction(MARKETS[1]);
       const saved = project(MARKETS[1]); delete saved.jurisdiction_geoid;
-      saved.updated_at = new Date(Date.parse(w.SiteState.get('jurisdictionChange').changedAt) + 1).toISOString();
+      saved.updated_at = new Date().toISOString();
       w.localStorage.setItem(KEY, JSON.stringify(saved));
       const bound = w.SubjectProject.get();
       assert.equal(bound.jurisdiction_geoid, MARKETS[1].geoid);
