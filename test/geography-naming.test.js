@@ -15,15 +15,15 @@ const FRUITA = { geoType: 'place', geoid: '0828745', countyFips: '08077', name: 
 const LONGMONT = { geoType: 'place', geoid: '0845970', countyFips: '08013', name: 'Longmont', countyName: 'Boulder County' };
 const WRAY = { geoType: 'place', geoid: '0886310', countyFips: '08125', name: 'Wray', countyName: 'Yuma County' };
 const files = ['js/site-state.js', 'js/workflow-state-core.js', 'js/workflow-state-api.js',
-  'js/components/jurisdiction-boundaries.js', 'js/market-analysis-cache-fix.js',
+  'js/components/jurisdiction-url-context.js', 'js/components/jurisdiction-boundaries.js', 'js/market-analysis-cache-fix.js',
   'js/data-connectors/hud-fmr.js', 'js/utils/format-money.js',
   'js/market-analysis/market-analysis-utils.js', 'js/market-analysis/market-report-renderers.js',
   'js/market-analysis-scoring.js', 'js/market-analysis-supply.js', 'js/market-analysis-enhancements.js',
   'js/market-analysis.js', 'js/pma-justification.js', 'js/lihtc-deal-predictor.js', 'js/pma-ui-controller.js'];
-async function page(boundaryResponse) {
+async function page(boundaryResponse, search = '') {
   const errors = [], requests = [], vc = new VirtualConsole();
   vc.on('jsdomError', e => { if (!e.message.startsWith('Not implemented')) errors.push(e.message); });
-  const w = new JSDOM(read('market-analysis.html'), { url: 'https://example.org/market-analysis.html',
+  const w = new JSDOM(read('market-analysis.html'), { url: 'https://example.org/market-analysis.html' + search,
     runScripts: 'outside-only', virtualConsole: vc }).window;
   w.alert = () => {};
   w.fetch = url => {
@@ -41,12 +41,17 @@ async function page(boundaryResponse) {
   w.WorkflowState.setJurisdiction(FRUITA);
   w.document.body.innerHTML = body;
   files.slice(3).forEach(p => w.eval(read(p)));
+  const boundariesChecked = [], pointInBoundary = w.PMAEngine.pointInBoundary;
+  w.PMAEngine.pointInBoundary = function (lon, lat, feature) {
+    boundariesChecked.push(feature.properties.geoid || feature.properties.GEOID);
+    return pointInBoundary(lon, lat, feature);
+  };
   const inline = [...w.document.scripts].find(s => s.textContent.includes('function updateMaJurisdictionBanner()'));
   assert(inline, 'exercise the actual banner script');
   w.eval(inline.textContent);
-  await tick(); await w.HudFmr.load(); await w.PMAEngine.whenDataReady(); await tick();
+  await tick(); await w.HudFmr.load(); await w.PMAEngine.whenDataReady(); await w.JurisdictionUrlContext.resolve(); await tick();
   assert.deepEqual(errors, []);
-  return { w, requests, errors };
+  return { w, requests, errors, boundariesChecked };
 }
 function banner(w) { return w.document.getElementById('maJurisdictionBanner'); }
 function site(w, geoid) {
@@ -125,6 +130,59 @@ async function test(name, fn) {
       assert.equal(w.document.getElementById('maJurisdictionName').textContent, w.WorkflowState.getJurisdiction().name);
       assert.equal(area.dataset.boundary, 'not_drawn', 'the previous result cannot label the new jurisdiction');
       assert.deepEqual(errors, []);
+    } finally { w.close(); }
+  });
+  for (const key of ['geoid', 'fips']) for (const auto of [false, true]) {
+    const search = '?' + key + '=' + LONGMONT.geoid + (auto ? '&auto=1' : '');
+    await test(search + ' labels and checks Longmont while the stored project remains Fruita', async () => {
+      const { w, errors, boundariesChecked } = await page(undefined, search);
+      try {
+        assert.equal(w.WorkflowState.getJurisdiction().geoid, FRUITA.geoid);
+        const context = w.JurisdictionUrlContext.resolveSync();
+        assert.equal(context.source, 'url');
+        assert.equal(context.geoid, LONGMONT.geoid);
+        assert.equal(w.document.getElementById('maJurisdictionName').textContent, context.displayName);
+        assert.equal(context.displayName, GEO.places.find(p => p.geoid === LONGMONT.geoid).label);
+        assert.equal(banner(w).dataset.jurisdictionGeoid, context.geoid);
+        assert(w.document.getElementById('maJurisdictionBoundary').textContent.includes(context.geoType));
+        if (auto) {
+          // Let the page's actual _autoRunIfRequested timer place the site and
+          // run the engine. Merely adding auto=1 without a run proves nothing.
+          const deadline = Date.now() + 8000;
+          while (!w.PMAEngine._state.getLastResult() && Date.now() < deadline) {
+            await new Promise(resolve => setTimeout(resolve, 25));
+          }
+          const result = w.PMAEngine._state.getLastResult(); assert(result, 'auto-run completed');
+          assert.equal(result.lat, POINTS[LONGMONT.geoid].lat);
+          assert.equal(result.lon, POINTS[LONGMONT.geoid].lng);
+        } else {
+          assert.equal(w.PMAEngine._state.getLastResult(), null, 'no unsolicited run');
+          site(w, LONGMONT.geoid);
+        }
+        await tick();
+        assert(boundariesChecked.length > 0, 'the polygon check actually ran');
+        assert(boundariesChecked.every(geoid => geoid === LONGMONT.geoid), 'every check used Longmont geometry');
+        assert.equal(banner(w).dataset.siteBoundaryCheck, 'inside');
+        assert(w.document.getElementById('maSiteBoundaryNotice').hidden);
+        assert(!banner(w).hasAttribute('data-site-outside-jurisdiction'));
+        assert.equal(w.document.getElementById('maJurisdictionName').textContent, context.displayName);
+        assert.equal(w.WorkflowState.getJurisdiction().geoid, FRUITA.geoid, 'the link never rewrites the saved jurisdiction');
+        assert.deepEqual(errors, []);
+      } finally { w.close(); }
+    });
+  }
+  await test('without a geography URL, the stored jurisdiction owns the label and polygon; only counties get County', async () => {
+    const { w, boundariesChecked } = await page();
+    try {
+      site(w, FRUITA.geoid); await tick();
+      assert.equal(w.document.getElementById('maJurisdictionName').textContent, FRUITA.name);
+      assert.equal(banner(w).dataset.jurisdictionGeoid, FRUITA.geoid);
+      assert(boundariesChecked.length > 0 && boundariesChecked.every(geoid => geoid === FRUITA.geoid));
+      assert.equal(banner(w).dataset.siteBoundaryCheck, 'inside');
+      w.WorkflowState.setJurisdiction({geoType: 'county', geoid: '08077', countyFips: '08077', name: 'Mesa'});
+      await tick();
+      assert.equal(w.document.getElementById('maJurisdictionName').textContent, 'Mesa County');
+      assert(w.document.getElementById('maJurisdictionBoundary').textContent.includes('county'));
     } finally { w.close(); }
   });
   await test('place, county and CDP checks use their actual polygons, and outside is only a notice', async () => {
