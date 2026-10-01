@@ -193,7 +193,25 @@
     _registry.delete(map);
   }
 
+  // Reuse the overlay's cache for site/jurisdiction checks. Missing geometry
+  // stays null; a failed lookup is never evidence that the point is inside.
+  function getBoundary(geoType, geoid) {
+    var load = geoType === 'county' ? _loadCounties
+      : (geoType === 'place' || geoType === 'cdp') ? _loadPlaces : null;
+    if (!load || !geoid) return Promise.resolve(null);
+    return load().then(function (data) {
+      return ((data && data.features) || []).find(function (feature) {
+        var props = feature.properties || {};
+        var geometry = feature.geometry;
+        return String(props.geoid || props.GEOID || '') === String(geoid) && geometry &&
+          (geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') &&
+          Array.isArray(geometry.coordinates) && geometry.coordinates.length > 0;
+      }) || null;
+    });
+  }
+
   global.JurisdictionBoundaries = {
+    getBoundary: getBoundary,
     attach: attach,
     detach: detach,
     DEFAULTS: {

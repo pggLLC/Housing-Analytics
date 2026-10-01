@@ -1576,14 +1576,25 @@
    */
   function renderScoreBoundary(result) {
     var node = el('pmaScoreBoundary');
-    if (!node) return;
+    var area = el('maMarketArea');
     var isTract = result && result.boundaryMethod === 'tract-picker';
+    var mi = result && result.bufferMiles != null ? (+result.bufferMiles).toFixed(1) + '-mile ' : '';
+    var tracts = result && result.tractCount != null ? result.tractCount : 'selected';
+    // Both labels describe this result, never the method/radius controls for
+    // a future run. Also works when the score card is absent on a surface.
+    if (area) {
+      area.dataset.boundary = !result ? 'not_drawn' : isTract ? 'tract' : 'buffer';
+      area.textContent = 'Market area: ' + (!result ? 'not yet drawn — place a site to start'
+        : isTract ? tracts + ' census tracts you selected'
+        : mi + 'circular buffer around your site — not the jurisdiction boundary');
+    }
+    // With no result, the controller owns the pending/unavailable score status.
+    if (!node || !result) return;
     node.dataset.boundary = isTract ? 'tract' : 'buffer';
     if (isTract) {
-      node.textContent = 'PMA: ' + (result.tractCount || 'selected') + ' whole census tracts you selected';
+      node.textContent = 'PMA: ' + tracts + ' whole census tracts you selected';
       node.style.color = 'var(--muted)';
     } else {
-      var mi = result && result.bufferMiles != null ? (+result.bufferMiles).toFixed(1) + '-mile ' : '';
       node.textContent = 'Screening only \u2014 ' + mi + 'circular buffer, not a CHFA market area '
         + '(CHFA requires whole census tracts; use the Tract picker)';
       node.style.color = 'var(--warn-text, #8a6914)';
@@ -4487,6 +4498,7 @@
       window.PMAEngine._lastLat = lat;
       window.PMAEngine._lastLon = lon;
     }
+    document.dispatchEvent(new CustomEvent('pma:site-placed', { detail: { lat: lat, lon: lon } }));
     // Publish/clear site evidence immediately, even before map drawing or analysis.
     _renderTransitZoneGate(lat, lon);
     var L = window.L;
@@ -6062,6 +6074,8 @@
     // the map + jurisdiction banner but never the PMA Site Summary card.
     runAnalysis:             function (lat, lon, options) { return runAnalysis(lat, lon, options); },
     placeSiteMarker:         function (lat, lon, opts) { return placeSiteMarker(lat, lon, opts); },
+    renderScoreBoundary:     renderScoreBoundary,
+    pointInBoundary:         pointInBoundary,
     haversine:               haversine,
     tractInBuffer:           tractInBuffer,
     tractBufferShare:        tractBufferShare,

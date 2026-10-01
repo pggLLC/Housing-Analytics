@@ -127,11 +127,15 @@
     <!-- Jurisdiction context banner -->
     <div id="maJurisdictionBanner" class="hna-jurisdiction-banner" hidden>
       <div class="hna-jurisdiction-banner__inner">
-        <div class="hna-jurisdiction-banner__info">
-          <span class="hna-jurisdiction-banner__label">Analyzing</span>
-          <strong id="maJurisdictionName">—</strong>
+        <div class="hna-jurisdiction-banner__info" aria-live="polite" aria-atomic="true">
+          <span class="hna-jurisdiction-banner__label">Jurisdiction:</span>
+          <strong id="maJurisdictionName">Not selected</strong>
+          <span id="maJurisdictionBoundary"></span>
+          <div id="maMarketArea" data-boundary="not_drawn">Market area: not yet drawn — place a site to start</div>
+          <div id="maSiteBoundaryNotice" role="status" hidden></div>
         </div>
         <div class="hna-jurisdiction-banner__actions">
+          <a href="https://github.com/pggLLC/Housing-Analytics/blob/main/docs/MARKET_ANALYSIS_METHOD.md#jurisdiction-market-area-and-project-site" class="hna-jurisdiction-banner__change">What's the difference?</a>
           <a href="select-jurisdiction.html" class="hna-jurisdiction-banner__change">Change</a>
         </div>
       </div>
@@ -1713,58 +1717,85 @@
   }
 
   /* ── Jurisdiction banner ──────────────────────────────────────────── */
+  var maBannerSite = null;
+  var maBannerGeoid = null;
+  var maBoundaryRevision = 0;
+
   function updateMaJurisdictionBanner() {
     var banner = document.getElementById('maJurisdictionBanner');
     var nameEl = document.getElementById('maJurisdictionName');
-    if (!banner || !nameEl) return;
-    var displayName = null;
-    var isPlace = false;
-    // PRIORITY 1: URL context — if a deep-link specified a place GEOID,
-    // honor it. Previously this function always preferred the county name
-    // (overwritten by WorkflowState), so deep-links from the a developer
-    // brief / Opportunity Finder for places would show the wrong title.
-    try {
-      var ctx = window.JurisdictionUrlContext &&
-        window.JurisdictionUrlContext.resolveSync &&
-        window.JurisdictionUrlContext.resolveSync();
-      if (ctx) {
-        isPlace = ctx.geoType === 'place' || ctx.geoType === 'cdp' ||
-                  /^\d{7}$/.test(ctx.geoid || ctx.fips || '');
-        if (isPlace) {
-          // Use the place's displayName as-is — don't append "County."
-          displayName = ctx.displayName || ctx.placeGeoid || null;
-        } else {
-          displayName = ctx.countyName || ctx.displayName || null;
-        }
+    var boundaryEl = document.getElementById('maJurisdictionBoundary');
+    var notice = document.getElementById('maSiteBoundaryNotice');
+    if (!banner || !nameEl || !boundaryEl || !notice) return;
+    var jurisdiction = window.WorkflowState && window.WorkflowState.getJurisdiction
+      ? window.WorkflowState.getJurisdiction() : null;
+    // Deep links are resolved before WorkflowState is hydrated on some entry
+    // paths. Once bound, the active workflow jurisdiction owns this banner.
+    if (!jurisdiction || !jurisdiction.geoid) {
+      var ctx = window.JurisdictionUrlContext && window.JurisdictionUrlContext.resolveSync
+        ? window.JurisdictionUrlContext.resolveSync() : null;
+      jurisdiction = ctx && { geoid: ctx.geoid || ctx.fips, geoType: ctx.geoType,
+        name: ctx.displayName || ctx.countyName };
+    }
+    if (!jurisdiction || !jurisdiction.geoid) {
+      var county = window.SiteState && window.SiteState.getCounty();
+      jurisdiction = county && { geoid: county.fips, geoType: 'county', name: county.name };
+    }
+    var geoid = jurisdiction && jurisdiction.geoid;
+    var type = jurisdiction && jurisdiction.geoType;
+    if (maBannerGeoid && maBannerGeoid !== geoid) maBannerSite = null;
+    maBannerGeoid = geoid;
+    var name = jurisdiction && (jurisdiction.name || jurisdiction.displayName || geoid) || 'Not selected';
+    nameEl.textContent = name;
+    boundaryEl.textContent = type === 'state' ? ' (statewide)'
+      : type === 'county' ? ' (county boundary)'
+      : type === 'cdp' ? ' (CDP boundary)'
+      : type === 'place' ? ' (place boundary)' : '';
+    banner.dataset.jurisdictionGeoid = geoid || '';
+    banner.hidden = false;
+
+    var engine = window.PMAEngine;
+    var result = engine && engine._state.getLastResult();
+    if (!result && window.PMAUIController && window.PMAUIController.getLastScoreRun) {
+      var restored = window.PMAUIController.getLastScoreRun();
+      result = restored && restored.pma;
+    }
+    if (maBannerSite && result && (result.lat !== maBannerSite.lat || result.lon !== maBannerSite.lon)) result = null;
+    if (engine && engine.renderScoreBoundary) engine.renderScoreBoundary(result);
+    var site = maBannerSite || result;
+    var revision = ++maBoundaryRevision;
+    banner.removeAttribute('data-site-outside-jurisdiction');
+    notice.hidden = true;
+    notice.textContent = '';
+    banner.dataset.siteBoundaryCheck = type === 'state' ? 'skipped' : 'not_checked';
+    if (type === 'state' || !geoid || !site || !Number.isFinite(site.lat) || !Number.isFinite(site.lon)) return;
+    banner.dataset.siteBoundaryCheck = 'pending';
+    var boundaries = window.JurisdictionBoundaries;
+    var lookup = boundaries && boundaries.getBoundary ? boundaries.getBoundary(type, geoid) : Promise.resolve(null);
+    lookup.catch(function () { return null; }).then(function (polygon) {
+      if (revision !== maBoundaryRevision) return;
+      if (!polygon || !engine || !engine.pointInBoundary) {
+        banner.dataset.siteBoundaryCheck = 'unavailable';
+        notice.textContent = 'Boundary check unavailable';
+        notice.hidden = false;
+        return;
       }
-    } catch (_) {}
-    // PRIORITY 2: WorkflowState (only when URL didn't resolve a place).
-    if (!isPlace && !displayName) {
-      try {
-        var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
-        var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-        if (jx) displayName = jx.displayName || jx.name || jx.countyName || null;
-      } catch (_) {}
-    }
-    // PRIORITY 3: SiteState fallback.
-    if (!displayName) {
-      try {
-        var sc = window.SiteState && window.SiteState.getCounty();
-        if (sc && sc.name) displayName = sc.name;
-      } catch (_) {}
-    }
-    if (displayName) {
-      // Only append "County" for county-level contexts; never for places.
-      if (isPlace) {
-        nameEl.textContent = displayName;
-      } else {
-        nameEl.textContent = /county$/i.test(displayName) ? displayName : displayName + ' County';
+      var inside = engine.pointInBoundary(site.lon, site.lat, polygon);
+      banner.dataset.siteBoundaryCheck = inside ? 'inside' : 'outside';
+      if (!inside) {
+        banner.dataset.siteOutsideJurisdiction = 'true';
+        notice.textContent = 'This site appears to be outside the ' + name + ' boundary. '
+          + 'The market area is drawn around the site, so the analysis describes the area around the site, not ' + name + '.';
+        notice.hidden = false;
       }
-      banner.removeAttribute('hidden');
-    }
-    // F63: also kick off the jurisdiction-level labor / commute card.
-    renderJurisdictionLaborCard();
+    });
   }
+
+  document.addEventListener('pma:site-placed', function (event) {
+    maBannerSite = event.detail;
+    updateMaJurisdictionBanner();
+  });
+  document.addEventListener('ma:analysis-complete', updateMaJurisdictionBanner);
 
   /* ── F63: Jurisdiction labor & commute card ───────────────────────── */
   // Fed by place-od-flows.json (block-classified LODES OD) when the page is
@@ -1955,8 +1986,17 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     updateMaJurisdictionBanner();
+    renderJurisdictionLaborCard();
     document.addEventListener('sitestate:county-changed', updateMaJurisdictionBanner);
     document.addEventListener('workflow:step-updated', updateMaJurisdictionBanner);
+    document.addEventListener('sitestate:county-changed', renderJurisdictionLaborCard);
+    document.addEventListener('workflow:step-updated', renderJurisdictionLaborCard);
+    // Read lifecycle signals without changing the clearing or restoration rules.
+    new MutationObserver(updateMaJurisdictionBanner).observe(document.body,
+      { attributes: true, attributeFilter: ['data-pma-result-state'] });
+    var narrative = document.getElementById('pmaJustificationNarrative');
+    if (narrative) new MutationObserver(updateMaJurisdictionBanner).observe(narrative,
+      { childList: true, characterData: true, subtree: true });
     // Fix #2: update progress bar step completion from WorkflowState
     if (window.WorkflowProgress) WorkflowProgress.refreshSteps('maWorkflowProgress', 4);
     // LIHTC contextual tips for this step
@@ -2194,6 +2234,7 @@
     // Use the event's own detail payload to fly directly instead.
     document.addEventListener('jurisdiction-url-context:resolved', function (ev) {
       updateMaJurisdictionBanner();
+      renderJurisdictionLaborCard();
       var ctx = ev && ev.detail;
       if (!ctx) return;
       var f = ctx.fips || ctx.placeGeoid;
