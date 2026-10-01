@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-30T15:36:24.304Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-01T03:24:04.760Z. Do not edit by hand.
 
 ---
 
@@ -60,7 +60,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 15.9 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 131.9 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 143.8 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 143.9 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.6 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
@@ -1747,7 +1747,7 @@
 
 ## Test Files
 
-499 test files found.
+500 test files found.
 
 | File | Size |
 |------|------|
@@ -1813,7 +1813,7 @@
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/cross-surface-vintage-labels.test.js` | 9.5 KB |
-| `test/custom-pma-conclusions-blocked.test.js` | 20.5 KB |
+| `test/custom-pma-conclusions-blocked.test.js` | 24.1 KB |
 | `test/daily-audit-repo-health.test.js` | 27.9 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
 | `test/daily-audit-system.js` | 20.3 KB |
@@ -1996,6 +1996,7 @@
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 3.4 KB |
 | `test/market-geography-binding.test.mjs` | 17.7 KB |
+| `test/market-jurisdiction-clears.test.js` | 22.2 KB |
 | `test/market-site-point-persisted.test.js` | 11.7 KB |
 | `test/market-study-page.test.js` | 20.5 KB |
 | `test/market-study-report.test.js` | 29.3 KB |
