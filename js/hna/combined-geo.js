@@ -236,7 +236,8 @@
       households_le_ami_pct: cumHouseholds,
       units_priced_affordable_le_ami_pct: cumUnits,
       per_band_gap: perBand,
-      gap_units_minus_households_le_ami_pct: cumulativeGap,
+      shortfall_households_minus_units_le_ami_pct: cumulativeGap,
+      gap_sign: 'households_minus_units',
       gapSource: 'combined',
     };
   }

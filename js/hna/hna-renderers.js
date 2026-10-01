@@ -9174,11 +9174,12 @@
     var netLine = document.getElementById('hnaGapNetLine');
     if (netLine) {
       var gap = result && result.amiGapEntry || {};
-      var net = gap.gap_units_minus_households_le_ami_pct || {};
-      var totalNet = Number(net['100']);
+      var net = gap.shortfall_households_minus_units_le_ami_pct || {};
+      var value = net['100'];
+      var totalNet = value == null || String(value).trim() === '' ? null : Number(value);
       netLine.innerHTML = Number.isFinite(totalNet)
-        ? '<strong>Net of existing affordable supply:</strong> ~' + escHtml(_ownFmtNum(totalNet)) +
-          ' renter households remain unserved at ≤100% AMI after subtracting existing affordable-priced rental units. ' +
+        ? '<strong>Cumulative rental shortfall:</strong> ~' + escHtml(_ownFmtNum(totalNet)) +
+          ' renter households, summing positive band shortfalls through ≤100% AMI. ' +
           '<span style="color:var(--muted)">Combined from summed member ACS AMI-gap inputs; treat as directional.</span>'
         : '<span style="color:var(--muted)">' + escHtml(unavailable) + '</span>';
     }

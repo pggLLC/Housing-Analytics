@@ -721,6 +721,7 @@ def build_place_file(vintage: int, out_path: str, rebuild_cache: bool) -> int:
             "generated_at": utc_now(),
             "methodology_version": METHODOLOGY_VERSION,
             "demand_tenure": "renter",
+            "gap_sign": "households_minus_units",
             "source": "Census ACS 5-year API (B25118 + B19001 + B25063) at "
                       "place level, scored against HUD FY2026 county AMI "
                       "thresholds.",
@@ -732,7 +733,8 @@ def build_place_file(vintage: int, out_path: str, rebuild_cache: bool) -> int:
                     "bins; the open-ended top bin uses a 2x floor heuristic "
                     "for the upper edge. Per-tier renter demand is clamped "
                     "to all_households_le_ami_pct to absorb ACS cross-table "
-                    "sampling noise.",
+                    "sampling noise. Gap sign convention: households minus units; "
+                    "positive values mean a shortfall.",
         },
         "bands": [str(t) for t in AMI_TIERS],
         "places": records,
@@ -822,6 +824,7 @@ def build_county_file(vintage: int, out_path: str) -> int:
             "generated_at": utc_now(),
             "methodology_version": METHODOLOGY_VERSION,
             "demand_tenure": "renter",
+            "gap_sign": "units_minus_households",
             "note": "Methodology v2: gap demand side is renter households "
                     "(ACS B25118); the all-tenure B19001 series is retained "
                     "as all_households_le_ami_pct. Counts come directly from "

@@ -339,6 +339,7 @@
           ? window.PMAEngine.MEASURE_NAMES.penetration : 'Existing affordable penetration',
         rentRatio:  result.rentRatio
       },
+      rentSchedule: result.rentSchedule || { unavailableReason: 'subject_project_unavailable' },
       acs: result.acs || {},
       lihtc: {
         count:       result.lihtcCount,
