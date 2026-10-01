@@ -77,6 +77,7 @@ function page({ acs = ACS, cold = false, dataService } = {}) {
   w.console.log = w.console.warn = w.console.error = w.console.info = () => {};
   w.alert = () => {};
   windows.push(w);
+  w.WorkflowState = { getJurisdiction: () => ({ geoid: '0828745', countyFips: '08077', name: 'Fruita' }) };
   w.eval(read('js/market-analysis-cache-fix.js'));
   if (!cold) {
     w.PMADataCache.set('tractCentroids', CENTROIDS);
@@ -311,6 +312,69 @@ for (const method of ['buffer', 'commuting', 'hybrid']) {
     store(w, saved);
     w.PMAUIController.restoreLastRun();
     assertRestored(w, saved);
+  });
+  test('saved ' + method + ' session refuses a different jurisdiction', () => {
+    const w = page();
+    const saved = savedRun();
+    saved.options = { method, bufferMiles: 3, proposedUnits: 60 };
+    delete saved.scoreRun.pmaTractSelection;
+    store(w, saved);
+    w.PMAUIController.restoreLastRun();
+    assertRestored(w, saved);
+    w.WorkflowState.getJurisdiction = () => ({ geoid: '0845970', countyFips: '08013', name: 'Longmont' });
+    w.PMAUIController.restoreLastRun();
+    assert.strictEqual(w.PMAUIController.getLastScoreRun(), null);
+    assert.strictEqual(w.PMAEngine._state.getLastResult(), null);
+    assert.strictEqual(w.document.getElementById('pmaScoreWrap').dataset.unavailableReason, 'saved_jurisdiction_mismatch');
+    assert(w.document.getElementById('pmaScoreWrap').textContent.includes('Fruita'));
+    assert(w.document.getElementById('pmaScoreWrap').textContent.includes('Longmont'));
+    assert.strictEqual(w.document.getElementById('pmaJustificationNarrative').textContent, '');
+    assert.strictEqual(w.document.getElementById('pmaExportAuditJson').disabled, true);
+  });
+}
+
+for (const method of ['tract', 'buffer', 'commuting', 'hybrid']) {
+  test('saved statewide ' + method + ' run restores only for statewide current jurisdiction', () => {
+    const w = page();
+    const saved = savedRun();
+    if (method !== 'tract') {
+      saved.options = { method, bufferMiles: 3, proposedUnits: 60 };
+      delete saved.scoreRun.pmaTractSelection;
+    }
+    w.WorkflowState.getJurisdiction = () => ({ geoType: 'state', geoid: '08', countyFips: null, name: 'Colorado' });
+    w.PMADataCache.saveLastResult(saved.lat, saved.lon, saved.options, saved.scoreRun);
+    const stored = JSON.parse(w.localStorage.getItem('pma_last_result_v1'));
+    assert.strictEqual(stored.jurisdiction.geoid, '08');
+    assert.strictEqual(stored.jurisdiction.countyFips, null);
+    w.PMAUIController.restoreLastRun();
+    assertRestored(w, stored);
+    // Omitted and null county values denote the same statewide binding.
+    w.WorkflowState.getJurisdiction = () => ({ geoid: '08', name: 'Colorado' });
+    w.PMAUIController.restoreLastRun();
+    assertRestored(w, stored);
+    w.WorkflowState.getJurisdiction = () => ({ geoType: 'place', geoid: '0828745', countyFips: '08077', name: 'Fruita' });
+    w.PMAUIController.restoreLastRun();
+    assert.strictEqual(w.PMAUIController.getLastScoreRun(), null);
+    assert.strictEqual(w.PMAEngine._state.getLastResult(), null);
+    assert.strictEqual(w.document.getElementById('pmaScoreWrap').dataset.unavailableReason, 'saved_jurisdiction_mismatch');
+    assert.strictEqual(w.document.getElementById('pmaJustificationNarrative').textContent, '');
+    assert.strictEqual(w.document.getElementById('pmaExportAuditJson').disabled, true);
+  });
+}
+
+for (const [geoType, geoid] of [['county', '08077'], ['place', '0828745'], ['cdp', '0842320']]) {
+  test('saved ' + geoType + ' jurisdiction still requires its county binding', () => {
+    const w = page();
+    const saved = savedRun();
+    // The cache stores the GEOID, not geoType; county/place/CDP GEOIDs still
+    // require county context even when both stored and current omit it.
+    saved.jurisdiction = { geoid, countyFips: null };
+    w.WorkflowState.getJurisdiction = () => ({ geoType, geoid, countyFips: null });
+    store(w, saved);
+    w.PMAUIController.restoreLastRun();
+    assert.strictEqual(w.PMAUIController.getLastScoreRun(), null);
+    assert.strictEqual(w.document.getElementById('pmaScoreWrap').dataset.unavailableReason, 'saved_county_missing');
+    assert.strictEqual(w.document.getElementById('pmaExportAuditJson').disabled, true);
   });
 }
 
