@@ -312,7 +312,13 @@
       { key: 'gap30pctUnits',   label: '30% AMI gap',     value: _numOrNull(g.gap30pctUnits) },
       { key: 'gap50pctUnits',   label: '50% AMI gap',     value: _numOrNull(g.gap50pctUnits) },
       { key: 'gap60pctUnits',   label: '60% AMI gap',     value: _numOrNull(g.gap60pctUnits) },
-    ].map(function (r) {
+    ].concat(src === 'combined' ? [
+      { key: 'gap80pctUnits', label: '80% AMI gap', value: _numOrNull(g.gap80pctUnits) },
+    ] : []).map(function (r) {
+      if (src === 'combined') {
+        var threshold = r.key === 'housingGapUnits' ? '100' : r.key.match(/\d+/)[0];
+        r.label = 'Cumulative shortfall through ≤' + threshold + '% AMI (positive band households − units)';
+      }
       r.display = _unitsDisplay(r.value);
       r.reason = r.value === null ? reason : null;
       return r;
@@ -570,10 +576,10 @@
     var owner = Number(summary.total_owner_hh || 0);
     var total = renter + owner;
     var gap = result.amiGapEntry || {};
-    var cumulative = gap.gap_units_minus_households_le_ami_pct || {};
+    var cumulative = gap.shortfall_households_minus_units_le_ami_pct || {};
     var households = gap.households_le_ami_pct || {};
     function pct(n, d) { return d ? +((Number(n || 0) / d) * 100).toFixed(1) : null; }
-    function num(v) { var n = Number(v); return Number.isFinite(n) ? n : null; }
+    function num(v) { return _numOrNull(v); }
     return {
       population: null,
       median_hh_income: null,
@@ -590,7 +596,10 @@
       ami_gap_30pct: result.availability && result.availability.amiGap && result.availability.amiGap.available ? num(cumulative['30']) : null,
       ami_gap_50pct: result.availability && result.availability.amiGap && result.availability.amiGap.available ? num(cumulative['50']) : null,
       ami_gap_60pct: result.availability && result.availability.amiGap && result.availability.amiGap.available ? num(cumulative['60']) : null,
+      ami_gap_80pct: result.availability && result.availability.amiGap && result.availability.amiGap.available ? num(cumulative['80']) : null,
       missing_ami_tiers: result.availability && result.availability.amiGap && result.availability.amiGap.available ? [] : ['combined-member-missing-ami-gap'],
+      _ami_gap_sign: gap.gap_sign,
+      _ami_gap_note: 'Combined cumulative shortfall = sum of max(0, band households minus band priced-affordable units) through each AMI threshold. Band counts are differences between adjacent cumulative counts, starting from zero. The housingGapUnits field uses the 100% threshold. These are positive shortfalls, not ranking-index ami_gap values.',
       _chas_source: 'combined',
       _ami_gap_source: result.availability && result.availability.amiGap && result.availability.amiGap.available ? 'combined' : 'unavailable',
       combined_members: result.members || [],
@@ -705,8 +714,11 @@
         gap30pctUnits:      _numOrNull(m.ami_gap_30pct),
         gap50pctUnits:      _numOrNull(m.ami_gap_50pct),
         gap60pctUnits:      _numOrNull(m.ami_gap_60pct),
+        gap80pctUnits:      _numOrNull(m.ami_gap_80pct),
         missingAmiTiers:    m.missing_ami_tiers || [],
         source:             m._ami_gap_source || 'unavailable',
+        gapSign:            m._ami_gap_sign || null,
+        note:               m._ami_gap_note || null,
       },
       employment: {
         inCommuters:        _numOrNull(m.in_commuters),
@@ -968,6 +980,7 @@
     })).concat([
       ['Missing AMI Tiers',                      (gap.missingAmiTiers || []).join(', ')],
       ['AMI Gap Source',                         gap.source || ''],
+      ['AMI Gap Field Note',                     gap.note || ''],
       ['', ''],
 
       // \u2500\u2500 LEHD Employment + Commuting \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
@@ -1365,6 +1378,7 @@
         { label: 'AMI gap source',             value: data.amiGap.source },
       ]));
       gapRows.forEach(function (r) { if (r.reason) drawNarrative(_pdfPlain(r.label + ': ' + r.reason)); });
+      if (data.amiGap.note) drawNarrative(_pdfPlain(data.amiGap.note));
 
       // ── 7. Employment + commute ──
       drawSectionHeader('7. Employment & commute pattern', 'Inbound commuters (LEHD) and the local-jobs-to-resident-workers ratio.');
@@ -1567,7 +1581,7 @@
       summary.addRow({});
       summary.addRow({ k: 'AMI gap & affordability', n: 'Source: ' + ((d.amiGap && d.amiGap.source) || 'unavailable') });
       _amiGapRows(d).forEach(function (r) {
-        summary.addRow({ k: r.label, v: r.value === null ? UNAVAILABLE : r.value, n: r.reason || '' });
+        summary.addRow({ k: r.label, v: r.value === null ? UNAVAILABLE : r.value, n: r.reason || d.amiGap.note || '' });
       });
 
       // LIHTC properties, QCT and DDA, as the page's cards show them.

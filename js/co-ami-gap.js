@@ -505,6 +505,20 @@
         return;
       }
 
+      // This view's legend and colours mean units minus households. A place
+      // endpoint uses the opposite sign and cannot be coloured under that legend.
+      if (!payload.meta || payload.meta.gap_sign !== 'units_minus_households') {
+        root.dataset.unavailableReason = 'gap_sign_unsupported';
+        const errEl = $("#amiGapError");
+        if (errEl) {
+          errEl.textContent = 'AMI gap unavailable: this view requires a declared units-minus-households convention. Check the endpoint or cached JSON.';
+          errEl.style.display = 'block';
+        }
+        const btn = $("#amiGapExportBtn");
+        if (btn) btn.disabled = true;
+        return;
+      }
+
       renderMetadata(payload.meta);
       renderMethodology(payload);
       buildCountyOptions(payload.counties || []);

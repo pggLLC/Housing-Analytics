@@ -245,7 +245,8 @@ export default async function handler(req, res) {
         acs_year: acsYear,
         generated_at: new Date().toISOString().slice(0,10),
         methodology_version: METHODOLOGY_VERSION,
-        demand_tenure: "renter"
+        demand_tenure: "renter",
+        gap_sign: "units_minus_households"
       },
       bands: BANDS.map(String),
       statewide: statewideAgg(out),

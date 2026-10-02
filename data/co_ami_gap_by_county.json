@@ -7,6 +7,7 @@
     "generated_at": "2026-09-12T13:29:55Z",
     "methodology_version": 2,
     "demand_tenure": "renter",
+    "gap_sign": "units_minus_households",
     "note": "Methodology v2: gap demand side is renter households (ACS B25118); the all-tenure B19001 series is retained as all_households_le_ami_pct. Counts come directly from ACS with linear within-bin interpolation (the pre-v2 file used a lognormal income model). Gap sign convention unchanged: units minus households, negative = deficit. Per-tier renter demand is clamped to all_households_le_ami_pct to absorb ACS cross-table sampling noise."
   },
   "bands": [

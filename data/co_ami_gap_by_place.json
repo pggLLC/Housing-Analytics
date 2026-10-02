@@ -7,8 +7,9 @@
     "generated_at": "2026-09-12T13:29:55Z",
     "methodology_version": 2,
     "demand_tenure": "renter",
+    "gap_sign": "households_minus_units",
     "source": "Census ACS 5-year API (B25118 + B19001 + B25063) at place level, scored against HUD FY2026 county AMI thresholds.",
-    "note": "Methodology v2: gap demand side is renter households (B25118); the all-tenure B19001 series is retained as all_households_le_ami_pct. Per-place data is fetched directly from ACS rather than scaled from county aggregates. Linear interpolation within income/rent bins; the open-ended top bin uses a 2x floor heuristic for the upper edge. Per-tier renter demand is clamped to all_households_le_ami_pct to absorb ACS cross-table sampling noise."
+    "note": "Methodology v2: gap demand side is renter households (B25118); the all-tenure B19001 series is retained as all_households_le_ami_pct. Per-place data is fetched directly from ACS rather than scaled from county aggregates. Linear interpolation within income/rent bins; the open-ended top bin uses a 2x floor heuristic for the upper edge. Per-tier renter demand is clamped to all_households_le_ami_pct to absorb ACS cross-table sampling noise. Gap sign convention: households minus units; positive values mean a shortfall."
   },
   "bands": [
     "30",
