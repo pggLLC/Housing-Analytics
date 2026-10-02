@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-02T04:58:02.851Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-02T06:43:08.341Z. Do not edit by hand.
 
 ---
 
@@ -128,8 +128,8 @@
 | `data/co-historical-allocations.json` | 13.9 KB | ✅ | — |
 | `data/co-housing-costs/county-trends.json` | 50.2 KB | ✅ | — |
 | `data/co-place-centroids.json` | 49.3 KB | ✅ | — |
-| `data/co_ami_gap_by_county.json` | 85.6 KB | ✅ | — |
-| `data/co_ami_gap_by_place.json` | 627.3 KB | ✅ | — |
+| `data/co_ami_gap_by_county.json` | 85.7 KB | ✅ | — |
+| `data/co_ami_gap_by_place.json` | 627.4 KB | ✅ | — |
 | `data/core/educational-content.json` | 66.0 KB | ✅ | — |
 | `data/core/neighborhood-context.json` | 69.6 KB | ✅ | — |
 | `data/coverage-report.json` | 12.8 KB | ✅ | — |
@@ -1748,7 +1748,7 @@
 
 ## Test Files
 
-501 test files found.
+503 test files found.
 
 | File | Size |
 |------|------|
@@ -1763,6 +1763,7 @@
 | `test/affordability-defaults-inventory.test.js` | 6.7 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 3.2 KB |
 | `test/ahcia-status.test.mjs` | 5.9 KB |
+| `test/ami-gap-contract.test.js` | 12.3 KB |
 | `test/ami-gap-evidence-language.test.js` | 4.8 KB |
 | `test/ami-gap-sign-convention.test.js` | 4.9 KB |
 | `test/analytics.test.js` | 18.2 KB |
@@ -1803,7 +1804,7 @@
 | `test/coho-reminders.test.mjs` | 15.7 KB |
 | `test/colorado-elections.test.mjs` | 32.7 KB |
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
-| `test/combined-geo.test.js` | 46.4 KB |
+| `test/combined-geo.test.js` | 47.6 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/console-audit-exercises-controls.test.js` | 10.1 KB |
 | `test/content-date-freshness.test.mjs` | 5.0 KB |
@@ -1841,7 +1842,7 @@
 | `test/deal-calc-net-rent.test.js` | 24.7 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
-| `test/deal-calc-schedule.test.js` | 22.3 KB |
+| `test/deal-calc-schedule.test.js` | 22.5 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-share-roundtrip.test.js` | 21.7 KB |
 | `test/deal-calc-soft-funding-links-wrap.test.js` | 2.5 KB |
@@ -1928,7 +1929,7 @@
 | `test/hna-live-region-and-load-order.test.js` | 3.6 KB |
 | `test/hna-need-reconciliation.test.js` | 13.9 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
-| `test/hna-ownership-need.test.js` | 22.5 KB |
+| `test/hna-ownership-need.test.js` | 23.2 KB |
 | `test/hna-ownership-strategy.test.js` | 13.6 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 6.8 KB |
 | `test/hna-profile-fetch-batches.test.js` | 5.2 KB |
@@ -2062,6 +2063,7 @@
 | `test/pma-competitive-set.test.js` | 12.8 KB |
 | `test/pma-confidence.test.js` | 9.1 KB |
 | `test/pma-flood-absence.test.js` | 4.7 KB |
+| `test/pma-full-metadata-schedule.test.js` | 3.6 KB |
 | `test/pma-map-integrity.test.js` | 2.3 KB |
 | `test/pma-methodology-language.test.js` | 4.4 KB |
 | `test/pma-pipeline-stage.test.js` | 11.8 KB |

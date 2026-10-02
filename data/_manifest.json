@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-02T04:58:28.914Z",
+    "generated_at": "2026-10-02T06:43:36.032Z",
     "root": "data/",
     "file_count": 1694,
-    "total_size_bytes": 175999069,
+    "total_size_bytes": 175999230,
     "kinds": {
       "json": 1657,
       "geojson": 33,
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-02T04:58:25.466Z",
+      "mtime": "2026-10-02T06:43:32.343Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1138,8 +1138,8 @@
     {
       "path": "co_ami_gap_by_county.json",
       "kind": "json",
-      "size_bytes": 87695,
-      "mtime": "2026-09-25T12:55:18.613Z",
+      "size_bytes": 87737,
+      "mtime": "2026-10-02T06:41:57.502Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1169,8 +1169,8 @@
     {
       "path": "co_ami_gap_by_place.json",
       "kind": "json",
-      "size_bytes": 642382,
-      "mtime": "2026-09-25T12:55:18.614Z",
+      "size_bytes": 642503,
+      "mtime": "2026-10-02T06:41:57.503Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31936,8 +31936,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14802,
-      "mtime": "2026-10-02T04:58:27.255Z",
+      "size_bytes": 14800,
+      "mtime": "2026-10-02T06:43:34.186Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31960,7 +31960,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-02T04:58:26.819Z",
+      "mtime": "2026-10-02T06:43:33.762Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

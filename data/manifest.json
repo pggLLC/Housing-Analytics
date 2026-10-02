@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-02T04:58:31.683859Z",
+  "generated": "2026-10-02T06:43:39.898929Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -264,12 +264,12 @@
     "data/co_ami_gap_by_county.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 87695
+      "bytes": 87737
     },
     "data/co_ami_gap_by_place.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 642382
+      "bytes": 642503
     },
     "data/core/educational-content.json": {
       "featureCount": 0,
@@ -7874,7 +7874,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14802
+      "bytes": 14800
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
