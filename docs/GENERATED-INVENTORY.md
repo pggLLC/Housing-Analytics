@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-02T12:17:10.838Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-02T13:58:05.386Z. Do not edit by hand.
 
 ---
 
@@ -85,7 +85,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 808.8 KB | ✅ | — |
+| `data/_manifest.json` | 808.9 KB | ✅ | — |
 | `data/_qa-status.json` | 7.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -900,7 +900,7 @@
 | `data/hna/lihtc/08123.json` | 25.5 KB | ✅ | 29 features |
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
-| `data/hna/local-resources-candidates.json` | 38.0 KB | ✅ | — |
+| `data/hna/local-resources-candidates.json` | 42.5 KB | ✅ | — |
 | `data/hna/local-resources.json` | 177.3 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 702.7 KB | ✅ | — |
 | `data/hna/permits.json` | 270.2 KB | ✅ | — |
@@ -1734,7 +1734,7 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
 | `data/reports/data-source-health.json` | 7.6 KB | ✅ | — |
-| `data/reports/developer-url-health.json` | 20.7 KB | ✅ | — |
+| `data/reports/developer-url-health.json` | 20.0 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.96 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 14.9 KB | ✅ | — |
 | `data/schema/semantic-label-evidence.json` | 6.0 KB | ✅ | — |
@@ -1742,7 +1742,7 @@
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/table-header-tips.json` | 15.3 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 22.6 KB | ✅ | — |
-| `data/url-health.json` | 326.9 KB | ✅ | — |
+| `data/url-health.json` | 417.6 KB | ✅ | — |
 
 ---
 
@@ -1842,7 +1842,7 @@
 | `test/deal-calc-net-rent.test.js` | 24.7 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
-| `test/deal-calc-provenance.test.js` | 9.2 KB |
+| `test/deal-calc-provenance.test.js` | 15.0 KB |
 | `test/deal-calc-schedule.test.js` | 22.5 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-share-roundtrip.test.js` | 21.7 KB |
