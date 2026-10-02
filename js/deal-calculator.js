@@ -133,9 +133,10 @@
       Math.abs(current - (_cfg.equityPrice4Pct || 0.84)) < 0.0001;
     if (shouldUpdate) {
       input.value = defaultPrice.toFixed(2);
+      if (window.InputProvenance) window.InputProvenance.mark(input, { status: 'assumption',
+        why: 'Credit-pricing benchmark used as a screening default; obtain project-specific pricing.' });
       if (opts.dispatch !== false) {
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-        input.dispatchEvent(new Event('change', { bubbles: true }));
+        prefillEvents(input);
       }
     }
     return defaultPrice;
@@ -1084,7 +1085,9 @@
             return Math.abs(b - suggestedPct) < Math.abs(a - suggestedPct) ? b : a;
           });
           taxSelect.value = String(closest);
-          taxSelect.dispatchEvent(new Event('change', { bubbles: true }));
+          if (window.InputProvenance) window.InputProvenance.mark(taxSelect, { status: 'assumption',
+            why: 'Scenario exemption suggested by the policy context; project eligibility still needs evidence.' });
+          prefillEvents(taxSelect);
           applyBtn.textContent = '✓ Applied (' + closest + '%)';
           applyBtn.disabled = true;
           applyBtn.style.background = 'rgba(16,185,129,.3)';
@@ -1357,6 +1360,9 @@
       document.getElementById('dc-chk-' + r.tier).checked = true;
     });
     mix.marketRows.forEach(function (r) { omitted.push(Object.assign({ tier: 'market' }, r)); });
+    if (window.InputProvenance) manualMixInputs().forEach(function (el) {
+      if (el.type !== 'checkbox' && el.type !== 'hidden') markSource(el, scheduleSource(mix), true);
+    });
     document.getElementById('dc-unrepresented-schedule-rows').value = JSON.stringify(omitted);
     input.value = 'manual';
     _manualBaseValues = null;
@@ -1392,8 +1398,14 @@
     ['dc-units', 'dc-vacancy'].forEach(function (id) {
       var el = document.getElementById(id);
       el.readOnly = active;
-      if (!active && _manualBaseValues) el.value = _manualBaseValues[id];
-      if (active) el.value = String(id === 'dc-units' ? mix.totalUnits : mix.vacancyRate * 100);
+      if (!active && _manualBaseValues) {
+        el.value = _manualBaseValues[id];
+        if (window.InputProvenance) window.InputProvenance.mark(el, { status: 'assumption', why: 'Restored your previous manual scenario value.' });
+      }
+      if (active) {
+        el.value = String(id === 'dc-units' ? mix.totalUnits : mix.vacancyRate * 100);
+        markSource(el, scheduleSource(mix), true);
+      }
     });
     if (!active) _manualBaseValues = null;
     var omitted = [];
@@ -1497,6 +1509,37 @@
       perBedroom: Object.assign({}, _utilityAllowance.perBedroom), feesPerBedroom: Object.assign({}, _utilityAllowance.feesPerBedroom) };
   }
 
+  // Provenance reads the same loaded records as the prefill; it never prices a deal.
+  function countySource(meta) {
+    var hud = window.HudFmr;
+    var county = hud && hud.getAllCounties && hud.getAllCounties().find(function (row) { return row.fips === _countyFips; });
+    return Object.assign({ countyFips: _countyFips, geography: county && county.county_name || _countyFips }, meta);
+  }
+  function markSource(el, meta, available) {
+    var provenance = window.InputProvenance;
+    if (!provenance || !el) return;
+    if (available && meta.source && meta.sourceUrl && meta.vintage != null && meta.geography) provenance.markData(el, meta);
+    else {
+      if ('value' in el) el.value = '';
+      provenance.missing(el, 'Source unavailable for the selected geography.');
+    }
+  }
+  function scheduleSource(mix) {
+    var meta = mix.sourceMeta;
+    return countySource({ source: 'Market Analysis Subject project', sourceUrl: 'market-analysis.html#subjectProjectMount',
+      vintage: 'CHFA ' + meta.tableYear + ' · effective ' + meta.effectiveDate,
+      why: 'Copied from the saved project schedule. Units and vacancy are project entries; rents use the cited CHFA table and allowance basis.',
+      binding: 'schedule' });
+  }
+  function prefillEvents(el) {
+    function dispatch() {
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    if (window.InputProvenance) window.InputProvenance.withProgrammaticChange(dispatch);
+    else dispatch();
+  }
+
   function renderUtilityAllowanceContext(blockedReason) {
     var allowance = _utilityAllowance;
     var limits = window.ChfaRentLimits;
@@ -1527,6 +1570,15 @@
       el.dataset.allowanceSource = allowance.source || 'local';
       el.dataset.unavailableReason = reason || '';
       el.textContent = el.hidden ? '' : text;
+      var basis = _resolvedDealMix && _resolvedDealMix.available
+        ? _resolvedDealMix.sourceMeta.allowanceBasis : allowance.basis;
+      markSource(el, countySource({ source: basis && (basis.reference || basis.method),
+        sourceUrl: 'market-analysis.html#subjectProjectMount',
+        vintage: basis && (basis.effectiveDate || (basis.method === 'owner_pays_all' ? 'Not required: owner pays all' : null)),
+        why: 'Allowance basis supplied with the Subject project or shared scenario; the reference is user supplied, not independently verified.' }),
+        !el.hidden && !!basis && !blockedReason);
+      var badge = document.getElementById(id + '-prov');
+      if (badge) badge.hidden = el.hidden;
     });
   }
 
@@ -1569,7 +1621,11 @@
     var example = '@ 60% AMI (2BR): ' + rentLimitText(result);
     ['dc-formula-ceiling-eg', 'dc-rent-limit-example'].forEach(function (id) {
       var el = document.getElementById(id);
-      if (el) { el.textContent = example; el.dataset.grossRent = result.grossRent == null ? '' : String(result.grossRent); }
+      if (el) {
+        el.textContent = example; el.dataset.grossRent = result.grossRent == null ? '' : String(result.grossRent);
+        markSource(el, countySource({ source: result.source, sourceUrl: result.sourceUrl,
+          vintage: result.tableYear, why: result.method + (result.effectiveDate ? ' · effective ' + result.effectiveDate : '') }), result.grossRent != null);
+      }
     });
     var note = document.getElementById('dc-fmr-note');
     if (note) {
@@ -1577,6 +1633,8 @@
         return tier + '% AMI (2BR): ' + rentLimitText(rentCeilingFor(tier, '2br'));
       }).join(' · ');
       note.style.color = '';
+      markSource(note, countySource({ source: result.source, sourceUrl: result.sourceUrl,
+        vintage: result.tableYear, why: result.method }), result.grossRent != null);
     }
   }
 
@@ -1588,6 +1646,9 @@
         (fips || null) !== _sharedUtilityAllowance.countyFips) clearSharedUtilityAllowance();
     if (_sharedRentSchedule && (fips || null) !== _countyFips &&
         (fips || null) !== _sharedRentSchedule.countyFips) clearSharedRentSchedule();
+    if (_countyFips !== (fips || null) && window.InputProvenance) {
+      window.InputProvenance.invalidateGeography(document.getElementById('dealCalcMount') || document, fips || null);
+    }
     _countyFips = fips || null;
     _amiLimits = null;
     _amiLimitsByBr = null;
@@ -3143,7 +3204,27 @@
         // F194: also seed cashflowPayPct, accrueMode, priority defaults
         _softTranches.push({ id: ++_trancheCounter, program: 'chfa_htf', amount: 0, mode: 'loan', rate: 3.0, term: 30, cashflowPayPct: 100, accrueMode: 'current', priority: 5 });
       }
+      var provenance = window.InputProvenance;
+      var previousOrigins = {};
+      if (provenance) host.querySelectorAll('[data-tranche-id]').forEach(function (row) {
+        previousOrigins[row.dataset.trancheId] = provenance.serialize(row);
+      });
       host.innerHTML = _softTranches.map(_trancheRowHtml).join('');
+      if (provenance) {
+        provenance.apply(host);
+        host.querySelectorAll('[data-tranche-id]').forEach(function (row) {
+          var previous = previousOrigins[row.dataset.trancheId];
+          if (!previous) return;
+          // Share keys follow row order; local origins follow the surviving
+          // tranche identity when a preceding row is deleted.
+          var remapped = { version: previous.version, sources: previous.sources, fields: {} };
+          Object.keys(previous.fields).forEach(function (id) {
+            var field = row.querySelector('.dc-tr-' + id.replace(/^ip-tr-\d+-/, ''));
+            if (field) remapped.fields[field.id] = previous.fields[id];
+          });
+          provenance.restore(remapped, row);
+        });
+      }
 
       host.querySelectorAll('[data-tranche-id]').forEach(function (rowEl) {
         var trId = parseInt(rowEl.getAttribute('data-tranche-id'), 10);
@@ -3272,7 +3353,10 @@
           var newDefault = _getCreditPricingDefault(is4Pct);
           EQUITY_PRICE_DEFAULT = newDefault;
           var eqInput = document.getElementById('dc-equity-price');
-          if (eqInput) eqInput.value = newDefault.toFixed(2);
+          if (eqInput) {
+            eqInput.value = newDefault.toFixed(2);
+            if (window.InputProvenance) window.InputProvenance.mark(eqInput, { status: 'assumption' });
+          }
 
           _renderFundingContextCard();
           recalculate();
@@ -3364,7 +3448,10 @@
         };
         Object.keys(def).forEach(function (id) {
           var fEl = document.getElementById(id);
-          if (fEl) fEl.value = def[id];
+          if (fEl) {
+            fEl.value = def[id];
+            if (window.InputProvenance) window.InputProvenance.mark(fEl, { status: 'assumption' });
+          }
         });
         if (_countyFips) updateAmiLimitsFromFmr(_countyFips);
         _renderConstantModifiedFlag();
@@ -4304,6 +4391,10 @@
       if (fmrGrid) fmrGrid.style.display = 'none';
     }
 
+    var hudMeta = window.HudFmr && window.HudFmr.getMeta && window.HudFmr.getMeta() || {};
+    markSource(fmrGrid, countySource({ source: hudMeta.source, sourceUrl: hudMeta.url_fmr,
+      vintage: hudMeta.fiscal_year, why: 'HUD fair market rents provide the county bedroom-size benchmark.' }), !!fmrData);
+
     // ── Render Peer Deals table ────────────────────────────────────
     // Pulls comparable LIHTC projects from window.HudLihtc (loaded
     // lazily on first county selection) and renders the top 5 by
@@ -4891,7 +4982,30 @@
     var totalUnits = Math.max(1, parseInt(totalEl && totalEl.value, 10) || 0);
     var placeGeoid = _getActivePlaceGeoid();
     var place = placeGeoid ? _findAmiGapPlace(placeGeoid) : null;
+    // A manually selected county must not prefill from the former workflow place.
+    var context = _workflowJurisdictionContext();
+    if (context && context.countyFips && context.countyFips !== _countyFips) place = null;
     var rec = place || _findAmiGapCounty(_countyFips);
+    var sourceMeta = (place ? _amiGapPlaceData : _amiGapData) && (place ? _amiGapPlaceData : _amiGapData).meta;
+    var series = place ? [rec && rec.households_le_ami_pct, rec && rec.units_priced_affordable_le_ami_pct]
+      : [rec && rec.gap_units_minus_households_le_ami_pct];
+    var complete = rec && sourceMeta && sourceMeta.acs_year && series.every(function (values) {
+      return values && ['30', '50', '60'].every(function (band) {
+        return values[band] != null && values[band] !== '' && Number.isFinite(Number(values[band]));
+      });
+    });
+    if (!complete) {
+      [30, 40, 50, 60].forEach(function (tier) {
+        [''].concat(SPLIT_BR_TYPES.map(function (br) { return '-' + br; })).forEach(function (suffix) {
+          var field = document.getElementById('dc-units-' + tier + suffix);
+          if (!field) return;
+          field.value = '';
+          if (window.InputProvenance) window.InputProvenance.missing(field, 'No complete local affordability-gap source is available.');
+          prefillEvents(field);
+        });
+      });
+      rec = null;
+    }
     if (!rec) {
       if (metaEl) {
         metaEl.hidden = false;
@@ -4903,6 +5017,10 @@
     var gaps = _gapTrioFromRecord(rec, kind);
     var label = place ? (rec.place_name || 'this place')
                       : (rec.county_name || 'this county');
+    var origin = countySource({ source: sourceMeta.source || 'Census ACS renter affordability-gap counts',
+      sourceUrl: place ? 'data/co_ami_gap_by_place.json' : 'data/co_ami_gap_by_county.json',
+      vintage: 'ACS ' + sourceMeta.acs_year + ' · HUD FY' + sourceMeta.hud_income_limits_year,
+      geography: label, why: 'Project units allocated proportionally to the local 30%, 50% and 60% AMI shortfalls; an allocation estimate, not a project commitment.' });
     var total = (gaps['30'] || 0) + (gaps['50'] || 0) + (gaps['60'] || 0);
     if (total <= 0) {
       if (metaEl) {
@@ -4920,10 +5038,10 @@
       var chk = document.getElementById('dc-chk-' + pct);
       var inp = document.getElementById('dc-units-' + pct);
       if (chk) chk.checked = units > 0;
-      if (inp) inp.value = String(units);
+      if (inp) { inp.value = String(units); markSource(inp, origin, true); }
       SPLIT_BR_TYPES.forEach(function (br) {
         var splitInp = document.getElementById('dc-units-' + pct + '-' + br);
-        if (splitInp) splitInp.value = '0';
+        if (splitInp) { splitInp.value = '0'; markSource(splitInp, Object.assign({}, origin, { why: 'Split-grid entries cleared by the local-need allocation; choose a bedroom mix before enabling the grid.' }), true); }
       });
     }
     _setRow(30, u30);
@@ -4933,10 +5051,10 @@
     // Trigger recalc by dispatching input events on each changed field.
     [30, 40, 50, 60].forEach(function (pct) {
       var inp = document.getElementById('dc-units-' + pct);
-      if (inp) inp.dispatchEvent(new Event('input', { bubbles: true }));
+      if (inp) prefillEvents(inp);
       SPLIT_BR_TYPES.forEach(function (br) {
         var splitInp = document.getElementById('dc-units-' + pct + '-' + br);
-        if (splitInp) splitInp.dispatchEvent(new Event('input', { bubbles: true }));
+        if (splitInp) prefillEvents(splitInp);
       });
       var chk = document.getElementById('dc-chk-' + pct);
       if (chk) chk.dispatchEvent(new Event('change', { bubbles: true }));
@@ -5170,6 +5288,14 @@
     // read-only with respect to values, so it cannot alter a calculation.
     if (window.InputProvenance && typeof window.InputProvenance.apply === 'function') {
       try { window.InputProvenance.apply(mount); } catch (_) { /* never break render */ }
+      document.addEventListener('market-rates:loaded', function (event) {
+        var field = document.getElementById('dc-rate');
+        var rates = event.detail;
+        if (!field || !rates || !field.parentNode.querySelector('.live-rate-indicator')) return;
+        window.InputProvenance.mark(field, { status: 'assumption', source: 'FRED MORTGAGE30US',
+          sourceUrl: 'data/fred-data.json', vintage: rates.mortgageDate, geography: 'United States',
+          why: 'A screening rate proxy derived from the national mortgage series, not a local lender quote.' });
+      });
     }
 
     // Eagerly trigger the HUD LIHTC dataset load so the Peer Deals panel
@@ -6928,13 +7054,18 @@
               'Verify against current Novogradac publication before quoting in IC memo.' +
             '</div>';
           // Wire the apply buttons
-          target.querySelectorAll('.dc-novo-apply').forEach(function (btn) {
+          target.querySelectorAll('.dc-novo-apply').forEach(function (btn, index) {
             btn.addEventListener('click', function () {
               var p = parseFloat(btn.getAttribute('data-price'));
               if (isFinite(p) && p > 0) {
                 input.value = p.toFixed(2);
-                input.dispatchEvent(new Event('input', { bubbles: true }));
-                input.dispatchEvent(new Event('change', { bubbles: true }));
+                if (window.InputProvenance) window.InputProvenance.mark(input, { status: 'assumption',
+                  source: j.meta && j.meta.source, sourceUrl: j.meta && j.meta.source_url,
+                  vintage: j.meta && j.meta.vintage, geography: index === 0
+                    ? (denver.credit_9pct ? 'Denver-Aurora-Lakewood MSA' : 'United States')
+                    : (rural.credit_9pct ? 'Rural Colorado' : 'United States'),
+                  why: 'A published-context screening estimate; verify current project-specific pricing.' });
+                prefillEvents(input);
               }
             });
           });
@@ -6989,8 +7120,11 @@
             btn.addEventListener('click', function () {
               if (isFinite(perm) && perm > 0) {
                 input.value = perm.toFixed(2);
-                input.dispatchEvent(new Event('input', { bubbles: true }));
-                input.dispatchEvent(new Event('change', { bubbles: true }));
+                if (window.InputProvenance) window.InputProvenance.mark(input, { status: 'assumption',
+                  source: j.meta && j.meta.source, sourceUrl: j.meta && j.meta.source_url,
+                  vintage: j.meta && j.meta.vintage, geography: 'United States',
+                  why: 'A published-context screening estimate; verify current project-specific pricing.' });
+                prefillEvents(input);
               }
             });
           }

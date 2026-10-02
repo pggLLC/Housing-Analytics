@@ -28,6 +28,13 @@
   'use strict';
 
   var METHODOLOGY_REGISTRY = {
+    'affordable-ownership-need': {
+      title: 'Affordable ownership need',
+      what: 'A screening view of renter shortfall at or below 80% AMI and the potential buyer pool of moderate-income renter households, not committed demand.',
+      how: 'The rental shortfall compares renter households with units priced for them at ≤80% AMI, floored at zero. Combined areas sum positive shortfalls within income bands. The ownership-fit pool uses HUD CHAS 51–100% HAMFI renters, HUD’s household-size-adjusted income measure.',
+      caveats: 'The CHAS pool is not a count of mortgage-ready buyers. Local prices, financing and household circumstances require separate evidence; the open-ended CHAS top band cannot identify a 101–120% AMI pool.',
+      source: 'HUD CHAS 2018–2022 (data/hna/place-chas.json, data/market/chas_co.json); Census ACS 2020–2024 with HUD FY2026 income thresholds (data/co_ami_gap_by_place.json, data/co_ami_gap_by_county.json).',
+    },
     'chas-cb': {
       title: 'Renter cost burden by AMI',
       what: 'Households paying ≥30% of income on housing costs, broken out by AMI tier (≤30%, 31-50%, 51-80%, 81-100%, >100% of HUD Area Median Family Income).',
@@ -140,7 +147,12 @@
       anchor.dataset.meAttached = '1';
       var key = anchor.dataset.methodologyKey;
       var entry = METHODOLOGY_REGISTRY[key];
-      if (!entry) return;
+      if (!entry) {
+        if (location.protocol === 'file:' || /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || window.COHO_DEVELOPMENT) {
+          console.warn('[MethodologyExplainer] Missing explanation for data-methodology-key="' + key + '"');
+        }
+        return;
+      }
       // Render icon + popover
       var icon = document.createElement('span');
       icon.className = 'me-icon';
