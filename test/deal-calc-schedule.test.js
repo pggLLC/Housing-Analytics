@@ -101,6 +101,8 @@ async function test(name, fn) {
     const s = subject(), w = await calculator(s);
     try {
       assertRevenue(w, s);
+      assert.equal(w.__DealCalc.getUtilityAllowanceMetadata().reason, 'included_in_schedule_rents');
+      assert.equal(w.__DealCalcShare.buildSnapshot().utilityAllowance.applied, false);
       assert.equal(w.document.getElementById('dc-unit-mix-status').dataset.mode, 'schedule');
       assert(text(w, 'dc-unit-mix-status').includes('Market Analysis'));
       assert(w.document.getElementById('dc-manual-unit-mix').hidden);

@@ -5519,18 +5519,19 @@
     if (!lastResult) return;
     var ENH = window.PMAEnhancements;
     if (!ENH) { exportJson(); return; }
-    var payload = ENH.exportWithMetadata(
-      lastResult,
-      lastQuality,
-      lastScenarios,
-      lastBenchmark,
-      lastPipeline
-    );
-    var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'pma-result-full-' + new Date().toISOString().slice(0, 10) + '.json';
-    a.click();
+    // Use the JSON export's click-time subject snapshot and shared table load.
+    var exported = exportJson(false);
+    var quality = lastQuality, scenarios = lastScenarios;
+    var benchmark = lastBenchmark, pipeline = lastPipeline;
+    function download(result) {
+      var payload = ENH.exportWithMetadata(result, quality, scenarios, benchmark, pipeline);
+      var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'pma-result-full-' + new Date().toISOString().slice(0, 10) + '.json';
+      a.click();
+    }
+    return exported && typeof exported.then === 'function' ? exported.then(download) : download(exported);
   }
 
   function bindExport() {
