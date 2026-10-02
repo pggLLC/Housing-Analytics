@@ -468,8 +468,8 @@ document.addEventListener('DOMContentLoaded', function () {
   </a>
 </div>
 
-<!-- Housing & Home Values -->
-<h3 class="hp-section-heading">Real Estate &amp; Home Values</h3>
+<!-- Mortgage Rates -->
+<h3 class="hp-section-heading">Mortgage Rates</h3>
 <div class="hp-binary-grid" style="margin-bottom:1.25rem;">
   <a class="hp-binary-card" href="https://polymarket.com/event/will-the-30-year-mortgage-rate-hit-in-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#2e7d32;">
     <div class="hp-category-badge" style="background:#2e7d32;">Housing</div>
@@ -520,8 +520,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <div style="font-size:.82rem;color:var(--muted);margin-top:var(--sp3);line-height:1.6;">
   <strong>Data:</strong> <a href="https://polymarket.com" target="_blank" rel="noopener">Polymarket</a> via Gamma API. Prices are real-money prediction market contracts — not polls or models.
-  Updated on page load; click Refresh Polymarket to re-fetch. Home value markets resolve via <a href="https://parcllabs.com" target="_blank" rel="noopener">Parcl Labs</a> Sales Price Index.<br>
-  <strong>Colorado context:</strong> Denver Metro typically trades at ~1.35× the national median home price. CO unemployment runs ~0.4 percentage points below the national rate. Front Range tech employment is the key marginal demand driver for metro housing.
+  Daily cache via Gamma API; click Refresh Polymarket to reload the panel. Missing or stale market data is unavailable.<br>
+  <strong>Colorado context:</strong> Rates affect construction financing and mortgage affordability; inflation affects building costs, and employment affects housing demand.
 </div>
 <div style="margin-top:var(--sp2);">
   <button class="btn primary" id="pm-refresh" type="button">Refresh Polymarket</button>
@@ -1464,7 +1464,10 @@ function getKey(){ return CONFIG_KEY || ""; }
   function getEvent(slug) {
     // Try cached data first
     if (_pmCache && _pmCache.events && _pmCache.events[slug]) {
-      return Promise.resolve(_pmCache.events[slug]);
+      var cached = _pmCache.events[slug];
+      // The fetcher retained these prices only to preserve history, not as a
+      // current quote. Keep the card unavailable until a successful refresh.
+      return Promise.resolve(cached.stale_since ? null : cached);
     }
     // Fallback to live API (may fail due to CORS on GitHub Pages)
     return fetch(API + '/events?slug=' + slug)
