@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-02T12:17:38.849Z",
+    "generated_at": "2026-10-02T12:44:13.156Z",
     "root": "data/",
     "file_count": 1694,
-    "total_size_bytes": 176000679,
+    "total_size_bytes": 176093518,
     "kinds": {
       "json": 1657,
       "geojson": 33,
@@ -861,7 +861,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-10-01T13:25:36.538Z",
+      "mtime": "2026-10-02T12:44:08.100Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -977,7 +977,7 @@
       "path": "co-county-demographics.json",
       "kind": "json",
       "size_bytes": 40183,
-      "mtime": "2026-10-01T13:25:33.761Z",
+      "mtime": "2026-10-02T12:44:05.298Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30545,7 +30545,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 215290,
-      "mtime": "2026-10-02T12:16:49.459Z",
+      "mtime": "2026-10-02T12:44:11.192Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31901,7 +31901,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 92895,
-      "mtime": "2026-10-01T13:25:36.633Z",
+      "mtime": "2026-10-02T12:44:08.173Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34826,8 +34826,8 @@
     {
       "path": "url-health.json",
       "kind": "json",
-      "size_bytes": 334744,
-      "mtime": "2026-09-25T12:55:19.132Z",
+      "size_bytes": 427583,
+      "mtime": "2026-10-02T12:43:59.664Z",
       "shape": "object",
       "keys": [
         "lastSweepAt",
