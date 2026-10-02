@@ -106,7 +106,7 @@ async function serverlessEndpoints() {
       assert.equal(status, 200, file);
     } else {
       const pending = [];
-      const response = await sandbox.endpoint.fetch(new Request('https://fixture.local/co-ami-gap'), env,
+      const response = await sandbox.endpoint.fetch(new Request('https://localhost/co-ami-gap'), env,
         {waitUntil(promise) {pending.push(promise);}});
       await Promise.all(pending);
       assert.equal(response.status, 200, file);
