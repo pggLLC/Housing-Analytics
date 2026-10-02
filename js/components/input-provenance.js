@@ -2,6 +2,11 @@
 (function (root) {
   'use strict';
   var records = new WeakMap();
+  // Only page-derived records enter evidence; URL metadata never does.
+  var evidence = new WeakMap();
+  var defaults = new WeakMap();
+  var sharedClaims = new WeakMap();
+  var SHARED_NOTICE = "From shared link — sender's value, not re-checked here";
   var programmatic = 0;
   var anonymousId = 0;
   var LABELS = { data: 'Source confirmed', assumption: 'assumption', illustrative: 'Worked example',
@@ -41,9 +46,10 @@
     return [meta.source, meta.vintage, meta.geography].filter(function (v) { return v != null && v !== ''; }).join(' · ');
   }
   function detail(el, record) {
-    var meta = Object.assign({}, registry(el), record.origin.meta);
+    var meta = Object.assign({}, record.origin.meta, { definition: registry(el).definition || record.origin.meta.definition });
     var lines = [CONCLUSIONS[record.status], meta.definition, sourceText(meta), meta.why].filter(Boolean);
-    if (record.status === 'yours') lines.push('You changed this from ' + record.origin.value +
+    if (record.sharedUnverified) lines.push(SHARED_NOTICE, 'Sender claimed source: ' + (record.senderClaim || 'Not supplied') + '.');
+    else if (record.status === 'yours') lines.push('You changed this from ' + record.origin.value +
       (sourceText(meta) ? ' (' + sourceText(meta) + ')' : ' (tool default)') + '.');
     return lines.join(' ');
   }
@@ -58,6 +64,7 @@
       return;
     }
     el.setAttribute('data-provenance', state);
+    el.setAttribute('data-provenance-shared-unverified', String(!!rec.sharedUnverified));
     var doc = el.ownerDocument;
     var id = el.id + '-prov';
     var badge = doc.getElementById(id);
@@ -100,7 +107,7 @@
       ? root.ProvenanceLabel({ classification: state === 'data' ? 'observed' : 'not_available', source_note: CONCLUSIONS[state] }) : null;
     var tone = sharedLabel ? sharedLabel.tone : state === 'data' ? 'source' : state === 'needs-source' ? 'pending' : 'action';
     badge.className = 'input-prov input-prov--' + state + ' provenance provenance--' + tone;
-    badge.textContent = sharedLabel ? sharedLabel.label : LABELS[state];
+    badge.textContent = (sharedLabel ? sharedLabel.label : LABELS[state]) + (rec.sharedUnverified ? ' · ' + SHARED_NOTICE : '');
     badge.title = detail(el, rec);
     badge.setAttribute('aria-label', LABELS[state] + ': ' + (registry(el).definition || el.id));
     var panel = doc.getElementById(id + '-detail');
@@ -114,11 +121,14 @@
     identify(el);
     if (!records.has(el)) records.set(el, { status: initialState(el), origin: {
       value: value(el), meta: Object.assign({}, registry(el), { status: initialState(el) }) } });
+    if (!defaults.has(el)) defaults.set(el, get(el));
     if (el.getAttribute('data-provenance-ready') !== '1') {
       el.setAttribute('data-provenance-ready', '1');
       function edit() {
         if (programmatic) return;
         var rec = records.get(el);
+        sharedClaims.delete(el);
+        delete rec.sharedUnverified; delete rec.senderClaim;
         rec.status = hasValue(el) ? 'yours' : rec.origin.meta.status;
         paint(el);
       }
@@ -136,6 +146,7 @@
     if (!el) return;
     ensure(el);
     records.set(el, { status: meta.status, origin: { value: value(el), meta: Object.assign({}, registry(el), meta) } });
+    if (meta.status !== 'data') { evidence.delete(el); defaults.set(el, get(el)); }
     paint(el);
   }
   function markData(el, meta) {
@@ -143,8 +154,13 @@
       missing(el, 'Source metadata is incomplete.'); return;
     }
     mark(el, Object.assign({}, meta, { status: 'data' }));
+    evidence.set(el, get(el));
+    if (sharedClaims.has(el)) restoreField(el, sharedClaims.get(el));
   }
-  function missing(el, why) { mark(el, { status: 'needs-source', source: null, sourceUrl: null, vintage: null, geography: null, why: why }); }
+  function missing(el, why) {
+    mark(el, { status: 'needs-source', source: null, sourceUrl: null, vintage: null, geography: null, why: why });
+    if (sharedClaims.has(el)) restoreField(el, sharedClaims.get(el));
+  }
   function get(el) { return records.has(el) ? JSON.parse(JSON.stringify(records.get(el))) : null; }
   function withProgrammaticChange(fn) { programmatic++; try { return fn(); } finally { programmatic--; } }
   // Intern dynamic metadata once; default definitions are resolved from the registry.
@@ -157,10 +173,42 @@
       Object.keys(r.origin.meta).forEach(function (key) { if (r.origin.meta[key] !== base[key]) extra[key] = r.origin.meta[key]; });
       var encoded = JSON.stringify(extra);
       if (index[encoded] == null) { index[encoded] = result.sources.length; result.sources.push(extra); }
-      // Display-only source labels cannot be edited; their text need not inflate a share URL.
-      result.fields[el.id] = [r.status, 'value' in el ? r.origin.value : '', index[encoded]];
+      // Semantic source values avoid coupling verification to presentation copy.
+      result.fields[el.id] = [r.status, 'value' in el ? r.origin.value : '', index[encoded],
+        r.status === 'data' ? sourceValue(el, r) : null];
     });
     return result;
+  }
+  function sourceValue(el, record) {
+    return 'value' in el ? value(el) : JSON.stringify(record.origin.meta.sourceValue);
+  }
+  function claimText(meta) {
+    return [meta.source, meta.vintage, meta.geography, meta.sourceUrl].filter(function (v) {
+      return typeof v === 'string' || typeof v === 'number';
+    }).join(' · ');
+  }
+  function restoreField(el, claim) {
+    var base = registry(el), local = evidence.get(el), meta = claim.meta;
+    var sameSource = local && ['countyFips', 'sourceUrl', 'vintage', 'effectiveDate', 'binding'].every(function (key) {
+      return (local.origin.meta[key] || null) === (meta[key] || null);
+    });
+    var verified = base.dataSource && sameSource && local.origin.meta.countyFips &&
+      claim.value != null && claim.value === sourceValue(el, local) &&
+      (!('value' in el) || value(el) === local.origin.value);
+    if (claim.status === 'data' && verified) {
+      records.set(el, JSON.parse(JSON.stringify(local)));
+    } else {
+      var original = defaults.get(el), state = base.status || 'assumption';
+      if (claim.status === 'yours' || !original || value(el) !== original.origin.value) state = 'yours';
+      var record = { status: state, origin: original ? JSON.parse(JSON.stringify(original.origin)) : { value: '', meta: base } };
+      if (claim.status === 'data') {
+        // Ineligible fields cannot be promoted beyond their registry default.
+        if (base.dataSource) record.status = 'yours';
+        record.sharedUnverified = true; record.senderClaim = claimText(meta);
+      }
+      records.set(el, record);
+    }
+    paint(el);
   }
   function restore(map, scope) {
     if (!map || map.version !== 1 || !map.fields || !Array.isArray(map.sources)) return;
@@ -169,20 +217,36 @@
       var el = doc.getElementById(id), field = map.fields[id];
       if (!el || (scope && scope !== doc && !scope.contains(el)) || !Array.isArray(field) || !LABELS[field[0]]) return;
       ensure(el);
-      var extra = map.sources[field[2]] || {};
-      var meta = Object.assign({}, registry(el));
-      ['status', 'definition', 'why', 'source', 'sourceUrl', 'vintage', 'geography', 'countyFips', 'binding'].forEach(function (key) {
-        if (Object.prototype.hasOwnProperty.call(extra, key)) meta[key] = extra[key];
-      });
-      records.set(el, { status: field[0], origin: { value: String(field[1] == null ? '' : field[1]), meta: meta } });
-      paint(el);
+      var claim = { status: field[0], value: field[3], meta: map.sources[field[2]] || {} };
+      if (claim.status === 'data') sharedClaims.set(el, claim);
+      restoreField(el, claim);
     });
+  }
+  function markShared(el, meta) {
+    if (!el) return;
+    ensure(el); evidence.delete(el);
+    records.set(el, { status: 'yours', sharedUnverified: true, senderClaim: claimText(meta),
+      origin: { value: value(el), meta: Object.assign({}, registry(el), { status: 'yours' }) } });
+    paint(el);
+  }
+  // Local rerenders preserve records by stable row identity, without passing
+  // trusted in-memory state through the URL restoration boundary.
+  function captureLocal(scope) {
+    var result = {};
+    scope.querySelectorAll('[data-provenance]').forEach(function (el) { result[el.id] = get(el); });
+    return result;
+  }
+  function restoreLocal(record, el) {
+    if (!record) return;
+    ensure(el); records.set(el, JSON.parse(JSON.stringify(record))); paint(el);
   }
   // A move invalidates only source-filled editable fields. A personal override
   // stays personal, with its former geographic origin removed.
   function invalidateGeography(scope, countyFips) {
     scope.querySelectorAll('[data-provenance]').forEach(function (el) {
       var r = records.get(el);
+      var local = evidence.get(el);
+      if (local && local.origin.meta.countyFips !== countyFips) evidence.delete(el);
       if (!r || !r.origin.meta.countyFips || r.origin.meta.countyFips === countyFips) return;
       if (!('value' in el) || el.readOnly) return;
       if (r.status === 'yours') mark(el, { status: 'yours', why: 'Your entry; review it for the selected county.' });
@@ -190,7 +254,7 @@
     });
   }
   var api = { apply: apply, candidateFields: candidateFields, initialState: initialState, LABELS: LABELS,
-    mark: mark, markData: markData, missing: missing, get: get, serialize: serialize, restore: restore,
+    mark: mark, markData: markData, markShared: markShared, captureLocal: captureLocal, restoreLocal: restoreLocal, missing: missing, get: get, serialize: serialize, restore: restore,
     withProgrammaticChange: withProgrammaticChange, invalidateGeography: invalidateGeography };
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (root) root.InputProvenance = api;

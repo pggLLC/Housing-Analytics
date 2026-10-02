@@ -167,7 +167,6 @@
   function _writeVal(id, raw) {
     var el = _getEl(id);
     if (!el || raw == null) return;
-    if (_sharedProvenance && window.InputProvenance) window.InputProvenance.restore(_sharedProvenance, el);
     if (el.type === 'checkbox') {
       var want = (raw === '1' || raw === 'true' || raw === true);
       if (el.checked === want) return;
@@ -211,10 +210,10 @@
     return Array.prototype.some.call(sel.options || [], function (o) { return o.value === String(raw); });
   }
   function _selectAndFire(sel, raw) {
-    if (_sharedProvenance && window.InputProvenance) window.InputProvenance.restore(_sharedProvenance, sel);
     sel.value = raw;
     _notifyInput(sel, 'input');
     _notifyInput(sel, 'change');
+    if (_sharedProvenance && window.InputProvenance) window.InputProvenance.restore(_sharedProvenance);
   }
   // Poll (100 ms, up to 15 s) for a select option that is populated later.
   function _whenOptionExists(getSel, raw, tries) {
@@ -267,7 +266,6 @@
       if (window.InputProvenance) {
         var host = document.getElementById('dc-soft-tranches');
         window.InputProvenance.apply(host);
-        window.InputProvenance.restore(_sharedProvenance, host);
       }
       var rows = document.querySelectorAll('[data-tranche-id]');
       pairs.forEach(function (s, idx) {
@@ -298,6 +296,7 @@
         }
         _setRowInput('.dc-tr-priority', prio);
       });
+      if (_sharedProvenance && window.InputProvenance) window.InputProvenance.restore(_sharedProvenance);
     }, 80);
   }
 
@@ -368,7 +367,6 @@
     if (!Array.from(params.keys()).length) return;  // no params, nothing to do
     if (window.__DealCalc && window.__DealCalc.beginSharedScenario) window.__DealCalc.beginSharedScenario();
     try { _sharedProvenance = JSON.parse(params.get('inputProvenance')); } catch (_) { _sharedProvenance = null; }
-    if (_sharedProvenance && window.InputProvenance) window.InputProvenance.restore(_sharedProvenance);
     shareKeys().forEach(function (id) {
       var key = id.replace(/^dc-/, '');
       if (params.has(key)) _writeVal(id, params.get(key));
@@ -396,6 +394,9 @@
       });
     }
     if (window.__DealCalc && window.__DealCalc.endSharedScenario) window.__DealCalc.endSharedScenario();
+    // Verify after values and independently loaded sources have settled. Late
+    // source loads re-check the claim when their own markData call runs.
+    if (_sharedProvenance && window.InputProvenance) window.InputProvenance.restore(_sharedProvenance);
     if (params.has('tr')) _applyTranches(params.get('tr'));
     // The resale picker is re-rendered by each recalculate, so it is looked up
     // afresh for each key, after the id-keyed inputs have settled.
