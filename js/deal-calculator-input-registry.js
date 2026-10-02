@@ -77,6 +77,15 @@
         'An empty example allocation, not a measured local need.');
     });
   });
+  // Only these fields can be derived from a page-owned source record.
+  ['dc-formula-ceiling-eg', 'dc-rent-limit-example', 'dc-fmr-note', 'dc-rent-ach-fmr-grid'].forEach(function (id) {
+    fields[id].dataSource = 'rent-limit-table';
+  });
+  ['dc-units', 'dc-vacancy'].forEach(function (id) { fields[id].dataSource = 'subject-schedule'; });
+  ['dc-rent-allowance-status', 'dc-noi-allowance-status'].forEach(function (id) { fields[id].dataSource = 'subject-allowance'; });
+  Object.keys(fields).filter(function (id) { return /^dc-(units|br)-\d/.test(id); }).forEach(function (id) {
+    fields[id].dataSource = 'local-need-or-schedule';
+  });
   var tranche = {
     prog: 'Soft-funding program selected for this tranche.', amount: 'Dollars assigned to this soft-funding tranche.',
     rate: 'Annual interest rate for this tranche.', term: 'Amortization period for this tranche.',
