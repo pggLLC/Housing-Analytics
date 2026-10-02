@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-02T06:43:08.341Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-02T12:17:10.838Z. Do not edit by hand.
 
 ---
 
@@ -1725,7 +1725,7 @@
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 231.5 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 13.8 KB | ✅ | — |
-| `data/polymarket-data.json` | 11.3 KB | ✅ | — |
+| `data/polymarket-data.json` | 12.3 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
@@ -1748,7 +1748,7 @@
 
 ## Test Files
 
-503 test files found.
+506 test files found.
 
 | File | Size |
 |------|------|
@@ -1842,6 +1842,7 @@
 | `test/deal-calc-net-rent.test.js` | 24.7 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
+| `test/deal-calc-provenance.test.js` | 9.2 KB |
 | `test/deal-calc-schedule.test.js` | 22.5 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-share-roundtrip.test.js` | 21.7 KB |
@@ -1900,6 +1901,7 @@
 | `test/guided-path-enters-the-chapters.test.mjs` | 9.1 KB |
 | `test/guided-path-forward-and-doc.test.mjs` | 4.7 KB |
 | `test/helpers/ci-wiring.js` | 1.9 KB |
+| `test/helpers/deal-calculator-page.cjs` | 4.5 KB |
 | `test/historical-trends-real-data.test.js` | 8.2 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
@@ -2004,6 +2006,7 @@
 | `test/market-study-page.test.js` | 20.5 KB |
 | `test/market-study-report.test.js` | 29.3 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
+| `test/methodology-registry.test.js` | 2.7 KB |
 | `test/metric-semantics-wording.test.js` | 4.3 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
 | `test/metric-truth-crosssurface.test.js` | 8.1 KB |
