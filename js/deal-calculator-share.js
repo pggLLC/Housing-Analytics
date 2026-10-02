@@ -140,6 +140,15 @@
   } catch (_) {}
 
   // ── DOM helpers ───────────────────────────────────────────────────────
+  var _sharedProvenance = null;
+  function _notifyInput(el, type) {
+    var dispatch = function () { el.dispatchEvent(new Event(type, { bubbles: true })); };
+    if (_sharedProvenance && window.InputProvenance) window.InputProvenance.withProgrammaticChange(dispatch);
+    else dispatch(); // Older links retain their original edit-event behavior.
+  }
+  function _provenanceMap() {
+    return window.InputProvenance ? window.InputProvenance.serialize(document.getElementById('dealCalcMount') || document) : null;
+  }
   function _getEl(id) { return document.getElementById(id); }
   function _readVal(id) {
     var el = _getEl(id);
@@ -158,12 +167,13 @@
   function _writeVal(id, raw) {
     var el = _getEl(id);
     if (!el || raw == null) return;
+    if (_sharedProvenance && window.InputProvenance) window.InputProvenance.restore(_sharedProvenance, el);
     if (el.type === 'checkbox') {
       var want = (raw === '1' || raw === 'true' || raw === true);
       if (el.checked === want) return;
       el.checked = want;
-      el.dispatchEvent(new Event('input',  { bubbles: true }));
-      el.dispatchEvent(new Event('change', { bubbles: true }));
+      _notifyInput(el, 'input');
+      _notifyInput(el, 'change');
       return;
     }
     if (el.type === 'radio') {
@@ -176,8 +186,8 @@
       var match = document.querySelector('input[name="' + el.name + '"][value="' + cssVal + '"]');
       if (match && !match.checked) {
         match.checked = true;
-        match.dispatchEvent(new Event('input',  { bubbles: true }));
-        match.dispatchEvent(new Event('change', { bubbles: true }));
+        _notifyInput(match, 'input');
+        _notifyInput(match, 'change');
       }
       return;
     }
@@ -193,17 +203,18 @@
     // Fire the same events the user would have triggered by editing the
     // input. The Deal Calc listens for 'input' (and sometimes 'change');
     // dispatching both keeps the recalculate flow honest.
-    el.dispatchEvent(new Event('input',  { bubbles: true }));
-    el.dispatchEvent(new Event('change', { bubbles: true }));
+    _notifyInput(el, 'input');
+    _notifyInput(el, 'change');
   }
 
   function _hasOption(sel, raw) {
     return Array.prototype.some.call(sel.options || [], function (o) { return o.value === String(raw); });
   }
   function _selectAndFire(sel, raw) {
+    if (_sharedProvenance && window.InputProvenance) window.InputProvenance.restore(_sharedProvenance, sel);
     sel.value = raw;
-    sel.dispatchEvent(new Event('input',  { bubbles: true }));
-    sel.dispatchEvent(new Event('change', { bubbles: true }));
+    _notifyInput(sel, 'input');
+    _notifyInput(sel, 'change');
   }
   // Poll (100 ms, up to 15 s) for a select option that is populated later.
   function _whenOptionExists(getSel, raw, tries) {
@@ -253,6 +264,11 @@
     }
     // Wait one tick so the freshly-added rows mount, then populate.
     setTimeout(function () {
+      if (window.InputProvenance) {
+        var host = document.getElementById('dc-soft-tranches');
+        window.InputProvenance.apply(host);
+        window.InputProvenance.restore(_sharedProvenance, host);
+      }
       var rows = document.querySelectorAll('[data-tranche-id]');
       pairs.forEach(function (s, idx) {
         var row = rows[idx];
@@ -264,21 +280,21 @@
           var el = row.querySelector(sel);
           if (!el || val == null || val === '') return;
           el.value = val;
-          el.dispatchEvent(new Event('input',  { bubbles: true }));
-          el.dispatchEvent(new Event('change', { bubbles: true }));
+          _notifyInput(el, 'input');
+          _notifyInput(el, 'change');
         }
         _setRowInput('.dc-tr-prog', prog);
         _setRowInput('.dc-tr-amount', amt);
         if (mode) {
           var modeEl = row.querySelector('.dc-tr-mode[value="' + mode + '"]');
-          if (modeEl) { modeEl.checked = true; modeEl.dispatchEvent(new Event('change', { bubbles: true })); }
+          if (modeEl) { modeEl.checked = true; _notifyInput(modeEl, 'change'); }
         }
         _setRowInput('.dc-tr-rate', rate);
         _setRowInput('.dc-tr-term', term);
         _setRowInput('.dc-tr-cfpay', cfPay);
         if (accrue) {
           var accEl = row.querySelector('.dc-tr-accrue');
-          if (accEl) { accEl.value = accrue; accEl.dispatchEvent(new Event('change', { bubbles: true })); }
+          if (accEl) { accEl.value = accrue; _notifyInput(accEl, 'change'); }
         }
         _setRowInput('.dc-tr-priority', prio);
       });
@@ -328,6 +344,8 @@
       var el = document.querySelector(k.selector);
       if (el && el.value) params.set(k.param, el.value);
     });
+    var provenance = _provenanceMap();
+    if (provenance) params.set('inputProvenance', JSON.stringify(provenance));
     var tr = _exportedTranches();
     if (tr) params.set('tr', tr);
     if (_dealMode() === 'rental' && window.__DealCalc && window.__DealCalc.getUtilityAllowanceMetadata) {
@@ -349,6 +367,8 @@
     var params = new URLSearchParams(window.location.search);
     if (!Array.from(params.keys()).length) return;  // no params, nothing to do
     if (window.__DealCalc && window.__DealCalc.beginSharedScenario) window.__DealCalc.beginSharedScenario();
+    try { _sharedProvenance = JSON.parse(params.get('inputProvenance')); } catch (_) { _sharedProvenance = null; }
+    if (_sharedProvenance && window.InputProvenance) window.InputProvenance.restore(_sharedProvenance);
     shareKeys().forEach(function (id) {
       var key = id.replace(/^dc-/, '');
       if (params.has(key)) _writeVal(id, params.get(key));
@@ -503,6 +523,7 @@
       exportedAt: new Date().toISOString(),
       dealMode: _dealMode(),
       url: window.location.origin + window.location.pathname + '?' + _serialize().toString(),
+      inputProvenance: _provenanceMap(),
       inputs: {},
       tranches: [],
       // Added after `inputs`; importers that read only inputs/tranches are
