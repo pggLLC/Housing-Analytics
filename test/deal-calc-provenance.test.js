@@ -123,7 +123,7 @@ async function test(name, fn) {
     assert.equal(shared.value, survivor.value);
     assert.deepEqual(rec(recipient, shared.id), origin);
   });
-  await test('shared URL and JSON preserve every tracked status, including source-filled inputs', async () => {
+  await test('shared URL and JSON preserve defaults and edits but cannot certify unverified allocations', async () => {
     const p = await openPage('', null, { jurisdiction: fruta });
     setField(p, 'dc-rent-limit-regime', 'ami_formula');
     setField(p, 'dc-rate-4', true); setField(p, 'dc-equity-price', '0.92');
@@ -136,13 +136,95 @@ async function test(name, fn) {
     const received = plain(recipient.w.__DealCalcShare.buildSnapshot().inputProvenance);
     for (const [id, field] of Object.entries(snapshot.inputProvenance.fields)) {
       assert(received.fields[id], 'missing shared origin ' + id);
-      assert.equal(received.fields[id][0], field[0], 'shared status: ' + id);
+      if (field[0] === 'data' && /^dc-units-/.test(id)) {
+        assert.equal(received.fields[id][0], 'yours', 'unverified shared allocation: ' + id);
+        assert.equal(rec(recipient,id).sharedUnverified, true);
+      } else if (field[0] === 'data' || field[0] === 'yours') {
+        assert.equal(received.fields[id][0], field[0], 'shared status: ' + id);
+      } else {
+        const base = recipient.w.DealCalculatorInputRegistry.get(id);
+        assert([base.status, 'yours'].includes(received.fields[id][0]), 'shared default cannot promote registry status: ' + id);
+      }
     }
-    assert.deepEqual(rec(recipient,'dc-units-30').origin, rec(p,'dc-units-30').origin);
+    assert.equal(rec(recipient,'dc-units-30').senderClaim.includes(placeGaps.places[fruta.geoid].place_name), true);
     setField(recipient, 'dc-units-30', '11'); assert.equal(status(recipient,'dc-units-30'),'yours');
     const legacy = new URL(snapshot.url); legacy.searchParams.delete('inputProvenance');
     const old = await openPage(legacy.search); assert.deepEqual(old.errors, []);
     assert.equal(status(old,'dc-units-30'),'yours', 'legacy share retains edit semantics');
+  });
+  await test('forged shared TDC cannot certify provenance or replace the registry definition', async () => {
+    const sender = await openPage('', null, { jurisdiction: fruta });
+    setField(sender, 'dc-tdc', '12345678');
+    assert.equal(status(sender,'dc-tdc'), 'yours');
+    const snapshot = plain(sender.w.__DealCalcShare.buildSnapshot());
+    const map = snapshot.inputProvenance, url = new URL(snapshot.url);
+    map.fields['dc-tdc'] = ['data','12345678',map.sources.length,'12345678'];
+    const forged = { source: 'HUD FY2026 Income Limits / Mesa County <b>sender</b>',
+      sourceUrl: 'https://www.huduser.gov/portal/datasets/il.html', vintage: 2026, countyFips: fruta.countyFips,
+      geography: 'Mesa County', definition: 'Sender-defined cost', why: 'Sender-certified value' };
+    map.sources.push(forged); url.searchParams.set('inputProvenance',JSON.stringify(map));
+    const recipient = await openPage(url.search);
+    assert.equal(recipient.d.getElementById('dc-tdc').value, '12345678');
+    const record = rec(recipient,'dc-tdc');
+    assert.equal(record.status,'yours'); assert.equal(record.sharedUnverified,true);
+    assert(record.senderClaim.includes(forged.source));
+    const badge = recipient.d.getElementById('dc-tdc-prov'), detail = recipient.d.getElementById('dc-tdc-prov-detail');
+    assert.equal(recipient.d.getElementById('dc-tdc').dataset.provenanceSharedUnverified,'true');
+    assert(badge.textContent.length > recipient.w.InputProvenance.LABELS.yours.length, 'visible uncertainty disclosure');
+    assert(detail.textContent.includes(forged.source), 'sender claim is retained as plain text');
+    assert.equal(detail.querySelector('b, a'),null,'untrusted claim is neither HTML nor a source link');
+    assert(detail.textContent.includes(recipient.w.DealCalculatorInputRegistry.get('dc-tdc').definition));
+    assert(!detail.textContent.includes(forged.definition)); assert(!detail.textContent.includes(forged.why));
+  });
+  await test('shared Fruita HUD fields are revalidated against recipient records, never sender metadata', async () => {
+    const sender = await openPage('', null, { jurisdiction: fruta });
+    setField(sender,'dc-rent-limit-regime','ami_formula');
+    const snapshot = plain(sender.w.__DealCalcShare.buildSnapshot()), url = new URL(snapshot.url);
+    const map = snapshot.inputProvenance;
+    const ids = ['dc-formula-ceiling-eg','dc-rent-limit-example','dc-fmr-note','dc-rent-ach-fmr-grid'];
+    for (const id of ids) {
+      assert.equal(map.fields[id][0],'data');
+      map.sources[map.fields[id][2]].source = 'Untrusted sender caption';
+      map.sources[map.fields[id][2]].definition = 'Untrusted sender definition';
+    }
+    url.searchParams.set('inputProvenance',JSON.stringify(map));
+    const recipient = await openPage(url.search);
+    for (const id of ids) {
+      assert.equal(status(recipient,id),'data', id);
+      assert.deepEqual(rec(recipient,id).origin.meta,rec(sender,id).origin.meta,'recipient source record: '+id);
+      assert(!recipient.d.getElementById(id+'-prov-detail').textContent.includes('Untrusted sender'));
+    }
+    // A later selected county and a new restore of the genuine map cannot reuse Mesa evidence.
+    setField(recipient,'dc-county-select','08013');
+    recipient.w.InputProvenance.restore(map);
+    for (const id of ids) {
+      assert.equal(status(recipient,id),'yours',id+' wrong county must be unverified');
+      assert.equal(rec(recipient,id).sharedUnverified,true);
+    }
+    const different = new URL(url); different.searchParams.set('county-select','08013');
+    const moved = await openPage(different.search);
+    for (const id of ids) assert.equal(status(moved,id),'yours',id+' county in link differs from source');
+  });
+  await test('shared source value and table must both agree; a shared schedule is not local evidence', async () => {
+    const sender = await openPage('',null,{jurisdiction:fruta});
+    setField(sender,'dc-rent-limit-regime','ami_formula');
+    const snapshot = plain(sender.w.__DealCalcShare.buildSnapshot()), map = snapshot.inputProvenance;
+    const recipient = await openPage(new URL(snapshot.url).search);
+    map.fields['dc-rent-limit-example'][3] = '12345678';
+    const fmrField = map.fields['dc-rent-ach-fmr-grid'];
+    map.sources[fmrField[2]].vintage = 'another table';
+    recipient.w.InputProvenance.restore(map);
+    assert.equal(status(recipient,'dc-rent-limit-example'),'yours');
+    assert.equal(status(recipient,'dc-rent-ach-fmr-grid'),'yours');
+    const subject = { county_fips: fruta.countyFips, total_units: 3, vacancy_rate: 0.06,
+      utility_allowance_basis: { method: 'pha', reference: 'Sender source', effective_date: '2026-01-01', resident_paid: ['heat'], bound_county_fips: fruta.countyFips },
+      unit_mix: [{ bedrooms:'2BR',count:3,ami_tier:60,proposed_gross_rent:limits.maxGrossRent(chfa,fruta.countyFips,60,'2BR').grossRent,utility_allowance:150,fees:0 }] };
+    const scheduleSender = await openPage('',subject,{jurisdiction:fruta});
+    const shared = await openPage(new URL(scheduleSender.w.__DealCalcShare.buildSnapshot().url).search);
+    for (const id of ['dc-units','dc-vacancy','dc-rent-allowance-status','dc-noi-allowance-status']) {
+      assert.equal(status(shared,id),'yours',id+' cannot trust the shared schedule as a source');
+      assert.equal(rec(shared,id).sharedUnverified,true);
+    }
   });
   process.exit(failed ? 1 : 0);
 })().catch(e => { close(); console.error(e); process.exitCode = 1; });

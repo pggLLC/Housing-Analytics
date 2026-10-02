@@ -1518,7 +1518,8 @@
   function markSource(el, meta, available) {
     var provenance = window.InputProvenance;
     if (!provenance || !el) return;
-    if (available && meta.source && meta.sourceUrl && meta.vintage != null && meta.geography) provenance.markData(el, meta);
+    if (available && meta.fromShared) provenance.markShared(el, meta);
+    else if (available && meta.source && meta.sourceUrl && meta.vintage != null && meta.geography) provenance.markData(el, meta);
     else {
       if ('value' in el) el.value = '';
       provenance.missing(el, 'Source unavailable for the selected geography.');
@@ -1529,7 +1530,7 @@
     return countySource({ source: 'Market Analysis Subject project', sourceUrl: 'market-analysis.html#subjectProjectMount',
       vintage: 'CHFA ' + meta.tableYear + ' · effective ' + meta.effectiveDate,
       why: 'Copied from the saved project schedule. Units and vacancy are project entries; rents use the cited CHFA table and allowance basis.',
-      binding: 'schedule' });
+      binding: 'schedule', fromShared: !!_sharedRentSchedule });
   }
   function prefillEvents(el) {
     function dispatch() {
@@ -1574,6 +1575,8 @@
         ? _resolvedDealMix.sourceMeta.allowanceBasis : allowance.basis;
       markSource(el, countySource({ source: basis && (basis.reference || basis.method),
         sourceUrl: 'market-analysis.html#subjectProjectMount',
+        fromShared: !!_sharedRentSchedule || allowance.source === 'shared',
+        sourceValue: basis,
         vintage: basis && (basis.effectiveDate || (basis.method === 'owner_pays_all' ? 'Not required: owner pays all' : null)),
         why: 'Allowance basis supplied with the Subject project or shared scenario; the reference is user supplied, not independently verified.' }),
         !el.hidden && !!basis && !blockedReason);
@@ -1624,7 +1627,7 @@
       if (el) {
         el.textContent = example; el.dataset.grossRent = result.grossRent == null ? '' : String(result.grossRent);
         markSource(el, countySource({ source: result.source, sourceUrl: result.sourceUrl,
-          vintage: result.tableYear, why: result.method + (result.effectiveDate ? ' · effective ' + result.effectiveDate : '') }), result.grossRent != null);
+          sourceValue: result.grossRent, effectiveDate: result.effectiveDate, binding: result.method, vintage: result.tableYear, why: result.method + (result.effectiveDate ? ' · effective ' + result.effectiveDate : '') }), result.grossRent != null);
       }
     });
     var note = document.getElementById('dc-fmr-note');
@@ -1634,7 +1637,8 @@
       }).join(' · ');
       note.style.color = '';
       markSource(note, countySource({ source: result.source, sourceUrl: result.sourceUrl,
-        vintage: result.tableYear, why: result.method }), result.grossRent != null);
+        sourceValue: DEAL_AMI_BANDS.map(function (tier) { return rentCeilingFor(tier, '2br').grossRent; }),
+        effectiveDate: result.effectiveDate, binding: result.method, vintage: result.tableYear, why: result.method }), result.grossRent != null);
     }
   }
 
@@ -3207,7 +3211,7 @@
       var provenance = window.InputProvenance;
       var previousOrigins = {};
       if (provenance) host.querySelectorAll('[data-tranche-id]').forEach(function (row) {
-        previousOrigins[row.dataset.trancheId] = provenance.serialize(row);
+        previousOrigins[row.dataset.trancheId] = provenance.captureLocal(row);
       });
       host.innerHTML = _softTranches.map(_trancheRowHtml).join('');
       if (provenance) {
@@ -3217,12 +3221,10 @@
           if (!previous) return;
           // Share keys follow row order; local origins follow the surviving
           // tranche identity when a preceding row is deleted.
-          var remapped = { version: previous.version, sources: previous.sources, fields: {} };
-          Object.keys(previous.fields).forEach(function (id) {
+          Object.keys(previous).forEach(function (id) {
             var field = row.querySelector('.dc-tr-' + id.replace(/^ip-tr-\d+-/, ''));
-            if (field) remapped.fields[field.id] = previous.fields[id];
+            if (field) provenance.restoreLocal(previous[id], field);
           });
-          provenance.restore(remapped, row);
         });
       }
 
@@ -4393,7 +4395,7 @@
 
     var hudMeta = window.HudFmr && window.HudFmr.getMeta && window.HudFmr.getMeta() || {};
     markSource(fmrGrid, countySource({ source: hudMeta.source, sourceUrl: hudMeta.url_fmr,
-      vintage: hudMeta.fiscal_year, why: 'HUD fair market rents provide the county bedroom-size benchmark.' }), !!fmrData);
+      sourceValue: fmrData, vintage: hudMeta.fiscal_year, why: 'HUD fair market rents provide the county bedroom-size benchmark.' }), !!fmrData);
 
     // ── Render Peer Deals table ────────────────────────────────────
     // Pulls comparable LIHTC projects from window.HudLihtc (loaded
