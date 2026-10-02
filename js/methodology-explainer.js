@@ -338,11 +338,17 @@
       icon.title = 'Methodology: ' + entry.title;
       icon.style.cssText =
         'display:inline-flex;align-items:center;justify-content:center;' +
-        'width:18px;height:18px;margin-left:.3rem;padding:0;' +
+        'width:44px;height:44px;box-sizing:border-box;flex-shrink:0;margin-left:.3rem;padding:0;' +
+        'border:0;background:transparent;cursor:pointer;vertical-align:middle;';
+      var glyph = document.createElement('span');
+      glyph.setAttribute('aria-hidden', 'true');
+      glyph.style.cssText =
+        'display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;box-sizing:border-box;' +
         'border:1px solid var(--accent,#096e65);border-radius:50%;' +
         'background:rgba(9,110,101,.08);color:var(--accent,#096e65);' +
-        'font-size:.72rem;font-weight:700;cursor:help;vertical-align:middle;';
-      icon.textContent = 'ℹ';
+        'font-size:.72rem;font-weight:700;';
+      glyph.textContent = 'ℹ';
+      icon.appendChild(glyph);
 
       var pop = document.createElement('div');
       pop.className = 'me-pop';
@@ -372,8 +378,9 @@
 
       icon.refreshExplanation = refresh;
       anchor._methodologyIcon = icon;
+      var host = anchor;
       if (anchor.dataset.methodologyPlacement === 'after') {
-        var host = document.createElement('span'); host.className = 'me-figure-explanation';
+        host = document.createElement('span'); host.className = 'me-figure-explanation';
         if (anchor.tagName === 'TD') anchor.parentNode.cells[0].appendChild(host);
         else if (anchor.tagName === 'DD') anchor.previousElementSibling.appendChild(host);
         else anchor.insertAdjacentElement('afterend', host);
@@ -384,24 +391,37 @@
       function position() {
         var rect = icon.getBoundingClientRect();
         pop.style.left = Math.max(8, Math.min(rect.left, window.innerWidth - pop.offsetWidth - 8)) + 'px';
-        pop.style.top = Math.max(8, Math.min(rect.bottom + 4, window.innerHeight - pop.offsetHeight - 8)) + 'px';
+        // Keep the control uncovered so a second tap can dismiss even a long
+        // explanation. Use the room on one side and scroll the rest.
+        var below = Math.max(0, window.innerHeight - rect.bottom - 8);
+        var above = Math.max(0, rect.top - 8);
+        var placeBelow = below >= pop.scrollHeight || below >= above;
+        pop.style.maxHeight = (placeBelow ? below : above) + 'px';
+        pop.style.top = (placeBelow ? rect.bottom : rect.top - pop.offsetHeight) + 'px';
       }
       function show() { refresh(); pop.hidden = false; position(); icon.setAttribute('aria-expanded', 'true'); }
-      function hide() { pop.hidden = true; icon.setAttribute('aria-expanded', 'false'); }
+      var activated = false;
+      function hide() { pop.hidden = true; activated = false; icon.setAttribute('aria-expanded', 'false'); }
       icon.setAttribute('aria-expanded', 'false');
       icon.addEventListener('focus', show);
-      icon.addEventListener('blur', function (e) { if (!pop.contains(e.relatedTarget)) hide(); });
-      pop.addEventListener('focusout', function (e) { if (!pop.contains(e.relatedTarget)) hide(); });
-      pop.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') { icon.focus(); hide(); }
+      host.addEventListener('focusout', function (e) { if (!host.contains(e.relatedTarget)) hide(); });
+      host.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !pop.hidden) { e.preventDefault(); icon.focus(); hide(); }
       });
-      icon.addEventListener('click', show);
+      icon.addEventListener('click', function () {
+        // Hover/focus can preview before the first click or tap arrives.
+        // That first activation keeps it open; the next one dismisses it.
+        if (activated && !pop.hidden) hide();
+        else { show(); activated = true; }
+      });
       icon.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(); }
-        else if (e.key === 'Escape') { hide(); }
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          if (pop.hidden) { show(); activated = true; } else hide();
+        }
       });
       icon.addEventListener('mouseenter', show);
-      anchor.addEventListener('mouseleave', hide);
+      host.addEventListener('mouseleave', hide);
     });
   }
 

@@ -36,6 +36,79 @@ for (const page of HNA_PAGES) {
   FIGURES.push([page,'hnaGapNetLine','rental-shortfall-summary']);
 }
 const checked = new Set();
+const controlsChecked = new Map();
+function touchTargets(w, page) {
+  w.MethodologyExplainer.attach();
+  const anchors = [...w.document.querySelectorAll('[data-methodology-key]')];
+  assert(anchors.length > 0, page + ' has explanation figures to scan');
+  for (const anchor of anchors) {
+    assert(w.MethodologyExplainer.REGISTRY[anchor.dataset.methodologyKey], 'every key resolves');
+    assert(anchor._methodologyIcon, page + ' every explanation has a control');
+  }
+  const controls = [...w.document.querySelectorAll('.me-icon')];
+  assert(controls.length >= anchors.length, page + ' scan covers every explanation, including older keys');
+  for (const control of controls) {
+    const style = w.getComputedStyle(control);
+    function hitSize(axis, edges) {
+      return parseFloat(style[axis]) + (style.boxSizing === 'border-box' ? 0 :
+        edges.reduce((size, edge) => size + (parseFloat(style['padding' + edge]) || 0) +
+          (parseFloat(style['border' + edge + 'Width']) || 0), 0));
+    }
+    const width = hitSize('width', ['Left', 'Right']), height = hitSize('height', ['Top', 'Bottom']);
+    assert(width >= 44 && height >= 44, page + ' touch target ' + control.getAttribute('aria-label') + ': ' + width + '×' + height);
+    const glyph = w.getComputedStyle(control.firstElementChild);
+    assert.equal(parseFloat(glyph.width), 18, 'keep the small visual glyph');
+    assert.equal(parseFloat(glyph.height), 18, 'keep the small visual glyph');
+  }
+  if (HNA_PAGES.includes(page)) {
+    assert(anchors.some(a => !FIGURES.some(f => f[2] === a.dataset.methodologyKey)), 'scan also checks older HNA keys');
+  }
+  controlsChecked.set(page, controls.length);
+}
+function afterPlacedDismissal(w, id) {
+  const anchor = w.document.getElementById(id);
+  assert.equal(anchor.dataset.methodologyPlacement, 'after', 'exercise the real after-placed figure');
+  const control = anchor._methodologyIcon, pop = control.nextElementSibling, host = control.parentElement;
+  assert(!anchor.contains(control), 'control is outside the figure');
+  // Model a long mobile explanation: it must not cover its own close target.
+  const originalRect = control.getBoundingClientRect;
+  const rect = { left:10, top:w.innerHeight / 2, bottom:w.innerHeight / 2 + 44 };
+  control.getBoundingClientRect = () => rect;
+  Object.defineProperty(pop, 'scrollHeight', { configurable:true, value:2000 });
+  Object.defineProperty(pop, 'offsetHeight', { configurable:true, get:() => parseFloat(pop.style.maxHeight) });
+  const state = open => {
+    assert.equal(pop.hidden, !open, 'after-placed popover visibility');
+    assert.equal(control.getAttribute('aria-expanded'), String(open), 'aria-expanded tracks visibility');
+    if (open) {
+      const top = parseFloat(pop.style.top), bottom = top + pop.offsetHeight;
+      assert(top >= rect.bottom || bottom <= rect.top, 'popover leaves its toggle target uncovered');
+      assert(top >= 8 && bottom <= w.innerHeight - 8, 'long explanation remains within the viewport');
+    }
+  };
+  host.dispatchEvent(new w.MouseEvent('mouseleave')); state(false);
+  // Browser pointer activation focuses the control before dispatching click.
+  // Hover/focus preview must not swallow the first click or tap.
+  control.dispatchEvent(new w.MouseEvent('mouseenter')); control.focus();
+  control.click(); state(true);
+  control.click(); state(false);
+  control.click(); state(true);
+  pop.focus();
+  pop.dispatchEvent(new w.KeyboardEvent('keydown', { key:'Escape', bubbles:true }));
+  state(false); assert.strictEqual(w.document.activeElement, control, 'Escape returns focus to the control');
+  control.click(); state(true);
+  control.dispatchEvent(new w.KeyboardEvent('keydown', { key:'Escape', bubbles:true }));
+  state(false); assert.strictEqual(w.document.activeElement, control);
+  control.dispatchEvent(new w.MouseEvent('mouseenter')); state(true);
+  host.dispatchEvent(new w.MouseEvent('mouseleave')); state(false);
+  for (const key of ['Enter', ' ']) {
+    control.dispatchEvent(new w.KeyboardEvent('keydown', { key, bubbles:true })); state(true);
+    control.dispatchEvent(new w.KeyboardEvent('keydown', { key, bubbles:true })); state(false);
+  }
+  // Leave focus so the figure-agreement checks can exercise focus opening.
+  control.blur();
+  control.getBoundingClientRect = originalRect;
+  delete pop.scrollHeight; delete pop.offsetHeight;
+}
 function explanation(w,page,id,expected) {
   const listed = FIGURES.find(r=>r[0]===page && r[1]===id); assert(listed,'figure must be listed: '+id);
   const el = w.document.getElementById(id); assert(el,'real page figure missing: '+id);
@@ -102,6 +175,8 @@ async function marketPage() {
 (async()=>{
   try {
     const p=await openPage('',subject,{jurisdiction:FRUITA}); assert.deepEqual(p.errors,[]);
+    touchTargets(p.w, 'deal-calculator.html');
+    afterPlacedDismissal(p.w, 'dc-su-gap');
     for (const id of ['dc-su-gap','dc-r-rents']) explanation(p.w,'deal-calculator.html',id,number(p.d.getElementById(id).textContent));
     explanation(p.w,'deal-calculator.html','dc-su-gap',number(p.d.getElementById('dc-su-gap').textContent));
     setField(p,'dc-tdc',Number(p.d.getElementById('dc-tdc').value)+100000);
@@ -137,6 +212,7 @@ async function marketPage() {
       w.SubjectProject.set(subject);w.SubjectProject.mount(w.document.getElementById('subjectProjectMount'));
       for(let i=0;i<40&&!w.document.getElementById('subject-scheduled-rent-1');i++) await new Promise(r=>setTimeout(r,50));
       for(const id of ['subject-scheduled-rent-1','subject-scheduled-rent-2']) explanation(w,'market-analysis.html',id,number(w.document.getElementById(id).textContent));
+      touchTargets(w, 'market-analysis.html');
     } finally {w.close();}
     for (const page of HNA_PAGES) {
       const h = new JSDOM(read(page),{url:'http://127.0.0.1/'+page+'?geoid='+FRUITA.geoid,runScripts:'outside-only',pretendToBeVisual:true}).window;
@@ -145,6 +221,7 @@ async function marketPage() {
         for (const file of ['js/hna/hna-utils.js','js/hna/hna-renderers.js','js/methodology-explainer.js']) h.eval(read(file));
         const frutaGeo = {type:'place',geoid:FRUITA.geoid};
         h.HNARenderers.renderGapCoverageStats(FRUITA.countyFips,json('data/hna/chas_affordability_gap.json'),countyGap,frutaGeo,placeGap,null);
+        touchTargets(h, page);
         const frutaContexts = new Map();
         for (const [,id] of FIGURES.filter(f=>f[0]===page)) {
           const figure = h.document.getElementById(id), context = figure.methodologyContext;
@@ -207,6 +284,9 @@ async function marketPage() {
       } finally {h.close();}
     }
     assert.equal(checked.size,FIGURES.length,'checked every listed figure');
+    assert.deepEqual([...controlsChecked.keys()], ['deal-calculator.html', 'market-analysis.html', ...HNA_PAGES], 'touch targets checked on all three surfaces and both HNA views');
+    console.log('Touch targets ≥44×44: ' + [...controlsChecked].map(([page, count]) => page + '=' + count).join(', '));
+    console.log('After-placed dismissal: click toggle, Escape/focus, host leave and keyboard toggle PASS');
     console.log('figure-explanations: PASS ('+checked.size+'/'+FIGURES.length+' real-page figures, Fruita → Longmont, source identity and absence)');
   } finally {close();}
 })().catch(e=>{console.error(e.stack);process.exitCode=1;});
