@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated_at_utc": "2026-09-25T12:07:47Z",
-    "total_urls": 411,
-    "broken_count": 45,
-    "warning_count": 44,
-    "ok_count": 322,
+    "generated_at_utc": "2026-10-02T13:05:10Z",
+    "total_urls": 426,
+    "broken_count": 46,
+    "warning_count": 41,
+    "ok_count": 339,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
   "broken": [
@@ -139,6 +139,13 @@
       "found_in": [
         "local-resources / county:08035/housingAuthority[0]",
         "local-resources / county:08035/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025",
+      "status": 404,
+      "found_in": [
+        "policy-progress / Durango / tap_fee_reduction"
       ]
     },
     {
@@ -360,10 +367,10 @@
   ],
   "warnings": [
     {
-      "url": "https://lovelandhousing.org/",
+      "url": "https://www.aspendailynews.com/news/article_cc648124-1429-457f-8d1b-269a6bc2dde0-985c5050",
       "status": 403,
       "found_in": [
-        "local-resources / place:0846465/housingAuthority[0]"
+        "policy-progress / Aspen / tap_fee_reduction"
       ]
     },
     {
@@ -395,8 +402,7 @@
       "found_in": [
         "policy-progress / Commerce City / dedicated_income",
         "policy-progress / Commerce City / hna",
-        "policy-progress / Commerce City / land_banking",
-        "policy-progress / Commerce City / tap_fee_reduction"
+        "policy-progress / Commerce City / land_banking"
       ]
     },
     {
@@ -405,8 +411,7 @@
       "found_in": [
         "policy-progress / Centennial / dedicated_income",
         "policy-progress / Centennial / hna",
-        "policy-progress / Centennial / land_banking",
-        "policy-progress / Centennial / tap_fee_reduction"
+        "policy-progress / Centennial / land_banking"
       ]
     },
     {
@@ -440,14 +445,6 @@
       ]
     },
     {
-      "url": "https://www.denverhousing.org/",
-      "status": 403,
-      "found_in": [
-        "local-resources / county:08031/housingAuthority[0]",
-        "local-resources / place:0820000/housingAuthority[0]"
-      ]
-    },
-    {
       "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
       "status": 403,
       "found_in": [
@@ -459,8 +456,7 @@
       "status": 403,
       "found_in": [
         "policy-progress / Englewood / dedicated_income",
-        "policy-progress / Englewood / land_banking",
-        "policy-progress / Englewood / tap_fee_reduction"
+        "policy-progress / Englewood / land_banking"
       ]
     },
     {
@@ -483,8 +479,7 @@
       "url": "https://www.fcgov.com/socialsustainability/developmentincentives",
       "status": 403,
       "found_in": [
-        "policy-progress / Fort Collins / dedicated_income",
-        "policy-progress / Fort Collins / tap_fee_reduction"
+        "policy-progress / Fort Collins / dedicated_income"
       ]
     },
     {
@@ -553,8 +548,7 @@
       "status": 403,
       "found_in": [
         "policy-progress / Littleton / dedicated_income",
-        "policy-progress / Littleton / hna",
-        "policy-progress / Littleton / tap_fee_reduction"
+        "policy-progress / Littleton / hna"
       ]
     },
     {
@@ -576,16 +570,7 @@
       "status": 403,
       "found_in": [
         "policy-progress / Loveland / dedicated_income",
-        "policy-progress / Loveland / land_banking",
-        "policy-progress / Loveland / tap_fee_reduction"
-      ]
-    },
-    {
-      "url": "https://www.memorialregionalhealth.com/",
-      "status": 403,
-      "found_in": [
-        "local-resources / place:0817760/hospital",
-        "local-resources / place:0817760/majorEmployers[0]"
+        "policy-progress / Loveland / land_banking"
       ]
     },
     {
@@ -621,13 +606,6 @@
       ]
     },
     {
-      "url": "https://www.stvrainhabitat.org/",
-      "status": 403,
-      "found_in": [
-        "local-resources / place:0807850/advocacy[1]"
-      ]
-    },
-    {
       "url": "https://www.suncor.com/",
       "status": 403,
       "found_in": [
@@ -657,8 +635,7 @@
         "local-resources / place:0880040/housingLead",
         "local-resources / place:0880040/housingPlans[0]",
         "policy-progress / Vail / dedicated_income",
-        "policy-progress / Vail / hna",
-        "policy-progress / Vail / tap_fee_reduction"
+        "policy-progress / Vail / hna"
       ]
     },
     {
@@ -719,5 +696,5 @@
       ]
     }
   ],
-  "ok_count": 322
+  "ok_count": 339
 }
