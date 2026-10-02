@@ -273,7 +273,7 @@ const cardCases = [
 assert.equal(cardCases.length, curated.length, 'exercise every remaining card');
 
 async function render(cache, live) {
-  const dom = new JSDOM(dashboard, { runScripts: 'outside-only', url: 'https://example.test/economic-dashboard.html' });
+  const dom = new JSDOM(dashboard, { runScripts: 'outside-only', url: 'http://localhost/economic-dashboard.html' });
   const requests = [];
   const w = dom.window;
   w.fetch = async (url) => {
