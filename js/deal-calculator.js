@@ -524,6 +524,24 @@
     value.setAttribute('title', outcome.preservationLabel || '');
   }
 
+  function explainFigure(id, key, context) {
+    var figure = document.getElementById(id);
+    if (!figure) return;
+    figure.setAttribute('data-methodology-key', key);
+    figure.setAttribute('data-methodology-placement', 'after');
+    figure.methodologyContext = context;
+  }
+  function explanationSourceContext(mode) {
+    var source = getRentLimitsMetadata(), county = countySource({});
+    if (mode === 'ownership') {
+      var hud = window.HudFmr && window.HudFmr.getMeta && window.HudFmr.getMeta() || {};
+      return 'Scenario development cost and unit entries (no independent source date supplied) · ' + (county.geography || 'county not selected') +
+        ' · HUD income limits FY' + (hud.income_limits_fiscal_year || 'unavailable') + ' · ' + (hud.url_il || 'income-limit source unavailable');
+    }
+    return 'Scenario entries (no independent source date supplied) · ' + (county.geography || 'county not selected') +
+      ' · ' + (source.source || 'rent-limit source unavailable') + ' ' + (source.tableYear == null ? 'date unavailable' : source.tableYear) +
+      (source.effectiveDate ? ' · effective ' + source.effectiveDate : '');
+  }
   function renderForSaleFeasibility(result) {
     result = result || {};
     function fmt(n) {
@@ -533,6 +551,9 @@
       var el = document.getElementById(id);
       if (el) el.textContent = value;
     }
+    explainFigure('dc-own-gap-per-unit', 'ownership-subsidy-gap', { cost: result.tdcPerUnit, price: result.maxAffordableSalePrice,
+      unavailableReason: result.status === 'ok' ? null : result.status === 'missing-ami' ? 'the county HUD income limit is unavailable; select a county' : 'development cost, units or the ownership pricing helper is unavailable',
+      sources: explanationSourceContext('ownership') });
     var targetLabel = Math.round(((+result.targetAmiPct || 0.80) * 100)) + '% AMI';
     setText('dc-own-target-label', targetLabel);
     if (result.status !== 'ok') {
@@ -4167,6 +4188,11 @@
       el.style.marginLeft = chfaRegime ? '' : '0';
     });
     document.getElementById('dc-r-rents').textContent = fmt(annualRents);
+    explainFigure('dc-r-rents', 'scheduled-rent-revenue', { rows: pricedRows,
+      unavailableReason: scheduleMode ? null : 'this calculation uses the manual grid, not the Market Analysis schedule',
+      sources: explanationSourceContext() + (scheduleMode ? ' · allowance: ' + (_resolvedDealMix.sourceMeta.allowanceBasis.reference || _resolvedDealMix.sourceMeta.allowanceBasis.method) +
+        ' · effective ' + (_resolvedDealMix.sourceMeta.allowanceBasis.effectiveDate || 'date not required') +
+        ' · market-rent sources: ' + _resolvedDealMix.marketRows.map(function (r) { return r.source; }).join('; ') : '') });
 
     // F257-6 — Development budget breakdown. Typical CHFA Colorado
     // share for new-construction 9% LIHTC. Sums to 100% by construction.
@@ -4548,6 +4574,9 @@
     }
 
     // Update Sources & Uses table
+    explainFigure('dc-su-gap', 'funding-gap', { tdc: tdc, equity: equity, mortgage: mortgage, grants: impactGrant, softLoans: totalLoanPrincipal, deferred: deferredDevFee,
+      unavailableReason: !isFinite(gap) ? (noiUnknownReason || rentsUnknownReason || 'financing sources are unavailable') : tdc > 0 ? null : 'total development cost is missing',
+      sources: explanationSourceContext() });
     var su = {
       equity:   { amt: equity,             id: 'dc-su-equity' },
       mortgage: { amt: mortgage,           id: 'dc-su-mortgage' },

@@ -48,7 +48,10 @@
   function detail(el, record) {
     var meta = Object.assign({}, record.origin.meta, { definition: registry(el).definition || record.origin.meta.definition });
     var lines = [CONCLUSIONS[record.status], meta.definition, sourceText(meta), meta.why].filter(Boolean);
-    if (record.sharedUnverified) lines.push(SHARED_NOTICE, 'Sender claimed source: ' + (record.senderClaim || 'Not supplied') + '.');
+    if (record.sharedUnverified) {
+      lines.push(SHARED_NOTICE, 'Sender claimed source: ' + (record.senderClaim || 'Not supplied') + '.');
+      if (record.senderOriginalValue != null) lines.push('Sender changed this from ' + record.senderOriginalValue + ' (' + record.senderClaim + '; not re-checked here).');
+    }
     else if (record.status === 'yours') lines.push('You changed this from ' + record.origin.value +
       (sourceText(meta) ? ' (' + sourceText(meta) + ')' : ' (tool default)') + '.');
     return lines.join(' ');
@@ -128,7 +131,7 @@
         if (programmatic) return;
         var rec = records.get(el);
         sharedClaims.delete(el);
-        delete rec.sharedUnverified; delete rec.senderClaim;
+        delete rec.sharedUnverified; delete rec.senderClaim; delete rec.senderOriginalValue;
         rec.status = hasValue(el) ? 'yours' : rec.origin.meta.status;
         paint(el);
       }
@@ -171,6 +174,7 @@
       var r = records.get(el); if (!r || !el.id) return;
       var base = registry(el), extra = {};
       Object.keys(r.origin.meta).forEach(function (key) { if (r.origin.meta[key] !== base[key]) extra[key] = r.origin.meta[key]; });
+      if (r.senderOriginalValue != null) { extra.senderOriginalValue = r.senderOriginalValue; extra.senderClaim = r.senderClaim; }
       var encoded = JSON.stringify(extra);
       if (index[encoded] == null) { index[encoded] = result.sources.length; result.sources.push(extra); }
       // Semantic source values avoid coupling verification to presentation copy.
@@ -206,6 +210,11 @@
         if (base.dataSource) record.status = 'yours';
         record.sharedUnverified = true; record.senderClaim = claimText(meta);
       }
+      if (claim.status === 'yours' && (meta.status === 'data' || typeof meta.senderClaim === 'string')) {
+        record.sharedUnverified = true;
+        record.senderOriginalValue = String(meta.senderOriginalValue == null ? claim.originalValue : meta.senderOriginalValue);
+        record.senderClaim = typeof meta.senderClaim === 'string' ? meta.senderClaim : claimText(meta);
+      }
       records.set(el, record);
     }
     paint(el);
@@ -217,7 +226,7 @@
       var el = doc.getElementById(id), field = map.fields[id];
       if (!el || (scope && scope !== doc && !scope.contains(el)) || !Array.isArray(field) || !LABELS[field[0]]) return;
       ensure(el);
-      var claim = { status: field[0], value: field[3], meta: map.sources[field[2]] || {} };
+      var claim = { status: field[0], originalValue: field[1], value: field[3], meta: map.sources[field[2]] || {} };
       if (claim.status === 'data') sharedClaims.set(el, claim);
       restoreField(el, claim);
     });
