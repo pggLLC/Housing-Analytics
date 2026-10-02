@@ -91,13 +91,4 @@ function setField(page, id, value) {
   el.dispatchEvent(new page.w.Event('input', { bubbles: true }));
   el.dispatchEvent(new page.w.Event('change', { bubbles: true }));
 }
-function setSelector(page, selector, value) {
-  const el = page.d.querySelector(selector);
-  assert(el, selector + ' does not render');
-  el.value = value;
-  assert.strictEqual(el.value, value, selector + ' has no option ' + value);
-  el.dispatchEvent(new page.w.Event('change', { bubbles: true }));
-}
-
-
 module.exports = { openPage, setField, sleep, close: () => openPages.splice(0).forEach(p => p.window.close()) };
