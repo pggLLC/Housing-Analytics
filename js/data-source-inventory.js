@@ -971,7 +971,7 @@
       provider: 'Census ACS / Internal',
       url: null,
       localFile: 'data/hna/summary/',
-      lastUpdated: '2026-09-27',
+      lastUpdated: '2026-10-01',
       updateFrequency: 'Annual',
       maxAgeDays: 400,
       geoUnit: 'County',
