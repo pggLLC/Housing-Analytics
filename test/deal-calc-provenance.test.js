@@ -106,6 +106,23 @@ async function test(name, fn) {
     assert.equal(rec(p,'dc-rent-allowance-status').origin.meta.vintage,s.utility_allowance_basis.effective_date);
     guard(p);
   });
+  await test('surviving tranche keeps its own origin after deletion and sharing', async () => {
+    const p = await openPage('');
+    p.d.getElementById('dc-add-tranche').click();
+    const rows = p.d.querySelectorAll('[data-tranche-id]');
+    const amount = rows[1].querySelector('.dc-tr-amount');
+    setField(p, amount.id, '125000');
+    const origin = rec(p, amount.id);
+    rows[0].querySelector('.dc-tr-remove').click();
+    const survivor = p.d.querySelector('.dc-tr-amount');
+    assert.equal(survivor.value, '125000');
+    assert.deepEqual(rec(p, survivor.id), origin);
+    const snapshot = p.w.__DealCalcShare.buildSnapshot();
+    const recipient = await openPage(new URL(snapshot.url).search);
+    const shared = recipient.d.querySelector('.dc-tr-amount');
+    assert.equal(shared.value, survivor.value);
+    assert.deepEqual(rec(recipient, shared.id), origin);
+  });
   await test('shared URL and JSON preserve every tracked status, including source-filled inputs', async () => {
     const p = await openPage('', null, { jurisdiction: fruta });
     setField(p, 'dc-rent-limit-regime', 'ami_formula');

@@ -3205,9 +3205,26 @@
         _softTranches.push({ id: ++_trancheCounter, program: 'chfa_htf', amount: 0, mode: 'loan', rate: 3.0, term: 30, cashflowPayPct: 100, accrueMode: 'current', priority: 5 });
       }
       var provenance = window.InputProvenance;
-      var previousOrigins = provenance && provenance.serialize(host);
+      var previousOrigins = {};
+      if (provenance) host.querySelectorAll('[data-tranche-id]').forEach(function (row) {
+        previousOrigins[row.dataset.trancheId] = provenance.serialize(row);
+      });
       host.innerHTML = _softTranches.map(_trancheRowHtml).join('');
-      if (provenance) { provenance.apply(host); provenance.restore(previousOrigins, host); }
+      if (provenance) {
+        provenance.apply(host);
+        host.querySelectorAll('[data-tranche-id]').forEach(function (row) {
+          var previous = previousOrigins[row.dataset.trancheId];
+          if (!previous) return;
+          // Share keys follow row order; local origins follow the surviving
+          // tranche identity when a preceding row is deleted.
+          var remapped = { version: previous.version, sources: previous.sources, fields: {} };
+          Object.keys(previous.fields).forEach(function (id) {
+            var field = row.querySelector('.dc-tr-' + id.replace(/^ip-tr-\d+-/, ''));
+            if (field) remapped.fields[field.id] = previous.fields[id];
+          });
+          provenance.restore(remapped, row);
+        });
+      }
 
       host.querySelectorAll('[data-tranche-id]').forEach(function (rowEl) {
         var trId = parseInt(rowEl.getAttribute('data-tranche-id'), 10);

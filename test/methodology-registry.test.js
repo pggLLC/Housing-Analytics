@@ -13,8 +13,10 @@ try {
   const registry = dom.window.MethodologyExplainer.REGISTRY;
   let checked = 0;
   for (const file of execFileSync('git',['ls-files','*.html'],{encoding:'utf8'}).trim().split('\n')) {
-    for (const match of fs.readFileSync(file,'utf8').replace(/<!--[\s\S]*?-->/g, '').matchAll(/data-methodology-key=["']([^"']+)["']/g)) {
-      assert(registry[match[1]], file + ': missing methodology ' + match[1]); checked++;
+    const fragment = JSDOM.fragment(fs.readFileSync(file, 'utf8'));
+    for (const anchor of fragment.querySelectorAll('[data-methodology-key]')) {
+      const key = anchor.getAttribute('data-methodology-key');
+      assert(registry[key], file + ': missing methodology ' + key); checked++;
     }
   }
   assert(checked > 0); assert(registry['affordable-ownership-need']);
