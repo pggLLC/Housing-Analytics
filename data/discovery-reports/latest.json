@@ -1,14 +1,14 @@
 {
-  "scanTimestamp": "2026-09-30T13:38:39.846Z",
-  "totalScanned": 1698,
-  "newSourceCount": 1667,
+  "scanTimestamp": "2026-10-01T14:25:56.006Z",
+  "totalScanned": 1699,
+  "newSourceCount": 1668,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 827674,
+      "sizeBytes": 828252,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -92,7 +92,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 178741,
+      "sizeBytes": 186114,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -170,13 +170,19 @@
     },
     {
       "path": "data/car-market-report-2026-08.json",
-      "sizeBytes": 65967,
+      "sizeBytes": 66119,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/car-market-report-2026-09.json",
       "sizeBytes": 2529,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/car-market-report-2026-10.json",
+      "sizeBytes": 2494,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -272,7 +278,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 257564,
+      "sizeBytes": 257565,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9308,7 +9314,7 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 14701,
+      "sizeBytes": 14801,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9872,7 +9878,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 227715,
+      "sizeBytes": 237097,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9884,7 +9890,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 17814,
+      "sizeBytes": 11535,
       "inDataManifest": false,
       "inFilesManifest": true
     },

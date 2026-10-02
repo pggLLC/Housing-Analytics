@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-30T13:38:39.846Z
+**Scan timestamp:** 2026-10-01T14:25:56.006Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1698 |
-| New (unregistered) | 1667 |
+| Files scanned | 1699 |
+| New (unregistered) | 1668 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (808 KB)
+- `data/_manifest.json` (809 KB)
 - `data/_qa-status.json` (7 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1488 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (4 KB)
-- `data/alerts/alerts_archive.json` (175 KB)
+- `data/alerts/alerts_archive.json` (182 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2342 KB)
 - `data/amenities/transit_stops_statewide_co.geojson` (3869 KB)
@@ -41,8 +41,9 @@
 - `data/car-market-report-2026-05.json` (64 KB)
 - `data/car-market-report-2026-06.json` (64 KB)
 - `data/car-market-report-2026-07.json` (64 KB)
-- `data/car-market-report-2026-08.json` (64 KB)
+- `data/car-market-report-2026-08.json` (65 KB)
 - `data/car-market-report-2026-09.json` (2 KB)
+- `data/car-market-report-2026-10.json` (2 KB)
 - `data/census-multifamily-co.json` (116 KB)
 - `data/chfa-income-rent-limits-2026.json` (500 KB)
 - `data/chfa-qap-calendar.json` (18 KB)
@@ -1658,9 +1659,9 @@
 - `data/policy/thiz-map-status.json` (2 KB)
 - `data/policy/tool-watch.json` (5 KB)
 - `data/policy/unit-size-standards.json` (5 KB)
-- `data/policy_briefs.json` (222 KB)
+- `data/policy_briefs.json` (232 KB)
 - `data/policy_briefs_curated.json` (14 KB)
-- `data/polymarket-data.json` (17 KB)
+- `data/polymarket-data.json` (11 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
