@@ -1,140 +1,197 @@
-/**
- * input-provenance.js — tell the user which numbers are theirs.
- *
- * The Deal Calculator ships 133 visible fields and 109 of them arrive
- * pre-filled: Total Development Cost reads $20,000,000 and Total Units reads
- * 60 before anyone types anything. Those are starting assumptions, but they
- * render identically to a figure the user entered and to a figure derived from
- * their jurisdiction's data. A novice cannot tell the three apart, and an
- * assumption mistaken for a finding is the same defect class as a null
- * rendered as $0 (see AGENTS.md, "An unmeasurable quantity is null, never 0").
- *
- * This marks each field with one of three states:
- *
- *   assumption — pre-filled by the tool; the user should review it
- *   yours      — the user has edited it
- *   data       — supplied from the selected jurisdiction (opt-in via markup)
- *
- * Deliberately additive: it reads the DOM after the form renders and never
- * changes a value, so it cannot alter a calculation. If it fails to load, the
- * form behaves exactly as before.
- */
+/** Input origins for screening: metadata follows values, including shared scenarios. */
 (function (root) {
   'use strict';
-
-  var STATE_ATTR = 'data-provenance';
-  var READY_ATTR = 'data-provenance-ready';
-
-  var LABELS = {
-    assumption: 'assumption',
-    yours: 'yours',
-    data: 'from your jurisdiction'
+  var records = new WeakMap();
+  var programmatic = 0;
+  var anonymousId = 0;
+  var LABELS = { data: 'Source confirmed', assumption: 'assumption', illustrative: 'Worked example',
+    'needs-source': 'Not yet verified', yours: 'yours' };
+  var CONCLUSIONS = {
+    data: 'Supplied by the named source; check its date and geography before using it.',
+    assumption: 'A tool default for screening; review it against your project evidence.',
+    illustrative: 'A worked example, not a value for decisions.',
+    'needs-source': 'A local source is needed before this value can be supplied.',
+    yours: 'You entered this value.'
   };
-
-  var TITLES = {
-    assumption: 'A starting assumption from the tool, not your input and not measured data. Review and change it.',
-    yours: 'You entered this value.',
-    data: 'Supplied from the selected jurisdiction’s data.'
-  };
-
-  /** Fields the user actually fills in. Radios/checkboxes carry their own labels. */
+  function registry(el) {
+    return root && root.DealCalculatorInputRegistry && root.DealCalculatorInputRegistry.get(el.id) || {};
+  }
+  function value(el) { return 'value' in el ? String(el.value) : el.textContent; }
+  function hasValue(el) { return value(el).trim() !== ''; }
   function candidateFields(scope) {
-    var nodes = (scope || document).querySelectorAll('input, select, textarea');
-    var out = [];
-    for (var i = 0; i < nodes.length; i++) {
-      var el = nodes[i];
-      var t = (el.type || '').toLowerCase();
-      if (t === 'radio' || t === 'checkbox' || t === 'hidden' || t === 'button' ||
-          t === 'submit' || t === 'search' || t === 'range') continue;
-      if (el.disabled || el.readOnly) continue;
-      out.push(el);
-    }
-    return out;
+    return Array.prototype.filter.call((scope || document).querySelectorAll('input, select, textarea'), function (el) {
+      return !/^(radio|checkbox|hidden|button|submit|search|range)$/.test(el.type || '') && !el.disabled && !el.readOnly;
+    });
   }
-
-  function hasValue(el) {
-    if (el.tagName === 'SELECT') {
-      return el.selectedIndex >= 0 && String(el.value || '').trim() !== '';
-    }
-    return String(el.value || '').trim() !== '';
+  function identify(el) {
+    if (el.id) return;
+    var row = el.closest('[data-tranche-id]');
+    var key = Array.prototype.find.call(el.classList, function (c) { return /^dc-tr-/.test(c); });
+    if (row && key) {
+      var index = Array.prototype.indexOf.call(row.parentNode.querySelectorAll('[data-tranche-id]'), row);
+      el.id = 'ip-tr-' + index + '-' + key.slice(6);
+    } else el.id = 'ip-anonymous-' + (++anonymousId);
   }
-
-  /**
-   * Initial state for a field. Markup may declare `data-provenance="data"` to
-   * mark a jurisdiction-derived value; everything else pre-filled is an
-   * assumption until the user touches it.
-   */
   function initialState(el) {
-    var declared = el.getAttribute(STATE_ATTR);
-    if (declared === 'data') return 'data';
-    return hasValue(el) ? 'assumption' : null;
+    return el.getAttribute('data-provenance') === 'data' ? 'data'
+      : hasValue(el) ? registry(el).status || 'assumption'
+      : registry(el).status === 'needs-source' ? 'needs-source' : null;
   }
-
-  function badgeFor(el) {
-    var id = (el.id || '') + '-prov';
-    var existing = el.ownerDocument.getElementById(id);
-    if (existing) return existing;
-    var span = el.ownerDocument.createElement('span');
-    span.id = id;
-    span.className = 'input-prov';
-    span.setAttribute('aria-hidden', 'true');
-    return span;
+  function sourceText(meta) {
+    return [meta.source, meta.vintage, meta.geography].filter(function (v) { return v != null && v !== ''; }).join(' · ');
   }
-
-  function paint(el, state) {
+  function detail(el, record) {
+    var meta = Object.assign({}, registry(el), record.origin.meta);
+    var lines = [CONCLUSIONS[record.status], meta.definition, sourceText(meta), meta.why].filter(Boolean);
+    if (record.status === 'yours') lines.push('You changed this from ' + record.origin.value +
+      (sourceText(meta) ? ' (' + sourceText(meta) + ')' : ' (tool default)') + '.');
+    return lines.join(' ');
+  }
+  function paint(el) {
+    var rec = records.get(el);
+    var state = rec && rec.status;
     if (!state) {
-      el.removeAttribute(STATE_ATTR);
-      var old = el.ownerDocument.getElementById((el.id || '') + '-prov');
-      if (old && old.parentNode) old.parentNode.removeChild(old);
+      el.removeAttribute('data-provenance');
+      ['-prov', '-prov-detail'].forEach(function (suffix) {
+        var old = el.ownerDocument.getElementById(el.id + suffix); if (old) old.remove();
+      });
       return;
     }
-    el.setAttribute(STATE_ATTR, state);
-    var badge = badgeFor(el);
-    badge.textContent = LABELS[state] || state;
-    badge.className = 'input-prov input-prov--' + state;
-    badge.title = TITLES[state] || '';
-    // Place the badge next to the field without disturbing layout order.
-    if (!badge.parentNode) {
-      if (el.parentNode) el.parentNode.insertBefore(badge, el.nextSibling);
+    el.setAttribute('data-provenance', state);
+    var doc = el.ownerDocument;
+    var id = el.id + '-prov';
+    var badge = doc.getElementById(id);
+    if (!badge) {
+      badge = doc.createElement('button'); badge.type = 'button'; badge.id = id;
+      badge.style.cssText = 'cursor:pointer;font:inherit;font-size:.68rem;white-space:normal;max-width:100%;' +
+        'border:1px solid var(--border,#cbd5e1);border-radius:4px;padding:2px 5px;margin:2px 0;' +
+        'background:var(--bg2,#f1f5f9);color:var(--muted,#475569);';
+      var pop = doc.createElement('span'); pop.id = id + '-detail'; pop.hidden = true;
+      pop.style.cssText = 'position:fixed;z-index:1100;width:20rem;max-width:calc(100vw - 2rem);max-height:calc(100vh - 2rem);overflow:auto;' +
+        'padding:.65rem;font-size:.78rem;line-height:1.4;font-weight:400;background:var(--card,#fff);' +
+        'color:var(--text,#0f172a);border:1px solid var(--border,#cbd5e1);border-radius:4px;' +
+        'box-shadow:0 3px 12px #0002;';
+      pop.style.display = 'none';
+      badge.setAttribute('aria-controls', pop.id);
+      badge.setAttribute('aria-expanded', 'false');
+      function show(open) {
+        pop.hidden = !open; pop.style.display = open ? 'block' : 'none'; badge.setAttribute('aria-expanded', String(open));
+        if (open) {
+          var box = badge.getBoundingClientRect(), viewport = doc.defaultView;
+          pop.style.left = Math.max(8, Math.min(box.left, viewport.innerWidth - pop.offsetWidth - 8)) + 'px';
+          pop.style.top = Math.max(8, Math.min(box.bottom + 4, viewport.innerHeight - pop.offsetHeight - 8)) + 'px';
+        }
+      }
+      badge.addEventListener('click', function (event) { event.preventDefault(); show(true); });
+      badge.addEventListener('focus', function () { show(true); });
+      badge.addEventListener('keydown', function (event) { if (event.key === 'Escape') show(false); });
+      function leave(event) { if (event.relatedTarget !== badge && !pop.contains(event.relatedTarget)) show(false); }
+      badge.addEventListener('blur', leave); pop.addEventListener('focusout', leave);
+      // Keep a field and its badge in one grid cell; a sibling badge must not
+      // displace the next tier/bedroom selector into another row.
+      var view = doc.defaultView;
+      if (view && view.getComputedStyle(el.parentElement).display === 'grid') {
+        var cell = doc.createElement('span'); cell.className = 'input-prov-field'; cell.style.minWidth = '0';
+        el.parentNode.insertBefore(cell, el); cell.appendChild(el);
+      }
+      el.insertAdjacentElement('afterend', badge); badge.insertAdjacentElement('afterend', pop);
+    }
+    var sharedLabel = root && root.ProvenanceLabel && (state === 'data' || state === 'needs-source')
+      ? root.ProvenanceLabel({ classification: state === 'data' ? 'observed' : 'not_available', source_note: CONCLUSIONS[state] }) : null;
+    var tone = sharedLabel ? sharedLabel.tone : state === 'data' ? 'source' : state === 'needs-source' ? 'pending' : 'action';
+    badge.className = 'input-prov input-prov--' + state + ' provenance provenance--' + tone;
+    badge.textContent = sharedLabel ? sharedLabel.label : LABELS[state];
+    badge.title = detail(el, rec);
+    badge.setAttribute('aria-label', LABELS[state] + ': ' + (registry(el).definition || el.id));
+    var panel = doc.getElementById(id + '-detail');
+    panel.textContent = badge.title;
+    var meta = rec.origin.meta;
+    if (meta.sourceUrl && /^(https?:\/\/|(?:\.\.\/)?[a-z][a-z0-9-]*\/)/i.test(meta.sourceUrl)) {
+      var link = doc.createElement('a'); link.href = meta.sourceUrl; link.textContent = ' Source record'; panel.appendChild(link);
     }
   }
-
-  function markUserEdited(el) {
-    // A jurisdiction-supplied value the user overrides becomes theirs.
-    paint(el, hasValue(el) ? 'yours' : null);
+  function ensure(el) {
+    identify(el);
+    if (!records.has(el)) records.set(el, { status: initialState(el), origin: {
+      value: value(el), meta: Object.assign({}, registry(el), { status: initialState(el) }) } });
+    if (el.getAttribute('data-provenance-ready') !== '1') {
+      el.setAttribute('data-provenance-ready', '1');
+      function edit() {
+        if (programmatic) return;
+        var rec = records.get(el);
+        rec.status = hasValue(el) ? 'yours' : rec.origin.meta.status;
+        paint(el);
+      }
+      el.addEventListener('input', edit); el.addEventListener('change', edit);
+    }
+    return records.get(el);
   }
-
-  /**
-   * Apply provenance to every candidate field under `scope`.
-   * Safe to call repeatedly — re-running after a re-render re-marks new fields
-   * and leaves fields the user already edited as "yours".
-   *
-   * @param {Element|Document} [scope]
-   * @returns {{assumption:number, yours:number, data:number, total:number}}
-   */
   function apply(scope) {
     var fields = candidateFields(scope);
-    var counts = { assumption: 0, yours: 0, data: 0, total: fields.length };
-
-    fields.forEach(function (el) {
-      var current = el.getAttribute(STATE_ATTR);
-      var state = (current === 'yours') ? 'yours' : initialState(el);
-
-      paint(el, state);
-      if (state && counts[state] !== undefined) counts[state]++;
-
-      if (el.getAttribute(READY_ATTR) === '1') return;
-      el.setAttribute(READY_ATTR, '1');
-      var onEdit = function () { markUserEdited(el); };
-      el.addEventListener('input', onEdit);
-      el.addEventListener('change', onEdit);
-    });
-
+    var counts = { assumption: 0, yours: 0, data: 0, illustrative: 0, 'needs-source': 0, total: fields.length };
+    fields.forEach(function (el) { var rec = ensure(el); paint(el); if (rec.status) counts[rec.status]++; });
     return counts;
   }
-
-  var api = { apply: apply, candidateFields: candidateFields, initialState: initialState, LABELS: LABELS };
-
+  function mark(el, meta) {
+    if (!el) return;
+    ensure(el);
+    records.set(el, { status: meta.status, origin: { value: value(el), meta: Object.assign({}, registry(el), meta) } });
+    paint(el);
+  }
+  function markData(el, meta) {
+    if (!meta || !meta.source || !meta.sourceUrl || meta.vintage == null || !meta.geography) {
+      missing(el, 'Source metadata is incomplete.'); return;
+    }
+    mark(el, Object.assign({}, meta, { status: 'data' }));
+  }
+  function missing(el, why) { mark(el, { status: 'needs-source', source: null, sourceUrl: null, vintage: null, geography: null, why: why }); }
+  function get(el) { return records.has(el) ? JSON.parse(JSON.stringify(records.get(el))) : null; }
+  function withProgrammaticChange(fn) { programmatic++; try { return fn(); } finally { programmatic--; } }
+  // Intern dynamic metadata once; default definitions are resolved from the registry.
+  function serialize(scope) {
+    var result = { version: 1, fields: {}, sources: [] };
+    var index = {};
+    (scope || document).querySelectorAll('[data-provenance]').forEach(function (el) {
+      var r = records.get(el); if (!r || !el.id) return;
+      var base = registry(el), extra = {};
+      Object.keys(r.origin.meta).forEach(function (key) { if (r.origin.meta[key] !== base[key]) extra[key] = r.origin.meta[key]; });
+      var encoded = JSON.stringify(extra);
+      if (index[encoded] == null) { index[encoded] = result.sources.length; result.sources.push(extra); }
+      // Display-only source labels cannot be edited; their text need not inflate a share URL.
+      result.fields[el.id] = [r.status, 'value' in el ? r.origin.value : '', index[encoded]];
+    });
+    return result;
+  }
+  function restore(map, scope) {
+    if (!map || map.version !== 1 || !map.fields || !Array.isArray(map.sources)) return;
+    var doc = (scope && scope.ownerDocument) || document;
+    Object.keys(map.fields).forEach(function (id) {
+      var el = doc.getElementById(id), field = map.fields[id];
+      if (!el || (scope && scope !== doc && !scope.contains(el)) || !Array.isArray(field) || !LABELS[field[0]]) return;
+      ensure(el);
+      var extra = map.sources[field[2]] || {};
+      var meta = Object.assign({}, registry(el));
+      ['status', 'definition', 'why', 'source', 'sourceUrl', 'vintage', 'geography', 'countyFips', 'binding'].forEach(function (key) {
+        if (Object.prototype.hasOwnProperty.call(extra, key)) meta[key] = extra[key];
+      });
+      records.set(el, { status: field[0], origin: { value: String(field[1] == null ? '' : field[1]), meta: meta } });
+      paint(el);
+    });
+  }
+  // A move invalidates only source-filled editable fields. A personal override
+  // stays personal, with its former geographic origin removed.
+  function invalidateGeography(scope, countyFips) {
+    scope.querySelectorAll('[data-provenance]').forEach(function (el) {
+      var r = records.get(el);
+      if (!r || !r.origin.meta.countyFips || r.origin.meta.countyFips === countyFips) return;
+      if (!('value' in el) || el.readOnly) return;
+      if (r.status === 'yours') mark(el, { status: 'yours', why: 'Your entry; review it for the selected county.' });
+      else { el.value = ''; missing(el, 'The geography changed; supply a source for the selected county.'); }
+    });
+  }
+  var api = { apply: apply, candidateFields: candidateFields, initialState: initialState, LABELS: LABELS,
+    mark: mark, markData: markData, missing: missing, get: get, serialize: serialize, restore: restore,
+    withProgrammaticChange: withProgrammaticChange, invalidateGeography: invalidateGeography };
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (root) root.InputProvenance = api;
 }(typeof window !== 'undefined' ? window : null));
