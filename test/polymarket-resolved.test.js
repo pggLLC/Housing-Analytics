@@ -29,7 +29,7 @@
  *
  * That the published cache is current, that it carries the metadata needed to
  * know that, and that the page and fetcher agree on the curated markets.
- * Missing responses must preserve the cache and render an honest fallback.
+ * Missing responses preserve only their old entries, marked stale and unavailable.
  */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -169,23 +169,42 @@ const fetchPython = workflow.match(/python3 - <<'PY'\n([\s\S]*?)\n          PY/)
 const fedSlug = 'fed-decision-in-october-20260617190323537';
 assert(curated.includes(fedSlug), 'the October Fed market remains curated');
 const fetchCheck = spawnSync('python3', ['-c', `
-import contextlib, io, json, os, sys, tempfile, time, urllib.request
+import contextlib, datetime, io, json, os, sys, tempfile, time, urllib.request
 from pathlib import Path
 from unittest.mock import patch
 case = json.load(sys.stdin)
-for mode in ['empty_then_live', 'error_then_live', 'missing', 'wrong_slug', 'settled']:
+class Clock(datetime.datetime):
+    @classmethod
+    def now(cls, tz=None): return cls(2026, 10, 5, tzinfo=tz)
+stamp = '2026-10-05T00:00:00Z'
+modes = ['empty_then_live', 'error_then_live', 'partial', 'wrong_slug',
+         'stale_3days', 'stale_4days', 'no_previous_entry', 'missing_4days_no_entry',
+         'recovered', 'all_missing', 'settled', 'all_settled']
+for mode in modes:
     calls = {}
+    old = {slug: dict(slug=slug, title='Old title', closed=False,
+                     endDate='2099-10-29T03:59:00Z', markets=[dict(question='Old price', volume='10')])
+           for slug in case['curated']}
+    prior = dict(updated='2026-10-01T00:00:00Z', events=old)
+    if mode in ['stale_3days', 'stale_4days', 'recovered']:
+        old[case['fed']]['stale_since'] = '2026-10-02T00:00:00Z' if mode == 'stale_3days' else '2026-10-01T00:00:00Z'
+    if mode in ['no_previous_entry', 'missing_4days_no_entry']:
+        del old[case['fed']]
+    if mode == 'missing_4days_no_entry':
+        prior['missing_since'] = {case['fed']: '2026-10-01T00:00:00Z'}
     def response(req, timeout):
         slug = req.full_url.split('slug=')[1]
         calls[slug] = calls.get(slug, 0) + 1
         event = dict(slug=slug, title='Mortgage rate fixture', closed=False,
-                     endDate='2099-10-29T03:59:00Z', markets=[])
-        if mode == 'settled':
+                     endDate='2099-10-29T03:59:00Z', markets=[dict(question='New price', volume='20')])
+        if mode in ['partial', 'settled']:
             if slug == case['curated'][0]: event['closed'] = True
             if slug == case['curated'][1]: event['endDate'] = '2000-01-01T00:00:00Z'
+        if mode == 'all_settled': event['closed'] = True
+        if mode == 'all_missing': return io.BytesIO(b'[]')
         if slug == case['fed']:
             if mode == 'error_then_live' and calls[slug] == 1: raise OSError('temporary API error')
-            if mode == 'missing' or (mode == 'empty_then_live' and calls[slug] == 1):
+            if mode in ['partial', 'stale_3days', 'stale_4days', 'no_previous_entry', 'missing_4days_no_entry'] or (mode == 'empty_then_live' and calls[slug] == 1):
                 return io.BytesIO(b'[]')
             if mode == 'wrong_slug': event['slug'] = 'unrelated-event'
         return io.BytesIO(json.dumps([event]).encode())
@@ -195,25 +214,41 @@ for mode in ['empty_then_live', 'error_then_live', 'missing', 'wrong_slug', 'set
             os.chdir(tmp)
             Path('data').mkdir()
             output = Path('data/polymarket-data.json')
-            output.write_text('existing cache must survive')
-            code = 0
-            with patch.object(urllib.request, 'urlopen', response), patch.object(time, 'sleep'), contextlib.redirect_stdout(io.StringIO()):
+            original = json.dumps(prior)
+            output.write_text(original)
+            code, logs = 0, io.StringIO()
+            with patch.object(urllib.request, 'urlopen', response), patch.object(time, 'sleep'), patch.object(datetime, 'datetime', Clock), contextlib.redirect_stdout(logs):
                 try: exec(compile(case['source'], 'fetch-polymarket-data.yml', 'exec'), {})
                 except SystemExit as ex: code = ex.code
-            if mode in ['missing', 'wrong_slug']:
-                assert code != 0, mode + ': partial refresh must fail'
-                assert output.read_text() == 'existing cache must survive', mode + ': cache overwritten'
-                assert calls[case['fed']] == 3, mode + ': missing response was not retried'
+            if mode == 'all_missing':
+                assert code != 0, 'all missing must fail'
+                assert output.read_text() == original, 'all missing must write nothing'
+                assert all(n == 3 for n in calls.values()), 'every missing event retried'
             else:
-                assert code == 0, mode + ': refresh failed'
+                assert code == 0, mode + ': successful responses must still be published'
                 payload = json.loads(output.read_text())
-                assert case['fed'] in payload['events'], mode + ': live October event dropped'
-                if mode.endswith('_then_live'):
-                    assert calls[case['fed']] == 2, mode + ': API failure was not retried'
-                if mode == 'settled':
-                    assert payload['dropped_settled'] == case['curated'][:2], 'closed and expired events must be dropped'
-                    assert len(payload['events']) == len(case['curated']) - 2
-                else: assert len(payload['events']) == len(case['curated'])
+                assert payload['updated'] == stamp, mode + ': cache was not written'
+                errors = '::error::' in logs.getvalue()
+                assert errors == (mode in ['stale_4days', 'missing_4days_no_entry']), mode + ': wrong escalation threshold'
+                for slug in case['curated']:
+                    if mode == 'all_settled' or (mode in ['partial', 'settled'] and slug in case['curated'][:2]):
+                        assert slug not in payload['events'], 'closed/expired event retained'
+                        assert slug in payload['dropped_settled']
+                    elif slug == case['fed'] and mode in ['partial', 'wrong_slug', 'stale_3days', 'stale_4days']:
+                        expected = dict(old[slug], stale_since=old[slug].get('stale_since', stamp))
+                        assert payload['events'].get(slug) == expected, mode + ': preserve the old entry unchanged with its first stale_since'
+                        assert payload['missing_since'][slug] == expected['stale_since']
+                        assert calls[slug] == 3, 'missing event was not retried'
+                    elif slug == case['fed'] and mode in ['no_previous_entry', 'missing_4days_no_entry']:
+                        assert slug not in payload['events'], 'cannot invent an old price'
+                        assert payload['missing_since'][slug] == prior.get('missing_since', {}).get(slug, stamp)
+                    else:
+                        fresh = payload['events'][slug]
+                        assert fresh['title'] == 'Mortgage rate fixture', mode + ': returned event not updated'
+                        assert fresh['markets'][0]['volume'] == '20', mode + ': old price retained'
+                        assert 'stale_since' not in fresh, 'recovered data must clear stale_since'
+                        assert slug not in payload['missing_since'], 'recovered event still marked missing'
+                if mode.endswith('_then_live'): assert calls[case['fed']] == 2
             print('fetcher: ' + mode + ' PASS')
         finally: os.chdir(previous)
 `], { input: JSON.stringify({ source: fetchPython, curated, fed: fedSlug }), encoding: 'utf8' });
@@ -272,6 +307,19 @@ async function render(cache, live) {
       assert.equal(live.document.getElementById(id), null, `${id} no longer presents a retired market`);
     }
   } finally { live.dom.window.close(); }
+
+  const stale = await render({ events: Object.fromEntries(Object.entries(fixtures)
+    .map(([slug, entry]) => [slug, { ...entry, stale_since: '2026-10-01T00:00:00Z' }])) }, fixtures);
+  try {
+    assert.deepEqual(stale.requests, [], 'stale cached prices are explicitly unavailable');
+    for (const [, id] of cardCases) {
+      assert.doesNotMatch(stale.document.getElementById(id).textContent, /\d+%/, `${id} must not present stale prices as current`);
+    }
+    assert.match(stale.document.getElementById('pm-fed-oct-detail').textContent, /unavailable/i);
+    const housing = stale.document.getElementById('pm-mortgage-detail').closest('.hp-binary-grid');
+    assert.match(housing.previousElementSibling.textContent, /mortgage/i, 'heading agrees with the only remaining housing contract');
+    assert.doesNotMatch(stale.document.getElementById('polymarket-section').textContent, /Parcl|national median home price|home value markets resolve/i);
+  } finally { stale.dom.window.close(); }
 
   // Exercise every absent response, including the production cache's missing
   // Fed event. No live network or hand-edited cache is needed for this guard.
