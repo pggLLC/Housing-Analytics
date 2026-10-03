@@ -44,24 +44,28 @@
       "name": "Black Hawk (city)",
       "coverage_state": "source_unreadable",
       "reviewed_source": "https://www.cityofblackhawk.org/city-clerk/page/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "The city clerk elections page (cityofblackhawk.org) returned HTTP 403 to automated access on 2026-09-26 and was not read.",
-        "The county has posted two sample ballot styles (General; Central City). Neither contains a City of Black Hawk contest or question. With no participating-entities list posted, participation could not be confirmed or ruled out."
+        "Rechecked 2026-10-03: the city website (cityofblackhawk.org, including the city clerk elections page and home page) still returns HTTP 403 to automated access and was not read.",
+        "Gilpin County still offers only two sample ballot styles (General; Central City) and has posted no participating-entities list or mailed TABOR notice. The Central City style carries a \"City of Central Offices\" section; neither style has a City of Black Hawk section or question. That suggests Black Hawk is not on the coordinated ballot, but no official source says so."
       ],
       "reviewed_sources": [
         {
           "url": "https://gilpincounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-03"
         },
         {
           "url": "https://gilpincounty.colorado.gov/media/11326",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-03"
         },
         {
           "url": "https://gilpincounty.colorado.gov/media/11336",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://gilpincounty.colorado.gov/county-news-notices/public-notices",
+          "retrieved": "2026-10-03"
         }
       ]
     },
