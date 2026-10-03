@@ -2366,6 +2366,16 @@
   }
 
   /* ── Capture-rate simulator UI ───────────────────────────────────── */
+  function explainCapture(result, sim, denominator, reason) {
+    var figure = el('pmaProposedCaptureRate');
+    if (!figure) return;
+    var source = denominator && denominator.source === 'chas_lihtc_eligible' ? chasData && chasData.meta : null;
+    figure.methodologyContext = { proposedUnits: sim && sim.proposedUnits, qualifiedRenters: denominator && denominator.value,
+      denominatorLabel: denominator && denominator.label, unavailableReason: reason,
+      sources: (denominator ? denominator.label : 'Renter source unavailable') + ' · ' +
+        (source && (source.vintage || source.vintage_chas) || acsMetrics && acsMetrics.meta && acsMetrics.meta.vintage || 'source date not supplied with this run') +
+        ' · selected PMA: ' + (result && result.tractCount != null ? result.tractCount + ' tracts' : 'geography unavailable') };
+  }
   function updateSimulator(result) {
     var simEl = el('pmaSimResult');
     if (!simEl) return;
@@ -2376,7 +2386,8 @@
     var mix = validateUnitMix();
     if (!mix.valid) {
       simEl.innerHTML =
-        '<div class="pma-empty">' + MEASURE_NAMES.capture + ' rate unavailable — fix the unit-mix error above.</div>';
+        '<div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-empty">' + MEASURE_NAMES.capture + ' rate unavailable — fix the unit-mix error above.</div>';
+      explainCapture(result, null, null, 'the unit mix is inconsistent; fix the unit-mix error');
       return;
     }
 
@@ -2396,7 +2407,8 @@
     // fall back to ACS total renter_hh when CHAS context is missing.
     var simDen = captureDenominator(result);
     if (!simDen) {
-      simEl.innerHTML = '<div class="pma-empty">' + _denominatorLine(null) + '</div>';
+      simEl.innerHTML = '<div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-empty">' + _denominatorLine(null) + '</div>';
+      explainCapture(result, null, null, 'no renter-household count is available for this PMA');
       simEl.dataset.denominator = '';
       return;
     }
@@ -2405,12 +2417,13 @@
     simEl.innerHTML =
       '<div class="pma-stat-grid">' +
         '<div class="pma-stat"><div class="pma-stat-value">' + sim.proposedUnits + '</div><div class="pma-stat-label">Proposed units</div></div>' +
-        '<div class="pma-stat"><div class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">' + MEASURE_NAMES.capture + ' rate</div></div>' +
+        '<div class="pma-stat"><div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">' + MEASURE_NAMES.capture + ' rate</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value" style="color:' +
           (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' +
           sim.risk + '</div><div class="pma-stat-label">Risk level</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value">' + simDen.value.toLocaleString() + '</div><div class="pma-stat-label">' + simDen.short + ' \u2014 the denominator</div></div>' +
       '</div>';
+    explainCapture(result, sim, simDen, null);
   }
 
   /* ── Peer Benchmarking render ────────────────────────────────────── */
@@ -2553,7 +2566,7 @@
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">' + MEASURE_NAMES.capture + ' rate</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Risk</th>' +
         '</tr></thead><tbody>' + rows + '</tbody></table>' +
-      '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">' + MEASURE_NAMES.capture + ' rate = proposed units ' + _denominatorLine(scenDen) + '. Not the ' + MEASURE_NAMES.penetration.toLowerCase() + ' above, which divides existing units.</p>';
+      '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">' + '<span data-methodology-key="project-capture">' + MEASURE_NAMES.capture + ' methodology</span>. Demand pool: ' + (scenDen ? scenDen.label : 'unavailable') + '. Not the ' + MEASURE_NAMES.penetration.toLowerCase() + ' above, which divides existing units.</p>';
   }
 
   /* ── Run analysis ───────────────────────────────────────────────── */
