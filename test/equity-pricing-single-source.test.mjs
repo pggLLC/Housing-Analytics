@@ -14,7 +14,7 @@
  * values taken from the renderer:
  *   - Insights: each price is the file's national price, each QoQ/YoY the
  *     history's, and the as_of shown is the file's;
- *   - CRA: each scenario price is today's price moved by the % range that
+ *   - CRA: each scenario price is the benchmark price moved by the % range that
  *     card states, the weighted figure is those ranges weighted by the
  *     probabilities the page states, and the probabilities in the hero
  *     agree with the cards;
@@ -91,7 +91,7 @@ test('Insights prices, QoQ, YoY and as_of come from the data files', async () =>
   assert.doesNotMatch(static_, /<td[^>]*>\$0\.\d\d<\/td>/, 'no typed price cells');
 });
 
-test('CRA scenario figures are today\'s price moved by the assumptions the page states', async () => {
+test('CRA scenario figures are the benchmark price moved by the assumptions the page states', async () => {
   const { doc, charts } = render('cra-expansion-analysis.html');
   await until(() => !/computed/i.test(doc.getElementById('cra-weighted').textContent));
   const base = NAT.credit_9pct;
@@ -116,17 +116,20 @@ test('CRA scenario figures are today\'s price moved by the assumptions the page 
   assert.equal(doc.getElementById('cra-weighted').textContent,
     money(base * (1 + wlo / 100)) + ' – ' + money(base * (1 + whi / 100)));
 
-  // Calculator: the first card is today's price on the stated credit amount.
+  // Calculator: the first card is the benchmark price on the stated credit amount.
   const credits = Number(doc.getElementById('cra-calc-intro').dataset.creditAmount);
   const equity = [...doc.querySelectorAll('#cra-calc [data-calc-equity]')].map((e) => e.textContent);
   assert.equal(equity.length, 5);
   assert.equal(equity[0], '$' + (base * credits / 1e6).toFixed(2) + 'M');
 
-  // Chart: every line starts at today's price; no dated projection.
+  // Chart: every line starts at the benchmark price; no dated projection.
   const chart = charts.find((c) => c.id === 'scenarios-chart');
   assert.ok(chart, 'scenario chart drawn');
   for (const ds of chart.cfg.data.datasets) assert.equal(ds.data[0], base);
-  assert.ok(!chart.cfg.data.labels.some((l) => /20\d\d/.test(l)), 'scenario axis is quarters from today, not dates');
+  // The axis starts at the benchmark's vintage, not at the reader's visit.
+  const [y, qn] = BENCH.meta.vintage.split('-Q').map(Number);
+  const want = Array.from({ length: 7 }, (_, i) => { const k = y * 4 + qn - 1 + i; return `${Math.floor(k / 4)}-Q${(k % 4) + 1}`; });
+  assert.deepEqual([...chart.cfg.data.labels], want, 'scenario axis counts quarters from the benchmark vintage');
   // What a reader sees: the rendered page's text, scripts excluded.
   const main = doc.querySelector('main').cloneNode(true);
   main.querySelectorAll('script').forEach((el) => el.remove());
@@ -147,6 +150,15 @@ test('Deep Dive draws the recorded quarters, not a typed forecast', async () => 
   assert.deepEqual(chart.cfg.data.datasets[1].data, want.map((r) => r.four));
   assert.ok(!charts.some((c) => /forecast/.test(c.id)), 'no forecast chart');
   assert.doesNotMatch(read('colorado-deep-dive.html'), /data: \[0\.8\d,/, 'no typed price series');
+});
+
+test('legislative equity uplift is unknown (null), never a silent zero or missing', async () => {
+  const { createRequire } = await import('node:module');
+  const require = createRequire(import.meta.url);
+  const P = require('../js/lihtc-deal-predictor-enhanced.js');
+  const [row] = P.evaluateScenarios([{}]);
+  assert.ok('legislativeBoost' in row, 'key present');
+  assert.equal(row.legislativeBoost, null);
 });
 
 test('legislation does not price equity from unsourced constants', () => {

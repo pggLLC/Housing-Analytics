@@ -98,6 +98,14 @@
     return scenarioRange(base, low / total, high / total);
   }
 
+  /** 'YYYY-Qn' moved n quarters on; null if the label is not a quarter. */
+  function quarterAfter(quarter, n) {
+    var m = /^(\d{4})-Q([1-4])$/.exec(String(quarter || ''));
+    if (!m) return null;
+    var idx = Number(m[1]) * 4 + Number(m[2]) - 1 + n;
+    return Math.floor(idx / 4) + '-Q' + (idx % 4 + 1);
+  }
+
   function money(v) {
     return v == null ? 'Value unavailable' : '$' + v.toFixed(2);
   }
@@ -129,6 +137,7 @@
     agrees: agrees,
     scenarioRange: scenarioRange,
     weightedRange: weightedRange,
+    quarterAfter: quarterAfter,
     money: money,
     pct: pct,
     load: load
