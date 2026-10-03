@@ -1,11 +1,29 @@
 {
   "meta": {
-    "generated": "2026-10-01T13:37:02Z",
+    "generated": "2026-10-03T10:22:11Z",
     "feed_count": 6,
-    "alert_count": 267,
+    "alert_count": 271,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "State auditors find repeated failures at Arizona\u2019s affordable housing agency - Arizona Mirror",
+      "date": "2026-10-02T22:11:29Z",
+      "source": "Arizona Mirror",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNajlGeE1qM0hSVWNrNmJCZi1hSVN4SE5yc2U1M3pTR0RGTVVZSTZjclduaUVpU3BYTmJuY2ItSVJaZjNJdWcwNVo3elJNRDAybjktZW5iT3BjbHpqbXJZMDM1NURBMEdsVkYzUzhHaXVQSVU1aDE2LWJPT2kwU1FVcTEtUzRaNE9aeTdkUXRZSmdwOUJWVENFeHgwRGlwV1NzSG9IRC1vSF9rQmZ0?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "State auditors find repeated failures at Arizona\u2019s affordable housing agency \u00a0\u00a0 Arizona Mirror"
+    },
+    {
+      "title": "PRC secures $36 million construction loan, LIHTC award for rehab of Paulsboro apartments - Real Estate NJ",
+      "date": "2026-10-02T04:38:44Z",
+      "source": "Real Estate NJ",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQUXJOWGdTUDZlcFBQVmJrYzM3ZE0yYVFaMnRnSGJoM2IxSUhRNmc5OXFQN3BBVW1qdGNqcGFILUN5aXA4d3RFVTFYdVNYaUxiRkIwb0dlX2JSN1F6QUQ1bkJlX09wT3hqS2ZOWnd5TUZjOFZaZjlVVVFZR0MtS1VMY1A2eFg4dS1yTWlFano5TUdMRXpOblY2c0d1RVFQcnZ4VV93aFJQOGo?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "PRC secures $36 million construction loan, LIHTC award for rehab of Paulsboro apartments \u00a0\u00a0 Real Estate NJ"
+    },
     {
       "title": "Charleston County looks to shift $1M toward new affordable housing project - Live 5 News",
       "date": "2026-09-30T23:17:00Z",
@@ -79,6 +97,15 @@
       "summary": "Former Nebraska school buildings help change affordable housing equation \u00a0\u00a0 Nebraska Examiner"
     },
     {
+      "title": "A Guide to LIHTC\u2019s Student Rules - Tax Credit Advisor",
+      "date": "2026-09-28T16:00:00Z",
+      "source": "Tax Credit Advisor",
+      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOX1EzeFRzQlFaaUJWRmszTGRkcHVSUEx5UUtJaXROQkNXOFpfelhFMmxXc0UxWTNlQnJrcDZ1VjVlSWJZX01yTHF2X3FhNUhyM28xSnR3UTBpeXlpMkd4UFlSVDh6MWpGNVJZaUlBWlNnNGF4R29ZeEV4RWxES0o2Nl9mdFFZbXBNWVVnbUgzWlc?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "A Guide to LIHTC\u2019s Student Rules \u00a0\u00a0 Tax Credit Advisor"
+    },
+    {
       "title": "CDBG Can Build Housing Now. How Much LIHTC Gap Financing Could the New Authority Create? - taxcreditadvisor.com",
       "date": "2026-09-28T16:00:00Z",
       "source": "taxcreditadvisor.com",
@@ -113,6 +140,15 @@
       "topic": "affordable_housing",
       "region": "Denver",
       "summary": "Colorado governor candidates offer different plans to tackle the state's affordable housing crisis \u00a0\u00a0 Denver7"
+    },
+    {
+      "title": "Colorado governor candidates offer different plans to tackle the state's affordable housing crisis - Yahoo",
+      "date": "2026-09-28T04:44:00Z",
+      "source": "Yahoo",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNclU0VExVQS0xSFI2ME9wdERRaENfQUF2dU5DM0dwa3lFOUJCRFRldWxONnRsS0hPTm8yWjZCQ1g3cVAwQnlVeTVWMkdzcURJWDBDUk9LVUxDS3VtUDU2b1BNS2VRS1VaUHhjSnFlbmltUmlibUZNOTJ5TVhFMUZVOGE0MmxMVVE4QVJLWUwweHNadDhGRXYtNw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Colorado governor candidates offer different plans to tackle the state's affordable housing crisis \u00a0\u00a0 Yahoo"
     },
     {
       "title": "News | Archway Communities looks to expand affordable housing efforts beyond Denver - CoStar",
@@ -1222,6 +1258,15 @@
       "summary": "Perspective: The bad policy behind Colorado\u2019s costly housing \u00a0\u00a0 Denver Gazette"
     },
     {
+      "title": "Illinois Housing Development Authority Releases Plan To Create And Preserve Affordable Housing - RiverBender.com",
+      "date": "2026-08-16T07:00:00Z",
+      "source": "RiverBender.com",
+      "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxOWmNHbkxIeUNNbWRWeUFacEhPV05hUXhhTnJfUk1QbmxHcnhUQ1lBRmg1SVQ0Z2YzVGUtdkdraTNNX0NIaWhDVGtuLXBnMEUwSDlJZm84V21sOFVVSks5Y242QlBRWmhuRWEwWjBvcXdwRGxWeFUxVFhscnQyYnFBZVpYUHpBZ2FmcnU1dWdqaVlBU01UN0RXTFcwUTRsdTFGRDZONWRIY0pSNUdCN0txUVEtTzlrb01pZXNqdnFuM0hjdWpFMjBwOExHZlpvV2kzMmZfU2dvU0xvMmVsNkE?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Illinois Housing Development Authority Releases Plan To Create And Preserve Affordable Housing \u00a0\u00a0 RiverBender.com"
+    },
+    {
       "title": "Illinois housing authority releases new plan for affordable housing tax credits - whig.com",
       "date": "2026-08-15T16:46:06Z",
       "source": "whig.com",
@@ -1906,6 +1951,15 @@
       "summary": "Sterling housing project is recipient of Proposition 123 funds \u00a0\u00a0 Sterling Journal-Advocate"
     },
     {
+      "title": "Affordable Housing Tax Credit Market Faces Equity Gap - CRE Daily",
+      "date": "2026-07-21T07:00:00Z",
+      "source": "CRE Daily",
+      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOWGp2cW5xM2lnSUU0c2dEY0lqN0J2dkJaTWRzTElPM3JGQ3lrdmtremVkc08wMTFOSDQ1SDZRdko0OFpDSXBtcUQ5UGNSXzd3NUZHbXV2TThyZjBKSWZtWk1PdGNPS3NKZFRYeldxQWlPNVdKWTdCUlA1cUc4Vk4yWWJkem9VUDRWcHhuT1FORQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Affordable Housing Tax Credit Market Faces Equity Gap \u00a0\u00a0 CRE Daily"
+    },
+    {
       "title": "More Housing Now: Prop 123 Funds to Support 11 New Affordable Housing Developments Across Colorado - Colorado Office of Economic Development and International Trade (.gov)",
       "date": "2026-07-21T07:00:00Z",
       "source": "Colorado Office of Economic Development and International Trade (.gov)",
@@ -2390,24 +2444,6 @@
       "topic": "affordable_housing",
       "region": "Statewide",
       "summary": "Colorado\u2019s least affordable housing markets revealed \u00a0\u00a0 AOL.com"
-    },
-    {
-      "title": "A low-income housing program is pouring billions into housing many people can\u2019t afford - Salon.com",
-      "date": "2026-07-04T10:00:31Z",
-      "source": "Salon.com",
-      "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPZkVFamh3RDZaWDZLbXBBLU9INWRfdUJsT05seFl5MlpLR2JIYUtaNnhfSlFaUTZOZ0tIRzU3Zno1eDdHSjJQYTNHSGc1T1NuUkd3RTlES242Tkx2aWZHN01haVY1TFZXYjY2dE1vY0JDRjIxdHctSnRITW5TMThDWkJjUk1oRVg0X0hIR3RBQU5VdURxdHJoLUVzNnNYYW1sNV8wTGNPQTJCRHZmRjBDY3drSDhQMjd6TGMyd1prQVpaZU1nZWc?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "A low-income housing program is pouring billions into housing many people can\u2019t afford \u00a0\u00a0 Salon.com"
-    },
-    {
-      "title": "Affordable housing goals a collaborative effort on the Western Slope - WesternSlopeNow.com",
-      "date": "2026-07-03T19:16:05Z",
-      "source": "WesternSlopeNow.com",
-      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNS0pQXzJtckpRcGVHd013Z0RKNmtQX3Q3Y2NMU09zYkZXcm82WFFUMTJ5RzF6ZmljUVBGdHJ2TmFxb01IVmxGZjRCeTlRaFg5VTdtMGpQbmlTRXV6VnRfRmRpQnhJalFocmNiOGtjcVd1VEgwM3JwMlI2UmxGVWZFRjhGX1cxaFg5V3dTNHhkUW94N0FiMEpHU05UaVFMa25zQXV0LUlUZ0xLLTNoRzRPNHB4X25WMWVB0gG-AUFVX3lxTFBuQzNrT2dXcHAzQ0RmaGZqUHFUYWdnX29zVjVqZ3hmaXJ3RXhMMTZpejNPaTYtUHdlVjJ1SFBCdHdzM1VaVkdPajJmMC1CcEZxZTJraU1ULW5kUlRGTEFWdlJUdFNtcDhBLW5jeDJyU09ocFV0aDVBYm8wN2x3Rm9FMWh6cW05NUJaR3hDanJWcFpDOTBvSEdjLWFOLTVhM3F2SXpjVXhiMmhLcUhYaHVwdFYtM3pteTRBZGVJeUE?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Affordable housing goals a collaborative effort on the Western Slope \u00a0\u00a0 WesternSlopeNow.com"
     }
   ]
 }
