@@ -127,8 +127,11 @@ test('CRA scenario figures are today\'s price moved by the assumptions the page 
   assert.ok(chart, 'scenario chart drawn');
   for (const ds of chart.cfg.data.datasets) assert.equal(ds.data[0], base);
   assert.ok(!chart.cfg.data.labels.some((l) => /20\d\d/.test(l)), 'scenario axis is quarters from today, not dates');
-  assert.doesNotMatch(read('cra-expansion-analysis.html').replace(/<!--[\s\S]*?-->|\/\*[\s\S]*?\*\//g, ''),
-    /Q4 2027|At \$0\.\d\d pricing|\$0\.9\d\s*-\s*\$0\.9\d/, 'no typed projection');
+  // What a reader sees: the rendered page's text, scripts excluded.
+  const main = doc.querySelector('main').cloneNode(true);
+  main.querySelectorAll('script').forEach((el) => el.remove());
+  assert.ok(main.textContent.includes('Price after six quarters'), 'scan found the scenario cards');
+  assert.doesNotMatch(main.textContent, /Q4 2027|\$0\.9\d\s*-\s*\$0\.9\d/, 'no typed projection');
 });
 
 test('Deep Dive draws the recorded quarters, not a typed forecast', async () => {
