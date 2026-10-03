@@ -196,6 +196,8 @@
     if (!LegislativeTracker || typeof LegislativeTracker.getMarketImpactSummary !== 'function') {
       return {
         available: false,
+        equityPricingBoost: null,
+        equityPricingBoostUnavailableReason: 'LegislativeTracker not loaded.',
         note: 'LegislativeTracker not loaded — legislative context unavailable.'
       };
     }
