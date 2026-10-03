@@ -84,18 +84,18 @@
       "geoid": "0831715",
       "level": "municipal",
       "name": "Grand Lake (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
-      "reviewed_source": "https://www.co.grand.co.us/1591/2026-General-Election-Sample-Ballots",
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://www.townofgrandlake.com/administration/page/elections",
       "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
+        "The town website (townofgrandlake.com) returned HTTP 403 to automated access on 2026-10-03 and was not read, so a separate town election could not be ruled out.",
         "No ballot style carries a section for this town. With no participating list posted, this follows the precinct sample ballots rather than a list.",
-        "The town website (townofgrandlake.com) returned HTTP 403 to automated access, so a separate town election was not ruled out from the town side.",
         "All 24 sample ballots linked from the county 2026 General Election Sample Ballots page (DocumentCenter/View/30983 through 31006: 23 precinct styles and the state ballot) were read on 2026-10-03. Town sections appear only for Granby (styles 002-02, 003-02), Fraser (007-08, 009-08) and Hot Sulphur Springs (008-05)."
       ],
       "reviewed_sources": [
         {
-          "url": "https://www.townofgrandlake.com/administration/page/elections",
+          "url": "https://www.co.grand.co.us/1591/2026-General-Election-Sample-Ballots",
           "retrieved": "2026-10-03"
         }
       ]
