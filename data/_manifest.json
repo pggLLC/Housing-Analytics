@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-02T13:58:28.077Z",
+    "generated_at": "2026-10-03T11:46:54.371Z",
     "root": "data/",
     "file_count": 1694,
-    "total_size_bytes": 176097318,
+    "total_size_bytes": 176101024,
     "kinds": {
       "json": 1657,
       "geojson": 33,
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 7237,
-      "mtime": "2026-09-30T15:36:02.653Z",
+      "size_bytes": 7235,
+      "mtime": "2026-10-03T11:46:43.782Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -276,8 +276,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 186114,
-      "mtime": "2026-10-02T04:57:00.832Z",
+      "size_bytes": 188439,
+      "mtime": "2026-10-03T11:46:43.791Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -285,7 +285,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 267,
+      "primary_array_length": 271,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -861,7 +861,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-10-02T12:44:08.100Z",
+      "mtime": "2026-10-03T11:46:48.200Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -977,7 +977,7 @@
       "path": "co-county-demographics.json",
       "kind": "json",
       "size_bytes": 40183,
-      "mtime": "2026-10-02T12:44:05.298Z",
+      "mtime": "2026-10-03T11:46:46.074Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1536,8 +1536,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1254186,
-      "mtime": "2026-10-02T12:16:49.247Z",
+      "size_bytes": 1254708,
+      "mtime": "2026-10-03T11:46:43.856Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30545,7 +30545,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 215290,
-      "mtime": "2026-10-02T13:57:46.747Z",
+      "mtime": "2026-10-03T11:46:52.175Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31901,7 +31901,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 92895,
-      "mtime": "2026-10-02T12:44:08.173Z",
+      "mtime": "2026-10-03T11:46:48.293Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34363,8 +34363,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 237097,
-      "mtime": "2026-10-02T04:57:01.326Z",
+      "size_bytes": 237957,
+      "mtime": "2026-10-03T11:46:44.196Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34374,7 +34374,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "stories",
-      "primary_array_length": 112,
+      "primary_array_length": 111,
       "primary_array_first_keys": [
         "title",
         "source",
@@ -34418,8 +34418,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 12577,
-      "mtime": "2026-10-02T12:16:49.640Z",
+      "size_bytes": 12578,
+      "mtime": "2026-10-03T11:46:44.196Z",
       "shape": "object",
       "keys": [
         "updated",
