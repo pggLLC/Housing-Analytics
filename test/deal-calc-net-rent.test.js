@@ -47,6 +47,7 @@ async function calculator(saved = subject(), { lateModule = false, noSubject = f
   w.eval(read('js/deal-calculator.js'));
   await settle(); await settle();
   if (lateModule) loadSubject();
+  w.eval(read('js/deal-calculator-report-meta.js'));
   w.eval(read('js/deal-calculator-share.js'));
   assert.deepEqual(errors, [], 'no runtime errors');
   w.__DealCalc.setChfaRentTable(chfa);
@@ -245,7 +246,7 @@ async function test(name, fn) {
       const metadata = plain(w.__DealCalcShare.buildSnapshot().utilityAllowance); assert.deepEqual(metadata, expectedMeta);
       let properties;
       w.html2canvas = async () => ({ width: 600, height: 600, toDataURL: () => 'image' });
-      w.jspdf = { jsPDF: function () { this.internal = { pageSize: { getWidth: () => 600, getHeight: () => 800 } }; this.addImage = () => {}; this.setProperties = (p) => { properties = p; }; this.save = () => {}; } };
+      w.jspdf = { jsPDF: function () { this.internal = { pageSize: { getWidth: () => 600, getHeight: () => 800 } }; this.addImage = () => {}; this.addPage = () => {}; this.setFontSize = () => {}; this.splitTextToSize = s => [s]; this.text = () => {}; this.setProperties = (p) => { properties = p; }; this.save = () => {}; } };
       await w.__DealCalcShare.exportPdf(); assert.deepEqual(JSON.parse(properties.subject).utilityAllowance, metadata);
       // Changing the source through Package C clears row amounts; no stale net rent/export may survive.
       const newBasis = w.SubjectProject.get(); newBasis.utility_allowance_basis.reference = 'Updated PHA schedule'; w.SubjectProject.set(newBasis);
