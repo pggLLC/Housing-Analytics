@@ -7461,11 +7461,25 @@
    * @param {object|null} chasData - parsed chas_affordability_gap.json
    * @param {object|null} acsAmiData - parsed co_ami_gap_by_county.json
    */
+  // Hand off renderer values and source objects; explanation arithmetic stays
+  // in the methodology registry and never feeds a displayed calculation.
+  function explainGapFigure(figure, key, context) {
+    if (!figure) return;
+    figure.setAttribute('data-methodology-key', key);
+    figure.setAttribute('data-methodology-placement', 'after');
+    figure.methodologyContext = context;
+  }
+
   function renderGapCoverageStats(countyFips5, chasData, acsAmiData, selectedGeo, placeAmiData, profile) {
     const panel  = document.getElementById('hnaGapCoveragePanel');
     const confEl = document.getElementById('hnaGapConfidence');
     const barEl  = document.getElementById('hnaGapCoverageBar');
     if (!panel) return;
+    if (!chasData && !acsAmiData && !placeAmiData) {
+      panel.querySelectorAll('[data-methodology-key]').forEach(figure => {
+        figure.methodologyContext = { displayedValue: null, unavailableReason: null };
+      });
+    }
     if (!chasData && !acsAmiData && !placeAmiData) { panel.hidden = true; return; }
 
     // The 7 ACS-derived bands match both card rows in the HTML.
@@ -7588,10 +7602,18 @@
     //     Shown as a secondary line, and mirrored to downstream consumers as
     //     "units needed" (what actually has to be built).
     const demandCum = {}, demandTier = {}, gapCum = {}, gapTier = {};
+    const gapExplanationRows = {};
+    const explanationSource = { kind: usingAcs ? 'acs' : 'chas',
+      meta: usingAcs ? ((acsIsPlace ? placeAmiData : acsAmiData) || {}).meta : (chasData || {}).meta,
+      record: usingAcs ? acsRecord : chasRecord, selectedGeo: selectedGeo,
+      isPlace: acsIsPlace, countyFips: countyFips5,
+      isState: !usingAcs && chasRecord === (chasData && chasData.state) };
+    let previousExplanationBand = null;
     let prevDemand = 0, prevGapCum = 0, prevHh = 0, prevUn = 0;
     BANDS.forEach((band) => {
       // ── DEMAND (headline) ──
       let dCum = null, dTier = null;
+      const priorDemandForExplanation = prevDemand;
       if (usingAcs) {
         const hh = acsHhAt(band);
         if (hh != null) { dCum = hh; dTier = Math.max(0, hh - prevDemand); prevDemand = hh; }
@@ -7610,6 +7632,9 @@
         const hh = acsHhAt(band);
         if (hh != null) {
           const un = acsUnitsAt(band);
+          gapExplanationRows[band] = { band: band, previousBand: previousExplanationBand,
+            households: hh, previousHouseholds: prevHh, units: un, previousUnits: prevUn };
+          previousExplanationBand = band;
           gTier = Math.max(0, (hh - prevHh) - (un - prevUn));
           prevHh = hh; prevUn = un;
         }
@@ -7628,6 +7653,11 @@
       if (cumEl) cumEl.textContent = (demandCum[band] != null) ? fmt(demandCum[band]) : '—';
       const tierEl = tierCardEls[band];
       if (tierEl) tierEl.textContent = (demandTier[band] != null) ? fmt(demandTier[band]) : '—';
+      explainGapFigure(cumEl, 'renter-demand-cumulative', { displayedValue: demandCum[band],
+        households: demandCum[band], sourceContext: explanationSource });
+      explainGapFigure(tierEl, 'renter-demand-tier', { displayedValue: demandTier[band],
+        households: demandTier[band] == null ? null : demandCum[band],
+        previousHouseholds: priorDemandForExplanation, sourceContext: explanationSource });
     });
 
     const lastNonNull = (obj) => { const vals = BANDS.map(b => obj[b]).filter(v => v != null); return vals.length ? vals[vals.length - 1] : null; };
@@ -7645,11 +7675,17 @@
           ' of these ' + fmt(totalDemand) + ' households remain unserved at ≤100% AMI' +
           (parts.length ? ' <span style="color:var(--muted)">— shortfall concentrated at ' + parts.join(', ') + '</span>' : '') +
           '. <span style="color:var(--muted)">Supply estimated from ACS B25063 gross-rent distribution; treat as directional.</span>';
+        explainGapFigure(netLineEl, 'rental-shortfall-summary', { displayedValue: totalGap,
+          rows: gapExplanationRows, sourceContext: explanationSource });
       } else if (usingChasFallback) {
         netLineEl.innerHTML =
           '<span style="color:var(--muted)">Existing-supply data isn’t published at CHAS granularity, so the figures above are cost-burdened households (demand). A net-of-supply gap needs ACS place/county data.</span>';
+        explainGapFigure(netLineEl, 'rental-shortfall-summary', { displayedValue: null,
+          unavailableReason: netLineEl.textContent, sourceContext: explanationSource });
       } else {
         netLineEl.innerHTML = '';
+        explainGapFigure(netLineEl, 'rental-shortfall-summary', { displayedValue: null,
+          unavailableReason: null, sourceContext: explanationSource });
       }
     }
 
@@ -7709,6 +7745,13 @@
             '<tbody>' + rows + '</tbody>' +
           '</table></div>' +
           '<span style="color:var(--muted)">Projection scales today\'s per-band demand by the DOLA household-growth factor and keeps existing affordable-priced supply constant. This is the income-targeted affordable rental deficit, not the vacancy-based total-units method.</span>';
+        const renderedRows = projectedEl.querySelectorAll('tbody tr');
+        projectedByBand.forEach((row, index) => {
+          const figure = renderedRows[index] && renderedRows[index].cells[1];
+          if (figure) figure.id = 'hnaGapToday' + row.band;
+          explainGapFigure(figure, 'rental-shortfall-band', { displayedValue: row.today,
+            rows: [gapExplanationRows[row.band]], sourceContext: explanationSource });
+        });
       } else if (usingChasFallback) {
         projectedEl.innerHTML =
           '<span style="color:var(--muted)">Projected affordable deficit needs ACS place/county supply data; CHAS fallback only provides demand cohorts.</span>';
@@ -9182,6 +9225,9 @@
           ' renter households, summing positive band shortfalls through ≤100% AMI. ' +
           '<span style="color:var(--muted)">Combined from summed member ACS AMI-gap inputs; treat as directional.</span>'
         : '<span style="color:var(--muted)">' + escHtml(unavailable) + '</span>';
+      explainGapFigure(netLine, 'rental-shortfall-summary', { displayedValue: Number.isFinite(totalNet) ? totalNet : null,
+        bandShortfalls: gap.per_band_gap, unavailableReason: Number.isFinite(totalNet) ? null : unavailable,
+        sourceContext: { kind: 'combined', result: result } });
     }
   }
 
@@ -9268,6 +9314,12 @@
         var tierDemand = Number.isFinite(demand) ? Math.max(0, demand - prevHouseholds) : null;
         _combinedSetText('statGap' + band, Number.isFinite(demand) ? _ownFmtNum(demand) : '—');
         _combinedSetText('statTierGap' + band, tierDemand != null ? _ownFmtNum(tierDemand) : '—');
+        explainGapFigure(document.getElementById('statGap' + band), 'renter-demand-cumulative', {
+          displayedValue: Number.isFinite(demand) ? demand : null, households: Number.isFinite(demand) ? demand : null,
+          sourceContext: { kind: 'combined', result: result } });
+        explainGapFigure(document.getElementById('statTierGap' + band), 'renter-demand-tier', {
+          displayedValue: tierDemand, households: tierDemand == null ? null : demand, previousHouseholds: prevHouseholds,
+          sourceContext: { kind: 'combined', result: result } });
         if (Number.isFinite(demand)) prevHouseholds = demand;
       });
       _combinedSetText('hnaGapConfidence', 'Combined · DERIVED');
@@ -9275,6 +9327,12 @@
       ['30', '40', '50', '60', '70', '80', '100'].forEach(function (band) {
         _combinedSetText('statGap' + band, 'Not available');
         _combinedSetText('statTierGap' + band, 'Not available');
+        explainGapFigure(document.getElementById('statGap' + band), 'renter-demand-cumulative', {
+          displayedValue: null, households: null, unavailableReason: amiGapMessage,
+          sourceContext: { kind: 'combined', result: result } });
+        explainGapFigure(document.getElementById('statTierGap' + band), 'renter-demand-tier', {
+          displayedValue: null, households: null, unavailableReason: amiGapMessage,
+          sourceContext: { kind: 'combined', result: result } });
       });
       _combinedSetText('hnaGapConfidence', amiGapMessage);
     }
