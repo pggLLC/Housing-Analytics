@@ -54,6 +54,7 @@ async function calculator(saved = subject(), options = {}) {
   await w.HudFmr.load();
   w.eval(read('js/deal-calculator.js'));
   await settle(); await settle();
+  w.eval(read('js/deal-calculator-report-meta.js'));
   w.eval(read('js/deal-calculator-share.js'));
   w.__DealCalc.setChfaRentTable(chfa);
   const county = w.document.getElementById('dc-county-select');
@@ -276,7 +277,7 @@ async function test(name, fn) {
       assert.deepEqual(snapshot.rentSchedule.sourceMeta, schedule(subject()).sourceMeta);
       let properties;
       w.html2canvas = async () => ({ width: 600, height: 600, toDataURL: () => 'image' });
-      w.jspdf = { jsPDF: function () { this.internal = { pageSize: { getWidth: () => 600, getHeight: () => 800 } }; this.addImage = () => {}; this.setProperties = p => { properties = p; }; this.save = () => {}; } };
+      w.jspdf = { jsPDF: function () { this.internal = { pageSize: { getWidth: () => 600, getHeight: () => 800 } }; this.addImage = () => {}; this.addPage = () => {}; this.setFontSize = () => {}; this.splitTextToSize = s => [s]; this.text = () => {}; this.setProperties = p => { properties = p; }; this.save = () => {}; } };
       await w.__DealCalcShare.exportPdf(); assert.deepEqual(JSON.parse(properties.subject).rentSchedule, snapshot.rentSchedule);
     } finally { w.close(); }
   });

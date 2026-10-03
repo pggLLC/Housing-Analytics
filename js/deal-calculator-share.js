@@ -6,7 +6,7 @@
  * Three modes (mirrors the HNA pattern in js/hna-export.js):
  *   1. Copy share URL  — encode key inputs as URL params; user pastes to partner
  *                        who opens the page and sees the same scenario.
- *   2. Download PDF    — multi-page screenshot of <main> via html2canvas + jsPDF
+ *   2. Download PDF    — screenshot pages plus searchable report disclosures via jsPDF
  *                        (falls back to window.print() if libs unavailable).
  *   3. Export JSON     — structured snapshot of all inputs, plus the computed
  *                        outputs as displayed (null where unavailable).
@@ -519,12 +519,17 @@
   }
 
   // ── Public — Export JSON ──────────────────────────────────────────────
+  function buildReportMeta() {
+    return window.DealCalculatorReportMeta ? window.DealCalculatorReportMeta.buildReportMeta()
+      : { unavailableReason: 'The report metadata module is unavailable.' };
+  }
   function buildSnapshot() {
     var snapshot = {
       exportedAt: new Date().toISOString(),
       dealMode: _dealMode(),
       url: window.location.origin + window.location.pathname + '?' + _serialize().toString(),
       inputProvenance: _provenanceMap(),
+      reportMeta: buildReportMeta(),
       inputs: {},
       tranches: [],
       // Added after `inputs`; importers that read only inputs/tranches are
@@ -575,22 +580,69 @@
     }
   }
 
+  function reportSections(report) {
+    return report.unavailableReason
+      ? [{ key: 'unavailable', heading: 'Report disclosures', entries: ['unavailable — ' + report.unavailableReason] }]
+      : window.DealCalculatorReportMeta.sections(report);
+  }
+  function printReport(report) {
+    var id = 'dc-print-report-meta', block = document.getElementById(id);
+    if (!block) {
+      block = document.createElement('section'); block.id = id;
+      document.body.appendChild(block);
+      var style = document.createElement('style');
+      style.textContent = '#' + id + '{display:none} @media print { #' + id +
+        '{display:block!important;break-before:page;color:#000;background:#fff;font:11pt/1.4 sans-serif}' +
+        '#' + id + ' h2{break-after:avoid} #' + id + ' p{white-space:pre-wrap;overflow-wrap:anywhere;break-inside:auto} }';
+      document.head.appendChild(style);
+    }
+    block.replaceChildren();
+    reportSections(report).forEach(function (section) {
+      var heading = document.createElement('h2'); heading.textContent = section.heading; block.appendChild(heading);
+      (section.entries.length ? section.entries : [section.empty]).forEach(function (entry) {
+        var paragraph = document.createElement('p'); paragraph.textContent = entry; block.appendChild(paragraph);
+      });
+    });
+    window.print();
+  }
+  function appendReportPages(pdf, report) {
+    var margin = 40, pageW = pdf.internal.pageSize.getWidth(), pageH = pdf.internal.pageSize.getHeight();
+    var y = margin;
+    pdf.addPage();
+    function write(text, size) {
+      pdf.setFontSize(size);
+      // Standard PDF fonts do not cover these mathematical Unicode glyphs.
+      var printable = String(text).replace(/[‐‑‒–—−]/g, '-').replace(/≤/g, '<=').replace(/≥/g, '>=');
+      pdf.splitTextToSize(printable, pageW - margin * 2).forEach(function (line) {
+        if (y + size > pageH - margin) { pdf.addPage(); y = margin; }
+        pdf.text(line, margin, y); y += size * 1.4;
+      });
+      y += 8;
+    }
+    reportSections(report).forEach(function (section) {
+      if (y + 50 > pageH - margin) { pdf.addPage(); y = margin; }
+      write(section.heading, 14);
+      (section.entries.length ? section.entries : [section.empty]).forEach(function (entry) { write(entry, 10); });
+    });
+  }
+
   // ── Public — Export PDF (html2canvas + jsPDF; print fallback) ─────────
   async function exportPdf(filename) {
     var outFile = filename || 'deal-calculator-scenario.pdf';
     var btn = document.getElementById('dc-share-pdf');
+    var snapshot;
     try {
+      snapshot = buildSnapshot();
       if (btn) btn.disabled = true;
       if (!window.html2canvas || !window.jspdf) {
         _showShareToast('PDF libs not loaded — using print dialog', 'warn');
-        window.print();
+        printReport(snapshot.reportMeta);
         return;
       }
       _showShareToast('Generating PDF…', 'info');
       var jsPDF = window.jspdf.jsPDF;
       var node = document.querySelector('main') || document.body;
       var bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#ffffff';
-      var snapshot = buildSnapshot();
       var rentLimits = snapshot.rentLimits;
       var canvas = await window.html2canvas(node, { scale: 2, useCORS: true, backgroundColor: bg });
       var imgData = canvas.toDataURL('image/png');
@@ -611,12 +663,13 @@
         pdf.addImage(imgData, 'PNG', 0, -offset, imgW, imgH);
         remaining -= pageH;
       }
+      appendReportPages(pdf, snapshot.reportMeta);
       pdf.save(outFile);
       _showShareToast('PDF downloaded ✓');
     } catch (e) {
       console.warn('[DealCalc] PDF export failed; falling back to print()', e);
       _showShareToast('PDF generation failed — using print dialog', 'warn');
-      window.print();
+      printReport(snapshot ? snapshot.reportMeta : buildReportMeta());
     } finally {
       if (btn) btn.disabled = false;
     }
@@ -674,7 +727,7 @@
   }
 
   // Public API
-  window.__DealCalcShare = { copyLink: copyLink, exportPdf: exportPdf, exportJson: exportJson, openIcSummary: openIcSummary, buildSnapshot: buildSnapshot,
+  window.__DealCalcShare = { copyLink: copyLink, exportPdf: exportPdf, exportJson: exportJson, openIcSummary: openIcSummary, buildSnapshot: buildSnapshot, buildReportMeta: buildReportMeta,
     shareKeys: shareKeys, auditInputs: auditInputs, serialize: function () { return _serialize().toString(); },
     hydrate: _hydrate };
 })();
