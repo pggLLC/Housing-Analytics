@@ -4,7 +4,7 @@
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
   <title>CRA Expansion Impact Analysis | Colorado Public Data Reference</title>
-  <meta name="description" content="Predictive modeling of CRA expansion scenarios and LIHTC pricing forecasts.">
+  <meta name="description" content="Scenario modeling of how CRA expansion could move LIHTC equity pricing, from today's price.">
   <meta property="og:title" content="CRA Expansion Analysis | Colorado Public Data Reference">
   <meta property="og:description" content="Community Reinvestment Act opportunity area analysis for Colorado.">
   <meta property="og:type" content="website">
@@ -30,6 +30,7 @@
   <script defer src="js/provenance-label.js"></script>
   <script defer src="js/components/review-status.js"></script>
   <script defer src="js/components/tax-credit-equity-markets.js"></script>
+  <script src="js/components/equity-pricing.js"></script>
 </head>
 <body data-page="cra-expansion-analysis.html">
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -38,7 +39,7 @@
 <div style="display: inline-block; padding: 0.5rem 1rem; background: var(--info); color: var(--on-accent,#fff); border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 1.5rem;">
             Policy Analysis
         </div>
-<span class="kicker">Analysis · Updated September 28, 2026</span>
+<span class="kicker">Analysis · Updated October 3, 2026</span>
 <h1 style="margin-bottom: 1rem;">CRA Expansion Impact on LIHTC Pricing</h1>
 <p style="font-size: 1.25rem; color: var(--color-text-light); line-height: 1.7; margin-bottom: 1.25rem;">
             Scenario modeling of tax credit pricing if Community Reinvestment Act rules change how banks receive credit for LIHTC investment. No such expansion is enacted or pending; see the 2026 update below.
@@ -77,18 +78,18 @@
 <h2>Four Scenarios</h2>
 <div class="chart-card" style="margin: 2rem 0;">
 <div class="chart-header">
-<h3 class="chart-title">Pricing Forecast by CRA Scenario</h3>
-<p class="chart-subtitle">9% credit pricing projections through Q4 2027</p>
+<h3 class="chart-title">9% Credit Pricing by CRA Scenario</h3>
+<p class="chart-subtitle" id="cra-baseline-note">Scenarios, not a forecast: today's national 9% price moved by each scenario's stated assumption over six quarters.</p>
 </div>
-<div style="height: 400px; position: relative;" data-source="Author scenario model — Novogradac pricing (Q2 2026 baseline) + author probability weights on CRA expansion paths" data-source-url="https://www.novoco.com/notes-from-novogradac/lihtc-pricing-update" data-vintage="Q2 2026 baseline → Q4 2027 projection" data-source-type="modeled">
-<canvas id="scenarios-chart" role="img" aria-label="Line chart: LIHTC 9% credit pricing forecast under four CRA expansion scenarios (Baseline, Moderate, Aggressive, Transformative) through Q4 2027"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data: Baseline scenario starts at $0.86 and ends at $0.86 (Q4 2027); Moderate Expansion $0.92; Aggressive Expansion $0.98; Transformative Reform $1.04.</p>
+<div style="height: 400px; position: relative;" data-source="Author scenario model — current price from data/market/novogradac-equity-pricing.json, moved by each scenario's stated % range" data-source-url="data/market/novogradac-equity-pricing.json" data-source-type="modeled">
+<canvas id="scenarios-chart" role="img" aria-label="Line chart: LIHTC 9% credit pricing under four CRA scenarios (Baseline, Moderate, Aggressive, Transformative), six quarters from today's price"></canvas><p class="sr-only" id="cra-chart-text" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is computed from the current price in data/market/novogradac-equity-pricing.json.</p>
 </div>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(450px, 100%), 1fr)); gap: 2rem; margin: 1.25rem 0;">
-<div class="chart-card">
+<div class="chart-card" data-cra-scenario="Baseline (No Change)" data-probability="40" data-low-pct="-3" data-high-pct="-1">
 <div class="chart-header">
 <h3 class="chart-title">Scenario 1: Baseline (No Change)</h3>
-<span data-no-contrast-guard style="background: rgba(30, 87, 153, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; color: var(--text-strong);">40% Probability</span>
+<span data-no-contrast-guard style="background: rgba(30, 87, 153, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; color: var(--text-strong);">40% probability (author estimate)</span>
 </div>
 <div style="padding: 1rem 0;">
 <p style="margin-bottom: 1rem; line-height: 1.7;"><strong>Current CRA rules remain unchanged</strong></p>
@@ -96,15 +97,15 @@
                         Only depository institutions subject to CRA. Modest supply pressure from increased allocations offset by steady bank demand.
                     </p>
 <div style="background: var(--color-background-alt); padding: 1rem; border-radius: 4px;">
-<div style="margin-bottom: 0.5rem;"><strong>Q4 2027 Price:</strong> $0.84-$0.86</div>
-<div><strong>Change from current:</strong> <span data-no-contrast-guard style="color: var(--warn); font-weight: 700;">-1% to -3%</span></div>
+<div style="margin-bottom: 0.5rem;"><strong>Price after six quarters:</strong> <span data-scenario-price>computed from today's price</span></div>
+<div><strong>Assumed change from today:</strong> <span data-scenario-pct data-no-contrast-guard style="font-weight: 700;"></span></div>
 </div>
 </div>
 </div>
-<div class="chart-card">
+<div class="chart-card" data-cra-scenario="Moderate Expansion" data-probability="35" data-low-pct="6" data-high-pct="9">
 <div class="chart-header">
 <h3 class="chart-title">Scenario 2: Moderate Expansion</h3>
-<span data-no-contrast-guard style="background: rgba(3, 105, 161, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; color: var(--text-strong);">35% Probability</span>
+<span data-no-contrast-guard style="background: rgba(3, 105, 161, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; color: var(--text-strong);">35% probability (author estimate)</span>
 </div>
 <div style="padding: 1rem 0;">
 <p style="margin-bottom: 1rem; line-height: 1.7;"><strong>Credit unions gain CRA-equivalent mandate</strong></p>
@@ -112,15 +113,15 @@
                         Major credit unions (&gt;$1B assets) required to meet CRA-like standards. Insurance companies receive enhanced incentives. 15-20% investor pool expansion.
                     </p>
 <div style="background: rgba(3, 105, 161, 0.05); padding: 1rem; border-radius: 4px; border: 1px solid rgba(3, 105, 161, 0.2);">
-<div style="margin-bottom: 0.5rem;"><strong>Q4 2027 Price:</strong> $0.92-$0.95</div>
-<div><strong>Change from current:</strong> <span data-no-contrast-guard style="color: var(--good); font-weight: 700;">+6% to +9%</span></div>
+<div style="margin-bottom: 0.5rem;"><strong>Price after six quarters:</strong> <span data-scenario-price>computed from today's price</span></div>
+<div><strong>Assumed change from today:</strong> <span data-scenario-pct data-no-contrast-guard style="font-weight: 700;"></span></div>
 </div>
 </div>
 </div>
-<div class="chart-card">
+<div class="chart-card" data-cra-scenario="Aggressive Expansion" data-probability="20" data-low-pct="13" data-high-pct="17">
 <div class="chart-header">
 <h3 class="chart-title">Scenario 3: Aggressive Expansion</h3>
-<span data-no-contrast-guard style="background: rgba(10, 126, 116, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; color: var(--text-strong);">20% Probability</span>
+<span data-no-contrast-guard style="background: rgba(10, 126, 116, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; color: var(--text-strong);">20% probability (author estimate)</span>
 </div>
 <div style="padding: 1rem 0;">
 <p style="margin-bottom: 1rem; line-height: 1.7;"><strong>All credit unions + non-bank lenders covered</strong></p>
@@ -128,15 +129,15 @@
                         Comprehensive expansion including all credit unions, insurance companies with mandates, and major FinTech lenders. 30-40% pool expansion.
                     </p>
 <div style="background: rgba(10, 126, 116, 0.05); padding: 1rem; border-radius: 4px; border: 1px solid rgba(10, 126, 116, 0.2);">
-<div style="margin-bottom: 0.5rem;"><strong>Q4 2027 Price:</strong> $0.98-$1.02</div>
-<div><strong>Change from current:</strong> <span data-no-contrast-guard style="color: var(--good); font-weight: 700;">+13% to +17%</span></div>
+<div style="margin-bottom: 0.5rem;"><strong>Price after six quarters:</strong> <span data-scenario-price>computed from today's price</span></div>
+<div><strong>Assumed change from today:</strong> <span data-scenario-pct data-no-contrast-guard style="font-weight: 700;"></span></div>
 </div>
 </div>
 </div>
-<div class="chart-card">
+<div class="chart-card" data-cra-scenario="Transformative Reform" data-probability="5" data-low-pct="21" data-high-pct="29">
 <div class="chart-header">
 <h3 class="chart-title">Scenario 4: Transformative Reform</h3>
-<span data-no-contrast-guard style="background: rgba(124, 61, 0, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; color: var(--text-strong);">5% Probability</span>
+<span data-no-contrast-guard style="background: rgba(124, 61, 0, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; color: var(--text-strong);">5% probability (author estimate)</span>
 </div>
 <div style="padding: 1rem 0;">
 <p style="margin-bottom: 1rem; line-height: 1.7;"><strong>Complete CRA restructuring with LIHTC priority</strong></p>
@@ -144,8 +145,8 @@
                         All financial institutions subject to CRA. LIHTC investments receive enhanced weight (double counting). Tax incentives layer on top. 50-70% pool expansion.
                     </p>
 <div style="background: rgba(124, 61, 0, 0.05); padding: 1rem; border-radius: 4px; border: 1px solid rgba(124, 61, 0, 0.3);">
-<div style="margin-bottom: 0.5rem;"><strong>Q4 2027 Price:</strong> $1.05-$1.12</div>
-<div><strong>Change from current:</strong> <span data-no-contrast-guard style="color: var(--good); font-weight: 700;">+21% to +29%</span></div>
+<div style="margin-bottom: 0.5rem;"><strong>Price after six quarters:</strong> <span data-scenario-price>computed from today's price</span></div>
+<div><strong>Assumed change from today:</strong> <span data-scenario-pct data-no-contrast-guard style="font-weight: 700;"></span></div>
 </div>
 </div>
 </div>
@@ -213,29 +214,8 @@
 </div>
 <h2>Project Impact Calculator</h2>
 <div class="chart-card" style="margin: 2rem 0;">
-<p style="margin-bottom: 1.5rem; line-height: 1.7;">Example: $3M credit allocation project</p>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 1.5rem;">
-<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Baseline Scenario</div>
-<div style="font-size: 1.75rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.5rem;">$2.55M</div>
-<div style="font-size: 0.875rem; color: var(--color-text-light);">At $0.85 pricing</div>
-</div>
-<div style="padding: 1.5rem; background: rgba(3, 105, 161, 0.05); border-radius: 8px; border: 1px solid rgba(3, 105, 161, 0.2);">
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Moderate Expansion</div>
-<div style="font-size: 1.75rem; font-weight: 700; color: var(--info); margin-bottom: 0.5rem;">$2.79M</div>
-<div style="font-size: 0.875rem; color: var(--good);">+$240K equity</div>
-</div>
-<div style="padding: 1.5rem; background: rgba(10, 126, 116, 0.05); border-radius: 8px; border: 1px solid rgba(10, 126, 116, 0.2);">
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Aggressive Expansion</div>
-<div style="font-size: 1.75rem; font-weight: 700; color: var(--good); margin-bottom: 0.5rem;">$3.00M</div>
-<div style="font-size: 0.875rem; color: var(--good);">+$450K equity</div>
-</div>
-<div style="padding: 1.5rem; background: rgba(124, 61, 0, 0.05); border-radius: 8px; border: 1px solid rgba(124, 61, 0, 0.3);">
-<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Transformative Reform</div>
-<div style="font-size: 1.75rem; font-weight: 700; color: var(--color-accent); margin-bottom: 0.5rem;">$3.26M</div>
-<div style="font-size: 0.875rem; color: var(--good);">+$710K equity</div>
-</div>
-</div>
+<p style="margin-bottom: 1.5rem; line-height: 1.7;" id="cra-calc-intro" data-credit-amount="3000000">Example: $3M of tax credits, priced at the midpoint of each scenario. The difference is against the same credits at today's price.</p>
+<div id="cra-calc" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 1.5rem;"></div>
 </div>
 <h2>Tax Credit Legislation Watch</h2>
 <div class="chart-card" style="margin: 2rem 0;">
@@ -269,75 +249,102 @@
      bright cyan (dark=11:1). data-no-contrast-guard prevents the heuristic
      from later repainting these elements based on a sampled bg. -->
 <div data-no-contrast-guard style="margin-top: 3rem; padding: 2rem; background: var(--accent); color: var(--on-accent,#fff); border-radius: 8px;">
-<h3 class="h-on-accent" data-no-contrast-guard style="margin-bottom: 1rem;">Probability-Weighted Forecast</h3>
-<p data-no-contrast-guard style="margin-bottom: 1.5rem; color: var(--on-accent,#fff) !important;">Based on 40% baseline, 35% moderate, 20% aggressive, 5% transformative probabilities:</p>
-<div data-no-contrast-guard style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--on-accent,#fff) !important;">$0.91 - $0.94</div>
-<div data-no-contrast-guard style="color: var(--on-accent,#fff) !important;">Expected 9% credit pricing range by Q4 2027</div>
+<h3 class="h-on-accent" data-no-contrast-guard style="margin-bottom: 1rem;">Probability-Weighted Scenario</h3>
+<p data-no-contrast-guard style="margin-bottom: 1.5rem; color: var(--on-accent,#fff) !important;">The four scenarios weighted by the author's probabilities above. A summary of the assumptions, not a forecast.</p>
+<div id="cra-weighted" data-no-contrast-guard style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--on-accent,#fff) !important;">Computed from today's price</div>
+<div id="cra-weighted-note" data-no-contrast-guard style="color: var(--on-accent,#fff) !important;">9% credit price after six quarters, if the weighted assumptions held</div>
 </div>
 </main>
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('scenarios-chart');
-            if (ctx) {
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Q2 2026', 'Q3 2026', 'Q4 2026', 'Q1 2027', 'Q2 2027', 'Q3 2027', 'Q4 2027'],
-                        datasets: [
-                            {
-                                label: 'Baseline (No Change)',
-                                data: [0.86, 0.85, 0.85, 0.85, 0.85, 0.86, 0.86],
-                                borderColor: '#1e5799',
-                                backgroundColor: 'rgba(30, 87, 153, 0.1)',
-                                borderWidth: 2,
-                                tension: 0.4
-                            },
-                            {
-                                label: 'Moderate Expansion',
-                                data: [0.86, 0.87, 0.88, 0.89, 0.90, 0.91, 0.92],
-                                borderColor: '#0369a1',
-                                backgroundColor: 'rgba(3, 105, 161, 0.1)',
-                                borderWidth: 2,
-                                tension: 0.4
-                            },
-                            {
-                                label: 'Aggressive Expansion',
-                                data: [0.86, 0.88, 0.90, 0.92, 0.94, 0.96, 0.98],
-                                borderColor: '#0a7e74',
-                                backgroundColor: 'rgba(10, 126, 116, 0.1)',
-                                borderWidth: 2,
-                                tension: 0.4
-                            },
-                            {
-                                label: 'Transformative Reform',
-                                data: [0.86, 0.89, 0.92, 0.95, 0.98, 1.01, 1.04],
-                                borderColor: '#7c3d00',
-                                backgroundColor: 'rgba(124, 61, 0, 0.1)',
-                                borderWidth: 2,
-                                tension: 0.4
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                                labels: { usePointStyle: true, padding: 15 }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                min: 0.80,
-                                max: 1.15,
-                                ticks: { callback: v => '$' + v.toFixed(2) }
-                            }
-                        }
-                    }
-                });
-            }
+    /* #2010 — every price on this page is today's national 9% price from
+       data/market/novogradac-equity-pricing.json, moved by the % range each
+       scenario card states (data-low-pct / data-high-pct). The typed
+       "Q4 2027" prices, the $0.85 calculator baseline and the $0.91–$0.94
+       weighted figure were removed: they disagreed with the data file and,
+       in the weighted case, with the page's own assumptions. */
+    (function () {
+      'use strict';
+      var EP = window.EquityPricing;
+      if (!EP) return;
+      var QUARTERS = 6;
+      var cards = Array.prototype.slice.call(document.querySelectorAll('[data-cra-scenario]'));
+      var scenarios = cards.map(function (el) {
+        return {
+          el: el,
+          name: el.getAttribute('data-cra-scenario'),
+          probability: Number(el.getAttribute('data-probability')),
+          lowPct: Number(el.getAttribute('data-low-pct')),
+          highPct: Number(el.getAttribute('data-high-pct'))
+        };
+      });
+      function signed(n) { return (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n) + '%'; }
+      function k(n) { return (n >= 0 ? '+' : '−') + '$' + Math.round(Math.abs(n) / 1000) + 'K'; }
+      function m(n) { return '$' + (n / 1e6).toFixed(2) + 'M'; }
+      scenarios.forEach(function (sc) {
+        var p = sc.el.querySelector('[data-scenario-pct]');
+        if (p) {
+          p.textContent = signed(sc.lowPct) + ' to ' + signed(sc.highPct);
+          p.style.color = sc.highPct < 0 ? 'var(--warn)' : 'var(--good)';
+        }
+      });
+      EP.load(window.fetch && window.fetch.bind(window)).then(function (d) {
+        var c = EP.current(d.benchmark);
+        var base = c && c.nine;
+        if (base == null) return;
+        var note = document.getElementById('cra-baseline-note');
+        if (note) {
+          note.textContent = 'Scenarios, not a forecast: today\u2019s national 9% price (' + EP.money(base) +
+            ', as of ' + c.asOf + ') moved by each scenario\u2019s stated assumption over six quarters.';
+        }
+        var calcHost = document.getElementById('cra-calc');
+        var intro = document.getElementById('cra-calc-intro');
+        var credits = intro ? Number(intro.getAttribute('data-credit-amount')) : NaN;
+        var today = base * credits;
+        var calc = '<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">' +
+          '<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Today</div>' +
+          '<div data-calc-equity style="font-size: 1.75rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.5rem;">' + m(today) + '</div>' +
+          '<div style="font-size: 0.875rem; color: var(--color-text-light);">At ' + EP.money(base) + ' pricing</div></div>';
+        var datasets = [];
+        var COLORS = ['#1e5799', '#0369a1', '#0a7e74', '#7c3d00'];
+        var lines = [];
+        scenarios.forEach(function (sc, i) {
+          var r = EP.scenarioRange(base, sc.lowPct, sc.highPct);
+          if (!r) return;
+          var priceEl = sc.el.querySelector('[data-scenario-price]');
+          if (priceEl) priceEl.textContent = EP.money(r.low) + '–' + EP.money(r.high);
+          var eq = r.mid * credits;
+          calc += '<div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">' +
+            '<div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">' + sc.name + '</div>' +
+            '<div data-calc-equity style="font-size: 1.75rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.5rem;">' + m(eq) + '</div>' +
+            '<div style="font-size: 0.875rem; color: var(--color-text-light);">At ' + EP.money(r.mid) + ' · ' + k(eq - today) + ' equity</div></div>';
+          var path = [];
+          for (var q = 0; q <= QUARTERS; q++) path.push(Math.round((base + (r.mid - base) * q / QUARTERS) * 1000) / 1000);
+          datasets.push({ label: sc.name, data: path, borderColor: COLORS[i % COLORS.length], borderWidth: 2, tension: 0.3, fill: false });
+          lines.push(sc.name + ' ' + EP.money(r.mid));
         });
+        if (calcHost && isFinite(credits)) calcHost.innerHTML = calc;
+        var w = EP.weightedRange(base, scenarios);
+        var wEl = document.getElementById('cra-weighted');
+        if (wEl && w) wEl.textContent = EP.money(w.low) + ' – ' + EP.money(w.high);
+        var text = document.getElementById('cra-chart-text');
+        if (text) text.textContent = 'Chart data: all scenarios start at today\u2019s ' + EP.money(base) + '; after six quarters, ' + lines.join('; ') + '.';
+        var ctx = document.getElementById('scenarios-chart');
+        if (ctx && window.Chart) {
+          var labels = ['Today'];
+          for (var j = 1; j <= QUARTERS; j++) labels.push('+' + j + 'Q');
+          new Chart(ctx, {
+            type: 'line',
+            data: { labels: labels, datasets: datasets },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 15 } } },
+              scales: { y: { ticks: { callback: function (v) { return '$' + v.toFixed(2); } } } }
+            }
+          });
+        }
+      });
+    }());
     </script>
 
   <script src="js/contrast-guard.js"></script>
