@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-02T13:58:28.077Z",
+    "generated_at": "2026-10-03T10:34:40.322Z",
     "root": "data/",
     "file_count": 1694,
-    "total_size_bytes": 176097318,
+    "total_size_bytes": 176101023,
     "kinds": {
       "json": 1657,
       "geojson": 33,
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 7237,
-      "mtime": "2026-09-30T15:36:02.653Z",
+      "size_bytes": 7235,
+      "mtime": "2026-10-03T10:33:51.275Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -276,8 +276,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 186114,
-      "mtime": "2026-10-02T04:57:00.832Z",
+      "size_bytes": 188439,
+      "mtime": "2026-10-03T10:33:51.282Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -285,7 +285,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 267,
+      "primary_array_length": 271,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -1371,7 +1371,7 @@
       "path": "environmental/epa-superfund-co.json",
       "kind": "json",
       "size_bytes": 331979,
-      "mtime": "2026-09-27T20:49:44.698Z",
+      "mtime": "2026-10-03T10:34:33.903Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1536,8 +1536,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1254186,
-      "mtime": "2026-10-02T12:16:49.247Z",
+      "size_bytes": 1254708,
+      "mtime": "2026-10-03T10:33:51.338Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -29392,7 +29392,7 @@
       "path": "home-snapshot.json",
       "kind": "json",
       "size_bytes": 2173,
-      "mtime": "2026-10-02T04:57:01.117Z",
+      "mtime": "2026-10-03T10:34:38.878Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30576,7 +30576,7 @@
       "path": "market/acs_tract_metrics_co.json",
       "kind": "json",
       "size_bytes": 1347353,
-      "mtime": "2026-09-27T20:49:44.699Z",
+      "mtime": "2026-10-03T10:34:13.588Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34363,8 +34363,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 237097,
-      "mtime": "2026-10-02T04:57:01.326Z",
+      "size_bytes": 237957,
+      "mtime": "2026-10-03T10:33:51.616Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34374,7 +34374,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "stories",
-      "primary_array_length": 112,
+      "primary_array_length": 111,
       "primary_array_first_keys": [
         "title",
         "source",
