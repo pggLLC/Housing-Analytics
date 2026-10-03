@@ -39,12 +39,12 @@
       "geoid": "0822145",
       "level": "municipal",
       "name": "Eads (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://drive.google.com/drive/folders/15Gj_K3Xs-A80JUmgXO5JI9OTjpAYaZmo?usp=sharing",
       "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "No sample ballot style has a town section or town question. With no participating list posted, this follows the precinct sample ballots rather than a list. The town has no website, so a separate town election could not be checked.",
+        "No county sample ballot style has a town section or town question, and no participating-entities list was posted. The town has no website, so a separate town election or notice could not be checked; the row stays open until a list or town notice is available.",
         "The county Notice of Election and Sample Ballots folder (linked from the clerk page, files dated September 28) holds a notice of election and five precinct sample ballots (001-1, 001-2, 002-2, 003-2, 004-2), all read on 2026-10-03. No separate TABOR notice or participating-entities list was posted."
       ],
       "reviewed_sources": [
@@ -74,12 +74,12 @@
       "geoid": "0834740",
       "level": "municipal",
       "name": "Haswell (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://drive.google.com/drive/folders/15Gj_K3Xs-A80JUmgXO5JI9OTjpAYaZmo?usp=sharing",
       "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "No sample ballot style has a town section or town question. With no participating list posted, this follows the precinct sample ballots rather than a list. The town has no website, so a separate town election could not be checked.",
+        "No county sample ballot style has a town section or town question, and no participating-entities list was posted. The town has no website, so a separate town election or notice could not be checked; the row stays open until a list or town notice is available.",
         "The county Notice of Election and Sample Ballots folder (linked from the clerk page, files dated September 28) holds a notice of election and five precinct sample ballots (001-1, 001-2, 002-2, 003-2, 004-2), all read on 2026-10-03. No separate TABOR notice or participating-entities list was posted."
       ],
       "reviewed_sources": [
@@ -109,12 +109,12 @@
       "geoid": "0869700",
       "level": "municipal",
       "name": "Sheridan Lake (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://drive.google.com/drive/folders/15Gj_K3Xs-A80JUmgXO5JI9OTjpAYaZmo?usp=sharing",
       "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "No sample ballot style has a town section or town question. With no participating list posted, this follows the precinct sample ballots rather than a list. The town has no website, so a separate town election could not be checked.",
+        "No county sample ballot style has a town section or town question, and no participating-entities list was posted. The town has no website, so a separate town election or notice could not be checked; the row stays open until a list or town notice is available.",
         "The county Notice of Election and Sample Ballots folder (linked from the clerk page, files dated September 28) holds a notice of election and five precinct sample ballots (001-1, 001-2, 002-2, 003-2, 004-2), all read on 2026-10-03. No separate TABOR notice or participating-entities list was posted."
       ],
       "reviewed_sources": [
