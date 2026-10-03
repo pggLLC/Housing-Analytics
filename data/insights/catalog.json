@@ -68,7 +68,7 @@
       "sources": ["Federal Register", "OCC", "Novogradac"],
       "maintenance": "dated",
       "published": "2026-02-20",
-      "updated": "2026-09-28",
+      "updated": "2026-10-03",
       "review_from": { "file": "data/policy/tax-credit-legislation.json", "ids": ["cra-2025-rescission-npr"] }
     },
     {

@@ -61,6 +61,7 @@
   <script src="js/components/method-footer.js"></script>
   <script src="js/components/capital-partners.js"></script>
   <script src="js/components/tax-abatement.js"></script>
+  <script src="js/components/equity-pricing.js"></script>
   <script src="js/components/chfa-award-history.js"></script>
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
@@ -1599,31 +1600,20 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <h2>Market Overview</h2>
     <p>Colorado's LIHTC market sits in the high-eight-figure range of annual federal+state credit allocations across the active CHFA-administered portfolio. The Denver-Aurora-Lakewood metro accounts for the majority of statewide units, with significant development in Colorado Springs, Fort Collins, Boulder, and Pueblo. Live counts above; metro-level breakdown below comes directly from the CHFA portfolio.</p>
 
+    <!-- #2010 — was a "Colorado Credit Pricing Forecast" with eight typed
+         quarters (five already past, still drawn as forecast) and a "Housing
+         Starts Forecast" with typed values and no data file behind them. The
+         pricing chart now draws the recorded quarters from the history the
+         Tax Credit Equity Markets page reads; the starts chart is removed
+         because there is nothing to draw it from. -->
     <div class="chart-card">
       <div class="chart-header">
-        <h3 class="chart-title">Colorado Credit Pricing Forecast</h3>
-        <!-- F119 — forecast chart data is modelled (CHFA history + Novogradac trend
-             extrapolated). Tag QUAL so users see this is a projection, not a live
-             quarterly read. -->
-        <p class="chart-subtitle">Projected 9% credit pricing with 95% confidence intervals · <span style="color:var(--warn);font-weight:700;">QUAL</span> · modeled from <a href="https://www.novoco.com/notes-from-novogradac/lihtc-pricing-update" target="_blank" rel="noopener">Novogradac</a> + CHFA history</p>
+        <h3 class="chart-title">LIHTC Credit Pricing, Recent Quarters</h3>
+        <p class="chart-subtitle" id="mo-pricing-asof">Recorded quarterly equity price per $1 of credit, 9% and 4% · <span style="color:var(--warn);font-weight:700;">STATIC</span> · same series as <a href="article-pricing.html">Tax Credit Equity Markets</a></p>
       </div>
       <div style="height:280px;position:relative;">
-        <canvas id="mo-pricing-forecast" role="img" aria-label="Line chart: Colorado LIHTC credit pricing forecast through 2027" data-source="Modeled — CHFA historical pricing + Novogradac investor benchmark trend" data-source-url="https://www.novoco.com/resource-center/lihtc-pricing" data-vintage="CHFA + Novogradac through 2027" data-source-type="modeled"></canvas>
-        <p class="sr-only">Chart data is available in the surrounding text and data tables on this page.</p>
-      </div>
-    </div>
-
-    <div class="chart-card">
-      <div class="chart-header">
-        <h3 class="chart-title">Housing Starts Forecast</h3>
-        <!-- F119 — forecast chart data is modelled (Census BPS permits trended via
-             DOLA population growth). Tag QUAL so the projection isn't mistaken for
-             a published Census release. -->
-        <p class="chart-subtitle">Quarterly multifamily housing starts projection · <span style="color:var(--warn);font-weight:700;">QUAL</span> · modeled from <a href="https://www.census.gov/construction/bps/" target="_blank" rel="noopener">Census BPS</a> + <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener">DOLA</a> projections</p>
-      </div>
-      <div style="height:280px;position:relative;">
-        <canvas id="mo-starts-forecast" role="img" aria-label="Line chart: Colorado housing starts forecast through 2027" data-source="Modeled — Census BPS multifamily permits + DOLA population growth" data-source-url="https://www.census.gov/construction/bps/" data-vintage="Census BPS + DOLA 2024 through 2027" data-source-type="modeled"></canvas>
-        <p class="sr-only">Chart data is available in the surrounding text and data tables on this page.</p>
+        <canvas id="mo-pricing-history" role="img" aria-label="Line chart: LIHTC 9% and 4% equity pricing by quarter, recorded values" data-source="COHO pricing history (data/market/lihtc-equity-pricing-history.json)" data-source-url="data/market/lihtc-equity-pricing-history.json" data-source-type="curated"></canvas>
+        <p class="sr-only" id="mo-pricing-history-text">Chart data is read from data/market/lihtc-equity-pricing-history.json.</p>
       </div>
     </div>
 
@@ -2323,40 +2313,33 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     var chartColor  = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()  || '#096e65';
     var accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent2').trim() || '#e8891a';
 
-    var pricingCtx = document.getElementById('mo-pricing-forecast');
-    if (pricingCtx) {
-      var quarters = ['Q2 2025','Q3 2025','Q4 2025','Q1 2026','Q2 2026','Q3 2026','Q4 2026','Q1 2027'];
-      new Chart(pricingCtx, {
-        type: 'line',
-        data: {
-          labels: quarters,
-          datasets: [
-            { label: 'Forecast',     data: [0.87,0.83,0.87,0.87,0.85,0.85,0.86,0.86], borderColor: chartColor,  backgroundColor: 'rgba(14,165,160,.08)', borderWidth: 2.5, fill: '+1' },
-            { label: 'Upper Bound', data: [0.87,0.86,0.87,0.87,0.88,0.88,0.89,0.89], borderColor: accentColor, borderWidth: 1, borderDash: [5,5], fill: false },
-            { label: 'Lower Bound', data: [0.81,0.80,0.81,0.81,0.82,0.82,0.83,0.83], borderColor: accentColor, borderWidth: 1, borderDash: [5,5], fill: '-1' }
-          ]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { position: 'top' } },
-          scales: { y: { min: 0.75, max: 0.95, ticks: { callback: function (v) { return '$' + v.toFixed(2); } } } }
+    // Recorded quarters only: the pricing history has no forecast in it.
+    var pricingCtx = document.getElementById('mo-pricing-history');
+    var EP = window.EquityPricing;
+    if (pricingCtx && EP) {
+      EP.load(window.fetch && window.fetch.bind(window)).then(function (d) {
+        var q = EP.quarters(d.history).slice(-12);
+        if (!q.length) return;
+        var text = document.getElementById('mo-pricing-history-text');
+        if (text) {
+          text.textContent = 'Recorded 9% / 4% pricing, ' + q[0].quarter + ' to ' + q[q.length - 1].quarter + ': ' +
+            q.map(function (r) { return r.quarter + ' ' + EP.money(r.nine) + ' / ' + EP.money(r.four); }).join('; ') + '.';
         }
-      });
-    }
-
-    var startsCtx = document.getElementById('mo-starts-forecast');
-    if (startsCtx) {
-      new Chart(startsCtx, {
-        type: 'bar',
-        data: {
-          labels: ['Q2 2025','Q3 2025','Q4 2025','Q1 2026','Q2 2026','Q3 2026','Q4 2026','Q1 2027'],
-          datasets: [{ label: 'Projected Starts', data: [3400,3520,3380,3340,3480,3620,3510,3450], backgroundColor: chartColor + '99' }]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: false, min: 3000, ticks: { callback: function (v) { return v.toLocaleString() + ' units'; } } } }
-        }
+        new Chart(pricingCtx, {
+          type: 'line',
+          data: {
+            labels: q.map(function (r) { return r.quarter; }),
+            datasets: [
+              { label: '9% competitive', data: q.map(function (r) { return r.nine; }), borderColor: chartColor, borderWidth: 2.5, fill: false, spanGaps: false },
+              { label: '4% bond-financed', data: q.map(function (r) { return r.four; }), borderColor: accentColor, borderWidth: 2, fill: false, spanGaps: false }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { position: 'top' } },
+            scales: { y: { ticks: { callback: function (v) { return '$' + v.toFixed(2); } } } }
+          }
+        });
       });
     }
   }
