@@ -116,11 +116,10 @@ test('CRA scenario figures are the benchmark price moved by the assumptions the 
   assert.equal(doc.getElementById('cra-weighted').textContent,
     money(base * (1 + wlo / 100)) + ' – ' + money(base * (1 + whi / 100)));
 
-  // Calculator: the first card is the benchmark price on the stated credit amount.
-  const credits = Number(doc.getElementById('cra-calc-intro').dataset.creditAmount);
-  const equity = [...doc.querySelectorAll('#cra-calc [data-calc-equity]')].map((e) => e.textContent);
-  assert.equal(equity.length, 5);
-  assert.equal(equity[0], '$' + (base * credits / 1e6).toFixed(2) + 'M');
+  // Project equity dollars belong to the calculator, not a copied $3M example.
+  assert.equal(doc.querySelectorAll('#cra-calc [data-calc-equity]').length, 0);
+  assert.equal(doc.querySelector('[data-workflow-link="cra-deal"]').getAttribute('href'),
+    'deal-calculator.html#dc-equity-price');
 
   // Chart: every line starts at the benchmark price; no dated projection.
   const chart = charts.find((c) => c.id === 'scenarios-chart');

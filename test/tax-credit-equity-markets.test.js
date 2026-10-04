@@ -81,7 +81,9 @@ console.log('='.repeat(46));
 
   assert.strictEqual(doc.querySelector('h1').textContent.trim(), 'Tax Credit Equity Markets', 'article is retitled in place');
   assert(doc.querySelector('[data-tax-credit-equity-markets]'), 'article has equity-markets root');
-  assert(doc.querySelector('#dcEquityForecast'), 'article reuses the shared equity forecast mount');
+  assert(!doc.querySelector('#dcEquityForecast'), 'the article does not copy the calculator forecast');
+  assert.strictEqual(doc.querySelector('[data-workflow-link="equity-deal"]').getAttribute('href'),
+    'deal-calculator.html#dc-equity-price', 'pricing assumptions link to the calculator');
   assert(doc.querySelector('#tceHistoryChart svg'), 'LIHTC history chart renders from JSON');
   assert(bodyText.includes('2026-Q2'), 'history chart exposes the current quarterly vintage');
   assert(bodyText.includes('$0.86'), 'Novogradac national 9% benchmark renders');
