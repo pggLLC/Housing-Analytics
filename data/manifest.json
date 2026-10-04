@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-04T13:27:55.663267Z",
+  "generated": "2026-10-04T14:43:39.453490Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7894,7 +7894,7 @@
     "data/policy/ballot-2026/counties/08001.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14198
+      "bytes": 15762
     },
     "data/policy/ballot-2026/counties/08003.json": {
       "featureCount": 0,
