@@ -363,6 +363,8 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </style>
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
+  <script src="js/components/policy-timeline.js"></script>
+  <script src="js/components/lihtc-by-year.js"></script>
 </head>
 
 <body data-page="colorado-deep-dive.html">
@@ -1141,7 +1143,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <!-- LIHTC Historical Allocations Timeline -->
     <section class="chart-card" style="margin:2rem 0;" aria-labelledby="lihtcTimelineTitle">
       <div class="chart-header">
-        <h3 class="chart-title" id="lihtcTimelineTitle">LIHTC Historical Allocations (2010–2026)</h3>
+        <h3 class="chart-title" id="lihtcTimelineTitle">LIHTC Historical Allocations</h3>
         <p class="chart-subtitle">Annual low-income housing tax credit units by the year CHFA awarded the credits — Colorado (not the year the units opened)</p>
       </div>
       <!-- F138 — the inline-styled 280px wrapper used to trap the
@@ -1151,7 +1153,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
            `Source: HUD LIHTC …` line below was redundant with the auto-badge
            (which already covers HUD + LI_UNITS + vintage) so it's removed. -->
       <div style="height:280px;position:relative;">
-        <canvas id="chartLihtcTimeline" role="img" aria-label="Bar chart: LIHTC units allocated in Colorado per year 2010–2026" data-source="HUD LIHTC Database (LI_UNITS by YEAR_ALLOC)" data-source-url="https://www.huduser.gov/portal/datasets/lihtc.html" data-vintage="2010–2026" data-source-type="raw"></canvas>
+        <canvas id="chartLihtcTimeline" role="img" aria-label="Bar chart: LIHTC units in Colorado by CHFA award year" data-source="CHFA LIHTC feed (LI_UNITS by AwardYear)" data-source-url="data/chfa-lihtc.json" data-source-type="raw"></canvas>
         <p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Annual LIHTC allocation counts are shown in the bar chart above.</p>
       </div>
       <p id="lihtcTimelineSourceNote" style="display:none;font-size:.75rem;color:var(--muted);margin-top:.25rem;font-style:italic;"></p>
@@ -1749,6 +1751,13 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 
 </div><!-- /tab-market -->
 
+  <section class="chart-card" aria-labelledby="policyTimelineHeading">
+    <h2 id="policyTimelineHeading">Policy and economic milestones</h2>
+    <p>Historical events provide context, not current funding availability.</p>
+    <details><summary>Read the timeline and official sources</summary>
+      <ol data-policy-timeline aria-live="polite"><li>Policy timeline unavailable until the source file loads.</li></ol>
+    </details>
+  </section>
 </main>
 
 
@@ -1861,15 +1870,19 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
         },
         options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { labels: { color: "rgba(255,255,255,.75)" } },
                   tooltip: { callbacks: { label: function(ctx) { return '$' + ctx.parsed.y + '/mo'; } } },
-                  annotation: { annotations: {
-                    prop123: { type: 'line', xMin: '2022', xMax: '2022', borderColor: 'rgba(14,165,233,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'Prop 123', position: 'start', color: 'rgba(14,165,233,0.7)', font: { size: 10 } } },
-                    ahcia:   { type: 'line', xMin: '2023', xMax: '2023', borderColor: 'rgba(139,92,246,0.5)', borderWidth: 2, borderDash: [6,4], label: { display: true, content: 'AHCIA', position: 'start', color: 'rgba(139,92,246,0.7)', font: { size: 10 } } }
-                  } } },
+                  annotation: { annotations: {} } },
                   scales: {
                     x: { ticks: { color: (getComputedStyle(document.documentElement).getPropertyValue('--text') || 'rgba(255,255,255,.78)').trim() }, title: { display: true, text: 'Year', color: (getComputedStyle(document.documentElement).getPropertyValue('--muted') || 'rgba(255,255,255,.65)').trim() } },
                     y: { ticks: { color: (getComputedStyle(document.documentElement).getPropertyValue('--text') || 'rgba(255,255,255,.78)').trim(), callback: function(v) { return '$' + v; } }, title: { display: true, text: 'Avg monthly concession ($/mo)', color: (getComputedStyle(document.documentElement).getPropertyValue('--muted') || 'rgba(255,255,255,.65)').trim() } }
                   } }
       });
+      window.PolicyTimeline.load().then(function (timeline) {
+        var chart = Chart.getChart && Chart.getChart('concessions-chart');
+        if (chart) {
+          chart.options.plugins.annotation.annotations = window.PolicyTimeline.annotations(timeline, chart.data.labels);
+          chart.update();
+        }
+      }).catch(function () {});
       function pctLabel(v) {
         return (Math.round(Number(v) * 10) / 10).toFixed(1) + '%';
       }
@@ -1946,22 +1959,12 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   <!-- LIHTC Historical Timeline Chart — reads from already-fetched GeoJSON data -->
   <script>
     (function () {
-      var LIHTC_URL = (typeof window.resolveAssetUrl === 'function')
-        ? window.resolveAssetUrl('data/market/hud_lihtc_co.geojson')
-        : 'data/market/hud_lihtc_co.geojson';
-
-      function renderLihtcTimeline(features) {
-        // Aggregate units by YEAR_ALLOC (2010–2026)
-        var START = 2010, END = 2026;
-        var counts = {};
-        for (var y = START; y <= END; y++) counts[y] = 0;
-        features.forEach(function (f) {
-          var yr = f.properties && (f.properties.YEAR_ALLOC || f.properties.AwardYear || f.properties.YR_ALLOC);
-          var units = f.properties && (f.properties.LI_UNITS || f.properties.N_UNITS || 0);
-          if (yr && yr >= START && yr <= END) counts[yr] += (parseInt(units, 10) || 0);
-        });
-        var labels = [], data = [];
-        for (var y2 = START; y2 <= END; y2++) { labels.push(String(y2)); data.push(counts[y2]); }
+      function renderLihtcTimeline(features, timeline) {
+        var series = window.LihtcByYear.series(features);
+        var labels = series.years.map(String);
+        var data = series.totals && series.totals.liUnits;
+        window.LihtcByYear.heading(document.getElementById('lihtcTimelineTitle'), 'LIHTC Historical Allocations', series);
+        if (!data) return;
 
         var el = document.getElementById('chartLihtcTimeline');
         if (!el || !window.Chart) return;
@@ -1988,34 +1991,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
                     footer: function () { return 'Source: CHFA LIHTC feed · award year'; }
                   }
                 },
-                annotation: {
-                  annotations: {
-                    covid: {
-                      type: 'line',
-                      xMin: '2020', xMax: '2020',
-                      borderColor: 'rgba(220, 38, 38, 0.5)',
-                      borderWidth: 2,
-                      borderDash: [6, 4],
-                      label: { display: true, content: 'COVID-19', position: 'start', color: 'rgba(220, 38, 38, 0.7)', font: { size: 11 } }
-                    },
-                    prop123: {
-                      type: 'line',
-                      xMin: '2022', xMax: '2022',
-                      borderColor: 'rgba(14, 165, 233, 0.5)',
-                      borderWidth: 2,
-                      borderDash: [6, 4],
-                      label: { display: true, content: 'Prop 123', position: 'start', color: 'rgba(14, 165, 233, 0.7)', font: { size: 11 } }
-                    },
-                    ahcia: {
-                      type: 'line',
-                      xMin: '2023', xMax: '2023',
-                      borderColor: 'rgba(139, 92, 246, 0.5)',
-                      borderWidth: 2,
-                      borderDash: [6, 4],
-                      label: { display: true, content: 'AHCIA', position: 'start', color: 'rgba(139, 92, 246, 0.7)', font: { size: 11 } }
-                    }
-                  }
-                }
+                annotation: { annotations: timeline ? window.PolicyTimeline.annotations(timeline, labels) : {} }
               },
               scales: {
                 x: {
@@ -2038,40 +2014,14 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
         var CHFA_URL = (typeof window.resolveAssetUrl === 'function')
           ? window.resolveAssetUrl('data/chfa-lihtc.json')
           : 'data/chfa-lihtc.json';
-        fetcher(LIHTC_URL, {}, 15000)
-          .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-          .then(function (d) { renderLihtcTimeline(Array.isArray(d.features) ? d.features : []); })
-          .catch(function (e) {
-            console.warn('[lihtcTimeline] HUD LIHTC data unavailable, falling back to CHFA data:', e);
-            // Fallback: use chfa-lihtc.json (CHFA Colorado subset)
-            fetcher(CHFA_URL, {}, 15000)
-              .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-              .then(function (d) {
-                var features = Array.isArray(d.features) ? d.features : [];
-                // Remap CHFA field names to HUD field names used by renderLihtcTimeline
-                features = features.map(function (f) {
-                  if (!f || !f.properties) { return f; }
-                  var p = f.properties;
-                  return {
-                    type: f.type,
-                    geometry: f.geometry,
-                    properties: {
-                      // Prefer HUD field names (YEAR_ALLOC, LI_UNITS) then CHFA aliases (AwardYear, N_UNITS).
-                      // Not YR_PIS: in the CHFA feed it is AwardYear under another name.
-                      YEAR_ALLOC: p.YEAR_ALLOC || p.AwardYear || p.YR_ALLOC || p.allocYear,
-                      LI_UNITS: p.LI_UNITS || p.li_units || p.N_UNITS || p.n_units || 0,
-                      PROJECT_NAME: p.PROJECT_NAME || p.PROJECT || p.project_name
-                    }
-                  };
-                });
-                renderLihtcTimeline(features);
-                var srcNote = document.getElementById('lihtcTimelineSourceNote');
-                if (srcNote) {
-                  srcNote.textContent = 'Displaying CHFA properties (subset of HUD LIHTC \u2014 full HUD file unavailable)';
-                  srcNote.style.display = '';
-                }
-              })
-              .catch(function (e2) { console.warn('[lihtcTimeline] Could not load fallback CHFA data', e2); });
+        Promise.all([
+          fetcher(CHFA_URL, {}, 15000).then(function (r) { if (!r.ok) throw new Error('CHFA unavailable'); return r.json(); }),
+          window.PolicyTimeline.load().catch(function () { return null; })
+        ]).then(function (loaded) { renderLihtcTimeline(loaded[0].features || [], loaded[1]); })
+          .catch(function () {
+            window.LihtcByYear.heading(document.getElementById('lihtcTimelineTitle'), 'LIHTC Historical Allocations', { range: null });
+            var note = document.getElementById('lihtcTimelineSourceNote');
+            if (note) { note.textContent = 'CHFA LIHTC series unavailable'; note.style.display = ''; }
           });
       }
 

@@ -639,8 +639,9 @@
 
   /* ── Load LIHTC Trends ─────────────────────────────────────────── */
   function loadLihtcTrends() {
-    return fetchJSON(resolveData('lihtc-trends-by-county.json')).then(function (data) {
-      currentData.lihtcTrends = data;
+    return Promise.all([fetchJSON(resolveData('chfa-lihtc.json')), window.PolicyTimeline.load().catch(function () { return { events: [] }; })]).then(function (loaded) {
+      currentData.lihtcTrends = window.LihtcByYear.series(loaded[0].features);
+      currentData.policyTimeline = loaded[1];
       buildLihtcTrendChart();
     });
   }
@@ -757,39 +758,14 @@
     if (!trends || !trends.counties || !trends.years) return;
 
     var years = trends.years;
+    window.LihtcByYear.heading(document.getElementById('lihtc-trend-heading'), 'LIHTC Historical Trend', trends);
     var COLORS = [
       'rgba(14,165,160,1)', 'rgba(99,102,241,1)', 'rgba(245,158,11,1)',
       'rgba(239,68,68,1)', 'rgba(34,197,94,1)', 'rgba(168,85,247,1)'
     ];
 
-    /* F136/F137/F217 — Policy + macro event annotations on the LIHTC
-       trend chart. F217 expanded the registry from 3 events to 9 and
-       added auto-staggered yAdjust based on chronological position
-       (sortIndex × 24px) so adding new events doesn't require manual
-       y-coordinate rework. Mirror dashboard's POLICY_EVENTS for
-       consistency. The LIHTC trend chart is annual, so we match on
-       the 4-digit year string. */
     var yearLabels = years.map(String);
-    var POLICY_EVENTS = [
-      { label: 'COVID-19', short: 'COVID', year: '2020', lineColor: 'rgba(220,38,38,0.95)',  pillBg: '#dc2626',
-        desc: 'COVID-19 declared a pandemic (Mar 2020). Triggered an emergency 150bp Fed cut, eviction moratoriums, and a freeze on most LIHTC closings until summer 2020.' },
-      { label: 'ARP', short: 'ARP', year: '2021', lineColor: 'rgba(245,158,11,0.95)', pillBg: '#d97706',
-        desc: 'American Rescue Plan signed (Mar 2021). $1.9T package included $21.6B Emergency Rental Assistance and $5B for HOME-ARP.' },
-      { label: 'Fed hikes', short: 'Fed↑', year: '2022', lineColor: 'rgba(244,63,94,0.95)',  pillBg: '#be123c',
-        desc: 'Fed begins post-COVID hiking cycle (Mar 2022). Fastest 525bp rise in 40 years repriced LIHTC equity + killed many 4% bond deals.' },
-      { label: 'IRA', short: 'IRA', year: '2022', lineColor: 'rgba(20,184,166,0.95)', pillBg: '#0d9488',
-        desc: 'Inflation Reduction Act signed (Aug 2022). Created the Section 48 ITC adder for affordable housing energy improvements.' },
-      { label: 'Prop 123', short: 'P123', year: '2022', lineColor: 'rgba(14,165,233,0.95)', pillBg: '#0284c7',
-        desc: 'Colorado Prop 123 passes (Nov 2022). Dedicated 0.1% of state income tax to affordable housing investment.' },
-      { label: 'AHCIA', short: 'AHCIA', year: '2023', lineColor: 'rgba(139,92,246,0.95)', pillBg: '#7c3aed',
-        desc: 'Affordable Housing Credit Improvement Act re-introduced (Jan 2023). Bipartisan bill expanding 9% allocations + lowering the 4% bond financed-by threshold.' },
-      { label: 'SVB collapse', short: 'SVB', year: '2023', lineColor: 'rgba(220,38,38,0.95)',  pillBg: '#991b1b',
-        desc: 'Silicon Valley Bank collapse (Mar 2023). Brief construction lender pull-back + Treasury volatility spike.' },
-      { label: 'SB24-174', short: 'SB24', year: '2024', lineColor: 'rgba(14,165,233,0.95)', pillBg: '#075985',
-        desc: 'Colorado SB24-174 signed (May 2024). Statewide HNA + HAP mandate for all CO jurisdictions by 2026.' },
-      { label: 'Fed cuts', short: 'Fed↓', year: '2024', lineColor: 'rgba(16,185,129,0.95)', pillBg: '#047857',
-        desc: 'Fed begins cutting cycle (Sep 2024). First 50bp cut after 14 months at 5.25-5.50%; revived stalled LIHTC equity pricing.' }
-    ];
+    var POLICY_EVENTS = window.PolicyTimeline.chartEvents(currentData.policyTimeline);
     /* F218 — Shared singleton tooltip for the LIHTC trend chart pills.
        Mirror of the dashboard helper. Same element id so we don't
        create duplicates if both charts are on the same page. */
@@ -887,7 +863,7 @@
     if (selectedCounty && trends.counties[selectedCounty]) {
       // Single county: bar chart
       var countyData = trends.counties[selectedCounty];
-      var values = years.map(function (yr) { return countyData[yr] || 0; });
+      var values = years.map(function (yr) { return countyData.projects[years.indexOf(yr)]; });
       lihtcTrendChartInst = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -911,7 +887,7 @@
       var countyTotals = Object.entries(trends.counties).map(function (entry) {
         var name = entry[0];
         var yearMap = entry[1];
-        var total = years.reduce(function (s, yr) { return s + (yearMap[yr] || 0); }, 0);
+        var total = years.reduce(function (s, yr) { return s + (yearMap.projects[years.indexOf(yr)]); }, 0);
         return { name: name, total: total };
       });
       countyTotals.sort(function (a, b) { return b.total - a.total; });
@@ -921,7 +897,7 @@
         var countyData = trends.counties[c.name];
         return {
           label: c.name,
-          data: years.map(function (yr) { return countyData[yr] || 0; }),
+          data: years.map(function (yr) { return countyData.projects[years.indexOf(yr)]; }),
           borderColor: COLORS[i],
           backgroundColor: 'transparent',
           tension: 0.3,

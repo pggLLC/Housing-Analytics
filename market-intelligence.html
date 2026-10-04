@@ -212,6 +212,8 @@
     }
   </style>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script src="js/components/policy-timeline.js"></script>
+  <script src="js/components/lihtc-by-year.js"></script>
 </head>
 <body data-page="market-intelligence.html">
 <div id="statusPanel" aria-live="polite"></div>
@@ -426,7 +428,7 @@
 
   <!-- 7. LIHTC Historical Trend -->
   <section class="mi-section" aria-labelledby="lihtc-trend-heading">
-    <h2 id="lihtc-trend-heading">📊 LIHTC Historical Trend (2015–2025)</h2>
+    <h2 id="lihtc-trend-heading">📊 LIHTC Historical Trend</h2>
     <h3>Source: HUD LIHTC Database via CHFA ArcGIS FeatureServer (public)</h3>
     <div class="lihtc-trend-container">
       <canvas id="lihtcTrendChart" role="img" aria-label="Line chart: Colorado LIHTC projects per year by CHFA reservation year, top counties"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
@@ -469,6 +471,13 @@
     </p>
   </section>
 
+  <section class="chart-card" aria-labelledby="policyTimelineHeading">
+    <h2 id="policyTimelineHeading">Policy and economic milestones</h2>
+    <p>Historical events provide context, not current funding availability.</p>
+    <details><summary>Read the timeline and official sources</summary>
+      <ol data-policy-timeline aria-live="polite"><li>Policy timeline unavailable until the source file loads.</li></ol>
+    </details>
+  </section>
 </main>
 
 <script src="js/market-intelligence.js"></script>
