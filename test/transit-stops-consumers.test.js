@@ -65,6 +65,79 @@ assert.ok(compared.length > 0, 'the TOD check compares no stop property — the 
 for (const [k, v] of compared) {
   assert.ok(values[k] && values[k].has(v), `the TOD check compares ${k} to '${v}', a value no stop in ${dmbUrl} has`);
 }
+// H1: comparison VALUES must be in the real file too, including inequality
+// checks in TransitZone and reliability in the popup. The HNA renderer now
+// reads areaSummary rather than comparing stop tokens; scan it as well so a
+// later reintroduced comparison cannot escape this check.
+const comparisonFiles = ['js/transit-zone.js', 'js/market-analysis.js',
+  'js/hna/hna-renderers.js', 'data-map-browser.html'];
+let valueComparisons = 0;
+for (const file of comparisonFiles) {
+  const source = read(file);
+  const comparisons = [...source.matchAll(/\.(operator(?:_type)?|reliability)\s*(?:===|!==|==|!=)\s*(['"])([^'"]+)\2/g)];
+  for (const m of comparisons) {
+    assert.ok(values[m[1]] && values[m[1]].has(m[3]),
+      `${file}: compares ${m[1]} to '${m[3]}', absent from the real stop file`);
+    valueComparisons++;
+  }
+  // Non-vacuity at every current comparison site; the renderer has none.
+  if (file !== 'js/hna/hna-renderers.js') {
+    assert.ok(comparisons.some(m => m[1] === 'reliability'), `${file}: no reliability comparison scanned`);
+  }
+  if (file.endsWith('transit-zone.js') || file.endsWith('market-analysis.js')) {
+    assert.ok(comparisons.some(m => m[1] === 'operator'), `${file}: no operator comparison scanned`);
+  }
+}
+assert.ok(valueComparisons >= 6, `only ${valueComparisons} consumer value comparisons checked`);
+
+// The committed cache alone cannot catch a producer rename before the next
+// refresh. Exercise Phase 1's pure merge with rows taken from that SAME file,
+// through direct CDOT, feed-only, agency-name backfill and OSM-only paths.
+// No invented operator/reliability values and no fetch or generated output.
+const privateStop = stops.features.find(f => f.properties.operator === 'private_shuttle');
+const publicStop = stops.features.find(f => f.properties.operator === 'public' && f.properties.sources.includes('cdot'));
+const osmStop = stops.features.find(f => f.properties.sources.length === 1 && f.properties.sources[0] === 'osm');
+assert.ok(privateStop && publicStop && osmStop, 'real stop file must exercise every producer class');
+const builderCases = [
+  { path: 'cdot', feature: privateStop },
+  { path: 'feed', feature: privateStop },
+  { path: 'backfill', feature: privateStop },
+  { path: 'cdot', feature: publicStop },
+  { path: 'osm', feature: osmStop },
+];
+const built = spawnSync('python3', ['-c', `
+import importlib.util, json, sys
+spec = importlib.util.spec_from_file_location('stops', 'scripts/market/build_transit_stops_co.py')
+b = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(b)
+counties = b.load_counties()
+results = []
+for case in json.load(sys.stdin):
+    f = case['feature']
+    p = f['properties']
+    lon, lat = f['geometry']['coordinates'][:2]
+    row = dict(p, lon=lon, lat=lat)
+    route = case['path']
+    cdot = [dict(row, agency='')] if route == 'backfill' else [row] if route == 'cdot' else []
+    feed = [row] if route in ('backfill', 'feed') else []
+    osm = [row] if route == 'osm' else []
+    features, _ = b.merge(cdot, feed, osm, counties)
+    results.append([f['properties'] for f in features])
+print(json.dumps(results))
+`], { cwd: root, encoding: 'utf8', input: JSON.stringify(builderCases),
+  env: { ...process.env, PYTHONDONTWRITEBYTECODE: '1' } });
+assert.equal(built.status, 0, built.stdout + built.stderr);
+const produced = JSON.parse(built.stdout);
+assert.equal(produced.length, builderCases.length);
+for (const [i, c] of builderCases.entries()) {
+  assert.equal(produced[i].length, 1, `${c.path}: expected one real stop to survive merge`);
+  for (const key of ['operator', 'reliability']) {
+    assert.equal(produced[i][0][key], c.feature.properties[key],
+      `${c.path}: builder ${key} differs from the real stop file and its consumers`);
+  }
+}
+console.log(`  ✓ ${valueComparisons} consumer comparisons and ${builderCases.length} live builder paths agree with real stop values`);
+
 // Run the real popup against the file, independently classifying the source.
 // This catches a renamed reliability token without pinning builder source
 // text, and permits harmless rewrites of the explanatory copy.
