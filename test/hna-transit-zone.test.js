@@ -17,6 +17,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM } = require('jsdom');
+const { execFileSync } = require('node:child_process');
 const TZ = require('../js/transit-zone.js');
 
 const root = path.resolve(__dirname, '..');
@@ -66,6 +67,106 @@ test('every share is a fraction, or null with a reason — never a silent 0', ()
     assert.ok(g.samples >= 100, `${id}: only ${g.samples} sample points`);
   }
   assert.ok(nulls < 5, `${nulls} geographies unavailable`);
+});
+
+// H1: execute the Phase 3 functions now, not just their cached output. Fixed
+// points intentionally straddle the 2-mile edge and both axes of the 0.05°
+// index; changing either implementation must not silently move the answer.
+const parityPoints = [
+  { id: 'just-inside-2mi', lat: 39.037323775, lon: -108.6 },
+  { id: 'just-outside-2mi', lat: 39.037259151, lon: -108.6 },
+  { id: 'grid-lat-below', lat: 39.049999, lon: -108.75 },
+  { id: 'grid-lat-above', lat: 39.050001, lon: -108.75 },
+  { id: 'grid-lon-below', lat: 37.81, lon: -107.650001 },
+  { id: 'grid-lon-above', lat: 37.81, lon: -107.649999 },
+  { id: 'unconfirmed-Silverton', lat: 37.810631, lon: -107.663076 },
+  { id: 'Empire-hole', lat: 39.76138549990078, lon: -105.67996338895097 },
+  { id: 'Empire-interior', lat: 39.75996700021912, lon: -105.68170860770365 },
+];
+const empire = readJson('data/co-place-boundaries.geojson').features.find(f => f.properties.geoid === '0824620');
+assert.ok(empire, 'real Empire boundary is missing');
+const pyParity = JSON.parse(execFileSync('python3', ['-c', `
+import importlib.util, json, sys
+spec = importlib.util.spec_from_file_location('zone', 'scripts/market/build_transit_zone_by_geography.py')
+z = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(z)
+stops = json.loads(z.STOPS.read_text())
+idx = z.StopIndex(stops['features'])
+request = json.load(sys.stdin)
+polys = z.polygons_of(request['geometry'])
+radius = json.loads(z.MAP_STATUS.read_text())['zone_radius_miles']
+answers = []
+for p in request['points']:
+    lat, lon = p['lat'], p['lon']
+    _, distance = idx.nearest(lat, lon, True)
+    confirmed = idx.any_within(lat, lon, radius, True)
+    any_stop = idx.any_within(lat, lon, radius, False)
+    answers.append(dict(id=p['id'], distance=distance,
+        status='within_2mi' if any_stop else 'outside',
+        confirmedOnly=confirmed or not any_stop,
+        inside=z.contains(polys, lon, lat),
+        insideShell=any(z._in_ring(lon, lat, poly[0]) for poly in polys)))
+print(json.dumps(dict(cellDegrees=z.CELL_DEG, stopCount=len(stops['features']), answers=answers)))
+`], { cwd: root, encoding: 'utf8',
+  input: JSON.stringify({ points: parityPoints, geometry: empire.geometry }),
+  env: { ...process.env, PYTHONDONTWRITEBYTECODE: '1' } }));
+
+test('JS and live Python Phase 3 agree on status, distance and polygon holes at all fixed points', () => {
+  assert.equal(pyParity.stopCount, stops.features.length);
+  assert.ok(pyParity.stopCount > 1000, 'real statewide stops were not exercised');
+  assert.equal(pyParity.answers.length, parityPoints.length);
+  // Exercise the polygon path with real geometry. This is a test-only map
+  // adapter, NOT a claim that Empire is an official OEDIT zone.
+  const zones = { type: 'FeatureCollection',
+    meta: { sourceUrl: mapStatus.map_source_url, vintage: stops.meta.generated, complete: true },
+    features: [{ ...empire, id: 'parity-polygon', properties: {
+      facilityId: 'test-only', facilityType: 'transit_station' } }] };
+  const zone = TZ.create({ stops, zones,
+    mapStatus: { ...mapStatus, status: 'published', zones_file: 'test-only-polygon' },
+    now: new Date(stops.meta.generated) });
+  let checked = 0;
+  for (const point of parityPoints) {
+    const python = pyParity.answers.find(p => p.id === point.id);
+    const js = zone.status(point.lat, point.lon, 'manual_coordinates');
+    assert.equal(js.status, python.status, `${point.id}: stop status`);
+    assert.equal(js.confirmedOnly, python.confirmedOnly, `${point.id}: confirmed vs OSM-only basis`);
+    assert.ok(js.nearestConfirmedStop, `${point.id}: no confirmed distance`);
+    // JS publishes hundredths, rounding away from the radius when necessary.
+    // <0.010000001 mi allows that display rounding, not algorithmic drift.
+    assert.ok(Math.abs(js.nearestConfirmedStop.distanceMiles - python.distance) < 0.010000001,
+      `${point.id}: JS ${js.nearestConfirmedStop.distanceMiles} vs Python ${python.distance} miles`);
+    assert.equal(js.program.qualified, python.inside, `${point.id}: polygon inclusion`);
+    assert.equal(js.designation, python.inside ? 'official_in' : 'official_out', `${point.id}: polygon designation`);
+    checked++;
+  }
+  assert.equal(checked, parityPoints.length, 'not every fixed point was checked');
+  const answer = id => pyParity.answers.find(p => p.id === id);
+  assert.equal(answer('just-inside-2mi').status, 'within_2mi');
+  assert.equal(answer('just-outside-2mi').status, 'outside');
+  for (const id of ['just-inside-2mi', 'just-outside-2mi']) {
+    assert.ok(Math.abs(answer(id).distance - mapStatus.zone_radius_miles) < 0.002,
+      `${id}: no longer exercises the real stop file's two-mile edge`);
+  }
+  assert.equal(answer('unconfirmed-Silverton').status, 'within_2mi');
+  assert.equal(answer('unconfirmed-Silverton').confirmedOnly, false, 'must exercise an OSM-only answer');
+  assert.equal(answer('Empire-hole').insideShell, true, 'hole point must be inside the outer ring');
+  assert.equal(answer('Empire-hole').inside, false, 'hole must be excluded');
+  assert.equal(answer('Empire-interior').inside, true, 'must also exercise polygon inclusion');
+});
+
+test('both Phase 3 indexes keep the 0.05-degree grid contract exercised by the boundary pairs', () => {
+  // A consistently changed index can return identical nearest stops. Pin its
+  // cell size separately, rather than pretending behavior alone detects it.
+  const cells = [...read('js/transit-zone.js').matchAll(/\bvar CELL_DEG\s*=\s*([\d.]+)\s*;/g)];
+  assert.equal(cells.length, 1, 'JS grid declaration not found exactly once');
+  assert.equal(Number(cells[0][1]), pyParity.cellDegrees, 'JS/Python grid-cell sizes differ');
+  assert.equal(pyParity.cellDegrees, 0.05, 'fixed samples require the 0.05-degree index');
+  for (const axis of ['lat', 'lon']) {
+    const a = parityPoints.find(p => p.id === `grid-${axis}-below`)[axis];
+    const b = parityPoints.find(p => p.id === `grid-${axis}-above`)[axis];
+    assert.equal(Math.floor(b / pyParity.cellDegrees) - Math.floor(a / pyParity.cellDegrees), 1,
+      `${axis}: sample pair no longer straddles a grid cell`);
+  }
 });
 
 test('Python nearest-stop distances agree with js/transit-zone.js', () => {
