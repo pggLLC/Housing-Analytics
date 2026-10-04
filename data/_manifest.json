@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-04T07:05:19.599Z",
+    "generated_at": "2026-10-04T07:08:40.567Z",
     "root": "data/",
     "file_count": 1695,
-    "total_size_bytes": 176089119,
+    "total_size_bytes": 176622328,
     "kinds": {
       "json": 1658,
       "geojson": 33,
@@ -61,7 +61,7 @@
       "path": "affordable-housing/lihtc/chfa-properties.json",
       "kind": "json",
       "size_bytes": 837046,
-      "mtime": "2026-09-27T10:49:10.913Z",
+      "mtime": "2026-10-04T07:08:38.243Z",
       "shape": "object",
       "keys": [
         "type",
@@ -199,7 +199,7 @@
       "path": "affordable-housing/properties-manifest.json",
       "kind": "json",
       "size_bytes": 118,
-      "mtime": "2026-09-27T10:49:11.019Z",
+      "mtime": "2026-10-04T07:08:38.351Z",
       "shape": "object",
       "keys": [
         "v",
@@ -216,7 +216,7 @@
       "path": "affordable-housing/properties.json",
       "kind": "json",
       "size_bytes": 1523383,
-      "mtime": "2026-09-27T10:49:11.013Z",
+      "mtime": "2026-10-04T07:08:38.348Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -731,8 +731,8 @@
     {
       "path": "car-market-report-2026-08.json",
       "kind": "json",
-      "size_bytes": 66119,
-      "mtime": "2026-10-01T13:25:31.102Z",
+      "size_bytes": 66195,
+      "mtime": "2026-10-04T07:08:36.532Z",
       "shape": "object",
       "keys": [
         "month",
@@ -910,7 +910,7 @@
       "path": "chfa-lihtc.json",
       "kind": "json",
       "size_bytes": 837046,
-      "mtime": "2026-09-27T10:49:10.769Z",
+      "mtime": "2026-10-04T07:08:38.094Z",
       "shape": "object",
       "keys": [
         "type",
@@ -1041,7 +1041,7 @@
       "path": "co-historical-allocations.json",
       "kind": "json",
       "size_bytes": 14222,
-      "mtime": "2026-09-27T10:49:11.178Z",
+      "mtime": "2026-10-04T07:08:38.505Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -15622,7 +15622,7 @@
       "path": "hna/lihtc/08001.json",
       "kind": "json",
       "size_bytes": 65200,
-      "mtime": "2026-09-27T10:49:10.880Z",
+      "mtime": "2026-10-04T07:08:38.208Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15642,7 +15642,7 @@
       "path": "hna/lihtc/08003.json",
       "kind": "json",
       "size_bytes": 6307,
-      "mtime": "2026-09-27T10:49:10.881Z",
+      "mtime": "2026-10-04T07:08:38.208Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15662,7 +15662,7 @@
       "path": "hna/lihtc/08005.json",
       "kind": "json",
       "size_bytes": 62847,
-      "mtime": "2026-09-27T10:49:10.881Z",
+      "mtime": "2026-10-04T07:08:38.208Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15682,7 +15682,7 @@
       "path": "hna/lihtc/08007.json",
       "kind": "json",
       "size_bytes": 2832,
-      "mtime": "2026-09-27T10:49:10.881Z",
+      "mtime": "2026-10-04T07:08:38.208Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15702,7 +15702,7 @@
       "path": "hna/lihtc/08009.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.881Z",
+      "mtime": "2026-10-04T07:08:38.209Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15718,7 +15718,7 @@
       "path": "hna/lihtc/08011.json",
       "kind": "json",
       "size_bytes": 984,
-      "mtime": "2026-09-27T10:49:10.881Z",
+      "mtime": "2026-10-04T07:08:38.209Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15738,7 +15738,7 @@
       "path": "hna/lihtc/08013.json",
       "kind": "json",
       "size_bytes": 80290,
-      "mtime": "2026-09-27T10:49:10.882Z",
+      "mtime": "2026-10-04T07:08:38.209Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15758,7 +15758,7 @@
       "path": "hna/lihtc/08014.json",
       "kind": "json",
       "size_bytes": 8231,
-      "mtime": "2026-09-27T10:49:10.882Z",
+      "mtime": "2026-10-04T07:08:38.209Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15778,7 +15778,7 @@
       "path": "hna/lihtc/08015.json",
       "kind": "json",
       "size_bytes": 5535,
-      "mtime": "2026-09-27T10:49:10.882Z",
+      "mtime": "2026-10-04T07:08:38.209Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15798,7 +15798,7 @@
       "path": "hna/lihtc/08017.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.882Z",
+      "mtime": "2026-10-04T07:08:38.209Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15814,7 +15814,7 @@
       "path": "hna/lihtc/08019.json",
       "kind": "json",
       "size_bytes": 990,
-      "mtime": "2026-09-27T10:49:10.882Z",
+      "mtime": "2026-10-04T07:08:38.209Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15834,7 +15834,7 @@
       "path": "hna/lihtc/08021.json",
       "kind": "json",
       "size_bytes": 1911,
-      "mtime": "2026-09-27T10:49:10.882Z",
+      "mtime": "2026-10-04T07:08:38.209Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15854,7 +15854,7 @@
       "path": "hna/lihtc/08023.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.882Z",
+      "mtime": "2026-10-04T07:08:38.210Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15870,7 +15870,7 @@
       "path": "hna/lihtc/08025.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.882Z",
+      "mtime": "2026-10-04T07:08:38.210Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15886,7 +15886,7 @@
       "path": "hna/lihtc/08027.json",
       "kind": "json",
       "size_bytes": 1893,
-      "mtime": "2026-09-27T10:49:10.882Z",
+      "mtime": "2026-10-04T07:08:38.210Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15906,7 +15906,7 @@
       "path": "hna/lihtc/08029.json",
       "kind": "json",
       "size_bytes": 5444,
-      "mtime": "2026-09-27T10:49:10.882Z",
+      "mtime": "2026-10-04T07:08:38.210Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15926,7 +15926,7 @@
       "path": "hna/lihtc/08031.json",
       "kind": "json",
       "size_bytes": 216412,
-      "mtime": "2026-09-27T10:49:10.883Z",
+      "mtime": "2026-10-04T07:08:38.211Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15946,7 +15946,7 @@
       "path": "hna/lihtc/08033.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.884Z",
+      "mtime": "2026-10-04T07:08:38.211Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15962,7 +15962,7 @@
       "path": "hna/lihtc/08035.json",
       "kind": "json",
       "size_bytes": 19068,
-      "mtime": "2026-09-27T10:49:10.884Z",
+      "mtime": "2026-10-04T07:08:38.211Z",
       "shape": "object",
       "keys": [
         "type",
@@ -15982,7 +15982,7 @@
       "path": "hna/lihtc/08037.json",
       "kind": "json",
       "size_bytes": 8206,
-      "mtime": "2026-09-27T10:49:10.884Z",
+      "mtime": "2026-10-04T07:08:38.211Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16002,7 +16002,7 @@
       "path": "hna/lihtc/08039.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.884Z",
+      "mtime": "2026-10-04T07:08:38.211Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16018,7 +16018,7 @@
       "path": "hna/lihtc/08041.json",
       "kind": "json",
       "size_bytes": 50517,
-      "mtime": "2026-09-27T10:49:10.884Z",
+      "mtime": "2026-10-04T07:08:38.211Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16038,7 +16038,7 @@
       "path": "hna/lihtc/08043.json",
       "kind": "json",
       "size_bytes": 11945,
-      "mtime": "2026-09-27T10:49:10.884Z",
+      "mtime": "2026-10-04T07:08:38.212Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16058,7 +16058,7 @@
       "path": "hna/lihtc/08045.json",
       "kind": "json",
       "size_bytes": 10860,
-      "mtime": "2026-09-27T10:49:10.884Z",
+      "mtime": "2026-10-04T07:08:38.212Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16078,7 +16078,7 @@
       "path": "hna/lihtc/08047.json",
       "kind": "json",
       "size_bytes": 988,
-      "mtime": "2026-09-27T10:49:10.885Z",
+      "mtime": "2026-10-04T07:08:38.212Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16098,7 +16098,7 @@
       "path": "hna/lihtc/08049.json",
       "kind": "json",
       "size_bytes": 3678,
-      "mtime": "2026-09-27T10:49:10.885Z",
+      "mtime": "2026-10-04T07:08:38.212Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16118,7 +16118,7 @@
       "path": "hna/lihtc/08051.json",
       "kind": "json",
       "size_bytes": 2793,
-      "mtime": "2026-09-27T10:49:10.885Z",
+      "mtime": "2026-10-04T07:08:38.212Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16138,7 +16138,7 @@
       "path": "hna/lihtc/08053.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.885Z",
+      "mtime": "2026-10-04T07:08:38.212Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16154,7 +16154,7 @@
       "path": "hna/lihtc/08055.json",
       "kind": "json",
       "size_bytes": 1002,
-      "mtime": "2026-09-27T10:49:10.885Z",
+      "mtime": "2026-10-04T07:08:38.212Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16174,7 +16174,7 @@
       "path": "hna/lihtc/08057.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.885Z",
+      "mtime": "2026-10-04T07:08:38.212Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16190,7 +16190,7 @@
       "path": "hna/lihtc/08059.json",
       "kind": "json",
       "size_bytes": 60915,
-      "mtime": "2026-09-27T10:49:10.886Z",
+      "mtime": "2026-10-04T07:08:38.213Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16210,7 +16210,7 @@
       "path": "hna/lihtc/08061.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.886Z",
+      "mtime": "2026-10-04T07:08:38.213Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16226,7 +16226,7 @@
       "path": "hna/lihtc/08063.json",
       "kind": "json",
       "size_bytes": 986,
-      "mtime": "2026-09-27T10:49:10.886Z",
+      "mtime": "2026-10-04T07:08:38.213Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16246,7 +16246,7 @@
       "path": "hna/lihtc/08065.json",
       "kind": "json",
       "size_bytes": 983,
-      "mtime": "2026-09-27T10:49:10.886Z",
+      "mtime": "2026-10-04T07:08:38.213Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16266,7 +16266,7 @@
       "path": "hna/lihtc/08067.json",
       "kind": "json",
       "size_bytes": 13660,
-      "mtime": "2026-09-27T10:49:10.886Z",
+      "mtime": "2026-10-04T07:08:38.213Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16286,7 +16286,7 @@
       "path": "hna/lihtc/08069.json",
       "kind": "json",
       "size_bytes": 57912,
-      "mtime": "2026-09-27T10:49:10.886Z",
+      "mtime": "2026-10-04T07:08:38.213Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16306,7 +16306,7 @@
       "path": "hna/lihtc/08071.json",
       "kind": "json",
       "size_bytes": 3681,
-      "mtime": "2026-09-27T10:49:10.886Z",
+      "mtime": "2026-10-04T07:08:38.213Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16326,7 +16326,7 @@
       "path": "hna/lihtc/08073.json",
       "kind": "json",
       "size_bytes": 1010,
-      "mtime": "2026-09-27T10:49:10.887Z",
+      "mtime": "2026-10-04T07:08:38.213Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16346,7 +16346,7 @@
       "path": "hna/lihtc/08075.json",
       "kind": "json",
       "size_bytes": 3652,
-      "mtime": "2026-09-27T10:49:10.887Z",
+      "mtime": "2026-10-04T07:08:38.214Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16366,7 +16366,7 @@
       "path": "hna/lihtc/08077.json",
       "kind": "json",
       "size_bytes": 15271,
-      "mtime": "2026-09-27T10:49:10.887Z",
+      "mtime": "2026-10-04T07:08:38.214Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16386,7 +16386,7 @@
       "path": "hna/lihtc/08079.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.887Z",
+      "mtime": "2026-10-04T07:08:38.214Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16402,7 +16402,7 @@
       "path": "hna/lihtc/08081.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.887Z",
+      "mtime": "2026-10-04T07:08:38.214Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16418,7 +16418,7 @@
       "path": "hna/lihtc/08083.json",
       "kind": "json",
       "size_bytes": 8164,
-      "mtime": "2026-09-27T10:49:10.887Z",
+      "mtime": "2026-10-04T07:08:38.214Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16438,7 +16438,7 @@
       "path": "hna/lihtc/08085.json",
       "kind": "json",
       "size_bytes": 9148,
-      "mtime": "2026-09-27T10:49:10.887Z",
+      "mtime": "2026-10-04T07:08:38.214Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16458,7 +16458,7 @@
       "path": "hna/lihtc/08087.json",
       "kind": "json",
       "size_bytes": 4572,
-      "mtime": "2026-09-27T10:49:10.887Z",
+      "mtime": "2026-10-04T07:08:38.214Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16478,7 +16478,7 @@
       "path": "hna/lihtc/08089.json",
       "kind": "json",
       "size_bytes": 2752,
-      "mtime": "2026-09-27T10:49:10.887Z",
+      "mtime": "2026-10-04T07:08:38.214Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16498,7 +16498,7 @@
       "path": "hna/lihtc/08091.json",
       "kind": "json",
       "size_bytes": 979,
-      "mtime": "2026-09-27T10:49:10.887Z",
+      "mtime": "2026-10-04T07:08:38.214Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16518,7 +16518,7 @@
       "path": "hna/lihtc/08093.json",
       "kind": "json",
       "size_bytes": 955,
-      "mtime": "2026-09-27T10:49:10.887Z",
+      "mtime": "2026-10-04T07:08:38.215Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16538,7 +16538,7 @@
       "path": "hna/lihtc/08095.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.887Z",
+      "mtime": "2026-10-04T07:08:38.215Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16554,7 +16554,7 @@
       "path": "hna/lihtc/08097.json",
       "kind": "json",
       "size_bytes": 5516,
-      "mtime": "2026-09-27T10:49:10.888Z",
+      "mtime": "2026-10-04T07:08:38.215Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16574,7 +16574,7 @@
       "path": "hna/lihtc/08099.json",
       "kind": "json",
       "size_bytes": 981,
-      "mtime": "2026-09-27T10:49:10.888Z",
+      "mtime": "2026-10-04T07:08:38.215Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16594,7 +16594,7 @@
       "path": "hna/lihtc/08101.json",
       "kind": "json",
       "size_bytes": 29434,
-      "mtime": "2026-09-27T10:49:10.888Z",
+      "mtime": "2026-10-04T07:08:38.215Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16614,7 +16614,7 @@
       "path": "hna/lihtc/08103.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.888Z",
+      "mtime": "2026-10-04T07:08:38.215Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16630,7 +16630,7 @@
       "path": "hna/lihtc/08105.json",
       "kind": "json",
       "size_bytes": 3763,
-      "mtime": "2026-09-27T10:49:10.888Z",
+      "mtime": "2026-10-04T07:08:38.215Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16650,7 +16650,7 @@
       "path": "hna/lihtc/08107.json",
       "kind": "json",
       "size_bytes": 4703,
-      "mtime": "2026-09-27T10:49:10.888Z",
+      "mtime": "2026-10-04T07:08:38.215Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16670,7 +16670,7 @@
       "path": "hna/lihtc/08109.json",
       "kind": "json",
       "size_bytes": 4584,
-      "mtime": "2026-09-27T10:49:10.888Z",
+      "mtime": "2026-10-04T07:08:38.215Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16690,7 +16690,7 @@
       "path": "hna/lihtc/08111.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.888Z",
+      "mtime": "2026-10-04T07:08:38.215Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16706,7 +16706,7 @@
       "path": "hna/lihtc/08113.json",
       "kind": "json",
       "size_bytes": 1894,
-      "mtime": "2026-09-27T10:49:10.888Z",
+      "mtime": "2026-10-04T07:08:38.216Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16726,7 +16726,7 @@
       "path": "hna/lihtc/08115.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.888Z",
+      "mtime": "2026-10-04T07:08:38.216Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16742,7 +16742,7 @@
       "path": "hna/lihtc/08117.json",
       "kind": "json",
       "size_bytes": 7350,
-      "mtime": "2026-09-27T10:49:10.888Z",
+      "mtime": "2026-10-04T07:08:38.216Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16762,7 +16762,7 @@
       "path": "hna/lihtc/08119.json",
       "kind": "json",
       "size_bytes": 2788,
-      "mtime": "2026-09-27T10:49:10.889Z",
+      "mtime": "2026-10-04T07:08:38.216Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16782,7 +16782,7 @@
       "path": "hna/lihtc/08121.json",
       "kind": "json",
       "size_bytes": 81,
-      "mtime": "2026-09-27T10:49:10.889Z",
+      "mtime": "2026-10-04T07:08:38.216Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16798,7 +16798,7 @@
       "path": "hna/lihtc/08123.json",
       "kind": "json",
       "size_bytes": 26138,
-      "mtime": "2026-09-27T10:49:10.889Z",
+      "mtime": "2026-10-04T07:08:38.216Z",
       "shape": "object",
       "keys": [
         "type",
@@ -16818,7 +16818,7 @@
       "path": "hna/lihtc/08125.json",
       "kind": "json",
       "size_bytes": 951,
-      "mtime": "2026-09-27T10:49:10.889Z",
+      "mtime": "2026-10-04T07:08:38.216Z",
       "shape": "object",
       "keys": [
         "type",
@@ -29392,7 +29392,7 @@
       "path": "home-snapshot.json",
       "kind": "json",
       "size_bytes": 2173,
-      "mtime": "2026-10-04T07:05:14.296Z",
+      "mtime": "2026-10-04T07:08:38.657Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30525,7 +30525,7 @@
       "path": "lihtc-trends-by-county.json",
       "kind": "json",
       "size_bytes": 14265,
-      "mtime": "2026-09-27T06:22:27.853Z",
+      "mtime": "2026-10-04T07:08:38.503Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -31180,8 +31180,8 @@
     {
       "path": "market/hud_lihtc_co.geojson",
       "kind": "geojson",
-      "size_bytes": 996787,
-      "mtime": "2026-09-27T20:49:44.709Z",
+      "size_bytes": 1529920,
+      "mtime": "2026-10-04T07:08:38.564Z",
       "shape": "geojson",
       "feature_count": 926,
       "property_keys": [
@@ -31901,7 +31901,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 92895,
-      "mtime": "2026-10-03T11:46:48.293Z",
+      "mtime": "2026-10-04T07:08:38.440Z",
       "shape": "object",
       "keys": [
         "meta",
