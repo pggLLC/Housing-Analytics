@@ -11,9 +11,9 @@
     "params": {
       "min_rate_denominator": 50
     },
-    "generated_at": "2026-10-03T13:19:59Z",
-    "source_commit": "785362bfa",
-    "based_on": "2026-10-03T13:18:46Z"
+    "generated_at": "2026-10-04T07:01:43Z",
+    "source_commit": "6b791bc58",
+    "based_on": "2026-10-04T07:00:30Z"
   },
   "rankings": [
     {
@@ -1129,7 +1129,7 @@
     {
       "geoid": "08019",
       "rank": 223,
-      "overall_need_score": 50.1
+      "overall_need_score": 49.9
     },
     {
       "geoid": "0827810",
@@ -1582,19 +1582,19 @@
       "overall_need_score": 40.1
     },
     {
-      "geoid": "0807580",
-      "rank": 314,
-      "overall_need_score": 40.0
-    },
-    {
       "geoid": "0806602",
-      "rank": 315,
+      "rank": 314,
       "overall_need_score": 39.9
     },
     {
       "geoid": "0886475",
-      "rank": 316,
+      "rank": 315,
       "overall_need_score": 39.9
+    },
+    {
+      "geoid": "0807580",
+      "rank": 316,
+      "overall_need_score": 39.8
     },
     {
       "geoid": "08109",
@@ -1694,7 +1694,7 @@
     {
       "geoid": "08043",
       "rank": 336,
-      "overall_need_score": 38.0
+      "overall_need_score": 38.2
     },
     {
       "geoid": "0870360",
@@ -2182,14 +2182,14 @@
       "overall_need_score": 27.5
     },
     {
-      "geoid": "0861315",
+      "geoid": "0815440",
       "rank": 434,
       "overall_need_score": 27.3
     },
     {
-      "geoid": "0815440",
+      "geoid": "0861315",
       "rank": 435,
-      "overall_need_score": 27.1
+      "overall_need_score": 27.3
     },
     {
       "geoid": "0885045",
