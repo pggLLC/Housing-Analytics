@@ -272,6 +272,12 @@ def normalize_agency(name: str | None) -> str:
 
 
 def metres(lon1: float, lat1: float, lon2: float, lat2: float) -> float:
+    """Local equirectangular distance for Phase 1 source matching in metres.
+
+    Intentionally not a twin of the haversine distances in TransitZone (JS)
+    and the Phase 3 geography builder: this matches stops within 30/60 m,
+    rather than deciding the two-mile zone screen.
+    """
     x = (lon2 - lon1) * 111320.0 * math.cos(math.radians((lat1 + lat2) / 2))
     y = (lat2 - lat1) * 110540.0
     return math.hypot(x, y)
