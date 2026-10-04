@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+const { createJsPdfMock } = require('./helpers/jspdf-mock.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const { openPage, setField, close } = require('./helpers/deal-calculator-page.cjs');
@@ -11,7 +12,7 @@ const subject = { county_fips:fruta.countyFips, total_units:5, vacancy_rate:.06,
   utility_allowance_basis:{method:'pha', reference:'Mesa schedule', effective_date:'2026-01-01', resident_paid:['heat'], bound_county_fips:fruta.countyFips},
   unit_mix:[{bedrooms:'2BR',count:3,ami_tier:60,proposed_gross_rent:limits.maxGrossRent(chfa,fruta.countyFips,60,'2BR').grossRent,utility_allowance:150,fees:12},
     {bedrooms:'1BR',count:2,ami_tier:'market',market_rent:1700,market_rent_source:'Local survey, September 2026'}] };
-const totals = {sources:0, assumptions:0, needsSource:0, methodology:0, sharedUnverified:0};
+const totals = {sources:0, assumptions:0, needsSource:0, methodology:0, caveats:0, sharedUnverified:0};
 function visible(el, w) {
   while (el && el.nodeType === 1) { if (el.hidden || w.getComputedStyle(el).display === 'none') return false; el=el.parentElement; }
   return true;
@@ -50,6 +51,10 @@ function agreement(p, snapshot) {
   for(const el of figures) {
     const m=report.methodology.find(m=>m.id===el.id && m.key===el.dataset.methodologyKey);assert(m,el.id);
     const entry=p.w.MethodologyExplainer.REGISTRY[m.key]; assert.equal(m.what,entry.what); assert.equal(m.how,entry.how);
+    if (entry.caveats) {
+      assert.equal(m.caveats, entry.caveats, el.id+' registry caveats retained in JSON');
+      totals.caveats++;
+    }
     if(entry.compute) {
       const direct=entry.compute(el.methodologyContext);
       assert.equal(m.withYourNumbers.result,direct.result,el.id+' current registry result');
@@ -65,20 +70,32 @@ function agreement(p, snapshot) {
     } else { assert.equal(m.withYourNumbers.result,null);assert(m.withYourNumbers.unavailableReason); }
     totals.methodology++;
   }
+  const sections = p.w.DealCalculatorReportMeta.sections(report);
+  for (const section of sections) {
+    const ids = section.entries.flatMap(entry => entry.fieldIds);
+    assert.equal(new Set(ids).size, ids.length, section.key+' must not repeat a field id');
+  }
+  const assumptionEntries = sections.find(section => section.key === 'assumptions').entries;
+  const expectedIds = new Set(report.assumptions.concat(report.sharedUnverified).map(field => field.id));
+  assert.deepEqual(new Set(assumptionEntries.flatMap(entry => entry.fieldIds)), expectedIds, 'all review fields appear exactly once');
+  for (const field of report.sharedUnverified) {
+    const entries = assumptionEntries.filter(entry => entry.fieldIds.includes(field.id));
+    assert.equal(entries.length, 1, field.id+' has one assumption paragraph');
+    assert(entries[0].text.includes(field.notice), field.id+' retains the not-re-checked notice');
+    assert(entries[0].text.includes(field.senderClaim), field.id+' retains the sender claim');
+  }
+  for (const figure of report.methodology.filter(figure => figure.caveats)) {
+    const entry = sections.find(section => section.key === 'methodology').entries.find(entry => entry.fieldIds.includes(figure.id));
+    assert(entry.text.includes(figure.caveats), figure.id+' caveats rendered under that figure');
+  }
   assert.deepEqual(plain(p.w.InputProvenance.captureLocal(p.d.getElementById('dealCalcMount'))),recordsBefore,'report does not change provenance');
   return seen;
 }
 function mockPdf(p, onCapture) {
-  const calls=[];let page=1,fontSize=10,saved=false,properties;
+  const pdf = createJsPdfMock({ wrapText: true });
   p.w.html2canvas=async()=>{if(onCapture)onCapture();return {width:600,height:1600,toDataURL:()=> 'fixture image'};};
-  p.w.jspdf={jsPDF:function(){
-    this.internal={pageSize:{getWidth:()=>612,getHeight:()=>792}};
-    this.addImage=()=>calls.push({kind:'image',page});this.addPage=()=>{page++;};
-    this.setProperties=value=>{properties=value;};this.setFontSize=size=>{fontSize=size;};
-    this.splitTextToSize=(text,width)=>String(text).split('\n').flatMap(line=>line.match(new RegExp('.{1,'+Math.floor(width/(fontSize*.6))+'}','gu'))||['']);
-    this.text=(text,x,y)=>calls.push({kind:'text',page,text,x,y,fontSize});this.save=()=>{saved=true;};
-  }};
-  return {calls,get saved(){return saved;},get properties(){return properties;}};
+  p.w.jspdf={jsPDF:pdf.jsPDF};
+  return pdf;
 }
 const compact=value=>String(value).replace(/\s/g,'').replace(/[‐‑‒–—−]/g,'-').replace(/≤/g,'<=').replace(/≥/g,'>=');
 function textAgreement(content,report) {
@@ -92,7 +109,7 @@ function textAgreement(content,report) {
   }
   for(const field of report.needsSource){contains(field.definition);contains(field.reason);}
   for(const field of report.sharedUnverified){contains(field.definition);contains(field.senderClaim);}
-  for(const figure of report.methodology) {contains(figure.what);contains(figure.how);contains(figure.withYourNumbers.text);}
+  for(const figure of report.methodology) {contains(figure.what);contains(figure.how);contains(figure.withYourNumbers.text);if(figure.caveats)contains(figure.caveats);}
   contains(report.limitations);
 }
 async function pdfAgreement(p, snapshot, onCapture) {
@@ -100,19 +117,26 @@ async function pdfAgreement(p, snapshot, onCapture) {
   p.w.DealCalculatorReportMeta.buildReportMeta=()=>{builds++;return original();};
   const pdf=mockPdf(p,onCapture);let prints=0;p.w.print=()=>{prints++;};
   await p.w.__DealCalcShare.exportPdf();p.w.DealCalculatorReportMeta.buildReportMeta=original;
-  assert(pdf.saved,'PDF must finish, not silently fall back');assert.equal(prints,0);assert.equal(builds,1,'capture one report at click time');
-  const texts=pdf.calls.filter(c=>c.kind==='text'),images=pdf.calls.filter(c=>c.kind==='image');
+  pdf.assertSupported();assert(pdf.saved,'PDF must finish, not silently fall back');assert.equal(prints,0);assert.equal(builds,1,'capture one report at click time');
+  const texts=pdf.calls.filter(c=>c.method==='text'),images=pdf.calls.filter(c=>c.method==='addImage');
   assert(texts.length>0 && images.length>1,'screenshot and text pages actually rendered');
   assert(texts.every(c=>c.page>images[images.length-1].page),'disclosures follow screenshot pages');
   assert(new Set(texts.map(c=>c.page)).size>1,'long real assumptions paginate');
-  assert(texts.every(c=>c.y>=40 && c.y+c.fontSize<=752),'no text below printable area');
-  textAgreement(texts.map(c=>c.text).join('\n'),snapshot.reportMeta);
+  assert(texts.every(c=>c.args[2]>=40 && c.args[2]+c.fontSize<=752),'no text below printable area');
+  textAgreement(texts.map(c=>c.args[0]).join('\n'),snapshot.reportMeta);
   assert.deepEqual(JSON.parse(pdf.properties.subject).rentSchedule,snapshot.rentSchedule,'keep PDF subject');
-  return texts.map(c=>c.text).join('\n');
+  return texts.map(c=>c.args[0]).join('\n');
 }
 let failed=0;
 async function test(name,fn){try{await fn();console.log('  PASS '+name);}catch(e){failed++;console.error('  FAIL '+name+'\n'+e.stack);}finally{close();}}
 (async()=>{
+  await test('the shared PDF mock rejects unknown APIs, including swallowed and chained calls', () => {
+    const mock = createJsPdfMock(), pdf = new mock.jsPDF();
+    assert.throws(() => pdf.unimplementedMethod(), /jsPDF mock does not implement jsPDF.unimplementedMethod/);
+    assert.throws(() => pdf.setFontSize(12).anotherMissingMethod(), /jsPDF.anotherMissingMethod/);
+    assert.throws(() => pdf.internal.pageSize.unknownDimension(), /internal.pageSize.unknownDimension/);
+    assert.throws(() => mock.assertSupported(), /jsPDF mock does not implement/);
+  });
   await test('Fruita exports every provenance field and visible explanation; PDF agrees with the one captured JSON record',async()=>{
     const p=await openPage('',subject,{jurisdiction:fruta});assert.deepEqual(p.errors,[]);setField(p,'dc-opex','555');
     const snapshot=plain(p.w.__DealCalcShare.buildSnapshot()),seen=agreement(p,snapshot);
@@ -146,8 +170,8 @@ async function test(name,fn){try{await fn();console.log('  PASS '+name);}catch(e
     assert.equal(figure.withYourNumbers.result,null);assert(figure.withYourNumbers.unavailableReason);
     assert(/^unavailable\s*—/.test(figure.withYourNumbers.text));assert(!/\$0/.test(figure.withYourNumbers.text));
     assert(!snapshot.reportMeta.methodology.some(m=>m.id==='dc-su-gap'),'hidden rental figures are excluded');
-    const pdf=mockPdf(p);await p.w.__DealCalcShare.exportPdf();assert(pdf.saved);
-    textAgreement(pdf.calls.filter(c=>c.kind==='text').map(c=>c.text).join('\n'),snapshot.reportMeta);
+    const pdf=mockPdf(p);await p.w.__DealCalcShare.exportPdf();pdf.assertSupported();assert(pdf.saved);
+    textAgreement(pdf.calls.filter(c=>c.method==='text').map(c=>c.args[0]).join('\n'),snapshot.reportMeta);
   });
   await test('empty lists retain sections and print after capture failure uses the same record',async()=>{
     const p=await openPage('',subject,{jurisdiction:fruta});
@@ -156,8 +180,8 @@ async function test(name,fn){try{await fn();console.log('  PASS '+name);}catch(e
     let builds=0;p.w.DealCalculatorReportMeta.buildReportMeta=()=>{builds++;return report;};
     const sections=p.w.DealCalculatorReportMeta.sections(report);
     const empty=sections.filter(s=>['assumptions','needsSource'].includes(s.key));assert.equal(empty.length,2);
-    const pdf=mockPdf(p);await p.w.__DealCalcShare.exportPdf();assert(pdf.saved);
-    const content=pdf.calls.filter(c=>c.kind==='text').map(c=>c.text).join('\n');
+    const pdf=mockPdf(p);await p.w.__DealCalcShare.exportPdf();pdf.assertSupported();assert(pdf.saved);
+    const content=pdf.calls.filter(c=>c.method==='text').map(c=>c.args[0]).join('\n');
     for(const section of empty) assert(compact(content).includes(compact(section.empty)),'empty section is explicit');
     builds=0;p.w.html2canvas=async()=>{throw new Error('fixture capture failure');};
     let printed;p.w.print=()=>{printed=p.d.getElementById('dc-print-report-meta').textContent;};

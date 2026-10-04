@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+const { createJsPdfMock } = require('./helpers/jspdf-mock.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const { JSDOM, VirtualConsole } = require('jsdom');
@@ -275,10 +276,11 @@ async function test(name, fn) {
       const snapshot = plain(w.__DealCalcShare.buildSnapshot());
       assert.equal(snapshot.rentSchedule.rows.length, subject().unit_mix.length);
       assert.deepEqual(snapshot.rentSchedule.sourceMeta, schedule(subject()).sourceMeta);
-      let properties;
+
       w.html2canvas = async () => ({ width: 600, height: 600, toDataURL: () => 'image' });
-      w.jspdf = { jsPDF: function () { this.internal = { pageSize: { getWidth: () => 600, getHeight: () => 800 } }; this.addImage = () => {}; this.addPage = () => {}; this.setFontSize = () => {}; this.splitTextToSize = s => [s]; this.text = () => {}; this.setProperties = p => { properties = p; }; this.save = () => {}; } };
-      await w.__DealCalcShare.exportPdf(); assert.deepEqual(JSON.parse(properties.subject).rentSchedule, snapshot.rentSchedule);
+      const pdf = createJsPdfMock();
+      w.jspdf = { jsPDF: pdf.jsPDF };
+      await w.__DealCalcShare.exportPdf(); pdf.assertSupported(); assert.deepEqual(JSON.parse(pdf.properties.subject).rentSchedule, snapshot.rentSchedule);
     } finally { w.close(); }
   });
   await test('Market Analysis JSON and CSV include full schedule rows, reasons, totals and sources', async () => {

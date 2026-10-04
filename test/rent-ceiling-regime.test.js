@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+const { createJsPdfMock } = require('./helpers/jspdf-mock.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const { JSDOM, VirtualConsole } = require('jsdom');
@@ -42,6 +43,7 @@ async function calculator({ hudTable = hud, lateModule = false } = {}) {
   if (!lateModule) w.eval(read('js/chfa-rent-limits.js'));
   w.eval(read('js/deal-calculator.js'));
   if (lateModule) w.eval(read('js/chfa-rent-limits.js'));
+  w.eval(read('js/deal-calculator-report-meta.js'));
   w.eval(read('js/deal-calculator-share.js'));
   await settle(); await settle();
   const dc = w.__DealCalc;
@@ -247,12 +249,13 @@ async function test(name, fn) {
         assert.deepEqual(plain(snap.rentLimits), meta);
         assert.equal(snap.inputs['rent-limit-regime'], regime);
         assert.equal(new URL(snap.url).searchParams.get('rent-limit-regime'), regime);
-        let properties, saved = false;
+
         w.html2canvas = async () => ({ width: 600, height: 600, toDataURL: () => 'image' });
-        w.jspdf = { jsPDF: function () { this.internal = { pageSize: { getWidth: () => 600, getHeight: () => 800 } }; this.addImage = () => {}; this.setProperties = (p) => { properties = p; }; this.save = () => { saved = true; }; } };
-        await w.__DealCalcShare.exportPdf();
-        assert(saved, 'PDF generated');
-        assert.deepEqual(JSON.parse(properties.subject).rentLimits, meta);
+        const pdf = createJsPdfMock();
+        w.jspdf = { jsPDF: pdf.jsPDF };
+        await w.__DealCalcShare.exportPdf(); pdf.assertSupported();
+        assert(pdf.saved, 'PDF generated');
+        assert.deepEqual(JSON.parse(pdf.properties.subject).rentLimits, meta);
       }
     } finally { w.close(); }
   });
