@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+const { createJsPdfMock } = require('./helpers/jspdf-mock.cjs');
 
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -105,35 +106,6 @@ function testGeographyOptionsAndUrl() {
   );
 }
 
-function makePdfStub(savedFilenames) {
-  return class PdfStub {
-    constructor() {
-      this.internal = {
-        pageSize: { getWidth: () => 612, getHeight: () => 792 },
-        getNumberOfPages: () => 1,
-      };
-    }
-    addImage() {}
-    addPage() {}
-    line() {}
-    rect() {}
-    roundedRect() {}
-    save(filename) { savedFilenames.push(filename); }
-    setDrawColor() {}
-    setFillColor() {}
-    setFont() {}
-    setFontSize() {}
-    setLineWidth() {}
-    setPage() {}
-    setTextColor() {}
-    splitTextToSize(value) {
-      if (Array.isArray(value)) return value.map(String);
-      return [String(value == null ? '' : value)];
-    }
-    text() {}
-  };
-}
-
 async function testPdfFilenames() {
   const dom = new JSDOM(`<!doctype html><body>
     <button id="btnPdf"></button>
@@ -148,8 +120,9 @@ async function testPdfFilenames() {
     return { ok: false, status: 404, json: async function () { return null; } };
   };
   global.fetch = window.fetch;
-  const savedFilenames = [];
-  window.jspdf = { jsPDF: makePdfStub(savedFilenames) };
+  const pdf = createJsPdfMock();
+  const savedFilenames = pdf.savedFilenames;
+  window.jspdf = { jsPDF: pdf.jsPDF };
 
   const realSetTimeout = global.setTimeout;
   global.setTimeout = function (callback) { callback(); return 0; };
@@ -170,8 +143,10 @@ async function testPdfFilenames() {
 
     setGeography('Denver County', 'county', '08031');
     await window.__HNA_exportPdf();
+    pdf.assertSupported();
     setGeography('Acres Green (CDP)', 'place', '0800320');
     await window.__HNA_exportPdf();
+    pdf.assertSupported();
   } finally {
     global.setTimeout = realSetTimeout;
   }

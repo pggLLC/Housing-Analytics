@@ -1,4 +1,5 @@
 'use strict';
+const { createJsPdfMock } = require('./helpers/jspdf-mock.cjs');
 
 const assert = require('assert');
 const path = require('path');
@@ -149,44 +150,10 @@ function installBrowserStubs(dom) {
     get() { return capturedBlob; },
   });
 
-  const pdfText = [];
-  class PdfStub {
-    constructor() {
-      this.internal = {
-        pageSize: {
-          getWidth: () => 612,
-          getHeight: () => 792,
-        },
-        getNumberOfPages: () => 1,
-      };
-    }
-    addImage() {}
-    addPage() {}
-    line() {}
-    rect() {}
-    roundedRect() {}
-    save() {}
-    setDrawColor() {}
-    setFillColor() {}
-    setFont() {}
-    setFontSize() {}
-    setLineWidth() {}
-    setPage() {}
-    setTextColor() {}
-    splitTextToSize(value) {
-      if (Array.isArray(value)) return value.map(String);
-      return [String(value == null ? '' : value)];
-    }
-    text(value) {
-      if (Array.isArray(value)) {
-        value.forEach((v) => pdfText.push(String(v)));
-      } else {
-        pdfText.push(String(value == null ? '' : value));
-      }
-    }
-  }
-  window.jspdf = { jsPDF: PdfStub };
-  window.__pdfText = pdfText;
+  const pdf = createJsPdfMock();
+  window.jspdf = { jsPDF: pdf.jsPDF };
+  window.__pdfText = pdf.text;
+  window.__pdfMock = pdf;
 }
 
 function loadHnaModules() {
@@ -262,6 +229,7 @@ async function main() {
   assertNoRawSurplusNegative(csv);
 
   await window.__HNA_exportPdf('akron.pdf');
+  window.__pdfMock.assertSupported();
   const pdf = window.__pdfText.join('\n');
   assert(pdf.includes('Net new units needed'), 'PDF should carry neutral label');
   assert(pdf.includes('Negative = surplus'), 'PDF should explain negative-surplus convention');
