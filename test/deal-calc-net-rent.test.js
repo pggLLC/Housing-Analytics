@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+const { createJsPdfMock } = require('./helpers/jspdf-mock.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const { JSDOM, VirtualConsole } = require('jsdom');
@@ -47,6 +48,7 @@ async function calculator(saved = subject(), { lateModule = false, noSubject = f
   w.eval(read('js/deal-calculator.js'));
   await settle(); await settle();
   if (lateModule) loadSubject();
+  w.eval(read('js/deal-calculator-report-meta.js'));
   w.eval(read('js/deal-calculator-share.js'));
   assert.deepEqual(errors, [], 'no runtime errors');
   w.__DealCalc.setChfaRentTable(chfa);
@@ -243,14 +245,15 @@ async function test(name, fn) {
       const resolved = limits.allowanceByBedroom(changed, fips);
       const expectedMeta = { applied: true, reason: null, countyFips: fips, ...resolved.basis, perBedroom: resolved.perBedroom, feesPerBedroom: resolved.feesPerBedroom };
       const metadata = plain(w.__DealCalcShare.buildSnapshot().utilityAllowance); assert.deepEqual(metadata, expectedMeta);
-      let properties;
+
       w.html2canvas = async () => ({ width: 600, height: 600, toDataURL: () => 'image' });
-      w.jspdf = { jsPDF: function () { this.internal = { pageSize: { getWidth: () => 600, getHeight: () => 800 } }; this.addImage = () => {}; this.setProperties = (p) => { properties = p; }; this.save = () => {}; } };
-      await w.__DealCalcShare.exportPdf(); assert.deepEqual(JSON.parse(properties.subject).utilityAllowance, metadata);
+      const pdf = createJsPdfMock();
+      w.jspdf = { jsPDF: pdf.jsPDF };
+      await w.__DealCalcShare.exportPdf(); pdf.assertSupported(); assert.deepEqual(JSON.parse(pdf.properties.subject).utilityAllowance, metadata);
       // Changing the source through Package C clears row amounts; no stale net rent/export may survive.
       const newBasis = w.SubjectProject.get(); newBasis.utility_allowance_basis.reference = 'Updated PHA schedule'; w.SubjectProject.set(newBasis);
       checkRevenue(w, expected('chfa_lihtc', rows, subject(), false)); checkDisclosure(w, 'allowance_bedroom_missing:2BR');
-      await w.__DealCalcShare.exportPdf(); assert.deepEqual(JSON.parse(properties.subject).utilityAllowance, { applied: false, reason: 'allowance_bedroom_missing:2BR' });
+      await w.__DealCalcShare.exportPdf(); pdf.assertSupported(); assert.deepEqual(JSON.parse(pdf.properties.subject).utilityAllowance, { applied: false, reason: 'allowance_bedroom_missing:2BR' });
       w.localStorage.clear(); w.dispatchEvent(new w.StorageEvent('storage', { key: null, storageArea: w.localStorage }));
       assert.equal(w.__DealCalcShare.buildSnapshot().utilityAllowance.applied, false);
     } finally { w.close(); }

@@ -1,4 +1,5 @@
 'use strict';
+const { createJsPdfMock } = require('./helpers/jspdf-mock.cjs');
 /*
  * The same figure for the same place shows the same value, label, source and
  * year on the page, in the PDF and in the Excel workbook (finish line PC-1),
@@ -99,18 +100,10 @@ window.Chart.instances = {
   0: { canvas: chartCanvas, data: { labels: ['Owner', 'Renter'], datasets: [{ label: 'Share', data: [70, 30] }] }, config: { type: 'bar' } },
 };
 
-// jsPDF stub: every string printed is kept, in order.
-const pdfText = [];
-class PdfStub {
-  constructor() {
-    this.internal = { pageSize: { getWidth: () => 612, getHeight: () => 792 }, getNumberOfPages: () => 1 };
-  }
-  splitTextToSize(v) { return Array.isArray(v) ? v.map(String) : [String(v == null ? '' : v)]; }
-  text(v) { (Array.isArray(v) ? v : [v]).forEach((x) => pdfText.push(String(x == null ? '' : x))); }
-}
-['addImage', 'addPage', 'line', 'rect', 'roundedRect', 'save', 'setDrawColor', 'setFillColor', 'setFont',
-  'setFontSize', 'setLineWidth', 'setPage', 'setTextColor'].forEach((m) => { PdfStub.prototype[m] = function () {}; });
-window.jspdf = { jsPDF: PdfStub };
+// Shared strict jsPDF mock: every printed string is kept in order.
+const pdf = createJsPdfMock();
+const pdfText = pdf.text;
+window.jspdf = { jsPDF: pdf.jsPDF };
 
 // ExcelJS stub: sheets by name, rows as the objects passed to addRow.
 let sheets = {};
@@ -201,6 +194,7 @@ async function exportAll(c) {
   sheets = {};
   pdfText.length = 0;
   await window.HNAExport.exportPdf('t.pdf');
+  pdf.assertSupported();
   const data = window.__HNA_buildReportData();
   await window.__HNA_exportExcel(data, 't.xlsx');
   window.__HNA_exportCsv(data, 't.csv');
