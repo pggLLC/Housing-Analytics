@@ -639,10 +639,22 @@
 
   /* ── Load LIHTC Trends ─────────────────────────────────────────── */
   function loadLihtcTrends() {
-    return Promise.all([fetchJSON(resolveData('chfa-lihtc.json')), window.PolicyTimeline.load().catch(function () { return { events: [] }; })]).then(function (loaded) {
-      currentData.lihtcTrends = window.LihtcByYear.series(loaded[0].features);
+    var timeline = Promise.resolve().then(function () {
+      if (!window.PolicyTimeline) throw new Error('Policy timeline unavailable');
+      return window.PolicyTimeline.load();
+    }).catch(function () {
+      document.querySelectorAll('[data-policy-timeline-status]').forEach(function (note) { note.hidden = false; });
+      return null;
+    });
+    return Promise.all([fetchJSON(resolveData('chfa-lihtc.json')), timeline, fetchJSON(resolveData('hna/geo-config.json'))]).then(function (loaded) {
+      if (!window.LihtcByYear) throw new Error('CHFA LIHTC series unavailable');
+      currentData.lihtcTrends = window.LihtcByYear.series(loaded[0].features, { geoConfig: loaded[2] });
       currentData.policyTimeline = loaded[1];
       buildLihtcTrendChart();
+    }).catch(function () {
+      currentData.lihtcTrends = null;
+      var note = document.getElementById('lihtc-trend-status');
+      if (note) { note.hidden = false; note.textContent = 'CHFA LIHTC series unavailable'; }
     });
   }
 
@@ -755,7 +767,7 @@
     if (lihtcTrendChartInst) { lihtcTrendChartInst.destroy(); lihtcTrendChartInst = null; }
 
     var trends = currentData.lihtcTrends;
-    if (!trends || !trends.counties || !trends.years) return;
+    if (!window.LihtcByYear || !trends || !trends.counties || !trends.years) return;
 
     var years = trends.years;
     window.LihtcByYear.heading(document.getElementById('lihtc-trend-heading'), 'LIHTC Historical Trend', trends);
@@ -765,7 +777,7 @@
     ];
 
     var yearLabels = years.map(String);
-    var POLICY_EVENTS = window.PolicyTimeline.chartEvents(currentData.policyTimeline);
+    var POLICY_EVENTS = window.PolicyTimeline && currentData.policyTimeline ? window.PolicyTimeline.chartEvents(currentData.policyTimeline) : [];
     /* F218 — Shared singleton tooltip for the LIHTC trend chart pills.
        Mirror of the dashboard helper. Same element id so we don't
        create duplicates if both charts are on the same page. */
@@ -860,10 +872,21 @@
       }
     }
 
-    if (selectedCounty && trends.counties[selectedCounty]) {
-      // Single county: bar chart
+    var status = document.getElementById('lihtc-trend-status');
+    if (status) { status.hidden = true; status.textContent = ''; }
+    ctx.dataset.county = selectedCounty || '';
+    if (selectedCounty) {
+      // Never substitute a statewide series for a county absent from the roster.
       var countyData = trends.counties[selectedCounty];
-      var values = years.map(function (yr) { return countyData.projects[years.indexOf(yr)]; });
+      if (!countyData) {
+        if (status) { status.hidden = false; status.textContent = 'CHFA LIHTC series unavailable for ' + selectedCounty + ' County'; }
+        return;
+      }
+      var values = countyData.projects;
+      if (!values.some(function (n) { return n > 0; }) && status) {
+        status.hidden = false;
+        status.textContent = 'No CHFA-listed LIHTC projects in ' + selectedCounty + ' County';
+      }
       lihtcTrendChartInst = new Chart(ctx, {
         type: 'bar',
         data: {

@@ -38,6 +38,9 @@
     for (var y = lo; y <= hi; y++) years.push(y);
     function bucket() { return { projects: years.map(function () { return 0; }), units: years.map(function () { return null; }), liUnits: years.map(function () { return null; }) }; }
     var totals = bucket(), credits = { nine: bucket(), four: bucket(), other: bucket() }, counties = {};
+    (options.geoConfig && options.geoConfig.counties || []).forEach(function (county) {
+      counties[county.label.replace(/ County$/i, '')] = bucket();
+    });
     rows.forEach(function (r) {
       var i = years.indexOf(r.alloc);
       if (r.county && !counties[r.county]) counties[r.county] = bucket();
