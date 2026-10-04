@@ -5,26 +5,24 @@
       "geoid": "08049",
       "level": "county",
       "name": "Grand County",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.co.grand.co.us/147/Elections",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.co.grand.co.us/1591/2026-General-Election-Sample-Ballots",
+      "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: Grand County has posted no November 3, 2026 sample ballot, TABOR notice, ballot content certification or participating-entities list; its elections page gives October 2, 2026 as the date local ballots are mailed.",
-        "No county-level 2026 ballot question was found in any official county source."
+        "No Grand County ballot issue or question appears on any style; the county section lists candidates only.",
+        "Excluded (special districts, not housing): Grand County Library District 6B (0.95-mill levy extended without expiration) and 6C (5.25% limit waiver); West Grand School District 1-JT 5A (school debt); Hot Sulphur Springs-Parshall Fire Protection District 6A (5.25% limit waiver); East Grand County Fire Protection District No. 4 6D (fire sales tax) and 6E (5.25% limit waiver).",
+        "All 24 sample ballots linked from the county 2026 General Election Sample Ballots page (DocumentCenter/View/30983 through 31006: 23 precinct styles and the state ballot) were read on 2026-10-03. Town sections appear only for Granby (styles 002-02, 003-02), Fraser (007-08, 009-08) and Hot Sulphur Springs (008-05).",
+        "No separate TABOR notice and no list of participating political subdivisions was posted as of 2026-10-03; local ballots were mailed 2026-10-02."
       ],
       "reviewed_sources": [
         {
-          "url": "https://www.co.grand.co.us/1093/Ballots-Processing",
-          "retrieved": "2026-09-26"
+          "url": "https://www.co.grand.co.us/147/Elections",
+          "retrieved": "2026-10-03"
         },
         {
-          "url": "https://www.co.grand.co.us/1096/Previous-Elections",
-          "retrieved": "2026-09-26"
-        },
-        {
-          "url": "https://www.co.grand.co.us/CivicAlerts.aspx",
-          "retrieved": "2026-09-26"
+          "url": "https://www.co.grand.co.us/DocumentCenter/View/30983",
+          "retrieved": "2026-10-03"
         }
       ]
     },
@@ -32,22 +30,26 @@
       "geoid": "0828305",
       "level": "municipal",
       "name": "Fraser (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.frasercolorado.com/486/2026-Election",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.co.grand.co.us/DocumentCenter/View/30992",
+      "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: Grand County has posted no November 3, 2026 sample ballot, TABOR notice, ballot content certification or participating-entities list; its elections page gives October 2, 2026 as the date local ballots are mailed.",
-        "The town 2026 election page lists \"Four (4) Board of Trustee Member Seats.\" under what is on the ballot, and no ballot question; not closed as none found until the county ballot is posted."
+        "Participating for candidates only: the Town of Fraser section on styles 007-08 and 009-08 is the Board of Trustees race (vote for four); there is no town ballot question.",
+        "All 24 sample ballots linked from the county 2026 General Election Sample Ballots page (DocumentCenter/View/30983 through 31006: 23 precinct styles and the state ballot) were read on 2026-10-03. Town sections appear only for Granby (styles 002-02, 003-02), Fraser (007-08, 009-08) and Hot Sulphur Springs (008-05)."
       ],
       "reviewed_sources": [
         {
-          "url": "https://www.co.grand.co.us/147/Elections",
-          "retrieved": "2026-09-26"
+          "url": "https://www.co.grand.co.us/1591/2026-General-Election-Sample-Ballots",
+          "retrieved": "2026-10-03"
         },
         {
-          "url": "https://www.frasercolorado.com/191/Election-Information",
-          "retrieved": "2026-09-26"
+          "url": "https://www.co.grand.co.us/DocumentCenter/View/31000",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://www.frasercolorado.com/486/2026-Election",
+          "retrieved": "2026-10-03"
         }
       ]
     },
@@ -55,22 +57,26 @@
       "geoid": "0831605",
       "level": "municipal",
       "name": "Granby (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://townofgranby.com/elections",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.co.grand.co.us/DocumentCenter/View/30985",
+      "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: Grand County has posted no November 3, 2026 sample ballot, TABOR notice, ballot content certification or participating-entities list; its elections page gives October 2, 2026 as the date local ballots are mailed.",
-        "The town public notice of election (July 15, 2026) states \"The ballot will contain the following: Three (3) Trustee candidates, each for a (4) four-year term.\" It lists no ballot question; not closed as none found until the county ballot is posted."
+        "Participating for candidates only: the Town of Granby Offices section on styles 002-02 and 003-02 has trustee races and no town ballot question, matching the town public notice of election.",
+        "All 24 sample ballots linked from the county 2026 General Election Sample Ballots page (DocumentCenter/View/30983 through 31006: 23 precinct styles and the state ballot) were read on 2026-10-03. Town sections appear only for Granby (styles 002-02, 003-02), Fraser (007-08, 009-08) and Hot Sulphur Springs (008-05)."
       ],
       "reviewed_sources": [
         {
-          "url": "https://www.co.grand.co.us/147/Elections",
-          "retrieved": "2026-09-26"
+          "url": "https://www.co.grand.co.us/1591/2026-General-Election-Sample-Ballots",
+          "retrieved": "2026-10-03"
         },
         {
-          "url": "https://townofgranby.com/vertical/sites/%7B89161B06-4754-446C-B6BF-16585CE8AB42%7D/uploads/2026_PUBLIC_NOTICE_OF_ELECTION.docx",
-          "retrieved": "2026-09-26"
+          "url": "https://www.co.grand.co.us/DocumentCenter/View/30987",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://townofgranby.com/elections",
+          "retrieved": "2026-10-03"
         }
       ]
     },
@@ -78,18 +84,19 @@
       "geoid": "0831715",
       "level": "municipal",
       "name": "Grand Lake (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.co.grand.co.us/147/Elections",
-      "checked": "2026-09-26",
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://www.townofgrandlake.com/administration/page/elections",
+      "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: Grand County has posted no November 3, 2026 sample ballot, TABOR notice, ballot content certification or participating-entities list; its elections page gives October 2, 2026 as the date local ballots are mailed.",
-        "The town website (townofgrandlake.com) returned HTTP 403 to automated access on 2026-09-26 and was not read."
+        "The town website (townofgrandlake.com) returned HTTP 403 to automated access on 2026-10-03 and was not read, so a separate town election could not be ruled out.",
+        "No ballot style carries a section for this town. With no participating list posted, this follows the precinct sample ballots rather than a list.",
+        "All 24 sample ballots linked from the county 2026 General Election Sample Ballots page (DocumentCenter/View/30983 through 31006: 23 precinct styles and the state ballot) were read on 2026-10-03. Town sections appear only for Granby (styles 002-02, 003-02), Fraser (007-08, 009-08) and Hot Sulphur Springs (008-05)."
       ],
       "reviewed_sources": [
         {
-          "url": "https://www.townofgrandlake.com/administration/page/elections",
-          "retrieved": "2026-09-26"
+          "url": "https://www.co.grand.co.us/1591/2026-General-Election-Sample-Ballots",
+          "retrieved": "2026-10-03"
         }
       ]
     },
@@ -97,22 +104,30 @@
       "geoid": "0837600",
       "level": "municipal",
       "name": "Hot Sulphur Springs (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://townofhotsulphursprings.colorado.gov/",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.co.grand.co.us/DocumentCenter/View/30996",
+      "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: Grand County has posted no November 3, 2026 sample ballot, TABOR notice, ballot content certification or participating-entities list; its elections page gives October 2, 2026 as the date local ballots are mailed.",
-        "The town home page carries an undated \"Upcoming Election Information\" item on an ordinance \"submitting a ballot question to voters seeking authorization to impose a use tax on the privilege of using or consuming any construction and building materials in the Town\", with comments due Thursday, September 17 (a Thursday in 2026). The item states no housing purpose; the ordinance itself was not read. Recheck against the county ballot."
+        "Excluded: Town of Hot Sulphur Springs Ballot Question 2A (style 008-05; referred by Ordinance No. 2026-08-20-430), a 4.0% use tax on construction and building materials, with revenues \"TO BE APPROPRIATED AND SPENT FOR ANY MUNICIPAL PURPOSE\"; no housing earmark.",
+        "All 24 sample ballots linked from the county 2026 General Election Sample Ballots page (DocumentCenter/View/30983 through 31006: 23 precinct styles and the state ballot) were read on 2026-10-03. Town sections appear only for Granby (styles 002-02, 003-02), Fraser (007-08, 009-08) and Hot Sulphur Springs (008-05)."
       ],
       "reviewed_sources": [
         {
-          "url": "https://www.co.grand.co.us/147/Elections",
-          "retrieved": "2026-09-26"
+          "url": "https://www.co.grand.co.us/1591/2026-General-Election-Sample-Ballots",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://townofhotsulphursprings.colorado.gov/",
+          "retrieved": "2026-10-03"
         },
         {
           "url": "https://townofhotsulphursprings.colorado.gov/government/resolutions-ordinances-and-moratoriums",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://townofhotsulphursprings.colorado.gov/sites/g/files/lrnvjt3591/files/Ordinance%202026-08-20-430%20Use%20Tax.docx",
+          "retrieved": "2026-10-03"
         }
       ]
     },
@@ -120,22 +135,18 @@
       "geoid": "0841560",
       "level": "municipal",
       "name": "Kremmling (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://townofkremmling.colorado.gov/category/press-release",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.co.grand.co.us/1591/2026-General-Election-Sample-Ballots",
+      "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: Grand County has posted no November 3, 2026 sample ballot, TABOR notice, ballot content certification or participating-entities list; its elections page gives October 2, 2026 as the date local ballots are mailed.",
-        "The town held its regular municipal election on April 7, 2026; its notices show no November 3, 2026 ballot question."
+        "No ballot style carries a section for this town. With no participating list posted, this follows the precinct sample ballots rather than a list. The town held its regular municipal election on April 7, 2026.",
+        "All 24 sample ballots linked from the county 2026 General Election Sample Ballots page (DocumentCenter/View/30983 through 31006: 23 precinct styles and the state ballot) were read on 2026-10-03. Town sections appear only for Granby (styles 002-02, 003-02), Fraser (007-08, 009-08) and Hot Sulphur Springs (008-05)."
       ],
       "reviewed_sources": [
         {
-          "url": "https://www.co.grand.co.us/147/Elections",
-          "retrieved": "2026-09-26"
-        },
-        {
           "url": "https://townofkremmling.colorado.gov/government/public-notices",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-03"
         }
       ]
     },
@@ -143,18 +154,18 @@
       "geoid": "0885705",
       "level": "municipal",
       "name": "Winter Park (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://wpgov.com/elections/",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.co.grand.co.us/1591/2026-General-Election-Sample-Ballots",
+      "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: Grand County has posted no November 3, 2026 sample ballot, TABOR notice, ballot content certification or participating-entities list; its elections page gives October 2, 2026 as the date local ballots are mailed.",
-        "The town elections page states \"Information on dates for coordinated elections will be added here as available.\" No November 2026 ballot question was found on the town website."
+        "No ballot style carries a section for this town. With no participating list posted, this follows the precinct sample ballots rather than a list. The town elections page lists no November 2026 question.",
+        "All 24 sample ballots linked from the county 2026 General Election Sample Ballots page (DocumentCenter/View/30983 through 31006: 23 precinct styles and the state ballot) were read on 2026-10-03. Town sections appear only for Granby (styles 002-02, 003-02), Fraser (007-08, 009-08) and Hot Sulphur Springs (008-05)."
       ],
       "reviewed_sources": [
         {
-          "url": "https://www.co.grand.co.us/147/Elections",
-          "retrieved": "2026-09-26"
+          "url": "https://wpgov.com/elections/",
+          "retrieved": "2026-10-03"
         }
       ]
     }
