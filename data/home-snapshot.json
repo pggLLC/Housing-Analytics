@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-03T13:23:36.852Z",
+  "generated": "2026-10-04T07:05:14.294Z",
   "values": {
     "renter_cost_burden_pct": 49.9,
     "lihtc_property_count": 926,
@@ -35,7 +35,7 @@
   },
   "source_vintages": {
     "data/hna/ranking-index.json": {
-      "updated": "2026-10-03T13:18:46Z",
+      "updated": "2026-10-04T07:00:30Z",
       "source": "metadata.generatedAt"
     },
     "data/market/acs_tract_metrics_co.json": {
@@ -47,7 +47,7 @@
       "source": "fetchedAt"
     },
     "data/hna/projections/08.json": {
-      "updated": "2026-10-03T12:50:23Z",
+      "updated": "2026-10-04T06:33:23Z",
       "source": "updated"
     },
     "data/co_ami_gap_by_county.json": {
@@ -55,7 +55,7 @@
       "source": "meta.generated_at"
     },
     "data/hna/summary/08.json": {
-      "updated": "2026-10-03T12:50:26Z",
+      "updated": "2026-10-04T06:33:26Z",
       "source": "updated"
     }
   }
