@@ -386,6 +386,18 @@
       el.addEventListener('change', function () { onChange(idx, el); });
       el.addEventListener('input',  function () { onChange(idx, el); });
     });
+    var rentFigure = tr.querySelector('[data-role="scheduled-contract-rent"]');
+    rentFigure.id = 'subject-scheduled-rent-' + (idx + 1);
+    rentFigure.setAttribute('data-methodology-key', 'scheduled-row-rent');
+    rentFigure.setAttribute('data-methodology-placement', 'after');
+    var subject = getSubject(), basis = subject.utility_allowance_basis || {};
+    rentFigure.methodologyContext = { market: scheduleRow.isMarket, gross: scheduleRow.grossResidentRent,
+      allowance: scheduleRow.utilityAllowance, fees: scheduleRow.fees,
+      unavailableReason: scheduleRow.rowReason ? RentLimits.unavailableMessage(scheduleRow.rowReason) : null,
+      sources: 'County ' + (subject.county_fips || 'not selected') + (scheduleRow.isMarket
+        ? ' · market-rent citation: ' + (scheduleRow.marketRentSource || 'missing') + ' (date supplied in citation)'
+        : ' · CHFA ' + (scheduleRow.limit.tableYear || 'date unavailable') + ' · effective ' + (scheduleRow.limit.effectiveDate || 'unavailable') +
+          ' · allowance: ' + (basis.reference || basis.method || 'missing') + ' · effective ' + (basis.effective_date || 'not supplied')) };
     var rm = tr.querySelector('button[data-action=remove]');
     if (rm) rm.addEventListener('click', function () { onRemove(idx); });
     return tr;

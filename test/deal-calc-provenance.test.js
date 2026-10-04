@@ -226,5 +226,29 @@ async function test(name, fn) {
       assert.equal(rec(shared,id).sharedUnverified,true);
     }
   });
+  await test('shared source override retains the sender original value and claimed source, never data', async () => {
+    const sender = await openPage('',null,{jurisdiction:fruta});
+    setField(sender,'dc-units','77');
+    const defaults = Object.fromEntries([30,40,50,60].map(t=>['dc-units-'+t,rec(sender,'dc-units-'+t).origin.value]));
+    sender.d.getElementById('dc-ami-prefill').click();
+    const id = Object.keys(defaults).find(id=>rec(sender,id).origin.value !== defaults[id]);
+    assert(id,'source prefill must differ from a tool default');
+    const original = rec(sender,id).origin;
+    assert.equal(status(sender,id),'data');
+    setField(sender,id,'9');
+    const recipient = await openPage(new URL(sender.w.__DealCalcShare.buildSnapshot().url).search);
+    const received = rec(recipient,id);
+    assert.notEqual(original.value,received.origin.value,'fixture must distinguish sender origin from recipient default');
+    assert.equal(received.status,'yours'); assert.equal(received.sharedUnverified,true);
+    assert.equal(received.senderOriginalValue,original.value,'retain sender original, not recipient default');
+    assert(received.senderClaim.includes(original.meta.source));
+    assert(received.senderClaim.includes(original.meta.geography));
+    const detail = recipient.d.getElementById(id+'-prov-detail');
+    assert(detail.textContent.includes(original.value)); assert(detail.textContent.includes(original.meta.geography));
+    assert(!detail.querySelector('a'), 'sender source remains an unverified plain-text claim');
+    const onward = await openPage(new URL(recipient.w.__DealCalcShare.buildSnapshot().url).search);
+    assert.equal(rec(onward,id).senderOriginalValue,original.value);
+    assert.equal(status(onward,id),'yours');
+  });
   process.exit(failed ? 1 : 0);
 })().catch(e => { close(); console.error(e); process.exitCode = 1; });
