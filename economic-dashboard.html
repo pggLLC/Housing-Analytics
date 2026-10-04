@@ -676,6 +676,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </section>
   <section class="chart-card" aria-labelledby="policyTimelineHeading">
     <h2 id="policyTimelineHeading">Policy and economic milestones</h2>
+    <p data-policy-timeline-status role="status" hidden>Policy timeline unavailable</p>
     <p>Historical events provide context, not current funding availability.</p>
     <details><summary>Read the timeline and official sources</summary>
       <ol data-policy-timeline aria-live="polite"><li>Policy timeline unavailable until the source file loads.</li></ol>
@@ -1076,7 +1077,7 @@ function getKey(){ return CONFIG_KEY || ""; }
 
   async function loadAll(){
     try { POLICY_EVENTS = window.PolicyTimeline.chartEvents(await window.PolicyTimeline.load()); }
-    catch (_) { POLICY_EVENTS = []; }
+    catch (_) { POLICY_EVENTS = []; document.querySelectorAll('[data-policy-timeline-status]').forEach(function (note) { note.hidden = false; }); }
     // Data served from data/fred-data.json — no API key needed in the browser
     const apiKey = true; // kept to avoid ReferenceError in calls below
 

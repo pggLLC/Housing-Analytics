@@ -1753,6 +1753,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 
   <section class="chart-card" aria-labelledby="policyTimelineHeading">
     <h2 id="policyTimelineHeading">Policy and economic milestones</h2>
+    <p data-policy-timeline-status role="status" hidden>Policy timeline unavailable</p>
     <p>Historical events provide context, not current funding availability.</p>
     <details><summary>Read the timeline and official sources</summary>
       <ol data-policy-timeline aria-live="polite"><li>Policy timeline unavailable until the source file loads.</li></ol>
@@ -1876,13 +1877,16 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
                     y: { ticks: { color: (getComputedStyle(document.documentElement).getPropertyValue('--text') || 'rgba(255,255,255,.78)').trim(), callback: function(v) { return '$' + v; } }, title: { display: true, text: 'Avg monthly concession ($/mo)', color: (getComputedStyle(document.documentElement).getPropertyValue('--muted') || 'rgba(255,255,255,.65)').trim() } }
                   } }
       });
-      window.PolicyTimeline.load().then(function (timeline) {
+      Promise.resolve().then(function () {
+        if (!window.PolicyTimeline) throw new Error('Policy timeline unavailable');
+        return window.PolicyTimeline.load();
+      }).then(function (timeline) {
         var chart = Chart.getChart && Chart.getChart('concessions-chart');
         if (chart) {
           chart.options.plugins.annotation.annotations = window.PolicyTimeline.annotations(timeline, chart.data.labels);
           chart.update();
         }
-      }).catch(function () {});
+      }).catch(function () { document.querySelectorAll('[data-policy-timeline-status]').forEach(function (note) { note.hidden = false; }); });
       function pctLabel(v) {
         return (Math.round(Number(v) * 10) / 10).toFixed(1) + '%';
       }
@@ -1959,8 +1963,9 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   <!-- LIHTC Historical Timeline Chart — reads from already-fetched GeoJSON data -->
   <script>
     (function () {
-      function renderLihtcTimeline(features, timeline) {
-        var series = window.LihtcByYear.series(features);
+      function renderLihtcTimeline(features, timeline, geoConfig) {
+        if (!window.LihtcByYear) throw new Error('CHFA LIHTC series unavailable');
+        var series = window.LihtcByYear.series(features, { geoConfig: geoConfig });
         var labels = series.years.map(String);
         var data = series.totals && series.totals.liUnits;
         window.LihtcByYear.heading(document.getElementById('lihtcTimelineTitle'), 'LIHTC Historical Allocations', series);
@@ -1991,7 +1996,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
                     footer: function () { return 'Source: CHFA LIHTC feed · award year'; }
                   }
                 },
-                annotation: { annotations: timeline ? window.PolicyTimeline.annotations(timeline, labels) : {} }
+                annotation: { annotations: window.PolicyTimeline && timeline ? window.PolicyTimeline.annotations(timeline, labels) : {} }
               },
               scales: {
                 x: {
@@ -2016,10 +2021,19 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
           : 'data/chfa-lihtc.json';
         Promise.all([
           fetcher(CHFA_URL, {}, 15000).then(function (r) { if (!r.ok) throw new Error('CHFA unavailable'); return r.json(); }),
-          window.PolicyTimeline.load().catch(function () { return null; })
-        ]).then(function (loaded) { renderLihtcTimeline(loaded[0].features || [], loaded[1]); })
+          Promise.resolve().then(function () {
+            if (!window.PolicyTimeline) throw new Error('Policy timeline unavailable');
+            return window.PolicyTimeline.load();
+          }).catch(function () {
+            document.querySelectorAll('[data-policy-timeline-status]').forEach(function (note) { note.hidden = false; });
+            return null;
+          }),
+          fetcher(window.resolveAssetUrl ? window.resolveAssetUrl('data/hna/geo-config.json') : 'data/hna/geo-config.json', {}, 15000)
+            .then(function (r) { if (!r.ok) throw new Error('County roster unavailable'); return r.json(); })
+        ]).then(function (loaded) { renderLihtcTimeline(loaded[0].features || [], loaded[1], loaded[2]); })
           .catch(function () {
-            window.LihtcByYear.heading(document.getElementById('lihtcTimelineTitle'), 'LIHTC Historical Allocations', { range: null });
+            var heading = document.getElementById('lihtcTimelineTitle');
+            if (heading) { heading.textContent = 'LIHTC Historical Allocations — unavailable'; heading.dataset.yearRange = ''; }
             var note = document.getElementById('lihtcTimelineSourceNote');
             if (note) { note.textContent = 'CHFA LIHTC series unavailable'; note.style.display = ''; }
           });

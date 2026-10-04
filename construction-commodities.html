@@ -38,6 +38,7 @@
 <div class="page-header">
 <span class="kicker">Data</span>
 <h1 class="page-title">Construction Commodities Forecast</h1>
+<p data-policy-timeline-status role="status" hidden>Policy timeline unavailable</p>
 <p class="page-subtitle">Real-time price tracking and forecasting for key construction materials from FRED data</p>
 </div>
 <!-- Price Cards -->
@@ -178,10 +179,13 @@
                     }
                 }
             });
-            window.PolicyTimeline.load().then(function (timeline) {
+            Promise.resolve().then(function () {
+                if (!window.PolicyTimeline) throw new Error('Policy timeline unavailable');
+                return window.PolicyTimeline.load();
+            }).then(function (timeline) {
                 chart.options.plugins.annotation.annotations = window.PolicyTimeline.annotations(timeline, labels);
                 chart.update();
-            }).catch(function () { /* Keep price data when policy context is unavailable. */ });
+            }).catch(function () { document.querySelectorAll('[data-policy-timeline-status]').forEach(function (note) { note.hidden = false; }); });
         }
         
         // Initialize commodity dashboard

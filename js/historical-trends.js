@@ -145,7 +145,7 @@
     var ctx = document.getElementById('chfaTimelineChart');
     if (!ctx) return;
 
-    var series = global.LihtcByYear.series(state.lihtcFeatures);
+    var series = global.LihtcByYear.series(state.lihtcFeatures, { geoConfig: state.geoConfig });
     global.LihtcByYear.heading(document.getElementById('htCHFAHeading'), 'Awards per Year, by Credit Type', series);
     if (!series.years.length) return;
     var years = series.years, keys = ['nine', 'four', 'other'], agg = series.credits;
@@ -313,7 +313,7 @@
     var ctx = document.getElementById('stockTimelineChart');
     if (!ctx) return;
 
-    var series = global.LihtcByYear.series(state.lihtcFeatures);
+    var series = global.LihtcByYear.series(state.lihtcFeatures, { geoConfig: state.geoConfig });
     global.LihtcByYear.heading(document.getElementById('htStockHeading'), 'LIHTC Stock Trajectory', series);
     if (!series.years.length) return;
     var years = series.years, unitsByYr = series.totals.units, projByYr = series.totals.projects;
@@ -511,12 +511,15 @@
 
     Promise.all([
       _fetchJson(roundUrl).catch(function () { return null; }),
-      fetchLihtc()
+      fetchLihtc(),
+      _fetchJson('data/hna/geo-config.json')
     ]).then(function (results) {
       state.round = results[0];
+      if (!global.LihtcByYear) throw new Error('CHFA LIHTC series unavailable');
+      state.geoConfig = results[2];
       state.lihtcFeatures = results[1] && Array.isArray(results[1].features) ? results[1].features : [];
 
-      var series = global.LihtcByYear.series(state.lihtcFeatures);
+      var series = global.LihtcByYear.series(state.lihtcFeatures, { geoConfig: state.geoConfig });
       var coverage = document.getElementById('htFeedCoverage');
       if (coverage) coverage.textContent = state.lihtcFeatures.length + ' Colorado projects · ' + (series.range || 'award years unavailable');
       document.querySelectorAll('[data-chfa-series-source]').forEach(function (el) {

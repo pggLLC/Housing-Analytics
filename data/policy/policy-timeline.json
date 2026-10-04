@@ -47,9 +47,10 @@
       "id": "prop123",
       "date": "2022-11-08",
       "title": "Colorado Proposition 123 approved",
-      "detail": "Proposition 123 dedicates revenue from the existing income tax equal to 0.1% of federal taxable income to affordable housing, exempt from the TABOR spending limit. It allocates 60% to affordable housing financing and 40% to homeownership, homelessness and local planning capacity.",
+      "detail": "Proposition 123 dedicates revenue from the existing income tax equal to 0.1% of federal taxable income to affordable housing, exempt from the TABOR spending limit. It allocates 60% to affordable housing financing overseen by OEDIT and administered by CHFA, and 40% to DOLA for homeownership, homelessness and local planning capacity.",
       "status": "historical",
       "source_url": "https://historicalelectiondata.coloradosos.gov/contest/25864",
+      "note": "Agency administration confirmed at https://coloradoaffordablehousingfinancingfund.com/about/",
       "verified": "2026-10-03"
     },
     {
