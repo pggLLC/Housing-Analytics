@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-04T02:25:25.721Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-04T03:07:09.514Z. Do not edit by hand.
 
 ---
 
@@ -16,16 +16,16 @@
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 40.8 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.9 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | Colorado Public Data Reference | 17.9 KB |
-| `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.5 KB |
+| `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 39.9 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 135.6 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 135.9 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 17.5 KB |
-| `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1006 B |
+| `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.4 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.6 KB |
-| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 24.7 KB |
+| `cra-expansion-analysis.html` | CRA Expansion Impact on LIHTC Pricing | Colorado Public Data Reference | 22.7 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.5 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.3 KB |
@@ -39,9 +39,9 @@
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 98.3 KB |
-| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 17.6 KB |
-| `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.7 KB |
-| `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 15.9 KB |
+| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 17.8 KB |
+| `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 6.0 KB |
+| `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 16.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.7 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 35.8 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 135.0 KB |
@@ -49,7 +49,7 @@
 | `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 162.0 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 165.5 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 134.3 KB |
-| `housing-legislation-2026.html` | Policy &amp; Legislation | Colorado Public Data Reference | 20.7 KB |
+| `housing-legislation-2026.html` | Policy &amp; Legislation | Colorado Public Data Reference | 21.1 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 238.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 39.6 KB |
@@ -61,7 +61,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 131.9 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 148.4 KB |
-| `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.6 KB |
+| `market-intelligence.html` | Colorado Market Intelligence | COHO Analytics | 22.7 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
@@ -1748,7 +1748,7 @@
 
 ## Test Files
 
-510 test files found.
+511 test files found.
 
 | File | Size |
 |------|------|
@@ -1869,7 +1869,7 @@
 | `test/epa-walkability-d4a-distance.test.js` | 14.4 KB |
 | `test/epa-walkability-site-lookup.test.js` | 11.1 KB |
 | `test/epa-walkability-waits-for-geometry.test.js` | 9.6 KB |
-| `test/equity-pricing-single-source.test.mjs` | 9.0 KB |
+| `test/equity-pricing-single-source.test.mjs` | 8.9 KB |
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
 | `test/every-guard-runs-or-says-why.test.mjs` | 8.5 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
@@ -1976,6 +1976,7 @@
 | `test/input-provenance.test.js` | 6.4 KB |
 | `test/insights-agreement.test.mjs` | 5.3 KB |
 | `test/insights-nav-labels.test.mjs` | 7.2 KB |
+| `test/insights-workflow-links.test.js` | 9.3 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/economic-indicators.test.js` | 12.2 KB |
 | `test/integration/hna-ranking.test.js` | 12.4 KB |
@@ -2151,7 +2152,7 @@
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
 | `test/table-header-tips.test.js` | 5.6 KB |
-| `test/tax-credit-equity-markets.test.js` | 7.5 KB |
+| `test/tax-credit-equity-markets.test.js` | 7.7 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
 | `test/test-reachability.test.js` | 6.8 KB |
