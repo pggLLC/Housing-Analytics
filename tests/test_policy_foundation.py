@@ -10,8 +10,9 @@ from policy_schema import (
     validate_candidates, validate_watch, validator,
 )
 
-TODAY = date(2026, 9, 26)
-CHECKED = TODAY.isoformat()
+# Fixed so synthetic unarchived elections do not age out after day 44.
+FIXTURE_TODAY = date(2026, 9, 26)
+CHECKED = FIXTURE_TODAY.isoformat()
 URL = 'https://example.org/official-source'
 SOURCE = {'url': URL, 'retrieved': CHECKED}
 GEO = load(ROOT / 'data/hna/geo-config.json')
@@ -27,7 +28,22 @@ def ballot_files():
 
 @pytest.fixture
 def ballots():
-    files = ballot_files()
+    # Only geography comes from committed data; review dates/entries are synthetic.
+    # A live recheck must not be compared with the fixed fixture clock.
+    def row(geoid, level, name):
+        return {'geoid': geoid, 'level': level, 'name': name,
+                'coverage_state': 'not_researched', 'reviewed_source': None,
+                'checked': None, 'entry_ids': [], 'limitations': []}
+
+    files = {'statewide.json': {'schema': 'ballot/v1',
+                               'coverage': [row('08', 'state', 'Colorado')], 'entries': []}}
+    for county in GEO['counties']:
+        files[f"counties/{county['geoid']}.json"] = {
+            'schema': 'ballot/v1',
+            'coverage': [row(county['geoid'], 'county', county['label'])], 'entries': []}
+    for place in GEO['places']:
+        files[f"counties/{place['containingCounty']}.json"]['coverage'].append(
+            row(place['geoid'], 'municipal', place['label']))
     row = files['statewide.json']['coverage'][0]
     row.update(coverage_state='verified_measure_found', reviewed_source=URL,
                checked=CHECKED, entry_ids=['synthetic-measure'])
@@ -89,7 +105,9 @@ def candidates():
 
 @pytest.fixture
 def watch():
-    doc = load(ROOT / 'data/policy/policy-watch.json')
+    doc = {'schema': 'policy-watch/v1',
+           'meta': {'title': 'Synthetic policy watch', 'as_of': CHECKED,
+                    'method': 'Fixture only', 'known_gaps': []}, 'entries': []}
     doc['entries'].append({
         'id': 'synthetic-person', 'section': 'people', 'status': 'current', 'date': None,
         'title': 'Synthetic housing role', 'detail': 'Fixture holds a housing role.', 'programs': [],
@@ -111,30 +129,30 @@ def set_path(value, path, replacement):
 
 
 def test_ballot_live_dataset():
-    validate_ballots(ballot_files(), GEO)
+    validate_ballots(ballot_files(), GEO, date.today())
 
 
 def test_candidate_live_dataset():
-    validate_candidates(load(ROOT / 'data/policy/candidate-platforms-2026.json'))
+    validate_candidates(load(ROOT / 'data/policy/candidate-platforms-2026.json'), date.today())
 
 
 def test_policy_watch_existing_data_validates_without_migration():
-    validate_watch(load(ROOT / 'data/policy/policy-watch.json'))
+    validate_watch(load(ROOT / 'data/policy/policy-watch.json'), date.today())
 
 
 def test_ballot_positive_fixture(ballots):
-    validate_ballots(ballots, GEO, TODAY)
+    validate_ballots(ballots, GEO, FIXTURE_TODAY)
 
 
 def test_candidate_positive_fixture_includes_unresearched_minor_party(candidates):
-    validate_candidates(candidates, TODAY)
+    validate_candidates(candidates, FIXTURE_TODAY)
 
 
 def test_policy_people_optional_extension(watch):
-    validate_watch(watch, TODAY)
+    validate_watch(watch, FIXTURE_TODAY)
     for key in ('role', 'agency', 'appointing_authority', 'person', 'action', 'dates', 'predecessor', 'relevance'):
         del watch['entries'][-1][key]
-    validate_watch(watch, TODAY)
+    validate_watch(watch, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('schema', ['ballot-2026', 'candidate-platforms-2026', 'policy-watch'])
@@ -149,7 +167,7 @@ def test_policy_schemas_are_valid(schema):
 def test_ballot_invalid_enums_fail(ballots, path):
     set_path(ballots['statewide.json']['entries'][0], path, 'invalid-enum')
     with pytest.raises(AssertionError):
-        validate_ballots(ballots, GEO, TODAY)
+        validate_ballots(ballots, GEO, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('status', ['proposed', 'title_set', 'petitioning', 'certified', 'on_ballot',
@@ -159,7 +177,7 @@ def test_ballot_all_statuses_supported(ballots, status):
     entry['status'] = status
     if status in ('passed', 'failed'):
         entry['result'] = {'outcome': status, 'stage': 'certified', 'source': SOURCE, 'as_of': CHECKED}
-    validate_ballots(ballots, GEO, TODAY)
+    validate_ballots(ballots, GEO, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('state', ['official_ballot_reviewed_none_found', 'not_applicable',
@@ -171,15 +189,15 @@ def test_ballot_reviewed_coverage_requires_source_and_date(ballots, state, missi
     if missing:
         row[missing] = None
         with pytest.raises(AssertionError, match='reviewed row needs'):
-            validate_ballots(ballots, GEO, TODAY)
+            validate_ballots(ballots, GEO, FIXTURE_TODAY)
     else:
-        validate_ballots(ballots, GEO, TODAY)
+        validate_ballots(ballots, GEO, FIXTURE_TODAY)
 
 
 def test_ballot_invalid_coverage_enum(ballots):
     ballots['statewide.json']['coverage'][0]['coverage_state'] = 'guessed_none'
     with pytest.raises(AssertionError):
-        validate_ballots(ballots, GEO, TODAY)
+        validate_ballots(ballots, GEO, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('status', ['certified', 'on_ballot'])
@@ -190,10 +208,10 @@ def test_ballot_certification_source(ballots, status, source):
     entry['sources']['certification'] = None
     if source:
         entry['sources'][source] = SOURCE
-        validate_ballots(ballots, GEO, TODAY)
+        validate_ballots(ballots, GEO, FIXTURE_TODAY)
     else:
         with pytest.raises(AssertionError, match='needs certification or ballot_notice'):
-            validate_ballots(ballots, GEO, TODAY)
+            validate_ballots(ballots, GEO, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('mutation', ['missing_file', 'extra_file', 'missing_municipality',
@@ -224,7 +242,7 @@ def test_ballot_coverage_mutations_fail(ballots, mutation):
     else:
         rows.pop(0)
     with pytest.raises(AssertionError):
-        validate_ballots(ballots, GEO, TODAY)
+        validate_ballots(ballots, GEO, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('mutation', ['dangling', 'cross_file', 'orphan', 'duplicate', 'wrong_jurisdiction'])
@@ -242,7 +260,7 @@ def test_ballot_entry_references_fail(ballots, mutation):
     else:
         doc['entries'][0]['jurisdiction']['geoid'] = '08001'
     with pytest.raises(AssertionError):
-        validate_ballots(ballots, GEO, TODAY)
+        validate_ballots(ballots, GEO, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('prose,quote', [
@@ -294,14 +312,14 @@ def test_policy_source_quotes_allow_attributed_language():
                                   'partyInference', 'housing_score', 'party_lean'])
 def test_policy_forbidden_fields_are_recursive(field):
     with pytest.raises(AssertionError, match='forbidden field'):
-        audit_tree({'history': [{'nested': {field: 'x'}}]}, TODAY)
+        audit_tree({'history': [{'nested': {field: 'x'}}]}, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('path', [('office',), ('topics', 0), ('coverage_state',), ('verification', 'level')])
 def test_candidate_invalid_enums_fail(candidates, path):
     set_path(candidates['candidates'][0], path, 'invalid-enum')
     with pytest.raises(AssertionError):
-        validate_candidates(candidates, TODAY)
+        validate_candidates(candidates, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('index', [0, 1, 2])
@@ -311,7 +329,7 @@ def test_candidate_omission_fails_against_independent_roster(candidates, index):
     assert removed not in candidates['candidates']
     assert candidates['races'][0]['certified_candidates'] == original_roster
     with pytest.raises(AssertionError, match='every certified candidate'):
-        validate_candidates(candidates, TODAY)
+        validate_candidates(candidates, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('mutation', ['roster_empty', 'source_missing', 'non_sos', 'spoof_host',
@@ -339,7 +357,7 @@ def test_candidate_roster_mutations_fail(candidates, mutation):
     else:
         race['coverage_state'] = 'verified'
     with pytest.raises(AssertionError):
-        validate_candidates(candidates, TODAY)
+        validate_candidates(candidates, FIXTURE_TODAY)
 
 
 def test_candidate_no_position_and_unavailable_need_no_invented_quotes(candidates):
@@ -350,11 +368,11 @@ def test_candidate_no_position_and_unavailable_need_no_invented_quotes(candidate
     c['reviewed_sources'] = [SOURCE]
     candidates['candidates'][2]['coverage_state'] = 'campaign_source_unavailable'
     candidates['races'][0]['coverage_state'] = 'complete'
-    validate_candidates(candidates, TODAY)
+    validate_candidates(candidates, FIXTURE_TODAY)
     c['verification'] = None
     assert not validator('candidate-platforms-2026').is_valid(candidates)
     with pytest.raises(AssertionError, match='verification'):
-        validate_candidates(candidates, TODAY)
+        validate_candidates(candidates, FIXTURE_TODAY)
 
 
 def test_candidate_report_is_separate_and_cannot_replace_campaign_record(candidates):
@@ -362,10 +380,10 @@ def test_candidate_report_is_separate_and_cannot_replace_campaign_record(candida
     report.update(coverage_state='not_researched', verification={
         'level': 'reported', 'by': 'Synthetic outlet', 'checked': CHECKED})
     candidates['candidates'].append(report)
-    validate_candidates(candidates, TODAY)
+    validate_candidates(candidates, FIXTURE_TODAY)
     candidates['candidates'].pop(0)
     with pytest.raises(AssertionError, match='every certified candidate'):
-        validate_candidates(candidates, TODAY)
+        validate_candidates(candidates, FIXTURE_TODAY)
 
 
 def test_candidate_report_cannot_set_verified_platform(candidates):
@@ -373,7 +391,7 @@ def test_candidate_report_cannot_set_verified_platform(candidates):
     report['verification'] = {'level': 'reported', 'by': 'Synthetic outlet', 'checked': CHECKED}
     candidates['candidates'].append(report)
     with pytest.raises(AssertionError, match='cannot establish campaign coverage'):
-        validate_candidates(candidates, TODAY)
+        validate_candidates(candidates, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('kind', ['ballot', 'candidate'])
@@ -381,12 +399,12 @@ def test_policy_prose_mutations_run_through_live_validators(ballots, candidates,
     if kind == 'ballot':
         record = ballots['statewide.json']['entries'][0]
         field, reworded, wrong = 'detail', 'The levy raises $1 million.', 'The levy raises $9 million.'
-        check = lambda: validate_ballots(ballots, GEO, TODAY)
+        check = lambda: validate_ballots(ballots, GEO, FIXTURE_TODAY)
     else:
         record = candidates['candidates'][0]
         field, reworded, wrong = ('neutral_summary', 'The campaign says it would allocate $2 million.',
                                   'The campaign says it would allocate $9 million.')
-        check = lambda: validate_candidates(candidates, TODAY)
+        check = lambda: validate_candidates(candidates, FIXTURE_TODAY)
     original = record[field]
     record[field] = reworded
     assert record[field] != original and record[field] == reworded
@@ -401,12 +419,12 @@ def test_candidate_proposed_appointment_is_explicit_campaign_claim(candidates):
     claim = {'role': 'Housing coordinator', 'person': None, 'source': SOURCE,
              'quote': 'We would create a housing coordinator role.', 'claim_type': 'campaign_claim'}
     candidates['candidates'][0]['proposed_appointments'] = [claim]
-    validate_candidates(candidates, TODAY)
+    validate_candidates(candidates, FIXTURE_TODAY)
     claim['person'] = 'Synthetic Person'
-    validate_candidates(candidates, TODAY)
+    validate_candidates(candidates, FIXTURE_TODAY)
     claim['claim_type'] = 'confirmed'
     with pytest.raises(AssertionError):
-        validate_candidates(candidates, TODAY)
+        validate_candidates(candidates, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('kind', ['ballot', 'candidate'])
@@ -432,7 +450,7 @@ def test_policy_election_currency(ballots, candidates, kind, days, archived, pas
 
 @pytest.mark.parametrize('target', ['ballot_row', 'ballot_entry', 'candidate', 'roster', 'people', 'history'])
 def test_policy_checked_cannot_be_future(ballots, candidates, watch, target):
-    tomorrow = (TODAY + timedelta(days=1)).isoformat()
+    tomorrow = (FIXTURE_TODAY + timedelta(days=1)).isoformat()
     if target == 'ballot_row':
         ballots['statewide.json']['coverage'][0]['checked'] = tomorrow
     elif target == 'ballot_entry':
@@ -445,9 +463,9 @@ def test_policy_checked_cannot_be_future(ballots, candidates, watch, target):
         watch['entries'][-1]['verification']['checked'] = tomorrow
     else:
         candidates['candidates'][0]['history'] = [{'checked': tomorrow, 'note': 'Synthetic review', 'source': None}]
-    check = (lambda: validate_ballots(ballots, GEO, TODAY)) if target.startswith('ballot') else (
-        (lambda: validate_watch(watch, TODAY)) if target == 'people' else
-        (lambda: validate_candidates(candidates, TODAY)))
+    check = (lambda: validate_ballots(ballots, GEO, FIXTURE_TODAY)) if target.startswith('ballot') else (
+        (lambda: validate_watch(watch, FIXTURE_TODAY)) if target == 'people' else
+        (lambda: validate_candidates(candidates, FIXTURE_TODAY)))
     with pytest.raises(AssertionError, match='after today'):
         check()
 
@@ -455,7 +473,7 @@ def test_policy_checked_cannot_be_future(ballots, candidates, watch, target):
 @pytest.mark.parametrize('action', ['appointed', 'nominated', 'confirmed', 'resigned', 'replaced', 'interim'])
 def test_policy_people_action_enum(watch, action):
     watch['entries'][-1]['action'] = action
-    validate_watch(watch, TODAY)
+    validate_watch(watch, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('mutation', ['action', 'invalid_date', 'future_checked', 'non_people', 'private_person_field'])
@@ -472,7 +490,7 @@ def test_policy_people_invalid_extension_fails(watch, mutation):
     else:
         person['person']['contact'] = 'Not part of this schema'
     with pytest.raises(AssertionError):
-        validate_watch(watch, TODAY)
+        validate_watch(watch, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('stage', ['unofficial', 'certified', 'invalid'])
@@ -481,9 +499,9 @@ def test_ballot_result_stage(ballots, stage):
         'outcome': 'passed', 'stage': stage, 'source': SOURCE, 'as_of': CHECKED}
     if stage == 'invalid':
         with pytest.raises(AssertionError):
-            validate_ballots(ballots, GEO, TODAY)
+            validate_ballots(ballots, GEO, FIXTURE_TODAY)
     else:
-        validate_ballots(ballots, GEO, TODAY)
+        validate_ballots(ballots, GEO, FIXTURE_TODAY)
 
 
 @pytest.mark.parametrize('status', ['passed', 'failed'])
@@ -494,7 +512,7 @@ def test_ballot_terminal_status_agrees_with_result(ballots, status, outcome):
     entry['result'] = None if outcome is None else {
         'outcome': outcome, 'stage': 'certified', 'source': SOURCE, 'as_of': CHECKED}
     if outcome == status:
-        validate_ballots(ballots, GEO, TODAY)
+        validate_ballots(ballots, GEO, FIXTURE_TODAY)
     else:
         with pytest.raises(AssertionError, match='terminal status needs an agreeing'):
-            validate_ballots(ballots, GEO, TODAY)
+            validate_ballots(ballots, GEO, FIXTURE_TODAY)
