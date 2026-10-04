@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-04T01:59:29.461Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-04T02:25:25.721Z. Do not edit by hand.
 
 ---
 
@@ -1956,7 +1956,7 @@
 | `test/hna-sub-county-and-sync.test.js` | 4.9 KB |
 | `test/hna-surplus-semantics.test.js` | 11.1 KB |
 | `test/hna-takeaways-chas-disclosure.test.js` | 1.4 KB |
-| `test/hna-transit-zone.test.js` | 34.2 KB |
+| `test/hna-transit-zone.test.js` | 40.3 KB |
 | `test/hna-unknown-geoid.test.js` | 2.8 KB |
 | `test/hna-view-content-parity.test.js` | 6.9 KB |
 | `test/hna-workflow-autosave.test.js` | 4.2 KB |
@@ -2172,7 +2172,7 @@
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.6 KB |
 | `test/tract-geometry-integrity.test.js` | 18.0 KB |
-| `test/transit-stops-consumers.test.js` | 6.7 KB |
+| `test/transit-stops-consumers.test.js` | 10.5 KB |
 | `test/transit-zone-absence.test.mjs` | 37.4 KB |
 | `test/transit-zone-funding-line.test.js` | 26.0 KB |
 | `test/transit-zone.test.js` | 39.7 KB |
