@@ -48,16 +48,24 @@ function assertSplit(text, where) {
   assert.match(text, /40%[^.]*DOLA|DOLA[^.]*40%/, `${where}: must say DOLA receives 40%`);
 }
 
+const { openPage, close, sleep } = require('./helpers/deal-calculator-page.cjs');
+(async () => {
 // ── 1. Every whole-program description carries the split ─────────────
 const soft = JSON.parse(read('data/policy/soft-funding-status.json')).programs;
 const cal = JSON.parse(read('data/chfa-qap-calendar.json'));
-const dealCalc = read('js/deal-calculator.js');
+// Read the rendered description: the calculator now loads the shared timeline,
+// while its authored desc is only an unavailable/loading placeholder.
+const page = await openPage('');
+const timelineDescription = JSON.parse(read('data/policy/policy-timeline.json')).events.find(e => e.id === 'prop123').detail;
+const description = () => page.d.querySelector('[data-program-description="prop123"]')?.textContent;
+for (let i = 0; i < 100 && description() !== timelineDescription; i++) await sleep(20);
+assert.equal(description(), timelineDescription, 'calculator renders the shared policy description');
 
 const descriptions = [
   ['soft-funding-status PROP123-AHTF', soft['PROP123-AHTF'].description],
   ['chfa-qap-calendar rolling Prop 123', (cal.rolling_programs.find((p) => p.category === 'prop123') || {}).description],
   ['chfa-qap-calendar metadata note', cal.metadata.notes.find((n) => /Prop 123/.test(n))],
-  ['deal-calculator soft-funding reference', (dealCalc.match(/k: 'prop123'[\s\S]*?desc: '([^']*)'/) || [])[1]],
+  ['deal-calculator soft-funding reference', description()],
 ];
 for (const [where, text] of descriptions) {
   assert.ok(text, `${where}: description not found`);
@@ -129,3 +137,5 @@ for (const sweep of ['scripts/audit/source-url-sweep.mjs', 'scripts/audit/url-he
 
 console.log(`prop123-administration: ${descriptions.length} descriptions carry the 60/40 split; ` +
   `${prop123Mentions} Prop 123 mentions in ${tracked.length} files scanned; no dead links — OK`);
+
+})().catch(error => { console.error(error); process.exitCode = 1; }).finally(close);

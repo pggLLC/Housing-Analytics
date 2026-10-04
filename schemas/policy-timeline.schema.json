@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "policy-timeline/v1",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "policy-timeline/v1"
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "legislation_file": {
+          "const": "data/policy/tax-credit-legislation.json"
+        }
+      },
+      "required": [
+        "title",
+        "as_of",
+        "note",
+        "legislation_file"
+      ],
+      "additionalProperties": false
+    },
+    "events": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "detail": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "status": {
+            "enum": [
+              "enacted",
+              "proposed",
+              "rule-pending",
+              "expired",
+              "historical"
+            ]
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https:[/][/]"
+          },
+          "verified": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "legislation_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "id",
+          "date",
+          "title",
+          "detail",
+          "status",
+          "source_url",
+          "verified"
+        ],
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "verified": {
+                  "type": "null"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "note"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "meta",
+    "events"
+  ],
+  "additionalProperties": false
+}

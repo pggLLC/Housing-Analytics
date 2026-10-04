@@ -28,14 +28,15 @@ function extractDeepDiveChartScript() {
   return scripts[0];
 }
 
-async function renderForeclosureChart(foreclosureData) {
-  const dom = new JSDOM('<canvas id="foreclosure-chart"></canvas><p id="foreclosureChartSource"></p><div id="foreclosureRiskLevel"></div><div id="foreclosureRiskTile"></div><div id="foreclosureRiskSummary"></div><div id="foreclosureProcessMetric"></div><div id="foreclosureLeadMetric"></div><p id="foreclosureNarrative"></p><canvas id="ami-need-chart"></canvas><canvas id="concessions-chart"></canvas>', {
+async function renderForeclosureChart(foreclosureData, policyTimeline) {
+  const dom = new JSDOM('<p data-policy-timeline-status hidden>Policy timeline unavailable</p><canvas id="foreclosure-chart"></canvas><p id="foreclosureChartSource"></p><div id="foreclosureRiskLevel"></div><div id="foreclosureRiskTile"></div><div id="foreclosureRiskSummary"></div><div id="foreclosureProcessMetric"></div><div id="foreclosureLeadMetric"></div><p id="foreclosureNarrative"></p><canvas id="ami-need-chart"></canvas><canvas id="concessions-chart"></canvas>', {
     url: 'http://127.0.0.1/colorado-deep-dive.html',
     runScripts: 'outside-only'
   });
   const chartCalls = [];
   const { window } = dom;
   window.console = console;
+  if (policyTimeline) window.PolicyTimeline = policyTimeline;
   window.getComputedStyle = () => ({ getPropertyValue: () => '' });
   window.Chart = function Chart(el, cfg) {
     chartCalls.push({ id: el.id, cfg });
@@ -73,7 +74,14 @@ async function renderForeclosureChart(foreclosureData) {
 
   const rendered = await renderForeclosureChart(data);
   const foreclosureCall = rendered.chartCalls.find((call) => call.id === 'foreclosure-chart');
-  assert(foreclosureCall, 'foreclosure chart renders from JSON');
+  assert(foreclosureCall, 'foreclosure chart renders from JSON without PolicyTimeline');
+  assert.equal(rendered.window.PolicyTimeline, undefined, 'regression fixture omits the module');
+  const unavailable = rendered.window.document.querySelector('[data-policy-timeline-status]');
+  assert(!unavailable.hidden && /Policy timeline unavailable/.test(unavailable.textContent), 'missing timeline has a visible note');
+  const failed = await renderForeclosureChart(data, { load: () => Promise.reject(new Error('load failed')) });
+  assert(failed.chartCalls.some(call => call.id === 'foreclosure-chart'), 'rejected timeline load preserves the foreclosure chart');
+  assert(!failed.window.document.querySelector('[data-policy-timeline-status]').hidden, 'rejected timeline load has a visible note');
+  failed.window.close();
   assert.deepStrictEqual(
     foreclosureCall.cfg.data.labels,
     latestPoints('foreclosure_process_pct').map((p) => p.period),

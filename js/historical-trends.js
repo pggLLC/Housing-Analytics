@@ -9,8 +9,7 @@
  *
  * Data sources (all local, no external API):
  *   - data/affordable-housing/chfa-awards/2026-round-one.json — latest round, parsed from CHFA's award report
- *   - data/chfa-lihtc.json                     — CHFA HousingTaxCreditProperties_view live export, 926 CO projects through 2025 (preferred)
- *   - data/market/hud_lihtc_co.geojson         — fallback copy with the same CHFA-style fields, used only if chfa-lihtc.json fails
+ *   - data/chfa-lihtc.json                     — CHFA HousingTaxCreditProperties_view live export
  *
  * No rent trajectory panel: current ACS dataset is single-vintage (2023) and does not
  * support time-series rent trends. Add it when multi-year ACS ingestion is in place.
@@ -108,14 +107,7 @@
   // Credit-type buckets. CHFA writes combined executions ("4% and State",
   // "9% and State and TOC"); the federal credit is the leading token. A record
   // naming both 9% and 4% (one in the feed) and MIHTC go to "Other".
-  function _creditBucket(credit) {
-    var c = String(credit || '');
-    var has9 = c.indexOf('9%') !== -1;
-    var has4 = c.indexOf('4%') !== -1;
-    if (has9 && !has4) return 'nine';
-    if (has4 && !has9) return 'four';
-    return 'other';
-  }
+  function _creditBucket(credit) { return global.LihtcByYear.creditBucket(credit); }
 
   var BUCKET_LABEL = { nine: '9% competitive', four: '4% (bond-financed)', other: 'Other / mixed' };
 
@@ -124,26 +116,7 @@
   // There is deliberately no placed-in-service year: CHFA's feed has none, and
   // scripts/fetch-chfa-lihtc.js copies AwardYear into YR_PIS as a proxy, so
   // YR_PIS must never be presented as the year a project opened.
-  function _projects(features) {
-    return (features || state.lihtcFeatures || []).map(function (f) {
-      var p = f.properties || {};
-      var alloc = parseInt(p.AwardYear || p.YR_ALLOC || p.YEAR_ALLOC, 10);
-      var units = parseInt(p.N_UNITS || p.TOTAL_UNITS, 10);
-      var thisYear = new Date().getFullYear();
-      return {
-        alloc: alloc > 1985 && alloc <= thisYear ? alloc : null,
-        units: units > 0 ? units : null,
-        bucket: _creditBucket(p.CREDIT || p.TypeOfCredits)
-      };
-    });
-  }
-
-  function _yearRange(years) {
-    var lo = Math.min.apply(null, years), hi = Math.max.apply(null, years);
-    var out = [];
-    for (var y = lo; y <= hi; y++) out.push(y);
-    return out;
-  }
+  function _projects(features) { return global.LihtcByYear.projects(features || state.lihtcFeatures || []); }
 
   function _dataTable(elId, caption, headers, rows) {
     var el = document.getElementById(elId);
@@ -172,19 +145,10 @@
     var ctx = document.getElementById('chfaTimelineChart');
     if (!ctx) return;
 
-    var rows = _projects().filter(function (r) { return r.alloc != null; });
-    if (!rows.length) return;
-    var years = _yearRange(rows.map(function (r) { return r.alloc; }));
-    var keys = ['nine', 'four', 'other'];
-    var agg = {};
-    keys.forEach(function (k) {
-      agg[k] = { projects: years.map(function () { return 0; }), units: years.map(function () { return 0; }) };
-    });
-    rows.forEach(function (r) {
-      var i = years.indexOf(r.alloc);
-      agg[r.bucket].projects[i] += 1;
-      if (r.units != null) agg[r.bucket].units[i] += r.units;
-    });
+    var series = global.LihtcByYear.series(state.lihtcFeatures, { geoConfig: state.geoConfig });
+    global.LihtcByYear.heading(document.getElementById('htCHFAHeading'), 'Awards per Year, by Credit Type', series);
+    if (!series.years.length) return;
+    var years = series.years, keys = ['nine', 'four', 'other'], agg = series.credits;
 
     var metricLabel = awardMetric === 'units' ? 'Units awarded' : 'Projects awarded';
 
@@ -349,16 +313,10 @@
     var ctx = document.getElementById('stockTimelineChart');
     if (!ctx) return;
 
-    var rows = _projects().filter(function (r) { return r.alloc != null; });
-    if (!rows.length) return;
-    var years = _yearRange(rows.map(function (r) { return r.alloc; }));
-    var unitsByYr = years.map(function () { return 0; });
-    var projByYr = years.map(function () { return 0; });
-    rows.forEach(function (r) {
-      var i = years.indexOf(r.alloc);
-      projByYr[i] += 1;
-      if (r.units != null) unitsByYr[i] += r.units;
-    });
+    var series = global.LihtcByYear.series(state.lihtcFeatures, { geoConfig: state.geoConfig });
+    global.LihtcByYear.heading(document.getElementById('htStockHeading'), 'LIHTC Stock Trajectory', series);
+    if (!series.years.length) return;
+    var years = series.years, unitsByYr = series.totals.units, projByYr = series.totals.projects;
     var cumUnits = [], cumProj = [], u = 0, n = 0;
     years.forEach(function (_, i) { u += unitsByYr[i]; n += projByYr[i]; cumUnits.push(u); cumProj.push(n); });
 
@@ -421,15 +379,15 @@
     var statsEl = document.getElementById('stockStats');
     if (statsEl) {
       var lastYr = years[years.length - 1];
-      var recent = rows.filter(function (r) { return r.alloc > lastYr - 5; });
-      var recentUnits = recent.reduce(function (s, r) { return s + (r.units || 0); }, 0);
+      var recentProjects = projByYr.slice(-5).reduce(function (s, n) { return s + n; }, 0);
+      var recentUnits = unitsByYr.slice(-5).reduce(function (s, n) { return s + n; }, 0);
       statsEl.innerHTML =
         '<dl class="ht-stat-list">' +
           '<div><dt>Total CO LIHTC projects</dt><dd>' + _fmt(state.lihtcFeatures.length) + '</dd></div>' +
           '<div><dt>Total LIHTC units</dt><dd>' + _fmt(u) + '</dd></div>' +
           '<div><dt>Years of data</dt><dd>' + years[0] + '–' + lastYr + '</dd></div>' +
           '<div><dt>Awarded ' + (lastYr - 4) + '–' + lastYr + '</dt><dd>' +
-            _fmt(recent.length) + ' projects · ' + _fmt(recentUnits) + ' units</dd></div>' +
+            _fmt(recentProjects) + ' projects · ' + _fmt(recentUnits) + ' units</dd></div>' +
         '</dl>';
     }
   }
@@ -549,27 +507,24 @@
 
   function render() {
     var roundUrl      = 'data/affordable-housing/chfa-awards/2026-round-one.json';
-    // Prefer the fresh CHFA LIHTC cache (926 projects through 2025). Fall
-    // back to the legacy HUD geojson snapshot (716 projects, last fresh
-    // YR_PIS=2020) only if CHFA is unavailable. Inverted in F7 (2026-05-26)
-    // — previously HUD was the sole source, so the stock-trajectory chart
-    // under-reported recent allocations.
-    var lihtcUrlPrimary  = 'data/chfa-lihtc.json';
-    var lihtcUrlFallback = 'data/market/hud_lihtc_co.geojson';
-
-    function fetchLihtc() {
-      return _fetchJson(lihtcUrlPrimary).catch(function () {
-        return _fetchJson(lihtcUrlFallback).catch(function () { return null; });
-      });
-    }
+    function fetchLihtc() { return _fetchJson('data/chfa-lihtc.json'); }
 
     Promise.all([
       _fetchJson(roundUrl).catch(function () { return null; }),
-      fetchLihtc()
+      fetchLihtc(),
+      _fetchJson('data/hna/geo-config.json')
     ]).then(function (results) {
       state.round = results[0];
+      if (!global.LihtcByYear) throw new Error('CHFA LIHTC series unavailable');
+      state.geoConfig = results[2];
       state.lihtcFeatures = results[1] && Array.isArray(results[1].features) ? results[1].features : [];
 
+      var series = global.LihtcByYear.series(state.lihtcFeatures, { geoConfig: state.geoConfig });
+      var coverage = document.getElementById('htFeedCoverage');
+      if (coverage) coverage.textContent = state.lihtcFeatures.length + ' Colorado projects · ' + (series.range || 'award years unavailable');
+      document.querySelectorAll('[data-chfa-series-source]').forEach(function (el) {
+        el.textContent = state.lihtcFeatures.length + ' projects · ' + (series.range || 'award years unavailable');
+      });
       _renderAwardsPanel();
       _renderLatestRound();
       _renderStockPanel();
