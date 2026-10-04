@@ -298,6 +298,7 @@
             '</div>' +
             '<p style="color:var(--muted);font-size:var(--small);line-height:1.55;margin:var(--sp2) 0 0;">' + esc(bill.summary || '') + '</p>' +
             '<div style="color:var(--muted);font-size:var(--tiny);margin-top:var(--sp2);display:flex;flex-wrap:wrap;gap:.35rem .5rem;">' + meta + '</div>' +
+            (bill.id === 'hb26-1065-transit-housing-investment-zones' ? '<p>Check the local transit-zone screen in <a data-workflow-link="legislation-transit" href="housing-needs-assessment.html#hnaTransitZonePanel">' + esc((window.WorkflowPageNames || {})['housing-needs-assessment.html'] || 'Housing Needs Assessment') + '</a>. Nearby transit alone does not establish eligibility.</p>' : '') +
             (window.ReviewStatus ? window.ReviewStatus.html({ review_by: bill.reviewBy, last_verified: bill.lastVerified }) : '') +
             '</div>';
         }).join('');
