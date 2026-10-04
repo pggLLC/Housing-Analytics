@@ -36,6 +36,7 @@ const ROUND_REL = 'data/affordable-housing/chfa-awards/2026-round-one.json';
 const FEED_REL = 'data/chfa-lihtc.json';
 
 const dom = new JSDOM('<div></div>', { runScripts: 'outside-only', url: 'http://127.0.0.1/historical-trends.html' });
+dom.window.eval(read('js/components/lihtc-by-year.js'));
 dom.window.eval(read(JS_REL));
 const HT = dom.window.HistoricalTrends;
 assert(HT && HT._internal, 'historical-trends.js must expose HistoricalTrends._internal');
@@ -76,9 +77,7 @@ const cov = html.match(/coverage: '(\d+) developments, ([\d,]+) units'/);
 assert(cov, 'data-quality coverage string for the round must state developments and units');
 assert.strictEqual(Number(cov[1]), r.developments, 'HTML coverage developments == computed');
 assert.strictEqual(Number(cov[2].replace(/,/g, '')), r.units, 'HTML coverage units == computed');
-const feedCount = html.match(/(\d+) (?:Colorado )?projects (?:through \d{4}|\(1987)/g) || [];
-assert(feedCount.length > 0, 'page states the feed project count');
-feedCount.forEach((s) => assert.strictEqual(Number(s.match(/\d+/)[0]), feed.length, `"${s}" == ${FEED_REL} feature count`));
+assert(html.includes('id="htFeedCoverage"'), 'page has a live CHFA coverage output; rendered agreement is checked by policy-timeline-series');
 
 // 5. "about twice the size" agrees with the medians.
 const d = dealStats(feed);

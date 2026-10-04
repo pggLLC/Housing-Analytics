@@ -1,0 +1,123 @@
+{
+  "schema": "policy-timeline/v1",
+  "meta": {
+    "title": "Housing policy and economic milestones",
+    "as_of": "2026-10-03",
+    "note": "Historical events, not a list of currently available programs. Dates describe milestones; current tax-credit status is maintained in the referenced legislation file.",
+    "legislation_file": "data/policy/tax-credit-legislation.json"
+  },
+  "events": [
+    {
+      "id": "covid-pandemic",
+      "date": "2020-03-11",
+      "title": "COVID-19 pandemic",
+      "detail": "WHO characterized COVID-19 as a pandemic. This is a historical public-health milestone, not a current emergency declaration.",
+      "status": "historical",
+      "source_url": "https://www.who.int/news-room/speeches/item/who-director-general-s-opening-remarks-at-the-media-briefing-on-covid-19---11-march-2020",
+      "verified": "2026-10-03"
+    },
+    {
+      "id": "american-rescue-plan",
+      "date": "2021-03-11",
+      "title": "American Rescue Plan enacted",
+      "detail": "Public Law 117-2 provided emergency rental assistance and $5 billion for homelessness assistance through HOME-ARP. These are historical appropriations, not a statement that funding remains available.",
+      "status": "historical",
+      "source_url": "https://www.govinfo.gov/content/pkg/PLAW-117publ2/html/PLAW-117publ2.htm",
+      "verified": "2026-10-03"
+    },
+    {
+      "id": "fed-hikes",
+      "date": "2022-03-16",
+      "title": "Federal Reserve raises rates",
+      "detail": "The FOMC raised its federal funds target range to 0.25–0.50% and signalled further increases. The rate is historical, not today’s rate.",
+      "status": "historical",
+      "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20220316a.htm",
+      "verified": "2026-10-03"
+    },
+    {
+      "id": "inflation-reduction-act",
+      "date": "2022-08-16",
+      "title": "Inflation Reduction Act enacted",
+      "detail": "Public Law 117-169 added a Section 48 credit increase for qualifying solar and wind facilities in low-income communities, including qualifying residential housing. This describes the 2022 enactment, not current project eligibility.",
+      "status": "historical",
+      "source_url": "https://www.govinfo.gov/content/pkg/PLAW-117publ169/html/PLAW-117publ169.htm",
+      "verified": "2026-10-03"
+    },
+    {
+      "id": "prop123",
+      "date": "2022-11-08",
+      "title": "Colorado Proposition 123 approved",
+      "detail": "Proposition 123 dedicates revenue from the existing income tax equal to 0.1% of federal taxable income to affordable housing, exempt from the TABOR spending limit. It allocates 60% to affordable housing financing overseen by OEDIT and administered by CHFA, and 40% to DOLA for homeownership, homelessness and local planning capacity.",
+      "status": "historical",
+      "source_url": "https://historicalelectiondata.coloradosos.gov/contest/25864",
+      "note": "Agency administration confirmed at https://coloradoaffordablehousingfinancingfund.com/about/",
+      "verified": "2026-10-03"
+    },
+    {
+      "id": "svb-closure",
+      "date": "2023-03-10",
+      "title": "Silicon Valley Bank closed",
+      "detail": "California closed Silicon Valley Bank and appointed the FDIC as receiver. This is a historical banking event.",
+      "status": "historical",
+      "source_url": "https://www.fdic.gov/news/press-releases/2023/pr23016.html",
+      "verified": "2026-10-03"
+    },
+    {
+      "id": "sb24-174",
+      "date": "2024-05-30",
+      "title": "Colorado SB24-174 signed",
+      "detail": "The enacted act covers municipalities and counties (county population means unincorporated residents). Local housing needs assessments are due December 31, 2026, with exemptions for a qualifying regional assessment, population below 1,000, or a census population decline of at least 1%; the latter two exemptions do not apply when DOLA funds the assessment. Housing action plans are due January 1, 2028 for populations of at least 5,000, or at least 1,000 for regional-assessment participants or rural resort communities. These are the 2024 act’s requirements, not a mandate for every jurisdiction.",
+      "status": "historical",
+      "source_url": "https://leg.colorado.gov/bill_files/44943/download",
+      "verified": "2026-10-03"
+    },
+    {
+      "id": "fed-cuts",
+      "date": "2024-09-18",
+      "title": "Federal Reserve cuts rates",
+      "detail": "The FOMC lowered its federal funds target range by half a percentage point to 4.75–5.00%. The rate is historical, not today’s rate.",
+      "status": "historical",
+      "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20240918a.htm",
+      "verified": "2026-10-03"
+    },
+    {
+      "id": "ahcia-introduced",
+      "date": "2025-04-08",
+      "title": "AHCIA of 2025 introduced",
+      "detail": "H.R. 2725 was introduced and referred to House Ways and Means. Remaining AHCIA provisions are proposals, not enacted credit authority; see the linked tax-credit legislation record for current status.",
+      "status": "historical",
+      "source_url": "https://www.govinfo.gov/content/pkg/BILLS-119hr2725ih/html/BILLS-119hr2725ih.htm",
+      "verified": "2026-10-03",
+      "legislation_ids": [
+        "ahcia-2025-hr2725",
+        "ahcia-2025-s1515"
+      ]
+    },
+    {
+      "id": "ahcia-partial-enactment",
+      "date": "2025-07-04",
+      "title": "AHCIA priorities partially enacted",
+      "detail": "Public Law 119-21, section 70422, enacted a permanent 12% increase in the 9% state credit ceiling after 2025 and a 25% bond-financing test for qualifying buildings meeting the post-2025 bond requirements. These AHCIA priorities became law; the whole AHCIA bill did not.",
+      "status": "historical",
+      "source_url": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+      "verified": "2026-10-03",
+      "legislation_ids": [
+        "obbba-lihtc-ceiling-12pct",
+        "obbba-lihtc-bond-25pct-test"
+      ]
+    },
+    {
+      "id": "road-act",
+      "date": "2026-07-11",
+      "title": "2026 ROAD to Housing Act",
+      "detail": "The tax-credit legislation record dates enactment to July 11, 2026. The enrolled H.R. 6644 text adds affordable-housing construction as a CDBG activity and changes HOME review; it does not enact LIHTC or CRA expansion.",
+      "status": "historical",
+      "source_url": "https://www.govinfo.gov/content/pkg/BILLS-119hr6644enr/html/BILLS-119hr6644enr.htm",
+      "verified": null,
+      "legislation_ids": [
+        "hr6644-road-act"
+      ],
+      "note": "Enrolled text read on 2026-10-03; it supports the described provisions but does not establish the July 11 enactment date. That date is retained from tax-credit-legislation.json and is not independently re-verified here."
+    }
+  ]
+}

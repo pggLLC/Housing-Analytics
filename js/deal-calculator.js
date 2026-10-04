@@ -6576,9 +6576,9 @@
         url: 'https://www.chfainfo.com/multifamily-finance/colorado-housing-investment-fund',
         type: 'Loan', notes: 'Deferred. 40-yr affordability minimum. ~3-5% rate typical. Stacks with 9% LIHTC.' },
       { k: 'prop123', name: 'Prop 123 — CO Affordable Housing Fund',
-        desc: 'Colorado Proposition 123 (2022) reserves a share of TABOR surplus for affordable housing. 60% is overseen by OEDIT and managed by CHFA (equity, concessionary debt incl. LIHTC gap finance, land banking); 40% goes to DOLA (homeownership, homelessness, local planning capacity).',
+        desc: 'Proposition 123 description unavailable until the policy timeline loads.',
         url: 'https://cdola.colorado.gov/prop123',
-        type: 'Loan + Grant', notes: 'Zero-int deferred loans, grants for predev/land. Targets ≤60% AMI. First full allocation cycle Q3 2026.' },
+        type: 'Loan + Grant', notes: 'Confirm current program rules and availability with the administering agency.' },
       { k: 'local_pha', name: 'Local PHA / Housing Trust',
         desc: 'County or city housing trust funds + PHA capital reserves. Denver AHTF, Boulder HTF, Aspen HTF, etc.',
         url: 'https://cdola.colorado.gov/local-government-housing-resources',
@@ -6646,7 +6646,7 @@
               '<strong style="font-size:var(--small);color:var(--text);">' + p.name + '</strong>' +
               '<span style="font-size:var(--tiny);padding:1px 6px;border-radius:3px;background:var(--accent-dim);color:var(--accent);font-weight:600;white-space:nowrap;">' + p.type + '</span>' +
             '</div>' +
-            '<p style="margin:0 0 0.35rem;font-size:var(--small);line-height:1.45;color:var(--text);">' + p.desc + '</p>' +
+            '<p data-program-description="' + p.k + '" style="margin:0 0 0.35rem;font-size:var(--small);line-height:1.45;color:var(--text);">' + p.desc.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</p>' +
             '<p style="margin:0 0 0.35rem;font-size:var(--tiny);color:var(--muted);line-height:1.4;"><strong>Typical:</strong> ' + p.notes + '</p>' +
             '<div>' + url + '</div>' +
           '</div>';
@@ -6669,6 +6669,14 @@
       if (++_attempts < 30) setTimeout(_tryRender, 100);
     }
     _tryRender();
+    var timelineUrl = 'data/policy/policy-timeline.json';
+    if (window.resolveAssetUrl) timelineUrl = window.resolveAssetUrl(timelineUrl);
+    fetch(timelineUrl).then(function (r) { if (!r.ok) throw new Error('Policy unavailable'); return r.json(); })
+      .then(function (timeline) {
+        var event = timeline.events.find(function (e) { return e.id === 'prop123'; });
+        var program = PROGRAM_REF.find(function (p) { return p.k === 'prop123'; });
+        if (event) { program.desc = event.detail; program.url = event.source_url; _render(); }
+      }).catch(function () { /* Keep the explicit unavailable description. */ });
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', _initSoftFundingReference);
