@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-04T12:27:58.794Z",
+    "generated_at": "2026-10-04T14:43:35.743Z",
     "root": "data/",
     "file_count": 1695,
-    "total_size_bytes": 176620392,
+    "total_size_bytes": 176622105,
     "kinds": {
       "json": 1658,
       "geojson": 33,
@@ -15,7 +15,7 @@
       "path": "_qa-status.json",
       "kind": "json",
       "size_bytes": 7235,
-      "mtime": "2026-10-03T13:23:36.355Z",
+      "mtime": "2026-10-04T14:42:04.027Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-04T04:39:24.225Z",
+      "mtime": "2026-10-04T14:43:32.095Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1343,8 +1343,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 257717,
-      "mtime": "2026-10-03T12:38:06.453Z",
+      "size_bytes": 257866,
+      "mtime": "2026-10-04T14:42:04.111Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -1359,7 +1359,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1668,
+      "primary_array_length": 1669,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -30545,7 +30545,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 215413,
-      "mtime": "2026-10-04T12:27:56.819Z",
+      "mtime": "2026-10-04T14:43:08.855Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31937,7 +31937,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14803,
-      "mtime": "2026-10-04T10:47:10.175Z",
+      "mtime": "2026-10-04T14:43:33.899Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31960,7 +31960,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-04T10:47:09.847Z",
+      "mtime": "2026-10-04T14:43:33.496Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -32036,8 +32036,8 @@
     {
       "path": "policy/ballot-2026/counties/08001.json",
       "kind": "json",
-      "size_bytes": 14198,
-      "mtime": "2026-09-27T03:10:31.733Z",
+      "size_bytes": 15762,
+      "mtime": "2026-10-04T14:42:04.520Z",
       "shape": "object",
       "keys": [
         "schema",
