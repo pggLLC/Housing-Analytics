@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-04T11:05:28.563935Z",
+  "generated": "2026-10-04T11:22:02.203017Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -114,7 +114,7 @@
     "data/amenities/transit_stops_statewide_co.geojson": {
       "featureCount": 14245,
       "placeholder": false,
-      "bytes": 3961870
+      "bytes": 3961711
     },
     "data/audit/chfa-qap-watch.json": {
       "featureCount": 0,
@@ -7814,7 +7814,7 @@
     "data/market/transit_stops_coverage_co.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 236639
+      "bytes": 236348
     },
     "data/market/travel_time_matrix_co.json": {
       "featureCount": 0,

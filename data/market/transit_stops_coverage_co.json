@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-27T16:06:22Z",
+    "generated": "2026-10-04T11:16:19Z",
     "source": "scripts/market/build_transit_stops_co.py",
     "note": "Counts of stops found per source. A county with no stop in any source is listed under counties_without_fixed_stops: that means no fixed-route stop was found, not that the county has no transit (several run demand-response service, which has no stops).",
     "feed_match_m": 30.0,
@@ -13,22 +13,9 @@
       }
     ],
     "dropped_osm_school_transport": {
-      "count": 2,
-      "by_reason": {
-        "school_bus_name": 2
-      },
-      "rows": [
-        {
-          "osm_id": null,
-          "name": "BVSD school bus stop",
-          "reason": "school_bus_name"
-        },
-        {
-          "osm_id": null,
-          "name": "School Bus Stop",
-          "reason": "school_bus_name"
-        }
-      ]
+      "count": 0,
+      "by_reason": {},
+      "rows": []
     }
   },
   "totals": {
