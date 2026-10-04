@@ -45,6 +45,7 @@
   <script defer src="js/chart-fix.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
+  <script src="js/components/policy-timeline.js"></script>
 </head>
 <body class="no-shell" data-page="economic-dashboard.html"
       data-page-update-key="fred"
@@ -673,6 +674,13 @@ document.addEventListener('DOMContentLoaded', function () {
   })();
   </script>
 </section>
+  <section class="chart-card" aria-labelledby="policyTimelineHeading">
+    <h2 id="policyTimelineHeading">Policy and economic milestones</h2>
+    <p>Historical events provide context, not current funding availability.</p>
+    <details><summary>Read the timeline and official sources</summary>
+      <ol data-policy-timeline aria-live="polite"><li>Policy timeline unavailable until the source file loads.</li></ol>
+    </details>
+  </section>
 </main>
 <script>
 (() => {
@@ -858,47 +866,7 @@ function getKey(){ return CONFIG_KEY || ""; }
     });
   });
 
-  /* F136/F137/F217 — Policy + macro event annotations.
-     History: F136 fixed pill contrast (translucent → opaque w/ white).
-              F137 fixed Prop 123 + AHCIA overlap via manual yAdjust.
-     F217 restores the events that had been dropped from earlier
-     versions when overlap was solved by deletion instead of
-     staggering. Adds auto-staggering: sort matched events by their
-     position on the x-axis, assign yAdjust = sortIndex × 24px so any
-     number of events can be added without overlap rework.
-
-     Events tracked: macro shocks + key housing-policy waypoints that
-     materially shift the housing-finance landscape. New entries should
-     have a `lineColor` + `pillBg` that contrasts with the dashboard
-     chart fills (avoid teal-green and the FRED/CPI blue). */
-  /* F218 + F219 — Each event carries:
-       label   — full multi-word name (used in hover tooltip)
-       short   — 2-4 char pill text (the label rendered ON the chart)
-       desc    — 1-sentence explainer
-     The short label is what makes 9 events fit on a narrow chart card
-     without overlap. Full label still shows in the hover tooltip. */
-  const POLICY_EVENTS = [
-    // Macro
-    { label: 'COVID-19', short: 'COVID', match: /^Mar\s*20$/i, lineColor: 'rgba(220,38,38,0.95)',  pillBg: '#dc2626',
-      desc: 'COVID-19 declared a pandemic (Mar 2020). Triggered an emergency 150bp Fed cut, eviction moratoriums, and a freeze on most LIHTC closings until summer 2020.' },
-    { label: 'ARP', short: 'ARP', match: /^Mar\s*21$/i, lineColor: 'rgba(245,158,11,0.95)', pillBg: '#d97706',
-      desc: 'American Rescue Plan signed (Mar 2021). $1.9T package included $21.6B Emergency Rental Assistance and $5B for HOME-ARP; fueled the rent-recovery spike that re-priced multifamily acquisitions through 2022.' },
-    { label: 'Fed hikes', short: 'Fed↑', match: /^Mar\s*22$/i, lineColor: 'rgba(244,63,94,0.95)',  pillBg: '#be123c',
-      desc: 'Fed begins its post-COVID hiking cycle (Mar 2022). First 25bp move was followed by the fastest 525bp rise in 40 years — repriced LIHTC equity, killed many 4% bond deals that depended on cheap permanent debt.' },
-    // Housing policy
-    { label: 'IRA', short: 'IRA', match: /^Aug\s*22$/i, lineColor: 'rgba(20,184,166,0.95)', pillBg: '#0d9488',
-      desc: 'Inflation Reduction Act signed (Aug 2022). Created the Section 48 ITC adder for affordable housing energy improvements; opened a parallel equity-pricing track for energy-paired LIHTC deals.' },
-    { label: 'Prop 123', short: 'P123', match: /^Nov\s*22$/i, lineColor: 'rgba(14,165,233,0.95)', pillBg: '#0284c7',
-      desc: 'Colorado Prop 123 passes (Nov 2022). Dedicated 0.1% of state income tax to affordable housing; created the Local Government Affordable Housing Investment Fund and the Affordable Housing Financing Fund.' },
-    { label: 'AHCIA', short: 'AHCIA', match: /^Jan\s*23$/i, lineColor: 'rgba(139,92,246,0.95)', pillBg: '#7c3aed',
-      desc: 'Affordable Housing Credit Improvement Act re-introduced (Jan 2023). Bipartisan bill would raise 9% LIHTC allocation 50%, restore the 4% bond financed-by-percentage to 50%, and add Native American + rural set-asides.' },
-    { label: 'SVB collapse', short: 'SVB', match: /^Mar\s*23$/i, lineColor: 'rgba(220,38,38,0.95)',  pillBg: '#991b1b',
-      desc: 'Silicon Valley Bank collapses (Mar 2023). Triggered a brief lender pull-back on construction loans + spike in Treasury volatility; second-largest bank failure in US history at the time.' },
-    { label: 'SB24-174', short: 'SB24', match: /^May\s*24$/i, lineColor: 'rgba(14,165,233,0.95)', pillBg: '#075985',
-      desc: 'Colorado SB24-174 signed (May 2024). Statewide housing-needs-assessment + housing-action-plan mandate; all CO jurisdictions must publish HNAs by 2026 or lose access to specified state funding.' },
-    { label: 'Fed cuts', short: 'Fed↓', match: /^Sep\s*24$/i, lineColor: 'rgba(16,185,129,0.95)', pillBg: '#047857',
-      desc: 'Fed begins cutting cycle (Sep 2024). First 50bp cut after 14 months at 5.25-5.50%. Re-opened LIHTC equity pricing and revived stalled 4% bond pipelines through 2025.' }
-  ];
+  let POLICY_EVENTS = [];
 
   function buildAnnotations(labels) {
     const annotations = {};
@@ -1107,6 +1075,8 @@ function getKey(){ return CONFIG_KEY || ""; }
   }
 
   async function loadAll(){
+    try { POLICY_EVENTS = window.PolicyTimeline.chartEvents(await window.PolicyTimeline.load()); }
+    catch (_) { POLICY_EVENTS = []; }
     // Data served from data/fred-data.json — no API key needed in the browser
     const apiKey = true; // kept to avoid ReferenceError in calls below
 

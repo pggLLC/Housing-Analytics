@@ -60,6 +60,10 @@ function render(page, { onWindow } = {}) {
       const anyDepth = () => new Proxy({}, { get: (t, k) => (k in t ? t[k] : (t[k] = anyDepth())) });
       window.Chart.defaults = anyDepth();
       window.eval(read('js/components/equity-pricing.js'));
+      if (page === 'colorado-deep-dive.html') {
+        window.eval(read('js/components/policy-timeline.js'));
+        window.eval(read('js/components/lihtc-by-year.js'));
+      }
       if (onWindow) onWindow(window);
     },
   });
