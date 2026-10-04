@@ -118,6 +118,35 @@
     }
   ];
 
+  // Canonical page names come from the first full-page navigation entry.
+  // Context links and their agreement guard reuse this source, not a second registry.
+  const pageNames = {
+    // This dated analysis is linked from Research, not the primary menu.
+    "cra-expansion-analysis.html": "CRA Expansion Impact on LIHTC Pricing"
+  };
+  GROUPS.forEach(function (group) {
+    group.items.forEach(function (item) {
+      if (item.href && item.href.indexOf('#') === -1 && !pageNames[item.href]) {
+        pageNames[item.href] = item.label;
+      }
+    });
+  });
+  window.WorkflowPageNames = Object.freeze(pageNames);
+
+  function addOwnershipProgramLink() {
+    var section = document.getElementById('affordable-ownership-need-section');
+    if (!section || section.querySelector('[data-workflow-link="hna-homebuyers"]')) return;
+    var note = document.createElement('p');
+    note.appendChild(document.createTextNode('Find buyer assistance programs in '));
+    var link = document.createElement('a');
+    link.href = normalizeHref('help-for-homebuyers.html');
+    link.setAttribute('data-workflow-link', 'hna-homebuyers');
+    link.textContent = pageNames['help-for-homebuyers.html'];
+    note.appendChild(link);
+    note.appendChild(document.createTextNode('. Confirm eligibility and funding with the program administrator.'));
+    section.insertBefore(note, section.querySelector('.stats'));
+  }
+
   function _esc(str) {
     return String(str == null ? '' : str)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;')
@@ -706,7 +735,7 @@
     document.head.appendChild(l);
   }
 
-  function boot() { ensureFavicon(); inject(); loadPlaceProfileHelp(); }
+  function boot() { ensureFavicon(); inject(); addOwnershipProgramLink(); loadPlaceProfileHelp(); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);

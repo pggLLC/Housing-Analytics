@@ -3040,6 +3040,7 @@
           <span style="color:var(--muted);">Credit Pricing ($/credit)</span>
           <input id="dc-equity-price" type="number" min="0.50" max="1.20" step="0.01" value="0.86"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          <p style="margin:.4rem 0;">Review benchmarks in <a data-workflow-link="deal-equity" href="article-pricing.html">Tax Credit Equity Markets</a>.</p>
           <!-- F230 — Novogradac equity pricing benchmark button. Populated
                by _initNovogradacBenchmark() below from data/market/novogradac-equity-pricing.json -->
           <div id="dc-novogradac-benchmark" style="margin-top:.3rem;font-size:.72rem;line-height:1.4;color:var(--muted);"></div>
@@ -3080,6 +3081,14 @@
   </div>
 
 </section>`;
+
+    // The input is rendered after the browser's initial fragment navigation.
+    if (window.location && window.location.hash === '#dc-equity-price') {
+      var priceTarget = document.getElementById('dc-equity-price');
+      priceTarget.closest('details').open = true;
+      priceTarget.focus();
+      if (priceTarget.scrollIntoView) priceTarget.scrollIntoView({ block: 'center' });
+    }
 
     // Attach event listeners
     document.getElementById('dc-edit-unit-mix').addEventListener('click', editMixHere);
