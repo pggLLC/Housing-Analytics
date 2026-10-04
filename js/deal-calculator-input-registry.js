@@ -77,6 +77,13 @@
         'An empty example allocation, not a measured local need.');
     });
   });
+  add('dc-market-bedroom', 'Bedroom size for unrestricted homes when the grid has no bedroom mix.');
+  add('dc-market-rent-mode', 'Use county ZORI bedroom estimates or your sourced market-rent overrides.');
+  add('dc-market-rent-source', 'Source, date and geography supporting your unrestricted market-rent overrides.', 'needs-source', 'An override requires its survey or comparable-rent citation.');
+  ['studio', '1br', '2br', '3br', '4br'].forEach(function (br) {
+    add('dc-market-rent-' + br, 'Monthly rent for unrestricted ' + br + ' homes; no utility allowance is deducted.', 'needs-source', 'County ZORI or your market-rent source is required.');
+    fields['dc-market-rent-' + br].dataSource = 'county-zori-bedroom-estimate';
+  });
   // Only these fields can be derived from a page-owned source record.
   ['dc-formula-ceiling-eg', 'dc-rent-limit-example', 'dc-fmr-note', 'dc-rent-ach-fmr-grid'].forEach(function (id) {
     fields[id].dataSource = 'rent-limit-table';
