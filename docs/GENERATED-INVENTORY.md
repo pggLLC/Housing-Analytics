@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-04T03:07:09.514Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-04T04:39:00.163Z. Do not edit by hand.
 
 ---
 
@@ -19,12 +19,12 @@
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 39.9 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 135.9 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 134.2 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 17.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.4 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
-| `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.6 KB |
+| `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.4 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact on LIHTC Pricing | Colorado Public Data Reference | 22.7 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.5 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
@@ -38,10 +38,10 @@
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 98.3 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 95.1 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 17.8 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 6.0 KB |
-| `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 16.1 KB |
+| `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 16.3 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.7 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 35.8 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 135.0 KB |
@@ -61,7 +61,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 131.9 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 148.4 KB |
-| `market-intelligence.html` | Colorado Market Intelligence | COHO Analytics | 22.7 KB |
+| `market-intelligence.html` | Colorado Market Intelligence | COHO Analytics | 23.3 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
@@ -81,7 +81,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1658 JSON files found.
+1659 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1713,6 +1713,7 @@
 | `data/policy/lihtc-assumptions.json` | 3.8 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
+| `data/policy/policy-timeline.json` | 6.7 KB | ✅ | — |
 | `data/policy/policy-watch.json` | 42.4 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.9 KB | ✅ | — |
 | `data/policy/resale-conventions.json` | 6.9 KB | ✅ | — |
@@ -1748,7 +1749,7 @@
 
 ## Test Files
 
-511 test files found.
+513 test files found.
 
 | File | Size |
 |------|------|
@@ -1869,7 +1870,7 @@
 | `test/epa-walkability-d4a-distance.test.js` | 14.4 KB |
 | `test/epa-walkability-site-lookup.test.js` | 11.1 KB |
 | `test/epa-walkability-waits-for-geometry.test.js` | 9.6 KB |
-| `test/equity-pricing-single-source.test.mjs` | 8.9 KB |
+| `test/equity-pricing-single-source.test.mjs` | 9.1 KB |
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
 | `test/every-guard-runs-or-says-why.test.mjs` | 8.5 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
@@ -1888,7 +1889,7 @@
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
 | `test/fixtures/workflow-cancelled-runs.json` | 2.5 KB |
 | `test/for-sale-study-follows-jurisdiction.test.mjs` | 31.7 KB |
-| `test/foreclosure-performance.test.js` | 5.8 KB |
+| `test/foreclosure-performance.test.js` | 6.7 KB |
 | `test/forsale-capture.test.js` | 10.3 KB |
 | `test/fred-commodities-config.test.js` | 4.8 KB |
 | `test/freshness-gates-run-first.test.mjs` | 7.3 KB |
@@ -1906,7 +1907,7 @@
 | `test/helpers/ci-wiring.js` | 1.9 KB |
 | `test/helpers/deal-calculator-page.cjs` | 4.5 KB |
 | `test/helpers/jspdf-mock.cjs` | 2.8 KB |
-| `test/historical-trends-real-data.test.js` | 8.2 KB |
+| `test/historical-trends-real-data.test.js` | 8.1 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
@@ -2087,6 +2088,7 @@
 | `test/policy-briefs-curated.test.js` | 10.6 KB |
 | `test/policy-data-currency.test.js` | 3.0 KB |
 | `test/policy-review-status.test.mjs` | 10.1 KB |
+| `test/policy-timeline-series.test.js` | 17.5 KB |
 | `test/policy-watch-rail.test.mjs` | 13.7 KB |
 | `test/polymarket-resolved.test.js` | 19.2 KB |
 | `test/preservation.test.js` | 17.3 KB |
@@ -2095,7 +2097,7 @@
 | `test/production-need-counts-the-workforce.test.mjs` | 8.7 KB |
 | `test/project-scenario.test.js` | 7.8 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
-| `test/prop123-administration.test.js` | 7.2 KB |
+| `test/prop123-administration.test.js` | 7.9 KB |
 | `test/prop123-historical.test.js` | 19.2 KB |
 | `test/prop123.test.js` | 13.9 KB |
 | `test/provenance-label.test.js` | 2.2 KB |
@@ -2251,6 +2253,7 @@
 | `tests/test_place_phantom_aliases.py` | 6.3 KB |
 | `tests/test_pma_provenance.py` | 6.7 KB |
 | `tests/test_policy_foundation.py` | 24.0 KB |
+| `tests/test_policy_timeline.py` | 2.4 KB |
 | `tests/test_policy_watch.py` | 5.5 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_ranking_index_transit_zone.py` | 11.8 KB |
