@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-04T01:40:43.055423Z",
+  "generated": "2026-10-04T01:59:55.075702Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8014,12 +8014,12 @@
     "data/policy/ballot-2026/counties/08047.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3942
+      "bytes": 4289
     },
     "data/policy/ballot-2026/counties/08049.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7396
+      "bytes": 9084
     },
     "data/policy/ballot-2026/counties/08051.json": {
       "featureCount": 0,
@@ -8039,7 +8039,7 @@
     "data/policy/ballot-2026/counties/08057.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1902
+      "bytes": 2444
     },
     "data/policy/ballot-2026/counties/08059.json": {
       "featureCount": 0,
@@ -8049,7 +8049,7 @@
     "data/policy/ballot-2026/counties/08061.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2902
+      "bytes": 7395
     },
     "data/policy/ballot-2026/counties/08063.json": {
       "featureCount": 0,
