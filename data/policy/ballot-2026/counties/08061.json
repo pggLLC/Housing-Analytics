@@ -5,18 +5,33 @@
       "geoid": "08061",
       "level": "county",
       "name": "Kiowa County",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://kiowacounty.colorado.gov/government/elected-officials/clerk-and-recorder",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://drive.google.com/drive/folders/15Gj_K3Xs-A80JUmgXO5JI9OTjpAYaZmo?usp=sharing",
+      "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: the county clerk page posts only the June 30, 2026 primary notice; no November 3, 2026 notice, TABOR notice, sample ballot or participating-entities list is posted.",
-        "Leads only (newspaper-published legal notices, not official county sources): Resolution 2026-8 (1.5% countywide sales and use tax split between the General Fund and Road and Bridge) and Resolution 2026-9 (waiver of the statutory 5.25% property tax limit). Neither names housing; recheck against the official notice."
+        "Excluded: Kiowa County Ballot Issue 1A (Resolution 2026-8), a 1.5% countywide sales and use tax \"FOR GENERAL COUNTY PURPOSES (50%) AND COUNTY ROADS AND BRIDGE CONSTRUCTION AND MAINTENANCE PURPOSES (50%)\", for 15 years; no housing earmark.",
+        "Excluded: Kiowa County Ballot Issue 1B (Resolution 2026-9), a waiver of the 5.25% property tax limit with retention of all revenues; general revenue retention with no housing earmark.",
+        "Excluded: County School District RE-1 Issue 4A (school debt); not housing.",
+        "County Resolutions 2026-08, 2026-09 and 2026-10 were posted on September 28 as image-only scans and could not be read; 2026-10 is not reflected in any ballot question.",
+        "The county Notice of Election and Sample Ballots folder (linked from the clerk page, files dated September 28) holds a notice of election and five precinct sample ballots (001-1, 001-2, 002-2, 003-2, 004-2), all read on 2026-10-03. No separate TABOR notice or participating-entities list was posted."
       ],
       "reviewed_sources": [
         {
-          "url": "https://kiowacounty.colorado.gov/government/elected-officials/commissioners/resolutions",
-          "retrieved": "2026-09-26"
+          "url": "https://kiowacounty.colorado.gov/government/elected-officials/clerk-and-recorder",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=17UUmPou0A1qKPd3XLGV53B4VQHU5IfOV",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1BOU1C07Inscasp-hwceOr6RB5TKIGWct",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/drive/folders/19zlQU2ZN7vOT5D5lqAVPHc0AkLNKdpVg?usp=drive_link",
+          "retrieved": "2026-10-03"
         }
       ]
     },
@@ -25,12 +40,34 @@
       "level": "municipal",
       "name": "Eads (town)",
       "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://kiowacounty.colorado.gov/government/elected-officials/clerk-and-recorder",
-      "checked": "2026-09-26",
+      "reviewed_source": "https://drive.google.com/drive/folders/15Gj_K3Xs-A80JUmgXO5JI9OTjpAYaZmo?usp=sharing",
+      "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: the county clerk page posts only the June 30, 2026 primary notice; no November 3, 2026 notice, TABOR notice, sample ballot or participating-entities list is posted.",
-        "No official town website was found."
+        "No county sample ballot style has a town section or town question, and no participating-entities list was posted. The town has no website, so a separate town election or notice could not be checked; the row stays open until a list or town notice is available.",
+        "The county Notice of Election and Sample Ballots folder (linked from the clerk page, files dated September 28) holds a notice of election and five precinct sample ballots (001-1, 001-2, 002-2, 003-2, 004-2), all read on 2026-10-03. No separate TABOR notice or participating-entities list was posted."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1YHeChWFeaIO76SN-h3qHFdUDbUU5k5Te",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=17UUmPou0A1qKPd3XLGV53B4VQHU5IfOV",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1n5s0LtGpPDzMuPseWCSnON2RBP-WxOye",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1WM8ZlgyvXIQgPZTVF9pjD3fO71589aaS",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1NDvCXNqJxAi6osJpzW1g3a_C2xL6U23U",
+          "retrieved": "2026-10-03"
+        }
       ]
     },
     {
@@ -38,12 +75,34 @@
       "level": "municipal",
       "name": "Haswell (town)",
       "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://kiowacounty.colorado.gov/government/elected-officials/clerk-and-recorder",
-      "checked": "2026-09-26",
+      "reviewed_source": "https://drive.google.com/drive/folders/15Gj_K3Xs-A80JUmgXO5JI9OTjpAYaZmo?usp=sharing",
+      "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: the county clerk page posts only the June 30, 2026 primary notice; no November 3, 2026 notice, TABOR notice, sample ballot or participating-entities list is posted.",
-        "No official town website was found."
+        "No county sample ballot style has a town section or town question, and no participating-entities list was posted. The town has no website, so a separate town election or notice could not be checked; the row stays open until a list or town notice is available.",
+        "The county Notice of Election and Sample Ballots folder (linked from the clerk page, files dated September 28) holds a notice of election and five precinct sample ballots (001-1, 001-2, 002-2, 003-2, 004-2), all read on 2026-10-03. No separate TABOR notice or participating-entities list was posted."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1YHeChWFeaIO76SN-h3qHFdUDbUU5k5Te",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=17UUmPou0A1qKPd3XLGV53B4VQHU5IfOV",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1n5s0LtGpPDzMuPseWCSnON2RBP-WxOye",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1WM8ZlgyvXIQgPZTVF9pjD3fO71589aaS",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1NDvCXNqJxAi6osJpzW1g3a_C2xL6U23U",
+          "retrieved": "2026-10-03"
+        }
       ]
     },
     {
@@ -51,12 +110,34 @@
       "level": "municipal",
       "name": "Sheridan Lake (town)",
       "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://kiowacounty.colorado.gov/government/elected-officials/clerk-and-recorder",
-      "checked": "2026-09-26",
+      "reviewed_source": "https://drive.google.com/drive/folders/15Gj_K3Xs-A80JUmgXO5JI9OTjpAYaZmo?usp=sharing",
+      "checked": "2026-10-03",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: the county clerk page posts only the June 30, 2026 primary notice; no November 3, 2026 notice, TABOR notice, sample ballot or participating-entities list is posted.",
-        "No official town website was found."
+        "No county sample ballot style has a town section or town question, and no participating-entities list was posted. The town has no website, so a separate town election or notice could not be checked; the row stays open until a list or town notice is available.",
+        "The county Notice of Election and Sample Ballots folder (linked from the clerk page, files dated September 28) holds a notice of election and five precinct sample ballots (001-1, 001-2, 002-2, 003-2, 004-2), all read on 2026-10-03. No separate TABOR notice or participating-entities list was posted."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1YHeChWFeaIO76SN-h3qHFdUDbUU5k5Te",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=17UUmPou0A1qKPd3XLGV53B4VQHU5IfOV",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1n5s0LtGpPDzMuPseWCSnON2RBP-WxOye",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1WM8ZlgyvXIQgPZTVF9pjD3fO71589aaS",
+          "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1NDvCXNqJxAi6osJpzW1g3a_C2xL6U23U",
+          "retrieved": "2026-10-03"
+        }
       ]
     }
   ],
