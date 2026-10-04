@@ -1020,6 +1020,90 @@
     };
   }
 
+  // Manual remainder units use the grid's bedroom proportions. Largest remainders
+  // keep whole units and the exact total; ties follow the grid's column order.
+  function manualMarketSplit(units, bedroomCounts) {
+    var total = SPLIT_BR_TYPES.reduce(function (sum, br) { return sum + bedroomCounts[br]; }, 0);
+    var fallback = document.getElementById('dc-market-bedroom');
+    var rows = SPLIT_BR_TYPES.map(function (br) {
+      var exact = total > 0 ? units * bedroomCounts[br] / total : (br === fallback.value ? units : 0);
+      return { br: br, units: Math.floor(exact), remainder: exact - Math.floor(exact) };
+    });
+    var remaining = units - rows.reduce(function (sum, row) { return sum + row.units; }, 0);
+    rows.slice().sort(function (a, b) { return b.remainder - a.remainder; }).forEach(function (row) {
+      if (remaining > 0) { row.units++; remaining--; }
+    });
+    document.getElementById('dc-market-bedroom-wrap').hidden = total > 0;
+    document.getElementById('dc-market-split').textContent = total > 0
+      ? 'Bedroom mix follows the AMI grid proportions, rounded to whole homes: '
+      : 'No bedroom mix is entered in the grid. Choose one size for these homes (default: 2BR): ';
+    return rows.filter(function (row) { return row.units > 0; });
+  }
+
+  function resolveManualMarketRents(units, bedroomCounts) {
+    var panel = document.getElementById('dc-manual-market-rents');
+    panel.hidden = !(units > 0);
+    var mode = document.getElementById('dc-market-rent-mode').value;
+    var override = mode === 'override';
+    var note = document.getElementById('dc-market-rent-source').value.trim();
+    var zori = _countyFips ? getZoriPerBrRent(_countyFips) : null;
+    var zoriMeta = _zoriData && _zoriData.meta || {};
+    var source = countySource({ source: zoriMeta.source, sourceUrl: zoriMeta.county_url,
+      vintage: zori && zori._meta.vintage_month, binding: 'zori-fmr-bedroom-ratios',
+      why: 'County ZORI scaled with HUD FMR bedroom ratios; a market-rent estimate, not an AMI limit.' });
+    var provenance = window.InputProvenance;
+    // Cache the independently loaded origin; never certify a typed/shared value.
+    SPLIT_BR_TYPES.forEach(function (br) {
+      var input = document.getElementById('dc-market-rent-' + br);
+      input.readOnly = !override;
+      var rent = zori && zori[br];
+      var available = typeof rent === 'number' && isFinite(rent) && rent > 0 && source.vintage != null;
+      var key = JSON.stringify([_countyFips, rent, source.vintage, mode]);
+      // A restored link can fill a readonly input. In ZORI mode the displayed
+      // amount must still be the local record used below, never stale link text.
+      if (input.dataset.marketSourceKey !== key || (!override && input.value !== (available ? String(rent) : ''))) {
+        var entered = input.value;
+        input.value = available ? String(rent) : '';
+        markSource(input, source, available);
+        if (override) {
+          input.value = entered;
+          if (provenance) {
+            var origin = provenance.get(input);
+            origin.status = entered.trim() ? 'yours' : 'needs-source';
+            provenance.restoreLocal(origin, input);
+          }
+        }
+        input.dataset.marketSourceKey = key;
+      }
+    });
+    document.getElementById('dc-market-source-wrap').hidden = !override;
+    var vintage = document.getElementById('dc-market-rent-vintage');
+    vintage.textContent = zori ? source.source + ' · ' + source.vintage + ' · ' + source.geography +
+      '. Bedroom estimates use HUD FMR ratios.' : 'County ZORI unavailable; enter market rents with a source note.';
+    var allocation = manualMarketSplit(units, bedroomCounts);
+    var reason = null;
+    var rows = allocation.map(function (row) {
+      var input = document.getElementById('dc-market-rent-' + row.br);
+      var value = override ? (input.value.trim() ? Number(input.value) : null) : zori && zori[row.br];
+      var rent = typeof value === 'number' && isFinite(value) && value > 0 ? value : null;
+      if (override && !note) { reason = 'market_rent_source_missing'; rent = null; }
+      else if (rent == null) reason = 'market_rent_missing';
+      return { tier: 'market', bedrooms: RENT_BEDROOMS[row.br], units: row.units, rent: rent,
+        source: override ? note || null : source.source || null,
+        vintage: override ? null : source.vintage, sourceUrl: override ? null : source.sourceUrl };
+    });
+    var message = reason ? 'market rent for ' + units + ' unrestricted units needs a source' +
+      (reason === 'market_rent_source_missing' ? ' — add the override source note' : '') : null;
+    var status = document.getElementById('dc-market-rent-status');
+    status.dataset.unavailableReason = reason || '';
+    status.dataset.units = String(units);
+    status.textContent = message ? 'Unavailable — ' + message : rows.map(function (row) {
+      return row.units + ' ' + row.bedrooms + ' homes × $' + row.rent.toLocaleString('en-US') + '/month';
+    }).join('; ');
+    return { rows: rows, unavailableReason: reason, message: message,
+      source: override ? note : [source.source, source.vintage, source.geography].filter(Boolean).join(' · ') };
+  }
+
   // -------------------------------------------------------------------
   // DSCR stress-scenario math (pure function, testable)
   //
@@ -1982,6 +2066,30 @@
             `;}).join('')}
           </div>
 
+          <fieldset id="dc-manual-market-rents" hidden style="margin-top:.75rem;border:1px solid var(--border);padding:.65rem;min-width:0;">
+            <legend>Unrestricted market rents</legend>
+            <p id="dc-market-split" style="font-size:var(--small);"></p>
+            <div id="dc-market-bedroom-wrap"><label>Bedroom size when the grid has no mix
+              <select id="dc-market-bedroom" style="min-height:44px;">
+                ${SPLIT_BR_TYPES.map(function (br) { return '<option value="' + br + '"' + (br === '2br' ? ' selected' : '') + '>' + br.toUpperCase() + '</option>'; }).join('')}
+              </select>
+            </label></div>
+            <label style="display:block;">Rent source
+              <select id="dc-market-rent-mode" style="min-height:44px;width:100%;">
+                <option value="zori">County ZORI bedroom estimates</option>
+                <option value="override">Enter market rents and a source note</option>
+              </select>
+            </label>
+            <p id="dc-market-rent-vintage" style="font-size:var(--tiny);"></p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:.5rem;">
+              ${SPLIT_BR_TYPES.map(function (br) { return '<label>' + br.toUpperCase() + ' monthly rent' +
+                '<input id="dc-market-rent-' + br + '" type="number" min="1" step="1" readonly style="width:100%;min-height:44px;" aria-label="Unrestricted ' + br + ' monthly market rent"></label>'; }).join('')}
+            </div>
+            <div id="dc-market-source-wrap" hidden><label>Source for your entered market rents (required)
+              <input id="dc-market-rent-source" type="text" style="width:100%;min-height:44px;" placeholder="Survey or comparable properties, date, and county">
+            </label></div>
+            <p id="dc-market-rent-status" role="status" aria-live="polite" style="font-size:var(--small);"></p>
+          </fieldset>
           </div><!-- manual unit mix -->
           <div id="dc-minimum-set-aside-status" role="status" aria-live="polite"
             style="font-size:var(--tiny);line-height:1.45;margin:.55rem 0;padding:.5rem .65rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);"></div>
@@ -3105,6 +3213,11 @@
         ids.push('dc-units-' + pct + '-' + br);
       });
     });
+    ids.push('dc-market-rent-mode', 'dc-market-rent-source', 'dc-market-bedroom');
+    SPLIT_BR_TYPES.forEach(function (br) { ids.push('dc-market-rent-' + br); });
+    ['dc-market-rent-mode', 'dc-market-bedroom'].forEach(function (id) {
+      document.getElementById(id).addEventListener('change', recalculate);
+    });
     var gsfApply = document.getElementById('dc-gsf-apply');
     if (gsfApply) gsfApply.addEventListener('click', applyGrossSfEstimate);
     var gsfField = document.getElementById('dc-gross-sf');
@@ -3783,6 +3896,8 @@
       return value;
     }
     var pricedRows = [];
+    var gridBedrooms = { studio: 0, '1br': 0, '2br': 0, '3br': 0, '4br': 0 };
+    var manualMarket = { rows: [], unavailableReason: null, message: null, source: null };
     var capBindings = [];   // tiers where the cap actually reduced revenue
     function _nonNegInt(v) {
       var n = parseInt(v, 10);
@@ -3822,6 +3937,8 @@
         var hasSplit = split.total > 0;
         var u = hasSplit ? split.total : _nonNegInt(uInput.value);
         var br = (brSel && brSel.value) || '2br';
+        if (hasSplit) SPLIT_BR_TYPES.forEach(function (key) { gridBedrooms[key] += split[key]; });
+        else gridBedrooms[br] += u;
         if (chk.checked) {
           if (hasSplit) {
             SPLIT_BR_TYPES.forEach(function (splitBr) {
@@ -3860,6 +3977,15 @@
         }
       }
     });
+
+    if (!scheduleMode) {
+      manualMarket = resolveManualMarketRents(Math.max(0, units - amiUnitSum), gridBedrooms);
+      manualMarket.rows.forEach(function (row) {
+        if (row.rent == null) { rentInputsMissing = true; annualRents = NaN; }
+        else annualRents += row.rent * row.units * 12;
+        pricedRows.push(row);
+      });
+    }
 
     _rentScheduleSnapshot = { mode: scheduleMode ? 'schedule' : 'manual', rows: pricedRows,
       countyFips: _countyFips, regime: rentLimitRegime(), totalUnits: units, vacancyRate: vacFrac(),
@@ -3939,7 +4065,7 @@
           'than the total. Reduce one or more tier inputs, or increase Total Units.';
         syncWarn.hidden = false;
         unitMixError = true;
-      } else if (units > 0 && amiUnitSum > 0 && amiUnitSum < units) {
+      } else if (units > 0 && amiUnitSum < units) {
         // INFORMATIONAL — diff is unrestricted market-rate units
         var unrestrictedUnits = units - amiUnitSum;
         syncWarn.style.background = '#eff6ff';   // light blue
@@ -4078,10 +4204,10 @@
 
     // Why NOI or the rent roll is unknown, carried with it so each message
     // names the fix that applies rather than assuming there is no county.
-    var rentDataReason = allowanceRevenueReason ? window.ChfaRentLimits.unavailableMessage(allowanceRevenueReason)
+    var rentDataReason = manualMarket.message || (allowanceRevenueReason ? window.ChfaRentLimits.unavailableMessage(allowanceRevenueReason)
       : !_countyFips ? 'Select a county to load AMI rent limits.'
       : marketRegime ? 'Market rent data is unavailable for the selected bedrooms.'
-      : 'Rent limits are unavailable for one or more selected tiers or bedrooms.';
+      : 'Rent limits are unavailable for one or more selected tiers or bedrooms.');
     var noiUnknownReason = null;
     if (!(autoNoi && autoNoi.checked) && !isFinite(noi)) {
       noiUnknownReason = 'Enter NOI, or turn on auto-compute.';
@@ -4198,10 +4324,11 @@
     });
     document.getElementById('dc-r-rents').textContent = fmt(annualRents);
     explainFigure('dc-r-rents', 'scheduled-rent-revenue', { rows: pricedRows,
-      unavailableReason: scheduleMode ? null : 'this calculation uses the manual grid, not the Market Analysis schedule',
+      unavailableReason: isFinite(annualRents) ? null : rentsUnknownReason,
       sources: explanationSourceContext() + (scheduleMode ? ' · allowance: ' + (_resolvedDealMix.sourceMeta.allowanceBasis.reference || _resolvedDealMix.sourceMeta.allowanceBasis.method) +
         ' · effective ' + (_resolvedDealMix.sourceMeta.allowanceBasis.effectiveDate || 'date not required') +
-        ' · market-rent sources: ' + _resolvedDealMix.marketRows.map(function (r) { return r.source; }).join('; ') : '') });
+        ' · market-rent sources: ' + _resolvedDealMix.marketRows.map(function (r) { return r.source; }).join('; ') :
+        ' · unrestricted market rents: ' + (manualMarket.source || 'no unrestricted units')) });
 
     // F257-6 — Development budget breakdown. Typical CHFA Colorado
     // share for new-construction 9% LIHTC. Sums to 100% by construction.
@@ -4891,6 +5018,16 @@
       }
     }
 
+    // Keep the reason on every output dependent on the missing market rents.
+    var missingMarketOutputs = ['dc-r-rents'];
+    if (autoNoi && autoNoi.checked) missingMarketOutputs = missingMarketOutputs.concat(
+      ['dc-noi-computed', 'dc-r-noi-stab', 'dc-r-mortgage', 'dc-su-mortgage', 'dc-su-gap']);
+    ['dc-r-rents', 'dc-noi-computed', 'dc-r-noi-stab', 'dc-r-mortgage', 'dc-su-mortgage', 'dc-su-gap'].forEach(function (id) {
+      var el = document.getElementById(id);
+      var blocked = manualMarket.unavailableReason && missingMarketOutputs.indexOf(id) !== -1;
+      el.dataset.unavailableReason = blocked ? manualMarket.unavailableReason : '';
+      if (blocked) el.textContent = 'Unavailable — ' + manualMarket.message;
+    });
     try { document.dispatchEvent(new CustomEvent('deal-calc:updated')); } catch(_) {}
   }
 
