@@ -582,7 +582,7 @@
 
   function reportSections(report) {
     return report.unavailableReason
-      ? [{ key: 'unavailable', heading: 'Report disclosures', entries: ['unavailable — ' + report.unavailableReason] }]
+      ? [{ key: 'unavailable', heading: 'Report disclosures', entries: [{ text: 'unavailable — ' + report.unavailableReason, fieldIds: [] }] }]
       : window.DealCalculatorReportMeta.sections(report);
   }
   function printReport(report) {
@@ -599,8 +599,8 @@
     block.replaceChildren();
     reportSections(report).forEach(function (section) {
       var heading = document.createElement('h2'); heading.textContent = section.heading; block.appendChild(heading);
-      (section.entries.length ? section.entries : [section.empty]).forEach(function (entry) {
-        var paragraph = document.createElement('p'); paragraph.textContent = entry; block.appendChild(paragraph);
+      (section.entries.length ? section.entries : [{ text: section.empty }]).forEach(function (entry) {
+        var paragraph = document.createElement('p'); paragraph.textContent = entry.text; block.appendChild(paragraph);
       });
     });
     window.print();
@@ -622,7 +622,7 @@
     reportSections(report).forEach(function (section) {
       if (y + 50 > pageH - margin) { pdf.addPage(); y = margin; }
       write(section.heading, 14);
-      (section.entries.length ? section.entries : [section.empty]).forEach(function (entry) { write(entry, 10); });
+      (section.entries.length ? section.entries : [{ text: section.empty }]).forEach(function (entry) { write(entry.text, 10); });
     });
   }
 

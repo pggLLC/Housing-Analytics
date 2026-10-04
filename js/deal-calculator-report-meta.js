@@ -57,6 +57,7 @@
       var available = calculation && typeof calculation.result === 'number' && Number.isFinite(calculation.result) && !calculation.unavailableReason;
       report.methodology.push({ id: el.id || null, key: key, title: entry.title || key,
         what: entry.what || 'Explanation unavailable.', how: entry.how || 'Method unavailable.',
+        caveats: entry.caveats || null,
         source: entry.source || null, currentSource: context && context.sources || null,
         withYourNumbers: available ? { result: calculation.result, formattedResult: calculation.formattedResult, text: calculation.text, unavailableReason: null }
           : { result: null, formattedResult: null, text: 'unavailable — ' + reason, unavailableReason: reason } });
@@ -66,25 +67,30 @@
   // Both text-PDF and print render this same ordered content, from one captured record.
   function sections(report) {
     function fieldLine(field) { return field.definition + ': ' + text(field.value) + ' [' + field.status + ']'; }
+    function item(content, fields) { return { text: content, fieldIds: (fields || []).map(function (field) { return field.id; }).filter(Boolean) }; }
+    var shared = new Map(report.sharedUnverified.map(function (field) { return [field.id, field]; }));
+    var assumptions = new Map(report.assumptions.map(function (field) { return [field.id, field]; }));
+    shared.forEach(function (field, id) { assumptions.set(id, field); });
     return [
       { key: 'sources', heading: 'Sources & vintages', entries: report.sources.map(function (source) {
-        return source.source + ' · ' + text(source.sourceUrl) + ' · Vintage: ' + text(source.vintage) +
+        return item(source.source + ' · ' + text(source.sourceUrl) + ' · Vintage: ' + text(source.vintage) +
           ' · Geography: ' + text(source.geography) + (source.effectiveDate ? ' · Effective: ' + source.effectiveDate : '') +
-          ' · Fields: ' + source.fields.map(function (field) { return field.definition; }).filter(function (definition, index, all) { return all.indexOf(definition) === index; }).join('; ');
+          ' · Fields: ' + source.fields.map(function (field) { return field.definition; }).filter(function (definition, index, all) { return all.indexOf(definition) === index; }).join('; '), source.fields);
       }), empty: 'No source-confirmed fields are available.' },
-      { key: 'assumptions', heading: 'Assumptions you should review', entries: report.assumptions.map(fieldLine).concat(report.sharedUnverified.map(function (field) {
-        return fieldLine(field) + ' · ' + field.notice + ' Sender claimed source: ' + text(field.senderClaim) +
-          (field.senderOriginalValue != null ? ' · Sender original value: ' + field.senderOriginalValue : '');
-      })), empty: 'No assumptions, illustrative values or personal entries to review.' },
+      { key: 'assumptions', heading: 'Assumptions you should review', entries: Array.from(assumptions.values()).map(function (field) {
+        return item(fieldLine(field) + (shared.has(field.id) ? ' · ' + field.notice + ' Sender claimed source: ' + text(field.senderClaim) +
+          (field.senderOriginalValue != null ? ' · Sender original value: ' + field.senderOriginalValue : '') : ''), [field]);
+      }), empty: 'No assumptions, illustrative values or personal entries to review.' },
       { key: 'needsSource', heading: 'Missing sources', entries: report.needsSource.map(function (field) {
-        return field.definition + ' — ' + field.reason;
+        return item(field.definition + ' — ' + field.reason, [field]);
       }), empty: 'No fields are waiting for a source.' },
       { key: 'methodology', heading: 'How each figure was calculated', entries: report.methodology.map(function (figure) {
-        return figure.title + '\nWhat: ' + figure.what + '\nHow: ' + figure.how +
+        return item(figure.title + '\nWhat: ' + figure.what + '\nHow: ' + figure.how +
           '\nWith your numbers: ' + figure.withYourNumbers.text +
-          (figure.currentSource || figure.source ? '\nInputs: ' + (figure.currentSource || figure.source) : '');
+          (figure.currentSource || figure.source ? '\nInputs: ' + (figure.currentSource || figure.source) : '') +
+          (figure.caveats ? '\nCaveats: ' + figure.caveats : ''), [figure]);
       }), empty: 'No figures with methodology are visible in this view.' },
-      { key: 'limitations', heading: 'Limitations', entries: [report.limitations] }
+      { key: 'limitations', heading: 'Limitations', entries: [item(report.limitations)] }
     ];
   }
   root.DealCalculatorReportMeta = { buildReportMeta: buildReportMeta, sections: sections };
