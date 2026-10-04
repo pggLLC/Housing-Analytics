@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-04T01:31:09.688Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-04T01:40:23.472Z. Do not edit by hand.
 
 ---
 
@@ -33,7 +33,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 69.6 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.9 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 75.2 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 75.3 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.1 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -1748,7 +1748,7 @@
 
 ## Test Files
 
-508 test files found.
+510 test files found.
 
 | File | Size |
 |------|------|
@@ -1843,6 +1843,7 @@
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
 | `test/deal-calc-provenance.test.js` | 16.7 KB |
+| `test/deal-calc-report-meta.test.js` | 14.6 KB |
 | `test/deal-calc-schedule.test.js` | 22.5 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-share-roundtrip.test.js` | 21.7 KB |
@@ -1904,6 +1905,7 @@
 | `test/guided-path-forward-and-doc.test.mjs` | 4.7 KB |
 | `test/helpers/ci-wiring.js` | 1.9 KB |
 | `test/helpers/deal-calculator-page.cjs` | 4.5 KB |
+| `test/helpers/jspdf-mock.cjs` | 2.8 KB |
 | `test/historical-trends-real-data.test.js` | 8.2 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
@@ -1921,7 +1923,7 @@
 | `test/hna-deep-dive-batch2.test.js` | 6.2 KB |
 | `test/hna-dev-context-collision.test.js` | 4.6 KB |
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
-| `test/hna-export-matches-screen.test.js` | 27.8 KB |
+| `test/hna-export-matches-screen.test.js` | 27.3 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.5 KB |
 | `test/hna-functionality-check.js` | 60.6 KB |
 | `test/hna-geography-provenance.test.js` | 5.4 KB |
@@ -1952,7 +1954,7 @@
 | `test/hna-section-rail.test.js` | 7.9 KB |
 | `test/hna-strip-digest-evidence.test.js` | 5.3 KB |
 | `test/hna-sub-county-and-sync.test.js` | 4.9 KB |
-| `test/hna-surplus-semantics.test.js` | 11.7 KB |
+| `test/hna-surplus-semantics.test.js` | 11.1 KB |
 | `test/hna-takeaways-chas-disclosure.test.js` | 1.4 KB |
 | `test/hna-transit-zone.test.js` | 34.2 KB |
 | `test/hna-unknown-geoid.test.js` | 2.8 KB |
@@ -2033,7 +2035,7 @@
 | `test/ownership-funding-schema.test.js` | 5.6 KB |
 | `test/ownership-rental-separation.test.js` | 16.1 KB |
 | `test/ownership-resale.test.js` | 14.5 KB |
-| `test/package-4-user-visible.test.js` | 8.3 KB |
+| `test/package-4-user-visible.test.js` | 7.8 KB |
 | `test/page-dates.test.mjs` | 9.4 KB |
 | `test/pages-availability-check.js` | 16.9 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
