@@ -13,7 +13,7 @@
  * -----
  * Auto-attaches to any element with [data-methodology-key="<key>"]
  * on page load. Looks up the key in METHODOLOGY_REGISTRY and renders
- * a `<details>` summary/body next to the title.
+ * a keyboard-accessible explanation next to the title or figure.
  *
  * Example HTML:
  *   <h2>Renter cost burden by AMI <span data-methodology-key="chas-cb"></span></h2>
@@ -121,16 +121,188 @@
     },
   };
 
+  function known(value) { return typeof value === 'number' && Number.isFinite(value); }
+  function money(value) { return '$' + Math.round(value).toLocaleString('en-US'); }
+  function count(value) { return Math.round(value).toLocaleString('en-US'); }
+  function unavailable(reason) { return { result: null, unavailableReason: reason, text: 'Unavailable because ' + String(reason).replace(/[.!]$/, '') + '.' }; }
+  function calculate(c, inputs, formula, describe, format) {
+    c = c || {};
+    if (c.unavailableReason) return unavailable(c.unavailableReason);
+    var missing = Object.keys(inputs).filter(function (key) { return !known(c[key]); });
+    if (missing.length) return unavailable(missing.map(function (key) {
+      return inputs[key] + ' is missing' + (c.reasons && c.reasons[key] ? ': ' + c.reasons[key] : ' from this result');
+    }).join('; '));
+    var result = formula(c);
+    if (!known(result)) return unavailable('the denominator or calculation inputs cannot produce a finite result');
+    return { result: result, formattedResult: format(result), text: describe(c) + ' = ' + format(result) };
+  }
+  var percent = function (v) { return v.toFixed(1) + '%'; };
+  METHODOLOGY_REGISTRY['funding-gap'] = {
+    title: 'Funding gap', what: 'The development cost still to fund in this screening scenario; a negative gap means modeled sources exceed costs.',
+    how: 'Subtract tax-credit equity, the first mortgage, grants, soft-loan principal and deferred developer fee from total development cost.',
+    source: 'Current calculator entries and modeled financing sources, for the selected county; dated rent-limit and allowance records are identified below when available.',
+    next: 'Use the remaining gap to size a financing conversation, then verify costs, terms and source availability.',
+    compute: function (c) { return calculate(c, { tdc: 'Total development cost', equity: 'Equity', mortgage: 'First mortgage', grants: 'Grants', softLoans: 'Soft loans', deferred: 'Deferred fee' },
+      function (v) { return v.tdc - v.equity - v.mortgage - v.grants - v.softLoans - v.deferred; },
+      function (v) { return money(v.tdc) + ' cost − (' + [v.equity,v.mortgage,v.grants,v.softLoans,v.deferred].map(money).join(' + ') + ') sources'; }, money); }
+  };
+  METHODOLOGY_REGISTRY['ownership-subsidy-gap'] = {
+    title: 'Ownership subsidy gap per home', what: 'The per-home subsidy indicated by the ownership affordability screen.',
+    how: 'Subtract the affordable buyer price from development cost per home. When the price covers cost, the subsidy gap is zero.',
+    source: 'Entered development cost and units, the selected county’s HUD income limits, and the shared ownership payment assumptions; source vintage and geography appear below.',
+    next: 'Compare the gap with potential subsidy resources and confirm buyer financing and project costs.',
+    compute: function (c) { return calculate(c, { cost: 'Development cost per home', price: 'Affordable buyer price' },
+      function (v) { return Math.max(0, v.cost - v.price); }, function (v) { return 'At least zero: ' + money(v.cost) + ' cost per home − ' + money(v.price) + ' affordable price'; }, money); }
+  };
+  METHODOLOGY_REGISTRY['scheduled-rent-revenue'] = {
+    title: 'Scheduled rent revenue', what: 'Annual rent before vacancy and expenses in the Market Analysis schedule screening scenario.',
+    how: 'For each restricted row, entered gross rent at or below the CHFA limit minus utility allowance and fees gives contract rent. Multiply each row’s contract rent (or sourced market rent) by its units and twelve months, then add the rows. The calculator does not deduct the allowance again.',
+    source: 'Market Analysis subject schedule, its CHFA table, allowance basis and market-rent citations, with their dates and county recorded below.',
+    next: 'Check rent sources and vacancy before using revenue in the expense and financing screen.',
+    compute: function (c) {
+      if (!c || c.unavailableReason) return unavailable(c && c.unavailableReason || 'the Market Analysis schedule is unavailable');
+      if (!Array.isArray(c.rows) || !c.rows.length) return unavailable('the schedule has no priced rows');
+      var terms = [], total = 0;
+      for (var i = 0; i < c.rows.length; i++) {
+        var r = c.rows[i], rent = r.tier === 'market' ? r.rent : r.contractRent;
+        if (!known(r.units) || !known(rent)) return unavailable('units or rent for schedule row ' + (i + 1) + ' is missing');
+        total += r.units * rent * 12;
+        terms.push(count(r.units) + ' homes × ' + money(rent) + ' monthly rent × 12');
+      }
+      return { result: total, formattedResult: money(total), text: terms.join(' + ') + ' = ' + money(total) };
+    }
+  };
+  METHODOLOGY_REGISTRY['project-capture'] = {
+    contextElementId: 'pmaProposedCaptureRate',
+    title: 'Proposed-project capture rate', what: 'The share of the identified renter demand pool a proposed project would need to attract, as a screening measure.',
+    how: 'Divide proposed units by the renter-household denominator used by this run, then multiply by 100. The denominator identifies whether income-qualified CHAS renters or the ACS renter fallback is available.',
+    source: 'Proposed-unit entry and the run’s CHAS or ACS renter pool, bound to its PMA and source vintage below.',
+    next: 'Compare with competing projects and obtain local lease-up evidence before relying on the demand screen.',
+    compute: function (c) { return calculate(c, { proposedUnits: 'Proposed units', qualifiedRenters: 'Renter-household denominator' },
+      function (v) { return v.qualifiedRenters > 0 ? Math.round(v.proposedUnits / v.qualifiedRenters * 1000) / 10 : NaN; },
+      function (v) { return count(v.proposedUnits) + ' proposed units ÷ ' + count(v.qualifiedRenters) + ' ' + (v.denominatorLabel || 'renter households') + ' × 100'; }, percent); }
+  };
+  METHODOLOGY_REGISTRY['absorption-risk'] = {
+    title: 'Competitive supply share', what: 'A screening flag for how large the proposed project is relative to the competitive supply set; it is not a lease-up forecast.',
+    how: 'Divide proposed units by existing competitive units plus proposed units. The current engine rounds the ratio to two decimal places before displaying it as a percent; its zero-competitive-supply branch reports zero.',
+    source: 'The run’s proposed-unit entry and competitive-property unit counts for its selected market area, with source context below.',
+    next: 'Review comparable properties and observed lease-up times to investigate an elevated share.',
+    compute: function (c) { return calculate(c, { proposedUnits: 'Proposed units', competitiveUnits: 'Competitive supply' },
+      function (v) { return v.competitiveUnits > 0 ? Math.round(v.proposedUnits / (v.competitiveUnits + v.proposedUnits) * 100) : 0; },
+      function (v) { return count(v.proposedUnits) + ' proposed units ÷ (' + count(v.competitiveUnits) + ' existing competitive + ' + count(v.proposedUnits) + ' proposed units) × 100, using the engine rounding'; }, percent); }
+  };
+  METHODOLOGY_REGISTRY['scheduled-row-rent'] = {
+    title: 'Scheduled contract rent per home', what: 'Monthly rent for this row in the project’s screening schedule.',
+    how: 'For a restricted row, subtract utility allowance and nonoptional fees from entered gross rent, which must not exceed the CHFA maximum. For a market row, use its cited market rent without deducting an allowance.',
+    source: 'This subject-project row, its county CHFA table and allowance basis or market-rent citation, with dates recorded below.',
+    next: 'Confirm the proposed rent and its source; resolve any missing basis or above-limit amount before using schedule totals.',
+    compute: function (c) {
+      if (c && c.market) return calculate(c, { gross: 'Cited market rent' }, function (v) { return v.gross; }, function (v) { return money(v.gross) + ' cited market rent, with no allowance deduction'; }, money);
+      return calculate(c, { gross: 'Proposed gross rent', allowance: 'Utility allowance', fees: 'Nonoptional fees' },
+        function (v) { return v.gross - v.allowance - v.fees; }, function (v) { return money(v.gross) + ' gross rent − ' + money(v.allowance) + ' utility allowance − ' + money(v.fees) + ' fees'; }, money);
+    }
+  };
+
+  METHODOLOGY_REGISTRY['renter-demand-cumulative'] = {
+    title: 'Cumulative renter demand', what: 'Renter households at or below this AMI level in the screening view, before subtracting existing affordable supply.',
+    how: 'Read the cumulative renter-household count for this income threshold. The ACS path interpolates income brackets against county HUD limits; the CHAS fallback accumulates cost-burdened cohorts. This demand count is not a net shortfall.',
+    source: 'The selected place or county ACS AMI-gap record, or the explicitly labelled CHAS fallback; vintage and geography appear below.',
+    next: 'Use the net-of-supply summary to distinguish households needing affordable rents from additional homes that may be needed.',
+    compute: function (c) { return calculate(c, { households: 'Renter-household count' }, function (v) { return v.households; },
+      function (v) { return count(v.households) + ' cumulative ' + (v.basis || 'renter households'); }, count); }
+  };
+  METHODOLOGY_REGISTRY['renter-demand-tier'] = {
+    title: 'Renter demand within one income band', what: 'The non-overlapping renter-household cohort for this AMI band in the screening view, before any supply deduction.',
+    how: 'Subtract the preceding cumulative household count from this band’s cumulative count, floored at zero. The first band starts from no lower-band households. CHAS fallback counts cost-burdened households.',
+    source: 'The same selected ACS or CHAS household inputs used by the cumulative tiles, with their vintage and geography below.',
+    next: 'Compare the income bands when planning a rent mix, then check existing priced-affordable supply.',
+    compute: function (c) { return calculate(c, { households: 'Cumulative renter households', previousHouseholds: 'Previous cumulative renter households' },
+      function (v) { return Math.max(0, v.households - v.previousHouseholds); },
+      function (v) { return 'At least zero: ' + count(v.households) + ' cumulative households − ' + count(v.previousHouseholds) + ' below this band'; }, count); }
+  };
+  function shortfallNumbers(c) {
+    if (!c || c.unavailableReason || c.displayedValue === null) return unavailable(c && c.unavailableReason || 'rental shortfall inputs are missing from this result');
+    var total = 0, terms = [];
+    if (c.bandShortfalls) {
+      var bands = ['30','40','50','60','70','80','100'];
+      for (var j = 0; j < bands.length; j++) {
+        var value = c.bandShortfalls[bands[j]];
+        if (!known(value)) return unavailable('the combined shortfall for the band ending at ' + bands[j] + '% AMI is missing');
+        total += value; terms.push(count(value) + ' in band ending at ' + bands[j] + '% AMI');
+      }
+    } else {
+      var rows = Array.isArray(c.rows) ? c.rows : Object.keys(c.rows || {}).map(function (band) { return c.rows[band]; });
+      if (!rows.length) return unavailable('household and priced-affordable unit counts are missing');
+      var record = c.sourceContext && c.sourceContext.record;
+      for (var i = 0; i < rows.length; i++) {
+        var inputs = rows[i];
+        // The existing renderer can use a numeric supply fallback. The source
+        // object travels by reference so an explanation cannot certify absence.
+        if (record && inputs) {
+          var supply = record.units_priced_affordable_le_ami_pct || {};
+          var needed = [inputs.band].concat(inputs.previousBand == null ? [] : [inputs.previousBand]);
+          if (needed.some(function (band) { return supply[band] == null || String(supply[band]).trim() === '' || !Number.isFinite(Number(supply[band])); })) {
+            return unavailable('priced-affordable unit counts are missing for this income band');
+          }
+        }
+        var row = calculate(inputs, { households: 'Cumulative renter households', previousHouseholds: 'Previous cumulative renter households', units: 'Cumulative priced-affordable units', previousUnits: 'Previous cumulative priced-affordable units' },
+          function (v) { return Math.max(0, (v.households - v.previousHouseholds) - (v.units - v.previousUnits)); },
+          function (v) { return 'At least zero: (' + count(v.households) + ' − ' + count(v.previousHouseholds) + ') households − (' + count(v.units) + ' − ' + count(v.previousUnits) + ') priced-affordable units'; }, count);
+        if (row.result == null) return row;
+        total += row.result; terms.push('[' + row.text + ']');
+      }
+    }
+    return { result: total, formattedResult: count(total), text: terms.join(' + ') + ' = ' + count(total) + ' households short' };
+  }
+  METHODOLOGY_REGISTRY['rental-shortfall-band'] = {
+    title: 'Rental shortfall within one income band', what: 'Renter households without enough units priced for their income band in this screening estimate.',
+    how: 'Shortfall uses households minus priced-affordable units. First difference the cumulative counts to isolate this band, then subtract its units from its households and floor a surplus at zero. Higher-rent supply cannot offset a lower-income band’s shortfall.',
+    source: 'ACS B25118 renter households and B25063 gross-rent distributions, matched to HUD AMI thresholds for the selected geography; source dates appear below.',
+    next: 'Investigate rents, occupancy and household needs locally before choosing a project’s income targets.',
+    compute: shortfallNumbers
+  };
+  METHODOLOGY_REGISTRY['rental-shortfall-summary'] = {
+    title: 'Cumulative rental shortfall', what: 'The cumulative household shortfall after matching existing priced-affordable supply within income bands, as a screening estimate.',
+    how: 'Use households minus priced-affordable units within each non-overlapping AMI band, floored at zero, then add those positive band shortfalls through the stated threshold. This is cumulative shortfall, not the raw units-minus-households field used by the county ranking data. Combined areas apply the same rule to summed member inputs.',
+    source: 'The displayed ACS/HUD AMI-gap inputs for the selected place, county or combined area, with dates and geography below; CHAS-only demand cannot establish a net supply gap.',
+    next: 'Compare which income bands drive the shortfall and verify local supply before setting a production target.',
+    compute: shortfallNumbers
+  };
+
   function _esc(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
-  function _buildPopover(entry) {
+  function contextSources(context) {
+    if (!context) return '';
+    if (context.sources) return context.sources;
+    var source = context.sourceContext;
+    if (!source) return '';
+    if (source.kind === 'combined') {
+      var combined = source.result || {};
+      return 'Combined member ACS AMI-gap records · ' + (combined.memberLabels || (combined.members || []).map(function (member) { return member.geoid; })).join(' + ') +
+        ' · source vintages are not attached to this combined record';
+    }
+    var meta = source.meta || {}, record = source.record || {};
+    if (source.kind === 'acs') return 'Census ACS ' +
+      (meta.acs_year ? (meta.acs_year - 4) + '–' + meta.acs_year : 'vintage unavailable') +
+      ' · HUD income limits FY' + (meta.hud_income_limits_year || 'unavailable') + ' · ' +
+      (source.isPlace ? 'place ' + (record.place_name || '') : 'county ' + (record.county_name || '')) +
+      ' (' + (record.fips || source.countyFips || 'geography unavailable') + ')';
+    return 'HUD CHAS ' + (meta.vintage || 'vintage unavailable') + ' · ' +
+      (source.isState ? 'Colorado statewide' : 'county ' + (source.countyFips || 'unavailable'));
+  }
+
+  function _buildPopover(entry, context) {
+    var computed = entry.compute ? entry.compute(context || {}) : null;
     return '<div class="me-pop-body" style="font-size:.82rem;line-height:1.5;">' +
       '<p style="margin:0 0 .4rem;"><strong>What:</strong> ' + _esc(entry.what) + '</p>' +
       '<p style="margin:0 0 .4rem;"><strong>How:</strong> ' + _esc(entry.how) + '</p>' +
+      (computed ? '<p class="me-calculation" data-result="' + (computed.result == null ? '' : _esc(computed.result)) + '" data-unavailable-reason="' + _esc(computed.unavailableReason || '') + '"><strong>With your numbers:</strong> ' + _esc(computed.text) + '</p>' : '') +
+      (entry.next ? '<p><strong>What to do next:</strong> ' + _esc(entry.next) + '</p>' : '') +
+      (contextSources(context) ? '<p class="me-source-context"><strong>Inputs for this result:</strong> ' + _esc(contextSources(context)) + '</p>' : '') +
       (entry.caveats
         ? '<p style="margin:0 0 .4rem;"><strong>Caveats:</strong> ' + _esc(entry.caveats) + '</p>'
         : '') +
@@ -140,10 +312,14 @@
     '</div>';
   }
 
+  var nextPopoverId = 0;
   function attach() {
     var anchors = document.querySelectorAll('[data-methodology-key]');
     anchors.forEach(function (anchor) {
-      if (anchor.dataset.meAttached) return;
+      if (anchor.dataset.meAttached && anchor._methodologyIcon && anchor._methodologyIcon.isConnected) {
+        if (!anchor._methodologyIcon.nextElementSibling.hidden) anchor._methodologyIcon.refreshExplanation();
+        return;
+      }
       anchor.dataset.meAttached = '1';
       var key = anchor.dataset.methodologyKey;
       var entry = METHODOLOGY_REGISTRY[key];
@@ -162,36 +338,90 @@
       icon.title = 'Methodology: ' + entry.title;
       icon.style.cssText =
         'display:inline-flex;align-items:center;justify-content:center;' +
-        'width:18px;height:18px;margin-left:.3rem;padding:0;' +
+        'width:44px;height:44px;box-sizing:border-box;flex-shrink:0;margin-left:.3rem;padding:0;' +
+        'border:0;background:transparent;cursor:pointer;vertical-align:middle;';
+      var glyph = document.createElement('span');
+      glyph.setAttribute('aria-hidden', 'true');
+      glyph.style.cssText =
+        'display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;box-sizing:border-box;' +
         'border:1px solid var(--accent,#096e65);border-radius:50%;' +
         'background:rgba(9,110,101,.08);color:var(--accent,#096e65);' +
-        'font-size:.72rem;font-weight:700;cursor:help;vertical-align:middle;';
-      icon.textContent = 'ℹ';
+        'font-size:.72rem;font-weight:700;';
+      glyph.textContent = 'ℹ';
+      icon.appendChild(glyph);
 
       var pop = document.createElement('div');
       pop.className = 'me-pop';
+      pop.id = 'me-pop-' + (++nextPopoverId);
+      pop.setAttribute('tabindex', '0');
+      pop.setAttribute('role', 'region');
+      pop.setAttribute('aria-label', entry.title + ' explanation');
+      icon.setAttribute('aria-controls', pop.id);
       pop.hidden = true;
       pop.style.cssText =
-        'position:absolute;z-index:1000;max-width:380px;padding:.75rem 1rem;' +
+        'position:fixed;z-index:1000;width:min(380px,calc(100vw - 16px));box-sizing:border-box;padding:.75rem 1rem;' +
+        'max-height:calc(100vh - 16px);overflow:auto;overflow-wrap:anywhere;' +
         'background:var(--bg,#fff);border:1px solid var(--border);border-radius:6px;' +
-        'box-shadow:0 4px 16px rgba(0,0,0,.15);margin-top:.25rem;line-height:1.4;';
-      pop.innerHTML = '<div style="font-weight:600;font-size:.92rem;margin-bottom:.4rem;">' +
-        _esc(entry.title) + '</div>' + _buildPopover(entry);
+        'box-shadow:0 4px 16px rgba(0,0,0,.15);line-height:1.4;';
+      var renderedHtml;
+      function refresh() {
+        var contextAnchor = anchor.methodologyContext ? anchor : document.getElementById(entry.contextElementId) || anchor;
+        var context = typeof contextAnchor.methodologyContext === 'function' ? contextAnchor.methodologyContext() : contextAnchor.methodologyContext;
+        var html = '<div style="font-weight:600;font-size:.92rem;margin-bottom:.4rem;">' +
+          _esc(entry.title) + '</div>' + _buildPopover(entry, context);
+        // A render can change inputs while the explanation stays open. Only
+        // mutate changed content, so the DOM observer settles after refresh.
+        if (renderedHtml !== html) { pop.innerHTML = html; renderedHtml = html; }
+        if (!pop.hidden) position();
+      }
+      refresh();
 
-      anchor.appendChild(icon);
-      anchor.appendChild(pop);
+      icon.refreshExplanation = refresh;
+      anchor._methodologyIcon = icon;
+      var host = anchor;
+      if (anchor.dataset.methodologyPlacement === 'after') {
+        host = document.createElement('span'); host.className = 'me-figure-explanation';
+        if (anchor.tagName === 'TD') anchor.parentNode.cells[0].appendChild(host);
+        else if (anchor.tagName === 'DD') anchor.previousElementSibling.appendChild(host);
+        else anchor.insertAdjacentElement('afterend', host);
+        host.appendChild(icon); host.appendChild(pop);
+      } else { anchor.appendChild(icon); anchor.appendChild(pop); }
       anchor.style.position = 'relative';
 
-      function show() { pop.hidden = false; }
-      function hide() { pop.hidden = true; }
-      function toggle() { pop.hidden = !pop.hidden; }
-      icon.addEventListener('click', toggle);
+      function position() {
+        var rect = icon.getBoundingClientRect();
+        pop.style.left = Math.max(8, Math.min(rect.left, window.innerWidth - pop.offsetWidth - 8)) + 'px';
+        // Keep the control uncovered so a second tap can dismiss even a long
+        // explanation. Use the room on one side and scroll the rest.
+        var below = Math.max(0, window.innerHeight - rect.bottom - 8);
+        var above = Math.max(0, rect.top - 8);
+        var placeBelow = below >= pop.scrollHeight || below >= above;
+        pop.style.maxHeight = (placeBelow ? below : above) + 'px';
+        pop.style.top = (placeBelow ? rect.bottom : rect.top - pop.offsetHeight) + 'px';
+      }
+      function show() { refresh(); pop.hidden = false; position(); icon.setAttribute('aria-expanded', 'true'); }
+      var activated = false;
+      function hide() { pop.hidden = true; activated = false; icon.setAttribute('aria-expanded', 'false'); }
+      icon.setAttribute('aria-expanded', 'false');
+      icon.addEventListener('focus', show);
+      host.addEventListener('focusout', function (e) { if (!host.contains(e.relatedTarget)) hide(); });
+      host.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !pop.hidden) { e.preventDefault(); icon.focus(); hide(); }
+      });
+      icon.addEventListener('click', function () {
+        // Hover/focus can preview before the first click or tap arrives.
+        // That first activation keeps it open; the next one dismisses it.
+        if (activated && !pop.hidden) hide();
+        else { show(); activated = true; }
+      });
       icon.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
-        else if (e.key === 'Escape') { hide(); }
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          if (pop.hidden) { show(); activated = true; } else hide();
+        }
       });
       icon.addEventListener('mouseenter', show);
-      anchor.addEventListener('mouseleave', hide);
+      host.addEventListener('mouseleave', hide);
     });
   }
 
@@ -214,5 +444,6 @@
   window.MethodologyExplainer = {
     attach: attach,
     REGISTRY: METHODOLOGY_REGISTRY,
+    setContext: function (anchor, context) { if (anchor) anchor.methodologyContext = context; },
   };
 })();

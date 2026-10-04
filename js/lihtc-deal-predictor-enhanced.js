@@ -46,17 +46,6 @@
 
   var VERSION = '3.0.0';
 
-  /**
-   * Legislative impact multipliers for equity pricing forecasts.
-   * Based on Novogradac analysis of AHCIA/H.R.6644 provisions.
-   */
-  var LEGISLATIVE_EQUITY_BOOST = {
-    AHCIA:   0.04,   // +4 cents/credit from expanded investor base
-    HR6644:  0.02,   // +2 cents from FHA limit increases + NEPA streamlining
-    'CRA-MOD': 0.03, // +3 cents from expanded CRA-eligible investor universe
-    ROAD:    0.01    // +1 cent (Senate; must reconcile with HR6644)
-  };
-
   /** Minimum PMA score thresholds by confidence tier. */
   var PMA_THRESHOLDS = {
     strong: 75,
@@ -207,6 +196,8 @@
     if (!LegislativeTracker || typeof LegislativeTracker.getMarketImpactSummary !== 'function') {
       return {
         available: false,
+        equityPricingBoost: null,
+        equityPricingBoostUnavailableReason: 'LegislativeTracker not loaded.',
         note: 'LegislativeTracker not loaded — legislative context unavailable.'
       };
     }
@@ -217,25 +208,20 @@
       return b.stage !== 'Failed / Died in Committee';
     });
 
-    // Weighted equity pricing uplift from active bills
-    var equityPricingBoost = activeBills.reduce(function (acc, bill) {
-      var boost = LEGISLATIVE_EQUITY_BOOST[bill.id] || 0;
-      var passageWeight = _num(bill.passageProbability, 50) / 100;
-      return acc + boost * passageWeight;
-    }, 0);
-
     return {
       available:          true,
-      equityPricingBoost: Math.round(equityPricingBoost * 100) / 100,
+      // No sourced estimate exists for how a bill moves equity pricing. The
+      // per-bill cents that used to sit here were unsourced and keyed to ids
+      // no bill carries, so the figure is unknown, not zero (#2010).
+      equityPricingBoost: null,
+      equityPricingBoostUnavailableReason: 'No sourced estimate of legislative impact on equity pricing.',
       activeBillCount:    activeBills.length,
       lihtcDemandBoost:   summary.weightedLihtcDemandBoost || 0,
       craExpansion:       summary.weightedCraExpansionScore || 0,
       keyBills:           activeBills.map(function (b) {
         return { id: b.id, title: b.title, stage: b.stage, passageProbability: b.passageProbability };
       }),
-      note: equityPricingBoost > 0
-        ? 'Active legislation may boost equity pricing by approximately $' + equityPricingBoost.toFixed(2) + '/credit.'
-        : null
+      note: null
     };
   }
 
@@ -272,9 +258,6 @@
     var leg = enhanced.legislativeContext;
     if (leg.available && leg.activeBillCount > 0) {
       lines.push('Legislative context: ' + leg.activeBillCount + ' active bill(s)');
-      if (leg.equityPricingBoost > 0) {
-        lines.push('  Projected equity pricing uplift: +$' + leg.equityPricingBoost.toFixed(2) + '/credit');
-      }
     }
 
     if (base.pabCapNote) {
@@ -350,7 +333,7 @@
         confidence:      result.base.confidence,
         pmaSignalTier:   result.enhanced.pmaSignals.tier,
         gapTargeting:    result.enhanced.affordabilityGapSignals.targeting,
-        legislativeBoost: result.enhanced.legislativeContext.equityPricingBoost || 0,
+        legislativeBoost: result.enhanced.legislativeContext.equityPricingBoost,
         full:            result
       };
     });

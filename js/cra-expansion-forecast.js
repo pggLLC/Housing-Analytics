@@ -248,40 +248,6 @@ class CRAExpansionForecaster {
             }))
         };
     }
-
-    // Legislative tracking
-    getCurrentBills() {
-        return {
-            pending: [
-                {
-                    bill: 'Affordable Housing Credit Improvement Act (AHCIA)',
-                    status: 'Introduced - both chambers',
-                    craProvisions: 'Moderate - enhances CRA credit for LIHTC',
-                    likelihood: 'Medium (40%)',
-                    impact: 'Moderate scenario likely if passed'
-                },
-                {
-                    bill: 'Community Reinvestment Act Modernization',
-                    status: 'Under consideration',
-                    craProvisions: 'Significant - expands institutions covered',
-                    likelihood: 'Medium-Low (25%)',
-                    impact: 'Aggressive scenario if passed'
-                },
-                {
-                    bill: 'Neighborhood Homes Investment Act',
-                    status: 'Introduced',
-                    craProvisions: 'Indirect - creates competing tax credit',
-                    likelihood: 'Low-Medium (30%)',
-                    impact: 'Could reduce LIHTC demand (negative)'
-                }
-            ],
-            timeline: {
-                earlyAction: 'Q2-Q3 2026 if fast-tracked',
-                normalProcess: 'Q4 2026 - Q2 2027',
-                implementation: '2-4 quarters post-passage'
-            }
-        };
-    }
 }
 
 // Export

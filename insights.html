@@ -26,6 +26,7 @@
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
+  <script src="js/components/equity-pricing.js"></script>
   <style>
     /* Research & Analysis cards (js/components/research-catalog.js). */
     .rc-hub { display: flex; flex-direction: column; gap: var(--sp5); margin-top: var(--sp3); }
@@ -181,43 +182,57 @@
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:var(--sp3);">
 
-          <!-- Credit Pricing Table -->
-          <!-- F119 — table values are a Q1 2026 Novogradac snapshot, not a live
-               feed (Novogradac doesn't publish a free public API). STATIC badge
-               + deep link makes the lag explicit. -->
+          <!-- Credit Pricing: rendered from the data the Tax Credit Equity
+               Markets page reads (js/components/equity-pricing.js), with the
+               file's as_of. Was a typed "Q1 2026" table that disagreed with
+               that file and put 4% above 9% (#2010). -->
           <div class="chart-card">
             <div class="chart-header">
               <h3 class="chart-title">Credit Pricing Analysis</h3>
-              <p class="chart-subtitle">Q1 2026 market rates · <span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.novoco.com/notes-from-novogradac/lihtc-pricing-update" target="_blank" rel="noopener">Novogradac pricing update</a></p>
+              <p class="chart-subtitle" id="insightsPricingAsOf">National average equity price per $1 of credit · <span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="article-pricing.html">Tax Credit Equity Markets</a></p>
             </div>
             <div class="data-table">
               <table>
                 <thead>
                   <tr><th>Credit Type</th><th>Current Price</th><th>QoQ</th><th>YoY</th></tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>9% Competitive</td>
-                    <td style="font-weight:700;color:var(--accent);">$0.87</td>
-                    <td style="color:var(--good);">+2.2%</td>
-                    <td style="color:var(--good);">+5.6%</td>
-                  </tr>
-                  <tr>
-                    <td>4% Non-Competitive</td>
-                    <td style="font-weight:700;color:var(--accent);">$0.89</td>
-                    <td style="color:var(--good);">+1.1%</td>
-                    <td style="color:var(--good);">+3.5%</td>
-                  </tr>
-                  <tr>
-                    <td>State Credits (Avg)</td>
-                    <td style="font-weight:700;color:var(--accent);">$0.86</td>
-                    <td style="color:var(--good);">+0.7%</td>
-                    <td style="color:var(--good);">+2.4%</td>
-                  </tr>
+                <tbody id="insightsPricingRows">
+                  <tr><td colspan="4">Pricing is read from <a href="data/market/novogradac-equity-pricing.json">the pricing data file</a>.</td></tr>
                 </tbody>
               </table>
             </div>
-            <div style="font-size:var(--tiny);color:var(--faint);margin-top:var(--sp3);font-style:italic;">Source: Novogradac LIHTC Equity Pricing Trends, Q1 2026</div>
+            <div id="insightsPricingSource" style="font-size:var(--tiny);color:var(--faint);margin-top:var(--sp3);font-style:italic;">Source: COHO estimate from public Novogradac reporting. Colorado and regional prices are on <a href="article-pricing.html">Tax Credit Equity Markets</a>.</div>
+            <script>
+            (function () {
+              'use strict';
+              var EP = window.EquityPricing;
+              var rows = document.getElementById('insightsPricingRows');
+              if (!EP || !rows) return;
+              EP.load(window.fetch && window.fetch.bind(window)).then(function (d) {
+                var c = EP.current(d.benchmark);
+                if (!c) {
+                  rows.innerHTML = '<tr><td colspan="4">Pricing could not be loaded. See <a href="article-pricing.html">Tax Credit Equity Markets</a>.</td></tr>';
+                  return;
+                }
+                // QoQ and YoY describe the printed price only if the history
+                // ends on the same quarter at the same prices.
+                var same = EP.agrees(d.benchmark, d.history);
+                var row = function (label, key) {
+                  var qoq = same ? EP.change(d.history, key, 1) : null;
+                  var yoy = same ? EP.change(d.history, key, 4) : null;
+                  return '<tr data-credit="' + key + '"><td>' + label + '</td>' +
+                    '<td style="font-weight:700;color:var(--accent);">' + EP.money(c[key]) + '</td>' +
+                    '<td>' + EP.pct(qoq) + '</td><td>' + EP.pct(yoy) + '</td></tr>';
+                };
+                rows.innerHTML = row('9% Competitive', 'nine') + row('4% Bond-financed', 'four');
+                var asOf = document.getElementById('insightsPricingAsOf');
+                if (asOf && c.asOf) {
+                  asOf.insertAdjacentHTML('afterbegin', '<span data-pricing-as-of="' + c.asOf + '">As of ' + c.asOf +
+                    (c.vintage ? ' (' + c.vintage + ')' : '') + '</span> · ');
+                }
+              });
+            }());
+            </script>
           </div>
 
           <!-- Risk Indicators — F119 rewrite.

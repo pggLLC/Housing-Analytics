@@ -866,7 +866,7 @@
         <!-- Proposed-project capture simulator -->
         <div class="pma-card">
           <h2>Proposed-project capture simulator</h2>
-          <p style="font-size:var(--tiny);margin-bottom:0.5rem">Enter proposed unit count and AMI mix to simulate the proposed-project capture rate (CHFA-style: proposed units ÷ qualified renter households).</p>
+          <p style="font-size:var(--tiny);margin-bottom:0.5rem">Enter proposed unit count and AMI mix to simulate the proposed-project capture rate (see the capture result’s methodology for the denominator and calculation).</p>
           <div class="pma-ami-grid">
             <div class="pma-ami-field">
               <label for="pmaProposedUnits">Total proposed units</label>
@@ -1012,7 +1012,7 @@
           <!-- Absorption risk card — proposed units vs total competitive set -->
           <div id="pmaAbsorptionRiskWrap" hidden style="margin-top:.75rem;padding:.5rem .65rem;border-left:3px solid var(--border,#333);border-radius:0 4px 4px 0;background:var(--bg2,#1a1a1a);font-size:.78em;">
             <p style="font-weight:600;margin:0 0 .35rem;">Absorption Risk — Competitive Supply Share</p>
-            <div id="pmaAbsorptionRiskBody" style="line-height:1.55;"></div>
+            <div id="pmaAbsorptionRiskBody" data-methodology-key="absorption-risk" data-methodology-placement="after" style="line-height:1.55;"></div>
           </div>
           <!-- Opportunity / incentive badges -->
           <div id="pmaIncentiveBadges" style="margin-top:.65rem;display:flex;flex-wrap:wrap;gap:.4rem;"></div>
@@ -1191,7 +1191,7 @@
               <label for="chfaChkCaptureInput">Proposed-project capture rate calculated
                 <span id="chfaCaptureRateDisplay" class="chfa-capture-rate-badge" style="display:none"></span>
               </label>
-              <span class="chfa-checklist-note">Proposed-project capture rate = proposed units ÷ income-qualified renter households. Should be as low as possible.</span>
+              <span class="chfa-checklist-note"><span data-methodology-key="project-capture">Review the proposed-project capture methodology and its renter demand pool.</span></span>
             </div>
           </li>
           <li class="chfa-checklist-item" id="chfaChkCompetitive">
@@ -1469,6 +1469,7 @@
   <script defer src="js/components/funding-context-card.js"></script>
   <script defer src="js/map-panes.js"></script>
   <script src="js/config/basemaps.js"></script>
+  <script defer src="js/methodology-explainer.js"></script>
   <script defer src="js/market-analysis.js"></script>
   <script defer src="js/deal-calculator-math.js"></script>
   <!-- HB26-1065 zone screen used by the PMA gate (#1937). -->
@@ -1502,6 +1503,22 @@
   <script defer src="js/data-connectors/bridge-market-summary.js"></script>
   <script defer src="js/chfa-pma-checklist.js"></script>
   <script defer src="js/pma-ui-controller.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var figure = document.getElementById('pmaAbsorptionRiskBody');
+    if (!figure) return;
+    figure.methodologyContext = function () {
+      var run = window.PMAUIController && window.PMAUIController.getLastScoreRun();
+      var absorption = run && run.absorptionRisk;
+      return { proposedUnits: absorption && absorption.proposedUnits,
+        competitiveUnits: absorption && absorption.totalCompetitiveUnits,
+        unavailableReason: absorption ? null : 'the competitive-supply result is not available for this run',
+        sources: 'LIHTC and assisted-housing competitive set for this PMA; source vintages are not attached to this score record · run created ' + (run && run.created_at || 'date unavailable') +
+          ' · site ' + (run && run.pma ? run.pma.lat + ', ' + run.pma.lon : 'not supplied') +
+          ' · ' + (absorption && absorption.competitivePropertyCount != null ? absorption.competitivePropertyCount + ' properties' : 'property count unavailable') };
+    };
+  });
+  </script>
   <script defer src="js/market-analysis/site-comparison.js"></script>
   <!-- Phase 2.1: Enhanced constraint screening modules -->
   <script defer src="js/environmental-screening.js"></script>
