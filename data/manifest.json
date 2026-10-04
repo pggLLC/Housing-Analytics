@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-04T09:41:31.100976Z",
+  "generated": "2026-10-04T10:47:14.667766Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4509,7 +4509,7 @@
     "data/hna/projections/places.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 846224
+      "bytes": 846231
     },
     "data/hna/ranking-index.json": {
       "featureCount": 0,
@@ -7874,7 +7874,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14802
+      "bytes": 14803
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
