@@ -12,7 +12,7 @@ const hud = require('../data/hud-fmr-income-limits.json');
 const keys=['studio','1br','2br','3br','4br'];
 const fields=['efficiency','one_br','two_br','three_br','four_br'];
 const api={getMeta:()=>hud.meta,getFmrByFips:fips=>hud.counties.find(c=>c.fips===fips)?.fmr};
-const norm=s=>s.replace(/\s*\((city|town|cdp)\)$/i,'').toLowerCase();
+const norm=s=>s.replace(/\s*\((city|town|cdp)\)$/i,'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 const dollars=n=>'$'+Math.round(n).toLocaleString('en-US');
 let checked=0, cityChecked=0, reviewed=0;
 for(const [kind,records] of Object.entries({counties:mix.counties,places:mix.places})) {

@@ -10,7 +10,7 @@
     return value != null && value !== '' && Number.isFinite(Number(value)) && Number(value) > 0;
   }
   function normalizedName(name) {
-    return String(name || '').replace(/\s*\((?:city|town|cdp)\)\s*$/i, '').trim().toLowerCase();
+    return String(name || '').replace(/\s*\((?:city|town|cdp)\)\s*$/i, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
   }
   function rentRecord(data, rec, geoid, scope) {
     if (!rec || !positive(rec.rent)) return null;
