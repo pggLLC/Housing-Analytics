@@ -5813,8 +5813,9 @@
 
     // Published B25064 for this place, otherwise the explicitly named county.
     var placeGeoid = zoriContext(fips).geoid;
-    var acsRec = _acsRent && ((_acsRent.places && _acsRent.places[placeGeoid]) ||
-      (_acsRent.counties && _acsRent.counties[fips]));
+    var acsPlace = _acsRent && _acsRent.places && _acsRent.places[placeGeoid];
+    var acsRec = acsPlace && acsPlace.county_fips === fips ? acsPlace :
+      _acsRent && _acsRent.counties && _acsRent.counties[fips];
     if (acsRec && Number.isFinite(acsRec.median_gross_rent) && acsRec.median_gross_rent > 0) {
       html += '<strong>' + marketContextHtml(acsRec.name) + '</strong> ACS median gross rent: $' +
         acsRec.median_gross_rent.toLocaleString() + '/mo · Census B25064, ' + marketContextHtml(_acsRent.meta.vintage) + '.';

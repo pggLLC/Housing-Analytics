@@ -2,7 +2,6 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const {JSDOM} = require('jsdom');
 const {openPage, setField, close} = require('./helpers/deal-calculator-page.cjs');
 const utils = require('../js/components/zori-rent-utils.js');
 const zori = require('../data/market/zori_rents_co.json');
@@ -55,6 +54,17 @@ for(const [kind,records] of Object.entries({counties:acs.counties,places:acs.pla
     const jurisdiction={geoType:'place',geoid:'0828745',name:'Fruita',countyFips:'08077',countyName:'Mesa County'};
     const p=await openPage('',null,{jurisdiction});
     assert.deepEqual(p.errors,[]);
+    const cap = p.d.getElementById('dc-achievable-cap-meta');
+    assert(cap.textContent.includes(acs.places[jurisdiction.geoid].name));
+    assert(cap.textContent.includes(dollars(acs.places[jurisdiction.geoid].median_gross_rent)));
+    const linked = await openPage('?geoid=0828745', null, {jurisdiction});
+    setField(linked, 'dc-county-select', '08013');
+    assert.equal(linked.d.getElementById('dc-county-select').value, '08013');
+    const linkedCap = linked.d.getElementById('dc-achievable-cap-meta');
+    assert(linkedCap.textContent.includes(acs.counties['08013'].name), 'cross-county link uses active county ACS');
+    assert(linkedCap.textContent.includes(dollars(acs.counties['08013'].median_gross_rent)));
+    assert(!linkedCap.textContent.includes(acs.places[jurisdiction.geoid].name), 'Fruita ACS cannot appear in Boulder County');
+    assert(!linkedCap.textContent.includes(dollars(acs.places[jurisdiction.geoid].median_gross_rent)));
     const expected=utils.getPerBedroomRent(zori,'08077',api,{geoid:jurisdiction.geoid,bedroomMix:mix});
     assert.deepEqual(JSON.parse(JSON.stringify(p.w.__DealCalc.getZoriPerBrRent('08077'))),expected,'real page delegates the same records');
     // Current geography, not a one-time load binding.

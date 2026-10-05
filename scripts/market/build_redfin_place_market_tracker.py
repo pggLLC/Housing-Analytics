@@ -192,8 +192,12 @@ def city_observations(stream, config):
             continue
         price = clean_number(row.get('MEDIAN_SALE_PRICE'))
         sales = clean_number(row.get('HOMES_SOLD'))
-        if price is None or price <= 0 or sales is None or sales <= 0:
-            absent[geo['geoid']] = 'redfin_city_sale_price_unavailable'
+        if sales is not None and sales < MIN_ALLOCATED_HOMES_SOLD:
+            absent[geo['geoid']] = 'redfin_city_sales_below_floor'
+            continue
+        if price is None or price <= 0 or sales is None:
+            # A later missing-price row must not erase an observed thin-sales reason.
+            absent.setdefault(geo['geoid'], 'redfin_city_sale_price_unavailable')
             continue
         record = {'period': month, 'period_begin': row['PERIOD_BEGIN'], 'period_end': row['PERIOD_END'],
             'source_period_duration_days': int(row['PERIOD_DURATION']), 'source_level': 'redfin_city_observed',
@@ -325,10 +329,19 @@ def build_artifact() -> dict:
     places = {}
     suppressed_place_months = 0
     for geoid, months in place_months.items():
+        if geoid not in geography:
+            continue
         place_meta = (membership.get("places") or {}).get(geoid, {})
         rows = []
+        qualifying = sorted(month for month, rec in months.items()
+                            if rec['homes_sold_allocated'] >= MIN_ALLOCATED_HOMES_SOLD)
+        retained = kept_months
+        if qualifying and not any(month in kept_months for month in qualifying):
+            # Preserve the last defensible observation as dated history when
+            # no recent ZIP window qualifies; the consumer keeps its stale label.
+            retained = {qualifying[-1]}
         for month, rec in sorted(months.items()):
-            if month not in kept_months:
+            if month not in retained:
                 continue
             sales = rec["homes_sold_allocated"]
             if sales < MIN_ALLOCATED_HOMES_SOLD:
@@ -417,6 +430,7 @@ def build_artifact() -> dict:
             "review_by": review_by(),
             "latest_redfin_updated": latest_source_updated,
             "period_duration_days": {"zip_model": 90, "city_observed": "published 30 or 90, recorded on each row"},
+            "minimum_homes_sold": MIN_ALLOCATED_HOMES_SOLD,
             "months_retained": KEEP_MONTHS,
             "months_available_in_source": len(all_months),
             "source_zip_month_rows_used": source_zip_months,
@@ -434,7 +448,8 @@ def build_artifact() -> dict:
             "limitations": [
                 "Redfin methodology states smaller geographies, including ZIP codes, use rolling three-month windows for monthly data.",
                 "Thin ZIP-month rows and place-month aggregates below the allocated homes-sold floor are suppressed.",
-                "Direct city medians retain the published sales count, including small samples. The five-sale floor applies to the ZIP model only.",
+                "Where no recent ZIP window qualifies, retain its latest qualifying historical window with the original date and existing stale disclosure.",
+                "City observations and ZIP models require at least five sales. Use the latest qualifying city window without pooling months; its published date and sales count remain visible.",
                 "ZIP fallback rows are modeled means of medians, not true place medians; observed rows use Redfin city publications.",
                 "2020 housing-unit shares do not infer later annexations or construction. HUD residential-address shares within each tract are assumed to follow those housing units.",
                 "Known omissions in the bulk city download may use dated observations verified on the public Redfin city page; their source URL and source-record file travel with the row.",

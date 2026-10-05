@@ -19,6 +19,8 @@ assert.equal(doc.meta.months_retained,24);
 for(const field of ['as_of','last_verified','review_by']) assert.match(doc.meta[field],/^\d{4}-\d{2}-\d{2}$/);
 assert(doc.meta.attribution.includes('Redfin') && doc.meta.attribution.includes('does not redistribute raw Redfin rows'));
 assert.equal(doc.meta.place_count,Object.keys(doc.places).length);
+const config = require('../data/hna/geo-config.json');
+assert.deepEqual(Object.keys(doc.places).sort(),config.places.concat(config.cdps).map(g=>g.geoid).sort());
 assert(doc.meta.place_count>=100);
 assert(doc.meta.months_available_in_source>=100);
 assert(doc.meta.source_zip_month_rows_used>10000);
@@ -39,11 +41,11 @@ for(const [geoid,place] of Object.entries(doc.places)) {
     assert.match(row.period,/^\d{4}-\d{2}$/);
     assert.equal(row.period,row.period_end.slice(0,7),'reported month is the end of the published window');
     assert(direct ? [30,90].includes(row.source_period_duration_days) : row.source_period_duration_days===90);
-    assert(direct ? row.homes_sold_allocated>0 : row.homes_sold_allocated>=5);
+    assert(row.homes_sold_allocated>=5);
     assert(row.median_sale_price>0);
     assert(row.inventory_allocated===null || Number.isFinite(row.inventory_allocated));
-    // A published one-sale city observation can legitimately lie outside the
-    // old ZIP-aggregate plausibility band; preserve its actual measured ratio.
+    // Published city ratios are source observations, not ZIP estimates;
+    // preserve the actual ratio after enforcing the sales-count floor.
     assert(row.sale_to_list_ratio===null || (direct ? Number.isFinite(row.sale_to_list_ratio) && row.sale_to_list_ratio>0
       : row.sale_to_list_ratio>.5 && row.sale_to_list_ratio<1.5));
     assert(Array.isArray(row.source_zips));

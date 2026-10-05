@@ -412,7 +412,7 @@
           + (reason.issue ? ' <span class="ms-caveat">(tracked in #' + esc(reason.issue) + ')</span>' : '')
           + '</li>';
       }).join('');
-      return '<section id="ms-s0" class="chart-card ms-section" data-sale-price="unavailable">'
+      return '<section id="ms-s0" class="chart-card ms-section" data-sale-price="unavailable" data-unavailable-reason="' + esc(facts.unavailableReason || '') + '">'
         + '<h2>' + esc(facts.heading) + '</h2>'
         + plain(esc(facts.plain))
         + '<p class="ms-unavailable">' + esc(facts.label) + '.</p>'
