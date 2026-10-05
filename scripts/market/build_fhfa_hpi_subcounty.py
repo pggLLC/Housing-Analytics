@@ -303,6 +303,11 @@ def main() -> int:
         artifact = load_json(OUT)
         artifact["counties"] = load_counties()
         artifact["meta"]["county_count"] = len(artifact["counties"])
+        latest_year = max(row["latest_year"] for row in artifact["counties"].values())
+        artifact["meta"]["latest_year"] = latest_year
+        artifact["meta"]["as_of"] = f"{latest_year}-12-31"
+        artifact["meta"]["last_verified"] = utc_today()
+        artifact["meta"]["review_by"] = review_by()
     else:
         artifact = build_artifact()
     OUT.parent.mkdir(parents=True, exist_ok=True)

@@ -284,7 +284,7 @@
     if (info.display) {
       const confidence = info.confidence || 'unknown';
       const caveat = info.lowConfidence ? ' · low confidence: no current city index' : '';
-      return info.sourceLabel + ' · ' + asOf + ' · ' + confidence + caveat;
+      return info.sourceLabel + ' · ' + asOf + ' · ' + confidence + caveat + (info.display.review_flag ? ' · ' + info.display.review_flag.note : '');
     }
     return info.sourceLabel + ' · ' + asOf;
   }
