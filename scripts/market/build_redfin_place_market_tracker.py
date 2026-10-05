@@ -149,7 +149,7 @@ def extract_zip(region):
 
 
 def month_key(row: dict) -> str:
-    return str(row.get("PERIOD_BEGIN", ""))[:7]
+    return str(row.get("PERIOD_END", ""))[:7]
 
 
 def add_weighted(stats: dict, key: str, value, weight: float):

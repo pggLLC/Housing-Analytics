@@ -423,7 +423,7 @@
       "geoid": "0800620",
       "name": "Aetna Estates (CDP)",
       "source_level": "redfin_zip_to_place_modeled",
-      "latest_period": "2026-03",
+      "latest_period": "2026-05",
       "latest": {
         "median_sale_price": 547991.0,
         "inventory": 32.9,
@@ -435,7 +435,7 @@
       },
       "monthly": [
         {
-          "period": "2024-04",
+          "period": "2024-06",
           "period_begin": "2024-04-01",
           "period_end": "2024-06-30",
           "source_period_duration_days": 90,
@@ -451,7 +451,7 @@
           "sale_to_list_ratio": 0.995056
         },
         {
-          "period": "2024-05",
+          "period": "2024-07",
           "period_begin": "2024-05-01",
           "period_end": "2024-07-31",
           "source_period_duration_days": 90,
@@ -467,7 +467,7 @@
           "sale_to_list_ratio": 0.993878
         },
         {
-          "period": "2024-06",
+          "period": "2024-08",
           "period_begin": "2024-06-01",
           "period_end": "2024-08-31",
           "source_period_duration_days": 90,
@@ -483,7 +483,7 @@
           "sale_to_list_ratio": 0.995238
         },
         {
-          "period": "2024-07",
+          "period": "2024-09",
           "period_begin": "2024-07-01",
           "period_end": "2024-09-30",
           "source_period_duration_days": 90,
@@ -499,7 +499,7 @@
           "sale_to_list_ratio": 0.993011
         },
         {
-          "period": "2024-08",
+          "period": "2024-10",
           "period_begin": "2024-08-01",
           "period_end": "2024-10-31",
           "source_period_duration_days": 90,
@@ -515,7 +515,7 @@
           "sale_to_list_ratio": 0.992887
         },
         {
-          "period": "2024-09",
+          "period": "2024-11",
           "period_begin": "2024-09-01",
           "period_end": "2024-11-30",
           "source_period_duration_days": 90,
@@ -531,7 +531,7 @@
           "sale_to_list_ratio": 0.988686
         },
         {
-          "period": "2024-10",
+          "period": "2024-12",
           "period_begin": "2024-10-01",
           "period_end": "2024-12-31",
           "source_period_duration_days": 90,
@@ -547,7 +547,7 @@
           "sale_to_list_ratio": 0.987928
         },
         {
-          "period": "2024-11",
+          "period": "2025-01",
           "period_begin": "2024-11-01",
           "period_end": "2025-01-31",
           "source_period_duration_days": 90,
@@ -563,7 +563,7 @@
           "sale_to_list_ratio": 0.988296
         },
         {
-          "period": "2024-12",
+          "period": "2025-02",
           "period_begin": "2024-12-01",
           "period_end": "2025-02-28",
           "source_period_duration_days": 90,
@@ -579,7 +579,7 @@
           "sale_to_list_ratio": 0.988281
         },
         {
-          "period": "2025-01",
+          "period": "2025-03",
           "period_begin": "2025-01-01",
           "period_end": "2025-03-31",
           "source_period_duration_days": 90,
@@ -595,7 +595,7 @@
           "sale_to_list_ratio": 0.989399
         },
         {
-          "period": "2025-02",
+          "period": "2025-04",
           "period_begin": "2025-02-01",
           "period_end": "2025-04-30",
           "source_period_duration_days": 90,
@@ -611,7 +611,7 @@
           "sale_to_list_ratio": 0.991119
         },
         {
-          "period": "2025-03",
+          "period": "2025-05",
           "period_begin": "2025-03-01",
           "period_end": "2025-05-31",
           "source_period_duration_days": 90,
@@ -627,7 +627,7 @@
           "sale_to_list_ratio": 0.993852
         },
         {
-          "period": "2025-04",
+          "period": "2025-06",
           "period_begin": "2025-04-01",
           "period_end": "2025-06-30",
           "source_period_duration_days": 90,
@@ -643,7 +643,7 @@
           "sale_to_list_ratio": 0.997038
         },
         {
-          "period": "2025-05",
+          "period": "2025-07",
           "period_begin": "2025-05-01",
           "period_end": "2025-07-31",
           "source_period_duration_days": 90,
@@ -659,7 +659,7 @@
           "sale_to_list_ratio": 0.995061
         },
         {
-          "period": "2025-06",
+          "period": "2025-08",
           "period_begin": "2025-06-01",
           "period_end": "2025-08-31",
           "source_period_duration_days": 90,
@@ -675,7 +675,7 @@
           "sale_to_list_ratio": 0.993734
         },
         {
-          "period": "2025-07",
+          "period": "2025-09",
           "period_begin": "2025-07-01",
           "period_end": "2025-09-30",
           "source_period_duration_days": 90,
@@ -691,7 +691,7 @@
           "sale_to_list_ratio": 0.989742
         },
         {
-          "period": "2025-08",
+          "period": "2025-10",
           "period_begin": "2025-08-01",
           "period_end": "2025-10-31",
           "source_period_duration_days": 90,
@@ -707,7 +707,7 @@
           "sale_to_list_ratio": 0.990125
         },
         {
-          "period": "2025-09",
+          "period": "2025-11",
           "period_begin": "2025-09-01",
           "period_end": "2025-11-30",
           "source_period_duration_days": 90,
@@ -723,7 +723,7 @@
           "sale_to_list_ratio": 0.99191
         },
         {
-          "period": "2025-10",
+          "period": "2025-12",
           "period_begin": "2025-10-01",
           "period_end": "2025-12-31",
           "source_period_duration_days": 90,
@@ -739,7 +739,7 @@
           "sale_to_list_ratio": 0.991565
         },
         {
-          "period": "2025-11",
+          "period": "2026-01",
           "period_begin": "2025-11-01",
           "period_end": "2026-01-31",
           "source_period_duration_days": 90,
@@ -755,7 +755,7 @@
           "sale_to_list_ratio": 0.990822
         },
         {
-          "period": "2025-12",
+          "period": "2026-02",
           "period_begin": "2025-12-01",
           "period_end": "2026-02-28",
           "source_period_duration_days": 90,
@@ -771,7 +771,7 @@
           "sale_to_list_ratio": 0.98875
         },
         {
-          "period": "2026-01",
+          "period": "2026-03",
           "period_begin": "2026-01-01",
           "period_end": "2026-03-31",
           "source_period_duration_days": 90,
@@ -787,7 +787,7 @@
           "sale_to_list_ratio": 0.991834
         },
         {
-          "period": "2026-02",
+          "period": "2026-04",
           "period_begin": "2026-02-01",
           "period_end": "2026-04-30",
           "source_period_duration_days": 90,
@@ -803,7 +803,7 @@
           "sale_to_list_ratio": 0.993623
         },
         {
-          "period": "2026-03",
+          "period": "2026-05",
           "period_begin": "2026-03-01",
           "period_end": "2026-05-31",
           "source_period_duration_days": 90,
@@ -1536,7 +1536,7 @@
       "geoid": "0803015",
       "name": "Aristocrat Ranchettes (CDP)",
       "source_level": "redfin_zip_to_place_modeled",
-      "latest_period": "2026-03",
+      "latest_period": "2026-05",
       "latest": {
         "median_sale_price": 465067.0,
         "inventory": 6.6,
@@ -1548,7 +1548,7 @@
       },
       "monthly": [
         {
-          "period": "2024-04",
+          "period": "2024-06",
           "period_begin": "2024-04-01",
           "period_end": "2024-06-30",
           "source_period_duration_days": 90,
@@ -1565,7 +1565,7 @@
           "sale_to_list_ratio": 1.005198
         },
         {
-          "period": "2024-05",
+          "period": "2024-07",
           "period_begin": "2024-05-01",
           "period_end": "2024-07-31",
           "source_period_duration_days": 90,
@@ -1582,7 +1582,7 @@
           "sale_to_list_ratio": 1.004879
         },
         {
-          "period": "2024-06",
+          "period": "2024-08",
           "period_begin": "2024-06-01",
           "period_end": "2024-08-31",
           "source_period_duration_days": 90,
@@ -1599,7 +1599,7 @@
           "sale_to_list_ratio": 1.00164
         },
         {
-          "period": "2024-07",
+          "period": "2024-09",
           "period_begin": "2024-07-01",
           "period_end": "2024-09-30",
           "source_period_duration_days": 90,
@@ -1616,7 +1616,7 @@
           "sale_to_list_ratio": 1.002332
         },
         {
-          "period": "2024-08",
+          "period": "2024-10",
           "period_begin": "2024-08-01",
           "period_end": "2024-10-31",
           "source_period_duration_days": 90,
@@ -1633,7 +1633,7 @@
           "sale_to_list_ratio": 0.998152
         },
         {
-          "period": "2024-09",
+          "period": "2024-11",
           "period_begin": "2024-09-01",
           "period_end": "2024-11-30",
           "source_period_duration_days": 90,
@@ -1650,7 +1650,7 @@
           "sale_to_list_ratio": 0.994943
         },
         {
-          "period": "2025-05",
+          "period": "2025-07",
           "period_begin": "2025-05-01",
           "period_end": "2025-07-31",
           "source_period_duration_days": 90,
@@ -1667,7 +1667,7 @@
           "sale_to_list_ratio": 0.989623
         },
         {
-          "period": "2026-02",
+          "period": "2026-04",
           "period_begin": "2026-02-01",
           "period_end": "2026-04-30",
           "source_period_duration_days": 90,
@@ -1684,7 +1684,7 @@
           "sale_to_list_ratio": 0.998252
         },
         {
-          "period": "2026-03",
+          "period": "2026-05",
           "period_begin": "2026-03-01",
           "period_end": "2026-05-31",
           "source_period_duration_days": 90,
@@ -6180,7 +6180,7 @@
       "geoid": "0806970",
       "name": "Black Forest (CDP)",
       "source_level": "redfin_zip_to_place_modeled",
-      "latest_period": "2026-03",
+      "latest_period": "2026-05",
       "latest": {
         "median_sale_price": 678886.0,
         "inventory": 7.9,
@@ -6192,7 +6192,7 @@
       },
       "monthly": [
         {
-          "period": "2024-04",
+          "period": "2024-06",
           "period_begin": "2024-04-01",
           "period_end": "2024-06-30",
           "source_period_duration_days": 90,
@@ -6208,7 +6208,7 @@
           "sale_to_list_ratio": 0.973658
         },
         {
-          "period": "2024-05",
+          "period": "2024-07",
           "period_begin": "2024-05-01",
           "period_end": "2024-07-31",
           "source_period_duration_days": 90,
@@ -6224,7 +6224,7 @@
           "sale_to_list_ratio": 0.963036
         },
         {
-          "period": "2024-09",
+          "period": "2024-11",
           "period_begin": "2024-09-01",
           "period_end": "2024-11-30",
           "source_period_duration_days": 90,
@@ -6240,7 +6240,7 @@
           "sale_to_list_ratio": 0.971662
         },
         {
-          "period": "2024-10",
+          "period": "2024-12",
           "period_begin": "2024-10-01",
           "period_end": "2024-12-31",
           "source_period_duration_days": 90,
@@ -6256,7 +6256,7 @@
           "sale_to_list_ratio": 0.960665
         },
         {
-          "period": "2025-07",
+          "period": "2025-09",
           "period_begin": "2025-07-01",
           "period_end": "2025-09-30",
           "source_period_duration_days": 90,
@@ -6272,7 +6272,7 @@
           "sale_to_list_ratio": 0.97832
         },
         {
-          "period": "2025-08",
+          "period": "2025-10",
           "period_begin": "2025-08-01",
           "period_end": "2025-10-31",
           "source_period_duration_days": 90,
@@ -6288,7 +6288,7 @@
           "sale_to_list_ratio": 0.979843
         },
         {
-          "period": "2025-09",
+          "period": "2025-11",
           "period_begin": "2025-09-01",
           "period_end": "2025-11-30",
           "source_period_duration_days": 90,
@@ -6304,7 +6304,7 @@
           "sale_to_list_ratio": 0.975936
         },
         {
-          "period": "2025-10",
+          "period": "2025-12",
           "period_begin": "2025-10-01",
           "period_end": "2025-12-31",
           "source_period_duration_days": 90,
@@ -6320,7 +6320,7 @@
           "sale_to_list_ratio": 0.982767
         },
         {
-          "period": "2026-03",
+          "period": "2026-05",
           "period_begin": "2026-03-01",
           "period_end": "2026-05-31",
           "source_period_duration_days": 90,
@@ -12946,7 +12946,7 @@
       "geoid": "0815302",
       "name": "Coal Creek (CDP)",
       "source_level": "redfin_zip_to_place_modeled",
-      "latest_period": "2026-03",
+      "latest_period": "2026-05",
       "latest": {
         "median_sale_price": 865585.0,
         "inventory": 14.8,
@@ -12958,7 +12958,7 @@
       },
       "monthly": [
         {
-          "period": "2024-04",
+          "period": "2024-06",
           "period_begin": "2024-04-01",
           "period_end": "2024-06-30",
           "source_period_duration_days": 90,
@@ -12978,7 +12978,7 @@
           "sale_to_list_ratio": 1.003492
         },
         {
-          "period": "2024-05",
+          "period": "2024-07",
           "period_begin": "2024-05-01",
           "period_end": "2024-07-31",
           "source_period_duration_days": 90,
@@ -12998,7 +12998,7 @@
           "sale_to_list_ratio": 1.001346
         },
         {
-          "period": "2024-06",
+          "period": "2024-08",
           "period_begin": "2024-06-01",
           "period_end": "2024-08-31",
           "source_period_duration_days": 90,
@@ -13018,7 +13018,7 @@
           "sale_to_list_ratio": 0.991684
         },
         {
-          "period": "2024-07",
+          "period": "2024-09",
           "period_begin": "2024-07-01",
           "period_end": "2024-09-30",
           "source_period_duration_days": 90,
@@ -13038,7 +13038,7 @@
           "sale_to_list_ratio": 0.98487
         },
         {
-          "period": "2024-08",
+          "period": "2024-10",
           "period_begin": "2024-08-01",
           "period_end": "2024-10-31",
           "source_period_duration_days": 90,
@@ -13058,7 +13058,7 @@
           "sale_to_list_ratio": 0.984369
         },
         {
-          "period": "2024-09",
+          "period": "2024-11",
           "period_begin": "2024-09-01",
           "period_end": "2024-11-30",
           "source_period_duration_days": 90,
@@ -13078,7 +13078,7 @@
           "sale_to_list_ratio": 0.981907
         },
         {
-          "period": "2024-10",
+          "period": "2024-12",
           "period_begin": "2024-10-01",
           "period_end": "2024-12-31",
           "source_period_duration_days": 90,
@@ -13098,7 +13098,7 @@
           "sale_to_list_ratio": 0.977544
         },
         {
-          "period": "2024-11",
+          "period": "2025-01",
           "period_begin": "2024-11-01",
           "period_end": "2025-01-31",
           "source_period_duration_days": 90,
@@ -13118,7 +13118,7 @@
           "sale_to_list_ratio": 0.969715
         },
         {
-          "period": "2024-12",
+          "period": "2025-02",
           "period_begin": "2024-12-01",
           "period_end": "2025-02-28",
           "source_period_duration_days": 90,
@@ -13137,7 +13137,7 @@
           "sale_to_list_ratio": 0.972913
         },
         {
-          "period": "2025-01",
+          "period": "2025-03",
           "period_begin": "2025-01-01",
           "period_end": "2025-03-31",
           "source_period_duration_days": 90,
@@ -13157,7 +13157,7 @@
           "sale_to_list_ratio": 0.986452
         },
         {
-          "period": "2025-02",
+          "period": "2025-04",
           "period_begin": "2025-02-01",
           "period_end": "2025-04-30",
           "source_period_duration_days": 90,
@@ -13177,7 +13177,7 @@
           "sale_to_list_ratio": 0.992155
         },
         {
-          "period": "2025-03",
+          "period": "2025-05",
           "period_begin": "2025-03-01",
           "period_end": "2025-05-31",
           "source_period_duration_days": 90,
@@ -13197,7 +13197,7 @@
           "sale_to_list_ratio": 0.994066
         },
         {
-          "period": "2025-04",
+          "period": "2025-06",
           "period_begin": "2025-04-01",
           "period_end": "2025-06-30",
           "source_period_duration_days": 90,
@@ -13217,7 +13217,7 @@
           "sale_to_list_ratio": 0.993626
         },
         {
-          "period": "2025-05",
+          "period": "2025-07",
           "period_begin": "2025-05-01",
           "period_end": "2025-07-31",
           "source_period_duration_days": 90,
@@ -13237,7 +13237,7 @@
           "sale_to_list_ratio": 0.991172
         },
         {
-          "period": "2025-06",
+          "period": "2025-08",
           "period_begin": "2025-06-01",
           "period_end": "2025-08-31",
           "source_period_duration_days": 90,
@@ -13258,7 +13258,7 @@
           "sale_to_list_ratio": 0.988521
         },
         {
-          "period": "2025-07",
+          "period": "2025-09",
           "period_begin": "2025-07-01",
           "period_end": "2025-09-30",
           "source_period_duration_days": 90,
@@ -13278,7 +13278,7 @@
           "sale_to_list_ratio": 0.989174
         },
         {
-          "period": "2025-08",
+          "period": "2025-10",
           "period_begin": "2025-08-01",
           "period_end": "2025-10-31",
           "source_period_duration_days": 90,
@@ -13298,7 +13298,7 @@
           "sale_to_list_ratio": 0.985537
         },
         {
-          "period": "2025-09",
+          "period": "2025-11",
           "period_begin": "2025-09-01",
           "period_end": "2025-11-30",
           "source_period_duration_days": 90,
@@ -13318,7 +13318,7 @@
           "sale_to_list_ratio": 0.981033
         },
         {
-          "period": "2025-10",
+          "period": "2025-12",
           "period_begin": "2025-10-01",
           "period_end": "2025-12-31",
           "source_period_duration_days": 90,
@@ -13338,7 +13338,7 @@
           "sale_to_list_ratio": 0.975434
         },
         {
-          "period": "2025-11",
+          "period": "2026-01",
           "period_begin": "2025-11-01",
           "period_end": "2026-01-31",
           "source_period_duration_days": 90,
@@ -13358,7 +13358,7 @@
           "sale_to_list_ratio": 0.967678
         },
         {
-          "period": "2025-12",
+          "period": "2026-02",
           "period_begin": "2025-12-01",
           "period_end": "2026-02-28",
           "source_period_duration_days": 90,
@@ -13378,7 +13378,7 @@
           "sale_to_list_ratio": 0.970069
         },
         {
-          "period": "2026-01",
+          "period": "2026-03",
           "period_begin": "2026-01-01",
           "period_end": "2026-03-31",
           "source_period_duration_days": 90,
@@ -13397,7 +13397,7 @@
           "sale_to_list_ratio": 0.981889
         },
         {
-          "period": "2026-02",
+          "period": "2026-04",
           "period_begin": "2026-02-01",
           "period_end": "2026-04-30",
           "source_period_duration_days": 90,
@@ -13417,7 +13417,7 @@
           "sale_to_list_ratio": 0.991628
         },
         {
-          "period": "2026-03",
+          "period": "2026-05",
           "period_begin": "2026-03-01",
           "period_end": "2026-05-31",
           "source_period_duration_days": 90,
@@ -27484,7 +27484,7 @@
       "geoid": "0827975",
       "name": "Fowler (town)",
       "source_level": "redfin_zip_to_place_modeled",
-      "latest_period": "2025-09",
+      "latest_period": "2025-11",
       "latest": {
         "median_sale_price": 166000.0,
         "inventory": 6.5,
@@ -27496,7 +27496,7 @@
       },
       "monthly": [
         {
-          "period": "2024-06",
+          "period": "2024-08",
           "period_begin": "2024-06-01",
           "period_end": "2024-08-31",
           "source_period_duration_days": 90,
@@ -27511,7 +27511,7 @@
           "sale_to_list_ratio": 1.015072
         },
         {
-          "period": "2024-07",
+          "period": "2024-09",
           "period_begin": "2024-07-01",
           "period_end": "2024-09-30",
           "source_period_duration_days": 90,
@@ -27526,7 +27526,7 @@
           "sale_to_list_ratio": 1.016747
         },
         {
-          "period": "2024-08",
+          "period": "2024-10",
           "period_begin": "2024-08-01",
           "period_end": "2024-10-31",
           "source_period_duration_days": 90,
@@ -27541,7 +27541,7 @@
           "sale_to_list_ratio": 0.995499
         },
         {
-          "period": "2024-10",
+          "period": "2024-12",
           "period_begin": "2024-10-01",
           "period_end": "2024-12-31",
           "source_period_duration_days": 90,
@@ -27556,7 +27556,7 @@
           "sale_to_list_ratio": 0.95105
         },
         {
-          "period": "2025-03",
+          "period": "2025-05",
           "period_begin": "2025-03-01",
           "period_end": "2025-05-31",
           "source_period_duration_days": 90,
@@ -27571,7 +27571,7 @@
           "sale_to_list_ratio": 0.953553
         },
         {
-          "period": "2025-05",
+          "period": "2025-07",
           "period_begin": "2025-05-01",
           "period_end": "2025-07-31",
           "source_period_duration_days": 90,
@@ -27586,7 +27586,7 @@
           "sale_to_list_ratio": 0.968293
         },
         {
-          "period": "2025-07",
+          "period": "2025-09",
           "period_begin": "2025-07-01",
           "period_end": "2025-09-30",
           "source_period_duration_days": 90,
@@ -27601,7 +27601,7 @@
           "sale_to_list_ratio": 0.96383
         },
         {
-          "period": "2025-08",
+          "period": "2025-10",
           "period_begin": "2025-08-01",
           "period_end": "2025-10-31",
           "source_period_duration_days": 90,
@@ -27616,7 +27616,7 @@
           "sale_to_list_ratio": 0.933046
         },
         {
-          "period": "2025-09",
+          "period": "2025-11",
           "period_begin": "2025-09-01",
           "period_end": "2025-11-30",
           "source_period_duration_days": 90,
@@ -30082,7 +30082,7 @@
       "geoid": "0830340",
       "name": "Glendale (city)",
       "source_level": "redfin_zip_to_place_modeled",
-      "latest_period": "2026-03",
+      "latest_period": "2026-05",
       "latest": {
         "median_sale_price": 749414.0,
         "inventory": 13.1,
@@ -30094,7 +30094,7 @@
       },
       "monthly": [
         {
-          "period": "2024-04",
+          "period": "2024-06",
           "period_begin": "2024-04-01",
           "period_end": "2024-06-30",
           "source_period_duration_days": 90,
@@ -30110,7 +30110,7 @@
           "sale_to_list_ratio": 0.989434
         },
         {
-          "period": "2024-05",
+          "period": "2024-07",
           "period_begin": "2024-05-01",
           "period_end": "2024-07-31",
           "source_period_duration_days": 90,
@@ -30126,7 +30126,7 @@
           "sale_to_list_ratio": 0.980405
         },
         {
-          "period": "2024-06",
+          "period": "2024-08",
           "period_begin": "2024-06-01",
           "period_end": "2024-08-31",
           "source_period_duration_days": 90,
@@ -30142,7 +30142,7 @@
           "sale_to_list_ratio": 0.982101
         },
         {
-          "period": "2024-07",
+          "period": "2024-09",
           "period_begin": "2024-07-01",
           "period_end": "2024-09-30",
           "source_period_duration_days": 90,
@@ -30158,7 +30158,7 @@
           "sale_to_list_ratio": 0.980884
         },
         {
-          "period": "2024-08",
+          "period": "2024-10",
           "period_begin": "2024-08-01",
           "period_end": "2024-10-31",
           "source_period_duration_days": 90,
@@ -30174,7 +30174,7 @@
           "sale_to_list_ratio": 0.984996
         },
         {
-          "period": "2024-09",
+          "period": "2024-11",
           "period_begin": "2024-09-01",
           "period_end": "2024-11-30",
           "source_period_duration_days": 90,
@@ -30190,7 +30190,7 @@
           "sale_to_list_ratio": 0.983855
         },
         {
-          "period": "2024-10",
+          "period": "2024-12",
           "period_begin": "2024-10-01",
           "period_end": "2024-12-31",
           "source_period_duration_days": 90,
@@ -30206,7 +30206,7 @@
           "sale_to_list_ratio": 0.988599
         },
         {
-          "period": "2024-11",
+          "period": "2025-01",
           "period_begin": "2024-11-01",
           "period_end": "2025-01-31",
           "source_period_duration_days": 90,
@@ -30222,7 +30222,7 @@
           "sale_to_list_ratio": 0.985341
         },
         {
-          "period": "2024-12",
+          "period": "2025-02",
           "period_begin": "2024-12-01",
           "period_end": "2025-02-28",
           "source_period_duration_days": 90,
@@ -30238,7 +30238,7 @@
           "sale_to_list_ratio": 0.985818
         },
         {
-          "period": "2025-01",
+          "period": "2025-03",
           "period_begin": "2025-01-01",
           "period_end": "2025-03-31",
           "source_period_duration_days": 90,
@@ -30254,7 +30254,7 @@
           "sale_to_list_ratio": 0.978416
         },
         {
-          "period": "2025-02",
+          "period": "2025-04",
           "period_begin": "2025-02-01",
           "period_end": "2025-04-30",
           "source_period_duration_days": 90,
@@ -30270,7 +30270,7 @@
           "sale_to_list_ratio": 0.986788
         },
         {
-          "period": "2025-03",
+          "period": "2025-05",
           "period_begin": "2025-03-01",
           "period_end": "2025-05-31",
           "source_period_duration_days": 90,
@@ -30286,7 +30286,7 @@
           "sale_to_list_ratio": 0.975319
         },
         {
-          "period": "2025-04",
+          "period": "2025-06",
           "period_begin": "2025-04-01",
           "period_end": "2025-06-30",
           "source_period_duration_days": 90,
@@ -30302,7 +30302,7 @@
           "sale_to_list_ratio": 0.98461
         },
         {
-          "period": "2025-05",
+          "period": "2025-07",
           "period_begin": "2025-05-01",
           "period_end": "2025-07-31",
           "source_period_duration_days": 90,
@@ -30318,7 +30318,7 @@
           "sale_to_list_ratio": 0.981352
         },
         {
-          "period": "2025-06",
+          "period": "2025-08",
           "period_begin": "2025-06-01",
           "period_end": "2025-08-31",
           "source_period_duration_days": 90,
@@ -30334,7 +30334,7 @@
           "sale_to_list_ratio": 0.984314
         },
         {
-          "period": "2025-07",
+          "period": "2025-09",
           "period_begin": "2025-07-01",
           "period_end": "2025-09-30",
           "source_period_duration_days": 90,
@@ -30350,7 +30350,7 @@
           "sale_to_list_ratio": 0.960813
         },
         {
-          "period": "2025-08",
+          "period": "2025-10",
           "period_begin": "2025-08-01",
           "period_end": "2025-10-31",
           "source_period_duration_days": 90,
@@ -30366,7 +30366,7 @@
           "sale_to_list_ratio": 0.958822
         },
         {
-          "period": "2025-09",
+          "period": "2025-11",
           "period_begin": "2025-09-01",
           "period_end": "2025-11-30",
           "source_period_duration_days": 90,
@@ -30382,7 +30382,7 @@
           "sale_to_list_ratio": 0.960238
         },
         {
-          "period": "2025-10",
+          "period": "2025-12",
           "period_begin": "2025-10-01",
           "period_end": "2025-12-31",
           "source_period_duration_days": 90,
@@ -30398,7 +30398,7 @@
           "sale_to_list_ratio": 0.961419
         },
         {
-          "period": "2025-11",
+          "period": "2026-01",
           "period_begin": "2025-11-01",
           "period_end": "2026-01-31",
           "source_period_duration_days": 90,
@@ -30414,7 +30414,7 @@
           "sale_to_list_ratio": 0.955783
         },
         {
-          "period": "2025-12",
+          "period": "2026-02",
           "period_begin": "2025-12-01",
           "period_end": "2026-02-28",
           "source_period_duration_days": 90,
@@ -30430,7 +30430,7 @@
           "sale_to_list_ratio": 0.951039
         },
         {
-          "period": "2026-01",
+          "period": "2026-03",
           "period_begin": "2026-01-01",
           "period_end": "2026-03-31",
           "source_period_duration_days": 90,
@@ -30446,7 +30446,7 @@
           "sale_to_list_ratio": 0.973746
         },
         {
-          "period": "2026-02",
+          "period": "2026-04",
           "period_begin": "2026-02-01",
           "period_end": "2026-04-30",
           "source_period_duration_days": 90,
@@ -30462,7 +30462,7 @@
           "sale_to_list_ratio": 0.979409
         },
         {
-          "period": "2026-03",
+          "period": "2026-05",
           "period_begin": "2026-03-01",
           "period_end": "2026-05-31",
           "source_period_duration_days": 90,
@@ -42455,7 +42455,7 @@
       "geoid": "0846410",
       "name": "Louviers (CDP)",
       "source_level": "redfin_zip_to_place_modeled",
-      "latest_period": "2025-09",
+      "latest_period": "2025-11",
       "latest": {
         "median_sale_price": 728692.0,
         "inventory": 5.7,
@@ -42467,7 +42467,7 @@
       },
       "monthly": [
         {
-          "period": "2024-04",
+          "period": "2024-06",
           "period_begin": "2024-04-01",
           "period_end": "2024-06-30",
           "source_period_duration_days": 90,
@@ -42485,7 +42485,7 @@
           "sale_to_list_ratio": 0.992695
         },
         {
-          "period": "2024-05",
+          "period": "2024-07",
           "period_begin": "2024-05-01",
           "period_end": "2024-07-31",
           "source_period_duration_days": 90,
@@ -42503,7 +42503,7 @@
           "sale_to_list_ratio": 0.991429
         },
         {
-          "period": "2025-02",
+          "period": "2025-04",
           "period_begin": "2025-02-01",
           "period_end": "2025-04-30",
           "source_period_duration_days": 90,
@@ -42521,7 +42521,7 @@
           "sale_to_list_ratio": 0.991051
         },
         {
-          "period": "2025-03",
+          "period": "2025-05",
           "period_begin": "2025-03-01",
           "period_end": "2025-05-31",
           "source_period_duration_days": 90,
@@ -42539,7 +42539,7 @@
           "sale_to_list_ratio": 0.992051
         },
         {
-          "period": "2025-04",
+          "period": "2025-06",
           "period_begin": "2025-04-01",
           "period_end": "2025-06-30",
           "source_period_duration_days": 90,
@@ -42557,7 +42557,7 @@
           "sale_to_list_ratio": 0.990175
         },
         {
-          "period": "2025-05",
+          "period": "2025-07",
           "period_begin": "2025-05-01",
           "period_end": "2025-07-31",
           "source_period_duration_days": 90,
@@ -42576,7 +42576,7 @@
           "sale_to_list_ratio": 0.988306
         },
         {
-          "period": "2025-06",
+          "period": "2025-08",
           "period_begin": "2025-06-01",
           "period_end": "2025-08-31",
           "source_period_duration_days": 90,
@@ -42595,7 +42595,7 @@
           "sale_to_list_ratio": 0.983511
         },
         {
-          "period": "2025-07",
+          "period": "2025-09",
           "period_begin": "2025-07-01",
           "period_end": "2025-09-30",
           "source_period_duration_days": 90,
@@ -42613,7 +42613,7 @@
           "sale_to_list_ratio": 0.979767
         },
         {
-          "period": "2025-08",
+          "period": "2025-10",
           "period_begin": "2025-08-01",
           "period_end": "2025-10-31",
           "source_period_duration_days": 90,
@@ -42631,7 +42631,7 @@
           "sale_to_list_ratio": 0.977884
         },
         {
-          "period": "2025-09",
+          "period": "2025-11",
           "period_begin": "2025-09-01",
           "period_end": "2025-11-30",
           "source_period_duration_days": 90,
@@ -62701,7 +62701,7 @@
       "geoid": "0879100",
       "name": "Twin Lakes CDP (Adams County)",
       "source_level": "redfin_zip_to_place_modeled",
-      "latest_period": "2026-03",
+      "latest_period": "2026-05",
       "latest": {
         "median_sale_price": 500028.0,
         "inventory": 27.5,
@@ -62713,7 +62713,7 @@
       },
       "monthly": [
         {
-          "period": "2024-04",
+          "period": "2024-06",
           "period_begin": "2024-04-01",
           "period_end": "2024-06-30",
           "source_period_duration_days": 90,
@@ -62730,7 +62730,7 @@
           "sale_to_list_ratio": 0.994738
         },
         {
-          "period": "2024-05",
+          "period": "2024-07",
           "period_begin": "2024-05-01",
           "period_end": "2024-07-31",
           "source_period_duration_days": 90,
@@ -62747,7 +62747,7 @@
           "sale_to_list_ratio": 0.991873
         },
         {
-          "period": "2024-06",
+          "period": "2024-08",
           "period_begin": "2024-06-01",
           "period_end": "2024-08-31",
           "source_period_duration_days": 90,
@@ -62764,7 +62764,7 @@
           "sale_to_list_ratio": 0.990476
         },
         {
-          "period": "2024-07",
+          "period": "2024-09",
           "period_begin": "2024-07-01",
           "period_end": "2024-09-30",
           "source_period_duration_days": 90,
@@ -62781,7 +62781,7 @@
           "sale_to_list_ratio": 0.988867
         },
         {
-          "period": "2024-08",
+          "period": "2024-10",
           "period_begin": "2024-08-01",
           "period_end": "2024-10-31",
           "source_period_duration_days": 90,
@@ -62798,7 +62798,7 @@
           "sale_to_list_ratio": 0.989351
         },
         {
-          "period": "2024-09",
+          "period": "2024-11",
           "period_begin": "2024-09-01",
           "period_end": "2024-11-30",
           "source_period_duration_days": 90,
@@ -62815,7 +62815,7 @@
           "sale_to_list_ratio": 0.984309
         },
         {
-          "period": "2024-10",
+          "period": "2024-12",
           "period_begin": "2024-10-01",
           "period_end": "2024-12-31",
           "source_period_duration_days": 90,
@@ -62832,7 +62832,7 @@
           "sale_to_list_ratio": 0.982952
         },
         {
-          "period": "2024-11",
+          "period": "2025-01",
           "period_begin": "2024-11-01",
           "period_end": "2025-01-31",
           "source_period_duration_days": 90,
@@ -62849,7 +62849,7 @@
           "sale_to_list_ratio": 0.985009
         },
         {
-          "period": "2024-12",
+          "period": "2025-02",
           "period_begin": "2024-12-01",
           "period_end": "2025-02-28",
           "source_period_duration_days": 90,
@@ -62866,7 +62866,7 @@
           "sale_to_list_ratio": 0.991904
         },
         {
-          "period": "2025-01",
+          "period": "2025-03",
           "period_begin": "2025-01-01",
           "period_end": "2025-03-31",
           "source_period_duration_days": 90,
@@ -62883,7 +62883,7 @@
           "sale_to_list_ratio": 0.994315
         },
         {
-          "period": "2025-02",
+          "period": "2025-04",
           "period_begin": "2025-02-01",
           "period_end": "2025-04-30",
           "source_period_duration_days": 90,
@@ -62900,7 +62900,7 @@
           "sale_to_list_ratio": 0.992368
         },
         {
-          "period": "2025-03",
+          "period": "2025-05",
           "period_begin": "2025-03-01",
           "period_end": "2025-05-31",
           "source_period_duration_days": 90,
@@ -62917,7 +62917,7 @@
           "sale_to_list_ratio": 0.99056
         },
         {
-          "period": "2025-04",
+          "period": "2025-06",
           "period_begin": "2025-04-01",
           "period_end": "2025-06-30",
           "source_period_duration_days": 90,
@@ -62934,7 +62934,7 @@
           "sale_to_list_ratio": 0.990001
         },
         {
-          "period": "2025-05",
+          "period": "2025-07",
           "period_begin": "2025-05-01",
           "period_end": "2025-07-31",
           "source_period_duration_days": 90,
@@ -62951,7 +62951,7 @@
           "sale_to_list_ratio": 0.992332
         },
         {
-          "period": "2025-06",
+          "period": "2025-08",
           "period_begin": "2025-06-01",
           "period_end": "2025-08-31",
           "source_period_duration_days": 90,
@@ -62968,7 +62968,7 @@
           "sale_to_list_ratio": 0.988534
         },
         {
-          "period": "2025-07",
+          "period": "2025-09",
           "period_begin": "2025-07-01",
           "period_end": "2025-09-30",
           "source_period_duration_days": 90,
@@ -62985,7 +62985,7 @@
           "sale_to_list_ratio": 0.983346
         },
         {
-          "period": "2025-08",
+          "period": "2025-10",
           "period_begin": "2025-08-01",
           "period_end": "2025-10-31",
           "source_period_duration_days": 90,
@@ -63002,7 +63002,7 @@
           "sale_to_list_ratio": 0.982401
         },
         {
-          "period": "2025-09",
+          "period": "2025-11",
           "period_begin": "2025-09-01",
           "period_end": "2025-11-30",
           "source_period_duration_days": 90,
@@ -63019,7 +63019,7 @@
           "sale_to_list_ratio": 0.986493
         },
         {
-          "period": "2025-10",
+          "period": "2025-12",
           "period_begin": "2025-10-01",
           "period_end": "2025-12-31",
           "source_period_duration_days": 90,
@@ -63036,7 +63036,7 @@
           "sale_to_list_ratio": 0.992999
         },
         {
-          "period": "2025-11",
+          "period": "2026-01",
           "period_begin": "2025-11-01",
           "period_end": "2026-01-31",
           "source_period_duration_days": 90,
@@ -63053,7 +63053,7 @@
           "sale_to_list_ratio": 0.985772
         },
         {
-          "period": "2025-12",
+          "period": "2026-02",
           "period_begin": "2025-12-01",
           "period_end": "2026-02-28",
           "source_period_duration_days": 90,
@@ -63070,7 +63070,7 @@
           "sale_to_list_ratio": 0.984621
         },
         {
-          "period": "2026-01",
+          "period": "2026-03",
           "period_begin": "2026-01-01",
           "period_end": "2026-03-31",
           "source_period_duration_days": 90,
@@ -63087,7 +63087,7 @@
           "sale_to_list_ratio": 0.982708
         },
         {
-          "period": "2026-02",
+          "period": "2026-04",
           "period_begin": "2026-02-01",
           "period_end": "2026-04-30",
           "source_period_duration_days": 90,
@@ -63104,7 +63104,7 @@
           "sale_to_list_ratio": 0.991166
         },
         {
-          "period": "2026-03",
+          "period": "2026-05",
           "period_begin": "2026-03-01",
           "period_end": "2026-05-31",
           "source_period_duration_days": 90,
@@ -63817,7 +63817,7 @@
       "geoid": "0882900",
       "name": "Watkins (CDP)",
       "source_level": "redfin_zip_to_place_modeled",
-      "latest_period": "2026-03",
+      "latest_period": "2026-05",
       "latest": {
         "median_sale_price": 507946.0,
         "inventory": 15.0,
@@ -63829,7 +63829,7 @@
       },
       "monthly": [
         {
-          "period": "2024-04",
+          "period": "2024-06",
           "period_begin": "2024-04-01",
           "period_end": "2024-06-30",
           "source_period_duration_days": 90,
@@ -63849,7 +63849,7 @@
           "sale_to_list_ratio": 0.996654
         },
         {
-          "period": "2024-05",
+          "period": "2024-07",
           "period_begin": "2024-05-01",
           "period_end": "2024-07-31",
           "source_period_duration_days": 90,
@@ -63869,7 +63869,7 @@
           "sale_to_list_ratio": 0.996741
         },
         {
-          "period": "2024-06",
+          "period": "2024-08",
           "period_begin": "2024-06-01",
           "period_end": "2024-08-31",
           "source_period_duration_days": 90,
@@ -63889,7 +63889,7 @@
           "sale_to_list_ratio": 0.994578
         },
         {
-          "period": "2024-07",
+          "period": "2024-09",
           "period_begin": "2024-07-01",
           "period_end": "2024-09-30",
           "source_period_duration_days": 90,
@@ -63909,7 +63909,7 @@
           "sale_to_list_ratio": 0.989496
         },
         {
-          "period": "2024-08",
+          "period": "2024-10",
           "period_begin": "2024-08-01",
           "period_end": "2024-10-31",
           "source_period_duration_days": 90,
@@ -63929,7 +63929,7 @@
           "sale_to_list_ratio": 0.988872
         },
         {
-          "period": "2024-09",
+          "period": "2024-11",
           "period_begin": "2024-09-01",
           "period_end": "2024-11-30",
           "source_period_duration_days": 90,
@@ -63949,7 +63949,7 @@
           "sale_to_list_ratio": 0.98552
         },
         {
-          "period": "2024-10",
+          "period": "2024-12",
           "period_begin": "2024-10-01",
           "period_end": "2024-12-31",
           "source_period_duration_days": 90,
@@ -63969,7 +63969,7 @@
           "sale_to_list_ratio": 0.984799
         },
         {
-          "period": "2024-11",
+          "period": "2025-01",
           "period_begin": "2024-11-01",
           "period_end": "2025-01-31",
           "source_period_duration_days": 90,
@@ -63989,7 +63989,7 @@
           "sale_to_list_ratio": 0.985535
         },
         {
-          "period": "2024-12",
+          "period": "2025-02",
           "period_begin": "2024-12-01",
           "period_end": "2025-02-28",
           "source_period_duration_days": 90,
@@ -64009,7 +64009,7 @@
           "sale_to_list_ratio": 0.991589
         },
         {
-          "period": "2025-01",
+          "period": "2025-03",
           "period_begin": "2025-01-01",
           "period_end": "2025-03-31",
           "source_period_duration_days": 90,
@@ -64029,7 +64029,7 @@
           "sale_to_list_ratio": 0.994888
         },
         {
-          "period": "2025-02",
+          "period": "2025-04",
           "period_begin": "2025-02-01",
           "period_end": "2025-04-30",
           "source_period_duration_days": 90,
@@ -64049,7 +64049,7 @@
           "sale_to_list_ratio": 0.995692
         },
         {
-          "period": "2025-03",
+          "period": "2025-05",
           "period_begin": "2025-03-01",
           "period_end": "2025-05-31",
           "source_period_duration_days": 90,
@@ -64069,7 +64069,7 @@
           "sale_to_list_ratio": 0.995713
         },
         {
-          "period": "2025-04",
+          "period": "2025-06",
           "period_begin": "2025-04-01",
           "period_end": "2025-06-30",
           "source_period_duration_days": 90,
@@ -64089,7 +64089,7 @@
           "sale_to_list_ratio": 0.999186
         },
         {
-          "period": "2025-05",
+          "period": "2025-07",
           "period_begin": "2025-05-01",
           "period_end": "2025-07-31",
           "source_period_duration_days": 90,
@@ -64109,7 +64109,7 @@
           "sale_to_list_ratio": 0.997372
         },
         {
-          "period": "2025-06",
+          "period": "2025-08",
           "period_begin": "2025-06-01",
           "period_end": "2025-08-31",
           "source_period_duration_days": 90,
@@ -64129,7 +64129,7 @@
           "sale_to_list_ratio": 0.996354
         },
         {
-          "period": "2025-07",
+          "period": "2025-09",
           "period_begin": "2025-07-01",
           "period_end": "2025-09-30",
           "source_period_duration_days": 90,
@@ -64149,7 +64149,7 @@
           "sale_to_list_ratio": 0.991016
         },
         {
-          "period": "2025-08",
+          "period": "2025-10",
           "period_begin": "2025-08-01",
           "period_end": "2025-10-31",
           "source_period_duration_days": 90,
@@ -64169,7 +64169,7 @@
           "sale_to_list_ratio": 0.991318
         },
         {
-          "period": "2025-09",
+          "period": "2025-11",
           "period_begin": "2025-09-01",
           "period_end": "2025-11-30",
           "source_period_duration_days": 90,
@@ -64189,7 +64189,7 @@
           "sale_to_list_ratio": 0.989563
         },
         {
-          "period": "2025-10",
+          "period": "2025-12",
           "period_begin": "2025-10-01",
           "period_end": "2025-12-31",
           "source_period_duration_days": 90,
@@ -64209,7 +64209,7 @@
           "sale_to_list_ratio": 0.991973
         },
         {
-          "period": "2025-11",
+          "period": "2026-01",
           "period_begin": "2025-11-01",
           "period_end": "2026-01-31",
           "source_period_duration_days": 90,
@@ -64229,7 +64229,7 @@
           "sale_to_list_ratio": 0.989817
         },
         {
-          "period": "2025-12",
+          "period": "2026-02",
           "period_begin": "2025-12-01",
           "period_end": "2026-02-28",
           "source_period_duration_days": 90,
@@ -64249,7 +64249,7 @@
           "sale_to_list_ratio": 0.991626
         },
         {
-          "period": "2026-01",
+          "period": "2026-03",
           "period_begin": "2026-01-01",
           "period_end": "2026-03-31",
           "source_period_duration_days": 90,
@@ -64269,7 +64269,7 @@
           "sale_to_list_ratio": 0.994904
         },
         {
-          "period": "2026-02",
+          "period": "2026-04",
           "period_begin": "2026-02-01",
           "period_end": "2026-04-30",
           "source_period_duration_days": 90,
@@ -64289,7 +64289,7 @@
           "sale_to_list_ratio": 0.997488
         },
         {
-          "period": "2026-03",
+          "period": "2026-05",
           "period_begin": "2026-03-01",
           "period_end": "2026-05-31",
           "source_period_duration_days": 90,
