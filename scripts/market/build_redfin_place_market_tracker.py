@@ -19,6 +19,7 @@ import re
 import sys
 import tempfile
 import urllib.request
+import unicodedata
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -169,7 +170,8 @@ def finalize_metric(stats: dict, key: str, places=6):
 
 
 def normalize_place(name):
-    return re.sub(r"\s*\((?:city|town|cdp)\)\s*$", "", name or "", flags=re.I).strip().casefold()
+    bare = re.sub(r"\s*\((?:city|town|cdp)\)\s*$", "", name or "", flags=re.I).strip().casefold()
+    return "".join(c for c in unicodedata.normalize("NFD", bare) if not unicodedata.combining(c))
 
 
 def city_observations(stream, config):

@@ -121,12 +121,12 @@
     // Try GEOID, then name (case-insensitive, strip type suffix)
     if (placeGeoid && zori.cities[placeGeoid]) return zori.cities[placeGeoid];
     if (!placeName) return null;
-    var bare = placeName.replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim().toLowerCase();
+    var bare = placeName.replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
     var keys = Object.keys(zori.cities);
     for (var i = 0; i < keys.length; i++) {
       var v = zori.cities[keys[i]];
       var name = (v && v.name) ? v.name.toLowerCase() : keys[i].toLowerCase();
-      if (name === bare) return v;
+      if (name.normalize('NFD').replace(/[\u0300-\u036f]/g, '') === bare) return v;
     }
     return null;
   }
