@@ -1166,7 +1166,7 @@
       "measure_type": "level"
     },
     "ownership_need_recommendation": {
-      "value": "Verify locally",
+      "value": "Rental priority",
       "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
@@ -1246,7 +1246,7 @@
       "measure_type": "derived"
     },
     "ownership_need_ownership_fit_tier": {
-      "value": "Moderate",
+      "value": "Low",
       "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
@@ -1254,7 +1254,7 @@
       "measure_type": "derived"
     },
     "ownership_need_affordability_classification": {
-      "value": "priced-out",
+      "value": "stretch",
       "geography_level": "county",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",

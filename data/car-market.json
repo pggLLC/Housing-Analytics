@@ -6,11 +6,15 @@
   "closed_sales": 5840,
   "new_listings": 7950,
   "months_of_supply": 3.1,
-  "list_to_sale_ratio": 0.98,
-  "median_sale_price": 575000,
+  "list_to_sale_ratio": null,
+  "median_sale_price": null,
   "median_days_on_market": 34,
-  "median_price_per_sqft": 272,
-  "_legacy_median_price": 575000,
+  "median_price_per_sqft": null,
+  "_legacy_median_price": null,
   "_legacy_median_dom": 34,
-  "_legacy_price_per_sqft": 272
+  "_legacy_price_per_sqft": null,
+  "estimated": true,
+  "estimated_reason": "price_not_published_by_car",
+  "last_real_price_month": null,
+  "estimate_basis": "Historical February placeholder; tracking volumes are estimates, prices not published by CAR"
 }

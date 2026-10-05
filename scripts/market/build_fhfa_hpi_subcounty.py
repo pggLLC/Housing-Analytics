@@ -9,6 +9,7 @@ places. County rows remain direct anchors from the existing FHFA county parquet.
 
 from __future__ import annotations
 
+import argparse
 import json
 import math
 import os
@@ -200,6 +201,11 @@ def load_counties() -> dict[str, dict]:
         counties[fips] = {
             "county_fips": fips,
             "source_level": "fhfa_county_direct",
+            "latest_year": latest_year,
+            # Preserve annual observations for dollar-vintage-aligned adjustments.
+            # A long-run CAGR is not a substitute for the actual annual change.
+            "hpi_by_year": {str(year): by_county_year[(fips, year)]
+                            for year in sorted(df.loc[df["county_fips"] == fips, "hpi_year"].unique())},
             "hpi_latest": round_value(hpi_latest, 4),
             "hpi_10y_base": round_value(hpi_10y_base, 4),
             "hpi_15y_base": round_value(hpi_15y_base, 4),
@@ -289,7 +295,21 @@ def build_artifact():
 
 
 def main() -> int:
-    artifact = build_artifact()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--county-only", action="store_true",
+                        help="Rebuild county anchors from the committed parquet; preserve tract/place records")
+    args = parser.parse_args()
+    if args.county_only:
+        artifact = load_json(OUT)
+        artifact["counties"] = load_counties()
+        artifact["meta"]["county_count"] = len(artifact["counties"])
+        latest_year = max(row["latest_year"] for row in artifact["counties"].values())
+        artifact["meta"]["latest_year"] = latest_year
+        artifact["meta"]["as_of"] = f"{latest_year}-12-31"
+        artifact["meta"]["last_verified"] = utc_today()
+        artifact["meta"]["review_by"] = review_by()
+    else:
+        artifact = build_artifact()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
     print(
