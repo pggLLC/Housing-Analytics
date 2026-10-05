@@ -308,7 +308,8 @@ test('Deep Dive suppresses both estimated statewide price figures and labels tra
         // The policy tab used to write these same cards again from the old,
         // unflagged February placeholder. Exercise that late writer too.
         window.DataService = { baseData: name => 'data/' + name, getJSON: async url =>
-          url.includes('car-market') ? json('data/car-market.json') : {} };
+          url.includes('car-market') ? { ...json('data/car-market.json'), estimated: false,
+            median_sale_price: 987654, median_price_per_sqft: 987 } : {} };
         window.eval(read('js/utils/format-money.js'));
         window.eval(read('js/colorado-deep-dive.js'));
         window.coloradoDeepDive.activateTab('tab-policy-simulator', { updateHash: false });
