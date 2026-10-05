@@ -2072,14 +2072,19 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
           if (loading) loading.style.display = "none";
           if (content) {
             var sw = car.statewide || {};
+            var estimatedPrice = car.estimated_scopes ? car.estimated_scopes.statewide :
+              (car.estimated === true || /estimated[\s\S]*trend-projection|^placeholder for /i.test(car.notes || ''));
+            estimatedPrice = estimatedPrice || sw.estimated === true || !!sw.estimated_reason;
+            var unpublished = 'Not yet published by CAR' +
+              (sw.last_real_price_month ? ' (last published month: ' + sw.last_real_price_month + ')' : '');
             var fmt = function(n) { return n != null ? Number(n).toLocaleString() : "—"; };
             var fmtUsd = function(n) { return n != null ? "$" + Number(n).toLocaleString() : "—"; };
-            document.getElementById("carMedianPrice")  && (document.getElementById("carMedianPrice").textContent  = fmtUsd(sw.median_sale_price));
+            document.getElementById("carMedianPrice")  && (document.getElementById("carMedianPrice").textContent  = estimatedPrice || !(sw.median_sale_price > 0) ? unpublished : fmtUsd(sw.median_sale_price));
             document.getElementById("carInventory")    && (document.getElementById("carInventory").textContent    = fmt(sw.active_listings));
             document.getElementById("carDaysOnMarket") && (document.getElementById("carDaysOnMarket").textContent = sw.median_days_on_market != null ? sw.median_days_on_market + " days" : "—");
-            document.getElementById("carPricePerSqFt") && (document.getElementById("carPricePerSqFt").textContent = sw.median_price_per_sqft != null ? "$" + sw.median_price_per_sqft + "/sqft" : "—");
+            document.getElementById("carPricePerSqFt") && (document.getElementById("carPricePerSqFt").textContent = estimatedPrice || !(sw.median_price_per_sqft > 0) ? unpublished : "$" + sw.median_price_per_sqft + "/sqft");
             var freshnessEl = document.getElementById("carFreshness");
-            if (freshnessEl && car.month) { freshnessEl.textContent = "Report month: " + car.month + (car.generated_at ? " • Updated: " + car.generated_at.slice(0,10) : ""); }
+            if (freshnessEl && car.month) { freshnessEl.textContent = (estimatedPrice ? "Estimated tracking figures; prices withheld. Report month: " : "Report month: ") + car.month + (car.generated_at ? " • Updated: " + car.generated_at.slice(0,10) : ""); }
             content.style.display = "block";
           }
         }).catch(function() {
