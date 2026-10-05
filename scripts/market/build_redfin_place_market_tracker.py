@@ -192,8 +192,8 @@ def city_observations(stream, config):
             continue
         price = clean_number(row.get('MEDIAN_SALE_PRICE'))
         sales = clean_number(row.get('HOMES_SOLD'))
-        if price is None or price <= 0 or sales is None or sales < MIN_ALLOCATED_HOMES_SOLD:
-            absent[geo['geoid']] = 'redfin_city_sale_price_unavailable_or_thin'
+        if price is None or price <= 0 or sales is None or sales <= 0:
+            absent[geo['geoid']] = 'redfin_city_sale_price_unavailable'
             continue
         record = {'period': month, 'period_begin': row['PERIOD_BEGIN'], 'period_end': row['PERIOD_END'],
             'source_period_duration_days': int(row['PERIOD_DURATION']), 'source_level': 'redfin_city_observed',
@@ -434,6 +434,7 @@ def build_artifact() -> dict:
             "limitations": [
                 "Redfin methodology states smaller geographies, including ZIP codes, use rolling three-month windows for monthly data.",
                 "Thin ZIP-month rows and place-month aggregates below the allocated homes-sold floor are suppressed.",
+                "Direct city medians retain the published sales count, including small samples. The five-sale floor applies to the ZIP model only.",
                 "ZIP fallback rows are modeled means of medians, not true place medians; observed rows use Redfin city publications.",
                 "2020 housing-unit shares do not infer later annexations or construction. HUD residential-address shares within each tract are assumed to follow those housing units.",
                 "Known omissions in the bulk city download may use dated observations verified on the public Redfin city page; their source URL and source-record file travel with the row.",

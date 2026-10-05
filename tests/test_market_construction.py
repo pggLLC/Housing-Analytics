@@ -95,6 +95,7 @@ def test_city_observation_is_not_averaged_or_relabelled():
         '2026-05-01', '2026-05-31', '431234', '21', 'test-city']))
     writer.writerow(base)
     writer.writerow(dict(base, PERIOD_DURATION='90', MEDIAN_SALE_PRICE='987654'))
+    writer.writerow(dict(base, CITY='Ouray', HOMES_SOLD='2'))
     writer.writerow(dict(base, CITY='Colorado Springs', MEDIAN_SALE_PRICE='NA', HOMES_SOLD='NA'))
     stream.seek(0)
     cities, absent = redfin.city_observations(stream, config)
@@ -103,6 +104,9 @@ def test_city_observation_is_not_averaged_or_relabelled():
     assert row['source_period_duration_days'] == 30
     assert row['source_level'] == 'redfin_city_observed'
     assert '0816000' in absent and '0816000' not in cities
+    ouray = next(g['geoid'] for g in config['places'] if g['label'] == 'Ouray (city)')
+    assert cities[ouray]['2026-05']['median_sale_price'] == float(base['MEDIAN_SALE_PRICE'])
+    assert cities[ouray]['2026-05']['homes_sold_allocated'] == 2
 
 
 def test_model_review_flag_matches_latest_real_car():

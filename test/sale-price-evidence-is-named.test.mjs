@@ -82,6 +82,7 @@ test('every price retains the source geography and classification', () => {
     const evidence = Evidence.forPlace(geoid, CONTEXT);
     if (!(row.latest.median_sale_price > 0)) { assert.strictEqual(evidence.state, Evidence.UNAVAILABLE); continue; }
     assert.strictEqual(evidence.sourceLevel, row.source_level);
+    if (row.source_level === 'redfin_city_observed') assert.strictEqual(evidence.sourceSalesCount, row.latest.homes_sold_allocated);
     assert.ok(evidence.label && evidence.caveat);
     const baseline = StudyGeography.localBaseline({geoid, geoLevel:'place'}, {salePriceEvidence:evidence});
     assert.strictEqual(baseline.median_sale_price.classification,
