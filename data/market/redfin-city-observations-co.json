@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "source": "Redfin public city housing-market observations omitted from the bulk tracker",
+    "method": "Verified published city observation; not modeled or inferred from another geography. Used only when the bulk city series has no qualifying observation.",
+    "checked": "2026-10-05",
+    "review_by": "2027-01-03",
+    "limitations": "The bulk city tracker supplies NA sale prices and sales counts for Colorado Springs. Its public housing-market page supplies the observation below. Recheck that page before extending the vintage; no automatic price extrapolation."
+  },
+  "places": {
+    "0816000": {
+      "name": "Colorado Springs (city)",
+      "redfin_city_id": "4147",
+      "source_url": "https://www.redfin.com/city/4147/CO/Colorado-Springs/housing-market",
+      "checked": "2026-10-05",
+      "period": "2026-08",
+      "period_begin": "2026-06-01",
+      "period_end": "2026-08-31",
+      "source_period_duration_days": 90,
+      "median_sale_price": 459696,
+      "homes_sold": 2071,
+      "median_days_on_market": 42,
+      "source_measure": "All Home Types; three months ending August 2026",
+      "limitations": "The page headline rounds to $460K; the Median Sale Price panel reports $459,696. Listing inventory and sale-to-list ratio are not inferred for this observation."
+    }
+  }
+}

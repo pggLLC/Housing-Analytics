@@ -148,7 +148,8 @@
     }
     return {
       value: evidence.value,
-      classification: 'derived',
+      review_flag: evidence.reviewFlag || null,
+      classification: evidence.sourceLevel === 'redfin_city_observed' ? 'observed' : 'modeled',
       source: 'data/market/redfin_place_market_tracker_co.json \u2014 ' + evidence.label
         + (evidence.period ? ', period ending ' + evidence.period : '')
         + (evidence.state === 'stale' ? ' (' + evidence.monthsBehind + ' months behind the rest of the file)' : ''),
@@ -180,12 +181,7 @@
           method: home.method || null,
           review_flag: home.review_flag || null
         },
-      // Wired to the Redfin ZIP tracker, which until now nothing on the site
-      // read. Classified `derived`, not `observed`: every row in that file is
-      // allocated from ZIP-level sales to a place footprint, so it is not a
-      // closed-sale observation for this jurisdiction and must not carry the
-      // badge that says it is. A place the file does not cover keeps a null
-      // and the page says why.
+      // Preserve observed-city versus modeled-ZIP provenance and review flags.
       median_sale_price: salePrice(context, data)
     };
   }

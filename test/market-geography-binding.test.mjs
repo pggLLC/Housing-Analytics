@@ -228,7 +228,7 @@ const sharedBefore = JSON.stringify(SHARED) + JSON.stringify(MARKET_SOURCES);
 
 /* ── The three markets are what this file says they are ───────────────── */
 
-test('the three markets are distinct, screenable, and Wray has no sale-price source', () => {
+test('the three markets are distinct, screenable, and retain their source-bound sale prices', () => {
   for (const m of MARKETS) {
     const t = truthFor(m.geoid);
     assert.ok(t.ami && t.homeValue, `${m.geoid} lost its AMI or home value; pick another market`);
@@ -243,9 +243,8 @@ test('the three markets are distinct, screenable, and Wray has no sale-price sou
     const values = MARKETS.map((m) => truthFor(m.geoid)[key]);
     assert.strictEqual(new Set(values).size, values.length, `two markets share a ${key}; leakage between them is invisible`);
   }
-  assert.strictEqual(truthFor('0886310').salePrice, null,
-    'Wray now has a Redfin sale price; it no longer exercises the no-ownership-data path — pick another rural place');
-  assert.strictEqual(SalePriceEvidence.forPlace('0886310', MARKET_SOURCES).state, 'unavailable');
+  for (const m of MARKETS) assert.strictEqual(SalePriceEvidence.forPlace(m.geoid, MARKET_SOURCES).value, truthFor(m.geoid).salePrice);
+
 });
 
 test('the resolver follows the selected market, and so does every dataset path', () => {
@@ -304,7 +303,11 @@ for (const m of MARKETS) {
 
 test("Wray's missing sale price is named as missing, not filled from Fruita or the fixture", () => {
   const page = newPage();
-  const r = renderInto(page, assemble(contextFor(MARKETS[2])));
+  const geography = assemble(contextFor(MARKETS[2]));
+  // Simulate an absent source even when Wray gains genuine market coverage.
+  geography.salePrice = SalePriceEvidence.forPlace('0886310', {...MARKET_SOURCES, tracker:{places:{}}});
+  geography.localBaseline.median_sale_price = {value:null,classification:'not_available'};
+  const r = renderInto(page, geography);
   const section = page.dom.window.document.querySelector('#ms-s0');
   assert.ok(section, 'the sale-price section is missing entirely');
   assert.strictEqual(section.getAttribute('data-sale-price'), 'unavailable');

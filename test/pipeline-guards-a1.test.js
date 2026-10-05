@@ -28,17 +28,12 @@ assert.ok(
   'fetch_fmr_api.py rejects excessive statewide-default AMI flattening',
 );
 
-const rentBuilderSource = read('scripts/build_acs_rent_co.py');
-assert.ok(
-  rentBuilderSource.includes('entry.get("tract_geoid") or entry.get("geoid")'),
-  'build_acs_rent_co.py derives place county_fips from tract_geoid before legacy geoid',
-);
-assert.ok(
-  !rentBuilderSource.includes('tid = entry.get("geoid") if isinstance(entry, dict) else entry'),
-  'build_acs_rent_co.py no longer uses the geoid-only derivation for place county_fips',
-);
-
 const acsRent = JSON.parse(read('data/market/acs_median_rent_co.json'));
+const config = JSON.parse(read('data/hna/geo-config.json'));
+for (const geo of config.places.concat(config.cdps)) {
+  assert.equal(acsRent.places[geo.geoid].county_fips, geo.containingCounty,
+    geo.geoid + ': place binding equals the official jurisdiction registry');
+}
 const places = Object.values(acsRent.places || {});
 const populated = places.filter((place) => place && place.county_fips).length;
 assert.ok(places.length >= 460, `expected at least 460 ACS rent place records, found ${places.length}`);
