@@ -87,6 +87,10 @@ const ALLOW_LIST = new Set([
   // 2026-07-20 weekly sweep triage (#1268). All returned 200 (or a Cloudflare
   // bot-gate for congress.gov) with a browser UA; none are genuinely dead.
   // Keep in sync with source-url-sweep.mjs.
+  // Redfin WAF returns 405 to CI; verified live 2026-10-05; cited by
+  // data/market/redfin-city-observations-co.json
+  // (Colorado Springs supplement, #2089).
+  'https://www.redfin.com/city/4147/CO/Colorado-Springs/housing-market',
   'https://cdphe.colorado.gov/air-pollution/building-performance-standard-rule',
   'https://dpt.colorado.gov/property-tax-exemption-for-senior-citizens-and-veterans-with-a-disability',
   'https://federalfunds.colorado.gov/solar-for-all',
