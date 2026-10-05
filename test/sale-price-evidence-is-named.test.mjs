@@ -256,6 +256,10 @@ test('every modeled price above the county benchmark renders its review flag', (
     assert.ok(note, geoid + ': missing visible review flag');
     assert.strictEqual(note.dataset.salePriceReview, row.review_flag.reason);
     assert.ok(note.textContent.includes(row.review_flag.note));
+    const exported = mount.ownerDocument.querySelector('#marketStudyReportPreview [data-sale-price-review]');
+    assert.ok(exported, geoid + ': exported report omits the review flag');
+    assert.strictEqual(exported.dataset.salePriceReview, row.review_flag.reason);
+    assert.ok(exported.textContent.includes(row.review_flag.note));
   }
   // Render a fixture too, so falling real prices cannot make this guard vacuous.
   const row = CONTEXT.tracker.places[FRUITA];
