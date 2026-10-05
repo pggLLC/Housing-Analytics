@@ -269,14 +269,16 @@ _check(
 )
 
 # ---------------------------------------------------------------------------
-# Check 8: CAR report null fields (Rule 8, Bug S2-04/S2-05)
+# Check 8: CAR publication policy (M1 supersedes the old blanket no-null rule)
 # ---------------------------------------------------------------------------
-print('\n── Check 8: CAR report statewide fields are non-null ─')
+print('\n── Check 8: CAR prices follow publication status ─────')
 
 CAR_REQUIRED_FIELDS = [
     'median_sale_price', 'active_listings', 'median_days_on_market',
     'median_price_per_sqft', 'closed_sales', 'new_listings', 'months_of_supply',
 ]
+CAR_PRICE_FIELDS = {'median_sale_price', 'median_price_per_sqft',
+                    'median_sale_price_yoy_pct', 'list_to_sale_ratio'}
 car_violations = []
 car_report_files = sorted(glob.glob(os.path.join(DATA_DIR, 'car-market-report-*.json')))
 for fpath in car_report_files:
@@ -284,17 +286,27 @@ for fpath in car_report_files:
     try:
         with open(fpath) as f:
             report = json.load(f)
-        sw = report.get('statewide', {})
-        null_fields = [field for field in CAR_REQUIRED_FIELDS if sw.get(field) is None]
-        if null_fields:
-            car_violations.append(f'{fname} statewide: {null_fields}')
+        scopes = report.get('estimated_scopes', {})
+        for scope, rows in [('statewide', [report.get('statewide', {})]),
+                            ('metro', report.get('metro_areas', {}).values())]:
+            estimated = scopes.get(scope, report.get('estimated', False))
+            for row in rows:
+                fields = set(CAR_REQUIRED_FIELDS) | (CAR_PRICE_FIELDS & row.keys())
+                for field in fields:
+                    if field not in row:
+                        car_violations.append(f'{fname} {scope}: missing {field}')
+                    elif estimated and field in CAR_PRICE_FIELDS:
+                        if row[field] is not None or not row.get('estimated_reason'):
+                            car_violations.append(f'{fname} {scope}: {field} must be null with estimated_reason')
+                    elif row[field] is None:
+                        car_violations.append(f'{fname} {scope}: required {field} is null')
     except Exception as e:
         car_violations.append(f'{fname}: {e}')
 
 _check(
-    'CAR report statewide fields are non-null',
-    len(car_violations) == 0,
-    f'null_fields={car_violations[:3]}' if car_violations else '',
+    'CAR prices follow publication status',
+    bool(car_report_files) and len(car_violations) == 0,
+    f'violations={car_violations[:3]}' if car_violations else '',
 )
 
 # ---------------------------------------------------------------------------
