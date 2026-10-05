@@ -3,9 +3,10 @@ import { test } from 'node:test';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { JSDOM } from 'jsdom';
-import { countyHpiAdjustment, buildCountyAcsRows } from '../scripts/hna/build_home_value_cascade.mjs';
+import { countyHpiAdjustment, buildCountyAcsRows, countyReviewFlag } from '../scripts/hna/build_home_value_cascade.mjs';
 import { buildPlaceholder } from '../scripts/generate-car-placeholder.mjs';
 import { parseCountyRows, applyCountyPriceFloor } from '../scripts/fetch-car-showingtime.mjs';
 const require = createRequire(import.meta.url);
@@ -59,21 +60,138 @@ test('county values agree with actual annual FHFA change from the ACS dollar yea
   console.log(`Checked ${adjusted} annual adjustments and ${unadjusted} unadjusted ACS counties`);
 });
 
-test('county estimates stay within 10% of well-sampled published CAR single-family medians', () => {
+test('county estimates above the CAR benchmark retain their value and carry an advisory review flag', () => {
   const report = reports.findLast(r => r.estimated_scopes?.counties === false && Object.keys(r.counties || {}).length);
   assert.ok(report, 'a published county report is required');
+  const built = buildCountyAcsRows(registry, hpi).counties;
   let checked = 0;
   for (const [fips, county] of Object.entries(report.counties)) {
     const sf = county.single_family;
     if (!(sf?.closed_sales >= 20 && sf.median_sale_price > 0)) continue;
     checked++;
-    const row = cascade.counties[fips];
-    assert.ok(Number.isFinite(row.value), `${fips}: benchmarked county value exists`);
-    assert.ok(row.value <= sf.median_sale_price * 1.1,
-      `${fips}: modeled ${row.value} exceeds 110% of CAR ${sf.median_sale_price} (${sf.closed_sales} sales, ${report.month})`);
+    for (const row of [cascade.counties[fips], built[fips]]) {
+      assert.ok(Number.isFinite(row.value), `${fips}: keep the sourced estimate`);
+      if (row.value > sf.median_sale_price * 1.1) {
+        const flag = row.review_flag;
+        assert.ok(flag, `${fips}: estimate above CAR must carry the review flag`);
+        assert.equal(flag.reason, 'modeled_home_value_above_recent_sales');
+        assert.equal(flag.car_median, sf.median_sale_price);
+        assert.equal(flag.sales_count, sf.closed_sales);
+        assert.equal(flag.month, report.month);
+        assert.equal(flag.percentage_gap, (row.value / sf.median_sale_price - 1) * 100);
+        assert.ok(flag.note);
+      } else assert.ok(!row.review_flag, `${fips}: no flag below the threshold`);
+    }
   }
   assert.ok(checked > 0);
-  console.log(`Benchmarked ${checked} counties against CAR ${report.month}`);
+  // Constructed boundary cases keep the guard useful even if every county's data improves.
+  const fixture = { month: '2026-08', estimated_scopes: { counties: false },
+    counties: { '08039': { single_family: { closed_sales: 20, median_sale_price: 100000 } } } };
+  assert.ok(countyReviewFlag(110001, fixture, '08039'));
+  assert.equal(countyReviewFlag(110000, fixture, '08039'), null);
+  fixture.counties['08039'].single_family.closed_sales = 19;
+  assert.equal(countyReviewFlag(120000, fixture, '08039'), null);
+  fixture.counties['08039'].single_family.closed_sales = 20;
+  fixture.estimated_scopes.counties = true;
+  assert.equal(countyReviewFlag(120000, fixture, '08039'), null);
+  console.log(`Checked review flags for ${checked} published CAR county comparisons`);
+});
+
+function assertReviewNote(root, row, surface) {
+  const note = root.querySelector('[data-home-value-review="modeled_home_value_above_recent_sales"]');
+  assert.ok(note, `${surface}: visible review note required`);
+  assert.ok(!note.hidden && !note.closest('[hidden]'), `${surface}: note is visible`);
+  const flag = row.review_flag;
+  for (const value of [flag.percentage_gap.toFixed(1) + '%', flag.sales_count, flag.month, flag.car_median.toLocaleString('en-US')]) {
+    assert.ok(note.textContent.includes(String(value)), `${surface}: note reports ${value}`);
+  }
+  assert.ok(root.textContent.includes(row.value.toLocaleString('en-US')), `${surface}: estimate is retained`);
+}
+
+test('every flagged county renders its sourced value and review note on all three surfaces', async () => {
+  const cases = Object.entries(cascade.counties).filter(([, row]) => row.review_flag);
+  // Include a fixture so rendering is covered even in a future report with no flagged counties.
+  const fixtureReport = { month: '2026-08', estimated_scopes: { counties: false },
+    counties: { '08039': { single_family: { closed_sales: 25, median_sale_price: 100000 } } } };
+  const fixtureRow = { ...cascade.counties['08039'], value: 120000, review_flag: countyReviewFlag(120000, fixtureReport, '08039') };
+  cases.push(['08039', fixtureRow]);
+  let checked = 0;
+  const Page = require('../js/project-market-study/market-study-page.js');
+  const Report = require('../js/project-market-study/market-study-report.js');
+  for (const [fips, row] of cases) {
+    const homeValueCascade = { counties: { [fips]: row } };
+    const label = registry.geographies.find(g => g.geoid === fips).name;
+    const dom = new JSDOM('<div id="hnaAffordableOwnershipNeed"></div><div id="affordabilityMetrics"></div><div id="report"></div>', { runScripts: 'outside-only' });
+    try {
+      const { window } = dom;
+      window.document.addEventListener = () => {};
+      window.HNAState = { state: {
+        homeValueCascade, chasData: json('data/hna/chas_affordability_gap.json'),
+        acsAmiGapData: json('data/co_ami_gap_by_county.json')
+      } };
+      for (const src of ['js/utils/format-money.js', 'js/hna/hna-utils.js', 'js/hna/hna-ownership-need.js', 'js/hna/hna-renderers.js']) window.eval(read(src));
+      window.HNARenderers.tryRenderAffordableOwnershipNeedFromState(json(`data/hna/summary/${fips}.json`).acsProfile, 'county', fips, label, fips);
+      assertReviewNote(window.document.getElementById('hnaAffordableOwnershipNeed'), row, 'HNA ownership');
+      window.DataService = { baseData: name => 'data/' + name, getJSON: async url =>
+        url.endsWith('home-value-cascade.json') ? homeValueCascade : json(url) };
+      window.eval(read('js/affordability-metrics-panel.js'));
+      await window.AffordabilityMetrics.init();
+      const mount = window.document.getElementById('affordabilityMetrics');
+      window.AffordabilityMetrics.render(mount);
+      assertReviewNote(mount, row, 'Affordability panel');
+      mount.querySelector('[data-sort-key="name"]').click();
+      assertReviewNote(mount, row, 'Affordability panel after sorting');
+      const geography = StudyGeography.inputs({ geoid: fips, geoLevel: 'county', countyFips: fips, name: label }, {
+        homeValueCascade, countyChas: window.HNAState.state.chasData,
+        amiGapCounty: window.HNAState.state.acsAmiGapData
+      }, { HNAOwnershipNeed: window.HNAOwnershipNeed, EffectiveDemand: require('../js/project-market-study/effective-demand.js') });
+      const baseline = geography.localBaseline;
+      assert.deepEqual(baseline.home_value.review_flag, row.review_flag);
+      const data = {
+        scenarios: [json('data/fixtures/fruita-commons.scenario.json')],
+        conventions: json('data/policy/resale-conventions.json'), localBaseline: baseline, geography
+      };
+      const model = Page.buildModel(data, {});
+      const report = Report.buildReport(model, { asOf: row.as_of, vintages: {}, requiredCaveats: Report.REQUIRED_CAVEATS });
+      const reportRoot = window.document.getElementById('report');
+      reportRoot.innerHTML = Report.renderReportPreview(report);
+      assertReviewNote(reportRoot, row, 'For-sale study');
+      reportRoot.innerHTML = Report.renderReportHtml(report);
+      assertReviewNote(reportRoot, row, 'For-sale report');
+      // The common HNA home-value source label also carries the advisory wherever reused.
+      assert.ok(window.HNAUtils.homeValueInfo({ median_home_value: row }).sourceText.includes(row.review_flag.note));
+      checked++;
+    } finally { dom.window.close(); }
+  }
+  assert.equal(checked, cases.length);
+  assert.ok(checked > 0);
+});
+
+test('county-only FHFA rebuild refreshes vintage metadata without rewriting tract/place data', () => {
+  const result = spawnSync('python3', ['-c', `
+import importlib.util, json, pathlib, sys, tempfile
+spec = importlib.util.spec_from_file_location('builder', 'scripts/market/build_fhfa_hpi_subcounty.py')
+m = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(m)
+with tempfile.TemporaryDirectory() as tmp:
+    m.ROOT = pathlib.Path(tmp)
+    m.OUT = m.ROOT / 'fhfa.json'
+    original = {'meta': {'latest_year': 2024, 'as_of': '2024-12-31', 'last_verified': '2024-01-01', 'review_by': '2025-01-01', 'county_count': 1, 'tract_count': 1, 'place_count': 1}, 'counties': {}, 'tracts': {'old': {'latest_year': 2024}}, 'places': {'old': {'value': 17}}}
+    m.OUT.write_text(json.dumps(original))
+    m.load_counties = lambda: {'08001': {'latest_year': 2027}, '08039': {'latest_year': 2026}}
+    sys.argv = ['builder', '--county-only']
+    assert m.main() == 0
+    rebuilt = json.loads(m.OUT.read_text())
+    assert rebuilt['meta']['latest_year'] == 2027, rebuilt['meta']
+    assert rebuilt['meta']['as_of'] == '2027-12-31', rebuilt['meta']
+    assert rebuilt['meta']['last_verified'] == m.utc_today()
+    assert rebuilt['meta']['review_by'] == m.review_by()
+    assert rebuilt['meta']['county_count'] == 2
+    assert rebuilt['counties'] == m.load_counties()
+    assert rebuilt['tracts'] == original['tracts']
+    assert rebuilt['places'] == original['places']
+`], { cwd: ROOT, encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stdout + result.stderr);
 });
 
 test('placeholders never compound prices and retain the last real month', () => {

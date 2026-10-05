@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-05T04:02:29.801Z",
+    "generated_at": "2026-10-05T06:01:27.395Z",
     "schema": "median_home_value = { value, source, as_of, confidence }; counties are display-only affordability inputs and are ignored by rank/score models",
     "sources": {
       "zhvi_city_csv": "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
@@ -3794,6 +3794,15 @@
         "adjustment_method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
         "as_of": "2025-12-31",
         "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      },
+      "review_flag": {
+        "reason": "modeled_home_value_above_recent_sales",
+        "car_median": 655900,
+        "sales_count": 49,
+        "month": "2026-08",
+        "percentage_gap": 10.106571123646901,
+        "source": "data/car-market-report-2026-08.json",
+        "note": "Modeled from owner-reported Census values; 10.1% above recent MLS single-family sales ($655,900 median; 49 sales, 2026-08). Treat as an upper estimate."
       }
     },
     "08041": {

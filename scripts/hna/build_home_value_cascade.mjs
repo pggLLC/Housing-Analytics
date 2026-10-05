@@ -129,7 +129,34 @@ export function countyHpiAdjustment(fhfa, dollarYear = ACS_HOME_VALUE_DOLLAR_YEA
   };
 }
 
-export function buildCountyAcsRows(registry, fhfaDoc) {
+// Use only published county observations; newer estimated reports are not benchmarks.
+function latestRealCountyReport() {
+  const files = fs.readdirSync(path.join(ROOT, 'data'))
+    .filter(file => /^car-market-report-\d{4}-\d{2}\.json$/.test(file)).sort().reverse();
+  for (const file of files) {
+    const report = readJson(path.join(ROOT, 'data', file));
+    if (report.estimated_scopes?.counties === false && Object.keys(report.counties || {}).length) return report;
+  }
+  return null;
+}
+
+export function countyReviewFlag(value, report, fips) {
+  const sf = report?.counties?.[fips]?.single_family;
+  if (report?.estimated_scopes?.counties !== false || !(sf?.closed_sales >= 20) ||
+      !(sf.median_sale_price > 0) || !(value > sf.median_sale_price * 1.1)) return null;
+  const percentageGap = (value / sf.median_sale_price - 1) * 100;
+  return {
+    reason: 'modeled_home_value_above_recent_sales',
+    car_median: sf.median_sale_price,
+    sales_count: sf.closed_sales,
+    month: report.month,
+    percentage_gap: percentageGap,
+    source: `data/car-market-report-${report.month}.json`,
+    note: `Modeled from owner-reported Census values; ${percentageGap.toFixed(1)}% above recent MLS single-family sales ($${sf.median_sale_price.toLocaleString('en-US')} median; ${sf.closed_sales} sales, ${report.month}). Treat as an upper estimate.`,
+  };
+}
+
+export function buildCountyAcsRows(registry, fhfaDoc, carReport = latestRealCountyReport()) {
   const counties = {};
   let acsCount = 0;
   let missingCount = 0;
@@ -166,6 +193,9 @@ export function buildCountyAcsRows(registry, fhfaDoc) {
         source_url: fhfaDoc.meta && fhfaDoc.meta.county_source_url,
       } : null,
     };
+    // Advisory only: retain the sourced estimate and its affordability calculations.
+    const reviewFlag = countyReviewFlag(value, carReport, county.geoid);
+    if (reviewFlag) counties[county.geoid].review_flag = reviewFlag;
     if (hasValue) acsCount += 1;
     else missingCount += 1;
     if (hasAdjustedFhfa) fhfaCount += 1;

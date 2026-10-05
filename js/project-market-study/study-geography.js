@@ -177,7 +177,8 @@
           classification: home.source === 'fhfa_county_hpi_anchor' || home.source === 'county_zhvi_adjusted' ? 'modeled' : 'observed',
           source: 'data/hna/home-value-cascade.json (' + placeLabel + ' ' + (home.source || 'cascade') + ')' + (home.method ? ' — ' + home.method : ''),
           as_of: home.as_of || null,
-          method: home.method || null
+          method: home.method || null,
+          review_flag: home.review_flag || null
         },
       // Wired to the Redfin ZIP tracker, which until now nothing on the site
       // read. Classified `derived`, not `observed`: every row in that file is
