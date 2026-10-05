@@ -126,7 +126,7 @@
     for (var i = 0; i < keys.length; i++) {
       var v = zori.cities[keys[i]];
       var name = (v && v.name) ? v.name.toLowerCase() : keys[i].toLowerCase();
-      if (name === bare || name.indexOf(bare) === 0) return v;
+      if (name === bare) return v;
     }
     return null;
   }
@@ -194,7 +194,7 @@
       // Only valid when both sources are at the same geographic scope —
       // mixing place ACS with county ZORI (or vice versa) yields a
       // misleading "premium" that conflates scope drift with lease-up gap.
-      var acsVal  = acsRow  && (acsRow.median_gross_rent || acsRow.rent || null);
+      var acsVal  = acsRow  && (Number.isFinite(acsRow.median_gross_rent) && acsRow.median_gross_rent > 0 ? acsRow.median_gross_rent : null);
       var zoriVal = zoriRow && (zoriRow.rent || null);
       var fmrVal  = fmr     && fmr.fmr     ? fmr.fmr.two_br : null;
       var scopesMatch = acsScope && zoriScope && acsScope === zoriScope;

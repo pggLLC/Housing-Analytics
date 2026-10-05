@@ -344,7 +344,7 @@
     var homeCounty = context.geoLevel === 'county' || /county_fallback|county_acs|fhfa_county_hpi_anchor/.test(homeSource);
     var homeGeoid = homeCounty ? context.countyFips : context.geoid;
     var homeAvailable = hasValue(baseline.home_value) && homeGeoid;
-    var saleAvailable = hasValue(baseline.median_sale_price) && sale && sale.sourceLevel === 'redfin_zip_to_place_modeled';
+    var saleAvailable = hasValue(baseline.median_sale_price) && sale && (sale.sourceLevel === 'redfin_zip_to_place_modeled' || sale.sourceLevel === 'redfin_city_observed');
     var poolAvailable = need && !geography.unavailable;
     var scopes = [
       scope('ami_4person', 'Income limits', amiAvailable ? 'county' : 'unavailable', amiAvailable ? context.countyFips : null,
@@ -352,7 +352,7 @@
       scope('home_value', 'Home value', homeAvailable ? (homeCounty ? 'county' : context.geoLevel) : 'unavailable',
         homeAvailable ? homeGeoid : null, homeCounty ? countyName : context.name,
         homeAvailable ? (homeCounty && context.geoLevel !== 'county' ? 'County fallback: ' : 'Source: ') + homeSource : 'No bound home value'),
-      scope('median_sale_price', 'Sale price', saleAvailable ? 'ZIP-allocated' : 'unavailable', saleAvailable ? context.geoid : null,
+      scope('median_sale_price', 'Sale price', saleAvailable ? (sale.sourceLevel === 'redfin_city_observed' ? 'place' : 'ZIP-allocated') : 'unavailable', saleAvailable ? context.geoid : null,
         context.name, sale && sale.label || 'No bound sale-price geography'),
       scope('buyer_pool', 'Buyer pool', poolAvailable ? need.geoLevel : 'unavailable', poolAvailable ? need.geographyId : null,
         need && need.geographyName, poolAvailable ? 'HUD CHAS household pool; project filters are screening assumptions'
@@ -425,6 +425,7 @@
       + '<p class="ms-sale-price"><strong>' + facts.figure + '</strong> '
       + '<span class="ms-pill">' + esc(facts.label) + '</span></p>'
       + (facts.period ? '<p class="ms-caveat">' + esc(facts.period) + '.</p>' : '')
+      + (facts.reviewFlag ? '<p data-sale-price-review="' + esc(facts.reviewFlag.reason) + '">' + esc(facts.reviewFlag.note) + '</p>' : '')
       + '<p class="ms-caveat">' + esc(facts.caveat) + '</p></section>';
   }
 

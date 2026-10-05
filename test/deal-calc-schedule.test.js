@@ -8,6 +8,7 @@ const limits = require('../js/chfa-rent-limits.js');
 const chfa = require('../data/chfa-income-rent-limits-2026.json');
 const hud = require('../data/hud-fmr-income-limits.json');
 const zori = require('../data/market/zori_rents_co.json');
+const bedroomMix = require('../data/market/acs_renter_bedrooms_co.json');
 const read = p => fs.readFileSync(p, 'utf8');
 const plain = v => JSON.parse(JSON.stringify(v));
 const settle = () => new Promise(resolve => setImmediate(resolve));
@@ -42,12 +43,12 @@ async function calculator(saved = subject(), options = {}) {
   w.setTimeout = () => 0; w.setInterval = () => 0;
   w.fetch = url => {
     const path = String(url), data = path.includes('chfa-income-rent-limits') ? chfa
-      : path.includes('hud-fmr-income-limits') ? hud : path.includes('zori_rents_co') ? zori : null;
+      : path.includes('hud-fmr-income-limits') ? hud : path.includes('zori_rents_co') ? zori : String(url).includes('acs_renter_bedrooms_co') ? bedroomMix : null;
     return Promise.resolve({ ok: data != null, json: () => Promise.resolve(data) });
   };
   if (saved) w.localStorage.setItem('coho.subjectProject.v1', JSON.stringify(saved));
   if (options.manualInputs) w.localStorage.setItem('coho.dealCalc.manualMix.v1', options.manualInputs);
-  for (const file of ['js/utils/format-money.js', 'js/data-connectors/hud-fmr.js', 'js/deal-calculator-math.js', 'js/chfa-rent-limits.js']) w.eval(read(file));
+  for (const file of ['js/components/zori-rent-utils.js', 'js/utils/format-money.js', 'js/data-connectors/hud-fmr.js', 'js/deal-calculator-math.js', 'js/chfa-rent-limits.js']) w.eval(read(file));
   if (!options.noSubject) {
     w.eval(read('js/components/subject-project.js'));
     if (options.forbidSubjectRead) w.SubjectProject.get = () => { throw new Error('Shared deal read recipient Subject Project'); };

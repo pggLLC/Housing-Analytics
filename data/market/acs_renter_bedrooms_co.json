@@ -1,0 +1,8211 @@
+{
+  "meta": {
+    "source": "Census ACS 2020\u20132024 5-year, B25042 renter-occupied units by bedrooms",
+    "source_url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25042.dat",
+    "vintage": "2020\u20132024",
+    "table": "B25042",
+    "fields": {
+      "studio": "B25042_010E",
+      "1br": "B25042_011E",
+      "2br": "B25042_012E",
+      "3br": "B25042_013E",
+      "4br": "B25042_014E",
+      "5plus": "B25042_015E"
+    },
+    "method": "Published county/place renter counts. 4BR and 5+BR are combined only when distributing rents using HUD FMR."
+  },
+  "counties": {
+    "08001": {
+      "geoid": "08001",
+      "name": "Adams County",
+      "county_fips": "08001",
+      "renter_units": 59315,
+      "bedrooms": {
+        "studio": 2901,
+        "1br": 17200,
+        "2br": 21239,
+        "3br": 12410,
+        "4br": 4056,
+        "5plus": 1509
+      },
+      "unavailable_reason": null
+    },
+    "08003": {
+      "geoid": "08003",
+      "name": "Alamosa County",
+      "county_fips": "08003",
+      "renter_units": 2929,
+      "bedrooms": {
+        "studio": 130,
+        "1br": 550,
+        "2br": 1111,
+        "3br": 853,
+        "4br": 285,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "08005": {
+      "geoid": "08005",
+      "name": "Arapahoe County",
+      "county_fips": "08005",
+      "renter_units": 90698,
+      "bedrooms": {
+        "studio": 5165,
+        "1br": 28993,
+        "2br": 35171,
+        "3br": 13983,
+        "4br": 5509,
+        "5plus": 1877
+      },
+      "unavailable_reason": null
+    },
+    "08007": {
+      "geoid": "08007",
+      "name": "Archuleta County",
+      "county_fips": "08007",
+      "renter_units": 1180,
+      "bedrooms": {
+        "studio": 27,
+        "1br": 157,
+        "2br": 417,
+        "3br": 432,
+        "4br": 144,
+        "5plus": 3
+      },
+      "unavailable_reason": null
+    },
+    "08009": {
+      "geoid": "08009",
+      "name": "Baca County",
+      "county_fips": "08009",
+      "renter_units": 472,
+      "bedrooms": {
+        "studio": 37,
+        "1br": 171,
+        "2br": 112,
+        "3br": 103,
+        "4br": 41,
+        "5plus": 8
+      },
+      "unavailable_reason": null
+    },
+    "08011": {
+      "geoid": "08011",
+      "name": "Bent County",
+      "county_fips": "08011",
+      "renter_units": 653,
+      "bedrooms": {
+        "studio": 9,
+        "1br": 67,
+        "2br": 223,
+        "3br": 280,
+        "4br": 73,
+        "5plus": 1
+      },
+      "unavailable_reason": null
+    },
+    "08013": {
+      "geoid": "08013",
+      "name": "Boulder County",
+      "county_fips": "08013",
+      "renter_units": 52108,
+      "bedrooms": {
+        "studio": 2870,
+        "1br": 14642,
+        "2br": 19095,
+        "3br": 9549,
+        "4br": 4569,
+        "5plus": 1383
+      },
+      "unavailable_reason": null
+    },
+    "08014": {
+      "geoid": "08014",
+      "name": "Broomfield County",
+      "county_fips": "08014",
+      "renter_units": 11835,
+      "bedrooms": {
+        "studio": 515,
+        "1br": 4856,
+        "2br": 3879,
+        "3br": 1570,
+        "4br": 761,
+        "5plus": 254
+      },
+      "unavailable_reason": null
+    },
+    "08015": {
+      "geoid": "08015",
+      "name": "Chaffee County",
+      "county_fips": "08015",
+      "renter_units": 2552,
+      "bedrooms": {
+        "studio": 64,
+        "1br": 423,
+        "2br": 668,
+        "3br": 1167,
+        "4br": 213,
+        "5plus": 17
+      },
+      "unavailable_reason": null
+    },
+    "08017": {
+      "geoid": "08017",
+      "name": "Cheyenne County",
+      "county_fips": "08017",
+      "renter_units": 215,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 2,
+        "2br": 125,
+        "3br": 47,
+        "4br": 23,
+        "5plus": 18
+      },
+      "unavailable_reason": null
+    },
+    "08019": {
+      "geoid": "08019",
+      "name": "Clear Creek County",
+      "county_fips": "08019",
+      "renter_units": 860,
+      "bedrooms": {
+        "studio": 35,
+        "1br": 353,
+        "2br": 280,
+        "3br": 171,
+        "4br": 13,
+        "5plus": 8
+      },
+      "unavailable_reason": null
+    },
+    "08021": {
+      "geoid": "08021",
+      "name": "Conejos County",
+      "county_fips": "08021",
+      "renter_units": 743,
+      "bedrooms": {
+        "studio": 6,
+        "1br": 169,
+        "2br": 269,
+        "3br": 213,
+        "4br": 71,
+        "5plus": 15
+      },
+      "unavailable_reason": null
+    },
+    "08023": {
+      "geoid": "08023",
+      "name": "Costilla County",
+      "county_fips": "08023",
+      "renter_units": 346,
+      "bedrooms": {
+        "studio": 15,
+        "1br": 45,
+        "2br": 171,
+        "3br": 66,
+        "4br": 49,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "08025": {
+      "geoid": "08025",
+      "name": "Crowley County",
+      "county_fips": "08025",
+      "renter_units": 408,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 86,
+        "2br": 211,
+        "3br": 104,
+        "4br": 3,
+        "5plus": 4
+      },
+      "unavailable_reason": null
+    },
+    "08027": {
+      "geoid": "08027",
+      "name": "Custer County",
+      "county_fips": "08027",
+      "renter_units": 392,
+      "bedrooms": {
+        "studio": 19,
+        "1br": 115,
+        "2br": 161,
+        "3br": 90,
+        "4br": 4,
+        "5plus": 3
+      },
+      "unavailable_reason": null
+    },
+    "08029": {
+      "geoid": "08029",
+      "name": "Delta County",
+      "county_fips": "08029",
+      "renter_units": 2859,
+      "bedrooms": {
+        "studio": 151,
+        "1br": 635,
+        "2br": 892,
+        "3br": 862,
+        "4br": 295,
+        "5plus": 24
+      },
+      "unavailable_reason": null
+    },
+    "08031": {
+      "geoid": "08031",
+      "name": "Denver County",
+      "county_fips": "08031",
+      "renter_units": 171873,
+      "bedrooms": {
+        "studio": 19335,
+        "1br": 66720,
+        "2br": 59266,
+        "3br": 17673,
+        "4br": 6864,
+        "5plus": 2015
+      },
+      "unavailable_reason": null
+    },
+    "08033": {
+      "geoid": "08033",
+      "name": "Dolores County",
+      "county_fips": "08033",
+      "renter_units": 234,
+      "bedrooms": {
+        "studio": 6,
+        "1br": 72,
+        "2br": 88,
+        "3br": 61,
+        "4br": 7,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "08035": {
+      "geoid": "08035",
+      "name": "Douglas County",
+      "county_fips": "08035",
+      "renter_units": 31651,
+      "bedrooms": {
+        "studio": 1714,
+        "1br": 9341,
+        "2br": 11029,
+        "3br": 5790,
+        "4br": 2684,
+        "5plus": 1093
+      },
+      "unavailable_reason": null
+    },
+    "08037": {
+      "geoid": "08037",
+      "name": "Eagle County",
+      "county_fips": "08037",
+      "renter_units": 7513,
+      "bedrooms": {
+        "studio": 239,
+        "1br": 1457,
+        "2br": 3329,
+        "3br": 1937,
+        "4br": 438,
+        "5plus": 113
+      },
+      "unavailable_reason": null
+    },
+    "08039": {
+      "geoid": "08039",
+      "name": "Elbert County",
+      "county_fips": "08039",
+      "renter_units": 497,
+      "bedrooms": {
+        "studio": 8,
+        "1br": 74,
+        "2br": 147,
+        "3br": 150,
+        "4br": 75,
+        "5plus": 43
+      },
+      "unavailable_reason": null
+    },
+    "08041": {
+      "geoid": "08041",
+      "name": "El Paso County",
+      "county_fips": "08041",
+      "renter_units": 97958,
+      "bedrooms": {
+        "studio": 4653,
+        "1br": 23515,
+        "2br": 36296,
+        "3br": 20150,
+        "4br": 9726,
+        "5plus": 3618
+      },
+      "unavailable_reason": null
+    },
+    "08043": {
+      "geoid": "08043",
+      "name": "Fremont County",
+      "county_fips": "08043",
+      "renter_units": 4381,
+      "bedrooms": {
+        "studio": 245,
+        "1br": 917,
+        "2br": 1939,
+        "3br": 1025,
+        "4br": 203,
+        "5plus": 52
+      },
+      "unavailable_reason": null
+    },
+    "08045": {
+      "geoid": "08045",
+      "name": "Garfield County",
+      "county_fips": "08045",
+      "renter_units": 7112,
+      "bedrooms": {
+        "studio": 367,
+        "1br": 1695,
+        "2br": 2778,
+        "3br": 1461,
+        "4br": 719,
+        "5plus": 92
+      },
+      "unavailable_reason": null
+    },
+    "08047": {
+      "geoid": "08047",
+      "name": "Gilpin County",
+      "county_fips": "08047",
+      "renter_units": 390,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 59,
+        "2br": 137,
+        "3br": 139,
+        "4br": 0,
+        "5plus": 55
+      },
+      "unavailable_reason": null
+    },
+    "08049": {
+      "geoid": "08049",
+      "name": "Grand County",
+      "county_fips": "08049",
+      "renter_units": 1986,
+      "bedrooms": {
+        "studio": 14,
+        "1br": 558,
+        "2br": 1006,
+        "3br": 213,
+        "4br": 195,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "08051": {
+      "geoid": "08051",
+      "name": "Gunnison County",
+      "county_fips": "08051",
+      "renter_units": 2821,
+      "bedrooms": {
+        "studio": 214,
+        "1br": 736,
+        "2br": 1057,
+        "3br": 675,
+        "4br": 135,
+        "5plus": 4
+      },
+      "unavailable_reason": null
+    },
+    "08053": {
+      "geoid": "08053",
+      "name": "Hinsdale County",
+      "county_fips": "08053",
+      "renter_units": 122,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 29,
+        "2br": 84,
+        "3br": 9,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "08055": {
+      "geoid": "08055",
+      "name": "Huerfano County",
+      "county_fips": "08055",
+      "renter_units": 772,
+      "bedrooms": {
+        "studio": 70,
+        "1br": 79,
+        "2br": 266,
+        "3br": 261,
+        "4br": 82,
+        "5plus": 14
+      },
+      "unavailable_reason": null
+    },
+    "08057": {
+      "geoid": "08057",
+      "name": "Jackson County",
+      "county_fips": "08057",
+      "renter_units": 190,
+      "bedrooms": {
+        "studio": 16,
+        "1br": 56,
+        "2br": 39,
+        "3br": 58,
+        "4br": 21,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "08059": {
+      "geoid": "08059",
+      "name": "Jefferson County",
+      "county_fips": "08059",
+      "renter_units": 70766,
+      "bedrooms": {
+        "studio": 3263,
+        "1br": 20831,
+        "2br": 29917,
+        "3br": 11112,
+        "4br": 4074,
+        "5plus": 1569
+      },
+      "unavailable_reason": null
+    },
+    "08061": {
+      "geoid": "08061",
+      "name": "Kiowa County",
+      "county_fips": "08061",
+      "renter_units": 183,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 27,
+        "2br": 70,
+        "3br": 48,
+        "4br": 23,
+        "5plus": 15
+      },
+      "unavailable_reason": null
+    },
+    "08063": {
+      "geoid": "08063",
+      "name": "Kit Carson County",
+      "county_fips": "08063",
+      "renter_units": 793,
+      "bedrooms": {
+        "studio": 9,
+        "1br": 205,
+        "2br": 183,
+        "3br": 228,
+        "4br": 99,
+        "5plus": 69
+      },
+      "unavailable_reason": null
+    },
+    "08065": {
+      "geoid": "08065",
+      "name": "Lake County",
+      "county_fips": "08065",
+      "renter_units": 736,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 183,
+        "2br": 287,
+        "3br": 258,
+        "4br": 8,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "08067": {
+      "geoid": "08067",
+      "name": "La Plata County",
+      "county_fips": "08067",
+      "renter_units": 7086,
+      "bedrooms": {
+        "studio": 300,
+        "1br": 1681,
+        "2br": 2737,
+        "3br": 1945,
+        "4br": 296,
+        "5plus": 127
+      },
+      "unavailable_reason": null
+    },
+    "08069": {
+      "geoid": "08069",
+      "name": "Larimer County",
+      "county_fips": "08069",
+      "renter_units": 55495,
+      "bedrooms": {
+        "studio": 2818,
+        "1br": 11378,
+        "2br": 20203,
+        "3br": 14254,
+        "4br": 5718,
+        "5plus": 1124
+      },
+      "unavailable_reason": null
+    },
+    "08071": {
+      "geoid": "08071",
+      "name": "Las Animas County",
+      "county_fips": "08071",
+      "renter_units": 2047,
+      "bedrooms": {
+        "studio": 23,
+        "1br": 335,
+        "2br": 925,
+        "3br": 638,
+        "4br": 111,
+        "5plus": 15
+      },
+      "unavailable_reason": null
+    },
+    "08073": {
+      "geoid": "08073",
+      "name": "Lincoln County",
+      "county_fips": "08073",
+      "renter_units": 557,
+      "bedrooms": {
+        "studio": 24,
+        "1br": 84,
+        "2br": 195,
+        "3br": 175,
+        "4br": 27,
+        "5plus": 52
+      },
+      "unavailable_reason": null
+    },
+    "08075": {
+      "geoid": "08075",
+      "name": "Logan County",
+      "county_fips": "08075",
+      "renter_units": 2764,
+      "bedrooms": {
+        "studio": 75,
+        "1br": 499,
+        "2br": 1331,
+        "3br": 678,
+        "4br": 133,
+        "5plus": 48
+      },
+      "unavailable_reason": null
+    },
+    "08077": {
+      "geoid": "08077",
+      "name": "Mesa County",
+      "county_fips": "08077",
+      "renter_units": 18123,
+      "bedrooms": {
+        "studio": 709,
+        "1br": 3540,
+        "2br": 6990,
+        "3br": 5650,
+        "4br": 1029,
+        "5plus": 205
+      },
+      "unavailable_reason": null
+    },
+    "08079": {
+      "geoid": "08079",
+      "name": "Mineral County",
+      "county_fips": "08079",
+      "renter_units": 117,
+      "bedrooms": {
+        "studio": 7,
+        "1br": 60,
+        "2br": 32,
+        "3br": 4,
+        "4br": 14,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "08081": {
+      "geoid": "08081",
+      "name": "Moffat County",
+      "county_fips": "08081",
+      "renter_units": 1652,
+      "bedrooms": {
+        "studio": 11,
+        "1br": 175,
+        "2br": 655,
+        "3br": 637,
+        "4br": 156,
+        "5plus": 18
+      },
+      "unavailable_reason": null
+    },
+    "08083": {
+      "geoid": "08083",
+      "name": "Montezuma County",
+      "county_fips": "08083",
+      "renter_units": 2678,
+      "bedrooms": {
+        "studio": 225,
+        "1br": 601,
+        "2br": 750,
+        "3br": 1005,
+        "4br": 94,
+        "5plus": 3
+      },
+      "unavailable_reason": null
+    },
+    "08085": {
+      "geoid": "08085",
+      "name": "Montrose County",
+      "county_fips": "08085",
+      "renter_units": 4446,
+      "bedrooms": {
+        "studio": 279,
+        "1br": 557,
+        "2br": 1285,
+        "3br": 2062,
+        "4br": 227,
+        "5plus": 36
+      },
+      "unavailable_reason": null
+    },
+    "08087": {
+      "geoid": "08087",
+      "name": "Morgan County",
+      "county_fips": "08087",
+      "renter_units": 3616,
+      "bedrooms": {
+        "studio": 12,
+        "1br": 707,
+        "2br": 1711,
+        "3br": 924,
+        "4br": 177,
+        "5plus": 85
+      },
+      "unavailable_reason": null
+    },
+    "08089": {
+      "geoid": "08089",
+      "name": "Otero County",
+      "county_fips": "08089",
+      "renter_units": 2355,
+      "bedrooms": {
+        "studio": 117,
+        "1br": 523,
+        "2br": 617,
+        "3br": 530,
+        "4br": 485,
+        "5plus": 83
+      },
+      "unavailable_reason": null
+    },
+    "08091": {
+      "geoid": "08091",
+      "name": "Ouray County",
+      "county_fips": "08091",
+      "renter_units": 458,
+      "bedrooms": {
+        "studio": 9,
+        "1br": 63,
+        "2br": 232,
+        "3br": 113,
+        "4br": 41,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "08093": {
+      "geoid": "08093",
+      "name": "Park County",
+      "county_fips": "08093",
+      "renter_units": 1238,
+      "bedrooms": {
+        "studio": 23,
+        "1br": 302,
+        "2br": 390,
+        "3br": 307,
+        "4br": 76,
+        "5plus": 140
+      },
+      "unavailable_reason": null
+    },
+    "08095": {
+      "geoid": "08095",
+      "name": "Phillips County",
+      "county_fips": "08095",
+      "renter_units": 549,
+      "bedrooms": {
+        "studio": 5,
+        "1br": 119,
+        "2br": 288,
+        "3br": 19,
+        "4br": 118,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "08097": {
+      "geoid": "08097",
+      "name": "Pitkin County",
+      "county_fips": "08097",
+      "renter_units": 3425,
+      "bedrooms": {
+        "studio": 713,
+        "1br": 1169,
+        "2br": 1068,
+        "3br": 254,
+        "4br": 123,
+        "5plus": 98
+      },
+      "unavailable_reason": null
+    },
+    "08099": {
+      "geoid": "08099",
+      "name": "Prowers County",
+      "county_fips": "08099",
+      "renter_units": 1557,
+      "bedrooms": {
+        "studio": 86,
+        "1br": 322,
+        "2br": 521,
+        "3br": 530,
+        "4br": 67,
+        "5plus": 31
+      },
+      "unavailable_reason": null
+    },
+    "08101": {
+      "geoid": "08101",
+      "name": "Pueblo County",
+      "county_fips": "08101",
+      "renter_units": 21324,
+      "bedrooms": {
+        "studio": 799,
+        "1br": 4605,
+        "2br": 8948,
+        "3br": 5522,
+        "4br": 1280,
+        "5plus": 170
+      },
+      "unavailable_reason": null
+    },
+    "08103": {
+      "geoid": "08103",
+      "name": "Rio Blanco County",
+      "county_fips": "08103",
+      "renter_units": 721,
+      "bedrooms": {
+        "studio": 44,
+        "1br": 90,
+        "2br": 319,
+        "3br": 120,
+        "4br": 138,
+        "5plus": 10
+      },
+      "unavailable_reason": null
+    },
+    "08105": {
+      "geoid": "08105",
+      "name": "Rio Grande County",
+      "county_fips": "08105",
+      "renter_units": 1689,
+      "bedrooms": {
+        "studio": 57,
+        "1br": 371,
+        "2br": 720,
+        "3br": 480,
+        "4br": 23,
+        "5plus": 38
+      },
+      "unavailable_reason": null
+    },
+    "08107": {
+      "geoid": "08107",
+      "name": "Routt County",
+      "county_fips": "08107",
+      "renter_units": 2708,
+      "bedrooms": {
+        "studio": 80,
+        "1br": 548,
+        "2br": 1228,
+        "3br": 594,
+        "4br": 174,
+        "5plus": 84
+      },
+      "unavailable_reason": null
+    },
+    "08109": {
+      "geoid": "08109",
+      "name": "Saguache County",
+      "county_fips": "08109",
+      "renter_units": 784,
+      "bedrooms": {
+        "studio": 88,
+        "1br": 106,
+        "2br": 210,
+        "3br": 358,
+        "4br": 22,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "08111": {
+      "geoid": "08111",
+      "name": "San Juan County",
+      "county_fips": "08111",
+      "renter_units": 188,
+      "bedrooms": {
+        "studio": 31,
+        "1br": 37,
+        "2br": 30,
+        "3br": 36,
+        "4br": 50,
+        "5plus": 4
+      },
+      "unavailable_reason": null
+    },
+    "08113": {
+      "geoid": "08113",
+      "name": "San Miguel County",
+      "county_fips": "08113",
+      "renter_units": 1705,
+      "bedrooms": {
+        "studio": 348,
+        "1br": 309,
+        "2br": 691,
+        "3br": 244,
+        "4br": 81,
+        "5plus": 32
+      },
+      "unavailable_reason": null
+    },
+    "08115": {
+      "geoid": "08115",
+      "name": "Sedgwick County",
+      "county_fips": "08115",
+      "renter_units": 288,
+      "bedrooms": {
+        "studio": 23,
+        "1br": 59,
+        "2br": 87,
+        "3br": 76,
+        "4br": 35,
+        "5plus": 8
+      },
+      "unavailable_reason": null
+    },
+    "08117": {
+      "geoid": "08117",
+      "name": "Summit County",
+      "county_fips": "08117",
+      "renter_units": 3505,
+      "bedrooms": {
+        "studio": 255,
+        "1br": 907,
+        "2br": 1539,
+        "3br": 597,
+        "4br": 172,
+        "5plus": 35
+      },
+      "unavailable_reason": null
+    },
+    "08119": {
+      "geoid": "08119",
+      "name": "Teller County",
+      "county_fips": "08119",
+      "renter_units": 2255,
+      "bedrooms": {
+        "studio": 110,
+        "1br": 276,
+        "2br": 717,
+        "3br": 992,
+        "4br": 140,
+        "5plus": 20
+      },
+      "unavailable_reason": null
+    },
+    "08121": {
+      "geoid": "08121",
+      "name": "Washington County",
+      "county_fips": "08121",
+      "renter_units": 546,
+      "bedrooms": {
+        "studio": 3,
+        "1br": 78,
+        "2br": 208,
+        "3br": 156,
+        "4br": 75,
+        "5plus": 26
+      },
+      "unavailable_reason": null
+    },
+    "08123": {
+      "geoid": "08123",
+      "name": "Weld County",
+      "county_fips": "08123",
+      "renter_units": 29797,
+      "bedrooms": {
+        "studio": 1498,
+        "1br": 5223,
+        "2br": 11700,
+        "3br": 7876,
+        "4br": 2388,
+        "5plus": 1112
+      },
+      "unavailable_reason": null
+    },
+    "08125": {
+      "geoid": "08125",
+      "name": "Yuma County",
+      "county_fips": "08125",
+      "renter_units": 1267,
+      "bedrooms": {
+        "studio": 37,
+        "1br": 217,
+        "2br": 313,
+        "3br": 571,
+        "4br": 70,
+        "5plus": 59
+      },
+      "unavailable_reason": null
+    }
+  },
+  "places": {
+    "0800320": {
+      "geoid": "0800320",
+      "name": "Acres Green (CDP)",
+      "county_fips": "08035",
+      "renter_units": 152,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 5,
+        "3br": 41,
+        "4br": 106,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0800620": {
+      "geoid": "0800620",
+      "name": "Aetna Estates (CDP)",
+      "county_fips": "08005",
+      "renter_units": 201,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 139,
+        "2br": 0,
+        "3br": 62,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0800760": {
+      "geoid": "0800760",
+      "name": "Aguilar (town)",
+      "county_fips": "08071",
+      "renter_units": 66,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 5,
+        "2br": 35,
+        "3br": 15,
+        "4br": 0,
+        "5plus": 11
+      },
+      "unavailable_reason": null
+    },
+    "0800870": {
+      "geoid": "0800870",
+      "name": "Air Force Academy (CDP)",
+      "county_fips": "08041",
+      "renter_units": 706,
+      "bedrooms": {
+        "studio": 18,
+        "1br": 14,
+        "2br": 35,
+        "3br": 294,
+        "4br": 318,
+        "5plus": 27
+      },
+      "unavailable_reason": null
+    },
+    "0800925": {
+      "geoid": "0800925",
+      "name": "Akron (town)",
+      "county_fips": "08121",
+      "renter_units": 191,
+      "bedrooms": {
+        "studio": 3,
+        "1br": 26,
+        "2br": 129,
+        "3br": 28,
+        "4br": 5,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0801090": {
+      "geoid": "0801090",
+      "name": "Alamosa (city)",
+      "county_fips": "08003",
+      "renter_units": 2274,
+      "bedrooms": {
+        "studio": 123,
+        "1br": 481,
+        "2br": 1032,
+        "3br": 469,
+        "4br": 169,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0801145": {
+      "geoid": "0801145",
+      "name": "Alamosa East (CDP)",
+      "county_fips": "08003",
+      "renter_units": 161,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 16,
+        "2br": 13,
+        "3br": 99,
+        "4br": 33,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0801420": {
+      "geoid": "0801420",
+      "name": "Allenspark (CDP)",
+      "county_fips": "08013",
+      "renter_units": 73,
+      "bedrooms": {
+        "studio": 4,
+        "1br": 62,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 7
+      },
+      "unavailable_reason": null
+    },
+    "0801530": {
+      "geoid": "0801530",
+      "name": "Alma (town)",
+      "county_fips": "08093",
+      "renter_units": 100,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 14,
+        "2br": 27,
+        "3br": 53,
+        "4br": 6,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0801640": {
+      "geoid": "0801640",
+      "name": "Alpine (CDP)",
+      "county_fips": "08105",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0801740": {
+      "geoid": "0801740",
+      "name": "Altona (CDP)",
+      "county_fips": "08013",
+      "renter_units": 50,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 16,
+        "2br": 0,
+        "3br": 34,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0801915": {
+      "geoid": "0801915",
+      "name": "Amherst (CDP)",
+      "county_fips": "08095",
+      "renter_units": 18,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 18,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0802355": {
+      "geoid": "0802355",
+      "name": "Antonito (town)",
+      "county_fips": "08021",
+      "renter_units": 79,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 13,
+        "2br": 42,
+        "3br": 13,
+        "4br": 11,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0802575": {
+      "geoid": "0802575",
+      "name": "Applewood (CDP)",
+      "county_fips": "08059",
+      "renter_units": 856,
+      "bedrooms": {
+        "studio": 106,
+        "1br": 317,
+        "2br": 217,
+        "3br": 72,
+        "4br": 62,
+        "5plus": 82
+      },
+      "unavailable_reason": null
+    },
+    "0802850": {
+      "geoid": "0802850",
+      "name": "Arapahoe (CDP)",
+      "county_fips": "08017",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0802905": {
+      "geoid": "0802905",
+      "name": "Arboles (CDP)",
+      "county_fips": "08007",
+      "renter_units": 16,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 9,
+        "3br": 7,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0803015": {
+      "geoid": "0803015",
+      "name": "Aristocrat Ranchettes (CDP)",
+      "county_fips": "08123",
+      "renter_units": 90,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 49,
+        "3br": 41,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0803235": {
+      "geoid": "0803235",
+      "name": "Arriba (town)",
+      "county_fips": "08073",
+      "renter_units": 52,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 21,
+        "2br": 16,
+        "3br": 6,
+        "4br": 0,
+        "5plus": 9
+      },
+      "unavailable_reason": null
+    },
+    "0803455": {
+      "geoid": "0803455",
+      "name": "Arvada (city)",
+      "county_fips": "08059",
+      "renter_units": 12308,
+      "bedrooms": {
+        "studio": 498,
+        "1br": 3387,
+        "2br": 4981,
+        "3br": 2083,
+        "4br": 935,
+        "5plus": 424
+      },
+      "unavailable_reason": null
+    },
+    "0803620": {
+      "geoid": "0803620",
+      "name": "Aspen (city)",
+      "county_fips": "08097",
+      "renter_units": 1763,
+      "bedrooms": {
+        "studio": 434,
+        "1br": 770,
+        "2br": 407,
+        "3br": 61,
+        "4br": 91,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0803730": {
+      "geoid": "0803730",
+      "name": "Aspen Park (CDP)",
+      "county_fips": "08059",
+      "renter_units": 9,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 9,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0803840": {
+      "geoid": "0803840",
+      "name": "Atwood (CDP)",
+      "county_fips": "08075",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0803950": {
+      "geoid": "0803950",
+      "name": "Ault (town)",
+      "county_fips": "08123",
+      "renter_units": 125,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 98,
+        "2br": 0,
+        "3br": 20,
+        "4br": 7,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0804000": {
+      "geoid": "0804000",
+      "name": "Aurora (city)",
+      "county_fips": "08005",
+      "renter_units": 54627,
+      "bedrooms": {
+        "studio": 3494,
+        "1br": 15541,
+        "2br": 21051,
+        "3br": 9503,
+        "4br": 3756,
+        "5plus": 1282
+      },
+      "unavailable_reason": null
+    },
+    "0804110": {
+      "geoid": "0804110",
+      "name": "Avon (town)",
+      "county_fips": "08037",
+      "renter_units": 1342,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 398,
+        "2br": 639,
+        "3br": 220,
+        "4br": 29,
+        "5plus": 56
+      },
+      "unavailable_reason": null
+    },
+    "0804165": {
+      "geoid": "0804165",
+      "name": "Avondale (CDP)",
+      "county_fips": "08101",
+      "renter_units": 5,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 5,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0804620": {
+      "geoid": "0804620",
+      "name": "Bark Ranch (CDP)",
+      "county_fips": "08013",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0804935": {
+      "geoid": "0804935",
+      "name": "Basalt (town)",
+      "county_fips": "08037",
+      "renter_units": 799,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 183,
+        "2br": 360,
+        "3br": 200,
+        "4br": 56,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0805120": {
+      "geoid": "0805120",
+      "name": "Battlement Mesa (CDP)",
+      "county_fips": "08045",
+      "renter_units": 690,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 100,
+        "2br": 409,
+        "3br": 158,
+        "4br": 23,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0805265": {
+      "geoid": "0805265",
+      "name": "Bayfield (town)",
+      "county_fips": "08067",
+      "renter_units": 303,
+      "bedrooms": {
+        "studio": 14,
+        "1br": 72,
+        "2br": 102,
+        "3br": 111,
+        "4br": 4,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0806090": {
+      "geoid": "0806090",
+      "name": "Bennett (town)",
+      "county_fips": "08001",
+      "renter_units": 134,
+      "bedrooms": {
+        "studio": 2,
+        "1br": 0,
+        "2br": 86,
+        "3br": 35,
+        "4br": 6,
+        "5plus": 5
+      },
+      "unavailable_reason": null
+    },
+    "0806172": {
+      "geoid": "0806172",
+      "name": "Berkley (CDP)",
+      "county_fips": "08001",
+      "renter_units": 1342,
+      "bedrooms": {
+        "studio": 59,
+        "1br": 101,
+        "2br": 480,
+        "3br": 540,
+        "4br": 162,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0806255": {
+      "geoid": "0806255",
+      "name": "Berthoud (town)",
+      "county_fips": "08069",
+      "renter_units": 609,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 40,
+        "2br": 400,
+        "3br": 106,
+        "4br": 63,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0806530": {
+      "geoid": "0806530",
+      "name": "Bethune (town)",
+      "county_fips": "08063",
+      "renter_units": 24,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 4,
+        "3br": 10,
+        "4br": 10,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0806602": {
+      "geoid": "0806602",
+      "name": "Beulah Valley (CDP)",
+      "county_fips": "08101",
+      "renter_units": 49,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 39,
+        "3br": 10,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0806970": {
+      "geoid": "0806970",
+      "name": "Black Forest (CDP)",
+      "county_fips": "08041",
+      "renter_units": 230,
+      "bedrooms": {
+        "studio": 97,
+        "1br": 0,
+        "2br": 42,
+        "3br": 20,
+        "4br": 58,
+        "5plus": 13
+      },
+      "unavailable_reason": null
+    },
+    "0807025": {
+      "geoid": "0807025",
+      "name": "Black Hawk (city)",
+      "county_fips": "08047",
+      "renter_units": 18,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 2,
+        "2br": 7,
+        "3br": 9,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0807190": {
+      "geoid": "0807190",
+      "name": "Blanca (town)",
+      "county_fips": "08023",
+      "renter_units": 28,
+      "bedrooms": {
+        "studio": 5,
+        "1br": 0,
+        "2br": 1,
+        "3br": 13,
+        "4br": 9,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0807245": {
+      "geoid": "0807245",
+      "name": "Blende (CDP)",
+      "county_fips": "08101",
+      "renter_units": 90,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 12,
+        "2br": 10,
+        "3br": 68,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0807410": {
+      "geoid": "0807410",
+      "name": "Blue River (town)",
+      "county_fips": "08117",
+      "renter_units": 110,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 14,
+        "3br": 70,
+        "4br": 26,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0807420": {
+      "geoid": "0807420",
+      "name": "Blue Sky (CDP)",
+      "county_fips": "08087",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0807455": {
+      "geoid": "0807455",
+      "name": "Blue Valley (CDP)",
+      "county_fips": "08019",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0807571": {
+      "geoid": "0807571",
+      "name": "Bonanza (town)",
+      "county_fips": "08109",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0807580": {
+      "geoid": "0807580",
+      "name": "Bonanza Mountain Estates (CDP)",
+      "county_fips": "08013",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0807795": {
+      "geoid": "0807795",
+      "name": "Boone (town)",
+      "county_fips": "08101",
+      "renter_units": 28,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 18,
+        "3br": 10,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0807850": {
+      "geoid": "0807850",
+      "name": "Boulder (city)",
+      "county_fips": "08013",
+      "renter_units": 23455,
+      "bedrooms": {
+        "studio": 1784,
+        "1br": 6663,
+        "2br": 8401,
+        "3br": 3627,
+        "4br": 2215,
+        "5plus": 765
+      },
+      "unavailable_reason": null
+    },
+    "0808070": {
+      "geoid": "0808070",
+      "name": "Bow Mar (town)",
+      "county_fips": "08005",
+      "renter_units": 5,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 3,
+        "4br": 2,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0808290": {
+      "geoid": "0808290",
+      "name": "Brandon (CDP)",
+      "county_fips": "08061",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0808345": {
+      "geoid": "0808345",
+      "name": "Branson (town)",
+      "county_fips": "08071",
+      "renter_units": 8,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 8,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0808400": {
+      "geoid": "0808400",
+      "name": "Breckenridge (town)",
+      "county_fips": "08117",
+      "renter_units": 445,
+      "bedrooms": {
+        "studio": 113,
+        "1br": 114,
+        "2br": 185,
+        "3br": 33,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0808530": {
+      "geoid": "0808530",
+      "name": "Brick Center (CDP)",
+      "county_fips": "08005",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0808620": {
+      "geoid": "0808620",
+      "name": "Briggsdale (CDP)",
+      "county_fips": "08123",
+      "renter_units": 8,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 3,
+        "3br": 2,
+        "4br": 3,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0808675": {
+      "geoid": "0808675",
+      "name": "Brighton (city)",
+      "county_fips": "08001",
+      "renter_units": 3885,
+      "bedrooms": {
+        "studio": 18,
+        "1br": 783,
+        "2br": 1605,
+        "3br": 1169,
+        "4br": 292,
+        "5plus": 18
+      },
+      "unavailable_reason": null
+    },
+    "0808950": {
+      "geoid": "0808950",
+      "name": "Brook Forest (CDP)",
+      "county_fips": "08059",
+      "renter_units": 22,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 9,
+        "2br": 0,
+        "3br": 13,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0809115": {
+      "geoid": "0809115",
+      "name": "Brookside (town)",
+      "county_fips": "08043",
+      "renter_units": 28,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 20,
+        "3br": 8,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0809280": {
+      "geoid": "0809280",
+      "name": "Broomfield (city)",
+      "county_fips": "08014",
+      "renter_units": 11835,
+      "bedrooms": {
+        "studio": 515,
+        "1br": 4856,
+        "2br": 3879,
+        "3br": 1570,
+        "4br": 761,
+        "5plus": 254
+      },
+      "unavailable_reason": null
+    },
+    "0809555": {
+      "geoid": "0809555",
+      "name": "Brush (city)",
+      "county_fips": "08087",
+      "renter_units": 791,
+      "bedrooms": {
+        "studio": 12,
+        "1br": 484,
+        "2br": 149,
+        "3br": 104,
+        "4br": 0,
+        "5plus": 42
+      },
+      "unavailable_reason": null
+    },
+    "0810105": {
+      "geoid": "0810105",
+      "name": "Buena Vista (town)",
+      "county_fips": "08015",
+      "renter_units": 874,
+      "bedrooms": {
+        "studio": 52,
+        "1br": 57,
+        "2br": 23,
+        "3br": 539,
+        "4br": 203,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0810600": {
+      "geoid": "0810600",
+      "name": "Burlington (city)",
+      "county_fips": "08063",
+      "renter_units": 333,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 149,
+        "2br": 44,
+        "3br": 81,
+        "4br": 56,
+        "5plus": 3
+      },
+      "unavailable_reason": null
+    },
+    "0810985": {
+      "geoid": "0810985",
+      "name": "Byers (CDP)",
+      "county_fips": "08005",
+      "renter_units": 93,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 17,
+        "2br": 26,
+        "3br": 50,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0811260": {
+      "geoid": "0811260",
+      "name": "Calhan (town)",
+      "county_fips": "08041",
+      "renter_units": 81,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 28,
+        "2br": 31,
+        "3br": 16,
+        "4br": 0,
+        "5plus": 6
+      },
+      "unavailable_reason": null
+    },
+    "0811645": {
+      "geoid": "0811645",
+      "name": "Campo (town)",
+      "county_fips": "08009",
+      "renter_units": 6,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 6
+      },
+      "unavailable_reason": null
+    },
+    "0811810": {
+      "geoid": "0811810",
+      "name": "Ca\u00f1on City (city)",
+      "county_fips": "08043",
+      "renter_units": 2205,
+      "bedrooms": {
+        "studio": 141,
+        "1br": 589,
+        "2br": 942,
+        "3br": 347,
+        "4br": 163,
+        "5plus": 23
+      },
+      "unavailable_reason": null
+    },
+    "0811975": {
+      "geoid": "0811975",
+      "name": "Capulin (CDP)",
+      "county_fips": "08021",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0812030": {
+      "geoid": "0812030",
+      "name": "Carbonate (town)",
+      "county_fips": "08045",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0812045": {
+      "geoid": "0812045",
+      "name": "Carbondale (town)",
+      "county_fips": "08045",
+      "renter_units": 1022,
+      "bedrooms": {
+        "studio": 49,
+        "1br": 334,
+        "2br": 324,
+        "3br": 262,
+        "4br": 25,
+        "5plus": 28
+      },
+      "unavailable_reason": null
+    },
+    "0812325": {
+      "geoid": "0812325",
+      "name": "Cascade-Chipita Park (CDP)",
+      "county_fips": "08041",
+      "renter_units": 91,
+      "bedrooms": {
+        "studio": 13,
+        "1br": 9,
+        "2br": 42,
+        "3br": 18,
+        "4br": 9,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0812387": {
+      "geoid": "0812387",
+      "name": "Castle Pines (city)",
+      "county_fips": "08035",
+      "renter_units": 972,
+      "bedrooms": {
+        "studio": 57,
+        "1br": 157,
+        "2br": 482,
+        "3br": 207,
+        "4br": 58,
+        "5plus": 11
+      },
+      "unavailable_reason": null
+    },
+    "0812393": {
+      "geoid": "0812393",
+      "name": "Castle Pines Village (CDP)",
+      "county_fips": "08035",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0812415": {
+      "geoid": "0812415",
+      "name": "Castle Rock (town)",
+      "county_fips": "08035",
+      "renter_units": 5992,
+      "bedrooms": {
+        "studio": 224,
+        "1br": 1475,
+        "2br": 2313,
+        "3br": 1285,
+        "4br": 362,
+        "5plus": 333
+      },
+      "unavailable_reason": null
+    },
+    "0812450": {
+      "geoid": "0812450",
+      "name": "Cathedral (CDP)",
+      "county_fips": "08053",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0812460": {
+      "geoid": "0812460",
+      "name": "Catherine (CDP)",
+      "county_fips": "08045",
+      "renter_units": 9,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 9,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0812470": {
+      "geoid": "0812470",
+      "name": "Cattle Creek (CDP)",
+      "county_fips": "08045",
+      "renter_units": 81,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 42,
+        "3br": 39,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0812635": {
+      "geoid": "0812635",
+      "name": "Cedaredge (town)",
+      "county_fips": "08029",
+      "renter_units": 311,
+      "bedrooms": {
+        "studio": 24,
+        "1br": 72,
+        "2br": 125,
+        "3br": 90,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0812815": {
+      "geoid": "0812815",
+      "name": "Centennial (city)",
+      "county_fips": "08005",
+      "renter_units": 8203,
+      "bedrooms": {
+        "studio": 444,
+        "1br": 2470,
+        "2br": 2750,
+        "3br": 1627,
+        "4br": 717,
+        "5plus": 195
+      },
+      "unavailable_reason": null
+    },
+    "0812855": {
+      "geoid": "0812855",
+      "name": "Center (town)",
+      "county_fips": "08109",
+      "renter_units": 311,
+      "bedrooms": {
+        "studio": 60,
+        "1br": 66,
+        "2br": 114,
+        "3br": 71,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0812900": {
+      "geoid": "0812900",
+      "name": "Central City (city)",
+      "county_fips": "08047",
+      "renter_units": 119,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 38,
+        "2br": 81,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0812945": {
+      "geoid": "0812945",
+      "name": "Chacra (CDP)",
+      "county_fips": "08045",
+      "renter_units": 51,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 51,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0813460": {
+      "geoid": "0813460",
+      "name": "Cheraw (town)",
+      "county_fips": "08089",
+      "renter_units": 28,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 5,
+        "2br": 8,
+        "3br": 15,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0813590": {
+      "geoid": "0813590",
+      "name": "Cherry Creek (CDP)",
+      "county_fips": "08005",
+      "renter_units": 834,
+      "bedrooms": {
+        "studio": 36,
+        "1br": 317,
+        "2br": 254,
+        "3br": 145,
+        "4br": 75,
+        "5plus": 7
+      },
+      "unavailable_reason": null
+    },
+    "0813845": {
+      "geoid": "0813845",
+      "name": "Cherry Hills Village (city)",
+      "county_fips": "08005",
+      "renter_units": 66,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 49,
+        "4br": 6,
+        "5plus": 11
+      },
+      "unavailable_reason": null
+    },
+    "0814175": {
+      "geoid": "0814175",
+      "name": "Cheyenne Wells (town)",
+      "county_fips": "08017",
+      "renter_units": 151,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 2,
+        "2br": 99,
+        "3br": 22,
+        "4br": 15,
+        "5plus": 13
+      },
+      "unavailable_reason": null
+    },
+    "0814587": {
+      "geoid": "0814587",
+      "name": "Cimarron Hills (CDP)",
+      "county_fips": "08041",
+      "renter_units": 2406,
+      "bedrooms": {
+        "studio": 130,
+        "1br": 218,
+        "2br": 1091,
+        "3br": 558,
+        "4br": 218,
+        "5plus": 191
+      },
+      "unavailable_reason": null
+    },
+    "0814765": {
+      "geoid": "0814765",
+      "name": "City of Creede (town)",
+      "county_fips": "08079",
+      "renter_units": 101,
+      "bedrooms": {
+        "studio": 5,
+        "1br": 47,
+        "2br": 31,
+        "3br": 4,
+        "4br": 14,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0815165": {
+      "geoid": "0815165",
+      "name": "Clifton (CDP)",
+      "county_fips": "08077",
+      "renter_units": 2071,
+      "bedrooms": {
+        "studio": 57,
+        "1br": 76,
+        "2br": 1189,
+        "3br": 709,
+        "4br": 37,
+        "5plus": 3
+      },
+      "unavailable_reason": null
+    },
+    "0815302": {
+      "geoid": "0815302",
+      "name": "Coal Creek (CDP)",
+      "county_fips": "08059",
+      "renter_units": 104,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 4,
+        "2br": 74,
+        "3br": 26,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0815330": {
+      "geoid": "0815330",
+      "name": "Coal Creek (town)",
+      "county_fips": "08043",
+      "renter_units": 15,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 11,
+        "3br": 4,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0815440": {
+      "geoid": "0815440",
+      "name": "Coaldale (CDP)",
+      "county_fips": "08043",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0815550": {
+      "geoid": "0815550",
+      "name": "Cokedale (town)",
+      "county_fips": "08071",
+      "renter_units": 55,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 50,
+        "2br": 1,
+        "3br": 3,
+        "4br": 1,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0815605": {
+      "geoid": "0815605",
+      "name": "Collbran (town)",
+      "county_fips": "08077",
+      "renter_units": 14,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 6,
+        "2br": 4,
+        "3br": 4,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0815825": {
+      "geoid": "0815825",
+      "name": "Colona (CDP)",
+      "county_fips": "08091",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0815935": {
+      "geoid": "0815935",
+      "name": "Colorado City (CDP)",
+      "county_fips": "08101",
+      "renter_units": 195,
+      "bedrooms": {
+        "studio": 22,
+        "1br": 39,
+        "2br": 67,
+        "3br": 67,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0816000": {
+      "geoid": "0816000",
+      "name": "Colorado Springs (city)",
+      "county_fips": "08041",
+      "renter_units": 79251,
+      "bedrooms": {
+        "studio": 3943,
+        "1br": 21942,
+        "2br": 31284,
+        "3br": 13425,
+        "4br": 6135,
+        "5plus": 2522
+      },
+      "unavailable_reason": null
+    },
+    "0816110": {
+      "geoid": "0816110",
+      "name": "Columbine (CDP)",
+      "county_fips": "08059",
+      "renter_units": 1018,
+      "bedrooms": {
+        "studio": 54,
+        "1br": 68,
+        "2br": 349,
+        "3br": 383,
+        "4br": 119,
+        "5plus": 45
+      },
+      "unavailable_reason": null
+    },
+    "0816385": {
+      "geoid": "0816385",
+      "name": "Columbine Valley (town)",
+      "county_fips": "08005",
+      "renter_units": 19,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 10,
+        "3br": 3,
+        "4br": 6,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0816465": {
+      "geoid": "0816465",
+      "name": "Comanche Creek (CDP)",
+      "county_fips": "08005",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0816495": {
+      "geoid": "0816495",
+      "name": "Commerce City (city)",
+      "county_fips": "08001",
+      "renter_units": 5115,
+      "bedrooms": {
+        "studio": 130,
+        "1br": 874,
+        "2br": 1691,
+        "3br": 1726,
+        "4br": 497,
+        "5plus": 197
+      },
+      "unavailable_reason": null
+    },
+    "0816715": {
+      "geoid": "0816715",
+      "name": "Conejos (CDP)",
+      "county_fips": "08021",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0817100": {
+      "geoid": "0817100",
+      "name": "Cope (CDP)",
+      "county_fips": "08121",
+      "renter_units": 2,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 2,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0817150": {
+      "geoid": "0817150",
+      "name": "Copper Mountain (CDP)",
+      "county_fips": "08117",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0817375": {
+      "geoid": "0817375",
+      "name": "Cortez (city)",
+      "county_fips": "08083",
+      "renter_units": 1278,
+      "bedrooms": {
+        "studio": 79,
+        "1br": 262,
+        "2br": 359,
+        "3br": 534,
+        "4br": 44,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0817485": {
+      "geoid": "0817485",
+      "name": "Cotopaxi (CDP)",
+      "county_fips": "08043",
+      "renter_units": 11,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 11,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0817760": {
+      "geoid": "0817760",
+      "name": "Craig (city)",
+      "county_fips": "08081",
+      "renter_units": 1513,
+      "bedrooms": {
+        "studio": 11,
+        "1br": 164,
+        "2br": 612,
+        "3br": 556,
+        "4br": 152,
+        "5plus": 18
+      },
+      "unavailable_reason": null
+    },
+    "0817925": {
+      "geoid": "0817925",
+      "name": "Crawford (town)",
+      "county_fips": "08029",
+      "renter_units": 56,
+      "bedrooms": {
+        "studio": 2,
+        "1br": 12,
+        "2br": 24,
+        "3br": 18,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0818310": {
+      "geoid": "0818310",
+      "name": "Crested Butte (town)",
+      "county_fips": "08051",
+      "renter_units": 223,
+      "bedrooms": {
+        "studio": 77,
+        "1br": 91,
+        "2br": 55,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0818420": {
+      "geoid": "0818420",
+      "name": "Crestone (town)",
+      "county_fips": "08109",
+      "renter_units": 29,
+      "bedrooms": {
+        "studio": 28,
+        "1br": 0,
+        "2br": 1,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0818530": {
+      "geoid": "0818530",
+      "name": "Cripple Creek (city)",
+      "county_fips": "08119",
+      "renter_units": 262,
+      "bedrooms": {
+        "studio": 54,
+        "1br": 136,
+        "2br": 60,
+        "3br": 12,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0818585": {
+      "geoid": "0818585",
+      "name": "Crisman (CDP)",
+      "county_fips": "08013",
+      "renter_units": 9,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 9,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0818640": {
+      "geoid": "0818640",
+      "name": "Crook (town)",
+      "county_fips": "08075",
+      "renter_units": 21,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 15,
+        "3br": 6,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0818750": {
+      "geoid": "0818750",
+      "name": "Crowley (town)",
+      "county_fips": "08025",
+      "renter_units": 15,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 14,
+        "3br": 1,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0819080": {
+      "geoid": "0819080",
+      "name": "Dacono (city)",
+      "county_fips": "08123",
+      "renter_units": 338,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 72,
+        "2br": 61,
+        "3br": 123,
+        "4br": 72,
+        "5plus": 10
+      },
+      "unavailable_reason": null
+    },
+    "0819150": {
+      "geoid": "0819150",
+      "name": "Dakota Ridge (CDP)",
+      "county_fips": "08059",
+      "renter_units": 2172,
+      "bedrooms": {
+        "studio": 40,
+        "1br": 479,
+        "2br": 798,
+        "3br": 524,
+        "4br": 274,
+        "5plus": 57
+      },
+      "unavailable_reason": null
+    },
+    "0819355": {
+      "geoid": "0819355",
+      "name": "De Beque (town)",
+      "county_fips": "08077",
+      "renter_units": 42,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 4,
+        "2br": 15,
+        "3br": 21,
+        "4br": 2,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0819630": {
+      "geoid": "0819630",
+      "name": "Deer Trail (town)",
+      "county_fips": "08005",
+      "renter_units": 62,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 17,
+        "2br": 8,
+        "3br": 37,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0819795": {
+      "geoid": "0819795",
+      "name": "Del Norte (town)",
+      "county_fips": "08105",
+      "renter_units": 269,
+      "bedrooms": {
+        "studio": 57,
+        "1br": 47,
+        "2br": 92,
+        "3br": 48,
+        "4br": 0,
+        "5plus": 25
+      },
+      "unavailable_reason": null
+    },
+    "0819850": {
+      "geoid": "0819850",
+      "name": "Delta (city)",
+      "county_fips": "08029",
+      "renter_units": 1280,
+      "bedrooms": {
+        "studio": 103,
+        "1br": 422,
+        "2br": 271,
+        "3br": 283,
+        "4br": 178,
+        "5plus": 23
+      },
+      "unavailable_reason": null
+    },
+    "0820000": {
+      "geoid": "0820000",
+      "name": "Denver (city)",
+      "county_fips": "08031",
+      "renter_units": 171873,
+      "bedrooms": {
+        "studio": 19335,
+        "1br": 66720,
+        "2br": 59266,
+        "3br": 17673,
+        "4br": 6864,
+        "5plus": 2015
+      },
+      "unavailable_reason": null
+    },
+    "0820275": {
+      "geoid": "0820275",
+      "name": "Derby (CDP)",
+      "county_fips": "08001",
+      "renter_units": 722,
+      "bedrooms": {
+        "studio": 26,
+        "1br": 40,
+        "2br": 177,
+        "3br": 298,
+        "4br": 172,
+        "5plus": 9
+      },
+      "unavailable_reason": null
+    },
+    "0820440": {
+      "geoid": "0820440",
+      "name": "Dillon (town)",
+      "county_fips": "08117",
+      "renter_units": 139,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 64,
+        "2br": 52,
+        "3br": 9,
+        "4br": 14,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0820495": {
+      "geoid": "0820495",
+      "name": "Dinosaur (town)",
+      "county_fips": "08081",
+      "renter_units": 13,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 8,
+        "2br": 0,
+        "3br": 5,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0820605": {
+      "geoid": "0820605",
+      "name": "Divide (CDP)",
+      "county_fips": "08119",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0820770": {
+      "geoid": "0820770",
+      "name": "Dolores (town)",
+      "county_fips": "08083",
+      "renter_units": 268,
+      "bedrooms": {
+        "studio": 139,
+        "1br": 66,
+        "2br": 61,
+        "3br": 2,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0821155": {
+      "geoid": "0821155",
+      "name": "Dotsero (CDP)",
+      "county_fips": "08037",
+      "renter_units": 86,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 86,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0821265": {
+      "geoid": "0821265",
+      "name": "Dove Creek (town)",
+      "county_fips": "08033",
+      "renter_units": 174,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 64,
+        "2br": 49,
+        "3br": 61,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0821330": {
+      "geoid": "0821330",
+      "name": "Dove Valley (CDP)",
+      "county_fips": "08005",
+      "renter_units": 1423,
+      "bedrooms": {
+        "studio": 89,
+        "1br": 253,
+        "2br": 468,
+        "3br": 474,
+        "4br": 139,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0821390": {
+      "geoid": "0821390",
+      "name": "Downieville-Lawson-Dumont (CDP)",
+      "county_fips": "08019",
+      "renter_units": 15,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 15,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0822035": {
+      "geoid": "0822035",
+      "name": "Durango (city)",
+      "county_fips": "08067",
+      "renter_units": 4190,
+      "bedrooms": {
+        "studio": 195,
+        "1br": 1251,
+        "2br": 1841,
+        "3br": 686,
+        "4br": 147,
+        "5plus": 70
+      },
+      "unavailable_reason": null
+    },
+    "0822145": {
+      "geoid": "0822145",
+      "name": "Eads (town)",
+      "county_fips": "08061",
+      "renter_units": 63,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 21,
+        "2br": 9,
+        "3br": 7,
+        "4br": 18,
+        "5plus": 8
+      },
+      "unavailable_reason": null
+    },
+    "0822200": {
+      "geoid": "0822200",
+      "name": "Eagle (town)",
+      "county_fips": "08037",
+      "renter_units": 730,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 248,
+        "2br": 288,
+        "3br": 138,
+        "4br": 56,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0822575": {
+      "geoid": "0822575",
+      "name": "East Pleasant View (CDP)",
+      "county_fips": "08059",
+      "renter_units": 92,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 92,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0822860": {
+      "geoid": "0822860",
+      "name": "Eaton (town)",
+      "county_fips": "08123",
+      "renter_units": 102,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 33,
+        "2br": 45,
+        "3br": 24,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0822882": {
+      "geoid": "0822882",
+      "name": "Echo Hills (CDP)",
+      "county_fips": "08019",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0823025": {
+      "geoid": "0823025",
+      "name": "Eckley (town)",
+      "county_fips": "08125",
+      "renter_units": 36,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 3,
+        "2br": 26,
+        "3br": 6,
+        "4br": 1,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0823135": {
+      "geoid": "0823135",
+      "name": "Edgewater (city)",
+      "county_fips": "08059",
+      "renter_units": 1399,
+      "bedrooms": {
+        "studio": 114,
+        "1br": 376,
+        "2br": 694,
+        "3br": 180,
+        "4br": 35,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0823300": {
+      "geoid": "0823300",
+      "name": "Edwards (CDP)",
+      "county_fips": "08037",
+      "renter_units": 1532,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 48,
+        "2br": 906,
+        "3br": 547,
+        "4br": 31,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0823520": {
+      "geoid": "0823520",
+      "name": "Elbert (CDP)",
+      "county_fips": "08039",
+      "renter_units": 19,
+      "bedrooms": {
+        "studio": 4,
+        "1br": 2,
+        "2br": 13,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0823575": {
+      "geoid": "0823575",
+      "name": "Eldora (CDP)",
+      "county_fips": "08013",
+      "renter_units": 240,
+      "bedrooms": {
+        "studio": 6,
+        "1br": 94,
+        "2br": 8,
+        "3br": 132,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0823630": {
+      "geoid": "0823630",
+      "name": "Eldorado Springs (CDP)",
+      "county_fips": "08013",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0823740": {
+      "geoid": "0823740",
+      "name": "Elizabeth (town)",
+      "county_fips": "08039",
+      "renter_units": 46,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 9,
+        "3br": 11,
+        "4br": 26,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0823795": {
+      "geoid": "0823795",
+      "name": "El Jebel (CDP)",
+      "county_fips": "08037",
+      "renter_units": 320,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 63,
+        "2br": 37,
+        "3br": 102,
+        "4br": 118,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0824235": {
+      "geoid": "0824235",
+      "name": "Ellicott (CDP)",
+      "county_fips": "08041",
+      "renter_units": 91,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 6,
+        "2br": 61,
+        "3br": 24,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0824290": {
+      "geoid": "0824290",
+      "name": "El Moro (CDP)",
+      "county_fips": "08071",
+      "renter_units": 3,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 3,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0824620": {
+      "geoid": "0824620",
+      "name": "Empire (town)",
+      "county_fips": "08019",
+      "renter_units": 202,
+      "bedrooms": {
+        "studio": 23,
+        "1br": 74,
+        "2br": 100,
+        "3br": 5,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0824785": {
+      "geoid": "0824785",
+      "name": "Englewood (city)",
+      "county_fips": "08005",
+      "renter_units": 8534,
+      "bedrooms": {
+        "studio": 586,
+        "1br": 3509,
+        "2br": 3129,
+        "3br": 791,
+        "4br": 303,
+        "5plus": 216
+      },
+      "unavailable_reason": null
+    },
+    "0824950": {
+      "geoid": "0824950",
+      "name": "Erie (town)",
+      "county_fips": "08123",
+      "renter_units": 1453,
+      "bedrooms": {
+        "studio": 22,
+        "1br": 10,
+        "2br": 719,
+        "3br": 464,
+        "4br": 211,
+        "5plus": 27
+      },
+      "unavailable_reason": null
+    },
+    "0825115": {
+      "geoid": "0825115",
+      "name": "Estes Park (town)",
+      "county_fips": "08069",
+      "renter_units": 889,
+      "bedrooms": {
+        "studio": 128,
+        "1br": 195,
+        "2br": 306,
+        "3br": 215,
+        "4br": 45,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0825280": {
+      "geoid": "0825280",
+      "name": "Evans (city)",
+      "county_fips": "08123",
+      "renter_units": 2277,
+      "bedrooms": {
+        "studio": 100,
+        "1br": 230,
+        "2br": 846,
+        "3br": 908,
+        "4br": 92,
+        "5plus": 101
+      },
+      "unavailable_reason": null
+    },
+    "0825390": {
+      "geoid": "0825390",
+      "name": "Evergreen (CDP)",
+      "county_fips": "08059",
+      "renter_units": 391,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 33,
+        "2br": 206,
+        "3br": 125,
+        "4br": 9,
+        "5plus": 18
+      },
+      "unavailable_reason": null
+    },
+    "0825550": {
+      "geoid": "0825550",
+      "name": "Fairmount (CDP)",
+      "county_fips": "08059",
+      "renter_units": 307,
+      "bedrooms": {
+        "studio": 8,
+        "1br": 0,
+        "2br": 85,
+        "3br": 124,
+        "4br": 38,
+        "5plus": 52
+      },
+      "unavailable_reason": null
+    },
+    "0825610": {
+      "geoid": "0825610",
+      "name": "Fairplay (town)",
+      "county_fips": "08093",
+      "renter_units": 367,
+      "bedrooms": {
+        "studio": 23,
+        "1br": 200,
+        "2br": 69,
+        "3br": 64,
+        "4br": 11,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0826270": {
+      "geoid": "0826270",
+      "name": "Federal Heights (city)",
+      "county_fips": "08001",
+      "renter_units": 2135,
+      "bedrooms": {
+        "studio": 18,
+        "1br": 900,
+        "2br": 952,
+        "3br": 247,
+        "4br": 15,
+        "5plus": 3
+      },
+      "unavailable_reason": null
+    },
+    "0826600": {
+      "geoid": "0826600",
+      "name": "Firestone (town)",
+      "county_fips": "08123",
+      "renter_units": 1185,
+      "bedrooms": {
+        "studio": 30,
+        "1br": 103,
+        "2br": 427,
+        "3br": 431,
+        "4br": 119,
+        "5plus": 75
+      },
+      "unavailable_reason": null
+    },
+    "0826765": {
+      "geoid": "0826765",
+      "name": "Flagler (town)",
+      "county_fips": "08063",
+      "renter_units": 159,
+      "bedrooms": {
+        "studio": 4,
+        "1br": 43,
+        "2br": 70,
+        "3br": 34,
+        "4br": 0,
+        "5plus": 8
+      },
+      "unavailable_reason": null
+    },
+    "0826875": {
+      "geoid": "0826875",
+      "name": "Fleming (town)",
+      "county_fips": "08075",
+      "renter_units": 75,
+      "bedrooms": {
+        "studio": 1,
+        "1br": 6,
+        "2br": 35,
+        "3br": 23,
+        "4br": 10,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0827040": {
+      "geoid": "0827040",
+      "name": "Florence (city)",
+      "county_fips": "08043",
+      "renter_units": 505,
+      "bedrooms": {
+        "studio": 68,
+        "1br": 114,
+        "2br": 221,
+        "3br": 94,
+        "4br": 8,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0827095": {
+      "geoid": "0827095",
+      "name": "Florissant (CDP)",
+      "county_fips": "08119",
+      "renter_units": 49,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 49,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0827175": {
+      "geoid": "0827175",
+      "name": "Floyd Hill (CDP)",
+      "county_fips": "08019",
+      "renter_units": 46,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 33,
+        "2br": 0,
+        "3br": 13,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0827370": {
+      "geoid": "0827370",
+      "name": "Fort Carson (CDP)",
+      "county_fips": "08041",
+      "renter_units": 3380,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 46,
+        "2br": 926,
+        "3br": 1507,
+        "4br": 896,
+        "5plus": 5
+      },
+      "unavailable_reason": null
+    },
+    "0827425": {
+      "geoid": "0827425",
+      "name": "Fort Collins (city)",
+      "county_fips": "08069",
+      "renter_units": 34727,
+      "bedrooms": {
+        "studio": 1723,
+        "1br": 7009,
+        "2br": 12903,
+        "3br": 8561,
+        "4br": 3921,
+        "5plus": 610
+      },
+      "unavailable_reason": null
+    },
+    "0827535": {
+      "geoid": "0827535",
+      "name": "Fort Garland (CDP)",
+      "county_fips": "08023",
+      "renter_units": 47,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 3,
+        "2br": 17,
+        "3br": 19,
+        "4br": 8,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0827700": {
+      "geoid": "0827700",
+      "name": "Fort Lupton (city)",
+      "county_fips": "08123",
+      "renter_units": 954,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 122,
+        "2br": 501,
+        "3br": 306,
+        "4br": 25,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0827810": {
+      "geoid": "0827810",
+      "name": "Fort Morgan (city)",
+      "county_fips": "08087",
+      "renter_units": 1751,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 172,
+        "2br": 1036,
+        "3br": 437,
+        "4br": 100,
+        "5plus": 6
+      },
+      "unavailable_reason": null
+    },
+    "0827865": {
+      "geoid": "0827865",
+      "name": "Fountain (city)",
+      "county_fips": "08041",
+      "renter_units": 2842,
+      "bedrooms": {
+        "studio": 112,
+        "1br": 444,
+        "2br": 742,
+        "3br": 1093,
+        "4br": 400,
+        "5plus": 51
+      },
+      "unavailable_reason": null
+    },
+    "0827950": {
+      "geoid": "0827950",
+      "name": "Four Square Mile (CDP)",
+      "county_fips": "08005",
+      "renter_units": 7466,
+      "bedrooms": {
+        "studio": 395,
+        "1br": 2275,
+        "2br": 4006,
+        "3br": 702,
+        "4br": 33,
+        "5plus": 55
+      },
+      "unavailable_reason": null
+    },
+    "0827975": {
+      "geoid": "0827975",
+      "name": "Fowler (town)",
+      "county_fips": "08089",
+      "renter_units": 158,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 56,
+        "2br": 43,
+        "3br": 54,
+        "4br": 5,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0828105": {
+      "geoid": "0828105",
+      "name": "Foxfield (town)",
+      "county_fips": "08005",
+      "renter_units": 2,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 2
+      },
+      "unavailable_reason": null
+    },
+    "0828250": {
+      "geoid": "0828250",
+      "name": "Franktown (CDP)",
+      "county_fips": "08035",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0828305": {
+      "geoid": "0828305",
+      "name": "Fraser (town)",
+      "county_fips": "08049",
+      "renter_units": 280,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 18,
+        "2br": 207,
+        "3br": 41,
+        "4br": 14,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0828360": {
+      "geoid": "0828360",
+      "name": "Frederick (town)",
+      "county_fips": "08123",
+      "renter_units": 287,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 48,
+        "3br": 158,
+        "4br": 27,
+        "5plus": 54
+      },
+      "unavailable_reason": null
+    },
+    "0828690": {
+      "geoid": "0828690",
+      "name": "Frisco (town)",
+      "county_fips": "08117",
+      "renter_units": 415,
+      "bedrooms": {
+        "studio": 36,
+        "1br": 150,
+        "2br": 150,
+        "3br": 79,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0828745": {
+      "geoid": "0828745",
+      "name": "Fruita (city)",
+      "county_fips": "08077",
+      "renter_units": 1061,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 146,
+        "2br": 241,
+        "3br": 536,
+        "4br": 138,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0828800": {
+      "geoid": "0828800",
+      "name": "Fruitvale (CDP)",
+      "county_fips": "08077",
+      "renter_units": 249,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 112,
+        "3br": 137,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0828830": {
+      "geoid": "0828830",
+      "name": "Fulford (CDP)",
+      "county_fips": "08037",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0829185": {
+      "geoid": "0829185",
+      "name": "Garden City (town)",
+      "county_fips": "08123",
+      "renter_units": 162,
+      "bedrooms": {
+        "studio": 3,
+        "1br": 42,
+        "2br": 97,
+        "3br": 20,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0829240": {
+      "geoid": "0829240",
+      "name": "Gardner (CDP)",
+      "county_fips": "08055",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0829295": {
+      "geoid": "0829295",
+      "name": "Garfield (CDP)",
+      "county_fips": "08015",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0829625": {
+      "geoid": "0829625",
+      "name": "Genesee (CDP)",
+      "county_fips": "08059",
+      "renter_units": 117,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 51,
+        "3br": 34,
+        "4br": 32,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0829680": {
+      "geoid": "0829680",
+      "name": "Genoa (town)",
+      "county_fips": "08073",
+      "renter_units": 17,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 14,
+        "3br": 1,
+        "4br": 0,
+        "5plus": 2
+      },
+      "unavailable_reason": null
+    },
+    "0829735": {
+      "geoid": "0829735",
+      "name": "Georgetown (town)",
+      "county_fips": "08019",
+      "renter_units": 170,
+      "bedrooms": {
+        "studio": 7,
+        "1br": 81,
+        "2br": 66,
+        "3br": 16,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0829845": {
+      "geoid": "0829845",
+      "name": "Gerrard (CDP)",
+      "county_fips": "08105",
+      "renter_units": 56,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 56,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0829955": {
+      "geoid": "0829955",
+      "name": "Gilcrest (town)",
+      "county_fips": "08123",
+      "renter_units": 33,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 10,
+        "3br": 16,
+        "4br": 7,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0830340": {
+      "geoid": "0830340",
+      "name": "Glendale (city)",
+      "county_fips": "08005",
+      "renter_units": 2582,
+      "bedrooms": {
+        "studio": 138,
+        "1br": 1359,
+        "2br": 1001,
+        "3br": 84,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0830350": {
+      "geoid": "0830350",
+      "name": "Glendale (CDP)",
+      "county_fips": "08013",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0830420": {
+      "geoid": "0830420",
+      "name": "Gleneagle (CDP)",
+      "county_fips": "08041",
+      "renter_units": 494,
+      "bedrooms": {
+        "studio": 63,
+        "1br": 89,
+        "2br": 182,
+        "3br": 92,
+        "4br": 46,
+        "5plus": 22
+      },
+      "unavailable_reason": null
+    },
+    "0830780": {
+      "geoid": "0830780",
+      "name": "Glenwood Springs (city)",
+      "county_fips": "08045",
+      "renter_units": 1763,
+      "bedrooms": {
+        "studio": 104,
+        "1br": 691,
+        "2br": 700,
+        "3br": 153,
+        "4br": 66,
+        "5plus": 49
+      },
+      "unavailable_reason": null
+    },
+    "0830835": {
+      "geoid": "0830835",
+      "name": "Golden (city)",
+      "county_fips": "08059",
+      "renter_units": 3361,
+      "bedrooms": {
+        "studio": 183,
+        "1br": 1020,
+        "2br": 1326,
+        "3br": 584,
+        "4br": 201,
+        "5plus": 47
+      },
+      "unavailable_reason": null
+    },
+    "0830890": {
+      "geoid": "0830890",
+      "name": "Goldfield (CDP)",
+      "county_fips": "08119",
+      "renter_units": 59,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 59,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0830945": {
+      "geoid": "0830945",
+      "name": "Gold Hill (CDP)",
+      "county_fips": "08013",
+      "renter_units": 55,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 55,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0831550": {
+      "geoid": "0831550",
+      "name": "Granada (town)",
+      "county_fips": "08099",
+      "renter_units": 57,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 1,
+        "2br": 30,
+        "3br": 26,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0831605": {
+      "geoid": "0831605",
+      "name": "Granby (town)",
+      "county_fips": "08049",
+      "renter_units": 393,
+      "bedrooms": {
+        "studio": 7,
+        "1br": 170,
+        "2br": 142,
+        "3br": 66,
+        "4br": 8,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0831660": {
+      "geoid": "0831660",
+      "name": "Grand Junction (city)",
+      "county_fips": "08077",
+      "renter_units": 10912,
+      "bedrooms": {
+        "studio": 578,
+        "1br": 2996,
+        "2br": 4152,
+        "3br": 2523,
+        "4br": 510,
+        "5plus": 153
+      },
+      "unavailable_reason": null
+    },
+    "0831715": {
+      "geoid": "0831715",
+      "name": "Grand Lake (town)",
+      "county_fips": "08049",
+      "renter_units": 38,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 19,
+        "2br": 0,
+        "3br": 19,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0831935": {
+      "geoid": "0831935",
+      "name": "Grand View Estates (CDP)",
+      "county_fips": "08035",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0832155": {
+      "geoid": "0832155",
+      "name": "Greeley (city)",
+      "county_fips": "08123",
+      "renter_units": 15459,
+      "bedrooms": {
+        "studio": 1159,
+        "1br": 3235,
+        "2br": 6647,
+        "3br": 2924,
+        "4br": 1041,
+        "5plus": 453
+      },
+      "unavailable_reason": null
+    },
+    "0832650": {
+      "geoid": "0832650",
+      "name": "Green Mountain Falls (town)",
+      "county_fips": "08041",
+      "renter_units": 61,
+      "bedrooms": {
+        "studio": 8,
+        "1br": 0,
+        "2br": 36,
+        "3br": 5,
+        "4br": 12,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0833035": {
+      "geoid": "0833035",
+      "name": "Greenwood Village (city)",
+      "county_fips": "08005",
+      "renter_units": 2371,
+      "bedrooms": {
+        "studio": 85,
+        "1br": 1134,
+        "2br": 774,
+        "3br": 291,
+        "4br": 40,
+        "5plus": 47
+      },
+      "unavailable_reason": null
+    },
+    "0833310": {
+      "geoid": "0833310",
+      "name": "Grover (town)",
+      "county_fips": "08123",
+      "renter_units": 25,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 5,
+        "2br": 12,
+        "3br": 8,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0833420": {
+      "geoid": "0833420",
+      "name": "Guffey (CDP)",
+      "county_fips": "08093",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0833502": {
+      "geoid": "0833502",
+      "name": "Gunbarrel (CDP)",
+      "county_fips": "08013",
+      "renter_units": 1809,
+      "bedrooms": {
+        "studio": 28,
+        "1br": 599,
+        "2br": 667,
+        "3br": 444,
+        "4br": 50,
+        "5plus": 21
+      },
+      "unavailable_reason": null
+    },
+    "0833640": {
+      "geoid": "0833640",
+      "name": "Gunnison (city)",
+      "county_fips": "08051",
+      "renter_units": 1563,
+      "bedrooms": {
+        "studio": 116,
+        "1br": 210,
+        "2br": 709,
+        "3br": 411,
+        "4br": 117,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0833695": {
+      "geoid": "0833695",
+      "name": "Gypsum (town)",
+      "county_fips": "08037",
+      "renter_units": 797,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 749,
+        "3br": 48,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0834520": {
+      "geoid": "0834520",
+      "name": "Hartman (town)",
+      "county_fips": "08099",
+      "renter_units": 7,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 2,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 5
+      },
+      "unavailable_reason": null
+    },
+    "0834630": {
+      "geoid": "0834630",
+      "name": "Hartsel (CDP)",
+      "county_fips": "08093",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0834685": {
+      "geoid": "0834685",
+      "name": "Hasty (CDP)",
+      "county_fips": "08011",
+      "renter_units": 20,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 9,
+        "3br": 11,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0834740": {
+      "geoid": "0834740",
+      "name": "Haswell (town)",
+      "county_fips": "08061",
+      "renter_units": 13,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 8,
+        "3br": 4,
+        "4br": 0,
+        "5plus": 1
+      },
+      "unavailable_reason": null
+    },
+    "0834960": {
+      "geoid": "0834960",
+      "name": "Haxtun (town)",
+      "county_fips": "08095",
+      "renter_units": 101,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 16,
+        "2br": 67,
+        "3br": 0,
+        "4br": 18,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0835070": {
+      "geoid": "0835070",
+      "name": "Hayden (town)",
+      "county_fips": "08107",
+      "renter_units": 182,
+      "bedrooms": {
+        "studio": 12,
+        "1br": 23,
+        "2br": 99,
+        "3br": 37,
+        "4br": 11,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0835400": {
+      "geoid": "0835400",
+      "name": "Heeney (CDP)",
+      "county_fips": "08117",
+      "renter_units": 6,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 6,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0835860": {
+      "geoid": "0835860",
+      "name": "Hidden Lake (CDP)",
+      "county_fips": "08013",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0836410": {
+      "geoid": "0836410",
+      "name": "Highlands Ranch (CDP)",
+      "county_fips": "08035",
+      "renter_units": 8444,
+      "bedrooms": {
+        "studio": 539,
+        "1br": 1853,
+        "2br": 2601,
+        "3br": 1986,
+        "4br": 1151,
+        "5plus": 314
+      },
+      "unavailable_reason": null
+    },
+    "0836610": {
+      "geoid": "0836610",
+      "name": "Hillrose (town)",
+      "county_fips": "08087",
+      "renter_units": 26,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 5,
+        "2br": 12,
+        "3br": 6,
+        "4br": 3,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0836940": {
+      "geoid": "0836940",
+      "name": "Hoehne (CDP)",
+      "county_fips": "08071",
+      "renter_units": 6,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 6,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0837215": {
+      "geoid": "0837215",
+      "name": "Holly (town)",
+      "county_fips": "08099",
+      "renter_units": 115,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 77,
+        "2br": 18,
+        "3br": 20,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0837220": {
+      "geoid": "0837220",
+      "name": "Holly Hills (CDP)",
+      "county_fips": "08005",
+      "renter_units": 170,
+      "bedrooms": {
+        "studio": 15,
+        "1br": 0,
+        "2br": 43,
+        "3br": 73,
+        "4br": 6,
+        "5plus": 33
+      },
+      "unavailable_reason": null
+    },
+    "0837270": {
+      "geoid": "0837270",
+      "name": "Holyoke (city)",
+      "county_fips": "08095",
+      "renter_units": 403,
+      "bedrooms": {
+        "studio": 5,
+        "1br": 97,
+        "2br": 196,
+        "3br": 5,
+        "4br": 100,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0837380": {
+      "geoid": "0837380",
+      "name": "Hooper (town)",
+      "county_fips": "08003",
+      "renter_units": 15,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 7,
+        "2br": 0,
+        "3br": 8,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0837545": {
+      "geoid": "0837545",
+      "name": "Hotchkiss (town)",
+      "county_fips": "08029",
+      "renter_units": 100,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 19,
+        "2br": 33,
+        "3br": 48,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0837600": {
+      "geoid": "0837600",
+      "name": "Hot Sulphur Springs (town)",
+      "county_fips": "08049",
+      "renter_units": 51,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 5,
+        "2br": 3,
+        "3br": 27,
+        "4br": 16,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0837655": {
+      "geoid": "0837655",
+      "name": "Howard (CDP)",
+      "county_fips": "08043",
+      "renter_units": 152,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 68,
+        "2br": 51,
+        "3br": 33,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0837820": {
+      "geoid": "0837820",
+      "name": "Hudson (town)",
+      "county_fips": "08123",
+      "renter_units": 146,
+      "bedrooms": {
+        "studio": 8,
+        "1br": 25,
+        "2br": 50,
+        "3br": 57,
+        "4br": 6,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0837875": {
+      "geoid": "0837875",
+      "name": "Hugo (town)",
+      "county_fips": "08073",
+      "renter_units": 113,
+      "bedrooms": {
+        "studio": 8,
+        "1br": 4,
+        "2br": 58,
+        "3br": 28,
+        "4br": 2,
+        "5plus": 13
+      },
+      "unavailable_reason": null
+    },
+    "0838370": {
+      "geoid": "0838370",
+      "name": "Idaho Springs (city)",
+      "county_fips": "08019",
+      "renter_units": 202,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 97,
+        "2br": 53,
+        "3br": 39,
+        "4br": 13,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0838425": {
+      "geoid": "0838425",
+      "name": "Idalia (CDP)",
+      "county_fips": "08125",
+      "renter_units": 36,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 22,
+        "3br": 3,
+        "4br": 7,
+        "5plus": 4
+      },
+      "unavailable_reason": null
+    },
+    "0838480": {
+      "geoid": "0838480",
+      "name": "Idledale (CDP)",
+      "county_fips": "08059",
+      "renter_units": 26,
+      "bedrooms": {
+        "studio": 26,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0838535": {
+      "geoid": "0838535",
+      "name": "Ignacio (town)",
+      "county_fips": "08067",
+      "renter_units": 174,
+      "bedrooms": {
+        "studio": 16,
+        "1br": 10,
+        "2br": 78,
+        "3br": 50,
+        "4br": 16,
+        "5plus": 4
+      },
+      "unavailable_reason": null
+    },
+    "0838590": {
+      "geoid": "0838590",
+      "name": "Iliff (town)",
+      "county_fips": "08075",
+      "renter_units": 31,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 12,
+        "3br": 10,
+        "4br": 9,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0838810": {
+      "geoid": "0838810",
+      "name": "Indian Hills (CDP)",
+      "county_fips": "08059",
+      "renter_units": 37,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 37,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0838910": {
+      "geoid": "0838910",
+      "name": "Inverness (CDP)",
+      "county_fips": "08005",
+      "renter_units": 1402,
+      "bedrooms": {
+        "studio": 61,
+        "1br": 658,
+        "2br": 575,
+        "3br": 93,
+        "4br": 15,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0839160": {
+      "geoid": "0839160",
+      "name": "Jackson Lake (CDP)",
+      "county_fips": "08087",
+      "renter_units": 14,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 5,
+        "3br": 7,
+        "4br": 2,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0839195": {
+      "geoid": "0839195",
+      "name": "Jamestown (town)",
+      "county_fips": "08013",
+      "renter_units": 19,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 10,
+        "2br": 5,
+        "3br": 4,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0839250": {
+      "geoid": "0839250",
+      "name": "Jansen (CDP)",
+      "county_fips": "08071",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0839745": {
+      "geoid": "0839745",
+      "name": "Joes (CDP)",
+      "county_fips": "08125",
+      "renter_units": 3,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 3,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0839800": {
+      "geoid": "0839800",
+      "name": "Johnson Village (CDP)",
+      "county_fips": "08015",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0839855": {
+      "geoid": "0839855",
+      "name": "Johnstown (town)",
+      "county_fips": "08123",
+      "renter_units": 1552,
+      "bedrooms": {
+        "studio": 193,
+        "1br": 530,
+        "2br": 464,
+        "3br": 327,
+        "4br": 14,
+        "5plus": 24
+      },
+      "unavailable_reason": null
+    },
+    "0839965": {
+      "geoid": "0839965",
+      "name": "Julesburg (town)",
+      "county_fips": "08115",
+      "renter_units": 189,
+      "bedrooms": {
+        "studio": 23,
+        "1br": 49,
+        "2br": 61,
+        "3br": 39,
+        "4br": 17,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0840185": {
+      "geoid": "0840185",
+      "name": "Keenesburg (town)",
+      "county_fips": "08123",
+      "renter_units": 126,
+      "bedrooms": {
+        "studio": 7,
+        "1br": 10,
+        "2br": 25,
+        "3br": 33,
+        "4br": 49,
+        "5plus": 2
+      },
+      "unavailable_reason": null
+    },
+    "0840377": {
+      "geoid": "0840377",
+      "name": "Ken Caryl (CDP)",
+      "county_fips": "08059",
+      "renter_units": 2151,
+      "bedrooms": {
+        "studio": 32,
+        "1br": 230,
+        "2br": 1102,
+        "3br": 503,
+        "4br": 207,
+        "5plus": 77
+      },
+      "unavailable_reason": null
+    },
+    "0840515": {
+      "geoid": "0840515",
+      "name": "Kersey (town)",
+      "county_fips": "08123",
+      "renter_units": 117,
+      "bedrooms": {
+        "studio": 6,
+        "1br": 1,
+        "2br": 57,
+        "3br": 53,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0840550": {
+      "geoid": "0840550",
+      "name": "Keystone (CDP)",
+      "county_fips": "08117",
+      "renter_units": 471,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 309,
+        "2br": 123,
+        "3br": 0,
+        "4br": 39,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0840570": {
+      "geoid": "0840570",
+      "name": "Kim (town)",
+      "county_fips": "08071",
+      "renter_units": 23,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 23,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0840790": {
+      "geoid": "0840790",
+      "name": "Kiowa (town)",
+      "county_fips": "08039",
+      "renter_units": 34,
+      "bedrooms": {
+        "studio": 4,
+        "1br": 6,
+        "2br": 9,
+        "3br": 12,
+        "4br": 3,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0840900": {
+      "geoid": "0840900",
+      "name": "Kirk (CDP)",
+      "county_fips": "08125",
+      "renter_units": 3,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 3,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0841010": {
+      "geoid": "0841010",
+      "name": "Kit Carson (town)",
+      "county_fips": "08017",
+      "renter_units": 33,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 26,
+        "3br": 5,
+        "4br": 2,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0841065": {
+      "geoid": "0841065",
+      "name": "Kittredge (CDP)",
+      "county_fips": "08059",
+      "renter_units": 52,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 52,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0841560": {
+      "geoid": "0841560",
+      "name": "Kremmling (town)",
+      "county_fips": "08049",
+      "renter_units": 105,
+      "bedrooms": {
+        "studio": 7,
+        "1br": 10,
+        "2br": 38,
+        "3br": 12,
+        "4br": 38,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0841835": {
+      "geoid": "0841835",
+      "name": "Lafayette (city)",
+      "county_fips": "08013",
+      "renter_units": 4335,
+      "bedrooms": {
+        "studio": 109,
+        "1br": 1260,
+        "2br": 1406,
+        "3br": 1000,
+        "4br": 507,
+        "5plus": 53
+      },
+      "unavailable_reason": null
+    },
+    "0842000": {
+      "geoid": "0842000",
+      "name": "Laird (CDP)",
+      "county_fips": "08125",
+      "renter_units": 4,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 4,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0842055": {
+      "geoid": "0842055",
+      "name": "La Jara (town)",
+      "county_fips": "08021",
+      "renter_units": 63,
+      "bedrooms": {
+        "studio": 6,
+        "1br": 7,
+        "2br": 16,
+        "3br": 25,
+        "4br": 9,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0842110": {
+      "geoid": "0842110",
+      "name": "La Junta (city)",
+      "county_fips": "08089",
+      "renter_units": 1000,
+      "bedrooms": {
+        "studio": 47,
+        "1br": 331,
+        "2br": 306,
+        "3br": 69,
+        "4br": 247,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0842165": {
+      "geoid": "0842165",
+      "name": "La Junta Gardens (CDP)",
+      "county_fips": "08089",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0842330": {
+      "geoid": "0842330",
+      "name": "Lake City (town)",
+      "county_fips": "08053",
+      "renter_units": 104,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 29,
+        "2br": 75,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0842495": {
+      "geoid": "0842495",
+      "name": "Lakeside (town)",
+      "county_fips": "08059",
+      "renter_units": 3,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 3,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0843000": {
+      "geoid": "0843000",
+      "name": "Lakewood (city)",
+      "county_fips": "08059",
+      "renter_units": 29247,
+      "bedrooms": {
+        "studio": 1544,
+        "1br": 9898,
+        "2br": 12477,
+        "3br": 3604,
+        "4br": 1374,
+        "5plus": 350
+      },
+      "unavailable_reason": null
+    },
+    "0843110": {
+      "geoid": "0843110",
+      "name": "Lamar (city)",
+      "county_fips": "08099",
+      "renter_units": 1082,
+      "bedrooms": {
+        "studio": 72,
+        "1br": 212,
+        "2br": 336,
+        "3br": 398,
+        "4br": 43,
+        "5plus": 21
+      },
+      "unavailable_reason": null
+    },
+    "0843220": {
+      "geoid": "0843220",
+      "name": "Laporte (CDP)",
+      "county_fips": "08069",
+      "renter_units": 220,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 50,
+        "2br": 126,
+        "3br": 44,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0843550": {
+      "geoid": "0843550",
+      "name": "Larkspur (town)",
+      "county_fips": "08035",
+      "renter_units": 7,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 3,
+        "3br": 4,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0843605": {
+      "geoid": "0843605",
+      "name": "La Salle (town)",
+      "county_fips": "08123",
+      "renter_units": 126,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 32,
+        "3br": 67,
+        "4br": 18,
+        "5plus": 9
+      },
+      "unavailable_reason": null
+    },
+    "0843660": {
+      "geoid": "0843660",
+      "name": "Las Animas (city)",
+      "county_fips": "08011",
+      "renter_units": 413,
+      "bedrooms": {
+        "studio": 9,
+        "1br": 31,
+        "2br": 124,
+        "3br": 190,
+        "4br": 59,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0844100": {
+      "geoid": "0844100",
+      "name": "La Veta (town)",
+      "county_fips": "08055",
+      "renter_units": 182,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 41,
+        "2br": 116,
+        "3br": 16,
+        "4br": 9,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0844265": {
+      "geoid": "0844265",
+      "name": "Lazear (CDP)",
+      "county_fips": "08029",
+      "renter_units": 7,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 2,
+        "3br": 5,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0844270": {
+      "geoid": "0844270",
+      "name": "Lazy Acres (CDP)",
+      "county_fips": "08013",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0844320": {
+      "geoid": "0844320",
+      "name": "Leadville (city)",
+      "county_fips": "08065",
+      "renter_units": 383,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 101,
+        "2br": 141,
+        "3br": 141,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0844375": {
+      "geoid": "0844375",
+      "name": "Leadville North (CDP)",
+      "county_fips": "08065",
+      "renter_units": 217,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 16,
+        "2br": 130,
+        "3br": 63,
+        "4br": 8,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0844595": {
+      "geoid": "0844595",
+      "name": "Lewis (CDP)",
+      "county_fips": "08083",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0844695": {
+      "geoid": "0844695",
+      "name": "Leyner (CDP)",
+      "county_fips": "08013",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0844980": {
+      "geoid": "0844980",
+      "name": "Limon (town)",
+      "county_fips": "08073",
+      "renter_units": 202,
+      "bedrooms": {
+        "studio": 16,
+        "1br": 57,
+        "2br": 66,
+        "3br": 47,
+        "4br": 0,
+        "5plus": 16
+      },
+      "unavailable_reason": null
+    },
+    "0845145": {
+      "geoid": "0845145",
+      "name": "Lincoln Park (CDP)",
+      "county_fips": "08043",
+      "renter_units": 379,
+      "bedrooms": {
+        "studio": 36,
+        "1br": 67,
+        "2br": 61,
+        "3br": 215,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0845255": {
+      "geoid": "0845255",
+      "name": "Littleton (city)",
+      "county_fips": "08005",
+      "renter_units": 7941,
+      "bedrooms": {
+        "studio": 508,
+        "1br": 3261,
+        "2br": 3116,
+        "3br": 696,
+        "4br": 302,
+        "5plus": 58
+      },
+      "unavailable_reason": null
+    },
+    "0845530": {
+      "geoid": "0845530",
+      "name": "Lochbuie (town)",
+      "county_fips": "08123",
+      "renter_units": 208,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 188,
+        "4br": 20,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0845680": {
+      "geoid": "0845680",
+      "name": "Loghill Village (CDP)",
+      "county_fips": "08091",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0845695": {
+      "geoid": "0845695",
+      "name": "Log Lane Village (town)",
+      "county_fips": "08087",
+      "renter_units": 116,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 5,
+        "2br": 50,
+        "3br": 55,
+        "4br": 3,
+        "5plus": 3
+      },
+      "unavailable_reason": null
+    },
+    "0845750": {
+      "geoid": "0845750",
+      "name": "Loma (CDP)",
+      "county_fips": "08077",
+      "renter_units": 65,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 46,
+        "5plus": 19
+      },
+      "unavailable_reason": null
+    },
+    "0845955": {
+      "geoid": "0845955",
+      "name": "Lone Tree (city)",
+      "county_fips": "08035",
+      "renter_units": 2963,
+      "bedrooms": {
+        "studio": 278,
+        "1br": 1259,
+        "2br": 960,
+        "3br": 395,
+        "4br": 50,
+        "5plus": 21
+      },
+      "unavailable_reason": null
+    },
+    "0845970": {
+      "geoid": "0845970",
+      "name": "Longmont (city)",
+      "county_fips": "08013",
+      "renter_units": 15823,
+      "bedrooms": {
+        "studio": 773,
+        "1br": 4537,
+        "2br": 6421,
+        "3br": 2932,
+        "4br": 978,
+        "5plus": 182
+      },
+      "unavailable_reason": null
+    },
+    "0846355": {
+      "geoid": "0846355",
+      "name": "Louisville (city)",
+      "county_fips": "08013",
+      "renter_units": 2297,
+      "bedrooms": {
+        "studio": 116,
+        "1br": 725,
+        "2br": 731,
+        "3br": 486,
+        "4br": 239,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0846410": {
+      "geoid": "0846410",
+      "name": "Louviers (CDP)",
+      "county_fips": "08035",
+      "renter_units": 16,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 11,
+        "3br": 0,
+        "4br": 5,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0846465": {
+      "geoid": "0846465",
+      "name": "Loveland (city)",
+      "county_fips": "08069",
+      "renter_units": 13007,
+      "bedrooms": {
+        "studio": 741,
+        "1br": 3019,
+        "2br": 4504,
+        "3br": 3388,
+        "4br": 1039,
+        "5plus": 316
+      },
+      "unavailable_reason": null
+    },
+    "0847015": {
+      "geoid": "0847015",
+      "name": "Lynn (CDP)",
+      "county_fips": "08071",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0847070": {
+      "geoid": "0847070",
+      "name": "Lyons (town)",
+      "county_fips": "08013",
+      "renter_units": 108,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 26,
+        "2br": 70,
+        "3br": 0,
+        "4br": 12,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0847235": {
+      "geoid": "0847235",
+      "name": "McClave (CDP)",
+      "county_fips": "08011",
+      "renter_units": 12,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 6,
+        "4br": 6,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0847345": {
+      "geoid": "0847345",
+      "name": "McCoy (CDP)",
+      "county_fips": "08037",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0848060": {
+      "geoid": "0848060",
+      "name": "Manassa (town)",
+      "county_fips": "08021",
+      "renter_units": 43,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 8,
+        "2br": 20,
+        "3br": 14,
+        "4br": 0,
+        "5plus": 1
+      },
+      "unavailable_reason": null
+    },
+    "0848115": {
+      "geoid": "0848115",
+      "name": "Mancos (town)",
+      "county_fips": "08083",
+      "renter_units": 133,
+      "bedrooms": {
+        "studio": 7,
+        "1br": 37,
+        "2br": 50,
+        "3br": 32,
+        "4br": 4,
+        "5plus": 3
+      },
+      "unavailable_reason": null
+    },
+    "0848445": {
+      "geoid": "0848445",
+      "name": "Manitou Springs (city)",
+      "county_fips": "08041",
+      "renter_units": 924,
+      "bedrooms": {
+        "studio": 156,
+        "1br": 270,
+        "2br": 390,
+        "3br": 98,
+        "4br": 10,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0848500": {
+      "geoid": "0848500",
+      "name": "Manzanola (town)",
+      "county_fips": "08089",
+      "renter_units": 43,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 6,
+        "2br": 11,
+        "3br": 26,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0848555": {
+      "geoid": "0848555",
+      "name": "Marble (town)",
+      "county_fips": "08051",
+      "renter_units": 62,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 54,
+        "3br": 8,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0848940": {
+      "geoid": "0848940",
+      "name": "Marvel (CDP)",
+      "county_fips": "08067",
+      "renter_units": 3,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 3,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0849215": {
+      "geoid": "0849215",
+      "name": "Matheson (CDP)",
+      "county_fips": "08039",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0849325": {
+      "geoid": "0849325",
+      "name": "Maybell (CDP)",
+      "county_fips": "08081",
+      "renter_units": 9,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 9,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0849490": {
+      "geoid": "0849490",
+      "name": "Maysville (CDP)",
+      "county_fips": "08015",
+      "renter_units": 88,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 88,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0849600": {
+      "geoid": "0849600",
+      "name": "Mead (town)",
+      "county_fips": "08123",
+      "renter_units": 125,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 50,
+        "2br": 0,
+        "3br": 64,
+        "4br": 11,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0849875": {
+      "geoid": "0849875",
+      "name": "Meeker (town)",
+      "county_fips": "08103",
+      "renter_units": 305,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 58,
+        "2br": 170,
+        "3br": 67,
+        "4br": 0,
+        "5plus": 10
+      },
+      "unavailable_reason": null
+    },
+    "0850012": {
+      "geoid": "0850012",
+      "name": "Meridian (CDP)",
+      "county_fips": "08035",
+      "renter_units": 2367,
+      "bedrooms": {
+        "studio": 229,
+        "1br": 1168,
+        "2br": 755,
+        "3br": 105,
+        "4br": 74,
+        "5plus": 36
+      },
+      "unavailable_reason": null
+    },
+    "0850026": {
+      "geoid": "0850026",
+      "name": "Meridian Village (CDP)",
+      "county_fips": "08035",
+      "renter_units": 48,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 20,
+        "3br": 28,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0850040": {
+      "geoid": "0850040",
+      "name": "Merino (town)",
+      "county_fips": "08075",
+      "renter_units": 48,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 2,
+        "2br": 6,
+        "3br": 37,
+        "4br": 3,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0850380": {
+      "geoid": "0850380",
+      "name": "Midland (CDP)",
+      "county_fips": "08119",
+      "renter_units": 15,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 3,
+        "2br": 0,
+        "3br": 12,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0850480": {
+      "geoid": "0850480",
+      "name": "Milliken (town)",
+      "county_fips": "08123",
+      "renter_units": 253,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 90,
+        "3br": 131,
+        "4br": 32,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0850920": {
+      "geoid": "0850920",
+      "name": "Minturn (town)",
+      "county_fips": "08037",
+      "renter_units": 121,
+      "bedrooms": {
+        "studio": 8,
+        "1br": 28,
+        "2br": 15,
+        "3br": 70,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0851250": {
+      "geoid": "0851250",
+      "name": "Moffat (town)",
+      "county_fips": "08109",
+      "renter_units": 23,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 10,
+        "3br": 6,
+        "4br": 7,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0851635": {
+      "geoid": "0851635",
+      "name": "Monte Vista (city)",
+      "county_fips": "08105",
+      "renter_units": 709,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 142,
+        "2br": 373,
+        "3br": 194,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0851690": {
+      "geoid": "0851690",
+      "name": "Montezuma (town)",
+      "county_fips": "08117",
+      "renter_units": 10,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 3,
+        "2br": 0,
+        "3br": 7,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0851745": {
+      "geoid": "0851745",
+      "name": "Montrose (city)",
+      "county_fips": "08085",
+      "renter_units": 2651,
+      "bedrooms": {
+        "studio": 240,
+        "1br": 433,
+        "2br": 900,
+        "3br": 985,
+        "4br": 79,
+        "5plus": 14
+      },
+      "unavailable_reason": null
+    },
+    "0851800": {
+      "geoid": "0851800",
+      "name": "Monument (town)",
+      "county_fips": "08041",
+      "renter_units": 1020,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 205,
+        "2br": 290,
+        "3br": 209,
+        "4br": 281,
+        "5plus": 35
+      },
+      "unavailable_reason": null
+    },
+    "0851975": {
+      "geoid": "0851975",
+      "name": "Morgan Heights (CDP)",
+      "county_fips": "08087",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0852075": {
+      "geoid": "0852075",
+      "name": "Morrison (town)",
+      "county_fips": "08059",
+      "renter_units": 36,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 11,
+        "2br": 10,
+        "3br": 15,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0852210": {
+      "geoid": "0852210",
+      "name": "Mountain Meadows (CDP)",
+      "county_fips": "08013",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0852350": {
+      "geoid": "0852350",
+      "name": "Mountain View (town)",
+      "county_fips": "08059",
+      "renter_units": 84,
+      "bedrooms": {
+        "studio": 3,
+        "1br": 2,
+        "2br": 63,
+        "3br": 12,
+        "4br": 0,
+        "5plus": 4
+      },
+      "unavailable_reason": null
+    },
+    "0852550": {
+      "geoid": "0852550",
+      "name": "Mountain Village (town)",
+      "county_fips": "08113",
+      "renter_units": 1134,
+      "bedrooms": {
+        "studio": 320,
+        "1br": 238,
+        "2br": 543,
+        "3br": 19,
+        "4br": 10,
+        "5plus": 4
+      },
+      "unavailable_reason": null
+    },
+    "0852570": {
+      "geoid": "0852570",
+      "name": "Mount Crested Butte (town)",
+      "county_fips": "08051",
+      "renter_units": 95,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 21,
+        "2br": 33,
+        "3br": 41,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0852820": {
+      "geoid": "0852820",
+      "name": "Mulford (CDP)",
+      "county_fips": "08045",
+      "renter_units": 7,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 7,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0853010": {
+      "geoid": "0853010",
+      "name": "Nathrop (CDP)",
+      "county_fips": "08015",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0853120": {
+      "geoid": "0853120",
+      "name": "Naturita (town)",
+      "county_fips": "08085",
+      "renter_units": 33,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 16,
+        "3br": 17,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0853175": {
+      "geoid": "0853175",
+      "name": "Nederland (town)",
+      "county_fips": "08013",
+      "renter_units": 188,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 50,
+        "2br": 69,
+        "3br": 64,
+        "4br": 5,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0853395": {
+      "geoid": "0853395",
+      "name": "New Castle (town)",
+      "county_fips": "08045",
+      "renter_units": 546,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 59,
+        "2br": 151,
+        "3br": 104,
+        "4br": 232,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0853780": {
+      "geoid": "0853780",
+      "name": "Niwot (CDP)",
+      "county_fips": "08013",
+      "renter_units": 342,
+      "bedrooms": {
+        "studio": 62,
+        "1br": 123,
+        "2br": 136,
+        "3br": 17,
+        "4br": 4,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0853875": {
+      "geoid": "0853875",
+      "name": "No Name (CDP)",
+      "county_fips": "08045",
+      "renter_units": 27,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 9,
+        "2br": 10,
+        "3br": 8,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0853945": {
+      "geoid": "0853945",
+      "name": "Norrie (CDP)",
+      "county_fips": "08097",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0854330": {
+      "geoid": "0854330",
+      "name": "Northglenn (city)",
+      "county_fips": "08001",
+      "renter_units": 5747,
+      "bedrooms": {
+        "studio": 461,
+        "1br": 1931,
+        "2br": 1908,
+        "3br": 878,
+        "4br": 391,
+        "5plus": 178
+      },
+      "unavailable_reason": null
+    },
+    "0854495": {
+      "geoid": "0854495",
+      "name": "North La Junta (CDP)",
+      "county_fips": "08089",
+      "renter_units": 131,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 4,
+        "2br": 11,
+        "3br": 36,
+        "4br": 6,
+        "5plus": 74
+      },
+      "unavailable_reason": null
+    },
+    "0854750": {
+      "geoid": "0854750",
+      "name": "North Washington (CDP)",
+      "county_fips": "08001",
+      "renter_units": 61,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 61,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0854880": {
+      "geoid": "0854880",
+      "name": "Norwood (town)",
+      "county_fips": "08113",
+      "renter_units": 82,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 5,
+        "2br": 27,
+        "3br": 33,
+        "4br": 15,
+        "5plus": 2
+      },
+      "unavailable_reason": null
+    },
+    "0854935": {
+      "geoid": "0854935",
+      "name": "Nucla (town)",
+      "county_fips": "08085",
+      "renter_units": 98,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 44,
+        "3br": 54,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0855045": {
+      "geoid": "0855045",
+      "name": "Nunn (town)",
+      "county_fips": "08123",
+      "renter_units": 3,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 1,
+        "4br": 2,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0855155": {
+      "geoid": "0855155",
+      "name": "Oak Creek (town)",
+      "county_fips": "08107",
+      "renter_units": 88,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 30,
+        "2br": 11,
+        "3br": 29,
+        "4br": 18,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0855540": {
+      "geoid": "0855540",
+      "name": "Olathe (town)",
+      "county_fips": "08085",
+      "renter_units": 184,
+      "bedrooms": {
+        "studio": 5,
+        "1br": 7,
+        "2br": 51,
+        "3br": 121,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0855705": {
+      "geoid": "0855705",
+      "name": "Olney Springs (town)",
+      "county_fips": "08025",
+      "renter_units": 36,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 2,
+        "2br": 1,
+        "3br": 29,
+        "4br": 0,
+        "5plus": 4
+      },
+      "unavailable_reason": null
+    },
+    "0855870": {
+      "geoid": "0855870",
+      "name": "Ophir (town)",
+      "county_fips": "08113",
+      "renter_units": 17,
+      "bedrooms": {
+        "studio": 2,
+        "1br": 15,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0855925": {
+      "geoid": "0855925",
+      "name": "Orchard (CDP)",
+      "county_fips": "08087",
+      "renter_units": 15,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 7,
+        "2br": 6,
+        "3br": 2,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0855980": {
+      "geoid": "0855980",
+      "name": "Orchard City (town)",
+      "county_fips": "08029",
+      "renter_units": 252,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 76,
+        "2br": 49,
+        "3br": 87,
+        "4br": 40,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0856035": {
+      "geoid": "0856035",
+      "name": "Orchard Mesa (CDP)",
+      "county_fips": "08077",
+      "renter_units": 314,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 136,
+        "3br": 153,
+        "4br": 25,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0856145": {
+      "geoid": "0856145",
+      "name": "Ordway (town)",
+      "county_fips": "08025",
+      "renter_units": 211,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 47,
+        "2br": 125,
+        "3br": 39,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0856365": {
+      "geoid": "0856365",
+      "name": "Otis (town)",
+      "county_fips": "08121",
+      "renter_units": 51,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 23,
+        "2br": 22,
+        "3br": 2,
+        "4br": 2,
+        "5plus": 2
+      },
+      "unavailable_reason": null
+    },
+    "0856420": {
+      "geoid": "0856420",
+      "name": "Ouray (city)",
+      "county_fips": "08091",
+      "renter_units": 135,
+      "bedrooms": {
+        "studio": 9,
+        "1br": 0,
+        "2br": 88,
+        "3br": 22,
+        "4br": 16,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0856475": {
+      "geoid": "0856475",
+      "name": "Ovid (town)",
+      "county_fips": "08115",
+      "renter_units": 53,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 10,
+        "2br": 9,
+        "3br": 34,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0856695": {
+      "geoid": "0856695",
+      "name": "Padroni (CDP)",
+      "county_fips": "08075",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0856860": {
+      "geoid": "0856860",
+      "name": "Pagosa Springs (town)",
+      "county_fips": "08007",
+      "renter_units": 400,
+      "bedrooms": {
+        "studio": 16,
+        "1br": 79,
+        "2br": 146,
+        "3br": 128,
+        "4br": 31,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0856970": {
+      "geoid": "0856970",
+      "name": "Palisade (town)",
+      "county_fips": "08077",
+      "renter_units": 433,
+      "bedrooms": {
+        "studio": 69,
+        "1br": 35,
+        "2br": 206,
+        "3br": 123,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0857025": {
+      "geoid": "0857025",
+      "name": "Palmer Lake (town)",
+      "county_fips": "08041",
+      "renter_units": 105,
+      "bedrooms": {
+        "studio": 9,
+        "1br": 24,
+        "2br": 34,
+        "3br": 18,
+        "4br": 0,
+        "5plus": 20
+      },
+      "unavailable_reason": null
+    },
+    "0857245": {
+      "geoid": "0857245",
+      "name": "Paoli (town)",
+      "county_fips": "08095",
+      "renter_units": 4,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 2,
+        "2br": 0,
+        "3br": 2,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0857300": {
+      "geoid": "0857300",
+      "name": "Paonia (town)",
+      "county_fips": "08029",
+      "renter_units": 315,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 15,
+        "2br": 235,
+        "3br": 50,
+        "4br": 14,
+        "5plus": 1
+      },
+      "unavailable_reason": null
+    },
+    "0857400": {
+      "geoid": "0857400",
+      "name": "Parachute (town)",
+      "county_fips": "08045",
+      "renter_units": 255,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 15,
+        "2br": 145,
+        "3br": 89,
+        "4br": 6,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0857445": {
+      "geoid": "0857445",
+      "name": "Paragon Estates (CDP)",
+      "county_fips": "08013",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0857465": {
+      "geoid": "0857465",
+      "name": "Park Center (CDP)",
+      "county_fips": "08043",
+      "renter_units": 154,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 79,
+        "3br": 53,
+        "4br": 22,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0857630": {
+      "geoid": "0857630",
+      "name": "Parker (town)",
+      "county_fips": "08035",
+      "renter_units": 6147,
+      "bedrooms": {
+        "studio": 307,
+        "1br": 1866,
+        "2br": 2219,
+        "3br": 1035,
+        "4br": 560,
+        "5plus": 160
+      },
+      "unavailable_reason": null
+    },
+    "0857850": {
+      "geoid": "0857850",
+      "name": "Parshall (CDP)",
+      "county_fips": "08049",
+      "renter_units": 25,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 25,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0858235": {
+      "geoid": "0858235",
+      "name": "Peetz (town)",
+      "county_fips": "08075",
+      "renter_units": 15,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 3,
+        "3br": 6,
+        "4br": 2,
+        "5plus": 4
+      },
+      "unavailable_reason": null
+    },
+    "0858400": {
+      "geoid": "0858400",
+      "name": "Penrose (CDP)",
+      "county_fips": "08043",
+      "renter_units": 266,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 62,
+        "2br": 92,
+        "3br": 112,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0858510": {
+      "geoid": "0858510",
+      "name": "Peoria (CDP)",
+      "county_fips": "08005",
+      "renter_units": 12,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 12,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0858592": {
+      "geoid": "0858592",
+      "name": "Perry Park (CDP)",
+      "county_fips": "08035",
+      "renter_units": 6,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 6,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0858675": {
+      "geoid": "0858675",
+      "name": "Peyton (CDP)",
+      "county_fips": "08041",
+      "renter_units": 46,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 46,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0858785": {
+      "geoid": "0858785",
+      "name": "Phippsburg (CDP)",
+      "county_fips": "08107",
+      "renter_units": 56,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 56,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0858960": {
+      "geoid": "0858960",
+      "name": "Piedra (CDP)",
+      "county_fips": "08053",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0859005": {
+      "geoid": "0859005",
+      "name": "Pierce (town)",
+      "county_fips": "08123",
+      "renter_units": 78,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 20,
+        "3br": 37,
+        "4br": 21,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0859240": {
+      "geoid": "0859240",
+      "name": "Pine Brook Hill (CDP)",
+      "county_fips": "08013",
+      "renter_units": 15,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 15,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0859520": {
+      "geoid": "0859520",
+      "name": "Pine Valley (CDP)",
+      "county_fips": "08019",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0859830": {
+      "geoid": "0859830",
+      "name": "Pitkin (town)",
+      "county_fips": "08051",
+      "renter_units": 3,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 3,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0859885": {
+      "geoid": "0859885",
+      "name": "Placerville (CDP)",
+      "county_fips": "08113",
+      "renter_units": 43,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 27,
+        "3br": 16,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0860160": {
+      "geoid": "0860160",
+      "name": "Platteville (town)",
+      "county_fips": "08123",
+      "renter_units": 112,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 90,
+        "3br": 9,
+        "4br": 0,
+        "5plus": 13
+      },
+      "unavailable_reason": null
+    },
+    "0860600": {
+      "geoid": "0860600",
+      "name": "Poncha Springs (town)",
+      "county_fips": "08015",
+      "renter_units": 39,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 11,
+        "3br": 25,
+        "4br": 3,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0860655": {
+      "geoid": "0860655",
+      "name": "Ponderosa Park (CDP)",
+      "county_fips": "08039",
+      "renter_units": 23,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 23,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0860765": {
+      "geoid": "0860765",
+      "name": "Portland (CDP)",
+      "county_fips": "08091",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0861315": {
+      "geoid": "0861315",
+      "name": "Pritchett (town)",
+      "county_fips": "08009",
+      "renter_units": 25,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 14,
+        "3br": 8,
+        "4br": 3,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0862000": {
+      "geoid": "0862000",
+      "name": "Pueblo (city)",
+      "county_fips": "08101",
+      "renter_units": 17896,
+      "bedrooms": {
+        "studio": 700,
+        "1br": 4211,
+        "2br": 7615,
+        "3br": 4150,
+        "4br": 1090,
+        "5plus": 130
+      },
+      "unavailable_reason": null
+    },
+    "0862220": {
+      "geoid": "0862220",
+      "name": "Pueblo West (CDP)",
+      "county_fips": "08101",
+      "renter_units": 1611,
+      "bedrooms": {
+        "studio": 77,
+        "1br": 94,
+        "2br": 688,
+        "3br": 606,
+        "4br": 127,
+        "5plus": 19
+      },
+      "unavailable_reason": null
+    },
+    "0862660": {
+      "geoid": "0862660",
+      "name": "Ramah (town)",
+      "county_fips": "08041",
+      "renter_units": 3,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 2,
+        "3br": 1,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0862880": {
+      "geoid": "0862880",
+      "name": "Rangely (town)",
+      "county_fips": "08103",
+      "renter_units": 246,
+      "bedrooms": {
+        "studio": 44,
+        "1br": 32,
+        "2br": 92,
+        "3br": 53,
+        "4br": 25,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0863045": {
+      "geoid": "0863045",
+      "name": "Raymer (New Raymer) (town)",
+      "county_fips": "08123",
+      "renter_units": 12,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 10,
+        "3br": 2,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0863265": {
+      "geoid": "0863265",
+      "name": "Red Cliff (town)",
+      "county_fips": "08037",
+      "renter_units": 21,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 10,
+        "2br": 7,
+        "3br": 4,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0863320": {
+      "geoid": "0863320",
+      "name": "Red Feather Lakes (CDP)",
+      "county_fips": "08069",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0863375": {
+      "geoid": "0863375",
+      "name": "Redlands (CDP)",
+      "county_fips": "08077",
+      "renter_units": 300,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 32,
+        "2br": 71,
+        "3br": 163,
+        "4br": 34,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0863650": {
+      "geoid": "0863650",
+      "name": "Redstone (CDP)",
+      "county_fips": "08097",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0863705": {
+      "geoid": "0863705",
+      "name": "Redvale (CDP)",
+      "county_fips": "08085",
+      "renter_units": 20,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 20,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0864090": {
+      "geoid": "0864090",
+      "name": "Rico (town)",
+      "county_fips": "08033",
+      "renter_units": 27,
+      "bedrooms": {
+        "studio": 6,
+        "1br": 8,
+        "2br": 6,
+        "3br": 0,
+        "4br": 7,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0864200": {
+      "geoid": "0864200",
+      "name": "Ridgway (town)",
+      "county_fips": "08091",
+      "renter_units": 161,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 37,
+        "2br": 72,
+        "3br": 48,
+        "4br": 4,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0864255": {
+      "geoid": "0864255",
+      "name": "Rifle (city)",
+      "county_fips": "08045",
+      "renter_units": 1274,
+      "bedrooms": {
+        "studio": 85,
+        "1br": 252,
+        "2br": 620,
+        "3br": 213,
+        "4br": 104,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0864870": {
+      "geoid": "0864870",
+      "name": "Rock Creek Park (CDP)",
+      "county_fips": "08041",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0864970": {
+      "geoid": "0864970",
+      "name": "Rockvale (town)",
+      "county_fips": "08043",
+      "renter_units": 21,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 11,
+        "3br": 0,
+        "4br": 10,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0865190": {
+      "geoid": "0865190",
+      "name": "Rocky Ford (city)",
+      "county_fips": "08089",
+      "renter_units": 516,
+      "bedrooms": {
+        "studio": 57,
+        "1br": 101,
+        "2br": 133,
+        "3br": 134,
+        "4br": 82,
+        "5plus": 9
+      },
+      "unavailable_reason": null
+    },
+    "0865685": {
+      "geoid": "0865685",
+      "name": "Rollinsville (CDP)",
+      "county_fips": "08047",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0865740": {
+      "geoid": "0865740",
+      "name": "Romeo (town)",
+      "county_fips": "08021",
+      "renter_units": 55,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 27,
+        "3br": 17,
+        "4br": 11,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0866197": {
+      "geoid": "0866197",
+      "name": "Roxborough Park (CDP)",
+      "county_fips": "08035",
+      "renter_units": 76,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 9,
+        "3br": 49,
+        "4br": 18,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0866895": {
+      "geoid": "0866895",
+      "name": "Rye (town)",
+      "county_fips": "08101",
+      "renter_units": 25,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 7,
+        "2br": 14,
+        "3br": 4,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0866995": {
+      "geoid": "0866995",
+      "name": "Saddle Ridge (CDP)",
+      "county_fips": "08087",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0867005": {
+      "geoid": "0867005",
+      "name": "Saguache (town)",
+      "county_fips": "08109",
+      "renter_units": 120,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 39,
+        "2br": 21,
+        "3br": 60,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0867040": {
+      "geoid": "0867040",
+      "name": "St. Ann Highlands (CDP)",
+      "county_fips": "08013",
+      "renter_units": 42,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 42,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0867142": {
+      "geoid": "0867142",
+      "name": "St. Mary's (CDP)",
+      "county_fips": "08019",
+      "renter_units": 9,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 9,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0867280": {
+      "geoid": "0867280",
+      "name": "Salida (city)",
+      "county_fips": "08015",
+      "renter_units": 1030,
+      "bedrooms": {
+        "studio": 5,
+        "1br": 348,
+        "2br": 332,
+        "3br": 331,
+        "4br": 4,
+        "5plus": 10
+      },
+      "unavailable_reason": null
+    },
+    "0867445": {
+      "geoid": "0867445",
+      "name": "Salt Creek (CDP)",
+      "county_fips": "08101",
+      "renter_units": 124,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 26,
+        "2br": 16,
+        "3br": 82,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0867500": {
+      "geoid": "0867500",
+      "name": "San Acacio (CDP)",
+      "county_fips": "08023",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0867830": {
+      "geoid": "0867830",
+      "name": "Sanford (town)",
+      "county_fips": "08021",
+      "renter_units": 130,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 50,
+        "2br": 47,
+        "3br": 16,
+        "4br": 17,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0868105": {
+      "geoid": "0868105",
+      "name": "San Luis (town)",
+      "county_fips": "08023",
+      "renter_units": 108,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 11,
+        "2br": 48,
+        "3br": 25,
+        "4br": 24,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0868655": {
+      "geoid": "0868655",
+      "name": "Sawpit (town)",
+      "county_fips": "08113",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0868847": {
+      "geoid": "0868847",
+      "name": "Security-Widefield (CDP)",
+      "county_fips": "08041",
+      "renter_units": 1719,
+      "bedrooms": {
+        "studio": 51,
+        "1br": 108,
+        "2br": 267,
+        "3br": 732,
+        "4br": 455,
+        "5plus": 106
+      },
+      "unavailable_reason": null
+    },
+    "0868875": {
+      "geoid": "0868875",
+      "name": "Sedalia (CDP)",
+      "county_fips": "08035",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0868930": {
+      "geoid": "0868930",
+      "name": "Sedgwick (town)",
+      "county_fips": "08115",
+      "renter_units": 10,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 7,
+        "3br": 1,
+        "4br": 0,
+        "5plus": 2
+      },
+      "unavailable_reason": null
+    },
+    "0868985": {
+      "geoid": "0868985",
+      "name": "Segundo (CDP)",
+      "county_fips": "08071",
+      "renter_units": 11,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 4,
+        "3br": 7,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0869040": {
+      "geoid": "0869040",
+      "name": "Seibert (town)",
+      "county_fips": "08063",
+      "renter_units": 18,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 4,
+        "3br": 12,
+        "4br": 0,
+        "5plus": 2
+      },
+      "unavailable_reason": null
+    },
+    "0869110": {
+      "geoid": "0869110",
+      "name": "Seven Hills (CDP)",
+      "county_fips": "08013",
+      "renter_units": 108,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 82,
+        "4br": 26,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0869150": {
+      "geoid": "0869150",
+      "name": "Severance (town)",
+      "county_fips": "08123",
+      "renter_units": 285,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 21,
+        "3br": 122,
+        "4br": 68,
+        "5plus": 74
+      },
+      "unavailable_reason": null
+    },
+    "0869480": {
+      "geoid": "0869480",
+      "name": "Shaw Heights (CDP)",
+      "county_fips": "08001",
+      "renter_units": 302,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 42,
+        "3br": 78,
+        "4br": 108,
+        "5plus": 74
+      },
+      "unavailable_reason": null
+    },
+    "0869645": {
+      "geoid": "0869645",
+      "name": "Sheridan (city)",
+      "county_fips": "08005",
+      "renter_units": 949,
+      "bedrooms": {
+        "studio": 46,
+        "1br": 284,
+        "2br": 286,
+        "3br": 272,
+        "4br": 28,
+        "5plus": 33
+      },
+      "unavailable_reason": null
+    },
+    "0869700": {
+      "geoid": "0869700",
+      "name": "Sheridan Lake (town)",
+      "county_fips": "08061",
+      "renter_units": 17,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 6,
+        "3br": 8,
+        "4br": 0,
+        "5plus": 3
+      },
+      "unavailable_reason": null
+    },
+    "0869810": {
+      "geoid": "0869810",
+      "name": "Sherrelwood (CDP)",
+      "county_fips": "08001",
+      "renter_units": 1847,
+      "bedrooms": {
+        "studio": 118,
+        "1br": 600,
+        "2br": 755,
+        "3br": 123,
+        "4br": 135,
+        "5plus": 116
+      },
+      "unavailable_reason": null
+    },
+    "0870112": {
+      "geoid": "0870112",
+      "name": "Sierra Ridge (CDP)",
+      "county_fips": "08035",
+      "renter_units": 428,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 76,
+        "2br": 215,
+        "3br": 92,
+        "4br": 45,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0870195": {
+      "geoid": "0870195",
+      "name": "Silt (town)",
+      "county_fips": "08045",
+      "renter_units": 344,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 50,
+        "2br": 81,
+        "3br": 38,
+        "4br": 175,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0870250": {
+      "geoid": "0870250",
+      "name": "Silver Cliff (town)",
+      "county_fips": "08027",
+      "renter_units": 158,
+      "bedrooms": {
+        "studio": 19,
+        "1br": 22,
+        "2br": 78,
+        "3br": 33,
+        "4br": 3,
+        "5plus": 3
+      },
+      "unavailable_reason": null
+    },
+    "0870360": {
+      "geoid": "0870360",
+      "name": "Silver Plume (town)",
+      "county_fips": "08019",
+      "renter_units": 17,
+      "bedrooms": {
+        "studio": 5,
+        "1br": 10,
+        "2br": 2,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0870525": {
+      "geoid": "0870525",
+      "name": "Silverthorne (town)",
+      "county_fips": "08117",
+      "renter_units": 414,
+      "bedrooms": {
+        "studio": 24,
+        "1br": 47,
+        "2br": 153,
+        "3br": 190,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0870580": {
+      "geoid": "0870580",
+      "name": "Silverton (town)",
+      "county_fips": "08111",
+      "renter_units": 188,
+      "bedrooms": {
+        "studio": 31,
+        "1br": 37,
+        "2br": 30,
+        "3br": 36,
+        "4br": 50,
+        "5plus": 4
+      },
+      "unavailable_reason": null
+    },
+    "0870635": {
+      "geoid": "0870635",
+      "name": "Simla (town)",
+      "county_fips": "08039",
+      "renter_units": 102,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 11,
+        "2br": 81,
+        "3br": 10,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0871625": {
+      "geoid": "0871625",
+      "name": "Smeltertown (CDP)",
+      "county_fips": "08015",
+      "renter_units": 86,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 86,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0871755": {
+      "geoid": "0871755",
+      "name": "Snowmass Village (town)",
+      "county_fips": "08097",
+      "renter_units": 689,
+      "bedrooms": {
+        "studio": 200,
+        "1br": 100,
+        "2br": 358,
+        "3br": 31,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0871790": {
+      "geoid": "0871790",
+      "name": "Snyder (CDP)",
+      "county_fips": "08087",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0871845": {
+      "geoid": "0871845",
+      "name": "Somerset (CDP)",
+      "county_fips": "08051",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0872320": {
+      "geoid": "0872320",
+      "name": "Southern Ute (CDP)",
+      "county_fips": "08067",
+      "renter_units": 5,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 5,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0872395": {
+      "geoid": "0872395",
+      "name": "South Fork (town)",
+      "county_fips": "08105",
+      "renter_units": 148,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 7,
+        "2br": 65,
+        "3br": 74,
+        "4br": 0,
+        "5plus": 2
+      },
+      "unavailable_reason": null
+    },
+    "0873330": {
+      "geoid": "0873330",
+      "name": "Springfield (town)",
+      "county_fips": "08009",
+      "renter_units": 211,
+      "bedrooms": {
+        "studio": 18,
+        "1br": 101,
+        "2br": 49,
+        "3br": 33,
+        "4br": 8,
+        "5plus": 2
+      },
+      "unavailable_reason": null
+    },
+    "0873715": {
+      "geoid": "0873715",
+      "name": "Starkville (town)",
+      "county_fips": "08071",
+      "renter_units": 24,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 5,
+        "2br": 0,
+        "3br": 19,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0873825": {
+      "geoid": "0873825",
+      "name": "Steamboat Springs (city)",
+      "county_fips": "08107",
+      "renter_units": 2105,
+      "bedrooms": {
+        "studio": 63,
+        "1br": 495,
+        "2br": 975,
+        "3br": 390,
+        "4br": 98,
+        "5plus": 84
+      },
+      "unavailable_reason": null
+    },
+    "0873925": {
+      "geoid": "0873925",
+      "name": "Stepping Stone (CDP)",
+      "county_fips": "08035",
+      "renter_units": 12,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 12,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0873935": {
+      "geoid": "0873935",
+      "name": "Sterling (city)",
+      "county_fips": "08075",
+      "renter_units": 2217,
+      "bedrooms": {
+        "studio": 72,
+        "1br": 477,
+        "2br": 1163,
+        "3br": 443,
+        "4br": 32,
+        "5plus": 30
+      },
+      "unavailable_reason": null
+    },
+    "0873943": {
+      "geoid": "0873943",
+      "name": "Sterling Ranch (CDP)",
+      "county_fips": "08035",
+      "renter_units": 129,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 23,
+        "4br": 7,
+        "5plus": 99
+      },
+      "unavailable_reason": null
+    },
+    "0874080": {
+      "geoid": "0874080",
+      "name": "Stonegate (CDP)",
+      "county_fips": "08035",
+      "renter_units": 290,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 32,
+        "2br": 35,
+        "3br": 177,
+        "4br": 13,
+        "5plus": 33
+      },
+      "unavailable_reason": null
+    },
+    "0874275": {
+      "geoid": "0874275",
+      "name": "Stonewall Gap (CDP)",
+      "county_fips": "08071",
+      "renter_units": 15,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 15,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0874375": {
+      "geoid": "0874375",
+      "name": "Strasburg (CDP)",
+      "county_fips": "08005",
+      "renter_units": 135,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 102,
+        "3br": 0,
+        "4br": 33,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0874430": {
+      "geoid": "0874430",
+      "name": "Stratmoor (CDP)",
+      "county_fips": "08041",
+      "renter_units": 773,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 19,
+        "2br": 255,
+        "3br": 442,
+        "4br": 0,
+        "5plus": 57
+      },
+      "unavailable_reason": null
+    },
+    "0874485": {
+      "geoid": "0874485",
+      "name": "Stratton (town)",
+      "county_fips": "08063",
+      "renter_units": 98,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 13,
+        "2br": 34,
+        "3br": 8,
+        "4br": 6,
+        "5plus": 37
+      },
+      "unavailable_reason": null
+    },
+    "0874815": {
+      "geoid": "0874815",
+      "name": "Sugar City (town)",
+      "county_fips": "08025",
+      "renter_units": 41,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 25,
+        "3br": 13,
+        "4br": 3,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0874980": {
+      "geoid": "0874980",
+      "name": "Sugarloaf (CDP)",
+      "county_fips": "08013",
+      "renter_units": 10,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 10,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0875585": {
+      "geoid": "0875585",
+      "name": "Sunshine (CDP)",
+      "county_fips": "08013",
+      "renter_units": 43,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 43,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0875640": {
+      "geoid": "0875640",
+      "name": "Superior (town)",
+      "county_fips": "08013",
+      "renter_units": 1972,
+      "bedrooms": {
+        "studio": 39,
+        "1br": 488,
+        "2br": 939,
+        "3br": 236,
+        "4br": 143,
+        "5plus": 127
+      },
+      "unavailable_reason": null
+    },
+    "0875970": {
+      "geoid": "0875970",
+      "name": "Swink (town)",
+      "county_fips": "08089",
+      "renter_units": 22,
+      "bedrooms": {
+        "studio": 13,
+        "1br": 9,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0876190": {
+      "geoid": "0876190",
+      "name": "Tabernash (CDP)",
+      "county_fips": "08049",
+      "renter_units": 43,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 43,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0876325": {
+      "geoid": "0876325",
+      "name": "Tall Timber (CDP)",
+      "county_fips": "08013",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0876795": {
+      "geoid": "0876795",
+      "name": "Telluride (town)",
+      "county_fips": "08113",
+      "renter_units": 178,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 15,
+        "2br": 15,
+        "3br": 84,
+        "4br": 38,
+        "5plus": 26
+      },
+      "unavailable_reason": null
+    },
+    "0877235": {
+      "geoid": "0877235",
+      "name": "The Pinery (CDP)",
+      "county_fips": "08035",
+      "renter_units": 177,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 71,
+        "4br": 25,
+        "5plus": 81
+      },
+      "unavailable_reason": null
+    },
+    "0877290": {
+      "geoid": "0877290",
+      "name": "Thornton (city)",
+      "county_fips": "08001",
+      "renter_units": 14457,
+      "bedrooms": {
+        "studio": 489,
+        "1br": 4043,
+        "2br": 5301,
+        "3br": 3161,
+        "4br": 969,
+        "5plus": 494
+      },
+      "unavailable_reason": null
+    },
+    "0877510": {
+      "geoid": "0877510",
+      "name": "Timnath (town)",
+      "county_fips": "08069",
+      "renter_units": 537,
+      "bedrooms": {
+        "studio": 21,
+        "1br": 85,
+        "2br": 124,
+        "3br": 195,
+        "4br": 112,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0877757": {
+      "geoid": "0877757",
+      "name": "Todd Creek (CDP)",
+      "county_fips": "08001",
+      "renter_units": 32,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 27,
+        "4br": 5,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0878280": {
+      "geoid": "0878280",
+      "name": "Towaoc (CDP)",
+      "county_fips": "08083",
+      "renter_units": 225,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 18,
+        "2br": 75,
+        "3br": 89,
+        "4br": 43,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0878335": {
+      "geoid": "0878335",
+      "name": "Towner (CDP)",
+      "county_fips": "08061",
+      "renter_units": 7,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 2,
+        "3br": 4,
+        "4br": 1,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0878345": {
+      "geoid": "0878345",
+      "name": "Trail Side (CDP)",
+      "county_fips": "08087",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0878610": {
+      "geoid": "0878610",
+      "name": "Trinidad (city)",
+      "county_fips": "08071",
+      "renter_units": 1480,
+      "bedrooms": {
+        "studio": 20,
+        "1br": 257,
+        "2br": 747,
+        "3br": 374,
+        "4br": 82,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0879100": {
+      "geoid": "0879100",
+      "name": "Twin Lakes CDP (Adams County)",
+      "county_fips": "08001",
+      "renter_units": 841,
+      "bedrooms": {
+        "studio": 21,
+        "1br": 190,
+        "2br": 198,
+        "3br": 216,
+        "4br": 216,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0879105": {
+      "geoid": "0879105",
+      "name": "Twin Lakes CDP (Lake County)",
+      "county_fips": "08065",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0879270": {
+      "geoid": "0879270",
+      "name": "Two Buttes (town)",
+      "county_fips": "08009",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0879785": {
+      "geoid": "0879785",
+      "name": "Upper Bear Creek (CDP)",
+      "county_fips": "08019",
+      "renter_units": 75,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 75,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0879800": {
+      "geoid": "0879800",
+      "name": "Upper Witter Gulch (CDP)",
+      "county_fips": "08019",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0880040": {
+      "geoid": "0880040",
+      "name": "Vail (town)",
+      "county_fips": "08037",
+      "renter_units": 958,
+      "bedrooms": {
+        "studio": 173,
+        "1br": 370,
+        "2br": 250,
+        "3br": 106,
+        "4br": 51,
+        "5plus": 8
+      },
+      "unavailable_reason": null
+    },
+    "0880095": {
+      "geoid": "0880095",
+      "name": "Valdez (CDP)",
+      "county_fips": "08071",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0880370": {
+      "geoid": "0880370",
+      "name": "Valmont (CDP)",
+      "county_fips": "08013",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0880755": {
+      "geoid": "0880755",
+      "name": "Vernon (CDP)",
+      "county_fips": "08125",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0880865": {
+      "geoid": "0880865",
+      "name": "Victor (city)",
+      "county_fips": "08119",
+      "renter_units": 73,
+      "bedrooms": {
+        "studio": 14,
+        "1br": 0,
+        "2br": 30,
+        "3br": 29,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0881030": {
+      "geoid": "0881030",
+      "name": "Vilas (town)",
+      "county_fips": "08009",
+      "renter_units": 28,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 2,
+        "3br": 19,
+        "4br": 7,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0881305": {
+      "geoid": "0881305",
+      "name": "Vineland (CDP)",
+      "county_fips": "08101",
+      "renter_units": 52,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 13,
+        "3br": 39,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0881690": {
+      "geoid": "0881690",
+      "name": "Vona (town)",
+      "county_fips": "08063",
+      "renter_units": 18,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 12,
+        "3br": 6,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0882130": {
+      "geoid": "0882130",
+      "name": "Walden (town)",
+      "county_fips": "08057",
+      "renter_units": 77,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 22,
+        "2br": 35,
+        "3br": 20,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0882350": {
+      "geoid": "0882350",
+      "name": "Walsenburg (city)",
+      "county_fips": "08055",
+      "renter_units": 471,
+      "bedrooms": {
+        "studio": 70,
+        "1br": 38,
+        "2br": 110,
+        "3br": 239,
+        "4br": 0,
+        "5plus": 14
+      },
+      "unavailable_reason": null
+    },
+    "0882460": {
+      "geoid": "0882460",
+      "name": "Walsh (town)",
+      "county_fips": "08009",
+      "renter_units": 123,
+      "bedrooms": {
+        "studio": 19,
+        "1br": 70,
+        "2br": 8,
+        "3br": 18,
+        "4br": 8,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0882735": {
+      "geoid": "0882735",
+      "name": "Ward (town)",
+      "county_fips": "08013",
+      "renter_units": 4,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 2,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 2
+      },
+      "unavailable_reason": null
+    },
+    "0882900": {
+      "geoid": "0882900",
+      "name": "Watkins (CDP)",
+      "county_fips": "08005",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0883120": {
+      "geoid": "0883120",
+      "name": "Welby (CDP)",
+      "county_fips": "08001",
+      "renter_units": 1622,
+      "bedrooms": {
+        "studio": 13,
+        "1br": 309,
+        "2br": 585,
+        "3br": 541,
+        "4br": 165,
+        "5plus": 9
+      },
+      "unavailable_reason": null
+    },
+    "0883175": {
+      "geoid": "0883175",
+      "name": "Weldona (CDP)",
+      "county_fips": "08087",
+      "renter_units": 18,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 8,
+        "2br": 0,
+        "3br": 7,
+        "4br": 3,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0883230": {
+      "geoid": "0883230",
+      "name": "Wellington (town)",
+      "county_fips": "08069",
+      "renter_units": 801,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 13,
+        "2br": 169,
+        "3br": 391,
+        "4br": 187,
+        "5plus": 41
+      },
+      "unavailable_reason": null
+    },
+    "0883450": {
+      "geoid": "0883450",
+      "name": "Westcliffe (town)",
+      "county_fips": "08027",
+      "renter_units": 85,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 32,
+        "2br": 45,
+        "3br": 7,
+        "4br": 1,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0883500": {
+      "geoid": "0883500",
+      "name": "Westcreek (CDP)",
+      "county_fips": "08035",
+      "renter_units": 26,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 16,
+        "3br": 0,
+        "4br": 10,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0883835": {
+      "geoid": "0883835",
+      "name": "Westminster (city)",
+      "county_fips": "08001",
+      "renter_units": 18320,
+      "bedrooms": {
+        "studio": 1018,
+        "1br": 6744,
+        "2br": 7420,
+        "3br": 2238,
+        "4br": 629,
+        "5plus": 271
+      },
+      "unavailable_reason": null
+    },
+    "0884000": {
+      "geoid": "0884000",
+      "name": "Weston (CDP)",
+      "county_fips": "08071",
+      "renter_units": 4,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 4,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0884042": {
+      "geoid": "0884042",
+      "name": "West Pleasant View (CDP)",
+      "county_fips": "08059",
+      "renter_units": 658,
+      "bedrooms": {
+        "studio": 25,
+        "1br": 65,
+        "2br": 256,
+        "3br": 210,
+        "4br": 64,
+        "5plus": 38
+      },
+      "unavailable_reason": null
+    },
+    "0884440": {
+      "geoid": "0884440",
+      "name": "Wheat Ridge (city)",
+      "county_fips": "08059",
+      "renter_units": 6848,
+      "bedrooms": {
+        "studio": 182,
+        "1br": 1966,
+        "2br": 3520,
+        "3br": 850,
+        "4br": 194,
+        "5plus": 136
+      },
+      "unavailable_reason": null
+    },
+    "0884770": {
+      "geoid": "0884770",
+      "name": "Wiggins (town)",
+      "county_fips": "08087",
+      "renter_units": 155,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 128,
+        "3br": 18,
+        "4br": 9,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0885045": {
+      "geoid": "0885045",
+      "name": "Wiley (town)",
+      "county_fips": "08099",
+      "renter_units": 46,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 4,
+        "2br": 12,
+        "3br": 24,
+        "4br": 6,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0885155": {
+      "geoid": "0885155",
+      "name": "Williamsburg (town)",
+      "county_fips": "08043",
+      "renter_units": 43,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 18,
+        "3br": 25,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0885485": {
+      "geoid": "0885485",
+      "name": "Windsor (town)",
+      "county_fips": "08123",
+      "renter_units": 3336,
+      "bedrooms": {
+        "studio": 29,
+        "1br": 860,
+        "2br": 1199,
+        "3br": 541,
+        "4br": 415,
+        "5plus": 292
+      },
+      "unavailable_reason": null
+    },
+    "0885705": {
+      "geoid": "0885705",
+      "name": "Winter Park (town)",
+      "county_fips": "08049",
+      "renter_units": 240,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 98,
+        "2br": 142,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0885760": {
+      "geoid": "0885760",
+      "name": "Wolcott (CDP)",
+      "county_fips": "08037",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0886090": {
+      "geoid": "0886090",
+      "name": "Woodland Park (city)",
+      "county_fips": "08119",
+      "renter_units": 833,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 93,
+        "2br": 401,
+        "3br": 277,
+        "4br": 42,
+        "5plus": 20
+      },
+      "unavailable_reason": null
+    },
+    "0886117": {
+      "geoid": "0886117",
+      "name": "Woodmoor (CDP)",
+      "county_fips": "08041",
+      "renter_units": 233,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 126,
+        "4br": 82,
+        "5plus": 25
+      },
+      "unavailable_reason": null
+    },
+    "0886200": {
+      "geoid": "0886200",
+      "name": "Woody Creek (CDP)",
+      "county_fips": "08097",
+      "renter_units": 0,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 0,
+        "3br": 0,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": "renter_bedroom_mix_unavailable"
+    },
+    "0886310": {
+      "geoid": "0886310",
+      "name": "Wray (city)",
+      "county_fips": "08125",
+      "renter_units": 394,
+      "bedrooms": {
+        "studio": 20,
+        "1br": 115,
+        "2br": 76,
+        "3br": 110,
+        "4br": 23,
+        "5plus": 50
+      },
+      "unavailable_reason": null
+    },
+    "0886475": {
+      "geoid": "0886475",
+      "name": "Yampa (town)",
+      "county_fips": "08107",
+      "renter_units": 16,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 0,
+        "2br": 4,
+        "3br": 12,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    },
+    "0886750": {
+      "geoid": "0886750",
+      "name": "Yuma (city)",
+      "county_fips": "08125",
+      "renter_units": 555,
+      "bedrooms": {
+        "studio": 0,
+        "1br": 38,
+        "2br": 168,
+        "3br": 349,
+        "4br": 0,
+        "5plus": 0
+      },
+      "unavailable_reason": null
+    }
+  }
+}

@@ -78,10 +78,10 @@
     });
   });
   add('dc-market-bedroom', 'Bedroom size for unrestricted homes when the grid has no bedroom mix.');
-  add('dc-market-rent-mode', 'Use county ZORI bedroom estimates or your sourced market-rent overrides.');
+  add('dc-market-rent-mode', 'Use local ZORI distributed by HUD FMR ratios and ACS renter bedroom mix or your sourced market-rent overrides.');
   add('dc-market-rent-source', 'Source, date and geography supporting your unrestricted market-rent overrides.', 'needs-source', 'An override requires its survey or comparable-rent citation.');
   ['studio', '1br', '2br', '3br', '4br'].forEach(function (br) {
-    add('dc-market-rent-' + br, 'Monthly rent for unrestricted ' + br + ' homes; no utility allowance is deducted.', 'needs-source', 'County ZORI or your market-rent source is required.');
+    add('dc-market-rent-' + br, 'Monthly rent for unrestricted ' + br + ' homes; no utility allowance is deducted.', 'needs-source', 'Local ZORI and renter bedroom mix or your market-rent source is required.');
     fields['dc-market-rent-' + br].dataSource = 'county-zori-bedroom-estimate';
   });
   // Only these fields can be derived from a page-owned source record.
