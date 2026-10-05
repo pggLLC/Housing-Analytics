@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-10-05T10:53:01Z",
+  "generated": "2026-10-05T12:09:03Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -170,7 +170,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Display static placeholder KPIs; suppress live market trend charts",
-      "last_update": "2026-07-03T16:54:27Z",
+      "last_update": "2026-10-05T11:17:55Z",
       "description": "Statewide Colorado residential real estate market summary including active listings, closed sales, median sale price, days on market, and list-to-sale price ratio. Used as the primary data source for the Market Analysis KPI cards."
     },
     {
@@ -180,7 +180,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Fall back to car-market.json aggregate; suppress month-over-month comparison",
-      "last_update": "2026-09-13T21:04:06Z",
+      "last_update": "2026-10-05T04:33:50Z",
       "description": "Colorado monthly residential real estate market report for February 2026. Contains statewide and metro-area breakdowns of median sale price, active listings, closed sales, and days on market."
     },
     {
@@ -190,7 +190,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Fall back to car-market.json aggregate; suppress month-over-month comparison",
-      "last_update": "2026-09-13T21:04:06Z",
+      "last_update": "2026-10-05T04:33:50Z",
       "description": "Colorado monthly residential real estate market report for March 2026. Contains statewide and metro-area breakdowns of median sale price, active listings, closed sales, and days on market."
     },
     {
@@ -250,7 +250,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Use statewide median as proxy; disable per-county AMI limit display",
-      "last_update": "2026-09-12T18:07:56Z",
+      "last_update": "2026-10-05T11:42:44Z",
       "description": "HUD Fair Market Rents (FMR) and income limits for all 64 Colorado counties for FY2025. Includes FMR by bedroom size (0–4BR) and income limits at 30/50/60/80% AMI tiers. Fetched via scripts/fetch_fmr_api.py."
     },
     {
