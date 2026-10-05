@@ -253,6 +253,30 @@ test('an uncovered place renders the absence and all three reasons', () => {
   assert.ok(!/\$\d/.test(section.textContent), 'a dollar figure appeared in the unavailable state');
 });
 
+test('the city sales-floor reason reaches the screen and the report', () => {
+  // Use a known renderable geography; do not let source changes erase this case.
+  const before = CONTEXT.tracker.places[FRUITA];
+  CONTEXT.tracker.places[FRUITA] = {...before, source_level:'unavailable',
+    latest:{median_sale_price:null}, latest_period:null, monthly:[],
+    unavailable_reason:'redfin_city_sales_below_floor'};
+  try {
+    const evidence = Evidence.forPlace(FRUITA, CONTEXT);
+    assert.strictEqual(evidence.value, null);
+    assert.strictEqual(evidence.unavailableReason, 'redfin_city_sales_below_floor');
+    const detail = evidence.reasons[0].detail;
+    assert(detail.includes(String(CONTEXT.tracker.meta.minimum_homes_sold)), 'notice names the actual sales floor');
+    const mount = renderFor(FRUITA, 'Fruita');
+    const sections = [mount.querySelector('[data-sale-price]'),
+      mount.ownerDocument.querySelector('#marketStudyReportPreview [data-sale-price]')];
+    for (const section of sections) {
+      assert(section);
+      assert.strictEqual(section.dataset.unavailableReason, evidence.unavailableReason);
+      assert(section.textContent.includes(detail), 'the source reason is visible, not only metadata');
+      assert(!/\$\d/.test(section.textContent));
+    }
+  } finally { CONTEXT.tracker.places[FRUITA] = before; }
+});
+
 test('every modeled price above the county benchmark renders its review flag', () => {
   const flagged = Object.entries(CONTEXT.tracker.places).filter(([,row]) => row.review_flag);
   for (const [geoid,row] of flagged) {

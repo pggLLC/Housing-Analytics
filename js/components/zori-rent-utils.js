@@ -70,7 +70,7 @@
       method: 'FMR ratios normalized to local renter bedroom counts; 4BR includes 5+BR.',
       review_flag: result['2br'] < Number(fmr.two_br) ? { reason: 'zori_2br_below_fmr',
         estimated_rent: result['2br'], fmr_2br: Number(fmr.two_br),
-        note: 'The distributed 2BR ZORI estimate is below HUD 2BR FMR; review local market evidence.' } : null });
+        note: 'The distributed 2BR ZORI estimate is below HUD 2BR FMR. HUD FMR includes utilities; ZORI does not. Compare local rents on the same basis.' } : null });
     return result;
   }
   var api = { normalizeFips: normalizeFips, getCountyRent: getCountyRent,

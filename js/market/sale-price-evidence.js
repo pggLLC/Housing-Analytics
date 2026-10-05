@@ -40,14 +40,17 @@
    * number (#1602). A hardcoded sentence would keep telling a reader the
    * access was denied on the day it was granted.
    */
-  function reasons(context) {
+  function reasons(context, unavailableReason) {
     var out = [];
     var tracker = context.tracker || {};
     var covered = Object.keys((tracker.places) || {}).length;
     out.push({
       source: 'Redfin ZIP market tracker',
-      detail: 'Carries ' + covered + ' Colorado place records from city publications or ZIP models. '
-        + 'No qualifying sale-price observation is available for this place.',
+      detail: unavailableReason === 'redfin_city_sales_below_floor'
+        ? 'No city reporting window meets the minimum of ' + tracker.meta.minimum_homes_sold
+          + ' closed sales, and no qualifying ZIP estimate is available.'
+        : 'Carries ' + covered + ' Colorado place records from city publications or ZIP models. '
+          + 'No qualifying sale-price observation is available for this place.',
       issue: null
     });
 
@@ -100,7 +103,7 @@
         caveat: 'Sale prices are not published for every Colorado place. This is an '
           + 'absence of evidence, not evidence that nothing sells here.',
         unavailableReason: record && record.unavailable_reason || 'redfin_place_price_unavailable',
-        reasons: reasons(context)
+        reasons: reasons(context, record && record.unavailable_reason)
       };
     }
 

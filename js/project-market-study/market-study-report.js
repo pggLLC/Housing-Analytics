@@ -230,6 +230,7 @@
       return {
         available: false,
         state: 'unavailable',
+        unavailableReason: evidence.unavailableReason || null,
         heading: SALE_PRICE_HEADING,
         plain: 'this would show what homes near you have recently sold for. No sale-price source covers this place; the reasons are listed below.',
         label: String(evidence.label || 'No sale-price source for this place'),
@@ -255,7 +256,7 @@
   function salePriceSection(facts) {
     if (!facts) return '';
     if (!facts.available) {
-      return '<section class="sale-price" data-sale-price="unavailable"><h2>' + facts.heading + '</h2>' + plain(escape(facts.plain))
+      return '<section class="sale-price" data-sale-price="unavailable" data-unavailable-reason="' + escape(facts.unavailableReason || '') + '"><h2>' + facts.heading + '</h2>' + plain(escape(facts.plain))
         + '<p><strong>' + escape(facts.label) + '.</strong></p><p>' + escape(facts.caveat) + '</p><ul>'
         + facts.reasons.map(function (reason) {
           return '<li><strong>' + escape(reason.source) + '</strong> — ' + escape(reason.detail) + (reason.issue ? ' (tracked in #' + escape(reason.issue) + ')' : '') + '</li>';

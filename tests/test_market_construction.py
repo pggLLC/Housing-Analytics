@@ -96,6 +96,8 @@ def test_city_observation_is_not_averaged_or_relabelled():
     writer.writerow(base)
     writer.writerow(dict(base, PERIOD_DURATION='90', MEDIAN_SALE_PRICE='987654'))
     writer.writerow(dict(base, CITY='Ouray', HOMES_SOLD='2'))
+    writer.writerow(dict(base, PERIOD_BEGIN='2026-06-01', PERIOD_END='2026-06-30', HOMES_SOLD='4'))
+    writer.writerow(dict(base, CITY='Ouray', PERIOD_BEGIN='2026-06-01', PERIOD_END='2026-06-30', MEDIAN_SALE_PRICE='NA', HOMES_SOLD='NA'))
     writer.writerow(dict(base, CITY='Colorado Springs', MEDIAN_SALE_PRICE='NA', HOMES_SOLD='NA'))
     stream.seek(0)
     cities, absent = redfin.city_observations(stream, config)
@@ -105,8 +107,9 @@ def test_city_observation_is_not_averaged_or_relabelled():
     assert row['source_level'] == 'redfin_city_observed'
     assert '0816000' in absent and '0816000' not in cities
     ouray = next(g['geoid'] for g in config['places'] if g['label'] == 'Ouray (city)')
-    assert cities[ouray]['2026-05']['median_sale_price'] == float(base['MEDIAN_SALE_PRICE'])
-    assert cities[ouray]['2026-05']['homes_sold_allocated'] == 2
+    assert ouray not in cities
+    assert absent[ouray] == 'redfin_city_sales_below_floor'
+    assert max(cities['0807850']) == '2026-05', 'newer thin month cannot displace the qualifying observation'
 
 
 def test_model_review_flag_matches_latest_real_car():
@@ -144,3 +147,40 @@ def test_colorado_springs_uses_verified_city_observation_not_invented_zip_sales(
     assert place['source_url'] == source['source_url']
     assert place['latest']['homes_sold_allocated'] == source['homes_sold']
     assert place['latest']['source_period_duration_days'] == source['source_period_duration_days']
+
+
+def test_every_observed_city_latest_meets_five_sale_floor():
+    rows = read('data/market/redfin_place_market_tracker_co.json')['places']
+    checked = 0
+    for geoid, row in rows.items():
+        if row['source_level'] == 'redfin_city_observed':
+            assert row['latest']['homes_sold_allocated'] >= 5, geoid
+            checked += 1
+    assert checked > 0, 'the floor scan must check actual observed city rows'
+
+
+def test_city_floor_falls_back_to_zip_or_preserves_absence(monkeypatch):
+    # Both places have a thin city month. Only Ouray has a qualifying ZIP
+    # observation; Denver must keep the city-floor reason, not a price.
+    city = ('STATE_CODE\tREGION_TYPE\tPROPERTY_TYPE\tCITY\tPERIOD_DURATION\tPERIOD_BEGIN\tPERIOD_END\tMEDIAN_SALE_PRICE\tHOMES_SOLD\tTABLE_ID\n'
+            'CO\tplace\tAll Residential\tOuray\t30\t2026-05-01\t2026-05-31\t450000\t2\touray\n'
+            'CO\tplace\tAll Residential\tDenver\t30\t2026-05-01\t2026-05-31\t500000\t4\tdenver\n')
+    zip_rows = ('STATE_CODE\tREGION_TYPE\tPROPERTY_TYPE\tREGION\tPERIOD_DURATION\tPERIOD_BEGIN\tPERIOD_END\tMEDIAN_SALE_PRICE\tHOMES_SOLD\n'
+                'CO\tzip code\tAll Residential\tZip Code: 81427\t90\t2021-03-01\t2021-05-31\t410000\t5\n'
+                'CO\tzip code\tAll Residential\tZip Code: 80301\t90\t2026-03-01\t2026-05-31\t510000\t6\n')
+    config = read('data/hna/geo-config.json')
+    ouray = next(g['geoid'] for g in config['places'] if g['label'] == 'Ouray (city)')
+    monkeypatch.setattr(redfin, 'source_stream', lambda city=False: io.StringIO(city_rows if city else zip_rows))
+    city_rows = city
+    monkeypatch.setattr(redfin, 'MIN_MONTHS', 1)
+    monkeypatch.setattr(redfin, 'KEEP_MONTHS', 1)
+    monkeypatch.setattr(redfin, 'build_zip_place_weights', lambda *_: {
+        '81427': [{'geoid': ouray, 'name': 'Ouray', 'weight': 1.0}],
+        '80301': [{'geoid': '0807850', 'name': 'Boulder', 'weight': 1.0}]})
+    places = redfin.build_artifact()['places']
+    assert places[ouray]['source_level'] == 'redfin_zip_to_place_modeled'
+    assert places[ouray]['latest']['median_sale_price'] == 410000
+    assert places[ouray]['latest_period'] == '2021-05', 'historical fallback retains its actual date'
+    assert places['0820000']['source_level'] == 'unavailable'
+    assert places['0820000']['latest']['median_sale_price'] is None
+    assert places['0820000']['unavailable_reason'] == 'redfin_city_sales_below_floor'
