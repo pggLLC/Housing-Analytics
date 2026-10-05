@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-05T12:10:15.450Z",
+    "generated_at": "2026-10-05T14:30:07.651Z",
     "root": "data/",
     "file_count": 1695,
-    "total_size_bytes": 176706328,
+    "total_size_bytes": 176706342,
     "kinds": {
       "json": 1658,
       "geojson": 33,
@@ -1536,8 +1536,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1254708,
-      "mtime": "2026-10-04T11:08:38.858Z",
+      "size_bytes": 1254745,
+      "mtime": "2026-10-05T14:29:58.907Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1571,7 +1571,7 @@
       "path": "hmda/co-county-aggregates.json",
       "kind": "json",
       "size_bytes": 246619,
-      "mtime": "2026-09-25T12:55:18.627Z",
+      "mtime": "2026-10-05T14:29:58.908Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1586,7 +1586,7 @@
       "path": "hmda/co-state-trends.json",
       "kind": "json",
       "size_bytes": 3693,
-      "mtime": "2026-09-25T12:55:18.628Z",
+      "mtime": "2026-10-05T14:29:58.908Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -30545,7 +30545,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 215413,
-      "mtime": "2026-10-05T11:42:38.434Z",
+      "mtime": "2026-10-05T14:29:59.120Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31936,8 +31936,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14803,
-      "mtime": "2026-10-05T12:10:14.038Z",
+      "size_bytes": 14801,
+      "mtime": "2026-10-05T14:30:05.008Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31960,7 +31960,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-05T12:10:13.704Z",
+      "mtime": "2026-10-05T14:30:04.522Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34442,8 +34442,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 12578,
-      "mtime": "2026-10-03T11:46:44.196Z",
+      "size_bytes": 12557,
+      "mtime": "2026-10-05T14:29:59.313Z",
       "shape": "object",
       "keys": [
         "updated",
