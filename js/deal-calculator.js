@@ -1040,12 +1040,35 @@
     return rows.filter(function (row) { return row.units > 0; });
   }
 
+  // The displayed ZORI fields are not storage for a user's overrides. This
+  // separate value record also travels through the existing save/share inputs.
+  function captureMarketOverrides() {
+    if (document.getElementById('dc-market-rent-mode').value !== 'override') return;
+    var values = { rents: {}, note: document.getElementById('dc-market-rent-source').value };
+    SPLIT_BR_TYPES.forEach(function (br) {
+      values.rents[br] = document.getElementById('dc-market-rent-' + br).value;
+    });
+    document.getElementById('dc-market-rent-overrides').value = JSON.stringify(values);
+  }
+
+  function restoreMarketOverrideDisplay() {
+    // Called after saved/shared inputs are hydrated, before any source display
+    // can replace them. Older override links have only the visible inputs.
+    captureMarketOverrides();
+    delete document.getElementById('dc-manual-market-rents').dataset.marketMode;
+  }
+
   function resolveManualMarketRents(units, bedroomCounts) {
     var panel = document.getElementById('dc-manual-market-rents');
     panel.hidden = !(units > 0);
     var mode = document.getElementById('dc-market-rent-mode').value;
     var override = mode === 'override';
-    var note = document.getElementById('dc-market-rent-source').value.trim();
+    if (override && panel.dataset.marketMode === 'override') captureMarketOverrides();
+    var overrides = {};
+    try { overrides = JSON.parse(document.getElementById('dc-market-rent-overrides').value) || {}; } catch (_) {}
+    var noteInput = document.getElementById('dc-market-rent-source');
+    noteInput.value = override && typeof overrides.note === 'string' ? overrides.note : '';
+    var note = noteInput.value.trim();
     var zori = _countyFips ? getZoriPerBrRent(_countyFips) : null;
     var zoriMeta = _zoriData && _zoriData.meta || {};
     var source = countySource({ source: zoriMeta.source, sourceUrl: zoriMeta.county_url,
@@ -1062,7 +1085,7 @@
       // A restored link can fill a readonly input. In ZORI mode the displayed
       // amount must still be the local record used below, never stale link text.
       if (input.dataset.marketSourceKey !== key || (!override && input.value !== (available ? String(rent) : ''))) {
-        var entered = input.value;
+        var entered = overrides.rents && typeof overrides.rents[br] === 'string' ? overrides.rents[br] : '';
         input.value = available ? String(rent) : '';
         markSource(input, source, available);
         if (override) {
@@ -1076,6 +1099,7 @@
         input.dataset.marketSourceKey = key;
       }
     });
+    panel.dataset.marketMode = mode;
     document.getElementById('dc-market-source-wrap').hidden = !override;
     var vintage = document.getElementById('dc-market-rent-vintage');
     vintage.textContent = zori ? source.source + ' · ' + source.vintage + ' · ' + source.geography +
@@ -2068,6 +2092,7 @@
 
           <fieldset id="dc-manual-market-rents" hidden style="margin-top:.75rem;border:1px solid var(--border);padding:.65rem;min-width:0;">
             <legend>Unrestricted market rents</legend>
+            <input id="dc-market-rent-overrides" type="hidden" value="">
             <p id="dc-market-split" style="font-size:var(--small);"></p>
             <div id="dc-market-bedroom-wrap"><label>Bedroom size when the grid has no mix
               <select id="dc-market-bedroom" style="min-height:44px;">
@@ -3213,6 +3238,9 @@
         ids.push('dc-units-' + pct + '-' + br);
       });
     });
+    ['dc-market-rent-source'].concat(SPLIT_BR_TYPES.map(function (br) { return 'dc-market-rent-' + br; })).forEach(function (id) {
+      document.getElementById(id).addEventListener('input', captureMarketOverrides);
+    });
     ids.push('dc-market-rent-mode', 'dc-market-rent-source', 'dc-market-bedroom');
     SPLIT_BR_TYPES.forEach(function (br) { ids.push('dc-market-rent-' + br); });
     ['dc-market-rent-mode', 'dc-market-bedroom'].forEach(function (id) {
@@ -3605,6 +3633,7 @@
     }
 
     restoreManualMix();
+    restoreMarketOverrideDisplay();
     recalculate();
   }
 
@@ -3779,7 +3808,6 @@
     _resolvedDealMix = resolveDealMix();
     var scheduleMode = _resolvedDealMix.available;
     renderDealMixContext(_resolvedDealMix);
-    saveManualMix();
     updateGrossSfEstimate();
     renderPermitContext(_countyFips);
     function fmt(n) {
@@ -4466,6 +4494,8 @@
     var manualNote = document.getElementById('dc-dscr-manual-note');
     var stressTableEl = document.getElementById('dc-dscr-stress-table');
     if (manualNote && stressTableEl) {
+      if (!manualNote.dataset.defaultText) manualNote.dataset.defaultText = manualNote.textContent;
+      manualNote.textContent = manualNote.dataset.defaultText;
       if (stress) {
         manualNote.style.display = 'none';
         stressTableEl.style.display = '';
@@ -5018,16 +5048,22 @@
       }
     }
 
-    // Keep the reason on every output dependent on the missing market rents.
-    var missingMarketOutputs = ['dc-r-rents'];
-    if (autoNoi && autoNoi.checked) missingMarketOutputs = missingMarketOutputs.concat(
-      ['dc-noi-computed', 'dc-r-noi-stab', 'dc-r-mortgage', 'dc-su-mortgage', 'dc-su-gap']);
-    ['dc-r-rents', 'dc-noi-computed', 'dc-r-noi-stab', 'dc-r-mortgage', 'dc-su-mortgage', 'dc-su-gap'].forEach(function (id) {
+    // Rent-based outputs stay blocked even when a manual NOI or deferred fee
+    // is entered: those independent inputs do not make the rent roll known.
+    var rentOutputs = ['dc-r-rents', 'dc-r-beo'];
+    var noiOutputs = ['dc-noi-computed', 'dc-r-noi-stab', 'dc-r-mortgage', 'dc-su-mortgage', 'dc-su-gap',
+      'dc-r-cap-rate', 'dc-r-ads', 'dc-r-dscr-base', 'dc-dscr-target-note', 'dc-dscr-manual-note'];
+    var exitOutputs = ['dc-exit-noi', 'dc-exit-resale', 'dc-exit-mortbal', 'dc-exit-softbal',
+      'dc-exit-net', 'dc-exit-defyr', 'dc-exit-irr', 'dc-exit-notes'];
+    var missingMarketOutputs = rentOutputs.concat(autoNoi && autoNoi.checked ? noiOutputs : []);
+    rentOutputs.concat(noiOutputs, exitOutputs).forEach(function (id) {
       var el = document.getElementById(id);
-      var blocked = manualMarket.unavailableReason && missingMarketOutputs.indexOf(id) !== -1;
-      el.dataset.unavailableReason = blocked ? manualMarket.unavailableReason : '';
-      if (blocked) el.textContent = 'Unavailable — ' + manualMarket.message;
+      var exitBlocked = !isFinite(annualRents) && exitOutputs.indexOf(id) !== -1;
+      var blocked = exitBlocked || (manualMarket.unavailableReason && missingMarketOutputs.indexOf(id) !== -1);
+      el.dataset.unavailableReason = blocked ? (manualMarket.unavailableReason || 'rent_roll_unavailable') : '';
+      if (blocked) el.textContent = 'Unavailable — ' + (manualMarket.message || rentsUnknownReason);
     });
+    saveManualMix();
     try { document.dispatchEvent(new CustomEvent('deal-calc:updated')); } catch(_) {}
   }
 
@@ -6284,6 +6320,11 @@
           leaseupImpactEl.textContent = 'Year-1 NOI loss estimate: ' + _fmtMoney(year1Loss) +
             ' (linear ramp; covered by lease-up reserve if funded)';
           leaseupImpactEl.style.color = year1Loss > 0 ? 'var(--warn)' : 'var(--muted)';
+          var displayedNoi = document.getElementById('dc-r-noi-stab');
+          if (displayedNoi && displayedNoi.dataset.unavailableReason) {
+            leaseupImpactEl.textContent = displayedNoi.textContent;
+            leaseupImpactEl.style.color = 'var(--muted)';
+          }
         }
         // Summary panel — combined worst-case visualization
         var summaryEl = document.getElementById('dcStressSummary');
@@ -6306,6 +6347,7 @@
         console.warn('[DealCalc] stress slider refresh failed', e);
       }
     }
+    document.addEventListener('deal-calc:updated', _refresh);
     SLIDERS.forEach(function (s) {
       var slider = document.getElementById(s.id);
       if (slider) {
@@ -6646,6 +6688,16 @@
         // Update auto-equity display
         var autoEl = document.getElementById('dc-wf-lp-equity-auto');
         if (autoEl) autoEl.textContent = _fmtMoney(_autoLpEquity());
+        // Exit absence is not a sale for $0. Clear both previously rendered
+        // distribution tables before reading any numeric exit values.
+        var exitResale = document.getElementById('dc-exit-resale');
+        if (exitResale && exitResale.dataset.unavailableReason) {
+          ['dcWaterfallTable', 'dcWaterfallAnnualTable'].forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el) el.textContent = exitResale.textContent;
+          });
+          return;
+        }
         // Compute + render the waterfall
         var wf = _computeWaterfall();
         var tableEl = document.getElementById('dcWaterfallTable');
@@ -6660,6 +6712,7 @@
         console.warn('[DealCalc] waterfall refresh failed', e);
       }
     }
+    document.addEventListener('deal-calc:updated', _refresh);
     ['dc-wf-lp-equity', 'dc-wf-pref', 'dc-wf-gp-residual', 'dc-wf-catchup'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) {
@@ -7347,7 +7400,7 @@
     getRentScheduleMetadata: getRentScheduleMetadata,
     setSharedRentSchedule: setSharedRentSchedule,
     beginSharedScenario: function () { _hydratingSharedScenario = true; _manualBaseValues = null; },
-    endSharedScenario: function () { _hydratingSharedScenario = false; recalculate(); },
+    endSharedScenario: function () { restoreMarketOverrideDisplay(); _hydratingSharedScenario = false; recalculate(); },
     setSharedUtilityAllowance: setSharedUtilityAllowance,
     getAmiLimitsByBr: function () { return _amiLimitsByBr == null ? null : JSON.parse(JSON.stringify(_amiLimitsByBr)); },
     setDesignationContext: setDesignationContext,

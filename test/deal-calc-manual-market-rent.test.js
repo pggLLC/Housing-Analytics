@@ -120,6 +120,97 @@ async function test(name,fn) {
     assert.equal(record(recipient,'dc-market-rent-2br').sharedUnverified,true);
     assert.deepEqual(recipient.errors,[]);
   });
+  await test('override → ZORI → override restores exact rents and note, with provenance following the active source',async()=>{
+    const p=await openPage('',null,{jurisdiction}); mix(p,restricted,60);
+    const rents=p.w.__DealCalc.getZoriPerBrRent(county);
+    const entered={studio:'', '1br':'1801', '2br':'2203', '3br':'2507', '4br':'3109'};
+    const note='  Mesa owner survey — October 4, 2026  ';
+    setField(p,'dc-market-rent-mode','override');
+    for(const [br,value] of Object.entries(entered)) setField(p,'dc-market-rent-'+br,value);
+    setField(p,'dc-market-rent-source',note);
+    const ownRevenue=restrictedRevenue(restricted)+(6*1801+6*2203)*12;
+    checkRevenue(p,ownRevenue);
+    setField(p,'dc-market-rent-mode','zori');
+    checkRevenue(p,restrictedRevenue(restricted)+(6*rents['1br']+6*rents['2br'])*12);
+    for(const br of Object.keys(bedrooms)) {
+      const id='dc-market-rent-'+br, origin=record(p,id);
+      assert.equal(p.d.getElementById(id).value,String(rents[br]));
+      assert.equal(origin.status,'data');
+      assert.equal(origin.origin.meta.source,zori.meta.source);
+      assert.equal(origin.origin.meta.sourceUrl,zori.meta.county_url);
+      assert.equal(origin.origin.meta.vintage,zori.counties[county].vintage_month);
+      assert(!text(p,id+'-prov-detail').includes(note.trim()),'override note cannot label ZORI');
+    }
+    assert.equal(p.d.getElementById('dc-market-rent-source').value,'','inactive note stays in override state only');
+    const zoriSnapshot=p.w.__DealCalcShare.buildSnapshot();
+    assert(!zoriSnapshot.reportMeta.methodology.find(m=>m.id==='dc-r-rents').currentSource.includes(note.trim()));
+    const stored=JSON.parse(p.w.localStorage.getItem('coho.dealCalc.manualMix.v1'));
+    assert.deepEqual(JSON.parse(stored['dc-market-rent-overrides']),{rents:entered,note});
+    // A shared ZORI scenario must also retain the unused override for a later
+    // mode switch, without letting that note claim the sourced ZORI figures.
+    const recipient=await openPage(new URL(zoriSnapshot.url).search);
+    for(const page of [p,recipient]) {
+      setField(page,'dc-market-rent-mode','override');
+      for(const [br,value] of Object.entries(entered)) {
+        const id='dc-market-rent-'+br;
+        assert.equal(page.d.getElementById(id).value,value,'restored override '+br);
+        assert.equal(record(page,id).status,value?'yours':'needs-source');
+      }
+      assert.equal(page.d.getElementById('dc-market-rent-source').value,note);
+      assert.equal(record(page,'dc-market-rent-source').status,'yours');
+      const snap=checkRevenue(page,ownRevenue);
+      assert(snap.rentSchedule.rows.filter(r=>r.tier==='market').every(r=>r.source===note.trim()));
+      assert(snap.reportMeta.methodology.find(m=>m.id==='dc-r-rents').currentSource.includes(note.trim()));
+    }
+    // Legacy override links have no separate record; retain their entered values.
+    const legacy=new URL(p.w.__DealCalcShare.buildSnapshot().url);
+    legacy.searchParams.delete('market-rent-overrides');
+    const oldRecipient=await openPage(legacy.search);
+    checkRevenue(oldRecipient,ownRevenue);
+    assert.equal(oldRecipient.d.getElementById('dc-market-rent-source').value,note);
+    assert.deepEqual(p.errors,[]); assert.deepEqual(recipient.errors,[]); assert.deepEqual(oldRecipient.errors,[]);
+  });
+  await test('unknown rent blocks manual deferred-fee exit, waterfall and pro forma; entering a source restores them',async()=>{
+    const p=await openPage('',null,{jurisdiction}); mix(p,restricted,60);
+    setField(p,'dc-deferred-auto-balance',false);
+    setField(p,'dc-deferred-pct',40);
+    assert(/\$[0-9]/.test(text(p,'dc-exit-resale')),'start with a priced exit');
+    const missing=hud.counties.find(c=>!zori.counties[c.fips] && limits.maxGrossRent(chfa,c.fips,60,'2BR').grossRent>0).fips;
+    setField(p,'dc-county-select',missing);
+    const outputs=['dc-exit-noi','dc-exit-resale','dc-exit-mortbal','dc-exit-softbal',
+      'dc-exit-net','dc-exit-defyr','dc-exit-irr','dc-exit-notes'];
+    const reason=text(p,'dc-r-rents');
+    function checkExit() {
+      for(const id of outputs) {
+        assert.equal(p.d.getElementById(id).dataset.unavailableReason,'market_rent_missing',id);
+        assert.equal(text(p,id),reason,id+' carries the rent-roll reason, not a payback or old figure');
+      }
+      for(const id of ['dcWaterfallTable','dcWaterfallAnnualTable','pf-table-wrap']) {
+        assert.equal(text(p,id),reason,id+' does not turn the unit count into dollars or zero distributions');
+        assert.equal(p.d.getElementById(id).querySelector('table'),null);
+      }
+    }
+    checkExit();
+    for(const id of ['dc-r-cap-rate','dc-r-beo','dc-r-ads','dc-r-dscr-base','dc-dscr-manual-note','dc-stress-leaseup-impact'])
+      assert.equal(text(p,id),reason,id+' blocked consumer');
+    assert.equal(p.d.getElementById('dc-dscr-stress-table').style.display,'none');
+    assert(!p.d.getElementById('tornadoChartMount').querySelector('svg,canvas'),'sensitivity is blocked');
+    assert(text(p,'tornadoChartMount').includes('12'));
+    // A separately entered NOI may size debt, but cannot supply missing rents
+    // to the exit or annual projection.
+    setField(p,'dc-auto-noi',false); setField(p,'dc-noi',400000);
+    checkExit(); assert(text(p,'dc-r-noi-stab').includes(money(400000)));
+    assert(/\$[0-9]/.test(text(p,'dc-r-mortgage')));
+    setField(p,'dc-auto-noi',true);
+    setField(p,'dc-market-rent-mode','override');
+    setField(p,'dc-market-rent-1br',1701); setField(p,'dc-market-rent-2br',1903);
+    setField(p,'dc-market-rent-source','County rent survey, October 2026');
+    assert.equal(p.d.getElementById('dc-exit-defyr').dataset.unavailableReason,'');
+    assert(/\$[0-9]/.test(text(p,'dc-exit-resale')));
+    assert(p.d.getElementById('dcWaterfallTable').querySelector('table'));
+    assert(p.d.getElementById('pf-table-wrap').querySelector('table'));
+    assert.deepEqual(p.errors,[]);
+  });
   await test('absent county ZORI blocks dependent figures with a reason, never partial revenue or zero',async()=>{
     const missing=hud.counties.find(c=>!zori.counties[c.fips] && limits.maxGrossRent(chfa,c.fips,60,'2BR').grossRent>0).fips;
     const p=await openPage(''); setField(p,'dc-county-select',missing); mix(p,[{tier:60,br:'2br',units:48}],60);
