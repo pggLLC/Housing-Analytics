@@ -1,37 +1,6 @@
 'use strict';
 
-/**
- * Guard for the CAR market section's projected-figure disclosure.
- *
- * Between published CAR reports, scripts/generate-car-placeholder.mjs writes a
- * monthly file whose figures are the previous month's grown by fixed factors
- * (+0.5%/mo median, +3.0%/mo listings). Those files still declare
- *   source: "Colorado Association of REALTORS (CAR)"
- * so rendering the attribution alone presents a projection as a published CAR
- * figure.
- *
- * ESTIMATION IS PER SCOPE. This guard used to assume one boolean per month,
- * and that assumption caused the bug it was meant to prevent. ShowingTime
- * supplies COUNTY rows and no statewide row, so once a month is populated it
- * carries 64 counties of real MLS data alongside statewide and metro figures
- * that are still the projection. With only `estimated: true|false` available,
- * both settings are false statements, and the repo shipped each in turn:
- *
- *   fc0ce5bc6  estimated: true   -> told readers 64 counties of real MLS data
- *                                   were trend-projected.
- *   #1630      key deleted       -> told readers four months of projected
- *                                   statewide figures were published CAR data.
- *
- * The second was the worse direction and went unnoticed because THIS FILE
- * demanded it: the old third test asserted `estimated !== true` for any month
- * with county rows. A guard that forces the defect is worse than no guard.
- *
- * The strongest check here is arithmetic, not declarative: a statewide block
- * that equals the previous month grown by the generator's own factors IS a
- * projection, whatever the file says about itself. That is what caught
- * 2026-05 through 2026-08 — each exactly 1.005x the month before, none
- * flagged.
- */
+/** Estimated tracking scopes must stay labelled; their prices are never published. */
 
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -39,10 +8,6 @@ const path = require('node:path');
 
 const ROOT = path.resolve(__dirname, '..');
 const PAGE = path.join(ROOT, 'housing-needs-assessment.html');
-
-// Must match generate-car-placeholder.mjs.
-const PRICE_FACTOR = 1.005;
-const LISTING_FACTOR = 1.030;
 
 let failures = 0;
 function run(name, fn) {
@@ -73,36 +38,20 @@ run('every report declares which scopes are estimated', () => {
   }
 });
 
-run('a statewide block matching the projection formula is flagged as projected', () => {
-  // The load-bearing check. It does not ask the file whether it is a
-  // projection; it works that out from the numbers.
-  let compared = 0;
-  let prev = null;
+run('estimated statewide and metro prices are absent, with a reason', () => {
+  let checked = 0;
   for (const f of reports) {
     const d = load(f);
-    if (prev) {
-      const p = prev.statewide || {};
-      const s = d.statewide || {};
-      const have = [p.median_sale_price, p.active_listings, s.median_sale_price, s.active_listings]
-        .every((v) => typeof v === 'number');
-      if (have) {
-        const looksProjected =
-          s.median_sale_price === Math.round(p.median_sale_price * PRICE_FACTOR) &&
-          s.active_listings === Math.round(p.active_listings * LISTING_FACTOR);
-        if (looksProjected) {
-          compared += 1;
-          assert.equal(d.estimated_scopes.statewide, true,
-            `${f} statewide equals ${prev.month} grown by the generator's own factors ` +
-            `(${p.median_sale_price} x ${PRICE_FACTOR} = ${s.median_sale_price}, ` +
-            `${p.active_listings} x ${LISTING_FACTOR} = ${s.active_listings}) — it is a ` +
-            'projection and must be declared one, whatever the file claims about itself');
-        }
-      }
+    const rows = [...(d.estimated_scopes.statewide ? [d.statewide] : []),
+      ...(d.estimated_scopes.metro ? Object.values(d.metro_areas || {}) : [])];
+    for (const row of rows) {
+      checked++;
+      assert.equal(row.median_sale_price, null, f + ': estimated sale price must be absent');
+      assert.equal(row.median_price_per_sqft, null, f + ': estimated price/sqft must be absent');
+      assert.equal(row.estimated_reason, 'price_not_published_by_car');
     }
-    prev = d;
   }
-  assert.ok(compared > 0,
-    'precondition: expected at least one month carrying a trend-projected statewide block');
+  assert(checked > 0, 'checked a non-empty set of estimated scopes');
 });
 
 run('real ShowingTime county rows are never labelled projected', () => {
@@ -158,8 +107,8 @@ run('the page discloses per scope, and keeps the old detection as a fallback', (
   // before it existed — the old boolean plus the notes heuristics — so no
   // month the previous version flagged goes quiet. Note this is NOT
   // "assume projected": over-warning is the other half of this bug, and it
-  // would label a genuinely published CAR month an estimate. The arithmetic
-  // check above is what covers a projection the heuristics cannot see.
+  // would label a genuinely published CAR month an estimate. The price-absence
+  // check above covers every committed estimated scope.
   assert.match(html, /if \(!carScopes\) \{[\s\S]{0,600}legacyAll/,
     'a file without estimated_scopes must still be run through the previous ' +
     'detection, or dropping the field silently turns the disclosure off');

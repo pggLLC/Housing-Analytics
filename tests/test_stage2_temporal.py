@@ -5,7 +5,7 @@ Comprehensive pytest validation for 7 temporal engine fixes.
 Covers 55+ checks across 7 validation blocks:
   1. FRED metadata validation (6 checks)
   2. FRED temporal continuity (8 checks)
-  3. CAR market reports (12 checks)
+  3. CAR market reports (16 checks)
   4. car-market.json schema (6 checks)
   5. Projection base year (8 checks)
   6. LIHTC trends temporal coverage (9 checks)
@@ -18,6 +18,7 @@ Usage:
 import json
 import os
 import glob
+import math
 from datetime import date, datetime, timedelta, timezone
 
 import pytest
@@ -80,6 +81,17 @@ def car_report_feb():
 def car_report_mar():
     with open(CAR_REPORT_MAR) as f:
         return json.load(f)
+
+
+@pytest.fixture(scope='session')
+def car_reports():
+    paths = sorted(glob.glob(os.path.join(DATA_DIR, 'car-market-report-*.json')))
+    assert paths, 'CAR report scan must not be empty'
+    reports = []
+    for path in paths:
+        with open(path, encoding='utf-8') as f:
+            reports.append(json.load(f))
+    return reports
 
 
 @pytest.fixture(scope='session')
@@ -278,8 +290,53 @@ class TestFredTemporalContinuity:
 
 
 # ---------------------------------------------------------------------------
-# Block 3: CAR Market Reports (12 checks)
+# Block 3: CAR Market Reports
 # ---------------------------------------------------------------------------
+
+
+CAR_PRICE_FIELDS = ('median_sale_price', 'median_price_per_sqft',
+                    'list_to_sale_ratio', 'median_sale_price_yoy_pct')
+
+
+def _car_estimated(report, scope):
+    return report.get('estimated_scopes', {}).get(scope, report.get('estimated', False))
+
+
+def _assert_car_price(row, field, estimated, bounds=None):
+    assert field in row, f'Missing CAR field: {field}'
+    value = row[field]
+    if estimated:
+        assert value is None, f'Estimated {field} must be null, got {value}'
+        assert row.get('estimated_reason'), f'{field}: missing estimate reason'
+        return
+    assert isinstance(value, (int, float)) and math.isfinite(value), (field, value)
+    if field != 'median_sale_price_yoy_pct':
+        assert value > 0, (field, value)
+    if bounds:
+        assert bounds[0] <= value <= bounds[1], (field, value, bounds)
+
+
+def _assert_car_fields(row, fields, estimated):
+    for field in fields:
+        assert field in row, f'Missing CAR field: {field}'
+        if field in CAR_PRICE_FIELDS:
+            _assert_car_price(row, field, estimated)
+        else:
+            # Preserve the February/March tracking-field coverage; these are
+            # labelled estimates, not evidence for observed-market plausibility.
+            assert isinstance(row[field], (int, float)), (field, row[field])
+    for field in CAR_PRICE_FIELDS:
+        if field in row and field not in fields:
+            _assert_car_price(row, field, estimated)
+
+
+def _assert_real_tracking(report, field, bounds):
+    value = report['statewide'][field]
+    if not _car_estimated(report, 'statewide'):
+        assert isinstance(value, (int, float)) and math.isfinite(value), (field, value)
+        assert bounds[0] <= value <= bounds[1], (field, value)
+    else:
+        _assert_car_price(report['statewide'], 'median_sale_price', True)
 
 
 class TestCarMarketReports:
@@ -296,92 +353,101 @@ class TestCarMarketReports:
         'denver', 'colorado_springs', 'fort_collins', 'boulder', 'pueblo', 'grand_junction'
     ]
 
-    def test_feb_statewide_no_nulls(self, car_report_feb):
-        """February report statewide fields must all be non-null."""
-        sw = car_report_feb.get('statewide', {})
-        null_fields = [f for f in self.STATEWIDE_FIELDS if sw.get(f) is None]
-        assert null_fields == [], f'Feb report statewide null fields: {null_fields}'
+    @pytest.mark.parametrize('change', [-4.2, 0, 3.1])
+    def test_real_price_change_can_be_negative_zero_or_positive(self, change):
+        """Published year-over-year changes do not imply prices always rise."""
+        _assert_car_price({'median_sale_price_yoy_pct': change},
+                          'median_sale_price_yoy_pct', False)
 
-    def test_mar_statewide_no_nulls(self, car_report_mar):
-        """March report statewide fields must all be non-null."""
-        sw = car_report_mar.get('statewide', {})
-        null_fields = [f for f in self.STATEWIDE_FIELDS if sw.get(f) is None]
-        assert null_fields == [], f'Mar report statewide null fields: {null_fields}'
+    def test_feb_statewide_price_availability(self, car_report_feb):
+        """February fields remain present; estimated prices are null with a reason."""
+        _assert_car_fields(car_report_feb['statewide'], self.STATEWIDE_FIELDS,
+                           _car_estimated(car_report_feb, 'statewide'))
 
-    def test_feb_metro_no_nulls(self, car_report_feb):
-        """February report metro area fields must all be non-null."""
-        metros = car_report_feb.get('metro_areas', {})
-        for metro_key in self.METRO_AREAS:
-            metro = metros.get(metro_key, {})
-            null_fields = [f for f in self.METRO_FIELDS if metro.get(f) is None]
-            assert null_fields == [], (
-                f'Feb report {metro_key} null fields: {null_fields}'
-            )
+    def test_mar_statewide_price_availability(self, car_report_mar):
+        """March follows the same publication policy as February."""
+        _assert_car_fields(car_report_mar['statewide'], self.STATEWIDE_FIELDS,
+                           _car_estimated(car_report_mar, 'statewide'))
 
-    def test_mar_metro_no_nulls(self, car_report_mar):
-        """March report metro area fields must all be non-null."""
-        metros = car_report_mar.get('metro_areas', {})
-        for metro_key in self.METRO_AREAS:
-            metro = metros.get(metro_key, {})
-            null_fields = [f for f in self.METRO_FIELDS if metro.get(f) is None]
-            assert null_fields == [], (
-                f'Mar report {metro_key} null fields: {null_fields}'
-            )
+    def test_feb_metro_price_availability(self, car_report_feb):
+        """Every February metro retains its fields and declares price absence."""
+        for key in self.METRO_AREAS:
+            _assert_car_fields(car_report_feb['metro_areas'][key], self.METRO_FIELDS,
+                               _car_estimated(car_report_feb, 'metro'))
+
+    def test_mar_metro_price_availability(self, car_report_mar):
+        """Every March metro follows the same publication policy."""
+        for key in self.METRO_AREAS:
+            _assert_car_fields(car_report_mar['metro_areas'][key], self.METRO_FIELDS,
+                               _car_estimated(car_report_mar, 'metro'))
 
     def test_feb_median_price_plausible(self, car_report_feb):
-        """February statewide median_sale_price must be in plausible CO range."""
-        price = car_report_feb['statewide']['median_sale_price']
-        assert 400_000 <= price <= 900_000, (
-            f'Feb median_sale_price {price} outside expected CO range [400k, 900k]'
-        )
+        """Apply the statewide plausibility range only to a published price."""
+        _assert_car_price(car_report_feb['statewide'], 'median_sale_price',
+                          _car_estimated(car_report_feb, 'statewide'), (400_000, 900_000))
 
     def test_mar_median_price_plausible(self, car_report_mar):
-        """March statewide median_sale_price must be in plausible CO range."""
-        price = car_report_mar['statewide']['median_sale_price']
-        assert 400_000 <= price <= 900_000, (
-            f'Mar median_sale_price {price} outside expected CO range [400k, 900k]'
-        )
+        """An estimated March price is unavailable, never a plausible projection."""
+        _assert_car_price(car_report_mar['statewide'], 'median_sale_price',
+                          _car_estimated(car_report_mar, 'statewide'), (400_000, 900_000))
 
     def test_feb_months_supply_plausible(self, car_report_feb):
-        """February months of supply must be in plausible range."""
-        mos = car_report_feb['statewide']['months_of_supply']
-        assert 0.5 <= mos <= 12.0, f'Feb months_of_supply {mos} implausible'
+        """Only published months of supply are evidence for a plausibility check."""
+        _assert_real_tracking(car_report_feb, 'months_of_supply', (0.5, 12.0))
 
     def test_mar_months_supply_plausible(self, car_report_mar):
-        """March months of supply must be in plausible range."""
-        mos = car_report_mar['statewide']['months_of_supply']
-        assert 0.5 <= mos <= 12.0, f'Mar months_of_supply {mos} implausible'
+        _assert_real_tracking(car_report_mar, 'months_of_supply', (0.5, 12.0))
 
     def test_feb_dom_plausible(self, car_report_feb):
-        """February median days on market must be in plausible range (1–180)."""
-        dom = car_report_feb['statewide']['median_days_on_market']
-        assert 1 <= dom <= 180, f'Feb median_days_on_market {dom} implausible'
+        _assert_real_tracking(car_report_feb, 'median_days_on_market', (1, 180))
 
     def test_mar_dom_plausible(self, car_report_mar):
-        """March median days on market must be in plausible range (1–180)."""
-        dom = car_report_mar['statewide']['median_days_on_market']
-        assert 1 <= dom <= 180, f'Mar median_days_on_market {dom} implausible'
+        _assert_real_tracking(car_report_mar, 'median_days_on_market', (1, 180))
 
     def test_mar_greater_activity_than_feb(self, car_report_feb, car_report_mar):
-        """March should have higher closed_sales than February (spring seasonal)."""
-        feb_sales = car_report_feb['statewide']['closed_sales']
-        mar_sales = car_report_mar['statewide']['closed_sales']
-        assert mar_sales >= feb_sales, (
-            f'Expected Mar ({mar_sales}) ≥ Feb ({feb_sales}) closed_sales'
-        )
+        """The historical seasonal check applies only when both counts are real."""
+        if not any(_car_estimated(r, 'statewide') for r in (car_report_feb, car_report_mar)):
+            assert car_report_mar['statewide']['closed_sales'] >= car_report_feb['statewide']['closed_sales']
+        else:
+            for report in (car_report_feb, car_report_mar):
+                _assert_car_price(report['statewide'], 'median_sale_price', _car_estimated(report, 'statewide'))
 
     def test_metro_prices_less_than_statewide_or_premium(self, car_report_feb):
-        """Metro median prices should be within ±30% of statewide."""
-        sw_price = car_report_feb['statewide']['median_sale_price']
-        metros = car_report_feb.get('metro_areas', {})
-        for metro_key, metro in metros.items():
-            metro_price = metro.get('median_sale_price', 0)
-            if metro_price:
-                ratio = metro_price / sw_price
-                assert 0.5 <= ratio <= 1.5, (
-                    f'{metro_key}: price ratio {ratio:.2f} outside [0.5, 1.5] '
-                    f'(metro={metro_price}, state={sw_price})'
-                )
+        """Compare metro and statewide prices only when both scopes are real."""
+        sw = car_report_feb['statewide']
+        sw_estimated = _car_estimated(car_report_feb, 'statewide')
+        _assert_car_price(sw, 'median_sale_price', sw_estimated)
+        for metro in car_report_feb['metro_areas'].values():
+            metro_estimated = _car_estimated(car_report_feb, 'metro')
+            _assert_car_price(metro, 'median_sale_price', metro_estimated)
+            if not (sw_estimated or metro_estimated):
+                assert 0.5 <= metro['median_sale_price'] / sw['median_sale_price'] <= 1.5
+
+    def test_all_reports_check_real_prices_and_estimated_absence(self, car_reports):
+        """Real county rows keep the scan non-vacuous when all broad scopes are estimated."""
+        real_checked = 0
+        for report in car_reports:
+            for scope, rows in [('statewide', [report['statewide']]),
+                                ('metro', report['metro_areas'].values())]:
+                for row in rows:
+                    estimated = _car_estimated(report, scope)
+                    _assert_car_price(row, 'median_sale_price', estimated)
+                    for field in CAR_PRICE_FIELDS[1:]:
+                        if field in row:
+                            _assert_car_price(row, field, estimated)
+                    real_checked += not estimated
+            for county in report.get('counties', {}).values():
+                for kind in ('single_family', 'townhouse_condo'):
+                    row = county[kind]
+                    if _car_estimated(report, 'counties'):
+                        _assert_car_price(row, 'median_sale_price', True)
+                    elif row['closed_sales'] is None or row['closed_sales'] < 10:
+                        assert row['median_sale_price'] is None
+                        assert row.get('median_sale_price_unavailable_reason')
+                    else:
+                        _assert_car_price(row, 'median_sale_price', False)
+                        real_checked += 1
+        assert real_checked > 0, 'No real report or county price row was checked'
 
 
 # ---------------------------------------------------------------------------
@@ -416,25 +482,18 @@ class TestCarMarketSchema:
         assert missing_aliases == [], f'Missing legacy aliases: {missing_aliases}'
 
     def test_median_sale_price_matches_legacy(self, car_market):
-        """median_sale_price must equal _legacy_median_price."""
-        canonical = car_market.get('median_sale_price')
-        legacy = car_market.get('_legacy_median_price')
-        if legacy is not None:
-            assert canonical == legacy, (
-                f'median_sale_price ({canonical}) != _legacy_median_price ({legacy})'
-            )
+        """Aliases agree even when unpublished prices are null."""
+        assert car_market['median_sale_price'] == car_market['_legacy_median_price']
+        assert car_market['median_price_per_sqft'] == car_market['_legacy_price_per_sqft']
 
     def test_median_sale_price_plausible(self, car_market):
-        """car-market.json median_sale_price must be in plausible CO range."""
-        price = car_market.get('median_sale_price', 0)
-        assert 400_000 <= price <= 900_000, (
-            f'median_sale_price {price} outside expected range'
-        )
+        """The retained discovery snapshot follows the same publication policy."""
+        _assert_car_price(car_market, 'median_sale_price', _car_estimated(car_market, 'statewide'), (400_000, 900_000))
+        _assert_car_price(car_market, 'median_price_per_sqft', _car_estimated(car_market, 'statewide'))
 
     def test_list_to_sale_ratio_range(self, car_market):
-        """list_to_sale_ratio must be between 0.8 and 1.1."""
-        lsr = car_market.get('list_to_sale_ratio', 0)
-        assert 0.8 <= lsr <= 1.1, f'list_to_sale_ratio {lsr} outside plausible range'
+        """An unpublished price ratio is null; only a real ratio has a range."""
+        _assert_car_price(car_market, 'list_to_sale_ratio', _car_estimated(car_market, 'statewide'), (0.8, 1.1))
 
 
 # ---------------------------------------------------------------------------
@@ -647,21 +706,42 @@ class TestLihtcTrendsCoverage:
 
 class TestCrossFileTemporalConsistency:
     def test_car_market_feb_price_matches_report(self, car_market, car_report_feb):
-        """car-market.json median_sale_price must match Feb report statewide value."""
-        cm_price = car_market.get('median_sale_price')
-        feb_price = car_report_feb['statewide'].get('median_sale_price')
-        assert cm_price is not None and feb_price is not None
-        assert cm_price == feb_price, (
-            f'car-market.json price ({cm_price}) != Feb report price ({feb_price})'
-        )
+        """The discovery snapshot agrees on both price values and publication status."""
+        estimated = _car_estimated(car_report_feb, 'statewide')
+        assert _car_estimated(car_market, 'statewide') == estimated
+        for field in ('median_sale_price', 'median_price_per_sqft', 'list_to_sale_ratio'):
+            _assert_car_price(car_market, field, estimated)
+            assert car_market[field] == car_report_feb['statewide'][field]
+        if estimated:
+            assert car_market['estimated_reason'] == car_report_feb['statewide']['estimated_reason']
 
-    def test_mar_price_at_least_feb_price(self, car_report_feb, car_report_mar):
-        """March median price should be ≥ February (spring appreciation)."""
-        feb_price = car_report_feb['statewide']['median_sale_price']
-        mar_price = car_report_mar['statewide']['median_sale_price']
-        assert mar_price >= feb_price, (
-            f'Mar price ({mar_price}) should be ≥ Feb price ({feb_price})'
-        )
+    def test_monthly_price_ordering_uses_real_reports_only(self, car_reports):
+        """Months must advance; real prices may rise OR fall, never compound by fiat."""
+        previous = {}
+        checked_pairs = 0
+        for report in car_reports:
+            rows = [('statewide', 'statewide', report['statewide'])]
+            rows += [('metro', 'metro:' + key, row) for key, row in report['metro_areas'].items()]
+            rows += [('counties', f'{fips}:{kind}', row)
+                     for fips, county in report.get('counties', {}).items()
+                     for kind, row in county.items() if kind in ('single_family', 'townhouse_condo')]
+            for scope, key, row in rows:
+                if _car_estimated(report, scope):
+                    _assert_car_price(row, 'median_sale_price', True)
+                    continue
+                if row['median_sale_price'] is None:
+                    assert row.get('median_sale_price_unavailable_reason')
+                    continue
+                _assert_car_price(row, 'median_sale_price', False)
+                month = date.fromisoformat(report['month'] + '-01')
+                if key in previous:
+                    old_month, old_price = previous[key]
+                    assert month > old_month, (key, old_month, month)
+                    # A signed change between actual observations is valid in either direction.
+                    assert math.isfinite((row['median_sale_price'] - old_price) / old_price)
+                    checked_pairs += 1
+                previous[key] = (month, row['median_sale_price'])
+        assert checked_pairs > 0, 'No pair of real prices was checked'
 
     def test_fred_data_updated_field_exists(self, fred_data):
         """fred-data.json must have a top-level updated timestamp."""

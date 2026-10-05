@@ -5458,6 +5458,8 @@
 
     container.innerHTML =
       (answerMount ? '' : verdictHtml) +
+      (context && context.homeValueReview
+        ? '<p data-home-value-review="' + escHtml(context.homeValueReview.reason) + '">' + escHtml(context.homeValueReview.note) + '</p>' : '') +
       // The evidence, one click away rather than two thousand words deep.
       // Open by default would put the reader back where they started.
       '<details style="' + DETAIL_BOX + '">' +
@@ -5607,7 +5609,7 @@
           source: 'HNAUtils.AFFORD',
         } : null,
       });
-      renderAffordableOwnershipNeed(result, { permitContext: permitContext });
+      renderAffordableOwnershipNeed(result, { permitContext: permitContext, homeValueReview: homeValueEntry && homeValueEntry.review_flag });
       _renderOwnershipStrategyFromState(result, geoType, geoid, label, contextCounty);
     } catch (e) {
       console.warn('[HNA] tryRenderAffordableOwnershipNeedFromState failed', e);

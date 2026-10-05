@@ -2,8 +2,8 @@
  * generate-car-placeholder.mjs
  *
  * Generates a monthly CAR market report placeholder JSON file in data/.
- * When a previous month's file is found, values are estimated by applying
- * small seasonal growth factors rather than leaving all fields null.
+ * Tracking volumes may be estimated from the previous month and are labelled.
+ * Prices are never projected: unpublished price fields remain null.
  * Defaults to the current month; pass a YYYY-MM argument to target a specific month.
  *
  * Usage:
@@ -57,8 +57,8 @@ function loadPreviousReport(targetMonth) {
     if (fs.existsSync(candidate)) {
       try {
         const raw = JSON.parse(fs.readFileSync(candidate, 'utf8'));
-        // Only use it if key fields are non-null
-        if (raw.statewide && raw.statewide.median_sale_price !== null) {
+        // Price absence must not discard the available tracking-volume baseline.
+        if (raw.statewide) {
           return raw;
         }
       } catch (_) {
@@ -88,14 +88,14 @@ function growFloat(value, factor) {
 }
 
 /** Build a metro-area block from a previous value block, applying growth factors. */
-function estimateMetro(prev, priceFactor, listingFactor, domFactor) {
+function estimateMetro(prev, listingFactor, domFactor) {
   if (!prev) return buildNullMetro();
   return {
     name: prev.name,
-    median_sale_price: grow(prev.median_sale_price, priceFactor),
+    median_sale_price: null,
     active_listings: grow(prev.active_listings, listingFactor),
     median_days_on_market: growFloat(prev.median_days_on_market, domFactor),
-    median_price_per_sqft: growFloat(prev.median_price_per_sqft, priceFactor),
+    median_price_per_sqft: null,
     closed_sales: grow(prev.closed_sales, listingFactor),
     new_listings: grow(prev.new_listings, listingFactor),
     months_of_supply: growFloat(prev.months_of_supply, 1.0),
@@ -115,7 +115,7 @@ function buildNullMetro(name) {
   };
 }
 
-function buildPlaceholder(month, previous) {
+export function buildPlaceholder(month, previous) {
   const monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December',
@@ -123,16 +123,7 @@ function buildPlaceholder(month, previous) {
   const [yyyy, mm] = month.split('-');
   const monthName = monthNames[parseInt(mm, 10) - 1];
 
-  // Modest month-over-month growth assumptions derived from Colorado CAR historical data.
-  // PRICE_FACTOR: ~0.5% MoM is consistent with Colorado's ~6% annual appreciation trend
-  //   (CAR 2015-2024 average; conservative since peak appreciation was higher).
-  // LISTING_FACTOR: ~3% MoM reflects typical seasonal volume increase Feb→Mar→Apr.
-  //   Reduces automatically in fall/winter months because growth compounds from the
-  //   prior actual month rather than a fixed baseline.
-  // DOM_FACTOR: 0.5% tightening per month is a conservative estimate for active markets.
-  // These factors are only used when no actual CAR report data is available; the
-  // generated file should be replaced with real data as soon as CAR publishes it.
-  const PRICE_FACTOR    = 1.005;  // +0.5% MoM median price
+  // Tracking-volume estimates are labelled; no price-growth assumption is used.
   const LISTING_FACTOR  = 1.030;  // +3.0% MoM listing/sales volume
   const DOM_FACTOR      = 0.995;  // -0.5% MoM days on market
 
@@ -143,27 +134,25 @@ function buildPlaceholder(month, previous) {
   if (previous) {
     const s = previous.statewide;
     statewide = {
-      median_sale_price:       grow(s.median_sale_price, PRICE_FACTOR),
+      median_sale_price:       null,
       active_listings:         grow(s.active_listings, LISTING_FACTOR),
       median_days_on_market:   growFloat(s.median_days_on_market, DOM_FACTOR),
-      median_price_per_sqft:   growFloat(s.median_price_per_sqft, PRICE_FACTOR),
+      median_price_per_sqft:   null,
       closed_sales:            grow(s.closed_sales, LISTING_FACTOR),
       new_listings:            grow(s.new_listings, LISTING_FACTOR),
       months_of_supply:        growFloat(s.months_of_supply, 1.0),
-      list_to_sale_ratio:      s.list_to_sale_ratio !== null
-                                 ? Math.round(s.list_to_sale_ratio * 1000) / 1000
-                                 : null,
+      list_to_sale_ratio:      null,
     };
     const m = previous.metro_areas || {};
     metro_areas = {
-      denver:           estimateMetro(m.denver,           PRICE_FACTOR, LISTING_FACTOR, DOM_FACTOR),
-      colorado_springs: estimateMetro(m.colorado_springs, PRICE_FACTOR, LISTING_FACTOR, DOM_FACTOR),
-      fort_collins:     estimateMetro(m.fort_collins,     PRICE_FACTOR, LISTING_FACTOR, DOM_FACTOR),
-      boulder:          estimateMetro(m.boulder,          PRICE_FACTOR, LISTING_FACTOR, DOM_FACTOR),
-      pueblo:           estimateMetro(m.pueblo,           PRICE_FACTOR, LISTING_FACTOR, DOM_FACTOR),
-      grand_junction:   estimateMetro(m.grand_junction,   PRICE_FACTOR, LISTING_FACTOR, DOM_FACTOR),
+      denver:           estimateMetro(m.denver,           LISTING_FACTOR, DOM_FACTOR),
+      colorado_springs: estimateMetro(m.colorado_springs, LISTING_FACTOR, DOM_FACTOR),
+      fort_collins:     estimateMetro(m.fort_collins,     LISTING_FACTOR, DOM_FACTOR),
+      boulder:          estimateMetro(m.boulder,          LISTING_FACTOR, DOM_FACTOR),
+      pueblo:           estimateMetro(m.pueblo,           LISTING_FACTOR, DOM_FACTOR),
+      grand_junction:   estimateMetro(m.grand_junction,   LISTING_FACTOR, DOM_FACTOR),
     };
-    notes = `Estimated for ${monthName} ${yyyy} by trend-projection from ${previous.month}. Replace with official CAR report data when published.`;
+    notes = `Tracking volumes and days on market estimated for ${monthName} ${yyyy} by trend-projection from ${previous.month}. Prices not yet published by CAR; no price estimates are provided.`;
   } else {
     statewide = {
       median_sale_price: null, active_listings: null, median_days_on_market: null,
@@ -181,7 +170,7 @@ function buildPlaceholder(month, previous) {
     notes = `Placeholder for ${monthName} ${yyyy}. Update with actual CAR report data when available.`;
   }
 
-  return {
+  return applyPlaceholderPricePolicy({
     month,
     generated_at: new Date().toISOString(),
     // The figures below are NOT published CAR numbers — they are this month's
@@ -211,25 +200,48 @@ function buildPlaceholder(month, previous) {
     statewide,
     metro_areas,
     notes,
-  };
+  }, previous);
 }
 
-const month = getTargetMonth(process.argv[2]);
-const filename = `car-market-report-${month}.json`;
-const outPath = path.join(DATA_DIR, filename);
-
-if (fs.existsSync(outPath)) {
-  console.log(`File already exists, skipping: ${outPath}`);
-  process.exit(0);
+// Also usable on historical placeholders: preserve tracking data and provenance,
+// but remove invented prices. A prior published month is metadata, not a substitute price.
+export function applyPlaceholderPricePolicy(report, previous = null) {
+  const scopes = report.estimated_scopes || { statewide: report.estimated === true, metro: report.estimated === true };
+  function clearPrices(row, prior, priorEstimated) {
+    if (!row) return;
+    for (const key of ['median_sale_price', 'median_price_per_sqft', 'median_sale_price_yoy_pct', 'list_to_sale_ratio']) {
+      if (key in row || key === 'median_sale_price' || key === 'median_price_per_sqft') row[key] = null;
+    }
+    row.estimated_reason = 'price_not_published_by_car';
+    row.last_real_price_month = prior && !priorEstimated && prior.median_sale_price > 0
+      ? previous.month : (row.last_real_price_month || prior?.last_real_price_month || null);
+  }
+  const priorScopes = previous?.estimated_scopes || { statewide: previous?.estimated === true, metro: previous?.estimated === true };
+  if (scopes.statewide) clearPrices(report.statewide, previous?.statewide, priorScopes.statewide);
+  if (scopes.metro) for (const [key, row] of Object.entries(report.metro_areas || {})) {
+    clearPrices(row, previous?.metro_areas?.[key], priorScopes.metro);
+  }
+  return report;
 }
 
-const previous = loadPreviousReport(month);
-if (previous) {
-  console.log(`Using ${previous.month} as baseline for trend projection.`);
-} else {
-  console.log('No previous report found — generating null placeholder.');
-}
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const month = getTargetMonth(process.argv[2]);
+  const filename = `car-market-report-${month}.json`;
+  const outPath = path.join(DATA_DIR, filename);
 
-const data = buildPlaceholder(month, previous);
-fs.writeFileSync(outPath, JSON.stringify(data, null, 2) + '\n');
-console.log(`Created: ${outPath}`);
+  if (fs.existsSync(outPath)) {
+    console.log(`File already exists, skipping: ${outPath}`);
+    process.exit(0);
+  }
+
+  const previous = loadPreviousReport(month);
+  if (previous) {
+    console.log(`Using ${previous.month} as baseline for trend projection.`);
+  } else {
+    console.log('No previous report found — generating null placeholder.');
+  }
+
+  const data = buildPlaceholder(month, previous);
+  fs.writeFileSync(outPath, JSON.stringify(data, null, 2) + '\n');
+  console.log(`Created: ${outPath}`);
+}

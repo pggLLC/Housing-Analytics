@@ -721,7 +721,7 @@ test('ownership renderer receives permits doc from controller state for ownershi
   const controllerSrc = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
   assert.ok(rendererSrc.includes('function _ownPermitContextForSelection'), 'renderer has ownership permit context helper');
   assert.ok(rendererSrc.includes('stateRef.permitsDoc'), 'renderer reads permits doc from HNA state');
-  assert.ok(rendererSrc.includes('renderAffordableOwnershipNeed(result, { permitContext: permitContext })'), 'renderer passes permit context into ownership panel');
+  assert.match(rendererSrc, /renderAffordableOwnershipNeed\(result, \{ permitContext: permitContext(?:,| \})/, 'renderer passes permit context into ownership panel, alongside any other context');
   assert.ok(controllerSrc.includes('ownershipPermitsPromise'), 'controller starts ownership permit load');
   assert.ok(controllerSrc.includes('window.HNAState.state.permitsDoc = data'), 'controller caches permits doc on HNA state');
   assert.ok(controllerSrc.includes('if (ownershipPermitsPromise) await ownershipPermitsPromise'), 'ownership render waits for permit context load');
@@ -766,6 +766,17 @@ test('place ownership permit context does not fall back to county-only permit re
   assert.equal(html.includes('Single-family permit pace'), false, 'place render must not surface county-only permit data');
   assert.equal(html.includes('500/yr'), false, 'county-only SF permit pace must not leak into a place render');
   assert.equal(html.includes('Census BPS'), false, 'no BPS context row appears without a place permit record');
+
+  dom.window.HNAState.state.permitsDoc.places['0807850'] = {
+    avg_annual_sf_5yr: { value: 37.2, window: '2021-2025' },
+    avg_annual_total_5yr: { value: 61, window: '2021-2025' },
+  };
+  dom.window.HNARenderers.tryRenderAffordableOwnershipNeedFromState({}, 'place', '0807850', 'Boulder city', '08035');
+  const withPlace = dom.window.document.getElementById('hnaAffordableOwnershipNeed').textContent;
+  assert.ok(withPlace.includes('37/yr'), 'the actual state-to-panel handoff preserves the place permit value');
+  assert.ok(withPlace.includes('2021-2025 avg'), 'the handoff preserves the source window');
+  assert.ok(withPlace.includes('Census BPS'), 'the handoff preserves permit provenance');
+  dom.window.close();
 });
 
 test('combined add button preserves rejection warning by skipping update on false', () => {

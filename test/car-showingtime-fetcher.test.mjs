@@ -52,7 +52,8 @@ test('county-name decoding does not double-unescape encoded entities', () => {
   `;
   const rows = parseCountyRows(html, countyMap);
   assert.equal(rows['08999'].name, 'Fish &lt;script&gt; County');
-  assert.equal(rows['08999'].median_sale_price, 300000);
+  assert.equal(rows['08999'].median_sale_price, null);
+  assert.equal(rows['08999'].median_sale_price_unavailable_reason, 'fewer_than_10_closed_sales');
 });
 
 test('parseCountyRows extracts county rows from ShowingTime-shaped HTML', () => {
@@ -74,7 +75,8 @@ test('buildCountyReport returns 64 FIPS-keyed counties with both property types'
   assert.equal(Object.keys(report).length, 64);
   assert.equal(report['08001'].single_family.median_sale_price, 542500);
   assert.equal(report['08001'].townhouse_condo.median_sale_price, 355000);
-  assert.equal(report['08125'].single_family.median_sale_price, 70000);
+  assert.equal(report['08125'].single_family.median_sale_price, null);
+  assert.equal(report['08125'].single_family.median_sale_price_unavailable_reason, 'fewer_than_10_closed_sales');
   assert.equal(report['08125'].townhouse_condo.median_sale_price, null);
   assert.equal(report['08001'].single_family.months_of_supply, null);
   assert.equal(summary.county_count, 64);

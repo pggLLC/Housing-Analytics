@@ -1244,6 +1244,32 @@
     var countySf = countyRow && countyRow.single_family ? countyRow.single_family : null;
     var carAttribution = car.source || 'Colorado Association of REALTORS® (via ShowingTime, sourced from Colorado MLS)';
 
+    var carScopes = car.estimated_scopes;
+    if (!carScopes) {
+      var legacyAll = car.estimated === true ||
+        /\bestimated\b[\s\S]*\btrend-projection\b/i.test(String(car.notes || '')) ||
+        /^placeholder for /i.test(String(car.notes || ''));
+      carScopes = { counties: legacyAll, statewide: legacyAll, metro: legacyAll };
+    }
+    // Defend against older cached reports as well as newly sanitized files.
+    function priceMarkup(row, estimated, county) {
+      var reason = estimated || row.estimated === true || row.estimated_reason
+        ? 'price_not_published_by_car' : row.median_sale_price_unavailable_reason;
+      if (!reason && county && (row.closed_sales == null || row.closed_sales < 10)) {
+        reason = row.closed_sales == null ? 'closed_sales_missing' : 'fewer_than_10_closed_sales';
+      }
+      if (!reason && !(row.median_sale_price > 0)) reason = 'price_not_published_by_car';
+      if (reason) {
+        var label = reason === 'fewer_than_10_closed_sales' ? 'Unavailable — fewer than 10 closed sales'
+          : reason === 'closed_sales_missing' ? 'Unavailable — closed-sales count missing' : 'Not yet published by CAR';
+        if (reason === 'price_not_published_by_car' && row.last_real_price_month) {
+          label += ' (last published month: ' + row.last_real_price_month + ')';
+        }
+        return '<span data-car-price-unavailable="' + escHtml(reason) + '">' + escHtml(label) + '</span>';
+      }
+      return '<span data-car-price="' + row.median_sale_price + '">' + fmtK(row.median_sale_price) + '</span>';
+    }
+
     // Build metro area cards
     if (grid) {
       var html = '';
@@ -1252,7 +1278,7 @@
         html += '<div style="margin-bottom:.4rem"><strong style="font-size:.9rem">' + escHtml(countyRow.name || 'Selected county') + '</strong> ';
         html += '<span style="display:inline-block;background:var(--good);color:var(--on-good,#fff);font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">CAR county</span></div>';
         html += '<div style="font-size:.78rem;color:var(--muted)">';
-        html += '<div>Single-family median sale price: <strong style="color:var(--text)">' + fmtK(countySf.median_sale_price) + '</strong></div>';
+        html += '<div>Single-family median sale price: <strong style="color:var(--text)">' + priceMarkup(countySf, carScopes.counties, true) + '</strong></div>';
         html += '<div>Closed sales: ' + fmtWhole(countySf.closed_sales) + '</div>';
         html += '<div>New listings: ' + fmtWhole(countySf.new_listings) + '</div>';
         html += '<div>Homes for sale: ' + fmtWhole(countySf.active_listings) + '</div>';
@@ -1264,7 +1290,7 @@
         html += '<div style="margin-bottom:.4rem"><strong style="font-size:.9rem">' + (m.name || metroKeys[i]) + '</strong> ';
         html += '<span style="display:inline-block;background:var(--good);color:var(--on-good,#fff);font-size:.7rem;padding:.15rem .45rem;border-radius:4px;vertical-align:middle">CAR</span></div>';
         html += '<div style="font-size:.78rem;color:var(--muted)">';
-        html += '<div>Median sale price: <strong style="color:var(--text)">' + fmtK(m.median_sale_price) + '</strong></div>';
+        html += '<div>Median sale price: <strong style="color:var(--text)">' + priceMarkup(m, carScopes.metro, false) + '</strong></div>';
         html += '<div>Days on market: ' + (m.median_days_on_market != null ? m.median_days_on_market : 'N/A') + '</div>';
         html += '<div>Months of supply: ' + (m.months_of_supply != null ? m.months_of_supply : 'N/A') + '</div>';
         html += '</div></div>';
@@ -1287,7 +1313,7 @@
     if (swEl) {
       var swHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Statewide Context</strong>';
       swHtml += '<div style="font-size:.82rem;color:var(--muted)">';
-      swHtml += '<div style="margin-bottom:.3rem">Median sale price: <strong style="color:var(--text)">' + fmtK(sw.median_sale_price) + '</strong></div>';
+      swHtml += '<div style="margin-bottom:.3rem">Median sale price: <strong style="color:var(--text)">' + priceMarkup(sw, carScopes.statewide, false) + '</strong></div>';
       swHtml += '<div style="margin-bottom:.3rem">Days on market: <strong style="color:var(--text)">' + (sw.median_days_on_market != null ? sw.median_days_on_market : 'N/A') + '</strong></div>';
       swHtml += '<div style="margin-bottom:.3rem">Months of supply: <strong style="color:var(--text)">' + (sw.months_of_supply != null ? sw.months_of_supply : 'N/A') + '</strong></div>';
       swHtml += '<div style="margin-bottom:.3rem">Active listings: <strong style="color:var(--text)">' + (sw.active_listings != null ? sw.active_listings.toLocaleString() : 'N/A') + '</strong></div>';
@@ -1298,39 +1324,7 @@
       swEl.innerHTML = swHtml;
     }
 
-    // Update the description and data attribution
-    // Monthly CAR files between published reports are generated by
-    // scripts/generate-car-placeholder.mjs, which projects the previous
-    // month's values forward by fixed growth factors. Those files still
-    // declare source: "Colorado Association of REALTORS (CAR)", so rendering
-    // the attribution alone presented a projection as a published CAR figure
-    // — Denver Metro's "$577k" for 2026-09 is projected, not reported.
-    // Say so before the numbers, not in a file field nobody sees.
-    // Estimation is PER SCOPE, because a month is routinely both at once.
-    // ShowingTime publishes county rows and no statewide row, so a month can
-    // carry 64 counties of real MLS data alongside statewide and metro figures
-    // that are still last month's grown by fixed factors. One boolean forced a
-    // choice between two false statements, and the repo shipped each in turn:
-    // labelling real county data "projected", then presenting four months of
-    // projected statewide figures (2026-05..08, each exactly 1.005x the month
-    // before) as published CAR numbers.
-    //
-    // `estimated_scopes` says which parts. When it is absent — an older file,
-    // or one written before the field existed — fall back to exactly the
-    // detection this page used before (the old boolean plus the notes text),
-    // so nothing the previous version caught is lost. That fallback is
-    // deliberately not "assume everything is projected": over-warning is the
-    // other half of this bug, and it would label genuinely published CAR
-    // months as estimates. What the heuristics cannot see, the arithmetic
-    // check in test/car-estimate-disclosure.test.js does, by recomputing the
-    // projection from the previous month.
-    var carScopes = car.estimated_scopes;
-    if (!carScopes) {
-      var legacyAll = car.estimated === true ||
-        /\bestimated\b[\s\S]*\btrend-projection\b/i.test(String(car.notes || '')) ||
-        /^placeholder for /i.test(String(car.notes || ''));
-      carScopes = { counties: legacyAll, statewide: legacyAll, metro: legacyAll };
-    }
+    // Tracking estimates are labelled by scope; estimated prices are never figures.
     var projectedScopes = [];
     if (carScopes.statewide) projectedScopes.push('statewide');
     if (carScopes.metro) projectedScopes.push('metro-area');
@@ -1342,16 +1336,16 @@
     if (estimateNoticeEl) {
       if (allProjected) {
         estimateNoticeEl.textContent =
-          'Projected figures — ' + (car.month || 'this month') + ' has no published CAR report yet. ' +
-          'Values are trend-projected from the last published month and will be replaced when CAR publishes.';
+          'Estimated tracking figures — ' + (car.month || 'this month') + '. ' +
+          'Volumes and days on market are trend projections; prices are withheld until CAR publishes.';
         estimateNoticeEl.hidden = false;
       } else if (carEstimated) {
         // Name what is real as well as what is not. A reader who is told only
         // "some figures are projected" has to distrust all of them, which
         // throws away the county data that is genuinely published.
         estimateNoticeEl.textContent =
-          'Mixed sources — the ' + projectedScopes.join(' and ') + ' figures below are ' +
-          'trend-projected from the last published month, not reported by CAR. ' +
+          'Mixed sources — the ' + projectedScopes.join(' and ') + ' tracking figures below are ' +
+          'trend-projected, not reported by CAR; their prices are withheld. ' +
           'County figures are published ShowingTime/MLS data for ' + (car.month || 'this month') + '.';
         estimateNoticeEl.hidden = false;
       } else {
@@ -1396,8 +1390,10 @@
     return urls;
   }
 
-  function hasRealCARStatewide(car) {
-    return !!(car && car.statewide && car.statewide.median_sale_price);
+  function hasCARReport(car) {
+    // A missing statewide price must not hide published county rows or the
+    // explicit unpublished state in a tracking-only placeholder.
+    return !!(car && (car.statewide || car.metro_areas || car.counties));
   }
 
   function countyInCARReport(car, selectedCounty) {
@@ -1423,7 +1419,7 @@
       return fetcher(urls[i])
         .then(function (resp) { return resp.ok ? resp.json() : null; })
         .then(function (car) {
-          if (!hasRealCARStatewide(car)) return loadAt(i + 1, fallback);
+          if (!hasCARReport(car)) return loadAt(i + 1, fallback);
           if (countyInCARReport(car, selectedCounty)) {
             render(car);
             return true;
@@ -1450,7 +1446,8 @@
 
   window.__HNA_CAR_TEST__ = {
     buildCARFallbackUrls: buildCARFallbackUrls,
-    hasRealCARStatewide: hasRealCARStatewide,
+    hasCARReport: hasCARReport,
+    renderCARFallback: renderCARFallback,
     countyInCARReport: countyInCARReport,
     tryLoadCARFallback: tryLoadCARFallback
   };

@@ -147,6 +147,18 @@ function emptyCountyMetricBlock() {
   };
 }
 
+// A monthly median based on fewer than ten closed sales is not a stable
+// county price signal. Keep the reported sales count; suppress the price and YoY.
+export function applyCountyPriceFloor(row) {
+  if (row.closed_sales == null || row.closed_sales < 10) {
+    row.median_sale_price = null;
+    row.median_sale_price_yoy_pct = null;
+    row.median_sale_price_unavailable_reason = row.closed_sales == null
+      ? 'closed_sales_missing' : 'fewer_than_10_closed_sales';
+  }
+  return row;
+}
+
 function parseCountyRows(html, countyMap = loadCountyMap()) {
   const counties = {};
   const rows = extractRows(html);
@@ -154,7 +166,7 @@ function parseCountyRows(html, countyMap = loadCountyMap()) {
     const countyName = textFromNameCell(cells[0]);
     const hit = countyMap.get(normalizeCountyName(countyName));
     if (!hit || cells.length < 9) continue;
-    counties[hit.fips] = {
+    counties[hit.fips] = applyCountyPriceFloor({
       name: hit.name,
       ...emptyCountyMetricBlock(),
       closed_sales: parseNumber(cells[1]),
@@ -165,7 +177,7 @@ function parseCountyRows(html, countyMap = loadCountyMap()) {
       median_sale_price_yoy_pct: parseNumber(cells[6], { pct: true }),
       active_listings: parseNumber(cells[7]),
       active_listings_yoy_pct: parseNumber(cells[8], { pct: true }),
-    };
+    });
   }
   return counties;
 }
