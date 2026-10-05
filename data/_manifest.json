@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-05T11:42:40.822Z",
+    "generated_at": "2026-10-05T12:10:15.450Z",
     "root": "data/",
     "file_count": 1695,
-    "total_size_bytes": 176623048,
+    "total_size_bytes": 176706328,
     "kinds": {
       "json": 1658,
       "geojson": 33,
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-05T05:09:36.315Z",
+      "mtime": "2026-10-05T12:10:12.593Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -581,8 +581,8 @@
     {
       "path": "car-market-report-2026-02.json",
       "kind": "json",
-      "size_bytes": 2455,
-      "mtime": "2026-09-25T12:55:18.601Z",
+      "size_bytes": 3083,
+      "mtime": "2026-10-05T12:08:59.206Z",
       "shape": "object",
       "keys": [
         "month",
@@ -605,8 +605,8 @@
     {
       "path": "car-market-report-2026-03.json",
       "kind": "json",
-      "size_bytes": 2456,
-      "mtime": "2026-09-25T12:55:18.601Z",
+      "size_bytes": 3081,
+      "mtime": "2026-10-05T12:08:59.206Z",
       "shape": "object",
       "keys": [
         "month",
@@ -629,8 +629,8 @@
     {
       "path": "car-market-report-2026-04.json",
       "kind": "json",
-      "size_bytes": 2491,
-      "mtime": "2026-09-25T12:55:18.601Z",
+      "size_bytes": 3116,
+      "mtime": "2026-10-05T12:08:59.206Z",
       "shape": "object",
       "keys": [
         "month",
@@ -653,8 +653,8 @@
     {
       "path": "car-market-report-2026-05.json",
       "kind": "json",
-      "size_bytes": 65839,
-      "mtime": "2026-09-25T12:55:18.601Z",
+      "size_bytes": 72077,
+      "mtime": "2026-10-05T12:08:59.206Z",
       "shape": "object",
       "keys": [
         "month",
@@ -679,8 +679,8 @@
     {
       "path": "car-market-report-2026-06.json",
       "kind": "json",
-      "size_bytes": 65831,
-      "mtime": "2026-09-25T12:55:18.602Z",
+      "size_bytes": 71993,
+      "mtime": "2026-10-05T12:08:59.206Z",
       "shape": "object",
       "keys": [
         "month",
@@ -705,8 +705,8 @@
     {
       "path": "car-market-report-2026-07.json",
       "kind": "json",
-      "size_bytes": 65845,
-      "mtime": "2026-09-25T12:55:18.602Z",
+      "size_bytes": 71766,
+      "mtime": "2026-10-05T12:08:59.206Z",
       "shape": "object",
       "keys": [
         "month",
@@ -731,8 +731,8 @@
     {
       "path": "car-market-report-2026-08.json",
       "kind": "json",
-      "size_bytes": 66195,
-      "mtime": "2026-10-04T07:08:36.532Z",
+      "size_bytes": 72281,
+      "mtime": "2026-10-05T12:08:59.206Z",
       "shape": "object",
       "keys": [
         "month",
@@ -757,8 +757,8 @@
     {
       "path": "car-market-report-2026-09.json",
       "kind": "json",
-      "size_bytes": 2529,
-      "mtime": "2026-09-25T12:55:18.602Z",
+      "size_bytes": 3154,
+      "mtime": "2026-10-05T12:08:59.206Z",
       "shape": "object",
       "keys": [
         "month",
@@ -781,8 +781,8 @@
     {
       "path": "car-market-report-2026-10.json",
       "kind": "json",
-      "size_bytes": 2494,
-      "mtime": "2026-10-01T04:28:11.729Z",
+      "size_bytes": 3121,
+      "mtime": "2026-10-05T12:08:59.206Z",
       "shape": "object",
       "keys": [
         "month",
@@ -805,8 +805,8 @@
     {
       "path": "car-market.json",
       "kind": "json",
-      "size_bytes": 514,
-      "mtime": "2026-09-25T12:55:18.602Z",
+      "size_bytes": 734,
+      "mtime": "2026-10-05T12:08:59.206Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -824,7 +824,7 @@
         "_legacy_median_dom",
         "_legacy_price_per_sqft"
       ],
-      "key_count": 14,
+      "key_count": 18,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -3152,8 +3152,8 @@
     {
       "path": "hna/home-value-cascade.json",
       "kind": "json",
-      "size_bytes": 133277,
-      "mtime": "2026-09-25T12:55:18.654Z",
+      "size_bytes": 133724,
+      "mtime": "2026-10-05T12:08:59.255Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -3169,8 +3169,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08001.json",
       "kind": "json",
-      "size_bytes": 40129,
-      "mtime": "2026-10-04T10:47:08.855Z",
+      "size_bytes": 40126,
+      "mtime": "2026-10-05T12:08:59.256Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3606,8 +3606,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08021.json",
       "kind": "json",
-      "size_bytes": 40017,
-      "mtime": "2026-10-04T10:47:08.897Z",
+      "size_bytes": 40027,
+      "mtime": "2026-10-05T12:08:59.259Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3625,8 +3625,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08023.json",
       "kind": "json",
-      "size_bytes": 40025,
-      "mtime": "2026-10-04T10:47:08.895Z",
+      "size_bytes": 40017,
+      "mtime": "2026-10-05T12:08:59.259Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3834,8 +3834,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08033.json",
       "kind": "json",
-      "size_bytes": 40002,
-      "mtime": "2026-10-04T10:47:08.905Z",
+      "size_bytes": 40012,
+      "mtime": "2026-10-05T12:08:59.260Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4271,8 +4271,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08055.json",
       "kind": "json",
-      "size_bytes": 40027,
-      "mtime": "2026-10-04T10:47:08.899Z",
+      "size_bytes": 40020,
+      "mtime": "2026-10-05T12:08:59.262Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4290,8 +4290,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08057.json",
       "kind": "json",
-      "size_bytes": 39998,
-      "mtime": "2026-10-04T10:47:08.880Z",
+      "size_bytes": 40008,
+      "mtime": "2026-10-05T12:08:59.262Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4404,8 +4404,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08063.json",
       "kind": "json",
-      "size_bytes": 40013,
-      "mtime": "2026-10-04T10:47:08.898Z",
+      "size_bytes": 40027,
+      "mtime": "2026-10-05T12:08:59.262Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4556,8 +4556,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08071.json",
       "kind": "json",
-      "size_bytes": 40048,
-      "mtime": "2026-10-04T10:47:08.892Z",
+      "size_bytes": 40049,
+      "mtime": "2026-10-05T12:08:59.263Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4613,8 +4613,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08073.json",
       "kind": "json",
-      "size_bytes": 39998,
-      "mtime": "2026-10-04T10:47:08.902Z",
+      "size_bytes": 40008,
+      "mtime": "2026-10-05T12:08:59.263Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5031,8 +5031,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08089.json",
       "kind": "json",
-      "size_bytes": 40046,
-      "mtime": "2026-10-04T10:47:08.887Z",
+      "size_bytes": 40056,
+      "mtime": "2026-10-05T12:08:59.264Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5145,8 +5145,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08095.json",
       "kind": "json",
-      "size_bytes": 40023,
-      "mtime": "2026-10-04T10:47:08.904Z",
+      "size_bytes": 40033,
+      "mtime": "2026-10-05T12:08:59.265Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5221,8 +5221,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08101.json",
       "kind": "json",
-      "size_bytes": 40103,
-      "mtime": "2026-10-04T10:47:08.866Z",
+      "size_bytes": 40095,
+      "mtime": "2026-10-05T12:08:59.265Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5259,8 +5259,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08103.json",
       "kind": "json",
-      "size_bytes": 40024,
-      "mtime": "2026-10-04T10:47:08.895Z",
+      "size_bytes": 40025,
+      "mtime": "2026-10-05T12:08:59.265Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5278,8 +5278,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08105.json",
       "kind": "json",
-      "size_bytes": 40042,
-      "mtime": "2026-10-04T10:47:08.902Z",
+      "size_bytes": 40052,
+      "mtime": "2026-10-05T12:08:59.265Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5335,8 +5335,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08109.json",
       "kind": "json",
-      "size_bytes": 40030,
-      "mtime": "2026-10-04T10:47:08.887Z",
+      "size_bytes": 40022,
+      "mtime": "2026-10-05T12:08:59.265Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -16902,8 +16902,8 @@
     {
       "path": "hna/ownership-need.json",
       "kind": "json",
-      "size_bytes": 719692,
-      "mtime": "2026-10-04T10:47:08.688Z",
+      "size_bytes": 719847,
+      "mtime": "2026-10-05T12:08:59.302Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -30998,8 +30998,8 @@
     {
       "path": "market/fhfa_hpi_subcounty_co.json",
       "kind": "json",
-      "size_bytes": 524279,
-      "mtime": "2026-09-25T12:55:18.851Z",
+      "size_bytes": 579148,
+      "mtime": "2026-10-05T12:08:59.432Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31937,7 +31937,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14803,
-      "mtime": "2026-10-05T05:09:38.123Z",
+      "mtime": "2026-10-05T12:10:14.038Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31960,7 +31960,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-05T05:09:37.703Z",
+      "mtime": "2026-10-05T12:10:13.704Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
