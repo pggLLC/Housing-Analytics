@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-10-04T13:10:05.696Z",
+  "scanTimestamp": "2026-10-05T15:57:29.180Z",
   "totalScanned": 1700,
   "newSourceCount": 1669,
   "existingCount": 30,
@@ -146,43 +146,43 @@
     },
     {
       "path": "data/car-market-report-2026-04.json",
-      "sizeBytes": 2491,
+      "sizeBytes": 3116,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/car-market-report-2026-05.json",
-      "sizeBytes": 65839,
+      "sizeBytes": 72077,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/car-market-report-2026-06.json",
-      "sizeBytes": 65831,
+      "sizeBytes": 71993,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/car-market-report-2026-07.json",
-      "sizeBytes": 65845,
+      "sizeBytes": 71766,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/car-market-report-2026-08.json",
-      "sizeBytes": 66195,
+      "sizeBytes": 72281,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/car-market-report-2026-09.json",
-      "sizeBytes": 2529,
+      "sizeBytes": 3154,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/car-market-report-2026-10.json",
-      "sizeBytes": 2494,
+      "sizeBytes": 3121,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -278,7 +278,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 257717,
+      "sizeBytes": 257866,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -782,13 +782,13 @@
     },
     {
       "path": "data/hna/home-value-cascade.json",
-      "sizeBytes": 133277,
+      "sizeBytes": 133724,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08001.json",
-      "sizeBytes": 40129,
+      "sizeBytes": 40126,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -926,13 +926,13 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08021.json",
-      "sizeBytes": 40017,
+      "sizeBytes": 40027,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08023.json",
-      "sizeBytes": 40025,
+      "sizeBytes": 40017,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -998,7 +998,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08033.json",
-      "sizeBytes": 40002,
+      "sizeBytes": 40012,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1136,13 +1136,13 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08055.json",
-      "sizeBytes": 40027,
+      "sizeBytes": 40020,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08057.json",
-      "sizeBytes": 39998,
+      "sizeBytes": 40008,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1178,7 +1178,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08063.json",
-      "sizeBytes": 40013,
+      "sizeBytes": 40027,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1226,7 +1226,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08071.json",
-      "sizeBytes": 40048,
+      "sizeBytes": 40049,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1244,7 +1244,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08073.json",
-      "sizeBytes": 39998,
+      "sizeBytes": 40008,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1376,7 +1376,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08089.json",
-      "sizeBytes": 40046,
+      "sizeBytes": 40056,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1412,7 +1412,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08095.json",
-      "sizeBytes": 40023,
+      "sizeBytes": 40033,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1436,7 +1436,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08101.json",
-      "sizeBytes": 40103,
+      "sizeBytes": 40095,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1448,13 +1448,13 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08103.json",
-      "sizeBytes": 40024,
+      "sizeBytes": 40025,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08105.json",
-      "sizeBytes": 40042,
+      "sizeBytes": 40052,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1472,7 +1472,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08109.json",
-      "sizeBytes": 40030,
+      "sizeBytes": 40022,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4856,7 +4856,7 @@
     },
     {
       "path": "data/hna/ownership-need.json",
-      "sizeBytes": 719692,
+      "sizeBytes": 719847,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9056,7 +9056,7 @@
     },
     {
       "path": "data/market/fhfa_hpi_subcounty_co.json",
-      "sizeBytes": 524279,
+      "sizeBytes": 579148,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9116,7 +9116,7 @@
     },
     {
       "path": "data/market/hud_zip_tract_crosswalk_co.json",
-      "sizeBytes": 793484,
+      "sizeBytes": 794427,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9314,7 +9314,7 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 14803,
+      "sizeBytes": 14801,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9338,7 +9338,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08001.json",
-      "sizeBytes": 14198,
+      "sizeBytes": 15762,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9896,7 +9896,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 12578,
+      "sizeBytes": 12557,
       "inDataManifest": false,
       "inFilesManifest": true
     },

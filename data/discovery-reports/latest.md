@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-10-04T13:10:05.696Z
+**Scan timestamp:** 2026-10-05T15:57:29.180Z
 
 ## Summary
 
@@ -37,13 +37,13 @@
 - `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/benchmarks/str-license-counts.json` (3 KB)
 - `data/capital-partners.json` (13 KB)
-- `data/car-market-report-2026-04.json` (2 KB)
-- `data/car-market-report-2026-05.json` (64 KB)
-- `data/car-market-report-2026-06.json` (64 KB)
-- `data/car-market-report-2026-07.json` (64 KB)
-- `data/car-market-report-2026-08.json` (65 KB)
-- `data/car-market-report-2026-09.json` (2 KB)
-- `data/car-market-report-2026-10.json` (2 KB)
+- `data/car-market-report-2026-04.json` (3 KB)
+- `data/car-market-report-2026-05.json` (70 KB)
+- `data/car-market-report-2026-06.json` (70 KB)
+- `data/car-market-report-2026-07.json` (70 KB)
+- `data/car-market-report-2026-08.json` (71 KB)
+- `data/car-market-report-2026-09.json` (3 KB)
+- `data/car-market-report-2026-10.json` (3 KB)
 - `data/census-multifamily-co.json` (116 KB)
 - `data/chfa-income-rent-limits-2026.json` (500 KB)
 - `data/chfa-qap-calendar.json` (18 KB)
@@ -143,7 +143,7 @@
 - `data/hna/geo-config.json` (64 KB)
 - `data/hna/geography-registry.json` (120 KB)
 - `data/hna/hna-views.json` (12 KB)
-- `data/hna/home-value-cascade.json` (130 KB)
+- `data/hna/home-value-cascade.json` (131 KB)
 - `data/hna/jurisdiction-metrics-digest/08001.json` (39 KB)
 - `data/hna/jurisdiction-metrics-digest/08003.json` (39 KB)
 - `data/hna/jurisdiction-metrics-digest/0800320.json` (39 KB)
@@ -1522,7 +1522,7 @@
 - `data/market/environmental_constraints_co.geojson` (499 KB)
 - `data/market/epa_sld_bg_geometry_co.geojson` (2495 KB)
 - `data/market/epa_sld_co.json` (1120 KB)
-- `data/market/fhfa_hpi_subcounty_co.json` (512 KB)
+- `data/market/fhfa_hpi_subcounty_co.json` (566 KB)
 - `data/market/flood_zones_co.geojson` (5993 KB)
 - `data/market/flood_zones_co.json` (605 KB)
 - `data/market/fmr_co.json` (22 KB)
@@ -1532,7 +1532,7 @@
 - `data/market/hospitals_co.geojson` (74 KB)
 - `data/market/housing_policy_jurisdictions_co.geojson` (1195 KB)
 - `data/market/hud_egis_co.geojson` (55 KB)
-- `data/market/hud_zip_tract_crosswalk_co.json` (775 KB)
+- `data/market/hud_zip_tract_crosswalk_co.json` (776 KB)
 - `data/market/inclusionary_zoning_co.json` (7 KB)
 - `data/market/landuse_zoning_proxy_co.geojson` (4787 KB)
 - `data/market/lihtc-equity-pricing-history.json` (2 KB)
@@ -1569,7 +1569,7 @@
 - `data/paper/model-parameters.json` (6 KB)
 - `data/pipeline/content.json` (43 KB)
 - `data/policy/affordability-models.json` (14 KB)
-- `data/policy/ballot-2026/counties/08001.json` (14 KB)
+- `data/policy/ballot-2026/counties/08001.json` (15 KB)
 - `data/policy/ballot-2026/counties/08003.json` (6 KB)
 - `data/policy/ballot-2026/counties/08005.json` (26 KB)
 - `data/policy/ballot-2026/counties/08007.json` (4 KB)
