@@ -24,6 +24,7 @@
   function textNum(id) {
     var el = $(id);
     if (!el) return 0;
+    if (el.dataset.unavailableReason) return NaN;
     var raw = el.textContent.replace(/[^0-9.\-]/g, '');
     var v = parseFloat(raw);
     return isFinite(v) ? v : 0;
@@ -229,6 +230,17 @@
   function update() {
     if (!_containerId) return;
     var base = readBaseYear();
+    // A reason may contain a unit count. Never parse that count as rent or
+    // carry the previous projection forward while the rent roll is unknown.
+    var blocked = ['dc-r-rents', 'dc-r-mortgage'].map($).find(function (el) {
+      return el && el.dataset.unavailableReason;
+    });
+    if (blocked) {
+      var unavailableWrap = $('pf-table-wrap');
+      if (unavailableWrap) unavailableWrap.textContent = blocked.textContent;
+      if (_chart) { _chart.destroy(); _chart = null; }
+      return;
+    }
 
     // If auto-NOI is not enabled or rents are zero, show a helpful message
     var autoNoiEl = $('dc-auto-noi');
