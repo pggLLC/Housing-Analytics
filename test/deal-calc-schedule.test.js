@@ -188,7 +188,12 @@ async function test(name, fn) {
           const gross = limits.maxGrossRent(chfa, fips, r.ami_tier, r.bedrooms).grossRent;
           return sum + limits.maxContractRent({ grossRent: gross, utilityAllowance: r.utility_allowance, fees: r.fees }).contractRent * r.count * 12;
         }, 0);
-        assert.equal(text(w, 'dc-r-rents'), money(expected));
+        // Manual mode leaves three unrestricted homes after copying supported
+        // tiers. The 5:1:1 grid bedroom mix allocates two to 2BR and one to
+        // efficiency (the first column wins the equal remainder).
+        const market = w.__DealCalc.getZoriPerBrRent(fips);
+        const marketRevenue = (2 * market['2br'] + market.studio) * 12;
+        assert.equal(text(w, 'dc-r-rents'), money(expected + marketRevenue));
       } finally { w.close(); }
     }
   });
