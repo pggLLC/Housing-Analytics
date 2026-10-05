@@ -3,6 +3,7 @@
  * dated stale observations and explicit absence all reach screen and report. */
 
 import assert from 'node:assert';
+import vm from 'node:vm';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
@@ -18,6 +19,9 @@ const Evidence = require('../js/market/sale-price-evidence.js');
 const StudyGeography = require('../js/project-market-study/study-geography.js');
 const ProjectScenario = require('../js/project-market-study/project-scenario.js');
 const Page = require('../js/project-market-study/market-study-page.js');
+const context = {window:{}};
+vm.runInNewContext(read('js/hna/hna-ownership-need.js'), context);
+const engines = { HNAOwnershipNeed: context.window.HNAOwnershipNeed, EffectiveDemand: require('../js/project-market-study/effective-demand.js') };
 
 const TRACKER = 'data/market/redfin_place_market_tracker_co.json';
 const CONTEXT = {
@@ -203,7 +207,7 @@ function renderFor(geoid, name) {
     + '<button id="marketStudyReportDownload"></button></main>',
     { url: 'http://127.0.0.1/for-sale-market-study.html' });
   const geography = StudyGeography.inputs(
-    { geoid, geoLevel: 'place', name },
+    { geoid, geoLevel: 'place', name, countyFips: CONTEXT.tracker.places[geoid]?.county_fips },
     {
       placeChas: json('data/hna/place-chas.json'),
       countyChas: json('data/hna/chas_affordability_gap.json'),
@@ -213,12 +217,12 @@ function renderFor(geoid, name) {
       summary: null,
       salePriceEvidence: Evidence.forPlace(geoid, CONTEXT)
     },
-    { HNAOwnershipNeed: null, EffectiveDemand: null });
+    engines);
   const data = {
     scenarios, conventions, reportAsOf: scenarios[0].meta.as_of,
     geography,
     localBaseline: geography.localBaseline,
-    observed: null
+    observed: StudyGeography.observedFor(geography, scenarios[0], engines.EffectiveDemand)
   };
   const mount = dom.window.document.getElementById('mount');
   Page.render(mount, Page.buildModel(data, {}), data);
