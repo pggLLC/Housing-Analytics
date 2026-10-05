@@ -37,6 +37,7 @@ for(const [geoid,place] of Object.entries(doc.places)) {
   if(direct)observed++;else {assert.equal(place.source_level,'redfin_zip_to_place_modeled');modeled++;}
   for(const row of place.monthly) {
     assert.match(row.period,/^\d{4}-\d{2}$/);
+    assert.equal(row.period,row.period_end.slice(0,7),'reported month is the end of the published window');
     assert(direct ? [30,90].includes(row.source_period_duration_days) : row.source_period_duration_days===90);
     assert(row.homes_sold_allocated>=5);
     assert(row.median_sale_price>0);
