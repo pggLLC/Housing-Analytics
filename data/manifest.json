@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-05T05:09:43.867064Z",
+  "generated": "2026-10-05T11:42:44.860004Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7694,7 +7694,7 @@
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 793484
+      "bytes": 794427
     },
     "data/market/inclusionary_zoning_co.json": {
       "featureCount": 0,
