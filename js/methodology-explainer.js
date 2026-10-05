@@ -155,9 +155,9 @@
       function (v) { return Math.max(0, v.cost - v.price); }, function (v) { return 'At least zero: ' + money(v.cost) + ' cost per home − ' + money(v.price) + ' affordable price'; }, money); }
   };
   METHODOLOGY_REGISTRY['scheduled-rent-revenue'] = {
-    title: 'Scheduled rent revenue', what: 'Annual rent before vacancy and expenses in the Market Analysis schedule screening scenario.',
-    how: 'For each restricted row, entered gross rent at or below the CHFA limit minus utility allowance and fees gives contract rent. Multiply each row’s contract rent (or sourced market rent) by its units and twelve months, then add the rows. The calculator does not deduct the allowance again.',
-    source: 'Market Analysis subject schedule, its CHFA table, allowance basis and market-rent citations, with their dates and county recorded below.',
+    title: 'Scheduled rent revenue', what: 'Annual rent before vacancy and expenses in this screening scenario.',
+    how: 'For each restricted row, entered gross rent at or below the CHFA limit minus utility allowance and fees gives contract rent. Multiply each row’s contract rent (or sourced market rent) by its units and twelve months, then add the rows. Schedule contract rents already include deductions. In the manual grid, restricted rents use the selected ceiling and allowance rules; unrestricted rents use county ZORI bedroom estimates or a sourced override.',
+    source: 'The active rent schedule or manual grid, its rent-limit table, allowance basis and market-rent sources, with their dates and county recorded below.',
     next: 'Check rent sources and vacancy before using revenue in the expense and financing screen.',
     compute: function (c) {
       if (!c || c.unavailableReason) return unavailable(c && c.unavailableReason || 'the Market Analysis schedule is unavailable');
