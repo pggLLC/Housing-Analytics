@@ -44,7 +44,10 @@ assert(flags.some((row) => row.geoid === '0803620' && row.ratio > 3), 'Aspen sho
 assert.equal(cascade.meta.counts.total, 482, 'home-value cascade should cover all Colorado places in the public HNA set');
 assert.equal(cascade.meta.counts.counties.total, 64, 'home-value cascade should cover all Colorado counties');
 assert.equal(cascade.meta.counts.counties.acs_raw, 64, 'county home values should be populated from committed ACS summaries when no county ZHVI CSV exists');
-assert.equal(cascade.meta.counts.counties.fhfa_county_hpi_anchor, 64, 'county rows with FHFA coverage should carry FHFA HPI anchors');
+const annualHpi = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/market/fhfa_hpi_subcounty_co.json'), 'utf8'));
+const coveredCounties = Object.values(annualHpi.counties).filter(r => r.hpi_by_year?.[2024] > 0 && r.hpi_by_year?.[r.latest_year] > 0);
+assert(coveredCounties.length > 0, 'annual FHFA coverage must be non-empty');
+assert.equal(cascade.meta.counts.counties.fhfa_county_hpi_anchor, coveredCounties.length, 'county adjustments require actual annual FHFA observations');
 
 for (const geoid of ['08097', '08045']) {
   const row = cascade.counties && cascade.counties[geoid];
@@ -55,11 +58,12 @@ for (const geoid of ['08097', '08045']) {
   assert.equal(row.confidence, 'medium', `${geoid}: FHFA county anchor should upgrade confidence above raw ACS`);
   assert.equal(row.acs_raw_value, profile.DP04_0089E, `${geoid}: county cascade should retain the ACS dollar-value floor`);
   assert.notEqual(row.value, row.acs_raw_value, `${geoid}: FHFA county anchor should shift the ACS midpoint value toward current dollars`);
-  assert(row.value > row.acs_raw_value, `${geoid}: spot-check county HPI adjustment should move the value upward`);
+  const annual = annualHpi.counties[geoid];
+  assert.equal(row.value, Math.round(row.acs_raw_value * annual.hpi_by_year[annual.latest_year] / annual.hpi_by_year[2024]), `${geoid}: use actual change from ACS dollar year, including falling prices`);
   assert.ok(row.fhfa_hpi && row.fhfa_hpi.source_level === 'fhfa_county_direct', `${geoid}: county cascade should carry direct FHFA HPI provenance`);
-  assert.equal(row.fhfa_hpi.acs_midpoint_year, 2022, `${geoid}: adjustment should document the ACS 5-year midpoint`);
-  assert(row.fhfa_hpi.adjustment_factor > 1, `${geoid}: adjustment factor should be non-vacuous`);
-  assert(row.fhfa_hpi.adjustment_method.includes('10-year HPI CAGR'), `${geoid}: adjustment method should disclose the midpoint estimate`);
+  assert.equal(row.fhfa_hpi.acs_dollar_year, 2024, `${geoid}: adjustment should document the ACS dollar year`);
+  assert(row.fhfa_hpi.adjustment_factor > 0, `${geoid}: adjustment factor should be non-vacuous`);
+  assert(row.fhfa_hpi.adjustment_method.includes('2024 dollars'), `${geoid}: adjustment method should disclose the dollar-vintage basis`);
   assert.ok(isOfficialFhfaUrl(row.fhfa_hpi.source_url), `${geoid}: FHFA county source URL should use an exact official hostname`);
 }
 

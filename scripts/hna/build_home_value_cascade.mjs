@@ -24,7 +24,7 @@ const SUMMARY_DIR = path.join(ROOT, 'data', 'hna', 'summary');
 const OUT = path.join(ROOT, 'data', 'hna', 'home-value-cascade.json');
 const CROSSWALK_OUT = path.join(ROOT, 'data', 'hna', 'zhvi-place-crosswalk.json');
 const FHFA_HPI = path.join(ROOT, 'data', 'market', 'fhfa_hpi_subcounty_co.json');
-const ACS_HOME_VALUE_MIDPOINT_YEAR = 2022;
+const ACS_HOME_VALUE_DOLLAR_YEAR = 2024;
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -114,29 +114,26 @@ async function loadZhviRows() {
   return { byKey, latestAsOf: month.key, coRows };
 }
 
-function buildCountyAcsRows(registry, fhfaDoc) {
+// ACS multiyear dollar estimates are restated to the period's final year,
+// not its midpoint: https://www.census.gov/help/topics/faq.are-dollar-estimates-adjusted-in-acs-multiyear-tables.html
+export function countyHpiAdjustment(fhfa, dollarYear = ACS_HOME_VALUE_DOLLAR_YEAR) {
+  const latestYear = Number(fhfa?.latest_year);
+  const latest = Number(fhfa?.hpi_by_year?.[latestYear]);
+  const base = Number(fhfa?.hpi_by_year?.[dollarYear]);
+  if (!Number.isInteger(latestYear) || latestYear < dollarYear ||
+      !Number.isFinite(latest) || latest <= 0 || !Number.isFinite(base) || base <= 0) return null;
+  return {
+    factor: latest / base,
+    base, latest, latestYear, dollarYear,
+    method: `ACS ${dollarYear - 4}-${dollarYear} 5-year (in ${dollarYear} dollars) × FHFA county HPI ${latestYear} / ${dollarYear}; modeled home value, not an observed sale price`,
+  };
+}
+
+export function buildCountyAcsRows(registry, fhfaDoc) {
   const counties = {};
   let acsCount = 0;
   let missingCount = 0;
   let fhfaCount = 0;
-  const latestYear = Number(fhfaDoc?.meta?.latest_year) || Number(String(fhfaDoc?.meta?.as_of || '').slice(0, 4)) || null;
-
-  function countyHpiAdjustment(fhfa) {
-    const latest = Number(fhfa?.hpi_latest);
-    const base10 = Number(fhfa?.hpi_10y_base);
-    if (!Number.isFinite(latest) || latest <= 0 || !Number.isFinite(base10) || base10 <= 0 || !Number.isFinite(latestYear)) return null;
-    const baseYear = latestYear - 10;
-    if (ACS_HOME_VALUE_MIDPOINT_YEAR <= baseYear || ACS_HOME_VALUE_MIDPOINT_YEAR >= latestYear) return null;
-    const yearsFromMidpoint = latestYear - ACS_HOME_VALUE_MIDPOINT_YEAR;
-    const annualizedRatio = Math.pow(latest / base10, 1 / (latestYear - baseYear));
-    const adjustmentFactor = Math.pow(annualizedRatio, yearsFromMidpoint);
-    if (!Number.isFinite(adjustmentFactor) || adjustmentFactor <= 0) return null;
-    return {
-      factor: adjustmentFactor,
-      midpoint_hpi_estimate: latest / adjustmentFactor,
-      method: `ACS 2020-2024 5-year midpoint (${ACS_HOME_VALUE_MIDPOINT_YEAR}) adjusted to FHFA ${latestYear} using county 10-year HPI CAGR`,
-    };
-  }
 
   for (const county of (registry.geographies || []).filter((geo) => geo.type === 'county').sort((a, b) => a.geoid.localeCompare(b.geoid))) {
     const summaryPath = path.join(SUMMARY_DIR, `${county.geoid}.json`);
@@ -145,24 +142,24 @@ function buildCountyAcsRows(registry, fhfaDoc) {
     const acsValue = Number(profile.DP04_0089E);
     const hasValue = Number.isFinite(acsValue) && acsValue > 0;
     const fhfa = fhfaDoc && fhfaDoc.counties && fhfaDoc.counties[county.geoid] || null;
-    const hasFhfa = !!(fhfa && Number.isFinite(Number(fhfa.hpi_latest)));
-    const adjustment = hasFhfa ? countyHpiAdjustment(fhfa) : null;
+    const dollarYear = Number(profile._acsYear) || ACS_HOME_VALUE_DOLLAR_YEAR;
+    const adjustment = countyHpiAdjustment(fhfa, dollarYear);
     const hasAdjustedFhfa = hasValue && !!adjustment;
     const value = hasAdjustedFhfa ? Math.round(acsValue * adjustment.factor) : (hasValue ? acsValue : null);
     counties[county.geoid] = {
       value,
       source: hasAdjustedFhfa ? 'fhfa_county_hpi_anchor' : 'acs_raw',
-      as_of: hasAdjustedFhfa ? `ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI ${fhfaDoc.meta && fhfaDoc.meta.as_of || ''}`.trim() : 'ACS 2020-2024 5-year',
+      as_of: hasAdjustedFhfa ? `ACS ${dollarYear - 4}-${dollarYear} (${dollarYear} dollars); FHFA annual HPI through ${adjustment.latestYear}` : `Unadjusted ACS ${dollarYear - 4}-${dollarYear} 5-year (${dollarYear} dollars)`,
+      method: hasAdjustedFhfa ? adjustment.method : 'Unadjusted ACS owner-reported home value; annual county FHFA observations unavailable for the dollar-vintage window.',
       confidence: hasValue ? (hasAdjustedFhfa ? 'medium' : 'low') : 'missing',
       geography_level: 'county',
       acs_raw_value: hasValue ? acsValue : null,
       fhfa_hpi: hasAdjustedFhfa ? {
         source_level: fhfa.source_level,
-        hpi_latest: fhfa.hpi_latest,
-        hpi_10y_base: fhfa.hpi_10y_base,
-        change_10y: fhfa.change_10y,
-        acs_midpoint_year: ACS_HOME_VALUE_MIDPOINT_YEAR,
-        midpoint_hpi_estimate: Number(adjustment.midpoint_hpi_estimate.toFixed(4)),
+        hpi_latest: adjustment.latest,
+        hpi_base: adjustment.base,
+        latest_year: adjustment.latestYear,
+        acs_dollar_year: dollarYear,
         adjustment_factor: Number(adjustment.factor.toFixed(6)),
         adjustment_method: adjustment.method,
         as_of: fhfaDoc.meta && fhfaDoc.meta.as_of,
@@ -311,7 +308,7 @@ async function main() {
   console.log(`home-value cascade: ${zhviCount} ZHVI, ${acsCount} ACS raw, ${review.length} review flags`);
 }
 
-main().catch((err) => {
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main().catch((err) => {
   console.error(err);
   process.exit(1);
 });

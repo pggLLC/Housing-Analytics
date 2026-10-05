@@ -195,62 +195,6 @@
     });
   }
 
-  function loadCarMarketKpis() {
-    // This section is present in the HTML, but may not have a data feed configured.
-    var section = document.getElementById('carMarketSection');
-    if (!section) return;
-
-    var ids = ['carMedianPrice','carInventory','carDaysOnMarket','carPricePerSqFt'];
-    var any = ids.some(function (id) { return document.getElementById(id); });
-    if (!any) return;
-
-    var url = (window.APP_CONFIG && window.APP_CONFIG.CAR_MARKET_URL) ? window.APP_CONFIG.CAR_MARKET_URL : 'data/car-market.json';
-
-    DataService.getJSON(url).then(function (d) {
-      // Expected schema example:
-      // { updated: "YYYY-MM-DD", median_sale_price: 0, active_listings: 0, median_days_on_market: 0, median_price_per_sqft: 0 }
-      var mp  = d.median_sale_price ?? d._legacy_median_price ?? d.medianPrice;
-      var inv = d.active_listings ?? d.inventory;
-      var dom = d.median_days_on_market ?? d._legacy_median_dom ?? d.days_on_market;
-      var ppsf = d.median_price_per_sqft ?? d._legacy_price_per_sqft ?? d.pricePerSqFt;
-
-      setText('carMedianPrice', window.MoneyFormatter.formatMoney(mp));
-      setText('carInventory', formatNumber(inv));
-      setText('carDaysOnMarket', dom == null ? '—' : String(dom));
-      setText('carPricePerSqFt', window.MoneyFormatter.formatMoney(ppsf));
-      var noteId = 'carMarketNote';
-      var note = document.getElementById(noteId);
-      if (!note) {
-        note = document.createElement('p');
-        note.id = noteId;
-        note.className = 'data-sources-small';
-        note.style.marginTop = '0.75rem';
-        section.appendChild(note);
-      }
-      note.textContent = 'Source: ' + (d.source || 'Colorado Association of REALTORS® (via ShowingTime, sourced from Colorado MLS)') + (d.updated ? ' · Updated ' + d.updated : '');
-    }).catch(function () {
-      // If the file doesn't exist, keep dashes but add an explanatory note
-      var noteId = 'carMarketNote';
-      if (!document.getElementById(noteId)) {
-        var p = document.createElement('p');
-        p.id = noteId;
-        p.className = 'data-sources-small';
-        p.style.marginTop = '0.75rem';
-        p.textContent = 'CAR KPIs are placeholders until a static data file is added at data/car-market.json (recommended via scheduled GitHub Actions).';
-        section.appendChild(p);
-      }
-    });
-
-    function setText(id, txt) {
-      var el = document.getElementById(id);
-      if (el) el.textContent = txt;
-    }
-    function formatNumber(x) {
-      if (x == null || x === '') return '—';
-      try { return Number(x).toLocaleString(); } catch (e) { return String(x); }
-    }
-  }
-
   function escapeHtml(str) {
     return String(str)
       .replace(/&/g, '&amp;')
@@ -267,8 +211,8 @@
    *   data/hmda/co-state-trends.json    — statewide YoY for 4 KPI cards
    *   data/hmda/co-county-aggregates.json — top-10 counties table
    *
-   * Style mirrors loadCarMarketKpis(): hidden until data lands, visible
-   * error path, freshness label, source attribution. The KPIs include
+   * Cards remain hidden until data lands, with visible errors, freshness
+   * labels and source attribution. The KPIs include
    * year-over-year deltas where the prior year is available.
    * ───────────────────────────────────────────────────────────────── */
   // The HMDA section sits OUTSIDE the tab panels (it is visible on every
@@ -414,7 +358,7 @@ function initPolicyPanel(panelId) {
       }
       // Fill Prop 123 section and any configured market KPIs
       initProp123Section();
-      loadCarMarketKpis();
+      // CAR cards belong to the scope-aware monthly-report renderer on the page.
       loadHmdaKpis();
     } catch (e) {
       handleDataError('policy-simulator', e);

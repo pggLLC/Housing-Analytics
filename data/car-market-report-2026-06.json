@@ -12,75 +12,89 @@
   },
   "estimate_basis": "county rows are published ShowingTime data; statewide and metro figures are trend-projected from 2026-05",
   "statewide": {
-    "median_sale_price": 586713,
+    "median_sale_price": null,
     "active_listings": 20783,
     "median_days_on_market": 32.4,
-    "median_price_per_sqft": 277.6,
+    "median_price_per_sqft": null,
     "closed_sales": 6892,
     "new_listings": 9555,
     "months_of_supply": 3.1,
-    "list_to_sale_ratio": 0.982
+    "list_to_sale_ratio": null,
+    "estimated_reason": "price_not_published_by_car",
+    "last_real_price_month": null
   },
   "metro_areas": {
     "denver": {
       "name": "Denver Metro",
-      "median_sale_price": 568442,
+      "median_sale_price": null,
       "active_listings": 7897,
       "median_days_on_market": 29.7,
-      "median_price_per_sqft": 288.5,
+      "median_price_per_sqft": null,
       "closed_sales": 2757,
       "new_listings": 3632,
-      "months_of_supply": 2.8
+      "months_of_supply": 2.8,
+      "estimated_reason": "price_not_published_by_car",
+      "last_real_price_month": null
     },
     "colorado_springs": {
       "name": "Colorado Springs",
-      "median_sale_price": 444603,
+      "median_sale_price": null,
       "active_listings": 2494,
       "median_days_on_market": 34.4,
-      "median_price_per_sqft": 255.4,
+      "median_price_per_sqft": null,
       "closed_sales": 896,
       "new_listings": 1145,
-      "months_of_supply": 3.3
+      "months_of_supply": 3.3,
+      "estimated_reason": "price_not_published_by_car",
+      "last_real_price_month": null
     },
     "fort_collins": {
       "name": "Fort Collins / Greeley",
-      "median_sale_price": 499417,
+      "median_sale_price": null,
       "active_listings": 1870,
       "median_days_on_market": 32.4,
-      "median_price_per_sqft": 269.1,
+      "median_price_per_sqft": null,
       "closed_sales": 552,
       "new_listings": 860,
-      "months_of_supply": 3.2
+      "months_of_supply": 3.2,
+      "estimated_reason": "price_not_published_by_car",
+      "last_real_price_month": null
     },
     "boulder": {
       "name": "Boulder",
-      "median_sale_price": 674010,
+      "median_sale_price": null,
       "active_listings": 1039,
       "median_days_on_market": 30.4,
-      "median_price_per_sqft": 327.4,
+      "median_price_per_sqft": null,
       "closed_sales": 276,
       "new_listings": 478,
-      "months_of_supply": 2.9
+      "months_of_supply": 2.9,
+      "estimated_reason": "price_not_published_by_car",
+      "last_real_price_month": null
     },
     "pueblo": {
       "name": "Pueblo",
-      "median_sale_price": 377608,
+      "median_sale_price": null,
       "active_listings": 832,
       "median_days_on_market": 40.4,
-      "median_price_per_sqft": 197.1,
+      "median_price_per_sqft": null,
       "closed_sales": 276,
       "new_listings": 383,
-      "months_of_supply": 3.9
+      "months_of_supply": 3.9,
+      "estimated_reason": "price_not_published_by_car",
+      "last_real_price_month": null
     },
     "grand_junction": {
       "name": "Grand Junction",
-      "median_sale_price": 409075,
+      "median_sale_price": null,
       "active_listings": 832,
       "median_days_on_market": 37.4,
-      "median_price_per_sqft": 210.8,
+      "median_price_per_sqft": null,
       "closed_sales": 276,
       "new_listings": 383,
-      "months_of_supply": 3.6
+      "months_of_supply": 3.6,
+      "estimated_reason": "price_not_published_by_car",
+      "last_real_price_month": null
     }
   },
   "notes": "County-level single-family and townhouse/condo rows populated from ShowingTime CAR reports for 2026-06. Statewide and metro fields remain the existing report-level fallback values where no ShowingTime statewide/metro row is present.",
@@ -123,8 +137,8 @@
     "08003": {
       "name": "Alamosa County",
       "single_family": {
-        "median_sale_price": 95000,
-        "median_sale_price_yoy_pct": -71.6,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 3,
         "closed_sales_yoy_pct": -76.9,
         "new_listings": 20,
@@ -134,10 +148,11 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
-        "median_sale_price": 375000,
+        "median_sale_price": null,
         "median_sale_price_yoy_pct": null,
         "closed_sales": 1,
         "closed_sales_yoy_pct": null,
@@ -148,7 +163,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08005": {
@@ -199,8 +215,8 @@
         "list_to_sale_ratio": null
       },
       "townhouse_condo": {
-        "median_sale_price": 526000,
-        "median_sale_price_yoy_pct": 119.2,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 5,
         "closed_sales_yoy_pct": 66.7,
         "new_listings": 14,
@@ -210,13 +226,14 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08009": {
       "name": "Baca County",
       "single_family": {
-        "median_sale_price": 150000,
+        "median_sale_price": null,
         "median_sale_price_yoy_pct": null,
         "closed_sales": 1,
         "closed_sales_yoy_pct": null,
@@ -227,7 +244,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -241,14 +259,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08011": {
       "name": "Bent County",
       "single_family": {
-        "median_sale_price": 159900,
-        "median_sale_price_yoy_pct": 0.6,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 3,
         "closed_sales_yoy_pct": -25,
         "new_listings": 6,
@@ -258,7 +277,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -272,7 +292,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08013": {
@@ -354,8 +375,8 @@
         "list_to_sale_ratio": null
       },
       "townhouse_condo": {
-        "median_sale_price": 520000,
-        "median_sale_price_yoy_pct": -19.6,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 7,
         "closed_sales_yoy_pct": -30,
         "new_listings": 8,
@@ -365,7 +386,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08017": {
@@ -382,7 +404,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -396,7 +419,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08019": {
@@ -416,8 +440,8 @@
         "list_to_sale_ratio": null
       },
       "townhouse_condo": {
-        "median_sale_price": 350000,
-        "median_sale_price_yoy_pct": -23.7,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 1,
         "closed_sales_yoy_pct": 0,
         "new_listings": 4,
@@ -427,14 +451,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08021": {
       "name": "Conejos County",
       "single_family": {
-        "median_sale_price": 237000,
-        "median_sale_price_yoy_pct": 35.4,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 5,
         "closed_sales_yoy_pct": 150,
         "new_listings": 10,
@@ -444,7 +469,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -458,14 +484,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08023": {
       "name": "Costilla County",
       "single_family": {
-        "median_sale_price": 235000,
-        "median_sale_price_yoy_pct": -6,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 3,
         "closed_sales_yoy_pct": 0,
         "new_listings": 17,
@@ -475,7 +502,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -489,14 +517,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08025": {
       "name": "Crowley County",
       "single_family": {
-        "median_sale_price": 167000,
-        "median_sale_price_yoy_pct": 130.3,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 1,
         "closed_sales_yoy_pct": -75,
         "new_listings": 5,
@@ -506,7 +535,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -520,7 +550,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08027": {
@@ -551,7 +582,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08029": {
@@ -571,8 +603,8 @@
         "list_to_sale_ratio": null
       },
       "townhouse_condo": {
-        "median_sale_price": 300000,
-        "median_sale_price_yoy_pct": -3.2,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 1,
         "closed_sales_yoy_pct": -50,
         "new_listings": 1,
@@ -582,7 +614,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08031": {
@@ -619,7 +652,7 @@
     "08033": {
       "name": "Dolores County",
       "single_family": {
-        "median_sale_price": 325000,
+        "median_sale_price": null,
         "median_sale_price_yoy_pct": null,
         "closed_sales": 3,
         "closed_sales_yoy_pct": null,
@@ -630,7 +663,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -644,7 +678,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08035": {
@@ -737,7 +772,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08041": {
@@ -788,7 +824,7 @@
         "list_to_sale_ratio": null
       },
       "townhouse_condo": {
-        "median_sale_price": 285000,
+        "median_sale_price": null,
         "median_sale_price_yoy_pct": null,
         "closed_sales": 2,
         "closed_sales_yoy_pct": null,
@@ -799,7 +835,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08045": {
@@ -836,8 +873,8 @@
     "08047": {
       "name": "Gilpin County",
       "single_family": {
-        "median_sale_price": 595000,
-        "median_sale_price_yoy_pct": -16.5,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 9,
         "closed_sales_yoy_pct": -10,
         "new_listings": 34,
@@ -847,7 +884,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -861,7 +899,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08049": {
@@ -912,8 +951,8 @@
         "list_to_sale_ratio": null
       },
       "townhouse_condo": {
-        "median_sale_price": 484500,
-        "median_sale_price_yoy_pct": -15,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 6,
         "closed_sales_yoy_pct": -45.5,
         "new_listings": 39,
@@ -923,14 +962,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08053": {
       "name": "Hinsdale County",
       "single_family": {
-        "median_sale_price": 477500,
-        "median_sale_price_yoy_pct": -39.2,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 1,
         "closed_sales_yoy_pct": -50,
         "new_listings": 8,
@@ -940,7 +980,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -954,14 +995,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08055": {
       "name": "Huerfano County",
       "single_family": {
-        "median_sale_price": 188500,
-        "median_sale_price_yoy_pct": -53.7,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 6,
         "closed_sales_yoy_pct": 100,
         "new_listings": 21,
@@ -971,7 +1013,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -985,14 +1028,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08057": {
       "name": "Jackson County",
       "single_family": {
         "median_sale_price": null,
-        "median_sale_price_yoy_pct": -100,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 0,
         "closed_sales_yoy_pct": -100,
         "new_listings": 4,
@@ -1002,7 +1046,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -1016,7 +1061,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08059": {
@@ -1064,7 +1110,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -1078,14 +1125,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08063": {
       "name": "Kit Carson County",
       "single_family": {
-        "median_sale_price": 260000,
-        "median_sale_price_yoy_pct": 0.2,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 5,
         "closed_sales_yoy_pct": 66.7,
         "new_listings": 3,
@@ -1095,7 +1143,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -1109,7 +1158,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08065": {
@@ -1130,7 +1180,7 @@
       },
       "townhouse_condo": {
         "median_sale_price": null,
-        "median_sale_price_yoy_pct": -100,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 0,
         "closed_sales_yoy_pct": -100,
         "new_listings": 4,
@@ -1140,7 +1190,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08067": {
@@ -1208,8 +1259,8 @@
     "08071": {
       "name": "Las Animas County",
       "single_family": {
-        "median_sale_price": 305000,
-        "median_sale_price_yoy_pct": 50.4,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 9,
         "closed_sales_yoy_pct": 12.5,
         "new_listings": 24,
@@ -1219,7 +1270,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -1233,14 +1285,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08073": {
       "name": "Lincoln County",
       "single_family": {
-        "median_sale_price": 264000,
-        "median_sale_price_yoy_pct": 10,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 4,
         "closed_sales_yoy_pct": -60,
         "new_listings": 7,
@@ -1250,7 +1303,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -1264,7 +1318,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08075": {
@@ -1295,7 +1350,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08077": {
@@ -1332,8 +1388,8 @@
     "08079": {
       "name": "Mineral County",
       "single_family": {
-        "median_sale_price": 867500,
-        "median_sale_price_yoy_pct": 151.4,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 4,
         "closed_sales_yoy_pct": 300,
         "new_listings": 3,
@@ -1343,7 +1399,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -1357,7 +1414,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08081": {
@@ -1378,7 +1436,7 @@
       },
       "townhouse_condo": {
         "median_sale_price": null,
-        "median_sale_price_yoy_pct": -100,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 0,
         "closed_sales_yoy_pct": -100,
         "new_listings": 1,
@@ -1388,7 +1446,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08083": {
@@ -1419,7 +1478,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08085": {
@@ -1439,8 +1499,8 @@
         "list_to_sale_ratio": null
       },
       "townhouse_condo": {
-        "median_sale_price": 305000,
-        "median_sale_price_yoy_pct": -9.1,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 4,
         "closed_sales_yoy_pct": 33.3,
         "new_listings": 2,
@@ -1450,7 +1510,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08087": {
@@ -1470,8 +1531,8 @@
         "list_to_sale_ratio": null
       },
       "townhouse_condo": {
-        "median_sale_price": 389677,
-        "median_sale_price_yoy_pct": 26.2,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 2,
         "closed_sales_yoy_pct": -50,
         "new_listings": 1,
@@ -1481,7 +1542,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08089": {
@@ -1512,14 +1574,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08091": {
       "name": "Ouray County",
       "single_family": {
-        "median_sale_price": 1166000,
-        "median_sale_price_yoy_pct": -0.8,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 8,
         "closed_sales_yoy_pct": 33.3,
         "new_listings": 21,
@@ -1529,11 +1592,12 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
-        "median_sale_price": 775000,
-        "median_sale_price_yoy_pct": -21.7,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 5,
         "closed_sales_yoy_pct": 400,
         "new_listings": 4,
@@ -1543,7 +1607,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08093": {
@@ -1574,14 +1639,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08095": {
       "name": "Phillips County",
       "single_family": {
-        "median_sale_price": 205000,
-        "median_sale_price_yoy_pct": -53.1,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 3,
         "closed_sales_yoy_pct": -25,
         "new_listings": 2,
@@ -1591,7 +1657,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -1605,7 +1672,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08097": {
@@ -1642,8 +1710,8 @@
     "08099": {
       "name": "Prowers County",
       "single_family": {
-        "median_sale_price": 199500,
-        "median_sale_price_yoy_pct": -0.2,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 8,
         "closed_sales_yoy_pct": -11.1,
         "new_listings": 11,
@@ -1653,7 +1721,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -1667,7 +1736,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08101": {
@@ -1704,8 +1774,8 @@
     "08103": {
       "name": "Rio Blanco County",
       "single_family": {
-        "median_sale_price": 350000,
-        "median_sale_price_yoy_pct": 102.3,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 7,
         "closed_sales_yoy_pct": 75,
         "new_listings": 9,
@@ -1715,11 +1785,12 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
-        "median_sale_price": 150000,
-        "median_sale_price_yoy_pct": 57.9,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 1,
         "closed_sales_yoy_pct": 0,
         "new_listings": 0,
@@ -1729,7 +1800,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08105": {
@@ -1760,7 +1832,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08107": {
@@ -1797,8 +1870,8 @@
     "08109": {
       "name": "Saguache County",
       "single_family": {
-        "median_sale_price": 367750,
-        "median_sale_price_yoy_pct": 57.2,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 8,
         "closed_sales_yoy_pct": 166.7,
         "new_listings": 22,
@@ -1808,7 +1881,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -1822,14 +1896,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08111": {
       "name": "San Juan County",
       "single_family": {
-        "median_sale_price": 624500,
-        "median_sale_price_yoy_pct": -9.8,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 1,
         "closed_sales_yoy_pct": 0,
         "new_listings": 10,
@@ -1839,11 +1914,12 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
-        "median_sale_price": 635000,
-        "median_sale_price_yoy_pct": 78.9,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 1,
         "closed_sales_yoy_pct": -75,
         "new_listings": 4,
@@ -1853,14 +1929,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08113": {
       "name": "San Miguel County",
       "single_family": {
-        "median_sale_price": 5195000,
-        "median_sale_price_yoy_pct": -20.4,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 3,
         "closed_sales_yoy_pct": 50,
         "new_listings": 9,
@@ -1870,11 +1947,12 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
-        "median_sale_price_yoy_pct": -100,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 0,
         "closed_sales_yoy_pct": -100,
         "new_listings": 3,
@@ -1884,14 +1962,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08115": {
       "name": "Sedgwick County",
       "single_family": {
-        "median_sale_price": 65500,
-        "median_sale_price_yoy_pct": -55.1,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 2,
         "closed_sales_yoy_pct": -33.3,
         "new_listings": 3,
@@ -1901,7 +1980,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -1915,7 +1995,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08117": {
@@ -1966,8 +2047,8 @@
         "list_to_sale_ratio": null
       },
       "townhouse_condo": {
-        "median_sale_price": 311500,
-        "median_sale_price_yoy_pct": 17.3,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 2,
         "closed_sales_yoy_pct": -33.3,
         "new_listings": 4,
@@ -1977,14 +2058,15 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08121": {
       "name": "Washington County",
       "single_family": {
-        "median_sale_price": 98250,
-        "median_sale_price_yoy_pct": -76.3,
+        "median_sale_price": null,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 2,
         "closed_sales_yoy_pct": -33.3,
         "new_listings": 2,
@@ -1994,7 +2076,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -2008,7 +2091,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     },
     "08123": {
@@ -2046,7 +2130,7 @@
       "name": "Yuma County",
       "single_family": {
         "median_sale_price": null,
-        "median_sale_price_yoy_pct": -100,
+        "median_sale_price_yoy_pct": null,
         "closed_sales": 0,
         "closed_sales_yoy_pct": -100,
         "new_listings": 1,
@@ -2056,7 +2140,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       },
       "townhouse_condo": {
         "median_sale_price": null,
@@ -2070,7 +2155,8 @@
         "median_days_on_market": null,
         "median_price_per_sqft": null,
         "months_of_supply": null,
-        "list_to_sale_ratio": null
+        "list_to_sale_ratio": null,
+        "median_sale_price_unavailable_reason": "fewer_than_10_closed_sales"
       }
     }
   }
