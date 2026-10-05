@@ -117,6 +117,7 @@
       period: record.latest_period || null,
       monthsBehind: behind,
       sourceZipCount: zips,
+      sourceSalesCount: observed ? num(latest.homes_sold_allocated) : null,
       sourceLevel: record.source_level || null,
       sourceUrl: record.source_url || tracker.meta && (observed ? tracker.meta.city_source_url : tracker.meta.source_url) || null,
       periodDurationDays: latest.source_period_duration_days || 90,
@@ -129,7 +130,8 @@
         ? 'The most recent period for this place is ' + record.latest_period + ', '
           + behind + ' months behind the rest of the file. Treat it as history, not as the market today. '
         : '')
-        + (observed ? 'Redfin published this city median; its reporting window is recorded with the figure.' :
+        + (observed ? 'Redfin published this city median from ' + latest.homes_sold_allocated + ' sales in the stated window. ' +
+          (latest.homes_sold_allocated < 5 ? 'This is a small sales sample. ' : '') + 'The reporting window is recorded with the figure.' :
           'This modeled mean of ZIP medians uses HUD residential ratios and Census block housing shares. It describes an overlapping ZIP footprint, not a measured place median.'),
       reasons: []
     };

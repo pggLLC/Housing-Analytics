@@ -39,10 +39,13 @@ for(const [geoid,place] of Object.entries(doc.places)) {
     assert.match(row.period,/^\d{4}-\d{2}$/);
     assert.equal(row.period,row.period_end.slice(0,7),'reported month is the end of the published window');
     assert(direct ? [30,90].includes(row.source_period_duration_days) : row.source_period_duration_days===90);
-    assert(row.homes_sold_allocated>=5);
+    assert(direct ? row.homes_sold_allocated>0 : row.homes_sold_allocated>=5);
     assert(row.median_sale_price>0);
     assert(row.inventory_allocated===null || Number.isFinite(row.inventory_allocated));
-    assert(row.sale_to_list_ratio===null || (row.sale_to_list_ratio>.5 && row.sale_to_list_ratio<1.5));
+    // A published one-sale city observation can legitimately lie outside the
+    // old ZIP-aggregate plausibility band; preserve its actual measured ratio.
+    assert(row.sale_to_list_ratio===null || (direct ? Number.isFinite(row.sale_to_list_ratio) && row.sale_to_list_ratio>0
+      : row.sale_to_list_ratio>.5 && row.sale_to_list_ratio<1.5));
     assert(Array.isArray(row.source_zips));
     if(direct) {assert.equal(row.source_zip_count,0);assert(row.redfin_city_id);assert.equal(row.source_level,place.source_level);}
     else {assert(row.source_zip_count>=1);assert.equal(row.source_zip_count,row.source_zips.length);}
