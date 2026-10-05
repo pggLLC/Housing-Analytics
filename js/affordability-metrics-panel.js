@@ -262,7 +262,7 @@
     // column. Drives both the header tooltips AND the sort state.
     var columns = [
       { key: 'name',           label: 'County',      align: 'left',  tt: 'Colorado county. Click to sort A→Z / Z→A.' },
-      { key: 'home_price',     label: 'Median Home', align: 'right', tt: 'Median home value used in affordability calculations. Place-aware callers use the HNA ZHVI cascade; this county table falls back to ACS DP04 county values. Click to sort.' },
+      { key: 'home_price',     label: 'Median Home', align: 'right', tt: 'Median home value used in affordability calculations. County values use the modeled ACS/FHFA cascade, with ACS DP04 as fallback; place-aware callers use ZHVI when available. Click to sort.' },
       { key: 'median_hhi',     label: 'Median HHI',  align: 'right', tt: 'ACS 5-year median household income (DP03). Click to sort.' },
       { key: 'price_to_income',label: 'P/I',         align: 'right', tt: 'Price-to-income ratio (Median Home ÷ Median HHI). Healthy ≤3, Moderate 3–4.5, Stretched >4.5. Click to sort.' },
       { key: 'price_to_rent',  label: 'P/R',         align: 'right', tt: 'Price-to-rent ratio (Median Home ÷ annual rent). ≤15 favors buying, 15–20 balanced, >20 favors renting. Click to sort.' },
