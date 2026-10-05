@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-05T11:42:44.860004Z",
+  "generated": "2026-10-05T12:10:18.468770Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -149,52 +149,52 @@
     "data/car-market-report-2026-02.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2455
+      "bytes": 3083
     },
     "data/car-market-report-2026-03.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2456
+      "bytes": 3081
     },
     "data/car-market-report-2026-04.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2491
+      "bytes": 3116
     },
     "data/car-market-report-2026-05.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 65839
+      "bytes": 72077
     },
     "data/car-market-report-2026-06.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 65831
+      "bytes": 71993
     },
     "data/car-market-report-2026-07.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 65845
+      "bytes": 71766
     },
     "data/car-market-report-2026-08.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 66195
+      "bytes": 72281
     },
     "data/car-market-report-2026-09.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2529
+      "bytes": 3154
     },
     "data/car-market-report-2026-10.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2494
+      "bytes": 3121
     },
     "data/car-market.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 514
+      "bytes": 734
     },
     "data/census-acs-state.json": {
       "featureCount": 0,
@@ -744,12 +744,12 @@
     "data/hna/home-value-cascade.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 133277
+      "bytes": 133724
     },
     "data/hna/jurisdiction-metrics-digest/08001.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40129
+      "bytes": 40126
     },
     "data/hna/jurisdiction-metrics-digest/08003.json": {
       "featureCount": 0,
@@ -864,12 +864,12 @@
     "data/hna/jurisdiction-metrics-digest/08021.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40017
+      "bytes": 40027
     },
     "data/hna/jurisdiction-metrics-digest/08023.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40025
+      "bytes": 40017
     },
     "data/hna/jurisdiction-metrics-digest/0802355.json": {
       "featureCount": 0,
@@ -924,7 +924,7 @@
     "data/hna/jurisdiction-metrics-digest/08033.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40002
+      "bytes": 40012
     },
     "data/hna/jurisdiction-metrics-digest/0803455.json": {
       "featureCount": 0,
@@ -1039,12 +1039,12 @@
     "data/hna/jurisdiction-metrics-digest/08055.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40027
+      "bytes": 40020
     },
     "data/hna/jurisdiction-metrics-digest/08057.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 39998
+      "bytes": 40008
     },
     "data/hna/jurisdiction-metrics-digest/08059.json": {
       "featureCount": 0,
@@ -1074,7 +1074,7 @@
     "data/hna/jurisdiction-metrics-digest/08063.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40013
+      "bytes": 40027
     },
     "data/hna/jurisdiction-metrics-digest/08065.json": {
       "featureCount": 0,
@@ -1114,7 +1114,7 @@
     "data/hna/jurisdiction-metrics-digest/08071.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40048
+      "bytes": 40049
     },
     "data/hna/jurisdiction-metrics-digest/0807190.json": {
       "featureCount": 0,
@@ -1129,7 +1129,7 @@
     "data/hna/jurisdiction-metrics-digest/08073.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 39998
+      "bytes": 40008
     },
     "data/hna/jurisdiction-metrics-digest/0807410.json": {
       "featureCount": 0,
@@ -1239,7 +1239,7 @@
     "data/hna/jurisdiction-metrics-digest/08089.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40046
+      "bytes": 40056
     },
     "data/hna/jurisdiction-metrics-digest/0808950.json": {
       "featureCount": 0,
@@ -1269,7 +1269,7 @@
     "data/hna/jurisdiction-metrics-digest/08095.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40023
+      "bytes": 40033
     },
     "data/hna/jurisdiction-metrics-digest/0809555.json": {
       "featureCount": 0,
@@ -1289,7 +1289,7 @@
     "data/hna/jurisdiction-metrics-digest/08101.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40103
+      "bytes": 40095
     },
     "data/hna/jurisdiction-metrics-digest/0810105.json": {
       "featureCount": 0,
@@ -1299,12 +1299,12 @@
     "data/hna/jurisdiction-metrics-digest/08103.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40024
+      "bytes": 40025
     },
     "data/hna/jurisdiction-metrics-digest/08105.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40042
+      "bytes": 40052
     },
     "data/hna/jurisdiction-metrics-digest/0810600.json": {
       "featureCount": 0,
@@ -1319,7 +1319,7 @@
     "data/hna/jurisdiction-metrics-digest/08109.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40030
+      "bytes": 40022
     },
     "data/hna/jurisdiction-metrics-digest/0810985.json": {
       "featureCount": 0,
@@ -4139,7 +4139,7 @@
     "data/hna/ownership-need.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 719692
+      "bytes": 719847
     },
     "data/hna/permits.json": {
       "featureCount": 64,
@@ -7639,7 +7639,7 @@
     "data/market/fhfa_hpi_subcounty_co.json": {
       "featureCount": 54,
       "placeholder": false,
-      "bytes": 524279
+      "bytes": 579148
     },
     "data/market/flood_zones_co.geojson": {
       "featureCount": 12537,

@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-05T05:09:12.917Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-05T12:09:53.254Z. Do not edit by hand.
 
 ---
 
@@ -19,7 +19,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 39.9 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 134.2 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 134.8 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 17.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.4 KB |
@@ -47,10 +47,10 @@
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 135.0 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 135.4 KB |
 | `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 162.0 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 165.5 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 165.2 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 134.3 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | Colorado Public Data Reference | 21.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 238.0 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 237.7 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 39.6 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -106,16 +106,16 @@
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 3.0 KB | ✅ | — |
 | `data/capital-partners.json` | 13.1 KB | ✅ | — |
-| `data/car-market-report-2026-02.json` | 2.4 KB | ✅ | — |
-| `data/car-market-report-2026-03.json` | 2.4 KB | ✅ | — |
-| `data/car-market-report-2026-04.json` | 2.4 KB | ✅ | — |
-| `data/car-market-report-2026-05.json` | 64.3 KB | ✅ | — |
-| `data/car-market-report-2026-06.json` | 64.3 KB | ✅ | — |
-| `data/car-market-report-2026-07.json` | 64.3 KB | ✅ | — |
-| `data/car-market-report-2026-08.json` | 64.6 KB | ✅ | — |
-| `data/car-market-report-2026-09.json` | 2.5 KB | ✅ | — |
-| `data/car-market-report-2026-10.json` | 2.4 KB | ✅ | — |
-| `data/car-market.json` | 514 B | ✅ | — |
+| `data/car-market-report-2026-02.json` | 3.0 KB | ✅ | — |
+| `data/car-market-report-2026-03.json` | 3.0 KB | ✅ | — |
+| `data/car-market-report-2026-04.json` | 3.0 KB | ✅ | — |
+| `data/car-market-report-2026-05.json` | 70.4 KB | ✅ | — |
+| `data/car-market-report-2026-06.json` | 70.3 KB | ✅ | — |
+| `data/car-market-report-2026-07.json` | 70.1 KB | ✅ | — |
+| `data/car-market-report-2026-08.json` | 70.6 KB | ✅ | — |
+| `data/car-market-report-2026-09.json` | 3.1 KB | ✅ | — |
+| `data/car-market-report-2026-10.json` | 3.0 KB | ✅ | — |
+| `data/car-market.json` | 734 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
 | `data/chfa-income-rent-limits-2026.json` | 499.7 KB | ✅ | — |
@@ -223,7 +223,7 @@
 | `data/hna/geo-config.json` | 63.9 KB | ✅ | — |
 | `data/hna/geography-registry.json` | 120.4 KB | ✅ | — |
 | `data/hna/hna-views.json` | 12.2 KB | ✅ | — |
-| `data/hna/home-value-cascade.json` | 130.2 KB | ✅ | — |
+| `data/hna/home-value-cascade.json` | 130.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08001.json` | 39.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08003.json` | 39.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0800320.json` | 39.2 KB | ✅ | — |
@@ -902,7 +902,7 @@
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 42.5 KB | ✅ | — |
 | `data/hna/local-resources.json` | 177.3 KB | ✅ | — |
-| `data/hna/ownership-need.json` | 702.8 KB | ✅ | — |
+| `data/hna/ownership-need.json` | 703.0 KB | ✅ | — |
 | `data/hna/permits.json` | 270.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.55 MB | ✅ | — |
@@ -1597,13 +1597,13 @@
 | `data/market/dola_demographics_co.json` | 24.3 KB | ✅ | — |
 | `data/market/dola_rent_survey_co.json` | 730 B | ✅ | — |
 | `data/market/epa_sld_co.json` | 1.09 MB | ✅ | — |
-| `data/market/fhfa_hpi_subcounty_co.json` | 512.0 KB | ✅ | — |
+| `data/market/fhfa_hpi_subcounty_co.json` | 565.6 KB | ✅ | — |
 | `data/market/flood_zones_co.json` | 605.2 KB | ✅ | — |
 | `data/market/fmr_co.json` | 22.2 KB | ✅ | — |
 | `data/market/fmr_tract_map_co.json` | 101.1 KB | ✅ | — |
 | `data/market/food_access_co.json` | 431.7 KB | ✅ | — |
 | `data/market/freddie-mac-multifamily-outlook.json` | 3.6 KB | ✅ | — |
-| `data/market/hud_zip_tract_crosswalk_co.json` | 774.9 KB | ✅ | — |
+| `data/market/hud_zip_tract_crosswalk_co.json` | 775.8 KB | ✅ | — |
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
 | `data/market/lihtc-equity-pricing-history.json` | 2.3 KB | ✅ | — |
 | `data/market/lodes_co.json` | 662.6 KB | ✅ | — |
@@ -1749,7 +1749,7 @@
 
 ## Test Files
 
-514 test files found.
+515 test files found.
 
 | File | Size |
 |------|------|
@@ -1787,8 +1787,8 @@
 | `test/buyer-assistance-programs.test.js` | 2.6 KB |
 | `test/caching.test.js` | 7.3 KB |
 | `test/canonical-geography-contract.test.js` | 6.9 KB |
-| `test/car-estimate-disclosure.test.js` | 7.7 KB |
-| `test/car-showingtime-fetcher.test.mjs` | 8.2 KB |
+| `test/car-estimate-disclosure.test.js` | 5.3 KB |
+| `test/car-showingtime-fetcher.test.mjs` | 8.4 KB |
 | `test/census-dashboard-scope.test.js` | 2.3 KB |
 | `test/chart-id-coherence.test.js` | 4.5 KB |
 | `test/chas-tier-shares.test.js` | 4.9 KB |
@@ -1805,7 +1805,7 @@
 | `test/coho-reminders.test.mjs` | 15.7 KB |
 | `test/colorado-elections.test.mjs` | 32.7 KB |
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
-| `test/combined-geo.test.js` | 47.6 KB |
+| `test/combined-geo.test.js` | 48.4 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/console-audit-exercises-controls.test.js` | 10.1 KB |
 | `test/content-date-freshness.test.mjs` | 5.0 KB |
@@ -1930,7 +1930,7 @@
 | `test/hna-functionality-check.js` | 60.6 KB |
 | `test/hna-geography-provenance.test.js` | 5.4 KB |
 | `test/hna-home-value-absence.test.js` | 4.8 KB |
-| `test/hna-home-value-cascade.test.js` | 16.9 KB |
+| `test/hna-home-value-cascade.test.js` | 17.4 KB |
 | `test/hna-household-demand-place-scaling.test.js` | 7.7 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
@@ -1964,6 +1964,7 @@
 | `test/hna-workflow-autosave.test.js` | 4.2 KB |
 | `test/home-jurisdiction-search.test.js` | 4.4 KB |
 | `test/home-need-map-legend-colors.test.js` | 3.3 KB |
+| `test/home-value-integrity.test.mjs` | 19.1 KB |
 | `test/homeownership-programs.test.js` | 6.6 KB |
 | `test/homepage-claims.test.js` | 7.9 KB |
 | `test/homepage-job-routing.test.js` | 8.4 KB |
@@ -2260,7 +2261,7 @@
 | `tests/test_ranking_index_transit_zone.py` | 11.8 KB |
 | `tests/test_school_transport_exclusion.py` | 9.6 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
-| `tests/test_stage2_temporal.py` | 33.5 KB |
+| `tests/test_stage2_temporal.py` | 38.1 KB |
 | `tests/test_stage3_accessibility.py` | 22.4 KB |
 | `tests/test_stage3_visualization.py` | 21.9 KB |
 | `tests/test_transit_stop_gate.py` | 9.2 KB |
