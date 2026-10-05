@@ -306,7 +306,8 @@ test("Wray's missing sale price is named as missing, not filled from Fruita or t
   const geography = assemble(contextFor(MARKETS[2]));
   // Simulate an absent source even when Wray gains genuine market coverage.
   geography.salePrice = SalePriceEvidence.forPlace('0886310', {...MARKET_SOURCES, tracker:{places:{}}});
-  geography.localBaseline.median_sale_price = {value:null,classification:'not_available'};
+  geography.localBaseline.median_sale_price = StudyGeography.localBaseline(geography.context,
+    {salePriceEvidence: geography.salePrice}).median_sale_price;
   const r = renderInto(page, geography);
   const section = page.dom.window.document.querySelector('#ms-s0');
   assert.ok(section, 'the sale-price section is missing entirely');
