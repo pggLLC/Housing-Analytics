@@ -8,6 +8,7 @@ const limits = require('../js/chfa-rent-limits.js');
 const chfa = require('../data/chfa-income-rent-limits-2026.json');
 const hud = require('../data/hud-fmr-income-limits.json');
 const zori = require('../data/market/zori_rents_co.json');
+const bedroomMix = require('../data/market/acs_renter_bedrooms_co.json');
 const read = (p) => fs.readFileSync(p, 'utf8');
 const plain = (v) => JSON.parse(JSON.stringify(v));
 const settle = () => new Promise((r) => setImmediate(r));
@@ -32,11 +33,11 @@ async function calculator(saved = subject(), { lateModule = false, noSubject = f
   w.setTimeout = () => 0; w.setInterval = () => 0;
   w.fetch = (url) => {
     const s = String(url);
-    const data = s.includes('chfa-income-rent-limits') ? chfa : s.includes('hud-fmr-income-limits') ? hud : s.includes('zori_rents_co') ? zori : null;
+    const data = s.includes('chfa-income-rent-limits') ? chfa : s.includes('hud-fmr-income-limits') ? hud : s.includes('zori_rents_co') ? zori : String(url).includes('acs_renter_bedrooms_co') ? bedroomMix : null;
     return Promise.resolve({ ok: data != null, json: () => Promise.resolve(data) });
   };
   if (saved) w.localStorage.setItem('coho.subjectProject.v1', JSON.stringify(saved));
-  for (const file of ['js/utils/format-money.js', 'js/data-connectors/hud-fmr.js', 'js/deal-calculator-math.js']) w.eval(read(file));
+  for (const file of ['js/components/zori-rent-utils.js', 'js/utils/format-money.js', 'js/data-connectors/hud-fmr.js', 'js/deal-calculator-math.js']) w.eval(read(file));
   await w.HudFmr.load();
   function loadSubject() {
     w.eval(read('js/chfa-rent-limits.js'));

@@ -312,7 +312,7 @@ async function test(name, fn) {
       figureScope(doc, 'ami_4person', 'county', countyFips);
       assert.equal(sources.homeValueCascade.places[market.geoid].source, bound.ownershipNeed.affordabilityTest.source);
       figureScope(doc, 'home_value', bound.context.geoLevel, bound.context.geoid);
-      figureScope(doc, 'median_sale_price', bound.salePrice.value == null ? 'unavailable' : 'ZIP-allocated', bound.salePrice.value == null ? null : bound.context.geoid);
+      figureScope(doc, 'median_sale_price', bound.salePrice.value == null ? 'unavailable' : bound.salePrice.sourceLevel === 'redfin_city_observed' ? 'place' : 'ZIP-allocated', bound.salePrice.value == null ? null : bound.context.geoid);
       figureScope(doc, 'buyer_pool', bound.ownershipNeed.geoLevel, bound.ownershipNeed.geographyId);
       docsLink(doc, host);
       counts[market.geoid] = host.querySelectorAll('[data-study-figure]').length;

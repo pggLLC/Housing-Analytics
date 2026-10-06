@@ -156,7 +156,7 @@
   };
   METHODOLOGY_REGISTRY['scheduled-rent-revenue'] = {
     title: 'Scheduled rent revenue', what: 'Annual rent before vacancy and expenses in this screening scenario.',
-    how: 'For each restricted row, entered gross rent at or below the CHFA limit minus utility allowance and fees gives contract rent. Multiply each row’s contract rent (or sourced market rent) by its units and twelve months, then add the rows. Schedule contract rents already include deductions. In the manual grid, restricted rents use the selected ceiling and allowance rules; unrestricted rents use county ZORI bedroom estimates or a sourced override.',
+    how: 'For each restricted row, entered gross rent at or below the CHFA limit minus utility allowance and fees gives contract rent. Multiply each row’s contract rent (or sourced market rent) by its units and twelve months, then add the rows. Schedule contract rents already include deductions. In the manual grid, restricted rents use the selected ceiling and allowance rules; unrestricted rents use local ZORI distributed by HUD FMR ratios and ACS renter bedroom mix or a sourced override.',
     source: 'The active rent schedule or manual grid, its rent-limit table, allowance basis and market-rent sources, with their dates and county recorded below.',
     next: 'Check rent sources and vacancy before using revenue in the expense and financing screen.',
     compute: function (c) {

@@ -53,7 +53,12 @@ check(!/var out = \{ '1br': 0/.test(src),
   '_tierSplitCounts seeds its accumulator from SPLIT_BR_TYPES, not a literal');
 
 // 5. Studio must have somewhere to get a rent from, or the units price at zero.
-check(/'studio':\s*Math\.round/.test(src), 'getZoriPerBrRent returns a studio rent');
+const zoriUtils = require('../js/components/zori-rent-utils.js');
+const hud = require('../data/hud-fmr-income-limits.json');
+const studio = zoriUtils.getPerBedroomRent(require('../data/market/zori_rents_co.json'), '08077',
+  { getFmrByFips: () => hud.counties.find(c => c.fips === '08077').fmr },
+  { bedroomMix: require('../data/market/acs_renter_bedrooms_co.json') });
+check(studio && studio.studio > 0 && src.includes('ZoriRentUtils.getPerBedroomRent'), 'delegated ZORI lookup prices studios');
 check(/studio/.test(src.slice(src.indexOf('_amiLimitsByBr'))), '_amiLimitsByBr carries a studio key');
 
 // 6. The five-column grid must not be pinned to four.

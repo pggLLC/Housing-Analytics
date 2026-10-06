@@ -230,6 +230,7 @@
       return {
         available: false,
         state: 'unavailable',
+        unavailableReason: evidence.unavailableReason || null,
         heading: SALE_PRICE_HEADING,
         plain: 'this would show what homes near you have recently sold for. No sale-price source covers this place; the reasons are listed below.',
         label: String(evidence.label || 'No sale-price source for this place'),
@@ -246,7 +247,8 @@
       plain: 'what homes near you have recently sold for — roughly the price a buyer with no help would face. The gaps in the affordability table are measured against a separate typical home-value estimate, so the two figures can differ.',
       figure: display(evidence.value, 'money'),
       label: String(evidence.label),
-      period: evidence.period ? 'Three-month period ending ' + evidence.period : null,
+      period: evidence.period ? (evidence.periodDurationDays === 30 ? 'Month ' : 'Three-month period ending ') + evidence.period : null,
+      reviewFlag: evidence.reviewFlag || null,
       caveat: String(evidence.caveat || ''),
       reasons: []
     };
@@ -254,7 +256,7 @@
   function salePriceSection(facts) {
     if (!facts) return '';
     if (!facts.available) {
-      return '<section class="sale-price" data-sale-price="unavailable"><h2>' + facts.heading + '</h2>' + plain(escape(facts.plain))
+      return '<section class="sale-price" data-sale-price="unavailable" data-unavailable-reason="' + escape(facts.unavailableReason || '') + '"><h2>' + facts.heading + '</h2>' + plain(escape(facts.plain))
         + '<p><strong>' + escape(facts.label) + '.</strong></p><p>' + escape(facts.caveat) + '</p><ul>'
         + facts.reasons.map(function (reason) {
           return '<li><strong>' + escape(reason.source) + '</strong> — ' + escape(reason.detail) + (reason.issue ? ' (tracked in #' + escape(reason.issue) + ')' : '') + '</li>';
@@ -263,6 +265,7 @@
     return '<section class="sale-price" data-sale-price="' + escape(facts.state) + '"><h2>' + facts.heading + '</h2>' + plain(escape(facts.plain))
       + '<p class="sale-price-figure"><strong>' + facts.figure + '</strong> — ' + escape(facts.label) + '</p>'
       + (facts.period ? '<p>' + escape(facts.period) + '.</p>' : '')
+      + (facts.reviewFlag ? '<p data-sale-price-review="' + escape(facts.reviewFlag.reason) + '">' + escape(facts.reviewFlag.note) + '</p>' : '')
       + '<p>' + escape(facts.caveat) + '</p></section>';
   }
   function isExampleJurisdiction(scenario, jurisdictionLabel, jurisdictionGeoid) {

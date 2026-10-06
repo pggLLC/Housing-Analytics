@@ -568,7 +568,7 @@ test('the downloaded report carries the on-screen local sale price, source and p
     if (evidence.value !== null) {
       covered += 1;
       const money = evidence.value.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-      const periodText = 'Three-month period ending ' + evidence.period;
+      const periodText = (evidence.periodDurationDays === 30 ? 'Month ' : 'Three-month period ending ') + evidence.period;
       // Every piece the screen shows is in the report, and both are the evidence's own.
       for (const piece of [money, evidence.label, periodText, evidence.caveat]) {
         assert.ok(screen.textContent.includes(piece), `${context.name}: screen lacks "${piece}"`);
