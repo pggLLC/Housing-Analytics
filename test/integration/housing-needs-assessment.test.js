@@ -596,12 +596,13 @@ test('fetch_chas.py exists and references the gap output file', () => {
   assert(pySrc.includes('build_county_fips'), 'script has FIPS extraction helper');
 });
 
-test('fetch-chas-data.yml workflow exists with correct schedule', () => {
+test('fetch-chas-data.yml is manual-only', () => {
   assert(fs.existsSync(CHAS_WORKFLOW), '.github/workflows/fetch-chas-data.yml exists');
   const wfSrc = fs.readFileSync(CHAS_WORKFLOW, 'utf8');
   assert(wfSrc.includes("fetch_chas.py"), 'workflow runs fetch_chas.py');
   assert(wfSrc.includes('chas_affordability_gap.json'), 'workflow stages gap file for commit');
   assert(wfSrc.includes('workflow_dispatch'), 'workflow supports manual trigger');
+  assert(!/^  schedule:/m.test(wfSrc), 'CHAS has no automated fetch schedule');
   assert(wfSrc.includes('contents: write'), 'workflow has write permission for git push');
 });
 

@@ -3,8 +3,8 @@
  * scripts/audit/upstream-vintage-watch.mjs
  *
  * Watches external data publishers for new vintage releases. Runs weekly
- * on cron and opens a tracking GitHub issue when a newer vintage is
- * available than the one we currently use.
+ * on cron and opens or updates one tracking issue for a newer vintage or
+ * an unverifiable check that needs human attention.
  *
  * Background — why this exists
  * ----------------------------
@@ -14,25 +14,20 @@
  * never upgraded" is the kind of slow drift that's easy to miss.
  *
  * This watcher does two things:
- *   1. For each tracked source, scrape or query its release index for
- *      the most recent vintage label (year range, version string, etc.)
- *   2. Compare against the vintage hardcoded in our fetch scripts. When
- *      newer, open or update a tracking issue.
+ *   1. Check the configured vintage against source-specific evidence.
+ *   2. Record outdated or unverifiable results for the workflow's issue tracker.
  *
- * Sources currently tracked (extend as new ingest pipelines are added)
- * ----------------------------------------------------------------------
- *   - HUD CHAS:  scrape https://www.huduser.gov/portal/datasets/cp.html
- *                for "20XXthruYY-140-csv.zip" download links
- *   - HUD FMR:   scrape https://www.huduser.gov/portal/datasets/fmr.html
- *                for fiscal year tags
- *   - Census ACS 5-year:  Census release schedule is fixed (annual
- *                December); rather than scraping, we just check the
- *                most recent year that the API returns data for
+ * Sources currently tracked
+ * -------------------------
+ *   - HUD CHAS: current-vintage ZIP control, then candidate ZIP probes.
+ *     A blocked response requires a manual check of the HUD download page.
+ *   - HUD FMR and Census ACS 5-year: calendar-based refresh heuristics,
+ *     not HTTP probes or confirmation that a new release is published.
  *
  * Output
  * ------
  *   data/audit/upstream-vintage-watch.json — most recent watch result
- *   GitHub issue (auto-created when newer vintage found)
+ *   GitHub issue (auto-created/updated for outdated or unverifiable sources)
  *
  * Exit codes
  * ----------
@@ -57,102 +52,84 @@ const JSON_OUT = process.argv.includes('--json');
 
 const USER_AGENT = 'HousingAnalytics/1.0 upstream-vintage-watch.mjs';
 
-// ── HTTP helpers ────────────────────────────────────────────────────
-
-async function httpGetText(url, timeoutMs = 30000) {
+// A status alone cannot distinguish a ZIP from a 200 HTML challenge. Read only
+// the ZIP prefix, then cancel the response; never download the full archive here.
+async function probeHudZip(url, fetchImpl) {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  const timer = setTimeout(() => controller.abort(), 30000);
+  let response;
+  let reader;
   try {
-    const res = await fetch(url, {
+    response = await fetchImpl(url, {
       headers: { 'User-Agent': USER_AGENT },
       signal: controller.signal,
     });
-    if (!res.ok) {
-      // HUD's CDN gates direct fetches behind a WAF challenge — 202 and
-      // empty body for unauthenticated bots. Treat as "endpoint live but
-      // unscrapeable" rather than a hard failure.
-      if (res.status === 202) {
-        return { status: 202, text: '', wafGated: true };
-      }
-      throw new Error(`HTTP ${res.status}`);
+    const http = `HTTP ${response.status}`;
+    if (response.status === 404) return { kind: 'not_published', detail: http };
+    if (response.status !== 200) return { kind: 'unverifiable', detail: http };
+    if (/html/i.test(response.headers.get('content-type') || '')) {
+      return { kind: 'unverifiable', detail: `${http}; HTML response` };
     }
-    return { status: res.status, text: await res.text(), wafGated: false };
+    reader = response.body?.getReader();
+    const prefix = [];
+    while (reader && prefix.length < 2) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      for (const byte of value.subarray(0, 2 - prefix.length)) prefix.push(byte);
+    }
+    if (prefix[0] !== 0x50 || prefix[1] !== 0x4b) {
+      return { kind: 'unverifiable', detail: `${http}; empty or non-ZIP response` };
+    }
+    return { kind: 'published', detail: http };
+  } catch (error) {
+    return { kind: 'unverifiable', detail: `network error: ${error.message}` };
   } finally {
+    controller.abort();
     clearTimeout(timer);
+    try {
+      if (reader) await reader.cancel();
+      else if (response?.body) await response.body.cancel();
+    } catch { /* The aborted stream may already be closed. */ }
   }
 }
 
-async function httpGetJson(url, timeoutMs = 30000) {
-  const r = await httpGetText(url, timeoutMs);
-  return JSON.parse(r.text);
-}
-
-// ── Source watchers ─────────────────────────────────────────────────
-
-/**
- * HUD CHAS vintage detection — scrapes the dataset listing page for
- * download links matching `<startYear>thru<endYear>-140-csv.zip` pattern.
- * Returns the latest year-range found.
- */
-async function watchHudChas() {
-  // We hardcode the current vintage in fetch_chas.py — read it back
-  // to know what we should compare against.
-  const fetchScript = await fs.readFile(
-    path.join(ROOT, 'scripts', 'fetch_chas.py'),
-    'utf8',
-  );
-  // Use a line-anchored regex (\bVINTAGE not preceded by a letter/digit/_)
-  // so a sibling constant like LOOKAHEAD_VINTAGE doesn't shadow the real
-  // current-vintage marker.
+/** Check the known published archive before probing possible newer vintages. */
+export async function watchHudChas(fetchImpl = fetch) {
+  const fetchScript = await fs.readFile(path.join(ROOT, 'scripts', 'fetch_chas.py'), 'utf8');
   const m = /(^|[^A-Z0-9_])VINTAGE\s*=\s*['"]([\d-]+)['"]/m.exec(fetchScript);
   const currentVintage = m ? m[2] : 'unknown';
-
-  let latestVintage = null;
-  let note = '';
-  // HUD's listing page (huduser.gov/portal/datasets/cp.html) returns
-  // a 202 WAF challenge to non-browser User-Agents, so HTML scraping
-  // is unreliable. Instead, probe the next-expected vintage URL
-  // directly (HEAD request). HUD's ZIP naming pattern is stable —
-  // <startYear>thru<endYear>-140-csv.zip — so we can predict the
-  // next URL from the current cached vintage + 1 year.
-  try {
-    if (currentVintage !== 'unknown' && /^\d{4}-\d{4}$/.test(currentVintage)) {
-      const [curStart, curEnd] = currentVintage.split('-').map(Number);
-      // Walk forward up to 3 years to handle backlog (e.g. if we
-      // missed 2 releases). Stop at first available.
-      for (let bump = 1; bump <= 3; bump++) {
-        const nextStart = curStart + bump;
-        const nextEnd   = curEnd   + bump;
-        const url = `https://www.huduser.gov/portal/datasets/cp/${nextStart}thru${nextEnd}-140-csv.zip`;
-        try {
-          const resp = await fetch(url, {
-            method: 'HEAD',
-            headers: { 'User-Agent': USER_AGENT },
-          });
-          if (resp.status === 200) {
-            latestVintage = `${nextStart}-${nextEnd}`;
-            note = `Detected via direct probe of HUD CDN (no HTML scrape).`;
-            break;
-          }
-          // 404 = not yet published; keep walking to handle skipped vintages.
-        } catch (_) { /* network blip; keep trying */ }
-      }
-      if (!latestVintage) {
-        note = `No newer CHAS vintage published (probed up to ${curStart + 3}-${curEnd + 3}).`;
-      }
-    } else {
-      note = 'Could not parse current CHAS VINTAGE from fetch_chas.py.';
-    }
-  } catch (err) {
-    note = `Probe error: ${err.message}`;
+  const base = { source: 'HUD CHAS', current_vintage: currentVintage };
+  const unverifiable = (notes) => ({
+    ...base, latest_vintage: null, is_outdated: null, status: 'unverifiable', notes,
+  });
+  if (!/^\d{4}-\d{4}$/.test(currentVintage)) {
+    return unverifiable('Could not parse current CHAS VINTAGE from fetch_chas.py; CHAS vintage not checked');
   }
-
+  const [curStart, curEnd] = currentVintage.split('-').map(Number);
+  const archiveUrl = (bump) =>
+    `https://www.huduser.gov/portal/datasets/cp/${curStart + bump}thru${curEnd + bump}-140-csv.zip`;
+  const control = await probeHudZip(archiveUrl(0), fetchImpl);
+  if (control.kind !== 'published') {
+    return unverifiable(`HUD blocks automated requests (${control.detail}); CHAS vintage not checked`);
+  }
+  // Walk up to three years for skipped releases. Only a 404 establishes absence;
+  // an ambiguous candidate must not produce a "no newer vintage" conclusion.
+  for (let bump = 1; bump <= 3; bump++) {
+    const candidate = await probeHudZip(archiveUrl(bump), fetchImpl);
+    if (candidate.kind === 'published') {
+      return {
+        ...base, latest_vintage: `${curStart + bump}-${curEnd + bump}`,
+        is_outdated: true, status: 'verified',
+        notes: 'Newer CHAS ZIP detected after verifying the current-vintage control.',
+      };
+    }
+    if (candidate.kind !== 'not_published') {
+      return unverifiable(`HUD candidate probe unverifiable (${candidate.detail}); CHAS vintage not checked`);
+    }
+  }
   return {
-    source: 'HUD CHAS',
-    current_vintage: currentVintage,
-    latest_vintage: latestVintage,
-    is_outdated: latestVintage && currentVintage !== 'unknown' && latestVintage > currentVintage,
-    notes: note,
+    ...base, latest_vintage: null, is_outdated: false, status: 'verified',
+    notes: `No newer CHAS vintage published (current ZIP verified; candidates through ${curStart + 3}-${curEnd + 3} returned 404).`,
   };
 }
 
@@ -230,6 +207,18 @@ async function watchAcs5Year() {
 
 // ── Runner ─────────────────────────────────────────────────────────
 
+export function buildWatchPayload(results) {
+  return {
+    generated_at: new Date().toISOString(),
+    sources: results,
+    summary: {
+      checked: results.length,
+      outdated: results.filter(r => r.is_outdated).length,
+      errors: results.filter(r => r.error || r.status === 'unverifiable').length,
+    },
+  };
+}
+
 async function main() {
   if (!JSON_OUT) console.log('Watching upstream vintage releases...\n');
 
@@ -239,16 +228,8 @@ async function main() {
     watchAcs5Year().catch(e => ({ source: 'Census ACS 5-year', error: e.message })),
   ]);
 
+  const payload = buildWatchPayload(results);
   const outdated = results.filter(r => r.is_outdated);
-  const payload = {
-    generated_at: new Date().toISOString(),
-    sources: results,
-    summary: {
-      checked: results.length,
-      outdated: outdated.length,
-      errors: results.filter(r => r.error).length,
-    },
-  };
 
   await fs.mkdir(path.dirname(OUT_FILE), { recursive: true });
   await fs.writeFile(OUT_FILE, JSON.stringify(payload, null, 2));
@@ -257,7 +238,7 @@ async function main() {
     console.log(JSON.stringify(payload, null, 2));
   } else {
     for (const r of results) {
-      const flag = r.error ? '✗' : r.is_outdated ? '⚠' : '✓';
+      const flag = r.error || r.status === 'unverifiable' ? '✗' : r.is_outdated ? '⚠' : '✓';
       console.log(`  ${flag} ${r.source.padEnd(22)} current=${(r.current_vintage || '?').padEnd(12)} latest=${(r.latest_vintage || '?')}`);
       if (r.notes) console.log(`     ${r.notes}`);
       if (r.error) console.log(`     error: ${r.error}`);
@@ -270,7 +251,9 @@ async function main() {
   }
 }
 
-main().catch(err => {
-  console.error('upstream-vintage-watch crashed:', err);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch(err => {
+    console.error('upstream-vintage-watch crashed:', err);
+    process.exit(1);
+  });
+}
