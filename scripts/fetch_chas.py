@@ -14,6 +14,13 @@ income tier — the prior parser confused Table 9's race-position cells for
 HAMFI tiers and produced ~0.6% lte30 across all CO counties (real range
 18–28%). Table 7 is the documented standard for cost-burden-by-AMI.
 
+Manual refresh when HUD blocks automated downloads:
+    Download the 140-jurisdiction CSV ZIP in a browser from
+    https://www.huduser.gov/portal/datasets/cp.html and save it as
+    .cache/chas_140_csv.zip. This cache is read before any network request.
+    Match VINTAGE and CHAS_STATE_URL to the archive before running the script.
+    See docs/runbooks/chas-manual-refresh.md for the downstream build order.
+
 Usage:
     python3 scripts/fetch_chas.py
 
@@ -171,12 +178,23 @@ def utc_now() -> str:
     return datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
 
 
+class HudBotChallengeError(RuntimeError):
+    """HUD returned a bot challenge or another response that is not a ZIP."""
+
+
 def http_get(url: str, timeout: int = TIMEOUT) -> bytes:
     req = urllib.request.Request(url, headers={'User-Agent': 'HousingAnalytics/1.0'})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
+        status = resp.status
+        content_type = resp.headers.get('Content-Type', '')
+        if status != 200 or 'html' in content_type.lower():
+            raise HudBotChallengeError(
+                f'HUD bot challenge / non-ZIP response (HTTP {status}, {content_type}) from {url}'
+            )
         raw = resp.read()
-    if not raw:
-        raise RuntimeError(f'empty response body from {url}')
+    if not raw or not raw.startswith(b'PK'):
+        reason = 'empty body' if not raw else 'missing ZIP signature'
+        raise HudBotChallengeError(f'HUD bot challenge / non-ZIP response ({reason}) from {url}')
     return raw
 
 

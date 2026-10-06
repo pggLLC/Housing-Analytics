@@ -19,9 +19,9 @@ mixed with owner-cost-burden data.
 
 | File | Geography | Records | Source script | Refresh |
 |---|---|---|---|---|
-| `data/market/chas_co.json` | County (64) | 64 | `scripts/fetch_chas.py` | Monthly (2nd, 03:00 UTC) · `.github/workflows/fetch-chas-data.yml` |
-| `data/hna/chas_affordability_gap.json` | County (64) | 64 | `scripts/fetch_chas.py` (same source) | Monthly (same workflow) |
-| `data/market/chas_tract_co.json` | Tract (~1,447) | 1,447 | `scripts/fetch_chas.py` | Monthly (same workflow) |
+| `data/market/chas_co.json` | County (64) | 64 | `scripts/fetch_chas.py` | [Manual refresh](runbooks/chas-manual-refresh.md) · `.github/workflows/fetch-chas-data.yml` |
+| `data/hna/chas_affordability_gap.json` | County (64) | 64 | `scripts/fetch_chas.py` (same source) | Manual (same workflow) |
+| `data/market/chas_tract_co.json` | Tract (~1,447) | 1,447 | `scripts/fetch_chas.py` | Manual (same workflow) |
 | `data/hna/place-chas.json` | Place/CDP (482 CO) | 482 | `scripts/hna/build_place_chas.py` (post-CHAS build) | Cascade after CHAS fetch |
 | `data/hna/place-chas-coverage-stats.json` | Place metadata (482) | 482 | `scripts/hna/build_place_chas.py` | Cascade after CHAS fetch |
 
@@ -153,7 +153,7 @@ Per QA-FIX 3 in the spec: **the F207 reliability module will compute MOE from ra
 | Need | Available today? | Source |
 |---|---|---|
 | Census API key | **Yes** — already in repo secrets as `CENSUS_API_KEY` (used by `deploy.yml` to generate `js/config.js`) | `.github/workflows/deploy.yml` |
-| CHAS feed → JSON | **Yes** — `scripts/fetch_chas.py` runs monthly via `.github/workflows/fetch-chas-data.yml` | Monthly cron + manual dispatch |
+| CHAS feed → JSON | **Yes** — `scripts/fetch_chas.py` reads a browser-downloaded ZIP cache | [Manual refresh](runbooks/chas-manual-refresh.md); workflow dispatch retained |
 | ACS 5-year detailed tables (B25070) | **Yes** — already used by other backfill scripts (`scripts/backfill_dp04_value_brackets.mjs`, `scripts/backfill_hna_household_occupation.mjs`); pattern is established | Existing pattern |
 | ACS 1-year detailed tables (B25070) | **Not yet** — F207 will add as a new fetch | Will need new precompute script |
 

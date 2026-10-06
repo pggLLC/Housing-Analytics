@@ -61,7 +61,7 @@
     "test:smoke-f139": "node test/smoke-f139.test.js",
     "test:smoke-fmr": "node test/smoke-fmr.test.js",
     "test:rendered-absence-not-zero": "node test/rendered-absence-not-zero.test.js",
-    "test:required-fetch-preserves-data": "node test/required-fetch-preserves-data.test.js",
+    "test:required-fetch-preserves-data": "node test/required-fetch-preserves-data.test.js && node --test test/upstream-vintage-watch.test.mjs && python3 test/hud-fetch-hardening.test.py",
     "test:workflow-outcome-monitor": "node test/workflow-outcome-monitor.test.js",
     "test:ci-bot-commits": "node test/ci-verifies-bot-commits.test.js",
     "test:bot-pr-dispatches-ci": "node test/bot-pr-dispatches-ci-checks.test.js",
