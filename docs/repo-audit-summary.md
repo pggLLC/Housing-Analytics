@@ -152,6 +152,8 @@ the email address. See: https://docs.github.com/en/authentication/keeping-your-a
 
 ## Actionable Recommendations
 
+- Quarantine candidate: `scripts/market/build_acs_renter_bedrooms.py` — no file references its name. Delete it deliberately, or reference it (workflow/doc/npm script) if it is used.
+- Quarantine candidate: `scripts/market/build_place_tract_housing.py` — no file references its name. Delete it deliberately, or reference it (workflow/doc/npm script) if it is used.
 - Docs and site-audit pipeline are automatically updated after every merge.
 
 ## PR: Implementation Script Review (March 2026)

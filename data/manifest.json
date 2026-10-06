@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-05T16:22:54.847466Z",
+  "generated": "2026-10-06T01:50:46.087607Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 828779
+      "bytes": 829963
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -124,7 +124,7 @@
     "data/audit/quarantine-candidates.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 483
+      "bytes": 587
     },
     "data/audit/upstream-vintage-watch.json": {
       "featureCount": 0,
@@ -7524,7 +7524,12 @@
     "data/market/acs_median_rent_co.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 84901
+      "bytes": 136179
+    },
+    "data/market/acs_renter_bedrooms_co.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 176360
     },
     "data/market/acs_tract_metrics_co.json": {
       "featureCount": 0,
@@ -7545,6 +7550,11 @@
       "featureCount": 64,
       "placeholder": false,
       "bytes": 1186881
+    },
+    "data/market/census2020-place-tract-housing-co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 358752
     },
     "data/market/chas_co.json": {
       "featureCount": 0,
@@ -7771,10 +7781,15 @@
       "placeholder": false,
       "bytes": 698
     },
+    "data/market/redfin-city-observations-co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1324
+    },
     "data/market/redfin_place_market_tracker_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1568714
+      "bytes": 2325841
     },
     "data/market/reference-projects.json": {
       "featureCount": 0,
@@ -7874,7 +7889,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14801
+      "bytes": 14804
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,

@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-05T12:09:53.254Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-06T01:50:14.623Z. Do not edit by hand.
 
 ---
 
@@ -81,7 +81,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1659 JSON files found.
+1662 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -102,7 +102,7 @@
 | `data/alerts/alerts_archive.json` | 184.0 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
-| `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
+| `data/audit/quarantine-candidates.json` | 587 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 3.0 KB | ✅ | — |
 | `data/capital-partners.json` | 13.1 KB | ✅ | — |
@@ -1580,10 +1580,12 @@
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 210.4 KB | ✅ | — |
-| `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
+| `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
+| `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 575 B | ✅ | — |
+| `data/market/census2020-place-tract-housing-co.json` | 350.3 KB | ✅ | — |
 | `data/market/chas_co.json` | 159.0 KB | ✅ | — |
 | `data/market/chas_tract_co.json` | 3.43 MB | ✅ | — |
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
@@ -1613,7 +1615,8 @@
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
 | `data/market/qct_dda_designations_co.json` | 480 B | ✅ | — |
 | `data/market/qct_dda_designations_co_normalized.json` | 698 B | ✅ | — |
-| `data/market/redfin_place_market_tracker_co.json` | 1.50 MB | ✅ | — |
+| `data/market/redfin-city-observations-co.json` | 1.3 KB | ✅ | — |
+| `data/market/redfin_place_market_tracker_co.json` | 2.22 MB | ✅ | — |
 | `data/market/reference-projects.json` | 24.7 KB | ✅ | — |
 | `data/market/state-trend-analysis.json` | 6.8 KB | ✅ | — |
 | `data/market/tax-credit-transfer-pricing.json` | 3.4 KB | ✅ | — |
@@ -1749,7 +1752,7 @@
 
 ## Test Files
 
-515 test files found.
+517 test files found.
 
 | File | Size |
 |------|------|
@@ -1838,19 +1841,19 @@
 | `test/deal-calc-correctness.test.js` | 3.7 KB |
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 17.1 KB |
-| `test/deal-calc-manual-market-rent.test.js` | 16.6 KB |
+| `test/deal-calc-manual-market-rent.test.js` | 17.0 KB |
 | `test/deal-calc-minimum-set-aside.test.js` | 6.6 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
-| `test/deal-calc-net-rent.test.js` | 24.7 KB |
+| `test/deal-calc-net-rent.test.js` | 24.8 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
 | `test/deal-calc-provenance.test.js` | 16.7 KB |
 | `test/deal-calc-report-meta.test.js` | 14.6 KB |
-| `test/deal-calc-schedule.test.js` | 22.9 KB |
+| `test/deal-calc-schedule.test.js` | 23.0 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-share-roundtrip.test.js` | 21.7 KB |
 | `test/deal-calc-soft-funding-links-wrap.test.js` | 2.5 KB |
-| `test/deal-calc-studio-units.test.js` | 2.7 KB |
+| `test/deal-calc-studio-units.test.js` | 3.1 KB |
 | `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
@@ -1889,7 +1892,7 @@
 | `test/fixtures/pma/commute-shed-params.fixture.json` | 1.3 KB |
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
 | `test/fixtures/workflow-cancelled-runs.json` | 2.5 KB |
-| `test/for-sale-study-follows-jurisdiction.test.mjs` | 31.7 KB |
+| `test/for-sale-study-follows-jurisdiction.test.mjs` | 31.8 KB |
 | `test/foreclosure-performance.test.js` | 6.7 KB |
 | `test/forsale-capture.test.js` | 10.3 KB |
 | `test/fred-commodities-config.test.js` | 4.8 KB |
@@ -1897,7 +1900,7 @@
 | `test/freshness-guard-dirty-tree.test.js` | 12.5 KB |
 | `test/funding-context-card.test.js` | 7.7 KB |
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
-| `test/geography-naming.test.js` | 22.8 KB |
+| `test/geography-naming.test.js` | 22.9 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/glossary-reaches-rendered-content.test.js` | 7.2 KB |
 | `test/glossary-rerender.test.js` | 4.9 KB |
@@ -2008,7 +2011,8 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 3.4 KB |
-| `test/market-geography-binding.test.mjs` | 17.7 KB |
+| `test/market-construction.test.js` | 6.0 KB |
+| `test/market-geography-binding.test.mjs` | 17.9 KB |
 | `test/market-jurisdiction-clears.test.js` | 22.2 KB |
 | `test/market-site-point-persisted.test.js` | 11.7 KB |
 | `test/market-study-page.test.js` | 20.5 KB |
@@ -2052,7 +2056,7 @@
 | `test/phantom-alias-no-orphans.test.js` | 3.3 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/pipeline-financing-tracks.test.js` | 3.8 KB |
-| `test/pipeline-guards-a1.test.js` | 2.2 KB |
+| `test/pipeline-guards-a1.test.js` | 2.0 KB |
 | `test/pipeline-guards-a2.test.js` | 4.9 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 7.1 KB |
@@ -2120,11 +2124,11 @@
 | `test/rebuild-derived-chain.test.mjs` | 8.3 KB |
 | `test/recommendation-leads-with-the-conclusion.test.mjs` | 25.7 KB |
 | `test/recommendation-transit-zone.test.mjs` | 13.6 KB |
-| `test/redfin-place-market-tracker.test.js` | 6.1 KB |
+| `test/redfin-place-market-tracker.test.js` | 4.8 KB |
 | `test/registry-cross-county-consistency.test.js` | 1.8 KB |
 | `test/regrid-cache-honesty.test.js` | 8.6 KB |
 | `test/rendered-absence-not-zero.test.js` | 4.2 KB |
-| `test/rent-ceiling-regime.test.js` | 17.7 KB |
+| `test/rent-ceiling-regime.test.js` | 17.9 KB |
 | `test/rent-formula-single-source.test.js` | 7.8 KB |
 | `test/rent-schedule.test.js` | 24.5 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
@@ -2132,7 +2136,7 @@
 | `test/research-brief.test.mjs` | 15.9 KB |
 | `test/research-catalog.test.mjs` | 8.9 KB |
 | `test/runtime-contrast-scanner-errors.test.mjs` | 7.5 KB |
-| `test/sale-price-evidence-is-named.test.mjs` | 14.7 KB |
+| `test/sale-price-evidence-is-named.test.mjs` | 16.3 KB |
 | `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
 | `test/send-test-email.js` | 6.2 KB |
@@ -2247,6 +2251,7 @@
 | `tests/test_hmda_data.py` | 6.6 KB |
 | `tests/test_hna_geography_coverage.py` | 9.2 KB |
 | `tests/test_hna_ranking_integrity.py` | 22.5 KB |
+| `tests/test_market_construction.py` | 9.8 KB |
 | `tests/test_market_data_builder_redaction.py` | 1.8 KB |
 | `tests/test_neighborhood_access_builder.py` | 3.5 KB |
 | `tests/test_news_stories.py` | 7.4 KB |
