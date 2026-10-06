@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-06T13:23:25.828368Z",
+  "generated": "2026-10-06T14:09:06.683762Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -314,7 +314,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 257866
+      "bytes": 258355
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
