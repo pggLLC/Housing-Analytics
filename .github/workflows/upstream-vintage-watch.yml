@@ -112,7 +112,13 @@ jobs:
               `<sub>This issue is auto-managed by [upstream-vintage-watch.yml](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/.github/workflows/upstream-vintage-watch.yml). It will be auto-closed when all checks are verifiable and no source needs an update.</sub>`,
             ].join('\n');
 
+            // The status rows of a tracker body, without the run timestamp.
+            const statusRows = (text) => (String(text || '').match(/^\| (?!Source \||--- \|).*$/gm) || []).join('\n');
             if (existing) {
+              // HUD blocks automated requests indefinitely, so this tracker can
+              // stay open for months. Refresh the body every run, but comment
+              // (and notify) only when the status itself changed.
+              const changed = statusRows(existing.body) !== rows;
               await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -120,20 +126,37 @@ jobs:
                 title,
                 body,
               });
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: existing.number,
-                body: `Status updated at ${status.generated_at}.`,
-              });
+              if (changed) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existing.number,
+                  body: `Status changed at ${status.generated_at}.`,
+                });
+              }
             } else {
-              await github.rest.issues.create({
+              const { data: created } = await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 title,
                 body,
-                labels: ['data-pipeline', 'upstream-vintage'],
               });
+              // Labels go on after the issue exists, so a missing label can
+              // never stop the tracker from being opened. Neither label
+              // existed in the repo when this was written (#2063).
+              const labels = ['data-pipeline', 'upstream-vintage'];
+              for (const name of labels) {
+                try {
+                  await github.rest.issues.createLabel({ owner: context.repo.owner, repo: context.repo.repo, name, color: 'ededed' });
+                } catch (error) {
+                  if (error.status !== 422) core.warning(`Could not create label ${name}: ${error.message}`);
+                }
+              }
+              try {
+                await github.rest.issues.addLabels({ owner: context.repo.owner, repo: context.repo.repo, issue_number: created.number, labels });
+              } catch (error) {
+                core.warning(`Tracker #${created.number} opened without labels: ${error.message}`);
+              }
             }
 
       - name: Commit refreshed watch result
