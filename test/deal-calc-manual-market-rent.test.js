@@ -9,6 +9,7 @@ const limits = require('../js/chfa-rent-limits.js');
 const chfa = require('../data/chfa-income-rent-limits-2026.json');
 const zori = require('../data/market/zori_rents_co.json');
 const hud = require('../data/hud-fmr-income-limits.json');
+const bedroomMix = require('../data/market/acs_renter_bedrooms_co.json');
 const county = '08077';
 const jurisdiction = { geoType:'place', geoid:'0828745', name:'Fruita', countyFips:county, countyName:'Mesa County' };
 const bedrooms = { studio:'efficiency', '1br':'1BR', '2br':'2BR', '3br':'3BR', '4br':'4BR' };
@@ -59,8 +60,11 @@ async function test(name,fn) {
     const rents=p.w.__DealCalc.getZoriPerBrRent(county);
     assert(rents && rents['1br']>0 && rents['2br']>0);
     const fmr=hud.counties.find(c=>c.fips===county).fmr;
+    const counts=bedroomMix.places[jurisdiction.geoid].bedrooms;
+    const weights=[counts.studio,counts['1br'],counts['2br'],counts['3br'],counts['4br']+counts['5plus']];
+    const weightedFmr=['efficiency','one_br','two_br','three_br','four_br'].reduce((sum,k,i)=>sum+fmr[k]*weights[i],0)/weights.reduce((sum,n)=>sum+n,0);
     for(const [br,key] of Object.entries({studio:'efficiency','1br':'one_br','2br':'two_br','3br':'three_br','4br':'four_br'}))
-      assert.equal(rents[br],Math.round(zori.counties[county].rent*fmr[key]/fmr.two_br),'ZORI and HUD records price '+br);
+      assert.equal(rents[br],Math.round(zori.cities.fruita.rent*fmr[key]/weightedFmr),'ZORI and HUD records price '+br);
     // Hydration can populate readonly fields; ZORI mode must display the
     // same local record that prices the rows, regardless of that stored value.
     p.d.getElementById('dc-market-rent-2br').value='1';
@@ -83,9 +87,9 @@ async function test(name,fn) {
       const id='dc-market-rent-'+br, origin=record(p,id);
       assert.equal(origin.status,'data'); assert.equal(origin.origin.value,String(rents[br]));
       assert.equal(origin.origin.meta.countyFips,county);
-      assert.equal(origin.origin.meta.geography,zori.counties[county].name);
-      assert.equal(origin.origin.meta.vintage,zori.counties[county].vintage_month);
-      assert.equal(origin.origin.meta.sourceUrl,zori.meta.county_url);
+      assert.equal(origin.origin.meta.geography,zori.cities.fruita.name);
+      assert.equal(origin.origin.meta.vintage,zori.cities.fruita.vintage_month);
+      assert.equal(origin.origin.meta.sourceUrl,zori.meta.city_url);
       assert(p.w.DealCalculatorInputRegistry.get(id).dataSource);
       const source=snapshot.reportMeta.sources.find(s=>s.fields.some(f=>f.id===id));
       assert(source); assert.equal(source.vintage,origin.origin.meta.vintage); assert.equal(source.geography,origin.origin.meta.geography);
@@ -94,9 +98,9 @@ async function test(name,fn) {
     p.w.html2canvas=async()=>({width:600,height:600,toDataURL:()=> 'image'});
     const pdf=createJsPdfMock(); p.w.jspdf={jsPDF:pdf.jsPDF};
     await p.w.__DealCalcShare.exportPdf(); pdf.assertSupported();
-    assert(pdf.text.join('\n').includes(zori.meta.county_url),'PDF text includes the actual market-rent source');
+    assert(pdf.text.join('\n').includes(zori.meta.city_url),'PDF text includes the actual market-rent source');
     // The PDF sections are built from the same report record as JSON.
-    assert(p.w.DealCalculatorReportMeta.sections(snapshot.reportMeta).find(s=>s.key==='sources').entries.some(e=>e.text.includes(zori.meta.county_url)));
+    assert(p.w.DealCalculatorReportMeta.sections(snapshot.reportMeta).find(s=>s.key==='sources').entries.some(e=>e.text.includes(zori.meta.city_url)));
     mix(p,[{tier:60,br:'studio',units:1},{tier:60,br:'4br',units:2}],8);
     const split=p.w.__DealCalc.getRentScheduleMetadata().rows.filter(r=>r.tier==='market');
     assert.deepEqual(plain(split.map(r=>[r.bedrooms,r.units])),[['efficiency',2],['4BR',3]],'largest remainders preserve exactly five whole market homes');
@@ -136,9 +140,9 @@ async function test(name,fn) {
       const id='dc-market-rent-'+br, origin=record(p,id);
       assert.equal(p.d.getElementById(id).value,String(rents[br]));
       assert.equal(origin.status,'data');
-      assert.equal(origin.origin.meta.source,zori.meta.source);
-      assert.equal(origin.origin.meta.sourceUrl,zori.meta.county_url);
-      assert.equal(origin.origin.meta.vintage,zori.counties[county].vintage_month);
+      assert.equal(origin.origin.meta.source,rents._meta.source);
+      assert.equal(origin.origin.meta.sourceUrl,zori.meta.city_url);
+      assert.equal(origin.origin.meta.vintage,zori.cities.fruita.vintage_month);
       assert(!text(p,id+'-prov-detail').includes(note.trim()),'override note cannot label ZORI');
     }
     assert.equal(p.d.getElementById('dc-market-rent-source').value,'','inactive note stays in override state only');

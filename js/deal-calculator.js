@@ -58,7 +58,8 @@
   // units at min(planning ceiling, market rent) in weak markets where higher-AMI
   // ceilings exceed what the local market will actually
   // pay. See docs/MARKET-RENT-AND-KALSHI.md for the rationale.
-  var _zoriData = null;     // cached zori_rents_co.json
+  var _zoriData = null;            // cached zori_rents_co.json
+  var _renterBedroomMix = null;   // cached acs_renter_bedrooms_co.json
   // F96 — Triangulation sources for the achievable-rent cap. ZORI is the
   // PRIMARY signal (broadest coverage, monthly); these two are surfaced
   // in the cap-status pane so the user can see independent confirmation:
@@ -70,10 +71,7 @@
   // Both soft-load; the cap math still runs off ZORI when either is missing.
   var _alData = null;       // cached apartment_list_co.json
   var _dolaSurvey = null;   // cached dola_rent_survey_co.json
-  // F97 — ACS B25064 median gross rent. THE always-available baseline:
-  // every CO county has a value here so the cap pane always shows at
-  // least one defensible market-rent reference, even for the tiniest
-  // rural jurisdiction that no other source covers.
+  // Published jurisdiction B25064; absence is retained when Census suppresses it.
   var _acsRent = null;      // cached acs_median_rent_co.json
   // F224 — Place ACS profile cache. When the active jurisdiction is a place,
   // we fetch data/hna/summary/{placeGeoid}.json once and cache the DP04
@@ -959,65 +957,31 @@
   // in rural / off-metro markets and over-states them in tight markets
   // that have cooled fast. ZORI is the correction.
   //
-  // For the Deal Calc's achievable-rent cap, we look up the county-level
-  // ZORI value and scale it per-BR using HUD FMR ratios (because ZORI
-  // does NOT publish a per-BR breakdown — it's a single all-bedroom
-  // index). The 2BR FMR is the anchor; other BRs are scaled by
-  // (fmr_br / fmr_2br).
-  //
-  // Returns:
-  //   { rent, vintage_month, name }       — county ZORI base
-  //   null                                  — county not in ZORI dataset
-  // -------------------------------------------------------------------
-  function getZoriCountyRent(fips) {
-    if (window.ZoriRentUtils && typeof window.ZoriRentUtils.getCountyRent === 'function') {
-      return window.ZoriRentUtils.getCountyRent(_zoriData, fips);
-    }
-    if (!_zoriData || !_zoriData.counties || !fips) return null;
-    var rec = _zoriData.counties[String(fips).padStart(5, '0')];
-    if (!rec || !rec.rent) return null;
-    return {
-      rent:          rec.rent,
-      vintage_month: rec.vintage_month || (_zoriData.meta && _zoriData.meta.vintage_month) || null,
-      name:          rec.name,
-      yoy:           rec.yoy_change_pct
-    };
+  // City ZORI precedes county ZORI when it is bound to the active jurisdiction.
+  // Per-bedroom estimates preserve its all-homes level using local ACS B25042.
+  function marketContextHtml(value) {
+    return String(value == null ? '' : value).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function zoriContext(fips) {
+    // A shared/deep link names the place being analyzed without writing it
+    // into the recipient's project. The helper verifies its county binding
+    // against the recipient's own ACS geography record before using city ZORI.
+    var linkedGeoid = new URLSearchParams(window.location.search).get('geoid');
+    if (/^08\d{5}$/.test(linkedGeoid || '')) return { bedroomMix: _renterBedroomMix, geoid: linkedGeoid };
+    var jurisdiction = window.WorkflowState && window.WorkflowState.getJurisdiction
+      ? window.WorkflowState.getJurisdiction() : null;
+    return { bedroomMix: _renterBedroomMix,
+      geoid: jurisdiction && String(jurisdiction.countyFips) === String(fips) ? jurisdiction.geoid : null };
   }
 
-  /**
-   * Q5: Per-BR ZORI market rent estimate.
-   *
-   * ZORI publishes a single all-bedroom index per county. We scale to
-   * per-BR by applying the HUD FMR per-BR ratio (fmr_br / fmr_2br) to
-   * the ZORI value. This preserves the ZORI level while reflecting the
-   * county's actual BR-to-BR rent spread.
-   *
-   * Returns { studio, '1br', '2br', '3br', '4br' } or null when either
-   * ZORI county data or HUD FMR for the county is missing.
-   */
+  function getZoriCountyRent(fips) {
+    return window.ZoriRentUtils ? window.ZoriRentUtils.getCountyRent(_zoriData, fips) : null;
+  }
+
   function getZoriPerBrRent(fips) {
-    if (window.ZoriRentUtils && typeof window.ZoriRentUtils.getPerBedroomRent === 'function') {
-      return window.ZoriRentUtils.getPerBedroomRent(_zoriData, fips, window.HudFmr);
-    }
-    var zori = getZoriCountyRent(fips);
-    if (!zori) return null;
-    var hudFmr = window.HudFmr;
-    if (!hudFmr || typeof hudFmr.getFmrByFips !== 'function') return null;
-    var fmr = hudFmr.getFmrByFips(fips);
-    if (!fmr || !fmr.two_br || fmr.two_br <= 0) return null;
-    var base = zori.rent;
-    return {
-      'studio': Math.round(base * (fmr.efficiency || fmr.two_br * 0.78) / fmr.two_br),
-      '1br':    Math.round(base * (fmr.one_br     || fmr.two_br * 0.87) / fmr.two_br),
-      '2br':    Math.round(base),
-      '3br':    Math.round(base * (fmr.three_br   || fmr.two_br * 1.27) / fmr.two_br),
-      '4br':    Math.round(base * (fmr.four_br    || fmr.two_br * 1.45) / fmr.two_br),
-      _meta: {
-        vintage_month: zori.vintage_month,
-        name:          zori.name,
-        yoy:           zori.yoy
-      }
-    };
+    return window.ZoriRentUtils ? window.ZoriRentUtils.getPerBedroomRent(_zoriData, fips,
+      window.HudFmr, zoriContext(fips)) : null;
   }
 
   // Manual remainder units use the grid's bedroom proportions. Largest remainders
@@ -1070,10 +1034,13 @@
     noteInput.value = override && typeof overrides.note === 'string' ? overrides.note : '';
     var note = noteInput.value.trim();
     var zori = _countyFips ? getZoriPerBrRent(_countyFips) : null;
-    var zoriMeta = _zoriData && _zoriData.meta || {};
-    var source = countySource({ source: zoriMeta.source, sourceUrl: zoriMeta.county_url,
-      vintage: zori && zori._meta.vintage_month, binding: 'zori-fmr-bedroom-ratios',
-      why: 'County ZORI scaled with HUD FMR bedroom ratios; a market-rent estimate, not an AMI limit.' });
+    var zoriMeta = zori && zori._meta || {};
+    var source = countySource({ source: zoriMeta.source, sourceUrl: zoriMeta.sourceUrl,
+      vintage: zoriMeta.vintage_month, geography: zoriMeta.name, geoid: zoriMeta.geoid,
+      binding: 'zori-fmr-bedroom-ratios',
+      why: (zoriMeta.method || 'Local ZORI, HUD FMR or ACS renter bedroom mix unavailable.') +
+        ' ACS mix: ' + (zoriMeta.bedroomMixVintage || 'unavailable') + ' (' + (zoriMeta.bedroomMixSourceUrl || '') +
+        '); HUD FMR FY' + (zoriMeta.fmrVintage || 'unavailable') + ' (' + (zoriMeta.fmrSourceUrl || '') + '). Screening market-rent estimate.' });
     var provenance = window.InputProvenance;
     // Cache the independently loaded origin; never certify a typed/shared value.
     SPLIT_BR_TYPES.forEach(function (br) {
@@ -1081,7 +1048,7 @@
       input.readOnly = !override;
       var rent = zori && zori[br];
       var available = typeof rent === 'number' && isFinite(rent) && rent > 0 && source.vintage != null;
-      var key = JSON.stringify([_countyFips, rent, source.vintage, mode]);
+      var key = JSON.stringify([_countyFips, rent, source.vintage, source.geoid, zoriMeta.bedroomMixVintage, mode]);
       // A restored link can fill a readonly input. In ZORI mode the displayed
       // amount must still be the local record used below, never stale link text.
       if (input.dataset.marketSourceKey !== key || (!override && input.value !== (available ? String(rent) : ''))) {
@@ -1102,8 +1069,10 @@
     panel.dataset.marketMode = mode;
     document.getElementById('dc-market-source-wrap').hidden = !override;
     var vintage = document.getElementById('dc-market-rent-vintage');
-    vintage.textContent = zori ? source.source + ' · ' + source.vintage + ' · ' + source.geography +
-      '. Bedroom estimates use HUD FMR ratios.' : 'County ZORI unavailable; enter market rents with a source note.';
+    vintage.textContent = zori ? source.source + '. ACS ' + zoriMeta.bedroomMixVintage +
+      (zoriMeta.review_flag ? '. ' + zoriMeta.review_flag.note : '') :
+      'ZORI bedroom estimate unavailable; enter market rents with a source note.';
+    vintage.dataset.reviewFlag = zoriMeta.review_flag ? zoriMeta.review_flag.reason : '';
     var allocation = manualMarketSplit(units, bedroomCounts);
     var reason = null;
     var rows = allocation.map(function (row) {
@@ -2101,7 +2070,7 @@
             </label></div>
             <label style="display:block;">Rent source
               <select id="dc-market-rent-mode" style="min-height:44px;width:100%;">
-                <option value="zori">County ZORI bedroom estimates</option>
+                <option value="zori">Local ZORI bedroom estimates</option>
                 <option value="override">Enter market rents and a source note</option>
               </select>
             </label>
@@ -5730,6 +5699,13 @@
       }
     }).catch(function () { /* cap toggle stays disabled, no LIHTC change */ });
 
+    fetch(_gapResolver('data/market/acs_renter_bedrooms_co.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      _renterBedroomMix = data;
+      if (_countyFips) { _renderZoriMarketContext(_countyFips); recalculate(); }
+    }).catch(function () { _renterBedroomMix = null; if (_countyFips) recalculate(); });
+
     // F96 — Apartment List monthly rent index (CO cities). Triangulation
     // source. Soft-load; AL line just hides when missing.
     fetch(_gapResolver('data/market/apartment_list_co.json')).then(function (r) {
@@ -5759,10 +5735,7 @@
       }
     }).catch(function () { /* skip — DOLA is optional */ });
 
-    // F97 — ACS B25064 median gross rent. The always-available baseline:
-    // every CO county has a value, so even when ZORI/AL/DOLA all miss
-    // (rural / unincorporated / small CDP) the cap pane still surfaces a
-    // defensible market-rent reference.
+    // Published 2020–24 B25064 baseline, preserving suppressed values.
     fetch(_gapResolver('data/market/acs_median_rent_co.json')).then(function (r) {
       return r.ok ? r.json() : null;
     }).then(function (data) {
@@ -5838,45 +5811,21 @@
 
     var html = '';
 
-    // F97 — ACS B25064 baseline. ALWAYS PRESENT for every CO county, so
-    // this is the first line of the cap pane. Lagged ~2 yrs (5-yr ACS)
-    // but full coverage — the floor signal we can always show.
-    //
-    // F224 — When the active jurisdiction is a place (not a county), prefer
-    // the place-level ACS median gross rent from data/hna/summary/{placeGeoid}.json
-    // (DP04_0134E). The Silt-style bug: every place in Garfield County saw
-    // identical rent ($1,170) because we only looked up county. Now place ACS
-    // takes precedence; fallback is the county aggregate, labelled "(county)".
-    var placeRent = null;
-    var placeRentName = null;
-    try {
-      var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
-                 window.WorkflowState.getActiveProject();
-      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-      if (jx && jx.geoid && String(jx.geoid).length === 7 && window.__cohoPlaceAcsCache) {
-        var pRec = window.__cohoPlaceAcsCache[jx.geoid];
-        if (pRec && Number.isFinite(+pRec.DP04_0134E)) {
-          placeRent = +pRec.DP04_0134E;
-          placeRentName = jx.name || 'Place';
-        }
-      }
-    } catch (_) {}
-    if (placeRent) {
-      html += '<strong>' + placeRentName + '</strong> ACS median gross rent: $' +
-        placeRent.toLocaleString() + '/mo' +
-        ' &middot; <span style="opacity:.85;">5-yr Census B25064 (DP04_0134E) — place-level.</span>';
-    } else if (_acsRent && _acsRent.counties) {
-      var acsRec = _acsRent.counties[String(fips).padStart(5, '0')];
-      if (acsRec && Number.isFinite(acsRec.median_gross_rent)) {
-        html += '<strong>' + (acsRec.name || 'County') + '</strong> ACS median gross rent: $' +
-          acsRec.median_gross_rent.toLocaleString() + '/mo' +
-          ' &middot; <span style="opacity:.85;">5-yr Census B25064 — county aggregate (no place-level value).</span>';
-      }
+    // Published B25064 for this place, otherwise the explicitly named county.
+    var placeGeoid = zoriContext(fips).geoid;
+    var acsPlace = _acsRent && _acsRent.places && _acsRent.places[placeGeoid];
+    var acsRec = acsPlace && acsPlace.county_fips === fips ? acsPlace :
+      _acsRent && _acsRent.counties && _acsRent.counties[fips];
+    if (acsRec && Number.isFinite(acsRec.median_gross_rent) && acsRec.median_gross_rent > 0) {
+      html += '<strong>' + marketContextHtml(acsRec.name) + '</strong> ACS median gross rent: $' +
+        acsRec.median_gross_rent.toLocaleString() + '/mo · Census B25064, ' + marketContextHtml(_acsRent.meta.vintage) + '.';
+    } else if (acsRec) {
+      html += marketContextHtml(acsRec.name) + ': ACS median gross rent unavailable.';
     }
 
     // F96 — ZORI (monthly, all-BR). Adds the fresher signal where Zillow
     // has sufficient listing volume.
-    var zori = getZoriCountyRent(fips);
+    var zori = window.ZoriRentUtils && window.ZoriRentUtils.getMarketRent(_zoriData, fips, zoriContext(fips));
     if (zori) {
       var yoyStr = (typeof zori.yoy === 'number')
         ? (' &middot; <strong style="color:' + (zori.yoy >= 0 ? 'var(--accent,#096e65)' : 'var(--bad,#dc2626)') + ';">' +
@@ -5887,11 +5836,14 @@
         zori.rent.toLocaleString() + '/mo all-bedroom typical' +
         yoyStr +
         ' &middot; vintage ' + (zori.vintage_month || 'n/a') +
-        '. <span style="opacity:.85;">Per-BR values scaled by HUD FMR ratios.</span>';
+        '. <span style="opacity:.85;">Bedroom estimates normalize HUD FMR ratios to the local ACS renter bedroom mix.</span>';
       if (html.indexOf('<div') !== -1) html += '</div>';
+      var distributed = getZoriPerBrRent(fips);
+      if (distributed && distributed._meta.review_flag) html += '<div data-review-flag="zori_2br_below_fmr">' +
+        marketContextHtml(distributed._meta.review_flag.note) + '</div>';
     } else if (!html) {
       // No ZORI AND no ACS — shouldn't happen but bail gracefully.
-      el.textContent = 'Loading market data…';
+      el.textContent = 'Market rent data unavailable for this geography.';
       el.style.color = 'var(--muted)';
       return;
     }
