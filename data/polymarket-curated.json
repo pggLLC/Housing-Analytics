@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "description": "The curated Polymarket events shown on economic-dashboard.html and fetched by .github/workflows/fetch-polymarket-data.yml. This file is the single list of markets; neither the page nor the workflow names a market itself.",
+    "how_to_add": "Add one entry. `slug` is the Polymarket event slug. `section` is one of the dashboard sections below. `role` picks how the event is rendered (see ROLES in economic-dashboard.html). `key` names the element ids (pm-<key>, pm-<key>-detail, ...) and must be unique. `kpi` is optional and adds a headline tile.",
+    "settled_markets": "A market that settles is dropped from data/polymarket-data.json by the fetcher and listed in dropped_settled; the page then stops rendering its card. Removing the entry from this file afterwards is housekeeping, not a fix.",
+    "sections": ["fed", "mortgage", "growth", "labor"],
+    "roles": ["recession", "fed-decision", "fed-decision-pair", "fed-cuts", "inflation", "gdp", "brackets", "up-down"]
+  },
+  "events": [
+    {
+      "slug": "fed-decision-in-october-20260617190323537",
+      "key": "fed-oct",
+      "role": "fed-decision",
+      "section": "fed",
+      "badge": "Fed Policy",
+      "color": "#1a73e8",
+      "label": "Fed Decision — October 2026",
+      "description": "FOMC meeting October 27-28. Directly sets short-term rate environment for construction loans and variable-rate debt.",
+      "kpi": "Fed Holds in October"
+    },
+    {
+      "slug": "how-many-fed-rate-cuts-in-2026",
+      "key": "fed-cuts",
+      "role": "fed-cuts",
+      "section": "fed",
+      "badge": "Fed Policy",
+      "color": "#1a73e8",
+      "label": "Rate Cuts in 2026",
+      "description": "Number of 25bp cuts expected this year. Fewer cuts = higher mortgage rates = tighter affordability for Colorado buyers.",
+      "kpi": "Most Likely Rate Cuts 2026"
+    },
+    {
+      "slug": "fed-decision-in-january-20260729233815502",
+      "key": "fed-jan",
+      "role": "fed-decision-pair",
+      "section": "fed",
+      "badge": "Fed Policy",
+      "color": "#1a73e8",
+      "label": "Fed Decision — January 2027",
+      "description": "Next major decision point. Rate trajectory affects permanent debt terms and LIHTC equity pricing."
+    },
+    {
+      "slug": "will-the-30-year-mortgage-rate-hit-in-2026",
+      "key": "mortgage",
+      "role": "brackets",
+      "section": "mortgage",
+      "badge": "Housing",
+      "color": "#2e7d32",
+      "label": "30-Year Mortgage Rate in 2026",
+      "description": "Sets the debt constant on every ownership pro forma and the affordability ceiling for first-time buyers."
+    },
+    {
+      "slug": "us-recession-by-end-of-2026",
+      "key": "recession",
+      "role": "recession",
+      "section": "growth",
+      "badge": "Recession",
+      "color": "#c62828",
+      "label": "US Recession by End of 2026?",
+      "description": "Two consecutive negative GDP quarters or NBER announcement. A recession would sharply curtail new CO construction starts and LIHTC deal flow.",
+      "kpi": "US Recession by 2026"
+    },
+    {
+      "slug": "gdp-growth-in-2026",
+      "key": "gdp",
+      "role": "gdp",
+      "section": "growth",
+      "badge": "GDP",
+      "color": "#1565c0",
+      "label": "GDP Growth in 2026",
+      "description": "Full-year real GDP growth. Stronger growth supports CO job market, in-migration, and housing demand along the Front Range.",
+      "kpi": "GDP Growth 2026"
+    },
+    {
+      "slug": "how-high-will-inflation-get-in-2026",
+      "key": "inflation",
+      "role": "inflation",
+      "section": "growth",
+      "badge": "Inflation",
+      "color": "#b84500",
+      "label": "Inflation Peak in 2026",
+      "description": "CPI thresholds during any month. Higher inflation = rising construction material costs, eroding LIHTC rent affordability margins.",
+      "kpi": "Inflation > 4% in 2026"
+    },
+    {
+      "slug": "tech-layoffs-up-or-down-in-2026",
+      "key": "layoffs",
+      "role": "up-down",
+      "section": "labor",
+      "badge": "Labor",
+      "color": "#6a1b9a",
+      "label": "Tech Layoffs Up or Down in 2026?",
+      "description": "Front Range tech employment is a key demand driver for Denver/Boulder housing. Rising layoffs weaken high-end rental absorption."
+    }
+  ]
+}

@@ -33,25 +33,17 @@ jobs:
           # A CURATED list, because relevance on a housing site is a human
           # judgement -- a title scan for "rent" matches Brentford FC and the
           # word "different". What must NOT be human-maintained is liveness:
-          # every entry below will resolve eventually, and several of these
-          # resolve monthly.
+          # every entry will resolve eventually, and several resolve monthly.
           #
-          # Before 2026-09-18 this list was 15 slugs fetched unconditionally
-          # forever. Nine had resolved, including all three housing markets,
-          # and the panel published them as live prices. See issue #1738.
-          EVENTS = [
-              # macro
-              "us-recession-by-end-of-2026",
-              "how-many-fed-rate-cuts-in-2026",
-              "how-high-will-inflation-get-in-2026",
-              "gdp-growth-in-2026",
-              "tech-layoffs-up-or-down-in-2026",
-              "fed-decision-in-october-20260617190323537",
-              "fed-decision-in-january-20260729233815502",
-              # housing -- the reason this panel is on this site at all
-              "will-the-30-year-mortgage-rate-hit-in-2026",
-          ]
-
+          # The list lives in data/polymarket-curated.json, which the dashboard
+          # also reads (#2063). A settled entry is dropped here and listed in
+          # dropped_settled, and the page stops drawing it; nothing has to be
+          # edited by hand for a settlement to stay off the site.
+          CURATED = json.loads(Path("data/polymarket-curated.json").read_text())
+          EVENTS = [e["slug"] for e in CURATED["events"]]
+          if not EVENTS or len(set(EVENTS)) != len(EVENTS):
+              print("::error::data/polymarket-curated.json must list each event slug once")
+              sys.exit(1)
           # Anything matching this in an event title counts as housing content.
           # Word-boundaried on purpose.
           import re
@@ -165,7 +157,7 @@ jobs:
           # even when another event is missing. Old prices stay explicitly stale.
           if not housing:
               print("::warning::no housing-related Polymarket market is live; this panel is "
-                    "on a housing site. Add a successor market to EVENTS in this workflow.")
+                    "on a housing site. Add a successor market to data/polymarket-curated.json.")
 
           output = {
               "updated": stamp,

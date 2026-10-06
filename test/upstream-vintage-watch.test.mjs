@@ -97,15 +97,29 @@ const runIssueStep = new (Object.getPrototypeOf(async function () {}).constructo
 );
 function issueHarness() {
   const issues = Array.from({ length: 101 }, (_, i) => ({ number: i + 1, body: 'unrelated', state: 'open' }));
-  const warnings = [], creates = [], updates = [];
+  const warnings = [], creates = [], updates = [], comments = [], labelsMade = [], labelled = [];
+  const repoLabels = new Set(['bug']);
   const api = {
     listForRepo() { throw new Error('must paginate the tracker search'); },
-    async create(args) { creates.push(args); issues.push({ ...args, state: 'open', number: 102 }); },
+    async create(args) {
+      // GitHub rejects an issue whose labels do not exist; the step must not pass any.
+      assert.equal(args.labels, undefined, 'labels are added after creation, never at creation');
+      creates.push(args); issues.push({ ...args, state: 'open', number: 102 });
+      return { data: { number: 102 } };
+    },
     async update(args) { updates.push(args); Object.assign(issues.find(i => i.number === args.issue_number), args); },
-    async createComment() {},
+    async createComment(args) { comments.push(args); },
+    async createLabel({ name }) {
+      if (repoLabels.has(name)) { const e = new Error('already_exists'); e.status = 422; throw e; }
+      repoLabels.add(name); labelsMade.push(name);
+    },
+    async addLabels({ labels }) {
+      for (const name of labels) assert(repoLabels.has(name), `label ${name} added before it exists`);
+      labelled.push(...labels);
+    },
   };
   return {
-    issues, warnings, creates, updates,
+    issues, warnings, creates, updates, comments, labelsMade, labelled, repoLabels,
     async run(sources) {
       await runIssueStep(() => ({ readFileSync: () => JSON.stringify(buildWatchPayload(sources)) }), {
         rest: { issues: api },
@@ -130,6 +144,11 @@ test('unverifiable CHAS warns and creates/updates one tracker, even beyond page 
   assert.equal(h.issues[101].state, 'open');
   assert.match(h.issues[101].body, /https:\/\/www\.huduser\.gov\/portal\/datasets\/cp\.html/);
   assert.match(h.issues[101].body, /manual/i);
+  // The tracker opens even though neither label existed, and gets both.
+  assert.deepEqual(h.labelsMade, ['data-pipeline', 'upstream-vintage']);
+  assert.deepEqual(h.labelled, ['data-pipeline', 'upstream-vintage']);
+  // HUD blocks indefinitely: an unchanged weekly result must not comment.
+  assert.equal(h.comments.length, 0, 'an unchanged status must not add a comment');
   const verified = await watchHudChas(stub([zip, statusResponse(404), statusResponse(404), statusResponse(404)]).fetch);
   await h.run([verified]);
   assert.equal(h.issues[101].state, 'closed');
@@ -143,4 +162,19 @@ test('CHAS remains dispatch-only and uses the fetcher; completion monitors still
   assert.doesNotMatch(fetchWorkflow, /\b(?:curl|wget)\b/);
   assert.match(read('workflow-outcome-monitor.yml'), /Fetch HUD CHAS Affordability Data/);
   assert.match(read('workflow-outcome-monitor.yml'), /workflow_dispatch/);
+});
+
+test('the tracker comments only when its status rows change', async () => {
+  const h = issueHarness();
+  const blocked = await watchHudChas(stub([statusResponse(202)]).fetch);
+  await h.run([blocked]);
+  for (let week = 0; week < 3; week++) await h.run([blocked]);
+  assert.equal(h.comments.length, 0, 'three identical weeks, no comments');
+  assert.equal(h.updates.length, 3, 'the body is still refreshed each week');
+  const forbidden = await watchHudChas(stub([statusResponse(403)]).fetch);
+  await h.run([forbidden]);
+  assert.equal(h.comments.length, 1, 'a changed status comments once');
+  assert.match(h.comments[0].body, /changed/i);
+  await h.run([forbidden]);
+  assert.equal(h.comments.length, 1);
 });

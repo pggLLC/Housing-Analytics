@@ -392,132 +392,40 @@ document.addEventListener('DOMContentLoaded', function () {
   <strong>Not financial advice.</strong> Prediction market prices represent crowd consensus, not forecasts. Use alongside FRED data above for context on rate environment, inflation trajectory, and recession risk when assessing Colorado housing deals.
 </div>
 
-<!-- Polymarket KPI strip -->
-<div class="kpi-strip" role="region" aria-label="Polymarket key predictions" id="pm-kpi-strip" style="margin-bottom:var(--sp3);">
-  <div class="kpi-strip-item">
-    <div class="kpi-strip-value" id="pm-recession">—</div>
-    <div class="kpi-strip-label">US Recession by 2026</div>
-    <div class="kpi-delta" id="pm-recession-vol">—</div>
-    <div class="kpi-source">Polymarket</div>
-  </div>
-  <div class="kpi-strip-item">
-    <div class="kpi-strip-value" id="pm-fed-oct">—</div>
-    <div class="kpi-strip-label">Fed Holds in October</div>
-    <div class="kpi-delta" id="pm-fed-oct-vol">—</div>
-    <div class="kpi-source">Polymarket</div>
-  </div>
-  <div class="kpi-strip-item">
-    <div class="kpi-strip-value" id="pm-fed-cuts">—</div>
-    <div class="kpi-strip-label">Most Likely Rate Cuts 2026</div>
-    <div class="kpi-delta" id="pm-fed-cuts-prob">—</div>
-    <div class="kpi-source">Polymarket</div>
-  </div>
-  <div class="kpi-strip-item">
-    <div class="kpi-strip-value" id="pm-inflation">—</div>
-    <div class="kpi-strip-label">Inflation &gt; 4% in 2026</div>
-    <div class="kpi-delta" id="pm-inflation-vol">—</div>
-    <div class="kpi-source">Polymarket</div>
-  </div>
-  <div class="kpi-strip-item">
-    <div class="kpi-strip-value" id="pm-gdp">—</div>
-    <div class="kpi-strip-label">GDP Growth 2026</div>
-    <div class="kpi-delta" id="pm-gdp-prob">—</div>
-    <div class="kpi-source">Polymarket</div>
-  </div>
-</div>
+<!-- Polymarket KPI strip. Tiles, cards and their order all come from
+     data/polymarket-curated.json; this page names no market itself (#2063). -->
+<div class="kpi-strip" role="region" aria-label="Polymarket key predictions" id="pm-kpi-strip" style="margin-bottom:var(--sp3);"></div>
 
 <!-- Colorado Impact Analysis -->
 <h3 class="hp-section-heading">Colorado Real Estate &amp; Affordability Impact</h3>
 <div class="hp-co-grid" id="pm-co-grid" style="margin-bottom:1.25rem;">
   <div class="hp-co-item">
     <div class="hp-co-label">Construction Cost Pressure</div>
-    <div class="hp-co-value" id="pm-co-cost">—</div>
+    <div class="hp-co-value" id="pm-co-cost">Unavailable</div>
     <div class="hp-co-range">Inflation &gt; 4% prob</div>
   </div>
   <div class="hp-co-item">
     <div class="hp-co-label">Recession Risk</div>
-    <div class="hp-co-value" id="pm-co-recession">—</div>
+    <div class="hp-co-value" id="pm-co-recession">Unavailable</div>
     <div class="hp-co-range">Deal pipeline impact</div>
   </div>
 </div>
 
 <!-- Fed & Interest Rates -->
 <h3 class="hp-section-heading">Federal Reserve &amp; Interest Rates</h3>
-<div class="hp-binary-grid" style="margin-bottom:1.25rem;">
-  <a class="hp-binary-card" href="https://polymarket.com/event/fed-decision-in-october-20260617190323537" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#1a73e8;">
-    <div class="hp-category-badge">Fed Policy</div>
-    <div class="hp-binary-label">Fed Decision — October 2026</div>
-    <div class="hp-binary-desc">FOMC meeting October 27-28. Directly sets short-term rate environment for construction loans and variable-rate debt.</div>
-    <div id="pm-fed-oct-detail">Unavailable</div>
-  </a>
-  <a class="hp-binary-card" href="https://polymarket.com/event/how-many-fed-rate-cuts-in-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#1a73e8;">
-    <div class="hp-category-badge">Fed Policy</div>
-    <div class="hp-binary-label">Rate Cuts in 2026</div>
-    <div class="hp-binary-desc">Number of 25bp cuts expected this year. Fewer cuts = higher mortgage rates = tighter affordability for Colorado buyers.</div>
-    <div id="pm-fed-cuts-detail">Unavailable</div>
-  </a>
-  <a class="hp-binary-card" href="https://polymarket.com/event/fed-decision-in-january-20260729233815502" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#1a73e8;">
-    <div class="hp-category-badge">Fed Policy</div>
-    <div class="hp-binary-label">Fed Decision — January 2027</div>
-    <div class="hp-binary-desc">Next major decision point. Rate trajectory affects permanent debt terms and LIHTC equity pricing.</div>
-    <div class="hp-odds-row">
-      <div class="hp-odds-yes"><span class="hp-odds-pct" id="pm-fed-jan-yes">—</span><span class="hp-odds-lbl">No chg</span></div>
-      <div class="hp-odds-sep">|</div>
-      <div class="hp-odds-no"><span class="hp-odds-pct" id="pm-fed-jan-no">—</span><span class="hp-odds-lbl">Cut</span></div>
-    </div>
-    <div class="hp-binary-bar"><div class="hp-binary-bar-fill" id="pm-fed-jan-bar" style="width:0%"></div></div>
-  </a>
-</div>
+<div class="hp-binary-grid" data-pm-section="fed" style="margin-bottom:1.25rem;"></div>
 
 <!-- Mortgage Rates -->
 <h3 class="hp-section-heading">Mortgage Rates</h3>
-<div class="hp-binary-grid" style="margin-bottom:1.25rem;">
-  <a class="hp-binary-card" href="https://polymarket.com/event/will-the-30-year-mortgage-rate-hit-in-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#2e7d32;">
-    <div class="hp-category-badge" style="background:#2e7d32;">Housing</div>
-    <div class="hp-binary-label">30-Year Mortgage Rate in 2026</div>
-    <div class="hp-binary-desc">Sets the debt constant on every ownership pro forma and the affordability ceiling for first-time buyers.</div>
-    <div id="pm-mortgage-detail">Unavailable</div>
-  </a>
-</div>
+<div class="hp-binary-grid" data-pm-section="mortgage" style="margin-bottom:1.25rem;"></div>
 
 <!-- Recession & Growth -->
 <h3 class="hp-section-heading">Recession Risk &amp; Economic Growth</h3>
-<div class="hp-binary-grid" style="margin-bottom:1.25rem;">
-  <a class="hp-binary-card" href="https://polymarket.com/event/us-recession-by-end-of-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#c62828;">
-    <div class="hp-category-badge" style="background:#c62828;">Recession</div>
-    <div class="hp-binary-label">US Recession by End of 2026?</div>
-    <div class="hp-binary-desc">Two consecutive negative GDP quarters or NBER announcement. A recession would sharply curtail new CO construction starts and LIHTC deal flow.</div>
-    <div id="pm-recession-detail">Unavailable</div>
-  </a>
-  <a class="hp-binary-card" href="https://polymarket.com/event/gdp-growth-in-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#1565c0;">
-    <div class="hp-category-badge" style="background:#1565c0;">GDP</div>
-    <div class="hp-binary-label">GDP Growth in 2026</div>
-    <div class="hp-binary-desc">Full-year real GDP growth. Stronger growth supports CO job market, in-migration, and housing demand along the Front Range.</div>
-    <div id="pm-gdp-detail">Unavailable</div>
-  </a>
-  <!-- #b84500 (was #e65100) passes AA 4.5:1 with white text at 8pt bold; #e65100 was 3.78:1. -->
-  <a class="hp-binary-card" href="https://polymarket.com/event/how-high-will-inflation-get-in-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#b84500;">
-    <div class="hp-category-badge" style="background:#b84500;">Inflation</div>
-    <div class="hp-binary-label">Inflation Peak in 2026</div>
-    <div class="hp-binary-desc">CPI thresholds during any month. Higher inflation = rising construction material costs, eroding LIHTC rent affordability margins.</div>
-    <div id="pm-inflation-detail">Unavailable</div>
-  </a>
-</div>
+<div class="hp-binary-grid" data-pm-section="growth" style="margin-bottom:1.25rem;"></div>
 
 <!-- Employment -->
 <h3 class="hp-section-heading">Employment &amp; Labor Market</h3>
-<div class="hp-binary-grid" style="margin-bottom:1.25rem;">
-  <a class="hp-binary-card" href="https://polymarket.com/event/tech-layoffs-up-or-down-in-2026" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:#6a1b9a;">
-    <div class="hp-category-badge" style="background:#6a1b9a;">Labor</div>
-    <div class="hp-binary-label">Tech Layoffs Up or Down in 2026?</div>
-    <div class="hp-binary-desc">Front Range tech employment is a key demand driver for Denver/Boulder housing. Rising layoffs weaken high-end rental absorption.</div>
-    <div class="hp-odds-row">
-      <div class="hp-odds-yes"><span class="hp-odds-pct" style="color:var(--bad,#c62828);" id="pm-layoffs">—</span><span class="hp-odds-lbl">Up</span></div>
-    </div>
-    <div class="hp-binary-bar"><div class="hp-binary-bar-fill" id="pm-layoffs-bar" style="width:0%;background:var(--bad,#c62828);"></div></div>
-    <div style="font-size:.75rem;color:var(--muted);margin-top:.35rem;">Vol: <span id="pm-layoffs-vol">—</span></div>
-  </a>
-</div>
+<div class="hp-binary-grid" data-pm-section="labor" style="margin-bottom:1.25rem;"></div>
 
 <div style="font-size:.82rem;color:var(--muted);margin-top:var(--sp3);line-height:1.6;">
   <strong>Data:</strong> <a href="https://polymarket.com" target="_blank" rel="noopener">Polymarket</a> via Gamma API. Prices are real-money prediction market contracts — not polls or models.
@@ -538,6 +446,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   .hp-prob-row.pm-settled {
     opacity: .72;
+  }
+  .pm-empty {
+    color: var(--muted);
+    font-size: .85rem;
+    margin: 0;
   }
 </style>
 
@@ -1346,20 +1259,31 @@ function getKey(){ return CONFIG_KEY || ""; }
 
 <script>
 // ── Polymarket Prediction Markets ──
-// Reads pre-fetched data from data/polymarket-data.json (built daily by GitHub Action).
-// Falls back to live Gamma API if the cached file is unavailable.
+// The market list is data/polymarket-curated.json; prices are the daily cache
+// in data/polymarket-data.json. This script names no market (#2063): a market
+// that settles is dropped by the fetcher and its card simply is not built, so
+// nothing has to be edited by hand when a market resolves. A curated market
+// that is absent from the cache (not returned, not settled) falls back to the
+// live API, and is "Unavailable" if that fails too.
 (function() {
   'use strict';
-  var CACHE_URL = (typeof window.resolveAssetUrl === 'function')
-    ? window.resolveAssetUrl('data/polymarket-data.json')
-    : 'data/polymarket-data.json';
+  function asset(p) {
+    return (typeof window.resolveAssetUrl === 'function') ? window.resolveAssetUrl(p) : p;
+  }
+  var CACHE_URL = asset('data/polymarket-data.json');
+  var CURATED_URL = asset('data/polymarket-curated.json');
   var API = 'https://gamma-api.polymarket.com';
+  var EVENT_URL = 'https://polymarket.com/event/';
 
   function pct(p) { return Math.round(p * 100) + '%'; }
   function fmtVol(n) {
     if (n >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
     if (n >= 1e3) return '$' + (n / 1e3).toFixed(1) + 'K';
     return '$' + Math.round(n);
+  }
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
   function pmIsResolved(prices) {
     if (!Array.isArray(prices) || prices.length < 2) return false;
@@ -1387,6 +1311,9 @@ function getKey(){ return CONFIG_KEY || ""; }
   function pmEventIsResolved(markets) {
     return Array.isArray(markets) && markets.length > 0 && markets.every(function(m) { return m.resolved; });
   }
+  function totalVolume(brackets) {
+    return brackets.reduce(function(s, b) { return s + b.volume; }, 0);
+  }
 
   function renderBrackets(containerId, brackets) {
     var el = document.getElementById(containerId);
@@ -1396,7 +1323,7 @@ function getKey(){ return CONFIG_KEY || ""; }
     brackets.forEach(function(b) {
       var isTop = b.prob === maxProb;
       html += '<div class="hp-prob-row' + (b.resolved ? ' pm-settled' : '') + '">' +
-        '<span class="hp-prob-label" title="' + b.label + '">' + b.label + '</span>' +
+        '<span class="hp-prob-label" title="' + esc(b.label) + '">' + esc(b.label) + '</span>' +
         '<div class="hp-bar-wrap"><div class="hp-bar hp-bar--market" style="width:' + (maxProb > 0 ? (b.prob / maxProb * 100) : 0) + '%;' + (isTop ? '' : 'opacity:.6;') + '"></div></div>' +
         '<span class="hp-prob-pct" style="' + (isTop && !b.resolved ? 'color:var(--color-primary,#1a73e8);' : '') + '">' + (b.resolved ? 'Settled' : pct(b.prob)) + '</span>' +
         '</div>';
@@ -1419,17 +1346,207 @@ function getKey(){ return CONFIG_KEY || ""; }
     }
   }
 
+  function setText(id, text) {
+    var el = document.getElementById(id);
+    if (el) {
+      el.classList.remove('pm-settled');
+      el.textContent = text;
+    }
+  }
+
+  // ── Roles: how a kind of market is drawn. Which markets exist is data. ──
+  // Each role builds its card body and renders an event into it. `kpi` roles
+  // also fill the headline tile pm-<key> / pm-<key>-delta when the curated
+  // entry asks for one.
+  function detailBody(e) {
+    return '<div id="pm-' + e.key + '-detail">Unavailable</div>';
+  }
+  var ROLES = {
+    'recession': {
+      kpi: true,
+      body: detailBody,
+      render: function(e, event) {
+        var rm = parseMarkets(event);
+        var resolved = pmEventIsResolved(rm);
+        var rYes = rm.length ? rm[0].prob : 0;
+        // Find the Yes market specifically
+        (event.markets || []).forEach(function(m) {
+          try { rYes = parseFloat(JSON.parse(m.outcomePrices)[0]) || 0; } catch(err) {}
+        });
+        var vol = 0;
+        (event.markets || []).forEach(function(m) { vol += parseFloat(m.volume) || 0; });
+        if (resolved) {
+          markSettledValue('pm-' + e.key, 'pm-' + e.key + '-delta', 'Settled · ' + fmtVol(vol) + ' volume');
+          markSettledValue('pm-co-recession');
+        } else {
+          setText('pm-' + e.key, pct(rYes));
+          setText('pm-' + e.key + '-delta', fmtVol(vol) + ' volume');
+          setText('pm-co-recession', pct(rYes));
+          var recEl = document.getElementById('pm-co-recession');
+          if (recEl) recEl.style.color = rYes > 0.4 ? 'var(--bad,#c62828)' : rYes > 0.25 ? 'var(--warn,#e65100)' : 'var(--good,#2e7d32)';
+        }
+        var detail = document.getElementById('pm-' + e.key + '-detail');
+        if (detail) {
+          detail.innerHTML = resolved
+            ? '<div class="pm-settled">Settled</div><div style="font-size:.75rem;color:var(--muted);margin-top:.35rem;">Vol: ' + fmtVol(vol) + '</div>'
+            : '<div class="hp-odds-row">' +
+                '<div class="hp-odds-yes"><span class="hp-odds-pct">' + pct(rYes) + '</span><span class="hp-odds-lbl">Yes</span></div>' +
+                '<div class="hp-odds-sep">|</div>' +
+                '<div class="hp-odds-no"><span class="hp-odds-pct">' + pct(1 - rYes) + '</span><span class="hp-odds-lbl">No</span></div>' +
+              '</div>' +
+              '<div class="hp-binary-bar"><div class="hp-binary-bar-fill" style="width:' + (rYes * 100) + '%;background:var(--bad,#c62828);"></div></div>' +
+              '<div style="font-size:.75rem;color:var(--muted);margin-top:.35rem;">Vol: ' + fmtVol(vol) + '</div>';
+        }
+      }
+    },
+    'fed-decision': {
+      kpi: true,
+      body: detailBody,
+      render: function(e, event) {
+        var brackets = parseMarkets(event);
+        var noChange = brackets.find(function(b) { return b.question.toLowerCase().indexOf('no change') !== -1; });
+        if (pmEventIsResolved(brackets)) {
+          markSettledValue('pm-' + e.key, 'pm-' + e.key + '-delta', 'Settled · ' + fmtVol(totalVolume(brackets)) + ' volume');
+        } else if (noChange) {
+          setText('pm-' + e.key, pct(noChange.prob));
+          setText('pm-' + e.key + '-delta', fmtVol(totalVolume(brackets)) + ' volume');
+        }
+        renderBrackets('pm-' + e.key + '-detail', brackets.map(function(b) {
+          return { label: b.question.replace(/^Fed decision in [A-Za-z]+:\s*/i, '').replace(/\?$/, ''), prob: b.prob, resolved: b.resolved };
+        }));
+      }
+    },
+    'fed-decision-pair': {
+      body: function(e) {
+        return '<div class="hp-odds-row">' +
+          '<div class="hp-odds-yes"><span class="hp-odds-pct" id="pm-' + e.key + '-yes">—</span><span class="hp-odds-lbl">No chg</span></div>' +
+          '<div class="hp-odds-sep">|</div>' +
+          '<div class="hp-odds-no"><span class="hp-odds-pct" id="pm-' + e.key + '-no">—</span><span class="hp-odds-lbl">Cut</span></div>' +
+          '</div>' +
+          '<div class="hp-binary-bar"><div class="hp-binary-bar-fill" id="pm-' + e.key + '-bar" style="width:0%"></div></div>';
+      },
+      render: function(e, event) {
+        var brackets = parseMarkets(event);
+        var noChange = brackets.find(function(b) { return b.question.toLowerCase().indexOf('no change') !== -1; });
+        var bar = document.getElementById('pm-' + e.key + '-bar');
+        if (pmEventIsResolved(brackets)) {
+          markSettledValue('pm-' + e.key + '-yes');
+          markSettledValue('pm-' + e.key + '-no');
+          if (bar) bar.style.width = '0%';
+        } else if (noChange) {
+          setText('pm-' + e.key + '-yes', pct(noChange.prob));
+          setText('pm-' + e.key + '-no', pct(1 - noChange.prob));
+          if (bar) bar.style.width = (noChange.prob * 100) + '%';
+        }
+      }
+    },
+    'fed-cuts': {
+      kpi: true,
+      body: detailBody,
+      render: function(e, event) {
+        var brackets = parseMarkets(event);
+        var label = function(q) { return q.replace(/Will there be exactly /i, '').replace(/ Federal Reserve.*$/i, '').replace(/\?$/, '').trim(); };
+        if (brackets.length) {
+          setText('pm-' + e.key, label(brackets[0].question) || '0 cuts');
+          setText('pm-' + e.key + '-delta', pct(brackets[0].prob) + ' probability');
+        }
+        renderBrackets('pm-' + e.key + '-detail', brackets.slice(0, 8).map(function(b) {
+          return { label: label(b.question), prob: b.prob, resolved: b.resolved };
+        }));
+      }
+    },
+    'inflation': {
+      kpi: true,
+      body: detailBody,
+      render: function(e, event) {
+        var brackets = parseMarkets(event);
+        var gt4 = brackets.find(function(b) { return b.question.indexOf('4%') !== -1 || b.question.indexOf('4 %') !== -1; });
+        var live = (gt4 && !gt4.resolved) ? gt4 : brackets.find(function(b) { return !b.resolved; });
+        if (live) {
+          setText('pm-' + e.key, pct(live.prob));
+          setText('pm-' + e.key + '-delta', fmtVol(totalVolume(brackets)) + ' volume');
+          setText('pm-co-cost', live.prob > 0.5 ? 'High' : 'Moderate');
+          var costEl = document.getElementById('pm-co-cost');
+          if (costEl) costEl.style.color = live.prob > 0.5 ? 'var(--bad,#c62828)' : 'var(--warn,#e65100)';
+        } else if (gt4) {
+          markSettledValue('pm-' + e.key, 'pm-' + e.key + '-delta', 'Settled · ' + fmtVol(totalVolume(brackets)) + ' volume');
+          markSettledValue('pm-co-cost');
+        }
+        renderBrackets('pm-' + e.key + '-detail', brackets.slice(0, 7).map(function(b) {
+          return { label: b.question.replace(/Will inflation /i, '').replace(/ in 2026\??/i, '').trim(), prob: b.prob, resolved: b.resolved };
+        }));
+      }
+    },
+    'gdp': {
+      kpi: true,
+      body: detailBody,
+      render: function(e, event) {
+        var brackets = parseMarkets(event);
+        if (pmEventIsResolved(brackets)) {
+          markSettledValue('pm-' + e.key, 'pm-' + e.key + '-delta', 'Market settled');
+        } else if (brackets.length) {
+          setText('pm-' + e.key, brackets[0].question.substring(0, 15));
+          setText('pm-' + e.key + '-delta', pct(brackets[0].prob) + ' probability');
+        }
+        renderBrackets('pm-' + e.key + '-detail', brackets.map(function(b) {
+          return { label: b.question, prob: b.prob, resolved: b.resolved };
+        }));
+      }
+    },
+    'brackets': {
+      body: detailBody,
+      render: function(e, event) {
+        renderBrackets('pm-' + e.key + '-detail', parseMarkets(event).map(function(b) {
+          return { label: b.question, prob: b.prob, resolved: b.resolved };
+        }));
+      }
+    },
+    'up-down': {
+      body: function(e) {
+        return '<div class="hp-odds-row">' +
+          '<div class="hp-odds-yes"><span class="hp-odds-pct" style="color:var(--bad,#c62828);" id="pm-' + e.key + '">—</span><span class="hp-odds-lbl">Up</span></div>' +
+          '</div>' +
+          '<div class="hp-binary-bar"><div class="hp-binary-bar-fill" id="pm-' + e.key + '-bar" style="width:0%;background:var(--bad,#c62828);"></div></div>' +
+          '<div style="font-size:.75rem;color:var(--muted);margin-top:.35rem;">Vol: <span id="pm-' + e.key + '-vol">—</span></div>';
+      },
+      render: function(e, event) {
+        var brackets = parseMarkets(event);
+        var up = brackets.find(function(b) { return b.question.toLowerCase().indexOf('up') !== -1; });
+        var bar = document.getElementById('pm-' + e.key + '-bar');
+        if (pmEventIsResolved(brackets)) {
+          markSettledValue('pm-' + e.key, 'pm-' + e.key + '-vol', 'Settled');
+          if (bar) bar.style.width = '0%';
+        } else if (up) {
+          setText('pm-' + e.key, pct(up.prob));
+          setText('pm-' + e.key + '-vol', fmtVol(up.volume));
+          if (bar) bar.style.width = (up.prob * 100) + '%';
+        }
+      }
+    }
+  };
+
   // Load from cached JSON, falling back to live API per-event
   var _pmCache = null;
-  function loadCachedData() {
-    if (_pmCache) return Promise.resolve(_pmCache);
+  var _curated = null;
+  function fetchJson(url) {
     var fetcher = (typeof window.safeFetchJSON === 'function')
       ? window.safeFetchJSON
       : function(u) { return fetch(u).then(function(r) { return r.ok ? r.json() : null; }); };
-    return fetcher(CACHE_URL).then(function(data) {
+    return fetcher(url).catch(function() { return null; });
+  }
+  function loadCachedData() {
+    if (_pmCache) return Promise.resolve(_pmCache);
+    return fetchJson(CACHE_URL).then(function(data) {
       if (data && data.events) { _pmCache = data; return data; }
       return null;
-    }).catch(function() { return null; });
+    });
+  }
+  function loadCurated() {
+    if (_curated) return Promise.resolve(_curated);
+    return fetchJson(CURATED_URL).then(function(data) {
+      _curated = data && Array.isArray(data.events) ? data.events : null;
+      return _curated;
+    });
   }
 
   function getEvent(slug) {
@@ -1441,185 +1558,63 @@ function getKey(){ return CONFIG_KEY || ""; }
       return Promise.resolve(cached.stale_since ? null : cached);
     }
     // Fallback to live API (may fail due to CORS on GitHub Pages)
-    return fetch(API + '/events?slug=' + slug)
+    return fetch(API + '/events?slug=' + encodeURIComponent(slug))
       .then(function(r) { return r.json(); })
-      .then(function(d) { return d[0] || null; })
+      .then(function(d) { return (d && d[0]) || null; })
       .catch(function() { return null; });
+  }
+
+  // The markets to draw: curated, with a known role, and not confirmed settled.
+  function liveEntries(curated) {
+    var settled = (_pmCache && _pmCache.dropped_settled) || [];
+    return curated.filter(function(e) {
+      return e && e.slug && e.key && ROLES[e.role] && settled.indexOf(e.slug) === -1;
+    });
+  }
+
+  function buildPanel(entries) {
+    var strip = document.getElementById('pm-kpi-strip');
+    if (strip) {
+      strip.innerHTML = entries.filter(function(e) { return e.kpi && ROLES[e.role].kpi; }).map(function(e) {
+        return '<div class="kpi-strip-item">' +
+          '<div class="kpi-strip-value" id="pm-' + e.key + '">Unavailable</div>' +
+          '<div class="kpi-strip-label">' + esc(e.kpi) + '</div>' +
+          '<div class="kpi-delta" id="pm-' + e.key + '-delta">Market data unavailable</div>' +
+          '<div class="kpi-source">Polymarket</div>' +
+          '</div>';
+      }).join('');
+      strip.hidden = !strip.children.length;
+    }
+    setText('pm-co-cost', 'Unavailable');
+    setText('pm-co-recession', 'Unavailable');
+    var grids = document.querySelectorAll('#polymarket-section [data-pm-section]');
+    Array.prototype.forEach.call(grids, function(grid) {
+      var mine = entries.filter(function(e) { return e.section === grid.getAttribute('data-pm-section'); });
+      grid.innerHTML = mine.map(function(e) {
+        return '<a class="hp-binary-card" data-pm-slug="' + esc(e.slug) + '" href="' + esc(EVENT_URL + encodeURIComponent(e.slug)) +
+          '" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;--hp-cat-color:' + esc(e.color || '#1a73e8') + ';">' +
+          '<div class="hp-category-badge">' + esc(e.badge) + '</div>' +
+          '<div class="hp-binary-label">' + esc(e.label) + '</div>' +
+          '<div class="hp-binary-desc">' + esc(e.description) + '</div>' +
+          ROLES[e.role].body(e) +
+          '</a>';
+      }).join('') || '<p class="pm-empty">No live market in this section right now.</p>';
+    });
   }
 
   function loadPolymarket() {
     var btn = document.getElementById('pm-refresh');
     if (btn) btn.disabled = true;
 
-    loadCachedData().then(function() {
-      return Promise.all([
-        getEvent('us-recession-by-end-of-2026'),
-        getEvent('fed-decision-in-october-20260617190323537'),
-        getEvent('how-many-fed-rate-cuts-in-2026'),
-        getEvent('how-high-will-inflation-get-in-2026'),
-        getEvent('gdp-growth-in-2026'),
-        getEvent('fed-decision-in-january-20260729233815502'),
-        getEvent('tech-layoffs-up-or-down-in-2026'),
-        getEvent('will-the-30-year-mortgage-rate-hit-in-2026')
-      ]);
-    }).then(function(results) {
-      // Positional, so the order here must match the Promise.all above exactly.
-      var recession = results[0], fedOct = results[1], fedCuts = results[2],
-          inflation = results[3], gdp = results[4], fedJan = results[5],
-          techLayoffs = results[6], mortgageRate = results[7];
-
-      // ── Recession ──
-      if (recession) {
-        var rm = parseMarkets(recession);
-        var recessionResolved = pmEventIsResolved(rm);
-        var rYes = rm.length ? rm[0].prob : 0;
-        // Find Yes market specifically
-        if (recession.markets) {
-          recession.markets.forEach(function(m) {
-            try {
-              var p = JSON.parse(m.outcomePrices);
-              rYes = parseFloat(p[0]) || 0;
-            } catch(e) {}
-          });
-        }
-        var totalVol = 0;
-        if (recession.markets) recession.markets.forEach(function(m) { totalVol += parseFloat(m.volume) || 0; });
-        if (recessionResolved) {
-          markSettledValue('pm-recession', 'pm-recession-vol', 'Settled · ' + fmtVol(totalVol) + ' volume');
-          markSettledValue('pm-co-recession');
-        } else {
-          setText('pm-recession', pct(rYes));
-          setText('pm-recession-vol', fmtVol(totalVol) + ' volume');
-          setText('pm-co-recession', pct(rYes));
-        }
-        var recEl = document.getElementById('pm-co-recession');
-        if (recEl && !recessionResolved) recEl.style.color = rYes > 0.4 ? 'var(--bad,#c62828)' : rYes > 0.25 ? 'var(--warn,#e65100)' : 'var(--good,#2e7d32)';
-
-        // Detail card
-        var recDetail = document.getElementById('pm-recession-detail');
-        if (recDetail) {
-          recDetail.innerHTML = recessionResolved
-            ? '<div class="pm-settled">Settled</div><div style="font-size:.75rem;color:var(--muted);margin-top:.35rem;">Vol: ' + fmtVol(totalVol) + '</div>'
-            :
-            '<div class="hp-odds-row">' +
-              '<div class="hp-odds-yes"><span class="hp-odds-pct">' + pct(rYes) + '</span><span class="hp-odds-lbl">Yes</span></div>' +
-              '<div class="hp-odds-sep">|</div>' +
-              '<div class="hp-odds-no"><span class="hp-odds-pct">' + pct(1 - rYes) + '</span><span class="hp-odds-lbl">No</span></div>' +
-            '</div>' +
-            '<div class="hp-binary-bar"><div class="hp-binary-bar-fill" style="width:' + (rYes * 100) + '%;background:var(--bad,#c62828);"></div></div>' +
-            '<div style="font-size:.75rem;color:var(--muted);margin-top:.35rem;">Vol: ' + fmtVol(totalVol) + '</div>';
-        }
-      }
-
-      // ── Fed October ──
-      if (fedOct) {
-        var faBrackets = parseMarkets(fedOct);
-        var faResolved = pmEventIsResolved(faBrackets);
-        var noChange = faBrackets.find(function(b) { return b.question.toLowerCase().indexOf('no change') !== -1; });
-        if (faResolved) {
-          markSettledValue('pm-fed-oct', 'pm-fed-oct-vol', 'Settled · ' + fmtVol(faBrackets.reduce(function(s, b) { return s + b.volume; }, 0)) + ' volume');
-        } else if (noChange) {
-          setText('pm-fed-oct', pct(noChange.prob));
-          setText('pm-fed-oct-vol', fmtVol(faBrackets.reduce(function(s, b) { return s + b.volume; }, 0)) + ' volume');
-        }
-        renderBrackets('pm-fed-oct-detail', faBrackets.map(function(b) {
-          return { label: b.question.replace(/Fed decision in October:\s*/i, '').replace(/\?$/, ''), prob: b.prob, resolved: b.resolved };
-        }));
-      } else {
-        setText('pm-fed-oct', 'Unavailable');
-        setText('pm-fed-oct-vol', 'Market data unavailable');
-        setText('pm-fed-oct-detail', 'Unavailable');
-      }
-
-      // ── Fed Cuts ──
-      if (fedCuts) {
-        var fcBrackets = parseMarkets(fedCuts);
-        if (fcBrackets.length) {
-          var topCut = fcBrackets[0];
-          var cutLabel = topCut.question.replace(/Will there be exactly /i, '').replace(/ Federal Reserve.*$/i, '').replace(/\?$/, '').trim();
-          setText('pm-fed-cuts', cutLabel || '0 cuts');
-          setText('pm-fed-cuts-prob', pct(topCut.prob) + ' probability');
-        }
-        renderBrackets('pm-fed-cuts-detail', fcBrackets.slice(0, 8).map(function(b) {
-          return { label: b.question.replace(/Will there be exactly /i, '').replace(/ Federal Reserve.*$/i, '').replace(/\?$/, '').trim(), prob: b.prob, resolved: b.resolved };
-        }));
-      }
-
-      // ── Inflation ──
-      if (inflation) {
-        var infBrackets = parseMarkets(inflation);
-        var gt4 = infBrackets.find(function(b) { return b.question.indexOf('4%') !== -1 || b.question.indexOf('4 %') !== -1; });
-        var liveInflation = (gt4 && !gt4.resolved) ? gt4 : infBrackets.find(function(b) { return !b.resolved; });
-        if (liveInflation) {
-          setText('pm-inflation', pct(liveInflation.prob));
-          setText('pm-inflation-vol', fmtVol(infBrackets.reduce(function(s, b) { return s + b.volume; }, 0)) + ' volume');
-          setText('pm-co-cost', liveInflation.prob > 0.5 ? 'High' : 'Moderate');
-          var costEl = document.getElementById('pm-co-cost');
-          if (costEl) costEl.style.color = liveInflation.prob > 0.5 ? 'var(--bad,#c62828)' : 'var(--warn,#e65100)';
-        } else if (gt4) {
-          markSettledValue('pm-inflation', 'pm-inflation-vol', 'Settled · ' + fmtVol(infBrackets.reduce(function(s, b) { return s + b.volume; }, 0)) + ' volume');
-          markSettledValue('pm-co-cost');
-        }
-        renderBrackets('pm-inflation-detail', infBrackets.slice(0, 7).map(function(b) {
-          return { label: b.question.replace(/Will inflation /i, '').replace(/ in 2026\??/i, '').trim(), prob: b.prob, resolved: b.resolved };
-        }));
-      }
-
-      // ── GDP ──
-      if (gdp) {
-        var gdpBrackets = parseMarkets(gdp);
-        if (pmEventIsResolved(gdpBrackets)) {
-          markSettledValue('pm-gdp', 'pm-gdp-prob', 'Market settled');
-        } else if (gdpBrackets.length) {
-          setText('pm-gdp', gdpBrackets[0].question.substring(0, 15));
-          setText('pm-gdp-prob', pct(gdpBrackets[0].prob) + ' probability');
-        }
-        renderBrackets('pm-gdp-detail', gdpBrackets.map(function(b) {
-          return { label: b.question, prob: b.prob, resolved: b.resolved };
-        }));
-      }
-
-      // ── 30-year mortgage rate ──
-      if (mortgageRate) {
-        var mrBrackets = parseMarkets(mortgageRate);
-        renderBrackets('pm-mortgage-detail', mrBrackets.map(function(b) {
-          return { label: b.question, prob: b.prob, resolved: b.resolved };
-        }));
-      }
-
-      // ── Fed January ──
-      if (fedJan) {
-        var fjBrackets = parseMarkets(fedJan);
-        var fjNoChange = fjBrackets.find(function(b) { return b.question.toLowerCase().indexOf('no change') !== -1; });
-        if (pmEventIsResolved(fjBrackets)) {
-          markSettledValue('pm-fed-jan-yes');
-          markSettledValue('pm-fed-jan-no');
-          var fjSettledBar = document.getElementById('pm-fed-jan-bar');
-          if (fjSettledBar) fjSettledBar.style.width = '0%';
-        } else if (fjNoChange) {
-          setText('pm-fed-jan-yes', pct(fjNoChange.prob));
-          setText('pm-fed-jan-no', pct(1 - fjNoChange.prob));
-          var fjBar = document.getElementById('pm-fed-jan-bar');
-          if (fjBar) fjBar.style.width = (fjNoChange.prob * 100) + '%';
-        }
-      }
-
-      // ── Tech Layoffs ──
-      if (techLayoffs) {
-        var tlBrackets = parseMarkets(techLayoffs);
-        var tlUp = tlBrackets.find(function(b) { return b.question.toLowerCase().indexOf('up') !== -1; });
-        if (pmEventIsResolved(tlBrackets)) {
-          markSettledValue('pm-layoffs', 'pm-layoffs-vol', 'Settled');
-          var tlSettledBar = document.getElementById('pm-layoffs-bar');
-          if (tlSettledBar) tlSettledBar.style.width = '0%';
-        } else if (tlUp) {
-          setText('pm-layoffs', pct(tlUp.prob));
-          setText('pm-layoffs-vol', fmtVol(tlUp.volume));
-          var tlBar = document.getElementById('pm-layoffs-bar');
-          if (tlBar) tlBar.style.width = (tlUp.prob * 100) + '%';
-        }
-      }
-
+    Promise.all([loadCachedData(), loadCurated()]).then(function(loaded) {
+      var curated = loaded[1];
+      if (!curated) throw new Error('curated market list unavailable');
+      var entries = liveEntries(curated);
+      buildPanel(entries);
+      return Promise.all(entries.map(function(e) { return getEvent(e.slug); })).then(function(events) {
+        entries.forEach(function(e, i) { if (events[i]) ROLES[e.role].render(e, events[i]); });
+      });
+    }).then(function() {
       var src = _pmCache ? 'cached ' + (_pmCache.updated || '') : 'live';
       setText('pm-updated', 'Data: ' + src + ' | Rendered ' + new Date().toLocaleString());
     }).catch(function(err) {
@@ -1629,14 +1624,6 @@ function getKey(){ return CONFIG_KEY || ""; }
       var btn = document.getElementById('pm-refresh');
       if (btn) btn.disabled = false;
     });
-  }
-
-  function setText(id, text) {
-    var el = document.getElementById(id);
-    if (el) {
-      el.classList.remove('pm-settled');
-      el.textContent = text;
-    }
   }
 
   // Bind refresh button and auto-load
