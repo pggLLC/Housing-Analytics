@@ -5,7 +5,7 @@ its upstream source. The goal: ensure each cron is right-sized — frequent
 enough to catch updates within a reasonable window, but not so frequent
 that we burn GitHub Actions minutes pulling unchanged data.
 
-**Last reviewed:** 2026-05-08
+**Last reviewed:** CHAS updated 2026-10-05; other entries retain the 2026-05-08 audit
 
 **Last applied:** 2026-05-08 — 3 over-fetching workflows right-sized
 (see "Status" rows below for which crons changed)
@@ -17,7 +17,7 @@ that we burn GitHub Actions minutes pulling unchanged data.
 | `fetch-fred-data.yml` | `0 6 * * *` | Daily | Series-dependent (1-30 days) | ✓ |
 | `fetch-census-acs.yml` | `30 6 * * 1` | Weekly ✅ | Annual (December) | ✓ (was daily — fixed 2026-05-08) |
 | `fetch-fred-data.yml` (real-time) | (continuous) | Daily | FRED real-time series ship daily | ✓ |
-| `fetch-chas-data.yml` | `0 3 2 * *` | Monthly ✅ | Annual (December) | ✓ (was weekly — fixed 2026-05-08) |
+| `fetch-chas-data.yml` | None | Manual only | Annual | HUD blocks automated ZIP requests; [runbook](runbooks/chas-manual-refresh.md) |
 | `fetch-chfa-lihtc.yml` | `0 5 * * 1` | Weekly | Quarterly | ⚠ over-fetching |
 | `fetch-county-data.yml` | `0 6 * * 1` | Weekly | Quarterly (BLS, Census) | ⚠ over-fetching |
 | `fetch-cdphe-boundaries.yml` | `0 3 1 * *` | Monthly | Annual+ | ✓ |
@@ -40,10 +40,15 @@ that we burn GitHub Actions minutes pulling unchanged data.
 
 ## Recommendations (in priority order)
 
-### 1. `fetch-chas-data.yml` — over-fetching ✅ APPLIED 2026-05-08
-**Was:** weekly (`0 3 * * 1`). **Now:** monthly on the 2nd (`0 3 2 * *`).
-**Source cadence:** annual (HUD ships in December).
-**Savings:** 234 MB ZIP × 51 skipped weekly runs = ~12 GB/year egress.
+### 1. `fetch-chas-data.yml` — manual only, applied 2026-10-05
+The monthly schedule is removed. HUD returns an HTTP 202 bot challenge for
+published and nonexistent archive URLs alike. The annual release needs a
+[browser download and local cache refresh](runbooks/chas-manual-refresh.md).
+`workflow_dispatch` remains available if automated access returns. The weekly
+upstream vintage watch verifies the known current ZIP before trusting a probe;
+blocked checks emit a warning and update one manual-check tracking issue.
+Completion monitors still cover manually dispatched runs, without expecting a
+monthly run.
 
 ### 2. `fetch-chfa-lihtc.yml` — over-fetching
 **Current:** weekly. **Source cadence:** quarterly (CHFA updates LIHTC
@@ -85,7 +90,7 @@ group — stagger them across the early-morning UTC window (03:00–08:00).
 
 ## Estimated savings
 
-Right-sizing the 3 highlighted over-fetching workflows would save:
+Historical estimates from the May 2026 changes (CHAS is now manual-only):
 - HUD CHAS: 234 MB × 51 weekly skipped = ~12 GB/year egress
 - HUD GIS: ~50 MB × 51 weekly skipped = ~2.5 GB/year egress
 - Census ACS: small, mostly Actions-minutes savings (~5 min × 364 daily skipped = ~30 hours/year)

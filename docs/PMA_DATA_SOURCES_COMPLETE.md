@@ -16,7 +16,7 @@ The PMA pipeline ingests data from seven core categories plus eight Phase 3 bulk
 | 3 | LIHTC Portfolio | CHFA / HUD LIHTC | Monthly |
 | 4 | QCT/DDA Designations | HUD GIS | Annual |
 | 5 | Economic Indicators | FRED (St. Louis Fed) | Daily |
-| 6 | Cost Burden (CHAS) | HUD CHAS | Every 2–3 years |
+| 6 | Cost Burden (CHAS) | HUD CHAS | Annual releases; manual refresh |
 | 7 | Preservation / NHPD | NHPD | Quarterly |
 | 8a–8i | Bulk Market Data (Phase 3) | EPA/USDA/FEMA/LODES/DOLA/NOAA | On demand |
 
@@ -185,7 +185,7 @@ The PMA pipeline ingests data from seven core categories plus eight Phase 3 bulk
 **Source:** HUD Comprehensive Housing Affordability Strategy  
 **Output:** `data/hna/chas_affordability_gap.json`  
 **Fetch script:** `scripts/fetch_chas.py`  
-**Workflow:** `fetch-chas-data.yml` (Monday 03:00 UTC)
+**Workflow:** `fetch-chas-data.yml` (manual dispatch only; [browser/cache runbook](runbooks/chas-manual-refresh.md))
 
 ### Key Fields
 
