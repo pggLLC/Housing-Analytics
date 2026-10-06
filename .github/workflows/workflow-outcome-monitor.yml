@@ -55,7 +55,7 @@ on:
       - "Fetch Census ACS Data"
       - "Fetch County Demographics and Economic Data"
       - "Fetch FRED Data"
-      - "Fetch HUD CHAS Affordability Data"
+      - "Fetch HUD CHAS Affordability Data" # Manual dispatch outcomes still need monitoring.
       - "Fetch HUD FMR + Income Limits"
       - "Fetch Kalshi Prediction Market Data"
       - "Run All Data Workflows"

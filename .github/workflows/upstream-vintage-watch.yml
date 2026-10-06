@@ -1,8 +1,8 @@
 name: Upstream Vintage Watch
 
 # Weekly check for new vintage releases from external data publishers
-# (HUD CHAS, HUD FMR, Census ACS 5-year). When a new vintage is detected
-# AND we're 2+ vintages behind, opens a tracking GitHub issue.
+# (HUD CHAS, HUD FMR, Census ACS 5-year). Outdated or unverifiable sources
+# open/update one tracking issue; blocked CHAS checks also emit a warning.
 #
 # Refreshes data/audit/upstream-vintage-watch.json on every run for the
 # QA dashboard to display.
@@ -39,7 +39,7 @@ jobs:
         run: |
           node scripts/audit/upstream-vintage-watch.mjs
 
-      - name: Open / update tracking issue if any source is outdated
+      - name: Open / update tracking issue for outdated or unverifiable sources
         uses: actions/github-script@v9
         with:
           script: |
@@ -47,21 +47,26 @@ jobs:
             const status = JSON.parse(
               fs.readFileSync('data/audit/upstream-vintage-watch.json', 'utf8')
             );
-            const outdated = (status.sources || []).filter(s => s.is_outdated);
+            const attention = (status.sources || []).filter(s => s.is_outdated || s.status === 'unverifiable' || s.error);
+            for (const source of attention) {
+              if (source.status === 'unverifiable' || source.error) {
+                core.warning(`${source.source}: ${source.notes || source.error}`);
+              }
+            }
             const ISSUE_MARKER = '<!-- upstream-vintage-watch-tracker -->';
 
-            const { data: openIssues } = await github.rest.issues.listForRepo({
+            const openIssues = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open',
               per_page: 100,
             });
             const existing = openIssues.find(i =>
-              i.body && i.body.includes(ISSUE_MARKER)
+              !i.pull_request && i.body && i.body.includes(ISSUE_MARKER)
             );
 
-            if (outdated.length === 0) {
-              // Close any existing tracker if everything is now current
+            if (attention.length === 0) {
+              // Close only after every source can be checked and none needs an update.
               if (existing) {
                 await github.rest.issues.createComment({
                   owner: context.repo.owner,
@@ -79,30 +84,32 @@ jobs:
               return;
             }
 
-            const rows = outdated.map(s =>
-              `| ${s.source} | ${s.current_vintage || '?'} | ${s.latest_vintage || '?'} | ${s.notes || ''} |`
+            const rows = attention.map(s =>
+              `| ${s.source} | ${s.current_vintage || '?'} | ${s.latest_vintage || 'not verified'} | ${s.status || (s.error ? 'unverifiable' : 'outdated')} | ${s.notes || s.error || ''} |`
             ).join('\n');
+            const title = `Upstream vintage check needs attention — ${attention.length} source(s)`;
             const body = [
               ISSUE_MARKER,
               '',
-              '# 📅 Upstream data sources have new vintages',
+              '# Upstream vintage checks need attention',
               '',
               `Detected at ${status.generated_at} by \`scripts/audit/upstream-vintage-watch.mjs\`.`,
               '',
-              '| Source | Current vintage | Latest vintage | Notes |',
-              '| --- | --- | --- | --- |',
+              '| Source | Current vintage | Latest vintage | Status | Notes |',
+              '| --- | --- | --- | --- | --- |',
               rows,
               '',
               '## Next steps',
               '',
               '- Review whether the new vintage is materially different from the current one (some annual updates are minor)',
               '- For each outdated source, run the corresponding fetch script to upgrade:',
-              '    - HUD CHAS: `python3 scripts/fetch_chas.py`',
+              '    - HUD CHAS: a blocked check needs a manual vintage check at https://www.huduser.gov/portal/datasets/cp.html. It does not establish whether a new release exists.',
+              '      Follow [the manual refresh runbook](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/blob/main/docs/runbooks/chas-manual-refresh.md) only if the published vintage changed.',
               '    - HUD FMR:  `python3 scripts/fetch_fmr_api.py`',
               '    - ACS:      bump `DEFAULT_VINTAGE` in `scripts/hna/build_place_ami_gap.py`',
               '- Run plausibility tests + spot-check key counties before merging',
               '',
-              `<sub>This issue is auto-managed by [upstream-vintage-watch.yml](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/.github/workflows/upstream-vintage-watch.yml). It will be auto-closed when all sources are current again.</sub>`,
+              `<sub>This issue is auto-managed by [upstream-vintage-watch.yml](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/.github/workflows/upstream-vintage-watch.yml). It will be auto-closed when all checks are verifiable and no source needs an update.</sub>`,
             ].join('\n');
 
             if (existing) {
@@ -110,6 +117,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: existing.number,
+                title,
                 body,
               });
               await github.rest.issues.createComment({
@@ -122,7 +130,7 @@ jobs:
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                title: `Upstream vintage update available — ${outdated.length} source(s)`,
+                title,
                 body,
                 labels: ['data-pipeline', 'upstream-vintage'],
               });
