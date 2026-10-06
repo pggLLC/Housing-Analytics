@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-10-05T15:57:29.180Z",
-  "totalScanned": 1700,
-  "newSourceCount": 1669,
+  "scanTimestamp": "2026-10-06T14:09:01.556Z",
+  "totalScanned": 1703,
+  "newSourceCount": 1672,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 828779,
+      "sizeBytes": 829963,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7235,
+      "sizeBytes": 7236,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -122,7 +122,7 @@
     },
     {
       "path": "data/audit/quarantine-candidates.json",
-      "sizeBytes": 483,
+      "sizeBytes": 587,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8924,7 +8924,13 @@
     },
     {
       "path": "data/market/acs_median_rent_co.json",
-      "sizeBytes": 84901,
+      "sizeBytes": 136179,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/acs_renter_bedrooms_co.json",
+      "sizeBytes": 176360,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8943,6 +8949,12 @@
     {
       "path": "data/market/cdphe_county_boundaries_co.geojson",
       "sizeBytes": 1186881,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/census2020-place-tract-housing-co.json",
+      "sizeBytes": 358752,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9205,8 +9217,14 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/redfin-city-observations-co.json",
+      "sizeBytes": 1324,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/redfin_place_market_tracker_co.json",
-      "sizeBytes": 1568714,
+      "sizeBytes": 2325841,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9314,7 +9332,7 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 14801,
+      "sizeBytes": 14804,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9896,7 +9914,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 12557,
+      "sizeBytes": 12559,
       "inDataManifest": false,
       "inFilesManifest": true
     },

@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-10-05T15:57:29.180Z
+**Scan timestamp:** 2026-10-06T14:09:01.556Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1700 |
-| New (unregistered) | 1669 |
+| Files scanned | 1703 |
+| New (unregistered) | 1672 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (809 KB)
+- `data/_manifest.json` (811 KB)
 - `data/_qa-status.json` (7 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -33,7 +33,7 @@
 - `data/amenities/transit_stops_co.geojson` (2342 KB)
 - `data/amenities/transit_stops_statewide_co.geojson` (3869 KB)
 - `data/audit/chfa-qap-watch.json` (2902 KB)
-- `data/audit/quarantine-candidates.json` (0 KB)
+- `data/audit/quarantine-candidates.json` (1 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/benchmarks/str-license-counts.json` (3 KB)
 - `data/capital-partners.json` (13 KB)
@@ -1500,10 +1500,12 @@
 - `data/jurisdiction-briefs/_verified/0867280.json` (17 KB)
 - `data/jurisdiction-briefs/_verified/0870195.json` (18 KB)
 - `data/kalshi/prediction-market.json` (1 KB)
-- `data/market/acs_median_rent_co.json` (83 KB)
+- `data/market/acs_median_rent_co.json` (133 KB)
+- `data/market/acs_renter_bedrooms_co.json` (172 KB)
 - `data/market/apartment_list_co.json` (6 KB)
 - `data/market/bridge_co_market_summary.json` (1 KB)
 - `data/market/cdphe_county_boundaries_co.geojson` (1159 KB)
+- `data/market/census2020-place-tract-housing-co.json` (350 KB)
 - `data/market/chas_co.json` (159 KB)
 - `data/market/chas_tract_co.json` (3513 KB)
 - `data/market/chfa_programs_co.json` (4 KB)
@@ -1547,7 +1549,8 @@
 - `data/market/pma_tract_display_geometry.geojson` (1030 KB)
 - `data/market/qct_dda_designations_co.json` (0 KB)
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
-- `data/market/redfin_place_market_tracker_co.json` (1532 KB)
+- `data/market/redfin-city-observations-co.json` (1 KB)
+- `data/market/redfin_place_market_tracker_co.json` (2271 KB)
 - `data/market/schools_co.geojson` (1214 KB)
 - `data/market/state-trend-analysis.json` (7 KB)
 - `data/market/tax-credit-transfer-pricing.json` (3 KB)
