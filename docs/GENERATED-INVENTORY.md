@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-06T09:17:41.089Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-06T09:20:18.555Z. Do not edit by hand.
 
 ---
 
@@ -1752,7 +1752,7 @@
 
 ## Test Files
 
-517 test files found.
+518 test files found.
 
 | File | Size |
 |------|------|
@@ -1977,7 +1977,7 @@
 | `test/housing-news-leads-with-the-newest.test.mjs` | 22.1 KB |
 | `test/housing-outcome-score-absence.test.js` | 9.4 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
-| `test/hud-fetch-hardening.test.py` | 1.6 KB |
+| `test/hud-fetch-hardening.test.py` | 2.8 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
 | `test/input-provenance.test.js` | 6.4 KB |
 | `test/insights-agreement.test.mjs` | 5.3 KB |
@@ -2202,6 +2202,7 @@
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
 | `test/unwired-suite.test.js` | 10.3 KB |
+| `test/upstream-vintage-watch.test.mjs` | 6.9 KB |
 | `test/url-health-policy.test.mjs` | 13.0 KB |
 | `test/utility-allowance-absence.test.mjs` | 10.9 KB |
 | `test/utility-allowance-basis.test.js` | 18.8 KB |
@@ -2319,7 +2320,7 @@
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 3.7 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.7 KB |
-| `.github/workflows/fetch-chas-data.yml` | 4.7 KB |
+| `.github/workflows/fetch-chas-data.yml` | 4.4 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 6.0 KB |
 | `.github/workflows/fetch-county-data.yml` | 5.4 KB |
 | `.github/workflows/fetch-fmr-data.yml` | 7.8 KB |
@@ -2350,11 +2351,11 @@
 | `.github/workflows/test-sentinel-normalization.yml` | 2.1 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.9 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 6.1 KB |
-| `.github/workflows/upstream-vintage-watch.yml` | 6.2 KB |
+| `.github/workflows/upstream-vintage-watch.yml` | 7.0 KB |
 | `.github/workflows/url-health-weekly.yml` | 5.3 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 7.5 KB |
-| `.github/workflows/workflow-comment-trigger.yml` | 7.3 KB |
-| `.github/workflows/workflow-outcome-monitor.yml` | 6.7 KB |
+| `.github/workflows/workflow-comment-trigger.yml` | 7.4 KB |
+| `.github/workflows/workflow-outcome-monitor.yml` | 6.8 KB |
 | `.github/workflows/zillow-data-sync.yml` | 19.5 KB |
 
 ---
