@@ -1,6 +1,6 @@
 <!-- sync-banner:start -->
 > **⚠️ Superseded** — See [`FEATURE_COMPLETE.md`](FEATURE_COMPLETE.md) for the current feature status matrix.  
-> *Auto-synced 2026-10-05 by `scripts/sync-docs.mjs` · 66 pages · 1659 data files · 74 workflows*
+> *Auto-synced 2026-10-06 by `scripts/sync-docs.mjs` · 66 pages · 1662 data files · 74 workflows*
 <!-- sync-banner:end -->
 
 > **⚠️ Deprecated:** This document is superseded by [`FEATURE_COMPLETE.md`](FEATURE_COMPLETE.md), which contains the current feature status matrix.
@@ -334,6 +334,8 @@ The following directories contain additional files that were only partially enum
 
 ## Actionable Recommendations
 
+- Quarantine candidate: `scripts/market/build_acs_renter_bedrooms.py` — no file references its name. Delete it deliberately, or reference it (workflow/doc/npm script) if it is used.
+- Quarantine candidate: `scripts/market/build_place_tract_housing.py` — no file references its name. Delete it deliberately, or reference it (workflow/doc/npm script) if it is used.
 - Docs and site-audit pipeline are automatically updated after every merge.
 
 ## 
