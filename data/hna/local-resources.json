@@ -1343,7 +1343,12 @@
         "url": "https://www.eaglecounty.us/housing/"
       }
     ],
-    "advocacy": [],
+    "advocacy": [
+      {
+        "name": "Vail Health Behavioral Health",
+        "url": "https://www.vailhealthbh.org/"
+      }
+    ],
     "housingLead": {
       "name": "Eagle County Housing Department",
       "url": "https://www.eaglecounty.us/housing/"
