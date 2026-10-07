@@ -28,8 +28,10 @@
  * ── What it asserts now ──
  *
  * That the published cache is current, that it carries the metadata needed to
- * know that, and that the page and fetcher agree on the curated markets.
- * Missing responses preserve only their old entries, marked stale and unavailable.
+ * know that, and that the page and fetcher read ONE curated list
+ * (data/polymarket-curated.json, #2063). Missing responses preserve only their
+ * old entries, marked stale and unavailable. A settled market disappears from
+ * the page on its own: no hand edit, and no red main while someone makes one.
  */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -50,6 +52,7 @@ function isResolved(prices) {
 
 const data = readJson('data/polymarket-data.json');
 const dashboard = read('economic-dashboard.html');
+const curatedDoc = readJson('data/polymarket-curated.json');
 const workflow = read('.github/workflows/fetch-polymarket-data.yml');
 const events = data.events || {};
 const slugs = Object.keys(events);
@@ -100,40 +103,55 @@ for (const slug of slugs) {
     `${slug} has no closed flag`);
 }
 
-/* ── the page and the data name the same markets ────────────────────────── */
+/* ── one curated list, read by both the page and the fetcher ────────────── */
 
 // Three places used to hold this list independently: the workflow, this test
-// and the page. Dropping a settled market from the data left the page asking
-// for it and rendering "Loading…" forever.
-const pageSlugs = [...new Set(
-  (dashboard.match(/polymarket\.com\/event\/([a-z0-9-]+)/g) || [])
-    .map((m) => m.replace(/.*\/event\//, '')),
-)];
-const requested = [...new Set(
-  (dashboard.match(/getEvent\('([^']+)'\)/g) || [])
-    .map((m) => m.replace(/getEvent\('/, '').replace(/'\)/, '')),
-)];
+// and the page. When a market settled the fetcher dropped it, and main stayed
+// red until someone edited the page by hand (#2063). The list is now data.
+const curated = curatedDoc.events.map((e) => e.slug);
+assert(curated.length > 0, 'the curated list names no market');
+assert.equal(new Set(curated).size, curated.length, 'a curated slug is listed twice');
+const keys = curatedDoc.events.map((e) => e.key);
+assert.equal(new Set(keys).size, keys.length, 'curated keys must be unique; they name element ids');
+const sections = [...dashboard.matchAll(/data-pm-section="([a-z-]+)"/g)].map((m) => m[1]);
+assert(sections.length > 0, 'the dashboard has no market sections to fill');
+const roleBlock = dashboard.match(/var ROLES = \{([\s\S]*?)\n  \};/);
+assert(roleBlock, 'the dashboard defines its market roles');
+const roles = [...roleBlock[1].matchAll(/^    '([a-z-]+)': \{/gm)].map((m) => m[1]);
+const kpiRoles = [...roleBlock[1].matchAll(/^    '([a-z-]+)': \{\n      kpi: true,/gm)].map((m) => m[1]);
+for (const e of curatedDoc.events) {
+  assert(sections.includes(e.section), `${e.slug}: section "${e.section}" is not on the page`);
+  assert(roles.includes(e.role), `${e.slug}: role "${e.role}" has no renderer`);
+  if (e.kpi) assert(kpiRoles.includes(e.role), `${e.slug}: role "${e.role}" cannot fill a headline tile`);
+  for (const field of ['label', 'description', 'badge', 'color']) {
+    assert(typeof e[field] === 'string' && e[field], `${e.slug}: missing ${field}`);
+  }
+}
+assert.deepEqual([...curatedDoc.meta.sections].sort(), [...sections].sort(), 'curated meta.sections matches the page');
+assert.deepEqual([...curatedDoc.meta.roles].sort(), [...roles].sort(), 'curated meta.roles matches the page');
 
-// An empty response dropped the still-live October Fed event on October 1.
-// Cache absence alone cannot justify retiring a market. Pin the curation and
-// confirmed settlements here, then exercise the real fallback below.
-const curated = [...workflow.match(/EVENTS = \[([\s\S]*?)\n          \]/)[1].matchAll(/"([a-z0-9-]+)"/g)]
-  .map((m) => m[1]);
-assert.deepEqual([...pageSlugs].sort(), [...curated].sort(), 'dashboard cards must match the fetcher');
-assert.deepEqual([...requested].sort(), [...curated].sort(), 'dashboard requests must match the fetcher');
+// The page and the workflow name no market themselves.
+for (const slug of curated) {
+  assert(!dashboard.includes(slug), `economic-dashboard.html hard-codes curated market ${slug}`);
+  assert(!workflow.includes(slug), `fetch-polymarket-data.yml hard-codes curated market ${slug}`);
+}
+assert(!/polymarket\.com\/event\/[a-z0-9]/.test(dashboard), 'the dashboard links a specific market by hand');
+assert(!/getEvent\('[^']+'\)/.test(dashboard), 'the dashboard requests a specific market by hand');
+assert(/Path\("data\/polymarket-curated\.json"\)/.test(workflow), 'the fetcher reads the curated list');
+
 const retired = [
   'what-will-the-median-home-value-in-the-us-be-on-september-30-20260630175540363',
   'what-will-the-median-home-value-in-miami-be-on-september-30-20260630172328034',
   'what-will-the-median-home-value-in-new-york-city-be-on-september-30-20260630180215064',
 ];
-for (const slug of new Set([...retired, ...(data.dropped_settled || [])])) {
-  assert(!curated.includes(slug), `confirmed settled market still curated: ${slug}`);
-  assert(!dashboard.includes(slug), `confirmed settled market still in dashboard: ${slug}`);
+for (const slug of retired) {
+  assert(!curated.includes(slug), `retired settled market still curated: ${slug}`);
+  assert(!dashboard.includes(slug), `retired settled market still in dashboard: ${slug}`);
 }
 
-const unusedInPage = slugs.filter((s) => !pageSlugs.includes(s) && !requested.includes(s));
-assert.deepEqual(unusedInPage, [],
-  `these markets are fetched every day and shown nowhere: ${unusedInPage.join(', ')}`);
+const uncurated = slugs.filter((s) => !curated.includes(s));
+assert.deepEqual(uncurated, [],
+  `these markets are cached but not curated, so shown nowhere: ${uncurated.join(', ')}`);
 
 /* ── this is a housing site ─────────────────────────────────────────────── */
 
@@ -144,7 +162,7 @@ const HOUSING = /\b(home value|home prices?|housing|mortgage rate|rents?)\b/i;
 const housing = slugs.filter((s) => HOUSING.test(String(events[s].title || '')));
 assert(housing.length > 0,
   'no housing-related market is published, on a housing site — the curated list in '
-  + '.github/workflows/fetch-polymarket-data.yml needs a successor market');
+  + 'data/polymarket-curated.json needs a successor market');
 
 /* ── the workflow cannot go back to publishing settled markets ──────────── */
 
@@ -177,6 +195,9 @@ class Clock(datetime.datetime):
     @classmethod
     def now(cls, tz=None): return cls(2026, 10, 5, tzinfo=tz)
 stamp = '2026-10-05T00:00:00Z'
+# The two markets the settle cases close: any two that are not the Fed event,
+# whatever order the curated file lists them in.
+settle = [s for s in case['curated'] if s != case['fed']][:2]
 modes = ['empty_then_live', 'error_then_live', 'partial', 'wrong_slug',
          'stale_3days', 'stale_4days', 'no_previous_entry', 'missing_4days_no_entry',
          'recovered', 'all_missing', 'settled', 'all_settled']
@@ -198,8 +219,8 @@ for mode in modes:
         event = dict(slug=slug, title='Mortgage rate fixture', closed=False,
                      endDate='2099-10-29T03:59:00Z', markets=[dict(question='New price', volume='20')])
         if mode in ['partial', 'settled']:
-            if slug == case['curated'][0]: event['closed'] = True
-            if slug == case['curated'][1]: event['endDate'] = '2000-01-01T00:00:00Z'
+            if slug == settle[0]: event['closed'] = True
+            if slug == settle[1]: event['endDate'] = '2000-01-01T00:00:00Z'
         if mode == 'all_settled': event['closed'] = True
         if mode == 'all_missing': return io.BytesIO(b'[]')
         if slug == case['fed']:
@@ -213,6 +234,7 @@ for mode in modes:
         try:
             os.chdir(tmp)
             Path('data').mkdir()
+            Path('data/polymarket-curated.json').write_text(json.dumps({'events': [{'slug': s} for s in case['curated']]}))
             output = Path('data/polymarket-data.json')
             original = json.dumps(prior)
             output.write_text(original)
@@ -231,7 +253,7 @@ for mode in modes:
                 errors = '::error::' in logs.getvalue()
                 assert errors == (mode in ['stale_4days', 'missing_4days_no_entry']), mode + ': wrong escalation threshold'
                 for slug in case['curated']:
-                    if mode == 'all_settled' or (mode in ['partial', 'settled'] and slug in case['curated'][:2]):
+                    if mode == 'all_settled' or (mode in ['partial', 'settled'] and slug in settle):
                         assert slug not in payload['events'], 'closed/expired event retained'
                         assert slug in payload['dropped_settled']
                     elif slug == case['fed'] and mode in ['partial', 'wrong_slug', 'stale_3days', 'stale_4days']:
@@ -270,16 +292,18 @@ const cardCases = [
   ['tech-layoffs-up-or-down-in-2026', 'pm-layoffs', 'Up', .22],
   ['will-the-30-year-mortgage-rate-hit-in-2026', 'pm-mortgage-detail', 'Below 6%', .31],
 ];
-assert.equal(cardCases.length, curated.length, 'exercise every remaining card');
+assert.deepEqual(cardCases.map(([slug]) => slug).sort(), [...curated].sort(), 'exercise every curated card');
 
-async function render(cache, live) {
+async function render(cache, live, curatedOverride) {
   const dom = new JSDOM(dashboard, { runScripts: 'outside-only', url: 'http://localhost/economic-dashboard.html' });
   const requests = [];
   const w = dom.window;
   w.fetch = async (url) => {
-    const slug = new URL(url, w.location).searchParams.get('slug');
+    const u = new URL(url, w.location);
+    const slug = u.searchParams.get('slug');
     if (slug) requests.push(slug);
-    const body = slug ? (live[slug] ? [live[slug]] : []) : cache;
+    const body = slug ? (live[slug] ? [live[slug]] : [])
+      : u.pathname.endsWith('polymarket-curated.json') ? (curatedOverride || curatedDoc) : cache;
     return { ok: true, json: async () => body };
   };
   const script = [...w.document.scripts].find((el) => el.textContent.includes('function loadPolymarket()'));
@@ -292,6 +316,7 @@ async function render(cache, live) {
 }
 
 (async () => {
+  const recessionSlug = 'us-recession-by-end-of-2026';
   const fixtures = Object.fromEntries(cardCases.map(([slug, , label, prob]) => [slug, fixture(label, prob)]));
   const cached = { ...fixtures };
   delete cached[fedSlug];
@@ -334,5 +359,46 @@ async function render(cache, live) {
       assert(grid.querySelector('a'), 'removing settled cards leaves no empty section');
     }
   } finally { absent.dom.window.close(); }
+  // A market settles: the fetcher drops it from events and lists it in
+  // dropped_settled. Its card and tile disappear with no page edit, nothing
+  // asks the API for it, and every other card still renders.
+  const settledFixtures = { ...fixtures };
+  delete settledFixtures[recessionSlug];
+  const settled = await render({ events: settledFixtures, dropped_settled: [recessionSlug] }, {});
+  try {
+    const panel = settled.document.getElementById('polymarket-section');
+    assert.equal(panel.querySelector(`[data-pm-slug="${recessionSlug}"]`), null, 'a settled market keeps no card');
+    assert.equal(settled.document.getElementById('pm-recession'), null, 'a settled market keeps no headline tile');
+    assert.equal(settled.document.getElementById('pm-co-recession').textContent, 'Unavailable');
+    assert.deepEqual(settled.requests, [], 'a settled market is not fetched live');
+    assert.equal(panel.querySelectorAll('a.hp-binary-card').length, curated.length - 1);
+    assert.doesNotMatch(panel.textContent, /Loading/);
+    for (const [slug, id, , prob] of cardCases.filter(([slug]) => slug !== recessionSlug)) {
+      assert(settled.document.getElementById(id).textContent.includes(Math.round(prob * 100) + '%'), `${slug} still renders`);
+    }
+  } finally { settled.dom.window.close(); }
+
+  // A section whose only market settles shows its empty state, not a blank grid.
+  const mortgageSlug = 'will-the-30-year-mortgage-rate-hit-in-2026';
+  const noMortgage = { ...fixtures };
+  delete noMortgage[mortgageSlug];
+  const emptied = await render({ events: noMortgage, dropped_settled: [mortgageSlug] }, {});
+  try {
+    const grid = emptied.document.querySelector('[data-pm-section="mortgage"]');
+    assert.equal(grid.querySelector('a'), null);
+    assert(grid.querySelector('.pm-empty'), 'an emptied section says it has no live market');
+  } finally { emptied.dom.window.close(); }
+
+  // Adding a market is a data change: a new curated entry renders with no page edit.
+  const extraSlug = 'fixture-new-market-2027';
+  const extended = { ...curatedDoc, events: [...curatedDoc.events, {
+    slug: extraSlug, key: 'fixture-new', role: 'brackets', section: 'labor', badge: 'Fixture',
+    color: '#6a1b9a', label: 'Fixture market', description: 'Added by data alone.' }] };
+  const added = await render({ events: { ...fixtures, [extraSlug]: fixture('Fixture bracket', .48) } }, {}, extended);
+  try {
+    assert.match(added.document.getElementById('pm-fixture-new-detail').textContent, /48%/);
+    assert.equal(added.document.querySelectorAll('a.hp-binary-card').length, curated.length + 1);
+  } finally { added.dom.window.close(); }
+
   console.log(`polymarket-resolved: PASS (${slugs.length} cached live events, ${housing.length} housing, ${cardCases.length} rendered cards, 0 settled)`);
 })().catch((error) => { console.error(error); process.exitCode = 1; });
