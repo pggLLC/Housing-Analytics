@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-07T01:41:46.677Z",
+    "generated_at": "2026-10-07T11:49:35.941Z",
     "root": "data/",
     "file_count": 1699,
-    "total_size_bytes": 178056693,
+    "total_size_bytes": 178057303,
     "kinds": {
       "json": 1662,
       "geojson": 33,
@@ -441,8 +441,8 @@
     {
       "path": "audit/chfa-qap-watch.json",
       "kind": "json",
-      "size_bytes": 2971529,
-      "mtime": "2026-09-25T12:55:18.600Z",
+      "size_bytes": 2971688,
+      "mtime": "2026-10-07T11:49:28.102Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -1536,8 +1536,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1254967,
-      "mtime": "2026-10-06T13:23:10.943Z",
+      "size_bytes": 1255300,
+      "mtime": "2026-10-07T11:49:07.555Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30544,8 +30544,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 215822,
-      "mtime": "2026-10-07T01:41:27.644Z",
+      "size_bytes": 215940,
+      "mtime": "2026-10-07T11:49:07.731Z",
       "shape": "object",
       "keys": [
         "generated",
