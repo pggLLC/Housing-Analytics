@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-10-06T14:09:01.556Z
+**Scan timestamp:** 2026-10-07T14:27:41.749Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1703 |
-| New (unregistered) | 1672 |
+| Files scanned | 1704 |
+| New (unregistered) | 1673 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
@@ -1665,6 +1665,7 @@
 - `data/policy/unit-size-standards.json` (5 KB)
 - `data/policy_briefs.json` (232 KB)
 - `data/policy_briefs_curated.json` (14 KB)
+- `data/polymarket-curated.json` (4 KB)
 - `data/polymarket-data.json` (12 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
