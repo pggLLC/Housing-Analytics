@@ -36,11 +36,15 @@ concurrency:
 jobs:
   cache-hud-gis:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # The HUD fetches plus rebuild:derived (~6 minutes measured, #2063).
+    timeout-minutes: 40
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          # rebuild:derived runs paper:build, which refuses a shallow clone.
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v7
@@ -255,24 +259,15 @@ jobs:
       # object rather than exporting one -- so `{ ...process.env }` inherited an
       # environment that never had it. Zero issues in this repository's history match
       # alert.js's title formats, across fifteen callers.
-      - name: Commit and push cached overlay files
+      - name: Rebuild the derived chain and commit it with the overlays
+        # qct-colorado.json and dda-colorado.json are ranking-index inputs.
+        # Committing them alone left the index, scenarios and digests
+        # describing the previous overlays, with no failing run (#2092). The
+        # script rebuilds the chain, validates, commits inputs and derived files
+        # together, runs the freshness checkers and pushes, or commits nothing.
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          python3 scripts/rebuild_manifest.py
-          git add data/qct-colorado.json data/dda-colorado.json data/co-county-boundaries.json data/boundaries/counties_co.geojson data/manifest.json
-          if git diff --cached --quiet; then
-            echo "No changes to overlay cache files"
-          else
-            git commit -m "chore: update HUD QCT/DDA overlay cache and county boundaries [$(date -u '+%Y-%m-%d')]"
-            git pull --rebase --autostash -X theirs origin main
-            python3 scripts/rebuild_manifest.py
-            if ! git diff --quiet -- data/; then
-              git add data/
-              git commit --amend --no-edit
-            fi
-            git push
-          fi
+          scripts/commit-with-derived-chain.sh "chore: update HUD QCT/DDA overlay cache and county boundaries [$(date -u '+%Y-%m-%d')]" -- data/qct-colorado.json data/dda-colorado.json data/co-county-boundaries.json data/boundaries/counties_co.geojson
+
       - name: Dispatch Pages deploy for this run's commit
         # A workflow-token push does not trigger deploy.yml (#1875).
         uses: ./.github/actions/dispatch-pages-deploy
