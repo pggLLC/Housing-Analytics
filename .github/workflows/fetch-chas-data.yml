@@ -24,11 +24,15 @@ concurrency:
 jobs:
   fetch-chas:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # The CHAS download plus rebuild:derived (~6 minutes measured, #2063).
+    timeout-minutes: 45
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          # rebuild:derived runs paper:build, which refuses a shallow clone.
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v7
@@ -73,24 +77,17 @@ jobs:
       # object rather than exporting one -- so `{ ...process.env }` inherited an
       # environment that never had it. Zero issues in this repository's history match
       # alert.js's title formats, across fifteen callers.
-      - name: Commit and push data files
+      - name: Rebuild place CHAS from the new tract file
+        # place-chas.json is built from chas_tract_co.json and is itself a
+        # ranking-index input; build-hna-data.yml Phase 6.4 runs the same step.
+        run: python3 scripts/hna/build_place_chas.py
+
+      - name: Rebuild the derived chain and commit it with the CHAS files
+        # chas_affordability_gap.json and place-chas.json feed the ranking index
+        # and the digests (#2092). See docs/runbooks/chas-manual-refresh.md.
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          python3 scripts/rebuild_manifest.py
-          git add data/market/chas_co.json data/hna/chas_affordability_gap.json data/market/chas_tract_co.json data/manifest.json
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "chore: update HUD CHAS affordability gap data [$(date -u '+%Y-%m-%d')]"
-            git pull --rebase --autostash -X theirs origin main
-            python3 scripts/rebuild_manifest.py
-            if ! git diff --quiet -- data/; then
-              git add data/
-              git commit --amend --no-edit
-            fi
-            git push
-          fi
+          scripts/commit-with-derived-chain.sh "chore: update HUD CHAS affordability gap data [$(date -u '+%Y-%m-%d')]" -- data/market/chas_co.json data/hna/chas_affordability_gap.json data/market/chas_tract_co.json data/hna/place-chas.json
+
       - name: Dispatch Pages deploy for this run's commit
         # A workflow-token push does not trigger deploy.yml (#1875).
         uses: ./.github/actions/dispatch-pages-deploy

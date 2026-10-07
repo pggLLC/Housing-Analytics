@@ -162,14 +162,16 @@ jobs:
   bbox-fix:
     name: Fix missing bbox fields in GeoJSON artifacts
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # Includes rebuild:derived (~6 minutes measured, #2063).
+    timeout-minutes: 45
     needs: build
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
-          fetch-depth: 1
+          # rebuild:derived runs paper:build, which refuses a shallow clone.
+          fetch-depth: 0
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v7
@@ -306,6 +308,16 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # acs_tract_metrics_co.json, opportunity_insights_co.json and
+          # walkability_scores_co.json are ranking-index inputs. Without the
+          # chain this PR carried new inputs and an old index, and failed
+          # test:ranking-fresh on its own head (#2092). The chain also rebuilds
+          # the home snapshot and both manifests; the steps below then fold in
+          # this workflow's own inventory count and re-record byte counts.
+          # The paper, methods page and inventory line it also rewrites are
+          # left out of the commit: ci-checks regenerates them on every PR
+          # and a PR that carries them conflicts with every other one.
+          npm run rebuild:derived
           node scripts/build-home-snapshot.mjs
           npm run audit:file-manifest
           # This workflow changes the record count in
@@ -321,7 +333,7 @@ jobs:
           # 1144 and left the declaration at 1141.
           node scripts/audit/refresh-inventory-mtimes.mjs || true
           python3 scripts/rebuild_manifest.py
-          git add data/market/ data/environmental/epa-superfund-co.json data/home-snapshot.json data/_manifest.json data/manifest.json js/data-source-inventory.js
+          git add data/market/ data/environmental/epa-superfund-co.json data/home-snapshot.json data/_manifest.json data/manifest.json js/data-source-inventory.js data/hna/ranking-index.json data/hna/ranking-scenarios data/hna/jurisdiction-metrics-digest data/hna/ownership-need.json data/jurisdiction-briefs places
           if git diff --staged --quiet; then
             echo "No changes to commit."
             exit 0
