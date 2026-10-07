@@ -99,12 +99,11 @@ const MAP_DATA_PATTERNS = [
 ];
 
 // Local resources the site probes optionally and handles gracefully — a 404 here is
-// expected behaviour, not a real failure. The CAR market-report loader
-// (js/housing-data-integration.js) tries the current month first and falls back through
-// older months, so a not-yet-generated current month legitimately 404s.
-const EXPECTED_OPTIONAL_LOCAL_404 = [
-  /\/data\/car-market-report-\d{4}-\d{2}\.json$/i,
-];
+// expected behaviour, not a real failure. Empty since #2053: the CAR loaders used
+// to guess the current month's report and 404 until it existed; they now read
+// data/car-market-reports.json and request only reports that exist, so a CAR 404
+// is a real failure again.
+const EXPECTED_OPTIONAL_LOCAL_404 = [];
 
 function isLocalUrl(url) {
   return url.startsWith(BASE_URL) || url.startsWith('http://127.0.0.1') || url.startsWith('http://localhost');
