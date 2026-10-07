@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-07T01:41:27.801Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-07T19:31:10.542Z. Do not edit by hand.
 
 ---
 
@@ -47,10 +47,10 @@
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 135.0 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 135.4 KB |
 | `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 162.0 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 165.2 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 166.0 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 134.3 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | Colorado Public Data Reference | 21.1 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 237.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 238.5 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 39.6 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -81,11 +81,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1663 JSON files found.
+1664 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 810.5 KB | ✅ | — |
+| `data/_manifest.json` | 811.0 KB | ✅ | — |
 | `data/_qa-status.json` | 7.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -115,6 +115,7 @@
 | `data/car-market-report-2026-08.json` | 70.6 KB | ✅ | — |
 | `data/car-market-report-2026-09.json` | 3.1 KB | ✅ | — |
 | `data/car-market-report-2026-10.json` | 3.0 KB | ✅ | — |
+| `data/car-market-reports.json` | 467 B | ✅ | — |
 | `data/car-market.json` | 734 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
@@ -138,7 +139,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 4.02 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 252.3 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 252.4 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1579,7 +1580,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 210.8 KB | ✅ | — |
+| `data/manifest.json` | 210.9 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
@@ -1753,7 +1754,7 @@
 
 ## Test Files
 
-519 test files found.
+520 test files found.
 
 | File | Size |
 |------|------|
@@ -1792,6 +1793,7 @@
 | `test/caching.test.js` | 7.3 KB |
 | `test/canonical-geography-contract.test.js` | 6.9 KB |
 | `test/car-estimate-disclosure.test.js` | 5.3 KB |
+| `test/car-report-index.test.js` | 5.2 KB |
 | `test/car-showingtime-fetcher.test.mjs` | 8.4 KB |
 | `test/census-dashboard-scope.test.js` | 2.3 KB |
 | `test/chart-id-coherence.test.js` | 4.5 KB |
@@ -1918,7 +1920,7 @@
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
 | `test/hna-build-rebase-recovery.test.js` | 6.9 KB |
-| `test/hna-car-loader.test.js` | 4.1 KB |
+| `test/hna-car-loader.test.js` | 5.5 KB |
 | `test/hna-chapter-handoff.test.mjs` | 7.8 KB |
 | `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
 | `test/hna-comparison-place-cost-burden.test.js` | 3.9 KB |
@@ -2296,7 +2298,7 @@
 | `.github/workflows/build-hna-data.yml` | 32.1 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 4.0 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.5 KB |
-| `.github/workflows/car-data-update.yml` | 2.4 KB |
+| `.github/workflows/car-data-update.yml` | 2.7 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
 | `.github/workflows/chfa-qap-watch.yml` | 10.8 KB |
 | `.github/workflows/ci-checks.yml` | 20.1 KB |
