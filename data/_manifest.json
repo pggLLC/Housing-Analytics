@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-07T13:31:50.461Z",
+    "generated_at": "2026-10-07T19:31:29.593Z",
     "root": "data/",
-    "file_count": 1699,
-    "total_size_bytes": 178057307,
+    "file_count": 1700,
+    "total_size_bytes": 178057919,
     "kinds": {
-      "json": 1662,
+      "json": 1663,
       "geojson": 33,
       "csv": 4
     }
@@ -15,7 +15,7 @@
       "path": "_qa-status.json",
       "kind": "json",
       "size_bytes": 7237,
-      "mtime": "2026-10-07T01:40:42.079Z",
+      "mtime": "2026-10-07T19:30:26.054Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 587,
-      "mtime": "2026-10-07T01:41:44.407Z",
+      "mtime": "2026-10-07T19:31:27.243Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -800,6 +800,22 @@
       "key_count": 11,
       "primary_array_key": null,
       "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "car-market-reports.json",
+      "kind": "json",
+      "size_bytes": 467,
+      "mtime": "2026-10-07T19:30:26.094Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "latest",
+        "months"
+      ],
+      "key_count": 3,
+      "primary_array_key": "months",
+      "primary_array_length": 9,
       "primary_array_first_keys": null
     },
     {
@@ -1343,8 +1359,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 258355,
-      "mtime": "2026-10-07T01:40:42.142Z",
+      "size_bytes": 258500,
+      "mtime": "2026-10-07T19:30:26.112Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -1359,7 +1375,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1672,
+      "primary_array_length": 1673,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -30545,7 +30561,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 215940,
-      "mtime": "2026-10-07T13:31:48.063Z",
+      "mtime": "2026-10-07T19:31:10.508Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31984,7 +32000,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14804,
-      "mtime": "2026-10-07T01:41:45.571Z",
+      "mtime": "2026-10-07T19:31:28.499Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32007,7 +32023,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-07T01:41:45.294Z",
+      "mtime": "2026-10-07T19:31:28.243Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
