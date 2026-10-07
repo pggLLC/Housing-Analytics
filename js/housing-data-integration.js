@@ -160,19 +160,27 @@
   }
 
   /**
-   * Load the most recent CAR market report from /data/car-market-report-YYYY-MM.json.
+   * Load the most recent CAR market report listed in data/car-market-reports.json.
+   *
+   * The list is of reports that exist (#2053). Guessing filenames from the
+   * calendar requested the current month first, which does not exist on the
+   * 1st until car-data-update.yml lands, and logged a 404 on every page load.
    */
   async function loadCARData() {
     const cached = _get("car");
     if (cached) return cached;
 
-    const today = new Date();
-    const candidates = [];
-    for (let i = 0; i < 6; i++) {
-      const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
-      const ym = d.toISOString().slice(0, 7);
-      candidates.push(`data/car-market-report-${ym}.json`);
+    let index = null;
+    try {
+      index = await _fetchJson("data/car-market-reports.json");
+    } catch (_) {
+      console.warn("[HousingData] CAR report index unavailable.");
+      return null;
     }
+    const candidates = (Array.isArray(index && index.months) ? index.months : [])
+      .filter((m) => /^\d{4}-\d{2}$/.test(m))
+      .slice(0, 6)
+      .map((m) => `data/car-market-report-${m}.json`);
 
     for (const url of candidates) {
       try {

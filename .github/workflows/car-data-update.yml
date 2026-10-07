@@ -35,6 +35,11 @@ jobs:
       - name: Generate CAR placeholder data for current month
         run: node scripts/generate-car-placeholder.mjs
 
+      - name: Index the CAR reports that exist
+        # The pages read this list instead of guessing this month's filename,
+        # which 404'd on the 1st until this workflow landed (#2053).
+        run: node scripts/build-car-report-index.mjs
+
       # The scripts/monitoring/alert.js step was removed when this workflow moved to
       # the external monitor (.github/workflows/workflow-outcome-monitor.yml).
       #
@@ -48,7 +53,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           python3 scripts/rebuild_manifest.py
-          git add data/car-market-report-*.json data/manifest.json
+          git add data/car-market-report-*.json data/car-market-reports.json data/manifest.json
           if git diff --cached --quiet; then
             echo "No changes to commit — CAR data is already up to date."
           else
