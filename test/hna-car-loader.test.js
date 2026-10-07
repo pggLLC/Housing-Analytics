@@ -49,15 +49,45 @@ async function run(name, fn) {
 console.log('HNA CAR fallback loader');
 
 (async function main() {
-  await run('builds newest-first monthly candidates for the last 12 months', () => {
+  await run('lists only indexed reports, newest first, within the look-back', () => {
     const helpers = loadCarHelpers();
-    const urls = helpers.buildCARFallbackUrls(new Date(2026, 7, 15), 4);
-    assert.deepEqual(urls, [
+    const index = { months: ['2026-08', '2026-07', '2026-06', '2026-05', '2026-04', 'not-a-month'] };
+    assert.deepEqual(helpers.carReportUrls(index, 4), [
       'data/car-market-report-2026-08.json',
       'data/car-market-report-2026-07.json',
       'data/car-market-report-2026-06.json',
       'data/car-market-report-2026-05.json'
     ]);
+    assert.deepEqual(helpers.carReportUrls(null, 4), [], 'no index, no guessed filenames');
+  });
+
+  await run('reads the index first and requests nothing it does not list (#2053)', async () => {
+    const helpers = loadCarHelpers();
+    const requested = [];
+    const rendered = [];
+    const report = { month: '2026-09', statewide: {}, counties: { '08031': { name: 'Denver County' } } };
+    const ok = await helpers.tryLoadCARFallback({
+      fetcher: (url) => {
+        requested.push(url);
+        if (url === helpers.CAR_INDEX_URL) return response({ months: ['2026-09', '2026-08'] });
+        return response(url === 'data/car-market-report-2026-09.json' ? report : undefined);
+      },
+      render: (car) => rendered.push(car)
+    });
+    assert.equal(ok, true);
+    assert.deepEqual(requested, [helpers.CAR_INDEX_URL, 'data/car-market-report-2026-09.json']);
+    assert.equal(rendered[0].month, '2026-09');
+  });
+
+  await run('an unreadable index offers no report rather than a guessed one', async () => {
+    const helpers = loadCarHelpers();
+    const requested = [];
+    const ok = await helpers.tryLoadCARFallback({
+      fetcher: (url) => { requested.push(url); return response(undefined); },
+      render: () => { throw new Error('nothing should render'); }
+    });
+    assert.equal(ok, false);
+    assert.deepEqual(requested, [helpers.CAR_INDEX_URL]);
   });
 
   await run('uses older county report when newest report is statewide-only', async () => {
