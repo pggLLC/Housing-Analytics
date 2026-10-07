@@ -316,8 +316,12 @@ jobs:
           # this workflow's own inventory count and re-record byte counts.
           # The paper, methods page and inventory line it also rewrites are
           # left out of the commit: ci-checks regenerates them on every PR
-          # and a PR that carries them conflicts with every other one.
+          # and a PR that carries them conflicts with every other one. Put
+          # them back BEFORE the manifests are rebuilt below, or the committed
+          # manifests would record byte counts and mtimes of files the commit
+          # does not contain (Codex review on #2103).
           npm run rebuild:derived
+          git checkout -- data/paper working-paper.html methods.html AGENTS.md README.md
           node scripts/build-home-snapshot.mjs
           npm run audit:file-manifest
           # This workflow changes the record count in
