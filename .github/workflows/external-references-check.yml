@@ -99,13 +99,28 @@ jobs:
                 body:  `Drift still detected at ${new Date().toISOString()}.`,
               });
             } else {
-              await github.rest.issues.create({
+              const { data: created } = await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo:  context.repo.repo,
                 title: 'External reference doc drifted from pinned SHA-256',
                 body,
-                labels: ['data-pipeline', 'external-reference-drift'],
               });
+              // Labels after creation: neither label existed in the repo when
+              // this was written (#2063), and a missing label must not stop
+              // the tracker from being opened.
+              const labels = ['data-pipeline', 'external-reference-drift'];
+              for (const name of labels) {
+                try {
+                  await github.rest.issues.createLabel({ owner: context.repo.owner, repo: context.repo.repo, name, color: 'ededed' });
+                } catch (error) {
+                  if (error.status !== 422) core.warning(`Could not create label ${name}: ${error.message}`);
+                }
+              }
+              try {
+                await github.rest.issues.addLabels({ owner: context.repo.owner, repo: context.repo.repo, issue_number: created.number, labels });
+              } catch (error) {
+                core.warning(`Tracker #${created.number} opened without labels: ${error.message}`);
+              }
             }
 
       - name: Auto-close tracking issue on recovery
