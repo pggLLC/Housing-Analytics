@@ -67,10 +67,19 @@ const BROAD = new Set(['data', 'data/', '.', '-A', '--all', '--', '-u']);
 // SAYS "npm run rebuild:derived" satisfied the check after the command itself
 // was deleted (caught by this file's own sabotage run).
 const code = (text) => text.split('\n').filter((line) => !/^\s*#/.test(line)).join('\n');
-function withScripts(text) {
-  // Inline any repo shell script the workflow runs, so a commit made there counts.
-  return text.replace(/(?:^|\s)(?:bash\s+)?(scripts\/[A-Za-z0-9_./-]+\.sh)\b/g, (m, p) =>
-    fs.existsSync(path.join(ROOT, p)) ? `${m}\n${code(read(p))}\n` : m);
+function withScripts(text, depth = 0) {
+  // Inline any repo shell script the workflow runs, so a commit made there
+  // counts; recursively, because commit-summary-backfill.sh hands off to
+  // commit-with-derived-chain.sh via "$here/..." (#2092). The script goes
+  // AFTER the calling line, so that line's own arguments stay on it.
+  if (depth > 3) return text;
+  return text.split('\n').map((line) => {
+    const inlined = [...line.matchAll(/(?:^|\s|")(?:bash\s+)?(?:scripts\/|\$here\/)([A-Za-z0-9_.-]+\.sh)\b/g)]
+      .map((m) => `scripts/${m[1]}`)
+      .filter((p) => fs.existsSync(path.join(ROOT, p)))
+      .map((p) => withScripts(code(read(p)), depth + 1));
+    return [line, ...inlined].join('\n');
+  }).join('\n');
 }
 function committedPaths(text) {
   const tokens = [];
@@ -83,6 +92,10 @@ function committedPaths(text) {
       if (!tok || BROAD.has(tok) || tok.startsWith('#')) continue;
       tokens.push(tok);
     }
+  }
+  // Input paths handed to the shared commit script after `--` (#2092).
+  for (const m of text.matchAll(/commit-with-derived-chain\.sh\b[^\n]*?\s--\s+([^\n]+)/g)) {
+    for (const tok of m[1].trim().split(/\s+/)) if (tok && !tok.startsWith('$') && !tok.startsWith('#')) tokens.push(tok.replace(/\/$/, ''));
   }
   // Path lists held in a variable or array: paths="a b" / PATHS=( a b ).
   for (const m of text.matchAll(/^\s*(?:paths|PATHS)=(?:"([^"]*)"|\(([\s\S]*?)\))/gm)) {
@@ -118,15 +131,10 @@ function rebuildsBeforeCommit(text) {
   return 'every CHAIN step in order';
 }
 
-// Workflows that commit a chain input without rebuilding, found by this guard
-// when it was written and tracked for repair rather than fixed in #2063's PR.
-// The list must be exact: a new gap fails, and so does fixing one of these
-// without removing it here (so the list cannot outlive the gap).
-const KNOWN_GAPS = {
-  'cache-hud-gis-data.yml': 'QCT/DDA overlays, monthly (#2092)',
-  'fetch-chas-data.yml': 'CHAS county gap; manual dispatch only since #2091 (#2092)',
-  'market_data_build.yml': 'tract metrics, Opportunity Insights, walkability; weekly (#2092)',
-};
+// Workflows that commit a chain input without rebuilding. Empty since #2092
+// fixed the three this guard found when it was written. The list must stay
+// exact: a new gap fails, and so does an entry whose workflow now rebuilds.
+const KNOWN_GAPS = {};
 
 const dir = path.join(ROOT, '.github/workflows');
 const checked = [];
