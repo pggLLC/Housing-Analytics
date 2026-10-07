@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-07T19:31:10.542Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-07T23:26:52.594Z. Do not edit by hand.
 
 ---
 
@@ -85,7 +85,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 811.0 KB | ✅ | — |
+| `data/_manifest.json` | 811.4 KB | ✅ | — |
 | `data/_qa-status.json` | 7.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -102,7 +102,7 @@
 | `data/alerts/alerts_archive.json` | 184.0 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
-| `data/audit/quarantine-candidates.json` | 587 B | ✅ | — |
+| `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 3.0 KB | ✅ | — |
 | `data/capital-partners.json` | 13.1 KB | ✅ | — |
@@ -1580,7 +1580,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 210.9 KB | ✅ | — |
+| `data/manifest.json` | 211.0 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
@@ -2153,7 +2153,7 @@
 | `test/site-transit-evidence.test.js` | 14.6 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.9 KB |
-| `test/smoke-market-analysis.test.js` | 39.9 KB |
+| `test/smoke-market-analysis.test.js` | 40.1 KB |
 | `test/smoke.test.js` | 10.1 KB |
 | `test/soft-funding-tracker.test.js` | 16.5 KB |
 | `test/source-liveness-local-path.test.py` | 1.5 KB |
@@ -2222,7 +2222,7 @@
 | `test/workflow-outcome-monitor.test.js` | 47.9 KB |
 | `test/workflow-push-dispatches-deploy.test.js` | 6.8 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
-| `test/workflows-rebuild-derived-chain.test.mjs` | 7.9 KB |
+| `test/workflows-rebuild-derived-chain.test.mjs` | 8.3 KB |
 | `test/workforce-gap-is-job-based.test.mjs` | 8.8 KB |
 | `test/working-paper-download.test.js` | 4.9 KB |
 | `test/xss-comparison-surfaces.test.js` | 14.5 KB |
@@ -2324,7 +2324,7 @@
 | `.github/workflows/external-references-check.yml` | 6.1 KB |
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 3.7 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.7 KB |
-| `.github/workflows/fetch-chas-data.yml` | 4.4 KB |
+| `.github/workflows/fetch-chas-data.yml` | 4.5 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 6.0 KB |
 | `.github/workflows/fetch-county-data.yml` | 5.4 KB |
 | `.github/workflows/fetch-fmr-data.yml` | 7.8 KB |
@@ -2334,7 +2334,7 @@
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 20.3 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 8.9 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 5.2 KB |
-| `.github/workflows/market_data_build.yml` | 20.1 KB |
+| `.github/workflows/market_data_build.yml` | 21.4 KB |
 | `.github/workflows/merge-ref-gate.yml` | 3.6 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 4.0 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
