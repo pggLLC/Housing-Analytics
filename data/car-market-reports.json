@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "description": "Monthly CAR market reports present in data/, newest first. Pages read this instead of guessing a filename from the calendar (#2053).",
+    "generated_by": "scripts/build-car-report-index.mjs",
+    "file_pattern": "data/car-market-report-YYYY-MM.json"
+  },
+  "latest": "2026-10",
+  "months": [
+    "2026-10",
+    "2026-09",
+    "2026-08",
+    "2026-07",
+    "2026-06",
+    "2026-05",
+    "2026-04",
+    "2026-03",
+    "2026-02"
+  ]
+}

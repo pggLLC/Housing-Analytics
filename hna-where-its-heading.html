@@ -1377,17 +1377,21 @@
     if (swEl) swEl.style.display = 'none';
   }
 
-  /** Try loading CAR report JSON as a fallback data source. */
-  function buildCARFallbackUrls(now, lookbackMonths) {
-    var start = now ? new Date(now) : new Date();
-    var months = lookbackMonths || 12;
-    var urls = [];
-    for (var i = 0; i < months; i++) {
-      var d = new Date(start.getFullYear(), start.getMonth() - i, 1);
-      var ym = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
-      urls.push('data/car-market-report-' + ym + '.json');
-    }
-    return urls;
+  /**
+   * The CAR reports to try, newest first, from data/car-market-reports.json —
+   * the list of reports that actually exist (#2053). This used to guess
+   * filenames from the calendar, starting at the current month. On the 1st of
+   * every month that file is not written until car-data-update.yml lands
+   * (~3h after its cron), so every page load logged a 404 and the rendered
+   * smoke failed six flows on every PR for a third of a day.
+   */
+  var CAR_INDEX_URL = 'data/car-market-reports.json';
+  function carReportUrls(index, lookbackMonths) {
+    var months = (index && Array.isArray(index.months)) ? index.months : [];
+    return months
+      .filter(function (m) { return /^\d{4}-\d{2}$/.test(m); })
+      .slice(0, lookbackMonths || 12)
+      .map(function (m) { return 'data/car-market-report-' + m + '.json'; });
   }
 
   function hasCARReport(car) {
@@ -1404,9 +1408,9 @@
     options = options || {};
     var cur = window.HNAState && window.HNAState.state && window.HNAState.state.current;
     var selectedCounty = cur && (cur.geoType === 'county' ? cur.geoid : cur.contextCounty);
-    var urls = options.urls || buildCARFallbackUrls(options.now, options.lookbackMonths || 12);
     var render = options.render || renderCARFallback;
     var fetcher = options.fetcher || fetch;
+    var urls = [];
 
     function loadAt(i, fallback) {
       if (i >= urls.length) {
@@ -1441,11 +1445,22 @@
         .catch(function () { return loadAt(i + 1, fallback); });
     }
 
-    return loadAt(0, null);
+    // An unreadable index means no report is offered: the caller's
+    // unavailable state, never a guessed filename.
+    var listed = options.urls ? Promise.resolve(options.urls)
+      : fetcher(CAR_INDEX_URL)
+          .then(function (resp) { return resp.ok ? resp.json() : null; })
+          .then(function (index) { return carReportUrls(index, options.lookbackMonths || 12); })
+          .catch(function () { return []; });
+    return listed.then(function (list) {
+      urls = list;
+      return loadAt(0, null);
+    });
   }
 
   window.__HNA_CAR_TEST__ = {
-    buildCARFallbackUrls: buildCARFallbackUrls,
+    CAR_INDEX_URL: CAR_INDEX_URL,
+    carReportUrls: carReportUrls,
     hasCARReport: hasCARReport,
     renderCARFallback: renderCARFallback,
     countyInCARReport: countyInCARReport,
