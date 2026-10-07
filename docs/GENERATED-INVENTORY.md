@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-06T09:20:18.555Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-07T01:41:27.801Z. Do not edit by hand.
 
 ---
 
@@ -38,7 +38,7 @@
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 95.1 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 92.4 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 17.8 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 6.0 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 16.3 KB |
@@ -81,7 +81,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1662 JSON files found.
+1663 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -138,7 +138,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 4.02 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 251.8 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 252.3 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1729,6 +1729,7 @@
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 232.4 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 13.8 KB | ✅ | — |
+| `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
@@ -1752,7 +1753,7 @@
 
 ## Test Files
 
-518 test files found.
+519 test files found.
 
 | File | Size |
 |------|------|
@@ -2096,7 +2097,7 @@
 | `test/policy-review-status.test.mjs` | 10.1 KB |
 | `test/policy-timeline-series.test.js` | 17.5 KB |
 | `test/policy-watch-rail.test.mjs` | 13.7 KB |
-| `test/polymarket-resolved.test.js` | 19.2 KB |
+| `test/polymarket-resolved.test.js` | 23.7 KB |
 | `test/preservation.test.js` | 17.3 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/production-figure-names-its-reading.test.js` | 8.5 KB |
@@ -2202,7 +2203,7 @@
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
 | `test/unwired-suite.test.js` | 10.3 KB |
-| `test/upstream-vintage-watch.test.mjs` | 6.9 KB |
+| `test/upstream-vintage-watch.test.mjs` | 8.7 KB |
 | `test/url-health-policy.test.mjs` | 13.0 KB |
 | `test/utility-allowance-absence.test.mjs` | 10.9 KB |
 | `test/utility-allowance-basis.test.js` | 18.8 KB |
@@ -2219,6 +2220,7 @@
 | `test/workflow-outcome-monitor.test.js` | 47.9 KB |
 | `test/workflow-push-dispatches-deploy.test.js` | 6.8 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
+| `test/workflows-rebuild-derived-chain.test.mjs` | 7.9 KB |
 | `test/workforce-gap-is-job-based.test.mjs` | 8.8 KB |
 | `test/working-paper-download.test.js` | 4.9 KB |
 | `test/xss-comparison-surfaces.test.js` | 14.5 KB |
@@ -2287,9 +2289,9 @@
 | `.github/workflows/accessibility.yml` | 5.3 KB |
 | `.github/workflows/archive-audit-post-merge.yml` | 7.7 KB |
 | `.github/workflows/audit-endpoints.yml` | 14.6 KB |
-| `.github/workflows/backfill-hna-extended-acs-cache.yml` | 5.8 KB |
-| `.github/workflows/backfill-hna-household-occupation.yml` | 5.2 KB |
-| `.github/workflows/backfill-hna-value-brackets.yml` | 4.8 KB |
+| `.github/workflows/backfill-hna-extended-acs-cache.yml` | 5.1 KB |
+| `.github/workflows/backfill-hna-household-occupation.yml` | 4.4 KB |
+| `.github/workflows/backfill-hna-value-brackets.yml` | 4.0 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/build-hna-data.yml` | 32.1 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 4.0 KB |
@@ -2317,7 +2319,7 @@
 | `.github/workflows/discover-agenda-urls.yml` | 3.4 KB |
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.6 KB |
 | `.github/workflows/docs-sync.yml` | 4.0 KB |
-| `.github/workflows/external-references-check.yml` | 5.2 KB |
+| `.github/workflows/external-references-check.yml` | 6.1 KB |
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 3.7 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.7 KB |
 | `.github/workflows/fetch-chas-data.yml` | 4.4 KB |
@@ -2328,7 +2330,7 @@
 | `.github/workflows/fetch-hmda-data.yml` | 4.1 KB |
 | `.github/workflows/fetch-kalshi.yml` | 5.3 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 20.3 KB |
-| `.github/workflows/fetch-polymarket-data.yml` | 9.0 KB |
+| `.github/workflows/fetch-polymarket-data.yml` | 8.9 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 5.2 KB |
 | `.github/workflows/market_data_build.yml` | 20.1 KB |
 | `.github/workflows/merge-ref-gate.yml` | 3.6 KB |
@@ -2351,7 +2353,7 @@
 | `.github/workflows/test-sentinel-normalization.yml` | 2.1 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.9 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 6.1 KB |
-| `.github/workflows/upstream-vintage-watch.yml` | 7.0 KB |
+| `.github/workflows/upstream-vintage-watch.yml` | 8.5 KB |
 | `.github/workflows/url-health-weekly.yml` | 5.3 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 7.5 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 7.4 KB |

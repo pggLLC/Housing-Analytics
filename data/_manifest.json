@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-06T13:23:21.793Z",
+    "generated_at": "2026-10-07T01:41:46.677Z",
     "root": "data/",
-    "file_count": 1698,
-    "total_size_bytes": 178051924,
+    "file_count": 1699,
+    "total_size_bytes": 178056693,
     "kinds": {
-      "json": 1661,
+      "json": 1662,
       "geojson": 33,
       "csv": 4
     }
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 7236,
-      "mtime": "2026-10-06T01:49:09.679Z",
+      "size_bytes": 7237,
+      "mtime": "2026-10-07T01:40:42.079Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 587,
-      "mtime": "2026-10-06T09:20:42.763Z",
+      "mtime": "2026-10-07T01:41:44.407Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1343,8 +1343,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 257866,
-      "mtime": "2026-10-06T01:49:09.763Z",
+      "size_bytes": 258355,
+      "mtime": "2026-10-07T01:40:42.142Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -1359,7 +1359,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1669,
+      "primary_array_length": 1672,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -30545,7 +30545,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 215822,
-      "mtime": "2026-10-06T13:23:19.556Z",
+      "mtime": "2026-10-07T01:41:27.644Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31984,7 +31984,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14804,
-      "mtime": "2026-10-06T09:20:44.548Z",
+      "mtime": "2026-10-07T01:41:45.571Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32007,7 +32007,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-06T09:20:44.174Z",
+      "mtime": "2026-10-07T01:41:45.294Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34484,6 +34484,31 @@
         "articles",
         "alert_count",
         "regions"
+      ]
+    },
+    {
+      "path": "polymarket-curated.json",
+      "kind": "json",
+      "size_bytes": 4279,
+      "mtime": "2026-10-07T01:40:42.454Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "events"
+      ],
+      "key_count": 2,
+      "primary_array_key": "events",
+      "primary_array_length": 8,
+      "primary_array_first_keys": [
+        "slug",
+        "key",
+        "role",
+        "section",
+        "badge",
+        "color",
+        "label",
+        "description",
+        "kpi"
       ]
     },
     {
