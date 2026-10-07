@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-07T19:31:32.128671Z",
+  "generated": "2026-10-07T23:27:20.402010Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 830857
+      "bytes": 830852
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -124,7 +124,7 @@
     "data/audit/quarantine-candidates.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 587
+      "bytes": 483
     },
     "data/audit/upstream-vintage-watch.json": {
       "featureCount": 0,
