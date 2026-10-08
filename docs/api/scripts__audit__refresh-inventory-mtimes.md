@@ -4,7 +4,8 @@ refresh-inventory-mtimes.mjs — walk js/data-source-inventory.js,
 cross-reference each source's `localFile:` against the committed data
 file, and rewrite two fields that otherwise rot:
 
-  - `lastUpdated:` → the file's real mtime, when on-disk is newer.
+  - `lastUpdated:` → the source extraction date for cache-filterable OSM
+    files; otherwise the date of the file's last content change in git.
   - `features:`    → the actual record count in the file, for every
     source listed in JSON_COUNT_PATHS.
 
@@ -27,9 +28,8 @@ Rules
 -----
   - If localFile is null or the path doesn't exist on disk → skip
     (those are reference entries with no cached file).
-  - If mtime is newer than the declared lastUpdated → update.
-  - If mtime is *older* than the declared lastUpdated → leave alone
-    (someone curated a manual date — don't overwrite it backward).
+  - Correct lastUpdated in either direction to its authoritative date.
+    A cache correction must not make an old source appear freshly fetched.
   - `features:` is synced in *both* directions — the gate asserts exact
     equality, so a count that shrank is drift just the same.
   - `features: null` entries are left alone. Those declare

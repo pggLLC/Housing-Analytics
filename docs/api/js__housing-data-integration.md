@@ -37,7 +37,11 @@ Falls back to any matching file found via directory listing.
 
 ### `loadCARData()`
 
-Load the most recent CAR market report from /data/car-market-report-YYYY-MM.json.
+Load the most recent CAR market report listed in data/car-market-reports.json.
+
+The list is of reports that exist (#2053). Guessing filenames from the
+calendar requested the current month first, which does not exist on the
+1st until car-data-update.yml lands, and logged a 404 on every page load.
 
 ### `formatDDMMYY(isoString)`
 

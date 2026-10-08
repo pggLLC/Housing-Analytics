@@ -12,8 +12,11 @@ Environment variables:
   CONTRAST_FIX=1      Apply contrast-guard fixes in the browser context and report before/after ratios
   CONTRAST_JSON=1     Print the full JSON report to stdout instead of the text summary
   CONTRAST_REPORT_FILE=<path>  Write the JSON report to a file (can combine with CONTRAST_JSON)
+  CONTRAST_SETTLE_TIMEOUT_MS   How long a page may keep changing before it is reported as
+                      not scanned (default 20000)
 
-Scans key pages served via http-server, capped at 2000 nodes/page.
+Scans key pages served via http-server, capped at 2000 nodes/page, once the
+page has settled (see waitForSettled) — never at an arbitrary load event.
 Skips aria-hidden elements, opacity < 0.9, and font-size < 10px.
 Thresholds: 4.5 normal text / 3.0 large text (WCAG AA).
 
@@ -22,16 +25,4 @@ Fix logic mirrors js/contrast-guard.js (runtime fixer):
   - Applies --card-d / --card-l background surface to boxy elements when needed
   - Marks fixed elements with the `contrast-guard-fixed` class
 
-## Symbols
-
-### `auditPage(page, url, doFix)`
-
-Audit a page for contrast violations and optionally apply fixes.
-
-Returns { violations, fixes } where:
-  violations – elements that fail WCAG AA contrast before any fix is applied
-  fixes      – elements that were fixed (only populated when doFix is true)
-
-Each violation: { tag, text, fg, bg, bg_effective, ratio, threshold, isLarge }
-Each fix:       { tag, text, fg_before, fg_after, fix_applied, bg_effective,
-                  bg_fixed, ratio_before, ratio_after, threshold, isLarge, passes_after_fix }
+_No documented symbols — module has a file-header comment only._

@@ -50,12 +50,6 @@ Format a number as a USD currency string.
 @param {number} n
 @returns {string} e.g. "$1,200"
 
-### `opportunityBand(score)`
-
-Map a 0–100 score to an opportunity band label.
-@param {number} score
-@returns {string} "High" | "Moderate" | "Lower"
-
 ### `scoreColor(score)`
 
 Map a 0–100 score to a CSS color variable token.

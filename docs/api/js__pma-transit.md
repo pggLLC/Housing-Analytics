@@ -79,7 +79,7 @@ Fetch EPA Smart Location Database transit accessibility metrics.
 The two distance tiers, from the zone-map status file.
 @param {object|null} mapStatus - data/policy/thiz-map-status.json
 @returns {{ tiers: Array|null, todMiles: number|null, zoneRadiusMiles: number|null,
-            todLabel: string|null, unavailableReason: string|null }}
+            todLabel: string|null, todDisclosure: string|null, unavailableReason: string|null }}
 
 ### `selectCountedStops(stopsGeojson)`
 
@@ -132,3 +132,22 @@ stops within the zone radius when called with no argument).
 
 Export transit analysis for ScoreRun audit trail.
 @returns {object}
+
+### `_siteRun`
+
+The transit score for one site, computed once and shared: the PMA runner
+(commuting / hybrid / tract modes) and the site-selection score
+(market-analysis-controller.js, every mode including the circular
+buffer) both ask for it, so the score shown and the narrative always
+rest on the same computation, and neither has to wait for the other.
+
+The stop and status files are fetched once per page (DataService), so
+this is cheap. The latest site's promise is kept; a result that could
+not be measured (a file did not load) is dropped so the next run retries.
+
+@param {number} siteLat
+@param {number} siteLon
+@param {{bbox?: object}} [opts] - bbox for the EPA SLD lookup only; the
+  transit distances always come from the status file.
+@returns {Promise<object>} a getTransitJustification() snapshot, with
+  _stopDataSource / _epaDataSource. Never rejects.

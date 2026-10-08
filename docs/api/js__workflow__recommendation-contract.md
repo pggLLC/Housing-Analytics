@@ -61,11 +61,11 @@ source_id and nothing more, so a reader could see that a figure came from
 `hud-chas-place-apportioned` and still had no way to reach the page that
 shows the working.
 
-Three of the five point at the same chapter. That is not laziness — "How
+Four of the six point at the same chapter. That is not laziness — "How
 much of what, for whom, and what is already available" is the chapter that
-carries the scorecard, the 20-year need and the ownership screen, and
-sending the reader somewhere tidier would send them somewhere the number
-is not.
+carries the scorecard, the 20-year need, the ownership screen and the
+transit zone screen, and sending the reader somewhere tidier would send
+them somewhere the number is not.
 
 The anchors are guarded: test:recommendation asserts each page exists and
 actually contains that id, so a chapter that moves a section breaks the
@@ -83,4 +83,6 @@ than softening an absence into a hedge that reads like advice.
 
 @param {Object} input.digest    parsed jurisdiction-metrics-digest/<geoid>.json
 @param {Object} input.project   WorkflowState active project, or null
+@param {Object} input.transitZone  TransitZone.areaSummary() for this
+                                  geography, or null when it did not load
 @param {string} input.generatedAt  ISO stamp supplied by the caller

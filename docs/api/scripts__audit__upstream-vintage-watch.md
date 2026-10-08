@@ -3,8 +3,8 @@
 scripts/audit/upstream-vintage-watch.mjs
 
 Watches external data publishers for new vintage releases. Runs weekly
-on cron and opens a tracking GitHub issue when a newer vintage is
-available than the one we currently use.
+on cron and opens or updates one tracking issue for a newer vintage or
+an unverifiable check that needs human attention.
 
 Background — why this exists
 ----------------------------
@@ -14,25 +14,20 @@ an automated watcher, "new CHAS vintage shipped 6 months ago and we
 never upgraded" is the kind of slow drift that's easy to miss.
 
 This watcher does two things:
-  1. For each tracked source, scrape or query its release index for
-     the most recent vintage label (year range, version string, etc.)
-  2. Compare against the vintage hardcoded in our fetch scripts. When
-     newer, open or update a tracking issue.
+  1. Check the configured vintage against source-specific evidence.
+  2. Record outdated or unverifiable results for the workflow's issue tracker.
 
-Sources currently tracked (extend as new ingest pipelines are added)
-----------------------------------------------------------------------
-  - HUD CHAS:  scrape https://www.huduser.gov/portal/datasets/cp.html
-               for "20XXthruYY-140-csv.zip" download links
-  - HUD FMR:   scrape https://www.huduser.gov/portal/datasets/fmr.html
-               for fiscal year tags
-  - Census ACS 5-year:  Census release schedule is fixed (annual
-               December); rather than scraping, we just check the
-               most recent year that the API returns data for
+Sources currently tracked
+-------------------------
+  - HUD CHAS: current-vintage ZIP control, then candidate ZIP probes.
+    A blocked response requires a manual check of the HUD download page.
+  - HUD FMR and Census ACS 5-year: calendar-based refresh heuristics,
+    not HTTP probes or confirmation that a new release is published.
 
 Output
 ------
   data/audit/upstream-vintage-watch.json — most recent watch result
-  GitHub issue (auto-created when newer vintage found)
+  GitHub issue (auto-created/updated for outdated or unverifiable sources)
 
 Exit codes
 ----------
@@ -46,11 +41,9 @@ Usage
 
 ## Symbols
 
-### `watchHudChas()`
+### `watchHudChas(fetchImpl = fetch)`
 
-HUD CHAS vintage detection — scrapes the dataset listing page for
-download links matching `<startYear>thru<endYear>-140-csv.zip` pattern.
-Returns the latest year-range found.
+Check the known published archive before probing possible newer vintages.
 
 ### `watchHudFmr()`
 

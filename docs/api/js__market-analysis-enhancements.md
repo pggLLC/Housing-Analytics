@@ -14,6 +14,30 @@ Dependencies: PMAEngine (window.PMAEngine) must be loaded first.
 
 ## Symbols
 
+### `classifyPipelineStage(p, now)`
+
+Pipeline stage for one LIHTC record.
+
+Only two CHFA statuses name a phase: "Pre-Compliance - Construction
+Phase" is a project being built, and an extended-use status comes after
+the 15-year compliance period, so that property has long been open.
+"Active Compliance" does NOT prove a property is open: in the 2026-09
+feed 26 of the 32 2025 awards already carry it (scripts/fetch-chfa-
+lihtc.js). Treating it as operating would drop likely-forthcoming
+competition from the pipeline, so an Active Compliance record, like one
+with no status, is staged from its award year and marked an estimate.
+
+YR_PIS is not used: in data/chfa-lihtc.json it is a copy of the award
+year, so it cannot say whether a building is placed in service.
+
+@param {object} p   - feature properties
+@param {number} now - current year
+@returns {{ stage: string, basis: string, estimated: boolean, status: string|null }}
+
+### `stageLabel(c)`
+
+Display text for a classified stage: an estimate says it is one.
+
 ### `benchmarkVsReference(score, result, referenceProjects)`
 
 Rank the given score against a reference project set.
@@ -32,12 +56,18 @@ Uses year_alloc to classify projects into recency stages.
 @param {number} miles - buffer radius
 @returns {object} pipelineResult
 
-### `generateScenarios(acs, existingUnits, scenarioList)`
+### `generateScenarios(acs, existingUnits, scenarioList, denominator, scorer)`
 
 Run multiple what-if scenarios for different proposed unit counts.
 @param {object} acs - aggregated ACS metrics
 @param {number} existingUnits - existing LIHTC units in buffer
 @param {Array}  scenarioList - array of {label, proposedUnits, amiMix}
+@param {number} [denominator] - the renter-household count the page's
+  other capture rates divide by (market-analysis.js captureDenominator).
+  Without it the table used ACS renter_hh while the headline and the
+  simulator used CHAS LIHTC-eligible renters (audit F3).
+@param {Function} [scorer] - units -> computePma result with the
+  headline's inputs (market-analysis.js _scenarioScorer).
 @returns {Array} scenarioResults
 
 ### `exportWithMetadata(result, quality, scenarios, benchmark, pipeline)`

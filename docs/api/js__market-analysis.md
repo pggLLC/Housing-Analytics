@@ -38,6 +38,24 @@ fall back to the legacy centroid-distance check.
 
 bbox format: [minLon, minLat, maxLon, maxLat]
 
+### `_htmlEscape(s)`
+
+A custom PMA's conclusions — the score, capture rate and competitive
+density — describe that PMA only when three bindings are all in place:
+a site anchor, a mapped boundary covering every selected tract, and a
+tract record for every selected tract. Missing any one of them, the old
+path still produced a score: a null boundary silently counted supply in
+a radius around the site while the card said "whole census tracts you
+selected", and an unbound tract was dropped from the demand pool without
+a word.
+
+Returns null when the custom PMA is bound, otherwise the reason its
+conclusions are not yet available. Never a default.
+
+### `customPmaReadiness(lat, lon, options)`
+
+The same check against the data this page has loaded, for other modules.
+
 ### `computeCoverage()`
 
 Compute statewide tract coverage vs. expected Colorado tract count.
@@ -106,6 +124,31 @@ scoring ignored entirely.
 @param {Array} nearbyFeatures - LIHTC GeoJSON features from lihtcInBuffer
 @returns {{mostRecentYear:number|null, yearsSince:number|null, recentAllocations5yr:number, activityLevel:string, note:string|null}}
 
+### `captureDenominator(result)`
+
+The one denominator every capture rate on this page divides by (audit
+F3). The headline and the simulator divided by CHAS LIHTC-eligible
+renters while showing the ACS renter total beside them, and the scenario
+table divided by that total: for Fruita, 100 units read 16.7% in one card
+and 10.1% in the next. null when there is no denominator at all; a rate
+over the scoring model's placeholder of 1 is not a rate.
+
+### `scoreScaleLegend()`
+
+The PMA score's scale, read off scoreTier() itself (0-100), so the
+legend under the score cannot disagree with the label beside it
+(audit F2). market-analysis-scoring.js is hash-pinned, so the scale is
+derived here rather than exported from it.
+
+### `renderScoreBoundary(result)`
+
+Say, on the score card itself, what boundary the score was computed on.
+
+CHFA's Market Study Guide requires a PMA of whole census tracts; a
+circular buffer is a screening proxy. The card used to show the same
+"Marginal Site" score either way, with only "Relative indicator only"
+beneath it, so a buffer screen read as a PMA result (audit F13).
+
 ### `_wireAddressSearch()`
 
 Wire up the "Find a Colorado address" input/button to the free US
@@ -135,11 +178,6 @@ Honors the #pmaIsochroneToggle checkbox: rings are only added to the
 map when checked, but the layer is built either way so toggling on/off
 is instant.
 
-### `_highlightTodTransit(lat, lon, radiusM)`
-
-Find transit stops within ½ mile and render as highlighted markers.
-Also counts them for the TOD score panel.
-
 ### `_buildPmaReportData()`
 
 Serialize the last PMA analysis result into a structured object
@@ -158,4 +196,4 @@ Generate a PMA polygon using one of three methods:
 @param {number} lon
 @param {string} [method]      - "buffer" | "commuting" | "hybrid" (default: "buffer")
 @param {number} [bufferMiles] - radius for buffer method (default: 5)
-@returns {Promise<{polygon: object|null, method: string, captureRate: number}>}
+@returns {Promise<{polygon: object|null, method: string, captureRate: number|null}>}

@@ -25,11 +25,6 @@ Usage:
 
 ## Symbols
 
-### `LEGISLATIVE_EQUITY_BOOST`
-
-Legislative impact multipliers for equity pricing forecasts.
-Based on Novogradac analysis of AHCIA/H.R.6644 provisions.
-
 ### `PMA_THRESHOLDS`
 
 Minimum PMA score thresholds by confidence tier.
