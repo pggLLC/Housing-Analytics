@@ -38,6 +38,7 @@
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
+<div id="aria-live-region" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"></div>
 <main id="main-content" class="js-glossary-auto">
 <div class="regional-container">
 <!-- Page Header -->
@@ -547,10 +548,21 @@
             console.log('✓ State dropdown populated');
         }
         
+        // Screen-reader updates (Rule 11), using the shared hook when present.
+        if (typeof window.__announceUpdate !== 'function') {
+            window.__announceUpdate = function(message) {
+                var region = document.getElementById('aria-live-region');
+                if (!region) return;
+                region.textContent = '';
+                requestAnimationFrame(function() { region.textContent = message; });
+            };
+        }
+
         // Event listeners
         document.getElementById('map-mode-select').addEventListener('change', function(e) {
             currentMapMode = e.target.value;
             updateMapColors();
+            window.__announceUpdate('Map now shows ' + e.target.selectedOptions[0].textContent + '.');
         });
         
         document.getElementById('state-select').addEventListener('change', function(e) {
@@ -558,6 +570,7 @@
             selectedState = state;
             updateStats(state);
             updateTable(state);
+            window.__announceUpdate('Regional data now shows ' + e.target.selectedOptions[0].textContent + '.');
         });
         
         // Initialize
