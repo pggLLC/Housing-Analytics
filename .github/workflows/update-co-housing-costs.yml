@@ -22,6 +22,13 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js for the derived chain
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
 
       - name: Set up Python
         uses: actions/setup-python@v7
@@ -49,37 +56,14 @@ jobs:
         run: |
           python scripts/build_co_housing_costs_insight.py --refresh
 
-      - name: Commit and push generated artifacts
+      - name: Rebuild derived data and commit the refresh
         id: data-commit
+        env:
+          # Preserve workflow_dispatch's selected branch; only main deploys.
+          DERIVED_COMMIT_BRANCH: ${{ github.ref_name }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          python3 scripts/rebuild_manifest.py
-          git add \
-            data/co-housing-costs/ \
-            data/manifest.json \
-            assets/co-housing-costs/ \
-            || true
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-            echo "pushed=false" >> "$GITHUB_OUTPUT"
-          else
-            git commit -m "Update CO housing costs data and maps [skip ci]"
-            # Rebase onto whatever branch this run targets. workflow_dispatch
-            # accepts any ref, and rebasing a feature branch onto main moves
-            # its commits off their remote counterpart, so the push below is
-            # then rejected non-fast-forward and a good pipeline run is lost.
-            git pull --rebase --autostash -X theirs origin "$GITHUB_REF_NAME"
-            python3 scripts/rebuild_manifest.py
-            if ! git diff --quiet -- data/; then
-              git add data/
-              git commit --amend --no-edit
-            fi
-            git push
-            echo "pushed=true" >> "$GITHUB_OUTPUT"
-          fi
+          scripts/commit-with-derived-chain.sh 'Update CO housing costs data and maps' -- \
+            data/co-housing-costs assets/co-housing-costs
 
       # The ref guard matters because workflow_dispatch can target any branch:
       # a verification run from a feature branch commits to that branch, and

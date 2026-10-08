@@ -445,7 +445,7 @@
     "test:deal-calc-workflow-prefill": "node test/deal-calc-workflow-prefill.test.js",
     "test:policy-timeline-series": "python3 -m pytest tests/test_policy_timeline.py -q && node --test test/policy-timeline-series.test.js",
     "test:deal-calc-manual-market-rent": "node test/deal-calc-manual-market-rent.test.js",
-    "test:workflows-rebuild-derived": "node test/workflows-rebuild-derived-chain.test.mjs",
+    "test:workflows-rebuild-derived": "node test/workflows-rebuild-derived-chain.test.mjs && node test/derived-commit-rebase.test.mjs",
     "test:car-report-index": "node test/car-report-index.test.js",
     "test:market-construction": "node test/market-construction.test.js"
   },
