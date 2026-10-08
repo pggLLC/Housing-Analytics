@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-08T08:52:55.780Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-08T14:52:00.183Z. Do not edit by hand.
 
 ---
 
@@ -59,11 +59,11 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 15.9 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.1 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 131.9 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 148.4 KB |
-| `market-intelligence.html` | Colorado Market Intelligence | COHO Analytics | 23.3 KB |
+| `market-intelligence.html` | Colorado Market Intelligence | COHO Analytics | 23.9 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
-| `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
+| `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 39.7 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 17.7 KB |
@@ -99,7 +99,7 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 184.0 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 183.9 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
@@ -139,7 +139,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 4.02 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 252.4 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 252.6 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1728,7 +1728,7 @@
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
-| `data/policy_briefs.json` | 232.4 KB | ✅ | — |
+| `data/policy_briefs.json` | 237.6 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 13.8 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
@@ -1754,7 +1754,7 @@
 
 ## Test Files
 
-522 test files found.
+523 test files found.
 
 | File | Size |
 |------|------|
@@ -1816,7 +1816,7 @@
 | `test/console-audit-exercises-controls.test.js` | 10.1 KB |
 | `test/content-date-freshness.test.mjs` | 5.0 KB |
 | `test/contrast-audit-settle.test.mjs` | 9.2 KB |
-| `test/contrast-audit-summary.test.js` | 4.5 KB |
+| `test/contrast-audit-summary.test.js` | 8.3 KB |
 | `test/cost-per-sf-absence.test.js` | 6.9 KB |
 | `test/county-demographics-contract.test.js` | 19.4 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
@@ -2139,7 +2139,8 @@
 | `test/resale-waterfall.test.js` | 11.9 KB |
 | `test/research-brief.test.mjs` | 15.9 KB |
 | `test/research-catalog.test.mjs` | 8.9 KB |
-| `test/runtime-contrast-scanner-errors.test.mjs` | 7.5 KB |
+| `test/runtime-contrast-scanner-errors.test.mjs` | 7.7 KB |
+| `test/runtime-contrast-scanner-fixtures.test.mjs` | 8.1 KB |
 | `test/sale-price-evidence-is-named.test.mjs` | 16.3 KB |
 | `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
@@ -2309,7 +2310,7 @@
 | `.github/workflows/coho-election-reminders.yml` | 1.6 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 6.0 KB |
 | `.github/workflows/console-error-audit.yml` | 7.7 KB |
-| `.github/workflows/contrast-audit.yml` | 11.4 KB |
+| `.github/workflows/contrast-audit.yml` | 13.6 KB |
 | `.github/workflows/coverage-audit-nightly.yml` | 2.6 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.8 KB |
 | `.github/workflows/daily-audit-system.yml` | 8.3 KB |
