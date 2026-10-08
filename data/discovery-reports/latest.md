@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-10-07T14:27:41.749Z
+**Scan timestamp:** 2026-10-08T14:33:07.306Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1704 |
-| New (unregistered) | 1673 |
+| Files scanned | 1705 |
+| New (unregistered) | 1674 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
@@ -33,7 +33,7 @@
 - `data/amenities/transit_stops_co.geojson` (2342 KB)
 - `data/amenities/transit_stops_statewide_co.geojson` (3869 KB)
 - `data/audit/chfa-qap-watch.json` (2902 KB)
-- `data/audit/quarantine-candidates.json` (1 KB)
+- `data/audit/quarantine-candidates.json` (0 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/benchmarks/str-license-counts.json` (3 KB)
 - `data/capital-partners.json` (13 KB)
@@ -44,6 +44,7 @@
 - `data/car-market-report-2026-08.json` (71 KB)
 - `data/car-market-report-2026-09.json` (3 KB)
 - `data/car-market-report-2026-10.json` (3 KB)
+- `data/car-market-reports.json` (0 KB)
 - `data/census-multifamily-co.json` (116 KB)
 - `data/chfa-income-rent-limits-2026.json` (500 KB)
 - `data/chfa-qap-calendar.json` (18 KB)
@@ -1663,7 +1664,7 @@
 - `data/policy/thiz-map-status.json` (2 KB)
 - `data/policy/tool-watch.json` (5 KB)
 - `data/policy/unit-size-standards.json` (5 KB)
-- `data/policy_briefs.json` (232 KB)
+- `data/policy_briefs.json` (238 KB)
 - `data/policy_briefs_curated.json` (14 KB)
 - `data/polymarket-curated.json` (4 KB)
 - `data/polymarket-data.json` (12 KB)
