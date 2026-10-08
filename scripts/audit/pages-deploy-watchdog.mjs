@@ -9,6 +9,7 @@ const DEFAULT_BRANCH = 'main';
 const DEFAULT_WORKFLOW_ID = 'deploy.yml';
 const DEFAULT_GRACE_MINUTES = 20;
 const DEFAULT_STALE_ACTIVE_MINUTES = 120;
+const ACTIVE_STATUSES = ['queued', 'in_progress', 'waiting'];
 
 function minutesBetween(now, then) {
   const thenDate = then instanceof Date ? then : new Date(then);
@@ -28,6 +29,7 @@ export function evaluateDeployCoverage({
   headSha,
   headCommitDate,
   runs,
+  activeRuns = runs,
   now = new Date(),
   workflowId = DEFAULT_WORKFLOW_ID,
   graceMinutes = DEFAULT_GRACE_MINUTES,
@@ -39,8 +41,8 @@ export function evaluateDeployCoverage({
 
   const commitAgeMinutes = minutesBetween(now, headCommitDate || now);
   const deployRuns = Array.isArray(runs) ? runs : [];
-  const staleActiveRuns = deployRuns.filter((run) => (
-    run.status !== 'completed' && runAgeMinutes(run, now) > staleActiveMinutes
+  const staleActiveRuns = (Array.isArray(activeRuns) ? activeRuns : []).filter((run) => (
+    ACTIVE_STATUSES.includes(run.status) && runAgeMinutes(run, now) > staleActiveMinutes
   ));
 
   if (staleActiveRuns.length) {
@@ -68,7 +70,7 @@ export function evaluateDeployCoverage({
     };
   }
 
-  const activeRun = matchingRuns.find((run) => run.status !== 'completed');
+  const activeRun = matchingRuns.find((run) => ACTIVE_STATUSES.includes(run.status));
   if (activeRun) {
     return {
       ok: true,
@@ -117,6 +119,73 @@ async function fetchJson(url, token) {
   return res.json();
 }
 
+/** Query the head directly; the branch listing is only a consistency check. */
+export async function checkDeployCoverage({
+  repoSlug, token, headSha, headCommitDate,
+  apiUrl = 'https://api.github.com', branchName = DEFAULT_BRANCH,
+  workflowId = DEFAULT_WORKFLOW_ID, now = new Date(),
+  graceMinutes = DEFAULT_GRACE_MINUTES, staleActiveMinutes = DEFAULT_STALE_ACTIVE_MINUTES,
+  request = fetchJson, wait = ms => new Promise(resolve => setTimeout(resolve, ms)),
+  retryDelayMs = 1000,
+}) {
+  const endpoint = `${apiUrl}/repos/${repoSlug}/actions/workflows/${workflowId}/runs`;
+  async function readRuns(filters, paginate = true) {
+    const runs = [];
+    for (let page = 1; ; page++) {
+      const query = new URLSearchParams({ ...filters, per_page: '100', page: String(page) });
+      const data = await request(`${endpoint}?${query}`, token);
+      if (!Array.isArray(data.workflow_runs)) throw new Error('GitHub returned no workflow_runs array');
+      const batch = data.workflow_runs;
+      if (filters.head_sha && batch.some(run => run.head_sha !== headSha)) throw new Error('Head-SHA query returned a different SHA');
+      if (filters.status && batch.some(run => run.status !== filters.status)) throw new Error('Active-run query returned another status');
+      runs.push(...batch);
+      if (!paginate || runs.length >= data.total_count || batch.length < 100) {
+        if (paginate && runs.length < data.total_count) throw new Error('Incomplete workflow-run pagination');
+        return runs;
+      }
+    }
+  }
+  const signature = runs => runs.filter(run => run.head_sha === headSha)
+    .map(run => `${run.id}:${run.status}:${run.conclusion}`).sort().join('|');
+  const coversHead = runs => runs.some(run => run.head_sha === headSha &&
+    ((run.status === 'completed' && run.conclusion === 'success') || ACTIVE_STATUSES.includes(run.status)));
+  const unverifiable = message => ({ ok: true, reason: 'unverifiable', messages: [`::warning::Pages deploy coverage unverifiable: ${message}`] });
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const responses = await Promise.allSettled([
+        readRuns({ head_sha: headSha }),
+        readRuns({ branch: branchName }, false),
+        ...ACTIVE_STATUSES.map(status => readRuns({ branch: branchName, status })),
+      ]);
+      const activeRuns = responses.slice(2).filter(r => r.status === 'fulfilled').flatMap(r => r.value);
+      const failed = responses.find(r => r.status === 'rejected');
+      if (failed) {
+        const known = evaluateDeployCoverage({ headSha, headCommitDate, runs: [], activeRuns,
+          now, workflowId, graceMinutes, staleActiveMinutes });
+        if (known.reason === 'stale-active-run') return known;
+        throw failed.reason;
+      }
+      const [headRuns, branchRuns] = responses.map(r => r.value);
+      const newest = Math.max(0, ...branchRuns.map(run => Date.parse(run.created_at) || 0));
+      const inconsistent = signature(headRuns) !== signature(branchRuns) || newest < Date.parse(headCommitDate);
+      if (inconsistent && attempt === 0) { await wait(retryDelayMs); continue; }
+      const result = evaluateDeployCoverage({ headSha, headCommitDate, runs: headRuns, activeRuns,
+        now, workflowId, graceMinutes, staleActiveMinutes });
+      if (result.reason === 'stale-active-run') return result;
+      if (!result.ok && (coversHead(branchRuns) || coversHead(activeRuns))) {
+        return unverifiable('the head-SHA and other run queries still disagree after retry; no missing-deploy claim can be made.');
+      }
+      // A successful direct result remains authoritative even if the branch
+      // listing stays stale. Repeated empty/failed direct results still fail.
+      if (inconsistent && result.ok) result.messages.push('Branch run listing is stale or inconsistent; coverage was checked by head SHA.');
+      return result;
+    } catch (error) {
+      if (attempt === 0) { await wait(retryDelayMs); continue; }
+      return unverifiable(`${error.message}; retried once, no deployment failure established.`);
+    }
+  }
+}
+
 async function runCli() {
   const repoSlug = process.env.GITHUB_REPOSITORY;
   const token = process.env.GITHUB_TOKEN;
@@ -135,18 +204,9 @@ async function runCli() {
   const headSha = branch.commit.sha;
   const commit = await fetchJson(`${apiUrl}/repos/${owner}/${repo}/commits/${headSha}`, token);
   const commitDate = commit.commit?.committer?.date || commit.commit?.author?.date;
-  const runs = await fetchJson(
-    `${apiUrl}/repos/${owner}/${repo}/actions/workflows/${workflowId}/runs?branch=${branchName}&per_page=50`,
-    token
-  );
-
-  const result = evaluateDeployCoverage({
-    headSha,
-    headCommitDate: commitDate,
-    runs: runs.workflow_runs || [],
-    workflowId,
-    graceMinutes,
-    staleActiveMinutes,
+  const result = await checkDeployCoverage({
+    repoSlug, token, apiUrl, branchName, headSha, headCommitDate: commitDate,
+    workflowId, graceMinutes, staleActiveMinutes,
   });
 
   for (const message of result.messages) {
