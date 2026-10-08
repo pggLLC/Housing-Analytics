@@ -425,6 +425,9 @@
       .ps-badge {
         display: inline-block; font-size: .78rem; font-weight: 700; padding: .2rem .6rem;
         border-radius: 12px; background: var(--ps-accent, #546e7a); color: #fff; margin-bottom: .5rem;
+        /* #2038 — white on the raw accent was 3.3:1 (green) and 2.4:1 (orange).
+           The badge is drawn on the accent darkened to 65%, >= 5.1:1 for all five. */
+        background: color-mix(in srgb, var(--ps-accent, #546e7a) 65%, #000);
       }
       .ps-desc { font-size: .83rem; color: var(--text2, #444); margin: 0 0 .75rem; line-height: 1.45; }
       .ps-metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; margin-bottom: .75rem; }
