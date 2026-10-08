@@ -9,7 +9,7 @@ const DEFAULT_BRANCH = 'main';
 const DEFAULT_WORKFLOW_ID = 'deploy.yml';
 const DEFAULT_GRACE_MINUTES = 20;
 const DEFAULT_STALE_ACTIVE_MINUTES = 120;
-const ACTIVE_STATUSES = ['queued', 'in_progress', 'waiting'];
+const ACTIVE_STATUSES = ['requested', 'pending', 'queued', 'in_progress', 'waiting'];
 
 function minutesBetween(now, then) {
   const thenDate = then instanceof Date ? then : new Date(then);
@@ -51,7 +51,7 @@ export function evaluateDeployCoverage({
       reason: 'stale-active-run',
       messages: [
         `Stale active ${workflowId} run(s) exceed ${staleActiveMinutes} minutes.`,
-        'A run stuck in queued/in_progress/waiting can freeze GitHub Pages deploys behind it.',
+        `A run stuck in ${ACTIVE_STATUSES.join('/')} can freeze GitHub Pages deploys behind it.`,
         ...staleActiveRuns.slice(0, 5).map((run) => `- ${runLabel(run)} age=${runAgeMinutes(run, now).toFixed(1)}m`),
       ],
     };
@@ -149,7 +149,7 @@ export async function checkDeployCoverage({
     .map(run => `${run.id}:${run.status}:${run.conclusion}`).sort().join('|');
   const coversHead = runs => runs.some(run => run.head_sha === headSha &&
     ((run.status === 'completed' && run.conclusion === 'success') || ACTIVE_STATUSES.includes(run.status)));
-  const unverifiable = message => ({ ok: true, reason: 'unverifiable', messages: [`::warning::Pages deploy coverage unverifiable: ${message}`] });
+  const unverifiable = (message, ok = false) => ({ ok, reason: 'unverifiable', messages: [`::warning::Pages deploy coverage unverifiable: ${message}`] });
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const responses = await Promise.allSettled([
@@ -173,7 +173,7 @@ export async function checkDeployCoverage({
         now, workflowId, graceMinutes, staleActiveMinutes });
       if (result.reason === 'stale-active-run') return result;
       if (!result.ok && (coversHead(branchRuns) || coversHead(activeRuns))) {
-        return unverifiable('the head-SHA and other run queries still disagree after retry; no missing-deploy claim can be made.');
+        return unverifiable('the head-SHA and other run queries still disagree after retry; no missing-deploy claim can be made.', true);
       }
       // A successful direct result remains authoritative even if the branch
       // listing stays stale. Repeated empty/failed direct results still fail.
@@ -181,7 +181,7 @@ export async function checkDeployCoverage({
       return result;
     } catch (error) {
       if (attempt === 0) { await wait(retryDelayMs); continue; }
-      return unverifiable(`${error.message}; retried once, no deployment failure established.`);
+      return unverifiable(`${error.message}; retried once, no deployment failure established.`, false);
     }
   }
 }
