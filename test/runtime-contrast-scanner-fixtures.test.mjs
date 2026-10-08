@@ -29,41 +29,63 @@ const puppeteer = (await import('puppeteer')).default;
 const FIXTURE = `<!doctype html><html><head><style>
   body { background:#fff; color:#111; font:16px sans-serif; margin:0; padding:16px; }
   div, span, a, button, p { display:block; margin:6px 0; }
-  .tab-panel[hidden] { display:none; }
+  .tab-panel[hidden], .dt-panel[hidden] { display:none; }
 </style></head><body>
-  <p style="color:#999">PLAIN FAIL</p>
-  <p style="color:#222">PLAIN PASS</p>
+  <p data-m style="color:#999">PLAIN FAIL</p>
+  <p data-m style="color:#222">PLAIN PASS</p>
 
   <div style="background:color-mix(in oklab, #fff 60%, #096e65 40%);padding:8px">
-    <a href="#" style="color:#096e65">OKLAB FAIL</a>
+    <a data-m href="#" style="color:#096e65">OKLAB FAIL</a>
   </div>
   <div style="background:color-mix(in oklab, #fff 88%, #096e65 12%);padding:8px">
-    <a href="#" style="color:#096e65">OKLAB PASS</a>
+    <a data-m href="#" style="color:#096e65">OKLAB PASS</a>
   </div>
 
-  <span style="color:rgb(230,119,0);background:rgba(230,119,0,.1)">TINT FAIL</span>
-  <span style="color:#a84608;background:rgba(230,119,0,.1)">TINT PASS</span>
+  <span data-m style="color:rgb(230,119,0);background:rgba(230,119,0,.1)">TINT FAIL</span>
+  <span data-m style="color:#a84608;background:rgba(230,119,0,.1)">TINT PASS</span>
 
   <div role="tablist">
-    <button role="tab" id="t1" aria-selected="true" aria-controls="p1" style="color:#111">First</button>
-    <button role="tab" id="t2" aria-selected="false" aria-controls="p2" style="color:#111">Second</button>
+    <button role="tab" id="t1" aria-selected="true" aria-controls="p1" data-m style="color:#111">First</button>
+    <button role="tab" id="t2" aria-selected="false" aria-controls="p2" data-m style="color:#111">Second</button>
   </div>
-  <div class="tab-panel" id="p1" role="tabpanel"><p style="color:#222">FIRST PANEL</p></div>
+  <div class="tab-panel" id="p1" role="tabpanel"><p data-m style="color:#222">FIRST PANEL</p></div>
   <div class="tab-panel" id="p2" role="tabpanel" hidden>
     <p style="color:#e67700">TAB FAIL</p>
     <p style="color:#a84608">TAB PASS</p>
+  </div>
+
+  <!-- Tabs wired by data-tab with no ids and no aria-controls, as on
+       data-review-hub.html. The walk must still open them. -->
+  <div role="tablist" class="dt-list">
+    <button role="tab" data-tab="alpha" aria-selected="true" data-m style="color:#111">Alpha</button>
+    <button role="tab" data-tab="beta" aria-selected="false" data-m style="color:#111">Beta</button>
+  </div>
+  <div class="dt-panel" data-panel="alpha"><p data-m style="color:#222">ALPHA PANEL</p></div>
+  <div class="dt-panel" data-panel="beta" hidden>
+    <p style="color:#e67700">DATA-TAB FAIL</p>
+    <p style="color:#a84608">DATA-TAB PASS</p>
   </div>
 
   <p aria-hidden="true" style="color:#ccc">DECOR EXEMPT</p>
   <button disabled style="color:#ccc;background:#fff">DISABLED EXEMPT</button>
 
   <script>
-    document.querySelectorAll('[role="tab"]').forEach(function (tab) {
+    document.querySelectorAll('[role="tab"][aria-controls]').forEach(function (tab) {
       tab.addEventListener('click', function () {
-        document.querySelectorAll('[role="tab"]').forEach(function (t) {
+        document.querySelectorAll('[role="tab"][aria-controls]').forEach(function (t) {
           var on = t === tab;
           t.setAttribute('aria-selected', on ? 'true' : 'false');
           document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+        });
+      });
+    });
+    document.querySelectorAll('.dt-list [role="tab"]').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        document.querySelectorAll('.dt-list [role="tab"]').forEach(function (t) {
+          t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+        });
+        document.querySelectorAll('.dt-panel').forEach(function (p) {
+          p.hidden = p.getAttribute('data-panel') !== tab.getAttribute('data-tab');
         });
       });
     });
@@ -85,6 +107,12 @@ try {
   await page.setContent(FIXTURE, { waitUntil: 'load' });
 
   const asLoaded = await page.evaluate(SCANNER_FN);
+  // Every visible, non-exempt text element in the fixture carries data-m. The
+  // count comes from the markup, not from the scanner, so a scanner that
+  // stopped measuring ordinary text would fail here even if it still caught
+  // the planted failures.
+  const expectedMeasured = await page.evaluate(() => document.querySelectorAll('[data-m]').length);
+  const measuredAsLoaded = await page.evaluate(() => window.__contrastScanMeasured);
   const all = await scanAllStates(page);
   const byText = new Map(all.map((f) => [f.text, f]));
   const texts = [...byText.keys()].sort();
@@ -92,8 +120,11 @@ try {
   console.log('runtime-contrast-scanner-fixtures');
   console.log('  flagged: ' + texts.join(', '));
 
-  // Non-vacuity: the scan found the plain failure the old scanner also caught.
-  check('a plain rgb() failure is flagged (the scan ran and measured something)', () => {
+  check('the as-loaded scan measured every visible text element (' + expectedMeasured + ')', () => {
+    assert.ok(expectedMeasured >= 12, 'fixture lost its data-m markers: ' + expectedMeasured);
+    assert.equal(measuredAsLoaded, expectedMeasured);
+  });
+  check('a plain rgb() failure is flagged', () => {
     assert.ok(byText.has('PLAIN FAIL'), 'PLAIN FAIL not flagged');
   });
   check('an oklab()/color-mix() background is measured, not skipped', () => {
@@ -112,8 +143,14 @@ try {
     assert.ok(f, 'TAB FAIL not flagged');
     assert.equal(f.state, 'tab: Second');
   });
+  check('a tab with no id or aria-controls (data-tab wiring) is opened too', () => {
+    assert.ok(!asLoaded.some((f) => f.text === 'DATA-TAB FAIL'), 'DATA-TAB FAIL was visible before the tab walk');
+    const f = byText.get('DATA-TAB FAIL');
+    assert.ok(f, 'DATA-TAB FAIL not flagged');
+    assert.equal(f.state, 'tab: Beta');
+  });
   check('each passing twin is not flagged', () => {
-    for (const t of ['PLAIN PASS', 'OKLAB PASS', 'TINT PASS', 'TAB PASS', 'FIRST PANEL']) {
+    for (const t of ['PLAIN PASS', 'OKLAB PASS', 'TINT PASS', 'TAB PASS', 'FIRST PANEL', 'DATA-TAB PASS', 'ALPHA PANEL']) {
       assert.ok(!byText.has(t), t + ' flagged at ' + (byText.get(t) || {}).ratio);
     }
   });
@@ -122,7 +159,7 @@ try {
     assert.ok(!byText.has('DISABLED EXEMPT'), 'disabled button flagged');
   });
   check('nothing else is flagged', () => {
-    assert.deepEqual(texts, ['OKLAB FAIL', 'PLAIN FAIL', 'TAB FAIL', 'TINT FAIL']);
+    assert.deepEqual(texts, ['DATA-TAB FAIL', 'OKLAB FAIL', 'PLAIN FAIL', 'TAB FAIL', 'TINT FAIL']);
   });
 } finally {
   await browser.close();
