@@ -13,6 +13,8 @@ const root = path.resolve(__dirname, '..');
     assert(stats.canvases >= 1, 'canvas check must scan real canvases');
     assert(stats.landmarkPages >= 50, 'landmark check must examine at least 50 root pages');
     assert(stats.navigationPages > 0, 'scan must encounter navigation injection');
+    assert.equal(stats.parsedPages, stats.landmarkPages, 'each scanned page is parsed exactly once');
+    assert.deepEqual(Object.keys(stats.excludedPages), ['og-card.html'], 'redirects must stay in the scan');
     for (const reason of Object.values(stats.excludedPages)) assert(reason.trim(), 'every excluded non-page has a reason');
 
     // Exercise the actual audit against a copy: the credit must come from the
@@ -44,6 +46,18 @@ const root = path.resolve(__dirname, '..');
         const missingMain = await runUiValidationChecks({ root: copy });
         assert(missingMain.some(issue => issue.file === 'about.html' && issue.actual.includes('<main>')),
             'navigation must never provide credit for the page-owned main landmark');
+
+        fs.writeFileSync(aboutPath, about);
+        const redirectPath = path.join(copy, 'state-allocation-map.html');
+        const redirect = fs.readFileSync(redirectPath, 'utf8');
+        const redirectWithoutMain = redirect.replace(/<main\b[^>]*>/i, '').replace(/<\/main>/i, '');
+        assert.notEqual(redirectWithoutMain, redirect, 'redirect main-removal mutation must apply');
+        fs.writeFileSync(redirectPath, redirectWithoutMain);
+        const redirectStats = {};
+        const missingRedirectMain = await runUiValidationChecks({ root: copy, stats: redirectStats });
+        assert(missingRedirectMain.some(issue => issue.file === 'state-allocation-map.html' && issue.actual.includes('<main>')),
+            'redirect fallback content must have its own main landmark');
+        assert.equal(redirectStats.landmarkPages, stats.landmarkPages, 'redirect sabotage keeps the complete scan');
     } finally {
         fs.rmSync(copy, { recursive: true, force: true });
     }
