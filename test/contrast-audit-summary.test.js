@@ -131,17 +131,19 @@ test('the gate reads counts the audit step really writes', () => {
     'gate reads steps.wcag-gate.outputs.' + k + ', which that step does not write'));
 });
 
-test('the gate fails the job on a failing page, and only then', () => {
+test('the gate fails the job on a failing or unscanned page, and only then', () => {
   const gate = stepBlock(GATE_NAME);
   const m = gate.match(/run: \|\n([\s\S]*)$/);
   assert.ok(m, 'gate has a run block');
   const script = m[1].replace(/^ {10}/gm, '');
   const run = (env) => childProcess.spawnSync('bash', ['-e', '-c', script], { env: Object.assign({ PATH: process.env.PATH }, env) }).status;
-  const ok = { PYTEST_RC: '0', FAILED_PAGES: '0', AUDIT_OUTCOME: 'success' };
+  const ok = { PYTEST_RC: '0', FAILED_PAGES: '0', NOT_SCANNED: '0', AUDIT_OUTCOME: 'success' };
   assert.strictEqual(run(ok), 0, 'all clean passes');
   assert.strictEqual(run(Object.assign({}, ok, { FAILED_PAGES: '14' })), 1, '14 failing pages fail the job');
   assert.strictEqual(run(Object.assign({}, ok, { PYTEST_RC: '1' })), 1, 'a pytest failure fails the job');
   assert.strictEqual(run(Object.assign({}, ok, { FAILED_PAGES: '' })), 1, 'a missing count is not a pass');
+  assert.strictEqual(run(Object.assign({}, ok, { NOT_SCANNED: '66' })), 1, 'unscanned pages are not a pass');
+  assert.strictEqual(run(Object.assign({}, ok, { NOT_SCANNED: '' })), 1, 'a missing unscanned count is not a pass');
   assert.strictEqual(run(Object.assign({}, ok, { AUDIT_OUTCOME: 'failure' })), 1, 'an audit step that errored is not a pass');
 });
 
