@@ -219,7 +219,11 @@ export function isSkippableUrl(url) {
   // referenced from docs as the SHAPE of the URL, not literal targets.
   // FRED is api.stlouisfed.ORG; the original `.gov`-only pattern never
   // matched it, so every documented FRED endpoint was probed and reported.
-  if (/^https?:\/\/api\.(?:stlouisfed\.org|census\.gov)\/[^?]*$/i.test(url)) {
+  // Kalshi's API host is the same case: `api.elections.kalshi.com` is the
+  // default base URL in scripts/kalshi/fetch_kalshi_prediction_markets.js and
+  // its root answers 404 by design, which #2066 reported as a broken link
+  // while /trade-api/v2/markets returned 200.
+  if (/^https?:\/\/api\.(?:stlouisfed\.org|census\.gov|elections\.kalshi\.com)\/[^?]*$/i.test(url)) {
     return 'API endpoint reference (no parameters)';
   }
   // The same endpoints are also documented *with* a placeholder credential.

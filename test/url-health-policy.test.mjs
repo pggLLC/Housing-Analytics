@@ -215,6 +215,12 @@ assert.match(isSkippableUrl(`${SCHEME}api.stlouisfed.org/fred/series/observation
   /placeholder API key/, 'a documented example credential can never return 200');
 assert.equal(isSkippableUrl(`${SCHEME}fred.stlouisfed.org/series/UNRATE`), null,
   'a real FRED series page is still probed');
+// #2066: the Kalshi API host's root 404s by design; it was reported as broken
+// while the endpoint the fetcher actually calls returned 200. The public
+// kalshi.com pages stay probed.
+assert.match(isSkippableUrl(`${SCHEME}api.elections.kalshi.com/`) || '',
+  /API endpoint reference/, 'the bare Kalshi API host is an endpoint reference, not a citation');
+assert.equal(isSkippableUrl(`${SCHEME}kalshi.com/`), null, 'the public Kalshi site is still probed');
 
 assert.match(isSkippableUrl(`${SCHEME}reports.example.invalid/...`) || '', /ellipsis/,
   'a trailing ellipsis is a placeholder, not just a bare `...` host');
