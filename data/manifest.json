@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-07T23:27:20.402010Z",
+  "generated": "2026-10-08T00:39:18.603664Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4139,7 +4139,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 181584
+      "bytes": 181591
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
@@ -7894,7 +7894,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14804
+      "bytes": 14802
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
