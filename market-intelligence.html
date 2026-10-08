@@ -116,7 +116,7 @@
     .btn-export {
       padding: 0.4rem 0.9rem;
       border-radius: var(--radius-sm);
-      background: var(--accent-dim);
+      background: color-mix(in oklab, var(--card) 92%, var(--accent) 8%);
       color: var(--accent);
       border: 1px solid var(--accent);
       font-size: 0.83rem;
@@ -196,9 +196,9 @@
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
-    .badge-good { background: rgba(22,163,74,0.15); color: var(--good, #16a34a); }
-    .badge-warn { background: rgba(217,119,6,0.15); color: var(--warn, #d97706); }
-    .badge-bad  { background: rgba(220,38,38,0.15); color: var(--bad,  #dc2626); }
+    .badge-good { background: color-mix(in srgb, var(--good, #16a34a) 12%, var(--card)); color: var(--good, #16a34a); }
+    .badge-warn { background: color-mix(in srgb, var(--warn, #d97706) 12%, var(--card)); color: var(--warn, #d97706); }
+    .badge-bad  { background: color-mix(in srgb, var(--bad,  #dc2626) 12%, var(--card)); color: var(--bad,  #dc2626); }
     .lihtc-trend-container {
       position: relative;
       height: 240px;
