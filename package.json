@@ -49,6 +49,7 @@
     "test:site-review-build-pause": "node test/site-review-build-pause-regressions.test.js",
     "test:runtime-contrast": "node scripts/audit/runtime-contrast-scanner.mjs",
     "test:runtime-contrast-scanner-errors": "node test/runtime-contrast-scanner-errors.test.mjs",
+    "test:runtime-contrast-scanner-fixtures": "node test/runtime-contrast-scanner-fixtures.test.mjs",
     "test:contrast-audit-summary": "node test/contrast-audit-summary.test.js",
     "test:contrast-audit-settle": "node test/contrast-audit-settle.test.mjs",
     "test:workflow-push-dispatches-deploy": "node test/workflow-push-dispatches-deploy.test.js",

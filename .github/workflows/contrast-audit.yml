@@ -158,15 +158,6 @@ jobs:
       # state the static tests don't model. The runtime scanner does.
       # Scanner exits 1 on any failure → workflow fails → blocks the PR.
 
-      - name: Validate accessibility compliance
-        if: failure()
-        run: |
-          echo "❌ WCAG Accessibility Gate FAILED"
-          echo "   Stage-3 pytest or the per-page Playwright audit reported failures."
-          echo "   Review wcag-test-output.txt and contrast-reports/summary.md."
-          echo "   (The runtime DOM scanner runs in its own job: runtime-contrast-scan.)"
-          exit 1
-
       - name: Upload audit reports and test results
         if: always()
         uses: actions/upload-artifact@v7
@@ -229,6 +220,33 @@ jobs:
       - name: Contrast audit determinism self-test
         run: npm run test:contrast-audit-settle
 
+      # #2038 — this step used to run only `if: failure()`, and the per-page
+      # loop above ends every run in `|| true`, so a failing page could never
+      # fail the job: 14 pages were listed as failing under a green check. It
+      # now runs last, always, and reads the counts summarize.js wrote, so the
+      # report and PR comment are still produced before the job goes red.
+      # A page that could not be scanned stays a warning (see the audit step).
+      - name: Validate accessibility compliance
+        if: always()
+        env:
+          GATE_OUTCOME: ${{ steps.wcag-gate.outcome }}
+          AUDIT_OUTCOME: ${{ steps.audit.outcome }}
+          FAILED_PAGES: ${{ steps.audit.outputs.failed }}
+        run: |
+          if [ "$GATE_OUTCOME" != "success" ] || [ "$AUDIT_OUTCOME" != "success" ]; then
+            echo "❌ WCAG Accessibility Gate FAILED"
+            echo "   Stage-3 pytest: $GATE_OUTCOME · per-page audit: $AUDIT_OUTCOME"
+            echo "   Review wcag-test-output.txt and contrast-reports/summary.md."
+            exit 1
+          fi
+          if [ "${FAILED_PAGES:-missing}" != "0" ]; then
+            echo "❌ ${FAILED_PAGES:-an unknown number of} page(s) fail WCAG AA contrast."
+            echo "   See contrast-reports/summary.md (uploaded as accessibility-audit-results)."
+            echo "   (The runtime DOM scanner runs in its own job: runtime-contrast-scan.)"
+            exit 1
+          fi
+          echo "✓ Stage-3 pytest passed and no page failed the per-page contrast audit."
+
       # The scripts/monitoring/alert.js step was removed when this workflow moved to
       # the external monitor (.github/workflows/workflow-outcome-monitor.yml).
       #
@@ -263,6 +281,11 @@ jobs:
         # `npm ci` can run with scripts disabled, so puppeteer's postinstall
         # download is not guaranteed; install the pinned Chrome explicitly.
         run: npx puppeteer browsers install chrome
+      # #2038 — proves the scanner catches the three cases it used to miss
+      # (oklab/color-mix backgrounds, translucent tints, unopened tabs) before
+      # its site-wide result is trusted.
+      - name: Runtime scanner fixture self-test
+        run: npm run test:runtime-contrast-scanner-fixtures
       - name: Run runtime DOM contrast scanner (every page × light + dark)
         env:
           PUPPETEER_DOWNLOAD_BASE_URL: https://storage.googleapis.com/chrome-for-testing-public
