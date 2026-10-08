@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-08T06:57:29.438Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-08T08:52:55.780Z. Do not edit by hand.
 
 ---
 
@@ -1754,7 +1754,7 @@
 
 ## Test Files
 
-521 test files found.
+522 test files found.
 
 | File | Size |
 |------|------|
@@ -1864,6 +1864,7 @@
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 6.0 KB |
 | `test/deep-dive-hmda-loads-on-page-load.test.js` | 3.3 KB |
 | `test/dependency-overrides-hold.test.mjs` | 4.6 KB |
+| `test/derived-commit-rebase.test.mjs` | 6.8 KB |
 | `test/developable-land-context.test.js` | 6.5 KB |
 | `test/developer-brief-hna.test.js` | 1.3 KB |
 | `test/developer-geoids.test.js` | 6.6 KB |
@@ -2048,8 +2049,8 @@
 | `test/ownership-resale.test.js` | 14.5 KB |
 | `test/package-4-user-visible.test.js` | 7.8 KB |
 | `test/page-dates.test.mjs` | 9.4 KB |
-| `test/pages-availability-check.js` | 16.9 KB |
-| `test/pages-deploy-watchdog.test.js` | 3.1 KB |
+| `test/pages-availability-check.js` | 17.2 KB |
+| `test/pages-deploy-watchdog.test.js` | 8.3 KB |
 | `test/paper-figures-fresh.test.js` | 20.6 KB |
 | `test/paper-names-its-author.test.mjs` | 4.7 KB |
 | `test/parcel-source-honesty.test.js` | 5.4 KB |
@@ -2223,7 +2224,7 @@
 | `test/workflow-outcome-monitor.test.js` | 47.9 KB |
 | `test/workflow-push-dispatches-deploy.test.js` | 6.8 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
-| `test/workflows-rebuild-derived-chain.test.mjs` | 8.3 KB |
+| `test/workflows-rebuild-derived-chain.test.mjs` | 9.9 KB |
 | `test/workforce-gap-is-job-based.test.mjs` | 8.8 KB |
 | `test/working-paper-download.test.js` | 4.9 KB |
 | `test/xss-comparison-surfaces.test.js` | 14.5 KB |
@@ -2326,7 +2327,7 @@
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 3.7 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.7 KB |
 | `.github/workflows/fetch-chas-data.yml` | 4.5 KB |
-| `.github/workflows/fetch-chfa-lihtc.yml` | 6.0 KB |
+| `.github/workflows/fetch-chfa-lihtc.yml` | 4.9 KB |
 | `.github/workflows/fetch-county-data.yml` | 5.4 KB |
 | `.github/workflows/fetch-fmr-data.yml` | 7.8 KB |
 | `.github/workflows/fetch-fred-data.yml` | 5.4 KB |
@@ -2355,7 +2356,7 @@
 | `.github/workflows/sync-data-mtimes.yml` | 7.5 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.1 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.9 KB |
-| `.github/workflows/update-co-housing-costs.yml` | 6.1 KB |
+| `.github/workflows/update-co-housing-costs.yml` | 5.4 KB |
 | `.github/workflows/upstream-vintage-watch.yml` | 8.5 KB |
 | `.github/workflows/url-health-weekly.yml` | 5.3 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 7.5 KB |
