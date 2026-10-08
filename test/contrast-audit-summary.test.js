@@ -16,6 +16,7 @@ const assert = require('assert');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const childProcess = require('child_process');
 const { summarize, classify } = require('../scripts/contrast-audit/summarize.js');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -83,6 +84,65 @@ test('the workflow builds its table with summarize.js, not the old jq read', () 
   assert.ok(WF.includes('node scripts/contrast-audit/summarize.js contrast-reports'), 'workflow calls summarize.js');
   assert.ok(!WF.includes('.summary.violations'), 'workflow still reads .summary.violations');
   assert.ok(!/status="✅ Pass"/.test(WF), 'workflow still derives Pass from the exit code');
+});
+
+const pagesFile = path.join(dir, 'pages.txt');
+fs.writeFileSync(pagesFile, PAGES.join('\n') + '\n');
+
+// #2038: 14 pages failed under a green check. Every per-page run ends in
+// `|| true`, and the only step that could fail the job ran `if: failure()`,
+// which nothing before it could trigger. The gate below must read a count
+// summarize.js actually writes, run whatever happened before it, and exit
+// non-zero on a failing page. It is executed here, not just read.
+function stepBlock(name) {
+  const start = WF.indexOf('      - name: ' + name);
+  assert.ok(start >= 0, 'workflow has a step named "' + name + '"');
+  const rest = WF.slice(start + 1);
+  const end = rest.search(/\n      (- name:|#)/);
+  return end < 0 ? rest : rest.slice(0, end);
+}
+const GATE_NAME = 'Fail on contrast or WCAG gate failures';
+
+test('the gate reads counts the audit step really writes', () => {
+  const gate = stepBlock(GATE_NAME);
+  assert.ok(/\n\s+if: always\(\)/.test(gate), 'gate runs if: always()');
+  const audit = stepBlock('Run contrast audit on each page');
+  assert.ok(/\n\s+id: audit\n/.test(audit), 'audit step has id: audit');
+  assert.ok(audit.includes('node scripts/contrast-audit/summarize.js'), 'audit step runs summarize.js');
+  assert.ok(WF.indexOf('      - name: ' + GATE_NAME) > WF.indexOf('      - name: Run contrast audit on each page'),
+    'gate runs after the audit');
+  // Every steps.audit.outputs.<key> the gate reads is a key summarize.js emits.
+  const outFile = path.join(dir, 'gh-output');
+  fs.writeFileSync(outFile, '');
+  const prev = process.env.GITHUB_OUTPUT;
+  process.env.GITHUB_OUTPUT = outFile;
+  try {
+    childProcess.execFileSync(process.execPath, [path.join(ROOT, 'scripts/contrast-audit/summarize.js'), dir, pagesFile]);
+  } finally {
+    if (prev === undefined) delete process.env.GITHUB_OUTPUT; else process.env.GITHUB_OUTPUT = prev;
+  }
+  const emitted = fs.readFileSync(outFile, 'utf8').split('\n').filter(Boolean).map(l => l.split('=')[0]);
+  const read = [...gate.matchAll(/steps\.audit\.outputs\.(\w+)/g)].map(m => m[1]);
+  assert.ok(read.length > 0, 'gate reads at least one audit output');
+  read.forEach(k => assert.ok(emitted.includes(k), 'gate reads steps.audit.outputs.' + k + ', which summarize.js does not write'));
+  // Same for the pytest exit code.
+  const pyRead = [...gate.matchAll(/steps\.wcag-gate\.outputs\.(\w+)/g)].map(m => m[1]);
+  pyRead.forEach(k => assert.ok(stepBlock('Run Stage 3 WCAG Accessibility Gate (46 checks)').includes(k + '='),
+    'gate reads steps.wcag-gate.outputs.' + k + ', which that step does not write'));
+});
+
+test('the gate fails the job on a failing page, and only then', () => {
+  const gate = stepBlock(GATE_NAME);
+  const m = gate.match(/run: \|\n([\s\S]*)$/);
+  assert.ok(m, 'gate has a run block');
+  const script = m[1].replace(/^ {10}/gm, '');
+  const run = (env) => childProcess.spawnSync('bash', ['-e', '-c', script], { env: Object.assign({ PATH: process.env.PATH }, env) }).status;
+  const ok = { PYTEST_RC: '0', FAILED_PAGES: '0', AUDIT_OUTCOME: 'success' };
+  assert.strictEqual(run(ok), 0, 'all clean passes');
+  assert.strictEqual(run(Object.assign({}, ok, { FAILED_PAGES: '14' })), 1, '14 failing pages fail the job');
+  assert.strictEqual(run(Object.assign({}, ok, { PYTEST_RC: '1' })), 1, 'a pytest failure fails the job');
+  assert.strictEqual(run(Object.assign({}, ok, { FAILED_PAGES: '' })), 1, 'a missing count is not a pass');
+  assert.strictEqual(run(Object.assign({}, ok, { AUDIT_OUTCOME: 'failure' })), 1, 'an audit step that errored is not a pass');
 });
 
 fs.rmSync(dir, { recursive: true, force: true });

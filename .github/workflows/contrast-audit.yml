@@ -84,8 +84,12 @@ jobs:
         id: wcag-gate
         run: |
           pip install pytest --quiet
+          # tee would otherwise hide pytest's exit code (the default shell has
+          # no pipefail). It is recorded here and enforced by the gate step at
+          # the end, so a pytest failure still leaves the contrast report below.
           pytest tests/test_stage3_accessibility.py -v --tb=short \
             2>&1 | tee wcag-test-output.txt
+          echo "pytest_rc=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
           
           # Extract final score from pytest output
           SCORE=$(grep -o "WCAG COMPLIANCE SCORE: [0-9]*%" wcag-test-output.txt | tail -1)
@@ -145,27 +149,6 @@ jobs:
           fi
 
           cat "$summary_file"
-
-      # F159 — Runtime DOM contrast scanner. This is the STRONGEST gate
-      # we have: it loads every HTML page in headless Chrome via
-      # puppeteer, forces both light AND dark mode classes, walks every
-      # visible text node, and computes the real foreground/effective-bg
-      # contrast ratio at the rendered DOM level. Existing pytest +
-      # per-page playwright steps are STATIC (they verify CSS tokens are
-      # in place + the design-system contract holds) — they can't catch
-      # an inline `style="color:#888"` that lands on an unexpected bg via
-      # cascade, or a JS-injected element whose color depends on theme
-      # state the static tests don't model. The runtime scanner does.
-      # Scanner exits 1 on any failure → workflow fails → blocks the PR.
-
-      - name: Validate accessibility compliance
-        if: failure()
-        run: |
-          echo "❌ WCAG Accessibility Gate FAILED"
-          echo "   Stage-3 pytest or the per-page Playwright audit reported failures."
-          echo "   Review wcag-test-output.txt and contrast-reports/summary.md."
-          echo "   (The runtime DOM scanner runs in its own job: runtime-contrast-scan.)"
-          exit 1
 
       - name: Upload audit reports and test results
         if: always()
@@ -228,6 +211,37 @@ jobs:
       # nondeterministic audit is the defect it guards against.
       - name: Contrast audit determinism self-test
         run: npm run test:contrast-audit-settle
+
+      # The gate. Every per-page run above ends in `|| true` so one failing
+      # page cannot stop the others from being audited, and the old
+      # "Validate accessibility compliance" step only ran `if: failure()` —
+      # which nothing above could trigger. So 14 failing pages reported under
+      # a green check (#2038). This step reads the counts summarize.js wrote
+      # and fails the job on any failing page. It runs last and always, so
+      # the report, the PR comment and the self-test are never skipped by it.
+      # A page that could not be scanned stays a warning (see the audit
+      # step): it is not a pass, but it is not a contrast failure either.
+      - name: Fail on contrast or WCAG gate failures
+        if: always()
+        env:
+          PYTEST_RC: ${{ steps.wcag-gate.outputs.pytest_rc }}
+          FAILED_PAGES: ${{ steps.audit.outputs.failed }}
+          AUDIT_OUTCOME: ${{ steps.audit.outcome }}
+        run: |
+          status=0
+          if [ "$PYTEST_RC" != "0" ]; then
+            echo "::error title=WCAG gate::Stage-3 pytest exited '${PYTEST_RC:-not run}' -- see wcag-test-output.txt"
+            status=1
+          fi
+          if [ "$AUDIT_OUTCOME" != "success" ] || [ -z "$FAILED_PAGES" ]; then
+            echo "::error title=Contrast audit::the per-page audit did not complete (outcome: ${AUDIT_OUTCOME:-not run})"
+            status=1
+          elif [ "$FAILED_PAGES" != "0" ]; then
+            echo "::error title=Contrast audit::$FAILED_PAGES page(s) fail WCAG AA contrast -- see contrast-reports/summary.md"
+            status=1
+          fi
+          [ "$status" = 0 ] && echo "✅ Stage-3 WCAG gate and per-page contrast audit both passed."
+          exit "$status"
 
       # The scripts/monitoring/alert.js step was removed when this workflow moved to
       # the external monitor (.github/workflows/workflow-outcome-monitor.yml).

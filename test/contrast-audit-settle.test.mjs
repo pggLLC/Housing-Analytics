@@ -71,6 +71,12 @@ const FIXTURES = {
     '<main><p id="late" style="color:#111">Readable at first</p></main>' +
     '<script>setTimeout(function(){document.getElementById("late").style.color="#c8c8c8";},1200);</script>'),
 
+  // #2038: an inactive control is exempt (WCAG 1.4.3), an active one is not.
+  // Same grey label on both, so the active one keeps the check non-vacuous.
+  'disabled-control.html': page(HEADER +
+    '<main><button disabled style="color:#bbb;background:#fff">Not available yet</button>' +
+    '<button style="color:#bbb;background:#fff">Available now</button></main>'),
+
   // A page whose colours never stop changing is not a pass and not a fail.
   'never-settles.html': page(HEADER +
     '<main><p id="blink" style="color:#111">Flickers forever</p></main>' +
@@ -157,6 +163,13 @@ try {
   await check('a regression that appears after load is reported', async () => {
     const p = await audit('__fixtures__/late-regression.html');
     assert.ok(p.violations.some((v) => v.text === 'Readable at first'), 'measured too early: ' + key(p));
+  });
+
+  await check('a disabled control is exempt; the same label on an active one fails', async () => {
+    const p = await audit('__fixtures__/disabled-control.html');
+    assert.equal(p.error, undefined, p.error);
+    assert.ok(p.violations.some((v) => v.text === 'Available now'), 'active control not reported: ' + key(p));
+    assert.ok(!p.violations.some((v) => v.text === 'Not available yet'), 'disabled control reported: ' + key(p));
   });
 
   await check('a page that never settles is reported as not scanned, never as a pass', async () => {

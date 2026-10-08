@@ -130,7 +130,10 @@
   padding: 0.2rem 0.6rem;
   border-radius: 10px;
   background: var(--crp-accent-dim, rgba(26,115,232,0.10));
-  color: var(--crp-accent, #1a73e8);
+  /* The accent itself is too light for 0.72rem text on its own 10% tint
+     (Western Slope orange measured 2.7:1, #2038). Mixing it with --text
+     darkens it in the light theme and lightens it in the dark one. */
+  color: color-mix(in srgb, var(--crp-accent, #1a73e8) 50%, var(--text, #0d1f35));
   margin-bottom: 0.5rem;
 }
 
@@ -187,8 +190,8 @@
 }
 
 /* Trend icon colours */
-.crp-trend-up     { color: var(--color-success, #2e7d32); }
-.crp-trend-down   { color: var(--color-error, #c62828); }
+.crp-trend-up     { color: color-mix(in srgb, var(--color-success, #2e7d32) 80%, var(--text, #0d1f35)); } /* 4.3:1 on --bg2 unmixed (#2038) */
+.crp-trend-down   { color: color-mix(in srgb, var(--color-error, #c62828) 65%, var(--text, #0d1f35)); } /* 3.15:1 unmixed in dark mode */
 .crp-trend-neutral { color: var(--muted, #888); }
 
 /* ================================================================

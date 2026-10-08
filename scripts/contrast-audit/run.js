@@ -274,6 +274,12 @@ async function auditPage(page, url, doFix) {
       var el = nodes[i];
       if (el.getAttribute('aria-hidden') === 'true') continue;
       if (!el.textContent || !el.textContent.trim()) continue;
+      /* WCAG 1.4.3 exempts text that is part of an inactive user interface
+       * component. A disabled button's greyed-out label (the browser default
+       * is 30% alpha) is meant to read as unavailable, and counting it made
+       * deal-calculator, market-analysis and for-sale-market-study fail on
+       * buttons nobody can press yet (#2038). */
+      if (el.matches(':disabled') || el.closest('[aria-disabled="true"]')) continue;
 
       var cs = window.getComputedStyle(el);
       if (parseFloat(cs.fontSize  || '16') < 10) continue;

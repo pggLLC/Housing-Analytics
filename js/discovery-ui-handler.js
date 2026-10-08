@@ -109,16 +109,16 @@
         '<span class="drh-badge-icon">🔍</span> ' +
         _esc(scanLabel) + ': <strong id="drhLastScanBadge">' + _esc(scanDate) + '</strong>' +
       '</span>' +
-      '<span class="drh-badge-sep">·</span>' +
+      '<span class="drh-badge-sep" aria-hidden="true">·</span>' +
       '<span class="drh-badge-item" title="Scan cadence — the hub probes every known data path each time you open this page; the Admin tab lets you re-trigger on demand">' +
         '<span class="drh-badge-icon">⏱</span> Auto on page load' +
       '</span>' +
-      '<span class="drh-badge-sep">·</span>' +
+      '<span class="drh-badge-sep" aria-hidden="true">·</span>' +
       '<span class="drh-badge-item drh-badge-pending" title="Files found on disk that aren\'t in the registry — review under the Pending Discovery tab">' +
         '<span class="drh-badge-icon">🔔</span> ' +
         'Pending: <strong id="drhPendingBadge">' + _esc(pendingText) + '</strong>' +
       '</span>' +
-      '<span class="drh-badge-sep">·</span>' +
+      '<span class="drh-badge-sep" aria-hidden="true">·</span>' +
       '<a class="drh-badge-link" href="#tab-discovery" onclick="window.DiscoveryUIHandler.switchToDiscovery()">View discoveries →</a>';
   }
 
