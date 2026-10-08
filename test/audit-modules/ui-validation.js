@@ -13,6 +13,15 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..', '..');
 
+// Non-page templates are explicit and explained; redirects are detected below.
+const NON_PAGE_TEMPLATES = Object.freeze({
+    'og-card.html': 'Social-image render template, not a navigable site page.',
+});
+
+function ownMarkup(content) {
+    return content.replace(/<!--[\s\S]*?-->/g, '').replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, '');
+}
+
 // Known failing hex codes (Rule 10 — must not appear in HTML)
 const FAILING_HEX_CODES = [
     '#6c7a89', '#3498db', '#27ae60', '#d4a574',
@@ -32,14 +41,20 @@ const CRITICAL_PAGES = [
 ];
 
 /**
- * Returns all root-level HTML files in the repository.
+ * Returns root-level content pages; skips redirects and named non-page templates.
  * @returns {string[]} absolute paths
  */
-function getRootHtmlFiles() {
+function getRootHtmlFiles({ root = ROOT, stats } = {}) {
     try {
-        return fs.readdirSync(ROOT)
+        return fs.readdirSync(root)
             .filter(f => f.endsWith('.html'))
-            .map(f => path.join(ROOT, f));
+            .filter(f => {
+                const redirect = /<meta\b[^>]*\bhttp-equiv\s*=\s*(?:"refresh"|'refresh'|refresh(?=[\s>]))/i.test(ownMarkup(readFile(path.join(root, f))));
+                const reason = NON_PAGE_TEMPLATES[f] || (redirect ? 'Meta-refresh redirect, not a content page.' : null);
+                if (reason && stats) stats.excludedPages[f] = reason;
+                return !reason;
+            })
+            .map(f => path.join(root, f));
     } catch (_) {
         return [];
     }
@@ -62,13 +77,13 @@ function readFile(filePath) {
  * Checks for known WCAG-failing hardcoded hex color codes in HTML files (Rule 10).
  * @returns {Array<object>} issues
  */
-function checkHardcodedColors() {
+function checkHardcodedColors(options = {}) {
     const issues = [];
-    const htmlFiles = getRootHtmlFiles();
+    const htmlFiles = getRootHtmlFiles(options);
 
     for (const filePath of htmlFiles) {
         const content = readFile(filePath);
-        const relPath = filePath.replace(ROOT + '/', '');
+        const relPath = path.basename(filePath);
         for (const hex of FAILING_HEX_CODES) {
             if (content.toLowerCase().includes(hex.toLowerCase())) {
                 issues.push({
@@ -90,16 +105,17 @@ function checkHardcodedColors() {
  * Checks that canvas elements have role="img" and aria-label (Rule 15).
  * @returns {Array<object>} issues
  */
-function checkCanvasAccessibility() {
+function checkCanvasAccessibility(options = {}) {
     const issues = [];
-    const htmlFiles = getRootHtmlFiles();
+    const htmlFiles = getRootHtmlFiles(options);
 
     for (const filePath of htmlFiles) {
         const content = readFile(filePath);
-        const relPath = filePath.replace(ROOT + '/', '');
+        const relPath = path.basename(filePath);
         // Find all <canvas tags
         const canvasMatches = content.match(/<canvas[^>]*>/gi) || [];
         for (const tag of canvasMatches) {
+            if (options.stats) options.stats.canvases++;
             const missingRole = !/role\s*=\s*["']img["']/i.test(tag);
             const missingAria = !/aria-label\s*=/i.test(tag);
             if (missingRole || missingAria) {
@@ -119,19 +135,22 @@ function checkCanvasAccessibility() {
 }
 
 /**
- * Checks that pages with <canvas> elements also contain an aria-live region (Rule 11).
+ * Checks pages with a canvas AND a user control in their own markup (Rule 11).
+ * This structural scan cannot prove that every update handler announces.
  * @returns {Array<object>} issues
  */
-function checkAriaLiveRegions() {
+function checkAriaLiveRegions(options = {}) {
     const issues = [];
-    const htmlFiles = getRootHtmlFiles();
+    const htmlFiles = getRootHtmlFiles(options);
 
     for (const filePath of htmlFiles) {
         const content = readFile(filePath);
-        const relPath = filePath.replace(ROOT + '/', '');
-        const hasCanvas = /<canvas/i.test(content);
-        const hasAriaLive = /aria-live\s*=\s*["']polite["']/i.test(content);
-        if (hasCanvas && !hasAriaLive) {
+        const relPath = path.basename(filePath);
+        const markup = ownMarkup(content);
+        const hasCanvas = /<canvas\b/i.test(markup);
+        const hasControl = /<(?:select|input|button|textarea)\b/i.test(markup);
+        const hasAriaLive = /aria-live\s*=\s*["']polite["']/i.test(markup);
+        if (hasCanvas && hasControl && !hasAriaLive) {
             issues.push({
                 severity: 'medium',
                 type: 'ui',
@@ -150,17 +169,27 @@ function checkAriaLiveRegions() {
  * Checks that all HTML pages have required landmark structure (Rule 12).
  * @returns {Array<object>} issues
  */
-function checkLandmarkStructure() {
+function checkLandmarkStructure(options = {}) {
     const issues = [];
-    const htmlFiles = getRootHtmlFiles();
+    const navigation = readFile(path.join(options.root || ROOT, 'js', 'navigation.js'));
+    const createsHeader = /\.createElement\s*\(\s*['"]header['"]\s*\)/.test(navigation);
+    const createsFooter = /\.createElement\s*\(\s*['"]footer['"]\s*\)/.test(navigation);
+    if (options.stats) options.stats.navigation = { createsHeader, createsFooter };
+    const htmlFiles = getRootHtmlFiles(options);
 
     for (const filePath of htmlFiles) {
         const content = readFile(filePath);
-        const relPath = filePath.replace(ROOT + '/', '');
+        const relPath = path.basename(filePath);
+        const markup = ownMarkup(content);
+        const loadsNavigation = /<script\b[^>]*\bsrc\s*=\s*['"](?:\.?\/)?js\/navigation\.js(?:[?#][^'"]*)?['"]/i.test(content);
+        if (options.stats) {
+            options.stats.landmarkPages++;
+            if (loadsNavigation && (createsHeader || createsFooter)) options.stats.navigationPages++;
+        }
         const missing = [];
-        if (!/<header[\s>]/i.test(content)) missing.push('<header>');
-        if (!/<main[\s>]/i.test(content)) missing.push('<main>');
-        if (!/<footer[\s>]/i.test(content)) missing.push('<footer>');
+        if (!/<header[\s>]/i.test(markup) && !(loadsNavigation && createsHeader)) missing.push('<header>');
+        if (!/<main[\s>]/i.test(markup)) missing.push('<main>');
+        if (!/<footer[\s>]/i.test(markup) && !(loadsNavigation && createsFooter)) missing.push('<footer>');
         if (missing.length > 0) {
             issues.push({
                 severity: 'medium',
@@ -180,13 +209,13 @@ function checkLandmarkStructure() {
  * Checks skip-navigation links target #main-content and main has correct id (Rule 16).
  * @returns {Array<object>} issues
  */
-function checkSkipNavigation() {
+function checkSkipNavigation(options = {}) {
     const issues = [];
-    const htmlFiles = getRootHtmlFiles();
+    const htmlFiles = getRootHtmlFiles(options);
 
     for (const filePath of htmlFiles) {
         const content = readFile(filePath);
-        const relPath = filePath.replace(ROOT + '/', '');
+        const relPath = path.basename(filePath);
         // Only check pages that have skip nav links
         const hasSkipLink = /href\s*=\s*["']#main/i.test(content);
         if (!hasSkipLink) continue;
@@ -224,9 +253,9 @@ function checkSkipNavigation() {
  * Checks CSS site-theme.css for correct --accent token value (Rule 13).
  * @returns {Array<object>} issues
  */
-function checkAccentToken() {
+function checkAccentToken(options = {}) {
     const issues = [];
-    const themePath = path.join(ROOT, 'css', 'site-theme.css');
+    const themePath = path.join(options.root || ROOT, 'css', 'site-theme.css');
     if (!fs.existsSync(themePath)) return issues;
 
     const content = readFile(themePath);
@@ -259,10 +288,10 @@ function checkAccentToken() {
  * Checks that critical HTML pages exist (Rule 4 equivalent for pages).
  * @returns {Array<object>} issues
  */
-function checkCriticalPages() {
+function checkCriticalPages(options = {}) {
     const issues = [];
     for (const page of CRITICAL_PAGES) {
-        const filePath = path.join(ROOT, page);
+        const filePath = path.join(options.root || ROOT, page);
         if (!fs.existsSync(filePath)) {
             issues.push({
                 severity: 'critical',
@@ -282,9 +311,9 @@ function checkCriticalPages() {
  * Checks for touch target size markers (min 44×44 px via .dot-wrap class) (Rule 14).
  * @returns {Array<object>} issues
  */
-function checkTouchTargets() {
+function checkTouchTargets(options = {}) {
     const issues = [];
-    const cssDir = path.join(ROOT, 'css');
+    const cssDir = path.join(options.root || ROOT, 'css');
     if (!fs.existsSync(cssDir)) return issues;
 
     const cssFiles = fs.readdirSync(cssDir).filter(f => f.endsWith('.css'));
@@ -316,9 +345,9 @@ function checkTouchTargets() {
  * Checks that required CSS chart color tokens exist in site-theme.css (Rule 10).
  * @returns {Array<object>} issues
  */
-function checkChartTokens() {
+function checkChartTokens(options = {}) {
     const issues = [];
-    const themePath = path.join(ROOT, 'css', 'site-theme.css');
+    const themePath = path.join(options.root || ROOT, 'css', 'site-theme.css');
     if (!fs.existsSync(themePath)) return issues;
 
     const content = readFile(themePath);
@@ -344,18 +373,20 @@ function checkChartTokens() {
  * Runs all UI/UX and rendering validation checks.
  * @returns {Promise<Array<object>>}
  */
-async function runUiValidationChecks() {
+async function runUiValidationChecks({ root = ROOT, stats = {} } = {}) {
+    Object.assign(stats, { canvases: 0, landmarkPages: 0, navigationPages: 0, excludedPages: {} });
+    const options = { root, stats };
     console.log('[ui-validation] Running UI/UX & rendering checks...');
     const issues = [
-        ...checkCriticalPages(),
-        ...checkHardcodedColors(),
-        ...checkCanvasAccessibility(),
-        ...checkAriaLiveRegions(),
-        ...checkLandmarkStructure(),
-        ...checkSkipNavigation(),
-        ...checkAccentToken(),
-        ...checkChartTokens(),
-        ...checkTouchTargets(),
+        ...checkCriticalPages(options),
+        ...checkHardcodedColors(options),
+        ...checkCanvasAccessibility(options),
+        ...checkAriaLiveRegions(options),
+        ...checkLandmarkStructure(options),
+        ...checkSkipNavigation(options),
+        ...checkAccentToken(options),
+        ...checkChartTokens(options),
+        ...checkTouchTargets(options),
     ];
     console.log(`[ui-validation] Found ${issues.length} issue(s).`);
     return issues;
