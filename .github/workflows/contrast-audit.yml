@@ -219,13 +219,15 @@ jobs:
       # a green check (#2038). This step reads the counts summarize.js wrote
       # and fails the job on any failing page. It runs last and always, so
       # the report, the PR comment and the self-test are never skipped by it.
-      # A page that could not be scanned stays a warning (see the audit
-      # step): it is not a pass, but it is not a contrast failure either.
+      # A page that could not be scanned fails it too: an unscanned page is
+      # not a pass, and a run where every page errored would otherwise be
+      # green with nothing checked.
       - name: Fail on contrast or WCAG gate failures
         if: always()
         env:
           PYTEST_RC: ${{ steps.wcag-gate.outputs.pytest_rc }}
           FAILED_PAGES: ${{ steps.audit.outputs.failed }}
+          NOT_SCANNED: ${{ steps.audit.outputs.not_scanned }}
           AUDIT_OUTCOME: ${{ steps.audit.outcome }}
         run: |
           status=0
@@ -233,12 +235,18 @@ jobs:
             echo "::error title=WCAG gate::Stage-3 pytest exited '${PYTEST_RC:-not run}' -- see wcag-test-output.txt"
             status=1
           fi
-          if [ "$AUDIT_OUTCOME" != "success" ] || [ -z "$FAILED_PAGES" ]; then
+          if [ "$AUDIT_OUTCOME" != "success" ] || [ -z "$FAILED_PAGES" ] || [ -z "$NOT_SCANNED" ]; then
             echo "::error title=Contrast audit::the per-page audit did not complete (outcome: ${AUDIT_OUTCOME:-not run})"
             status=1
-          elif [ "$FAILED_PAGES" != "0" ]; then
-            echo "::error title=Contrast audit::$FAILED_PAGES page(s) fail WCAG AA contrast -- see contrast-reports/summary.md"
-            status=1
+          else
+            if [ "$FAILED_PAGES" != "0" ]; then
+              echo "::error title=Contrast audit::$FAILED_PAGES page(s) fail WCAG AA contrast -- see contrast-reports/summary.md"
+              status=1
+            fi
+            if [ "$NOT_SCANNED" != "0" ]; then
+              echo "::error title=Contrast audit::$NOT_SCANNED page(s) could not be scanned, so they were not checked -- see contrast-reports/summary.md"
+              status=1
+            fi
           fi
           [ "$status" = 0 ] && echo "✅ Stage-3 WCAG gate and per-page contrast audit both passed."
           exit "$status"
