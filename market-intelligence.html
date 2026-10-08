@@ -116,7 +116,10 @@
     .btn-export {
       padding: 0.4rem 0.9rem;
       border-radius: var(--radius-sm);
-      background: var(--accent-dim);
+      /* #2038 — the translucent --accent-dim let the --bg2 surface show
+         through, leaving the label at 4.47:1. An opaque tint over --card
+         holds >= 4.5:1 in both modes. */
+      background: color-mix(in srgb, var(--accent) 8%, var(--card));
       color: var(--accent);
       border: 1px solid var(--accent);
       font-size: 0.83rem;
@@ -196,9 +199,12 @@
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
-    .badge-good { background: rgba(22,163,74,0.15); color: var(--good, #16a34a); }
-    .badge-warn { background: rgba(217,119,6,0.15); color: var(--warn, #d97706); }
-    .badge-bad  { background: rgba(220,38,38,0.15); color: var(--bad,  #dc2626); }
+    /* #2038 — the 15% washes were translucent, so the --bg2 surface showed
+       through and "Moderate" / "Stretched" fell to 4.28:1. Opaque tints
+       over --card keep each status colour >= 4.5:1 in both modes. */
+    .badge-good { background: color-mix(in srgb, var(--good, #036549) 8%, var(--card, #fff)); color: var(--good, #036549); }
+    .badge-warn { background: color-mix(in srgb, var(--warn, #a84608) 8%, var(--card, #fff)); color: var(--warn, #a84608); }
+    .badge-bad  { background: color-mix(in srgb, var(--bad,  #991b1b) 8%, var(--card, #fff)); color: var(--bad,  #991b1b); }
     .lihtc-trend-container {
       position: relative;
       height: 240px;

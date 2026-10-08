@@ -16,7 +16,7 @@
  *
  * Scans key pages served via http-server, capped at 2000 nodes/page, once the
  * page has settled (see waitForSettled) — never at an arbitrary load event.
- * Skips aria-hidden elements, opacity < 0.9, and font-size < 10px.
+ * Skips aria-hidden subtrees, disabled controls, opacity < 0.9, and font-size < 10px.
  * Thresholds: 4.5 normal text / 3.0 large text (WCAG AA).
  *
  * Fix logic mirrors js/contrast-guard.js (runtime fixer):
@@ -272,7 +272,9 @@ async function auditPage(page, url, doFix) {
 
     for (var i = 0; i < nodes.length; i++) {
       var el = nodes[i];
-      if (el.getAttribute('aria-hidden') === 'true') continue;
+      /* WCAG 1.4.3 exempts decoration and inactive controls: an aria-hidden
+       * subtree, or a disabled button. Same rule as the runtime scanner (#2038). */
+      if (el.closest('[aria-hidden="true"], :disabled, [aria-disabled="true"]')) continue;
       if (!el.textContent || !el.textContent.trim()) continue;
 
       var cs = window.getComputedStyle(el);
