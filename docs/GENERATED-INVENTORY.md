@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-08T14:52:00.183Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-08T18:52:51.684Z. Do not edit by hand.
 
 ---
 
@@ -1778,7 +1778,7 @@
 | `test/audit-modules/audit-status.js` | 3.5 KB |
 | `test/audit-modules/data-integrity.js` | 18.9 KB |
 | `test/audit-modules/logic-validation.js` | 14.0 KB |
-| `test/audit-modules/repo-health.js` | 27.9 KB |
+| `test/audit-modules/repo-health.js` | 28.5 KB |
 | `test/audit-modules/report-generator.js` | 25.4 KB |
 | `test/audit-modules/ui-validation.js` | 14.8 KB |
 | `test/augment-local-resources-nondestructive.test.js` | 7.2 KB |
@@ -1823,7 +1823,7 @@
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/cross-surface-vintage-labels.test.js` | 9.5 KB |
 | `test/custom-pma-conclusions-blocked.test.js` | 24.1 KB |
-| `test/daily-audit-repo-health.test.js` | 27.9 KB |
+| `test/daily-audit-repo-health.test.js` | 34.4 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
 | `test/daily-audit-system.js` | 20.3 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
