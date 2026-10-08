@@ -54,6 +54,9 @@ export const SCANNER_FN = `function __contrastScan() {
     return [Math.round(result[0]),Math.round(result[1]),Math.round(result[2]),1];
   }
   var failures=[];
+  /* How many text elements were actually measured, so a test can tell a scan
+     that checked everything and found nothing from one that checked nothing. */
+  var measured=0;
   var els=document.querySelectorAll('*');
   for(var i=0;i<els.length;i++){
     var el=els[i];
@@ -91,6 +94,7 @@ export const SCANNER_FN = `function __contrastScan() {
     var bg=getEffectiveBg(el);
     if(!bg)continue;
     if(fg[3]<1)fg=over(fg,bg);
+    measured++;
     var r=ratio(fg,bg);
     var fontSize=parseFloat(cs.fontSize);
     var fontWeight=parseInt(cs.fontWeight,10)||400;
@@ -115,6 +119,7 @@ export const SCANNER_FN = `function __contrastScan() {
       });
     }
   }
+  window.__contrastScanMeasured=(window.__contrastScanMeasured||0)+measured;
   return failures;
 }
 window.__contrastScan = __contrastScan;
@@ -125,19 +130,27 @@ __contrastScan();`;
 // colorado-deep-dive.html (2.9:1) sat in the Market Trends tab and passed this
 // gate for that reason alone. After the default scan, open every tab the user
 // could open and scan again: each pass clicks the first visible, unselected
-// [role="tab"] not yet visited whose aria-controls names a panel on the page.
-// Tabs nested inside a panel become visible once their panel is open, so
-// repeated passes reach them too.
+// [role="tab"] not yet visited. aria-controls is not required: the six tabs on
+// data-review-hub.html are wired by data-tab and have none. A tab that is a
+// link to another page is skipped, so the walk never navigates away. Visited
+// tabs are marked on the element itself, so two tabs with the same label or
+// no id are still told apart. Tabs nested inside a panel become visible once
+// their panel is open, so repeated passes reach them too.
 const MAX_TAB_STATES = 40;
 export function clickNextTab(visited) {
-  const tabs = document.querySelectorAll('[role="tab"][aria-controls]');
-  for (const tab of tabs) {
-    const key = tab.id || tab.getAttribute('aria-controls');
-    if (visited.includes(key)) continue;
+  const tabs = document.querySelectorAll('[role="tab"]');
+  for (let i = 0; i < tabs.length; i++) {
+    const tab = tabs[i];
+    if (tab.hasAttribute('data-contrast-scan-visited')) continue;
     if (tab.getAttribute('aria-selected') === 'true') continue;
-    if (!document.getElementById(tab.getAttribute('aria-controls'))) continue;
+    if (tab.disabled || tab.getAttribute('aria-disabled') === 'true') continue;
+    const href = tab.tagName === 'A' ? (tab.getAttribute('href') || '') : '';
+    if (href && href.charAt(0) !== '#') continue;
     const r = tab.getBoundingClientRect();
     if (r.width === 0 || r.height === 0) continue;
+    const key = tab.id || tab.getAttribute('aria-controls') || tab.getAttribute('data-tab') || 'tab#' + i;
+    if (visited.includes(key)) continue;
+    tab.setAttribute('data-contrast-scan-visited', '');
     window.__contrastScanState = 'tab: ' + (tab.textContent || key).trim().slice(0, 40);
     tab.click();
     return key;
