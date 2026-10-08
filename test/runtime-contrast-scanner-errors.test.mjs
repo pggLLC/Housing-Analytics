@@ -40,7 +40,10 @@ export default {
             current = url.split('/').pop();
           },
           async evaluate(fn, arg) {
-            if (typeof fn === 'function') { mode = arg; return; }   // the class toggle
+            if (typeof fn === 'function') {                         // the class toggle, or the tab walk (#2038)
+              if (typeof arg === 'string') mode = arg;
+              return null;                                          // tab walk: the fake page has no tabs
+            }
             if (deadOn.has(current + ':' + mode)) { dead = true; throw new Error("Runtime.callFunctionOn timed out."); }
             return [];                                              // SCANNER_FN: no failures
           },

@@ -63,8 +63,10 @@
       '  font-size:.66rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase;',
       '  cursor:help;',
       '}',
-      '.mf-badge--high { background:rgba(16,185,129,.15); color:#047857; border:1px solid rgba(16,185,129,.4); }',
-      '.mf-badge--med  { background:rgba(245,158,11,.15); color:#b45309; border:1px solid rgba(245,158,11,.4); }',
+      /* #2038 — #047857 was 4.27:1 on its own .15 wash, and #b45309 is
+         under 4.5:1 on the amber one. Each text colour is now >= 4.5:1 on its wash. */
+      '.mf-badge--high { background:rgba(16,185,129,.15); color:#036549; border:1px solid rgba(16,185,129,.4); }',
+      '.mf-badge--med  { background:rgba(245,158,11,.15); color:#92400e; border:1px solid rgba(245,158,11,.4); }',
       '.mf-badge--low  { background:rgba(239,68,68,.15);  color:#b91c1c; border:1px solid rgba(239,68,68,.4); }',
       '.dark-mode .mf-badge--high { background:rgba(16,185,129,.18); color:#34d399; }',
       '.dark-mode .mf-badge--med  { background:rgba(245,158,11,.18); color:#fbbf24; }',
