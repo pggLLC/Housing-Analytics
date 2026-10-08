@@ -4,12 +4,12 @@ js/pma-opportunities.js
 Opportunity and incentive overlay analysis for PMA scoring.
 
 Responsibilities:
- - fetchOpportunityZones(boundingBox) — IRS QOZ dataset
+ - fetchOpportunityZones() — tracked CDFI designation polygons
  - fetchHudAFFH(boundingBox) — HUD AFFH fair housing opportunity index
  - fetchHudOpportunityAtlas(boundingBox) — economic mobility percentiles
- - calculateOpportunityShare(pmaPolygon, ozZones) — % area in OZ
- - scoreOpportunityIndex(lat, lon, affhData, atlasData) — 0–100 composite
- - determineIncentiveEligibility(opportunityShare, affhScore, atlasPercentile)
+ - siteOpportunityZone(lat, lon, zones) — exact site point-in-polygon
+ - scoreOpportunityIndex(lat, lon, affhData, atlasData, zones) — 0–100 composite
+ - determineIncentiveEligibility(siteStatus)
  - getOpportunityLayer() — GeoJSON for map display
  - getOpportunityJustification() — audit-ready opportunity metrics
 
@@ -17,17 +17,16 @@ Exposed as window.PMAOpportunities.
 
 ## Symbols
 
-### `_estimateOzShare(bbox, ozZones)`
+### `siteOpportunityZone(lat, lon, zones)`
 
-Estimate the fraction of a bounding box that overlaps a list of OZ features.
-Uses a point-in-bbox approximation proportional to zone count.
-@private
+Check the exact site against CDFI designation polygons (GeoJSON or features).
+Missing coordinates, missing data and invalid geometry are unknown, not out.
+@returns {{inZone: boolean|null, geoid: string|null, unavailableReason: string|null,
+           vintage: string|null, source_url: string|null}}
 
-### `fetchOpportunityZones(boundingBox)`
+### `fetchOpportunityZones()`
 
-Fetch Opportunity Zones dataset for a bounding box.
-@param {{minLat,minLon,maxLat,maxLon}} boundingBox
-@returns {Promise<{zones: Array, designationYear: Array}>}
+Load the same tracked CDFI polygons as the map; preserve their metadata.
 
 ### `fetchHudAFFH(boundingBox)`
 
@@ -41,16 +40,11 @@ Fetch HUD Opportunity Atlas economic mobility indicators.
 @param {{minLat,minLon,maxLat,maxLon}} boundingBox
 @returns {Promise<{mobilityIndex: number, percentiles: Array}>}
 
-### `calculateOpportunityShare(pmaPolygon, ozZones)`
+### `calculateOpportunityShare()`
 
-Calculate the fraction of the PMA polygon area that falls within
-Opportunity Zones.
+PMA area share is not measured. Retained for existing API consumers.
 
-@param {object} pmaPolygon - GeoJSON Polygon geometry
-@param {Array}  ozZones    - OZ feature array from fetchOpportunityZones
-@returns {number} share 0.0–1.0
-
-### `scoreOpportunityIndex(lat, lon, affhData, atlasData)`
+### `scoreOpportunityIndex(lat, lon, affhData, atlasData, zones)`
 
 Compute a composite 0–100 opportunity index for a site location.
 
@@ -58,16 +52,12 @@ Compute a composite 0–100 opportunity index for a site location.
 @param {number} lon
 @param {object} affhData   - {opportunityIndex: number} from fetchHudAFFH
 @param {object} atlasData  - {mobilityIndex: number} from fetchHudOpportunityAtlas
-@returns {number} 0–100
+@param {object} zones - tracked CDFI GeoJSON, including meta
+@returns {number|null} 0–100, or null when every component is unavailable
 
-### `determineIncentiveEligibility(opportunityShare, affhScore, atlasPercentile)`
+### `determineIncentiveEligibility(siteStatus)`
 
-Determine program incentive eligibility based on opportunity metrics.
-
-@param {number} opportunityShare - fraction of PMA in OZ (0–1)
-@param {number} affhScore        - 0–100 fair housing score
-@param {number} atlasPercentile  - 0–100 economic mobility percentile
-@returns {{lihtcBasisStepDown: boolean, newMarketsTaxCredit: boolean, qualifiedOpportunityZone: boolean}}
+Only exact-site OZ geography establishes this designation.
 
 ### `getOpportunityLayer(ozZones)`
 

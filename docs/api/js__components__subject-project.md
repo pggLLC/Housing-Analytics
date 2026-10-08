@@ -36,6 +36,7 @@ Exposes window.SubjectProject:
   • subscribe(fn)               — fire on every change
   • computeLihtcMaxRent(c,fips,tier,br,opts) — published CHFA rent
   • computeIncomeLimit(c,fips,tier,size,opts) — published CHFA income
+  • maxNetRent(maxGross, utilityAllowance) — null when the allowance is blank
   • loadChfa() / loadHud()      — singleton data loaders
   • DEFAULT_SUBJECT             — empty starter shape
 

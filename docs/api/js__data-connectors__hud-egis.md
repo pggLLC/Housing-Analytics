@@ -72,6 +72,23 @@ Test whether any feature in a GeoJSON FeatureCollection contains the point.
 @param {Object} fc  - GeoJSON FeatureCollection.
 @returns {boolean}  True if the point is inside any feature.
 
+### `_findInCollection(lat, lon, fc)`
+
+The first feature in a FeatureCollection that contains the point, or null.
+checkDesignation() uses it to report WHICH tract / DDA matched, not only
+that one did.
+@private
+
+### `_layerMeta(fc, file)`
+
+The HUD designation year and source, read from the loaded file's own
+metadata. The cache workflow (cache-hud-gis-data.yml) stamps `source`
+with the HUD layer name, e.g. "HUD ArcGIS Qualified_Census_Tracts_2026
+FeatureServer"; the year is the four digits HUD puts in that layer name.
+A file whose source does not name a year yields year:null — the year is
+never assumed.
+@private
+
 ### `_autoLoad()`
 
 Attempt to load QCT and DDA GeoJSON from DataService and cache in memory.
@@ -105,21 +122,39 @@ Returns combined QCT/DDA overlay information for a given coordinate.
 @param {number} lon
 @returns {{ qct: boolean, dda: boolean, note: string }}
 
+### `_layerUnavailableReason(fc, label, file)`
+
+Why a designation layer cannot answer, or null when it can. A layer that
+never loaded, or loaded with no features at all, cannot show that a site
+is outside every QCT/DDA — a globally empty source proves nothing.
+@private
+
 ### `checkDesignation(lat, lon)`
 
 Check whether a lat/lon point falls within a QCT or DDA polygon and
 return the combined designation result used by the scoring pipeline.
 
-When overlay data has not yet loaded, returns safe defaults (all false)
-with a console warning so callers can distinguish a real "not designated"
-result from a data-availability gap.
+Each flag is true, false, or null. null means UNKNOWN: that layer has not
+loaded, or loaded with no features, so it cannot show the site is outside
+a QCT/DDA. It is never reported as false — "not in a QCT" drops the 30%
+basis boost and subsidy points, and an unknown must not do that.
+`unavailableReason` says why whenever any flag is null.
 
-basis_boost_eligible is true whenever the site is in a QCT or DDA,
-allowing the project to claim up to 130% eligible basis under IRC §42(d)(5)(B).
+basis_boost_eligible is true whenever the site is in a QCT or DDA
+(allowing up to 130% eligible basis under IRC §42(d)(5)(B)), false only
+when BOTH layers are known and the site is in neither, and null otherwise.
 
 @param {number} lat - Site latitude.
 @param {number} lon - Site longitude.
-@returns {{ in_qct: boolean, in_dda: boolean, basis_boost_eligible: boolean }}
+Non-finite coordinates (no site selected — e.g. only a jurisdiction)
+make every flag null with a reason: a jurisdiction is not a site.
+
+`evidence` records what matched: the QCT tract GEOID, the DDA name/code,
+and the HUD year/source read from each data file's own metadata.
+
+@returns {{ in_qct: boolean|null, in_dda: boolean|null,
+            basis_boost_eligible: boolean|null, unavailableReason: string|null,
+            evidence: Object }}
 
 ### `loadLocalQct(data)`
 

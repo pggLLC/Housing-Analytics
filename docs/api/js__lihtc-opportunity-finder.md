@@ -15,7 +15,9 @@ Per jurisdiction we compute:
   - # of QCTs intersecting the place (via place-tract-membership)
   - DDA designation (containing county is one of CO's 10 nonmetro DDAs)
   - All LIHTC projects in the jurisdiction (matched by PROJ_CTY)
-  - Last YR_PIS + years-since
+  - Last CHFA award year + years-since (CHFA publishes no placed-in-service
+    year; the feed's YR_PIS is AwardYear copied by scripts/fetch-chfa-lihtc.js,
+    so this file reads AwardYear by name and never labels it an opening year)
   - HNA Scorecard composite for the containing county
   - Population (from co_ami_gap_by_place's implied HH counts)
   - Opportunity score, weighted differently for 4% vs 9% targets

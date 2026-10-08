@@ -58,7 +58,7 @@ primary resident catchment area.
 @param {number} siteLat
 @param {number} siteLon
 @param {{originZones: Array}} flowResult - output of analyzeCommutingFlows
-@returns {{boundary: object|null, captureRate: number, zoneCentroids: Array}}
+@returns {{boundary: object|null, captureRate: number|null, zoneCentroids: Array}}
 
 ### `_circlePolygon(lat, lon, radiusMiles, sides)`
 

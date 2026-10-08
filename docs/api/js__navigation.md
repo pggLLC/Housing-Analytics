@@ -16,15 +16,20 @@ SCOPING A FOR-SALE PROJECT (entry points):
   Land Value & Negotiation
 
 EXPLORE (comparative & context):
-  Compare Jurisdictions, Colorado Deep Dive, CHFA Portfolio,
-  Economic Dashboard, LIHTC Allocations, Preservation Tracking
+  Compare Jurisdictions, Colorado Deep Dive, Market Intelligence,
+  CHFA Portfolio, Economic Dashboard, LIHTC Allocations, Preservation
+  Tracking
 
 DATA (transparency & quality):
   Data Health, Data Quality, Data Review, Census Explorer
 
-INSIGHTS (news, policy & reference):
-  Housing News, Market Insights, Market Intelligence,
-  Housing Legislation, CRA Expansion, About COHO
+INSIGHTS, in three groups (2026-09-28):
+  Current: Housing News, Policy & Legislation, Colorado Elections
+  Research: Research & Analysis, Tax Credit Equity Markets, the papers
+  Guides: Help for Homebuyers
+  It was 11 ungrouped items that overflowed a 1280x720 screen. About and
+  Sitemap are in the footer. Each label matches the <h1> of the page it
+  opens (test/insights-nav-labels.test.mjs).
 ─────────────────────────────────────────────────────────────────────────
 
 ## Symbols
