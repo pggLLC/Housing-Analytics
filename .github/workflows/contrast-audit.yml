@@ -84,8 +84,12 @@ jobs:
         id: wcag-gate
         run: |
           pip install pytest --quiet
+          # tee would otherwise hide pytest's exit code (the default shell has
+          # no pipefail). It is recorded here and enforced by the gate step at
+          # the end, so a pytest failure still leaves the contrast report below.
           pytest tests/test_stage3_accessibility.py -v --tb=short \
             2>&1 | tee wcag-test-output.txt
+          echo "pytest_rc=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
           
           # Extract final score from pytest output
           SCORE=$(grep -o "WCAG COMPLIANCE SCORE: [0-9]*%" wcag-test-output.txt | tail -1)
@@ -220,32 +224,44 @@ jobs:
       - name: Contrast audit determinism self-test
         run: npm run test:contrast-audit-settle
 
-      # #2038 — this step used to run only `if: failure()`, and the per-page
-      # loop above ends every run in `|| true`, so a failing page could never
-      # fail the job: 14 pages were listed as failing under a green check. It
-      # now runs last, always, and reads the counts summarize.js wrote, so the
-      # report and PR comment are still produced before the job goes red.
-      # A page that could not be scanned stays a warning (see the audit step).
-      - name: Validate accessibility compliance
+      # The gate. Every per-page run above ends in `|| true` so one failing
+      # page cannot stop the others from being audited, and the old
+      # "Validate accessibility compliance" step only ran `if: failure()` —
+      # which nothing above could trigger. So 14 failing pages reported under
+      # a green check (#2038). This step reads the counts summarize.js wrote
+      # and fails the job on any failing page. It runs last and always, so
+      # the report, the PR comment and the self-test are never skipped by it.
+      # A page that could not be scanned fails it too: an unscanned page is
+      # not a pass, and a run where every page errored would otherwise be
+      # green with nothing checked.
+      - name: Fail on contrast or WCAG gate failures
         if: always()
         env:
-          GATE_OUTCOME: ${{ steps.wcag-gate.outcome }}
-          AUDIT_OUTCOME: ${{ steps.audit.outcome }}
+          PYTEST_RC: ${{ steps.wcag-gate.outputs.pytest_rc }}
           FAILED_PAGES: ${{ steps.audit.outputs.failed }}
+          NOT_SCANNED: ${{ steps.audit.outputs.not_scanned }}
+          AUDIT_OUTCOME: ${{ steps.audit.outcome }}
         run: |
-          if [ "$GATE_OUTCOME" != "success" ] || [ "$AUDIT_OUTCOME" != "success" ]; then
-            echo "❌ WCAG Accessibility Gate FAILED"
-            echo "   Stage-3 pytest: $GATE_OUTCOME · per-page audit: $AUDIT_OUTCOME"
-            echo "   Review wcag-test-output.txt and contrast-reports/summary.md."
-            exit 1
+          status=0
+          if [ "$PYTEST_RC" != "0" ]; then
+            echo "::error title=WCAG gate::Stage-3 pytest exited '${PYTEST_RC:-not run}' -- see wcag-test-output.txt"
+            status=1
           fi
-          if [ "${FAILED_PAGES:-missing}" != "0" ]; then
-            echo "❌ ${FAILED_PAGES:-an unknown number of} page(s) fail WCAG AA contrast."
-            echo "   See contrast-reports/summary.md (uploaded as accessibility-audit-results)."
-            echo "   (The runtime DOM scanner runs in its own job: runtime-contrast-scan.)"
-            exit 1
+          if [ "$AUDIT_OUTCOME" != "success" ] || [ -z "$FAILED_PAGES" ] || [ -z "$NOT_SCANNED" ]; then
+            echo "::error title=Contrast audit::the per-page audit did not complete (outcome: ${AUDIT_OUTCOME:-not run})"
+            status=1
+          else
+            if [ "$FAILED_PAGES" != "0" ]; then
+              echo "::error title=Contrast audit::$FAILED_PAGES page(s) fail WCAG AA contrast -- see contrast-reports/summary.md"
+              status=1
+            fi
+            if [ "$NOT_SCANNED" != "0" ]; then
+              echo "::error title=Contrast audit::$NOT_SCANNED page(s) could not be scanned, so they were not checked -- see contrast-reports/summary.md"
+              status=1
+            fi
           fi
-          echo "✓ Stage-3 pytest passed and no page failed the per-page contrast audit."
+          [ "$status" = 0 ] && echo "✅ Stage-3 WCAG gate and per-page contrast audit both passed."
+          exit "$status"
 
       # The scripts/monitoring/alert.js step was removed when this workflow moved to
       # the external monitor (.github/workflows/workflow-outcome-monitor.yml).
