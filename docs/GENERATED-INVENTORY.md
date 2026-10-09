@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-09T05:15:11.629Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-09T12:58:58.298Z. Do not edit by hand.
 
 ---
 
@@ -103,7 +103,7 @@
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
-| `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
+| `data/audit/upstream-vintage-watch.json` | 844 B | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 3.0 KB | ✅ | — |
 | `data/capital-partners.json` | 13.1 KB | ✅ | — |
 | `data/car-market-report-2026-02.json` | 3.0 KB | ✅ | — |

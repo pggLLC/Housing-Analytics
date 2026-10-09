@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-09T05:15:37.827Z",
+    "generated_at": "2026-10-09T12:59:24.213Z",
     "root": "data/",
     "file_count": 1699,
-    "total_size_bytes": 178079065,
+    "total_size_bytes": 178079481,
     "kinds": {
       "json": 1662,
       "geojson": 33,
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-09T05:15:34.170Z",
+      "mtime": "2026-10-09T12:59:19.820Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -497,8 +497,8 @@
     {
       "path": "audit/upstream-vintage-watch.json",
       "kind": "json",
-      "size_bytes": 803,
-      "mtime": "2026-10-02T12:16:49.219Z",
+      "size_bytes": 844,
+      "mtime": "2026-10-09T12:58:33.285Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -513,6 +513,7 @@
         "current_vintage",
         "latest_vintage",
         "is_outdated",
+        "status",
         "notes"
       ]
     },
@@ -1552,8 +1553,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1255558,
-      "mtime": "2026-10-08T13:37:34.409Z",
+      "size_bytes": 1255929,
+      "mtime": "2026-10-09T12:58:33.315Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30561,7 +30562,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 215920,
-      "mtime": "2026-10-09T05:15:11.583Z",
+      "mtime": "2026-10-09T12:58:33.540Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31984,7 +31985,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14804,
-      "mtime": "2026-10-09T05:15:35.942Z",
+      "mtime": "2026-10-09T12:59:21.678Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32007,7 +32008,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-09T05:15:35.563Z",
+      "mtime": "2026-10-09T12:59:21.233Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34514,8 +34515,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 12561,
-      "mtime": "2026-10-08T13:37:34.678Z",
+      "size_bytes": 12565,
+      "mtime": "2026-10-09T12:58:33.733Z",
       "shape": "object",
       "keys": [
         "updated",
