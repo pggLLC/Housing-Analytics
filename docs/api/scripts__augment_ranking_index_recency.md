@@ -11,6 +11,10 @@ Adds per-jurisdiction:
                          "never funded on record", treated as max opportunity)
   - recency_basis       ('award_year' | 'pis_year' | 'r1_bridge' | 'never_funded')
 
+Counties are the exception: they aggregate by CHFA's CNTY_FIPS (and
+2026 R1 awards by point-in-county-polygon), because a county name never
+matches a PROJ_CTY.
+
 Matches CHFA records to jurisdictions by uppercased city name against
 the entry's `name` field (stripping common LSAD suffixes — "city",
 "town", "CDP"). This is the same matching logic compare.js + the OF

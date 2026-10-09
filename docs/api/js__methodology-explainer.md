@@ -14,7 +14,7 @@ Usage
 -----
 Auto-attaches to any element with [data-methodology-key="<key>"]
 on page load. Looks up the key in METHODOLOGY_REGISTRY and renders
-a `<details>` summary/body next to the title.
+a keyboard-accessible explanation next to the title or figure.
 
 Example HTML:
   <h2>Renter cost burden by AMI <span data-methodology-key="chas-cb"></span></h2>

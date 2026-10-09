@@ -10,7 +10,8 @@ the rollup math in Node so it can detect regressions in:
   1. Data file integrity (all 10 source files load + have expected shape)
   2. QCT tract count (HUD 2025 publication)
   3. DDA county FIPS count (HUD 2025 publication — CO has 10 nonmetro)
-  4. LIHTC project geometry filtering (drop YR_PIS=8888 placeholders)
+  4. LIHTC project geometry filtering (drop placeholder award years; mirrors the
+     Opportunity Finder, which reads AwardYear — the feed's YR_PIS is a copy of it)
   5. Place-tract membership rollup (TIGER 2024)
   6. Place→county containment (every place has a 5-digit county FIPS)
   7. Score weight invariants (each target's weights sum to 1.0)
