@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-09T13:40:11.633184Z",
+  "generated": "2026-10-09T14:19:30.666642Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4134,7 +4134,7 @@
     "data/hna/local-resources-candidates.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 43494
+      "bytes": 39650
     },
     "data/hna/local-resources.json": {
       "featureCount": 0,
