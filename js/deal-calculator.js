@@ -2382,7 +2382,7 @@
 
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Interest Rate (%)</span>
-          <input id="dc-rate" type="number" min="3" max="12" step="0.1" value="6.5"
+          <input id="dc-rate" type="number" min="3" max="12" step="0.01" value="6.5"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
         </label>
         <!-- Perm-rate hint: FRED 10-year Treasury + a stated spread, wired by
@@ -5476,14 +5476,6 @@
     // read-only with respect to values, so it cannot alter a calculation.
     if (window.InputProvenance && typeof window.InputProvenance.apply === 'function') {
       try { window.InputProvenance.apply(mount); } catch (_) { /* never break render */ }
-      document.addEventListener('market-rates:loaded', function (event) {
-        var field = document.getElementById('dc-rate');
-        var rates = event.detail;
-        if (!field || !rates || !field.parentNode.querySelector('.live-rate-indicator')) return;
-        window.InputProvenance.mark(field, { status: 'assumption', source: 'FRED MORTGAGE30US',
-          sourceUrl: 'data/fred-data.json', vintage: rates.mortgageDate, geography: 'United States',
-          why: 'A screening rate proxy derived from the national mortgage series, not a local lender quote.' });
-      });
     }
 
     // Eagerly trigger the HUD LIHTC dataset load so the Peer Deals panel
@@ -7296,6 +7288,12 @@
     return null;
   }
 
+  // Set by any input/change on the rate field (typing, a prefill, the hint's
+  // own apply) and by shared-scenario hydration.
+  var _permRateWritten = false;
+  document.addEventListener('input', function (e) { if (e.target && e.target.id === 'dc-rate') _permRateWritten = true; }, true);
+  document.addEventListener('change', function (e) { if (e.target && e.target.id === 'dc-rate') _permRateWritten = true; }, true);
+
   function _initFreddieBenchmark() {
     function _go() {
       var target = document.getElementById('dc-freddie-benchmark');
@@ -7339,16 +7337,23 @@
           var r = current();
           hintEl.textContent = r == null ? '—' : r.toFixed(2) + '%';
         });
-        document.getElementById('dc-freddie-apply').addEventListener('click', function () {
-          var r = current();
-          if (r == null) return;
+        function apply(r) {
           input.value = r.toFixed(2);
           if (window.InputProvenance) window.InputProvenance.mark(input, { status: 'assumption',
             source: 'FRED DGS10 plus an assumed spread', sourceUrl: 'https://fred.stlouisfed.org/series/DGS10',
             vintage: t10.date, geography: 'United States',
             why: '10-year Treasury plus a stated spread; verify with a lender rate sheet.' });
           prefillEvents(input);
+        }
+        document.getElementById('dc-freddie-apply').addEventListener('click', function () {
+          var r = current();
+          if (r != null) apply(r);
         });
+        // The template's rate is an offline placeholder. Until anything
+        // writes the field, start from the hint so the page shows one rate
+        // rule; a rate the user typed or a shared link restored, even 6.5,
+        // is left alone.
+        if (!_permRateWritten) apply(t10.value + spread);
       }).catch(function () { /* silent — graceful degradation */ });
     }
     if (document.readyState === 'loading') {
@@ -7381,7 +7386,7 @@
     getUtilityAllowanceMetadata: getUtilityAllowanceMetadata,
     getRentScheduleMetadata: getRentScheduleMetadata,
     setSharedRentSchedule: setSharedRentSchedule,
-    beginSharedScenario: function () { _hydratingSharedScenario = true; _manualBaseValues = null; },
+    beginSharedScenario: function () { _hydratingSharedScenario = true; _permRateWritten = true; _manualBaseValues = null; },
     endSharedScenario: function () { restoreMarketOverrideDisplay(); _hydratingSharedScenario = false; recalculate(); },
     setSharedUtilityAllowance: setSharedUtilityAllowance,
     getAmiLimitsByBr: function () { return _amiLimitsByBr == null ? null : JSON.parse(JSON.stringify(_amiLimitsByBr)); },

@@ -236,8 +236,7 @@
   },
   "state_qap_pricing": {
     "checked": "2026-10-09",
-    "summary": "Colorado's QAP publishes no equity price: CHFA sets an equity factor in the Preliminary Application or uses the applicant's letter of interest. Of Colorado's North Central neighbors and Utah, New Mexico and Nebraska are the only plans with a number. New Mexico's recommended $0.85–$0.95 and Nebraska's $0.85 template both sit above Novogradac's Q2 2026 medians ($0.80 North Central, $0.81 Colorado, $0.82 Southwest). Underwriting at either figure would overstate equity at current market pricing.",
-    "not_verified": "Arizona's 2026 ranges ($0.77–$0.84 Maricopa/Pima, $0.75–$0.81 other counties, $0.74–$0.83 tribal land) appear only in secondary summaries; housing.az.gov refused scripted requests, so they are not recorded here.",
+    "summary": "Colorado's QAP publishes no equity price: CHFA sets an equity factor in the Preliminary Application or uses the applicant's letter of interest. Of Colorado's North Central neighbors and the Southwest, New Mexico, Nebraska and Arizona are the plans with a number. New Mexico's recommended $0.85–$0.95 and Nebraska's $0.85 template both sit above Novogradac's Q2 2026 medians ($0.80 North Central, $0.81 Colorado, $0.82 Southwest), so underwriting at either would overstate equity at current pricing. Arizona surveys investors before each round instead; its 2026 metro range of $0.77–$0.84 brackets those medians.",
     "entries": [
       {
         "state": "CO",
@@ -373,6 +372,21 @@
         "price_assumed": null,
         "quote": "",
         "note": "No pricing or equity-factor language."
+      },
+      {
+        "state": "AZ",
+        "name": "Arizona (ADOH)",
+        "document": "Information Bulletin No. 08-26, LIHTC Equity Pricing Survey (under the 2026-2027 QAP)",
+        "version": "issued 2026-02-23",
+        "source_url": "https://housing.az.gov/sites/default/files/2026-03/IB-08-26-LIHTC%20Equity%20Pricing%20Survey.pdf",
+        "section": "IB 08-26 (1 page); authority: 2026-2027 QAP §VI.B.4 Equity Pricing",
+        "status": "stated",
+        "credit_type": "Federal LIHTC (9%)",
+        "price_low": 0.77,
+        "price_high": 0.84,
+        "price_assumed": null,
+        "quote": "Based on the responses, the ranges for federal low income housing tax credit are: Metro $0.77 - $0.84 (any application in Maricopa or Pima County) Rural $0.75 - $0.81 (applications in all other counties) Tribal $0.74 - $0.83 (applications on eligible Tribal land) Submissions for the 2026 9% LIHTC Application deadline must reflect an amount of equity per LIHTC dollar based on the above.",
+        "note": "The range shown is Metro (Maricopa and Pima); other counties are $0.75–$0.81 and tribal land $0.74–$0.83. ADOH surveys equity providers before each round, as the QAP directs, and applications must price within the range. housing.az.gov blocks scripted requests, so the bulletin was read through a text-reader proxy on 2026-10-09; the August 2026 amended QAP was not read."
       }
     ]
   }

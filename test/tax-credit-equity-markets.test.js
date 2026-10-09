@@ -124,6 +124,14 @@ console.log('='.repeat(46));
   assert(doc.getElementById('tceQapSummary').textContent.includes(qap.checked), 'summary shows when the plans were checked');
   assert(doc.querySelector('[data-transfer-id="itc-transfer-investment-grade-2025"]'), 'ITC transfer market row renders');
   assert(doc.querySelector('[data-transfer-id="nmtc-equity-pricing"]'), 'NMTC unverified pricing row renders');
+  // A row whose low and high are one figure is an average, never shown as a range.
+  const transfer = readJson('data/market/tax-credit-transfer-pricing.json');
+  const averages = transfer.markets.filter((m) => m.price_low != null && m.price_low === m.price_high);
+  assert(averages.length > 0, 'the transfer scan found averages to check');
+  for (const m of averages) {
+    const cell = doc.querySelector(`[data-transfer-id="${m.id}"]`).cells[2].textContent.trim();
+    assert.strictEqual(cell, `$${Math.round(m.price_low * 1000) / 1000} average`, `${m.id} shows its average`);
+  }
   assert(doc.querySelector('[data-policy-id="cra-2025-rescission-npr"]'), 'CRA rescission NPR policy card renders');
   assert(doc.querySelector('[data-policy-id="obbba-lihtc-ceiling-12pct"]'), 'LIHTC enacted policy card renders');
 
