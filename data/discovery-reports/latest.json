@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-10-08T14:33:07.306Z",
-  "totalScanned": 1705,
-  "newSourceCount": 1674,
+  "scanTimestamp": "2026-10-09T14:20:31.988Z",
+  "totalScanned": 1704,
+  "newSourceCount": 1673,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 830852,
+      "sizeBytes": 830455,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7237,
+      "sizeBytes": 7238,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -128,7 +128,7 @@
     },
     {
       "path": "data/audit/upstream-vintage-watch.json",
-      "sizeBytes": 803,
+      "sizeBytes": 844,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -284,7 +284,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 258500,
+      "sizeBytes": 258644,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4850,7 +4850,7 @@
     },
     {
       "path": "data/hna/local-resources-candidates.json",
-      "sizeBytes": 43494,
+      "sizeBytes": 39650,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9014,7 +9014,7 @@
     },
     {
       "path": "data/market/colorado-foreclosure-performance.json",
-      "sizeBytes": 49077,
+      "sizeBytes": 49548,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9109,12 +9109,6 @@
       "inFilesManifest": true
     },
     {
-      "path": "data/market/freddie-mac-multifamily-outlook.json",
-      "sizeBytes": 3657,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
       "path": "data/market/hospitals_co.geojson",
       "sizeBytes": 76214,
       "inDataManifest": false,
@@ -9152,7 +9146,7 @@
     },
     {
       "path": "data/market/lihtc-equity-pricing-history.json",
-      "sizeBytes": 2370,
+      "sizeBytes": 5536,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9182,7 +9176,7 @@
     },
     {
       "path": "data/market/novogradac-equity-pricing.json",
-      "sizeBytes": 5307,
+      "sizeBytes": 17971,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9248,7 +9242,7 @@
     },
     {
       "path": "data/market/tax-credit-transfer-pricing.json",
-      "sizeBytes": 3439,
+      "sizeBytes": 5457,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9800,7 +9794,7 @@
     },
     {
       "path": "data/policy/homeownership-programs.json",
-      "sizeBytes": 16701,
+      "sizeBytes": 17186,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9830,7 +9824,7 @@
     },
     {
       "path": "data/policy/lihtc-assumptions.json",
-      "sizeBytes": 3881,
+      "sizeBytes": 4301,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9866,7 +9860,7 @@
     },
     {
       "path": "data/policy/research-orgs-housing.json",
-      "sizeBytes": 7859,
+      "sizeBytes": 7983,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9926,7 +9920,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 12561,
+      "sizeBytes": 12565,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9980,7 +9974,7 @@
     },
     {
       "path": "data/reports/developer-url-health.json",
-      "sizeBytes": 20466,
+      "sizeBytes": 24571,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10022,7 +10016,7 @@
     },
     {
       "path": "data/url-health.json",
-      "sizeBytes": 427583,
+      "sizeBytes": 428599,
       "inDataManifest": false,
       "inFilesManifest": true
     },
