@@ -219,34 +219,128 @@
       '</tbody></table>';
   }
 
+  // Quarterly 9%/4% history as an SVG line chart with labelled axes. The
+  // chart is drawn at the container's pixel width so tick labels stay a
+  // readable size on phones and wide screens alike, and redrawn on resize.
+  // Axis groups carry data-axis="x"/"y" so scripts/audit/chart-axes-audit.mjs
+  // can confirm the axes rendered.
+  function finitePrice(v) { return typeof v === 'number' && isFinite(v) && v > 0; }
+
   function renderHistory(target, doc) {
     if (!target) return;
-    var rows = doc && Array.isArray(doc.quarterly) ? doc.quarterly : [];
+    var rows = doc && Array.isArray(doc.quarterly) ? doc.quarterly.filter(function (row) {
+      return row && /^\d{4}-Q[1-4]$/.test(String(row.quarter)) && (finitePrice(row.nine) || finitePrice(row.four));
+    }) : [];
     if (!rows.length) {
       target.innerHTML = '<p style="color:var(--muted);">Pricing history unavailable.</p>';
       return;
     }
-    var last = rows[rows.length - 1];
     var first = rows[0];
-    var min = Math.min.apply(null, rows.map(function (row) { return Math.min(row.nine, row.four); })) - 0.02;
-    var max = Math.max.apply(null, rows.map(function (row) { return Math.max(row.nine, row.four); })) + 0.02;
-    var range = max - min || 0.1;
-    function point(row, i, key) {
-      var x = 4 + (i / Math.max(1, rows.length - 1)) * 92;
-      var y = 92 - ((row[key] - min) / range) * 78;
-      return x.toFixed(2) + ',' + y.toFixed(2);
+    var last = rows[rows.length - 1];
+    var values = [];
+    rows.forEach(function (row) {
+      if (finitePrice(row.nine)) values.push(row.nine);
+      if (finitePrice(row.four)) values.push(row.four);
+    });
+
+    var W = Math.max(320, Math.min(1100, Math.round(target.clientWidth || 720)));
+    var H = W < 520 ? 260 : 300;
+    var padL = 74, padR = 16, padT = 34, padB = 46;
+    var plotW = W - padL - padR;
+    var plotH = H - padT - padB;
+
+    var lo = Math.min.apply(null, values);
+    var hi = Math.max.apply(null, values);
+    var step = (hi - lo) > 0.12 ? 0.05 : 0.02;
+    var yMin = Math.floor((lo - 0.005) / step) * step;
+    var yMax = Math.ceil((hi + 0.005) / step) * step;
+    if (yMax - yMin < step * 2) yMax = yMin + step * 2;
+
+    function x(i) { return padL + (rows.length > 1 ? (i / (rows.length - 1)) * plotW : plotW / 2); }
+    function y(v) { return padT + plotH - ((v - yMin) / (yMax - yMin)) * plotH; }
+    function f(n) { return n.toFixed(1); }
+
+    var yAxis = '';
+    var nTicks = Math.round((yMax - yMin) / step);
+    for (var t = 0; t <= nTicks; t++) {
+      var tv = yMin + t * step;
+      yAxis += '<line x1="' + padL + '" y1="' + f(y(tv)) + '" x2="' + (W - padR) + '" y2="' + f(y(tv)) + '" stroke="var(--border)" stroke-width="1"/>' +
+        '<text data-tick x="' + (padL - 8) + '" y="' + f(y(tv) + 4) + '" font-size="12" text-anchor="end" fill="var(--muted)">$' + tv.toFixed(2) + '</text>';
     }
-    var line9 = rows.map(function (row, i) { return point(row, i, 'nine'); }).join(' ');
-    var line4 = rows.map(function (row, i) { return point(row, i, 'four'); }).join(' ');
+    yAxis += '<text data-axis-title x="14" y="' + f(padT + plotH / 2) + '" font-size="12" text-anchor="middle" fill="var(--muted)" transform="rotate(-90 14 ' + f(padT + plotH / 2) + ')">Equity per $1 of credit</text>';
+
+    // One tick per year, at its Q1 (a partial first year gets no tick, so
+    // its label cannot crowd the next one); every other year on narrow charts.
+    var xAxis = '<line x1="' + padL + '" y1="' + (padT + plotH) + '" x2="' + (W - padR) + '" y2="' + (padT + plotH) + '" stroke="var(--muted)" stroke-width="1"/>';
+    var seenYears = [];
+    rows.forEach(function (row, i) {
+      var yr = row.quarter.slice(0, 4);
+      if (row.quarter.slice(5) !== 'Q1' || seenYears.indexOf(yr) !== -1) return;
+      seenYears.push(yr);
+      if (W < 520 && seenYears.length % 2 === 0) return;
+      xAxis += '<line x1="' + f(x(i)) + '" y1="' + (padT + plotH) + '" x2="' + f(x(i)) + '" y2="' + (padT + plotH + 5) + '" stroke="var(--muted)" stroke-width="1"/>' +
+        '<text data-tick x="' + f(x(i)) + '" y="' + (padT + plotH + 19) + '" font-size="12" text-anchor="middle" fill="var(--muted)">' + esc(yr) + '</text>';
+    });
+    xAxis += '<text data-axis-title x="' + f(padL + plotW / 2) + '" y="' + (H - 6) + '" font-size="12" text-anchor="middle" fill="var(--muted)">' +
+      'Quarter, ' + esc(first.quarter) + ' to ' + esc(last.quarter) + (W < 520 ? '' : ' (national average of syndicator LOI pricing)') + '</text>';
+
+    // A missing quarter breaks the line rather than being drawn as $0.
+    function path(key) {
+      var d = '';
+      var pen = false;
+      rows.forEach(function (row, i) {
+        if (!finitePrice(row[key])) { pen = false; return; }
+        d += (pen ? 'L' : 'M') + f(x(i)) + ' ' + f(y(row[key]));
+        pen = true;
+      });
+      return d;
+    }
+
+    function latest(key) {
+      for (var i = rows.length - 1; i >= 0; i--) if (finitePrice(rows[i][key])) return rows[i][key];
+      return null;
+    }
+
+    var legend =
+      '<g data-legend font-size="12">' +
+        '<line x1="' + padL + '" y1="14" x2="' + (padL + 26) + '" y2="14" stroke="var(--accent)" stroke-width="3"/>' +
+        '<text x="' + (padL + 32) + '" y="18" fill="var(--text)">9% credits (latest ' + dollars(latest('nine')) + ')</text>' +
+        '<line x1="' + (padL + 220) + '" y1="14" x2="' + (padL + 246) + '" y2="14" stroke="var(--warn)" stroke-width="3" stroke-dasharray="6 4"/>' +
+        '<text x="' + (padL + 252) + '" y="18" fill="var(--text)">4% credits (latest ' + dollars(latest('four')) + ')</text>' +
+      '</g>';
+    if (W < 520) {
+      legend =
+        '<g data-legend font-size="12">' +
+          '<line x1="' + padL + '" y1="10" x2="' + (padL + 22) + '" y2="10" stroke="var(--accent)" stroke-width="3"/>' +
+          '<text x="' + (padL + 28) + '" y="14" fill="var(--text)">9% ' + dollars(latest('nine')) + '</text>' +
+          '<line x1="' + (padL + 110) + '" y1="10" x2="' + (padL + 132) + '" y2="10" stroke="var(--warn)" stroke-width="3" stroke-dasharray="6 4"/>' +
+          '<text x="' + (padL + 138) + '" y="14" fill="var(--text)">4% ' + dollars(latest('four')) + '</text>' +
+        '</g>';
+    }
+
     target.innerHTML =
-      '<svg viewBox="0 0 100 100" role="img" aria-label="LIHTC equity pricing history from ' + esc(first.quarter) + ' to ' + esc(last.quarter) + '" style="width:100%;height:auto;max-height:280px;">' +
-        '<polyline points="' + line9 + '" fill="none" stroke="var(--accent)" stroke-width="2.2"/>' +
-        '<polyline points="' + line4 + '" fill="none" stroke="var(--warn)" stroke-width="2.2" stroke-dasharray="3 2"/>' +
-        '<text x="4" y="98" font-size="4" fill="var(--muted)">' + esc(first.quarter) + '</text>' +
-        '<text x="96" y="98" font-size="4" text-anchor="end" fill="var(--muted)">' + esc(last.quarter) + '</text>' +
-        '<text x="96" y="10" font-size="4" text-anchor="end" fill="var(--accent)">9% ' + dollars(last.nine) + '</text>' +
-        '<text x="96" y="17" font-size="4" text-anchor="end" fill="var(--warn)">4% ' + dollars(last.four) + '</text>' +
+      '<svg data-chart="lihtc-equity-history" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" role="img" ' +
+        'aria-label="LIHTC equity pricing per dollar of credit, 9% and 4%, ' + esc(first.quarter) + ' to ' + esc(last.quarter) +
+        '; latest 9% ' + dollars(latest('nine')) + ', 4% ' + dollars(latest('four')) + '" style="display:block;max-width:100%;height:auto;">' +
+        legend +
+        '<g data-axis="y">' + yAxis + '</g>' +
+        '<g data-axis="x">' + xAxis + '</g>' +
+        '<path d="' + path('nine') + '" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>' +
+        '<path d="' + path('four') + '" fill="none" stroke="var(--warn)" stroke-width="2.5" stroke-dasharray="6 4" stroke-linejoin="round"/>' +
       '</svg>';
+
+    if (!target.__tceHistoryResize && typeof window !== 'undefined' && window.addEventListener) {
+      var timer = null;
+      var lastWidth = W;
+      target.__tceHistoryResize = function () {
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          var w = Math.max(320, Math.min(1100, Math.round(target.clientWidth || 720)));
+          if (w !== lastWidth) { lastWidth = w; renderHistory(target, doc); }
+        }, 150);
+      };
+      window.addEventListener('resize', target.__tceHistoryResize);
+    }
   }
 
   function renderExplainerMatrix(target) {

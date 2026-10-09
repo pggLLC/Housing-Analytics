@@ -86,6 +86,26 @@ console.log('='.repeat(46));
     'deal-calculator.html#dc-equity-price', 'pricing assumptions link to the calculator');
   assert(doc.querySelector('#tceHistoryChart svg'), 'LIHTC history chart renders from JSON');
   assert(bodyText.includes('2026-Q2'), 'history chart exposes the current quarterly vintage');
+  // The history chart has readable axes, and they agree with the file it
+  // draws: the y range spans every price, the x ticks are the file's years,
+  // and the legend's latest values are the last quarter's. (2026-10-09: it
+  // shipped with neither axis.)
+  {
+    const hist = readJson('data/market/lihtc-equity-pricing-history.json').quarterly;
+    const svg = doc.querySelector('#tceHistoryChart svg');
+    const ticks = (axis) => Array.from(svg.querySelectorAll('[data-axis="' + axis + '"] [data-tick]')).map((t) => t.textContent.trim());
+    const yTicks = ticks('y').map((t) => Number(t.replace('$', '')));
+    assert(yTicks.length >= 2 && yTicks.every(Number.isFinite), 'y axis has dollar tick labels: ' + ticks('y').join(' '));
+    const prices = hist.flatMap((r) => [r.nine, r.four]);
+    assert(Math.min(...yTicks) <= Math.min(...prices) && Math.max(...yTicks) >= Math.max(...prices),
+      'y axis range covers every price in the file');
+    const years = Array.from(new Set(hist.filter((r) => /Q1$/.test(r.quarter)).map((r) => r.quarter.slice(0, 4))));
+    assert.deepStrictEqual(ticks('x'), years, 'x axis ticks are the years in the file');
+    assert(svg.querySelector('[data-axis="y"] [data-axis-title]').textContent.trim(), 'y axis has a title');
+    const legend = svg.querySelector('[data-legend]').textContent;
+    const lastRow = hist[hist.length - 1];
+    assert(legend.includes('$' + lastRow.nine.toFixed(2)) && legend.includes('$' + lastRow.four.toFixed(2)), 'legend shows the latest 9% and 4% prices');
+  }
   // The table shows the file's prices, whatever they are this quarter.
   const bench = readJson('data/market/novogradac-equity-pricing.json');
   const tableText = doc.querySelector('#tceNovogradacTable').textContent.replace(/\s+/g, ' ');
