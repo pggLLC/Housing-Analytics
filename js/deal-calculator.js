@@ -17,8 +17,8 @@
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
   var _creditRate = _cfg.creditRate9Pct || 0.09;
   var _equityPricingDefaults = {
-    credit_9pct: _cfg.equityPrice9Pct || 0.86,
-    credit_4pct: _cfg.equityPrice4Pct || 0.84
+    credit_9pct: _cfg.equityPrice9Pct || 0.82,
+    credit_4pct: _cfg.equityPrice4Pct || 0.83
   };
   var EQUITY_PRICE_DEFAULT = _equityPricingDefaults.credit_9pct;
   var _amiGapData = null;       // cached co_ami_gap_by_county.json
@@ -109,6 +109,12 @@
     return isFinite(n) && n > 0 ? n : null;
   }
 
+  function _escHtml(value) {
+    return String(value).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
   function _getCreditPricingDefault(is4Pct) {
     return is4Pct ? _equityPricingDefaults.credit_4pct : _equityPricingDefaults.credit_9pct;
   }
@@ -127,8 +133,8 @@
     if (!input) return defaultPrice;
     var current = _numOrNull(input.value);
     var shouldUpdate = opts.force || current == null ||
-      Math.abs(current - (_cfg.equityPrice9Pct || 0.86)) < 0.0001 ||
-      Math.abs(current - (_cfg.equityPrice4Pct || 0.84)) < 0.0001;
+      Math.abs(current - (_cfg.equityPrice9Pct || 0.82)) < 0.0001 ||
+      Math.abs(current - (_cfg.equityPrice4Pct || 0.83)) < 0.0001;
     if (shouldUpdate) {
       input.value = defaultPrice.toFixed(2);
       if (window.InputProvenance) window.InputProvenance.mark(input, { status: 'assumption',
@@ -2649,7 +2655,7 @@
         <p id="dc-gap-note" style="margin-top:var(--sp2);font-size:var(--tiny);color:var(--muted);display:none;"></p>
         <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
           ⚠ Verify: Annual credits and equity are illustrative — confirm equity pricing with your syndicator
-          (CO market typically $0.85–$0.95/credit). Gross rents follow the selected rent-limit setting;
+          (compare the Novogradac benchmark shown under Credit Pricing). Gross rents follow the selected rent-limit setting;
           the rent comparison names its source and year. Spot-check against current market rents before underwriting.
         </p>
         </div>
@@ -3140,7 +3146,7 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp2) var(--sp3);">
         <label style="display:block;">
           <span style="color:var(--muted);">Credit Pricing ($/credit)</span>
-          <input id="dc-equity-price" type="number" min="0.50" max="1.20" step="0.01" value="0.86"
+          <input id="dc-equity-price" type="number" min="0.50" max="1.20" step="0.01" value="0.82"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
           <p style="margin:.4rem 0;">Review benchmarks in <a data-workflow-link="deal-equity" href="article-pricing.html">Tax Credit Equity Markets</a>.</p>
           <!-- F230 — Novogradac equity pricing benchmark button. Populated
@@ -7002,8 +7008,8 @@
   //
   //   1. **County match** (40 pts) — exact county FIPS hit
   //   2. **Unit count proximity** (25 pts) — within ±20% of proposed
-  //   3. **Credit type match** (15 pts) — 9% / 4% — based on proposed equity
-  //      pricing (>$0.85 → 9%, ≤ $0.85 → 4% typically)
+  //   3. **Credit type match** (15 pts) — 9% / 4% — from the calculator's
+  //      credit-rate selector
   //   4. **Project type match** (10 pts) — new construction vs preservation
   //   5. **Recency** (10 pts) — award_year ≥ 2020 = max; earlier = scaled
   //
@@ -7032,11 +7038,11 @@
     }
 
     function _proposedCreditType() {
-      // Heuristic: equity pricing >= $0.85/credit → 9% deal; otherwise 4%.
-      // (9% deals trade above $0.85 in 2026; 4% bond deals below.)
-      var priceEl = document.getElementById('dc-equity-price');
-      var price = priceEl ? +priceEl.value || 0.90 : 0.90;
-      return price >= 0.85 ? '9%' : '4%';
+      // The calculator's own 9%/4% selector. This used to be inferred from the
+      // equity price (>= $0.85 meant 9%), which stopped working once 4%
+      // credits began pricing at or above 9% in 2025-Q3.
+      var rate4 = document.getElementById('dc-rate-4');
+      return rate4 && rate4.checked ? '4%' : '9%';
     }
     function _normCreditType(s) {
       if (!s) return null;
@@ -7215,45 +7221,46 @@
           if (!j || !j.pricing) return;
           _applyNovogradacPricingDefaults(j, { force: true });
           var nat = j.pricing.national_avg || {};
-          var co  = j.pricing.colorado_specific || {};
-          var denver = co.denver_msa || {};
-          var rural  = co.rural_colorado || {};
+          var co = (j.pricing.by_state && j.pricing.by_state.CO) || {};
           var asOf = (j.meta && j.meta.as_of) || '—';
+          // A missing or non-positive price is unknown: show a dash, offer no button.
+          var fmt = function (v) { var n = _numOrNull(v); return n ? '$' + n.toFixed(2) : '—'; };
+          var options = [
+            { price: _numOrNull(nat.credit_9pct), label: 'national 9%', geography: 'United States (9% credits)' },
+            { price: _numOrNull(nat.credit_4pct), label: 'national 4%', geography: 'United States (4% credits)' },
+            { price: _numOrNull(co.median_all_credits), label: 'Colorado median', geography: 'Colorado (all credit types)' }
+          ];
           target.innerHTML =
             '<div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;">' +
-              '<span><strong style="color:var(--accent);">📊 Novogradac ' + asOf + ':</strong> ' +
-                'national 9% = <strong>$' + (nat.credit_9pct || '—').toFixed(2) + '</strong>; ' +
-                'national 4% = <strong>$' + (nat.credit_4pct || '—').toFixed(2) + '</strong>; ' +
-                'Denver MSA 9% = <strong>$' + (denver.credit_9pct || '—').toFixed(2) + '</strong>; ' +
-                'rural CO 9% = <strong>$' + (rural.credit_9pct || '—').toFixed(2) + '</strong>.' +
+              '<span><strong style="color:var(--accent);">📊 Novogradac ' + _escHtml(asOf) + ':</strong> ' +
+                'national 9% = <strong>' + fmt(nat.credit_9pct) + '</strong>; ' +
+                'national 4% = <strong>' + fmt(nat.credit_4pct) + '</strong>; ' +
+                'Colorado median (all credits) = <strong>' + fmt(co.median_all_credits) + '</strong>.' +
               '</span>' +
               '<div style="display:flex;gap:.3rem;flex-wrap:wrap;">' +
-                '<button type="button" class="dc-novo-apply" data-price="' + (denver.credit_9pct || nat.credit_9pct) + '" ' +
-                        'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
-                  'Use Denver 9% ($' + (denver.credit_9pct || nat.credit_9pct || 0).toFixed(2) + ')' +
-                '</button>' +
-                '<button type="button" class="dc-novo-apply" data-price="' + (rural.credit_9pct || nat.credit_9pct) + '" ' +
-                        'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
-                  'Use rural CO 9% ($' + (rural.credit_9pct || nat.credit_9pct || 0).toFixed(2) + ')' +
-                '</button>' +
+                options.map(function (o, index) {
+                  if (!o.price) return '';
+                  return '<button type="button" class="dc-novo-apply" data-option="' + index + '" data-price="' + o.price + '" ' +
+                          'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
+                    'Use ' + o.label + ' ($' + o.price.toFixed(2) + ')' +
+                  '</button>';
+                }).join('') +
               '</div>' +
             '</div>' +
             '<div style="margin-top:.25rem;font-size:.68rem;color:var(--faint);">' +
-              'Source: <a href="' + ((j.meta && j.meta.source_url) || 'https://www.novoco.com') + '" target="_blank" rel="noopener" style="color:var(--accent);">Novogradac & Co. LLP</a> · ' +
-              'Vintage ' + ((j.meta && j.meta.vintage) || '—') + ' · ' +
+              'Source: <a href="' + _escHtml((j.meta && j.meta.source_url) || 'https://www.novoco.com') + '" target="_blank" rel="noopener" style="color:var(--accent);">Novogradac & Co. LLP</a> · ' +
+              'Vintage ' + _escHtml((j.meta && j.meta.vintage) || '—') + ' · ' +
               'Verify against current Novogradac publication before quoting in IC memo.' +
             '</div>';
           // Wire the apply buttons
-          target.querySelectorAll('.dc-novo-apply').forEach(function (btn, index) {
+          target.querySelectorAll('.dc-novo-apply').forEach(function (btn) {
             btn.addEventListener('click', function () {
-              var p = parseFloat(btn.getAttribute('data-price'));
-              if (isFinite(p) && p > 0) {
-                input.value = p.toFixed(2);
+              var o = options[+btn.getAttribute('data-option')];
+              if (o && o.price) {
+                input.value = o.price.toFixed(2);
                 if (window.InputProvenance) window.InputProvenance.mark(input, { status: 'assumption',
                   source: j.meta && j.meta.source, sourceUrl: j.meta && j.meta.source_url,
-                  vintage: j.meta && j.meta.vintage, geography: index === 0
-                    ? (denver.credit_9pct ? 'Denver-Aurora-Lakewood MSA' : 'United States')
-                    : (rural.credit_9pct ? 'Rural Colorado' : 'United States'),
+                  vintage: j.meta && j.meta.vintage, geography: o.geography,
                   why: 'A published-context screening estimate; verify current project-specific pricing.' });
                 prefillEvents(input);
               }

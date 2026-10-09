@@ -39,7 +39,11 @@ assert(!dcSrc.includes("safeVal('dc-vacancy') || 7"), 'vacancy reads no longer d
 assert(dcSrc.includes('function vacFrac()'), 'central vacancy fraction helper exists');
 assert(dcSrc.includes('return (Number.isFinite(v) ? v : 7) / 100;'), 'vacancy helper honors 0 and defaults missing values to 7%');
 
-assert(dcSrc.includes('id="dc-equity-price" type="number" min="0.50" max="1.20" step="0.01" value="0.86"'), 'rendered equity pricing input defaults to 0.86');
+{
+  // The template's starting value is the benchmark's national 9% price.
+  const nine = require('../data/market/novogradac-equity-pricing.json').pricing.national_avg.credit_9pct;
+  assert(dcSrc.includes(`id="dc-equity-price" type="number" min="0.50" max="1.20" step="0.01" value="${nine.toFixed(2)}"`), 'rendered equity pricing input defaults to the benchmark 9% price');
+}
 assert(!dcSrc.includes('id="dc-equity-price" type="number" min="0.50" max="1.20" step="0.01" value="0.90"'), 'stale 0.90 equity pricing default removed from calculator template');
 assert(html.includes("safeVal('dc-equity-price')"), 'deal-calculator.html still exports the live equity pricing input');
 

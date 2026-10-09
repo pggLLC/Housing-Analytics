@@ -63,6 +63,11 @@ const BENCHMARK_FILES = [
   {
     file: 'data/market/novogradac-equity-pricing.json',
     label: 'Novogradac LIHTC equity pricing',
+    // Quarterly, published about a quarter after the quarter ends, so a
+    // current snapshot is 90–200 days past its as_of (the quarter's last day).
+    // next_expected_update is the sharper signal, and equity-pricing-watch.mjs
+    // opens the capture reminder from it.
+    staleAfterDays: 200,
   },
   {
     file: 'data/market/freddie-mac-multifamily-outlook.json',

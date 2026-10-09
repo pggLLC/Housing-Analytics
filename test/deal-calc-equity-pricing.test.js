@@ -27,10 +27,15 @@ const constants = {
 console.log('\nDeal Calculator equity-pricing benchmark tests');
 console.log('='.repeat(56));
 
-assert.strictEqual(benchmark.pricing.national_avg.credit_9pct, 0.86, 'benchmark 9% price is Q2 2026 value');
-assert.strictEqual(benchmark.pricing.national_avg.credit_4pct, 0.84, 'benchmark 4% price is Q2 2026 value');
-assert.strictEqual(constants.credit_9pct, 0.86, 'financial constants 9% fallback matches Q2 2026 benchmark');
-assert.strictEqual(constants.credit_4pct, 0.84, 'financial constants 4% fallback matches Q2 2026 benchmark');
+// The offline fallbacks agree with the benchmark file, whatever quarter it is.
+const NAT = benchmark.pricing.national_avg;
+const price = (v) => v.toFixed(2);
+assert(NAT.credit_9pct > 0 && NAT.credit_4pct > 0, 'benchmark prices both credit types');
+assert.strictEqual(constants.credit_9pct, NAT.credit_9pct, 'financial constants 9% fallback matches the benchmark file');
+assert.strictEqual(constants.credit_4pct, NAT.credit_4pct, 'financial constants 4% fallback matches the benchmark file');
+const dcFallback = dcSrc.match(/credit_9pct: _cfg\.equityPrice9Pct \|\| ([0-9.]+),\s*credit_4pct: _cfg\.equityPrice4Pct \|\| ([0-9.]+)/);
+assert(dcFallback, 'calculator last-resort fallbacks found');
+assert.deepStrictEqual([Number(dcFallback[1]), Number(dcFallback[2])], [NAT.credit_9pct, NAT.credit_4pct], 'calculator last-resort fallbacks match the benchmark file');
 assert.strictEqual(assumptions.equityPricing.default9Pct, constants.credit_9pct, 'assumptions 9% fallback is synced to financial constants');
 assert.strictEqual(assumptions.equityPricing.default4Pct, constants.credit_4pct, 'assumptions 4% fallback is synced to financial constants');
 assert(fs.readFileSync(path.join(root, 'scripts', 'audit', 'benchmark-freshness-check.mjs'), 'utf8').includes('data/policy/lihtc-assumptions.json'), 'freshness audit includes LIHTC assumptions');
@@ -80,7 +85,7 @@ const input = document.getElementById('dc-equity-price');
 const rate9 = document.getElementById('dc-rate-9');
 const rate4 = document.getElementById('dc-rate-4');
 assert(input && rate9 && rate4, 'pricing input and rate toggles render');
-assert.strictEqual(input.value, '0.86', 'markup starts from current benchmark value before benchmark helper');
+assert.strictEqual(input.value, price(NAT.credit_9pct), 'markup starts from current benchmark value before benchmark helper');
 
 Predictor._resetPricingDefaultsForTest();
 assert.deepStrictEqual(dc.getEquityPricingDefaults(), constants, 'calculator fallback defaults match financial constants without benchmark');
@@ -88,13 +93,13 @@ assert.deepStrictEqual(Predictor._getEquityPricingDefaults(), constants, 'predic
 
 const applied = dc.applyNovogradacPricingDefaults(benchmark, { force: true, dispatch: false });
 assert.strictEqual(applied, true, 'valid benchmark data applies');
-assert.strictEqual(input.value, '0.86', '9% input prefers benchmark over fallback constant');
+assert.strictEqual(input.value, price(NAT.credit_9pct), '9% input prefers benchmark over fallback constant');
 assert.strictEqual(Predictor._applyNovogradacPricingDefaults(benchmark), true, 'predictor accepts valid Novogradac benchmark');
 assert.deepStrictEqual(Predictor._getEquityPricingDefaults(), dc.getEquityPricingDefaults(), 'calculator and predictor benchmark defaults match');
 
 rate4.checked = true;
 rate4.dispatchEvent(new Event('change', { bubbles: true }));
-assert.strictEqual(input.value, '0.84', '4% toggle uses benchmark 4% value');
+assert.strictEqual(input.value, price(NAT.credit_4pct), '4% toggle uses benchmark 4% value');
 
 const before = input.value;
 const missing = dc.applyNovogradacPricingDefaults({ pricing: { national_avg: { credit_9pct: null } } }, { force: true, dispatch: false });
