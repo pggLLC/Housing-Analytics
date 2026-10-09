@@ -16,6 +16,10 @@
 //      drifted: when the monitor's median sits more than DRIFT_TOLERANCE
 //      outside the file's national 9%–4% range, one issue per monitor edition.
 //
+// Tax Credit Advisor answers GitHub-hosted runners with HTTP 403, so the
+// script also tries the monitor's predictable upload URLs; when nothing can be
+// read it opens a "not checked this month" issue instead of passing.
+//
 // Commits nothing. The monitor's median is a different measure (closed-deal
 // median vs Novogradac's average letter-of-intent bid), so a gap is a prompt
 // to re-check, not a correction to apply.
@@ -132,21 +136,75 @@ export function driftFinding(bench, monitor, url, markers = new Set(), tolerance
   };
 }
 
-async function fetchMonitor(log) {
-  const index = await fetch(MONITOR_INDEX, { headers: { 'User-Agent': UA } });
-  if (!index.ok) throw new Error(`Tax Credit Advisor home page: HTTP ${index.status}`);
-  const url = findMonitorUrl(await index.text());
-  if (!url) throw new Error('No Housing Tax Credit Monitor PDF is linked from the Tax Credit Advisor home page.');
-  const pdf = await fetch(url, { headers: { 'User-Agent': UA } });
-  if (!pdf.ok) throw new Error(`${url}: HTTP ${pdf.status}`);
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tca-monitor-'));
-  const file = path.join(dir, 'monitor.pdf');
-  fs.writeFileSync(file, Buffer.from(await pdf.arrayBuffer()));
-  const text = execFileSync('pdftotext', ['-layout', file, '-'], { encoding: 'utf8' });
-  const monitor = parseMonitor(text);
-  if (!monitor) throw new Error(`${url}: could not find the surveyed median in the PDF text; the monitor's wording may have changed.`);
-  log(`Monitor ${url}: median ${money(monitor.median)} across ${monitor.properties} properties, ${monitor.period}.`);
-  return { url, monitor };
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+  'August', 'September', 'October', 'November', 'December'];
+
+/**
+ * Pure: likely monitor URLs around a date, newest first. Each edition is named
+ * for a month and uploaded in the month before (the October 2026 monitor sits
+ * under uploads/2026/09/). Used when the home page cannot be read: Tax Credit
+ * Advisor answers GitHub-hosted runners with HTTP 403.
+ */
+export function candidateMonitorUrls(todayIso) {
+  const [y, m] = todayIso.split('-').map(Number);
+  const urls = [];
+  for (let offset = 1; offset >= -1; offset--) {
+    const k = y * 12 + (m - 1) + offset; // the edition's month
+    const up = k - 1; // its upload folder
+    urls.push(`https://www.taxcreditadvisor.com/wp-content/uploads/${Math.floor(up / 12)}/${String(up % 12 + 1).padStart(2, '0')}/` +
+      `TCA-Housing-Tax-Credit-Monitor_${MONTH_NAMES[k % 12]}_${Math.floor(k / 12)}.pdf`);
+  }
+  return urls;
+}
+
+async function fetchMonitor(todayIso, log) {
+  const tried = [];
+  let urls = [];
+  try {
+    const index = await fetch(MONITOR_INDEX, { headers: { 'User-Agent': UA } });
+    if (!index.ok) throw new Error(`HTTP ${index.status}`);
+    const found = findMonitorUrl(await index.text());
+    if (found) urls.push(found);
+    else tried.push(`${MONITOR_INDEX}: no monitor PDF linked`);
+  } catch (error) {
+    tried.push(`${MONITOR_INDEX}: ${error.message}`);
+  }
+  for (const u of candidateMonitorUrls(todayIso)) if (!urls.includes(u)) urls.push(u);
+  for (const url of urls) {
+    const pdf = await fetch(url, { headers: { 'User-Agent': UA } }).catch((e) => ({ ok: false, status: e.message }));
+    const type = pdf.headers && pdf.headers.get('content-type');
+    if (!pdf.ok || !/pdf/i.test(type || '')) { tried.push(`${url}: HTTP ${pdf.status}`); continue; }
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tca-monitor-'));
+    const file = path.join(dir, 'monitor.pdf');
+    fs.writeFileSync(file, Buffer.from(await pdf.arrayBuffer()));
+    const text = execFileSync('pdftotext', ['-layout', file, '-'], { encoding: 'utf8' });
+    const monitor = parseMonitor(text);
+    if (!monitor) { tried.push(`${url}: surveyed median not found in the PDF text (wording may have changed)`); continue; }
+    log(`Monitor ${url}: median ${money(monitor.median)} across ${monitor.properties} properties, ${monitor.period}.`);
+    return { url, monitor };
+  }
+  const error = new Error(`Could not read a CohnReznick Housing Tax Credit Monitor:\n  - ${tried.join('\n  - ')}`);
+  error.tried = tried;
+  throw error;
+}
+
+/** Pure: the issue that says the cross-check could not run this month, or null if already open. */
+export function unreachableIssue(todayIso, tried, markers = new Set()) {
+  const marker = `<!-- equity-pricing:monitor-unreachable@${todayIso.slice(0, 7)} -->`;
+  if (markers.has(marker)) return null;
+  return {
+    marker,
+    title: `Equity pricing cross-check could not read the CohnReznick monitor (${todayIso.slice(0, 7)})`,
+    body: [
+      'The monthly cross-check could not read CohnReznick\'s Housing Tax Credit Monitor, so the equity-pricing benchmark was **not** checked this month. This is not a pass.',
+      '',
+      ...tried.map((t) => `- ${t}`),
+      '',
+      'Open https://www.taxcreditadvisor.com/ in a browser, read the surveyed median net equity price from the latest monitor, and compare it with `pricing.national_avg` in `' + BENCHMARK + '`. If they are more than 2 cents apart, re-check Novogradac.',
+      '',
+      `Opened by \`scripts/audit/equity-pricing-watch.mjs\` (monthly). ${marker}`,
+    ].join('\n'),
+  };
 }
 
 async function main() {
@@ -183,15 +241,17 @@ async function main() {
   if (reminder) issues.push(reminder);
   else console.log(`${todayDenver}: no capture reminder due (next update ${bench.meta && bench.meta.next_expected_update}).`);
 
-  // An unreadable monitor is reported, never treated as "no drift".
-  let monitorError = null;
+  // An unreadable monitor is reported as its own issue, never treated as "no drift".
   try {
-    const { url, monitor } = await fetchMonitor(console.log);
+    const { url, monitor } = await fetchMonitor(todayDenver, console.log);
     const drift = driftFinding(bench, monitor, url, markers);
     if (drift) issues.push(drift);
     else console.log('Monitor median is within tolerance of the benchmark (or already reported).');
   } catch (error) {
-    monitorError = error;
+    console.log(`::warning::${error.message.split('\n')[0]}`);
+    console.log(error.message);
+    const unreachable = unreachableIssue(todayDenver, error.tried || [error.message], markers);
+    if (unreachable) issues.push(unreachable);
   }
 
   if (dryRun) {
@@ -212,7 +272,6 @@ async function main() {
       console.log(`Opened ${created.html_url}`);
     }
   }
-  if (monitorError) throw monitorError;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {

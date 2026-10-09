@@ -26,6 +26,10 @@
   "devFeePct": 0.15,
   "debtServiceCoverageRatio": 1.20,
   "permanentDebtRate": 0.065,
+  "permRateSpreadOverTreasury": {
+    "spreadPct": 1.65,
+    "note": "a COHO screening assumption (percentage points over the 10-year Treasury) carried over from the retired Freddie Mac outlook snapshot; no published source is cited for it, so change it to your lender's quote."
+  },
   "permanentDebtAmortYears": 35,
   "operatingExpensePerUnit": 8500,
   "softFundingByGeography": {

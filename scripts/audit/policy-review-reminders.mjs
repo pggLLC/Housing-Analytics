@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Opens a GitHub issue when hand-verified policy or homebuyer-program records
-// come due for review (#2009).
+// Opens a GitHub issue when hand-verified policy, homebuyer-program, tool-watch
+// or tax-credit transfer-pricing records come due for review (#2009).
 //
 // Each record in the files below carries last_verified and review_by. Pages
 // warn readers once a date passes (js/components/review-status.js); this makes
@@ -25,6 +25,8 @@ export const LABEL = 'policy-review';
 export const FILES = [
   { file: 'data/policy/homeownership-programs.json', key: 'programs', title: 'Homebuyer programs', page: 'help-for-homebuyers.html', name: (r) => r.name },
   { file: 'data/policy/tax-credit-legislation.json', key: 'entries', title: 'Tax-credit policy watchlist', page: 'housing-legislation-2026.html', name: (r) => r.title },
+  { file: 'data/policy/tool-watch.json', key: 'entries', title: 'Affordable-housing tool watchlist', page: 'about.html', name: (r) => r.title },
+  { file: 'data/market/tax-credit-transfer-pricing.json', key: 'markets', title: 'Tax-credit transfer pricing', page: 'article-pricing.html', name: (r) => r.label },
 ];
 
 function addDays(iso, days) {
