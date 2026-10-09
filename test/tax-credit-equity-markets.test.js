@@ -86,8 +86,42 @@ console.log('='.repeat(46));
     'deal-calculator.html#dc-equity-price', 'pricing assumptions link to the calculator');
   assert(doc.querySelector('#tceHistoryChart svg'), 'LIHTC history chart renders from JSON');
   assert(bodyText.includes('2026-Q2'), 'history chart exposes the current quarterly vintage');
-  assert(bodyText.includes('$0.86'), 'Novogradac national 9% benchmark renders');
-  assert(bodyText.includes('$0.84'), 'Novogradac national 4% benchmark renders');
+  // The table shows the file's prices, whatever they are this quarter.
+  const bench = readJson('data/market/novogradac-equity-pricing.json');
+  const tableText = doc.querySelector('#tceNovogradacTable').textContent.replace(/\s+/g, ' ');
+  const money = (v) => '$' + v.toFixed(2);
+  assert(tableText.includes(money(bench.pricing.national_avg.credit_9pct)), 'Novogradac national 9% benchmark renders');
+  assert(tableText.includes(money(bench.pricing.national_avg.credit_4pct)), 'Novogradac national 4% benchmark renders');
+  const coRow = Array.from(doc.querySelectorAll('#tceNovogradacTable tbody tr'))
+    .find((tr) => tr.cells[0].textContent.trim() === bench.pricing.by_state.CO.label);
+  assert(coRow, 'Colorado row renders');
+  assert.strictEqual(coRow.cells[3].textContent.trim(), money(bench.pricing.by_state.CO.median_all_credits), 'Colorado median renders from the file');
+  assert.strictEqual(coRow.cells[1].textContent.trim(), 'Not published', 'an unpublished 9% split reads as not published, not $0.00');
+  const regionRows = Array.from(doc.querySelectorAll('#tceNovogradacTable tbody tr')).filter((tr) => / region/.test(tr.cells[0].textContent));
+  assert.strictEqual(regionRows.length, Object.keys(bench.pricing.by_region).length, 'one row per Novogradac region');
+  assert(!/\$0\.00/.test(tableText), 'no unknown price renders as $0.00');
+
+  // State QAP table: one row per plan; a figure only where the plan states one.
+  const qap = bench.state_qap_pricing;
+  const qapRows = Array.from(doc.querySelectorAll('#tceQapTable [data-qap-state]'));
+  assert.strictEqual(qapRows.length, qap.entries.length, 'one row per state plan');
+  assert(qapRows.length > 0, 'the QAP scan found plans to check');
+  for (const entry of qap.entries) {
+    const row = doc.querySelector(`#tceQapTable [data-qap-state="${entry.state}"]`);
+    const shown = row.cells[1].textContent.trim();
+    if (entry.price_low > 0 && entry.price_high > 0) assert.strictEqual(shown, money(entry.price_low) + '–' + money(entry.price_high), `${entry.state} range`);
+    else if (entry.price_assumed > 0) assert.strictEqual(shown, money(entry.price_assumed), `${entry.state} assumed price`);
+    else if (entry.price_low > 0) assert.strictEqual(shown, money(entry.price_low) + ' or more', `${entry.state} floor`);
+    else assert.strictEqual(shown, 'Not stated', `${entry.state} states no figure`);
+    assert.strictEqual(row.querySelector('a').getAttribute('href'), entry.source_url, `${entry.state} links its plan`);
+  }
+  assert.strictEqual(doc.querySelector('#tceQapTable [data-qap-state="CO"]').cells[1].textContent.trim(), 'Not stated', 'Colorado publishes no QAP price');
+  // The summary's comparison quotes medians that must match the benchmark it compares against.
+  for (const [label, value] of [['North Central', bench.pricing.by_region.north_central.median_all_credits],
+    ['Colorado', bench.pricing.by_state.CO.median_all_credits], ['Southwest', bench.pricing.by_region.southwest.median_all_credits]]) {
+    assert(qap.summary.includes(`${money(value)} ${label}`), `QAP summary quotes the ${label} median the file holds`);
+  }
+  assert(doc.getElementById('tceQapSummary').textContent.includes(qap.checked), 'summary shows when the plans were checked');
   assert(doc.querySelector('[data-transfer-id="itc-transfer-investment-grade-2025"]'), 'ITC transfer market row renders');
   assert(doc.querySelector('[data-transfer-id="nmtc-equity-pricing"]'), 'NMTC unverified pricing row renders');
   assert(doc.querySelector('[data-policy-id="cra-2025-rescission-npr"]'), 'CRA rescission NPR policy card renders');

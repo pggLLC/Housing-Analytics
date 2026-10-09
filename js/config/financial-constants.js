@@ -24,8 +24,8 @@
     // Offline fallback only; Deal Calculator soft-loads
     // data/market/novogradac-equity-pricing.json at init when available.
     // Source: Novogradac LIHTC equity benchmark, Q2 2026
-    equityPrice9Pct: 0.86,         // 9% deals (national average)
-    equityPrice4Pct: 0.84,         // 4%/bond deals (national average)
+    equityPrice9Pct: 0.82,         // 9% deals (national average)
+    equityPrice4Pct: 0.83,         // 4%/bond deals (national average)
 
     // ── AMI Rent Limits (county-resolved) ──────────────────────────
     // Rental ceilings come from ChfaRentLimits.rentCeiling for the selected regime
