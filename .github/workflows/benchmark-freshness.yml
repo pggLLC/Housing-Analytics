@@ -1,0 +1,79 @@
+name: Benchmark freshness
+
+# Weekly run of scripts/audit/benchmark-freshness-check.mjs, which reads the
+# hand-captured market and policy benchmarks (equity pricing, Freddie Mac
+# outlook, transfer pricing, foreclosure performance, watchlists...). Until
+# 2026-10 nothing ran it, so a snapshot could sit months past its stated
+# cadence with no signal. Keeps one tracking issue up to date and closes it
+# when every snapshot is within cadence. Commits nothing.
+
+on:
+  schedule:
+    - cron: '47 8 * * 1'   # Mondays 08:47 UTC
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/benchmark-freshness.yml'
+      - 'scripts/audit/benchmark-freshness-check.mjs'
+
+permissions: { contents: read, issues: write }
+
+concurrency:
+  group: benchmark-freshness
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - name: Run the freshness check
+        run: node scripts/audit/benchmark-freshness-check.mjs | tee benchmark-freshness.txt
+      - name: Open, update or close the tracking issue (main only)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const fs = require('fs');
+            const out = fs.readFileSync('benchmark-freshness.txt', 'utf8');
+            const warnings = out.split('\n').filter((l) => l.startsWith('  - ')).map((l) => l.slice(4));
+            const MARKER = '<!-- benchmark-freshness-tracker -->';
+            const open = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100,
+            });
+            const existing = open.find((i) => !i.pull_request && (i.body || '').includes(MARKER));
+            if (!warnings.length) {
+              if (existing) {
+                await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo,
+                  issue_number: existing.number, body: 'Every benchmark snapshot is within its stated cadence. Closing.' });
+                await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo,
+                  issue_number: existing.number, state: 'closed', state_reason: 'completed' });
+              }
+              return;
+            }
+            const list = warnings.map((w) => `- [ ] ${w}`).join('\n');
+            const body = [
+              MARKER, '',
+              `${warnings.length} hand-captured benchmark snapshot warning(s) from \`scripts/audit/benchmark-freshness-check.mjs\`:`, '',
+              list, '',
+              'Each file cites its source in `meta`. Re-capture it there, or, if the source has not published anything newer, record that in the file (`last_verified`, `review_by`) rather than changing figures. A cadence that is simply wrong is fixed with `staleAfterDays` in the checker, with the reason.',
+              '',
+              `<sub>Managed by [benchmark-freshness.yml](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/.github/workflows/benchmark-freshness.yml); closed automatically when the list is empty.</sub>`,
+            ].join('\n');
+            const title = `Benchmark snapshots past their cadence (${warnings.length})`;
+            if (existing) {
+              const changed = (existing.body || '').split(MARKER).pop().match(/^- \[ \] .*$/gm)?.join('\n') !== list;
+              await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: existing.number, title, body });
+              if (changed) await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: existing.number, body: 'The list changed this week.' });
+            } else {
+              await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo,
+                title, body, assignees: ['paulglasow'] });
+            }

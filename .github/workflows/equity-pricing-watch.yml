@@ -1,0 +1,59 @@
+name: Equity pricing watch
+
+# Opens an issue when data/market/novogradac-equity-pricing.json is due for
+# its quarterly hand capture, and when CohnReznick's public monthly Housing Tax
+# Credit Monitor drifts more than 2 cents from it. Novogradac blocks scripted
+# requests, so this cannot refresh the file; it makes sure a person is asked.
+# Commits nothing. Monthly on the 10th (the monitor is posted late the month
+# before), off :00 and off every minute other crons use.
+
+on:
+  schedule:
+    - cron: '43 8 10 * *'   # 10th of each month, 08:43 UTC
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Print the issues without creating them
+        type: boolean
+        default: true
+  pull_request:
+    paths:
+      - '.github/workflows/equity-pricing-watch.yml'
+      - 'scripts/audit/equity-pricing-watch.mjs'
+      - 'test/equity-pricing-watch.test.mjs'
+
+permissions: { contents: read, issues: write }
+
+concurrency:
+  group: equity-pricing-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout watch code
+        uses: actions/checkout@v7
+        with:
+          path: watch-code
+          persist-credentials: false
+      - name: Checkout main data
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          path: main
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - name: Install pdftotext
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      - name: Check the benchmark (branch and PR runs are always dry)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: ${{ github.event_name == 'pull_request' || github.ref != 'refs/heads/main' || inputs.dry_run == true }}
+        run: |
+          args=(--repo-root main)
+          if [ "$DRY_RUN" = "true" ]; then args+=(--dry-run); fi
+          node watch-code/scripts/audit/equity-pricing-watch.mjs "${args[@]}"
