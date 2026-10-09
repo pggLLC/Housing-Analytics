@@ -10,8 +10,8 @@
     "methodology": "Hard costs, soft costs, developer fee, soft-funding, and concept mix assumptions support screening-level LIHTC concept recommendations. EquityPricing values are documented offline fallbacks only; live predictor pricing loads data/market/novogradac-equity-pricing.json first and otherwise falls back to js/config/financial-constants.js."
   },
   "equityPricing": {
-    "default9Pct": 0.86,
-    "default4Pct": 0.84,
+    "default9Pct": 0.82,
+    "default4Pct": 0.83,
     "range": [0.75, 1.05],
     "source": "Offline fallback synced to financial-constants.js; live benchmark source is data/market/novogradac-equity-pricing.json"
   },
@@ -25,7 +25,11 @@
   "softCostPct": 0.22,
   "devFeePct": 0.15,
   "debtServiceCoverageRatio": 1.20,
-  "permanentDebtRate": 0.065,
+  "permRateSpreadOverTreasury": {
+    "spreadPct": 1.65,
+    "note": "a COHO screening assumption (percentage points over the 10-year Treasury) carried over from the retired Freddie Mac outlook snapshot; no published source is cited for it, so change it to your lender's quote.",
+    "usedBy": "js/deal-calculator.js sets the perm rate to the latest FRED DGS10 plus this spread. It replaced a fixed permanentDebtRate of 6.5% that nothing read."
+  },
   "permanentDebtAmortYears": 35,
   "operatingExpensePerUnit": 8500,
   "softFundingByGeography": {

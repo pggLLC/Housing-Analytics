@@ -29,6 +29,7 @@ import { readdirSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
+import { SCANNER_FN, scanAllStates } from './runtime-contrast-scan-fn.mjs';
 
 const ROOT = process.cwd();
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
@@ -40,86 +41,8 @@ const onlyDark = args.includes('--dark');
 const PORT = 8765;
 const OUT_DIR = join(ROOT, 'audit-report', 'runtime-contrast');
 
-// ─────────────────────────────────────────────────────────────────────
-// Scanner function — serialized into the browser via Puppeteer.evaluate.
-// Kept as a string so it can also be pasted into a devtools console as
-// `window.__contrastScan()` for ad-hoc debugging.
-// ─────────────────────────────────────────────────────────────────────
-const SCANNER_FN = `function __contrastScan() {
-  function srgb(c){c/=255;return c<=0.04045?c/12.92:Math.pow((c+0.055)/1.055,2.4)}
-  function L(rgb){return 0.2126*srgb(rgb[0])+0.7152*srgb(rgb[1])+0.0722*srgb(rgb[2])}
-  function parseRGB(s){if(!s)return null;var m=s.match(/rgba?\\(([\\d.]+)[,\\s]+([\\d.]+)[,\\s]+([\\d.]+)(?:[,\\s]+([\\d.]+))?/);return m?[+m[1],+m[2],+m[3],m[4]!==undefined?+m[4]:1]:null}
-  function ratio(fg,bg){return ((Math.max(L(fg),L(bg))+0.05)/(Math.min(L(fg),L(bg))+0.05))}
-  function getEffectiveBg(el){
-    var cur=el;
-    while(cur&&cur!==document.documentElement){
-      var cs=getComputedStyle(cur);
-      var bg=parseRGB(cs.backgroundColor);
-      if(bg&&bg[3]>0.5)return bg;
-      if(cs.backgroundImage&&cs.backgroundImage!=='none')return null;
-      cur=cur.parentElement;
-    }
-    return parseRGB(getComputedStyle(document.body).backgroundColor)||[10,15,29,1];
-  }
-  var failures=[];
-  var els=document.querySelectorAll('*');
-  for(var i=0;i<els.length;i++){
-    var el=els[i];
-    if(!el.textContent||!el.textContent.trim())continue;
-    var hasDirectText=false;
-    for(var j=0;j<el.childNodes.length;j++){
-      if(el.childNodes[j].nodeType===3&&el.childNodes[j].textContent.trim()){hasDirectText=true;break}
-    }
-    if(!hasDirectText)continue;
-    var rect=el.getBoundingClientRect();
-    if(rect.width===0||rect.height===0)continue;
-    var cs=getComputedStyle(el);
-    if(cs.visibility==='hidden'||cs.display==='none'||cs.opacity==='0')continue;
-    /* F133 — walk ancestors to catch elements hidden by a closed <details>,
-       a collapsed accordion, an inert ancestor, etc. Without this we were
-       reporting contrast failures for anchors inside <details> sections
-       that the user can't actually see — their getComputedStyle still
-       returns a color (frozen from initial paint), but rect.* is 0 and
-       parent display is none. */
-    var anc=el.parentElement, hidden=false;
-    while(anc&&anc!==document.documentElement){
-      if(anc.tagName==='DETAILS'&&!anc.open){hidden=true;break}
-      var acs=getComputedStyle(anc);
-      if(acs.display==='none'||acs.visibility==='hidden'){hidden=true;break}
-      anc=anc.parentElement;
-    }
-    if(hidden)continue;
-    var fg=parseRGB(cs.color);
-    if(!fg||fg[3]<0.5)continue;
-    var bg=getEffectiveBg(el);
-    if(!bg)continue;
-    var r=ratio(fg,bg);
-    var fontSize=parseFloat(cs.fontSize);
-    var fontWeight=parseInt(cs.fontWeight,10)||400;
-    var large=fontSize>=24||(fontSize>=18.66&&fontWeight>=700);
-    var min=large?3.0:4.5;
-    if(r<min){
-      var selector=el.tagName;
-      if(el.id)selector+='#'+el.id;
-      if(el.className&&typeof el.className==='string'){
-        var cls=el.className.split(' ').filter(Boolean).slice(0,2).join('.');
-        if(cls)selector+='.'+cls;
-      }
-      failures.push({
-        selector:selector,
-        text:el.textContent.trim().slice(0,60),
-        fg:cs.color,
-        bg:'rgb('+bg.slice(0,3).join(',')+')',
-        ratio:Number(r.toFixed(2)),
-        threshold:min,
-        large:large
-      });
-    }
-  }
-  return failures;
-}
-window.__contrastScan = __contrastScan;
-__contrastScan();`;
+// The in-page scanner and the tab walk live in runtime-contrast-scan-fn.mjs,
+// so test/runtime-contrast-scanner-fixtures.test.mjs can run them on fixtures.
 
 // Helper: try to dynamically import puppeteer. If not installed, fall
 // back to documenting how the user can run the in-browser version.
@@ -207,8 +130,7 @@ async function scanPage(browser, page, url, mode) {
   // mid-recompute and reporting stale `.contrast-guard-fixed` patches.
   // 1500ms is comfortably past the longest observed re-scan cycle.
   await new Promise(r => setTimeout(r, 1500));
-  const failures = await page.evaluate(SCANNER_FN);
-  return failures;
+  return scanAllStates(page);
 }
 
 async function main() {

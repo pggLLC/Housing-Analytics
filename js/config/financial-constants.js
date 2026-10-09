@@ -24,8 +24,8 @@
     // Offline fallback only; Deal Calculator soft-loads
     // data/market/novogradac-equity-pricing.json at init when available.
     // Source: Novogradac LIHTC equity benchmark, Q2 2026
-    equityPrice9Pct: 0.86,         // 9% deals (national average)
-    equityPrice4Pct: 0.84,         // 4%/bond deals (national average)
+    equityPrice9Pct: 0.82,         // 9% deals (national average)
+    equityPrice4Pct: 0.83,         // 4%/bond deals (national average)
 
     // ── AMI Rent Limits (county-resolved) ──────────────────────────
     // Rental ceilings come from ChfaRentLimits.rentCeiling for the selected regime
@@ -38,7 +38,7 @@
     // ── Mortgage & Financing ────────────────────────────────────────
     // Source: Freddie Mac PMMS, Q1 2026 (~7.0% 30-yr fixed)
     mortgageRate:     0.07,        // residential (homeownership analysis)
-    commercialRate:   0.065,       // commercial / LIHTC perm loan assumption
+    commercialRate:   0.065,       // offline placeholder; the Deal Calculator replaces it with FRED DGS10 + the spread in data/policy/lihtc-assumptions.json
     mortgageTermYr:   30,          // standard residential term
     commercialTermYr: 35,          // LIHTC perm loan term
     loanAmortYr:      35,          // amortization period

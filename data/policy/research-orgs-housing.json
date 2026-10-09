@@ -53,7 +53,7 @@
       "frequency": "Quarterly + ad-hoc",
       "free": true,
       "why_lihtc_devs_care": "Industry-standard for multifamily perm-debt cost forecasts. Freddie + Fannie agency loans are 40-50% of multifamily debt market.",
-      "integrated_in_coho": "data/market/freddie-mac-multifamily-outlook.json — Deal Calc perm-debt assumption (F234)"
+      "integrated_in_coho": "Not integrated. The Deal Calc perm-rate hint uses FRED DGS10 plus a stated spread (data/policy/lihtc-assumptions.json); the earlier outlook snapshot was retired in 2026-10 because its figures had no citable source."
     },
     {
       "name": "Brookings Metropolitan Policy Program",

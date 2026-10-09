@@ -7,7 +7,6 @@
  * The Deal Calculator cites two static market-benchmark snapshots:
  *
  *   - data/market/novogradac-equity-pricing.json   (LIHTC equity pricing)
- *   - data/market/freddie-mac-multifamily-outlook.json (rates/cap-rate outlook)
  *   - data/market/tax-credit-transfer-pricing.json (tax-credit transfer pricing)
  *   - data/market/colorado-equity-pricing-factors.json (CO-specific LIHTC pricing factors)
  *   - data/policy/tax-credit-legislation.json (tax-credit legislation watchlist)
@@ -63,10 +62,11 @@ const BENCHMARK_FILES = [
   {
     file: 'data/market/novogradac-equity-pricing.json',
     label: 'Novogradac LIHTC equity pricing',
-  },
-  {
-    file: 'data/market/freddie-mac-multifamily-outlook.json',
-    label: 'Freddie Mac multifamily outlook',
+    // Quarterly, published about a quarter after the quarter ends, so a
+    // current snapshot is 90–200 days past its as_of (the quarter's last day).
+    // next_expected_update is the sharper signal, and equity-pricing-watch.mjs
+    // opens the capture reminder from it.
+    staleAfterDays: 200,
   },
   {
     file: 'data/market/tax-credit-transfer-pricing.json',
@@ -77,6 +77,8 @@ const BENCHMARK_FILES = [
     file: 'data/market/colorado-equity-pricing-factors.json',
     label: 'Colorado LIHTC equity pricing factors',
     reviewByPaths: ['meta.review_by'],
+    // Statutory schedules and qualitative factors; review_by carries the quarterly check.
+    staleAfterDays: 180,
   },
   {
     file: 'data/policy/tax-credit-legislation.json',
@@ -87,16 +89,22 @@ const BENCHMARK_FILES = [
     file: 'data/policy/tool-watch.json',
     label: 'Affordable-housing tool watchlist',
     reviewByPaths: ['meta.review_by', 'entries[].review_by'],
+    // Reviewed quarterly (meta.refresh_cadence); review_by dates carry the check.
+    staleAfterDays: 90,
   },
   {
     file: 'data/policy/homeownership-programs.json',
     label: 'Homeownership programs watchlist',
     reviewByPaths: ['meta.review_by', 'programs[].review_by'],
+    // Reviewed quarterly; policy-review-reminders.yml opens the issue before each review_by.
+    staleAfterDays: 90,
   },
   {
     file: 'data/policy/lihtc-assumptions.json',
     label: 'LIHTC predictor assumptions',
     reviewByPaths: ['meta.review_by'],
+    // COHO assumptions reviewed quarterly, not a market snapshot.
+    staleAfterDays: 90,
   },
   {
     file: 'data/market/colorado-foreclosure-performance.json',
@@ -107,6 +115,8 @@ const BENCHMARK_FILES = [
     file: 'data/market/hud_zip_tract_crosswalk_co.json',
     label: 'HUD-USPS ZIP-to-tract crosswalk',
     reviewByPaths: ['meta.review_by'],
+    // as_of is the HUD quarter; fetch-fmr-data.yml refetches monthly and HUD posts each quarter about a quarter late.
+    staleAfterDays: 200,
   },
   {
     file: 'data/market/fhfa_hpi_subcounty_co.json',
@@ -123,11 +133,15 @@ const BENCHMARK_FILES = [
     file: 'data/market/developable_land_context_co.json',
     label: 'Colorado tract developable-land context',
     reviewByPaths: ['meta.review_by'],
+    // Built from PAD-US and Census tract areas, which change about yearly.
+    staleAfterDays: 365,
   },
   {
     file: 'data/market/travel_time_matrix_co.json',
     label: 'Colorado tract-to-regional-hub travel-time matrix',
     reviewByPaths: ['meta.review_by'],
+    // Road-network drive times; rebuild yearly or after a major network change.
+    staleAfterDays: 365,
   },
   {
     file: 'data/market/lodes_tract_od_co.json',

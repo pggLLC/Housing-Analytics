@@ -153,7 +153,9 @@
       markets.map(function (entry) {
         var price = entry.price_low == null || entry.price_high == null
           ? 'Value not yet verified'
-          : dollars(entry.price_low) + '-' + dollars(entry.price_high);
+          : entry.price_low === entry.price_high
+            ? '$' + String(Math.round(entry.price_low * 1000) / 1000) + ' average'
+            : dollars(entry.price_low) + '-' + dollars(entry.price_high);
         return '<tr data-transfer-id="' + esc(entry.id) + '">' +
           '<td><strong>' + esc(entry.label) + '</strong><br><span style="color:var(--muted);font-size:var(--tiny);">' + esc(entry.source_note) + '</span></td>' +
           '<td>' + esc(entry.credit_type || entry.scope) + '</td>' +
@@ -169,16 +171,50 @@
     if (!target) return;
     var pricing = doc && doc.pricing ? doc.pricing : {};
     var rows = [];
-    if (pricing.national_avg) rows.push(['National average', pricing.national_avg]);
+    if (pricing.national_avg) rows.push(['National average (quarter)', pricing.national_avg]);
     Object.keys(pricing.by_region || {}).forEach(function (key) {
-      rows.push([key.replace(/_/g, ' ').replace(/\b\w/g, function (m) { return m.toUpperCase(); }), pricing.by_region[key]]);
+      var region = pricing.by_region[key];
+      rows.push([(region.label || key) + ' region' + (region.states ? ' (' + region.states.join(', ') + ')' : ''), region]);
     });
-    Object.keys(pricing.colorado_specific || {}).forEach(function (key) {
-      rows.push([key.replace(/_/g, ' ').replace(/\b\w/g, function (m) { return m.toUpperCase(); }), pricing.colorado_specific[key]]);
-    });
-    target.innerHTML = '<table><thead><tr><th>Market</th><th>9%</th><th>4%</th><th>Notes</th></tr></thead><tbody>' +
+    if (pricing.by_state && pricing.by_state.CO) rows.push([pricing.by_state.CO.label || 'Colorado', pricing.by_state.CO]);
+    // Novogradac splits 9% and 4% nationally but publishes regional and state
+    // figures as one median across both, so a blank split is "not published",
+    // never a zero.
+    function cell(value) {
+      return typeof value === 'number' && isFinite(value) && value > 0 ? '$' + value.toFixed(2) : '<span style="color:var(--muted);">Not published</span>';
+    }
+    target.innerHTML = '<table><thead><tr><th>Market</th><th>9%</th><th>4%</th><th>All credits (median)</th><th>Notes</th></tr></thead><tbody>' +
       rows.map(function (row) {
-        return '<tr><td><strong>' + esc(row[0]) + '</strong></td><td>' + dollars(row[1].credit_9pct) + '</td><td>' + dollars(row[1].credit_4pct) + '</td><td>' + esc(row[1].notes || '') + '</td></tr>';
+        return '<tr><td><strong>' + esc(row[0]) + '</strong></td><td>' + cell(row[1].credit_9pct) + '</td><td>' + cell(row[1].credit_4pct) +
+          '</td><td>' + cell(row[1].median_all_credits) + '</td><td>' + esc(row[1].notes || '') + '</td></tr>';
+      }).join('') +
+      '</tbody></table>';
+  }
+
+  // State allocation plans: a quoted figure where one is published, the
+  // plan's own words where it is not. "Not stated" is a finding, not a gap.
+  function renderQapTable(target, summaryEl, doc) {
+    if (!target) return;
+    var qap = doc && doc.state_qap_pricing;
+    var entries = qap && Array.isArray(qap.entries) ? qap.entries : [];
+    if (!entries.length) {
+      target.innerHTML = '<p style="color:var(--muted);">State QAP pricing unavailable.</p>';
+      return;
+    }
+    if (summaryEl) summaryEl.textContent = (qap.summary || '') + (qap.checked ? ' Checked ' + qap.checked + '.' : '');
+    function priced(v) { return typeof v === 'number' && isFinite(v) && v > 0; }
+    function figure(entry) {
+      if (priced(entry.price_low) && priced(entry.price_high)) return dollars(entry.price_low) + '–' + dollars(entry.price_high);
+      if (priced(entry.price_assumed)) return dollars(entry.price_assumed);
+      if (priced(entry.price_low)) return dollars(entry.price_low) + ' or more';
+      return 'Not stated';
+    }
+    target.innerHTML = '<table><thead><tr><th>State</th><th>Figure</th><th>What the plan says</th><th>Source</th></tr></thead><tbody>' +
+      entries.map(function (entry) {
+        return '<tr data-qap-state="' + esc(entry.state) + '"><td><strong>' + esc(entry.name) + '</strong></td>' +
+          '<td>' + esc(figure(entry)) + '</td>' +
+          '<td>' + (entry.quote ? '“' + esc(entry.quote) + '”' : '') + (entry.note ? '<br><span style="color:var(--muted);font-size:var(--tiny);">' + esc(entry.note) + '</span>' : '') + '</td>' +
+          '<td><a href="' + esc(entry.source_url) + '" target="_blank" rel="noopener">' + esc(entry.document) + '</a><br><span style="color:var(--muted);font-size:var(--tiny);">' + esc(entry.section || '') + '</span></td></tr>';
       }).join('') +
       '</tbody></table>';
   }
@@ -243,6 +279,7 @@
       ]).then(function (payloads) {
         renderTransferPricing(document.getElementById('tceTransferPricing'), payloads[0]);
         renderNovogradacTable(document.getElementById('tceNovogradacTable'), payloads[1]);
+        renderQapTable(document.getElementById('tceQapTable'), document.getElementById('tceQapSummary'), payloads[1]);
         renderHistory(document.getElementById('tceHistoryChart'), payloads[2]);
       }).catch(function (err) {
         var target = document.getElementById('tceDataError');

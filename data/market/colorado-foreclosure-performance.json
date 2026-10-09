@@ -1,17 +1,17 @@
 {
   "schema": "colorado-foreclosure-performance/v1",
   "meta": {
-    "as_of": "2026-06-26",
-    "data_through": "2026Q1",
+    "as_of": "2026-09-28",
+    "data_through": "2026Q2",
     "geography": "Colorado statewide",
     "source": "FHFA National Mortgage Database (NMDB) Residential Mortgage Performance Statistics",
     "source_url": "https://www.fhfa.gov/document/d/nmdb/nmdb-mortgage-performance-statistics-states-quarterly.zip",
     "source_landing_url": "https://www.fhfa.gov/data/nmdb",
     "dictionary_url": "https://www.fhfa.gov/document/d/nmdb/nmdb-aggregate-statistics-data-dictionary-technical-notes-2026q1.pdf",
-    "source_release_date": "2026-06-26",
-    "last_verified": "2026-07-17",
-    "review_by": "2026-10-17",
-    "next_expected_update": "2026-Q3",
+    "source_release_date": "2026-09-28",
+    "last_verified": "2026-10-09",
+    "review_by": "2027-01-07",
+    "next_expected_update": "2026-Q4",
     "methodology": "DOLA Division of Housing public-trustee county NED reports were preferred, but no current fetchable county-level foreclosure report was found on the current DOH Publications and Reporting or DOLA Data and Reports pages during verification. This fallback uses FHFA NMDB state-level quarterly Residential Mortgage Performance Statistics for Colorado, All Mortgages. PFORECL is a percent of active loans in foreclosure, bankruptcy, or deed-in-lieu process; it is not a foreclosure-start or filing-count series.",
     "verification_notes": [
       {
@@ -27,7 +27,7 @@
       {
         "source": "FHFA NMDB Aggregate Statistics",
         "url": "https://www.fhfa.gov/data/nmdb",
-        "result": "fetchable official page exposing Residential Mortgage Performance Statistics state quarterly CSV ZIP through 2026Q1"
+        "result": "fetchable official page exposing Residential Mortgage Performance Statistics state quarterly CSV ZIP through 2026Q2"
       }
     ]
   },
@@ -716,6 +716,13 @@
           "quarter": 1,
           "value_pct": 0.1,
           "suppressed": false
+        },
+        {
+          "period": "2026Q2",
+          "year": 2026,
+          "quarter": 2,
+          "value_pct": 0.1,
+          "suppressed": false
         }
       ]
     },
@@ -1387,7 +1394,7 @@
           "period": "2025Q3",
           "year": 2025,
           "quarter": 3,
-          "value_pct": 0.7,
+          "value_pct": 0.6,
           "suppressed": false
         },
         {
@@ -1401,7 +1408,14 @@
           "period": "2026Q1",
           "year": 2026,
           "quarter": 1,
-          "value_pct": 0.7,
+          "value_pct": 0.8,
+          "suppressed": false
+        },
+        {
+          "period": "2026Q2",
+          "year": 2026,
+          "quarter": 2,
+          "value_pct": 0.8,
           "suppressed": false
         }
       ]
@@ -2088,16 +2102,23 @@
           "period": "2026Q1",
           "year": 2026,
           "quarter": 1,
-          "value_pct": 1.1,
+          "value_pct": 1.2,
+          "suppressed": false
+        },
+        {
+          "period": "2026Q2",
+          "year": 2026,
+          "quarter": 2,
+          "value_pct": 1.2,
           "suppressed": false
         }
       ]
     }
   },
   "summary": {
-    "latest_period": "2026Q1",
+    "latest_period": "2026Q2",
     "latest_foreclosure_process_pct": 0.1,
-    "latest_serious_delinquency_pct": 0.7,
+    "latest_serious_delinquency_pct": 0.8,
     "peak_foreclosure_process_pct": 2.8,
     "peak_foreclosure_process_period": "2010Q4",
     "avg_2019_foreclosure_process_pct": 0.1,

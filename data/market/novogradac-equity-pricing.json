@@ -2,34 +2,213 @@
   "meta": {
     "title": "Novogradac LIHTC Equity Pricing Benchmarks",
     "source": "Novogradac & Company LLP",
-    "source_url": "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/equity-pricing",
-    "source_publisher": "Novogradac Journal of Tax Credits",
-    "methodology": "Novogradac surveys syndicators monthly and publishes national + regional average equity pricing for both 9% (competitive) and 4% (bond-driven) LIHTC. Pricing reflects: target IRR (typically 5-7% for 9%, 4-6% for 4%), CRA-buyer demand premium, asset-class basis-boost mix, sponsor track record, and macro debt-cost (perm rate + cap-rate impact on residual). Pricing is the cents-per-credit-dollar an investor pays for $1 of 10-yr tax credit + depreciation deductions; e.g., $0.87 means $0.87 of equity per $1.00 of 10-yr LIHTC credit annual amount.",
+    "source_url": "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-equity-pricing-trends",
+    "source_publisher": "Novogradac LIHTC equity pricing pages (Affordable Housing Resource Center)",
+    "methodology": "Novogradac compiles syndicator letter-of-intent (LOI) pricing from market participants. National: the average LOI price for 9% and 4% credits each month, averaged here over the quarter's three months. Regional and state: Novogradac's published median for the quarter, all credit types together (it splits 9% and 4% only where it has enough data, currently California and New York). Pricing is dollars of equity per dollar of tax credit; no adjustment for timing of capital contributions.",
     "vintage": "2026-Q2",
-    "as_of": "2026-06-04",
-    "next_expected_update": "2026-10-01",
-    "important_disclaimer": "Pricing benchmarks below are COHO's best-effort directional estimates based on publicly-available Novogradac reporting and recent market commentary. For IC memos, investor presentations, or actual capital-stack sizing, ALWAYS pull the current Novogradac Journal of Tax Credits pricing article directly. Pricing moves 1-4 cents per quarter based on macro conditions (10y Treasury, tax-credit policy uncertainty, CRA-buyer appetite) and 3-5 cents based on deal-specific factors (location, sponsor, BR mix, AMI mix). Use these as a starting anchor, not a closing number."
+    "as_of": "2026-06-30",
+    "next_expected_update": "2027-01-08",
+    "important_disclaimer": "Benchmarks are Novogradac's published averages and medians, which are market context, not a quote. For IC memos, investor presentations or capital-stack sizing, get a current letter of intent from a syndicator: individual deals price several cents either side of these figures on location, sponsor, deal size and investor demand.",
+    "captured": "2026-10-08",
+    "update_cadence": "Quarterly. Novogradac's Q2 2026 regional page was live by 2026-10-08, about one quarter after the quarter ended, so a current snapshot is normally 90–200 days past its as_of. scripts/audit/equity-pricing-watch.mjs opens a capture reminder when next_expected_update is near.",
+    "capture_pages": [
+      {
+        "title": "LIHTC Equity Pricing Trends (national 9% and 4%)",
+        "url": "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-equity-pricing-trends"
+      },
+      {
+        "title": "Regional and State-Level LIHTC Equity Pricing",
+        "url": "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/regional-and-state-level-lihtc-equity-pricing"
+      }
+    ]
   },
   "pricing": {
     "national_avg": {
-      "credit_9pct": 0.86,
-      "credit_4pct": 0.84,
-      "notes": "9% credits trade at a premium to 4% because the per-deal credit amount is larger relative to TDC (more equity per deal), and 9% deals carry stronger demand from CRA-buyers. Spread has compressed from ~$0.05 (2023) to ~$0.02 (2026) as bond-deal supply has grown."
+      "credit_9pct": 0.82,
+      "credit_4pct": 0.83,
+      "source_url": "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-equity-pricing-trends",
+      "notes": "Average of Novogradac's April, May and June 2026 monthly national averages (9%: $0.82, $0.82, $0.81; 4%: $0.83, $0.84, $0.82). 4% credits priced above 9% this quarter, as they did in 2025-Q3; through 2024 the two were within about a cent. CohnReznick's October 2026 monitor attributes the 2026 softness partly to added supply from the One Big Beautiful Bill Act's larger 9% allocations and lower 4% bond test."
     },
     "by_region": {
-      "northeast": { "credit_9pct": 0.91, "credit_4pct": 0.88, "notes": "NYC + Boston metros consistently price 3-5 cents above national average due to CRA-buyer concentration." },
-      "mid_atlantic": { "credit_9pct": 0.89, "credit_4pct": 0.86, "notes": "DC/MD/VA metros premium." },
-      "southeast": { "credit_9pct": 0.86, "credit_4pct": 0.84, "notes": "Atlanta + Tampa + Charlotte at national average; rural Southeast 2-3 cents discount." },
-      "midwest": { "credit_9pct": 0.84, "credit_4pct": 0.82, "notes": "Chicago premium; rural Midwest discount." },
-      "mountain_west": { "credit_9pct": 0.85, "credit_4pct": 0.83, "notes": "Denver, Salt Lake, Phoenix metros at this level. Rural Colorado and Wyoming typically 2-4 cents below — fewer CRA-buyers, smaller deal sizes, weaker secondary trading." },
-      "pacific_northwest": { "credit_9pct": 0.88, "credit_4pct": 0.86, "notes": "Seattle + Portland metros premium." },
-      "california": { "credit_9pct": 0.90, "credit_4pct": 0.88, "notes": "LA/Bay Area highest national pricing — CRA-buyer concentration + state-credit stacking." }
+      "northwest": {
+        "label": "Northwest",
+        "states": [
+          "AK",
+          "ID",
+          "OR",
+          "WA"
+        ],
+        "median_all_credits": 0.81,
+        "credit_9pct": null,
+        "credit_4pct": null
+      },
+      "north_central": {
+        "label": "North Central",
+        "states": [
+          "CO",
+          "KS",
+          "MT",
+          "ND",
+          "NE",
+          "SD",
+          "WY"
+        ],
+        "median_all_credits": 0.8,
+        "credit_9pct": null,
+        "credit_4pct": null,
+        "notes": "Colorado's region."
+      },
+      "midwest": {
+        "label": "Midwest",
+        "states": [
+          "IA",
+          "IL",
+          "IN",
+          "MI",
+          "MN",
+          "MO",
+          "OH",
+          "WI"
+        ],
+        "median_all_credits": 0.83,
+        "credit_9pct": null,
+        "credit_4pct": null
+      },
+      "southwest": {
+        "label": "Southwest",
+        "states": [
+          "AS",
+          "AZ",
+          "CA",
+          "GU",
+          "HI",
+          "MP",
+          "NV",
+          "UT"
+        ],
+        "median_all_credits": 0.82,
+        "credit_9pct": null,
+        "credit_4pct": null
+      },
+      "northeast": {
+        "label": "Northeast",
+        "states": [
+          "CT",
+          "DC",
+          "DE",
+          "KY",
+          "MD",
+          "MA",
+          "ME",
+          "NH",
+          "NJ",
+          "NY",
+          "PA",
+          "RI",
+          "VA",
+          "VT",
+          "WV"
+        ],
+        "median_all_credits": 0.85,
+        "credit_9pct": null,
+        "credit_4pct": null
+      },
+      "southeast": {
+        "label": "Southeast",
+        "states": [
+          "AL",
+          "FL",
+          "GA",
+          "MS",
+          "NC",
+          "PR",
+          "SC",
+          "TN",
+          "USVI"
+        ],
+        "median_all_credits": 0.82,
+        "credit_9pct": null,
+        "credit_4pct": null
+      },
+      "south_central": {
+        "label": "South Central",
+        "states": [
+          "AR",
+          "LA",
+          "NM",
+          "OK",
+          "TX"
+        ],
+        "median_all_credits": 0.79,
+        "credit_9pct": null,
+        "credit_4pct": null
+      }
     },
-    "colorado_specific": {
-      "denver_msa": { "credit_9pct": 0.86, "credit_4pct": 0.84, "notes": "Denver-Aurora-Lakewood MSA tracks Mountain West average." },
-      "rural_colorado": { "credit_9pct": 0.82, "credit_4pct": 0.81, "notes": "Rural CO counties (SLV, Eastern Plains, Northwest, Southwest, South Central) typically price 3-4 cents below MSA. Fewer CRA-buyers, smaller deal sizes, exit-strategy uncertainty. Stack state LIHTC and Prop 123 to compensate." },
-      "resort_communities": { "credit_9pct": 0.87, "credit_4pct": 0.85, "notes": "Aspen, Telluride, Crested Butte etc. — strong workforce-housing investor demand offsets smaller deal sizes." }
-    }
+    "by_state": {
+      "AZ": {
+        "label": "Arizona",
+        "median_all_credits": 0.81,
+        "credit_9pct": null,
+        "credit_4pct": null
+      },
+      "CA": {
+        "label": "California",
+        "median_all_credits": null,
+        "credit_9pct": 0.85,
+        "credit_4pct": 0.82
+      },
+      "CO": {
+        "label": "Colorado",
+        "median_all_credits": 0.81,
+        "credit_9pct": null,
+        "credit_4pct": null,
+        "notes": "Novogradac's Colorado median for Q2 2026, all credit types. It does not publish Denver, rural or resort figures, or a 9%/4% split for Colorado."
+      },
+      "IL": {
+        "label": "Illinois",
+        "median_all_credits": 0.85,
+        "credit_9pct": null,
+        "credit_4pct": null
+      },
+      "MI": {
+        "label": "Michigan",
+        "median_all_credits": 0.82,
+        "credit_9pct": null,
+        "credit_4pct": null
+      },
+      "NC": {
+        "label": "North Carolina",
+        "median_all_credits": 0.83,
+        "credit_9pct": null,
+        "credit_4pct": null
+      },
+      "NJ": {
+        "label": "New Jersey",
+        "median_all_credits": 0.85,
+        "credit_9pct": null,
+        "credit_4pct": null
+      },
+      "NY": {
+        "label": "New York",
+        "median_all_credits": null,
+        "credit_9pct": 0.84,
+        "credit_4pct": 0.84
+      },
+      "OH": {
+        "label": "Ohio",
+        "median_all_credits": 0.85,
+        "credit_9pct": null,
+        "credit_4pct": null
+      },
+      "TX": {
+        "label": "Texas",
+        "median_all_credits": 0.79,
+        "credit_9pct": null,
+        "credit_4pct": null
+      }
+    },
+    "regional_source_url": "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/regional-and-state-level-lihtc-equity-pricing",
+    "regional_notes": "Regional and state figures are Novogradac's medians for the quarter across 9% and 4% credits together; credit_9pct/credit_4pct are null where Novogradac does not split them. States are listed only where Novogradac had enough data to publish a median."
   },
   "key_drivers": {
     "what_moves_pricing_up": [
@@ -48,10 +227,167 @@
     ]
   },
   "validation_check": {
-    "last_verified": "2026-07-17",
-    "verified_against": "Novogradac.com public-facing equity pricing summary (subscription required for full report); Public Law 119-21 section 70301 for Section 168(k) bonus depreciation treatment",
+    "last_verified": "2026-10-08",
+    "verified_against": "Novogradac 'LIHTC Equity Pricing Trends' and 'Regional and State-Level LIHTC Equity Pricing' pages (both as of Q2 2026), saved from a browser on 2026-10-08; Public Law 119-21 section 70301 for Section 168(k) bonus depreciation treatment",
     "policy_source_url": "https://www.govinfo.gov/app/details/PLAW-119publ21",
-    "next_review": "Quarterly — refresh data + verify against current Novogradac publication",
-    "ingestion_note": "Future: build a script that pulls the public Novogradac monthly headline article + parses national 9%/4% from the lede. Manual quarterly update for now."
+    "next_review": "Quarterly. scripts/audit/equity-pricing-watch.mjs (monthly workflow) opens a capture reminder before next_expected_update and a drift issue when CohnReznick's median sits more than 2¢ outside the national range.",
+    "ingestion_note": "novoco.com answers scripted requests with a Cloudflare challenge, so capture is by hand from saved pages. The trends chart is vector: each bar's height reads exactly against the axis gridlines.",
+    "cross_check": "CohnReznick Tax Credit Advisor Housing Tax Credit Monitor, October 2026: surveyed median net equity price $0.823 across 93 properties, June–July 2026 (https://www.taxcreditadvisor.com/wp-content/uploads/2026/09/TCA-Housing-Tax-Credit-Monitor_October_2026.pdf). Closed-deal median, a different measure, within 1¢ of the national range above."
+  },
+  "state_qap_pricing": {
+    "checked": "2026-10-09",
+    "summary": "Colorado's QAP publishes no equity price: CHFA sets an equity factor in the Preliminary Application or uses the applicant's letter of interest. Of Colorado's North Central neighbors and the Southwest, New Mexico, Nebraska and Arizona are the plans with a number. New Mexico's recommended $0.85–$0.95 and Nebraska's $0.85 template both sit above Novogradac's Q2 2026 medians ($0.80 North Central, $0.81 Colorado, $0.82 Southwest), so underwriting at either would overstate equity at current pricing. Arizona surveys investors before each round instead; its 2026 metro range of $0.77–$0.84 brackets those medians.",
+    "entries": [
+      {
+        "state": "CO",
+        "name": "Colorado (CHFA)",
+        "document": "2025-2026 QAP, Second Amendment",
+        "version": "in force 2026",
+        "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+        "section": "Method Two, Gap Calculation (PDF p.37)",
+        "status": "not_stated",
+        "credit_type": "Federal LIHTC",
+        "price_low": null,
+        "price_high": null,
+        "price_assumed": null,
+        "quote": "CHFA will select, at least annually, an equity factor based on market conditions. At the time of the Preliminary Application, the equity factor to be used for this calculation is listed in the Preliminary Application. If there is a Letter of Interest or a firm equity commitment in place at this time, use the equity factor contained in the Letter of Interest or commitment.",
+        "note": "The 2026 Housing Tax Credit Application (V8.2, May 2026) leaves the federal, state and TOC equity factors as blank applicant inputs with no minimum or maximum; the 2027-2028 QAP third draft keeps the same text but changes 'will select' to 'may select'. No state AHTC price is stated."
+      },
+      {
+        "state": "NM",
+        "name": "New Mexico (Housing New Mexico)",
+        "document": "2026 Universal Multifamily Underwriting Supplement",
+        "version": "effective 2025-12-01",
+        "source_url": "https://housingnm.org/uploads/documents/2026_FINAL_approved_9__QAP_w_application_11.24.2025.zip",
+        "section": "§IV.A.1 Credit Pricing (p.9 of 29)",
+        "status": "stated",
+        "credit_type": "Federal LIHTC (9% and 4%)",
+        "price_low": 0.85,
+        "price_high": 0.95,
+        "price_assumed": null,
+        "quote": "Housing New Mexico has a recommended range of credit of $.85 and $.95 for the credit pricing factor and will underwrite the Project using the factor contained in the letter of interest (LOI)",
+        "note": "A recommended range, not a floor: the project is underwritten at its letter-of-intent price. The draft 2027 supplement repeats it."
+      },
+      {
+        "state": "NE",
+        "name": "Nebraska (NIFA)",
+        "document": "2026/2027/2028 Housing Credit Allocation Plan",
+        "version": "approved 2024-12-30",
+        "source_url": "https://www-nifa-org-files.s3.amazonaws.com/c0d6-32307177-0.0_26-27-28_Full_QAP_Doc.pdf",
+        "section": "Exhibit 111 Equity Gap template (PDF p.254)",
+        "status": "template",
+        "credit_type": "Federal LIHTC",
+        "price_low": null,
+        "price_high": null,
+        "price_assumed": 0.85,
+        "quote": "Divided by Net Equity Factor $ 0.8500 (Current dollar yield of net syndication proceeds per dollar of LIHTC)",
+        "note": "Shown on a sample form, not stated as a requirement. Federal LIHTC has no minimum price; a quoted range must be no wider than $0.05. The state AHTC requires 'equity pricing of $0.60 or greater' (Exhibit 116)."
+      },
+      {
+        "state": "UT",
+        "name": "Utah (UHC)",
+        "document": "2027 QAP, Governor approved",
+        "version": "2027",
+        "source_url": "https://utahhousingcorp.org/pdf/2027_QAP_Governor_Approved.pdf",
+        "section": "§D item ix (PDF p.29)",
+        "status": "not_stated",
+        "credit_type": "Federal LIHTC",
+        "price_low": null,
+        "price_high": null,
+        "price_assumed": null,
+        "quote": "UHC will underwrite projects assuming Housing Credit pricing that reflects current local pricing trends.",
+        "note": ""
+      },
+      {
+        "state": "MT",
+        "name": "Montana (MBOH)",
+        "document": "2027 QAP",
+        "version": "2027",
+        "source_url": "https://commerce.mt.gov/_shared/housing/Docs/2027GOVAPPQAP.pdf",
+        "section": "Equity Letter (PDF p.23)",
+        "status": "not_stated",
+        "credit_type": "Federal LIHTC",
+        "price_low": null,
+        "price_high": null,
+        "price_assumed": null,
+        "quote": "Letter of interest with the anticipated price based on the market at time of the Application.",
+        "note": ""
+      },
+      {
+        "state": "KS",
+        "name": "Kansas (KHRC)",
+        "document": "2027 QAP, final",
+        "version": "adopted 2026-09-25",
+        "source_url": "https://kshousingcorp.org/wp-content/uploads/2026/10/2027-QAP-FINAL.pdf",
+        "section": "§5 Equity Pricing (PDF p.39)",
+        "status": "not_stated",
+        "credit_type": "Federal LIHTC",
+        "price_low": null,
+        "price_high": null,
+        "price_assumed": null,
+        "quote": "KHRC may use the price outlined in the excel application for both the Federal and State LIHTCs to evaluate the proposal, provided the price reasonably reflects current market conditions.",
+        "note": ""
+      },
+      {
+        "state": "SD",
+        "name": "South Dakota (SDHDA)",
+        "document": "2026-2027 HTC QAP, final",
+        "version": "2026-2027",
+        "source_url": "https://www.sdhousing.org/s/2026-2027-HTC-QAP-Final-072026.pdf",
+        "section": "Standard 4 Syndication Proceeds (PDF p.19)",
+        "status": "not_stated",
+        "credit_type": "Federal LIHTC",
+        "price_low": null,
+        "price_high": null,
+        "price_assumed": null,
+        "quote": "SDHDA will establish a base market rate expressed in cents netted per dollar of credit allocation. The Market Rate will be set for each individual project",
+        "note": "Set per project by the agency; no published figure."
+      },
+      {
+        "state": "ND",
+        "name": "North Dakota (NDHFA)",
+        "document": "2027 LIHTC Allocation Plan",
+        "version": "2027",
+        "source_url": "https://www.ndhousing.nd.gov/sites/default/files/documents/Plans/2027LIHTCAllocationPlan.pdf",
+        "section": "—",
+        "status": "not_stated",
+        "credit_type": "Federal LIHTC",
+        "price_low": null,
+        "price_high": null,
+        "price_assumed": null,
+        "quote": "",
+        "note": "No pricing or equity-factor language."
+      },
+      {
+        "state": "WY",
+        "name": "Wyoming (WCDA)",
+        "document": "2027 Affordable Housing Allocation Plan, final",
+        "version": "2027",
+        "source_url": "https://www.wyomingcda.com/wp-content/uploads/2026/06/2027-AHAP-FINAL.pdf",
+        "section": "—",
+        "status": "not_stated",
+        "credit_type": "Federal LIHTC",
+        "price_low": null,
+        "price_high": null,
+        "price_assumed": null,
+        "quote": "",
+        "note": "No pricing or equity-factor language."
+      },
+      {
+        "state": "AZ",
+        "name": "Arizona (ADOH)",
+        "document": "Information Bulletin No. 08-26, LIHTC Equity Pricing Survey (under the 2026-2027 QAP)",
+        "version": "issued 2026-02-23",
+        "source_url": "https://housing.az.gov/sites/default/files/2026-03/IB-08-26-LIHTC%20Equity%20Pricing%20Survey.pdf",
+        "section": "IB 08-26 (1 page); authority: 2026-2027 QAP §VI.B.4 Equity Pricing",
+        "status": "stated",
+        "credit_type": "Federal LIHTC (9%)",
+        "price_low": 0.77,
+        "price_high": 0.84,
+        "price_assumed": null,
+        "quote": "Based on the responses, the ranges for federal low income housing tax credit are: Metro $0.77 - $0.84 (any application in Maricopa or Pima County) Rural $0.75 - $0.81 (applications in all other counties) Tribal $0.74 - $0.83 (applications on eligible Tribal land) Submissions for the 2026 9% LIHTC Application deadline must reflect an amount of equity per LIHTC dollar based on the above.",
+        "note": "The range shown is Metro (Maricopa and Pima); other counties are $0.75–$0.81 and tribal land $0.74–$0.83. ADOH surveys equity providers before each round, as the QAP directs, and applications must price within the range. housing.az.gov blocks scripted requests, so the bulletin was read through a text-reader proxy on 2026-10-09; the August 2026 amended QAP was not read."
+      }
+    ]
   }
 }

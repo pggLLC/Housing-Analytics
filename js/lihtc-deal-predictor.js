@@ -85,8 +85,8 @@
   var DEFAULT_ASSUMPTIONS = {
     creditRate9Pct:           _coho.creditRate9Pct  || 0.09,
     creditRate4Pct:           _coho.creditRate4Pct  || 0.04,
-    equityPrice9Pct:          _coho.equityPrice9Pct || 0.86,
-    equityPrice4Pct:          _coho.equityPrice4Pct || 0.84,
+    equityPrice9Pct:          _coho.equityPrice9Pct || 0.82,
+    equityPrice4Pct:          _coho.equityPrice4Pct || 0.83,
     hardCostPerUnit:          350000,
     softCostPct:              0.22,
     devFeePct:                0.15,
@@ -129,8 +129,8 @@
   }
 
   function _resetPricingDefaultsForTest() {
-    DEFAULT_ASSUMPTIONS.equityPrice9Pct = _coho.equityPrice9Pct || 0.86;
-    DEFAULT_ASSUMPTIONS.equityPrice4Pct = _coho.equityPrice4Pct || 0.84;
+    DEFAULT_ASSUMPTIONS.equityPrice9Pct = _coho.equityPrice9Pct || 0.82;
+    DEFAULT_ASSUMPTIONS.equityPrice4Pct = _coho.equityPrice4Pct || 0.83;
     return _getEquityPricingDefaults();
   }
 

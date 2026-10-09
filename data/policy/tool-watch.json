@@ -50,8 +50,8 @@
       "relevance_to_coho": "Primary-source reference for COHO QCT/DDA overlays, Opportunity Finder basis-boost flags, and HNA map methodology.",
       "source_url": "https://www.huduser.gov/portal/datasets/qct.html",
       "source_note": "Official HUD USER dataset page; verified by automated HTTP probe.",
-      "last_verified": "2026-07-21",
-      "review_by": "2026-10-19"
+      "last_verified": "2026-10-09",
+      "review_by": "2027-01-07"
     },
     {
       "id": "huduser-fair-market-rents",
@@ -64,8 +64,8 @@
       "relevance_to_coho": "Primary-source peer for FMR comparisons, rent context checks, and Deal Calculator guardrails.",
       "source_url": "https://www.huduser.gov/portal/datasets/fmr.html",
       "source_note": "Official HUD USER dataset page; verified by automated HTTP probe.",
-      "last_verified": "2026-07-21",
-      "review_by": "2026-10-19"
+      "last_verified": "2026-10-09",
+      "review_by": "2027-01-07"
     },
     {
       "id": "huduser-income-limits",
@@ -78,8 +78,8 @@
       "relevance_to_coho": "Primary-source peer for COHO AMI-band logic, HNA household tiering, and Deal Calculator rent/income limit workflows.",
       "source_url": "https://www.huduser.gov/portal/datasets/il.html",
       "source_note": "Official HUD USER dataset page; verified by automated HTTP probe.",
-      "last_verified": "2026-07-21",
-      "review_by": "2026-10-19"
+      "last_verified": "2026-10-09",
+      "review_by": "2027-01-07"
     }
   ]
 }

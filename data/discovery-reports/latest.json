@@ -1,14 +1,14 @@
 {
-  "scanTimestamp": "2026-10-07T14:27:41.749Z",
-  "totalScanned": 1704,
-  "newSourceCount": 1673,
+  "scanTimestamp": "2026-10-08T14:33:07.306Z",
+  "totalScanned": 1705,
+  "newSourceCount": 1674,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 830481,
+      "sizeBytes": 830852,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -92,7 +92,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 188439,
+      "sizeBytes": 188310,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -122,7 +122,7 @@
     },
     {
       "path": "data/audit/quarantine-candidates.json",
-      "sizeBytes": 587,
+      "sizeBytes": 483,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -183,6 +183,12 @@
     {
       "path": "data/car-market-report-2026-10.json",
       "sizeBytes": 3121,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/car-market-reports.json",
+      "sizeBytes": 467,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -278,7 +284,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 258355,
+      "sizeBytes": 258500,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4850,7 +4856,7 @@
     },
     {
       "path": "data/hna/local-resources.json",
-      "sizeBytes": 181584,
+      "sizeBytes": 181591,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9902,7 +9908,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 237957,
+      "sizeBytes": 243257,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9920,7 +9926,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 12563,
+      "sizeBytes": 12561,
       "inDataManifest": false,
       "inFilesManifest": true
     },
