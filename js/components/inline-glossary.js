@@ -235,6 +235,8 @@
           if (!p) return NodeFilter.FILTER_REJECT;
           if (p.tagName === 'SCRIPT' || p.tagName === 'STYLE' || p.tagName === 'ABBR') return NodeFilter.FILTER_REJECT;
           if (p.closest && p.closest('.no-glossary')) return NodeFilter.FILTER_REJECT;
+          // An <abbr> inside SVG <text> is not rendered: it blanks the label.
+          if (p.closest && p.closest('svg')) return NodeFilter.FILTER_REJECT;
           return NodeFilter.FILTER_ACCEPT;
         }
       });
