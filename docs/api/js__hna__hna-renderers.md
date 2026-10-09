@@ -71,6 +71,12 @@ setBanner — display (or clear) the top-of-page status banner.
 clearStats — reset all stat card text to '—' so stale data is not shown
 while a new geography loads.
 
+### `clearNeedReconciliation()`
+
+The need reconciliation (hna-controller.js renderNeedReconciliation)
+ explains the figures the resets blank; it goes with them, or it would
+ explain the previous geography's figures under the new one's name.
+
 ### `renderBoundary(gj, geoType)`
 
 renderBoundary — draw or replace the GeoJSON boundary layer on the HNA map.
@@ -165,16 +171,29 @@ category hover tooltips explaining what each program is.
 
 Registered as a 'moveend' listener on the Leaflet map.
 
+### `_markOverlayToggle(toggle, label, reason)`
+
+_markOverlayToggle — say next to a layer toggle that its overlay did not
+load, or clear that note once it has. Mirrors markOverlayUnavailable in
+js/co-lihtc-map.js: an empty layer with no explanation reads as "no QCTs
+here", when the truth is that nobody knows.
+@param {HTMLInputElement|null} toggle
+@param {string}                label   - e.g. 'QCT boundaries'
+@param {string|null}           reason  - null clears the note
+
 ### `renderQctLayer(data)`
 
 renderQctLayer — render Qualified Census Tract polygons as a GeoJSON layer.
-@param {GeoJSON.FeatureCollection} data
+@param {GeoJSON.FeatureCollection} data - with `unavailableReason` set (or
+  null) when the tracts could not be loaded; membership is then unknown.
 
 ### `renderDdaLayer(countyFips5, data, placeCtx)`
 
 renderDdaLayer — render Difficult Development Area indicator for the county.
 @param {string}      countyFips5 - 5-digit FIPS
-@param {object|null} data        - DDA data (null = not a DDA county)
+@param {object|null} data        - DDA features for the county (empty =
+  not a DDA county). Null, or `unavailableReason` set, means the DDA data
+  did not load: status is unknown and is never reported as "Non-DDA".
 
 ### `renderMethodology(opts)`
 
@@ -319,6 +338,23 @@ where county-level projection data is not applicable (e.g. full state view).
 renderProjectionChart — draw a population projection line chart.
 Called by external modules via window.__HNA_renderProjectionChart.
 
+### `_placeScaledHouseholds(households, popSel, popCounty)`
+
+DOLA household projections are county-level. For a place or CDP they are
+scaled, year by year, by the place's share of county population — the
+same share that produced the place population series.
+
+One function, because two charts need it. The household-formation chart
+scaled and the AMI-tier demand chart did not, so for Fruita (~5.8k
+households) the demand chart — and the Excel sheet built from it — showed
+Mesa County's ~67k households under a "Fruita (city)" heading.
+
+@param {number[]} households  county DOLA household series
+@param {number[]} popSel      selected geography's population series
+@param {number[]} popCounty   county DOLA population series
+@returns {{series:number[], scaled:boolean}} scaled=false means the series
+  is still county-level and must be labelled as such.
+
 ### `_renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t, opts)`
 
 _renderScenarioSection — render scenario comparison charts.
@@ -443,24 +479,6 @@ The baseline is intentionally a directional estimate — the
 jurisdiction-specific number comes from CDOLA Prop 123
 commitment filings. Labelled so the user knows it's an estimate.
 
-### `renderGapCoverageStats(countyFips5, chasData, acsAmiData, selectedGeo, placeAmiData, profile)`
-
-renderGapCoverageStats — populate the "Affordability Gap by AMI Tier"
-panel with 7 cumulative AMI bands (30/40/50/60/70/80/100). Primary
-source is the ACS-derived gap file (co_ami_gap_by_county.json), which
-is the only feed with 7-band granularity. Falls back to a 4-band HUD
-CHAS estimate when ACS is unavailable for a geography.
-
-"Gap" semantics: the shortfall is computed PER BAND — within each AMI
-band, households minus affordable units, clamped at zero (surplus supply
-in one band can't backfill another). The cumulative row is the running
-sum of those per-band shortfalls, so it is monotonic and the ≤100% AMI
-figure is the total cumulative gap (not a sum across bands).
-
-@param {string} countyFips5 - 5-digit county FIPS or null for statewide
-@param {object|null} chasData - parsed chas_affordability_gap.json
-@param {object|null} acsAmiData - parsed co_ami_gap_by_county.json
-
 ### `_scorecardScore(subjectPlaceRec, countyRec, econRec, dist, isPlaceSubject)`
 
 The scoring policy as a pure function: which geography the score
@@ -489,6 +507,15 @@ first data on the page, and it says "this site is broken" rather than
 "this measure does not apply here".
 
 Absence is a real answer; render it as one, and say what to do next.
+
+### `_transitZoneRenderSeq`
+
+Potential location: transit zone (#1937 Phase 3).
+How much of this geography passes the HB26-1065 2-mile screen, from
+data/hna/transit-zone-by-geography.json (built weekly from the CDOT-first
+statewide stop file). Every figure carries the provisional note from
+TransitZone.designation(), so it never reads as an eligibility finding.
+Missing, stale or unmatched data renders "Unavailable" with the reason.
 
 ### `_setProvenanceBadge(state, opts)`
 

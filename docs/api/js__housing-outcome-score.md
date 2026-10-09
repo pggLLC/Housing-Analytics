@@ -32,11 +32,6 @@ Exposes: window.HousingOutcomeScore
 Sources: HNA affordability gap, HousingNeedsFitAnalyzer coverage %,
          CHAS cost burden data
 
-### `_scorePolicyAlignment(data)`
-
-2. Policy Alignment (0-100)
-Sources: QCT/DDA flags, housing scorecard dimensions, Prop 123
-
 ### `_scoreFinancialFeasibility(data)`
 
 3. Financial Feasibility (0-100)
@@ -58,10 +53,13 @@ Compute the Housing Outcome Score.
 
 @param {Object} [overrides] - Optional data overrides (for testing)
 @returns {{
-  score:        number,       — Composite 0-100
-  grade:        string,       — A/B/C/D/F letter grade
+  score:        number|null,  — Composite 0-100; null when unavailable
+  grade:        string|null,  — A/B/C/D/F letter grade; null when unavailable
+  available:    boolean,      — false when too little is measured to score
+  unavailableReason: string|null,
   confidence:   string,       — 'high'|'medium'|'low'
-  dimensions:   Object,       — Per-dimension {score, weight, available, inputs}
-  dataComplete: number,       — 0-100 pct of data dimensions available
+  dimensions:   Object,       — Per-dimension {score, weight, available, inputs, unavailableReason}
+  dataComplete: number,       — 0-100 pct of scoring inputs actually measured
+  missingInputs: string[],    — the inputs that were excluded as unknown
   summary:      string        — One-sentence narrative
 }}

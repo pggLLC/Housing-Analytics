@@ -8,11 +8,16 @@ Source priority (most complete first):
   2. data/market/hud_lihtc_co.geojson — normalized derivative (HUD schema)
   3. Live CHFA ArcGIS FeatureServer  — 15 s timeout, public
   4. Live HUD ArcGIS FeatureServer   — 15 s timeout, public
-  5. Embedded sentinel records       — ~60 hard-coded projects, last resort
+  (none) — when all four fail, load() rejects and getSource() returns
+           'unavailable'. There is no stand-in data.
 
 Field normalization: all sources are mapped to the CHFA canonical schema
 (PROJECT, PROJ_CTY, N_UNITS, YR_ALLOC, CREDIT, LI_UNITS, YR_PIS, CNTY_FIPS,
 CNTY_NAME, STATEFP, COUNTYFP, QCT, DDA) before returning.
+
+YR_PIS is passed through but is NOT a placed-in-service year for the two
+local tiers: CHFA publishes none, and scripts/fetch-chfa-lihtc.js copies
+AwardYear into it. Read AwardYear (or YR_ALLOC) and label it an award year.
 
 Exposes window.HudLihtc.
 
@@ -48,13 +53,6 @@ Checks all three known representations of the Colorado state identifier
 (postal abbreviation, FIPS code string, and full name) because different
 service vintages use different encodings.
 @const {string}
-
-### `EMBEDDED_SENTINEL`
-
-Embedded sentinel — a representative geographic spread of Colorado LIHTC
-projects used only when all four primary sources are unavailable.
-Uses the canonical CHFA field schema (N_UNITS, PROJ_CTY, etc.).
-@const {Object}
 
 ### `features`
 
@@ -149,7 +147,8 @@ Implements a 5-tier fallback:
   Tier 2 – data/market/hud_lihtc_co.geojson (normalized derivative)
   Tier 3 – Live CHFA ArcGIS FeatureServer (15 s timeout)
   Tier 4 – Live HUD ArcGIS FeatureServer  (15 s timeout)
-  Tier 5 – Embedded sentinel               (~10 hard-coded projects)
+  No tier 5: when all four fail the promise rejects and getSource()
+  returns 'unavailable'.
 
 The promise is memoised — repeated calls return the same result.
 All loaded features are normalized to the CHFA canonical schema.
@@ -206,11 +205,12 @@ Returns a copy of all loaded (normalized) feature objects.
 ### `getSource()`
 
 Returns the source tier string for the loaded data
-(e.g. 'chfa-local', 'hud-local', 'chfa-arcgis', 'hud-arcgis', 'embedded').
+(e.g. 'chfa-local', 'hud-local', 'chfa-arcgis', 'hud-arcgis', or
+'unavailable' when every source failed).
 @returns {string|null}
 
 ### `getFetchedAt()`
 
 Returns the ISO-8601 UTC fetchedAt timestamp from the data file, or null
-when the data came from a live ArcGIS request or the embedded sentinel.
+when the data came from a live ArcGIS request or no source loaded.
 @returns {string|null}

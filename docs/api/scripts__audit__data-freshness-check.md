@@ -20,6 +20,7 @@ Usage:
   node scripts/audit/data-freshness-check.mjs
   node scripts/audit/data-freshness-check.mjs --json      (machine output)
   node scripts/audit/data-freshness-check.mjs --quiet     (only print failures)
+  node scripts/audit/data-freshness-check.mjs --as-of=2026-11-01  (judge ages as of a date; tests)
 
 To add a new file, append a row to SLA_CONFIG with a reasonable SLA in days.
 The SLA should be comfortably longer than the pipeline's refresh cadence —
