@@ -7288,6 +7288,12 @@
     return null;
   }
 
+  // Set by any input/change on the rate field (typing, a prefill, the hint's
+  // own apply) and by shared-scenario hydration.
+  var _permRateWritten = false;
+  document.addEventListener('input', function (e) { if (e.target && e.target.id === 'dc-rate') _permRateWritten = true; }, true);
+  document.addEventListener('change', function (e) { if (e.target && e.target.id === 'dc-rate') _permRateWritten = true; }, true);
+
   function _initFreddieBenchmark() {
     function _go() {
       var target = document.getElementById('dc-freddie-benchmark');
@@ -7343,10 +7349,11 @@
           var r = current();
           if (r != null) apply(r);
         });
-        // The template's rate is an offline placeholder. While the field
-        // still holds it, start from the hint so the page shows one rate
-        // rule; a rate the user typed or restored is left alone.
-        if (input.value === input.defaultValue) apply(t10.value + spread);
+        // The template's rate is an offline placeholder. Until anything
+        // writes the field, start from the hint so the page shows one rate
+        // rule; a rate the user typed or a shared link restored, even 6.5,
+        // is left alone.
+        if (!_permRateWritten) apply(t10.value + spread);
       }).catch(function () { /* silent — graceful degradation */ });
     }
     if (document.readyState === 'loading') {
@@ -7379,7 +7386,7 @@
     getUtilityAllowanceMetadata: getUtilityAllowanceMetadata,
     getRentScheduleMetadata: getRentScheduleMetadata,
     setSharedRentSchedule: setSharedRentSchedule,
-    beginSharedScenario: function () { _hydratingSharedScenario = true; _manualBaseValues = null; },
+    beginSharedScenario: function () { _hydratingSharedScenario = true; _permRateWritten = true; _manualBaseValues = null; },
     endSharedScenario: function () { restoreMarketOverrideDisplay(); _hydratingSharedScenario = false; recalculate(); },
     setSharedUtilityAllowance: setSharedUtilityAllowance,
     getAmiLimitsByBr: function () { return _amiLimitsByBr == null ? null : JSON.parse(JSON.stringify(_amiLimitsByBr)); },

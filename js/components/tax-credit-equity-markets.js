@@ -153,7 +153,9 @@
       markets.map(function (entry) {
         var price = entry.price_low == null || entry.price_high == null
           ? 'Value not yet verified'
-          : dollars(entry.price_low) + '-' + dollars(entry.price_high);
+          : entry.price_low === entry.price_high
+            ? '$' + String(Math.round(entry.price_low * 1000) / 1000) + ' average'
+            : dollars(entry.price_low) + '-' + dollars(entry.price_high);
         return '<tr data-transfer-id="' + esc(entry.id) + '">' +
           '<td><strong>' + esc(entry.label) + '</strong><br><span style="color:var(--muted);font-size:var(--tiny);">' + esc(entry.source_note) + '</span></td>' +
           '<td>' + esc(entry.credit_type || entry.scope) + '</td>' +
