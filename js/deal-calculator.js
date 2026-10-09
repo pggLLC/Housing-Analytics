@@ -17,8 +17,8 @@
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
   var _creditRate = _cfg.creditRate9Pct || 0.09;
   var _equityPricingDefaults = {
-    credit_9pct: _cfg.equityPrice9Pct || 0.86,
-    credit_4pct: _cfg.equityPrice4Pct || 0.84
+    credit_9pct: _cfg.equityPrice9Pct || 0.82,
+    credit_4pct: _cfg.equityPrice4Pct || 0.83
   };
   var EQUITY_PRICE_DEFAULT = _equityPricingDefaults.credit_9pct;
   var _amiGapData = null;       // cached co_ami_gap_by_county.json
@@ -109,6 +109,12 @@
     return isFinite(n) && n > 0 ? n : null;
   }
 
+  function _escHtml(value) {
+    return String(value).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
   function _getCreditPricingDefault(is4Pct) {
     return is4Pct ? _equityPricingDefaults.credit_4pct : _equityPricingDefaults.credit_9pct;
   }
@@ -127,8 +133,8 @@
     if (!input) return defaultPrice;
     var current = _numOrNull(input.value);
     var shouldUpdate = opts.force || current == null ||
-      Math.abs(current - (_cfg.equityPrice9Pct || 0.86)) < 0.0001 ||
-      Math.abs(current - (_cfg.equityPrice4Pct || 0.84)) < 0.0001;
+      Math.abs(current - (_cfg.equityPrice9Pct || 0.82)) < 0.0001 ||
+      Math.abs(current - (_cfg.equityPrice4Pct || 0.83)) < 0.0001;
     if (shouldUpdate) {
       input.value = defaultPrice.toFixed(2);
       if (window.InputProvenance) window.InputProvenance.mark(input, { status: 'assumption',
@@ -2378,11 +2384,11 @@
           <span style="font-size:var(--small);color:var(--muted);">Interest Rate (%)</span>
           <input id="dc-rate" type="number" min="3" max="12" step="0.1" value="6.5"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
-          <!-- F239: Freddie Mac perm-rate benchmark — wired from
-               data/market/freddie-mac-multifamily-outlook.json by
-               _initFreddieBenchmark() at module init. -->
-          <div id="dc-freddie-benchmark" style="margin-top:0.4rem;font-size:0.7rem;color:var(--muted);line-height:1.4;"></div>
         </label>
+        <!-- Perm-rate hint: FRED 10-year Treasury + a stated spread, wired by
+             _initFreddieBenchmark() at module init. Outside the label above so
+             its own spread input is not a second control of that label. -->
+        <div id="dc-freddie-benchmark" style="margin:-0.3rem 0 var(--sp2);font-size:0.7rem;color:var(--muted);line-height:1.4;"></div>
 
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Loan Term (years)</span>
@@ -2649,7 +2655,7 @@
         <p id="dc-gap-note" style="margin-top:var(--sp2);font-size:var(--tiny);color:var(--muted);display:none;"></p>
         <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
           ⚠ Verify: Annual credits and equity are illustrative — confirm equity pricing with your syndicator
-          (CO market typically $0.85–$0.95/credit). Gross rents follow the selected rent-limit setting;
+          (compare the Novogradac benchmark shown under Credit Pricing). Gross rents follow the selected rent-limit setting;
           the rent comparison names its source and year. Spot-check against current market rents before underwriting.
         </p>
         </div>
@@ -3140,7 +3146,7 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp2) var(--sp3);">
         <label style="display:block;">
           <span style="color:var(--muted);">Credit Pricing ($/credit)</span>
-          <input id="dc-equity-price" type="number" min="0.50" max="1.20" step="0.01" value="0.86"
+          <input id="dc-equity-price" type="number" min="0.50" max="1.20" step="0.01" value="0.82"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
           <p style="margin:.4rem 0;">Review benchmarks in <a data-workflow-link="deal-equity" href="article-pricing.html">Tax Credit Equity Markets</a>.</p>
           <!-- F230 — Novogradac equity pricing benchmark button. Populated
@@ -7002,8 +7008,8 @@
   //
   //   1. **County match** (40 pts) — exact county FIPS hit
   //   2. **Unit count proximity** (25 pts) — within ±20% of proposed
-  //   3. **Credit type match** (15 pts) — 9% / 4% — based on proposed equity
-  //      pricing (>$0.85 → 9%, ≤ $0.85 → 4% typically)
+  //   3. **Credit type match** (15 pts) — 9% / 4% — from the calculator's
+  //      credit-rate selector
   //   4. **Project type match** (10 pts) — new construction vs preservation
   //   5. **Recency** (10 pts) — award_year ≥ 2020 = max; earlier = scaled
   //
@@ -7032,11 +7038,11 @@
     }
 
     function _proposedCreditType() {
-      // Heuristic: equity pricing >= $0.85/credit → 9% deal; otherwise 4%.
-      // (9% deals trade above $0.85 in 2026; 4% bond deals below.)
-      var priceEl = document.getElementById('dc-equity-price');
-      var price = priceEl ? +priceEl.value || 0.90 : 0.90;
-      return price >= 0.85 ? '9%' : '4%';
+      // The calculator's own 9%/4% selector. This used to be inferred from the
+      // equity price (>= $0.85 meant 9%), which stopped working once 4%
+      // credits began pricing at or above 9% in 2025-Q3.
+      var rate4 = document.getElementById('dc-rate-4');
+      return rate4 && rate4.checked ? '4%' : '9%';
     }
     function _normCreditType(s) {
       if (!s) return null;
@@ -7215,45 +7221,46 @@
           if (!j || !j.pricing) return;
           _applyNovogradacPricingDefaults(j, { force: true });
           var nat = j.pricing.national_avg || {};
-          var co  = j.pricing.colorado_specific || {};
-          var denver = co.denver_msa || {};
-          var rural  = co.rural_colorado || {};
+          var co = (j.pricing.by_state && j.pricing.by_state.CO) || {};
           var asOf = (j.meta && j.meta.as_of) || '—';
+          // A missing or non-positive price is unknown: show a dash, offer no button.
+          var fmt = function (v) { var n = _numOrNull(v); return n ? '$' + n.toFixed(2) : '—'; };
+          var options = [
+            { price: _numOrNull(nat.credit_9pct), label: 'national 9%', geography: 'United States (9% credits)' },
+            { price: _numOrNull(nat.credit_4pct), label: 'national 4%', geography: 'United States (4% credits)' },
+            { price: _numOrNull(co.median_all_credits), label: 'Colorado median', geography: 'Colorado (all credit types)' }
+          ];
           target.innerHTML =
             '<div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;">' +
-              '<span><strong style="color:var(--accent);">📊 Novogradac ' + asOf + ':</strong> ' +
-                'national 9% = <strong>$' + (nat.credit_9pct || '—').toFixed(2) + '</strong>; ' +
-                'national 4% = <strong>$' + (nat.credit_4pct || '—').toFixed(2) + '</strong>; ' +
-                'Denver MSA 9% = <strong>$' + (denver.credit_9pct || '—').toFixed(2) + '</strong>; ' +
-                'rural CO 9% = <strong>$' + (rural.credit_9pct || '—').toFixed(2) + '</strong>.' +
+              '<span><strong style="color:var(--accent);">📊 Novogradac ' + _escHtml(asOf) + ':</strong> ' +
+                'national 9% = <strong>' + fmt(nat.credit_9pct) + '</strong>; ' +
+                'national 4% = <strong>' + fmt(nat.credit_4pct) + '</strong>; ' +
+                'Colorado median (all credits) = <strong>' + fmt(co.median_all_credits) + '</strong>.' +
               '</span>' +
               '<div style="display:flex;gap:.3rem;flex-wrap:wrap;">' +
-                '<button type="button" class="dc-novo-apply" data-price="' + (denver.credit_9pct || nat.credit_9pct) + '" ' +
-                        'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
-                  'Use Denver 9% ($' + (denver.credit_9pct || nat.credit_9pct || 0).toFixed(2) + ')' +
-                '</button>' +
-                '<button type="button" class="dc-novo-apply" data-price="' + (rural.credit_9pct || nat.credit_9pct) + '" ' +
-                        'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
-                  'Use rural CO 9% ($' + (rural.credit_9pct || nat.credit_9pct || 0).toFixed(2) + ')' +
-                '</button>' +
+                options.map(function (o, index) {
+                  if (!o.price) return '';
+                  return '<button type="button" class="dc-novo-apply" data-option="' + index + '" data-price="' + o.price + '" ' +
+                          'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
+                    'Use ' + o.label + ' ($' + o.price.toFixed(2) + ')' +
+                  '</button>';
+                }).join('') +
               '</div>' +
             '</div>' +
             '<div style="margin-top:.25rem;font-size:.68rem;color:var(--faint);">' +
-              'Source: <a href="' + ((j.meta && j.meta.source_url) || 'https://www.novoco.com') + '" target="_blank" rel="noopener" style="color:var(--accent);">Novogradac & Co. LLP</a> · ' +
-              'Vintage ' + ((j.meta && j.meta.vintage) || '—') + ' · ' +
+              'Source: <a href="' + _escHtml((j.meta && j.meta.source_url) || 'https://www.novoco.com') + '" target="_blank" rel="noopener" style="color:var(--accent);">Novogradac & Co. LLP</a> · ' +
+              'Vintage ' + _escHtml((j.meta && j.meta.vintage) || '—') + ' · ' +
               'Verify against current Novogradac publication before quoting in IC memo.' +
             '</div>';
           // Wire the apply buttons
-          target.querySelectorAll('.dc-novo-apply').forEach(function (btn, index) {
+          target.querySelectorAll('.dc-novo-apply').forEach(function (btn) {
             btn.addEventListener('click', function () {
-              var p = parseFloat(btn.getAttribute('data-price'));
-              if (isFinite(p) && p > 0) {
-                input.value = p.toFixed(2);
+              var o = options[+btn.getAttribute('data-option')];
+              if (o && o.price) {
+                input.value = o.price.toFixed(2);
                 if (window.InputProvenance) window.InputProvenance.mark(input, { status: 'assumption',
                   source: j.meta && j.meta.source, sourceUrl: j.meta && j.meta.source_url,
-                  vintage: j.meta && j.meta.vintage, geography: index === 0
-                    ? (denver.credit_9pct ? 'Denver-Aurora-Lakewood MSA' : 'United States')
-                    : (rural.credit_9pct ? 'Rural Colorado' : 'United States'),
+                  vintage: j.meta && j.meta.vintage, geography: o.geography,
                   why: 'A published-context screening estimate; verify current project-specific pricing.' });
                 prefillEvents(input);
               }
@@ -7270,56 +7277,79 @@
   }
   _initNovogradacBenchmark();
 
-  // F239: Freddie Mac perm-rate benchmark wired into Interest Rate input.
-  // Surfaces Fed funds, 10Y Treasury, implied perm rate from
-  // data/market/freddie-mac-multifamily-outlook.json + apply-button to
-  // override the user input.
+  // Perm-rate hint for the Interest Rate input: the live 10-year Treasury
+  // from data/fred-data.json (refreshed daily by fetch-fred-data.yml) plus a
+  // spread the page states and the user can change. It replaced a typed
+  // "Freddie Mac outlook" snapshot (2026-10) whose 10Y, fed funds and 5.90%
+  // implied rate had no citable source and had drifted a point below market.
+  function _latestFredValue(doc, id) {
+    var s = doc && doc.series && doc.series[id];
+    var obs = s && (s.observations || s.data);
+    if (!Array.isArray(obs)) return null;
+    for (var i = obs.length - 1; i >= 0; i--) {
+      // FRED writes "." for a day with no value: unknown, skipped, never 0.
+      var raw = obs[i] && obs[i].value;
+      if (raw == null || raw === '' || raw === '.') continue;
+      var n = Number(raw);
+      if (isFinite(n) && n > 0) return { value: n, date: obs[i].date || null };
+    }
+    return null;
+  }
+
   function _initFreddieBenchmark() {
     function _go() {
       var target = document.getElementById('dc-freddie-benchmark');
       var input = document.getElementById('dc-rate');
       if (!target || !input) return;
-      fetch('data/market/freddie-mac-multifamily-outlook.json')
-        .then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (j) {
-          if (!j || !j.macro_debt_environment) return;
-          var m = j.macro_debt_environment;
-          var perm = (m.implied_perm_rate_pct != null) ? m.implied_perm_rate_pct : 5.90;
-          var fedRange = (m.fed_funds_target_range_low != null && m.fed_funds_target_range_high != null)
-            ? m.fed_funds_target_range_low.toFixed(2) + '-' + m.fed_funds_target_range_high.toFixed(2) + '%'
-            : '—';
-          var t10 = (m.ten_year_treasury_yield_pct != null) ? m.ten_year_treasury_yield_pct.toFixed(2) + '%' : '—';
-          target.innerHTML =
-            '<div style="display:flex;align-items:center;justify-content:space-between;gap:.4rem;flex-wrap:wrap;">' +
-              '<span><strong style="color:var(--accent);">🏦 Freddie Mac:</strong> ' +
-                'Fed funds ' + fedRange + ' · 10Y Tsy ' + t10 + ' · ' +
-                'implied perm ~<strong>' + perm.toFixed(2) + '%</strong> (10Y + ~165bp spread)' +
-              '</span>' +
-              '<button type="button" id="dc-freddie-apply" ' +
-                      'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
-                'Use ' + perm.toFixed(2) + '%' +
-              '</button>' +
-            '</div>' +
-            '<div style="margin-top:.2rem;font-size:.66rem;color:var(--faint);">' +
-              'Source: <a href="' + ((j.meta && j.meta.source_url) || 'https://mf.freddiemac.com/research') + '" target="_blank" rel="noopener" style="color:var(--accent);">Freddie Mac Multifamily Outlook</a> · ' +
-              'Vintage ' + ((j.meta && j.meta.vintage) || '—') + '. ' +
-              'Pull current rate-sheet directly before lender LOI.' +
-            '</div>';
-          var btn = document.getElementById('dc-freddie-apply');
-          if (btn) {
-            btn.addEventListener('click', function () {
-              if (isFinite(perm) && perm > 0) {
-                input.value = perm.toFixed(2);
-                if (window.InputProvenance) window.InputProvenance.mark(input, { status: 'assumption',
-                  source: j.meta && j.meta.source, sourceUrl: j.meta && j.meta.source_url,
-                  vintage: j.meta && j.meta.vintage, geography: 'United States',
-                  why: 'A published-context screening estimate; verify current project-specific pricing.' });
-                prefillEvents(input);
-              }
-            });
-          }
-        })
-        .catch(function () { /* silent — graceful degradation */ });
+      Promise.all([
+        fetch('data/fred-data.json').then(function (r) { return r.ok ? r.json() : null; }),
+        fetch('data/policy/lihtc-assumptions.json').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
+      ]).then(function (res) {
+        var t10 = _latestFredValue(res[0], 'DGS10');
+        var a = res[1] && res[1].permRateSpreadOverTreasury;
+        var spread = a && Number.isFinite(a.spreadPct) && a.spreadPct >= 0 ? a.spreadPct : null;
+        if (!t10 || spread == null) {
+          target.textContent = '';
+          return;
+        }
+        target.innerHTML =
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:.4rem;flex-wrap:wrap;">' +
+            '<span><strong style="color:var(--accent);">🏦 Perm-rate hint:</strong> ' +
+              '10Y Treasury ' + t10.value.toFixed(2) + '% (FRED, ' + _escHtml(t10.date || '—') + ') + ' +
+              '<label>spread <input type="number" id="dc-perm-spread" min="0" max="5" step="0.05" value="' + spread.toFixed(2) + '" ' +
+                'style="width:4.2em;font-size:.7rem;" aria-label="Assumed perm-loan spread over the 10-year Treasury, percentage points"> pts</label> = ' +
+              '<strong id="dc-perm-hint">' + (t10.value + spread).toFixed(2) + '%</strong>' +
+            '</span>' +
+            '<button type="button" id="dc-freddie-apply" ' +
+                    'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
+              'Use this rate' +
+            '</button>' +
+          '</div>' +
+          '<div style="margin-top:.2rem;font-size:.66rem;color:var(--faint);">' +
+            'Source: <a href="https://fred.stlouisfed.org/series/DGS10" target="_blank" rel="noopener" style="color:var(--accent);">FRED DGS10</a>. ' +
+            'The spread is ' + _escHtml(a.note || 'a COHO assumption') + ' Get a lender rate sheet before an LOI.' +
+          '</div>';
+        var spreadEl = document.getElementById('dc-perm-spread');
+        var hintEl = document.getElementById('dc-perm-hint');
+        function current() {
+          var sp = Number(spreadEl.value);
+          return spreadEl.value !== '' && isFinite(sp) && sp >= 0 ? t10.value + sp : null;
+        }
+        spreadEl.addEventListener('input', function () {
+          var r = current();
+          hintEl.textContent = r == null ? '—' : r.toFixed(2) + '%';
+        });
+        document.getElementById('dc-freddie-apply').addEventListener('click', function () {
+          var r = current();
+          if (r == null) return;
+          input.value = r.toFixed(2);
+          if (window.InputProvenance) window.InputProvenance.mark(input, { status: 'assumption',
+            source: 'FRED DGS10 plus an assumed spread', sourceUrl: 'https://fred.stlouisfed.org/series/DGS10',
+            vintage: t10.date, geography: 'United States',
+            why: '10-year Treasury plus a stated spread; verify with a lender rate sheet.' });
+          prefillEvents(input);
+        });
+      }).catch(function () { /* silent — graceful degradation */ });
     }
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', function () { setTimeout(_go, 200); });
