@@ -575,6 +575,15 @@
   }
 
   /* ── Custom PMA readiness (#1932) ──────────────────────────────── */
+  function _htmlEscape(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function _listGeoids(ids) {
+    return ids.length <= 5 ? ids.join(', ') : ids.slice(0, 5).join(', ') + ' and ' + (ids.length - 5) + ' more';
+  }
+
   /**
    * A custom PMA's conclusions — the score, capture rate and competitive
    * density — describe that PMA only when three bindings are all in place:
@@ -588,14 +597,6 @@
    * Returns null when the custom PMA is bound, otherwise the reason its
    * conclusions are not yet available. Never a default.
    */
-  function _htmlEscape(s) {
-    return String(s).replace(/[&<>"']/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-    });
-  }
-  function _listGeoids(ids) {
-    return ids.length <= 5 ? ids.join(', ') : ids.slice(0, 5).join(', ') + ' and ' + (ids.length - 5) + ' more';
-  }
   function customPmaBlockReason(lat, lon, geoids, boundary, boundTracts, acsIdx) {
     if (typeof lat !== 'number' || typeof lon !== 'number' || !isFinite(lat) || !isFinite(lon)
         || (lat === 0 && lon === 0)) {

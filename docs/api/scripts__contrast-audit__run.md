@@ -17,7 +17,7 @@ Environment variables:
 
 Scans key pages served via http-server, capped at 2000 nodes/page, once the
 page has settled (see waitForSettled) — never at an arbitrary load event.
-Skips aria-hidden elements, opacity < 0.9, and font-size < 10px.
+Skips aria-hidden subtrees, disabled controls, opacity < 0.9, and font-size < 10px.
 Thresholds: 4.5 normal text / 3.0 large text (WCAG AA).
 
 Fix logic mirrors js/contrast-guard.js (runtime fixer):

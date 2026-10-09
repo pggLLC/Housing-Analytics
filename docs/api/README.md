@@ -1,6 +1,6 @@
 # API reference
 
-_Auto-generated from JSDoc — 2026-10-08. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
+_Auto-generated from JSDoc — 2026-10-09. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
 
 Only modules with at least one JSDoc-commented symbol are indexed. To get a module on this page, add a `/** ... */` comment on any exported function, constant, or class.
 
@@ -398,6 +398,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`data-inventory.mjs`](./scripts__audit__data-inventory.md) | scripts/audit/data-inventory. | 1 |
 | [`data-sentinels-check.mjs`](./scripts__audit__data-sentinels-check.md) | data-sentinels-check. | 1 |
 | [`duplicate-artifact-scan.mjs`](./scripts__audit__duplicate-artifact-scan.md) | scripts/audit/duplicate-artifact-scan. | 0 |
+| [`equity-pricing-watch.mjs`](./scripts__audit__equity-pricing-watch.md) | _no header_ | 5 |
 | [`finish-line.mjs`](./scripts__audit__finish-line.md) | scripts/audit/finish-line. | 1 |
 | [`heal-local-resource-links.mjs`](./scripts__audit__heal-local-resource-links.md) | heal-local-resource-links. | 0 |
 | [`inline-contrast-check.mjs`](./scripts__audit__inline-contrast-check.md) | F122 + F127 — accent-contrast check | 0 |
@@ -411,6 +412,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`refresh-inventory-mtimes.mjs`](./scripts__audit__refresh-inventory-mtimes.md) | refresh-inventory-mtimes. | 1 |
 | [`rendered-mobile-overflow-npm.mjs`](./scripts__audit__rendered-mobile-overflow-npm.md) | Local convenience wrapper for the rendered mobile overflow smoke. | 0 |
 | [`repo-link-audit.mjs`](./scripts__audit__repo-link-audit.md) | Repo-wide link audit. | 0 |
+| [`runtime-contrast-scan-fn.mjs`](./scripts__audit__runtime-contrast-scan-fn.md) | The in-page half of scripts/audit/runtime-contrast-scanner. | 0 |
 | [`runtime-contrast-scanner.mjs`](./scripts__audit__runtime-contrast-scanner.md) | F128 — Runtime contrast scanner. | 0 |
 | [`serve-static.mjs`](./scripts__audit__serve-static.md) | serve-static. | 0 |
 | [`site-audit.mjs`](./scripts__audit__site-audit.md) | site-audit. | 2 |
