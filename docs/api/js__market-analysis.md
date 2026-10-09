@@ -38,7 +38,7 @@ fall back to the legacy centroid-distance check.
 
 bbox format: [minLon, minLat, maxLon, maxLat]
 
-### `_htmlEscape(s)`
+### `customPmaBlockReason(lat, lon, geoids, boundary, boundTracts, acsIdx)`
 
 A custom PMA's conclusions — the score, capture rate and competitive
 density — describe that PMA only when three bindings are all in place:
