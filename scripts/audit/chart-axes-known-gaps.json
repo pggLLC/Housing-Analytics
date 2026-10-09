@@ -1,19 +1,22 @@
 {
-  "_comment": "Charts scripts/audit/chart-axes-audit.mjs flags today and that are not fixed yet. Each entry is exact (page + chart). Remove an entry in the PR that fixes it; the audit fails on an entry that no longer fails.",
+  "_comment": "Charts scripts/audit/chart-axes-audit.mjs flags today and that are not fixed yet. Each entry is exact (page + chart + problem), so a new defect on a listed chart still fails. Remove an entry in the PR that fixes it; the audit fails on an entry that no longer fails.",
   "gaps": [
     {
       "page": "dashboard.html",
       "chart": "canvas#allocations-chart",
+      "problem": "x axis has 0 tick label(s)",
       "reason": "Top-10 states bar chart renders no bars and no x-axis labels (labels come from s.abbr, which the loaded state records do not appear to carry). Found 2026-10-09; not fixed in the PR that added this audit."
     },
     {
       "page": "regional.html",
       "chart": "canvas#allocations-chart",
+      "problem": "x axis has 0 tick label(s)",
       "reason": "Same top-10 states chart as dashboard.html: no x-axis labels. Found 2026-10-09."
     },
     {
       "page": "regional.html",
       "chart": "canvas#per-capita-chart",
+      "problem": "x axis has 0 tick label(s)",
       "reason": "Per-capita allocation bar chart: no x-axis labels. Found 2026-10-09."
     }
   ]

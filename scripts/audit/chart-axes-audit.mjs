@@ -22,10 +22,17 @@
  *   Blank labels — any SVG <text> with text content but no rendered box
  *     (an HTML element inside SVG text renders nothing).
  *
- * A chart that fails and is listed in chart-axes-known-gaps.json is
+ * A failure listed in chart-axes-known-gaps.json (page, chart AND problem,
+ * so a new defect on a listed chart is not hidden by the old entry) is
  * reported as known; anything else fails the run. The list must stay
  * exact: an entry that no longer fails is reported as stale and also fails,
  * so a fixed chart comes off the list in the PR that fixes it.
+ *
+ * Coverage: chart-axes-coverage.json records how many charts each page
+ * painted when the floor was set. A page that checks fewer fails, so a
+ * renderer that stops painting a page's charts cannot pass as "0 charts".
+ * After adding or removing charts on purpose, refresh it with
+ * `npm run audit:chart-axes -- --write-coverage` and commit the file.
  *
  * Local:
  *   npx http-server . -p 8080 --silent &
@@ -45,6 +52,8 @@ const BASE_URL = process.env.AUDIT_BASE_URL || 'http://127.0.0.1:8080';
 const SETTLE_MS = Number(process.env.AUDIT_SETTLE_MS || 3000);
 const TIMEOUT = 30000;
 const KNOWN_PATH = path.join(__dirname, 'chart-axes-known-gaps.json');
+const COVERAGE_PATH = path.join(__dirname, 'chart-axes-coverage.json');
+const WRITE_COVERAGE = process.argv.includes('--write-coverage');
 const REPORT_DIR = path.join(ROOT, 'audit-report', 'chart-axes');
 
 // Pages whose charts only render for a chosen geography get one here.
@@ -135,6 +144,7 @@ async function main() {
   const browser = await chromium.launch(process.env.PW_CHROMIUM_PATH ? { executablePath: process.env.PW_CHROMIUM_PATH } : {});
   const results = [];
   let checkedTotal = 0;
+  const perPage = {};
   let sawMustCheck = false;
 
   for (const page of pages) {
@@ -151,6 +161,7 @@ async function main() {
       await tab.waitForTimeout(800);
       const { checked, failures } = await tab.evaluate(inspectPage);
       checkedTotal += checked.length;
+      perPage[page] = checked.length;
       if (page === MUST_CHECK.page && checked.some((c) => c.startsWith(MUST_CHECK.chart))) sawMustCheck = true;
       const seen = new Set();
       failures.forEach((f) => {
@@ -169,20 +180,36 @@ async function main() {
   }
   await browser.close();
 
-  const isKnown = (r) => known.some((k) => k.page === r.page && k.chart === r.chart);
+  const sameGap = (k, r) => k.page === r.page && k.chart === r.chart && k.problem === r.problem;
+  const isKnown = (r) => known.some((k) => sameGap(k, r));
   const fresh = results.filter((r) => !isKnown(r));
-  const stale = process.env.AUDIT_PAGES ? [] : known.filter((k) => !results.some((r) => r.page === k.page && r.chart === k.chart));
+  const stale = process.env.AUDIT_PAGES ? [] : known.filter((k) => !results.some((r) => sameGap(k, r)));
+
+  if (WRITE_COVERAGE) {
+    const floors = {};
+    Object.keys(perPage).sort().forEach((p) => { if (perPage[p] > 0) floors[p] = perPage[p]; });
+    fs.writeFileSync(COVERAGE_PATH, JSON.stringify({
+      _comment: 'Charts each page painted when this floor was set. chart-axes-audit.mjs fails a page that checks fewer. Regenerate with npm run audit:chart-axes -- --write-coverage.',
+      pages: floors
+    }, null, 2) + '\n');
+    console.log(`Wrote coverage floors for ${Object.keys(floors).length} page(s) to ${path.relative(ROOT, COVERAGE_PATH)}`);
+  }
+  const floors = JSON.parse(fs.readFileSync(COVERAGE_PATH, 'utf8')).pages || {};
+  const short = Object.keys(floors)
+    .filter((p) => pages.includes(p) && (perPage[p] || 0) < floors[p])
+    .map((p) => ({ page: p, expected: floors[p], checked: perPage[p] || 0 }));
 
   fs.mkdirSync(REPORT_DIR, { recursive: true });
-  fs.writeFileSync(path.join(REPORT_DIR, 'report.json'), JSON.stringify({ base: BASE_URL, pages: pages.length, chartsChecked: checkedTotal, results, fresh, stale }, null, 2));
+  fs.writeFileSync(path.join(REPORT_DIR, 'report.json'), JSON.stringify({ base: BASE_URL, pages: pages.length, chartsChecked: checkedTotal, results, fresh, stale, perPage, short }, null, 2));
 
   console.log('\n' + '='.repeat(60));
   console.log(`Chart axes audit: ${pages.length} page(s), ${checkedTotal} chart(s) checked`);
   console.log(`  known gaps still open: ${results.length - fresh.length}`);
   fresh.forEach((r) => console.log(`  NEW  ${r.page} ${r.chart}: ${r.problem}`));
-  stale.forEach((k) => console.log(`  STALE known gap no longer fails, remove it: ${k.page} ${k.chart}`));
+  stale.forEach((k) => console.log(`  STALE known gap no longer fails, remove it: ${k.page} ${k.chart}: ${k.problem}`));
+  short.forEach((c) => console.log(`  COVERAGE ${c.page} checked ${c.checked} chart(s), floor is ${c.expected}: charts stopped rendering`));
 
-  let failed = fresh.length > 0 || stale.length > 0;
+  let failed = fresh.length > 0 || stale.length > 0 || short.length > 0;
   if (checkedTotal === 0) { console.log('  FAIL scan checked no charts at all'); failed = true; }
   if (pages.includes(MUST_CHECK.page) && !sawMustCheck) {
     console.log(`  FAIL ${MUST_CHECK.chart} on ${MUST_CHECK.page} was not checked; the scan is broken`);

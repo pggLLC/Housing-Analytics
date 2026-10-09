@@ -1,0 +1,24 @@
+{
+  "_comment": "Charts each page painted when this floor was set. chart-axes-audit.mjs fails a page that checks fewer. Regenerate with npm run audit:chart-axes -- --write-coverage.",
+  "pages": {
+    "article-pricing.html": 1,
+    "census-dashboard.html": 1,
+    "colorado-deep-dive.html": 1,
+    "colorado-market.html": 1,
+    "construction-commodities.html": 4,
+    "cra-expansion-analysis.html": 1,
+    "dashboard.html": 1,
+    "economic-dashboard.html": 46,
+    "historical-trends.html": 2,
+    "hna-scenario-builder.html": 1,
+    "hna-what-households-can-afford.html": 2,
+    "hna-what-housing-exists.html": 4,
+    "hna-what-to-do.html": 4,
+    "hna-where-its-heading.html": 8,
+    "hna-who-lives-here.html": 7,
+    "housing-needs-assessment.html": 29,
+    "market-intelligence.html": 3,
+    "preservation.html": 1,
+    "regional.html": 2
+  }
+}
