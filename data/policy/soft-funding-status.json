@@ -569,7 +569,7 @@
         "https://www.energy.gov/cmei/scep/wap/weatherization-program-notices-and-memorandums"
       ],
       "adminEntity": "DOE / Colorado Energy Office / local WAP providers",
-      "source_note": "DOE WAP pages verified 2026-07-18; Program Year 2026 guidance is published, but household/project awards vary by local provider. DOE describes delivered weatherization services, not one project-financing instrument. funding_type, rate_pct, term_years, repayment and max_rule are null: no universal rental-project terms or cap are stated.",
+      "source_note": "Primary source reopened 2026-10-09. DOE WAP pages previously checked 2026-07-18; Program Year 2026 guidance is published, but household/project awards vary by local provider. DOE describes delivered weatherization services, not one project-financing instrument. funding_type, rate_pct, term_years, repayment and max_rule are null: no universal rental-project terms or cap are stated.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "warning": "Screening context only. Verify local provider eligibility, landlord permission for renters, and current provider capacity before advising a household or underwriting a rehab scope.",
@@ -603,7 +603,7 @@
         "https://content.govdelivery.com/accounts/USDOESCEP/bulletins/3bf14ad"
       ],
       "adminEntity": "DOE / Colorado Energy Office",
-      "source_note": "DOE program page verified 2026-07-18; Colorado CEO status page was blocked by CDN/WAF, so this entry remains VERIFY rather than active. DOE describes rebates rather than one of the loan/equity instruments. funding_type, rate_pct, term_years and repayment are null. Federal household examples ($8,000 HOMES and $14,000 HEEHR) are not a verified Colorado multifamily project maximum, so max_rule remains null.",
+      "source_note": "Primary source reopened 2026-10-09. DOE program page previously checked 2026-07-18; Colorado CEO status page was blocked by CDN/WAF, so this entry remains VERIFY rather than active. DOE describes rebates rather than one of the loan/equity instruments. funding_type, rate_pct, term_years and repayment are null. Federal household examples ($8,000 HOMES and $14,000 HEEHR) are not a verified Colorado multifamily project maximum, so max_rule remains null.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "warning": "VERIFY before use. Federal IRA rebate implementation is volatile and Colorado phase availability was not independently confirmed on an accessible current official state page.",
@@ -637,7 +637,7 @@
         "https://www.epa.gov/aboutepa/greenhouse-gas-reduction-fund"
       ],
       "adminEntity": "EPA / Colorado Energy Office",
-      "source_note": "Colorado award page and EPA GGRF status page verified 2026-07-18; EPA states Solar for All is no longer being implemented. The state page describes a federal award to Colorado, not current project-level financing terms. funding_type, rate_pct, term_years, repayment and max_rule remain null; the historical state award is not an available balance.",
+      "source_note": "Primary source reopened 2026-10-09. Colorado award page and EPA GGRF status page previously checked 2026-07-18; EPA states Solar for All is no longer being implemented. The state page describes a federal award to Colorado, not current project-level financing terms. funding_type, rate_pct, term_years, repayment and max_rule remain null; the historical state award is not an available balance.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "warning": "Do not count as available funding without fresh official confirmation; GGRF/Solar for All is rescission/litigation exposed.",
@@ -670,7 +670,7 @@
       "description": "Colorado HB22-1362 created CEO-administered building electrification and high-efficiency electric heating/appliance grant authority for eligible entities including housing developers. Current open-round dollars were not fetch-verified on an accessible official CEO page this session.",
       "contactUrl": "https://leg.colorado.gov/bills/HB22-1362",
       "adminEntity": "Colorado Energy Office",
-      "source_note": "Colorado General Assembly enacted-bill page verified 2026-07-18; current CEO grant-round availability remains VERIFY because the program page was not fetch-accessible. HB22-1362 establishes grant authority. No project-specific rate_pct, term_years, repayment or universal per-project maximum is stated, so these remain null. The legislation is not proof of an open funding round.",
+      "source_note": "Primary source reopened 2026-10-09. Colorado General Assembly enacted-bill page previously checked 2026-07-18; current CEO grant-round availability remains VERIFY because the program page was not fetch-accessible. HB22-1362 establishes grant authority. No project-specific rate_pct, term_years, repayment or universal per-project maximum is stated, so these remain null. The legislation is not proof of an open funding round.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-09",
       "warning": "Statutory program authority only. Verify any current NOFA, eligible uses, deadlines, and stacking rules before underwriting.",

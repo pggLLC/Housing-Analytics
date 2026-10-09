@@ -72,6 +72,7 @@ ENERGY_PROGRAM_IDS.forEach((id) => {
   assertIsoDate(program.review_by, `${id} review_by`);
   assert(program.last_verified <= softFunding.lastUpdated, `${id} verification is covered by file vintage`);
   assert(program.source_note && program.source_note.trim(), `${id} records verification evidence`);
+  assert(program.source_note.includes(program.last_verified), `${id} note agrees with its verification date`);
 });
 
 [

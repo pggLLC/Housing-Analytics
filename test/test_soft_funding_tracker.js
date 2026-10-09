@@ -199,7 +199,7 @@ test('check(): null data returns empty result gracefully', function () {
   var result = fresh.check('08013', 2026);
   assert(typeof result === 'object',         'returns object for empty programs');
   assert(typeof result.narrative === 'string', 'narrative is string');
-  assert(result.available === 0,              'available = 0 when no programs');
+  assert(result.available === null,           'available is unknown when no programs');
 });
 
 /* ── getEligiblePrograms(): filters by county + execution type ───── */
