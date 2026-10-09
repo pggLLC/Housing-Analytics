@@ -3,7 +3,7 @@
  * scripts/validate-schemas.js
  *
  * Validates critical data artifacts against their JSON Schemas using a
- * lightweight built-in validator (no npm dependencies required).
+ * built-in artifact checks and JSON Schema validation for soft-funding terms.
  *
  * Checks implemented:
  *   - Required top-level keys are present (sentinel keys per Rule 18)
@@ -378,6 +378,18 @@ function validateAllMarketData() {
   });
 }
 
+function validateSoftFunding() {
+  const FILE = 'data/policy/soft-funding-status.json';
+  console.log(`\n[validate] ${FILE}`);
+  const { exists, data, parseError } = loadJSON(FILE);
+  assert(exists && !parseError, FILE, 'file exists and is valid JSON');
+  if (!exists || parseError) return;
+  const validate = require('./lib/soft-funding-schema');
+  const valid = validate(data);
+  assert(valid, FILE, valid ? 'program terms satisfy the JSON Schema' :
+    validate.errors.map(error => `${error.instancePath} ${error.message} ${JSON.stringify(error.params)}`).join('; '));
+}
+
 // ---------------------------------------------------------------------------
 // Run
 // ---------------------------------------------------------------------------
@@ -388,6 +400,7 @@ validateManifest();
 validateFredData();
 validateChfaLihtc();
 validateCoAmiGap();
+validateSoftFunding();
 
 console.log('\n=== Market Data Artifacts (Phase 3) ===');
 
