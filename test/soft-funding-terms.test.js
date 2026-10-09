@@ -1,7 +1,32 @@
 'use strict';
 
 const assert = require('node:assert/strict');
-const validate = require('../scripts/lib/soft-funding-schema');
+const { softFundingIssues } = require('../scripts/validate-schemas');
+function validate(data) {
+  validate.errors = softFundingIssues(data);
+  return validate.errors.length === 0;
+}
+// Assert the real CLI works even if an installed node_modules could mask a dependency.
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const { execFileSync } = require('node:child_process');
+const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'soft-funding-builtins-'));
+try {
+  const preload = path.join(temp, 'only-builtins.cjs');
+  fs.writeFileSync(preload, `
+    const Module = require('node:module');
+    const path = require('node:path');
+    const original = Module._load;
+    Module._load = function (id, ...args) {
+      if (!Module.isBuiltin(id) && !id.startsWith('.') && !path.isAbsolute(id)) {
+        throw new Error('Validator requires a non-builtin dependency: ' + id);
+      }
+      return original.call(this, id, ...args);
+    };
+  `);
+  execFileSync(process.execPath, ['--require', preload, path.join(__dirname, '../scripts/validate-schemas.js')], { stdio: 'pipe' });
+} finally { fs.rmSync(temp, { recursive: true, force: true }); }
 const committed = require('../data/policy/soft-funding-status.json');
 const partners = require('../data/capital-partners.json');
 
@@ -31,7 +56,7 @@ for (const field of required) {
   const data = fixture();
   delete data.programs.INVENTED[field];
   assert(!validate(data), `missing ${field} must fail`);
-  assert(validate.errors.some(e => e.keyword === 'required' && e.params.missingProperty === field));
+  assert(validate.errors.some(e => e.includes('/' + field + ': required field missing')));
   data.programs.INVENTED[field] = fixture().programs.INVENTED[field];
   assert(validate(data), `restoring ${field} must pass: ${errors()}`);
 }

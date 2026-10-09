@@ -2,8 +2,8 @@
 /**
  * scripts/validate-schemas.js
  *
- * Validates critical data artifacts against their JSON Schemas using a
- * built-in artifact checks and JSON Schema validation for soft-funding terms.
+ * Validates critical data artifacts with dependency-free checks against their
+ * schema contracts. Safe to run before npm ci in PR and data workflows.
  *
  * Checks implemented:
  *   - Required top-level keys are present (sentinel keys per Rule 18)
@@ -378,41 +378,114 @@ function validateAllMarketData() {
   });
 }
 
+// Keep this validator usable before npm ci (including data-cron callers).
+// The schema supplies the contract's required keys/enums; checks use Node builtins.
+function softFundingIssues(data) {
+  const schema = require('../schemas/soft-funding-status.schema.json');
+  const defs = schema.$defs;
+  const issues = [];
+  const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+  const text = value => typeof value === 'string' && value.trim().length > 0;
+  const date = value => {
+    if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+    const parsed = new Date(value + 'T00:00:00Z');
+    return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+  };
+  const url = value => {
+    if (typeof value !== 'string') return false;
+    try { return new URL(value).protocol === 'https:'; } catch (_) { return false; }
+  };
+  const amount = value => value === null || (typeof value === 'number' && Number.isFinite(value) && value > 0);
+  const check = (valid, at, message) => { if (!valid) issues.push(`${at}: ${message}`); };
+  const required = (value, keys, at) => keys.forEach(key =>
+    check(Object.hasOwn(value, key), `${at}/${key}`, 'required field missing'));
+  if (!object(data)) return ['/: must be an object'];
+  required(data, schema.required, '');
+  check(date(data.lastUpdated), '/lastUpdated', 'must be a real YYYY-MM-DD date');
+  if (!object(data.programs)) return issues.concat('/programs: must be an object');
+  check(Object.keys(data.programs).length > 0, '/programs', 'must not be empty');
+  for (const [id, p] of Object.entries(data.programs)) {
+    const at = `/programs/${id}`;
+    if (!object(p)) { issues.push(`${at}: must be an object`); continue; }
+    required(p, defs.program.required, at);
+    for (const key of ['name', 'source_note']) check(text(p[key]), `${at}/${key}`, 'must be nonblank text');
+    for (const key of ['funding_type', 'repayment']) {
+      check(defs.program.properties[key].enum.includes(p[key]), `${at}/${key}`, 'must be an allowed value or null');
+    }
+    check(p.rate_pct === null || (typeof p.rate_pct === 'number' && Number.isFinite(p.rate_pct) && p.rate_pct >= 0 && p.rate_pct <= 100), `${at}/rate_pct`, 'must be 0–100 or null');
+    check(amount(p.term_years), `${at}/term_years`, 'must be positive or null');
+    check(url(p.source_url), `${at}/source_url`, 'must be an HTTPS URL');
+    for (const key of ['last_verified', 'review_by']) check(date(p[key]), `${at}/${key}`, 'must be a real YYYY-MM-DD date');
+    if (p.max_rule !== null) {
+      const r = p.max_rule;
+      if (!object(r)) issues.push(`${at}/max_rule: must be an object or null`);
+      else {
+        required(r, defs.maxRule.required, `${at}/max_rule`);
+        check(Object.keys(r).every(key => Object.hasOwn(defs.maxRule.properties, key)), `${at}/max_rule`, 'unexpected field');
+        check(text(r.text), `${at}/max_rule/text`, 'must be nonblank text');
+        for (const key of defs.maxRule.required.filter(key => key !== 'text')) {
+          check(amount(r[key]), `${at}/max_rule/${key}`, 'must be positive or null');
+        }
+        check(r.max_project_cost_pct === null || r.max_project_cost_pct <= 100, `${at}/max_rule/max_project_cost_pct`, 'must not exceed 100');
+      }
+    }
+    if (Object.hasOwn(p, 'maxPerProject')) check(amount(p.maxPerProject), `${at}/maxPerProject`, 'must be positive or null');
+    if (Object.hasOwn(p, 'relatedSourceUrls')) {
+      check(Array.isArray(p.relatedSourceUrls) && p.relatedSourceUrls.every(url) && new Set(p.relatedSourceUrls).size === p.relatedSourceUrls.length, `${at}/relatedSourceUrls`, 'must be unique HTTPS URLs');
+    }
+    if (Object.hasOwn(p, 'application_round')) {
+      const round = p.application_round;
+      if (!object(round)) issues.push(`${at}/application_round: must be an object`);
+      else {
+        const keys = defs.program.properties.application_round.required;
+        required(round, keys, `${at}/application_round`);
+        check(Object.keys(round).every(key => keys.includes(key)), `${at}/application_round`, 'unexpected field');
+        keys.forEach(key => check(date(round[key]), `${at}/application_round/${key}`, 'must be a real YYYY-MM-DD date'));
+      }
+    }
+  }
+  return issues;
+}
+
 function validateSoftFunding() {
   const FILE = 'data/policy/soft-funding-status.json';
   console.log(`\n[validate] ${FILE}`);
   const { exists, data, parseError } = loadJSON(FILE);
   assert(exists && !parseError, FILE, 'file exists and is valid JSON');
   if (!exists || parseError) return;
-  const validate = require('./lib/soft-funding-schema');
-  const valid = validate(data);
-  assert(valid, FILE, valid ? 'program terms satisfy the JSON Schema' :
-    validate.errors.map(error => `${error.instancePath} ${error.message} ${JSON.stringify(error.params)}`).join('; '));
+  const issues = softFundingIssues(data);
+  assert(issues.length === 0, FILE, issues.length ? issues.join('; ') : 'program terms satisfy the schema contract');
 }
 
 // ---------------------------------------------------------------------------
 // Run
 // ---------------------------------------------------------------------------
 
-console.log('=== JSON Schema Validation — Critical Artifacts ===');
+function main() {
+  console.log('=== JSON Schema Validation — Critical Artifacts ===');
 
-validateManifest();
-validateFredData();
-validateChfaLihtc();
-validateCoAmiGap();
-validateSoftFunding();
+  validateManifest();
+  validateFredData();
+  validateChfaLihtc();
+  validateCoAmiGap();
+  validateSoftFunding();
 
-console.log('\n=== Market Data Artifacts (Phase 3) ===');
+  console.log('\n=== Market Data Artifacts (Phase 3) ===');
 
-validateAllMarketData();
+  validateAllMarketData();
 
-console.log('\n' + '='.repeat(52));
-console.log(`Results: ${passed} passed, ${failed} failed`);
+  console.log('\n' + '='.repeat(52));
+  console.log(`Results: ${passed} passed, ${failed} failed`);
 
-if (failed > 0) {
-  console.error('\nValidation failures:');
-  errors.forEach(e => console.error(e));
-  process.exitCode = 1;
-} else {
-  console.log('\nAll schema validations passed ✅');
+  if (failed > 0) {
+    console.error('\nValidation failures:');
+    errors.forEach(e => console.error(e));
+    process.exitCode = 1;
+  } else {
+    console.log('\nAll schema validations passed ✅');
+  }
+
 }
+
+if (require.main === module) main();
+module.exports = { softFundingIssues };
