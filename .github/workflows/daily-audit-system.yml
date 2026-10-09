@@ -205,7 +205,7 @@ jobs:
       - name: Run chart axes audit
         env:
           AUDIT_BASE_URL: http://localhost:8080
-          AUDIT_SETTLE_MS: '5000'
+          AUDIT_SETTLE_MS: '8000'
         run: npm run audit:chart-axes
 
       - name: Upload chart axes report
