@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-08T18:53:18.086Z",
+    "generated_at": "2026-10-09T04:02:08.982Z",
     "root": "data/",
-    "file_count": 1700,
-    "total_size_bytes": 178063511,
+    "file_count": 1699,
+    "total_size_bytes": 178075287,
     "kinds": {
-      "json": 1663,
+      "json": 1662,
       "geojson": 33,
       "csv": 4
     }
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-08T18:53:14.305Z",
+      "mtime": "2026-10-09T04:02:06.011Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30867,8 +30867,8 @@
     {
       "path": "market/colorado-foreclosure-performance.json",
       "kind": "json",
-      "size_bytes": 49077,
-      "mtime": "2026-09-25T12:55:18.843Z",
+      "size_bytes": 49548,
+      "mtime": "2026-10-09T04:00:49.616Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -31135,24 +31135,6 @@
       "primary_array_first_keys": null
     },
     {
-      "path": "market/freddie-mac-multifamily-outlook.json",
-      "kind": "json",
-      "size_bytes": 3657,
-      "mtime": "2026-09-25T12:55:18.865Z",
-      "shape": "object",
-      "keys": [
-        "meta",
-        "macro_debt_environment",
-        "cap_rates",
-        "forecast",
-        "lihtc_dev_implications"
-      ],
-      "key_count": 5,
-      "primary_array_key": null,
-      "primary_array_length": null,
-      "primary_array_first_keys": null
-    },
-    {
       "path": "market/hospitals_co.geojson",
       "kind": "geojson",
       "size_bytes": 76214,
@@ -31319,18 +31301,19 @@
     {
       "path": "market/lihtc-equity-pricing-history.json",
       "kind": "json",
-      "size_bytes": 2370,
-      "mtime": "2026-09-25T12:55:18.886Z",
+      "size_bytes": 5536,
+      "mtime": "2026-10-09T04:00:49.656Z",
       "shape": "object",
       "keys": [
         "meta",
-        "quarterly"
+        "quarterly",
+        "monthly"
       ],
-      "key_count": 2,
-      "primary_array_key": "quarterly",
-      "primary_array_length": 34,
+      "key_count": 3,
+      "primary_array_key": "monthly",
+      "primary_array_length": 58,
       "primary_array_first_keys": [
-        "quarter",
+        "month",
         "nine",
         "four"
       ]
@@ -31445,16 +31428,17 @@
     {
       "path": "market/novogradac-equity-pricing.json",
       "kind": "json",
-      "size_bytes": 5307,
-      "mtime": "2026-09-25T12:55:18.969Z",
+      "size_bytes": 16697,
+      "mtime": "2026-10-09T04:00:49.720Z",
       "shape": "object",
       "keys": [
         "meta",
         "pricing",
         "key_drivers",
-        "validation_check"
+        "validation_check",
+        "state_qap_pricing"
       ],
-      "key_count": 4,
+      "key_count": 5,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -31999,8 +31983,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14804,
-      "mtime": "2026-10-08T18:53:16.114Z",
+      "size_bytes": 14802,
+      "mtime": "2026-10-09T04:02:07.501Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32023,7 +32007,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-08T18:53:15.710Z",
+      "mtime": "2026-10-09T04:02:07.167Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34102,8 +34086,8 @@
     {
       "path": "policy/lihtc-assumptions.json",
       "kind": "json",
-      "size_bytes": 3881,
-      "mtime": "2026-09-25T12:55:19.120Z",
+      "size_bytes": 4165,
+      "mtime": "2026-10-09T04:00:49.763Z",
       "shape": "object",
       "keys": [
         "version",
@@ -34115,13 +34099,13 @@
         "devFeePct",
         "debtServiceCoverageRatio",
         "permanentDebtRate",
+        "permRateSpreadOverTreasury",
         "permanentDebtAmortYears",
         "operatingExpensePerUnit",
         "softFundingByGeography",
-        "conceptTypicalMixes",
-        "competitiveSaturation"
+        "conceptTypicalMixes"
       ],
-      "key_count": 18,
+      "key_count": 19,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -34269,8 +34253,8 @@
     {
       "path": "policy/research-orgs-housing.json",
       "kind": "json",
-      "size_bytes": 7859,
-      "mtime": "2026-09-25T12:55:19.121Z",
+      "size_bytes": 7983,
+      "mtime": "2026-10-09T04:00:49.764Z",
       "shape": "object",
       "keys": [
         "meta",
