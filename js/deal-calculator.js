@@ -2384,11 +2384,11 @@
           <span style="font-size:var(--small);color:var(--muted);">Interest Rate (%)</span>
           <input id="dc-rate" type="number" min="3" max="12" step="0.1" value="6.5"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
-          <!-- F239: Freddie Mac perm-rate benchmark — wired from
-               data/market/freddie-mac-multifamily-outlook.json by
-               _initFreddieBenchmark() at module init. -->
-          <div id="dc-freddie-benchmark" style="margin-top:0.4rem;font-size:0.7rem;color:var(--muted);line-height:1.4;"></div>
         </label>
+        <!-- Perm-rate hint: FRED 10-year Treasury + a stated spread, wired by
+             _initFreddieBenchmark() at module init. Outside the label above so
+             its own spread input is not a second control of that label. -->
+        <div id="dc-freddie-benchmark" style="margin:-0.3rem 0 var(--sp2);font-size:0.7rem;color:var(--muted);line-height:1.4;"></div>
 
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Loan Term (years)</span>
@@ -7277,56 +7277,79 @@
   }
   _initNovogradacBenchmark();
 
-  // F239: Freddie Mac perm-rate benchmark wired into Interest Rate input.
-  // Surfaces Fed funds, 10Y Treasury, implied perm rate from
-  // data/market/freddie-mac-multifamily-outlook.json + apply-button to
-  // override the user input.
+  // Perm-rate hint for the Interest Rate input: the live 10-year Treasury
+  // from data/fred-data.json (refreshed daily by fetch-fred-data.yml) plus a
+  // spread the page states and the user can change. It replaced a typed
+  // "Freddie Mac outlook" snapshot (2026-10) whose 10Y, fed funds and 5.90%
+  // implied rate had no citable source and had drifted a point below market.
+  function _latestFredValue(doc, id) {
+    var s = doc && doc.series && doc.series[id];
+    var obs = s && (s.observations || s.data);
+    if (!Array.isArray(obs)) return null;
+    for (var i = obs.length - 1; i >= 0; i--) {
+      // FRED writes "." for a day with no value: unknown, skipped, never 0.
+      var raw = obs[i] && obs[i].value;
+      if (raw == null || raw === '' || raw === '.') continue;
+      var n = Number(raw);
+      if (isFinite(n) && n > 0) return { value: n, date: obs[i].date || null };
+    }
+    return null;
+  }
+
   function _initFreddieBenchmark() {
     function _go() {
       var target = document.getElementById('dc-freddie-benchmark');
       var input = document.getElementById('dc-rate');
       if (!target || !input) return;
-      fetch('data/market/freddie-mac-multifamily-outlook.json')
-        .then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (j) {
-          if (!j || !j.macro_debt_environment) return;
-          var m = j.macro_debt_environment;
-          var perm = (m.implied_perm_rate_pct != null) ? m.implied_perm_rate_pct : 5.90;
-          var fedRange = (m.fed_funds_target_range_low != null && m.fed_funds_target_range_high != null)
-            ? m.fed_funds_target_range_low.toFixed(2) + '-' + m.fed_funds_target_range_high.toFixed(2) + '%'
-            : '—';
-          var t10 = (m.ten_year_treasury_yield_pct != null) ? m.ten_year_treasury_yield_pct.toFixed(2) + '%' : '—';
-          target.innerHTML =
-            '<div style="display:flex;align-items:center;justify-content:space-between;gap:.4rem;flex-wrap:wrap;">' +
-              '<span><strong style="color:var(--accent);">🏦 Freddie Mac:</strong> ' +
-                'Fed funds ' + fedRange + ' · 10Y Tsy ' + t10 + ' · ' +
-                'implied perm ~<strong>' + perm.toFixed(2) + '%</strong> (10Y + ~165bp spread)' +
-              '</span>' +
-              '<button type="button" id="dc-freddie-apply" ' +
-                      'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
-                'Use ' + perm.toFixed(2) + '%' +
-              '</button>' +
-            '</div>' +
-            '<div style="margin-top:.2rem;font-size:.66rem;color:var(--faint);">' +
-              'Source: <a href="' + ((j.meta && j.meta.source_url) || 'https://mf.freddiemac.com/research') + '" target="_blank" rel="noopener" style="color:var(--accent);">Freddie Mac Multifamily Outlook</a> · ' +
-              'Vintage ' + ((j.meta && j.meta.vintage) || '—') + '. ' +
-              'Pull current rate-sheet directly before lender LOI.' +
-            '</div>';
-          var btn = document.getElementById('dc-freddie-apply');
-          if (btn) {
-            btn.addEventListener('click', function () {
-              if (isFinite(perm) && perm > 0) {
-                input.value = perm.toFixed(2);
-                if (window.InputProvenance) window.InputProvenance.mark(input, { status: 'assumption',
-                  source: j.meta && j.meta.source, sourceUrl: j.meta && j.meta.source_url,
-                  vintage: j.meta && j.meta.vintage, geography: 'United States',
-                  why: 'A published-context screening estimate; verify current project-specific pricing.' });
-                prefillEvents(input);
-              }
-            });
-          }
-        })
-        .catch(function () { /* silent — graceful degradation */ });
+      Promise.all([
+        fetch('data/fred-data.json').then(function (r) { return r.ok ? r.json() : null; }),
+        fetch('data/policy/lihtc-assumptions.json').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
+      ]).then(function (res) {
+        var t10 = _latestFredValue(res[0], 'DGS10');
+        var a = res[1] && res[1].permRateSpreadOverTreasury;
+        var spread = a && Number.isFinite(a.spreadPct) && a.spreadPct >= 0 ? a.spreadPct : null;
+        if (!t10 || spread == null) {
+          target.textContent = '';
+          return;
+        }
+        target.innerHTML =
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:.4rem;flex-wrap:wrap;">' +
+            '<span><strong style="color:var(--accent);">🏦 Perm-rate hint:</strong> ' +
+              '10Y Treasury ' + t10.value.toFixed(2) + '% (FRED, ' + _escHtml(t10.date || '—') + ') + ' +
+              '<label>spread <input type="number" id="dc-perm-spread" min="0" max="5" step="0.05" value="' + spread.toFixed(2) + '" ' +
+                'style="width:4.2em;font-size:.7rem;" aria-label="Assumed perm-loan spread over the 10-year Treasury, percentage points"> pts</label> = ' +
+              '<strong id="dc-perm-hint">' + (t10.value + spread).toFixed(2) + '%</strong>' +
+            '</span>' +
+            '<button type="button" id="dc-freddie-apply" ' +
+                    'style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;cursor:pointer;">' +
+              'Use this rate' +
+            '</button>' +
+          '</div>' +
+          '<div style="margin-top:.2rem;font-size:.66rem;color:var(--faint);">' +
+            'Source: <a href="https://fred.stlouisfed.org/series/DGS10" target="_blank" rel="noopener" style="color:var(--accent);">FRED DGS10</a>. ' +
+            'The spread is ' + _escHtml(a.note || 'a COHO assumption') + ' Get a lender rate sheet before an LOI.' +
+          '</div>';
+        var spreadEl = document.getElementById('dc-perm-spread');
+        var hintEl = document.getElementById('dc-perm-hint');
+        function current() {
+          var sp = Number(spreadEl.value);
+          return spreadEl.value !== '' && isFinite(sp) && sp >= 0 ? t10.value + sp : null;
+        }
+        spreadEl.addEventListener('input', function () {
+          var r = current();
+          hintEl.textContent = r == null ? '—' : r.toFixed(2) + '%';
+        });
+        document.getElementById('dc-freddie-apply').addEventListener('click', function () {
+          var r = current();
+          if (r == null) return;
+          input.value = r.toFixed(2);
+          if (window.InputProvenance) window.InputProvenance.mark(input, { status: 'assumption',
+            source: 'FRED DGS10 plus an assumed spread', sourceUrl: 'https://fred.stlouisfed.org/series/DGS10',
+            vintage: t10.date, geography: 'United States',
+            why: '10-year Treasury plus a stated spread; verify with a lender rate sheet.' });
+          prefillEvents(input);
+        });
+      }).catch(function () { /* silent — graceful degradation */ });
     }
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', function () { setTimeout(_go, 200); });
