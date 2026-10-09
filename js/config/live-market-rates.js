@@ -105,8 +105,9 @@
         _rates.fredUpdated = updated;
         _loaded = true;
 
-        // ── Apply to deal calculator inputs ──────────────────────────
-        _applyToDealCalculator();
+        // The Deal Calculator's perm rate is set by js/deal-calculator.js
+        // from DGS10 plus the spread in data/policy/lihtc-assumptions.json,
+        // so there is one rule on the page, not two.
 
         // ── Apply market stress signals ──────────────────────────────
         _renderMarketSignals();
@@ -126,48 +127,6 @@
       });
   }
 
-  /* ── Apply live rates to deal calculator inputs ─────────────────── */
-
-  function _applyToDealCalculator() {
-    // Update permanent debt rate input if it still has the default value
-    var rateInput = document.getElementById('dc-rate');
-    if (rateInput && _rates.mortgageRate) {
-      var currentVal = parseFloat(rateInput.value);
-      var defaultVal = (global.COHO_DEFAULTS && global.COHO_DEFAULTS.commercialRate)
-        ? global.COHO_DEFAULTS.commercialRate * 100
-        : 6.5;
-
-      // Only auto-update if user hasn't manually changed it from default
-      if (Math.abs(currentVal - defaultVal) < 0.01) {
-        // LIHTC perm debt is typically ~50-75bp above 10Y Treasury, or
-        // use the 30-year mortgage rate as a proxy, adjusted down for
-        // LIHTC low-risk profile (typically 50-100bp below conventional)
-        var lihtcPermRate = Math.max(4.0, _rates.mortgageRate - 0.75);
-        rateInput.value = lihtcPermRate.toFixed(2);
-
-        // Show the live rate source
-        _showRateSource(rateInput, lihtcPermRate);
-      }
-    }
-  }
-
-  /* ── Show rate source indicator ─────────────────────────────────── */
-
-  function _showRateSource(inputEl, rate) {
-    // Add a small indicator below the rate input showing it's live
-    var parent = inputEl.parentElement;
-    if (!parent) return;
-
-    var existing = parent.querySelector('.live-rate-indicator');
-    if (existing) existing.remove();
-
-    var indicator = document.createElement('div');
-    indicator.className = 'live-rate-indicator';
-    indicator.style.cssText = 'font-size:.72rem;color:var(--good,#047857);margin-top:2px;';
-    indicator.innerHTML = '<span style="display:inline-block;width:6px;height:6px;background:var(--good,#047857);border-radius:50%;margin-right:4px;vertical-align:middle;"></span>' +
-      'Live: ' + rate.toFixed(2) + '% (FRED ' + (_rates.mortgageDate || '') + ')';
-    parent.appendChild(indicator);
-  }
 
   /* ── Render market stress signals ───────────────────────────────── */
 
