@@ -115,7 +115,7 @@ assert.deepEqual([p['CHFA-CMF'].funding_type, p['CHFA-CMF'].term_years, p['CHFA-
 assert.deepEqual(p['CHFA-CMF'].latest_award, {
   amount: 4500000, announced: '2024-11-07', source_url: 'https://www.chfainfo.com/chfa-news/11072024-cmf'
 });
-assert(p['CHFA-CMF'].relatedSourceUrls.includes('https://www.chfainfo.com/rental-housing/multifamily-lending/programs-by-loan-size/program-size-small'));
+assert(p['CHFA-CMF'].relatedSourceUrls.some(url => url === 'https://www.chfainfo.com/rental-housing/multifamily-lending/programs-by-loan-size/program-size-small'));
 assert.deepEqual([
   p['PROP123-LIHTC-GAP'].rate_pct, p['PROP123-LIHTC-GAP'].max_rule.min_amount,
   p['PROP123-LIHTC-GAP'].max_rule.max_project_cost_pct, p['PROP123-LIHTC-GAP'].max_rule.must_pay_dscr,
