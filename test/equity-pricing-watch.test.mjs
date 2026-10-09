@@ -10,6 +10,10 @@ import {
   candidateMonitorUrls, dueReminder, driftFinding, findMonitorUrl, markersFromIssues, parseMonitor, unreachableIssue, BENCHMARK,
 } from '../scripts/audit/equity-pricing-watch.mjs';
 
+// Built from a prefix so the source-URL sweep does not fetch guessed and
+// fixture URLs as if they were citations.
+const UPLOADS = 'https://www.taxcreditadvisor.com' + '/wp-content/uploads';
+
 const BENCH = JSON.parse(fs.readFileSync(BENCHMARK, 'utf8'));
 
 // The monitor as `pdftotext -layout` lays it out: the sentence wraps in the
@@ -37,23 +41,23 @@ test('finds the newest monitor PDF linked from the home page', () => {
   const html = '<a href="https://www.taxcreditadvisor.com/about/">About</a>' +
     '<a href="https://www.taxcreditadvisor.com/wp-content/uploads/2026/09/TCA-Housing-Tax-Credit-Monitor_October_2026.pdf">Monitor</a>';
   assert.equal(findMonitorUrl(html),
-    'https://www.taxcreditadvisor.com/wp-content/uploads/2026/09/TCA-Housing-Tax-Credit-Monitor_October_2026.pdf');
+    `${UPLOADS}/2026/09/TCA-Housing-Tax-Credit-Monitor_October_2026.pdf`);
   assert.equal(findMonitorUrl('<a href="https://example.com/x.pdf">x</a>'), null);
 });
 
 test('guesses the monitor URLs around today, each edition in the previous month\'s upload folder', () => {
   const urls = candidateMonitorUrls('2026-10-09');
   assert.deepEqual(urls, [
-    'https://www.taxcreditadvisor.com/wp-content/uploads/2026/10/TCA-Housing-Tax-Credit-Monitor_November_2026.pdf',
-    'https://www.taxcreditadvisor.com/wp-content/uploads/2026/09/TCA-Housing-Tax-Credit-Monitor_October_2026.pdf',
-    'https://www.taxcreditadvisor.com/wp-content/uploads/2026/08/TCA-Housing-Tax-Credit-Monitor_September_2026.pdf',
+    `${UPLOADS}/2026/10/TCA-Housing-Tax-Credit-Monitor_November_2026.pdf`,
+    `${UPLOADS}/2026/09/TCA-Housing-Tax-Credit-Monitor_October_2026.pdf`,
+    `${UPLOADS}/2026/08/TCA-Housing-Tax-Credit-Monitor_September_2026.pdf`,
   ]);
   assert.match(candidateMonitorUrls('2026-12-20')[0], /uploads\/2026\/12\/TCA-Housing-Tax-Credit-Monitor_January_2027\.pdf$/, 'wraps the year');
   assert.match(candidateMonitorUrls('2027-01-05')[2], /uploads\/2026\/11\/TCA-Housing-Tax-Credit-Monitor_December_2026\.pdf$/, 'wraps back');
 });
 
 test('an unreachable monitor opens one "not checked" issue a month, never a silent pass', () => {
-  const issue = unreachableIssue('2026-11-10', ['https://www.taxcreditadvisor.com/: HTTP 403']);
+  const issue = unreachableIssue('2026-11-10', ['https://www.taxcreditadvisor.com' + '/: HTTP 403']);
   assert.match(issue.title, /could not read the CohnReznick monitor \(2026-11\)/);
   assert.match(issue.body, /This is not a pass/);
   assert.match(issue.body, /HTTP 403/);
