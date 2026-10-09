@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-09T04:01:46.581Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-09T05:15:11.629Z. Do not edit by hand.
 
 ---
 
@@ -85,7 +85,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 811.4 KB | ✅ | — |
+| `data/_manifest.json` | 811.0 KB | ✅ | — |
 | `data/_qa-status.json` | 7.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1580,7 +1580,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 211.0 KB | ✅ | — |
+| `data/manifest.json` | 210.9 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
@@ -1610,7 +1610,7 @@
 | `data/market/lihtc-equity-pricing-history.json` | 5.4 KB | ✅ | — |
 | `data/market/lodes_co.json` | 662.6 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
-| `data/market/novogradac-equity-pricing.json` | 16.3 KB | ✅ | — |
+| `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
 | `data/market/qct_dda_designations_co.json` | 480 B | ✅ | — |
@@ -1619,7 +1619,7 @@
 | `data/market/redfin_place_market_tracker_co.json` | 2.22 MB | ✅ | — |
 | `data/market/reference-projects.json` | 24.7 KB | ✅ | — |
 | `data/market/state-trend-analysis.json` | 6.8 KB | ✅ | — |
-| `data/market/tax-credit-transfer-pricing.json` | 3.4 KB | ✅ | — |
+| `data/market/tax-credit-transfer-pricing.json` | 5.3 KB | ✅ | — |
 | `data/market/tract_centroids_co.json` | 344.9 KB | ✅ | — |
 | `data/market/transit_stops_coverage_co.json` | 230.8 KB | ✅ | — |
 | `data/market/travel_time_matrix_co.json` | 4.23 MB | ✅ | — |
@@ -1708,12 +1708,12 @@
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 20.3 KB | ✅ | — |
 | `data/policy/fee-reductions.json` | 490.8 KB | ✅ | — |
-| `data/policy/homeownership-programs.json` | 16.3 KB | ✅ | — |
+| `data/policy/homeownership-programs.json` | 16.8 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.1 KB | ✅ | — |
 | `data/policy/jchs-state-of-nations-housing.json` | 3.6 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 39.5 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
-| `data/policy/lihtc-assumptions.json` | 4.1 KB | ✅ | — |
+| `data/policy/lihtc-assumptions.json` | 4.2 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/policy-timeline.json` | 6.7 KB | ✅ | — |
@@ -1848,7 +1848,7 @@
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
 | `test/deal-calc-net-rent.test.js` | 24.8 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
-| `test/deal-calc-perm-rate-hint.test.js` | 4.6 KB |
+| `test/deal-calc-perm-rate-hint.test.js` | 6.1 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
 | `test/deal-calc-provenance.test.js` | 16.7 KB |
 | `test/deal-calc-report-meta.test.js` | 14.6 KB |
@@ -2166,7 +2166,7 @@
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
 | `test/table-header-tips.test.js` | 5.6 KB |
-| `test/tax-credit-equity-markets.test.js` | 10.7 KB |
+| `test/tax-credit-equity-markets.test.js` | 11.3 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
 | `test/test-reachability.test.js` | 6.8 KB |
