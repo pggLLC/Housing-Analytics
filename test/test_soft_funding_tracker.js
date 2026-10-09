@@ -11,7 +11,24 @@
 
 const path    = require('path');
 const tracker = require(path.resolve(__dirname, '..', 'js', 'soft-funding-tracker'));
-const data    = require(path.resolve(__dirname, '..', 'data', 'policy', 'soft-funding-status.json'));
+// INVENTED balances and programs exercise filtering; public policy records do not
+// publish live uncommitted balances. No real project/award data is used here.
+function inventedProgram(name, county, extra = {}) {
+  return { name: 'INVENTED ' + name, county, available: 123000, awarded: 41000,
+    capacity: 164000, deadline: null, eligibleExecution: ['9%', '4%', 'non-LIHTC'], ...extra };
+}
+const data = {
+  lastUpdated: '2026-03-24',
+  programs: {
+    'CHFA-HTF': inventedProgram('statewide A', 'All'),
+    'CHFA-CCLA': inventedProgram('statewide B', 'All', { eligibleExecution: ['4%'] }),
+    'PROP123-LBTF': inventedProgram('non-LIHTC', 'All', { eligibleExecution: ['non-LIHTC'] }),
+    'Denver-AHTF': inventedProgram('Denver local', '08031'),
+    'Boulder-HTF': inventedProgram('Boulder local', '08013'),
+    'PAB-CO': inventedProgram('volume cap', 'All', { isVolumeCap: true }),
+    'OZ-EQUITY': inventedProgram('market source', 'All', { isMarketSource: true })
+  }
+};
 
 let passed = 0;
 let failed = 0;
