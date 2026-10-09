@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-09T11:49:56.598812Z",
+  "generated": "2026-10-09T11:59:05.911369Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -129,7 +129,7 @@
     "data/audit/upstream-vintage-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 803
+      "bytes": 844
     },
     "data/benchmarks/str-license-counts.json": {
       "featureCount": 0,
