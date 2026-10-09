@@ -3,7 +3,8 @@
 // The Deal Calculator's perm-rate hint is the live FRED 10-year Treasury plus
 // the spread data/policy/lihtc-assumptions.json states (2026-10). It replaced
 // a typed "Freddie Mac outlook" snapshot whose figures had no citable source.
-// The hint must agree with those two files, and an unknown 10-year must show
+// The hint must agree with those two files, an untouched rate field starts
+// at it (live-market-rates.js no longer sets a second, mortgage-based rate), and an unknown 10-year must show
 // no hint at all rather than a rate built on 0.
 
 const assert = require('assert');
@@ -25,7 +26,7 @@ function latestDgs10(doc) {
   return null;
 }
 
-async function render(fred) {
+async function render(fred, typedRate) {
   const dom = new JSDOM('<!DOCTYPE html><body><div id="dealCalcMount"></div></body>', { url: 'http://localhost/deal-calculator.html' });
   global.window = dom.window;
   global.document = dom.window.document;
@@ -35,6 +36,8 @@ async function render(fred) {
   window.DealCalculatorMath = require('../js/deal-calculator-math.js');
   global.fetch = window.fetch = (url) => {
     const u = String(url);
+    // The user types a rate before the FRED file arrives.
+    if (u.includes('fred-data.json') && typedRate != null) document.getElementById('dc-rate').value = typedRate;
     if (u.includes('fred-data.json')) return Promise.resolve({ ok: true, json: () => Promise.resolve(fred) });
     if (u.includes('lihtc-assumptions.json')) return Promise.resolve({ ok: true, json: () => Promise.resolve(ASSUMPTIONS) });
     return Promise.reject(new Error('fixture fetch disabled'));
@@ -60,6 +63,8 @@ async function render(fred) {
   assert.strictEqual(hint.textContent, (t10.value + spread).toFixed(2) + '%', 'hint = latest FRED 10-year + stated spread');
   assert(doc.getElementById('dc-freddie-benchmark').textContent.includes(t10.date), 'hint shows the 10-year observation date');
   assert.strictEqual(doc.getElementById('dc-perm-spread').value, spread.toFixed(2), 'spread input starts at the stated spread');
+  assert.strictEqual(doc.getElementById('dc-rate').value, (t10.value + spread).toFixed(2),
+    'an untouched rate field starts at the hint, so the page shows one rate rule');
   assert(!doc.getElementById('dc-perm-spread').closest('label[for], label').querySelector('#dc-rate'), 'spread input is not inside the Interest Rate label');
 
   doc.getElementById('dc-perm-spread').value = '2.00';
@@ -67,6 +72,9 @@ async function render(fred) {
   assert.strictEqual(hint.textContent, (t10.value + 2).toFixed(2) + '%', 'editing the spread updates the hint');
   doc.getElementById('dc-freddie-apply').click();
   assert.strictEqual(doc.getElementById('dc-rate').value, (t10.value + 2).toFixed(2), 'apply writes the hinted rate');
+
+  const typed = await render(FRED, '5.75');
+  assert.strictEqual(typed.getElementById('dc-rate').value, '5.75', 'a rate the user typed is never overwritten');
 
   // FRED's "." (no value that day) is skipped, never read as 0.
   const dotted = JSON.parse(JSON.stringify(FRED));
@@ -81,6 +89,7 @@ async function render(fred) {
   const doc3 = await render(empty);
   assert.strictEqual(doc3.getElementById('dc-perm-hint'), null, 'no hint without a 10-year value');
   assert.strictEqual(doc3.getElementById('dc-freddie-apply'), null, 'no apply button without a 10-year value');
+  assert.strictEqual(doc3.getElementById('dc-rate').value, doc3.getElementById('dc-rate').defaultValue, 'no 10-year value leaves the placeholder rate');
 
   console.log('All Deal Calculator perm-rate hint tests passed.');
 })().catch((err) => { console.error(err); process.exit(1); });
