@@ -106,10 +106,11 @@ async function renderForeclosureChart(foreclosureData, policyTimeline) {
 
   const freshnessOutput = execFileSync(process.execPath, [path.join(root, 'scripts', 'audit', 'benchmark-freshness-check.mjs')], {
     cwd: root,
-    env: { ...process.env, BENCHMARK_FRESHNESS_NOW: '2026-10-18' },
+    // The day after the file's own review_by, whatever it is after a refresh.
+    env: { ...process.env, BENCHMARK_FRESHNESS_NOW: new Date(Date.parse(data.meta.review_by) + 86400000).toISOString().slice(0, 10) },
     encoding: 'utf8'
   });
-  assert(freshnessOutput.includes('Colorado foreclosure performance: review_by 2026-10-17 at meta.review_by has passed'), 'freshness audit warns on expired foreclosure review_by');
+  assert(freshnessOutput.includes(`Colorado foreclosure performance: review_by ${data.meta.review_by} at meta.review_by has passed`), 'freshness audit warns on expired foreclosure review_by');
 
   console.log('Foreclosure performance data/render tests passed.');
 })().catch((err) => {

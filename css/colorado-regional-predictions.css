@@ -68,11 +68,29 @@
    Region color palette (CSS custom properties per region)
    ================================================================ */
 
-.crp-region--denver    { --crp-accent: #1a73e8; --crp-accent-dim: rgba(26,115,232,0.10); }
-.crp-region--western   { --crp-accent: #e67700; --crp-accent-dim: rgba(230,119,0,0.10); }
-.crp-region--springs   { --crp-accent: #2e7d32; --crp-accent-dim: rgba(46,125,50,0.10); }
-.crp-region--boulder   { --crp-accent: #6a1b9a; --crp-accent-dim: rgba(106,27,154,0.10); }
-.crp-region--mountains { --crp-accent: #c62828; --crp-accent-dim: rgba(198,40,40,0.10); }
+.crp-region--denver    { --crp-accent: #1a73e8; --crp-accent-dim: rgba(26,115,232,0.10); --crp-label: #1557b0; }
+.crp-region--western   { --crp-accent: #e67700; --crp-accent-dim: rgba(230,119,0,0.10);  --crp-label: #a84608; }
+.crp-region--springs   { --crp-accent: #2e7d32; --crp-accent-dim: rgba(46,125,50,0.10);  --crp-label: #1b5e20; }
+.crp-region--boulder   { --crp-accent: #6a1b9a; --crp-accent-dim: rgba(106,27,154,0.10); --crp-label: #6a1b9a; }
+.crp-region--mountains { --crp-accent: #c62828; --crp-accent-dim: rgba(198,40,40,0.10);  --crp-label: #b71c1c; }
+
+/* #2038 — the label used to be drawn in --crp-accent, the border colour.
+   Western Slope's orange was 2.7:1 on its own tint, and every accent but
+   one failed on the dark card. --crp-label is the text colour: darker
+   than the accent in light mode, lighter in dark mode, each >= 4.5:1 on
+   its tint. The border keeps the brighter accent. */
+@media (prefers-color-scheme: dark) {
+  html:not(.light-mode) .crp-region--denver    { --crp-label: #8ab4f8; }
+  html:not(.light-mode) .crp-region--western   { --crp-label: #ffb74d; }
+  html:not(.light-mode) .crp-region--springs   { --crp-label: #81c784; }
+  html:not(.light-mode) .crp-region--boulder   { --crp-label: #ce93d8; }
+  html:not(.light-mode) .crp-region--mountains { --crp-label: #ef9a9a; }
+}
+html.dark-mode .crp-region--denver    { --crp-label: #8ab4f8; }
+html.dark-mode .crp-region--western   { --crp-label: #ffb74d; }
+html.dark-mode .crp-region--springs   { --crp-label: #81c784; }
+html.dark-mode .crp-region--boulder   { --crp-label: #ce93d8; }
+html.dark-mode .crp-region--mountains { --crp-label: #ef9a9a; }
 
 /* ================================================================
    Outer grid: one card per region
@@ -130,7 +148,7 @@
   padding: 0.2rem 0.6rem;
   border-radius: 10px;
   background: var(--crp-accent-dim, rgba(26,115,232,0.10));
-  color: var(--crp-accent, #1a73e8);
+  color: var(--crp-label, #1557b0);
   margin-bottom: 0.5rem;
 }
 
@@ -186,9 +204,12 @@
   margin: 0.1rem 0 0;
 }
 
-/* Trend icon colours */
-.crp-trend-up     { color: var(--color-success, #2e7d32); }
-.crp-trend-down   { color: var(--color-error, #c62828); }
+/* Trend icon colours. --color-success / --color-error are not defined
+   anywhere, so these always fell back to fixed greens and reds that were
+   4.3:1 on the light metric tile and 3.2-3.5:1 on the dark one (#2038).
+   --good / --bad are the theme's per-mode status colours. */
+.crp-trend-up     { color: var(--good, #036549); }
+.crp-trend-down   { color: var(--bad, #991b1b); }
 .crp-trend-neutral { color: var(--muted, #888); }
 
 /* ================================================================

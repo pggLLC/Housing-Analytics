@@ -1,15 +1,15 @@
 {
-  "generated": "2026-10-08T12:12:08.052559Z",
+  "generated": "2026-10-09T05:15:41.625682Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 830852
+      "bytes": 830437
     },
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7237
+      "bytes": 7238
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 188439
+      "bytes": 188310
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -319,7 +319,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 258500
+      "bytes": 258644
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -7604,7 +7604,7 @@
     "data/market/colorado-foreclosure-performance.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49077
+      "bytes": 49548
     },
     "data/market/commuting_co.geojson": {
       "featureCount": 1447,
@@ -7681,11 +7681,6 @@
       "placeholder": false,
       "bytes": 442053
     },
-    "data/market/freddie-mac-multifamily-outlook.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3657
-    },
     "data/market/hospitals_co.geojson": {
       "featureCount": 121,
       "placeholder": false,
@@ -7724,7 +7719,7 @@
     "data/market/lihtc-equity-pricing-history.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2370
+      "bytes": 5536
     },
     "data/market/lodes_co.json": {
       "featureCount": 0,
@@ -7754,7 +7749,7 @@
     "data/market/novogradac-equity-pricing.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5307
+      "bytes": 17971
     },
     "data/market/opportunity_insights_co.json": {
       "featureCount": 0,
@@ -7814,7 +7809,7 @@
     "data/market/tax-credit-transfer-pricing.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3439
+      "bytes": 5457
     },
     "data/market/tract_boundaries_co.geojson": {
       "featureCount": 1447,
@@ -8279,7 +8274,7 @@
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16701
+      "bytes": 17186
     },
     "data/policy/housing-policy-scorecard.json": {
       "featureCount": 0,
@@ -8304,7 +8299,7 @@
     "data/policy/lihtc-assumptions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3881
+      "bytes": 4301
     },
     "data/policy/methodology-version.json": {
       "featureCount": 0,
@@ -8339,7 +8334,7 @@
     "data/policy/research-orgs-housing.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7859
+      "bytes": 7983
     },
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
@@ -8374,7 +8369,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 237957
+      "bytes": 243257
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
