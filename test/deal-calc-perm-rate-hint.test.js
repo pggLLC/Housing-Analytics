@@ -26,7 +26,7 @@ function latestDgs10(doc) {
   return null;
 }
 
-async function render(fred, typedRate) {
+async function render(fred, typedRate, beforeFred) {
   const dom = new JSDOM('<!DOCTYPE html><body><div id="dealCalcMount"></div></body>', { url: 'http://localhost/deal-calculator.html' });
   global.window = dom.window;
   global.document = dom.window.document;
@@ -36,8 +36,13 @@ async function render(fred, typedRate) {
   window.DealCalculatorMath = require('../js/deal-calculator-math.js');
   global.fetch = window.fetch = (url) => {
     const u = String(url);
+    if (u.includes('fred-data.json') && beforeFred) beforeFred();
     // The user types a rate before the FRED file arrives.
-    if (u.includes('fred-data.json') && typedRate != null) document.getElementById('dc-rate').value = typedRate;
+    if (u.includes('fred-data.json') && typedRate != null) {
+      const el = document.getElementById('dc-rate');
+      el.value = typedRate;
+      el.dispatchEvent(new window.Event('input', { bubbles: true }));
+    }
     if (u.includes('fred-data.json')) return Promise.resolve({ ok: true, json: () => Promise.resolve(fred) });
     if (u.includes('lihtc-assumptions.json')) return Promise.resolve({ ok: true, json: () => Promise.resolve(ASSUMPTIONS) });
     return Promise.reject(new Error('fixture fetch disabled'));
@@ -75,6 +80,12 @@ async function render(fred, typedRate) {
 
   const typed = await render(FRED, '5.75');
   assert.strictEqual(typed.getElementById('dc-rate').value, '5.75', 'a rate the user typed is never overwritten');
+  // Typing the placeholder value itself still counts as the user's rate.
+  const typedDefault = await render(FRED, '6.5');
+  assert.strictEqual(typedDefault.getElementById('dc-rate').value, '6.5', 'a typed 6.5 is kept, not mistaken for the placeholder');
+  // A shared link restores its rate before FRED arrives: the restored rate stands.
+  const shared = await render(FRED, null, () => window.__DealCalc.beginSharedScenario());
+  assert.notStrictEqual(shared.getElementById('dc-rate').value, (t10.value + spread).toFixed(2), 'a shared scenario is not overwritten by the hint');
 
   // FRED's "." (no value that day) is skipped, never read as 0.
   const dotted = JSON.parse(JSON.stringify(FRED));
