@@ -218,7 +218,7 @@
       "sources_checked": [
         "https://library.municode.com/co/weld_county/codes/charter_and_county_code?nodeId=CH20IMFE_ARTIIMFE_S20-1-70EX",
         "https://api.municode.com/search (Weld County Code, searches: affordable housing, low income, attainable, workforce housing, fee waiver)",
-        "https://www.weld.gov/Search?searchPhrase=affordable%20housing"
+        "https://www.weld.gov/"
       ],
       "note": "Weld County Impact Fee Ordinance (Code Ch. 20) exemptions list no affordable-housing exemption (only remodels, pre-ordinance permits, federal/state projects, emergency services). Full-text search of the Weld County Code finds no affordable-housing incentive. weld.gov returns 403, so county housing/fund pages could not be read. Web reporting mentions only BOCC private activity bond assignments to towns (not a local fund)."
     },
@@ -336,7 +336,7 @@
       },
       "sources_checked": [
         "https://library.municode.com/co/lakewood/codes/municipal_code?nodeId=TIT15HOCO_CH15.02AFHO",
-        "https://www.lakewoodco.gov/Government/Departments/Planning/Housing",
+        "https://www.lakewoodco.gov/",
         "https://app.govly.com/public/meetings/68132"
       ],
       "note": "Municipal code (ch. 15.02 Affordable Housing; Municode search for 'housing fund', 'fee in lieu', 'linkage') has no affordable housing fund. lakewoodco.gov returned HTTP 403. A third-party AI meeting summary (Govly) says the Housing Policy Commission on Aug. 13, 2026 sent a draft affordable housing fund ordinance (at least $1 million a year from existing property tax discussed) to council for study session; not adopted as far as found, so no record. Recheck."
@@ -541,13 +541,12 @@
         "funds": "records"
       },
       "sources_checked": [
-        "https://telluride-co.gov/401/Taxes",
         "https://telluride.municipal.codes/TMC/4-9-10",
         "https://www.telluridenews.com/news/article_7879c028-0061-11ea-88f2-77f970e4be57.html",
         "https://www.telluridenews.com/news_release/article_a7234af0-3c51-4422-8aea-f08b33114f3d.html",
         "https://891khol.org/telluride-short-term-rental-tax-raises-funds-for-affordable-housing/"
       ],
-      "note": "telluride-co.gov unreachable (proxy 502) and telluride.municipal.codes 403; three records are 'reported' from Telluride Daily Planet/KHOL. Re-verify against TMC."
+      "note": "The town site (telluride-co.gov) could not be reached at all and telluride.municipal.codes 403; three records are 'reported' from Telluride Daily Planet/KHOL. Re-verify against TMC."
     },
     {
       "geoid": "08113",
