@@ -86,6 +86,8 @@ CITIES: list[tuple[str, str]] = [
 ]
 
 BASE = "https://www.apartmentlist.com/rent-report/co/{slug}"
+# Below this many parsed cities the run is treated as a failure (23 are listed).
+MIN_CITIES = 15
 
 
 def _fetch(url: str) -> str | None:
@@ -182,6 +184,18 @@ def main() -> int:
         if "rent_overall" in rec: bits.append(f"${rec['rent_overall']:,}")
         if "yoy_change_pct" in rec: bits.append(f"{rec['yoy_change_pct']:+.1f}% YoY")
         print(" · ".join(bits) if bits else "ok")
+
+    # A page-copy change or a block can make most cities parse as "no data".
+    # Writing then would replace the last good snapshot with a few cities, so
+    # keep the committed file and fail instead (the workflow opens an issue).
+    # Count cities with a rent, not any parsed record: a page that still
+    # matches the YoY or rank wording but not the rent wording parses to a
+    # record with no rent, which no consumer can use.
+    with_rent = sum(1 for r in results.values() if r.get("rent_overall"))
+    if with_rent < MIN_CITIES and OUT.exists():
+        print(f"\nERROR only {with_rent} cities parsed with a rent (need {MIN_CITIES}); "
+              f"kept {OUT.relative_to(REPO_ROOT)} unchanged")
+        return 1
 
     overall_vals = [r["rent_overall"] for r in results.values() if r.get("rent_overall")]
     statewide_avg = round(sum(overall_vals) / len(overall_vals)) if overall_vals else None

@@ -211,60 +211,38 @@
    * consistent direction, which is worse than no number at all.
    */
   function costPerGrossSf(tdc, grossSf) {
-    var sf = +grossSf;
-    if (!isFinite(sf) || sf <= 0) return null;
-    if (!isFinite(tdc) || tdc <= 0) return null;
-    return tdc / sf;
+    return dealEngine().costPerGrossSf(tdc, grossSf);
   }
 
-  function computeForSaleFeasibility(input) {
-    input = input || {};
-    var tdc = +input.tdc;
-    var units = +input.units;
-    var ami4Person = +input.ami4Person;
-    var targetAmiPct = +input.targetAmiPct;
-    // Shared-engine delegation (PR #1388): prefer the authoritative
-    // OwnershipFinance engine; the HNA kernel remains the fallback and both
-    // produce identical values under default assumptions (parity-tested).
+  // Preserve the existing source fallback for an absent or malformed override.
+  function readDeveloperFundingPrograms(programs) {
+    if (Array.isArray(programs)) return programs;
+    if (programs && Array.isArray(programs.programs)) return programs.programs;
+    return _developerOwnershipFunding && Array.isArray(_developerOwnershipFunding.programs)
+      ? _developerOwnershipFunding.programs : [];
+  }
+
+  function readOwnershipSources(input) {
     var maxAffordablePrice = input.maxAffordablePrice ||
       (window.OwnershipFinance && window.OwnershipFinance.maxAffordablePrice) ||
       (window.HNAOwnershipNeed && window.HNAOwnershipNeed.maxAffordablePrice);
-    if (!isFinite(targetAmiPct) || targetAmiPct <= 0) targetAmiPct = 0.80;
-    if (!isFinite(tdc) || tdc <= 0 || !isFinite(units) || units <= 0) {
-      return { status: 'missing-costs', targetAmiPct: targetAmiPct,
-               tdcPerSf: costPerGrossSf(tdc, input.grossSf) };
-    }
-    if (!isFinite(ami4Person) || ami4Person <= 0) {
-      return { status: 'missing-ami', targetAmiPct: targetAmiPct, tdcPerUnit: tdc / units,
-               tdcPerSf: costPerGrossSf(tdc, input.grossSf) };
-    }
-    if (typeof maxAffordablePrice !== 'function') {
-      return { status: 'missing-helper', targetAmiPct: targetAmiPct, tdcPerUnit: tdc / units,
-               tdcPerSf: costPerGrossSf(tdc, input.grossSf) };
-    }
-    var tdcPerUnit = tdc / units;
-    var maxSalePrice = maxAffordablePrice(ami4Person, targetAmiPct, input.assumptions);
-    var rawGapPerUnit = tdcPerUnit - maxSalePrice;
-    var subsidyGapPerUnit = Math.max(0, rawGapPerUnit);
-    var result = {
-      status: 'ok',
-      targetAmiPct: targetAmiPct,
-      ami4Person: ami4Person,
-      tdcPerUnit: tdcPerUnit,
-      tdcPerSf: costPerGrossSf(tdc, input.grossSf),
-      grossSf: (isFinite(+input.grossSf) && +input.grossSf > 0) ? +input.grossSf : null,
-      maxAffordableSalePrice: maxSalePrice,
-      rawGapPerUnit: rawGapPerUnit,
-      subsidyGapPerUnit: subsidyGapPerUnit,
-      totalSubsidyGap: subsidyGapPerUnit * units,
-      surplusPerUnit: Math.max(0, -rawGapPerUnit)
-    };
-    result.developerFundingStack = computeDeveloperOwnershipFundingStack(result, {
-      units: units,
-      programs: input.developerFundingPrograms
+    var target = +input.targetAmiPct;
+    if (!isFinite(target) || target <= 0) target = 0.80;
+    var price = typeof maxAffordablePrice === 'function' && isFinite(+input.ami4Person) && +input.ami4Person > 0
+      ? maxAffordablePrice(+input.ami4Person, target, input.assumptions) : null;
+    var resolved = Object.assign({}, input, {
+      hasAffordablePriceHelper: typeof maxAffordablePrice === 'function',
+      maxAffordableSalePrice: price,
+      developerFundingPrograms: readDeveloperFundingPrograms(input.developerFundingPrograms),
+      ownershipResale: computeOwnershipResale({ maxAffordableSalePrice: price,
+        ami4Person: +input.ami4Person, targetAmiPct: target }, input)
     });
-    result.ownershipResale = computeOwnershipResale(result, input);
-    return result;
+    delete resolved.maxAffordablePrice;
+    return resolved;
+  }
+
+  function computeForSaleFeasibility(input) {
+    return dealEngine().computeForSaleFeasibility(readOwnershipSources(input || {}));
   }
 
   function computeOwnershipResale(feasibility, input) {
@@ -307,96 +285,11 @@
     };
   }
 
-  function _developerFundingPrograms(programs) {
-    if (Array.isArray(programs)) return programs;
-    if (programs && Array.isArray(programs.programs)) return programs.programs;
-    if (_developerOwnershipFunding && Array.isArray(_developerOwnershipFunding.programs)) {
-      return _developerOwnershipFunding.programs;
-    }
-    return [];
-  }
-
-  function _developerFundingAmountPerUnit(program, feasibility) {
-    if (!program || (program.apply_to_gap !== true && program.screening_apply !== true)) return null;
-    var amountType = String(program.amount_type || '');
-    if (amountType === 'fixed_dollar_cap') {
-      var maxAmount = +program.max_amount;
-      return isFinite(maxAmount) && maxAmount > 0 ? maxAmount : null;
-    }
-    if (amountType === 'percent_purchase_price') {
-      var pct = +program.max_percent;
-      var basis = String(program.basis || '');
-      var basisValue = basis === 'max_affordable_sale_price'
-        ? +feasibility.maxAffordableSalePrice
-        : +feasibility.tdcPerUnit;
-      if (isFinite(pct) && pct > 0 && isFinite(basisValue) && basisValue > 0) {
-        return pct * basisValue;
-      }
-    }
-    return null;
-  }
-
   function computeDeveloperOwnershipFundingStack(feasibility, options) {
     var opts = options || {};
-    var units = +opts.units;
-    if (!isFinite(units) || units <= 0) units = 0;
-    var gap = Math.max(0, +((feasibility || {}).subsidyGapPerUnit) || 0);
-    var remaining = gap;
-    var appliedTotal = 0;
-    var programs = _developerFundingPrograms(opts.programs);
-    var appliedSources = [];
-    var verifySources = [];
-
-    programs.forEach(function (program) {
-      if (!program || String(program.status || '').toLowerCase() !== 'active') return;
-      var amount = _developerFundingAmountPerUnit(program, feasibility || {});
-      if (!isFinite(amount) || amount <= 0) {
-        verifySources.push({
-          id: program.id || '',
-          name: program.name || program.id || 'Program',
-          programType: program.program_type || '',
-          displayAmount: program.render_value || 'VERIFY',
-          sourceUrl: program.source_url || '',
-          note: program.screening_note || '',
-          classification: program.classification,
-          observationClass: program.observation_class,
-          evidenceBasis: program.evidence_basis,
-          sourceNote: program.source_note,
-          lastVerified: program.last_verified
-        });
-        return;
-      }
-      var applied = Math.min(remaining, amount);
-      remaining = Math.max(0, remaining - applied);
-      appliedTotal += applied;
-      appliedSources.push({
-        id: program.id || '',
-        name: program.name || program.id || 'Program',
-        programType: program.program_type || '',
-        availableAmountPerUnit: amount,
-        appliedAmountPerUnit: applied,
-        screeningOnly: program.apply_to_gap !== true,
-        sourceUrl: program.source_url || '',
-        note: program.screening_note || '',
-        classification: program.classification,
-        observationClass: program.observation_class,
-        evidenceBasis: program.evidence_basis,
-        sourceNote: program.source_note,
-        lastVerified: program.last_verified
-      });
-    });
-
-    return {
-      label: 'Developer ownership funding stack - screening only',
-      ownerDecision: 'C3 starter set - owner confirmation needed',
-      appliedAmountPerUnit: appliedTotal,
-      appliedTotal: appliedTotal * units,
-      residualGapPerUnit: remaining,
-      residualTotalGap: remaining * units,
-      appliedSources: appliedSources,
-      verifySources: verifySources,
-      sourceCount: programs.length
-    };
+    return dealEngine().computeDeveloperOwnershipFundingStack(feasibility, Object.assign({}, opts, {
+      programs: readDeveloperFundingPrograms(opts.programs)
+    }));
   }
 
   function renderDeveloperOwnershipFundingStack(stack) {
@@ -800,34 +693,7 @@
   // missing, or no AMI tier rent limits).
   // -------------------------------------------------------------------
   function computeRentAchievability(inputs) {
-    if (!inputs || !inputs.amiLimits || !inputs.fmr) return null;
-    var fmr = inputs.fmr;
-    if (typeof fmr.two_br !== 'number' || fmr.two_br <= 0) return null;
-    var fmr2br = fmr.two_br;
-
-    function _status(gap) {
-      if (gap <= 0)   return 'clear';
-      if (gap <= 50)  return 'tight';
-      if (gap <= 200) return 'concerning';
-      return 'misaligned';
-    }
-
-    var tiers = DEAL_AMI_BANDS
-      .filter(function (p) { return typeof inputs.amiLimits[p] === 'number' && inputs.amiLimits[p] > 0; })
-      .map(function (pct) {
-        var ceiling = inputs.amiLimits[pct];
-        var gap = ceiling - fmr2br;
-        return {
-          pct:     pct,
-          ceiling: ceiling,
-          fmr2br:  fmr2br,
-          gap:     gap,
-          status:  _status(gap)
-        };
-      });
-
-    if (tiers.length === 0) return null;
-    return { tiers: tiers, fmr: fmr };
+    return dealEngine().computeRentAchievability(inputs);
   }
 
   function normalizeMinimumSetAsideElection(election) {
@@ -842,59 +708,11 @@
   }
 
   function isLihtcCreditEligiblePct(pct, election) {
-    var n = Number(pct);
-    var config = MINIMUM_SET_ASIDE_ELECTIONS[normalizeMinimumSetAsideElection(election)];
-    return n >= 20 && n <= config.creditCeiling;
+    return dealEngine().isLihtcCreditEligiblePct(pct, election);
   }
 
   function evaluateMinimumSetAside(election, totalUnits, designatedUnitsByPct) {
-    var normalized = normalizeMinimumSetAsideElection(election);
-    var config = MINIMUM_SET_ASIDE_ELECTIONS[normalized];
-    var total = Number(totalUnits);
-    if (!isFinite(total) || total < 0) total = 0;
-    var eligibleUnits = 0;
-    var setAsideUnits = 0;
-    var weightedAmi = 0;
-    Object.keys(designatedUnitsByPct || {}).forEach(function (rawPct) {
-      var pct = Number(rawPct);
-      var count = Number(designatedUnitsByPct[rawPct]);
-      if (!isFinite(count) || count <= 0) return;
-      if (pct <= config.setAsideCeiling) setAsideUnits += count;
-      if (isLihtcCreditEligiblePct(pct, normalized)) {
-        eligibleUnits += count;
-        weightedAmi += pct * count;
-      }
-    });
-    var minimumSharePct = total > 0 ? (setAsideUnits / total) * 100 : null;
-    var minimumShareMet = total > 0 && setAsideUnits / total >= config.minimumShare;
-    var averageAmiPct = normalized === 'average-income' && eligibleUnits > 0
-      ? weightedAmi / eligibleUnits
-      : null;
-    var averageMet = normalized !== 'average-income' || (averageAmiPct !== null && averageAmiPct <= 60);
-    // CHFA's October 2025 AIT compliance policy permits this election only
-    // when 100% of residential units are designated low-income units.
-    var chfaAllUnitsMet = normalized !== 'average-income' || (total > 0 && eligibleUnits === total);
-    var qualifies = minimumShareMet && averageMet && chfaAllUnitsMet;
-    var reasons = [];
-    if (!minimumShareMet) {
-      reasons.push('the designated set-aside is below ' + Math.round(config.minimumShare * 100) + '% of residential units');
-    }
-    if (!averageMet) reasons.push('the designated average exceeds 60% AMI');
-    if (!chfaAllUnitsMet) reasons.push('CHFA requires all residential units to be designated low-income under this election');
-    return {
-      election: normalized,
-      totalUnits: total,
-      eligibleUnits: eligibleUnits,
-      setAsideUnits: setAsideUnits,
-      minimumSharePct: minimumSharePct,
-      averageAmiPct: averageAmiPct,
-      minimumShareMet: minimumShareMet,
-      averageMet: averageMet,
-      chfaAllUnitsMet: chfaAllUnitsMet,
-      qualifies: qualifies,
-      countedLihtcUnits: qualifies ? eligibleUnits : 0,
-      reason: reasons.join('; ')
-    };
+    return dealEngine().evaluateMinimumSetAside(election, totalUnits, designatedUnitsByPct);
   }
 
   function amiBandLabelHtml(pct, election) {
@@ -992,24 +810,6 @@
 
   // Manual remainder units use the grid's bedroom proportions. Largest remainders
   // keep whole units and the exact total; ties follow the grid's column order.
-  function manualMarketSplit(units, bedroomCounts) {
-    var total = SPLIT_BR_TYPES.reduce(function (sum, br) { return sum + bedroomCounts[br]; }, 0);
-    var fallback = document.getElementById('dc-market-bedroom');
-    var rows = SPLIT_BR_TYPES.map(function (br) {
-      var exact = total > 0 ? units * bedroomCounts[br] / total : (br === fallback.value ? units : 0);
-      return { br: br, units: Math.floor(exact), remainder: exact - Math.floor(exact) };
-    });
-    var remaining = units - rows.reduce(function (sum, row) { return sum + row.units; }, 0);
-    rows.slice().sort(function (a, b) { return b.remainder - a.remainder; }).forEach(function (row) {
-      if (remaining > 0) { row.units++; remaining--; }
-    });
-    document.getElementById('dc-market-bedroom-wrap').hidden = total > 0;
-    document.getElementById('dc-market-split').textContent = total > 0
-      ? 'Bedroom mix follows the AMI grid proportions, rounded to whole homes: '
-      : 'No bedroom mix is entered in the grid. Choose one size for these homes (default: 2BR): ';
-    return rows.filter(function (row) { return row.units > 0; });
-  }
-
   // The displayed ZORI fields are not storage for a user's overrides. This
   // separate value record also travels through the existing save/share inputs.
   function captureMarketOverrides() {
@@ -1028,9 +828,8 @@
     delete document.getElementById('dc-manual-market-rents').dataset.marketMode;
   }
 
-  function resolveManualMarketRents(units, bedroomCounts) {
+  function readManualMarketInputs() {
     var panel = document.getElementById('dc-manual-market-rents');
-    panel.hidden = !(units > 0);
     var mode = document.getElementById('dc-market-rent-mode').value;
     var override = mode === 'override';
     if (override && panel.dataset.marketMode === 'override') captureMarketOverrides();
@@ -1079,28 +878,28 @@
       (zoriMeta.review_flag ? '. ' + zoriMeta.review_flag.note : '') :
       'ZORI bedroom estimate unavailable; enter market rents with a source note.';
     vintage.dataset.reviewFlag = zoriMeta.review_flag ? zoriMeta.review_flag.reason : '';
-    var allocation = manualMarketSplit(units, bedroomCounts);
-    var reason = null;
-    var rows = allocation.map(function (row) {
-      var input = document.getElementById('dc-market-rent-' + row.br);
-      var value = override ? (input.value.trim() ? Number(input.value) : null) : zori && zori[row.br];
-      var rent = typeof value === 'number' && isFinite(value) && value > 0 ? value : null;
-      if (override && !note) { reason = 'market_rent_source_missing'; rent = null; }
-      else if (rent == null) reason = 'market_rent_missing';
-      return { tier: 'market', bedrooms: RENT_BEDROOMS[row.br], units: row.units, rent: rent,
-        source: override ? note || null : source.source || null,
-        vintage: override ? null : source.vintage, sourceUrl: override ? null : source.sourceUrl };
-    });
-    var message = reason ? 'market rent for ' + units + ' unrestricted units needs a source' +
-      (reason === 'market_rent_source_missing' ? ' — add the override source note' : '') : null;
+    var rents = {};
+    SPLIT_BR_TYPES.forEach(function (br) { rents[br] = document.getElementById('dc-market-rent-' + br).value; });
+    return { mode: mode, note: note, rents: rents, zori: zori, source: source,
+      fallbackBedroom: document.getElementById('dc-market-bedroom').value };
+  }
+
+  function renderManualMarket(result) {
+    if (result.scheduleMode) return;
+    var units = Math.max(0, result.units - result.amiUnitSum);
+    document.getElementById('dc-manual-market-rents').hidden = !(units > 0);
+    var hasGridMix = Object.keys(result.gridBedrooms).some(function (key) { return result.gridBedrooms[key] > 0; });
+    document.getElementById('dc-market-bedroom-wrap').hidden = hasGridMix;
+    document.getElementById('dc-market-split').textContent = hasGridMix
+      ? 'Bedroom mix follows the AMI grid proportions, rounded to whole homes: '
+      : 'No bedroom mix is entered in the grid. Choose one size for these homes (default: 2BR): ';
+    var market = result.manualMarket;
     var status = document.getElementById('dc-market-rent-status');
-    status.dataset.unavailableReason = reason || '';
+    status.dataset.unavailableReason = market.unavailableReason || '';
     status.dataset.units = String(units);
-    status.textContent = message ? 'Unavailable — ' + message : rows.map(function (row) {
+    status.textContent = market.message ? 'Unavailable — ' + market.message : market.rows.map(function (row) {
       return row.units + ' ' + row.bedrooms + ' homes × $' + row.rent.toLocaleString('en-US') + '/month';
     }).join('; ');
-    return { rows: rows, unavailableReason: reason, message: message,
-      source: override ? note : [source.source, source.vintage, source.geography].filter(Boolean).join(' · ') };
   }
 
   // -------------------------------------------------------------------
@@ -1274,40 +1073,7 @@
   // banker/syndicator table reads.
   // -------------------------------------------------------------------
   function computeDscrStressScenarios(inputs, constants) {
-    if (!inputs) return null;
-    constants = constants || DEFAULT_CONSTANTS;
-    // NOT `|| 0`: annualRents is NaN when the unit mix is broken, and `NaN || 0`
-    // is 0 — which would resurrect the exact deal this is meant to refuse.
-    var annualRents      = +inputs.annualRents;
-    var vacancyPct       = +inputs.vacancyPct  || 0;
-    var annualOpex       = +inputs.annualOpex       || 0;
-    var annualRepReserve = +inputs.annualRepReserve || 0;
-    var netPropTax       = +inputs.netPropTax       || 0;
-    var annualDebtService = +inputs.annualDebtService || 0;
-    // `NaN <= 0` is false, so a bare `<= 0` lets NaN through. Inverting the
-    // comparison catches missing, zero, negative and NaN in one test.
-    if (!(annualDebtService > 0) || !(annualRents > 0)) return null;
-
-    var rentS = +constants.rentStressPct;
-    var vacS  = +constants.vacStressPp;
-    var opexS = +constants.opexStressPct;
-    var cR    = +constants.combinedRentPct;
-    var cV    = +constants.combinedVacPp;
-    var cO    = +constants.combinedOpexPct;
-
-    function _noiFor(rentMult, vacDelta, opexMult) {
-      var effVac = Math.min(1, Math.max(0, vacancyPct + vacDelta));
-      var eff    = annualRents * rentMult * (1 - effVac);
-      return eff - annualOpex * opexMult - annualRepReserve - netPropTax;
-    }
-    var baseNoi = _noiFor(1.00, 0, 1.00);
-    return {
-      base:     { noi: baseNoi,                       dscr: baseNoi / annualDebtService },
-      rent10:   { noi: _noiFor(1 - rentS, 0,    1.00), dscr: _noiFor(1 - rentS, 0,    1.00) / annualDebtService },
-      vac5:     { noi: _noiFor(1.00,  vacS, 1.00),     dscr: _noiFor(1.00,  vacS, 1.00) / annualDebtService },
-      opex10:   { noi: _noiFor(1.00,  0,    1 + opexS),dscr: _noiFor(1.00,  0,    1 + opexS) / annualDebtService },
-      combined: { noi: _noiFor(1 - cR, cV,   1 + cO),  dscr: _noiFor(1 - cR, cV,   1 + cO) / annualDebtService }
-    };
+    return dealEngine().computeDscrStressScenarios(inputs, constants || DEFAULT_CONSTANTS);
   }
 
   function rentLimitRegime() {
@@ -3777,14 +3543,55 @@
     if (help) help.textContent = 'Total constructed area including circulation and common space — not the sum of unit sizes. Enter it to see cost per square foot.';
   }
 
+  var _lastResult = null;
+  function dealEngine() {
+    return window.DealEngine || (typeof require === 'function' ? require('./deal-engine.js') : null);
+  }
+  function getResult() { return _lastResult == null ? null : JSON.parse(JSON.stringify(_lastResult)); }
+
+  function readDealInputs() {
+    var fields = {};
+    document.querySelectorAll('#dealCalcMount input[id], #dealCalcMount select[id], [id^="pf-"]').forEach(function (el) {
+      fields[el.id] = el.type === 'checkbox' || el.type === 'radio' ? el.checked : el.value;
+    });
+    var ownership = readOwnershipSources({
+      ami4Person: getCurrentAmi4Person(),
+      targetAmiPct: (parseFloat(fields['dc-sale-target-ami']) || 80) / 100,
+      developerFundingPrograms: _developerOwnershipFunding, resaleConventions: _resaleConventions,
+      resaleHoldingYears: parseFloat(fields['dc-own-resale-years']) || 5,
+      resaleRemainingPrincipal: parseFloat(fields['dc-own-resale-principal']) || 0,
+      resaleSellingCosts: parseFloat(fields['dc-own-resale-costs']) || 0,
+      resaleMarketAppreciation: parseFloat(fields['dc-own-resale-appreciation']) || 0,
+      resaleSubsidyType: _resaleSelection.subsidyType, resaleConventionId: _resaleSelection.selectedConventionId
+    });
+    return { fields: fields, ownership: ownership, resolvedDealMix: _resolvedDealMix, amiLimits: _amiLimits,
+      amiLimitsByBr: _amiLimitsByBr, countyFips: _countyFips, creditRate: _creditRate,
+      constants: _constants, utilityAllowance: _utilityAllowance,
+      equityPriceDefault: EQUITY_PRICE_DEFAULT, minimumSetAsideElection: currentMinimumSetAsideElection(),
+      regime: rentLimitRegime(), perBrMarket: _countyFips ? getZoriPerBrRent(_countyFips) : null,
+      manualMarket: _resolvedDealMix.available ? null : readManualMarketInputs(),
+      hasUnitMixWarning: !!document.getElementById('dc-units-sync-warn'),
+      tranches: typeof window.DealCalcSoftTranches === 'function' ? (window.DealCalcSoftTranches() || []) : [],
+      fmrData: window.HudFmr && _countyFips ? window.HudFmr.getFmrByFips(_countyFips) : null };
+  }
+
   function recalculate() {
     if (_hydratingSharedScenario) return;
     observeSubjectProject();
     _resolvedDealMix = resolveDealMix();
-    var scheduleMode = _resolvedDealMix.available;
     renderDealMixContext(_resolvedDealMix);
     updateGrossSfEstimate();
     renderPermitContext(_countyFips);
+    _utilityAllowance = resolveUtilityAllowance();
+    var inputs = readDealInputs();
+    _lastResult = dealEngine().computeDeal(inputs);
+    renderDealResult(_lastResult, inputs);
+    saveManualMix();
+    try { document.dispatchEvent(new CustomEvent('deal-calc:updated', { detail: { result: getResult() } })); } catch(_) {}
+  }
+
+  function renderDealResult(result, inputs) {
+    var scheduleMode = result.scheduleMode;
     function fmt(n) {
       if (!isFinite(n)) return '—';
       return '$' + Math.round(n).toLocaleString('en-US');
@@ -3793,232 +3600,82 @@
       if (!isFinite(n) || n === 0) return '—';
       return (n * 100).toFixed(1) + '%';
     }
-    function safeVal(id) {
-      var el = document.getElementById(id);
-      if (!el) return NaN;
-      return parseFloat(el.value);
-    }
-    function vacFrac() {
-      if (scheduleMode) return _resolvedDealMix.vacancyRate;
-      var v = safeVal('dc-vacancy');
-      return (Number.isFinite(v) ? v : 7) / 100;
-    }
-
-    var tdc = safeVal('dc-tdc') || 0;
-    var units = scheduleMode ? _resolvedDealMix.totalUnits : safeVal('dc-units') || 0;
-    var basisPct = (safeVal('dc-basis-pct') || 80) / 100;
+    function vacFrac() { return result.vacancyRate; }
+    function numeric(value) { return value == null ? NaN : value; }
+    var tdc = numeric(result.tdc);
+    var units = numeric(result.units);
+    var totalGrant = numeric(result.totalGrant);
+    var totalLoanPrincipal = numeric(result.totalLoanPrincipal);
+    var totalSoftDebtService = numeric(result.totalSoftDebtService);
+    var trancheBreakdown = result.trancheBreakdown;
+    var impactGrant = numeric(result.impactGrant);
+    var annualRents = numeric(result.annualRents);
+    var amiUnitSum = numeric(result.amiUnitSum);
+    var marketRegime = result.marketRegime;
+    var chfaRegime = result.chfaRegime;
+    var allowanceRevenueReason = result.allowanceRevenueReason;
+    var capOn = result.capOn;
+    var perBrMarket = result.perBrMarket;
+    var pricedRows = result.pricedRows;
+    var manualMarket = result.manualMarket;
+    var capBindings = result.capBindings;
+    var minimumSetAsideResult = result.minimumSetAsideResult;
+    var lihtcUnits = numeric(result.lihtcUnits);
+    var applicableFraction = numeric(result.applicableFraction);
+    var eligibleBasisRaw = numeric(result.eligibleBasisRaw);
+    var eligibleBasis = numeric(result.eligibleBasis);
+    var annualCredits = numeric(result.annualCredits);
+    var equity = numeric(result.equity);
+    var unitMixError = result.unitMixError;
+    var devFeeTotal = numeric(result.devFeeTotal);
+    var deferredPctSlider = numeric(result.deferredPctSlider);
+    var autoBalance = result.autoBalance;
+    var deferredDevFee = numeric(result.deferredDevFee);
+    var noi = numeric(result.noi);
+    var netPropTax = result.netPropTax;
+    var taxSavings = numeric(result.taxSavings);
+    var dcr = numeric(result.dcr);
+    var mc = numeric(result.mc);
+    var mortgage = numeric(result.mortgage);
+    var noiUnknownReason = result.noiUnknownReason;
+    var rentsUnknownReason = result.rentsUnknownReason;
+    var capRate = result.capRate;
+    var annualDebtService = numeric(result.annualDebtService);
+    var breakEvenOcc = result.breakEvenOcc;
+    var dscrAutoMode = result.dscrAutoMode;
+    var baseDSCR = result.baseDSCR;
+    var stress = result.stress;
+    var deferredCap = numeric(result.deferredCap);
+    var gapBeforeDeferred = numeric(result.gapBeforeDeferred);
+    var devFeeAtClosing = numeric(result.devFeeAtClosing);
+    var gap = numeric(result.gap);
+    var exit = result.exit;
+    var tornado = result.tornado;
+    var budget = result.budget;
+    var fundingGap = numeric(result.fundingGap);
+    var gapPct = numeric(result.gapPct);
+    var hasWorkforceUnits = result.hasWorkforceUnits;
+    var achResult = result.achResult;
+    var simpleGap = numeric(result.simpleGap);
+    var totalSoftSourceAmt = numeric(result.totalSoftSourceAmt);
+    var sensitivityKnown = result.sensitivityKnown;
+    var tranches = inputs.tranches;
+    var autoNoi = document.getElementById('dc-auto-noi');
+    renderManualMarket(result);
     updateDealModeUi();
-    var saleTargetAmiPct = (safeVal('dc-sale-target-ami') || 80) / 100;
-    renderForSaleFeasibility(computeForSaleFeasibility({
-      tdc: tdc,
-      // No `|| 0`: an empty field must arrive as NaN so costPerGrossSf() can
-      // tell "not entered" from "entered as zero". Both yield null, but only
-      // one of them is a user mistake worth a different message later.
-      grossSf: safeVal('dc-gross-sf'),
-      units: units,
-      ami4Person: getCurrentAmi4Person(),
-      targetAmiPct: saleTargetAmiPct,
-      developerFundingPrograms: _developerOwnershipFunding,
-      resaleConventions: _resaleConventions,
-      resaleHoldingYears: safeVal('dc-own-resale-years') || 5,
-      resaleRemainingPrincipal: safeVal('dc-own-resale-principal') || 0,
-      resaleSellingCosts: safeVal('dc-own-resale-costs') || 0,
-      resaleMarketAppreciation: safeVal('dc-own-resale-appreciation') || 0,
-      resaleSubsidyType: _resaleSelection.subsidyType,
-      resaleConventionId: _resaleSelection.selectedConventionId
-    }));
-    var equityPrice = safeVal('dc-equity-price');
-    if (!isFinite(equityPrice) || equityPrice <= 0) equityPrice = EQUITY_PRICE_DEFAULT;
-
-    // G — Multi-tranche soft debt. Aggregate across the tranche list:
-    //   grants  → subtract from basis (§42(d)(5)(A)) AND fill gap at closing
-    //   loans   → contribute to gap close at closing AND amortize as annual debt service
-    // Tranches read from the renderSoftTranches() state (window-exposed getter).
-    var tranches = (typeof window.DealCalcSoftTranches === 'function') ? (window.DealCalcSoftTranches() || []) : [];
-    var totalGrant = 0;
-    var totalLoanPrincipal = 0;
-    var totalSoftDebtService = 0;
-    var trancheBreakdown = [];   // for sources/uses rendering
-    tranches.forEach(function (t) {
-      var amt = Math.max(0, t.amount || 0);
-      if (amt <= 0) return;
-      if (t.mode === 'grant') {
-        totalGrant += amt;
-        trancheBreakdown.push({ id: t.id, program: t.program, mode: 'grant', amount: amt, debtService: 0 });
-      } else {
-        totalLoanPrincipal += amt;
-        var rPct = Math.max(0, t.rate || 0);
-        var trm = Math.max(1, t.term || 30);
-        var mcT = mortgageConstant(rPct / 100, trm);
-        // Zero-interest public loans amortize straight-line principal.
-        var ds = rPct > 0 ? (amt * mcT) : (amt / trm);
-        totalSoftDebtService += ds;
-        trancheBreakdown.push({ id: t.id, program: t.program, mode: 'loan', amount: amt, debtService: ds, rate: rPct, term: trm });
-      }
-    });
-    // Backward-compat aliases for the rest of the calc path.
-    var impactGrant = totalGrant;
-    var impactDebtService = totalSoftDebtService;
-    var impactMode = totalGrant > 0 ? 'grant' : 'loan';
-
-    // Rent income — sum checked AMI-tier units. Track designated units by
-    // tier so the elected minimum set-aside can determine qualified units.
-    // The default 40-60 election preserves the pre-election applicable-
-    // fraction calculation for mixed-income deals.
-    var annualRents = 0;
-    var amiUnitSum = 0;
-    var minimumSetAsideElection = currentMinimumSetAsideElection();
-    var designatedUnitsByPct = {};
-    // Missing ceilings block revenue; market mode uses the existing ZORI/FMR
-    // bedroom estimates rather than inventing an income-based restriction.
-    var marketRegime = rentLimitRegime() === 'market';
-    var chfaRegime = rentLimitRegime() === 'chfa_lihtc';
-    _utilityAllowance = resolveUtilityAllowance();
-    var allowanceRevenueReason = null;
-    var rentInputsMissing = false;
-    var capChk = document.getElementById('dc-achievable-cap');
-    var capOn = !scheduleMode && !marketRegime && !!(capChk && capChk.checked);
-    var perBrMarket = ((capOn || marketRegime) && _countyFips) ? getZoriPerBrRent(_countyFips) : null;
-    function tierRent(tier, br) {
-      var value = marketRegime ? perBrMarket && perBrMarket[br]
-        : _amiLimitsByBr ? _amiLimitsByBr[tier] && _amiLimitsByBr[tier][br]
-        : _amiLimits && _amiLimits[tier];
-      if (typeof value !== 'number' || !isFinite(value)) { rentInputsMissing = true; return NaN; }
-      if (_utilityAllowance.applied) {
-        var bedrooms = RENT_BEDROOMS[br];
-        var contract = window.ChfaRentLimits.maxContractRent({ grossRent: value,
-          utilityAllowance: _utilityAllowance.perBedroom[bedrooms], fees: _utilityAllowance.feesPerBedroom[bedrooms],
-          basisStatus: { complete: _utilityAllowance.applied, unavailableReason: _utilityAllowance.reason } });
-        if (contract.contractRent == null) {
-          allowanceRevenueReason = contract.unavailableReason;
-          rentInputsMissing = true;
-          return NaN;
-        }
-        value = contract.contractRent;
-      }
-      return value;
-    }
-    var pricedRows = [];
-    var gridBedrooms = { studio: 0, '1br': 0, '2br': 0, '3br': 0, '4br': 0 };
-    var manualMarket = { rows: [], unavailableReason: null, message: null, source: null };
-    var capBindings = [];   // tiers where the cap actually reduced revenue
-    function _nonNegInt(v) {
-      var n = parseInt(v, 10);
-      return isFinite(n) && n > 0 ? n : 0;
-    }
-    function _tierSplitCounts(pct) {
-      var out = { total: 0 };
-      SPLIT_BR_TYPES.forEach(function (b) { out[b] = 0; });
-      SPLIT_BR_TYPES.forEach(function (br) {
-        var el = document.getElementById('dc-units-' + pct + '-' + br);
-        var n = _nonNegInt(el && el.value);
-        out[br] = n;
-        out.total += n;
-      });
-      return out;
-    }
-    if (scheduleMode) {
-      _resolvedDealMix.restrictedRows.forEach(function (r) {
-        annualRents += r.contractRent * r.units * 12;
-        amiUnitSum += r.units;
-        if (isLihtcCreditEligiblePct(r.tier, minimumSetAsideElection)) {
-          designatedUnitsByPct[r.tier] = (designatedUnitsByPct[r.tier] || 0) + r.units;
-        }
-        pricedRows.push(Object.assign({}, r));
-      });
-      _resolvedDealMix.marketRows.forEach(function (r) {
-        annualRents += r.rent * r.units * 12;
-        amiUnitSum += r.units;
-        pricedRows.push(Object.assign({ tier: 'market' }, r));
-      });
-    } else DEAL_AMI_BANDS.forEach(function (pct) {
-      var chk = document.getElementById('dc-chk-' + pct);
-      var uInput = document.getElementById('dc-units-' + pct);
-      var brSel = document.getElementById('dc-br-' + pct);
-      if (chk && uInput) {
-        var split = _tierSplitCounts(pct);
-        var hasSplit = split.total > 0;
-        var u = hasSplit ? split.total : _nonNegInt(uInput.value);
-        var br = (brSel && brSel.value) || '2br';
-        if (hasSplit) SPLIT_BR_TYPES.forEach(function (key) { gridBedrooms[key] += split[key]; });
-        else gridBedrooms[br] += u;
-        if (chk.checked) {
-          if (hasSplit) {
-            SPLIT_BR_TYPES.forEach(function (splitBr) {
-              var splitUnits = split[splitBr];
-              if (!splitUnits) return;
-              var splitRent = tierRent(pct, splitBr);
-              if (capOn && perBrMarket && pct >= 70) {
-                var splitMkt = perBrMarket[splitBr];
-                if (typeof splitMkt === 'number' && splitMkt > 0 && splitMkt < splitRent) {
-                  capBindings.push({ pct: pct, br: splitBr, ceiling: splitRent, market: splitMkt, units: splitUnits });
-                  splitRent = splitMkt;
-                }
-              }
-              annualRents += splitUnits * splitRent * 12;
-              pricedRows.push({ tier: pct, bedrooms: RENT_BEDROOMS[splitBr], units: splitUnits,
-                contractRent: isFinite(splitRent) ? splitRent : null });
-            });
-          } else {
-            var perUnitRent = u > 0 ? tierRent(pct, br) : 0;
-            // Q5: apply market-rent cap only to workforce tiers (pct ≥ 70)
-            if (capOn && perBrMarket && pct >= 70) {
-              var mkt = perBrMarket[br];
-              if (typeof mkt === 'number' && mkt > 0 && mkt < perUnitRent) {
-                capBindings.push({ pct: pct, br: br, ceiling: perUnitRent, market: mkt, units: u });
-                perUnitRent = mkt;
-              }
-            }
-            annualRents += u * perUnitRent * 12;
-            if (u > 0) pricedRows.push({ tier: pct, bedrooms: RENT_BEDROOMS[br], units: u,
-              contractRent: isFinite(perUnitRent) ? perUnitRent : null });
-          }
-        }
-        amiUnitSum += u; // count all tier units regardless of checkbox
-        if (chk.checked && chfaRegime) {
-          designatedUnitsByPct[pct] = u;
-        }
-      }
-    });
-
-    if (!scheduleMode) {
-      manualMarket = resolveManualMarketRents(Math.max(0, units - amiUnitSum), gridBedrooms);
-      manualMarket.rows.forEach(function (row) {
-        if (row.rent == null) { rentInputsMissing = true; annualRents = NaN; }
-        else annualRents += row.rent * row.units * 12;
-        pricedRows.push(row);
-      });
-    }
-
+    renderForSaleFeasibility(result.forSale);
     _rentScheduleSnapshot = { mode: scheduleMode ? 'schedule' : 'manual', rows: pricedRows,
       countyFips: _countyFips, regime: rentLimitRegime(), totalUnits: units, vacancyRate: vacFrac(),
       reason: scheduleMode ? null : _resolvedDealMix.reason,
       sourceMeta: scheduleMode ? _resolvedDealMix.sourceMeta : { countyFips: _countyFips,
         rentLimits: getRentLimitsMetadata(), utilityAllowance: getUtilityAllowanceMetadata(), vacancyRate: vacFrac() } };
 
-    var minimumSetAsideResult = evaluateMinimumSetAside(minimumSetAsideElection, units, designatedUnitsByPct);
-    var lihtcUnits = minimumSetAsideResult.countedLihtcUnits;
     renderMinimumSetAsideStatus(minimumSetAsideResult);
 
     renderUtilityAllowanceContext(allowanceRevenueReason);
 
     // Q5: surface the achievable-rent cap status on the UI.
     _renderAchievableCapStatus(capOn, perBrMarket, capBindings);
-
-    // Applicable fraction (IRC §42(c)(1)(B)): for mixed-income deals
-    // qualified basis = eligible basis × min(unit fraction, floor-area fraction).
-    // We don't track floor area separately, so use the unit fraction.
-    // For pure-LIHTC deals (no market units), this is 1.0.
-    var applicableFraction = lihtcUnits > 0
-      ? window.DealCalculatorMath.computeApplicableFraction(lihtcUnits, units) : 0;
-
-    // LIHTC credit calculations — grants reduce eligible basis per
-    // §42(d)(5)(A); applicable fraction prorates basis when market-rate
-    // units are present.
-    var eligibleBasisRaw = Math.max(0, (tdc * basisPct) - impactGrant);
-    var eligibleBasis    = eligibleBasisRaw * applicableFraction;
-    var annualCredits    = eligibleBasis * _creditRate;
-    var equity           = annualCredits * CREDIT_YEARS * equityPrice;
 
     // Surface the applicable-fraction math when mixed-income or unrestricted units are present.
     var afNoteEl = document.getElementById('dc-applicable-fraction-note');
@@ -4028,7 +3685,7 @@
           '<strong style="color:var(--accent,#096e65);">Mixed-income deal:</strong> ' +
           lihtcUnits + ' LIHTC units / ' + units +
           ' total residential = applicable fraction <strong>' + (applicableFraction * 100).toFixed(1) + '%</strong>. ' +
-          'Eligible basis prorated to ' + fmt(eligibleBasis) +
+          'Eligible basis prorated to ' + fmt(result.basisForApplicableFractionNote) +
           ' (vs ' + fmt(eligibleBasisRaw) + ' if 100% LIHTC). ' +
           'Market-rate and unrestricted units generate rent but no federal LIHTC credits per IRC §42(c)(1)(B).';
         afNoteEl.hidden = false;
@@ -4055,7 +3712,6 @@
     // explaining what alignment meant. Result: users entered AMI sums
     // that exceeded total without realizing it was logically impossible.
     var syncWarn = document.getElementById('dc-units-sync-warn');
-    var unitMixError = false;
     if (syncWarn) {
       if (units > 0 && amiUnitSum > units) {
         // HARD ERROR — AMI tiers exceed total
@@ -4067,7 +3723,6 @@
           ').</strong> Each AMI tier is a subset of the total — they cannot sum to more ' +
           'than the total. Reduce one or more tier inputs, or increase Total Units.';
         syncWarn.hidden = false;
-        unitMixError = true;
       } else if (units > 0 && amiUnitSum < units) {
         // INFORMATIONAL — diff is unrestricted market-rate units
         var unrestrictedUnits = units - amiUnitSum;
@@ -4085,29 +3740,7 @@
         syncWarn.hidden = true;
       }
     }
-    // When unit-mix is logically broken, suppress rent-driven outputs.
-    //
-    // This used to assign 0, which does not suppress anything: 0 is a finite
-    // number, so NOI, DSCR, break-even occupancy and the funding gap were all
-    // computed from it and rendered as figures. A deal with $0 rental income
-    // is not a blocked calculation, it is a confidently wrong one — and unlike
-    // a wrong planning figure, this one is a financing go/no-go.
-    //
-    // NaN rather than null, deliberately: `null * x` is 0 in JavaScript, so a
-    // null would re-introduce the same coercion one line downstream. NaN
-    // poisons the arithmetic it touches, and every renderer here already ends
-    // in `isFinite(n) ? ... : '—'`.
     if (unitMixError) {
-      annualRents = NaN;
-      // The credit side depends on the unit split too: the applicable
-      // fraction and the minimum set-aside both divide tier units by Total
-      // Units. With the tiers exceeding the total, basis, credits and equity
-      // were still rendered ($12.38M of equity beside the hard error) and the
-      // set-aside read "Qualifies ... 60 of 20 units (300.0%)". Same NaN
-      // treatment as the rents: every renderer downstream shows "—".
-      eligibleBasis = NaN;
-      annualCredits = NaN;
-      equity = NaN;
       var msaStatus = document.getElementById('dc-minimum-set-aside-status');
       if (msaStatus && chfaRegime) {
         msaStatus.innerHTML = '<strong>Not evaluated.</strong> AMI-tier units (' + amiUnitSum +
@@ -4116,169 +3749,12 @@
         msaStatus.style.borderColor = 'var(--warn,#d97706)';
       }
     }
-    // Same for a deal with no county. The rent roll above prices each unit at
-    // the county's AMI rent ceiling, and before a county is chosen there are
-    // no ceilings, so every tier contributes nothing and the sum reads $0.
-    // That $0 is not a measurement: it produced an NOI of -$399,000 (expenses
-    // against no income), a $0 first mortgage and a sensitivity chart of $0
-    // bars for anyone reaching this page without a jurisdiction (G3 dry run,
-    // 2026-09-25).
-    if (!scheduleMode && !_amiLimits && !_amiLimitsByBr) {
-      annualRents = NaN;
-    }
-
-    // Developer fee
-    var devfeePctEl = document.getElementById('dc-devfee-pct');
-    var devfeePct = devfeePctEl ? (parseFloat(devfeePctEl.value) || 15) / 100 : 0.15;
-    var devFeeTotal = tdc * devfeePct;
-    var deferredPctEl = document.getElementById('dc-deferred-pct');
-    var deferredPctSlider = deferredPctEl ? (parseFloat(deferredPctEl.value) || 40) / 100 : 0.40;
-
-    // H — Auto-balance deferred developer fee. When the user toggles
-    // "Auto-balance gap with deferred dev fee," any remaining gap after
-    // equity + mortgage + grants + soft-loan principal gets backfilled by
-    // deferring up to the slider cap of the developer fee. Mirrors the
-    // Anthracite $185k pattern where deferred fee is the last-resort
-    // balancing source.
-    var autoBalanceChk = document.getElementById('dc-deferred-auto-balance');
-    var autoBalance = !!(autoBalanceChk && autoBalanceChk.checked);
-    var deferredDevFeeManual = devFeeTotal * deferredPctSlider;
-    var deferredDevFee = deferredDevFeeManual;
-
-    // Developer fee display — deferred and closing values are finalized
-    // AFTER the gap + auto-balance logic below; refresh both here for now
-    // (devFeeTotal is fixed) and again after auto-balance in the same pass.
     var devfeeEl = document.getElementById('dc-r-devfee');
     if (devfeeEl) devfeeEl.textContent = tdc > 0 ? fmt(devFeeTotal) : '—';
-
-    // Auto-NOI or manual NOI
-    var autoNoi = document.getElementById('dc-auto-noi');
-    var noi;
-    var annualOpex = null;
-    var annualRepReserve = null;
-    var netPropTax = null;
-    var taxSavings = 0;
     if (autoNoi && autoNoi.checked) {
-      var vacancyPct = vacFrac();
-      // Do NOT silently substitute Denver-MSA defaults (450/350/900) when
-      // any of these fields are blank — they vary materially across CO
-      // counties (rural opex often $250-350/mo vs. $450 Denver). A blank
-      // field should visibly zero the line, not fabricate a plausible
-      // Front-Range number. UI fields keep their initial defaults via the
-      // input `value` attribute so users see suggestions, but clearing a
-      // field now surfaces as "0" rather than silent substitution.
-      var opexPerUnitMonth = safeVal('dc-opex');
-      var repReservePerUnit = safeVal('dc-rep-reserve');
-      var propTaxPerUnit = safeVal('dc-prop-tax');
-      if (!isFinite(opexPerUnitMonth) || opexPerUnitMonth < 0) opexPerUnitMonth = 0;
-      if (!isFinite(repReservePerUnit) || repReservePerUnit < 0) repReservePerUnit = 0;
-      if (!isFinite(propTaxPerUnit) || propTaxPerUnit < 0) propTaxPerUnit = 0;
-      var effectiveGrossIncome = annualRents * (1 - vacancyPct);
-      annualOpex = opexPerUnitMonth * 12 * (units || 60);
-      annualRepReserve = repReservePerUnit * (units || 60);
-      var taxExemptPct = (safeVal('dc-tax-exempt') || 0) / 100;
-      var annualPropTax = propTaxPerUnit * (units || 60);
-      taxSavings = annualPropTax * taxExemptPct;
-      netPropTax = annualPropTax - taxSavings;
-      noi = effectiveGrossIncome - annualOpex - annualRepReserve - netPropTax;
       var noiComputedEl = document.getElementById('dc-noi-computed');
       if (noiComputedEl) noiComputedEl.textContent = isFinite(noi) ? fmt(noi) : '—';
-    } else {
-      // A blank NOI field is an unknown NOI, not $0 of it.
-      noi = safeVal('dc-noi');
     }
-
-    // Supportable first mortgage
-    var dcr = safeVal('dc-dcr');
-    if (!isFinite(dcr) || dcr < 1.05) dcr = 1.20;
-    if (dcr > 2.0) dcr = 2.0;
-    var interestRate = safeVal('dc-rate');
-    if (!isFinite(interestRate) || interestRate < 3.0) interestRate = 6.5;
-    if (interestRate > 12.0) interestRate = 12.0;
-    var term = safeVal('dc-term');
-    if (!isFinite(term) || term <= 0) term = 35;
-
-    var mc = mortgageConstant(interestRate / 100, term);
-    // A known NOI of zero or less supports no mortgage: that $0 is computed.
-    // An unknown NOI supports an unknown one, and must stay unknown — `NaN > 0`
-    // is false, so without the first test it fell through to the same $0.
-    var mortgage = !isFinite(noi) ? NaN
-      : (mc > 0 && noi > 0) ? (noi / dcr) / mc : 0;
-
-    // Why NOI or the rent roll is unknown, carried with it so each message
-    // names the fix that applies rather than assuming there is no county.
-    var rentDataReason = manualMarket.message || (allowanceRevenueReason ? window.ChfaRentLimits.unavailableMessage(allowanceRevenueReason)
-      : !_countyFips ? 'Select a county to load AMI rent limits.'
-      : marketRegime ? 'Market rent data is unavailable for the selected bedrooms.'
-      : 'Rent limits are unavailable for one or more selected tiers or bedrooms.');
-    var noiUnknownReason = null;
-    if (!(autoNoi && autoNoi.checked) && !isFinite(noi)) {
-      noiUnknownReason = 'Enter NOI, or turn on auto-compute.';
-    } else if (unitMixError) {
-      noiUnknownReason = 'Fix the unit mix: the AMI-tier units do not add up to Total Units.';
-    } else if ((!scheduleMode && !_amiLimits && !_amiLimitsByBr) || rentInputsMissing) {
-      noiUnknownReason = rentDataReason;
-    }
-    var rentsUnknownReason = unitMixError
-      ? 'Fix the unit mix: the AMI-tier units do not add up to Total Units.'
-      : ((!scheduleMode && !_amiLimits && !_amiLimitsByBr) || rentInputsMissing) ? rentDataReason
-      : !(annualRents > 0) ? 'Add units to at least one AMI tier.'
-      : null;
-
-    // Cap rate and break-even occupancy
-    var capRate = (noi > 0 && tdc > 0) ? (noi / tdc) : null;
-    var annualDebtService = mc > 0 ? mortgage * mc : 0;
-    var breakEvenOcc = annualRents > 0
-      ? (annualOpex != null && annualRepReserve != null
-          ? Math.min((annualOpex + annualRepReserve + (netPropTax || 0) + annualDebtService) / annualRents, 1)
-          : null)
-      : null;
-
-    // ── DSCR + stress scenarios ──────────────────────────────────────
-    //
-    // By construction, baseDSCR === target DCR (mortgage was sized at
-    // noi/dcr). The real value is in the stress table: recompute NOI
-    // under {rent -10%, vacancy +5pts, opex +10%, combined -5/+3/+5}
-    // and divide by the CURRENT debt service (loan is already sized
-    // at stabilization). A banker/syndicator reads this to answer:
-    // "does the deal still cover debt if the market goes sideways?"
-    //
-    // Only computable when auto-NOI is on — manual NOI mode doesn't
-    // give us rent/vac/opex components to perturb.
-    var dscrAutoMode = !!(autoNoi && autoNoi.checked);
-    var baseDSCR = annualDebtService > 0 ? noi / annualDebtService : null;
-    var stress = null;
-    if (dscrAutoMode) {
-      stress = computeDscrStressScenarios({
-        annualRents:      annualRents,
-        vacancyPct:       vacFrac(),
-        annualOpex:       annualOpex       || 0,
-        annualRepReserve: annualRepReserve || 0,
-        netPropTax:       netPropTax       || 0,
-        annualDebtService: annualDebtService
-      }, _constants);
-    }
-
-    // Sources & uses — equity + mortgage + grants + soft-loan principal
-    // close the gap at closing. (Soft loans contribute principal to the
-    // sources stack AND show up as annual debt service in the pro forma.)
-    //
-    // H — Deferred dev fee behavior controlled by the auto-balance checkbox:
-    //   • ON  → defer JUST ENOUGH to fill remaining gap, capped at slider %
-    //           (mirrors Anthracite $185k pattern: last-resort balancing)
-    //   • OFF → defer EXACTLY the slider % of total dev fee, regardless of gap
-    //           (legacy behavior — manual deferral)
-    var deferredCap = devFeeTotal * deferredPctSlider;
-    var gapBeforeDeferred = tdc - equity - mortgage - impactGrant - totalLoanPrincipal;
-    if (autoBalance) {
-      // Defer the smaller of (gap, cap) — never more than needed, never above cap.
-      deferredDevFee = Math.max(0, Math.min(deferredCap, gapBeforeDeferred));
-    } else {
-      deferredDevFee = deferredCap;
-    }
-    var devFeeAtClosing = devFeeTotal - deferredDevFee;
-    var gap = gapBeforeDeferred - deferredDevFee;
-
     // H — Refresh deferred + closing display now that auto-balance has
     // finalized the deferredDevFee value. (devFeeTotal is invariant.)
     var deferredEl = document.getElementById('dc-r-deferred');
@@ -4337,16 +3813,15 @@
     // share for new-construction 9% LIHTC. Sums to 100% by construction.
     // Wrap in a try so a rare null DOM lookup never breaks recalc.
     try {
-      var BUDGET_SHARES = { acq: 0.10, hard: 0.62, soft: 0.14, cont: 0.05, fee: 0.09 };
       var _set = function (id, v) {
         var el = document.getElementById(id);
         if (el) el.textContent = tdc > 0 ? fmt(v) : '—';
       };
-      _set('dc-bud-acq',  tdc * BUDGET_SHARES.acq);
-      _set('dc-bud-hard', tdc * BUDGET_SHARES.hard);
-      _set('dc-bud-soft', tdc * BUDGET_SHARES.soft);
-      _set('dc-bud-cont', tdc * BUDGET_SHARES.cont);
-      _set('dc-bud-fee',  tdc * BUDGET_SHARES.fee);
+      _set('dc-bud-acq',  budget.acq);
+      _set('dc-bud-hard', budget.hard);
+      _set('dc-bud-soft', budget.soft);
+      _set('dc-bud-cont', budget.cont);
+      _set('dc-bud-fee',  budget.fee);
       _set('dc-bud-tdc',  tdc);
     } catch (_) {}
 
@@ -4357,8 +3832,6 @@
       var adjustWrap = document.getElementById('dc-adjust-guidance');
       var adjustList = document.getElementById('dc-adjust-guidance-list');
       if (adjustWrap && adjustList && tdc > 0) {
-        var fundingGap = Math.max(0, tdc - equity - mortgage);
-        var gapPct = tdc > 0 ? fundingGap / tdc : 0;
         var levers = [];
         // Wide gap → suggest deeper income targeting + basis boost
         if (gapPct > 0.30) {
@@ -4380,13 +3853,6 @@
           );
         }
         // Workforce/market tiers above 60% → flag achievable-rent risk
-        var hasWorkforceUnits = false;
-        DEAL_AMI_BANDS.filter(function (pct) { return pct > 60; }).forEach(function (pct) {
-          var split = _tierSplitCounts(pct);
-          var inp = document.getElementById('dc-units-' + pct);
-          var tierUnits = split.total > 0 ? split.total : _nonNegInt(inp && inp.value);
-          if (tierUnits > 0) hasWorkforceUnits = true;
-        });
         if (hasWorkforceUnits) {
           var capChk = document.getElementById('dc-achievable-cap');
           if (capChk && !capChk.checked) {
@@ -4437,11 +3903,10 @@
       el.textContent = v.toFixed(2) + 'x';
       el.style.color = _dscrColor(v);
     }
-    function _setMargin(id, v, target) {
+    function _setMargin(id, delta) {
       var el = document.getElementById(id);
       if (!el) return;
-      if (v == null || !isFinite(v) || target == null) { el.textContent = '—'; return; }
-      var delta = v - target;
+      if (delta == null || !isFinite(delta)) { el.textContent = '—'; return; }
       var sign = delta >= 0 ? '+' : '';
       el.textContent = sign + delta.toFixed(2);
       el.style.color = delta >= 0 ? 'var(--good, #047857)' : 'var(--warn, #d97706)';
@@ -4486,7 +3951,7 @@
         var noiEl = document.getElementById('dc-r-stress-' + k + '-noi');
         if (noiEl) noiEl.textContent = !MoneyFormatter.isAbsent(row.noi) ? fmt(row.noi) : '—';
         _setDscr('dc-r-stress-' + k + '-dscr', row.dscr);
-        _setMargin('dc-r-stress-' + k + '-margin', row.dscr, dcr);
+        _setMargin('dc-r-stress-' + k + '-margin', row.margin);
       });
     }
 
@@ -4499,11 +3964,7 @@
     // message when data isn't available yet.
     var achBody = document.getElementById('dc-rent-ach-body');
     var fmrGrid = document.getElementById('dc-rent-ach-fmr-grid');
-    var fmrData = (window.HudFmr && _countyFips) ? window.HudFmr.getFmrByFips(_countyFips) : null;
-    var achResult = (_amiLimits && fmrData) ? computeRentAchievability({
-      amiLimits: _amiLimits,
-      fmr:       fmrData
-    }) : null;
+    var fmrData = inputs.fmrData;
 
     if (achBody && marketRegime) {
       achBody.innerHTML = DEAL_AMI_BANDS.map(function (tier) {
@@ -4685,7 +4146,6 @@
     var note = document.getElementById('dc-gap-note');
     if (note) {
       if (tdc > 0 && equity > 0) {
-        var simpleGap = tdc - equity;
         if (simpleGap > 0) {
           note.textContent = 'Equity covers ' + fmtPct(equity / tdc) + ' of TDC.';
         } else {
@@ -4701,7 +4161,6 @@
     // The legacy "dc-su-impact-ds" row now displays the AGGREGATE of all
     // soft tranches (grants + loan principal contributing to sources).
     // Per-tranche detail is rendered into #dc-su-tranches-detail below.
-    var totalSoftSourceAmt = totalGrant + totalLoanPrincipal;
     var impactLabelEl = document.getElementById('dc-su-impact-label');
     var impactNoteEl  = document.getElementById('dc-su-impact-note');
     if (impactLabelEl) {
@@ -4771,137 +4230,19 @@
       gapAmtEl.style.color = gap > 0 ? 'var(--chart-7)' : 'var(--accent)';
     }
 
-    // ── L6 — Year-15 (or user-chosen N) exit analysis ────────────────
-    // Projects the deal's disposition at the end of the hold period.
-    // Methodology:
-    //   • Year-N stabilized NOI: year-1 NOI grown by rentGrowth/expGrowth
-    //     using the same constant-growth model as the 30-yr pro forma.
-    //   • Resale value:  NOI_N / exit_cap.
-    //   • Remaining 1st mortgage balance: standard amortization formula
-    //     for an annuity (level monthly payment, declining principal).
-    //   • Soft-loan remaining balance: each loan tranche amortized to year N.
-    //   • Net sale proceeds: resale − (1st + soft) balances.
-    //   • Deferred-fee payback: first year cumulative NOI−DS covers it.
-    //   • Sponsor IRR: cash distributions yrs 1..N + net sale proceeds
-    //     as positive flows, initial sponsor equity as the negative flow.
-    //
-    // Sponsor equity proxy = deferredDevFee (cash put in at closing).
-    // The "real" sponsor equity also includes gp upfront/predevelopment,
-    // which the model doesn't track separately — surface as a disclosed
-    // simplification rather than fabricate a number.
-    (function computeExit() {
-      var holdEl = document.getElementById('dc-exit-hold');
-      var capEl  = document.getElementById('dc-exit-cap');
-      if (!holdEl || !capEl) return;
-      var holdYears = Math.max(5, Math.min(30, parseInt(holdEl.value, 10) || 15));
-      var exitCap   = (parseFloat(capEl.value) || 6.5) / 100;
-
-      // Read growth rates from the pro forma inputs if present (defaults: 2% / 3%).
-      var rentGrowth = (parseFloat((document.getElementById('pf-rent-growth') || {}).value) || 2) / 100;
-      var expGrowth  = (parseFloat((document.getElementById('pf-exp-growth')  || {}).value) || 3) / 100;
-
-      // Year-N NOI projection. annualRents and annualOpex/repReserve/netPropTax
-      // are local closures from earlier in recalculate(). Defensive guards.
-      var nNoi = NaN;
-      if (annualRents > 0 && tdc > 0) {
-        var rentMult = Math.pow(1 + rentGrowth, holdYears - 1);
-        var expMult  = Math.pow(1 + expGrowth,  holdYears - 1);
-        var vacPct   = vacFrac();
-        var grossN   = annualRents * rentMult;
-        var egiN     = grossN * (1 - vacPct);
-        var opexN    = (annualOpex || 0) * expMult;
-        var rrN      = (annualRepReserve || 0) * expMult;
-        var ptN      = (netPropTax || 0) * expMult;
-        nNoi = egiN - opexN - rrN - ptN;
-      }
-      var resale = (isFinite(nNoi) && nNoi > 0 && exitCap > 0) ? nNoi / exitCap : NaN;
-
-      // Remaining 1st mortgage balance at year N (level-pay annuity).
-      // bal = P * [(1+r)^n − (1+r)^k] / [(1+r)^n − 1]
-      // where r = monthly rate, n = total months, k = months elapsed.
-      function remainingBalance(principal, ratePct, termYears, elapsedYears) {
-        if (principal <= 0 || termYears <= 0) return 0;
-        if (ratePct <= 0) {
-          // Straight-line amortization
-          var paid = principal * (elapsedYears / termYears);
-          return Math.max(0, principal - paid);
-        }
-        var r = ratePct / 100 / 12;
-        var n = termYears * 12;
-        var k = Math.min(n, elapsedYears * 12);
-        var num = Math.pow(1 + r, n) - Math.pow(1 + r, k);
-        var den = Math.pow(1 + r, n) - 1;
-        return den > 0 ? principal * (num / den) : 0;
-      }
-      var firstMortBal = remainingBalance(mortgage, interestRate || 6.5, term || 35, holdYears);
-      var softBal = 0;
-      trancheBreakdown.forEach(function (t) {
-        if (t.mode !== 'loan') return;
-        softBal += remainingBalance(t.amount, t.rate || 0, t.term || 30, holdYears);
-      });
-
-      var netProceeds = (isFinite(resale)) ? resale - firstMortBal - softBal : NaN;
-
-      // Deferred fee payback timing. Walk the pro forma yearly, accumulating
-      // cash flow (NOI − total debt service). Find the first year where
-      // cumCF ≥ deferredDevFee. (We use the constant year-1 debt service +
-      // growing NOI; consistent with the 30-yr projection's "fixed DS".)
-      var dfYr = null;
-      if (deferredDevFee > 0 && annualDebtService > 0 && annualRents > 0) {
-        var totalDS = annualDebtService + totalSoftDebtService;
-        var cumCF = 0;
-        for (var y = 1; y <= holdYears; y++) {
-          var rm = Math.pow(1 + rentGrowth, y - 1);
-          var em = Math.pow(1 + expGrowth,  y - 1);
-          var vp = vacFrac();
-          var noiY = annualRents * rm * (1 - vp) -
-                     (annualOpex || 0) * em -
-                     (annualRepReserve || 0) * em -
-                     (netPropTax || 0) * em;
-          cumCF += (noiY - totalDS);
-          if (cumCF >= deferredDevFee) { dfYr = y; break; }
-        }
-      }
-
-      // Sponsor IRR — Newton's method on the NPV polynomial.
-      // Flows: yr 0 = −sponsorEquity; yrs 1..N = cashFlow; yr N also = +netProceeds.
-      function computeIRR(flows) {
-        var r = 0.10;
-        for (var iter = 0; iter < 60; iter++) {
-          var npv = 0, dnpv = 0;
-          for (var t = 0; t < flows.length; t++) {
-            var df = Math.pow(1 + r, t);
-            npv  += flows[t] / df;
-            if (t > 0) dnpv -= t * flows[t] / Math.pow(1 + r, t + 1);
-          }
-          if (Math.abs(dnpv) < 1e-10) break;
-          var step = npv / dnpv;
-          r -= step;
-          if (r < -0.99) r = -0.99;
-          if (r > 5)    r = 5;
-          if (Math.abs(step) < 1e-7) break;
-        }
-        return r;
-      }
-      var irr = NaN;
-      if (deferredDevFee > 0 && isFinite(netProceeds) && netProceeds > 0) {
-        var totalDS2 = annualDebtService + totalSoftDebtService;
-        var flows = [-deferredDevFee];
-        for (var yr = 1; yr <= holdYears; yr++) {
-          var rmY = Math.pow(1 + rentGrowth, yr - 1);
-          var emY = Math.pow(1 + expGrowth,  yr - 1);
-          var vpY = vacFrac();
-          var noiY2 = annualRents * rmY * (1 - vpY) -
-                      (annualOpex || 0) * emY -
-                      (annualRepReserve || 0) * emY -
-                      (netPropTax || 0) * emY;
-          var cf = noiY2 - totalDS2;
-          if (yr === holdYears) cf += netProceeds;
-          flows.push(cf);
-        }
-        irr = computeIRR(flows);
-      }
-
+    (function renderExit() {
+      if (!document.getElementById('dc-exit-hold') || !document.getElementById('dc-exit-cap')) return;
+      var holdYears = numeric(exit.holdYears);
+      var exitCap = numeric(exit.exitCap);
+      var rentGrowth = numeric(exit.rentGrowth);
+      var expGrowth = numeric(exit.expGrowth);
+      var nNoi = numeric(exit.nNoi);
+      var resale = numeric(exit.resale);
+      var firstMortBal = numeric(exit.firstMortBal);
+      var softBal = numeric(exit.softBal);
+      var netProceeds = numeric(exit.netProceeds);
+      var irr = numeric(exit.irr);
+      var dfYr = exit.dfYr;
       // Write to DOM
       function _setText(id, v) { var e = document.getElementById(id); if (e) e.textContent = v; }
       _setText('dc-exit-noi',    isFinite(nNoi)    ? fmt(nNoi)    : '—');
@@ -4957,7 +4298,6 @@
     // known rent roll each of them is an unknown drawn as a $0 bar, so show
     // why instead of a chart.
     var tornadoMount = document.getElementById('tornadoChartMount');
-    var sensitivityKnown = isFinite(noi) && annualRents > 0;
     if (tornadoMount && tdc > 0 && !sensitivityKnown) {
       tornadoMount.innerHTML = '<p style="font-size:var(--small);color:var(--muted);margin:.5rem 0;">' +
         'Sensitivity needs a known NOI and rent roll. ' +
@@ -4965,34 +4305,18 @@
     }
     if (window.TornadoSensitivity && tdc > 0 && sensitivityKnown && tornadoMount) {
       try {
-        var eqP = equityPrice || 0.90;
-        var ir  = interestRate || 6.5;
-        var vu  = vacFrac() * 100;
-        var ou  = safeVal('dc-opex') || 450;
-        var u   = units || 60;
-        var acr = annualCredits || 0;
-
-        // Equity pricing: ±$0.03
-        var eqLo  = acr * CREDIT_YEARS * Math.max(0.70, eqP - 0.03);
-        var eqHi  = acr * CREDIT_YEARS * Math.min(1.05, eqP + 0.03);
-
-        // Interest rate: ±1% (lower rate = higher mortgage, higher rate = lower)
-        var mcLo  = mortgageConstant(Math.min(0.12, (ir + 1)) / 100, term || 35);
-        var mcHi  = mortgageConstant(Math.max(0.03, (ir - 1)) / 100, term || 35);
-        var mortLo = (mcLo > 0 && noi > 0) ? (noi / dcr) / mcLo : 0;
-        var mortHi = (mcHi > 0 && noi > 0) ? (noi / dcr) / mcHi : 0;
-
-        // Compute EGI from available scope variables
-        var _egi = (annualRents || 0) * (1 - (vu / 100));
-        var _repRes = (safeVal('dc-rep-reserve') || 350) * u;
-
-        // OpEx: ±$50/unit/month
-        var noiLo = _egi - ((ou + 50) * 12 * u) - _repRes - (netPropTax || 0);
-        var noiHi = _egi - (Math.max(200, ou - 50) * 12 * u) - _repRes - (netPropTax || 0);
-
-        // Vacancy: ±2%
-        var vacLoEgi = (annualRents || 0) * (1 - Math.min(0.15, (vu + 2) / 100));
-        var vacHiEgi = (annualRents || 0) * (1 - Math.max(0.01, (vu - 2) / 100));
+        var eqP = numeric(tornado.eqP);
+        var ir = numeric(tornado.ir);
+        var vu = numeric(tornado.vu);
+        var ou = numeric(tornado.ou);
+        var eqLo = numeric(tornado.eqLo);
+        var eqHi = numeric(tornado.eqHi);
+        var mortLo = numeric(tornado.mortLo);
+        var mortHi = numeric(tornado.mortHi);
+        var noiLo = numeric(tornado.noiLo);
+        var noiHi = numeric(tornado.noiHi);
+        var vacLoEgi = numeric(tornado.vacLoEgi);
+        var vacHiEgi = numeric(tornado.vacHiEgi);
 
         window.TornadoSensitivity.render({
           factors: [
@@ -5038,8 +4362,6 @@
       el.dataset.unavailableReason = blocked ? (manualMarket.unavailableReason || 'rent_roll_unavailable') : '';
       if (blocked) el.textContent = 'Unavailable — ' + (manualMarket.message || rentsUnknownReason);
     });
-    saveManualMix();
-    try { document.dispatchEvent(new CustomEvent('deal-calc:updated')); } catch(_) {}
   }
 
   // -------------------------------------------------------------------
@@ -7380,6 +6702,7 @@
     init: init,
     renderForTest: render,
     recalculate: recalculate,
+    getResult: getResult,
     updateAmiLimitsFromFmr: updateAmiLimitsFromFmr,
     setChfaRentTable: setChfaRentTable,
     getRentLimitsMetadata: getRentLimitsMetadata,
