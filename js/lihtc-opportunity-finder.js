@@ -385,10 +385,56 @@
   function _unitCount(v) {
     return (v == null || v === '') ? '—' : escHtml(String(v));
   }
-  function _projectMetaTail(pr) {
+  // CHFA's QCT stays "not published"; this is a separate fact the site
+  // measures itself: whether the project's point falls in a tract on the
+  // HUD QCT map the site holds (data/qct-colorado.json). HUD redraws QCTs
+  // every year, so it says nothing about the map in the award year, and the
+  // label says whose map it is. null when the point or the map is missing.
+  function _qctMapNote(m) {
+    if (!m) return '';
+    var map = (m.year ? m.year + ' ' : 'current ') + 'HUD map';
+    var tip = 'Measured by this site from the project location and ' + map +
+      '. HUD redraws QCTs every year, so this is not the QCT map in the award year.';
+    return ' · <span title="' + escHtml(tip) + '">' +
+      (m.inQct ? 'in a QCT on the ' : 'not in a QCT on the ') + escHtml(map) + '</span>';
+  }
+  function _projectMetaTail(pr, qctMap) {
     return _unitCount(pr.N_UNITS) + ' units (' + _unitCount(pr.LI_UNITS) + ' LI) · ' +
       escHtml(String(pr.CREDIT || '—')) + ' credit · ' +
-      'QCT ' + _qctLabel(pr.QCT);
+      'QCT ' + _qctLabel(pr.QCT) + _qctMapNote(qctMap);
+  }
+
+  // Ray-casting point-in-ring; coordinates are [lon, lat].
+  function _pointInRing(lon, lat, ring) {
+    var inside = false;
+    for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      var xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1];
+      if (((yi > lat) !== (yj > lat)) && (lon < (xj - xi) * (lat - yi) / (yj - yi) + xi)) inside = !inside;
+    }
+    return inside;
+  }
+  function _pointInPolygonRings(lon, lat, rings) {
+    if (!rings || !rings.length || !_pointInRing(lon, lat, rings[0])) return false;
+    for (var h = 1; h < rings.length; h++) if (_pointInRing(lon, lat, rings[h])) return false;
+    return true;
+  }
+  // { inQct, tract, year } for a project feature, or null when its point or
+  // the QCT map is missing (unknown, never "not in a QCT").
+  function _qctMapStatus(feature, qctMap) {
+    var c = feature && feature.geometry && feature.geometry.type === 'Point' && feature.geometry.coordinates;
+    var feats = qctMap && qctMap.features;
+    if (!c || !Number.isFinite(c[0]) || !Number.isFinite(c[1]) || !feats || !feats.length) return null;
+    var yearMatch = /(19|20)\d{2}/.exec(String(qctMap.source || ''));
+    var year = yearMatch ? yearMatch[0] : null;
+    for (var i = 0; i < feats.length; i++) {
+      var g = feats[i].geometry;
+      if (!g) continue;
+      var hit = g.type === 'Polygon' ? _pointInPolygonRings(c[0], c[1], g.coordinates)
+        : g.type === 'MultiPolygon' ? g.coordinates.some(function (r) { return _pointInPolygonRings(c[0], c[1], r); })
+        : false;
+      if (hit) return { inQct: true, tract: (feats[i].properties || {}).GEOID || null, year: year };
+    }
+    return { inQct: false, tract: null, year: year };
   }
 
   function escHtml(s) {
@@ -733,6 +779,7 @@
         var y = _awardYear(f.properties);
         return Number.isFinite(y) && y >= 1980 && y <= 2030;
       });
+      state.projects.forEach(function (f) { f._qctMap = _qctMapStatus(f, parts[0]); });
 
       state.chasByFips = parts[3].counties || {};
       state.placeMembership = (parts[4].places) || {};
@@ -3765,7 +3812,7 @@
           '<div class="lof-detail-project-name">' + escHtml(pr.PROJECT || '(unnamed)') + '</div>' +
           '<div class="lof-detail-project-meta">' +
             'Awarded ' + (_awardYear(pr) || '—') + ' · ' +
-            _projectMetaTail(pr) +
+            _projectMetaTail(pr, p._qctMap) +
           '</div>' +
         '</div>';
       }).join('');
@@ -4944,6 +4991,7 @@
       passesCaptureRequirement: _passesCaptureRequirement,
       zoriCaptureForMarket: _zoriCaptureForMarket,
       projectMetaTail: _projectMetaTail,
+      qctMapStatus: _qctMapStatus,
       setZoriForTest: function (byCounty, meta, byCity) {
         state.zoriByCounty = byCounty || {};
         state.zoriByCity = byCity || {};
