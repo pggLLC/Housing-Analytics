@@ -455,7 +455,7 @@
     "test:car-report-index": "node test/car-report-index.test.js",
     "test:market-construction": "node test/market-construction.test.js",
     "test:soft-funding-terms": "node test/soft-funding-terms.test.js",
-    "test:deal-engine": "node test/deal-engine-golden.test.js"
+    "test:deal-engine": "node test/deal-engine.test.js && node test/deal-engine-golden.test.js"
   },
   "dependencies": {
     "jsdom": "^30.1.1"

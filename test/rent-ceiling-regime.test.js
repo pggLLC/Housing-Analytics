@@ -43,6 +43,7 @@ async function calculator({ hudTable = hud, lateModule = false } = {}) {
   for (const file of ['js/components/zori-rent-utils.js', 'js/utils/format-money.js', 'js/data-connectors/hud-fmr.js', 'js/deal-calculator-math.js']) w.eval(read(file));
   await w.HudFmr.load();
   if (!lateModule) w.eval(read('js/chfa-rent-limits.js'));
+  w.eval(read('js/deal-engine.js'));
   w.eval(read('js/deal-calculator.js'));
   if (lateModule) w.eval(read('js/chfa-rent-limits.js'));
   w.eval(read('js/deal-calculator-report-meta.js'));
