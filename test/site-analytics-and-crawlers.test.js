@@ -74,9 +74,12 @@ test('every gated developer page is excluded from measurement', () => {
   }
 });
 
+// Exact-origin membership (Set.has), not a substring match.
+const REPORT_ORIGIN = new URL('https://cloudflareinsights.com').origin;
+
 function cspDirective(csp, name) {
   const m = csp.match(new RegExp('(?:^|;)\\s*' + name + '\\s+([^;]*)'));
-  return m ? m[1].split(/\s+/) : [];
+  return new Set(m ? m[1].split(/\s+/) : []);
 }
 
 test('runbook and _headers CSP allow the beacon script and its report endpoint', () => {
@@ -89,8 +92,8 @@ test('runbook and _headers CSP allow the beacon script and its report endpoint',
   ];
   for (const [where, csp] of policies) {
     assert(csp, where + ': CSP line not found');
-    assert(cspDirective(csp, 'script-src').includes(scriptOrigin), where + ' script-src lacks ' + scriptOrigin);
-    assert(cspDirective(csp, 'connect-src').includes('https://cloudflareinsights.com'), where + ' connect-src lacks https://cloudflareinsights.com');
+    assert(cspDirective(csp, 'script-src').has(scriptOrigin), where + ' script-src lacks ' + scriptOrigin);
+    assert(cspDirective(csp, 'connect-src').has(REPORT_ORIGIN), where + ' connect-src lacks https://cloudflareinsights.com');
   }
 });
 
