@@ -9,10 +9,11 @@ const STOP_WORDS = new Set(('a an and are as at be by for from has have in is it
   'that the this to was were will with you your').split(' '));
 const MAX_BODY_WORDS = 1500;
 
+const ENTITIES = { nbsp: ' ', amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'", mdash: '—', ndash: '–' };
+
+// One pass, so "&amp;lt;" decodes to the text "&lt;", never on to "<".
 function decode(text) {
-  return String(text)
-    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&mdash;/g, '—').replace(/&ndash;/g, '–');
+  return String(text).replace(/&(nbsp|amp|lt|gt|quot|#39|mdash|ndash);/g, (m, name) => ENTITIES[name]);
 }
 
 function clean(text) {
