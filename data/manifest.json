@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-10T20:52:32.476028Z",
+  "generated": "2026-10-10T20:59:50.336473Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 832178
+      "bytes": 833941
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7329,7 +7329,7 @@
     "data/insights/catalog.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 8640
+      "bytes": 9364
     },
     "data/jurisdiction-briefs/0803620.json": {
       "featureCount": 0,
@@ -8284,7 +8284,7 @@
     "data/policy/fee-reductions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 502601
+      "bytes": 580886
     },
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
@@ -8296,6 +8296,16 @@
       "placeholder": false,
       "bytes": 183422
     },
+    "data/policy/incentive-alternatives.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 54765
+    },
+    "data/policy/incentive-coverage.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 37501
+    },
     "data/policy/jchs-state-of-nations-housing.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -8304,7 +8314,7 @@
     "data/policy/jurisdiction-housing-progress.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40485
+      "bytes": 40575
     },
     "data/policy/land-disposition-models.json": {
       "featureCount": 0,
@@ -8315,6 +8325,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 4301
+    },
+    "data/policy/local-housing-funds.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 139958
     },
     "data/policy/methodology-version.json": {
       "featureCount": 0,
@@ -8389,7 +8404,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14081
+      "bytes": 14082
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,
