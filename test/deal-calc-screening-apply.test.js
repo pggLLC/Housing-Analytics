@@ -7,7 +7,8 @@ const { JSDOM } = require('jsdom');
 
 const ROOT = path.join(__dirname, '..');
 const funding = require(path.join(ROOT, 'data/policy/developer-ownership-funding.json'));
-const source = fs.readFileSync(path.join(ROOT, 'js/deal-calculator.js'), 'utf8');
+const source = fs.readFileSync(path.join(ROOT, 'js/deal-calculator.js'), 'utf8') + '\n' +
+  fs.readFileSync(path.join(ROOT, 'js/deal-engine.js'), 'utf8');
 
 const dom = new JSDOM('<!DOCTYPE html><body><div id="dealCalcMount"></div></body>', {
   url: 'http://localhost/deal-calculator.html',
