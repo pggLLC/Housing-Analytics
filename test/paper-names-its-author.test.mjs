@@ -53,7 +53,7 @@ test('the organisation is credited, and the domain resolves to a link', () => {
     const src = read(p);
     assert.ok(src.includes('pggLLC'), `${p} does not credit pggLLC`);
     // IndiBuild is deliberately NOT asserted here. scripts/audit/public-artifact-guard.mjs
-    // lists /\bindibuild\b/i under SENSITIVE_PATTERNS — alongside developer
+    // (from scripts/lib/public-sensitive-patterns.mjs) lists /\bindibuild\b/i under SENSITIVE_PATTERNS — alongside developer
     // passwords, the gate hash and contact CSV fields — as "legacy IndiBuild
     // brand text", added by the commit that renamed the public pipeline
     // surface, so test:public-build fails on any public artifact containing

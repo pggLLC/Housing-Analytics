@@ -50,12 +50,10 @@ export const ARTICLE_PAGES = new Set([
   'colorado-elections.html',
   'cra-expansion-analysis.html',
   'help-for-homebuyers.html',
-  'historical-trends.html',
   'housing-legislation-2026.html',
   'insights.html',
   'lihtc-enhancement-ahcia.html',
   'lihtc-guide-for-stakeholders.html',
-  'market-intelligence.html',
   'methods.html',
   'privacy-policy.html',
   'working-paper.html'

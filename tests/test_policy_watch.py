@@ -18,7 +18,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
 WATCH = ROOT / 'data' / 'policy' / 'policy-watch.json'
-SECTIONS = {'qap', 'ballot', 'people'}
+SECTIONS = {'law', 'qap', 'ballot', 'people'}
 LEVELS = {'primary', 'reported'}
 
 

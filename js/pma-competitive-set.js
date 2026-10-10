@@ -10,7 +10,7 @@
  *  - getCompetitiveJustification() — audit-ready competitive analysis
  *
  * Builds on the existing LIHTC filter logic in PMAEngine, layering in
- * NHPD subsidy data for a complete competitive landscape.
+ * NHPD snapshot records; coverage is incomplete and cannot establish totals.
  *
  * Exposed as window.PMACompetitiveSet.
  */
@@ -28,8 +28,16 @@
   var lastLihtcCount    = 0;
   var lastNhpdAssisted  = 0;
   var lastExpiryRisk    = [];
-  var lastAbsorptionRisk = 'low';
+  var lastAbsorptionRisk = null;
   var lastSet           = [];
+  var lastNhpdCoverage  = null;
+
+  function nhpdCoverage() {
+    return lastNhpdCoverage || {
+      status: 'unavailable', complete: false, recordCount: null, generated: null,
+      unavailableReason: 'NHPD coverage is unverified. Local preservation totals and absorption risk are unknown; no matching record does not mean no preservation risk.'
+    };
+  }
 
   /* ── Utility helpers ─────────────────────────────────────────────── */
   function toRad(deg) { return deg * Math.PI / 180; }
@@ -124,7 +132,10 @@
    * @param {number} [radiusMiles]
    * @returns {Array} competitive set with merged subsidy metadata
    */
-  function buildCompetitiveSet(lihtcFeatures, nhpdFeatures, siteLat, siteLon, radiusMiles) {
+  function buildCompetitiveSet(lihtcFeatures, nhpdFeatures, siteLat, siteLon, radiusMiles, coverage) {
+    lastNhpdCoverage = coverage || null;
+    lastExpiryRisk = [];
+    lastAbsorptionRisk = null;
     radiusMiles   = radiusMiles || DEFAULT_RADIUS;
     lihtcFeatures = lihtcFeatures || [];
     nhpdFeatures  = nhpdFeatures  || [];
@@ -163,9 +174,7 @@
       // AMI targeting precedence (all null-preserving, no fabricated default):
       //   1. The LIHTC record's own AMI_PCT / amiPercent field
       //   2. If an NHPD record matched by name, its `ami_targeting` field
-      //      (e.g. "60%" → 60). NHPD has this populated on ~every subsidized
-      //      property in Colorado — filling in HUD's LIHTC DB where
-      //      per-unit AMI mix isn't published.
+      //      (e.g. "60%" → 60), when reported in a matching snapshot record.
       //   3. Otherwise null (unknown targeting, not "60% default").
       var ami = _parseAmi(
         props.AMI_PCT != null ? props.AMI_PCT :
@@ -274,17 +283,19 @@
    * Assess absorption risk based on competitive unit count vs proposed units.
    * @param {Array}  competitiveSet - Output of buildCompetitiveSet
    * @param {number} proposedUnits
-   * @returns {{risk: string, captureRate: number, totalCompetitiveUnits: number}}
+   * @returns {{risk: string|null, captureRate: number|null, totalCompetitiveUnits: number}}
    */
   function calculateAbsorptionRisk(competitiveSet, proposedUnits) {
     competitiveSet = competitiveSet || lastSet;
     proposedUnits  = toNum(proposedUnits) || 1;
 
     var totalCompetitive = competitiveSet.reduce(function (s, p) { return s + p.units; }, 0);
-    var captureRate = totalCompetitive > 0 ? proposedUnits / (totalCompetitive + proposedUnits) : 0;
+    var captureRate = totalCompetitive > 0 ? proposedUnits / (totalCompetitive + proposedUnits) : null;
 
-    var risk;
-    if (captureRate < SATURATION_LIMIT * 0.5) risk = 'low';
+    var coverage = nhpdCoverage();
+    var risk = null;
+    if (!coverage.complete || captureRate === null) risk = null;
+    else if (captureRate < SATURATION_LIMIT * 0.5) risk = 'low';
     else if (captureRate < SATURATION_LIMIT)   risk = 'moderate';
     else                                       risk = 'high';
 
@@ -292,7 +303,9 @@
 
     return {
       risk:                   risk,
-      captureRate:            Math.round(captureRate * 100) / 100,
+      captureRate:            captureRate === null ? null : Math.round(captureRate * 100) / 100,
+      basis:                  'observed-records-only',
+      unavailableReason:      risk === null ? coverage.unavailableReason : null,
       totalCompetitiveUnits:  totalCompetitive,
       proposedUnits:          proposedUnits,
       competitivePropertyCount: competitiveSet.length
@@ -316,12 +329,13 @@
           programType:       p.programType,
           distanceMiles:     p.distanceMiles,
           hasNhpd:           p.hasNhpd,
-          atExpiryRisk:      !!p.atExpiryRisk,
+          atExpiryRisk:      p.atExpiryRisk == null ? null : !!p.atExpiryRisk,
           subsidyExpiryYear: p.subsidyExpiryYear
         }
       };
     });
-    return { type: 'FeatureCollection', features: features };
+    return { type: 'FeatureCollection', features: features,
+      nhpdCoverage: nhpdCoverage(), expiryRiskBasis: 'recorded-dates-only' };
   }
 
   /**
@@ -339,7 +353,10 @@
 
     return {
       lihtcCount:         lastLihtcCount,
-      nhpdAssisted:       lastNhpdAssisted,
+      nhpdAssisted:       nhpdCoverage().recordCount === null ? null : lastNhpdAssisted,
+      nhpdCoverage:       nhpdCoverage(),
+      preservationRiskTotal: null,
+      preservationRiskUnavailableReason: nhpdCoverage().unavailableReason,
       subsidyExpiryRisk:  lastExpiryRisk.slice(),
       absorptionRisk:     lastAbsorptionRisk,
       totalProperties:    lastSet.length,

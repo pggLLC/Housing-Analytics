@@ -276,10 +276,10 @@ group('5. calculateAbsorptionRisk', () => {
     assert.equal(r.totalCompetitiveUnits, expected);
   });
 
-  test('risk value is one of low/moderate/high (string)', () => {
+  test('unverified coverage cannot produce an absorption risk tier', () => {
     const r = PMACS.calculateAbsorptionRisk(set, 100);
-    assert.ok(['low', 'moderate', 'high'].includes(r.risk),
-      `unexpected risk value: ${r.risk}`);
+    assert.equal(r.risk, null);
+    assert.match(r.unavailableReason, /coverage.*unverified/i);
   });
 
   // Regression guard for #1150: the risk-tier assertion above previously
@@ -292,6 +292,7 @@ group('5. calculateAbsorptionRisk', () => {
   // actually exercise the 'moderate' branch instead of just not-yet-
   // having-broken on it.
   test('risk is moderate when captureRate falls inside the middle band', () => {
+    PMACS.buildCompetitiveSet([], [], SITE_LAT, SITE_LON, 5, { complete: true, recordCount: 0 });
     const moderateSet = [{ units: 1200 }];
     const r = PMACS.calculateAbsorptionRisk(moderateSet, 100);
     assert.equal(r.captureRate, 0.08);
@@ -339,3 +340,6 @@ console.log('\n=============================================');
 console.log(`PMACompetitiveSet: ${passed} passed, ${failed} failed`);
 
 if (failed > 0) process.exit(1);
+
+// Keep the NHPD source/consumer contract on this existing CI entry point.
+require('./nhpd-coverage.test.js');
