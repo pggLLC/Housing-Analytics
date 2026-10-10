@@ -288,12 +288,18 @@ share), so they must never share a label. Implemented by
 competitiveSupplyShare = proposedUnits / (totalCompetitiveUnits + proposedUnits)
 ```
 
-Thresholds (`SATURATION_LIMIT = 0.10`):
+The current NHPD source is a limited stub snapshot. The ratio is retained as
+an **observed-records-only** calculation when competitive units are present;
+it does not establish complete supply or market absorption. No observed
+competitive units gives a `null` share, not zero. Absorption risk is `null`
+with a coverage reason while NHPD completeness is unverified.
+
+Thresholds (`SATURATION_LIMIT = 0.10`), applicable only with verified complete coverage:
 - **Low**: share < 5%
 - **Moderate**: 5% ≤ share < 10%
 - **High**: share ≥ 10%
 
-Rendered in the "Absorption Risk — Competitive Supply Share" card on the
+Rendered in the "Competitive Supply Share — Observed Records" card on the
 Market Analysis page. The result object's internal field name remains
 `captureRate` for backwards compatibility; only the user-facing label
 changed (#1148).

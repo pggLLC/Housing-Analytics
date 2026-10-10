@@ -707,20 +707,23 @@
   }
 
   /**
-   * Fetch HUD NHPD subsidized housing data via the HUD eGIS API.
+   * Read nearby records from the local NHPD snapshot, with coverage metadata.
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
    * @returns {Promise<{properties: Array, subsidyMetadata: Array}>}
    */
   function fetchHudNhpd(bbox) {
-    if (!bbox) return Promise.resolve({ properties: [], subsidyMetadata: [] });
     var nhpd = (typeof window !== 'undefined') ? window.Nhpd : null;
-    if (nhpd && typeof nhpd.getPropertiesNear === 'function') {
+    var coverage = nhpd && typeof nhpd.getCoverage === 'function' ? nhpd.getCoverage() : {
+      status: 'unavailable', complete: false, recordCount: null,
+      unavailableReason: 'NHPD coverage is unavailable; preservation totals and risk are unknown.'
+    };
+    if (bbox && nhpd && typeof nhpd.getPropertiesNear === 'function') {
       var lat = (bbox.minLat + bbox.maxLat) / 2;
       var lon = (bbox.minLon + bbox.maxLon) / 2;
       var props = nhpd.getPropertiesNear(lat, lon, 10);
-      return Promise.resolve({ properties: props, subsidyMetadata: props });
+      return Promise.resolve({ properties: props, subsidyMetadata: props, coverage: coverage });
     }
-    return Promise.resolve({ properties: [], subsidyMetadata: [] });
+    return Promise.resolve({ properties: [], subsidyMetadata: [], coverage: coverage });
   }
 
   // ── Opportunity Insights & AFFH local data cache ──────────────────

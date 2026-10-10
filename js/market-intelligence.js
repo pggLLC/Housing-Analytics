@@ -986,7 +986,13 @@
   }
 
   /* ── Init ──────────────────────────────────────────────────────── */
-  document.addEventListener('DOMContentLoaded', function () {
+  // This is the Market Signals tab of colorado-deep-dive.html. It loads ~2 MB
+  // of feeds, so it starts the first time the tab is shown (the page's tab
+  // script calls init) rather than on every Deep Dive visit.
+  var started = false;
+  function init() {
+    if (started) return;
+    started = true;
     buildCountySelector();
     loadAll();
 
@@ -995,10 +1001,16 @@
 
     var btnCsv = document.getElementById('exportCsv');
     if (btnCsv) btnCsv.addEventListener('click', exportCsv);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var panel = document.getElementById('tab-signals');
+    if (!panel || !panel.hasAttribute('hidden')) init();
   });
 
   /* ── Public API ────────────────────────────────────────────────── */
   window.MarketIntelligence = {
+    init: init,
     reload: loadAll,
     exportJson: exportJson,
     exportCsv: exportCsv

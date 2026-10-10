@@ -51,7 +51,6 @@ const PAGES_TO_AUDIT = [
   { name: 'index',                    path: '/' },
   { name: 'economic-dashboard',       path: '/economic-dashboard.html' },
   { name: 'colorado-market',          path: '/colorado-market.html' },
-  { name: 'market-intelligence',      path: '/market-intelligence.html' },
   // Informational pages (Low priority)
   { name: 'dashboard',                path: '/dashboard.html' },
   { name: 'regional',                 path: '/regional.html' },

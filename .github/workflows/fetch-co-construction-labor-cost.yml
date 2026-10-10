@@ -1,0 +1,136 @@
+name: Fetch CO Construction Labor Cost
+
+# Monthly: Colorado construction wages and labor availability from the BLS API
+# (CES, LAUS, JOLTS, OEWS), plus a materials summary computed from
+# data/fred-data.json. Writes data/market/co-construction-labor-cost.json only.
+#
+# Schedule: BLS publishes state CES around the third Friday of the month, so
+# the 24th is after it in every month. GitHub starts crons ~3 hours late
+# (AGENTS.md), so 05:25 UTC lands near 08:25 UTC = 01:25-02:25 Mountain, inside
+# the 00:00-05:00 window. Minute 25 is used by no other workflow.
+#
+# Not a derived-chain input: nothing in scripts/rebuild-derived.mjs reads this
+# file, so a plain commit of the one path (plus the byte manifest) is enough.
+on:
+  schedule:
+    - cron: '25 5 24 * *'   # 24th of each month, 05:25 UTC
+  workflow_dispatch:
+
+permissions:
+  actions: write   # dispatch deploy.yml after the data push
+  contents: write
+  issues: write    # notify-failure opens an issue when the refresh breaks
+
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
+jobs:
+  fetch-labor-cost:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      # The script exits 1 without writing when any BLS request fails, so a
+      # quota refusal or outage leaves the committed file as it was.
+      - name: Fetch BLS labor series and build the summary
+        env:
+          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+        run: |
+          if [ -z "$BLS_API_KEY" ]; then
+            echo "::warning::BLS_API_KEY is not set; using the unauthenticated limit (25 requests/day)."
+          fi
+          python3 scripts/fetch_co_construction_labor_cost.py
+
+      - name: Validate output
+        run: node scripts/validate-schemas.js
+
+      - name: Commit and push data file
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Two manifests, in this order: data/manifest.json records the
+          # byte count of data/_manifest.json (AGENTS.md, two-manifest trap).
+          npm run -s audit:file-manifest
+          python3 scripts/rebuild_manifest.py
+          git add data/market/co-construction-labor-cost.json data/_manifest.json data/manifest.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit — data is up to date."
+          else
+            git commit -m "chore: update CO construction labor cost data [$(date -u '+%Y-%m-%d')]"
+            git pull --rebase --autostash -X theirs origin main
+            npm run -s audit:file-manifest
+            python3 scripts/rebuild_manifest.py
+            if ! git diff --quiet -- data/; then
+              git add data/_manifest.json data/manifest.json
+              git commit --amend --no-edit
+            fi
+            git push
+          fi
+
+      - name: Dispatch Pages deploy for this run's commit
+        # A workflow-token push does not trigger deploy.yml (#1875).
+        uses: ./.github/actions/dispatch-pages-deploy
+
+  notify-failure:
+    name: Notify on refresh failure
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [fetch-labor-cost]
+    if: failure()
+
+    steps:
+      - name: Open GitHub issue on refresh failure
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const label = 'co-construction-labor-cost-refresh-failure';
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: label,
+            });
+            if (existing.data.length > 0) {
+              console.log('Refresh failure issue already open — skipping duplicate creation.');
+              return;
+            }
+            const body = [
+              `The **Fetch CO Construction Labor Cost** workflow failed on run [#${context.runId}](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`,
+              '',
+              'While this is open, `data/market/co-construction-labor-cost.json` still holds the',
+              'previous month: the script writes nothing when a BLS request fails.',
+              '',
+              '### Common causes',
+              '- `BLS_API_KEY` secret missing or expired; the unauthenticated limit is 25 requests a day,',
+              '  shared by everything calling from the same address',
+              '- BLS renamed or retired a series (the log names it)',
+              '- `validate-schemas.js` rejected the output (a null without a reason, or a 0)',
+              '',
+              '### Recovery steps',
+              '1. Read the failing step log',
+              '2. Re-run the workflow once BLS recovers or the key is fixed',
+              '3. Confirm the file has a fresh `generatedAt` afterwards',
+            ].join('\n');
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[CO Construction Labor Cost] Monthly refresh failed — run #${context.runId}`,
+              body,
+              labels: [label],
+            });

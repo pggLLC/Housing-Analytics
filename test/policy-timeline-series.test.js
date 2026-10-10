@@ -15,11 +15,13 @@ const geoConfig = json('data/hna/geo-config.json');
 const helper = require('../js/components/lihtc-by-year.js');
 const plain = v => JSON.parse(JSON.stringify(v));
 const wait = async (fn, message = 'render completed') => { for (let i = 0; i < 400 && !fn(); i++) await new Promise(r => setTimeout(r, 5)); assert(fn(), message); };
-const pages = ['market-intelligence.html', 'economic-dashboard.html', 'colorado-deep-dive.html'];
-function render(page, data = feed, missing = []) {
+// market-intelligence.html is now the Market Signals tab of colorado-deep-dive.html.
+const pages = ['economic-dashboard.html', 'colorado-deep-dive.html'];
+function render(page, data = feed, missing = [], hash) {
   const charts = new Map();
   const dom = new JSDOM(read(page), {
-    runScripts: 'dangerously', url: 'https://cohoanalytics.com/' + page,
+    // The Market Signals tab loads only when opened, so open it by hash.
+    runScripts: 'dangerously', url: 'https://cohoanalytics.com/' + page + (hash !== undefined ? hash : page === 'colorado-deep-dive.html' ? '#tab-signals' : ''),
     pretendToBeVisual: true, virtualConsole: new VirtualConsole(),
     beforeParse(w) {
       w.fetch = async url => {
@@ -85,8 +87,7 @@ test('an unavailable timeline stays unavailable while the CHFA series can still 
     try {
       await wait(() => r.doc.querySelector('[data-policy-timeline]').textContent.includes('could not be loaded'));
       assert.equal(r.doc.querySelectorAll('[data-policy-event-id]').length, 0);
-      if (page === 'market-intelligence.html') await wait(() => r.charts.has('lihtcTrendChart'));
-      if (page === 'colorado-deep-dive.html') await wait(() => r.charts.has('chartLihtcTimeline'));
+      if (page === 'colorado-deep-dive.html') await wait(() => r.charts.has('chartLihtcTimeline') && r.charts.has('lihtcTrendChart'));
     } finally { r.dom.window.close(); }
   }
 });
@@ -103,8 +104,8 @@ test('missing PolicyTimeline or a failed load preserves charts on every consumer
         await wait(() => r.doc.querySelector('[data-policy-timeline-status]')?.hidden === false);
         assert.match(r.doc.querySelector('[data-policy-timeline-status]').textContent, /Policy timeline unavailable/);
         if (missing[0].endsWith('.js')) assert.equal(r.w.PolicyTimeline, undefined);
-        const chartIds = page === 'colorado-deep-dive.html' ? ['foreclosure-chart', 'concessions-chart', 'chartLihtcTimeline'] :
-          page === 'market-intelligence.html' ? ['lihtcTrendChart'] : page === 'construction-commodities.html' ? ['steel-chart'] : [];
+        const chartIds = page === 'colorado-deep-dive.html' ? ['foreclosure-chart', 'concessions-chart', 'chartLihtcTimeline', 'lihtcTrendChart'] :
+          page === 'construction-commodities.html' ? ['steel-chart'] : [];
         await wait(() => r.charts.size > 0 && chartIds.every(id => r.charts.has(id)), page + ': rendered charts ' + [...r.charts.keys()].join(', '));
         for (const chart of r.charts.values()) {
           assert.equal(Object.keys(chart.options.plugins?.annotation?.annotations || {}).length, 0, page + ': no policy markers');
@@ -113,24 +114,25 @@ test('missing PolicyTimeline or a failed load preserves charts on every consumer
       } finally { r.dom.window.close(); }
     }
   }
-  assert.equal(checked, 8, 'every policy chart consumer checked with both failures');
+  assert.equal(checked, 6, 'every policy chart consumer checked with both failures');
 });
 
 test('missing LihtcByYear or failed series data shows unavailable without breaking other charts', async () => {
   let checked = 0;
   for (const missing of [['js/components/lihtc-by-year.js'], ['data/chfa-lihtc.json'], ['data/hna/geo-config.json']]) {
-    for (const [page, id, note] of [
-      ['historical-trends.html', 'chfaTimelineChart', '#htErrorBanner'],
+    // Historical Trends is the Deep Dive's #tab-history; it renders when opened.
+    for (const [page, id, note, hash] of [
+      ['colorado-deep-dive.html', 'chfaTimelineChart', '#htErrorBanner', '#tab-history'],
       ['colorado-deep-dive.html', 'chartLihtcTimeline', '#lihtcTimelineSourceNote'],
-      ['market-intelligence.html', 'lihtcTrendChart', '#lihtc-trend-status']
+      ['colorado-deep-dive.html', 'lihtcTrendChart', '#lihtc-trend-status']
     ]) {
-      const r = render(page, feed, missing);
+      const r = render(page, feed, missing, hash);
       try {
         await wait(() => /unavailable|failed/i.test(r.doc.querySelector(note).textContent));
         assert.equal(r.charts.has(id), false, page + ': no fabricated series');
         assert.equal(r.doc.querySelector(note).hidden, false);
         if (page === 'colorado-deep-dive.html') await wait(() => r.charts.has('foreclosure-chart'));
-        if (page === 'market-intelligence.html') await wait(() => r.charts.has('demandChart') && r.charts.has('supplyChart'));
+        if (id === 'lihtcTrendChart') await wait(() => r.charts.has('demandChart') && r.charts.has('supplyChart'));
         checked++;
       } finally { r.dom.window.close(); }
     }
@@ -142,7 +144,7 @@ test('all 64 counties are represented, and Baca and Moffat show county-scoped ze
   const series = helper.series(feed.features, { geoConfig });
   assert.equal(geoConfig.counties.length, 64);
   assert.deepEqual(Object.keys(series.counties).sort(), geoConfig.counties.map(c => c.label.replace(/ County$/i, '')).sort());
-  const r = render('market-intelligence.html');
+  const r = render('colorado-deep-dive.html');
   try {
     await wait(() => r.charts.has('lihtcTrendChart'));
     for (const county of ['Baca', 'Moffat']) {
@@ -179,12 +181,12 @@ test('the three CHFA charts and headings agree with the feed, including a change
     assert.deepEqual(result.years, exp.years);
     assert.deepEqual(result.totals.projects, exp.values(() => true));
     assert.deepEqual(result.totals.liUnits, exp.values(() => true, 'LI_UNITS'));
-    for (const [page, id, title] of [
-      ['historical-trends.html', 'chfaTimelineChart', 'htCHFAHeading'],
+    for (const [page, id, title, hash] of [
+      ['colorado-deep-dive.html', 'chfaTimelineChart', 'htCHFAHeading', '#tab-history'],
       ['colorado-deep-dive.html', 'chartLihtcTimeline', 'lihtcTimelineTitle'],
-      ['market-intelligence.html', 'lihtcTrendChart', 'lihtc-trend-heading']
+      ['colorado-deep-dive.html', 'lihtcTrendChart', 'lihtc-trend-heading']
     ]) {
-      const r = render(page, data);
+      const r = render(page, data, [], hash);
       try {
         await wait(() => r.charts.has(id));
         const chart = r.charts.get(id);
@@ -192,7 +194,7 @@ test('the three CHFA charts and headings agree with the feed, including a change
         const heading = r.doc.getElementById(title);
         assert(heading.textContent.includes(exp.range), page + ': heading uses the rendered years');
         assert.equal(heading.dataset.yearRange, exp.range);
-        if (page === 'historical-trends.html') {
+        if (id === 'chfaTimelineChart') {
           const actual = exp.years.map((_, i) => chart.data.datasets.reduce((n, d) => n + d.data[i], 0));
           assert.deepEqual(actual, exp.values(() => true));
           const buckets = ['nine', 'four', 'other'].filter(k => result.credits[k].projects.some(n => n > 0));
@@ -207,7 +209,7 @@ test('the three CHFA charts and headings agree with the feed, including a change
           assert(r.doc.getElementById('htStockHeading').textContent.includes(exp.range));
           assert(r.doc.getElementById('htFeedCoverage').textContent.includes(String(data.features.length)));
           assert(r.doc.getElementById('htFeedCoverage').textContent.includes(exp.range));
-        } else if (page === 'colorado-deep-dive.html') {
+        } else if (id === 'chartLihtcTimeline') {
           assert.deepEqual(plain(chart.data.datasets[0].data), result.totals.liUnits);
         } else {
           for (const dataset of chart.data.datasets) {
@@ -291,4 +293,15 @@ test('no page or client JS keeps policy-event literals outside the data record',
   }
   assert(htmlPages.length > 500 && scanned > 300, 'non-empty repository-wide scan');
   console.log('Scanned ' + htmlPages.length + ' pages and ' + scanned + ' script blocks/files for duplicated policy events.');
+});
+
+test('the Deep Dive does not load Market Signals until its tab is opened', async () => {
+  const r = render('colorado-deep-dive.html', feed, [], '');
+  try {
+    await wait(() => r.charts.has('foreclosure-chart'), 'the Deep Dive tab rendered');
+    await new Promise(res => setTimeout(res, 200));
+    for (const id of ['demandChart', 'supplyChart', 'lihtcTrendChart']) assert.equal(r.charts.has(id), false, id + ' built while its tab was hidden');
+    r.doc.getElementById('btn-signals').click();
+    await wait(() => ['demandChart', 'supplyChart', 'lihtcTrendChart'].every(id => r.charts.has(id)), 'Market Signals rendered once opened');
+  } finally { r.dom.window.close(); }
 });

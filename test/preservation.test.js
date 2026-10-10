@@ -380,7 +380,8 @@ test('NHPD rendering surfaces disclose the real stub vintage and gated-source li
   const preservation = fs.readFileSync(path.join(ROOT, 'preservation.html'), 'utf8');
   const market = fs.readFileSync(path.join(ROOT, 'market-analysis.html'), 'utf8');
   [preservation, market].forEach(function (surface) {
-    assert(surface.includes('2026-03-13'), 'surface discloses the checked-in NHPD vintage');
+    const snapshot = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/market/nhpd_co.geojson'), 'utf8'));
+    assert(surface.includes(snapshot.meta.generated.slice(0, 10)), 'surface vintage agrees with the source metadata');
     assert(surface.includes('registration-gated'), 'surface discloses the NHPD access limitation');
     assert(/verify current subsidy status/i.test(surface), 'surface requires current-source verification');
   });

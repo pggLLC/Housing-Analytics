@@ -6,16 +6,15 @@
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
   <title>Preservation Tracking | COHO Analytics</title>
-  <meta name="description" content="NHPD subsidy tracking for Colorado affordable housing. Monitor expiring Section 8, HOME, LIHTC, and Section 202 subsidies to protect long-term affordability.">
+  <meta name="description" content="Explore a limited Colorado NHPD stub snapshot. Sample subsidy expirations are not a statewide inventory or an estimate of total preservation needs.">
   <meta property="og:title" content="Preservation Tracking | COHO Analytics">
-  <meta property="og:description" content="Track expiring affordable housing subsidies in Colorado using National Housing Preservation Database (NHPD) data.">
+  <meta property="og:description" content="Explore a limited Colorado NHPD stub snapshot; statewide preservation needs remain unknown.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
   <script src="js/config.js"></script>
   <script src="js/path-resolver.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-service-portable.js"></script>
-  <script src="js/data-freshness.js"></script>
   <script src="js/cache-manager.js"></script>
   <script src="js/scroll-fix.js"></script>
   <script src="js/vendor/chart.umd.min.js"></script>
@@ -268,8 +267,7 @@
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
 </head>
-<body data-page-update-key="manifest"
-      data-page-source="NHPD · HUD · CHFA">
+<body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <div id="aria-live-region" role="status" aria-live="polite" aria-atomic="true"
        style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"></div>
@@ -282,45 +280,45 @@
       <span class="kicker">Preservation</span>
       <h1>NHPD Subsidy Tracking</h1>
       <p class="pres-subtitle">
-        Colorado affordable housing properties with active subsidies — flag expiring contracts before units lose affordability.
+        Explore the recorded subsidy dates in a limited Colorado snapshot.
         Data sourced from the <a href="https://preservationdatabase.org/" target="_blank" rel="noopener">National Housing Preservation Database (NHPD)</a>.
         <span id="presDataTimestamp" aria-live="polite"></span>
         <strong>NHPD access is registration-gated; this page uses the disclosed 2026-03-13 stub snapshot. Verify current subsidy status with NHPD.</strong>
       </p>
-      <small class="data-timestamp" title="Sourced from data/manifest.json — updated each time the data pipeline runs"></small>
+      <p id="presCoverage" role="status">Limited coverage: 20 snapshot records. These are sample counts, not statewide totals or an estimate of total preservation needs. Missing records do not mean no preservation risk.</p>
     </div>
 
     <!-- KPI strip -->
-    <div class="pres-kpi-strip" role="region" aria-label="Preservation summary statistics">
+    <div class="pres-kpi-strip" role="region" aria-label="Filtered snapshot statistics" aria-describedby="presCoverage">
       <div class="pres-kpi-card">
         <span class="pres-kpi-value" id="presKpiTotal">—</span>
-        <span class="pres-kpi-label">Subsidized Properties</span>
+        <span class="pres-kpi-label">Properties in Snapshot</span>
       </div>
       <div class="pres-kpi-card">
         <span class="pres-kpi-value" id="presKpiUnits">—</span>
-        <span class="pres-kpi-label">Assisted Units</span>
+        <span class="pres-kpi-label">Assisted Units in Snapshot</span>
       </div>
       <div class="pres-kpi-card pres-kpi-warn">
         <span class="pres-kpi-value" id="presKpiExpiring">—</span>
-        <span class="pres-kpi-label">Expiring ≤ 3 Years</span>
+        <span class="pres-kpi-label">Snapshot Properties Expiring ≤ 3 Years</span>
       </div>
       <div class="pres-kpi-card pres-kpi-warn">
         <span class="pres-kpi-value" id="presKpiExpiringUnits">—</span>
-        <span class="pres-kpi-label">At-Risk Units</span>
+        <span class="pres-kpi-label">Snapshot Units Expiring ≤ 3 Years</span>
       </div>
     </div>
 
     <!-- Expiration timeline chart -->
     <section class="pres-chart-section" aria-labelledby="presChartHeading">
-      <h2 id="presChartHeading">Subsidy Expiration Timeline</h2>
+      <h2 id="presChartHeading">Snapshot Subsidy Expiration Timeline</h2>
       <div class="pres-chart-wrap">
         <canvas id="presExpiryChart" role="img"
-                aria-label="Bar chart showing number of assisted units and properties with subsidies expiring each year through 2041"></canvas>
+                aria-label="Snapshot assisted units and properties by recorded expiration year; incomplete coverage, not statewide totals"></canvas>
       </div>
-      <p class="sr-only">
-        The chart displays the number of assisted housing units and individual properties
-        whose subsidies expire in each year from the present through approximately 2041.
-        Properties with contracts expiring in the near term are highlighted for preservation action.
+      <p>
+        The chart uses all loaded snapshot records; filters below change the cards, table, and CSV only.
+        A zero in a year means no recorded expiration in this subset, not no preservation needs.
+        Dates may have changed since the snapshot; expiration alone does not establish loss of affordability.
       </p>
     </section>
 
@@ -332,7 +330,7 @@
                 data-jurisdiction-search data-jurisdiction-search-type="County"
                 data-jurisdiction-search-label="Search counties in this dataset"
                 data-jurisdiction-search-placeholder="Type a county name…">
-          <option value="">All counties</option>
+          <option value="">All counties in snapshot</option>
         </select>
       </label>
       <label class="pres-filter-label">
@@ -356,10 +354,11 @@
         <input id="presSearch" class="pres-search" type="search"
                placeholder="Property or city name…" aria-label="Search by property or city name">
       </label>
-      <button id="presExportBtn" class="pres-export-btn" aria-label="Download filtered results as CSV">
-        ⬇ Download CSV
+      <button id="presExportBtn" class="pres-export-btn" aria-label="Download filtered snapshot records as CSV" disabled>
+        ⬇ Download Snapshot CSV
       </button>
     </div>
+    <p>Filters search this subset only. Counties absent from the list have unknown coverage. No matching records does not establish that a county has no subsidized homes or preservation risk.</p>
 
     <!-- Expiry legend -->
     <div class="pres-legend" aria-hidden="true">
@@ -373,13 +372,13 @@
         <span class="pres-legend-dot pres-legend-dot-ok"></span>Expiring 3+ years
       </span>
       <span class="pres-legend-item">
-        <span class="pres-legend-dot pres-legend-dot-expired"></span>Already expired
+        <span class="pres-legend-dot pres-legend-dot-expired"></span>Recorded date passed
       </span>
     </div>
 
     <!-- Properties table -->
     <div class="pres-table-wrap" role="region" aria-label="Subsidized property list">
-      <table class="pres-table" id="presTable" aria-label="Colorado NHPD subsidized housing properties">
+      <table class="pres-table" id="presTable" aria-label="Colorado NHPD snapshot records">
         <thead>
           <tr>
             <th class="pres-th sortable" data-col="property_name"

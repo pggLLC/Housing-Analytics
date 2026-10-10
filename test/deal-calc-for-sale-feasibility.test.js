@@ -295,4 +295,11 @@ resaleSubsidy.dispatchEvent(new Event('change', { bubbles: true }));
 assert.strictEqual(resaleMount.querySelector('option[value="recapture"]').disabled, true, 'Deal Calculator disables recapture for HOME development subsidy');
 assert(resaleMount.textContent.includes('24 CFR 92.254(a)(5)(ii)(A)(5)'), 'Deal Calculator shows the disabled-state citation');
 
+// Invented regression: moving the helper must retain its loaded-source fallback.
+dc._setDeveloperOwnershipFundingForTest({ programs: [{ id: 'invented-grant', name: 'Invented grant',
+  status: 'active', apply_to_gap: true, amount_type: 'fixed_dollar_cap', max_amount: 12000 }] });
+assert.strictEqual(dc.computeDeveloperOwnershipFundingStack({ subsidyGapPerUnit: 50000 },
+  { units: 2, programs: {} }).appliedTotal, 24000, 'malformed override still falls back to the loaded source');
+dc._setDeveloperOwnershipFundingForTest(developerFunding);
+
 console.log('All Deal Calculator for-sale ownership feasibility tests passed.');

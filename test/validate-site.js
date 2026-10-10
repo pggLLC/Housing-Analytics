@@ -198,8 +198,9 @@ pass('Heading hierarchy scan complete — ' + h1Count + ' page(s) with single <h
 
 // ─── 6. Market intelligence page check ───────────────────────────────────────
 console.log('\n── 6. Market intelligence page ──');
-if (fileExists('market-intelligence.html')) {
-  var miContent = readFile('market-intelligence.html');
+// Merged into colorado-deep-dive.html (Market Signals tab); market-intelligence.html is a redirect stub.
+if (fileExists('colorado-deep-dive.html')) {
+  var miContent = readFile('colorado-deep-dive.html');
   var miChecks = [
     { pattern: /id=["']countySelect["']/, label: 'County selector present' },
     { pattern: /id=["']demandChart["']/, label: 'Demand chart canvas present' },
@@ -210,10 +211,10 @@ if (fileExists('market-intelligence.html')) {
   ];
   miChecks.forEach(function (c) {
     if (c.pattern.test(miContent)) pass(c.label);
-    else fail(c.label + ' — missing from market-intelligence.html');
+    else fail(c.label + ' — missing from colorado-deep-dive.html');
   });
 } else {
-  fail('market-intelligence.html not found');
+  fail('colorado-deep-dive.html not found');
 }
 
 if (fileExists('js/market-intelligence.js')) {

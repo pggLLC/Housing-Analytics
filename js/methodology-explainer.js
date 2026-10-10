@@ -183,12 +183,12 @@
       function (v) { return count(v.proposedUnits) + ' proposed units ÷ ' + count(v.qualifiedRenters) + ' ' + (v.denominatorLabel || 'renter households') + ' × 100'; }, percent); }
   };
   METHODOLOGY_REGISTRY['absorption-risk'] = {
-    title: 'Competitive supply share', what: 'A screening flag for how large the proposed project is relative to the competitive supply set; it is not a lease-up forecast.',
-    how: 'Divide proposed units by existing competitive units plus proposed units. The current engine rounds the ratio to two decimal places before displaying it as a percent; its zero-competitive-supply branch reports zero.',
+    title: 'Competitive supply share', what: 'The proposed project’s share of observed competitive records. Incomplete NHPD coverage prevents an absorption-risk assessment; this is not a complete supply inventory or a lease-up forecast.',
+    how: 'Divide proposed units by observed competitive units plus proposed units. The engine rounds the ratio to two decimal places before displaying it as a percent. With no observed competitive units the share is unavailable, not zero.',
     source: 'The run’s proposed-unit entry and competitive-property unit counts for its selected market area, with source context below.',
     next: 'Review comparable properties and observed lease-up times to investigate an elevated share.',
     compute: function (c) { return calculate(c, { proposedUnits: 'Proposed units', competitiveUnits: 'Competitive supply' },
-      function (v) { return v.competitiveUnits > 0 ? Math.round(v.proposedUnits / (v.competitiveUnits + v.proposedUnits) * 100) : 0; },
+      function (v) { return v.competitiveUnits > 0 ? Math.round(v.proposedUnits / (v.competitiveUnits + v.proposedUnits) * 100) : NaN; },
       function (v) { return count(v.proposedUnits) + ' proposed units ÷ (' + count(v.competitiveUnits) + ' existing competitive + ' + count(v.proposedUnits) + ' proposed units) × 100, using the engine rounding'; }, percent); }
   };
   METHODOLOGY_REGISTRY['scheduled-row-rent'] = {

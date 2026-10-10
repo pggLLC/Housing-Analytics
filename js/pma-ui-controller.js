@@ -463,8 +463,9 @@
             _row('Equity',        _fmtM(stack.equity)),
             _row('1st Mortgage',  _fmtM(stack.firstMortgage)),
             _row('Local Soft',    _fmtM(stack.localSoft)),
+            (stack.unavailableReason ? '<tr data-unavailable-reason="' + _esc(stack.unavailableReason) + '"><td colspan="2">Local soft-funding amount is missing; mortgage and gap are unavailable.</td></tr>' : ''),
             _row('Deferred Fee',  _fmtM(stack.deferredFee)),
-            (stack.gap > 0 ? _row('Gap',    _fmtM(stack.gap)) : ''),
+            (stack.gap == null || stack.gap > 0 ? _row('Gap',    _fmtM(stack.gap)) : ''),
           '</table>',
         '</div>',
       '</section>',
@@ -526,7 +527,9 @@
   }
 
   function _fmtM(n) {
-    n = parseFloat(n) || 0;
+    if (n == null || String(n).trim() === '') return 'Unavailable';
+    n = Number(n);
+    if (!Number.isFinite(n)) return 'Unavailable';
     if (n >= 1000000) return '$' + (n / 1000000).toFixed(1) + 'M';
     if (n >= 1000)    return '$' + Math.round(n / 1000) + 'K';
     return '$' + Math.round(n);
@@ -547,19 +550,18 @@
     // Subsidy expiry risk
     var compSet = scoreRun.competitiveSet || {};
     var expiry  = compSet.subsidyExpiryRisk || [];
+    var coverageReason = compSet.preservationRiskUnavailableReason ||
+      'NHPD coverage is unverified. Preservation totals and risk are unknown; no matching record does not mean no preservation risk.';
     var riskWrap = $id('pmaSubsidyRiskWrap');
     var riskList = $id('pmaSubsidyRiskList');
     if (riskWrap && riskList) {
-      if (expiry.length) {
-        riskList.innerHTML = expiry.map(function (p) {
+      riskList.innerHTML = '<p>' + _esc(coverageReason) + '</p>' + expiry.map(function (p) {
           return '<div style="padding:.2rem 0;border-bottom:1px solid var(--border,#333);">' +
                  '<strong>' + _esc(p.property) + '</strong> — expiry ' + (p.expiryYear || 'unknown') +
-                 ', ' + (p.atRiskUnits || '?') + ' units at risk</div>';
+                 ', ' + (p.atRiskUnits || '?') + ' units in snapshot record (verify current status)</div>';
         }).join('');
-        riskWrap.hidden = false;
-      } else {
-        riskWrap.hidden = true;
-      }
+      if (!expiry.length) riskList.innerHTML += '<p>No matching expirations in the loaded subset; total preservation risk remains unknown.</p>';
+      riskWrap.hidden = false;
     }
 
     // Absorption risk (competitive supply share) — was previously computed
@@ -569,11 +571,20 @@
     // NOT labeled "capture rate": that term is reserved for the demand-pool
     // metric (units ÷ income-qualified renter HH) in the stat tile — this is
     // a supply-÷-supply ratio with a different threshold (see #1148).
-    var absorption = scoreRun.absorptionRisk || null;
+    var absorption = scoreRun.absorptionRisk || (scoreRun._analysisResults && scoreRun._analysisResults.absorptionRisk) || null;
     var absWrap = $id('pmaAbsorptionRiskWrap');
     var absBody = $id('pmaAbsorptionRiskBody');
     if (absWrap && absBody) {
-      if (absorption && typeof absorption.captureRate === 'number') {
+      if (absorption && (absorption.unavailableReason || !compSet.nhpdCoverage || !compSet.nhpdCoverage.complete)) {
+        absBody.innerHTML = '<div><strong>Absorption risk not assessed.</strong> ' +
+          _esc(absorption.unavailableReason || coverageReason) + '</div>' +
+          (absorption.totalCompetitiveUnits > 0 && typeof absorption.captureRate === 'number'
+            ? '<p>Observed-record competitive supply share: ' + (absorption.captureRate * 100).toFixed(1) +
+              '% (' + absorption.proposedUnits + ' proposed / ' +
+              (absorption.totalCompetitiveUnits + absorption.proposedUnits) +
+              ' observed plus proposed units). This subset ratio does not establish market absorption or a complete competitive inventory.</p>' : '');
+        absWrap.hidden = false;
+      } else if (absorption && typeof absorption.captureRate === 'number') {
         var risk = String(absorption.risk || 'unknown');
         var riskColor = risk === 'low'      ? 'var(--good,#047857)'
                       : risk === 'moderate' ? 'var(--warn,#d97706)'

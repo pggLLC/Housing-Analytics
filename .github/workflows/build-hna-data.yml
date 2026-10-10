@@ -488,6 +488,8 @@ jobs:
           # workflow rebuilds the index while skipping any other chain step.
           echo "── Rebuilding place pages ──"
           python3 scripts/hna/build_place_pages.py
+          echo "── Rebuilding ACS median rent (copies each summary's DP04_0134E) ──"
+          python3 scripts/build_acs_rent_co.py
           echo "── Rebuilding paper figures ──"
           npm run paper:build
           echo "── Refreshing inventory counts ──"
@@ -510,7 +512,7 @@ jobs:
           # test:place-pages-fresh / test:paper-fresh / the inventory check
           # until the next human PR inherited the failure.
           git add data/hna data/policy/housing-policy-scorecard.json data/home-snapshot.json data/_manifest.json data/manifest.json data/jurisdiction-briefs docs/qa \
-                  places README.md AGENTS.md data/paper working-paper.html methods.html 2>/dev/null || true
+                  data/market/acs_median_rent_co.json places README.md AGENTS.md data/paper working-paper.html methods.html 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
           # F119 — was `git merge --strategy=ours origin/main` which is git's
           # most destructive merge: it accepts the merge commit but DISCARDS
@@ -553,7 +555,7 @@ jobs:
               # regenerate" commit does), and the 2026-09-22 morning run
               # aborted on exactly that. `places` is a directory: any
               # conflicted path under it is derived.
-              derived_artifacts=(data/home-snapshot.json data/_manifest.json data/manifest.json places README.md AGENTS.md data/paper/figures.json data/paper/model-parameters.json working-paper.html methods.html)
+              derived_artifacts=(data/home-snapshot.json data/_manifest.json data/manifest.json data/market/acs_median_rent_co.json places README.md AGENTS.md data/paper/figures.json data/paper/model-parameters.json working-paper.html methods.html)
               for conflicted in "${conflicted_paths[@]}"; do
                 is_derived=0
                 for derived in "${derived_artifacts[@]}"; do
@@ -580,6 +582,7 @@ jobs:
               git rebase --autostash origin/main
               node scripts/build-home-snapshot.mjs
               python3 scripts/hna/build_place_pages.py
+              python3 scripts/build_acs_rent_co.py
               npm run paper:build
               node scripts/compute-inventory.mjs --write
               npm run audit:file-manifest

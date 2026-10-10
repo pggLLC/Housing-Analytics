@@ -121,8 +121,8 @@ test('suggestedAMIMix totals approximately to proposedUnits', () => {
 
 // ── Capital stack fields ──────────────────────────────────────────────────────
 
-test('indicativeCapitalStack has all required fields', () => {
-  var rec   = predictor.predictConcept({ proposedUnits: 60 });
+test('indicativeCapitalStack has all required fields when the invented funding amount is supplied', () => {
+  var rec   = predictor.predictConcept({ proposedUnits: 60, softFundingAvailable: 750000 });
   var stack = rec.indicativeCapitalStack;
   assert(typeof stack.totalDevelopmentCost === 'number', 'totalDevelopmentCost is number');
   assert(typeof stack.equity        === 'number', 'equity is number');

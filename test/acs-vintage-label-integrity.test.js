@@ -71,15 +71,15 @@ if (declared.length !== 2) {
   fail('data/co-demographics.json no longer declares an ACS year range in `source`');
 } else {
   const want = `${declared[0]}–${declared[1]}`;
-  const mi = fs.readFileSync(path.join(ROOT, 'market-intelligence.html'), 'utf8');
+  const mi = fs.readFileSync(path.join(ROOT, 'colorado-deep-dive.html'), 'utf8');
   const labels = [...mi.matchAll(/ACS[^<>"]{0,10}?(\d{4})\s*[–—-]\s*(\d{4})/g)].map((m) => `${m[1]}–${m[2]}`);
-  if (!labels.length) fail('market-intelligence.html states no ACS vintage at all');
+  if (!labels.length) fail('colorado-deep-dive.html (Market Signals tab) states no ACS vintage at all');
   const wrong = labels.filter((l) => l !== want);
   if (wrong.length) {
-    fail(`market-intelligence.html claims ACS ${[...new Set(wrong)].join(', ')} but its only data source `
+    fail(`colorado-deep-dive.html (Market Signals tab) claims ACS ${[...new Set(wrong)].join(', ')} but its only data source `
        + `(data/co-demographics.json) declares ${want}`);
   } else {
-    ok(`market-intelligence.html ACS ${want} matches data/co-demographics.json (${labels.length} label(s))`);
+    ok(`colorado-deep-dive.html (Market Signals tab) ACS ${want} matches data/co-demographics.json (${labels.length} label(s))`);
   }
 }
 

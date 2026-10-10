@@ -136,12 +136,10 @@ function testMissingDependencyFallback() {
 
 function testEightPageWiring() {
   const targets = {
-    'historical-trends.html': ['benchCounty'],
     'chfa-portfolio.html': ['filterCounty'],
     'lihtc-opportunity-finder.html': ['lofCounty'],
     'preservation.html': ['presFilterCounty'],
-    'market-intelligence.html': ['countySelect'],
-    'colorado-deep-dive.html': ['countyGeoSelect', 'amiGapCountySelect'],
+    'colorado-deep-dive.html': ['countyGeoSelect', 'amiGapCountySelect', 'countySelect', 'benchCounty'],
     'policy-briefs.html': ['regionFilter'],
     'hna-scenario-builder.html': ['sbGeoSelect']
   };

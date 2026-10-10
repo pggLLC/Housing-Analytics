@@ -457,6 +457,91 @@ function validateSoftFunding() {
   assert(issues.length === 0, FILE, issues.length ? issues.join('; ') : 'program terms satisfy the schema contract');
 }
 
+// Dependency-free like softFundingIssues: the schema supplies the required
+// keys, and the absence rules (null carries a reason, never a 0) are checked
+// here because JSON Schema cannot express "null only with a reason".
+function constructionLaborCostIssues(data) {
+  const schema = require('../schemas/co-construction-labor-cost.schema.json');
+  const defs = schema.$defs;
+  const issues = [];
+  const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+  const text = value => typeof value === 'string' && value.trim().length > 0;
+  const num = value => typeof value === 'number' && Number.isFinite(value);
+  const period = value => typeof value === 'string' && /^\d{4}-(0[1-9]|1[0-2])$/.test(value);
+  const check = (valid, at, message) => { if (!valid) issues.push(`${at}: ${message}`); };
+  const required = (value, keys, at) => keys.forEach(key =>
+    check(Object.hasOwn(value, key), `${at}/${key}`, 'required field missing'));
+  if (!object(data)) return ['/: must be an object'];
+  required(data, schema.required, '');
+  check(!Number.isNaN(new Date(data.generatedAt).getTime()), '/generatedAt', 'must be an ISO-8601 timestamp');
+
+  if (!object(data.monthly) || !Object.keys(data.monthly).length) issues.push('/monthly: must be a non-empty object');
+  for (const [id, s] of Object.entries(object(data.monthly) ? data.monthly : {})) {
+    const at = `/monthly/${id}`;
+    if (!object(s)) { issues.push(`${at}: must be an object`); continue; }
+    required(s, defs.monthlySeries.required, at);
+    const obs = Array.isArray(s.observations) ? s.observations : [];
+    check(obs.every(o => object(o) && period(o.period) && num(o.value) && typeof o.preliminary === 'boolean'),
+      `${at}/observations`, 'every observation needs a YYYY-MM period, a finite value and a boolean preliminary');
+    if (obs.length) {
+      const last = obs[obs.length - 1];
+      check(object(s.latest) && s.latest.period === last.period && s.latest.value === last.value,
+        `${at}/latest`, 'must equal the last observation');
+      check(s.unavailableReason === null, `${at}/unavailableReason`, 'must be null when observations exist');
+    } else {
+      check(s.latest === null, `${at}/latest`, 'must be null when there are no observations');
+      check(text(s.unavailableReason), `${at}/unavailableReason`, 'a series with no observations must say why');
+    }
+    if (s.yoy === null) check(text(s.yoyUnavailableReason), `${at}/yoyUnavailableReason`, 'a null yoy must say why');
+    else check(object(s.yoy) && num(s.yoy.value) && ['pct', 'pts'].includes(s.yoy.basis), `${at}/yoy`, 'must carry a finite value and a pct|pts basis');
+  }
+
+  const oews = object(data.oews) ? data.oews : {};
+  required(oews, schema.properties.oews.required, '/oews');
+  const rows = Array.isArray(oews.rows) ? oews.rows : [];
+  const areas = Array.isArray(oews.areas) ? oews.areas : [];
+  const occs = Array.isArray(oews.occupations) ? oews.occupations : [];
+  check(rows.length > 0 && rows.length === areas.length * occs.length, '/oews/rows',
+    `must hold one row per area x occupation (${areas.length} x ${occs.length})`);
+  rows.forEach((r, i) => {
+    const at = `/oews/rows/${i}`;
+    if (!object(r)) { issues.push(`${at}: must be an object`); return; }
+    required(r, defs.oewsRow.required, at);
+    for (const key of ['employment', 'hourlyMean', 'hourlyMeanPrior']) {
+      check(r[key] === null || (num(r[key]) && r[key] > 0), `${at}/${key}`, 'must be positive or null, never 0');
+    }
+    if (r.employment === null || r.hourlyMean === null) check(text(r.unavailableReason), `${at}/unavailableReason`, 'a null estimate must say why');
+    if (r.changePct === null) check(text(r.changeUnavailableReason), `${at}/changeUnavailableReason`, 'a null change must say why');
+  });
+
+  const materials = object(data.materials) ? data.materials : {};
+  const mats = Array.isArray(materials.series) ? materials.series : [];
+  check(mats.length > 0, '/materials/series', 'must not be empty');
+  mats.forEach((m, i) => {
+    const at = `/materials/series/${i}`;
+    if (!object(m)) { issues.push(`${at}: must be an object`); return; }
+    required(m, defs.materialsSeries.required, at);
+    check(m.latest === null || (num(m.latest) && m.latest > 0), `${at}/latest`, 'must be positive or null, never 0');
+    if (m.latest === null || m.yoyPct === null) check(text(m.unavailableReason), `${at}/unavailableReason`, 'a null value must say why');
+  });
+
+  const summary = object(data.summary) ? data.summary : {};
+  required(summary, schema.properties.summary.required, '/summary');
+  check(text(summary.text), '/summary/text', 'must be nonblank text');
+  check(Array.isArray(data.history), '/history', 'must be an array');
+  return issues;
+}
+
+function validateConstructionLaborCost() {
+  const FILE = 'data/market/co-construction-labor-cost.json';
+  console.log(`\n[validate] ${FILE}`);
+  const { exists, data, parseError } = loadJSON(FILE);
+  assert(exists && !parseError, FILE, 'file exists and is valid JSON');
+  if (!exists || parseError) return;
+  const issues = constructionLaborCostIssues(data);
+  assert(issues.length === 0, FILE, issues.length ? issues.join('; ') : 'labor and materials data satisfy the schema contract');
+}
+
 // ---------------------------------------------------------------------------
 // Run
 // ---------------------------------------------------------------------------
@@ -469,6 +554,7 @@ function main() {
   validateChfaLihtc();
   validateCoAmiGap();
   validateSoftFunding();
+  validateConstructionLaborCost();
 
   console.log('\n=== Market Data Artifacts (Phase 3) ===');
 
@@ -488,4 +574,4 @@ function main() {
 }
 
 if (require.main === module) main();
-module.exports = { softFundingIssues };
+module.exports = { softFundingIssues, constructionLaborCostIssues };

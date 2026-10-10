@@ -153,6 +153,8 @@ test('flagSubsidyExpiryRisk — empty input → empty result', function () {
 });
 
 test('calculateAbsorptionRisk — low risk scenario', function () {
+  // Synthetic complete coverage exercises the existing threshold math only.
+  CS.buildCompetitiveSet([], [], 39.7392, -104.9847, 5, { complete: true, recordCount: 0 });
   const set = [{ units: 500 }, { units: 400 }];  // 900 existing units
   const r   = CS.calculateAbsorptionRisk(set, 5); // 5 proposed → 5/(900+5) ≈ 0.55% → low
   assert(r.risk === 'low',          'absorption risk is low');
@@ -161,9 +163,18 @@ test('calculateAbsorptionRisk — low risk scenario', function () {
 });
 
 test('calculateAbsorptionRisk — high risk scenario', function () {
+  CS.buildCompetitiveSet([], [], 39.7392, -104.9847, 5, { complete: true, recordCount: 0 });
   const set = [{ units: 10 }];                 // 10 existing
   const r   = CS.calculateAbsorptionRisk(set, 20); // 20 proposed → 20/30 = 67% → high
   assert(r.risk === 'high', 'absorption risk is high when proposed >> existing');
+});
+
+test('unverified coverage — observed share survives but total risk remains unknown', function () {
+  CS.buildCompetitiveSet([], [], 39.7392, -104.9847, 5);
+  const r = CS.calculateAbsorptionRisk([{ units: 900 }], 100);
+  assert(r.risk === null, 'missing source coverage cannot establish low risk');
+  assert(r.captureRate === 0.1, 'observed-record share remains available');
+  assert(CS.calculateAbsorptionRisk([], 5).captureRate === null, 'no observed supply cannot establish a zero share');
 });
 
 test('getCompetitiveSetLayer — GeoJSON FeatureCollection', function () {
@@ -178,7 +189,8 @@ test('getCompetitiveSetLayer — GeoJSON FeatureCollection', function () {
 test('getCompetitiveJustification — shape', function () {
   const j = CS.getCompetitiveJustification();
   assert(typeof j.lihtcCount       === 'number',  'lihtcCount is number');
-  assert(typeof j.nhpdAssisted     === 'number',  'nhpdAssisted is number');
+  assert(j.nhpdAssisted === null,                'unverified NHPD count is unknown');
+  assert(j.preservationRiskTotal === null,       'total preservation risk is unknown');
   assert(Array.isArray(j.subsidyExpiryRisk),      'subsidyExpiryRisk is Array');
 });
 

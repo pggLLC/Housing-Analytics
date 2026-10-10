@@ -1,0 +1,194 @@
+name: Fetch CO Market Rents
+
+# Monthly: Zillow ZORI (data/market/zori_rents_co.json) and Apartment List
+# (data/market/apartment_list_co.json) for Colorado cities. Both build scripts
+# existed with no workflow, so the files sat at their May 2026 fetch while the
+# Deal Calculator, Opportunity Finder and Deep Dive read them as current.
+#
+# Also checks whether AAMD has published the next quarter's Vacancy & Rent
+# report, which data/market/aamd-denver-vacancy.json is captured from by hand,
+# and opens an issue (label aamd-vacancy) when it has.
+#
+# Schedule: Zillow posts ZORI and Apartment List its rent report around
+# mid-month, so the 20th is after both. GitHub starts crons ~3 hours late
+# (AGENTS.md), so 05:45 UTC lands near 08:45 UTC = 01:45-02:45 Mountain,
+# inside the 00:00-05:00 window. Minute 45 is used by no other workflow.
+#
+# Not a derived-chain input: nothing in scripts/rebuild-derived.mjs reads
+# these files, so a plain commit of the paths (plus the byte manifests) is
+# enough.
+on:
+  schedule:
+    - cron: '45 5 20 * *'   # 20th of each month, 05:45 UTC
+  workflow_dispatch:
+
+permissions:
+  actions: write   # dispatch deploy.yml after the data push
+  contents: write
+  issues: write    # failure issue, and the AAMD publication reminder
+
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
+jobs:
+  fetch-rents:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      # Each script exits 1 without writing when its source fails, so a
+      # failure leaves the committed file as it was. The second source still
+      # runs when the first fails; the job fails afterwards so notify-failure
+      # opens an issue.
+      - name: Build Zillow ZORI snapshot
+        id: zori
+        continue-on-error: true
+        run: python3 scripts/build_market_rents_co.py
+
+      - name: Build Apartment List snapshot
+        id: apartment_list
+        continue-on-error: true
+        run: python3 scripts/build_apartment_list_co.py
+
+      - name: Validate output
+        run: node scripts/validate-schemas.js
+
+      - name: Commit and push data files
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Two manifests, in this order: data/manifest.json records the
+          # byte count of data/_manifest.json (AGENTS.md, two-manifest trap).
+          npm run -s audit:file-manifest
+          python3 scripts/rebuild_manifest.py
+          git add data/market/zori_rents_co.json data/market/apartment_list_co.json data/_manifest.json data/manifest.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit — data is up to date."
+          else
+            git commit -m "chore: update CO market rents (ZORI, Apartment List) [$(date -u '+%Y-%m-%d')]"
+            git pull --rebase --autostash -X theirs origin main
+            npm run -s audit:file-manifest
+            python3 scripts/rebuild_manifest.py
+            if ! git diff --quiet -- data/; then
+              git add data/_manifest.json data/manifest.json
+              git commit --amend --no-edit
+            fi
+            git push
+          fi
+
+      - name: Dispatch Pages deploy for this run's commit
+        # A workflow-token push does not trigger deploy.yml (#1875).
+        uses: ./.github/actions/dispatch-pages-deploy
+
+      - name: Fail if a source failed
+        if: steps.zori.outcome == 'failure' || steps.apartment_list.outcome == 'failure'
+        run: |
+          echo "::error::ZORI: ${{ steps.zori.outcome }}, Apartment List: ${{ steps.apartment_list.outcome }}"
+          exit 1
+
+  aamd-watch:
+    name: Check for a new AAMD vacancy report
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v7
+
+      - name: Open an issue when the next quarter's report is published
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const fs = require('fs');
+            const meta = JSON.parse(fs.readFileSync('data/market/aamd-denver-vacancy.json', 'utf8')).meta;
+            const m = /^(\d{4})-Q([1-4])$/.exec(meta.vintage || '');
+            if (!m) { core.setFailed(`aamd-denver-vacancy.json vintage is not YYYY-Qn: ${meta.vintage}`); return; }
+            let year = Number(m[1]), q = Number(m[2]) + 1;
+            if (q === 5) { q = 1; year += 1; }
+            const url = meta.report_url_pattern.replace('{q}', q).replace('{yyyy}', year);
+            const res = await fetch(url, { method: 'HEAD', redirect: 'follow' });
+            console.log(`${url} -> ${res.status}`);
+            if (res.status === 404 || res.status === 403) return;   // not published yet
+            if (!res.ok) { core.warning(`Unexpected ${res.status} from ${url}`); return; }
+            const label = 'aamd-vacancy';
+            const title = `AAMD ${year} Q${q} Vacancy & Rent report is published — update the vacancy file`;
+            const open = await github.rest.issues.listForRepo({ owner: context.repo.owner, repo: context.repo.repo, state: 'open', labels: label });
+            if (open.data.some((i) => i.title === title)) { console.log('Issue already open.'); return; }
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              labels: [label],
+              body: [
+                `AAMD's ${year} Q${q} executive summary is now at ${url}.`,
+                '',
+                '`data/market/aamd-denver-vacancy.json` still holds ' + meta.vintage + '. Update from the PDF\'s first two pages:',
+                '- `meta.vintage`, `meta.as_of` (quarter end), `meta.source_url`, `meta.last_verified`, `meta.next_expected_update`',
+                '- `metro`: stabilized vacancy this quarter, last quarter and a year ago; overall vacancy; average rent; total units',
+                '- `counties`: the County Overview table',
+                '',
+                'The Insights page Risk Indicators card reads this file.',
+              ].join('\n'),
+            });
+
+  notify-failure:
+    name: Notify on refresh failure
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [fetch-rents]
+    if: failure()
+
+    steps:
+      - name: Open GitHub issue on refresh failure
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const label = 'market-rents-refresh-failure';
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: label,
+            });
+            if (existing.data.length > 0) {
+              console.log('Refresh failure issue already open — skipping duplicate creation.');
+              return;
+            }
+            const body = [
+              `The **Fetch CO Market Rents** workflow failed on run [#${context.runId}](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`,
+              '',
+              'The source that failed kept its previous file: both scripts write nothing on failure.',
+              '',
+              '### Common causes',
+              '- Zillow moved or renamed the public ZORI CSVs (the log names the URL)',
+              '- Apartment List changed its rent-report wording, so fewer than 15 cities parsed',
+              '- `validate-schemas.js` rejected the output',
+              '',
+              '### Recovery steps',
+              '1. Read the failing step log',
+              '2. Fix the URL or parser, or re-run once the source recovers',
+              '3. Confirm the files have a fresh `generated_at_utc` afterwards',
+            ].join('\n');
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[CO Market Rents] Monthly refresh failed — run #${context.runId}`,
+              body,
+              labels: [label],
+            });

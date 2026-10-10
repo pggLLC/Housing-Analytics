@@ -731,9 +731,12 @@ html.dark-mode .stat .src a, html.dark-mode .kpi-source a { color: rgba(210, 225
   text-transform: uppercase;
   vertical-align: baseline;
 }
-.chart-source__type--raw         { background: color-mix(in srgb, var(--info,#1d4ed8) 12%, transparent); color: var(--info,#1d4ed8); }
-.chart-source__type--transformed { background: color-mix(in srgb, var(--accent,#096e65) 12%, transparent); color: var(--accent,#096e65); }
-.chart-source__type--modeled     { background: color-mix(in srgb, var(--warn,#a8460a) 12%, transparent); color: var(--warn,#a8460a); }
+/* Opaque tints over --card (#2038 pattern): a translucent wash let a grey
+   surface show through, and "Modeled" fell to 4.46:1 on the Deep Dive's
+   Market Signals tab. */
+.chart-source__type--raw         { background: color-mix(in srgb, var(--info,#1d4ed8) 8%, var(--card,#fff)); color: var(--info,#1d4ed8); }
+.chart-source__type--transformed { background: color-mix(in srgb, var(--accent,#096e65) 8%, var(--card,#fff)); color: var(--accent,#096e65); }
+.chart-source__type--modeled     { background: color-mix(in srgb, var(--warn,#a8460a) 8%, var(--card,#fff)); color: var(--warn,#a8460a); }
 
 /* Data vintage badge — renders age + optional stale-data warning.
    Auto-attached by js/components/data-vintage-badge.js to any element

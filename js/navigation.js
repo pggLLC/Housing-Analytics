@@ -63,12 +63,10 @@
       items: [
         { label: "Compare Opportunity Scores", href: "compare.html",                 desc: "Side-by-side 2–6 jurisdictions across every LIHTC score dimension", isNew: true },
         { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Rank 546 geographies by housing need" },
-        { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "County-level LIHTC & market overview" },
-        { label: "Colorado Market Intelligence", href: "market-intelligence.html", desc: "Statewide demand and supply signals" },
+        { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "Market signals, construction costs, LIHTC history, county LIHTC" },
         { label: "CHFA Portfolio",        href: "chfa-portfolio.html",            desc: "Browse CHFA LIHTC projects" },
         { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
         { label: "Land Value & Negotiation", href: "land-value.html",            desc: "Market comps + residual bid for site negotiation" },
-        { label: "Historical Trends & Benchmarks", href: "historical-trends.html", desc: "CHFA awards + LIHTC stock + peer benchmarks" },
         { label: "LIHTC Allocations",     href: "lihtc-allocations.html",         desc: "National per-capita allocation data" },
         { label: "Preservation Tracking", href: "preservation.html",              desc: "NHPD subsidy expiry risk" },
       ]
@@ -108,6 +106,7 @@
         { label: "Colorado Elections",     href: "colorado-elections.html",        desc: "2026 ballot and officials" },
         { label: "— Research —", isHeader: true },
         { label: "Research & Analysis",    href: "insights.html",                  desc: "Dated analysis and briefs" },
+        { label: "Local Housing Incentives", href: "local-incentives.html",       desc: "What each town and county offers" },
         { label: "Tax Credit Equity Markets", href: "article-pricing.html",        desc: "Equity pricing benchmarks" },
         { label: "Working Paper",         href: "working-paper.html",             desc: "The methodology, written up" },
         { label: "White Paper for Planners", href: "apa-white-paper.html",        desc: "Plain-language companion" },
