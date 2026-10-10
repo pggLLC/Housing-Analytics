@@ -16,6 +16,13 @@
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/pages/home.css">
+  <style>
+    .sj-product { border: 1px solid var(--border); border-radius: var(--radius, 8px); padding: 10px 14px 6px; margin: 0 0 18px; min-width: 0; }
+    .sj-product legend { padding: 0 6px; font-weight: 700; }
+    .sj-product__opt { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; padding: 6px 0; cursor: pointer; }
+    .sj-product__opt input { margin-top: 4px; flex-shrink: 0; width: 18px; height: 18px; }
+    .sj-product__desc { display: block; color: var(--muted); font-size: .86rem; line-height: 1.45; }
+  </style>
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/site-state.js"></script>
@@ -171,6 +178,29 @@
           <button class="sj-selection__clear" id="sjClearBtn" type="button">Change</button>
         </div>
 
+        <!-- What is being built. The guided path's later steps differ by
+             product: for-sale swaps three rental-only steps for the ownership
+             tools (js/components/workflow-progress.js, "Product routes";
+             docs/DEVELOPER-TRACKS.md). -->
+        <fieldset class="sj-product" id="sjProduct">
+          <legend class="sj-label">What are you planning?</legend>
+          <label class="sj-product__opt">
+            <input type="radio" name="sjProduct" value="lihtc-rental">
+            <span><strong>LIHTC rental</strong>
+              <span class="sj-product__desc">Rental homes for households at 30&ndash;80% of Area Median Income (AMI), funded with federal and state housing tax credits.</span></span>
+          </label>
+          <label class="sj-product__opt">
+            <input type="radio" name="sjProduct" value="middle-income-rental">
+            <span><strong>Middle-income rental</strong>
+              <span class="sj-product__desc">Rental homes at 80&ndash;120% AMI, the band Colorado's Middle Income Housing Tax Credit (MIHTC) serves. Same steps as LIHTC rental, but the Deal step sizes federal LIHTC only; it does not size MIHTC credits.</span></span>
+          </label>
+          <label class="sj-product__opt">
+            <input type="radio" name="sjProduct" value="for-sale">
+            <span><strong>For-sale ownership</strong>
+              <span class="sj-product__desc">Deed-restricted or shared-equity homes for sale. Steps 2, 4 and 5 become Ownership Need, the For-Sale Market Study and Land Value; at the Deal step, switch the calculator to ownership mode.</span></span>
+          </label>
+        </fieldset>
+
         <!-- Continue button -->
         <div class="sj-actions">
           <button class="btn btn-primary sj-continue" id="sjContinueBtn" type="button" disabled>
@@ -242,6 +272,30 @@
       if (window.WorkflowProgress && window.WorkflowProgress.refreshSteps) {
         window.WorkflowProgress.refreshSteps('workflowProgress', 1);   // jurisdiction is now step 1 of the route
       }
+      // Product choice. No choice yet reads as LIHTC rental, the route the
+      // rail has always shown. Step 2's note names the step this product uses.
+      (function () {
+        var WP = window.WorkflowProgress;
+        var radios = document.querySelectorAll('input[name="sjProduct"]');
+        if (!WP || !WP.getProduct || !radios.length) return;
+        var note = document.getElementById('sjStepTwoNote');
+        var rentalNote = note ? note.innerHTML : '';
+        function sync(product) {
+          for (var i = 0; i < radios.length; i++) radios[i].checked = radios[i].value === product;
+          if (!note) return;
+          var step2 = WP.stepsFor(product)[1];
+          note.innerHTML = step2.routed
+            ? 'Step 2, <a href="' + step2.href + '">' + step2.label + '</a>, is optional context. Open it first to check whether ownership fits this place.'
+            : rentalNote;
+        }
+        sync(WP.getProduct() || 'lihtc-rental');
+        for (var j = 0; j < radios.length; j++) {
+          radios[j].addEventListener('change', function (e) {
+            if (WP.setProduct(e.target.value)) sync(e.target.value);
+          });
+        }
+      })();
+
       // Render LIHTC contextual tips for jurisdiction selection
       if (window.LihtcTips && window.LihtcTips.render) {
         window.LihtcTips.render('lihtcTipsMount-sj', ['lihtc_basics', 'qap', 'site_selection'], {
