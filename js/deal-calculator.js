@@ -214,6 +214,14 @@
     return dealEngine().costPerGrossSf(tdc, grossSf);
   }
 
+  // Preserve the existing source fallback for an absent or malformed override.
+  function readDeveloperFundingPrograms(programs) {
+    if (Array.isArray(programs)) return programs;
+    if (programs && Array.isArray(programs.programs)) return programs.programs;
+    return _developerOwnershipFunding && Array.isArray(_developerOwnershipFunding.programs)
+      ? _developerOwnershipFunding.programs : [];
+  }
+
   function readOwnershipSources(input) {
     var maxAffordablePrice = input.maxAffordablePrice ||
       (window.OwnershipFinance && window.OwnershipFinance.maxAffordablePrice) ||
@@ -225,7 +233,7 @@
     var resolved = Object.assign({}, input, {
       hasAffordablePriceHelper: typeof maxAffordablePrice === 'function',
       maxAffordableSalePrice: price,
-      developerFundingPrograms: input.developerFundingPrograms || _developerOwnershipFunding,
+      developerFundingPrograms: readDeveloperFundingPrograms(input.developerFundingPrograms),
       ownershipResale: computeOwnershipResale({ maxAffordableSalePrice: price,
         ami4Person: +input.ami4Person, targetAmiPct: target }, input)
     });
@@ -280,7 +288,7 @@
   function computeDeveloperOwnershipFundingStack(feasibility, options) {
     var opts = options || {};
     return dealEngine().computeDeveloperOwnershipFundingStack(feasibility, Object.assign({}, opts, {
-      programs: opts.programs || _developerOwnershipFunding
+      programs: readDeveloperFundingPrograms(opts.programs)
     }));
   }
 
