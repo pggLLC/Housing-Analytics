@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { readdir, readFile } from 'node:fs/promises';
+import path from 'node:path';
 import { isSensitive } from '../scripts/lib/public-sensitive-patterns.mjs';
 import { pageTabs, pageText, redirectAlias, wordBag } from '../scripts/lib/search-index.mjs';
 
@@ -61,13 +62,19 @@ for (const county of counties) {
   assert(record.t.includes(county.name), `${county.geoid}'s search title must carry the name the ranking index gives it`);
 }
 
-for (const id of researchIds) {
-  assert(searchUrls.has(`research-brief.html?id=${encodeURIComponent(id)}`), `search must find curated brief ${id}`);
+for (const brief of curated.briefs.filter((b) => b.is_curated)) {
+  const record = searchIndex.find((r) => r.u === `research-brief.html?id=${encodeURIComponent(brief.id)}`);
+  assert(record, `search must find curated brief ${brief.id}`);
+  // The reader renders the implications and the source titles, so their words must be searchable too.
+  const rendered = [brief.summary, brief.implications, ...(brief.articles || []).map((a) => a && a.title)]
+    .flat().filter((v) => typeof v === 'string').join(' ');
+  const missing = wordBag(pageText(rendered)).split(' ').filter((w) => w.length >= 4 && !searchable(record).includes(w));
+  assert.deepEqual(missing.slice(0, 5), [], `brief ${brief.id}: rendered words missing from its search record`);
 }
 
-const servedDocs = (await readdir('dist/docs')).filter((name) => name.endsWith('.md'));
+const servedDocs = (await readdir('dist/docs', { recursive: true })).filter((name) => name.endsWith('.md'));
 assert(servedDocs.length > 0, 'no public methodology docs found to check in search');
-for (const name of servedDocs) assert(searchUrls.has(`docs/${name}`), `search must find docs/${name}`);
+for (const name of servedDocs) assert(searchUrls.has(`docs/${name.split(path.sep).join('/')}`), `search must find docs/${name}`);
 
 const servedRootPages = (await readdir('dist')).filter((name) => name.endsWith('.html'));
 let tabbedPages = 0;

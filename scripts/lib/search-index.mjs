@@ -127,7 +127,10 @@ export function briefRecords(curated) {
         d: clean(brief.summary || '').slice(0, 300),
         k: clean(brief.policy_topic || 'Research brief')
       };
-      const b = wordBag(clean(brief.summary || ''), `${rec.t} ${rec.k}`);
+      // Every field the reader renders as text: summary, practical implications, source titles.
+      const text = [brief.summary, brief.implications, ...(brief.articles || []).map((a) => a && a.title)]
+        .flat().filter((v) => typeof v === 'string').map(clean).join(' ');
+      const b = wordBag(text, `${rec.t} ${rec.k}`);
       if (b) rec.b = b;
       return rec;
     });
