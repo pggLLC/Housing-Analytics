@@ -202,6 +202,8 @@ function dealCalc(extraHtml) {
   const dom = new JSDOM('<!doctype html><div id="dc-tz-note" hidden></div>' + (extraHtml || ''), { runScripts: 'outside-only' });
   dom.window.fetch = () => Promise.reject(new Error('offline'));
   dom.window.eval(read('js/transit-zone.js'));
+  dom.window.eval(read('js/deal-calculator-math.js'));
+  dom.window.eval(read('js/deal-engine.js'));
   dom.window.eval(read('js/deal-calculator.js'));
   return { w: dom.window, note: dom.window.document.getElementById('dc-tz-note') };
 }
