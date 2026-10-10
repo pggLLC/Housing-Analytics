@@ -44,7 +44,7 @@ function normalize(text) {
 const CORE_PAGES = [
   'hna-comparative-analysis.html', 'lihtc-opportunity-finder.html', 'compare.html',
   'lihtc-allocations.html', 'chfa-portfolio.html', 'preservation.html',
-  'hna-scenario-builder.html', 'market-analysis.html', 'historical-trends.html',
+  'hna-scenario-builder.html', 'market-analysis.html',
   'insights.html', 'developer-pipeline.html', 'developer-brief.html',
   'data-status.html', 'data-review-hub.html', 'dashboard-data-sources-ui.html',
   'dashboard-data-quality.html', 'colorado-deep-dive.html', 'housing-needs-assessment.html',
