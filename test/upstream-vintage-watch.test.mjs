@@ -178,3 +178,68 @@ test('the tracker comments only when its status rows change', async () => {
   await h.run([forbidden]);
   assert.equal(h.comments.length, 1);
 });
+
+// ── CHFA tax credit rounds ─────────────────────────────────────────
+// A round CHFA has published must be in the repo (feed or bridge file); a
+// 404 is "not yet published"; anything else cannot establish absence.
+import os from 'node:os';
+import path from 'node:path';
+import { watchChfaRounds, chfaRoundUrl, chfaBridgeRel } from '../scripts/audit/upstream-vintage-watch.mjs';
+
+function chfaRoot({ feedYears = {}, bridges = [] }) {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'chfa-rounds-'));
+  const features = [];
+  for (const [year, credits] of Object.entries(feedYears)) {
+    for (const CREDIT of credits) features.push({ properties: { AwardYear: Number(year), CREDIT } });
+  }
+  fs.mkdirSync(path.join(root, 'data', 'affordable-housing', 'chfa-awards'), { recursive: true });
+  fs.writeFileSync(path.join(root, 'data', 'chfa-lihtc.json'), JSON.stringify({ features }));
+  for (const [y, n] of bridges) fs.writeFileSync(path.join(root, chfaBridgeRel(y, n)), '{}');
+  return root;
+}
+const page = (body) => () => new Response(body, { status: 200, headers: { 'content-type': 'text/html' } });
+const listed = page('<p>Crawford Commons, Clifton</p><p>Sponsor: Housing Resources</p>');
+function byUrl(map) {
+  const calls = [];
+  return { calls, fetch: async (url) => { calls.push(url); assert.ok(map[url], `unexpected probe ${url}`); return map[url](); } };
+}
+const OCT_2026 = new Date('2026-10-10T00:00:00Z');
+const ALL_2025_2026 = (r2026two) => ({
+  [chfaRoundUrl(2025, 'one')]: listed, [chfaRoundUrl(2025, 'two')]: listed,
+  [chfaRoundUrl(2026, 'one')]: listed, [chfaRoundUrl(2026, 'two')]: r2026two,
+});
+
+test('CHFA: a published round in neither the feed nor a bridge file is outdated', async () => {
+  const root = chfaRoot({ feedYears: { 2025: ['9% and State', '4% and State'] } });
+  const result = await watchChfaRounds(byUrl(ALL_2025_2026(statusResponse(404))).fetch, OCT_2026, root);
+  assert.equal(result.status, 'verified');
+  assert.equal(result.is_outdated, true);
+  assert.equal(result.latest_vintage, '2026 Round One');
+  assert.match(result.notes, /2026 Round One/);
+});
+
+test('CHFA: feed or bridge coverage of every published round is current; 404 is not yet published', async () => {
+  const root = chfaRoot({ feedYears: { 2025: ['9% and State', '4% and State'] }, bridges: [[2026, 'one']] });
+  const result = await watchChfaRounds(byUrl(ALL_2025_2026(statusResponse(404))).fetch, OCT_2026, root);
+  assert.equal(result.status, 'verified');
+  assert.equal(result.is_outdated, false);
+  assert.equal(result.current_vintage, '2026 Round One (bridge)');
+});
+
+test('CHFA: a later round needs its own coverage; one round of the year does not cover the other', async () => {
+  const root = chfaRoot({ feedYears: { 2025: ['9% and State', '4% and State'] }, bridges: [[2026, 'one']] });
+  const result = await watchChfaRounds(byUrl(ALL_2025_2026(listed)).fetch, OCT_2026, root);
+  assert.equal(result.is_outdated, true);
+  assert.equal(result.latest_vintage, '2026 Round Two');
+});
+
+test('CHFA: a blocked or empty page is unverifiable, never "every round is in the repo"', async () => {
+  const root = chfaRoot({ feedYears: { 2025: ['9% and State', '4% and State'] }, bridges: [[2026, 'one']] });
+  for (const bad of [statusResponse(403), page('<html>challenge</html>')]) {
+    const result = await watchChfaRounds(byUrl(ALL_2025_2026(bad)).fetch, OCT_2026, root);
+    assert.equal(result.status, 'unverifiable');
+    assert.equal(result.is_outdated, null);
+    assert.equal(buildWatchPayload([result]).summary.errors, 1);
+    assert.doesNotMatch(result.notes, /Every published/);
+  }
+});

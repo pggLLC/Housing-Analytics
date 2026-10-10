@@ -18,7 +18,10 @@
  *   5. the page's "4% deals are about twice the size" copy agrees with the
  *      medians it is describing;
  *   6. missing credits / units are excluded (null), never summed as 0;
- *   7. the "not yet in the live feed" caption flips when the feed catches up.
+ *   7. the "not yet in the live feed" caption flips when the feed catches up;
+ *  11. a county's peer benchmark counts the latest round's awards in that
+ *      county while the feed lags, so its "most recent allocation" is not
+ *      the feed's last year (Mesa read 2024 beside a 2026 Round One award).
  */
 
 const assert = require('assert');
@@ -40,7 +43,7 @@ dom.window.eval(read('js/components/lihtc-by-year.js'));
 dom.window.eval(read(JS_REL));
 const HT = dom.window.HistoricalTrends;
 assert(HT && HT._internal, 'historical-trends.js must expose HistoricalTrends._internal');
-const { summarizeRound, dealStats, projects } = HT._internal;
+const { summarizeRound, bridgeBenchmarkRows, dealStats, projects } = HT._internal;
 
 const js = read(JS_REL);
 const html = read(HTML_REL);
@@ -142,4 +145,68 @@ assert(/id="aria-live-region"[^>]*aria-live="polite"[^>]*aria-atomic="true"/.tes
 const toggle = jsCode.slice(jsCode.indexOf('function _wireAwardToggle'));
 assert(/_announce\(/.test(toggle.slice(0, 800)), 'the Projects/Units toggle announces the new measure');
 
-console.log(`historical-trends real-data guard: PASS (${feed.length} feed projects, ${r.developments} round awards, 4%/9% median ${d.median4}/${d.median9})`);
+// 11. Peer benchmark: the latest round's awards count for their county until
+//     the feed carries the round's year, and never after (no double count).
+//     Agreement is with the round file's county attribution, not a pinned name.
+const countyAwards = round.awards.filter((a) => a.county);
+assert.strictEqual(countyAwards.length, round.awards.length, `every award in ${ROUND_REL} carries a county`);
+const allRows = bridgeBenchmarkRows(round, feed, null);
+if (!r.inFeed) {
+  assert.strictEqual(allRows.length, round.awards.length, 'every round award reaches the benchmark while the feed lags');
+  const feedCounty = (c) => feed.filter((f) => f.properties.CNTY_NAME === c);
+  [...new Set(countyAwards.map((a) => a.county))].forEach((c) => {
+    const rows = bridgeBenchmarkRows(round, feed, c);
+    assert.strictEqual(rows.length, countyAwards.filter((a) => a.county === c).length, `${c}: one row per award`);
+    rows.forEach((row) => assert.strictEqual(row.yrAlloc, yr, `${c}: bridge row carries the round year`));
+    const feedMax = Math.max(0, ...feedCounty(c).map((f) => f.properties.AwardYear || 0));
+    assert(feedMax < yr, `${c}: feed already has ${yr}, yet inFeed is false`);
+  });
+}
+assert.strictEqual(bridgeBenchmarkRows(round, caughtUp, null).length, 0, 'once the feed has the round year, nothing is added');
+assert.strictEqual(
+  bridgeBenchmarkRows({ metadata: { round: '2030 Round One' }, awards: [{ name: 'X', county: 'Mesa', total_units: null }] }, [], 'Mesa')[0].units,
+  null, 'an award with no unit count stays null, not 0');
+
+// 11b. Rendered: the page's own benchmark, driven through render() on the real
+//      files, agrees with the round file for a county the round reaches.
+async function renderedBenchmark() {
+  if (r.inFeed || !countyAwards.length) return null;
+  const page = new JSDOM(
+    '<select id="benchCounty"></select><input id="benchUnits" value=""><table><tbody id="benchTableBody"></tbody></table><p id="benchSummary"></p><div id="htErrorBanner" hidden></div>',
+    { runScripts: 'outside-only', url: 'http://127.0.0.1/historical-trends.html' });
+  page.window.fetch = (u) => {
+    const rel = String(u).replace(/^https?:\/\/[^/]+\//, '').replace(/^\//, '');
+    return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(readJson(rel)) });
+  };
+  page.window.eval(read('js/components/lihtc-by-year.js'));
+  page.window.eval(read(JS_REL));
+  page.window.HistoricalTrends.render();
+  for (let k = 0; k < 50 && page.window.document.getElementById('benchCounty').options.length < 2; k++) {
+    await new Promise((res) => setTimeout(res, 20));
+  }
+  const doc = page.window.document;
+  assert.strictEqual(doc.getElementById('htErrorBanner').hidden, true, 'render() reached the benchmark without error');
+  const sel = doc.getElementById('benchCounty');
+  const out = [];
+  for (const c of new Set(countyAwards.map((a) => a.county))) {
+  assert([...sel.options].some((o) => o.value === c), `${c} is offered in the county picker`);
+  sel.value = c;
+  sel.dispatchEvent(new page.window.Event('change'));
+  const summary = doc.getElementById('benchSummary').textContent;
+  const feedRows = feed.filter((f) => f.properties.CNTY_NAME === c);
+  const roundRows = round.awards.filter((a) => a.county === c);
+  const expectCount = feedRows.length + roundRows.length;
+  const expectUnits = feedRows.reduce((t, f) => t + (f.properties.N_UNITS || 0), 0) +
+    roundRows.reduce((t, a) => t + (a.total_units > 0 ? a.total_units : 0), 0);
+  assert(summary.startsWith(expectCount + ' LIHTC projects in ' + c), `${c} summary counts feed + round awards: ${summary}`);
+  assert(summary.includes(expectUnits.toLocaleString() + ' total units'), `${c} summary units include the round: ${summary}`);
+  assert(summary.includes('most recent allocation: ' + yr), `${c} most recent allocation is the round year: ${summary}`);
+  out.push(summary);
+  }
+  return out.join('\n  ');
+}
+
+renderedBenchmark().then((summary) => {
+  if (summary) console.log('  rendered benchmark: ' + summary);
+  console.log(`historical-trends real-data guard: PASS (${feed.length} feed projects, ${r.developments} round awards, 4%/9% median ${d.median4}/${d.median9})`);
+}).catch((e) => { console.error(e); process.exit(1); });

@@ -82,7 +82,62 @@ const SLA_CONFIG = [
     timestampField: 'last_checked',
     appliesWhile: (d) => !d || d.status !== 'published',
   },
+  // CHFA LIHTC — three questions, because "fetched this week" is not "current".
+  // The weekly fetch can succeed every Sunday while CHFA's feed itself carries
+  // no award newer than last December; on 2026-10-10 Mesa County's summary read
+  // "most recent allocation: 2024" beside a 2026 Round One award in Clifton.
+  //   1. Did the fetch run? (fetchedAt)
+  //   2. Does the repo know about CHFA's latest round? Newest award date across
+  //      the feed and the round bridge files. CHFA announces a round about every
+  //      six months (Round One ~May, Round Two ~November), so 200 days with no
+  //      newer award anywhere means a round was announced and not added.
+  //      upstream-vintage-watch.mjs confirms it against CHFA's round pages.
+  //   3. How far behind is CHFA's own feed? Warn only: the lag is upstream, the
+  //      remedy is a bridge file, and question 2 fails if that is missed.
+  { file: 'data/chfa-lihtc.json', slaDays: 9, cadence: 'weekly (fetch-chfa-lihtc.yml)' },
+  {
+    file: 'data/chfa-lihtc.json',
+    label: 'newest CHFA award in the feed or a round bridge file',
+    slaDays: 200,
+    cadence: 'CHFA rounds ~May and ~November; bridge a round under data/affordable-housing/chfa-awards/ until the feed has it',
+    timestampOf: newestChfaAward,
+  },
+  {
+    file: 'data/chfa-lihtc.json',
+    label: "newest award in CHFA's own property feed",
+    slaDays: 120,
+    cadence: "CHFA's property feed (updated by CHFA, irregularly)",
+    timestampOf: (data) => newestFeedAward(data),
+    warnOnly: true,
+    exception: "CHFA's feed lags its own announcements. Rounds are bridged by data/affordable-housing/chfa-awards/*.json; 4% awards made between rounds are not bridged and are missing until the feed catches up.",
+  },
 ];
+
+const CHFA_AWARDS_DIR = 'data/affordable-housing/chfa-awards';
+
+function newestFeedAward(data) {
+  let best = null;
+  for (const f of (data && data.features) || []) {
+    const v = f && f.properties && f.properties.AwardDate;
+    const t = typeof v === 'string' ? Date.parse(v) : NaN;
+    if (Number.isFinite(t) && (best == null || t > best.t)) best = { t, value: v };
+  }
+  return best && { value: best.value, source: 'feed AwardDate' };
+}
+
+async function newestChfaAward(data) {
+  let best = newestFeedAward(data);
+  let names = [];
+  try { names = (await fs.readdir(path.join(ROOT, CHFA_AWARDS_DIR))).filter(n => n.endsWith('.json')); } catch { /* none */ }
+  for (const n of names) {
+    const meta = ((await readJsonSafe(`${CHFA_AWARDS_DIR}/${n}`)) || {}).metadata || {};
+    const v = meta.announcement_date;
+    if (typeof v === 'string' && Number.isFinite(Date.parse(v)) && (!best || Date.parse(v) > Date.parse(best.value))) {
+      best = { value: v, source: `${n} announcement_date` };
+    }
+  }
+  return best;
+}
 
 // Fields to probe for an in-file "updated" timestamp, in priority order.
 // Many of our JSON outputs stamp one of these; we prefer them over mtime
@@ -148,6 +203,17 @@ async function checkOne(entry, nowMs) {
     return { ...entry, present: false };
   }
 
+  if (entry.timestampOf) {
+    // Computed from the content: a missing date is stale, never mtime.
+    const found = await entry.timestampOf(await readJsonSafe(entry.file));
+    const t = found ? Date.parse(found.value) : NaN;
+    const { timestampOf, ...row } = entry;
+    if (!Number.isFinite(t)) return { ...row, present: true, source: 'no dated award', asOf: null, ageDays: null, stale: true };
+    const ageDays = (nowMs - t) / 86_400_000;
+    return { ...row, present: true, asOf: new Date(t).toISOString(), source: found.source,
+             ageDays: Math.round(ageDays * 10) / 10, stale: ageDays > entry.slaDays };
+  }
+
   // Prefer an in-file timestamp when available.
   let recordedTs = null;
   let source     = 'mtime';
@@ -196,7 +262,7 @@ function format(result) {
   const age   = result.ageDays === null ? '    ?d' : `${String(result.ageDays).padStart(5)}d`;
   const sla   = `SLA ${result.slaDays}d`;
   const src   = result.source === 'mtime' ? 'mtime' : `field:${result.source}`;
-  return `${badge}  ${age}  ${sla.padEnd(10)}  ${src.padEnd(22)}  ${result.file}`;
+  return `${badge}  ${age}  ${sla.padEnd(10)}  ${src.padEnd(22)}  ${result.file}${result.label ? `  [${result.label}]` : ''}`;
 }
 
 async function main() {
@@ -238,7 +304,7 @@ async function main() {
       console.log('\nStale files (past SLA):');
       for (const r of stale) {
         console.log(
-          `  [${r.warnOnly ? 'warning' : 'blocking'} · ${r.ageDays === null ? 'undated' : r.ageDays + 'd'} past SLA of ${r.slaDays}d]  ${r.file}  (cadence: ${r.cadence})`,
+          `  [${r.warnOnly ? 'warning' : 'blocking'} · ${r.ageDays === null ? 'undated' : r.ageDays + 'd'} past SLA of ${r.slaDays}d]  ${r.file}${r.label ? ` [${r.label}]` : ''}  (cadence: ${r.cadence})`,
         );
         if (r.exception) console.log(`    exception: ${r.exception}`);
       }
