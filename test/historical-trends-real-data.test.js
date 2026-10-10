@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * historical-trends.html must show real CHFA data, and what it says about that
+ * The Historical Trends tab of colorado-deep-dive.html must show real CHFA data, and what it says about that
  * data must agree with the files it is computed from.
  *
  * Before this guard the page charted data/policy/chfa-awards-historical.json —
@@ -31,7 +31,7 @@ const read = (rel) => fs.readFileSync(path.join(ROOT, rel), 'utf8');
 const readJson = (rel) => JSON.parse(read(rel));
 
 const JS_REL = 'js/historical-trends.js';
-const HTML_REL = 'historical-trends.html';
+const HTML_REL = 'colorado-deep-dive.html'; // Historical Trends tab (historical-trends.html is a redirect stub)
 const ROUND_REL = 'data/affordable-housing/chfa-awards/2026-round-one.json';
 const FEED_REL = 'data/chfa-lihtc.json';
 

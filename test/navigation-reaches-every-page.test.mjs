@@ -51,6 +51,9 @@ const UNLINKED_BY_DESIGN = {
   'market-intelligence.html':
     'redirect stub to colorado-deep-dive.html#tab-signals since the two Colorado '
     + 'pages were merged; catches old links and bookmarks',
+  'historical-trends.html':
+    'redirect stub to colorado-deep-dive.html#tab-history since Historical Trends '
+    + 'became a Deep Dive tab; catches old links and bookmarks',
   'indibuild-pipeline-public.html':
     'redirect stub (394 bytes) to pipeline.html, which returns 200 in production; '
     + 'same reason — it catches old links rather than being navigated to',

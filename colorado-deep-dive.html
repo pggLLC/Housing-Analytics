@@ -317,6 +317,9 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   border-color: color-mix(in srgb, var(--accent, #096e65) 30%, transparent);
   color: var(--text);
 }
+.page-tab-summary { max-width:90ch; color:var(--muted); font-size:.9rem; margin:.35rem 0 0; padding-left:1.2rem; }
+.page-tab-summary li { margin:.15rem 0; }
+.tab-intro { max-width:90ch; color:var(--muted); font-size:.92rem; line-height:1.55; margin:.75rem 0 1.25rem; }
 .page-tab-btn:focus-visible {
   outline: 2px solid var(--accent, #096e65);
   outline-offset: 2px;
@@ -365,6 +368,8 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   <script defer src="js/components/table-header-tips.js"></script>
   <script src="js/components/policy-timeline.js"></script>
   <script src="js/components/lihtc-by-year.js"></script>
+  <script defer src="js/components/data-quality-summary.js"></script>
+  <script defer src="js/historical-trends.js"></script>
 <style>
 /* Market Signals tab: moved from market-intelligence.html (merged into this page). */
     .mi-section {
@@ -551,6 +556,38 @@ h3 { font-size: 1.05rem; font-weight: 700; }
       .econ-kpi-grid { grid-template-columns: repeat(2, 1fr); }
       .lihtc-trend-container { height: 200px; }
     }
+/* Historical Trends tab: moved from historical-trends.html (merged into this page). */
+.ht-panel { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+.ht-panel h2 { margin-top: 0; font-size: 1.15rem; color: var(--text); }
+.ht-panel .ht-intro { font-size: .88rem; color: var(--muted); line-height: 1.55; margin-bottom: .75rem; }
+.ht-chart-wrap { position: relative; height: 340px; margin: 0.25rem 0 0.75rem; }
+@media (max-width: 600px) { .ht-chart-wrap { height: 280px; } }
+.ht-chart-head { display: flex; justify-content: space-between; align-items: center; gap: .75rem; flex-wrap: wrap; }
+.ht-chart-title { font-size: .95rem; font-weight: 700; color: var(--text); margin: .5rem 0 0; }
+.ht-seg { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.ht-seg button { font: inherit; font-size: .8rem; padding: .3rem .8rem; border: 0; background: var(--card); color: var(--muted); cursor: pointer; }
+.ht-seg button + button { border-left: 1px solid var(--border); }
+.ht-seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent, #fff); font-weight: 700; }
+.ht-seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.ht-stat-caption { font-size: .78rem; font-weight: 700; color: var(--muted); margin: 1rem 0 .4rem; }
+.ht-table-toggle { margin: 0 0 .5rem; font-size: .82rem; }
+.ht-table-toggle summary { cursor: pointer; color: var(--accent); }
+.ht-data-table { margin-top: .5rem; font-size: .8rem; font-variant-numeric: tabular-nums; }
+.ht-data-table th[scope="row"] { font-weight: 600; color: var(--text); background: none; border-bottom: 1px solid var(--border); }
+.ht-stat-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr)); gap: .5rem; margin: 0; padding: 0; }
+.ht-stat-list > div { padding: .5rem .65rem; border: 1px solid var(--border); border-radius: 6px; background: var(--bg2); }
+.ht-stat-list dt { font-size: .68rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 700; }
+.ht-stat-list dd { font-size: 1.05rem; font-weight: 700; color: var(--text); margin: 2px 0 0; }
+.ht-bench-controls { display: flex; gap: .75rem; margin-bottom: .75rem; flex-wrap: wrap; align-items: flex-end; }
+.ht-bench-controls label { display: flex; flex-direction: column; font-size: .78rem; color: var(--muted); }
+.ht-bench-controls select,
+.ht-bench-controls input { padding: .4rem .55rem; border: 1px solid var(--border); border-radius: 4px; background: var(--card); color: var(--text); font-size: .88rem; min-width: 180px; }
+.ht-bench-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.ht-bench-table th { background: var(--bg2); padding: .5rem .65rem; text-align: left; font-weight: 700; color: var(--muted); border-bottom: 2px solid var(--border); }
+.ht-bench-table td { padding: .5rem .65rem; border-bottom: 1px solid var(--border); }
+.ht-empty { text-align: center; color: var(--muted); padding: 1rem; font-style: italic; }
+.ht-error-banner { padding: 0.8rem 1rem; background: var(--bad-dim,#fee2e2); color: var(--bad,#991b1b); border: 1px solid var(--bad,#ef4444); border-radius: 6px; margin-bottom: 1rem; }
+
 /* Construction Labor & Costs tab */
 .cc-summary { font-size: 1rem; line-height: 1.6; color: var(--text); margin: 0; max-width: 80ch; }
 .mi-chart-container.cc-chart { height: 280px; }
@@ -583,9 +620,16 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <span class="kicker">Colorado</span>
 <h1>Colorado Deep Dive</h1>
 <p class="hero-subtitle">
-            Comprehensive analysis of DDAs, QCTs, LIHTC projects, market dynamics, concessions, foreclosures, and comparative performance, plus statewide market signals and monthly construction labor and material costs
+            Comprehensive analysis of DDAs, QCTs, LIHTC projects, market dynamics, concessions, foreclosures, and comparative performance, plus statewide market signals, monthly construction labor and material costs, and Colorado's LIHTC award history
         </p>
-<p style="max-width:90ch;color:var(--muted);font-size:.9rem;margin:.5rem 0 0;">This page focuses exclusively on Colorado. Use the interactive map to visualise LIHTC projects alongside Qualified Census Tracts (QCT) and Difficult Development Areas (DDA) — the HUD overlays that determine credit boost eligibility. Scroll down for county-level market metrics, CAR market reports, and Proposition 123 commitment data. The Market Signals tab holds statewide demand, supply, inventory and risk indicators, and the Construction Labor &amp; Costs tab tracks construction wages, labor availability and material prices month by month. Start with the map to understand geography, then use the KPI cards and charts to quantify need and opportunity.</p>
+<p style="max-width:90ch;color:var(--muted);font-size:.9rem;margin:.5rem 0 0;">This page focuses exclusively on Colorado. It is organised in tabs:</p>
+<ul class="page-tab-summary">
+  <li><strong>Deep Dive</strong>: the interactive map of LIHTC projects with HUD Qualified Census Tracts and Difficult Development Areas, plus county AMI gaps, concessions, foreclosures and Colorado-vs-national comparisons.</li>
+  <li><strong>Market Signals</strong>: statewide and county demand, supply, affordable inventory and risk indicators.</li>
+  <li><strong>Construction Labor &amp; Costs</strong>: construction wages, labor availability and material prices, month by month.</li>
+  <li><strong>Historical Trends</strong>: CHFA award history by credit type, the growth of Colorado's LIHTC stock, and a peer-project benchmark by county and size.</li>
+  <li><strong>Market Overview</strong>: the 2026 allocation, credit pricing, metro breakdown and CHFA priorities at a glance.</li>
+</ul>
 <span class="freshness-badge data-reliability-badge" data-freshness="now" aria-label="Data freshness indicator" aria-live="polite"><span class="sr-only">Data is current</span></span>
 <a href="data-status.html" style="font-size:.75rem;color:var(--link);margin-left:.25rem;">View diagnostics</a>
 <small id="deepDiveDataTimestamp" class="data-timestamp"></small>
@@ -607,15 +651,17 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-<!-- ── Outer tab navigation: Deep Dive | Market Signals | Construction Labor & Costs | Market Overview ── -->
+<!-- ── Outer tab navigation: Deep Dive | Market Signals | Construction Labor & Costs | Historical Trends | Market Overview ── -->
 <div role="tablist" aria-label="Page sections" class="page-tabs">
   <button role="tab" id="btn-deepdive" aria-selected="true" aria-controls="tab-deepdive" class="page-tab-btn">Deep Dive</button>
   <button role="tab" id="btn-signals" aria-selected="false" aria-controls="tab-signals" class="page-tab-btn">Market Signals</button>
   <button role="tab" id="btn-construction" aria-selected="false" aria-controls="tab-construction" class="page-tab-btn">Construction Labor &amp; Costs</button>
+  <button role="tab" id="btn-history" aria-selected="false" aria-controls="tab-history" class="page-tab-btn">Historical Trends</button>
   <button role="tab" id="btn-market" aria-selected="false" aria-controls="tab-market" class="page-tab-btn">Market Overview</button>
 </div>
 
 <div role="tabpanel" id="tab-deepdive" aria-labelledby="btn-deepdive">
+<p class="tab-intro">The geographic view of Colorado's affordable housing. Start with the map of LIHTC projects and the HUD QCT and DDA overlays that decide basis-boost eligibility, then use the sections below for county AMI gaps, concessions and foreclosures, and how Colorado compares with the nation.</p>
 
 <div class="callout callout-info" style="margin: 1rem 0 1.5rem;">
   <h3 style="margin-top:0;">June 2026 Read — Cooling Prices, Tariff Pressure on Supply</h3>
@@ -2026,6 +2072,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
      two separate panels on purpose: there is no public Colorado materials
      index, so blending them would need an assumed weighting. -->
 <div role="tabpanel" id="tab-construction" aria-labelledby="btn-construction" hidden>
+  <p class="tab-intro">What it costs to build in Colorado right now. Labor and materials are shown separately: construction wages, employment and openings from the BLS, and input prices from the BLS producer price indexes, refreshed after each monthly jobs release. Use them to check the hard-cost assumptions in a pro forma.</p>
   <section class="mi-section" aria-labelledby="cc-heading" style="margin-top:0;">
     <h2 id="cc-heading">Construction labor and costs in Colorado</h2>
     <p id="ccSummary" class="cc-summary" aria-live="polite">Loading the monthly labor and cost summary…</p>
@@ -2081,8 +2128,140 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 </div><!-- /tab-construction -->
 
 
+<!-- ── Historical Trends tab panel ──
+     Was its own page, historical-trends.html, until it was merged in here;
+     that URL now redirects here (#tab-history). js/historical-trends.js
+     renders it on first reveal so Chart.js measures a visible canvas. -->
+<div role="tabpanel" id="tab-history" aria-labelledby="btn-history" hidden>
+  <p class="tab-intro">What past LIHTC deals in Colorado actually looked like, from CHFA's live property feed and its 2026 Round One award report. Three lenses: awards per year by credit type, to calibrate a QAP submission; the stock of LIHTC units by award year, to see when each period added housing; and a peer benchmark, to find comparable projects by county and size. Use these figures to check the assumptions in the <a data-workflow-link="history-deal" href="deal-calculator.html">Deal Calculator</a>.</p>
+  <p class="data-note" role="note" style="margin-top:0;"><strong>Historical data, not forecasts.</strong> These panels describe what happened. They do not predict future awards, pricing or market behavior, and they do not replace a CHFA pre-application meeting or a syndicator's pricing letter.</p>
+  <div id="aria-live-region" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div id="htErrorBanner" class="ht-error-banner" hidden></div>
+
+
+  <!-- Data Quality Summary -->
+  <div id="htDataQuality"></div>
+  <p id="htFeedCoverage" class="data-note">CHFA feed coverage unavailable until loaded.</p>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.DataQualitySummary) {
+      window.DataQualitySummary.render('htDataQuality', {
+        sources: [
+          { name: 'CHFA 2026 Round One award report', status: 'primary', vintage: '2026', coverage: '14 developments, 634 units', note: 'Parsed from CHFA\u2019s published award report; bridges the months before the live feed carries the round' },
+          { name: 'CHFA LIHTC (live)', status: 'primary', vintage: 'See feed coverage below', coverage: 'CHFA Colorado projects by award year', note: 'Refreshed weekly from CHFA HousingTaxCreditProperties_view feature service; AwardYear is the credits-reserved year (typically 2–3y before placed-in-service) — most recent allocations may not yet appear' }
+        ],
+        limitations: 'Historical view only \u2014 not a forecast. Application scores and applicant counts are not shown: no verified source for them is in this repository yet. CHFA AwardYear is the credits-reserved year (typically 2\u20133y before placed-in-service), so recent rounds are represented but their projects are still in construction or lease-up.'
+      });
+    }
+  });
+  </script>
+
+  <!-- Panel 1: Annual awards by credit type -->
+  <section class="ht-panel" aria-labelledby="htCHFAHeading">
+    <h2 id="htCHFAHeading">Awards per Year, by Credit Type</h2>
+    <p class="ht-intro">
+      Every Colorado LIHTC project in CHFA&rsquo;s live property feed, counted by the year its
+      credits were reserved. 9% credits are competitive and capped; 4% credits come with
+      tax-exempt bond financing and are not. Switch to <strong>Units</strong> to see how much
+      housing each year&rsquo;s awards represent &mdash; 4% deals are typically about twice the size.
+    </p>
+    <div class="ht-chart-head">
+      <p class="ht-chart-title" id="chfaChartTitle">Colorado LIHTC awards per year</p>
+      <div class="ht-seg" role="group" aria-label="Measure">
+        <button type="button" data-award-metric="projects" aria-pressed="true">Projects</button>
+        <button type="button" data-award-metric="units" aria-pressed="false">Units</button>
+      </div>
+    </div>
+    <div class="ht-chart-wrap" data-source="CHFA HousingTaxCreditProperties_view" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit" data-source-type="raw">
+      <canvas id="chfaTimelineChart" role="img" aria-label="Stacked bar chart: Colorado LIHTC awards per year, 9% competitive vs 4% bond-financed" aria-describedby="chfaChartDesc"></canvas>
+    </div>
+    <p id="chfaChartDesc" class="sr-only">Stacked bar chart of Colorado LIHTC awards per year, split into 9% competitive and 4% bond-financed credits. The data table below lists every value.</p>
+    <div id="chfaTable"></div>
+    <div id="dealStats"></div>
+    <div id="chfaStats"></div>
+    <p style="font-size:.72rem;color:var(--faint);margin:.75rem 0 0;">
+      Chart and typical-deal figures: <a href="data/chfa-lihtc.json">chfa-lihtc.json</a> (CHFA live feed).
+      Latest-round figures: <a href="data/affordable-housing/chfa-awards/2026-round-one.json">2026-round-one.json</a>,
+      parsed from <a href="https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions" target="_blank" rel="noopener">CHFA&rsquo;s 2026 Round One award report</a>.
+      Application scores and applicant counts are not shown: no verified source for them is in this
+      repository yet. See the
+      <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener">current QAP</a>
+      for how applications are scored.
+    </p>
+  </section>
+
+  <!-- Panel 2: LIHTC Stock Trajectory -->
+  <section class="ht-panel" aria-labelledby="htStockHeading">
+    <h2 id="htStockHeading">LIHTC Stock Trajectory</h2>
+    <p class="ht-intro">
+      Units in Colorado LIHTC projects, added up by the year CHFA awarded their credits. CHFA&rsquo;s
+      feed does not record when a project opened; projects usually open two to three years after
+      the award, so the most recent years include buildings still under construction.
+      Hover a year for that year&rsquo;s additions.
+    </p>
+    <p class="ht-chart-title" id="stockChartTitle">Cumulative units in Colorado LIHTC projects, by award year</p>
+    <div class="ht-chart-wrap" data-source="CHFA HousingTaxCreditProperties_view" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit" data-source-type="raw">
+      <canvas id="stockTimelineChart" role="img" aria-label="Line chart: cumulative units in Colorado LIHTC projects by award year"></canvas>
+    </div>
+    <div id="stockTable"></div>
+    <div id="stockStats"></div>
+    <p style="font-size:.72rem;color:var(--faint);margin:.75rem 0 0;">
+      Source: <a href="data/chfa-lihtc.json">chfa-lihtc.json</a>
+      (CHFA HousingTaxCreditProperties live feed, <span data-chfa-series-source>coverage unavailable until loaded</span>) &middot; cross-reference
+      <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC database</a>
+    </p>
+  </section>
+
+  <!-- Panel 3: Peer Benchmark -->
+  <section class="ht-panel" aria-labelledby="htBenchHeading">
+    <h2 id="htBenchHeading">Peer Project Benchmark</h2>
+    <p class="ht-intro">
+      Pick a county (and optionally a target unit count) to see LIHTC projects in the same
+      market. Sorted by unit-count proximity when you enter a target, or by most-recent
+      allocation year otherwise. Use for AMI-mix calibration, unit-count sanity-checking,
+      and operating-performance benchmarking.
+    </p>
+    <div class="ht-bench-controls">
+      <label for="benchCounty">County
+        <select id="benchCounty" aria-label="Colorado county"
+                data-jurisdiction-search data-jurisdiction-search-type="County"
+                data-jurisdiction-search-label="Search counties"
+                data-jurisdiction-search-placeholder="Type a county name…">
+          <option value="">Loading&hellip;</option>
+        </select>
+      </label>
+      <label for="benchUnits">Target unit count (optional)
+        <input id="benchUnits" type="number" min="0" step="5" placeholder="e.g. 60" aria-label="Target unit count for peer comparison">
+      </label>
+    </div>
+    <p id="benchSummary" style="font-size:.85rem;color:var(--muted);margin:0 0 .5rem;"></p>
+    <div style="overflow-x:auto;">
+      <table class="ht-bench-table">
+        <thead>
+          <tr>
+            <th scope="col">Project</th>
+            <th scope="col">City</th>
+            <th scope="col" style="text-align:right">Units</th>
+            <th scope="col" style="text-align:right">Year allocated</th>
+            <th scope="col">Credit type</th>
+          </tr>
+        </thead>
+        <tbody id="benchTableBody">
+          <tr><td colspan="5" class="ht-empty">Select a county to see peer LIHTC projects.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.72rem;color:var(--faint);margin:.75rem 0 0;">
+      Top 20 closest-size peers shown. For full county project detail, see the
+      <a href="chfa-portfolio.html">CHFA Portfolio</a> page.
+    </p>
+  </section>
+
+</div><!-- /tab-history -->
+
 <!-- ── Market Overview tab panel ── -->
 <div role="tabpanel" id="tab-market" aria-labelledby="btn-market" hidden>
+  <p class="tab-intro">A one-screen summary of Colorado's LIHTC market: this year's CHFA allocation and active portfolio, recent credit pricing, key findings by metro area, and CHFA's 2026 priorities.</p>
 
   <!-- F118-1 — strip was hardcoded $287M/78/8940/$49. Now wired live from
        CHFA R1 awards JSON + CHFA properties GeoJSON + DOLA population. -->
@@ -2757,12 +2936,15 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 <script defer src="js/co-construction-costs.js"></script>
 <script defer src="js/audit-hook.js"></script>
 
-<!-- ── Outer tab toggle: Deep Dive | Market Signals | Construction Labor & Costs | Market Overview ── -->
+<!-- ── Outer tab toggle: one panel per .page-tabs button ── -->
 <script>
 (function () {
   function initPageTabs() {
     var tabs   = document.querySelectorAll('[role="tablist"].page-tabs [role="tab"]');
-    var panels = document.querySelectorAll('#tab-deepdive, #tab-signals, #tab-construction, #tab-market');
+    /* Every panel a tab button names, so a new tab needs only its button and panel. */
+    var panels = Array.prototype.map.call(tabs, function (t) {
+      return document.getElementById(t.getAttribute('aria-controls'));
+    }).filter(Boolean);
     var announce = document.getElementById('statusPanel');
     if (!tabs.length) return;
 
@@ -2792,6 +2974,11 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       if (targetId === 'tab-construction' && window.CoConstructionCosts) {
         window.CoConstructionCosts.init();
       }
+      /* Historical Trends fetches and draws once, on first reveal. */
+      if (targetId === 'tab-history' && window.HistoricalTrends && !window.__htRendered) {
+        window.__htRendered = true;
+        window.HistoricalTrends.render();
+      }
       /* Market Signals loads its feeds on first reveal; later reveals resize its charts. */
       if (targetId === 'tab-signals' && window.MarketIntelligence) {
         window.MarketIntelligence.init();
@@ -2819,7 +3006,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       });
     });
 
-    /* A hash naming an outer panel opens it: market-intelligence.html redirects to #tab-signals. */
+    /* A hash naming an outer panel opens it: market-intelligence.html redirects to #tab-signals, historical-trends.html to #tab-history. */
     var hash = window.location.hash.replace('#', '');
     if (hash && hash !== 'tab-deepdive' && document.querySelector('.page-tabs [aria-controls="' + hash + '"]')) {
       select(hash);
