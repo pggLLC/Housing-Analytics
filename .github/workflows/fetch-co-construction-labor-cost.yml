@@ -64,16 +64,20 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Two manifests, in this order: data/manifest.json records the
+          # byte count of data/_manifest.json (AGENTS.md, two-manifest trap).
+          npm run -s audit:file-manifest
           python3 scripts/rebuild_manifest.py
-          git add data/market/co-construction-labor-cost.json data/manifest.json
+          git add data/market/co-construction-labor-cost.json data/_manifest.json data/manifest.json
           if git diff --cached --quiet; then
             echo "No changes to commit — data is up to date."
           else
             git commit -m "chore: update CO construction labor cost data [$(date -u '+%Y-%m-%d')]"
             git pull --rebase --autostash -X theirs origin main
+            npm run -s audit:file-manifest
             python3 scripts/rebuild_manifest.py
             if ! git diff --quiet -- data/; then
-              git add data/manifest.json
+              git add data/_manifest.json data/manifest.json
               git commit --amend --no-edit
             fi
             git push

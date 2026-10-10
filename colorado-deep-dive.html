@@ -2792,7 +2792,10 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       if (targetId === 'tab-construction' && window.CoConstructionCosts) {
         window.CoConstructionCosts.init();
       }
-      /* Market Signals charts were built while hidden; resize them now that they have a box. */
+      /* Market Signals loads its feeds on first reveal; later reveals resize its charts. */
+      if (targetId === 'tab-signals' && window.MarketIntelligence) {
+        window.MarketIntelligence.init();
+      }
       if (targetId === 'tab-signals' && window.Chart && window.Chart.instances) {
         Object.keys(window.Chart.instances).forEach(function (k) {
           var c = window.Chart.instances[k];

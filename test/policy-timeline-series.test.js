@@ -17,10 +17,11 @@ const plain = v => JSON.parse(JSON.stringify(v));
 const wait = async (fn, message = 'render completed') => { for (let i = 0; i < 400 && !fn(); i++) await new Promise(r => setTimeout(r, 5)); assert(fn(), message); };
 // market-intelligence.html is now the Market Signals tab of colorado-deep-dive.html.
 const pages = ['economic-dashboard.html', 'colorado-deep-dive.html'];
-function render(page, data = feed, missing = []) {
+function render(page, data = feed, missing = [], hash) {
   const charts = new Map();
   const dom = new JSDOM(read(page), {
-    runScripts: 'dangerously', url: 'https://cohoanalytics.com/' + page,
+    // The Market Signals tab loads only when opened, so open it by hash.
+    runScripts: 'dangerously', url: 'https://cohoanalytics.com/' + page + (hash !== undefined ? hash : page === 'colorado-deep-dive.html' ? '#tab-signals' : ''),
     pretendToBeVisual: true, virtualConsole: new VirtualConsole(),
     beforeParse(w) {
       w.fetch = async url => {
@@ -291,4 +292,15 @@ test('no page or client JS keeps policy-event literals outside the data record',
   }
   assert(htmlPages.length > 500 && scanned > 300, 'non-empty repository-wide scan');
   console.log('Scanned ' + htmlPages.length + ' pages and ' + scanned + ' script blocks/files for duplicated policy events.');
+});
+
+test('the Deep Dive does not load Market Signals until its tab is opened', async () => {
+  const r = render('colorado-deep-dive.html', feed, [], '');
+  try {
+    await wait(() => r.charts.has('foreclosure-chart'), 'the Deep Dive tab rendered');
+    await new Promise(res => setTimeout(res, 200));
+    for (const id of ['demandChart', 'supplyChart', 'lihtcTrendChart']) assert.equal(r.charts.has(id), false, id + ' built while its tab was hidden');
+    r.doc.getElementById('btn-signals').click();
+    await wait(() => ['demandChart', 'supplyChart', 'lihtcTrendChart'].every(id => r.charts.has(id)), 'Market Signals rendered once opened');
+  } finally { r.dom.window.close(); }
 });
