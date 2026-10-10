@@ -101,6 +101,16 @@ test('privacy policy names the provider navigation.js loads', () => {
   assert(!/does not currently use third-party analytics/.test(policy), 'privacy policy still says there is no analytics');
 });
 
+test('privacy policy says analytics are active exactly when the checked-in token is set', () => {
+  const token = (nav.match(/var CF_ANALYTICS_TOKEN = '([^']*)';/) || [])[1];
+  assert(token !== undefined, 'CF_ANALYTICS_TOKEN not found');
+  const policy = read('privacy-policy.html');
+  const saysActive = /This site uses Cloudflare Web Analytics/.test(policy);
+  const saysInactive = /analytics are not active yet/i.test(policy);
+  if (token) assert(saysActive && !saysInactive, 'token is set but the policy does not say analytics are active');
+  else assert(saysInactive && !saysActive, 'token is empty but the policy does not say analytics are inactive');
+});
+
 test('robots.txt: AI training crawlers blocked, search engines and AI search bots untouched', () => {
   const groups = [];
   let cur = null;
