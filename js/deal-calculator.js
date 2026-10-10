@@ -4718,6 +4718,10 @@
       return;
     }
     var dealInputs = {
+      // No project-specific funding amount or bound PMA score is supplied here.
+      // Keep them absent; program caps are not an available project balance.
+      softFundingAvailable: null,
+      pmaScore: null,
       geoid: fips || undefined,
       countyFips: fips || null,    // drives hard-cost geographic multiplier in predictor
       proposedUnits: units,
@@ -4759,6 +4763,10 @@
     // already swept [data-dc-mode], so set the current mode's state directly.
     recCard.hidden = currentDealMode() === 'ownership';
     var rec = result.base;
+    var esc = _referenceEscape;
+    var missing = Object.keys(rec.inputAvailability || {}).filter(function (key) {
+      return rec.inputAvailability[key].unavailableReason;
+    });
     recCard.innerHTML =
       '<h3 style="margin:0 0 0.5rem;font-size:0.95rem;">' +
       (rec.confidenceBadge || '') + ' Concept Recommendation: <strong>' +
@@ -4766,8 +4774,12 @@
       (rec.conceptType || '').slice(1) + ' Housing</strong>' +
       ' <span style="font-size:0.75em;color:var(--muted);">' + rec.confidence + ' confidence</span></h3>' +
       '<ul style="margin:0;padding-left:1.25rem;font-size:var(--small);">' +
-      (rec.keyRationale || []).map(function (r) { return '<li>' + r + '</li>'; }).join('') +
-      '</ul>';
+      (rec.keyRationale || []).map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('') +
+      '</ul>' + (missing.length ? '<div class="dc-note" data-predictor-missing><strong>Missing inputs</strong><ul>' +
+        missing.map(function (key) { var input = rec.inputAvailability[key];
+          return '<li data-missing-input="' + esc(key) + '" data-unavailable-reason="' + esc(input.unavailableReason) + '">' +
+            esc(input.label) + ': ' + esc(input.reason) + '</li>';
+        }).join('') + '</ul></div>' : '');
     recCard.hidden = false;
   }
 
@@ -4778,6 +4790,7 @@
     var mount = document.getElementById('dealCalcMount');
     if (!mount) return;
     render(mount);
+    _renderSoftFundingReference();
     var chfaLoad = window.__DealCalcChfaTablePromise || fetch('data/chfa-income-rent-limits-2026.json').then(function (r) {
       return r.ok ? r.json() : null;
     });
@@ -4948,7 +4961,7 @@
       }
     }).catch(function () { /* generic PAB note remains */ });
 
-    // #1973: the draft QAP's TZ per-project pairing, read from the HB26-1065
+    // #1973: the sourced QAP's TZ per-project pairing, read from the HB26-1065
     // entry. Soft-fail — the funding note then says the amounts could not be
     // loaded rather than show a number.
     fetch(_gapResolver('data/policy/tax-credit-legislation.json')).then(function (r) {
@@ -4961,9 +4974,11 @@
     }).then(function (data) {
       _softFundingStatus = data;
       _renderFundingContextCard();
+      _renderSoftFundingReference();
     }).catch(function () {
       _softFundingStatus = null;
       _renderFundingContextCard();
+      _renderSoftFundingReference();
     });
 
     fetch(_gapResolver('data/policy/developer-ownership-funding.json')).then(function (r) {
@@ -5433,7 +5448,7 @@
    * HB26-1065 Transit Zone (TZ) state credit — a possible source, never
    * added to the stack (#1937 Phase 4, #1973). Called by the PMA transit-zone
    * gate with a TransitZone.status() result. The line appears only when the
-   * site passes TransitZone.fundingPath. It states the draft QAP's per-project
+   * site passes TransitZone.fundingPath. It states the sourced QAP's per-project
    * pairing for the selected credit type. The amounts live only in the
    * HB26-1065 entry's `tz_credit_pairing` in
    * data/policy/tax-credit-legislation.json, pinned to the QAP text in
@@ -5443,8 +5458,7 @@
    */
   var TZ_CREDIT = {
     statewideCapMillions: 8.33,
-    years: '2027–2033',
-    qapCite: '2027–28 QAP Third Draft §3.B.2'
+    years: '2027–2033'
   };
   var _tzPairing = null;        // HB26-1065 entry's tz_credit_pairing, once loaded
   var _tzLastResult = null;     // last TransitZone result, for re-rendering
@@ -5452,7 +5466,8 @@
     var entries = legislation && Array.isArray(legislation.entries) ? legislation.entries : [];
     var entry = entries.filter(function (e) { return /^hb26-1065/i.test((e && e.id) || ''); })[0];
     var p = entry && entry.tz_credit_pairing;
-    _tzPairing = (p && p.nine_percent && p.four_percent_round_two) ? p : null;
+    _tzPairing = (p && p.nine_percent && p.four_percent_round_two)
+      ? Object.assign({}, p, { last_verified: p.last_verified || entry.last_verified || null }) : null;
     setTransitZoneContext(_tzLastResult);
   }
   function _tzMoney(n) {
@@ -5460,21 +5475,29 @@
   }
   function _tzPairingSentence(is4Pct) {
     var p = _tzPairing;
-    if (!p) return 'The draft QAP’s per-project amounts could not be loaded, so none is shown. ';
+    if (!p) return 'The QAP’s per-project amounts could not be loaded, so none is shown. ';
+    var title = p.title || p.source;
+    var date = p.source_date || p.date || p.last_verified;
+    if (!title || !date || (p.status !== 'draft' && p.status !== 'adopted')) {
+      return 'QAP status, source or date unavailable; per-project amounts are not shown. ';
+    }
+    var documentLabel = title + ' (' + ((p.source_date || p.date) ? 'dated ' : 'checked ') + date + ')';
+    var qapStatus = p.status === 'draft' ? 'draft QAP (§3.L, not yet adopted)' : 'adopted QAP (§3.L)';
     var main = is4Pct ? p.four_percent_round_two : p.nine_percent;
     var alt = p.if_no_state_gap_funds &&
       (is4Pct ? p.if_no_state_gap_funds.four_percent_round_two : p.if_no_state_gap_funds.nine_percent);
     var a27 = _tzMoney(main && main['2027']);
     var a28 = _tzMoney(main && main['2028']);
-    if (!a27 || !a28) return 'The draft QAP’s per-project amounts could not be read, so none is shown. ';
-    // The draft pairs annual credit; HB26-1065 credit is claimed in each of
+    if (!a27 || !a28) return 'The QAP’s per-project amounts could not be read, so none is shown. ';
+    // The sourced QAP pairs annual credit; HB26-1065 credit is claimed in each of
     // six credit years, so an amount without its unit reads as a total.
-    if (p.unit !== 'annual') return 'The draft QAP’s per-project amounts could not be read, so none is shown. ';
+    if (p.unit !== 'annual') return 'The QAP’s per-project amounts could not be read, so none is shown. ';
     var s = is4Pct
-      ? 'For a 4% application in Round Two, the draft QAP (§3.L, not yet adopted) lets CHFA pair up to ' + a27 +
+      ? 'For a 4% application in Round Two, the ' + qapStatus + ' lets CHFA pair up to ' + a27 +
         ' a year (2027 awards) or ' + a28 + ' a year (2028 awards) of annual standard state credit or TZ credit, where eligible, alongside accelerated state credit. '
-      : 'For a 9% application, the draft QAP (§3.L, not yet adopted) pairs, if requested, a fixed ' + a27 +
+      : 'For a 9% application, the ' + qapStatus + ' pairs, if requested, a fixed ' + a27 +
         ' a year (2027 awards) or ' + a28 + ' a year (2028 awards) of annual standard state credit or TZ credit, where eligible. ';
+    s = documentLabel + '. ' + s;
     s += 'These are annual amounts, claimed in each credit year, not a project total. ';
     s += 'It is one allowance: TZ credit replaces standard state credit, it does not add to it. ';
     var b27 = _tzMoney(alt && alt['2027']);
@@ -5483,7 +5506,8 @@
       s += 'If state gap funds are not available under the §3.B.9 pilot, §3.L.1 sets ' + (is4Pct ? 'up to ' : '') +
         b27 + ' a year (2027) and ' + b28 + ' a year (2028) instead. ';
     }
-    return s + 'Check the final QAP before relying on these amounts. ';
+    return s + (p.status === 'draft' ? 'Check the final QAP before relying on these amounts. '
+      : 'Confirm project eligibility under the adopted QAP. ');
   }
   function setTransitZoneContext(result) {
     _tzLastResult = result || null;
@@ -5503,9 +5527,8 @@
       '<strong>Possible source, not added to this stack: Colorado Transit Zone (TZ) state credit (HB26-1065).</strong> ' +
       'This site is inside a Transit and Housing Investment Zone on OEDIT’s published map. ' +
       'CHFA may allocate up to $' +
-      TZ_CREDIT.statewideCapMillions.toFixed(2) + ' million a year statewide in ' + TZ_CREDIT.years + ', in lieu of standard state credit (' +
-      TZ_CREDIT.qapCite + '). ' +
-      '<span data-tz-pairing="' + (_tzPairing ? (is4Pct ? '4pct' : '9pct') : 'unavailable') + '">' +
+      TZ_CREDIT.statewideCapMillions.toFixed(2) + ' million a year statewide in ' + TZ_CREDIT.years + ', in lieu of standard state credit. ' +
+      '<span data-qap-status="' + esc(_tzPairing && _tzPairing.status || 'unavailable') + '" data-tz-pairing="' + (_tzPairing ? (is4Pct ? '4pct' : '9pct') : 'unavailable') + '">' +
       esc(_tzPairingSentence(is4Pct)) + '</span>' +
       '<span data-tz-designation="' + esc(result.designation) + '" style="color:var(--muted);">' + esc(result.program.programRule) + '</span>';
   }
@@ -6016,129 +6039,72 @@
   // F197 — Soft-funding program reference panel
   // ──────────────────────────────────────────────────────────────────
   //
-  // The G — Multi-tranche soft debt UI shows 14 programs in a dropdown
-  // on each tranche row, but never names or describes them anywhere
-  // visible. This panel surfaces all 14 programs at once with a one-
-  // sentence description, the authority URL, typical use, and whether
-  // the program is loan / grant / hybrid.
-  //
-  // Sources for descriptions + URLs:
-  //   • data/policy/soft-funding-status.json — structured program metadata
-  //     (NOFA dates, awarded amounts, restrictions, contact URLs)
-  //   • data/core/educational-content.json — HOME / CDBG / Prop 123 explainers
-  //   • Public CHFA / DOLA / HUD / IRS authority pages
-  //
-  // Inlined to avoid an extra fetch round-trip + keep the panel rendering
-  // synchronous. Mirrors SOFT_PROGRAMS array order so the dropdown and
-  // reference panel show programs in the same sequence.
+  // The reference follows the tranche dropdown's identifiers and order.
+  // Program facts come from the same loaded policy record as the funding
+  // context card; an unmapped/custom program has no verified terms here.
+  // Prop 123 keeps the shared policy timeline description. The impact-fee
+  // card retains its statutory context, without inventing loan terms.
+  var _softFundingTimelineEvent = null;
+  var SOFT_REFERENCE = [
+    { k: 'chfa_htf', id: 'CHFA-HTF', name: 'CHFA HTF' },
+    { k: 'prop123', id: 'PROP123-AHTF', name: 'Prop 123' },
+    { k: 'local_pha', name: 'Local PHA / Housing Trust' },
+    { k: 'chfa_cmf', id: 'CHFA-CMF', name: 'CHFA Capital Magnet Fund' },
+    { k: 'dola_htf', id: 'DOLA-HTF', name: 'DOLA HTF' },
+    { k: 'home', id: 'HOME-CO', name: 'HOME' },
+    { k: 'cdbg', name: 'CDBG' },
+    { k: 'nhtf', id: 'NHTF-CO', name: 'NHTF' },
+    { k: 'impact_fee_loan', name: 'Impact Fee Loan / Waiver',
+      notes: 'C.R.S. 29-20-104.5(5): a local government "may waive" an impact fee on low- or moderate-income or affordable employee housing as it defines it — permitted, not required. Subsection (6) allows deferring collection to building permit or certificate of occupancy. Water/sewer taps are often charged by a separate district. Verified local measures: data/policy/fee-reductions.json.' },
+    { k: 'sponsor_loan', name: 'Sponsor / Affiliate Loan' },
+    { k: 'historic_tc', name: 'Historic Tax Credit (cash equivalent)' },
+    { k: 'nmtc', id: 'NMTC-CO', name: 'NMTC' },
+    { k: 'seller_carry', name: 'Seller-carry note' },
+    { k: 'other', name: 'Other / custom' }
+  ];
+  function _referenceEscape(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function _renderSoftFundingReference() {
+    var listEl = document.getElementById('dc-soft-funding-ref-list');
+    if (!listEl) return;
+    var esc = _referenceEscape;
+    var programs = _softFundingStatus && _softFundingStatus.programs || {};
+    listEl.innerHTML = SOFT_REFERENCE.map(function (ref) {
+      var p = programs[ref.id];
+      var timeline = ref.k === 'prop123' && _softFundingTimelineEvent;
+      var description = timeline ? timeline.detail : p && p.description;
+      var sourceUrl = p && p.source_url;
+      // Source strings are data, never markup or executable URLs.
+      var url = '';
+      try { if (new URL(sourceUrl).protocol === 'https:') url = sourceUrl; } catch (_) {}
+      var cap = p && p.max_rule && p.max_rule.max_amount;
+      var capText = typeof cap === 'number' && isFinite(cap) ? '$' + cap.toLocaleString('en-US') : 'Unavailable';
+      var terms = p ?
+        '<p data-program-cap style="margin:.35rem 0;font-size:var(--small);">Published project cap: ' + esc(capText) + '</p>' +
+        '<p data-program-terms style="font-size:var(--tiny);">' + esc(p.max_rule && p.max_rule.text || 'Published cap terms unavailable.') + '</p>' +
+        '<p data-program-source-note style="font-size:var(--tiny);">' + esc(p.source_note || 'Source detail unavailable.') + '</p>' +
+        '<p data-program-verified style="font-size:var(--tiny);">Checked: ' + esc(p.last_verified || 'Unavailable') + '</p>'
+        : '<p data-unavailable-reason="program_terms_missing">Verified program terms unavailable. Obtain the applicable source and award terms.</p>';
+      return '<div data-program-reference="' + esc(ref.k) + '" data-program-id="' + esc(ref.id || '') + '" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--card);min-width:0;overflow-wrap:anywhere;">' +
+        '<strong>' + esc(p && p.name || ref.name) + '</strong>' +
+        '<p data-program-type style="font-size:var(--tiny);">' + esc(p && p.funding_type ? p.funding_type.replace(/_/g, ' ') : 'Funding type unavailable') + '</p>' +
+        '<p data-program-description="' + esc(ref.k) + '">' + esc(description || 'No verified description in the program reference.') + '</p>' + terms +
+        (ref.notes ? '<p style="font-size:var(--tiny);">' + esc(ref.notes) + '</p>' : '') +
+        (url ? '<a href="' + esc(url) + '" target="_blank" rel="noopener" style="color:var(--accent);font-size:var(--tiny);overflow-wrap:anywhere;word-break:break-word;">' + esc(url.replace(/^https?:\/\//, '')) + ' ↗</a>' : '<span>Source unavailable</span>') + '</div>';
+    }).join('');
+  }
   function _initSoftFundingReference() {
-    var PROGRAM_REF = [
-      { k: 'chfa_htf', name: 'CHFA HTF',
-        desc: 'Colorado Housing & Finance Authority Housing Trust Fund. State gap financing for multifamily affordable. Competitive statewide.',
-        url: 'https://www.chfainfo.com/multifamily-finance/colorado-housing-investment-fund',
-        type: 'Loan', notes: 'Deferred. 40-yr affordability minimum. ~3-5% rate typical. Stacks with 9% LIHTC.' },
-      { k: 'prop123', name: 'Prop 123 — CO Affordable Housing Fund',
-        desc: 'Proposition 123 description unavailable until the policy timeline loads.',
-        url: 'https://cdola.colorado.gov/prop123',
-        type: 'Loan + Grant', notes: 'Confirm current program rules and availability with the administering agency.' },
-      { k: 'local_pha', name: 'Local PHA / Housing Trust',
-        desc: 'County or city housing trust funds + PHA capital reserves. Denver AHTF, Boulder HTF, Aspen HTF, etc.',
-        url: 'https://cdola.colorado.gov/local-government-housing-resources',
-        type: 'Loan + Grant', notes: 'Caps vary: Denver $1.5M/proj, Boulder $600K/proj. Local match expected on most state programs.' },
-      { k: 'chfa_cmf', name: 'CHFA Capital Magnet Fund',
-        desc: 'Federal CDFI Fund competitive grant, re-deployed by CHFA as gap + predevelopment financing. 10:1 leverage required.',
-        url: 'https://www.chfainfo.com/rental-housing/multifamily-lending/capital-magnet-fund-cmf',
-        type: 'Loan + Grant', notes: 'Periodic NOFA. Most recent CHFA award ~$10M (2023). Used for predev + acquisition.' },
-      { k: 'dola_htf', name: 'DOLA HTF',
-        desc: 'Colorado Department of Local Affairs Housing Trust Fund. Rural priority + small-town preference.',
-        url: 'https://cdola.colorado.gov/housing-trust-fund',
-        type: 'Loan', notes: 'Zero-int deferred. 20-yr affordability min. Q2 2026 NOFA: ~$1.8M available.' },
-      { k: 'home', name: 'HOME Investment Partnerships',
-        desc: 'Federal HUD block grant. Statewide pot administered by DOLA; large entitlement cities have own pots.',
-        url: 'https://www.hud.gov/program_offices/comm_planning/home',
-        type: 'Loan', notes: 'Zero / low-interest, ≤80% AMI units only. Davis-Bacon if 12+ units. Per-unit cap $30-60K.' },
-      { k: 'cdbg', name: 'CDBG — Community Dev Block Grant',
-        desc: 'Federal HUD Community Development Block Grant. Flexible source for site, infrastructure, predev, or operating.',
-        url: 'https://www.hud.gov/program_offices/comm_planning/cdbg',
-        type: 'Grant', notes: 'Davis-Bacon + URA apply at 12+ units. State non-entitlement pot via DOLA. Consolidated Plan cycle.' },
-      { k: 'nhtf', name: 'NHTF — National Housing Trust Fund',
-        desc: 'Federal HUD source restricted to ELI (≤30% AMI) units. Administered statewide by CHFA in Colorado.',
-        url: 'https://www.hud.gov/program_offices/comm_planning/affordablehousing/programs/htf',
-        type: 'Loan', notes: 'Deep affordability requirement (≤30% AMI only). 30-yr affordability min. Davis-Bacon applies.' },
-      { k: 'impact_fee_loan', name: 'Impact Fee Loan / Waiver',
-        desc: 'Municipal impact fee deferral or waiver for affordable units. Highly jurisdiction-specific — check local code.',
-        url: 'https://colorado.public.law/statutes/crs_29-20-104.5',
-        type: 'Loan + Waiver', notes: 'C.R.S. 29-20-104.5(5): a local government "may waive" an impact fee on low- or moderate-income or affordable employee housing as it defines it — permitted, not required. Subsection (6) allows deferring collection to building permit or certificate of occupancy. Water/sewer taps are often charged by a separate district. Verified local measures: data/policy/fee-reductions.json.' },
-      { k: 'sponsor_loan', name: 'Sponsor / Affiliate Loan',
-        desc: 'Developer or related-entity subordinate loan. Often used to bridge timing gaps between closing + LIHTC equity flow.',
-        url: '',
-        type: 'Loan', notes: 'Deferred. Typical 5-7yr payback from cash flow. Counts as "soft debt" for LIHTC but check related-party rules.' },
-      { k: 'historic_tc', name: 'Historic Tax Credit (cash equivalent)',
-        desc: '20% federal HTC for certified rehabilitation of historic structures. Often syndicated as equity, modeled here as cash equiv.',
-        url: 'https://www.nps.gov/subjects/taxincentives/index.htm',
-        type: 'Credit (cash-equiv)', notes: '10-yr credit flow at 20% rate. Stacks with 9% LIHTC but careful basis allocation. CO has state HTC too.' },
-      { k: 'nmtc', name: 'NMTC — New Markets Tax Credit',
-        desc: 'Federal 39% credit over 7 years for projects in low-income communities. Rarely stacked with LIHTC but possible.',
-        url: 'https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit',
-        type: 'Credit (cash-equiv)', notes: 'Dual-credit LIHTC+NMTC structures are complex; usually deployed for mixed-use / commercial component.' },
-      { k: 'seller_carry', name: 'Seller-carry note',
-        desc: 'Seller (often a nonprofit land partner) subordinates a note for the land value. Common where land donated below market.',
-        url: '',
-        type: 'Loan', notes: 'Deferred. Typical 5-10yr term. Reduces upfront cash needed; check FMV documentation for §42.' },
-      { k: 'other', name: 'Other / custom',
-        desc: 'Philanthropic grants, foundation PRIs, denominational housing funds, state discretionary programs not listed.',
-        url: '',
-        type: 'Varies', notes: 'Increasing availability from CO foundations (Daniels Fund, El Pomar, Gates Family Foundation, Anschutz).' }
-    ];
-
-    function _render() {
-      try {
-        var listEl = document.getElementById('dc-soft-funding-ref-list');
-        if (!listEl) return;
-        var html = PROGRAM_REF.map(function (p) {
-          var url = p.url ?
-            '<a href="' + p.url + '" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:var(--tiny);overflow-wrap:anywhere;word-break:break-word;">' + p.url.replace(/^https?:\/\//, '').replace(/\/$/, '') + ' ↗</a>' :
-            '<span style="font-size:var(--tiny);color:var(--faint);">(no external authority — sponsor/seller-specific)</span>';
-          // min-width:0 lets a grid card shrink below its longest unbroken word
-          // (a bare URL); overflow-wrap on the link lets that URL wrap. Without
-          // both, at phone width the HUD trust-fund link ran 443px wide inside
-          // a 375px screen and <details>{overflow:hidden} cut its tail off.
-          return '<div style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--card);min-width:0;">' +
-            '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp2);margin-bottom:0.25rem;">' +
-              '<strong style="font-size:var(--small);color:var(--text);">' + p.name + '</strong>' +
-              '<span style="font-size:var(--tiny);padding:1px 6px;border-radius:3px;background:var(--accent-dim);color:var(--accent);font-weight:600;white-space:nowrap;">' + p.type + '</span>' +
-            '</div>' +
-            '<p data-program-description="' + p.k + '" style="margin:0 0 0.35rem;font-size:var(--small);line-height:1.45;color:var(--text);">' + p.desc.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</p>' +
-            '<p style="margin:0 0 0.35rem;font-size:var(--tiny);color:var(--muted);line-height:1.4;"><strong>Typical:</strong> ' + p.notes + '</p>' +
-            '<div>' + url + '</div>' +
-          '</div>';
-        }).join('');
-        listEl.innerHTML = html;
-      } catch (e) {
-        console.warn('[DealCalc] soft-funding ref render failed', e);
-      }
-    }
-
-    // F216 — Audit caught a race: this IIFE registers on DOMContentLoaded,
-    // but init() also registers there and runs the actual render(mount) that
-    // builds the soft-funding panel's DOM. Both fire on the same event, init
-    // runs SECOND, so the first _render() pass found no mount → the panel
-    // silently never painted. Fix: poll for the mount, up to ~3s.
-    var _attempts = 0;
-    function _tryRender() {
-      var listEl = document.getElementById('dc-soft-funding-ref-list');
-      if (listEl) { _render(); return; }
-      if (++_attempts < 30) setTimeout(_tryRender, 100);
-    }
-    _tryRender();
+    _renderSoftFundingReference();
     var timelineUrl = 'data/policy/policy-timeline.json';
     if (window.resolveAssetUrl) timelineUrl = window.resolveAssetUrl(timelineUrl);
     fetch(timelineUrl).then(function (r) { if (!r.ok) throw new Error('Policy unavailable'); return r.json(); })
       .then(function (timeline) {
-        var event = timeline.events.find(function (e) { return e.id === 'prop123'; });
-        var program = PROGRAM_REF.find(function (p) { return p.k === 'prop123'; });
-        if (event) { program.desc = event.detail; program.url = event.source_url; _render(); }
-      }).catch(function () { /* Keep the explicit unavailable description. */ });
+        _softFundingTimelineEvent = (timeline.events || []).find(function (e) { return e.id === 'prop123'; }) || null;
+        _renderSoftFundingReference();
+      }).catch(function () { /* The program reference remains the source for terms. */ });
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', _initSoftFundingReference);

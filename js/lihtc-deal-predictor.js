@@ -91,7 +91,6 @@
     softCostPct:              0.22,
     devFeePct:                0.15,
     eligibleBasisPct:         _coho.eligibleBasisPct || 0.85,
-    defaultSoftFunding:       500000,
     saturationLowThreshold:   1,
     saturationMedThreshold:   3,
     saturationHighThreshold:  5,
@@ -273,18 +272,37 @@
     return (v === null || v === undefined || (typeof v === 'number' && !isFinite(v)));
   }
 
+  // Optional observed inputs: a measured zero is valid; absence is not a baseline.
+  function _optionalNumber(value) {
+    if (value == null || (typeof value !== 'number' && typeof value !== 'string') ||
+        String(value).trim() === '') return null;
+    var n = Number(value);
+    return Number.isFinite(n) && n >= 0 ? n : null;
+  }
+
+  function _inputAvailability(inputs) {
+    return {
+      softFundingAvailable: { value: _optionalNumber(inputs.softFundingAvailable),
+        unavailableReason: _optionalNumber(inputs.softFundingAvailable) === null ? 'soft_funding_missing' : null,
+        label: 'Local soft-funding amount', reason: 'No local soft-funding amount was provided.' },
+      pmaScore: { value: _optionalNumber(inputs.pmaScore),
+        unavailableReason: _optionalNumber(inputs.pmaScore) === null ? 'pma_score_missing' : null,
+        label: 'PMA score', reason: 'No PMA score was provided.' }
+    };
+  }
+
   /* ── Confidence scoring ──────────────────────────────────────────── */
 
   function _computeConfidence(inputs) {
     var score = 0;
     var maxScore = 6;
 
-    if (!_missing(inputs.pmaScore))             score += 1;
+    if (_optionalNumber(inputs.pmaScore) !== null)             score += 1;
     if (!_missing(inputs.ami30UnitsNeeded))      score += 1;
     if (!_missing(inputs.competitiveSetSize))    score += 1;
     if (!_missing(inputs.isQct))                score += 0.5;
     if (!_missing(inputs.isDda))                score += 0.5;
-    if (!_missing(inputs.softFundingAvailable))  score += 1;
+    if (_optionalNumber(inputs.softFundingAvailable) !== null)  score += 1;
     if (!_missing(inputs.medianRentToIncome))    score += 1;
 
     var ratio = score / maxScore;
@@ -306,8 +324,8 @@
     var ami30Units      = _num(inputs.ami30UnitsNeeded, 0);
     var totalUndersupply = _num(inputs.totalUndersupply, 0);
     var competitiveSet  = _num(inputs.competitiveSetSize, 0);
-    var softFunding     = _num(inputs.softFundingAvailable, DEFAULT_ASSUMPTIONS.defaultSoftFunding);
-    var pmaScore        = _num(inputs.pmaScore, 50);
+    var softFunding     = _optionalNumber(inputs.softFundingAvailable);
+    var pmaScore        = _optionalNumber(inputs.pmaScore);
 
     var deepAffordabilityPct = (proposedUnits > 0)
       ? (ami30Units / proposedUnits)
@@ -319,7 +337,7 @@
     var pmaIsStrong         = pmaScore >= DEFAULT_ASSUMPTIONS.pmaStrongThreshold;
 
     // Flag both paths when soft funding unavailable or market oversaturated
-    if (!hasSoftFunding && isMarketSaturated) {
+    if (softFunding === 0 && isMarketSaturated) {
       risks.push('Soft funding unavailable and market is oversaturated — both credit paths face headwinds');
       rationale.push('Neither 4% nor 9% has clear advantage without soft funding and given saturation');
       return 'Either';
@@ -384,7 +402,7 @@
     var seniorsDemand  = !!inputs.seniorsDemand;
     var supportiveNeed = !!inputs.supportiveNeed;
     var ami30Units     = _num(inputs.ami30UnitsNeeded, 0);
-    var pmaScore       = _num(inputs.pmaScore, 50);
+    var pmaScore       = _optionalNumber(inputs.pmaScore);
 
     if (supportiveNeed && ami30Units > 50) {
       rationale.push('High need for supportive housing at 30% AMI in this market');
@@ -643,22 +661,23 @@
       : eligibleBasis * DEFAULT_ASSUMPTIONS.creditRate4Pct * basisBoost;
     var equity       = annualCredit * 10 * equityPrice;
 
-    var localSoft    = _num(inputs.softFundingAvailable, DEFAULT_ASSUMPTIONS.defaultSoftFunding);
+    var localSoft    = _optionalNumber(inputs.softFundingAvailable);
     var stateSoft    = Math.min(totalCost * 0.10, 2000000);
     var deferred     = devFee * 0.50;
-    var totalSources = equity + localSoft + stateSoft + deferred;
-    var gap          = Math.max(0, totalCost - totalSources);
-    var firstMortgage = Math.min(gap, totalCost * 0.35);
-    gap = Math.max(0, gap - firstMortgage);
+    var totalSources = localSoft === null ? null : equity + localSoft + stateSoft + deferred;
+    var gap          = totalSources === null ? null : Math.max(0, totalCost - totalSources);
+    var firstMortgage = gap === null ? null : Math.min(gap, totalCost * 0.35);
+    gap = gap === null ? null : Math.max(0, gap - firstMortgage);
 
     return {
       totalDevelopmentCost: Math.round(totalCost),
       equity:               Math.round(equity),
-      firstMortgage:        Math.round(firstMortgage),
-      localSoft:            Math.round(localSoft),
+      firstMortgage:        firstMortgage === null ? null : Math.round(firstMortgage),
+      localSoft:            localSoft === null ? null : Math.round(localSoft),
       stateSoft:            Math.round(stateSoft),
       deferredFee:          Math.round(deferred),
-      gap:                  Math.round(gap),
+      gap:                  gap === null ? null : Math.round(gap),
+      unavailableReason:    localSoft === null ? 'soft_funding_missing' : null,
       hardCostPerUnit:      hardCostPU,
       hardCostSource:       hcResult.source,
       hardCostMultiplier:   hcResult.multiplier
@@ -669,16 +688,16 @@
 
   function _identifyRisks(inputs, execution, risks) {
     var competitive = _num(inputs.competitiveSetSize, 0);
-    var pmaScore    = _num(inputs.pmaScore, 50);
-    var softFunding = _num(inputs.softFundingAvailable, DEFAULT_ASSUMPTIONS.defaultSoftFunding);
+    var pmaScore    = _optionalNumber(inputs.pmaScore);
+    var softFunding = _optionalNumber(inputs.softFundingAvailable);
 
     if (competitive >= DEFAULT_ASSUMPTIONS.saturationMedThreshold) {
       risks.push('Market saturation: ' + competitive + ' competitive LIHTC projects within the market area');
     }
-    if (pmaScore < DEFAULT_ASSUMPTIONS.pmaModerateThreshold) {
+    if (pmaScore !== null && pmaScore < DEFAULT_ASSUMPTIONS.pmaModerateThreshold) {
       risks.push('Below-moderate PMA score (' + Math.round(pmaScore) + ') — demand signals are weak');
     }
-    if (softFunding < 500000) {
+    if (softFunding !== null && softFunding < 500000) {
       risks.push('Limited local soft funding (<$500K) — gap financing may be challenging');
     }
     if (execution === '4%') {
@@ -714,9 +733,8 @@
   /* ── Scenario sensitivity ────────────────────────────────────────── */
 
   function _computeScenarioSensitivity(inputs, execution, conceptType) {
-    var pmaScore    = _num(inputs.pmaScore, 50);
+    var pmaScore    = _optionalNumber(inputs.pmaScore);
     var competitive = _num(inputs.competitiveSetSize, 0);
-    var softFunding = _num(inputs.softFundingAvailable, DEFAULT_ASSUMPTIONS.defaultSoftFunding);
     var units       = _num(inputs.proposedUnits, 60);
 
     // Equity price sensitivity: +/- 3 cents on equity pricing
@@ -735,9 +753,9 @@
     var equityHigh = Math.round(annualCredit * 10 * (basePrice + 0.03));
 
     // Demand sensitivity: PMA score ± 10 points
-    var pmaLowSignal  = (pmaScore - 10 >= DEFAULT_ASSUMPTIONS.pmaStrongThreshold) ? 'strong' :
+    var pmaLowSignal  = pmaScore === null ? null : (pmaScore - 10 >= DEFAULT_ASSUMPTIONS.pmaStrongThreshold) ? 'strong' :
                         (pmaScore - 10 >= DEFAULT_ASSUMPTIONS.pmaModerateThreshold) ? 'moderate' : 'weak';
-    var pmaHighSignal = (pmaScore + 10 >= DEFAULT_ASSUMPTIONS.pmaStrongThreshold) ? 'strong' :
+    var pmaHighSignal = pmaScore === null ? null : (pmaScore + 10 >= DEFAULT_ASSUMPTIONS.pmaStrongThreshold) ? 'strong' :
                         (pmaScore + 10 >= DEFAULT_ASSUMPTIONS.pmaModerateThreshold) ? 'moderate' : 'weak';
 
     // Saturation sensitivity: competitive set ± 2 projects
@@ -757,7 +775,9 @@
       demandSignalRange: {
         low:  pmaLowSignal,
         high: pmaHighSignal,
-        note: 'PMA demand signal if score shifts ±10 points from ' + Math.round(pmaScore)
+        unavailableReason: pmaScore === null ? 'pma_score_missing' : null,
+        note: pmaScore === null ? 'PMA score unavailable; demand sensitivity cannot be calculated.'
+          : 'PMA demand signal if score shifts ±10 points from ' + Math.round(pmaScore)
       },
       saturationRange: {
         low:  satLowLabel  + ' (' + satLow  + ' projects)',
@@ -855,9 +875,11 @@
     ];
 
     // Data quality notes
-    if (_missing(inputs.pmaScore)) {
-      caveats.push('PMA score not provided — credit type recommendation uses defaults.');
-    }
+    var inputAvailability = _inputAvailability(inputs);
+    Object.keys(inputAvailability).forEach(function (key) {
+      var input = inputAvailability[key];
+      if (input.unavailableReason) caveats.push(input.reason + ' Findings that need it are unavailable.');
+    });
     if (_missing(inputs.ami30UnitsNeeded)) {
       caveats.push('HNA affordability gap data not provided — AMI mix uses county-level defaults.');
     }
@@ -893,6 +915,7 @@
       suggestedAMIMix:        suggestedAMIMix,
       suggestedMatrix:        suggestedMatrix,
       indicativeCapitalStack: capitalStack,
+      inputAvailability:      inputAvailability,
       keyRationale:           rationale,
       keyRisks:               risks,
       caveats:                caveats,
