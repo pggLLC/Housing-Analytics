@@ -55,7 +55,6 @@ export const ARTICLE_PAGES = new Set([
   'insights.html',
   'lihtc-enhancement-ahcia.html',
   'lihtc-guide-for-stakeholders.html',
-  'market-intelligence.html',
   'methods.html',
   'privacy-policy.html',
   'working-paper.html'

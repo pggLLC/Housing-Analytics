@@ -37,7 +37,7 @@ CHFA_HTML         = os.path.join(REPO_ROOT, 'chfa-portfolio.html')
 COMPLIANCE_HTML   = os.path.join(REPO_ROOT, 'compliance-dashboard.html')
 REGIONAL_HTML     = os.path.join(REPO_ROOT, 'regional.html')
 MARKET_HTML       = os.path.join(REPO_ROOT, 'market-analysis.html')
-MARKET_INT_HTML   = os.path.join(REPO_ROOT, 'market-intelligence.html')
+MARKET_INT_HTML   = os.path.join(REPO_ROOT, 'colorado-deep-dive.html')
 CO_MARKET_HTML    = os.path.join(REPO_ROOT, 'colorado-market.html')
 LIHTC_DASH_HTML   = os.path.join(REPO_ROOT, 'LIHTC-dashboard.html')
 

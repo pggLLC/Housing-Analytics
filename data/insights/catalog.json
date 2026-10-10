@@ -142,18 +142,8 @@
       "type": "Data exploration",
       "title": "Colorado Deep Dive",
       "url": "colorado-deep-dive.html",
-      "summary": "County-level maps and tables: DDAs and QCTs with LIHTC projects, income-band gaps, concessions, foreclosures and Proposition 123 commitments.",
-      "sources": ["HUD", "Colorado Association of Realtors", "CHFA", "AAMD", "Census Bureau", "FHFA"],
-      "maintenance": "live-data"
-    },
-    {
-      "id": "market-intelligence",
-      "section": "data",
-      "type": "Data exploration",
-      "title": "Colorado Market Intelligence",
-      "url": "market-intelligence.html",
-      "summary": "Statewide demand and supply signals, affordable inventory and a policy landscape, rendered from COHO's data files.",
-      "sources": ["BLS", "Census Bureau", "DOLA", "CHFA", "HUD"],
+      "summary": "County-level maps and tables: DDAs and QCTs with LIHTC projects, income-band gaps, concessions, foreclosures and Proposition 123 commitments, plus statewide market signals and monthly construction labor and material costs.",
+      "sources": ["HUD", "Colorado Association of Realtors", "CHFA", "AAMD", "Census Bureau", "FHFA", "BLS", "DOLA"],
       "maintenance": "live-data"
     },
     {
