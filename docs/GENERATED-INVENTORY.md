@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T21:08:23.273Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T21:56:13.281Z. Do not edit by hand.
 
 ---
 
@@ -1760,7 +1760,7 @@
 
 ## Test Files
 
-547 test files found.
+549 test files found.
 
 | File | Size |
 |------|------|
@@ -1783,9 +1783,10 @@
 | `test/audit-modules/audit-history.js` | 5.5 KB |
 | `test/audit-modules/audit-status.js` | 3.5 KB |
 | `test/audit-modules/data-integrity.js` | 18.9 KB |
-| `test/audit-modules/logic-validation.js` | 14.0 KB |
+| `test/audit-modules/link-check.js` | 3.4 KB |
+| `test/audit-modules/logic-validation.js` | 14.2 KB |
 | `test/audit-modules/repo-health.js` | 28.5 KB |
-| `test/audit-modules/report-generator.js` | 25.4 KB |
+| `test/audit-modules/report-generator.js` | 25.7 KB |
 | `test/audit-modules/ui-validation.js` | 14.8 KB |
 | `test/augment-local-resources-nondestructive.test.js` | 7.2 KB |
 | `test/basemap-honours-tilelayer-contract.test.js` | 6.6 KB |
@@ -1832,9 +1833,10 @@
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/cross-surface-vintage-labels.test.js` | 9.5 KB |
 | `test/custom-pma-conclusions-blocked.test.js` | 24.1 KB |
+| `test/daily-audit-check-noise.test.js` | 8.0 KB |
 | `test/daily-audit-repo-health.test.js` | 34.4 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
-| `test/daily-audit-system.js` | 20.3 KB |
+| `test/daily-audit-system.js` | 20.7 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
