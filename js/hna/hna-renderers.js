@@ -4894,11 +4894,15 @@
     if (raw == null || !Number.isFinite(Number(raw))) return '—';
     var v = Number(raw);
     var lower = String(name).toLowerCase();
-    if (lower.indexOf('mhi') >= 0 || lower.indexOf('value') >= 0) {
-      return '$' + Math.round(v).toLocaleString();
-    }
-    if (lower.indexOf('ratio') >= 0) {
+    // Ratios first: "Home value to MHI ratio" and "MHI vs HUD 100% AMI" name a
+    // dollar figure but measure a ratio, and checking for "value"/"mhi" first
+    // printed Mesa County's 4.6x home-price-to-income gap as "$5".
+    if (lower.indexOf('ratio') >= 0 || lower.indexOf(' vs ') >= 0) {
       return v.toFixed(2) + 'x';
+    }
+    if (lower.indexOf('mhi') >= 0 || lower.indexOf('value') >= 0
+        || lower.indexOf('median household income') >= 0) {
+      return '$' + Math.round(v).toLocaleString();
     }
     if (lower.indexOf('count') >= 0 || lower.indexOf('population') >= 0
         || lower.indexOf('scale') >= 0) {

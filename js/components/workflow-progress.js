@@ -49,6 +49,114 @@
     { num: 7, key: 'recommendation', label: 'Recommendation',  href: 'recommendation.html' }
   ];
 
+  /* ── Product routes ────────────────────────────────────────────────────────
+   *
+   * The seven steps above are the LIHTC rental route, and stay the canonical
+   * list (FINISH-LINE.md, the banner fallback and the tests read them). A
+   * developer planning for-sale homes walks the same seven slots, but three of
+   * them are rental-only tools: the Opportunity Finder ranks LIHTC
+   * opportunity, Market Analysis is a LIHTC primary market area, and the
+   * Scenario Builder sets rents. For that product those slots open the
+   * ownership tools instead. Slot numbers and keys do not change, so step
+   * completion, the banner and saved projects keep working; only where a slot
+   * leads, and what it is called, follows the product.
+   *
+   * Middle-income rental (80–120% AMI) walks the LIHTC route: every step
+   * applies, but the Deal step sizes federal LIHTC only — the chooser on
+   * select-jurisdiction.html says so. docs/DEVELOPER-TRACKS.md maps all three.
+   *
+   * Labels match the site nav's labels for the same pages (js/navigation.js),
+   * which test/guided-path-product-routes.test.js holds. */
+  var PRODUCTS = {
+    'lihtc-rental':         { label: 'LIHTC rental' },
+    'middle-income-rental': { label: 'Middle-income rental' },
+    'for-sale':             { label: 'For-sale ownership' }
+  };
+  var DEFAULT_PRODUCT = 'lihtc-rental';
+  var ROUTE_OVERRIDES = {
+    'for-sale': {
+      2: { label: 'Ownership Need', href: 'hna-what-to-do.html#affordable-ownership-need-section',
+           action: 'Check who can afford to buy here and what is missing.' },
+      4: { label: 'For-Sale Market Study', href: 'for-sale-market-study.html',
+           action: 'Screen buyer demand, capture, absorption and resale for your project.' },
+      5: { label: 'Land Value', href: 'land-value.html',
+           action: 'Test what the land is worth against what the homes can sell for.' }
+    }
+  };
+  var PRODUCT_STORAGE_KEY = 'coho:guided-product';
+
+  function isProduct(p) { return Object.prototype.hasOwnProperty.call(PRODUCTS, p); }
+
+  /** The product the reader chose, or null when none has been chosen. The
+   *  active project's choice wins; a per-browser copy covers a reader who
+   *  chose before any project existed. */
+  function getProduct() {
+    try {
+      var WS = global.WorkflowState;
+      var fromProject = WS && typeof WS.get === 'function' ? WS.get('product') : null;
+      if (isProduct(fromProject)) return fromProject;
+    } catch (e) { /* no project */ }
+    try {
+      var stored = global.localStorage && global.localStorage.getItem(PRODUCT_STORAGE_KEY);
+      if (isProduct(stored)) return stored;
+    } catch (e) { /* storage blocked */ }
+    return null;
+  }
+
+  function setProduct(p) {
+    if (!isProduct(p)) return false;
+    try { if (global.localStorage) global.localStorage.setItem(PRODUCT_STORAGE_KEY, p); } catch (e) { /* storage blocked */ }
+    try {
+      var WS = global.WorkflowState;
+      if (WS && typeof WS.getActiveProject === 'function' && WS.getActiveProject() && typeof WS.set === 'function') {
+        WS.set('product', p);
+      }
+    } catch (e) { /* no project */ }
+    applyRouteToDocument();
+    try {
+      document.dispatchEvent(new CustomEvent('workflow:product-changed', { detail: { product: p } }));
+    } catch (e) { /* old browser */ }
+    return true;
+  }
+
+  /** STEPS as they apply to a product. Overridden slots carry `routed: true`
+   *  and an `action` sentence for the next-step banner. */
+  function stepsFor(product) {
+    var o = ROUTE_OVERRIDES[product] || {};
+    return STEPS.map(function (s) {
+      var r = { num: s.num, key: s.key, label: s.label, href: s.href };
+      if (o[s.num]) {
+        r.label = o[s.num].label;
+        r.href = o[s.num].href;
+        r.action = o[s.num].action;
+        r.routed = true;
+      }
+      return r;
+    });
+  }
+
+  function currentSteps() { return stepsFor(getProduct() || DEFAULT_PRODUCT); }
+
+  /* Rewrite the hard-coded rails (13 pages carry one in their HTML) to the
+   * chosen product's route. The active step is left alone: it names the page
+   * the reader is on, whatever the route says that slot is for. */
+  function applyRouteToDocument(root) {
+    var scope = root || (typeof document !== 'undefined' ? document : null);
+    if (!scope || !scope.querySelectorAll) return;
+    var byNum = {};
+    currentSteps().forEach(function (s) { byNum[s.num] = s; });
+    var els = scope.querySelectorAll('.wf-step[data-step]');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      var step = byNum[parseInt(el.getAttribute('data-step'), 10)];
+      if (!step) continue;
+      if (el.classList.contains('wf-step--active') || el.getAttribute('aria-current') === 'step') continue;
+      var labelEl = el.querySelector('.wf-step__label');
+      if (labelEl && labelEl.textContent !== step.label) labelEl.textContent = step.label;
+      if (el.tagName === 'A') el.setAttribute('href', relToRoot() + step.href);
+    }
+  }
+
   /* ── relToRoot — mirrors navigation.js pattern ──────────────────────────── */
 
   function relToRoot() {
@@ -199,12 +307,13 @@
 
   function buildHtml(activeStep, doneSteps) {
     var parts = [];
+    var route = currentSteps();
     var i;
-    for (i = 0; i < STEPS.length; i++) {
+    for (i = 0; i < route.length; i++) {
       if (i > 0) {
         parts.push('<div class="wf-step-connector"></div>');
       }
-      parts.push(buildStepHtml(STEPS[i], activeStep, doneSteps));
+      parts.push(buildStepHtml(route[i], activeStep, doneSteps));
     }
     return (
       '<div class="wf-progress-wrap">' +
@@ -258,6 +367,15 @@
     /** The route itself. Read-only copy, so callers can map a step key to its
      *  number without writing a second table of numbers. */
     STEPS: STEPS.map(function (s) { return { num: s.num, key: s.key, label: s.label, href: s.href }; }),
+
+    /** Product routes — see "Product routes" above. */
+    PRODUCTS: Object.keys(PRODUCTS).map(function (k) { return { id: k, label: PRODUCTS[k].label }; }),
+    getProduct: getProduct,
+    setProduct: setProduct,
+    stepsFor: stepsFor,
+    /** The route for the chosen product (the LIHTC route when none is chosen). */
+    routeSteps: currentSteps,
+    applyRoute: applyRouteToDocument,
 
     render: function (containerId, activeStep, options) {
       ensureStyles();
@@ -339,6 +457,8 @@
         }
       }
 
+      applyRouteToDocument(container);
+
       // Register so subsequent refresh(containerId) calls work correctly
       _lastArgs[containerId] = { activeStep: step, options: null };
     }
@@ -414,8 +534,10 @@
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', publishHeaderHeight);
+    document.addEventListener('DOMContentLoaded', function () { applyRouteToDocument(); });
   } else {
     publishHeaderHeight();
+    applyRouteToDocument();
   }
 
   /* ── Expose globally ────────────────────────────────────────────────────── */

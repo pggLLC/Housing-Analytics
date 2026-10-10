@@ -60,14 +60,19 @@
   function canon() {
     if (_canon) return _canon;
     var WP = global.WorkflowProgress;
-    var fromRail = WP && Object.prototype.toString.call(WP.STEPS) === '[object Array]'
-      && WP.STEPS.length ? WP.STEPS : null;
+    // The route for the reader's product (for-sale swaps three slots for the
+    // ownership tools); plain STEPS from a rail that predates product routes.
+    var railSteps = WP && typeof WP.routeSteps === 'function' ? WP.routeSteps() : (WP && WP.STEPS);
+    var fromRail = Object.prototype.toString.call(railSteps) === '[object Array]'
+      && railSteps.length ? railSteps : null;
     var list = fromRail || FALLBACK_STEPS;
-    var out = { keys: [], labels: {}, urls: {} };
+    var out = { keys: [], labels: {}, urls: {}, actions: {} };
     for (var i = 0; i < list.length; i++) {
       out.keys.push(list[i].key);
-      out.labels[list[i].key] = STEP_LABEL_OVERRIDES[list[i].key] || list[i].label;
+      // A routed slot is a different page, so the rental prose names do not apply.
+      out.labels[list[i].key] = (!list[i].routed && STEP_LABEL_OVERRIDES[list[i].key]) || list[i].label;
       out.urls[list[i].key] = list[i].href;
+      if (list[i].action) out.actions[list[i].key] = list[i].action;
     }
     // Only cache once the real list is in hand, so a fallback read during an
     // unlucky early call cannot freeze the wrong sequence for the page.
@@ -314,7 +319,7 @@
       icon    = '\u2192';  // arrow
       variant = 'next';
       heading = 'Step Complete';
-      body    = STEP_ACTIONS[nextKey];
+      body    = CANON.actions[nextKey] || STEP_ACTIONS[nextKey];
       actionUrl   = STEP_URLS[nextKey];
       actionLabel = 'Continue to ' + STEP_LABELS[nextKey] + ' \u2192';
 
@@ -324,7 +329,7 @@
       icon    = '\uD83D\uDCCB';  // clipboard
       variant = 'current';
       heading = 'Step ' + (currentIdx + 1) + ' of ' + STEP_KEYS.length;
-      body    = STEP_ACTIONS[currentStep];
+      body    = CANON.actions[currentStep] || STEP_ACTIONS[currentStep];
       if (nextAfterCurrent) {
         body += ' When you\'re done, you\'ll continue to ' + STEP_LABELS[nextAfterCurrent] + '.';
       }
@@ -372,6 +377,8 @@
     document.addEventListener('workflow:step-updated', _render);
     document.addEventListener('workflow:project-loaded', _render);
     document.addEventListener('jurisdiction-url-context:resolved', _render);
+    // A new product changes the route, so the cached sequence is stale.
+    document.addEventListener('workflow:product-changed', function () { _canon = null; _render(); });
   }
 
   // Run after DOM ready

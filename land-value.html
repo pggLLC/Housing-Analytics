@@ -20,6 +20,10 @@
   <script src="js/config.js"></script>
   <script src="js/workflow-state-core.js"></script>
   <script src="js/workflow-state-api.js"></script>
+  <!-- The guided path's for-sale route (js/components/workflow-progress.js,
+       "Product routes"): this page is step 5 when the reader chose for-sale. -->
+  <script src="js/components/workflow-progress.js"></script>
+  <script defer src="js/components/workflow-next-action.js"></script>
   <script defer src="js/components/page-context.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/site-state.js"></script>
@@ -45,6 +49,16 @@
   <header class="site-header">
     <!-- Injected by navigation.js -->
   </header>
+
+  <div id="forSaleRouteProgress" hidden></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var WP = window.WorkflowProgress;
+      if (!WP || WP.getProduct() !== 'for-sale') return;
+      document.getElementById('forSaleRouteProgress').hidden = false;
+      WP.render('forSaleRouteProgress', 5);
+    });
+  </script>
 
   <main id="main-content" class="js-glossary-auto">
 
