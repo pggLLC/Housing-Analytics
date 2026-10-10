@@ -279,6 +279,51 @@
     };
   }
 
+  // Benchmark rows for the latest round's awards in one county (or every county
+  // when countyName is null), while CHFA's property feed has not caught up with
+  // that round. The feed has carried no 2026 award all year, so without these a
+  // county summary reports its last feed award as its most recent allocation
+  // (Mesa read 2024 while Crawford Commons in Clifton won 2026 Round One credits).
+  // An award leaves the benchmark once the feed itself carries it: the same
+  // county, an award year no earlier than the round's, and the same project
+  // name. Matching each award, not the round's year, keeps one unrelated 2026
+  // feed award (a 4% deal between rounds) from dropping all fourteen.
+  function _projectKey(name) {
+    return String(name || '').toLowerCase().replace(/[^a-z0-9 ]+/g, ' ')
+      .split(/\s+/).filter(function (w) { return w && !/^(the|at|of|apartments?|apts|homes?|phase|ph)$/.test(w); }).join(' ');
+  }
+  function bridgeBenchmarkRows(round, features, countyName) {
+    var r = summarizeRound(round, features);
+    if (!r || r.roundYear == null) return [];
+    var feedKeys = {};
+    (features || []).forEach(function (f) {
+      var p = f.properties || {};
+      var y = parseInt(p.AwardYear || p.YR_ALLOC, 10);
+      var c = p.CNTY_NAME || p.COUNTY_NAME || p.COUNTY || '';
+      if (y >= r.roundYear && c) (feedKeys[c] = feedKeys[c] || []).push(_projectKey(p.PROJECT || p.PROJECT_NAME || p.ReportedName));
+    });
+    function inFeed(a) {
+      var k = _projectKey(a.name);
+      return !!k && (feedKeys[a.county] || []).some(function (f) { return f && (f.indexOf(k) >= 0 || k.indexOf(f) >= 0); });
+    }
+    return round.awards.filter(function (a) {
+      return a.county && (countyName == null || a.county === countyName) && !inFeed(a);
+    }).map(function (a) {
+      var credit = a.federal_9pct_credit > 0 ? '9% Competitive' : (a.federal_4pct_credit > 0 ? '4%' : '');
+      return {
+        name:       a.name || '(unnamed)',
+        city:       a.city || '',
+        county:     a.county,
+        countyFips: a.county_fips || null,
+        units:      typeof a.total_units === 'number' && a.total_units > 0 ? a.total_units : null,
+        liUnits:    0,
+        yrAlloc:    r.roundYear,
+        credit:     credit,
+        bridge:     r.name || String(r.roundYear)
+      };
+    });
+  }
+
   function _renderLatestRound() {
     var el = document.getElementById('chfaStats');
     if (!el) return;
@@ -422,6 +467,9 @@
       var fips = p.CNTY_FIPS || p.COUNTY_FIPS || null;
       if (nm) counties[nm] = fips;
     });
+    bridgeBenchmarkRows(state.round, state.lihtcFeatures, null).forEach(function (r) {
+      if (r.county && !(r.county in counties)) counties[r.county] = r.countyFips;
+    });
     var names = Object.keys(counties).sort();
     sel.innerHTML = '<option value="">Select a county…</option>' + names.map(function (n) {
       return '<option value="' + esc(n) + '">' + esc(n) + '</option>';
@@ -457,7 +505,7 @@
         yrAlloc:  parseInt(p.YR_ALLOC || p.YEAR_ALLOC || 0, 10) || null,
         credit:   p.CREDIT || ''
       };
-    });
+    }).concat(bridgeBenchmarkRows(state.round, state.lihtcFeatures, county));
 
     if (!feats.length) {
       tbody.innerHTML = '<tr><td colspan="5" class="ht-empty">No LIHTC projects found in this county.</td></tr>';
@@ -467,7 +515,9 @@
 
     // Sort by distance from target unit count when set; otherwise by most recent year
     if (targetUnits > 0) {
+      // A row with no unit count has no distance to the target: it sorts last.
       feats.sort(function (a, b) {
+        if (a.units == null || b.units == null) return (a.units == null) - (b.units == null);
         return Math.abs(a.units - targetUnits) - Math.abs(b.units - targetUnits);
       });
     } else {
@@ -477,9 +527,9 @@
     // Top 20 peers
     var top = feats.slice(0, 20);
     tbody.innerHTML = top.map(function (p) {
-      var unitsCell = p.units + (p.liUnits ? ' <small style="color:var(--muted)">(' + p.liUnits + ' LI)</small>' : '');
+      var unitsCell = (p.units != null ? p.units : '—') + (p.liUnits ? ' <small style="color:var(--muted)">(' + p.liUnits + ' LI)</small>' : '');
       return '<tr>' +
-        '<td>' + esc(p.name) + '</td>' +
+        '<td>' + esc(p.name) + (p.bridge ? ' <small style="color:var(--muted)">(' + esc(p.bridge) + ' award, not yet in CHFA\'s property feed)</small>' : '') + '</td>' +
         '<td>' + esc(p.city) + '</td>' +
         '<td style="text-align:right">' + unitsCell + '</td>' +
         '<td style="text-align:right">' + (p.yrAlloc || '—') + '</td>' +
@@ -488,12 +538,15 @@
     }).join('');
 
     if (summaryEl) {
-      var totalUnits = feats.reduce(function (s, p) { return s + p.units; }, 0);
-      var avgUnits = feats.length ? Math.round(totalUnits / feats.length) : 0;
+      // A row with no unit count is left out of the total and the average, not counted as 0.
+      var withUnits = feats.filter(function (p) { return p.units != null; });
+      var totalUnits = withUnits.reduce(function (s, p) { return s + p.units; }, 0);
+      var avgUnits = withUnits.length ? Math.round(totalUnits / withUnits.length) : 0;
       var mostRecent = Math.max.apply(null, feats.map(function (p) { return p.yrAlloc || 0; }).filter(Boolean));
       summaryEl.innerHTML =
         '<strong>' + feats.length + '</strong> LIHTC projects in ' + esc(county) +
         ' · <strong>' + totalUnits.toLocaleString() + '</strong> total units' +
+        (withUnits.length < feats.length ? ' (' + (feats.length - withUnits.length) + ' without a unit count)' : '') +
         ' · avg <strong>' + avgUnits + '</strong> units/project' +
         (isFinite(mostRecent) && mostRecent > 0 ? ' · most recent allocation: <strong>' + mostRecent + '</strong>' : '');
     }
@@ -555,6 +608,6 @@
   global.HistoricalTrends = {
     render: render,
     // Pure helpers, exposed for test/historical-trends-real-data.test.js
-    _internal: { summarizeRound: summarizeRound, dealStats: dealStats, creditBucket: _creditBucket, projects: _projects }
+    _internal: { summarizeRound: summarizeRound, bridgeBenchmarkRows: bridgeBenchmarkRows, dealStats: dealStats, creditBucket: _creditBucket, projects: _projects }
   };
 })(typeof window !== 'undefined' ? window : this);
