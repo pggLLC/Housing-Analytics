@@ -66,13 +66,16 @@
     var fromRail = Object.prototype.toString.call(railSteps) === '[object Array]'
       && railSteps.length ? railSteps : null;
     var list = fromRail || FALLBACK_STEPS;
-    var out = { keys: [], labels: {}, urls: {}, actions: {} };
+    var out = { keys: [], labels: {}, urls: {}, actions: {}, companions: {} };
     for (var i = 0; i < list.length; i++) {
       out.keys.push(list[i].key);
       // A routed slot is a different page, so the rental prose names do not apply.
       out.labels[list[i].key] = (!list[i].routed && STEP_LABEL_OVERRIDES[list[i].key]) || list[i].label;
       out.urls[list[i].key] = list[i].href;
       if (list[i].action) out.actions[list[i].key] = list[i].action;
+      // A project with rental and for-sale homes keeps the rental page and
+      // gains the for-sale one beside it.
+      if (list[i].companion) out.companions[list[i].key] = list[i].companion;
     }
     // Only cache once the real list is in hand, so a fallback read during an
     // unlucky early call cannot freeze the wrong sequence for the page.
@@ -138,6 +141,10 @@
     for (var key in urls) {
       if (loc === urls[key]) return key;
     }
+    var comp = canon().companions;
+    for (var ck in comp) {
+      if (loc === comp[ck].href.split('#')[0]) return ck;
+    }
     // Fallback: data-step attribute (only consulted if the URL isn't a known
     // funnel page; numbering follows the 6-step progress-bar scheme:
     // 1=opportunity / 2=jurisdiction / 3=hsa / 4=market / 5=scenario / 6=deal).
@@ -148,6 +155,24 @@
       if (num >= 1 && num <= ks.length) return ks[num - 1];
     }
     return null;
+  }
+
+  /* True when the reader is on the for-sale companion of a step, not its page. */
+  function _onCompanionPage(key) {
+    var c = canon().companions[key];
+    if (!c) return false;
+    var loc = (global.location.pathname.split('/').pop() || '').toLowerCase();
+    return loc === c.href.split('#')[0];
+  }
+
+  /* "For the for-sale homes, also open …" for a step with a companion page. */
+  function _companionSentence(key, onCompanion) {
+    var c = canon().companions[key];
+    if (!c) return '';
+    if (onCompanion) {
+      return ' For the rental homes, open <a href="' + canon().urls[key] + '">' + canon().labels[key] + '</a>.';
+    }
+    return ' For the for-sale homes, also open <a href="' + c.href + '">' + c.label + '</a>.';
   }
 
   /* ── Find or create mount element ──────────────────────────────────── */
@@ -319,7 +344,7 @@
       icon    = '\u2192';  // arrow
       variant = 'next';
       heading = 'Step Complete';
-      body    = CANON.actions[nextKey] || STEP_ACTIONS[nextKey];
+      body    = (CANON.actions[nextKey] || STEP_ACTIONS[nextKey]) + _companionSentence(nextKey, false);
       actionUrl   = STEP_URLS[nextKey];
       actionLabel = 'Continue to ' + STEP_LABELS[nextKey] + ' \u2192';
 
@@ -329,7 +354,9 @@
       icon    = '\uD83D\uDCCB';  // clipboard
       variant = 'current';
       heading = 'Step ' + (currentIdx + 1) + ' of ' + STEP_KEYS.length;
-      body    = CANON.actions[currentStep] || STEP_ACTIONS[currentStep];
+      var onComp = _onCompanionPage(currentStep);
+      body    = (onComp && CANON.companions[currentStep].action) || CANON.actions[currentStep] || STEP_ACTIONS[currentStep];
+      body   += _companionSentence(currentStep, onComp);
       if (nextAfterCurrent) {
         body += ' When you\'re done, you\'ll continue to ' + STEP_LABELS[nextAfterCurrent] + '.';
       }

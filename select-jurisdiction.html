@@ -180,7 +180,7 @@
 
         <!-- What is being built. The guided path's later steps differ by
              product: for-sale swaps three rental-only steps for the ownership
-             tools (js/components/workflow-progress.js, "Product routes";
+             tools, and rental and for-sale lists them beside the rental ones (js/components/workflow-progress.js, "Product routes";
              docs/DEVELOPER-TRACKS.md). -->
         <fieldset class="sj-product" id="sjProduct">
           <legend class="sj-label">What are you planning?</legend>
@@ -198,6 +198,11 @@
             <input type="radio" name="sjProduct" value="for-sale">
             <span><strong>For-sale ownership</strong>
               <span class="sj-product__desc">Deed-restricted or shared-equity homes for sale. Steps 2, 4 and 5 become Ownership Need, the For-Sale Market Study and Land Value; at the Deal step, switch the calculator to ownership mode.</span></span>
+          </label>
+          <label class="sj-product__opt">
+            <input type="radio" name="sjProduct" value="mixed">
+            <span><strong>Rental and for-sale</strong>
+              <span class="sj-product__desc">Some homes for rent, some for sale. Follows the LIHTC rental steps, and lists the for-sale tool for steps 2, 4 and 5 under the step bar. The Deal Calculator models the rental and for-sale parts one at a time; it cannot combine them into one deal yet.</span></span>
           </label>
         </fieldset>
 
@@ -286,7 +291,9 @@
           var step2 = WP.stepsFor(product)[1];
           note.innerHTML = step2.routed
             ? 'Step 2, <a href="' + step2.href + '">' + step2.label + '</a>, is optional context. Open it first to check whether ownership fits this place.'
-            : rentalNote;
+            : step2.companion
+              ? rentalNote + ' For the for-sale homes, <a href="' + step2.companion.href + '">' + step2.companion.label + '</a> checks who can afford to buy here.'
+              : rentalNote;
         }
         sync(WP.getProduct() || 'lihtc-rental');
         for (var j = 0; j < radios.length; j++) {

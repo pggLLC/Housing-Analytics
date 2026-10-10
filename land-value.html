@@ -54,9 +54,11 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var WP = window.WorkflowProgress;
-      if (!WP || WP.getProduct() !== 'for-sale') return;
+      var product = WP && WP.getProduct();
+      if (product !== 'for-sale' && product !== 'mixed') return;
       document.getElementById('forSaleRouteProgress').hidden = false;
-      WP.render('forSaleRouteProgress', 5);
+      // In a rental and for-sale project this page sits beside step 5's rental page.
+      WP.render('forSaleRouteProgress', 5, { companion: product === 'mixed' });
     });
   </script>
 
