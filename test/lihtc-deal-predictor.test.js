@@ -213,7 +213,9 @@ group('4. Basis-boost / QCT+DDA rationale', () => {
 group('5. Caveats from missing inputs', () => {
   test('missing pmaScore adds a caveat', () => {
     const rec = Predictor.predictConcept({ proposedUnits: 60 });
-    assert.ok(rec.caveats.some(c => /PMA score not provided/i.test(c)));
+    assert.equal(rec.inputAvailability.pmaScore.value, null);
+    assert.equal(rec.inputAvailability.pmaScore.unavailableReason, 'pma_score_missing');
+    assert.ok(rec.caveats.some(c => c.includes(rec.inputAvailability.pmaScore.reason)));
   });
 
   test('missing ami30UnitsNeeded adds a caveat', () => {

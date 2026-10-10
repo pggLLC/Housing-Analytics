@@ -118,7 +118,9 @@
 
   /** Format dollar amount as "$1.4M" / "$250K" / "$18K". */
   function _fmtM(n) {
-    n = parseFloat(n) || 0;
+    if (n == null || String(n).trim() === '') return 'Unavailable';
+    n = Number(n);
+    if (!Number.isFinite(n)) return 'Unavailable';
     if (n >= 1e6)  return '$' + (n / 1e6).toFixed(1) + 'M';
     if (n >= 1000) return '$' + Math.round(n / 1000) + 'K';
     return '$' + Math.round(n);
@@ -193,8 +195,9 @@
           _trow('LIHTC Equity',    _fmtM(stack.equity)),
           _trow('1st Mortgage',    _fmtM(stack.firstMortgage)),
           _trow('Local Soft',      _fmtM(stack.localSoft)),
+          (stack.unavailableReason ? '<tr data-unavailable-reason="' + _esc(stack.unavailableReason) + '"><td colspan="2">Local soft-funding amount is missing; mortgage and gap are unavailable.</td></tr>' : ''),
           _trow('Deferred Dev Fee',_fmtM(stack.deferredFee)),
-          (parseFloat(stack.gap) > 0 ? _trow('Remaining Gap', _fmtM(stack.gap)) : ''),
+          (stack.gap == null || parseFloat(stack.gap) > 0 ? _trow('Remaining Gap', _fmtM(stack.gap)) : ''),
         '</table>',
         '<p style="margin:.4rem 0 0;font-size:.75rem;color:var(--text-muted,#aaa);">',
           'Rough order-of-magnitude estimate only. Engage a LIHTC syndicator for current equity pricing.',
