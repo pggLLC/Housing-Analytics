@@ -917,11 +917,7 @@
         "hb24-1152-adu"
       ],
       "considerations": "For subject jurisdictions this is a state mandate; others can adopt it voluntarily, and ADUs add units slowly, one lot at a time.",
-      "maps_to": {
-        "land_use_measure": [
-          "by_right_or_admin_approval"
-        ]
-      }
+      "maps_to": {}
     },
     {
       "id": "vacancy_or_second_home_tax",

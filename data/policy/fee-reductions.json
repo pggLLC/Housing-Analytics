@@ -7885,6 +7885,496 @@
       "notes": "Fee category building_permit is a proxy: the reduction applies to 'All City required fees associated with development' (Northglenn runs its own water/sewer utility; whether taps are included is not stated). Only in the MX overlay district. ami_max=60 for rental; ownership units qualify at 100% AMI. The two tables in the code are images; their text was transcribed verbatim into sources/northglenn-11-2-17-5-tables.txt and the PNGs saved alongside. Note an apparent drafting gap: the code lists eligibility 'option' (5)(A) only via the table image and cross-references 11-2-17.5(f)(2), which does not exist (incentives are at (f)(15)).",
       "review_by": "2027-04-10",
       "last_verified": "2026-10-10"
+    },
+    {
+      "id": "t-adams-county-traffic-impact-fee-exemption",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "08001",
+      "jurisdiction": "Adams County",
+      "county": "Adams County",
+      "provider": "Adams County",
+      "provider_type": "county",
+      "fee_category": "impact_transportation",
+      "recurrence": "one_time",
+      "measure": "waived",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "Adams County Regional Traffic Impact Fee on each qualifying affordable unit (non-qualifying units in the same structure still pay)",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": 20,
+        "by_right": true
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Adams County Development Standards and Regulations 5-06-06-02(4) (Regional Traffic Impact Fee)",
+      "adopted": null,
+      "summary": "Unincorporated Adams County exempts housing affordable to households at or below area median income from its Regional Traffic Impact Fee, unit by unit, if the home stays affordable for at least twenty years.",
+      "source": {
+        "label": "Adams County Development Standards and Regulations, Chapter 5 (Regional Traffic Impact Fee, rev. Jan. 17, 2023)",
+        "url": "https://adamscountyco.gov/wp-content/uploads/2025/08/dsr-chapter-05.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Adams County Development Standards and Regulations, Chapter 5, section 5-06-06-02",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "DSR 5-06-06-02(4)",
+          "quote": "The construction of housing affordable to households whose income is equal to or less than the current Area Median Income (AMI) in effect at the time the household initially occupies the residential unit.",
+          "source_file": "sources/adams-dsr-ch05.txt"
+        },
+        {
+          "section": "DSR 5-06-06-02(4)",
+          "quote": "For multi‐ family residential structures, the exemption shall only apply to those qualifying affordable units within the greater structure.",
+          "source_file": "sources/adams-dsr-ch05.txt"
+        },
+        {
+          "section": "DSR 5-06-06-02(4)",
+          "quote": "The property shall remain affordable for a period of not less than twenty (20) years.",
+          "source_file": "sources/adams-dsr-ch05.txt"
+        },
+        {
+          "section": "DSR 5-06-06-02",
+          "quote": "An exemption must be claimed by the fee payer at the time of application for a building permit.",
+          "source_file": "sources/adams-dsr-ch05.txt"
+        }
+      ],
+      "not_in_source": [
+        "dollar value of the fee per unit",
+        "how the exempted revenue is replaced",
+        "adoption date of the affordable-housing exemption (chapter page footer reads January 17, 2023)"
+      ],
+      "notes": "Exemption is claimed at building permit; applies only in unincorporated Adams County (county impact fee). Fee schedule itself is adopted separately by the BOCC. Chapter 5 of the DSR was downloaded from adamscountyco.gov (adcogov.org now redirects there).",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "t-arapahoe-county-planning-engineering-review-fee-reduction",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "08005",
+      "jurisdiction": "Arapahoe County",
+      "county": "Arapahoe County",
+      "provider": "Arapahoe County",
+      "provider_type": "county",
+      "fee_category": "plan_review",
+      "recurrence": "one_time",
+      "measure": "reduced",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "Planning and Engineering Review Fees, reduced by a percentage equal to the share of affordable units (Tiers One and Two); waived entirely where 50% or more of units are affordable (Tier Three)",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "any",
+        "deed_restriction_years": 10,
+        "by_right": false
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Arapahoe County Land Development Code 3-3.2.K and Table 3-3.2.2 (LDC24-004)",
+      "adopted": null,
+      "summary": "Unincorporated Arapahoe County cuts planning and engineering review fees in proportion to a project's share of affordable units, and waives them when 50% or more of the units are affordable.",
+      "source": {
+        "label": "Arapahoe County LDC Affordable Housing amendment LDC24-004 (clean copy, 2025)",
+        "url": "https://files.arapahoeco.gov/Public%20Works_Development/planning_land%20development/Proposed%20Code%20Amendments/CleanCopyAffordableHousingLDCAmendment2025.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Arapahoe County LDC amendment LDC24-004 clean copy and the county's Proposed Code Amendments page",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Table 3-3.2.2, Reduced Fees (Tiers One and Two)",
+          "quote": "Planning and Engineering Review Fees shall be reduced by a percentage equal to the percentage of affordable units provided in the development",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "Table 3-3.2.2, Reduced Fees (Tier Three)",
+          "quote": "Planning and Engineering Review Fees shall be waived for developments with 50% or more of the units are affordable units",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "LDC 3-3.2.K.2",
+          "quote": "To be eligible for the development incentives, a residential or mixed-use development must provide at least ten 10 percent of the total units in a development application as either affordable rental housing or affordable owner housing.",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "LDC 7-2 Definitions, Affordable Housing",
+          "quote": "Housing that addresses the housing needs of households that earn less than 80 percent of the Area Median Income (AMI), and where monthly housing costs are not more than 30 percent of the household’s monthly income.",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "Proposed Code Amendments page, Recently Adopted: Affordable Housing – LDC24-004",
+          "quote": "Arapahoe County has approved changes to the Land Development Code to encourage the development of affordable housing within unincorporated areas.",
+          "source_file": "sources/arapahoe-proposed-amend.txt"
+        }
+      ],
+      "not_in_source": [
+        "adoption date (page says approved, no date)",
+        "how waived fees are backfilled"
+      ],
+      "notes": "Minimum restriction terms by tier: 10 years (>=10% affordable), 15 years (>=25%), 20 years (>=50%). Incentives are 'deviations' approved administratively by the Planning Division Manager up to the table maximum, so by_right=false. The county page describes the tiers as for projects 'that utilize federal tax credits'; 3-3.2.K.1 defines affordable housing as LIHTC units or units under a County written agreement with a recorded deed restriction. Denver7 reported the BOCC approval (2025).",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "t-arapahoe-county-building-fee-reduction",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "08005",
+      "jurisdiction": "Arapahoe County",
+      "county": "Arapahoe County",
+      "provider": "Arapahoe County",
+      "provider_type": "county",
+      "fee_category": "building_permit",
+      "recurrence": "one_time",
+      "measure": "reduced",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "Building fee: 10% reduction (Tier One, >=10% affordable units), 25% reduction (Tier Two, >=25%), 50% reduction (Tier Three, >=50%)",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "any",
+        "deed_restriction_years": 10,
+        "by_right": false
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Arapahoe County Land Development Code 3-3.2.K and Table 3-3.2.2 (LDC24-004)",
+      "adopted": null,
+      "summary": "Unincorporated Arapahoe County reduces the building fee by 10%, 25% or 50% depending on whether at least 10%, 25% or 50% of a project's units are affordable.",
+      "source": {
+        "label": "Arapahoe County LDC Affordable Housing amendment LDC24-004 (clean copy, 2025)",
+        "url": "https://files.arapahoeco.gov/Public%20Works_Development/planning_land%20development/Proposed%20Code%20Amendments/CleanCopyAffordableHousingLDCAmendment2025.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Arapahoe County LDC amendment LDC24-004 clean copy",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Table 3-3.2.2, Reduced Building Fee row",
+          "quote": "Reduced Building 10% reduction 25% reduction 50% reduction Fee",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "Table 3-3.2.2, tier descriptions",
+          "quote": "Description A minimum of 10% of the A minimum of 25% of total A minimum of 50% of total units units are affordable units units are affordable units are affordable units",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "LDC 3-3.2.K.2",
+          "quote": "To be eligible for the development incentives, a residential or mixed-use development must provide at least ten 10 percent of the total units in a development application as either affordable rental housing or affordable owner housing.",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "LDC 7-2 Definitions, Affordable Housing",
+          "quote": "Housing that addresses the housing needs of households that earn less than 80 percent of the Area Median Income (AMI), and where monthly housing costs are not more than 30 percent of the household’s monthly income.",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "Proposed Code Amendments page, Recently Adopted: Affordable Housing – LDC24-004",
+          "quote": "Arapahoe County has approved changes to the Land Development Code to encourage the development of affordable housing within unincorporated areas.",
+          "source_file": "sources/arapahoe-proposed-amend.txt"
+        }
+      ],
+      "not_in_source": [
+        "adoption date",
+        "which building-division charges the 'building fee' covers (permit only vs. plan review)",
+        "backfill"
+      ],
+      "notes": "percent left null because it varies by tier (10/25/50). Table also grants 'Expedited Building Permit Review' in all tiers.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "t-jefferson-county-development-fee-refund-rental",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "08059",
+      "jurisdiction": "Jefferson County",
+      "county": "Jefferson County",
+      "provider": "Jefferson County",
+      "provider_type": "county",
+      "fee_category": "plan_review",
+      "recurrence": "one_time",
+      "measure": "reimbursed",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": 100,
+      "value_basis": "Planning and Zoning Division development application and permit fees (those marked on the program's fee table) for each certified affordable rental unit at 80% AMI; paid up front, refunded after the affordability instrument is recorded",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "rental",
+        "deed_restriction_years": 20,
+        "by_right": true
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Jefferson County Planning and Zoning, Development Fee Reduction Refund Program for Affordable Housing Projects (rev. 2025-06-18)",
+      "adopted": null,
+      "summary": "Jefferson County refunds 100% of Planning and Zoning application and permit fees for certified affordable rental units at 80% AMI once a 20-year affordability restriction is recorded.",
+      "source": {
+        "label": "Jefferson County Development Fee Reduction Refund Program for Affordable Housing Projects (rev. 06-18-2025)",
+        "url": "https://www.jeffco.us/DocumentCenter/View/57640"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Jefferson County Planning and Zoning program document",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Fee Reductions Table",
+          "quote": "Rental Certified Units at 80% AMI 100%",
+          "source_file": "sources/jeffco-fee-refund.txt"
+        },
+        {
+          "section": "Program scope",
+          "quote": "This Development Fee Reduction Refund Program for Affordable Housing Projects applies to the Development Application and Permit Fees, highlighted/indicated on the attached Fee Table, processed by the Jefferson County Planning and Zoning Division.",
+          "source_file": "sources/jeffco-fee-refund.txt"
+        },
+        {
+          "section": "Term",
+          "quote": "A minimum 20-year Affordable Housing term is required.",
+          "source_file": "sources/jeffco-fee-refund.txt"
+        },
+        {
+          "section": "Process step 6",
+          "quote": "Planning and Zoning processes the fee refund once the accepted documents, securing the affordability of the Certified Units for at least 20 years, are recorded.",
+          "source_file": "sources/jeffco-fee-refund.txt"
+        }
+      ],
+      "not_in_source": [
+        "the attached fee table (did not extract as text)",
+        "adoption date of the program",
+        "backfill"
+      ],
+      "notes": "Fees are paid in full first and refunded later (measure=reimbursed). Covers Planning and Zoning Division fees; building permit fees from Building Safety are not stated as covered. fee_category plan_review is the closest fit for development application fees.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "t-jefferson-county-development-fee-refund-ownership",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "08059",
+      "jurisdiction": "Jefferson County",
+      "county": "Jefferson County",
+      "provider": "Jefferson County",
+      "provider_type": "county",
+      "fee_category": "plan_review",
+      "recurrence": "one_time",
+      "measure": "reimbursed",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "Planning and Zoning Division development application and permit fees per certified for-sale unit: 50% at 140% AMI, 75% at 110% AMI, 100% at 80% AMI; refunded after the affordability instrument is recorded",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": 140,
+        "tenure": "ownership",
+        "deed_restriction_years": 20,
+        "by_right": true
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Jefferson County Planning and Zoning, Development Fee Reduction Refund Program for Affordable Housing Projects (rev. 2025-06-18)",
+      "adopted": null,
+      "summary": "Jefferson County refunds 50%, 75% or 100% of Planning and Zoning application and permit fees for certified for-sale units at 140%, 110% or 80% AMI once a 20-year affordability restriction is recorded.",
+      "source": {
+        "label": "Jefferson County Development Fee Reduction Refund Program for Affordable Housing Projects (rev. 06-18-2025)",
+        "url": "https://www.jeffco.us/DocumentCenter/View/57640"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Jefferson County Planning and Zoning program document",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Fee Reductions Table",
+          "quote": "Certified Units at 140% AMI 50% Home Ownership Certified Units at 110% AMI 75% Certified Units at 80% AMI 100%",
+          "source_file": "sources/jeffco-fee-refund.txt"
+        },
+        {
+          "section": "Definitions",
+          "quote": "For a household residing in housing on a home ownership basis, annual income of the household is at or below one hundred forty (140) percent of the area median income of households of that size in Jefferson County.",
+          "source_file": "sources/jeffco-fee-refund.txt"
+        },
+        {
+          "section": "Term",
+          "quote": "A minimum 20-year Affordable Housing term is required.",
+          "source_file": "sources/jeffco-fee-refund.txt"
+        }
+      ],
+      "not_in_source": [
+        "the attached fee table (did not extract as text)",
+        "adoption date",
+        "backfill"
+      ],
+      "notes": "percent null because it is tiered by AMI (50/75/100).",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "t-larimer-county-backyard-boost-ala-fee-waiver",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "08069",
+      "jurisdiction": "Larimer County",
+      "county": "Larimer County",
+      "provider": "Larimer County",
+      "provider_type": "county",
+      "fee_category": "building_permit",
+      "recurrence": "one_time",
+      "measure": "waived",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "Building, electrical, mechanical and plumbing permit fees and plan review charges (reported; one report also lists transportation capital expansion fees and use taxes) credited at permit issuance for an Accessory Living Area (ADU) in unincorporated Larimer County",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": 60,
+        "tenure": "rental",
+        "deed_restriction_years": 3,
+        "by_right": false
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": null,
+      "adopted": null,
+      "summary": "Larimer County's Backyard Boost pilot credits building permit fees for accessory living areas in unincorporated areas when the owner signs a 36-month agreement to rent at about 60% of area median income.",
+      "source": {
+        "label": "Hoodline, 'Larimer County Dangles Fee Freebies To Spark Backyard Rentals' (July 11, 2026), summarizing the Larimer County spotlight",
+        "url": "https://hoodline.com/2026/07/larimer-county-dangles-fee-freebies-to-spark-backyard-rentals/"
+      },
+      "verification": {
+        "level": "reported",
+        "against": "Hoodline (July 11, 2026) and Denver7; larimer.gov program page https://www.larimer.gov/building/accessory_living_areas/backyard-boost-ala-fee-waiver-program returned HTTP 403 (Cloudflare) and could not be read",
+        "checked": "2026-10-10",
+        "by": "Hoodline (July 11, 2026) and Denver7; larimer.gov program page https://www.larimer.gov/building/accessory_living_areas/backyard-boost-ala-fee-waiver-program returned HTTP 403 (Cloudflare) and could not be read"
+      },
+      "evidence": [
+        {
+          "section": "Hoodline article",
+          "quote": "Eligible projects will see building, electrical, mechanical, and plumbing permit fees credited at permit approval, along with plan review charges, transportation capital expansion fees, and applicable use taxes.",
+          "source_file": "sources/larimer-hoodline-backyard-boost.txt"
+        },
+        {
+          "section": "Hoodline article",
+          "quote": "In exchange, participating homeowners must sign a 36-month affordability agreement, with rent caps tied to roughly 60% of the area median income.",
+          "source_file": "sources/larimer-hoodline-backyard-boost.txt"
+        },
+        {
+          "section": "Hoodline article",
+          "quote": "Funding is limited and is expected to cover only about eight to ten projects on a first-come, first-served basis.",
+          "source_file": "sources/larimer-hoodline-backyard-boost.txt"
+        },
+        {
+          "section": "Hoodline article",
+          "quote": "cites a $140,000 appropriation from the Colorado Department of Local Affairs, paired with county matching dollars.",
+          "source_file": "sources/larimer-hoodline-backyard-boost.txt"
+        },
+        {
+          "section": "Denver7 article",
+          "quote": "Depending on the type of project, it could save the homeowner between $3,000 and $14,000, according to the county.",
+          "source_file": "sources/larimer-denver7-ala.txt"
+        }
+      ],
+      "not_in_source": [
+        "official program terms (county page unreadable)",
+        "authorizing resolution",
+        "exact AMI limit (reported as roughly 60%)"
+      ],
+      "notes": "Reported only; verify against larimer.gov when readable. Limited-fund pilot (8-10 projects) so by_right=false. The web-search summary of larimer.gov suggested the county's own page omits the transportation capital expansion fee and use tax, so the fee_category is limited to building_permit; add separate impact_transportation/use_tax entries only after reading the county page. Funding reported by news outlets: Reported: DOLA accessory dwelling unit grant ($140,000 per county announcement as reported by Hoodline; $105,000 per Denver7) plus county match.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "t-fortcollins-sales-use-tax-deferral",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "0827425",
+      "jurisdiction": "City of Fort Collins",
+      "county": "Larimer County",
+      "provider": "City of Fort Collins",
+      "provider_type": "city",
+      "fee_category": "use_tax",
+      "recurrence": "one_time",
+      "measure": "deferred",
+      "reduces_total_cost": false,
+      "amount": null,
+      "percent": null,
+      "value_basis": "city sales and use taxes on construction materials for a qualifying affordable housing development",
+      "deferral_trigger": "certificate of occupancy (temporary or permanent) or December 1 of the year the deferral was obtained, whichever first occurs",
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": true
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": "Deferral only; the tax is still paid."
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Fort Collins Municipal Code 25-130 (Ord. No. 191, 1999; Ord. No. 061, 2017; Ord. No. 100, 2025)",
+      "adopted": "2000-01-04",
+      "summary": "Fort Collins defers, on request, the city sales and use tax on construction materials for qualifying affordable housing until certificate of occupancy or December 1 of that year, whichever comes first.",
+      "source": {
+        "label": "Fort Collins Municipal Code 25-130 (Municode API)",
+        "url": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH25TA_ARTIIISAUSTA_DIV7MI",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=501629&nodeId=CH25TA_ARTIIISAUSTA_DIV7MI&productId=18005"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Fort Collins Municipal Code 25-130 (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Sec. 25-130",
+          "quote": "All sales and use taxes for materials purchased and used in the construction of an affordable housing development, as this term is defined in Article 7 of the Land Use Code that meets the requirements of Article 5.2.1(C) through (G) of the Land Use Code, shall, upon the request of the applicant, be deferred until the date of issuance of the certificate of occupancy"
+        }
+      ],
+      "not_in_source": [
+        "AMI limit and deed-restriction term (defined in Land Use Code art. 7 and 5.2.1, not read)"
+      ],
+      "notes": "Companion to the existing capital expansion fee and utility PIF deferrals (d-fortcollins-cef-deferral, d-fortcollins-utility-pif-deferral), which cite the same Ord. No. 100, 2025; no use_tax entry existed for Fort Collins. adopted = date of Ord. No. 191, 1999. by_right=true meaning deferral is granted upon request for qualifying developments.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
     }
   ],
   "land_use": [
@@ -10369,6 +10859,309 @@
       "notes": "'shall be reduced' — mandatory once criteria are met, so by_right=true; the below-market level itself is Director-approved and no AMI is stated in this section. Citywide (not limited to MX). Section history: Ord. 1766, 1782 (2019); 1848, 1851, 1854 (2023); 1870 (2025).",
       "review_by": "2027-04-10",
       "last_verified": "2026-10-10"
+    },
+    {
+      "id": "lu-arapahoe-county-affordable-density-bonus",
+      "state": "CO",
+      "geoid": "08005",
+      "jurisdiction": "Arapahoe County",
+      "county": "Arapahoe County",
+      "measure": "density_bonus",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "any",
+        "deed_restriction_years": 10,
+        "by_right": false
+      },
+      "detail": "In unincorporated Arapahoe County, projects with at least 10%, 25% or 50% affordable units (restricted 10, 15 or 20 years) may get 10%, 25% or 50% above the zone district's maximum density, plus extra height (1 story/15 ft, or 2 stories/30 ft with a 75 ft cap) and, in Tiers Two and Three, setbacks reduced by up to 50%.",
+      "authorizing_code": "Arapahoe County Land Development Code 3-3.2.K and Table 3-3.2.2 (LDC24-004)",
+      "adopted": null,
+      "source": {
+        "label": "Arapahoe County LDC Affordable Housing amendment LDC24-004 (clean copy, 2025)",
+        "url": "https://files.arapahoeco.gov/Public%20Works_Development/planning_land%20development/Proposed%20Code%20Amendments/CleanCopyAffordableHousingLDCAmendment2025.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Arapahoe County LDC amendment LDC24-004 clean copy",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Table 3-3.2.2, Density Bonus / Increased Height",
+          "quote": "10% above the maximum residential density allowed in the zone district 1 story not to exceed 15 feet 25% above the maximum residential density allowed in the zone district 50% above the maximum residential density allowed in the zone district",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "Table 3-3.2.2, Required Minimum Duration",
+          "quote": "10 years 15 years 20 years",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "LDC 3-3.2.K.4",
+          "quote": "Development incentives, in the form of deviations from the regulations applicable to Administrative Site Plans, are set forth and limited by Table 3-3.2.2, may be approved administratively by the Planning Division Manager",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "Proposed Code Amendments page, Recently Adopted: Affordable Housing – LDC24-004",
+          "quote": "Arapahoe County has approved changes to the Land Development Code to encourage the development of affordable housing within unincorporated areas.",
+          "source_file": "sources/arapahoe-proposed-amend.txt"
+        }
+      ],
+      "notes": "Discretionary up to table maximums; manager weighs six factors (3-3.2.K.4.a-f). Same table also reduces on-site open space and waives tree preservation/landscaping requirements in higher tiers.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "lu-arapahoe-county-affordable-expedited-review",
+      "state": "CO",
+      "geoid": "08005",
+      "jurisdiction": "Arapahoe County",
+      "county": "Arapahoe County",
+      "measure": "expedited_review",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "any",
+        "deed_restriction_years": 10,
+        "by_right": false
+      },
+      "detail": "Developments with affordable units qualify for the two-step PUD process; Tiers Two and Three get shortened land-use review timelines (20 business days first review, 10 second, 5 thereafter) and early building permit submittal; all tiers get expedited building permit review; neighborhood meetings are waived at 50% affordable. Separately, 5-3.3 lets any project with at least 10% deed-restricted affordable units use the Two-Step PUD process.",
+      "authorizing_code": "Arapahoe County Land Development Code 3-3.2.K and Table 3-3.2.2 (LDC24-004); LDC 5-3.3",
+      "adopted": null,
+      "source": {
+        "label": "Arapahoe County LDC Affordable Housing amendment LDC24-004 (clean copy, 2025)",
+        "url": "https://files.arapahoeco.gov/Public%20Works_Development/planning_land%20development/Proposed%20Code%20Amendments/CleanCopyAffordableHousingLDCAmendment2025.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Arapahoe County LDC amendment LDC24-004 clean copy",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Table 3-3.2.2, Expedited Process",
+          "quote": "All developments with affordable housing qualify for the two-step Planned Unit Development process",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "Table 3-3.2.2, Expedited Process (Tier Three)",
+          "quote": "Neighborhood meeting requirements are waived for projects with a minimum of 50% affordable units",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "LDC 5-3.3 Two-Step PUD eligibility",
+          "quote": "Any project including a minimum 10% deed-restricted affordable housing units as defined herein.",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "Proposed Code Amendments page, Recently Adopted: Affordable Housing – LDC24-004",
+          "quote": "Arapahoe County has approved changes to the Land Development Code to encourage the development of affordable housing within unincorporated areas.",
+          "source_file": "sources/arapahoe-proposed-amend.txt"
+        }
+      ],
+      "notes": "",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "lu-arapahoe-county-affordable-parking",
+      "state": "CO",
+      "geoid": "08005",
+      "jurisdiction": "Arapahoe County",
+      "county": "Arapahoe County",
+      "measure": "parking_reduction",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": true
+      },
+      "detail": "Arapahoe County's off-street parking table sets no minimum parking requirement for affordable housing (and for multifamily dwellings generally).",
+      "authorizing_code": "Arapahoe County LDC Table 4-1.2.1 Off-Street Parking Requirements (as amended by LDC24-004)",
+      "adopted": null,
+      "source": {
+        "label": "Arapahoe County LDC Affordable Housing amendment LDC24-004 (clean copy, 2025)",
+        "url": "https://files.arapahoeco.gov/Public%20Works_Development/planning_land%20development/Proposed%20Code%20Amendments/CleanCopyAffordableHousingLDCAmendment2025.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Arapahoe County LDC amendment LDC24-004 clean copy",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Off-street parking table",
+          "quote": "• Affordable Housing (1) No minimum parking requirement.",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        }
+      ],
+      "notes": "Multifamily also has no minimum, consistent with HB24-1304, so the affordable-specific benefit matters mainly for non-multifamily affordable types.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "lu-arapahoe-county-affordable-park-dedication-waiver",
+      "state": "CO",
+      "geoid": "08005",
+      "jurisdiction": "Arapahoe County",
+      "county": "Arapahoe County",
+      "measure": "land_dedication_or_donation",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "any",
+        "deed_restriction_years": 20,
+        "by_right": false
+      },
+      "detail": "For Tier Three projects (at least 50% affordable, 20-year restriction), public park land dedication or cash-in-lieu is waived for the affordable units; market-rate units still owe it.",
+      "authorizing_code": "Arapahoe County Land Development Code 3-3.2.K and Table 3-3.2.2 (LDC24-004)",
+      "adopted": null,
+      "source": {
+        "label": "Arapahoe County LDC Affordable Housing amendment LDC24-004 (clean copy, 2025)",
+        "url": "https://files.arapahoeco.gov/Public%20Works_Development/planning_land%20development/Proposed%20Code%20Amendments/CleanCopyAffordableHousingLDCAmendment2025.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Arapahoe County LDC amendment LDC24-004 clean copy",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Table 3-3.2.2, Public Land Dedication for Public Parks (Tier Three)",
+          "quote": "Dedication of land or cash-in-lieu is waived for affordable units (dedication of land or cash-in-lieu will be required for all other units in the development).",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "Table 3-3.2.2, tier descriptions",
+          "quote": "Tier Three A minimum of 50% of total units are affordable units",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "Proposed Code Amendments page, Recently Adopted: Affordable Housing – LDC24-004",
+          "quote": "Arapahoe County has approved changes to the Land Development Code to encourage the development of affordable housing within unincorporated areas.",
+          "source_file": "sources/arapahoe-proposed-amend.txt"
+        }
+      ],
+      "notes": "A pending 2026 land dedication rewrite (LDC26, BOCC hearing Nov. 10, 2026) would let the manager waive open-space dedication above 25% affordable; not adopted as of 2026-10-10.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "lu-jefferson-county-affordable-90-day-fast-track",
+      "state": "CO",
+      "geoid": "08059",
+      "jurisdiction": "Jefferson County",
+      "county": "Jefferson County",
+      "measure": "expedited_review",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": 120,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": true
+      },
+      "detail": "Jefferson County must make a final decision within 90 calendar days on site development plans, minor variations, alternative standards, administrative exceptions and related building permits for developments where at least 50% of units are affordable (rentals at or below 60% AMI; for-sale at or below 100%/120% AMI). Participation is optional.",
+      "authorizing_code": "Jefferson County Policy Manual Part 7, Ch. 3, Sec. 5 (Resolution CC26-175); C.R.S. 29-32-105",
+      "adopted": "2026-07-01",
+      "source": {
+        "label": "Jefferson County Policy: Affordable Housing 90-Day Fast Track Review Process",
+        "url": "https://www.jeffco.us/DocumentCenter/View/58314/FastTrack-Affordable-Housing-Policy"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Jefferson County Policy Manual, Resolution CC26-175",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Header",
+          "quote": "Adopting Resolution: CC26-175",
+          "source_file": "sources/jeffco-fasttrack.txt"
+        },
+        {
+          "section": "Header",
+          "quote": "Adoption Date: July 1, 2026",
+          "source_file": "sources/jeffco-fasttrack.txt"
+        },
+        {
+          "section": "A.2",
+          "quote": "Affordable Housing Development means a project in which at least fifty percent (50%) of the residential units are Affordable Rental Housing Units or Affordable For-Sale Housing Units.",
+          "source_file": "sources/jeffco-fasttrack.txt"
+        },
+        {
+          "section": "C.1",
+          "quote": "The County shall make, for a permit described in the Eligible Application Types section above, a final decision for an Affordable Housing Development within ninety (90) calendar days, unless an extension is granted to exceed the ninety (90) calendar days as stated below.",
+          "source_file": "sources/jeffco-fasttrack.txt"
+        },
+        {
+          "section": "A.3",
+          "quote": "which current thresholds are thirty percent (30%) of the monthly income of a household earning at or below sixty percent (60%) of AMI.",
+          "source_file": "sources/jeffco-fasttrack.txt"
+        },
+        {
+          "section": "A.4",
+          "quote": "thirty percent (30%) of the monthly income of a household earning at or below one hundred percent (100%) of AMI; or 2) thirty percent (30%) of the monthly income of a household earning at or below one hundred twenty percent (120%) of AMI.",
+          "source_file": "sources/jeffco-fasttrack.txt"
+        }
+      ],
+      "notes": "Adopted to satisfy the Prop 123 fast-track requirement (C.R.S. 29-32-105). ami_max set to 120, the highest for-sale threshold; rentals are 60% AMI.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "lu-boulder-county-nonconforming-residential-affordable",
+      "state": "CO",
+      "geoid": "08013",
+      "jurisdiction": "Boulder County",
+      "county": "Boulder County",
+      "measure": "other",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": false
+      },
+      "detail": "A legal residential use that became nonconforming can be recognized as conforming through Limited Impact Special Review if the owner permanently deed-restricts it as affordable housing under BOCC standards based on Boulder County Housing Authority policy; no density increase is allowed.",
+      "authorizing_code": "Boulder County Land Use Code 4-1004.A.3 (Res. 98-25; standards Res. 99-198)",
+      "adopted": "1998-02-03",
+      "source": {
+        "label": "Boulder County Land Use Code (May 13, 2025 edition)",
+        "url": "https://assets.bouldercounty.gov/wp-content/uploads/2017/02/land-use-code.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Boulder County Land Use Code 4-1004.A.3 and amendment history",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "LUC 4-1004.A.3",
+          "quote": "The use was a legal residential use when it became nonconforming pursuant to Subsection 4-1003.A.1. and receives Limited Impact Special Review use approval under Section 4-600.A., and, in addition, the owner/ applicant agrees to permanently deed restrict the approved special use as affordable housing under the adopted standards of the BOCC based upon the recommendation and policies of the Boulder County Housing Authority.",
+          "source_file": "sources/boulder-luc.txt"
+        },
+        {
+          "section": "LUC 4-1004.A.3.a",
+          "quote": "No increase in density is permitted through this approval.",
+          "source_file": "sources/boulder-luc.txt"
+        },
+        {
+          "section": "LUC amendment history",
+          "quote": "Amendments to the nonconforming section adding language allowing approval for the purpose of affordable housing. 02/03/1998 Resolution 98-25, effective 2/3/1998.",
+          "source_file": "sources/boulder-luc.txt"
+        }
+      ],
+      "notes": "Narrow legalization tool rather than a production incentive. AMI limits are set in BOCC/BCHA standards, not in the code text.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
     }
   ]
 }

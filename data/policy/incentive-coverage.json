@@ -115,6 +115,309 @@
         "https://www.ci.wheatridge.co.us (HTTP 403)"
       ],
       "note": "No housing fund, dedicated tax or linkage fee found in code; city website blocked (403) so non-codified programs could not be read. Water/sewer in Wheat Ridge are provided by separate districts (not checked)."
+    },
+    {
+      "geoid": "08001",
+      "jurisdiction": "Adams County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "records",
+        "land_use": "none_found",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://adamscountyco.gov/wp-content/uploads/2025/08/dsr-chapter-05.pdf",
+        "https://adamscountyco.gov/wp-content/uploads/2025/08/dsr-chapter-01.pdf",
+        "https://adamscountyco.gov/wp-content/uploads/2025/08/dsr-chapter-02.pdf",
+        "https://adamscountyco.gov/wp-content/uploads/2025/08/dsr-chapter-03.pdf",
+        "https://adamscountyco.gov/wp-content/uploads/2025/08/dsr-chapter-04.pdf",
+        "https://adamscountyco.gov/wp-content/uploads/2025/08/dsr-appendix-d.pdf",
+        "https://adamscountyco.gov/our-county/community-economic-development/housing-policy-and-community-investments/",
+        "https://adamscountyco.gov/our-county/community-economic-development/housing-policy-and-community-investments/reports-policy/"
+      ],
+      "note": "adcogov.org returns Cloudflare 403 to a bare 'Mozilla/5.0' UA and now redirects to adamscountyco.gov; a full browser UA works. DSR chapters 1-5 and Appendix D contain no affordable-housing density/parking/expedited incentive (only an ADU purpose statement). Funds: no dedicated county housing tax found; ARPA land purchase in Brighton reported by CBS not verified on a county page. A 2026 Balanced Housing Plan (PLN2026-00013) is in process and not reviewed."
+    },
+    {
+      "geoid": "08005",
+      "jurisdiction": "Arapahoe County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "records",
+        "land_use": "records",
+        "funds": "not_checked"
+      },
+      "sources_checked": [
+        "https://files.arapahoeco.gov/Public%20Works_Development/planning_land%20development/Proposed%20Code%20Amendments/CleanCopyAffordableHousingLDCAmendment2025.pdf",
+        "https://www.arapahoeco.gov/your_county/county_departments/public_works_and_development/divisions/planning_and_land_development/land_development_code_and_regulations/proposed_code_amendments.php",
+        "https://www.denver7.com/news/local-news/new-incentives-aim-to-jumpstart-affordable-housing-in-arapahoe-county"
+      ],
+      "note": "LDC24-004 adoption date not stated on the county page (Denver7 reports BOCC approval in 2025). No county page for a housing fund was located; searches surfaced only Prop 123 state money for housing-stability services (Denver Gazette), so funds left not_checked."
+    },
+    {
+      "geoid": "08059",
+      "jurisdiction": "Jefferson County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "records",
+        "land_use": "records",
+        "funds": "none_found"
+      },
+      "sources_checked": [
+        "https://www.jeffco.us/DocumentCenter/View/57640",
+        "https://www.jeffco.us/DocumentCenter/View/58314/FastTrack-Affordable-Housing-Policy",
+        "https://www.jeffco.us/2662/Grants-Programs",
+        "https://www.jeffco.us/2118/Policy-Work"
+      ],
+      "note": "Housing & Community Development funding is federal (CDBG/HOME) plus private activity bonds; no dedicated local housing tax or trust fund found. BOCC Policy Work page says the county collaborates with cities by providing 'gap financing, bond cap, tax credits, and land' but describes no program, so no record. Fee refund program's attached fee table did not extract as text."
+    },
+    {
+      "geoid": "08035",
+      "jurisdiction": "Douglas County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "unreadable",
+        "land_use": "unreadable",
+        "funds": "none_found"
+      },
+      "sources_checked": [
+        "https://www.douglasco.gov/community-services/services/housing/housing-affordable-housing/",
+        "https://www.douglasco.gov/planning/development-review-regulations/zoning/development-zoning-compliance/",
+        "https://www.douglasco.gov/documents/section-8-dczr.pdf/",
+        "https://www.douglasco.gov/documents/section-28-dczr.pdf/",
+        "https://www.douglasco.gov/commissioners-invest-in-affordable-housing-for-older-adults-in-your-community/",
+        "https://www.douglasco.gov/your-voter-approved-funding-is-helping-individuals-with-disabilities-move-closer-to-independent-living/"
+      ],
+      "note": "Douglas County Zoning Resolution PDFs (douglasco.gov/documents/...) return HTTP 403 (Cloudflare) although HTML pages load; fee schedule not read. Funds: no dedicated housing tax/fund; county works through the Douglas County Housing Partnership (multi-jurisdiction housing authority). One-off project support seen: $850,000 CDBG (federal) grant to DCHP for RidgeGate Senior Apartments land (2024); 2022 ARPA purchase of a Castle Rock hotel transferred to Wellspring for Unity on Park (I/DD housing, affordability not stated) plus a $500,000 Developmental Disabilities Mill Levy grant. None recorded as a standing local housing fund."
+    },
+    {
+      "geoid": "08069",
+      "jurisdiction": "Larimer County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "records",
+        "land_use": "unreadable",
+        "funds": "unreadable"
+      },
+      "sources_checked": [
+        "https://www.larimer.gov/building/accessory_living_areas/backyard-boost-ala-fee-waiver-program",
+        "https://larimer.gov/spotlights/2026/07/10/backyard-boost-adds-affordable-housing-options",
+        "https://hoodline.com/2026/07/larimer-county-dangles-fee-freebies-to-spark-backyard-rentals/",
+        "https://www.denver7.com/news/local-news/accessory-dwelling-units-could-bring-affordable-relief-to-rural-larimer-county"
+      ],
+      "note": "Entire larimer.gov domain returns HTTP 403 (Cloudflare challenge) even with a browser UA; Larimer is not on Municode. Fee record is reported-level only. Land Use Code and any county housing fund could not be read."
+    },
+    {
+      "geoid": "08123",
+      "jurisdiction": "Weld County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "none_found",
+        "land_use": "none_found",
+        "funds": "unreadable"
+      },
+      "sources_checked": [
+        "https://library.municode.com/co/weld_county/codes/charter_and_county_code?nodeId=CH20IMFE_ARTIIMFE_S20-1-70EX",
+        "https://api.municode.com/search (Weld County Code, searches: affordable housing, low income, attainable, workforce housing, fee waiver)",
+        "https://www.weld.gov/Search?searchPhrase=affordable%20housing"
+      ],
+      "note": "Weld County Impact Fee Ordinance (Code Ch. 20) exemptions list no affordable-housing exemption (only remodels, pre-ordinance permits, federal/state projects, emergency services). Full-text search of the Weld County Code finds no affordable-housing incentive. weld.gov returns 403, so county housing/fund pages could not be read. Web reporting mentions only BOCC private activity bond assignments to towns (not a local fund)."
+    },
+    {
+      "geoid": "08013",
+      "jurisdiction": "Boulder County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "none_found",
+        "land_use": "records",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://bouldercounty.gov/property-and-land/land-use/building/building-publications/permit-fees-b33/",
+        "https://bouldercounty.gov/property-and-land/land-use/building/building-permit-fees/",
+        "https://assets.bouldercounty.gov/wp-content/uploads/2017/02/land-use-code.pdf",
+        "https://assets.bouldercounty.gov/wp-content/uploads/2023/08/Resolution-2023-070-Affordable-Housing-Proposal-signed.pdf",
+        "https://electionresults.bouldercounty.gov/ElectionResults2023C/",
+        "https://bouldercounty.gov/government/your-taxes-at-work/affordable-and-attainable-housing-tax/",
+        "https://bouldercounty.gov/news/voter-approved-affordable-and-attainable-housing-tax-to-go-towards-development-housing-supportive-services-grant-funding/",
+        "https://bouldercounty.gov/?p=190694"
+      ],
+      "note": "Building permit fee schedule (B33) has no affordable-housing waiver (only disaster-rebuild reductions); it shows the 0.185% housing tax collected as use tax on permits. LUC has no density bonus or fee incentive for affordable housing; DC-26-0001 (agricultural worker housing) is a pending text amendment, not recorded."
+    },
+    {
+      "geoid": "08101",
+      "jurisdiction": "Pueblo County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "unreadable",
+        "land_use": "unreadable",
+        "funds": "unreadable"
+      },
+      "sources_checked": [
+        "https://www.pueblocounty.gov/human-services-department/local-affordable-housing-development-resources",
+        "https://county.pueblo.org/human-services-department/local-affordable-housing-development-resources",
+        "https://pueblostarjournal.org/news/2026/01/30/proposition-123-and-the-long-road-home-in-pueblo-county/"
+      ],
+      "note": "pueblocounty.gov and county.pueblo.org both return HTTP 403 (Cloudflare challenge). Search snippets of the county resources page mention only Prop 123 opt-in, HOME funds and private activity bonds (federal/state tools), no county fee waiver or local fund; not verifiable from here. Pueblo County is not on Municode."
+    },
+    {
+      "geoid": "0820000",
+      "jurisdiction": "City and County of Denver",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO",
+        "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH53TAMIRE_ARTIISATA",
+        "https://www.coloradopolitics.com/2024/11/11/denver-mayor-mike-johnston-cedes-affordable-housing-ballot-loss-vows-to-keep-fighting-022a47e3-aa2a-5404-96db-92b71fb2b4bb/"
+      ],
+      "note": "Funds scope only (fees/land use already in fee-reductions.json and not re-checked). 7 fund records: permanent funds, 0.5-mill levy, 2% marijuana tax, linkage fee, EHA fee-in-lieu, 0.25% homelessness sales tax, failed 2024 Ballot 2R. 'IO 305 (2022)' in the brief was the failed eviction-defense landlord fee, not a housing fund."
+    },
+    {
+      "geoid": "0807850",
+      "jurisdiction": "City of Boulder",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://library.municode.com/co/boulder/codes/municipal_code?nodeId=TIT9LAUSCO_CH13INHO",
+        "https://library.municode.com/co/boulder/codes/municipal_code?nodeId=TIT4LIPE_CH20FE",
+        "https://library.municode.com/co/boulder/codes/municipal_code?nodeId=TIT8PAOPSPSTPUWA_CH9CAFAIMFE",
+        "https://library.municode.com/co/boulder/codes/municipal_code?nodeId=TIT3RETA_CH8DEEXTA",
+        "https://bouldercolorado.gov/services/affordable-housing-investments"
+      ],
+      "note": "4 fund records: Affordable Housing Fund, inclusionary cash-in-lieu, affordable housing linkage (impact) fee, CHAP property tax. Code sections for the CHAP levy and Housing Excise Tax were not located in B.R.C. title 3."
+    },
+    {
+      "geoid": "0827425",
+      "jurisdiction": "City of Fort Collins",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "records",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH23PUPR_ARTXIIILABA",
+        "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH25TA_ARTIIISAUSTA",
+        "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH8FI_ARTIIIFU",
+        "https://www.fortcollins.gov/Services/Housing/Affordable-Housing"
+      ],
+      "note": "Land bank record (code). New fee entry: sales/use tax deferral 25-130 (missing from fee-reductions.json). City sales-tax section 25-75 lists no tax dedicated to housing. fortcollins.gov / fcgov.com pages returned HTTP 403, so program-page details (land bank inventory, Affordable Housing Fund balance) are unread."
+    },
+    {
+      "geoid": "0816000",
+      "jurisdiction": "City of Colorado Springs",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "none_found"
+      },
+      "sources_checked": [
+        "https://coloradosprings.gov/HHRDFunding",
+        "https://coloradosprings.gov/affordable-housing"
+      ],
+      "note": "The Housing and Homelessness Response Department funding page lists General Fund, federal grants (CDBG, HOME, ESG, HOME-ARP, CoC), state/other grants (incl. Colorado Springs Utilities fee-rebate funding) and Private Activity Bonds; no dedicated local housing fund, tax, linkage or in-lieu fee."
+    },
+    {
+      "geoid": "0843000",
+      "jurisdiction": "City of Lakewood",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "none_found"
+      },
+      "sources_checked": [
+        "https://library.municode.com/co/lakewood/codes/municipal_code?nodeId=TIT15HOCO_CH15.02AFHO",
+        "https://www.lakewoodco.gov/Government/Departments/Planning/Housing",
+        "https://app.govly.com/public/meetings/68132"
+      ],
+      "note": "Municipal code (ch. 15.02 Affordable Housing; Municode search for 'housing fund', 'fee in lieu', 'linkage') has no affordable housing fund. lakewoodco.gov returned HTTP 403. A third-party AI meeting summary (Govly) says the Housing Policy Commission on Aug. 13, 2026 sent a draft affordable housing fund ordinance (at least $1 million a year from existing property tax discussed) to council for study session; not adopted as far as found, so no record. Recheck."
+    },
+    {
+      "geoid": "0803455",
+      "jurisdiction": "City of Arvada",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://co-arvada.civicplus.com/1155/Affordable-Housing-in-Arvada",
+        "https://co-arvada.civicplus.com/1277/2024-Housing-Strategic-Plan",
+        "https://co-arvada.civicplus.com/DocumentCenter/View/1885/2024-Arvada-Housing-Authority-Annual-Report-PDF"
+      ],
+      "note": "1 record: Arvada Affordable Housing Fund (housing authority gap-financing loans, no dedicated revenue). Municode search of the Arvada code found no housing fund, linkage or housing fee-in-lieu. arvadaco.gov blocks automated fetch (403); read via the city's CivicPlus host."
+    },
+    {
+      "geoid": "0883835",
+      "jurisdiction": "City of Westminster",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "none_found"
+      },
+      "sources_checked": [
+        "https://westminsterco.gov/1038/Housing-Resources",
+        "https://westminsterco.gov/1061/Affordable-Housing-Development",
+        "https://www.westminsterco.gov/248/Housing"
+      ],
+      "note": "City housing pages say Westminster is not a direct housing provider; it uses CDBG/HOME (Housing LIFT rehab grants) and assigned its HB24-1175 ROFR/ROFO to Maiker Housing Partners and Foothills Regional Housing. Municode search found no housing fund, linkage or housing fee-in-lieu. A Westminster Window report of council backing a housing trust fund seeded with ~$564,000 of Housing Authority money was not confirmed on any city page."
+    },
+    {
+      "geoid": "0845970",
+      "jurisdiction": "City of Longmont",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://library.municode.com/co/longmont/codes/code_of_ordinances?nodeId=PTIICOOR_TIT4REFI_CH4.99AFHOFU",
+        "https://library.municode.com/co/longmont/codes/code_of_ordinances?nodeId=PTIICOOR_TIT15LADECO_CH15.05DEST_S15.05.220INHO",
+        "https://longmontcolorado.gov/housing/affordable-housing/inclusionary-housing/"
+      ],
+      "note": "4 records: Affordable Housing Fund, 1.5% marijuana sales tax share, inclusionary fee in lieu ($13.50/$5.93 per sq ft), Attainable Housing Fund (80.1-120% AMI)."
+    },
+    {
+      "geoid": "0846465",
+      "jurisdiction": "City of Loveland",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://library.municode.com/co/loveland/codes/code_of_ordinances?nodeId=PTIILOCOMUCO_TIT17AFHOCO"
+      ],
+      "note": "1 record: Community Housing Development Fund (code). No dedicated tax found. The general fee-deferral authority in 17.03.01.05 is not affordable-housing-specific, so not added as a fee entry."
+    },
+    {
+      "geoid": "0832155",
+      "jurisdiction": "City of Greeley",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "none_found"
+      },
+      "sources_checked": [
+        "https://greeleyco.gov/government/city-administration/city-departments/housing-solutions",
+        "https://greeleyco.gov/government/city-administration/city-departments/housing-solutions/community-grants-and-funding",
+        "https://greeleyco.gov/city-clerk/elections/understanding-ballot-measure-2f"
+      ],
+      "note": "Housing Solutions funding page lists CDBG, HOME, Private Activity Bonds and Prop 123 only; Municode search found no housing fund, linkage or housing fee-in-lieu. Ballot Measure 2F (Nov. 3, 2026, 0.6% sales tax) funds civic-campus, West Greeley, recreation and parks capital projects, not housing."
     }
   ]
 }
