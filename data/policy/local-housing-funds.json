@@ -472,7 +472,7 @@
           "quote": "Sources of the local funds include: Affordable housing impact fees Inclusionary Housing cash-in-lieu contributions General fund"
         }
       ],
-      "notes": "Second source: https://bouldercolorado.gov/services/affordable-housing-investments. The page says the city awarded more than $20 million in local funding in 2025 across AHF and CHAP combined (not split by fund), so annual_revenue is null.",
+      "notes": "Second source: https://bouldercolorado.gov/services/affordable-housing-investments (checked 2026-10-10). The page says the city awarded more than $20 million in local funding in 2025 across AHF and CHAP combined (not split by fund), so annual_revenue is null.",
       "last_verified": "2026-10-10"
     },
     {
