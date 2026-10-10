@@ -49,8 +49,13 @@ jobs:
       - name: Open due review issues (branch and PR runs are always dry)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT_NAME: ${{ github.event_name }}
           DRY_RUN: ${{ github.event_name == 'pull_request' || github.ref != 'refs/heads/main' || inputs.dry_run == true }}
         run: |
-          args=(--repo-root main)
+          # A pull request that changes which files are reminded is checked
+          # against its own data: main does not have a file the PR adds yet.
+          root=main
+          if [ "$EVENT_NAME" = "pull_request" ]; then root=reminder-code; fi
+          args=(--repo-root "$root")
           if [ "$DRY_RUN" = "true" ]; then args+=(--dry-run); fi
           node reminder-code/scripts/audit/policy-review-reminders.mjs "${args[@]}"
