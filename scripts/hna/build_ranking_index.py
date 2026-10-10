@@ -1434,6 +1434,8 @@ def compute_metrics(
                 lehd_source = "county_proportional"
             # else: in_commuters stays 0 (county population unknown)
 
+    # methods-spec:begin need-inputs  (methods.html §06 describes this block;
+    # test/methods-spec-sources.test.mjs fails when it changes unreviewed)
     # --- Workforce gap: demand measured from jobs, not residents ---------
     #
     # See WORKFORCE_WAGE_BANDS. The resident gap asks "do the people living
@@ -1584,6 +1586,8 @@ def compute_metrics(
             # refuses, and rightly: it is where the figure came from. Name it.
             if not projection_basis:
                 projection_basis = "workforce_gap_lodes_wac"
+
+    # methods-spec:end need-inputs
 
     sya = load_sya(county_fips5) if county_fips5 else None
     if sya:
@@ -2149,6 +2153,9 @@ def build(out_path: str | None = None) -> None:
     print(f"Processed: {county_count} counties, {place_count} places, {cdp_count} CDPs",
           file=sys.stderr)
 
+    # methods-spec:begin scoring-chain  (methods.html §06 writes this block out
+    # as formulas; test/methods-spec-sources.test.mjs fails when it changes
+    # unreviewed)
     # Compute percentile ranks for B1 component scores. All scored factors use
     # per-geo-type pools so places rank against places, counties rank against
     # counties, and CDPs rank against CDPs.
@@ -2300,6 +2307,8 @@ def build(out_path: str | None = None) -> None:
         e["metrics"]["score_confidence_multiplier"] = confidence_multiplier
         score = round(min(100.0, max(0.0, raw_score)) * confidence_multiplier, 1)
         e["metrics"]["overall_need_score"] = score
+
+    # methods-spec:end scoring-chain
 
     # The gap percentile, under a name that says which metric it describes.
     # It used to be published as `percentileRank` and displayed beside the
