@@ -418,6 +418,294 @@
         "https://greeleyco.gov/city-clerk/elections/understanding-ballot-measure-2f"
       ],
       "note": "Housing Solutions funding page lists CDBG, HOME, Private Activity Bonds and Prop 123 only; Municode search found no housing fund, linkage or housing fee-in-lieu. Ballot Measure 2F (Nov. 3, 2026, 0.6% sales tax) funds civic-campus, West Greeley, recreation and parks capital projects, not housing."
+    },
+    {
+      "geoid": "08117",
+      "jurisdiction": "Summit County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://www.summitcountyco.gov/services/housing/property_deed_restrictions/impact_fee.php",
+        "https://www.summitcountyco.gov/Documents/Services/Finance/Sales%20Tax%20Information/Sales%20Tax%20Rates%20-%202024.pdf",
+        "https://www.summitcountyco.gov/services/finance/sales_tax.php",
+        "https://www.summitcountyco.gov/services/housing/housing_helps.php",
+        "https://www.summitdaily.com/news/local/summit-combined-housing-authority-tax-renewal-on-november-ballot/",
+        "https://www.summitdaily.com/news/local/how-summit-county-worked-to-tackle-its-affordable-housing-problem-in-2021/",
+        "https://www.chfainfo.com/community-partnerships/public-policy/cc-nov2022-election-results",
+        "https://www.summitcountyco.gov/services/housing/index.php",
+        "https://www.summithousing.us/"
+      ],
+      "note": "Five fund records (SCHA 0.125% tax + impact fee, 0.6% tax, 2022 STR lodging tax, Housing Helps). Fees/land use not in this batch's scope."
+    },
+    {
+      "geoid": "0808400",
+      "jurisdiction": "Town of Breckenridge",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://breckenridge.town.codes/enactments/Res2019-17/media/original.pdf",
+        "https://www.townofbreckhousing.com/housing-helps",
+        "https://www.townofbreckenridge.com/",
+        "https://www.hcn.org/articles/how-a-colorado-ski-town-reserved-almost-75-of-its-full-time-housing-for-workforce"
+      ],
+      "note": "townofbreckenridge.com returned HTTP 403; Housing Fund revenue sources (sales taxes, STR fee) not read from an official source, so not recorded."
+    },
+    {
+      "geoid": "0880040",
+      "jurisdiction": "Town of Vail",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://www.vail.gov/government/departments/housing/vailindeed",
+        "https://vail.gov/home/showpublisheddocument/2396/637704169678130000",
+        "https://www.vaildaily.com/news/eagle-valley/vail-sales-tax-proposal-leads-in-early-returns/",
+        "https://www.vaildaily.com/news/good-deeds-vail-partnership-with-eagle-county-looks-to-bring-more-locals-back-into-town/",
+        "https://www.vaildaily.com/news/vail-indeed-program-has-provided-homes-for-270-people-since-2017/",
+        "https://coloradosun.com/2025/11/17/vail-voters-reject-plan-to-tax-short-term-rentals"
+      ],
+      "note": "All vail.gov pages/documents returned HTTP 403 (Akamai); Vail records are 'reported' from Vail Daily, CHFA and the Colorado Sun. Re-verify on vail.gov."
+    },
+    {
+      "geoid": "08037",
+      "jurisdiction": "Eagle County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://www.eaglecounty.us/news_detail_T24_R44.php",
+        "https://www.eaglecounty.us/departments___services/finance/sales_tax.php",
+        "https://www.housingeaglecounty.com/gooddeeds",
+        "https://www.eaglecounty.us/news_detail_T24_R620.php",
+        "https://www.eaglecounty.us/departments___services/housing/index.php"
+      ],
+      "note": "Lodging tax 1A and Good Deeds recorded."
+    },
+    {
+      "geoid": "0803620",
+      "jurisdiction": "City of Aspen",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://aspen.gov/1428/Real-Estate-Transfer-Taxes",
+        "https://www.aspen.gov/1389/State-County-and-Local-Tax-Information",
+        "https://aspen.gov/1427/Lodging-and-Short-Term-Rental-Taxes",
+        "https://aspen.gov/DocumentCenter/View/9387/City-of-Aspen-2021-Annual-Comprehensive-Financial-Report-PDF",
+        "https://aspen.gov/DocumentCenter/View/15412/July-2025---City-of-Aspen-Financials-PDF"
+      ],
+      "note": "Housing RETT (pre-TABOR, 1989), 0.45% sales tax and STR tax recorded. APCHA not recorded separately."
+    },
+    {
+      "geoid": "08097",
+      "jurisdiction": "Pitkin County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://pitkincounty.com/DocumentCenter/View/33757/2025-Mill-Levy-Resolution",
+        "https://pitkincounty.com/DocumentCenter/View/35692/2026-Mgrs-budget-ltr",
+        "https://www.aspendailynews.com/election2024/worker-housing-1a-question-wins-in-pitco-snowmass/article_cc595d4c-9c02-11ef-ab38-ab00dd3f75ac.html",
+        "https://pitkincounty.com/DocumentCenter/View/33238/Housing",
+        "https://pitkincounty.com/DocumentCenter/View/30524/BOCC-AIS-Housing-Impact-Fee---81121-"
+      ],
+      "note": "1.5-mill housing levy recorded; Employee Housing Impact Fee exists (2021 AIS) but current schedule not read, so not recorded."
+    },
+    {
+      "geoid": "0876795",
+      "jurisdiction": "Town of Telluride",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://telluride-co.gov/401/Taxes",
+        "https://telluride.municipal.codes/TMC/4-9-10",
+        "https://www.telluridenews.com/news/article_7879c028-0061-11ea-88f2-77f970e4be57.html",
+        "https://www.telluridenews.com/news_release/article_a7234af0-3c51-4422-8aea-f08b33114f3d.html",
+        "https://891khol.org/telluride-short-term-rental-tax-raises-funds-for-affordable-housing/"
+      ],
+      "note": "telluride-co.gov unreachable (proxy 502) and telluride.municipal.codes 403; three records are 'reported' from Telluride Daily Planet/KHOL. Re-verify against TMC."
+    },
+    {
+      "geoid": "08113",
+      "jurisdiction": "San Miguel County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://www.sanmiguelcountyco.gov/ArchiveCenter/ViewFile/Item/595",
+        "https://chfainfo.com/community-partnerships/public-policy/cc-dec2024-election-results"
+      ],
+      "note": "0.5-mill housing levy recorded."
+    },
+    {
+      "geoid": "0873825",
+      "jurisdiction": "City of Steamboat Springs",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://www.steamboatsprings.net/DocumentCenter/View/41217/2026-Budget-Letter-Retreat-Remediated",
+        "https://steamboatsprings.net/CivicAlerts.aspx?AID=2471&ARC=3946",
+        "https://www.steamboatsprings.net/348/Accommodations-Tax"
+      ],
+      "note": "9% STR tax and Community Housing Fund recorded."
+    },
+    {
+      "geoid": "08107",
+      "jurisdiction": "Routt County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://www.co.routt.co.us/DocumentCenter/View/17705/RouttCnty_Abstract-of-Assessment-and-Summary-of-Levies_TY2024",
+        "https://www.co.routt.co.us/DocumentCenter/View/14085/2022-Pamphlet_FrontandBack",
+        "https://www.yvha.org/"
+      ],
+      "note": "YVHA 1-mill levy recorded under Routt County; no county-government housing tax found in the sources read (not an exhaustive check)."
+    },
+    {
+      "geoid": "08051",
+      "jurisdiction": "Gunnison County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://gunnisoncounty.org/DocumentCenter/View/2080/Essential-Housing-Linkage-Amendment-June-2006",
+        "https://gunnisoncounty.org/1163/Housing-Authority"
+      ],
+      "note": "2006 Workforce Housing (linkage) Fee recorded; current status/amounts need re-check against the current Land Use Resolution."
+    },
+    {
+      "geoid": "0818310",
+      "jurisdiction": "Town of Crested Butte",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://townofcrestedbutte.colorado.gov/government/tax-information"
+      ],
+      "note": "7.5% STR excise tax recorded; town RETT is not housing-dedicated."
+    },
+    {
+      "geoid": "0828690",
+      "jurisdiction": "Town of Frisco",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://www.friscogov.com/?p=7471",
+        "https://www.friscogov.com/departments/finance/sales-and-lodging-tax/",
+        "https://www.friscogov.com/departments/community-development/workforce-and-affordable-housing/",
+        "https://www.friscogov.com/news/catch-up-with-council-january-28-2025/"
+      ],
+      "note": "5% STR excise tax and Housing Helps recorded."
+    },
+    {
+      "geoid": "0804110",
+      "jurisdiction": "Town of Avon",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL",
+        "https://www.avon.org/2382/Housing",
+        "https://www.avon.org/2237/Mi-Casa-Avon---Deed-Restriction-Program",
+        "https://www.avon.org/210/Real-Estate-Transfer-Tax",
+        "https://www.avon.org/2125/Full-Exemptions"
+      ],
+      "note": "Six records from the 2026 Community Housing Plan and housing pages."
+    },
+    {
+      "geoid": "0822035",
+      "jurisdiction": "City of Durango",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://www.durangoco.gov/1630/2022-election",
+        "https://www.durangoco.gov/1713/Lodgers-Tax",
+        "https://www.chfainfo.com/community-partnerships/public-policy/cc-nov2022-election-results"
+      ],
+      "note": "Only a one-time excess-revenue retention (2022 2A) is housing-directed; ongoing lodgers' tax has no housing share."
+    },
+    {
+      "geoid": "08067",
+      "jurisdiction": "La Plata County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://www.lpcgov.org/departments/finance___procurement/lodging_tax_information.php",
+        "https://chfainfo.com/community-partnerships/public-policy/cc-dec2024-election-results"
+      ],
+      "note": "1A (2024) recorded as 'reported'; official ballot text not found."
+    },
+    {
+      "geoid": "0830780",
+      "jurisdiction": "City of Glenwood Springs",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://cogs.us/844/Workforce-Housing-Fund-AKA-2c-Budget",
+        "https://www.cogs.us/ArchiveCenter/ViewFile/Item/733",
+        "https://www.cogs.us/757/Workforce-Housing-Fund"
+      ],
+      "note": "2C accommodations tax recorded."
     }
   ]
 }
