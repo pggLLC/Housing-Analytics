@@ -64,6 +64,8 @@
     .mx-where dl { margin: .4rem 0 0; display: grid; grid-template-columns: auto 1fr; gap: .25rem .9rem; }
     .mx-where dt { font-family: ui-monospace, Menlo, monospace; font-size: .82rem; color: var(--accent); font-weight: 600; }
     .mx-where dd { margin: 0; }
+    @media (max-width: 600px) { .mx-where dl { grid-template-columns: 1fr; row-gap: .1rem; } .mx-where dd { margin-bottom: .45rem; } }
+    .mx-where dd code { display: inline; white-space: normal; overflow-wrap: anywhere; line-height: inherit; }
 
     .mx-src {
       font-family: ui-monospace, Menlo, monospace; font-size: .74rem;
