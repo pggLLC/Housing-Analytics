@@ -243,3 +243,15 @@ test('CHFA: a blocked or empty page is unverifiable, never "every round is in th
     assert.doesNotMatch(result.notes, /Every published/);
   }
 });
+
+test('CHFA: one same-year award between rounds does not cover a whole published round', async () => {
+  // Round Two lists three developments; the feed has one 4% and State award from that year.
+  const three = page('<p>Sponsor: A</p><p>Sponsor: B</p><p>Sponsor: C</p>');
+  const root = chfaRoot({ feedYears: { 2025: ['9% and State', '4% and State'], 2026: ['4% and State'] }, bridges: [[2026, 'one']] });
+  const result = await watchChfaRounds(byUrl(ALL_2025_2026(three)).fetch, OCT_2026, root);
+  assert.equal(result.is_outdated, true);
+  assert.equal(result.latest_vintage, '2026 Round Two');
+  const covered = chfaRoot({ feedYears: { 2025: ['9% and State', '4% and State'], 2026: ['4% and State', '4% and State', '4% and State'] }, bridges: [[2026, 'one']] });
+  const ok = await watchChfaRounds(byUrl(ALL_2025_2026(three)).fetch, OCT_2026, covered);
+  assert.equal(ok.is_outdated, false, 'as many feed awards as listed developments counts as covered');
+});
