@@ -15,7 +15,8 @@ const geoConfig = json('data/hna/geo-config.json');
 const helper = require('../js/components/lihtc-by-year.js');
 const plain = v => JSON.parse(JSON.stringify(v));
 const wait = async (fn, message = 'render completed') => { for (let i = 0; i < 400 && !fn(); i++) await new Promise(r => setTimeout(r, 5)); assert(fn(), message); };
-const pages = ['market-intelligence.html', 'economic-dashboard.html', 'colorado-deep-dive.html'];
+// market-intelligence.html is now the Market Signals tab of colorado-deep-dive.html.
+const pages = ['economic-dashboard.html', 'colorado-deep-dive.html'];
 function render(page, data = feed, missing = []) {
   const charts = new Map();
   const dom = new JSDOM(read(page), {
@@ -85,8 +86,7 @@ test('an unavailable timeline stays unavailable while the CHFA series can still 
     try {
       await wait(() => r.doc.querySelector('[data-policy-timeline]').textContent.includes('could not be loaded'));
       assert.equal(r.doc.querySelectorAll('[data-policy-event-id]').length, 0);
-      if (page === 'market-intelligence.html') await wait(() => r.charts.has('lihtcTrendChart'));
-      if (page === 'colorado-deep-dive.html') await wait(() => r.charts.has('chartLihtcTimeline'));
+      if (page === 'colorado-deep-dive.html') await wait(() => r.charts.has('chartLihtcTimeline') && r.charts.has('lihtcTrendChart'));
     } finally { r.dom.window.close(); }
   }
 });
@@ -103,8 +103,8 @@ test('missing PolicyTimeline or a failed load preserves charts on every consumer
         await wait(() => r.doc.querySelector('[data-policy-timeline-status]')?.hidden === false);
         assert.match(r.doc.querySelector('[data-policy-timeline-status]').textContent, /Policy timeline unavailable/);
         if (missing[0].endsWith('.js')) assert.equal(r.w.PolicyTimeline, undefined);
-        const chartIds = page === 'colorado-deep-dive.html' ? ['foreclosure-chart', 'concessions-chart', 'chartLihtcTimeline'] :
-          page === 'market-intelligence.html' ? ['lihtcTrendChart'] : page === 'construction-commodities.html' ? ['steel-chart'] : [];
+        const chartIds = page === 'colorado-deep-dive.html' ? ['foreclosure-chart', 'concessions-chart', 'chartLihtcTimeline', 'lihtcTrendChart'] :
+          page === 'construction-commodities.html' ? ['steel-chart'] : [];
         await wait(() => r.charts.size > 0 && chartIds.every(id => r.charts.has(id)), page + ': rendered charts ' + [...r.charts.keys()].join(', '));
         for (const chart of r.charts.values()) {
           assert.equal(Object.keys(chart.options.plugins?.annotation?.annotations || {}).length, 0, page + ': no policy markers');
@@ -113,7 +113,7 @@ test('missing PolicyTimeline or a failed load preserves charts on every consumer
       } finally { r.dom.window.close(); }
     }
   }
-  assert.equal(checked, 8, 'every policy chart consumer checked with both failures');
+  assert.equal(checked, 6, 'every policy chart consumer checked with both failures');
 });
 
 test('missing LihtcByYear or failed series data shows unavailable without breaking other charts', async () => {
@@ -122,7 +122,7 @@ test('missing LihtcByYear or failed series data shows unavailable without breaki
     for (const [page, id, note] of [
       ['historical-trends.html', 'chfaTimelineChart', '#htErrorBanner'],
       ['colorado-deep-dive.html', 'chartLihtcTimeline', '#lihtcTimelineSourceNote'],
-      ['market-intelligence.html', 'lihtcTrendChart', '#lihtc-trend-status']
+      ['colorado-deep-dive.html', 'lihtcTrendChart', '#lihtc-trend-status']
     ]) {
       const r = render(page, feed, missing);
       try {
@@ -130,7 +130,7 @@ test('missing LihtcByYear or failed series data shows unavailable without breaki
         assert.equal(r.charts.has(id), false, page + ': no fabricated series');
         assert.equal(r.doc.querySelector(note).hidden, false);
         if (page === 'colorado-deep-dive.html') await wait(() => r.charts.has('foreclosure-chart'));
-        if (page === 'market-intelligence.html') await wait(() => r.charts.has('demandChart') && r.charts.has('supplyChart'));
+        if (id === 'lihtcTrendChart') await wait(() => r.charts.has('demandChart') && r.charts.has('supplyChart'));
         checked++;
       } finally { r.dom.window.close(); }
     }
@@ -142,7 +142,7 @@ test('all 64 counties are represented, and Baca and Moffat show county-scoped ze
   const series = helper.series(feed.features, { geoConfig });
   assert.equal(geoConfig.counties.length, 64);
   assert.deepEqual(Object.keys(series.counties).sort(), geoConfig.counties.map(c => c.label.replace(/ County$/i, '')).sort());
-  const r = render('market-intelligence.html');
+  const r = render('colorado-deep-dive.html');
   try {
     await wait(() => r.charts.has('lihtcTrendChart'));
     for (const county of ['Baca', 'Moffat']) {
@@ -182,7 +182,7 @@ test('the three CHFA charts and headings agree with the feed, including a change
     for (const [page, id, title] of [
       ['historical-trends.html', 'chfaTimelineChart', 'htCHFAHeading'],
       ['colorado-deep-dive.html', 'chartLihtcTimeline', 'lihtcTimelineTitle'],
-      ['market-intelligence.html', 'lihtcTrendChart', 'lihtc-trend-heading']
+      ['colorado-deep-dive.html', 'lihtcTrendChart', 'lihtc-trend-heading']
     ]) {
       const r = render(page, data);
       try {
@@ -207,7 +207,7 @@ test('the three CHFA charts and headings agree with the feed, including a change
           assert(r.doc.getElementById('htStockHeading').textContent.includes(exp.range));
           assert(r.doc.getElementById('htFeedCoverage').textContent.includes(String(data.features.length)));
           assert(r.doc.getElementById('htFeedCoverage').textContent.includes(exp.range));
-        } else if (page === 'colorado-deep-dive.html') {
+        } else if (id === 'chartLihtcTimeline') {
           assert.deepEqual(plain(chart.data.datasets[0].data), result.totals.liUnits);
         } else {
           for (const dataset of chart.data.datasets) {

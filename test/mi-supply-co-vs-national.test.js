@@ -4,7 +4,7 @@ const path = require('node:path');
 
 const repoRoot = path.resolve(__dirname, '..');
 const js = fs.readFileSync(path.join(repoRoot, 'js/market-intelligence.js'), 'utf8');
-const html = fs.readFileSync(path.join(repoRoot, 'market-intelligence.html'), 'utf8');
+const html = fs.readFileSync(path.join(repoRoot, 'colorado-deep-dive.html'), 'utf8');
 
 assert.match(
   js,

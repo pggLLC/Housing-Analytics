@@ -55,7 +55,6 @@ const PAGES = [
   { name: 'hna-where-its-heading', path: '/hna-where-its-heading.html' },
   { name: 'hna-what-to-do', path: '/hna-what-to-do.html' },
   { name: 'market-analysis',            path: '/market-analysis.html' },
-  { name: 'market-intelligence',        path: '/market-intelligence.html' },
   { name: 'colorado-deep-dive',         path: '/colorado-deep-dive.html' },
   { name: 'colorado-market',            path: '/colorado-market.html' },
   { name: 'LIHTC-dashboard',            path: '/LIHTC-dashboard.html' },
