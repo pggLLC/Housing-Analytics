@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-10T19:14:54.028758Z",
+  "generated": "2026-10-10T19:47:02.859042Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7329,7 +7329,7 @@
     "data/insights/catalog.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 8942
+      "bytes": 8640
     },
     "data/jurisdiction-briefs/0803620.json": {
       "featureCount": 0,
