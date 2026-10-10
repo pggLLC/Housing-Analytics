@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-10T19:27:06Z",
+  "generated_at": "2026-10-10T20:03:15Z",
   "generator": "scripts/funding/build_funding_awards.py",
   "sources": [
    "https://www.chfainfo.com/rental-housing/housing-credit/awards",
@@ -4210,7 +4210,7 @@
    "round": 1,
    "fiscal_year": null,
    "name": "Fruita Mews",
-   "sponsor": "Indibuild llc",
+   "sponsor": null,
    "location": "Fruita",
    "county_fips": "08077",
    "total_units": 50,
@@ -4227,7 +4227,8 @@
    "amount_requested": null,
    "bond_amount": null,
    "federal_credit_type": "9%",
-   "county_method": "LIHTC feed project name"
+   "county_method": "LIHTC feed project name",
+   "sponsor_unavailable_reason": "withheld: matches text the public build excludes"
   },
   {
    "agency": "CHFA",
