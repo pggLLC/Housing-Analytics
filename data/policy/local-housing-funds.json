@@ -11,5 +11,898 @@
       "Annual revenue is recorded only where the source states it; most records leave it null."
     ]
   },
-  "entries": []
+  "entries": [
+    {
+      "id": "f-boulder-county-affordable-attainable-housing-tax",
+      "geoid": "08013",
+      "jurisdiction": "Boulder County",
+      "county": "Boulder County",
+      "provider_type": "county",
+      "tool": "dedicated_sales_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": "2023-11-07",
+      "sunset": "2039-12-31",
+      "rate_text": "0.185% countywide sales and use tax",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "development, acquisition, preservation and operation of for-sale and rental homes for low/moderate-income households and local workforce; housing-stability services; grants to housing authorities, nonprofits and municipalities",
+      "summary": "Boulder County voters in 2023 (83,505 to 33,426) extended the existing 0.185% sales and use tax for fifteen years, through 2039, to fund affordable and attainable housing; the county projected $16.7 million in revenue for 2025.",
+      "authorizing_code": "Boulder County BOCC Resolution 2023-070; County Issue 1B (Nov. 7, 2023)",
+      "source": {
+        "label": "Boulder County Resolution 2023-070 and 2023 Coordinated Election results",
+        "url": "https://assets.bouldercounty.gov/wp-content/uploads/2023/08/Resolution-2023-070-Affordable-Housing-Proposal-signed.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Resolution 2023-070; Boulder County 2023 Coordinated Election results (electionresults.bouldercounty.gov/ElectionResults2023C/); bouldercounty.gov AAHT pages",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Boulder County Ballot Issue 1B results",
+          "quote": "Boulder County Ballot Issue 1B Affordable and Attainable Sales and Use Tax Extension and Revenue Change Candidate Votes Percent 1513 82 73 Yes/For 83,505 83505 1514 83 74 No/Against 33,426 33426",
+          "source_file": "sources/boulder-2023-results.txt"
+        },
+        {
+          "section": "Resolution 2023-070, para. 12",
+          "quote": "Beginning January 1, 2025, the net proceeds from the 0.185% countywide sales and use tax received by the County shall be expended by the County for the purposes of funding affordable and attainable housing and related support services",
+          "source_file": "sources/boulder-reso-2023-070.txt"
+        },
+        {
+          "section": "Resolution 2023-070, para. 21",
+          "quote": "The sales and use tax described in this Resolution expires on December 31, 2039.",
+          "source_file": "sources/boulder-reso-2023-070.txt"
+        },
+        {
+          "section": "Boulder County news release",
+          "quote": "Boulder County voters overwhelmingly approved the tax in 2023 and the AAHT is projected to provide $16.7 million in revenue in 2025.",
+          "source_file": "sources/boulder-aah-tax-news.txt"
+        },
+        {
+          "section": "Affordable and Attainable Housing Tax page",
+          "quote": "In the 2023 General Election, Boulder County voters approved an extension of an existing .185% sales and use tax with 71% support.",
+          "source_file": "sources/boulder-aah-tax-page.txt"
+        }
+      ],
+      "notes": "Rate was previously dedicated to jail/alternative sentencing (Res. 2018-76) through 2024; housing use began Jan. 1, 2025. annual_revenue left null because the $16.7M figure is a projection. Initial allocation per county release: about 65% ($9.7m) development, 35% ($5m) supportive services, $500,000 innovation grants; development money split 30% Longmont, 32% Boulder, 38% rest of county. Also note a separate 0.05% health and human services sales tax (2017 extension to 2033) can fund capital for housing authorities; not recorded here because that page (2017 ballot issues) returned 404.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-adams-county-rofr-assigned-to-maiker",
+      "geoid": "08001",
+      "jurisdiction": "Adams County",
+      "county": "Adams County",
+      "provider_type": "county",
+      "tool": "other",
+      "status": "adopted",
+      "voter_approved": false,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "acquisition of qualifying multifamily properties in unincorporated Adams County for affordable housing under HB24-1175 (right of first refusal assigned to Maiker Housing Partners; county keeps right of first offer)",
+      "summary": "Adams County kept its right of first offer under the state's 2024 Rights to Property for Affordable Housing law and assigned its right of first refusal for unincorporated properties to Maiker Housing Partners.",
+      "authorizing_code": "HB24-1175 (C.R.S. 29-4-1201 et seq.); Adams County BOCC action (Nov. 11)",
+      "source": {
+        "label": "Adams County Housing Policy & Community Investments page",
+        "url": "https://adamscountyco.gov/our-county/community-economic-development/housing-policy-and-community-investments/"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Adams County Housing Policy & Community Investments page",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "NOTICE: Rights to Property for Affordable Housing Law Notice",
+          "quote": "As of November 11, the Adams County Board of Commissioner has opted to retain its Right of First Offer (ROFO) and universally assign its Right of First Refusal to Maiker Housing Partners.",
+          "source_file": "sources/adams-housing-policy.txt"
+        },
+        {
+          "section": "NOTICE",
+          "quote": "As of August 7, 2024, the Local Government Rights to Property for Affordable Housing law (HB24-1175) is in effect.",
+          "source_file": "sources/adams-housing-policy.txt"
+        }
+      ],
+      "notes": "Year of the Nov. 11 BOCC action is not stated on the page (likely 2024, not verified), so adopted is null. Maiker Housing Partners is the Adams County housing authority. No dedicated county housing tax or trust fund was found on the county's housing pages; a 2018 study session discussed a housing trust fund but no adopted fund was found.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-denver-affordable-housing-permanent-funds",
+      "geoid": "0820000",
+      "jurisdiction": "City and County of Denver",
+      "county": "Denver County",
+      "provider_type": "city",
+      "tool": "housing_trust_fund",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": "2016-09-19",
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Rental production/preservation and rental assistance (<=80% AMI), for-sale housing (<=100% AMI), homebuyer assistance (<=120% AMI), supportive housing and anti-displacement programs",
+      "summary": "Denver's affordable housing permanent funds receive linkage-fee revenue and a dedicated property tax levy plus a share of retail marijuana sales tax, and may be spent only on income-restricted housing programs, with administration capped at 8 percent.",
+      "authorizing_code": "D.R.M.C. 27-150 (Ord. No. 625-16, 2016; Ord. No. 864-18, 2018; Ord. No. 47-20, 2020)",
+      "source": {
+        "label": "Denver Revised Municipal Code ch. 27, art. V (Municode API)",
+        "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=495354&nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO&productId=10257"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Denver Revised Municipal Code 27-150 (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "D.R.M.C. 27-150(a)",
+          "quote": "The affordable housing permanent funds shall consist of the Affordable Housing Linkage Fee Revenue Fund created for the exclusive purpose of receiving and accounting for all revenues derived from the affordable housing linkage fees"
+        },
+        {
+          "section": "D.R.M.C. 27-150(c)(1)",
+          "quote": "For the production or preservation of rental housing, including the funding of rental assistance programs, for qualified households earning eighty (80) percent or less of AMI."
+        },
+        {
+          "section": "D.R.M.C. 27-150(c)(2)",
+          "quote": "For the production or preservation of for-sale housing for qualified households earning one hundred (100) percent or less of AMI."
+        },
+        {
+          "section": "D.R.M.C. 27-150(c)(3)",
+          "quote": "For homebuyer assistance programs, including by way of example down payment and mortgage assistance programs, for qualified households earning one hundred and twenty (120) percent or less of AMI."
+        },
+        {
+          "section": "D.R.M.C. 27-150(d)",
+          "quote": "in no event shall the amount expended from the funds for such administrative expenses in any year exceed eight (8) percent of the amount of revenue received in the Affordable Housing Linkage Fee Revenue Fund that year"
+        }
+      ],
+      "notes": "Two funds under one article: the Affordable Housing Linkage Fee Revenue Fund and the Affordable Housing Property Tax and Other Local Revenue Fund. Annual revenue is not stated in the code. The former Division 4 sunset provision (27-170) now reads 'Reserved'. Separate records cover the levy, the marijuana tax share and the linkage fee.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-denver-affordable-housing-mill-levy",
+      "geoid": "0820000",
+      "jurisdiction": "City and County of Denver",
+      "county": "Denver County",
+      "provider_type": "city",
+      "tool": "dedicated_property_tax",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": "2016-09-19",
+      "sunset": null,
+      "rate_text": "separately itemized property tax levy, initially one-half mill (.5 mill) for 2016 taxes, adjusted annually",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Affordable Housing Property Tax and Other Local Revenue Fund purposes (D.R.M.C. 27-150(c))",
+      "summary": "Denver levies a separately itemized property tax for affordable housing, set at one-half mill for 2016 taxes and adjusted annually since with other city levies.",
+      "authorizing_code": "D.R.M.C. 27-150(i)",
+      "source": {
+        "label": "Denver Revised Municipal Code ch. 27, art. V (Municode API)",
+        "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=495354&nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO&productId=10257"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Denver Revised Municipal Code 27-150(i) (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "D.R.M.C. 27-150(i)",
+          "quote": "the city's certification of property tax mill levies shall include a separate itemized levy at the rate of one-half of one mill (.5 mill) for the purpose of funding affordable housing programs"
+        },
+        {
+          "section": "D.R.M.C. 27-150(i)",
+          "quote": "the city shall continue to maintain a separately itemized levy to fund affordable housing programs and, as provided in subsection 20-26 (d), shall adjust the levy annually"
+        }
+      ],
+      "notes": "The current-year mill rate is not stated in the code; voter approval is not stated in the source (null).",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-denver-marijuana-sales-tax-housing",
+      "geoid": "0820000",
+      "jurisdiction": "City and County of Denver",
+      "county": "Denver County",
+      "provider_type": "city",
+      "tool": "other_excise_tax",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": "2018-10-01",
+      "sunset": null,
+      "rate_text": "2% special retail marijuana sales tax",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Affordable Housing Property Tax and Other Local Revenue Fund purposes",
+      "summary": "Since October 2018 Denver dedicates a 2 percent special sales tax on retail marijuana to its Affordable Housing Property Tax and Other Local Revenue Fund.",
+      "authorizing_code": "D.R.M.C. 53-92(a)(2); 27-150(j)",
+      "source": {
+        "label": "Denver Revised Municipal Code ch. 53, art. II (Municode API)",
+        "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH53TAMIRE_ARTIISATA",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=495354&nodeId=TITIIREMUCO_CH53TAMIRE_ARTIISATA&productId=10257"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Denver Revised Municipal Code 53-92 and 27-150(j) (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "D.R.M.C. 53-92(a)(2)",
+          "quote": "The two (2) percent tax described in this subsection 53-85(a)(2) shall be dedicated to the Affordable Housing Property Tax and Other Local Revenue Fund for affordable housing purposes."
+        },
+        {
+          "section": "D.R.M.C. 53-92(a)(2)",
+          "quote": "beginning October 1, 2018, there is imposed upon all sales of retail marijuana and retail marijuana products to a consumer by a retail marijuana store a tax at the rate of two (2) percent of the amount of the sale."
+        }
+      ],
+      "notes": "The separate 3.5% special retail marijuana tax in 53-92(a)(1) is not dedicated to housing. Revenue not stated in the code.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-denver-linkage-fee",
+      "geoid": "0820000",
+      "jurisdiction": "City and County of Denver",
+      "county": "Denver County",
+      "provider_type": "city",
+      "tool": "linkage_fee",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": "2016-09-19",
+      "sunset": null,
+      "rate_text": "$1.75-$9.00 per sq ft of GFA by use (July 2022-July 2025 schedule), CPI-adjusted from July 1, 2026",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Rental and for-sale housing and homebuyer assistance for households at or below 80% AMI",
+      "summary": "Denver charges an affordable housing linkage fee per square foot of new floor area, phased up to $5.00 (small dwellings) through $9.00 (commercial uses in high market areas) by July 2025 and indexed to CPI from July 2026; residential projects may instead comply with mandatory affordable housing.",
+      "authorizing_code": "D.R.M.C. 27-153 (Ord. No. 625-16, 2016; Ord. No. 426-22, 2022)",
+      "source": {
+        "label": "Denver Revised Municipal Code ch. 27, art. V (Municode API)",
+        "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=495354&nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO&productId=10257"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Denver Revised Municipal Code 27-153 (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "D.R.M.C. 27-153(a)",
+          "quote": "an affordable housing linkage fee shall be imposed prior to the issuance of a building permit for any new structure or for any addition to an existing structure that increases the gross floor area"
+        },
+        {
+          "section": "D.R.M.C. 27-153(a) table",
+          "quote": "Dwelling unit(s) of 1,600 square feet or less of GFA within a single-unit dwelling, two-unit dwelling, or multi-unit dwelling or live/work dwelling of 9 dwelling units or less. $1.75 $2.83 $3.92 $5.00"
+        },
+        {
+          "section": "D.R.M.C. 27-153(a) table",
+          "quote": "Any primary commercial sales services and repair uses or any primary civic, public or institutional uses in a high market area as high market area is defined in section 27-219 . $3.65 $5.43 $7.22 $9.00"
+        },
+        {
+          "section": "D.R.M.C. 27-150(b)(1)",
+          "quote": "To increase the supply of affordable rental housing, including the funding of renter assistance programs, for qualified households earning eighty (80) percent or less of AMI"
+        }
+      ],
+      "notes": "Columns are effective July 1 of 2022, 2023, 2024 and 2025. Other rows: >1,600 sf dwellings $8.00; other primary residential $7.00; commercial typical market $6.00; industrial/agricultural $2.50 (2025 column). Exceptions in 27-154. The fee now applies mainly where Article X (mandatory affordable housing) does not; 27-153(c) lets residential applicants comply with Article X instead.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-denver-eha-fee-in-lieu",
+      "geoid": "0820000",
+      "jurisdiction": "City and County of Denver",
+      "county": "Denver County",
+      "provider_type": "city",
+      "tool": "in_lieu_fee",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": "2022-06-06",
+      "sunset": null,
+      "rate_text": "$250,000-$478,000 per required income-restricted unit (2022 base), CPI-adjusted annually",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "First offsets the EHA building-permit fee reduction; remainder for rental (<=80% AMI), for-sale (<=100% AMI) and homebuyer assistance (<=120% AMI)",
+      "summary": "Under Expanding Housing Affordability, Denver developers may pay a fee in lieu per required income-restricted unit ($311,000 rental / $478,000 ownership in high market areas; $250,000-$408,000 in typical areas) into the Mandatory Affordable Housing Special Revenue Fund.",
+      "authorizing_code": "D.R.M.C. 27-220, 27-225 (Ord. No. 426-22, 2022)",
+      "source": {
+        "label": "Denver Revised Municipal Code ch. 27, art. V (Municode API)",
+        "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=495354&nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO&productId=10257"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Denver Revised Municipal Code 27-220 and 27-225 (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "D.R.M.C. 27-225(a)",
+          "quote": "An applicant may satisfy its requirements under this division by making a fee-in-lieu payment that will be deposited in the Mandatory Affordable Housing Revenue Fund."
+        },
+        {
+          "section": "D.R.M.C. 27-225(b)(1)",
+          "quote": "High Market Area 10% of dwelling units Rental development $311,000.00 Ownership development $478,000.00 Typical Market Area 8% of total dwelling units Townhouses $250,000.00 Ownership development, dwelling units other than townhouses $408,000.00"
+        },
+        {
+          "section": "D.R.M.C. 27-220(a)(1)-(3)",
+          "quote": "(1) For the production or preservation of rental housing, including the funding of rental assistance programs, for qualified households earning eighty (80) percent or less of AMI. (2) For the production or preservation of for-sale housing for qualified households earning one hundred (100) percent or less of AMI. (3) For homebuyer assistance programs, including by way of example, down payment and mortgage assistance programs, for qualified households earning one hundred twenty (120) percent or less of AMI."
+        },
+        {
+          "section": "D.R.M.C. 27-220(a)",
+          "quote": "The director shall use the Mandatory Affordable Housing Special Revenue Fund for the primary purpose of offsetting the costs of the building permit fee reduction incentive provided in section 27-224 ."
+        }
+      ],
+      "notes": "Typical-market rental: $250,000 (1-7 stories) and $295,000 (8+ stories). Amounts are the codified 2022 base; CPI-U adjusted each July 1 from 2023 via a CPD schedule not read here. The inclusionary requirement itself is already in fee-reductions.json (denver-eha-inclusionary-requirement).",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-denver-homelessness-resolution-sales-tax",
+      "geoid": "0820000",
+      "jurisdiction": "City and County of Denver",
+      "county": "Denver County",
+      "provider_type": "city",
+      "tool": "dedicated_sales_tax",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": "2020-08-24",
+      "sunset": null,
+      "rate_text": "0.25% sales and use tax",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Housing, shelter and services for people experiencing or exiting homelessness (capital, operations, rental assistance, supportive services)",
+      "summary": "Since January 1, 2021 Denver levies an extra 0.25 percent sales and use tax for the Homelessness Resolution Fund, spent on housing, shelter and services for people experiencing or exiting homelessness, with administration capped at 8 percent.",
+      "authorizing_code": "D.R.M.C. 53-56(m), 53-106(q); 27-189, 27-190 (Ord. No. 782-20)",
+      "source": {
+        "label": "Denver Revised Municipal Code ch. 53, art. II (Municode API)",
+        "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH53TAMIRE_ARTIISATA",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=495354&nodeId=TITIIREMUCO_CH53TAMIRE_ARTIISATA&productId=10257"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Denver Revised Municipal Code 53-56(m) and 27-190 (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "D.R.M.C. 53-56(m)",
+          "quote": "Sales tax increment to fund the Homelessness Resolution Program. In addition to the sales tax otherwise imposed in this section, a tax of twenty-five one-hundredths of one (.25) percent must be paid on all sales of taxable sales of commodities or services"
+        },
+        {
+          "section": "D.R.M.C. 27-190(a)",
+          "quote": "All monies derived from the sales and use taxes in the homelessness resolution fund must be expended on housing, shelter, and services for those experiencing or having exited from homelessness"
+        },
+        {
+          "section": "D.R.M.C. 27-190(b)",
+          "quote": "in no event may the amount expended from the funds for city administrative expenses in any year exceed eight (8) percent of the amount of revenue received in the fund in that year"
+        }
+      ],
+      "notes": "Voter approval (Nov. 2020 ballot 2B per news coverage) is not stated in the code text read, so voter_approved=null. adopted = date of Ord. No. 782-20. Revenue not stated in the code. Includes shelter and services, not only housing.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-denver-2024-ballot-2r-housing-sales-tax",
+      "geoid": "0820000",
+      "jurisdiction": "City and County of Denver",
+      "county": "Denver County",
+      "provider_type": "city",
+      "tool": "dedicated_sales_tax",
+      "status": "ballot_failed",
+      "voter_approved": false,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "0.5 percentage-point sales tax increase (proposed)",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Affordable housing (proposed)",
+      "summary": "Denver voters narrowly rejected Ballot Issue 2R in November 2024, which would have raised the city sales tax by 0.5 points for affordable housing.",
+      "authorizing_code": "Denver Ballot Issue 2R (Nov. 5, 2024)",
+      "source": {
+        "label": "Colorado Politics, 'Denver Mayor Mike Johnston cedes affordable housing ballot loss' (2024-11-11)",
+        "url": "https://www.coloradopolitics.com/2024/11/11/denver-mayor-mike-johnston-cedes-affordable-housing-ballot-loss-vows-to-keep-fighting-022a47e3-aa2a-5404-96db-92b71fb2b4bb/"
+      },
+      "verification": {
+        "level": "reported",
+        "against": "Colorado Politics (news report); Denver Elections official results page not fetched",
+        "checked": "2026-10-10",
+        "by": "Colorado Politics (news report); Denver Elections official results page not fetched"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "article",
+          "quote": "But on Saturday, Johnston conceded Ballot Issue 2R’s failure, which lost at the ballot box by a slim margin."
+        },
+        {
+          "section": "article",
+          "quote": "His funding proposal this year — which would have raised the city’s sales tax rate by 0.5 points— would have cost roughly $30 million more than his campaign pitch."
+        },
+        {
+          "section": "article",
+          "quote": "As of Monday, 50.74% of voters said “no.”"
+        }
+      ],
+      "notes": "Reported, not primary; the 50.74% 'no' figure was a partial count as of the article date. The brief's 'Initiated Ordinance 305 (2022)' is a different measure: per news coverage it was a $75/unit landlord fee for eviction legal defense, which failed; it was not a housing fund and is not recorded.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-boulder-affordable-housing-fund",
+      "geoid": "0807850",
+      "jurisdiction": "City of Boulder",
+      "county": "Boulder County",
+      "provider_type": "city",
+      "tool": "housing_trust_fund",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Build, rehabilitate or acquire affordable housing; administration of inclusionary programs",
+      "summary": "Boulder's Affordable Housing Fund, fed by affordable housing impact (linkage) fees, inclusionary cash-in-lieu and the general fund, is used solely to build, buy, rehabilitate and maintain affordable housing.",
+      "authorizing_code": "B.R.C. 9-13-10(a)(1)(B)",
+      "source": {
+        "label": "Boulder Revised Code ch. 9-13 (Municode API)",
+        "url": "https://library.municode.com/co/boulder/codes/municipal_code?nodeId=TIT9LAUSCO_CH13INHO",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=496676&nodeId=TIT9LAUSCO_CH13INHO&productId=18020"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Boulder Revised Code 9-13-10 and City of Boulder affordable housing investments page",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "B.R.C. 9-13-10(a)(1)(B)",
+          "quote": "The city manager will establish an affordable housing fund for the receipt and management of permanently affordable unit cash-in-lieu contributions. Monies received into that fund will be utilized solely for the construction, purchase and maintenance of affordable housing"
+        },
+        {
+          "section": "Affordable Housing Fund (AHF)",
+          "quote": "Sources of the local funds include: Affordable housing impact fees Inclusionary Housing cash-in-lieu contributions General fund"
+        }
+      ],
+      "notes": "Second source: https://bouldercolorado.gov/services/affordable-housing-investments. The page says the city awarded more than $20 million in local funding in 2025 across AHF and CHAP combined (not split by fund), so annual_revenue is null.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-boulder-inclusionary-cash-in-lieu",
+      "geoid": "0807850",
+      "jurisdiction": "City of Boulder",
+      "county": "Boulder County",
+      "provider_type": "city",
+      "tool": "in_lieu_fee",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "per residential square foot; rate set annually by the city manager",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Affordable Housing Fund purposes",
+      "summary": "Boulder developers may satisfy inclusionary housing by paying cash-in-lieu into the Affordable Housing Fund, at a per-square-foot rate the city manager sets and may escalate each January 1.",
+      "authorizing_code": "B.R.C. 9-13-10(a)(1) (Ord. Nos. 8201 (2017), 8601 (2024), 8620 (2024))",
+      "source": {
+        "label": "Boulder Revised Code ch. 9-13 (Municode API)",
+        "url": "https://library.municode.com/co/boulder/codes/municipal_code?nodeId=TIT9LAUSCO_CH13INHO",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=496676&nodeId=TIT9LAUSCO_CH13INHO&productId=18020"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Boulder Revised Code 9-13-10 (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "B.R.C. 9-13-10(a)(1)",
+          "quote": "Developers may satisfy permanently affordable housing requirements by making cash contributions to the city's affordable housing fund. The cash-in-lieu contribution will be based on the residential square footage of the development creating the inclusionary housing requirement and the applicable rate will be determined annually by the city manager."
+        },
+        {
+          "section": "B.R.C. 9-13-10(a)(1)(A)",
+          "quote": "The city manager is authorized to adjust the cash-in-lieu contribution annually on January 1 of each year."
+        }
+      ],
+      "notes": "Current dollar rate is in an administrative schedule not read here (null). The inclusionary requirement itself is already in fee-reductions.json (d-lu-boulder-inclusionary).",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-boulder-affordable-housing-linkage-fee",
+      "geoid": "0807850",
+      "jurisdiction": "City of Boulder",
+      "county": "Boulder County",
+      "provider_type": "city",
+      "tool": "linkage_fee",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "nonresidential affordable housing impact fee $12.21-$36.64 per sq ft by use; $11 per sq ft on single-unit expansions/replacements of 500 sq ft and above",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Affordable housing capital improvements (affordable housing impact fee account)",
+      "summary": "Boulder's capital facility impact fee includes an affordable housing (commercial linkage) component of $36.64 per square foot for office, $24.43 for retail/restaurant and hospital, $21.37 light industrial and $12.21 institutional/warehousing, plus $11 per square foot on large single-unit expansions and replacements.",
+      "authorizing_code": "B.R.C. 4-20-62, Tables 2-5; ch. 8-9 (Ord. No. 8152 (2017) and later, incl. 8712 (2026))",
+      "source": {
+        "label": "Boulder Revised Code 4-20-62 and ch. 8-9 (Municode API)",
+        "url": "https://library.municode.com/co/boulder/codes/municipal_code?nodeId=TIT4LIPE_CH20FE",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=496676&nodeId=TIT4LIPE_CH20FE&productId=18020"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Boulder Revised Code 4-20-62 and 8-9-1, 8-9-5 (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "B.R.C. 4-20-62 Table 3",
+          "quote": "Retail/Restaurant $0.50 $0.93 $0.80 $24.43 $0.70 $27.36 Office $0.72 $0.37 $1.15 $36.64 $0.28 $39.16 Hospital $0.59 $0.44 $0.93 $24.43 $0.35 $26.74 Institutional $0.15 $0.31 $0.24 $12.21 $0.23 $13.14 Warehousing $0.18 $0.12 $0.30 $12.21 $0.09 $12.90 Light Industrial $0.46 $0.22 $0.73 $21.37 $0.18 $22.96"
+        },
+        {
+          "section": "B.R.C. 4-20-62 Table 2",
+          "quote": "Affordable Housing 499 and below $0 500 and above $11"
+        },
+        {
+          "section": "B.R.C. 8-9-1(a)",
+          "quote": "to fund affordable housing needed to address demand attributable to these types of developments in the city"
+        },
+        {
+          "section": "B.R.C. 8-9-5(b)",
+          "quote": "The funds collected will be allocated according to the following public facility categories; parks and recreation, human services, affordable housing, municipal facilities, police and fire"
+        }
+      ],
+      "notes": "Table 3 columns: Municipal Facilities, Police, Fire, Affordable Housing, Transportation, Total; the affordable housing column is the linkage component. Public/civic and affordable commercial uses pay a lower affordable housing rate (Table 4: $5.25-$15.76/sf); lodging $6,303.85/room and nursing home $2,101.28/bed (Table 5). Basis study: Keyser Marston 2016 Jobs Housing Nexus Analysis; single-unit fee basis: Gruen Gruen + Associates 2025 nexus.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-boulder-chap-property-tax",
+      "geoid": "0807850",
+      "jurisdiction": "City of Boulder",
+      "county": "Boulder County",
+      "provider_type": "city",
+      "tool": "dedicated_property_tax",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Increase the supply of affordable housing for working households",
+      "summary": "Boulder's Community Housing Assistance Program (CHAP) fund, established in 1991, is financed by a property tax the city says generates around $3 million a year plus the Housing Excise Tax.",
+      "authorizing_code": null,
+      "source": {
+        "label": "City of Boulder, Investing in Affordable Housing and Community Development",
+        "url": "https://bouldercolorado.gov/services/affordable-housing-investments"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "City of Boulder affordable housing investments page",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Community Housing Assistance Program (CHAP)",
+          "quote": "The Community Housing Assistance Program Fund was established in 1991 to provide a simple and flexible, locally administered funding source to increase the supply of affordable housing for working households."
+        },
+        {
+          "section": "Community Housing Assistance Program (CHAP)",
+          "quote": "Source for this fund include: Property tax that generates around $3 million per year Housing Excise Tax"
+        }
+      ],
+      "notes": "annual_revenue is the city's own approximate figure ('around $3 million per year'), year not stated. Mill rate, voter approval and the code section for the levy and for the Housing Excise Tax were not found in the B.R.C. title 3 chapters read (chapter 3-8 is now a transportation-only development excise tax); left null.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-fortcollins-affordable-housing-land-bank",
+      "geoid": "0827425",
+      "jurisdiction": "City of Fort Collins",
+      "county": "Larimer County",
+      "provider_type": "city",
+      "tool": "land_bank_or_public_land",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": "2001-04-17",
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Acquire, hold and sell land to housing providers for affordable rental (<=60% AMI) and ownership (<=80% AMI) housing",
+      "summary": "Fort Collins's land bank buys land near transit, schools, parks, jobs and shopping, paid from the Affordable Housing Fund or General Fund, and sells it only to housing providers bound to build rentals for households at or below 60 percent of AMI or ownership homes at or below 80 percent.",
+      "authorizing_code": "Fort Collins Municipal Code 23-350 to 23-354 (Ord. No. 48, 2001; Ord. No. 037, 2018)",
+      "source": {
+        "label": "Fort Collins Municipal Code ch. 23, art. XIII Land Banking (Municode API)",
+        "url": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH23PUPR_ARTXIIILABA",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=501629&nodeId=CH23PUPR_ARTXIIILABA&productId=18005"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Fort Collins Municipal Code 23-350-23-354 (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Sec. 23-350",
+          "quote": "The purpose of this Article is to enable the City to acquire, hold and sell real property to assist housing providers (whether publicly affiliated, philanthropic or profit-motivated) in providing affordable rental and homeownership housing."
+        },
+        {
+          "section": "Sec. 23-353",
+          "quote": "The acquisition of land pursuant to this Article shall be funded from the Affordable Housing Fund, the General Fund, or other available funding source."
+        },
+        {
+          "section": "Sec. 23-354(1)",
+          "quote": "a. Rental housing shall be restricted to households at or below sixty (60) percent of AMI. b. Homeownership housing shall be restricted to households at or below eighty (80) percent of AMI."
+        }
+      ],
+      "notes": "Number of parcels held is not in the code; fcgov.com program pages returned HTTP 403 to automated fetch. The code references an 'Affordable Housing Fund' but no code section creating it was found in ch. 8 art. III (funds), so no separate housing_trust_fund record.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-longmont-affordable-housing-fund",
+      "geoid": "0845970",
+      "jurisdiction": "City of Longmont",
+      "county": "Boulder County",
+      "provider_type": "city",
+      "tool": "housing_trust_fund",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Affordable housing programs and services",
+      "summary": "Longmont's Affordable Housing Fund receives the housing share of the special retail marijuana sales tax, inclusionary fees in lieu, loan repayments, gifts, grants and appropriations, for affordable housing programs only.",
+      "authorizing_code": "Longmont Municipal Code 4.99.010-4.99.020 (Ord. No. O-2001-68; O-2017-47; O-2018-51)",
+      "source": {
+        "label": "Longmont Municipal Code ch. 4.99 Affordable Housing Fund (Municode API)",
+        "url": "https://library.municode.com/co/longmont/codes/code_of_ordinances?nodeId=PTIICOOR_TIT4REFI_CH4.99AFHOFU",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=494949&nodeId=PTIICOOR_TIT4REFI_CH4.99AFHOFU&productId=14590"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Longmont Municipal Code ch. 4.99 (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Sec. 4.99.010",
+          "quote": "There is created a special fund, pursuant to section 9.9 of the Charter, known as the affordable housing fund, for the purpose of receiving all revenues related to affordable housing programs and services."
+        },
+        {
+          "section": "Sec. 4.99.020",
+          "quote": "The affordable housing fund shall be funded through revenues derived from the special retail marijuana sales tax as described in section 4.04.135 , collection of fees in lieu of construction of affordable housing"
+        }
+      ],
+      "notes": "Created by Ord. No. O-2001-68 (adoption date not printed in the code history). This fund also pays the fee offsets already recorded in fee-reductions.json (d-longmont-*).",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-longmont-marijuana-sales-tax-housing",
+      "geoid": "0845970",
+      "jurisdiction": "City of Longmont",
+      "county": "Boulder County",
+      "provider_type": "city",
+      "tool": "other_excise_tax",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "1.5% of retail marijuana sales price (half of the 3.0% special retail marijuana sales tax)",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Affordable Housing Fund",
+      "summary": "Longmont deposits revenue equal to 1.5 percent of retail marijuana sales, out of its 3.0 percent special retail marijuana sales tax, into the Affordable Housing Fund.",
+      "authorizing_code": "Longmont Municipal Code 4.04.135(E) (Ord. No. O-2017-47)",
+      "source": {
+        "label": "Longmont Municipal Code 4.04.135 (Municode API)",
+        "url": "https://library.municode.com/co/longmont/codes/code_of_ordinances?nodeId=PTIICOOR_TIT4REFI_CH4.04SAUSTA",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=494949&nodeId=PTIICOOR_TIT4REFI_CH4.99AFHOFU&productId=14590"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Longmont Municipal Code 4.04.135 (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Sec. 4.04.135(A)",
+          "quote": "a special retail marijuana sales tax at the rate of 3.0 percent of the sales price"
+        },
+        {
+          "section": "Sec. 4.04.135(E)",
+          "quote": "Revenues from the special retail marijuana sales tax representing 1.5 percent of the sales price of assessed retail marijuana and retail marijuana products shall be deposited into the affordable housing fund established in chapter 4.99 ."
+        }
+      ],
+      "notes": "Voter approval not stated in the code text (null). Source URL nodeId for 4.04 is approximate; the text was read from the Title 4 API response (retrieved_via).",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-longmont-inclusionary-fee-in-lieu",
+      "geoid": "0845970",
+      "jurisdiction": "City of Longmont",
+      "county": "Boulder County",
+      "provider_type": "city",
+      "tool": "in_lieu_fee",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": "2018-12-11",
+      "sunset": null,
+      "rate_text": "$13.50 per sq ft finished for-sale housing; $5.93 per sq ft finished rental housing (effective Dec. 11, 2023)",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Affordable Housing Fund",
+      "summary": "Longmont lets developers meet its 12 percent inclusionary requirement by paying a fee in lieu into the Affordable Housing Fund, currently $13.50 per square foot of finished for-sale housing and $5.93 for rental, recalculated every three years.",
+      "authorizing_code": "Longmont Municipal Code 15.05.220(E)(2), (J) (Ord. No. O-2018-51)",
+      "source": {
+        "label": "Longmont Municipal Code 15.05.220 Inclusionary housing (Municode API)",
+        "url": "https://library.municode.com/co/longmont/codes/code_of_ordinances?nodeId=PTIICOOR_TIT15LADECO_CH15.05DEST_S15.05.220INHO",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=494949&nodeId=PTIICOOR_TIT15LADECO_CH15.05DEST_S15.05.220INHO&productId=14590"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Longmont Municipal Code 15.05.220 (Municode API) and City of Longmont Inclusionary Housing page",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Sec. 15.05.220(E)(2)(a)(i)",
+          "quote": "Effective December 11, 2023, the fee in lieu will be recalculated to $13.50 per square foot of finished for-sale housing, and $5.93 per square foot of finished rental housing."
+        },
+        {
+          "section": "Sec. 15.05.220(J)",
+          "quote": "All revenues accruing to the city under this section shall be placed in the affordable housing fund established in chapter 4.99 ."
+        },
+        {
+          "section": "What is Inclusionary Housing",
+          "quote": "All residential developments seeking a development permit must ensure that 12% of the total units are affordable to low- and moderate-income residents."
+        }
+      ],
+      "notes": "Initial rates were $7.90 (for-sale) / $1.90 (rental) per sq ft. The code says the next recalculation goes to council by July 31, 2026 and would take effect January 2, 2027; a 2026 recalculation was not checked. Fee is paid at certificate of occupancy. adopted = Ord. No. O-2018-51 date per 4.99.020 history.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-longmont-attainable-housing-fund",
+      "geoid": "0845970",
+      "jurisdiction": "City of Longmont",
+      "county": "Boulder County",
+      "provider_type": "city",
+      "tool": "housing_trust_fund",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": "2022-10-25",
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Attainable housing programs and services for households at 80.1-120% AMI",
+      "summary": "Longmont's Attainable Housing Fund, created in 2022, funds housing programs for households earning 80.1 to 120 percent of AMI from grants, loan repayments and city funds.",
+      "authorizing_code": "Longmont Municipal Code 4.99.5.010-4.99.5.020 (Ord. No. O-2022-39)",
+      "source": {
+        "label": "Longmont Municipal Code ch. 4.99.5 Attainable Housing Fund (Municode API)",
+        "url": "https://library.municode.com/co/longmont/codes/code_of_ordinances?nodeId=PTIICOOR_TIT4REFI_CH4.99.5ATHOFU",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=494949&nodeId=PTIICOOR_TIT4REFI_CH4.99.5ATHOFU&productId=14590"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Longmont Municipal Code ch. 4.99.5 (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Sec. 4.99.5.010",
+          "quote": "The fund and any earned interest shall be for the specific purpose of providing attainable housing programs and services that serve people earning between 80.1—120 percent of the area median income (AMI)."
+        },
+        {
+          "section": "Sec. 4.99.5.020",
+          "quote": "The attainable housing fund shall be funded by grants and intergovernmental revenues received for the purpose defined above, from repayments of funds loaned from this fund, as well as city funds intended to support attainable housing initiatives."
+        }
+      ],
+      "notes": "Middle-income fund distinct from the Affordable Housing Fund; no dedicated tax.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-loveland-community-housing-development-fund",
+      "geoid": "0846465",
+      "jurisdiction": "City of Loveland",
+      "county": "Larimer County",
+      "provider_type": "city",
+      "tool": "housing_trust_fund",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": "2023-09-05",
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Affordable housing programs and services and supporting professional services",
+      "summary": "Loveland's Community Housing Development Fund receives deed-restriction hardship-waiver recapture payments, gifts, grants and general-fund appropriations for affordable housing programs and services.",
+      "authorizing_code": "Loveland Municipal Code 17.04.010-17.04.020, 17.04.060 (Ord. No. 6637, 2023)",
+      "source": {
+        "label": "Loveland Municipal Code Title 17 Affordable Housing Code (Municode API)",
+        "url": "https://library.municode.com/co/loveland/codes/code_of_ordinances?nodeId=PTIILOCOMUCO_TIT17AFHOCO",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=488583&nodeId=PTIILOCOMUCO_TIT17AFHOCO_CH17.03REIMDEFE_DIV17.03.01PUAPWA&productId=15738"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Loveland Municipal Code 17.04.010-17.04.060 (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "17.04.010",
+          "quote": "There is created a special fund to be known as the \"Community Housing Development Fund\" for the purpose of receiving all revenues related to affordable housing programs and services and other appropriations from the general fund or other funds"
+        },
+        {
+          "section": "17.04.020",
+          "quote": "The Community Housing Development Fund shall be funded through revenues derived from payments to the City as set forth in Section 17.04.060 Sales of Deed-Restricted Affordable Housing Units, from gifts or grants, and from appropriations from the general fund or other funds"
+        }
+      ],
+      "notes": "17.04.060 requires owners granted a hardship waiver to sell a deed-restricted unit to a non-qualified buyer to repay a sliding share of net proceeds (95% in year 1 down to 0% at year 20). No dedicated tax. adopted = Ord. No. 6637 date (code recodification; the fund may predate it).",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-arvada-affordable-housing-fund",
+      "geoid": "0803455",
+      "jurisdiction": "City of Arvada",
+      "county": "Jefferson County",
+      "provider_type": "housing_authority",
+      "tool": "housing_trust_fund",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Competitive gap-financing loans to build and rehabilitate affordable housing in Arvada",
+      "summary": "The Arvada Housing Authority manages the Arvada Affordable Housing Fund, which makes competitive gap-financing loans for affordable housing construction and rehabilitation; the 2024 Housing Strategic Plan calls for giving it a dedicated revenue source.",
+      "authorizing_code": null,
+      "source": {
+        "label": "City of Arvada, Affordable Housing in Arvada",
+        "url": "https://www.arvadaco.gov/1155/Affordable-Housing-in-Arvada",
+        "retrieved_via": "https://co-arvada.civicplus.com/1155/Affordable-Housing-in-Arvada"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "City of Arvada Affordable Housing in Arvada page and 2024 Housing Strategic Plan page",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Arvada Housing Authority",
+          "quote": "Arvada Affordable Housing Fund: The Arvada Housing Authority manages a fund to provide gap financing loans to upcoming construction projects in Arvada."
+        },
+        {
+          "section": "Arvada Affordable Housing Fund",
+          "quote": "The Arvada Affordable Housing Fund is a gap financing source available to housing developers looking to build and rehabilitate projects in Arvada."
+        },
+        {
+          "section": "Policy Lever #1",
+          "quote": "Create a dedicated, sustainable revenue source to fund the Arvada Affordable Housing Fund (AAHF)."
+        }
+      ],
+      "notes": "arvadaco.gov returns HTTP 403 to automated fetch; text read from the city's own CivicPlus host (co-arvada.civicplus.com). No dedicated revenue source as of the plan (adopted May 20, 2024). The plan also lists 'Continue to allocate publicly owned land (and/or acquire properties) for affordable and mixed-income housing' as a strategy; not recorded as a program because no program terms were found. Creation date and size not stated.",
+      "last_verified": "2026-10-10"
+    }
+  ]
 }

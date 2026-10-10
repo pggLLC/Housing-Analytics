@@ -17,6 +17,7 @@ dates. The coverage ledger may not contradict the records: a scope cannot be
 """
 
 import json
+import re
 from datetime import date
 from pathlib import Path
 from urllib.parse import urlparse
@@ -94,6 +95,11 @@ def canon(geoid):
     return CONSOLIDATED.get(geoid, geoid)
 
 
+def fund_quotes(rec):
+    # Codes write a fractional rate as "(.25) percent"; read it as 0.25.
+    return re.sub(r'\(\.(\d+)\)', r'(0.\1)', quotes_of(rec))
+
+
 def check_verification(rec, as_of):
     rid = rec['id']
     assert https(rec['source']['url']), f'{rid}: source must be an https URL'
@@ -144,7 +150,7 @@ def test_an_unpublished_amount_is_null_never_zero(funds):
 def test_every_figure_in_a_fund_record_is_in_its_evidence(funds):
     checked = 0
     for e in funds['entries']:
-        quotes = quotes_of(e)
+        quotes = fund_quotes(e)
         amounts, pcts = set(money(quotes)), set(percents(quotes))
         prose = ' '.join(e.get(k) or '' for k in ('summary', 'rate_text', 'uses'))
         for amount in money(prose):

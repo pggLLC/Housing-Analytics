@@ -60,6 +60,8 @@ assert(tally.size >= 40, `only ${tally.size} jurisdictions have records; the sca
 function page() {
   const dom = new JSDOM('<!DOCTYPE html><div data-local-incentives><div data-li-summary></div><select data-li-select></select><div data-li-jurisdiction></div><div data-li-toolkit></div><div data-li-catalog></div></div>', { runScripts: 'outside-only' });
   const w = dom.window;
+  // The page fetches its data on load; this harness hands it the data directly.
+  w.fetch = () => new Promise(() => {});
   for (const f of ['js/components/review-status.js', 'js/local-incentives-data.js', 'js/local-incentives.js']) w.eval(read(f));
   return w;
 }
@@ -84,7 +86,9 @@ for (const [geoid, scopes] of tally) {
     emptyScopes++;
     const result = ledger.get(geoid)?.result_by_scope?.[scope];
     const expected = STATE_TEXT[result === 'none_found' || result === 'unreadable' ? result : 'not_checked'];
-    assert(text.includes(expected), `${geoid}: empty ${scope} must say "${expected}"`);
+    // The body says it, not only the heading's badge.
+    const body = panel.querySelector(`#li-${scope}-h`).parentElement.querySelector('p.li-muted');
+    assert(body && textOf(body).startsWith(expected), `${geoid}: empty ${scope} must say "${expected}" in its body`);
   }
 }
 assert(rendered >= 150 && emptyScopes > 0, `rendered ${rendered} records, ${emptyScopes} empty scopes`);
