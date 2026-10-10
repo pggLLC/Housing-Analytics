@@ -40,6 +40,7 @@ function page(file, html) {
 }
 
 let failures = 0;
+let bannerCheck = null;
 function test(name, fn) {
   try { fn(); console.log('  ✓ ' + name); }
   catch (e) { failures += 1; console.log('  ✗ ' + name + ' — ' + e.message); }
@@ -175,7 +176,47 @@ test('the banner names the for-sale page beside the rental one', () => {
   assert(onStudy.querySelector('a[href="' + study.href + '"]'), 'study page links back to the rental page');
 });
 
+test('loading a saved project applies that project\'s route', () => {
+  const dom = new JSDOM(read('hna-what-to-do.html'), { url: 'https://cohoanalytics.com/hna-what-to-do.html', runScripts: 'outside-only' });
+  const win = dom.window;
+  win.eval(read('js/workflow-state-core.js'));
+  win.eval(read('js/workflow-state-api.js'));
+  win.eval(railSrc);
+  const WS = win.WorkflowState;
+  const WP = win.WorkflowProgress;
+  const label4 = () => win.document.querySelector('#hnaWorkflowProgress .wf-step[data-step="4"] .wf-step__label').textContent.trim();
+  const rental = WS.newProject('Rental');
+  WP.setProduct('lihtc-rental');
+  const forSale = WS.newProject('For-sale');
+  WP.setProduct('for-sale');
+  assert.strictEqual(label4(), 'For-Sale Market Study', 'fixture: the for-sale project is active');
+  WS.loadProject(rental);
+  assert.strictEqual(WP.getProduct(), 'lihtc-rental', 'fixture: the loaded project carries its product');
+  assert.strictEqual(label4(), 'Market Analysis', 'the rail follows the loaded project');
+  WS.loadProject(forSale);
+  assert.strictEqual(label4(), 'For-Sale Market Study');
+  bannerCheck = { win, WS, rental, forSale };
+});
+
+// The banner wires its listeners on a deferred init, so this half waits a tick.
+const pending = new Promise((resolve) => {
+  if (!bannerCheck) return resolve();
+  const { win, WS, rental, forSale } = bannerCheck;
+  WS.loadProject(rental);
+  win.eval(bannerSrc);
+  setTimeout(() => {
+    test('loading a saved project resets the banner\'s route', () => {
+      assert.strictEqual(win.WorkflowNextAction.steps().urls.market, 'market-analysis.html', 'fixture: rental project');
+      WS.loadProject(forSale);
+      assert.strictEqual(win.WorkflowNextAction.steps().urls.market, 'for-sale-market-study.html', 'the banner drops its cached route');
+    });
+    resolve();
+  }, 0);
+});
+
 function WP0() { return page('index.html', '<!doctype html><main></main>').WorkflowProgress; }
 
-if (failures) { console.log('\n' + failures + ' failed'); process.exit(1); }
-console.log('\nAll product-route checks passed');
+pending.then(() => {
+  if (failures) { console.log('\n' + failures + ' failed'); process.exit(1); }
+  console.log('\nAll product-route checks passed');
+});

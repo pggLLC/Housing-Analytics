@@ -402,7 +402,8 @@
 
     // Re-render when workflow state updates
     document.addEventListener('workflow:step-updated', _render);
-    document.addEventListener('workflow:project-loaded', _render);
+    // Another project can carry another product, so the route is re-read.
+    document.addEventListener('workflow:project-loaded', function () { _canon = null; _render(); });
     document.addEventListener('jurisdiction-url-context:resolved', _render);
     // A new product changes the route, so the cached sequence is stale.
     document.addEventListener('workflow:product-changed', function () { _canon = null; _render(); });

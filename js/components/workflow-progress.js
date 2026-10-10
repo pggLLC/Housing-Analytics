@@ -578,6 +578,9 @@
     window.addEventListener('resize', apply, { passive: true });
   }
 
+  // A loaded project can carry another product.
+  document.addEventListener('workflow:project-loaded', function () { applyRouteToDocument(); });
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', publishHeaderHeight);
     document.addEventListener('DOMContentLoaded', function () { applyRouteToDocument(); });

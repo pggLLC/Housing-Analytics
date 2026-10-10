@@ -296,6 +296,7 @@
               : rentalNote;
         }
         sync(WP.getProduct() || 'lihtc-rental');
+        document.addEventListener('workflow:project-loaded', function () { sync(WP.getProduct() || 'lihtc-rental'); });
         for (var j = 0; j < radios.length; j++) {
           radios[j].addEventListener('change', function (e) {
             if (WP.setProduct(e.target.value)) sync(e.target.value);
