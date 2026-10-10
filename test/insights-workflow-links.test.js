@@ -19,7 +19,7 @@ const ROUTES = [
   ['equity-deal', 'article-pricing.html', 'deal-calculator.html#dc-equity-price', 'main'],
   ['deal-equity', 'deal-calculator.html', 'article-pricing.html', '#dc-equity-price'],
   ['cra-deal', 'cra-expansion-analysis.html', 'deal-calculator.html#dc-equity-price', 'main'],
-  ['history-deal', 'historical-trends.html', 'deal-calculator.html', 'main'],
+  ['history-deal', 'colorado-deep-dive.html', 'deal-calculator.html', 'main'],
   ['intelligence-market', 'colorado-deep-dive.html', 'market-analysis.html', '#sitesel-heading'],
   ['deep-dive-opportunities', 'colorado-deep-dive.html', 'lihtc-opportunity-finder.html', '.page-hero'],
   ['deep-dive-jurisdiction', 'colorado-deep-dive.html', 'select-jurisdiction.html', '.page-hero'],
@@ -110,7 +110,7 @@ test('Insights titles, sitemap and research catalog agree with the shared page n
   try {
     const names = dom.window.WorkflowPageNames;
     const files = ['help-for-homebuyers.html', 'housing-legislation-2026.html', 'article-pricing.html',
-      'cra-expansion-analysis.html', 'historical-trends.html', 'colorado-deep-dive.html'];
+      'cra-expansion-analysis.html', 'colorado-deep-dive.html'];
     const sitemap = new JSDOM(read('sitemap.html')).window.document;
     const catalog = JSON.parse(read('data/insights/catalog.json')).entries;
     let checked = 0;

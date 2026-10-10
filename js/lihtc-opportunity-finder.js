@@ -371,6 +371,26 @@
     p = p || {};
     return parseInt(p.AwardYear || p.YR_ALLOC, 10);
   }
+  // Units, credit type and QCT status for one project row. CHFA's layer
+  // carries QCT but publishes no value in it (null on all 926 records), so
+  // an absent QCT reads "not published", never "no": a "no" would tell the
+  // reader the project misses the 30% basis boost when nothing says so.
+  // Likewise an absent unit count is unknown, not 0 units.
+  function _qctLabel(v) {
+    if (v == null || v === '') return 'not published';
+    if (v === 1 || v === '1' || v === true || v === 'Y') return 'yes';
+    if (v === 2 || v === '2' || v === 0 || v === '0' || v === false || v === 'N') return 'no';
+    return escHtml(String(v));
+  }
+  function _unitCount(v) {
+    return (v == null || v === '') ? '—' : escHtml(String(v));
+  }
+  function _projectMetaTail(pr) {
+    return _unitCount(pr.N_UNITS) + ' units (' + _unitCount(pr.LI_UNITS) + ' LI) · ' +
+      escHtml(String(pr.CREDIT || '—')) + ' credit · ' +
+      'QCT ' + _qctLabel(pr.QCT);
+  }
+
   function escHtml(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -3745,9 +3765,7 @@
           '<div class="lof-detail-project-name">' + escHtml(pr.PROJECT || '(unnamed)') + '</div>' +
           '<div class="lof-detail-project-meta">' +
             'Awarded ' + (_awardYear(pr) || '—') + ' · ' +
-            (pr.N_UNITS || 0) + ' units (' + (pr.LI_UNITS || 0) + ' LI) · ' +
-            (pr.CREDIT || '—') + ' credit · ' +
-            'QCT ' + (pr.QCT === '1' || pr.QCT === 1 ? 'yes' : (pr.QCT || 'no')) +
+            _projectMetaTail(pr) +
           '</div>' +
         '</div>';
       }).join('');
@@ -4925,6 +4943,7 @@
       actionReasons: _opActionReasons,
       passesCaptureRequirement: _passesCaptureRequirement,
       zoriCaptureForMarket: _zoriCaptureForMarket,
+      projectMetaTail: _projectMetaTail,
       setZoriForTest: function (byCounty, meta, byCity) {
         state.zoriByCounty = byCounty || {};
         state.zoriByCity = byCity || {};

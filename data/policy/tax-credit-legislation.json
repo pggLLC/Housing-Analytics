@@ -2,25 +2,28 @@
   "schema": "tax-credit-legislation/v1",
   "meta": {
     "title": "Tax Credit Legislation Watchlist",
-    "as_of": "2026-09-21",
-    "last_updated": "2026-09-28",
-    "last_verified": "2026-09-21",
-    "review_by": "2026-12-21",
+    "as_of": "2026-10-10",
+    "last_updated": "2026-10-10",
+    "last_verified": "2026-10-10",
+    "review_by": "2026-11-15",
     "methodology": "Curated federal and state tax-credit policy entries. Legislative status source_url fields point to official federal or state legislative sources; market impact text is directional and should be re-reviewed quarterly."
   },
   "entries": [
     {
       "id": "hr6644-road-act",
-      "title": "21st Century ROAD to Housing Act enacted",
+      "title": "21st Century ROAD to Housing Act enacted (Public Law 119-101)",
       "scope": "lihtc",
       "status": "enacted",
       "effective_date": "2026-07-11",
       "sunset_date": null,
-      "pricing_impact": "Enacts housing-supply and HUD program reforms. The enrolled text adds affordable-housing construction as a CDBG-eligible activity and streamlines HOME review; it does not enact LIHTC or CRA expansion.",
+      "pricing_impact": "Enacts housing-supply and HUD program reforms: new affordable-housing construction becomes CDBG-eligible (up to 20% of a grantee's allocation, post-enactment funds only) and HOME review is streamlined. It does not enact LIHTC or CRA expansion.",
       "source_url": "https://www.govinfo.gov/app/details/BILLS-119hr6644enr",
-      "source_note": "GovInfo enrolled H.R. 6644 text, 119th Congress; 21st Century ROAD to Housing Act.",
-      "last_verified": "2026-07-16",
-      "review_by": "2026-10-16"
+      "source_note": "GovInfo enrolled H.R. 6644 text, 119th Congress; 21st Century ROAD to Housing Act, section 204. GovTrack records final passage on 2026-06-23 (House agreed to the Senate amendment to the House amendment to the Senate amendment, 358-32) and \"Sent to Archivist of the United States unsigned\" on 2026-07-11: enacted without the President's signature under the ten-day rule, as Pub. L. 119-101. Federal Register searched 2026-10-10 for HUD CDBG/HOME notices under the act; none found. Section 204(a) caps the new activity at \"20 percent of the amounts allocated to the recipient\" and 204(c) applies it \"only to amounts appropriated after the date of enactment\".",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-01-08",
+      "related_source_urls": [
+        "https://www.govtrack.us/congress/bills/119/hr6644"
+      ]
     },
     {
       "id": "obbba-lihtc-ceiling-12pct",
@@ -31,9 +34,9 @@
       "sunset_date": null,
       "pricing_impact": "Expands competitive 9% credit authority beginning in 2026. More credit supply can modestly pressure cents-per-credit pricing lower unless investor demand rises with allocation volume.",
       "source_url": "https://www.congress.gov/bill/119th-congress/house-bill/1/text",
-      "source_note": "Public Law 119-21, section 70422(a), permanent state housing credit ceiling increase.",
-      "last_verified": "2026-07-15",
-      "review_by": "2026-10-15"
+      "source_note": "Public Law 119-21, section 70422(a), permanent state housing credit ceiling increase. Section text re-read in the GovInfo Public Law 119-21 text on 2026-10-10; no later amendment found.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-01-08"
     },
     {
       "id": "obbba-lihtc-bond-25pct-test",
@@ -42,11 +45,11 @@
       "status": "enacted",
       "effective_date": "2026-01-01",
       "sunset_date": null,
-      "pricing_impact": "Lowers the bond-financing threshold for qualifying buildings where post-2025 bond issues meet the statutory requirements. The change can widen 4% deal eligibility but may also add bond-credit supply that investors price selectively by market and sponsor risk.",
+      "pricing_impact": "Lowers the bond-financing test from 50% to 25% of basis for buildings placed in service in tax years after 2025, if a post-2025 volume-cap bond issue finances at least 5% of basis. Widens 4% eligibility; added bond-credit supply may be priced selectively.",
       "source_url": "https://www.congress.gov/bill/119th-congress/house-bill/1/text",
-      "source_note": "Public Law 119-21, section 70422(b), tax-exempt bond financing requirement.",
-      "last_verified": "2026-07-15",
-      "review_by": "2026-10-15"
+      "source_note": "Public Law 119-21, section 70422(b), tax-exempt bond financing requirement. Section text re-read in the GovInfo Public Law 119-21 text on 2026-10-10; no later amendment found.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-01-08"
     },
     {
       "id": "ahcia-2025-hr2725",
@@ -117,9 +120,9 @@
       "sunset_date": null,
       "pricing_impact": "Restores permanent 100% additional first-year depreciation for qualified property acquired after January 19, 2025. Treat the Section 168(k) change as an after-tax yield tailwind, not a continuing phase-down headwind.",
       "source_url": "https://www.govinfo.gov/app/details/PLAW-119publ21",
-      "source_note": "Public Law 119-21, section 70301, 100 percent expensing; amendments generally apply to property acquired after January 19, 2025.",
-      "last_verified": "2026-07-17",
-      "review_by": "2026-10-17"
+      "source_note": "Public Law 119-21, section 70301, 100 percent expensing; amendments generally apply to property acquired after January 19, 2025. Section text re-read in the GovInfo Public Law 119-21 text on 2026-10-10; no later amendment found.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-01-08"
     },
     {
       "id": "obbba-nmtc-permanent-extension",
@@ -130,9 +133,9 @@
       "sunset_date": null,
       "pricing_impact": "Removes recurring extender risk for NMTC allocation planning after 2025. Pricing still depends on allocation competition, leverage structure, and investor appetite rather than statutory permanence alone.",
       "source_url": "https://www.congress.gov/bill/119th-congress/house-bill/1/text",
-      "source_note": "Public Law 119-21, section 70423, permanent extension of New Markets Tax Credit.",
-      "last_verified": "2026-07-15",
-      "review_by": "2026-10-15"
+      "source_note": "Public Law 119-21, section 70423, permanent extension of New Markets Tax Credit. Section text re-read in the GovInfo Public Law 119-21 text on 2026-10-10; no later amendment found.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-01-08"
     },
     {
       "id": "obbba-70421-oz-permanent",
@@ -141,15 +144,16 @@
       "status": "enacted",
       "effective_date": "2025-07-04",
       "sunset_date": null,
-      "pricing_impact": "Makes OZ rounds permanent with the first decennial determination date on 2026-07-01. Rural QROF investments can receive a 30% five-year basis step-up, improving rural LIHTC+OZ pairing context.",
+      "pricing_impact": "Makes OZ rounds permanent (first decennial determination date 2026-07-01); rural QROF investments get a 30% five-year basis step-up. Colorado's new tracts are nominated but not yet certified by Treasury; new zones take effect 2027-01-01.",
       "source_url": "https://www.govinfo.gov/app/details/PLAW-119publ21",
       "related_source_urls": [
         "https://home.treasury.gov/policy-issues/tax-policy/data-transparency/qualified-opportunity-zones",
-        "https://www.irs.gov/credits-deductions/businesses/opportunity-zones"
+        "https://www.irs.gov/credits-deductions/businesses/opportunity-zones",
+        "https://govmarketnews.com/colorado-opportunity-zones-2027/"
       ],
-      "source_note": "Public Law 119-21, section 70421, permanent renewal and enhancement of Opportunity Zones; Treasury QOZ data transparency page verified for the 2026-07-01 designation cycle.",
-      "last_verified": "2026-07-18",
-      "review_by": "2026-10-18"
+      "source_note": "Public Law 119-21, section 70421, permanent renewal and enhancement of Opportunity Zones (section text re-read 2026-10-10). Colorado nomination count and date as reported by Government Market News on 2026-10-01; OEDIT's page refused automated access on 2026-10-10, and no Treasury certification of the new round was found that day.",
+      "last_verified": "2026-10-10",
+      "review_by": "2026-12-01"
     },
     {
       "id": "obbba-25c-25d-termination",
@@ -160,9 +164,9 @@
       "sunset_date": "2025-12-31",
       "pricing_impact": "Ends two consumer-side home energy credits after 2025, which can reduce after-tax support for owner-occupied retrofit and clean-energy upgrades. Treat homebuyer affordability or rehab assumptions after 2025 as requiring other subsidy sources.",
       "source_url": "https://www.congress.gov/bill/119th-congress/house-bill/1/text",
-      "source_note": "Public Law 119-21, sections 70505 and 70506, termination of energy efficient home improvement and residential clean energy credits.",
-      "last_verified": "2026-07-15",
-      "review_by": "2026-10-15"
+      "source_note": "Public Law 119-21, sections 70505 and 70506, termination of energy efficient home improvement and residential clean energy credits. Section text re-read in the GovInfo Public Law 119-21 text on 2026-10-10; no later amendment found.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-01-08"
     },
     {
       "id": "obbba-45y-48e-wind-solar-deadlines",
@@ -171,24 +175,31 @@
       "status": "enacted",
       "effective_date": "2025-07-04",
       "sunset_date": "2027-12-31",
-      "pricing_impact": "Wind and solar projects face tighter timing tests: construction generally must begin before the statutory deadline or be placed in service by the termination date. Transfer pricing should be discounted when execution risk could push a credit outside the protected window.",
-      "source_url": "https://www.irs.gov/pub/irs-drop/n-25-42.pdf",
-      "source_note": "IRS Notice 2025-42 summarizes Public Law 119-21 sections 70512 and 70513 and beginning-of-construction guidance.",
-      "last_verified": "2026-07-15",
-      "review_by": "2026-10-15"
+      "pricing_impact": "Wind and solar must begin construction by 2026-07-04 or be placed in service by 2027-12-31. A federal court vacated IRS Notice 2025-42 on 2026-06-06, restoring the earlier start-of-construction rules for now. Discount transfers where timing risk is real.",
+      "source_url": "https://www.govinfo.gov/app/details/PLAW-119publ21",
+      "source_note": "Public Law 119-21 sections 70512 and 70513 (section text re-read 2026-10-10). Oregon Environmental Council v. IRS, No. 25-cv-4400 (D.D.C.), vacated Notice 2025-42 on 2026-06-06, as reported by Steptoe, Holland & Knight, KPMG and EY; the court docket itself was not read, and no replacement IRS notice was found on 2026-10-10.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-01-08",
+      "related_source_urls": [
+        "https://www.irs.gov/pub/irs-drop/n-25-42.pdf",
+        "https://www.steptoe.com/en/news-publications/district-court-vacates-irs-notice-restricting-clean-energy-tax-credit-eligibility.html"
+      ]
     },
     {
       "id": "cra-2025-rescission-npr",
-      "title": "CRA regulations rescission notice of proposed rulemaking",
+      "title": "CRA rulemaking: 2025 rescission proposal and 2026 OCC/FDIC proposed rule",
       "scope": "cra",
       "status": "proposed",
       "effective_date": "2025-07-18",
       "sunset_date": null,
-      "pricing_impact": "The NPR creates uncertainty around future CRA examination treatment. Bank demand for LIHTC, NMTC, and HTC investments should be described as policy-sensitive until the agencies finalize a rule.",
+      "pricing_impact": "No final CRA rule since the July 2025 rescission proposal. On 2026-08-12 the OCC and FDIC proposed further CRA changes (comments due 2026-10-13). Treat bank demand for LIHTC, NMTC and HTC investments as policy-sensitive until a rule is final.",
       "source_url": "https://www.federalregister.gov/documents/2025/07/18/2025-13559/community-reinvestment-act-regulations",
-      "source_note": "Federal Register proposed rule, Community Reinvestment Act Regulations.",
-      "last_verified": "2026-07-15",
-      "review_by": "2026-10-15"
+      "source_note": "Federal Register proposed rules: Community Reinvestment Act Regulations, 2025-07-18 (doc 2025-13559) and OCC/FDIC 2026-08-12 (91 FR 52114, doc 2026-16454, comments close 2026-10-13). Federal Register searched 2026-10-10: no final CRA rule since 2025-07-01.",
+      "last_verified": "2026-10-10",
+      "review_by": "2026-12-15",
+      "related_source_urls": [
+        "https://www.federalregister.gov/documents/2026/08/12/2026-16454/community-reinvestment-act-regulations"
+      ]
     },
     {
       "id": "ira-section-6418-transferability",
@@ -199,9 +210,9 @@
       "sunset_date": null,
       "pricing_impact": "Allows eligible taxpayers to sell all or part of qualifying clean-energy credits for cash. Pricing is negotiated between buyer and seller and generally reflects credit type, tax year, seller credit quality, indemnity, insurance, and recapture risk.",
       "source_url": "https://www.irs.gov/credits-deductions/elective-pay-and-transferability",
-      "source_note": "IRS elective pay and transferability guidance.",
-      "last_verified": "2026-07-15",
-      "review_by": "2026-10-15"
+      "source_note": "IRS elective pay and transferability guidance (page reachable 2026-10-10). Section 6418 itself was not amended by Public Law 119-21; the credits eligible for transfer follow each credit's own termination dates.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-01-08"
     },
     {
       "id": "hb24-1175-local-government-rofr-rofo",
@@ -210,14 +221,14 @@
       "status": "enacted",
       "effective_date": "2024-08-07",
       "sunset_date": "2029-12-31",
-      "pricing_impact": "Creates local-government ROFR/ROFO rights for qualifying multifamily properties. Investors should diligence exit timing, notices, and assignment rights in Colorado preservation and Year-15 transactions.",
+      "pricing_impact": "Creates local-government ROFR/ROFO rights for qualifying multifamily properties; the rights terminate on 2029-12-31 unless exercised before then. Investors should diligence exit timing, notices, and assignment rights in Colorado preservation and Year-15 transactions.",
       "source_url": "https://leg.colorado.gov/bills/HB24-1175",
       "related_source_urls": [
         "https://leg.colorado.gov/bills/hb23-1190"
       ],
-      "source_note": "Colorado General Assembly HB24-1175 enacted summary. HB23-1190 is related prior-session ROFR legislation but was vetoed and did not become law.",
-      "last_verified": "2026-07-17",
-      "review_by": "2026-10-17"
+      "source_note": "Colorado General Assembly HB24-1175 bill page: signed 2024-05-30, effective 2024-08-07 (session law chapter 286); summary says both rights \"terminate on December 31, 2029\" unless exercised before then (re-read 2026-10-10). No amending 2025 or 2026 bill was found, though the legislature's search could not confirm that conclusively. HB23-1190 is related prior-session ROFR legislation but was vetoed and did not become law.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-01-08"
     },
     {
       "id": "hb26-1065-transit-housing-investment-zones",
@@ -274,11 +285,13 @@
       "pricing_impact": "Would create a neighborhood homes tax credit for qualifying owner-occupied development and rehab if enacted. Do not size homebuyer subsidy from this proposal until statutory terms and allocation mechanics are enacted.",
       "source_url": "https://www.congress.gov/bill/119th-congress/house-bill/2854",
       "related_source_urls": [
-        "https://www.congress.gov/bill/119th-congress/senate-bill/1686"
+        "https://www.congress.gov/bill/119th-congress/senate-bill/1686",
+        "https://www.govtrack.us/congress/bills/119/hr2854",
+        "https://www.govtrack.us/congress/bills/119/s1686"
       ],
-      "source_note": "119th Congress House and Senate Neighborhood Homes Investment Act bill pages.",
-      "last_verified": "2026-07-15",
-      "review_by": "2026-10-15"
+      "source_note": "119th Congress House and Senate Neighborhood Homes Investment Act bill pages. Status read from GovTrack on 2026-10-10: H.R. 2854 (introduced 2025-04-10, 70 cosponsors) and S. 1686 (introduced 2025-05-08, 9 cosponsors) are both still at \"introduced\".",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-01-08"
     },
     {
       "id": "ira-home-energy-rebates-colorado-watch",
@@ -287,14 +300,15 @@
       "status": "rule-pending",
       "effective_date": null,
       "sunset_date": null,
-      "pricing_impact": "Colorado HEAR/HOMES rebates may affect owner retrofit affordability only when a current state phase is open. Current availability should be verified before assuming subsidy.",
+      "pricing_impact": "Colorado's HEAR single-family rebates are closed in both regions. Small multifamily HEAR and HER rebates are announced for 2026 but not open. Do not budget a rebate until a program is open.",
       "source_url": "https://www.energy.gov/cmei/scep/home-energy-rebates-program",
       "related_source_urls": [
+        "https://energyoffice.colorado.gov/home-energy-rebates",
         "https://content.govdelivery.com/accounts/USDOESCEP/bulletins/3bf14ad"
       ],
-      "source_note": "DOE Home Energy Rebates program page verified 2026-07-18; state-administered availability is selective and Colorado current status remains VERIFY in the soft-funding file.",
-      "last_verified": "2026-07-18",
-      "review_by": "2026-10-18"
+      "source_note": "Colorado Energy Office home energy rebates page, re-read 2026-10-10: \"Important Program Update (Updated August 2026) The HEAR Single-Family Program for Region 1 and Region 2 is closed.\" and \"Rebates for small multifamily buildings will be available in 2026.\" No launch date is given.",
+      "last_verified": "2026-10-10",
+      "review_by": "2026-12-01"
     },
     {
       "id": "ggrf-solar-for-all-colorado-watch",
@@ -303,14 +317,15 @@
       "status": "rule-pending",
       "effective_date": null,
       "sunset_date": null,
-      "pricing_impact": "Solar for All should not be counted as available household funding while EPA describes GGRF authority and Solar for All implementation as terminated/rescinded.",
+      "pricing_impact": "Do not count Solar for All as available funding. Colorado's program is on hold after EPA's August 2025 termination; federal courts ruled against the termination in September 2026, EPA may appeal, and Colorado still lists the program as on hold.",
       "source_url": "https://www.epa.gov/aboutepa/greenhouse-gas-reduction-fund",
       "related_source_urls": [
+        "https://energyoffice.colorado.gov/cos4a",
         "https://federalfunds.colorado.gov/solar-for-all"
       ],
-      "source_note": "EPA GGRF status page verified 2026-07-18; Colorado award page retained only as historical award/planning context.",
-      "last_verified": "2026-07-18",
-      "review_by": "2026-10-18"
+      "source_note": "Colorado Energy Office COS4A page re-read 2026-10-10: \"The Colorado Solar for All (COS4A) Program is temporarily on hold due to recent developments at the federal level.\" Court rulings as reported by Smart Cities Dive (2026-09-21) and Utility Dive (2026-10-01); whether they cover Colorado's grant was not confirmed.",
+      "last_verified": "2026-10-10",
+      "review_by": "2026-11-15"
     }
   ]
 }

@@ -261,7 +261,10 @@ test('the statewide cap and QAP section agree with the repo\'s sources', () => {
   const qap = readJson('data/audit/chfa-qap-watch.json').documents[0].text.replace(/\s+/g, ' ');
   assert.match(qap, /TZ Credit may be awarded in lieu of standard state credit\. 3\.B\.3/,
     'the QAP text no longer places the TZ in-lieu rule at the end of 3.B.2');
-  assert.match(note.textContent, /in lieu of standard state credit \(2027–28 QAP Third Draft §3\.B\.2\)/);
+  assert.match(note.textContent, /in lieu of standard state credit/);
+  w.__DealCalc.setTzCreditPairing(readJson('data/policy/tax-credit-legislation.json'));
+  const pairing = readJson('data/policy/tax-credit-legislation.json').entries.find(e => e.tz_credit_pairing).tz_credit_pairing;
+  assert(note.textContent.includes(pairing.source), 'the displayed QAP citation comes from its record');
 });
 
 // ── The draft QAP's per-project pairing (#1973) ────────────────────────────
