@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-10T16:22:39.763Z",
+    "generated_at": "2026-10-10T18:19:02.039Z",
     "root": "data/",
     "file_count": 1701,
-    "total_size_bytes": 178245267,
+    "total_size_bytes": 178246323,
     "kinds": {
       "json": 1664,
       "geojson": 33,
@@ -32,8 +32,8 @@
     {
       "path": "affordable-housing/chfa-awards/2026-round-one.json",
       "kind": "json",
-      "size_bytes": 15112,
-      "mtime": "2026-09-25T12:55:18.557Z",
+      "size_bytes": 16168,
+      "mtime": "2026-10-10T18:18:12.252Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -45,6 +45,8 @@
       "primary_array_first_keys": [
         "name",
         "city",
+        "county",
+        "county_fips",
         "sponsor",
         "total_units",
         "unit_mix_raw",
@@ -52,9 +54,7 @@
         "federal_4pct_credit",
         "state_credit",
         "toc_credit",
-        "mihtc_credit",
-        "description",
-        "lat"
+        "mihtc_credit"
       ]
     },
     {
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-10T16:22:35.415Z",
+      "mtime": "2026-10-10T18:18:58.358Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -32026,7 +32026,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14804,
-      "mtime": "2026-10-10T16:22:37.210Z",
+      "mtime": "2026-10-10T18:19:00.164Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32049,7 +32049,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-10T16:22:36.816Z",
+      "mtime": "2026-10-10T18:18:59.734Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
