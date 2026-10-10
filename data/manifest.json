@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-10T20:07:45.180765Z",
+  "generated": "2026-10-10T23:30:07.632519Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 831481
+      "bytes": 835712
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -296,6 +296,11 @@
       "placeholder": false,
       "bytes": 341647
     },
+    "data/derived/funding-vs-need.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 96057
+    },
     "data/derived/market-analysis/market_demand.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -324,7 +329,7 @@
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 331979
+      "bytes": 331988
     },
     "data/environmental/fema-flood-co.geojson": {
       "featureCount": 4,
@@ -334,22 +339,22 @@
     "data/fixtures/fruita-commons-broad-income.scenario.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5332
+      "bytes": 5333
     },
     "data/fixtures/fruita-commons-compact.scenario.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5130
+      "bytes": 5131
     },
     "data/fixtures/fruita-commons-family.scenario.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5122
+      "bytes": 5123
     },
     "data/fixtures/fruita-commons.scenario.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5006
+      "bytes": 5007
     },
     "data/fred-data.json": {
       "featureCount": 0,
@@ -7329,7 +7334,7 @@
     "data/insights/catalog.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 8640
+      "bytes": 9364
     },
     "data/jurisdiction-briefs/0803620.json": {
       "featureCount": 0,
@@ -7709,7 +7714,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 1529920
+      "bytes": 996787
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
@@ -7899,7 +7904,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 15108
+      "bytes": 15106
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -8261,6 +8266,11 @@
       "placeholder": false,
       "bytes": 9777
     },
+    "data/policy/co-developer-funding-guide.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 342738
+    },
     "data/policy/county-ownership.json": {
       "featureCount": 14,
       "placeholder": false,
@@ -8279,7 +8289,17 @@
     "data/policy/fee-reductions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 502601
+      "bytes": 580886
+    },
+    "data/policy/funding-awards/documents.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 40885
+    },
+    "data/policy/funding-awards/ledger.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 356064
     },
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
@@ -8291,6 +8311,16 @@
       "placeholder": false,
       "bytes": 183422
     },
+    "data/policy/incentive-alternatives.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 54765
+    },
+    "data/policy/incentive-coverage.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 37501
+    },
     "data/policy/jchs-state-of-nations-housing.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -8299,7 +8329,7 @@
     "data/policy/jurisdiction-housing-progress.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40485
+      "bytes": 40575
     },
     "data/policy/land-disposition-models.json": {
       "featureCount": 0,
@@ -8310,6 +8340,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 4301
+    },
+    "data/policy/local-housing-funds.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 139958
     },
     "data/policy/methodology-version.json": {
       "featureCount": 0,
@@ -8384,7 +8419,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14081
+      "bytes": 14082
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,
