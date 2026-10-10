@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T19:14:25.824Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T19:46:33.746Z. Do not edit by hand.
 
 ---
 
@@ -19,7 +19,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.9 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 39.9 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 164.7 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 180.6 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 17.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.4 KB |
@@ -41,7 +41,7 @@
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 92.5 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 17.8 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 6.0 KB |
-| `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 16.3 KB |
+| `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.7 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 35.8 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 135.0 KB |
@@ -54,7 +54,7 @@
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 39.6 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 584 B |
-| `insights.html` | Research &amp; Analysis | Colorado Public Data Reference | 28.9 KB |
+| `insights.html` | Research &amp; Analysis | Colorado Public Data Reference | 28.8 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 16.6 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 15.9 KB |
@@ -73,7 +73,7 @@
 | `research-brief.html` | Research Brief | COHO Analytics | 15.9 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.6 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 11.9 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 11.7 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 989 B |
 | `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 75.3 KB |
 
@@ -85,7 +85,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 811.9 KB | ✅ | — |
+| `data/_manifest.json` | 812.0 KB | ✅ | — |
 | `data/_qa-status.json` | 7.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1540,7 +1540,7 @@
 | `data/home-snapshot.json` | 2.1 KB | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 100.2 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
-| `data/insights/catalog.json` | 8.7 KB | ✅ | — |
+| `data/insights/catalog.json` | 8.4 KB | ✅ | — |
 | `data/jurisdiction-briefs/0803620.json` | 26.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/08045.json` | 29.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/08097.json` | 28.0 KB | ✅ | — |
@@ -1755,7 +1755,7 @@
 
 ## Test Files
 
-539 test files found.
+540 test files found.
 
 | File | Size |
 |------|------|
@@ -1926,7 +1926,7 @@
 | `test/helpers/ci-wiring.js` | 1.9 KB |
 | `test/helpers/deal-calculator-page.cjs` | 4.5 KB |
 | `test/helpers/jspdf-mock.cjs` | 2.8 KB |
-| `test/historical-trends-real-data.test.js` | 15.7 KB |
+| `test/historical-trends-real-data.test.js` | 15.8 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
@@ -2021,6 +2021,7 @@
 | `test/lihtc-deal-predictor.test.js` | 12.8 KB |
 | `test/lihtc-guide-accuracy.test.js` | 2.3 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 8.8 KB |
+| `test/lihtc-project-size.test.js` | 6.8 KB |
 | `test/local-resources-discovery.test.js` | 2.0 KB |
 | `test/local-resources-entry-completeness.test.js` | 3.3 KB |
 | `test/lodes-tract-od.test.js` | 5.6 KB |
@@ -2042,7 +2043,7 @@
 | `test/mobile-overflow-css-rules-present.test.js` | 5.6 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/navigation-pill-label.test.js` | 2.7 KB |
-| `test/navigation-reaches-every-page.test.mjs` | 4.7 KB |
+| `test/navigation-reaches-every-page.test.mjs` | 4.8 KB |
 | `test/need-severity-is-place-level.test.mjs` | 15.8 KB |
 | `test/nhpd-coverage.test.js` | 14.8 KB |
 | `test/no-synthesized-chfa-awards.test.js` | 3.9 KB |
@@ -2112,7 +2113,7 @@
 | `test/policy-data-currency.test.js` | 3.0 KB |
 | `test/policy-page-currency.test.mjs` | 6.0 KB |
 | `test/policy-review-status.test.mjs` | 11.4 KB |
-| `test/policy-timeline-series.test.js` | 18.2 KB |
+| `test/policy-timeline-series.test.js` | 18.4 KB |
 | `test/policy-watch-rail.test.mjs` | 13.7 KB |
 | `test/polymarket-resolved.test.js` | 23.7 KB |
 | `test/preservation.test.js` | 17.4 KB |
