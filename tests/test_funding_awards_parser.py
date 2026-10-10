@@ -77,3 +77,11 @@ def test_a_location_spanning_counties_is_left_unplaced():
     rec = {'location': 'Trinidad, Trinidad', 'name': 'Portfolio'}
     awards.assign_county(rec, counties, places, {})
     assert rec['county_fips'] == '08071'
+
+
+def test_public_build_patterns_are_read_from_their_one_source():
+    src = (ROOT / 'scripts' / 'lib' / 'public-sensitive-patterns.mjs').read_text()
+    patterns = awards.sensitive_patterns()
+    assert len(patterns) == src.count('regex:') > 0
+    # every pattern the guard holds must match the text its label names here too
+    assert any(p.search('Sponsor: IndiBuild LLC') for p in patterns)

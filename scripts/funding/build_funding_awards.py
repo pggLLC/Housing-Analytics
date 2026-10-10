@@ -45,6 +45,17 @@ DOCUMENTS = os.path.join(OUT_DIR, 'documents.json')
 # A person's sign-off on a document the parser could not reconcile, pinned to
 # the file's sha256 so a re-published PDF is checked again.
 OVERRIDES = os.path.join(OUT_DIR, 'reviewed-documents.json')
+# Text the public build refuses (scripts/audit/public-artifact-guard.mjs). The
+# list lives in one place, so read it from there rather than copy it.
+SENSITIVE_SRC = os.path.join(ROOT, 'scripts', 'lib', 'public-sensitive-patterns.mjs')
+
+
+def sensitive_patterns() -> list[re.Pattern]:
+    src = open(SENSITIVE_SRC).read()
+    found = re.findall(r'regex:\s*/((?:\\/|[^/])+)/([a-z]*)', src)
+    if not found:
+        raise RuntimeError(f'no patterns read from {SENSITIVE_SRC}')
+    return [re.compile(body, re.I if 'i' in flags else 0) for body, flags in found]
 GEO_CONFIG = os.path.join(ROOT, 'data', 'hna', 'geo-config.json')
 LIHTC_FEED = os.path.join(ROOT, 'data', 'chfa-lihtc.json')
 
@@ -633,6 +644,8 @@ FIRST_YEAR = 2016
 
 
 def build(docs: list[dict], cache: str) -> tuple[list[dict], list[dict]]:
+    global SENSITIVE
+    SENSITIVE = sensitive_patterns()
     counties, places = load_geo()
     try:
         overrides = json.load(open(OVERRIDES)).get('documents', {})
@@ -732,6 +745,11 @@ def build(docs: list[dict], cache: str) -> tuple[list[dict], list[dict]]:
                 row['county_method'] = r['county_method']
             if r.get('county_unavailable_reason'):
                 row['county_unavailable_reason'] = r['county_unavailable_reason']
+            for field in ('name', 'sponsor', 'location', 'detail'):
+                if row.get(field) and any(p.search(row[field]) for p in SENSITIVE):
+                    # the award stands; only the text is kept off the public site
+                    row[field] = None
+                    row[f'{field}_unavailable_reason'] = 'withheld: matches text the public build excludes'
             ledger.append(row)
     return ledger, statuses
 

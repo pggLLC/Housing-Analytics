@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-10-10T19:27:06Z",
+  "generatedAt": "2026-10-10T20:03:15Z",
   "generator": "scripts/funding/build_funding_vs_need.mjs",
   "window": {
    "first_year": 2016,
