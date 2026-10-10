@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T20:59:21.449Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T21:08:23.273Z. Do not edit by hand.
 
 ---
 
@@ -86,7 +86,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 812.7 KB | ✅ | — |
+| `data/_manifest.json` | 814.4 KB | ✅ | — |
 | `data/_qa-status.json` | 7.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1581,7 +1581,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 211.2 KB | ✅ | — |
+| `data/manifest.json` | 211.6 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 1.8 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1760,7 +1760,7 @@
 
 ## Test Files
 
-544 test files found.
+547 test files found.
 
 | File | Size |
 |------|------|
@@ -1865,7 +1865,7 @@
 | `test/deal-calc-schedule.test.js` | 23.1 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-share-roundtrip.test.js` | 21.7 KB |
-| `test/deal-calc-soft-funding-links-wrap.test.js` | 2.5 KB |
+| `test/deal-calc-soft-funding-links-wrap.test.js` | 2.8 KB |
 | `test/deal-calc-studio-units.test.js` | 3.2 KB |
 | `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
@@ -1911,6 +1911,7 @@
 | `test/fixtures/pma/barrier-downweight.fixture.json` | 412 B |
 | `test/fixtures/pma/commute-shed-params.fixture.json` | 1.3 KB |
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
+| `test/fixtures/predictor-policy.cjs` | 1.5 KB |
 | `test/fixtures/workflow-cancelled-runs.json` | 2.5 KB |
 | `test/for-sale-study-follows-jurisdiction.test.mjs` | 31.8 KB |
 | `test/foreclosure-performance.test.js` | 6.8 KB |
@@ -2024,7 +2025,7 @@
 | `test/land-disposition.test.js` | 8.0 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-award-year-not-pis.test.js` | 10.2 KB |
-| `test/lihtc-deal-predictor.test.js` | 12.8 KB |
+| `test/lihtc-deal-predictor.test.js` | 12.9 KB |
 | `test/lihtc-guide-accuracy.test.js` | 2.3 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 8.8 KB |
 | `test/lihtc-project-size.test.js` | 6.8 KB |
@@ -2124,6 +2125,8 @@
 | `test/policy-timeline-series.test.js` | 18.4 KB |
 | `test/policy-watch-rail.test.mjs` | 13.7 KB |
 | `test/polymarket-resolved.test.js` | 23.7 KB |
+| `test/predictor-policy-browser.test.js` | 8.4 KB |
+| `test/predictor-policy.test.js` | 4.1 KB |
 | `test/preservation.test.js` | 17.4 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/production-figure-names-its-reading.test.js` | 8.5 KB |
@@ -2204,7 +2207,7 @@
 | `test/test_hna_market_bridge.js` | 14.6 KB |
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
 | `test/test_legislative_tracker.js` | 9.3 KB |
-| `test/test_lihtc_deal_predictor.js` | 21.5 KB |
+| `test/test_lihtc_deal_predictor.js` | 21.6 KB |
 | `test/test_public_land_overlay.js` | 12.0 KB |
 | `test/test_qcew_annual_slice.py` | 8.0 KB |
 | `test/test_soft_funding_tracker.js` | 13.5 KB |
@@ -2213,7 +2216,7 @@
 | `test/tract-geometry-integrity.test.js` | 18.0 KB |
 | `test/transit-stops-consumers.test.js` | 10.5 KB |
 | `test/transit-zone-absence.test.mjs` | 37.4 KB |
-| `test/transit-zone-funding-line.test.js` | 26.1 KB |
+| `test/transit-zone-funding-line.test.js` | 26.4 KB |
 | `test/transit-zone.test.js` | 39.7 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/ui-audit-clean.test.js` | 4.3 KB |
