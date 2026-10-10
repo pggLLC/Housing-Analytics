@@ -38,6 +38,7 @@ console.log('hna-build-rebase-recovery');
 const DERIVED = [
   'data/home-snapshot.json',        // scripts/build-home-snapshot.mjs
   'places',                         // scripts/hna/build_place_pages.py (whole directory)
+  'data/market/acs_median_rent_co.json', // scripts/build_acs_rent_co.py (copies the summaries' DP04_0134E)
   'data/paper/figures.json',        // npm run paper:build
   'data/paper/model-parameters.json',
   'working-paper.html',
@@ -97,6 +98,7 @@ run('recovery regenerates rather than picking a side', () => {
     'stale pre-race versions come from main');
   assert.match(b, /node scripts\/build-home-snapshot\.mjs/, 'home snapshot is rebuilt');
   assert.match(b, /python3? scripts\/hna\/build_place_pages\.py/, 'place pages are rebuilt');
+  assert.match(b, /python3? scripts\/build_acs_rent_co\.py/, 'ACS median rent is rebuilt');
   assert.match(b, /npm run paper:build/, 'paper figures are rebuilt');
   assert.match(b, /node scripts\/compute-inventory\.mjs --write/, 'inventory line is rebuilt');
   assert.match(b, /npm run audit:file-manifest/, '_manifest is rebuilt');

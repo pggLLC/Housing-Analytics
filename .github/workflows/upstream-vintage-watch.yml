@@ -1,7 +1,7 @@
 name: Upstream Vintage Watch
 
 # Weekly check for new vintage releases from external data publishers
-# (HUD CHAS, HUD FMR, Census ACS 5-year). Outdated or unverifiable sources
+# (HUD CHAS, HUD FMR, Census ACS 5-year) and new CHFA tax credit rounds. Outdated or unverifiable sources
 # open/update one tracking issue; blocked CHAS checks also emit a warning.
 #
 # Refreshes data/audit/upstream-vintage-watch.json on every run for the
@@ -107,6 +107,7 @@ jobs:
               '      Follow [the manual refresh runbook](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/blob/main/docs/runbooks/chas-manual-refresh.md) only if the published vintage changed.',
               '    - HUD FMR:  `python3 scripts/fetch_fmr_api.py`',
               '    - ACS:      bump `DEFAULT_VINTAGE` in `scripts/hna/build_place_ami_gap.py`',
+              '    - CHFA round: parse the award-description page into `data/affordable-housing/chfa-awards/<year>-round-<one|two>.json` (same shape as `2026-round-one.json`, with `county` / `county_fips`) until CHFA\'s property feed carries it',
               '- Run plausibility tests + spot-check key counties before merging',
               '',
               `<sub>This issue is auto-managed by [upstream-vintage-watch.yml](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/.github/workflows/upstream-vintage-watch.yml). It will be auto-closed when all checks are verifiable and no source needs an update.</sub>`,
