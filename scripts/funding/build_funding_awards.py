@@ -50,8 +50,14 @@ OVERRIDES = os.path.join(OUT_DIR, 'reviewed-documents.json')
 SENSITIVE_SRC = os.path.join(ROOT, 'scripts', 'lib', 'public-sensitive-patterns.mjs')
 
 
+def read_json(path: str):
+    with open(path, encoding='utf-8') as fh:
+        return json.load(fh)
+
+
 def sensitive_patterns() -> list[re.Pattern]:
-    src = open(SENSITIVE_SRC).read()
+    with open(SENSITIVE_SRC, encoding='utf-8') as fh:
+        src = fh.read()
     found = re.findall(r'regex:\s*/((?:\\/|[^/])+)/([a-z]*)', src)
     if not found:
         raise RuntimeError(f'no patterns read from {SENSITIVE_SRC}')
@@ -535,14 +541,14 @@ def norm(s: str) -> str:
 
 
 def load_geo() -> tuple[dict, dict]:
-    geo = json.load(open(GEO_CONFIG))
+    geo = read_json(GEO_CONFIG)
     counties = {norm(c['label']): c['geoid'] for c in geo['counties']}
     places: dict[str, set] = {}
     for p in geo['places'] + geo['cdps']:
         places.setdefault(norm(p['label']), set()).add(p['containingCounty'])
     # cities the LIHTC feed has placed in a county (covers unincorporated names)
     try:
-        feed = json.load(open(LIHTC_FEED))['features']
+        feed = read_json(LIHTC_FEED)['features']
         tally: dict[str, dict] = {}
         for f in feed:
             pr = f.get('properties') or {}
@@ -553,20 +559,20 @@ def load_geo() -> tuple[dict, dict]:
             if city not in places:
                 places[city] = {max(t, key=t.get)}
     except (OSError, KeyError, ValueError):
-        pass
+        pass  # no feed: places come from geo-config alone, and fewer rows are placed
     return counties, places
 
 
 def lihtc_names() -> dict:
     out: dict[str, str] = {}
     try:
-        for f in json.load(open(LIHTC_FEED))['features']:
+        for f in read_json(LIHTC_FEED)['features']:
             pr = f.get('properties') or {}
             for k in ('PROJECT', 'ReportedName'):
                 if pr.get(k) and pr.get('CNTY_FIPS'):
                     out.setdefault(norm(pr[k]), pr['CNTY_FIPS'])
     except (OSError, KeyError, ValueError):
-        pass
+        pass  # no feed: project names cannot place rows, so locations are used instead
     return out
 
 
@@ -648,7 +654,7 @@ def build(docs: list[dict], cache: str) -> tuple[list[dict], list[dict]]:
     SENSITIVE = sensitive_patterns()
     counties, places = load_geo()
     try:
-        overrides = json.load(open(OVERRIDES)).get('documents', {})
+        overrides = read_json(OVERRIDES).get('documents', {})
     except (OSError, ValueError):
         overrides = {}
     names = lihtc_names()
@@ -661,7 +667,8 @@ def build(docs: list[dict], cache: str) -> tuple[list[dict], list[dict]]:
             if not os.path.exists(path):
                 with open(path, 'wb') as fh:
                     fh.write(http_get(doc['url']))
-            raw = open(path, 'rb').read()
+            with open(path, 'rb') as fh:
+                raw = fh.read()
             status['sha256'] = hashlib.sha256(raw).hexdigest()
             text = pdf_text(path)
             # cells wrap up in some reports and down in others: keep the reading
@@ -782,8 +789,8 @@ def issue_body(s: dict) -> str:
         lines.append(f"- {s['unnamed_rows']} rows carry an amount but no project or sponsor name")
     lines += ['', 'Its rows are left out of `data/policy/funding-awards/ledger.json` until this is resolved. Either:',
               '1. fix the parser in `scripts/funding/build_funding_awards.py` so the rows add up to the total, or',
-              "2. check the rows by hand and add the file to `data/policy/funding-awards/reviewed-documents.json` "
-              "with its sha256, the reason and who reviewed it.", '',
+              ("2. check the rows by hand and add the file to `data/policy/funding-awards/reviewed-documents.json` "
+               + "with its sha256, the reason and who reviewed it."), '',
               f"sha256: `{s.get('sha256', 'not downloaded')}`"]
     return '\n'.join(lines)
 
@@ -859,7 +866,7 @@ def main() -> int:
     prior = {}
     if os.path.exists(LEDGER):
         try:
-            prior = json.load(open(LEDGER))
+            prior = read_json(LEDGER)
         except ValueError:
             prior = {}
     if prior.get('awards') == ledger:
