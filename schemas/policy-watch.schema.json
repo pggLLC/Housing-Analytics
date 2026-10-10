@@ -54,6 +54,7 @@
           },
           "section": {
             "enum": [
+              "law",
               "qap",
               "ballot",
               "people"
@@ -160,6 +161,11 @@
                 }
               }
             ]
+          },
+          "review_by": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
           },
           "evidence": {
             "type": "array",
@@ -399,7 +405,8 @@
           "programs",
           "source",
           "verification",
-          "evidence"
+          "evidence",
+          "review_by"
         ],
         "additionalProperties": false,
         "allOf": [

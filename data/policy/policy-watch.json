@@ -2,17 +2,145 @@
   "schema": "policy-watch/v1",
   "meta": {
     "title": "Policy watch",
-    "as_of": "2026-09-26",
+    "as_of": "2026-10-10",
     "method": "Curated, not a feed. An entry is listed only after someone has read its source. verification.level \"primary\" means checked against the primary document itself; \"reported\" means taken from a named outlet whose page was read, without checking the primary document. Each primary entry carries the exact source wording it rests on in `evidence`. A topic nobody has checked yet is listed in known_gaps rather than filled from search results. `derived` records a figure computed from the evidence (a sum), and `redline` records a struck and inserted amount that the PDF text runs together.",
     "known_gaps": [
-      "Local county and city housing questions on the November 3, 2026 ballot: not yet loaded. Each needs checking against the county clerk's ballot notice before it is listed.",
-      "Statewide ballot measures for November 3, 2026: not yet loaded.",
+      "Local county and city housing questions on the November 3, 2026 ballot, where the official notice was not yet published or could not be read when last checked. The local questions found so far, and which counties and towns were checked, are on Colorado Elections.",
       "Housing appointments (checked 2026-09-26 against official pages): listed are the DOLA Executive Director, the Division of Housing Director, CHFA's Executive Director and CEO and its Board Chair, the eight State Housing Board members, and OEDIT's Director of Innovative Funding for Housing Programs. Not listed: a director of the Office of Homeless Initiatives (the Division of Housing's page names the office but no director); a named Proposition 123 program lead at DOLA (DOLA's Proposition 123 pages name only a community support team); and a Governor's senior housing policy adviser (the Governor's office site, governorsoffice.colorado.gov, has no staff page, and its Cabinet page and housing announcements name no such adviser).",
-      "Candidates' housing platforms: not yet loaded.",
+      "Candidates' housing positions for the Secretary of State race: not yet researched. The Governor, Attorney General and Treasurer races are covered on Colorado Elections.",
       "The final 2027–2028 QAP: the QAP entries here are from the third draft, not the adopted plan."
     ]
   },
   "entries": [
+    {
+      "id": "law-hb26-1313-prop123-targets",
+      "section": "law",
+      "status": "law",
+      "date": "2026-05-26",
+      "title": "HB26-1313: Proposition 123 commitments for 2027–2029 move to a permit-based target; good-faith waivers for 2024–2026 are due by November 1, 2026",
+      "detail": "Signed May 26, 2026 and effective the same day under its safety clause. From the cycle beginning January 1, 2027, a local government no longer has to raise affordable units 3% a year over its baseline. Its target is its average annual new-housing permits over the past three years, times the years it commits to, times 0.10, 0.15 or 0.20 depending on how its county's job growth compares with the statewide median. A government that reached at least 65% of its 2024–2026 target may file a good-faith waiver between June 15 and November 1, 2026.",
+      "programs": [
+        "Prop 123",
+        "Division of Housing"
+      ],
+      "source": {
+        "label": "Colorado General Assembly, HB26-1313",
+        "url": "https://leg.colorado.gov/bills/hb26-1313"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "the HB26-1313 bill page (history, session-law table and enacted summary) and the session law, chapter 154",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2026-11-01",
+      "evidence": [
+        {
+          "section": "Bill history",
+          "quote": "05/26/2026 Governor Governor Signed"
+        },
+        {
+          "section": "Session laws",
+          "quote": "Effective Date Chapter # Title Documents 05/26/2026 154 Adjust Reqmnts Statewide Affordable Housing Fund"
+        },
+        {
+          "section": "Session law, Section 4",
+          "quote": "Safety clause. The general assembly finds, determines, and declares that this act is necessary for the immediate preservation of the public peace, health, or safety",
+          "note": "https://leg.colorado.gov/laws/session-laws/HB26-1313/154/download"
+        },
+        {
+          "section": "Bill summary",
+          "quote": "The act changes the requirements for the 3-year cycle beginning on January 1, 2027, and each 3-year cycle thereafter."
+        },
+        {
+          "section": "Bill summary",
+          "quote": "To be eligible, the local government must have achieved at least 65% of the targeted annual increase. The division may, in its discretion, grant a good faith effort waiver to a local government that filed for a waiver on or after June 15, 2026, but before November 1, 2026"
+        }
+      ]
+    },
+    {
+      "id": "law-sb26-001-workforce-housing",
+      "section": "law",
+      "status": "law",
+      "date": "2026-08-12",
+      "title": "SB26-001: counties and towns may sell or lease public land for affordable housing; a transferred middle-income housing tax credit can be claimed without owning the project",
+      "detail": "Effective August 12, 2026. Also lets a county spend property-tax revenue on housing authorities, housing programs and workforce housing, and counts county workforce-housing construction as governmental use, so contractors' construction materials for it are tax-exempt.",
+      "programs": [
+        "Middle-income housing tax credit",
+        "Local government"
+      ],
+      "source": {
+        "label": "Colorado General Assembly, SB26-001",
+        "url": "https://leg.colorado.gov/bills/sb26-001"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "the SB26-001 bill page (enacted summary and session-law table)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-08",
+      "evidence": [
+        {
+          "section": "Session laws",
+          "quote": "Effective Date Chapter # Title Documents 08/12/2026 7 Workforce Housing & Housing Tax Credit"
+        },
+        {
+          "section": "Bill summary",
+          "quote": "The act allows a board of county commissioners and the governing body of a municipality to sell and dispose of property owned by the county or municipality, as applicable, to provide for affordable housing"
+        },
+        {
+          "section": "Bill summary",
+          "quote": "The act entitles an entity subject to income tax to which a middle-income housing tax credit is transferred by a governmental entity or quasi-governmental entity to claim the credit without owning an interest in a qualified project."
+        },
+        {
+          "section": "Bill summary",
+          "quote": "The act allows a board of county commissioners to use ad valorem tax revenue for housing authorities, housing programs, and workforce housing."
+        },
+        {
+          "section": "Bill summary",
+          "quote": "The sale and use of construction materials by contractors is exempt from taxation if the materials are used by the state in its governmental capacity only. The act provides that 'governmental capacity' includes the construction of workforce housing projects undertaken by counties."
+        }
+      ]
+    },
+    {
+      "id": "law-hb26-1001-qualifying-properties",
+      "section": "law",
+      "status": "law",
+      "date": "2026-03-25",
+      "title": "HB26-1001: housing on land owned by school districts, colleges, housing authorities, transit agencies and affordable-housing nonprofits must be approved administratively from December 31, 2027",
+      "detail": "Effective March 25, 2026. Applies to qualifying properties of 5 acres or less in a subject jurisdiction. A jurisdiction may not deny such a development for height if it is no more than 3 stories or 38 feet, and may not apply stricter site-design standards (setbacks, parking, lot coverage and others) than it applies to similar housing. A jurisdiction already updating its code on December 31, 2027 has until June 30, 2028.",
+      "programs": [
+        "Land use",
+        "Local government"
+      ],
+      "source": {
+        "label": "Colorado General Assembly, HB26-1001",
+        "url": "https://leg.colorado.gov/bills/hb26-1001"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "the HB26-1001 bill page (enacted summary and session-law table)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-08",
+      "evidence": [
+        {
+          "section": "Session laws",
+          "quote": "Effective Date Chapter # Title Documents 03/25/2026 8 Housing Developments on Qualifying Properties"
+        },
+        {
+          "section": "Bill summary",
+          "quote": "The act requires a subject jurisdiction to, on or after December 31, 2027, subject to an administrative approval process, allow the construction of a residential development on a qualifying property that does not contain an exempt parcel"
+        },
+        {
+          "section": "Bill summary",
+          "quote": "A qualifying property is real property that contains no more than 5 acres of land"
+        },
+        {
+          "section": "Bill summary",
+          "quote": "Disallow construction of a residential development on a qualifying property on the basis of height if the tallest structure in the residential development is no more than 3 stories or 38 feet tall, except in certain circumstances"
+        }
+      ]
+    },
     {
       "id": "qap-2027-2028-federal-cap",
       "section": "qap",
@@ -33,6 +161,7 @@
         "against": "CHFA's 2027–2028 QAP third draft (redline PDF)",
         "checked": "2026-09-24"
       },
+      "review_by": "2026-11-09",
       "evidence": [
         {
           "section": "3.L",
@@ -68,6 +197,7 @@
         "against": "CHFA's 2027–2028 QAP third draft (redline PDF)",
         "checked": "2026-09-24"
       },
+      "review_by": "2026-11-09",
       "evidence": [
         {
           "section": "3.L.1",
@@ -101,6 +231,7 @@
         "against": "CHFA's 2027–2028 QAP third draft (redline PDF)",
         "checked": "2026-09-24"
       },
+      "review_by": "2026-11-09",
       "evidence": [
         {
           "section": "3.B.9",
@@ -149,6 +280,7 @@
         "against": "CHFA's 2027–2028 QAP third draft (redline PDF)",
         "checked": "2026-09-24"
       },
+      "review_by": "2026-11-09",
       "evidence": [
         {
           "section": "3.B.9",
@@ -192,6 +324,7 @@
         "against": "CHFA's 2027–2028 QAP third draft (redline PDF)",
         "checked": "2026-09-24"
       },
+      "review_by": "2026-11-09",
       "evidence": [
         {
           "section": "3.B.9",
@@ -227,6 +360,7 @@
         "against": "CHFA's 2027–2028 QAP third draft (redline PDF)",
         "checked": "2026-09-24"
       },
+      "review_by": "2026-11-09",
       "evidence": [
         {
           "section": "3.C.1",
@@ -254,6 +388,7 @@
         "against": "DOLA's leadership page and C.R.S. 24-1-125(1)",
         "checked": "2026-09-26"
       },
+      "review_by": "2026-12-26",
       "evidence": [
         {
           "section": "Leadership",
@@ -302,6 +437,7 @@
         "against": "DOLA's leadership page and C.R.S. 24-32-704(1)",
         "checked": "2026-09-26"
       },
+      "review_by": "2026-12-26",
       "evidence": [
         {
           "section": "Leadership",
@@ -350,6 +486,7 @@
         "against": "CHFA's executive and senior management page and its leadership page",
         "checked": "2026-09-26"
       },
+      "review_by": "2026-12-26",
       "evidence": [
         {
           "section": "Executive and Senior Management",
@@ -398,6 +535,7 @@
         "against": "CHFA's board of directors page and its leadership page",
         "checked": "2026-09-26"
       },
+      "review_by": "2026-12-26",
       "evidence": [
         {
           "section": "Board of Directors",
@@ -451,6 +589,7 @@
         "against": "OEDIT's staff directory and OEDIT's July 11, 2023 announcement",
         "checked": "2026-09-26"
       },
+      "review_by": "2026-12-26",
       "evidence": [
         {
           "section": "Staff",
@@ -508,6 +647,7 @@
         "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
         "checked": "2026-09-26"
       },
+      "review_by": "2026-12-26",
       "evidence": [
         {
           "section": "State Housing Board Members",
@@ -561,6 +701,7 @@
         "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
         "checked": "2026-09-26"
       },
+      "review_by": "2026-12-26",
       "evidence": [
         {
           "section": "State Housing Board Members",
@@ -614,6 +755,7 @@
         "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
         "checked": "2026-09-26"
       },
+      "review_by": "2026-12-26",
       "evidence": [
         {
           "section": "State Housing Board Members",
@@ -667,6 +809,7 @@
         "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
         "checked": "2026-09-26"
       },
+      "review_by": "2026-12-26",
       "evidence": [
         {
           "section": "State Housing Board Members",
@@ -720,6 +863,7 @@
         "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
         "checked": "2026-09-26"
       },
+      "review_by": "2026-12-26",
       "evidence": [
         {
           "section": "State Housing Board Members",
@@ -773,6 +917,7 @@
         "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
         "checked": "2026-09-26"
       },
+      "review_by": "2026-12-26",
       "evidence": [
         {
           "section": "State Housing Board Members",
@@ -826,6 +971,7 @@
         "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
         "checked": "2026-09-26"
       },
+      "review_by": "2026-12-26",
       "evidence": [
         {
           "section": "State Housing Board Members",
@@ -879,6 +1025,7 @@
         "against": "The Division of Housing's State Housing Board Members page and C.R.S. 24-32-706",
         "checked": "2026-09-26"
       },
+      "review_by": "2026-12-26",
       "evidence": [
         {
           "section": "State Housing Board Members",
