@@ -405,8 +405,7 @@
           "programs",
           "source",
           "verification",
-          "evidence",
-          "review_by"
+          "evidence"
         ],
         "additionalProperties": false,
         "allOf": [
