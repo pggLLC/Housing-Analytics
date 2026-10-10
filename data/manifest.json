@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-10T11:28:59.124657Z",
+  "generated": "2026-10-10T11:50:52.293358Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 830457
+      "bytes": 831042
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7329,7 +7329,7 @@
     "data/insights/catalog.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9235
+      "bytes": 8902
     },
     "data/jurisdiction-briefs/0803620.json": {
       "featureCount": 0,
@@ -7590,6 +7590,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 13961
+    },
+    "data/market/co-construction-labor-cost.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 130798
     },
     "data/market/co-urban-renewal-authorities.json": {
       "featureCount": 0,
