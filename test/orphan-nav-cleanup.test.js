@@ -48,7 +48,6 @@ const requiredSitemapPages = [
   'data-map-browser.html',
   'data-review-hub.html',
   'deal-calculator.html',
-  'historical-trends.html',
   'hna-scenario-builder.html',
   'land-value.html',
   'lihtc-opportunity-finder.html',

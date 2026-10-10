@@ -1,7 +1,7 @@
 /**
  * js/historical-trends.js
  *
- * Renders three panels on historical-trends.html:
+ * Renders the three panels of the Historical Trends tab (colorado-deep-dive.html#tab-history):
  *   1. Annual awards by credit type (projects or units, from the CHFA live feed)
  *      plus typical-deal tiles and the latest CHFA round's award-report figures
  *   2. LIHTC stock trajectory (cumulative units by award year — the feed has no opening year)
@@ -16,7 +16,7 @@
  *
  * Charts use window.Chart (Chart.js) loaded from js/vendor/chart.umd.min.js.
  *
- * Exposes window.HistoricalTrends.render() — call on DOMContentLoaded.
+ * Exposes window.HistoricalTrends.render() — the page calls it once, on the tab's first reveal.
  */
 (function (global) {
   'use strict';

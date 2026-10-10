@@ -120,12 +120,13 @@ test('missing PolicyTimeline or a failed load preserves charts on every consumer
 test('missing LihtcByYear or failed series data shows unavailable without breaking other charts', async () => {
   let checked = 0;
   for (const missing of [['js/components/lihtc-by-year.js'], ['data/chfa-lihtc.json'], ['data/hna/geo-config.json']]) {
-    for (const [page, id, note] of [
-      ['historical-trends.html', 'chfaTimelineChart', '#htErrorBanner'],
+    // Historical Trends is the Deep Dive's #tab-history; it renders when opened.
+    for (const [page, id, note, hash] of [
+      ['colorado-deep-dive.html', 'chfaTimelineChart', '#htErrorBanner', '#tab-history'],
       ['colorado-deep-dive.html', 'chartLihtcTimeline', '#lihtcTimelineSourceNote'],
       ['colorado-deep-dive.html', 'lihtcTrendChart', '#lihtc-trend-status']
     ]) {
-      const r = render(page, feed, missing);
+      const r = render(page, feed, missing, hash);
       try {
         await wait(() => /unavailable|failed/i.test(r.doc.querySelector(note).textContent));
         assert.equal(r.charts.has(id), false, page + ': no fabricated series');
@@ -180,12 +181,12 @@ test('the three CHFA charts and headings agree with the feed, including a change
     assert.deepEqual(result.years, exp.years);
     assert.deepEqual(result.totals.projects, exp.values(() => true));
     assert.deepEqual(result.totals.liUnits, exp.values(() => true, 'LI_UNITS'));
-    for (const [page, id, title] of [
-      ['historical-trends.html', 'chfaTimelineChart', 'htCHFAHeading'],
+    for (const [page, id, title, hash] of [
+      ['colorado-deep-dive.html', 'chfaTimelineChart', 'htCHFAHeading', '#tab-history'],
       ['colorado-deep-dive.html', 'chartLihtcTimeline', 'lihtcTimelineTitle'],
       ['colorado-deep-dive.html', 'lihtcTrendChart', 'lihtc-trend-heading']
     ]) {
-      const r = render(page, data);
+      const r = render(page, data, [], hash);
       try {
         await wait(() => r.charts.has(id));
         const chart = r.charts.get(id);
@@ -193,7 +194,7 @@ test('the three CHFA charts and headings agree with the feed, including a change
         const heading = r.doc.getElementById(title);
         assert(heading.textContent.includes(exp.range), page + ': heading uses the rendered years');
         assert.equal(heading.dataset.yearRange, exp.range);
-        if (page === 'historical-trends.html') {
+        if (id === 'chfaTimelineChart') {
           const actual = exp.years.map((_, i) => chart.data.datasets.reduce((n, d) => n + d.data[i], 0));
           assert.deepEqual(actual, exp.values(() => true));
           const buckets = ['nine', 'four', 'other'].filter(k => result.credits[k].projects.some(n => n > 0));

@@ -142,18 +142,8 @@
       "type": "Data exploration",
       "title": "Colorado Deep Dive",
       "url": "colorado-deep-dive.html",
-      "summary": "County-level maps and tables: DDAs and QCTs with LIHTC projects, income-band gaps, concessions, foreclosures and Proposition 123 commitments, plus statewide market signals and monthly construction labor and material costs.",
+      "summary": "County-level maps and tables: DDAs and QCTs with LIHTC projects, income-band gaps, concessions, foreclosures and Proposition 123 commitments, plus statewide market signals, monthly construction labor and material costs, and Colorado LIHTC history: CHFA awards by year and credit type, the LIHTC stock over time, and peer project benchmarks.",
       "sources": ["HUD", "Colorado Association of Realtors", "CHFA", "AAMD", "Census Bureau", "FHFA", "BLS", "DOLA"],
-      "maintenance": "live-data"
-    },
-    {
-      "id": "historical-trends",
-      "section": "data",
-      "type": "Data exploration",
-      "title": "Historical Trends & Benchmarks",
-      "url": "historical-trends.html",
-      "summary": "What past LIHTC deals in Colorado looked like: CHFA awards by year and credit type, the LIHTC stock over time, and peer project benchmarks.",
-      "sources": ["CHFA", "HUD"],
       "maintenance": "live-data"
     }
   ]
