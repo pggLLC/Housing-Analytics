@@ -147,7 +147,7 @@ function page(storage = new Map()) {
   win.window = win;
   const ctx = vm.createContext(win);
   for (const file of ['js/workflow-state-core.js', 'js/workflow-state-api.js',
-    'js/market-analysis/market-analysis-state.js', 'js/market-analysis/market-analysis-controller.js', 'js/deal-calculator.js']) {
+    'js/market-analysis/market-analysis-state.js', 'js/market-analysis/market-analysis-controller.js', 'js/deal-calculator-math.js', 'js/deal-engine.js', 'js/deal-calculator.js']) {
     vm.runInContext(read(file), ctx, { filename: file });
   }
   const src = read('js/market-analysis.js');

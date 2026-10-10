@@ -29,7 +29,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const ROOT = path.resolve(__dirname, '..');
-const SRC = fs.readFileSync(path.join(ROOT, 'js', 'deal-calculator.js'), 'utf8');
+const SRC = fs.readFileSync(path.join(ROOT, 'js', 'deal-engine.js'), 'utf8') + '\n' +
+  fs.readFileSync(path.join(ROOT, 'js', 'deal-calculator.js'), 'utf8');
 
 let failures = 0;
 const pass = (m) => console.log(`  ✓ ${m}`);
@@ -102,7 +103,7 @@ test('gross area is never derived from the unit count', () => {
 });
 
 test('the value is read without a `|| 0` coercion', () => {
-  assert.ok(/grossSf: safeVal\('dc-gross-sf'\),/.test(SRC),
+  assert.ok(/grossSf: safeVal\('dc-gross-sf'\)\s*[,}]/.test(SRC),
     'the gross-area read changed shape; `|| 0` here would turn "not entered" '
     + 'into "entered as zero" before the engine can tell them apart');
 });

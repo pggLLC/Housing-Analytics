@@ -97,6 +97,14 @@ export const CHAIN = [
        + 'pages stale on main with nothing to tell it otherwise',
   },
   {
+    id: 'acs-median-rent',
+    argv: ['python3', 'scripts/build_acs_rent_co.py'],
+    why: 'data/market/acs_median_rent_co.json copies each summary\'s DP04_0134E. '
+       + 'It was in no chain until 2026-10-10, so the HNA build refreshed the '
+       + 'summaries and left it stale on main, and test:market-construction '
+       + 'failed on the next unrelated PR',
+  },
+  {
     id: 'paper-figures',
     argv: ['npm', 'run', 'paper:build'],
     why: 'the working paper and methods page quote counts measured off the repo',

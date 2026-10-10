@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-10-09T14:20:31.988Z
+**Scan timestamp:** 2026-10-10T13:36:29.087Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1704 |
-| New (unregistered) | 1673 |
+| Files scanned | 1705 |
+| New (unregistered) | 1674 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (811 KB)
+- `data/_manifest.json` (812 KB)
 - `data/_qa-status.json` (7 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1488 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (4 KB)
-- `data/alerts/alerts_archive.json` (184 KB)
+- `data/alerts/alerts_archive.json` (190 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2342 KB)
 - `data/amenities/transit_stops_statewide_co.geojson` (3869 KB)
@@ -60,7 +60,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (4117 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (253 KB)
+- `data/discovery-reports/latest.json` (252 KB)
 - `data/environmental/epa-superfund-co.json` (324 KB)
 - `data/environmental/fema-flood-co.geojson` (2 KB)
 - `data/fixtures/fruita-commons-broad-income.scenario.json` (5 KB)
@@ -1513,6 +1513,7 @@
 - `data/market/childcare_co.geojson` (1899 KB)
 - `data/market/climate_hazards_co.json` (3 KB)
 - `data/market/co-adaptive-reuse-references.json` (14 KB)
+- `data/market/co-construction-labor-cost.json` (128 KB)
 - `data/market/co-urban-renewal-authorities.json` (12 KB)
 - `data/market/colorado-equity-pricing-factors.json` (5 KB)
 - `data/market/colorado-foreclosure-performance.json` (48 KB)
@@ -1657,13 +1658,13 @@
 - `data/policy/policy-watch.json` (42 KB)
 - `data/policy/resale-conventions.json` (7 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
-- `data/policy/soft-funding-status.json` (25 KB)
+- `data/policy/soft-funding-status.json` (44 KB)
 - `data/policy/stewardship-providers.json` (2 KB)
 - `data/policy/tax-credit-legislation.json` (18 KB)
 - `data/policy/thiz-map-status.json` (2 KB)
 - `data/policy/tool-watch.json` (5 KB)
 - `data/policy/unit-size-standards.json` (5 KB)
-- `data/policy_briefs.json` (238 KB)
+- `data/policy_briefs.json` (243 KB)
 - `data/policy_briefs_curated.json` (14 KB)
 - `data/polymarket-curated.json` (4 KB)
 - `data/polymarket-data.json` (12 KB)

@@ -44,7 +44,7 @@ function readRel(rel) {
 }
 
 console.log('\n[test] Deal Calculator: three-state unit-mix indicator');
-const dcSrc = readRel('js/deal-calculator.js');
+const dcSrc = readRel('js/deal-calculator.js') + '\n' + readRel('js/deal-engine.js');
 assert(
   /amiUnitSum\s*>\s*units/.test(dcSrc),
   'Deal Calculator detects AMI sum > total (HARD ERROR branch)'
