@@ -472,29 +472,53 @@ def _post(payload: dict[str, Any]) -> dict[str, Any]:
     raise FetchError(f"BLS request failed: {last_err}")
 
 
+def _request_chunk(ids: list[str], start_year: int, end_year: int, api_key: str | None,
+                   catalog: bool, out: dict[str, Any]) -> None:
+    """One BLS request. A REQUEST_FAILED answer ("check your input parameters")
+    is retried without the catalog, then split in halves, so one series BLS
+    rejects becomes a null-with-reason instead of failing the whole run. Any
+    other non-success answer (quota, outage) raises."""
+    body: dict[str, Any] = {"seriesid": ids, "startyear": str(start_year), "endyear": str(end_year)}
+    if api_key:
+        body["registrationkey"] = api_key
+        if catalog:
+            body["catalog"] = True
+    resp = _post(body)
+    status = resp.get("status")
+    messages = [str(m) for m in resp.get("message") or []]
+    if status == "REQUEST_FAILED":
+        _log(f"  BLS REQUEST_FAILED for {len(ids)} series ({'; '.join(messages) or 'no message'})")
+        if catalog and api_key:
+            time.sleep(1)
+            return _request_chunk(ids, start_year, end_year, api_key, False, out)
+        if len(ids) > 1:
+            mid = len(ids) // 2
+            for part in (ids[:mid], ids[mid:]):
+                time.sleep(1)
+                _request_chunk(part, start_year, end_year, api_key, False, out)
+            return
+        out[ids[0]] = {"data": [], "catalog": None,
+                       "messages": [f"BLS rejected this series: {'; '.join(messages) or 'REQUEST_FAILED'}"]}
+        return
+    if status != "REQUEST_SUCCEEDED":
+        raise FetchError(f"BLS answered {status}: {'; '.join(messages) or 'no message'}")
+    for s in (resp.get("Results") or {}).get("series") or []:
+        sid = s.get("seriesID")
+        out[sid] = {"data": s.get("data") or [],
+                    "messages": [m for m in messages if sid in m],
+                    "catalog": s.get("catalog")}
+
+
 def fetch_bls(series_ids: list[str], api_key: str | None, end_year: int) -> dict[str, Any]:
     """Returns {seriesID: {"data": [...], "messages": [...], "catalog": {...}|None}}.
-    Raises FetchError when any request is refused or fails."""
+    Raises FetchError when a request is refused (quota) or fails outright."""
     chunk = CHUNK_WITH_KEY if api_key else CHUNK_WITHOUT_KEY
     start_year = end_year - WINDOW_YEARS + 1
     out: dict[str, Any] = {}
     for i in range(0, len(series_ids), chunk):
         ids = series_ids[i:i + chunk]
-        body: dict[str, Any] = {"seriesid": ids, "startyear": str(start_year), "endyear": str(end_year)}
-        if api_key:
-            body["registrationkey"] = api_key
-            body["catalog"] = True
         _log(f"  BLS request {i // chunk + 1}: {len(ids)} series, {start_year}-{end_year}")
-        resp = _post(body)
-        status = resp.get("status")
-        messages = [str(m) for m in resp.get("message") or []]
-        if status != "REQUEST_SUCCEEDED":
-            raise FetchError(f"BLS answered {status}: {'; '.join(messages) or 'no message'}")
-        for s in (resp.get("Results") or {}).get("series") or []:
-            sid = s.get("seriesID")
-            out[sid] = {"data": s.get("data") or [],
-                        "messages": [m for m in messages if sid in m],
-                        "catalog": s.get("catalog")}
+        _request_chunk(ids, start_year, end_year, api_key, True, out)
         if i + chunk < len(series_ids):
             time.sleep(1)
     return out

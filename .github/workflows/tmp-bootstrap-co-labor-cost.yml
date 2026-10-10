@@ -7,7 +7,7 @@ name: TEMP bootstrap CO construction labor cost (PR 2131)
 on:
   push:
     branches: [claude/project-thread-wyeumh]
-    paths: [.github/workflows/tmp-bootstrap-co-labor-cost.yml]
+    paths: [.github/workflows/tmp-bootstrap-co-labor-cost.yml, scripts/fetch_co_construction_labor_cost.py]
 
 permissions:
   contents: write
