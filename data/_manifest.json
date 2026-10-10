@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-10T20:07:41.372Z",
+    "generated_at": "2026-10-10T20:52:29.453Z",
     "root": "data/",
-    "file_count": 1701,
-    "total_size_bytes": 178258373,
+    "file_count": 1702,
+    "total_size_bytes": 178601111,
     "kinds": {
-      "json": 1664,
+      "json": 1665,
       "geojson": 33,
       "csv": 4
     }
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-10T20:07:37.595Z",
+      "mtime": "2026-10-10T20:52:26.464Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -32026,7 +32026,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15108,
-      "mtime": "2026-10-10T20:07:39.387Z",
+      "mtime": "2026-10-10T20:52:27.929Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32050,7 +32050,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-10T20:07:38.976Z",
+      "mtime": "2026-10-10T20:52:27.574Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -33921,6 +33921,37 @@
         "need_rank",
         "signal_basis",
         "sponsors_or_projects"
+      ]
+    },
+    {
+      "path": "policy/co-developer-funding-guide.json",
+      "kind": "json",
+      "size_bytes": 342738,
+      "mtime": "2026-10-10T20:51:51.991Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "categories",
+        "stack",
+        "considerations",
+        "programs"
+      ],
+      "key_count": 5,
+      "primary_array_key": "programs",
+      "primary_array_length": 48,
+      "primary_array_first_keys": [
+        "id",
+        "name",
+        "category",
+        "administrator",
+        "official_url",
+        "funding_type",
+        "status",
+        "what_it_funds",
+        "award_size",
+        "rate",
+        "term",
+        "ami_restriction"
       ]
     },
     {
