@@ -14,37 +14,38 @@
       "outcomes": [
         {
           "name": "Will US housing starts for September 2026 be above 1.450M?",
-          "prob": 0
+          "prob": null
         },
         {
           "name": "Will US housing starts for September 2026 be above 1.400M?",
-          "prob": 0
+          "prob": null
         },
         {
           "name": "Will US housing starts for September 2026 be above 1.350M?",
-          "prob": 0
+          "prob": null
         },
         {
           "name": "Will US housing starts for September 2026 be above 1.300M?",
-          "prob": 0
+          "prob": null
         },
         {
           "name": "Will US housing starts for September 2026 be above 1.250M?",
-          "prob": 0
+          "prob": null
         },
         {
           "name": "Will US housing starts for September 2026 be above 1.200M?",
-          "prob": 0
+          "prob": null
         },
         {
           "name": "Will US housing starts for September 2026 be above 1.150M?",
-          "prob": 0
+          "prob": null
         },
         {
           "name": "Will US housing starts for September 2026 be above 1.100M?",
-          "prob": 0
+          "prob": null
         }
       ]
     }
-  ]
+  ],
+  "note": "Prices unavailable in this snapshot: the fetcher wrote 0 for contracts it could not price (fixed; refreshed on the next weekly run)"
 }

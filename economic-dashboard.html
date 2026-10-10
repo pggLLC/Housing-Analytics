@@ -1655,17 +1655,27 @@ function getKey(){ return CONFIG_KEY || ""; }
     }
     grid.innerHTML = items.map(function (item) {
       var market = item.market || {};
-      var top = (item.outcomes || []).slice().sort(function (a, b) { return (b.prob || 0) - (a.prob || 0); })[0];
+      // A contract with no price carries prob null: it shows as "No price",
+      // never 0%. Strike ladders ("above 1.30M", "above 1.35M") overlap, so
+      // the headline is the least likely outcome that is still at least even
+      // odds — for a ladder, the highest threshold the market expects to
+      // clear; for a yes/no pair, the likelier side.
+      var priced = (item.outcomes || []).filter(function (o) { return typeof o.prob === 'number' && isFinite(o.prob); });
+      var evenOrBetter = priced.filter(function (o) { return o.prob >= 0.5; });
+      var top = evenOrBetter.length
+        ? evenOrBetter.slice().sort(function (a, b) { return a.prob - b.prob; })[0]
+        : priced.slice().sort(function (a, b) { return b.prob - a.prob; })[0];
       var outcomeRows = (item.outcomes || []).map(function (o) {
-        var pct = Math.round((o.prob || 0) * 100);
+        var has = typeof o.prob === 'number' && isFinite(o.prob);
+        var pct = has ? Math.round(o.prob * 100) : 0;
         return '<tr><td style="padding:.2rem .4rem;font-size:.78rem;">' + escHtml(o.name) + '</td>' +
-          '<td style="padding:.2rem .4rem;font-size:.78rem;text-align:right;font-variant-numeric:tabular-nums;">' + pct + '%</td>' +
+          '<td style="padding:.2rem .4rem;font-size:.78rem;text-align:right;font-variant-numeric:tabular-nums;">' + (has ? pct + '%' : 'No price') + '</td>' +
           '<td style="padding:.15rem 0;width:60px;"><div style="height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;"><div style="height:100%;width:' + pct + '%;background:var(--accent);"></div></div></td>' +
         '</tr>';
       }).join('');
       return '<div class="card" style="padding:var(--sp3);">' +
         '<div style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600;">' + escHtml(item.label || item.metric) + '</div>' +
-        '<div style="font-size:1.1rem;font-weight:700;margin:.3rem 0;">' + (top ? escHtml(top.name) + ' <span style="font-size:.85rem;color:var(--accent);">(' + fmtPct(top.prob) + ')</span>' : '—') + '</div>' +
+        '<div style="font-size:1.1rem;font-weight:700;margin:.3rem 0;">' + (top ? escHtml(top.name) + ' <span style="font-size:.85rem;color:var(--accent);">(' + fmtPct(top.prob) + ')</span>' : 'No live price on any contract') + '</div>' +
         '<table style="width:100%;border-collapse:collapse;margin:.3rem 0;">' + outcomeRows + '</table>' +
         (market.url ? '<a href="' + escHtml(market.url) + '" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--accent);text-decoration:underline;">View market on Kalshi ↗</a>' : '') +
         '<div style="font-size:.7rem;color:var(--muted);margin-top:.4rem;">' + escHtml(market.title || '') + '</div>' +

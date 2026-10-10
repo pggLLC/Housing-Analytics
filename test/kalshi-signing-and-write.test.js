@@ -107,5 +107,44 @@ run('a signing failure explains the line-break cause', () => {
     'the error must name the cause rather than surfacing raw OpenSSL text');
 });
 
+function loadNormalizeMarket() {
+  const a = /function contractProb[\s\S]*?\n}\n/.exec(SRC);
+  const b = /function normalizeMarket[\s\S]*?\n}\n/.exec(SRC);
+  assert.ok(a && b, 'contractProb and normalizeMarket must exist');
+  const ctx = {};
+  vm.createContext(ctx);
+  vm.runInContext(a[0] + b[0] + ';this.normalizeMarket = normalizeMarket;', ctx);
+  return ctx.normalizeMarket;
+}
+
+const CFG = { metric: 'housing_starts', label: 'Starts', horizon: 'year_end' };
+
+run('a strike ladder keeps each contract\'s own probability (no rescaling to 100%)', () => {
+  const normalize = loadNormalizeMarket();
+  const out = normalize(CFG, [
+    { ticker: 'A', title: 'above 1.10M', yes_bid_dollars: '0.9500' },
+    { ticker: 'B', title: 'above 1.30M', yes_bid: 60 },
+    { ticker: 'C', title: 'above 1.45M', last_price_dollars: '0.0800' }
+  ]);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [0.95, 0.6, 0.08]);
+});
+
+run('a contract with no bid and no trade is null, never 0', () => {
+  const normalize = loadNormalizeMarket();
+  const out = normalize(CFG, [
+    { ticker: 'A', title: 'above 1.10M' },
+    { ticker: 'B', title: 'above 1.30M', yes_bid: 0, yes_bid_dollars: '0.0000' }
+  ]);
+  assert.deepEqual(out.outcomes.map((o) => o.prob), [null, null]);
+  const single = normalize(CFG, [{ ticker: 'A', title: 'one' }]);
+  assert.equal(JSON.stringify(single.outcomes), '[]', 'an unpriced single market has no outcomes rather than Yes 0%');
+});
+
+run('the committed file carries no zero probabilities', () => {
+  const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/kalshi/prediction-market.json'), 'utf8'));
+  const probs = (data.items || []).flatMap((i) => (i.outcomes || []).map((o) => o.prob));
+  assert.ok(!probs.includes(0), 'a 0 is how an unpriced contract used to be written');
+});
+
 if (failures) { console.error('kalshi-signing-and-write: FAIL'); process.exitCode = 1; }
 else console.log('kalshi-signing-and-write: PASS');
