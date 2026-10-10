@@ -17,7 +17,7 @@
         "properties": {
           "id": { "$ref": "#/$defs/text" },
           "name": { "$ref": "#/$defs/text" },
-          "url": { "type": "string", "pattern": "^https://" }
+          "url": { "type": "string", "pattern": "^https:\\/\\/[^/\\s?#]+(?:/[^\\s]*)?$" }
         }
       }
     },
