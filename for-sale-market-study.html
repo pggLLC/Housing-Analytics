@@ -18,6 +18,10 @@
        page uses. -->
   <script src="js/workflow-state-core.js"></script>
   <script src="js/workflow-state-api.js"></script>
+  <!-- The guided path's for-sale route (js/components/workflow-progress.js,
+       "Product routes"): this page is step 4 when the reader chose for-sale. -->
+  <script src="js/components/workflow-progress.js"></script>
+  <script defer src="js/components/workflow-next-action.js"></script>
   <script src="js/site-state.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
@@ -98,6 +102,18 @@
 <body data-page-update-key="manifest" data-page-source="Project Scenario · policy datasets · HNA ownership screen">
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <header class="site-header"></header>
+
+  <div id="forSaleRouteProgress" hidden></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var WP = window.WorkflowProgress;
+      var product = WP && WP.getProduct();
+      if (product !== 'for-sale' && product !== 'mixed') return;
+      document.getElementById('forSaleRouteProgress').hidden = false;
+      // In a rental and for-sale project this page sits beside step 4's rental page.
+      WP.render('forSaleRouteProgress', 4, { companion: product === 'mixed' });
+    });
+  </script>
   <main id="main-content" class="ms-shell">
     <header class="ms-hero">
       <p><a href="housing-needs-assessment.html">Housing Needs Assessment</a> / <a href="deal-calculator.html">Deal Calculator</a></p>

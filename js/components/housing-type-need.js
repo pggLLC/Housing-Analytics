@@ -1,6 +1,6 @@
 /**
  * js/components/housing-type-need.js
- * Responsibility: data-driven 6-category ranking of which housing types the
+ * Responsibility: data-driven 7-category ranking of which housing types the
  *   public data most supports for a given jurisdiction. Read-only pure
  *   compute over data the HNA already loads — no new fetches, no new deps.
  *
@@ -14,9 +14,13 @@
  *               methodology
  *             }>
  *
- * The 6 categories (each a distinct quadrant of tenure × size × AMI × form):
+ * The 7 categories (each a distinct quadrant of tenure × size × AMI × form):
  *   1. deeplyAffordableRental  — rent · mixed size · ≤30% AMI · apartment
  *   2. workforceRental         — rent · mixed size · 60–80% AMI · apt/townhome
+ *   2b. middleIncomeRental     — rent · mixed size · 80–120% AMI · apt/townhome
+ *       (above federal LIHTC limits; the Colorado MIHTC band. Before this lane
+ *       the 80–120% band appeared only as ownership, so the HNA could not say
+ *       whether a place needed middle-income rental — docs/DEVELOPER-TRACKS.md)
  *   3. familyRental            — rent · 2–3BR · mixed AMI · MF/townhome
  *   4. seniorRental            — rent · 1–2BR · mixed AMI · apt/cottage
  *   5. missingMiddleOwnership  — own · small · 80–120% AMI · townhome/duplex/4plex
@@ -223,9 +227,10 @@
   //   - already-normalised place-CHAS record (same shape)
   // We extract a renter-by-AMI distribution + cost-burden shares for two AMI bands.
   function extractChas(chasRecord) {
-    if (!chasRecord) return { renterByAmi: null, severeBurdenAmi30: null, costBurdenAmi6080: null };
+    var none = { renterByAmi: null, severeBurdenAmi30: null, costBurdenAmi6080: null, costBurdenAmi81100: null };
+    if (!chasRecord) return none;
     var rba = chasRecord.renter_hh_by_ami;
-    if (!rba) return { renterByAmi: null, severeBurdenAmi30: null, costBurdenAmi6080: null };
+    if (!rba) return none;
 
     var lte30   = rba.lte30   || {};
     var t3150   = rba['31to50']   || {};
@@ -245,7 +250,9 @@
       t3150Share:   ((num(t3150.total)   || 0) / total) * 100,
       t5180Share:   ((num(t5180.total)   || 0) / total) * 100,
       t6080Share:   ((num(t5180.total)   || 0) / total) * 100 * 0.6,   // 60-80 ≈ ⅗ of 51-80 band
-      t81100Share:  ((num(t81100.total)  || 0) / total) * 100,
+      // null, not 0, when the band itself is unreported: the middle-income
+      // lane reads this directly, and a missing band is not an empty one.
+      t81100Share:  num(t81100.total) == null ? null : (num(t81100.total) / total) * 100,
       gt100Share:   ((num(gt100.total)   || 0) / total) * 100,
       totalRenter:  total
     } : null;
@@ -255,11 +262,14 @@
     var cbAt30  = (cbLte30 != null && num(lte30.total)) ? (cbLte30 / num(lte30.total)) * 100 : null;
     var cbT5180 = num(t5180.cost_burdened_30pct);
     var cbAt5180= (cbT5180 != null && num(t5180.total)) ? (cbT5180 / num(t5180.total)) * 100 : null;
+    var cbT81100 = num(t81100.cost_burdened_30pct);
+    var cbAt81100 = (cbT81100 != null && num(t81100.total)) ? (cbT81100 / num(t81100.total)) * 100 : null;
 
     return {
       renterByAmi: renterByAmi,
       severeBurdenAmi30: cbAt30,
-      costBurdenAmi6080: cbAt5180
+      costBurdenAmi6080: cbAt5180,
+      costBurdenAmi81100: cbAt81100
     };
   }
 
@@ -474,6 +484,62 @@
                  'committing to a 60–80% AMI mix.';
         }
         return 'Workforce-rental signal is muted — most renter need sits in a different AMI band.';
+      }
+    };
+  }
+
+  function buildMiddleIncomeRental(acs, chas) {
+    // Renters above the federal LIHTC ceiling who still cannot buy. CHAS splits
+    // renters at 80/100% AMI and lumps everything above 100%, so the 100–120%
+    // half of the band has no direct count; the 81–100% cohort stands in for
+    // it, and the methodology says so.
+    var hvToMhi = (acs.medHomeVal != null && acs.mhi) ? acs.medHomeVal / acs.mhi : null;
+    var indicators = [
+      // Colorado counties: median 11%, 90th percentile 15% (CHAS 2018-2022).
+      ind('81–100% AMI renter share', 0.30,
+        chas.renterByAmi ? chas.renterByAmi.t81100Share : null,
+        ramp(chas.renterByAmi ? chas.renterByAmi.t81100Share : null,
+             [[3, 0], [7, 35], [12, 70], [18, 100]])),
+      // Usually low — a household at 81–100% AMI is rarely burdened — so any
+      // real burden here is a strong middle-income signal. Colorado counties:
+      // median 11%, 90th percentile 36%.
+      ind('Cost burden in 81–100% AMI cohort', 0.30,
+        chas.costBurdenAmi81100,
+        ramp(chas.costBurdenAmi81100, [[5, 0], [15, 40], [30, 80], [45, 100]])),
+      // The reason a middle-income household rents instead of buying.
+      ind('Home value to MHI ratio (middle-income ownership squeeze)', 0.25,
+        hvToMhi,
+        ramp(hvToMhi, [[3.5, 0], [5, 40], [7, 75], [10, 100]])),
+      ind('Renter share of households', 0.15,
+        acs.renterPct,
+        ramp(acs.renterPct, [[20, 0], [30, 35], [45, 75], [60, 100]]))
+    ];
+    var agg = aggregate(indicators);
+    return {
+      type: 'middleIncomeRental',
+      label: 'Middle-income rental',
+      meta: '80–120% AMI · apartment / townhome · rent',
+      usesChas: true,
+      indicators: indicators,
+      score: agg.score,
+      available: agg.available,
+      methodology: 'Blend of 81–100% AMI renter share (30%), cost burden inside the 81–100% ' +
+        'cohort (30%), home value to MHI ratio (25%), and renter share of households (15%). ' +
+        'CHAS does not separate renters at 100–120% AMI, so the 81–100% cohort stands in for ' +
+        'the whole band.',
+      lihtcRelevance: 'Above federal LIHTC income limits. Fits the Colorado Middle Income ' +
+        'Housing Tax Credit (MIHTC, HB24-1316: 80–120% AMI, up to 140% in rural resort ' +
+        'counties). The Deal Calculator does not size MIHTC credits.',
+      plainEnglish: function (level) {
+        if (level === 'VeryHigh' || level === 'High') {
+          return 'A sizeable 80–100% AMI renter cohort that cannot easily buy here — a fit for ' +
+                 'middle-income rental above the LIHTC limits.';
+        }
+        if (level === 'Moderate') {
+          return 'Some middle-income rental pressure; confirm with local rents and employer ' +
+                 'wage data before planning an 80–120% AMI project.';
+        }
+        return 'Middle-income rental signal is muted — renter need here sits mostly below 80% AMI.';
       }
     };
   }
@@ -754,6 +820,7 @@
     var categories = [
       buildDeeplyAffordableRental(acs, chas),
       buildWorkforceRental(acs, chas),
+      buildMiddleIncomeRental(acs, chas),
       buildFamilyRental(acs, chas),
       buildSeniorRental(acs),
       buildMissingMiddleOwnership(acs),
