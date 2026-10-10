@@ -255,6 +255,24 @@
       ]
     },
     {
+      id: 'co-construction-labor-cost',
+      name: 'Colorado Construction Labor & Costs',
+      category: 'Economic',
+      format: 'JSON',
+      provider: 'BLS (CES, LAUS, JOLTS, OEWS) + BLS PPI via FRED',
+      url: 'https://www.bls.gov/sae/',
+      localFile: 'data/market/co-construction-labor-cost.json',
+      lastUpdated: '2026-10-10',
+      updateFrequency: 'Monthly',
+      maxAgeDays: 45,
+      geoUnit: 'State / Metro / National',
+      coverage: 'Colorado + 7 metros; national JOLTS and PPI',
+      features: 6,
+      description: 'Monthly Colorado construction earnings, employment and unemployment, national construction openings and hires rates, OEWS trade wages for 10 trades, and a construction input price summary from the PPI series in fred-data.json.',
+      tags: ['bls', 'labor', 'construction', 'wages', 'ppi'],
+      apiEndpoint: 'https://api.bls.gov/publicAPI/v2/timeseries/data/'
+    },
+    {
       id: 'economic-indicators',
       name: 'Colorado Economic Indicators',
       category: 'Economic',

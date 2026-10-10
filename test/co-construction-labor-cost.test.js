@@ -241,4 +241,13 @@ test('rewording the summary sentence (numbers kept) stays green', () => {
   assert.deepEqual(contractIssues(copy), []);
 });
 
+test('the page formats every unit the data file uses', () => {
+  // js/co-construction-costs.js picks a number format by unit string; a unit it
+  // does not know falls through to a bare number ("43.3" instead of "$43.30").
+  const page = fs.readFileSync(path.join(ROOT, 'js/co-construction-costs.js'), 'utf8');
+  const units = [...new Set(Object.values(DATA.monthly).map((s) => s.unit))];
+  assert.ok(units.length > 0, 'no units found in the data file');
+  for (const unit of units) assert.ok(page.includes(`unit === '${unit}'`), `page has no format for unit "${unit}"`);
+});
+
 console.log(`\nco-construction-labor-cost: ${passed} passed`);

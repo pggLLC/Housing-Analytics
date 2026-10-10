@@ -559,8 +559,14 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 .cc-table { border-collapse: collapse; width: 100%; font-size: .85rem; }
 .cc-table th, .cc-table td { padding: .4rem .6rem; border-bottom: 1px solid var(--border); text-align: right; white-space: nowrap; }
 .cc-table th:first-child, .cc-table td:first-child { text-align: left; white-space: normal; }
+#ccTradeTable th[scope="row"] { min-width: 14rem; text-transform: none; font-weight: 600; }
 .cc-table thead th { color: var(--muted); font-weight: 600; }
-@media (max-width: 640px) { .mi-chart-container.cc-chart { height: 220px; } }
+/* The source line the chart-source component appends sits below the canvas box. */
+.mi-chart-container.cc-chart { margin-bottom: 3rem; }
+@media (max-width: 640px) {
+  .mi-chart-container.cc-chart { height: 340px; margin-bottom: 4.5rem; }
+  #ccTradeTable th[scope="row"] { min-width: 10rem; }
+}
 </style>
 </head>
 
@@ -2067,7 +2073,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <div class="cc-table-wrap" role="region" aria-labelledby="cc-history-heading" tabindex="0">
       <table class="cc-table" id="ccHistoryTable">
         <caption class="sr-only">Year-over-year change in Colorado construction wages, construction employment and construction input prices, by month</caption>
-        <thead><tr><th scope="col">Month</th><th scope="col">CO construction hourly earnings, YoY</th><th scope="col">CO construction employment, YoY</th><th scope="col">Construction input prices, YoY</th></tr></thead>
+        <thead><tr><th scope="col" title="Reference month of the BLS release">Month</th><th scope="col" title="Change in Colorado construction average hourly earnings (BLS CES) from the same month a year earlier">CO construction hourly earnings, YoY</th><th scope="col" title="Change in Colorado construction employment (BLS CES) from the same month a year earlier">CO construction employment, YoY</th><th scope="col" title="Change in the national PPI for net inputs to multifamily construction from the same month a year earlier">Construction input prices, YoY</th></tr></thead>
         <tbody id="ccHistoryBody"><tr><td colspan="4">Loading…</td></tr></tbody>
       </table>
     </div>
