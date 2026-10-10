@@ -23,7 +23,10 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..');
-const SRC = fs.readFileSync(path.join(ROOT, 'js', 'deal-calculator.js'), 'utf8');
+const UI_SRC = fs.readFileSync(path.join(ROOT, 'js', 'deal-calculator.js'), 'utf8');
+const ENGINE_SRC = fs.readFileSync(path.join(ROOT, 'js', 'deal-engine.js'), 'utf8');
+// The same guards span the moved arithmetic and the unchanged rendering.
+const SRC = UI_SRC + '\n' + ENGINE_SRC;
 
 let failures = 0;
 const pass = (m) => console.log(`  ✓ ${m}`);
@@ -78,7 +81,7 @@ function loadDealCalc() {
   ctx.clearInterval = () => {};
   ctx.requestAnimationFrame = () => 0;
   try {
-    vm.runInContext(SRC, ctx, { timeout: 10000 });
+    vm.runInContext(ENGINE_SRC + '\n' + UI_SRC, ctx, { timeout: 10000 });
   } catch (e) {
     // The module does DOM work on load; a partial evaluation is fine as long
     // as the export landed. If it did not, the behavioural tests say so

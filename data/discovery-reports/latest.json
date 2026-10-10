@@ -1,14 +1,14 @@
 {
-  "scanTimestamp": "2026-10-09T14:20:31.988Z",
-  "totalScanned": 1704,
-  "newSourceCount": 1673,
+  "scanTimestamp": "2026-10-10T13:36:29.087Z",
+  "totalScanned": 1705,
+  "newSourceCount": 1674,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 830455,
+      "sizeBytes": 831042,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -92,7 +92,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 188310,
+      "sizeBytes": 194381,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -140,7 +140,7 @@
     },
     {
       "path": "data/capital-partners.json",
-      "sizeBytes": 13432,
+      "sizeBytes": 13396,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -284,7 +284,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 258644,
+      "sizeBytes": 258480,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8690,7 +8690,7 @@
     },
     {
       "path": "data/insights/catalog.json",
-      "sizeBytes": 9235,
+      "sizeBytes": 8902,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8997,6 +8997,12 @@
     {
       "path": "data/market/co-adaptive-reuse-references.json",
       "sizeBytes": 13961,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/co-construction-labor-cost.json",
+      "sizeBytes": 130798,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9866,7 +9872,7 @@
     },
     {
       "path": "data/policy/soft-funding-status.json",
-      "sizeBytes": 25939,
+      "sizeBytes": 44590,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9902,7 +9908,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 243257,
+      "sizeBytes": 248978,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9920,7 +9926,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 12565,
+      "sizeBytes": 12560,
       "inDataManifest": false,
       "inFilesManifest": true
     },
