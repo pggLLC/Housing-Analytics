@@ -209,7 +209,7 @@ test('no nearby matches, unloaded source, empty source and legacy runs never est
   }
   const w = context(marketModules);
   assert.match(w.PMAJustification.generateNarrative({ competitiveSet: { subsidyExpiryRisk: [] } }), /risk are unknown/);
-  const legacy = { competitiveSet: { subsidyExpiryRisk: [] }, absorptionRisk: {
+  const legacy = { competitiveSet: { subsidyExpiryRisk: [], nhpdAssisted: 0 }, absorptionRisk: {
     risk: 'low', captureRate: 0, totalCompetitiveUnits: 0
   }, _analysisResults: { competitiveSet: {}, absorptionRisk: { risk: 'low', captureRate: 0 } } };
   const exported = JSON.parse(w.PMAJustification.exportToJSON(legacy));
@@ -217,6 +217,7 @@ test('no nearby matches, unloaded source, empty source and legacy runs never est
   assert.equal(exported.absorptionRisk.captureRate, null);
   assert.equal(exported._analysisResults.absorptionRisk.risk, null);
   assert.equal(exported.competitiveSet.nhpdCoverage.complete, false);
+  assert.equal(exported.competitiveSet.nhpdAssisted, null, 'unknown legacy source count must not survive as zero');
   const internalOnly = JSON.parse(w.PMAJustification.exportToJSON({ competitiveSet: {}, _analysisResults: {
     absorptionRisk: { risk: 'low', captureRate: 0.05, totalCompetitiveUnits: 1900, proposedUnits: 100 }
   } }));

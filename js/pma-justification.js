@@ -388,6 +388,7 @@
       recordCount: null, generated: null,
       unavailableReason: 'NHPD coverage is unverified. Preservation totals and risk are unknown; no matching record does not mean no preservation risk.' };
     full.competitiveSet = Object.assign({}, competitive, { nhpdCoverage: coverage,
+      nhpdAssisted: coverage.recordCount == null ? null : competitive.nhpdAssisted,
       preservationRiskTotal: null, preservationRiskUnavailableReason: coverage.unavailableReason });
     // Cached pre-coverage runs are exported with today's absence contract.
     // Keep their observed counts and ratio when supported, never their risk tier.
