@@ -567,6 +567,49 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   .mi-chart-container.cc-chart { height: 340px; margin-bottom: 4.5rem; }
   #ccTradeTable th[scope="row"] { min-width: 10rem; }
 }
+/* Developer Funding tab */
+.df-lede { font-size: 1rem; line-height: 1.6; color: var(--text); margin: 0; max-width: 80ch; }
+.df-stack { margin: 0; padding-left: 1.25rem; line-height: 1.6; max-width: 90ch; }
+.df-stack li { margin: .4rem 0; }
+.df-consider-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+.df-consider { min-width: 0; overflow-wrap: anywhere; border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; background: var(--bg2); }
+.df-consider h3 { font-size: 1rem; margin: 0 0 .4rem; }
+.df-consider p { margin: 0 0 .5rem; font-size: .9rem; line-height: 1.55; }
+.df-src { font-size: .78rem; color: var(--muted); margin: .5rem 0 0; overflow-wrap: anywhere; }
+.df-filters { display: flex; flex-wrap: wrap; gap: .5rem; margin: .75rem 0 1rem; }
+.df-chip { min-height: 44px; padding: .35rem .9rem; border-radius: 999px; border: 1px solid var(--border); background: var(--card); color: var(--text); font: inherit; font-size: .85rem; cursor: pointer; }
+.df-chip[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.df-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.df-cat { margin-top: 1.25rem; }
+.df-cat h3 { font-size: 1.05rem; margin: 0 0 .25rem; }
+.df-cat-summary { color: var(--muted); font-size: .9rem; margin: 0 0 .75rem; max-width: 90ch; }
+.df-card { border: 1px solid var(--border); border-radius: var(--radius); margin: .5rem 0; background: var(--card); }
+.df-card > summary { padding: .75rem 1rem; min-height: 44px; text-align: left; font-weight: 400; border-radius: var(--radius); }
+.df-card-head { display: flex; flex-direction: column; gap: .15rem; min-width: 0; }
+.df-card > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.df-card-name { font-weight: 600; color: var(--text); }
+.df-card-meta { font-size: .82rem; color: var(--muted); }
+.df-status { font-weight: 600; }
+.df-status-open, .df-status-rolling { color: var(--good); }
+.df-status-closed, .df-status-ending, .df-status-ended { color: var(--bad); }
+.df-card-body { padding: .75rem 1rem 1rem; overflow-wrap: anywhere; min-width: 0; }
+.df-official { margin: 0 0 .75rem; font-size: .9rem; overflow-wrap: anywhere; }
+.df-fields { display: grid; grid-template-columns: minmax(9rem, 13rem) minmax(0, 1fr); gap: .35rem 1rem; margin: 0; font-size: .9rem; }
+.df-fields dt { font-weight: 600; color: var(--muted); }
+.df-fields dd { margin: 0; line-height: 1.5; }
+.df-na { color: var(--muted); font-style: italic; }
+.df-card-body h4 { font-size: .9rem; margin: 1rem 0 .3rem; }
+.df-list { margin: 0; padding-left: 1.2rem; font-size: .88rem; line-height: 1.5; overflow-wrap: anywhere; }
+.df-evidence { margin-top: .75rem; font-size: .85rem; }
+.df-evidence > summary { cursor: pointer; color: var(--link); min-height: 32px; }
+.df-ev-field { font-weight: 600; text-transform: capitalize; }
+.df-label { display: block; font-weight: 600; font-size: .9rem; margin: .5rem 0 .25rem; }
+.df-select { min-height: 44px; padding: .35rem .6rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card); color: var(--text); font: inherit; margin-bottom: .75rem; max-width: 100%; }
+#dfAmiTable th[scope="row"] { text-transform: none; font-weight: 600; }
+@media (max-width: 640px) {
+  .df-fields { grid-template-columns: minmax(0, 1fr); gap: .1rem; }
+  .df-fields dd { margin-bottom: .5rem; }
+}
 </style>
 </head>
 
@@ -583,9 +626,9 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <span class="kicker">Colorado</span>
 <h1>Colorado Deep Dive</h1>
 <p class="hero-subtitle">
-            Comprehensive analysis of DDAs, QCTs, LIHTC projects, market dynamics, concessions, foreclosures, and comparative performance, plus statewide market signals and monthly construction labor and material costs
+            Comprehensive analysis of DDAs, QCTs, LIHTC projects, market dynamics, concessions, foreclosures, and comparative performance, plus statewide market signals, monthly construction labor and material costs, and a guide to developer funding programs
         </p>
-<p style="max-width:90ch;color:var(--muted);font-size:.9rem;margin:.5rem 0 0;">This page focuses exclusively on Colorado. Use the interactive map to visualise LIHTC projects alongside Qualified Census Tracts (QCT) and Difficult Development Areas (DDA) — the HUD overlays that determine credit boost eligibility. Scroll down for county-level market metrics, CAR market reports, and Proposition 123 commitment data. The Market Signals tab holds statewide demand, supply, inventory and risk indicators, and the Construction Labor &amp; Costs tab tracks construction wages, labor availability and material prices month by month. Start with the map to understand geography, then use the KPI cards and charts to quantify need and opportunity.</p>
+<p style="max-width:90ch;color:var(--muted);font-size:.9rem;margin:.5rem 0 0;">This page focuses exclusively on Colorado. Use the interactive map to visualise LIHTC projects alongside Qualified Census Tracts (QCT) and Difficult Development Areas (DDA) — the HUD overlays that determine credit boost eligibility. Scroll down for county-level market metrics, CAR market reports, and Proposition 123 commitment data. The Market Signals tab holds statewide demand, supply, inventory and risk indicators, the Construction Labor &amp; Costs tab tracks construction wages, labor availability and material prices month by month, and the Developer Funding tab compares the tax credit, loan and grant programs available to Colorado affordable housing developers, with links to each official source. Start with the map to understand geography, then use the KPI cards and charts to quantify need and opportunity.</p>
 <span class="freshness-badge data-reliability-badge" data-freshness="now" aria-label="Data freshness indicator" aria-live="polite"><span class="sr-only">Data is current</span></span>
 <a href="data-status.html" style="font-size:.75rem;color:var(--link);margin-left:.25rem;">View diagnostics</a>
 <small id="deepDiveDataTimestamp" class="data-timestamp"></small>
@@ -607,11 +650,12 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-<!-- ── Outer tab navigation: Deep Dive | Market Signals | Construction Labor & Costs | Market Overview ── -->
+<!-- ── Outer tab navigation: Deep Dive | Market Signals | Construction Labor & Costs | Developer Funding | Market Overview ── -->
 <div role="tablist" aria-label="Page sections" class="page-tabs">
   <button role="tab" id="btn-deepdive" aria-selected="true" aria-controls="tab-deepdive" class="page-tab-btn">Deep Dive</button>
   <button role="tab" id="btn-signals" aria-selected="false" aria-controls="tab-signals" class="page-tab-btn">Market Signals</button>
   <button role="tab" id="btn-construction" aria-selected="false" aria-controls="tab-construction" class="page-tab-btn">Construction Labor &amp; Costs</button>
+  <button role="tab" id="btn-funding" aria-selected="false" aria-controls="tab-funding" class="page-tab-btn">Developer Funding</button>
   <button role="tab" id="btn-market" aria-selected="false" aria-controls="tab-market" class="page-tab-btn">Market Overview</button>
 </div>
 
@@ -2080,6 +2124,61 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   </section>
 </div><!-- /tab-construction -->
 
+<!-- ── Developer Funding tab panel ──
+     Rendered by js/co-developer-funding.js from
+     data/policy/co-developer-funding-guide.json (curated; every term cites the
+     official page and the date it was checked) and
+     data/chfa-income-rent-limits-2026.json (AMI quick reference). -->
+<div role="tabpanel" id="tab-funding" aria-labelledby="btn-funding" hidden>
+  <section class="mi-section" aria-labelledby="df-heading" style="margin-top:0;">
+    <h2 id="df-heading">Developer funding resources in Colorado</h2>
+    <p class="df-lede">How Colorado affordable rental housing is financed, which public and private programs fill each layer of the capital stack, and the terms, AMI restrictions and eligibility rules that come with each one. Every program links to its official page, and every term below quotes that page.</p>
+    <p id="dfMeta" class="data-note" style="border-top:0;padding-top:0;margin-top:.25rem;" aria-live="polite">Loading the developer funding guide…</p>
+  </section>
+
+  <section class="mi-section" aria-labelledby="df-stack-heading">
+    <h2 id="df-stack-heading">How a Colorado deal is usually stacked</h2>
+    <ol id="dfStack" class="df-stack"></ol>
+  </section>
+
+  <section class="mi-section" aria-labelledby="df-consider-heading">
+    <h2 id="df-consider-heading">Major considerations</h2>
+    <div id="dfConsiderations" class="df-consider-grid"></div>
+  </section>
+
+  <section class="mi-section" aria-labelledby="df-programs-heading">
+    <h2 id="df-programs-heading">Programs, terms and eligibility</h2>
+    <p class="df-cat-summary">Open a program to see its award size, rate, term, AMI restriction, affordability period, eligibility and application cycle. “Not stated” means the official sources checked do not publish that term; ask the administrator.</p>
+    <div id="dfFilters" class="df-filters" role="group" aria-label="Filter programs by category"></div>
+    <div id="dfPrograms" aria-live="polite"></div>
+  </section>
+
+  <section class="mi-section" aria-labelledby="df-ami-heading">
+    <h2 id="df-ami-heading">AMI quick reference: CHFA income and rent limits</h2>
+    <p class="df-cat-summary">Most Colorado programs restrict units by area median income (AMI) using CHFA’s published limits. Pick a county to see the income ceiling and maximum rent at each AMI tier.</p>
+    <label for="dfAmiCounty" class="df-label">County</label>
+    <select id="dfAmiCounty" class="df-select"></select>
+    <div class="cc-table-wrap" role="region" aria-labelledby="df-ami-heading" tabindex="0">
+      <table class="cc-table" id="dfAmiTable">
+        <caption class="sr-only">CHFA income limits by household size and maximum gross rents by bedroom count, by AMI tier, for the selected county</caption>
+        <thead><tr>
+          <th scope="col" title="Percent of area median income">AMI tier</th>
+          <th scope="col" title="Maximum annual household income for a one-person household">Income, 1 person</th>
+          <th scope="col" title="Maximum annual household income for a two-person household">Income, 2 people</th>
+          <th scope="col" title="Maximum annual household income for a four-person household">Income, 4 people</th>
+          <th scope="col" title="Maximum monthly gross rent for a one-bedroom unit, including the utility allowance">Max rent, 1 BR</th>
+          <th scope="col" title="Maximum monthly gross rent for a two-bedroom unit, including the utility allowance">Max rent, 2 BR</th>
+          <th scope="col" title="Maximum monthly gross rent for a three-bedroom unit, including the utility allowance">Max rent, 3 BR</th>
+        </tr></thead>
+        <tbody id="dfAmiBody"><tr><td colspan="7">Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <p id="dfAmiNote" class="data-note" style="border-top:0;"></p>
+    <p id="dfAmiMeta" class="data-note"></p>
+    <p id="dfAmiStatus" class="mi-status" role="status" hidden></p>
+  </section>
+</div><!-- /tab-funding -->
+
 
 <!-- ── Market Overview tab panel ── -->
 <div role="tabpanel" id="tab-market" aria-labelledby="btn-market" hidden>
@@ -2755,14 +2854,15 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 </script>
 <script src="js/market-intelligence.js"></script>
 <script defer src="js/co-construction-costs.js"></script>
+<script defer src="js/co-developer-funding.js"></script>
 <script defer src="js/audit-hook.js"></script>
 
-<!-- ── Outer tab toggle: Deep Dive | Market Signals | Construction Labor & Costs | Market Overview ── -->
+<!-- ── Outer tab toggle: Deep Dive | Market Signals | Construction Labor & Costs | Developer Funding | Market Overview ── -->
 <script>
 (function () {
   function initPageTabs() {
     var tabs   = document.querySelectorAll('[role="tablist"].page-tabs [role="tab"]');
-    var panels = document.querySelectorAll('#tab-deepdive, #tab-signals, #tab-construction, #tab-market');
+    var panels = document.querySelectorAll('#tab-deepdive, #tab-signals, #tab-construction, #tab-funding, #tab-market');
     var announce = document.getElementById('statusPanel');
     if (!tabs.length) return;
 
@@ -2791,6 +2891,9 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       /* Construction charts draw on first reveal so Chart.js measures a visible canvas. */
       if (targetId === 'tab-construction' && window.CoConstructionCosts) {
         window.CoConstructionCosts.init();
+      }
+      if (targetId === 'tab-funding' && window.CoDeveloperFunding) {
+        window.CoDeveloperFunding.init();
       }
       /* Market Signals loads its feeds on first reveal; later reveals resize its charts. */
       if (targetId === 'tab-signals' && window.MarketIntelligence) {
