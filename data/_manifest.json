@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-10T22:28:34.944Z",
+    "generated_at": "2026-10-10T22:55:55.089Z",
     "root": "data/",
     "file_count": 1708,
-    "total_size_bytes": 179405960,
+    "total_size_bytes": 179406351,
     "kinds": {
       "json": 1671,
       "geojson": 33,
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-10T22:28:32.511Z",
+      "mtime": "2026-10-10T22:55:50.801Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1455,8 +1455,8 @@
     {
       "path": "fixtures/fruita-commons-broad-income.scenario.json",
       "kind": "json",
-      "size_bytes": 5332,
-      "mtime": "2026-09-25T12:55:18.625Z",
+      "size_bytes": 5333,
+      "mtime": "2026-10-10T22:55:07.047Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -1486,8 +1486,8 @@
     {
       "path": "fixtures/fruita-commons-compact.scenario.json",
       "kind": "json",
-      "size_bytes": 5130,
-      "mtime": "2026-09-25T12:55:18.625Z",
+      "size_bytes": 5131,
+      "mtime": "2026-10-10T22:55:07.049Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -1517,8 +1517,8 @@
     {
       "path": "fixtures/fruita-commons-family.scenario.json",
       "kind": "json",
-      "size_bytes": 5122,
-      "mtime": "2026-09-25T12:55:18.625Z",
+      "size_bytes": 5123,
+      "mtime": "2026-10-10T22:55:07.049Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -1548,8 +1548,8 @@
     {
       "path": "fixtures/fruita-commons.scenario.json",
       "kind": "json",
-      "size_bytes": 5006,
-      "mtime": "2026-09-25T12:55:18.625Z",
+      "size_bytes": 5007,
+      "mtime": "2026-10-10T22:55:07.049Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -30587,8 +30587,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 216700,
-      "mtime": "2026-10-10T21:08:06.381Z",
+      "size_bytes": 217087,
+      "mtime": "2026-10-10T22:55:07.257Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32052,7 +32052,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15108,
-      "mtime": "2026-10-10T22:28:33.607Z",
+      "mtime": "2026-10-10T22:55:52.667Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32076,7 +32076,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-10T22:28:33.353Z",
+      "mtime": "2026-10-10T22:55:52.200Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
