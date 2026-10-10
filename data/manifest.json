@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-10T21:56:42.336549Z",
+  "generated": "2026-10-10T22:28:37.268556Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 833941
+      "bytes": 835713
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -295,6 +295,11 @@
       "featureCount": 10,
       "placeholder": false,
       "bytes": 341647
+    },
+    "data/derived/funding-vs-need.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 96057
     },
     "data/derived/market-analysis/market_demand.json": {
       "featureCount": 0,
@@ -8285,6 +8290,16 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 580886
+    },
+    "data/policy/funding-awards/documents.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 40885
+    },
+    "data/policy/funding-awards/ledger.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 356064
     },
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
