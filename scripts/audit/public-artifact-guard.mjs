@@ -2,6 +2,7 @@
 import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SENSITIVE_PATTERNS } from '../lib/public-sensitive-patterns.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const DIST = path.resolve(ROOT, process.argv[2] || 'dist');
@@ -77,20 +78,6 @@ const FORBIDDEN_REFERENCES = [
   'docs/developer-pipeline-prototype/',
   'data/reports/indibuild-url-health.json',
   'data/reports/developer-url-health.json'
-];
-
-const SENSITIVE_PATTERNS = [
-  { label: 'default developer password', regex: /DEFAULT PASSWORD/i },
-  { label: 'developer gate implementation', regex: /Developer Password Gate/i },
-  { label: 'pipeline relationship tier field', regex: /\brelationship_tier\b/i },
-  { label: 'pipeline anti-targets file', regex: /\banti-targets\b/i },
-  { label: 'pipeline next action field', regex: /\bnext_action\b/i },
-  { label: 'local draft pipeline badge', regex: /\bLocal draft\b/i },
-  { label: 'contact CSV email/phone fields', regex: /\bemail,phone\b/i },
-  { label: 'network contact fields', regex: /\bphone,last_talked,relationship_tier\b/i },
-  { label: 'legacy developer password', regex: /\bsalida2026\b/i },
-  { label: 'legacy gate hash', regex: /\b029fb5d4a8a29de1c16bcb718162284a45adf69fc12916613f28b2d037a19119\b/i },
-  { label: 'legacy IndiBuild brand text', regex: /\bindibuild\b/i }
 ];
 
 const TEXT_EXTENSIONS = new Set([
