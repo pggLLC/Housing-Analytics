@@ -13,8 +13,8 @@
  *   - coverage is null with a reason wherever the gap it divides by is null or
  *     zero (an unmeasurable value is null, never 0);
  *   - each quadrant agrees with the split values the file publishes;
- *   - every outer tab button on colorado-deep-dive.html controls a panel the
- *     toggle script knows, and the tab's script reads the file this builder writes;
+ *   - every outer tab button on colorado-deep-dive.html controls a panel, the
+ *     toggle script derives its panels from the buttons and draws this tab, and the tab's script reads the file this builder writes;
  *   - the committed file equals a fresh build (freshness).
  * The second half sabotages copies and proves each check fires, and that each
  * mutation actually changed what it was meant to.
@@ -98,19 +98,21 @@ function checks({ out, ledger, documents, ranking, html, js }) {
     if (q !== c.quadrant && !near) fail(`${c.name}: quadrant ${c.quadrant}, split says ${q}`);
   }
 
-  // the page: every outer tab button controls a panel the toggle script selects
+  // the page: every outer tab button controls a panel, and the toggle script
+  // finds its panels from the buttons (#2138), so a button is all it needs
   const bar = /<div role="tablist" aria-label="Page sections" class="page-tabs">([\s\S]*?)<\/div>/.exec(html);
-  const sel = /querySelectorAll\('(#tab-deepdive[^']*)'\)/.exec(html);
-  if (!bar || !sel) fail('tab bar or toggle selector not found');
+  if (!bar) fail('tab bar not found');
   else {
     const controls = [...bar[1].matchAll(/aria-controls="([^"]+)"/g)].map((m) => m[1]);
-    const selected = sel[1].split(',').map((s) => s.trim().replace(/^#/, ''));
     if (!controls.includes('tab-funding')) fail('no Funding vs Need tab button');
     for (const id of controls) {
-      if (!selected.includes(id)) fail(`tab ${id} is not in the toggle selector`);
       if (!new RegExp(`role="tabpanel" id="${id}"`).test(html)) fail(`tab ${id} has no panel`);
     }
   }
+  if (!/var panels = Array\.prototype\.map\.call\(tabs, function \(t\) \{\s*return document\.getElementById\(t\.getAttribute\('aria-controls'\)\)/.test(html)) {
+    fail('the toggle script no longer finds its panels from the tab buttons');
+  }
+  if (!/targetId === 'tab-funding' && window\.FundingVsNeed/.test(html)) fail('the toggle script never draws the Funding vs Need tab');
   if (!/<script[^>]+src="js\/funding-vs-need\.js"/.test(html)) fail('the page does not load js/funding-vs-need.js');
   const file = /var FILE = '([^']+)'/.exec(js);
   if (!file || 'data/' + file[1] !== OUTPUT) fail(`the tab reads ${file && file[1]}, the builder writes ${OUTPUT}`);
@@ -180,9 +182,12 @@ sabotage('a quadrant that contradicts the split', (c) => {
     && Math.abs(x.funding.lihtc_units_per_100_gap - c.out.meta.quadrant_split.lihtc_units_per_100_gap) > 1);
   r.quadrant = 'aligned';
 }, /quadrant aligned, split says underserved/);
-sabotage('the tab left out of the toggle selector', (c) => {
-  c.html = c.html.replace(", #tab-market, #tab-funding')", ", #tab-market')");
-}, /tab-funding is not in the toggle selector/);
+sabotage('the tab panel removed', (c) => {
+  c.html = c.html.replace('role="tabpanel" id="tab-funding"', 'role="region" id="tab-funding"');
+}, /tab tab-funding has no panel/);
+sabotage('the tab never initialised on reveal', (c) => {
+  c.html = c.html.replace("targetId === 'tab-funding' && window.FundingVsNeed", "targetId === 'tab-fund' && window.FundingVsNeed");
+}, /never draws the Funding vs Need tab/);
 sabotage('the tab script reading another file', (c) => {
   c.js = c.js.replace("var FILE = 'derived/funding-vs-need.json'", "var FILE = 'derived/funding.json'");
 }, /the tab reads/);

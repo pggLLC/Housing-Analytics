@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-10-10T16:19:34Z",
+  "generated": "2026-10-10T19:13:42Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -90,7 +90,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Display all Colorado jurisdictions without Prop 123 compliance status overlay",
-      "last_update": "2026-07-27T00:58:11Z",
+      "last_update": "2026-10-10T17:23:30Z",
       "description": "Registry of Colorado municipalities and counties that have opted into Proposition 123 affordable housing funding, with affordability commitment tier and unit targets."
     },
     {
