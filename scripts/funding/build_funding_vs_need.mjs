@@ -206,7 +206,10 @@ export function build({ ledger, documents, ranking, permits, limits }) {
       flag_method: `high-vacancy: active-market vacancy (ACS B25004 for-rent plus for-sale-only, over all units) at or above the county 75th percentile, ${vacancyCut}%. building-ahead: permits over the last five years at least ${PRODUCTION_PACE}× DOLA's projected annual household growth. Flags describe the market; they are not a judgment that any project was wasted.`,
       credit_note: 'Credit amounts are the ANNUAL credit CHFA awards (claimed over 10 years federally); Prop 123 amounts are dollars awarded, or requested where a preliminary selection list prints only the request.',
       unplaced_awards: unplaced.length,
-      documents_needing_review: (documents.documents || []).filter((d) => !['ok', 'no_total_line', 'accepted_by_review'].includes(d.status)).map((d) => ({ file: d.file, url: d.url, status: d.status })),
+      // their awards and dollars stand; their unit counts are null, so unit totals undercount them
+      documents_units_withheld: (documents.documents || []).filter((d) => d.status === 'units_withheld').map((d) => ({ file: d.file, url: d.url })),
+      lihtc_awards_without_units: awards.filter((a) => a.program.startsWith('LIHTC') && units(a) == null).length,
+      documents_needing_review: (documents.documents || []).filter((d) => !['ok', 'no_total_line', 'accepted_by_review', 'units_withheld'].includes(d.status)).map((d) => ({ file: d.file, url: d.url, status: d.status })),
     },
     statewide: {
       tax_credit_awards: awards.filter(isCredit).length,

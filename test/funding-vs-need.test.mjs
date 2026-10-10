@@ -37,7 +37,7 @@ const INPUTS = {
   permits: 'data/hna/permits.json',
   limits: 'data/chfa-income-rent-limits-2026.json',
 };
-const USABLE = new Set(['ok', 'no_total_line', 'accepted_by_review']);
+const USABLE = new Set(['ok', 'no_total_line', 'accepted_by_review', 'units_withheld']);
 const num = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : null);
 const clone = (o) => JSON.parse(JSON.stringify(o));
 
@@ -75,6 +75,21 @@ function checks({ out, ledger, documents, ranking, html, js }) {
   const bad = documents.documents.filter((d) => !USABLE.has(d.status)).map((d) => d.file).sort();
   const listed = (out.meta.documents_needing_review || []).map((d) => d.file).sort();
   if (JSON.stringify(bad) !== JSON.stringify(listed)) fail(`review list ${listed} != unusable documents ${bad}`);
+
+  // a document whose units column does not add up keeps its awards with null
+  // units, and the page's undercount note counts exactly those awards
+  const withheld = documents.documents.filter((d) => d.status === 'units_withheld').map((d) => d.file).sort();
+  const withheldListed = (out.meta.documents_units_withheld || []).map((d) => d.file).sort();
+  if (JSON.stringify(withheld) !== JSON.stringify(withheldListed)) fail(`units-withheld list ${withheldListed} != documents ${withheld}`);
+  for (const a of ledger.awards) {
+    for (const f of ['total_units', 'restricted_units']) {
+      if (a[f] === 0) fail(`${a.name}: ${f} is 0, not null`);
+      if (status[a.source_file] === 'units_withheld' && a[f] != null
+        && documents.documents.find((d) => d.file === a.source_file).units_withheld.includes(f)) fail(`${a.name}: ${f} kept from a withheld units column`);
+    }
+  }
+  const noUnits = lihtc.filter((a) => (num(a.restricted_units) ?? num(a.total_units)) === null).length;
+  if (out.meta.lihtc_awards_without_units !== noUnits) fail(`awards without units ${out.meta.lihtc_awards_without_units} != ledger ${noUnits}`);
 
   // absence: null with a reason, never 0
   for (const c of out.counties) {
@@ -177,6 +192,13 @@ sabotage('a mismatched document let into the ledger', (c) => {
   d.status = 'mismatch';
 }, /not marked usable/);
 sabotage('a review document dropped from the tab list', (c) => { c.out.meta.documents_needing_review.pop(); }, /review list/);
+sabotage('a withheld unit count kept in the ledger', (c) => {
+  const d = c.documents.documents.find((x) => x.status === 'units_withheld');
+  const a = c.ledger.awards.find((x) => x.source_file === d.file);
+  a[d.units_withheld[0]] = 50;
+}, /kept from a withheld units column/);
+sabotage('an unknown unit count written as 0', (c) => { c.ledger.awards.find((a) => a.total_units == null).total_units = 0; }, /is 0, not null/);
+sabotage('the undercount note miscounted', (c) => { c.out.meta.lihtc_awards_without_units += 1; }, /awards without units/);
 sabotage('an unmeasurable coverage written as 0', (c) => {
   const r = c.out.counties.find((x) => x.funding.lihtc_units_per_100_gap === null);
   r.funding.lihtc_units_per_100_gap = 0;
