@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-10-10T19:13:42Z",
+  "generated": "2026-10-10T23:29:07Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -20,7 +20,7 @@
       "update_method": "manual",
       "status": "seed",
       "fallback_rule": "Display empty LIHTC layer with informational tooltip; hide allocations chart",
-      "last_update": "2026-10-04T07:08:44Z",
+      "last_update": "2026-10-10T23:09:04Z",
       "description": "Point features representing LIHTC-funded affordable housing projects in Colorado, including unit counts, allocation year, and credit percentage. 360 representative projects across Colorado counties derived from CHFA records with HUD-compatible field names. Full HUD dataset available at source_url; this file is rebuilt by scripts/market/build_public_market_data.py. Dashboards fall back to data/chfa-lihtc.json if this file is unavailable."
     },
     {
@@ -30,7 +30,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Show statewide ACS summary only; disable per-tract choropleth layer",
-      "last_update": "2026-09-27T14:04:45Z",
+      "last_update": "2026-10-10T23:09:04Z",
       "description": "Census tract-level housing and economic indicators for Colorado, including renter/owner household counts, median gross rent, median household income, cost burden rate, and vacancy rate (15 tracts)."
     },
     {

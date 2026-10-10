@@ -55,10 +55,12 @@ Use a Cloudflare **Response Header Modification Transform Rule**. Do not rely on
 Enter this as one line in the `Content-Security-Policy-Report-Only` response header:
 
 ```text
-default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com https://*.openstreetmap.fr https://server.arcgisonline.com; connect-src 'self' https://api.census.gov https://*.arcgis.com https://services.arcgis.com https://hudgis-hud.opendata.arcgis.com https://api.stlouisfed.org https://hazards.fema.gov https://coho-backend.communityplanner.workers.dev; frame-ancestors 'none'; object-src 'none'; base-uri 'self'
+default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com https://*.openstreetmap.fr https://server.arcgisonline.com; connect-src 'self' https://api.census.gov https://*.arcgis.com https://services.arcgis.com https://hudgis-hud.opendata.arcgis.com https://api.stlouisfed.org https://hazards.fema.gov https://coho-backend.communityplanner.workers.dev https://cloudflareinsights.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'
 ```
 
 The Worker source tree does not contain a deployable public Worker hostname. The policy above uses the currently documented Cloudflare Worker domain. If the public data Worker is deployed under a different hostname, add that exact origin before enforcement rather than broadening the policy to all `*.workers.dev` hosts.
+
+The two `cloudflareinsights.com` origins are for Cloudflare Web Analytics, which `js/navigation.js` loads on the public pages that include it (most pages; a few standalone ones such as `ic-summary.html` and the map embeds do not, and are not measured). Leave them in, or the CSP silently stops visit counting. Once the zone is proxied, keep Web Analytics' **automatic setup** (edge injection) off: the site already loads the beacon itself, and both together count every visit twice.
 
 TODO for Batch 3: add the exact R2 public/custom hostname to the appropriate directive before any data is migrated to R2.
 

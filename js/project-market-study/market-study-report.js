@@ -275,6 +275,9 @@
     return !!home.name && String(jurisdictionLabel) === String(home.name);
   }
   function reportTitle(scenario, jurisdictionLabel, jurisdictionGeoid) {
+    // With no place chosen the scenarios are an example. A reader who chose
+    // the place they came from is reading that project's own study.
+    if (!jurisdictionLabel && !jurisdictionGeoid) return 'Example for-sale project — Fundamental Market Study';
     if (isExampleJurisdiction(scenario, jurisdictionLabel, jurisdictionGeoid)) return 'Fruita Commons — For-Sale Fundamental Market Study';
     return (jurisdictionLabel || jurisdictionGeoid) + ' — For-Sale Market Study (screening)';
   }

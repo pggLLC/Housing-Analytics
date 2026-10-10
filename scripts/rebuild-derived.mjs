@@ -105,6 +105,13 @@ export const CHAIN = [
        + 'failed on the next unrelated PR',
   },
   {
+    id: 'funding-vs-need',
+    argv: ['node', 'scripts/funding/build_funding_vs_need.mjs'],
+    why: 'data/derived/funding-vs-need.json joins the award ledger to the '
+       + 'ranking index\'s need and vacancy fields and to permits.json, so a '
+       + 'rebuilt index leaves the Funding vs Need tab stale without it',
+  },
+  {
     id: 'paper-figures',
     argv: ['npm', 'run', 'paper:build'],
     why: 'the working paper and methods page quote counts measured off the repo',
@@ -140,6 +147,7 @@ export const NOT_DERIVED = {
   // Validators — they read the index and assert, they generate nothing.
   'scripts/check-ranking-index-fresh.py': 'freshness checker; runs AFTER a commit, not as part of the build',
   'scripts/audit/data-freshness-check.mjs': 'validator — reports how old each data file is; writes nothing',
+  'scripts/audit/local-incentives-watch.mjs': 'reminder — reads population only to order the research queue it puts in a monthly issue; writes nothing',
   'scripts/audit/data-sentinels-check.mjs': 'validator — flags sentinel values published as real figures; writes nothing',
   'scripts/validate-critical-data.js': 'validator — asserts required data files parse and carry required keys',
   'scripts/validate_hna_coverage.py': 'validator — asserts every geography in the registry has HNA coverage',

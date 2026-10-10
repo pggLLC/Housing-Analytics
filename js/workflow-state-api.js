@@ -188,6 +188,9 @@
       }
       _setActive(project);
       _wfSet('active', id);
+      // The rail and the next-step banner follow the project's product and
+      // progress, so they re-read on this event.
+      _dispatch('workflow:project-loaded', { id: id });
       return _clone(project);
     },
 

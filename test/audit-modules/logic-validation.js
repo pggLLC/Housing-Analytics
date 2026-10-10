@@ -289,8 +289,11 @@ function checkHnaPipelineOutputs() {
         return issues;
     }
 
+    // municipal-config.json used to be listed here. Nothing has ever built or
+    // read it: js/data-source-inventory.js records it as maintenance
+    // 'planned' with no local file. Requiring it reported the same "missing"
+    // finding every day, which taught readers to skip this check.
     const requiredFiles = [
-        'municipal-config.json',
         'chas_affordability_gap.json',
     ];
     for (const file of requiredFiles) {
