@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-10T20:52:29.453Z",
+    "generated_at": "2026-10-10T20:59:46.598Z",
     "root": "data/",
-    "file_count": 1702,
-    "total_size_bytes": 178601111,
+    "file_count": 1705,
+    "total_size_bytes": 178912570,
     "kinds": {
-      "json": 1665,
+      "json": 1668,
       "geojson": 33,
       "csv": 4
     }
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-10T20:52:26.464Z",
+      "mtime": "2026-10-10T20:59:42.923Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -29466,8 +29466,8 @@
     {
       "path": "insights/catalog.json",
       "kind": "json",
-      "size_bytes": 8640,
-      "mtime": "2026-10-10T19:46:13.164Z",
+      "size_bytes": 9364,
+      "mtime": "2026-10-10T20:58:58.650Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -29476,7 +29476,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "entries",
-      "primary_array_length": 12,
+      "primary_array_length": 13,
       "primary_array_first_keys": [
         "id",
         "section",
@@ -30561,8 +30561,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 216181,
-      "mtime": "2026-10-10T16:21:52.559Z",
+      "size_bytes": 216316,
+      "mtime": "2026-10-10T20:58:58.657Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32026,7 +32026,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15108,
-      "mtime": "2026-10-10T20:52:27.929Z",
+      "mtime": "2026-10-10T20:59:44.712Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32050,7 +32050,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-10T20:52:27.574Z",
+      "mtime": "2026-10-10T20:59:44.287Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34027,8 +34027,8 @@
     {
       "path": "policy/fee-reductions.json",
       "kind": "json",
-      "size_bytes": 502601,
-      "mtime": "2026-09-26T06:30:24.774Z",
+      "size_bytes": 580886,
+      "mtime": "2026-10-10T20:58:58.854Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -34038,7 +34038,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "entries",
-      "primary_array_length": 107,
+      "primary_array_length": 117,
       "primary_array_first_keys": [
         "id",
         "state",
@@ -34103,6 +34103,55 @@
       ]
     },
     {
+      "path": "policy/incentive-alternatives.json",
+      "kind": "json",
+      "size_bytes": 54765,
+      "mtime": "2026-10-10T20:58:58.854Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "tools"
+      ],
+      "key_count": 3,
+      "primary_array_key": "tools",
+      "primary_array_length": 20,
+      "primary_array_first_keys": [
+        "id",
+        "label",
+        "family",
+        "what_it_is",
+        "colorado_status",
+        "status_reason",
+        "reuse_legal_basis_ids",
+        "considerations",
+        "maps_to"
+      ]
+    },
+    {
+      "path": "policy/incentive-coverage.json",
+      "kind": "json",
+      "size_bytes": 37501,
+      "mtime": "2026-10-10T20:58:58.855Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "jurisdictions"
+      ],
+      "key_count": 3,
+      "primary_array_key": "jurisdictions",
+      "primary_array_length": 42,
+      "primary_array_first_keys": [
+        "geoid",
+        "jurisdiction",
+        "checked",
+        "result_by_scope",
+        "sources_checked",
+        "note"
+      ]
+    },
+    {
       "path": "policy/jchs-state-of-nations-housing.json",
       "kind": "json",
       "size_bytes": 3713,
@@ -34122,8 +34171,8 @@
     {
       "path": "policy/jurisdiction-housing-progress.json",
       "kind": "json",
-      "size_bytes": 40485,
-      "mtime": "2026-09-26T06:30:24.774Z",
+      "size_bytes": 40575,
+      "mtime": "2026-10-10T20:58:58.855Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34183,6 +34232,35 @@
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
+    },
+    {
+      "path": "policy/local-housing-funds.json",
+      "kind": "json",
+      "size_bytes": 139958,
+      "mtime": "2026-10-10T20:58:58.855Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "entries",
+      "primary_array_length": 56,
+      "primary_array_first_keys": [
+        "id",
+        "geoid",
+        "jurisdiction",
+        "county",
+        "provider_type",
+        "tool",
+        "status",
+        "voter_approved",
+        "adopted",
+        "sunset",
+        "rate_text",
+        "annual_revenue"
+      ]
     },
     {
       "path": "policy/methodology-version.json",
@@ -34536,8 +34614,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 14081,
-      "mtime": "2026-09-30T11:55:19.313Z",
+      "size_bytes": 14082,
+      "mtime": "2026-10-10T20:58:58.858Z",
       "shape": "object",
       "keys": [
         "meta",

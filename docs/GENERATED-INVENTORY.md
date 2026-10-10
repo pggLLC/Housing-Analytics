@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T20:52:08.864Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T20:59:21.449Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-66 pages found.
+67 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -54,12 +54,13 @@
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 39.6 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 584 B |
-| `insights.html` | Research &amp; Analysis | Colorado Public Data Reference | 28.8 KB |
+| `insights.html` | Research &amp; Analysis | Colorado Public Data Reference | 28.9 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 16.6 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 15.9 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.3 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
+| `local-incentives.html` | Local Housing Incentives | Colorado Public Data Reference | 8.7 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 148.4 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 51.5 KB |
@@ -81,11 +82,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1666 JSON files found.
+1669 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 812.0 KB | ✅ | — |
+| `data/_manifest.json` | 812.7 KB | ✅ | — |
 | `data/_qa-status.json` | 7.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1540,7 +1541,7 @@
 | `data/home-snapshot.json` | 2.1 KB | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 100.2 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
-| `data/insights/catalog.json` | 8.4 KB | ✅ | — |
+| `data/insights/catalog.json` | 9.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/0803620.json` | 26.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/08045.json` | 29.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/08097.json` | 28.0 KB | ✅ | — |
@@ -1580,7 +1581,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 211.1 KB | ✅ | — |
+| `data/manifest.json` | 211.2 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 1.8 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1710,13 +1711,16 @@
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 20.3 KB | ✅ | — |
-| `data/policy/fee-reductions.json` | 490.8 KB | ✅ | — |
+| `data/policy/fee-reductions.json` | 567.3 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.8 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.1 KB | ✅ | — |
+| `data/policy/incentive-alternatives.json` | 53.5 KB | ✅ | — |
+| `data/policy/incentive-coverage.json` | 36.6 KB | ✅ | — |
 | `data/policy/jchs-state-of-nations-housing.json` | 3.6 KB | ✅ | — |
-| `data/policy/jurisdiction-housing-progress.json` | 39.5 KB | ✅ | — |
+| `data/policy/jurisdiction-housing-progress.json` | 39.6 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 4.2 KB | ✅ | — |
+| `data/policy/local-housing-funds.json` | 136.7 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/policy-timeline.json` | 6.7 KB | ✅ | — |
@@ -1756,7 +1760,7 @@
 
 ## Test Files
 
-542 test files found.
+544 test files found.
 
 | File | Size |
 |------|------|
@@ -2024,6 +2028,7 @@
 | `test/lihtc-guide-accuracy.test.js` | 2.3 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 8.8 KB |
 | `test/lihtc-project-size.test.js` | 6.8 KB |
+| `test/local-incentives.test.mjs` | 11.2 KB |
 | `test/local-resources-discovery.test.js` | 2.0 KB |
 | `test/local-resources-entry-completeness.test.js` | 3.3 KB |
 | `test/lodes-tract-od.test.js` | 5.6 KB |
@@ -2115,7 +2120,7 @@
 | `test/policy-briefs-curated.test.js` | 10.6 KB |
 | `test/policy-data-currency.test.js` | 3.0 KB |
 | `test/policy-page-currency.test.mjs` | 6.0 KB |
-| `test/policy-review-status.test.mjs` | 11.4 KB |
+| `test/policy-review-status.test.mjs` | 11.5 KB |
 | `test/policy-timeline-series.test.js` | 18.4 KB |
 | `test/policy-watch-rail.test.mjs` | 13.7 KB |
 | `test/polymarket-resolved.test.js` | 23.7 KB |
@@ -2280,6 +2285,7 @@
 | `tests/test_hmda_data.py` | 6.6 KB |
 | `tests/test_hna_geography_coverage.py` | 9.2 KB |
 | `tests/test_hna_ranking_integrity.py` | 22.5 KB |
+| `tests/test_local_incentives.py` | 12.1 KB |
 | `tests/test_market_construction.py` | 9.8 KB |
 | `tests/test_market_data_builder_redaction.py` | 1.8 KB |
 | `tests/test_neighborhood_access_builder.py` | 3.5 KB |
@@ -2307,7 +2313,7 @@
 
 ## GitHub Actions Workflows
 
-78 workflow files found.
+79 workflow files found.
 
 | File | Size |
 |------|------|
@@ -2362,11 +2368,12 @@
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 20.3 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 8.9 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 5.2 KB |
+| `.github/workflows/local-incentives-watch.yml` | 1.8 KB |
 | `.github/workflows/market_data_build.yml` | 21.4 KB |
 | `.github/workflows/merge-ref-gate.yml` | 3.6 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 4.0 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
-| `.github/workflows/policy-review-reminders.yml` | 1.8 KB |
+| `.github/workflows/policy-review-reminders.yml` | 2.1 KB |
 | `.github/workflows/qa-status.yml` | 10.0 KB |
 | `.github/workflows/rebuild-bps-permits.yml` | 11.1 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 4.5 KB |
