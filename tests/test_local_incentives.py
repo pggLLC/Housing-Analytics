@@ -178,6 +178,14 @@ def test_fee_and_land_use_records_carry_review_dates(fees):
         assert iso(rec['last_verified']) <= as_of, rec['id']
 
 
+def test_fund_file_dates_agree_with_its_records(funds):
+    # The Insights catalog card reads these two file-level dates, so they must
+    # be the earliest record deadline and the latest check, never a third copy.
+    meta, rows = funds['meta'], funds['entries']
+    assert meta.get('review_by') == min(r['review_by'] for r in rows), 'meta.review_by must equal the earliest record review_by'
+    assert meta.get('last_verified') == max(r['last_verified'] for r in rows), 'meta.last_verified must equal the latest record check'
+
+
 def test_land_use_figures_are_in_their_evidence(fees):
     checked = 0
     for rec in fees['land_use']:
