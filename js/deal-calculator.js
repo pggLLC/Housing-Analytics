@@ -2436,7 +2436,7 @@
             <strong>Bridge</strong>: the gap between the two, which public subsidy must fill.
             <strong>Public interest</strong>: the steward's claim on the home and its resale proceeds.
           </p>
-          <dl id="dc-own-rows" style="display:grid;grid-template-columns:1fr auto;gap:0.45rem 0.75rem;font-size:var(--small);margin:0;">
+          <dl id="dc-own-rows" style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0.45rem 0.75rem;font-size:var(--small);margin:0;">
             <dt data-actor="developer" style="color:var(--muted);">Development cost / unit <span class="dc-own-actor" data-actor="developer">Developer / operator</span></dt>
             <dd id="dc-own-cost-per-unit" style="font-weight:700;text-align:right;">—</dd>
 
@@ -4788,10 +4788,23 @@
   // -------------------------------------------------------------------
   // Public API
   // -------------------------------------------------------------------
+  /* A link can open the calculator in ownership mode (?mode=ownership): the
+   * nav's "For-Sale Feasibility" item and the for-sale route's Deal step both
+   * do (docs/DEVELOPER-TRACKS.md). Any other value leaves the default. */
+  function applyModeFromUrl() {
+    var mode = new URLSearchParams(window.location.search).get('mode');
+    if (mode !== 'ownership') return;
+    var radio = document.getElementById('dc-mode-ownership');
+    if (!radio || radio.checked) return;
+    radio.checked = true;
+    radio.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
   function init() {
     var mount = document.getElementById('dealCalcMount');
     if (!mount) return;
     render(mount);
+    applyModeFromUrl();
     _renderSoftFundingReference();
     var chfaLoad = window.__DealCalcChfaTablePromise || fetch('data/chfa-income-rent-limits-2026.json').then(function (r) {
       return r.ok ? r.json() : null;
