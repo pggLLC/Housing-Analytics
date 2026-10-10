@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T11:50:33.942Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T13:08:41.111Z. Do not edit by hand.
 
 ---
 
@@ -66,7 +66,7 @@
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 39.7 KB |
-| `preservation.html` | Preservation Tracking | COHO Analytics | 17.7 KB |
+| `preservation.html` | Preservation Tracking | COHO Analytics | 17.9 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.8 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 14.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 27.6 KB |
@@ -85,7 +85,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 811.0 KB | ✅ | — |
+| `data/_manifest.json` | 811.6 KB | ✅ | — |
 | `data/_qa-status.json` | 7.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -123,7 +123,7 @@
 | `data/chfa-lihtc.json` | 817.4 KB | ✅ | 926 features |
 | `data/chfa-qap-calendar.json` | 18.2 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 39.2 KB | ✅ | — |
+| `data/co-county-demographics.json` | 40.7 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 13.9 KB | ✅ | — |
@@ -1580,7 +1580,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 210.9 KB | ✅ | — |
+| `data/manifest.json` | 211.0 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
@@ -1754,7 +1754,7 @@
 
 ## Test Files
 
-531 test files found.
+532 test files found.
 
 | File | Size |
 |------|------|
@@ -2037,6 +2037,7 @@
 | `test/navigation-pill-label.test.js` | 2.7 KB |
 | `test/navigation-reaches-every-page.test.mjs` | 4.7 KB |
 | `test/need-severity-is-place-level.test.mjs` | 15.8 KB |
+| `test/nhpd-coverage.test.js` | 14.8 KB |
 | `test/no-synthesized-chfa-awards.test.js` | 3.9 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/notify-cancelled-outcome.test.js` | 3.5 KB |
@@ -2084,7 +2085,7 @@
 | `test/pma-capture-naming.test.js` | 12.1 KB |
 | `test/pma-commute-context.test.js` | 5.7 KB |
 | `test/pma-commute-shaped.test.js` | 7.3 KB |
-| `test/pma-competitive-set.test.js` | 12.8 KB |
+| `test/pma-competitive-set.test.js` | 13.0 KB |
 | `test/pma-confidence.test.js` | 9.1 KB |
 | `test/pma-flood-absence.test.js` | 4.7 KB |
 | `test/pma-full-metadata-schedule.test.js` | 3.6 KB |
@@ -2106,7 +2107,7 @@
 | `test/policy-timeline-series.test.js` | 18.2 KB |
 | `test/policy-watch-rail.test.mjs` | 13.7 KB |
 | `test/polymarket-resolved.test.js` | 23.7 KB |
-| `test/preservation.test.js` | 17.3 KB |
+| `test/preservation.test.js` | 17.4 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/production-figure-names-its-reading.test.js` | 8.5 KB |
 | `test/production-need-counts-the-workforce.test.mjs` | 8.7 KB |
@@ -2205,7 +2206,7 @@
 | `test/unit/fema-flood.test.js` | 14.7 KB |
 | `test/unit/pma-barriers.test.js` | 4.0 KB |
 | `test/unit/pma-commuting.test.js` | 8.1 KB |
-| `test/unit/pma-competitive-set.test.js` | 9.2 KB |
+| `test/unit/pma-competitive-set.test.js` | 10.0 KB |
 | `test/unit/pma-employment-centers.test.js` | 15.9 KB |
 | `test/unit/pma-infrastructure.test.js` | 5.8 KB |
 | `test/unit/pma-justification.test.js` | 8.5 KB |
