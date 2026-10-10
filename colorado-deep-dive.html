@@ -370,6 +370,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   <script src="js/components/lihtc-by-year.js"></script>
   <script defer src="js/components/data-quality-summary.js"></script>
   <script defer src="js/historical-trends.js"></script>
+  <script defer src="js/lihtc-project-size.js"></script>
 <style>
 /* Market Signals tab: moved from market-intelligence.html (merged into this page). */
     .mi-section {
@@ -627,7 +628,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   <li><strong>Deep Dive</strong>: the interactive map of LIHTC projects with HUD Qualified Census Tracts and Difficult Development Areas, plus county AMI gaps, concessions, foreclosures and Colorado-vs-national comparisons.</li>
   <li><strong>Market Signals</strong>: statewide and county demand, supply, affordable inventory and risk indicators.</li>
   <li><strong>Construction Labor &amp; Costs</strong>: construction wages, labor availability and material prices, month by month.</li>
-  <li><strong>Historical Trends</strong>: CHFA award history by credit type, the growth of Colorado's LIHTC stock, and a peer-project benchmark by county and size.</li>
+  <li><strong>Historical Trends</strong>: CHFA award history by credit type, the growth of Colorado's LIHTC stock, project size by period and county, and a peer-project benchmark.</li>
   <li><strong>Market Overview</strong>: the 2026 allocation, credit pricing, metro breakdown and CHFA priorities at a glance.</li>
 </ul>
 <span class="freshness-badge data-reliability-badge" data-freshness="now" aria-label="Data freshness indicator" aria-live="polite"><span class="sr-only">Data is current</span></span>
@@ -2133,7 +2134,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
      that URL now redirects here (#tab-history). js/historical-trends.js
      renders it on first reveal so Chart.js measures a visible canvas. -->
 <div role="tabpanel" id="tab-history" aria-labelledby="btn-history" hidden>
-  <p class="tab-intro">What past LIHTC deals in Colorado actually looked like, from CHFA's live property feed and its 2026 Round One award report. Three lenses: awards per year by credit type, to calibrate a QAP submission; the stock of LIHTC units by award year, to see when each period added housing; and a peer benchmark, to find comparable projects by county and size. Use these figures to check the assumptions in the <a data-workflow-link="history-deal" href="deal-calculator.html">Deal Calculator</a>.</p>
+  <p class="tab-intro">What past LIHTC deals in Colorado actually looked like, from CHFA's live property feed and its 2026 Round One award report. Four lenses: awards per year by credit type, to calibrate a QAP submission; the stock of LIHTC units by award year, to see when each period added housing; project size by period, credit type and county, to see what a typical deal looks like; and a peer benchmark, to find comparable projects by county and size. Use these figures to check the assumptions in the <a data-workflow-link="history-deal" href="deal-calculator.html">Deal Calculator</a>.</p>
   <p class="data-note" role="note" style="margin-top:0;"><strong>Historical data, not forecasts.</strong> These panels describe what happened. They do not predict future awards, pricing or market behavior, and they do not replace a CHFA pre-application meeting or a syndicator's pricing letter.</p>
   <div id="aria-live-region" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
   <div id="htErrorBanner" class="ht-error-banner" hidden></div>
@@ -2209,6 +2210,32 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       Source: <a href="data/chfa-lihtc.json">chfa-lihtc.json</a>
       (CHFA HousingTaxCreditProperties live feed, <span data-chfa-series-source>coverage unavailable until loaded</span>) &middot; cross-reference
       <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC database</a>
+    </p>
+  </section>
+
+  <!-- Project size: js/lihtc-project-size.js -->
+  <section class="ht-panel" aria-labelledby="htSizeHeading">
+    <h2 id="htSizeHeading">LIHTC Project Size</h2>
+    <p class="ht-intro">
+      How big Colorado LIHTC projects are, from the same CHFA feed. The chart shows the median
+      project in each five-year award period, split by credit type: 9% deals are capped by
+      competitive credit, so they stay small, while 4% bond deals are sized to carry their bond
+      financing. The size bands and county table show where the large projects are. Use them
+      to check whether a proposed unit count is typical for the credit type and the market.
+    </p>
+    <p id="htSizeStatus" class="data-note" role="status" hidden></p>
+    <div id="sizeStats"></div>
+    <p class="ht-chart-title" id="sizeChartTitle">Median units per project, by award period and credit type</p>
+    <div class="ht-chart-wrap" data-source="CHFA HousingTaxCreditProperties_view" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit" data-source-type="raw">
+      <canvas id="sizeByPeriodChart" role="img" aria-label="Bar chart: median units per Colorado LIHTC project by five-year award period, 9% competitive vs 4% bond-financed" aria-describedby="sizeChartDesc"></canvas>
+    </div>
+    <p id="sizeChartDesc" class="sr-only">Grouped bar chart of the median number of units per Colorado LIHTC project in each five-year award period, for 9% competitive and 4% bond-financed credits. The data table below lists every value.</p>
+    <div id="sizePeriodTable"></div>
+    <div id="sizeBandTable"></div>
+    <div id="sizeCountyTable"></div>
+    <p style="font-size:.72rem;color:var(--faint);margin:.75rem 0 0;">
+      Source: <a href="data/chfa-lihtc.json">chfa-lihtc.json</a> (CHFA HousingTaxCreditProperties live feed).
+      Years are award years, not opening years. Units are total units (N_UNITS), including any market-rate units.
     </p>
   </section>
 
@@ -2978,6 +3005,10 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       if (targetId === 'tab-history' && window.HistoricalTrends && !window.__htRendered) {
         window.__htRendered = true;
         window.HistoricalTrends.render();
+      }
+      if (targetId === 'tab-history' && window.LihtcProjectSize && !window.__sizeRendered) {
+        window.__sizeRendered = true;
+        window.LihtcProjectSize.render();
       }
       /* Market Signals loads its feeds on first reveal; later reveals resize its charts. */
       if (targetId === 'tab-signals' && window.MarketIntelligence) {
