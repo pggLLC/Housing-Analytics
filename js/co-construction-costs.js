@@ -224,10 +224,18 @@
     var fallbacks = ['#096e65', '#c2410c', '#1d4ed8', '#7c3aed', '#a16207'];
     var labels = null;
     var datasets = [];
+    // The cards and summary are the monthly snapshot; fred-data.json is
+    // refreshed daily and can already hold a newer month. End the chart at the
+    // snapshot's month so the whole panel shows one vintage.
+    var headId = d.materials && d.materials.headline;
+    var head = list.filter(function (m) { return m.id === headId; })[0] || list[0];
+    var endPeriod = head && head.latestPeriod;
     shown.forEach(function (m, i) {
       var s = series[m.id];
       if (!s) return;
-      var obs = toMonthly(s.observations).slice(-61);
+      var obs = toMonthly(s.observations).filter(function (o) {
+        return !endPeriod || o.period <= endPeriod;
+      }).slice(-61);
       if (!labels) labels = obs.map(function (o) { return o.period; });
       var byPeriod = {};
       obs.forEach(function (o) { byPeriod[o.period] = o.value; });

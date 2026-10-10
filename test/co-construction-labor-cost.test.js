@@ -8,8 +8,9 @@
  * fetch script's own arithmetic rather than reading back a value it wrote:
  *   - latest and yoy are recomputed from the series' own observations
  *     (percent for $ and jobs, percentage points for rates);
- *   - materials are recomputed from data/fred-data.json, the file the page
- *     charts from, so the summary and the chart cannot disagree;
+ *   - materials are checked against data/fred-data.json for the snapshot's own
+ *     month (FRED moves on daily, so not against its latest month), and the
+ *     summary's materials figure must equal the headline card's;
  *   - the summary numbers must equal the monthly series and history rows, and
  *     the sentence must state the numbers it carries;
  *   - OEWS rows must cover every area x occupation the file declares, and the
@@ -140,37 +141,50 @@ function contractIssues(data) {
   }
 
   // ── materials agree with data/fred-data.json ──────────────────────────────
+  // The materials block is a snapshot taken when the monthly fetch ran, and
+  // fred-data.json moves on daily: it gains new months and BLS revises PPI for
+  // four months after release. So the snapshot is checked against the FRED
+  // file for its own month, within a revision tolerance, and never required to
+  // be FRED's latest month. Exact agreement is checked inside the file, where
+  // the page reads every materials number from (cards, chart end, summary).
   const mats = (data.materials || {}).series || [];
   check(mats.length >= 6, `only ${mats.length} materials series`);
-  check(mats.some((m) => m.id === 'WPUIP231120'), 'the multifamily-inputs headline is missing from materials');
+  const headline = mats.find((m) => m.id === 'WPUIP231120');
+  check(headline, 'the multifamily-inputs headline is missing from materials');
   for (const m of mats) {
     check(Object.hasOwn(FRED.series || {}, m.id), `${m.id} is not in data/fred-data.json`);
-    const values = fredValues(m.id);
-    if (!values.size) {
-      check(m.latest === null && text(m.unavailableReason), `${m.id}: no FRED data but not null with a reason`);
+    if (m.latest === null) {
+      check(m.yoyPct === null && text(m.unavailableReason), `${m.id}: no value but not null with a reason`);
       continue;
     }
-    const lastPeriod = [...values.keys()].sort().pop();
-    check(m.latestPeriod === lastPeriod && m.latest === values.get(lastPeriod),
-      `${m.id}: latest ${m.latestPeriod}=${m.latest} disagrees with fred-data.json ${lastPeriod}=${values.get(lastPeriod)}`);
-    const expected = yoy(values, lastPeriod, 'pct');
-    if (expected === null) check(m.yoyPct === null && text(m.unavailableReason), `${m.id}: null yoy without a reason`);
-    else check(close(m.yoyPct, expected), `${m.id}: yoyPct ${m.yoyPct} does not recompute to ${expected.toFixed(2)}`);
+    check(num(m.latest) && m.latest > 0, `${m.id}: latest is ${m.latest} (0 stands in for unknown)`);
+    const values = fredValues(m.id);
+    const fredLast = [...values.keys()].sort().pop();
+    const atPeriod = values.get(m.latestPeriod);
+    check(num(atPeriod) && m.latestPeriod <= fredLast && Math.abs(m.latest / atPeriod - 1) <= 0.05,
+      `${m.id}: latest ${m.latestPeriod}=${m.latest} disagrees with fred-data.json ${m.latestPeriod}=${atPeriod}`);
+    if (m.yoyPct === null) check(text(m.unavailableReason), `${m.id}: null yoy without a reason`);
+    else check(num(m.yoyPct), `${m.id}: yoyPct is not a number`);
   }
 
-  // ── summary agrees with the series, history and fred-data ─────────────────
+  // ── summary agrees with the series, history and the materials snapshot ────
   const sum = data.summary || {};
   check(text(sum.text), 'summary.text is blank');
   if (sum.period) {
     const pairs = [
       ['laborWageYoyPct', seriesValues[WAGE] ? yoy(seriesValues[WAGE], sum.period, 'pct') : null],
       ['employmentYoyPct', seriesValues[EMPLOYMENT] ? yoy(seriesValues[EMPLOYMENT], sum.period, 'pct') : null],
-      ['materialsYoyPct', yoy(fredValues('WPUIP231120'), sum.period, 'pct')],
     ];
     for (const [key, expected] of pairs) {
       if (expected === null) { check(sum[key] === null, `summary.${key} should be null`); continue; }
       check(close(sum[key], expected), `summary.${key} ${sum[key]} does not recompute to ${expected.toFixed(2)}`);
-      check(sum.text.includes(`${Math.abs(sum[key]).toFixed(1)}%`), `summary.text does not state ${key} (${Math.abs(sum[key]).toFixed(1)}%)`);
+    }
+    if (headline && headline.latestPeriod === sum.period) {
+      check(sum.materialsYoyPct === headline.yoyPct,
+        `summary.materialsYoyPct ${sum.materialsYoyPct} disagrees with the headline materials card ${headline.yoyPct}`);
+    }
+    for (const key of ['laborWageYoyPct', 'employmentYoyPct', 'materialsYoyPct']) {
+      if (num(sum[key])) check(sum.text.includes(`${Math.abs(sum[key]).toFixed(1)}%`), `summary.text does not state ${key} (${Math.abs(sum[key]).toFixed(1)}%)`);
     }
     const hist = (data.history || []).find((h) => h.period === sum.period);
     check(hist && ['laborWageYoyPct', 'employmentYoyPct', 'materialsYoyPct'].every((k) => hist[k] === sum[k]),
@@ -226,8 +240,29 @@ sabotage('an OEWS cell missing',
   (d) => { d.oews.rows.pop(); }, /OEWS missing/);
 sabotage('an OEWS wage coerced to 0',
   (d) => { d.oews.rows.find((r) => r.hourlyMean !== null).hourlyMean = 0; }, /hourlyMean is 0/);
-sabotage('materials disagree with fred-data.json',
-  (d) => { d.materials.series[0].latest += 1; }, /disagrees with fred-data\.json/);
+sabotage('materials read from the wrong series (off by more than a revision)',
+  (d) => { d.materials.series[0].latest *= 1.2; }, /disagrees with fred-data\.json/);
+sabotage('a materials month that fred-data.json does not have',
+  (d) => { d.materials.series[0].latestPeriod = '2099-01'; }, /disagrees with fred-data\.json/);
+sabotage('summary materials disagree with the headline card',
+  (d) => { d.summary.materialsYoyPct += 1; }, /disagrees with the headline materials card/);
+test('fred-data.json moving on (a newer month and a revision) stays green', () => {
+  const saved = JSON.stringify(FRED);
+  try {
+    const s = FRED.series.WPUIP231120;
+    const obs = s.observations;
+    const last = obs[obs.length - 1];
+    const lastPeriod = String(last.date).slice(0, 7);
+    const next = shift(lastPeriod, 1);
+    obs.push({ date: `${next}-01`, value: String(Number.parseFloat(last.value) * 1.01) });
+    const atSnap = obs.find((o) => String(o.date).startsWith(DATA.materials.series[0].latestPeriod));
+    atSnap.value = String(Number.parseFloat(atSnap.value) * 1.004);
+    assert.notEqual(JSON.stringify(FRED), saved, 'the FRED mutation did not apply');
+    assert.deepEqual(contractIssues(DATA), []);
+  } finally {
+    Object.assign(FRED, JSON.parse(saved));
+  }
+});
 sabotage('summary sentence states a different number',
   (d) => { d.summary.text = d.summary.text.replace(/\d+\.\d%/, '99.9%'); }, /summary\.text does not state/);
 sabotage('history row disagrees with the summary',
