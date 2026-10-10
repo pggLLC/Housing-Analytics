@@ -866,9 +866,9 @@
       updateFrequency: 'Not refreshed \u2014 source unavailable',
       maxAgeDays: null,
       geoUnit: 'Project',
-      coverage: 'Colorado statewide',
+      coverage: 'Colorado partial stub (20 records; statewide coverage unknown)',
       features: 20,
-      description: 'NHPD federally-assisted housing inventory for Colorado: project-level subsidy status, expiration dates, affordability risk.',
+      description: 'Limited NHPD snapshot records for Colorado. Recorded subsidy dates require verification; counts do not estimate statewide preservation needs.',
       tags: ['nhpd', 'preservation', 'affordable-housing', 'gis'],
       apiEndpoint: null,
       alternatives: [

@@ -196,6 +196,12 @@
       }
     }
 
+    // Keep source limitations in the narrative too, including downloaded
+    // narratives and restored runs created before coverage metadata existed.
+    var competitive = scoreRun.competitiveSet || {};
+    parts.push(competitive.preservationRiskUnavailableReason ||
+      'NHPD coverage is unverified. Preservation totals and risk are unknown; no matching record does not mean no preservation risk.');
+
     // Barriers
     var b = scoreRun.barriers || {};
     if (b.waterBodyCount > 0 || b.highwayCount > 0) {
@@ -377,9 +383,26 @@
     if (!scoreRun) { return '{}'; }
     var trail = generateAuditTrail(scoreRun);
     var full  = Object.assign({}, scoreRun, { commuting: commutingCapture(scoreRun.commuting), auditTrail: trail });
-    if (scoreRun._analysisResults && scoreRun._analysisResults.commuting) {
+    var competitive = scoreRun.competitiveSet || {};
+    var coverage = competitive.nhpdCoverage || { status: 'unavailable', complete: false,
+      recordCount: null, generated: null,
+      unavailableReason: 'NHPD coverage is unverified. Preservation totals and risk are unknown; no matching record does not mean no preservation risk.' };
+    full.competitiveSet = Object.assign({}, competitive, { nhpdCoverage: coverage,
+      preservationRiskTotal: null, preservationRiskUnavailableReason: coverage.unavailableReason });
+    // Cached pre-coverage runs are exported with today's absence contract.
+    // Keep their observed counts and ratio when supported, never their risk tier.
+    var absorption = scoreRun.absorptionRisk || (scoreRun._analysisResults && scoreRun._analysisResults.absorptionRisk);
+    if (!coverage.complete && absorption) {
+      full.absorptionRisk = Object.assign({}, absorption, {
+        risk: null, basis: 'observed-records-only', unavailableReason: coverage.unavailableReason,
+        captureRate: absorption.totalCompetitiveUnits > 0 ? absorption.captureRate : null
+      });
+    }
+    if (scoreRun._analysisResults) {
       full._analysisResults = Object.assign({}, scoreRun._analysisResults, {
-        commuting: commutingCapture(scoreRun._analysisResults.commuting)
+        commuting: commutingCapture(scoreRun._analysisResults.commuting),
+        competitiveSet: full.competitiveSet,
+        absorptionRisk: full.absorptionRisk
       });
     }
     if (scoreRun.justification) {
