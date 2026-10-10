@@ -23,6 +23,12 @@
  *     A blocked response requires a manual check of the HUD download page.
  *   - HUD FMR and Census ACS 5-year: calendar-based refresh heuristics,
  *     not HTTP probes or confirmation that a new release is published.
+ *   - CHFA Housing Tax Credit rounds: probes CHFA's award-description page for
+ *     each round of this year and last. A published round must be in the
+ *     repo, either in CHFA's property feed (data/chfa-lihtc.json) or in a
+ *     bridge file under data/affordable-housing/chfa-awards/. CHFA's feed has
+ *     gone most of 2026 without a single 2026 award, so without this check a
+ *     new round reaches no page until someone notices by hand.
  *
  * Output
  * ------
@@ -205,6 +211,90 @@ async function watchAcs5Year() {
   };
 }
 
+/**
+ * CHFA Housing Tax Credit rounds. CHFA announces Round One (9% credits,
+ * around May) and Round Two (4% + State credits, around November) on a page
+ * per round. The feed records a round's awards by credit type, so a round is
+ * in the feed when the feed has an award from that year with that round's
+ * credit; otherwise it needs a bridge file named for the round.
+ */
+const CHFA_ROUNDS = [
+  { n: 'one', label: 'Round One', credit: /9%/ },
+  { n: 'two', label: 'Round Two', credit: /4% and State/ },
+];
+export const chfaRoundUrl = (year, n) =>
+  `https://www.chfainfo.com/rental-housing/housing-credit/${year}-round-${n}-award-descriptions`;
+export const chfaBridgeRel = (year, n) =>
+  path.join('data', 'affordable-housing', 'chfa-awards', `${year}-round-${n}.json`);
+
+async function probeChfaPage(url, fetchImpl) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 30000);
+  try {
+    const response = await fetchImpl(url, { headers: { 'User-Agent': USER_AGENT }, signal: controller.signal });
+    if (response.status === 404) return { kind: 'not_published', detail: 'HTTP 404' };
+    if (response.status !== 200) return { kind: 'unverifiable', detail: `HTTP ${response.status}` };
+    // A published round lists each development with its sponsor. A 200 page
+    // without one is not evidence either way.
+    const text = await response.text();
+    return /Sponsor:/.test(text)
+      ? { kind: 'published', detail: 'HTTP 200' }
+      : { kind: 'unverifiable', detail: 'HTTP 200 without any award listing' };
+  } catch (error) {
+    return { kind: 'unverifiable', detail: `network error: ${error.message}` };
+  } finally {
+    controller.abort();
+    clearTimeout(timer);
+  }
+}
+
+export async function watchChfaRounds(fetchImpl = fetch, now = new Date(), root = ROOT) {
+  const base = { source: 'CHFA tax credit rounds' };
+  let features;
+  try {
+    features = JSON.parse(await fs.readFile(path.join(root, 'data', 'chfa-lihtc.json'), 'utf8')).features || [];
+  } catch (e) {
+    return { ...base, current_vintage: null, latest_vintage: null, is_outdated: null, status: 'unverifiable',
+      notes: `Could not read data/chfa-lihtc.json (${e.message}); CHFA rounds not checked` };
+  }
+  const inFeed = (year, credit) => features.some((f) => {
+    const p = f.properties || {};
+    return Number(p.AwardYear) === year && credit.test(String(p.CREDIT || p.TypeOfCredits || ''));
+  });
+  const hasBridge = async (year, n) => {
+    try { await fs.access(path.join(root, chfaBridgeRel(year, n))); return true; } catch { return false; }
+  };
+
+  const year = now.getUTCFullYear();
+  const covered = [];
+  const missing = [];
+  const unverifiable = [];
+  for (const y of [year - 1, year]) {
+    for (const r of CHFA_ROUNDS) {
+      const name = `${y} ${r.label}`;
+      const where = inFeed(y, r.credit) ? 'feed' : (await hasBridge(y, r.n)) ? 'bridge' : null;
+      const probe = await probeChfaPage(chfaRoundUrl(y, r.n), fetchImpl);
+      if (probe.kind === 'published') (where ? covered : missing).push(where ? `${name} (${where})` : name);
+      else if (probe.kind === 'unverifiable') unverifiable.push(`${name}: ${probe.detail}`);
+      else if (where) covered.push(`${name} (${where})`);
+    }
+  }
+  const current = covered.length ? covered[covered.length - 1] : null;
+  if (missing.length) {
+    return {
+      ...base, current_vintage: current, latest_vintage: missing[missing.length - 1], is_outdated: true, status: 'verified',
+      notes: `CHFA has published ${missing.join(', ')}, which is in neither data/chfa-lihtc.json nor a bridge file. ` +
+        `Parse the round into ${chfaBridgeRel('<year>', '<one|two>')} (same shape as 2026-round-one.json, with county / county_fips).`,
+    };
+  }
+  if (unverifiable.length) {
+    return { ...base, current_vintage: current, latest_vintage: null, is_outdated: null, status: 'unverifiable',
+      notes: `CHFA round pages could not be read (${unverifiable.join('; ')}); rounds not checked` };
+  }
+  return { ...base, current_vintage: current, latest_vintage: current, is_outdated: false, status: 'verified',
+    notes: `Every published CHFA round for ${year - 1}-${year} is in the repo (${covered.join(', ')}).` };
+}
+
 // ── Runner ─────────────────────────────────────────────────────────
 
 export function buildWatchPayload(results) {
@@ -226,6 +316,7 @@ async function main() {
     watchHudChas().catch(e => ({ source: 'HUD CHAS', error: e.message })),
     watchHudFmr().catch(e => ({ source: 'HUD FMR', error: e.message })),
     watchAcs5Year().catch(e => ({ source: 'Census ACS 5-year', error: e.message })),
+    watchChfaRounds().catch(e => ({ source: 'CHFA tax credit rounds', error: e.message })),
   ]);
 
   const payload = buildWatchPayload(results);
