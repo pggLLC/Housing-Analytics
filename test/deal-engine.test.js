@@ -64,6 +64,14 @@ for (const key of ['annualRents', 'noi', 'mortgage', 'annualDebtService', 'gap',
   assert.equal(typeof unknown.unavailable[key], 'string');
   assert(unknown.unavailable[key].length > 0, `${key}: reason travels with absence`);
 }
+assert.equal(unknown.sensitivityKnown, false);
+assert.equal(unknown.tornado, null, 'unknown NOI/rents: no sensitivity swings computed from 0');
+assert(unknown.unavailable.tornado, 'tornado: reason travels with absence');
+for (const scenario of ['A', 'B', 'C']) {
+  const known = computeDeal(inputsFor(scenario));
+  assert.equal(known.sensitivityKnown, true);
+  assert(Number.isFinite(known.tornado.mortLo) && known.tornado.mortLo > 0, `${scenario}: known sensitivity is still computed`);
+}
 assert.equal(unknown.exit.nNoi, null);
 assert(unknown.unavailable['exit.nNoi']);
 assert(!JSON.stringify(unknown).includes('NaN'));
