@@ -42,7 +42,7 @@ Two categories: **deal-calculator inputs** (read from other `#dc-*` fields) and 
 
 ### Year-1 starting values
 
-Gross rents = Σ (AMI-tier unit count × FMR-adjusted rent × 12). Read from `#dc-r-rents` text content (computed upstream by the deal calculator).
+Scheduled rental revenue = Σ (priced row units × monthly contract rent × 12), including sourced market-rate rows. Restricted rows use CHFA limits or the selected AMI formula; available utility allowances and fees are deducted once. When an allowance is unavailable, the calculator discloses a gross upper bound. Read from `#dc-r-rents` text content (computed upstream by the deal calculator).
 
 Vacancy loss = gross rents × vacancy rate.
 EGI (effective gross income) = gross rents − vacancy loss.
@@ -98,7 +98,7 @@ A line chart (`#pf-chart`, Chart.js) plots NOI, Debt Service, and Cash Flow over
 |---|---|
 | Constant growth rates | Rent/expense escalations are flat across the horizon — real markets fluctuate |
 | Fixed debt service | Assumes no refinancing, rate reset, or interest-rate adjustment event |
-| No scenario / Monte-Carlo | Single deterministic projection. For sensitivity analysis see the [Deal Predictor's scenario output](./deal-predictor.md) or the QAP Simulator |
+| No scenario / Monte-Carlo | Single deterministic projection. For sensitivity analysis see the [Deal Predictor's scenario output](./deal-predictor.md) in the calculator |
 | Property-tax exemption is linear | Modeled as a 0%/50%/100% reduction, not a real CHFA / 501(c)(3) / housing-authority exemption schedule |
 | AMI mix must be configured upstream | Gross rents are derived from the `#dc-units-{30,40,50,60}` inputs — inconsistent or empty AMI tiers break NOI |
 | Screening tool, not underwriting | Disclaimer banner is inside the pro-forma card itself. Not a substitute for an investor pro-forma |
@@ -108,7 +108,7 @@ A line chart (`#pf-chart`, Chart.js) plots NOI, Debt Service, and Cash Flow over
 ## Related
 
 - [Deal Predictor guide](./deal-predictor.md) — recommends the execution path whose deal this pro-forma projects
-- [QAP Simulator guide](./qap-simulator.md) — CHFA competitiveness scoring for the same deal
+- [Retired QAP Simulator](../archive/qap-simulator.md) — why the scoring feature was removed
 - [PMA Analysis guide](./pma-analysis.md) — market-context signals feeding rent and vacancy assumptions
 
 ## Change log

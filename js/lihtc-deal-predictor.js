@@ -329,16 +329,15 @@
       risks.push('Market saturation: ' + competitiveSet + ' competitive LIHTC projects within 1 mile may limit absorption');
     }
 
-    // LIHTC recency signals from PMA — distinct from raw count. CHFA
-    // geographic-distribution scoring actively rewards gap areas and
-    // penalizes areas with 3+ recent allocations (QAP §6.c).
+    // COHO recency screen, distinct from raw count. The three-allocation
+    // threshold is a screening assumption, not a CHFA award rule.
     if (inputs.lihtcActivityLevel === 'very-active' && inputs.recentAllocations5yr >= 3) {
-      risks.push('Geographic-distribution penalty risk: ' + inputs.recentAllocations5yr +
-        ' LIHTC allocations in PMA in last 5 yrs — CHFA QAP §6.c may limit further awards');
+      risks.push('Recent supply screening flag: ' + inputs.recentAllocations5yr +
+        ' LIHTC allocations in PMA in last 5 yrs — review competing supply and absorption; this is not a CHFA award limit');
     }
     if (inputs.lihtcActivityLevel === 'dormant' && inputs.mostRecentLihtcYear) {
       rationale.push('No LIHTC allocations in 10+ yrs (most recent: ' + inputs.mostRecentLihtcYear +
-        ') — CHFA geographic-equity scoring may favor this area');
+        ') — review unmet need alongside current supply; this is a COHO screening signal');
     }
 
     // Prefer 9% when deep affordability need, weak debt capacity, low saturation
