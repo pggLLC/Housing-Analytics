@@ -353,6 +353,109 @@ run('every cron in the repo is parsed, including double-quoted ones', () => {
         'a workflow whose cron the parser misses is never checked for being overdue');
 });
 
+/** Real scheduled workflow files, with fake API records for every one. */
+function scheduledRoutes({ bulkAge = 400 * DAY, confirmation } = {}) {
+    const workflows = parseScheduledWorkflows().map((workflow, index) => ({
+        ...workflow, id: index + 1000, state: 'active', created_at: iso(NOW - 180 * DAY),
+    }));
+    const scheduledRun = (workflow, age) => ({
+        workflow_id: workflow.id, created_at: iso(NOW - age),
+        html_url: `https://example.com/runs/${workflow.id}/${age}`,
+    });
+    const routes = healthyRoutes();
+    routes.unshift(
+        [url => url.includes('/actions/workflows?'), url => response(200, {
+            workflows: workflows.slice((pageOf(url) - 1) * 100, pageOf(url) * 100),
+        })],
+        [url => url.includes('/actions/runs?branch=main&event=schedule'), () => response(200, {
+            workflow_runs: workflows.map(w => scheduledRun(w, bulkAge)),
+        })],
+        [url => /\/actions\/workflows\/\d+\/runs\?branch=main&event=schedule&per_page=1$/.test(url), url => {
+            const id = Number(url.match(/\/workflows\/(\d+)\/runs/)[1]);
+            const workflow = workflows.find(w => w.id === id);
+            assert.ok(workflow, 'confirmation must name a parsed scheduled workflow');
+            return confirmation ? confirmation(workflow, scheduledRun) : response(200, { workflow_runs: [scheduledRun(workflow, HOUR)] });
+        }],
+    );
+    return { workflows, ...fakeGithub(routes) };
+}
+
+run('Oct 7 stale bulk listing is cleared by fresh per-workflow runs for every scheduled workflow', async () => {
+    const fake = scheduledRoutes({ confirmation: (workflow, scheduledRun) => response(200, {
+        // The daily audit ran yesterday; shorter cadences ran an hour ago.
+        workflow_runs: [scheduledRun(workflow, workflow.file === 'daily-audit-system.yml' ? DAY : HOUR)],
+    }) });
+    const health = await collectRepoHealth({ env: ENV, fetchImpl: fake.fetchImpl, now: NOW });
+    assert.deepEqual(health.actions.overdueWorkflows, []);
+    assert.deepEqual(health.actions.neverRun, []);
+    assert.deepEqual(health.issues, []);
+    assert.equal(health.checks.find(c => c.name === 'GitHub Actions Health').status, 'passed');
+    const checkedIds = fake.calls.filter(url => /\/workflows\/\d+\/runs/.test(url))
+        .map(url => Number(url.match(/\/workflows\/(\d+)\/runs/)[1]));
+    assert.ok(fake.workflows.length > 0, 'non-vacuity: scheduled files were found');
+    assert.equal(checkedIds.length, parseScheduledWorkflows().length,
+        'every scheduled workflow parsed from .github/workflows must be evaluated');
+    assert.deepEqual(checkedIds.sort((a, b) => a - b), fake.workflows.map(w => w.id),
+        'each real scheduled workflow must get its own confirmation, with no duplicates');
+    console.log(`    confirmed ${checkedIds.length} scheduled workflows from .github/workflows`);
+});
+
+run('a recent bulk run clears a workflow without a confirmation request', async () => {
+    const fake = scheduledRoutes({ bulkAge: HOUR, confirmation: () => { throw new Error('unneeded confirmation'); } });
+    const health = await collectRepoHealth({ env: ENV, fetchImpl: fake.fetchImpl, now: NOW });
+    assert.deepEqual(health.actions.overdueWorkflows, []);
+    assert.equal(fake.calls.filter(url => /\/workflows\/\d+\/runs/.test(url)).length, 0);
+    assert.equal(health.checks.find(c => c.name === 'GitHub Actions Health').status, 'passed');
+});
+
+run('both listings old still reports the genuinely overdue workflow and its last-run URL', async () => {
+    const targetFile = parseScheduledWorkflows()[0].file;
+    const fake = scheduledRoutes({ bulkAge: 90 * DAY, confirmation: (workflow, scheduledRun) => response(200, {
+        workflow_runs: [scheduledRun(workflow, workflow.file === targetFile ? 90 * DAY : HOUR)],
+    }) });
+    const health = await collectRepoHealth({ env: ENV, fetchImpl: fake.fetchImpl, now: NOW });
+    const target = fake.workflows.find(w => w.file === targetFile);
+    const overdue = health.actions.overdueWorkflows.find(w => w.path === target.path);
+    assert.ok(overdue, 'a genuinely missed schedule must remain in the overdue list');
+    assert.equal(overdue.lastRunAt, iso(NOW - 90 * DAY));
+    const finding = health.issues.find(i => i.file === target.path);
+    assert.ok(finding, 'a genuinely missed schedule must produce a finding, not just a list entry');
+    assert.equal(finding.severity, 'high');
+    assert.equal(finding.link, overdue.html_url);
+    assert.equal(finding.link, `https://example.com/runs/${target.id}/${90 * DAY}`);
+    assert.equal(health.checks.find(c => c.name === 'GitHub Actions Health').status, 'failed');
+    console.log(`    genuine overdue finding retained: ${finding.file} → ${finding.link}`);
+});
+
+run('confirmation failing twice is unavailable, never overdue or healthy', async () => {
+    for (const fail of [() => { throw new Error('ECONNRESET'); }, () => response(403, {})]) {
+        const fake = scheduledRoutes({ confirmation: fail });
+        const health = await collectRepoHealth({ env: ENV, fetchImpl: fake.fetchImpl, now: NOW });
+        assert.equal(fake.calls.filter(url => /\/workflows\/\d+\/runs/.test(url)).length, 2,
+            'confirmation gets exactly one re-read, including HTTP errors');
+        const check = health.checks.find(c => c.name === 'GitHub Actions Health');
+        assert.equal(check.status, 'unavailable');
+        assert.equal(health.actions, null, 'unread schedules cannot be represented by a healthy empty list');
+        assert.deepEqual(health.issues, [], 'an API outage is not evidence of an overdue or never-run workflow');
+        const auditHealth = summarizeChecks(health.checks);
+        assert.equal(summarizeChecks([check]).passed, 0);
+        assert.equal(auditHealth.unavailable, 1);
+        assert.notEqual(overallStatus({ summary: quiet, auditHealth, repoHealth: health }).key, 'healthy');
+    }
+});
+
+run('a failed confirmation followed by a recent run recovers on the single re-read', async () => {
+    let first = true;
+    const fake = scheduledRoutes({ confirmation: (workflow, scheduledRun) => {
+        if (first) { first = false; throw new Error('ECONNRESET'); }
+        return response(200, { workflow_runs: [scheduledRun(workflow, HOUR)] });
+    } });
+    const health = await collectRepoHealth({ env: ENV, fetchImpl: fake.fetchImpl, now: NOW });
+    assert.equal(fake.calls.filter(url => /\/workflows\/\d+\/runs/.test(url)).length, fake.workflows.length + 1);
+    assert.deepEqual(health.actions.overdueWorkflows, []);
+    assert.equal(health.checks.find(c => c.name === 'GitHub Actions Health').status, 'passed');
+});
+
 run('a run up to ~265 min late is not overdue at any cadence; a genuinely missed one is', () => {
     // AGENTS.md / #1555: median start ~180 min late, 265+ min observed. The
     // worst honest gap between two starts is interval + that lateness.

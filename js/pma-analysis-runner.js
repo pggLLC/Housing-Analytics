@@ -311,12 +311,15 @@
       var nhpd           = _mod('Nhpd');
 
       var competitiveP = (pmaCompetitive)
-        ? Promise.resolve().then(function () {
+        ? Promise.resolve(window.__nhpdLoadPromise).then(function () {
             var nhpdFeatures = (nhpd && typeof nhpd.getPropertiesNear === 'function')
-              ? nhpd.getPropertiesNear(lat, lon, bufferMiles).map(function (p) { return { properties: p }; })
+              ? nhpd.getPropertiesNear(lat, lon, bufferMiles).map(function (p) {
+                  return { properties: p, geometry: { type: 'Point', coordinates: [p.lon, p.lat] } };
+                })
               : [];
+            var coverage = nhpd && typeof nhpd.getCoverage === 'function' ? nhpd.getCoverage() : null;
             var lihtcFeatures = (window.PMAEngine && window.PMAEngine._lihtcFeatures) || [];
-            var set = pmaCompetitive.buildCompetitiveSet(lihtcFeatures, nhpdFeatures, lat, lon, bufferMiles);
+            var set = pmaCompetitive.buildCompetitiveSet(lihtcFeatures, nhpdFeatures, lat, lon, bufferMiles, coverage);
             // flagSubsidyExpiryRisk is called for its side effect — it
             // populates lastExpiryRisk inside pma-competitive-set, which
             // getCompetitiveJustification() then exposes via the
@@ -402,6 +405,7 @@
         };
       }
 
+      scoreRun.absorptionRisk = results.absorptionRisk;
       scoreRun._analysisResults = results;
 
       /* ── Aggregate data coverage diagnostics ────────────────────── */
@@ -439,6 +443,12 @@
         pma_data_coverage: pmaDataCoverage,
         fallback_reasons:  fallbackReasons
       };
+      var nhpdCoverage = results.competitiveSet && results.competitiveSet.nhpdCoverage;
+      if (!nhpdCoverage || !nhpdCoverage.complete) {
+        pmaDataCoverage.capture_risk = 'partial';
+        fallbackReasons.capture_risk = (nhpdCoverage && nhpdCoverage.unavailableReason) ||
+          'NHPD coverage is unverified; the competitive set cannot establish complete supply or preservation risk.';
+      }
       scoreRun.pma_data_coverage = pmaDataCoverage;
       scoreRun.fallback_reasons  = fallbackReasons;
       console.log('[pma-runner] Data coverage:', JSON.stringify(coverageDiagnostic));
@@ -447,6 +457,7 @@
 
       /* ── Build PMA Support Summary ───────────────────────────────── */
       var sources = {
+        nhpd: nhpdCoverage ? nhpdCoverage.status : 'unavailable',
         commuting:      (results.commuting && results.commuting.lodesWorkplaces > 0) ? 'live' : 'fallback',
         barriers:       (results.barriers && Object.keys(results.barriers).length > 0) ? 'live' : 'fallback',
         amenities:      (results.opportunities && Object.keys(results.opportunities).length > 0) ? 'live' : 'synthetic',
@@ -462,7 +473,7 @@
         sources.barriers  !== 'fallback',
         results.schools   && Object.keys(results.schools).length > 0,
         results.transit   && Object.keys(results.transit).length > 0,
-        results.competitiveSet && Object.keys(results.competitiveSet).length > 0,
+        nhpdCoverage && nhpdCoverage.complete,
         sources.amenities !== 'fallback',
         sources.infrastructure !== 'fallback'
       ].filter(Boolean).length;
@@ -488,6 +499,7 @@
         tractCount:         (tractGeoids && tractGeoids.length) || 0,
         sourceMode:         'live',
         sources:            sources,
+        nhpdCoverage:       nhpdCoverage || null,
         dataCompleteness:   dataCompleteness,
         temporalFreshness:  temporalFreshness,
         lihtcCoverage:      lihtcCoverage,

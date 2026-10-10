@@ -357,7 +357,11 @@ if (fileExists('js/market-analysis.js')) {
       fail(file + ' is no longer loaded by js/market-analysis.js — update this list');
       return;
     }
-    const committedBy = new RegExp('git add[^\\n]*data/' + file.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&'));
+    // A literal `git add`, or the input paths handed to the shared commit
+    // script after `--` (scripts/commit-with-derived-chain.sh, #2092), which
+    // does the `git add` itself.
+    const escaped = file.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
+    const committedBy = new RegExp('(?:git add|commit-with-derived-chain\\.sh[^\\n]*\\s--\\s)[^\\n]*data/' + escaped);
     const committers = workflows.filter(function (w) { return committedBy.test(w.src); });
     if (committers.length) pass(file + ' (loaded by the page) is committed by ' + committers.map(function (w) { return w.name; }).join(', '));
     else fail(file + ' is loaded by js/market-analysis.js but no workflow `git add`s it');

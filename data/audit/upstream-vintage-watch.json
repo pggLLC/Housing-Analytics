@@ -1,12 +1,13 @@
 {
-  "generated_at": "2026-10-02T11:11:24.806Z",
+  "generated_at": "2026-10-09T11:58:59.423Z",
   "sources": [
     {
       "source": "HUD CHAS",
       "current_vintage": "2018-2022",
       "latest_vintage": null,
       "is_outdated": null,
-      "notes": "No newer CHAS vintage published (probed up to 2021-2025)."
+      "status": "unverifiable",
+      "notes": "HUD blocks automated requests (HTTP 202); CHAS vintage not checked"
     },
     {
       "source": "HUD FMR",
@@ -26,6 +27,6 @@
   "summary": {
     "checked": 3,
     "outdated": 0,
-    "errors": 0
+    "errors": 1
   }
 }

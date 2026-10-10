@@ -286,7 +286,10 @@
       // of the income distribution…" inside a four-column comparison table,
       // where the label has one line to work in. The definition still reaches
       // the reader through the prose around the table.
-      if (parent.closest && parent.closest('option, optgroup, button, [role="button"], textarea, input, abbr, th')) return;
+      // SVG joins it too: chart labels are SVG <text>, which does not render
+      // HTML children, so a wrapped term blanked the whole label (the LIHTC
+      // equity history chart lost its x-axis title to "LOI").
+      if (parent.closest && parent.closest('option, optgroup, button, [role="button"], textarea, input, abbr, th, svg')) return;
       // .no-glossary is the site's opt-out, and inline-glossary.js already
       // honours it. This script did not, so Housing News headlines and their
       // local data lines, marked no-glossary, still came out with AMI, ACS and

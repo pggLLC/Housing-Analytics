@@ -782,7 +782,8 @@ function initPolicyPanel(panelId) {
       var h = window.location.hash.replace('#', '');
       if (h) {
         var el = document.getElementById(h);
-        if (el && el.getAttribute('role') === 'tabpanel') {
+        // Inner panels only: the outer page tabs (#tab-signals etc.) are tabpanels too.
+        if (el && el.classList.contains('tab-panel')) {
           activateTab(h, { updateHash: false });
         }
       }

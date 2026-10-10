@@ -3,9 +3,9 @@
   "meta": {
     "title": "Tax Credit Transfer and Syndication Pricing Watchlist",
     "vintage": "2026-Q3",
-    "as_of": "2026-07-15",
-    "last_verified": "2026-07-15",
-    "review_by": "2026-10-15",
+    "as_of": "2026-10-09",
+    "last_verified": "2026-10-09",
+    "review_by": "2027-01-07",
     "source": "Curated public market snapshots",
     "methodology": "Prices are dollars paid per $1.00 of federal tax credit face value. Verified ranges are recorded only where a fetchable public source stated the range; otherwise the price fields remain null with status VERIFY.",
     "unit": "dollars_per_credit_dollar"
@@ -16,14 +16,42 @@
       "label": "Transferable clean-energy credits",
       "scope": "itc-ptc",
       "credit_type": "mixed-transferable-clean-energy",
+      "status": "VERIFY",
+      "price_low": null,
+      "price_high": null,
+      "as_of": null,
+      "source_url": "https://www.crux.com/blog/transferable-tax-credits",
+      "source_note": "The Crux guide does not publish current cents-per-credit pricing across all transferable clean-energy credits; the $0.90–$0.95 range it was cited for is no longer on the page (checked 2026-10-09). Crux's H1 2026 market-wide averages are recorded separately for ITCs and PTCs.",
+      "last_verified": "2026-10-09",
+      "review_by": "2027-01-07"
+    },
+    {
+      "id": "itc-transfer-market-avg-2026h1",
+      "label": "2026 ITC transfers, market-wide average",
+      "scope": "itc-ptc",
+      "credit_type": "itc",
       "status": "verified",
-      "price_low": 0.9,
-      "price_high": 0.95,
-      "as_of": "2026-06-26",
-      "source_url": "https://www.crux.com/insights/transferable-tax-credits",
-      "source_note": "Crux 2026 guide states buyers typically purchase transferable tax credits at $0.90-$0.95 per $1.00 of credit.",
-      "last_verified": "2026-07-15",
-      "review_by": "2026-10-15"
+      "price_low": 0.913,
+      "price_high": 0.913,
+      "as_of": "2026-H1",
+      "source_url": "https://www.crux.com/blog/2026-mid-year-market-intelligence-report-5-takeaways-for-clean-energy-developers",
+      "source_note": "Crux 2026 Mid-Year Market Intelligence Report (published 2026-09-09): \"Market-wide average pricing declined to $0.913 for 2026 ITCs and $0.930 for PTCs, below typical historical ranges of $0.920–0.925 for ITCs and $0.940–0.950 for PTCs.\" A market-wide average, not a traded range.",
+      "last_verified": "2026-10-09",
+      "review_by": "2027-01-07"
+    },
+    {
+      "id": "ptc-transfer-market-avg-2026h1",
+      "label": "2026 PTC transfers, market-wide average",
+      "scope": "itc-ptc",
+      "credit_type": "ptc",
+      "status": "verified",
+      "price_low": 0.93,
+      "price_high": 0.93,
+      "as_of": "2026-H1",
+      "source_url": "https://www.crux.com/blog/2026-mid-year-market-intelligence-report-5-takeaways-for-clean-energy-developers",
+      "source_note": "Crux 2026 Mid-Year Market Intelligence Report (published 2026-09-09): \"Market-wide average pricing declined to $0.913 for 2026 ITCs and $0.930 for PTCs, below typical historical ranges of $0.920–0.925 for ITCs and $0.940–0.950 for PTCs.\" A market-wide average, not a traded range.",
+      "last_verified": "2026-10-09",
+      "review_by": "2027-01-07"
     },
     {
       "id": "itc-transfer-investment-grade-2025",
@@ -34,10 +62,10 @@
       "price_low": 0.92,
       "price_high": 0.95,
       "as_of": "2025",
-      "source_url": "https://www.crux.com/insights/transferable-tax-credits",
+      "source_url": "https://www.crux.com/blog/transferable-tax-credits",
       "source_note": "Crux 2026 guide summarizes 2025 investment-grade ITC pricing range.",
-      "last_verified": "2026-07-15",
-      "review_by": "2026-10-15"
+      "last_verified": "2026-10-09",
+      "review_by": "2027-01-07"
     },
     {
       "id": "ptc-transfer-investment-grade-2025",
@@ -48,10 +76,10 @@
       "price_low": 0.92,
       "price_high": 0.96,
       "as_of": "2025",
-      "source_url": "https://www.crux.com/insights/transferable-tax-credits",
+      "source_url": "https://www.crux.com/blog/transferable-tax-credits",
       "source_note": "Crux 2026 guide summarizes 2025 investment-grade PTC pricing range.",
-      "last_verified": "2026-07-15",
-      "review_by": "2026-10-15"
+      "last_verified": "2026-10-09",
+      "review_by": "2027-01-07"
     },
     {
       "id": "nmtc-equity-pricing",
@@ -63,9 +91,9 @@
       "price_high": null,
       "as_of": null,
       "source_url": "https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit",
-      "source_note": "Official CDFI Fund program page verifies the program but does not publish current cents-per-credit market pricing. Leave pricing null until a fetchable pricing source is read.",
-      "last_verified": "2026-07-15",
-      "review_by": "2026-10-15"
+      "source_note": "Official CDFI Fund program page verifies the program but does not publish current cents-per-credit market pricing. Leave pricing null until a fetchable pricing source is read. Re-checked 2026-10-09: the CDFI Fund page states no price; one Area Development worked example (Q3 2026) assumes about $0.79, which is an illustration, not a market range.",
+      "last_verified": "2026-10-09",
+      "review_by": "2027-01-07"
     },
     {
       "id": "federal-htc-pricing",
@@ -77,9 +105,9 @@
       "price_high": null,
       "as_of": null,
       "source_url": "https://www.nps.gov/subjects/taxincentives/index.htm",
-      "source_note": "Official NPS tax incentives page verifies the federal HTC program but does not publish current cents-per-credit market pricing. Leave pricing null until a fetchable pricing source is read.",
-      "last_verified": "2026-07-15",
-      "review_by": "2026-10-15"
+      "source_note": "Official NPS tax incentives page verifies the federal HTC program but does not publish current cents-per-credit market pricing. Leave pricing null until a fetchable pricing source is read. Re-checked 2026-10-09: the NPS page states no price, and the Novogradac pages that discuss HTC pricing block scripted reads.",
+      "last_verified": "2026-10-09",
+      "review_by": "2027-01-07"
     }
   ]
 }

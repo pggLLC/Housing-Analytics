@@ -7,4 +7,8 @@ Exposes: window.HNARanking
 Dependencies: js/fetch-helper.js (window.fetchWithTimeout or fetch)
              js/utils/data-quality.js (window.DataQuality)
 
-_No documented symbols — module has a file-header comment only._
+## Symbols
+
+### `LOW_EVIDENCE_MULTIPLIER`
+
+Same threshold as the digest builder's confidenceFromMultiplier: < 0.90 → low.

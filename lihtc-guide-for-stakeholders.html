@@ -151,13 +151,13 @@
 <div style="padding: 1.5rem; background: var(--mcm-graphite); border-left: 4px solid var(--mcm-teal); border-radius: 4px;">
 <h4 style="margin: 0 0 0.75rem 0;">Phase 3: Financing &amp; Syndication (Months 13-18)</h4>
 <ul style="line-height: 1.8; color: var(--mcm-beige);">
-<li><strong>Tax Credit Equity:</strong> Negotiate final pricing — Colorado 9% credits typically <span id="lihtcGuide9pct">$0.85–$0.87</span>, 4% credits <span id="lihtcGuide4pct">$0.83–$0.85</span> by submarket</li>
+<li><strong>Tax Credit Equity:</strong> Negotiate final pricing — Novogradac's Colorado median is <span id="lihtcGuideCoMedian">$0.81</span> across 9% and 4% credits (national averages: 9% <span id="lihtcGuide9pct">$0.82</span>, 4% <span id="lihtcGuide4pct">$0.83</span>); individual deals price several cents either side</li>
 <li><strong>Permanent Debt:</strong> HUD 221(d)(4), Freddie Mac, Fannie Mae, or local banks</li>
 <li><strong>Gap Financing:</strong> HOME funds, CDBG, state housing trust funds, local contributions</li>
 <li><strong>Partnership Structure:</strong> LP/GP agreement, investor admission</li>
 <li><strong>Closing Timeline:</strong> Coordinate all funding sources</li>
 </ul>
-<div class="data-source" id="lihtcGuidePricingBlock">Pricing reflects 2026-Q2 Novogradac equity-pricing benchmarks. National average <strong>9% = $0.86</strong>, <strong>4% = $0.84</strong>. Colorado submarket spread: Denver MSA $0.86 / $0.84, Rural CO $0.82 / $0.81, Resort communities (Aspen, Telluride, Crested Butte) $0.87 / $0.85. <strong>Directional only — pricing moves 1-4¢ per quarter on macro conditions and 3-5¢ on deal-specific factors. Confirm current letter-of-intent range with your syndicator before sizing a capital stack.</strong> <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/equity-pricing" target="_blank" rel="noopener" style="color:var(--mcm-teal);">Source: Novogradac equity pricing ↗</a>
+<div class="data-source" id="lihtcGuidePricingBlock">Pricing reflects Novogradac's <span id="lihtcGuideVintage">2026-Q2</span> equity-pricing benchmarks: national average <strong>9% = <span id="lihtcGuideNat9">$0.82</span></strong>, <strong>4% = <span id="lihtcGuideNat4">$0.83</span></strong>; Colorado median <strong><span id="lihtcGuideCo">$0.81</span></strong> and North Central region median <strong><span id="lihtcGuideRegion">$0.80</span></strong>, each across 9% and 4% credits together. Novogradac does not publish Denver, rural or resort figures for Colorado. <strong>Directional only — confirm the current letter-of-intent range with your syndicator before sizing a capital stack.</strong> <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/regional-and-state-level-lihtc-equity-pricing" target="_blank" rel="noopener" style="color:var(--mcm-teal);">Source: Novogradac regional and state equity pricing ↗</a>
 <script>
 /* F247 — Wire LIHTC Guide pricing to live Novogradac data file so the
    numbers don't drift as the data refreshes. Falls back to the static
@@ -168,21 +168,24 @@
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (j) {
       if (!j || !j.pricing) return;
-      var co = j.pricing.colorado_specific || {};
       var nat = j.pricing.national_avg || {};
-      var denver = co.denver_msa || {};
-      var rural = co.rural_colorado || {};
-      var resort = co.resort_communities || {};
-      var fmt = function (v) { return v != null ? '$' + v.toFixed(2) : '—'; };
-      // Build the "low–high" range from rural to resort for each credit type
-      var low9 = Math.min(rural.credit_9pct || 99, denver.credit_9pct || 99, resort.credit_9pct || 99);
-      var high9 = Math.max(rural.credit_9pct || 0, denver.credit_9pct || 0, resort.credit_9pct || 0);
-      var low4 = Math.min(rural.credit_4pct || 99, denver.credit_4pct || 99, resort.credit_4pct || 99);
-      var high4 = Math.max(rural.credit_4pct || 0, denver.credit_4pct || 0, resort.credit_4pct || 0);
-      var el9 = document.getElementById('lihtcGuide9pct');
-      var el4 = document.getElementById('lihtcGuide4pct');
-      if (el9 && low9 < 99) el9.textContent = fmt(low9) + '–' + fmt(high9);
-      if (el4 && low4 < 99) el4.textContent = fmt(low4) + '–' + fmt(high4);
+      var co = (j.pricing.by_state && j.pricing.by_state.CO) || {};
+      var region = (j.pricing.by_region && j.pricing.by_region.north_central) || {};
+      // A price the file does not carry is "not published", never $0.00 and
+      // never the stale static figure.
+      var set = function (id, v) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = typeof v === 'number' && isFinite(v) && v > 0 ? '$' + v.toFixed(2) : 'not published';
+      };
+      set('lihtcGuide9pct', nat.credit_9pct);
+      set('lihtcGuide4pct', nat.credit_4pct);
+      set('lihtcGuideCoMedian', co.median_all_credits);
+      set('lihtcGuideNat9', nat.credit_9pct);
+      set('lihtcGuideNat4', nat.credit_4pct);
+      set('lihtcGuideCo', co.median_all_credits);
+      set('lihtcGuideRegion', region.median_all_credits);
+      var vEl = document.getElementById('lihtcGuideVintage');
+      if (vEl && j.meta && j.meta.vintage) vEl.textContent = j.meta.vintage;
     })
     .catch(function () { /* silent — static text remains visible */ });
 })();
@@ -230,7 +233,7 @@
 <td><strong>Tax Credit Equity</strong></td>
 <td>$14.0M</td>
 <td>56%</td>
-<td>$16.3M credits @ $0.86 pricing (Denver MSA); paid over 2 years</td>
+<td>$16.3M credits @ $0.86 pricing (illustrative; check the current benchmark above); paid over 2 years</td>
 </tr>
 <tr>
 <td><strong>Permanent Loan</strong></td>
@@ -406,7 +409,7 @@
 <h4 style="margin: 0 0 0.75rem 0;">Years 1–15: Initial Compliance</h4>
 <ul style="line-height: 1.8; color: var(--mcm-beige);">
 <li><strong>Credit claim period:</strong> Investors claim credits yrs 1–10; held through yr 15 to avoid recapture</li>
-<li><strong>Recapture risk:</strong> Noncompliance (unit fails income test, over-FMR rent, physical condition) triggers credit recapture</li>
+<li><strong>Recapture risk:</strong> Noncompliance (income eligibility, gross rent above the §42 limit, or physical condition) can trigger credit recapture</li>
 <li><strong>State monitoring:</strong> Annual income certifications, rent roll reviews, physical inspections (3-yr cycle)</li>
 <li><strong>Investor exit:</strong> LP typically exits at year 15 via qualified contract or nonprofit purchase option</li>
 </ul>
@@ -438,9 +441,7 @@
 <div class="chart-card" style="margin: 2rem 0;">
 <h3>Deal-Killers: What Actually Stops Projects From Closing</h3>
 <p style="line-height: 1.8; color: var(--mcm-beige); margin-bottom: 1rem;">
-  CHFA estimates that ~30% of 9% applications that receive funding never reach placed-in-service.
-  The capital stack on paper is rarely the problem. These are the failure modes that ambush deals
-  between award and closing.
+  A funding award does not guarantee closing or completion. Review these risks between award and closing.
 </p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 1rem;">
 <div style="padding: 1rem; background: var(--mcm-graphite); border-left: 3px solid var(--mcm-burnt-orange); border-radius: 4px;">
@@ -508,9 +509,9 @@
 <h4 style="margin: 1.5rem 0 0.75rem 0;">The pricing formula (simplified):</h4>
 <pre style="background: var(--mcm-graphite); padding: 1rem; border-radius: 4px; color: var(--mcm-beige); font-size: 0.9rem; line-height: 1.6; overflow-x: auto;">
 Equity = Annual Credit × 10 years × Price Per Credit Dollar
-         $1M       × 10      × $0.86  =  $8.60M (per $1M annual credit, national 9% avg)
-        $1.5M      × 10      × $0.86  =  $12.90M (typical CO 9% deal at Denver MSA pricing)
-        $1.5M      × 10      × $0.82  =  $12.30M (same deal at rural CO pricing — $600K equity gap)
+         $1M       × 10      × $0.82  =  $8.20M (per $1M annual credit, national 9% avg, 2026-Q2)
+        $1.5M      × 10      × $0.81  =  $12.15M (a CO deal at the Colorado median, 2026-Q2)
+        $1.5M      × 10      × $0.76  =  $11.40M (same deal priced 5¢ below the median — $750K less equity)
 
 Price depends on:
   • Investor's effective tax rate (Fortune 500 at ~21% federal + state)
@@ -554,7 +555,7 @@ Price depends on:
 <h3>Colorado State LIHTC (HB 24-1434): New Capital Layer</h3>
 <p style="line-height: 1.8; color: var(--mcm-beige); margin-bottom: 1rem;">
   Colorado accelerated and expanded its state affordable housing tax credit for 2025 allocations. This is a separate credit layer stacked
-  on top of the federal credit — at typical federal pricing of $0.85-$0.87 in Colorado, state-plus-federal
+  on top of the federal credit — with federal pricing in the low $0.80s in Colorado (see the Novogradac benchmark above), state-plus-federal
   combined pricing can reach $1.00+ on a per-dollar-of-basis basis.
 </p>
 <ul style="line-height: 1.8; color: var(--mcm-beige);">
@@ -758,7 +759,7 @@ Price depends on:
 <tr>
 <td><strong>Purchase Price @ $0.86</strong></td>
 <td>$860,000</td>
-<td>Paid in Years 1-2 (national average; Denver MSA pricing)</td>
+<td>Paid in Years 1-2 (illustrative price; see the current benchmark above)</td>
 </tr>
 <tr>
 <td><strong>Depreciation Benefit</strong></td>

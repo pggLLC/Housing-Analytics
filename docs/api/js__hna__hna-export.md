@@ -43,6 +43,54 @@ Escape a CSV field: wrap in quotes and double any internal quotes.
 
 Convert an array-of-arrays to a CSV string.
 
+### `_numOrNull(v)`
+
+A number, or null when the value is absent. A real 0 stays 0.
+
+### `_isBlankText(v)`
+
+Page text that means "nothing shown" rather than a value.
+
+### `_cleanHeadingText(el)`
+
+Strip methodology popovers, tooltips and info glyphs from a heading, as
+ the section rail does (js/hna/section-rail.js cleanLabel).
+
+### `_cardLabel(id, fallback)`
+
+The label on the page's own stat card, so an export row is named what
+ the reader saw. Falls back to the card label in housing-needs-assessment.html.
+
+### `_cardSub(id)`
+
+The sub-note under a stat card (e.g. "in Fruita · 7 in Mesa County").
+
+### `_overlayReason(toggleId)`
+
+The reason a map overlay did not load, as the page states it on the
+ overlay toggle (hna-renderers.js _markOverlayToggle).
+
+### `_lehdWacYear(geoid, containingCounty)`
+
+The LEHD LODES workplace-area (WAC) year of the data the page loaded.
+County files carry `wacYear`; the place blobs apportioned from them carry
+the same annualEmployment years, so the latest of those is the WAC year.
+Read from the data, never a literal: the literal said 2021 while the data
+and the page said 2023.
+
+### `_snapshotRows(d)`
+
+Executive-snapshot rows, labelled as the page's stat cards are.
+
+### `_amiGapRows(d)`
+
+AMI-gap rows: numbers kept as numbers, a real 0 kept as 0.
+
+### `_lihtcRows(d)`
+
+LIHTC / QCT / DDA rows, as the page's cards show them, with the reason
+ the page gives when one is unavailable.
+
 ### `_rankingEntry(geoid)`
 
 Pull a ranking-index entry for the currently-selected geography by

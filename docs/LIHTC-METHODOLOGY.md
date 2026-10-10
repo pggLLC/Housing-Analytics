@@ -26,7 +26,7 @@ The LIHTC universe is assembled from **four canonical sources** plus **two suppl
 | File | Source | Count | Role |
 |---|---|---:|---|
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | CHFA 2026 Round One Award Report PDF (manually parsed) | **14** | Bridge file — surfaces 2026 R1 awards before they appear in the live ArcGIS feed (typically a Q4 delay). |
-| `data/policy/chfa-awards-historical.json` | CHFA Annual Reports 2015-2025 + QAP award notices | **28** | Historical context: powers the OF QAP scoring rubric panel (F180). Includes awarded + not-awarded for award-rate calculation. |
+| `data/policy/chfa-awards-historical.json` | Unverified synthesis, not an official CHFA award record | **28** | Quarantined synthesized sample, not a verified CHFA award record. The OF QAP panel and award-rate estimates were removed under #1880; see `test/no-synthesized-chfa-awards.test.js`. |
 
 ### Sources that are NOT LIHTC (intentionally excluded)
 

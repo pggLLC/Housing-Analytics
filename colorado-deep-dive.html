@@ -365,6 +365,209 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   <script defer src="js/components/table-header-tips.js"></script>
   <script src="js/components/policy-timeline.js"></script>
   <script src="js/components/lihtc-by-year.js"></script>
+<style>
+/* Market Signals tab: moved from market-intelligence.html (merged into this page). */
+    .mi-section {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .mi-section h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text-strong);
+    }
+    .mi-section h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .mi-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .mi-kpi {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+    }
+    .mi-kpi-value {
+      font-size: 1.2rem;
+      font-weight: 750;
+      line-height: 1.1;
+      margin-bottom: 0.2rem;
+      color: var(--text-strong);
+    }
+    .mi-kpi-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .mi-chart-container {
+      position: relative;
+      height: 220px;
+      margin-top: 1rem;
+    }
+    .mi-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .mi-toolbar label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .mi-toolbar select {
+      padding: 0.35rem 0.65rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--card);
+      color: var(--text);
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+    .mi-status {
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding: 0.5rem 0;
+    }
+    .mi-status.error { color: var(--bad); }
+    .btn-export {
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-sm);
+      /* #2038 — the translucent --accent-dim let the --bg2 surface show
+         through, leaving the label at 4.47:1. An opaque tint over --card
+         holds >= 4.5:1 in both modes. */
+      background: color-mix(in srgb, var(--accent) 8%, var(--card));
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      font-size: 0.83rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-export:hover { background: var(--accent); color:var(--on-accent,#fff); }
+    .risk-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+      gap: 0.75rem;
+    }
+    .risk-card {
+      padding: 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--card2);
+    }
+    .risk-label { font-size: 0.78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; margin-bottom: 0.3rem; }
+    .risk-value { font-size: 1rem; font-weight: 700; }
+    .risk-low { color: var(--good); }
+    .risk-med { color: var(--warn); }
+    .risk-high { color: var(--bad); }
+    .data-note {
+      font-size: 0.78rem;
+      color: var(--faint);
+      margin-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.5rem;
+    }
+    .site-entry-cta {
+      display: block;
+      padding: 1.25rem 1.5rem;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      color: var(--text);
+      margin-top: 1rem;
+    }
+    .site-entry-cta:hover { background: var(--accent); color:var(--on-accent,#fff); }
+    .site-entry-cta strong { display: block; font-size: 1rem; margin-bottom: 0.25rem; }
+    .econ-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .econ-kpi {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+    }
+    .econ-kpi-value {
+      font-size: 1.2rem;
+      font-weight: 750;
+      line-height: 1.1;
+      margin-bottom: 0.25rem;
+      color: var(--text-strong);
+    }
+    .econ-kpi-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+    .econ-kpi-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    /* #2038 — the 15% washes were translucent, so the --bg2 surface showed
+       through and "Moderate" / "Stretched" fell to 4.28:1. Opaque tints
+       over --card keep each status colour >= 4.5:1 in both modes. */
+    .badge-good { background: color-mix(in srgb, var(--good, #036549) 8%, var(--card, #fff)); color: var(--good, #036549); }
+    .badge-warn { background: color-mix(in srgb, var(--warn, #a84608) 8%, var(--card, #fff)); color: var(--warn, #a84608); }
+    .badge-bad  { background: color-mix(in srgb, var(--bad,  #991b1b) 8%, var(--card, #fff)); color: var(--bad,  #991b1b); }
+    .lihtc-trend-container {
+      position: relative;
+      height: 240px;
+      margin-top: 1rem;
+    }
+    @media (max-width: 640px) {
+      .mi-chart-container { height: 180px; }
+      .mi-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .econ-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .lihtc-trend-container { height: 200px; }
+    }
+/* Construction Labor & Costs tab */
+.cc-summary { font-size: 1rem; line-height: 1.6; color: var(--text); margin: 0; max-width: 80ch; }
+.mi-chart-container.cc-chart { height: 280px; }
+.mi-kpi-sub { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
+.cc-table-wrap { overflow-x: auto; max-width: 100%; }
+.cc-table { border-collapse: collapse; width: 100%; font-size: .85rem; }
+.cc-table th, .cc-table td { padding: .4rem .6rem; border-bottom: 1px solid var(--border); text-align: right; white-space: nowrap; }
+.cc-table th:first-child, .cc-table td:first-child { text-align: left; white-space: normal; }
+#ccTradeTable th[scope="row"] { min-width: 14rem; text-transform: none; font-weight: 600; }
+.cc-table thead th { color: var(--muted); font-weight: 600; }
+/* The source line the chart-source component appends sits below the canvas box. */
+.mi-chart-container.cc-chart { margin-bottom: 3rem; }
+@media (max-width: 640px) {
+  .mi-chart-container.cc-chart { height: 340px; margin-bottom: 4.5rem; }
+  #ccTradeTable th[scope="row"] { min-width: 10rem; }
+}
+</style>
 </head>
 
 <body data-page="colorado-deep-dive.html">
@@ -380,9 +583,9 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <span class="kicker">Colorado</span>
 <h1>Colorado Deep Dive</h1>
 <p class="hero-subtitle">
-            Comprehensive analysis of DDAs, QCTs, LIHTC projects, market dynamics, concessions, foreclosures, and comparative performance
+            Comprehensive analysis of DDAs, QCTs, LIHTC projects, market dynamics, concessions, foreclosures, and comparative performance, plus statewide market signals and monthly construction labor and material costs
         </p>
-<p style="max-width:90ch;color:var(--muted);font-size:.9rem;margin:.5rem 0 0;">This page focuses exclusively on Colorado. Use the interactive map to visualise LIHTC projects alongside Qualified Census Tracts (QCT) and Difficult Development Areas (DDA) — the HUD overlays that determine credit boost eligibility. Scroll down for county-level market metrics, CAR market reports, and Proposition 123 commitment data. Start with the map to understand geography, then use the KPI cards and charts to quantify need and opportunity.</p>
+<p style="max-width:90ch;color:var(--muted);font-size:.9rem;margin:.5rem 0 0;">This page focuses exclusively on Colorado. Use the interactive map to visualise LIHTC projects alongside Qualified Census Tracts (QCT) and Difficult Development Areas (DDA) — the HUD overlays that determine credit boost eligibility. Scroll down for county-level market metrics, CAR market reports, and Proposition 123 commitment data. The Market Signals tab holds statewide demand, supply, inventory and risk indicators, and the Construction Labor &amp; Costs tab tracks construction wages, labor availability and material prices month by month. Start with the map to understand geography, then use the KPI cards and charts to quantify need and opportunity.</p>
 <span class="freshness-badge data-reliability-badge" data-freshness="now" aria-label="Data freshness indicator" aria-live="polite"><span class="sr-only">Data is current</span></span>
 <a href="data-status.html" style="font-size:.75rem;color:var(--link);margin-left:.25rem;">View diagnostics</a>
 <small id="deepDiveDataTimestamp" class="data-timestamp"></small>
@@ -404,9 +607,11 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-<!-- ── Outer tab navigation: Deep Dive | Market Overview ── -->
+<!-- ── Outer tab navigation: Deep Dive | Market Signals | Construction Labor & Costs | Market Overview ── -->
 <div role="tablist" aria-label="Page sections" class="page-tabs">
   <button role="tab" id="btn-deepdive" aria-selected="true" aria-controls="tab-deepdive" class="page-tab-btn">Deep Dive</button>
+  <button role="tab" id="btn-signals" aria-selected="false" aria-controls="tab-signals" class="page-tab-btn">Market Signals</button>
+  <button role="tab" id="btn-construction" aria-selected="false" aria-controls="tab-construction" class="page-tab-btn">Construction Labor &amp; Costs</button>
   <button role="tab" id="btn-market" aria-selected="false" aria-controls="tab-market" class="page-tab-btn">Market Overview</button>
 </div>
 
@@ -1570,6 +1775,312 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 
 </div><!-- /tab-deepdive -->
 
+<!-- ── Market Signals tab panel ──
+     Was its own page, market-intelligence.html, until the two Colorado pages
+     were merged; that URL now redirects here (#tab-signals). -->
+<div role="tabpanel" id="tab-signals" aria-labelledby="btn-signals" hidden>
+  <p class="intro-card" style="margin-top:0;">Statewide and county demand signals, supply trends, affordable inventory, risk indicators, policy landscape and economic health, built on public datasets. Pick a county to narrow the view.</p>
+  <!-- Toolbar: county selector + export -->
+  <div class="mi-toolbar" role="region" aria-label="Market filters">
+    <label for="countySelect">County / Statewide:</label>
+    <select id="countySelect" aria-label="Select county or statewide view"
+            data-jurisdiction-search data-jurisdiction-search-type="County"
+            data-jurisdiction-search-label="Search counties"
+            data-jurisdiction-search-placeholder="Type a county name…">
+      <option value="">Statewide (Colorado)</option>
+    </select>
+    <div id="miLoadingStatus" class="mi-status" aria-live="polite">Loading data…</div>
+    <div style="flex:1;"></div>
+    <button class="btn-export" id="exportJson" type="button" aria-label="Export current view as JSON">Export JSON</button>
+    <button class="btn-export" id="exportCsv" type="button" aria-label="Export current view as CSV">Export CSV</button>
+  </div>
+
+  <!-- 1. Demand Signals -->
+  <section class="mi-section" aria-labelledby="demand-heading">
+    <h2 id="demand-heading">📈 Demand Signals</h2>
+    <h3>Source: ACS 5-Year Estimates (Census Bureau, public API)</h3>
+    <div class="mi-kpi-grid">
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiCostBurden">—</div>
+        <div class="mi-kpi-label">Cost-Burdened Renters (≥30% income)</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiSevereBurden">—</div>
+        <div class="mi-kpi-label">Severely Cost-Burdened (≥50% income)</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiHHGrowth">—</div>
+        <div class="mi-kpi-label">Household Growth (5-yr)</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiOvercrowding">—</div>
+        <div class="mi-kpi-label">Overcrowded Units (&gt;1 person/room)</div>
+      </div>
+    </div>
+    <div class="mi-chart-container" data-source="ACS 5-year — B25070 (rent burden), B25014 (overcrowding), B11001 (household count)" data-source-url="https://data.census.gov/" data-vintage="ACS 5-year (latest release)" data-source-type="modeled">
+      <canvas id="demandChart" role="img" aria-label="Line chart: housing demand index over time"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+    </div>
+    <p class="data-note">ACS B25070 (rent-to-income ratio), B25014 (occupants per room), B11001 (household count). Vintage: most recent 5-year release.</p>
+  </section>
+
+  <!-- 2. Supply Signals -->
+  <section class="mi-section" aria-labelledby="supply-heading">
+    <h2 id="supply-heading">🏗️ Supply Signals</h2>
+    <h3>Source: Census Building Permits Survey (public)</h3>
+    <div class="mi-kpi-grid">
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiPermits">—</div>
+        <div class="mi-kpi-label">CO Building Permits (monthly)</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiCompletions">—</div>
+        <div class="mi-kpi-label">U.S. Completions (SAAR)</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiUnderConst">—</div>
+        <div class="mi-kpi-label">U.S. Under Construction (SAAR)</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiYoyPermits">—</div>
+        <div class="mi-kpi-label">Permits YoY Change</div>
+      </div>
+    </div>
+    <div class="mi-chart-container">
+      <canvas id="supplyChart" role="img" aria-label="Line chart: housing supply index over time"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+    </div>
+    <p class="data-note">CO permits: FRED series COBPPRIV (Colorado, monthly, total units). Completions and units-under-construction have no state-level FRED series — the figures shown are U.S. national (COMPUTSA, UNDCONTSA, SAAR) and are national context only.</p>
+  </section>
+
+  <!-- 3. Affordable Inventory -->
+  <section class="mi-section" aria-labelledby="inventory-heading">
+    <h2 id="inventory-heading">🏠 Affordable Inventory</h2>
+    <h3>Source: HUD LIHTC Database (public ArcGIS endpoint)</h3>
+    <div class="mi-kpi-grid">
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiLihtcProjects">—</div>
+        <div class="mi-kpi-label">LIHTC Projects</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiLihtcUnits">—</div>
+        <div class="mi-kpi-label">LIHTC Total Units</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiLihtcLowIncome">—</div>
+        <div class="mi-kpi-label">Low-Income Units</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiLihtcPer1k">—</div>
+        <div class="mi-kpi-label">LIHTC Units per 1,000 HH</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiLihtcProp123" style="color:var(--accent)">—</div>
+        <div class="mi-kpi-label">In Prop 123 Jurisdictions</div>
+      </div>
+    </div>
+    <div id="inventoryStatus" class="mi-status" aria-live="polite"></div>
+    <p class="data-note">HUD LIHTC database via CHFA ArcGIS Feature Service and HUD ArcGIS (public endpoints). Data may lag current year by 12–18 months.</p>
+  </section>
+
+  <!-- 4. Risk Dashboard -->
+  <section class="mi-section" aria-labelledby="risk-heading">
+    <h2 id="risk-heading">⚠️ Risk Dashboard</h2>
+    <div class="risk-grid">
+      <div class="risk-card">
+        <div class="risk-label">Vacancy Proxy</div>
+        <div class="risk-value" id="riskVacancy">—</div>
+        <div style="font-size:.75rem;color:var(--faint);margin-top:.25rem;">ACS B25004 vacancy rate</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-label">Rent Trend (Proxy)</div>
+        <div class="risk-value" id="riskRentTrend">—</div>
+        <div style="font-size:.75rem;color:var(--faint);margin-top:.25rem;">Median gross rent YoY (ACS)</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-label">Pipeline Pressure</div>
+        <div class="risk-value" id="riskPipeline">—</div>
+        <div style="font-size:.75rem;color:var(--faint);margin-top:.25rem;">Permits issued / existing units</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-label">Affordability Gap</div>
+        <div class="risk-value" id="riskAffordGap">—</div>
+        <div style="font-size:.75rem;color:var(--faint);margin-top:.25rem;">60% AMI rent vs market rent</div>
+      </div>
+    </div>
+    <p class="data-note">Risk indicators are proxies derived from public Census and FRED data. Not a substitute for a full market study.</p>
+  </section>
+
+  <!-- 5. Policy Landscape -->
+  <section class="mi-section" aria-labelledby="policy-heading">
+    <h2 id="policy-heading">📋 Policy Landscape</h2>
+    <div class="mi-kpi-grid">
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiProp123Count">—</div>
+        <div class="mi-kpi-label">Prop 123 Committed Jurisdictions</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiProp123Counties">—</div>
+        <div class="mi-kpi-label">Prop 123 Counties</div>
+      </div>
+      <div class="mi-kpi">
+        <div class="mi-kpi-value" id="kpiProp123Munis">—</div>
+        <div class="mi-kpi-label">Prop 123 Municipalities</div>
+      </div>
+    </div>
+    <h3 style="margin-top:1rem;">Key Policy Resources</h3>
+    <ul style="font-size:.9rem;line-height:2;padding-left:1.25rem;color:var(--text);">
+      <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Prop 123 — Commitment Filings</a></li>
+      <li><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC Database</a></li>
+      <li><a href="https://www.chfainfo.com" target="_blank" rel="noopener">CHFA — Colorado Housing &amp; Finance Authority</a></li>
+      <li><a href="https://leg.colorado.gov/bills/sb23-213" target="_blank" rel="noopener">SB23-213 — Land Use &amp; TOD Rezoning</a></li>
+      <li><a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">Census ACS — American Community Survey</a></li>
+    </ul>
+    <p class="data-note">Prop 123 data from <code>data/policy/prop123_jurisdictions.json</code> (local file; updated via PR).</p>
+  </section>
+
+  <!-- 6. Economic Health -->
+  <section class="mi-section" aria-labelledby="econ-heading">
+    <h2 id="econ-heading">💼 Economic Health</h2>
+    <h3>Source: <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener" aria-label="BLS LAUS (opens in new tab)">BLS LAUS</a> (unemployment), <a href="https://www.bls.gov/cew/" target="_blank" rel="noopener" aria-label="BLS QCEW (opens in new tab)">BLS QCEW</a> (job growth), <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener" aria-label="ACS 2020–2024 (opens in new tab)">ACS 2020–2024</a> (affordability, population)</h3>
+    <div class="econ-kpi-grid">
+      <div class="econ-kpi">
+        <div class="econ-kpi-label">Unemployment Rate</div>
+        <div class="econ-kpi-value" id="kpiUnemployment">—</div>
+        <span class="econ-kpi-badge" id="badgeUnemployment"></span>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-label">Job Growth 5-Year %</div>
+        <div class="econ-kpi-value" id="kpiJobGrowth">—</div>
+        <span class="econ-kpi-badge" id="badgeJobGrowth"></span>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-label">Affordability Index</div>
+        <div class="econ-kpi-value" id="kpiAffordIndex">—</div>
+        <span class="econ-kpi-badge" id="badgeAffordIndex"></span>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-label">Population Growth 5-Year %</div>
+        <div class="econ-kpi-value" id="kpiPopGrowth">—</div>
+        <span class="econ-kpi-badge" id="badgePopGrowth"></span>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-label">Median Home Price</div>
+        <div class="econ-kpi-value" id="kpiMedianPrice">—</div>
+      </div>
+      <div class="econ-kpi">
+        <div class="econ-kpi-label">Median Household Income</div>
+        <div class="econ-kpi-value" id="kpiMedianIncome">—</div>
+      </div>
+    </div>
+    <p class="data-note">Unemployment: <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a> annual average. Job growth: <a href="https://www.bls.gov/cew/" target="_blank" rel="noopener">BLS QCEW</a> / CO OLSS 5-year change. Affordability index = median home price ÷ median household income. Population growth: <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">ACS</a> 5-year estimates. <span id="econDataVintage"></span></p>
+  </section>
+
+  <!-- 7. LIHTC Historical Trend -->
+  <section class="mi-section" aria-labelledby="lihtc-trend-heading">
+    <h2 id="lihtc-trend-heading">📊 LIHTC Historical Trend</h2>
+    <p id="lihtc-trend-status" role="status" hidden></p>
+    <h3>Source: HUD LIHTC Database via CHFA ArcGIS FeatureServer (public)</h3>
+    <div class="lihtc-trend-container">
+      <canvas id="lihtcTrendChart" role="img" aria-label="Line chart: Colorado LIHTC projects per year by CHFA reservation year, top counties"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+    </div>
+    <p class="data-note">LIHTC projects per year by the year CHFA reserved the credits (YR_ALLOC) — not the year a project opened, which CHFA does not publish; projects typically open two to three years later. Statewide view shows top 6 counties by total project count. The latest year is preliminary: CHFA posts late-year reservations into its database through the first quarter of the following year.</p>
+  </section>
+
+  <!-- 8. Site Selection Tool Entry Point -->
+  <section class="mi-section" aria-labelledby="sitesel-heading">
+    <h2 id="sitesel-heading">📍 Site Selection Tool</h2>
+    <p style="font-size:.9rem;color:var(--text);line-height:1.7;">
+      Ready to evaluate a specific site? The Market Analysis step draws a primary market area around it
+      and computes the PMA and site-selection scores, using the methodology described in
+      <a href="docs/PMA_SITE_SELECTION.md" target="_blank" rel="noopener">docs/PMA_SITE_SELECTION.md</a>.
+      For statewide LIHTC, Prop 123 and DDA / QCT map layers, see the Deep Dive tab of this page.
+    </p>
+    <a data-workflow-link="intelligence-market" href="market-analysis.html" class="site-entry-cta" aria-label="Go to Market Analysis to score a site">
+      <strong data-page-name>Market Analysis</strong>
+      <span style="font-size:.85rem;opacity:.8;">Primary market area · PMA score · capture rate · QCT / DDA check</span>
+    </a>
+  </section>
+
+  <!-- Consolidated Data Sources -->
+  <section class="mi-section" aria-labelledby="sources-heading" style="border-top:1px solid var(--border);padding-top:1.5rem;">
+    <h2 id="sources-heading">Data Sources</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px, 100%),1fr));gap:6px 16px;font-size:.85rem">
+      <div><strong>ACS 5-Year</strong> — <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">Census Bureau</a> (B25070, B25014, B11001)</div>
+      <div><strong>HUD LIHTC</strong> — <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">Tax Credit Database</a></div>
+      <div><strong>CHFA</strong> — <a href="https://www.chfainfo.com/" target="_blank" rel="noopener">Colorado Housing Finance Authority</a></div>
+      <div><strong>FRED</strong> — <a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener">Economic Series &amp; Housing Starts</a></div>
+      <div><strong>BLS LAUS</strong> — <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">Unemployment Data</a></div>
+      <div><strong>BLS QCEW</strong> — <a href="https://www.bls.gov/cew/" target="_blank" rel="noopener">Job Growth Data</a></div>
+      <div><strong>Prop 123</strong> — <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Commitment Filings</a></div>
+      <div><strong>LEHD/LODES</strong> — <a href="https://lehd.ces.census.gov/data/" target="_blank" rel="noopener">Commuting Flows</a></div>
+    </div>
+    <p style="margin-top:.8rem;font-size:.82rem;color:var(--muted)">
+      <a href="dashboard-data-sources-ui.html">Full data sources inventory</a> ·
+      <a href="data-status.html">Data freshness status</a>
+    </p>
+  </section>
+</div><!-- /tab-signals -->
+
+<!-- ── Construction Labor & Costs tab panel ──
+     Refreshed monthly by .github/workflows/fetch-co-construction-labor-cost.yml
+     into data/market/co-construction-labor-cost.json. Labor and materials are
+     two separate panels on purpose: there is no public Colorado materials
+     index, so blending them would need an assumed weighting. -->
+<div role="tabpanel" id="tab-construction" aria-labelledby="btn-construction" hidden>
+  <section class="mi-section" aria-labelledby="cc-heading" style="margin-top:0;">
+    <h2 id="cc-heading">Construction labor and costs in Colorado</h2>
+    <p id="ccSummary" class="cc-summary" aria-live="polite">Loading the monthly labor and cost summary…</p>
+    <p class="data-note" style="border-top:0;padding-top:0;margin-top:.25rem;">Updated monthly after the BLS state jobs release. <span id="ccGenerated"></span></p>
+  </section>
+
+  <!-- Panel 1: Labor -->
+  <section class="mi-section" aria-labelledby="cc-labor-heading">
+    <h2 id="cc-labor-heading">Labor: wage rates and availability</h2>
+    <h3>Source: <a href="https://www.bls.gov/sae/" target="_blank" rel="noopener">BLS State Employment &amp; Earnings (CES)</a>, <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a>, <a href="https://www.bls.gov/jlt/" target="_blank" rel="noopener">BLS JOLTS</a>, <a href="https://www.bls.gov/oes/" target="_blank" rel="noopener">BLS OEWS</a></h3>
+    <div class="mi-kpi-grid" id="ccLaborKpis" aria-live="polite"></div>
+    <div class="mi-chart-container cc-chart" data-source="BLS CES — SMU08000002000000003 (avg hourly earnings), SMU08000002000000001 (employment), Colorado construction" data-source-url="https://www.bls.gov/sae/" data-vintage="Monthly, latest two months preliminary">
+      <canvas id="ccLaborChart" role="img" aria-label="Line chart: Colorado construction average hourly earnings and construction employment by month"></canvas>
+      <p class="sr-only" id="ccLaborChartText"></p>
+    </div>
+    <p id="ccLaborStatus" class="mi-status" role="status" hidden></p>
+
+    <h3 style="margin-top:1.5rem;" id="ccTradeHeading">Hourly wage by trade</h3>
+    <div class="cc-table-wrap" role="region" aria-labelledby="ccTradeHeading" tabindex="0">
+      <table class="cc-table" id="ccTradeTable">
+        <caption class="sr-only">Mean hourly wage by construction trade, Colorado and its metro areas (BLS OEWS)</caption>
+        <thead><tr id="ccTradeHead"></tr></thead>
+        <tbody id="ccTradeBody"><tr><td>Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <p class="data-note">Trade wages are BLS Occupational Employment and Wage Statistics (OEWS) mean hourly wages, published once a year for May of the reference year, so this table changes annually, not monthly. Change is versus the prior OEWS year. Blank cells are wages BLS did not publish for that metro. Job openings and hires rates are national: BLS JOLTS does not publish construction figures by state. CES earnings and employment for the latest two months are preliminary and are revised.</p>
+  </section>
+
+  <!-- Panel 2: Materials -->
+  <section class="mi-section" aria-labelledby="cc-materials-heading">
+    <h2 id="cc-materials-heading">Materials: construction input prices</h2>
+    <h3>Source: <a href="https://www.bls.gov/ppi/" target="_blank" rel="noopener">BLS Producer Price Index</a> via <a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener">FRED</a></h3>
+    <div class="mi-kpi-grid" id="ccMaterialsKpis" aria-live="polite"></div>
+    <div class="mi-chart-container cc-chart" data-source="BLS PPI via FRED — WPUIP231120 and construction-material commodity indexes" data-source-url="https://www.bls.gov/ppi/" data-vintage="Monthly">
+      <canvas id="ccMaterialsChart" role="img" aria-label="Line chart: construction input price indexes, rebased to 100 five years ago"></canvas>
+      <p class="sr-only" id="ccMaterialsChartText"></p>
+    </div>
+    <p id="ccMaterialsStatus" class="mi-status" role="status" hidden></p>
+    <p class="data-note">Producer price indexes are national. No public price index exists for construction materials in Colorado alone, so these show the direction and size of material cost change, not Colorado price levels. The chart rebases each index to 100 five years before the latest month so the series can share an axis.</p>
+  </section>
+
+  <!-- Month-by-month record -->
+  <section class="mi-section" aria-labelledby="cc-history-heading">
+    <h2 id="cc-history-heading">Month by month</h2>
+    <div class="cc-table-wrap" role="region" aria-labelledby="cc-history-heading" tabindex="0">
+      <table class="cc-table" id="ccHistoryTable">
+        <caption class="sr-only">Year-over-year change in Colorado construction wages, construction employment and construction input prices, by month</caption>
+        <thead><tr><th scope="col" title="Reference month of the BLS release">Month</th><th scope="col" title="Change in Colorado construction average hourly earnings (BLS CES) from the same month a year earlier">CO construction hourly earnings, YoY</th><th scope="col" title="Change in Colorado construction employment (BLS CES) from the same month a year earlier">CO construction employment, YoY</th><th scope="col" title="Change in the national PPI for net inputs to multifamily construction from the same month a year earlier">Construction input prices, YoY</th></tr></thead>
+        <tbody id="ccHistoryBody"><tr><td colspan="4">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+</div><!-- /tab-construction -->
+
+
 <!-- ── Market Overview tab panel ── -->
 <div role="tabpanel" id="tab-market" aria-labelledby="btn-market" hidden>
 
@@ -1623,7 +2134,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <h2>Key Findings</h2>
     <p style="font-size:.85rem;color:var(--color-text-muted);margin:.25rem 0 .75rem;"><span style="color:var(--warn);font-weight:700;">QUAL</span> · editorial synthesis of CHFA QAP + Novogradac pricing trend + CHFA portfolio data</p>
     <ul>
-      <li>Credit pricing has hovered in the mid-$0.80s through 2026 — see <a href="https://www.novoco.com/notes-from-novogradac/lihtc-pricing-update" target="_blank" rel="noopener">Novogradac pricing notes</a> for current quarterly read</li>
+      <li>Credit pricing slid from about $0.90 in 2022 to the low $0.80s by mid-2026 (chart above) — see <a href="https://www.novoco.com/notes-from-novogradac/lihtc-pricing-update" target="_blank" rel="noopener">Novogradac pricing notes</a> for current quarterly read</li>
       <li>Housing starts continue to track Front Range population growth — see <a href="https://www.census.gov/construction/bps/" target="_blank" rel="noopener">Census BPS permits</a></li>
       <li>Denver metro consistently captures the majority share of statewide LIHTC units (live breakdown in table above)</li>
       <li>Rural set-aside is heavily oversubscribed at most rounds (CHFA round reports document the gap)</li>
@@ -2242,40 +2753,79 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   }
 }());
 </script>
+<script src="js/market-intelligence.js"></script>
+<script defer src="js/co-construction-costs.js"></script>
 <script defer src="js/audit-hook.js"></script>
 
-<!-- ── Outer tab toggle: Deep Dive | Market Overview ── -->
+<!-- ── Outer tab toggle: Deep Dive | Market Signals | Construction Labor & Costs | Market Overview ── -->
 <script>
 (function () {
   function initPageTabs() {
     var tabs   = document.querySelectorAll('[role="tablist"].page-tabs [role="tab"]');
-    var panels = document.querySelectorAll('#tab-deepdive, #tab-market');
+    var panels = document.querySelectorAll('#tab-deepdive, #tab-signals, #tab-construction, #tab-market');
     var announce = document.getElementById('statusPanel');
     if (!tabs.length) return;
+
+    function select(targetId, opts) {
+      opts = opts || {};
+      tabs.forEach(function (t) {
+        t.setAttribute('aria-selected', t.getAttribute('aria-controls') === targetId ? 'true' : 'false');
+      });
+      panels.forEach(function (p) {
+        if (p.id === targetId) {
+          p.removeAttribute('hidden');
+        } else {
+          p.setAttribute('hidden', '');
+        }
+      });
+      if (announce && opts.announce) {
+        var btn = document.querySelector('.page-tabs [aria-controls="' + targetId + '"]');
+        announce.textContent = (btn ? btn.textContent.trim() : '') + ' tab selected';
+        setTimeout(function () { announce.textContent = ''; }, 2000);
+      }
+      /* Initialise market charts on first reveal */
+      if (targetId === 'tab-market' && !window.__moChartsInited) {
+        window.__moChartsInited = true;
+        initMarketOverviewCharts();
+      }
+      /* Construction charts draw on first reveal so Chart.js measures a visible canvas. */
+      if (targetId === 'tab-construction' && window.CoConstructionCosts) {
+        window.CoConstructionCosts.init();
+      }
+      /* Market Signals loads its feeds on first reveal; later reveals resize its charts. */
+      if (targetId === 'tab-signals' && window.MarketIntelligence) {
+        window.MarketIntelligence.init();
+      }
+      if (targetId === 'tab-signals' && window.Chart && window.Chart.instances) {
+        Object.keys(window.Chart.instances).forEach(function (k) {
+          var c = window.Chart.instances[k];
+          if (c && c.canvas && inPanel(c.canvas, 'tab-signals')) c.resize();
+        });
+      }
+    }
+
+    function inPanel(el, id) {
+      var panel = document.getElementById(id);
+      return !!(panel && panel.contains(el));
+    }
 
     tabs.forEach(function (btn) {
       btn.addEventListener('click', function () {
         var targetId = btn.getAttribute('aria-controls');
-        tabs.forEach(function (t) { t.setAttribute('aria-selected', 'false'); });
-        btn.setAttribute('aria-selected', 'true');
-        panels.forEach(function (p) {
-          if (p.id === targetId) {
-            p.removeAttribute('hidden');
-          } else {
-            p.setAttribute('hidden', '');
-          }
-        });
-        if (announce) {
-          announce.textContent = btn.textContent.trim() + ' tab selected';
-          setTimeout(function () { announce.textContent = ''; }, 2000);
-        }
-        /* Initialise market charts on first reveal */
-        if (targetId === 'tab-market' && !window.__moChartsInited) {
-          window.__moChartsInited = true;
-          initMarketOverviewCharts();
+        select(targetId, { announce: true });
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', targetId === 'tab-deepdive' ? window.location.pathname + window.location.search : '#' + targetId);
         }
       });
     });
+
+    /* A hash naming an outer panel opens it: market-intelligence.html redirects to #tab-signals. */
+    var hash = window.location.hash.replace('#', '');
+    if (hash && hash !== 'tab-deepdive' && document.querySelector('.page-tabs [aria-controls="' + hash + '"]')) {
+      select(hash);
+      var bar = document.querySelector('.page-tabs');
+      if (bar && bar.scrollIntoView) bar.scrollIntoView({ block: 'start' });
+    }
   }
 
   function initMarketOverviewCharts() {

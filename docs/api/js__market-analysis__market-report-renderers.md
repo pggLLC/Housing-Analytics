@@ -111,7 +111,8 @@ vs PBV vs USDA RD vs preservation-source inventory).
 ### `renderSubsidyOpportunities(subsidyData)`
 
 Render the subsidy opportunities section.
-@param {object|null} subsidyData - e.g. { qct, dda, fmrRatio, nearbySubsidized, subsidy_score }.
+@param {object|null} subsidyData - e.g. { qct, dda, fmrRatio, nearbySubsidized, subsidy_score,
+  designationEvidence } (designationEvidence from HudEgis.checkDesignation).
 
 ### `renderSiteFeasibility(feasibilityData)`
 

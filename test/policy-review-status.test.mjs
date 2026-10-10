@@ -114,6 +114,8 @@ const fixture = {
     { id: 'c', title: 'C', status: 'enacted', last_verified: '2026-09-21', review_by: '2026-12-21' },
   ] },
 };
+// Every other reminded file is present and quiet in this fixture.
+for (const { file, key } of FILES) if (!fixture[file]) fixture[file] = { [key]: [] };
 assert.deepEqual(dueReviews(fixture, '2026-10-08'), [], 'nothing opens before the lead window');
 const opened = dueReviews(fixture, '2026-10-09');
 assert.equal(opened.length, 1, 'one issue for the file with a record inside the 7-day window');

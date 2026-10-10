@@ -8,6 +8,9 @@ A. global isFinite() applied directly to a property/index read. The global
    check covers the historical one-line currency-formatter form.
 B. global isFinite(Number(...)), where Number() performs the same coercion.
 C. a data-keyed map lookup that falls back to a non-zero numeric literal.
+D. a helper's `fallback || 0`, which turns an explicit null fallback (the
+   caller asking for absence) into a measured zero (#1480 class: the
+   Housing Outcome Score read "0 / Grade F" with no market analysis run).
 
 This is intentionally not a JavaScript linter. It follows the repository's
 readFileSync/source-scan convention and excludes vendor bundles and common

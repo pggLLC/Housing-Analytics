@@ -88,7 +88,7 @@ const ROSTER = [
   { match: /^NE Colorado Health/i,                                 area: ['075','087','095','115','121','125'], label: 'NE plains (Logan, Morgan, Phillips, Sedgwick, Washington, Yuma)' },
   { match: /^Boulder Shelter for the Homeless$/i,                  area: ['013'],               label: 'Boulder County' },
   { match: /^Aspen Hope Center$/i,                                 area: ['097'],               label: 'Pitkin County' },
-  { match: /^Eagle Valley Behavioral Health$/i,                    area: ['037'],               label: 'Eagle County' },
+  { match: /^(Vail Health|Eagle Valley) Behavioral Health$/i,     area: ['037'],               label: 'Eagle County' },
   { match: /^Mile High United Way$/i,                              area: DENVER_METRO.concat(['013','014','059']),    label: 'Metro Denver' },
 ];
 

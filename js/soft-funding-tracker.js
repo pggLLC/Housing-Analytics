@@ -19,13 +19,13 @@
  * Exposed as window.SoftFundingTracker (browser) and module.exports (Node).
  *
  * @typedef {Object} FundingCheckResult
- * @property {number}       available       — estimated remaining dollars
+ * @property {number|null}  available       — published remaining dollars, or unknown
  * @property {string}       program         — program name
  * @property {string|null}  deadline        — ISO date string or null
  * @property {number|null}  daysRemaining   — calendar days to deadline
  * @property {string}       competitiveness — 'high'|'moderate'|'low'
  * @property {string}       narrative       — human-readable summary
- * @property {number}       confidence      — 0–1 likelihood estimate
+ * @property {number|null}  confidence      — 0–1 likelihood estimate, unknown without a balance
  * @property {string|null}  warning         — warning message or null
  * @property {Array<Object>} programs       — all matching programs for this county
  */
@@ -55,11 +55,25 @@
     return Math.ceil(diff / (1000 * 60 * 60 * 24));
   }
 
+  // An unpublished balance cannot become measured exhaustion or a scored input.
+  function _amount(value) {
+    return typeof value === 'number' && isFinite(value) && value >= 0 ? value : null;
+  }
+
+  function _compareAvailability(a, b) {
+    var left = _amount(a);
+    var right = _amount(b);
+    if (left === null) return right === null ? 0 : 1;
+    if (right === null) return -1;
+    return right - left;
+  }
+
   /** Build confidence score from availability and deadline proximity. */
   function _computeConfidence(prog) {
-    if (!prog || typeof prog.available !== 'number') return 0.5;
-    var capacity = prog.capacity || 1;
-    var utilization = typeof prog.awarded === 'number' ? prog.awarded / capacity : 0;
+    if (!prog || _amount(prog.available) === null) return null;
+    var capacity = _amount(prog.capacity);
+    var awarded = _amount(prog.awarded);
+    var utilization = capacity > 0 && awarded !== null ? awarded / capacity : null;
     var avail = prog.available;
 
     var conf = 0.85;
@@ -80,7 +94,7 @@
 
   /** Format dollar amount for display. */
   function _fmtDollars(n) {
-    if (typeof n !== 'number') return '$0';
+    if (_amount(n) === null) return 'Balance not published';
     if (n >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
     if (n >= 1e3) return '$' + Math.round(n / 1e3) + 'K';
     return '$' + n;
@@ -88,6 +102,9 @@
 
   /** Build narrative for a matched program. */
   function _buildNarrative(prog, days) {
+    if (_amount(prog.available) === null) {
+      return prog.name + ': Balance not published; verify with the program administrator.';
+    }
     var parts = [prog.name + ' has ' + _fmtDollars(prog.available) + ' remaining'];
     if (days !== null && days > 0) {
       parts.push('deadline in ' + days + ' day' + (days !== 1 ? 's' : ''));
@@ -111,6 +128,7 @@
     var results = [];
     Object.keys(_programs).forEach(function (key) {
       var prog = _programs[key];
+      if (prog.status === 'closed') return;
       if (prog.county === 'All' || prog.county === fips) {
         results.push({ key: key, program: prog });
       }
@@ -149,13 +167,14 @@
 
     if (!matches.length) {
       return {
-        available:      0,
+        available:      null,
+        unavailableReason: 'no_programs_found',
         program:        'No programs found',
         deadline:       null,
         daysRemaining:  null,
         competitiveness:'low',
         narrative:      'No active soft-funding programs identified for this county.',
-        confidence:     0.1,
+        confidence:     null,
         warning:        'Verify with CHFA and local housing office.',
         programs:       []
       };
@@ -166,7 +185,7 @@
       var aSpecific = a.program.county !== 'All' ? 1 : 0;
       var bSpecific = b.program.county !== 'All' ? 1 : 0;
       if (bSpecific !== aSpecific) return bSpecific - aSpecific;
-      return (b.program.available || 0) - (a.program.available || 0);
+      return _compareAvailability(a.program.available, b.program.available);
     });
 
     var best   = matches[0].program;
@@ -176,7 +195,7 @@
 
     // Warning conditions
     var warning = best.warning || null;
-    if (!warning && best.available <= 0) {
+    if (!warning && _amount(best.available) === 0) {
       warning = 'No funds currently available in this program.';
     }
     if (!warning && days !== null && days < 45) {
@@ -195,7 +214,8 @@
       return {
         key:           m.key,
         name:          m.program.name,
-        available:     m.program.available || 0,
+        available:     _amount(m.program.available),
+        unavailableReason: _amount(m.program.available) === null ? 'balance_not_published' : null,
         deadline:      m.program.deadline || null,
         daysRemaining: _daysToDeadline(m.program.deadline),
         competitiveness: m.program.competitiveness || 'moderate',
@@ -206,7 +226,8 @@
     });
 
     return {
-      available:      best.available || 0,
+      available:      _amount(best.available),
+      unavailableReason: _amount(best.available) === null ? 'balance_not_published' : null,
       program:        best.name,
       deadline:       best.deadline || null,
       daysRemaining:  days,
@@ -257,6 +278,9 @@
     Object.keys(_programs).forEach(function (key) {
       var prog = _programs[key];
 
+      // Closed rounds are catalog history, not currently eligible sources.
+      if (prog.status === 'closed') return;
+
       // County match
       if (prog.county !== 'All' && prog.county !== 'Selected' && prog.county !== fips) return;
 
@@ -274,9 +298,10 @@
       results.push({
         key:              key,
         name:             prog.name,
-        available:        typeof prog.available === 'number' ? prog.available : null,
-        awarded:          prog.awarded || null,
-        capacity:         prog.capacity || null,
+        available:        _amount(prog.available),
+        unavailableReason: _amount(prog.available) === null ? 'balance_not_published' : null,
+        awarded:          _amount(prog.awarded),
+        capacity:         _amount(prog.capacity),
         maxPerProject:    prog.maxPerProject || null,
         deadline:         prog.deadline || null,
         daysRemaining:    days,
@@ -294,7 +319,7 @@
 
     // Sort: available funds descending, then by deadline proximity
     results.sort(function (a, b) {
-      return (b.available || 0) - (a.available || 0);
+      return _compareAvailability(a.available, b.available);
     });
 
     return results;
@@ -308,10 +333,12 @@
     var pab = _programs['PAB-CO'];
     if (!pab) return null;
     return {
-      totalCap:     pab.capacity || 0,
-      committed:    pab.awarded || 0,
-      remaining:    pab.available || 0,
-      pctCommitted: pab.capacity ? Math.round((pab.awarded || 0) / pab.capacity * 100) : 0,
+      totalCap:     _amount(pab.capacity),
+      committed:    _amount(pab.awarded),
+      remaining:    _amount(pab.available),
+      pctCommitted: _amount(pab.capacity) > 0 && _amount(pab.awarded) !== null
+        ? Math.round(pab.awarded / pab.capacity * 100) : null,
+      unavailableReason: _amount(pab.available) === null ? 'balance_not_published' : null,
       warning:      pab.warning || null,
       deadline:     pab.deadline || null
     };
@@ -323,16 +350,16 @@
    *
    * @param {string} countyFips
    * @param {string} executionType
-   * @returns {{total: number, programCount: number, programs: Array}}
+   * @returns {{total: number|null, programCount: number, programs: Array, unavailableReason: string|null}}
    */
   function sumEligible(countyFips, executionType) {
     var progs = getEligiblePrograms(countyFips, executionType);
-    var total = 0;
-    progs.forEach(function (p) {
-      if (p.available && p.available > 0) total += p.available;
-    });
+    var reason = !progs.length ? 'no_programs_found'
+      : progs.some(function (p) { return p.available === null; }) ? 'balance_not_published' : null;
+    var total = reason ? null : progs.reduce(function (sum, p) { return sum + p.available; }, 0);
     return {
       total: total,
+      unavailableReason: reason,
       programCount: progs.length,
       programs: progs
     };

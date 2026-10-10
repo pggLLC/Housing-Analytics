@@ -10,8 +10,30 @@
 
 const fs = require('fs');
 const path = require('path');
+const { JSDOM } = require('jsdom');
 
 const ROOT = path.join(__dirname, '..', '..');
+
+// The only non-page exemption is explicit and explained. Redirects are audited.
+const NON_PAGE_TEMPLATES = Object.freeze({
+    'og-card.html': 'Social-image render template, not a navigable site page.',
+});
+
+function parsePage(filePath, stats) {
+    const source = readFile(filePath);
+    const dom = new JSDOM(source);
+    const document = dom.window.document;
+    // Record the script dependency before removing scripts from the structural DOM.
+    const loadsNavigation = Array.from(document.querySelectorAll('script[src]')).some(script =>
+        /^(?:\.?\/)?js\/navigation\.js(?:[?#].*)?$/.test(script.getAttribute('src')));
+    document.querySelectorAll('script').forEach(script => script.remove());
+    const walker = document.createTreeWalker(document, dom.window.NodeFilter.SHOW_COMMENT);
+    const comments = [];
+    while (walker.nextNode()) comments.push(walker.currentNode);
+    comments.forEach(comment => comment.remove());
+    stats.parsedPages++;
+    return { filePath, source, dom, document, loadsNavigation };
+}
 
 // Known failing hex codes (Rule 10 — must not appear in HTML)
 const FAILING_HEX_CODES = [
@@ -32,14 +54,19 @@ const CRITICAL_PAGES = [
 ];
 
 /**
- * Returns all root-level HTML files in the repository.
+ * Returns root-level HTML pages, including redirects; skips named non-page templates.
  * @returns {string[]} absolute paths
  */
-function getRootHtmlFiles() {
+function getRootHtmlFiles({ root = ROOT, stats } = {}) {
     try {
-        return fs.readdirSync(ROOT)
+        return fs.readdirSync(root)
             .filter(f => f.endsWith('.html'))
-            .map(f => path.join(ROOT, f));
+            .filter(f => {
+                const reason = NON_PAGE_TEMPLATES[f];
+                if (reason && stats) stats.excludedPages[f] = reason;
+                return !reason;
+            })
+            .map(f => path.join(root, f));
     } catch (_) {
         return [];
     }
@@ -62,13 +89,10 @@ function readFile(filePath) {
  * Checks for known WCAG-failing hardcoded hex color codes in HTML files (Rule 10).
  * @returns {Array<object>} issues
  */
-function checkHardcodedColors() {
+function checkHardcodedColors(options = {}) {
     const issues = [];
-    const htmlFiles = getRootHtmlFiles();
-
-    for (const filePath of htmlFiles) {
-        const content = readFile(filePath);
-        const relPath = filePath.replace(ROOT + '/', '');
+    for (const { filePath, source: content } of options.pages) {
+        const relPath = path.basename(filePath);
         for (const hex of FAILING_HEX_CODES) {
             if (content.toLowerCase().includes(hex.toLowerCase())) {
                 issues.push({
@@ -90,16 +114,14 @@ function checkHardcodedColors() {
  * Checks that canvas elements have role="img" and aria-label (Rule 15).
  * @returns {Array<object>} issues
  */
-function checkCanvasAccessibility() {
+function checkCanvasAccessibility(options = {}) {
     const issues = [];
-    const htmlFiles = getRootHtmlFiles();
-
-    for (const filePath of htmlFiles) {
-        const content = readFile(filePath);
-        const relPath = filePath.replace(ROOT + '/', '');
+    for (const { filePath, source: content } of options.pages) {
+        const relPath = path.basename(filePath);
         // Find all <canvas tags
         const canvasMatches = content.match(/<canvas[^>]*>/gi) || [];
         for (const tag of canvasMatches) {
+            if (options.stats) options.stats.canvases++;
             const missingRole = !/role\s*=\s*["']img["']/i.test(tag);
             const missingAria = !/aria-label\s*=/i.test(tag);
             if (missingRole || missingAria) {
@@ -119,19 +141,18 @@ function checkCanvasAccessibility() {
 }
 
 /**
- * Checks that pages with <canvas> elements also contain an aria-live region (Rule 11).
+ * Checks pages with a canvas AND a user control in their own markup (Rule 11).
+ * This structural scan cannot prove that every update handler announces.
  * @returns {Array<object>} issues
  */
-function checkAriaLiveRegions() {
+function checkAriaLiveRegions(options = {}) {
     const issues = [];
-    const htmlFiles = getRootHtmlFiles();
-
-    for (const filePath of htmlFiles) {
-        const content = readFile(filePath);
-        const relPath = filePath.replace(ROOT + '/', '');
-        const hasCanvas = /<canvas/i.test(content);
-        const hasAriaLive = /aria-live\s*=\s*["']polite["']/i.test(content);
-        if (hasCanvas && !hasAriaLive) {
+    for (const { filePath, document } of options.pages) {
+        const relPath = path.basename(filePath);
+        const hasCanvas = document.querySelector('canvas');
+        const hasControl = document.querySelector('select, input, button, textarea');
+        const hasAriaLive = document.querySelector('[aria-live="polite" i]');
+        if (hasCanvas && hasControl && !hasAriaLive) {
             issues.push({
                 severity: 'medium',
                 type: 'ui',
@@ -150,17 +171,22 @@ function checkAriaLiveRegions() {
  * Checks that all HTML pages have required landmark structure (Rule 12).
  * @returns {Array<object>} issues
  */
-function checkLandmarkStructure() {
+function checkLandmarkStructure(options = {}) {
     const issues = [];
-    const htmlFiles = getRootHtmlFiles();
-
-    for (const filePath of htmlFiles) {
-        const content = readFile(filePath);
-        const relPath = filePath.replace(ROOT + '/', '');
+    const navigation = readFile(path.join(options.root || ROOT, 'js', 'navigation.js'));
+    const createsHeader = /\.createElement\s*\(\s*['"]header['"]\s*\)/.test(navigation);
+    const createsFooter = /\.createElement\s*\(\s*['"]footer['"]\s*\)/.test(navigation);
+    if (options.stats) options.stats.navigation = { createsHeader, createsFooter };
+    for (const { filePath, document, loadsNavigation } of options.pages) {
+        const relPath = path.basename(filePath);
+        if (options.stats) {
+            options.stats.landmarkPages++;
+            if (loadsNavigation && (createsHeader || createsFooter)) options.stats.navigationPages++;
+        }
         const missing = [];
-        if (!/<header[\s>]/i.test(content)) missing.push('<header>');
-        if (!/<main[\s>]/i.test(content)) missing.push('<main>');
-        if (!/<footer[\s>]/i.test(content)) missing.push('<footer>');
+        if (!document.querySelector('header') && !(loadsNavigation && createsHeader)) missing.push('<header>');
+        if (!document.querySelector('main')) missing.push('<main>');
+        if (!document.querySelector('footer') && !(loadsNavigation && createsFooter)) missing.push('<footer>');
         if (missing.length > 0) {
             issues.push({
                 severity: 'medium',
@@ -180,19 +206,16 @@ function checkLandmarkStructure() {
  * Checks skip-navigation links target #main-content and main has correct id (Rule 16).
  * @returns {Array<object>} issues
  */
-function checkSkipNavigation() {
+function checkSkipNavigation(options = {}) {
     const issues = [];
-    const htmlFiles = getRootHtmlFiles();
-
-    for (const filePath of htmlFiles) {
-        const content = readFile(filePath);
-        const relPath = filePath.replace(ROOT + '/', '');
-        // Only check pages that have skip nav links
-        const hasSkipLink = /href\s*=\s*["']#main/i.test(content);
+    for (const { filePath, document } of options.pages) {
+        const relPath = path.basename(filePath);
+        // Only check pages that have skip nav links.
+        const hasSkipLink = document.querySelector('a[href^="#main" i]');
         if (!hasSkipLink) continue;
 
-        const hasCorrectHref = /href\s*=\s*["']#main-content["']/i.test(content);
-        const hasCorrectId = /id\s*=\s*["']main-content["']/i.test(content);
+        const hasCorrectHref = document.querySelector('a[href="#main-content"]');
+        const hasCorrectId = document.querySelector('main#main-content');
 
         if (!hasCorrectHref) {
             issues.push({
@@ -224,9 +247,9 @@ function checkSkipNavigation() {
  * Checks CSS site-theme.css for correct --accent token value (Rule 13).
  * @returns {Array<object>} issues
  */
-function checkAccentToken() {
+function checkAccentToken(options = {}) {
     const issues = [];
-    const themePath = path.join(ROOT, 'css', 'site-theme.css');
+    const themePath = path.join(options.root || ROOT, 'css', 'site-theme.css');
     if (!fs.existsSync(themePath)) return issues;
 
     const content = readFile(themePath);
@@ -259,10 +282,10 @@ function checkAccentToken() {
  * Checks that critical HTML pages exist (Rule 4 equivalent for pages).
  * @returns {Array<object>} issues
  */
-function checkCriticalPages() {
+function checkCriticalPages(options = {}) {
     const issues = [];
     for (const page of CRITICAL_PAGES) {
-        const filePath = path.join(ROOT, page);
+        const filePath = path.join(options.root || ROOT, page);
         if (!fs.existsSync(filePath)) {
             issues.push({
                 severity: 'critical',
@@ -282,9 +305,9 @@ function checkCriticalPages() {
  * Checks for touch target size markers (min 44×44 px via .dot-wrap class) (Rule 14).
  * @returns {Array<object>} issues
  */
-function checkTouchTargets() {
+function checkTouchTargets(options = {}) {
     const issues = [];
-    const cssDir = path.join(ROOT, 'css');
+    const cssDir = path.join(options.root || ROOT, 'css');
     if (!fs.existsSync(cssDir)) return issues;
 
     const cssFiles = fs.readdirSync(cssDir).filter(f => f.endsWith('.css'));
@@ -316,9 +339,9 @@ function checkTouchTargets() {
  * Checks that required CSS chart color tokens exist in site-theme.css (Rule 10).
  * @returns {Array<object>} issues
  */
-function checkChartTokens() {
+function checkChartTokens(options = {}) {
     const issues = [];
-    const themePath = path.join(ROOT, 'css', 'site-theme.css');
+    const themePath = path.join(options.root || ROOT, 'css', 'site-theme.css');
     if (!fs.existsSync(themePath)) return issues;
 
     const content = readFile(themePath);
@@ -344,21 +367,28 @@ function checkChartTokens() {
  * Runs all UI/UX and rendering validation checks.
  * @returns {Promise<Array<object>>}
  */
-async function runUiValidationChecks() {
-    console.log('[ui-validation] Running UI/UX & rendering checks...');
-    const issues = [
-        ...checkCriticalPages(),
-        ...checkHardcodedColors(),
-        ...checkCanvasAccessibility(),
-        ...checkAriaLiveRegions(),
-        ...checkLandmarkStructure(),
-        ...checkSkipNavigation(),
-        ...checkAccentToken(),
-        ...checkChartTokens(),
-        ...checkTouchTargets(),
-    ];
-    console.log(`[ui-validation] Found ${issues.length} issue(s).`);
-    return issues;
+async function runUiValidationChecks({ root = ROOT, stats = {} } = {}) {
+    Object.assign(stats, { canvases: 0, landmarkPages: 0, navigationPages: 0, parsedPages: 0, excludedPages: {} });
+    const options = { root, stats, pages: [] };
+    try {
+        for (const filePath of getRootHtmlFiles(options)) options.pages.push(parsePage(filePath, stats));
+        console.log('[ui-validation] Running UI/UX & rendering checks...');
+        const issues = [
+            ...checkCriticalPages(options),
+            ...checkHardcodedColors(options),
+            ...checkCanvasAccessibility(options),
+            ...checkAriaLiveRegions(options),
+            ...checkLandmarkStructure(options),
+            ...checkSkipNavigation(options),
+            ...checkAccentToken(options),
+            ...checkChartTokens(options),
+            ...checkTouchTargets(options),
+        ];
+        console.log(`[ui-validation] Found ${issues.length} issue(s).`);
+        return issues;
+    } finally {
+        options.pages.forEach(page => page.dom.window.close());
+    }
 }
 
 module.exports = { runUiValidationChecks };

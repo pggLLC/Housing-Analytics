@@ -68,7 +68,7 @@ Uses ACS 5-year (acs5) for reliability across all Colorado geography sizes.
 Called from update() when a cached profile exists but lacks DP03_0052E
 (the income bracket field that gates all extended chart rendering).
 
-### `renderProductionVsNeed(selection, incUnits, baseYear, endYear, usedPlaceProjection)`
+### `renderProductionVsNeed(selection, incUnits, baseYear, endYear, usedPlaceProjection, basis)`
 
 renderProductionVsNeed — fill the "Recent production" / "Production ÷ need"
 stats and the note under the housing-need summary. incUnits/endYear come
@@ -76,14 +76,59 @@ from applyAssumptions so the ratio always matches the displayed need at
 the selected horizon. Place/CDP permits are the place's own BPS record —
 NEVER the county's (CDPs are county-permitted; say so instead).
 
-### `_workforceGapCache`
+### `_rentBurdenEvidence(metric)`
 
-workforce_gap_units for one jurisdiction, from its metrics digest.
+Whether the digest's rent-burden rate is usable — the same reading the
+Recommendation page makes (js/workflow/recommendation-contract.js): a
+rate whose confidence is low or missing, or whose denominator sits under
+the floor, is not evidence. Pure: exported for the test.
 
-The digest is per-jurisdiction and ~38KB, so this costs one small fetch
-rather than the whole ranking index. Returns null on any failure: the
-production figure then falls back to the resident-growth reading alone,
-which is the previous behaviour, rather than showing nothing.
+### `_applyDigestEvidenceToStrip(geoid)`
+
+The decision strip's "Affordability pressure" tile is painted from the
+ACS profile by renderSnapshot(). For Cattle Creek (CDP, 396 people) that
+read "100.0% — High" while the Recommendation page, reading the same
+digest, called the measure unusable (2026-09-24). The strip now defers
+to the digest's grade of pct_cost_burdened: an unusable rate keeps its
+number but reads as low evidence. Runs at the end of update(), after
+every renderer that writes the tile.
+
+### `residentReadingName(netOfStock)`
+
+What the resident-side reading is called, by what it counts.
+
+Two different quantities have both been called "resident growth". The
+ranking index, the digest and the Recommendation publish
+future_units_growth_20yr: the CHANGE in homes needed as households grow
+(DOLA's incremental_units_needed_dola, or the place ledger built on it) --
+Mesa County 12,727 by 2044. This page, where it computes the reading from
+the county projection itself, subtracts the homes in the market today
+from the homes needed at the horizon, which also counts any shortfall in
+today's stock against the target vacancy -- Mesa County 16,071. Both are
+deliberate (the stock-net form is what stops a resort county being told
+it has surplus housing; see _productionNeed), but they are not the same
+figure and must not share a name. test/growth-figure-agrees.test.js holds
+the rule: the same name on both surfaces means the same number.
+
+### `buildNeedReconciliation(input)`
+
+How the need figures on this page fit together (audit F4).
+
+Fruita showed 103, ~722, +635, 819 and 2,302 on one page and nothing said
+how they related: 2,302 is the workforce reading, used because it is the
+larger of two readings; 819 is the resident-growth reading it beat; 103
+is today's rental shortfall at <=30% AMI, a different question; +635 is
+the households chart, which counts households, not homes.
+
+Every value is one some other part of the page already shows, passed in
+rather than recomputed, so this block cannot drift from what it explains.
+An absent value stays null and carries its reason; it never becomes 0.
+Pure: exported for the test.
+
+### `renderNeedReconciliation(rec)`
+
+Paint the reconciliation into #hnaNeedReconciliation. Built with DOM
+ nodes and textContent only; nothing here is parsed as HTML.
 
 ### `scenarioState`
 
