@@ -1,0 +1,82 @@
+name: Funding award ledger
+
+# Weekly: finds new CHFA Housing Tax Credit award reports and Prop 123
+# (Colorado Affordable Housing Financing Fund) selection lists, parses every
+# PDF with scripts/funding/build_funding_awards.py into
+# data/policy/funding-awards/, and opens an issue (label funding-awards) for
+# any document whose parsed rows do not add up to the totals it prints, and
+# for any list page it cannot reach. Neither agency publishes these awards as
+# data, so the PDFs are the source.
+#
+# The ledger feeds data/derived/funding-vs-need.json, a step of
+# scripts/rebuild-derived.mjs, so the commit goes through
+# scripts/commit-with-derived-chain.sh: the chain is rebuilt and committed
+# with the ledger, or nothing is committed.
+#
+# Thursdays, off :00 and off every minute other crons use. Pull request and
+# branch runs parse and print the issues they would open, and commit nothing.
+
+on:
+  schedule:
+    - cron: '59 4 * * 4'   # Thursday 04:59 UTC; lands overnight Mountain time
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/funding-awards.yml'
+      - 'scripts/funding/**'
+      - 'data/policy/funding-awards/reviewed-documents.json'
+
+permissions:
+  actions: write   # dispatch deploy.yml after the data push
+  contents: write
+  issues: write
+
+concurrency:
+  group: ${{ github.event_name == 'pull_request' && format('funding-awards-{0}', github.ref) || 'data-commits' }}
+  cancel-in-progress: false
+
+jobs:
+  ledger:
+    runs-on: ubuntu-latest
+    # About 45 PDFs to download and parse, plus rebuild:derived (~6 minutes).
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # rebuild:derived runs paper:build, which refuses a shallow clone.
+          fetch-depth: 0
+          persist-credentials: ${{ github.event_name != 'pull_request' }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - name: Install pdftotext
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+
+      - name: Parse the award PDFs (branch and PR runs are always dry)
+        id: parse
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: ${{ github.event_name == 'pull_request' || github.ref != 'refs/heads/main' }}
+        run: |
+          args=(--open-issues)
+          if [ "$DRY_RUN" = "true" ]; then args+=(--check --dry-run); fi
+          python3 scripts/funding/build_funding_awards.py "${args[@]}"
+          echo "dry_run=$DRY_RUN" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        if: steps.parse.outputs.dry_run != 'true'
+        run: npm ci
+
+      - name: Rebuild the derived chain and commit it with the ledger
+        if: steps.parse.outputs.dry_run != 'true'
+        id: commit
+        run: |
+          scripts/commit-with-derived-chain.sh "chore: refresh funding award ledger [$(date -u '+%Y-%m-%d')]" -- data/policy/funding-awards/ledger.json data/policy/funding-awards/documents.json
+
+      - name: Dispatch Pages deploy for this run's commit
+        if: steps.commit.outputs.pushed == 'true'
+        # A workflow-token push does not trigger deploy.yml (#1875).
+        uses: ./.github/actions/dispatch-pages-deploy

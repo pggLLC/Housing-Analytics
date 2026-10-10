@@ -1,0 +1,1119 @@
+{
+ "meta": {
+  "generated_at": "2026-10-10T19:27:06Z",
+  "discovery": [
+   {
+    "index_url": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
+    "documents": 27,
+    "status": "ok"
+   },
+   {
+    "index_url": "https://coloradoaffordablehousingfinancingfund.com/about/selected-applicants/",
+    "documents": 15,
+    "status": "ok"
+   }
+  ]
+ },
+ "documents": [
+  {
+   "file": "federal-4-housing-tax-credit-award-report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "8bfc7ae1918116d5fd99dca3a60e38401de04ee1c2faa2f649d0ee0823c3bd38",
+   "year": null,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "title": "Colorado Housing and Finance Authority | Federal 4% Housing Tax Credit Awards | (with State and Transit-oriented Communities (TOC) Credit, if applicable)",
+   "rows": 50,
+   "status": "no_total_line",
+   "checks": [],
+   "rows_checked": 0
+  },
+  {
+   "file": "2015-4-and-State-AND-4-and-CDBG-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/e0a3e6f5-143f-4a30-b1ea-4c0490b85247/2015-4-and-State-AND-4-and-CDBG-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "d640b28621c2169aad7cb22e203e95cabd08f3470554f2e5b0c1efc6adf52bb0",
+   "year": 2015,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "title": "Colorado Housing and Finance Authority | 2015 - Round 1 and 2 | Award Report",
+   "rows": 16,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "federal_credit",
+     "pdf_total": 12978552,
+     "parsed_total": 12978552,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 14295241,
+     "parsed_total": 14295241,
+     "ok": true
+    }
+   ],
+   "rows_checked": 16
+  },
+  {
+   "file": "2015CompetitiveAwardReport.pdf",
+   "url": "https://www.chfainfo.com/getattachment/e45e770d-8dd8-4a97-a54e-93bea5bef896/2015CompetitiveAwardReport.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "0c7eb35f48711cd384c1ab247d22f1c1a88fa8a29969c92e07aa71af289d46fa",
+   "year": 2015,
+   "round": null,
+   "program": "LIHTC 9% + state",
+   "title": "Colorado Housing and Finance Authority | 2015 - Round 3 | Low Income Housing Tax Credit | Award Report",
+   "rows": 17,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "federal_credit",
+     "pdf_total": 14053648,
+     "parsed_total": 14053648,
+     "ok": true
+    }
+   ],
+   "rows_checked": 17
+  },
+  {
+   "file": "4-and-State-AND-4-and-CDBG-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/d7263666-7bf5-421e-8d34-fcdcbbe56afc/4-and-State-AND-4-and-CDBG-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "814194d94e0e2ad905a88b29fabf2f9eaa87d6b7d40a20de33a52f1ec0e6f7e6",
+   "year": 2015,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "title": "Colorado Housing and Finance Authority | 2015 - Round 1 and 2 | Award Report",
+   "rows": 16,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "federal_credit",
+     "pdf_total": 13521577,
+     "parsed_total": 13521577,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 14260599,
+     "parsed_total": 14260599,
+     "ok": true
+    }
+   ],
+   "rows_checked": 16
+  },
+  {
+   "file": "2016-Round-2-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/8dbb8512-b3bd-4f66-af97-769082377f3f/2016-Round-2-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "431af179ba3f33abc136a563416589426c0eff5e94fec8b0c7cb73ce4a93c0e7",
+   "year": 2016,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "title": "Colorado Housing and Finance Authority | 2016 Round 2 - 9% Competitive LIHTC Award Report",
+   "rows": 14,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "federal_credit",
+     "pdf_total": 13074254,
+     "parsed_total": 13074254,
+     "ok": true
+    }
+   ],
+   "rows_checked": 13
+  },
+  {
+   "file": "2016-Round1-4-State-4-CDBG-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/e7116376-ce90-4843-b4d7-5620dd769d41/2016-Round1-4-State-4-CDBG-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "690bc7e641db22a878e622d5768fd61810b5d93403ee7e23c048dd41b25a3bf5",
+   "year": 2016,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "title": "Colorado Housing and Finance Authority | 2016 - Round 1 Award Report",
+   "rows": 12,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "federal_credit",
+     "pdf_total": 8716148,
+     "parsed_total": 8716148,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 8958741,
+     "parsed_total": 8958741,
+     "ok": true
+    }
+   ],
+   "rows_checked": 12
+  },
+  {
+   "file": "2017-Round-1-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/85345ccc-49f6-44a1-8fd5-216654a6ba83/2017-Round-1-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "d5144e2a408c7930710918b25dfe5d4ee49d98338fdca14a1706113c91615755",
+   "year": 2017,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "title": "Colorado Housing and Finance Authority | 2017 Round 1 | 4% Federal Credit and State Credit | Award Report",
+   "rows": 12,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "federal_credit",
+     "pdf_total": 11307833,
+     "parsed_total": 11307833,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 9756794,
+     "parsed_total": 9756794,
+     "ok": true
+    }
+   ],
+   "rows_checked": 12
+  },
+  {
+   "file": "2017-Round-2-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/d9d4c3da-75ac-4af7-9dde-ed216341f3bb/2017-Round-2-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "31235b5aa43996cd278d32c691665f0a614848fe6eba9626318b9f2adf4d58e5",
+   "year": 2017,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "title": "Colorado Housing and Finance Authority | 2017 Round 2 - 9% Competitive LIHTC Award Report",
+   "rows": 12,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_requested",
+     "pdf_total": 12818961,
+     "parsed_total": 12818961,
+     "ok": true
+    }
+   ],
+   "rows_checked": 12
+  },
+  {
+   "file": "2018-LIHTC-Round2-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/44c169f3-dacc-4b82-bd62-a34b6283f9f6/2018-LIHTC-Round2-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "9efb51f7784506fee25be4fdbb2d776362886dc368be2cf8fbf742f6015d53fe",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "title": "Colorado Housing and Finance Authority | 2018 Round 2 - 9% Competitive LIHTC Award Report",
+   "rows": 16,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_requested",
+     "pdf_total": 17128412,
+     "parsed_total": 17128412,
+     "ok": true
+    }
+   ],
+   "rows_checked": 15
+  },
+  {
+   "file": "2018-Round-1-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/b0c2cd4c-f869-42a3-9b00-115d4690a32c/2018-Round-1-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "710d5dc8d76453461d9f914e25c4d3803de861e63d6c28e9c1a6436808f6d704",
+   "year": 2018,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "title": "Colorado Housing and Finance Authority | 2018 Round 1 | 4% Federal Credit and State Credit | Award Report",
+   "rows": 8,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "federal_credit",
+     "pdf_total": 4481379,
+     "parsed_total": 4481379,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 4748177,
+     "parsed_total": 4748177,
+     "ok": true
+    }
+   ],
+   "rows_checked": 8
+  },
+  {
+   "file": "2019-Round-1-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/13961f36-541f-4cad-8e41-64bacb1ca1c9/2019-Round-1-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "88e2e1c7a555a190ca2d7a238114138393151c6d611450ac8d57ff8fae08f813",
+   "year": 2019,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "title": "Colorado Housing and Finance Authority | 2019 Round 1 | 4% Federal Credit and State Credit | Award Report",
+   "rows": 12,
+   "status": "mismatch",
+   "checks": [
+    {
+     "field": "federal_credit",
+     "pdf_total": 12496478,
+     "parsed_total": 14757285,
+     "ok": false
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 10142562,
+     "parsed_total": 10142562,
+     "ok": true
+    }
+   ],
+   "rows_checked": 12
+  },
+  {
+   "file": "2019-Round-2-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/52b45440-7788-4762-9a75-c9c632623a8f/2019-Round-2-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "c4afd806315ea95cccac520d4323da9e5adb7a780751cc2d7316fd73e40d54ff",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "title": "Colorado Housing and Finance Authority | 2019 Round 2 - 9% Competitive LIHTC Award Report",
+   "rows": 15,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_requested",
+     "pdf_total": 17282056,
+     "parsed_total": 17282056,
+     "ok": true
+    }
+   ],
+   "rows_checked": 15
+  },
+  {
+   "file": "2020-Round-1-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/3cc9acfe-0e46-455d-ac37-a2167b823a9d/2020-Round-1-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "fd6c65e3253068366d67067e5070324b6e3869bcf44465ef29c170f9ec6227ab",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "title": "Colorado Housing and Finance Authority | 2020 Round 1 - 9% 4% Competitive LIHTC Award Report",
+   "rows": 16,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_requested",
+     "pdf_total": 18416785,
+     "parsed_total": 18416785,
+     "ok": true
+    }
+   ],
+   "rows_checked": 16
+  },
+  {
+   "file": "2020-Round-2-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/1891e481-b584-4155-962c-3f3bbff94357/2020-Round-2-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "889db79ef22a05a0afbd052b3d26ecff8a7de57fdcbe969e8c40d9e47b0d1674",
+   "year": 2020,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "title": "Colorado Housing and Finance Authority | 2020 Round 2 | 4% Federal Credit and State Credit | Award Report",
+   "rows": 11,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "federal_credit",
+     "pdf_total": 12061542,
+     "parsed_total": 12061542,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 6563795,
+     "parsed_total": 6563795,
+     "ok": true
+    }
+   ],
+   "rows_checked": 11
+  },
+  {
+   "file": "2021-Round-1-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/73c04756-71db-42a0-a4fb-1d3a5f0ffb83/2021-Round-1-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "7c6e89d0090c27d6817bb51321e7e6796b39517a0c07aefcc3757d5bb9aca38c",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "title": "Colorado Housing and Finance Authority | 2021 Round One - 9% 4% Competitive Housing Credit Award Report",
+   "rows": 14,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_awarded",
+     "pdf_total": 19818108,
+     "parsed_total": 19818108,
+     "ok": true
+    }
+   ],
+   "rows_checked": 14
+  },
+  {
+   "file": "2021-Round-2-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "494719c732eea37b303591281b7f1b9653d498ad8e90f6f05d7df8b4f1964c83",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "title": "Colorado Housing and Finance Authority | 2021 Round 2 | 4% Federal Credit and State Credit | Award Report",
+   "rows": 18,
+   "status": "mismatch",
+   "checks": [
+    {
+     "field": "bond_amount",
+     "pdf_total": 155370000,
+     "parsed_total": 237670000,
+     "ok": false
+    },
+    {
+     "field": "federal_credit",
+     "pdf_total": 19214459,
+     "parsed_total": 20419459,
+     "ok": false
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 12205982,
+     "parsed_total": 13135983,
+     "ok": false
+    }
+   ],
+   "rows_checked": 18
+  },
+  {
+   "file": "2022-Round-1-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/2022-Round-1-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "4dbad778270275b6394932cec646921a0b5822d90ca75f16e8e0edea5acc9b75",
+   "year": 2022,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "title": "Colorado Housing and Finance Authority | 2022 Round One - 9% Competitive Housing Credit Award Report",
+   "rows": 12,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_awarded",
+     "pdf_total": 14466293,
+     "parsed_total": 14466293,
+     "ok": true
+    }
+   ],
+   "rows_checked": 12
+  },
+  {
+   "file": "2022-Round-2-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "8d0cf77bd0cb2e6c35193ca547edd24294a13c8ba0aff8dd95c0bc9dea85b643",
+   "year": 2022,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "title": "Colorado Housing and Finance Authority | 2022 Round 2 | 4% Federal Credit and State Credit | Award Report",
+   "rows": 13,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "federal_credit",
+     "pdf_total": 26615354,
+     "parsed_total": 26615355,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 11891413,
+     "parsed_total": 11891414,
+     "ok": true
+    }
+   ],
+   "rows_checked": 13
+  },
+  {
+   "file": "2023-Round-1-Housing-Tax-Credit-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/037e65b5-e51c-4920-864a-41ac174b6558/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "e50d178121b8554bb76395238197c3696a9c01a7c06f277de35a0c4bfb9f70b2",
+   "year": 2023,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "title": "Colorado Housing and Finance Authority | 2023 Round One - Federal 9% Housing Tax Credit Award Report",
+   "rows": 12,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_awarded",
+     "pdf_total": 16844337,
+     "parsed_total": 16844337,
+     "ok": true
+    }
+   ],
+   "rows_checked": 12
+  },
+  {
+   "file": "2023-Round-2-Housing-Tax-Credit-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "d6a3d1110b890ad4f11d8dcbb7961deb9bc8b2f7282671baf02bd47ab01ef2b2",
+   "year": 2023,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "title": "Colorado Housing and Finance Authority | 2023 Round Two | Federal 4% and State Credit | Award Report",
+   "rows": 10,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "bond_amount",
+     "pdf_total": 257345000,
+     "parsed_total": 257345000,
+     "ok": true
+    },
+    {
+     "field": "federal_credit",
+     "pdf_total": 21862521,
+     "parsed_total": 21862521,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 10748565,
+     "parsed_total": 10748565,
+     "ok": true
+    }
+   ],
+   "rows_checked": 10
+  },
+  {
+   "file": "2024-Round-One-Housing-Tax-Credit-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "48e639780957fba6f27ce09acf0e0912e8f7bfc114048dc489d64eee1e7396b7",
+   "year": 2024,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "title": "Colorado Housing and Finance Authority | 2024 Round One | Federal 9% and Standard State Credit Housing Tax Credit Award Report",
+   "rows": 13,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "federal_credit",
+     "pdf_total": 17247043,
+     "parsed_total": 17247043,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 9100000,
+     "parsed_total": 9100000,
+     "ok": true
+    }
+   ],
+   "rows_checked": 13
+  },
+  {
+   "file": "2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "6af39918de5160eecc7e2ceb53b35d8dc678f54112f66e0d8165eb7fa6d5c243",
+   "year": 2024,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "title": "Colorado Housing and Finance Authority | 2024 Round Two | Federal 4% and Accelerated State Credit | Award Report",
+   "rows": 10,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "bond_amount",
+     "pdf_total": 271142687,
+     "parsed_total": 271142687,
+     "ok": true
+    },
+    {
+     "field": "federal_credit",
+     "pdf_total": 23252455,
+     "parsed_total": 23252455,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 16394686,
+     "parsed_total": 16394686,
+     "ok": true
+    }
+   ],
+   "rows_checked": 10
+  },
+  {
+   "file": "2025-MIHTC-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/44641e72-053a-42e7-8be0-5e613d51b242/2025-MIHTC-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "5b1e43ab0189583c02b1514dd1eed814c3c336af74866b525ba74ff2ee77883c",
+   "year": 2025,
+   "round": null,
+   "program": "MIHTC",
+   "title": "Colorado Housing and Finance Authority | 2025 Award Report | Middle-income Housing Tax Credit (MIHTC)",
+   "rows": 3,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "mihtc_credit",
+     "pdf_total": 4832748,
+     "parsed_total": 4832748,
+     "ok": true
+    }
+   ],
+   "rows_checked": 3
+  },
+  {
+   "file": "2025-Round-One-Housing-Tax-Credit-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "a9f4f8ba430cfc85d3861ade862637cfc54a1f1251200e5589140370f2899b43",
+   "year": 2025,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "title": "Colorado Housing and Finance Authority | 2025 Round One - Award Report | Federal 9% and Standard State Housing Tax Credit | (with TOC Credit if applicable)",
+   "rows": 12,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "federal_credit",
+     "pdf_total": 19197195,
+     "parsed_total": 19197195,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 7800000,
+     "parsed_total": 7800000,
+     "ok": true
+    },
+    {
+     "field": "toc_credit",
+     "pdf_total": 521300,
+     "parsed_total": 521300,
+     "ok": true
+    }
+   ],
+   "rows_checked": 12
+  },
+  {
+   "file": "2025-Round-Two-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "fe71ab2a68fd05f60243f44db0562eff038173608864154d17760504d678ef31",
+   "year": 2025,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "title": "Colorado Housing and Finance Authority | 2025 Round Two - Award Report | Federal 4% and Accelerated State Housing Tax Credit | (with TOC Credit if applicable)",
+   "rows": 9,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "bond_amount",
+     "pdf_total": 156827615,
+     "parsed_total": 156827615,
+     "ok": true
+    },
+    {
+     "field": "federal_credit",
+     "pdf_total": 16602709,
+     "parsed_total": 16602709,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 14966796,
+     "parsed_total": 14966796,
+     "ok": true
+    },
+    {
+     "field": "toc_credit",
+     "pdf_total": 726500,
+     "parsed_total": 726500,
+     "ok": true
+    }
+   ],
+   "rows_checked": 9
+  },
+  {
+   "file": "2026-MIHTC-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/743ba3e4-5c64-4b1a-84d5-85d209bd1990/2026-MIHTC-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "b82a3e2e46878446590374546a3748c7efe23eade03e60a3909df86836e1f5b8",
+   "year": 2026,
+   "round": null,
+   "program": "MIHTC",
+   "title": "Colorado Housing and Finance Authority | 2026 Award Report | Middle-income Housing Tax Credit (MIHTC)",
+   "rows": 1,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "mihtc_credit",
+     "pdf_total": 2890000,
+     "parsed_total": 2890000,
+     "ok": true
+    }
+   ],
+   "rows_checked": 1
+  },
+  {
+   "file": "2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "a265e5b6816227b1b2d5d0ac3d9fd1768f72a06c92e771efd56aeaaf1f503b5d",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "title": "Colorado Housing and Finance Authority | 2026 Round One - Award Report | Federal 9% and Standard State Housing Tax Credit | (with TOC Credit if applicable)",
+   "rows": 14,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "federal_credit",
+     "pdf_total": 23509805,
+     "parsed_total": 23509806,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 6000000,
+     "parsed_total": 6000000,
+     "ok": true
+    },
+    {
+     "field": "toc_credit",
+     "pdf_total": 494000,
+     "parsed_total": 494000,
+     "ok": true
+    }
+   ],
+   "rows_checked": 14
+  },
+  {
+   "file": "FY23-24-LandBankingAwards.pdf",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/01/FY23-24-LandBankingAwards.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "7b6f8912824b44ca19242ad78651b3128f822876323f2954ee87afea660925a7",
+   "year": 2023,
+   "fiscal_year": "FY23-24",
+   "program": "Prop 123 Land Banking",
+   "round": null,
+   "title": "Affordable Housing Financing Fund | FY23-24 Land Banking Awards",
+   "rows": 16,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_awarded",
+     "pdf_total": 25340000,
+     "parsed_total": 25340000,
+     "ok": true
+    }
+   ],
+   "rows_checked": 16
+  },
+  {
+   "file": "Prop123-AHFF-FY23-24-ConcessionaryDebtSelections.pdf",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2023/12/Prop123-AHFF-FY23-24-ConcessionaryDebtSelections.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "c6a93140ca909f7686e4c3f204efe9c65da5d0f0bc3699edf6254f9f298cb551",
+   "year": 2023,
+   "fiscal_year": "FY23-24",
+   "program": "Prop 123 Concessionary Debt",
+   "round": null,
+   "title": "Affordable Housing Financing Fund | FY23-24 Concessionary Debt Selections",
+   "rows": 7,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_requested",
+     "pdf_total": 14528000,
+     "parsed_total": 14528000,
+     "ok": true
+    }
+   ],
+   "rows_checked": 7
+  },
+  {
+   "file": "Prop123-AHFF-FY23-24-EquityPreliminarySelections.pdf",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/08/Prop123-AHFF-FY23-24-EquityPreliminarySelections.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "e2ba57e47ac5e3f521a25caa8e7eeb96e19ba8bfdb422cd3d4c1dd47bdda8fc3",
+   "year": 2023,
+   "fiscal_year": "FY23-24",
+   "program": "Prop 123 Equity",
+   "round": null,
+   "title": "Affordable Housing Financing Fund | FY23-24 Equity: Preliminary Selections",
+   "rows": 6,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_requested",
+     "pdf_total": 39390879,
+     "parsed_total": 39390879,
+     "ok": true
+    }
+   ],
+   "rows_checked": 6
+  },
+  {
+   "file": "FY24-25-LandBankingAwards.pdf",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/05/FY24-25-LandBankingAwards.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "de0311035b783c7c1718e831189b075f4f75d4efbf3cab48348e85beabb1d747",
+   "year": 2024,
+   "fiscal_year": "FY24-25",
+   "program": "Prop 123 Land Banking",
+   "round": null,
+   "title": "Affordable Housing Financing Fund | FY24-25 Land Banking Awards",
+   "rows": 21,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_awarded",
+     "pdf_total": 47994762,
+     "parsed_total": 47994762,
+     "ok": true
+    }
+   ],
+   "rows_checked": 21
+  },
+  {
+   "file": "Prop123-AHFF-FY24-25-ConcessionaryDebtSelections.pdf",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/08/Prop123-AHFF-FY24-25-ConcessionaryDebtSelections.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "b1d660c3bb997c6f99fde488c77e7ab7f8eb2f33be6eebde3d948aa451160042",
+   "year": 2024,
+   "fiscal_year": "FY24-25",
+   "program": "Prop 123 Concessionary Debt",
+   "round": null,
+   "title": "Affordable Housing Financing Fund | FY24-25 Concessionary Debt Selections",
+   "rows": 9,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_awarded",
+     "pdf_total": 27339500,
+     "parsed_total": 27339500,
+     "ok": true
+    }
+   ],
+   "rows_checked": 9
+  },
+  {
+   "file": "Prop123-AHFF-FY24-25-Equity-StrategicInvestmentRoundPreliminarySelections.pdf",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/10/Prop123-AHFF-FY24-25-Equity-StrategicInvestmentRoundPreliminarySelections.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "e2b2b928ac4640c70152c77ed02a0edcb562664baf2352a2c7c7fc071f7e0667",
+   "year": 2024,
+   "fiscal_year": "FY24-25",
+   "program": "Prop 123 Equity",
+   "round": null,
+   "title": "Affordable Housing Financing Fund | FY24-25 Equity: Strategic Investment Round Preliminary Selections",
+   "rows": 3,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_requested",
+     "pdf_total": 21000000,
+     "parsed_total": 21000000,
+     "ok": true
+    }
+   ],
+   "rows_checked": 3
+  },
+  {
+   "file": "Prop123-AHFF-FY24-25-EquityProgramPreliminarySelections.pdf",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/06/Prop123-AHFF-FY24-25-EquityProgramPreliminarySelections.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "02e649872a95411bf17bbf1a0807736d3076a3da2e9c7fea1354e500127ea088",
+   "year": 2024,
+   "fiscal_year": "FY24-25",
+   "program": "Prop 123 Equity",
+   "round": null,
+   "title": "Affordable Housing Financing Fund | FY24-25 Equity Program Preliminary Selections",
+   "rows": 11,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_awarded",
+     "pdf_total": 67500074,
+     "parsed_total": 67500074,
+     "ok": true
+    }
+   ],
+   "rows_checked": 11
+  },
+  {
+   "file": "Prop123-AHFF-FY24-25-LIHTC-GapFinance-ConcessionaryDebtSelections.pdf",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/07/Prop123-AHFF-FY24-25-LIHTC-GapFinance-ConcessionaryDebtSelections.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "4493f8f1f0bfbccc4d47c7133ebea9fc7b8ecbb6a648654ad769cf070f0ad5e4",
+   "year": 2024,
+   "fiscal_year": "FY24-25",
+   "program": "Prop 123 Concessionary Debt",
+   "round": null,
+   "title": "Affordable Housing Financing Fund | FY24-25 Concessionary Debt Selections - LIHTC Gap Finance",
+   "rows": 6,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_awarded",
+     "pdf_total": 27053646,
+     "parsed_total": 27053646,
+     "ok": true
+    }
+   ],
+   "rows_checked": 6
+  },
+  {
+   "file": "Prop123-AHFF-ModularAwardList-Feb2024.pdf",
+   "url": "https://www.chfainfo.com/getattachment/40d051f2-941a-4a32-bf95-697a0853ebde/Prop123-AHFF-ModularAwardList-Feb2024.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "096d7d2d90c72be4ed04f93a545649040a10a3f0f0bed7b853df26e6c60b130c",
+   "year": 2024,
+   "fiscal_year": null,
+   "program": "Prop 123 Modular Finance",
+   "round": null,
+   "title": "Affordable Housing Financing Fund | Proposition 123 Modular Finance Award List",
+   "rows": 6,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_awarded",
+     "pdf_total": 18000000,
+     "parsed_total": 18000000,
+     "ok": true
+    }
+   ],
+   "rows_checked": 6
+  },
+  {
+   "file": "Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "75d04750e8d54f62c7743cd80a64cdd1954786d5e3489ba9c295861bf2e2d805",
+   "year": 2025,
+   "fiscal_year": "FY25-26",
+   "program": "Prop 123 Concessionary Debt",
+   "round": null,
+   "title": "FY25-26 Concessionary Debt Program Selections - Round One",
+   "rows": 9,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_awarded",
+     "pdf_total": 19654417,
+     "parsed_total": 19654417,
+     "ok": true
+    },
+    {
+     "field": "row_count",
+     "pdf_total": 9,
+     "parsed_total": 9,
+     "ok": true
+    }
+   ],
+   "rows_checked": 9
+  },
+  {
+   "file": "Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "7dda2c61bda868f3276526626a05a8371c834080d8e906ee7207b90f89e2ef60",
+   "year": 2025,
+   "fiscal_year": "FY25-26",
+   "program": "Prop 123 Concessionary Debt",
+   "round": null,
+   "title": "FY25-26 Concessionary Debt Program Selections - Round Two",
+   "rows": 11,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_awarded",
+     "pdf_total": 25674500,
+     "parsed_total": 25674500,
+     "ok": true
+    },
+    {
+     "field": "row_count",
+     "pdf_total": 11,
+     "parsed_total": 11,
+     "ok": true
+    }
+   ],
+   "rows_checked": 11
+  },
+  {
+   "file": "Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/12/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundOne.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "c0f3bf0ad212f6fa6d8618595e525bd70b19e18fb3d8d572f5cb6013957c196f",
+   "year": 2025,
+   "fiscal_year": "FY25-26",
+   "program": "Prop 123 Equity",
+   "round": null,
+   "title": "FY25-26 Equity Program Selections - Round One",
+   "rows": 5,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_requested",
+     "pdf_total": 52052141,
+     "parsed_total": 52052141,
+     "ok": true
+    },
+    {
+     "field": "row_count",
+     "pdf_total": 5,
+     "parsed_total": 5,
+     "ok": true
+    }
+   ],
+   "rows_checked": 5
+  },
+  {
+   "file": "Prop123-AHFF-FY25-26-EquityProgramSelections-RoundTwo.pdf",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/06/Prop123-AHFF-FY25-26-EquityProgramSelections-RoundTwo.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "fd509922bd57a35dbedd6c1e0cfb7fae946fb22dc91a9dbd3514e60c8c26399e",
+   "year": 2025,
+   "fiscal_year": "FY25-26",
+   "program": "Prop 123 Equity",
+   "round": null,
+   "title": "FY25-26 Equity Program Selections - Round Two",
+   "rows": 4,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_requested",
+     "pdf_total": 28400000,
+     "parsed_total": 28400000,
+     "ok": true
+    },
+    {
+     "field": "row_count",
+     "pdf_total": 4,
+     "parsed_total": 4,
+     "ok": true
+    }
+   ],
+   "rows_checked": 4
+  },
+  {
+   "file": "Prop123-AHFF-FY25-26-LandBankingProgramSelections-RRR.pdf",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-RRR.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "942d3b05080797df19407ec6e231d8a538b9bab1399f875101ea3ea01cb75c97",
+   "year": 2025,
+   "fiscal_year": "FY25-26",
+   "program": "Prop 123 Land Banking",
+   "round": null,
+   "title": "FY25-26 Land Banking Program Selections - Rural/Rural Resort Round",
+   "rows": 8,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_awarded",
+     "pdf_total": 13856000,
+     "parsed_total": 13856000,
+     "ok": true
+    },
+    {
+     "field": "row_count",
+     "pdf_total": 8,
+     "parsed_total": 8,
+     "ok": true
+    }
+   ],
+   "rows_checked": 8
+  },
+  {
+   "file": "Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-Statewide.pdf",
+   "agency": "OEDIT / CHFA (Prop 123 AHFF)",
+   "program_family": "prop123-ahff",
+   "sha256": "527f1499bebb5601cfe0e93b7f0d2514d9c385688ff91ff6c2d3f330ccaa553d",
+   "year": 2025,
+   "fiscal_year": "FY25-26",
+   "program": "Prop 123 Land Banking",
+   "round": null,
+   "title": "FY25-26 Land Banking Program Selections - Statewide Round",
+   "rows": 18,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "amount_awarded",
+     "pdf_total": 32660000,
+     "parsed_total": 32660000,
+     "ok": true
+    },
+    {
+     "field": "row_count",
+     "pdf_total": 18,
+     "parsed_total": 18,
+     "ok": true
+    }
+   ],
+   "rows_checked": 18
+  }
+ ]
+}
