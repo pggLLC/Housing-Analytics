@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "title": "Metro Denver apartment vacancy and rent (AAMD quarterly report)",
+    "source": "Apartment Association of Metro Denver, Vacancy & Rent Report (researched by Apartment Insights)",
+    "source_url": "https://assets.noviams.com/novi-file-uploads/aamd/VR/VR_Q2_2026_SUMMARY.pdf",
+    "source_landing_url": "https://www.aamdhq.org/",
+    "report_url_pattern": "https://assets.noviams.com/novi-file-uploads/aamd/VR/VR_Q{q}_{yyyy}_SUMMARY.pdf",
+    "geography": "Denver metro (Adams, Arapahoe, Boulder/Broomfield, Denver, Douglas, Jefferson)",
+    "vintage": "2026-Q2",
+    "as_of": "2026-06-30",
+    "last_verified": "2026-10-10",
+    "next_expected_update": "2026-Q3",
+    "capture": "By hand from the executive summary PDF. The monthly market-rents workflow checks report_url_pattern for the next quarter and opens an issue (label aamd-vacancy) when it is published.",
+    "methodology": "Stabilized vacancy excludes communities still in lease-up; overall vacancy includes them. Average rent is gross rent and does not account for concessions (AAMD's own note)."
+  },
+  "metro": {
+    "stabilized_vacancy_pct": 6.3,
+    "stabilized_vacancy_prior_quarter_pct": 7.5,
+    "stabilized_vacancy_year_ago_pct": 6.4,
+    "overall_vacancy_pct": 9.4,
+    "average_rent": 1776,
+    "average_rent_year_ago": 1832,
+    "total_units": 455848
+  },
+  "counties": {
+    "Adams": { "stabilized_vacancy_pct": 6.0, "average_rent": 1633 },
+    "Arapahoe": { "stabilized_vacancy_pct": 6.6, "average_rent": 1653 },
+    "Boulder/Broomfield": { "stabilized_vacancy_pct": 5.3, "average_rent": 1924 },
+    "Denver": { "stabilized_vacancy_pct": 7.0, "average_rent": 1798 },
+    "Douglas": { "stabilized_vacancy_pct": 5.3, "average_rent": 1980 },
+    "Jefferson": { "stabilized_vacancy_pct": 5.4, "average_rent": 1803 }
+  }
+}
