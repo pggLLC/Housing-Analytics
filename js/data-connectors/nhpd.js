@@ -21,6 +21,25 @@
    * @type {boolean}
    */
   var loaded = false;
+  var sourceMeta = {};
+
+  // Loading records proves availability, not statewide completeness. No
+  // current acquisition path verifies complete NHPD coverage (see fetch_nhpd.py).
+  function getCoverage() {
+    var status = !loaded ? 'unavailable' : /stub/i.test(sourceMeta.note || '') ? 'stub' : 'partial';
+    var generated = sourceMeta.generated || null;
+    return {
+      status: status,
+      complete: false,
+      generated: generated,
+      recordCount: loaded ? inventory.length : null,
+      unavailableReason: loaded
+        ? 'NHPD coverage is limited to ' + inventory.length + ' snapshot records' +
+          (generated ? ' dated ' + generated.slice(0, 10) : ' with unverified vintage') +
+          '. Statewide and local preservation totals are unknown; no matching record does not mean no preservation risk. Verify current subsidy status with NHPD; bulk access is registration-gated.'
+        : 'NHPD data has not loaded. Preservation coverage and risk are unknown; an empty result does not mean no subsidized properties or preservation risk.'
+    };
+  }
 
   /**
    * Converts degrees to radians.
@@ -64,14 +83,17 @@
    * subsidy_type, subsidy_expiration (ISO date string or year number).
    * @param {Array.<Object>} data
    */
-  function loadInventory(data) {
+  function loadInventory(data, meta) {
+    sourceMeta = meta || {};
+    inventory = [];
+    loaded = false;
     if (!Array.isArray(data)) {
       console.warn('[Nhpd] loadInventory: expected an array, got ' + typeof data);
       return;
     }
 
     inventory = data;
-    loaded = inventory.length > 0;
+    loaded = true;
     console.log('[Nhpd] Loaded ' + inventory.length + ' NHPD inventory records');
   }
 
@@ -179,6 +201,7 @@
    */
   function loadFromGeoJSON(geojson) {
     if (!geojson || !Array.isArray(geojson.features)) {
+      loadInventory(null);
       console.warn('[Nhpd] loadFromGeoJSON: expected a GeoJSON FeatureCollection');
       return;
     }
@@ -206,7 +229,7 @@
       records.push(record);
     }
 
-    loadInventory(records);
+    loadInventory(records, geojson.meta);
   }
 
   /**
@@ -223,6 +246,7 @@
     getInventoryInBuffer: getInventoryInBuffer,
     getPropertiesNear: getPropertiesNear,
     getStats: getStats,
+    getCoverage: getCoverage,
     isLoaded: isLoaded
   };
 
