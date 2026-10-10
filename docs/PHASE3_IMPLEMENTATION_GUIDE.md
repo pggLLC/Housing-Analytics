@@ -1,3 +1,5 @@
+> Historical Phase 3 implementation record. The unused FMR-alignment output was removed under #2045; use `js/chfa-rent-limits.js` for published CHFA limits.
+
 # Phase 3 Implementation Guide — COHO Analytics
 
 > **Phase 3 Epics:** #444 · #445 · #446 · #447  
@@ -107,7 +109,7 @@ To update a bill's stage after a legislative event:
 
 Phase 3 adds four major enhancements to the LIHTC Deal Predictor:
 1. **PAB volume cap analysis** — determines if 4% execution is feasible
-2. **HUD FMR alignment** — maps proposed rents to HUD Fair Market Rent benchmarks
+2. **Rent context** — FMR is a comparison benchmark; published CHFA limits live in `js/chfa-rent-limits.js`
 3. **Scenario sensitivity** — equity pricing, demand, and saturation ranges
 4. **CHFA award context** — historical award signals and QAP competitiveness notes
 
@@ -116,7 +118,7 @@ Phase 3 adds four major enhancements to the LIHTC Deal Predictor:
 | Field | Type | Description |
 |-------|------|-------------|
 | `pabCapAvailable` | `boolean` | PAB volume cap pre-allocated for 4% execution |
-| `fmrData` | `Object` | `{ oneBedroomFMR, twoBedroomFMR, threeBedroomFMR }` from HUD API |
+| `fmrData` | `Object` | Legacy input accepted for compatibility; no rent-alignment output |
 | `chfaHistoricalAwards` | `number` | # of CHFA awards in county in last 5 years |
 | `countyAffordabilityGap` | `number` | County affordability gap score 0–100 |
 
@@ -125,7 +127,6 @@ Phase 3 adds four major enhancements to the LIHTC Deal Predictor:
 | Field | Type | Description |
 |-------|------|-------------|
 | `pabCapNote` | `string \| null` | PAB status note (only for 4% recommendations) |
-| `fmrAlignment` | `Object \| null` | Bedroom-level FMR-to-AMI rent mapping |
 | `scenarioSensitivity` | `Object` | Equity pricing, demand, saturation ranges |
 | `chfaAwardContext` | `Object \| null` | County award signal + QAP note |
 
@@ -160,28 +161,13 @@ console.log(rec.confidence);            // 'high' | 'medium' | 'low'
 
 // Phase 3 new outputs
 console.log(rec.pabCapNote);            // null (9% path) or PAB guidance string
-console.log(rec.fmrAlignment.oneBR);    // { fmr: 1450, maxRentAt60Ami: 1334, ... }
 console.log(rec.scenarioSensitivity);   // { equityPricingRange, demandSignalRange, saturationRange }
 console.log(rec.chfaAwardContext);      // { countyAwardsLast5Years: 3, countyAwardSignal: 'high', ... }
 ```
 
-### Integrating HUD FMR Data
+### Rent limits and comparison data
 
-Use the existing `js/data-connectors/hud-fmr.js` connector to load FMR data:
-
-```js
-// In housing-needs-assessment.html or market-analysis.html
-const fmrData = await HudFmr.getFmrForCounty(geoid);
-const inputs  = {
-  ...existingInputs,
-  fmrData: {
-    oneBedroomFMR:   fmrData.oneBedroomFMR,
-    twoBedroomFMR:   fmrData.twoBedroomFMR,
-    threeBedroomFMR: fmrData.threeBedroomFMR
-  }
-};
-const rec = LIHTCDealPredictor.predictConcept(inputs);
-```
+The predictor does not return an FMR-to-AMI rent mapping. Use `ChfaRentLimits.maxGrossRent` for published limits and `maxContractRent` for utility allowance and fee deductions. FMR is comparison context only.
 
 ### PAB Cap Status
 
@@ -256,7 +242,7 @@ npm run test:smoke-market-analysis
 
 ### Epic #445 — Enhanced LIHTC Deal Prediction Module
 - [x] PAB cap analysis (4% vs 9% selection)
-- [x] HUD FMR data integration
+- [x] HUD FMR comparison context (no derived rent-alignment output)
 - [x] Scenario sensitivity analysis
 - [x] CHFA historical award context
 - [x] QCT/DDA basis boost logic (existing, enhanced)

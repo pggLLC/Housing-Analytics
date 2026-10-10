@@ -97,7 +97,7 @@ The legacy `predict(inputs)` wrapper returns a simpler `{ feasibilityScore, reco
 
 | Limitation | Detail |
 |---|---|
-| Not a CHFA scoring model | This predicts *execution path*, not QAP points. Use the [QAP Simulator](./qap-simulator.md) for scoring |
+| Not a CHFA scoring model | This predicts *execution path*, not QAP points. The [QAP Simulator is retired](../archive/qap-simulator.md); consult CHFA for application scoring |
 | Absolute thresholds are heuristics | Saturation medium=3 / high=5 and deep-affordability=25% are defensible defaults, not CHFA policy |
 | Historical patterns only | The model is calibrated against 2015–2025 allocation data. 2026 QAP changes may shift what actually wins |
 | Unit / AMI mix are illustrative | The suggested breakdowns are starting points. Local market studies and the deal's actual targeting control the real mix |
@@ -108,7 +108,7 @@ The legacy `predict(inputs)` wrapper returns a simpler `{ feasibilityScore, reco
 ## Related
 
 - [Pro Forma guide](./pro-forma.md) — operating pro forma for any concept the predictor suggests
-- [QAP Simulator guide](./qap-simulator.md) — competitiveness scoring for the recommended path
+- [Retired QAP Simulator](../archive/qap-simulator.md) — why the scoring feature was removed
 - [Data Quality doc](../DATA_QUALITY.md) — staleness/corruption/schema signals that the predictor's inputs depend on
 
 ## Change log

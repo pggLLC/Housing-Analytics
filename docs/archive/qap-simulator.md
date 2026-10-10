@@ -1,4 +1,6 @@
-# CHFA QAP Simulator
+# CHFA QAP Simulator (archived)
+
+> Removed under #1880 because its scores and award probabilities used synthesized, unverified award data; this is a historical description, not a current feature. See [the removal guard](../../test/no-synthesized-chfa-awards.test.js).
 
 Interactive competitiveness estimator for CHFA 9% allocations, calibrated against 2015–2025 historical award patterns. Two distinct surfaces live in the Deal Calculator:
 
@@ -7,8 +9,8 @@ Interactive competitiveness estimator for CHFA 9% allocations, calibrated agains
 
 Both present the same 0–100 scale; they just differ in what controls them.
 
-**Primary code**: [`js/qap-simulator.js`](../../js/qap-simulator.js)
-**Tests**: [`test/qap-simulator.test.js`](../../test/qap-simulator.test.js) — 64 assertions covering every driver of every category
+**Primary code**: `js/qap-simulator.js` (removed)
+**Tests**: `test/qap-simulator.test.js` (removed) — 64 assertions covering every driver of every category
 **Surfaces in**: [`deal-calculator.html`](../../deal-calculator.html)
 
 ---
@@ -104,9 +106,9 @@ Under the breakdown, the simulator lists concrete actions that would lift the sc
 
 ## Related
 
-- [Deal Predictor guide](./deal-predictor.md) — the upstream recommendation. If it says `9%`, this is your scoring tool
-- [PMA Analysis guide](./pma-analysis.md) — the PMA score that drives Geography & Site points
-- [Pro Forma guide](./pro-forma.md) — operating feasibility for the same deal concept
+- [Deal Predictor guide](../guides/deal-predictor.md) — the upstream recommendation. If it says `9%`, this is your scoring tool
+- [PMA Analysis guide](../guides/pma-analysis.md) — the PMA score that drives Geography & Site points
+- [Pro Forma guide](../guides/pro-forma.md) — operating feasibility for the same deal concept
 
 ## Change log
 - 2026-04-21: 64-assertion test suite landed in the session; QAP sim sliders verified to recalc in real-time via [#550 QA comment](https://github.com/pggLLC/Housing-Analytics/issues/550#issuecomment-4284360744).

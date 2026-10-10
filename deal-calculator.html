@@ -208,16 +208,15 @@
 
     <div data-dc-mode="rental" id="pageContext"></div>
 
-    <!-- F159 — Rent triangulation: HUD FMR vs ACS B25064 vs Zillow ZORI.
-         Critical context for underwriting: FMR sets the LIHTC rent cap,
-         but if market ZORI is well below FMR the cap doesn't bind and
-         achievable rent is the constraint. Same shared component used
-         on HNA + PMA. -->
+    <!-- Rent context compares voucher, existing and asking rents. Published
+         CHFA limits are resolved separately by js/chfa-rent-limits.js. -->
     <div data-dc-mode="rental" id="dcRentTriangulationCard" class="chart-card" style="margin:0 0 var(--sp3);">
       <h2 style="margin:0 0 .35rem;">Rent context — voucher vs. existing vs. asking</h2>
       <p style="font-size:.82rem;color:var(--muted);margin:0 0 .4rem">
-        Three rent measurements for the active county. If market asking rents (ZORI) are at or below
-        HUD FMR, your LIHTC rent cap doesn't bind — achievable rent is the constraint.
+        Three rent measurements for the active county. HUD FMR is a voucher benchmark, not a LIHTC rent limit.
+        LIHTC gross rent limits come from HUD multifamily income limits (MTSP), as published by CHFA,
+        using 1.5 persons per bedroom (one person for an efficiency). Contract rent deducts the utility allowance
+        and required fees. Compare that net limit with supported market rents to assess achievable rent.
       </p>
       <div id="dcRentTriangulationMount" aria-live="polite"></div>
     </div>
@@ -262,7 +261,7 @@
       if (window.PageContext) PageContext.render('pageContext', {
         what: 'Concept-stage LIHTC pro forma: eligible basis estimation, 4% vs 9% credit sizing, equity pricing, supportable first mortgage, developer fee, and gap analysis. Choose published CHFA limits, a non-CHFA AMI formula, or unrestricted market rents for your county.',
         why: 'Financial feasibility is the ultimate test. This calculator helps you determine early whether a concept can close its funding gap before investing $50K+ in predevelopment costs (ESA, survey, architect, legal).',
-        not: 'This does not model construction loan interest, actual eligible basis (uses % proxy), applicable fraction, or investor-specific underwriting requirements. Equity pricing is a point-in-time snapshot. Operating expenses use a statewide default. This is not a substitute for lender underwriting, syndicator pre-screening, or legal advice.',
+        not: 'This does not model construction loan interest, actual eligible basis (uses % proxy), or investor-specific underwriting requirements. It models the applicable fraction using the LIHTC unit share; it does not separately measure the floor-area fraction. Equity pricing is a point-in-time snapshot. Operating expenses use a statewide default. This is not a substitute for lender underwriting, syndicator pre-screening, or legal advice.',
         nextSteps: [
           { label: 'LIHTC Guide', href: 'lihtc-guide-for-stakeholders.html', desc: 'Understanding tax credit fundamentals' },
           { label: 'Housing Needs Assessment', href: 'housing-needs-assessment.html', desc: 'Revisit the community need evidence' }
