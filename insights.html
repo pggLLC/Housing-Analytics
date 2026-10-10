@@ -27,6 +27,7 @@
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
   <script src="js/components/equity-pricing.js"></script>
+  <script src="js/components/market-pulse.js"></script>
   <style>
     /* Research & Analysis cards (js/components/research-catalog.js). */
     .rc-hub { display: flex; flex-direction: column; gap: var(--sp5); margin-top: var(--sp3); }
@@ -178,7 +179,7 @@
         <div class="section-header">
           <h2 id="snapshot-heading">Market Data Snapshot</h2>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:var(--sp3);">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr));gap:var(--sp3);">
 
           <!-- Credit Pricing: rendered from the data the Tax Credit Equity
                Markets page reads (js/components/equity-pricing.js), with the
@@ -187,7 +188,7 @@
           <div class="chart-card">
             <div class="chart-header">
               <h3 class="chart-title">Credit Pricing Analysis</h3>
-              <p class="chart-subtitle" id="insightsPricingAsOf">National average equity price per $1 of credit · <span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="article-pricing.html">Tax Credit Equity Markets</a></p>
+              <p class="chart-subtitle" id="insightsPricingAsOf">National average equity price per $1 of credit · <span style="color:var(--good);font-weight:700;">DATA</span> · captured quarterly · <a href="article-pricing.html">Tax Credit Equity Markets</a></p>
             </div>
             <div class="data-table">
               <table>
@@ -199,7 +200,7 @@
                 </tbody>
               </table>
             </div>
-            <div id="insightsPricingSource" style="font-size:var(--tiny);color:var(--faint);margin-top:var(--sp3);font-style:italic;">Source: COHO estimate from public Novogradac reporting. Colorado and regional prices are on <a href="article-pricing.html">Tax Credit Equity Markets</a>.</div>
+            <div id="insightsPricingSource" style="font-size:var(--tiny);color:var(--faint);margin-top:var(--sp3);font-style:italic;">Source: <span id="insightsPricingSourceName">Novogradac LIHTC equity pricing</span>. <span id="insightsPricingNext"></span>Colorado and regional prices are on <a href="article-pricing.html">Tax Credit Equity Markets</a>.</div>
             <script>
             (function () {
               'use strict';
@@ -228,20 +229,24 @@
                   asOf.insertAdjacentHTML('afterbegin', '<span data-pricing-as-of="' + c.asOf + '">As of ' + c.asOf +
                     (c.vintage ? ' (' + c.vintage + ')' : '') + '</span> · ');
                 }
+                // Source and next update come from the file, which is captured
+                // by hand each quarter (equity-pricing-watch.yml reminds).
+                var meta = (d.benchmark && d.benchmark.meta) || {};
+                var src = document.getElementById('insightsPricingSourceName');
+                if (src && meta.source) src.textContent = meta.source;
+                var next = document.getElementById('insightsPricingNext');
+                if (next && meta.next_expected_update) {
+                  next.textContent = 'Next update expected ' + meta.next_expected_update + '. ';
+                }
               });
             }());
             </script>
           </div>
 
-          <!-- Risk Indicators — F119 rewrite.
-               Was: three FAKE values (0.8% / 4.2% / 142 "Investor Demand Index")
-               with no per-stat source. The "Investor Demand Index" was invented
-               outright — no public series produces it.
-               Now: two badged real signals (CO statewide unemployment LIVE from
-               BLS LAUS; Denver multifamily vacancy STATIC from AAMD Q4 2025) +
-               a QUAL foreclosure-direction call sourced to ATTOM. Numbers come
-               from data/co-county-economic-indicators.json — same wiring used in
-               the deep-dive hero strip (F118-2). -->
+          <!-- Risk Indicators: every figure is read from a data file by
+               js/components/market-pulse.js, with its period. Was a county
+               mean of 2025 annual unemployment plus a typed AAMD Q4 2025
+               vacancy and a typed ATTOM foreclosure call (#2010 pattern). -->
           <div class="chart-card">
             <div class="chart-header">
               <h3 class="chart-title">Risk Indicators</h3>
@@ -251,60 +256,59 @@
               <div class="progress-row">
                 <div class="progress-row-header">
                   <span>CO Unemployment</span>
-                  <strong style="color:var(--good);" id="insightsRiskUnemp">—</strong>
+                  <strong style="color:var(--text);" id="insightsRiskUnemp">—</strong>
                 </div>
-                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;"><span style="color:var(--good);font-weight:700;">DATA</span> · <span id="insightsRiskUnempBasis">unweighted mean of county rates (not the statewide rate)</span> · <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a></div>
+                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · <span id="insightsRiskUnempBasis">Colorado statewide rate</span> · <a href="https://fred.stlouisfed.org/series/COUR" target="_blank" rel="noopener">BLS LAUS via FRED</a></div>
                 <div class="progress-bar"><div class="progress-fill" id="insightsRiskUnempBar" style="width:0%;"></div></div>
               </div>
               <div class="progress-row">
                 <div class="progress-row-header">
-                  <span>Denver Multifamily Vacancy</span>
-                  <strong style="color:var(--warn);">7.6%</strong>
+                  <span>Metro Denver Apartment Vacancy</span>
+                  <strong style="color:var(--text);" id="insightsRiskVacancy">—</strong>
                 </div>
-                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;"><span style="color:var(--warn);font-weight:700;">STATIC</span> · 16-yr high · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Q4 2025</a></div>
-                <div class="progress-bar"><div class="progress-fill" style="width:76%;"></div></div>
+                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;"><span style="color:var(--good);font-weight:700;">DATA</span> · <span id="insightsRiskVacancyBasis">stabilized, metro</span> · <a id="insightsRiskVacancySource" href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Vacancy &amp; Rent Report</a></div>
+                <div class="progress-bar"><div class="progress-fill" id="insightsRiskVacancyBar" style="width:0%;"></div></div>
               </div>
               <div class="progress-row">
                 <div class="progress-row-header">
-                  <span>Foreclosure Direction</span>
-                  <strong style="color:var(--good);">LOW</strong>
+                  <span>CO Mortgages in Foreclosure</span>
+                  <strong style="color:var(--text);" id="insightsRiskForeclosure">—</strong>
                 </div>
-                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;"><span style="color:var(--warn);font-weight:700;">QUAL</span> · still ~56% of pre-pandemic · <a href="https://www.attomdata.com/solutions/market-trends-data/foreclosure-activity-report/" target="_blank" rel="noopener">ATTOM</a></div>
-                <div class="progress-bar"><div class="progress-fill" style="width:56%;"></div></div>
+                <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:0.4rem;"><span style="color:var(--good);font-weight:700;">DATA</span> · <span id="insightsRiskForeclosureBasis">of loans in foreclosure</span> · <a href="https://www.fhfa.gov/data/nmdb" target="_blank" rel="noopener">FHFA NMDB</a></div>
+                <div class="progress-bar"><div class="progress-fill" id="insightsRiskForeclosureBar" style="width:0%;"></div></div>
               </div>
             </div>
-            <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;">Sources linked per row · LIVE / DATA = read from COHO data files; STATIC = snapshot from public report; QUAL = directional judgment from underlying series.</div>
+            <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;">Sources linked per row. LIVE = refreshed daily from FRED; DATA = read from a COHO data file refreshed quarterly. Unemployment and vacancy bars run 0–10%; the foreclosure bar is the share of the 2010 peak.</div>
+          </div>
+
+          <!-- Rates & Deadlines: FRED rates (fetch-fred-data.yml, daily) and
+               the next CHFA dates (data/chfa-qap-calendar.json, checked weekly
+               by chfa-qap-watch.yml), via js/components/market-pulse.js. -->
+          <div class="chart-card" id="insightsRatesCard" style="grid-column:1 / -1;">
+            <div class="chart-header">
+              <h3 class="chart-title">Rates &amp; Deadlines</h3>
+              <p class="chart-subtitle">Financing rates and CHFA's next tax credit dates · <span style="color:var(--good);font-weight:700;">LIVE</span></p>
+            </div>
+            <div class="data-table">
+              <table>
+                <thead>
+                  <tr><th title="Benchmark rate, from FRED">Rate</th><th title="Most recent published value">Latest</th><th title="Change from the value a year before, in basis points (1 bp = 0.01 percentage point)">1-yr change</th><th title="Date of the most recent published value">As of</th></tr>
+                </thead>
+                <tbody id="insightsRatesRows">
+                  <tr><td colspan="4">Rates are read from <a href="data/fred-data.json">the FRED data file</a>.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <h4 style="margin:var(--sp3) 0 var(--sp1);">Next CHFA deadlines</h4>
+            <ul id="insightsDeadlines" style="margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:.4rem;font-size:.9rem;">
+              <li>Dates are read from <a href="data/chfa-qap-calendar.json">the CHFA calendar file</a>.</li>
+            </ul>
+            <div style="font-size:var(--tiny);color:var(--faint);font-style:italic;margin-top:var(--sp3);">Rates: <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a> (Treasury, NY Fed, Freddie Mac). Deadlines: <a href="https://www.chfainfo.com/rental-housing/housing-credit/dates-and-deadlines-7a0d2c0727864a506470f2f4352cf192" target="_blank" rel="noopener">CHFA Dates and Deadlines</a>; the full calendar is in the <a href="lihtc-opportunity-finder.html">Opportunity Finder</a>.</div>
             <script>
-            /* F119 — wire BLS LAUS unemployment into the Risk Indicators progress row.
-               The figure is an unweighted mean of the county rates in the file,
-               not Colorado's statewide rate. The label says how many counties it
-               averaged and which period the file says the rates are for, both
-               read from the file. Width of the progress bar scales 0–10% →
-               0–100% so the bar communicates proximity to the 10% band. */
             (function () {
               'use strict';
-              fetch('data/co-county-economic-indicators.json', { cache: 'no-cache' })
-                .then(function (r) { return r.ok ? r.json() : null; })
-                .then(function (d) {
-                  if (!d || !d.counties) return;
-                  var vals = Object.values(d.counties)
-                    .map(function (c) { return c.unemployment_rate; })
-                    .filter(function (v) { return v != null && isFinite(v); });
-                  if (!vals.length) return;
-                  var avg = vals.reduce(function (s, v) { return s + v; }, 0) / vals.length;
-                  var el = document.getElementById('insightsRiskUnemp');
-                  var bar = document.getElementById('insightsRiskUnempBar');
-                  if (el) el.textContent = avg.toFixed(1) + '%';
-                  if (bar) bar.style.width = Math.min(100, avg * 10).toFixed(0) + '%';
-                  var basis = document.getElementById('insightsRiskUnempBasis');
-                  var period = String(d.source || '').match(/unemployment (\d{4}) annual/i);
-                  if (basis) {
-                    basis.textContent = (period ? period[1] + ' annual, ' : '') + 'unweighted mean of ' + vals.length +
-                      ' county rates (not the statewide rate)';
-                  }
-                })
-                .catch(function () {});
-            })();
+              if (window.MarketPulse) window.MarketPulse.attach();
+            }());
             </script>
           </div>
 

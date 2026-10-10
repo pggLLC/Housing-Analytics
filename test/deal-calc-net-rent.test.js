@@ -46,6 +46,7 @@ async function calculator(saved = subject(), { lateModule = false, noSubject = f
     assert.equal(w.document.body.innerHTML, before, 'loading SubjectProject must not mount its UI');
   }
   if (!lateModule) loadSubject();
+  w.eval(read('js/deal-engine.js'));
   w.eval(read('js/deal-calculator.js'));
   await settle(); await settle();
   if (lateModule) loadSubject();
