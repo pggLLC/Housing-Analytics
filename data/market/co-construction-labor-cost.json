@@ -1,0 +1,5302 @@
+{
+  "generatedAt": "2026-10-10T06:17:25Z",
+  "sources": [
+    {
+      "id": "bls-ces-state",
+      "name": "BLS Current Employment Statistics, State and Metro Area (Colorado construction)",
+      "url": "https://www.bls.gov/sae/"
+    },
+    {
+      "id": "bls-laus",
+      "name": "BLS Local Area Unemployment Statistics (Colorado)",
+      "url": "https://www.bls.gov/lau/"
+    },
+    {
+      "id": "bls-jolts",
+      "name": "BLS Job Openings and Labor Turnover Survey (US construction)",
+      "url": "https://www.bls.gov/jlt/"
+    },
+    {
+      "id": "bls-oews",
+      "name": "BLS Occupational Employment and Wage Statistics (Colorado and metros)",
+      "url": "https://www.bls.gov/oes/"
+    },
+    {
+      "id": "bls-api-v2",
+      "name": "BLS Public Data API v2 (all labor series above)",
+      "url": "https://api.bls.gov/publicAPI/v2/timeseries/data/"
+    },
+    {
+      "id": "fred-ppi",
+      "name": "BLS Producer Price Indexes via FRED, read from data/fred-data.json",
+      "url": "https://fred.stlouisfed.org/"
+    }
+  ],
+  "monthly": {
+    "SMU08000002000000001": {
+      "label": "Colorado construction employment",
+      "unit": "thousands of jobs",
+      "geography": "Colorado",
+      "panel": "labor-availability",
+      "frequency": "monthly",
+      "seasonalAdjustment": "NSA",
+      "observations": [
+        {
+          "period": "2017-01",
+          "value": 151.9,
+          "preliminary": false
+        },
+        {
+          "period": "2017-02",
+          "value": 153.6,
+          "preliminary": false
+        },
+        {
+          "period": "2017-03",
+          "value": 156.7,
+          "preliminary": false
+        },
+        {
+          "period": "2017-04",
+          "value": 159.8,
+          "preliminary": false
+        },
+        {
+          "period": "2017-05",
+          "value": 162.2,
+          "preliminary": false
+        },
+        {
+          "period": "2017-06",
+          "value": 167.3,
+          "preliminary": false
+        },
+        {
+          "period": "2017-07",
+          "value": 168.6,
+          "preliminary": false
+        },
+        {
+          "period": "2017-08",
+          "value": 169.2,
+          "preliminary": false
+        },
+        {
+          "period": "2017-09",
+          "value": 168.3,
+          "preliminary": false
+        },
+        {
+          "period": "2017-10",
+          "value": 169.7,
+          "preliminary": false
+        },
+        {
+          "period": "2017-11",
+          "value": 169.0,
+          "preliminary": false
+        },
+        {
+          "period": "2017-12",
+          "value": 167.5,
+          "preliminary": false
+        },
+        {
+          "period": "2018-01",
+          "value": 162.9,
+          "preliminary": false
+        },
+        {
+          "period": "2018-02",
+          "value": 164.6,
+          "preliminary": false
+        },
+        {
+          "period": "2018-03",
+          "value": 166.9,
+          "preliminary": false
+        },
+        {
+          "period": "2018-04",
+          "value": 170.1,
+          "preliminary": false
+        },
+        {
+          "period": "2018-05",
+          "value": 172.8,
+          "preliminary": false
+        },
+        {
+          "period": "2018-06",
+          "value": 177.8,
+          "preliminary": false
+        },
+        {
+          "period": "2018-07",
+          "value": 178.5,
+          "preliminary": false
+        },
+        {
+          "period": "2018-08",
+          "value": 178.7,
+          "preliminary": false
+        },
+        {
+          "period": "2018-09",
+          "value": 177.4,
+          "preliminary": false
+        },
+        {
+          "period": "2018-10",
+          "value": 177.5,
+          "preliminary": false
+        },
+        {
+          "period": "2018-11",
+          "value": 176.4,
+          "preliminary": false
+        },
+        {
+          "period": "2018-12",
+          "value": 174.4,
+          "preliminary": false
+        },
+        {
+          "period": "2019-01",
+          "value": 169.6,
+          "preliminary": false
+        },
+        {
+          "period": "2019-02",
+          "value": 171.2,
+          "preliminary": false
+        },
+        {
+          "period": "2019-03",
+          "value": 172.0,
+          "preliminary": false
+        },
+        {
+          "period": "2019-04",
+          "value": 176.0,
+          "preliminary": false
+        },
+        {
+          "period": "2019-05",
+          "value": 179.2,
+          "preliminary": false
+        },
+        {
+          "period": "2019-06",
+          "value": 184.0,
+          "preliminary": false
+        },
+        {
+          "period": "2019-07",
+          "value": 185.3,
+          "preliminary": false
+        },
+        {
+          "period": "2019-08",
+          "value": 185.1,
+          "preliminary": false
+        },
+        {
+          "period": "2019-09",
+          "value": 183.3,
+          "preliminary": false
+        },
+        {
+          "period": "2019-10",
+          "value": 183.0,
+          "preliminary": false
+        },
+        {
+          "period": "2019-11",
+          "value": 181.7,
+          "preliminary": false
+        },
+        {
+          "period": "2019-12",
+          "value": 179.3,
+          "preliminary": false
+        },
+        {
+          "period": "2020-01",
+          "value": 173.6,
+          "preliminary": false
+        },
+        {
+          "period": "2020-02",
+          "value": 172.8,
+          "preliminary": false
+        },
+        {
+          "period": "2020-03",
+          "value": 174.9,
+          "preliminary": false
+        },
+        {
+          "period": "2020-04",
+          "value": 168.2,
+          "preliminary": false
+        },
+        {
+          "period": "2020-05",
+          "value": 175.4,
+          "preliminary": false
+        },
+        {
+          "period": "2020-06",
+          "value": 178.2,
+          "preliminary": false
+        },
+        {
+          "period": "2020-07",
+          "value": 177.5,
+          "preliminary": false
+        },
+        {
+          "period": "2020-08",
+          "value": 176.9,
+          "preliminary": false
+        },
+        {
+          "period": "2020-09",
+          "value": 175.0,
+          "preliminary": false
+        },
+        {
+          "period": "2020-10",
+          "value": 177.0,
+          "preliminary": false
+        },
+        {
+          "period": "2020-11",
+          "value": 175.0,
+          "preliminary": false
+        },
+        {
+          "period": "2020-12",
+          "value": 173.8,
+          "preliminary": false
+        },
+        {
+          "period": "2021-01",
+          "value": 169.0,
+          "preliminary": false
+        },
+        {
+          "period": "2021-02",
+          "value": 169.9,
+          "preliminary": false
+        },
+        {
+          "period": "2021-03",
+          "value": 171.9,
+          "preliminary": false
+        },
+        {
+          "period": "2021-04",
+          "value": 175.4,
+          "preliminary": false
+        },
+        {
+          "period": "2021-05",
+          "value": 177.8,
+          "preliminary": false
+        },
+        {
+          "period": "2021-06",
+          "value": 180.3,
+          "preliminary": false
+        },
+        {
+          "period": "2021-07",
+          "value": 182.2,
+          "preliminary": false
+        },
+        {
+          "period": "2021-08",
+          "value": 181.2,
+          "preliminary": false
+        },
+        {
+          "period": "2021-09",
+          "value": 180.0,
+          "preliminary": false
+        },
+        {
+          "period": "2021-10",
+          "value": 182.0,
+          "preliminary": false
+        },
+        {
+          "period": "2021-11",
+          "value": 180.6,
+          "preliminary": false
+        },
+        {
+          "period": "2021-12",
+          "value": 179.1,
+          "preliminary": false
+        },
+        {
+          "period": "2022-01",
+          "value": 173.3,
+          "preliminary": false
+        },
+        {
+          "period": "2022-02",
+          "value": 175.5,
+          "preliminary": false
+        },
+        {
+          "period": "2022-03",
+          "value": 176.3,
+          "preliminary": false
+        },
+        {
+          "period": "2022-04",
+          "value": 182.5,
+          "preliminary": false
+        },
+        {
+          "period": "2022-05",
+          "value": 184.7,
+          "preliminary": false
+        },
+        {
+          "period": "2022-06",
+          "value": 187.9,
+          "preliminary": false
+        },
+        {
+          "period": "2022-07",
+          "value": 187.9,
+          "preliminary": false
+        },
+        {
+          "period": "2022-08",
+          "value": 187.5,
+          "preliminary": false
+        },
+        {
+          "period": "2022-09",
+          "value": 186.5,
+          "preliminary": false
+        },
+        {
+          "period": "2022-10",
+          "value": 187.1,
+          "preliminary": false
+        },
+        {
+          "period": "2022-11",
+          "value": 185.7,
+          "preliminary": false
+        },
+        {
+          "period": "2022-12",
+          "value": 182.7,
+          "preliminary": false
+        },
+        {
+          "period": "2023-01",
+          "value": 176.8,
+          "preliminary": false
+        },
+        {
+          "period": "2023-02",
+          "value": 177.6,
+          "preliminary": false
+        },
+        {
+          "period": "2023-03",
+          "value": 179.8,
+          "preliminary": false
+        },
+        {
+          "period": "2023-04",
+          "value": 183.9,
+          "preliminary": false
+        },
+        {
+          "period": "2023-05",
+          "value": 186.7,
+          "preliminary": false
+        },
+        {
+          "period": "2023-06",
+          "value": 190.6,
+          "preliminary": false
+        },
+        {
+          "period": "2023-07",
+          "value": 190.5,
+          "preliminary": false
+        },
+        {
+          "period": "2023-08",
+          "value": 190.6,
+          "preliminary": false
+        },
+        {
+          "period": "2023-09",
+          "value": 187.5,
+          "preliminary": false
+        },
+        {
+          "period": "2023-10",
+          "value": 186.0,
+          "preliminary": false
+        },
+        {
+          "period": "2023-11",
+          "value": 183.3,
+          "preliminary": false
+        },
+        {
+          "period": "2023-12",
+          "value": 183.2,
+          "preliminary": false
+        },
+        {
+          "period": "2024-01",
+          "value": 176.9,
+          "preliminary": false
+        },
+        {
+          "period": "2024-02",
+          "value": 180.9,
+          "preliminary": false
+        },
+        {
+          "period": "2024-03",
+          "value": 180.9,
+          "preliminary": false
+        },
+        {
+          "period": "2024-04",
+          "value": 183.4,
+          "preliminary": false
+        },
+        {
+          "period": "2024-05",
+          "value": 189.1,
+          "preliminary": false
+        },
+        {
+          "period": "2024-06",
+          "value": 192.2,
+          "preliminary": false
+        },
+        {
+          "period": "2024-07",
+          "value": 192.4,
+          "preliminary": false
+        },
+        {
+          "period": "2024-08",
+          "value": 191.3,
+          "preliminary": false
+        },
+        {
+          "period": "2024-09",
+          "value": 189.9,
+          "preliminary": false
+        },
+        {
+          "period": "2024-10",
+          "value": 189.7,
+          "preliminary": false
+        },
+        {
+          "period": "2024-11",
+          "value": 187.6,
+          "preliminary": false
+        },
+        {
+          "period": "2024-12",
+          "value": 186.3,
+          "preliminary": false
+        },
+        {
+          "period": "2025-01",
+          "value": 180.9,
+          "preliminary": false
+        },
+        {
+          "period": "2025-02",
+          "value": 180.8,
+          "preliminary": false
+        },
+        {
+          "period": "2025-03",
+          "value": 182.0,
+          "preliminary": false
+        },
+        {
+          "period": "2025-04",
+          "value": 183.8,
+          "preliminary": false
+        },
+        {
+          "period": "2025-05",
+          "value": 186.1,
+          "preliminary": false
+        },
+        {
+          "period": "2025-06",
+          "value": 187.6,
+          "preliminary": false
+        },
+        {
+          "period": "2025-07",
+          "value": 188.8,
+          "preliminary": false
+        },
+        {
+          "period": "2025-08",
+          "value": 188.2,
+          "preliminary": false
+        },
+        {
+          "period": "2025-09",
+          "value": 186.5,
+          "preliminary": false
+        },
+        {
+          "period": "2025-10",
+          "value": 189.0,
+          "preliminary": false
+        },
+        {
+          "period": "2025-11",
+          "value": 185.6,
+          "preliminary": false
+        },
+        {
+          "period": "2025-12",
+          "value": 185.0,
+          "preliminary": false
+        },
+        {
+          "period": "2026-01",
+          "value": 180.3,
+          "preliminary": false
+        },
+        {
+          "period": "2026-02",
+          "value": 183.0,
+          "preliminary": false
+        },
+        {
+          "period": "2026-03",
+          "value": 183.1,
+          "preliminary": false
+        },
+        {
+          "period": "2026-04",
+          "value": 185.2,
+          "preliminary": false
+        },
+        {
+          "period": "2026-05",
+          "value": 188.3,
+          "preliminary": false
+        },
+        {
+          "period": "2026-06",
+          "value": 193.2,
+          "preliminary": false
+        },
+        {
+          "period": "2026-07",
+          "value": 194.4,
+          "preliminary": false
+        },
+        {
+          "period": "2026-08",
+          "value": 191.1,
+          "preliminary": true
+        }
+      ],
+      "latest": {
+        "period": "2026-08",
+        "value": 191.1,
+        "preliminary": true
+      },
+      "yoy": {
+        "period": "2026-08",
+        "value": 1.54,
+        "basis": "pct"
+      },
+      "yoyUnavailableReason": null,
+      "unavailableReason": null
+    },
+    "SMU08000002000000003": {
+      "label": "Colorado construction average hourly earnings, all employees",
+      "unit": "dollars per hour",
+      "geography": "Colorado",
+      "panel": "labor-rates",
+      "frequency": "monthly",
+      "seasonalAdjustment": "NSA",
+      "observations": [
+        {
+          "period": "2017-01",
+          "value": 26.92,
+          "preliminary": false
+        },
+        {
+          "period": "2017-02",
+          "value": 26.76,
+          "preliminary": false
+        },
+        {
+          "period": "2017-03",
+          "value": 26.74,
+          "preliminary": false
+        },
+        {
+          "period": "2017-04",
+          "value": 27.08,
+          "preliminary": false
+        },
+        {
+          "period": "2017-05",
+          "value": 26.86,
+          "preliminary": false
+        },
+        {
+          "period": "2017-06",
+          "value": 26.85,
+          "preliminary": false
+        },
+        {
+          "period": "2017-07",
+          "value": 26.65,
+          "preliminary": false
+        },
+        {
+          "period": "2017-08",
+          "value": 26.93,
+          "preliminary": false
+        },
+        {
+          "period": "2017-09",
+          "value": 27.33,
+          "preliminary": false
+        },
+        {
+          "period": "2017-10",
+          "value": 27.29,
+          "preliminary": false
+        },
+        {
+          "period": "2017-11",
+          "value": 27.84,
+          "preliminary": false
+        },
+        {
+          "period": "2017-12",
+          "value": 28.34,
+          "preliminary": false
+        },
+        {
+          "period": "2018-01",
+          "value": 28.31,
+          "preliminary": false
+        },
+        {
+          "period": "2018-02",
+          "value": 28.56,
+          "preliminary": false
+        },
+        {
+          "period": "2018-03",
+          "value": 28.61,
+          "preliminary": false
+        },
+        {
+          "period": "2018-04",
+          "value": 28.49,
+          "preliminary": false
+        },
+        {
+          "period": "2018-05",
+          "value": 28.65,
+          "preliminary": false
+        },
+        {
+          "period": "2018-06",
+          "value": 28.52,
+          "preliminary": false
+        },
+        {
+          "period": "2018-07",
+          "value": 28.71,
+          "preliminary": false
+        },
+        {
+          "period": "2018-08",
+          "value": 29.07,
+          "preliminary": false
+        },
+        {
+          "period": "2018-09",
+          "value": 29.26,
+          "preliminary": false
+        },
+        {
+          "period": "2018-10",
+          "value": 29.9,
+          "preliminary": false
+        },
+        {
+          "period": "2018-11",
+          "value": 29.93,
+          "preliminary": false
+        },
+        {
+          "period": "2018-12",
+          "value": 30.39,
+          "preliminary": false
+        },
+        {
+          "period": "2019-01",
+          "value": 30.04,
+          "preliminary": false
+        },
+        {
+          "period": "2019-02",
+          "value": 30.5,
+          "preliminary": false
+        },
+        {
+          "period": "2019-03",
+          "value": 30.52,
+          "preliminary": false
+        },
+        {
+          "period": "2019-04",
+          "value": 30.41,
+          "preliminary": false
+        },
+        {
+          "period": "2019-05",
+          "value": 30.06,
+          "preliminary": false
+        },
+        {
+          "period": "2019-06",
+          "value": 29.58,
+          "preliminary": false
+        },
+        {
+          "period": "2019-07",
+          "value": 29.79,
+          "preliminary": false
+        },
+        {
+          "period": "2019-08",
+          "value": 30.1,
+          "preliminary": false
+        },
+        {
+          "period": "2019-09",
+          "value": 30.79,
+          "preliminary": false
+        },
+        {
+          "period": "2019-10",
+          "value": 30.8,
+          "preliminary": false
+        },
+        {
+          "period": "2019-11",
+          "value": 30.9,
+          "preliminary": false
+        },
+        {
+          "period": "2019-12",
+          "value": 31.91,
+          "preliminary": false
+        },
+        {
+          "period": "2020-01",
+          "value": 31.59,
+          "preliminary": false
+        },
+        {
+          "period": "2020-02",
+          "value": 31.87,
+          "preliminary": false
+        },
+        {
+          "period": "2020-03",
+          "value": 31.83,
+          "preliminary": false
+        },
+        {
+          "period": "2020-04",
+          "value": 32.56,
+          "preliminary": false
+        },
+        {
+          "period": "2020-05",
+          "value": 31.88,
+          "preliminary": false
+        },
+        {
+          "period": "2020-06",
+          "value": 31.72,
+          "preliminary": false
+        },
+        {
+          "period": "2020-07",
+          "value": 32.12,
+          "preliminary": false
+        },
+        {
+          "period": "2020-08",
+          "value": 32.12,
+          "preliminary": false
+        },
+        {
+          "period": "2020-09",
+          "value": 32.71,
+          "preliminary": false
+        },
+        {
+          "period": "2020-10",
+          "value": 32.45,
+          "preliminary": false
+        },
+        {
+          "period": "2020-11",
+          "value": 32.71,
+          "preliminary": false
+        },
+        {
+          "period": "2020-12",
+          "value": 33.18,
+          "preliminary": false
+        },
+        {
+          "period": "2021-01",
+          "value": 32.72,
+          "preliminary": false
+        },
+        {
+          "period": "2021-02",
+          "value": 32.42,
+          "preliminary": false
+        },
+        {
+          "period": "2021-03",
+          "value": 32.94,
+          "preliminary": false
+        },
+        {
+          "period": "2021-04",
+          "value": 32.84,
+          "preliminary": false
+        },
+        {
+          "period": "2021-05",
+          "value": 32.85,
+          "preliminary": false
+        },
+        {
+          "period": "2021-06",
+          "value": 33.3,
+          "preliminary": false
+        },
+        {
+          "period": "2021-07",
+          "value": 33.2,
+          "preliminary": false
+        },
+        {
+          "period": "2021-08",
+          "value": 33.15,
+          "preliminary": false
+        },
+        {
+          "period": "2021-09",
+          "value": 34.71,
+          "preliminary": false
+        },
+        {
+          "period": "2021-10",
+          "value": 33.52,
+          "preliminary": false
+        },
+        {
+          "period": "2021-11",
+          "value": 33.55,
+          "preliminary": false
+        },
+        {
+          "period": "2021-12",
+          "value": 34.53,
+          "preliminary": false
+        },
+        {
+          "period": "2022-01",
+          "value": 35.25,
+          "preliminary": false
+        },
+        {
+          "period": "2022-02",
+          "value": 34.61,
+          "preliminary": false
+        },
+        {
+          "period": "2022-03",
+          "value": 34.79,
+          "preliminary": false
+        },
+        {
+          "period": "2022-04",
+          "value": 34.57,
+          "preliminary": false
+        },
+        {
+          "period": "2022-05",
+          "value": 34.47,
+          "preliminary": false
+        },
+        {
+          "period": "2022-06",
+          "value": 35.12,
+          "preliminary": false
+        },
+        {
+          "period": "2022-07",
+          "value": 35.41,
+          "preliminary": false
+        },
+        {
+          "period": "2022-08",
+          "value": 35.13,
+          "preliminary": false
+        },
+        {
+          "period": "2022-09",
+          "value": 35.79,
+          "preliminary": false
+        },
+        {
+          "period": "2022-10",
+          "value": 35.37,
+          "preliminary": false
+        },
+        {
+          "period": "2022-11",
+          "value": 35.47,
+          "preliminary": false
+        },
+        {
+          "period": "2022-12",
+          "value": 35.63,
+          "preliminary": false
+        },
+        {
+          "period": "2023-01",
+          "value": 35.9,
+          "preliminary": false
+        },
+        {
+          "period": "2023-02",
+          "value": 36.07,
+          "preliminary": false
+        },
+        {
+          "period": "2023-03",
+          "value": 36.07,
+          "preliminary": false
+        },
+        {
+          "period": "2023-04",
+          "value": 36.37,
+          "preliminary": false
+        },
+        {
+          "period": "2023-05",
+          "value": 34.5,
+          "preliminary": false
+        },
+        {
+          "period": "2023-06",
+          "value": 34.54,
+          "preliminary": false
+        },
+        {
+          "period": "2023-07",
+          "value": 35.35,
+          "preliminary": false
+        },
+        {
+          "period": "2023-08",
+          "value": 36.2,
+          "preliminary": false
+        },
+        {
+          "period": "2023-09",
+          "value": 36.21,
+          "preliminary": false
+        },
+        {
+          "period": "2023-10",
+          "value": 36.4,
+          "preliminary": false
+        },
+        {
+          "period": "2023-11",
+          "value": 36.82,
+          "preliminary": false
+        },
+        {
+          "period": "2023-12",
+          "value": 37.75,
+          "preliminary": false
+        },
+        {
+          "period": "2024-01",
+          "value": 36.89,
+          "preliminary": false
+        },
+        {
+          "period": "2024-02",
+          "value": 37.12,
+          "preliminary": false
+        },
+        {
+          "period": "2024-03",
+          "value": 37.66,
+          "preliminary": false
+        },
+        {
+          "period": "2024-04",
+          "value": 37.52,
+          "preliminary": false
+        },
+        {
+          "period": "2024-05",
+          "value": 37.14,
+          "preliminary": false
+        },
+        {
+          "period": "2024-06",
+          "value": 37.54,
+          "preliminary": false
+        },
+        {
+          "period": "2024-07",
+          "value": 36.74,
+          "preliminary": false
+        },
+        {
+          "period": "2024-08",
+          "value": 37.28,
+          "preliminary": false
+        },
+        {
+          "period": "2024-09",
+          "value": 37.61,
+          "preliminary": false
+        },
+        {
+          "period": "2024-10",
+          "value": 37.97,
+          "preliminary": false
+        },
+        {
+          "period": "2024-11",
+          "value": 38.97,
+          "preliminary": false
+        },
+        {
+          "period": "2024-12",
+          "value": 40.35,
+          "preliminary": false
+        },
+        {
+          "period": "2025-01",
+          "value": 40.0,
+          "preliminary": false
+        },
+        {
+          "period": "2025-02",
+          "value": 40.16,
+          "preliminary": false
+        },
+        {
+          "period": "2025-03",
+          "value": 41.01,
+          "preliminary": false
+        },
+        {
+          "period": "2025-04",
+          "value": 41.0,
+          "preliminary": false
+        },
+        {
+          "period": "2025-05",
+          "value": 41.23,
+          "preliminary": false
+        },
+        {
+          "period": "2025-06",
+          "value": 41.13,
+          "preliminary": false
+        },
+        {
+          "period": "2025-07",
+          "value": 41.51,
+          "preliminary": false
+        },
+        {
+          "period": "2025-08",
+          "value": 41.44,
+          "preliminary": false
+        },
+        {
+          "period": "2025-09",
+          "value": 42.13,
+          "preliminary": false
+        },
+        {
+          "period": "2025-10",
+          "value": 42.43,
+          "preliminary": false
+        },
+        {
+          "period": "2025-11",
+          "value": 43.01,
+          "preliminary": false
+        },
+        {
+          "period": "2025-12",
+          "value": 42.85,
+          "preliminary": false
+        },
+        {
+          "period": "2026-01",
+          "value": 43.32,
+          "preliminary": false
+        },
+        {
+          "period": "2026-02",
+          "value": 43.12,
+          "preliminary": false
+        },
+        {
+          "period": "2026-03",
+          "value": 43.38,
+          "preliminary": false
+        },
+        {
+          "period": "2026-04",
+          "value": 43.08,
+          "preliminary": false
+        },
+        {
+          "period": "2026-05",
+          "value": 42.83,
+          "preliminary": false
+        },
+        {
+          "period": "2026-06",
+          "value": 42.43,
+          "preliminary": false
+        },
+        {
+          "period": "2026-07",
+          "value": 42.38,
+          "preliminary": false
+        },
+        {
+          "period": "2026-08",
+          "value": 43.3,
+          "preliminary": true
+        }
+      ],
+      "latest": {
+        "period": "2026-08",
+        "value": 43.3,
+        "preliminary": true
+      },
+      "yoy": {
+        "period": "2026-08",
+        "value": 4.49,
+        "basis": "pct"
+      },
+      "yoyUnavailableReason": null,
+      "unavailableReason": null
+    },
+    "SMU08000002000000011": {
+      "label": "Colorado construction average weekly earnings, all employees",
+      "unit": "dollars per week",
+      "geography": "Colorado",
+      "panel": "labor-rates",
+      "frequency": "monthly",
+      "seasonalAdjustment": "NSA",
+      "observations": [
+        {
+          "period": "2017-01",
+          "value": 987.96,
+          "preliminary": false
+        },
+        {
+          "period": "2017-02",
+          "value": 1016.88,
+          "preliminary": false
+        },
+        {
+          "period": "2017-03",
+          "value": 1002.75,
+          "preliminary": false
+        },
+        {
+          "period": "2017-04",
+          "value": 1031.75,
+          "preliminary": false
+        },
+        {
+          "period": "2017-05",
+          "value": 1023.37,
+          "preliminary": false
+        },
+        {
+          "period": "2017-06",
+          "value": 1068.63,
+          "preliminary": false
+        },
+        {
+          "period": "2017-07",
+          "value": 1042.02,
+          "preliminary": false
+        },
+        {
+          "period": "2017-08",
+          "value": 1042.19,
+          "preliminary": false
+        },
+        {
+          "period": "2017-09",
+          "value": 1063.14,
+          "preliminary": false
+        },
+        {
+          "period": "2017-10",
+          "value": 1050.67,
+          "preliminary": false
+        },
+        {
+          "period": "2017-11",
+          "value": 1069.06,
+          "preliminary": false
+        },
+        {
+          "period": "2017-12",
+          "value": 1065.58,
+          "preliminary": false
+        },
+        {
+          "period": "2018-01",
+          "value": 1050.3,
+          "preliminary": false
+        },
+        {
+          "period": "2018-02",
+          "value": 1053.86,
+          "preliminary": false
+        },
+        {
+          "period": "2018-03",
+          "value": 1092.9,
+          "preliminary": false
+        },
+        {
+          "period": "2018-04",
+          "value": 1088.32,
+          "preliminary": false
+        },
+        {
+          "period": "2018-05",
+          "value": 1128.81,
+          "preliminary": false
+        },
+        {
+          "period": "2018-06",
+          "value": 1129.39,
+          "preliminary": false
+        },
+        {
+          "period": "2018-07",
+          "value": 1125.43,
+          "preliminary": false
+        },
+        {
+          "period": "2018-08",
+          "value": 1133.73,
+          "preliminary": false
+        },
+        {
+          "period": "2018-09",
+          "value": 1144.07,
+          "preliminary": false
+        },
+        {
+          "period": "2018-10",
+          "value": 1198.99,
+          "preliminary": false
+        },
+        {
+          "period": "2018-11",
+          "value": 1152.31,
+          "preliminary": false
+        },
+        {
+          "period": "2018-12",
+          "value": 1194.33,
+          "preliminary": false
+        },
+        {
+          "period": "2019-01",
+          "value": 1132.51,
+          "preliminary": false
+        },
+        {
+          "period": "2019-02",
+          "value": 1168.15,
+          "preliminary": false
+        },
+        {
+          "period": "2019-03",
+          "value": 1129.24,
+          "preliminary": false
+        },
+        {
+          "period": "2019-04",
+          "value": 1176.87,
+          "preliminary": false
+        },
+        {
+          "period": "2019-05",
+          "value": 1145.29,
+          "preliminary": false
+        },
+        {
+          "period": "2019-06",
+          "value": 1186.16,
+          "preliminary": false
+        },
+        {
+          "period": "2019-07",
+          "value": 1167.77,
+          "preliminary": false
+        },
+        {
+          "period": "2019-08",
+          "value": 1204.0,
+          "preliminary": false
+        },
+        {
+          "period": "2019-09",
+          "value": 1225.44,
+          "preliminary": false
+        },
+        {
+          "period": "2019-10",
+          "value": 1204.28,
+          "preliminary": false
+        },
+        {
+          "period": "2019-11",
+          "value": 1229.82,
+          "preliminary": false
+        },
+        {
+          "period": "2019-12",
+          "value": 1273.21,
+          "preliminary": false
+        },
+        {
+          "period": "2020-01",
+          "value": 1222.53,
+          "preliminary": false
+        },
+        {
+          "period": "2020-02",
+          "value": 1220.62,
+          "preliminary": false
+        },
+        {
+          "period": "2020-03",
+          "value": 1231.82,
+          "preliminary": false
+        },
+        {
+          "period": "2020-04",
+          "value": 1201.46,
+          "preliminary": false
+        },
+        {
+          "period": "2020-05",
+          "value": 1224.19,
+          "preliminary": false
+        },
+        {
+          "period": "2020-06",
+          "value": 1237.08,
+          "preliminary": false
+        },
+        {
+          "period": "2020-07",
+          "value": 1252.68,
+          "preliminary": false
+        },
+        {
+          "period": "2020-08",
+          "value": 1255.89,
+          "preliminary": false
+        },
+        {
+          "period": "2020-09",
+          "value": 1184.1,
+          "preliminary": false
+        },
+        {
+          "period": "2020-10",
+          "value": 1294.76,
+          "preliminary": false
+        },
+        {
+          "period": "2020-11",
+          "value": 1278.96,
+          "preliminary": false
+        },
+        {
+          "period": "2020-12",
+          "value": 1287.38,
+          "preliminary": false
+        },
+        {
+          "period": "2021-01",
+          "value": 1269.54,
+          "preliminary": false
+        },
+        {
+          "period": "2021-02",
+          "value": 1206.02,
+          "preliminary": false
+        },
+        {
+          "period": "2021-03",
+          "value": 1251.72,
+          "preliminary": false
+        },
+        {
+          "period": "2021-04",
+          "value": 1257.77,
+          "preliminary": false
+        },
+        {
+          "period": "2021-05",
+          "value": 1248.3,
+          "preliminary": false
+        },
+        {
+          "period": "2021-06",
+          "value": 1328.67,
+          "preliminary": false
+        },
+        {
+          "period": "2021-07",
+          "value": 1328.0,
+          "preliminary": false
+        },
+        {
+          "period": "2021-08",
+          "value": 1316.06,
+          "preliminary": false
+        },
+        {
+          "period": "2021-09",
+          "value": 1336.34,
+          "preliminary": false
+        },
+        {
+          "period": "2021-10",
+          "value": 1267.06,
+          "preliminary": false
+        },
+        {
+          "period": "2021-11",
+          "value": 1298.39,
+          "preliminary": false
+        },
+        {
+          "period": "2021-12",
+          "value": 1325.95,
+          "preliminary": false
+        },
+        {
+          "period": "2022-01",
+          "value": 1318.35,
+          "preliminary": false
+        },
+        {
+          "period": "2022-02",
+          "value": 1315.18,
+          "preliminary": false
+        },
+        {
+          "period": "2022-03",
+          "value": 1273.31,
+          "preliminary": false
+        },
+        {
+          "period": "2022-04",
+          "value": 1337.86,
+          "preliminary": false
+        },
+        {
+          "period": "2022-05",
+          "value": 1371.91,
+          "preliminary": false
+        },
+        {
+          "period": "2022-06",
+          "value": 1376.7,
+          "preliminary": false
+        },
+        {
+          "period": "2022-07",
+          "value": 1363.29,
+          "preliminary": false
+        },
+        {
+          "period": "2022-08",
+          "value": 1348.99,
+          "preliminary": false
+        },
+        {
+          "period": "2022-09",
+          "value": 1374.34,
+          "preliminary": false
+        },
+        {
+          "period": "2022-10",
+          "value": 1386.5,
+          "preliminary": false
+        },
+        {
+          "period": "2022-11",
+          "value": 1354.95,
+          "preliminary": false
+        },
+        {
+          "period": "2022-12",
+          "value": 1353.94,
+          "preliminary": false
+        },
+        {
+          "period": "2023-01",
+          "value": 1389.33,
+          "preliminary": false
+        },
+        {
+          "period": "2023-02",
+          "value": 1363.45,
+          "preliminary": false
+        },
+        {
+          "period": "2023-03",
+          "value": 1413.94,
+          "preliminary": false
+        },
+        {
+          "period": "2023-04",
+          "value": 1392.97,
+          "preliminary": false
+        },
+        {
+          "period": "2023-05",
+          "value": 1297.2,
+          "preliminary": false
+        },
+        {
+          "period": "2023-06",
+          "value": 1343.61,
+          "preliminary": false
+        },
+        {
+          "period": "2023-07",
+          "value": 1399.86,
+          "preliminary": false
+        },
+        {
+          "period": "2023-08",
+          "value": 1433.52,
+          "preliminary": false
+        },
+        {
+          "period": "2023-09",
+          "value": 1426.67,
+          "preliminary": false
+        },
+        {
+          "period": "2023-10",
+          "value": 1477.84,
+          "preliminary": false
+        },
+        {
+          "period": "2023-11",
+          "value": 1469.12,
+          "preliminary": false
+        },
+        {
+          "period": "2023-12",
+          "value": 1464.7,
+          "preliminary": false
+        },
+        {
+          "period": "2024-01",
+          "value": 1353.86,
+          "preliminary": false
+        },
+        {
+          "period": "2024-02",
+          "value": 1392.0,
+          "preliminary": false
+        },
+        {
+          "period": "2024-03",
+          "value": 1351.99,
+          "preliminary": false
+        },
+        {
+          "period": "2024-04",
+          "value": 1437.02,
+          "preliminary": false
+        },
+        {
+          "period": "2024-05",
+          "value": 1437.32,
+          "preliminary": false
+        },
+        {
+          "period": "2024-06",
+          "value": 1464.06,
+          "preliminary": false
+        },
+        {
+          "period": "2024-07",
+          "value": 1476.95,
+          "preliminary": false
+        },
+        {
+          "period": "2024-08",
+          "value": 1476.29,
+          "preliminary": false
+        },
+        {
+          "period": "2024-09",
+          "value": 1496.88,
+          "preliminary": false
+        },
+        {
+          "period": "2024-10",
+          "value": 1526.39,
+          "preliminary": false
+        },
+        {
+          "period": "2024-11",
+          "value": 1465.27,
+          "preliminary": false
+        },
+        {
+          "period": "2024-12",
+          "value": 1561.55,
+          "preliminary": false
+        },
+        {
+          "period": "2025-01",
+          "value": 1508.0,
+          "preliminary": false
+        },
+        {
+          "period": "2025-02",
+          "value": 1473.87,
+          "preliminary": false
+        },
+        {
+          "period": "2025-03",
+          "value": 1574.78,
+          "preliminary": false
+        },
+        {
+          "period": "2025-04",
+          "value": 1586.7,
+          "preliminary": false
+        },
+        {
+          "period": "2025-05",
+          "value": 1570.86,
+          "preliminary": false
+        },
+        {
+          "period": "2025-06",
+          "value": 1649.31,
+          "preliminary": false
+        },
+        {
+          "period": "2025-07",
+          "value": 1627.19,
+          "preliminary": false
+        },
+        {
+          "period": "2025-08",
+          "value": 1641.02,
+          "preliminary": false
+        },
+        {
+          "period": "2025-09",
+          "value": 1647.28,
+          "preliminary": false
+        },
+        {
+          "period": "2025-10",
+          "value": 1697.2,
+          "preliminary": false
+        },
+        {
+          "period": "2025-11",
+          "value": 1729.0,
+          "preliminary": false
+        },
+        {
+          "period": "2025-12",
+          "value": 1679.72,
+          "preliminary": false
+        },
+        {
+          "period": "2026-01",
+          "value": 1680.82,
+          "preliminary": false
+        },
+        {
+          "period": "2026-02",
+          "value": 1668.74,
+          "preliminary": false
+        },
+        {
+          "period": "2026-03",
+          "value": 1700.5,
+          "preliminary": false
+        },
+        {
+          "period": "2026-04",
+          "value": 1693.04,
+          "preliminary": false
+        },
+        {
+          "period": "2026-05",
+          "value": 1721.77,
+          "preliminary": false
+        },
+        {
+          "period": "2026-06",
+          "value": 1697.2,
+          "preliminary": false
+        },
+        {
+          "period": "2026-07",
+          "value": 1690.96,
+          "preliminary": false
+        },
+        {
+          "period": "2026-08",
+          "value": 1770.97,
+          "preliminary": true
+        }
+      ],
+      "latest": {
+        "period": "2026-08",
+        "value": 1770.97,
+        "preliminary": true
+      },
+      "yoy": {
+        "period": "2026-08",
+        "value": 7.92,
+        "basis": "pct"
+      },
+      "yoyUnavailableReason": null,
+      "unavailableReason": null
+    },
+    "LASST080000000000003": {
+      "label": "Colorado unemployment rate (all industries)",
+      "unit": "percent",
+      "geography": "Colorado",
+      "panel": "labor-availability",
+      "frequency": "monthly",
+      "seasonalAdjustment": "SA",
+      "observations": [
+        {
+          "period": "2017-01",
+          "value": 2.6,
+          "preliminary": false
+        },
+        {
+          "period": "2017-02",
+          "value": 2.5,
+          "preliminary": false
+        },
+        {
+          "period": "2017-03",
+          "value": 2.4,
+          "preliminary": false
+        },
+        {
+          "period": "2017-04",
+          "value": 2.4,
+          "preliminary": false
+        },
+        {
+          "period": "2017-05",
+          "value": 2.4,
+          "preliminary": false
+        },
+        {
+          "period": "2017-06",
+          "value": 2.5,
+          "preliminary": false
+        },
+        {
+          "period": "2017-07",
+          "value": 2.6,
+          "preliminary": false
+        },
+        {
+          "period": "2017-08",
+          "value": 2.7,
+          "preliminary": false
+        },
+        {
+          "period": "2017-09",
+          "value": 2.8,
+          "preliminary": false
+        },
+        {
+          "period": "2017-10",
+          "value": 2.8,
+          "preliminary": false
+        },
+        {
+          "period": "2017-11",
+          "value": 2.8,
+          "preliminary": false
+        },
+        {
+          "period": "2017-12",
+          "value": 2.9,
+          "preliminary": false
+        },
+        {
+          "period": "2018-01",
+          "value": 2.9,
+          "preliminary": false
+        },
+        {
+          "period": "2018-02",
+          "value": 2.9,
+          "preliminary": false
+        },
+        {
+          "period": "2018-03",
+          "value": 2.9,
+          "preliminary": false
+        },
+        {
+          "period": "2018-04",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2018-05",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2018-06",
+          "value": 3.1,
+          "preliminary": false
+        },
+        {
+          "period": "2018-07",
+          "value": 3.1,
+          "preliminary": false
+        },
+        {
+          "period": "2018-08",
+          "value": 3.1,
+          "preliminary": false
+        },
+        {
+          "period": "2018-09",
+          "value": 3.1,
+          "preliminary": false
+        },
+        {
+          "period": "2018-10",
+          "value": 3.1,
+          "preliminary": false
+        },
+        {
+          "period": "2018-11",
+          "value": 3.1,
+          "preliminary": false
+        },
+        {
+          "period": "2018-12",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2019-01",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2019-02",
+          "value": 2.9,
+          "preliminary": false
+        },
+        {
+          "period": "2019-03",
+          "value": 2.8,
+          "preliminary": false
+        },
+        {
+          "period": "2019-04",
+          "value": 2.6,
+          "preliminary": false
+        },
+        {
+          "period": "2019-05",
+          "value": 2.6,
+          "preliminary": false
+        },
+        {
+          "period": "2019-06",
+          "value": 2.5,
+          "preliminary": false
+        },
+        {
+          "period": "2019-07",
+          "value": 2.5,
+          "preliminary": false
+        },
+        {
+          "period": "2019-08",
+          "value": 2.5,
+          "preliminary": false
+        },
+        {
+          "period": "2019-09",
+          "value": 2.5,
+          "preliminary": false
+        },
+        {
+          "period": "2019-10",
+          "value": 2.6,
+          "preliminary": false
+        },
+        {
+          "period": "2019-11",
+          "value": 2.7,
+          "preliminary": false
+        },
+        {
+          "period": "2019-12",
+          "value": 2.8,
+          "preliminary": false
+        },
+        {
+          "period": "2020-01",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2020-02",
+          "value": 3.2,
+          "preliminary": false
+        },
+        {
+          "period": "2020-03",
+          "value": 3.4,
+          "preliminary": false
+        },
+        {
+          "period": "2020-04",
+          "value": 11.2,
+          "preliminary": false
+        },
+        {
+          "period": "2020-05",
+          "value": 11.7,
+          "preliminary": false
+        },
+        {
+          "period": "2020-06",
+          "value": 11.2,
+          "preliminary": false
+        },
+        {
+          "period": "2020-07",
+          "value": 6.5,
+          "preliminary": false
+        },
+        {
+          "period": "2020-08",
+          "value": 6.2,
+          "preliminary": false
+        },
+        {
+          "period": "2020-09",
+          "value": 6.3,
+          "preliminary": false
+        },
+        {
+          "period": "2020-10",
+          "value": 6.2,
+          "preliminary": false
+        },
+        {
+          "period": "2020-11",
+          "value": 6.2,
+          "preliminary": false
+        },
+        {
+          "period": "2020-12",
+          "value": 6.4,
+          "preliminary": false
+        },
+        {
+          "period": "2021-01",
+          "value": 6.3,
+          "preliminary": false
+        },
+        {
+          "period": "2021-02",
+          "value": 6.3,
+          "preliminary": false
+        },
+        {
+          "period": "2021-03",
+          "value": 6.2,
+          "preliminary": false
+        },
+        {
+          "period": "2021-04",
+          "value": 6.2,
+          "preliminary": false
+        },
+        {
+          "period": "2021-05",
+          "value": 6.0,
+          "preliminary": false
+        },
+        {
+          "period": "2021-06",
+          "value": 5.9,
+          "preliminary": false
+        },
+        {
+          "period": "2021-07",
+          "value": 5.7,
+          "preliminary": false
+        },
+        {
+          "period": "2021-08",
+          "value": 5.4,
+          "preliminary": false
+        },
+        {
+          "period": "2021-09",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2021-10",
+          "value": 4.6,
+          "preliminary": false
+        },
+        {
+          "period": "2021-11",
+          "value": 4.4,
+          "preliminary": false
+        },
+        {
+          "period": "2021-12",
+          "value": 4.2,
+          "preliminary": false
+        },
+        {
+          "period": "2022-01",
+          "value": 4.0,
+          "preliminary": false
+        },
+        {
+          "period": "2022-02",
+          "value": 3.6,
+          "preliminary": false
+        },
+        {
+          "period": "2022-03",
+          "value": 3.3,
+          "preliminary": false
+        },
+        {
+          "period": "2022-04",
+          "value": 3.1,
+          "preliminary": false
+        },
+        {
+          "period": "2022-05",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2022-06",
+          "value": 2.9,
+          "preliminary": false
+        },
+        {
+          "period": "2022-07",
+          "value": 2.7,
+          "preliminary": false
+        },
+        {
+          "period": "2022-08",
+          "value": 2.6,
+          "preliminary": false
+        },
+        {
+          "period": "2022-09",
+          "value": 2.8,
+          "preliminary": false
+        },
+        {
+          "period": "2022-10",
+          "value": 2.9,
+          "preliminary": false
+        },
+        {
+          "period": "2022-11",
+          "value": 2.9,
+          "preliminary": false
+        },
+        {
+          "period": "2022-12",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2023-01",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2023-02",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2023-03",
+          "value": 3.1,
+          "preliminary": false
+        },
+        {
+          "period": "2023-04",
+          "value": 3.1,
+          "preliminary": false
+        },
+        {
+          "period": "2023-05",
+          "value": 3.2,
+          "preliminary": false
+        },
+        {
+          "period": "2023-06",
+          "value": 3.2,
+          "preliminary": false
+        },
+        {
+          "period": "2023-07",
+          "value": 3.3,
+          "preliminary": false
+        },
+        {
+          "period": "2023-08",
+          "value": 3.3,
+          "preliminary": false
+        },
+        {
+          "period": "2023-09",
+          "value": 3.4,
+          "preliminary": false
+        },
+        {
+          "period": "2023-10",
+          "value": 3.5,
+          "preliminary": false
+        },
+        {
+          "period": "2023-11",
+          "value": 3.6,
+          "preliminary": false
+        },
+        {
+          "period": "2023-12",
+          "value": 3.7,
+          "preliminary": false
+        },
+        {
+          "period": "2024-01",
+          "value": 3.8,
+          "preliminary": false
+        },
+        {
+          "period": "2024-02",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2024-03",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2024-04",
+          "value": 4.0,
+          "preliminary": false
+        },
+        {
+          "period": "2024-05",
+          "value": 4.1,
+          "preliminary": false
+        },
+        {
+          "period": "2024-06",
+          "value": 4.1,
+          "preliminary": false
+        },
+        {
+          "period": "2024-07",
+          "value": 4.2,
+          "preliminary": false
+        },
+        {
+          "period": "2024-08",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2024-09",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2024-10",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2024-11",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2024-12",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2025-01",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2025-02",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2025-03",
+          "value": 4.2,
+          "preliminary": false
+        },
+        {
+          "period": "2025-04",
+          "value": 4.2,
+          "preliminary": false
+        },
+        {
+          "period": "2025-05",
+          "value": 4.1,
+          "preliminary": false
+        },
+        {
+          "period": "2025-06",
+          "value": 4.0,
+          "preliminary": false
+        },
+        {
+          "period": "2025-07",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2025-08",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2025-09",
+          "value": 3.8,
+          "preliminary": false
+        },
+        {
+          "period": "2025-11",
+          "value": 3.8,
+          "preliminary": false
+        },
+        {
+          "period": "2025-12",
+          "value": 3.8,
+          "preliminary": false
+        },
+        {
+          "period": "2026-01",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2026-02",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2026-03",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2026-04",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2026-05",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2026-06",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2026-07",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2026-08",
+          "value": 4.0,
+          "preliminary": true
+        }
+      ],
+      "latest": {
+        "period": "2026-08",
+        "value": 4.0,
+        "preliminary": true
+      },
+      "yoy": {
+        "period": "2026-08",
+        "value": 0.1,
+        "basis": "pts"
+      },
+      "yoyUnavailableReason": null,
+      "unavailableReason": null
+    },
+    "JTU230000000000000JOR": {
+      "label": "US construction job openings rate",
+      "unit": "percent",
+      "geography": "United States",
+      "panel": "labor-availability",
+      "frequency": "monthly",
+      "seasonalAdjustment": "NSA",
+      "observations": [
+        {
+          "period": "2017-01",
+          "value": 2.3,
+          "preliminary": false
+        },
+        {
+          "period": "2017-02",
+          "value": 2.8,
+          "preliminary": false
+        },
+        {
+          "period": "2017-03",
+          "value": 2.7,
+          "preliminary": false
+        },
+        {
+          "period": "2017-04",
+          "value": 3.2,
+          "preliminary": false
+        },
+        {
+          "period": "2017-05",
+          "value": 2.5,
+          "preliminary": false
+        },
+        {
+          "period": "2017-06",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2017-07",
+          "value": 3.2,
+          "preliminary": false
+        },
+        {
+          "period": "2017-08",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2017-09",
+          "value": 2.4,
+          "preliminary": false
+        },
+        {
+          "period": "2017-10",
+          "value": 2.7,
+          "preliminary": false
+        },
+        {
+          "period": "2017-11",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2017-12",
+          "value": 2.5,
+          "preliminary": false
+        },
+        {
+          "period": "2018-01",
+          "value": 3.4,
+          "preliminary": false
+        },
+        {
+          "period": "2018-02",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2018-03",
+          "value": 3.2,
+          "preliminary": false
+        },
+        {
+          "period": "2018-04",
+          "value": 3.4,
+          "preliminary": false
+        },
+        {
+          "period": "2018-05",
+          "value": 3.7,
+          "preliminary": false
+        },
+        {
+          "period": "2018-06",
+          "value": 4.1,
+          "preliminary": false
+        },
+        {
+          "period": "2018-07",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2018-08",
+          "value": 4.0,
+          "preliminary": false
+        },
+        {
+          "period": "2018-09",
+          "value": 3.8,
+          "preliminary": false
+        },
+        {
+          "period": "2018-10",
+          "value": 3.5,
+          "preliminary": false
+        },
+        {
+          "period": "2018-11",
+          "value": 3.5,
+          "preliminary": false
+        },
+        {
+          "period": "2018-12",
+          "value": 3.8,
+          "preliminary": false
+        },
+        {
+          "period": "2019-01",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2019-02",
+          "value": 3.8,
+          "preliminary": false
+        },
+        {
+          "period": "2019-03",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2019-04",
+          "value": 5.5,
+          "preliminary": false
+        },
+        {
+          "period": "2019-05",
+          "value": 4.7,
+          "preliminary": false
+        },
+        {
+          "period": "2019-06",
+          "value": 4.1,
+          "preliminary": false
+        },
+        {
+          "period": "2019-07",
+          "value": 4.4,
+          "preliminary": false
+        },
+        {
+          "period": "2019-08",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2019-09",
+          "value": 4.1,
+          "preliminary": false
+        },
+        {
+          "period": "2019-10",
+          "value": 4.0,
+          "preliminary": false
+        },
+        {
+          "period": "2019-11",
+          "value": 2.6,
+          "preliminary": false
+        },
+        {
+          "period": "2019-12",
+          "value": 2.7,
+          "preliminary": false
+        },
+        {
+          "period": "2020-01",
+          "value": 3.8,
+          "preliminary": false
+        },
+        {
+          "period": "2020-02",
+          "value": 3.8,
+          "preliminary": false
+        },
+        {
+          "period": "2020-03",
+          "value": 3.2,
+          "preliminary": false
+        },
+        {
+          "period": "2020-04",
+          "value": 3.5,
+          "preliminary": false
+        },
+        {
+          "period": "2020-05",
+          "value": 4.2,
+          "preliminary": false
+        },
+        {
+          "period": "2020-06",
+          "value": 3.1,
+          "preliminary": false
+        },
+        {
+          "period": "2020-07",
+          "value": 4.2,
+          "preliminary": false
+        },
+        {
+          "period": "2020-08",
+          "value": 3.5,
+          "preliminary": false
+        },
+        {
+          "period": "2020-09",
+          "value": 2.9,
+          "preliminary": false
+        },
+        {
+          "period": "2020-10",
+          "value": 3.3,
+          "preliminary": false
+        },
+        {
+          "period": "2020-11",
+          "value": 2.9,
+          "preliminary": false
+        },
+        {
+          "period": "2020-12",
+          "value": 2.7,
+          "preliminary": false
+        },
+        {
+          "period": "2021-01",
+          "value": 4.4,
+          "preliminary": false
+        },
+        {
+          "period": "2021-02",
+          "value": 3.1,
+          "preliminary": false
+        },
+        {
+          "period": "2021-03",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2021-04",
+          "value": 4.4,
+          "preliminary": false
+        },
+        {
+          "period": "2021-05",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2021-06",
+          "value": 4.2,
+          "preliminary": false
+        },
+        {
+          "period": "2021-07",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2021-08",
+          "value": 5.0,
+          "preliminary": false
+        },
+        {
+          "period": "2021-09",
+          "value": 4.4,
+          "preliminary": false
+        },
+        {
+          "period": "2021-10",
+          "value": 5.0,
+          "preliminary": false
+        },
+        {
+          "period": "2021-11",
+          "value": 4.1,
+          "preliminary": false
+        },
+        {
+          "period": "2021-12",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2022-01",
+          "value": 5.7,
+          "preliminary": false
+        },
+        {
+          "period": "2022-02",
+          "value": 4.5,
+          "preliminary": false
+        },
+        {
+          "period": "2022-03",
+          "value": 6.1,
+          "preliminary": false
+        },
+        {
+          "period": "2022-04",
+          "value": 5.7,
+          "preliminary": false
+        },
+        {
+          "period": "2022-05",
+          "value": 5.4,
+          "preliminary": false
+        },
+        {
+          "period": "2022-06",
+          "value": 4.8,
+          "preliminary": false
+        },
+        {
+          "period": "2022-07",
+          "value": 4.6,
+          "preliminary": false
+        },
+        {
+          "period": "2022-08",
+          "value": 4.2,
+          "preliminary": false
+        },
+        {
+          "period": "2022-09",
+          "value": 5.1,
+          "preliminary": false
+        },
+        {
+          "period": "2022-10",
+          "value": 4.8,
+          "preliminary": false
+        },
+        {
+          "period": "2022-11",
+          "value": 3.3,
+          "preliminary": false
+        },
+        {
+          "period": "2022-12",
+          "value": 4.5,
+          "preliminary": false
+        },
+        {
+          "period": "2023-01",
+          "value": 4.1,
+          "preliminary": false
+        },
+        {
+          "period": "2023-02",
+          "value": 4.5,
+          "preliminary": false
+        },
+        {
+          "period": "2023-03",
+          "value": 4.0,
+          "preliminary": false
+        },
+        {
+          "period": "2023-04",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2023-05",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2023-06",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2023-07",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2023-08",
+          "value": 4.6,
+          "preliminary": false
+        },
+        {
+          "period": "2023-09",
+          "value": 4.8,
+          "preliminary": false
+        },
+        {
+          "period": "2023-10",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2023-11",
+          "value": 4.7,
+          "preliminary": false
+        },
+        {
+          "period": "2023-12",
+          "value": 4.7,
+          "preliminary": false
+        },
+        {
+          "period": "2024-01",
+          "value": 5.2,
+          "preliminary": false
+        },
+        {
+          "period": "2024-02",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2024-03",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2024-04",
+          "value": 4.1,
+          "preliminary": false
+        },
+        {
+          "period": "2024-05",
+          "value": 4.8,
+          "preliminary": false
+        },
+        {
+          "period": "2024-06",
+          "value": 3.4,
+          "preliminary": false
+        },
+        {
+          "period": "2024-07",
+          "value": 2.7,
+          "preliminary": false
+        },
+        {
+          "period": "2024-08",
+          "value": 3.8,
+          "preliminary": false
+        },
+        {
+          "period": "2024-09",
+          "value": 2.7,
+          "preliminary": false
+        },
+        {
+          "period": "2024-10",
+          "value": 2.7,
+          "preliminary": false
+        },
+        {
+          "period": "2024-11",
+          "value": 2.4,
+          "preliminary": false
+        },
+        {
+          "period": "2024-12",
+          "value": 1.6,
+          "preliminary": false
+        },
+        {
+          "period": "2025-01",
+          "value": 2.9,
+          "preliminary": false
+        },
+        {
+          "period": "2025-02",
+          "value": 3.3,
+          "preliminary": false
+        },
+        {
+          "period": "2025-03",
+          "value": 3.5,
+          "preliminary": false
+        },
+        {
+          "period": "2025-04",
+          "value": 2.6,
+          "preliminary": false
+        },
+        {
+          "period": "2025-05",
+          "value": 2.8,
+          "preliminary": false
+        },
+        {
+          "period": "2025-06",
+          "value": 2.6,
+          "preliminary": false
+        },
+        {
+          "period": "2025-07",
+          "value": 3.3,
+          "preliminary": false
+        },
+        {
+          "period": "2025-08",
+          "value": 2.3,
+          "preliminary": false
+        },
+        {
+          "period": "2025-09",
+          "value": 2.3,
+          "preliminary": false
+        },
+        {
+          "period": "2025-10",
+          "value": 2.2,
+          "preliminary": false
+        },
+        {
+          "period": "2025-11",
+          "value": 3.2,
+          "preliminary": false
+        },
+        {
+          "period": "2025-12",
+          "value": 2.9,
+          "preliminary": false
+        },
+        {
+          "period": "2026-01",
+          "value": 2.9,
+          "preliminary": false
+        },
+        {
+          "period": "2026-02",
+          "value": 2.6,
+          "preliminary": false
+        },
+        {
+          "period": "2026-03",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2026-04",
+          "value": 3.2,
+          "preliminary": false
+        },
+        {
+          "period": "2026-05",
+          "value": 3.7,
+          "preliminary": false
+        },
+        {
+          "period": "2026-06",
+          "value": 3.5,
+          "preliminary": false
+        },
+        {
+          "period": "2026-07",
+          "value": 3.4,
+          "preliminary": false
+        },
+        {
+          "period": "2026-08",
+          "value": 2.7,
+          "preliminary": true
+        }
+      ],
+      "latest": {
+        "period": "2026-08",
+        "value": 2.7,
+        "preliminary": true
+      },
+      "yoy": {
+        "period": "2026-08",
+        "value": 0.4,
+        "basis": "pts"
+      },
+      "yoyUnavailableReason": null,
+      "unavailableReason": null
+    },
+    "JTU230000000000000HIR": {
+      "label": "US construction hires rate",
+      "unit": "percent",
+      "geography": "United States",
+      "panel": "labor-availability",
+      "frequency": "monthly",
+      "seasonalAdjustment": "NSA",
+      "observations": [
+        {
+          "period": "2017-01",
+          "value": 5.6,
+          "preliminary": false
+        },
+        {
+          "period": "2017-02",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2017-03",
+          "value": 5.7,
+          "preliminary": false
+        },
+        {
+          "period": "2017-04",
+          "value": 7.9,
+          "preliminary": false
+        },
+        {
+          "period": "2017-05",
+          "value": 7.2,
+          "preliminary": false
+        },
+        {
+          "period": "2017-06",
+          "value": 6.3,
+          "preliminary": false
+        },
+        {
+          "period": "2017-07",
+          "value": 5.9,
+          "preliminary": false
+        },
+        {
+          "period": "2017-08",
+          "value": 5.4,
+          "preliminary": false
+        },
+        {
+          "period": "2017-09",
+          "value": 5.3,
+          "preliminary": false
+        },
+        {
+          "period": "2017-10",
+          "value": 5.5,
+          "preliminary": false
+        },
+        {
+          "period": "2017-11",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2017-12",
+          "value": 2.6,
+          "preliminary": false
+        },
+        {
+          "period": "2018-01",
+          "value": 4.7,
+          "preliminary": false
+        },
+        {
+          "period": "2018-02",
+          "value": 5.2,
+          "preliminary": false
+        },
+        {
+          "period": "2018-03",
+          "value": 5.2,
+          "preliminary": false
+        },
+        {
+          "period": "2018-04",
+          "value": 6.8,
+          "preliminary": false
+        },
+        {
+          "period": "2018-05",
+          "value": 7.0,
+          "preliminary": false
+        },
+        {
+          "period": "2018-06",
+          "value": 5.9,
+          "preliminary": false
+        },
+        {
+          "period": "2018-07",
+          "value": 5.8,
+          "preliminary": false
+        },
+        {
+          "period": "2018-08",
+          "value": 5.0,
+          "preliminary": false
+        },
+        {
+          "period": "2018-09",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2018-10",
+          "value": 4.8,
+          "preliminary": false
+        },
+        {
+          "period": "2018-11",
+          "value": 4.0,
+          "preliminary": false
+        },
+        {
+          "period": "2018-12",
+          "value": 2.9,
+          "preliminary": false
+        },
+        {
+          "period": "2019-01",
+          "value": 5.5,
+          "preliminary": false
+        },
+        {
+          "period": "2019-02",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2019-03",
+          "value": 5.1,
+          "preliminary": false
+        },
+        {
+          "period": "2019-04",
+          "value": 7.9,
+          "preliminary": false
+        },
+        {
+          "period": "2019-05",
+          "value": 6.5,
+          "preliminary": false
+        },
+        {
+          "period": "2019-06",
+          "value": 6.6,
+          "preliminary": false
+        },
+        {
+          "period": "2019-07",
+          "value": 5.6,
+          "preliminary": false
+        },
+        {
+          "period": "2019-08",
+          "value": 5.3,
+          "preliminary": false
+        },
+        {
+          "period": "2019-09",
+          "value": 5.6,
+          "preliminary": false
+        },
+        {
+          "period": "2019-10",
+          "value": 6.4,
+          "preliminary": false
+        },
+        {
+          "period": "2019-11",
+          "value": 4.1,
+          "preliminary": false
+        },
+        {
+          "period": "2019-12",
+          "value": 3.5,
+          "preliminary": false
+        },
+        {
+          "period": "2020-01",
+          "value": 5.4,
+          "preliminary": false
+        },
+        {
+          "period": "2020-02",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2020-03",
+          "value": 5.3,
+          "preliminary": false
+        },
+        {
+          "period": "2020-04",
+          "value": 5.2,
+          "preliminary": false
+        },
+        {
+          "period": "2020-05",
+          "value": 11.5,
+          "preliminary": false
+        },
+        {
+          "period": "2020-06",
+          "value": 8.1,
+          "preliminary": false
+        },
+        {
+          "period": "2020-07",
+          "value": 5.9,
+          "preliminary": false
+        },
+        {
+          "period": "2020-08",
+          "value": 5.2,
+          "preliminary": false
+        },
+        {
+          "period": "2020-09",
+          "value": 5.2,
+          "preliminary": false
+        },
+        {
+          "period": "2020-10",
+          "value": 5.4,
+          "preliminary": false
+        },
+        {
+          "period": "2020-11",
+          "value": 4.0,
+          "preliminary": false
+        },
+        {
+          "period": "2020-12",
+          "value": 3.3,
+          "preliminary": false
+        },
+        {
+          "period": "2021-01",
+          "value": 4.6,
+          "preliminary": false
+        },
+        {
+          "period": "2021-02",
+          "value": 4.2,
+          "preliminary": false
+        },
+        {
+          "period": "2021-03",
+          "value": 6.3,
+          "preliminary": false
+        },
+        {
+          "period": "2021-04",
+          "value": 5.8,
+          "preliminary": false
+        },
+        {
+          "period": "2021-05",
+          "value": 5.1,
+          "preliminary": false
+        },
+        {
+          "period": "2021-06",
+          "value": 5.7,
+          "preliminary": false
+        },
+        {
+          "period": "2021-07",
+          "value": 5.1,
+          "preliminary": false
+        },
+        {
+          "period": "2021-08",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2021-09",
+          "value": 4.6,
+          "preliminary": false
+        },
+        {
+          "period": "2021-10",
+          "value": 5.0,
+          "preliminary": false
+        },
+        {
+          "period": "2021-11",
+          "value": 4.3,
+          "preliminary": false
+        },
+        {
+          "period": "2021-12",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2022-01",
+          "value": 4.4,
+          "preliminary": false
+        },
+        {
+          "period": "2022-02",
+          "value": 4.5,
+          "preliminary": false
+        },
+        {
+          "period": "2022-03",
+          "value": 5.8,
+          "preliminary": false
+        },
+        {
+          "period": "2022-04",
+          "value": 5.7,
+          "preliminary": false
+        },
+        {
+          "period": "2022-05",
+          "value": 5.7,
+          "preliminary": false
+        },
+        {
+          "period": "2022-06",
+          "value": 5.6,
+          "preliminary": false
+        },
+        {
+          "period": "2022-07",
+          "value": 5.6,
+          "preliminary": false
+        },
+        {
+          "period": "2022-08",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2022-09",
+          "value": 4.7,
+          "preliminary": false
+        },
+        {
+          "period": "2022-10",
+          "value": 4.4,
+          "preliminary": false
+        },
+        {
+          "period": "2022-11",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2022-12",
+          "value": 2.8,
+          "preliminary": false
+        },
+        {
+          "period": "2023-01",
+          "value": 5.2,
+          "preliminary": false
+        },
+        {
+          "period": "2023-02",
+          "value": 3.9,
+          "preliminary": false
+        },
+        {
+          "period": "2023-03",
+          "value": 5.7,
+          "preliminary": false
+        },
+        {
+          "period": "2023-04",
+          "value": 5.9,
+          "preliminary": false
+        },
+        {
+          "period": "2023-05",
+          "value": 5.5,
+          "preliminary": false
+        },
+        {
+          "period": "2023-06",
+          "value": 5.4,
+          "preliminary": false
+        },
+        {
+          "period": "2023-07",
+          "value": 5.3,
+          "preliminary": false
+        },
+        {
+          "period": "2023-08",
+          "value": 4.6,
+          "preliminary": false
+        },
+        {
+          "period": "2023-09",
+          "value": 3.6,
+          "preliminary": false
+        },
+        {
+          "period": "2023-10",
+          "value": 4.6,
+          "preliminary": false
+        },
+        {
+          "period": "2023-11",
+          "value": 3.3,
+          "preliminary": false
+        },
+        {
+          "period": "2023-12",
+          "value": 2.4,
+          "preliminary": false
+        },
+        {
+          "period": "2024-01",
+          "value": 5.0,
+          "preliminary": false
+        },
+        {
+          "period": "2024-02",
+          "value": 4.1,
+          "preliminary": false
+        },
+        {
+          "period": "2024-03",
+          "value": 4.8,
+          "preliminary": false
+        },
+        {
+          "period": "2024-04",
+          "value": 5.0,
+          "preliminary": false
+        },
+        {
+          "period": "2024-05",
+          "value": 5.7,
+          "preliminary": false
+        },
+        {
+          "period": "2024-06",
+          "value": 4.5,
+          "preliminary": false
+        },
+        {
+          "period": "2024-07",
+          "value": 4.8,
+          "preliminary": false
+        },
+        {
+          "period": "2024-08",
+          "value": 4.2,
+          "preliminary": false
+        },
+        {
+          "period": "2024-09",
+          "value": 3.8,
+          "preliminary": false
+        },
+        {
+          "period": "2024-10",
+          "value": 3.7,
+          "preliminary": false
+        },
+        {
+          "period": "2024-11",
+          "value": 2.8,
+          "preliminary": false
+        },
+        {
+          "period": "2024-12",
+          "value": 1.9,
+          "preliminary": false
+        },
+        {
+          "period": "2025-01",
+          "value": 4.5,
+          "preliminary": false
+        },
+        {
+          "period": "2025-02",
+          "value": 3.8,
+          "preliminary": false
+        },
+        {
+          "period": "2025-03",
+          "value": 4.0,
+          "preliminary": false
+        },
+        {
+          "period": "2025-04",
+          "value": 5.2,
+          "preliminary": false
+        },
+        {
+          "period": "2025-05",
+          "value": 5.1,
+          "preliminary": false
+        },
+        {
+          "period": "2025-06",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2025-07",
+          "value": 4.6,
+          "preliminary": false
+        },
+        {
+          "period": "2025-08",
+          "value": 4.1,
+          "preliminary": false
+        },
+        {
+          "period": "2025-09",
+          "value": 3.8,
+          "preliminary": false
+        },
+        {
+          "period": "2025-10",
+          "value": 3.3,
+          "preliminary": false
+        },
+        {
+          "period": "2025-11",
+          "value": 2.8,
+          "preliminary": false
+        },
+        {
+          "period": "2025-12",
+          "value": 2.1,
+          "preliminary": false
+        },
+        {
+          "period": "2026-01",
+          "value": 4.9,
+          "preliminary": false
+        },
+        {
+          "period": "2026-02",
+          "value": 3.0,
+          "preliminary": false
+        },
+        {
+          "period": "2026-03",
+          "value": 3.8,
+          "preliminary": false
+        },
+        {
+          "period": "2026-04",
+          "value": 4.8,
+          "preliminary": false
+        },
+        {
+          "period": "2026-05",
+          "value": 4.0,
+          "preliminary": false
+        },
+        {
+          "period": "2026-06",
+          "value": 4.5,
+          "preliminary": false
+        },
+        {
+          "period": "2026-07",
+          "value": 5.1,
+          "preliminary": false
+        },
+        {
+          "period": "2026-08",
+          "value": 3.8,
+          "preliminary": true
+        }
+      ],
+      "latest": {
+        "period": "2026-08",
+        "value": 3.8,
+        "preliminary": true
+      },
+      "yoy": {
+        "period": "2026-08",
+        "value": -0.3,
+        "basis": "pts"
+      },
+      "yoyUnavailableReason": null,
+      "unavailableReason": null
+    }
+  },
+  "oews": {
+    "year": 2025,
+    "referencePeriod": "May 2025",
+    "priorYearSource": null,
+    "areas": [
+      {
+        "code": "0800000",
+        "name": "Colorado (statewide)"
+      },
+      {
+        "code": "0019740",
+        "name": "Denver-Aurora-Centennial, CO"
+      },
+      {
+        "code": "0017820",
+        "name": "Colorado Springs, CO"
+      },
+      {
+        "code": "0022660",
+        "name": "Fort Collins-Loveland, CO"
+      },
+      {
+        "code": "0014500",
+        "name": "Boulder, CO"
+      },
+      {
+        "code": "0024540",
+        "name": "Greeley, CO"
+      },
+      {
+        "code": "0024300",
+        "name": "Grand Junction, CO"
+      },
+      {
+        "code": "0039380",
+        "name": "Pueblo, CO"
+      }
+    ],
+    "occupations": [
+      {
+        "soc": "47-1011",
+        "title": "First-line supervisors of construction trades and extraction workers"
+      },
+      {
+        "soc": "47-2031",
+        "title": "Carpenters"
+      },
+      {
+        "soc": "47-2061",
+        "title": "Construction laborers"
+      },
+      {
+        "soc": "47-2111",
+        "title": "Electricians"
+      },
+      {
+        "soc": "47-2152",
+        "title": "Plumbers, pipefitters, and steamfitters"
+      },
+      {
+        "soc": "47-2073",
+        "title": "Operating engineers and other construction equipment operators"
+      },
+      {
+        "soc": "47-2181",
+        "title": "Roofers"
+      },
+      {
+        "soc": "47-2081",
+        "title": "Drywall and ceiling tile installers"
+      },
+      {
+        "soc": "47-2051",
+        "title": "Cement masons and concrete finishers"
+      },
+      {
+        "soc": "47-2221",
+        "title": "Structural iron and steel workers"
+      }
+    ],
+    "rows": [
+      {
+        "area": "0800000",
+        "soc": "47-1011",
+        "employment": 21380.0,
+        "hourlyMean": 41.93,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0800000",
+        "soc": "47-2031",
+        "employment": 12740.0,
+        "hourlyMean": 31.82,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0800000",
+        "soc": "47-2061",
+        "employment": 18680.0,
+        "hourlyMean": 23.96,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0800000",
+        "soc": "47-2111",
+        "employment": 17010.0,
+        "hourlyMean": 31.88,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0800000",
+        "soc": "47-2152",
+        "employment": 10080.0,
+        "hourlyMean": 33.22,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0800000",
+        "soc": "47-2073",
+        "employment": 11700.0,
+        "hourlyMean": 31.04,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0800000",
+        "soc": "47-2181",
+        "employment": 3340.0,
+        "hourlyMean": 27.01,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0800000",
+        "soc": "47-2081",
+        "employment": 1560.0,
+        "hourlyMean": 29.78,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0800000",
+        "soc": "47-2051",
+        "employment": 5140.0,
+        "hourlyMean": 29.01,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0800000",
+        "soc": "47-2221",
+        "employment": 860.0,
+        "hourlyMean": 29.33,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0019740",
+        "soc": "47-1011",
+        "employment": 11780.0,
+        "hourlyMean": 43.57,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0019740",
+        "soc": "47-2031",
+        "employment": 7250.0,
+        "hourlyMean": 32.76,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0019740",
+        "soc": "47-2061",
+        "employment": 9650.0,
+        "hourlyMean": 24.49,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0019740",
+        "soc": "47-2111",
+        "employment": 10450.0,
+        "hourlyMean": 32.5,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0019740",
+        "soc": "47-2152",
+        "employment": 5750.0,
+        "hourlyMean": 34.57,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0019740",
+        "soc": "47-2073",
+        "employment": 5150.0,
+        "hourlyMean": 32.27,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0019740",
+        "soc": "47-2181",
+        "employment": 1900.0,
+        "hourlyMean": 27.84,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0019740",
+        "soc": "47-2081",
+        "employment": 1110.0,
+        "hourlyMean": 30.78,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0019740",
+        "soc": "47-2051",
+        "employment": 2590.0,
+        "hourlyMean": 29.56,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0019740",
+        "soc": "47-2221",
+        "employment": 480.0,
+        "hourlyMean": 30.43,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0017820",
+        "soc": "47-1011",
+        "employment": 1810.0,
+        "hourlyMean": 38.74,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0017820",
+        "soc": "47-2031",
+        "employment": 1220.0,
+        "hourlyMean": 29.44,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0017820",
+        "soc": "47-2061",
+        "employment": 1790.0,
+        "hourlyMean": 22.97,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0017820",
+        "soc": "47-2111",
+        "employment": 1290.0,
+        "hourlyMean": 29.48,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0017820",
+        "soc": "47-2152",
+        "employment": 1060.0,
+        "hourlyMean": 31.22,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0017820",
+        "soc": "47-2073",
+        "employment": 1030.0,
+        "hourlyMean": 30.22,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0017820",
+        "soc": "47-2181",
+        "employment": 310.0,
+        "hourlyMean": 25.89,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0017820",
+        "soc": "47-2081",
+        "employment": 100.0,
+        "hourlyMean": 27.38,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0017820",
+        "soc": "47-2051",
+        "employment": 640.0,
+        "hourlyMean": 28.0,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0017820",
+        "soc": "47-2221",
+        "employment": 70.0,
+        "hourlyMean": 28.48,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0022660",
+        "soc": "47-1011",
+        "employment": 1090.0,
+        "hourlyMean": 38.86,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0022660",
+        "soc": "47-2031",
+        "employment": 510.0,
+        "hourlyMean": 29.12,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0022660",
+        "soc": "47-2061",
+        "employment": 930.0,
+        "hourlyMean": 23.86,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0022660",
+        "soc": "47-2111",
+        "employment": 830.0,
+        "hourlyMean": 31.22,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0022660",
+        "soc": "47-2152",
+        "employment": 800.0,
+        "hourlyMean": 30.98,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0022660",
+        "soc": "47-2073",
+        "employment": 600.0,
+        "hourlyMean": 31.7,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0022660",
+        "soc": "47-2181",
+        "employment": 150.0,
+        "hourlyMean": 25.97,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0022660",
+        "soc": "47-2081",
+        "employment": 120.0,
+        "hourlyMean": 28.83,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0022660",
+        "soc": "47-2051",
+        "employment": 320.0,
+        "hourlyMean": 28.12,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0022660",
+        "soc": "47-2221",
+        "employment": 60.0,
+        "hourlyMean": 33.09,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0014500",
+        "soc": "47-1011",
+        "employment": 560.0,
+        "hourlyMean": 42.29,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0014500",
+        "soc": "47-2031",
+        "employment": 540.0,
+        "hourlyMean": 30.56,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0014500",
+        "soc": "47-2061",
+        "employment": 540.0,
+        "hourlyMean": 24.6,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0014500",
+        "soc": "47-2111",
+        "employment": 420.0,
+        "hourlyMean": 32.8,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0014500",
+        "soc": "47-2152",
+        "employment": 420.0,
+        "hourlyMean": 34.88,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0014500",
+        "soc": "47-2073",
+        "employment": 190.0,
+        "hourlyMean": 34.02,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0014500",
+        "soc": "47-2181",
+        "employment": 140.0,
+        "hourlyMean": 27.33,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0014500",
+        "soc": "47-2081",
+        "employment": null,
+        "hourlyMean": null,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": "Employment: BLS publishes no estimate for this area and occupation. Hourly mean wage: BLS publishes no estimate for this area and occupation.",
+        "changeUnavailableReason": "No current-year hourly mean wage."
+      },
+      {
+        "area": "0014500",
+        "soc": "47-2051",
+        "employment": 150.0,
+        "hourlyMean": 28.86,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0014500",
+        "soc": "47-2221",
+        "employment": null,
+        "hourlyMean": null,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": "Employment: BLS publishes no estimate for this area and occupation. Hourly mean wage: BLS publishes no estimate for this area and occupation.",
+        "changeUnavailableReason": "No current-year hourly mean wage."
+      },
+      {
+        "area": "0024540",
+        "soc": "47-1011",
+        "employment": 1970.0,
+        "hourlyMean": 40.25,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024540",
+        "soc": "47-2031",
+        "employment": 560.0,
+        "hourlyMean": 28.28,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024540",
+        "soc": "47-2061",
+        "employment": 1430.0,
+        "hourlyMean": 23.66,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024540",
+        "soc": "47-2111",
+        "employment": 1240.0,
+        "hourlyMean": 32.32,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024540",
+        "soc": "47-2152",
+        "employment": 520.0,
+        "hourlyMean": 30.0,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024540",
+        "soc": "47-2073",
+        "employment": 1550.0,
+        "hourlyMean": 29.14,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024540",
+        "soc": "47-2181",
+        "employment": 250.0,
+        "hourlyMean": 26.41,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024540",
+        "soc": "47-2081",
+        "employment": 50.0,
+        "hourlyMean": 28.48,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024540",
+        "soc": "47-2051",
+        "employment": 420.0,
+        "hourlyMean": 27.89,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024540",
+        "soc": "47-2221",
+        "employment": 80.0,
+        "hourlyMean": 28.59,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024300",
+        "soc": "47-1011",
+        "employment": 710.0,
+        "hourlyMean": 37.58,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024300",
+        "soc": "47-2031",
+        "employment": 340.0,
+        "hourlyMean": 29.94,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024300",
+        "soc": "47-2061",
+        "employment": 570.0,
+        "hourlyMean": 23.31,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024300",
+        "soc": "47-2111",
+        "employment": 430.0,
+        "hourlyMean": 28.27,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024300",
+        "soc": "47-2152",
+        "employment": 300.0,
+        "hourlyMean": 31.07,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024300",
+        "soc": "47-2073",
+        "employment": 390.0,
+        "hourlyMean": 27.56,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024300",
+        "soc": "47-2181",
+        "employment": 60.0,
+        "hourlyMean": 24.51,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024300",
+        "soc": "47-2081",
+        "employment": 50.0,
+        "hourlyMean": 24.7,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024300",
+        "soc": "47-2051",
+        "employment": 150.0,
+        "hourlyMean": 26.24,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0024300",
+        "soc": "47-2221",
+        "employment": null,
+        "hourlyMean": null,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": "Employment: BLS publishes no estimate for this area and occupation. Hourly mean wage: BLS publishes no estimate for this area and occupation.",
+        "changeUnavailableReason": "No current-year hourly mean wage."
+      },
+      {
+        "area": "0039380",
+        "soc": "47-1011",
+        "employment": 430.0,
+        "hourlyMean": 38.45,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0039380",
+        "soc": "47-2031",
+        "employment": 180.0,
+        "hourlyMean": 27.95,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0039380",
+        "soc": "47-2061",
+        "employment": 530.0,
+        "hourlyMean": 23.05,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0039380",
+        "soc": "47-2111",
+        "employment": 360.0,
+        "hourlyMean": 30.64,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0039380",
+        "soc": "47-2152",
+        "employment": 150.0,
+        "hourlyMean": 34.72,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0039380",
+        "soc": "47-2073",
+        "employment": 310.0,
+        "hourlyMean": 29.96,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0039380",
+        "soc": "47-2181",
+        "employment": 50.0,
+        "hourlyMean": 24.31,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0039380",
+        "soc": "47-2081",
+        "employment": null,
+        "hourlyMean": null,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": "Employment: BLS publishes no estimate for this area and occupation. Hourly mean wage: BLS publishes no estimate for this area and occupation.",
+        "changeUnavailableReason": "No current-year hourly mean wage."
+      },
+      {
+        "area": "0039380",
+        "soc": "47-2051",
+        "employment": 110.0,
+        "hourlyMean": 27.05,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": null,
+        "changeUnavailableReason": "No May 2024 hourly mean wage on record: the BLS API serves only the latest OEWS year, and this file did not yet hold the prior one."
+      },
+      {
+        "area": "0039380",
+        "soc": "47-2221",
+        "employment": null,
+        "hourlyMean": null,
+        "hourlyMeanPrior": null,
+        "changePct": null,
+        "unavailableReason": "Employment: BLS publishes no estimate for this area and occupation. Hourly mean wage: BLS publishes no estimate for this area and occupation.",
+        "changeUnavailableReason": "No current-year hourly mean wage."
+      }
+    ]
+  },
+  "materials": {
+    "source": "data/fred-data.json",
+    "headline": "WPUIP231120",
+    "series": [
+      {
+        "id": "WPUIP231120",
+        "label": "PPI: Net inputs to multifamily residential construction (headline)",
+        "latestPeriod": "2026-08",
+        "latest": 166.237,
+        "yoyPct": 7.47,
+        "unavailableReason": null
+      },
+      {
+        "id": "WPUSI012011",
+        "label": "PPI: Construction materials (special index)",
+        "latestPeriod": "2026-08",
+        "latest": 375.908,
+        "yoyPct": 10.09,
+        "unavailableReason": null
+      },
+      {
+        "id": "PCU327320327320",
+        "label": "PPI: Ready-mix concrete",
+        "latestPeriod": "2026-08",
+        "latest": 402.65,
+        "yoyPct": 2.28,
+        "unavailableReason": null
+      },
+      {
+        "id": "PCU331110331110",
+        "label": "PPI: Iron and steel mills",
+        "latestPeriod": "2026-08",
+        "latest": 337.487,
+        "yoyPct": 24.55,
+        "unavailableReason": null
+      },
+      {
+        "id": "WPU0811",
+        "label": "PPI: Lumber",
+        "latestPeriod": "2026-08",
+        "latest": 294.899,
+        "yoyPct": 11.83,
+        "unavailableReason": null
+      },
+      {
+        "id": "PCU327420327420",
+        "label": "PPI: Gypsum products",
+        "latestPeriod": "2026-08",
+        "latest": 406.402,
+        "yoyPct": -0.14,
+        "unavailableReason": null
+      },
+      {
+        "id": "PCU331420331420A",
+        "label": "PPI: Copper wire and cable",
+        "latestPeriod": "2026-08",
+        "latest": 437.338,
+        "yoyPct": 28.78,
+        "unavailableReason": null
+      },
+      {
+        "id": "PCU324121324121",
+        "label": "PPI: Asphalt paving mixtures and blocks",
+        "latestPeriod": "2026-08",
+        "latest": 442.492,
+        "yoyPct": 7.53,
+        "unavailableReason": null
+      }
+    ]
+  },
+  "summary": {
+    "period": "2026-08",
+    "text": "Colorado construction average hourly earnings rose 4.5% year over year in August 2026 (preliminary), while prices of net inputs to multifamily construction rose 7.5%; construction employment was 1.5% higher than a year earlier.",
+    "laborWageYoyPct": 4.49,
+    "employmentYoyPct": 1.54,
+    "materialsYoyPct": 7.47
+  },
+  "history": [
+    {
+      "period": "2017-01",
+      "laborWageYoyPct": null,
+      "employmentYoyPct": null,
+      "materialsYoyPct": 3.34
+    },
+    {
+      "period": "2017-02",
+      "laborWageYoyPct": null,
+      "employmentYoyPct": null,
+      "materialsYoyPct": 3.54
+    },
+    {
+      "period": "2017-03",
+      "laborWageYoyPct": null,
+      "employmentYoyPct": null,
+      "materialsYoyPct": 3.83
+    },
+    {
+      "period": "2017-04",
+      "laborWageYoyPct": null,
+      "employmentYoyPct": null,
+      "materialsYoyPct": 3.61
+    },
+    {
+      "period": "2017-05",
+      "laborWageYoyPct": null,
+      "employmentYoyPct": null,
+      "materialsYoyPct": 3.08
+    },
+    {
+      "period": "2017-06",
+      "laborWageYoyPct": null,
+      "employmentYoyPct": null,
+      "materialsYoyPct": 2.17
+    },
+    {
+      "period": "2017-07",
+      "laborWageYoyPct": null,
+      "employmentYoyPct": null,
+      "materialsYoyPct": 2.27
+    },
+    {
+      "period": "2017-08",
+      "laborWageYoyPct": null,
+      "employmentYoyPct": null,
+      "materialsYoyPct": 3.46
+    },
+    {
+      "period": "2017-09",
+      "laborWageYoyPct": null,
+      "employmentYoyPct": null,
+      "materialsYoyPct": 3.36
+    },
+    {
+      "period": "2017-10",
+      "laborWageYoyPct": null,
+      "employmentYoyPct": null,
+      "materialsYoyPct": 3.56
+    },
+    {
+      "period": "2017-11",
+      "laborWageYoyPct": null,
+      "employmentYoyPct": null,
+      "materialsYoyPct": 4.16
+    },
+    {
+      "period": "2017-12",
+      "laborWageYoyPct": null,
+      "employmentYoyPct": null,
+      "materialsYoyPct": 4.14
+    },
+    {
+      "period": "2018-01",
+      "laborWageYoyPct": 5.16,
+      "employmentYoyPct": 7.24,
+      "materialsYoyPct": 4.21
+    },
+    {
+      "period": "2018-02",
+      "laborWageYoyPct": 6.73,
+      "employmentYoyPct": 7.16,
+      "materialsYoyPct": 5.08
+    },
+    {
+      "period": "2018-03",
+      "laborWageYoyPct": 6.99,
+      "employmentYoyPct": 6.51,
+      "materialsYoyPct": 5.54
+    },
+    {
+      "period": "2018-04",
+      "laborWageYoyPct": 5.21,
+      "employmentYoyPct": 6.45,
+      "materialsYoyPct": 5.8
+    },
+    {
+      "period": "2018-05",
+      "laborWageYoyPct": 6.66,
+      "employmentYoyPct": 6.54,
+      "materialsYoyPct": 7.14
+    },
+    {
+      "period": "2018-06",
+      "laborWageYoyPct": 6.22,
+      "employmentYoyPct": 6.28,
+      "materialsYoyPct": 8.01
+    },
+    {
+      "period": "2018-07",
+      "laborWageYoyPct": 7.73,
+      "employmentYoyPct": 5.87,
+      "materialsYoyPct": 7.82
+    },
+    {
+      "period": "2018-08",
+      "laborWageYoyPct": 7.95,
+      "employmentYoyPct": 5.61,
+      "materialsYoyPct": 6.11
+    },
+    {
+      "period": "2018-09",
+      "laborWageYoyPct": 7.06,
+      "employmentYoyPct": 5.41,
+      "materialsYoyPct": 6.22
+    },
+    {
+      "period": "2018-10",
+      "laborWageYoyPct": 9.56,
+      "employmentYoyPct": 4.6,
+      "materialsYoyPct": 6.59
+    },
+    {
+      "period": "2018-11",
+      "laborWageYoyPct": 7.51,
+      "employmentYoyPct": 4.38,
+      "materialsYoyPct": 5.13
+    },
+    {
+      "period": "2018-12",
+      "laborWageYoyPct": 7.23,
+      "employmentYoyPct": 4.12,
+      "materialsYoyPct": 4.16
+    },
+    {
+      "period": "2019-01",
+      "laborWageYoyPct": 6.11,
+      "employmentYoyPct": 4.11,
+      "materialsYoyPct": 2.73
+    },
+    {
+      "period": "2019-02",
+      "laborWageYoyPct": 6.79,
+      "employmentYoyPct": 4.01,
+      "materialsYoyPct": 1.95
+    },
+    {
+      "period": "2019-03",
+      "laborWageYoyPct": 6.68,
+      "employmentYoyPct": 3.06,
+      "materialsYoyPct": 2.21
+    },
+    {
+      "period": "2019-04",
+      "laborWageYoyPct": 6.74,
+      "employmentYoyPct": 3.47,
+      "materialsYoyPct": 2.83
+    },
+    {
+      "period": "2019-05",
+      "laborWageYoyPct": 4.92,
+      "employmentYoyPct": 3.7,
+      "materialsYoyPct": 0.54
+    },
+    {
+      "period": "2019-06",
+      "laborWageYoyPct": 3.72,
+      "employmentYoyPct": 3.49,
+      "materialsYoyPct": -0.98
+    },
+    {
+      "period": "2019-07",
+      "laborWageYoyPct": 3.76,
+      "employmentYoyPct": 3.81,
+      "materialsYoyPct": -0.18
+    },
+    {
+      "period": "2019-08",
+      "laborWageYoyPct": 3.54,
+      "employmentYoyPct": 3.58,
+      "materialsYoyPct": 0.27
+    },
+    {
+      "period": "2019-09",
+      "laborWageYoyPct": 5.23,
+      "employmentYoyPct": 3.33,
+      "materialsYoyPct": 0.63
+    },
+    {
+      "period": "2019-10",
+      "laborWageYoyPct": 3.01,
+      "employmentYoyPct": 3.1,
+      "materialsYoyPct": -0.72
+    },
+    {
+      "period": "2019-11",
+      "laborWageYoyPct": 3.24,
+      "employmentYoyPct": 3.0,
+      "materialsYoyPct": 0.09
+    },
+    {
+      "period": "2019-12",
+      "laborWageYoyPct": 5.0,
+      "employmentYoyPct": 2.81,
+      "materialsYoyPct": 1.0
+    },
+    {
+      "period": "2020-01",
+      "laborWageYoyPct": 5.16,
+      "employmentYoyPct": 2.36,
+      "materialsYoyPct": 2.2
+    },
+    {
+      "period": "2020-02",
+      "laborWageYoyPct": 4.49,
+      "employmentYoyPct": 0.93,
+      "materialsYoyPct": 1.37
+    },
+    {
+      "period": "2020-03",
+      "laborWageYoyPct": 4.29,
+      "employmentYoyPct": 1.69,
+      "materialsYoyPct": -0.09
+    },
+    {
+      "period": "2020-04",
+      "laborWageYoyPct": 7.07,
+      "employmentYoyPct": -4.43,
+      "materialsYoyPct": -2.76
+    },
+    {
+      "period": "2020-05",
+      "laborWageYoyPct": 6.05,
+      "employmentYoyPct": -2.12,
+      "materialsYoyPct": -2.15
+    },
+    {
+      "period": "2020-06",
+      "laborWageYoyPct": 7.23,
+      "employmentYoyPct": -3.15,
+      "materialsYoyPct": 1.08
+    },
+    {
+      "period": "2020-07",
+      "laborWageYoyPct": 7.82,
+      "employmentYoyPct": -4.21,
+      "materialsYoyPct": 1.7
+    },
+    {
+      "period": "2020-08",
+      "laborWageYoyPct": 6.71,
+      "employmentYoyPct": -4.43,
+      "materialsYoyPct": 5.48
+    },
+    {
+      "period": "2020-09",
+      "laborWageYoyPct": 6.24,
+      "employmentYoyPct": -4.53,
+      "materialsYoyPct": 9.13
+    },
+    {
+      "period": "2020-10",
+      "laborWageYoyPct": 5.36,
+      "employmentYoyPct": -3.28,
+      "materialsYoyPct": 9.84
+    },
+    {
+      "period": "2020-11",
+      "laborWageYoyPct": 5.86,
+      "employmentYoyPct": -3.69,
+      "materialsYoyPct": 6.68
+    },
+    {
+      "period": "2020-12",
+      "laborWageYoyPct": 3.98,
+      "employmentYoyPct": -3.07,
+      "materialsYoyPct": 7.64
+    },
+    {
+      "period": "2021-01",
+      "laborWageYoyPct": 3.58,
+      "employmentYoyPct": -2.65,
+      "materialsYoyPct": 11.01
+    },
+    {
+      "period": "2021-02",
+      "laborWageYoyPct": 1.73,
+      "employmentYoyPct": -1.68,
+      "materialsYoyPct": 13.85
+    },
+    {
+      "period": "2021-03",
+      "laborWageYoyPct": 3.49,
+      "employmentYoyPct": -1.72,
+      "materialsYoyPct": 16.59
+    },
+    {
+      "period": "2021-04",
+      "laborWageYoyPct": 0.86,
+      "employmentYoyPct": 4.28,
+      "materialsYoyPct": 22.67
+    },
+    {
+      "period": "2021-05",
+      "laborWageYoyPct": 3.04,
+      "employmentYoyPct": 1.37,
+      "materialsYoyPct": 29.76
+    },
+    {
+      "period": "2021-06",
+      "laborWageYoyPct": 4.98,
+      "employmentYoyPct": 1.18,
+      "materialsYoyPct": 31.07
+    },
+    {
+      "period": "2021-07",
+      "laborWageYoyPct": 3.36,
+      "employmentYoyPct": 2.65,
+      "materialsYoyPct": 25.59
+    },
+    {
+      "period": "2021-08",
+      "laborWageYoyPct": 3.21,
+      "employmentYoyPct": 2.43,
+      "materialsYoyPct": 17.8
+    },
+    {
+      "period": "2021-09",
+      "laborWageYoyPct": 6.11,
+      "employmentYoyPct": 2.86,
+      "materialsYoyPct": 12.39
+    },
+    {
+      "period": "2021-10",
+      "laborWageYoyPct": 3.3,
+      "employmentYoyPct": 2.82,
+      "materialsYoyPct": 13.31
+    },
+    {
+      "period": "2021-11",
+      "laborWageYoyPct": 2.57,
+      "employmentYoyPct": 3.2,
+      "materialsYoyPct": 15.99
+    },
+    {
+      "period": "2021-12",
+      "laborWageYoyPct": 4.07,
+      "employmentYoyPct": 3.05,
+      "materialsYoyPct": 15.46
+    },
+    {
+      "period": "2022-01",
+      "laborWageYoyPct": 7.73,
+      "employmentYoyPct": 2.54,
+      "materialsYoyPct": 17.13
+    },
+    {
+      "period": "2022-02",
+      "laborWageYoyPct": 6.76,
+      "employmentYoyPct": 3.3,
+      "materialsYoyPct": 19.35
+    },
+    {
+      "period": "2022-03",
+      "laborWageYoyPct": 5.62,
+      "employmentYoyPct": 2.56,
+      "materialsYoyPct": 23.33
+    },
+    {
+      "period": "2022-04",
+      "laborWageYoyPct": 5.27,
+      "employmentYoyPct": 4.05,
+      "materialsYoyPct": 18.89
+    },
+    {
+      "period": "2022-05",
+      "laborWageYoyPct": 4.93,
+      "employmentYoyPct": 3.88,
+      "materialsYoyPct": 12.02
+    },
+    {
+      "period": "2022-06",
+      "laborWageYoyPct": 5.47,
+      "employmentYoyPct": 4.22,
+      "materialsYoyPct": 6.44
+    },
+    {
+      "period": "2022-07",
+      "laborWageYoyPct": 6.66,
+      "employmentYoyPct": 3.13,
+      "materialsYoyPct": 7.25
+    },
+    {
+      "period": "2022-08",
+      "laborWageYoyPct": 5.97,
+      "employmentYoyPct": 3.48,
+      "materialsYoyPct": 8.08
+    },
+    {
+      "period": "2022-09",
+      "laborWageYoyPct": 3.11,
+      "employmentYoyPct": 3.61,
+      "materialsYoyPct": 7.96
+    },
+    {
+      "period": "2022-10",
+      "laborWageYoyPct": 5.52,
+      "employmentYoyPct": 2.8,
+      "materialsYoyPct": 7.74
+    },
+    {
+      "period": "2022-11",
+      "laborWageYoyPct": 5.72,
+      "employmentYoyPct": 2.82,
+      "materialsYoyPct": 8.37
+    },
+    {
+      "period": "2022-12",
+      "laborWageYoyPct": 3.19,
+      "employmentYoyPct": 2.01,
+      "materialsYoyPct": 4.79
+    },
+    {
+      "period": "2023-01",
+      "laborWageYoyPct": 1.84,
+      "employmentYoyPct": 2.02,
+      "materialsYoyPct": 0.75
+    },
+    {
+      "period": "2023-02",
+      "laborWageYoyPct": 4.22,
+      "employmentYoyPct": 1.2,
+      "materialsYoyPct": -3.18
+    },
+    {
+      "period": "2023-03",
+      "laborWageYoyPct": 3.68,
+      "employmentYoyPct": 1.99,
+      "materialsYoyPct": -8.0
+    },
+    {
+      "period": "2023-04",
+      "laborWageYoyPct": 5.21,
+      "employmentYoyPct": 0.77,
+      "materialsYoyPct": -7.81
+    },
+    {
+      "period": "2023-05",
+      "laborWageYoyPct": 0.09,
+      "employmentYoyPct": 1.08,
+      "materialsYoyPct": -7.63
+    },
+    {
+      "period": "2023-06",
+      "laborWageYoyPct": -1.65,
+      "employmentYoyPct": 1.44,
+      "materialsYoyPct": -5.93
+    },
+    {
+      "period": "2023-07",
+      "laborWageYoyPct": -0.17,
+      "employmentYoyPct": 1.38,
+      "materialsYoyPct": -2.97
+    },
+    {
+      "period": "2023-08",
+      "laborWageYoyPct": 3.05,
+      "employmentYoyPct": 1.65,
+      "materialsYoyPct": -0.13
+    },
+    {
+      "period": "2023-09",
+      "laborWageYoyPct": 1.17,
+      "employmentYoyPct": 0.54,
+      "materialsYoyPct": 1.64
+    },
+    {
+      "period": "2023-10",
+      "laborWageYoyPct": 2.91,
+      "employmentYoyPct": -0.59,
+      "materialsYoyPct": 0.62
+    },
+    {
+      "period": "2023-11",
+      "laborWageYoyPct": 3.81,
+      "employmentYoyPct": -1.29,
+      "materialsYoyPct": 0.4
+    },
+    {
+      "period": "2023-12",
+      "laborWageYoyPct": 5.95,
+      "employmentYoyPct": 0.27,
+      "materialsYoyPct": 2.5
+    },
+    {
+      "period": "2024-01",
+      "laborWageYoyPct": 2.76,
+      "employmentYoyPct": 0.06,
+      "materialsYoyPct": 2.5
+    },
+    {
+      "period": "2024-02",
+      "laborWageYoyPct": 2.91,
+      "employmentYoyPct": 1.86,
+      "materialsYoyPct": 3.32
+    },
+    {
+      "period": "2024-03",
+      "laborWageYoyPct": 4.41,
+      "employmentYoyPct": 0.61,
+      "materialsYoyPct": 3.1
+    },
+    {
+      "period": "2024-04",
+      "laborWageYoyPct": 3.16,
+      "employmentYoyPct": -0.27,
+      "materialsYoyPct": 3.72
+    },
+    {
+      "period": "2024-05",
+      "laborWageYoyPct": 7.65,
+      "employmentYoyPct": 1.29,
+      "materialsYoyPct": 3.03
+    },
+    {
+      "period": "2024-06",
+      "laborWageYoyPct": 8.69,
+      "employmentYoyPct": 0.84,
+      "materialsYoyPct": 2.79
+    },
+    {
+      "period": "2024-07",
+      "laborWageYoyPct": 3.93,
+      "employmentYoyPct": 1.0,
+      "materialsYoyPct": 1.96
+    },
+    {
+      "period": "2024-08",
+      "laborWageYoyPct": 2.98,
+      "employmentYoyPct": 0.37,
+      "materialsYoyPct": 1.35
+    },
+    {
+      "period": "2024-09",
+      "laborWageYoyPct": 3.87,
+      "employmentYoyPct": 1.28,
+      "materialsYoyPct": 0.04
+    },
+    {
+      "period": "2024-10",
+      "laborWageYoyPct": 4.31,
+      "employmentYoyPct": 1.99,
+      "materialsYoyPct": 0.29
+    },
+    {
+      "period": "2024-11",
+      "laborWageYoyPct": 5.84,
+      "employmentYoyPct": 2.35,
+      "materialsYoyPct": 0.43
+    },
+    {
+      "period": "2024-12",
+      "laborWageYoyPct": 6.89,
+      "employmentYoyPct": 1.69,
+      "materialsYoyPct": 1.0
+    },
+    {
+      "period": "2025-01",
+      "laborWageYoyPct": 8.43,
+      "employmentYoyPct": 2.26,
+      "materialsYoyPct": 0.92
+    },
+    {
+      "period": "2025-02",
+      "laborWageYoyPct": 8.19,
+      "employmentYoyPct": -0.06,
+      "materialsYoyPct": 0.81
+    },
+    {
+      "period": "2025-03",
+      "laborWageYoyPct": 8.9,
+      "employmentYoyPct": 0.61,
+      "materialsYoyPct": 1.63
+    },
+    {
+      "period": "2025-04",
+      "laborWageYoyPct": 9.28,
+      "employmentYoyPct": 0.22,
+      "materialsYoyPct": 0.75
+    },
+    {
+      "period": "2025-05",
+      "laborWageYoyPct": 11.01,
+      "employmentYoyPct": -1.59,
+      "materialsYoyPct": 1.97
+    },
+    {
+      "period": "2025-06",
+      "laborWageYoyPct": 9.56,
+      "employmentYoyPct": -2.39,
+      "materialsYoyPct": 2.73
+    },
+    {
+      "period": "2025-07",
+      "laborWageYoyPct": 12.98,
+      "employmentYoyPct": -1.87,
+      "materialsYoyPct": 2.54
+    },
+    {
+      "period": "2025-08",
+      "laborWageYoyPct": 11.16,
+      "employmentYoyPct": -1.62,
+      "materialsYoyPct": 2.15
+    },
+    {
+      "period": "2025-09",
+      "laborWageYoyPct": 12.02,
+      "employmentYoyPct": -1.79,
+      "materialsYoyPct": 3.27
+    },
+    {
+      "period": "2025-10",
+      "laborWageYoyPct": 11.75,
+      "employmentYoyPct": -0.37,
+      "materialsYoyPct": 3.88
+    },
+    {
+      "period": "2025-11",
+      "laborWageYoyPct": 10.37,
+      "employmentYoyPct": -1.07,
+      "materialsYoyPct": 3.89
+    },
+    {
+      "period": "2025-12",
+      "laborWageYoyPct": 6.2,
+      "employmentYoyPct": -0.7,
+      "materialsYoyPct": 4.02
+    },
+    {
+      "period": "2026-01",
+      "laborWageYoyPct": 8.3,
+      "employmentYoyPct": -0.33,
+      "materialsYoyPct": 3.68
+    },
+    {
+      "period": "2026-02",
+      "laborWageYoyPct": 7.37,
+      "employmentYoyPct": 1.22,
+      "materialsYoyPct": 3.75
+    },
+    {
+      "period": "2026-03",
+      "laborWageYoyPct": 5.78,
+      "employmentYoyPct": 0.6,
+      "materialsYoyPct": 4.45
+    },
+    {
+      "period": "2026-04",
+      "laborWageYoyPct": 5.07,
+      "employmentYoyPct": 0.76,
+      "materialsYoyPct": 5.56
+    },
+    {
+      "period": "2026-05",
+      "laborWageYoyPct": 3.88,
+      "employmentYoyPct": 1.18,
+      "materialsYoyPct": 6.75
+    },
+    {
+      "period": "2026-06",
+      "laborWageYoyPct": 3.16,
+      "employmentYoyPct": 2.99,
+      "materialsYoyPct": 6.15
+    },
+    {
+      "period": "2026-07",
+      "laborWageYoyPct": 2.1,
+      "employmentYoyPct": 2.97,
+      "materialsYoyPct": 5.99
+    },
+    {
+      "period": "2026-08",
+      "laborWageYoyPct": 4.49,
+      "employmentYoyPct": 1.54,
+      "materialsYoyPct": 7.47
+    }
+  ]
+}
