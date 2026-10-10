@@ -1,11 +1,101 @@
 {
   "meta": {
-    "generated": "2026-10-08T13:47:34Z",
+    "generated": "2026-10-10T11:07:44Z",
     "feed_count": 6,
-    "alert_count": 270,
+    "alert_count": 280,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "Arizona\u2019s affordable housing tax credit at crossroads as developers seek revival - PinalCentral.com",
+      "date": "2026-10-09T23:45:01Z",
+      "source": "PinalCentral.com",
+      "url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxQTzA4ZFphZnIxY2ZmMDQxRFJ2Qnk1TkowWjBFYXZ2bk1jcWxoOF9OME1yYWRqVnMzcVpmM3MxVEdqWUVHbHVQc0UwdFFMWVBLWW5wZ0VqSFhpOFFQU2ZhcUpvR0FXRlcxT1QwdWstU1RHQm5aTUw5TUs4U0xNemFqcTY3WUlJUlotR054VV94UzUzeXNlRnpXYlpuZmhmYzN3cW10ang4N0kwTWRSNXZtanVYN2xUVThtUENTZzE4YmVCWXIxQXpueWNIdDhfSzgxVkk4WGJvMTF3djRUT0toeHg0bWtfNlhTb241eHJfX2s4ZVoxYUFJV3VPZEZrQmxfczM1RkFVNnlyWkpM?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Arizona\u2019s affordable housing tax credit at crossroads as developers seek revival \u00a0\u00a0 PinalCentral.com"
+    },
+    {
+      "title": "Beaufort Housing Authority faces ongoing contract delays - Carolina Coast Online",
+      "date": "2026-10-09T22:00:00Z",
+      "source": "Carolina Coast Online",
+      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNcHZiLU1WeHd1aVFqLTNNTkJ1eUg2eHdOWnQ2NGZCdHM4UDlJektJQ0p4enZtektjRzg1bUFPb2N4NkZ2OWxBVC1pV204OXFuMDZPRjBZS1h2SUJsYzFmVEpvS3RJdFVXMFdjUGZWZ1RkNVlMLTFOUFVIb05RM01JWmxuaVJXZGs1OGRSUXNiOGlMYi1XMHcyTENobm0?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Beaufort Housing Authority faces ongoing contract delays \u00a0\u00a0 Carolina Coast Online"
+    },
+    {
+      "title": "Governor Kathy Hochul Announces the Completion New Affordable Housing for Seniors in Suffolk County - Yield PRO",
+      "date": "2026-10-09T17:50:21Z",
+      "source": "Yield PRO",
+      "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFAwbUtzU3JYUzUyQVJ5TlU0aGVUZ3VmbGRLQ2VpX2J4aE9mYmFjZ0dkRDRzTDZPVmZiNGRCTVFEY3ZGM29UTlUwUXc0cUVQc21OQzNNY2NDaEE?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Governor Kathy Hochul Announces the Completion New Affordable Housing for Seniors in Suffolk County \u00a0\u00a0 Yield PRO"
+    },
+    {
+      "title": "Only 2 of 13 Chicago LIHTC Projects Have Closed Since 2024 - Yahoo",
+      "date": "2026-10-09T16:18:02Z",
+      "source": "Yahoo",
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOZ2Mzc3l1aDljNzgxc2V4NXQ5LURJT3o2ZnQySFpjOFFIdlJ4Tm1vUUNuV0xlWkdtTWdlOW53TUxmV3BOeENyS2VlWk5NUnZhMlNiUWtyQS1MZTNULTM5c2lzazJPZHNrMF9HdWdXNmk5Vzk1a3RDdHlKQkRSeTRYaUNsdw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Only 2 of 13 Chicago LIHTC Projects Have Closed Since 2024 \u00a0\u00a0 Yahoo"
+    },
+    {
+      "title": "Looking for an Affordable Starter Home? Here Are 5 Homes You Can Buy Right Now for Under $400K - Realtor.com",
+      "date": "2026-10-09T15:57:37Z",
+      "source": "Realtor.com",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOMEVMOV9mM2VRaFF5Ulh1NHZQcUNNMmhvYjlEVHI1a3ktQjFmV3pCMTZSZTJjUkZnOWtzOWE5R3dTTGVmMDBBTVlUY2Y1SlhPWGU4QWtmV2p4R3NYaEtxZ0NFWkFaOE0yV2hXV0ZXY3RXbE5ybHFWaGs1MXFuQ1hjZWd4ZUo4cjd3Rnc?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Looking for an Affordable Starter Home? Here Are 5 Homes You Can Buy Right Now for Under $400K \u00a0\u00a0 Realtor.com"
+    },
+    {
+      "title": "Hunt Capital Partners Syndicates LIHTC for Dallas Rehab - Multi-Housing News",
+      "date": "2026-10-09T13:36:25Z",
+      "source": "Multi-Housing News",
+      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOcVlpaENXRjZ3ZWNUVF83ZnZjaEZlemhlVjZQRkQ0RTk0S24zd09xdjIxbTlxM1U2c2paLTl0MHcxUDN3ZVpXaF9vOVRMaERWQkN3UkloMm1wdjRJT2tiRnRZajdHc0lUMmlDcWVWTTRqVEtRLUdXZ0RqV2xsRm1NRDc2R0pPRmlpTHRpMnhnanVfR0E?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Hunt Capital Partners Syndicates LIHTC for Dallas Rehab \u00a0\u00a0 Multi-Housing News"
+    },
+    {
+      "title": "Chicago Housing Projects Stall For Years - Bisnow",
+      "date": "2026-10-08T23:50:45Z",
+      "source": "Bisnow",
+      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPbFdCR0FQMzBhNDFfUTVXUnprVzZPQnAwRUJ2cDZreXdrUFh4U3NqaDN0MzdUbWNTQ1VQNjhYc3dNb1Q1ckpIYmw2OUI0Zk5ud1BhSHQ5Nk5KM2t1WXZ2b3Q3am5fc1pxOGtvWXk0TDdhcTE3dUdBOWxiSzRVRGNSVHJickZ3dDQ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Chicago Housing Projects Stall For Years \u00a0\u00a0 Bisnow"
+    },
+    {
+      "title": "Merchants Capital Secures $97.8M+ for 491-Unit Affordable Development in Newport News Virginia - Yield PRO",
+      "date": "2026-10-08T18:59:01Z",
+      "source": "Yield PRO",
+      "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9Ydmh2QVYwRHZDd1N1cGVaVEN1ejlQeHViRm93TGJ1ZE9jN01TUGVwRGNocV9WVHhzNHNLYU5laVVzVWVNeHEyR1B6ejd2Z1BtdUpsTXdUQnZ5VmdMVzFmOERwd2JDUQ?oc=5",
+      "topic": "construction",
+      "region": "Colorado",
+      "summary": "Merchants Capital Secures $97.8M+ for 491-Unit Affordable Development in Newport News Virginia \u00a0\u00a0 Yield PRO"
+    },
+    {
+      "title": "Colorado Investor Buys Whisper Hollow in Metro St. Louis - Multifamily & Affordable Housing Business",
+      "date": "2026-10-08T12:00:00Z",
+      "source": "Multifamily & Affordable Housing Business",
+      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNQ1ppVmlxakx5U091enZMUlo5R0ItbjIwSTU3WHBycnZJcm9VWnhFNmhrM1BCQ0VxZTRxalY2eEJYazBVcTdPTDUxNWtpX1VPSUVZT1RMUDFhZGFfbk9XYlBOZTRuemFIbDhabS0xei1MaXItdGlXaUJNRkZqbVQ3Vl9KZXNyODRxRFZfY1BlOHR6VTdLTEppaWYzVGtrZw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Colorado Investor Buys Whisper Hollow in Metro St. Louis \u00a0\u00a0 Multifamily & Affordable Housing Business"
+    },
+    {
+      "title": "The NHP Foundation Celebrates Two Milestones in Colorado - Affordable Housing Finance",
+      "date": "2026-10-08T10:03:24Z",
+      "source": "Affordable Housing Finance",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPYi03UVREeWtkcV9TeVlpUWRvaVhfcU1yRUZpRGhfMVN1RmtDVXM0MnhxLThnbGwzYnRkdkVpTndqZHpQYTRGNDltYXZQb3o0NFdlMXJrd192dklydlVNbTFDOTZrSUg1WnFEUHRPSlp2eXNocVV4bzI2R29GUVZlZTlabkZ6RHFTN3h0b2NMdHZYNF9zLUhXOQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "The NHP Foundation Celebrates Two Milestones in Colorado \u00a0\u00a0 Affordable Housing Finance"
+    },
     {
       "title": "Dominium to Host Grand Opening Event for The Addie at Metro Center - Yield PRO",
       "date": "2026-10-07T19:50:45Z",
@@ -14,6 +104,15 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Dominium to Host Grand Opening Event for The Addie at Metro Center \u00a0\u00a0 Yield PRO"
+    },
+    {
+      "title": "Colorado Budget Cuts Could Stall Affordable Housing Projects in Mountain Regions - Construction Owners",
+      "date": "2026-10-07T13:33:11Z",
+      "source": "Construction Owners",
+      "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPbnRuYU5JSklqYkxzQnNza2lJU1ZmVVQ5Ty13R0JjeVZ4Q2RrZVlTRmljNmZLM19ZRDJsRWF2NEpTRE9hVFFQazkwVExqRWxpTlBnNHhhdFhadVZnQnROaUdER3hJNGR1Mnpwb1dMNzI3SGMtYjdIT2FrMmdVX0l3Mg?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Colorado Budget Cuts Could Stall Affordable Housing Projects in Mountain Regions \u00a0\u00a0 Construction Owners"
     },
     {
       "title": "Affording Colorado: Housing still poses challenges despite gains - Colorado Politics",
@@ -59,6 +158,15 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "The NHP Foundation and Town of Frisco Mark Major Housing Milestones with Launch of 106 Affordable \u00a0\u00a0 MultifamilyBiz"
+    },
+    {
+      "title": "Greystone Provides $167M in Financing for Gallery at Lummus Parc in Miami - Multifamily & Affordable Housing Business",
+      "date": "2026-10-06T12:00:00Z",
+      "source": "Multifamily & Affordable Housing Business",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPMEtySFo3a3JwMEgzMUUwdEFqZmRqLUdEdy1oMUhfMzhLZzEwTngtRFZOUEQ0T185V0RaU3d0Qzc3LTBscEFvRGd6T2xOYkZEMW1mZWhwaVpwWjlyMVVSTDVtT0luMy1LaVRmcmdZSXI4RWp5enZQc1dOZnZRX09QY1pzaEQxWk5FTEJkSHVqYm9xOGNZUTJ1blZERmxCX1NvekY3bXFnWlhlbHAwSzUwRE1FcGM?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Greystone Provides $167M in Financing for Gallery at Lummus Parc in Miami \u00a0\u00a0 Multifamily & Affordable Housing Business"
     },
     {
       "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado - Affordable Housing Finance",
@@ -653,6 +761,15 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Northampton receives $12.2 million from state for housing projects \u00a0\u00a0 The Reminder"
+    },
+    {
+      "title": "Ritchie Torres urges softer LIHTC capital treatment - Punchbowl News",
+      "date": "2026-09-10T07:00:00Z",
+      "source": "Punchbowl News",
+      "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1kRHdUQmU1V0p5T1d0MlpPdkpRVnpXbXFVUzhZRVdJS1ZRamFqR2N4dk0tZnZIYjZ5SUVoYVh2eGxpUGZCU3E3dS0yOXBsMTBQSVpDcFN3RkpGM09FOGIwSWQxcXdCelBpeXc?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Ritchie Torres urges softer LIHTC capital treatment \u00a0\u00a0 Punchbowl News"
     },
     {
       "title": "Santa Fe to convert Lamplighter Inn to low-income housing tax credit project - Santa Fe New Mexican",
@@ -2408,33 +2525,6 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "National Council of State Housing Agencies Credit Connect \u00a0\u00a0 USGBC | U.S. Green Building Council"
-    },
-    {
-      "title": "Pascua Yaqui Tribe leverages LIHTC to turn $1.5M investment into $27.3M elder housing project - Tribal Business News",
-      "date": "2026-07-12T09:17:28Z",
-      "source": "Tribal Business News",
-      "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxNdjFZNWUwcDdUbGN2OGJBQ0twTWRKa2lzd1E4ZWhIOVpHeEYtcXNJYjZON0ItcE8taURaLURHc1lfWHVQeGNQLVdLakFiNjc1dzJZX2tlZHZLS2tpU08tYkpsZHVTTkZZTEZ1WWRCYUhBVXlyODRYNi1WR3ZtWEowWnowaTlRbUZRbFVNN1o5ci1XTVR4bjh2WGYtbklTOFQ2Ykl1OGNsNnhWaVY2OFhZWEpoWkk2TERjaTRaMC1JeE8tdnRocnY0bm5NS2dDbHFzQnAxUnFqWllOSkNqWGtSM2xvdjA?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Pascua Yaqui Tribe leverages LIHTC to turn $1.5M investment into $27.3M elder housing project \u00a0\u00a0 Tribal Business News"
-    },
-    {
-      "title": "Schotthill Woods low-income housing project breaks ground - Jefferson City News Tribune",
-      "date": "2026-07-11T09:00:00Z",
-      "source": "Jefferson City News Tribune",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNOTRGYlZOX2pYXzM1ZFllTlhGU2t5ZjR6LTl2aV91Yjh0VnpKWW8tXzFJaWJVRy1adUdvNDEzSWgweDF0NjB1RHZXVzdkUzdIZXc5OVBSLWVZTXBhc3Rib1JPbEVtMXNUbzVOZW4xMXdFS2RQN3RNZ1ZsU3RlZ1RFXzgyOXh4SVVNU1pUb0ZZZ3c1VlU?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Schotthill Woods low-income housing project breaks ground \u00a0\u00a0 Jefferson City News Tribune"
-    },
-    {
-      "title": "Illinois Housing Development Authority announces creation of 1,000 units of affordable rental housing - The Troy Times Tribune",
-      "date": "2026-07-10T23:01:36Z",
-      "source": "The Troy Times Tribune",
-      "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPNU9HbFRNNXlBVWhiVV9UdlYycTFIa2JaWFZuLXhsM3RSQXFEUmFZQzhWeWNldEpUemNHWXg0RmVCZC1KQ3NuVkxidVI4NGg2S0ZVamczQ2VQVlpFVGRMNlZBei1rOHVPOEpNdkNwcndkUnRfd21CdjZyd0xERmpYSnZ4NkxMSXl1MUJRUUFJd09yUnhkYVVQSDAxWmJkTExsd2VmYXJjR3c3OE1QWU8za0dvbElBS2dlRGRsbjR0Szh0YXA1WFRINkhRNFc5b0JHRlJCdFdIZWZaX2t3ZEE?oc=5",
-      "topic": "rent",
-      "region": "Colorado",
-      "summary": "Illinois Housing Development Authority announces creation of 1,000 units of affordable rental housing \u00a0\u00a0 The Troy Times Tribune"
     }
   ]
 }
