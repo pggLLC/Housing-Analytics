@@ -15,7 +15,6 @@
 
   var GUIDE_FILE = 'policy/co-developer-funding-guide.json';
   var LIMITS_FILE = 'chfa-income-rent-limits-2026.json';
-  var AMI_TIERS = ['30', '40', '50', '60', '80', '100', '120'];
   var started = false;
   var guide = null;
   var activeCategory = 'all';
@@ -232,7 +231,10 @@
       var note = document.getElementById('dfAmiNote');
       if (!c || !body) return;
       var tiers = c.regular_tiers || {};
-      body.innerHTML = AMI_TIERS.map(function (t) {
+      // Every tier CHFA publishes for this county, lowest first: 20% and 70% are
+      // valid income-averaging designations, and rural resort counties add 130% to 160%.
+      var tierKeys = Object.keys(tiers).sort(function (a, b) { return Number(a) - Number(b); });
+      body.innerHTML = tierKeys.map(function (t) {
         var row = tiers[t];
         if (!row) return '';
         var inc = row.income_limits || {};
@@ -243,7 +245,7 @@
       }).join('');
       if (note) {
         var bits = [];
-        if (c.rural_resort) bits.push(c.county_name + ' County is one of the rural resort counties where CHFA also publishes 130% to 160% AMI tiers for Prop 123.');
+        if (c.rural_resort) bits.push(c.county_name + ' County is a rural resort county, so CHFA also publishes the 130% to 160% AMI tiers shown above for Prop 123.');
         if (c.hera_special) bits.push('HERA Special limits also exist here, for tax credit projects placed in service on or before December 31, 2008.');
         note.textContent = bits.join(' ');
       }
