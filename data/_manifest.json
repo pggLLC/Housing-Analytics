@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-10T06:15:13.587Z",
+    "generated_at": "2026-10-10T11:50:49.965Z",
     "root": "data/",
-    "file_count": 1699,
-    "total_size_bytes": 178099209,
+    "file_count": 1700,
+    "total_size_bytes": 178241719,
     "kinds": {
-      "json": 1662,
+      "json": 1663,
       "geojson": 33,
       "csv": 4
     }
@@ -276,8 +276,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 188310,
-      "mtime": "2026-10-08T14:51:42.832Z",
+      "size_bytes": 194381,
+      "mtime": "2026-10-10T11:49:50.119Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -285,7 +285,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 270,
+      "primary_array_length": 280,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-10T06:15:10.028Z",
+      "mtime": "2026-10-10T11:50:47.842Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1553,8 +1553,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1255929,
-      "mtime": "2026-10-09T12:58:33.315Z",
+      "size_bytes": 1256187,
+      "mtime": "2026-10-10T11:49:50.172Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -29466,8 +29466,8 @@
     {
       "path": "insights/catalog.json",
       "kind": "json",
-      "size_bytes": 9235,
-      "mtime": "2026-10-04T03:06:48.735Z",
+      "size_bytes": 8902,
+      "mtime": "2026-10-10T11:49:50.332Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -29476,7 +29476,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "entries",
-      "primary_array_length": 14,
+      "primary_array_length": 13,
       "primary_array_first_keys": [
         "id",
         "section",
@@ -30562,7 +30562,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 215920,
-      "mtime": "2026-10-10T04:16:39.091Z",
+      "mtime": "2026-10-10T11:50:33.910Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30822,6 +30822,31 @@
       "primary_array_key": "site_evaluation_checklist",
       "primary_array_length": 12,
       "primary_array_first_keys": null
+    },
+    {
+      "path": "market/co-construction-labor-cost.json",
+      "kind": "json",
+      "size_bytes": 130798,
+      "mtime": "2026-10-10T11:49:50.351Z",
+      "shape": "object",
+      "keys": [
+        "generatedAt",
+        "sources",
+        "monthly",
+        "oews",
+        "materials",
+        "summary",
+        "history"
+      ],
+      "key_count": 7,
+      "primary_array_key": "history",
+      "primary_array_length": 116,
+      "primary_array_first_keys": [
+        "period",
+        "laborWageYoyPct",
+        "employmentYoyPct",
+        "materialsYoyPct"
+      ]
     },
     {
       "path": "market/co-urban-renewal-authorities.json",
@@ -31985,7 +32010,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14804,
-      "mtime": "2026-10-10T06:15:11.756Z",
+      "mtime": "2026-10-10T11:50:48.909Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32008,7 +32033,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-10T06:15:11.385Z",
+      "mtime": "2026-10-10T11:50:48.668Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34435,8 +34460,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 243257,
-      "mtime": "2026-10-08T14:51:43.191Z",
+      "size_bytes": 248978,
+      "mtime": "2026-10-10T11:49:50.479Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34446,7 +34471,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "stories",
-      "primary_array_length": 118,
+      "primary_array_length": 121,
       "primary_array_first_keys": [
         "title",
         "source",
@@ -34515,8 +34540,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 12565,
-      "mtime": "2026-10-09T12:58:33.733Z",
+      "size_bytes": 12560,
+      "mtime": "2026-10-10T11:49:50.479Z",
       "shape": "object",
       "keys": [
         "updated",

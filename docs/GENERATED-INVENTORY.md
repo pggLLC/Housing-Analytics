@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T06:14:49.086Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T11:50:33.942Z. Do not edit by hand.
 
 ---
 
@@ -19,7 +19,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.9 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 39.9 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 134.8 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 164.7 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 17.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.4 KB |
@@ -54,14 +54,14 @@
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 39.6 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 584 B |
-| `insights.html` | Research &amp; Analysis | Colorado Public Data Reference | 28.0 KB |
+| `insights.html` | Research &amp; Analysis | Colorado Public Data Reference | 27.9 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 16.6 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 15.9 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.3 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 148.4 KB |
-| `market-intelligence.html` | Colorado Market Intelligence | COHO Analytics | 23.9 KB |
+| `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
@@ -73,7 +73,7 @@
 | `research-brief.html` | Research Brief | COHO Analytics | 15.9 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.6 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 12.1 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 11.9 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 989 B |
 | `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 75.3 KB |
 
@@ -81,7 +81,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1663 JSON files found.
+1664 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -99,7 +99,7 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 183.9 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 189.8 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
@@ -1540,7 +1540,7 @@
 | `data/home-snapshot.json` | 2.1 KB | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 100.2 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
-| `data/insights/catalog.json` | 9.0 KB | ✅ | — |
+| `data/insights/catalog.json` | 8.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/0803620.json` | 26.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/08045.json` | 29.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/08097.json` | 28.0 KB | ✅ | — |
@@ -1592,6 +1592,7 @@
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
 | `data/market/climate_hazards_co.json` | 2.6 KB | ✅ | — |
 | `data/market/co-adaptive-reuse-references.json` | 13.6 KB | ✅ | — |
+| `data/market/co-construction-labor-cost.json` | 127.7 KB | ✅ | — |
 | `data/market/co-urban-renewal-authorities.json` | 11.9 KB | ✅ | — |
 | `data/market/colorado-equity-pricing-factors.json` | 5.2 KB | ✅ | — |
 | `data/market/colorado-foreclosure-performance.json` | 48.4 KB | ✅ | — |
@@ -1727,7 +1728,7 @@
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
-| `data/policy_briefs.json` | 237.6 KB | ✅ | — |
+| `data/policy_briefs.json` | 243.1 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 13.8 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
@@ -1753,7 +1754,7 @@
 
 ## Test Files
 
-529 test files found.
+531 test files found.
 
 | File | Size |
 |------|------|
@@ -1764,7 +1765,7 @@
 | `test/acs-fetch-retries.test.py` | 4.0 KB |
 | `test/acs-integration.test.js` | 14.8 KB |
 | `test/acs-sentinel-absence.test.js` | 4.1 KB |
-| `test/acs-vintage-label-integrity.test.js` | 3.8 KB |
+| `test/acs-vintage-label-integrity.test.js` | 3.9 KB |
 | `test/affordability-defaults-inventory.test.js` | 6.7 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 3.2 KB |
 | `test/ahcia-status.test.mjs` | 5.9 KB |
@@ -1805,6 +1806,7 @@
 | `test/chfa-rent-limits.test.js` | 11.3 KB |
 | `test/ci-tools-are-declared.test.mjs` | 9.3 KB |
 | `test/ci-verifies-bot-commits.test.js` | 5.4 KB |
+| `test/co-construction-labor-cost.test.js` | 15.4 KB |
 | `test/co-historical-allocations.test.js` | 12.9 KB |
 | `test/co-lihtc-map.test.js` | 8.8 KB |
 | `test/coho-reminders.test.mjs` | 15.7 KB |
@@ -1989,7 +1991,7 @@
 | `test/input-provenance.test.js` | 6.4 KB |
 | `test/insights-agreement.test.mjs` | 5.3 KB |
 | `test/insights-nav-labels.test.mjs` | 7.2 KB |
-| `test/insights-workflow-links.test.js` | 9.3 KB |
+| `test/insights-workflow-links.test.js` | 9.2 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/economic-indicators.test.js` | 12.2 KB |
 | `test/integration/hna-ranking.test.js` | 12.4 KB |
@@ -2003,7 +2005,7 @@
 | `test/jurisdiction-picker-hidden-card.test.js` | 3.8 KB |
 | `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
 | `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
-| `test/jurisdiction-select-search.test.js` | 9.0 KB |
+| `test/jurisdiction-select-search.test.js` | 8.9 KB |
 | `test/kalshi-signing-and-write.test.js` | 4.7 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
@@ -2029,11 +2031,11 @@
 | `test/metric-semantics-wording.test.js` | 4.3 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
 | `test/metric-truth-crosssurface.test.js` | 8.1 KB |
-| `test/mi-supply-co-vs-national.test.js` | 3.5 KB |
+| `test/mi-supply-co-vs-national.test.js` | 3.4 KB |
 | `test/mobile-overflow-css-rules-present.test.js` | 5.6 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/navigation-pill-label.test.js` | 2.7 KB |
-| `test/navigation-reaches-every-page.test.mjs` | 4.5 KB |
+| `test/navigation-reaches-every-page.test.mjs` | 4.7 KB |
 | `test/need-severity-is-place-level.test.mjs` | 15.8 KB |
 | `test/no-synthesized-chfa-awards.test.js` | 3.9 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
@@ -2101,7 +2103,7 @@
 | `test/policy-briefs-curated.test.js` | 10.6 KB |
 | `test/policy-data-currency.test.js` | 3.0 KB |
 | `test/policy-review-status.test.mjs` | 10.2 KB |
-| `test/policy-timeline-series.test.js` | 17.5 KB |
+| `test/policy-timeline-series.test.js` | 18.2 KB |
 | `test/policy-watch-rail.test.mjs` | 13.7 KB |
 | `test/polymarket-resolved.test.js` | 23.7 KB |
 | `test/preservation.test.js` | 17.3 KB |
@@ -2217,7 +2219,7 @@
 | `test/url-health-policy.test.mjs` | 13.5 KB |
 | `test/utility-allowance-absence.test.mjs` | 10.9 KB |
 | `test/utility-allowance-basis.test.js` | 18.8 KB |
-| `test/validate-site.js` | 9.5 KB |
+| `test/validate-site.js` | 9.6 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
 | `test/walkthrough-record.test.mjs` | 8.6 KB |
 | `test/wcag-pill-contrast.test.js` | 12.4 KB |
@@ -2253,6 +2255,7 @@
 | `tests/test_chas_tract_data.py` | 7.1 KB |
 | `tests/test_chfa_qap_trust_label.py` | 7.1 KB |
 | `tests/test_chfa_qap_watch.py` | 22.7 KB |
+| `tests/test_co_construction_labor_cost.py` | 10.0 KB |
 | `tests/test_data_plausibility.py` | 23.4 KB |
 | `tests/test_epa_sld_walk_index.py` | 2.1 KB |
 | `tests/test_fee_reductions.py` | 11.2 KB |
@@ -2291,7 +2294,7 @@
 
 ## GitHub Actions Workflows
 
-76 workflow files found.
+77 workflow files found.
 
 | File | Size |
 |------|------|
@@ -2310,7 +2313,7 @@
 | `.github/workflows/car-data-update.yml` | 2.7 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
 | `.github/workflows/chfa-qap-watch.yml` | 10.8 KB |
-| `.github/workflows/ci-checks.yml` | 20.1 KB |
+| `.github/workflows/ci-checks.yml` | 20.0 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
 | `.github/workflows/coho-election-reminders.yml` | 1.6 KB |
@@ -2336,6 +2339,7 @@
 | `.github/workflows/fetch-census-acs.yml` | 6.7 KB |
 | `.github/workflows/fetch-chas-data.yml` | 4.5 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 4.9 KB |
+| `.github/workflows/fetch-co-construction-labor-cost.yml` | 5.4 KB |
 | `.github/workflows/fetch-county-data.yml` | 5.4 KB |
 | `.github/workflows/fetch-fmr-data.yml` | 7.8 KB |
 | `.github/workflows/fetch-fred-data.yml` | 5.4 KB |
