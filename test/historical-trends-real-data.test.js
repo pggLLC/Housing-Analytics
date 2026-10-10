@@ -202,7 +202,7 @@ async function waitForPicker(page) {
 }
 function pick(page, c, units) {
   const doc = page.window.document;
-  if (units != null) doc.getElementById('benchUnits').value = String(units);
+  doc.getElementById('benchUnits').value = String(units);
   const sel = doc.getElementById('benchCounty');
   sel.value = c;
   sel.dispatchEvent(new page.window.Event('change'));
