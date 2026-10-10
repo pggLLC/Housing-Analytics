@@ -188,8 +188,12 @@ def main() -> int:
     # A page-copy change or a block can make most cities parse as "no data".
     # Writing then would replace the last good snapshot with a few cities, so
     # keep the committed file and fail instead (the workflow opens an issue).
-    if len(results) < MIN_CITIES and OUT.exists():
-        print(f"\nERROR only {len(results)} cities parsed (need {MIN_CITIES}); "
+    # Count cities with a rent, not any parsed record: a page that still
+    # matches the YoY or rank wording but not the rent wording parses to a
+    # record with no rent, which no consumer can use.
+    with_rent = sum(1 for r in results.values() if r.get("rent_overall"))
+    if with_rent < MIN_CITIES and OUT.exists():
+        print(f"\nERROR only {with_rent} cities parsed with a rent (need {MIN_CITIES}); "
               f"kept {OUT.relative_to(REPO_ROOT)} unchanged")
         return 1
 
