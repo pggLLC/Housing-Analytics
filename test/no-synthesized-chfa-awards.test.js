@@ -47,7 +47,7 @@ const tracked = execSync('git ls-files', { cwd: ROOT, encoding: 'utf8' })
 // synthesized figures are in it.
 assert(tracked.length > 200, `scan found only ${tracked.length} client files`);
 [
-  'historical-trends.html', 'js/historical-trends.js', 'deal-calculator.html',
+  'colorado-deep-dive.html', 'js/historical-trends.js', 'deal-calculator.html',
   'market-analysis.html', 'js/market-analysis.js', 'js/lihtc-concept-card-renderer.js',
   'lihtc-opportunity-finder.html', 'js/lihtc-opportunity-finder.js',
   'housing-needs-assessment.html', 'hna-what-housing-exists.html',

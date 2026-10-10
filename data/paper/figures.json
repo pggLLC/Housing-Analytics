@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "196bdd6e0",
+  "generated_from_commit": "0b026680c",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-10",
-    "total_commits": 7892,
+    "total_commits": 7945,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,26 +49,26 @@
       },
       {
         "month": "2026-10",
-        "commits": 295,
-        "pct_of_peak": 20.6
+        "commits": 348,
+        "pct_of_peak": 24.4
       }
     ]
   },
   "inventory": {
     "places_with_chas": 482,
-    "html_pages_toplevel": 66,
-    "html_pages_total": 560,
-    "workflows": 78,
-    "scripts": 292,
+    "html_pages_toplevel": 67,
+    "html_pages_total": 561,
+    "workflows": 79,
+    "scripts": 295,
     "docs": 502,
-    "data_files": 1739,
+    "data_files": 1743,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
     "cdps": 210,
     "place_pages": 484,
-    "scheduled_workflows": 65,
-    "test_files": 479,
+    "scheduled_workflows": 66,
+    "test_files": 489,
     "absence_test_cases": 252,
     "absence_tests": 93,
     "lihtc_features": 926
@@ -246,14 +246,14 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 407662,
+    "hand_written_lines": 411766,
     "generated_place_page_lines": 226824,
-    "top_level_pages": 66,
-    "html_nonblank_lines": 47777,
-    "html_distinct_lines": 19220,
-    "html_distinct_share": 0.402,
+    "top_level_pages": 67,
+    "html_nonblank_lines": 48081,
+    "html_distinct_lines": 19463,
+    "html_distinct_share": 0.405,
     "substantial_tools": 27,
-    "declared_data_sources": 66,
+    "declared_data_sources": 67,
     "estimate": {
       "declared": "analyst-constructed; not repository methodology",
       "means": "what a commissioned team would bill to build this from a specification, NOT the effort expended here",
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "196bdd6e0",
+    "extracted_at_commit": "0b026680c",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -533,6 +533,16 @@
       "shares_derived_from_published_counts": true
     },
     "unavailable": []
+  },
+  "methods_data": {
+    "anchor_places_total": 482,
+    "anchor_places_applied": 405,
+    "anchor_places_unmeasured": 77,
+    "anchor_overcount_places": 143,
+    "anchor_overcount_share": 0.353,
+    "ranked_geographies": 546,
+    "workforce_gap_wins": 265,
+    "future_units_workforce_reading": 365
   },
   "footprint": {
     "measured_at": "2026-09-15",
