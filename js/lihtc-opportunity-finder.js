@@ -1685,6 +1685,15 @@
     return (op && _bestCredit(op)) || '9pct';
   }
 
+  // Preset score for one specific target, for ranking peers against the
+  // same target a Compare link exports.
+  function _scoreForTarget(op, t) {
+    if (t === state.filters.target) return _activeScore(op);
+    if (t === '9pct') return op.score9;
+    if (t === '4pct') return op.score4;
+    return _activeScore(op);
+  }
+
   function _activeScore(op) {
     var t = state.filters.target;
     if (t === BOTH_CREDITS) {
@@ -3520,9 +3529,10 @@
 
       // Existing region-rank pick (kept for backward compatibility — the
       // primary "compare with peers" CTA still uses this).
+      var _peerTarget = _effectiveTarget(op);
       var sameRegion = state.opportunities
         .filter(function (o) { return o.region === op.region && o.id !== op.id; })
-        .sort(function (a, b) { return _activeScore(b) - _activeScore(a); })
+        .sort(function (a, b) { return _scoreForTarget(b, _peerTarget) - _scoreForTarget(a, _peerTarget); })
         .slice(0, 3)
         .map(function (o) { return o.placeGeoid; });
       var compareIds = [op.placeGeoid].concat(sameRegion).join(',');
@@ -3536,7 +3546,7 @@
       if (selfChar) {
         var sameChar = state.opportunities
           .filter(function (o) { return o.id !== op.id && labelCharacter(o) === selfChar; })
-          .sort(function (a, b) { return _activeScore(b) - _activeScore(a); })
+          .sort(function (a, b) { return _scoreForTarget(b, _peerTarget) - _scoreForTarget(a, _peerTarget); })
           .slice(0, 3)
           .map(function (o) { return o.placeGeoid; });
         if (sameChar.length > 0) {
@@ -4582,6 +4592,9 @@
       minYears.value = 0; minYearsVal.textContent = '0';
       minScore.value = 0; minScoreVal.textContent = '0';
       minPop.value = 0;
+      // Target is back to 9%, so the target-dependent builder (hidden in
+      // 9% + 4% mode) has to be rebuilt too.
+      _scenarioBuilderRebuild();
       _refresh();
     });
 
