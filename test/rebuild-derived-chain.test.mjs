@@ -44,6 +44,15 @@ const chainFiles = CHAIN
   .map((s) => s.argv.find((a) => a.startsWith('scripts/')))
   .filter(Boolean);
 
+// A step that runs an npm script (paper-figures) runs every script that npm
+// script names. Those count as in the chain for the completeness check below;
+// they are kept out of chainFiles so the ordering checks still see one entry
+// per step.
+const rootPkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+const npmStepFiles = CHAIN
+  .filter((s) => s.argv[0] === 'npm' && s.argv[1] === 'run')
+  .flatMap((s) => (rootPkg.scripts[s.argv[2]] || '').match(/scripts\/[\w./-]+\.(?:mjs|js|py)/g) || []);
+
 test('every step runs a script that exists', () => {
   for (const s of CHAIN) {
     const file = s.argv.find((a) => a.startsWith('scripts/'));
@@ -133,7 +142,7 @@ test('the scan finds the ranking-index consumers at all', () => {
 });
 
 test('every script touching the ranking index is either in the chain or excluded with a reason', () => {
-  const unaccounted = touchers.filter((f) => !chainFiles.includes(f) && !NOT_DERIVED[f]);
+  const unaccounted = touchers.filter((f) => !chainFiles.includes(f) && !npmStepFiles.includes(f) && !NOT_DERIVED[f]);
   assert.deepStrictEqual(unaccounted, [],
     `these read or write data/hna/ranking-index.json and are neither a chain step `
     + `nor an explicit exclusion: ${unaccounted.join(', ')}. Add to CHAIN if the file `
