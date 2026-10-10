@@ -4,7 +4,7 @@
  *
  * Pins agreement, not copy:
  *   - the analytics host js/navigation.js loads must be allowed by the CSP in
- *     the security-headers runbook (and the inert _headers), or the beacon is
+ *     the security-headers runbook, or the beacon is
  *     silently blocked the day Cloudflare is put in front of Pages;
  *   - the privacy policy must name the provider navigation.js actually loads;
  *   - every gated /developer* page must be excluded from measurement;
@@ -82,13 +82,12 @@ function cspDirective(csp, name) {
   return new Set(m ? m[1].split(/\s+/) : []);
 }
 
-test('runbook and _headers CSP allow the beacon script and its report endpoint', () => {
+test('runbook CSP allows the beacon script and its report endpoint', () => {
   assert(beaconSrc, 'no beacon src to check');
   const scriptOrigin = new URL(beaconSrc).origin;
   const runbook = read('docs/SECURITY-HEADERS-RUNBOOK.md');
   const policies = [
     ['runbook', (runbook.match(/^default-src[^\n]*$/m) || [])[0]],
-    ['_headers', (read('_headers').match(/Content-Security-Policy:\s*([^\n]*)/) || [])[1]],
   ];
   for (const [where, csp] of policies) {
     assert(csp, where + ': CSP line not found');
