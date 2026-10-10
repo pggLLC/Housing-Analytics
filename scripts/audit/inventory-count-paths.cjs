@@ -35,6 +35,7 @@ const JSON_COUNT_PATHS = {
   'prop123-jurisdictions': 'jurisdictions',
   'fred-data': 'series',
   'co-construction-labor-cost': 'monthly',
+  'co-developer-funding-guide': 'programs',
   'acs-state': 'data',
   'acs-tract-metrics': 'tracts',
   'tract-centroids-co': 'tracts',
