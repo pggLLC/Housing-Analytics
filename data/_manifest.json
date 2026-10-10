@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-10T14:27:37.446Z",
+    "generated_at": "2026-10-10T16:20:56.257Z",
     "root": "data/",
-    "file_count": 1700,
-    "total_size_bytes": 178243320,
+    "file_count": 1701,
+    "total_size_bytes": 178245141,
     "kinds": {
-      "json": 1663,
+      "json": 1664,
       "geojson": 33,
       "csv": 4
     }
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-10T13:08:59.409Z",
+      "mtime": "2026-10-10T16:20:52.607Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -850,7 +850,7 @@
       "path": "census-acs-state.json",
       "kind": "json",
       "size_bytes": 24892,
-      "mtime": "2026-10-03T20:30:36.592Z",
+      "mtime": "2026-10-10T16:19:29.613Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -30562,7 +30562,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 216055,
-      "mtime": "2026-10-10T14:27:33.533Z",
+      "mtime": "2026-10-10T16:20:31.642Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30574,10 +30574,26 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "market/aamd-denver-vacancy.json",
+      "kind": "json",
+      "size_bytes": 1821,
+      "mtime": "2026-10-10T16:19:29.850Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "metro",
+        "counties"
+      ],
+      "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/acs_median_rent_co.json",
       "kind": "json",
       "size_bytes": 136179,
-      "mtime": "2026-10-06T01:49:09.983Z",
+      "mtime": "2026-10-10T16:19:29.851Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -32010,7 +32026,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14804,
-      "mtime": "2026-10-10T14:27:35.372Z",
+      "mtime": "2026-10-10T16:20:54.372Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32033,7 +32049,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-10T14:27:34.981Z",
+      "mtime": "2026-10-10T16:20:53.982Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

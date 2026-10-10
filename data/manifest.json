@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-10T14:28:08.487580Z",
+  "generated": "2026-10-10T16:21:00.050540Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 831042
+      "bytes": 831427
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7525,6 +7525,11 @@
       "featureCount": 64,
       "placeholder": false,
       "bytes": 14265
+    },
+    "data/market/aamd-denver-vacancy.json": {
+      "featureCount": 6,
+      "placeholder": false,
+      "bytes": 1821
     },
     "data/market/acs_median_rent_co.json": {
       "featureCount": 64,
