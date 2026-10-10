@@ -278,12 +278,15 @@
           <p>
             Apportionment is geometrically defensible and demographically optimistic. Summed across
             overlapping tracts it overcounts households in
-            <span data-figure="methods_data.anchor_overcount_places">144</span> of the
-            <span data-figure="methods_data.anchor_places_total">482</span> Colorado places in the
-            current build
-            (<span data-figure="methods_data.anchor_overcount_share" data-figure-format="percent">30%</span>:
+            <span data-figure="methods_data.anchor_overcount_places">143</span> of the
+            <span data-figure="methods_data.anchor_places_applied">405</span> Colorado places the
+            anchor can be checked against in the current build
+            (<span data-figure="methods_data.anchor_overcount_share" data-figure-format="percent">35%</span>:
             the apportioned household total exceeds the ACS occupied total before anchoring), and
-            under the <code>max</code> rule it must. The correction anchors each place's tenure totals to an
+            under the <code>max</code> rule it must. The other
+            <span data-figure="methods_data.anchor_places_unmeasured">77</span> of
+            <span data-figure="methods_data.anchor_places_total">482</span> places lack ACS tenure
+            counts, so whether they overcount is not known. The correction anchors each place's tenure totals to an
             independent source &mdash; the American Community Survey's occupied-unit counts &mdash;
             and scales the bands to fit.
           </p>
@@ -439,7 +442,7 @@ price    = budget / k                              (0 if budget ≤ 0)</code>
             utilities use it. <code>incomeNeededForHomeValue()</code> is a binary search, because
             <code>f(size)</code> and the PMI gate make the forward function piecewise; the ownership
             strategy and the section takeaways use it, and it returns <code>null</code> when no
-            income up to $5,000,000 reaches the price.
+            income up to $8,000,000 reaches the price (the search doubles from $250,000 and stops at its first step past $5,000,000).
           </p>
         </div>
 
