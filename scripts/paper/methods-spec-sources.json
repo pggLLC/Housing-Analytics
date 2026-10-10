@@ -1,0 +1,164 @@
+{
+  "_about": "Which code each section of methods.html specifies, and a fingerprint of that code as of the last time the section was read against it. Maintained by scripts/paper/methods-spec.mjs; checked by test/methods-spec-sources.test.mjs. When a fingerprint stops matching, re-read the section against the code, fix the page if it is now wrong, then run: node scripts/paper/methods-spec.mjs --record <section>",
+  "sections": [
+    {
+      "section": "m-notation",
+      "title": "Notation and conventions",
+      "no_sources": "Defines symbols and the null rule; it specifies no single function. The rule itself is specified with its code in m-absence.",
+      "sources": []
+    },
+    {
+      "section": "m-apportion",
+      "title": "Apportionment: tract to place",
+      "sources": [
+        {
+          "file": "scripts/hna/build_place_chas.py",
+          "function": "aggregate_place",
+          "sha": "da45a257923e7f2c"
+        },
+        {
+          "file": "scripts/hna/build_place_chas.py",
+          "function": "load_pop_maps",
+          "sha": "9bfd2c8c74b71722"
+        }
+      ],
+      "reviewed": "2026-10-10"
+    },
+    {
+      "section": "m-anchor",
+      "title": "The ACS occupied-household anchor",
+      "sources": [
+        {
+          "file": "scripts/hna/build_place_chas.py",
+          "function": "load_acs_anchor_map",
+          "sha": "9703b94a74fc5982"
+        },
+        {
+          "file": "scripts/hna/build_place_chas.py",
+          "function": "anchor_to_acs",
+          "sha": "9e192032f3e498a5"
+        },
+        {
+          "file": "scripts/hna/build_place_chas.py",
+          "function": "scale_tenure_group",
+          "sha": "a2de6af6b48cca2b"
+        }
+      ],
+      "reviewed": "2026-10-10"
+    },
+    {
+      "section": "m-burden",
+      "title": "Cost burden and published shares",
+      "sources": [
+        {
+          "file": "scripts/hna/build_place_chas.py",
+          "function": "recompute_summary",
+          "sha": "21064116f959b299"
+        },
+        {
+          "file": "scripts/hna/build_place_chas.py",
+          "function": "_accumulate_tier",
+          "sha": "97189539c8f61da4"
+        },
+        {
+          "file": "scripts/hna/build_place_chas.py",
+          "function": "_finalize_burden_tier",
+          "sha": "941c7b5f5bc38c43"
+        }
+      ],
+      "reviewed": "2026-10-10"
+    },
+    {
+      "section": "m-affordability",
+      "title": "Ownership affordability",
+      "sources": [
+        {
+          "file": "js/hna/ownership-finance.js",
+          "function": "computeBuyerCapacity",
+          "sha": "027d3843311e7d96"
+        },
+        {
+          "file": "js/hna/ownership-finance.js",
+          "function": "monthlyCostPerPriceDollar",
+          "sha": "dccca041a89b889a"
+        },
+        {
+          "file": "js/hna/ownership-finance.js",
+          "function": "financedLoanShare",
+          "sha": "827c13900aa5851a"
+        },
+        {
+          "file": "js/hna/ownership-finance.js",
+          "function": "effectivePmiRate",
+          "sha": "97be7dcd6fe98585"
+        },
+        {
+          "file": "js/hna/ownership-finance.js",
+          "function": "incomeRequiredForPrice",
+          "sha": "c5441ab65bb39e1b"
+        },
+        {
+          "file": "js/hna/ownership-finance.js",
+          "function": "incomeNeededForHomeValue",
+          "sha": "be90d1ef358b4a02"
+        }
+      ],
+      "reviewed": "2026-10-10"
+    },
+    {
+      "section": "m-score",
+      "title": "The scoring chain",
+      "sources": [
+        {
+          "file": "scripts/hna/build_ranking_index.py",
+          "region": "need-inputs",
+          "sha": "69b6bd10a2ee2598"
+        },
+        {
+          "file": "scripts/hna/build_ranking_index.py",
+          "region": "scoring-chain",
+          "sha": "397eab773951a452"
+        },
+        {
+          "file": "scripts/hna/build_ranking_index.py",
+          "function": "compute_percentile_ranks",
+          "sha": "8e2aa94c65522627"
+        }
+      ],
+      "reviewed": "2026-10-10"
+    },
+    {
+      "section": "m-absence",
+      "title": "Absence propagation",
+      "sources": [
+        {
+          "file": "scripts/hna/build_ranking_index.py",
+          "function": "_weighted_average",
+          "sha": "bc5614d335d5d7e6"
+        },
+        {
+          "file": "scripts/hna/build_ranking_index.py",
+          "function": "_pct",
+          "sha": "c58c25ad27abea45"
+        },
+        {
+          "file": "scripts/hna/build_ranking_index.py",
+          "function": "acs_or_none",
+          "sha": "4e4a51779e3f19fc"
+        },
+        {
+          "file": "scripts/hna/build_ranking_index.py",
+          "function": "safe_float",
+          "sha": "4edd25268415d269"
+        }
+      ],
+      "reviewed": "2026-10-10"
+    },
+    {
+      "section": "m-repro",
+      "title": "Reproducibility and known defects",
+      "no_sources": "Summarises the other sections and the build; its claims are covered by theirs.",
+      "sources": []
+    }
+  ]
+}

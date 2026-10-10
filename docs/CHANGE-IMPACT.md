@@ -25,6 +25,15 @@ fails in the meantime.
 **Ranking has an ordering rule:** rebuild scenarios *after* every index regen,
 or `ci-checks` fails on a pinned `generatedAt`.
 
+**`methods.html` describes code by name.** Its constants are injected by
+`npm run paper:build`, but its formulas are prose, so each section is tied to the
+functions it specifies in `scripts/paper/methods-spec-sources.json`. Changing
+any of them — `build_place_chas.py`, `js/hna/ownership-finance.js`, or the
+marked `methods-spec:` regions of `build_ranking_index.py` — fails
+`npm run test:methods-spec` and names the section. Re-read it, fix the page if it
+is wrong, then `node scripts/paper/methods-spec.mjs --record <section-id>`. A new
+input passed to `compute_percentile_ranks` must also be named in §06.
+
 **Jurisdiction briefs and digests regenerate in place during `test:ci`.** A
 hand-authored brief section gets orphaned mid-suite, so `test:briefs` passes in
 isolation and fails only under the full suite.

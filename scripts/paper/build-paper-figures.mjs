@@ -625,6 +625,48 @@ const VOLATILE = [
   'inventory.test_files',
 ];
 
+/**
+ * Counts that methods.html quotes about the data rather than the code. They
+ * were typed into the prose by hand, which is how §03's "roughly 31%" and §06's
+ * silence about the workforce reading both went stale: the page described the
+ * build as of 2026-09-15 and nothing compared it with any later one.
+ */
+function methodsData() {
+  const out = {};
+  const chas = readJson('data/hna/place-chas.json');
+  if (!chas.ok) {
+    out.anchor_overcount_places = absent('methods_data.anchor_overcount_places', chas.reason);
+  } else {
+    const places = Object.values(chas.data.places || {});
+    const anchored = places.map((p) => p && p.tenure_anchor).filter((t) => t && t.applied);
+    // Overcounted = the apportioned household total exceeded ACS occupied
+    // units before the anchor scaled it, i.e. the anchor had to remove
+    // households. Places the anchor did not apply to are not counted either way.
+    const over = anchored.filter((t) => [t.base_renter_hh_before, t.base_owner_hh_before,
+      t.acs_renter_hh, t.acs_owner_hh].every(Number.isFinite)
+      && t.base_renter_hh_before + t.base_owner_hh_before > t.acs_renter_hh + t.acs_owner_hh);
+    out.anchor_places_total = places.length;
+    out.anchor_places_applied = anchored.length;
+    out.anchor_overcount_places = over.length;
+    out.anchor_overcount_share = places.length ? Number((over.length / places.length).toFixed(3)) : null;
+  }
+  const idx = readJson('data/hna/ranking-index.json');
+  const rows = idx.ok ? (Array.isArray(idx.data) ? idx.data : idx.data.rankings) : null;
+  if (!Array.isArray(rows)) {
+    out.workforce_gap_wins = absent('methods_data.workforce_gap_wins', idx.ok ? 'ranking-index.json has no rankings array' : idx.reason);
+  } else {
+    const m = (r) => r.metrics || {};
+    out.ranked_geographies = rows.length;
+    // Strictly greater: where the two readings tie, the resident reading
+    // already gives the same score and the workforce one changed nothing.
+    out.workforce_gap_wins = rows.filter((r) => m(r).workforce_gap_pressure_score != null
+      && m(r).resident_gap_pressure_score != null
+      && m(r).workforce_gap_pressure_score > m(r).resident_gap_pressure_score).length;
+    out.future_units_workforce_reading = rows.filter((r) => m(r).future_units_reading === 'workforce').length;
+  }
+  return out;
+}
+
 const figures = {
   generated_from_commit: git(['rev-parse', '--short', 'HEAD']),
   repo: emergence(),
@@ -644,6 +686,7 @@ const figures = {
     if (!r.ok) return { model_count: absent('methods.model_count', r.reason) };
     return r.data;
   })(),
+  methods_data: methodsData(),
   footprint: (() => {
     const r = readJson('data/paper/compute-footprint.json');
     if (!r.ok) return { turns: absent('footprint.turns', r.reason) };
