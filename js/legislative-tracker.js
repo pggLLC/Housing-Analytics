@@ -3,10 +3,9 @@
  * Legislative Bill Status Tracker — Phase 3 (Epic #444)
  *
  * Tracks status and impact of key affordable housing bills:
- *   - H.R. 6644 (Housing for the 21st Century Act)
- *   - AHCIA (Affordable Housing Credit Improvement Act)
- *   - S.XXXX (Senate ROAD Act)
- *   - CRA Modernization provisions
+ * Bills come from data/policy/tax-credit-legislation.json (the watchlist on
+ * housing-legislation-2026.html): H.R. 6644, the 21st Century ROAD to Housing
+ * Act (Public Law 119-101), AHCIA, CRA rulemaking and the other entries there.
  *
  * Provides:
  *   - Bill status data with stage/timeline annotations
@@ -186,8 +185,7 @@
     rural: {
       label:       'Rural Tract',
       craWeight:   'moderate',
-      description: 'Rural tracts receive CRA credit under community development definition. ' +
-                   'ROAD Act provisions enhance credit for rural LIHTC.',
+      description: 'Rural tracts receive CRA credit under community development definition.',
       lihtcSynergy: 'moderate'
     },
     opportunity_zone: {

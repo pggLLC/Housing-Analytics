@@ -37,6 +37,7 @@
 
   // Section order is display order. `noun` counts entries in a summary row.
   var SECTIONS = [
+    { key: 'law', label: 'Colorado housing laws, 2026 session', noun: ['law', 'laws'] },
     { key: 'qap', label: 'CHFA allocation plan', noun: ['change', 'changes'] },
     { key: 'ballot', label: 'On the ballot', noun: ['measure', 'measures'] },
     { key: 'people', label: 'Housing officials', noun: ['role', 'roles'] }
@@ -45,6 +46,7 @@
   // Where each section is shown in full. The legislation page renders the
   // sections listed here as its own; people are rendered by the elections page.
   var DESTINATIONS = {
+    law: { href: 'housing-legislation-2026.html#policy-watch', page: 'Policy & Legislation' },
     qap: { href: 'housing-legislation-2026.html#policy-watch', page: 'Policy & Legislation' },
     ballot: { href: 'housing-legislation-2026.html#policy-watch', page: 'Policy & Legislation' },
     people: { href: 'colorado-elections.html#people-and-roles', page: 'Colorado Elections' },
@@ -163,6 +165,15 @@
     }).join('');
   }
 
+  // The review-date warning (js/components/review-status.js) when the page
+  // loads that helper: an entry past its review_by says so on the page, and
+  // scripts/audit/policy-review-reminders.mjs opens an issue a week before.
+  function reviewHtml(e, todayIso) {
+    var RS = typeof window !== 'undefined' ? window.ReviewStatus : null;
+    if (!RS) return '';
+    return RS.html({ review_by: e.review_by, last_verified: e.verification && e.verification.checked }, todayIso);
+  }
+
   // Every current entry of the given sections, in full, and the gaps.
   function fullHtml(doc, keys, todayIso) {
     var html = '';
@@ -181,7 +192,8 @@
           return '<li class="watch-item" data-watch-id="' + esc(e.id) + '"><div class="watch-item__title">' + title + '</div>' +
             (e.detail ? '<p>' + esc(e.detail) + '</p>' : '') +
             '<div class="watch-item__meta">' + meta.join(' · ') +
-            '<span class="watch-item__check">' + esc(checkLine(e.verification)) + '</span></div></li>';
+            '<span class="watch-item__check">' + esc(checkLine(e.verification)) + '</span></div>' +
+            reviewHtml(e, todayIso) + '</li>';
         }).join('') + '</ul></div>';
     });
     return html;

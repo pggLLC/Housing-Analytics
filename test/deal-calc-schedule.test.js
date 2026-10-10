@@ -54,6 +54,7 @@ async function calculator(saved = subject(), options = {}) {
     if (options.forbidSubjectRead) w.SubjectProject.get = () => { throw new Error('Shared deal read recipient Subject Project'); };
   }
   await w.HudFmr.load();
+  w.eval(read('js/deal-engine.js'));
   w.eval(read('js/deal-calculator.js'));
   await settle(); await settle();
   w.eval(read('js/deal-calculator-report-meta.js'));
