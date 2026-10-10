@@ -490,7 +490,8 @@ def _request_chunk(ids: list[str], start_year: int, end_year: int, api_key: str 
         _log(f"  BLS REQUEST_FAILED for {len(ids)} series ({'; '.join(messages) or 'no message'})")
         if catalog and api_key:
             time.sleep(1)
-            return _request_chunk(ids, start_year, end_year, api_key, False, out)
+            _request_chunk(ids, start_year, end_year, api_key, False, out)
+            return
         if len(ids) > 1:
             mid = len(ids) // 2
             for part in (ids[:mid], ids[mid:]):

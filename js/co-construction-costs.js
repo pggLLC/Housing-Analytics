@@ -51,9 +51,10 @@
 
   function fmtValue(v, unit) {
     if (!isNum(v)) return UNAVAILABLE;
-    if (unit === 'usd_per_hour') return '$' + v.toFixed(2);
-    if (unit === 'usd_per_week') return '$' + Math.round(v).toLocaleString('en-US');
-    if (unit === 'thousands') return v.toFixed(1) + 'K';
+    // Unit strings as data/market/co-construction-labor-cost.json writes them.
+    if (unit === 'dollars per hour') return '$' + v.toFixed(2);
+    if (unit === 'dollars per week') return '$' + Math.round(v).toLocaleString('en-US');
+    if (unit === 'thousands of jobs') return v.toFixed(1) + 'K';
     if (unit === 'percent') return v.toFixed(1) + '%';
     return v.toLocaleString('en-US');
   }
@@ -145,8 +146,9 @@
       options: {
         responsive: true, maintainAspectRatio: false,
         interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
         scales: {
-          x: { title: { display: true, text: 'Month' }, ticks: { maxTicksLimit: 8 } },
+          x: { title: { display: true, text: 'Month' }, ticks: { maxTicksLimit: 6 } },
           y: { position: 'left', title: { display: true, text: 'Hourly earnings ($)' },
                ticks: { callback: function (v) { return '$' + v; } } },
           y1: { position: 'right', title: { display: true, text: 'Jobs (thousands)' }, grid: { drawOnChartArea: false } }
@@ -156,8 +158,8 @@
     var first = a[0], last = a[a.length - 1];
     var text = document.getElementById('ccLaborChartText');
     if (text && first && last) {
-      text.textContent = 'Colorado construction average hourly earnings went from ' + fmtValue(first.value, 'usd_per_hour') +
-        ' in ' + monthLabel(first.period) + ' to ' + fmtValue(last.value, 'usd_per_hour') + ' in ' + monthLabel(last.period) + '.';
+      text.textContent = 'Colorado construction average hourly earnings went from ' + fmtValue(first.value, 'dollars per hour') +
+        ' in ' + monthLabel(first.period) + ' to ' + fmtValue(last.value, 'dollars per hour') + ' in ' + monthLabel(last.period) + '.';
     }
   }
 
@@ -176,9 +178,10 @@
     var index = {};
     o.rows.forEach(function (r) { index[r.area + '|' + r.soc] = r; });
     var state = areas[0];
-    head.innerHTML = '<th scope="col">Trade</th>' + areas.map(function (a) {
-      return '<th scope="col">' + escapeHtml(a.name) + '</th>';
-    }).join('') + (state ? '<th scope="col">' + escapeHtml(state.name) + ' change</th>' : '');
+    head.innerHTML = '<th scope="col" title="BLS OEWS occupation (SOC code)">Trade</th>' + areas.map(function (a) {
+      return '<th scope="col" title="Mean hourly wage, BLS OEWS">' + escapeHtml(a.name) + '</th>';
+    }).join('') + (state ? '<th scope="col" title="Change in the statewide mean hourly wage from the prior OEWS year">' +
+      escapeHtml(state.name) + ' change</th>' : '');
     body.innerHTML = (o.occupations || []).map(function (occ) {
       var cells = areas.map(function (a) {
         var r = index[a.code + '|' + occ.soc];
@@ -248,8 +251,9 @@
       options: {
         responsive: true, maintainAspectRatio: false,
         interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
         scales: {
-          x: { title: { display: true, text: 'Month' }, ticks: { maxTicksLimit: 8 } },
+          x: { title: { display: true, text: 'Month' }, ticks: { maxTicksLimit: 6 } },
           y: { title: { display: true, text: 'Index (' + monthLabel(labels[0]) + ' = 100)' } }
         }
       }
