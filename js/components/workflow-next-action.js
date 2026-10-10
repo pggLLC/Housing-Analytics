@@ -138,12 +138,15 @@
     if (STEP_URL_ALIASES[loc] && canon().keys.indexOf(STEP_URL_ALIASES[loc]) !== -1) {
       return STEP_URL_ALIASES[loc];
     }
+    // A route can open a page with a query (deal-calculator.html?mode=ownership)
+    // or an anchor; the page is the file name.
+    function file(href) { return String(href).split(/[?#]/)[0]; }
     for (var key in urls) {
-      if (loc === urls[key]) return key;
+      if (loc === file(urls[key])) return key;
     }
     var comp = canon().companions;
     for (var ck in comp) {
-      if (loc === comp[ck].href.split('#')[0]) return ck;
+      if (loc === file(comp[ck].href)) return ck;
     }
     // Fallback: data-step attribute (only consulted if the URL isn't a known
     // funnel page; numbering follows the 6-step progress-bar scheme:
@@ -162,7 +165,9 @@
     var c = canon().companions[key];
     if (!c) return false;
     var loc = (global.location.pathname.split('/').pop() || '').toLowerCase();
-    return loc === c.href.split('#')[0];
+    // The query counts: deal-calculator.html?mode=ownership is the companion
+    // of deal-calculator.html.
+    return loc + (global.location.search || '') === String(c.href).split('#')[0];
   }
 
   /* "For the for-sale homes, also open …" for a step with a companion page. */
