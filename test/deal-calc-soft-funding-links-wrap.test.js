@@ -24,6 +24,8 @@ global.document = dom.window.document;
 global.window = dom.window;
 global.HTMLElement = dom.window.HTMLElement;
 global.Event = dom.window.Event;
+const invented = require('./fixtures/predictor-policy.cjs');
+global.fetch = window.fetch = async url => ({ ok: !!invented[url], json: async () => invented[url] });
 window.DealCalculatorMath = require('../js/deal-calculator-math.js');
 require('../js/hna/hna-ownership-need.js');
 require('../js/hna/ownership-resale.js');
@@ -34,7 +36,9 @@ setTimeout(() => {
   const list = document.getElementById('dc-soft-funding-ref-list');
   assert(list, 'soft-funding reference list mounts');
   const links = Array.from(list.querySelectorAll('a[href^="http"]'));
-  assert(links.length >= 8, 'the reference renders its external links (got ' + links.length + ')');
+  const expected = Object.values(invented['data/policy/soft-funding-status.json'].programs).map(p => p.source_url);
+  assert(expected.length > 0, 'invented program sources checked');
+  assert.deepStrictEqual(links.map(a => a.href).sort(), expected.sort(), 'every sourced program link renders');
   const bare = links.filter((a) => /^[a-z0-9.-]+\.[a-z]{2,}\//i.test(a.textContent.trim()));
   assert(bare.length >= 1, 'at least one link shows a bare URL as its text, the case that cannot break naturally');
   links.forEach((a) => {

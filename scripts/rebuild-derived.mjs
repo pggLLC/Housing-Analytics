@@ -147,6 +147,7 @@ export const NOT_DERIVED = {
   // Validators — they read the index and assert, they generate nothing.
   'scripts/check-ranking-index-fresh.py': 'freshness checker; runs AFTER a commit, not as part of the build',
   'scripts/audit/data-freshness-check.mjs': 'validator — reports how old each data file is; writes nothing',
+  'scripts/audit/local-incentives-watch.mjs': 'reminder — reads population only to order the research queue it puts in a monthly issue; writes nothing',
   'scripts/audit/data-sentinels-check.mjs': 'validator — flags sentinel values published as real figures; writes nothing',
   'scripts/validate-critical-data.js': 'validator — asserts required data files parse and carry required keys',
   'scripts/validate_hna_coverage.py': 'validator — asserts every geography in the registry has HNA coverage',

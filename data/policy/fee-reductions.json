@@ -2,7 +2,7 @@
   "schema": "fee-reductions/v1",
   "meta": {
     "title": "Colorado local fee reductions and land-use incentives for affordable housing",
-    "as_of": "2026-09-26",
+    "as_of": "2026-10-10",
     "method": "Curated, not a feed. Each entry was read from the jurisdiction's (or its utility's or district's) own code, resolution, fee schedule, council record or program page, saved, and every evidence quote was checked by exact substring match against the saved text (whitespace normalised). verification.level \"primary\" means checked against that primary document; \"reported\" means taken from a named reproduction or outlet without the primary document. Every dollar amount and percentage an entry states appears in its own evidence quotes (tests/test_fee_reductions.py). An amount the source does not publish is null, never 0. Measures are kept separate: waived (not owed), reduced (partly owed), reimbursed (paid, then paid back), deferred (still owed, paid later — not a cost reduction), and rate_discount (a recurring utility bill discount, not a development cost). backfill records how a waived amount is paid for only when the source says so; otherwise not_specified. kind says whether an entry is a standing program, a one-off project_award (an example of what a jurisdiction has done, not an offer), or repealed (kept for the record). A county entry may apply only outside town limits. This is screening context, not a study: it lists what a jurisdiction offers, not what any project will receive.",
     "legal_basis": [
       {
@@ -896,7 +896,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Applies to required inclusionary units (AMI levels set by product type in 17-76-020). The code text cites 17-17-020 in the lead-in but 17-76-020 in each item (apparent typo in code). by_right=true meaning the incentive is stated as an entitlement for on-site compliance; partial compliers need council approval."
+      "notes": "Applies to required inclusionary units (AMI levels set by product type in 17-76-020). The code text cites 17-17-020 in the lead-in but 17-76-020 in each item (apparent typo in code). by_right=true meaning the incentive is stated as an entitlement for on-site compliance; partial compliers need council approval.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-broomfield-ih-onsite-sef",
@@ -954,7 +956,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Applies to required inclusionary units (AMI levels set by product type in 17-76-020). The code text cites 17-17-020 in the lead-in but 17-76-020 in each item (apparent typo in code). by_right=true meaning the incentive is stated as an entitlement for on-site compliance; partial compliers need council approval."
+      "notes": "Applies to required inclusionary units (AMI levels set by product type in 17-76-020). The code text cites 17-17-020 in the lead-in but 17-76-020 in each item (apparent typo in code). by_right=true meaning the incentive is stated as an entitlement for on-site compliance; partial compliers need council approval.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-broomfield-ih-onsite-usetax",
@@ -1012,7 +1016,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Applies to required inclusionary units (AMI levels set by product type in 17-76-020). The code text cites 17-17-020 in the lead-in but 17-76-020 in each item (apparent typo in code). by_right=true meaning the incentive is stated as an entitlement for on-site compliance; partial compliers need council approval."
+      "notes": "Applies to required inclusionary units (AMI levels set by product type in 17-76-020). The code text cites 17-17-020 in the lead-in but 17-76-020 in each item (apparent typo in code). by_right=true meaning the incentive is stated as an entitlement for on-site compliance; partial compliers need council approval.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-broomfield-uraf",
@@ -1081,7 +1087,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed confirmed (quarterly credits; checks to landlord/HOA-billed residents). 2026 threshold was cut from 100% AMI to 60% AMI. URL https://broomfield.org/4248/Utility-Rate-Assistance-Fund returned 200 (the /utilityassistance suffix was not needed)."
+      "notes": "Seed confirmed (quarterly credits; checks to landlord/HOA-billed residents). 2026 threshold was cut from 100% AMI to 60% AMI. URL https://broomfield.org/4248/Utility-Rate-Assistance-Fund returned 200 (the /utilityassistance suffix was not needed).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "denver-eha-building-permit-fee-reduction",
@@ -1150,7 +1158,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "SEED DISCREPANCY: the repo's claim of a 'use-tax + plan-review fee waiver' with a per-project dollar range is NOT supported by Denver's page. Denver's page describes only a construction building permit fee reduction (see the page's two worked examples, quoted in evidence), plus a linkage-fee exemption for street-level commercial space and the fact that the linkage fee is not assessed on development that provides affordable housing. No use-tax or plan-review waiver found on Denver pages read. AMI limits vary by market area, tenure and compliance option (per the page's tables), so ami_max is null. Incentives unavailable to projects paying fee-in-lieu."
+      "notes": "SEED DISCREPANCY: the repo's claim of a 'use-tax + plan-review fee waiver' with a per-project dollar range is NOT supported by Denver's page. Denver's page describes only a construction building permit fee reduction (see the page's two worked examples, quoted in evidence), plus a linkage-fee exemption for street-level commercial space and the fact that the linkage fee is not assessed on development that provides affordable housing. No use-tax or plan-review waiver found on Denver pages read. AMI limits vary by market area, tenure and compliance option (per the page's tables), so ami_max is null. Incentives unavailable to projects paying fee-in-lieu.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "aspen-affordable-building-permit-waiver",
@@ -1204,7 +1214,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "The Aspen Consolidated Sanitation District (separate special district) charges sewer tap/permit fees that the City cannot waive; its fee page (slug c-acsd-fees) showed no affordable-housing reduction. Building-permit waiver code section not located."
+      "notes": "The Aspen Consolidated Sanitation District (separate special district) charges sewer tap/permit fees that the City cannot waive; its fee page (slug c-acsd-fees) showed no affordable-housing reduction. Building-permit waiver code section not located.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "aspen-affordable-category-water-charge-waiver",
@@ -1274,7 +1286,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Code table misspells 'Wavier' for Category 1. Order of category rows is inferred from the table sequence (Category 1..5, Resident Occupied, Free Market)."
+      "notes": "Code table misspells 'Wavier' for Category 1. Order of category rows is inferred from the table sequence (Category 1..5, Resident Occupied, Free Market).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "aspen-affordable-impact-parks-waiver",
@@ -1342,7 +1356,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary, council-by-council; no retroactive waivers."
+      "notes": "Discretionary, council-by-council; no retroactive waivers.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "aspen-affordable-impact-transportation-waiver",
@@ -1410,7 +1426,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary, council-by-council; no retroactive waivers."
+      "notes": "Discretionary, council-by-council; no retroactive waivers.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "aspen-affordable-planning-fee-waiver",
@@ -1460,7 +1478,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "aspen-qualified-employee-housing-water-charge-exemption",
@@ -1522,7 +1542,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Requires water-conservation devices; exemption is repayable if units stop being affordable. A parallel section (§25.04.036) covers Aspen Electric community investment charges; not separately recorded."
+      "notes": "Requires water-conservation devices; exemption is repayable if units stop being affordable. A parallel section (§25.04.036) covers Aspen Electric community investment charges; not separately recorded.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "bellingham-customer-assistance-program",
@@ -1580,7 +1602,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Out-of-state comparison. Tiered by income; percent field holds the maximum tier. Discounts begin on bills after January 1, 2026."
+      "notes": "Out-of-state comparison. Tiered by income; percent field holds the maximum tier. Discounts begin on bills after January 1, 2026.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "bellingham-nonprofit-affordable-housing-reduced-utility-rate",
@@ -1629,7 +1653,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Out-of-state comparison. Seed confirmed. Discount magnitude for agency properties not on the page."
+      "notes": "Out-of-state comparison. Seed confirmed. Discount magnitude for agency properties not on the page.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-boulder-det-credit-discretionary",
@@ -1681,7 +1707,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary, legislative."
+      "notes": "Discretionary, legislative.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-boulder-det-waiver-excess-pa",
@@ -1741,7 +1769,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Adoption year not isolated (ordinance list spans 1989–2024). Permanently affordable = deed-restricted per B.R.C. 9-16-1. 3-8-7(c) additionally lets council grant DET credits for affordable housing at its discretion."
+      "notes": "Adoption year not isolated (ordinance list spans 1989–2024). Permanently affordable = deed-restricted per B.R.C. 9-16-1. 3-8-7(c) additionally lets council grant DET credits for affordable housing at its discretion.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-brighton-ravenfield-gensvc",
@@ -1822,7 +1852,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed confirmed. Worksheet totals: $ 871,183.60 total reduction; $ 200,644.10 general fund → enterprise fund. Worksheet is 'Based on 2026 Fees' while council approval was 2025 — likely an updated worksheet; exact adopting resolution number not retrieved. Legistar agenda item hosting the worksheet not identified. Separately, BMC 13-4-10 lets affordable housing projects pay fee-in-lieu instead of dedicating water rights."
+      "notes": "Seed confirmed. Worksheet totals: $ 871,183.60 total reduction; $ 200,644.10 general fund → enterprise fund. Worksheet is 'Based on 2026 Fees' while council approval was 2025 — likely an updated worksheet; exact adopting resolution number not retrieved. Legistar agenda item hosting the worksheet not identified. Separately, BMC 13-4-10 lets affordable housing projects pay fee-in-lieu instead of dedicating water rights.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-brighton-ravenfield-parks",
@@ -1903,7 +1935,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed confirmed. Worksheet totals: $ 871,183.60 total reduction; $ 200,644.10 general fund → enterprise fund. Worksheet is 'Based on 2026 Fees' while council approval was 2025 — likely an updated worksheet; exact adopting resolution number not retrieved. Legistar agenda item hosting the worksheet not identified. Separately, BMC 13-4-10 lets affordable housing projects pay fee-in-lieu instead of dedicating water rights."
+      "notes": "Seed confirmed. Worksheet totals: $ 871,183.60 total reduction; $ 200,644.10 general fund → enterprise fund. Worksheet is 'Based on 2026 Fees' while council approval was 2025 — likely an updated worksheet; exact adopting resolution number not retrieved. Legistar agenda item hosting the worksheet not identified. Separately, BMC 13-4-10 lets affordable housing projects pay fee-in-lieu instead of dedicating water rights.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-brighton-ravenfield-storm",
@@ -1983,7 +2017,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed confirmed. Worksheet totals: $ 871,183.60 total reduction; $ 200,644.10 general fund → enterprise fund. Worksheet is 'Based on 2026 Fees' while council approval was 2025 — likely an updated worksheet; exact adopting resolution number not retrieved. Legistar agenda item hosting the worksheet not identified. Separately, BMC 13-4-10 lets affordable housing projects pay fee-in-lieu instead of dedicating water rights."
+      "notes": "Seed confirmed. Worksheet totals: $ 871,183.60 total reduction; $ 200,644.10 general fund → enterprise fund. Worksheet is 'Based on 2026 Fees' while council approval was 2025 — likely an updated worksheet; exact adopting resolution number not retrieved. Legistar agenda item hosting the worksheet not identified. Separately, BMC 13-4-10 lets affordable housing projects pay fee-in-lieu instead of dedicating water rights.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-brighton-ravenfield-transport",
@@ -2064,7 +2100,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed confirmed. Worksheet totals: $ 871,183.60 total reduction; $ 200,644.10 general fund → enterprise fund. Worksheet is 'Based on 2026 Fees' while council approval was 2025 — likely an updated worksheet; exact adopting resolution number not retrieved. Legistar agenda item hosting the worksheet not identified. Separately, BMC 13-4-10 lets affordable housing projects pay fee-in-lieu instead of dedicating water rights."
+      "notes": "Seed confirmed. Worksheet totals: $ 871,183.60 total reduction; $ 200,644.10 general fund → enterprise fund. Worksheet is 'Based on 2026 Fees' while council approval was 2025 — likely an updated worksheet; exact adopting resolution number not retrieved. Legistar agenda item hosting the worksheet not identified. Separately, BMC 13-4-10 lets affordable housing projects pay fee-in-lieu instead of dedicating water rights.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-brighton-ravenfield-usetax",
@@ -2143,7 +2181,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed confirmed. Worksheet totals: $ 871,183.60 total reduction; $ 200,644.10 general fund → enterprise fund. Worksheet is 'Based on 2026 Fees' while council approval was 2025 — likely an updated worksheet; exact adopting resolution number not retrieved. Legistar agenda item hosting the worksheet not identified. Separately, BMC 13-4-10 lets affordable housing projects pay fee-in-lieu instead of dedicating water rights."
+      "notes": "Seed confirmed. Worksheet totals: $ 871,183.60 total reduction; $ 200,644.10 general fund → enterprise fund. Worksheet is 'Based on 2026 Fees' while council approval was 2025 — likely an updated worksheet; exact adopting resolution number not retrieved. Legistar agenda item hosting the worksheet not identified. Separately, BMC 13-4-10 lets affordable housing projects pay fee-in-lieu instead of dedicating water rights.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-brighton-ravenfield-wastewater",
@@ -2223,7 +2263,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed confirmed. Worksheet totals: $ 871,183.60 total reduction; $ 200,644.10 general fund → enterprise fund. Worksheet is 'Based on 2026 Fees' while council approval was 2025 — likely an updated worksheet; exact adopting resolution number not retrieved. Legistar agenda item hosting the worksheet not identified. Separately, BMC 13-4-10 lets affordable housing projects pay fee-in-lieu instead of dedicating water rights."
+      "notes": "Seed confirmed. Worksheet totals: $ 871,183.60 total reduction; $ 200,644.10 general fund → enterprise fund. Worksheet is 'Based on 2026 Fees' while council approval was 2025 — likely an updated worksheet; exact adopting resolution number not retrieved. Legistar agenda item hosting the worksheet not identified. Separately, BMC 13-4-10 lets affordable housing projects pay fee-in-lieu instead of dedicating water rights.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-brighton-ravenfield-water",
@@ -2307,7 +2349,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed confirmed. Worksheet totals: $ 871,183.60 total reduction; $ 200,644.10 general fund → enterprise fund. Worksheet is 'Based on 2026 Fees' while council approval was 2025 — likely an updated worksheet; exact adopting resolution number not retrieved. Legistar agenda item hosting the worksheet not identified. Separately, BMC 13-4-10 lets affordable housing projects pay fee-in-lieu instead of dedicating water rights."
+      "notes": "Seed confirmed. Worksheet totals: $ 871,183.60 total reduction; $ 200,644.10 general fund → enterprise fund. Worksheet is 'Based on 2026 Fees' while council approval was 2025 — likely an updated worksheet; exact adopting resolution number not retrieved. Legistar agenda item hosting the worksheet not identified. Separately, BMC 13-4-10 lets affordable housing projects pay fee-in-lieu instead of dedicating water rights.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "colorado-springs-construction-use-tax-refund",
@@ -2360,7 +2404,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Qualification criteria are in a linked guideline not fetched; ami_max unknown."
+      "notes": "Qualification criteria are in a linked guideline not fetched; ami_max unknown.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "colorado-springs-fee-rebate-city-development-fees",
@@ -2426,7 +2472,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Lumped categories; plan_review chosen as most specific for Land Use Review. Rebate awarded after payment."
+      "notes": "Lumped categories; plan_review chosen as most specific for Land Use Review. Rebate awarded after payment.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "colorado-springs-fee-rebate-csu-utility-fees",
@@ -2496,7 +2544,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Explicitly not a reduction or waiver - a post-payment rebate. Launch year 2022 per city news (e-cos-1000units: 'launched the Affordable and Attainable Multi-Family Fee Rebate Program in second quarter of 2022'). Current funding status in 2026 not verified. A separate CSU water/wastewater development-charge deferral page exists but returned HTTP 403 (gap)."
+      "notes": "Explicitly not a reduction or waiver - a post-payment rebate. Launch year 2022 per city news (e-cos-1000units: 'launched the Affordable and Attainable Multi-Family Fee Rebate Program in second quarter of 2022'). Current funding status in 2026 not verified. A separate CSU water/wastewater development-charge deferral page exists but returned HTTP 403 (gap).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-commercecity-application-fee-waiver",
@@ -2558,7 +2608,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Fee is paid up front and refunded if the waiver is granted. Application fees only — not impact or tap fees."
+      "notes": "Fee is paid up front and refunded if the waiver is granted. Application fees only — not impact or tap fees.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-durango-fairshare-fee-offset-forsale",
@@ -2629,7 +2681,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "ami_max 125 = max price of any FSH under the moderate option (average <=100% AMI). See rental entry notes."
+      "notes": "ami_max 125 = max price of any FSH under the moderate option (average <=100% AMI). See rental entry notes.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-durango-fairshare-fee-offset-rental",
@@ -2695,7 +2749,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "measure is 'waived or refunded' in the source; recorded as waived. fee_category building_permit is a stand-in for 'City fees' generally. ami_max 100 = max rent of any FSH under the moderate option (average must be <=80% AMI); deep option is avg 60 / max 80. Same caps apply via the Affordable Housing Fee Offset Policy to non-Fair-Share affordable projects. The manual's own numbering is garbled (6.1.2.1 inside 6.2.1); quoted as written."
+      "notes": "measure is 'waived or refunded' in the source; recorded as waived. fee_category building_permit is a stand-in for 'City fees' generally. ami_max 100 = max rent of any FSH under the moderate option (average must be <=80% AMI); deep option is avg 60 / max 80. Same caps apply via the Affordable Housing Fee Offset Policy to non-Fair-Share affordable projects. The manual's own numbering is garbled (6.1.2.1 inside 6.2.1); quoted as written.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-durango-utility-refund",
@@ -2752,7 +2808,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Refund amount unknown: the English Utility Refund application (DocumentCenter/View/36946) returned HTTP 404. Customer program, not a development incentive."
+      "notes": "Refund amount unknown: the English Utility Refund application (DocumentCenter/View/36946) returned HTTP 404. Customer program, not a development incentive.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-fortcollins-cef-deferral",
@@ -2808,7 +2866,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Deferral only — no reduction in total cost."
+      "notes": "Deferral only — no reduction in total cost.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-fortcollins-fee-credit",
@@ -2872,7 +2932,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "The City pays the fee on the developer's behalf via a trust account — fees are collected, not waived."
+      "notes": "The City pays the fee on the developer's behalf via a trust account — fees are collected, not waived.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-fortcollins-iqap-wastewater",
@@ -2927,7 +2989,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-fortcollins-iqap-water",
@@ -2982,7 +3046,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Income test is LEAP eligibility, not an AMI threshold, so ami_max null. Customer must hold the account directly (26-724(b)(1)). Electric discounts exist too (26-464(c), 26-465(c)); not captured."
+      "notes": "Income test is LEAP eligibility, not an AMI threshold, so ami_max null. Customer must hold the account directly (26-724(b)(1)). Electric discounts exist too (26-464(c), 26-465(c)); not captured.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-fortcollins-utility-pif-deferral",
@@ -3036,7 +3102,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Deferral only."
+      "notes": "Deferral only.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-fruita-sewer-senior-rate",
@@ -3109,7 +3177,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "This is a senior/income rate class for existing customers, NOT an affordable-housing development incentive; it applies to any qualifying resident (owner or renter) and has no deed-restriction link. Eligibility per Exhibit A: age 62 AND income <=130% of federal poverty level (both required). The 'Senior Citizen' row label and the 21.95 / 54.65 values are in separate text runs in the pypdf extraction of Exhibit A; the row-to-value pairing was confirmed with a layout extraction and is stated verbatim in the council packet quotes above. Seed said the senior rate comes 'from Resolution 2007-76': that resolution's 2007/2008 schedule shows the class already existed ($8.00 / $9.00), but it does not show that 2007-76 created it. Municipal Code §13.28.020 itself contains no senior class; the code delegates rates to resolution. §13.28.010 (plant investment fees) contains no waiver or reduction for affordable or senior housing. Trash has a parallel senior rate (not recorded)."
+      "notes": "This is a senior/income rate class for existing customers, NOT an affordable-housing development incentive; it applies to any qualifying resident (owner or renter) and has no deed-restriction link. Eligibility per Exhibit A: age 62 AND income <=130% of federal poverty level (both required). The 'Senior Citizen' row label and the 21.95 / 54.65 values are in separate text runs in the pypdf extraction of Exhibit A; the row-to-value pairing was confirmed with a layout extraction and is stated verbatim in the council packet quotes above. Seed said the senior rate comes 'from Resolution 2007-76': that resolution's 2007/2008 schedule shows the class already existed ($8.00 / $9.00), but it does not show that 2007-76 created it. Municipal Code §13.28.020 itself contains no senior class; the code delegates rates to resolution. §13.28.010 (plant investment fees) contains no waiver or reduction for affordable or senior housing. Trash has a parallel senior rate (not recorded).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-glenwood-voluntary-deed-restriction-impact-relief",
@@ -3160,7 +3230,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Measure recorded as 'reduced' because the page says 'relief' without stating full waiver; fee_category is a stand-in (categories not itemised). Ordinance 36-2016 PDF (DocumentCenter/View/9958) has no extractable text; code §070.045.080 (incentives/fee waivers for inclusionary developments, referenced by the Housing Guidelines) was not retrieved. Search snippets mention a 30-year term and 100% AMI; NOT verified."
+      "notes": "Measure recorded as 'reduced' because the page says 'relief' without stating full waiver; fee_category is a stand-in (categories not itemised). Ordinance 36-2016 PDF (DocumentCenter/View/9958) has no extractable text; code §070.045.080 (incentives/fee waivers for inclusionary developments, referenced by the Housing Guidelines) was not retrieved. Search snippets mention a 30-year term and 100% AMI; NOT verified.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-gj-cdbg-habitat-2024",
@@ -3214,7 +3286,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "DISCREPANCY vs seed: seed said four Habitat units; the 2024 CAPER says 8 units. Res. 45-25's recital separately reports $114,616 for 10 Habitat units under the 2024 incentive (see b-gj-res44-24-general-fund) — possibly overlapping projects; not reconciled. fee_category tap_sewer chosen; the CAPER covers both water and sewer tap fees. Document is a DRAFT public-review copy."
+      "notes": "DISCREPANCY vs seed: seed said four Habitat units; the 2024 CAPER says 8 units. Res. 45-25's recital separately reports $114,616 for 10 Habitat units under the 2024 incentive (see b-gj-res44-24-general-fund) — possibly overlapping projects; not reconciled. fee_category tap_sewer chosen; the CAPER covers both water and sewer tap fees. Document is a DRAFT public-review copy.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-gj-housing-authority-exempt",
@@ -3280,7 +3354,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Explicit no-backfill statement (requested by owner). fee_category is a stand-in: the exemption covers all development-related fees. Recital also notes that the city code's own government exemption does not cover sewer/water PIFs. Res. 45-25 recital: 'Paying development-related fees for entities that are exempt from paying fees is expensive' — the prior program had been backfilling."
+      "notes": "Explicit no-backfill statement (requested by owner). fee_category is a stand-in: the exemption covers all development-related fees. Recital also notes that the city code's own government exemption does not cover sewer/water PIFs. Res. 45-25 recital: 'Paying development-related fees for entities that are exempt from paying fees is expensive' — the prior program had been backfilling.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-gj-impact-own-111-120",
@@ -3356,7 +3432,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "fee_category is the most specific label for a bundle: the reduction applies to all city development impact fees (TCP, police, fire, parks, others adopted), excluding water/sewer. Waivers are paid from an annual budget allocation via letter-of-request/application; not by right. Program expires Dec 31, 2028 per Res. 45-25. Water/sewer PIFs are handled separately (see b-gj-ws-pif-paid)."
+      "notes": "fee_category is the most specific label for a bundle: the reduction applies to all city development impact fees (TCP, police, fire, parks, others adopted), excluding water/sewer. Waivers are paid from an annual budget allocation via letter-of-request/application; not by right. Program expires Dec 31, 2028 per Res. 45-25. Water/sewer PIFs are handled separately (see b-gj-ws-pif-paid).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-gj-impact-own-le110",
@@ -3437,7 +3515,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "fee_category is the most specific label for a bundle: the reduction applies to all city development impact fees (TCP, police, fire, parks, others adopted), excluding water/sewer. Waivers are paid from an annual budget allocation via letter-of-request/application; not by right. Program expires Dec 31, 2028 per Res. 45-25. Water/sewer PIFs are handled separately (see b-gj-ws-pif-paid)."
+      "notes": "fee_category is the most specific label for a bundle: the reduction applies to all city development impact fees (TCP, police, fire, parks, others adopted), excluding water/sewer. Waivers are paid from an annual budget allocation via letter-of-request/application; not by right. Program expires Dec 31, 2028 per Res. 45-25. Water/sewer PIFs are handled separately (see b-gj-ws-pif-paid).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-gj-impact-prop123",
@@ -3498,7 +3578,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Res. 45-25 §2.D similarly waives impact fees for multi-unit income-averaging projects at or below 60% AMI (not recorded separately). Water/sewer fees for these projects go through the letter-of-request process."
+      "notes": "Res. 45-25 §2.D similarly waives impact fees for multi-unit income-averaging projects at or below 60% AMI (not recorded separately). Water/sewer fees for these projects go through the letter-of-request process.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-gj-impact-rental-71-80",
@@ -3574,7 +3656,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "fee_category is the most specific label for a bundle: the reduction applies to all city development impact fees (TCP, police, fire, parks, others adopted), excluding water/sewer. Waivers are paid from an annual budget allocation via letter-of-request/application; not by right. Program expires Dec 31, 2028 per Res. 45-25. Water/sewer PIFs are handled separately (see b-gj-ws-pif-paid)."
+      "notes": "fee_category is the most specific label for a bundle: the reduction applies to all city development impact fees (TCP, police, fire, parks, others adopted), excluding water/sewer. Waivers are paid from an annual budget allocation via letter-of-request/application; not by right. Program expires Dec 31, 2028 per Res. 45-25. Water/sewer PIFs are handled separately (see b-gj-ws-pif-paid).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-gj-impact-rental-81-90",
@@ -3650,7 +3734,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "fee_category is the most specific label for a bundle: the reduction applies to all city development impact fees (TCP, police, fire, parks, others adopted), excluding water/sewer. Waivers are paid from an annual budget allocation via letter-of-request/application; not by right. Program expires Dec 31, 2028 per Res. 45-25. Water/sewer PIFs are handled separately (see b-gj-ws-pif-paid)."
+      "notes": "fee_category is the most specific label for a bundle: the reduction applies to all city development impact fees (TCP, police, fire, parks, others adopted), excluding water/sewer. Waivers are paid from an annual budget allocation via letter-of-request/application; not by right. Program expires Dec 31, 2028 per Res. 45-25. Water/sewer PIFs are handled separately (see b-gj-ws-pif-paid).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-gj-impact-rental-le70",
@@ -3731,7 +3817,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "fee_category is the most specific label for a bundle: the reduction applies to all city development impact fees (TCP, police, fire, parks, others adopted), excluding water/sewer. Waivers are paid from an annual budget allocation via letter-of-request/application; not by right. Program expires Dec 31, 2028 per Res. 45-25. Water/sewer PIFs are handled separately (see b-gj-ws-pif-paid)."
+      "notes": "fee_category is the most specific label for a bundle: the reduction applies to all city development impact fees (TCP, police, fire, parks, others adopted), excluding water/sewer. Waivers are paid from an annual budget allocation via letter-of-request/application; not by right. Program expires Dec 31, 2028 per Res. 45-25. Water/sewer PIFs are handled separately (see b-gj-ws-pif-paid).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-gj-res44-24-general-fund",
@@ -3804,7 +3892,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Historical/superseded; kept because it is the clearest general-fund backfill evidence in the region. Res. 45-25's recital says 'Resolution 44-22' — evidently a typo for 44-24; quoted as written. Mixed-income rentals: up to 25% (>=10% affordable) or 40% (>=20% affordable) waiver for market-rate units."
+      "notes": "Historical/superseded; kept because it is the clearest general-fund backfill evidence in the region. Res. 45-25's recital says 'Resolution 44-22' — evidently a typo for 44-24; quoted as written. Mixed-income rentals: up to 25% (>=10% affordable) or 40% (>=20% affordable) waiver for market-rate units.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-gj-ws-pif-paid",
@@ -3883,7 +3973,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "ami_max recorded as 60 (rental); for-sale threshold is 100% AMI. Developer pays water/sewer above those thresholds. Only City water and Persigo sewer; Ute Water and Clifton Water customers get nothing. The 2025 Annual Action Plan is labelled DRAFT."
+      "notes": "ami_max recorded as 60 (rental); for-sale threshold is 100% AMI. Developer pays water/sewer above those thresholds. Only City water and Persigo sewer; Ute Water and Clifton Water customers get nothing. The 2025 Annual Action Plan is labelled DRAFT.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lafayette-deferral-impact-tap",
@@ -3937,7 +4029,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Deferral only; automatic on written request. Charter affordable housing unit is defined in § 28-7 (not retrieved)."
+      "notes": "Deferral only; automatic on written request. Charter affordable housing unit is defined in § 28-7 (not retrieved).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lafayette-use-tax-deferral",
@@ -3987,7 +4081,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lafayette-use-tax-exemption",
@@ -4037,7 +4133,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lafayette-waiver-nonenterprise",
@@ -4092,7 +4190,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary; waivers void if unit sold/rented without the restriction (30-3-7(d))."
+      "notes": "Discretionary; waivers void if unit sold/rented without the restriction (30-3-7(d)).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lakewood-parkland-dedication-waiver",
@@ -4156,7 +4256,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "The City commits to seek alternative funding for park access; no specific backfill. Proposition 123 metrics (C.R.S. 29-32-101(2)) set the AMI (not restated here)."
+      "notes": "The City commits to seek alternative funding for park access; no specific backfill. Proposition 123 metrics (C.R.S. 29-32-101(2)) set the AMI (not restated here).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "leadville-community-housing-school-fee-waiver",
@@ -4208,7 +4310,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary; claim must be made at application."
+      "notes": "Discretionary; claim must be made at application.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "littleton-inclusionary-permit-fee-rebate",
@@ -4269,7 +4373,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "ami_max 60 is for rentals; for-sale units have a higher limit (see littleton-inclusionary-requirement). Only for projects building units on site instead of paying fee-in-lieu."
+      "notes": "ami_max 60 is for rentals; for-sale units have a higher limit (see littleton-inclusionary-requirement). Only for projects building units on site instead of paying fee-in-lieu.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-longmont-4-79-general-fee-reduction",
@@ -4344,7 +4450,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Percentage is set case by case by the planning director on listed factors; council may grant more under 4.79.045. No fixed schedule in code except the 45 percent threshold for attainable projects needing a development agreement. Longmont also defers SDFs and impact fees for ALL residential construction to certificate of occupancy (4.78.020) — not affordable-specific, not recorded as an entry."
+      "notes": "Percentage is set case by case by the planning director on listed factors; council may grant more under 4.79.045. No fixed schedule in code except the 45 percent threshold for attainable projects needing a development agreement. Longmont also defers SDFs and impact fees for ALL residential construction to certificate of occupancy (4.78.020) — not affordable-specific, not recorded as an entry.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-longmont-raw-water-cil-offset",
@@ -4407,7 +4515,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Category tap_water is a proxy: this is a raw-water-rights cash-in-lieu, not a tap fee."
+      "notes": "Category tap_water is a proxy: this is a raw-water-rights cash-in-lieu, not a tap fee.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-longmont-sdf-subsidy",
@@ -4482,7 +4592,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed confirmed. Seed's second citation '4.06.080' is wrong — ch. 4.06 is Tourism Improvement Districts; the governing section is 4.79.020.B. Projects with at least 25 percent affordable may also get cash-in-lieu of water rights subsidized (4.79.020.B.2)."
+      "notes": "Seed confirmed. Seed's second citation '4.06.080' is wrong — ch. 4.06 is Tourism Improvement Districts; the governing section is 4.79.020.B. Projects with at least 25 percent affordable may also get cash-in-lieu of water rights subsidized (4.79.020.B.2).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-longmont-wastewater-rebate",
@@ -4544,7 +4656,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Residents qualify via LEAP or income at or below 50 percent of area median income (4.08.010.A–B). Affordable-housing operators are NOT eligible for this component."
+      "notes": "Residents qualify via LEAP or income at or below 50 percent of area median income (4.08.010.A–B). Affordable-housing operators are NOT eligible for this component.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-longmont-water-service-charge-rebate",
@@ -4614,7 +4728,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Not in seed. Notable because it is an operating-cost (recurring) subsidy for affordable rental OPERATORS, not only residents. ami_max 60 reflects the operator test (residents: LEAP or 50 percent AMI). Operators also get electric (C), park/greenway (E), storm drainage (F) and waste-management (G) rebates; wastewater (H) is for individuals only."
+      "notes": "Not in seed. Notable because it is an operating-cost (recurring) subsidy for affordable rental OPERATORS, not only residents. ami_max 60 reflects the operator test (residents: LEAP or 50 percent AMI). Operators also get electric (C), park/greenway (E), storm drainage (F) and waste-management (G) rebates; wastewater (H) is for individuals only.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-loveland-ah-fee-waiver-schedule",
@@ -4693,7 +4809,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "REFUTES the repo's '100% waiver ≤60% AMI' as a flat rule: the table gives 100% only at 30% AMI and 70% at 60% AMI. Up to 100 percent is possible only under Rental Option 1/2 (no market-rate rentals, all units ≤80%/≤60% AMI and ≥50 percent of units ≤50% AMI) or for-sale Options 1/2, and every waiver is discretionary by council resolution. percent=70 is the table value at 60% AMI. Waivers also require a 20-year deed restriction (17.03.01.04)."
+      "notes": "REFUTES the repo's '100% waiver ≤60% AMI' as a flat rule: the table gives 100% only at 30% AMI and 70% at 60% AMI. Up to 100 percent is possible only under Rental Option 1/2 (no market-rate rentals, all units ≤80%/≤60% AMI and ≥50 percent of units ≤50% AMI) or for-sale Options 1/2, and every waiver is discretionary by council resolution. percent=70 is the table value at 60% AMI. Waivers also require a 20-year deed restriction (17.03.01.04).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-loveland-mirasol3-cefs",
@@ -4753,7 +4871,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Contrast with enterprise fees, which were reimbursed."
+      "notes": "Contrast with enterprise fees, which were reimbursed.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-loveland-mirasol3-enterprise-fees",
@@ -4811,7 +4931,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed confirmed. Caveat: the CivicWeb document is the resolution text with a blank number (R-_____-2018) and unsigned signature lines, though it reads 'ADOPTED this 15th day of May, 2018'. Units were also rate-locked at 2017 fee levels under former 16.43.040."
+      "notes": "Seed confirmed. Caveat: the CivicWeb document is the resolution text with a blank number (R-_____-2018) and unsigned signature lines, though it reads 'ADOPTED this 15th day of May, 2018'. Units were also rate-locked at 2017 fee levels under former 16.43.040.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-loveland-mirasol3-permit-fees",
@@ -4873,7 +4995,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-loveland-use-tax-credit",
@@ -4931,7 +5055,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Rental units must be restricted not less than fifty years. by_right=true: administrative application to the Community Partnership Administrator, no council vote."
+      "notes": "Rental units must be restricted not less than fifty years. by_right=true: administrative application to the Community Partnership Administrator, no council vote.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-montrose-redo-adu-tap",
@@ -4988,7 +5114,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Not income- or deed-restricted; framed as an affordability measure. Include/exclude at editor's discretion."
+      "notes": "Not income- or deed-restricted; framed as an affordability measure. Include/exclude at editor's discretion.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-montrose-voa-rendezvous-tap",
@@ -5041,7 +5169,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Case-by-case abatement, not a standing program; no Montrose code provision for affordable-housing fee waivers was found. Summary is the city's own post (primary), not minutes. fee_category tap_water stands in for combined water+sewer connection fees. Units serve seniors 55+."
+      "notes": "Case-by-case abatement, not a standing program; no Montrose code provision for affordable-housing fee waivers was found. Summary is the city's own post (primary), not minutes. fee_category tap_water stands in for combined water+sewer connection fees. Units serve seniors 55+.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-rifle-senior-utility-discount",
@@ -5113,7 +5243,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Senior/income customer rate program, not an affordable-housing development incentive. Also requires head of household and residence in city limits; annual renewal. Adoption date/resolution not found."
+      "notes": "Senior/income customer rate program, not an affordable-housing development incentive. Also requires head of household and residence in city limits; annual renewal. Adoption date/resolution not found.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "salida-affordable-sdf-deferral",
@@ -5171,7 +5303,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Deferral only; does not reduce total cost."
+      "notes": "Deferral only; does not reduce total cost.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "trinidad-affordable-utility-tap-fee-deferral",
@@ -5228,7 +5362,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "AMBIGUOUS MEASURE: named a 'deferral', but the text describes an award at building permit with fees transferred into the enterprise funds, which reads like the city paying the taps on the project's behalf; no repayment terms are stated. Classified as 'deferred' per the program name. 2022 program; the full program PDF was not linked in fetchable form. Current status not verified."
+      "notes": "AMBIGUOUS MEASURE: named a 'deferral', but the text describes an award at building permit with fees transferred into the enterprise funds, which reads like the city paying the taps on the project's behalf; no repayment terms are stated. Classified as 'deferred' per the program name. 2022 program; the full program PDF was not linked in fetchable form. Current status not verified.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-westminster-water-bill-credit",
@@ -5296,7 +5432,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed said monthly credit + budgeted + round-up: all confirmed. Discrepancy: the Adopted 2025 Budget chose Option 2 (credit raised to $25 per month); the current program page states $30 / month, so the credit has risen again since the 2025 budget. Renters who pay a Westminster bill can apply per FAQ headings (FAQ text not captured)."
+      "notes": "Seed said monthly credit + budgeted + round-up: all confirmed. Discrepancy: the Adopted 2025 Budget chose Option 2 (credit raised to $25 per month); the current program page states $30 / month, so the credit has risen again since the 2025 budget. Renters who pay a Westminster bill can apply per FAQ headings (FAQ text not captured).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "el-paso-county-road-impact-fee-waiver",
@@ -5347,7 +5485,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary; no evidence found of actual waivers granted. Required backfill makes this a subsidy from other County funds rather than a revenue loss to the road program."
+      "notes": "Discretionary; no evidence found of actual waivers granted. Required backfill makes this a subsidy from other County funds rather than a revenue loss to the road program.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "avon-affordable-fire-impact-fee-waiver",
@@ -5407,7 +5547,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary."
+      "notes": "Discretionary.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "avon-community-housing-building-permit-waiver",
@@ -5457,7 +5599,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary."
+      "notes": "Discretionary.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "avon-community-housing-development-review-fee-waiver",
@@ -5507,7 +5651,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary."
+      "notes": "Discretionary.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "avon-community-housing-tap-fee-deferral",
@@ -5561,7 +5707,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary, by resolution. Water service in Avon is also tied to regional water authorities; who ultimately collects the tap was not verified."
+      "notes": "Discretionary, by resolution. Water service in Avon is also tied to regional water authorities; who ultimately collects the tap was not verified.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "avon-community-housing-use-tax-credit",
@@ -5611,7 +5759,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Structured as a credit; recorded as reimbursed."
+      "notes": "Structured as a credit; recorded as reimbursed.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "basalt-community-housing-building-permit-fee-exemption",
@@ -5661,7 +5811,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary; Basalt is split between Eagle and Pitkin counties."
+      "notes": "Discretionary; Basalt is split between Eagle and Pitkin counties.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "basalt-community-housing-water-tap-exemption",
@@ -5711,7 +5863,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Sewer in Basalt is provided by a separate sanitation district; not covered by this section."
+      "notes": "Sewer in Basalt is provided by a separate sanitation district; not covered by this section.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-carbondale-fee-exemption-1br-80",
@@ -5776,7 +5930,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Tiers are keyed to purchase price (ownership). fee_category building_permit stands for the bundle: land use application, professional, special study, building permit & plan check, park development / park fee-in-lieu fees. Utility tap fees are NOT in the list. by_right=true because qualified developers 'shall be eligible', but the Board may decline by ordinance (§6.3.1.F) and exemptions are prorated for mixed projects. Page header reads 'Effective November 2020'; adoption year of §6.3.1 not established. §6.3.1.E allows additional discretionary waivers for HUD low/moderate-income subsidised projects."
+      "notes": "Tiers are keyed to purchase price (ownership). fee_category building_permit stands for the bundle: land use application, professional, special study, building permit & plan check, park development / park fee-in-lieu fees. Utility tap fees are NOT in the list. by_right=true because qualified developers 'shall be eligible', but the Board may decline by ordinance (§6.3.1.F) and exemptions are prorated for mixed projects. Page header reads 'Effective November 2020'; adoption year of §6.3.1 not established. §6.3.1.E allows additional discretionary waivers for HUD low/moderate-income subsidised projects.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-carbondale-fee-exemption-2-3br-120",
@@ -5841,7 +5997,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Tiers are keyed to purchase price (ownership). fee_category building_permit stands for the bundle: land use application, professional, special study, building permit & plan check, park development / park fee-in-lieu fees. Utility tap fees are NOT in the list. by_right=true because qualified developers 'shall be eligible', but the Board may decline by ordinance (§6.3.1.F) and exemptions are prorated for mixed projects. Page header reads 'Effective November 2020'; adoption year of §6.3.1 not established. §6.3.1.E allows additional discretionary waivers for HUD low/moderate-income subsidised projects."
+      "notes": "Tiers are keyed to purchase price (ownership). fee_category building_permit stands for the bundle: land use application, professional, special study, building permit & plan check, park development / park fee-in-lieu fees. Utility tap fees are NOT in the list. by_right=true because qualified developers 'shall be eligible', but the Board may decline by ordinance (§6.3.1.F) and exemptions are prorated for mixed projects. Page header reads 'Effective November 2020'; adoption year of §6.3.1 not established. §6.3.1.E allows additional discretionary waivers for HUD low/moderate-income subsidised projects.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-carbondale-fee-exemption-2br-100",
@@ -5906,7 +6064,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Tiers are keyed to purchase price (ownership). fee_category building_permit stands for the bundle: land use application, professional, special study, building permit & plan check, park development / park fee-in-lieu fees. Utility tap fees are NOT in the list. by_right=true because qualified developers 'shall be eligible', but the Board may decline by ordinance (§6.3.1.F) and exemptions are prorated for mixed projects. Page header reads 'Effective November 2020'; adoption year of §6.3.1 not established. §6.3.1.E allows additional discretionary waivers for HUD low/moderate-income subsidised projects."
+      "notes": "Tiers are keyed to purchase price (ownership). fee_category building_permit stands for the bundle: land use application, professional, special study, building permit & plan check, park development / park fee-in-lieu fees. Utility tap fees are NOT in the list. by_right=true because qualified developers 'shall be eligible', but the Board may decline by ordinance (§6.3.1.F) and exemptions are prorated for mixed projects. Page header reads 'Effective November 2020'; adoption year of §6.3.1 not established. §6.3.1.E allows additional discretionary waivers for HUD low/moderate-income subsidised projects.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "castle-rock-impact-fee-reduction",
@@ -5967,7 +6127,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Category lumps all Town development impact fees; the source does not break them out by type. Titles 3 and 15 also let Council waive, reduce or defer any fee for 'unique and compelling circumstances' (§3.16.070, §15.01.030) - not affordable-specific."
+      "notes": "Category lumps all Town development impact fees; the source does not break them out by type. Titles 3 and 15 also let Council waive, reduce or defer any fee for 'unique and compelling circumstances' (§3.16.070, §15.01.030) - not affordable-specific.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "castle-rock-meadowmark-fee-waiver-2023",
@@ -6029,7 +6191,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Project-specific application of the code provisions above; this is the 'Castle View' item in the seed. History shows 'Approved / Pass' on 2/21/2023. The waiver was contingent on a building permit by 2023-12-31 per staff recommendation."
+      "notes": "Project-specific application of the code provisions above; this is the 'Castle View' item in the seed. History shows 'Approved / Pass' on 2/21/2023. The waiver was contingent on a building permit by 2023-12-31 per staff recommendation.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "castle-rock-system-development-fee-reduction",
@@ -6092,7 +6256,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed said 'Castle View project': the applicant was Castle View Owner, LLC and the project is Meadowmark (200 senior rent-restricted units); Council approved a partial waiver on 2023-02-21, spread across impact and system development fees (see castle-rock-meadowmark-fee-waiver-2023 for figures). Qualification is program participation, not a fixed AMI; ami_max left null. Code adoption date not stated in the source."
+      "notes": "Seed said 'Castle View project': the applicant was Castle View Owner, LLC and the project is Meadowmark (200 senior rent-restricted units); Council approved a partial waiver on 2023-02-21, spread across impact and system development fees (see castle-rock-meadowmark-fee-waiver-2023 for figures). Qualification is program participation, not a fixed AMI; ami_max left null. Code adoption date not stated in the source.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "crested-butte-affordable-sdf-waiver",
@@ -6153,7 +6319,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed pointed to a 2022 council e-packet at crestedbutte-co.gov, which now redirects to the new town homepage (not retrievable); verified from the current code instead. Code history lists many amendments (latest Ord. No. 2, 2023); the date subsection (e) was added is not isolated. The Town is the utility provider (Town water and sewer systems). 'Waived' here is backfilled by the Town, per news."
+      "notes": "Seed pointed to a 2022 council e-packet at crestedbutte-co.gov, which now redirects to the new town homepage (not retrievable); verified from the current code instead. Code history lists many amendments (latest Ord. No. 2, 2023); the date subsection (e) was added is not isolated. The Town is the utility provider (Town water and sewer systems). 'Waived' here is backfilled by the Town, per news.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "crested-butte-roah-building-permit-waiver",
@@ -6207,7 +6375,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Not in seed."
+      "notes": "Not in seed.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "crested-butte-whetstone-tap-deferral",
@@ -6262,7 +6432,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Project-specific deal, not a general program; a deferral that does not reduce total cost. Final agreement amendment not verified. Covers water and sewer taps; recorded under tap_water."
+      "notes": "Project-specific deal, not a general program; a deferral that does not reduce total cost. Final agreement amendment not verified. Covers water and sewer taps; recorded under tap_water.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "dillon-adu-tap-fee-reimbursement",
@@ -6326,7 +6498,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed page (dillonco.gov workforce housing resources) returned 403 (Akamai), so the program's current terms are unverified; the code itself (§16-4-45) still requires ADU tap payment and does not mention the reimbursement. Renters must work 30+ hours a week in Summit County (Summit Daily)."
+      "notes": "Seed page (dillonco.gov workforce housing resources) returned 403 (Akamai), so the program's current terms are unverified; the code itself (§16-4-45) still requires ADU tap payment and does not mention the reimbursement. Renters must work 30+ hours a week in Summit County (Summit Daily).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-dolores-elderly-lowincome-discount",
@@ -6379,7 +6553,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Amount unknown (null, not 0): the 2026 fee schedule page (b-dolores-fees) lists base rates but no discount. Customer-rate program, not a development incentive."
+      "notes": "Amount unknown (null, not 0): the 2026 fee schedule page (b-dolores-fees) lists base rates but no discount. Customer-rate program, not a development incentive.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "fraser-affordable-building-permit-incentive",
@@ -6433,7 +6609,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Case-by-case authority; measure could be waiver, reduction or deferral. Fraser water/sewer PIFs are Town fees here; Grand County Water & Sanitation District #1 (Winter Park area) is separate."
+      "notes": "Case-by-case authority; measure could be waiver, reduction or deferral. Fraser water/sewer PIFs are Town fees here; Grand County Water & Sanitation District #1 (Winter Park area) is separate.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "fraser-affordable-plant-investment-incentive",
@@ -6487,7 +6665,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Case-by-case authority; measure could be waiver, reduction or deferral. Fraser water/sewer PIFs are Town fees here; Grand County Water & Sanitation District #1 (Winter Park area) is separate."
+      "notes": "Case-by-case authority; measure could be waiver, reduction or deferral. Fraser water/sewer PIFs are Town fees here; Grand County Water & Sanitation District #1 (Winter Park area) is separate.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "fraser-affordable-use-tax-incentive",
@@ -6541,7 +6721,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Case-by-case authority; measure could be waiver, reduction or deferral. Fraser water/sewer PIFs are Town fees here; Grand County Water & Sanitation District #1 (Winter Park area) is separate."
+      "notes": "Case-by-case authority; measure could be waiver, reduction or deferral. Fraser water/sewer PIFs are Town fees here; Grand County Water & Sanitation District #1 (Winter Park area) is separate.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "minturn-affordable-fire-impact-fee-waiver",
@@ -6593,7 +6775,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary; near-verbatim copy of Avon §3.40.090."
+      "notes": "Discretionary; near-verbatim copy of Avon §3.40.090.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "mountain-village-building-permit-waiver",
@@ -6646,7 +6830,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "The waiver is town fees only: the Town's own example still shows $4,000 of county taxes and a $5,000 water and sewer tap fee (vs $10,000 free-market) for a deed-restricted unit, i.e. taps are halved rather than waived — consistent with the rate table entry."
+      "notes": "The waiver is town fees only: the Town's own example still shows $4,000 of county taxes and a $5,000 water and sewer tap fee (vs $10,000 free-market) for a deed-restricted unit, i.e. taps are halved rather than waived — consistent with the rate table entry.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "mountain-village-deed-restricted-tap-fee",
@@ -6715,7 +6901,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Matches seed ($21,650 vs $43,300). Figures printed without $ in the PDF. The tap column covers the combined water/sewer tap; recorded under tap_water with that noted. Employee dorm units are 10,825 (25%). Separate Ski Ranches and Skyfield water systems have their own tap schedules with no deed-restricted class."
+      "notes": "Matches seed ($21,650 vs $43,300). Figures printed without $ in the PDF. The tap column covers the combined water/sewer tap; recorded under tap_water with that noted. Employee dorm units are 10,825 (25%). Separate Ski Ranches and Skyfield water systems have their own tap schedules with no deed-restricted class.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "mountain-village-deed-restricted-utility-rate",
@@ -6780,7 +6968,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed said '$45.55 monthly sewer'; the table shows 45.55 in BOTH the water and the sewer monthly column for the DR class (and 91.10 in both for SF/Condo), so the discount covers both base charges. The PDF prints the amounts without a $ sign. Deed-restricted winter/summer base-use allowances are also lower (e.g. 1 to 4,000 gallons base vs 1 to 8,000 for residential). An 'Emp Dorm' DR class is billed at 25% (22.77)."
+      "notes": "Seed said '$45.55 monthly sewer'; the table shows 45.55 in BOTH the water and the sewer monthly column for the DR class (and 91.10 in both for SF/Condo), so the discount covers both base charges. The PDF prints the amounts without a $ sign. Deed-restricted winter/summer base-use allowances are also lower (e.g. 1 to 4,000 gallons base vs 1 to 8,000 for residential). An 'Emp Dorm' DR class is billed at 25% (22.77).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "mountain-village-planning-fee-waiver",
@@ -6837,7 +7027,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Applies to owners of deed-restricted homes or lots in Mountain Village; waiver is initiated after design review and building permit approval."
+      "notes": "Applies to owners of deed-restricted homes or lots in Mountain Village; waiver is initiated after design review and building permit approval.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "pagosa-springs-workforce-building-fee-exemption",
@@ -6887,7 +7079,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary, by resolution."
+      "notes": "Discretionary, by resolution.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "pagosa-springs-workforce-development-review-fee-exemption",
@@ -6941,7 +7135,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary, by resolution; Council may impose a moratorium on the exemption."
+      "notes": "Discretionary, by resolution; Council may impose a moratorium on the exemption.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "ridgway-affordable-land-use-fee-waiver",
@@ -6991,7 +7187,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary; applicants still reimburse out-of-pocket review costs under §7-1-7(B). Ordinance attribution '(Ord. 03-2023)' is the first history note found in the section text."
+      "notes": "Discretionary; applicants still reimburse out-of-pocket review costs under §7-1-7(B). Ordinance attribution '(Ord. 03-2023)' is the first history note found in the section text.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "silverthorne-single-apartment-building-permit-waiver",
@@ -7049,7 +7247,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary ('may be waived'), limited to single apartments (ADUs) — not the broader 'deed-restricted apartments/single-family' in the seed. Seed pages on silverthorne.org returned 403 (Akamai). Summit Daily (Mar 27, 2022, slug c-silv-sd-ord) reported the ordinance at first reading; building permit waiver was added by council after first reading per that article."
+      "notes": "Discretionary ('may be waived'), limited to single apartments (ADUs) — not the broader 'deed-restricted apartments/single-family' in the seed. Seed pages on silverthorne.org returned 403 (Akamai). Summit Daily (Mar 27, 2022, slug c-silv-sd-ord) reported the ordinance at first reading; building permit waiver was added by council after first reading per that article.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "silverthorne-single-apartment-system-development-waiver",
@@ -7107,7 +7307,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Discretionary ('may be waived'), limited to single apartments (ADUs) — not the broader 'deed-restricted apartments/single-family' in the seed. Seed pages on silverthorne.org returned 403 (Akamai). Summit Daily (Mar 27, 2022, slug c-silv-sd-ord) reported the ordinance at first reading; building permit waiver was added by council after first reading per that article."
+      "notes": "Discretionary ('may be waived'), limited to single apartments (ADUs) — not the broader 'deed-restricted apartments/single-family' in the seed. Seed pages on silverthorne.org returned 403 (Akamai). Summit Daily (Mar 27, 2022, slug c-silv-sd-ord) reported the ordinance at first reading; building permit waiver was added by council after first reading per that article.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "telluride-deed-restricted-wastewater-rate",
@@ -7192,7 +7394,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Matches seed. Eligibility requires BOTH deed restriction and size at or below 850 sq ft. The adopted ordinance's OCR text is garbled, so the clean first-reading draft (same figures) is also quoted."
+      "notes": "Matches seed. Eligibility requires BOTH deed restriction and size at or below 850 sq ft. The adopted ordinance's OCR text is garbled, so the clean first-reading draft (same figures) is also quoted.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "telluride-deed-restricted-water-base-rate",
@@ -7255,7 +7459,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Not in the seed; same ordinance and same size+deed-restriction eligibility as the wastewater discount."
+      "notes": "Not in the seed; same ordinance and same size+deed-restriction eligibility as the wastewater discount.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "telluride-in-town-deed-restricted-sewer-tap-waiver",
@@ -7308,7 +7514,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed cited telluride-co.gov/DocumentCenter/View/15417, which failed (proxy 502, twice); verified instead from the 2025 fee schedule attached to the Nov 19, 2024 council packet. The packet's resolution is an unsigned draft; the waiver itself sits in the Land Use Code (§3-110.E), which could not be fetched (telluride.municipal.codes returned 403). Adoption date of §3-110.E not verified. Seed tied this to Ordinance 1623 — Ord. 1623 sets rates only and contains no tap waiver."
+      "notes": "Seed cited telluride-co.gov/DocumentCenter/View/15417, which failed (proxy 502, twice); verified instead from the 2025 fee schedule attached to the Nov 19, 2024 council packet. The packet's resolution is an unsigned draft; the waiver itself sits in the Land Use Code (§3-110.E), which could not be fetched (telluride.municipal.codes returned 403). Adoption date of §3-110.E not verified. Seed tied this to Ordinance 1623 — Ord. 1623 sets rates only and contains no tap waiver.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "telluride-in-town-deed-restricted-water-tap-waiver",
@@ -7361,7 +7569,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Seed cited telluride-co.gov/DocumentCenter/View/15417, which failed (proxy 502, twice); verified instead from the 2025 fee schedule attached to the Nov 19, 2024 council packet. The packet's resolution is an unsigned draft; the waiver itself sits in the Land Use Code (§3-110.E), which could not be fetched (telluride.municipal.codes returned 403). Adoption date of §3-110.E not verified. Seed tied this to Ordinance 1623 — Ord. 1623 sets rates only and contains no tap waiver."
+      "notes": "Seed cited telluride-co.gov/DocumentCenter/View/15417, which failed (proxy 502, twice); verified instead from the 2025 fee schedule attached to the Nov 19, 2024 council packet. The packet's resolution is an unsigned draft; the waiver itself sits in the Land Use Code (§3-110.E), which could not be fetched (telluride.municipal.codes returned 403). Adoption date of §3-110.E not verified. Seed tied this to Ordinance 1623 — Ord. 1623 sets rates only and contains no tap waiver.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "telluride-out-of-town-deed-restricted-tap-reduction",
@@ -7414,7 +7624,9 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Covers combined water/sewer taps; recorded under tap_water. Not in seed."
+      "notes": "Covers combined water/sewer taps; recorded under tap_water. Not in seed.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-windsor-fire-impact-exemption",
@@ -7470,7 +7682,699 @@
         }
       ],
       "not_in_source": [],
-      "notes": "Fee belongs to the fire district, not the Town. No AMI threshold stated; 'as determined by the Town'."
+      "notes": "Fee belongs to the fire district, not the Town. No AMI threshold stated; 'as determined by the Town'.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
+    },
+    {
+      "id": "t-englewood-impact-fee-waiver",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "0824785",
+      "jurisdiction": "City of Englewood",
+      "county": "Arapahoe County",
+      "provider": "City of Englewood",
+      "provider_type": "city",
+      "fee_category": "impact_other",
+      "recurrence": "one_time",
+      "measure": "waived",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "Englewood development impact fees (police services, parks and recreation services, multimodal transportation improvements) — may be waived or reduced for affordable housing projects at the discretion of the City Manager's designee; extent not stated",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": false
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "E.M.C. 4-9-1(B)(3) (Ord. 2024-27)",
+      "adopted": null,
+      "summary": "Englewood's code lets the City Manager's designee waive or reduce its police, parks and transportation impact fees for affordable housing projects.",
+      "source": {
+        "label": "Englewood Municipal Code 4-9-1 (Municode)",
+        "url": "https://library.municode.com/co/englewood/codes/code_of_ordinances?nodeId=TIT4MUFITA_CH9DEIMFE_4-9-1DEIMFE",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=492861&nodeId=TIT4MUFITA_CH9DEIMFE_4-9-1DEIMFE&productId=13330"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Englewood Municipal Code 4-9-1 (Municode API, Supp. 66)",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "4-9-1(B)(3)",
+          "quote": "City Council shall establish the amount of development impact fees to ensure a rational nexus and rough proportionality between the fee and the development type's impacts, except the City Manager's designee may waive or reduce fees for affordable housing projects."
+        },
+        {
+          "section": "4-9-1(A)",
+          "quote": "1. Police services; 2. Parks and recreation services; and 3. Multimodal transportation improvements."
+        }
+      ],
+      "not_in_source": [
+        "definition of 'affordable housing project' (AMI, tenure, term)",
+        "size of waiver/reduction",
+        "backfill source",
+        "adoption date of Ord. 2024-27"
+      ],
+      "notes": "Discretionary (staff) waiver, not an entitlement. fee_category impact_other is a proxy because one provision covers three impact-fee categories (police, parks, transportation). Fee amounts are set by Council separately. englewoodco.gov pages (impact fees, 'Affordable Housing Fast Track') returned HTTP 403, so any implementing regulation could not be read.",
+      "review_by": "2027-04-10",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "t-wheatridge-parkland-exemption",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "0884440",
+      "jurisdiction": "City of Wheat Ridge",
+      "county": "Jefferson County",
+      "provider": "City of Wheat Ridge",
+      "provider_type": "city",
+      "fee_category": "impact_parks",
+      "recurrence": "one_time",
+      "measure": "waived",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "parkland dedication requirement or parkland cash-in-lieu fee — deed-restricted affordable dwelling units are exempt",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": true
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": "No backfill stated."
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Wheat Ridge Code of Laws Sec. 26-414(A)(2)(b)(iii)",
+      "adopted": null,
+      "summary": "Wheat Ridge exempts deed-restricted affordable dwelling units from its parkland dedication / cash-in-lieu requirement.",
+      "source": {
+        "label": "Wheat Ridge Code of Laws Sec. 26-414 (Municode)",
+        "url": "https://library.municode.com/co/wheat_ridge/codes/code_of_ordinances?nodeId=PTIICOLA_CH26ZODE_ARTIVSURE_S26-414DEPUPASI",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=499909&nodeId=PTIICOLA_CH26ZODE_ARTIVSURE_S26-414DEPUPASI&productId=11707"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Wheat Ridge Code of Laws Sec. 26-414 (Municode API, Supp. 77 Update 2)",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "26-414(A)(2)(b)",
+          "quote": "b. Exemptions. i. Nursing homes and similar confined care or skilled nursing facilities. ii. Accessory dwelling units. iii. Deed-restricted affordable dwelling units."
+        },
+        {
+          "section": "26-414(A)(1)",
+          "quote": "Land dedication for park facilities or cash-in-lieu fees are roughly proportional to the demands created by new residential development"
+        },
+        {
+          "section": "26-123 definition",
+          "quote": "Dwelling unit, deed-restricted affordable. A dwelling unit required to be used as affordable housing for income-qualified residents for a specified number of years pursuant to a restrictive covenant."
+        }
+      ],
+      "not_in_source": [
+        "AMI ceiling",
+        "minimum restriction term",
+        "cash-in-lieu rate"
+      ],
+      "notes": "percent=100 because the units are fully exempt (stated as an exemption, not a percentage). Ordinance history for 26-414: Ord. 1547 (2014), 1693 (2020), 1744 (2022), 1760 (2023); which one added the affordable exemption was not determined, so adopted=null.",
+      "review_by": "2027-04-10",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "t-northglenn-mx-city-fee-reduction",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "0854330",
+      "jurisdiction": "City of Northglenn",
+      "county": "Adams County",
+      "provider": "City of Northglenn",
+      "provider_type": "city",
+      "fee_category": "building_permit",
+      "recurrence": "one_time",
+      "measure": "reduced",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": 50,
+      "value_basis": "all City-required development fees in the MX Mixed-Use Overlay District, reduced 25%/35%/45%/50% as 25%/35%/45%/50-100% of units are income restricted (or 25%/50% for 75%/100% age-restricted senior units); percent field = maximum",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": 60,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": false
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Northglenn M.C. 11-2-17.5(f) (Ord. 1854, 2023)",
+      "adopted": null,
+      "summary": "In its MX Mixed-Use Overlay District, Northglenn may cut all City development fees by 25% up to 50%, scaling with the share of income-restricted units (rental at 60% AMI, ownership at 100% AMI).",
+      "source": {
+        "label": "Northglenn Municipal Code Sec. 11-2-17.5(f) MX Mixed-Use Overlay District (city-hosted code)",
+        "url": "https://municode.northglenn.org/ch11/content_11-2.html#11-2-17.5"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Northglenn Municipal Code 11-2-17.5 (municode.northglenn.org) incl. Tables 2-17.5-A/B (images, transcribed)",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "11-2-17.5(f)(15)(B)",
+          "quote": "(B) Fee Reduction. (i) All City required fees associated with development may be reduced in accordance with the table below."
+        },
+        {
+          "section": "Table 2-17.5-B (transcribed image)",
+          "quote": "25% of total dwelling units | 25% Reduction | 35% of total dwelling units | 35% Reduction | 45% of total dwelling units | 45% Reduction | 50% to 100% of total dwelling units | 50% Reduction"
+        },
+        {
+          "section": "Table 2-17.5-A (transcribed image)",
+          "quote": "25% of total dwelling units | 60% of AMI | 100% of AMI"
+        },
+        {
+          "section": "11-2-17.5(f)",
+          "quote": "The Director may approve incentives for those providing dwelling units that are restricted for purchase or occupancy at below-market rate levels"
+        },
+        {
+          "section": "Table 2-17.5-B (transcribed image)",
+          "quote": "75% of total dwelling units | 25% Reduction | 100% of total dwelling units | 50% Reduction"
+        },
+        {
+          "section": "11-2-17.5(f)(5)(B)",
+          "quote": "Applicants electing to provide dwelling units restricted for purchase or occupancy by persons 55 years of age or older must make at least 75% of all units in the development restricted by age."
+        }
+      ],
+      "not_in_source": [
+        "restriction term (years)",
+        "which fees count as 'City required fees' (e.g. whether City water/sewer taps are included)",
+        "backfill source"
+      ],
+      "notes": "Fee category building_permit is a proxy: the reduction applies to 'All City required fees associated with development' (Northglenn runs its own water/sewer utility; whether taps are included is not stated). Only in the MX overlay district. ami_max=60 for rental; ownership units qualify at 100% AMI. The two tables in the code are images; their text was transcribed verbatim into sources/northglenn-11-2-17-5-tables.txt and the PNGs saved alongside. Note an apparent drafting gap: the code lists eligibility 'option' (5)(A) only via the table image and cross-references 11-2-17.5(f)(2), which does not exist (incentives are at (f)(15)).",
+      "review_by": "2027-04-10",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "t-adams-county-traffic-impact-fee-exemption",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "08001",
+      "jurisdiction": "Adams County",
+      "county": "Adams County",
+      "provider": "Adams County",
+      "provider_type": "county",
+      "fee_category": "impact_transportation",
+      "recurrence": "one_time",
+      "measure": "waived",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "Adams County Regional Traffic Impact Fee on each qualifying affordable unit (non-qualifying units in the same structure still pay)",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": 20,
+        "by_right": true
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Adams County Development Standards and Regulations 5-06-06-02(4) (Regional Traffic Impact Fee)",
+      "adopted": null,
+      "summary": "Unincorporated Adams County exempts housing affordable to households at or below area median income from its Regional Traffic Impact Fee, unit by unit, if the home stays affordable for at least twenty years.",
+      "source": {
+        "label": "Adams County Development Standards and Regulations, Chapter 5 (Regional Traffic Impact Fee, rev. Jan. 17, 2023)",
+        "url": "https://adamscountyco.gov/wp-content/uploads/2025/08/dsr-chapter-05.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Adams County Development Standards and Regulations, Chapter 5, section 5-06-06-02",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "DSR 5-06-06-02(4)",
+          "quote": "The construction of housing affordable to households whose income is equal to or less than the current Area Median Income (AMI) in effect at the time the household initially occupies the residential unit.",
+          "source_file": "sources/adams-dsr-ch05.txt"
+        },
+        {
+          "section": "DSR 5-06-06-02(4)",
+          "quote": "For multi‐ family residential structures, the exemption shall only apply to those qualifying affordable units within the greater structure.",
+          "source_file": "sources/adams-dsr-ch05.txt"
+        },
+        {
+          "section": "DSR 5-06-06-02(4)",
+          "quote": "The property shall remain affordable for a period of not less than twenty (20) years.",
+          "source_file": "sources/adams-dsr-ch05.txt"
+        },
+        {
+          "section": "DSR 5-06-06-02",
+          "quote": "An exemption must be claimed by the fee payer at the time of application for a building permit.",
+          "source_file": "sources/adams-dsr-ch05.txt"
+        }
+      ],
+      "not_in_source": [
+        "dollar value of the fee per unit",
+        "how the exempted revenue is replaced",
+        "adoption date of the affordable-housing exemption (chapter page footer reads January 17, 2023)"
+      ],
+      "notes": "Exemption is claimed at building permit; applies only in unincorporated Adams County (county impact fee). Fee schedule itself is adopted separately by the BOCC. Chapter 5 of the DSR was downloaded from adamscountyco.gov (adcogov.org now redirects there).",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "t-arapahoe-county-planning-engineering-review-fee-reduction",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "08005",
+      "jurisdiction": "Arapahoe County",
+      "county": "Arapahoe County",
+      "provider": "Arapahoe County",
+      "provider_type": "county",
+      "fee_category": "plan_review",
+      "recurrence": "one_time",
+      "measure": "reduced",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "Planning and Engineering Review Fees, reduced by a percentage equal to the share of affordable units (Tiers One and Two); waived entirely where 50% or more of units are affordable (Tier Three)",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "any",
+        "deed_restriction_years": 10,
+        "by_right": false
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Arapahoe County Land Development Code 3-3.2.K and Table 3-3.2.2 (LDC24-004)",
+      "adopted": null,
+      "summary": "Unincorporated Arapahoe County cuts planning and engineering review fees in proportion to a project's share of affordable units, and waives them when 50% or more of the units are affordable.",
+      "source": {
+        "label": "Arapahoe County LDC Affordable Housing amendment LDC24-004 (clean copy, 2025)",
+        "url": "https://files.arapahoeco.gov/Public%20Works_Development/planning_land%20development/Proposed%20Code%20Amendments/CleanCopyAffordableHousingLDCAmendment2025.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Arapahoe County LDC amendment LDC24-004 clean copy and the county's Proposed Code Amendments page",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Table 3-3.2.2, Reduced Fees (Tiers One and Two)",
+          "quote": "Planning and Engineering Review Fees shall be reduced by a percentage equal to the percentage of affordable units provided in the development",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "Table 3-3.2.2, Reduced Fees (Tier Three)",
+          "quote": "Planning and Engineering Review Fees shall be waived for developments with 50% or more of the units are affordable units",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "LDC 3-3.2.K.2",
+          "quote": "To be eligible for the development incentives, a residential or mixed-use development must provide at least ten 10 percent of the total units in a development application as either affordable rental housing or affordable owner housing.",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "LDC 7-2 Definitions, Affordable Housing",
+          "quote": "Housing that addresses the housing needs of households that earn less than 80 percent of the Area Median Income (AMI), and where monthly housing costs are not more than 30 percent of the household’s monthly income.",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "Proposed Code Amendments page, Recently Adopted: Affordable Housing – LDC24-004",
+          "quote": "Arapahoe County has approved changes to the Land Development Code to encourage the development of affordable housing within unincorporated areas.",
+          "source_file": "sources/arapahoe-proposed-amend.txt"
+        }
+      ],
+      "not_in_source": [
+        "adoption date (page says approved, no date)",
+        "how waived fees are backfilled"
+      ],
+      "notes": "Minimum restriction terms by tier: 10 years (>=10% affordable), 15 years (>=25%), 20 years (>=50%). Incentives are 'deviations' approved administratively by the Planning Division Manager up to the table maximum, so by_right=false. The county page describes the tiers as for projects 'that utilize federal tax credits'; 3-3.2.K.1 defines affordable housing as LIHTC units or units under a County written agreement with a recorded deed restriction. Denver7 reported the BOCC approval (2025).",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "t-arapahoe-county-building-fee-reduction",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "08005",
+      "jurisdiction": "Arapahoe County",
+      "county": "Arapahoe County",
+      "provider": "Arapahoe County",
+      "provider_type": "county",
+      "fee_category": "building_permit",
+      "recurrence": "one_time",
+      "measure": "reduced",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "Building fee: 10% reduction (Tier One, >=10% affordable units), 25% reduction (Tier Two, >=25%), 50% reduction (Tier Three, >=50%)",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "any",
+        "deed_restriction_years": 10,
+        "by_right": false
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Arapahoe County Land Development Code 3-3.2.K and Table 3-3.2.2 (LDC24-004)",
+      "adopted": null,
+      "summary": "Unincorporated Arapahoe County reduces the building fee by 10%, 25% or 50% depending on whether at least 10%, 25% or 50% of a project's units are affordable.",
+      "source": {
+        "label": "Arapahoe County LDC Affordable Housing amendment LDC24-004 (clean copy, 2025)",
+        "url": "https://files.arapahoeco.gov/Public%20Works_Development/planning_land%20development/Proposed%20Code%20Amendments/CleanCopyAffordableHousingLDCAmendment2025.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Arapahoe County LDC amendment LDC24-004 clean copy",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Table 3-3.2.2, Reduced Building Fee row",
+          "quote": "Reduced Building 10% reduction 25% reduction 50% reduction Fee",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "Table 3-3.2.2, tier descriptions",
+          "quote": "Description A minimum of 10% of the A minimum of 25% of total A minimum of 50% of total units units are affordable units units are affordable units are affordable units",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "LDC 3-3.2.K.2",
+          "quote": "To be eligible for the development incentives, a residential or mixed-use development must provide at least ten 10 percent of the total units in a development application as either affordable rental housing or affordable owner housing.",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "LDC 7-2 Definitions, Affordable Housing",
+          "quote": "Housing that addresses the housing needs of households that earn less than 80 percent of the Area Median Income (AMI), and where monthly housing costs are not more than 30 percent of the household’s monthly income.",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "Proposed Code Amendments page, Recently Adopted: Affordable Housing – LDC24-004",
+          "quote": "Arapahoe County has approved changes to the Land Development Code to encourage the development of affordable housing within unincorporated areas.",
+          "source_file": "sources/arapahoe-proposed-amend.txt"
+        }
+      ],
+      "not_in_source": [
+        "adoption date",
+        "which building-division charges the 'building fee' covers (permit only vs. plan review)",
+        "backfill"
+      ],
+      "notes": "percent left null because it varies by tier (10/25/50). Table also grants 'Expedited Building Permit Review' in all tiers.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "t-jefferson-county-development-fee-refund-rental",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "08059",
+      "jurisdiction": "Jefferson County",
+      "county": "Jefferson County",
+      "provider": "Jefferson County",
+      "provider_type": "county",
+      "fee_category": "plan_review",
+      "recurrence": "one_time",
+      "measure": "reimbursed",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": 100,
+      "value_basis": "Planning and Zoning Division development application and permit fees (those marked on the program's fee table) for each certified affordable rental unit at 80% AMI; paid up front, refunded after the affordability instrument is recorded",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "rental",
+        "deed_restriction_years": 20,
+        "by_right": true
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Jefferson County Planning and Zoning, Development Fee Reduction Refund Program for Affordable Housing Projects (rev. 2025-06-18)",
+      "adopted": null,
+      "summary": "Jefferson County refunds 100% of Planning and Zoning application and permit fees for certified affordable rental units at 80% AMI once a 20-year affordability restriction is recorded.",
+      "source": {
+        "label": "Jefferson County Development Fee Reduction Refund Program for Affordable Housing Projects (rev. 06-18-2025)",
+        "url": "https://www.jeffco.us/DocumentCenter/View/57640"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Jefferson County Planning and Zoning program document",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Fee Reductions Table",
+          "quote": "Rental Certified Units at 80% AMI 100%",
+          "source_file": "sources/jeffco-fee-refund.txt"
+        },
+        {
+          "section": "Program scope",
+          "quote": "This Development Fee Reduction Refund Program for Affordable Housing Projects applies to the Development Application and Permit Fees, highlighted/indicated on the attached Fee Table, processed by the Jefferson County Planning and Zoning Division.",
+          "source_file": "sources/jeffco-fee-refund.txt"
+        },
+        {
+          "section": "Term",
+          "quote": "A minimum 20-year Affordable Housing term is required.",
+          "source_file": "sources/jeffco-fee-refund.txt"
+        },
+        {
+          "section": "Process step 6",
+          "quote": "Planning and Zoning processes the fee refund once the accepted documents, securing the affordability of the Certified Units for at least 20 years, are recorded.",
+          "source_file": "sources/jeffco-fee-refund.txt"
+        }
+      ],
+      "not_in_source": [
+        "the attached fee table (did not extract as text)",
+        "adoption date of the program",
+        "backfill"
+      ],
+      "notes": "Fees are paid in full first and refunded later (measure=reimbursed). Covers Planning and Zoning Division fees; building permit fees from Building Safety are not stated as covered. fee_category plan_review is the closest fit for development application fees.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "t-jefferson-county-development-fee-refund-ownership",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "08059",
+      "jurisdiction": "Jefferson County",
+      "county": "Jefferson County",
+      "provider": "Jefferson County",
+      "provider_type": "county",
+      "fee_category": "plan_review",
+      "recurrence": "one_time",
+      "measure": "reimbursed",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "Planning and Zoning Division development application and permit fees per certified for-sale unit: 50% at 140% AMI, 75% at 110% AMI, 100% at 80% AMI; refunded after the affordability instrument is recorded",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": 140,
+        "tenure": "ownership",
+        "deed_restriction_years": 20,
+        "by_right": true
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Jefferson County Planning and Zoning, Development Fee Reduction Refund Program for Affordable Housing Projects (rev. 2025-06-18)",
+      "adopted": null,
+      "summary": "Jefferson County refunds 50%, 75% or 100% of Planning and Zoning application and permit fees for certified for-sale units at 140%, 110% or 80% AMI once a 20-year affordability restriction is recorded.",
+      "source": {
+        "label": "Jefferson County Development Fee Reduction Refund Program for Affordable Housing Projects (rev. 06-18-2025)",
+        "url": "https://www.jeffco.us/DocumentCenter/View/57640"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Jefferson County Planning and Zoning program document",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Fee Reductions Table",
+          "quote": "Certified Units at 140% AMI 50% Home Ownership Certified Units at 110% AMI 75% Certified Units at 80% AMI 100%",
+          "source_file": "sources/jeffco-fee-refund.txt"
+        },
+        {
+          "section": "Definitions",
+          "quote": "For a household residing in housing on a home ownership basis, annual income of the household is at or below one hundred forty (140) percent of the area median income of households of that size in Jefferson County.",
+          "source_file": "sources/jeffco-fee-refund.txt"
+        },
+        {
+          "section": "Term",
+          "quote": "A minimum 20-year Affordable Housing term is required.",
+          "source_file": "sources/jeffco-fee-refund.txt"
+        }
+      ],
+      "not_in_source": [
+        "the attached fee table (did not extract as text)",
+        "adoption date",
+        "backfill"
+      ],
+      "notes": "percent null because it is tiered by AMI (50/75/100).",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "t-larimer-county-backyard-boost-ala-fee-waiver",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "08069",
+      "jurisdiction": "Larimer County",
+      "county": "Larimer County",
+      "provider": "Larimer County",
+      "provider_type": "county",
+      "fee_category": "building_permit",
+      "recurrence": "one_time",
+      "measure": "waived",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "Building, electrical, mechanical and plumbing permit fees and plan review charges (reported; one report also lists transportation capital expansion fees and use taxes) credited at permit issuance for an Accessory Living Area (ADU) in unincorporated Larimer County",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": 60,
+        "tenure": "rental",
+        "deed_restriction_years": 3,
+        "by_right": false
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": null,
+      "adopted": null,
+      "summary": "Larimer County's Backyard Boost pilot credits building permit fees for accessory living areas in unincorporated areas when the owner signs a 36-month agreement to rent at about 60% of area median income.",
+      "source": {
+        "label": "Hoodline, 'Larimer County Dangles Fee Freebies To Spark Backyard Rentals' (July 11, 2026), summarizing the Larimer County spotlight",
+        "url": "https://hoodline.com/2026/07/larimer-county-dangles-fee-freebies-to-spark-backyard-rentals/"
+      },
+      "verification": {
+        "level": "reported",
+        "against": "Hoodline (July 11, 2026) and Denver7; larimer.gov program page https://www.larimer.gov/building/accessory_living_areas/backyard-boost-ala-fee-waiver-program returned HTTP 403 (Cloudflare) and could not be read",
+        "checked": "2026-10-10",
+        "by": "Hoodline (July 11, 2026) and Denver7; larimer.gov program page https://www.larimer.gov/building/accessory_living_areas/backyard-boost-ala-fee-waiver-program returned HTTP 403 (Cloudflare) and could not be read"
+      },
+      "evidence": [
+        {
+          "section": "Hoodline article",
+          "quote": "Eligible projects will see building, electrical, mechanical, and plumbing permit fees credited at permit approval, along with plan review charges, transportation capital expansion fees, and applicable use taxes.",
+          "source_file": "sources/larimer-hoodline-backyard-boost.txt"
+        },
+        {
+          "section": "Hoodline article",
+          "quote": "In exchange, participating homeowners must sign a 36-month affordability agreement, with rent caps tied to roughly 60% of the area median income.",
+          "source_file": "sources/larimer-hoodline-backyard-boost.txt"
+        },
+        {
+          "section": "Hoodline article",
+          "quote": "Funding is limited and is expected to cover only about eight to ten projects on a first-come, first-served basis.",
+          "source_file": "sources/larimer-hoodline-backyard-boost.txt"
+        },
+        {
+          "section": "Hoodline article",
+          "quote": "cites a $140,000 appropriation from the Colorado Department of Local Affairs, paired with county matching dollars.",
+          "source_file": "sources/larimer-hoodline-backyard-boost.txt"
+        },
+        {
+          "section": "Denver7 article",
+          "quote": "Depending on the type of project, it could save the homeowner between $3,000 and $14,000, according to the county.",
+          "source_file": "sources/larimer-denver7-ala.txt"
+        }
+      ],
+      "not_in_source": [
+        "official program terms (county page unreadable)",
+        "authorizing resolution",
+        "exact AMI limit (reported as roughly 60%)"
+      ],
+      "notes": "Reported only; verify against larimer.gov when readable. Limited-fund pilot (8-10 projects) so by_right=false. The web-search summary of larimer.gov suggested the county's own page omits the transportation capital expansion fee and use tax, so the fee_category is limited to building_permit; add separate impact_transportation/use_tax entries only after reading the county page. Funding reported by news outlets: Reported: DOLA accessory dwelling unit grant ($140,000 per county announcement as reported by Hoodline; $105,000 per Denver7) plus county match.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "t-fortcollins-sales-use-tax-deferral",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "0827425",
+      "jurisdiction": "City of Fort Collins",
+      "county": "Larimer County",
+      "provider": "City of Fort Collins",
+      "provider_type": "city",
+      "fee_category": "use_tax",
+      "recurrence": "one_time",
+      "measure": "deferred",
+      "reduces_total_cost": false,
+      "amount": null,
+      "percent": null,
+      "value_basis": "city sales and use taxes on construction materials for a qualifying affordable housing development",
+      "deferral_trigger": "certificate of occupancy (temporary or permanent) or December 1 of the year the deferral was obtained, whichever first occurs",
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": true
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": "Deferral only; the tax is still paid."
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Fort Collins Municipal Code 25-130 (Ord. No. 191, 1999; Ord. No. 061, 2017; Ord. No. 100, 2025)",
+      "adopted": "2000-01-04",
+      "summary": "Fort Collins defers, on request, the city sales and use tax on construction materials for qualifying affordable housing until certificate of occupancy or December 1 of that year, whichever comes first.",
+      "source": {
+        "label": "Fort Collins Municipal Code 25-130 (Municode API)",
+        "url": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH25TA_ARTIIISAUSTA_DIV7MI",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=501629&nodeId=CH25TA_ARTIIISAUSTA_DIV7MI&productId=18005"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Fort Collins Municipal Code 25-130 (Municode API)",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Sec. 25-130",
+          "quote": "All sales and use taxes for materials purchased and used in the construction of an affordable housing development, as this term is defined in Article 7 of the Land Use Code that meets the requirements of Article 5.2.1(C) through (G) of the Land Use Code, shall, upon the request of the applicant, be deferred until the date of issuance of the certificate of occupancy"
+        }
+      ],
+      "not_in_source": [
+        "AMI limit and deed-restriction term (defined in Land Use Code art. 7 and 5.2.1, not read)"
+      ],
+      "notes": "Companion to the existing capital expansion fee and utility PIF deferrals (d-fortcollins-cef-deferral, d-fortcollins-utility-pif-deferral), which cite the same Ord. No. 100, 2025; no use_tax entry existed for Fort Collins. adopted = date of Ord. No. 191, 1999. by_right=true meaning deferral is granted upon request for qualifying developments.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
     }
   ],
   "land_use": [
@@ -7516,7 +8420,9 @@
           "quote": "A reduction of 50% from the collection of any applicable building permit fees and plan review fees"
         }
       ],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lu-broomfield-parking",
@@ -7560,7 +8466,9 @@
           "quote": "Income-Aligned Multifamily shall mean multifamily housing developments which comply with the City"
         }
       ],
-      "notes": "Adoption year inferred from the parking reduction area map dated January 28, 2025; ordinance number not retrieved."
+      "notes": "Adoption year inferred from the parking reduction area map dated January 28, 2025; ordinance number not retrieved.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lu-broomfield-pld-cil-reduction",
@@ -7600,7 +8508,9 @@
           "quote": "Note: 100% means there is a 100% reduction in the cash in lieu fee, whereas 0% means there is no reduction in the cash in lieu fee."
         }
       ],
-      "notes": "This is effectively a fee reduction (cash-in-lieu of parkland dedication); for-sale matrix also exists. Requires minimum on-site dedication first."
+      "notes": "This is effectively a fee reduction (cash-in-lieu of parkland dedication); for-sale matrix also exists. Requires minimum on-site dedication first.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "denver-eha-enhanced-height-incentive",
@@ -7643,7 +8553,9 @@
           "quote": "High Market Area H-1B 10% of total dwelling units 60% of AMI 80% of AMI"
         }
       ],
-      "notes": "ami_max 60 is the lowest rental AMI option in the enhanced table; other options use higher effective-average AMI limits and ownership limits are higher."
+      "notes": "ami_max 60 is the lowest rental AMI option in the enhanced table; other options use higher effective-average AMI limits and ownership limits are higher.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "denver-eha-inclusionary-requirement",
@@ -7682,7 +8594,9 @@
           "quote": "All incentives are by-right."
         }
       ],
-      "notes": "Offsets: permit fee reduction (fee entry denver-eha-building-permit-fee-reduction), street-level commercial linkage-fee exemption, and enhanced height/FAR incentives. The page mentions 'flexible parking requirements' generically but the incentive tables read give no parking figure."
+      "notes": "Offsets: permit fee reduction (fee entry denver-eha-building-permit-fee-reduction), street-level commercial linkage-fee exemption, and enhanced height/FAR incentives. The page mentions 'flexible parking requirements' generically but the incentive tables read give no parking figure.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "denver-prop123-90-day-fast-track",
@@ -7721,7 +8635,9 @@
           "quote": "Rented to families whose income is 60 percent of the area median income (AMI) or less Sold to families whose income is 120 percent AMI or less"
         }
       ],
-      "notes": "Eligibility requires half or more units affordable (or HOST/DHA/MIHTC projects). ami_max 60 is rental; ownership up to 120 percent AMI. The date is the news release date; piloted since fall 2025."
+      "notes": "Eligibility requires half or more units affordable (or HOST/DHA/MIHTC projects). ami_max 60 is rental; ownership up to 120 percent AMI. The date is the news release date; piloted since fall 2025.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lu-arvada-height",
@@ -7757,7 +8673,9 @@
           "quote": "Within the MX zoning districts, an increased building height of 15 feet shall be allowed for projects that include affordable housing units provided, however, the maximum overall building height shall not exceed 120 feet."
         }
       ],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "aspen-affordable-demolition-exemption",
@@ -7797,7 +8715,9 @@
           "quote": "The project is a one hundred (100) percent deed restricted affordable housing, or after completion of the project will be one hundred (100) percent deed restricted affordable housing."
         }
       ],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lu-boulder-inclusionary",
@@ -7837,7 +8757,9 @@
           "quote": "twenty percent of the required permanently affordable units shall have rents set to be affordable to households earning no greater than fifty percent of the AMI."
         }
       ],
-      "notes": "Offset: DET waiver in 3-8-7(d) (see fee entry d-boulder-det-waiver-excess-pa)."
+      "notes": "Offset: DET waiver in 3-8-7(d) (see fee entry d-boulder-det-waiver-excess-pa).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "colorado-springs-affordable-parking-reduction",
@@ -7876,7 +8798,9 @@
           "quote": "At least twenty-five (25) percent of the dwelling units are restricted for purchase or occupancy by residents with eighty (80) percent or less of the area median income (AMI);"
         }
       ],
-      "notes": "Discretionary; amount of reduction not specified for this criterion (section caps combined adjustments at forty percent)."
+      "notes": "Discretionary; amount of reduction not specified for this criterion (section caps combined adjustments at forty percent).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lu-commercecity-foundation-permit",
@@ -7912,7 +8836,9 @@
           "quote": "The building or structure will be multi-family residential with affordable housing available for persons at 80 percent Area Median Income (AMI) or below."
         }
       ],
-      "notes": "Early-start permitting (schedule benefit), not a fee change."
+      "notes": "Early-start permitting (schedule benefit), not a fee change.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-lu-durango-admin-approval",
@@ -7951,7 +8877,9 @@
           "quote": "Under the Moderate Affordability Standard, a household eligible to purchase a for-sale FSH shall have an income no more than 125% AMI, and a household eligible to rent a rental FSH shall have an income no more than 100% AMI."
         }
       ],
-      "notes": "Administrative approval covers the Fair Share Agreement, not necessarily the whole development; the Community Development Commission still reviews all Fair Share projects. §6.4 'Prioritized Review' is 'Reserved'."
+      "notes": "Administrative approval covers the Fair Share Agreement, not necessarily the whole development; the Community Development Commission still reviews all Fair Share projects. §6.4 'Prioritized Review' is 'Reserved'.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-lu-durango-density-bonus",
@@ -7995,7 +8923,9 @@
           "quote": "Under the Moderate Affordability Standard, a household eligible to purchase a for-sale FSH shall have an income no more than 125% AMI, and a household eligible to rent a rental FSH shall have an income no more than 100% AMI."
         }
       ],
-      "notes": "Manual says these incentives are 'specified in the Fair Share Ordinance but are summarized here for convenience'; ordinance text itself (enCodePlus) not read."
+      "notes": "Manual says these incentives are 'specified in the Fair Share Ordinance but are summarized here for convenience'; ordinance text itself (enCodePlus) not read.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-lu-durango-fair-share-iz",
@@ -8043,7 +8973,9 @@
           "url": "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025"
         }
       ],
-      "notes": "Requirement with offsets (see fee entries b-durango-fairshare-fee-offset-* and land_use density/parking/admin entries). Manual (Dec 2025) fee-in-lieu: $331,491 per multifamily FSH, $490,767 per single-family/duplex FSH (not quoted here)."
+      "notes": "Requirement with offsets (see fee entries b-durango-fairshare-fee-offset-* and land_use density/parking/admin entries). Manual (Dec 2025) fee-in-lieu: $331,491 per multifamily FSH, $490,767 per single-family/duplex FSH (not quoted here).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-lu-durango-parking",
@@ -8082,7 +9014,9 @@
           "quote": "Under the Moderate Affordability Standard, a household eligible to purchase a for-sale FSH shall have an income no more than 125% AMI, and a household eligible to rent a rental FSH shall have an income no more than 100% AMI."
         }
       ],
-      "notes": null
+      "notes": null,
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-lu-fruita-parking",
@@ -8125,7 +9059,9 @@
           "quote": "Affordable housing unit is a low/moderate income housing unit which is financially sponsored by a government finance agency and/or which is developed or sponsored by a private non-profit affordable housing agency."
         }
       ],
-      "notes": "'Affordable housing unit' is defined by sponsorship (government finance agency or nonprofit), not by an AMI cap or deed-restriction term. Section history line cites Ord. 2004-19, 2009-02, 2021-10, 2021-21; the parking table's own adoption date is not stated — '2021' is the latest ordinance cited. The Fruita density bonus (§17.09.050) is NOT tied to affordability (open space, trails, alleys, housing mix) and is not recorded. The adopted HNA/Action Plan (Res. 2026-08, 'guiding policy document') recommends fee waivers and ADU permit-fee waivers, but no adopted code implements them; not recorded."
+      "notes": "'Affordable housing unit' is defined by sponsorship (government finance agency or nonprofit), not by an AMI cap or deed-restriction term. Section history line cites Ord. 2004-19, 2009-02, 2021-10, 2021-21; the parking table's own adoption date is not stated — '2021' is the latest ordinance cited. The Fruita density bonus (§17.09.050) is NOT tied to affordability (open space, trails, alleys, housing mix) and is not recorded. The adopted HNA/Action Plan (Res. 2026-08, 'guiding policy document') recommends fee waivers and ADU permit-fee waivers, but no adopted code implements them; not recorded.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-lu-glenwood-density-bonus",
@@ -8164,7 +9100,9 @@
           "quote": "Parking requirements shall not be included for flexibility consideration."
         }
       ],
-      "notes": "Discretionary ('may offer'). Guidelines are an administrative document adopted by resolution; the code section they cite was not read."
+      "notes": "Discretionary ('may offer'). Guidelines are an administrative document adopted by resolution; the code section they cite was not read.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-lu-glenwood-iz",
@@ -8208,7 +9146,9 @@
           "url": "https://www.cogs.us/845/About-Housing-Stability"
         }
       ],
-      "notes": "Offsets: Housing Guidelines refer to incentives and fee waivers for inclusionary developments in §070.045.080, which was not retrieved (known gap). §070.045.070(e) allows up to 50% of mitigation via restriction of existing units."
+      "notes": "Offsets: Housing Guidelines refer to incentives and fee waivers for inclusionary developments in §070.045.080, which was not retrieved (known gap). §070.045.070(e) allows up to 50% of mitigation via restriction of existing units.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-lu-gj-expedited-review",
@@ -8247,7 +9187,9 @@
           "quote": "For details on eligibility, process, and/or ongoing compliance, please see Resolution 60-25."
         }
       ],
-      "notes": "Resolution 60-25 text not retrieved; adoption year inferred from the resolution number series (Res. 45-25 = Aug 2025)."
+      "notes": "Resolution 60-25 text not retrieved; adoption year inferred from the resolution number series (Res. 45-25 = Aug 2025).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lu-greeley-parking",
@@ -8287,7 +9229,9 @@
           "quote": "Up to a 75 percent reduction for dwelling units that are affordable to households that earn up to 30 percent of area median income."
         }
       ],
-      "notes": "Only the 30 percent AMI tier was visible in the extracted text; other tiers (if any) not captured."
+      "notes": "Only the 30 percent AMI tier was visible in the extracted text; other tiers (if any) not captured.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lu-lakewood-growth-pool",
@@ -8323,7 +9267,9 @@
           "quote": "The affordable/low income housing pool is created for distribution of allocations for residential projects creating dwelling units for households earning up to 120 percent of area median income."
         }
       ],
-      "notes": "A set-aside within a growth cap, not a cost reduction per se."
+      "notes": "A set-aside within a growth cap, not a cost reduction per se.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "leadville-affordable-expedited-review",
@@ -8363,7 +9309,9 @@
           "quote": "(Ord. No. 2016-6, § 1, 7-5-16; Ord. No. 2023-2, § 6, 7-5-23;"
         }
       ],
-      "notes": "Applies to developments with 'any' affordable units — a lower threshold than the Prop 123 50% standard. Applicants may opt out."
+      "notes": "Applies to developments with 'any' affordable units — a lower threshold than the Prop 123 50% standard. Applicants may opt out.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "littleton-inclusionary-density-bonus",
@@ -8406,7 +9354,9 @@
           "quote": "at least fifty percent (50%) of rental units are affordable to those making no more than sixty percent (60%) of the AMI"
         }
       ],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "littleton-inclusionary-expedited-and-admin-approval",
@@ -8449,7 +9399,9 @@
           "quote": "at least fifty percent (50%) of rental units are affordable to those making no more than sixty percent (60%) of the AMI"
         }
       ],
-      "notes": "Combines expedited review and administrative approval (by_right_or_admin_approval for Tier 2 MDPs)."
+      "notes": "Combines expedited review and administrative approval (by_right_or_admin_approval for Tier 2 MDPs).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "littleton-inclusionary-lot-size-and-open-space",
@@ -8492,7 +9444,9 @@
           "quote": "at least fifty percent (50%) of rental units are affordable to those making no more than sixty percent (60%) of the AMI"
         }
       ],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "littleton-inclusionary-parking-reduction",
@@ -8535,7 +9489,9 @@
           "quote": "at least fifty percent (50%) of rental units are affordable to those making no more than sixty percent (60%) of the AMI"
         }
       ],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "littleton-inclusionary-requirement",
@@ -8578,7 +9534,9 @@
           "quote": "Those five percent (5%) of affordable units that are available for sale, shall be affordable to those whose earnings do not exceed eighty percent (80%) of the AMI."
         }
       ],
-      "notes": "Offsets: see Littleton parking, density, lot-size, expedited-review and permit-fee-rebate items."
+      "notes": "Offsets: see Littleton parking, density, lot-size, expedited-review and permit-fee-rebate items.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lu-longmont-bypass-plat",
@@ -8613,7 +9571,9 @@
           "quote": "Subdivisions that create 4 or more lots can bypass the preliminary plat review and public hearing process (proceeding directly to final plat) if the development includes at least 12% on-site affordable housing units"
         }
       ],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lu-longmont-density-bonus",
@@ -8648,7 +9608,9 @@
           "quote": "Density Bonus: Projects including affordable housing shall be eligible for additional units up to 25% above the maximum residential density allowed in the applicable comprehensive plan land use category"
         }
       ],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lu-longmont-height",
@@ -8683,7 +9645,9 @@
           "quote": "Building Height: Multifamily residential or mixed-use projects including affordable housing shall be eligible for up to one more story (15 additional feet) than allowed by the applicable zoning district"
         }
       ],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lu-longmont-inclusionary",
@@ -8722,7 +9686,9 @@
           "quote": "Rental Projects: 12% of the rental units must be permanently affordable to households at or below 50% of the Area Median Income (AMI)."
         }
       ],
-      "notes": "Offsets: density/height/lot-size/plat incentives above and fee reductions for exceeding the minimum."
+      "notes": "Offsets: density/height/lot-size/plat incentives above and fee reductions for exceeding the minimum.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lu-longmont-lot-size",
@@ -8757,7 +9723,9 @@
           "quote": "Minimum lot area and minimum lot width in the R-SF, R-MN, and R-MF zoning districts shall be reduced by 20% for projects meeting their Inclusionary Housing requirements on-site"
         }
       ],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lu-louisville-inclusionary",
@@ -8805,7 +9773,9 @@
           "quote": "the fee in lieu is set initially at $9.24 per square foot of finished market-rate for-sale housing, and $4.72 per square foot of finished market-rate rental housing."
         }
       ],
-      "notes": "Code references density/height bonus incentives elsewhere (17.76.050) and deed-restricted ADU incentives (17.16.035) — not retrieved."
+      "notes": "Code references density/height bonus incentives elsewhere (17.76.050) and deed-restricted ADU incentives (17.16.035) — not retrieved.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "d-lu-loveland-fee-rate-lock",
@@ -8845,7 +9815,9 @@
           "quote": "The development fees calculated under this Section shall be valid for five years thereafter."
         }
       ],
-      "notes": "A fee rate lock (cost protection against fee increases), not a waiver; recorded here because it fits none of the fee measures."
+      "notes": "A fee rate lock (cost protection against fee increases), not a waiver; recorded here because it fits none of the fee measures.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "pueblo-prop123-expedited-review",
@@ -8892,7 +9864,9 @@
           "quote": "of the monthly income of a household at or below 100% area median income (AMI)"
         }
       ],
-      "notes": "'INTRODUCED: December 22, 2025'; the approval signature line was blank in the saved copy, so adoption date is the introduction date. Annexation, subdivision, rezoning and comp-plan amendments are excluded."
+      "notes": "'INTRODUCED: December 22, 2025'; the approval signature line was blank in the saved copy, so adoption date is the introduction date. Annexation, subdivision, rezoning and comp-plan amendments are excluded.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "salida-exemplary-affordable-expedited-review",
@@ -8928,7 +9902,9 @@
           "quote": "For developments containing at least fifty percent (50%) of all the residential units as affordable housing as defined by CRS § 29-32-101 and CRS § 29-32-105(2) (Rentals at less than or equal to sixty percent (60%) AMI and for-sale at less than or equal to one hundred percent (100%) AMI), an applicant may choose to participate in the expedited review process in Section 16-8-80, Expedited Review for Exemplary Affordable Housing."
         }
       ],
-      "notes": "Ties to the Prop 123 fast-track statute (C.R.S. 29-32-105(2)). §16-8-80 timeline not read."
+      "notes": "Ties to the Prop 123 fast-track statute (C.R.S. 29-32-105(2)). §16-8-80 timeline not read.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "salida-inclusionary-density-parking-incentives",
@@ -8972,7 +9948,9 @@
           "quote": "The increased height allowances may be utilized only on projects that include a minimum of twenty-five percent (25%) qualifying inclusionary housing on-site."
         }
       ],
-      "notes": "Also a parking_reduction; recorded once as density_bonus."
+      "notes": "Also a parking_reduction; recorded once as density_bonus.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "salida-inclusionary-housing",
@@ -9020,7 +9998,9 @@
           "quote": "(Ord. No. 2025-17, § 2(Exh. A), 10-7-2025)"
         }
       ],
-      "notes": "Rental max 80%/100% AMI; for-sale 100/120/140% AMI with a 130% AMI project average. Offsets: §16-9-50 density/parking incentives (separate item)."
+      "notes": "Rental max 80%/100% AMI; for-sale 100/120/140% AMI with a 130% AMI project average. Offsets: §16-9-50 density/parking incentives (separate item).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "gunnison-county-workforce-housing-fee-exemption",
@@ -9068,7 +10048,9 @@
           "url": "https://crestedbuttenews.com/2026/05/county-updating-its-housing-linkage-fees/"
         }
       ],
-      "notes": "2006 text; the County was reviewing amendments in May 2026 (Crested Butte News) — the current resolution text was not verified. place_name_for_geoid null (county)."
+      "notes": "2006 text; the County was reviewing amendments in May 2026 (Crested Butte News) — the current resolution text was not verified. place_name_for_geoid null (county).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-lu-mesa-county-expedited-review",
@@ -9107,7 +10089,9 @@
           "quote": "On June 12, the Board of Mesa County ​Commissioners unanimously approved a new resolution that helps speed up the review process for future affordable housing developments."
         }
       ],
-      "notes": "Post is dated June 10, 2025 but says 'On June 12' and later refers to the 'June 10 public hearing' — exact date inconsistent in source; recorded as 2025. Unincorporated county: no place GEOID. Separately, Mesa County's planning page says planning application fees have been suspended since 2017 for all applicants (not affordable-specific; not recorded as a fee entry)."
+      "notes": "Post is dated June 10, 2025 but says 'On June 12' and later refers to the 'June 10 public hearing' — exact date inconsistent in source; recorded as 2025. Unincorporated county: no place GEOID. Separately, Mesa County's planning page says planning application fees have been suspended since 2017 for all applicants (not affordable-specific; not recorded as a fee entry).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "summit-county-affordable-tdr-exemption",
@@ -9147,7 +10131,9 @@
           "quote": "While the sales price of individual units may vary, the average sales price of the project, as a whole, shall be set so as to be affordable to households earning no more than 110% of AMI."
         }
       ],
-      "notes": "Higher-AMI alternatives exist (§3809 'Average Sales Price to Exceed 110% AMI'). place_name_for_geoid null: county-level (unincorporated)."
+      "notes": "Higher-AMI alternatives exist (§3809 'Average Sales Price to Exceed 110% AMI'). place_name_for_geoid null: county-level (unincorporated).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "avon-employee-housing-mitigation",
@@ -9191,7 +10177,9 @@
           "quote": "Required mitigation 20% mitigation Jobs generated x 20%"
         }
       ],
-      "notes": "Linkage-style mitigation requirement rather than classic inclusionary zoning."
+      "notes": "Linkage-style mitigation requirement rather than classic inclusionary zoning.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "buena-vista-affordable-expedited-review",
@@ -9239,7 +10227,9 @@
           "quote": "Major site plans that qualify for Affordable Housing Expedited Review are not subject to call up."
         }
       ],
-      "notes": "Subdivisions, PUDs, rezonings and annexations are excluded from expedited review."
+      "notes": "Subdivisions, PUDs, rezonings and annexations are excluded from expedited review.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "b-lu-carbondale-iz",
@@ -9282,7 +10272,9 @@
           "quote": "1. First mitigation unit: Category 2 (100% AMI) 2. Second mitigation unit: Category 1 (80% AMI) 3. Third mitigation unit: Category 3 (120% AMI) 4. Fourth mitigation unit: Category 4 (150% AMI) 5. Repeat the cycle for additional mitigation units."
         }
       ],
-      "notes": "Requirement with offsets (fee exemptions, see b-carbondale-fee-exemption-*). Tiers for 5-6 and 7-9 units differ (20%/25%). ami_max 150 = highest AMI category in the sequence."
+      "notes": "Requirement with offsets (fee exemptions, see b-carbondale-fee-exemption-*). Tiers for 5-6 and 7-9 units differ (20%/25%). ami_max 150 = highest AMI category in the sequence.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "crested-butte-roah-mitigation",
@@ -9322,7 +10314,9 @@
           "quote": "No building permit shall be issued for any development type listed below unless the developer demonstrates that it has complied with this Article."
         }
       ],
-      "notes": "Mitigation rates not extracted. Offsets: the Town waives system development and building permit fees for ROAH (see fee entries)."
+      "notes": "Mitigation rates not extracted. Offsets: the Town waives system development and building permit fees for ROAH (see fee entries).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "eagle-affordable-express-lane-review",
@@ -9367,7 +10361,9 @@
           "url": "https://api.municode.com/CodesContent?jobId=495283&nodeId=COOR_TIT4LAUSDECO_CH4.02ZODIGEST_S4.02.050INHOREAFLOEMRELE&productId=15473"
         }
       ],
-      "notes": ""
+      "notes": "",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "eagle-inclusionary-lerp",
@@ -9423,7 +10419,9 @@
           "quote": "that earns 140 percent of the area median income (AMI) or less, and rental housing for the local workforce that earns 80 percent or less of the AMI."
         }
       ],
-      "notes": "Adoption date/ordinance number not captured from the section history; 'adopted' left blank. ADUs and developments under ten units are exempt."
+      "notes": "Adoption date/ordinance number not captured from the section history; 'adopted' left blank. ADUs and developments under ten units are exempt.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "frisco-pud-workforce-housing-benefit",
@@ -9463,7 +10461,9 @@
           "quote": "Such restrictions shall be in effect in perpetuity, shall not expire, and shall survive any foreclosure"
         }
       ],
-      "notes": "A condition on using housing to justify PUD flexibility, not a townwide mandate."
+      "notes": "A condition on using housing to justify PUD flexibility, not a townwide mandate.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "gypsum-rwh-density-increase",
@@ -9507,7 +10507,9 @@
           "quote": "This section provides incentives and concessions to encourage the development of restricted workforce housing."
         }
       ],
-      "notes": "Fee waivers here are unspecified by fee type, so not recorded as a separate fee entry. Program is aimed at starter/first-time ownership."
+      "notes": "Fee waivers here are unspecified by fee type, so not recorded as a separate fee entry. Program is aimed at starter/first-time ownership.",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
     },
     {
       "id": "pagosa-springs-workforce-housing-waivers",
@@ -9547,7 +10549,619 @@
           "quote": "Upon recommendation of staff and the Planning Commission, the Town Council may waive and/or defer certain standards of the Town Land Use and Development Code for project specific proposals containing construction of units, conversion of structures into units or the providing of units for long-term workforce housing."
         }
       ],
-      "notes": "Also references an adopted Density Bonus Policy (not read)."
+      "notes": "Also references an adopted Density Bonus Policy (not read).",
+      "last_verified": "2026-09-26",
+      "review_by": "2027-03-27"
+    },
+    {
+      "id": "t-lu-englewood-attainable-height-bonus",
+      "state": "CO",
+      "geoid": "0824785",
+      "jurisdiction": "City of Englewood",
+      "county": "Arapahoe County",
+      "measure": "density_bonus",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "any",
+        "deed_restriction_years": 20,
+        "by_right": null
+      },
+      "detail": "Englewood's Attainable Housing Guidelines give multi-unit buildings in R-2, MU-R-3, M and MU-B districts extra stories for attainability commitments of at least 20 years: Tier 1 (10% of units below 60% AMI or 15% below 80% AMI) gets 1 additional story; Tier 2 (both) 1-2 additional stories; Tier 3 (25% below 60% AMI, 50% below 80% AMI and 100% below 120% AMI) 2-3 additional stories, with more negotiable through a PUD.",
+      "authorizing_code": "E.M.C. 16-5-5 (Table 5-9)",
+      "adopted": null,
+      "source": {
+        "label": "Englewood Municipal Code 16-5-5 Attainable Housing Guidelines (Municode)",
+        "url": "https://library.municode.com/co/englewood/codes/code_of_ordinances?nodeId=TIT16UNDECO_CH5REDEDE_16-5-5ATHOGU",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=492861&nodeId=TIT16UNDECO_CH5REDEDE_16-5-5ATHOGU&productId=13330"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Englewood Municipal Code 16-5-5 (Municode API, Supp. 66)",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "16-5-5(B)",
+          "quote": "Projects that provide documented assurances of attainability specified in Table 5-9 for a period of at least 20 years may be eligible for development bonuses and parking reductions."
+        },
+        {
+          "section": "16-5-5 Table 5-9, Tier 1",
+          "quote": "Tier 1 ■ 10% of units below 60% AMI; OR ■ 15% of units below 80% AMI ■ 1 additional story"
+        },
+        {
+          "section": "16-5-5 Table 5-9, Tier 3",
+          "quote": "Tier 3 ■ 25% below 60% AMI ■ 50% below 80% AMI AND ■ 100% below 120% AMI ■ 2 additional stories in R-2-B and MU-R-3-C ■ 3 additional stories in MU-R-3-A and MU-R-3-B, M-1 and M-2, and MU-B-1 and MU-B-2"
+        }
+      ],
+      "notes": "'may be eligible' — wording leaves approval discretionary, so by_right left null. The codified section still contains drafting placeholders (e.g. '[cite sources for updated AMI statistics...]' and an incomplete Administration list in 16-5-5(C)), so the documentation/compliance procedure is not actually defined in code. ami_max=80 reflects the Tier 1/2 thresholds; Tier 3 also includes units up to 120% AMI.",
+      "review_by": "2027-04-10",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "t-lu-englewood-attainable-parking",
+      "state": "CO",
+      "geoid": "0824785",
+      "jurisdiction": "City of Englewood",
+      "county": "Arapahoe County",
+      "measure": "parking_reduction",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "any",
+        "deed_restriction_years": 20,
+        "by_right": null
+      },
+      "detail": "Under Englewood's Attainable Housing Guidelines, qualifying multi-unit buildings get reduced parking: Tier 1 at 0.5 spaces per 1-BR/efficiency, 1 per 2-BR and 1.5 per 3+BR unit; Tier 2 at 0.5 / 0.75 / 1; Tier 3 negotiable based on parking data.",
+      "authorizing_code": "E.M.C. 16-5-5 (Table 5-9)",
+      "adopted": null,
+      "source": {
+        "label": "Englewood Municipal Code 16-5-5 Attainable Housing Guidelines (Municode)",
+        "url": "https://library.municode.com/co/englewood/codes/code_of_ordinances?nodeId=TIT16UNDECO_CH5REDEDE_16-5-5ATHOGU",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=492861&nodeId=TIT16UNDECO_CH5REDEDE_16-5-5ATHOGU&productId=13330"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Englewood Municipal Code 16-5-5 (Municode API, Supp. 66)",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "16-5-5 Table 5-9, Tier 1 parking",
+          "quote": "■ 1 BR/efficiency—0.5/unit ■ 2 BR—1/unit ■ 3+ BR—1.5/unit Tier 2"
+        },
+        {
+          "section": "16-5-5 Table 5-9, Tier 2 parking",
+          "quote": "■ 1 BR/efficiency—0.5/unit ■ 2 BR—0.75/unit ■ 3+ BR—1/unit Tier 3"
+        },
+        {
+          "section": "16-5-5(B)",
+          "quote": "Projects that provide documented assurances of attainability specified in Table 5-9 for a period of at least 20 years may be eligible for development bonuses and parking reductions."
+        }
+      ],
+      "notes": "Same tiers and placeholder caveat as the height bonus record. Baseline parking ratios are in E.M.C. 16-7-4 (not compared here).",
+      "review_by": "2027-04-10",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "t-lu-wheatridge-qaha-admin-review",
+      "state": "CO",
+      "geoid": "0884440",
+      "jurisdiction": "City of Wheat Ridge",
+      "county": "Jefferson County",
+      "measure": "by_right_or_admin_approval",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": true
+      },
+      "detail": "Specific development plans for a 'qualifying affordable housing project' (at least 50% affordable units under C.R.S. 29-32-101/-105) are reviewed administratively by the community development director instead of going to planning commission and city council; planned building groups and SDP amendments adding such projects are also administrative.",
+      "authorizing_code": "Wheat Ridge Code of Laws Secs. 26-305(C), 26-106, 26-116, 26-307, 26-123",
+      "adopted": null,
+      "source": {
+        "label": "Wheat Ridge Code of Laws Secs. 26-305, 26-106, 26-123 (Municode)",
+        "url": "https://library.municode.com/co/wheat_ridge/codes/code_of_ordinances?nodeId=PTIICOLA_CH26ZODE_ARTIIIPLDEDIRE_S26-305SPDEPLREPR",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=499909&nodeId=PTIICOLA_CH26ZODE_ARTIIIPLDEDIRE_S26-305SPDEPLREPR&productId=11707"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Wheat Ridge Code of Laws ch. 26 (Municode API, Supp. 77 Update 2)",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "26-305 (c)",
+          "quote": "c. Qualifying affordable housing projects. Pursuant to the review process chart in section 26-106 , specific development plan applications for qualifying affordable housing projects are reviewed administratively by the community development director."
+        },
+        {
+          "section": "26-123 definition",
+          "quote": "Qualifying affordable housing project. A building or development containing at least fifty (50) percent or more affordable dwelling units meeting income and other applicable regulations pursuant to state law, including but not limited to C.R.S. 29-32-101 and 29-32-105, as amended."
+        },
+        {
+          "section": "26-106 legend",
+          "quote": "AQA: Administrative review for Qualifying Affordable Housing Project"
+        }
+      ],
+      "notes": "Mirrors the Proposition 123 fast-track definition (C.R.S. 29-32-105). 26-305's history ends with Ord. No. 1838 (3-23-26), which is likely the enacting ordinance, but the code text does not say so; adopted left null. Code does not state a decision deadline (e.g. 90 days).",
+      "review_by": "2027-04-10",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "t-lu-wheatridge-affordable-parking",
+      "state": "CO",
+      "geoid": "0884440",
+      "jurisdiction": "City of Wheat Ridge",
+      "county": "Jefferson County",
+      "measure": "parking_reduction",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": true
+      },
+      "detail": "In Wheat Ridge's mixed-use zone districts, deed-restricted affordable single-unit detached, duplex or single-unit attached homes need 0.5 parking spaces per unit (0.25 within 1/4 mile of fixed-guideway transit or BRT) versus 1 space for market-rate; multi-unit residential, including deed-restricted affordable, has no minimum.",
+      "authorizing_code": "Wheat Ridge Code of Laws Sec. 26-1109(B) (also Sec. 26-1407)",
+      "adopted": null,
+      "source": {
+        "label": "Wheat Ridge Code of Laws Sec. 26-1109 (Municode)",
+        "url": "https://library.municode.com/co/wheat_ridge/codes/code_of_ordinances?nodeId=PTIICOLA_CH26ZODE_ARTXIMIUSZODI_S26-1109PARE",
+        "retrieved_via": "https://api.municode.com/CodesContent?jobId=499909&nodeId=PTIICOLA_CH26ZODE_ARTXIMIUSZODI_S26-1109PARE&productId=11707"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Wheat Ridge Code of Laws Sec. 26-1109 (Municode API, Supp. 77 Update 2)",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "26-1109(B) table",
+          "quote": "Residential (single-unit detached, duplex, or single-unit attached) 1 space per unit 2.5 spaces per unit Residential, deed-restricted affordable (if single-unit detached, duplex, or single-unit attached) 0.5 spaces per unit or 0.25 spaces per unit if within ¼ mile of a fixed guideway transit station or bus rapid transit"
+        },
+        {
+          "section": "26-1109(B) table",
+          "quote": "Residential, multi-unit (including deed-restricted affordable) None 2.5 spaces per unit"
+        }
+      ],
+      "notes": "Applies in Article XI mixed-use zone districts; Sec. 26-1407 (Article XIV mixed-use district) carries the same 0.5/0.25 ratio. Baseline parking outside mixed-use districts was not compared.",
+      "review_by": "2027-04-10",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "t-lu-northglenn-mx-expedited-review",
+      "state": "CO",
+      "geoid": "0854330",
+      "jurisdiction": "City of Northglenn",
+      "county": "Adams County",
+      "measure": "expedited_review",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": 60,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": false
+      },
+      "detail": "In the MX Mixed-Use Overlay District, projects with at least 25% income-restricted units (rental at 60% AMI, ownership at 100% AMI) or 75% age-restricted units may receive expedited review: no more than three weeks per submittal by all City departments (outside agencies excluded).",
+      "authorizing_code": "Northglenn M.C. 11-2-17.5(f)(15)(A) (Ord. 1854, 2023)",
+      "adopted": null,
+      "source": {
+        "label": "Northglenn Municipal Code Sec. 11-2-17.5(f) MX Mixed-Use Overlay District (city-hosted code)",
+        "url": "https://municode.northglenn.org/ch11/content_11-2.html#11-2-17.5"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Northglenn Municipal Code 11-2-17.5 (municode.northglenn.org)",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "11-2-17.5(f)(15)(A)",
+          "quote": "(A) Expedited Review. (i) Review per submittal will be no more than three weeks by all City departments."
+        },
+        {
+          "section": "11-2-17.5(f)(15)(A)(iii)",
+          "quote": "(iii) Review timelines may not be expedited for any outside agency."
+        },
+        {
+          "section": "Table 2-17.5-A (transcribed image)",
+          "quote": "25% of total dwelling units | 60% of AMI | 100% of AMI"
+        },
+        {
+          "section": "11-2-17.5(f)(5)(B)",
+          "quote": "Applicants electing to provide dwelling units restricted for purchase or occupancy by persons 55 years of age or older must make at least 75% of all units in the development restricted by age."
+        }
+      ],
+      "notes": "Director-approved ('may approve incentives'). MX overlay only.",
+      "review_by": "2027-04-10",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "t-lu-northglenn-mx-setback-waiver",
+      "state": "CO",
+      "geoid": "0854330",
+      "jurisdiction": "City of Northglenn",
+      "county": "Adams County",
+      "measure": "dimensional_relief",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": 60,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": false
+      },
+      "detail": "For qualifying affordable or senior projects in the MX Mixed-Use Overlay District, setback requirements of the MN, MC and MR mixed-use districts are waived (with a massing-reduction requirement for each 50-foot building segment).",
+      "authorizing_code": "Northglenn M.C. 11-2-17.5(f)(15)(C) (Ord. 1854, 2023)",
+      "adopted": null,
+      "source": {
+        "label": "Northglenn Municipal Code Sec. 11-2-17.5(f) MX Mixed-Use Overlay District (city-hosted code)",
+        "url": "https://municode.northglenn.org/ch11/content_11-2.html#11-2-17.5"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Northglenn Municipal Code 11-2-17.5 (municode.northglenn.org)",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "11-2-17.5(f)(15)(C)(i)",
+          "quote": "Setback requirements pursuant to Sections 11-2-8: MN Mixed-Use Neighborhood, 11-2-9: MC Mixed-Use Corridor, and 11-2-8: MR Mixed-Use Regional shall be waived."
+        }
+      ],
+      "notes": "Director-approved incentive; MX overlay only.",
+      "review_by": "2027-04-10",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "t-lu-northglenn-affordable-parking",
+      "state": "CO",
+      "geoid": "0854330",
+      "jurisdiction": "City of Northglenn",
+      "county": "Adams County",
+      "measure": "parking_reduction",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": true
+      },
+      "detail": "Northglenn reduces minimum off-street parking by 25 percent for multifamily structures of at least 10 units where at least 25 percent of units are restricted at below-market levels approved by the Director (or 75 percent age-restricted).",
+      "authorizing_code": "Northglenn M.C. 11-4-6(g)(4)",
+      "adopted": null,
+      "source": {
+        "label": "Northglenn Municipal Code Sec. 11-4-6(g)(4) (city-hosted code)",
+        "url": "https://municode.northglenn.org/ch11/content_11-4.html"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Northglenn Municipal Code 11-4-6 (municode.northglenn.org)",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "11-4-6(g)(4)",
+          "quote": "The minimum number of off-street parking spaces required in Table 4-6 A: Minimum Off-Street Parking shall be reduced by 25 percent for multifamily residential structures that satisfy the following: (A) Have a minimum of 10 dwelling units; and (B) At least 25 percent of the dwelling units are restricted for purchase or occupancy at below-market rate levels approved by the Director"
+        },
+        {
+          "section": "11-4-6(g)(4)(C)",
+          "quote": "(C) At least 75 percent of the dwelling units are restricted for purchase or occupancy by persons 55 years of age or older."
+        }
+      ],
+      "notes": "'shall be reduced' — mandatory once criteria are met, so by_right=true; the below-market level itself is Director-approved and no AMI is stated in this section. Citywide (not limited to MX). Section history: Ord. 1766, 1782 (2019); 1848, 1851, 1854 (2023); 1870 (2025).",
+      "review_by": "2027-04-10",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "lu-arapahoe-county-affordable-density-bonus",
+      "state": "CO",
+      "geoid": "08005",
+      "jurisdiction": "Arapahoe County",
+      "county": "Arapahoe County",
+      "measure": "density_bonus",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "any",
+        "deed_restriction_years": 10,
+        "by_right": false
+      },
+      "detail": "In unincorporated Arapahoe County, projects with at least 10%, 25% or 50% affordable units (restricted 10, 15 or 20 years) may get 10%, 25% or 50% above the zone district's maximum density, plus extra height (1 story/15 ft, or 2 stories/30 ft with a 75 ft cap) and, in Tiers Two and Three, setbacks reduced by up to 50%.",
+      "authorizing_code": "Arapahoe County Land Development Code 3-3.2.K and Table 3-3.2.2 (LDC24-004)",
+      "adopted": null,
+      "source": {
+        "label": "Arapahoe County LDC Affordable Housing amendment LDC24-004 (clean copy, 2025)",
+        "url": "https://files.arapahoeco.gov/Public%20Works_Development/planning_land%20development/Proposed%20Code%20Amendments/CleanCopyAffordableHousingLDCAmendment2025.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Arapahoe County LDC amendment LDC24-004 clean copy",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Table 3-3.2.2, Density Bonus / Increased Height",
+          "quote": "10% above the maximum residential density allowed in the zone district 1 story not to exceed 15 feet 25% above the maximum residential density allowed in the zone district 50% above the maximum residential density allowed in the zone district",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "Table 3-3.2.2, Required Minimum Duration",
+          "quote": "10 years 15 years 20 years",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "LDC 3-3.2.K.4",
+          "quote": "Development incentives, in the form of deviations from the regulations applicable to Administrative Site Plans, are set forth and limited by Table 3-3.2.2, may be approved administratively by the Planning Division Manager",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "Proposed Code Amendments page, Recently Adopted: Affordable Housing – LDC24-004",
+          "quote": "Arapahoe County has approved changes to the Land Development Code to encourage the development of affordable housing within unincorporated areas.",
+          "source_file": "sources/arapahoe-proposed-amend.txt"
+        }
+      ],
+      "notes": "Discretionary up to table maximums; manager weighs six factors (3-3.2.K.4.a-f). Same table also reduces on-site open space and waives tree preservation/landscaping requirements in higher tiers.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "lu-arapahoe-county-affordable-expedited-review",
+      "state": "CO",
+      "geoid": "08005",
+      "jurisdiction": "Arapahoe County",
+      "county": "Arapahoe County",
+      "measure": "expedited_review",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "any",
+        "deed_restriction_years": 10,
+        "by_right": false
+      },
+      "detail": "Developments with affordable units qualify for the two-step PUD process; Tiers Two and Three get shortened land-use review timelines (20 business days first review, 10 second, 5 thereafter) and early building permit submittal; all tiers get expedited building permit review; neighborhood meetings are waived at 50% affordable. Separately, 5-3.3 lets any project with at least 10% deed-restricted affordable units use the Two-Step PUD process.",
+      "authorizing_code": "Arapahoe County Land Development Code 3-3.2.K and Table 3-3.2.2 (LDC24-004); LDC 5-3.3",
+      "adopted": null,
+      "source": {
+        "label": "Arapahoe County LDC Affordable Housing amendment LDC24-004 (clean copy, 2025)",
+        "url": "https://files.arapahoeco.gov/Public%20Works_Development/planning_land%20development/Proposed%20Code%20Amendments/CleanCopyAffordableHousingLDCAmendment2025.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Arapahoe County LDC amendment LDC24-004 clean copy",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Table 3-3.2.2, Expedited Process",
+          "quote": "All developments with affordable housing qualify for the two-step Planned Unit Development process",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "Table 3-3.2.2, Expedited Process (Tier Three)",
+          "quote": "Neighborhood meeting requirements are waived for projects with a minimum of 50% affordable units",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "LDC 5-3.3 Two-Step PUD eligibility",
+          "quote": "Any project including a minimum 10% deed-restricted affordable housing units as defined herein.",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        },
+        {
+          "section": "Proposed Code Amendments page, Recently Adopted: Affordable Housing – LDC24-004",
+          "quote": "Arapahoe County has approved changes to the Land Development Code to encourage the development of affordable housing within unincorporated areas.",
+          "source_file": "sources/arapahoe-proposed-amend.txt"
+        }
+      ],
+      "notes": "",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "lu-arapahoe-county-affordable-parking",
+      "state": "CO",
+      "geoid": "08005",
+      "jurisdiction": "Arapahoe County",
+      "county": "Arapahoe County",
+      "measure": "parking_reduction",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": true
+      },
+      "detail": "Arapahoe County's off-street parking table sets no minimum parking requirement for affordable housing (and for multifamily dwellings generally).",
+      "authorizing_code": "Arapahoe County LDC Table 4-1.2.1 Off-Street Parking Requirements (as amended by LDC24-004)",
+      "adopted": null,
+      "source": {
+        "label": "Arapahoe County LDC Affordable Housing amendment LDC24-004 (clean copy, 2025)",
+        "url": "https://files.arapahoeco.gov/Public%20Works_Development/planning_land%20development/Proposed%20Code%20Amendments/CleanCopyAffordableHousingLDCAmendment2025.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Arapahoe County LDC amendment LDC24-004 clean copy",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Off-street parking table",
+          "quote": "• Affordable Housing (1) No minimum parking requirement.",
+          "source_file": "sources/arapahoe-ah-ldc-2025.txt"
+        }
+      ],
+      "notes": "Multifamily also has no minimum, consistent with HB24-1304, so the affordable-specific benefit matters mainly for non-multifamily affordable types.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "lu-arapahoe-county-affordable-park-dedication-waiver",
+      "state": "CO",
+      "geoid": "08005",
+      "jurisdiction": "Arapahoe County",
+      "county": "Arapahoe County",
+      "measure": "land_dedication_or_donation",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": 80,
+        "tenure": "any",
+        "deed_restriction_years": 20,
+        "by_right": false
+      },
+      "detail": "For Tier Three projects (at least 50% affordable, 20-year restriction), public park land dedication or cash-in-lieu is waived for the affordable units; market-rate units still owe it.",
+      "authorizing_code": "Arapahoe County Land Development Code 3-3.2.K and Table 3-3.2.2 (LDC24-004)",
+      "adopted": null,
+      "source": {
+        "label": "Arapahoe County LDC Affordable Housing amendment LDC24-004 (clean copy, 2025)",
+        "url": "https://files.arapahoeco.gov/Public%20Works_Development/planning_land%20development/Proposed%20Code%20Amendments/CleanCopyAffordableHousingLDCAmendment2025.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Arapahoe County LDC amendment LDC24-004 clean copy",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Table 3-3.2.2, Public Land Dedication for Public Parks (Tier Three)",
+          "quote": "Dedication of land or cash-in-lieu is waived for affordable units (dedication of land or cash-in-lieu will be required for all other units in the development).",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "Table 3-3.2.2, tier descriptions",
+          "quote": "Tier Three A minimum of 50% of total units are affordable units",
+          "source_file": "sources/arapahoe-ah-ldc-2025-flow.txt"
+        },
+        {
+          "section": "Proposed Code Amendments page, Recently Adopted: Affordable Housing – LDC24-004",
+          "quote": "Arapahoe County has approved changes to the Land Development Code to encourage the development of affordable housing within unincorporated areas.",
+          "source_file": "sources/arapahoe-proposed-amend.txt"
+        }
+      ],
+      "notes": "A pending 2026 land dedication rewrite (LDC26, BOCC hearing Nov. 10, 2026) would let the manager waive open-space dedication above 25% affordable; not adopted as of 2026-10-10.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "lu-jefferson-county-affordable-90-day-fast-track",
+      "state": "CO",
+      "geoid": "08059",
+      "jurisdiction": "Jefferson County",
+      "county": "Jefferson County",
+      "measure": "expedited_review",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": 120,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": true
+      },
+      "detail": "Jefferson County must make a final decision within 90 calendar days on site development plans, minor variations, alternative standards, administrative exceptions and related building permits for developments where at least 50% of units are affordable (rentals at or below 60% AMI; for-sale at or below 100%/120% AMI). Participation is optional.",
+      "authorizing_code": "Jefferson County Policy Manual Part 7, Ch. 3, Sec. 5 (Resolution CC26-175); C.R.S. 29-32-105",
+      "adopted": "2026-07-01",
+      "source": {
+        "label": "Jefferson County Policy: Affordable Housing 90-Day Fast Track Review Process",
+        "url": "https://www.jeffco.us/DocumentCenter/View/58314/FastTrack-Affordable-Housing-Policy"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Jefferson County Policy Manual, Resolution CC26-175",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "Header",
+          "quote": "Adopting Resolution: CC26-175",
+          "source_file": "sources/jeffco-fasttrack.txt"
+        },
+        {
+          "section": "Header",
+          "quote": "Adoption Date: July 1, 2026",
+          "source_file": "sources/jeffco-fasttrack.txt"
+        },
+        {
+          "section": "A.2",
+          "quote": "Affordable Housing Development means a project in which at least fifty percent (50%) of the residential units are Affordable Rental Housing Units or Affordable For-Sale Housing Units.",
+          "source_file": "sources/jeffco-fasttrack.txt"
+        },
+        {
+          "section": "C.1",
+          "quote": "The County shall make, for a permit described in the Eligible Application Types section above, a final decision for an Affordable Housing Development within ninety (90) calendar days, unless an extension is granted to exceed the ninety (90) calendar days as stated below.",
+          "source_file": "sources/jeffco-fasttrack.txt"
+        },
+        {
+          "section": "A.3",
+          "quote": "which current thresholds are thirty percent (30%) of the monthly income of a household earning at or below sixty percent (60%) of AMI.",
+          "source_file": "sources/jeffco-fasttrack.txt"
+        },
+        {
+          "section": "A.4",
+          "quote": "thirty percent (30%) of the monthly income of a household earning at or below one hundred percent (100%) of AMI; or 2) thirty percent (30%) of the monthly income of a household earning at or below one hundred twenty percent (120%) of AMI.",
+          "source_file": "sources/jeffco-fasttrack.txt"
+        }
+      ],
+      "notes": "Adopted to satisfy the Prop 123 fast-track requirement (C.R.S. 29-32-105). ami_max set to 120, the highest for-sale threshold; rentals are 60% AMI.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
+    },
+    {
+      "id": "lu-boulder-county-nonconforming-residential-affordable",
+      "state": "CO",
+      "geoid": "08013",
+      "jurisdiction": "Boulder County",
+      "county": "Boulder County",
+      "measure": "other",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": false
+      },
+      "detail": "A legal residential use that became nonconforming can be recognized as conforming through Limited Impact Special Review if the owner permanently deed-restricts it as affordable housing under BOCC standards based on Boulder County Housing Authority policy; no density increase is allowed.",
+      "authorizing_code": "Boulder County Land Use Code 4-1004.A.3 (Res. 98-25; standards Res. 99-198)",
+      "adopted": "1998-02-03",
+      "source": {
+        "label": "Boulder County Land Use Code (May 13, 2025 edition)",
+        "url": "https://assets.bouldercounty.gov/wp-content/uploads/2017/02/land-use-code.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Boulder County Land Use Code 4-1004.A.3 and amendment history",
+        "checked": "2026-10-10"
+      },
+      "evidence": [
+        {
+          "section": "LUC 4-1004.A.3",
+          "quote": "The use was a legal residential use when it became nonconforming pursuant to Subsection 4-1003.A.1. and receives Limited Impact Special Review use approval under Section 4-600.A., and, in addition, the owner/ applicant agrees to permanently deed restrict the approved special use as affordable housing under the adopted standards of the BOCC based upon the recommendation and policies of the Boulder County Housing Authority.",
+          "source_file": "sources/boulder-luc.txt"
+        },
+        {
+          "section": "LUC 4-1004.A.3.a",
+          "quote": "No increase in density is permitted through this approval.",
+          "source_file": "sources/boulder-luc.txt"
+        },
+        {
+          "section": "LUC amendment history",
+          "quote": "Amendments to the nonconforming section adding language allowing approval for the purpose of affordable housing. 02/03/1998 Resolution 98-25, effective 2/3/1998.",
+          "source_file": "sources/boulder-luc.txt"
+        }
+      ],
+      "notes": "Narrow legalization tool rather than a production incentive. AMI limits are set in BOCC/BCHA standards, not in the code text.",
+      "last_verified": "2026-10-10",
+      "review_by": "2027-04-10"
     }
   ]
 }

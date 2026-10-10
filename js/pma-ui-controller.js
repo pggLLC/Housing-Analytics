@@ -463,8 +463,9 @@
             _row('Equity',        _fmtM(stack.equity)),
             _row('1st Mortgage',  _fmtM(stack.firstMortgage)),
             _row('Local Soft',    _fmtM(stack.localSoft)),
+            (stack.unavailableReason ? '<tr data-unavailable-reason="' + _esc(stack.unavailableReason) + '"><td colspan="2">Local soft-funding amount is missing; mortgage and gap are unavailable.</td></tr>' : ''),
             _row('Deferred Fee',  _fmtM(stack.deferredFee)),
-            (stack.gap > 0 ? _row('Gap',    _fmtM(stack.gap)) : ''),
+            (stack.gap == null || stack.gap > 0 ? _row('Gap',    _fmtM(stack.gap)) : ''),
           '</table>',
         '</div>',
       '</section>',
@@ -526,7 +527,9 @@
   }
 
   function _fmtM(n) {
-    n = parseFloat(n) || 0;
+    if (n == null || String(n).trim() === '') return 'Unavailable';
+    n = Number(n);
+    if (!Number.isFinite(n)) return 'Unavailable';
     if (n >= 1000000) return '$' + (n / 1000000).toFixed(1) + 'M';
     if (n >= 1000)    return '$' + Math.round(n / 1000) + 'K';
     return '$' + Math.round(n);

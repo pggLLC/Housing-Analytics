@@ -180,7 +180,7 @@
       "hna":              { "status": "current", "year": 2024, "url": "https://www.northglenn.org/", "note": "DRCOG 2024 regional HNA covers (received via CR-72 council packet)" },
       "land_banking":     { "status": "none", "name": null, "url": "https://www.northglenn.org/" },
       "dedicated_income": { "status": "none", "source": "Prop 123 opt-in; no dedicated city local tax confirmed", "url": "https://www.northglenn.org/" },
-      "tap_fee_reduction":{"status": "not_yet_verified", "details": "Not yet verified against the jurisdiction's own code or fee schedule (data/policy/fee-reductions.json has no entry).", "prior_note": "Unverified earlier note: No documented city tap/SDC waiver program"},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee reduced (1 program entry in data/policy/fee-reductions.json)", "url": "https://municode.northglenn.org/ch11/content_11-2.html#11-2-17.5", "fee_reductions_ids": ["t-northglenn-mx-city-fee-reduction"]},
       "confidence": "medium", "as_of": "2026-05-31"
     },
     "0808675": {
@@ -196,7 +196,7 @@
       "hna":              { "status": "current", "year": 2024, "url": "https://www.engaged.englewoodco.gov/affordable-housing-task-force", "note": "Englewood HNA completed; Affordable Housing Task Force Phase 1 recommendations Jan 21, 2025" },
       "land_banking":     { "status": "none", "name": null, "url": "https://www.englewoodco.gov/government/city-departments/community-development/housing/affordable-housing-task-force" },
       "dedicated_income": { "status": "planning", "source": "Task Force evaluating funding mechanisms; eligible for state $15M SB24-174 strategy funds if commits 3+1 strategies", "url": "https://www.englewoodco.gov/government/city-departments/community-development/housing/affordable-housing-task-force" },
-      "tap_fee_reduction":{"status": "not_yet_verified", "details": "Not yet verified against the jurisdiction's own code or fee schedule (data/policy/fee-reductions.json has no entry).", "prior_note": "Unverified earlier note: No documented city tap/SDC waiver program"},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: impact other fee waived (1 program entry in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/englewood/codes/code_of_ordinances?nodeId=TIT4MUFITA_CH9DEIMFE_4-9-1DEIMFE", "fee_reductions_ids": ["t-englewood-impact-fee-waiver"]},
       "confidence": "high", "as_of": "2026-05-31"
     },
     "0884440": {
@@ -204,7 +204,7 @@
       "hna":              { "status": "current", "year": 2023, "url": "https://www.ci.wheatridge.co.us/1843/Affordable-Housing-Strategy-and-Action-P", "note": "Affordable Housing Strategy and Action Plan adopted Jan 9, 2023; city-specific HNA included" },
       "land_banking":     { "status": "active", "name": "Foothills Regional Housing $2.1M Prop 123 award (220 rental units, Ridge Road 2025); $2M HUD Community Project Fund for NOAH", "url": "https://www.ci.wheatridge.co.us/1843/Affordable-Housing-Strategy-and-Action-P" },
       "dedicated_income": { "status": "active", "source": "Wheat Ridge Housing Fund — dedicated portion of short-term rental lodgers tax", "url": "https://www.ci.wheatridge.co.us/1843/Affordable-Housing-Strategy-and-Action-P" },
-      "tap_fee_reduction":{"status": "not_yet_verified", "details": "Not yet verified against the jurisdiction's own code or fee schedule (data/policy/fee-reductions.json has no entry).", "prior_note": "Unverified earlier note: Strategy lists incentives but no documented direct tap/SDC waiver program confirmed"},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: impact parks fee waived (1 program entry in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/wheat_ridge/codes/code_of_ordinances?nodeId=PTIICOLA_CH26ZODE_ARTIVSURE_S26-414DEPUPASI", "fee_reductions_ids": ["t-wheatridge-parkland-exemption"]},
       "confidence": "high", "as_of": "2026-05-31"
     },
     "0841835": {

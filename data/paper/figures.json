@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "8b2525b9d",
+  "generated_from_commit": "954ab78ab",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-10",
-    "total_commits": 7923,
+    "total_commits": 7941,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,26 +49,26 @@
       },
       {
         "month": "2026-10",
-        "commits": 326,
-        "pct_of_peak": 22.8
+        "commits": 344,
+        "pct_of_peak": 24.1
       }
     ]
   },
   "inventory": {
     "places_with_chas": 482,
-    "html_pages_toplevel": 66,
-    "html_pages_total": 560,
-    "workflows": 78,
-    "scripts": 294,
+    "html_pages_toplevel": 67,
+    "html_pages_total": 561,
+    "workflows": 79,
+    "scripts": 295,
     "docs": 502,
-    "data_files": 1739,
+    "data_files": 1743,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
     "cdps": 210,
     "place_pages": 484,
-    "scheduled_workflows": 65,
-    "test_files": 483,
+    "scheduled_workflows": 66,
+    "test_files": 488,
     "absence_test_cases": 252,
     "absence_tests": 93,
     "lihtc_features": 926
@@ -246,14 +246,14 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 409072,
+    "hand_written_lines": 411487,
     "generated_place_page_lines": 226824,
-    "top_level_pages": 66,
-    "html_nonblank_lines": 47852,
-    "html_distinct_lines": 19315,
-    "html_distinct_share": 0.404,
+    "top_level_pages": 67,
+    "html_nonblank_lines": 48081,
+    "html_distinct_lines": 19463,
+    "html_distinct_share": 0.405,
     "substantial_tools": 27,
-    "declared_data_sources": 66,
+    "declared_data_sources": 67,
     "estimate": {
       "declared": "analyst-constructed; not repository methodology",
       "means": "what a commissioned team would bill to build this from a specification, NOT the effort expended here",
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "8b2525b9d",
+    "extracted_at_commit": "954ab78ab",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
