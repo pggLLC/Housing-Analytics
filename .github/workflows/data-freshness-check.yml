@@ -115,7 +115,8 @@ jobs:
               status = 'MISSING' if not r.get('present') else ('STALE' if r.get('stale') else 'ok')
               if status == 'ok':
                   continue
-              lines.append(f"| `{r['file']}` | {r.get('ageDays','—')} | {r['slaDays']}d | {r.get('source','mtime')} | **{status}** |")
+              label = f" ({r['label']})" if r.get('label') else ''
+              lines.append(f"| `{r['file']}`{label} | {r.get('ageDays','—')} | {r['slaDays']}d | {r.get('source','mtime')} | **{status}** |")
           lines.append("")
           lines.append(f"**Workflow run**: {os.environ.get('RUN_URL','?')}")
           lines.append("")
