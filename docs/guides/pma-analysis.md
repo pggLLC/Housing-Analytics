@@ -17,7 +17,7 @@ Given a site (lat/lon) and a buffer radius, the PMA pipeline:
 3. **Composites the results** into the 0–100 PMA score
 4. **Surfaces a justification narrative** suitable for attaching to a CHFA or lender application
 
-The site's PMA score then flows into the [QAP Simulator](./qap-simulator.md) (Geography & Site points) and the [Deal Predictor](./deal-predictor.md) (execution-path selection).
+The site's PMA score informs the [Deal Predictor](./deal-predictor.md) for execution-path screening. The [QAP Simulator is retired](../archive/qap-simulator.md); the PMA score is not a CHFA application score.
 
 ---
 
@@ -140,7 +140,7 @@ Every chart carries a source badge (auto-attached by [`js/components/source-badg
 ## Related
 
 - [Deal Predictor guide](./deal-predictor.md) — consumes the PMA score for execution-path selection
-- [QAP Simulator guide](./qap-simulator.md) — consumes the PMA score for Geography & Site points
+- [Retired QAP Simulator](../archive/qap-simulator.md) — historical documentation only
 - [Pro Forma guide](./pro-forma.md) — rent/vacancy assumptions downstream of the PMA's market signal
 - [Data Quality doc](../DATA_QUALITY.md) — staleness / sentinel / schema signals on the data files this pipeline reads
 

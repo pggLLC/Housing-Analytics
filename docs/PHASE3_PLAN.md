@@ -1,3 +1,5 @@
+> Historical Phase 3 implementation record. The unused FMR-alignment output was removed under #2045; use `js/chfa-rent-limits.js` for published CHFA limits.
+
 # Phase 3 Plan — COHO Analytics
 
 > **Status:** In Progress · Updated 2026-03-27  
@@ -52,10 +54,8 @@ and tracks progress toward Phase 3 completion.
 **New in this PR:**
 - `js/lihtc-deal-predictor.js` enhanced with:
   - `pabCapAvailable` input — PAB volume cap analysis for 4% vs 9% selection
-  - `fmrData` input — HUD FMR-based max rent analysis (`_computeFmrAlignment`)
   - `chfaHistoricalAwards` + `countyAffordabilityGap` inputs — CHFA award context
   - `scenarioSensitivity` output — equity pricing, demand signal, and saturation ranges
-  - `fmrAlignment` output — bedroom-level FMR-to-AMI rent mapping
   - `chfaAwardContext` output — county award signal and QAP competitiveness note
 - `test/test_lihtc_deal_predictor.js` — extended to 110 tests covering all new Phase 3 features
 
@@ -64,7 +64,7 @@ and tracks progress toward Phase 3 completion.
 | Sub-Issue | Description | Status |
 |-----------|-------------|--------|
 | #445-1 | Integrate demand scores and affordability gap analysis | ✅ Done (existing + enhanced) |
-| #445-2 | Connect HUD FMR/AMI data and implement QCT/DDA basis boost logic | ✅ Done (`fmrData`, `_computeFmrAlignment`) |
+| #445-2 | Rent context and QCT/DDA designation | Historical: unused FMR-alignment output removed under #2045; published limits use `js/chfa-rent-limits.js` |
 | #445-3 | Expand 4% vs 9% LIHTC analysis (PAB cap, scenarios) | ✅ Done (`pabCapAvailable`, `_pabCapNote`) |
 | #445-4 | Develop risk modeling and scenario sensitivity tools | ✅ Done (`_computeScenarioSensitivity`) |
 | #445-5 | Analyze and visualize CHFA historical awards | ✅ Done (`_computeChfaAwardContext`) |
@@ -136,7 +136,7 @@ and tracks progress toward Phase 3 completion.
 ## Acceptance Criteria Summary
 
 - [x] `js/legislative-tracker.js` — bill status engine with LIHTC/CRA impact scoring
-- [x] `js/lihtc-deal-predictor.js` — enhanced with PAB cap, FMR alignment, scenario sensitivity, CHFA context
+- [x] `js/lihtc-deal-predictor.js` — enhanced with PAB cap, scenario sensitivity, CHFA context
 - [x] `test/test_legislative_tracker.js` — 148 tests passing
 - [x] `test/test_lihtc_deal_predictor.js` — 110 tests passing (up from 68)
 - [x] `docs/PHASE3_PLAN.md` — this breakdown document

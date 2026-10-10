@@ -47,16 +47,16 @@
 
     /* ── HUD FMR + Income Limits ── */
     'HUD Fair Market Rents': {
-      why: 'HUD publishes Fair Market Rent (FMR) and Income Limits each year. CHFA uses those numbers — together with the IRC §42 formula — to set the actual rent ceilings that LIHTC residents are charged at each AMI band. Those ceilings are what a project budgets against.',
+      why: 'HUD publishes Fair Market Rent (FMR) as a voucher reference and separate income limits each year. CHFA publishes LIHTC gross rent ceilings based on income limits under IRC §42. The utility allowance and required fees reduce the contract rent a project can budget against.',
       demand: 'When the local rent ceiling sits well below what new market-rate apartments are leasing for (see the rent triangulation panel below), it is a signal that affordability is genuinely strained in the community — and that an affordable project would meaningfully widen the choices residents have.',
       project: 'For planning, 50–60% AMI rents are often reviewed first because they anchor the project budget. When the 60% AMI rent ceiling is well below local rents, a project may also be able to serve residents at 30–40% AMI, consistent with CHFA\'s QAP framework for deeper affordability.',
     },
 
     /* ── Rent triangulation ── */
     'Rent triangulation': {
-      why: 'Three different rent measures — HUD FMR (the regulated reference CHFA uses), ACS median (what longer-tenure residents are paying), and Zillow ZORI (what new leases are signing for) — together show whether the community\'s rents have shifted under existing residents\' feet.',
+      why: 'Three different rent measures — HUD FMR (a voucher reference), ACS median (what longer-tenure residents are paying), and Zillow ZORI (what new leases are signing for) — together show whether the community\'s rents have shifted under existing residents\' feet.',
       demand: 'When ZORI (new-lease rent) runs 15%+ above ACS (longer-tenure rent), long-time residents are paying meaningfully less than newcomers. As units turn over, those residents face hard choices — a real and growing affordability pressure that an affordable rental project would help address.',
-      project: 'ACS informs the cost-burden math, the HUD FMR reference informs the LIHTC rent ceiling CHFA sets, and ZORI provides a comparable-market read on what a market-rate apartment would charge today. Together they describe what a typical resident in this community is actually paying.',
+      project: 'ACS informs the cost-burden math, HUD FMR provides a voucher comparison, and ZORI provides a comparable-market read on what a market-rate apartment would charge today. CHFA’s published income-based limits separately govern LIHTC gross rent ceilings.',
     },
 
     /* ── Age of Housing Stock ──

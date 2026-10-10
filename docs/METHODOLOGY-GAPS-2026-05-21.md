@@ -75,7 +75,7 @@ The following are not bugs in what we ship; they're **inherent limitations of th
 **Status: RESOLVED** (verified 2026-09-05) — the cache is now FY2026. `data/hud-fmr-income-limits.json` carries `"fiscal_year": 2026` and `data/market/fmr_co.json` carries `"year": "2026"`, refreshed by `.github/workflows/fetch-fmr-data.yml`. The credential blocker recorded below is no longer current.
 **Where it shows up:** Deal Calculator rent ceilings, PMA rent-pressure dimension, AMI-required-to-purchase calculations.
 
-**Why this matters:** FMR caps move LIHTC pro forma revenue assumptions ~2-4% year-over-year in CO MSAs. FY2026 caps are higher than FY2025 in 9 of 11 CO HUD areas. Underwriting against FY2025 caps in 2026 will *under-estimate* maximum chargeable rents — which is conservatively fine for screening but understates the real opportunity.
+**Current clarification:** FMR is a voucher benchmark. LIHTC gross rent limits are based on HUD multifamily income limits (MTSP), published by CHFA and read by `js/chfa-rent-limits.js`; contract rent deducts the utility allowance and required fees. Use the applicable table vintage and supported market rents for screening.
 
 **Mitigation:** The FY2025 label is now visible on the relevant cards. Refresh script `scripts/fetch_fmr_api.py` exists; needs a cron entry to pull FY2026.
 

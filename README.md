@@ -29,7 +29,7 @@ Reference documentation for each of the four analysis modules. Each guide covers
 
 - [**Deal Predictor**](docs/guides/deal-predictor.md) — recommends 9% / 4% / Either execution with plain-English rationale
 - [**Operating Pro Forma**](docs/guides/pro-forma.md) — 15-year NOI / DSCR / cash-flow projection
-- [**CHFA QAP Simulator**](docs/guides/qap-simulator.md) — competitiveness scoring against 2015–2025 patterns
+- [**Retired QAP Simulator (archive)**](docs/archive/qap-simulator.md) — removed because the scoring relied on synthesized, unverified award data
 - [**Primary Market Area (PMA) Analysis**](docs/guides/pma-analysis.md) — site-level composite scoring
 
 See also:
