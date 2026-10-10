@@ -152,16 +152,19 @@ ok('non-vacuous: quoted terms and soft-funding cross-checks actually ran', () =>
   assert.ok(amounts >= 6, `only ${amounts} dollar limits compared`);
 });
 
-ok('the AMI file the guide cites is the one the renderer loads, with every tier it shows', () => {
+ok('the AMI file the guide cites is the one the renderer loads, and every tier it publishes renders', () => {
   const m = JS.match(/var LIMITS_FILE = '([^']+)'/);
   assert.ok(m);
   assert.equal('data/' + m[1], GUIDE.meta.ami_limits_file);
   const limits = readJson(GUIDE.meta.ami_limits_file);
   assert.equal(limits.counties.length, 64);
-  const tiers = JSON.parse(JS.match(/var AMI_TIERS = (\[[^\]]+\])/)[1].replace(/'/g, '"'));
-  for (const c of limits.counties) for (const t of tiers) {
-    assert.ok(c.regular_tiers[t], `${c.county_name} lacks the ${t}% tier`);
-  }
+  // No fixed tier list: the table renders each county's own tiers, so the
+  // 20% and 70% income-averaging tiers and the 130-160% rural resort tiers show.
+  assert.doesNotMatch(JS, /var AMI_TIERS = /);
+  assert.match(JS, /var tierKeys = Object\.keys\(tiers\)/);
+  const resort = limits.counties.filter((c) => c.rural_resort);
+  assert.ok(resort.length > 0 && resort.every((c) => c.regular_tiers['160']), 'rural resort counties carry the 160% tier');
+  assert.ok(limits.counties.every((c) => c.regular_tiers['20'] && c.regular_tiers['70']), 'every county carries the 20% and 70% tiers');
   const g = JS.match(/var GUIDE_FILE = '([^']+)'/);
   assert.equal('data/' + g[1], GUIDE_PATH);
 });
