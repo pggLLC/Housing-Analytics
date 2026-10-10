@@ -105,6 +105,13 @@ export const CHAIN = [
        + 'failed on the next unrelated PR',
   },
   {
+    id: 'funding-vs-need',
+    argv: ['node', 'scripts/funding/build_funding_vs_need.mjs'],
+    why: 'data/derived/funding-vs-need.json joins the award ledger to the '
+       + 'ranking index\'s need and vacancy fields and to permits.json, so a '
+       + 'rebuilt index leaves the Funding vs Need tab stale without it',
+  },
+  {
     id: 'paper-figures',
     argv: ['npm', 'run', 'paper:build'],
     why: 'the working paper and methods page quote counts measured off the repo',

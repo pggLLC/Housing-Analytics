@@ -561,6 +561,14 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 .cc-table th:first-child, .cc-table td:first-child { text-align: left; white-space: normal; }
 #ccTradeTable th[scope="row"] { min-width: 14rem; text-transform: none; font-weight: 600; }
 .cc-table thead th { color: var(--muted); font-weight: 600; }
+/* Funding vs Need tab */
+.mi-chart-container.fvn-chart { height: 340px; margin-bottom: 3rem; }
+.fvn-sort { background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; text-align: inherit; }
+.fvn-sort:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+#fvnTable th[scope="row"] { min-width: 9rem; font-weight: 600; }
+@media (max-width: 640px) { .mi-chart-container.fvn-chart { height: 380px; margin-bottom: 5rem; } }
+.fvn-limits { margin: 0; padding-left: 1.2rem; line-height: 1.6; max-width: 80ch; }
+.fvn-limits li { margin-bottom: .5rem; }
 /* The source line the chart-source component appends sits below the canvas box. */
 .mi-chart-container.cc-chart { margin-bottom: 3rem; }
 @media (max-width: 640px) {
@@ -607,12 +615,13 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-<!-- ── Outer tab navigation: Deep Dive | Market Signals | Construction Labor & Costs | Market Overview ── -->
+<!-- ── Outer tab navigation: Deep Dive | Market Signals | Construction Labor & Costs | Market Overview | Funding vs Need ── -->
 <div role="tablist" aria-label="Page sections" class="page-tabs">
   <button role="tab" id="btn-deepdive" aria-selected="true" aria-controls="tab-deepdive" class="page-tab-btn">Deep Dive</button>
   <button role="tab" id="btn-signals" aria-selected="false" aria-controls="tab-signals" class="page-tab-btn">Market Signals</button>
   <button role="tab" id="btn-construction" aria-selected="false" aria-controls="tab-construction" class="page-tab-btn">Construction Labor &amp; Costs</button>
   <button role="tab" id="btn-market" aria-selected="false" aria-controls="tab-market" class="page-tab-btn">Market Overview</button>
+  <button role="tab" id="btn-funding" aria-selected="false" aria-controls="tab-funding" class="page-tab-btn">Funding vs Need</button>
 </div>
 
 <div role="tabpanel" id="tab-deepdive" aria-labelledby="btn-deepdive">
@@ -2262,6 +2271,76 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 
 </div><!-- /tab-market -->
 
+<!-- ── Funding vs Need tab panel ──
+     Where CHFA tax credits and Prop 123 fund awards went, set against each
+     county's affordable-housing need and its market. Data: data/derived/funding-vs-need.json
+     (scripts/funding/build_funding_vs_need.mjs), built from the award ledger the
+     weekly funding-awards workflow parses out of the agencies' award PDFs. -->
+<div role="tabpanel" id="tab-funding" aria-labelledby="btn-funding" hidden>
+  <section class="mi-section" aria-labelledby="fvn-heading" style="margin-top:0;">
+    <h2 id="fvn-heading">Funding vs need: where Colorado's housing subsidy goes</h2>
+    <p id="fvnSummary" class="cc-summary" aria-live="polite">Loading the award ledger…</p>
+    <p class="data-note" style="border-top:0;padding-top:0;margin-top:.25rem;">Awards are parsed every week from <a href="https://www.chfainfo.com/rental-housing/housing-credit/awards" target="_blank" rel="noopener">CHFA's Housing Tax Credit award reports</a> and the <a href="https://coloradoaffordablehousingfinancingfund.com/about/selected-applicants/" target="_blank" rel="noopener">Prop 123 financing fund's selected-applicant lists</a>. <span id="fvnGenerated"></span></p>
+    <div class="mi-kpi-grid" id="fvnKpis" aria-live="polite"></div>
+    <p id="fvnReview" class="data-note" hidden></p>
+  </section>
+
+  <section class="mi-section" aria-labelledby="fvn-scatter-heading">
+    <h2 id="fvn-scatter-heading">Need against funding received, by county</h2>
+    <h3>Need: HUD CHAS ≤30% AMI gap (ranking index). Funding: LIHTC units in CHFA award reports since 2016.</h3>
+    <div class="mi-chart-container fvn-chart" data-source="CHFA Housing Tax Credit award reports; HUD CHAS via data/hna/ranking-index.json" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit/awards" data-vintage="Awards 2016 to date; CHAS 2018-2022">
+      <canvas id="fvnScatter" role="img" aria-label="Scatter chart: each county's affordable-housing gap per 1,000 residents against LIHTC units awarded per 100 gap households"></canvas>
+      <p class="sr-only" id="fvnScatterText"></p>
+    </div>
+    <p id="fvnScatterStatus" class="mi-status" role="status" hidden></p>
+    <p class="data-note">The dashed lines are the county medians, so each county lands in one of four groups. "High need, less funding" counties have more households in the deepest affordability gap per resident than most counties, and fewer tax-credit units for the size of that gap. LIHTC units mostly rent at up to 60% AMI, so this compares scale, not whether each unit reaches a household at 30% AMI.</p>
+  </section>
+
+  <section class="mi-section" aria-labelledby="fvn-rent-heading">
+    <h2 id="fvn-rent-heading">How much a 60% AMI rent saves a tenant</h2>
+    <h3>Source: <a href="https://www.zillow.com/research/data/" target="_blank" rel="noopener">Zillow Observed Rent Index</a> and <a href="https://www.chfainfo.com/rental-housing/housing-credit/rent-and-income-limits" target="_blank" rel="noopener">CHFA 2026 rent limits</a></h3>
+    <div class="mi-chart-container fvn-chart fvn-rent" data-source="Zillow ZORI (county); CHFA 2026 maximum gross rent, 60% AMI, 2 bedrooms" data-source-url="https://www.zillow.com/research/data/" data-vintage="ZORI monthly; CHFA 2026">
+      <canvas id="fvnRentChart" role="img" aria-label="Bar chart: typical market rent minus the 60% AMI two-bedroom maximum rent, by county"></canvas>
+      <p class="sr-only" id="fvnRentText"></p>
+    </div>
+    <p id="fvnRentStatus" class="mi-status" role="status" hidden></p>
+    <p class="data-note">Where the bar is short or negative, a 60% AMI unit rents for about what the market already charges, so the affordability it buys depends on deeper targeting (30% to 50% AMI units). Where it is long, the same unit is worth hundreds of dollars a month to its tenant. This is an approximation: the CHFA figure is a gross-rent ceiling that includes utilities, Zillow's index is contract rent across all unit sizes, and many LIHTC properties rent below the ceiling. Zillow covers only the counties shown. <span id="fvnRentVintage"></span></p>
+  </section>
+
+  <section class="mi-section" aria-labelledby="fvn-year-heading">
+    <h2 id="fvn-year-heading">Awards by year</h2>
+    <div class="mi-chart-container fvn-chart" data-source="CHFA Housing Tax Credit award reports; Prop 123 selected-applicant lists" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit/awards" data-vintage="2016 to date">
+      <canvas id="fvnYearChart" role="img" aria-label="Bar and line chart: LIHTC units awarded and Prop 123 fund dollars awarded, by year"></canvas>
+      <p class="sr-only" id="fvnYearText"></p>
+    </div>
+    <p id="fvnYearStatus" class="mi-status" role="status" hidden></p>
+  </section>
+
+  <section class="mi-section" aria-labelledby="fvn-table-heading">
+    <h2 id="fvn-table-heading">Every county</h2>
+    <p><button type="button" class="btn" id="fvnCsv" title="Downloads every county row and metric as a CSV file">Download CSV</button></p>
+    <div class="cc-table-wrap" role="region" aria-labelledby="fvn-table-heading" tabindex="0">
+      <table class="cc-table" id="fvnTable">
+        <caption class="sr-only">Affordable-housing need, tax-credit and Prop 123 awards, and market signals for each Colorado county. Select a column heading to sort.</caption>
+        <thead><tr id="fvnTableHead"></tr></thead>
+        <tbody id="fvnTableBody"><tr><td>Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mi-section" aria-labelledby="fvn-method-heading">
+    <h2 id="fvn-method-heading">What this does and does not show</h2>
+    <ul class="fvn-limits">
+      <li><strong>The flags describe a market, not a mistake.</strong> "High vacancy" means for-rent and for-sale vacancy is in the top quarter of counties; "building ahead of growth" means permits over five years ran at least twice DOLA's projected household growth. Both together suggest a softer market, where a subsidized unit buys less affordability than it would elsewhere. Neither says a project was wasted.</li>
+      <li><strong>Correlation, not cause.</strong> A soft market today can come from a wave of market-rate supply, not from subsidy.</li>
+      <li><strong>An award is not a finished home.</strong> Projects take two to four years to deliver, and some awards are returned.</li>
+      <li><strong>Tax credits are annual.</strong> CHFA prints the annual credit; the federal credit is claimed for ten years. Prop 123 amounts are dollars awarded, or requested where a preliminary list prints only the request.</li>
+      <li><strong>Coverage.</strong> CHFA award reports from 2016 and Prop 123 lists from FY23-24. Division of Housing grants and loans are not yet in the ledger. ACS figures cover 2020 to 2024, and small-county vacancy has wide margins of error.</li>
+      <li><strong>Mixed-income Prop 123 dollars</strong> are shown as a catalyst signal: money aimed at middle-income or workforce housing rather than the deepest-need gap. That can be a deliberate policy choice.</li>
+    </ul>
+  </section>
+</div><!-- /tab-funding -->
+
   <section class="chart-card" aria-labelledby="policyTimelineHeading">
     <h2 id="policyTimelineHeading">Policy and economic milestones</h2>
     <p data-policy-timeline-status role="status" hidden>Policy timeline unavailable</p>
@@ -2755,14 +2834,15 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 </script>
 <script src="js/market-intelligence.js"></script>
 <script defer src="js/co-construction-costs.js"></script>
+<script defer src="js/funding-vs-need.js"></script>
 <script defer src="js/audit-hook.js"></script>
 
-<!-- ── Outer tab toggle: Deep Dive | Market Signals | Construction Labor & Costs | Market Overview ── -->
+<!-- ── Outer tab toggle: Deep Dive | Market Signals | Construction Labor & Costs | Market Overview | Funding vs Need ── -->
 <script>
 (function () {
   function initPageTabs() {
     var tabs   = document.querySelectorAll('[role="tablist"].page-tabs [role="tab"]');
-    var panels = document.querySelectorAll('#tab-deepdive, #tab-signals, #tab-construction, #tab-market');
+    var panels = document.querySelectorAll('#tab-deepdive, #tab-signals, #tab-construction, #tab-market, #tab-funding');
     var announce = document.getElementById('statusPanel');
     if (!tabs.length) return;
 
@@ -2791,6 +2871,10 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       /* Construction charts draw on first reveal so Chart.js measures a visible canvas. */
       if (targetId === 'tab-construction' && window.CoConstructionCosts) {
         window.CoConstructionCosts.init();
+      }
+      /* Funding vs Need draws on first reveal, like the construction tab. */
+      if (targetId === 'tab-funding' && window.FundingVsNeed) {
+        window.FundingVsNeed.init();
       }
       /* Market Signals loads its feeds on first reveal; later reveals resize its charts. */
       if (targetId === 'tab-signals' && window.MarketIntelligence) {
