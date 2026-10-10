@@ -204,9 +204,10 @@ async function main() {
   }
 
   await filterPublicManifests();
-  await generateSearchIndex();
   await injectStructuredData();
   await stampPageDates();
+  // After the date stamp, so the index holds the words the served page shows.
+  await generateSearchIndex();
   await generateSitemap();
   await validateServedHtmlLinks();
 
@@ -490,7 +491,8 @@ async function generateSearchIndex() {
         const childRel = rel ? `${rel}/${entry.name}` : entry.name;
         if (entry.isDirectory()) { await walk(childRel); continue; }
         const relPath = toPosix(childRel);
-        if (relPath.endsWith('.md') && PUBLIC_DOCS.has(relPath)) {
+        // Every Markdown file the build serves is public (copyRecursive admits only public docs).
+        if (relPath.endsWith('.md') && relPath.startsWith('docs/')) {
           records.push(markdownRecord(relPath, await readFile(path.join(DIST, childRel), 'utf8')));
           continue;
         }
