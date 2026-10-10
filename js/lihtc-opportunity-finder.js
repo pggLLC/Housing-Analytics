@@ -291,6 +291,14 @@
   //             housing strategy in place.
   // Preservation + prop123_local + any unchanged — civic already weighted
   // appropriately for those targets.
+  // The day the local support windows are measured from (local-support-data.js
+  // takes it as an argument so tests can pin it).
+  var LOCAL_SUPPORT_TODAY = (function () {
+    var d = new Date();
+    var m = d.getMonth() + 1, day = d.getDate();
+    return d.getFullYear() + '-' + (m < 10 ? '0' : '') + m + '-' + (day < 10 ? '0' : '') + day;
+  }());
+
   var SCORE_WEIGHTS = {
     '9pct':              { need: 0.30, recency: 0.22, basis: 0.15, pop: 0.15, civic: 0.18 },
     // F254b (Codex Finding 11) — rebalanced from { need: 0.25, recency:
@@ -713,7 +721,16 @@
       // application deadlines) for the selected jurisdiction. Soft
       // load: a missing file just hides the callout.
       loadSoft('data/policy/soft-funding-status.json'),
-      loadSoft('data/chfa-income-rent-limits-2026.json')
+      loadSoft('data/chfa-income-rent-limits-2026.json'),
+      // Local support bonus (parts[27]..parts[30]): adopted plans and
+      // council / planning-commission votes, plus the Local Housing
+      // Incentives records. js/local-support-data.js scores them; a
+      // jurisdiction nobody has checked gets +0. Soft load: missing files
+      // mean no bonus anywhere, never a lower score.
+      loadSoft('data/policy/local-support.json'),
+      loadSoft('data/policy/fee-reductions.json'),
+      loadSoft('data/policy/local-housing-funds.json'),
+      loadSoft('data/policy/incentive-coverage.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -975,6 +992,9 @@
       // Compare page consumes. Used by the detail panel callout to
       // surface LOI + application deadlines for any deal scoped in the
       // selected jurisdiction.
+      state.localSupport = (window.LocalSupportData && parts[27])
+        ? window.LocalSupportData.build({ support: parts[27], fees: parts[28], funds: parts[29], coverage: parts[30] })
+        : null;
       var softFunding = parts[25];
       state.softFundingPrograms = (softFunding && softFunding.programs) || {};
       state.softFundingMeta = (softFunding && softFunding.meta) || null;
@@ -1391,6 +1411,22 @@
       var scoreProp123      = compositeScore(recScore,                       needPct, bbScore, popScore, civicScoreForComposite, 'prop123_local', type);
       var scoreAny          = compositeScore(recScore,                       needPct, bbScore, popScore, civicScoreForComposite, 'any', type);
 
+      // Local support bonus: up to +6 on every target, shown as its own line
+      // in the detail panel. Unchecked jurisdictions get +0, so their scores
+      // are exactly what they were without it.
+      var localSupport = state.localSupport
+        ? state.localSupport.profile(placeGeoid, LOCAL_SUPPORT_TODAY, { kind: type === 'cdp' ? 'cdp' : 'place', county: containingCounty })
+        : null;
+      var localSupportBonus = localSupport ? localSupport.bonus : 0;
+      var scoresBeforeLocalSupport = { score9: score9, score4: score4, scorePreservation: scorePreservation,
+        scoreWorkforce: scoreWorkforce, scoreProp123: scoreProp123, scoreAny: scoreAny };
+      score9            = window.LocalSupportData ? window.LocalSupportData.applyBonus(score9, localSupportBonus) : score9;
+      score4            = window.LocalSupportData ? window.LocalSupportData.applyBonus(score4, localSupportBonus) : score4;
+      scorePreservation = window.LocalSupportData ? window.LocalSupportData.applyBonus(scorePreservation, localSupportBonus) : scorePreservation;
+      scoreWorkforce    = window.LocalSupportData ? window.LocalSupportData.applyBonus(scoreWorkforce, localSupportBonus) : scoreWorkforce;
+      scoreProp123      = window.LocalSupportData ? window.LocalSupportData.applyBonus(scoreProp123, localSupportBonus) : scoreProp123;
+      scoreAny          = window.LocalSupportData ? window.LocalSupportData.applyBonus(scoreAny, localSupportBonus) : scoreAny;
+
       // Civic capacity (already computed above as civic_pre — reuse)
       var civic = civic_pre;
       var localRes = localResForPlace(placeGeoid, type, containingCounty);
@@ -1542,6 +1578,9 @@
         scoreWorkforce:       scoreWorkforce,
         scoreProp123:         scoreProp123,
         scoreAny:             scoreAny,
+        localSupport:         localSupport,
+        localSupportBonus:    localSupportBonus,
+        scoresBeforeLocalSupport: scoresBeforeLocalSupport,
         // Place centroid for map (lat/lng, may be null if no tract centroids
         // and no LIHTC project anchor; renderer will skip such markers)
         centroidLat:  centroidLat,
@@ -1656,7 +1695,9 @@
               civicVal * (w.civic / 100);
     // Same CDP penalty as compositeScore so the override stays comparable
     if (op.type === 'cdp' && CDP_PENALTY_TARGETS[scenario.target]) raw += CDP_PENALTY;
-    return Math.max(0, Math.round(raw));
+    var score = Math.max(0, Math.round(raw));
+    // The local support bonus rides on top of any weights, as it does on the presets.
+    return window.LocalSupportData ? window.LocalSupportData.applyBonus(score, op.localSupportBonus) : score;
   }
 
   function _scenarioRecency(op, target, source) {
@@ -3777,6 +3818,7 @@
     // OR matching county), sorted by next LOI deadline ascending so the
     // immediate filing gates float to the top.
     _renderDetailSoftFunding(op);
+    _renderDetailLocalSupport(op);
 
     // F137: render comparable affordable-property set (5 nearest)
     _renderCompSet(op);
@@ -3824,6 +3866,60 @@
      panel. Sourced from data/policy/soft-funding-status.json. Filters
      by county === "All" OR matching containing county. Sorted by next
      LOI deadline ascending. Urgency chips: red ≤30d, amber ≤60d. */
+  /* Local support panel: the bonus line and the evidence behind it, from
+     js/local-support-data.js. Every part says whether it counted, found
+     nothing, could not be read, or has not been checked. */
+  var LOCAL_SUPPORT_STATE_TEXT = {
+    records: 'on record',
+    none_found: 'checked, none found',
+    unreadable: 'official sources could not be read',
+    not_checked: 'not yet checked',
+    overdue: 'past its review date, not counted until re-checked'
+  };
+  function _renderDetailLocalSupport(op) {
+    var host = $('lofDetailLocalSupport');
+    if (!host) return;
+    var ls = op.localSupport;
+    var LSD = window.LocalSupportData;
+    if (!ls || !LSD) { host.innerHTML = ''; return; }
+    function itemLine(i) {
+      var url = i.source && i.source.url;
+      var title = url
+        ? '<a href="' + escHtml(url) + '" target="_blank" rel="noopener">' + escHtml(i.title) + '</a>'
+        : escHtml(i.title);
+      return '<li>' + escHtml(i.date) + ' · ' + (i.body ? escHtml(i.body) + ': ' : '') + title +
+        (i.vote ? ' <span style="color:var(--muted)">(vote ' + escHtml(i.vote) + ')</span>' : '') + '</li>';
+    }
+    function incentiveLine(item) {
+      return '<li>' + escHtml(LSD.incentiveLabel(item)) + '</li>';
+    }
+    var rows = LSD.BONUS_PARTS.map(function (k) {
+      var part = ls.parts[k];
+      var counted = part.counted || [];
+      var list = counted.length
+        ? '<ul style="margin:.2rem 0 0 1rem;padding:0;font-size:.78rem;line-height:1.5">' +
+            counted.map(k === 'incentives' ? incentiveLine : itemLine).join('') + '</ul>'
+        : '<div style="font-size:.78rem;color:var(--muted)">' +
+            escHtml(LOCAL_SUPPORT_STATE_TEXT[part.state] || part.state) +
+            (part.state === 'records' ? ', none inside the scoring window' : '') + '</div>';
+      return '<div class="lof-ls-row" data-ls-part="' + k + '" style="margin-top:.4rem">' +
+        '<strong>' + escHtml(part.label) + ' +' + part.points + '</strong>' + list + '</div>';
+    }).join('');
+    var denials = (ls.denials || []).length
+      ? '<div style="margin-top:.4rem;font-size:.78rem"><strong>Recorded denials (shown, not scored)</strong>' +
+          '<ul style="margin:.2rem 0 0 1rem;padding:0">' + ls.denials.map(itemLine).join('') + '</ul></div>'
+      : '';
+    host.innerHTML =
+      '<h4 style="margin:.75rem 0 .25rem">Local support bonus: <span data-ls-bonus>+' + ls.bonus + '</span> of +' + LSD.MAX_BONUS + '</h4>' +
+      '<div style="font-size:.78rem;color:var(--muted);line-height:1.45">' +
+        'Added to every deal-type score. Each part is worth +' + LSD.POINTS_PER_PART +
+        ' when there is dated, sourced evidence: an adopted housing plan within ' + LSD.PLAN_WINDOW_YEARS +
+        ' years, a standing incentive or local fund, and a council or planning commission approval within ' +
+        LSD.ACTION_WINDOW_MONTHS + ' months. Nothing on record adds nothing and never lowers the score.' +
+        (ls.checked ? ' Checked ' + escHtml(ls.checked) + (ls.inheritsFrom ? ' (county record; this place has no government of its own)' : '') + '.' : '') +
+      '</div>' + rows + denials;
+  }
+
   function _renderDetailSoftFunding(op) {
     var host = $('lofDetailSoftFunding');
     if (!host) return;

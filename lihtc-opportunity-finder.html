@@ -1980,6 +1980,7 @@
                gates for the selected jurisdiction so an underwriter
                sees the filing calendar without switching pages. -->
           <div id="lofDetailSoftFunding" class="lof-detail-soft-funding"></div>
+          <div id="lofDetailLocalSupport" class="lof-detail-local-support"></div>
           <h4 style="margin:14px 0 4px;">LIHTC projects in this jurisdiction</h4>
           <div id="lofDetailProjects" class="lof-detail-projects"></div>
           <!-- F137: Comparable affordable properties — 5 nearest from properties.json (LIHTC + HUD MF + USDA RD + PBV-local), the single highest-leverage credibility add for IC packets -->
@@ -2110,6 +2111,20 @@
               </li>
 
             </ol>
+
+            <p class="lof-meth-note" id="lofMethLocalSupport" style="margin-top:14px; padding:10px 12px; background:var(--bg2); border-radius:8px; font-size:.85rem; line-height:1.55;">
+              <strong>Local support bonus — up to +6 points on top of the composite.</strong>
+              A place earns +2 for each kind of dated, sourced evidence that its government backs
+              affordable housing: an adopted housing plan or needs assessment with affordable-housing
+              goals (within 5 years), a standing fee reduction, land-use incentive or dedicated local
+              fund (from the <a href="local-incentives.html">Local Housing Incentives</a> records), and a
+              council or planning commission approval of affordable housing (within 36 months).
+              A place nobody has checked yet gets +0, so the bonus never lowers a score; recorded
+              denials are shown in the detail panel and the jurisdiction brief, not scored. Prop 123
+              filings and inclusionary zoning are left to Civic Readiness so nothing counts twice.
+              <br><em>Data:</em> <code>data/policy/local-support.json</code> (each item quoted from the
+              jurisdiction's own minutes, resolutions or plans).
+            </p>
 
             <p class="lof-meth-note" style="margin-top:14px; padding:10px 12px; background:var(--bg2); border-radius:8px; font-size:.85rem; line-height:1.55;">
               <strong>Two more signals show up as columns but not in the composite score</strong> —
@@ -2483,6 +2498,8 @@
   <script src="js/map-panes.js" defer></script>
   <script src="js/config/basemaps.js"></script>
   <script src="js/chfa-rent-limits.js" defer></script>
+  <script src="js/local-incentives-data.js" defer></script>
+  <script src="js/local-support-data.js" defer></script>
   <script src="js/lihtc-opportunity-finder.js" defer></script>
 </body>
 </html>

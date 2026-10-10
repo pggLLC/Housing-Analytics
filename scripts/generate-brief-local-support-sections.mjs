@@ -28,7 +28,6 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const BRIEFS_DIR = path.join(ROOT, "data", "jurisdiction-briefs");
 const require = createRequire(import.meta.url);
 const LocalSupportData = require("../js/local-support-data.js");
-const LocalIncentivesData = require("../js/local-incentives-data.js");
 
 export const SECTION_ID = "local-support";
 export const SOURCE_PREFIX = "ls";
@@ -79,15 +78,7 @@ const OUTCOME_VERB = {
 };
 
 function incentiveLabel(item) {
-  const r = item.record;
-  if (item.scope === "fees") {
-    const cat = String(r.fee_category || "fee").replace(/_/g, " ");
-    return `${r.measure} ${cat} fees`;
-  }
-  const labels = item.scope === "land_use" ? LocalIncentivesData.LAND_USE_LABELS : LocalIncentivesData.FUND_TOOL_LABELS;
-  const key = item.scope === "land_use" ? r.measure : r.tool;
-  const label = labels[key] || String(key).replace(/_/g, " ");
-  return label.charAt(0).toLowerCase() + label.slice(1);
+  return LocalSupportData.incentiveLabel(item);
 }
 
 /**

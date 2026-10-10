@@ -212,6 +212,29 @@
     return { profile: profile, rows: support };
   }
 
+  // Plain labels for incentive records come from the Local Housing Incentives
+  // module, so a tool is named the same way on both pages.
+  function incentiveLabels() {
+    if (typeof window !== 'undefined' && window.LocalIncentivesData) return window.LocalIncentivesData;
+    if (typeof module === 'object' && module.exports && typeof require === 'function') {
+      try { return require('./local-incentives-data.js'); } catch (e) { return null; }
+    }
+    return null;
+  }
+
+  /** "reduced building permit fees", "density bonus", "housing trust fund". */
+  function incentiveLabel(item) {
+    var r = item.record;
+    var lib = incentiveLabels() || {};
+    function lower(t) { return t.charAt(0).toLowerCase() + t.slice(1); }
+    if (item.scope === 'fees') {
+      return String(r.measure) + ' ' + String(r.fee_category || 'development').replace(/_/g, ' ') + ' fees';
+    }
+    var labels = (item.scope === 'land_use' ? lib.LAND_USE_LABELS : lib.FUND_TOOL_LABELS) || {};
+    var key = item.scope === 'land_use' ? r.measure : r.tool;
+    return lower(labels[key] || String(key).replace(/_/g, ' '));
+  }
+
   /** Add the bonus to a 0–100 composite without passing 100. A null score stays null. */
   function applyBonus(score, bonus) {
     if (!Number.isFinite(score)) return null;
@@ -221,6 +244,7 @@
   return {
     build: build,
     applyBonus: applyBonus,
+    incentiveLabel: incentiveLabel,
     earliestDay: earliestDay,
     shiftDate: shiftDate,
     MAX_BONUS: MAX_BONUS,

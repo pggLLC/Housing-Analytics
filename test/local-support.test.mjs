@@ -183,4 +183,31 @@ test('sabotage: changing a counted item changes the generated section (the fresh
   assert.notDeepEqual(a, b, 'mutation did not reach the section');
 });
 
+// ── The Finder applies the same bonus to every deal type ──────────────────
+const finderSrc = fs.readFileSync(path.join(ROOT, 'js/lihtc-opportunity-finder.js'), 'utf8');
+const pageSrc = fs.readFileSync(path.join(ROOT, 'lihtc-opportunity-finder.html'), 'utf8');
+const SCORE_VARS = ['score9', 'score4', 'scorePreservation', 'scoreWorkforce', 'scoreProp123', 'scoreAny'];
+function bonusedVars(src) {
+  return SCORE_VARS.filter((v) => new RegExp(`\\b${v}\\s*=\\s*window\\.LocalSupportData \\? window\\.LocalSupportData\\.applyBonus\\(${v}, localSupportBonus\\)`).test(src));
+}
+
+test('the Finder adds the bonus to all six deal-type scores and to custom weights', () => {
+  assert.deepEqual(bonusedVars(finderSrc), SCORE_VARS);
+  assert.match(finderSrc, /applyBonus\(score, op\.localSupportBonus\)/, 'custom-weight scenarios must add it too');
+  assert.match(finderSrc, /loadSoft\('data\/policy\/local-support\.json'\)/);
+});
+
+test('the page loads the scoring module before the Finder', () => {
+  const lsd = pageSrc.indexOf('src="js/local-support-data.js"');
+  const lid = pageSrc.indexOf('src="js/local-incentives-data.js"');
+  const lof = pageSrc.indexOf('src="js/lihtc-opportunity-finder.js"');
+  assert.ok(lid !== -1 && lsd !== -1 && lof !== -1 && lid < lsd && lsd < lof);
+});
+
+test('sabotage: dropping the bonus from one deal type fails the check above', () => {
+  const mutated = finderSrc.replace('score4            = window.LocalSupportData ? window.LocalSupportData.applyBonus(score4, localSupportBonus) : score4;', '');
+  assert.notEqual(mutated, finderSrc, 'mutation did not apply');
+  assert.notDeepEqual(bonusedVars(mutated), SCORE_VARS);
+});
+
 if (failed) { console.error(`${failed} failed`); process.exit(1); }
