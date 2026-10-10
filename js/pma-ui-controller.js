@@ -292,7 +292,8 @@
     if (window.SoftFundingTracker && typeof window.SoftFundingTracker.check === 'function' && countyFips) {
       try {
         var fundResult = window.SoftFundingTracker.check(countyFips, new Date().getFullYear());
-        if (fundResult && typeof fundResult.available === 'number') {
+        if (fundResult && typeof fundResult.available === 'number'
+            && Number.isFinite(fundResult.available) && fundResult.available >= 0) {
           dealInputs.softFundingAvailable = fundResult.available;
         }
       } catch (_) {}
