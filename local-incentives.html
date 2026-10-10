@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Local Housing Incentives | Colorado Public Data Reference</title>
+  <meta name="description" content="Which affordable-housing tools each Colorado county, city and town has adopted: fee relief, land-use incentives, dedicated funds and ownership programs, each with its source and check date.">
+  <meta property="og:title" content="Local Housing Incentives | Colorado Public Data Reference">
+  <meta property="og:description" content="Verified local affordable-housing incentives by Colorado jurisdiction, with sources, check dates and tools to consider.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <style>
+    .li-meta { color: var(--muted); font-size: var(--small); margin: var(--sp1) 0; }
+    .li-muted { color: var(--muted); }
+    .li-block { margin: var(--sp4) 0; }
+    .li-block h3 { display: flex; flex-wrap: wrap; gap: var(--sp2); align-items: center; }
+    .li-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: var(--sp3); }
+    .li-card { border: 1px solid var(--border); border-radius: var(--radius, 8px); padding: var(--sp3); background: var(--card, var(--bg2)); }
+    .li-card h4 { margin: 0 0 var(--sp2); }
+    .li-evidence summary { cursor: pointer; font-size: var(--small); }
+    .li-evidence blockquote { margin: var(--sp2) 0; padding-left: var(--sp3); border-left: 3px solid var(--border); }
+    .li-evidence footer { color: var(--muted); font-size: var(--small); }
+    .li-alt li { margin-bottom: var(--sp3); }
+    .li-tool { border-bottom: 1px solid var(--border); padding: var(--sp2) 0; }
+    .li-tool > summary { cursor: pointer; }
+    .li-picker { display: flex; flex-wrap: wrap; gap: var(--sp2); align-items: center; margin-bottom: var(--sp3); }
+    .li-picker select { min-width: min(320px, 100%); max-width: 100%; }
+    .data-table th[scope="row"] { vertical-align: top; }
+    .data-table td { vertical-align: top; }
+  </style>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/provenance-label.js"></script>
+  <script defer src="js/components/review-status.js"></script>
+  <script defer src="js/local-incentives-data.js"></script>
+  <script defer src="js/local-incentives.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header id="site-header"></header>
+
+  <main id="main-content" class="js-glossary-auto">
+    <div class="platform-disclaimer" role="note">
+      This site is a public-data reference. Incentive summaries are informational only, not legal advice. Confirm current terms with the jurisdiction before relying on them.
+    </div>
+
+    <article class="article-wrap" data-local-incentives>
+      <header>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <a href="insights.html">Insights</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Local Housing Incentives</span>
+        </nav>
+        <span class="tag tag-teal" style="margin:var(--sp3) 0 var(--sp2);display:inline-block;">Research</span>
+        <h1 style="margin-bottom:var(--sp3);">Local Housing Incentives</h1>
+        <div class="page-meta">
+          <span>Fee relief, land-use incentives, local funds and ownership tools</span>
+          <span>Every record cites its source and the date it was checked</span>
+        </div>
+      </header>
+
+      <div class="article-body" style="margin-top:var(--sp4);">
+        <div class="callout callout-info" style="margin-bottom:var(--sp4);">
+          <h3>How to read this page</h3>
+          <p>Each record was read from the jurisdiction's own code, ordinance, fee schedule, ballot result or program page, and the wording it rests on is quoted under it. A figure the source does not publish is left blank rather than estimated.</p>
+          <p>A jurisdiction with no record has <strong>not</strong> been shown to have no program. Every jurisdiction is marked <strong>verified records</strong>, <strong>checked, none found</strong>, <strong>source could not be read</strong>, or <strong>not yet checked</strong>.</p>
+        </div>
+
+        <section aria-labelledby="li-coverage-h" class="chart-card" style="margin:var(--sp5) 0;padding:var(--sp3);">
+          <h2 id="li-coverage-h" style="margin-top:0;">Coverage so far</h2>
+          <div data-li-summary><p class="li-muted">Loading the incentive records…</p></div>
+        </section>
+
+        <section aria-labelledby="li-deep-h" style="margin:var(--sp5) 0;">
+          <h2 id="li-deep-h">Jurisdiction deep dive</h2>
+          <div class="li-picker">
+            <label for="li-select"><strong>County, city or town</strong></label>
+            <select id="li-select" data-li-select aria-describedby="li-select-note"></select>
+            <span id="li-select-note" class="li-meta">Unincorporated communities show their county's tools.</span>
+          </div>
+          <div class="chart-card" style="padding:var(--sp3);" data-li-jurisdiction aria-live="polite"></div>
+        </section>
+
+        <section aria-labelledby="li-toolkit-h" style="margin:var(--sp5) 0;">
+          <h2 id="li-toolkit-h">Statewide toolkit</h2>
+          <p>How many Colorado jurisdictions have a verified record of each tool. These counts cover only the jurisdictions checked so far, so they are a floor, not a census.</p>
+          <div data-li-toolkit></div>
+        </section>
+
+        <section aria-labelledby="li-catalog-h" style="margin:var(--sp5) 0;">
+          <h2 id="li-catalog-h">Tools and what Colorado law allows</h2>
+          <p>The catalog behind the "Tools to consider" suggestions. Each tool carries its Colorado legal basis, including tools that state law closes to new local use or whose revenue cannot go to housing.</p>
+          <div data-li-catalog></div>
+        </section>
+
+        <div class="sources-box">
+          <h3>Data Sources &amp; Review Rules</h3>
+          <ul>
+            <li>Fee relief and land-use incentives: <code>data/policy/fee-reductions.json</code>. Local funds, taxes, linkage fees and ownership tools: <code>data/policy/local-housing-funds.json</code>. Who was checked and found nothing: <code>data/policy/incentive-coverage.json</code>. Tool catalog: <code>data/policy/incentive-alternatives.json</code>.</li>
+            <li>Prop 123 status: <code>data/policy/prop123_jurisdictions.json</code>, from DOLA's commitment filings. DOLA's page blocks automated reads, so the list is refreshed by hand; its date is shown beside every status.</li>
+            <li>Every record carries a re-check date. A daily job opens an issue before a record falls due, and the record shows a warning here once it is overdue. A monthly job opens an issue naming the next jurisdictions to research.</li>
+            <li>State and federal programs are on the <a href="colorado-deep-dive.html">Colorado Deep Dive</a>; property-tax abatements are in the tax-abatement inventory.</li>
+          </ul>
+          <p class="no-glossary" style="color:var(--muted);font-size:var(--small);line-height:1.6;margin:0;" role="note">
+            <strong>Disclaimer:</strong> Informational only. Local codes change; the jurisdiction's current adopted text controls.
+          </p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
+  <footer id="site-footer"></footer>
+</body>
+</html>

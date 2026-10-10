@@ -1,0 +1,15 @@
+{
+  "schema": "local-housing-funds/v1",
+  "meta": {
+    "title": "Colorado local housing funds, dedicated taxes, linkage fees, land and ownership tools",
+    "as_of": "2026-10-10",
+    "last_verified": "2026-10-10",
+    "method": "Curated, not a feed. Each record was read from the jurisdiction's own code, ordinance, ballot question or election result, budget or program page, the text saved, and every evidence quote checked by exact substring match against the saved text (whitespace normalised). verification.level \"primary\" means read from that official document; \"reported\" means taken from a named outlet without the primary document, and verification.by names it. Every dollar figure and percentage a record states appears in its own evidence quotes (tests/test_local_incentives.py). A figure the source does not publish is null, never 0. Fee relief and land-use incentives are in data/policy/fee-reductions.json, not here.",
+    "review_rule": "review_by is about 90 days out for records that change yearly (fund balances, program pages) and about six months for code- or ballot-backed records. policy-review-reminders.yml opens an issue a week before a record is due; the page shows a warning once it is overdue.",
+    "known_gaps": [
+      "Coverage is partial: see data/policy/incentive-coverage.json for who has been checked. A jurisdiction with no record has not been shown to have no fund or tax.",
+      "Annual revenue is recorded only where the source states it; most records leave it null."
+    ]
+  },
+  "entries": []
+}

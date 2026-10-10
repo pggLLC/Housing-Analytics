@@ -126,6 +126,17 @@
       "published": "2026-02-20"
     },
     {
+      "id": "local-incentives",
+      "section": "reference",
+      "type": "Research",
+      "title": "Local Housing Incentives",
+      "url": "local-incentives.html",
+      "summary": "Which affordable-housing tools each Colorado county, city and town has adopted: fee relief by fee component, land-use incentives, dedicated funds and taxes, and ownership programs, each quoted from its source. Jurisdictions not yet checked are marked as such, and each gets tools to consider with their Colorado legal basis.",
+      "sources": ["Municipal and county codes", "Fee schedules", "Ballot results", "DOLA"],
+      "maintenance": "reviewed",
+      "review_from": { "file": "data/policy/local-housing-funds.json" }
+    },
+    {
       "id": "help-for-homebuyers",
       "section": "reference",
       "type": "Consumer guide",

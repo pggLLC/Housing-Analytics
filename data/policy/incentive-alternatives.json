@@ -1,0 +1,1036 @@
+{
+  "schema": "incentive-alternatives/v1",
+  "meta": {
+    "as_of": "2026-10-10",
+    "method": "Catalog of local affordable-housing tools a Colorado county or municipality could use, each with its Colorado legal basis quoted from the statute, constitution or bill text (reported where read from an unofficial reproduction). colorado_status says whether state law authorizes the tool, needs voter approval, closes it to new adoption, or bars its revenue from housing. maps_to names which records in fee-reductions.json and local-housing-funds.json count as a jurisdiction using it. The page suggests tools a jurisdiction has no record of; it is a list to investigate, not a forecast.",
+    "notes": "(1) Several tools carry both reuse_legal_basis_ids (already-verified entries in data/policy/fee-reductions.json) and new legal_basis entries; a consumer should render both. (2) SB24-174 / HB24-1313 strategy-directory items (24-32-3706) show the state recognizes a strategy for housing action plans; they are not themselves a grant of taxing or regulatory authority. That is why linkage_fee and vacancy_or_second_home_tax are 'unclear': no fetched statute expressly authorizes a commercial linkage fee or a local vacancy tax, and HB26-1036 (express vacancy-tax authority) was Lost. (3) Municipal lodging/STR taxes: only the county statute (30-11-107.5) and local marketing districts (29-25-111) were fetched; municipal lodging taxes rest on municipal/home-rule taxing power not verified here, plus TABOR voter approval. (4) Real estate transfer tax: TABOR (8)(a) bars new or increased rates; whether any specific jurisdiction's existing transfer tax predates TABOR was not checked. (5) Urban renewal TIF (Title 31) is municipal; counties appear as affected taxing bodies, not as creators. Downtown development authorities were not covered. (6) Bag fee: 60% local share is restricted by 25-17-505 to admin/enforcement and recycling/composting/waste diversion; it cannot fund housing. (7) HB24-1175 purchase rights terminate December 31, 2029 (from the bill summary; the signed act PDF was not fetched). (8) TABOR text is from Ballotpedia's reproduction (level 'reported'); colorado.public.law statute text is 'reported'; leg.colorado.gov bill pages and the SB24-174 signed act are 'primary'. leg.colorado.gov returns 406 unless an Accept: text/html header is sent. (9) maps_to for utility_rate_discount adds a fee_category key ['utility_rate']; single_use_bag_fee maps to nothing because no adoption can count for housing. (10) Prop HH (2024, second-home taxation) surfaced in search but was not verified and is not used."
+  },
+  "tools": [
+    {
+      "id": "fee_waiver_reduction",
+      "label": "Fee waiver or reduction for affordable housing",
+      "family": "fee_relief",
+      "what_it_is": "The local government waives or lowers impact fees and other development charges on income-restricted homes.",
+      "colorado_status": "authorized",
+      "status_reason": "C.R.S. 29-20-104.5(5) expressly lets a local government waive an impact fee or similar development charge on low- or moderate-income or affordable employee housing as it defines it.",
+      "reuse_legal_basis_ids": [
+        "crs-29-20-104-5",
+        "hb21-1117-crs-29-20-104-e5-e7",
+        "sb24-174-hna-action-plans",
+        "dola-fee-waiver-guidance"
+      ],
+      "considerations": "Waived revenue must be backfilled from another source or forgone, and fees owed to separate utilities or special districts may not be the city's or county's to waive.",
+      "maps_to": {
+        "fee_measure": [
+          "waived",
+          "reduced",
+          "reimbursed"
+        ]
+      }
+    },
+    {
+      "id": "fee_deferral",
+      "label": "Fee deferral",
+      "family": "fee_relief",
+      "what_it_is": "Impact fees are collected later in the project, at building permit or certificate of occupancy, rather than up front.",
+      "colorado_status": "authorized",
+      "status_reason": "C.R.S. 29-20-104.5(6) says nothing in the impact-fee statute prohibits deferring collection until a building permit or certificate of occupancy is issued.",
+      "reuse_legal_basis_ids": [
+        "crs-29-20-104-5",
+        "crs-32-1-1001-1-j-II"
+      ],
+      "considerations": "Deferral eases construction-period carrying costs without forgoing revenue, but the full fee is still paid, so it helps cash flow more than total project cost.",
+      "maps_to": {
+        "fee_measure": [
+          "deferred"
+        ]
+      }
+    },
+    {
+      "id": "utility_rate_discount",
+      "label": "Utility charge reduction for restricted housing",
+      "family": "fee_relief",
+      "what_it_is": "A local utility reduces tap fees or ongoing charges for income-restricted housing.",
+      "colorado_status": "authorized",
+      "status_reason": "HB21-1117 lists materially reducing or eliminating utility charges applicable to affordable housing units as one qualifying pro-housing action under C.R.S. 29-20-104(1)(e.7)(II), and C.R.S. 32-1-1001(1)(j)(II) lets special district boards waive or amortize tap and connection fees for affordable housing.",
+      "reuse_legal_basis_ids": [
+        "hb21-1117-crs-29-20-104-e5-e7",
+        "crs-32-1-1001-1-j-II",
+        "tabor-enterprise-definition",
+        "crs-37-45-1-water-activity-enterprise"
+      ],
+      "considerations": "A utility run as a TABOR enterprise must keep grants from state and local governments under 10% of annual revenue, so a general-fund backfill of the discount has to be sized with that limit in mind.",
+      "maps_to": {
+        "fee_measure": [
+          "rate_discount",
+          "waived",
+          "reduced"
+        ],
+        "fee_category": [
+          "utility_rate"
+        ]
+      }
+    },
+    {
+      "id": "inclusionary_zoning_rental",
+      "label": "Inclusionary zoning (rental, HB21-1117)",
+      "family": "land_use",
+      "what_it_is": "New residential development must include a share of rent-restricted homes or choose an alternative such as a fee or off-site units.",
+      "colorado_status": "authorized",
+      "status_reason": "C.R.S. 29-20-104(1)(e.5) exempts rent-restricting inclusionary regulations from the rent-control ban if they offer alternatives to on-site units, but (1)(e.7) requires the local government first to have taken one or more listed pro-housing actions.",
+      "reuse_legal_basis_ids": [
+        "hb21-1117-crs-29-20-104-e5-e7"
+      ],
+      "legal_basis": [
+        {
+          "citation": "C.R.S. 29-20-104 (Local Government Land Use Control Enabling Act)",
+          "source": {
+            "label": "C.R.S. 29-20-104 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_29-20-104"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(1)(e.5)",
+              "quote": "The provisions of section 38-12-301 shall not apply to any land use regulation adopted pursuant to this section that restricts rents on newly constructed or redeveloped housing units as long as the regulation provides a choice of options to the property owner or land developer and creates one or more alternatives to the construction of new affordable housing units on the building site."
+            },
+            {
+              "section": "(1)(e.5)",
+              "quote": "Nothing in this subsection (1)(e.5) is construed to authorize a local government to adopt or enforce any ordinance or regulation that would have the effect of controlling rent on any existing private residential housing unit in violation of section 38-12-301."
+            }
+          ]
+        },
+        {
+          "citation": "SB24-174, Sustainable Affordable Housing Assistance (C.R.S. 24-32-3706, strategy directories); Became Law",
+          "source": {
+            "label": "leg.colorado.gov SB24-174 signed act",
+            "url": "https://leg.colorado.gov/bill_files/44943/download"
+          },
+          "verification": {
+            "level": "primary",
+            "against": "SB24-174 Signed Act PDF (pdftotext)",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "24-32-3706(1)(a)",
+              "quote": "(a) IMPLEMENTING A LOCAL INCLUSIONARY ZONING ORDINANCE THAT CONSIDERS LOCAL HOUSING MARKET CONDITIONS"
+            }
+          ]
+        }
+      ],
+      "considerations": "Requirements set too high for local market conditions can slow the market-rate development they depend on; SB24-174's directory wording asks that an ordinance consider local market conditions.",
+      "maps_to": {
+        "land_use_measure": [
+          "inclusionary_zoning"
+        ]
+      }
+    },
+    {
+      "id": "in_lieu_fee",
+      "label": "In-lieu fee",
+      "family": "local_revenue",
+      "what_it_is": "A developer pays into a local housing fund instead of building the required affordable units on site.",
+      "colorado_status": "authorized",
+      "status_reason": "For rental inclusionary rules, C.R.S. 29-20-104(1)(e.5) requires the regulation to create one or more alternatives to building the affordable units on the site, which is the role an in-lieu payment plays.",
+      "reuse_legal_basis_ids": [
+        "hb21-1117-crs-29-20-104-e5-e7"
+      ],
+      "legal_basis": [
+        {
+          "citation": "C.R.S. 29-20-104 (Local Government Land Use Control Enabling Act)",
+          "source": {
+            "label": "C.R.S. 29-20-104 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_29-20-104"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(1)(e.5)",
+              "quote": "as long as the regulation provides a choice of options to the property owner or land developer and creates one or more alternatives to the construction of new affordable housing units on the building site."
+            }
+          ]
+        }
+      ],
+      "considerations": "An in-lieu fee set below the real cost of producing a unit lets developers buy out cheaply, and the fund then has to find sites and partners to turn cash into homes.",
+      "maps_to": {
+        "funds_tool": [
+          "in_lieu_fee"
+        ]
+      }
+    },
+    {
+      "id": "linkage_fee",
+      "label": "Linkage fee (residential or commercial)",
+      "family": "local_revenue",
+      "what_it_is": "A per-square-foot charge on new development that goes to affordable housing, tied to the housing demand the development creates.",
+      "colorado_status": "unclear",
+      "status_reason": "State strategy directories in SB24-174 and HB24-1313 name a linkage fee on market-rate housing development as an example of a dedicated local revenue source, but no fetched statute expressly authorizes a commercial linkage fee.",
+      "reuse_legal_basis_ids": [
+        "hb24-1313-toc",
+        "crs-29-20-104-5"
+      ],
+      "legal_basis": [
+        {
+          "citation": "SB24-174, Sustainable Affordable Housing Assistance (C.R.S. 24-32-3706, strategy directories); Became Law",
+          "source": {
+            "label": "leg.colorado.gov SB24-174 signed act",
+            "url": "https://leg.colorado.gov/bill_files/44943/download"
+          },
+          "verification": {
+            "level": "primary",
+            "against": "SB24-174 Signed Act PDF (pdftotext)",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "24-32-3706(2)(a)",
+              "quote": "(a) ESTABLISHING A DEDICATED LOCAL REVENUE SOURCE FOR REGULATED AFFORDABLE HOUSING DEVELOPMENT, SUCH AS INSTITUTING A LINKAGE FEE ON MARKET RATE HOUSING DEVELOPMENT TO SUPPORT NEW, REGULATED AFFORDABLE HOUSING DEVELOPMENTS;"
+            }
+          ]
+        }
+      ],
+      "considerations": "The fee is usually supported by a nexus study linking new jobs or units to housing need; how it fits the impact-fee limits in C.R.S. 29-20-104.5 is a question for local counsel.",
+      "maps_to": {
+        "funds_tool": [
+          "linkage_fee"
+        ]
+      }
+    },
+    {
+      "id": "dedicated_sales_tax",
+      "label": "Dedicated sales tax for housing",
+      "family": "local_revenue",
+      "what_it_is": "Voters approve a sales or use tax whose revenue is earmarked for affordable housing.",
+      "colorado_status": "authorized_with_voter_approval",
+      "status_reason": "C.R.S. 29-2-102 and 29-2-103 require a municipal or county sales tax to be approved by the registered electors, and TABOR art. X §20(4)(a) requires advance voter approval for any new tax.",
+      "legal_basis": [
+        {
+          "citation": "C.R.S. 29-2-103 (countywide sales or use tax)",
+          "source": {
+            "label": "C.R.S. 29-2-103 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_29-2-103"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(1)",
+              "quote": "No proposal for a county sales tax, use tax, or both shall become effective until approved by a majority of the registered electors of the county voting on such proposal pursuant to section 29-2-104."
+            }
+          ]
+        },
+        {
+          "citation": "C.R.S. 29-2-102 (municipal sales or use tax)",
+          "source": {
+            "label": "C.R.S. 29-2-102 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_29-2-102"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(1)",
+              "quote": "Any incorporated town or city in this state may adopt a municipal sales or use tax, or both, by ordinance in accordance with the provisions of this article, but only if the ordinance provides for the submission of the tax proposal to an election by the registered electors of the town or city"
+            }
+          ]
+        },
+        {
+          "citation": "Colo. Const. art. X, §20 (TABOR)",
+          "source": {
+            "label": "Ballotpedia reproduction of Article X, Colorado Constitution",
+            "url": "https://ballotpedia.org/Article_X,_Colorado_Constitution"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "Ballotpedia reproduction of Colo. Const. art. X",
+            "against": "constitutional text as reproduced by Ballotpedia; official LexisNexis host not read",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(4)(a)",
+              "quote": "(4) Required elections. Starting November 4, 1992, districts must have voter approval in advance for: (a) Unless (1) or (6) applies, any new tax, tax rate increase, mill levy above that for the prior year, valuation for assessment ratio increase for a property class, or extension of an expiring tax, or a tax policy change directly causing a net tax revenue gain to any district."
+            }
+          ]
+        }
+      ],
+      "considerations": "Sales tax revenue moves with the economy and adds to the combined local rate shoppers pay; a defined sunset or a narrow earmark can make the ballot question easier to pass.",
+      "maps_to": {
+        "funds_tool": [
+          "dedicated_sales_tax"
+        ]
+      }
+    },
+    {
+      "id": "dedicated_property_tax",
+      "label": "Dedicated property tax mill levy for housing",
+      "family": "local_revenue",
+      "what_it_is": "Voters approve a mill levy whose proceeds fund affordable housing.",
+      "colorado_status": "authorized_with_voter_approval",
+      "status_reason": "TABOR art. X §20(4)(a) requires advance voter approval for any new tax or a mill levy above that for the prior year.",
+      "legal_basis": [
+        {
+          "citation": "Colo. Const. art. X, §20 (TABOR)",
+          "source": {
+            "label": "Ballotpedia reproduction of Article X, Colorado Constitution",
+            "url": "https://ballotpedia.org/Article_X,_Colorado_Constitution"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "Ballotpedia reproduction of Colo. Const. art. X",
+            "against": "constitutional text as reproduced by Ballotpedia; official LexisNexis host not read",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(4)(a)",
+              "quote": "(4) Required elections. Starting November 4, 1992, districts must have voter approval in advance for: (a) Unless (1) or (6) applies, any new tax, tax rate increase, mill levy above that for the prior year, valuation for assessment ratio increase for a property class, or extension of an expiring tax, or a tax policy change directly causing a net tax revenue gain to any district."
+            }
+          ]
+        }
+      ],
+      "considerations": "A property tax is a stable revenue source but falls on homeowners and renters already facing high costs, and TABOR also caps annual growth in each district's property tax revenue unless voters approve otherwise.",
+      "maps_to": {
+        "funds_tool": [
+          "dedicated_property_tax"
+        ]
+      }
+    },
+    {
+      "id": "lodging_or_str_tax",
+      "label": "Lodging or short-term-rental tax for housing",
+      "family": "local_revenue",
+      "what_it_is": "A tax on hotel and short-term-rental stays whose revenue is used for workforce housing.",
+      "colorado_status": "authorized_with_voter_approval",
+      "status_reason": "C.R.S. 30-11-107.5 lets a county levy a lodging tax of not more than two percent for purposes that include housing for the tourism-related workforce and other workers, with voter approval at a general election, and TABOR requires voter approval for any new tax.",
+      "legal_basis": [
+        {
+          "citation": "C.R.S. 30-11-107.5 (county lodging tax)",
+          "source": {
+            "label": "C.R.S. 30-11-107.5 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_30-11-107.5"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(1)",
+              "quote": "the board of county commissioners of each county, for one or more of the purposes specified in subsection (1.5) of this section, may levy a county lodging tax of not more than two percent on the purchase price paid or charged to persons for rooms or accommodations"
+            },
+            {
+              "section": "(1.5)(a)(II)",
+              "quote": "Housing and childcare for the tourism-related workforce, including seasonal workers, and for other workers in the community; or"
+            },
+            {
+              "section": "(1.5)(b)",
+              "quote": "at least ten percent of the lodging tax revenue must be used for the purpose of advertising and marketing local tourism."
+            },
+            {
+              "section": "(3)(a)",
+              "quote": "On and after January 1, 1989, such tax may only be approved at a general election."
+            },
+            {
+              "section": "(1)",
+              "quote": "No tax shall apply within any municipality levying a lodging tax."
+            }
+          ]
+        },
+        {
+          "citation": "C.R.S. 29-25-111 (local marketing district powers)",
+          "source": {
+            "label": "C.R.S. 29-25-111 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_29-25-111"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(1)(e)(I)(D)",
+              "quote": "Housing and childcare for the tourism-related workforce, including seasonal workers, and for other workers in the community; or"
+            }
+          ]
+        },
+        {
+          "citation": "HB22-1117, Use of Local Tourism Revenues; Became Law",
+          "source": {
+            "label": "leg.colorado.gov HB22-1117 bill page",
+            "url": "https://leg.colorado.gov/bills/hb22-1117"
+          },
+          "verification": {
+            "level": "primary",
+            "against": "bill page enacted summary and status",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "summary",
+              "quote": "A local marketing district or county must obtain voter approval to use the tax revenue for the new allowable uses."
+            },
+            {
+              "section": "status",
+              "quote": "Became Law"
+            }
+          ]
+        },
+        {
+          "citation": "Colo. Const. art. X, §20 (TABOR)",
+          "source": {
+            "label": "Ballotpedia reproduction of Article X, Colorado Constitution",
+            "url": "https://ballotpedia.org/Article_X,_Colorado_Constitution"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "Ballotpedia reproduction of Colo. Const. art. X",
+            "against": "constitutional text as reproduced by Ballotpedia; official LexisNexis host not read",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(4)(a)",
+              "quote": "(4) Required elections. Starting November 4, 1992, districts must have voter approval in advance for: (a) Unless (1) or (6) applies, any new tax, tax rate increase, mill levy above that for the prior year, valuation for assessment ratio increase for a property class, or extension of an expiring tax, or a tax policy change directly causing a net tax revenue gain to any district."
+            }
+          ]
+        }
+      ],
+      "considerations": "Revenue concentrates where visitors stay, which is often where the workforce housing shortage is worst; a county tax does not apply inside a municipality that levies its own lodging tax.",
+      "maps_to": {
+        "funds_tool": [
+          "lodging_or_str_tax"
+        ]
+      }
+    },
+    {
+      "id": "real_estate_transfer_tax",
+      "label": "Real estate transfer tax",
+      "family": "local_revenue",
+      "what_it_is": "A tax on the sale price when real property changes hands.",
+      "colorado_status": "prohibited_for_new",
+      "status_reason": "TABOR art. X §20(8)(a) states that new or increased transfer tax rates on real property are prohibited.",
+      "legal_basis": [
+        {
+          "citation": "Colo. Const. art. X, §20 (TABOR)",
+          "source": {
+            "label": "Ballotpedia reproduction of Article X, Colorado Constitution",
+            "url": "https://ballotpedia.org/Article_X,_Colorado_Constitution"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "Ballotpedia reproduction of Colo. Const. art. X",
+            "against": "constitutional text as reproduced by Ballotpedia; official LexisNexis host not read",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(8)(a)",
+              "quote": "(a) New or increased transfer tax rates on real property are prohibited."
+            }
+          ]
+        }
+      ],
+      "considerations": "By its text the clause bars new taxes and rate increases, so it is not an option for a jurisdiction that lacks one; whether a particular existing local transfer tax predates TABOR is a fact to confirm for that jurisdiction.",
+      "maps_to": {
+        "funds_tool": [
+          "real_estate_transfer_tax"
+        ]
+      }
+    },
+    {
+      "id": "single_use_bag_fee",
+      "label": "Single-use carryout bag fee",
+      "family": "local_revenue",
+      "what_it_is": "A per-bag fee stores charge under the Colorado Plastic Pollution Reduction Act, part of which is remitted to the city or county.",
+      "colorado_status": "not_usable_for_housing",
+      "status_reason": "C.R.S. 25-17-505(2) sets a fee of ten cents per bag, sends sixty percent to the municipality or county, and limits that share to administrative and enforcement costs and recycling, composting or other waste-diversion programs, so it cannot fund housing.",
+      "legal_basis": [
+        {
+          "citation": "C.R.S. 25-17-505 (carryout bag fee)",
+          "source": {
+            "label": "C.R.S. 25-17-505 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_25-17-505"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(2)(a)",
+              "quote": "On and after January 1, 2024, a store may provide a customer with one or more recycled paper carryout bags at the point of sale only if the customer pays a carryout bag fee of ten cents per recycled paper carryout bag, or a higher fee if a municipality or county in which the store is located raises the fee amount by ordinance or resolution."
+            },
+            {
+              "section": "(2)(a)(I)",
+              "quote": "Remit, in accordance with subsection (3)(d) of this section, sixty percent to the municipality within which the store is located or, if the store is not located within a municipality, to the county within which the store is located, which municipality or county shall use the remitted fee to pay: (A)Its administrative and enforcement costs incurred as a result of this section; and (B)For any recycling, composting, or other waste diversion programs and related outreach and education activities; and"
+            },
+            {
+              "section": "(2)(a)(II)",
+              "quote": "Retain forty percent, which portion of the fee does not count as revenue for the purpose of calculating sales tax."
+            }
+          ]
+        },
+        {
+          "citation": "HB21-1162, Management of Plastic Products; Became Law",
+          "source": {
+            "label": "leg.colorado.gov HB21-1162 bill page",
+            "url": "https://leg.colorado.gov/bills/hb21-1162"
+          },
+          "verification": {
+            "level": "primary",
+            "against": "bill page enacted summary and status",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "summary",
+              "quote": "A municipality or county may use its portion of the carryout bag fee revenues to pay for its administrative and enforcement costs and any recycling, composting, or other waste diversion programs or related outreach or education activities."
+            },
+            {
+              "section": "status",
+              "quote": "Became Law"
+            }
+          ]
+        }
+      ],
+      "considerations": "Listed so the page can say plainly that this is not a housing revenue source; it is sometimes suggested as one.",
+      "maps_to": {}
+    },
+    {
+      "id": "shared_equity_deed_restriction",
+      "label": "Shared equity and deed-restriction buy-down",
+      "family": "land_and_ownership",
+      "what_it_is": "The local government pays part of a home's price in exchange for a recorded deed restriction that caps resale price or limits buyers to income-qualified households.",
+      "colorado_status": "authorized",
+      "status_reason": "SB24-174 lists acquiring or preserving deed restrictions on current housing units as a state-recognized affordable homeownership strategy, and C.R.S. 39-3-127.7 defines affordable homeownership property by deed restrictions that limit resale price or buyers.",
+      "legal_basis": [
+        {
+          "citation": "SB24-174, Sustainable Affordable Housing Assistance (C.R.S. 24-32-3706, strategy directories); Became Law",
+          "source": {
+            "label": "leg.colorado.gov SB24-174 signed act",
+            "url": "https://leg.colorado.gov/bill_files/44943/download"
+          },
+          "verification": {
+            "level": "primary",
+            "against": "SB24-174 Signed Act PDF (pdftotext)",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "24-32-3706(2)(g)(III)",
+              "quote": "(III) ACQUIRING OR PRESERVING DEED RESTRICTIONS ON CURRENT HOUSING UNITS;"
+            },
+            {
+              "section": "24-32-3706(4)(f)",
+              "quote": "(f) PRIORITIZING LOCAL MONEY TOWARD REGULATED AFFORDABLE HOUSING UNIT PRESERVATION OR IMPLEMENTING OR CONTINUING DEED RESTRICTIONS FOR AFFORDABLE HOUSING UNITS;"
+            }
+          ]
+        },
+        {
+          "citation": "C.R.S. 39-3-127.7 (community land trust and nonprofit affordable homeownership property exemption)",
+          "source": {
+            "label": "C.R.S. 39-3-127.7 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_39-3-127.7"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(2)(a)(I)",
+              "quote": "Is restricted by a deed that impacts ownership of the property, limits the property's resale price, requires a long-term land lease with a community land trust or nonprofit affordable homeownership developer, or imposes any other restriction that limits the property such that it may only be purchased by designated households, a community land trust, or a nonprofit affordable homeownership developer;"
+            }
+          ]
+        }
+      ],
+      "considerations": "Restrictions need ongoing monitoring and resale administration to stay effective, and capped appreciation limits the wealth owners can build.",
+      "maps_to": {
+        "funds_tool": [
+          "shared_equity_or_deed_restriction"
+        ]
+      }
+    },
+    {
+      "id": "community_land_trust",
+      "label": "Community land trust",
+      "family": "land_and_ownership",
+      "what_it_is": "A nonprofit keeps ownership of the land and sells or leases the homes on it at restricted prices so they stay affordable from one owner to the next.",
+      "colorado_status": "authorized",
+      "status_reason": "C.R.S. 39-3-127.7 exempts qualifying land held by a community land trust and leased to the owner of an affordable homeownership property from property tax for tax years from January 1, 2024, and SB24-174 lists local programs for land banking or community land trusts as a strategy.",
+      "legal_basis": [
+        {
+          "citation": "C.R.S. 39-3-127.7 (community land trust property exemption)",
+          "source": {
+            "label": "C.R.S. 39-3-127.7 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_39-3-127.7"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(2)(b)",
+              "quote": "\"Community land trust\" means a nonprofit organization that is exempt from taxation under section 501 (c)(3) of the federal \"Internal Revenue Code of 1986\", as amended, and is designed to ensure long-term housing affordability through a shared-equity model"
+            },
+            {
+              "section": "(3)(a)",
+              "quote": "For property tax years commencing on or after January 1, 2024, real property is deemed to be used for a strictly charitable purpose, and is exempt from property taxation in accordance with section 5 of article X of the state constitution, if the real property:"
+            },
+            {
+              "section": "(5)",
+              "quote": "Improvements on real property that qualifies for the property tax exemption described in this section are not exempt from property taxation."
+            }
+          ]
+        },
+        {
+          "citation": "SB24-174, Sustainable Affordable Housing Assistance (C.R.S. 24-32-3706, strategy directories); Became Law",
+          "source": {
+            "label": "leg.colorado.gov SB24-174 signed act",
+            "url": "https://leg.colorado.gov/bill_files/44943/download"
+          },
+          "verification": {
+            "level": "primary",
+            "against": "SB24-174 Signed Act PDF (pdftotext)",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "24-32-3706(2)(f)",
+              "quote": "(f) INCENTIVIZING OR CREATING A DEDICATED LOCAL PROGRAM THAT FACILITATES INVESTMENT IN LAND BANKING OR COMMUNITY LAND TRUSTS;"
+            },
+            {
+              "section": "24-32-3706(4)(e)",
+              "quote": "(e) DEVELOPING A PROGRAM TO OFFER TECHNICAL ASSISTANCE AND FINANCIAL SUPPORT FOR COMMUNITY ORGANIZATIONS TO DEVELOP INDEPENDENT COMMUNITY LAND TRUSTS;"
+            }
+          ]
+        }
+      ],
+      "considerations": "The local government's usual role is to supply land or capital to a nonprofit partner rather than run the trust; the exemption covers only the land, and the homes remain taxable.",
+      "maps_to": {
+        "funds_tool": [
+          "community_land_trust"
+        ]
+      }
+    },
+    {
+      "id": "land_bank_public_land",
+      "label": "Land banking and public land for housing",
+      "family": "land_and_ownership",
+      "what_it_is": "The local government acquires, holds or makes available land it owns for affordable housing, including a time-limited right to buy certain multifamily rental properties.",
+      "colorado_status": "authorized",
+      "status_reason": "C.R.S. 29-20-104(1)(e.7)(IV) counts making surplus local-government property available for housing as a pro-housing action, and HB24-1175 gave local governments a right of first refusal or first offer on certain multifamily rental properties that terminates on December 31, 2029.",
+      "legal_basis": [
+        {
+          "citation": "C.R.S. 29-20-104 (Local Government Land Use Control Enabling Act)",
+          "source": {
+            "label": "C.R.S. 29-20-104 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_29-20-104"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(1)(e.7)(IV)",
+              "quote": "Adopt policies to materially make surplus property owned by the local government available for the development of housing; or"
+            }
+          ]
+        },
+        {
+          "citation": "SB24-174, Sustainable Affordable Housing Assistance (C.R.S. 24-32-3706, strategy directories); Became Law",
+          "source": {
+            "label": "leg.colorado.gov SB24-174 signed act",
+            "url": "https://leg.colorado.gov/bill_files/44943/download"
+          },
+          "verification": {
+            "level": "primary",
+            "against": "SB24-174 Signed Act PDF (pdftotext)",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "24-32-3706(1)(b)",
+              "quote": "(b) ADOPTING A LOCAL LAW OR PLAN TO LEVERAGE PUBLICLY OWNED, SOLD, OR MANAGED LAND FOR REGULATED AFFORDABLE HOUSING DEVELOPMENT;"
+            }
+          ]
+        },
+        {
+          "citation": "HB24-1175, Local Government Rights to Purchase Residential Property; Became Law",
+          "source": {
+            "label": "leg.colorado.gov HB24-1175 bill page",
+            "url": "https://leg.colorado.gov/bills/hb24-1175"
+          },
+          "verification": {
+            "level": "primary",
+            "against": "bill page enacted summary and status",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "summary",
+              "quote": "The act creates a right of first refusal and a right of first offer for local governments to make an offer to purchase certain types of multifamily rental properties. Both the right of first refusal and the right of first offer terminate on December 31, 2029"
+            },
+            {
+              "section": "summary",
+              "quote": "For multifamily rental properties that are existing affordable housing consisting of not less than five units, a local government has a right of first refusal to make a matched offer for the purchase of such property, subject to the local government's commitment to using the property as long-term affordable housing."
+            },
+            {
+              "section": "summary",
+              "quote": "For all other multifamily rental properties that are 30 years or older and have not more than 100 units and not less than 15 units, a local government has a right of first offer."
+            },
+            {
+              "section": "status",
+              "quote": "Became Law"
+            }
+          ]
+        }
+      ],
+      "reuse_legal_basis_ids": [
+        "prop123-hb26-1313-incentives"
+      ],
+      "considerations": "Holding land costs money and staff time, and the HB24-1175 purchase rights require the local government to commit to long-term affordable use and act within short statutory deadlines.",
+      "maps_to": {
+        "funds_tool": [
+          "land_bank_or_public_land"
+        ],
+        "land_use_measure": [
+          "land_dedication_or_donation"
+        ]
+      }
+    },
+    {
+      "id": "tax_increment_urban_renewal",
+      "label": "Tax increment financing / urban renewal",
+      "family": "local_revenue",
+      "what_it_is": "A municipal urban renewal authority captures the growth in property or sales tax inside a designated area to finance redevelopment, which can include housing.",
+      "colorado_status": "authorized",
+      "status_reason": "C.R.S. 31-25-107(9)(a) lets a municipal urban renewal plan divide property or municipal sales taxes in the area for up to twenty-five years, with the increment paid into a special fund of the authority; the statute is in the municipal title, so counties do not create these authorities themselves.",
+      "legal_basis": [
+        {
+          "citation": "C.R.S. 31-25-107 (urban renewal plan approval and tax allocation)",
+          "source": {
+            "label": "C.R.S. 31-25-107 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_31-25-107"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(9)(a)",
+              "quote": "any urban renewal plan, as originally approved or as later modified pursuant to this part 1, may contain a provision that the property taxes of specifically designated public bodies, if any, levied after the effective date of the approval of such urban renewal plan upon taxable property in an urban renewal area each year or that municipal sales taxes collected within said area, or both such taxes, by or for the benefit of the designated public body must be divided for a period not to exceed twenty-five years"
+            },
+            {
+              "section": "(9)(a)(II)",
+              "quote": "must be allocated to and, when collected, paid into a special fund of the authority"
+            }
+          ]
+        },
+        {
+          "citation": "C.R.S. 31-25-103 (urban renewal definitions)",
+          "source": {
+            "label": "C.R.S. 31-25-103 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_31-25-103"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(2)",
+              "quote": "substantially impairs or arrests the sound growth of the municipality, retards the provision of housing accommodations, or constitutes an economic or social liability"
+            }
+          ]
+        }
+      ],
+      "considerations": "The area must meet the statutory blight findings, and diverting increment takes revenue growth away from the county and other taxing bodies for the life of the plan.",
+      "maps_to": {
+        "funds_tool": [
+          "tax_increment_or_urban_renewal"
+        ]
+      }
+    },
+    {
+      "id": "expedited_review",
+      "label": "Expedited review (Prop 123 fast-track)",
+      "family": "land_use",
+      "what_it_is": "Development applications for mostly affordable projects get a final decision on a guaranteed short timeline.",
+      "colorado_status": "authorized",
+      "status_reason": "C.R.S. 29-32-105(2)(a) requires a local government that commits under Prop 123 to give a final decision within ninety calendar days of a complete application for projects where fifty percent or more of units are affordable.",
+      "reuse_legal_basis_ids": [
+        "prop123-crs-29-32-105-fast-track",
+        "hb24-1313-toc",
+        "hb21-1271-housing-incentives-menu"
+      ],
+      "considerations": "A deadline only helps if staffing and code allow it to be met, and the fast-track rule covers special permits, variances and other development permits but excludes subdivisions.",
+      "maps_to": {
+        "land_use_measure": [
+          "expedited_review",
+          "by_right_or_admin_approval"
+        ]
+      }
+    },
+    {
+      "id": "density_bonus",
+      "label": "Density bonus",
+      "family": "land_use",
+      "what_it_is": "Projects that include affordable units may build more units, floor area or height than zoning otherwise allows.",
+      "colorado_status": "authorized",
+      "status_reason": "C.R.S. 29-20-104(1)(e.7)(I)(G) lists granting density bonuses to projects that include affordable units as a qualifying pro-housing action, and SB24-174 lists a density bonus program as a standard affordability strategy.",
+      "reuse_legal_basis_ids": [
+        "hb21-1117-crs-29-20-104-e5-e7"
+      ],
+      "legal_basis": [
+        {
+          "citation": "C.R.S. 29-20-104 (Local Government Land Use Control Enabling Act)",
+          "source": {
+            "label": "C.R.S. 29-20-104 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_29-20-104"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(1)(e.7)(I)(G)",
+              "quote": "Granting density bonuses to development projects that incorporate affordable housing units; or"
+            }
+          ]
+        },
+        {
+          "citation": "SB24-174, Sustainable Affordable Housing Assistance (C.R.S. 24-32-3706, strategy directories); Became Law",
+          "source": {
+            "label": "leg.colorado.gov SB24-174 signed act",
+            "url": "https://leg.colorado.gov/bill_files/44943/download"
+          },
+          "verification": {
+            "level": "primary",
+            "against": "SB24-174 Signed Act PDF (pdftotext)",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "24-32-3706(1)(d)",
+              "quote": "(d) ESTABLISHING A DENSITY BONUS PROGRAM THAT GRANTS INCREASED FLOOR AREA RATIO, DENSITY, OR HEIGHT OF REGULATED AFFORDABLE HOUSING UNITS;"
+            }
+          ]
+        }
+      ],
+      "considerations": "A bonus only works where the extra units are worth more than the affordable units cost and base zoning is tight enough that developers want it.",
+      "maps_to": {
+        "land_use_measure": [
+          "density_bonus",
+          "dimensional_relief"
+        ]
+      }
+    },
+    {
+      "id": "parking_reduction",
+      "label": "Parking requirement reduction",
+      "family": "land_use",
+      "what_it_is": "Lower or remove minimum off-street parking requirements for housing, especially affordable or transit-adjacent projects.",
+      "colorado_status": "authorized",
+      "status_reason": "C.R.S. 29-20-104(1)(e.7)(I)(F) lists reduced parking for housing near transit or affordable developments as a pro-housing action, and HB24-1304 bars local governments in metropolitan planning organizations from enforcing minimum parking on multifamily development in transit service areas.",
+      "reuse_legal_basis_ids": [
+        "hb24-1304-parking"
+      ],
+      "legal_basis": [
+        {
+          "citation": "C.R.S. 29-20-104 (Local Government Land Use Control Enabling Act)",
+          "source": {
+            "label": "C.R.S. 29-20-104 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_29-20-104"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(1)(e.7)(I)(F)",
+              "quote": "Granting reduced parking requirements to residential or mixed-use developments that include housing near transit stations or affordable housing developments;"
+            }
+          ]
+        }
+      ],
+      "considerations": "In MPO transit areas HB24-1304 is a requirement rather than a choice; elsewhere reductions are optional and usually weighed against on-street parking concerns.",
+      "maps_to": {
+        "land_use_measure": [
+          "parking_reduction"
+        ]
+      }
+    },
+    {
+      "id": "adu_by_right",
+      "label": "Accessory dwelling units by right",
+      "family": "land_use",
+      "what_it_is": "Homeowners may add an accessory dwelling unit through administrative approval wherever single-unit homes are allowed.",
+      "colorado_status": "authorized",
+      "status_reason": "HB24-1152 requires subject jurisdictions to allow one ADU, subject to administrative approval, wherever single-unit detached dwellings are allowed.",
+      "reuse_legal_basis_ids": [
+        "hb24-1152-adu"
+      ],
+      "considerations": "For subject jurisdictions this is a state mandate; others can adopt it voluntarily, and ADUs add units slowly, one lot at a time.",
+      "maps_to": {
+        "land_use_measure": [
+          "by_right_or_admin_approval"
+        ]
+      }
+    },
+    {
+      "id": "vacancy_or_second_home_tax",
+      "label": "Vacant-home or second-home tax",
+      "family": "local_revenue",
+      "what_it_is": "A tax or fee on residences left vacant or not used as a primary residence, with revenue for housing.",
+      "colorado_status": "unclear",
+      "status_reason": "SB24-174 lists vacancy fees for underutilized units as a long-term strategy, but HB26-1036, which would have expressly authorized voter-approved local vacancy taxes, was Lost, and reporting says none has been implemented in Colorado.",
+      "legal_basis": [
+        {
+          "citation": "SB24-174, Sustainable Affordable Housing Assistance (C.R.S. 24-32-3706, strategy directories); Became Law",
+          "source": {
+            "label": "leg.colorado.gov SB24-174 signed act",
+            "url": "https://leg.colorado.gov/bill_files/44943/download"
+          },
+          "verification": {
+            "level": "primary",
+            "against": "SB24-174 Signed Act PDF (pdftotext)",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "24-32-3706(2)(b)",
+              "quote": "(b) REGULATING SHORT-TERM RENTALS, SECOND HOMES, OR OTHER UNDERUTILIZED OR VACANT UNITS IN A WAY, SUCH AS VACANCY FEES FOR UNDERUTILIZED UNITS, THAT PROMOTES A SUBSTANTIAL INCREASE IN THE USE OF LOCAL HOUSING STOCK FOR LOCAL HOUSING NEEDS;"
+            }
+          ]
+        },
+        {
+          "citation": "HB26-1036, Local Taxes on Vacant Residential Properties (2026); Lost",
+          "source": {
+            "label": "leg.colorado.gov HB26-1036 bill page",
+            "url": "https://leg.colorado.gov/bills/hb26-1036"
+          },
+          "verification": {
+            "level": "primary",
+            "against": "bill page summary as introduced and status",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "summary (as introduced)",
+              "quote": "The bill authorizes a county or municipality (local government), after approval by the electors of the local government, to impose an excise or a property tax, or both, on vacant residential properties within the boundaries of the local government"
+            },
+            {
+              "section": "status",
+              "quote": "Lost"
+            }
+          ]
+        },
+        {
+          "citation": "Colorado Newsline via Kiowa County Press, 'Colorado lawmakers reject bill to allow resort towns to tax vacant homes' (Feb. 2026)",
+          "source": {
+            "label": "Kiowa County Press reprint of Colorado Newsline",
+            "url": "https://kiowacountypress.net/content/colorado-lawmakers-reject-bill-allow-resort-towns-tax-vacant-homes"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "Colorado Newsline (news report)",
+            "against": "article text",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "article",
+              "quote": "Voters in Crested Butte rejected a vacancy tax in 2021, and city council members in Steamboat Springs narrowly defeated a similar proposal last year, expressing concerns about its legal and administrative feasibility."
+            }
+          ]
+        },
+        {
+          "citation": "Post Independent, 'Colorado lawmakers kill proposal allowing local governments to tax vacant homes'",
+          "source": {
+            "label": "Glenwood Springs Post Independent",
+            "url": "https://www.postindependent.com/news/colorado-lawmakers-kill-vacancy-tax-bill/"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "Post Independent (news report)",
+            "against": "article text",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "article",
+              "quote": "While some Colorado communities, including Steamboat Springs and Crested Butte, have considered a vacancy tax, none have been implemented. Lawmakers said they wanted to give counties, cities and towns explicit authority to do so, with voter approval."
+            }
+          ]
+        },
+        {
+          "citation": "Colo. Const. art. X, §20 (TABOR)",
+          "source": {
+            "label": "Ballotpedia reproduction of Article X, Colorado Constitution",
+            "url": "https://ballotpedia.org/Article_X,_Colorado_Constitution"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "Ballotpedia reproduction of Colo. Const. art. X",
+            "against": "constitutional text as reproduced by Ballotpedia; official LexisNexis host not read",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "(4)(a)",
+              "quote": "(4) Required elections. Starting November 4, 1992, districts must have voter approval in advance for: (a) Unless (1) or (6) applies, any new tax, tax rate increase, mill levy above that for the prior year, valuation for assessment ratio increase for a property class, or extension of an expiring tax, or a tax policy change directly causing a net tax revenue gain to any district."
+            }
+          ]
+        }
+      ],
+      "considerations": "Any new tax needs voter approval under TABOR; whether a local government can impose one without the express authority HB26-1036 would have given is unsettled, and the sources show legal and administrative feasibility concerns.",
+      "maps_to": {}
+    }
+  ]
+}
