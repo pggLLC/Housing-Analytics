@@ -55,6 +55,10 @@ const AUDIT_PAGES = [
   'economic-dashboard.html',
   'lihtc-allocations.html',
   'colorado-deep-dive.html',
+  // Tabs other than the first are hidden, and axe skips hidden content, so a
+  // tab that holds a whole former page is audited by opening it by hash.
+  // historical-trends.html is a redirect stub to this tab.
+  'colorado-deep-dive.html#tab-history',
   'lihtc-guide-for-stakeholders.html',
   'dashboard.html',
   'regional.html',
@@ -115,7 +119,9 @@ async function auditPage(browser, pagePath, axeScript) {
   page.on('pageerror', () => {});
   page.on('console',   () => {});
 
-  const fileUrl = pathToFileURL(path.join(ROOT, pagePath)).href;
+  // A '#tab-…' suffix opens that tab of the page; it is not part of the file name.
+  const [file, hash] = pagePath.split('#');
+  const fileUrl = pathToFileURL(path.join(ROOT, file)).href + (hash ? '#' + hash : '');
   try {
     await page.goto(fileUrl, { waitUntil: 'load', timeout: 15_000 });
 
