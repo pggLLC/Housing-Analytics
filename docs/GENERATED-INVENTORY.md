@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T16:22:14.128Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T18:18:37.308Z. Do not edit by hand.
 
 ---
 
@@ -87,7 +87,7 @@
 |------|------|-----------|-------|
 | `data/_manifest.json` | 811.9 KB | ✅ | — |
 | `data/_qa-status.json` | 7.2 KB | ✅ | — |
-| `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
+| `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/local-pha-roster/denver-housing-authority.json` | 919 B | ✅ | — |
 | `data/affordable-housing/local-pha-roster/garfield-county-ha.json` | 2.1 KB | ✅ | — |
@@ -1755,7 +1755,7 @@
 
 ## Test Files
 
-537 test files found.
+538 test files found.
 
 | File | Size |
 |------|------|
@@ -1799,6 +1799,7 @@
 | `test/census-dashboard-scope.test.js` | 2.3 KB |
 | `test/chart-id-coherence.test.js` | 4.5 KB |
 | `test/chas-tier-shares.test.js` | 4.9 KB |
+| `test/chfa-award-coverage.test.mjs` | 5.0 KB |
 | `test/chfa-dda-qct-absence.test.js` | 12.5 KB |
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/chfa-portfolio-filters.test.js` | 6.3 KB |
@@ -1925,12 +1926,12 @@
 | `test/helpers/ci-wiring.js` | 1.9 KB |
 | `test/helpers/deal-calculator-page.cjs` | 4.5 KB |
 | `test/helpers/jspdf-mock.cjs` | 2.8 KB |
-| `test/historical-trends-real-data.test.js` | 8.1 KB |
+| `test/historical-trends-real-data.test.js` | 15.7 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
-| `test/hna-build-rebase-recovery.test.js` | 6.9 KB |
+| `test/hna-build-rebase-recovery.test.js` | 7.1 KB |
 | `test/hna-car-loader.test.js` | 5.5 KB |
 | `test/hna-chapter-handoff.test.mjs` | 7.8 KB |
 | `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
@@ -2222,7 +2223,7 @@
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
 | `test/unwired-suite.test.js` | 10.3 KB |
-| `test/upstream-vintage-watch.test.mjs` | 8.7 KB |
+| `test/upstream-vintage-watch.test.mjs` | 13.3 KB |
 | `test/url-health-policy.test.mjs` | 13.5 KB |
 | `test/utility-allowance-absence.test.mjs` | 10.9 KB |
 | `test/utility-allowance-basis.test.js` | 18.8 KB |
@@ -2314,7 +2315,7 @@
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.0 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
-| `.github/workflows/build-hna-data.yml` | 32.1 KB |
+| `.github/workflows/build-hna-data.yml` | 32.3 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 4.0 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.5 KB |
 | `.github/workflows/car-data-update.yml` | 2.7 KB |
@@ -2330,7 +2331,7 @@
 | `.github/workflows/coverage-audit-nightly.yml` | 2.6 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.8 KB |
 | `.github/workflows/daily-audit-system.yml` | 9.7 KB |
-| `.github/workflows/data-freshness-check.yml` | 8.0 KB |
+| `.github/workflows/data-freshness-check.yml` | 8.1 KB |
 | `.github/workflows/data-quality-check.yml` | 6.5 KB |
 | `.github/workflows/data-refresh.yml` | 5.9 KB |
 | `.github/workflows/data-sentinels-check.yml` | 6.1 KB |
@@ -2377,7 +2378,7 @@
 | `.github/workflows/test-sentinel-normalization.yml` | 2.1 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.9 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 5.4 KB |
-| `.github/workflows/upstream-vintage-watch.yml` | 8.5 KB |
+| `.github/workflows/upstream-vintage-watch.yml` | 8.8 KB |
 | `.github/workflows/url-health-weekly.yml` | 5.3 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 7.5 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 7.4 KB |
