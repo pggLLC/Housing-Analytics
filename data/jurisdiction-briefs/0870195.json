@@ -219,6 +219,36 @@
       ]
     },
     {
+      "id": "local-support",
+      "heading": "Local support for affordable housing",
+      "paragraphs": [
+        {
+          "text": "Adopted plans. Silt Housing Needs Assessment (ECOnorthwest), accepted and placed on file (accepted April 14, 2025): Report recommends creating more diverse and affordable housing options, including for low-income households; presentation raises density bonuses for deed-restricted affordable housing.",
+          "cites": [
+            "ls2"
+          ]
+        },
+        {
+          "text": "Incentives and local funding: none counted, because incentives have not been checked yet.",
+          "cites": [
+            "ls1"
+          ]
+        },
+        {
+          "text": "Council and planning commission record. On June 8, 2026, the Board of Trustees approved: Resolution No. 19, Series 2026 approving the Subdivision Improvement Agreement for the Flattops Cowboy Church / Western Slope Veterans Coalition property. Affordable veterans housing with rents capped at 30% of income at 60% of county AMI for 15 years; impact fees cut to 60% of current rates and parkland dedication waived.",
+          "cites": [
+            "ls3"
+          ]
+        },
+        {
+          "text": "In the Opportunity Finder this record adds a local support bonus of +4 of a possible +6 points as of October 10, 2026: plans +2, incentives and funding +0, council and planning commission +2. A part with nothing counted adds nothing; it never lowers the score.",
+          "cites": [
+            "ls1"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -622,6 +652,33 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for Town of Silt, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0870195",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Silt Housing Needs Assessment (ECOnorthwest), accepted and placed on file (Silt Board of Trustees draft minutes of April 14, 2025 (in April 28, 2025 packet); March 24, 2025 minutes (in April 14, 2025 packet))",
+      "url": "https://townofsilt.org/i/u/2017580/f/BOT%20Packets/2025%20BOT%20Packets/April_28__2025_BOT_packet_PDF_amended.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-silt-2025-hna",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Resolution No. 19, Series 2026 approving the Subdivision Improvement Agreement for the Flattops Cowboy Church / Western Slope Veterans Coalition property (Silt Board of Trustees June 8, 2026 packet (SIA) and draft minutes of June 8, 2026 (in June 22, 2026 packet))",
+      "url": "https://townofsilt.org/i/u/2017580/f/BOT%20Packets/2026%20BOT%20Packets/June_22__2026_BOT_packet_PDF.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-silt-2026-wsvc-veterans-sia",
+      "accessed": "2026-10-10"
     }
   ]
 }

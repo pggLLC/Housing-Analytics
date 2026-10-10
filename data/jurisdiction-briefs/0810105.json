@@ -70,6 +70,37 @@
       ]
     },
     {
+      "id": "local-support",
+      "heading": "Local support for affordable housing",
+      "paragraphs": [
+        {
+          "text": "Adopted plans. Town of Buena Vista Comprehensive Plan (Resolution No. 63, Series 2025) (adopted August 26, 2025): Economy & Housing chapter calls for removing barriers to affordable and workforce housing, a minimum 15-year deed restriction (standard 30 years) with AMI caps, and Prop 123 expedited review for projects with at least 50% affordable units.",
+          "cites": [
+            "ls2"
+          ]
+        },
+        {
+          "text": "Incentives and local funding on record: expedited review. The Local Housing Incentives page has the terms and sources of each.",
+          "cites": [
+            "ls3"
+          ]
+        },
+        {
+          "text": "Council and planning commission record. On November 19, 2025, the Planning and Zoning Commission recommended approval of: Recommendation to adopt Prop 123 expedited review code amendment for affordable housing (vote 2-1). Code amendments so affordable housing projects get a decision within 90 days, as required for Proposition 123 funding. On November 25, 2025, the Board of Trustees approved: Ordinance No. 14, Series 2025: Proposition 123 affordable housing expedited review (vote 6-0). Creates a 90-day fast-track review for projects with at least 50% affordable units.",
+          "cites": [
+            "ls4",
+            "ls5"
+          ]
+        },
+        {
+          "text": "In the Opportunity Finder this record adds a local support bonus of +6 of a possible +6 points as of October 10, 2026: plans +2, incentives and funding +2, council and planning commission +2. A part with nothing counted adds nothing; it never lowers the score.",
+          "cites": [
+            "ls1"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -393,6 +424,51 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for Town of Buena Vista, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0810105",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Town of Buena Vista Comprehensive Plan (Resolution No. 63, Series 2025) (Buena Vista Comprehensive Plan PDF; Trustee minutes of Aug 26, 2025 (in Sept 9, 2025 packet))",
+      "url": "https://www.buenavistaco.gov/DocumentCenter/View/5431",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-buena-vista-comp-plan-2025",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Buena Vista UDC §6.8 Affordable housing expedited review (Municode)",
+      "url": "https://library.municode.com/co/buena_vista/codes/municipal_code?nodeId=CH16UNDECO_ART16.06REPR_S6.5SIPLDEPE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "buena-vista-affordable-expedited-review",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Recommendation to adopt Prop 123 expedited review code amendment for affordable housing (Buena Vista Planning & Zoning Commission minutes, Nov 19, 2025)",
+      "url": "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Minutes/_11192025-2054",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-buena-vista-pz-prop123-expedited-review",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "Ordinance No. 14, Series 2025: Proposition 123 affordable housing expedited review (Trustee minutes of Nov 25, 2025 (in Dec 9, 2025 packet))",
+      "url": "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Agenda/_12092025-2066",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-buena-vista-ordinance-14-2025-expedited-review",
+      "accessed": "2026-10-10"
     }
   ],
   "_meta_population_at_draft": 3010

@@ -146,6 +146,38 @@
       ]
     },
     {
+      "id": "local-support",
+      "heading": "Local support for affordable housing",
+      "paragraphs": [
+        {
+          "text": "Adopted plans. Cortez Housing Action Plan (adopted August 8, 2023): Focuses new housing on the full range of incomes; top priority is supportive housing below 30% AMI, rentals up to 60% AMI and for-sale homes up to 80% AMI.",
+          "cites": [
+            "ls2"
+          ]
+        },
+        {
+          "text": "Incentives and local funding: none counted, because incentives have not been checked yet.",
+          "cites": [
+            "ls1"
+          ]
+        },
+        {
+          "text": "Council and planning commission record. On October 8, 2024, the City Council approved: Contract for an Affordable and Workforce Housing Coordinator (Prop 123 commitment of 89 units) (vote 7-0). Coordinator to implement the Housing Action Plan and Proposition 123 commitment to increase affordable housing by 89 units by end of 2026; contract up to $166,400 (DOLA grant $133,120). On November 25, 2025, the City Council approved: Ordinance 1352, Series 2025: Land Use Code incentives for affordable housing projects (Prop 123 fast track) (vote 7-0). Adds affordable housing incentives (density bonuses, fast-track review within 90 days) required by Proposition 123. On June 9, 2026, the City Council approved: MOU with developer Evergreen Redevelopment West for affordable multifamily rental housing on City-owned West 7th Street land (vote 7-0). Selects a developer for affordable multifamily rental housing on City-owned land and authorizes negotiation of a purchase and sale agreement; reviewed by the City's low-income tax credit attorney.",
+          "cites": [
+            "ls3",
+            "ls4",
+            "ls5"
+          ]
+        },
+        {
+          "text": "In the Opportunity Finder this record adds a local support bonus of +4 of a possible +6 points as of October 10, 2026: plans +2, incentives and funding +0, council and planning commission +2. A part with nothing counted adds nothing; it never lowers the score.",
+          "cites": [
+            "ls1"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -556,6 +588,51 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for City of Cortez, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0817375",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Cortez Housing Action Plan (City of Cortez Housing Action Plan page and plan PDF)",
+      "url": "https://www.cortezco.gov/DocumentCenter/View/3298/Action-Plan-FINAL",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-cortez-2023-hap",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Contract for an Affordable and Workforce Housing Coordinator (Prop 123 commitment of 89 units) (Cortez City Council minutes, October 8, 2024)",
+      "url": "https://public.destinyhosted.com/cortedocs/2024/CC/20241008_170/170_10082024.doc",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-cortez-2024-housing-coordinator",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Ordinance 1352, Series 2025: Land Use Code incentives for affordable housing projects (Prop 123 fast track) (Cortez City Council minutes, November 25, 2025)",
+      "url": "https://public.destinyhosted.com/cortedocs/2025/CC/20251125_243/243_MinutesNovember252025.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-cortez-2025-ord-1352",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "MOU with developer Evergreen Redevelopment West for affordable multifamily rental housing on City-owned West 7th Street land (Cortez City Council minutes, June 9, 2026)",
+      "url": "https://public.destinyhosted.com/cortedocs/2026/CC/20260609_273/273_MinutesJune92026.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-cortez-2026-evergreen-7th-street",
+      "accessed": "2026-10-10"
     }
   ]
 }

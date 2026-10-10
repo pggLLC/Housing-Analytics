@@ -199,6 +199,47 @@
       ]
     },
     {
+      "id": "local-support",
+      "heading": "Local support for affordable housing",
+      "paragraphs": [
+        {
+          "text": "Adopted plans. 2022-2026 Affordable Housing Strategic Plan (later updated and extended to 2028) (adopted May 2022): Set a target of 500 affordable housing units by 2026 with 14 action items; a later update extends the plan to 2028 with 17 actions.",
+          "cites": [
+            "ls2"
+          ]
+        },
+        {
+          "text": "Incentives and local funding on record: waived building permit fees; reduced system development fees; waived impact parks fees; waived impact transportation fees; waived plan review fees; waived system development fees; other land-use incentive; real estate transfer tax; dedicated sales tax; and lodging or short-term-rental tax. The Local Housing Incentives page has the terms and sources of each.",
+          "cites": [
+            "ls3",
+            "ls4",
+            "ls5",
+            "ls6",
+            "ls7",
+            "ls8",
+            "ls9",
+            "ls10",
+            "ls11",
+            "ls12"
+          ]
+        },
+        {
+          "text": "Council and planning commission record. On November 12, 2024, the City Council approved: $3 million Gould Construction contract for Lumberyard affordable housing site preparation. City-funded first construction phase of what will be up to 300 affordable deed-restricted housing units on city land. On July 14, 2025, the City Council approved: Lumberyard development agreement and ground lease with Gorman & Company. City retains the land under a long-term ground lease; developer builds about 300 deed-restricted rental units under APCHA regulations, with $250 million planned from the city housing fund. In March 2026, the City Council approved: Lumberyard Phase A approval (104 deed-restricted rental units). Phase A of 104 units toward 277 permanently deed-restricted rental apartments serving households at 50% to 240% AMI.",
+          "cites": [
+            "ls13",
+            "ls14",
+            "ls15"
+          ]
+        },
+        {
+          "text": "In the Opportunity Finder this record adds a local support bonus of +6 of a possible +6 points as of October 10, 2026: plans +2, incentives and funding +2, council and planning commission +2. A part with nothing counted adds nothing; it never lowers the score.",
+          "cites": [
+            "ls1"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -637,6 +678,141 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for City of Aspen, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0803620",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "2022-2026 Affordable Housing Strategic Plan (later updated and extended to 2028) (City of Aspen, 2022-2028 Affordable Housing Strategic Plan, 2024 Update)",
+      "url": "https://aspen.gov/DocumentCenter/View/14164/Strategic-Housing-Plan---COA-2024",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-aspen-ahsp-2022",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Aspen Daily News, 'Aspen explores fee deferrals for locals redeveloping free-market homes' (June 29, 2026)",
+      "url": "https://www.aspendailynews.com/news/article_cc648124-1429-457f-8d1b-269a6bc2dde0-985c5050",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "aspen-affordable-building-permit-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Aspen Municipal Code §25.12.160 (Municode)",
+      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT25UT_CH25.12UTCO_S25.12.160WAEXUTINCHCEEMHOPR",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "aspen-affordable-category-water-charge-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "Aspen Land Use Code §26.610.100 Waiver of fees (Municode)",
+      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT26LAUSRE_PT600IMFEDE_CH26.610IMFE_S26.610.100WAFE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "aspen-affordable-impact-parks-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls6",
+      "label": "Aspen Land Use Code §26.610.100 Waiver of fees (Municode)",
+      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT26LAUSRE_PT600IMFEDE_CH26.610IMFE_S26.610.100WAFE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "aspen-affordable-impact-transportation-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls7",
+      "label": "Aspen Land Use Code §26.104.070 Land use application fees (Municode)",
+      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT26LAUSRE_PT100GEPR_CH26.104GEPR_S26.104.070LAUSAPFE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "aspen-affordable-planning-fee-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls8",
+      "label": "Aspen Municipal Code §25.12.160 (Municode)",
+      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT25UT_CH25.12UTCO_S25.12.160WAEXUTINCHCEEMHOPR",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "aspen-qualified-employee-housing-water-charge-exemption",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls9",
+      "label": "Aspen Land Use Code §26.580.050 (Municode)",
+      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT26LAUSRE_PT500SURE_CH26.580DE_S26.580.050EX",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "aspen-affordable-demolition-exemption",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls10",
+      "label": "City of Aspen - Real Estate Transfer Taxes",
+      "url": "https://aspen.gov/1428/Real-Estate-Transfer-Taxes",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-aspen-housing-rett",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls11",
+      "label": "City of Aspen - State, County and Local Sales and Use Taxes",
+      "url": "https://www.aspen.gov/1389/State-County-and-Local-Tax-Information",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-aspen-housing-sales-tax",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls12",
+      "label": "City of Aspen - Lodging and Short Term Rental Taxes",
+      "url": "https://aspen.gov/1427/Lodging-and-Short-Term-Rental-Taxes",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-aspen-str-excise-tax",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls13",
+      "label": "$3 million Gould Construction contract for Lumberyard affordable housing site preparation (City of Aspen press release, Nov. 22, 2024)",
+      "url": "https://aspen.gov/CivicAlerts.aspx?AID=793",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-aspen-lumberyard-gould-2024",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls14",
+      "label": "Lumberyard development agreement and ground lease with Gorman & Company (City of Aspen press release, July 15, 2025)",
+      "url": "https://www.aspen.gov/CivicAlerts.asp?AID=863",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-aspen-lumberyard-gorman-2025",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls15",
+      "label": "Lumberyard Phase A approval (104 deed-restricted rental units) (City of Aspen press release, Apr. 20, 2026)",
+      "url": "https://aspen.gov/CivicAlerts.aspx?AID=933",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-aspen-lumberyard-phase-a-2026",
+      "accessed": "2026-10-10"
     }
   ]
 }

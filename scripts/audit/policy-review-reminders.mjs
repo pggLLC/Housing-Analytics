@@ -39,6 +39,11 @@ export const FILES = [
     checked: (r) => r.verification && r.verification.checked, source: (r) => r.source && r.source.url },
   { file: 'data/policy/local-housing-funds.json', key: 'entries', title: 'Local housing funds and ownership tools', page: 'local-incentives.html', name: (r) => `${r.jurisdiction}: ${r.tool}`,
     checked: (r) => r.verification && r.verification.checked, source: (r) => r.source && r.source.url },
+  // Local support: one row per jurisdiction (adopted plans, council and
+  // planning-commission votes). A row past review_by stops earning the
+  // Opportunity Finder bonus, so it needs a re-check before then.
+  { file: 'data/policy/local-support.json', key: 'jurisdictions', title: 'Local support (plans and council record)', page: 'lihtc-opportunity-finder.html', name: (r) => r.jurisdiction,
+    checked: (r) => r.checked, source: (r) => (r.sources_checked || [])[0] },
 ];
 
 /** The date a record was last checked, and its official source, for any listed file. */

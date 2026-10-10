@@ -70,6 +70,39 @@
       ]
     },
     {
+      "id": "local-support",
+      "heading": "Local support for affordable housing",
+      "paragraphs": [
+        {
+          "text": "Adopted plans. Crested Butte 5-Year Housing Strategy (adopted May 18, 2026): Targets lower income renters (at or below 60% AMI), middle income homebuyers (at or below 120% AMI) and supportive housing; strategies to produce and steward deed-restricted housing.",
+          "cites": [
+            "ls2"
+          ]
+        },
+        {
+          "text": "Incentives and local funding on record: waived system development fees; waived building permit fees; and lodging or short-term-rental tax. The Local Housing Incentives page has the terms and sources of each.",
+          "cites": [
+            "ls3",
+            "ls4",
+            "ls5"
+          ]
+        },
+        {
+          "text": "Council and planning commission record. On January 20, 2026, the Town Council approved: Ordinance No. 1, Series 2026 authorizing sale of deed-restricted unit 828 Gothic Avenue #1A with new income and asset limits. Town bought the deed-restricted unit to add income and asset limits to the deed restriction and resell it by lottery under the Affordable Housing Guidelines. On June 15, 2026, the Town Council approved: Resolution No. 13, Series 2026 approving the 2026 Amended Affordable Housing Guidelines. Amended guidelines govern eligibility, income qualification and lotteries for the Town's deed-restricted affordable housing.",
+          "cites": [
+            "ls6",
+            "ls7"
+          ]
+        },
+        {
+          "text": "In the Opportunity Finder this record adds a local support bonus of +6 of a possible +6 points as of October 10, 2026: plans +2, incentives and funding +2, council and planning commission +2. A part with nothing counted adds nothing; it never lowers the score.",
+          "cites": [
+            "ls1"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -393,6 +426,69 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for Town of Crested Butte, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0818310",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Crested Butte 5-Year Housing Strategy (Crested Butte 5-Year Housing Strategy (adopted May 18, 2026); May 18, 2026 draft minutes in June 1, 2026 packet)",
+      "url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-crested-butte-2026-5yr-housing-strategy",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Crested Butte Municipal Code §13-1-110 System development fee (Municode)",
+      "url": "https://library.municode.com/co/crested_butte/codes/municipal_code?nodeId=CH13MUUT_ART1WASESY_S13-1-110SYDEFE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "crested-butte-affordable-sdf-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Crested Butte Municipal Code §18-13-30 Application fees (Municode)",
+      "url": "https://library.municode.com/co/crested_butte/codes/municipal_code?nodeId=CH18BURE_ART13BUINBUPE_S18-13-30APFE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "crested-butte-roah-building-permit-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "Town of Crested Butte - Tax Information",
+      "url": "https://townofcrestedbutte.colorado.gov/government/tax-information",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-crested-butte-str-excise-tax",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls6",
+      "label": "Ordinance No. 1, Series 2026 authorizing sale of deed-restricted unit 828 Gothic Avenue #1A with new income and asset limits (Crested Butte January 20, 2026 packet (staff report) and draft minutes of January 20, 2026 (in February 2, 2026 packet))",
+      "url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Comprehensive%20E-Packet%2002-02-2026.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-crested-butte-2026-828-gothic",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls7",
+      "label": "Resolution No. 13, Series 2026 approving the 2026 Amended Affordable Housing Guidelines (Draft minutes of June 15, 2026 (in July 6, 2026 packet); Affordable Housing Guidelines amended June 15, 2026)",
+      "url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Comprehensive%20E-Packet%2007-06-2026.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-crested-butte-2026-ah-guidelines",
+      "accessed": "2026-10-10"
     }
   ],
   "_meta_population_at_draft": 1229
