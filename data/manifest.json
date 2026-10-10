@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-09T14:38:53.498809Z",
+  "generated": "2026-10-10T04:17:07.648876Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 830455
+      "bytes": 830457
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -144,7 +144,7 @@
     "data/capital-partners.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13432
+      "bytes": 13396
     },
     "data/car-market-report-2026-02.json": {
       "featureCount": 0,
@@ -8339,7 +8339,7 @@
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 25939
+      "bytes": 44590
     },
     "data/policy/stewardship-providers.json": {
       "featureCount": 0,

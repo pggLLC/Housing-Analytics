@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-09T12:58:58.298Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T04:16:39.140Z. Do not edit by hand.
 
 ---
 
@@ -139,7 +139,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 4.02 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 252.6 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 252.4 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -901,7 +901,7 @@
 | `data/hna/lihtc/08123.json` | 25.5 KB | ✅ | 29 features |
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
-| `data/hna/local-resources-candidates.json` | 42.5 KB | ✅ | — |
+| `data/hna/local-resources-candidates.json` | 38.7 KB | ✅ | — |
 | `data/hna/local-resources.json` | 177.3 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 703.0 KB | ✅ | — |
 | `data/hna/permits.json` | 270.2 KB | ✅ | — |
@@ -1721,7 +1721,7 @@
 | `data/policy/prop123_jurisdictions.json` | 70.9 KB | ✅ | — |
 | `data/policy/resale-conventions.json` | 6.9 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.8 KB | ✅ | — |
-| `data/policy/soft-funding-status.json` | 25.3 KB | ✅ | — |
+| `data/policy/soft-funding-status.json` | 43.5 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 18.0 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
@@ -1739,7 +1739,7 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
 | `data/reports/data-source-health.json` | 7.6 KB | ✅ | — |
-| `data/reports/developer-url-health.json` | 20.0 KB | ✅ | — |
+| `data/reports/developer-url-health.json` | 24.0 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.96 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 14.9 KB | ✅ | — |
 | `data/schema/semantic-label-evidence.json` | 6.0 KB | ✅ | — |
@@ -1747,13 +1747,13 @@
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/table-header-tips.json` | 15.3 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 22.6 KB | ✅ | — |
-| `data/url-health.json` | 417.6 KB | ✅ | — |
+| `data/url-health.json` | 418.6 KB | ✅ | — |
 
 ---
 
 ## Test Files
 
-525 test files found.
+528 test files found.
 
 | File | Size |
 |------|------|
@@ -1872,7 +1872,7 @@
 | `test/econ-dash-co-unemployment.test.js` | 1021 B |
 | `test/econ-dash-series-labels.test.js` | 975 B |
 | `test/effective-demand.test.js` | 6.6 KB |
-| `test/energy-retrofit-funding.test.js` | 5.2 KB |
+| `test/energy-retrofit-funding.test.js` | 5.4 KB |
 | `test/entry-path-starts-at-jurisdiction.test.mjs` | 16.6 KB |
 | `test/epa-sld-local-lookup.test.js` | 13.2 KB |
 | `test/epa-walkability-d4a-distance.test.js` | 14.4 KB |
@@ -1910,6 +1910,7 @@
 | `test/glossary-reaches-rendered-content.test.js` | 7.2 KB |
 | `test/glossary-rerender.test.js` | 4.9 KB |
 | `test/glossary-skips-hidden-text.test.js` | 7.8 KB |
+| `test/glossary-skips-svg-text.test.js` | 4.2 KB |
 | `test/growth-figure-agrees.test.js` | 13.1 KB |
 | `test/guided-path-enters-the-chapters.test.mjs` | 9.1 KB |
 | `test/guided-path-forward-and-doc.test.mjs` | 4.7 KB |
@@ -1926,7 +1927,7 @@
 | `test/hna-chapter-handoff.test.mjs` | 7.8 KB |
 | `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
 | `test/hna-comparison-place-cost-burden.test.js` | 3.9 KB |
-| `test/hna-county-comparison.test.js` | 9.1 KB |
+| `test/hna-county-comparison.test.js` | 9.4 KB |
 | `test/hna-county-scope-disclosures.test.js` | 4.2 KB |
 | `test/hna-decade-trend-source-copy.test.js` | 14.4 KB |
 | `test/hna-deep-dive-batch1.test.js` | 6.3 KB |
@@ -2158,6 +2159,8 @@
 | `test/smoke-fmr.test.js` | 10.9 KB |
 | `test/smoke-market-analysis.test.js` | 40.1 KB |
 | `test/smoke.test.js` | 10.1 KB |
+| `test/soft-funding-availability.test.js` | 5.1 KB |
+| `test/soft-funding-terms.test.js` | 7.0 KB |
 | `test/soft-funding-tracker.test.js` | 16.5 KB |
 | `test/source-liveness-local-path.test.py` | 1.5 KB |
 | `test/source-maintenance-declarations.test.js` | 8.9 KB |
@@ -2166,7 +2169,7 @@
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
 | `test/table-header-tips.test.js` | 5.6 KB |
-| `test/tax-credit-equity-markets.test.js` | 11.3 KB |
+| `test/tax-credit-equity-markets.test.js` | 12.8 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
 | `test/test-reachability.test.js` | 6.8 KB |
@@ -2183,7 +2186,7 @@
 | `test/test_lihtc_deal_predictor.js` | 21.5 KB |
 | `test/test_public_land_overlay.js` | 12.0 KB |
 | `test/test_qcew_annual_slice.py` | 8.0 KB |
-| `test/test_soft_funding_tracker.js` | 12.6 KB |
+| `test/test_soft_funding_tracker.js` | 13.5 KB |
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.6 KB |
 | `test/tract-geometry-integrity.test.js` | 18.0 KB |
@@ -2315,7 +2318,7 @@
 | `.github/workflows/contrast-audit.yml` | 13.6 KB |
 | `.github/workflows/coverage-audit-nightly.yml` | 2.6 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.8 KB |
-| `.github/workflows/daily-audit-system.yml` | 8.3 KB |
+| `.github/workflows/daily-audit-system.yml` | 9.7 KB |
 | `.github/workflows/data-freshness-check.yml` | 8.0 KB |
 | `.github/workflows/data-quality-check.yml` | 6.5 KB |
 | `.github/workflows/data-refresh.yml` | 5.9 KB |
