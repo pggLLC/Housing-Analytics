@@ -145,8 +145,10 @@ assert(/id="aria-live-region"[^>]*aria-live="polite"[^>]*aria-atomic="true"/.tes
 const toggle = jsCode.slice(jsCode.indexOf('function _wireAwardToggle'));
 assert(/_announce\(/.test(toggle.slice(0, 800)), 'the Projects/Units toggle announces the new measure');
 
-// 11. Peer benchmark: the latest round's awards count for their county until
-//     the feed carries the round's year, and never after (no double count).
+// 11. Peer benchmark: each of the latest round's awards counts for its county
+//     until the feed carries that award (same county, year, project name), and
+//     never after (no double count). An unrelated same-year feed award does
+//     not drop the round.
 //     Agreement is with the round file's county attribution, not a pinned name.
 const countyAwards = round.awards.filter((a) => a.county);
 assert.strictEqual(countyAwards.length, round.awards.length, `every award in ${ROUND_REL} carries a county`);
@@ -162,13 +164,70 @@ if (!r.inFeed) {
     assert(feedMax < yr, `${c}: feed already has ${yr}, yet inFeed is false`);
   });
 }
-assert.strictEqual(bridgeBenchmarkRows(round, caughtUp, null).length, 0, 'once the feed has the round year, nothing is added');
+const target = countyAwards[0];
+const sameYear = (props) => ({ properties: Object.assign({ AwardYear: yr, N_UNITS: 50, CREDIT: '4% Tax Exempt' }, props) });
+const unrelated = feed.concat([sameYear({ PROJECT: 'Unrelated Between-Rounds Deal', CNTY_NAME: target.county })]);
+assert.strictEqual(bridgeBenchmarkRows(round, unrelated, null).length, round.awards.length,
+  'an unrelated same-year feed award must not drop any round award');
+const arrived = feed.concat([sameYear({ PROJECT: target.name.toUpperCase() + ' Apartments', CNTY_NAME: target.county, CREDIT: '9% Competitive' })]);
+const afterArrival = bridgeBenchmarkRows(round, arrived, null);
+assert.strictEqual(afterArrival.length, round.awards.length - 1, 'an award the feed now carries leaves the benchmark, and only that one');
+assert(![...afterArrival].some((row) => row.name === target.name), `${target.name} is not counted twice`);
+const otherCounty = feed.concat([sameYear({ PROJECT: target.name, CNTY_NAME: target.county + 'X' })]);
+assert.strictEqual(bridgeBenchmarkRows(round, otherCounty, null).length, round.awards.length, 'a same-name project in another county is not this award');
 assert.strictEqual(
   bridgeBenchmarkRows({ metadata: { round: '2030 Round One' }, awards: [{ name: 'X', county: 'Mesa', total_units: null }] }, [], 'Mesa')[0].units,
   null, 'an award with no unit count stays null, not 0');
 
 // 11b. Rendered: the page's own benchmark, driven through render() on the real
 //      files, agrees with the round file for a county the round reaches.
+function renderPage(overrides) {
+  const page = new JSDOM(
+    '<select id="benchCounty"></select><input id="benchUnits" value=""><table><tbody id="benchTableBody"></tbody></table><p id="benchSummary"></p><div id="htErrorBanner" hidden></div>',
+    { runScripts: 'outside-only', url: 'http://127.0.0.1/historical-trends.html' });
+  page.window.fetch = (u) => {
+    const rel = String(u).replace(/^https?:\/\/[^/]+\//, '').replace(/^\//, '');
+    const body = overrides && overrides[rel] ? overrides[rel] : readJson(rel);
+    return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(body) });
+  };
+  page.window.eval(read('js/components/lihtc-by-year.js'));
+  page.window.eval(read(JS_REL));
+  page.window.HistoricalTrends.render();
+  return page;
+}
+async function waitForPicker(page) {
+  for (let k = 0; k < 50 && page.window.document.getElementById('benchCounty').options.length < 2; k++) {
+    await new Promise((res) => setTimeout(res, 20));
+  }
+}
+function pick(page, c, units) {
+  const doc = page.window.document;
+  if (units != null) doc.getElementById('benchUnits').value = String(units);
+  const sel = doc.getElementById('benchCounty');
+  sel.value = c;
+  sel.dispatchEvent(new page.window.Event('change'));
+  return doc;
+}
+
+// 11c. A round award with no unit count is not a total's zero: the summary says
+//      how many rows lack one, and the size ranking puts them last.
+async function renderedMissingUnits() {
+  const c = countyAwards[0].county;
+  const r2 = JSON.parse(JSON.stringify(round));
+  r2.awards.forEach((a) => { if (a.county === c) a.total_units = null; });
+  const missing = r2.awards.filter((a) => a.county === c).length;
+  const page = renderPage({ [ROUND_REL]: r2 });
+  await waitForPicker(page);
+  const doc = pick(page, c, 60);
+  const summary = doc.getElementById('benchSummary').textContent;
+  assert(summary.includes(`(${missing} without a unit count)`), `${c}: incomplete total is marked: ${summary}`);
+  const rows = [...doc.querySelectorAll('#benchTableBody tr')];
+  const firstUnknown = rows.findIndex((tr) => tr.children[2].textContent.trim().startsWith('—'));
+  if (firstUnknown >= 0) {
+    rows.slice(firstUnknown).forEach((tr) => assert(tr.children[2].textContent.trim().startsWith('—'), 'unknown-unit rows sort after every known one'));
+  }
+}
+
 async function renderedBenchmark() {
   if (r.inFeed || !countyAwards.length) return null;
   const page = new JSDOM(
@@ -206,7 +265,7 @@ async function renderedBenchmark() {
   return out.join('\n  ');
 }
 
-renderedBenchmark().then((summary) => {
+renderedMissingUnits().then(renderedBenchmark).then((summary) => {
   if (summary) console.log('  rendered benchmark: ' + summary);
   console.log(`historical-trends real-data guard: PASS (${feed.length} feed projects, ${r.developments} round awards, 4%/9% median ${d.median4}/${d.median9})`);
 }).catch((e) => { console.error(e); process.exit(1); });

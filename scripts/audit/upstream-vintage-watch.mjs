@@ -214,9 +214,10 @@ async function watchAcs5Year() {
 /**
  * CHFA Housing Tax Credit rounds. CHFA announces Round One (9% credits,
  * around May) and Round Two (4% + State credits, around November) on a page
- * per round. The feed records a round's awards by credit type, so a round is
- * in the feed when the feed has an award from that year with that round's
- * credit; otherwise it needs a bridge file named for the round.
+ * per round, one "Sponsor:" line per development. A round is in the feed only
+ * when the feed has at least as many awards from that year with that round's
+ * credit as the page lists; one 4% and State award made between rounds does
+ * not cover a whole Round Two. Otherwise it needs a bridge file for the round.
  */
 const CHFA_ROUNDS = [
   { n: 'one', label: 'Round One', credit: /9%/ },
@@ -237,8 +238,9 @@ async function probeChfaPage(url, fetchImpl) {
     // A published round lists each development with its sponsor. A 200 page
     // without one is not evidence either way.
     const text = await response.text();
-    return /Sponsor:/.test(text)
-      ? { kind: 'published', detail: 'HTTP 200' }
+    const listed = (text.match(/Sponsor:/g) || []).length;
+    return listed
+      ? { kind: 'published', detail: 'HTTP 200', listed }
       : { kind: 'unverifiable', detail: 'HTTP 200 without any award listing' };
   } catch (error) {
     return { kind: 'unverifiable', detail: `network error: ${error.message}` };
@@ -257,10 +259,10 @@ export async function watchChfaRounds(fetchImpl = fetch, now = new Date(), root 
     return { ...base, current_vintage: null, latest_vintage: null, is_outdated: null, status: 'unverifiable',
       notes: `Could not read data/chfa-lihtc.json (${e.message}); CHFA rounds not checked` };
   }
-  const inFeed = (year, credit) => features.some((f) => {
+  const feedCount = (year, credit) => features.filter((f) => {
     const p = f.properties || {};
     return Number(p.AwardYear) === year && credit.test(String(p.CREDIT || p.TypeOfCredits || ''));
-  });
+  }).length;
   const hasBridge = async (year, n) => {
     try { await fs.access(path.join(root, chfaBridgeRel(year, n))); return true; } catch { return false; }
   };
@@ -272,8 +274,9 @@ export async function watchChfaRounds(fetchImpl = fetch, now = new Date(), root 
   for (const y of [year - 1, year]) {
     for (const r of CHFA_ROUNDS) {
       const name = `${y} ${r.label}`;
-      const where = inFeed(y, r.credit) ? 'feed' : (await hasBridge(y, r.n)) ? 'bridge' : null;
       const probe = await probeChfaPage(chfaRoundUrl(y, r.n), fetchImpl);
+      const inFeed = probe.kind === 'published' && feedCount(y, r.credit) >= probe.listed;
+      const where = inFeed ? 'feed' : (await hasBridge(y, r.n)) ? 'bridge' : null;
       if (probe.kind === 'published') (where ? covered : missing).push(where ? `${name} (${where})` : name);
       else if (probe.kind === 'unverifiable') unverifiable.push(`${name}: ${probe.detail}`);
       else if (where) covered.push(`${name} (${where})`);

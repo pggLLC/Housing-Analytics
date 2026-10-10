@@ -284,13 +284,30 @@
   // that round. The feed has carried no 2026 award all year, so without these a
   // county summary reports its last feed award as its most recent allocation
   // (Mesa read 2024 while Crawford Commons in Clifton won 2026 Round One credits).
-  // Once the feed has any award from the round's year, the round is assumed to
-  // be in it and nothing is added, so no development is counted twice.
+  // An award leaves the benchmark once the feed itself carries it: the same
+  // county, an award year no earlier than the round's, and the same project
+  // name. Matching each award, not the round's year, keeps one unrelated 2026
+  // feed award (a 4% deal between rounds) from dropping all fourteen.
+  function _projectKey(name) {
+    return String(name || '').toLowerCase().replace(/[^a-z0-9 ]+/g, ' ')
+      .split(/\s+/).filter(function (w) { return w && !/^(the|at|of|apartments?|apts|homes?|phase|ph)$/.test(w); }).join(' ');
+  }
   function bridgeBenchmarkRows(round, features, countyName) {
     var r = summarizeRound(round, features);
-    if (!r || r.inFeed || r.roundYear == null) return [];
+    if (!r || r.roundYear == null) return [];
+    var feedKeys = {};
+    (features || []).forEach(function (f) {
+      var p = f.properties || {};
+      var y = parseInt(p.AwardYear || p.YR_ALLOC, 10);
+      var c = p.CNTY_NAME || p.COUNTY_NAME || p.COUNTY || '';
+      if (y >= r.roundYear && c) (feedKeys[c] = feedKeys[c] || []).push(_projectKey(p.PROJECT || p.PROJECT_NAME || p.ReportedName));
+    });
+    function inFeed(a) {
+      var k = _projectKey(a.name);
+      return !!k && (feedKeys[a.county] || []).some(function (f) { return f && (f.indexOf(k) >= 0 || k.indexOf(f) >= 0); });
+    }
     return round.awards.filter(function (a) {
-      return a.county && (countyName == null || a.county === countyName);
+      return a.county && (countyName == null || a.county === countyName) && !inFeed(a);
     }).map(function (a) {
       var credit = a.federal_9pct_credit > 0 ? '9% Competitive' : (a.federal_4pct_credit > 0 ? '4%' : '');
       return {
@@ -498,7 +515,9 @@
 
     // Sort by distance from target unit count when set; otherwise by most recent year
     if (targetUnits > 0) {
+      // A row with no unit count has no distance to the target: it sorts last.
       feats.sort(function (a, b) {
+        if (a.units == null || b.units == null) return (a.units == null) - (b.units == null);
         return Math.abs(a.units - targetUnits) - Math.abs(b.units - targetUnits);
       });
     } else {
@@ -527,6 +546,7 @@
       summaryEl.innerHTML =
         '<strong>' + feats.length + '</strong> LIHTC projects in ' + esc(county) +
         ' · <strong>' + totalUnits.toLocaleString() + '</strong> total units' +
+        (withUnits.length < feats.length ? ' (' + (feats.length - withUnits.length) + ' without a unit count)' : '') +
         ' · avg <strong>' + avgUnits + '</strong> units/project' +
         (isFinite(mostRecent) && mostRecent > 0 ? ' · most recent allocation: <strong>' + mostRecent + '</strong>' : '');
     }
