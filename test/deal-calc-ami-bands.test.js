@@ -129,7 +129,11 @@ async function main() {
   });
   assert(document.body.textContent.includes('110% AMI'), '110% AMI rendered label');
   assert(document.body.textContent.includes('120% AMI'), '120% AMI rendered label');
-  assert(document.body.textContent.includes('middle-income: CHFA MIHTC/TOC + Prop 123'), 'middle-income program label rendered');
+  // The 110/120% bands are labelled with the program that serves them. MIHTC
+  // is the 80–120% AMI credit (HB24-1316); the TOC credit targets 30–80% AMI
+  // like LIHTC, so naming it here (as this label once did) was wrong.
+  assert(document.body.textContent.includes('middle-income: Colorado Middle Income Housing Tax Credit (MIHTC)'), 'middle-income program label rendered');
+  assert(!/MIHTC\/TOC/.test(document.body.textContent), 'the TOC credit is not a middle-income program');
 
   const rentLimits = buildRentLimits();
   dc._setAmiLimitsForTest(rentLimits.flat, rentLimits.byBr, '08031');
