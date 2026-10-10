@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-10T22:28:37.268556Z",
+  "generated": "2026-10-10T22:55:58.904929Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -339,22 +339,22 @@
     "data/fixtures/fruita-commons-broad-income.scenario.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5332
+      "bytes": 5333
     },
     "data/fixtures/fruita-commons-compact.scenario.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5130
+      "bytes": 5131
     },
     "data/fixtures/fruita-commons-family.scenario.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5122
+      "bytes": 5123
     },
     "data/fixtures/fruita-commons.scenario.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5006
+      "bytes": 5007
     },
     "data/fred-data.json": {
       "featureCount": 0,
