@@ -37,6 +37,11 @@ const {
 } = require('./audit-modules/report-generator');
 const { collectRepoHealth } = require('./audit-modules/repo-health');
 const { auditExitCode, summarizeChecks } = require('./audit-modules/audit-status');
+const { probeLink, classifyLinkResults, isDeclined } = require('./audit-modules/link-check');
+
+// Browser-shaped request headers, shared with the weekly sweeps. Loaded in
+// runLinkChecks() because url-health-policy.mjs is an ES module.
+let linkHeaders = {};
 
 // ── Configuration ─────────────────────────────────────────────────────────────
 const WEBSITE_URL        = process.env.WEBSITE_URL        || 'https://pggllc.github.io/Housing-Analytics/';
@@ -116,40 +121,13 @@ async function runAuditCheck({ name, critical = false, run }) {
 }
 
 /**
- * Checks a single URL and returns a structured result.
+ * Checks a single URL and returns a structured result. HEAD first, then GET,
+ * with browser headers; see audit-modules/link-check.js.
  * @param {string} url
  * @returns {Promise<object>}
  */
-async function checkLink(url) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-    const start = Date.now();
-    try {
-        const res = await fetch(url, { method: 'HEAD', redirect: 'follow', signal: controller.signal });
-        const responseTime = Date.now() - start;
-        return {
-            url,
-            status: res.status,
-            ok: res.ok,
-            responseTime,
-            redirected: res.redirected || false,
-            finalUrl: res.redirected ? (res.url || null) : null,
-            slow: responseTime > SLOW_THRESHOLD_MS,
-        };
-    } catch (err) {
-        return {
-            url,
-            status: null,
-            ok: false,
-            responseTime: Date.now() - start,
-            redirected: false,
-            finalUrl: null,
-            slow: false,
-            error: err.message,
-        };
-    } finally {
-        clearTimeout(timer);
-    }
+function checkLink(url) {
+    return probeLink(fetch, url, { headers: linkHeaders, timeoutMs: REQUEST_TIMEOUT_MS, slowMs: SLOW_THRESHOLD_MS });
 }
 
 /**
@@ -161,7 +139,9 @@ async function checkLinkWithRetry(url) {
     let lastResult;
     for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
         lastResult = await checkLink(url);
-        if (lastResult.ok) return lastResult;
+        // A declined request (401/403/429) is the host answering; asking again
+        // a second later gets the same answer.
+        if (lastResult.ok || isDeclined(lastResult)) return lastResult;
         if (attempt < MAX_RETRIES) await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
     }
     return lastResult;
@@ -174,7 +154,6 @@ async function checkLinkWithRetry(url) {
  */
 function recommendedFix(result) {
     if (result.status === 404) return 'Page not found — update or remove this link.';
-    if (result.status === 403) return 'Access forbidden — check server permissions.';
     if (result.status === 503) return 'Service unavailable — retry later or contact host.';
     if (result.status >= 500) return 'Server error — contact website administrator.';
     if (result.status >= 400) return 'Client error — verify the URL is correct.';
@@ -231,13 +210,14 @@ async function runLinkChecks() {
             .filter(u => u && (u.startsWith('http://') || u.startsWith('https://')))
     )];
 
+    const { BROWSER_USER_AGENT, BROWSER_ACCEPT } = await import('../scripts/audit/url-health-policy.mjs');
+    linkHeaders = { 'User-Agent': BROWSER_USER_AGENT, 'Accept': BROWSER_ACCEPT };
+
     console.log(`[link-check] Found ${allUrls.length} unique links. Checking...`);
     const tasks = allUrls.map(url => () => checkLinkWithRetry(url));
     const results = await runWithConcurrency(tasks, CONCURRENCY);
 
-    const broken    = results.filter(r => !r.ok);
-    const slow      = results.filter(r => r.ok && r.slow);
-    const redirected = results.filter(r => r.redirected);
+    const { broken, declined, slow, redirected } = classifyLinkResults(results);
 
     for (const r of broken) {
         issues.push({
@@ -273,8 +253,13 @@ async function runLinkChecks() {
         });
     }
 
-    console.log(`[link-check] Healthy: ${results.length - broken.length}  Broken: ${broken.length}  Slow: ${slow.length}  Redirected: ${redirected.length}`);
-    return { issues, linkChecks: results.length };
+    const declinedNote = declined.length > 0
+        ? `${declined.length} link(s) declined the runner (HTTP 401/403/429), so could not be verified from CI: ` +
+          declined.map(r => `${r.url} (${r.status})`).join(', ')
+        : '';
+    if (declinedNote) console.log(`[link-check] ${declinedNote}`);
+    console.log(`[link-check] Healthy: ${results.length - broken.length - declined.length}  Broken: ${broken.length}  Declined: ${declined.length}  Slow: ${slow.length}  Redirected: ${redirected.length}`);
+    return { issues, linkChecks: results.length, details: declinedNote };
 }
 
 // ── Performance / Dependency Module ──────────────────────────────────────────
@@ -318,10 +303,14 @@ async function runPerformanceChecks() {
         return issues;
     }
 
-    // Check for pinned versions (no range specifiers) in devDependencies
+    // Check for pinned versions (no range specifiers) in devDependencies.
+    // A committed package-lock.json is the pin: the workflows install with
+    // `npm ci`, which installs the locked versions and fails if the lock and
+    // package.json disagree. Ranges in package.json only matter without one.
     const allDeps = { ...(pkg.dependencies || {}), ...(pkg.devDependencies || {}) };
     const unpinned = Object.entries(allDeps).filter(([, v]) => /^\^|^~/.test(v));
-    if (unpinned.length > 0) {
+    const hasLockfile = fs.existsSync(path.join(ROOT, 'package-lock.json'));
+    if (unpinned.length > 0 && !hasLockfile) {
         issues.push({
             severity: 'low',
             type: 'performance',
@@ -329,7 +318,7 @@ async function runPerformanceChecks() {
             description: `${unpinned.length} dependencies use loose version ranges (^ or ~)`,
             expected: 'Pinned exact versions for reproducible builds',
             actual: unpinned.slice(0, 5).map(([n, v]) => `${n}@${v}`).join(', ') + (unpinned.length > 5 ? '...' : ''),
-            recommendation: 'Run npm ci with exact versions or update lockfile to pin dependencies.',
+            recommendation: 'Commit package-lock.json and install with npm ci, or pin exact versions.',
         });
     }
 
