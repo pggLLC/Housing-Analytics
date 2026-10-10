@@ -647,8 +647,13 @@ function methodsData() {
       && t.base_renter_hh_before + t.base_owner_hh_before > t.acs_renter_hh + t.acs_owner_hh);
     out.anchor_places_total = places.length;
     out.anchor_places_applied = anchored.length;
+    // Places the anchor could not apply to lack ACS tenure counts, so whether
+    // they overcount is unknown. They are reported as their own count and kept
+    // out of the share's denominator: dividing by all places would publish
+    // every unknown as "not overcounted".
+    out.anchor_places_unmeasured = places.length - anchored.length;
     out.anchor_overcount_places = over.length;
-    out.anchor_overcount_share = places.length ? Number((over.length / places.length).toFixed(3)) : null;
+    out.anchor_overcount_share = anchored.length ? Number((over.length / anchored.length).toFixed(3)) : null;
   }
   const idx = readJson('data/hna/ranking-index.json');
   const rows = idx.ok ? (Array.isArray(idx.data) ? idx.data : idx.data.rankings) : null;

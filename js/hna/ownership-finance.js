@@ -39,6 +39,8 @@
 
   var REGISTRY_PATH = 'data/policy/affordability-models.json';
 
+  // methods-spec:begin affordability-defaults  (methods.html §05; see
+  // test/methods-spec-sources.test.mjs)
   // Identical to hna-ownership-need.js CONSTANTS.affordabilityAssumptions
   // (drift is guarded by an explicit field-by-field test).
   var DEFAULTS = {
@@ -70,6 +72,7 @@
   // published limits are authoritative; these factors are the standard
   // derivation used when only ami_4person is available.
   var HH_SIZE_FACTORS = { 1: 0.70, 2: 0.80, 3: 0.90, 4: 1.00, 5: 1.08, 6: 1.16, 7: 1.24, 8: 1.32 };
+  // methods-spec:end affordability-defaults
 
   var RATE_KEYS = [
     'rateAnnual', 'pmms30YearRate', 'downPaymentRate', 'downPaymentPct',

@@ -101,6 +101,36 @@
           "file": "js/hna/ownership-finance.js",
           "function": "incomeNeededForHomeValue",
           "sha": "be90d1ef358b4a02"
+        },
+        {
+          "file": "js/hna/ownership-finance.js",
+          "function": "householdSizeFactor",
+          "sha": "488e760300870e55"
+        },
+        {
+          "file": "js/hna/ownership-finance.js",
+          "function": "monthlyMortgageFactor",
+          "sha": "140b7800e49198fd"
+        },
+        {
+          "file": "js/hna/ownership-finance.js",
+          "function": "resolveAssumptions",
+          "sha": "ce5ac5811695dbf1"
+        },
+        {
+          "file": "js/hna/ownership-finance.js",
+          "function": "resolveInput",
+          "sha": "7a0ac7fd0f18dadd"
+        },
+        {
+          "file": "js/hna/ownership-finance.js",
+          "function": "modelParams",
+          "sha": "64d20eef53f09156"
+        },
+        {
+          "file": "js/hna/ownership-finance.js",
+          "region": "affordability-defaults",
+          "sha": "4e5068b4df02b27a"
         }
       ],
       "reviewed": "2026-10-10"
