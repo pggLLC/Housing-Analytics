@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Colorado construction labor rates, labor availability and materials prices",
+  "description": "Written by scripts/fetch_co_construction_labor_cost.py. Labor and materials are separate panels, never blended. An unmeasured value is null with a reason beside it, never 0.",
+  "type": "object",
+  "required": ["generatedAt", "sources", "monthly", "oews", "materials", "summary", "history"],
+  "additionalProperties": false,
+  "properties": {
+    "generatedAt": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$" },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "url"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "$ref": "#/$defs/text" },
+          "name": { "$ref": "#/$defs/text" },
+          "url": { "type": "string", "pattern": "^https://" }
+        }
+      }
+    },
+    "monthly": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/monthlySeries" }
+    },
+    "oews": {
+      "type": "object",
+      "required": ["year", "referencePeriod", "priorYearSource", "areas", "occupations", "rows"],
+      "additionalProperties": false,
+      "properties": {
+        "year": { "type": ["integer", "null"], "minimum": 2000 },
+        "referencePeriod": { "type": ["string", "null"], "pattern": "^May \\d{4}$" },
+        "priorYearSource": { "type": ["string", "null"], "enum": ["BLS API", "previous file", null] },
+        "areas": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["code", "name"],
+            "additionalProperties": false,
+            "properties": {
+              "code": { "type": "string", "pattern": "^\\d{7}$" },
+              "name": { "$ref": "#/$defs/text" }
+            }
+          }
+        },
+        "occupations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["soc", "title"],
+            "additionalProperties": false,
+            "properties": {
+              "soc": { "$ref": "#/$defs/soc" },
+              "title": { "$ref": "#/$defs/text" }
+            }
+          }
+        },
+        "rows": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/oewsRow" }
+        }
+      }
+    },
+    "materials": {
+      "type": "object",
+      "required": ["source", "headline", "series"],
+      "additionalProperties": false,
+      "properties": {
+        "source": { "const": "data/fred-data.json" },
+        "headline": { "$ref": "#/$defs/text" },
+        "series": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/materialsSeries" }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["period", "text", "laborWageYoyPct", "employmentYoyPct", "materialsYoyPct"],
+      "additionalProperties": false,
+      "properties": {
+        "period": { "oneOf": [{ "$ref": "#/$defs/period" }, { "type": "null" }] },
+        "text": { "$ref": "#/$defs/text" },
+        "laborWageYoyPct": { "$ref": "#/$defs/nullableNumber" },
+        "employmentYoyPct": { "$ref": "#/$defs/nullableNumber" },
+        "materialsYoyPct": { "$ref": "#/$defs/nullableNumber" }
+      }
+    },
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["period", "laborWageYoyPct", "employmentYoyPct", "materialsYoyPct"],
+        "additionalProperties": false,
+        "properties": {
+          "period": { "$ref": "#/$defs/period" },
+          "laborWageYoyPct": { "$ref": "#/$defs/nullableNumber" },
+          "employmentYoyPct": { "$ref": "#/$defs/nullableNumber" },
+          "materialsYoyPct": { "$ref": "#/$defs/nullableNumber" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "text": { "type": "string", "minLength": 1, "pattern": "\\S" },
+    "reason": { "type": ["string", "null"], "minLength": 1 },
+    "period": { "type": "string", "pattern": "^\\d{4}-(0[1-9]|1[0-2])$" },
+    "soc": { "type": "string", "pattern": "^\\d{2}-\\d{4}$" },
+    "nullableNumber": { "type": ["number", "null"] },
+    "positiveOrNull": { "type": ["number", "null"], "exclusiveMinimum": 0 },
+    "observation": {
+      "type": "object",
+      "required": ["period", "value", "preliminary"],
+      "additionalProperties": false,
+      "properties": {
+        "period": { "$ref": "#/$defs/period" },
+        "value": { "type": "number" },
+        "preliminary": { "type": "boolean" }
+      }
+    },
+    "monthlySeries": {
+      "type": "object",
+      "required": ["label", "unit", "geography", "panel", "frequency", "seasonalAdjustment",
+                   "observations", "latest", "yoy", "yoyUnavailableReason", "unavailableReason"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "$ref": "#/$defs/text" },
+        "unit": { "$ref": "#/$defs/text" },
+        "geography": { "enum": ["Colorado", "United States"] },
+        "panel": { "enum": ["labor-rates", "labor-availability"] },
+        "frequency": { "const": "monthly" },
+        "seasonalAdjustment": { "enum": ["NSA", "SA"] },
+        "observations": { "type": "array", "items": { "$ref": "#/$defs/observation" } },
+        "latest": { "oneOf": [{ "$ref": "#/$defs/observation" }, { "type": "null" }] },
+        "yoy": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": ["period", "value", "basis"],
+              "additionalProperties": false,
+              "properties": {
+                "period": { "$ref": "#/$defs/period" },
+                "value": { "type": "number" },
+                "basis": { "enum": ["pct", "pts"] }
+              }
+            },
+            { "type": "null" }
+          ]
+        },
+        "yoyUnavailableReason": { "$ref": "#/$defs/reason" },
+        "unavailableReason": { "$ref": "#/$defs/reason" }
+      }
+    },
+    "oewsRow": {
+      "type": "object",
+      "required": ["area", "soc", "employment", "hourlyMean", "hourlyMeanPrior", "changePct",
+                   "unavailableReason", "changeUnavailableReason"],
+      "additionalProperties": false,
+      "properties": {
+        "area": { "type": "string", "pattern": "^\\d{7}$" },
+        "soc": { "$ref": "#/$defs/soc" },
+        "employment": { "$ref": "#/$defs/positiveOrNull" },
+        "hourlyMean": { "$ref": "#/$defs/positiveOrNull" },
+        "hourlyMeanPrior": { "$ref": "#/$defs/positiveOrNull" },
+        "changePct": { "$ref": "#/$defs/nullableNumber" },
+        "unavailableReason": { "$ref": "#/$defs/reason" },
+        "changeUnavailableReason": { "$ref": "#/$defs/reason" }
+      }
+    },
+    "materialsSeries": {
+      "type": "object",
+      "required": ["id", "label", "latestPeriod", "latest", "yoyPct", "unavailableReason"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/text" },
+        "label": { "$ref": "#/$defs/text" },
+        "latestPeriod": { "oneOf": [{ "$ref": "#/$defs/period" }, { "type": "null" }] },
+        "latest": { "$ref": "#/$defs/positiveOrNull" },
+        "yoyPct": { "$ref": "#/$defs/nullableNumber" },
+        "unavailableReason": { "$ref": "#/$defs/reason" }
+      }
+    }
+  }
+}
