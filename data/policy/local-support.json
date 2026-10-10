@@ -1698,7 +1698,7 @@
           "date": "2024-09-03",
           "outcome": "approved",
           "vote": "3-2",
-          "affordable_detail": "Prop 123 land banking requires 70% of rental homes at or below 60% AMI and 70% of homeownership at or below 100% AMI; partnership with Housing Resources of Western Colorado and IndiBuild",
+          "affordable_detail": "Prop 123 land banking requires 70% of rental homes at or below 60% AMI and 70% of homeownership at or below 100% AMI; partnership with Housing Resources of Western Colorado and a developer",
           "source": {
             "label": "Fruita City Council minutes, September 3, 2024",
             "url": "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_09032024-96"
@@ -1715,7 +1715,12 @@
             },
             {
               "section": "Motion",
-              "quote": "COUNCILOR PURSER MOVED TO DIRECT THE CITY MANAGER TO APPLY FOR THE CHFA PROP 123 LAND BANKING GRANT REQUEST WITH HOUSING RESOURCES OF WESTERN COLORADO AND INDIBUILD FOR THE PROPERTY LOCATED AT 1138 18 ½ ROAD, FRUITA CO 81521. COUNCILOR PARRISH SECONDED THE MOTION. THE MOTION PASSED WITH THREE YES VOTES. COUNCILORS WILLIAMS AND HANCEY VOTED NO.",
+              "quote": "COUNCILOR PURSER MOVED TO DIRECT THE CITY MANAGER TO APPLY FOR THE CHFA PROP 123 LAND BANKING GRANT REQUEST WITH HOUSING RESOURCES OF WESTERN COLORADO",
+              "source_file": "sources/0828745/council-minutes-2024-09-03.txt"
+            },
+            {
+              "section": "Motion",
+              "quote": "FOR THE PROPERTY LOCATED AT 1138 18 ½ ROAD, FRUITA CO 81521. COUNCILOR PARRISH SECONDED THE MOTION. THE MOTION PASSED WITH THREE YES VOTES. COUNCILORS WILLIAMS AND HANCEY VOTED NO.",
               "source_file": "sources/0828745/council-minutes-2024-09-03.txt"
             }
           ]
