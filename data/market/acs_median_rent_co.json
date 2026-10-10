@@ -10,7 +10,7 @@
     "acs_year": 2024,
     "notes": "Each row is the published median for that geography. Suppressed or missing estimates stay null with a reason; no county or tract value is substituted.",
     "scope": "Colorado: 64 counties, 482 places and CDPs (including unavailable rows)",
-    "generated_at_utc": "2026-10-05T15:04:11Z"
+    "generated_at_utc": "2026-10-10T15:54:17Z"
   },
   "counties": {
     "08001": {
@@ -1577,8 +1577,8 @@
     },
     "0839855": {
       "name": "Johnstown (town)",
-      "median_gross_rent": 1767,
-      "total_renter_hh": 1495.0,
+      "median_gross_rent": 1835,
+      "total_renter_hh": 1552.0,
       "county_fips": "08123",
       "source_file": "data/hna/summary/0839855.json",
       "unavailable_reason": null
@@ -1601,8 +1601,8 @@
     },
     "0840515": {
       "name": "Kersey (town)",
-      "median_gross_rent": 740,
-      "total_renter_hh": 117.0,
+      "median_gross_rent": 886,
+      "total_renter_hh": 193.0,
       "county_fips": "08123",
       "source_file": "data/hna/summary/0840515.json",
       "unavailable_reason": null
@@ -3146,7 +3146,7 @@
     "0821390": {
       "name": "Downieville-Lawson-Dumont (CDP)",
       "median_gross_rent": null,
-      "total_renter_hh": 15.0,
+      "total_renter_hh": 42.0,
       "county_fips": "08019",
       "source_file": "data/hna/summary/0821390.json",
       "unavailable_reason": "acs_median_gross_rent_unavailable"
