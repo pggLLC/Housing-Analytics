@@ -1,6 +1,7 @@
-# Developer tracks: LIHTC rental, middle-income rental, for-sale ownership
+# Developer tracks: LIHTC rental, middle-income rental, for-sale ownership, and both
 
-A developer comes to this site with one of three products in mind. The tools are
+A developer comes to this site with one of three products in mind, or with a
+project that mixes rental and for-sale homes. The tools are
 shared, but what each tool can answer depends on the product. This page says,
 for each product, which pages apply, what they model, and what they do not.
 It describes the site as it is on 2026-10-10; where a page and this file
@@ -12,6 +13,9 @@ disagree, the page is right and this file is stale.
 | Main capital | Federal 9% or 4% credits, state AHTC, TOC credit | Colorado MIHTC (HB24-1316), Prop 123 | DPA, soft seconds, land held by a trust, subsidy per home |
 | What keeps it affordable | Rent and income limits for 15+ years (usually 30+) | Rent and income limits for 15 years | Deed restriction or CLT ground lease, enforced at resale |
 | Guided path | The 7 steps as built | The LIHTC route; the Deal step does not size MIHTC | Own route: steps 2, 4 and 5 open the ownership tools |
+
+A project with both rental and for-sale homes follows the LIHTC route with the
+ownership tools listed beside steps 2, 4 and 5 (section 4).
 
 ## 1. LIHTC rental
 
@@ -91,6 +95,29 @@ ownership conclusion, and finish-line criterion PC-2
 (`test/ownership-rental-separation.test.js`) holds that an ownership project
 never shows tax credits, eligible basis, NOI or LIHTC debt.
 
+## 4. Rental and for-sale in one project
+
+Choosing "Rental and for-sale" on `select-jurisdiction.html` keeps the LIHTC
+route, so every rental step stays where it is. For steps 2, 4 and 5, the
+for-sale tool for that step is listed under the step bar and named by the
+next-step banner:
+
+| Step | Rental page (the step) | For the for-sale homes, also |
+|---|---|---|
+| 2 | Opportunity Finder | Ownership Need |
+| 4 | Market Analysis | For-Sale Market Study |
+| 5 | Scenario Builder | Land Value |
+
+On the For-Sale Market Study and Land Value pages the step bar appears too, and
+the banner links back to the rental page for the same step. The companion pages
+are the for-sale route's pages by construction, so the two cannot drift
+(`test/guided-path-product-routes.test.js`).
+
+The Deal Calculator models one tenure at a time: run rental mode for the rental
+homes and ownership mode for the for-sale homes. It does not combine them into
+one deal, share land or site costs between them, or check a combined sources
+and uses. That is gap 3 below.
+
 ## Known gaps
 
 These are recorded so nobody mistakes them for features.
@@ -100,3 +127,6 @@ These are recorded so nobody mistakes them for features.
    parameter for its mode. Planned after Deal Calculator package P1 (#2121).
 2. There is no MIHTC credit model. Planned as a later package of the Deal
    Calculator remediation plan.
+3. There is no combined deal for a project with rental and for-sale homes. Each
+   part is modelled separately, and shared land and site costs have to be split
+   by hand. A candidate for the Deal Calculator remediation plan.

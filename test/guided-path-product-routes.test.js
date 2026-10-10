@@ -15,6 +15,9 @@
  *      for the page the reader is on.
  *   5. The next-step banner reads the same route as the rail.
  *   6. The chooser offers exactly the products the rail knows.
+ *   7. Rental and for-sale keeps the LIHTC route and lists, for each slot the
+ *      for-sale route reroutes, that same for-sale page beside it: on the
+ *      rail, in the banner, and nowhere for the other products.
  */
 
 const assert = require('assert');
@@ -119,6 +122,60 @@ test('the chooser offers exactly the products the rail knows', () => {
   const offered = [...html.matchAll(/name="sjProduct" value="([^"]+)"/g)].map((m) => m[1]);
   assert.deepStrictEqual(offered.sort(), Array.from(WP.PRODUCTS, (p) => p.id).sort());
 });
+
+test('rental and for-sale keeps the LIHTC route and adds the for-sale pages beside it', () => {
+  const WP = page('index.html', '<!doctype html><main></main>').WorkflowProgress;
+  const mixed = WP.stepsFor('mixed');
+  const forSale = WP.stepsFor('for-sale');
+  assert.deepStrictEqual(Array.from(mixed, (s) => [s.num, s.key, s.label, s.href]),
+    Array.from(WP.STEPS, (s) => [s.num, s.key, s.label, s.href]), 'the rental pages stay');
+  const withCompanion = mixed.filter((s) => s.companion);
+  assert.strictEqual(withCompanion.length, forSale.filter((s) => s.routed).length, 'scan found the companions');
+  withCompanion.forEach((s) => {
+    const f = forSale.find((x) => x.num === s.num);
+    assert(f.routed, 'step ' + s.num + ' has a companion only where for-sale reroutes');
+    assert.deepStrictEqual([s.companion.label, s.companion.href], [f.label, f.href], 'step ' + s.num);
+  });
+  ['lihtc-rental', 'middle-income-rental', 'for-sale'].forEach((p) =>
+    assert(!WP.stepsFor(p).some((s) => s.companion), p + ' has no companions'));
+});
+
+test('the rail lists the companions only while rental and for-sale is chosen', () => {
+  const win = page('hna-what-to-do.html');
+  const WP = win.WorkflowProgress;
+  const line = () => win.document.querySelector('#hnaWorkflowProgress .wf-companions');
+  assert.strictEqual(line(), null, 'fixture: no line before any choice');
+  WP.setProduct('mixed');
+  assert(line(), 'line appears');
+  const hrefs = Array.from(line().querySelectorAll('a'), (a) => a.getAttribute('href'));
+  assert.deepStrictEqual(hrefs, Array.from(WP.routeSteps().filter((s) => s.companion), (s) => s.companion.href));
+  assert.strictEqual(win.document.querySelector('#hnaWorkflowProgress .wf-step[data-step="4"] .wf-step__label').textContent.trim(),
+    'Market Analysis', 'step 4 still opens the rental page');
+  WP.setProduct('mixed');
+  assert.strictEqual(win.document.querySelectorAll('#hnaWorkflowProgress .wf-companions').length, 1, 'not duplicated');
+  WP.setProduct('lihtc-rental');
+  assert.strictEqual(line(), null, 'line goes away');
+});
+
+test('the banner names the for-sale page beside the rental one', () => {
+  const html = '<!doctype html><main><section class="hero"><h1>x</h1></section></main>';
+  const make = (file) => {
+    const win = page(file, html);
+    win.WorkflowState = { getProgress: () => ({ completedSteps: ['jurisdiction', 'hsa'] }) };
+    win.WorkflowProgress.setProduct('mixed');
+    win.eval(bannerSrc);
+    win.WorkflowNextAction.render();
+    return win.document.querySelector('#workflowNextAction');
+  };
+  const study = WP0().stepsFor('mixed').find((s) => s.key === 'market');
+  const onRental = make('market-analysis.html');
+  assert(onRental.querySelector('a[href="' + study.companion.href + '"]'), 'rental page links the for-sale study');
+  const onStudy = make(study.companion.href);
+  assert.match(onStudy.textContent, /Step 4 of 7/, 'the study page is step 4');
+  assert(onStudy.querySelector('a[href="' + study.href + '"]'), 'study page links back to the rental page');
+});
+
+function WP0() { return page('index.html', '<!doctype html><main></main>').WorkflowProgress; }
 
 if (failures) { console.log('\n' + failures + ' failed'); process.exit(1); }
 console.log('\nAll product-route checks passed');
