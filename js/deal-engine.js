@@ -18,7 +18,6 @@
 }(typeof globalThis !== 'undefined' ? globalThis : this, function (math, rentLimits) {
   'use strict';
   var DEAL_AMI_BANDS = [20, 30, 40, 50, 60, 70, 80, 100, 110, 120];
-  var MIDDLE_INCOME_AMI_BANDS = { 110: true, 120: true };
   var DEFAULT_MINIMUM_SET_ASIDE_ELECTION = '40-60';
   var MINIMUM_SET_ASIDE_ELECTIONS = {
     '20-50': { minimumShare: 0.20, setAsideCeiling: 50, creditCeiling: 60 },
@@ -817,7 +816,11 @@
         nNoi: nNoi, resale: resale, firstMortBal: firstMortBal, softBal: softBal,
         netProceeds: netProceeds, dfYr: dfYr, irr: irr };
     })();
-    var tornado = (function () {
+    // Sensitivity needs known NOI and rents. Without them every swing below
+    // would be computed from 0 and published as a real figure, so report
+    // the whole block as unavailable instead (its reason comes from reasonFor).
+    var sensitivityKnown = isFinite(noi) && annualRents > 0;
+    var tornado = !sensitivityKnown ? null : (function () {
         var eqP = equityPrice || 0.90;
         var ir  = interestRate || 6.5;
         var vu  = vacFrac() * 100;
@@ -863,7 +866,6 @@
     var achResult = (_amiLimits && inputs.fmrData) ? computeRentAchievability({ amiLimits: _amiLimits, fmr: inputs.fmrData }) : null;
     var simpleGap = tdc - equity;
     var totalSoftSourceAmt = totalGrant + totalLoanPrincipal;
-    var sensitivityKnown = isFinite(noi) && annualRents > 0;
     var forSale = inputs.ownership ? computeForSaleFeasibility(Object.assign({}, inputs.ownership, {
       tdc: tdc, units: units, grossSf: safeVal('dc-gross-sf')
     })) : null;

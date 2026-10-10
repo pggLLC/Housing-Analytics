@@ -3635,7 +3635,6 @@
     var netPropTax = result.netPropTax;
     var taxSavings = numeric(result.taxSavings);
     var dcr = numeric(result.dcr);
-    var term = numeric(result.term);
     var mc = numeric(result.mc);
     var mortgage = numeric(result.mortgage);
     var noiUnknownReason = result.noiUnknownReason;

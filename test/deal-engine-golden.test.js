@@ -33,7 +33,7 @@ async function run() {
   // CI already installs Puppeteer's Chrome for its rendered audit tests.
   const explicit = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
   const bundled = chromium.executablePath();
-  const executablePath = explicit || (fs.existsSync(bundled) ? bundled : require('puppeteer').executablePath());
+  const executablePath = explicit || (fs.existsSync(bundled) ? bundled : await require('puppeteer').executablePath());
   const browser = await chromium.launch({ headless: true, executablePath, args: ['--no-sandbox'] });
   const result = { invented: true, capturedBeforeExtractionAt: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(), scenarios: {} };
   try {
