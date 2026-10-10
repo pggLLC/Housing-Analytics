@@ -185,7 +185,11 @@ run('the page wires the panel and the glossary leaves table headers alone', () =
   assert.match(html, /county-comparison-view\.js/, 'the view is loaded');
   assert.match(html, /id="countyComparisonSection"[^>]*hidden/, 'the section starts hidden');
   const glossary = fs.readFileSync(path.join(ROOT, 'js/glossary.js'), 'utf8');
-  assert.match(glossary, /input, abbr, th'\)/,
+  // Read the skip list itself rather than pinning its spelling, so adding a
+  // selector to it (svg, 2026-10-09) does not trip this guard.
+  const skip = glossary.match(/parent\.closest\('([^']*\babbr\b[^']*)'\)\) return;/);
+  assert(skip, 'the glossary auto-linker skip list was not found');
+  assert(skip[1].split(',').map((s) => s.trim()).includes('th'),
     'TH must be skipped by the glossary auto-linker, or definitions garble table labels');
 });
 
