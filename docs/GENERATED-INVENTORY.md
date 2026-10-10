@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T18:18:37.308Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T19:14:25.824Z. Do not edit by hand.
 
 ---
 
@@ -49,7 +49,7 @@
 | `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 162.0 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 166.0 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 134.3 KB |
-| `housing-legislation-2026.html` | Policy &amp; Legislation | Colorado Public Data Reference | 21.1 KB |
+| `housing-legislation-2026.html` | Policy &amp; Legislation | Colorado Public Data Reference | 22.0 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 238.5 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 39.6 KB |
@@ -1719,13 +1719,13 @@
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/policy-timeline.json` | 6.7 KB | ✅ | — |
-| `data/policy/policy-watch.json` | 42.4 KB | ✅ | — |
-| `data/policy/prop123_jurisdictions.json` | 70.9 KB | ✅ | — |
+| `data/policy/policy-watch.json` | 50.5 KB | ✅ | — |
+| `data/policy/prop123_jurisdictions.json` | 71.0 KB | ✅ | — |
 | `data/policy/resale-conventions.json` | 6.9 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.8 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 43.5 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 18.0 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 21.6 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
@@ -1755,7 +1755,7 @@
 
 ## Test Files
 
-538 test files found.
+539 test files found.
 
 | File | Size |
 |------|------|
@@ -2110,7 +2110,8 @@
 | `test/pmi-gate-is-one-rule.test.mjs` | 11.2 KB |
 | `test/policy-briefs-curated.test.js` | 10.6 KB |
 | `test/policy-data-currency.test.js` | 3.0 KB |
-| `test/policy-review-status.test.mjs` | 10.2 KB |
+| `test/policy-page-currency.test.mjs` | 6.0 KB |
+| `test/policy-review-status.test.mjs` | 11.4 KB |
 | `test/policy-timeline-series.test.js` | 18.2 KB |
 | `test/policy-watch-rail.test.mjs` | 13.7 KB |
 | `test/polymarket-resolved.test.js` | 23.7 KB |

@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-10T18:19:05.828414Z",
+  "generated": "2026-10-10T19:14:54.028758Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 831430
+      "bytes": 831457
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7329,7 +7329,7 @@
     "data/insights/catalog.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 8902
+      "bytes": 8942
     },
     "data/jurisdiction-briefs/0803620.json": {
       "featureCount": 0,
@@ -8329,12 +8329,12 @@
     "data/policy/policy-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 43371
+      "bytes": 51662
     },
     "data/policy/prop123_jurisdictions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 72652
+      "bytes": 72668
     },
     "data/policy/resale-conventions.json": {
       "featureCount": 0,
@@ -8359,7 +8359,7 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 18391
+      "bytes": 22092
     },
     "data/policy/thiz-map-status.json": {
       "featureCount": 0,

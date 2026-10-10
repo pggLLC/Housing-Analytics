@@ -60,7 +60,8 @@ const REPORT_DIR = path.join(ROOT, 'audit-report', 'chart-axes');
 const PAGE_URLS = {
   'housing-needs-assessment.html': 'housing-needs-assessment.html?geoType=county&geoid=08001&auto=1',
   // A redirect stub since the merge; its slot audits the tab it now opens.
-  'market-intelligence.html': 'colorado-deep-dive.html#tab-signals'
+  'market-intelligence.html': 'colorado-deep-dive.html#tab-signals',
+  'historical-trends.html': 'colorado-deep-dive.html#tab-history'
 };
 
 // The chart this audit was written for. If the scan stops seeing it, the
