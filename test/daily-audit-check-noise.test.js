@@ -75,6 +75,64 @@ function loadOpportunityFinder() {
     }
   });
 
+  // The site's own QCT measurement sits beside CHFA's blank, never in it:
+  // pr.QCT is untouched, and the note names the map year it was measured on.
+  const qctMap = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'qct-colorado.json'), 'utf8'));
+  const mapYear = (/(19|20)\d{2}/.exec(String(qctMap.source || '')) || [])[0];
+
+  // Independent point-in-polygon (winding number), so the guard does not
+  // trust the module's own ray caster.
+  function windingContains(lon, lat, ring) {
+    let wn = 0;
+    for (let i = 0; i < ring.length - 1; i++) {
+      const [x1, y1] = ring[i], [x2, y2] = ring[i + 1];
+      const side = (x2 - x1) * (lat - y1) - (lon - x1) * (y2 - y1);
+      if (y1 <= lat) { if (y2 > lat && side > 0) wn++; }
+      else if (y2 <= lat && side < 0) wn--;
+    }
+    return wn !== 0;
+  }
+  function tractFor(lon, lat) {
+    for (const f of qctMap.features) {
+      const polys = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates;
+      for (const rings of polys) {
+        if (windingContains(lon, lat, rings[0]) && !rings.slice(1).some(h => windingContains(lon, lat, h))) {
+          return f.properties.GEOID;
+        }
+      }
+    }
+    return null;
+  }
+
+  await run('every project\'s QCT map status agrees with the HUD QCT map the site holds', () => {
+    assert.ok(mapYear, 'data/qct-colorado.json source names no map year; the label would not say whose map it is');
+    const features = (lihtc.features || []).filter(f => f.geometry && f.geometry.type === 'Point');
+    assert.ok(features.length > 0, 'no project points; the scan checked nothing');
+    let inside = 0;
+    for (const f of features) {
+      const [lon, lat] = f.geometry.coordinates;
+      const want = tractFor(lon, lat);
+      const got = lof.qctMapStatus(f, qctMap);
+      assert.ok(got, `${f.properties.PROJECT}: point present but no status`);
+      assert.equal(got.inQct, !!want, `${f.properties.PROJECT}: module says ${got.inQct}, map says ${want}`);
+      assert.equal(got.tract, want, `${f.properties.PROJECT}: tract ${got.tract} vs ${want}`);
+      assert.equal(got.year, mapYear);
+      if (want) inside += 1;
+      const text = lof.projectMetaTail(f.properties, got);
+      assert.ok(text.includes((got.inQct ? 'in a QCT on the ' : 'not in a QCT on the ') + mapYear + ' HUD map'),
+        `${f.properties.PROJECT}: rendered "${text}"`);
+      assert.ok(/QCT not published · /.test(text), `${f.properties.PROJECT}: CHFA's blank must still read "not published"`);
+    }
+    // Both outcomes occur, so neither label is a constant.
+    assert.ok(inside > 0 && inside < features.length, `${inside} of ${features.length} projects inside a QCT`);
+  });
+
+  await run('a project with no point, or no map, is unknown, not "not in a QCT"', () => {
+    assert.equal(lof.qctMapStatus({ properties: {} }, qctMap), null);
+    assert.equal(lof.qctMapStatus({ geometry: { type: 'Point', coordinates: [-105, 39.7] } }, { features: [] }), null);
+    assert.ok(!/QCT on the/.test(lof.projectMetaTail({ QCT: null }, null)));
+  });
+
   await run('HUD QCT codes still render: 1 is yes, 2 is no', () => {
     assert.match(lof.projectMetaTail({ QCT: 1, N_UNITS: 10, LI_UNITS: 8 }), /QCT yes$/);
     assert.match(lof.projectMetaTail({ QCT: '2', N_UNITS: 10, LI_UNITS: 8 }), /QCT no$/);

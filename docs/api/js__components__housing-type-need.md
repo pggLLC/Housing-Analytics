@@ -1,7 +1,7 @@
 # `js/components/housing-type-need.js`
 
 js/components/housing-type-need.js
-Responsibility: data-driven 6-category ranking of which housing types the
+Responsibility: data-driven 7-category ranking of which housing types the
   public data most supports for a given jurisdiction. Read-only pure
   compute over data the HNA already loads — no new fetches, no new deps.
 
@@ -15,9 +15,13 @@ Exposes: window.HousingTypeNeed.compute({
               methodology
             }>
 
-The 6 categories (each a distinct quadrant of tenure × size × AMI × form):
+The 7 categories (each a distinct quadrant of tenure × size × AMI × form):
   1. deeplyAffordableRental  — rent · mixed size · ≤30% AMI · apartment
   2. workforceRental         — rent · mixed size · 60–80% AMI · apt/townhome
+  2b. middleIncomeRental     — rent · mixed size · 80–120% AMI · apt/townhome
+      (above federal LIHTC limits; the Colorado MIHTC band. Before this lane
+      the 80–120% band appeared only as ownership, so the HNA could not say
+      whether a place needed middle-income rental — docs/DEVELOPER-TRACKS.md)
   3. familyRental            — rent · 2–3BR · mixed AMI · MF/townhome
   4. seniorRental            — rent · 1–2BR · mixed AMI · apt/cottage
   5. missingMiddleOwnership  — own · small · 80–120% AMI · townhome/duplex/4plex
