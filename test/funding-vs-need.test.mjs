@@ -104,7 +104,11 @@ function checks({ out, ledger, documents, ranking, html, js }) {
   if (!bar) fail('tab bar not found');
   else {
     const controls = [...bar[1].matchAll(/aria-controls="([^"]+)"/g)].map((m) => m[1]);
-    if (!controls.includes('tab-funding')) fail('no Funding vs Need tab button');
+    if (!controls.includes('tab-need')) fail('no Funding vs Need tab button');
+    // two tabs once shared tab-funding when Developer Funding and this tab landed together
+    const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
+    const dup = ids.filter((id, i) => ids.indexOf(id) !== i && /^(tab|btn)-/.test(id));
+    if (dup.length) fail(`duplicate tab ids: ${[...new Set(dup)].join(', ')}`);
     for (const id of controls) {
       if (!new RegExp(`role="tabpanel" id="${id}"`).test(html)) fail(`tab ${id} has no panel`);
     }
@@ -112,7 +116,7 @@ function checks({ out, ledger, documents, ranking, html, js }) {
   if (!/var panels = Array\.prototype\.map\.call\(tabs, function \(t\) \{\s*return document\.getElementById\(t\.getAttribute\('aria-controls'\)\)/.test(html)) {
     fail('the toggle script no longer finds its panels from the tab buttons');
   }
-  if (!/targetId === 'tab-funding' && window\.FundingVsNeed/.test(html)) fail('the toggle script never draws the Funding vs Need tab');
+  if (!/targetId === 'tab-need' && window\.FundingVsNeed/.test(html)) fail('the toggle script never draws the Funding vs Need tab');
   if (!/<script[^>]+src="js\/funding-vs-need\.js"/.test(html)) fail('the page does not load js/funding-vs-need.js');
   const file = /var FILE = '([^']+)'/.exec(js);
   if (!file || 'data/' + file[1] !== OUTPUT) fail(`the tab reads ${file && file[1]}, the builder writes ${OUTPUT}`);
@@ -183,10 +187,13 @@ sabotage('a quadrant that contradicts the split', (c) => {
   r.quadrant = 'aligned';
 }, /quadrant aligned, split says underserved/);
 sabotage('the tab panel removed', (c) => {
-  c.html = c.html.replace('role="tabpanel" id="tab-funding"', 'role="region" id="tab-funding"');
-}, /tab tab-funding has no panel/);
+  c.html = c.html.replace('role="tabpanel" id="tab-need"', 'role="region" id="tab-need"');
+}, /tab tab-need has no panel/);
+sabotage('two tabs sharing one id', (c) => {
+  c.html = c.html.replace('id="btn-need" aria-selected="false" aria-controls="tab-need"', 'id="btn-funding" aria-selected="false" aria-controls="tab-need"');
+}, /duplicate tab ids: btn-funding/);
 sabotage('the tab never initialised on reveal', (c) => {
-  c.html = c.html.replace("targetId === 'tab-funding' && window.FundingVsNeed", "targetId === 'tab-fund' && window.FundingVsNeed");
+  c.html = c.html.replace("targetId === 'tab-need' && window.FundingVsNeed", "targetId === 'tab-ned' && window.FundingVsNeed");
 }, /never draws the Funding vs Need tab/);
 sabotage('the tab script reading another file', (c) => {
   c.js = c.js.replace("var FILE = 'derived/funding-vs-need.json'", "var FILE = 'derived/funding.json'");

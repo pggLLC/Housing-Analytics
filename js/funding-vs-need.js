@@ -420,9 +420,9 @@
 
   global.FundingVsNeed = { init: init, _fmtMoney: fmtMoney, _withReason: withReason };
 
-  // Opened straight onto the tab (#tab-funding): the tab script has already revealed it.
+  // Opened straight onto the tab (#tab-need): the tab script has already revealed it.
   function maybeInit() {
-    var panel = document.getElementById('tab-funding');
+    var panel = document.getElementById('tab-need');
     if (panel && !panel.hasAttribute('hidden')) init();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', maybeInit);
