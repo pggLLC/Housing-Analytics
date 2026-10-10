@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-10T16:22:43.572405Z",
+  "generated": "2026-10-10T18:19:05.828414Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 831427
+      "bytes": 831430
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -14,7 +14,7 @@
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 15112
+      "bytes": 16168
     },
     "data/affordable-housing/lihtc/chfa-properties.json": {
       "featureCount": 926,
