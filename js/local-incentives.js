@@ -155,7 +155,7 @@
       }).join('');
     }).join('');
     return '<section class="li-block" aria-labelledby="li-fees-h"><h3 id="li-fees-h">' + esc(SCOPE_TEXT.fees) + ' ' + pill(state) + '</h3>' +
-      '<div class="data-table"><table><thead><tr><th scope="col">Fee component</th><th scope="col">What is offered</th><th scope="col">Who qualifies, and the source</th></tr></thead><tbody>' +
+      '<div class="data-table li-stack"><table><thead><tr><th scope="col">Fee component</th><th scope="col">What is offered</th><th scope="col">Who qualifies, and the source</th></tr></thead><tbody>' +
       rows + '</tbody></table></div></section>';
   }
 
@@ -283,7 +283,7 @@
         }).join(', ');
         return '<tr><th scope="row">' + esc(a.tool.label) + '</th><td>' + a.adopters.length + '</td><td>' + esc(STATUS_TEXT[a.tool.colorado_status] || a.tool.colorado_status) + '</td><td>' + (ex || '<span class="li-muted">No verified record yet</span>') + (a.adopters.length > 5 ? ', and others' : '') + '</td></tr>';
       }).join('');
-      return '<h3>' + esc(FAMILY_TEXT[f]) + '</h3><div class="data-table"><table><thead><tr><th scope="col">Tool</th><th scope="col">Jurisdictions with a verified record</th><th scope="col">Colorado law</th><th scope="col">Examples</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+      return '<h3>' + esc(FAMILY_TEXT[f]) + '</h3><div class="data-table li-stack"><table><thead><tr><th scope="col">Tool</th><th scope="col">Jurisdictions with a verified record</th><th scope="col">Colorado law</th><th scope="col">Examples</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
     }).join('') + renderFundTypes(model);
   }
 
@@ -305,7 +305,7 @@
       return '<tr><th scope="row">' + esc(D.FUND_TOOL_LABELS[tool] || tool) + '</th><td>' + by[tool].size + '</td><td>' + ex + (by[tool].size > 5 ? ', and others' : '') + '</td></tr>';
     }).join('');
     if (!rows) return '';
-    return '<h3>Local funding on record, by kind</h3><div class="data-table"><table><thead><tr><th scope="col">Kind of fund or tool</th><th scope="col">Jurisdictions</th><th scope="col">Examples</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+    return '<h3>Local funding on record, by kind</h3><div class="data-table li-stack"><table><thead><tr><th scope="col">Kind of fund or tool</th><th scope="col">Jurisdictions</th><th scope="col">Examples</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
   }
 
   function renderCatalog(doc, target, fees) {

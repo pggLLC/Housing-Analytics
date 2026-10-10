@@ -152,6 +152,11 @@ def test_every_figure_in_a_fund_record_is_in_its_evidence(funds):
     for e in funds['entries']:
         quotes = fund_quotes(e)
         amounts, pcts = set(money(quotes)), set(percents(quotes))
+        for ev in e['evidence']:
+            # A table can print a figure without its $; the declared figure must be in the quote.
+            for figure in ev.get('table_figures', []):
+                assert figure.lstrip('$') in ev['quote'], f"{e['id']}: table figure {figure} is not in its quote"
+                amounts.update(money(figure))
         prose = ' '.join(e.get(k) or '' for k in ('summary', 'rate_text', 'uses'))
         for amount in money(prose):
             checked += 1

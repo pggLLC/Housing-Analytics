@@ -903,6 +903,1631 @@
       ],
       "notes": "arvadaco.gov returns HTTP 403 to automated fetch; text read from the city's own CivicPlus host (co-arvada.civicplus.com). No dedicated revenue source as of the plan (adopted May 20, 2024). The plan also lists 'Continue to allocate publicly owned land (and/or acquire properties) for affordable and mixed-income housing' as a strategy; not recorded as a program because no program terms were found. Creation date and size not stated.",
       "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-summit-county-scha-0125-sales-tax",
+      "geoid": "08117",
+      "jurisdiction": "Summit County",
+      "county": "Summit County",
+      "provider_type": "housing_authority",
+      "tool": "dedicated_sales_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "0.125% sales and use tax",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "affordable workforce housing (land purchases, construction of new homes, purchases of existing homes for employee use)",
+      "summary": "Summit County voters passed Summit Combined Housing Authority Measure 5A in November 2006, a 0.125% sales and use tax for workforce housing, and renewed it in perpetuity in November 2015.",
+      "authorizing_code": "Summit Combined Housing Authority Referred Measure 5A (Nov 2006; renewed Nov 2015)",
+      "source": {
+        "label": "Summit County Housing - Impact Fee",
+        "url": "https://www.summitcountyco.gov/services/housing/property_deed_restrictions/impact_fee.php"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Summit County Housing - Impact Fee",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Impact Fee",
+          "quote": "The voters in Summit County voted to support workforce-housing needs by passing the Summit Combined Housing Authority Referred Measure 5A in November 2006, and then renewing the measure in perpetuity in November 2015."
+        },
+        {
+          "section": "Impact Fee",
+          "quote": "The measure authorizes a sales and use tax of one eight of one percent (0.125%) and a Development Impact Fee of two dollars or less per square foot for new construction."
+        },
+        {
+          "section": "Sales tax rates table, footnote",
+          "quote": "*Note: .6% is a sales only tax; .125% is a sales & use tax",
+          "source_url": "https://www.summitcountyco.gov/Documents/Services/Finance/Sales%20Tax%20Information/Sales%20Tax%20Rates%20-%202024.pdf"
+        }
+      ],
+      "notes": "Countywide tax levied by the Summit Combined Housing Authority (a multi-jurisdictional authority); applies in every town in Summit County. Exact 2006 election date not stated on the page, so adopted is null.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-summit-county-scha-housing-impact-fee",
+      "geoid": "08117",
+      "jurisdiction": "Summit County",
+      "county": "Summit County",
+      "provider_type": "housing_authority",
+      "tool": "linkage_fee",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "Development Impact Fee of two dollars or less per square foot of new construction",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "affordable workforce housing purposes",
+      "summary": "The same voter-approved 5A measure authorizes an affordable-housing Development Impact Fee of two dollars or less per square foot on new construction and additions, which owners may avoid by voluntarily imposing a private transfer fee on later sales.",
+      "authorizing_code": "Summit Combined Housing Authority Referred Measure 5A (Nov 2006; renewed Nov 2015)",
+      "source": {
+        "label": "Summit County Housing - Impact Fee",
+        "url": "https://www.summitcountyco.gov/services/housing/property_deed_restrictions/impact_fee.php"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Summit County Housing - Impact Fee",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Impact Fee",
+          "quote": "The measure authorizes a sales and use tax of one eight of one percent (0.125%) and a Development Impact Fee of two dollars or less per square foot for new construction."
+        },
+        {
+          "section": "Impact Fee",
+          "quote": "Affordable Housing Development Impact Fees are assessed on new construction and additions, as applicable. Property developers and owners have the option of avoiding the impact fee at the time of building permit issuance by voluntarily imposing a private transfer fee upon subsequent sale of the property."
+        }
+      ],
+      "notes": "The page does not publish the current per-square-foot rate actually charged, only the cap; per-jurisdiction applicability not stated.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-summit-county-scha-06-sales-tax",
+      "geoid": "08117",
+      "jurisdiction": "Summit County",
+      "county": "Summit County",
+      "provider_type": "housing_authority",
+      "tool": "dedicated_sales_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "0.6% sales tax (sales only)",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "affordable housing projects; collected and distributed proportionately to the county and the towns",
+      "summary": "A 0.6% countywide sales tax for affordable housing, approved by Summit County voters in 2016 (Measure 5A) and extended in 2021 by Referred Measure 6B for 20 more years, now sunsetting in 2047; the county's rate sheet lists it within the 0.725% affordable housing rate.",
+      "authorizing_code": "Summit Combined Housing Authority Measure 5A (2016); Referred Measure 6B (2021); sales tax resolution No. 2016-02",
+      "source": {
+        "label": "Summit County Sales Tax Rates (2024 PDF)",
+        "url": "https://www.summitcountyco.gov/Documents/Services/Finance/Sales%20Tax%20Information/Sales%20Tax%20Rates%20-%202024.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Rate from Summit County rate sheet; adoption year, 6B extension and 2047 sunset from Summit Daily (reported)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Sales tax rates table, footnote",
+          "quote": "*Note: .6% is a sales only tax; .125% is a sales & use tax"
+        },
+        {
+          "section": "Article",
+          "quote": "When Summit County voters approved the Summit Combined Housing Authority’s 5A measure in 2016, they approved a temporary sales tax of 0.6% for the next 10 years that would be allocated to affordable housing projects throughout the community.",
+          "source_url": "https://www.summitdaily.com/news/local/summit-combined-housing-authority-tax-renewal-on-november-ballot/"
+        },
+        {
+          "section": "Ballot text, Referred Measure 6B",
+          "quote": "Shall the existing Summit Combined Housing Authority levy be extended for 20 years for affordable housing purposes including the construction of workforce rental and owner-occupied housing units through an extension of the existing six-tenths of 1% (0.6%) sales tax commencing in 2027",
+          "source_url": "https://www.summitdaily.com/news/local/summit-combined-housing-authority-tax-renewal-on-november-ballot/"
+        },
+        {
+          "section": "Article",
+          "quote": "voters approved an extension on the Summit Combined Housing Authority’s 0.6% sales tax measure, which now sunsets in 2047.",
+          "source_url": "https://www.summitdaily.com/news/local/how-summit-county-worked-to-tackle-its-affordable-housing-problem-in-2021/"
+        },
+        {
+          "section": "Sales tax rates table",
+          "quote": "Affordable Housing * 0.725%"
+        }
+      ],
+      "notes": "Sunset reported only as a year (2047) by Summit Daily, so the sunset field is null. The 0.725% line on the county rate sheet = 0.6% + 0.125%. Summit Daily reported the tax had generated about $47 million since passage (as of 2021), not stored as annual revenue.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-summit-county-str-lodging-tax",
+      "geoid": "08117",
+      "jurisdiction": "Summit County",
+      "county": "Summit County",
+      "provider_type": "county",
+      "tool": "lodging_or_str_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": "2023-01-01",
+      "sunset": null,
+      "rate_text": "2% lodging tax (unincorporated Summit County, stays under 30 days)",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "affordable housing and childcare for local workers, and other authorized purposes (per ballot title)",
+      "summary": "Summit County voters passed Referred Measure 1A in 2022 authorizing a short-term rental lodging tax for local-worker housing and childcare; the county lists a 2% lodging tax in unincorporated Summit County effective January 1, 2023.",
+      "authorizing_code": "Summit County Referred Measure 1A (Nov 2022)",
+      "source": {
+        "label": "Summit County Finance - Sales Tax",
+        "url": "https://www.summitcountyco.gov/services/finance/sales_tax.php"
+      },
+      "verification": {
+        "level": "reported",
+        "against": "Ballot purpose and outcome from CHFA election roundup; 2% rate and effective date from Summit County Finance page (primary)",
+        "checked": "2026-10-10",
+        "by": "Ballot purpose and outcome from CHFA election roundup; 2% rate and effective date from Summit County Finance page (primary)"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Short-Term Rental Sales Tax / Lodging Tax",
+          "quote": "Unincorporated Summit County's lodging tax is 2%, effective January 1, 2023."
+        },
+        {
+          "section": "Local Ballot Measures - Summit County",
+          "quote": "Summit County Referred Measure 1A: Authorizing Short-Term Rental Lodging Tax to Provide Local Workers with Affordable Housing and Childcare to Support Our Quality of Life and Other Authorized Purposes - Passed",
+          "source_url": "https://www.chfainfo.com/community-partnerships/public-policy/cc-nov2022-election-results"
+        }
+      ],
+      "notes": "The share of revenue for housing vs childcare is not stated in either source. The county page notes the tax no longer applies within the newly incorporated Town of Keystone from July 1, 2024.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-summit-county-housing-helps",
+      "geoid": "08117",
+      "jurisdiction": "Summit County",
+      "county": "Summit County",
+      "provider_type": "county",
+      "tool": "shared_equity_or_deed_restriction",
+      "status": "adopted",
+      "voter_approved": false,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "cash payment to buyers/owners in exchange for a local-worker deed restriction (light or appreciation-capped)",
+      "summary": "Through Housing Helps, Summit County pays buyers 10%-25% of a home's value to record a local-worker deed restriction on a market-rate home: 10-15% for a light restriction, 15-25% for one with a 3% annual appreciation cap; the money is not a loan.",
+      "authorizing_code": null,
+      "source": {
+        "label": "Summit County Housing - Housing Helps",
+        "url": "https://www.summitcountyco.gov/services/housing/housing_helps.php"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Summit County Housing - Housing Helps",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Housing Helps",
+          "quote": "Typically, the County is looking to purchase deed restrictions on market-rate housing units at a price of 10%-25% of the current value of that property, depending on the type of deed restriction proposed."
+        },
+        {
+          "section": "Housing Helps",
+          "quote": "Light deed restriction: The deed restriction requires that a local worker be the owner or a renter, and it does not have an appreciation cap, income caps, or rental caps. The subsidy for this deed restriction is in the 10-15% range of the sales price of the home being purchased."
+        },
+        {
+          "section": "Housing Helps",
+          "quote": "Capped deed restriction: The deed restriction requires that a local worker be the owner or renter, and there is an appreciation cap of 3% per year. There are no income or rental caps. The subsidy for this deed restriction is in the 15-25% range of the sales price of the home being purchased."
+        },
+        {
+          "section": "Housing Helps",
+          "quote": "This is not a loan; the money does not need to be repaid."
+        }
+      ],
+      "notes": "Annual budget not stated on the page. Funding source for the county program not stated.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-breckenridge-housing-helps",
+      "geoid": "0808400",
+      "jurisdiction": "Town of Breckenridge",
+      "county": "Summit County",
+      "provider_type": "town",
+      "tool": "shared_equity_or_deed_restriction",
+      "status": "adopted",
+      "voter_approved": false,
+      "adopted": "2019-07-23",
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "town purchase of deed restrictions on unrestricted homes in the Upper Blue River Basin, paid from the Town's Housing Fund",
+      "summary": "Breckenridge's Housing Helps program, created by Resolution 17 (Series 2019), pays owners, buyers and local businesses 15-25% for a deed restriction on unrestricted homes: 15% for a light work-requirement restriction, 20-25% for a full restriction with a 3% appreciation cap.",
+      "authorizing_code": "Town of Breckenridge Resolution No. 17, Series 2019",
+      "source": {
+        "label": "Town of Breckenridge Housing - Housing Helps",
+        "url": "https://www.townofbreckhousing.com/housing-helps"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Town of Breckenridge Housing - Housing Helps",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Resolution recitals",
+          "quote": "A RESOLUTION ESTABLISHING THE \"HOUSING HELPS PROGRAM\"",
+          "source_url": "https://breckenridge.town.codes/enactments/Res2019-17/media/original.pdf"
+        },
+        {
+          "section": "Section 1.C",
+          "quote": "Expend funds that have been budgeted and appropriated in the Town's Housing Fund for costs associated with the acquisition of deed restrictions pursuant to the Housing Helps Program",
+          "source_url": "https://breckenridge.town.codes/enactments/Res2019-17/media/original.pdf"
+        },
+        {
+          "section": "Adoption",
+          "quote": "RESOLUTION APPROVED AND ADOPTED this 23rd day of July, 2019.",
+          "source_url": "https://breckenridge.town.codes/enactments/Res2019-17/media/original.pdf"
+        },
+        {
+          "section": "Housing Helps",
+          "quote": "Under the program the Town will pay owners, buyers, and local businesses 15-25% in return for a deed restriction on homes that are currently unrestricted."
+        },
+        {
+          "section": "Key terms",
+          "quote": "The key terms of the light deed restriction (15%) include: The property must be occupied as a primary residence by a person employed a minimum of 30 hours (no remote work) a week in Summit County."
+        },
+        {
+          "section": "Key terms",
+          "quote": "The property will be subject to a 3% appreciation cap. Unlike some other deed restricted properties these units will not be subject to income caps."
+        }
+      ],
+      "notes": "townofbreckenridge.com returned HTTP 403 to automated fetches; the program page on townofbreckhousing.com and the resolution PDF on breckenridge.town.codes were readable. Housing Fund revenue sources/amounts not read from an official source (High Country News reports two sales taxes since 2006 plus an STR fee generate over $13 million a year for the fund - not recorded). Breckenridge's 1% RETT is not dedicated to housing per the sources read; the full deed restriction is exempt from it.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-frisco-str-excise-tax",
+      "geoid": "0828690",
+      "jurisdiction": "Town of Frisco",
+      "county": "Summit County",
+      "provider_type": "town",
+      "tool": "lodging_or_str_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": "2022-04-05",
+      "sunset": null,
+      "rate_text": "5% excise tax on short-term rentals",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "affordable housing projects and programs",
+      "summary": "Frisco voters approved Ballot Question 2A on April 5, 2022 (539 to 301, unofficial), a new 5% excise tax on short-term rentals effective June 1, 2022, spent solely on affordable housing; it does not apply to hotels and motels.",
+      "authorizing_code": "Town of Frisco Ballot Question 2A (April 5, 2022); Ordinance 22-01",
+      "source": {
+        "label": "Town of Frisco: Unofficial Election Results for April 5, 2022 Municipal Election",
+        "url": "https://www.friscogov.com/?p=7471"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Town of Frisco: Unofficial Election Results for April 5, 2022 Municipal Election",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Ballot Question 2A",
+          "quote": "by imposing a new excise tax, effective June 1, 2022, on the purchase of a short-term rental, at the rate of 5% of the price paid by the purchaser for the rental, all in accordance with town of Frisco Ordinance 22-01"
+        },
+        {
+          "section": "Ballot Question 2A",
+          "quote": "solely for the purpose of affordable housing projects and programs?"
+        },
+        {
+          "section": "Results",
+          "quote": "Yes / For 539"
+        },
+        {
+          "section": "Results",
+          "quote": "No / Against 301"
+        },
+        {
+          "section": "Workforce Housing Funding",
+          "quote": "In April 2022, Frisco voters approved a 5% excise tax on short-term rentals (STRs) to address workforce housing needs. This tax does not apply to traditional lodging, such as hotels and motels.",
+          "source_url": "https://www.friscogov.com/departments/community-development/workforce-and-affordable-housing/"
+        }
+      ],
+      "notes": "Results page is labeled unofficial; the town housing page confirms voter approval. Ballot title estimated a $1.5 million first-year increase (2023) - a projection, not stored as revenue.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-frisco-housing-helps",
+      "geoid": "0828690",
+      "jurisdiction": "Town of Frisco",
+      "county": "Summit County",
+      "provider_type": "town",
+      "tool": "shared_equity_or_deed_restriction",
+      "status": "adopted",
+      "voter_approved": false,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "town purchase of deed restrictions, buy-downs and down payment assistance, funded by 5A funds and the STR excise tax",
+      "summary": "Frisco's Housing Helps program (framework set by Resolution 19-31, August 2019) pays buyers and owners for deed restrictions on unrestricted homes and funds town buy-downs, using voter-approved 5A funds and the 5% STR excise tax.",
+      "authorizing_code": "Town of Frisco Resolution 19-31 (August 2019)",
+      "source": {
+        "label": "Town of Frisco - Workforce & Affordable Housing",
+        "url": "https://www.friscogov.com/departments/community-development/workforce-and-affordable-housing/"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Town of Frisco - Workforce & Affordable Housing",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Frisco Housing Helps Program",
+          "quote": "The Town of Frisco has a program, Housing Helps, where the Town provides cash for a deed restriction in order to incentivize home buyers and homeowners to deed restrict their properties to maintain and sustain homes for locals working in the community."
+        },
+        {
+          "section": "Housing Helps Update",
+          "quote": "In August 2019, Resolution 19-31 established the framework for the Frisco Housing Helps Program. The program utilizes voter approved 5A funds and a 5% excise tax on short-term rentals.",
+          "source_url": "https://www.friscogov.com/news/catch-up-with-council-january-28-2025/"
+        },
+        {
+          "section": "Housing Helps Update",
+          "quote": "The current maximum assistance based on a property’s appraisal is 15%.",
+          "source_url": "https://www.friscogov.com/news/catch-up-with-council-january-28-2025/"
+        }
+      ],
+      "notes": "As of January 2025 staff recommended raising down payment assistance from 15% to 20%; whether Council adopted that is not confirmed in the text read, so no current percentage is recorded in summary.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-vail-housing-sales-tax",
+      "geoid": "0880040",
+      "jurisdiction": "Town of Vail",
+      "county": "Eagle County",
+      "provider_type": "town",
+      "tool": "dedicated_sales_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "0.5% sales tax (groceries exempt)",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "housing initiatives (per ballot descriptions); may fund debt and the Vail InDEED program",
+      "summary": "Vail Ballot Issue 2A (November 2, 2021) raised the town sales tax 0.5% for housing initiatives, exempting groceries; in 2022 voters passed Ballot Issue 2I letting the town keep and spend excess collections from this housing sales tax.",
+      "authorizing_code": "Town of Vail Ballot Issue 2A (Nov 2, 2021); Ballot Issue 2I (Nov 8, 2022)",
+      "source": {
+        "label": "Vail Daily: Vail sales tax proposal appears headed for a win (Nov 2, 2021)",
+        "url": "https://www.vaildaily.com/news/eagle-valley/vail-sales-tax-proposal-leads-in-early-returns/"
+      },
+      "verification": {
+        "level": "reported",
+        "against": "Vail Daily (2021 election-night report) and CHFA 2022 election roundup; vail.gov returned HTTP 403",
+        "checked": "2026-10-10",
+        "by": "Vail Daily (2021 election-night report) and CHFA 2022 election roundup; vail.gov returned HTTP 403"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Article",
+          "quote": "As of about 9:15 p.m. Tuesday, Ballot Issue 2A was leading, 771 votes to 685."
+        },
+        {
+          "section": "Article",
+          "quote": "The tax exempts grocery purchases. The 0.5% tax increase would add $5 to a $1,000 purchase."
+        },
+        {
+          "section": "Local Ballot Measures - Eagle County",
+          "quote": "Town of Vail Ballot Issue 2I: Authorizing the Excess Revenue Collected from the Town’s Sales Tax to be Retained and Spent on Housing Initiatives - Passed",
+          "source_url": "https://www.chfainfo.com/community-partnerships/public-policy/cc-nov2022-election-results"
+        }
+      ],
+      "notes": "Final certified 2A result not read (Vail Daily gives early returns; the 2022 2I retention measure implies the tax took effect). adopted left null. Official vail.gov pages and documents all returned HTTP 403 (Akamai) to this environment.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-vail-indeed",
+      "geoid": "0880040",
+      "jurisdiction": "Town of Vail",
+      "county": "Eagle County",
+      "provider_type": "town",
+      "tool": "shared_equity_or_deed_restriction",
+      "status": "adopted",
+      "voter_approved": false,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "town purchase of resident-occupancy deed restrictions on existing homes",
+      "summary": "Vail InDEED, begun in 2017, pays homeowners and buyers for a perpetual deed restriction requiring occupancy by people working in Eagle County; per Vail Daily the town provides 20% of market value with no income or appreciation caps.",
+      "authorizing_code": null,
+      "source": {
+        "label": "Vail Daily: Good Deeds Vail partnership with Eagle County",
+        "url": "https://www.vaildaily.com/news/good-deeds-vail-partnership-with-eagle-county-looks-to-bring-more-locals-back-into-town/"
+      },
+      "verification": {
+        "level": "reported",
+        "against": "Vail Daily; vail.gov InDEED pages returned HTTP 403",
+        "checked": "2026-10-10",
+        "by": "Vail Daily; vail.gov InDEED pages returned HTTP 403"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Article",
+          "quote": "With Vail Indeed, the town provides 20% of the market rate value for the resident-occupant deed restriction and it comes with no income or appreciation caps — just the restriction that the occupant must make 75% of their income and work 30 hours or more per week in Eagle County."
+        },
+        {
+          "section": "Article",
+          "quote": "The program, implemented in 2017 as part of the Vail 2027 Housing Plan , essentially pays down a portion of a home’s value in exchange for restricting future use of the unit.",
+          "source_url": "https://www.vaildaily.com/news/vail-indeed-program-has-provided-homes-for-270-people-since-2017/"
+        }
+      ],
+      "notes": "Official InDEED page (vail.gov/government/departments/housing/vailindeed) could not be read (HTTP 403). Vail Daily (2019) reported $9 million spent on 134 restrictions through 2019 - historical, not stored.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-vail-good-deeds-vail",
+      "geoid": "0880040",
+      "jurisdiction": "Town of Vail",
+      "county": "Eagle County",
+      "provider_type": "town",
+      "tool": "shared_equity_or_deed_restriction",
+      "status": "adopted",
+      "voter_approved": false,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "matched buy-down for a price-capped deed restriction, shared with ECHDA",
+      "summary": "Under Good Deeds Vail (2026), the Town of Vail and the Eagle County Housing and Development Authority each contribute up to 15% of a home's price (max $1.25 million) for a combined buy-down of up to 30%, capped at $375,000, in exchange for a price-capped deed restriction.",
+      "authorizing_code": null,
+      "source": {
+        "label": "Vail Daily: Good Deeds Vail partnership with Eagle County",
+        "url": "https://www.vaildaily.com/news/good-deeds-vail-partnership-with-eagle-county-looks-to-bring-more-locals-back-into-town/"
+      },
+      "verification": {
+        "level": "reported",
+        "against": "Vail Daily; Eagle County news release R591 returned 404 and vail.gov returned 403",
+        "checked": "2026-10-10",
+        "by": "Vail Daily; Eagle County news release R591 returned 404 and vail.gov returned 403"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Article",
+          "quote": "the town of Vail and the Eagle County Housing and Development Authority (ECHDA) will each contribute up to 15% of the purchase price of the home, which cannot exceed $1.25 million. That’s a combined buy-down of up to 30% -— capped at $375,000."
+        }
+      ],
+      "notes": "Launch date not given in the text read (search snippets indicate April 2026).",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-vail-str-excise-2025-failed",
+      "geoid": "0880040",
+      "jurisdiction": "Town of Vail",
+      "county": "Eagle County",
+      "provider_type": "town",
+      "tool": "lodging_or_str_tax",
+      "status": "ballot_failed",
+      "voter_approved": false,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "6% excise tax on short-term rental income (proposed)",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "workforce housing (proposed)",
+      "summary": "Vail Ballot Issue 2A (November 2025), a proposed 6% excise tax on short-term rentals for workforce housing, was defeated 916 to 881.",
+      "authorizing_code": "Town of Vail Ballot Issue 2A (Nov 4, 2025)",
+      "source": {
+        "label": "Colorado Sun: Vail voters reject plan to tax short-term rentals to support housing",
+        "url": "https://coloradosun.com/2025/11/17/vail-voters-reject-plan-to-tax-short-term-rentals"
+      },
+      "verification": {
+        "level": "reported",
+        "against": "The Colorado Sun",
+        "checked": "2026-10-10",
+        "by": "The Colorado Sun"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Article",
+          "quote": "On Nov. 17, Eagle County finished counting and curing ballots and the lodging tax measure was defeated by 35 votes, with 916 “no” votes versus 881 “yes” votes."
+        },
+        {
+          "section": "Article",
+          "quote": "Early results for Ballot Issue 2A on Nov. 4 showed a slightly larger number of voters rejecting a 6% excise tax on rental income from short-term rentals to help pay for workforce housing."
+        }
+      ],
+      "notes": "Recorded as a failed measure so it is not mistaken for an existing tax.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-eagle-county-lodging-tax-1a",
+      "geoid": "08037",
+      "jurisdiction": "Eagle County",
+      "county": "Eagle County",
+      "provider_type": "county",
+      "tool": "lodging_or_str_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "2% lodging excise tax (unincorporated county and Gypsum); additional 2% approved 2025",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "childcare programs and affordable housing for local workers (90%); tourism marketing (10%)",
+      "summary": "Eagle County Ballot Issue 1A (2022) created a 2% lodging excise tax on stays under 30 days in unincorporated Eagle County and Gypsum, with 90% for local-workforce childcare and affordable housing and 10% for tourism marketing; voters added another 2% in 2025, for 4% total.",
+      "authorizing_code": "Eagle County Ballot Issue 1A (Nov 2022); 2025 lodging tax ballot question",
+      "source": {
+        "label": "Eagle County: soliciting pro and con statements on two ballot measures (2022)",
+        "url": "https://www.eaglecounty.us/news_detail_T24_R44.php"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Eagle County: soliciting pro and con statements on two ballot measures (2022)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "News release",
+          "quote": "The first measure, Ballot Issue 1A, is a 2% tax on short term lodging in unincorporated Eagle County and Gypsum to provide funding for childcare and housing for our local workforce."
+        },
+        {
+          "section": "Ballot language",
+          "quote": "WITH TEN PERCENT (10%) OF SAID REVENUE USED FOR ADVERTISING AND MARKETING LOCAL TOURISM AND THE REMAINING NINETY PERCENT (90%) USED TO SUPPORT OUR LOCAL WORKFORCE"
+        },
+        {
+          "section": "Sales Tax",
+          "quote": "In 2022 Eagle County voters approved a 2% lodging tax and in 2025 voters approved an additional 2% making it a total of 4% that applies to lodging in all areas of unincorporated Eagle County and the Town of Gypsum.",
+          "source_url": "https://www.eaglecounty.us/departments___services/finance/sales_tax.php"
+        },
+        {
+          "section": "Local Ballot Measures - Eagle County",
+          "quote": "Eagle County Ballot Issue 1A: Lodging Tax to Support Local Workforce - Passed",
+          "source_url": "https://www.chfainfo.com/community-partnerships/public-policy/cc-nov2022-election-results"
+        }
+      ],
+      "notes": "Ballot title estimated $3,000,000 annually from 2023 (projection, not stored). Split between housing and childcare not fixed in ballot text. Search results describe the 2025 increment as for childcare and public safety; not read from the 2025 resolution, so the 2025 2% is not treated as housing money.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-eagle-county-good-deeds",
+      "geoid": "08037",
+      "jurisdiction": "Eagle County",
+      "county": "Eagle County",
+      "provider_type": "housing_authority",
+      "tool": "shared_equity_or_deed_restriction",
+      "status": "adopted",
+      "voter_approved": false,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "buy-down payment at closing in exchange for a perpetual price-capped deed restriction",
+      "summary": "Eagle County Good Deeds (since 2021, run by the Eagle County Housing and Development Authority) pays 15% of the purchase price, up to $187,500, for a perpetual price-capped deed restriction on open-market homes up to $1,250,000; ECHDA added $2.5 million in 2026 after its initial $4 million budget was nearly depleted.",
+      "authorizing_code": null,
+      "source": {
+        "label": "Housing Eagle County - Good Deeds",
+        "url": "https://www.housingeaglecounty.com/gooddeeds"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Housing Eagle County - Good Deeds",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Financial Payment",
+          "quote": "Price Capped Deed Restriction: ECHDA payment of 15% of the purchase price (up to $187,500)."
+        },
+        {
+          "section": "Eligible Properties",
+          "quote": "The maximum purchase price for Eligible Properties is $1,250,000."
+        },
+        {
+          "section": "Impact",
+          "quote": "These stats reflect cumulative totals since the Good Deeds program launched in 2021."
+        },
+        {
+          "section": "News release, June 30, 2026",
+          "quote": "The Eagle County Housing and Development Authority has approved an additional $2.5 million in funding for its Eagle County Good Deeds program. This mid-year allocation comes after the program's initial $4 million budget for 2026 was nearly depleted by June",
+          "source_url": "https://www.eaglecounty.us/news_detail_T24_R620.php"
+        }
+      ],
+      "notes": "Resale appreciation capped 0-3% simple interest per year tied to Eagle County wage growth. Partner programs (Good Deeds Avon, Good Deeds Vail) match ECHDA's share.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-aspen-housing-rett",
+      "geoid": "0803620",
+      "jurisdiction": "City of Aspen",
+      "county": "Pitkin County",
+      "provider_type": "city",
+      "tool": "real_estate_transfer_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": "1989-07-01",
+      "sunset": "2060-12-31",
+      "rate_text": "1.0% real estate transfer tax (first $100,000 excluded; deed-restricted units exempt)",
+      "annual_revenue": 21091602,
+      "revenue_year": 2021,
+      "uses": "affordable housing (Affordable Housing Fund)",
+      "summary": "Aspen's voter-approved 1.0% real estate transfer tax for housing took effect July 1, 1989 (pre-TABOR), excludes the first $100,000 and exempts deed-restricted units, and expires after December 31, 2060 absent another vote; it feeds the Affordable Housing Fund.",
+      "authorizing_code": "City of Aspen Municipal Code Ch. 23.48 (RETT)",
+      "source": {
+        "label": "City of Aspen - Real Estate Transfer Taxes",
+        "url": "https://aspen.gov/1428/Real-Estate-Transfer-Taxes"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "City of Aspen - Real Estate Transfer Taxes",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "1.0% RETT",
+          "quote": "1.0% RETT: City of Aspen voters additionally approved a 1.0% real estate transfer tax for the purpose of \"addressing the issue of the current housing shortage that vacant land and existing buildings must be purchased and renovated and construction of new housing must be commenced immediately\" and became effective July 1, 1989."
+        },
+        {
+          "section": "1.0% RETT",
+          "quote": "The application of this tax included a slight reduction to the consideration amount to be taxed, allowing for the first $100,000 to be excluded from taxation, and allowed for all existing affordable deed restricted housing units to be exempt."
+        },
+        {
+          "section": "1.0% RETT",
+          "quote": "This tax continues to have a sunset provision in place, and absent an extension by voter approval, it will expire following December 31, 2060."
+        },
+        {
+          "section": "Note 1 - fund descriptions",
+          "quote": "The Affordable Housing Fund is used to account for revenues and expenditures related to the collection of a one percent (1%) tax on the value of all transfers of real property in the City, an affordable housing dedication fee, and a portion (45%) of a sales tax of .45%.",
+          "source_url": "https://aspen.gov/DocumentCenter/View/9387/City-of-Aspen-2021-Annual-Comprehensive-Financial-Report-PDF"
+        },
+        {
+          "section": "Statistical table title",
+          "quote": "History of Affordable Housing Fund Revenues, Expenditures, and Changes in Fund Balance",
+          "source_url": "https://aspen.gov/DocumentCenter/View/9387/City-of-Aspen-2021-Annual-Comprehensive-Financial-Report-PDF"
+        },
+        {
+          "section": "Statistical table, 2012-2021 columns (last = 2021)",
+          "quote": "Real estate transfer tax 6,592,914 5,678,816 8,387,972 10,020,525 6,293,074 10,005,041 8,896,761 8,439,265 17,291,739 21,091,602",
+          "source_url": "https://aspen.gov/DocumentCenter/View/9387/City-of-Aspen-2021-Annual-Comprehensive-Financial-Report-PDF",
+          "table_figures": [
+            "$21,091,602"
+          ]
+        }
+      ],
+      "notes": "annual_revenue is the last (2021) column of the ACFR's ten-year Affordable Housing Fund table (2012-2021). The ACFR says a 2008 vote extended the RETT to 2040; the current RETT page says 2060 (CHFA lists a 2024 Aspen Ballot Issue 2A on the RETT as passed, consistent with a later extension). Separate 0.5% Wheeler RETT funds arts, not housing.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-aspen-housing-sales-tax",
+      "geoid": "0803620",
+      "jurisdiction": "City of Aspen",
+      "county": "Pitkin County",
+      "provider_type": "city",
+      "tool": "dedicated_sales_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": "2060-12-31",
+      "rate_text": "0.45% sales tax (45% of receipts to affordable housing, 55% to Kids First/daycare)",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "affordable housing development (45% share) and childcare/Kids First (55% share)",
+      "summary": "Aspen levies a voter-approved 0.45% sales tax for affordable housing and Kids First (Ordinance 81-1989), sunsetting 12/31/2060; 45% of it goes to the Affordable Housing Fund and 55% to the Kids First/Daycare Fund.",
+      "authorizing_code": "City of Aspen Ordinance 81-1989",
+      "source": {
+        "label": "City of Aspen - State, County and Local Sales and Use Taxes",
+        "url": "https://www.aspen.gov/1389/State-County-and-Local-Tax-Information"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "City of Aspen - State, County and Local Sales and Use Taxes",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Sales Tax table",
+          "quote": "0.45% Sales Tax - Affordable Housing / Kids First Ordinance 81-1989 12/31/2060"
+        },
+        {
+          "section": "Note 1 - fund descriptions",
+          "quote": "The Affordable Housing Fund is used to account for revenues and expenditures related to the collection of a one percent (1%) tax on the value of all transfers of real property in the City, an affordable housing dedication fee, and a portion (45%) of a sales tax of .45%.",
+          "source_url": "https://aspen.gov/DocumentCenter/View/9387/City-of-Aspen-2021-Annual-Comprehensive-Financial-Report-PDF"
+        },
+        {
+          "section": "Kids First/Daycare Fund",
+          "quote": "The Kids First/Daycare Fund is funded from 55% of the City’s 0.45% sales tax",
+          "source_url": "https://aspen.gov/DocumentCenter/View/9387/City-of-Aspen-2021-Annual-Comprehensive-Financial-Report-PDF"
+        }
+      ],
+      "notes": "ACFR 2021 lists the tax's effective year as 1990. CHFA lists 2024 Aspen Ballot Issue 2B (extension of sales tax for affordable housing) as passed, consistent with the 2060 sunset. Only 45% of receipts are housing money.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-aspen-str-excise-tax",
+      "geoid": "0803620",
+      "jurisdiction": "City of Aspen",
+      "county": "Pitkin County",
+      "provider_type": "city",
+      "tool": "lodging_or_str_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": "2023-05-01",
+      "sunset": null,
+      "rate_text": "5% (owner-occupied or lodge-exempt) / 10% (investment or second-home 'classic') short-term rental tax",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "at least 70% to community affordable housing; remainder (up to 30%) to environmental initiatives and capital repair and maintenance",
+      "summary": "Aspen's voter-approved short-term rental tax (Resolution 106-2022) charges 5% on owner-occupied and lodge-exempt STRs and 10% on investment/second-home STRs for stays from May 1, 2023, with at least 70% of receipts required for community affordable housing.",
+      "authorizing_code": "City of Aspen Resolution 106-2022 (Nov 2022 Ballot Issue 2A)",
+      "source": {
+        "label": "City of Aspen - Lodging and Short Term Rental Taxes",
+        "url": "https://aspen.gov/1427/Lodging-and-Short-Term-Rental-Taxes"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "City of Aspen - Lodging and Short Term Rental Taxes",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Voter approved tax table",
+          "quote": "5.00% Short-Term Rental Tax (Owner-Occupied or Lodge-Exempt Permitted Properties) * Resolution 106-2022 10.00% Short-Term Rental Tax (Investment / 2nd Homeowner \"Classic\" Permitted Properties) * Resolution 106-2022"
+        },
+        {
+          "section": "Application of Lodging Tax Receipts",
+          "quote": "For collections generated by either the 5.00% or 10.00% short-term rental taxes, ballot language included a minimum requirement for at least 70% of all receipts going towards Community affordable housing efforts and the remainder (up to 30%) towards environmental initiatives and capital repair and maintenance needs."
+        },
+        {
+          "section": "Local Ballot Measures - Pitkin County",
+          "quote": "City of Aspen Ballot Issue 2A: Short Term Rental Tax - Passed",
+          "source_url": "https://www.chfainfo.com/community-partnerships/public-policy/cc-nov2022-election-results"
+        }
+      ],
+      "notes": "adopted = date taxes began applying to stays (May 1, 2023), not the election date. Annual collections not stored (monthly reports show year-to-date figures only).",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-pitkin-county-housing-mill-levy",
+      "geoid": "08097",
+      "jurisdiction": "Pitkin County",
+      "county": "Pitkin County",
+      "provider_type": "county",
+      "tool": "dedicated_property_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "1.5 mills for not more than 25 years",
+      "annual_revenue": 8527232,
+      "revenue_year": 2025,
+      "uses": "affordable and workforce housing (essential-worker housing, buy-downs, partnerships, homelessness housing per ballot/budget descriptions)",
+      "summary": "Pitkin County voters approved Ballot Issue 1A in November 2024, a 1.5-mill property tax for affordable and workforce housing; the county's levy resolution shows the Housing Fund at 1.500 mills raising $8,527,232 on 2024 values (collected in 2025).",
+      "authorizing_code": "Pitkin County Ballot Issue 1A (Nov 5, 2024)",
+      "source": {
+        "label": "Pitkin County 2025 Mill Levy Resolution (2024 taxes collected in 2025)",
+        "url": "https://pitkincounty.com/DocumentCenter/View/33757/2025-Mill-Levy-Resolution"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Levy and amount from Pitkin County mill levy resolution; election result from Aspen Daily News (unofficial) and CHFA",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Exhibit A levy table",
+          "quote": "Housing Fund 5,684,821,370 1.500 8,527,232",
+          "table_figures": [
+            "$8,527,232"
+          ]
+        },
+        {
+          "section": "Exhibit A header",
+          "quote": "2024 property tax collected in 2025"
+        },
+        {
+          "section": "Article",
+          "quote": "The property tax will be levied in the form of 1.5 mills, which the county projects will generate $8.5 million annually because of current valuations.",
+          "source_url": "https://www.aspendailynews.com/election2024/worker-housing-1a-question-wins-in-pitco-snowmass/article_cc595d4c-9c02-11ef-ab38-ab00dd3f75ac.html"
+        },
+        {
+          "section": "Local Ballot Measures - Pitkin County",
+          "quote": "Pitkin County Pitkin County Ballot Issue 1A: Property Tax Levy for Affordable Housing – Passed",
+          "source_url": "https://chfainfo.com/community-partnerships/public-policy/cc-dec2024-election-results"
+        },
+        {
+          "section": "2026 priorities",
+          "quote": "Workforce & Affordable Housing Property Tax Fund",
+          "source_url": "https://pitkincounty.com/DocumentCenter/View/35692/2026-Mgrs-budget-ltr"
+        }
+      ],
+      "notes": "Term limit ('not more than twenty-five years') is from the county's ballot-title resolution (draft copy with blank number), so sunset is null. Pitkin County also has an Employee Housing Impact Fee (Ord. 03-2020) - not recorded here because the current fee schedule was not read.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-san-miguel-county-housing-mill-levy",
+      "geoid": "08113",
+      "jurisdiction": "San Miguel County",
+      "county": "San Miguel County",
+      "provider_type": "county",
+      "tool": "dedicated_property_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "0.500 mills",
+      "annual_revenue": 776675,
+      "revenue_year": 2025,
+      "uses": "affordable housing",
+      "summary": "San Miguel County levies a 0.500-mill Housing property tax, shown raising $776,675 in its 2025 abstract of levies; CHFA reports voters passed Ballot Measure 1B, a property tax levy for affordable housing, in November 2024.",
+      "authorizing_code": "San Miguel County Ballot Measure 1B (Nov 2024)",
+      "source": {
+        "label": "San Miguel County 2025 Abstract of Assessment and Levies",
+        "url": "https://www.sanmiguelcountyco.gov/ArchiveCenter/ViewFile/Item/595"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Levy and amount from San Miguel County 2025 abstract; ballot measure from CHFA roundup",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "County levies",
+          "quote": "Housing 0.500 $776,675"
+        },
+        {
+          "section": "Title",
+          "quote": "2025 ABSTRACT OF"
+        },
+        {
+          "section": "Local Ballot Measures - San Miguel County",
+          "quote": "San Miguel County Ballot Measure 1B: Property Tax Levy for Affordable Housing – Passed",
+          "source_url": "https://chfainfo.com/community-partnerships/public-policy/cc-dec2024-election-results"
+        }
+      ],
+      "notes": "The abstract does not say whether the levy is on 2025 values collected in 2026 or otherwise, so revenue_year is null. Ballot term/sunset not read.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-telluride-str-excise-tax",
+      "geoid": "0876795",
+      "jurisdiction": "Town of Telluride",
+      "county": "San Miguel County",
+      "provider_type": "town",
+      "tool": "lodging_or_str_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "2.5% short-term rental excise tax",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Affordable Housing Fund",
+      "summary": "Telluride voters approved Ballot Issue 300 in November 2019, a citizen-initiated 2.5% short-term rental tax for the town's Affordable Housing Fund that excludes hotel rooms; it took effect in January 2020.",
+      "authorizing_code": "Town of Telluride Ballot Issue 300 (Nov 2019)",
+      "source": {
+        "label": "Telluride Daily Planet: Short-term rental tax passes (Nov 2019)",
+        "url": "https://www.telluridenews.com/news/article_7879c028-0061-11ea-88f2-77f970e4be57.html"
+      },
+      "verification": {
+        "level": "reported",
+        "against": "Telluride Daily Planet and KHOL; telluride-co.gov and telluride.municipal.codes unreachable (502/403)",
+        "checked": "2026-10-10",
+        "by": "Telluride Daily Planet and KHOL; telluride-co.gov and telluride.municipal.codes unreachable (502/403)"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Article",
+          "quote": "The new 2.5 percent tax will feed into the town’s Affordable Housing Fund, pushing the total tax on short-term rentals from 12.65 percent to 15.15 percent; it will not affect hotel rooms."
+        },
+        {
+          "section": "Article",
+          "quote": "The tax went into effect in January 2020.",
+          "source_url": "https://891khol.org/telluride-short-term-rental-tax-raises-funds-for-affordable-housing/"
+        },
+        {
+          "section": "Town news release (2025)",
+          "quote": "voter-approved revenues from the Town’s ½-cent sales and use tax (1994), 2-mill property tax (2018), and 2.5% short-term rental tax (2019)",
+          "source_url": "https://www.telluridenews.com/news_release/article_a7234af0-3c51-4422-8aea-f08b33114f3d.html"
+        }
+      ],
+      "notes": "Telluride Daily Planet reported 56 percent approval (complete but unofficial). The 2025 news release text was ROT47-obfuscated on the page and was decoded before saving (sources/tdp-tell-debt-decoded.txt).",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-telluride-housing-sales-tax",
+      "geoid": "0876795",
+      "jurisdiction": "Town of Telluride",
+      "county": "San Miguel County",
+      "provider_type": "town",
+      "tool": "dedicated_sales_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "½-cent sales and use tax",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "affordable housing (pledgeable for housing debt)",
+      "summary": "Telluride has a voter-approved ½-cent sales and use tax from 1994 that is a dedicated housing revenue the town cites as backing affordable-housing debt.",
+      "authorizing_code": null,
+      "source": {
+        "label": "Telluride Daily Planet (Town news release): Measure on affordable housing bonding capacity approved for Nov. ballot (2025)",
+        "url": "https://www.telluridenews.com/news_release/article_a7234af0-3c51-4422-8aea-f08b33114f3d.html"
+      },
+      "verification": {
+        "level": "reported",
+        "against": "Town of Telluride news release as published by the Telluride Daily Planet; town site unreachable",
+        "checked": "2026-10-10",
+        "by": "Town of Telluride news release as published by the Telluride Daily Planet; town site unreachable"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Town news release (2025)",
+          "quote": "The measure would update the borrowing capacity supported by voter-approved revenues from the Town’s ½-cent sales and use tax (1994), 2-mill property tax (2018), and 2.5% short-term rental tax (2019)."
+        },
+        {
+          "section": "Town news release (2025)",
+          "quote": "Future debt would only be issued if the dedicated housing tax and fee revenues sufficiently support repayment and if the issuance is approved by Town Council."
+        }
+      ],
+      "notes": "Year 1994 is the vote year; exact date not stated. The release concerns a Nov 2025 debt-authorization question; its outcome was not read.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-telluride-housing-mill-levy",
+      "geoid": "0876795",
+      "jurisdiction": "Town of Telluride",
+      "county": "San Miguel County",
+      "provider_type": "town",
+      "tool": "dedicated_property_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "2-mill property tax",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "affordable housing (pledgeable for housing debt)",
+      "summary": "Telluride has a voter-approved 2-mill property tax from 2018 that the town counts among its dedicated housing revenues backing affordable-housing debt.",
+      "authorizing_code": null,
+      "source": {
+        "label": "Telluride Daily Planet (Town news release): Measure on affordable housing bonding capacity approved for Nov. ballot (2025)",
+        "url": "https://www.telluridenews.com/news_release/article_a7234af0-3c51-4422-8aea-f08b33114f3d.html"
+      },
+      "verification": {
+        "level": "reported",
+        "against": "Town of Telluride news release as published by the Telluride Daily Planet; town site unreachable",
+        "checked": "2026-10-10",
+        "by": "Town of Telluride news release as published by the Telluride Daily Planet; town site unreachable"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Town news release (2025)",
+          "quote": "The measure would update the borrowing capacity supported by voter-approved revenues from the Town’s ½-cent sales and use tax (1994), 2-mill property tax (2018), and 2.5% short-term rental tax (2019)."
+        },
+        {
+          "section": "Town news release (2025)",
+          "quote": "Future debt would only be issued if the dedicated housing tax and fee revenues sufficiently support repayment and if the issuance is approved by Town Council."
+        }
+      ],
+      "notes": "The release also names a Short-Term Rental Regulatory Fee (effective January 1, 2024) and Housing Mitigation Fees as new housing revenue sources - not recorded separately.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-steamboat-springs-str-tax",
+      "geoid": "0873825",
+      "jurisdiction": "City of Steamboat Springs",
+      "county": "Routt County",
+      "provider_type": "city",
+      "tool": "lodging_or_str_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": "2023-01-01",
+      "sunset": null,
+      "rate_text": "9% short-term rental tax",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "increasing the stock of affordable and attainable housing (incl. Brown Ranch), incentives, contributions and associated infrastructure",
+      "summary": "Steamboat Springs voters approved a 9% short-term rental tax in November 2022, effective January 1, 2023, restricted to increasing affordable and attainable housing; the Short-Term Rental Tax Fund is projected to end 2026 with a $52.6M reserve.",
+      "authorizing_code": "City of Steamboat Springs Referred Measure 2A (Nov 8, 2022)",
+      "source": {
+        "label": "City of Steamboat Springs 2026 Budget Letter",
+        "url": "https://www.steamboatsprings.net/DocumentCenter/View/41217/2026-Budget-Letter-Retreat-Remediated"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "City of Steamboat Springs 2026 Budget Letter",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Short-Term Rental Tax Fund",
+          "quote": "In November 2022, a 9% short-term rental tax was approved by the voters. Collections began in January 2023. These funds are restricted by the ballot language that dedicates the proceeds for the purpose of increasing the stock of affordable and attainable housing at locations including, but not limited to, Brown Ranch by providing incentives, contributions, and funding infrastructure associated with affordable and attainable housing"
+        },
+        {
+          "section": "Short-Term Rental Tax Fund",
+          "quote": "The 2026 ending reserve balance in the Short-Term Rental Tax Fund is projected to be $52.6M pending budget appropriations related to other housing initiatives."
+        },
+        {
+          "section": "News release, Dec 13, 2022",
+          "quote": "A new short-term rental (STR) tax of 9% will be effective on and after January 1, 2023.",
+          "source_url": "https://steamboatsprings.net/CivicAlerts.aspx?AID=2471&ARC=3946"
+        }
+      ],
+      "notes": "The ballot measure's 20-year term is reported by news sources only; sunset left null. Reserve balance is a projection, not stored as revenue.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-steamboat-springs-community-housing-fund",
+      "geoid": "0873825",
+      "jurisdiction": "City of Steamboat Springs",
+      "county": "Routt County",
+      "provider_type": "city",
+      "tool": "housing_trust_fund",
+      "status": "adopted",
+      "voter_approved": false,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "planning, subsidizing, developing and administering Community Housing",
+      "summary": "Steamboat Springs' Community Housing Fund, a special revenue fund set up by 2007 council resolution, was funded mainly by inclusionary zoning fees (repealed in 2019) and now receives loan repayments from the Yampa Valley Housing Authority.",
+      "authorizing_code": "City of Steamboat Springs Resolution (2007)",
+      "source": {
+        "label": "City of Steamboat Springs 2026 Budget Letter",
+        "url": "https://www.steamboatsprings.net/DocumentCenter/View/41217/2026-Budget-Letter-Retreat-Remediated"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "City of Steamboat Springs 2026 Budget Letter",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Community Housing Fund",
+          "quote": "The Community Housing Fund is a special revenue fund established in 2007 to account for revenues and expenditures related to community housing. The primary source of revenue for this fund has been inclusionary zoning fees that have been suspended for the last several years and then repealed in 2019."
+        },
+        {
+          "section": "Community Housing Fund",
+          "quote": "the funds shall be used only for the purpose of planning, subsidizing, developing, and administering Community Housing."
+        }
+      ],
+      "notes": "Resolution number and exact date not stated. No current dedicated revenue stream beyond repayments.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-routt-county-yvha-mill-levy",
+      "geoid": "08107",
+      "jurisdiction": "Routt County",
+      "county": "Routt County",
+      "provider_type": "housing_authority",
+      "tool": "dedicated_property_tax",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "1.000 mill (Yampa Valley Housing Authority)",
+      "annual_revenue": 1727376,
+      "revenue_year": 2024,
+      "uses": "affordable housing (Yampa Valley Housing Authority)",
+      "summary": "The Yampa Valley Housing Authority levies 1.000 mill across its Routt County district, shown raising $1,727,376 in the county's TY2024 abstract of levies (payable 2025).",
+      "authorizing_code": "Yampa Valley Housing Authority Referendum 5A (Nov 2017) per news reports",
+      "source": {
+        "label": "Routt County Abstract of Assessment and Summary of Levies, TY2024",
+        "url": "https://www.co.routt.co.us/DocumentCenter/View/17705/RouttCnty_Abstract-of-Assessment-and-Summary-of-Levies_TY2024"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Levy from Routt County Assessor abstract; 2017 voter approval reported only by secondary sources (Colorado Politics/Steamboat Pilot editorials)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Summary of levies",
+          "quote": "YAMPA VALLEY HOUSING ATHY. ‡ $1,727,375,580 1.000 $1,727,376"
+        },
+        {
+          "section": "Header",
+          "quote": "2024 Tax Assessments are payable in 2025"
+        }
+      ],
+      "notes": "TY2024 levy, payable 2025 (revenue_year left null because the abstract's 'payable' line covers all levies, not this row specifically). Voter approval in 2017 and any 10-year term were not read from an official source, so voter_approved, adopted and sunset are null.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-gunnison-county-workforce-housing-linkage-fee",
+      "geoid": "08051",
+      "jurisdiction": "Gunnison County",
+      "county": "Gunnison County",
+      "provider_type": "county",
+      "tool": "linkage_fee",
+      "status": "adopted",
+      "voter_approved": false,
+      "adopted": "2006-06-13",
+      "sunset": null,
+      "rate_text": "Workforce Housing Fee per Appendix Table 4 (residential and commercial linkage fees by square footage; Crested Butte Area and General Area fees)",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "essential (affordable) housing",
+      "summary": "Gunnison County's 2006 Essential Housing linkage amendment imposes a Workforce Housing Fee on new residential, commercial and industrial construction (and residential additions over 500 sq ft) in unincorporated areas, based on employees generated.",
+      "authorizing_code": "Gunnison County Land Use Resolution, Division 9-600 Essential Housing (adopted 06/13/06)",
+      "source": {
+        "label": "Gunnison County Essential Housing Linkage Amendment to the Land Use Resolution (adopted 06/13/06)",
+        "url": "https://gunnisoncounty.org/DocumentCenter/View/2080/Essential-Housing-Linkage-Amendment-June-2006"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Gunnison County Essential Housing Linkage Amendment to the Land Use Resolution (adopted 06/13/06)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Definitions",
+          "quote": "WORKFORCE HOUSING FEE means that fee enacted by Gunnison County and assessed to certain new construction in the unincorporated areas of the County, based upon the number of new employees generated by it."
+        },
+        {
+          "section": "Section 9-60x.D",
+          "quote": "Unless exempted by this Division, additions or remodels to existing residences of more than 500 square feet, and all residential, commercial and industrial construction for which a Building Permit is required to pay after June 13, 2006, the Workforce Housing Fee identified in Appendix Table 4,"
+        },
+        {
+          "section": "Footer",
+          "quote": "ESSENTIAL HOUSING: PROPOSED LINKAGE AMENDMENT TO GUNNISON COUNTY LAND USE RESOLUTION: ADOPTED 06/13/06"
+        }
+      ],
+      "notes": "Source is the 2006 adopted amendment; current fee amounts and whether the section has since been amended were not checked against the current Land Use Resolution - verify before display. Fee table amounts are 2006 values and are not stored.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-crested-butte-str-excise-tax",
+      "geoid": "0818310",
+      "jurisdiction": "Town of Crested Butte",
+      "county": "Gunnison County",
+      "provider_type": "town",
+      "tool": "lodging_or_str_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": "2022-01-01",
+      "sunset": null,
+      "rate_text": "7.5% excise tax on vacation/short-term rentals",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Affordable Housing Fund only (not general operations)",
+      "summary": "Crested Butte voters passed Ballot Initiative 2D on November 2, 2021, a 7.5% excise tax on vacation and short-term rentals from January 1, 2022, dedicated to the Affordable Housing Fund and barred from general operations.",
+      "authorizing_code": "Town of Crested Butte Ballot Initiative 2D (Nov 2, 2021)",
+      "source": {
+        "label": "Town of Crested Butte - Tax Information",
+        "url": "https://townofcrestedbutte.colorado.gov/government/tax-information"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Town of Crested Butte - Tax Information",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Vacation Rental Excise Tax",
+          "quote": "On November 2, 2021, the voters of the Town of Crested Butte passed Ballot Initiative 2D. This initiative institutes a 7.5% Excise Tax on all Vacation Rental/Short Term Rentals beginning January 1, 2022. The 7.5% Excise Tax is specifically for the Affordable Housing Fund. It may not be used for general operations of the Town of Crested Butte."
+        }
+      ],
+      "notes": "Crested Butte's 3% land transfer excise tax is split between open space and the General Capital Fund (not housing) per the same page. News reports describe an earlier 5% vacation rental excise tax from 2018; not recorded.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-avon-str-excise-tax",
+      "geoid": "0804110",
+      "jurisdiction": "Town of Avon",
+      "county": "Eagle County",
+      "provider_type": "town",
+      "tool": "lodging_or_str_tax",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "2% short term rental excise tax",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Community Housing Fund",
+      "summary": "Avon dedicates its 2% short-term rental excise tax to the Community Housing Fund.",
+      "authorizing_code": null,
+      "source": {
+        "label": "Town of Avon 2026 Community Housing Plan (Council 9-8, final)",
+        "url": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Town of Avon 2026 Community Housing Plan (Council 9-8, final)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Existing Revenue and Funding Policies",
+          "quote": "2% Short Term Rental Excise Tax is dedicated to the Community Housing Fund."
+        }
+      ],
+      "notes": "Adoption date and election not stated in the plan.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-avon-rett-housing-share",
+      "geoid": "0804110",
+      "jurisdiction": "Town of Avon",
+      "county": "Eagle County",
+      "provider_type": "town",
+      "tool": "real_estate_transfer_tax",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "10% of the 2% real estate transfer tax",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Community Housing Fund",
+      "summary": "Avon dedicates 10% of its 2% real estate transfer tax to the Community Housing Fund.",
+      "authorizing_code": "Avon Municipal Code Ch. 3.12 (RETT)",
+      "source": {
+        "label": "Town of Avon 2026 Community Housing Plan (Council 9-8, final)",
+        "url": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Town of Avon 2026 Community Housing Plan (Council 9-8, final)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Existing Revenue and Funding Policies",
+          "quote": "10% of Avon’s 2% Real Estate Transfer Tax is dedicated to the Community Housing Fund."
+        },
+        {
+          "section": "Real Estate Transfer Tax Overview",
+          "quote": "A 2% tax is imposed on all transfers of interests or possessor rights in and to real estate located in the Town by deed, lease, assignment of lease, or agreement for sale of stock or contract.",
+          "source_url": "https://www.avon.org/210/Real-Estate-Transfer-Tax"
+        }
+      ],
+      "notes": "Existing RETT (TABOR bars new ones); RETT adoption date not read. Only the 10% housing share is housing money.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-avon-construction-use-tax",
+      "geoid": "0804110",
+      "jurisdiction": "Town of Avon",
+      "county": "Eagle County",
+      "provider_type": "town",
+      "tool": "other_excise_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "4% use tax on construction materials",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Community Housing Fund (subject to prior Village at Avon agreements)",
+      "summary": "Avon dedicates its 4% use tax on construction materials to the Community Housing Fund (Ballot Issue 2C, November 2024, per CHFA), subject to prior agreements remitting Village (at Avon) use tax to Traer Creek Metropolitan District.",
+      "authorizing_code": "Town of Avon Ballot Issue 2C (Nov 5, 2024)",
+      "source": {
+        "label": "Town of Avon 2026 Community Housing Plan (Council 9-8, final)",
+        "url": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Dedication from Avon 2026 Community Housing Plan; 2024 ballot outcome from CHFA",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Existing Revenue and Funding Policies",
+          "quote": "4% Use Tax on Construction Materials is dedicated to the Community Housing Fund, subject to the prior agreements in the Village (at Avon) to remit the Use Tax revenue to Traer Creek Metropolitan District until such time as the Town of Avon has satisfied its tax credit obligations."
+        },
+        {
+          "section": "Local Ballot Measures - Eagle County",
+          "quote": "Town of Avon Ballot Issue 2C: Tax Revenue for Community Housing – Passed",
+          "source_url": "https://chfainfo.com/community-partnerships/public-policy/cc-dec2024-election-results"
+        }
+      ],
+      "notes": "Linking the 4% use tax to 2024 Ballot Issue 2C relies on CHFA's label plus a RealVail-published town notice describing 2C as a use tax on new construction for community housing (sources/realvail-avon-2c.txt). Ballot text not read.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-avon-dda-tif-housing",
+      "geoid": "0804110",
+      "jurisdiction": "Town of Avon",
+      "county": "Eagle County",
+      "provider_type": "town",
+      "tool": "tax_increment_or_urban_renewal",
+      "status": "adopted",
+      "voter_approved": null,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Community Housing (at least 50% of DDA tax increment)",
+      "summary": "The Avon Downtown Development Authority must spend at least 50% of its tax increment revenue on Community Housing.",
+      "authorizing_code": null,
+      "source": {
+        "label": "Town of Avon 2026 Community Housing Plan (Council 9-8, final)",
+        "url": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Town of Avon 2026 Community Housing Plan (Council 9-8, final)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Existing Revenue and Funding Policies",
+          "quote": "Avon Downtown Development Authority is required to spend at least 50% of tax increment revenue on Community Housing."
+        }
+      ],
+      "notes": "Source of the requirement (DDA plan/ordinance) not named in the plan.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-avon-mi-casa",
+      "geoid": "0804110",
+      "jurisdiction": "Town of Avon",
+      "county": "Eagle County",
+      "provider_type": "town",
+      "tool": "shared_equity_or_deed_restriction",
+      "status": "adopted",
+      "voter_approved": false,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "lump-sum payment to buyers for a resident-occupied deed restriction (no appreciation cap)",
+      "summary": "Mi Casa Avon pays home buyers a 12% match, up to $150,000, for a perpetual resident-occupied deed restriction limiting ownership and use to full-time Eagle County employees, with no appreciation cap; 56 units were added from 2020 to 2025.",
+      "authorizing_code": null,
+      "source": {
+        "label": "Town of Avon 2026 Community Housing Plan (Council 9-8, final)",
+        "url": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Town of Avon 2026 Community Housing Plan (Council 9-8, final)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Deed restriction purchase programs",
+          "quote": "¡Mi Casa Avon! provides a 12% match up to a maximum of $150,000 for a Resident Occupied Deed Restriction, which does not have an appreciation cap on the resale price."
+        },
+        {
+          "section": "Program page",
+          "quote": "In this case, the deed restriction limits the ownership and use of the property to full-time Eagle County employees*.",
+          "source_url": "https://www.avon.org/2237/Mi-Casa-Avon---Deed-Restriction-Program"
+        },
+        {
+          "section": "Strengths & Assets",
+          "quote": "Implementation of the Mi Casa Avon Resident Occupied deed restriction purchase program, with 56 units added between 2020 and 2025."
+        }
+      ],
+      "notes": "Program terms are from the 2026 Community Housing Plan; the program page itself states no amount.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-avon-good-deeds-avon",
+      "geoid": "0804110",
+      "jurisdiction": "Town of Avon",
+      "county": "Eagle County",
+      "provider_type": "town",
+      "tool": "shared_equity_or_deed_restriction",
+      "status": "adopted",
+      "voter_approved": false,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "matched buy-down (Town 15% + ECHDA 15%) for a price-capped deed restriction",
+      "summary": "Good Deeds Avon pays 30% of the purchase price, capped at $375,000 (15% from the Town, 15% from ECHDA), on homes up to $1,250,000 in exchange for a price-capped deed restriction with 0-3% annual appreciation.",
+      "authorizing_code": null,
+      "source": {
+        "label": "Town of Avon - Housing",
+        "url": "https://www.avon.org/2382/Housing"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Town of Avon - Housing",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Good Deeds Avon",
+          "quote": "Total payment: 30% of the purchase price, capped at $375,000. Funding match: 15% from ECHDA and 15% from the Town of Avon. Maximum Purchase Price: $1,250,000."
+        },
+        {
+          "section": "Good Deeds Avon",
+          "quote": "Price Capped Deed Restriction: resale appreciation capped between 0–3% simple interest annually."
+        },
+        {
+          "section": "Deed restriction purchase programs",
+          "quote": "This is contingent upon annual appropriations from Eagle County.",
+          "source_url": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL"
+        }
+      ],
+      "notes": "Avon also runs MEHOP (30% match up to $375,000 for town employees), not recorded separately.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-durango-lodgers-tax-excess-housing",
+      "geoid": "0822035",
+      "jurisdiction": "City of Durango",
+      "county": "La Plata County",
+      "provider_type": "city",
+      "tool": "lodging_or_str_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "3.25% lodgers' tax increment (excess 2021-2022 revenue retained)",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "66% affordable and workforce housing programs; 20% transportation/parking/transit; 14% arts and culture (excess revenue only)",
+      "summary": "Durango 2022 Ballot Question 2A let the city keep 2021-2022 lodgers' tax revenue above estimates from the 3.25% increase and spend it 66% on affordable and workforce housing programs; CHFA lists it as passed.",
+      "authorizing_code": "City of Durango Ballot Question 2A (Nov 8, 2022)",
+      "source": {
+        "label": "City of Durango - 2022 election (ballot language)",
+        "url": "https://www.durangoco.gov/1630/2022-election"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Ballot language from City of Durango; outcome from CHFA roundup",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Ballot language",
+          "quote": "MAY THE CITY KEEP ALL REVENUES COLLECTED IN 2021 IN EXCESS OF $900,000 FROM THE 2021 VOTER-APPROVED INCREASED LODGERS’ TAX RATE OF 3.25%"
+        },
+        {
+          "section": "Ballot language",
+          "quote": "66% FOR AFFORDABLE AND WORKFORCE HOUSING PROGRAMS; 20% FOR TRANSPORTATION, PARKING, AND TRANSIT SERVICES, EQUIPMENT, AND FACILITIES; AND 14% FOR ARTS AND CULTURAL EVENTS, PROGRAMS AND FACILITIES"
+        },
+        {
+          "section": "Local Ballot Measures - La Plata County",
+          "quote": "City of Durango Ballot Question 2A - Passed",
+          "source_url": "https://www.chfainfo.com/community-partnerships/public-policy/cc-nov2022-election-results"
+        }
+      ],
+      "notes": "One-time retention of excess revenue, not an ongoing housing allocation: the city's Lodgers' Tax page lists the ongoing 5.25% split as 55% tourism marketing, 20% transportation, 14% arts/culture, 11% council discretion - no dedicated housing share. Amount retained not read from an official source.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-la-plata-county-lodging-tax-1a",
+      "geoid": "08067",
+      "jurisdiction": "La Plata County",
+      "county": "La Plata County",
+      "provider_type": "county",
+      "tool": "lodging_or_str_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": null,
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "workforce housing and other community improvements (use of existing lodging tax revenue)",
+      "summary": "La Plata County voters passed Ballot Issue 1A in November 2024, allowing revenue from the county's existing lodging tax to support workforce housing and other community improvements.",
+      "authorizing_code": "La Plata County Ballot Issue 1A (Nov 5, 2024)",
+      "source": {
+        "label": "CHFA: December 2024 ballot measures impact housing and economic development",
+        "url": "https://chfainfo.com/community-partnerships/public-policy/cc-dec2024-election-results"
+      },
+      "verification": {
+        "level": "reported",
+        "against": "CHFA election roundup; La Plata County lodging tax page read but does not describe 1A",
+        "checked": "2026-10-10",
+        "by": "CHFA election roundup; La Plata County lodging tax page read but does not describe 1A"
+      },
+      "review_by": "2027-01-10",
+      "evidence": [
+        {
+          "section": "Summary",
+          "quote": "This included a measure from La Plata County which passed Ballot Issue 1A to use revenues from their existing lodging tax to support workforce housing and other community improvements."
+        },
+        {
+          "section": "Lodging Tax Information",
+          "quote": "2.0% County lodging tax on rentals less than thirty (30) consecutive days within La Plata County but outside of city limits",
+          "source_url": "https://www.lpcgov.org/departments/finance___procurement/lodging_tax_information.php"
+        }
+      ],
+      "notes": "Share of lodging tax redirected to housing not read from an official source (news reports say up to 70% for housing and child care). rate_text null because the 2% tax predates 1A; 1A changed its use.",
+      "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-glenwood-springs-accommodations-tax-2c",
+      "geoid": "0830780",
+      "jurisdiction": "City of Glenwood Springs",
+      "county": "Garfield County",
+      "provider_type": "city",
+      "tool": "lodging_or_str_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "2.5% accommodations excise tax (total lodging excise 5%)",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Workforce Housing Fund: acquiring property, infrastructure, redevelopment, partnerships, programs reducing renting/purchase costs",
+      "summary": "Glenwood Springs voters approved Ballot Measure 2C in 2022, a 2.5% accommodations tax on stays under 30 days (hotels, motels and short-term rentals) deposited in a dedicated Workforce Housing Fund and set to end in fiscal year 2042.",
+      "authorizing_code": "City of Glenwood Springs Ballot Issue 2C (Nov 8, 2022)",
+      "source": {
+        "label": "City of Glenwood Springs - Workforce Housing Fund (AKA 2c Budget)",
+        "url": "https://cogs.us/844/Workforce-Housing-Fund-AKA-2c-Budget"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "City of Glenwood Springs - Workforce Housing Fund (AKA 2c Budget)",
+        "checked": "2026-10-10"
+      },
+      "review_by": "2027-04-10",
+      "evidence": [
+        {
+          "section": "Workforce Housing Fund",
+          "quote": "In 2022, Glenwood Springs voters approved a 2.5 percent accommodations tax (ballot measure 2C) to establish a Workforce Housing Fund to help address the housing needs of city residents and employers in the private, nonprofit and public sectors."
+        },
+        {
+          "section": "Ballot question",
+          "quote": "AND SHALL ALL REVENUES FROM SUCH EXCISE TAX BE DEPOSITED IN A DEDICATED FUND TO:",
+          "source_url": "https://www.cogs.us/ArchiveCenter/ViewFile/Item/733"
+        },
+        {
+          "section": "Ballot question",
+          "quote": "SUCH TAX TO END IN FISCAL YEAR 2042",
+          "source_url": "https://www.cogs.us/ArchiveCenter/ViewFile/Item/733"
+        },
+        {
+          "section": "Ballot question",
+          "quote": "IMPOSITION AND ASSESSMENT OF A TWO AND ONE HALF PERCENT (2.5%) EXCISE TAX TO BE PAID BY LODGERS WITHIN GLENWOOD SPRINGS AND BRINGING THE TOTAL EXCISE TAX PAID TO 5% ON THE PURCHASE PRICE",
+          "source_url": "https://www.cogs.us/ArchiveCenter/ViewFile/Item/733"
+        }
+      ],
+      "notes": "Sunset is 'fiscal year 2042' - sunset field left null rather than inventing a date. City forecasts about $1.7 million per year (projection, not stored).",
+      "last_verified": "2026-10-10"
     }
   ]
 }
