@@ -67,6 +67,38 @@
       ]
     },
     {
+      "id": "local-support",
+      "heading": "Local support for affordable housing",
+      "paragraphs": [
+        {
+          "text": "Adopted plans. Resolution 2026-08 adopting the Fruita Housing Needs Assessment and Housing Action Plan (adopted January 20, 2026): Housing Action Plan goals include supporting affordable and workforce housing; adopted as guiding policy for housing decisions.",
+          "cites": [
+            "ls2"
+          ]
+        },
+        {
+          "text": "Incentives and local funding on record: parking reduction. The Local Housing Incentives page has the terms and sources of each.",
+          "cites": [
+            "ls3"
+          ]
+        },
+        {
+          "text": "Council and planning commission record. On September 3, 2024, the City Council approved: Direction to apply for CHFA Prop 123 Land Banking grant (The Fruita Commons site) (vote 3-2). Prop 123 land banking requires 70% of rental homes at or below 60% AMI and 70% of homeownership at or below 100% AMI; partnership with Housing Resources of Western Colorado and IndiBuild. On May 20, 2025, the City Council approved: Resolution 2025-17 approving the Redevelopment, Financing and AMI Restriction Agreement for The Oaks (vote 6-0). 62 multi-family rental units at the former Family Health West property restricted to 100% AMI or less, with city/housing authority contributions (initial $400,000). On May 19, 2026, the City Council approved: Resolution 2026-17 approving regional IGA for attribution of affordable housing units for Proposition 123 unit credit. IGA with neighboring Mesa County governments to share counts of affordable housing units toward Proposition 123 commitments.",
+          "cites": [
+            "ls4",
+            "ls5",
+            "ls6"
+          ]
+        },
+        {
+          "text": "In the Opportunity Finder this record adds a local support bonus of +6 of a possible +6 points as of October 10, 2026: plans +2, incentives and funding +2, council and planning commission +2. A part with nothing counted adds nothing; it never lowers the score.",
+          "cites": [
+            "ls1"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -379,6 +411,60 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for City of Fruita, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0828745",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Resolution 2026-08 adopting the Fruita Housing Needs Assessment and Housing Action Plan (Fruita City Council minutes, January 20, 2026)",
+      "url": "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_01202026-963",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-fruita-2026-hna-hap",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Fruita Municipal Code (revised 9/6/2023), Title 17 Land Use Code",
+      "url": "https://www.fruita.org/DocumentCenter/View/2481/Fruita-Municipal-Code---September-2023-PDF",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "b-lu-fruita-parking",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Direction to apply for CHFA Prop 123 Land Banking grant (The Fruita Commons site) (Fruita City Council minutes, September 3, 2024)",
+      "url": "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_09032024-96",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-fruita-2024-prop123-landbank",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "Resolution 2025-17 approving the Redevelopment, Financing and AMI Restriction Agreement for The Oaks (Fruita City Council minutes, May 20, 2025)",
+      "url": "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_05202025-62",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-fruita-2025-the-oaks",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls6",
+      "label": "Resolution 2026-17 approving regional IGA for attribution of affordable housing units for Proposition 123 unit credit (Fruita City Council minutes, May 19, 2026)",
+      "url": "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_05192026-1010",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-fruita-2026-prop123-iga",
+      "accessed": "2026-10-10"
     }
   ]
 }

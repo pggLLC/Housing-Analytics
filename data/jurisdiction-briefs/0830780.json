@@ -189,6 +189,42 @@
       ]
     },
     {
+      "id": "local-support",
+      "heading": "Local support for affordable housing",
+      "paragraphs": [
+        {
+          "text": "Adopted plans. Glenwood Springs Strategic Housing Plan Update (Resolution 2023-26) (adopted July 20, 2023): Adopted as a guiding document; its needs assessment sets a target need of 1,346 new and/or more affordable units between 30% and 150% of AMI.",
+          "cites": [
+            "ls2"
+          ]
+        },
+        {
+          "text": "Incentives and local funding on record: reduced impact other fees; density bonus; and lodging or short-term-rental tax. The Local Housing Incentives page has the terms and sources of each.",
+          "cites": [
+            "ls3",
+            "ls4",
+            "ls5"
+          ]
+        },
+        {
+          "text": "Council and planning commission record. On July 18, 2024, the City Council approved: Additional funding for the Habitat for Humanity Lofts project. Additional half-million-dollar Workforce Housing Fund grant on top of $1M already committed, for a total of 15 units, plus a $1.5M loan to Habitat for Humanity. On July 18, 2024, the City Council approved: Workforce Housing (2C) funding for Glenwood Gardens Low Income Housing Tax Credit project. $785,000 from the 2C fund for 2025 and $785,000 for 2026 toward a LIHTC multifamily development. On May 15, 2025, the City Council approved: $1.5 million 2C funding for resident purchase of the Mountain Mobile Home Park (vote 6-1). Forgivable-loan funding from the workforce housing (2C) fund for a resident-owned community, subject to 2C requirements. On December 4, 2025, the City Council approved: Resolution 2025-29 (renumbered 2025-29A) affirming intent to follow Proposition 123 expedited review guidance. Commits the city to Proposition 123 expedited (fast-track) review for affordable housing projects. On May 7, 2026, the City Council approved: Forgivable loan to West Mountain Regional Housing Coalition for Cavern Springs Mobile Home Park (vote 5-2). Forgivable loan conditioned on an affordability covenant on the mobile home park property.",
+          "cites": [
+            "ls6",
+            "ls7",
+            "ls8",
+            "ls9",
+            "ls10"
+          ]
+        },
+        {
+          "text": "In the Opportunity Finder this record adds a local support bonus of +6 of a possible +6 points as of October 10, 2026: plans +2, incentives and funding +2, council and planning commission +2. A part with nothing counted adds nothing; it never lowers the score.",
+          "cites": [
+            "ls1"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -669,6 +705,96 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for City of Glenwood Springs, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0830780",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Glenwood Springs Strategic Housing Plan Update (Resolution 2023-26) (City Council minutes July 20, 2023; Strategic Housing Plan Update (EPS, June 2023))",
+      "url": "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_07202023-1700",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-glenwood-springs-strategic-housing-plan-2023",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "City of Glenwood Springs, About Housing Stability",
+      "url": "https://www.cogs.us/845/About-Housing-Stability",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "b-glenwood-voluntary-deed-restriction-impact-relief",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "City of Glenwood Springs Housing Guidelines (approved June 2021)",
+      "url": "https://www.cogs.us/DocumentCenter/View/8574/Housing-Guidelines-Approved-June-2021-PDF",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "b-lu-glenwood-density-bonus",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "City of Glenwood Springs - Workforce Housing Fund (AKA 2c Budget)",
+      "url": "https://cogs.us/844/Workforce-Housing-Fund-AKA-2c-Budget",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-glenwood-springs-accommodations-tax-2c",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls6",
+      "label": "Additional funding for the Habitat for Humanity Lofts project (City Council minutes July 18, 2024)",
+      "url": "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_07182024-1882",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-glenwood-springs-habitat-lofts-2024",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls7",
+      "label": "Workforce Housing (2C) funding for Glenwood Gardens Low Income Housing Tax Credit project (City Council minutes July 18, 2024)",
+      "url": "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_07182024-1882",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-glenwood-springs-glenwood-gardens-lihtc-2024",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls8",
+      "label": "$1.5 million 2C funding for resident purchase of the Mountain Mobile Home Park (City Council minutes May 15, 2025)",
+      "url": "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_05152025-2049",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-glenwood-springs-mountain-mhp-2025",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls9",
+      "label": "Resolution 2025-29 (renumbered 2025-29A) affirming intent to follow Proposition 123 expedited review guidance (City Council minutes Dec. 4, 2025)",
+      "url": "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=6999,plainText=false)",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-glenwood-springs-prop123-expedited-review-2025",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls10",
+      "label": "Forgivable loan to West Mountain Regional Housing Coalition for Cavern Springs Mobile Home Park (City Council minutes May 7, 2026)",
+      "url": "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=8217,plainText=false)",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-glenwood-springs-cavern-springs-2026",
+      "accessed": "2026-10-10"
     }
   ]
 }

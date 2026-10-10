@@ -106,6 +106,37 @@
       ]
     },
     {
+      "id": "local-support",
+      "heading": "Local support for affordable housing",
+      "paragraphs": [
+        {
+          "text": "Adopted plans. Rifle Housing Study and Action Plan (Resolution No. 19, Series of 2025) (adopted September 3, 2025): DOLA-funded housing needs assessment with an Affordable Housing Action Plan; quantifies need by AMI level (e.g. 661 units at 50-80% AMI and 416 units at 0-30% AMI under needs-driven growth) and recommends density bonuses for multifamily projects with affordable units.",
+          "cites": [
+            "ls2"
+          ]
+        },
+        {
+          "text": "Incentives and local funding: none counted, because incentives have not been checked yet.",
+          "cites": [
+            "ls1"
+          ]
+        },
+        {
+          "text": "Council and planning commission record. On December 18, 2024, the City Council approved: Fee waivers for Habitat for Humanity modular housing factory (vote 6-0). Waives $14,712.63 in city building, impact, water and sewer fees for Habitat for Humanity's modular housing factory on city property. On January 15, 2025, the City Council approved: Ordinance No. 2, Series of 2025 - conduit bond financing and ground lease amendment for Habitat for Humanity Roaring Fork Valley (vote 6-0). City acts as conduit bond issuer and amends the ground lease of city-owned land for Habitat for Humanity's modular housing production facility.",
+          "cites": [
+            "ls3",
+            "ls4"
+          ]
+        },
+        {
+          "text": "In the Opportunity Finder this record adds a local support bonus of +4 of a possible +6 points as of October 10, 2026: plans +2, incentives and funding +0, council and planning commission +2. A part with nothing counted adds nothing; it never lowers the score.",
+          "cites": [
+            "ls1"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -474,6 +505,42 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for City of Rifle, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0864255",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Rifle Housing Study and Action Plan (Resolution No. 19, Series of 2025) (Draft minutes of Sept. 3, 2025 (in Sept. 17, 2025 council packet) and Sept. 3, 2025 council packet (housing study))",
+      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=2573,plainText=false)",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-rifle-housing-study-action-plan-2025",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Fee waivers for Habitat for Humanity modular housing factory (Draft minutes of Dec. 18, 2024 (in Jan. 15, 2025 council packet))",
+      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=2396,plainText=false)",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-rifle-habitat-fee-waiver-2024",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Ordinance No. 2, Series of 2025 - conduit bond financing and ground lease amendment for Habitat for Humanity Roaring Fork Valley (Draft minutes of Jan. 15, 2025 (in Feb. 5, 2025 council packet))",
+      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=2409,plainText=false)",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-rifle-habitat-conduit-bond-lease-2025",
+      "accessed": "2026-10-10"
     }
   ]
 }

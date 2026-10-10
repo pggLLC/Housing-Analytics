@@ -195,6 +195,37 @@
       ]
     },
     {
+      "id": "local-support",
+      "heading": "Local support for affordable housing",
+      "paragraphs": [
+        {
+          "text": "Adopted plans: no adopted housing plan or needs assessment with affordable-housing goals was found in the official sources checked on October 10, 2026.",
+          "cites": [
+            "ls1"
+          ]
+        },
+        {
+          "text": "Incentives and local funding: none counted, because incentives have not been checked yet.",
+          "cites": [
+            "ls1"
+          ]
+        },
+        {
+          "text": "Council and planning commission record. In 2024, the Board of County Commissioners approved: Private activity bond allocation recommended for Canyon Vista (Cohen-Esrey), Glenwood Springs. County bond cap directed to an 80-unit income-restricted rental project for households earning between 20 and 80 percent of AMI. In September 2025, the Board of County Commissioners approved: Transfer of nearly $4.1 million in private activity bond authority to CHFA for affordable housing (vote 3-0). Bond authority assigned to CHFA for affordable housing initiatives benefiting low- and moderate-income buyers, including first-time homebuyer loans.",
+          "cites": [
+            "ls2",
+            "ls3"
+          ]
+        },
+        {
+          "text": "In the Opportunity Finder this record adds a local support bonus of +2 of a possible +6 points as of October 10, 2026: plans +0, incentives and funding +0, council and planning commission +2. A part with nothing counted adds nothing; it never lowers the score.",
+          "cites": [
+            "ls1"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -668,6 +699,33 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for Garfield County, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:08045",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Private activity bond allocation recommended for Canyon Vista (Cohen-Esrey), Glenwood Springs (Garfield County press release, Sept. 11, 2025)",
+      "url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-garfield-county-canyon-vista-pab-2024",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Transfer of nearly $4.1 million in private activity bond authority to CHFA for affordable housing (Garfield County press release, Sept. 11, 2025)",
+      "url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-garfield-county-chfa-pab-2025",
+      "accessed": "2026-10-10"
     }
   ],
   "_unpublished_reason": "Pending source-verification audit (2026-06-12). The original research-agent batch was found to contain at least one fabricated source-to-claim mapping (Carbondale s9). All briefs in this batch are unpublished until each citation is verified against the source URL."
