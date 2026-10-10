@@ -40,7 +40,7 @@ const LABELLED_BY_DOCUMENT_TYPE = {
 // Pages in the Insights area, wherever the sitemap lists them.
 const INSIGHTS_AREA = [
   'policy-briefs.html', 'housing-legislation-2026.html', 'colorado-elections.html', 'insights.html',
-  'article-pricing.html', 'help-for-homebuyers.html', 'market-intelligence.html',
+  'article-pricing.html', 'help-for-homebuyers.html',
   'cra-expansion-analysis.html', 'lihtc-enhancement-ahcia.html',
 ];
 

@@ -113,7 +113,6 @@ jobs:
 
           echo "=== Checking required pages ==="
           check_file "market-analysis.html"
-          check_file "market-intelligence.html"
           check_file "dashboard-data-sources-ui.html"
 
           echo ""
@@ -176,7 +175,7 @@ jobs:
           echo "=== Checking script tag references ==="
           check_script_ref "market-analysis.html"          "js/market-analysis.js"
           check_script_ref "market-analysis.html"          "js/lihtc-deal-predictor.js"
-          check_script_ref "market-intelligence.html"      "js/market-intelligence.js"
+          check_script_ref "colorado-deep-dive.html"       "js/market-intelligence.js"
           check_script_ref "deal-calculator.html"          "js/deal-calculator.js"
           check_script_ref "deal-calculator.html"          "js/lihtc-deal-predictor.js"
           check_script_ref "dashboard-data-sources-ui.html" "js/data-source-inventory.js"
