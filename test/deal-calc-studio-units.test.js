@@ -19,7 +19,8 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.join(__dirname, '..');
-const src = fs.readFileSync(path.join(root, 'js', 'deal-calculator.js'), 'utf8');
+const src = fs.readFileSync(path.join(root, 'js', 'deal-calculator.js'), 'utf8') + '\n' +
+  fs.readFileSync(path.join(root, 'js', 'deal-engine.js'), 'utf8');
 
 let passed = 0, failed = 0;
 function check(cond, msg) {

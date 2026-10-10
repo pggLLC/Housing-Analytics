@@ -10,7 +10,7 @@
     "acs_year": 2024,
     "notes": "Each row is the published median for that geography. Suppressed or missing estimates stay null with a reason; no county or tract value is substituted.",
     "scope": "Colorado: 64 counties, 482 places and CDPs (including unavailable rows)",
-    "generated_at_utc": "2026-10-10T15:54:17Z"
+    "generated_at_utc": "2026-10-10T15:00:14Z"
   },
   "counties": {
     "08001": {
