@@ -159,6 +159,7 @@ assert(docs.alternatives.tools.some((t) => ['prohibited_for_new', 'not_usable_fo
 const NOT_A_MUNICIPALITY = {
   'City of Highlands Ranch': 'Highlands Ranch is an unincorporated CDP governed by a metropolitan district, not a city',
   'Town of Gilman': 'Gilman is an abandoned mining town in Eagle County, not an incorporated town',
+  'Town of Penrose': 'Penrose is an unincorporated CDP in Fremont County, not a town',
 };
 const p123 = D.prop123Index(docs.prop123, D.geographies(docs.geoConfig));
 assert.deepEqual([...p123.unmatched].sort(), Object.keys(NOT_A_MUNICIPALITY).sort(), 'Prop 123 names that resolve to no county or municipality');
