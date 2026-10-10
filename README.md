@@ -40,7 +40,7 @@ See also:
 
 ## Repository inventory
 
-Current tracked inventory: **67 top-level / 561 total HTML pages**, **79 workflows**, **304 JavaScript files under `js/`**, and **546 geographies** (**64 counties / 272 places / 210 CDPs**).
+Current tracked inventory: **67 top-level / 561 total HTML pages**, **80 workflows**, **305 JavaScript files under `js/`**, and **546 geographies** (**64 counties / 272 places / 210 CDPs**).
 
 Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs the same check and fails when this line drifts from the tracked files or geography registry.
 
@@ -56,7 +56,7 @@ Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs
 | `housing-needs-assessment.html` | Housing Needs Assessment tool (Colorado-focused; Census + LEHD + DOLA/SDO) — 546 geographies (64 counties, 272 places, 210 CDPs) |
 | `market-analysis.html` | Primary Market Analysis (PMA) tool — site scoring, supply/demand, LIHTC concept recommendation with housing needs alignment |
 | `market-intelligence.html` | Market Intelligence dashboard — CAR data, FRED trends, rental metrics |
-| `deal-calculator.html` | LIHTC Feasibility Calculator — 4% vs 9% credit sizing, sources & uses, first mortgage |
+| `deal-calculator.html` | Deal Calculator — rental mode: LIHTC 4% vs 9% credit sizing, sources & uses, first mortgage; ownership mode: per-home subsidy gap for deed-restricted for-sale homes. Which tools serve which product: [docs/DEVELOPER-TRACKS.md](docs/DEVELOPER-TRACKS.md) |
 | `for-sale-market-study.html` | For-sale project comparison — program, land, shared equity, resale, demand funnel, and capture screening |
 | `select-jurisdiction.html` | Jurisdiction selector — routes to HNA, comparative analysis, or scenario builder |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking — statewide jurisdiction needs ranking with scorecard |

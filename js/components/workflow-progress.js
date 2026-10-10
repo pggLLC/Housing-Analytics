@@ -49,6 +49,156 @@
     { num: 7, key: 'recommendation', label: 'Recommendation',  href: 'recommendation.html' }
   ];
 
+  /* ── Product routes ────────────────────────────────────────────────────────
+   *
+   * The seven steps above are the LIHTC rental route, and stay the canonical
+   * list (FINISH-LINE.md, the banner fallback and the tests read them). A
+   * developer planning for-sale homes walks the same seven slots, but three of
+   * them are rental-only tools: the Opportunity Finder ranks LIHTC
+   * opportunity, Market Analysis is a LIHTC primary market area, and the
+   * Scenario Builder sets rents. For that product those slots open the
+   * ownership tools instead. Slot numbers and keys do not change, so step
+   * completion, the banner and saved projects keep working; only where a slot
+   * leads, and what it is called, follows the product.
+   *
+   * Middle-income rental (80–120% AMI) walks the LIHTC route: every step
+   * applies, but the Deal step sizes federal LIHTC only — the chooser on
+   * select-jurisdiction.html says so.
+   *
+   * A project with both rental and for-sale homes ("mixed") walks the LIHTC
+   * route too, and the for-sale tool for slots 2, 4 and 5 rides along as a
+   * companion: listed under the rail and named by the next-step banner. The
+   * Deal Calculator still models one tenure at a time; a combined deal is not
+   * built. docs/DEVELOPER-TRACKS.md maps all four.
+   *
+   * Labels match the site nav's labels for the same pages (js/navigation.js),
+   * which test/guided-path-product-routes.test.js holds. */
+  var PRODUCTS = {
+    'lihtc-rental':         { label: 'LIHTC rental' },
+    'middle-income-rental': { label: 'Middle-income rental' },
+    'for-sale':             { label: 'For-sale ownership' },
+    'mixed':                { label: 'Rental and for-sale' }
+  };
+  var DEFAULT_PRODUCT = 'lihtc-rental';
+  // The ownership tool for each slot that has a rental-only tool.
+  var FOR_SALE_SLOTS = {
+    2: { label: 'Ownership Need', href: 'hna-what-to-do.html#affordable-ownership-need-section',
+         action: 'Check who can afford to buy here and what is missing.' },
+    4: { label: 'For-Sale Market Study', href: 'for-sale-market-study.html',
+         action: 'Screen buyer demand, capture, absorption and resale for your project.' },
+    5: { label: 'Land Value', href: 'land-value.html',
+         action: 'Test what the land is worth against what the homes can sell for.' }
+  };
+  // Slots whose page is replaced, by product.
+  var ROUTE_OVERRIDES = { 'for-sale': FOR_SALE_SLOTS };
+  // Slots that keep their page and gain a second one, by product.
+  var ROUTE_COMPANIONS = { 'mixed': FOR_SALE_SLOTS };
+  var PRODUCT_STORAGE_KEY = 'coho:guided-product';
+
+  function isProduct(p) { return Object.prototype.hasOwnProperty.call(PRODUCTS, p); }
+
+  /** The product the reader chose, or null when none has been chosen. The
+   *  active project's choice wins; a per-browser copy covers a reader who
+   *  chose before any project existed. */
+  function getProduct() {
+    try {
+      var WS = global.WorkflowState;
+      var fromProject = WS && typeof WS.get === 'function' ? WS.get('product') : null;
+      if (isProduct(fromProject)) return fromProject;
+    } catch (e) { /* no project */ }
+    try {
+      var stored = global.localStorage && global.localStorage.getItem(PRODUCT_STORAGE_KEY);
+      if (isProduct(stored)) return stored;
+    } catch (e) { /* storage blocked */ }
+    return null;
+  }
+
+  function setProduct(p) {
+    if (!isProduct(p)) return false;
+    try { if (global.localStorage) global.localStorage.setItem(PRODUCT_STORAGE_KEY, p); } catch (e) { /* storage blocked */ }
+    try {
+      var WS = global.WorkflowState;
+      if (WS && typeof WS.getActiveProject === 'function' && WS.getActiveProject() && typeof WS.set === 'function') {
+        WS.set('product', p);
+      }
+    } catch (e) { /* no project */ }
+    applyRouteToDocument();
+    try {
+      document.dispatchEvent(new CustomEvent('workflow:product-changed', { detail: { product: p } }));
+    } catch (e) { /* old browser */ }
+    return true;
+  }
+
+  /** STEPS as they apply to a product. Overridden slots carry `routed: true`
+   *  and an `action` sentence for the next-step banner; slots with a second
+   *  page carry `companion: { label, href, action }`. */
+  function stepsFor(product) {
+    var o = ROUTE_OVERRIDES[product] || {};
+    var c = ROUTE_COMPANIONS[product] || {};
+    return STEPS.map(function (s) {
+      var r = { num: s.num, key: s.key, label: s.label, href: s.href };
+      if (o[s.num]) {
+        r.label = o[s.num].label;
+        r.href = o[s.num].href;
+        r.action = o[s.num].action;
+        r.routed = true;
+      }
+      if (c[s.num]) {
+        r.companion = { label: c[s.num].label, href: c[s.num].href, action: c[s.num].action };
+      }
+      return r;
+    });
+  }
+
+  /* The line under the rail that lists companion pages, or '' when the route
+   * has none. */
+  function companionsHtml(route) {
+    var links = [];
+    route.forEach(function (s) {
+      if (!s.companion) return;
+      links.push('<a href="' + relToRoot() + s.companion.href + '">' + s.companion.label + '</a> (step ' + s.num + ')');
+    });
+    return links.length
+      ? '<p class="wf-companions">For the for-sale homes, also: ' + links.join(' \u00b7 ') + '</p>'
+      : '';
+  }
+
+  function currentSteps() { return stepsFor(getProduct() || DEFAULT_PRODUCT); }
+
+  /* Rewrite the hard-coded rails (13 pages carry one in their HTML) to the
+   * chosen product's route. The active step is left alone: it names the page
+   * the reader is on, whatever the route says that slot is for. */
+  function applyRouteToDocument(root) {
+    var scope = root || (typeof document !== 'undefined' ? document : null);
+    if (!scope || !scope.querySelectorAll) return;
+    var byNum = {};
+    currentSteps().forEach(function (s) { byNum[s.num] = s; });
+    var els = scope.querySelectorAll('.wf-step[data-step]');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      var step = byNum[parseInt(el.getAttribute('data-step'), 10)];
+      if (!step) continue;
+      if (el.classList.contains('wf-step--active') || el.getAttribute('aria-current') === 'step') continue;
+      var labelEl = el.querySelector('.wf-step__label');
+      if (labelEl && labelEl.textContent !== step.label) labelEl.textContent = step.label;
+      if (el.tagName === 'A') el.setAttribute('href', relToRoot() + step.href);
+    }
+    // The companion line sits right after each rail's row of steps. Pages
+    // wrap their hard-coded rails differently, so the row is found from the
+    // steps rather than from a wrapper class.
+    var html = companionsHtml(currentSteps());
+    if (html) ensureStyles();
+    var rows = [];
+    for (var r = 0; r < els.length; r++) {
+      if (rows.indexOf(els[r].parentNode) === -1) rows.push(els[r].parentNode);
+    }
+    for (var w = 0; w < rows.length; w++) {
+      var next = rows[w].nextElementSibling;
+      if (next && next.classList.contains('wf-companions')) next.parentNode.removeChild(next);
+      if (html) rows[w].insertAdjacentHTML('afterend', html);
+    }
+  }
+
   /* ── relToRoot — mirrors navigation.js pattern ──────────────────────────── */
 
   function relToRoot() {
@@ -115,6 +265,7 @@
       '.wf-step--done .wf-step__num{background:var(--good,#047857);color:#fff;border-color:var(--good,#047857);}',
       '.wf-step--done .wf-step__label{color:var(--good,#047857);}',
       '.wf-step-connector{flex:1;height:2px;background:var(--border);min-width:20px;margin-bottom:18px;}',
+      '.wf-companions{max-width:1200px;margin:6px auto 0;font-size:.74rem;line-height:1.4;color:var(--muted);text-align:center;}',
       '@media(max-width:' + compactBelowPx() + 'px){',
       '  .wf-progress-wrap{box-sizing:border-box;width:100%;max-width:100%;min-width:0;padding:8px 10px;overflow:hidden;}',
       '  .wf-progress-steps{box-sizing:border-box;width:100%;max-width:100%;min-width:0;gap:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;}',
@@ -160,7 +311,7 @@
 
   /* ── Build HTML for a single step ──────────────────────────────────────── */
 
-  function buildStepHtml(step, activeStep, doneSteps) {
+  function buildStepHtml(step, activeStep, doneSteps, onCompanion) {
     var isDone   = (doneSteps.indexOf(step.num) !== -1);
     var isActive = (step.num === activeStep);
 
@@ -170,7 +321,9 @@
 
     var ariaAttr  = isActive ? ' aria-current="step"' : '';
     var numText   = isDone ? '\u2713' : String(step.num);
-    var labelText = step.label;
+    // On a companion page (the for-sale study inside a mixed route) the active
+    // slot is named for the page the reader is on.
+    var labelText = (isActive && onCompanion && step.companion) ? step.companion.label : step.label;
 
     // Done and upcoming steps (not the active step) get links; active stays div
     var useLink = !isActive;
@@ -197,20 +350,22 @@
 
   /* ── Build complete progress bar HTML ───────────────────────────────────── */
 
-  function buildHtml(activeStep, doneSteps) {
+  function buildHtml(activeStep, doneSteps, onCompanion) {
     var parts = [];
+    var route = currentSteps();
     var i;
-    for (i = 0; i < STEPS.length; i++) {
+    for (i = 0; i < route.length; i++) {
       if (i > 0) {
         parts.push('<div class="wf-step-connector"></div>');
       }
-      parts.push(buildStepHtml(STEPS[i], activeStep, doneSteps));
+      parts.push(buildStepHtml(route[i], activeStep, doneSteps, onCompanion));
     }
     return (
       '<div class="wf-progress-wrap">' +
         '<div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">' +
           parts.join('') +
         '</div>' +
+        companionsHtml(route) +
       '</div>'
     );
   }
@@ -259,6 +414,15 @@
      *  number without writing a second table of numbers. */
     STEPS: STEPS.map(function (s) { return { num: s.num, key: s.key, label: s.label, href: s.href }; }),
 
+    /** Product routes — see "Product routes" above. */
+    PRODUCTS: Object.keys(PRODUCTS).map(function (k) { return { id: k, label: PRODUCTS[k].label }; }),
+    getProduct: getProduct,
+    setProduct: setProduct,
+    stepsFor: stepsFor,
+    /** The route for the chosen product (the LIHTC route when none is chosen). */
+    routeSteps: currentSteps,
+    applyRoute: applyRouteToDocument,
+
     render: function (containerId, activeStep, options) {
       ensureStyles();
 
@@ -271,7 +435,7 @@
       var step = parseInt(activeStep, 10) || 1;
       var done = resolveDoneSteps(step, options);
 
-      container.innerHTML = buildHtml(step, done);
+      container.innerHTML = buildHtml(step, done, !!(options && options.companion));
 
       // Remember args so refresh() can re-render without caller knowledge
       _lastArgs[containerId] = { activeStep: step, options: options || null };
@@ -338,6 +502,8 @@
           numEl.textContent = (isDone && !isActive) ? '\u2713' : String(num);
         }
       }
+
+      applyRouteToDocument(container);
 
       // Register so subsequent refresh(containerId) calls work correctly
       _lastArgs[containerId] = { activeStep: step, options: null };
@@ -412,10 +578,15 @@
     window.addEventListener('resize', apply, { passive: true });
   }
 
+  // A loaded project can carry another product.
+  document.addEventListener('workflow:project-loaded', function () { applyRouteToDocument(); });
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', publishHeaderHeight);
+    document.addEventListener('DOMContentLoaded', function () { applyRouteToDocument(); });
   } else {
     publishHeaderHeight();
+    applyRouteToDocument();
   }
 
   /* ── Expose globally ────────────────────────────────────────────────────── */

@@ -344,7 +344,7 @@
 
     /* ── What types of housing does the data support? ── */
     'What types of housing': {
-      why: 'This composite ranks 6 housing-type lanes (deep-affordability rental / workforce rental / family / senior / missing-middle ownership / detached SF ownership) by local need signals — a top-line view of where to focus.',
+      why: 'This composite ranks 7 housing-type lanes (deep-affordability rental / workforce rental / middle-income rental / family / senior / missing-middle ownership / detached SF ownership) by local need signals — a top-line view of where to focus.',
       demand: 'A top-ranked lane is where public indicators show the clearest combination of documented need and feasible delivery conditions. A lower-ranked lane may still be appropriate, but it should be supported by local evidence not captured in the public data.',
       project: 'Project type typically matches the top-ranked lane. When "deep-affordability rental" is top, a 30-50% AMI deep-targeting project fits. When "missing-middle ownership" is top, a townhome/condo for-sale path may fit better.',
     },
