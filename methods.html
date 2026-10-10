@@ -124,6 +124,7 @@
           <span>Paul Glasgow &mdash; <a href="https://pggllc.com">pggLLC</a>, working with AI</span>
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
           <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">221568d62</code></span>
+          <span>Every section last read against its code on <time data-spec-reviewed>2026-10-10</time></span>
           <span>Companion to the <a href="working-paper.html">working paper</a></span>
         </p>
       </header>
@@ -136,6 +137,13 @@
           changes in the code and this page is not rebuilt, continuous integration fails. That is the
           only reason to trust a methods document: not that its author was careful, but that it
           cannot disagree with the program and still ship.
+        </p>
+        <p>
+          The prose is held to the code a second way. Each section names the functions it
+          describes, and <code>scripts/paper/methods-spec-sources.json</code> records a fingerprint
+          of them as of the last time the two were read side by side. When that code changes,
+          continuous integration fails and names the section to re-read, so a formula on this page
+          cannot change shape in the program while the page keeps the old one.
         </p>
         <p>
           Reviewers are asked to attack §<a href="#m-affordability">05</a> first. It is where the
@@ -232,9 +240,8 @@
             &ldquo;Population-share apportionment: weight = min(1, population_share),&rdquo; which is
             <em>incomplete</em> rather than wrong: it omits the <code>max(area_share, &hellip;)</code>,
             so for a tract lying mostly inside a place it names the wrong term as the winner. The
-            emitter now states the full rule. The published file still carries the older string until
-            the CHAS build is re-run, which is a data-pipeline operation with its own ordering hazard
-            and is deliberately not bundled with this documentation fix.
+            emitter now states the full rule, and since the CHAS build was re-run the published file
+            carries it too.
           </p>
           <p>
             This matters beyond tidiness. <code>max</code> is not a partition: summed over the tracts
@@ -260,8 +267,13 @@
         <div class="col">
           <p>
             Apportionment is geometrically defensible and demographically optimistic. Summed across
-            overlapping tracts it overcounts households in roughly 31% of Colorado places, and under
-            the <code>max</code> rule it must. The correction anchors each place's tenure totals to an
+            overlapping tracts it overcounts households in
+            <span data-figure="methods_data.anchor_overcount_places">144</span> of the
+            <span data-figure="methods_data.anchor_places_total">482</span> Colorado places in the
+            current build
+            (<span data-figure="methods_data.anchor_overcount_share" data-figure-format="percent">30%</span>:
+            the apportioned household total exceeds the ACS occupied total before anchoring), and
+            under the <code>max</code> rule it must. The correction anchors each place's tenure totals to an
             independent source &mdash; the American Community Survey's occupied-unit counts &mdash;
             and scales the bands to fit.
           </p>
@@ -397,7 +409,7 @@ price    = budget / k                              (0 if budget ≤ 0)</code>
               <dt>r_front</dt><dd>front-end (housing-only) ratio</dd>
               <dt>r_back</dt><dd>back-end (total debt) ratio</dd>
               <dt>D</dt><dd>borrower's other monthly debt</dd>
-              <dt>L</dt><dd>financed share of price = 1 − down payment rate</dd>
+              <dt>L</dt><dd>financed share of price = (1 − down payment rate) &middot; (1 + upfront MIP + upfront guarantee fee), because FHA and USDA upfront fees are financed into the loan</dd>
               <dt>m(i,n)</dt><dd>monthly amortisation factor at rate i over n years</dd>
               <dt>τ, ι</dt><dd>annual property-tax and insurance rates</dd>
               <dt>π, μ</dt><dd>PMI and MIP annual rates</dd>
@@ -411,9 +423,13 @@ price    = budget / k                              (0 if budget ≤ 0)</code>
             The structure is a closed-form solve rather than a search: every cost that scales with
             price is collected into <code>k</code>, the cost per dollar of price per month, and the
             budget is divided by it. Fixed monthly costs are subtracted from the budget first,
-            precisely because they do not scale. The inverse &mdash; income required for a given home
-            value &mdash; <em>is</em> a binary search, because <code>f(size)</code> and the PMI gate
-            make the forward function piecewise.
+            precisely because they do not scale. There are two inverses &mdash; income required for a
+            given price &mdash; and both are in use. <code>incomeRequiredForPrice()</code> runs the
+            same algebra backwards in closed form; the affordability metrics panel and the HNA
+            utilities use it. <code>incomeNeededForHomeValue()</code> is a binary search, because
+            <code>f(size)</code> and the PMI gate make the forward function piecewise; the ownership
+            strategy and the section takeaways use it, and it returns <code>null</code> when no
+            income up to $5,000,000 reaches the price.
           </p>
         </div>
 
@@ -497,12 +513,52 @@ price    = budget / k                              (0 if budget ≤ 0)</code>
 
         <div class="mx-eq">
           <span class="lbl">Sub-scores (each part a within-type percentile)</span>
-          <code>gap_pressure   = w_c·pct(gap_count) + w_r·pct(gap_rate)
+          <code>gap_resident   = w_c·pct(gap_count) + w_r·pct(gap_rate)
+gap_workforce  = w_c·pct(wf_gap_count) + w_r·pct(wf_gap_rate)    or null if unmeasured
+gap_pressure   = max( gap_resident, gap_workforce )
 cost_pressure  = w_a·pct(cb_all) + w_s·pct(cb_severe) + w_d·pct(cb_deep)
 afford_intens  = w_h·pct(value/income) + w_n·pct(rent/income)
 future_press   = w_u·pct(future_units) + w_g·pct(senior_growth)
-overcrowding   = pct(overcrowding_rate)      or null if unmeasured</code>
+overcrowding   = pct(overcrowding_rate)      or null if unmeasured
+
+future_units   = max( resident_growth_20yr, wf_gap_count )</code>
+          <div class="mx-where">
+            <dl>
+              <dt>gap_count, gap_rate</dt><dd><code>housing_gap_units</code>, <code>housing_gap_rate_lte30</code> &mdash; affordable units against renter households who live in the place, at &le;30% AMI</dd>
+              <dt>wf_gap_count, wf_gap_rate</dt><dd><code>workforce_gap_units</code>, <code>workforce_gap_pct</code> &mdash; low-wage jobs located in the place (LODES workplace earnings bands CE01 and CE02, up to about $40,000 a year) less rental units affordable at &le;60% AMI</dd>
+              <dt>cb_all, cb_severe, cb_deep</dt><dd><code>pct_cost_burdened</code>, <code>pct_renter_severe_burdened</code>, <code>pct_deep_tier_burdened</code></dd>
+              <dt>value/income, rent/income</dt><dd><code>home_value_to_income</code>, <code>rent_to_income</code></dd>
+              <dt>future_units</dt><dd><code>future_units_needed_20yr</code>; its growth-only part is published separately as <code>future_units_growth_20yr</code></dd>
+              <dt>senior_growth</dt><dd><code>senior_share_growth_pp</code></dd>
+              <dt>overcrowding_rate</dt><dd><code>overcrowding_rate_pct</code></dd>
+              <dt>opportunity</dt><dd>weighted percentiles of <code>opportunity_mobility_score</code>, <code>walkability_score</code>, <code>amenity_access_score</code> and <code>qct_dda_score</code></dd>
+              <dt>commuter</dt><dd>percentiles of <code>in_commuters</code> and <code>commute_ratio</code></dd>
+            </dl>
+          </div>
           <span class="mx-src">scripts/hna/build_ranking_index.py</span>
+        </div>
+
+        <div class="mx-note">
+          <span class="tag">Need is also read from the jobs a place hosts</span>
+          <p>
+            The resident gap stops at the municipal boundary, so a place that has priced its
+            workforce out reads as satisfied: the households it lost are no longer residents. The
+            workforce reading counts the low-wage jobs located in the place instead, which do not
+            leave when the workers do, and sets them against rental units affordable at &le;60% AMI
+            &mdash; the band a wage near $40,000 reaches in most Colorado counties, not the &le;30%
+            band the resident gap uses. One job is benchmarked against one unit; there is no
+            workers-per-household divisor, because it would be the only unsourced number in the chain.
+          </p>
+          <p>
+            The two readings meet through <code>max</code>, never a blend, so adding the workforce
+            reading can raise a gap score and never lower one. In the current build it is the higher
+            of the two for <span data-figure="methods_data.workforce_gap_wins">265</span> of
+            <span data-figure="methods_data.ranked_geographies">546</span> geographies. The same
+            maximum sets the 20-year figure: for
+            <span data-figure="methods_data.future_units_workforce_reading">365</span> geographies
+            the published 20-year need is the workforce gap rather than projected resident growth,
+            and <code>future_units_reading</code> says which one each row carries.
+          </p>
         </div>
 
         <div class="mx-scroll">
@@ -550,6 +606,7 @@ need_aug   = min( 100,  need_core · (1 + α · commuter/100) )</code>
           <div class="mx-where">
             <dl>
               <dt>α</dt><dd><span data-figure="methods.ranking.subscore_weights.commuter.augment_alpha">0.2</span> — the augment coefficient</dd>
+              <dt>need_aug</dt><dd>published as <code>community_need_augmented_raw</code>; <code>need_core</code> as <code>community_need_core_score</code></dd>
             </dl>
           </div>
         </div>
@@ -689,8 +746,13 @@ weighted_avg(F)  =  ───────────────       F* = { f
             Share denominators are rounded before division (§<a href="#m-burden">04</a>), which
             removes the float-tie instability. Generated files are rebuilt in continuous integration
             and a pull request whose outputs drift from what its inputs would produce fails. The
-            constants in this document are extracted from source rather than transcribed, so this page
-            cannot drift from the program without failing the build.
+            constants in this document are extracted from source rather than transcribed, and the
+            counts it quotes about the data are read from the build that produced them. The
+            formulas are written by hand, so they are held to the code by fingerprint instead: a
+            change to any function a section names fails the build until someone has re-read that
+            section against it. That catches a change of shape, which no constant check can &mdash;
+            the workforce reading in §<a href="#m-score">06</a> arrived without moving a single
+            weight, and this page described the score without it for three weeks.
           </p>
         </div>
 
@@ -702,8 +764,7 @@ weighted_avg(F)  =  ───────────────       F* = { f
               file header and its output-schema example both said area-weighted
               (§<a href="#m-apportion">02</a>). Both corrected and now guarded. The string actually
               emitted into the data file was incomplete rather than wrong &mdash; it omitted the
-              <code>max</code> &mdash; and is also corrected, though the published file carries the
-              older text until the build is re-run.</li>
+              <code>max</code> &mdash; and is also corrected, in the published file as well.</li>
             <li>The working paper described one affordability model where
               <span data-figure="methods.affordability.model_count">7</span> exist, and described
               the non-default one (§<a href="#m-affordability">05</a>).</li>
@@ -729,6 +790,11 @@ weighted_avg(F)  =  ───────────────       F* = { f
               household to more than one place. The ACS anchor bounds the consequence at the place
               level but nothing bounds it statewide, so summing place-level counts across Colorado is
               not a valid operation and the interface should say so more loudly than it does.</li>
+            <li><strong>An exported workforce is counted more than once.</strong> The same jobs
+              raise the gap factor through the workforce reading and the future-pressure factor
+              through the 20-year maximum, and in-commuting raises need again through the commuter
+              augment. Each is defensible alone; together they weight one phenomenon more heavily
+              than the factor weights in Table 3 suggest (§<a href="#m-score">06</a>).</li>
             <li><strong>Double percentiling compresses the need axis</strong> and puts it on a
               different scale from opportunity in the same weighted blend
               (§<a href="#m-score">06</a>).</li>
