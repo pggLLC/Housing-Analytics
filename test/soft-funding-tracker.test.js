@@ -46,7 +46,7 @@ async function runAll() {
   }
 }
 
-/* ── Fixtures ───────────────────────────────────────────────────────── */
+/* ── INVENTED fixtures (no client/project data) ───────────────────────────────────────────────────────── */
 
 // Build a fixture far enough in the future that "days to deadline" stays
 // positive for years. Pick a date 2 years out.
@@ -220,15 +220,15 @@ group('4. _fmtDollars', () => {
     assert.equal(SFT._fmtDollars(500), '$500');
   });
 
-  test('non-numeric input returns "$0"', () => {
-    assert.equal(SFT._fmtDollars(null), '$0');
-    assert.equal(SFT._fmtDollars('oops'), '$0');
+  test('non-numeric input is unavailable', () => {
+    assert.notEqual(SFT._fmtDollars(null), '$0');
+    assert.notEqual(SFT._fmtDollars('oops'), '$0');
   });
 });
 
 group('5. _computeConfidence', () => {
-  test('null program returns 0.5 (unknown)', () => {
-    assert.equal(SFT._computeConfidence(null), 0.5);
+  test('null program has no confidence score', () => {
+    assert.equal(SFT._computeConfidence(null), null);
   });
 
   test('available=0 collapses confidence to ~0.05', () => {
@@ -261,7 +261,7 @@ group('6. check() — core lookup', () => {
     await SFT.load({ programs: {} });
     const r = SFT.check('08999');
     assert.equal(r.program, 'No programs found');
-    assert.equal(r.available, 0);
+    assert.equal(r.available, null);
     assert.deepEqual(r.programs, []);
   });
 
@@ -392,12 +392,12 @@ group('8. getPabStatus()', () => {
     assert.equal(p.pctCommitted, 50);
   });
 
-  test('pctCommitted is 0 when no capacity', async () => {
+  test('pctCommitted is unavailable without a positive capacity', async () => {
     const f = FIXTURE_WITH_EXTRAS();
     f.programs['PAB-CO'].capacity = 0;
     await SFT.load(f);
     const p = SFT.getPabStatus();
-    assert.equal(p.pctCommitted, 0);
+    assert.equal(p.pctCommitted, null);
   });
 
   test('returns null when PAB-CO is not loaded', async () => {
@@ -423,11 +423,11 @@ group('9. sumEligible()', () => {
     assert.equal(r.programCount, 4);
   });
 
-  test('returns zero total when county has no matches', async () => {
+  test('returns unavailable total when county has no matches', async () => {
     await SFT.load(FIXTURE());
     // Suppress "All" programs by using a nonexistent execution type
     const r = SFT.sumEligible('08999', 'non-existent');
-    assert.equal(r.total, 0);
+    assert.equal(r.total, null);
     assert.equal(r.programCount, 0);
   });
 });

@@ -55,7 +55,7 @@ function assertOfficialUrl(value, label) {
 console.log('\nEnergy retrofit funding coverage tests');
 console.log('='.repeat(46));
 
-assert.strictEqual(softFunding.lastUpdated, '2026-07-18', 'soft funding vintage records this verification pass');
+assertIsoDate(softFunding.lastUpdated, 'soft funding lastUpdated');
 
 const programs = softFunding.programs || {};
 ENERGY_PROGRAM_IDS.forEach((id) => {
@@ -70,7 +70,9 @@ ENERGY_PROGRAM_IDS.forEach((id) => {
   assertOfficialUrl(program.contactUrl, `${id} contactUrl`);
   assertIsoDate(program.last_verified, `${id} last_verified`);
   assertIsoDate(program.review_by, `${id} review_by`);
-  assert(program.source_note && program.source_note.includes('verified 2026-07-18'), `${id} records verification evidence`);
+  assert(program.last_verified <= softFunding.lastUpdated, `${id} verification is covered by file vintage`);
+  assert(program.source_note && program.source_note.trim(), `${id} records verification evidence`);
+  assert(program.source_note.includes(program.last_verified), `${id} note agrees with its verification date`);
 });
 
 [
