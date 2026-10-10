@@ -60,7 +60,7 @@ default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net h
 
 The Worker source tree does not contain a deployable public Worker hostname. The policy above uses the currently documented Cloudflare Worker domain. If the public data Worker is deployed under a different hostname, add that exact origin before enforcement rather than broadening the policy to all `*.workers.dev` hosts.
 
-The two `cloudflareinsights.com` origins are for Cloudflare Web Analytics, which `js/navigation.js` loads on every public page. Leave them in, or the CSP silently stops visit counting. Once the zone is proxied, keep Web Analytics' **automatic setup** (edge injection) off: the site already loads the beacon itself, and both together count every visit twice.
+The two `cloudflareinsights.com` origins are for Cloudflare Web Analytics, which `js/navigation.js` loads on the public pages that include it (most pages; a few standalone ones such as `ic-summary.html` and the map embeds do not, and are not measured). Leave them in, or the CSP silently stops visit counting. Once the zone is proxied, keep Web Analytics' **automatic setup** (edge injection) off: the site already loads the beacon itself, and both together count every visit twice.
 
 TODO for Batch 3: add the exact R2 public/custom hostname to the appropriate directive before any data is migrated to R2.
 
