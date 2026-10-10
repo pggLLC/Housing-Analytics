@@ -11,7 +11,7 @@ Depends on:
   js/site-state.js           (persistence)
   js/market-analysis/site-selection-score.js (scoring output)
   js/market-analysis/market-analysis-state.js (MAState — live results)
-  js/pma-ui-controller.js    (triggers after scoring)
+  js/market-analysis/market-analysis-controller.js (current site and completion event)
 
 ## Symbols
 

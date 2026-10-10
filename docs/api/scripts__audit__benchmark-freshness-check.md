@@ -7,7 +7,6 @@ Why this exists
 The Deal Calculator cites two static market-benchmark snapshots:
 
   - data/market/novogradac-equity-pricing.json   (LIHTC equity pricing)
-  - data/market/freddie-mac-multifamily-outlook.json (rates/cap-rate outlook)
   - data/market/tax-credit-transfer-pricing.json (tax-credit transfer pricing)
   - data/market/colorado-equity-pricing-factors.json (CO-specific LIHTC pricing factors)
   - data/policy/tax-credit-legislation.json (tax-credit legislation watchlist)

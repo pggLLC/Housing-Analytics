@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-02T13:46:42.080Z",
+  "generatedAt": "2026-10-09T14:18:05.213Z",
   "limit": 30,
   "placesChecked": 30,
   "placesWithCandidates": 26,
@@ -184,7 +184,7 @@
           "type": "subpath",
           "subpath": "community-services",
           "status": 200,
-          "title": null,
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         },
@@ -193,14 +193,50 @@
           "type": "subpath",
           "subpath": "comprehensive-plan",
           "status": 200,
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://cityofglendale.org/inclusionary-zoning",
+          "type": "subpath",
+          "subpath": "inclusionary-zoning",
+          "status": 200,
           "title": null,
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         },
         {
-          "url": "https://cityofglendale.org/economic-development/housing",
+          "url": "https://cityofglendale.org/planning/housing",
           "type": "subpath",
-          "subpath": "economic-development/housing",
+          "subpath": "planning/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://cityofglendale.org/departments/housing",
+          "type": "subpath",
+          "subpath": "departments/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://cityofglendale.org/government/departments/housing",
+          "type": "subpath",
+          "subpath": "government/departments/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://cityofglendale.org/departments/community-development",
+          "type": "subpath",
+          "subpath": "departments/community-development",
           "status": 200,
           "title": null,
           "hasHousingKeyword": false,
@@ -339,119 +375,20 @@
       "slug": "evans",
       "candidateUrls": [
         {
-          "url": "https://www.townofevans.org/",
+          "url": "https://townofevansny.gov/",
           "type": "base",
-          "status": 202,
-          "title": null,
+          "status": 200,
+          "title": "Town of Evans",
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         },
         {
-          "url": "https://www.townofevans.org/housing",
-          "type": "subpath",
-          "subpath": "housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/affordable-housing",
-          "type": "subpath",
-          "subpath": "affordable-housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/housing-authority",
-          "type": "subpath",
-          "subpath": "housing-authority",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/community-development",
-          "type": "subpath",
-          "subpath": "community-development",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/community-services",
-          "type": "subpath",
-          "subpath": "community-services",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/comprehensive-plan",
-          "type": "subpath",
-          "subpath": "comprehensive-plan",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/inclusionary-zoning",
-          "type": "subpath",
-          "subpath": "inclusionary-zoning",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/planning/housing",
-          "type": "subpath",
-          "subpath": "planning/housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/departments/housing",
-          "type": "subpath",
-          "subpath": "departments/housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/government/departments/housing",
-          "type": "subpath",
-          "subpath": "government/departments/housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/departments/community-development",
+          "url": "https://townofevansny.gov/departments/community-development/",
           "type": "subpath",
           "subpath": "departments/community-development",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/economic-development/housing",
-          "type": "subpath",
-          "subpath": "economic-development/housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
+          "status": 200,
+          "title": "Planning &amp; Development - Town of Evans",
+          "hasHousingKeyword": true,
           "looksLikeColorado": false
         }
       ]
@@ -495,12 +432,12 @@
       "slug": "fort morgan",
       "candidateUrls": [
         {
-          "url": "https://www.cityoffortmorgan.com/",
+          "url": "https://fortmorgan.org/",
           "type": "base",
           "status": 200,
-          "title": "Fort Morgan, CO | Official Website",
+          "title": "Fortmorgan | Place-Rooted Memoirs and Journeys",
           "hasHousingKeyword": false,
-          "looksLikeColorado": true
+          "looksLikeColorado": false
         }
       ]
     },
@@ -864,120 +801,120 @@
       "slug": "las animas",
       "candidateUrls": [
         {
-          "url": "https://www.lasanimas.org/",
+          "url": "https://geo.org/tours/?keywords1=947&keywords2=colorado-l947",
           "type": "base",
           "status": 200,
-          "title": null,
+          "title": "Tours &#8211; Book Things To Do, Attractions &amp; Tours &#8211; Geo.org",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         },
         {
-          "url": "https://www.lasanimas.org/housing",
+          "url": "https://geo.org/tours/?keywords1=947&keywords2=colorado-l947/housing",
           "type": "subpath",
           "subpath": "housing",
           "status": 200,
-          "title": null,
+          "title": "Tours &#8211; Book Things To Do, Attractions &amp; Tours &#8211; Geo.org",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         },
         {
-          "url": "https://www.lasanimas.org/affordable-housing",
+          "url": "https://geo.org/tours/?keywords1=947&keywords2=colorado-l947/affordable-housing",
           "type": "subpath",
           "subpath": "affordable-housing",
           "status": 200,
-          "title": null,
+          "title": "Tours &#8211; Book Things To Do, Attractions &amp; Tours &#8211; Geo.org",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         },
         {
-          "url": "https://www.lasanimas.org/housing-authority",
+          "url": "https://geo.org/tours/?keywords1=947&keywords2=colorado-l947/housing-authority",
           "type": "subpath",
           "subpath": "housing-authority",
           "status": 200,
-          "title": null,
+          "title": "Tours &#8211; Book Things To Do, Attractions &amp; Tours &#8211; Geo.org",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         },
         {
-          "url": "https://www.lasanimas.org/community-development",
+          "url": "https://geo.org/tours/?keywords1=947&keywords2=colorado-l947/community-development",
           "type": "subpath",
           "subpath": "community-development",
           "status": 200,
-          "title": null,
+          "title": "Tours &#8211; Book Things To Do, Attractions &amp; Tours &#8211; Geo.org",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         },
         {
-          "url": "https://www.lasanimas.org/community-services",
+          "url": "https://geo.org/tours/?keywords1=947&keywords2=colorado-l947/community-services",
           "type": "subpath",
           "subpath": "community-services",
           "status": 200,
-          "title": null,
+          "title": "Tours &#8211; Book Things To Do, Attractions &amp; Tours &#8211; Geo.org",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         },
         {
-          "url": "https://www.lasanimas.org/comprehensive-plan",
+          "url": "https://geo.org/tours/?keywords1=947&keywords2=colorado-l947/comprehensive-plan",
           "type": "subpath",
           "subpath": "comprehensive-plan",
           "status": 200,
-          "title": null,
+          "title": "Tours &#8211; Book Things To Do, Attractions &amp; Tours &#8211; Geo.org",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         },
         {
-          "url": "https://www.lasanimas.org/inclusionary-zoning",
+          "url": "https://geo.org/tours/?keywords1=947&keywords2=colorado-l947/inclusionary-zoning",
           "type": "subpath",
           "subpath": "inclusionary-zoning",
           "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "title": "Tours &#8211; Book Things To Do, Attractions &amp; Tours &#8211; Geo.org",
+          "hasHousingKeyword": true,
+          "looksLikeColorado": true
         },
         {
-          "url": "https://www.lasanimas.org/planning/housing",
+          "url": "https://geo.org/tours/?keywords1=947&keywords2=colorado-l947/planning/housing",
           "type": "subpath",
           "subpath": "planning/housing",
           "status": 200,
-          "title": null,
+          "title": "Tours &#8211; Book Things To Do, Attractions &amp; Tours &#8211; Geo.org",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         },
         {
-          "url": "https://www.lasanimas.org/departments/housing",
+          "url": "https://geo.org/tours/?keywords1=947&keywords2=colorado-l947/departments/housing",
           "type": "subpath",
           "subpath": "departments/housing",
           "status": 200,
-          "title": null,
+          "title": "Tours &#8211; Book Things To Do, Attractions &amp; Tours &#8211; Geo.org",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         },
         {
-          "url": "https://www.lasanimas.org/government/departments/housing",
+          "url": "https://geo.org/tours/?keywords1=947&keywords2=colorado-l947/government/departments/housing",
           "type": "subpath",
           "subpath": "government/departments/housing",
           "status": 200,
-          "title": null,
+          "title": "Tours &#8211; Book Things To Do, Attractions &amp; Tours &#8211; Geo.org",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         },
         {
-          "url": "https://www.lasanimas.org/departments/community-development",
+          "url": "https://geo.org/tours/?keywords1=947&keywords2=colorado-l947/departments/community-development",
           "type": "subpath",
           "subpath": "departments/community-development",
           "status": 200,
-          "title": null,
+          "title": "Tours &#8211; Book Things To Do, Attractions &amp; Tours &#8211; Geo.org",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         },
         {
-          "url": "https://www.lasanimas.org/economic-development/housing",
+          "url": "https://geo.org/tours/?keywords1=947&keywords2=colorado-l947/economic-development/housing",
           "type": "subpath",
           "subpath": "economic-development/housing",
           "status": 200,
-          "title": null,
+          "title": "Tours &#8211; Book Things To Do, Attractions &amp; Tours &#8211; Geo.org",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         }
       ]
     },
@@ -1278,118 +1215,10 @@
       "slug": "del norte",
       "candidateUrls": [
         {
-          "url": "https://www.delnorte.org/",
+          "url": "https://visitdelnortecounty.com/chamber-of-commerce/",
           "type": "base",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.delnorte.org/housing",
-          "type": "subpath",
-          "subpath": "housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.delnorte.org/affordable-housing",
-          "type": "subpath",
-          "subpath": "affordable-housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.delnorte.org/housing-authority",
-          "type": "subpath",
-          "subpath": "housing-authority",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.delnorte.org/community-development",
-          "type": "subpath",
-          "subpath": "community-development",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.delnorte.org/community-services",
-          "type": "subpath",
-          "subpath": "community-services",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.delnorte.org/comprehensive-plan",
-          "type": "subpath",
-          "subpath": "comprehensive-plan",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.delnorte.org/inclusionary-zoning",
-          "type": "subpath",
-          "subpath": "inclusionary-zoning",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.delnorte.org/planning/housing",
-          "type": "subpath",
-          "subpath": "planning/housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.delnorte.org/departments/housing",
-          "type": "subpath",
-          "subpath": "departments/housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.delnorte.org/government/departments/housing",
-          "type": "subpath",
-          "subpath": "government/departments/housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.delnorte.org/departments/community-development",
-          "type": "subpath",
-          "subpath": "departments/community-development",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.delnorte.org/economic-development/housing",
-          "type": "subpath",
-          "subpath": "economic-development/housing",
-          "status": 202,
-          "title": null,
+          "status": 200,
+          "title": "Crescent City - Del Norte County Chamber of Commerce",
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         }

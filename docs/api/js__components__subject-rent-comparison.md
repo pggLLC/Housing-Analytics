@@ -6,7 +6,7 @@ Per-AMI-tier rent comparison card. Reads the Subject Project's
 unit_mix and computes, for each row:
 
   • LIHTC max gross rent  (from county MTSP income limits)
-  • LIHTC max net rent    (gross − utility allowance)
+  • LIHTC max net rent    (gross − utility allowance − fees)
   • Proposed gross rent   (as entered)
   • Headroom              (max − proposed) — negative means OVER MAX
   • Rent advantage vs HUD FMR  (proposed − FMR for matching bedroom)

@@ -575,6 +575,15 @@
   }
 
   /* ── Custom PMA readiness (#1932) ──────────────────────────────── */
+  function _htmlEscape(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function _listGeoids(ids) {
+    return ids.length <= 5 ? ids.join(', ') : ids.slice(0, 5).join(', ') + ' and ' + (ids.length - 5) + ' more';
+  }
+
   /**
    * A custom PMA's conclusions — the score, capture rate and competitive
    * density — describe that PMA only when three bindings are all in place:
@@ -588,14 +597,6 @@
    * Returns null when the custom PMA is bound, otherwise the reason its
    * conclusions are not yet available. Never a default.
    */
-  function _htmlEscape(s) {
-    return String(s).replace(/[&<>"']/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-    });
-  }
-  function _listGeoids(ids) {
-    return ids.length <= 5 ? ids.join(', ') : ids.slice(0, 5).join(', ') + ' and ' + (ids.length - 5) + ' more';
-  }
   function customPmaBlockReason(lat, lon, geoids, boundary, boundTracts, acsIdx) {
     if (typeof lat !== 'number' || typeof lon !== 'number' || !isFinite(lat) || !isFinite(lon)
         || (lat === 0 && lon === 0)) {
@@ -1168,9 +1169,8 @@
   /**
    * Compute LIHTC recency context from nearby features. A market with its
    * last allocation in 2018 reads very differently from one last funded
-   * in 2024 — CHFA geographic-distribution scoring and competitive
-   * saturation both depend on this temporal signal, which prior PMA
-   * scoring ignored entirely.
+   * in 2024. COHO uses this temporal signal to flag recent supply or
+   * gaps in the record for further market review.
    *
    * @param {Array} nearbyFeatures - LIHTC GeoJSON features from lihtcInBuffer
    * @returns {{mostRecentYear:number|null, yearsSince:number|null, recentAllocations5yr:number, activityLevel:string, note:string|null}}
@@ -1200,17 +1200,16 @@
     var recent5yr = years.filter(function (y) { return currentYear - y <= 5; }).length;
 
     // Activity labels:
-    //  - 'very-active': 3+ allocations in last 5 years (saturation risk; CHFA
-    //    geographic-distribution rules may penalize additional deals)
+    //  - 'very-active': 3+ allocations in last 5 years (COHO supply screen;
+    //    not a CHFA award limit)
     //  - 'active': 1-2 allocations in last 5 years (normal activity)
     //  - 'quiet': last allocation 6-10 years ago (gap; opportunity)
-    //  - 'dormant': 11+ years since last allocation (deep gap; CHFA may
-    //    prioritize for geographic equity)
+    //  - 'dormant': 11+ years since last allocation (long gap in the record)
     var activityLevel, note;
     if (recent5yr >= 3) {
       activityLevel = 'very-active';
       note = recent5yr + ' LIHTC allocations within the PMA in the last 5 years. ' +
-        'CHFA geographic-distribution scoring may limit further awards; check QAP §6.c.';
+        'Review competing supply and absorption; this COHO screening flag is not a CHFA award limit.';
     } else if (recent5yr >= 1) {
       activityLevel = 'active';
       note = 'Most recent LIHTC allocation: ' + mostRecent + ' (' + yearsSince + ' yr' +
@@ -1222,7 +1221,7 @@
     } else {
       activityLevel = 'dormant';
       note = 'No LIHTC allocations in the last 10+ years (most recent: ' + mostRecent + '). ' +
-        'Significant gap — CHFA may favor geographic-equity scoring for this area.';
+        'Long gap in the record — verify unmet need and current supply before drawing a conclusion.';
     }
 
     return {
@@ -1327,9 +1326,8 @@
         : 'Rent-pressure score unavailable — ' + rentPressureObj.unavailableReason });
     }
 
-    // LIHTC recency flags — surface competitive saturation vs. gap signals
-    // that CHFA's geographic-distribution scoring explicitly considers
-    // but which prior PMA scoring ignored entirely.
+    // COHO recency flags surface recent supply versus gaps in the record;
+    // they do not establish CHFA award priorities.
     if (lihtcRecency.activityLevel === 'very-active') {
       flags.push({ level: 'warn', text: lihtcRecency.note });
     } else if (lihtcRecency.activityLevel === 'dormant') {
@@ -1934,10 +1932,7 @@
     setText('pmaRenterHh', (result.acs.renter_hh || 0).toLocaleString());
     setText('pmaLihtcProp123', result.prop123Count != null ? result.prop123Count : '—');
 
-    // Surface LIHTC recency — CHFA scoring considers last-funded-year;
-    // "last funded 2018 (7 yrs ago)" is a meaningfully different signal
-    // than "last funded 2024 (1 yr ago)" for both competitive saturation
-    // and geographic-distribution scoring.
+    // Surface the last recorded award year as COHO supply context.
     var rec = result.lihtcRecency;
     if (rec && rec.mostRecentYear != null) {
       setText('pmaLihtcLastFunded',
@@ -5662,14 +5657,17 @@
 
       // Load NHPD preservation data (for competitive set subsidy expiry analysis)
       if (window.Nhpd && typeof window.Nhpd.loadFromGeoJSON === 'function') {
-        DS.getJSON(DS.baseData('market/nhpd_co.geojson'))
+        window.__nhpdLoadPromise = DS.getJSON(DS.baseData('market/nhpd_co.geojson'))
           .then(function (gj) {
+            window.Nhpd.loadFromGeoJSON(gj);
             if (gj && gj.features) {
-              window.Nhpd.loadFromGeoJSON(gj);
               console.log('[market-analysis] NHPD loaded: ' + gj.features.length + ' properties');
             }
           })
-          .catch(function () { console.warn('[market-analysis] NHPD data unavailable (non-critical)'); });
+          .catch(function () {
+            window.Nhpd.loadInventory(null);
+            console.warn('[market-analysis] NHPD data unavailable (non-critical)');
+          });
       }
 
       // Load DOLA county demographics (non-fatal — supplements ACS with more

@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-10-07T14:27:41.749Z",
-  "totalScanned": 1704,
-  "newSourceCount": 1673,
+  "scanTimestamp": "2026-10-10T13:36:29.087Z",
+  "totalScanned": 1705,
+  "newSourceCount": 1674,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 830481,
+      "sizeBytes": 831042,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7237,
+      "sizeBytes": 7238,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -92,7 +92,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 188439,
+      "sizeBytes": 194381,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -122,13 +122,13 @@
     },
     {
       "path": "data/audit/quarantine-candidates.json",
-      "sizeBytes": 587,
+      "sizeBytes": 483,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/audit/upstream-vintage-watch.json",
-      "sizeBytes": 803,
+      "sizeBytes": 844,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -140,7 +140,7 @@
     },
     {
       "path": "data/capital-partners.json",
-      "sizeBytes": 13432,
+      "sizeBytes": 13396,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -183,6 +183,12 @@
     {
       "path": "data/car-market-report-2026-10.json",
       "sizeBytes": 3121,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/car-market-reports.json",
+      "sizeBytes": 467,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -278,7 +284,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 258355,
+      "sizeBytes": 258480,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4844,13 +4850,13 @@
     },
     {
       "path": "data/hna/local-resources-candidates.json",
-      "sizeBytes": 43494,
+      "sizeBytes": 39650,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/local-resources.json",
-      "sizeBytes": 181584,
+      "sizeBytes": 181591,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8684,7 +8690,7 @@
     },
     {
       "path": "data/insights/catalog.json",
-      "sizeBytes": 9235,
+      "sizeBytes": 8902,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8995,6 +9001,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/co-construction-labor-cost.json",
+      "sizeBytes": 130798,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/co-urban-renewal-authorities.json",
       "sizeBytes": 12169,
       "inDataManifest": false,
@@ -9008,7 +9020,7 @@
     },
     {
       "path": "data/market/colorado-foreclosure-performance.json",
-      "sizeBytes": 49077,
+      "sizeBytes": 49548,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9103,12 +9115,6 @@
       "inFilesManifest": true
     },
     {
-      "path": "data/market/freddie-mac-multifamily-outlook.json",
-      "sizeBytes": 3657,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
       "path": "data/market/hospitals_co.geojson",
       "sizeBytes": 76214,
       "inDataManifest": false,
@@ -9146,7 +9152,7 @@
     },
     {
       "path": "data/market/lihtc-equity-pricing-history.json",
-      "sizeBytes": 2370,
+      "sizeBytes": 5536,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9176,7 +9182,7 @@
     },
     {
       "path": "data/market/novogradac-equity-pricing.json",
-      "sizeBytes": 5307,
+      "sizeBytes": 17971,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9242,7 +9248,7 @@
     },
     {
       "path": "data/market/tax-credit-transfer-pricing.json",
-      "sizeBytes": 3439,
+      "sizeBytes": 5457,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9794,7 +9800,7 @@
     },
     {
       "path": "data/policy/homeownership-programs.json",
-      "sizeBytes": 16701,
+      "sizeBytes": 17186,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9824,7 +9830,7 @@
     },
     {
       "path": "data/policy/lihtc-assumptions.json",
-      "sizeBytes": 3881,
+      "sizeBytes": 4301,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9860,13 +9866,13 @@
     },
     {
       "path": "data/policy/research-orgs-housing.json",
-      "sizeBytes": 7859,
+      "sizeBytes": 7983,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/soft-funding-status.json",
-      "sizeBytes": 25939,
+      "sizeBytes": 44590,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9902,7 +9908,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 237957,
+      "sizeBytes": 248978,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9920,7 +9926,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 12563,
+      "sizeBytes": 12560,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9974,7 +9980,7 @@
     },
     {
       "path": "data/reports/developer-url-health.json",
-      "sizeBytes": 20466,
+      "sizeBytes": 24571,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10016,7 +10022,7 @@
     },
     {
       "path": "data/url-health.json",
-      "sizeBytes": 427583,
+      "sizeBytes": 428599,
       "inDataManifest": false,
       "inFilesManifest": true
     },

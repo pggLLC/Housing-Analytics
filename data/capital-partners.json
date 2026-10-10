@@ -108,7 +108,7 @@
     },
     {
       "name": "FHLB Topeka — Affordable Housing Program (AHP)",
-      "url":  "https://www.fhlbtopeka.com/community-investment/affordable-housing",
+      "url":  "https://www.fhlbtopeka.com/ahp",
       "category": "Federal Home Loan Bank",
       "deal_types": ["soft-debt","preservation","permanent-debt","construction"],
       "service_area": "CO / KS / NE / OK (Topeka district)",

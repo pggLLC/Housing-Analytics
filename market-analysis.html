@@ -359,21 +359,21 @@
                   class="pma-tab" data-pma-method="hybrid"
                   style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
             Circular buffer + tract overlay
-            <span style="font-size:.75em;color:var(--muted);">(screening)</span>
+            <span style="font-size:.75em;">(screening)</span>
           </button>
           <button role="tab" id="pmaMethodTabCommuting" aria-selected="false"
                   aria-controls="pmaMethodPanel-commuting"
                   class="pma-tab" data-pma-method="commuting"
                   style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
             Buffer + commute overlay
-            <span style="font-size:.75em;color:var(--muted);">(screening)</span>
+            <span style="font-size:.75em;">(screening)</span>
           </button>
           <button role="tab" id="pmaMethodTabBuffer"    aria-selected="false"
                   aria-controls="pmaMethodPanel-buffer"
                   class="pma-tab" data-pma-method="buffer"
                   style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
             Circular buffer
-            <span style="font-size:.75em;color:var(--muted);">(screening legacy)</span>
+            <span style="font-size:.75em;">(screening legacy)</span>
           </button>
         </div>
         <div id="pmaMethodPanel-buffer"    role="tabpanel" aria-labelledby="pmaMethodTabBuffer" hidden>
@@ -1005,13 +1005,13 @@
                       padding:.75rem .85rem;color:var(--text,#ddd);"></div>
           <!-- Subsidy expiry risk table (populated when NHPD data found) -->
           <div id="pmaSubsidyRiskWrap" hidden style="margin-top:.75rem;">
-            <p style="font-size:.78em;font-weight:600;margin-bottom:.35rem;">⚠ At-risk subsidy properties near site:</p>
+            <p style="font-size:.78em;font-weight:600;margin-bottom:.35rem;">Recorded subsidy expirations near site (limited snapshot):</p>
             <p style="font-size:.74em;margin:0 0 .35rem;color:var(--muted);"><strong>NHPD snapshot vintage: 2026-03-13 (stub).</strong> Access is registration-gated; verify current subsidy status with NHPD.</p>
             <div id="pmaSubsidyRiskList" style="font-size:.78em;"></div>
           </div>
           <!-- Absorption risk card — proposed units vs total competitive set -->
           <div id="pmaAbsorptionRiskWrap" hidden style="margin-top:.75rem;padding:.5rem .65rem;border-left:3px solid var(--border,#333);border-radius:0 4px 4px 0;background:var(--bg2,#1a1a1a);font-size:.78em;">
-            <p style="font-weight:600;margin:0 0 .35rem;">Absorption Risk — Competitive Supply Share</p>
+            <p style="font-weight:600;margin:0 0 .35rem;">Competitive Supply Share — Observed Records</p>
             <div id="pmaAbsorptionRiskBody" data-methodology-key="absorption-risk" data-methodology-placement="after" style="line-height:1.55;"></div>
           </div>
           <!-- Opportunity / incentive badges -->
@@ -1715,7 +1715,7 @@
     s.textContent = [
       /* Sticky below the site header — see housing-needs-assessment.html. */
       '.hna-jurisdiction-banner{max-width:1200px;margin:12px auto 0;padding:0 18px;}',
-      '.hna-jurisdiction-banner__inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:color-mix(in oklab,var(--card) 60%,var(--accent) 40%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:8px;flex-wrap:wrap;}',
+      '.hna-jurisdiction-banner__inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:color-mix(in oklab,var(--card) 88%,var(--accent) 12%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:8px;flex-wrap:wrap;}',
       '.hna-jurisdiction-banner__label{font-size:.78rem;color:var(--muted);font-weight:600;margin-right:6px;}',
       '.hna-jurisdiction-banner__change{font-size:.78rem;color:var(--accent);text-decoration:none;font-weight:700;}',
       '.hna-continue-panel{max-width:1200px;margin:32px auto 0;padding:0 18px 40px;}',

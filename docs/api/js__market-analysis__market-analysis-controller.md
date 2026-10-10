@@ -108,7 +108,7 @@ Filter rules:
 
 Returns a Promise that resolves to an array of property records.
 
-### `_getDesignationFlags(lat, lon)`
+### `_getDesignationFlags(lat, lon, siteSource)`
 
 Pull QCT / DDA designation flags from local overlay data using HudEgis.
 Checks whether the given lat/lon falls within a QCT or DDA polygon using
@@ -123,10 +123,19 @@ HudEgis is unavailable or a layer has not loaded / loaded empty. Unknown
 is never reported as false: false would untick the deal calculator's
 basis-boost box and drop the site's subsidy points.
 
+A jurisdiction centroid (siteSource 'jurisdiction_centroid', the ?auto=1
+deep-link run) is not a site: a centroid inside or outside a QCT says
+nothing about a parcel, so every flag is null with a reason.
+
+`designationEvidence` is HudEgis's evidence object (matched tract GEOID,
+DDA name/code, HUD year/source from the data files), or null.
+
 @param {number} lat
 @param {number} lon
+@param {string} [siteSource]
 @returns {{ qctFlag: boolean|null, ddaFlag: boolean|null,
-            basisBoostEligible: boolean|null, designationUnavailableReason: string|null }}
+            basisBoostEligible: boolean|null, designationUnavailableReason: string|null,
+            designationEvidence: Object|null }}
 
 ### `_computeFmrRatio(lat, lon, acs)`
 
@@ -209,7 +218,7 @@ Attempt to load scorecard data asynchronously at init time.
 
 Attempt to load and cache EJI features asynchronously at init time.
 
-### `runAnalysis(lat, lon, bufferMiles)`
+### `runAnalysis(lat, lon, bufferMiles, opts)`
 
 Orchestrate a full site analysis:
  1. Set loading state.
@@ -222,6 +231,10 @@ Orchestrate a full site analysis:
 @param {number} lat         - Site latitude.
 @param {number} lon         - Site longitude.
 @param {number} bufferMiles - Analysis buffer radius in miles.
+@param {Object} [opts]
+@param {string} [opts.siteSource] - 'jurisdiction_centroid' when the point
+  is a place/county centroid rather than a chosen site (QCT/DDA then
+  stays unknown). Defaults to 'site'.
 
 ### `_walkabilityReady(lat, lon, bufferMiles)`
 

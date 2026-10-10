@@ -48,6 +48,9 @@ const UNLINKED_BY_DESIGN = {
   'colorado-market.html':
     'redirect stub (1006 bytes) to colorado-deep-dive.html; exists to catch old '
     + 'inbound links and bookmarks, so being unlinked is the point',
+  'market-intelligence.html':
+    'redirect stub to colorado-deep-dive.html#tab-signals since the two Colorado '
+    + 'pages were merged; catches old links and bookmarks',
   'indibuild-pipeline-public.html':
     'redirect stub (394 bytes) to pipeline.html, which returns 200 in production; '
     + 'same reason — it catches old links rather than being navigated to',

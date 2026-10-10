@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Rental soft-funding program terms",
+  "description": "Published program terms only. Required nullable fields distinguish an unknown from an omitted record; source_note explains nulls. Review dates are internal reminders.",
+  "type": "object",
+  "required": [
+    "lastUpdated",
+    "programs"
+  ],
+  "properties": {
+    "lastUpdated": {
+      "$ref": "#/$defs/date"
+    },
+    "programs": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/program"
+      }
+    }
+  },
+  "$defs": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "url": {
+      "type": "string",
+      "format": "https-url"
+    },
+    "amount": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "exclusiveMinimum": 0
+    },
+    "maxRule": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "text",
+        "max_amount",
+        "min_amount",
+        "max_per_unit",
+        "max_project_cost_pct",
+        "must_pay_dscr"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "$ref": "#/$defs/text"
+        },
+        "max_amount": {
+          "$ref": "#/$defs/amount"
+        },
+        "min_amount": {
+          "$ref": "#/$defs/amount"
+        },
+        "max_per_unit": {
+          "$ref": "#/$defs/amount"
+        },
+        "max_project_cost_pct": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0,
+          "maximum": 100
+        },
+        "must_pay_dscr": {
+          "$ref": "#/$defs/amount"
+        }
+      }
+    },
+    "program": {
+      "type": "object",
+      "required": [
+        "name",
+        "funding_type",
+        "rate_pct",
+        "term_years",
+        "repayment",
+        "max_rule",
+        "source_url",
+        "source_note",
+        "last_verified",
+        "review_by"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "funding_type": {
+          "enum": [
+            "grant",
+            "amortizing_loan",
+            "cash_flow_loan",
+            "deferred_loan",
+            "forgivable_loan",
+            "equity",
+            "rental_assistance",
+            "interest_support",
+            "fee_waiver",
+            "payment_deferral",
+            null
+          ]
+        },
+        "rate_pct": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 100
+        },
+        "term_years": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "repayment": {
+          "enum": [
+            "must_pay",
+            "cash_flow",
+            "deferred",
+            "forgivable",
+            null
+          ]
+        },
+        "max_rule": {
+          "$ref": "#/$defs/maxRule"
+        },
+        "source_url": {
+          "$ref": "#/$defs/url"
+        },
+        "source_note": {
+          "$ref": "#/$defs/text"
+        },
+        "last_verified": {
+          "$ref": "#/$defs/date"
+        },
+        "review_by": {
+          "$ref": "#/$defs/date"
+        },
+        "maxPerProject": {
+          "$ref": "#/$defs/amount"
+        },
+        "relatedSourceUrls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/url"
+          },
+          "uniqueItems": true
+        },
+        "application_round": {
+          "type": "object",
+          "required": [
+            "opens",
+            "closes",
+            "announcements_by"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "opens": {
+              "$ref": "#/$defs/date"
+            },
+            "closes": {
+              "$ref": "#/$defs/date"
+            },
+            "announcements_by": {
+              "$ref": "#/$defs/date"
+            }
+          }
+        }
+      }
+    }
+  }
+}

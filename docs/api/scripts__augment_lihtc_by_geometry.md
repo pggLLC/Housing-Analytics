@@ -21,6 +21,8 @@ Writes:
   - rankings[*].metrics.lihtc_in_boundary_year (max year of contained projects)
   - metric descriptors added
 
+County rows are tested against data/boundaries/counties_co.geojson.
+
 The original `lihtc_project_count` (city-name-matched) stays in
 place; the new field supplements it. Consumers can pick whichever
 fits the semantic — city-name matching is more conservative for

@@ -85,8 +85,8 @@
   var DEFAULT_ASSUMPTIONS = {
     creditRate9Pct:           _coho.creditRate9Pct  || 0.09,
     creditRate4Pct:           _coho.creditRate4Pct  || 0.04,
-    equityPrice9Pct:          _coho.equityPrice9Pct || 0.86,
-    equityPrice4Pct:          _coho.equityPrice4Pct || 0.84,
+    equityPrice9Pct:          _coho.equityPrice9Pct || 0.82,
+    equityPrice4Pct:          _coho.equityPrice4Pct || 0.83,
     hardCostPerUnit:          350000,
     softCostPct:              0.22,
     devFeePct:                0.15,
@@ -129,8 +129,8 @@
   }
 
   function _resetPricingDefaultsForTest() {
-    DEFAULT_ASSUMPTIONS.equityPrice9Pct = _coho.equityPrice9Pct || 0.86;
-    DEFAULT_ASSUMPTIONS.equityPrice4Pct = _coho.equityPrice4Pct || 0.84;
+    DEFAULT_ASSUMPTIONS.equityPrice9Pct = _coho.equityPrice9Pct || 0.82;
+    DEFAULT_ASSUMPTIONS.equityPrice4Pct = _coho.equityPrice4Pct || 0.83;
     return _getEquityPricingDefaults();
   }
 
@@ -329,16 +329,15 @@
       risks.push('Market saturation: ' + competitiveSet + ' competitive LIHTC projects within 1 mile may limit absorption');
     }
 
-    // LIHTC recency signals from PMA — distinct from raw count. CHFA
-    // geographic-distribution scoring actively rewards gap areas and
-    // penalizes areas with 3+ recent allocations (QAP §6.c).
+    // COHO recency screen, distinct from raw count. The three-allocation
+    // threshold is a screening assumption, not a CHFA award rule.
     if (inputs.lihtcActivityLevel === 'very-active' && inputs.recentAllocations5yr >= 3) {
-      risks.push('Geographic-distribution penalty risk: ' + inputs.recentAllocations5yr +
-        ' LIHTC allocations in PMA in last 5 yrs — CHFA QAP §6.c may limit further awards');
+      risks.push('Recent supply screening flag: ' + inputs.recentAllocations5yr +
+        ' LIHTC allocations in PMA in last 5 yrs — review competing supply and absorption; this is not a CHFA award limit');
     }
     if (inputs.lihtcActivityLevel === 'dormant' && inputs.mostRecentLihtcYear) {
       rationale.push('No LIHTC allocations in 10+ yrs (most recent: ' + inputs.mostRecentLihtcYear +
-        ') — CHFA geographic-equity scoring may favor this area');
+        ') — review unmet need alongside current supply; this is a COHO screening signal');
     }
 
     // Prefer 9% when deep affordability need, weak debt capacity, low saturation

@@ -122,9 +122,11 @@
       html += '<div class="dd-stat-card">' +
         '<div class="dd-stat-label">' + esc(cat) + '</div>' +
         '<div style="display:flex;gap:.5rem;margin:.3rem 0;font-size:.8rem">' +
-          '<span style="color:#2e7d32">● Full: ' + c.full + '</span>' +
-          '<span style="color:#f57c00">◐ Partial: ' + c.partial + '</span>' +
-          '<span style="color:#c62828">○ None: ' + c.none + '</span>' +
+          /* #2038 — fixed Material hexes were 2.7:1 (orange) on the light card
+             and 3.0-3.3:1 on the dark one; the theme's status tokens follow the mode. */
+          '<span style="color:var(--good,#036549)">● Full: ' + c.full + '</span>' +
+          '<span style="color:var(--warn,#a84608)">◐ Partial: ' + c.partial + '</span>' +
+          '<span style="color:var(--bad,#991b1b)">○ None: ' + c.none + '</span>' +
         '</div>' +
         '<div class="dd-gauge-bar" style="height:6px">' +
           '<div class="dd-gauge-fill fresh" style="width:' + fullPct + '%"></div>' +
@@ -213,10 +215,12 @@
     var info = L.control({ position: 'topright' });
     info.onAdd = function () {
       var div = L.DomUtil.create('div', 'leaflet-control');
-      div.style.cssText = 'background:rgba(255,255,255,.92);border-radius:6px;padding:6px 10px;font-size:.78rem;box-shadow:0 1px 4px rgba(0,0,0,.15)';
+      // #2038 — the box was always near-white, so in dark mode it held the
+      // page's light text at 1.06:1. Background and text now follow the theme.
+      div.style.cssText = 'background:var(--card,#fff);color:var(--text,#0d1f35);border-radius:6px;padding:6px 10px;font-size:.78rem;box-shadow:0 1px 4px rgba(0,0,0,.15)';
       div.innerHTML = '<strong>Coverage</strong><br>' +
-        '<span style="color:#2e7d32">Full: ' + fullCount + '</span><br>' +
-        '<span style="color:#f57c00">Partial: ' + partialCount + '</span>';
+        '<span style="color:var(--good,#036549)">Full: ' + fullCount + '</span><br>' +
+        '<span style="color:var(--warn,#a84608)">Partial: ' + partialCount + '</span>';
       return div;
     };
     info.addTo(map);

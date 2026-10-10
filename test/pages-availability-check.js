@@ -177,7 +177,7 @@ test('Deploy workflow: deploy.yml exists and is properly configured', () => {
 test('Deploy watchdog: automation commits cannot silently miss Pages deploy', () => {
     const archiveYml = '.github/workflows/archive-audit-post-merge.yml';
     const watchdogYml = '.github/workflows/pages-deploy-watchdog.yml';
-    const skipCiDeployWorkflows = [
+    const automationDeployWorkflows = [
         '.github/workflows/fetch-parcel-zoning-data.yml',
         '.github/workflows/update-co-housing-costs.yml',
         '.github/workflows/data-source-monitoring.yml',
@@ -197,13 +197,17 @@ test('Deploy watchdog: automation commits cannot silently miss Pages deploy', ()
     assert(watchdog.includes('WATCHDOG_STALE_ACTIVE_MINUTES'), 'Pages deploy watchdog has a stale-active threshold');
     assert(watchdog.includes('node scripts/audit/pages-deploy-watchdog.mjs'), 'Pages deploy watchdog runs the audited script');
     assert(watchdogScript.includes('stale-active-run'), 'Pages deploy watchdog fails stale active runs');
-    assert(watchdogScript.includes("run.status !== 'completed'"), 'Pages deploy watchdog does not accept pending runs forever');
+    assert(watchdogScript.includes('ACTIVE_STATUSES.includes(run.status)'), 'Pages deploy watchdog does not accept pending runs forever');
     assert(watchdogScript.includes('head_sha === headSha'), 'Pages deploy watchdog compares deploy run SHA to main HEAD');
 
-    for (const workflowPath of skipCiDeployWorkflows) {
+    for (const workflowPath of automationDeployWorkflows) {
         assert(fileExists(workflowPath), `${workflowPath} exists`);
         const workflow = fs.readFileSync(path.join(ROOT, workflowPath), 'utf8');
-        assert(workflow.includes('[skip ci]'), `${workflowPath} uses [skip ci] commits`);
+        if (workflowPath.endsWith('update-co-housing-costs.yml')) {
+            assert(workflow.includes('scripts/commit-with-derived-chain.sh'), `${workflowPath} commits inputs with their derived chain`);
+        } else {
+            assert(workflow.includes('[skip ci]'), `${workflowPath} uses [skip ci] commits`);
+        }
         assert(workflow.includes('actions: write'), `${workflowPath} can dispatch downstream workflows`);
         assert(workflow.includes("workflow_id: 'deploy.yml'"), `${workflowPath} dispatches deploy.yml after pushing`);
         assert(workflow.includes("if: steps.data-commit.outputs.pushed == 'true'"), `${workflowPath} only dispatches when it pushed a commit`);

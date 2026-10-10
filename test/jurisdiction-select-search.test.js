@@ -140,8 +140,7 @@ function testEightPageWiring() {
     'chfa-portfolio.html': ['filterCounty'],
     'lihtc-opportunity-finder.html': ['lofCounty'],
     'preservation.html': ['presFilterCounty'],
-    'market-intelligence.html': ['countySelect'],
-    'colorado-deep-dive.html': ['countyGeoSelect', 'amiGapCountySelect'],
+    'colorado-deep-dive.html': ['countyGeoSelect', 'amiGapCountySelect', 'countySelect'],
     'policy-briefs.html': ['regionFilter'],
     'hna-scenario-builder.html': ['sbGeoSelect']
   };

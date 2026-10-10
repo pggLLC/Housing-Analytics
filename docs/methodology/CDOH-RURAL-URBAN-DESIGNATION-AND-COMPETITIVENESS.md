@@ -51,7 +51,7 @@ The tool should translate a jurisdiction's designation into a **concrete competi
 3. **Establish or partner for capacity** — a *strong* housing authority, or a regional/multijurisdictional partner, or a steward (HRWC / CLT). A paper authority is not competitive (see `HOUSING-AUTHORITY-STRUCTURES-AND-POWERS.md` §strength).
 4. **Assemble local match** — public land, fee waivers/deferrals, infrastructure, trust-fund dollars (see `LOCAL-JURISDICTION-HOUSING-CONTRIBUTIONS.md`). Match is often the difference in scoring.
 5. **Secure site control + entitlement readiness** — zoning, water/tap, density; expedited review.
-6. **Align the project to QAP scoring** — use the repo's QAP simulator (`test:qap-simulator`) and the **rural set-aside**; for rural-resort, use the higher cost limits.
+6. **Check current CHFA requirements** — confirm applicable set-asides and cost limits in the current QAP. The [QAP Simulator is retired](../archive/qap-simulator.md); COHO screening scores do not predict an award.
 7. **Layer USDA RD** buyer financing where the site is RD-eligible (Fruita likely qualifies — VERIFY).
 8. **Collaborate regionally** — a multijurisdictional authority (APCHA/Yampa Valley model) brings taxing power, scale, and shared staff that a small rural town cannot muster alone.
 

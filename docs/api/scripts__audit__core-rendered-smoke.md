@@ -13,4 +13,14 @@ Options:
 
 Outputs JSON + Markdown evidence to {REPORT_DIR}/{timestamp}/.
 
-_No documented symbols — module has a file-header comment only._
+## Symbols
+
+### `pmaTractDefaultInteraction(page, viewport)`
+
+PMA, audit F13: the Tract picker is the default method (CHFA requires a PMA
+of whole census tracts), but a map click used to run a circular buffer
+regardless, and a click on a picker tract fell through the county-boundary
+fill to the map, moving the site. Driven with real mouse clicks because the
+defect was about which layer receives the click, which only a browser with
+layout can tell. Desktop only: the map is the interaction surface.
+Returns a list of failures.

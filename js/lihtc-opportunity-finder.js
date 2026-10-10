@@ -21,15 +21,10 @@
  *   - Population (from co_ami_gap_by_place's implied HH counts)
  *   - Opportunity score, weighted differently for 4% vs 9% targets
  *
- * Score weights by target:
- *   9% Competitive:  40% recency · 30% need · 20% basis-boost · 10% pop
- *   4% Bond:         25% recency · 25% need · 15% basis-boost · 35% pop
- *   Any (balanced):  35% recency · 30% need · 20% basis-boost · 15% pop
- *
- * Rationale: 9% awards reward geographic-gap + housing-need scoring;
- * QCT/DDA basis boost is competitive. 4% bond deals are scale-driven —
- * need a population base for 100-200 unit absorption. Both benefit from
- * basis boost but it's less of the differentiator in 4%.
+ * COHO screening weights: SCORE_WEIGHTS defines the five dimensions
+ * (need, recency, basis, population and civic readiness) for each target.
+ * The active weights are rendered from that object; they are not CHFA QAP
+ * points or an award prediction.
  *
  * Sources: HUD QCT + DDA designations, CHFA/HUD LIHTC project data,
  * data/hna/place-tract-membership.json (TIGER 2024 spatial join),
@@ -1129,10 +1124,8 @@
     });
 
     // Per-county index so rows can surface regional saturation context
-    // (CHFA's geographic-distribution scoring works at the regional level —
-    // a 2024 award 13 miles away in the next town up the corridor still
-    // shapes the competitive landscape, even if the picked jurisdiction's
-    // own city-name match returns a much older year). For each row we
+    // across city lines, even if the picked jurisdiction's own city-name
+    // match returns an older year. This is a COHO screen. For each row we
     // compute the in-county most-recent project so we can surface a
     // "↗ county 2024 (Canyon Vista, Glenwood Springs)" chip when the
     // regional signal is more recent than the in-jurisdiction one.
@@ -1418,9 +1411,9 @@
       }
 
       // Regional saturation context — most-recent LIHTC anywhere in the
-      // containing county. CHFA's QAP §6.c geographic distribution doesn't
-      // treat city lines as hard borders: a 2024 award in the next town
-      // shapes the competitive landscape. We surface this in the row's
+      // containing county. Nearby awards can inform a supply review across
+      // city lines; this is COHO context, not a CHFA allocation limit.
+      // We surface this in the row's
       // recency cell (and the explain panel) when the regional signal is
       // more recent than the in-jurisdiction year.
       var _countyRecent  = containingCounty ? _countyMostRecent(containingCounty) : null;
@@ -1479,8 +1472,7 @@
         yearsSince:   lastYear != null ? CURRENT_YEAR - lastYear : null,
         // County-recency context (set when a more-recent award sits in a
         // neighboring town in the same county). Surfaces in the row +
-        // explain panel so reviewers see the regional saturation signal
-        // CHFA's geographic-distribution scoring will weigh.
+        // explain panel so reviewers can assess regional supply.
         countyLastYear:        _showCountyCtx ? _countyRecent.year    : null,
         countyLastYearProject: _showCountyCtx ? _countyRecent.project : null,
         countyLastYearCity:    _showCountyCtx ? _countyRecent.city    : null,
@@ -1969,7 +1961,7 @@
       // user's "but why these weights?" question without making them
       // open the methodology section.
       var why = {
-        '9pct': 'For 9% competitive deals, CHFA\'s QAP rewards under-served markets first, then deep need — so Recency + Need carry the most weight.',
+        '9pct': 'For 9% screening, COHO gives Need and Recency the largest weights to highlight unmet need and gaps in recent activity. These are not CHFA QAP points.',
         '4pct': 'For 4% bond deals, need, absorption scale, civic readiness, basis boost, and regional recency are balanced to reflect 4% + state-credit feasibility.',
         'preservation': 'For preservation, the existing subsidized stock and basis-boost are the differentiators — you\'re buying expiring affordability, not building new market entry.',
         'workforce_resort': 'For resort markets, scale + civic-readiness drive — projects only work where there\'s a workforce-housing strategy AND enough renter base to fill the building.',
@@ -2497,16 +2489,14 @@
         ? op.lastYear + ' <span style="color:var(--muted)">(' + op.yearsSince + 'y)</span>'
         : '<em>Never</em>';
       // Surface a regional-saturation chip when a neighboring town in the
-      // same county has a more recent award. CHFA's geographic-distribution
-      // scoring works at the regional level — a 2024 award 13 mi up the
-      // corridor still matters even if the in-jurisdiction city-match
-      // returns a much older year.
+      // same county has a more recent award. COHO shows regional supply
+      // context even if the in-jurisdiction city-match returns an older year.
       if (op.countyLastYear != null) {
         var _ctxYearsSince = CURRENT_YEAR - op.countyLastYear;
         var _ctxTitle = 'Regional context · most recent LIHTC anywhere in the same county is ' +
                          op.countyLastYear + ' (' + (op.countyLastYearProject || 'unnamed') +
                          (op.countyLastYearCity ? ' · ' + op.countyLastYearCity : '') +
-                         '). CHFA QAP §6.c geographic-distribution scoring considers this regional saturation, not just in-town activity.';
+                         '). COHO shows county activity alongside in-town activity for a regional supply review; this is not a CHFA award limit.';
         lastFundedText += ' <span class="lof-county-recency" ' +
           'title="' + escHtml(_ctxTitle).replace(/"/g, '&quot;') + '" ' +
           'style="display:inline-block;font-size:.66rem;font-weight:700;padding:1px 5px;' +
@@ -3545,8 +3535,8 @@
         ? op.lastYear + ' (' + op.yearsSince + ' years ago)'
         : '<em>Never funded on record</em>') +
         // Regional saturation: a more recent award in the same county
-        // shapes CHFA QAP §6.c geographic-distribution scoring even when
-        // this jurisdiction itself shows a stale year. Always surface
+        // provides COHO supply context even when this jurisdiction
+        // itself shows an older year. Always surface
         // when present so the underwriter sees the regional pipeline.
         (op.countyLastYear != null
           ? '<div style="margin-top:.25rem;padding:.3rem .5rem;background:rgba(217,119,6,.10);' +
@@ -3555,7 +3545,7 @@
               '<strong>' + op.countyLastYear + '</strong>' +
               (op.countyLastYearProject ? ' (' + escHtml(op.countyLastYearProject) + ')' : '') +
               (op.countyLastYearCity    ? ' in ' + escHtml(op.countyLastYearCity)   : '') +
-              '. CHFA QAP §6.c geographic-distribution scoring weighs this even when the in-jurisdiction city-match returns an older year.' +
+              '. Review this county activity alongside the local pipeline; it is not a CHFA award limit.' +
             '</div>'
           : '') +
         // F116 — Bridge-data callout: 2026 R1 awards announced 2026-05-21

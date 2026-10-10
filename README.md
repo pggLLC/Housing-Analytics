@@ -29,7 +29,7 @@ Reference documentation for each of the four analysis modules. Each guide covers
 
 - [**Deal Predictor**](docs/guides/deal-predictor.md) — recommends 9% / 4% / Either execution with plain-English rationale
 - [**Operating Pro Forma**](docs/guides/pro-forma.md) — 15-year NOI / DSCR / cash-flow projection
-- [**CHFA QAP Simulator**](docs/guides/qap-simulator.md) — competitiveness scoring against 2015–2025 patterns
+- [**Retired QAP Simulator (archive)**](docs/archive/qap-simulator.md) — removed because the scoring relied on synthesized, unverified award data
 - [**Primary Market Area (PMA) Analysis**](docs/guides/pma-analysis.md) — site-level composite scoring
 
 See also:
@@ -40,7 +40,7 @@ See also:
 
 ## Repository inventory
 
-Current tracked inventory: **66 top-level / 560 total HTML pages**, **74 workflows**, **297 JavaScript files under `js/`**, and **546 geographies** (**64 counties / 272 places / 210 CDPs**).
+Current tracked inventory: **66 top-level / 560 total HTML pages**, **77 workflows**, **298 JavaScript files under `js/`**, and **546 geographies** (**64 counties / 272 places / 210 CDPs**).
 
 Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs the same check and fails when this line drifts from the tracked files or geography registry.
 
@@ -456,8 +456,6 @@ This tool is provided for educational and research purposes. All economic data i
 
 ## Actionable Recommendations
 
-- Quarantine candidate: `scripts/market/build_acs_renter_bedrooms.py` — no file references its name. Delete it deliberately, or reference it (workflow/doc/npm script) if it is used.
-- Quarantine candidate: `scripts/market/build_place_tract_housing.py` — no file references its name. Delete it deliberately, or reference it (workflow/doc/npm script) if it is used.
 - Docs and site-audit pipeline are automatically updated after every merge.
 
 ## 

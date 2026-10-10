@@ -83,9 +83,10 @@ async function timedAttempt(fetchImpl, url, options, timeoutMs) {
 /**
  * One request, retried once on a 5XX, a network failure or a timeout — the
  * same policy as the source-URL sweep (#1545). 4XX (auth, rate limit, not
- * found) is not retried: it will not clear in a second. Returns the JSON body.
+ * found) is normally not retried. Schedule confirmation opts in to one re-read
+ * on any failure before reporting the check unavailable. Returns the JSON body.
  */
-async function requestWithRetry(fetchImpl, url, options, label, timeoutMs = REQUEST_TIMEOUT_MS) {
+async function requestWithRetry(fetchImpl, url, options, label, timeoutMs = REQUEST_TIMEOUT_MS, retryClientErrors = false) {
     let lastError = null;
     for (let attempt = 0; attempt < 2; attempt += 1) {
         let result;
@@ -97,7 +98,7 @@ async function requestWithRetry(fetchImpl, url, options, label, timeoutMs = REQU
         }
         if (result.res.ok) return result.body;
         lastError = new Error(describeHttpFailure(label, result.res));
-        if (result.res.status < 500) break;
+        if (result.res.status < 500 && !retryClientErrors) break;
     }
     throw lastError;
 }
@@ -106,8 +107,8 @@ function createGithubClient({ token, fetchImpl = fetch, env = process.env, timeo
     const base = env.GITHUB_API_URL || 'https://api.github.com';
     const graphqlUrl = env.GITHUB_GRAPHQL_URL || `${base}/graphql`;
 
-    async function json(apiPath) {
-        return requestWithRetry(fetchImpl, `${base}${apiPath}`, { headers: githubHeaders(token) }, apiPath, timeoutMs);
+    async function json(apiPath, { retryClientErrors = false } = {}) {
+        return requestWithRetry(fetchImpl, `${base}${apiPath}`, { headers: githubHeaders(token) }, apiPath, timeoutMs, retryClientErrors);
     }
 
     /**
@@ -355,8 +356,12 @@ async function collectActionsHealth(owner, repo, client, nowMs) {
         const remote = workflowByPath.get(workflow.path);
         if (!remote || remote.state !== 'active') continue;
         let lastRun = latestScheduledByWorkflowId.get(remote.id) || null;
-        if (!lastRun) {
-            const runs = await client.json(`/repos/${owner}/${repo}/actions/workflows/${remote.id}/runs?branch=main&event=schedule&per_page=1`);
+        // A recent bulk-list run can clear a workflow, but a stale/missing one
+        // cannot establish overdue/never-run (#2112). Confirm with its own
+        // endpoint; two failed attempts propagate to the unavailable check.
+        const listedRunAt = lastRun && (lastRun.run_started_at || lastRun.created_at);
+        if (!listedRunAt || isScheduleOverdue(listedRunAt, intervalMs, nowMs)) {
+            const runs = await client.json(`/repos/${owner}/${repo}/actions/workflows/${remote.id}/runs?branch=main&event=schedule&per_page=1`, { retryClientErrors: true });
             lastRun = (runs.workflow_runs || [])[0] || null;
         }
         if (!lastRun) {

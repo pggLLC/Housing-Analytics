@@ -57,9 +57,9 @@
       var countdownText = '';
       if (until !== null) {
         if (until < 0) {
-          countdownText = '<div class="dd-countdown" style="color:#c62828">⏰ ' + Math.abs(until) + ' days overdue</div>';
+          countdownText = '<div class="dd-countdown" style="color:var(--bad,#991b1b)">⏰ ' + Math.abs(until) + ' days overdue</div>';
         } else if (until <= 7) {
-          countdownText = '<div class="dd-countdown" style="color:#f57c00">⏳ Due in ' + until + ' day' + (until === 1 ? '' : 's') + '</div>';
+          countdownText = '<div class="dd-countdown" style="color:var(--warn,#a84608)">⏳ Due in ' + until + ' day' + (until === 1 ? '' : 's') + '</div>';
         } else if (until <= 30) {
           countdownText = '<div class="dd-countdown">📅 Due in ' + until + ' days</div>';
         }
@@ -109,7 +109,9 @@
     html += '</tr></thead><tbody><tr>';
     days.forEach(function (d, i) {
       var count = dayMap[i].length;
-      var bg = count === 0 ? '' : count >= 3 ? 'background:#c8e6c9' : 'background:#fff9c4';
+      // #2038 — fixed pale green/yellow cells held dark mode's light text at
+      // 1.2:1. The theme's status washes follow the mode, and so does the text.
+      var bg = count === 0 ? '' : count >= 3 ? 'background:var(--good-dim,#c8e6c9)' : 'background:var(--warn-dim,#fff9c4)';
       var title = count ? dayMap[i].map(function (s) { return s.name; }).join(', ') : '';
       html += '<td style="text-align:center;' + bg + '" title="' + esc(title) + '">' +
         (count > 0 ? count : '') + '</td>';
