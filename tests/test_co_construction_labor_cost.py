@@ -194,3 +194,38 @@ def test_committed_file_matches_schema():
     data = json.loads((ROOT / "data" / "market" / "co-construction-labor-cost.json").read_text())
     Draft202012Validator.check_schema(SCHEMA)
     Draft202012Validator(SCHEMA).validate(data)
+
+
+def test_request_failed_is_isolated_to_the_rejected_series(monkeypatch):
+    """BLS answers REQUEST_FAILED for a whole batch when it dislikes one input.
+    The fetch retries without the catalog, then splits, so only the rejected
+    series ends up empty (with a reason) and the rest still arrive."""
+    bad = "OEUM009999900000047203103"
+    calls = []
+
+    def fake_post(body):
+        calls.append(body)
+        ids = body["seriesid"]
+        if bad in ids:
+            return {"status": "REQUEST_FAILED", "message": ["Your request has failed."]}
+        return {"status": "REQUEST_SUCCEEDED", "message": [],
+                "Results": {"series": [{"seriesID": i, "data": [{"year": "2026", "period": "M01",
+                                                                  "value": "1.0", "footnotes": []}]} for i in ids]}}
+
+    monkeypatch.setattr(m, "_post", fake_post)
+    monkeypatch.setattr(m.time, "sleep", lambda *_: None)
+    ids = ["SMU08000002000000001", bad, "SMU08000002000000003", "LASST080000000000003"]
+    out = m.fetch_bls(ids, "key", 2026)
+    assert set(out) == set(ids)
+    assert out[bad]["data"] == [] and "rejected" in out[bad]["messages"][0]
+    for good in ids:
+        if good != bad:
+            assert out[good]["data"], good
+    assert calls[0].get("catalog") is True and "catalog" not in calls[1]
+
+
+def test_quota_refusal_still_fails_the_run(monkeypatch):
+    monkeypatch.setattr(m, "_post", lambda body: {"status": "REQUEST_NOT_PROCESSED",
+                                                    "message": ["daily threshold reached"]})
+    with pytest.raises(m.FetchError):
+        m.fetch_bls(["SMU08000002000000001"], None, 2026)
