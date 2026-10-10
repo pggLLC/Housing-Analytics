@@ -289,7 +289,8 @@
 
       var explainer =
         '<div class="rt-explainer">' +
-          '<strong>How to choose:</strong> use <em>HUD FMR</em> for LIHTC + voucher underwriting, ' +
+          '<strong>How to choose:</strong> use <em>CHFA’s published income-based limits</em> for LIHTC gross rent ceilings, ' +
+          '<em>HUD FMR</em> as a voucher reference, ' +
           '<em>ACS gross rent</em> for cost-burden math (the historical baseline a council member ' +
           'is comparing wages against), and <em>ZORI</em> for what a new tenant will actually pay. ' +
           'The gap between ACS and ZORI is the lease-up premium — high in resort-adjacent markets ' +

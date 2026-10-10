@@ -6,11 +6,14 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const { JSDOM } = require('jsdom');
+const { parseScript } = require('meriyah');
 const ROOT = path.resolve(__dirname, '..');
 const files = execFileSync('git', ['ls-files', '-z'], { cwd: ROOT, encoding: 'utf8' })
   .split('\0').filter(f => f && fs.existsSync(path.join(ROOT, f)));
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 const mode = process.argv[2];
+const clients = files.filter(f => f.startsWith('js/') && f.endsWith('.js') && !f.split('/').includes('vendor'));
+assert(clients.length >= 250, 'non-empty non-vendor client scan');
 function plain(source, html) {
   if (!html) return source.replace(/[*_`]/g, '').replace(/\s+/g, ' ');
   const dom = new JSDOM(source);
@@ -22,11 +25,40 @@ function plain(source, html) {
   dom.window.close();
   return text.replace(/\s+/g, ' ');
 }
+// Parse without executing client code: comments and regular expressions are
+// not prose. Preserve adjacent literal fragments and template quasis so HTML
+// tags, escaped characters, or splitting a sentence cannot bypass the scan.
+function clientStrings(source) {
+  const strings = [];
+  function text(node) {
+    if (node.type === 'Literal' && typeof node.value === 'string') return node.value;
+    if (node.type === 'TemplateLiteral') return node.quasis.map((q, i) =>
+      q.value.cooked + (node.expressions[i] ? text(node.expressions[i]) ?? ' ' : '')).join('');
+    if (node.type === 'BinaryExpression' && node.operator === '+') {
+      const left = text(node.left), right = text(node.right);
+      return left === null && right === null ? null : (left ?? ' ') + (right ?? ' ');
+    }
+    return null;
+  }
+  function visit(node, inText = false) {
+    if (!node || typeof node !== 'object') return;
+    const value = text(node);
+    if (value !== null && !inText) strings.push(value);
+    for (const child of Object.values(node)) {
+      if (Array.isArray(child)) child.forEach(n => visit(n, value !== null));
+      else if (child && typeof child === 'object') visit(child, value !== null);
+    }
+  }
+  visit(parseScript(source, { next: true }));
+  return strings;
+}
 function falseRentClaims(text) {
   // Detect the claim, not a prescribed replacement sentence. Negated claims
   // ("FMR does not set...") and comparisons between distinct measures are valid.
   const predicates = [
-    /\b(?:FMR|Fair Market Rents?)\s+(?:(?:directly|also)\s+)?(?:sets?|caps?|determines?|establishes?|controls?|defines?|limits?)\b[^.!?]{0,90}\bLIHTC\b/gi,
+    /\b(?:FMR|Fair Market Rents?)\s+(?:(?:directly|also)\s+)?(?:sets?|caps?|determines?|establishes?|controls?|defines?|limits?|informs?)\b[^.!?]{0,90}\bLIHTC\b/gi,
+    /\b(?:FMR|Fair Market Rents?)\s+reference\s+informs?\b[^.!?]{0,90}\bLIHTC\s+rent\s+(?:cap|limit|ceiling)/gi,
+    /\buse\s+(?:HUD\s+)?FMR\s+for\s+LIHTC\b[^.!?]{0,40}underwriting/gi,
     /\b(?:FMR|Fair Market Rents?)\s+(?:is|are)\s+(?:the\s+)?LIHTC\s+(?:gross\s+)?rent\s+(?:cap|limit|ceiling)/gi,
     /\bLIHTC\s+(?:gross\s+)?rent\s+(?:caps?|limits?|ceilings?)\s+(?:(?:is|are)\s+)?(?:set|capped|determined|established|based)\s+(?:by|at|on|from)\s+(?:HUD\s+)?(?:FMR|Fair Market Rents?)\b/gi,
     /\bLIHTC\s+(?:gross\s+)?rents?\s+(?:(?:is|are)\s+)?(?:set|capped|limited|determined)\s+(?:by|at|to)\s+(?:HUD\s+)?(?:FMR|Fair Market Rents?)\b/gi,
@@ -46,7 +78,8 @@ if (!mode || mode === '--rent') {
   assert.equal(limits.maxContractRent({ grossRent: gross.grossRent, utilityAllowance: 123, fees: 17 }).contractRent, 1217);
   // Invented wording variants demonstrate semantic coverage across markup/lines.
   for (const claim of ['FMR sets the LIHTC rent cap.', 'HUD FMR caps LIHTC rents.',
-    'LIHTC rent limits are based on FMR.', 'LIHTC rents are capped by HUD FMR.', '<p>Fair Market Rent <b>determines</b> LIHTC rents.</p>']) {
+    'LIHTC rent limits are based on FMR.', 'the HUD FMR reference informs the LIHTC rent ceiling CHFA sets.',
+    '<p>use <em>HUD FMR</em> for LIHTC + voucher underwriting</p>', 'LIHTC rents are capped by HUD FMR.', '<p>Fair Market Rent <b>determines</b> LIHTC rents.</p>']) {
     assert(falseRentClaims(plain(claim, true)).length, claim);
   }
   for (const wording of ['FMR is a voucher comparison, not a LIHTC limit.',
@@ -56,9 +89,33 @@ if (!mode || mode === '--rent') {
   const scanned = files.filter(f => /\.(html|md)$/.test(f));
   assert(scanned.filter(f => f.endsWith('.html')).length >= 50);
   assert(scanned.filter(f => f.endsWith('.md')).length >= 500);
-  const bad = scanned.flatMap(f => falseRentClaims(plain(read(f), f.endsWith('.html'))).map(claim => `${f}: ${claim}`));
+  // Invented source forms, including strings split across expressions. A false
+  // claim in a comment or regexp is not a user-facing string.
+  const fragments = clientStrings(`
+    // FMR sets the LIHTC rent cap.
+    const pattern = /FMR sets the LIHTC rent cap/;
+    const single = 'FMR sets the LIHTC rent cap.';
+    const double = "FMR sets the LIHTC rent cap.";
+    const joined = '<em>FMR</em>' + ' sets the LIHTC rent cap.';
+    const template = \`FMR sets the \${'LIHTC'} rent cap.\`;
+  `);
+  assert.equal(fragments.length, 4);
+  assert(fragments.every(s => falseRentClaims(plain(s, true)).length));
+  let literalCount = 0, rentStringCount = 0;
+  const clientBad = clients.flatMap(f => {
+    const strings = clientStrings(read(f));
+    literalCount += strings.length;
+    // Every predicate concerns FMR. Parse candidate expressions separately:
+    // unrelated HTML fragments must not swallow each other's visible text.
+    const candidates = strings.filter(s => /FMR|Fair\s+Market\s+Rent/i.test(s));
+    rentStringCount += candidates.length;
+    return candidates.flatMap(s => falseRentClaims(plain(s, true)).map(claim => `${f}: ${claim}`));
+  });
+  assert(rentStringCount > 0, 'client rent guidance must be checked');
+  assert(literalCount > clients.length, 'non-empty JavaScript string scan');
+  const bad = scanned.flatMap(f => falseRentClaims(plain(read(f), f.endsWith('.html'))).map(claim => `${f}: ${claim}`)).concat(clientBad);
   assert.deepEqual(bad, [], 'Rent claims must agree with js/chfa-rent-limits.js:\n' + bad.join('\n'));
-  console.log(`rent copy: ${scanned.length} HTML/docs checked against js/chfa-rent-limits.js`);
+  console.log(`rent copy: ${scanned.length} HTML/docs and ${literalCount} string expressions in ${clients.length} client scripts checked against js/chfa-rent-limits.js`);
 }
 if (!mode || mode === '--links') {
   const docs = files.filter(f => /\.(md|mdx)$/.test(f));
@@ -94,8 +151,6 @@ if (!mode || mode === '--qap') {
     '5.B.2.b': { title: '2025-26 QAP Second Amendment (PDF)', section: '5.B', heading: 'Secondary Selection Criteria',
       subheading: '2. Project Location', paragraph: 'b.', subject: 'TOD' },
   };
-  const clients = files.filter(f => f.startsWith('js/') && f.endsWith('.js') && !f.startsWith('js/vendor/'));
-  assert(clients.length >= 250);
   let checked = 0;
   const errors = [];
   for (const f of clients) {
@@ -107,7 +162,7 @@ if (!mode || mode === '--qap') {
       if (!expected) { errors.push(`${f}: QAP §${key} has no verified section-heading binding`); continue; }
       const document = stored.documents.find(d => d.title === expected.title);
       assert(document && document.text && document.text.length > 10000, 'stored full QAP must exist');
-      const escaped = expected.section.replace(/\./g, '\\.');
+      const escaped = expected.section.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const match = document.text.match(new RegExp('^' + escaped + '\\s*\\n([^\\n]+)([\\s\\S]*?)(?=^\\d+\\.[A-Z]\\s*$|$(?![\\s\\S]))', 'm'));
       if (!match || match[1].trim() !== expected.heading) {
         errors.push(`${f}: QAP §${key} heading disagrees with ${expected.title}`); continue;
