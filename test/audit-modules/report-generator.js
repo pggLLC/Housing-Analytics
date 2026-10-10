@@ -118,6 +118,10 @@ function statusBadge(status) {
     return `<span style="display:inline-block;padding:4px 10px;border-radius:999px;background:${cfg.bg};color:${cfg.color};border:1px solid ${cfg.border};font-size:12px;font-weight:bold;">${cfg.emoji} ${cfg.label}</span>`;
 }
 
+// `critical` on a check means "a crash here fails the job" (audit-status.js),
+// not that its findings are severe. Labelled "(critical)" in red, a core
+// check with three medium findings read as three critical failures in an
+// All Clear email. Severity lives on the findings, not on this tag.
 function buildChecksTable(checks) {
     if (!checks || checks.length === 0) return '<p>No audit checks were recorded.</p>';
     return `
@@ -129,7 +133,7 @@ function buildChecksTable(checks) {
         </tr>
         ${checks.map(check => `
         <tr>
-            <td style="padding:10px 14px;border:1px solid #dee2e6;">${escHtml(check.name || '')}${check.critical ? ' <span style="color:#721c24;font-size:12px;">(critical)</span>' : ''}</td>
+            <td style="padding:10px 14px;border:1px solid #dee2e6;">${escHtml(check.name || '')}${check.critical ? ' <span style="color:#555;font-size:12px;">(core check)</span>' : ''}</td>
             <td style="padding:10px 14px;border:1px solid #dee2e6;">${statusBadge(check.status)}</td>
             <td style="padding:10px 14px;border:1px solid #dee2e6;color:#555;">${escHtml(check.summary || check.details || '')}</td>
         </tr>`).join('')}
