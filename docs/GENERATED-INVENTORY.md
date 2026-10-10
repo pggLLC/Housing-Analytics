@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T19:46:33.746Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T20:07:16.496Z. Do not edit by hand.
 
 ---
 
@@ -62,7 +62,7 @@
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 148.4 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
-| `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
+| `methods.html` | Computational Methods | Colorado Public Data Reference | 51.5 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 39.7 KB |
@@ -1755,7 +1755,7 @@
 
 ## Test Files
 
-540 test files found.
+541 test files found.
 
 | File | Size |
 |------|------|
@@ -2036,6 +2036,7 @@
 | `test/market-study-report.test.js` | 29.3 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
+| `test/methods-spec-sources.test.mjs` | 5.1 KB |
 | `test/metric-semantics-wording.test.js` | 4.3 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
 | `test/metric-truth-crosssurface.test.js` | 8.1 KB |
@@ -2140,7 +2141,7 @@
 | `test/ranking-index-county-lihtc.test.js` | 4.7 KB |
 | `test/ranking-index-no-coerced-zeros.test.js` | 10.1 KB |
 | `test/ranking-scenarios.test.js` | 3.1 KB |
-| `test/rebuild-derived-chain.test.mjs` | 8.3 KB |
+| `test/rebuild-derived-chain.test.mjs` | 8.9 KB |
 | `test/recommendation-leads-with-the-conclusion.test.mjs` | 25.7 KB |
 | `test/recommendation-transit-zone.test.mjs` | 13.6 KB |
 | `test/redfin-place-market-tracker.test.js` | 4.8 KB |

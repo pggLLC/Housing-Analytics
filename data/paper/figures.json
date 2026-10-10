@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "353398297",
+  "generated_from_commit": "8b2525b9d",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-10",
-    "total_commits": 7914,
+    "total_commits": 7923,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,8 +49,8 @@
       },
       {
         "month": "2026-10",
-        "commits": 317,
-        "pct_of_peak": 22.2
+        "commits": 326,
+        "pct_of_peak": 22.8
       }
     ]
   },
@@ -59,7 +59,7 @@
     "html_pages_toplevel": 66,
     "html_pages_total": 560,
     "workflows": 78,
-    "scripts": 292,
+    "scripts": 294,
     "docs": 502,
     "data_files": 1739,
     "geographies": 546,
@@ -68,7 +68,7 @@
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 65,
-    "test_files": 482,
+    "test_files": 483,
     "absence_test_cases": 252,
     "absence_tests": 93,
     "lihtc_features": 926
@@ -246,12 +246,12 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 408670,
+    "hand_written_lines": 409072,
     "generated_place_page_lines": 226824,
     "top_level_pages": 66,
-    "html_nonblank_lines": 47775,
-    "html_distinct_lines": 19252,
-    "html_distinct_share": 0.403,
+    "html_nonblank_lines": 47852,
+    "html_distinct_lines": 19315,
+    "html_distinct_share": 0.404,
     "substantial_tools": 27,
     "declared_data_sources": 66,
     "estimate": {
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "353398297",
+    "extracted_at_commit": "8b2525b9d",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -533,6 +533,16 @@
       "shares_derived_from_published_counts": true
     },
     "unavailable": []
+  },
+  "methods_data": {
+    "anchor_places_total": 482,
+    "anchor_places_applied": 405,
+    "anchor_places_unmeasured": 77,
+    "anchor_overcount_places": 143,
+    "anchor_overcount_share": 0.353,
+    "ranked_geographies": 546,
+    "workforce_gap_wins": 265,
+    "future_units_workforce_reading": 365
   },
   "footprint": {
     "measured_at": "2026-09-15",
