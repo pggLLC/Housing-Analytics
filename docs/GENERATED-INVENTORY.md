@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T23:29:48.440Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T23:52:02.427Z. Do not edit by hand.
 
 ---
 
@@ -68,7 +68,7 @@
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 39.7 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 17.9 KB |
-| `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.8 KB |
+| `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 6.1 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 14.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 27.6 KB |
 | `research-brief.html` | Research Brief | COHO Analytics | 15.9 KB |
@@ -1763,7 +1763,7 @@
 
 ## Test Files
 
-556 test files found.
+557 test files found.
 
 | File | Size |
 |------|------|
@@ -1836,7 +1836,7 @@
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/cross-surface-vintage-labels.test.js` | 9.5 KB |
 | `test/custom-pma-conclusions-blocked.test.js` | 24.1 KB |
-| `test/daily-audit-check-noise.test.js` | 8.0 KB |
+| `test/daily-audit-check-noise.test.js` | 10.9 KB |
 | `test/daily-audit-repo-health.test.js` | 34.4 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
 | `test/daily-audit-system.js` | 20.7 KB |
@@ -2183,6 +2183,7 @@
 | `test/shared-equity-lifecycle.test.js` | 19.5 KB |
 | `test/shared-money-format.test.js` | 6.6 KB |
 | `test/signals-that-cry-wolf.test.mjs` | 8.1 KB |
+| `test/site-analytics-and-crawlers.test.js` | 6.6 KB |
 | `test/site-comparison-null-score.test.js` | 7.2 KB |
 | `test/site-comparison-save.test.js` | 8.7 KB |
 | `test/site-qct-dda-evidence.test.js` | 19.1 KB |
