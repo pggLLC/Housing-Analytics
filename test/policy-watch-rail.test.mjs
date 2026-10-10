@@ -150,6 +150,7 @@ test('each summary row agrees with the page it opens', async () => {
     'colorado-elections.html': { doc: elections, html: readText('colorado-elections.html') },
   };
   const countAt = {
+    law: () => leg.querySelectorAll('[data-watch-section="law"] .watch-item').length,
     qap: () => leg.querySelectorAll('[data-watch-section="qap"] .watch-item').length,
     ballot: () => leg.querySelectorAll('[data-watch-section="ballot"] .watch-item').length,
     people: () => elections.querySelectorAll('#people-records [data-person-id]').length,
