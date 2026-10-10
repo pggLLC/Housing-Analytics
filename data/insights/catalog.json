@@ -19,7 +19,7 @@
       "type": "Policy status",
       "title": "Policy & Legislation",
       "url": "housing-legislation-2026.html",
-      "summary": "The 21st Century ROAD to Housing Act (H.R. 6644) became law July 11, 2026; the enacted text is a housing-supply and HUD-program reform law and does not include the LIHTC cap expansion described in earlier versions. Also the tax-credit policy watchlist and the Colorado policy watch.",
+      "summary": "The 21st Century ROAD to Housing Act (H.R. 6644) became law July 11, 2026; the enacted text is a housing-supply and HUD-program reform law and does not include the LIHTC cap expansion described in earlier versions. Also the tax-credit policy watchlist and the Colorado policy watch, including Colorado's 2026 housing laws.",
       "sources": ["Congress.gov", "GovInfo", "CHFA"],
       "maintenance": "reviewed",
       "review_from": { "file": "data/policy/tax-credit-legislation.json", "ids": ["hr6644-road-act"] }
@@ -142,18 +142,8 @@
       "type": "Data exploration",
       "title": "Colorado Deep Dive",
       "url": "colorado-deep-dive.html",
-      "summary": "County-level maps and tables: DDAs and QCTs with LIHTC projects, income-band gaps, concessions, foreclosures and Proposition 123 commitments, plus statewide market signals and monthly construction labor and material costs.",
+      "summary": "County-level maps and tables: DDAs and QCTs with LIHTC projects, income-band gaps, concessions, foreclosures and Proposition 123 commitments, plus statewide market signals, monthly construction labor and material costs, and Colorado LIHTC history: CHFA awards by year and credit type, the LIHTC stock over time, and peer project benchmarks.",
       "sources": ["HUD", "Colorado Association of Realtors", "CHFA", "AAMD", "Census Bureau", "FHFA", "BLS", "DOLA"],
-      "maintenance": "live-data"
-    },
-    {
-      "id": "historical-trends",
-      "section": "data",
-      "type": "Data exploration",
-      "title": "Historical Trends & Benchmarks",
-      "url": "historical-trends.html",
-      "summary": "What past LIHTC deals in Colorado looked like: CHFA awards by year and credit type, the LIHTC stock over time, and peer project benchmarks.",
-      "sources": ["CHFA", "HUD"],
       "maintenance": "live-data"
     }
   ]
