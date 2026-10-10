@@ -31,6 +31,14 @@ export const FILES = [
   // its check in verification.checked rather than last_verified.
   { file: 'data/policy/policy-watch.json', key: 'entries', title: 'Colorado policy watch', page: 'housing-legislation-2026.html', name: (r) => r.title,
     checked: (r) => r.verification && r.verification.checked, source: (r) => r.source && r.source.url },
+  // Local Housing Incentives: fee relief and land-use records share one file,
+  // and each record's check is verification.checked.
+  { file: 'data/policy/fee-reductions.json', key: 'entries', title: 'Local fee relief', page: 'local-incentives.html', name: (r) => `${r.jurisdiction}: ${r.fee_category} ${r.measure}`,
+    checked: (r) => r.verification && r.verification.checked, source: (r) => r.source && r.source.url },
+  { file: 'data/policy/fee-reductions.json', key: 'land_use', title: 'Local land-use incentives', page: 'local-incentives.html', name: (r) => `${r.jurisdiction}: ${r.measure}`,
+    checked: (r) => r.verification && r.verification.checked, source: (r) => r.source && r.source.url },
+  { file: 'data/policy/local-housing-funds.json', key: 'entries', title: 'Local housing funds and ownership tools', page: 'local-incentives.html', name: (r) => `${r.jurisdiction}: ${r.tool}`,
+    checked: (r) => r.verification && r.verification.checked, source: (r) => r.source && r.source.url },
 ];
 
 /** The date a record was last checked, and its official source, for any listed file. */
@@ -69,7 +77,7 @@ export function dueReviews(docs, todayDenver, existingMarkers = new Set(), leadD
     due.sort((a, b) => String(a.review_by || '').localeCompare(String(b.review_by || '')));
     const first = isoDay(due[0].review_by) || 'undated';
     const overdue = due.filter((r) => { const by = isoDay(r.review_by); return by && by < todayDenver; }).length;
-    const rows = due.map((r) => `- [ ] **${spec.name(r)}** (\`${r.id}\`) — status \`${r.status || 'unset'}\`, ` +
+    const rows = due.map((r) => `- [ ] **${spec.name(r)}** (\`${r.id}\`) — status \`${r.status || r.kind || 'unset'}\`, ` +
       `last checked ${isoDay(checkedOf(spec, r)) || 'never'}, review by ${isoDay(r.review_by) || '**not set**'}` +
       (sourceOf(spec, r) ? ` — [official source](${sourceOf(spec, r)})` : ' — **no source URL**') +
       ` ${recordMarker(spec.file, r)}`);
@@ -83,7 +91,7 @@ export function dueReviews(docs, todayDenver, existingMarkers = new Set(), leadD
       '### How to re-check a record',
       '1. Open its official source and confirm status, amounts, eligibility, dates and deadlines.',
       '2. Update any field that changed. Do not carry forward a figure the source no longer states — use `null` with a `source_note` saying why.',
-      '3. Set `last_verified` (in the policy watch, `verification.checked`) to the day you checked and `review_by` to the next check (about 90 days on; sooner if a deadline or vote is near).',
+      '3. Set `last_verified` (in the policy watch and the incentive files, `verification.checked`; incentive records carry both, so set both) to the day you checked and `review_by` to the next check (about 90 days on; sooner if a deadline or vote is near). For an incentive record, re-check every evidence quote against the source.',
       '4. If the source cannot be reached, keep the last verified values and dates, and say so in `source_note`. The page keeps showing the overdue warning, which is correct.',
       '5. Update `meta.last_verified` / `meta.review_by` in the file, then open one PR for the batch.',
       '',
