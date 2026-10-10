@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { JSDOM } from 'jsdom';
-import { dueReviews, FILES, markersFromIssues } from '../scripts/audit/policy-review-reminders.mjs';
+import { checkedOf, dueReviews, FILES, markersFromIssues } from '../scripts/audit/policy-review-reminders.mjs';
 
 const require = createRequire(import.meta.url);
 const ReviewStatus = require('../js/components/review-status.js');
@@ -33,14 +33,16 @@ assert.equal(ReviewStatus.summaryHtml([{ review_by: '2027-01-01' }], T, 'program
 // Non-vacuity on the scan: both files have records, and every record has the
 // two dates. A record with no review_by would show "No review date recorded".
 let recordCount = 0;
-for (const { file, key } of FILES) {
+for (const spec of FILES) {
+  const { file, key } = spec;
   const records = JSON.parse(read(file))[key];
   assert(Array.isArray(records) && records.length > 0, `${file} has no ${key}`);
   for (const r of records) {
     recordCount++;
+    const checked = checkedOf(spec, r);
     assert(/^\d{4}-\d{2}-\d{2}$/.test(r.review_by || ''), `${file} ${r.id}: review_by missing or not YYYY-MM-DD`);
-    assert(/^\d{4}-\d{2}-\d{2}$/.test(r.last_verified || ''), `${file} ${r.id}: last_verified missing or not YYYY-MM-DD`);
-    assert(r.review_by > r.last_verified, `${file} ${r.id}: review_by must come after last_verified`);
+    assert(/^\d{4}-\d{2}-\d{2}$/.test(checked || ''), `${file} ${r.id}: last-checked date missing or not YYYY-MM-DD`);
+    assert(r.review_by > checked, `${file} ${r.id}: review_by must come after the last check`);
   }
 }
 
@@ -92,6 +94,24 @@ function windowWith(...files) {
     page.indexOf('js/components/review-status.js') < page.indexOf('js/legislative-tracker.js'), 'legislation page loads review-status.js first');
   assert(/ReviewStatus\.html\(\{ review_by: bill\.reviewBy/.test(page) && /ReviewStatus\.summaryHtml\(/.test(page),
     'legislation page renders the per-entry warning and the summary');
+}
+
+// 3c2. Colorado policy watch items on the legislation page carry the same warning
+{
+  const w = windowWith('js/components/review-status.js', 'js/components/policy-watch.js');
+  const doc = JSON.parse(read('data/policy/policy-watch.json'));
+  const laws = doc.entries.filter((e) => e.section === 'law');
+  assert(laws.length >= 2, 'the policy watch has fewer than two law entries to render');
+  doc.entries = laws.slice(0, 2).map((e, i) => ({ ...e, review_by: i === 0 ? past : future }));
+  const t = w.document.getElementById('t');
+  t.innerHTML = w.PolicyWatch.fullHtml(doc, ['law'], today);
+  const marked = t.querySelectorAll('[data-review-status="overdue"]');
+  assert.equal(marked.length, 1, 'policy watch: the one overdue entry is marked');
+  assert.equal(marked[0].closest('[data-watch-id]').getAttribute('data-watch-id'), doc.entries[0].id, 'the warning sits on the right entry');
+  const page = read('housing-legislation-2026.html');
+  assert(page.indexOf('src="js/components/review-status.js"') > -1 &&
+    page.indexOf('src="js/components/review-status.js"') < page.indexOf('src="js/components/policy-watch.js"'),
+    'legislation page loads review-status.js before policy-watch.js');
 }
 
 // 3d. Every page that renders these records loads the helper before the renderer

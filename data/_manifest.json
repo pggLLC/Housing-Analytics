@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-10T18:19:02.039Z",
+    "generated_at": "2026-10-10T19:46:59.110Z",
     "root": "data/",
     "file_count": 1701,
-    "total_size_bytes": 178246323,
+    "total_size_bytes": 178258069,
     "kinds": {
       "json": 1664,
       "geojson": 33,
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-10T18:18:58.358Z",
+      "mtime": "2026-10-10T19:46:54.970Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -29466,8 +29466,8 @@
     {
       "path": "insights/catalog.json",
       "kind": "json",
-      "size_bytes": 8902,
-      "mtime": "2026-10-10T11:49:50.332Z",
+      "size_bytes": 8640,
+      "mtime": "2026-10-10T19:46:13.164Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -29476,7 +29476,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "entries",
-      "primary_array_length": 13,
+      "primary_array_length": 12,
       "primary_array_first_keys": [
         "id",
         "section",
@@ -32026,7 +32026,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14804,
-      "mtime": "2026-10-10T18:19:00.164Z",
+      "mtime": "2026-10-10T19:46:56.759Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32049,7 +32049,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-10T18:18:59.734Z",
+      "mtime": "2026-10-10T19:46:56.366Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34209,8 +34209,8 @@
     {
       "path": "policy/policy-watch.json",
       "kind": "json",
-      "size_bytes": 43371,
-      "mtime": "2026-09-27T02:18:51.674Z",
+      "size_bytes": 51662,
+      "mtime": "2026-10-10T19:13:25.027Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -34219,7 +34219,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "entries",
-      "primary_array_length": 19,
+      "primary_array_length": 22,
       "primary_array_first_keys": [
         "id",
         "section",
@@ -34230,15 +34230,15 @@
         "programs",
         "source",
         "verification",
-        "evidence",
-        "not_in_source"
+        "review_by",
+        "evidence"
       ]
     },
     {
       "path": "policy/prop123_jurisdictions.json",
       "kind": "json",
-      "size_bytes": 72652,
-      "mtime": "2026-09-25T12:55:19.121Z",
+      "size_bytes": 72668,
+      "mtime": "2026-10-10T19:13:25.027Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -34366,8 +34366,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 18391,
-      "mtime": "2026-09-30T11:55:19.312Z",
+      "size_bytes": 22092,
+      "mtime": "2026-10-10T19:13:25.027Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -34388,7 +34388,8 @@
         "source_url",
         "source_note",
         "last_verified",
-        "review_by"
+        "review_by",
+        "related_source_urls"
       ]
     },
     {
