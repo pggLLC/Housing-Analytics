@@ -1,0 +1,36 @@
+name: TEMP bootstrap CO construction labor cost (PR 2131)
+
+# One-off, approved by the owner on 2026-10-10: the build container's
+# unauthenticated BLS quota was exhausted, so this runs the fetch once on the
+# PR branch with the repository's BLS key and commits only the data file back.
+# Deleted in the next commit on this branch.
+on:
+  push:
+    branches: [claude/project-thread-wyeumh]
+    paths: [.github/workflows/tmp-bootstrap-co-labor-cost.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: claude/project-thread-wyeumh
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - name: Fetch
+        env:
+          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+        run: python3 scripts/fetch_co_construction_labor_cost.py
+      - name: Commit data file only
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/market/co-construction-labor-cost.json
+          git commit -m "data: first CO construction labor cost build (BLS API, repository key)"
+          git push origin HEAD:claude/project-thread-wyeumh
