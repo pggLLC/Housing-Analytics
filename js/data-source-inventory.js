@@ -273,6 +273,23 @@
       apiEndpoint: 'https://api.bls.gov/publicAPI/v2/timeseries/data/'
     },
     {
+      id: 'co-developer-funding-guide',
+      name: 'Colorado Developer Funding Guide',
+      category: 'Policy',
+      format: 'JSON',
+      provider: 'CHFA, OEDIT, DOLA Division of Housing, HUD, USDA, IRS, FHLBank Topeka, city housing offices (curated)',
+      url: 'https://www.chfainfo.com/rental-housing/housing-credit',
+      localFile: 'data/policy/co-developer-funding-guide.json',
+      lastUpdated: '2026-10-10',
+      updateFrequency: 'Quarterly review',
+      maxAgeDays: 120,
+      geoUnit: 'State / City',
+      coverage: 'Colorado statewide programs, federal programs and four city funds',
+      features: 48,
+      description: 'Curated guide to affordable housing developer funding in Colorado: tax credits, CHFA loans, Proposition 123 funds, Division of Housing funds, federal and agency debt, grants and rental assistance. Each term quotes its official source with the date checked; unpublished terms are null with a reason.',
+      tags: ['funding', 'lihtc', 'prop123', 'chfa', 'dola', 'soft-funding']
+    },
+    {
       id: 'economic-indicators',
       name: 'Colorado Economic Indicators',
       category: 'Economic',
