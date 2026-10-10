@@ -5,6 +5,8 @@ import path from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { contentChangedDate, isArticle, isStampable, parseHistory, stampPage, visibleText } from './lib/page-dates.mjs';
+import { isSensitive } from './lib/public-sensitive-patterns.mjs';
+import { briefRecords, countyRecords, markdownRecord, pageRecords, redirectAlias } from './lib/search-index.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = process.env.COHO_PUBLIC_DIST
@@ -472,36 +474,56 @@ async function generateSitemap() {
 }
 
 async function generateSearchIndex() {
-  // Build search-index.json from every public page's title/description/headings so search.html
-  // can match places, dashboards, guides, and topics. Non-fatal by design: a failure here logs
-  // and continues — the search index must never break the deploy (see deploy-gate lessons).
+  // Build search-index.json for the header search box and search.html. Every public page, split
+  // into one record per page-level tab; its visible words; the 64 counties (which have no page of
+  // their own); curated research briefs; the public methodology docs; and the old names of pages
+  // that now redirect. Non-fatal by design: a failure here logs and continues — the search index
+  // must never break the deploy (see deploy-gate lessons).
   try {
-    // Research briefs are reached by id from Housing News, not the empty reader shell.
+    // Research briefs are reached by id (briefRecords below), not the empty reader shell.
     const SKIP_FILES = new Set(['_template.html', '404.html', 'research-brief.html']);
     const records = [];
+    const aliases = [];
     async function walk(rel) {
       const entries = await readdir(path.join(DIST, rel || '.'), { withFileTypes: true });
       for (const entry of entries) {
         const childRel = rel ? `${rel}/${entry.name}` : entry.name;
         if (entry.isDirectory()) { await walk(childRel); continue; }
+        const relPath = toPosix(childRel);
+        if (relPath.endsWith('.md') && PUBLIC_DOCS.has(relPath)) {
+          records.push(markdownRecord(relPath, await readFile(path.join(DIST, childRel), 'utf8')));
+          continue;
+        }
         if (!entry.name.endsWith('.html') || SKIP_FILES.has(entry.name)) continue;
         const html = await readFile(path.join(DIST, childRel), 'utf8');
-        if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue; // redirect stub
-        const titleM = html.match(/<title>([\s\S]*?)<\/title>/i);
-        const title = (titleM ? titleM[1] : '').replace(/\s+/g, ' ').trim();
-        if (!title) continue;
-        const descM = html.match(/<meta[^>]+name=["']description["'][^>]*content=["']([^"']*)["']/i);
-        const desc = (descM ? descM[1] : '').replace(/\s+/g, ' ').trim();
-        const headings = (html.match(/<h[1-2][^>]*>([\s\S]*?)<\/h[1-2]>/gi) || [])
-          .map((h) => h.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim())
-          .filter(Boolean).slice(0, 10).join(' · ');
-        records.push({ t: title, u: toPosix(childRel), d: desc, k: headings });
+        const redirect = redirectAlias(relPath, html);
+        // A retired name the public guard forbids (e.g. an old brand) is not offered as an alias.
+        if (redirect) { if (!isSensitive(redirect.alias)) aliases.push(redirect); continue; }
+        if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue; // off-site redirect
+        // The place profiles share one template, so their body words would match every topic
+        // query 480 times over; their names and headings are what tell them apart.
+        records.push(...pageRecords(relPath, html, { body: !/^places\/\d+\.html$/.test(relPath) }));
       }
     }
     await walk('');
+    const rankingIndex = JSON.parse(await readFile(path.join(DIST, 'data/hna/ranking-index.json'), 'utf8'));
+    records.push(...countyRecords(rankingIndex));
+    try {
+      const curated = JSON.parse(await readFile(path.join(DIST, 'data/policy_briefs_curated.json'), 'utf8'));
+      records.push(...briefRecords(curated));
+    } catch (err) {
+      console.warn(`search-index: curated briefs skipped: ${err.message}`);
+    }
+    // An old page name finds the page (or tab) it now redirects to.
+    const byUrl = new Map(records.map((r) => [r.u, r]));
+    for (const { alias, target } of aliases) {
+      const rec = byUrl.get(target) || byUrl.get(target.replace(/#.*$/, ''));
+      if (!rec) continue;
+      rec.a = rec.a ? `${rec.a} · ${alias}` : alias;
+    }
     records.sort((a, b) => a.u.localeCompare(b.u));
     await writeFile(path.join(DIST, 'search-index.json'), JSON.stringify(records));
-    console.log(`Generated search-index.json (${records.length} pages).`);
+    console.log(`Generated search-index.json (${records.length} records).`);
   } catch (err) {
     console.warn(`search-index generation skipped: ${err.message}`);
   }
