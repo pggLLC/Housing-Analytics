@@ -167,9 +167,16 @@ def find_columns(lines: list[str], anchors: list[int]) -> list[tuple[int, int]]:
     width = max(len(lines[a]) for a in anchors) + 1
     count = [0] * width
     money = [False] * width
+    # a right-aligned count one space before a text column ("104   103 National
+    # Service"): where rows agree on that edge, it is a gutter
+    edge = [0] * width
     for a in anchors:
         seen = [False] * width
-        for t in tokens(lines[a]):
+        toks = tokens(lines[a])
+        for t, nxt in zip(toks, toks[1:]):
+            if INT.match(t['text']) and nxt['start'] == t['end'] + 1 and re.match(r'[A-Za-z(]', nxt['text']):
+                edge[t['end']] += 1
+        for t in toks:
             for p in range(t['start'], t['end']):
                 seen[p] = True
                 if t['money']:
@@ -178,6 +185,8 @@ def find_columns(lines: list[str], anchors: list[int]) -> list[tuple[int, int]]:
             count[p] += seen[p]
     need = max(2, -(-len(anchors) // 5)) if len(anchors) >= 4 else 1
     used = [count[p] >= need or money[p] for p in range(width)]
+    need_edge = max(2, -(-len(anchors) // 2))
+    used = [u and edge[p] < need_edge for p, u in enumerate(used)]
     cols, start = [], None
     for p in range(width + 1):
         on = p < width and used[p]
@@ -186,10 +195,10 @@ def find_columns(lines: list[str], anchors: list[int]) -> list[tuple[int, int]]:
         elif not on and start is not None:
             cols.append((start, p))
             start = None
-    # a single space is a word break, not a gutter
+    # a single space is a word break, not a gutter, unless the rows agree it is an edge
     merged: list[list[int]] = []
     for s, e in cols:
-        if merged and s - merged[-1][1] <= 1:
+        if merged and s - merged[-1][1] <= 1 and edge[merged[-1][1]] < need_edge:
             merged[-1][1] = e
         else:
             merged.append([s, e])
@@ -326,9 +335,28 @@ def parse_document(text: str, wrap: str = 'below') -> dict:
         heads = header_lines(lines, anchors[0])
         cols = split_by_headings(find_columns(lines, anchors), lines, heads)
         page_labels = [''] * len(cols)
+        head_toks = [t for h in heads for t in tokens(lines[h])]
+        overlaps = lambda a, b: 2 * (min(a['end'], b['end']) - max(a['start'], b['start'])) >= a['end'] - a['start']
+        on_col = lambda t: any(min(t['end'], e) - max(t['start'], s) > 0 for s, e in cols)
         for h in heads:
-            for t in tokens(lines[h]):
+            line_toks = tokens(lines[h])
+            for j, t in enumerate(line_toks):
                 ci = column_of(t, cols)
+                nxt = line_toks[j + 1] if j + 1 < len(line_toks) else None
+                if not on_col(t) and nxt and nxt['start'] == t['end'] + 1 and on_col(nxt):
+                    # the first word of a heading phrase ("LI Units") goes with the rest of it
+                    ci = column_of(nxt, cols)
+                elif not on_col(t):
+                    # a heading word in a gutter ("Total / TC Units") belongs with
+                    # the heading word stacked over or under it, when at least half of it is
+                    stacked = [u for u in head_toks if u is not t and overlaps(t, u) and on_col(u)]
+                    if stacked:
+                        ci = column_of(stacked[0], cols)
+                    elif ci + 1 < len(cols):
+                        # exactly mid-gutter, it heads the right-aligned numbers to its right
+                        centre = (t['start'] + t['end']) / 2
+                        if centre - cols[ci][1] == cols[ci + 1][0] - centre:
+                            ci += 1
                 page_labels[ci] = (page_labels[ci] + ' ' + t['text']).strip()
         if labels is None:
             title_lines = [ln.strip() for ln in lines[:heads[0] if heads else anchors[0]] if ln.strip()][:4]
@@ -415,8 +443,9 @@ MONEY_RULES = [
 ]
 
 UNIT_RULES = [
-    ('restricted_units', lambda l: re.search(r'\b(li|tc|income|affordable)\b', l) is not None),
-    ('total_units', lambda l: 'unit' in l),
+    ('restricted_units', lambda l: re.search(r'\b(li|tc|income|affordable|mihtc)\b', l) is not None),
+    # "Estimated Unit Count" wraps so "Unit" can join the heading beside it
+    ('total_units', lambda l: 'unit' in l or re.search(r'\bcount\b', l) is not None),
 ]
 
 
@@ -440,7 +469,19 @@ def to_records(parsed: dict) -> list[dict]:
     out = []
     for r in parsed['rows']:
         rec: dict = {}
-        for ci, parts in r['cells'].items():
+        cells = {ci: list(parts) for ci, parts in r['cells'].items()}
+        is_units = lambda ci: ci < len(r['labels']) and label_field(r['labels'][ci], False) in ('total_units', 'restricted_units')
+        for ci in list(cells) + [ci for ci in range(len(r['labels'])) if ci not in cells]:
+            # a row printed a few characters right of the others pushes its count
+            # into the text column beside it ("68 City and County of Denver")
+            right = cells.get(ci + 1)
+            if is_units(ci) and not cells.get(ci) and right and not is_units(ci + 1) \
+                    and label_field(r['labels'][ci + 1], False) not in ('address', 'ignore'):
+                n = next((w for w in right if INT.match(w) and (int_value(w) or 0) < 5000), None)
+                if n is not None:
+                    right.remove(n)
+                    cells[ci] = [n]
+        for ci, parts in cells.items():
             label = r['labels'][ci] if ci < len(r['labels']) else ''
             text = ' '.join(parts).strip()
             field = label_field(label, False)
@@ -487,7 +528,24 @@ def reconcile(parsed: dict, records: list[dict]) -> dict:
             ci = column_of(tok, t['cols'])
             field = (t['money_fields'] or {}).get(ci) or label_field(t['labels'][ci] if ci < len(t['labels']) else '', True)
             expected[field] = expected.get(field, 0) + (money_value(tok['text']) or 0)
+    # unit totals printed on the same line ("Total $ 27,339,500   619")
+    unit_expected: dict[str, int] = {}
+    for t in use:
+        seen: set[str] = set()
+        for tok in t['tokens']:
+            if tok['money']:
+                continue
+            ci = column_of(tok, t['cols'])
+            field = label_field(t['labels'][ci] if ci < len(t['labels']) else '', False)
+            n = int_value(tok['text'])
+            # the leftmost units column of each kind is the one to_records keeps
+            if field in ('total_units', 'restricted_units') and n is not None and field not in seen:
+                seen.add(field)
+                unit_expected[field] = unit_expected.get(field, 0) + n
     checks = []
+    for field, want in sorted(unit_expected.items()):
+        got = sum(r.get(field, 0) or 0 for r in records[:covered])
+        checks.append({'field': field, 'pdf_total': want, 'parsed_total': got, 'ok': got == want})
     for field, want in sorted(expected.items()):
         got = sum(r.get(field, 0) or 0 for r in records[:covered])
         # the PDFs sum unrounded cents, so allow a dollar of rounding per row
@@ -513,7 +571,7 @@ def doc_meta(doc: dict, title: list[str]) -> dict:
         meta['round'] = {'one': 1, 'two': 2}.get(rnd.group(1).lower(), int(rnd.group(1)) if rnd and rnd.group(1).isdigit() else None) if rnd else None
         if re.search(r'mihtc|middle', t, re.I):
             meta['program'] = 'MIHTC'
-        elif re.search(r'\b4\s*%|4-and|federal-4|4% federal', t, re.I) and not re.search(r'9\s*%', t):
+        elif re.search(r'\b4\s*%|4-and|4-state|federal-4|4% federal', t, re.I) and not re.search(r'9\s*%', t):
             meta['program'] = 'LIHTC 4% + state'
         else:
             meta['program'] = 'LIHTC 9% + state'
@@ -642,7 +700,10 @@ AMOUNT_FIELDS = ('federal_credit', 'state_credit', 'toc_credit', 'mihtc_credit',
                  'amount_awarded', 'amount_requested', 'bond_amount')
 
 
-USABLE = ('ok', 'no_total_line', 'accepted_by_review')
+# units_withheld: every dollar column adds up to the PDF's totals but a units
+# column does not; the awards stand and that document's unit counts are null
+USABLE = ('ok', 'no_total_line', 'accepted_by_review', 'units_withheld')
+UNIT_FIELDS = ('total_units', 'restricted_units')
 # The analysis window. CHFA's 2015 reports are parsed and listed in
 # documents.json, but two versions of the 2015 4% report disagree with each
 # other, so the ledger starts the year after.
@@ -696,6 +757,9 @@ def build(docs: list[dict], cache: str) -> tuple[list[dict], list[dict]]:
         rec_check = reconcile(parsed, records)
         status.update(meta, title=' | '.join(parsed['title']), rows=len(records), **rec_check)
         unnamed = sum(1 for r in records if not (r.get('name') or r.get('sponsor')))
+        failed = [c['field'] for c in status.get('checks', []) if not c['ok']]
+        if status['status'] == 'mismatch' and failed and all(f in UNIT_FIELDS for f in failed):
+            status['status'], status['units_withheld'] = 'units_withheld', failed
         if not records:
             status['status'] = 'no_rows'
         elif unnamed:
@@ -727,7 +791,7 @@ def build(docs: list[dict], cache: str) -> tuple[list[dict], list[dict]]:
                 'total_units': r.get('total_units'), 'restricted_units': r.get('restricted_units'),
                 'detail': r.get('detail'),
                 'source_file': doc['file'], 'source_url': doc['url'],
-                'reconciled': status['status'] == 'ok' and idx < status.get('rows_checked', 0),
+                'reconciled': status['status'] in ('ok', 'units_withheld') and idx < status.get('rows_checked', 0),
             }
             for f in AMOUNT_FIELDS:
                 row[f] = r.get(f)
@@ -743,6 +807,9 @@ def build(docs: list[dict], cache: str) -> tuple[list[dict], list[dict]]:
             if meta['program'].startswith('LIHTC') or meta['program'] == 'MIHTC':
                 row['federal_credit_type'] = ('4%' if '4%' in meta['program'] else
                                               'MIHTC' if meta['program'] == 'MIHTC' else '9%')
+            for f in status.get('units_withheld', []):
+                row[f] = None
+                row[f + '_unavailable_reason'] = "this document's units column does not add up to the total it prints"
             tu, ru = row['total_units'], row['restricted_units']
             if ru is not None and ((tu is not None and ru > tu) or (tu is None and ru > 1000)):
                 # more restricted units than units: two columns ran together
@@ -778,7 +845,10 @@ def github(method: str, path: str, body: dict | None = None):
 
 
 def issue_body(s: dict) -> str:
-    lines = [f"The weekly award parser could not use **{s['file']}**.", '',
+    units_only = s['status'] == 'units_withheld'
+    lead = (f"The weekly award parser could not read the unit counts in **{s['file']}**." if units_only
+            else f"The weekly award parser could not use **{s['file']}**.")
+    lines = [lead, '',
              f"- Source: {s['url']}", f"- Agency: {s['agency']}", f"- Parser status: `{s['status']}`"]
     if s.get('error'):
         lines.append(f"- Error: `{s['error']}`")
@@ -787,7 +857,10 @@ def issue_body(s: dict) -> str:
             lines.append(f"- `{c['field']}`: the PDF's total is {c['pdf_total']:,}, the parsed rows add up to {c['parsed_total']:,}")
     if s.get('unnamed_rows'):
         lines.append(f"- {s['unnamed_rows']} rows carry an amount but no project or sponsor name")
-    lines += ['', 'Its rows are left out of `data/policy/funding-awards/ledger.json` until this is resolved. Either:',
+    kept = ("Its awards and dollars are in `data/policy/funding-awards/ledger.json`, but their unit counts are "
+            "null until this is resolved. Either:" if units_only else
+            'Its rows are left out of `data/policy/funding-awards/ledger.json` until this is resolved. Either:')
+    lines += ['', kept,
               '1. fix the parser in `scripts/funding/build_funding_awards.py` so the rows add up to the total, or',
               ("2. check the rows by hand and add the file to `data/policy/funding-awards/reviewed-documents.json` "
                + "with its sha256, the reason and who reviewed it."), '',
@@ -795,12 +868,18 @@ def issue_body(s: dict) -> str:
     return '\n'.join(lines)
 
 
-def open_issues(statuses: list[dict], discovery: list[dict], dry_run: bool) -> None:
+def open_issues(statuses: list[dict], discovery: list[dict], dry_run: bool, missing: list[str] = ()) -> None:
     wanted = [(f"Award PDF needs a person: {s['file']}", issue_body(s))
-              for s in statuses if s['status'] not in USABLE]
+              for s in statuses if s['status'] not in USABLE or s['status'] == 'units_withheld']
     wanted += [(f"Award list page unreachable: {d['index_url']}",
                 f"The weekly award parser could not read {d['index_url']}: `{d.get('error')}`")
                for d in discovery if d['status'] != 'ok']
+    wanted += [(f"Award PDF no longer listed: {f}",
+                f"**{f}** was in `data/policy/funding-awards/documents.json` but the list pages no longer "
+                "link it. The ledger was left as it is so its awards are not silently dropped. If the agency "
+                "renamed or moved the file, add the new name to the parser's sources; if it was withdrawn on "
+                "purpose, remove its entry from documents.json by hand.")
+               for f in missing]
     if not wanted:
         print('No issues to open.')
         return
@@ -816,6 +895,19 @@ def open_issues(statuses: list[dict], discovery: list[dict], dry_run: bool) -> N
         else:
             github('POST', 'issues', {'title': title, 'body': body, 'labels': [ISSUE_LABEL]})
             print(f'opened: {title}')
+
+
+def missing_documents(prior_path: str, docs: list[dict]) -> list[str]:
+    """Documents recorded last time that no list page links now. Writing the
+    ledger without them would drop their awards without anyone deciding to."""
+    if not os.path.exists(prior_path):
+        return []
+    try:
+        prior = [d['file'] for d in read_json(prior_path).get('documents', [])]
+    except ValueError:
+        return []
+    found = {d['file'] for d in docs}
+    return sorted(f for f in prior if f not in found)
 
 
 def main() -> int:
@@ -850,8 +942,9 @@ def main() -> int:
         print(f"{s['status']:<14} {s.get('rows', 0):>3} rows  {s['file']}")
     bad = [s for s in statuses if s['status'] not in USABLE]
     print(f'{len(ledger)} awards from {len(statuses) - len(bad)} documents; {len(bad)} documents need a person')
+    missing = missing_documents(DOCUMENTS, docs)
     if args.open_issues:
-        open_issues(statuses, discovery, args.dry_run)
+        open_issues(statuses, discovery, args.dry_run, missing)
     if args.check:
         return 0
     if any(d['status'] != 'ok' for d in discovery):
@@ -859,6 +952,10 @@ def main() -> int:
         # and make its agency look unfunded. Keep the last good ledger; the
         # issue opened above is the alert.
         print('An award list page was unreachable; leaving the ledger as it is.', file=sys.stderr)
+        return 0
+    if missing:
+        print(f"{len(missing)} previously recorded documents are no longer listed ({', '.join(missing)}); "
+              'leaving the ledger as it is.', file=sys.stderr)
         return 0
 
     now = dt.datetime.now(dt.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -877,8 +974,10 @@ def main() -> int:
         'sources': [s['index_url'] for s in SOURCES],
         'method': ('Each award PDF is read with pdftotext -layout; every value is mapped to the column '
                    'heading printed above it, and the parsed rows are checked against the TOTAL line the '
-                   'PDF prints. Only documents whose rows add up to their totals (status ok), or that print '
-                   'no total (status no_total_line), contribute rows.'),
+                   'PDF prints, dollars and unit counts alike. Only documents whose rows add up to their totals '
+                   '(status ok), or that print no total (status no_total_line), contribute rows; a document '
+                   'whose dollars add up but whose units column does not (status units_withheld) contributes '
+                   'its awards with those unit counts null.'),
         'amount_note': ('federal_credit, state_credit, toc_credit and mihtc_credit are the ANNUAL credit '
                         'amounts CHFA prints, not the 10-year total. amount_awarded and amount_requested are '
                         'Prop 123 dollars; preliminary selection lists print only the amount requested.'),

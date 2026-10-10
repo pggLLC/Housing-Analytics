@@ -21,14 +21,14 @@
   var sortKey = 'gap_per_1000';
   var sortDir = -1;
 
-  // Plain-language names for the four quadrants the builder assigns.
-  // Fixed hues rather than --chart-N: the theme's first chart colours are close
-  // blues, and these four groups must be told apart at a glance.
+  // Plain-language names for the four quadrants the builder assigns. Theme
+  // tokens, so dark mode recolours them; --chart-1 and --chart-2 are both blue,
+  // so the four groups take tokens of four different hues.
   var QUADRANTS = {
-    'underserved': { label: 'High need, less funding', color: '#c2410c' },
-    'aligned': { label: 'High need, more funding', color: '#0f766e' },
-    'funded-above-need': { label: 'Lower need, more funding', color: '#7c3aed' },
-    'low-need-low-funding': { label: 'Lower need, less funding', color: '#64748b' }
+    'underserved': { label: 'High need, less funding', token: '--chart-6' },
+    'aligned': { label: 'High need, more funding', token: '--chart-3' },
+    'funded-above-need': { label: 'Lower need, more funding', token: '--chart-1' },
+    'low-need-low-funding': { label: 'Lower need, less funding', token: '--muted' }
   };
   var FLAG_LABELS = { 'high-vacancy': 'High vacancy', 'building-ahead': 'Building ahead of growth' };
 
@@ -67,7 +67,7 @@
   }
 
   function quadrantColor(q) {
-    return QUADRANTS[q] ? QUADRANTS[q].color : cssVar('--muted', '#64748b');
+    return cssVar(QUADRANTS[q] ? QUADRANTS[q].token : '--muted', '#64748b');
   }
 
   function setText(id, text) {
@@ -200,8 +200,8 @@
       setStatus('fvnRentStatus', 'The rent comparison is unavailable: no county has both a Zillow rent and a CHFA rent limit.');
       return;
     }
-    var pos = cssVar('--chart-1', '#096e65');
-    var neg = cssVar('--chart-2', '#c2410c');
+    var pos = cssVar('--chart-6', '#92400e');
+    var neg = cssVar('--chart-3', '#096e65');
     canvas.parentNode.style.height = Math.max(320, pts.length * 18 + 80) + 'px';
     new global.Chart(canvas, {
       type: 'bar',
@@ -249,8 +249,8 @@
       setStatus('fvnYearStatus', 'The awards-by-year chart is unavailable.');
       return;
     }
-    var c1 = cssVar('--chart-1', '#096e65');
-    var c2 = cssVar('--chart-2', '#c2410c');
+    var c1 = cssVar('--chart-1', '#1e5799');
+    var c2 = cssVar('--chart-6', '#92400e');
     new global.Chart(canvas, {
       type: 'bar',
       data: {
@@ -388,6 +388,15 @@
       parts.push('Left out until a person checks them, because their rows do not add up to the totals they print: ' + list.map(function (doc) {
         return '<a href="' + escapeHtml(doc.url) + '" target="_blank" rel="noopener">' + escapeHtml(doc.file) + '</a>';
       }).join(', ') + '.');
+    }
+    var withheld = (d.meta && d.meta.documents_units_withheld) || [];
+    var noUnits = d.meta && d.meta.lihtc_awards_without_units;
+    if (isNum(noUnits) && noUnits > 0) {
+      parts.push(noUnits + ' tax-credit awards carry no unit count the parser could check' +
+        (withheld.length ? ' (the unit columns of ' + withheld.map(function (doc) {
+          return '<a href="' + escapeHtml(doc.url) + '" target="_blank" rel="noopener">' + escapeHtml(doc.file) + '</a>';
+        }).join(', ') + ' do not add up to the totals they print)' : '') +
+        ', so their dollars count but unit totals leave them out.');
     }
     if (isNum(unplaced) && unplaced > 0) parts.push(unplaced + ' awards could not be placed in one county and count only toward the statewide totals.');
     el.innerHTML = parts.join(' ');

@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-10T20:03:15Z",
+  "generated_at": "2026-10-10T21:31:02Z",
   "discovery": [
    {
     "index_url": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
@@ -44,6 +44,18 @@
    "status": "ok",
    "checks": [
     {
+     "field": "restricted_units",
+     "pdf_total": 1897,
+     "parsed_total": 1897,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 1902,
+     "parsed_total": 1902,
+     "ok": true
+    },
+    {
      "field": "federal_credit",
      "pdf_total": 12978552,
      "parsed_total": 12978552,
@@ -72,6 +84,12 @@
    "status": "ok",
    "checks": [
     {
+     "field": "restricted_units",
+     "pdf_total": 901,
+     "parsed_total": 901,
+     "ok": true
+    },
+    {
      "field": "federal_credit",
      "pdf_total": 14053648,
      "parsed_total": 14053648,
@@ -93,6 +111,18 @@
    "rows": 16,
    "status": "ok",
    "checks": [
+    {
+     "field": "restricted_units",
+     "pdf_total": 1897,
+     "parsed_total": 1897,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 1902,
+     "parsed_total": 1902,
+     "ok": true
+    },
     {
      "field": "federal_credit",
      "pdf_total": 13521577,
@@ -122,6 +152,18 @@
    "status": "ok",
    "checks": [
     {
+     "field": "restricted_units",
+     "pdf_total": 667,
+     "parsed_total": 667,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 692,
+     "parsed_total": 692,
+     "ok": true
+    },
+    {
      "field": "federal_credit",
      "pdf_total": 13074254,
      "parsed_total": 13074254,
@@ -138,11 +180,23 @@
    "sha256": "690bc7e641db22a878e622d5768fd61810b5d93403ee7e23c048dd41b25a3bf5",
    "year": 2016,
    "round": 1,
-   "program": "LIHTC 9% + state",
+   "program": "LIHTC 4% + state",
    "title": "Colorado Housing and Finance Authority | 2016 - Round 1 Award Report",
    "rows": 12,
    "status": "ok",
    "checks": [
+    {
+     "field": "restricted_units",
+     "pdf_total": 1059,
+     "parsed_total": 1059,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 1062,
+     "parsed_total": 1062,
+     "ok": true
+    },
     {
      "field": "federal_credit",
      "pdf_total": 8716148,
@@ -172,6 +226,12 @@
    "status": "ok",
    "checks": [
     {
+     "field": "restricted_units",
+     "pdf_total": 1290,
+     "parsed_total": 1290,
+     "ok": true
+    },
+    {
      "field": "federal_credit",
      "pdf_total": 11307833,
      "parsed_total": 11307833,
@@ -200,6 +260,12 @@
    "status": "ok",
    "checks": [
     {
+     "field": "restricted_units",
+     "pdf_total": 633,
+     "parsed_total": 633,
+     "ok": true
+    },
+    {
      "field": "amount_requested",
      "pdf_total": 12818961,
      "parsed_total": 12818961,
@@ -219,8 +285,14 @@
    "program": "LIHTC 9% + state",
    "title": "Colorado Housing and Finance Authority | 2018 Round 2 - 9% Competitive LIHTC Award Report",
    "rows": 16,
-   "status": "ok",
+   "status": "units_withheld",
    "checks": [
+    {
+     "field": "total_units",
+     "pdf_total": 814,
+     "parsed_total": 132,
+     "ok": false
+    },
     {
      "field": "amount_requested",
      "pdf_total": 17128412,
@@ -228,7 +300,10 @@
      "ok": true
     }
    ],
-   "rows_checked": 15
+   "rows_checked": 15,
+   "units_withheld": [
+    "total_units"
+   ]
   },
   {
    "file": "2018-Round-1-Award-Report.pdf",
@@ -243,6 +318,18 @@
    "rows": 8,
    "status": "ok",
    "checks": [
+    {
+     "field": "restricted_units",
+     "pdf_total": 531,
+     "parsed_total": 531,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 533,
+     "parsed_total": 533,
+     "ok": true
+    },
     {
      "field": "federal_credit",
      "pdf_total": 4481379,
@@ -272,6 +359,18 @@
    "status": "mismatch",
    "checks": [
     {
+     "field": "restricted_units",
+     "pdf_total": 1343,
+     "parsed_total": 1224,
+     "ok": false
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 1344,
+     "parsed_total": 1075,
+     "ok": false
+    },
+    {
      "field": "federal_credit",
      "pdf_total": 12496478,
      "parsed_total": 14757285,
@@ -300,6 +399,12 @@
    "status": "ok",
    "checks": [
     {
+     "field": "restricted_units",
+     "pdf_total": 722,
+     "parsed_total": 722,
+     "ok": true
+    },
+    {
      "field": "amount_requested",
      "pdf_total": 17282056,
      "parsed_total": 17282056,
@@ -322,6 +427,18 @@
    "status": "ok",
    "checks": [
     {
+     "field": "restricted_units",
+     "pdf_total": 923,
+     "parsed_total": 923,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 940,
+     "parsed_total": 940,
+     "ok": true
+    },
+    {
      "field": "amount_requested",
      "pdf_total": 18416785,
      "parsed_total": 18416785,
@@ -341,8 +458,14 @@
    "program": "LIHTC 4% + state",
    "title": "Colorado Housing and Finance Authority | 2020 Round 2 | 4% Federal Credit and State Credit | Award Report",
    "rows": 11,
-   "status": "ok",
+   "status": "units_withheld",
    "checks": [
+    {
+     "field": "total_units",
+     "pdf_total": 852,
+     "parsed_total": 848,
+     "ok": false
+    },
     {
      "field": "federal_credit",
      "pdf_total": 12061542,
@@ -356,7 +479,10 @@
      "ok": true
     }
    ],
-   "rows_checked": 11
+   "rows_checked": 11,
+   "units_withheld": [
+    "total_units"
+   ]
   },
   {
    "file": "2021-Round-1-Award-Report.pdf",
@@ -371,6 +497,18 @@
    "rows": 14,
    "status": "ok",
    "checks": [
+    {
+     "field": "restricted_units",
+     "pdf_total": 882,
+     "parsed_total": 882,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 883,
+     "parsed_total": 883,
+     "ok": true
+    },
     {
      "field": "amount_awarded",
      "pdf_total": 19818108,
@@ -393,6 +531,12 @@
    "rows": 18,
    "status": "mismatch",
    "checks": [
+    {
+     "field": "restricted_units",
+     "pdf_total": 1373,
+     "parsed_total": 1490,
+     "ok": false
+    },
     {
      "field": "bond_amount",
      "pdf_total": 155370000,
@@ -428,6 +572,18 @@
    "status": "ok",
    "checks": [
     {
+     "field": "restricted_units",
+     "pdf_total": 592,
+     "parsed_total": 592,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 605,
+     "parsed_total": 605,
+     "ok": true
+    },
+    {
      "field": "amount_awarded",
      "pdf_total": 14466293,
      "parsed_total": 14466293,
@@ -447,8 +603,14 @@
    "program": "LIHTC 4% + state",
    "title": "Colorado Housing and Finance Authority | 2022 Round 2 | 4% Federal Credit and State Credit | Award Report",
    "rows": 13,
-   "status": "ok",
+   "status": "units_withheld",
    "checks": [
+    {
+     "field": "restricted_units",
+     "pdf_total": 1463,
+     "parsed_total": 1655,
+     "ok": false
+    },
     {
      "field": "federal_credit",
      "pdf_total": 26615354,
@@ -462,7 +624,10 @@
      "ok": true
     }
    ],
-   "rows_checked": 13
+   "rows_checked": 13,
+   "units_withheld": [
+    "restricted_units"
+   ]
   },
   {
    "file": "2023-Round-1-Housing-Tax-Credit-Award-Report.pdf",
@@ -477,6 +642,18 @@
    "rows": 12,
    "status": "ok",
    "checks": [
+    {
+     "field": "restricted_units",
+     "pdf_total": 604,
+     "parsed_total": 604,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 605,
+     "parsed_total": 605,
+     "ok": true
+    },
     {
      "field": "amount_awarded",
      "pdf_total": 16844337,
@@ -499,6 +676,18 @@
    "rows": 10,
    "status": "ok",
    "checks": [
+    {
+     "field": "restricted_units",
+     "pdf_total": 1109,
+     "parsed_total": 1109,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 1110,
+     "parsed_total": 1110,
+     "ok": true
+    },
     {
      "field": "bond_amount",
      "pdf_total": 257345000,
@@ -534,6 +723,18 @@
    "status": "ok",
    "checks": [
     {
+     "field": "restricted_units",
+     "pdf_total": 601,
+     "parsed_total": 601,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 601,
+     "parsed_total": 601,
+     "ok": true
+    },
+    {
      "field": "federal_credit",
      "pdf_total": 17247043,
      "parsed_total": 17247043,
@@ -561,6 +762,18 @@
    "rows": 10,
    "status": "ok",
    "checks": [
+    {
+     "field": "restricted_units",
+     "pdf_total": 1168,
+     "parsed_total": 1168,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 1169,
+     "parsed_total": 1169,
+     "ok": true
+    },
     {
      "field": "bond_amount",
      "pdf_total": 271142687,
@@ -596,6 +809,18 @@
    "status": "ok",
    "checks": [
     {
+     "field": "restricted_units",
+     "pdf_total": 220,
+     "parsed_total": 220,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 220,
+     "parsed_total": 220,
+     "ok": true
+    },
+    {
      "field": "mihtc_credit",
      "pdf_total": 4832748,
      "parsed_total": 4832748,
@@ -617,6 +842,18 @@
    "rows": 12,
    "status": "ok",
    "checks": [
+    {
+     "field": "restricted_units",
+     "pdf_total": 635,
+     "parsed_total": 635,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 635,
+     "parsed_total": 635,
+     "ok": true
+    },
     {
      "field": "federal_credit",
      "pdf_total": 19197195,
@@ -651,6 +888,18 @@
    "rows": 9,
    "status": "ok",
    "checks": [
+    {
+     "field": "restricted_units",
+     "pdf_total": 840,
+     "parsed_total": 840,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 840,
+     "parsed_total": 840,
+     "ok": true
+    },
     {
      "field": "bond_amount",
      "pdf_total": 156827615,
@@ -692,6 +941,18 @@
    "status": "ok",
    "checks": [
     {
+     "field": "restricted_units",
+     "pdf_total": 118,
+     "parsed_total": 118,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 173,
+     "parsed_total": 173,
+     "ok": true
+    },
+    {
      "field": "mihtc_credit",
      "pdf_total": 2890000,
      "parsed_total": 2890000,
@@ -713,6 +974,18 @@
    "rows": 14,
    "status": "ok",
    "checks": [
+    {
+     "field": "restricted_units",
+     "pdf_total": 634,
+     "parsed_total": 634,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 634,
+     "parsed_total": 634,
+     "ok": true
+    },
     {
      "field": "federal_credit",
      "pdf_total": 23509805,
@@ -749,6 +1022,12 @@
    "status": "ok",
    "checks": [
     {
+     "field": "total_units",
+     "pdf_total": 1380,
+     "parsed_total": 1380,
+     "ok": true
+    },
+    {
      "field": "amount_awarded",
      "pdf_total": 25340000,
      "parsed_total": 25340000,
@@ -771,6 +1050,12 @@
    "rows": 7,
    "status": "ok",
    "checks": [
+    {
+     "field": "total_units",
+     "pdf_total": 722,
+     "parsed_total": 722,
+     "ok": true
+    },
     {
      "field": "amount_requested",
      "pdf_total": 14528000,
@@ -795,6 +1080,12 @@
    "status": "ok",
    "checks": [
     {
+     "field": "total_units",
+     "pdf_total": 628,
+     "parsed_total": 628,
+     "ok": true
+    },
+    {
      "field": "amount_requested",
      "pdf_total": 39390879,
      "parsed_total": 39390879,
@@ -818,6 +1109,12 @@
    "status": "ok",
    "checks": [
     {
+     "field": "total_units",
+     "pdf_total": 1892,
+     "parsed_total": 1892,
+     "ok": true
+    },
+    {
      "field": "amount_awarded",
      "pdf_total": 47994762,
      "parsed_total": 47994762,
@@ -840,6 +1137,12 @@
    "rows": 9,
    "status": "ok",
    "checks": [
+    {
+     "field": "total_units",
+     "pdf_total": 619,
+     "parsed_total": 619,
+     "ok": true
+    },
     {
      "field": "amount_awarded",
      "pdf_total": 27339500,
@@ -887,6 +1190,12 @@
    "status": "ok",
    "checks": [
     {
+     "field": "total_units",
+     "pdf_total": 1017,
+     "parsed_total": 1017,
+     "ok": true
+    },
+    {
      "field": "amount_awarded",
      "pdf_total": 67500074,
      "parsed_total": 67500074,
@@ -909,6 +1218,12 @@
    "rows": 6,
    "status": "ok",
    "checks": [
+    {
+     "field": "total_units",
+     "pdf_total": 728,
+     "parsed_total": 728,
+     "ok": true
+    },
     {
      "field": "amount_awarded",
      "pdf_total": 27053646,
@@ -933,6 +1248,12 @@
    "status": "ok",
    "checks": [
     {
+     "field": "total_units",
+     "pdf_total": 3610,
+     "parsed_total": 3610,
+     "ok": true
+    },
+    {
      "field": "amount_awarded",
      "pdf_total": 18000000,
      "parsed_total": 18000000,
@@ -955,6 +1276,12 @@
    "rows": 9,
    "status": "ok",
    "checks": [
+    {
+     "field": "total_units",
+     "pdf_total": 911,
+     "parsed_total": 911,
+     "ok": true
+    },
     {
      "field": "amount_awarded",
      "pdf_total": 19654417,
@@ -985,6 +1312,12 @@
    "status": "ok",
    "checks": [
     {
+     "field": "total_units",
+     "pdf_total": 728,
+     "parsed_total": 728,
+     "ok": true
+    },
+    {
      "field": "amount_awarded",
      "pdf_total": 25674500,
      "parsed_total": 25674500,
@@ -1013,6 +1346,12 @@
    "rows": 5,
    "status": "ok",
    "checks": [
+    {
+     "field": "total_units",
+     "pdf_total": 654,
+     "parsed_total": 654,
+     "ok": true
+    },
     {
      "field": "amount_requested",
      "pdf_total": 52052141,
@@ -1043,6 +1382,12 @@
    "status": "ok",
    "checks": [
     {
+     "field": "total_units",
+     "pdf_total": 488,
+     "parsed_total": 488,
+     "ok": true
+    },
+    {
      "field": "amount_requested",
      "pdf_total": 28400000,
      "parsed_total": 28400000,
@@ -1072,6 +1417,12 @@
    "status": "ok",
    "checks": [
     {
+     "field": "total_units",
+     "pdf_total": 535,
+     "parsed_total": 535,
+     "ok": true
+    },
+    {
      "field": "amount_awarded",
      "pdf_total": 13856000,
      "parsed_total": 13856000,
@@ -1100,6 +1451,12 @@
    "rows": 18,
    "status": "ok",
    "checks": [
+    {
+     "field": "total_units",
+     "pdf_total": 1455,
+     "parsed_total": 1455,
+     "ok": true
+    },
     {
      "field": "amount_awarded",
      "pdf_total": 32660000,

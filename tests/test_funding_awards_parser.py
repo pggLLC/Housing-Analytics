@@ -3,7 +3,8 @@ The award parser checks itself against the totals each PDF prints, so these
 tests pin that check rather than a layout: two real award lists (text from
 `pdftotext -layout`, stored as fixtures so no network or poppler is needed)
 must parse to rows that add up to their own TOTAL lines, and a single changed
-amount must turn the same document into a mismatch.
+amount must turn the same document into a mismatch. Unit counts are checked
+the same way where the PDF totals them.
 """
 import importlib.util
 import pathlib
@@ -85,3 +86,40 @@ def test_public_build_patterns_are_read_from_their_one_source():
     assert len(patterns) == src.count('regex:') > 0
     # every pattern the guard holds must match the text its label names here too
     assert any(p.search('Sponsor: IndiBuild LLC') for p in patterns)
+
+
+def test_unit_counts_add_up_to_the_pdf_total():
+    # "Estimated / Unit Count" wraps so that "Unit" joins the money heading beside it
+    text = (FIXTURES / 'Prop123-AHFF-FY24-25-ConcessionaryDebtSelections.txt').read_text()
+    for parsed, records in parse(text):
+        check = awards.reconcile(parsed, records)
+        units = [c for c in check['checks'] if c['field'] == 'total_units']
+        assert units == [{'field': 'total_units', 'pdf_total': 619, 'parsed_total': 619, 'ok': True}], check
+        assert all(isinstance(r.get('total_units'), int) for r in records), records
+
+
+def test_one_changed_unit_count_is_a_units_only_mismatch():
+    text = (FIXTURES / 'Prop123-AHFF-FY24-25-ConcessionaryDebtSelections.txt').read_text()
+    printed = '$7,600,000             75 '
+    assert text.count(printed) == 1
+    sabotaged = text.replace(printed, '$7,600,000             76 ')
+    assert sabotaged != text                     # the mutation applied
+    for parsed, records in parse(sabotaged):
+        check = awards.reconcile(parsed, records)
+        failed = [c['field'] for c in check['checks'] if not c['ok']]
+        assert failed == ['total_units'], check
+
+
+def test_a_4_state_report_is_4_percent():
+    doc = {'file': '2016-Round1-4-State-4-CDBG-Award-Report.pdf', 'program_family': 'housing-tax-credit'}
+    assert awards.doc_meta(doc, ['Colorado Housing and Finance Authority', 'Award Report'])['program'] == 'LIHTC 4% + state'
+    doc = {'file': '2016-Round-2-Award-Report.pdf', 'program_family': 'housing-tax-credit'}
+    assert awards.doc_meta(doc, ['2016 Round 2 - 9% Competitive'])['program'] != 'LIHTC 4% + state'
+
+
+def test_a_document_no_longer_listed_is_reported(tmp_path):
+    prior = tmp_path / 'documents.json'
+    prior.write_text('{"documents": [{"file": "a.pdf"}, {"file": "b.pdf"}]}')
+    assert awards.missing_documents(str(prior), [{'file': 'a.pdf'}, {'file': 'b.pdf'}, {'file': 'c.pdf'}]) == []
+    assert awards.missing_documents(str(prior), [{'file': 'a.pdf'}]) == ['b.pdf']
+    assert awards.missing_documents(str(tmp_path / 'none.json'), []) == []
