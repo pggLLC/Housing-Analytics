@@ -32,6 +32,8 @@
   var _allRows = [];     // normalised flat property objects
   var _sortState = { col: 'subsidy_expiration', dir: 'asc' };
   var _chart   = null;  // Chart.js instance
+  var _coverage = { status: 'unavailable', generated: null, recordCount: null,
+    unavailableReason: 'NHPD snapshot unavailable; statewide and local preservation totals are unknown.' };
 
   // ── Data normalisation ───────────────────────────────────────────────────
 
@@ -204,7 +206,7 @@
         labels: cd.labels,
         datasets: [
           {
-            label: 'Assisted Units Expiring',
+            label: 'Snapshot Assisted Units Expiring',
             data: cd.unitCounts,
             backgroundColor: 'var(--chart-1)',
             borderColor: 'var(--chart-1)',
@@ -212,7 +214,7 @@
             yAxisID: 'yUnits',
           },
           {
-            label: 'Properties Expiring',
+            label: 'Snapshot Properties Expiring',
             data: cd.propertyCounts,
             type: 'line',
             backgroundColor: 'transparent',
@@ -288,7 +290,7 @@
     if (ms === null) { return String(expiry); }
     var d  = new Date(ms);
     var now = Date.now();
-    if (ms < now) { return d.getFullYear() + ' (Expired)'; }
+    if (ms < now) { return d.getFullYear() + ' (Recorded date passed)'; }
     return d.getFullYear().toString();
   }
 
@@ -310,7 +312,7 @@
     if (!tbody) { return; }
 
     if (!rows.length) {
-      tbody.innerHTML = '<tr><td colspan="7" class="pres-empty">No properties match the current filters.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="7" class="pres-empty">No snapshot records match the current filters. Coverage is incomplete; preservation risk remains unknown.</td></tr>';
       return;
     }
 
@@ -421,6 +423,10 @@
    * Also announces update to screen readers.
    */
   function refresh() {
+    if (_coverage.recordCount === null) {
+      showError(_coverage.unavailableReason);
+      return;
+    }
     var rows  = getFilteredSorted();
     var kpis  = computeKpis(rows);
 
@@ -430,11 +436,13 @@
     setText('presKpiExpiringUnits',  kpis.expiringUnits.toLocaleString());
 
     renderTable(rows);
+    var exportBtn = document.getElementById('presExportBtn');
+    if (exportBtn) exportBtn.disabled = !rows.length || _coverage.recordCount === null;
 
     if (typeof window.__announceUpdate === 'function') {
       window.__announceUpdate(
-        rows.length + ' properties shown, ' +
-        kpis.expiringCount + ' expiring within ' + EXPIRY_HORIZON_YEARS + ' years'
+        rows.length + ' snapshot properties shown, ' +
+        kpis.expiringCount + ' recorded expirations within ' + EXPIRY_HORIZON_YEARS + ' years. Coverage is incomplete; total preservation risk is unknown.'
       );
     }
   }
@@ -518,10 +526,12 @@
    */
   function exportCsv() {
     var rows = getFilteredSorted();
+    if (!rows.length || _coverage.recordCount === null) return;
     var headers = [
       'nhpd_id', 'property_name', 'address', 'city', 'county', 'county_fips',
       'state', 'zip', 'total_units', 'assisted_units', 'subsidy_type',
-      'subsidy_expiration', 'owner_type', 'ami_targeting'
+      'subsidy_expiration', 'owner_type', 'ami_targeting',
+      'source_generated', 'source_coverage', 'source_record_count', 'coverage_limitation'
     ];
     function escapeCsv(v) {
       var s = String(v == null ? '' : v);
@@ -531,14 +541,20 @@
     var lines = [headers.join(',')];
     for (var i = 0; i < rows.length; i++) {
       var r = rows[i];
-      lines.push(headers.map(function (h) { return escapeCsv(r[h]); }).join(','));
+      var provenance = {
+        source_generated: _coverage.generated, source_coverage: _coverage.status,
+        source_record_count: _coverage.recordCount, coverage_limitation: _coverage.unavailableReason
+      };
+      lines.push(headers.map(function (h) {
+        return escapeCsv(Object.prototype.hasOwnProperty.call(provenance, h) ? provenance[h] : r[h]);
+      }).join(','));
     }
     var csv  = lines.join('\n');
     var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     var url  = URL.createObjectURL(blob);
     var a    = document.createElement('a');
     a.href     = url;
-    a.download = 'nhpd-preservation-' + new Date().toISOString().slice(0, 10) + '.csv';
+    a.download = 'nhpd-limited-snapshot-' + (_coverage.generated ? _coverage.generated.slice(0, 10) : 'vintage-unknown') + '.csv';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -588,6 +604,10 @@
    * @param {Object} geojson
    */
   function onDataLoaded(geojson) {
+    if (!geojson || !Array.isArray(geojson.features)) {
+      showError('NHPD snapshot is invalid; preservation coverage is unknown.');
+      return;
+    }
     var features = (geojson && Array.isArray(geojson.features)) ? geojson.features : [];
 
     _allRows = [];
@@ -599,12 +619,14 @@
     // Also load into Nhpd connector if available
     if (window.Nhpd && typeof window.Nhpd.loadFromGeoJSON === 'function') {
       window.Nhpd.loadFromGeoJSON(geojson);
+      _coverage = window.Nhpd.getCoverage();
     }
+    setText('presCoverage', _coverage.unavailableReason + ' Cards, table and CSV show filtered snapshot records; they do not estimate total preservation needs.');
 
     // Stamp freshness
     var meta = geojson && geojson.meta;
     if (meta && meta.generated) {
-      setText('presDataTimestamp', 'Data as of ' + meta.generated.slice(0, 10));
+      setText('presDataTimestamp', 'Snapshot generated ' + meta.generated.slice(0, 10));
     }
 
     populateFilters();
@@ -618,6 +640,15 @@
    * @param {string} msg
    */
   function showError(msg) {
+    if (window.Nhpd) window.Nhpd.loadInventory(null);
+    _allRows = [];
+    _coverage = { status: 'unavailable', generated: null, recordCount: null,
+      unavailableReason: 'NHPD snapshot unavailable; statewide and local preservation totals are unknown.' };
+    if (_chart) { _chart.destroy(); _chart = null; }
+    ['presKpiTotal', 'presKpiUnits', 'presKpiExpiring', 'presKpiExpiringUnits'].forEach(function (id) { setText(id, 'Unavailable'); });
+    setText('presCoverage', _coverage.unavailableReason);
+    var exportBtn = document.getElementById('presExportBtn');
+    if (exportBtn) exportBtn.disabled = true;
     var tbody = document.getElementById('presTableBody');
     if (tbody) {
       tbody.innerHTML = '<tr><td colspan="7" class="pres-error">⚠ ' + escHtml(msg) + '</td></tr>';
@@ -672,7 +703,11 @@
     /** @returns {Array.<Object>} All loaded property rows (normalised). */
     getRows:           function () { return _allRows.slice(); },
     /** @returns {Object} Current KPIs for loaded data. */
-    getKpis:           function () { return computeKpis(_allRows); },
+    getKpis:           function () {
+      return _coverage.recordCount === null
+        ? { total: null, totalUnits: null, expiringCount: null, expiringUnits: null, unavailableReason: _coverage.unavailableReason }
+        : computeKpis(_allRows);
+    },
     /** Programmatically refresh the view. */
     refresh:           refresh,
     /** Exposes normaliseFeature for unit testing. */
