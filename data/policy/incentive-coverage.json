@@ -1,0 +1,120 @@
+{
+  "schema": "incentive-coverage/v1",
+  "meta": {
+    "as_of": "2026-10-10",
+    "method": "One row per jurisdiction whose official sources were read for a scope (fees, land_use, funds). \"none_found\" means the named sources were read and hold no such measure; \"unreadable\" means the official source could not be read (blocked, a scan with no text, or a dead link). A scope with a verified record is shown as having records whatever this file says; tests/test_local_incentives.py fails if a row says none_found for a scope that has a record. Jurisdictions not listed here and with no record are \"not yet checked\"."
+  },
+  "jurisdictions": [
+    {
+      "geoid": "0804000",
+      "jurisdiction": "City of Aurora",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "none_found",
+        "land_use": "unreadable",
+        "funds": "none_found"
+      },
+      "sources_checked": [
+        "https://www.auroragov.org/business_services/development_center/affordable_housing_resources",
+        "https://www.auroragov.org/residents/community_development/aurora_housing_strategy",
+        "https://www.auroragov.org/business_services/development_center/fees",
+        "https://www.auroragov.org/business_services/building_division/building_fees",
+        "https://aurora.municipal.codes/ (HTTP 403)"
+      ],
+      "note": "Aurora's developer page offers only Community Investment Financing (CIF) gap financing from federal/PAB sources (2026 round 1: Private Activity Bonds, HOME, CDBG) — not a local dedicated fund, so not recorded. The 2020 Housing Strategy lists 'Waive or reduce development fees up to an annual amount' and a housing fund as recommendations only; no adopted program found on fee pages. City code (aurora.municipal.codes, incl. UDO ch. 146) returns 403 to scripted and WebFetch requests, so land-use incentives could not be verified."
+    },
+    {
+      "geoid": "0877290",
+      "jurisdiction": "City of Thornton",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "none_found",
+        "land_use": "none_found",
+        "funds": "none_found"
+      },
+      "sources_checked": [
+        "https://www.thorntonco.gov/community-culture/housing-homelessness",
+        "https://www.thorntonco.gov/business-development/city-development/current-planning-zoning/development-fees",
+        "https://www.thorntonco.gov/media/file/water-and-sewer-connection-fee-schedule-01012026",
+        "https://www.thorntonco.gov/media/file/connection-fees-quick-reference-guide",
+        "https://library.municode.com/co/thornton/codes/code_of_ordinances (Municode API search: affordable, inclusionary, deed-restricted, income-restricted, housing fund)"
+      ],
+      "note": "Thornton's housing page lists only HOME, CDBG and Private Activity Bonds as developer funding, plus letters of support; development and 2026 water/sewer connection fee schedules contain no affordable-housing reduction; code has no affordable-housing incentive. Page says the city has no down-payment program yet and plans to request ~$750,000 of Prop 123 DPA funds (state money, not recorded). A 2019 Denverite report of waived tap fees / rebated permits for Crossing Pointe North could not be read (403) and was not recorded."
+    },
+    {
+      "geoid": "0812815",
+      "jurisdiction": "City of Centennial",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "none_found",
+        "land_use": "none_found",
+        "funds": "unreadable"
+      },
+      "sources_checked": [
+        "https://library.municode.com/co/centennial/codes/municipal_code (Municode API search incl. Land Development Code ch. 12: affordable, attainable, inclusionary, deed-restricted, income restricted, fast track, Proposition 123)",
+        "https://www.centennialco.gov (HTTP 403)"
+      ],
+      "note": "Municipal code (Supp. 26 Update 3, through Ord. 2026-O-07) has no affordable-housing fee relief or land-use incentive; only mention is the STR chapter purpose statement. centennialco.gov is blocked (Akamai 403), so any non-codified housing program or fund could not be read. A 2023 council housing-study update (search snippet only) listed expedited review and land banking as options."
+    },
+    {
+      "geoid": "0857630",
+      "jurisdiction": "Town of Parker",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "none_found",
+        "land_use": "none_found",
+        "funds": "none_found"
+      },
+      "sources_checked": [
+        "https://library.municode.com/co/parker/codes/municipal_code (Municode API search: affordable, attainable, inclusionary, deed-restricted, income restricted, fast track, Proposition 123)",
+        "https://www.parkerco.gov/"
+      ],
+      "note": "Parker's code (Supp. 26.1) has no affordable-housing fee, zoning or fund provision. Per search results the Town has no housing authority of its own, is a member of the Douglas County Housing Partnership, joined DCHP's regional Prop 123 commitment (Oct 2023) and assigned PAB allocation to DCHP — none of these is a local incentive and the pages were not fetched, so nothing recorded."
+    },
+    {
+      "geoid": "0854330",
+      "jurisdiction": "City of Northglenn",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "records",
+        "land_use": "records",
+        "funds": "none_found"
+      },
+      "sources_checked": [
+        "https://municode.northglenn.org/ (all 179 content pages crawled)",
+        "https://www.northglenn.org/government/departments/building/fees_taxes.php"
+      ],
+      "note": "Northglenn's code is not on library.municode.com but on the city-hosted municode.northglenn.org (northglenn.municipal.codes and amlegal returned 403). Fee/expedited-review/setback incentives are limited to the MX Mixed-Use Overlay; parking reduction is citywide. No housing fund, dedicated tax or linkage fee in code."
+    },
+    {
+      "geoid": "0824785",
+      "jurisdiction": "City of Englewood",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "records",
+        "land_use": "records",
+        "funds": "none_found"
+      },
+      "sources_checked": [
+        "https://library.municode.com/co/englewood/codes/code_of_ordinances (4-9-1, 16-5-5, 16-2, 4-3-6, 2-1-7)",
+        "https://www.englewoodco.gov (HTTP 403)"
+      ],
+      "note": "Code has a 'Housing Rehabilitation Fund' (4-3-6, 'housing rehabilitation activities') — not affordable-housing-specific, not recorded as a fund. englewoodco.gov blocked (403), so the 'Affordable Housing Fast Track' page and the impact-fee schedule could not be read; no expedited-review record created."
+    },
+    {
+      "geoid": "0884440",
+      "jurisdiction": "City of Wheat Ridge",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "fees": "records",
+        "land_use": "records",
+        "funds": "none_found"
+      },
+      "sources_checked": [
+        "https://library.municode.com/co/wheat_ridge/codes/code_of_ordinances (ch. 26 secs. 26-106, 26-116, 26-123, 26-305, 26-307, 26-414, 26-1109, 26-1407; searches for housing fund / waive fees)",
+        "https://www.ci.wheatridge.co.us (HTTP 403)"
+      ],
+      "note": "No housing fund, dedicated tax or linkage fee found in code; city website blocked (403) so non-codified programs could not be read. Water/sewer in Wheat Ridge are provided by separate districts (not checked)."
+    }
+  ]
+}
