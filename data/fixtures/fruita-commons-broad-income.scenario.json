@@ -1,7 +1,7 @@
 {
   "schema": "project-scenario/v1",
   "meta": {
-    "name": "Fruita Commons — baseline",
+    "name": "Example project — baseline",
     "status": "hypothesis_to_test",
     "as_of": "2026-08-05",
     "classification_note": "Every modeled project value carries an explicit classification.",

@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-10T21:56:38.639Z",
+    "generated_at": "2026-10-10T22:55:55.089Z",
     "root": "data/",
-    "file_count": 1705,
-    "total_size_bytes": 178912954,
+    "file_count": 1708,
+    "total_size_bytes": 179406351,
     "kinds": {
-      "json": 1668,
+      "json": 1671,
       "geojson": 33,
       "csv": 4
     }
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-10T21:56:34.530Z",
+      "mtime": "2026-10-10T22:55:50.801Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1277,6 +1277,32 @@
       ]
     },
     {
+      "path": "derived/funding-vs-need.json",
+      "kind": "json",
+      "size_bytes": 96057,
+      "mtime": "2026-10-10T22:28:02.948Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "statewide",
+        "counties"
+      ],
+      "key_count": 3,
+      "primary_array_key": "counties",
+      "primary_array_length": 64,
+      "primary_array_first_keys": [
+        "fips",
+        "name",
+        "region",
+        "population",
+        "need",
+        "market",
+        "funding",
+        "flags",
+        "quadrant"
+      ]
+    },
+    {
       "path": "derived/market-analysis/market_demand.json",
       "kind": "json",
       "size_bytes": 8313,
@@ -1429,8 +1455,8 @@
     {
       "path": "fixtures/fruita-commons-broad-income.scenario.json",
       "kind": "json",
-      "size_bytes": 5332,
-      "mtime": "2026-09-25T12:55:18.625Z",
+      "size_bytes": 5333,
+      "mtime": "2026-10-10T22:55:07.047Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -1460,8 +1486,8 @@
     {
       "path": "fixtures/fruita-commons-compact.scenario.json",
       "kind": "json",
-      "size_bytes": 5130,
-      "mtime": "2026-09-25T12:55:18.625Z",
+      "size_bytes": 5131,
+      "mtime": "2026-10-10T22:55:07.049Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -1491,8 +1517,8 @@
     {
       "path": "fixtures/fruita-commons-family.scenario.json",
       "kind": "json",
-      "size_bytes": 5122,
-      "mtime": "2026-09-25T12:55:18.625Z",
+      "size_bytes": 5123,
+      "mtime": "2026-10-10T22:55:07.049Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -1522,8 +1548,8 @@
     {
       "path": "fixtures/fruita-commons.scenario.json",
       "kind": "json",
-      "size_bytes": 5006,
-      "mtime": "2026-09-25T12:55:18.625Z",
+      "size_bytes": 5007,
+      "mtime": "2026-10-10T22:55:07.049Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -30561,8 +30587,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 216700,
-      "mtime": "2026-10-10T21:08:06.381Z",
+      "size_bytes": 217087,
+      "mtime": "2026-10-10T22:55:07.257Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32026,7 +32052,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15108,
-      "mtime": "2026-10-10T21:56:36.292Z",
+      "mtime": "2026-10-10T22:55:52.667Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32050,7 +32076,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-10T21:56:35.883Z",
+      "mtime": "2026-10-10T22:55:52.200Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34052,6 +34078,62 @@
         "recurrence",
         "measure",
         "reduces_total_cost"
+      ]
+    },
+    {
+      "path": "policy/funding-awards/documents.json",
+      "kind": "json",
+      "size_bytes": 40885,
+      "mtime": "2026-10-10T22:28:03.354Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "documents"
+      ],
+      "key_count": 2,
+      "primary_array_key": "documents",
+      "primary_array_length": 42,
+      "primary_array_first_keys": [
+        "file",
+        "url",
+        "agency",
+        "program_family",
+        "sha256",
+        "year",
+        "round",
+        "program",
+        "title",
+        "rows",
+        "status",
+        "checks"
+      ]
+    },
+    {
+      "path": "policy/funding-awards/ledger.json",
+      "kind": "json",
+      "size_bytes": 356064,
+      "mtime": "2026-10-10T22:28:03.356Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "awards"
+      ],
+      "key_count": 2,
+      "primary_array_key": "awards",
+      "primary_array_length": 429,
+      "primary_array_first_keys": [
+        "agency",
+        "program",
+        "year",
+        "round",
+        "fiscal_year",
+        "name",
+        "sponsor",
+        "location",
+        "county_fips",
+        "total_units",
+        "restricted_units",
+        "detail"
       ]
     },
     {

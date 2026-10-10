@@ -724,7 +724,7 @@
       return pct + '% AMI';
     }
     if (MIDDLE_INCOME_AMI_BANDS[pct]) {
-      return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(middle-income: CHFA MIHTC/TOC + Prop 123; not LIHTC-credit-eligible)</span>';
+      return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(middle-income: Colorado Middle Income Housing Tax Credit (MIHTC) + Prop 123; not LIHTC-credit-eligible)</span>';
     }
     return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(market/workforce; not counted under this election — select Average Income Test to designate 70/80% units)</span>';
   }
@@ -1778,8 +1778,9 @@
           <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:.4rem;line-height:1.45;">
             Credit-eligible tiers depend on the elected minimum set-aside; 100%, 110%, and 120%
             AMI never generate federal LIHTC equity in this screening model.
-            110% and 120% AMI are middle-income planning bands for CHFA MIHTC/TOC
-            and Prop 123 context only. Mixed-income deals use IRC §42(c)(1)(B)
+            110% and 120% AMI are middle-income planning bands for Colorado's
+            Middle Income Housing Tax Credit (MIHTC) and Prop 123 context only;
+            this calculator does not size MIHTC credits. Mixed-income deals use IRC §42(c)(1)(B)
             applicable fraction — eligible basis is prorated by LIHTC unit share.
             See live calculation below.
           </div>
@@ -2252,8 +2253,9 @@
               real underwriting subtracts UA.
               <br>
               <strong>Middle-income bands:</strong> 110% and 120% AMI are shown
-              as planning bands for CHFA MIHTC/TOC and Prop 123 context. They
-              are not federal LIHTC-credit-eligible and are excluded from
+              as planning bands for Colorado's Middle Income Housing Tax Credit
+              (MIHTC, 80–120% AMI) and Prop 123 context; this calculator does
+              not size MIHTC credits. They are not federal LIHTC-credit-eligible and are excluded from
               qualified basis and annual credit calculations.
             </p>
           </div>
