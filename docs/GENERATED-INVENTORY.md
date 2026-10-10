@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T21:56:13.281Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-10T22:28:18.488Z. Do not edit by hand.
 
 ---
 
@@ -19,7 +19,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.9 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 39.9 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 188.9 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 196.8 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 17.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.4 KB |
@@ -82,7 +82,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1669 JSON files found.
+1672 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -136,6 +136,7 @@
 | `data/core/neighborhood-context.json` | 69.6 KB | ✅ | — |
 | `data/coverage-report.json` | 12.8 KB | ✅ | — |
 | `data/dda-colorado.json` | 333.6 KB | ✅ | 10 features |
+| `data/derived/funding-vs-need.json` | 93.8 KB | ✅ | — |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
 | `data/derived/market-analysis/neighborhood_access.json` | 4.02 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
@@ -1712,6 +1713,8 @@
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 20.3 KB | ✅ | — |
 | `data/policy/fee-reductions.json` | 567.3 KB | ✅ | — |
+| `data/policy/funding-awards/documents.json` | 39.9 KB | ✅ | — |
+| `data/policy/funding-awards/ledger.json` | 347.7 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.8 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.1 KB | ✅ | — |
 | `data/policy/incentive-alternatives.json` | 53.5 KB | ✅ | — |
@@ -1760,7 +1763,7 @@
 
 ## Test Files
 
-549 test files found.
+553 test files found.
 
 | File | Size |
 |------|------|
@@ -1922,6 +1925,7 @@
 | `test/freshness-gates-run-first.test.mjs` | 7.3 KB |
 | `test/freshness-guard-dirty-tree.test.js` | 12.5 KB |
 | `test/funding-context-card.test.js` | 7.7 KB |
+| `test/funding-vs-need.test.mjs` | 13.7 KB |
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-naming.test.js` | 22.9 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
@@ -1940,7 +1944,7 @@
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
-| `test/hna-build-rebase-recovery.test.js` | 7.1 KB |
+| `test/hna-build-rebase-recovery.test.js` | 7.3 KB |
 | `test/hna-car-loader.test.js` | 5.5 KB |
 | `test/hna-chapter-handoff.test.mjs` | 7.8 KB |
 | `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
@@ -2267,6 +2271,8 @@
 | `tests/conftest.py` | 4.2 KB |
 | `tests/demographic_projections_test.py` | 19.4 KB |
 | `tests/economic_indicators_test.py` | 26.9 KB |
+| `tests/fixtures/funding-awards/FY23-24-LandBankingAwards.txt` | 5.1 KB |
+| `tests/fixtures/funding-awards/Prop123-AHFF-FY24-25-ConcessionaryDebtSelections.txt` | 2.1 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/policy_schema.py` | 13.8 KB |
 | `tests/test_acs_vintage_var_aliases.py` | 4.2 KB |
@@ -2285,6 +2291,7 @@
 | `tests/test_fetch_regrid_pipeline_parcels.py` | 7.3 KB |
 | `tests/test_fmr_extractor.py` | 3.4 KB |
 | `tests/test_fmr_parsing.py` | 5.9 KB |
+| `tests/test_funding_awards_parser.py` | 5.8 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_gtfs_transit_fallback.py` | 2.7 KB |
 | `tests/test_hmda_data.py` | 6.6 KB |
@@ -2318,7 +2325,7 @@
 
 ## GitHub Actions Workflows
 
-79 workflow files found.
+80 workflow files found.
 
 | File | Size |
 |------|------|
@@ -2331,7 +2338,7 @@
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.0 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
-| `.github/workflows/build-hna-data.yml` | 32.3 KB |
+| `.github/workflows/build-hna-data.yml` | 32.6 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 4.0 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.5 KB |
 | `.github/workflows/car-data-update.yml` | 2.7 KB |
@@ -2370,8 +2377,9 @@
 | `.github/workflows/fetch-hmda-data.yml` | 4.1 KB |
 | `.github/workflows/fetch-kalshi.yml` | 5.3 KB |
 | `.github/workflows/fetch-market-rents.yml` | 8.2 KB |
-| `.github/workflows/fetch-parcel-zoning-data.yml` | 20.3 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 20.4 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 8.9 KB |
+| `.github/workflows/funding-awards.yml` | 3.2 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 5.2 KB |
 | `.github/workflows/local-incentives-watch.yml` | 1.8 KB |
 | `.github/workflows/market_data_build.yml` | 21.4 KB |
@@ -2380,7 +2388,7 @@
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
 | `.github/workflows/policy-review-reminders.yml` | 2.1 KB |
 | `.github/workflows/qa-status.yml` | 10.0 KB |
-| `.github/workflows/rebuild-bps-permits.yml` | 11.1 KB |
+| `.github/workflows/rebuild-bps-permits.yml` | 11.2 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 4.5 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-co-demographics.yml` | 3.8 KB |
