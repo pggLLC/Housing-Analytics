@@ -5,18 +5,22 @@
       "geoid": "08017",
       "level": "county",
       "name": "Cheyenne County",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.co.cheyenne.co.us/assets/pdfs/C&R_2026_Sample_Ballot%289.29.26%29.pdf",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The Cheyenne County Clerk and Recorder page posts no sample ballot, ballot-content certification or TABOR notice for November 3, 2026 as of 2026-09-26 (only a proposed polling-locations document).",
-        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established."
+        "Read 2026-10-10: the Cheyenne County Clerk and Recorder page now posts \"2026 General Election Sample Ballot - All Precincts\" (text-readable PDF, 2 pages, a single ballot style 001-01). Its only questions are the statewide amendments and propositions and the judicial retention questions; it has no county, municipal, school or special district ballot question.",
+        "No TABOR notice and no list of participating political subdivisions was posted on the county clerk page checked on 2026-10-10."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.co.cheyenne.co.us/assets/pdfs/C&R_2026_Sample_Ballot%289.29.26%29.pdf",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -24,23 +28,32 @@
       "geoid": "0814175",
       "level": "municipal",
       "name": "Cheyenne Wells (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.co.cheyenne.co.us/assets/pdfs/C&R_2026_Sample_Ballot%289.29.26%29.pdf",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The Cheyenne County Clerk and Recorder page posts no sample ballot, ballot-content certification or TABOR notice for November 3, 2026 as of 2026-09-26 (only a proposed polling-locations document).",
-        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
-        "Town website checked 2026-09-26: no election or ballot question content."
+        "Read 2026-10-10: the Cheyenne County Clerk and Recorder page now posts \"2026 General Election Sample Ballot - All Precincts\" (text-readable PDF, 2 pages, a single ballot style 001-01). Its only questions are the statewide amendments and propositions and the judicial retention questions; it has no county, municipal, school or special district ballot question.",
+        "No TABOR notice and no list of participating political subdivisions was posted on the county clerk page checked on 2026-10-10.",
+        "The all-precincts sample ballot has no Town of Cheyenne Wells section.",
+        "Town Resources page checked 2026-10-10: the posted town council minutes (January 21 through July 14, 2026) and the August 10, 2026 regular meeting agenda contain no ballot question or election referral; the January 14, 2026 minutes are a scanned PDF with no text layer and were not read. Owner review: no minutes or agendas after August 10, 2026 are posted."
       ],
       "reviewed_sources": [
         {
-          "url": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
+          "url": "https://townofcheyennewells.com/",
           "retrieved": "2026-09-26"
         },
         {
-          "url": "https://townofcheyennewells.com/",
-          "retrieved": "2026-09-26"
+          "url": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.co.cheyenne.co.us/assets/pdfs/C&R_2026_Sample_Ballot%289.29.26%29.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofcheyennewells.com/resources/",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -50,21 +63,34 @@
       "name": "Kit Carson (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The Cheyenne County Clerk and Recorder page posts no sample ballot, ballot-content certification or TABOR notice for November 3, 2026 as of 2026-09-26 (only a proposed polling-locations document).",
-        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
-        "Town website checked 2026-09-26: no election or ballot question content."
+        "Read 2026-10-10: the Cheyenne County Clerk and Recorder page now posts \"2026 General Election Sample Ballot - All Precincts\" (text-readable PDF, 2 pages, a single ballot style 001-01). Its only questions are the statewide amendments and propositions and the judicial retention questions; it has no county, municipal, school or special district ballot question.",
+        "No TABOR notice and no list of participating political subdivisions was posted on the county clerk page checked on 2026-10-10.",
+        "The all-precincts sample ballot has no Town of Kit Carson section.",
+        "Town website checked 2026-10-10: the Documents & Services page posts minutes only through January 2025 and the Ordinances page lists only 2025 ordinances and resolutions; there is no 2026 election content, so a separate town election could not be ruled out and the row stays open."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.co.cheyenne.co.us/assets/pdfs/C&R_2026_Sample_Ballot%289.29.26%29.pdf",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.townofkitcarson.com/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.townofkitcarson.com/documents-services",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.townofkitcarson.com/ordinances",
+          "retrieved": "2026-10-10"
         }
       ]
     }

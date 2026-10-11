@@ -739,7 +739,7 @@
   // privacy-policy.html). The token is public by design; it ends up in the
   // page source either way. Empty token = no beacon. The /developer* pages are
   // excluded so gated work does not show up in the public site's traffic.
-  var CF_ANALYTICS_TOKEN = '';
+  var CF_ANALYTICS_TOKEN = 'd8f83044c0ed43bc89e766a9ecc23c6a';
   function loadAnalytics() {
     if (!CF_ANALYTICS_TOKEN) return;
     if (location.hostname !== 'cohoanalytics.com' && location.hostname !== 'www.cohoanalytics.com') return;
