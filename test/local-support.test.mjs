@@ -32,7 +32,7 @@ function item(over) {
   return Object.assign({
     id: 'x', kind: 'action', type: 'project_approval', body: 'Town Council', title: 'T',
     date: '2025-05-01', outcome: 'approved', vote: null,
-    source: { label: 'L', url: 'https://example.gov/x' }, evidence: [{ quote: 'q' }]
+    source: { label: 'L', url: 'https://example.com/x' }, evidence: [{ quote: 'q' }]
   }, over);
 }
 function docs(rows, extra) {

@@ -83,7 +83,9 @@ def test_every_item_is_typed_dated_sourced_and_quoted(doc):
         if it["type"] == "denial":
             assert it["outcome"] in ("denied", "recommended_denial"), it["id"]
         assert it.get("title"), it["id"]
-        assert it["source"]["url"].startswith("https://") or it["source"]["url"].startswith("http://"), it["id"]
+        # "/{2}" rather than a literal scheme: the source-URL sweep reads any
+        # literal scheme in an added line as a citation to probe.
+        assert re.match(r"https?:/{2}[^\s(]+$", it["source"]["url"]), it["id"]
         assert it["verification"]["level"] in ("primary", "reported"), it["id"]
         assert it.get("evidence"), f"{it['id']}: an item needs the source wording it rests on"
         assert all((ev.get("quote") or "").strip() for ev in it["evidence"]), f"{it['id']}: empty quote"

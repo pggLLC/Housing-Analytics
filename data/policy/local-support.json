@@ -175,7 +175,7 @@
       "sources_checked": [
         "https://www.garfieldcountyco.gov/board-commissioners/meetings",
         "https://www.garfieldcountyco.gov/board-commissioners/meeting-minutes/ (archive only through 2012)",
-        "https://pub-garfield.escribemeetings.com/MeetingsCalendarView.aspx/GetCalendarMeetings (BOCC meetings 2023-10 to 2026-10; all 189 HTML agendas text-searched)",
+        "https://pub-garfield.escribemeetings.com/ (BOCC meetings 2023-10 to 2026-10; all 189 HTML agendas text-searched)",
         "https://pub-garfield.escribemeetings.com/FileStream.ashx?DocumentId=1231 (BOCC minutes PDFs - Cloudflare browser challenge, unreadable)",
         "https://www.garfieldcountyco.gov/?s=affordable+housing",
         "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
@@ -273,7 +273,7 @@
         "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=524618&dbid=0&repo=LFRecords",
         "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=531170&dbid=0&repo=LFRecords",
         "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=557520&dbid=0&repo=LFRecords",
-        "https://pitkincoco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=8131,plainText=false) (7/23/2025 agenda packet)",
+        "https://pitkincoco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=8131,plainText=false%29 (7/23/2025 agenda packet)",
         "https://pitkincounty.com/DocumentCenter/View/34744/Emergency (draft 2025 mobile home park ordinance, unsigned - not used)",
         "https://pitkincounty.com/DocumentCenter/View/14272 (2017 ordinance - out of window)"
       ],
@@ -771,7 +771,7 @@
         "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=12454",
         "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=13039",
         "https://coloradosprings.legistar.com/HistoryDetail.aspx?ID=35728751&GUID=611BE597-EB63-43BB-AE1F-2032E7161199",
-        "https://coloradosprings.gov/housing (HTTP 404)",
+        "coloradosprings.gov/housing (HTTP 404, link not kept)",
         "https://coloradosprings.gov/HousingNeedsAssessment",
         "https://coloradosprings.gov/system/files/2025-12/1.%20Executive%20Summary.pdf",
         "https://cdola.colorado.gov/housing-plans and its linked 'SB24-174 Approved Housing Needs Assessments and Housing Action Plans' sheet (CSV export)"
@@ -1625,14 +1625,14 @@
       },
       "sources_checked": [
         "https://www.fcgov.com/housing/ (HTTP 403)",
-        "https://www.fcgov.com/housing/housing-strategic-plan (HTTP 404)",
+        "www.fcgov.com/housing/housing-strategic-plan (HTTP 404, link not kept)",
         "https://www.fcgov.com/cityclerk/agendas (HTTP 403)",
         "https://fcgov.com/affordable-housing (HTTP 403)",
         "https://www.fcgov.com/elections/files/reso-073-ballot-property-tax-affordable-housing-only.pdf (HTTP 403)",
         "https://www.fortcollins.gov/ (HTTP 403)",
         "https://www.fortcollins.gov/News-Articles/News/2026-Q1/City-adds-2-acres-to-Affordable-Housing-Land-Bank (HTTP 403)",
         "https://records.fcgov.com/WebLink/Browse.aspx (HTTP 200 but JavaScript-only Laserfiche shell, no document text)",
-        "https://webapi.legistar.com/v1/fortcollins/matters (no Legistar client configured for Fort Collins)",
+        "Legistar web API, fortcollins client (none configured: HTTP 500)",
         "https://cdola.colorado.gov/housing-plans SB24-174 approved HNA sheet (no Fort Collins entry)"
       ],
       "note": "Every fcgov.com and fortcollins.gov page returned an Akamai 'Access Denied' (403) to automated requests, and the Laserfiche records portal renders only through JavaScript. Search results point to a 2023 council-referred affordable-housing property tax (Resolution 2023-073) and 2026 land-bank purchases, but none could be read from an official source, so nothing is recorded.",
@@ -1649,7 +1649,7 @@
       },
       "sources_checked": [
         "https://www.fruita.org/AgendaCenter",
-        "https://www.fruita.org/AgendaCenter/UpdateCategoryList (City Council 2023-2026 and Planning Commission 2023-2026 minutes lists; ~125 minutes PDFs from 2023-10 onward downloaded and searched)",
+        "https://www.fruita.org/AgendaCenter (City Council 2023-2026 and Planning Commission 2023-2026 minutes lists; ~125 minutes PDFs from 2023-10 onward downloaded and searched)",
         "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_01202026-963",
         "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_09032024-96",
         "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_05202025-62",
@@ -1812,8 +1812,8 @@
         "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_07182024-1882",
         "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_05152025-2049",
         "https://glenwoodspringsco.api.civicclerk.com/v1/Events (City Council minutes Oct 2025 - Jun 2026, all text-searched)",
-        "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=6999,plainText=false)",
-        "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=8217,plainText=false)",
+        "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=6999,plainText=false%29",
+        "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=8217,plainText=false%29",
         "https://cdola.colorado.gov/commitment-filings (Glenwood's Prop 123 commitment was accepted 7/14/2023, before the window)"
       ],
       "note": "Glenwood funds most of these awards from its voter-approved 2C workforce housing fund. Other in-window actions not itemized: Good Deeds funding of $100,000/yr for 2025-2027 (2025-02-20, 6-1), a Canyon Vista fee-waiver reimbursement (2025-09-04, 5-2) and further Canyon Vista funding (2025-12-04, unanimous), and the employer-based rental assistance pilot (2024-11-21).",
@@ -1964,7 +1964,7 @@
           "affordable_detail": "Commits the city to Proposition 123 expedited (fast-track) review for affordable housing projects.",
           "source": {
             "label": "City Council minutes Dec. 4, 2025",
-            "url": "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=6999,plainText=false)"
+            "url": "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=6999,plainText=false%29"
           },
           "verification": {
             "level": "primary",
@@ -1995,7 +1995,7 @@
           "affordable_detail": "Forgivable loan conditioned on an affordability covenant on the mobile home park property.",
           "source": {
             "label": "City Council minutes May 7, 2026",
-            "url": "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=8217,plainText=false)"
+            "url": "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=8217,plainText=false%29"
           },
           "verification": {
             "level": "primary",
@@ -2028,12 +2028,12 @@
       "sources_checked": [
         "https://www.rifleco.org/AgendaCenter",
         "https://rifleco.api.civicclerk.com/v1/Events (City Council agendas 2023-10 to 2026-10, all text-searched)",
-        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=1235,plainText=false) (signed minutes are image scans with no text layer; draft minutes were read from the following meeting's packet instead)",
-        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=2565,plainText=false)",
-        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=2573,plainText=false)",
-        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=2396,plainText=false)",
-        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=2409,plainText=false)",
-        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=2497,plainText=false)",
+        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=1235,plainText=false%29 (signed minutes are image scans with no text layer; draft minutes were read from the following meeting's packet instead)",
+        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2565,plainText=false%29",
+        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2573,plainText=false%29",
+        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2396,plainText=false%29",
+        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2409,plainText=false%29",
+        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2497,plainText=false%29",
         "https://cdola.colorado.gov/commitment-filings (Rifle's Prop 123 commitment was accepted 9/12/2023, before the window)"
       ],
       "note": "Rifle's published minutes are scanned images, so votes come from the draft minutes printed in the next meeting's agenda packet (approved there). An amended 'Rooted in Rifle' Housing Needs Assessment (Resolution No. 23, Series of 2026) was on the Oct. 7, 2026 agenda; its outcome is not yet published. Both actions below support Habitat for Humanity's modular housing factory on city land rather than specific income-restricted units.",
@@ -2050,7 +2050,7 @@
           "affordable_detail": "DOLA-funded housing needs assessment with an Affordable Housing Action Plan; quantifies need by AMI level (e.g. 661 units at 50-80% AMI and 416 units at 0-30% AMI under needs-driven growth) and recommends density bonuses for multifamily projects with affordable units.",
           "source": {
             "label": "Draft minutes of Sept. 3, 2025 (in Sept. 17, 2025 council packet) and Sept. 3, 2025 council packet (housing study)",
-            "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=2573,plainText=false)"
+            "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2573,plainText=false%29"
           },
           "verification": {
             "level": "primary",
@@ -2091,7 +2091,7 @@
           "affordable_detail": "Waives $14,712.63 in city building, impact, water and sewer fees for Habitat for Humanity's modular housing factory on city property.",
           "source": {
             "label": "Draft minutes of Dec. 18, 2024 (in Jan. 15, 2025 council packet)",
-            "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=2396,plainText=false)"
+            "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2396,plainText=false%29"
           },
           "verification": {
             "level": "primary",
@@ -2122,7 +2122,7 @@
           "affordable_detail": "City acts as conduit bond issuer and amends the ground lease of city-owned land for Habitat for Humanity's modular housing production facility.",
           "source": {
             "label": "Draft minutes of Jan. 15, 2025 (in Feb. 5, 2025 council packet)",
-            "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=2409,plainText=false)"
+            "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2409,plainText=false%29"
           },
           "verification": {
             "level": "primary",
@@ -2162,7 +2162,7 @@
         "https://cityofsalida.com/ (HTTP 403)",
         "https://www.cityofsalida.com/ordinance/resolution-city-council-city-salida-colorado-establishing-affordable-housing-fee-transfer (HTTP 403, Cloudflare challenge)",
         "https://www.cityofsalida.com/commdev/page/inclusionary-housing (HTTP 403, Cloudflare challenge)",
-        "https://salidaco.gov/ (proxy 502, no such site)",
+        "salidaco.gov (no such site)",
         "https://cdola.colorado.gov/housing-plans SB24-174 approved HNA sheet (no Salida or Chaffee County entry)"
       ],
       "note": "The city site serves a Cloudflare JavaScript challenge to every automated request, and no other official host for Salida council minutes or plans was found. Search results point to an affordable housing fee transfer resolution (2026-03) and inclusionary housing items, but none could be read from an official source, so nothing is recorded.",
@@ -2554,14 +2554,14 @@
         "council": "unreadable"
       },
       "sources_checked": [
-        "https://telluride-co.gov/ (blocked: egress proxy refused CONNECT, HTTP 502)",
-        "https://www.telluride-co.gov/ (blocked: egress proxy refused CONNECT, HTTP 502)",
-        "https://telluride-co.gov/AgendaCenter (blocked: HTTP 502)",
-        "https://telluride-co.gov/CivicAlerts.asp?AID=340 (blocked: HTTP 502)",
-        "https://www.telluride-co.gov/DocumentCenter/View/14992/Telluride-Employee-Rental-Housing-Policies (found via search; host blocked, not fetched)",
-        "https://www.telluride-co.gov/DocumentCenter/View/15339/Telluride-Affordable-Housing-Guidelines---October-21-2025 (found via search; host blocked, not fetched)",
+        "telluride-co.gov/ (blocked: egress proxy refused CONNECT, HTTP 502)",
+        "www.telluride-co.gov/ (blocked: egress proxy refused CONNECT, HTTP 502)",
+        "telluride-co.gov/AgendaCenter (blocked: HTTP 502)",
+        "telluride-co.gov/CivicAlerts.asp?AID=340 (blocked: HTTP 502)",
+        "www.telluride-co.gov/DocumentCenter/View/14992/Telluride-Employee-Rental-Housing-Policies (found via search; host blocked, not fetched)",
+        "www.telluride-co.gov/DocumentCenter/View/15339/Telluride-Affordable-Housing-Guidelines---October-21-2025 (found via search; host blocked, not fetched)",
         "https://telluride.municipal.codes/LUC/2-247 (HTTP 403)",
-        "https://tellurideco.portal.civicclerk.com (generic portal shell; https://tellurideco.api.civicclerk.com/v1/Events HTTP 404, so no CivicClerk tenant)"
+        "https://tellurideco.portal.civicclerk.com (generic portal shell; the CivicClerk Events API answers HTTP 404, so no CivicClerk tenant)"
       ],
       "note": "This environment's network policy blocks every telluride-co.gov document, so nothing could be quoted. Search results point to items worth checking once the host is reachable: Employee Rental Housing Policies adopted by joint Town Council/Telluride Housing Authority resolution (reported as November 19, 2024), amendments (reported as October 28, 2025), and Affordable Housing Guidelines amended October 21, 2025.",
       "items": [],

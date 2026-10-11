@@ -518,7 +518,7 @@
     {
       "id": "ls2",
       "label": "Rifle Housing Study and Action Plan (Resolution No. 19, Series of 2025) (Draft minutes of Sept. 3, 2025 (in Sept. 17, 2025 council packet) and Sept. 3, 2025 council packet (housing study))",
-      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=2573,plainText=false)",
+      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2573,plainText=false%29",
       "kind": "data",
       "dataset": "local-support",
       "field": "ls-rifle-housing-study-action-plan-2025",
@@ -527,7 +527,7 @@
     {
       "id": "ls3",
       "label": "Fee waivers for Habitat for Humanity modular housing factory (Draft minutes of Dec. 18, 2024 (in Jan. 15, 2025 council packet))",
-      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=2396,plainText=false)",
+      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2396,plainText=false%29",
       "kind": "data",
       "dataset": "local-support",
       "field": "ls-rifle-habitat-fee-waiver-2024",
@@ -536,7 +536,7 @@
     {
       "id": "ls4",
       "label": "Ordinance No. 2, Series of 2025 - conduit bond financing and ground lease amendment for Habitat for Humanity Roaring Fork Valley (Draft minutes of Jan. 15, 2025 (in Feb. 5, 2025 council packet))",
-      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=2409,plainText=false)",
+      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2409,plainText=false%29",
       "kind": "data",
       "dataset": "local-support",
       "field": "ls-rifle-habitat-conduit-bond-lease-2025",
