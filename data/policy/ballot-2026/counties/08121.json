@@ -5,14 +5,15 @@
       "geoid": "08121",
       "level": "county",
       "name": "Washington County",
-      "coverage_state": "official_notice_unavailable",
+      "coverage_state": "official_ballot_reviewed_none_found",
       "reviewed_source": "https://washingtoncounty.colorado.gov/departments/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "As of 2026-09-26 the county has not posted a general-election sample ballot, notice of election, TABOR notice or list of participating entities. I tried likely file names on the county document path and all returned 404.",
-        "The county commissioners page posts no agendas, minutes or resolutions, so I could not check for any county referral.",
-        "I found no news reports of a Washington County housing measure."
+        "The county elections page now posts ten 2026 General Election sample ballots, one per precinct style (Precincts 1-6, with Town of Akron, Akron Rural Fire and Arickaree School District variants). All ten were read from their text layers on 2026-10-10. None has a county ballot measure.",
+        "Local measures on the posted styles: Town of Akron Referred Ballot Question 2B (election date change), Akron Rural Fire Protection District Referred Ballot Issue 6A (fire district property tax increase of 2.31 mills) and Arickaree School District R-2 Referred Ballot Question 4A (director districts). None is housing.",
+        "No TABOR notice or participating-entities list is posted. The county does not need one for this row, because every county style was read.",
+        "On 2026-09-26 the county had posted no general-election ballot content; the 2026 Elections PDF on the county document path was checked then."
       ],
       "reviewed_sources": [
         {
@@ -22,6 +23,50 @@
         {
           "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/2026%20Elections.pdf",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/departments/elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-1.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-2.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-2-Town-of-Akron.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-2-Akron-Rural-Fire.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-3.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-3-Akron-Rural-Fire.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-4.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-5.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-6-Akricaree-School-District.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-6-Akricaree-School-District-with-Akron-Rural-Fire.pdf",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -29,15 +74,15 @@
       "geoid": "0800925",
       "level": "municipal",
       "name": "Akron (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.townofakron.com/AgendaCenter/ViewFile/Agenda/_08032026-81",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-2-Town-of-Akron.pdf",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Akron appears to participate in the Nov 3, 2026 coordinated election. Its council agenda for Aug 3, 2026 lists 'Resolution 26.08 Approval of Coordinated Election IGA with Washington County'. The attachments (IGA and resolution .docx) could not be downloaded, and the minutes adopting them were not posted.",
-        "The Jul 6 packet's May minutes describe a plan to ask voters to move the town's general municipal election to November of even-numbered years. That would be an election-timing question, not housing, but I found no certified ballot title.",
+        "Akron participates in the Nov 3, 2026 coordinated election. The county's \"Precinct 2 Town of Akron\" sample ballot (style 002-02) has a Municipal Ballot Measures section with one question. Excluded as not housing: \"Town of Akron Referred Ballot Question 2B: Shall the Town of Akron's regular elections be changed to the Tuesday succeeding the first Monday of November in each even-numbered year, beginning in 2028?\"",
+        "No other style has an Akron question. The town's AgendaCenter (agendas through Sep 14, 2026) shows the Aug 3, 2026 coordinated-election IGA (Resolution 26.08) and no other ballot item. The Sep 1, 2026 special-meeting agenda PDF is empty.",
         "On Aug 10, 2026 the town adopted Resolution 26.09, an expedited review process for affordable housing under Proposition 123. That is a council action, not a ballot measure.",
-        "No county or town ballot content was posted as of 2026-09-26."
+        "The Jul 6, 2026 packet's May minutes describe the plan to ask voters to move the town's general municipal election to November of even-numbered years, which is what 2B asks."
       ],
       "reviewed_sources": [
         {
@@ -55,6 +100,26 @@
         {
           "url": "https://www.townofakron.com/AgendaCenter/ViewFile/Agenda/_08102026-82",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/departments/elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-2-Town-of-Akron.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.townofakron.com/AgendaCenter",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.townofakron.com/AgendaCenter/ViewFile/Agenda/_08032026-81",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.townofakron.com/AgendaCenter/ViewFile/Agenda/_09142026-91",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -64,10 +129,11 @@
       "name": "Otis (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://townofotis.colorado.gov/",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The town website posts no agendas, minutes, ordinances or election documents. The county has not posted a participating-entities list or ballot content, so I cannot tell whether Otis participates. No news of an Otis measure was found."
+        "None of the ten county sample ballot styles posted on the county elections page has a Town of Otis section (all read 2026-10-10). The county has posted no participating-entities list.",
+        "Rechecked 2026-10-10: the town website still posts no agendas, minutes, ordinances or election documents. Under the rule used in #2072, a town absent from every county style stays open when its own site has no election content."
       ],
       "reviewed_sources": [
         {
@@ -77,6 +143,54 @@
         {
           "url": "https://washingtoncounty.colorado.gov/departments/elections",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/departments/elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-1.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-2.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-2-Town-of-Akron.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-2-Akron-Rural-Fire.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-3.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-3-Akron-Rural-Fire.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-4.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-5.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-6-Akricaree-School-District.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/Precinct-6-Akricaree-School-District-with-Akron-Rural-Fire.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofotis.colorado.gov/",
+          "retrieved": "2026-10-10"
         }
       ]
     }
