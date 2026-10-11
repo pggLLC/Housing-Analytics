@@ -50,10 +50,13 @@
       "name": "Rico (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://townofrico.colorado.gov/",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The Town of Rico is not on the county coordinated ballot (the notice names no municipality and the Rico-area ballot style 001-02 has no town contest), but the town home page states: \"The Town of Rico's Municipal Election will be held on November 3, 2026, for the purpose of electing two (2) Board of Trustees.\" No town sample ballot or TABOR notice had been posted (checked 2026-09-26). No ballot question or referral appears in June–September 2026 board agendas or Ordinances 2026-03 to 2026-09."
+        "The Town of Rico is not on the county coordinated ballot (the county notice names no municipality and the Rico-area ballot style 001-02 has no town contest). It runs its own municipal election on November 3, 2026.",
+        "The Notice of Election on the town home page reads: \"The Town of Rico’s Municipal Election will be held on November 3, 2026, for the purpose of electing two (2) Board of Trustees.\" It names no ballot question (checked 2026-10-10).",
+        "The Town Clerk's November election update in the August 2026 board packet reads \"2 Trustee seats will be on the ballot.\" No ballot question, referral or TABOR notice appears in the June to September 2026 board packets (including the September 2 special meeting and the September 28 budget hearing), in Ordinances 2026-03 to 2026-12, or in the October 21, 2026 agenda items listed on the home page. All of these packets have a text layer.",
+        "The row stays open: the town runs its own election and has posted no sample ballot, ballot-content notice or TABOR notice, so no official ballot has been reviewed. The town's short web Notice of Election and board records show no ballot question, but they are not the ballot itself. The county sample ballot and notice are scanned images and are not the basis for any conclusion here (checked 2026-10-10)."
       ],
       "reviewed_sources": [
         {
@@ -67,6 +70,30 @@
         {
           "url": "https://townofrico.colorado.gov/government/board-of-trustees",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofrico.colorado.gov/",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofrico.colorado.gov/sites/g/files/lrnvjt3111/files/documents/Board%20of%20Trustees%20July%202026%20Packet.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofrico.colorado.gov/sites/g/files/lrnvjt3111/files/documents/Board-of-Trustees-August-2026-Packet.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofrico.colorado.gov/sites/g/files/lrnvjt3111/files/documents/Board-of-Trustees-September-2-2026-Packet.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofrico.colorado.gov/sites/g/files/lrnvjt3111/files/documents/Board-of-Trustees-September-2026-Packet.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofrico.colorado.gov/sites/g/files/lrnvjt3111/files/documents/Board-of-Trustees-September-28-2026-Packet.pdf",
+          "retrieved": "2026-10-10"
         }
       ]
     }
