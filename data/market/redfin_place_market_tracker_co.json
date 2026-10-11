@@ -6365,13 +6365,13 @@
       "county_fips": "08041",
       "review_flag": {
         "reason": "modeled_sale_price_above_recent_sales",
-        "car_median": 475000,
-        "sales_count": 826,
-        "month": "2026-08",
+        "car_median": 484700,
+        "sales_count": 780,
+        "month": "2026-09",
         "county_fips": "08041",
-        "percentage_gap": 42.92336842105262,
-        "source": "data/car-market-report-2026-08.json",
-        "note": "Modeled from ZIP-level medians; 42.9% above recent county MLS single-family sales (826 sales, 2026-08). Treat as an upper estimate."
+        "percentage_gap": 40.0631318341242,
+        "source": "data/car-market-report-2026-09.json",
+        "note": "Modeled from ZIP-level medians; 40.1% above recent county MLS single-family sales (780 sales, 2026-09). Treat as an upper estimate."
       }
     },
     "0807025": {
@@ -13466,13 +13466,13 @@
       "county_fips": "08059",
       "review_flag": {
         "reason": "modeled_sale_price_above_recent_sales",
-        "car_median": 709900,
-        "sales_count": 483,
-        "month": "2026-08",
+        "car_median": 709950,
+        "sales_count": 456,
+        "month": "2026-09",
         "county_fips": "08059",
-        "percentage_gap": 21.930553599098456,
-        "source": "data/car-market-report-2026-08.json",
-        "note": "Modeled from ZIP-level medians; 21.9% above recent county MLS single-family sales (483 sales, 2026-08). Treat as an upper estimate."
+        "percentage_gap": 21.921966335657437,
+        "source": "data/car-market-report-2026-09.json",
+        "note": "Modeled from ZIP-level medians; 21.9% above recent county MLS single-family sales (456 sales, 2026-09). Treat as an upper estimate."
       }
     },
     "0815330": {
@@ -27714,13 +27714,13 @@
       "county_fips": "08005",
       "review_flag": {
         "reason": "modeled_sale_price_above_recent_sales",
-        "car_median": 600000,
-        "sales_count": 433,
-        "month": "2026-08",
+        "car_median": 559500,
+        "sales_count": 422,
+        "month": "2026-09",
         "county_fips": "08005",
-        "percentage_gap": 12.5,
-        "source": "data/car-market-report-2026-08.json",
-        "note": "Modeled from ZIP-level medians; 12.5% above recent county MLS single-family sales (433 sales, 2026-08). Treat as an upper estimate."
+        "percentage_gap": 20.64343163538873,
+        "source": "data/car-market-report-2026-09.json",
+        "note": "Modeled from ZIP-level medians; 20.6% above recent county MLS single-family sales (422 sales, 2026-09). Treat as an upper estimate."
       }
     },
     "0828250": {
@@ -30582,13 +30582,13 @@
       "county_fips": "08005",
       "review_flag": {
         "reason": "modeled_sale_price_above_recent_sales",
-        "car_median": 600000,
-        "sales_count": 433,
-        "month": "2026-08",
+        "car_median": 559500,
+        "sales_count": 422,
+        "month": "2026-09",
         "county_fips": "08005",
-        "percentage_gap": 24.90233333333334,
-        "source": "data/car-market-report-2026-08.json",
-        "note": "Modeled from ZIP-level medians; 24.9% above recent county MLS single-family sales (433 sales, 2026-08). Treat as an upper estimate."
+        "percentage_gap": 33.94352100089366,
+        "source": "data/car-market-report-2026-09.json",
+        "note": "Modeled from ZIP-level medians; 33.9% above recent county MLS single-family sales (422 sales, 2026-09). Treat as an upper estimate."
       }
     },
     "0830350": {
