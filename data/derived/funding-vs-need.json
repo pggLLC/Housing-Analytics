@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-10-10T23:05:18Z",
+  "generatedAt": "2026-10-11T06:56:02Z",
   "generator": "scripts/funding/build_funding_vs_need.mjs",
   "window": {
    "first_year": 2016,
@@ -1287,7 +1287,7 @@
    "need": {
     "gap_units_30ami": 506,
     "gap_units_50ami": 91,
-    "overall_need_score": 51.6,
+    "overall_need_score": 51.7,
     "pct_renter_severe_burdened": 25.4,
     "gap_per_1000_residents": 11.6,
     "share_of_state_gap": 0.32
@@ -1391,7 +1391,7 @@
    "need": {
     "gap_units_30ami": 146,
     "gap_units_50ami": 0,
-    "overall_need_score": 49.3,
+    "overall_need_score": 49.2,
     "pct_renter_severe_burdened": 18,
     "gap_per_1000_residents": 15.8,
     "share_of_state_gap": 0.09
