@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T10:17:42.312Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T10:35:11.369Z. Do not edit by hand.
 
 ---
 
@@ -58,12 +58,12 @@
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 17.4 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 15.9 KB |
-| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.3 KB |
+| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 56.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 134.4 KB |
 | `local-incentives.html` | Local Housing Incentives | Colorado Public Data Reference | 8.7 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 148.4 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
-| `methods.html` | Computational Methods | Colorado Public Data Reference | 53.3 KB |
+| `methods.html` | Computational Methods | Colorado Public Data Reference | 53.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 39.7 KB |
@@ -73,7 +73,7 @@
 | `regional.html` | Regional Analysis | COHO Analytics | 27.5 KB |
 | `research-brief.html` | Research Brief | COHO Analytics | 15.9 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
-| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 18.7 KB |
+| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.1 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 12.0 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 989 B |
 | `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 77.0 KB |
@@ -1765,7 +1765,7 @@
 
 ## Test Files
 
-568 test files found.
+569 test files found.
 
 | File | Size |
 |------|------|
@@ -1905,6 +1905,7 @@
 | `test/equity-pricing-watch.test.mjs` | 6.5 KB |
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
 | `test/every-guard-runs-or-says-why.test.mjs` | 8.5 KB |
+| `test/explanatory-diagrams.test.js` | 13.2 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
 | `test/fee-reductions-surfaces.test.js` | 11.0 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
