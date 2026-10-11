@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T12:38:01.179Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T12:46:45.780Z. Do not edit by hand.
 
 ---
 
@@ -2145,7 +2145,7 @@
 | `test/policy-data-currency.test.js` | 3.2 KB |
 | `test/policy-page-currency.test.mjs` | 6.0 KB |
 | `test/policy-review-status.test.mjs` | 11.5 KB |
-| `test/policy-timeline-series.test.js` | 18.4 KB |
+| `test/policy-timeline-series.test.js` | 22.5 KB |
 | `test/policy-watch-rail.test.mjs` | 13.7 KB |
 | `test/polymarket-resolved.test.js` | 23.7 KB |
 | `test/predictor-policy-browser.test.js` | 8.4 KB |
@@ -2337,7 +2337,7 @@
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
 | `tests/test_stage2_temporal.py` | 38.1 KB |
 | `tests/test_stage3_accessibility.py` | 22.4 KB |
-| `tests/test_stage3_visualization.py` | 21.9 KB |
+| `tests/test_stage3_visualization.py` | 23.5 KB |
 | `tests/test_transit_stop_gate.py` | 9.2 KB |
 | `tests/test_transit_stop_selection.py` | 15.9 KB |
 | `tests/test_transit_stops_statewide.py` | 21.9 KB |
