@@ -124,6 +124,43 @@
     return '<ol class="rec-steps">' + rows + '</ol>';
   }
 
+  /* ── The path at a glance ────────────────────────────────────────────────
+     One tile per step in contract.project, then the verdict, directly under
+     the headline. Each tile quotes the first field that step recorded, so it
+     is the same figure "What you have recorded" lists below it, read from the
+     same record; nothing is recomputed or reformatted. A step not run says so
+     and links to it. */
+  function renderPath(contract) {
+    if (!contract.geography) return '';
+    // No step numbers: the contract records five of the rail's seven steps
+    // (the Opportunity Finder saves nothing), so counting tiles would number
+    // them differently from the rail above the page.
+    var tiles = contract.project.map(function (step) {
+      var first = step.fields && step.fields[0];
+      var body = step.status === 'not_run'
+        ? '<span class="dg-tile__value">Not run</span>'
+          + '<a class="dg-tile__state" href="' + esc(step.href) + '">Open this step</a>'
+        : (first
+          ? '<span class="dg-tile__value">' + esc(first.value) + '</span>'
+            + '<span class="dg-tile__what">' + esc(first.label) + '</span>'
+          : '<span class="dg-tile__value">Recorded</span>')
+          + '<span class="dg-tile__state">recorded ' + esc(String(step.recordedAt).slice(0, 10)) + '</span>';
+      return '<li class="dg-tile" data-path-key="' + esc(step.key) + '" data-status="' + esc(step.status) + '">'
+        + '<span class="dg-tile__step">' + esc(step.label) + '</span>'
+        + body + '</li>';
+    }).join('');
+    var head = contract.headline;
+    var verdict = '<li class="dg-tile dg-tile--verdict" data-state="' + esc(head.state) + '">'
+      + '<span class="dg-tile__step">Result</span>'
+      + '<span class="dg-tile__value">' + esc(head.verdict) + '</span>'
+      + '<span class="dg-tile__state">' + esc(STATE_WORD[head.state] || head.state) + '</span></li>';
+    return '<figure class="diagram rec-path" aria-labelledby="recPathTitle">'
+      + '<p class="diagram__title" id="recPathTitle">Your path at a glance</p>'
+      + '<ol class="dg-tiles">' + tiles + verdict + '</ol>'
+      + '<figcaption>Each tile quotes the first figure that step saved. The full record is under '
+      + '&ldquo;What you have recorded&rdquo; below.</figcaption></figure>';
+  }
+
   function renderSources(sources) {
     if (!sources.length) return '';
     return '<ul class="rec-sources">' + sources.map(function (item) {
@@ -143,6 +180,7 @@
       + '<h2 class="rec-headline__verdict">' + esc(head.verdict) + '</h2>'
       + '<p class="rec-headline__plain">' + esc(head.plain) + '</p>'
       + '</section>'
+      + renderPath(contract)
       + (contract.conclusions.length
         ? '<div class="rec-conclusions">' + contract.conclusions.map(renderConclusion).join('') + '</div>'
         : '')
@@ -241,6 +279,7 @@
     render: render,
     renderConclusion: renderConclusion,
     renderProject: renderProject,
+    renderPath: renderPath,
     pdfFilename: pdfFilename,
     exportPdf: exportPdf,
     STATE_WORD: STATE_WORD,
