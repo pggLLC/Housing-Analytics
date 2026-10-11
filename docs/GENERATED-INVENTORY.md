@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T08:10:58.622Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T10:05:11.891Z. Do not edit by hand.
 
 ---
 
@@ -13,7 +13,7 @@
 | `404.html` | Page not found | Colorado Affordable Housing Data Reference | 3.5 KB |
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
 | `about.html` | About | COHO Analytics | 17.7 KB |
-| `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 40.8 KB |
+| `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 42.6 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.9 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | Colorado Public Data Reference | 17.9 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 13.2 KB |
@@ -63,7 +63,7 @@
 | `local-incentives.html` | Local Housing Incentives | Colorado Public Data Reference | 8.7 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 148.4 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
-| `methods.html` | Computational Methods | Colorado Public Data Reference | 51.5 KB |
+| `methods.html` | Computational Methods | Colorado Public Data Reference | 53.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 39.7 KB |
@@ -74,9 +74,9 @@
 | `research-brief.html` | Research Brief | COHO Analytics | 15.9 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 18.7 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 11.7 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 12.0 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 989 B |
-| `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 75.3 KB |
+| `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 77.0 KB |
 
 ---
 
@@ -1765,7 +1765,7 @@
 
 ## Test Files
 
-567 test files found.
+568 test files found.
 
 | File | Size |
 |------|------|
@@ -1890,6 +1890,7 @@
 | `test/developer-brief-hna.test.js` | 1.3 KB |
 | `test/developer-geoids.test.js` | 6.6 KB |
 | `test/discover-local-resources-cdp.test.js` | 5.1 KB |
+| `test/document-guide.test.mjs` | 4.2 KB |
 | `test/econ-dash-co-unemployment.test.js` | 1021 B |
 | `test/econ-dash-series-labels.test.js` | 975 B |
 | `test/effective-demand.test.js` | 6.6 KB |
@@ -2313,7 +2314,7 @@
 | `tests/test_hna_ranking_integrity.py` | 22.5 KB |
 | `tests/test_local_incentives.py` | 12.1 KB |
 | `tests/test_local_support.py` | 5.1 KB |
-| `tests/test_market_construction.py` | 9.8 KB |
+| `tests/test_market_construction.py` | 10.9 KB |
 | `tests/test_market_data_builder_redaction.py` | 1.8 KB |
 | `tests/test_neighborhood_access_builder.py` | 3.5 KB |
 | `tests/test_news_stories.py` | 7.4 KB |
@@ -2357,7 +2358,7 @@
 | `.github/workflows/build-hna-data.yml` | 32.6 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 4.0 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 13.0 KB |
-| `.github/workflows/car-data-update.yml` | 2.7 KB |
+| `.github/workflows/car-data-update.yml` | 3.6 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
 | `.github/workflows/chfa-qap-watch.yml` | 10.8 KB |
 | `.github/workflows/ci-checks.yml` | 20.0 KB |
