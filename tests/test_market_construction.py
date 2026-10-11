@@ -184,3 +184,23 @@ def test_city_floor_falls_back_to_zip_or_preserves_absence(monkeypatch):
     assert places['0820000']['source_level'] == 'unavailable'
     assert places['0820000']['latest']['median_sale_price'] is None
     assert places['0820000']['unavailable_reason'] == 'redfin_city_sales_below_floor'
+
+
+def test_refresh_clears_a_flag_the_latest_car_no_longer_supports():
+    report = {'month': '2026-09', 'counties': {'08041': {'single_family': {'median_sale_price': 500000, 'closed_sales': 100}}}}
+    stale = {'month': '2026-08', 'source': 'data/car-market-report-2026-08.json'}
+    places = {
+        'above': {'source_level': 'redfin_zip_to_place_modeled', 'county_fips': '08041', 'latest': {'median_sale_price': 600000}, 'review_flag': stale},
+        'within': {'source_level': 'redfin_zip_to_place_modeled', 'county_fips': '08041', 'latest': {'median_sale_price': 520000}, 'review_flag': stale},
+    }
+    redfin.apply_review_flags(places, report)
+    assert places['above']['review_flag']['month'] == '2026-09'
+    assert 'review_flag' not in places['within']
+
+
+def test_car_workflow_refreshes_and_commits_the_tracker_flags():
+    workflow = (ROOT / '.github/workflows/car-data-update.yml').read_text()
+    refresh = workflow.index('build_redfin_place_market_tracker.py --refresh-review-flags')
+    commit = workflow.index('scripts/commit-with-derived-chain.sh')
+    assert refresh < commit, 'flags must be refreshed before the commit'
+    assert 'data/market/redfin_place_market_tracker_co.json' in workflow[commit:]

@@ -137,6 +137,17 @@
       "review_from": { "file": "data/policy/local-housing-funds.json" }
     },
     {
+      "id": "resident-services",
+      "section": "reference",
+      "type": "Research",
+      "title": "Services in Affordable Housing",
+      "url": "resident-services.html",
+      "summary": "How resident services and supportive housing help people stay housed, what the research shows and does not, what a supportive service agreement contains, what CHFA's tax credit plan requires, who pays for services and what they cost, with each source quoted and dated.",
+      "sources": ["Published evaluations", "CHFA QAP", "Funder program pages", "CHFA award descriptions"],
+      "maintenance": "reviewed",
+      "review_from": { "file": "data/policy/resident-services.json" }
+    },
+    {
       "id": "help-for-homebuyers",
       "section": "reference",
       "type": "Consumer guide",

@@ -1,7 +1,7 @@
 {
   "meta": {
     "updated": "2026-10-11T00:00:00Z",
-    "brief_count": 4,
+    "brief_count": 6,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
@@ -181,6 +181,85 @@
           "title": "Housing Tax Credit",
           "source": "Colorado Housing and Finance Authority",
           "link": "https://www.chfainfo.com/rental-housing/housing-credit",
+          "date": ""
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
+        "United States",
+        "Colorado"
+      ],
+      "generated": "2026-10-11T00:00:00Z"
+    },
+    {
+      "id": "obbba-lihtc-bond-25pct-test-2026",
+      "title": "The 25% bond-financing test for 4% LIHTC buildings: what the 2025 federal law changed",
+      "policy_topic": "Federal Tax Credits & LIHTC",
+      "is_curated": true,
+      "source_reviewed": true,
+      "summary": "Public Law 119-21 (H.R. 1), approved on July 4, 2025, changed the tax-exempt bond test that lets a building claim housing credits without an allocation from the state's annual credit ceiling. Buildings that qualify this way receive the credits commonly called 4% credits. Section 70422(b) of the law rewrites section 42(h)(4)(B) of the Internal Revenue Code. Before the change, the test had one route: tax-exempt private activity bonds counted against the state's volume cap had to finance 50% or more of the aggregate basis of the building and the land under it. The amended provision keeps that 50% route and adds a second one. A building also qualifies if such bonds finance 25% or more of that basis, as long as one or more of those bonds come from an issue dated after December 31, 2025 and together finance at least 5% of the basis. The change applies to buildings placed in service in taxable years beginning after December 31, 2025. The amended provision sets no end year.",
+      "implications": "A building can now meet the test with a smaller share of bond financing than before, so the same amount of volume cap can support credits for more buildings. Bonds issued before 2026 still count toward the 25%, but only when bonds from post-2025 issues together provide at least 5% of the basis; that 5% can come from more than one such bond. For a rehabilitation that is treated as a separate new building, section 70422(b)(2)(B) treats both the existing building and the rehabilitation as placed in service on the date the rehabilitation expenditures are. The change does not alter the credit rate, the income and rent tests, or the state's annual credit ceiling. The law's other change to section 42, the 12% ceiling increase in section 70422(a), has its own COHO brief. In Colorado, the Department of Local Affairs receives the state's volume cap; CHFA's December 4, 2025 stakeholder presentation says that by statute 50% goes to statewide authorities, including CHFA, and 50% to local governments. In the same presentation CHFA said new CHFA multifamily lending and 2026 Round Two projects would use not more than 45% bond financing, lower when feasible. COHO has not verified a CHFA policy for later years, so this brief does not state one.",
+      "related_data": "data/policy/tax-credit-legislation.json",
+      "sources": [
+        "U.S. Government Publishing Office (GovInfo)",
+        "Colorado Housing and Finance Authority"
+      ],
+      "articles": [
+        {
+          "title": "Public Law 119-21 (H.R. 1), section 70422",
+          "source": "U.S. Government Publishing Office (GovInfo)",
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+          "date": "2025-07-04"
+        },
+        {
+          "title": "26 U.S.C. 42, U.S. Code 2024 edition (text before the amendment)",
+          "source": "U.S. Government Publishing Office (GovInfo)",
+          "link": "https://www.govinfo.gov/content/pkg/USCODE-2024-title26/html/USCODE-2024-title26-subtitleA-chap1-subchapA-partIV-subpartD-sec42.htm",
+          "date": ""
+        },
+        {
+          "title": "2026 Private Activity Bonds: PAB Stakeholder Meeting",
+          "source": "Colorado Housing and Finance Authority",
+          "link": "https://www.chfainfo.com/getattachment/2794e07d-d166-446c-b37d-56d7ed3cb5e2/CHFA-2026-PAB-StakeholderOutreachSession-12042025.pdf",
+          "date": "2025-12-04"
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
+        "United States",
+        "Colorado"
+      ],
+      "generated": "2026-10-11T00:00:00Z"
+    },
+    {
+      "id": "hr6644-road-act-2026",
+      "title": "The 21st Century ROAD to Housing Act: what the 2026 federal housing law changes for affordable rental financing",
+      "policy_topic": "Federal Housing Programs",
+      "is_curated": true,
+      "source_reviewed": true,
+      "summary": "H.R. 6644, the 21st Century ROAD to Housing Act, became law on July 11, 2026 as Public Law 119-101. A note by the Office of the Federal Register on the law says it was presented to the President on June 29, 2026 and became law without his signature because it was not returned within the time the Constitution allows. The House gave its final approval on June 23, 2026. The law reforms federal housing-supply and HUD programs. It does not amend section 42 of the Internal Revenue Code, so it does not change housing tax credit ceilings, credit rates or eligibility rules. Section 1202 says no additional funds are authorized to be appropriated to carry out the law or its amendments.",
+      "implications": "The provisions below bear most directly on financing affordable rental housing. Section 204 makes the new construction of affordable housing an eligible Community Development Block Grant activity, limited to 20% of the amounts allocated to the recipient, and only for amounts appropriated after the date of enactment. Section 501 changes the HOME Investment Partnerships program: section 501(i) repeals the rule under which a participating jurisdiction lost the right to draw HOME funds it had not committed within 24 months, and section 501(l) exempts four categories of HOME activity from review under the National Environmental Policy Act: new construction infill housing projects, acquisition of real property for affordable housing, certain rehabilitation projects, and new construction projects of 15 units or less. An infill housing project must, among other tests, sit on previously disturbed land of not more than 5 acres. HUD must issue any rules it determines necessary for the exemptions within 1 year of enactment. Section 405(a) lets a voucher unit in a housing tax credit building meet the Housing Choice Voucher inspection requirement if it was physically inspected and met the suitability-for-occupancy requirement in section 42(i)(3)(B)(ii) during the preceding 12 months, and the public housing agency performed that inspection itself or can obtain its results. COHO searched the Federal Register on October 11, 2026 and found no HUD rule or notice putting the section 204 or section 501 changes into effect, so this brief does not describe how HUD will apply them. COHO has not verified any Colorado grantee's plan to use the new CDBG activity.",
+      "related_data": "data/policy/tax-credit-legislation.json",
+      "sources": [
+        "U.S. Government Publishing Office (GovInfo)"
+      ],
+      "articles": [
+        {
+          "title": "Public Law 119-101 (H.R. 6644), 21st Century ROAD to Housing Act",
+          "source": "U.S. Government Publishing Office (GovInfo)",
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ101/html/PLAW-119publ101.htm",
+          "date": "2026-07-11"
+        },
+        {
+          "title": "H.R. 6644 enrolled bill, 119th Congress",
+          "source": "U.S. Government Publishing Office (GovInfo)",
+          "link": "https://www.govinfo.gov/app/details/BILLS-119hr6644enr",
+          "date": ""
+        },
+        {
+          "title": "42 U.S.C. 12748, U.S. Code 2024 edition (HOME commitment deadline before the amendment)",
+          "source": "U.S. Government Publishing Office (GovInfo)",
+          "link": "https://www.govinfo.gov/content/pkg/USCODE-2024-title42/html/USCODE-2024-title42-chap130-subchapII-partA-sec12748.htm",
           "date": ""
         }
       ],
