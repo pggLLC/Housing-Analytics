@@ -283,6 +283,519 @@ const ceilingClaims = ceilingText.toLowerCase();
   assert.ok(!ceilingClaims.includes(phrase), 'the ceiling brief must not predict outcomes: ' + phrase);
 });
 
+// ── P.L. 119-21 §70422(b) bond-test brief: every figure comes from the record ──
+// Each %, full date, year, 70422 citation and Code citation the brief states
+// must be a value of the canonical legislation record (or derived from one),
+// and the record's key values must all be stated. Reword the brief freely;
+// change a figure on either side and this fails.
+{
+  const bond = legislation.entries.find((entry) => entry.id === 'obbba-lihtc-bond-25pct-test');
+  const brief = payload.briefs.find((item) => item.id === 'obbba-lihtc-bond-25pct-test-2026');
+  assert.ok(bond && brief, 'bond-test record and public brief must both exist');
+  assert.strictEqual(brief.is_curated, true);
+  assert.strictEqual(brief.source_reviewed, true);
+  assert.strictEqual(brief.related_data, 'data/policy/tax-credit-legislation.json');
+  assert.strictEqual(bond.analysis_url, 'research-brief.html?id=' + brief.id);
+  const test = bond.bond_test;
+  const co = bond.colorado_context;
+  assert.ok(test && co, 'bond-test record must carry the statutory test and the Colorado source it is checked against');
+  const text = brief.title + ' ' + brief.summary + ' ' + brief.implications;
+  let checked = 0;
+  const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const datesIn = (t) => [...t.matchAll(new RegExp('(' + MONTH_NAMES.join('|') + ') (\\d{1,2}), (\\d{4})', 'g'))]
+    .map((m) => m[3] + '-' + String(MONTH_NAMES.indexOf(m[1]) + 1).padStart(2, '0') + '-' + m[2].padStart(2, '0'));
+  const dayAfter = (iso) => { const d = new Date(iso + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + 1); return d.toISOString().slice(0, 10); };
+
+  // Dollars: the record has none, so the brief states none.
+  assert.deepStrictEqual(money(text), [], 'the bond-test record carries no dollar amount, so the brief may state none');
+  // Percentages: each one is bound to the threshold or figure it describes.
+  const ceiling = legislation.entries.find((entry) => entry.id === 'obbba-lihtc-ceiling-12pct');
+  const pointsToCeiling = /70422\(a\)/.test(text);
+  // Bind each figure to the provision it describes. For every "<number>
+  // <unit>" in the brief, the binding whose context words sit nearest to it in
+  // the same clause names the record value it must equal; every binding must
+  // be used, and no figure may go unbound. Swapping two figures (or moving a
+  // figure to another provision) therefore fails even though both values
+  // exist in the record.
+  const bindFigures = (t, bindings, what) => {
+    const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+    const toNumber = (s) => (/^\$/.test(s) ? Number(s.replace(/[$,\s]/g, '')) : /^\d/.test(s) ? Number(s.replace(/,/g, '')) : WORDS.indexOf(s.toLowerCase()));
+    const clauseOf = (at) => {
+      const before = t.slice(0, at);
+      const starts = [...before.matchAll(/[.;]\s+(?=[A-Z(])/g)].map((m) => m.index + m[0].length);
+      const start = starts.length ? starts[starts.length - 1] : 0;
+      const end = t.slice(at).search(/[.;]\s+(?=[A-Z(])|[.;]?$/);
+      return [start, at + end];
+    };
+    const spans = [];
+    let count = 0;
+    const used = new Set();
+    for (const unit of new Set(bindings.map((b) => b.unit))) {
+      const re = unit === '$'
+        ? /(\$\s?\d[\d,]*(?:\.\d+)?)/g
+        : new RegExp('(?<![\\d.-])\\b(\\d[\\d,]*(?:\\.\\d+)?|' + WORDS.join('|') + ')\\s*(?:calendar\\s+)?(?:' + unit + ')(?![a-z])', 'gi');
+      for (const m of t.matchAll(re)) {
+        const at = m.index;
+        const [cs, ce] = clauseOf(at);
+        const clause = t.slice(cs, ce);
+        let best = null;
+        let bestDist = Infinity;
+        bindings.filter((b) => b.unit === unit).forEach((b) => {
+          for (const c of clause.matchAll(new RegExp(b.context.source, 'gi'))) {
+            const cStart = cs + c.index;
+            const cEnd = cStart + c[0].length;
+            const dist = cEnd <= at ? at - cEnd : cStart >= at + m[0].length ? cStart - (at + m[0].length) : 0;
+            if (dist < bestDist) { bestDist = dist; best = b; }
+          }
+        });
+        assert.ok(best, `${what}: "${m[0]}" is not tied to any provision the record carries (clause: ${clause})`);
+        assert.strictEqual(toNumber(m[1]), best.value, `${what}: "${m[0]}" describes ${best.name}, which the record gives as ${best.value}`);
+        used.add(best.name);
+        spans.push([at, at + m[0].length]);
+        count++;
+      }
+    }
+    bindings.forEach((b) => assert.ok(used.has(b.name), `${what}: brief must state ${b.name} (${b.value})`));
+    return { count, spans };
+  };
+  assert.strictEqual(test.retained_threshold_pct, test.previous_threshold_pct, 'the brief says the earlier route is kept; the record must agree');
+  const creditType = pcts(bond.title).find((p) => p !== test.new_threshold_pct);
+  const pctBindings = [
+    { name: 'the credit type in the record title', unit: '%|percent', value: creditType, context: /\bcredits?\b|\bLIHTC\b/ },
+    { name: 'the 50% route (before the change, and kept)', unit: '%|percent', value: test.previous_threshold_pct, context: /had to|before the change|\bkeeps?\b|\broute\b/ },
+    { name: 'the new 25% route', unit: '%|percent', value: test.new_threshold_pct, context: /bond-financing test|also qualifies|toward the/ },
+    { name: 'the post-2025 bonds\' minimum', unit: '%|percent', value: test.post_2025_issue_min_pct, context: /together|combined|in aggregate|post-2025|more than one|one or more/ },
+    { name: 'the volume-cap share for statewide authorities', unit: '%|percent', value: co.volume_cap_split_pct.statewide_authorities, context: /statewide/ },
+    { name: 'the volume-cap share for local governments', unit: '%|percent', value: co.volume_cap_split_pct.local_governments, context: /local governments/ },
+    { name: 'CHFA\'s 2026 bond-financing limit', unit: '%|percent', value: co.chfa_max_pab_financing_pct, context: /bond financing|when feasible/ },
+  ];
+  if (pointsToCeiling) {
+    pctBindings.push({ name: 'the 70422(a) ceiling increase', unit: '%|percent', value: Math.round((ceiling.ceiling_increase.multiplier - 1) * 1000) / 10, context: /ceiling increase/ });
+  }
+  checked += bindFigures(text, pctBindings, 'bond-test brief').count;
+  assert.ok(pcts(bond.title).includes(test.new_threshold_pct), 'the record title must agree with its new threshold');
+
+  // Dates: every full date is a record date; the enactment, bond-issue and
+  // placed-in-service cutoffs and the Colorado source date are all stated.
+  const recordDates = [bond.enacted_date, test.issue_date_after, test.placed_in_service_taxable_years_after, co.date];
+  const stated = datesIn(text);
+  checked += stated.length;
+  stated.forEach((d) => assert.ok(recordDates.includes(d), `brief states ${d}, which is not a date in the record`));
+  recordDates.forEach((d) => assert.ok(stated.includes(d), `brief must state the record date ${d}`));
+  assert.strictEqual(dayAfter(test.placed_in_service_taxable_years_after), bond.effective_date,
+    'effective date must be the day after the placed-in-service cutoff');
+  // The issue-date and placed-in-service cutoffs are each stated in their own context.
+  const near = (iso, re) => {
+    const [y, m, d] = iso.split('-');
+    const phrase = MONTH_NAMES[Number(m) - 1] + ' ' + Number(d) + ', ' + y;
+    let at = text.indexOf(phrase);
+    let found = false;
+    while (at >= 0) { if (re.test(text.slice(Math.max(0, at - 140), at))) found = true; at = text.indexOf(phrase, at + 1); }
+    return found;
+  };
+  assert.ok(near(test.issue_date_after, /\bissue[^.]*after\s*$/), 'the bond-issue cutoff must be stated as an issue date');
+  assert.ok(near(test.placed_in_service_taxable_years_after, /placed in service[^.]*after\s*$/),
+    'the placed-in-service cutoff must be stated as taxable years beginning after it');
+  // Years: every year named is one the record supports.
+  const recordYears = new Set([...recordDates.map((d) => Number(d.slice(0, 4))), Number(dayAfter(test.issue_date_after).slice(0, 4)), co.chfa_max_pab_financing_year]);
+  const statedYears = [...text.matchAll(/(?<![\d-])(?:19|20)\d{2}(?![\d)])/g)].map((m) => Number(m[0]));
+  checked += statedYears.length;
+  statedYears.forEach((y) => assert.ok(recordYears.has(y), `brief names ${y}, which the record does not support`));
+
+  // Legal citations and claims.
+  const recordText = bond.source_note + ' ' + test.statute + ' ' + test.rehabilitation_rule;
+  [...text.matchAll(/\b70422(?:\([a-z0-9]+\))+/gi)].map((m) => m[0]).forEach((cite) => {
+    checked++;
+    assert.ok(recordText.includes(cite), `brief cites section ${cite}, which the record does not`);
+  });
+  assert.ok(text.includes('70422(b)') && test.statute.includes('section 70422(b)'), 'brief and record must cite the same amending section');
+  const amended = test.statute.match(/42\(h\)\(\d\)\([A-Z]\)/)[0];
+  assert.ok(text.includes(amended), 'brief must cite the amended Code provision ' + amended);
+  (text.match(/42\(h\)\(\d\)\([A-Z]\)/g) || []).forEach((c) => assert.strictEqual(c, amended, 'brief cites a Code provision the record does not: ' + c));
+  const plNo = (t) => (t.match(/Public Law (\d+-\d+)/) || [])[1];
+  assert.ok(plNo(text) && plNo(text) === plNo(bond.source_note), 'brief and record must name the same Public Law');
+  const statesNoEnd = (t) => /\b(?:no end year|no sunset|permanent)\b/i.test(t);
+  assert.strictEqual(statesNoEnd(text), bond.sunset_date === null && test.end_year === null,
+    'brief may call the test permanent only when the record has no sunset or end year');
+  assert.ok(statesNoEnd(text), 'the record has no end year, so the brief must say so');
+  // How the post-2025 bonds meet their minimum: the statute counts "1 or more
+  // of such obligations" together. The record's flag must agree with its own
+  // source_note, and every sentence of the brief (and pricing_impact) that
+  // states that minimum must agree with the flag: aggregate wording when it is
+  // true, single-bond wording when it is false.
+  assert.strictEqual(test.post_2025_min_pct_aggregate, /one or more of (?:those|such|the) obligations/i.test(bond.source_note),
+    'the record\'s post-2025 aggregation flag must agree with its source_note');
+  const AGGREGATE = /\b(?:one or more|1 or more|together|combined|in aggregate|in total|more than one)\b/i;
+  const SINGLE = /\b(?:on its own|by itself|alone|a single|one bond|at least one of (?:those|the|these) bonds)\b/i;
+  const minSentences = (t) => t.split(/(?<=\.)\s+/).filter((sentence) => pcts(sentence).includes(test.post_2025_issue_min_pct));
+  const briefMin = minSentences(text);
+  const impactMin = minSentences(bond.pricing_impact);
+  assert.ok(briefMin.length > 0 && impactMin.length > 0, 'the brief and pricing_impact must both state the post-2025 minimum');
+  [...briefMin, ...impactMin].forEach((sentence) => {
+    checked++;
+    if (test.post_2025_min_pct_aggregate) {
+      assert.ok(AGGREGATE.test(sentence) && !SINGLE.test(sentence),
+        'the record counts post-2025 bonds together, but this sentence does not: ' + sentence);
+    } else {
+      assert.ok(!AGGREGATE.test(sentence), 'the record counts one post-2025 bond, but this sentence aggregates: ' + sentence);
+    }
+  });
+  // The 70422(a) brief the text points to must exist and be linked from its record.
+  if (pointsToCeiling) {
+    assert.ok(ceiling && bond.source_note.includes(ceiling.id), 'the 70422(a) record the brief points to must exist and be named by the bond record');
+    const linked = (ceiling.analysis_url || '').replace('research-brief.html?id=', '');
+    assert.ok(payload.briefs.some((item) => item.id === linked), 'the 70422(a) brief the bond brief points to must exist');
+  }
+  assert.strictEqual(bond.status, 'enacted');
+  assert.ok(/\bapproved\b|\bsigned\b|\benacted\b/i.test(brief.summary), 'brief must describe the record as enacted law');
+  // Every source the record cites is linked from the brief.
+  [test.source_url, test.pre_amendment_text_url, co.source_url].forEach((url) =>
+    assert.ok(brief.articles.some((article) => article.link === url), 'brief must link ' + url));
+  [test.last_verified, co.last_verified].forEach((d) => assert.strictEqual(d, bond.last_verified));
+  assert.ok(checked >= 15, `only ${checked} bond-test brief figures checked; the scan has drifted`);
+  const claims = text.toLowerCase();
+  ['will lower', 'will raise', 'will increase', 'will reduce', 'expected to', 'likely', 'guarantee'].forEach((phrase) => {
+    assert.ok(!claims.includes(phrase), 'the bond-test brief must not predict outcomes: ' + phrase);
+  });
+  console.log('bond-test brief: ' + checked + ' figures checked against the record');
+}
+
+// ── ROAD to Housing Act (P.L. 119-101) brief: every figure comes from the record ──
+// Each %, count, full date, year and section the brief states must be a value
+// of the canonical hr6644-road-act record, and the record's provisions must
+// all be stated. Reword the brief freely; change a figure or a section on
+// either side and this fails.
+{
+  const road = legislation.entries.find((entry) => entry.id === 'hr6644-road-act');
+  const brief = payload.briefs.find((item) => item.id === 'hr6644-road-act-2026');
+  assert.ok(road && brief, 'ROAD Act record and public brief must both exist');
+  assert.strictEqual(brief.is_curated, true);
+  assert.strictEqual(brief.source_reviewed, true);
+  assert.strictEqual(brief.related_data, 'data/policy/tax-credit-legislation.json');
+  assert.strictEqual(road.analysis_url, 'research-brief.html?id=' + brief.id);
+  const law = road.public_law;
+  const provisions = road.provisions || [];
+  assert.ok(law && provisions.length > 0 && road.implementation_check, 'ROAD Act record must carry the law, its provisions and the implementation check');
+  const text = brief.title + ' ' + brief.summary + ' ' + brief.implications;
+  let checked = 0;
+  const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const DATE_RE = new RegExp('(' + MONTH_NAMES.join('|') + ') (\\d{1,2}), (\\d{4})', 'g');
+  const datesIn = (t) => [...t.matchAll(DATE_RE)]
+    .map((m) => m[3] + '-' + String(MONTH_NAMES.indexOf(m[1]) + 1).padStart(2, '0') + '-' + m[2].padStart(2, '0'));
+
+  // Dollars: the record has none.
+  assert.deepStrictEqual(money(text), [], 'the ROAD Act record carries no dollar amount, so the brief may state none');
+  // Dates: every full date is a record date, and every record date is stated.
+  const recordDates = [road.enacted_date, law.presented_date, law.final_passage_date, road.implementation_check.searched];
+  const stated = datesIn(text);
+  checked += stated.length;
+  stated.forEach((d) => assert.ok(recordDates.includes(d), `brief states ${d}, which is not a date in the record`));
+  recordDates.forEach((d) => assert.ok(stated.includes(d), `brief must state the record date ${d}`));
+  assert.strictEqual(road.effective_date, road.enacted_date, 'the ROAD Act took effect on enactment');
+  const statedYears = [...text.matchAll(/(?<![\d-])(?:19|20)\d{2}(?![\d)])/g)].map((m) => Number(m[0]));
+  checked += statedYears.length;
+  statedYears.forEach((y) => assert.ok(recordDates.some((d) => Number(d.slice(0, 4)) === y), `brief names ${y}, which the record does not support`));
+
+  // Sections: every section the brief cites is a record provision (or the
+  // section 42 it cites), and every record provision is cited.
+  const sectionCites = [...text.matchAll(/\bsections? (\d+(?:\([a-z0-9]+\))*)/gi)].map((m) => m[1]);
+  const recordSections = provisions.map((p) => p.section);
+  const otherCites = ['42', ...provisions.map((p) => p.cites).filter(Boolean)];
+  checked += sectionCites.length;
+  sectionCites.forEach((s) => assert.ok(recordSections.some((r) => r === s || r.startsWith(s + '(')) || otherCites.includes(s), `brief cites section ${s}, which the record does not`));
+  recordSections.forEach((s) => assert.ok(sectionCites.includes(s), `brief must cite the record's section ${s}`));
+  // Bind each figure to the provision it describes. For every "<number>
+  // <unit>" in the brief, the binding whose context words sit nearest to it in
+  // the same clause names the record value it must equal; every binding must
+  // be used, and no figure may go unbound. Swapping two figures (or moving a
+  // figure to another provision) therefore fails even though both values
+  // exist in the record.
+  const bindFigures = (t, bindings, what) => {
+    const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+    const toNumber = (s) => (/^\$/.test(s) ? Number(s.replace(/[$,\s]/g, '')) : /^\d/.test(s) ? Number(s.replace(/,/g, '')) : WORDS.indexOf(s.toLowerCase()));
+    const clauseOf = (at) => {
+      const before = t.slice(0, at);
+      const starts = [...before.matchAll(/[.;]\s+(?=[A-Z(])/g)].map((m) => m.index + m[0].length);
+      const start = starts.length ? starts[starts.length - 1] : 0;
+      const end = t.slice(at).search(/[.;]\s+(?=[A-Z(])|[.;]?$/);
+      return [start, at + end];
+    };
+    const spans = [];
+    let count = 0;
+    const used = new Set();
+    for (const unit of new Set(bindings.map((b) => b.unit))) {
+      const re = unit === '$'
+        ? /(\$\s?\d[\d,]*(?:\.\d+)?)/g
+        : new RegExp('(?<![\\d.-])\\b(\\d[\\d,]*(?:\\.\\d+)?|' + WORDS.join('|') + ')\\s*(?:calendar\\s+)?(?:' + unit + ')(?![a-z])', 'gi');
+      for (const m of t.matchAll(re)) {
+        const at = m.index;
+        const [cs, ce] = clauseOf(at);
+        const clause = t.slice(cs, ce);
+        let best = null;
+        let bestDist = Infinity;
+        bindings.filter((b) => b.unit === unit).forEach((b) => {
+          for (const c of clause.matchAll(new RegExp(b.context.source, 'gi'))) {
+            const cStart = cs + c.index;
+            const cEnd = cStart + c[0].length;
+            const dist = cEnd <= at ? at - cEnd : cStart >= at + m[0].length ? cStart - (at + m[0].length) : 0;
+            if (dist < bestDist) { bestDist = dist; best = b; }
+          }
+        });
+        assert.ok(best, `${what}: "${m[0]}" is not tied to any provision the record carries (clause: ${clause})`);
+        assert.strictEqual(toNumber(m[1]), best.value, `${what}: "${m[0]}" describes ${best.name}, which the record gives as ${best.value}`);
+        used.add(best.name);
+        spans.push([at, at + m[0].length]);
+        count++;
+      }
+    }
+    bindings.forEach((b) => assert.ok(used.has(b.name), `${what}: brief must state ${b.name} (${b.value})`));
+    return { count, spans };
+  };
+  const prov = (section) => provisions.find((p) => p.section === section);
+  const bound = bindFigures(text, [
+    { name: 'the CDBG new-construction cap', unit: '%|percent', value: prov('204').cap_pct, context: /allocat|Block Grant|CDBG/ },
+    { name: 'the repealed HOME commitment deadline', unit: 'months?', value: prov('501(i)').previous_deadline_months, context: /commit|draw/ },
+    { name: 'the voucher inspection look-back', unit: 'months?', value: prov('405(a)').lookback_months, context: /inspect/ },
+    { name: 'the small-project unit limit', unit: 'units?', value: prov('501(l)').small_project_max_units, context: /new construction|projects?/ },
+    { name: 'the infill site size limit', unit: 'acres?', value: prov('501(l)').infill_site_max_acres, context: /infill|land/ },
+    { name: 'the HOME rulemaking deadline', unit: 'years?', value: prov('501(l)').rulemaking_deadline_years, context: /\brules?\b/ },
+    { name: 'the number of exempt HOME categories', unit: 'categor(?:y|ies)', value: prov('501(l)').category_count, context: /exempt/ },
+  ], 'ROAD Act brief');
+  checked += bound.count;
+  // No figure may go unbound: once dates, years, citations, the law's own
+  // identifiers and the bound figures are removed, no number is left.
+  let rest = text;
+  bound.spans.slice().sort((x, y) => y[0] - x[0]).forEach(([from, to]) => { rest = rest.slice(0, from) + ' '.repeat(to - from) + rest.slice(to); });
+  rest = rest
+    .replace(DATE_RE, ' ')
+    .replace(/Public Law \d+-\d+|H\.R\. \d+|\b21st\b/g, ' ')
+    .replace(/\bsections? \d+(?:\([a-z0-9]+\))*/gi, ' ')
+    .replace(/(?<![\d-])(?:19|20)\d{2}(?![\d)])/g, ' ');
+  const unbound = rest.match(/\b(?:\d+|zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\b|%/gi) || [];
+  assert.deepStrictEqual(unbound, [], 'ROAD Act brief states figures that are not bound to a record provision');
+  const homeNepa = provisions.find((p) => Array.isArray(p.exempt_categories));
+  assert.strictEqual(homeNepa.category_count, homeNepa.exempt_categories.length, 'the exemption count must equal the listed categories');
+
+  // Legal claims, each tied to the record field that makes it true.
+  const plNo = (t) => (t.match(/Public Law (\d+-\d+)/) || [])[1];
+  assert.ok(plNo(text) === law.number && plNo(road.title) === law.number, 'brief, record title and record must name the same Public Law');
+  const hr = (t) => (t.match(/H\.R\. (\d+)/) || [])[1];
+  assert.ok(hr(text) && hr(text) === hr(road.source_note), 'brief and record must name the same bill');
+  assert.strictEqual(/without (?:his|the President's|a) signature/i.test(text), /^without/.test(law.became_law),
+    'brief may say the law took effect without signature only when the record does');
+  assert.strictEqual(/does not amend section 42\b/i.test(text), road.amends_irc_section_42 === false,
+    'brief may say section 42 is not amended only when the record says so');
+  assert.strictEqual(/found no HUD (?:rule|notice)/i.test(text), road.implementation_check.found === null,
+    'brief may say no HUD implementation was found only when the record records none');
+  // Conditions the statute attaches, stated wherever the brief states the
+  // figure they govern. Each is read from the record's provision, which must
+  // itself say it; drop the condition on either side and this fails.
+  const sentencesWith = (n, unit) => text.split(/(?<=\.)\s+/).filter((t) => new RegExp('\\b' + n + ' ' + unit).test(t));
+  const rules = provisions.find((p) => p.rulemaking);
+  assert.ok(rules && /determines necessary/.test(rules.rulemaking), 'the record must say what rules HUD must issue');
+  const ruleSentences = sentencesWith(rules.rulemaking_deadline_years, 'years?');
+  assert.ok(ruleSentences.length > 0, 'brief must state the rulemaking deadline');
+  ruleSentences.forEach((t) => { checked++; assert.ok(/\b(?:any|such) rules\b[^.]*\bnecessary\b|\bdetermines? (?:to be )?necessary\b/i.test(t),
+    'the record says HUD issues only the rules it determines necessary; this sentence does not: ' + t); });
+  const inspection = provisions.find((p) => p.inspection_results);
+  assert.ok(inspection && /performed/.test(inspection.inspection_results) && /obtain/.test(inspection.inspection_results), 'the record must say whose inspection counts');
+  const inspectionSentences = sentencesWith(inspection.lookback_months, 'months');
+  assert.ok(inspectionSentences.length > 0, 'brief must state the inspection look-back');
+  inspectionSentences.forEach((t) => { checked++; assert.ok(/\bperform/i.test(t) && /\b(?:obtain|available|access)/i.test(t),
+    'the record lets an inspection count if the agency performed it or can obtain it; this sentence must say both: ' + t); });
+  const cdbg = provisions.find((p) => Number.isFinite(p.cap_pct));
+  assert.ok(/appropriated after the date of enactment/.test(cdbg.applies_to), 'the record must say which CDBG amounts the new activity applies to');
+  text.split(/(?<=\.)\s+/).filter((t) => pcts(t).includes(cdbg.cap_pct)).forEach((t) => { checked++;
+    assert.ok(/appropriated after (?:the date of )?(?:enactment|the law)/i.test(t), 'the CDBG cap sentence must say it applies only to amounts appropriated after enactment: ' + t); });
+  assert.strictEqual(road.status, 'enacted');
+  // Every source the record cites is linked from the brief.
+  [law.source_url, road.source_url, ...provisions.map((p) => p.pre_amendment_text_url).filter(Boolean)].forEach((url) =>
+    assert.ok(brief.articles.some((article) => article.link === url), 'brief must link ' + url));
+  assert.strictEqual(law.last_verified, road.last_verified);
+  assert.ok(checked >= 20, `only ${checked} ROAD Act brief figures checked; the scan has drifted`);
+  const claims = text.toLowerCase();
+  ['will lower', 'will raise', 'will increase', 'will reduce', 'expected to', 'likely', 'guarantee'].forEach((phrase) => {
+    assert.ok(!claims.includes(phrase), 'the ROAD Act brief must not predict outcomes: ' + phrase);
+  });
+  console.log('ROAD Act brief: ' + checked + ' figures checked against the record');
+}
+
+// ── HB24-1175 ROFR/ROFO brief: every figure comes from the record ──
+// Each $, %, count, full date, year and C.R.S. section the brief states must
+// be a value of the canonical hb24-1175 record, every record figure must be
+// stated, and each condition the act attaches to a figure must be stated
+// wherever the figure is. Reword the brief freely; change a figure or drop a
+// condition on either side and this fails.
+{
+  const rec = legislation.entries.find((entry) => entry.id === 'hb24-1175-local-government-rofr-rofo');
+  const brief = payload.briefs.find((item) => item.id === 'hb24-1175-rofr-rofo-2026');
+  assert.ok(rec && brief, 'HB24-1175 record and public brief must both exist');
+  assert.strictEqual(brief.is_curated, true);
+  assert.strictEqual(brief.source_reviewed, true);
+  assert.strictEqual(brief.related_data, 'data/policy/tax-credit-legislation.json');
+  assert.strictEqual(rec.analysis_url, 'research-brief.html?id=' + brief.id);
+  const { act, rofr, rofo, exemptions, remedies, termination, repeal } = rec;
+  assert.ok(act && rofr && rofo && exemptions && remedies && termination && repeal, 'HB24-1175 record must carry the act fields the brief is checked against');
+  const text = brief.title + ' ' + brief.summary + ' ' + brief.implications;
+  const sentences = text.split(/(?<=\.)\s+/);
+  let checked = 0;
+  const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const DATE_RE = new RegExp('(' + MONTH_NAMES.join('|') + ') (\\d{1,2}), (\\d{4})', 'g');
+  const datesIn = (t) => [...t.matchAll(DATE_RE)]
+    .map((m) => m[3] + '-' + String(MONTH_NAMES.indexOf(m[1]) + 1).padStart(2, '0') + '-' + m[2].padStart(2, '0'));
+
+  // Dates: every full date is a record date, and every record date is stated.
+  const recordDates = [rec.approved_date, rec.effective_date, termination.date, repeal.date];
+  const stated = datesIn(text);
+  checked += stated.length;
+  stated.forEach((d) => assert.ok(recordDates.includes(d), `brief states ${d}, which is not a date in the record`));
+  recordDates.forEach((d) => assert.ok(stated.includes(d), `brief must state the record date ${d}`));
+  assert.strictEqual(rec.sunset_date, termination.date, 'the record\'s sunset date must be the statutory termination date');
+  const statedYears = [...text.replace(/\b(?:HB|House Bill )?24-1175\b/g, ' ').matchAll(/(?<![\d-])(?:19|20)\d{2}(?![\d)])/g)].map((m) => Number(m[0]));
+  checked += statedYears.length;
+  statedYears.forEach((y) => assert.ok(recordDates.some((d) => Number(d.slice(0, 4)) === y), `brief names ${y}, which the record does not support`));
+  // Sections: every C.R.S. section is one the act adds; each one the record
+  // attaches a rule to is cited.
+  const cites = [...text.matchAll(/\b29-4-12\d\d\b/g)].map((m) => m[0]);
+  checked += cites.length;
+  cites.forEach((c) => assert.ok(act.sections.includes(c), `brief cites ${c}, which the act does not add`));
+  [rofr, rofo, exemptions, remedies, termination, repeal].forEach((part) =>
+    assert.ok(cites.includes(part.section), `brief must cite section ${part.section}`));
+  assert.ok(cites.includes(act.sections[0]) && cites.includes(act.sections[act.sections.length - 1]), 'brief must cite the act\'s full section range');
+  // Bind each figure to the provision it describes. For every "<number>
+  // <unit>" in the brief, the binding whose context words sit nearest to it in
+  // the same clause names the record value it must equal; every binding must
+  // be used, and no figure may go unbound. Swapping two figures (or moving a
+  // figure to another provision) therefore fails even though both values
+  // exist in the record.
+  const bindFigures = (t, bindings, what) => {
+    const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+    const toNumber = (s) => (/^\$/.test(s) ? Number(s.replace(/[$,\s]/g, '')) : /^\d/.test(s) ? Number(s.replace(/,/g, '')) : WORDS.indexOf(s.toLowerCase()));
+    const clauseOf = (at) => {
+      const before = t.slice(0, at);
+      const starts = [...before.matchAll(/[.;]\s+(?=[A-Z(])/g)].map((m) => m.index + m[0].length);
+      const start = starts.length ? starts[starts.length - 1] : 0;
+      const end = t.slice(at).search(/[.;]\s+(?=[A-Z(])|[.;]?$/);
+      return [start, at + end];
+    };
+    const spans = [];
+    let count = 0;
+    const used = new Set();
+    for (const unit of new Set(bindings.map((b) => b.unit))) {
+      const re = unit === '$'
+        ? /(\$\s?\d[\d,]*(?:\.\d+)?)/g
+        : new RegExp('(?<![\\d.-])\\b(\\d[\\d,]*(?:\\.\\d+)?|' + WORDS.join('|') + ')\\s*(?:calendar\\s+)?(?:' + unit + ')(?![a-z])', 'gi');
+      for (const m of t.matchAll(re)) {
+        const at = m.index;
+        const [cs, ce] = clauseOf(at);
+        const clause = t.slice(cs, ce);
+        let best = null;
+        let bestDist = Infinity;
+        bindings.filter((b) => b.unit === unit).forEach((b) => {
+          for (const c of clause.matchAll(new RegExp(b.context.source, 'gi'))) {
+            const cStart = cs + c.index;
+            const cEnd = cStart + c[0].length;
+            const dist = cEnd <= at ? at - cEnd : cStart >= at + m[0].length ? cStart - (at + m[0].length) : 0;
+            if (dist < bestDist) { bestDist = dist; best = b; }
+          }
+        });
+        assert.ok(best, `${what}: "${m[0]}" is not tied to any provision the record carries (clause: ${clause})`);
+        assert.strictEqual(toNumber(m[1]), best.value, `${what}: "${m[0]}" describes ${best.name}, which the record gives as ${best.value}`);
+        used.add(best.name);
+        spans.push([at, at + m[0].length]);
+        count++;
+      }
+    }
+    bindings.forEach((b) => assert.ok(b.optional || used.has(b.name), `${what}: brief must state ${b.name} (${b.value})`));
+    return { count, spans };
+  };
+  const penalties = [remedies.min_penalty_first, remedies.min_penalty_subsequent, remedies.max_penalty];
+  assert.ok(penalties.every(Number.isFinite), 'every HB24-1175 penalty must be a number');
+  const bound = bindFigures(text, [
+    { name: 'the minimum penalty for a first violation', unit: '$', value: remedies.min_penalty_first, context: /\bfirst\b/ },
+    { name: 'the minimum penalty for a later violation', unit: '$', value: remedies.min_penalty_subsequent, context: /\blater\b|subsequent/ },
+    { name: 'the penalty ceiling', unit: '$', value: remedies.max_penalty, context: /no more than|not more than|maximum|at most/ },
+    { name: 'the price-reduction trigger', unit: '%|percent', value: rofr.price_reduction_pct, context: /price|drops|reduc/ },
+    { name: 'the right of first refusal\'s minimum size', unit: 'units?', value: rofr.min_units, context: /existing affordable|first refusal/ },
+    { name: 'the right of first offer\'s minimum size', unit: 'units?', value: rofo.min_units, context: /at least|no fewer than|minimum/ },
+    { name: 'the right of first offer\'s maximum size', unit: 'units?', value: rofo.max_units, context: /not more than|no more than|up to|maximum/ },
+    { name: 'the first expiration notice', unit: 'years?', value: rofr.expiration_notice_years_before, context: /\bagain\b|notify/ },
+    { name: 'the second expiration notice', unit: 'months?', value: rofr.expiration_notice_months_before, context: /\bagain\b|expires|restriction/ },
+    { name: 'the long-term affordability period', unit: 'years?', value: act.long_term_affordability_years, context: /long-term|affordability for/ },
+    { name: 'the right of first offer\'s building-age exemption', unit: 'years?', value: rofo.exempt_if_first_certificate_of_occupancy_within_years, context: /certificate|occupancy|listing/ },
+    { name: 'the seller\'s notice period', unit: 'days?', value: rofr.seller_notice_days, context: /triggering/ },
+    { name: 'the local government\'s intent-notice period', unit: 'days?', value: rofr.intent_notice_days, context: /receiving|preserve|waive/ },
+    { name: 'the offer period', unit: 'days?', value: rofr.offer_days, context: /make an offer/ },
+    { name: 'the closing period', unit: 'days?', value: rofr.close_days, context: /\bclose\b|closing/ },
+    { name: 'the change-notice period', unit: 'days?', value: rofr.change_notice_days, context: /give notice|notice within/ },
+    { name: 'the number of purchase rights the act creates', unit: '(?:[a-z-]+\\s+)?rights', value: [rofr, rofo].filter((r) => r && r.section).length, context: /local governments?|\bbuy\b|purchase/, optional: true },
+  ], 'HB24-1175 brief');
+  checked += bound.count;
+  // No figure may go unbound: once the bound figures, dates, years, the bill
+  // number and the C.R.S. citations are removed, no number is left.
+  let rest = text;
+  bound.spans.slice().sort((x, y) => y[0] - x[0]).forEach(([from, to]) => { rest = rest.slice(0, from) + ' '.repeat(to - from) + rest.slice(to); });
+  rest = rest
+    .replace(DATE_RE, ' ')
+    .replace(/\b(?:HB|House Bill )?24-1175\b|\b29-4-12\d\d\b/g, ' ')
+    .replace(/(?<![\d-])(?:19|20)\d{2}(?![\d)])/g, ' ');
+  // 'one' is left out: the brief uses it as a pronoun ('if the seller has one'), not a figure.
+  const unbound = rest.match(/\$|%|\b(?:\d+|zero|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\b/gi) || [];
+  assert.deepStrictEqual(unbound, [], 'HB24-1175 brief states figures that are not bound to a record figure');
+  assert.ok(rofo.min_units < rofo.max_units, 'the right of first offer applies to a unit range');
+
+  // Conditions the act attaches, stated wherever the brief states the figure.
+  const withFigure = (n, unit) => sentences.filter((s) => new RegExp('\\b' + n + ' (?:calendar )?' + unit).test(s));
+  const need = (list, re, why) => { assert.ok(list.length > 0, 'brief must state: ' + why); list.forEach((s) => { checked++; assert.ok(re.test(s), why + ': ' + s); }); };
+  if (/cash/.test(rofr.close_exception)) need(withFigure(rofr.close_days, 'days'), /cash/i, 'the closing period yields to a third-party all-cash offer');
+  if (/terms or conditions materially change/.test(rofr.change_trigger)) {
+    need(sentences.filter((s) => pcts(s).includes(rofr.price_reduction_pct)), /\bterms\b|\bconditions\b/i, 'a material change of terms also triggers the notice');
+    need(sentences.filter((s) => pcts(s).includes(rofr.price_reduction_pct)), /re-?exercise|exercised again/i, 'the right may be exercised or re-exercised');
+  }
+  assert.strictEqual(/\bextend\b/i.test(text), /extended by written agreement/.test(rofr.extension), 'brief must say the periods can be extended exactly when the record does');
+  need(sentences.filter((s) => datesIn(s).includes(termination.date)),
+    termination.in_process_continues ? /\b(?:continu|conclud)/i : /^(?!.*continu)/i, 'a process begun before termination continues');
+  need(sentences.filter((s) => /resyndicat/i.test(s)), /\bnotice\b|\bevidence\b/i, 'the resyndication exemption needs notice and evidence');
+  need(sentences.filter((s) => /resyndicat/i.test(s)), /\bfails?\b|unsuccessful|apply again/i, 'the rights apply again if the resyndication fails');
+  need(sentences.filter((s) => money(s).includes(remedies.max_penalty)), /\b(?:no|not) more than\b|\bat most\b|\bmaximum\b|\bcap/i, 'the penalty ceiling is a maximum');
+  assert.strictEqual(/\bfree of\b/i.test(text), remedies.title_free_of_rights === true, 'brief may say a buyer takes title free of the rights only when the record does');
+  // Assignees: the local housing authority, the regional housing authority and
+  // CHFA are compared one by one between the sentence that describes
+  // assignment and the record's list, so dropping or adding any one of them
+  // on either side fails.
+  const assignSentence = sentences.find((s) => /\bassign/i.test(s)) || '';
+  assert.ok(assignSentence, 'brief must say to whom the rights can be assigned');
+  const ASSIGNEE_KINDS = {
+    local: { brief: /\blocal\b(?:\s+or\s+regional)?\s+housing authorit|housing authorit\w*\s+within/i, record: /\blocal\b[^,;]*housing authorit|housing authorit\w*\s+within/i },
+    regional: { brief: /\bregional\b(?:\s+or\s+local)?\s+housing authorit/i, record: /\bregional\b[^,;]*housing authorit/i },
+    chfa: { brief: /\bCHFA\b|Colorado Housing and Finance Authority/, record: /\bCHFA\b|Colorado Housing and Finance Authority/ },
+  };
+  Object.entries(ASSIGNEE_KINDS).forEach(([kind, re]) => {
+    checked++;
+    assert.strictEqual(re.brief.test(assignSentence), act.assignees.some((a) => re.record.test(a)),
+      `the brief and the record must agree on whether a ${kind} assignee is allowed`);
+  });
+  assert.strictEqual(act.assignees.length, Object.keys(ASSIGNEE_KINDS).filter((kind) => act.assignees.some((a) => ASSIGNEE_KINDS[kind].record.test(a))).length,
+    'every assignee on the record must be one of the kinds the brief is checked against');
+  // A year bound in the title or text ("before 2029") must not end the rights
+  // earlier than the record's termination date does.
+  [...text.matchAll(/\b(?:before|until|prior to)\s+((?:19|20)\d{2})\b/gi)].forEach((m) => {
+    checked++;
+    assert.ok(Number(m[1]) > Number(termination.date.slice(0, 4)),
+      `"${m[0]}" ends the rights before ${termination.date}, the record's termination date`);
+  });
+  assert.strictEqual(rec.status, 'enacted');
+  assert.ok(/\bapproved\b|\bsigned\b|\benacted\b/i.test(brief.summary), 'brief must describe the record as enacted law');
+  [rec.source_url, act.source_url].forEach((url) => assert.ok(brief.articles.some((article) => article.link === url), 'brief must link ' + url));
+  assert.strictEqual(act.last_verified, rec.last_verified);
+  assert.ok(checked >= 30, `only ${checked} HB24-1175 brief figures checked; the scan has drifted`);
+  const claims = text.toLowerCase();
+  ['will lower', 'will raise', 'will increase', 'will reduce', 'expected to', 'likely', 'guarantee'].forEach((phrase) => {
+    assert.ok(!claims.includes(phrase), 'the HB24-1175 brief must not predict outcomes: ' + phrase);
+  });
+  console.log('HB24-1175 brief: ' + checked + ' figures checked against the record');
+}
+
 // ── AHCIA (H.R. 2725 / S. 1515) brief: every figure comes from the records ──
 // One brief covers both bill records. Its status claims must agree with each
 // record's bill fields and latest action; each $, %, multiplier, count, date
