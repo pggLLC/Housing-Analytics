@@ -125,11 +125,34 @@
         <p class="mx-byline">
           <span>Paul Glasgow &mdash; <a href="https://pggllc.com">pggLLC</a>, working with AI</span>
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
-          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">29f021981</code></span>
+          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">035bb7c58</code></span>
           <span>Companion to the <a href="working-paper.html">working paper</a></span>
           <span>Every section last read against its code on <time data-spec-reviewed>2026-10-10</time></span>
         </p>
       </header>
+
+      <!-- Shared across apa-white-paper.html, working-paper.html and methods.html;
+           test/document-guide.test.mjs keeps the three copies and the Insights menu in agreement. -->
+      <nav class="doc-guide col" aria-labelledby="doc-guide-title">
+        <p class="doc-guide__title" id="doc-guide-title">Which document do you need?</p>
+        <ol class="doc-guide__list">
+          <li>
+            <p class="doc-guide__name"><a href="apa-white-paper.html">White Paper for Planners</a></p>
+            <p class="doc-guide__for">To explain a finding in plain language</p>
+            <p class="doc-guide__about">For planners, councils and boards. What the site helps a community decide, how need, demand, affordability and feasibility fit together, and what the evidence can and cannot establish. No formulas.</p>
+          </li>
+          <li>
+            <p class="doc-guide__name"><a href="working-paper.html">Working Paper</a></p>
+            <p class="doc-guide__for">Why the system works the way it does</p>
+            <p class="doc-guide__about">For researchers and reviewers. The argument and the record: how the data system was built, where it went wrong, and why it now reports a number as unknown rather than guess.</p>
+          </li>
+          <li class="is-current">
+            <p class="doc-guide__name"><a href="methods.html" aria-current="page">Methods</a> <span class="doc-guide__here">You are here</span></p>
+            <p class="doc-guide__for">Every formula, to check a number</p>
+            <p class="doc-guide__about">For anyone checking or reproducing a figure. Each formula, weight and threshold in the needs ranking and the ownership model, read out of the code.</p>
+          </li>
+        </ol>
+      </nav>
 
       <div class="mx-note col">
         <span class="tag">How to read this, and how to break it</span>
