@@ -26,6 +26,8 @@
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/config/table-export-registry.js"></script>
+  <script defer src="js/components/table-export.js"></script>
   <script src="js/components/equity-pricing.js"></script>
   <script src="js/components/market-pulse.js"></script>
   <style>
@@ -193,9 +195,9 @@
               <p class="chart-subtitle" id="insightsPricingAsOf">National average equity price per $1 of credit · <span style="color:var(--good);font-weight:700;">DATA</span> · captured quarterly · <a href="article-pricing.html">Tax Credit Equity Markets</a></p>
             </div>
             <div class="data-table">
-              <table>
+              <table data-export="in-equity-pricing">
                 <thead>
-                  <tr><th>Credit Type</th><th>Current Price</th><th>QoQ</th><th>YoY</th></tr>
+                  <tr><th>Credit Type</th><th data-tip="National average equity price paid per $1 of federal tax credit in the latest quarter captured (Novogradac letter-of-intent pricing).">Current Price</th><th>QoQ</th><th>YoY</th></tr>
                 </thead>
                 <tbody id="insightsPricingRows">
                   <tr><td colspan="4">Pricing is read from <a href="data/market/novogradac-equity-pricing.json">the pricing data file</a>.</td></tr>
@@ -292,7 +294,7 @@
               <p class="chart-subtitle">Financing rates and CHFA's next tax credit dates · <span style="color:var(--good);font-weight:700;">LIVE</span></p>
             </div>
             <div class="data-table">
-              <table>
+              <table data-export="in-rates">
                 <thead>
                   <tr><th title="Benchmark rate, from FRED">Rate</th><th title="Most recent published value">Latest</th><th title="Change from the value a year before, in basis points (1 bp = 0.01 percentage point)">1-yr change</th><th title="Date of the most recent published value">As of</th></tr>
                 </thead>
