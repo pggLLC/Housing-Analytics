@@ -87,18 +87,32 @@ assert(qapChecked >= 5, 'QAP quote scan is vacuous');
 // ── 4. Award notes quote real awards ───────────────────────────────────────
 const byName = new Map(AWARDS.awards.map((a) => [a.name, a]));
 const notes = DOC.awards.items;
+const EVIDENCE_OF = {
+  resident_services: /\b(services|counseling|workshops)\b/i,
+  older_adults: /\bservices\b/i,
+  disability: /\bservices\b/i,
+  community: /\b(partner(ed)? with|memberships|meals)\b/i,
+};
 assert(notes.length >= 5, 'award note scan is vacuous');
 for (const n of notes) {
   const a = byName.get(n.name);
   assert(a, `award note ${n.name} is not in ${DOC.awards.file}`);
   assert(norm(a.description).includes(norm(n.quote)), `${n.name}: quote is not in CHFA's description`);
   assert(DOC.awards.models[n.model], `${n.name}: unknown model ${n.model}`);
+  // The quote must itself show the kind of service the row is labelled with;
+  // a quote that only names who lives there is not a services description.
+  assert(EVIDENCE_OF[n.model], `${n.name}: no evidence rule for model ${n.model}`);
+  assert(EVIDENCE_OF[n.model].test(n.quote), `${n.name}: quote does not describe ${DOC.awards.models[n.model]}`);
 }
+assert.deepEqual(Object.keys(DOC.awards.models).sort(), Object.keys(EVIDENCE_OF).sort(), 'every award model needs an evidence rule here');
 assert.equal(new Set(notes.map((n) => n.name)).size, notes.length, 'an award is noted twice');
 
 // ── 5. The rendered page ───────────────────────────────────────────────────
+// Review warnings are dated in Denver (js/components/review-status.js), so the
+// expected cutoff is too; a UTC date is a day ahead every evening.
 function today(offset) {
-  const d = new Date(); d.setUTCDate(d.getUTCDate() + offset); return d.toISOString().slice(0, 10);
+  const denver = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Denver', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+  const d = new Date(`${denver}T12:00:00Z`); d.setUTCDate(d.getUTCDate() + offset); return d.toISOString().slice(0, 10);
 }
 async function renderPage(doc) {
   const dom = new JSDOM(read('resident-services.html'), { runScripts: 'outside-only', url: 'https://example.test/resident-services.html' });

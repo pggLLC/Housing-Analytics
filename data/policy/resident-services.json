@@ -402,7 +402,6 @@
     "file": "data/affordable-housing/chfa-awards/2026-round-one.json",
     "models": {
       "resident_services": "Resident services for all residents",
-      "supportive": "Supportive housing for people leaving homelessness",
       "disability": "Services for residents with disabilities",
       "older_adults": "Aging-in-place services for older adults",
       "community": "Partner programs (meals, youth, community)"
@@ -422,11 +421,6 @@
         "name": "Cedar Creek Commons",
         "model": "disability",
         "quote": "Services will be offered to all residents based on their needs and Community Options Incorporated (COI) will assist with leasing and services"
-      },
-      {
-        "name": "Commons at Mosaic",
-        "model": "supportive",
-        "quote": "The development will serve individuals and families in one building and residents exiting homelessness in a second building."
       },
       {
         "name": "Crawford Commons",
