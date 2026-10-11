@@ -7,20 +7,20 @@
       "name": "Rio Blanco County",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.rbc.us/government/elected_officials/clerk_and_recorder/elections.php",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county Elections page had no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list on 2026-09-26.",
+        "Checked 2026-10-10: the county Elections page still posts no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list.",
         "Commissioner agendas are posted only for September 2026 and contain no ballot items; August agendas, where referrals and IGAs would appear, are not online."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.rbc.us/government/elected_officials/clerk_and_recorder/elections.php",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.rbc.us/government/county_commissioners/notice_of_meetings,_agendas___minutes.php",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -30,24 +30,25 @@
       "name": "Meeker (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.rbc.us/government/elected_officials/clerk_and_recorder/elections.php",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county Elections page had no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list on 2026-09-26.",
-        "Participation unknown. The town has no elections page; its 2026 trustee documents are scanned PDFs with no text layer, and none are posted after 2026-06-16."
+        "Checked 2026-10-10: the county Elections page still posts no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "Participation unknown. The town has no elections page; its 2026 trustee documents are scanned PDFs with no text layer, and none are posted after 2026-06-16.",
+        "On 2026-10-10 the town meeting-information page still lists no trustee documents after June 2026."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.rbc.us/government/elected_officials/clerk_and_recorder/elections.php",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.rbc.us/government/county_commissioners/notice_of_meetings,_agendas___minutes.php",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.townofmeeker.org/meeting-information/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -57,20 +58,21 @@
       "name": "Rangely (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.rbc.us/government/elected_officials/clerk_and_recorder/elections.php",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county Elections page had no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list on 2026-09-26.",
-        "Participation unknown. Rangely held its regular election on 2026-04-07; council packets 2026-05-12 through 2026-09-22 contain no ballot referral or coordinated-election IGA."
+        "Checked 2026-10-10: the county Elections page still posts no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "Participation unknown. Rangely held its regular election on 2026-04-07; council packets 2026-05-12 through 2026-09-22 contain no ballot referral or coordinated-election IGA.",
+        "On 2026-10-10 the town municipal-elections page returned HTTP 403; the 2026-09-26 findings are kept."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.rbc.us/government/elected_officials/clerk_and_recorder/elections.php",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.rbc.us/government/county_commissioners/notice_of_meetings,_agendas___minutes.php",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://townofrangely.colorado.gov/departments/administrative-services/town-clerk/treasurer/municipal-elections",
