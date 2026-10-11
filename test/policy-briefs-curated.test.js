@@ -237,9 +237,16 @@ const recordYears = new Set([
 const statedYears = [...ceilingText.matchAll(/(?<![\d-])(?:19|20)\d{2}(?![\d)])/g)].map((m) => Number(m[0]));
 ceilingChecked += statedYears.length;
 statedYears.forEach((year) => assert.ok(recordYears.has(year), `brief names ${year}, which the record does not support`));
-const win = ceilingText.match(/(\d{4}) through (\d{4})/);
-assert.ok(win, 'brief must state the years of the earlier increase');
-assert.deepStrictEqual([Number(win[1]), Number(win[2])], [Math.min(...inc.previous_years), Math.max(...inc.previous_years)]);
+// A year range is two years joined by any connective (through / to / and /
+// a dash), optionally introduced by "from" or "between"; its endpoints are
+// what must agree with the record, not the word that joins them.
+const yearRanges = [...ceilingText.matchAll(/\b((?:19|20)\d{2})\s*(?:through|thru|to|until|and|[-–—])\s*((?:19|20)\d{2})\b/gi)]
+  .map((m) => [Number(m[1]), Number(m[2])]);
+assert.ok(yearRanges.length > 0, 'brief must state the years of the earlier increase');
+const previousWindow = [Math.min(...inc.previous_years), Math.max(...inc.previous_years)];
+ceilingChecked += yearRanges.length;
+yearRanges.forEach((range) => assert.deepStrictEqual(range, previousWindow,
+  `brief states the year range ${range.join('-')}, but the record's earlier increase covers ${previousWindow.join('-')}`));
 
 // Legal citations and claims.
 const citesOf = (t) => [...t.matchAll(/\b70422\([a-z]\)/g)].map((m) => m[0]);
