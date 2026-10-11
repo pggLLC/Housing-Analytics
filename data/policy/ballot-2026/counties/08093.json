@@ -5,13 +5,14 @@
       "geoid": "08093",
       "level": "county",
       "name": "Park County",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "source_unreadable",
       "reviewed_source": "https://www.parkcountyco.gov/273/Elections",
       "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
         "Checked 2026-10-10: the elections page posts sample ballots for Precincts 1 to 13; all 13 were read. None has a county, municipal or district question; the only ballot measures are the state ones. Precincts 1 and 2 have a text layer; Precincts 3 to 13 are image-only scans and were read from the rendered page images. No TABOR notice or participating-entities list is posted.",
-        "Commissioners' agendas June to September 2026 contain no ballot referral. A Park County lodging-tax question found in search was on the November 2025 ballot, not 2026."
+        "Commissioners' agendas June to September 2026 contain no ballot referral. A Park County lodging-tax question found in search was on the November 2025 ballot, not 2026.",
+        "Recorded as source_unreadable: the Park County sample ballots for Precincts 3 to 13 are image-only scanned PDFs with no text layer. Under the second-pass rule a scanned PDF is unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a text-readable notice or sample ballot is posted."
       ],
       "reviewed_sources": [
         {
@@ -44,13 +45,14 @@
       "geoid": "0801530",
       "level": "municipal",
       "name": "Alma (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "source_unreadable",
       "reviewed_source": "https://www.parkcountyco.gov/273/Elections",
       "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
         "Checked 2026-10-10: none of the 13 county precinct sample ballots has a Town of Alma section or any local question. No participating-entities list is posted.",
-        "The town's elections page shows only its April 2026 election."
+        "The town's elections page shows only its April 2026 election.",
+        "Recorded as source_unreadable: the Park County sample ballots for Precincts 3 to 13 are image-only scanned PDFs with no text layer. Under the second-pass rule a scanned PDF is unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a text-readable notice or sample ballot is posted."
       ],
       "reviewed_sources": [
         {
@@ -67,13 +69,14 @@
       "geoid": "0825610",
       "level": "municipal",
       "name": "Fairplay (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "source_unreadable",
       "reviewed_source": "https://www.parkcountyco.gov/273/Elections",
       "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
         "Checked 2026-10-10: none of the 13 county precinct sample ballots has a Town of Fairplay section or any local question. No participating-entities list is posted.",
-        "The town's election documents (notice of election and sample ballot) concern its April 7, 2026 regular election only."
+        "The town's election documents (notice of election and sample ballot) concern its April 7, 2026 regular election only.",
+        "Recorded as source_unreadable: the Park County sample ballots for Precincts 3 to 13 are image-only scanned PDFs with no text layer. Under the second-pass rule a scanned PDF is unreadable, so this row is not marked none found even though no local question was seen on the rendered pages. Re-check when a text-readable notice or sample ballot is posted."
       ],
       "reviewed_sources": [
         {
