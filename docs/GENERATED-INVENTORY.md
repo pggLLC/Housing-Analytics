@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T00:21:08.761Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T00:39:23.995Z. Do not edit by hand.
 
 ---
 
@@ -1937,7 +1937,7 @@
 | `test/growth-figure-agrees.test.js` | 13.1 KB |
 | `test/guided-path-enters-the-chapters.test.mjs` | 9.1 KB |
 | `test/guided-path-forward-and-doc.test.mjs` | 4.7 KB |
-| `test/guided-path-product-routes.test.js` | 11.3 KB |
+| `test/guided-path-product-routes.test.js` | 15.4 KB |
 | `test/helpers/ci-wiring.js` | 1.9 KB |
 | `test/helpers/deal-calculator-page.cjs` | 4.5 KB |
 | `test/helpers/jspdf-mock.cjs` | 2.8 KB |
