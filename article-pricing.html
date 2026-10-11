@@ -28,6 +28,7 @@
   <script defer src="js/provenance-label.js"></script>
   <script defer src="js/components/review-status.js"></script>
   <script defer src="js/components/tax-credit-equity-markets.js"></script>
+  <script defer src="js/components/equity-pricing-drivers.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -77,6 +78,35 @@
         </section>
 
         <p>Review the equity-price assumption and its effect on your project in the <a data-workflow-link="equity-deal" href="deal-calculator.html#dc-equity-price">Deal Calculator</a>. Use the benchmarks here as context for a project-specific pricing quote.</p>
+
+        <section id="tceDrivers" aria-labelledby="drivers-heading" style="margin:var(--sp5) 0;">
+          <div class="chart-card">
+            <div class="chart-header">
+              <h2 id="drivers-heading" class="chart-title">What Moves LIHTC Pricing</h2>
+              <p class="chart-subtitle">Monthly 9% and 4% pricing compared with the interest rates on the <a href="economic-dashboard.html">Economic Dashboard</a>. Every figure in this section is computed from the data files when the page loads.</p>
+            </div>
+            <div id="tceDriversStatus" role="status" aria-live="polite" style="color:var(--bad);font-weight:700;"></div>
+            <div id="tceDriversFindings" data-source="data/market/lihtc-equity-pricing-history.json; data/fred-data.json" data-source-type="derived"></div>
+            <div id="tceDriversChart" style="display:grid;gap:var(--sp2);" data-source="data/market/lihtc-equity-pricing-history.json; data/fred-data.json" data-source-type="derived"></div>
+            <h3 style="margin:var(--sp4) 0 var(--sp2);">Each rate compared with pricing</h3>
+            <div class="table-wrap" role="region" tabindex="0" aria-label="Rate series compared with LIHTC equity pricing" id="tceDriversTable" data-source="data/fred-data.json" data-source-type="derived"></div>
+            <p style="font-size:var(--small);color:var(--muted);">Pricing here is the average of Novogradac’s national 9% and 4% monthly figures. Rates are monthly averages of FRED’s daily and weekly series. A lead of 12 months compares each month’s price with the rate a year earlier. The 9%/4% series starts in September 2021, so it covers one rate cycle and one change in federal law, and Novogradac rounds to the cent, so moves of a cent are partly rounding. Nothing here is a forecast.</p>
+
+            <h3 style="margin:var(--sp4) 0 var(--sp2);">What the dashboard does not measure</h3>
+            <p>Equity pricing is what investors pay for credits, set by how much they want them against how many are on offer. The rates above cover only the investors’ cost of money. These inputs are not on the site yet:</p>
+            <ul style="line-height:1.6;">
+              <li><strong>Credit supply.</strong> Annual 9% allocations and private activity bond volume for 4% deals. The 2025 federal law raised 9% allocations and lowered the 4% bond test; see the Novogradac table notes below.</li>
+              <li><strong>Bank CRA demand.</strong> Banks are the main buyers, and they pay more in markets where they need Community Reinvestment Act credit.</li>
+              <li><strong>Investor tax capacity.</strong> Bank and corporate earnings, since credits only help an investor that owes tax.</li>
+              <li><strong>Investor yields.</strong> The after-tax return investors accept, which syndicators report and is the mirror image of price.</li>
+              <li><strong>Corporate bond spreads beyond Baa.</strong> The return investors could earn elsewhere.</li>
+              <li><strong>The corporate tax rate.</strong> It was 21% throughout this period, so it cannot explain these years, but a change would move pricing.</li>
+            </ul>
+
+            <h3 style="margin:var(--sp4) 0 var(--sp2);">What markets expect</h3>
+            <div id="tceDriversMarkets" data-source="data/polymarket-data.json" data-source-type="live"></div>
+          </div>
+        </section>
 
         <section aria-labelledby="novogradac-heading" style="margin:var(--sp5) 0;">
           <div class="chart-card">
