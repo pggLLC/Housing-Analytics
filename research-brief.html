@@ -39,6 +39,7 @@
     .brief-reader .brief-table td:nth-child(2) { text-align: right; font-variant-numeric: tabular-nums; }
     .brief-reader .brief-table--text th, .brief-reader .brief-table--text td { text-align: left !important; width: auto !important; font-variant-numeric: normal; }
     .brief-reader .brief-table--text td:last-child { white-space: nowrap; }
+    .brief-reader .brief-table--wrap td:last-child { white-space: normal; }
     .brief-reader .brief-note { color: var(--muted); font-size: var(--small); }
     @media (max-width: 40rem) {
       .brief-reader .brief-table--text td:last-child { white-space: normal; }
@@ -234,7 +235,9 @@
           }
           var spec = item.table;
           if (spec && Array.isArray(spec.columns) && Array.isArray(spec.rows)) {
-            var table = el('table', undefined, node, 'brief-table brief-table--text');
+            // A table whose last column is prose sets wrap; otherwise that
+            // column holds a short value and stays on one line.
+            var table = el('table', undefined, node, 'brief-table brief-table--text' + (spec.wrap ? ' brief-table--wrap' : ''));
             table.dataset.table = item.id;
             if (spec.caption) el('caption', spec.caption, table);
             var head = el('tr', undefined, el('thead', undefined, table));

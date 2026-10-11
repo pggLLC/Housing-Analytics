@@ -550,6 +550,7 @@
           ],
           "table": {
             "caption": "How each for-sale model keeps the home affordable",
+            "wrap": true,
             "columns": [
               "Model",
               "How affordability is kept",
@@ -683,6 +684,7 @@
           ],
           "table": {
             "caption": "Studies of shared equity homeownership",
+            "wrap": true,
             "columns": [
               "Study",
               "What it found",
@@ -891,6 +893,10 @@
         }
       ],
       "source_quotes": [
+        {
+          "link": "https://www.lincolninst.edu/app/uploads/2024/04/1857_1164_thaden_final.pdf",
+          "quote": "yielding a sample of 42 CLTs that represented 2,173 owner-occupied, resale-restricted mortgages"
+        },
         {
           "link": "https://elevationclt.org/what-is-a-community-land-trust/",
           "quote": "The homeowner enters into a 99-year, renewable land lease"
