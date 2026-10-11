@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-10T22:55:58.904929Z",
+  "generated": "2026-10-11T00:21:33.136564Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 835713
+      "bytes": 835712
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -329,7 +329,7 @@
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 331979
+      "bytes": 331988
     },
     "data/environmental/fema-flood-co.geojson": {
       "featureCount": 4,
@@ -7714,7 +7714,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 1529920
+      "bytes": 996787
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
@@ -7904,7 +7904,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 15108
+      "bytes": 15106
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
