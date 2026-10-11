@@ -50,9 +50,22 @@
         "Rechecked 2026-10-10. San Juan County is a single precinct (3065956001), and the clerk's elections page posts one general-election sample ballot (Ballot Type 1, Ballot Style 001). Its only local measure is \"County Ballot Issue 1A\" under County Ballot Measures, which is recorded on the 08111 row. There is no Town of Silverton section and no other local question.",
         "The sample ballot PDF has a text layer, but its font maps each character to a code 29 below the real one, so pdftotext prints shifted characters. The text was read by reversing that fixed offset, not from page images.",
         "The town elections page still shows only the November 4, 2025 8th and Bluff Special Improvement District election and posts nothing for Nov 3, 2026. Regular town elections are in April of even-numbered years.",
-        "Silverton voters will see county issue 1A, whose text covers \"SAN JUAN COUNTY, INCLUDING THE TOWN OF SILVERTON\". It is a county measure, not a town measure."
+        "Silverton voters will see county issue 1A, whose text covers \"SAN JUAN COUNTY, INCLUDING THE TOWN OF SILVERTON\". It is a county measure, not a town measure.",
+        "On 2026-09-26, the Board of Trustees July and Aug 2026 packets, the 7/20 special meeting agenda, and the 8/24/26 and 9/14/26 meeting recaps (town Google Drive folder) were reviewed. None contains a resolution or ordinance referring a question to the Nov 3, 2026 ballot."
       ],
       "reviewed_sources": [
+        {
+          "url": "https://townofsilverton.colorado.gov/government/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/drive/folders/1wbR2uan4LgLcHq1VxCt_itI49ZSRsUvq",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://sanjuancounty.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        },
         {
           "url": "https://sanjuancounty.colorado.gov/elections",
           "retrieved": "2026-10-10"
