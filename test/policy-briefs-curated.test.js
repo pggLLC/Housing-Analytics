@@ -427,7 +427,7 @@ const ceilingClaims = ceilingText.toLowerCase();
   // nearest bill number before it is its own), and each chamber named must be
   // followed by its own bill. Swapping any one of them between the bills fails.
   const billMentions = [house, senate].flatMap((rec) =>
-    [...text.matchAll(new RegExp(rec.bill.number.replace(/\./g, '\\.').replace(' ', '\\s'), 'g'))].map((m) => ({ at: m.index, rec })));
+    [...text.matchAll(new RegExp(rec.bill.number.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s'), 'g'))].map((m) => ({ at: m.index, rec })));
   const billBefore = (at) => billMentions.filter((m) => m.at < at).sort((x, y) => y.at - x.at)[0];
   const billAfter = (at) => billMentions.filter((m) => m.at > at).sort((x, y) => x.at - y.at)[0];
   const introPhrase = (iso) => MONTH_NAMES[Number(iso.slice(5, 7)) - 1] + ' ' + Number(iso.slice(8, 10)) + ', ' + iso.slice(0, 4);
