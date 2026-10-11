@@ -46,6 +46,7 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script src="js/components/lihtc-credits-to-cash.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
 </head>
 <body>
@@ -186,6 +187,21 @@
       set('lihtcGuideRegion', region.median_all_credits);
       var vEl = document.getElementById('lihtcGuideVintage');
       if (vEl && j.meta && j.meta.vintage) vEl.textContent = j.meta.vintage;
+      // The credits-to-cash diagram works its example at the Colorado median
+      // and 5 cents below it. With no published median the arithmetic has no
+      // price to use, so it says so rather than keeping the static figures.
+      var dgV = document.getElementById('dgVintage');
+      if (dgV && j.meta && j.meta.vintage) dgV.textContent = j.meta.vintage;
+      var ex = window.LihtcCreditsToCash && window.LihtcCreditsToCash.example(co.median_all_credits);
+      var put = function (id, text) { var el = document.getElementById(id); if (el) el.textContent = text; };
+      if (ex) {
+        put('dgCoPrice', ex.price); put('dgCoEquity', ex.equity);
+        put('dgLowPrice', ex.lowPrice); put('dgLowEquity', ex.lowEquity); put('dgLowDiff', ex.difference);
+      } else {
+        ['creditsToCashExample', 'creditsToCashLow'].forEach(function (id) {
+          put(id, 'Worked example unavailable: the data file publishes no Colorado median price this quarter.');
+        });
+      }
     })
     .catch(function () { /* silent — static text remains visible */ });
 })();
@@ -506,20 +522,33 @@
   selling them to investors through a syndicator. Understanding how syndicators price deals is critical
   to feasibility.
 </p>
-<h4 style="margin: 1.5rem 0 0.75rem 0;">The pricing formula (simplified):</h4>
-<pre style="background: var(--mcm-graphite); padding: 1rem; border-radius: 4px; color: var(--mcm-beige); font-size: 0.9rem; line-height: 1.6; overflow-x: auto;">
-Equity = Annual Credit × 10 years × Price Per Credit Dollar
-         $1M       × 10      × $0.82  =  $8.20M (per $1M annual credit, national 9% avg, 2026-Q2)
-        $1.5M      × 10      × $0.81  =  $12.15M (a CO deal at the Colorado median, 2026-Q2)
-        $1.5M      × 10      × $0.76  =  $11.40M (same deal priced 5¢ below the median — $750K less equity)
-
-Price depends on:
-  • Investor's effective tax rate (Fortune 500 at ~21% federal + state)
-  • IRR target (investors want 5–8% IRR over 15-year hold)
-  • Risk premium (rural or first-time developer = lower price)
-  • CRA demand (banks needing CRA credit bid higher in underserved areas)
-  • Internal cost of capital (higher rates = lower pricing)
-</pre>
+<figure class="diagram" id="creditsToCashDiagram" aria-labelledby="creditsToCashTitle">
+  <p class="diagram__title" id="creditsToCashTitle">How tax credits become cash for the project</p>
+  <ol class="dg-chain" style="--dg-cols:4">
+    <li class="dg-node"><strong>CHFA</strong><span>awards the project 10 years of tax credits</span></li>
+    <li class="dg-node dg-node--accent"><strong>Project partnership</strong><span>owns the building and claims the credits</span></li>
+    <li class="dg-node"><strong>Syndicator</strong><span>pools investors and negotiates the price</span></li>
+    <li class="dg-node dg-node--accent2"><strong>Investors</strong><span>join the partnership and use the credits against federal tax</span></li>
+  </ol>
+  <div class="dg-lanes">
+    <p class="dg-lane dg-lane--credits"><strong>Credits</strong> flow to the investors, one year&rsquo;s worth at a time for 10 years &rarr;</p>
+    <p class="dg-lane dg-lane--cash">&larr; <strong>Equity</strong> flows to the project up front, paid in installments from closing through lease-up</p>
+  </div>
+  <div class="dg-equation">
+    <p><strong>Equity = annual credit &times; 10 years &times; price per credit dollar</strong></p>
+    <p class="dg-math" id="creditsToCashExample">$1.5M &times; 10 &times; <span id="dgCoPrice">$0.81</span> = <span id="dgCoEquity">$12.15M</span> <span style="font-weight:400;">(a Colorado deal at the Colorado median)</span></p>
+    <p class="dg-math" id="creditsToCashLow">$1.5M &times; 10 &times; <span id="dgLowPrice">$0.76</span> = <span id="dgLowEquity">$11.40M</span> <span style="font-weight:400;">(the same deal priced 5&cent; lower: <span id="dgLowDiff">$750K</span> less equity)</span></p>
+  </div>
+  <figcaption>The investors are the partnership&rsquo;s limited partners, so the credits reach them through the partnership; the syndicator runs the fund they invest through. Price is the Colorado median from Novogradac&rsquo;s <span id="dgVintage">2026-Q2</span> benchmarks, all credit types together. It is market context, not a quote.</figcaption>
+</figure>
+<h4 style="margin: 1.5rem 0 0.75rem 0;">What sets the price per credit dollar:</h4>
+<ul style="line-height: 1.8; color: var(--mcm-beige);">
+<li><strong>Investor tax rate</strong> &mdash; Fortune 500 investors at ~21% federal plus state</li>
+<li><strong>Investor return target</strong> &mdash; investors want a 5&ndash;8% IRR over the 15-year hold</li>
+<li><strong>Risk premium</strong> &mdash; rural sites and first-time developers price lower</li>
+<li><strong>CRA demand</strong> &mdash; banks needing CRA credit bid higher in underserved areas</li>
+<li><strong>Cost of capital</strong> &mdash; higher interest rates mean lower pricing</li>
+</ul>
 <h4 style="margin: 1.5rem 0 0.75rem 0;">What drives Colorado pricing specifically:</h4>
 <ul style="line-height: 1.8; color: var(--mcm-beige);">
 <li><strong>CRA demand</strong> — lenders with CRA obligations in your market bid higher; banks with deposits concentrated in the project's census tract have the strongest incentive</li>
@@ -874,6 +903,7 @@ Price depends on:
 <li><a href="regional.html" style="color: var(--mcm-teal);">Regional Analysis</a> - Compare regions</li>
 <li><a href="lihtc-allocations.html" style="color: var(--mcm-teal);">State Allocation Map</a> - All 50 states</li>
 <li><a href="colorado-deep-dive.html" style="color: var(--mcm-teal);">Colorado Deep Dive</a> - 5-region analysis</li>
+<li><a href="resident-services.html" style="color: var(--mcm-teal);">Services in Affordable Housing</a> - How services keep residents housed, and what CHFA requires</li>
 </ul>
 </div>
 <div class="chart-card">

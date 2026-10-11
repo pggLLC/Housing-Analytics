@@ -33,6 +33,7 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script src="js/components/workflow-progress.js"></script>
+  <script src="js/components/guided-route-map.js"></script>
   <script src="js/components/edu-callout.js"></script>
   <script src="js/components/lihtc-tips.js"></script>
   <script src="js/components/analytics.js" data-step="1" data-step-label="jurisdiction_selector"></script>
@@ -215,6 +216,10 @@
           <p class="sj-actions__note" id="sjActionNote">Select a county above to continue.</p>
           <p class="sj-actions__note" id="sjStepTwoNote">Step 2, the <a href="lihtc-opportunity-finder.html">Opportunity Finder</a>, is statewide site discovery and is not required. Open it first if you have no site yet.</p>
         </div>
+
+        <!-- The whole path for the product chosen above, drawn from the
+             same route list as the rail (js/components/guided-route-map.js). -->
+        <div id="sjRouteMap"></div>
       </div>
 
       <div class="sj-divider">
@@ -286,8 +291,10 @@
         if (!WP || !WP.getProduct || !radios.length) return;
         var note = document.getElementById('sjStepTwoNote');
         var rentalNote = note ? note.innerHTML : '';
+        var mapMount = document.getElementById('sjRouteMap');
         function sync(product) {
           for (var i = 0; i < radios.length; i++) radios[i].checked = radios[i].value === product;
+          if (window.GuidedRouteMap) window.GuidedRouteMap.render(mapMount, product);
           if (!note) return;
           var step2 = WP.stepsFor(product)[1];
           note.innerHTML = step2.routed
