@@ -35,14 +35,20 @@ async function main() {
   await Promise.all([api.load(), api.load()]);
   assert.equal(loads, 1, 'shared loader caches the existing data-service request');
 
-  assert.equal(DATA.jurisdictions.length, 217, 'real-data count is expected to drift; update this fixture pin when DOLA changes its filed jurisdictions');
-  assert.equal(DATA.jurisdictions.filter((row) => row.status === 'Committed').length, 216, 'Committed count is expected to drift; update this fixture pin when DOLA changes the data');
-  assert.equal(DATA.jurisdictions.filter((row) => row.status === 'Commitment Met').length, 1, 'Commitment Met count is expected to drift; update this fixture pin when DOLA changes the data');
-  assert.equal(DATA.jurisdictions.filter((row) => row.fast_track === true).length, 91, 'fast-track count is expected to drift; update this fixture pin when DOLA changes the data');
+  // The counts must agree with the totals the file states, which the builder
+  // takes from DOLA's lists (scripts/policy/build_prop123_jurisdictions.py).
+  const met = DATA.jurisdictions.filter((row) => row.status === 'Commitment Met').length;
+  assert.equal(DATA.jurisdictions.length, 217, 'DOLA states 217 first-cycle filings');
+  assert.equal(met, DATA.commitment_met_count, 'Commitment Met rows equal the stated commitment_met_count');
+  assert(met > 1, 'DOLA has verified more than Silverton since January 2026');
+  assert.equal(DATA.jurisdictions.filter((row) => row.status === 'Committed').length, DATA.jurisdictions.length - met, 'every other filer is Committed');
+  assert.equal(DATA.jurisdictions.filter((row) => row.fast_track === true).length, DATA.fast_track_count, 'fast-track rows equal the stated fast_track_count');
+  assert.equal(DATA.jurisdictions.reduce((s, row) => s + row.proposed_units, 0), DATA.total_projected_units, 'unit goals sum to the stated total');
 
   const aurora = api.relationship(DATA, 'place', 'Aurora (city)');
   assert.equal(aurora.status, 'Committed', 'prefixed DOLA city name matches the HNA place label');
-  assert.equal(aurora.fastTrack, 'Yes', 'fast_track true displays as its own fact');
+  const springs = api.relationship(DATA, 'place', 'Colorado Springs (city)');
+  assert.equal(springs.fastTrack, 'Yes', 'fast_track true displays as its own fact');
 
   const fruita = api.relationship(DATA, 'place', 'Fruita (city)');
   assert.equal(fruita.status, 'Committed', 'Fruita filing status is direct from the record');
@@ -59,11 +65,23 @@ async function main() {
   assert.equal(absent.status, 'Not committed', 'absence means Not committed, never missing data');
   assert.equal(absent.fastTrack, 'Not committed', 'absence is explicit in the fast-track fact too');
 
-  const glendaleCdp = api.relationship(DATA, 'cdp', 'Glendale (CDP)');
+  // The same-name guards are checked on synthetic filings: DOLA's real list
+  // has no Glendale or Highlands Ranch filing (the hand-typed list before
+  // 2026-10 invented both).
+  const FIXTURE = Object.assign({}, DATA, {
+    jurisdictions: DATA.jurisdictions.concat([
+      { name: 'City of Glendale', kind: 'municipality', type: 'City', status: 'Committed', fast_track: false },
+      { name: 'City of Highlands Ranch', kind: 'municipality', type: 'City', status: 'Committed', fast_track: false },
+    ]),
+  });
+  assert.equal(api.relationship(DATA, 'place', 'Glendale (city)').status, 'Not committed', 'DOLA lists no Glendale filing');
+  assert.equal(api.relationship(DATA, 'cdp', 'Highlands Ranch (CDP)').rejectedSameNameRecord, null, 'DOLA lists no Highlands Ranch filing to disclose');
+
+  const glendaleCdp = api.relationship(FIXTURE, 'cdp', 'Glendale (CDP)');
   assert.equal(glendaleCdp.record, null, 'a colliding CDP does not inherit a municipality filing');
   assert.equal(glendaleCdp.status, 'Not committed', 'a colliding CDP remains explicitly Not committed');
   assert.equal(glendaleCdp.rejectedSameNameRecord.name, 'City of Glendale', 'the rejected same-name filing is retained for disclosure');
-  const glendaleCity = api.relationship(DATA, 'place', 'Glendale (city)');
+  const glendaleCity = api.relationship(FIXTURE, 'place', 'Glendale (city)');
   assert.equal(glendaleCity.record.name, 'City of Glendale', 'the incorporated city still matches its DOLA filing');
   assert.equal(glendaleCity.status, 'Committed', 'the CDP guard does not refuse the incorporated city');
 
@@ -71,10 +89,10 @@ async function main() {
   assert.equal(arapahoeCdp.status, 'Not committed', 'a CDP sharing a county name remains explicitly Not committed');
   assert.equal(arapahoeCdp.rejectedSameNameRecord, null, 'a same-name county filing does not trigger the CDP disclosure');
 
-  const highlandsRanch = api.relationship(DATA, 'cdp', 'Highlands Ranch (CDP)');
+  const highlandsRanch = api.relationship(FIXTURE, 'cdp', 'Highlands Ranch (CDP)');
   assert.equal(highlandsRanch.status, 'Not committed', 'Highlands Ranch remains Not committed under the CDP rule');
-  assert.equal(highlandsRanch.record, null, 'Highlands Ranch does not inherit DOLA\'s anomalous municipal filing');
-  assert.equal(highlandsRanch.rejectedSameNameRecord.name, 'City of Highlands Ranch', 'same-name DOLA anomaly is available to the renderer');
+  assert.equal(highlandsRanch.record, null, 'Highlands Ranch does not inherit a same-name municipal filing');
+  assert.equal(highlandsRanch.rejectedSameNameRecord.name, 'City of Highlands Ranch', 'the rejected same-name filing is available to the renderer');
 
   delete require.cache[require.resolve(RENDERERS)];
   require(RENDERERS);
