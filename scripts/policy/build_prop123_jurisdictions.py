@@ -345,7 +345,9 @@ def main():
     ap.add_argument('--from-dir', help='read saved copies instead of fetching')
     args = ap.parse_args()
     if args.from_dir:
-        rd = lambda f: open(os.path.join(args.from_dir, f), encoding='utf-8').read()
+        def rd(name):
+            with open(os.path.join(args.from_dir, name), encoding='utf-8') as fh:
+                return fh.read()
         src = {'cycle1': rd('cycle1.csv'), 'fasttrack': rd('fasttrack.csv'),
                'filings': rd('commitment-filings.html'), 'compliant': rd('fully-compliant.html')}
     else:
@@ -353,7 +355,10 @@ def main():
                'filings': fetch(FILINGS_PAGE), 'compliant': fetch(COMPLIANT_PAGE)}
     try:
         out = build(src)
-        prev = json.load(open(OUTPUT, encoding='utf-8')) if os.path.exists(OUTPUT) else {}
+        prev = {}
+        if os.path.exists(OUTPUT):
+            with open(OUTPUT, encoding='utf-8') as fh:
+                prev = json.load(fh)
         # DOLA's verifications and second-cycle filings only accumulate, so a
         # smaller count means a list did not parse in full.
         for label, now, before in (
