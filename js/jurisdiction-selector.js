@@ -947,7 +947,19 @@
     if (!raw) return null;
     var WP = global.WorkflowProgress;
     var steps = (WP && Object.prototype.toString.call(WP.STEPS) === '[object Array]')
-      ? WP.STEPS : [];
+      ? WP.STEPS.slice() : [];
+    // A product route sends readers to pages STEPS does not list (the
+    // for-sale route's deal-calculator.html?mode=ownership). Those are the
+    // rail's own hrefs too, so they join the allowlist; nothing else does.
+    if (WP && typeof WP.stepsFor === 'function' && WP.PRODUCTS) {
+      for (var p = 0; p < WP.PRODUCTS.length; p++) {
+        var route = WP.stepsFor(WP.PRODUCTS[p].id);
+        for (var r = 0; r < route.length; r++) {
+          if (route[r].routed) steps.push(route[r]);
+          if (route[r].companion) steps.push(route[r].companion);
+        }
+      }
+    }
     for (var i = 0; i < steps.length; i++) {
       // Return the RAIL's own href, not the string from the URL. They are
       // equal here, so this changes no behaviour — but the value that reaches

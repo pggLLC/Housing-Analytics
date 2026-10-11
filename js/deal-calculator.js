@@ -527,6 +527,20 @@
     document.querySelectorAll('[data-dc-mode="ownership"]').forEach(function (el) {
       el.hidden = !isOwnership;
     });
+    // Tell the guided path which page this is: the ownership-mode calculator
+    // is a different step page from the rental one, however the mode was set
+    // (the toggle, ?mode=ownership, or a restored share link).
+    var page = isOwnership ? 'deal-calculator.html?mode=ownership' : 'deal-calculator.html';
+    if (document.documentElement.getAttribute('data-wf-page') !== page) {
+      document.documentElement.setAttribute('data-wf-page', page);
+      // The document's own window builds the event: test harnesses pair a
+      // jsdom document with Node's globals, and dispatchEvent refuses an
+      // event from another realm.
+      var view = document.defaultView || window;
+      try {
+        document.dispatchEvent(new view.CustomEvent('workflow:page-changed', { detail: { page: page } }));
+      } catch (_) { /* the guided path is optional on this page */ }
+    }
   }
 
   function _fundingUseCaseForDealMode() {
@@ -4797,7 +4811,8 @@
     var radio = document.getElementById('dc-mode-ownership');
     if (!radio || radio.checked) return;
     radio.checked = true;
-    radio.dispatchEvent(new Event('change', { bubbles: true }));
+    var view = radio.ownerDocument.defaultView || window;
+    radio.dispatchEvent(new view.Event('change', { bubbles: true }));
   }
 
   function init() {
