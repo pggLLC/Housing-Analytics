@@ -50,6 +50,10 @@
       ],
       "reviewed_sources": [
         {
+          "url": "https://www.montrosecounty.net/73/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
           "url": "https://www.montrosecounty.net/DocumentCenter/View/26557/Sample-Ballot---City",
           "retrieved": "2026-10-10"
         },
@@ -77,6 +81,10 @@
       ],
       "reviewed_sources": [
         {
+          "url": "https://www.montrosecounty.net/73/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
           "url": "https://www.montrosecounty.net/DocumentCenter/View/26559/Sample-Ballot---West-End",
           "retrieved": "2026-10-10"
         },
@@ -103,6 +111,10 @@
         "The town website loaded on 2026-10-10 (it returned a Cloudflare challenge or HTTP 403 on 2026-09-26). Its Town Board page, with notices posted as of October 5, 2026, lists no election or ballot item."
       ],
       "reviewed_sources": [
+        {
+          "url": "https://www.montrosecounty.net/73/Elections",
+          "retrieved": "2026-09-26"
+        },
         {
           "url": "https://www.montrosecounty.net/DocumentCenter/View/26559/Sample-Ballot---West-End",
           "retrieved": "2026-10-10"
