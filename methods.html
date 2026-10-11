@@ -524,6 +524,35 @@ price    = budget / k                              (0 if budget ≤ 0)</code>
           </p>
         </div>
 
+        <figure class="diagram" aria-labelledby="scoreTreeTitle" data-figure-block="ranking-tree">
+        <p class="diagram__title" id="scoreTreeTitle">How the overall score is built</p>
+        <div class="dg-tree">
+          <div class="dg-tree__col">
+            <div class="dg-tree__group"><span class="dg-tree__label">Need factors</span>
+            <div class="dg-node"><strong>Housing gap <span class="dg-weight" style="display:inline">35%</span></strong><span>the higher of the resident and workforce gaps, each 40% unit count and 60% rate</span></div>
+            <div class="dg-node"><strong>Cost burden <span class="dg-weight" style="display:inline">25%</span></strong><span>renters burdened 40%, severely burdened 30%, deepest income tier 30%</span></div>
+            <div class="dg-node"><strong>Affordability <span class="dg-weight" style="display:inline">15%</span></strong><span>home value to income 50%, rent to income 50%</span></div>
+            <div class="dg-node"><strong>Future pressure <span class="dg-weight" style="display:inline">15%</span></strong><span>20-year units needed 70%, senior growth 30%</span></div>
+            <div class="dg-node"><strong>Overcrowding <span class="dg-weight" style="display:inline">10%</span></strong><span>share of overcrowded households</span></div>
+            </div>
+            <div class="dg-tree__group"><span class="dg-tree__label">Opportunity factors</span>
+            <div class="dg-node dg-node--accent2"><strong>Economic mobility <span class="dg-weight" style="display:inline">35%</span></strong></div>
+            <div class="dg-node dg-node--accent2"><strong>Walkability <span class="dg-weight" style="display:inline">25%</span></strong></div>
+            <div class="dg-node dg-node--accent2"><strong>Amenity access <span class="dg-weight" style="display:inline">25%</span></strong></div>
+            <div class="dg-node dg-node--accent2"><strong>QCT / DDA status <span class="dg-weight" style="display:inline">15%</span></strong></div>
+            </div>
+          </div>
+          <div class="dg-tree__col dg-tree__join">
+            <div class="dg-node dg-node--soft"><strong>Community need <span class="dg-weight" style="display:inline">55%</span></strong><span>raised by up to 20% where many workers commute in</span></div>
+            <div class="dg-node dg-node--accent2"><strong>Opportunity <span class="dg-weight" style="display:inline">45%</span></strong></div>
+          </div>
+          <div class="dg-tree__col dg-tree__join">
+            <div class="dg-node dg-node--accent"><strong>Overall score <span class="dg-weight" style="display:inline"></span></strong><span>55% need percentile + 45% opportunity, scaled down when data are thin</span></div>
+          </div>
+        </div>
+        <figcaption>Every factor is a percentile among the same type of place: counties against counties, towns and CDPs against towns and CDPs. Percentages are the weights in Table 3, read from <code>scripts/hna/build_ranking_index.py</code>. When a factor is missing, the rest are reweighted to sum to 100%.</figcaption>
+          </figure>
+
         <div class="mx-eq">
           <span class="lbl">Sub-scores (each part a within-type percentile)</span>
           <code>gap_resident   = w_c·pct(gap_count) + w_r·pct(gap_rate)
