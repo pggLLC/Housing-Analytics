@@ -190,33 +190,43 @@ test('with no jurisdiction there is no path strip to invent', () => {
 /* 4 ── score tree ──────────────────────────────────────────────────────── */
 const params = json('data/paper/model-parameters.json').ranking;
 const methods = new JSDOM(read('methods.html')).window.document;
-const tree = methods.querySelector('figure[data-figure-block="ranking-tree"]');
+// methods.html is generated: a PR commits only the empty placeholder and CI
+// fills it. So the tree is built here, into a copy, by the same injector.
+function builtTree() {
+  const os = require('os');
+  const { execFileSync } = require('child_process');
+  const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'methods-')), 'methods.html');
+  fs.copyFileSync(path.join(ROOT, 'methods.html'), tmp);
+  execFileSync(process.execPath, [path.join(ROOT, 'scripts/paper/inject-paper-figures.mjs')],
+    { env: Object.assign({}, process.env, { PAPER_PAGE: tmp }), stdio: 'pipe' });
+  const doc = new JSDOM(fs.readFileSync(tmp, 'utf8')).window.document;
+  return doc.querySelector('figure[data-figure-block="ranking-tree"]');
+}
 const pct = (w) => `${Math.round(w * 100)}%`;
-const PLAIN = {
-  gap_pressure_score: 'Housing gap', cost_burden_pressure_score: 'Cost burden',
-  affordability_intensity_score: 'Affordability', future_pressure_score: 'Future pressure',
-  overcrowding_score: 'Overcrowding', opportunity_mobility_score: 'Economic mobility',
-  walkability_score: 'Walkability', amenity_access_score: 'Amenity access', qct_dda_score: 'QCT / DDA status',
-};
 
-test('every Table 3 weight appears in the score tree beside its factor', () => {
-  assert.ok(tree, 'methods.html has no ranking-tree figure');
-  const nodes = Array.from(tree.querySelectorAll('.dg-node strong')).map((n) => n.textContent.replace(/\s+/g, ' ').trim());
-  const want = [];
-  for (const [k, w] of Object.entries(params.community_need_weights)) want.push(`${PLAIN[k] || k} ${pct(w)}`);
-  for (const [k, w] of Object.entries(params.opportunity_weights)) want.push(`${PLAIN[k] || k} ${pct(w)}`);
-  want.push(`Community need ${pct(params.axis_weights.community_need)}`);
-  want.push(`Opportunity ${pct(params.axis_weights.opportunity)}`);
-  assert.ok(want.length >= 11, 'fewer weights than expected; the scan would be blind');
-  for (const label of want) {
-    assert.ok(nodes.includes(label), `the tree has no "${label}" (it shows: ${nodes.join(' | ')})`);
+test('methods.html keeps the score-tree placeholder the injector fills', () => {
+  assert.ok(methods.querySelector('figure.diagram[data-figure-block="ranking-tree"]'),
+    'methods.html has no ranking-tree placeholder');
+});
+
+test('every Table 3 weight appears in the score tree on its own factor', () => {
+  const tree = builtTree();
+  assert.ok(tree, 'the injector left no ranking-tree figure');
+  const want = Object.assign({}, params.community_need_weights, params.opportunity_weights, params.axis_weights);
+  assert.ok(Object.keys(want).length >= 11, 'fewer weights than expected; the scan would be blind');
+  for (const [k, w] of Object.entries(want)) {
+    const node = tree.querySelector(`.dg-node[data-factor="${k}"] .dg-weight`);
+    assert.ok(node, `the tree has no node for "${k}"`);
+    assert.strictEqual(node.textContent.trim(), pct(w), `"${k}" shows ${node.textContent.trim()}, Table 3 says ${pct(w)}`);
     checks += 1;
   }
+  const keyed = tree.querySelectorAll('.dg-node[data-factor]').length;
+  assert.strictEqual(keyed, Object.keys(want).length, 'the tree draws a factor Table 3 does not list');
   const text = tree.textContent.replace(/\s+/g, ' ');
   const sw = params.subscore_weights;
-  for (const part of [`${pct(sw.gap.count)} unit count and ${pct(sw.gap.rate)} rate`,
-    `up to ${pct(sw.commuter.augment_alpha)}`, `home value to income ${pct(sw.affordability.homebuyer)}`]) {
-    assert.ok(text.includes(part), `the tree does not say "${part}"`);
+  for (const part of [pct(sw.gap.count), pct(sw.gap.rate), pct(sw.commuter.augment_alpha),
+    pct(sw.cost_burden.severe), pct(sw.future.units)]) {
+    assert.ok(text.includes(part), `the tree does not carry the sub-weight ${part}`);
     checks += 1;
   }
 });

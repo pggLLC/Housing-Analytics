@@ -1016,6 +1016,7 @@ mark {
    swapped stop is an accent2 ring on a tint with ordinary strong text. */
 .diagram .dg-route > li[data-routed="true"] .dg-route__num { color: var(--text-strong) !important; }
 .dg-route > li[data-optional="true"][data-routed="true"] .dg-route__num { background: var(--card); border: 2px dashed var(--accent2); }
+.dg-route__label, .dg-route__also, .dg-tile a { display: flex; align-items: center; justify-content: flex-start; text-align: left; min-height: 44px; min-width: 44px; }
 .dg-route__label { font-weight: 700; font-size: .86rem; line-height: 1.25; overflow-wrap: anywhere; }
 .dg-route__answers { font-size: .78rem; color: var(--muted); line-height: 1.35; }
 .dg-route__also { font-size: .76rem; padding: .2rem .4rem; border-radius: 4px; background: var(--accent2-dim); border-left: 3px solid var(--accent2); }

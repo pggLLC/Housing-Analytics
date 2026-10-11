@@ -171,12 +171,12 @@ const BLOCKS = {
       amenity_access_score: 'Amenity access',
       qct_dda_score: 'QCT / DDA status',
     };
-    const node = (cls, title, weight, detail) => `
-            <div class="dg-node${cls}"><strong>${esc(title)} <span class="dg-weight" style="display:inline">${weight}</span></strong>${detail ? `<span>${detail}</span>` : ''}</div>`;
+    const node = (cls, title, weight, detail, key) => `
+            <div class="dg-node${cls}"${key ? ` data-factor="${esc(key)}"` : ''}><strong>${esc(title)} <span class="dg-weight" style="display:inline">${weight}</span></strong>${detail ? `<span>${detail}</span>` : ''}</div>`;
     const need = Object.entries(r.community_need_weights)
-      .map(([k, w]) => node('', NEED[k] ? NEED[k][0] : k, pct(w), NEED[k] ? NEED[k][1] : '')).join('');
+      .map(([k, w]) => node('', NEED[k] ? NEED[k][0] : k, pct(w), NEED[k] ? NEED[k][1] : '', k)).join('');
     const opp = Object.entries(r.opportunity_weights || {})
-      .map(([k, w]) => node(' dg-node--accent2', OPP[k] || k, pct(w), '')).join('');
+      .map(([k, w]) => node(' dg-node--accent2', OPP[k] || k, pct(w), '', k)).join('');
     const alpha = g('commuter').augment_alpha;
     return `
         <p class="diagram__title" id="scoreTreeTitle">How the overall score is built</p>
@@ -187,12 +187,12 @@ const BLOCKS = {
             <div class="dg-tree__group"><span class="dg-tree__label">Opportunity factors</span>${opp}
             </div>
           </div>
-          <div class="dg-tree__col dg-tree__join">${node(' dg-node--soft', 'Community need', pct(r.axis_weights.community_need), `raised by up to ${pct(alpha)} where many workers commute in`)}${node(' dg-node--accent2', 'Opportunity', pct(r.axis_weights.opportunity), '')}
+          <div class="dg-tree__col dg-tree__join">${node(' dg-node--soft', 'Community need', pct(r.axis_weights.community_need), `raised by up to ${pct(alpha)} where many workers commute in`, 'community_need')}${node(' dg-node--accent2', 'Opportunity', pct(r.axis_weights.opportunity), '', 'opportunity')}
           </div>
           <div class="dg-tree__col dg-tree__join">${node(' dg-node--accent', 'Overall score', '', `${pct(r.axis_weights.community_need)} need percentile + ${pct(r.axis_weights.opportunity)} opportunity, scaled down when data are thin`)}
           </div>
         </div>
-        <figcaption>Every factor is a percentile among the same type of place: counties against counties, towns and CDPs against towns and CDPs. Percentages are the weights in Table 3, read from <code>scripts/hna/build_ranking_index.py</code>. When a factor is missing, the rest are reweighted to sum to 100%.</figcaption>`;
+        <figcaption>Every factor is a percentile among the same type of place: counties against counties, towns against towns, and CDPs against CDPs. Percentages are the weights in Table 3, read from <code>scripts/hna/build_ranking_index.py</code>. When a factor is missing, the rest are reweighted to sum to 100%.</figcaption>`;
   },
 
   'tractable-rows'() {
