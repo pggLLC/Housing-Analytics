@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-11T03:49:02.125Z",
+    "generated_at": "2026-10-11T04:30:41.475Z",
     "root": "data/",
-    "file_count": 1709,
-    "total_size_bytes": 179114496,
+    "file_count": 1710,
+    "total_size_bytes": 179275523,
     "kinds": {
-      "json": 1672,
+      "json": 1673,
       "geojson": 33,
       "csv": 4
     }
@@ -30545,15 +30545,16 @@
     {
       "path": "kalshi/prediction-market.json",
       "kind": "json",
-      "size_bytes": 1428,
-      "mtime": "2026-10-04T10:43:30.791Z",
+      "size_bytes": 1598,
+      "mtime": "2026-10-11T04:30:25.882Z",
       "shape": "object",
       "keys": [
         "updated",
         "source",
-        "items"
+        "items",
+        "note"
       ],
-      "key_count": 3,
+      "key_count": 4,
       "primary_array_key": "items",
       "primary_array_length": 1,
       "primary_array_first_keys": [
@@ -30587,8 +30588,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 217208,
-      "mtime": "2026-10-11T03:48:31.575Z",
+      "size_bytes": 217328,
+      "mtime": "2026-10-11T04:30:39.370Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30679,7 +30680,7 @@
       "path": "market/apartment_list_co.json",
       "kind": "json",
       "size_bytes": 5646,
-      "mtime": "2026-09-25T12:55:18.827Z",
+      "mtime": "2026-10-11T04:30:32.881Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31968,8 +31969,8 @@
     {
       "path": "market/zori_rents_co.json",
       "kind": "json",
-      "size_bytes": 24712,
-      "mtime": "2026-09-25T12:55:19.118Z",
+      "size_bytes": 25688,
+      "mtime": "2026-10-11T04:30:29.281Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34790,6 +34791,24 @@
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
+    },
+    {
+      "path": "polymarket-history.json",
+      "kind": "json",
+      "size_bytes": 159761,
+      "mtime": "2026-10-11T04:30:26.084Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "rows"
+      ],
+      "key_count": 2,
+      "primary_array_key": "rows",
+      "primary_array_length": 181,
+      "primary_array_first_keys": [
+        "date",
+        "events"
+      ]
     },
     {
       "path": "processed/co_county_housing_indicators.geojson",
