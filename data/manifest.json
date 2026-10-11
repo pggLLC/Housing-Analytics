@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-11T11:05:37.897201Z",
+  "generated": "2026-10-11T11:49:47.646114Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8404,7 +8404,7 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 32078
+      "bytes": 37056
     },
     "data/policy/thiz-map-status.json": {
       "featureCount": 0,
@@ -8429,7 +8429,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 25669
+      "bytes": 30211
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,
