@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-10T13:58:17.791Z",
+  "generated_at": "2026-10-11T14:21:51.628Z",
   "summary": {
     "schema": "pass",
     "sentinel": "pass",
     "bounds": "pass",
-    "freshness": "fail",
+    "freshness": "pass",
     "plausibility": "pass"
   },
   "layers": {
@@ -20,15 +20,15 @@
     },
     "bounds": {
       "status": "pass",
-      "output_tail": "OK data/co-county-boundaries.json: 64 features\nOK data/boundaries/counties_co.geojson: 64 features\nOK data/qct-colorado.json: 224 features\nOK data/dda-colorado.json: 10 features\nCritical data validation passed.\nOK (market) data/market/acs_tract_metrics_co.json: 1447 features/records\nOK (market) data/market/tract_centroids_co.json: 1447 features/records\nOK (market) data/market/tract_boundaries_co.geojson: 1447 features/records\nOK (market) data/chfa-lihtc.json: 926 features/records\nOK (market) data/chfa-lihtc.json: max YR_PIS 2025\nOK (market) data/market/hud_lihtc_co.geojson: 926 features/records\n  (bounds) Checked 4343 values across 6 files\nAll numeric bound checks passed.\nOK data/hud-fmr-income-limits.json: 53 distinct counties[].income_limits.ami_4person values\nOK data/policy/soft-funding-status.json: lastUpdated=2026-10-09 age 1 days (SLA 90)\nOK url-health sweep coverage: data/policy/*.json is included in the weekly URL-health sweep.\nOK data/policy/soft-funding-status.json: 27/27 programs expose non-null contactUrl for weekly URL-health sweep coverage.\n",
+      "output_tail": "OK data/co-county-boundaries.json: 64 features\nOK data/boundaries/counties_co.geojson: 64 features\nOK data/qct-colorado.json: 224 features\nOK data/dda-colorado.json: 10 features\nCritical data validation passed.\nOK (market) data/market/acs_tract_metrics_co.json: 1447 features/records\nOK (market) data/market/tract_centroids_co.json: 1447 features/records\nOK (market) data/market/tract_boundaries_co.geojson: 1447 features/records\nOK (market) data/chfa-lihtc.json: 926 features/records\nOK (market) data/chfa-lihtc.json: max YR_PIS 2025\nOK (market) data/market/hud_lihtc_co.geojson: 926 features/records\n  (bounds) Checked 4344 values across 6 files\nAll numeric bound checks passed.\nOK data/hud-fmr-income-limits.json: 53 distinct counties[].income_limits.ami_4person values\nOK data/policy/soft-funding-status.json: lastUpdated=2026-10-09 age 2 days (SLA 90)\nOK url-health sweep coverage: data/policy/*.json is included in the weekly URL-health sweep.\nOK data/policy/soft-funding-status.json: 27/27 programs expose non-null contactUrl for weekly URL-health sweep coverage.\n",
       "error": null
     },
     "freshness": {
-      "status": "fail",
+      "status": "pass",
       "files": [
         {
           "status": "OK",
-          "ageDays": 6.1,
+          "ageDays": 0.1,
           "slaDays": 9,
           "source": "field:metadata.generatedAt",
           "file": "data/hna/ranking-index.json"
@@ -42,7 +42,7 @@
         },
         {
           "status": "OK",
-          "ageDays": 12.8,
+          "ageDays": 0.6,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/market/acs_tract_metrics_co.json"
@@ -56,21 +56,21 @@
         },
         {
           "status": "OK",
-          "ageDays": 5.1,
+          "ageDays": 6.1,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hud-fmr-income-limits.json"
         },
         {
           "status": "OK",
-          "ageDays": 153.5,
+          "ageDays": 154.5,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hna/chas_affordability_gap.json"
         },
         {
           "status": "OK",
-          "ageDays": 6.3,
+          "ageDays": 0.1,
           "slaDays": 95,
           "source": "field:fetchedAt",
           "file": "data/market/hud_lihtc_co.geojson"
@@ -91,58 +91,72 @@
         },
         {
           "status": "OK",
-          "ageDays": 9.1,
+          "ageDays": 10.2,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/market/cdphe_county_boundaries_co.geojson"
         },
         {
           "status": "OK",
-          "ageDays": 6.1,
+          "ageDays": 0.1,
           "slaDays": 95,
           "source": "field:meta.generated",
           "file": "data/market/transit_routes_co.geojson"
         },
         {
           "status": "OK",
-          "ageDays": 6.1,
+          "ageDays": 0.1,
           "slaDays": 16,
           "source": "field:meta.generated",
           "file": "data/amenities/transit_stops_statewide_co.geojson"
         },
         {
           "status": "OK",
-          "ageDays": 6.1,
+          "ageDays": 0.1,
           "slaDays": 16,
           "source": "field:meta.generated",
           "file": "data/market/transit_stops_coverage_co.json"
         },
         {
           "status": "OK",
-          "ageDays": 6.1,
+          "ageDays": 0.1,
           "slaDays": 16,
           "source": "field:meta.generated",
           "file": "data/hna/transit-zone-by-geography.json"
         },
         {
-          "status": "STALE",
-          "ageDays": 14.6,
+          "status": "OK",
+          "ageDays": 0.6,
           "slaDays": 14,
           "source": "field:last_checked",
           "file": "data/policy/thiz-map-status.json"
+        },
+        {
+          "status": "OK",
+          "ageDays": 0.1,
+          "slaDays": 9,
+          "source": "field:fetchedAt",
+          "file": "data/chfa-lihtc.json"
+        },
+        {
+          "status": "OK",
+          "ageDays": 143.6,
+          "slaDays": 200,
+          "source": "field:2026-round-one.json",
+          "file": "announcement_date"
         }
       ],
-      "ok": 14,
-      "stale": 1,
+      "ok": 17,
+      "stale": 0,
       "missing": 0
     },
     "plausibility": {
       "status": "pass",
       "passed": 21,
       "failed": 0,
-      "output_tail": ".....................                                                    [100%]\nWCAG COMPLIANCE SCORE: 100%\n21 passed, 988 deselected in 1.68s\n"
+      "output_tail": ".....................                                                    [100%]\nWCAG COMPLIANCE SCORE: 100%\n21 passed, 1017 deselected in 2.08s\n"
     }
   },
   "qa_doc": "docs/CONTRIBUTING.md#qaqc-layers",
-  "overall": "warn"
+  "overall": "ok"
 }

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-11T13:59:36.590817Z",
+  "generated": "2026-10-11T14:21:58.905522Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9,7 +9,7 @@
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7351
+      "bytes": 7711
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
