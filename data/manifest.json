@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-11T08:11:18.185061Z",
+  "generated": "2026-10-11T09:31:35.680909Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7804,7 +7804,7 @@
     "data/market/redfin_place_market_tracker_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2325841
+      "bytes": 2325853
     },
     "data/market/reference-projects.json": {
       "featureCount": 0,
