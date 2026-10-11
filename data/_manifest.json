@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-11T12:05:03.291Z",
+    "generated_at": "2026-10-11T12:36:59.765Z",
     "root": "data/",
     "file_count": 1711,
-    "total_size_bytes": 180124899,
+    "total_size_bytes": 180132728,
     "kinds": {
       "json": 1674,
       "geojson": 33,
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-11T12:04:59.466Z",
+      "mtime": "2026-10-11T12:36:55.993Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -32054,7 +32054,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15108,
-      "mtime": "2026-10-11T12:05:01.330Z",
+      "mtime": "2026-10-11T12:36:57.854Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32078,7 +32078,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-11T12:05:00.881Z",
+      "mtime": "2026-10-11T12:36:57.435Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34623,8 +34623,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 37056,
-      "mtime": "2026-10-11T11:32:06.947Z",
+      "size_bytes": 40851,
+      "mtime": "2026-10-11T12:35:29.371Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -34761,8 +34761,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 66831,
-      "mtime": "2026-10-11T12:03:32.856Z",
+      "size_bytes": 70865,
+      "mtime": "2026-10-11T12:35:29.373Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34770,7 +34770,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 8,
+      "primary_array_length": 9,
       "primary_array_first_keys": [
         "id",
         "title",

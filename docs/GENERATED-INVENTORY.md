@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T12:04:36.487Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T12:36:32.975Z. Do not edit by hand.
 
 ---
 
@@ -1736,12 +1736,12 @@
 | `data/policy/resident-services.json` | 34.4 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 43.5 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 36.2 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 39.9 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 243.1 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 65.3 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 69.2 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
 | `data/polymarket-history.json` | 156.0 KB | ✅ | — |
@@ -2052,7 +2052,7 @@
 | `test/lihtc-project-size.test.js` | 6.8 KB |
 | `test/livability-brief.test.mjs` | 7.5 KB |
 | `test/local-incentives.test.mjs` | 11.4 KB |
-| `test/local-resources-discovery.test.js` | 2.0 KB |
+| `test/local-resources-discovery.test.js` | 8.0 KB |
 | `test/local-resources-entry-completeness.test.js` | 3.3 KB |
 | `test/local-support.test.mjs` | 12.6 KB |
 | `test/lodes-tract-od.test.js` | 5.6 KB |
@@ -2141,7 +2141,7 @@
 | `test/pma-transit-stops.test.js` | 30.4 KB |
 | `test/pma-transit.test.js` | 15.9 KB |
 | `test/pmi-gate-is-one-rule.test.mjs` | 11.2 KB |
-| `test/policy-briefs-curated.test.js` | 56.5 KB |
+| `test/policy-briefs-curated.test.js` | 70.7 KB |
 | `test/policy-data-currency.test.js` | 3.2 KB |
 | `test/policy-page-currency.test.mjs` | 6.0 KB |
 | `test/policy-review-status.test.mjs` | 11.5 KB |
@@ -2232,7 +2232,7 @@
 | `test/test_fmr_flatten_guard.py` | 10.1 KB |
 | `test/test_hna_market_bridge.js` | 14.6 KB |
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
-| `test/test_legislative_tracker.js` | 10.5 KB |
+| `test/test_legislative_tracker.js` | 10.7 KB |
 | `test/test_lihtc_deal_predictor.js` | 21.6 KB |
 | `test/test_public_land_overlay.js` | 12.0 KB |
 | `test/test_qcew_annual_slice.py` | 8.0 KB |
