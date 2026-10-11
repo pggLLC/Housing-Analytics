@@ -255,9 +255,82 @@
       "related_source_urls": [
         "https://leg.colorado.gov/bills/hb23-1190"
       ],
-      "source_note": "Colorado General Assembly HB24-1175 bill page: signed 2024-05-30, effective 2024-08-07 (session law chapter 286); summary says both rights \"terminate on December 31, 2029\" unless exercised before then (re-read 2026-10-10). No amending 2025 or 2026 bill was found, though the legislature's search could not confirm that conclusively. HB23-1190 is related prior-session ROFR legislation but was vetoed and did not become law.",
-      "last_verified": "2026-10-10",
-      "review_by": "2027-01-08"
+      "source_note": "Colorado General Assembly HB24-1175 bill page and the signed act as published in the 2024 session laws (chapter 286), both re-read 2026-10-11. The act adds part 12 to article 4 of title 29, C.R.S. (29-4-1201 to 29-4-1208), approved 2024-05-30, effective 2024-08-07 (the day after the 90-day referendum period). 29-4-1202: right of first refusal with a matched offer on multifamily or mixed-use rental property of not less than five units that is existing affordable housing (excluding mobile home parks). 29-4-1203: right of first offer on such property of not less than 15 and not more than 100 units that is not existing affordable housing. 29-4-1205 exemptions include (1)(f), a seller that has applied for, is in the process of, or has completed a resyndication or recapitalization under a public affordable housing program and gives the local government notice and evidence; the rights apply if that effort fails. 29-4-1206 limits remedies to damages and statutory penalties against the seller. 29-4-1207: both rights \"terminate on December 31, 2029\", except that a process exercised before then continues until it concludes. 29-4-1208 repeals part 12 effective July 1, 2031. No amending 2025 or 2026 bill was found, though the legislature's search could not confirm that conclusively. HB23-1190 is related prior-session ROFR legislation but was vetoed and did not become law.",
+      "last_verified": "2026-10-11",
+      "review_by": "2027-01-08",
+      "approved_date": "2024-05-30",
+      "act": {
+        "statute": "C.R.S. 29-4-1201 to 29-4-1208 (part 12 of article 4 of title 29)",
+        "session_law": "2024 Colo. Sess. Laws, chapter 286",
+        "sections": [
+          "29-4-1201",
+          "29-4-1202",
+          "29-4-1203",
+          "29-4-1204",
+          "29-4-1205",
+          "29-4-1206",
+          "29-4-1207",
+          "29-4-1208"
+        ],
+        "long_term_affordability_years": 40,
+        "assignees": [
+          "a housing authority within the local government's jurisdiction",
+          "a regional housing authority serving it",
+          "the Colorado Housing and Finance Authority"
+        ],
+        "source_url": "https://leg.colorado.gov/laws/session-laws/HB24-1175/286/download",
+        "last_verified": "2026-10-11"
+      },
+      "rofr": {
+        "section": "29-4-1202",
+        "min_units": 5,
+        "property": "multifamily residential or mixed-use rental property that is existing affordable housing (subject to a restricted-use covenant or similar recorded affordability agreement), excluding mobile home parks",
+        "expiration_notice_years_before": 2,
+        "expiration_notice_months_before": 6,
+        "expiration_notice_to": "the Colorado Housing and Finance Authority and the local government",
+        "seller_notice_days": 14,
+        "triggering_events": "the first of: a material departure from the expiration notices indicating intent to sell, a signed letter of intent, option or other conditional agreement with a buyer, listing the property, or a conditional acceptance of an offer",
+        "intent_notice_days": 14,
+        "intent_notice": "the local government makes a good-faith effort to tell the seller, as soon as possible and not later than 14 calendar days after receiving the seller's notice, whether it intends to preserve or waive the right; the notice is nonbinding",
+        "offer_days": 30,
+        "close_days": 60,
+        "close_exception": "if the seller has an entirely cash third-party offer, the local government must close within the period in that offer",
+        "price_reduction_pct": 5,
+        "change_notice_days": 7,
+        "change_trigger": "the price in the seller's notice is reduced by 5 percent or more, or its terms or conditions materially change; the local government may exercise or re-exercise the right",
+        "extension": "any time period in 29-4-1202 may be extended by written agreement between the local government (or its assignee) and the seller"
+      },
+      "rofo": {
+        "section": "29-4-1203",
+        "min_units": 15,
+        "max_units": 100,
+        "property": "multifamily residential or mixed-use rental property that is not existing affordable housing, excluding mobile home parks",
+        "exempt_if_first_certificate_of_occupancy_within_years": 30,
+        "notice_timing": "before the seller enters into an agreement with a licensed broker to solicit purchasers or otherwise lists the property on the multiple listing service",
+        "also_allows": "mixed-income development"
+      },
+      "exemptions": {
+        "section": "29-4-1205",
+        "resyndication": "(1)(f): seller has applied for, is in the process of, or has completed a resyndication or recapitalization under a federal, state or local affordable housing program, and gives the local government notice and demonstrable evidence; if unsuccessful, the rights apply"
+      },
+      "remedies": {
+        "section": "29-4-1206",
+        "min_penalty_first": 10000,
+        "min_penalty_subsequent": 30000,
+        "max_penalty": 100000,
+        "limited_to": "monetary damages and statutory penalties against the seller",
+        "title_free_of_rights": true
+      },
+      "termination": {
+        "section": "29-4-1207",
+        "date": "2029-12-31",
+        "in_process_continues": true
+      },
+      "repeal": {
+        "section": "29-4-1208",
+        "date": "2031-07-01"
+      },
+      "analysis_url": "research-brief.html?id=hb24-1175-rofr-rofo-2026"
     },
     {
       "id": "hb26-1065-transit-housing-investment-zones",
