@@ -320,6 +320,7 @@
     "test:colorado-elections": "node --test test/colorado-elections.test.mjs",
     "test:coho-reminders": "node --test test/coho-reminders.test.mjs",
     "test:research-brief": "node --test test/research-brief.test.mjs",
+    "test:livability-brief": "node --test test/livability-brief.test.mjs",
     "test:resident-services": "node test/resident-services.test.mjs",
     "test:policy-briefs-curated": "node test/policy-briefs-curated.test.js",
     "test:fee-reductions-surfaces": "node test/fee-reductions-surfaces.test.js",
@@ -482,7 +483,6 @@
     "test:soft-funding-terms": "node test/soft-funding-terms.test.js",
     "test:predictor-policy": "node test/predictor-policy.test.js && node test/predictor-policy-browser.test.js",
     "test:deal-engine": "node test/deal-engine.test.js && node test/deal-engine-golden.test.js",
-    "test:livability-brief": "node --test test/livability-brief.test.mjs",
     "test:shared-equity-brief": "node --test test/shared-equity-brief.test.mjs"
   },
   "dependencies": {
