@@ -297,13 +297,14 @@
         .sort(function (a, b) { return b.origs - a.origs; })
         .slice(0, 10);
 
-      var html = '<table style="width:100%;border-collapse:collapse;font-size:.88rem;">' +
+      var hy = escapeHtml(latest).replace(/"/g, '&quot;');
+      var html = '<table data-export="dd-hmda-top10" style="width:100%;border-collapse:collapse;font-size:.88rem;">' +
         '<thead><tr>' +
           '<th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border,#333);">County</th>' +
-          '<th style="text-align:right;padding:.4rem .6rem;border-bottom:1px solid var(--border,#333);">Originations</th>' +
-          '<th style="text-align:right;padding:.4rem .6rem;border-bottom:1px solid var(--border,#333);">Volume ($M)</th>' +
-          '<th style="text-align:right;padding:.4rem .6rem;border-bottom:1px solid var(--border,#333);">Denial Rate</th>' +
-          '<th style="text-align:right;padding:.4rem .6rem;border-bottom:1px solid var(--border,#333);">MF Loans</th>' +
+          '<th style="text-align:right;padding:.4rem .6rem;border-bottom:1px solid var(--border,#333);" data-tip="Mortgage loans originated on properties in the county in ' + hy + ' (CFPB HMDA).">Originations</th>' +
+          '<th style="text-align:right;padding:.4rem .6rem;border-bottom:1px solid var(--border,#333);" data-tip="Total amount of the loans originated in ' + hy + ', in millions of dollars.">Volume ($M)</th>' +
+          '<th style="text-align:right;padding:.4rem .6rem;border-bottom:1px solid var(--border,#333);" data-tip="Applications denied as a share of applications with a decision, ' + hy + '.">Denial Rate</th>' +
+          '<th style="text-align:right;padding:.4rem .6rem;border-bottom:1px solid var(--border,#333);" data-tip="Originated loans secured by multifamily properties (five or more units), ' + hy + '.">MF Loans</th>' +
         '</tr></thead><tbody>';
       rows.forEach(function (r) {
         html += '<tr>' +

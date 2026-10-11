@@ -116,7 +116,7 @@
 
   var chart = null;
 
-  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function fmt(n) { return n == null ? '—' : Number(n).toLocaleString(); }
   function cssVar(name, fallback) {
     var v = (getComputedStyle(document.documentElement).getPropertyValue(name) || '').trim();
@@ -124,9 +124,29 @@
   }
   function color(key) { return function () { return cssVar(TOKENS[key], '#096e65'); }; }
 
-  function table(caption, headers, rows) {
-    return '<div style="overflow-x:auto;"><table class="ht-bench-table ht-data-table"><caption class="sr-only">' + esc(caption) + '</caption><thead><tr>' +
-      headers.map(function (h, i) { return '<th scope="col"' + (i ? ' style="text-align:right"' : '') + '>' + esc(h) + '</th>'; }).join('') +
+  // Header definitions the page shows and the table download repeats
+  // (js/components/table-export.js); keyed by header text.
+  var TIPS = {
+    'Award period': 'Five-year window of award years.',
+    'Projects': 'Developments awarded tax credits.',
+    'Median, all': 'Median housing units per development, all credit types.',
+    'Median 9% (projects)': 'Median units per 9% development, with the number of 9% developments in parentheses.',
+    'Median 4% (projects)': 'Median units per 4% development, with the number of 4% developments in parentheses.',
+    'Size': 'Development size band, in housing units.',
+    'Share of projects': 'Share of all developments that fall in this size band.',
+    '9%': 'Developments in this size band awarded 9% (competitive) credits.',
+    '4%': 'Developments in this size band awarded 4% credits with tax-exempt bonds.',
+    'Other / mixed': 'Developments in this size band with another or mixed credit type.',
+    'Average units': 'Mean housing units per development in the county.',
+    'Median units': 'Median housing units per development in the county.',
+    'Largest project': 'Housing units in the county\u2019s largest development.'
+  };
+
+  function table(caption, headers, rows, exportId) {
+    return '<div style="overflow-x:auto;"><table class="ht-bench-table ht-data-table"' + (exportId ? ' data-export="' + esc(exportId) + '"' : '') + '><caption class="sr-only">' + esc(caption) + '</caption><thead><tr>' +
+      headers.map(function (h, i) {
+        return '<th scope="col"' + (i ? ' style="text-align:right"' : '') + (TIPS[h] ? ' data-tip="' + esc(TIPS[h]) + '"' : '') + '>' + esc(h) + '</th>';
+      }).join('') +
       '</tr></thead><tbody>' +
       rows.map(function (r) {
         return '<tr>' + r.map(function (v, i) {
@@ -212,7 +232,7 @@
           return [p.label, fmt(p.projects), fmt(p.units), fmt(p.median),
             p.nine.median == null ? '—' : fmt(p.nine.median) + ' (' + p.nine.projects + ')',
             p.four.median == null ? '—' : fmt(p.four.median) + ' (' + p.four.projects + ')'];
-        })) + '</details>');
+        }), 'dd-lihtc-size-period') + '</details>');
 
     show('sizeBandTable',
       '<p class="ht-stat-caption">Projects by size, ' + esc(result.range) + '</p>' +
@@ -220,7 +240,7 @@
         ['Size', 'Projects', 'Share of projects', 'Units', '9%', '4%', 'Other / mixed'],
         result.bands.map(function (b) {
           return [b.label, fmt(b.projects), Math.round(100 * b.projects / result.projects) + '%', fmt(b.units), fmt(b.nine), fmt(b.four), fmt(b.other)];
-        })));
+        }), 'dd-lihtc-size-band'));
 
     show('sizeCountyTable',
       '<details class="ht-table-toggle"><summary>Project size by county (' + result.counties.length + ' counties with LIHTC projects)</summary>' +
@@ -228,7 +248,7 @@
         ['County', 'Projects', 'Units', 'Average units', 'Median units', 'Largest project'],
         result.counties.map(function (c) {
           return [c.county, fmt(c.projects), fmt(c.units), fmt(c.average), fmt(c.median), fmt(c.largest)];
-        })) + '</details>');
+        }), 'dd-lihtc-size-county') + '</details>');
   }
 
   function render() {
