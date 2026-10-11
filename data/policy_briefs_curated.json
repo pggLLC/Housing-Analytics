@@ -1,7 +1,7 @@
 {
   "meta": {
-    "updated": "2026-09-29T00:00:00Z",
-    "brief_count": 3,
+    "updated": "2026-10-11T00:00:00Z",
+    "brief_count": 4,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
@@ -143,6 +143,391 @@
         "Statewide"
       ],
       "generated": "2026-09-29T00:00:00Z"
+    },
+    {
+      "id": "livability-universal-design-2026",
+      "title": "Livability beyond the pro forma: universal design, privacy, shared space and green infrastructure in affordable housing",
+      "policy_topic": "Design & Livability",
+      "is_curated": true,
+      "source_reviewed": true,
+      "generated": "2026-10-11T00:00:00Z",
+      "verified": "2026-10-11",
+      "takeaway": "Design for everyone who will live in the building over its life: step-free, easy to understand, quiet, private and green. That is where the evidence for livability is strongest, CHFA already requires or scores part of it, and the rest costs least when it is settled before the first drawing.",
+      "summary": "The qualities residents feel every day, such as whether they can get in the door, find their way, close a door for privacy, meet a neighbor or look at a tree, do not appear in a pro forma. The research on them is uneven. Evidence is strongest for green infrastructure: a randomized trial in Philadelphia found that greening vacant lots reduced shootings, and a second analysis of the same trial found that nearby residents reported feeling depressed less often. Following the same people over 17 years, a UK panel study found that people reported higher life satisfaction and less distress in the years they lived in greener urban areas. Evidence on universal design is mostly about need rather than outcomes: under 5% of U.S. homes are livable for someone with moderate mobility difficulties and under 1% are wheelchair accessible, while the people who will need those features are a large and growing share of residents over a building's life. Evidence on shared space and on privacy is real but mostly observational or qualitative. CHFA's 2027-28 QAP Third Draft already requires green building certification, water-wise landscaping and the same unit design for every income tier, and awards two points for universal design or accessible Type A units in at least 5% of units.",
+      "implications": "Treat universal design as the organizing idea rather than an add-on: a building that a wheelchair user, a parent with a stroller, an older resident and a new arrival who does not read English can all use without help is also easier to lease, manage and keep occupied. Most of it is cheap only at the start. Step-free routes, door widths, blocking for grab bars and room sizes are set by the site plan and the first floor plans, and are expensive to change later. Green infrastructure in Colorado should mean shade trees, native and water-wise planting and usable outdoor rooms, because CHFA now limits non-functional turf. Put shared rooms on the routes residents already walk, such as the entry, mailroom and laundry, rather than behind a locked door at the end of a corridor. Do not put a dollar value on any of this in a deal model. The studies do not support one, and a made-up number is worse than none. Use this brief to decide design priorities and to write the QAP narrative, and use the Deal Calculator for the numbers it can actually support.",
+      "related_data": "data/audit/chfa-qap-watch.json",
+      "qap_document": "2027-28 QAP - Third Draft (PDF)",
+      "qap_quotes": [
+        {
+          "section": "8",
+          "quote": "CHFA requires all projects to obtain green building certification"
+        },
+        {
+          "section": "8.B",
+          "quote": "10 percent of the lesser of total spaces or total units must be EV-ready"
+        },
+        {
+          "section": "8",
+          "quote": "Post-construction Energy Use Intensity Reporting"
+        },
+        {
+          "section": "8",
+          "quote": "Water-wise Landscaping and Non-functional Turf"
+        },
+        {
+          "section": "8.A",
+          "quote": "Passive House Institute US (PHIUS)"
+        },
+        {
+          "section": "3.O",
+          "quote": "All market-rate and low-income units must have the same design regarding unit amenities and square footage"
+        },
+        {
+          "section": "3.O",
+          "quote": "All targeting levels must have the same design regarding unit amenities and square footage"
+        },
+        {
+          "section": "5.B.3.g",
+          "quote": "(Two points) Projects utilizing Universal Design or providing accessible Type A units"
+        },
+        {
+          "section": "5.B.3.g",
+          "quote": "units which total at least five percent of the project’s total units"
+        },
+        {
+          "section": "5.B.3.e",
+          "quote": "(One point) No-smoking policy"
+        },
+        {
+          "section": "5.B.3.h",
+          "quote": "(One point) Projects that are pet-inclusive"
+        },
+        {
+          "section": "5.B.5",
+          "quote": "trauma informed design"
+        },
+        {
+          "section": "2.B",
+          "quote": "community amenity space uses"
+        }
+      ],
+      "sections": [
+        {
+          "id": "universal-design",
+          "heading": "Universal design: spaces anyone can use without help",
+          "paragraphs": [
+            "Universal design means designing a place so that as many people as possible can use it, without adaptation and without being singled out. The seven principles written at North Carolina State University's Center for Universal Design in 1997 are still the clearest test: equitable use, flexibility in use, simple and intuitive use, perceptible information, tolerance for error, low physical effort, and size and space for approach and use. Four of the seven are about usability, not access codes. A space can pass an accessibility inspection and still be hard to use.",
+            "The need is large and mostly unmet. HUD's analysis of the 2011 American Housing Survey found that about a third of U.S. homes could be modified for a person with a mobility disability, under 5% were livable for someone with moderate mobility difficulties, and under 1% were wheelchair accessible. Smith, Rayer and Smith (2008) projected how aging will raise the number of households with a disabled member and concluded that a home built today will very likely house someone with a disability during its life. An affordable rental building will house many households over its compliance period and after it, so it should be designed for the residents it will have later as well as the first ones.",
+            "Federal rules set a floor, not a goal. The Fair Housing Act requires seven accessibility features in covered multifamily buildings first occupied after March 13, 1991: in every unit of an elevator building, and in ground-floor units otherwise. Projects with HUD funds, such as HOME, must also meet Section 504: at least 5% of units accessible for people with mobility impairments and another 2% for people with hearing or vision impairments. CHFA's draft QAP adds two points for universal design or for Type A accessible units in at least 5% of units. Zero-step entrances and wider doors cost little when planned into new construction and are much harder to add later (Maisel, Smith and Steinfeld, 2008)."
+          ],
+          "items_heading": "What highly usable looks like in practice",
+          "items": [
+            "One step-free route from the sidewalk, parking, drop-off and transit stop to every entrance, and on to the mailroom, laundry, trash room, community room and outdoor space.",
+            "Entrances people can find and use with full hands: covered, well lit, a power-operated or easy-to-open door, a place to set things down, and seating nearby.",
+            "Wayfinding that works without signs: daylight at the ends of corridors, a different color or material at each floor and door, no dead-end corridors, and signs that can be read from a seated height.",
+            "Controls anyone can work: lever handles, rocker switches, thermostats and outlets within reach, front-control ranges and side-opening ovens, and enough clear floor space at the sink and the bed.",
+            "Bathrooms that adapt: curbless or low-threshold showers, wall blocking for grab bars in every unit, and room to turn around.",
+            "Benches with backs and arms, shade and glare-free lighting along walking paths, because people who cannot walk far without resting stop going out when there is nowhere to sit.",
+            "Rooms that flex as a household changes: a bedroom that can serve as an office or a carer's room, and a door that closes on the space where a child does homework."
+          ],
+          "note": "These practices follow the seven principles and the Fair Housing Act requirements. They were not each tested in a trial, and the brief does not claim they were."
+        },
+        {
+          "id": "qap",
+          "heading": "What CHFA requires, scores and rewards",
+          "paragraphs": [
+            "From the 2027-28 QAP Third Draft, which is not final until CHFA adopts it. Read amounts and dates from CHFA's PDF."
+          ],
+          "table": {
+            "caption": "CHFA 2027-28 QAP Third Draft: design and livability items",
+            "columns": [
+              "Item",
+              "Status",
+              "QAP section"
+            ],
+            "rows": [
+              [
+                "Green building certification (Enterprise Green Communities, LEED or NGBS)",
+                "Required",
+                "8, 8.A"
+              ],
+              [
+                "Water-wise landscaping and limits on non-functional turf",
+                "Required",
+                "8"
+              ],
+              [
+                "EV-ready parking: 10% of the lesser of spaces or units",
+                "Required",
+                "8.B"
+              ],
+              [
+                "Post-construction energy use reporting",
+                "Required",
+                "8"
+              ],
+              [
+                "Same unit design, finishes and amenities for every income tier and for market-rate units, spread across buildings and floors",
+                "Required",
+                "3.O"
+              ],
+              [
+                "Universal design, or Type A accessible units in at least 5% of units",
+                "2 points",
+                "5.B.3.g"
+              ],
+              [
+                "No-smoking policy for the whole property",
+                "1 point",
+                "5.B.3.e"
+              ],
+              [
+                "Pet-inclusive",
+                "1 point",
+                "5.B.3.h"
+              ],
+              [
+                "Population-specific design, such as trauma-informed design, for homelessness and special-population set-asides",
+                "Required for those points",
+                "5.B.5"
+              ],
+              [
+                "Community amenity space uses",
+                "Part of the readiness review",
+                "2.B"
+              ],
+              [
+                "Higher energy performance (PHIUS/PHI, DOE Efficient New Homes, EGC+) or all-electric",
+                "More competitive, not scored",
+                "8.A"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "green-happiness",
+          "heading": "Green infrastructure, health and happiness",
+          "paragraphs": [
+            "This is the strongest body of evidence in the brief, and it includes randomized trials. The effects are small for any one person, but they apply to everyone living there and add up across a building.",
+            "In Colorado, green infrastructure should mean shade trees, native and water-wise planting, and outdoor rooms people use, not lawn. CHFA now limits non-functional turf. Shade matters here too: across 108 U.S. urban areas, formerly redlined neighborhoods are hotter at ground level than their neighbors, by as much as 7°C (about 12°F), and Denver had one of the largest gaps."
+          ],
+          "table": {
+            "caption": "What the studies found",
+            "columns": [
+              "Finding",
+              "Study design"
+            ],
+            "rows": [
+              [
+                "People in Philadelphia living near vacant lots that were greened reported feeling depressed and worthless less often; neighbors of untreated lots did not (South et al., 2018).",
+                "Cluster-randomized trial"
+              ],
+              [
+                "Greening vacant lots reduced shootings by 6.8% in the same Philadelphia trial (Branas et al., 2018).",
+                "Cluster-randomized trial"
+              ],
+              [
+                "The same people reported higher life satisfaction and less mental distress in the years they lived in greener urban areas. The effect was about a third of the life-satisfaction gain associated with marriage (White et al., 2013).",
+                "UK panel, 1991-2008, comparing the same people over time"
+              ],
+              [
+                "Across more than a million smartphone mood reports, people were happier outdoors in natural settings than in built-up ones (MacKerron and Mourato, 2013).",
+                "Large momentary-mood study"
+              ],
+              [
+                "People who spent at least 120 minutes a week in nature were more likely to report high well-being and good health; under 120 minutes showed no benefit (White et al., 2019).",
+                "Cross-sectional, about 20,000 adults"
+              ],
+              [
+                "Danish children with the least green space near home had up to 55% higher risk of later psychiatric disorders than those with the most (Engemann et al., 2019).",
+                "Registry of about 943,000 people; correlational"
+              ],
+              [
+                "Chicago public housing residents assigned to buildings with more trees and grass outside reported less aggression and violence (Kuo and Sullivan, 2001).",
+                "Natural experiment, 145 residents"
+              ],
+              [
+                "One year after a green rehab to Enterprise Green Communities standards, adults in a 60-unit Minnesota property reported better general health and less asthma, bronchitis and sinusitis (Breysse et al., 2011).",
+                "Before and after, no control group"
+              ],
+              [
+                "Children with asthma in green public housing in Boston had fewer symptoms, attacks and asthma-related school absences than children in conventional units (Colton et al., 2015).",
+                "Observational comparison"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "shared-space",
+          "heading": "Shared space that people actually use",
+          "paragraphs": [
+            "Shared space helps residents get to know neighbors, and that reduces loneliness, but most of the evidence is interviews and surveys rather than trials. Social-housing tenants in New Zealand, most of them over 55 and living alone, described common areas as where neighbor ties began and grew into mutual help. A survey of multifamily residents found that those with more shared amenities knew more neighbors and felt less lonely, and that everyday spaces such as lobbies and laundry rooms mattered as much as courtyards.",
+            "The size of the room matters less than where it is and what happens in it. A community room on the way to the mailboxes gets used; one behind a locked door at the end of a corridor does not. Resident services are part of the same picture: industry studies of properties with on-site services report lower rent arrears and fewer eviction move-outs, though none of them is a controlled study."
+          ]
+        },
+        {
+          "id": "privacy",
+          "heading": "Privacy, crowding and quiet",
+          "paragraphs": [
+            "Crowding is linked to worse wellbeing in children, with more distress, more conflict with parents and more learned helplessness, regardless of household income, and Gary Evans's research found the effects were stronger in large multifamily buildings. The design response is bedroom counts that fit the households the market study expects, a door that closes on a place to study, and enough storage that a living room does not become a storeroom.",
+            "Quiet is privacy you can hear. The WHO's 2018 noise guidelines link traffic noise to disturbed sleep and cardiovascular disease, which matters for sites next to highways and rail lines. Evidence on noise from neighbors is thinner, but complaints about it are common. Separate units acoustically, and keep mechanical equipment, trash rooms and elevators away from bedroom walls."
+          ]
+        },
+        {
+          "id": "safety",
+          "heading": "Safety and dignity",
+          "paragraphs": [
+            "Oscar Newman's defensible-space argument, that building form drove crime in public housing, is better known than it is supported. A federal review found that only limited reliable conclusions could be drawn from his studies, and his central comparison did not account for the different share of children in the two projects. Clear sightlines, entrances that face the street and good lighting are still sensible. The evidence just does not show they are enough on their own.",
+            "Dignity has a direct rule in Colorado. CHFA requires that affordable units, and every income tier, get the same design, finishes and amenities as market-rate units, spread across buildings and floors. A separate entrance or a lesser finish package for the affordable units would break that rule."
+          ]
+        },
+        {
+          "id": "limits",
+          "heading": "Limits of this brief",
+          "paragraphs": [
+            "Most studies here are observational, small, or both, and several come from one research group. Only the Philadelphia greening trial is randomized. None of the studies measured effects on operating costs in Colorado affordable housing, so the brief gives no dollar figures, and none should be added to a deal model on its strength. The QAP items come from a draft. COHO checks each quoted requirement against the machine-extracted text of the named CHFA document on every build, but the PDF is the authority."
+          ]
+        }
+      ],
+      "sources": [
+        "Colorado Housing and Finance Authority",
+        "North Carolina State University Center for Universal Design",
+        "U.S. Department of Housing and Urban Development",
+        "Peer-reviewed journals"
+      ],
+      "articles": [
+        {
+          "title": "2027-28 QAP - Third Draft",
+          "source": "Colorado Housing and Finance Authority",
+          "link": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf",
+          "date": "2026"
+        },
+        {
+          "title": "The Principles of Universal Design (version 2.0, 1997)",
+          "source": "NC State University College of Design",
+          "link": "https://design.ncsu.edu/?p=32673",
+          "date": "1997"
+        },
+        {
+          "title": "Accessibility of America's Housing Stock: Analysis of the 2011 American Housing Survey",
+          "source": "HUD Office of Policy Development and Research",
+          "link": "https://www.huduser.gov/portal/node/6066",
+          "date": "2015-03"
+        },
+        {
+          "title": "Aging and Disability: Implications for the Housing Industry and Housing Policy in the United States (Smith, Rayer and Smith), Journal of the American Planning Association 74(3)",
+          "source": "American Planning Association",
+          "link": "https://planning.org/knowledgebase/resource/9181006",
+          "date": "2008"
+        },
+        {
+          "title": "Increasing Home Access: Designing for Visitability (Maisel, Smith and Steinfeld)",
+          "source": "AARP Public Policy Institute",
+          "link": "https://cds.coe.hawaii.edu/hvc/wp-content/uploads/sites/25/2017/08/Increasing-Home-Access-Designing-for-Visitability-AARP-Public-Policy-Institute-Maisel-Smith-Steinfeld-2008.pdf",
+          "date": "2008"
+        },
+        {
+          "title": "24 CFR 100.205: Fair Housing Act design and construction requirements",
+          "source": "eCFR",
+          "link": "https://www.ecfr.gov/current/title-24/subtitle-B/chapter-I/subchapter-A/part-100/subpart-D/section-100.205"
+        },
+        {
+          "title": "24 CFR 8.22: Section 504 accessible units in new construction",
+          "source": "eCFR",
+          "link": "https://www.ecfr.gov/current/title-24/subtitle-A/part-8/subpart-C/section-8.22"
+        },
+        {
+          "title": "Effect of Greening Vacant Land on Mental Health of Community-Dwelling Adults: A Cluster Randomized Trial (South et al.), JAMA Network Open",
+          "source": "JAMA Network Open",
+          "link": "https://doi.org/10.1001/jamanetworkopen.2018.0298",
+          "date": "2018"
+        },
+        {
+          "title": "Citywide cluster randomized trial to restore blighted vacant land and its effects on violence, crime, and fear (Branas et al.), PNAS",
+          "source": "PNAS",
+          "link": "https://doi.org/10.1073/pnas.1718503115",
+          "date": "2018"
+        },
+        {
+          "title": "Would You Be Happier Living in a Greener Urban Area? A Fixed-Effects Analysis of Panel Data (White et al.), Psychological Science",
+          "source": "Psychological Science",
+          "link": "https://doi.org/10.1177/0956797612464659",
+          "date": "2013"
+        },
+        {
+          "title": "Happiness is greater in natural environments (MacKerron and Mourato), Global Environmental Change",
+          "source": "Global Environmental Change",
+          "link": "https://doi.org/10.1016/j.gloenvcha.2013.03.010",
+          "date": "2013"
+        },
+        {
+          "title": "Spending at least 120 minutes a week in nature is associated with good health and wellbeing (White et al.), Scientific Reports",
+          "source": "Scientific Reports",
+          "link": "https://doi.org/10.1038/s41598-019-44097-3",
+          "date": "2019"
+        },
+        {
+          "title": "Residential green space in childhood is associated with lower risk of psychiatric disorders from adolescence into adulthood (Engemann et al.), PNAS",
+          "source": "PNAS",
+          "link": "https://doi.org/10.1073/pnas.1807504116",
+          "date": "2019"
+        },
+        {
+          "title": "Aggression and Violence in the Inner City: Effects of Environment via Mental Fatigue (Kuo and Sullivan), Environment and Behavior 33(4)",
+          "source": "Environment and Behavior",
+          "link": "https://www.wrrc.arizona.edu/sites/default/files/aggression%20and%20violence%20in%20the%20inner%20city_2001.pdf",
+          "date": "2001"
+        },
+        {
+          "title": "Health Outcomes and Green Renovation of Affordable Housing (Breysse et al.), Public Health Reports",
+          "source": "Public Health Reports",
+          "link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3072905/",
+          "date": "2011"
+        },
+        {
+          "title": "Health Benefits of Green Public Housing: Associations With Asthma Morbidity and Building-Related Symptoms (Colton et al.), American Journal of Public Health",
+          "source": "American Journal of Public Health",
+          "link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4638234/",
+          "date": "2015"
+        },
+        {
+          "title": "The Effects of Historical Housing Policies on Resident Exposure to Intra-Urban Heat: A Study of 108 US Urban Areas (Hoffman, Shandas and Pendleton), Climate",
+          "source": "Climate",
+          "link": "https://doi.org/10.3390/cli8010012",
+          "date": "2020"
+        },
+        {
+          "title": "Children in crowded homes have more problems with health, education, parents (Evans)",
+          "source": "Cornell Chronicle",
+          "link": "https://news.cornell.edu/node/278552"
+        },
+        {
+          "title": "New WHO noise guidelines for Europe released",
+          "source": "World Health Organization",
+          "link": "https://www.who.int/europe/news/item/10-10-2018-new-who-noise-guidelines-for-europe-released",
+          "date": "2018-10-10"
+        },
+        {
+          "title": "Can our homes make us less lonely?",
+          "source": "Happy Cities",
+          "link": "https://happycities.com/blog/can-our-homes-make-us-less-lonely"
+        },
+        {
+          "title": "Resident Services Are a High-Yield Investment in Affordable Housing",
+          "source": "Next City",
+          "link": "https://nextcity.org/urbanist-news/resident-services-are-a-high-yield-investment-in-affordable-housing"
+        },
+        {
+          "title": "Defensible Space: Crime Prevention Through Urban Design (review abstract)",
+          "source": "National Criminal Justice Reference Service",
+          "link": "https://www.ojp.gov/ncjrs/virtual-library/abstracts/defensible-space-crime-prevention-through-urban-design-and"
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
+        "Colorado",
+        "Statewide"
+      ]
     }
   ]
 }
