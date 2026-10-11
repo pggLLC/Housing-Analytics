@@ -333,7 +333,7 @@ const ceilingClaims = ceilingText.toLowerCase();
     for (const unit of new Set(bindings.map((b) => b.unit))) {
       const re = unit === '$'
         ? /(\$\s?\d[\d,]*(?:\.\d+)?)/g
-        : new RegExp('\\b(\\d[\\d,]*(?:\\.\\d+)?|' + WORDS.join('|') + ')\\s*(?:calendar\\s+)?(?:' + unit + ')(?![a-z])', 'gi');
+        : new RegExp('(?<![\\d.-])\\b(\\d[\\d,]*(?:\\.\\d+)?|' + WORDS.join('|') + ')\\s*(?:calendar\\s+)?(?:' + unit + ')(?![a-z])', 'gi');
       for (const m of t.matchAll(re)) {
         const at = m.index;
         const [cs, ce] = clauseOf(at);
