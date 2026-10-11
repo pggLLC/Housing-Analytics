@@ -74,7 +74,7 @@ test('the Deal Calculator links to this brief', () => {
   const doc = new JSDOM(read('deal-calculator.html')).window.document;
   const links = [...doc.querySelectorAll('#dc-edu-livability a[href^="research-brief.html"]')];
   assert.equal(links.length, 1, 'expected one brief link in the livability card');
-  const id = new URL(links[0].href, 'https://example.test/').searchParams.get('id');
+  const id = new URLSearchParams(links[0].getAttribute('href').split('?')[1]).get('id');
   assert.ok(FEED.briefs.some((b) => b.id === id && b.is_curated), `link opens ${id}, which is not a curated brief`);
   assert.equal(id, ID);
 });
