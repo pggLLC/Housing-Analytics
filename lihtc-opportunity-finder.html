@@ -607,6 +607,13 @@
     .lof-score-high { background: var(--good-dim); color: var(--good); }
     .lof-score-med  { background: var(--warn-dim); color: var(--warn); }
     .lof-score-low  { background: var(--bad-dim);  color: var(--bad);  }
+    /* 9% + 4% mode — which credit type a row's score came from. Neutral
+       tokens so it reads in both themes without its own contrast pair. */
+    .lof-best-fit {
+      display: inline-block; margin-left: 4px; padding: 0 5px; border-radius: 4px;
+      font-size: .68rem; font-weight: 700; vertical-align: middle;
+      background: var(--bg2); color: var(--text); border: 1px solid var(--border);
+    }
     .lof-badge {
       display: inline-block; padding: 1px 7px; border-radius: 9999px; font-size: .68rem;
       font-weight: 700; margin-right: 4px;
@@ -1602,6 +1609,7 @@
                 <select id="lofTargetSelect" aria-label="Target LIHTC deal type">
                   <option value="9pct" selected>9% Competitive</option>
                   <option value="4pct">4% Bond</option>
+                  <option value="both_credits">9% and 4% (either credit)</option>
                   <option value="preservation">Preservation (4% refi + Y15)</option>
                   <option value="workforce_resort">Workforce / Resort</option>
                   <option value="prop123_local">Prop 123 / Local</option>
@@ -1609,6 +1617,10 @@
                 </select>
                 <p class="lof-filter-help">
                   Re-weights the 5-dim score (need · recency · basis · pop · civic).
+                </p>
+                <p class="lof-filter-help" id="lofBothCreditsNote" hidden>
+                  Scores every place as both a 9% and a 4% deal and ranks it by the higher one.
+                  To customize weights, pick 9% or 4% on its own.
                 </p>
                 <!-- F236 — Scenario Builder. Inline panel that lets the user
                      override the active preset's weights + recency source
