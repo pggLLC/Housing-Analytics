@@ -308,13 +308,6 @@ const ceilingClaims = ceilingText.toLowerCase();
 
   // Dollars: the record has none.
   assert.deepStrictEqual(money(text), [], 'the ROAD Act record carries no dollar amount, so the brief may state none');
-  // Percentages: the CDBG cap, and it must be stated.
-  const caps = provisions.filter((p) => Number.isFinite(p.cap_pct)).map((p) => p.cap_pct);
-  const statedPcts = pcts(text);
-  checked += statedPcts.length;
-  statedPcts.forEach((p) => assert.ok(caps.includes(p), `brief states ${p}%, which is not a cap in the record`));
-  caps.forEach((p) => assert.ok(statedPcts.includes(p), `brief must state the record's ${p}% cap`));
-
   // Dates: every full date is a record date, and every record date is stated.
   const recordDates = [road.enacted_date, law.presented_date, law.final_passage_date, road.implementation_check.searched];
   const stated = datesIn(text);
@@ -334,24 +327,75 @@ const ceilingClaims = ceilingText.toLowerCase();
   checked += sectionCites.length;
   sectionCites.forEach((s) => assert.ok(recordSections.some((r) => r === s || r.startsWith(s + '(')) || otherCites.includes(s), `brief cites section ${s}, which the record does not`));
   recordSections.forEach((s) => assert.ok(sectionCites.includes(s), `brief must cite the record's section ${s}`));
-  // Other figures: once dates, years, percentages, citations and the law's
-  // own identifiers are removed, every remaining number (digits or a number
-  // word) must be a figure of the provision it is checked against.
-  const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
-  const rest = text
+  // Bind each figure to the provision it describes. For every "<number>
+  // <unit>" in the brief, the binding whose context words sit nearest to it in
+  // the same clause names the record value it must equal; every binding must
+  // be used, and no figure may go unbound. Swapping two figures (or moving a
+  // figure to another provision) therefore fails even though both values
+  // exist in the record.
+  const bindFigures = (t, bindings, what) => {
+    const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+    const toNumber = (s) => (/^\$/.test(s) ? Number(s.replace(/[$,\s]/g, '')) : /^\d/.test(s) ? Number(s.replace(/,/g, '')) : WORDS.indexOf(s.toLowerCase()));
+    const clauseOf = (at) => {
+      const before = t.slice(0, at);
+      const starts = [...before.matchAll(/[.;]\s+(?=[A-Z(])/g)].map((m) => m.index + m[0].length);
+      const start = starts.length ? starts[starts.length - 1] : 0;
+      const end = t.slice(at).search(/[.;]\s+(?=[A-Z(])|[.;]?$/);
+      return [start, at + end];
+    };
+    const spans = [];
+    let count = 0;
+    const used = new Set();
+    for (const unit of new Set(bindings.map((b) => b.unit))) {
+      const re = unit === '$'
+        ? /(\$\s?\d[\d,]*(?:\.\d+)?)/g
+        : new RegExp('\\b(\\d[\\d,]*(?:\\.\\d+)?|' + WORDS.join('|') + ')\\s*(?:calendar\\s+)?(?:' + unit + ')(?![a-z])', 'gi');
+      for (const m of t.matchAll(re)) {
+        const at = m.index;
+        const [cs, ce] = clauseOf(at);
+        const clause = t.slice(cs, ce);
+        let best = null;
+        let bestDist = Infinity;
+        bindings.filter((b) => b.unit === unit).forEach((b) => {
+          for (const c of clause.matchAll(new RegExp(b.context.source, 'gi'))) {
+            const cStart = cs + c.index;
+            const cEnd = cStart + c[0].length;
+            const dist = cEnd <= at ? at - cEnd : cStart >= at + m[0].length ? cStart - (at + m[0].length) : 0;
+            if (dist < bestDist) { bestDist = dist; best = b; }
+          }
+        });
+        assert.ok(best, `${what}: "${m[0]}" is not tied to any provision the record carries (clause: ${clause})`);
+        assert.strictEqual(toNumber(m[1]), best.value, `${what}: "${m[0]}" describes ${best.name}, which the record gives as ${best.value}`);
+        used.add(best.name);
+        spans.push([at, at + m[0].length]);
+        count++;
+      }
+    }
+    bindings.forEach((b) => assert.ok(used.has(b.name), `${what}: brief must state ${b.name} (${b.value})`));
+    return { count, spans };
+  };
+  const prov = (section) => provisions.find((p) => p.section === section);
+  const bound = bindFigures(text, [
+    { name: 'the CDBG new-construction cap', unit: '%|percent', value: prov('204').cap_pct, context: /allocat|Block Grant|CDBG/ },
+    { name: 'the repealed HOME commitment deadline', unit: 'months?', value: prov('501(i)').previous_deadline_months, context: /commit|draw/ },
+    { name: 'the voucher inspection look-back', unit: 'months?', value: prov('405(a)').lookback_months, context: /inspect/ },
+    { name: 'the small-project unit limit', unit: 'units?', value: prov('501(l)').small_project_max_units, context: /new construction|projects?/ },
+    { name: 'the infill site size limit', unit: 'acres?', value: prov('501(l)').infill_site_max_acres, context: /infill|land/ },
+    { name: 'the HOME rulemaking deadline', unit: 'years?', value: prov('501(l)').rulemaking_deadline_years, context: /\brules?\b/ },
+    { name: 'the number of exempt HOME categories', unit: 'categor(?:y|ies)', value: prov('501(l)').category_count, context: /exempt/ },
+  ], 'ROAD Act brief');
+  checked += bound.count;
+  // No figure may go unbound: once dates, years, citations, the law's own
+  // identifiers and the bound figures are removed, no number is left.
+  let rest = text;
+  bound.spans.slice().sort((x, y) => y[0] - x[0]).forEach(([from, to]) => { rest = rest.slice(0, from) + ' '.repeat(to - from) + rest.slice(to); });
+  rest = rest
     .replace(DATE_RE, ' ')
     .replace(/Public Law \d+-\d+|H\.R\. \d+|\b21st\b/g, ' ')
     .replace(/\bsections? \d+(?:\([a-z0-9]+\))*/gi, ' ')
-    .replace(/\d+(?:\.\d+)?\s*(?:%|percent\b)/g, ' ')
     .replace(/(?<![\d-])(?:19|20)\d{2}(?![\d)])/g, ' ');
-  const figures = [...rest.matchAll(new RegExp('\\b(\\d+|' + WORDS.join('|') + ')\\b', 'gi'))]
-    .map((m) => (/^\d+$/.test(m[1]) ? Number(m[1]) : WORDS.indexOf(m[1].toLowerCase())));
-  const numericKeys = ['previous_deadline_months', 'small_project_max_units', 'infill_site_max_acres', 'rulemaking_deadline_years', 'lookback_months', 'category_count'];
-  const recordFigures = provisions.flatMap((p) => numericKeys.filter((k) => Number.isFinite(p[k])).map((k) => p[k]));
-  // A bare count of provisions ('three provisions') may not exceed the record's provision count.
-  checked += figures.length;
-  figures.forEach((n) => assert.ok(recordFigures.includes(n) || n <= provisions.length, `brief states the figure ${n}, which is not in the record`));
-  recordFigures.forEach((n) => assert.ok(figures.includes(n), `brief must state the record figure ${n}`));
+  const unbound = rest.match(/\b(?:\d+|zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\b|%/gi) || [];
+  assert.deepStrictEqual(unbound, [], 'ROAD Act brief states figures that are not bound to a record provision');
   const homeNepa = provisions.find((p) => Array.isArray(p.exempt_categories));
   assert.strictEqual(homeNepa.category_count, homeNepa.exempt_categories.length, 'the exemption count must equal the listed categories');
 
