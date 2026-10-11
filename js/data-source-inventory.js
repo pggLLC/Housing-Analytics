@@ -1138,7 +1138,7 @@
       provider: 'Kalshi',
       url: 'https://kalshi.com/',
       localFile: 'data/kalshi/prediction-market.json',
-      lastUpdated: '2026-10-04',
+      lastUpdated: '2026-10-10',
       // Not a feed. fetch-kalshi.yml runs weekly but exits early with
       // "Kalshi credentials not configured", preserving this committed seed —
       // so it reported success while changing nothing for 183 days. Declaring
@@ -1196,7 +1196,7 @@
       maxAgeDays: 30,
       geoUnit: 'N/A',
       coverage: 'All data files',
-      features: 1705,
+      features: 1706,
       description: 'Auto-generated manifest listing all data files with feature counts and timestamps.',
       tags: ['manifest', 'system', 'metadata'],
       apiEndpoint: null
