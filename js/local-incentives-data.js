@@ -73,7 +73,10 @@
   var PROP123_ALIASES = {
     'City of Canon City': '0811810',
     'Town of Mt. Crested Butte': '0852570',
-    'Town of Creede': '0814765'
+    'Town of Creede': '0814765',
+    // DOLA's spellings (scripts/policy/build_prop123_jurisdictions.py keeps them).
+    'City of Creede': '0814765',
+    'City of Central': '0812900'
   };
 
   function canonicalGeoid(geoid) {

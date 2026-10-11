@@ -18,12 +18,78 @@
       "sunset_date": null,
       "pricing_impact": "Enacts housing-supply and HUD program reforms: new affordable-housing construction becomes CDBG-eligible (up to 20% of a grantee's allocation, post-enactment funds only) and HOME review is streamlined. It does not enact LIHTC or CRA expansion.",
       "source_url": "https://www.govinfo.gov/app/details/BILLS-119hr6644enr",
-      "source_note": "GovInfo enrolled H.R. 6644 text, 119th Congress; 21st Century ROAD to Housing Act, section 204. GovTrack records final passage on 2026-06-23 (House agreed to the Senate amendment to the House amendment to the Senate amendment, 358-32) and \"Sent to Archivist of the United States unsigned\" on 2026-07-11: enacted without the President's signature under the ten-day rule, as Pub. L. 119-101. Federal Register searched 2026-10-10 for HUD CDBG/HOME notices under the act; none found. Section 204(a) caps the new activity at \"20 percent of the amounts allocated to the recipient\" and 204(c) applies it \"only to amounts appropriated after the date of enactment\".",
-      "last_verified": "2026-10-10",
+      "source_note": "Public Law 119-101 (H.R. 6644, 119th Congress), the 21st Century ROAD to Housing Act. The GovInfo Public Law text carries the Office of the Federal Register's note that the Act was presented to the President on Monday, June 29, 2026, was not returned within the time the Constitution prescribes, and became law without his signature on July 11, 2026; its legislative history lists the House's final concurrence on June 23, 2026. Section 204(a) adds 42 U.S.C. 5305(a)(28), the new construction of affordable housing, capped at \"20 percent of the amounts allocated to the recipient\", and 204(c) applies it \"only to amounts appropriated after the date of enactment\". Section 501(i) strikes 42 U.S.C. 12748(g), the 24-month HOME commitment deadline; 501(l) adds statutory NEPA exemptions for four HOME activity categories, with any rules HUD determines necessary due within 1 year of enactment. Section 405(a) deems a voucher unit in a section 42 building inspected within the preceding 12 months to meet the voucher inspection requirement, if the public housing agency performed that inspection or can obtain its results. Section 1202: no additional funds authorized. The Act does not amend section 42 of the Internal Revenue Code. Public Law text and the pre-amendment 42 U.S.C. 12748(g) (U.S. Code 2024 edition) re-read on GovInfo 2026-10-11. Federal Register searched 2026-10-11 (terms \"ROAD to Housing\", \"Public Law 119-101\", and HUD documents on CDBG or HOME since 2026-07-11) for a HUD rule or notice implementing section 204 or 501; none found.",
+      "last_verified": "2026-10-11",
       "review_by": "2027-01-08",
       "related_source_urls": [
         "https://www.govtrack.us/congress/bills/119/hr6644"
-      ]
+      ],
+      "enacted_date": "2026-07-11",
+      "public_law": {
+        "number": "119-101",
+        "presented_date": "2026-06-29",
+        "final_passage_date": "2026-06-23",
+        "became_law": "without the President's signature (not returned within the time prescribed by the Constitution)",
+        "source_url": "https://www.govinfo.gov/content/pkg/PLAW-119publ101/html/PLAW-119publ101.htm",
+        "last_verified": "2026-10-11"
+      },
+      "provisions": [
+        {
+          "section": "204",
+          "topic": "CDBG",
+          "statute": "42 U.S.C. 5305(a)(28)",
+          "summary": "new construction of affordable housing (as defined in section 215 of the Cranston-Gonzalez National Affordable Housing Act) becomes an eligible CDBG activity",
+          "cap_pct": 20,
+          "cap_of": "the amounts allocated to the recipient",
+          "applies_to": "amounts appropriated after the date of enactment"
+        },
+        {
+          "section": "501(i)",
+          "topic": "HOME",
+          "statute": "42 U.S.C. 12748(g), struck",
+          "summary": "repeals the expiration of a participating jurisdiction's right to draw HOME funds not placed under binding commitment",
+          "previous_deadline_months": 24,
+          "pre_amendment_text_url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title42/html/USCODE-2024-title42-chap130-subchapII-partA-sec12748.htm"
+        },
+        {
+          "section": "501(l)",
+          "topic": "HOME",
+          "statute": "42 U.S.C. 12838(e)-(f)",
+          "summary": "statutory NEPA exemptions for four HOME activity categories, and removal of duplicative reviews",
+          "exempt_categories": [
+            "new construction infill housing projects",
+            "acquisition of real property for affordable housing purposes",
+            "rehabilitation projects carried out under section 212(a)(1)",
+            "new construction projects of 15 units or less"
+          ],
+          "category_count": 4,
+          "small_project_max_units": 15,
+          "infill_site_max_acres": 5,
+          "rulemaking_deadline_years": 1,
+          "rulemaking": "HUD shall issue such rules as the Secretary determines necessary, not later than 1 year after enactment (section 501(l)(2))"
+        },
+        {
+          "section": "405(a)",
+          "topic": "Housing Choice Voucher inspections",
+          "statute": "42 U.S.C. 1437f(o)(8)(I)(i)",
+          "summary": "a unit in a building allocated credit under section 42(h), or described in section 42(h)(4), that was physically inspected and met the suitability-for-occupancy requirement of section 42(i)(3)(B)(ii) during the preceding 12 months is deemed to meet the voucher inspection requirement, if the public housing agency performed the inspection itself or is able to obtain its results",
+          "lookback_months": 12,
+          "cites": "42(i)(3)(B)(ii)",
+          "inspection_results": "performed by the public housing agency itself, or results the agency is able to obtain"
+        },
+        {
+          "section": "1202",
+          "topic": "funding",
+          "summary": "no additional funds are authorized to be appropriated to carry out the Act"
+        }
+      ],
+      "amends_irc_section_42": false,
+      "implementation_check": {
+        "searched": "2026-10-11",
+        "source": "Federal Register",
+        "found": null
+      },
+      "analysis_url": "research-brief.html?id=hr6644-road-act-2026"
     },
     {
       "id": "obbba-lihtc-ceiling-12pct",
@@ -74,11 +140,45 @@
       "status": "enacted",
       "effective_date": "2026-01-01",
       "sunset_date": null,
-      "pricing_impact": "Lowers the bond-financing test from 50% to 25% of basis for buildings placed in service in tax years after 2025, if a post-2025 volume-cap bond issue finances at least 5% of basis. Widens 4% eligibility; added bond-credit supply may be priced selectively.",
+      "pricing_impact": "Adds a 25% route to the 50% bond-financing test for buildings placed in service in taxable years beginning after 2025, if one or more bonds from post-2025 issues together finance at least 5% of basis. Widens 4% eligibility; added bond-credit supply may be priced selectively.",
       "source_url": "https://www.congress.gov/bill/119th-congress/house-bill/1/text",
-      "source_note": "Public Law 119-21, section 70422(b), tax-exempt bond financing requirement. Section text re-read in the GovInfo Public Law 119-21 text on 2026-10-10; no later amendment found.",
-      "last_verified": "2026-10-10",
-      "review_by": "2027-01-08"
+      "source_note": "Public Law 119-21 (H.R. 1, approved 2025-07-04), section 70422(b), strikes 26 U.S.C. 42(h)(4)(B) and inserts a new subparagraph (B): the 42(h)(1) allocation requirement does not apply to a building if (i) 50 percent or more of the aggregate basis of the building and its land is financed by obligations described in 42(h)(4)(A), or (ii) 25 percent or more is so financed and one or more of those obligations are part of an issue dated after December 31, 2025 and finance not less than 5 percent of that basis. Section 70422(b)(2)(A) applies the amendment to buildings placed in service in taxable years beginning after December 31, 2025; 70422(b)(2)(B) treats an existing building and a rehabilitation treated as a separate new building under 42(e) as placed in service on the date the expenditures are. No end year. The pre-amendment 42(h)(4)(B) was the 50 percent test alone. Section 70422 is the law's only amendment to section 42 besides the ceiling increase in 70422(a), tracked as obbba-lihtc-ceiling-12pct. Amendment text re-read in the GovInfo Public Law 119-21 text, and the pre-amendment section 42(h)(4) read in the GovInfo U.S. Code 2024 edition, on 2026-10-11 (congress.gov returned HTTP 403 to an automated request); no later amendment found.",
+      "enacted_date": "2025-07-04",
+      "bond_test": {
+        "statute": "26 U.S.C. 42(h)(4)(B), as amended by Public Law 119-21 section 70422(b)",
+        "bonds": "obligations described in 42(h)(4)(A): tax-exempt under section 103 and taken into account under the section 146 volume cap",
+        "basis": "aggregate basis of the building and the land on which the building is located",
+        "previous_threshold_pct": 50,
+        "retained_threshold_pct": 50,
+        "new_threshold_pct": 25,
+        "post_2025_issue_min_pct": 5,
+        "post_2025_min_pct_counted": "in aggregate: one or more obligations from post-2025 issues together (42(h)(4)(B)(ii)(II): \"1 or more of such obligations\")",
+        "post_2025_min_pct_aggregate": true,
+        "issue_date_after": "2025-12-31",
+        "placed_in_service_taxable_years_after": "2025-12-31",
+        "rehabilitation_rule": "section 70422(b)(2)(B): an existing building and rehabilitation expenditures treated as a separate new building under 42(e) are both treated as placed in service on the date the expenditures are placed in service under 42(e)(4)",
+        "end_year": null,
+        "source_url": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+        "pre_amendment_text_url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title26/html/USCODE-2024-title26-subtitleA-chap1-subchapA-partIV-subpartD-sec42.htm",
+        "last_verified": "2026-10-11"
+      },
+      "colorado_context": {
+        "source": "CHFA, 2026 Private Activity Bonds, PAB Stakeholder Meeting, December 4, 2025",
+        "date": "2025-12-04",
+        "volume_cap_recipient": "Colorado Department of Local Affairs (DOLA)",
+        "volume_cap_split_pct": {
+          "statewide_authorities": 50,
+          "local_governments": 50
+        },
+        "chfa_max_pab_financing_pct": 45,
+        "chfa_max_pab_financing_year": 2026,
+        "chfa_max_pab_financing_applies_to": "new CHFA multifamily lending and 2026 Round Two projects; previously awarded projects unchanged; lower when feasible",
+        "source_url": "https://www.chfainfo.com/getattachment/2794e07d-d166-446c-b37d-56d7ed3cb5e2/CHFA-2026-PAB-StakeholderOutreachSession-12042025.pdf",
+        "last_verified": "2026-10-11"
+      },
+      "last_verified": "2026-10-11",
+      "review_by": "2027-01-08",
+      "analysis_url": "research-brief.html?id=obbba-lihtc-bond-25pct-test-2026"
     },
     {
       "id": "ahcia-2025-hr2725",
@@ -329,9 +429,82 @@
       "related_source_urls": [
         "https://leg.colorado.gov/bills/hb23-1190"
       ],
-      "source_note": "Colorado General Assembly HB24-1175 bill page: signed 2024-05-30, effective 2024-08-07 (session law chapter 286); summary says both rights \"terminate on December 31, 2029\" unless exercised before then (re-read 2026-10-10). No amending 2025 or 2026 bill was found, though the legislature's search could not confirm that conclusively. HB23-1190 is related prior-session ROFR legislation but was vetoed and did not become law.",
-      "last_verified": "2026-10-10",
-      "review_by": "2027-01-08"
+      "source_note": "Colorado General Assembly HB24-1175 bill page and the signed act as published in the 2024 session laws (chapter 286), both re-read 2026-10-11. The act adds part 12 to article 4 of title 29, C.R.S. (29-4-1201 to 29-4-1208), approved 2024-05-30, effective 2024-08-07 (the day after the 90-day referendum period). 29-4-1202: right of first refusal with a matched offer on multifamily or mixed-use rental property of not less than five units that is existing affordable housing (excluding mobile home parks). 29-4-1203: right of first offer on such property of not less than 15 and not more than 100 units that is not existing affordable housing. 29-4-1205 exemptions include (1)(f), a seller that has applied for, is in the process of, or has completed a resyndication or recapitalization under a public affordable housing program and gives the local government notice and evidence; the rights apply if that effort fails. 29-4-1206 limits remedies to damages and statutory penalties against the seller. 29-4-1207: both rights \"terminate on December 31, 2029\", except that a process exercised before then continues until it concludes. 29-4-1208 repeals part 12 effective July 1, 2031. No amending 2025 or 2026 bill was found, though the legislature's search could not confirm that conclusively. HB23-1190 is related prior-session ROFR legislation but was vetoed and did not become law.",
+      "last_verified": "2026-10-11",
+      "review_by": "2027-01-08",
+      "approved_date": "2024-05-30",
+      "act": {
+        "statute": "C.R.S. 29-4-1201 to 29-4-1208 (part 12 of article 4 of title 29)",
+        "session_law": "2024 Colo. Sess. Laws, chapter 286",
+        "sections": [
+          "29-4-1201",
+          "29-4-1202",
+          "29-4-1203",
+          "29-4-1204",
+          "29-4-1205",
+          "29-4-1206",
+          "29-4-1207",
+          "29-4-1208"
+        ],
+        "long_term_affordability_years": 40,
+        "assignees": [
+          "a housing authority within the local government's jurisdiction",
+          "a regional housing authority serving it",
+          "the Colorado Housing and Finance Authority"
+        ],
+        "source_url": "https://leg.colorado.gov/laws/session-laws/HB24-1175/286/download",
+        "last_verified": "2026-10-11"
+      },
+      "rofr": {
+        "section": "29-4-1202",
+        "min_units": 5,
+        "property": "multifamily residential or mixed-use rental property that is existing affordable housing (subject to a restricted-use covenant or similar recorded affordability agreement), excluding mobile home parks",
+        "expiration_notice_years_before": 2,
+        "expiration_notice_months_before": 6,
+        "expiration_notice_to": "the Colorado Housing and Finance Authority and the local government",
+        "seller_notice_days": 14,
+        "triggering_events": "the first of: a material departure from the expiration notices indicating intent to sell, a signed letter of intent, option or other conditional agreement with a buyer, listing the property, or a conditional acceptance of an offer",
+        "intent_notice_days": 14,
+        "intent_notice": "the local government makes a good-faith effort to tell the seller, as soon as possible and not later than 14 calendar days after receiving the seller's notice, whether it intends to preserve or waive the right; the notice is nonbinding",
+        "offer_days": 30,
+        "close_days": 60,
+        "close_exception": "if the seller has an entirely cash third-party offer, the local government must close within the period in that offer",
+        "price_reduction_pct": 5,
+        "change_notice_days": 7,
+        "change_trigger": "the price in the seller's notice is reduced by 5 percent or more, or its terms or conditions materially change; the local government may exercise or re-exercise the right",
+        "extension": "any time period in 29-4-1202 may be extended by written agreement between the local government (or its assignee) and the seller"
+      },
+      "rofo": {
+        "section": "29-4-1203",
+        "min_units": 15,
+        "max_units": 100,
+        "property": "multifamily residential or mixed-use rental property that is not existing affordable housing, excluding mobile home parks",
+        "exempt_if_first_certificate_of_occupancy_within_years": 30,
+        "notice_timing": "before the seller enters into an agreement with a licensed broker to solicit purchasers or otherwise lists the property on the multiple listing service",
+        "also_allows": "mixed-income development"
+      },
+      "exemptions": {
+        "section": "29-4-1205",
+        "resyndication": "(1)(f): seller has applied for, is in the process of, or has completed a resyndication or recapitalization under a federal, state or local affordable housing program, and gives the local government notice and demonstrable evidence; if unsuccessful, the rights apply"
+      },
+      "remedies": {
+        "section": "29-4-1206",
+        "min_penalty_first": 10000,
+        "min_penalty_subsequent": 30000,
+        "max_penalty": 100000,
+        "limited_to": "monetary damages and statutory penalties against the seller",
+        "title_free_of_rights": true
+      },
+      "termination": {
+        "section": "29-4-1207",
+        "date": "2029-12-31",
+        "in_process_continues": true
+      },
+      "repeal": {
+        "section": "29-4-1208",
+        "date": "2031-07-01"
+      },
+      "analysis_url": "research-brief.html?id=hb24-1175-rofr-rofo-2026"
     },
     {
       "id": "hb26-1065-transit-housing-investment-zones",
