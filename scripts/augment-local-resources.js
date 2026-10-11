@@ -362,13 +362,7 @@ const PLACE_ENTRIES = {
   'place:0819080': {
     name: 'Dacono',
     housingLead: { name: 'City of Dacono Community Development', url: 'https://www.daconoco.gov/478/Community-Development' },
-    housingPlans: [
-      { type: 'HNA', year: 2026, name: '2026 Dacono Housing Needs Assessment and Housing Action Plan (final drafts)',
-        url: 'https://www.daconoco.gov/900/Comprehensive-Plan' },
-      { type: 'Comprehensive Plan', year: 2026, name: 'Dacono Comprehensive Plan (current draft)',
-        url: 'https://www.daconoco.gov/900/Comprehensive-Plan' }
-    ],
-    notes: 'Final drafts of the 2026 HNA and Housing Action Plan were posted for public review in September 2026, ahead of City Council adoption. Verified 2026-10-11.'
+    notes: 'Final drafts of the 2026 HNA and Housing Action Plan were posted for public review in September 2026, ahead of City Council adoption (https://www.daconoco.gov/900/Comprehensive-Plan). They are not listed as plans until adopted, so the policy scorecard does not count a draft. Verified 2026-10-11.'
   },
   'place:0827865': {
     name: 'Fountain',
