@@ -167,6 +167,19 @@
     });
   }
 
+  // The sources a download cites. An entry whose rows come from a different
+  // dataset depending on a control (the allocations year picker reads one
+  // file for 2026 and another for 2010–2023) names them in
+  // sourcesBySelection: { control, values: { value: [ids] }, otherwise: [ids] }.
+  function entrySources(entry) {
+    var by = entry && entry.sourcesBySelection;
+    if (by && by.control) {
+      var el = document.querySelector(by.control);
+      if (el) return (by.values && by.values[el.value]) || by.otherwise || entry.sources;
+    }
+    return entry && entry.sources;
+  }
+
   function maintenanceText(s) {
     var inv = global.DataSourceInventory;
     var mode = s.maintenance || 'automated';
@@ -257,7 +270,7 @@
       columns: columns,
       rows: rows,
       hasNotes: anyUnavailable,
-      sources: inventorySources(entry && entry.sources),
+      sources: inventorySources(entrySources(entry)),
       selection: selectionText(entry),
       page: String(global.location && global.location.href || '').split('#')[0],
       exportedAt: new Date().toISOString()
@@ -526,7 +539,7 @@
     s.id = 'table-export-styles';
     s.textContent =
       '.tx-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:6px;margin:0 0 6px;}' +
-      '.tx-btn{font:inherit;font-size:.8rem;font-weight:600;padding:4px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--text);cursor:pointer;line-height:1.4;}' +
+      '.tx-btn{font:inherit;font-size:.8rem;font-weight:600;min-height:44px;min-width:44px;padding:4px 12px;border:1px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--text);cursor:pointer;line-height:1.4;}' +
       '.tx-btn:hover,.tx-btn:focus-visible{border-color:var(--accent);color:var(--accent);}' +
       '.tx-btn[disabled]{opacity:.6;cursor:progress;}' +
       '.tx-status{font-size:.78rem;color:var(--muted);}';

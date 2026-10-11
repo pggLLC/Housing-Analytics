@@ -39,7 +39,9 @@ function loadInventory() {
 }
 
 const registry = loadRegistry();
-const inventoryIds = new Set(loadInventory().map((s) => s.id));
+const inventory = loadInventory();
+const inventoryIds = new Set(inventory.map((s) => s.id));
+const inventoryById = Object.fromEntries(inventory.map((s) => [s.id, s]));
 const ids = Object.keys(registry);
 assert.ok(ids.length >= 20, `expected the registry to hold the exported tables, saw ${ids.length}`);
 
@@ -75,6 +77,15 @@ for (const id of ids) {
   check(typeof e.description === 'string' && e.description.length > 20, `${id}: needs a description of what a row is`);
   check(Array.isArray(e.sources) && e.sources.length > 0, `${id}: needs at least one source`);
   for (const s of e.sources || []) check(inventoryIds.has(s), `${id}: source "${s}" is not in js/data-source-inventory.js`);
+  if (e.sourcesBySelection) {
+    const by = e.sourcesBySelection;
+    const m = /^#([A-Za-z][\w-]*)$/.exec(by.control || '');
+    check(m && Object.values(sources).some((src) => src.includes(`id="${m[1]}"`)), `${id}: sourcesBySelection control ${by.control} does not exist on any page`);
+    check(Array.isArray(by.otherwise) && by.otherwise.length > 0, `${id}: sourcesBySelection needs an otherwise list`);
+    for (const list of [...Object.values(by.values || {}), by.otherwise || []]) {
+      for (const s of list) check(inventoryIds.has(s), `${id}: source "${s}" is not in js/data-source-inventory.js`);
+    }
+  }
   for (const [label, sel] of Object.entries(e.selection || {})) {
     const m = /^#([A-Za-z][\w-]*)$/.exec(sel);
     check(m, `${id}: selection "${label}" must be an #id selector, saw ${sel}`);
@@ -148,6 +159,7 @@ function parseCsv(text) {
 async function modelChecks() {
   const dom = new JSDOM(`<!doctype html><body>
     <select id="pick"><option>Alpha County</option></select>
+    <select id="vintage"><option value="new" selected>New</option><option value="old">Old</option></select>
     <div><table data-export="fixture-table">
       <thead><tr>
         <th data-tip="Where the row is.">Place</th>
@@ -166,6 +178,7 @@ async function modelChecks() {
   w.TextEncoder = TextEncoder;
   w.Blob = Blob;
   w.TableExportRegistry = { tables: { 'fixture-table': { title: 'Fixture table', description: 'One row per fixture place.', sources: ['fred-data', 'not-a-source'], selection: { County: '#pick' }, notes: 'Fixture note.' } } };
+  const fredName = inventoryById['fred-data'].name;
   w.eval(read('js/data-source-inventory.js'));
   w.eval(read('js/components/table-export.js'));
   const TX = w.TableExport;
@@ -198,7 +211,7 @@ async function modelChecks() {
   assert.equal(m.columns[2].unit, 'US dollars per month');
   assert.equal(m.columns[3].unit, 'Text');
   assert.deepEqual(m.selection, [['County', 'Alpha County']]);
-  assert.equal(m.sources[0].name, 'FRED Economic Series', 'sources resolve from the inventory');
+  assert.equal(m.sources[0].name, fredName, 'sources resolve from the inventory');
   assert.equal(m.sources[1].missing, true, 'an unknown source id is reported, not dropped');
 
   // CSV zip: four files, data header = labels + notes, indicators = page tips.
@@ -217,7 +230,7 @@ async function modelChecks() {
     assert.equal(row[1], c.definition, `indicators.csv definition for ${c.label} is the page's`);
   }
   const src = parseCsv(files[base + '-sources.csv']);
-  assert.equal(src[1][0], 'FRED Economic Series');
+  assert.equal(src[1][0], fredName, 'sources.csv names the inventory record');
   assert.equal(src[1][3], 'https://example.org/data/fred-data.json', 'file link is absolute');
   assert.match(files['README.txt'], /Blank cells: A blank cell means the value is unavailable\. It never means zero\./);
   assert.match(files['README.txt'], /Selection: County: Alpha County/);
@@ -234,6 +247,15 @@ async function modelChecks() {
   assert.deepEqual(plain(sheet('Indicators').slice(1, 6).map((r) => r[1])), m.columns.map((c) => c.definition));
   assert.ok(sheet('About').some((r) => r[0] === 'Notes' && r[1] === 'Fixture note.'));
   assert.equal(log[0].sheets[0].cols[3].numFmt, '"$"#,##0', 'whole-dollar column gets a dollar format');
+
+  // A table whose dataset follows a control cites the source for the current
+  // value of that control, not a fixed one.
+  const entry = w.TableExportRegistry.tables['fixture-table'];
+  entry.sourcesBySelection = { control: '#vintage', values: { new: ['fred-data'] }, otherwise: ['bls-laus'] };
+  assert.deepEqual(plain(TX.collect(table).sources.map((x) => x.id)), ['fred-data'], 'the selected vintage picks its source');
+  w.document.querySelector('#vintage').value = 'old';
+  assert.deepEqual(plain(TX.collect(table).sources.map((x) => x.id)), ['bls-laus'], 'another vintage falls to otherwise');
+  delete entry.sourcesBySelection;
 
   // With Excel unavailable the click still downloads something: the CSV zip.
   delete w.ExcelJS;
