@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-11T11:02:54.789578Z",
+  "generated": "2026-10-11T11:05:37.897201Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 836964
+      "bytes": 837604
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7334,7 +7334,7 @@
     "data/insights/catalog.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9364
+      "bytes": 10053
     },
     "data/jurisdiction-briefs/0803620.json": {
       "featureCount": 0,
@@ -8385,6 +8385,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 7983
+    },
+    "data/policy/resident-services.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 35186
     },
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
