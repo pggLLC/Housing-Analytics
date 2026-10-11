@@ -1,7 +1,7 @@
 {
   "meta": {
     "updated": "2026-10-11T00:00:00Z",
-    "brief_count": 7,
+    "brief_count": 8,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
@@ -266,6 +266,38 @@
       "alert_count": 0,
       "regions": [
         "United States",
+        "Colorado"
+      ],
+      "generated": "2026-10-11T00:00:00Z"
+    },
+    {
+      "id": "hb24-1175-rofr-rofo-2026",
+      "title": "Colorado's local-government right of first refusal and right of first offer (HB24-1175): what it requires through 2029",
+      "policy_topic": "Colorado Housing Policy & LIHTC",
+      "is_curated": true,
+      "source_reviewed": true,
+      "summary": "Colorado House Bill 24-1175, approved by the Governor on May 30, 2024 and effective August 7, 2024, gives local governments two rights to buy certain multifamily rental properties. It adds sections 29-4-1201 to 29-4-1208 to the Colorado Revised Statutes. Under section 29-4-1202, the city, town or county where the property is located has a right of first refusal, exercised with a matched offer, on a rental property of 5 units or more that is existing affordable housing, meaning it is subject to a recorded restricted-use covenant or similar affordability agreement. Under section 29-4-1203, it has a right of first offer on other rental properties of at least 15 units and not more than 100 units, which the seller must notify it about before engaging a licensed broker to find buyers or listing the property on the multiple listing service. Either right may be used only to keep or convert the property as long-term affordable housing, which the act defines to include affordability for at least 40 years; the right of first offer also allows a mixed-income development. Under section 29-4-1207 both rights terminate on December 31, 2029, except that a process the local government began before that date continues until it concludes. Section 29-4-1208 repeals the part on July 1, 2031.",
+      "implications": "For a covenant-restricted property, including one financed with housing tax credits, the seller must notify CHFA and the local government at least 2 years, and again at least 6 months, before the last affordability restriction expires. When a sale is in prospect, the seller must notify the local government within 14 calendar days of a triggering event, such as signing a letter of intent, listing the property, or conditionally accepting an offer. The local government is to tell the seller within 14 calendar days of receiving that notice whether it intends to preserve or waive its right of first refusal, and then has 30 calendar days to make an offer, and must agree to close within 60 calendar days after the seller accepts, or within the period in a third-party buyer's all-cash offer if the seller has one. If the price in the seller's notice drops by 5% or more, or its terms or conditions materially change, the seller must give notice within 7 days and the local government may exercise or re-exercise the right. The local government and the seller may extend any of these periods by written agreement. The right of first offer does not apply if the property's first certificate of occupancy was issued within the 30 years before the listing. Section 29-4-1205 exempts several kinds of transfer, including a sale by a seller that has applied for, is in the process of, or has completed a resyndication or recapitalization under a public affordable housing program, if the seller gives the local government notice and evidence of it; the rights apply again if that effort fails. A local government may assign either right to a local or regional housing authority or to CHFA. Under section 29-4-1206 the remedies are damages and statutory penalties against the seller: a court must award at least $10,000 for a first material violation and at least $30,000 for a later one, and no more than $100,000, and a buyer taking title through the seller takes it free of these rights. COHO has not verified which Colorado local governments have waived or assigned their rights, so this brief does not list them.",
+      "related_data": "data/policy/tax-credit-legislation.json",
+      "sources": [
+        "Colorado General Assembly"
+      ],
+      "articles": [
+        {
+          "title": "HB24-1175, Local Government Rights to Property for Affordable Housing",
+          "source": "Colorado General Assembly",
+          "link": "https://leg.colorado.gov/bills/HB24-1175",
+          "date": "2024-05-30"
+        },
+        {
+          "title": "2024 Session Laws, chapter 286 (HB24-1175 as signed)",
+          "source": "Colorado General Assembly",
+          "link": "https://leg.colorado.gov/laws/session-laws/HB24-1175/286/download",
+          "date": "2024-05-30"
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
         "Colorado"
       ],
       "generated": "2026-10-11T00:00:00Z"
