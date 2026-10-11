@@ -60,14 +60,22 @@
   function canon() {
     if (_canon) return _canon;
     var WP = global.WorkflowProgress;
-    var fromRail = WP && Object.prototype.toString.call(WP.STEPS) === '[object Array]'
-      && WP.STEPS.length ? WP.STEPS : null;
+    // The route for the reader's product (for-sale swaps three slots for the
+    // ownership tools); plain STEPS from a rail that predates product routes.
+    var railSteps = WP && typeof WP.routeSteps === 'function' ? WP.routeSteps() : (WP && WP.STEPS);
+    var fromRail = Object.prototype.toString.call(railSteps) === '[object Array]'
+      && railSteps.length ? railSteps : null;
     var list = fromRail || FALLBACK_STEPS;
-    var out = { keys: [], labels: {}, urls: {} };
+    var out = { keys: [], labels: {}, urls: {}, actions: {}, companions: {} };
     for (var i = 0; i < list.length; i++) {
       out.keys.push(list[i].key);
-      out.labels[list[i].key] = STEP_LABEL_OVERRIDES[list[i].key] || list[i].label;
+      // A routed slot is a different page, so the rental prose names do not apply.
+      out.labels[list[i].key] = (!list[i].routed && STEP_LABEL_OVERRIDES[list[i].key]) || list[i].label;
       out.urls[list[i].key] = list[i].href;
+      if (list[i].action) out.actions[list[i].key] = list[i].action;
+      // A project with rental and for-sale homes keeps the rental page and
+      // gains the for-sale one beside it.
+      if (list[i].companion) out.companions[list[i].key] = list[i].companion;
     }
     // Only cache once the real list is in hand, so a fallback read during an
     // unlucky early call cannot freeze the wrong sequence for the page.
@@ -130,8 +138,15 @@
     if (STEP_URL_ALIASES[loc] && canon().keys.indexOf(STEP_URL_ALIASES[loc]) !== -1) {
       return STEP_URL_ALIASES[loc];
     }
+    // A route can open a page with a query (deal-calculator.html?mode=ownership)
+    // or an anchor; the page is the file name.
+    function file(href) { return String(href).split(/[?#]/)[0]; }
     for (var key in urls) {
-      if (loc === urls[key]) return key;
+      if (loc === file(urls[key])) return key;
+    }
+    var comp = canon().companions;
+    for (var ck in comp) {
+      if (loc === file(comp[ck].href)) return ck;
     }
     // Fallback: data-step attribute (only consulted if the URL isn't a known
     // funnel page; numbering follows the 6-step progress-bar scheme:
@@ -143,6 +158,29 @@
       if (num >= 1 && num <= ks.length) return ks[num - 1];
     }
     return null;
+  }
+
+  /* True when the reader is on the for-sale companion of a step, not its page. */
+  function _onCompanionPage(key) {
+    var c = canon().companions[key];
+    if (!c) return false;
+    // A page that has more than one mode says which it is showing in
+    // data-wf-page (the Deal Calculator: deal-calculator.html?mode=ownership).
+    // Otherwise the file name and the query are the page.
+    var declared = document.documentElement.getAttribute('data-wf-page');
+    var here = declared
+      || (global.location.pathname.split('/').pop() || '').toLowerCase() + (global.location.search || '');
+    return here === String(c.href).split('#')[0];
+  }
+
+  /* "For the for-sale homes, also open …" for a step with a companion page. */
+  function _companionSentence(key, onCompanion) {
+    var c = canon().companions[key];
+    if (!c) return '';
+    if (onCompanion) {
+      return ' For the rental homes, open <a href="' + canon().urls[key] + '">' + canon().labels[key] + '</a>.';
+    }
+    return ' For the for-sale homes, also open <a href="' + c.href + '">' + c.label + '</a>.';
   }
 
   /* ── Find or create mount element ──────────────────────────────────── */
@@ -314,7 +352,7 @@
       icon    = '\u2192';  // arrow
       variant = 'next';
       heading = 'Step Complete';
-      body    = STEP_ACTIONS[nextKey];
+      body    = (CANON.actions[nextKey] || STEP_ACTIONS[nextKey]) + _companionSentence(nextKey, false);
       actionUrl   = STEP_URLS[nextKey];
       actionLabel = 'Continue to ' + STEP_LABELS[nextKey] + ' \u2192';
 
@@ -324,7 +362,9 @@
       icon    = '\uD83D\uDCCB';  // clipboard
       variant = 'current';
       heading = 'Step ' + (currentIdx + 1) + ' of ' + STEP_KEYS.length;
-      body    = STEP_ACTIONS[currentStep];
+      var onComp = _onCompanionPage(currentStep);
+      body    = (onComp && CANON.companions[currentStep].action) || CANON.actions[currentStep] || STEP_ACTIONS[currentStep];
+      body   += _companionSentence(currentStep, onComp);
       if (nextAfterCurrent) {
         body += ' When you\'re done, you\'ll continue to ' + STEP_LABELS[nextAfterCurrent] + '.';
       }
@@ -370,8 +410,13 @@
 
     // Re-render when workflow state updates
     document.addEventListener('workflow:step-updated', _render);
-    document.addEventListener('workflow:project-loaded', _render);
+    // Another project can carry another product, so the route is re-read.
+    document.addEventListener('workflow:project-loaded', function () { _canon = null; _render(); });
     document.addEventListener('jurisdiction-url-context:resolved', _render);
+    // A new product changes the route, so the cached sequence is stale.
+    document.addEventListener('workflow:product-changed', function () { _canon = null; _render(); });
+    // The page switched mode (the Deal Calculator's rental/ownership toggle).
+    document.addEventListener('workflow:page-changed', _render);
   }
 
   // Run after DOM ready

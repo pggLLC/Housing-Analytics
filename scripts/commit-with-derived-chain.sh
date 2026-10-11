@@ -56,6 +56,8 @@ PATHS=(
   data/jurisdiction-briefs
   data/home-snapshot.json
   places
+  data/market/acs_median_rent_co.json
+  data/derived/funding-vs-need.json
   data/paper
   working-paper.html
   methods.html

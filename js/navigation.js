@@ -54,7 +54,7 @@
         { label: "— For-Sale / Ownership —", isHeader: true },
         { label: "Ownership Need",           href: "housing-needs-assessment.html#affordable-ownership-need-section", desc: "Who can afford to buy, and what is missing" },
         { label: "For-Sale Market Study",    href: "for-sale-market-study.html",     desc: "Demand, capture, absorption, land disposition" },
-        { label: "For-Sale Feasibility",     href: "deal-calculator.html",           desc: "Per-unit subsidy gap for deed-restricted homes (Deal Calculator, ownership mode)" },
+        { label: "For-Sale Feasibility",     href: "deal-calculator.html?mode=ownership",           desc: "Per-unit subsidy gap for deed-restricted homes (Deal Calculator, ownership mode)" },
         { label: "Land Value & Negotiation", href: "land-value.html",                desc: "Site economics — serves both tracks" },
       ]
     },
@@ -734,7 +734,26 @@
     document.head.appendChild(l);
   }
 
-  function boot() { ensureFavicon(); inject(); addOwnershipProgramLink(); loadPlaceProfileHelp(); }
+  // Cloudflare Web Analytics: cookieless, anonymous visit counts (see
+  // privacy-policy.html). The token is public by design; it ends up in the
+  // page source either way. Empty token = no beacon. The /developer* pages are
+  // excluded so gated work does not show up in the public site's traffic.
+  var CF_ANALYTICS_TOKEN = '';
+  function loadAnalytics() {
+    if (!CF_ANALYTICS_TOKEN) return;
+    if (location.hostname !== 'cohoanalytics.com' && location.hostname !== 'www.cohoanalytics.com') return;
+    var page = location.pathname.split('/').pop() || '';
+    if (/^developer/.test(page)) return;
+    if (document.getElementById('cf-web-analytics')) return;
+    var s = document.createElement('script');
+    s.id = 'cf-web-analytics';
+    s.defer = true;
+    s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+    s.setAttribute('data-cf-beacon', JSON.stringify({ token: CF_ANALYTICS_TOKEN }));
+    document.head.appendChild(s);
+  }
+
+  function boot() { ensureFavicon(); inject(); addOwnershipProgramLink(); loadPlaceProfileHelp(); loadAnalytics(); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);

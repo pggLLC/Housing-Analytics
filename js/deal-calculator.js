@@ -527,6 +527,20 @@
     document.querySelectorAll('[data-dc-mode="ownership"]').forEach(function (el) {
       el.hidden = !isOwnership;
     });
+    // Tell the guided path which page this is: the ownership-mode calculator
+    // is a different step page from the rental one, however the mode was set
+    // (the toggle, ?mode=ownership, or a restored share link).
+    var page = isOwnership ? 'deal-calculator.html?mode=ownership' : 'deal-calculator.html';
+    if (document.documentElement.getAttribute('data-wf-page') !== page) {
+      document.documentElement.setAttribute('data-wf-page', page);
+      // The document's own window builds the event: test harnesses pair a
+      // jsdom document with Node's globals, and dispatchEvent refuses an
+      // event from another realm.
+      var view = document.defaultView || window;
+      try {
+        document.dispatchEvent(new view.CustomEvent('workflow:page-changed', { detail: { page: page } }));
+      } catch (_) { /* the guided path is optional on this page */ }
+    }
   }
 
   function _fundingUseCaseForDealMode() {
@@ -724,7 +738,7 @@
       return pct + '% AMI';
     }
     if (MIDDLE_INCOME_AMI_BANDS[pct]) {
-      return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(middle-income: CHFA MIHTC/TOC + Prop 123; not LIHTC-credit-eligible)</span>';
+      return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(middle-income: Colorado Middle Income Housing Tax Credit (MIHTC) + Prop 123; not LIHTC-credit-eligible)</span>';
     }
     return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(market/workforce; not counted under this election — select Average Income Test to designate 70/80% units)</span>';
   }
@@ -1778,8 +1792,9 @@
           <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:.4rem;line-height:1.45;">
             Credit-eligible tiers depend on the elected minimum set-aside; 100%, 110%, and 120%
             AMI never generate federal LIHTC equity in this screening model.
-            110% and 120% AMI are middle-income planning bands for CHFA MIHTC/TOC
-            and Prop 123 context only. Mixed-income deals use IRC §42(c)(1)(B)
+            110% and 120% AMI are middle-income planning bands for Colorado's
+            Middle Income Housing Tax Credit (MIHTC) and Prop 123 context only;
+            this calculator does not size MIHTC credits. Mixed-income deals use IRC §42(c)(1)(B)
             applicable fraction — eligible basis is prorated by LIHTC unit share.
             See live calculation below.
           </div>
@@ -2252,8 +2267,9 @@
               real underwriting subtracts UA.
               <br>
               <strong>Middle-income bands:</strong> 110% and 120% AMI are shown
-              as planning bands for CHFA MIHTC/TOC and Prop 123 context. They
-              are not federal LIHTC-credit-eligible and are excluded from
+              as planning bands for Colorado's Middle Income Housing Tax Credit
+              (MIHTC, 80–120% AMI) and Prop 123 context; this calculator does
+              not size MIHTC credits. They are not federal LIHTC-credit-eligible and are excluded from
               qualified basis and annual credit calculations.
             </p>
           </div>
@@ -2434,7 +2450,7 @@
             <strong>Bridge</strong>: the gap between the two, which public subsidy must fill.
             <strong>Public interest</strong>: the steward's claim on the home and its resale proceeds.
           </p>
-          <dl id="dc-own-rows" style="display:grid;grid-template-columns:1fr auto;gap:0.45rem 0.75rem;font-size:var(--small);margin:0;">
+          <dl id="dc-own-rows" style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0.45rem 0.75rem;font-size:var(--small);margin:0;">
             <dt data-actor="developer" style="color:var(--muted);">Development cost / unit <span class="dc-own-actor" data-actor="developer">Developer / operator</span></dt>
             <dd id="dc-own-cost-per-unit" style="font-weight:700;text-align:right;">—</dd>
 
@@ -4786,10 +4802,24 @@
   // -------------------------------------------------------------------
   // Public API
   // -------------------------------------------------------------------
+  /* A link can open the calculator in ownership mode (?mode=ownership): the
+   * nav's "For-Sale Feasibility" item and the for-sale route's Deal step both
+   * do (docs/DEVELOPER-TRACKS.md). Any other value leaves the default. */
+  function applyModeFromUrl() {
+    var mode = new URLSearchParams(window.location.search).get('mode');
+    if (mode !== 'ownership') return;
+    var radio = document.getElementById('dc-mode-ownership');
+    if (!radio || radio.checked) return;
+    radio.checked = true;
+    var view = radio.ownerDocument.defaultView || window;
+    radio.dispatchEvent(new view.Event('change', { bubbles: true }));
+  }
+
   function init() {
     var mount = document.getElementById('dealCalcMount');
     if (!mount) return;
     render(mount);
+    applyModeFromUrl();
     _renderSoftFundingReference();
     var chfaLoad = window.__DealCalcChfaTablePromise || fetch('data/chfa-income-rent-limits-2026.json').then(function (r) {
       return r.ok ? r.json() : null;

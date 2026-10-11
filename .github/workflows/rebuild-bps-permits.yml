@@ -135,7 +135,7 @@ jobs:
           # the second half the chain would run and its output would be thrown
           # away unpushed, which is indistinguishable from not running it.
           # Measured from a full chain run on 2026-09-20 (#1765).
-          paths="data/hna/permits.json data/hna/source/bps data/hna/projections/places.json places/ data/hna/ranking-index.json data/hna/ranking-scenarios data/hna/jurisdiction-metrics-digest data/hna/ownership-need.json data/jurisdiction-briefs data/home-snapshot.json data/paper working-paper.html methods.html AGENTS.md README.md data/_manifest.json data/manifest.json"
+          paths="data/hna/permits.json data/hna/source/bps data/hna/projections/places.json places/ data/hna/ranking-index.json data/hna/ranking-scenarios data/hna/jurisdiction-metrics-digest data/hna/ownership-need.json data/jurisdiction-briefs data/home-snapshot.json data/market/acs_median_rent_co.json data/derived/funding-vs-need.json data/paper working-paper.html methods.html AGENTS.md README.md data/_manifest.json data/manifest.json"
           # A path the chain starts writing that is missing from the list above
           # would be silently dropped, which is the defect this fixes. Fail loudly
           # instead.
@@ -175,6 +175,8 @@ jobs:
               "data/hna/ownership-need.json",
               "data/jurisdiction-briefs",
               "data/home-snapshot.json",
+              "data/market/acs_median_rent_co.json",
+              "data/derived/funding-vs-need.json",
               "data/paper",
               "working-paper.html",
               "methods.html",
