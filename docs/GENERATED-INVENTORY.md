@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T10:05:11.891Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T10:14:13.162Z. Do not edit by hand.
 
 ---
 
@@ -1729,17 +1729,17 @@
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/policy-timeline.json` | 6.7 KB | ✅ | — |
 | `data/policy/policy-watch.json` | 50.5 KB | ✅ | — |
-| `data/policy/prop123_jurisdictions.json` | 71.0 KB | ✅ | — |
+| `data/policy/prop123_jurisdictions.json` | 130.0 KB | ✅ | — |
 | `data/policy/resale-conventions.json` | 6.9 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.8 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 43.5 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 23.7 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 27.1 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 243.1 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 17.5 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 21.3 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
 | `data/polymarket-history.json` | 156.0 KB | ✅ | — |
@@ -1982,7 +1982,7 @@
 | `test/hna-phase2-stubs-wired.test.js` | 6.8 KB |
 | `test/hna-profile-fetch-batches.test.js` | 5.2 KB |
 | `test/hna-projection-integrity.test.js` | 18.7 KB |
-| `test/hna-prop123-relationship.test.js` | 6.7 KB |
+| `test/hna-prop123-relationship.test.js` | 7.9 KB |
 | `test/hna-provenance-disclosure.test.js` | 4.0 KB |
 | `test/hna-qct-dda-unavailable.test.js` | 9.7 KB |
 | `test/hna-race-ethnicity-dp05.test.js` | 4.4 KB |
@@ -2047,7 +2047,7 @@
 | `test/lihtc-guide-accuracy.test.js` | 2.3 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 8.8 KB |
 | `test/lihtc-project-size.test.js` | 6.8 KB |
-| `test/local-incentives.test.mjs` | 11.2 KB |
+| `test/local-incentives.test.mjs` | 11.4 KB |
 | `test/local-resources-discovery.test.js` | 2.0 KB |
 | `test/local-resources-entry-completeness.test.js` | 3.3 KB |
 | `test/local-support.test.mjs` | 12.6 KB |
@@ -2137,7 +2137,7 @@
 | `test/pma-transit-stops.test.js` | 30.4 KB |
 | `test/pma-transit.test.js` | 15.9 KB |
 | `test/pmi-gate-is-one-rule.test.mjs` | 11.2 KB |
-| `test/policy-briefs-curated.test.js` | 18.7 KB |
+| `test/policy-briefs-curated.test.js` | 31.2 KB |
 | `test/policy-data-currency.test.js` | 3.2 KB |
 | `test/policy-page-currency.test.mjs` | 6.0 KB |
 | `test/policy-review-status.test.mjs` | 11.5 KB |
@@ -2227,7 +2227,7 @@
 | `test/test_fmr_flatten_guard.py` | 10.1 KB |
 | `test/test_hna_market_bridge.js` | 14.6 KB |
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
-| `test/test_legislative_tracker.js` | 10.2 KB |
+| `test/test_legislative_tracker.js` | 10.3 KB |
 | `test/test_lihtc_deal_predictor.js` | 21.6 KB |
 | `test/test_public_land_overlay.js` | 12.0 KB |
 | `test/test_qcew_annual_slice.py` | 8.0 KB |
