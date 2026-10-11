@@ -947,7 +947,7 @@
           "items": [
             "Resident-owned manufactured home communities. Residents form a cooperative and buy the land under their homes. ROC USA reports, from a longitudinal study by an appraisal firm, that site fees in its member communities were 11% below market after five years and 21% below market after 10 years. ROC USA documented the Meadowood Village residents' purchase of their park in Littleton in January 2025.",
             "Renter equity. Cornerstone Corporation for Shared Equity's model in Cincinnati, used by Northeast Shores in Cleveland, gives tenants credits for paying rent on time, following house rules and doing work on the property, paid from savings on turnover and vacancy. Next City reported in 2015 that renters could earn up to $10,000 over 10 years. No independent evaluation was found.",
-            "Proposition 123 tenant equity vehicle. State law requires the equity program to include a tenant equity vehicle: in projects it funds, tenants who live there at least one year are entitled to a share of the equity growth, if any. Program returns above the initial investment stay in the program to fund it. Denver7 reported in February 2026 that the first property in the related renter rewards program, Fall River Village in Estes Park, pays tenants who pay on time 2% of their rent back each month.",
+            "Proposition 123 tenant equity vehicle. State law requires the equity program to include a tenant equity vehicle: in projects it funds, tenants who live there at least one year are entitled to a share of the equity growth, if any, as funding for a down payment or related purposes, which may also include ongoing opportunities to build up savings. Program returns above the initial investment stay in the program to fund it. Denver7 reported in February 2026 that the first property in the related renter rewards program, Fall River Village in Estes Park, pays tenants who pay on time 2% of their rent back each month.",
             "LIHTC conversion after year 15. Federal law lets tenants, a resident management corporation, a qualified nonprofit or a government agency hold a right of first refusal to buy a tax credit building after the compliance period at a minimum price set by its outstanding debt and taxes. CHN Housing Partners in Cleveland used this to run a lease-purchase program in which families could take title to their homes starting in year 16.",
             "Limited-equity cooperatives, which also serve renters who become shareholders. No Colorado example was verified for this brief."
           ]
@@ -956,7 +956,7 @@
           "id": "colorado-law",
           "heading": "Colorado law and money",
           "items": [
-            "Proposition 123 equity program (C.R.S. 29-32-104, run by OEDIT): equity investments in low- and middle-income multifamily rental housing, with the tenant equity vehicle described above.",
+            "Proposition 123 equity program (C.R.S. 29-32-104, run by OEDIT): equity investments in low- and middle-income multifamily rental housing, with the tenant equity vehicle described above. For the 2026-27 state fiscal year, HB26-1360 sets the program shares by priority instead of the usual percentages: concessionary debt first, this equity program second, land banking third.",
             "Proposition 123 land banking: grants to local governments and loans to nonprofits to acquire and preserve land for affordable housing, which is where a land trust or a deed-restricted ownership project can get its site.",
             "Proposition 123 affordable home ownership program (run by DOLA's Division of Housing): down-payment assistance for first-time buyers, prioritising first-generation buyers, plus support for community land trusts and grants or loans to mobile home owners buying their park.",
             "Mobile home park opportunity to purchase (C.R.S. 38-12-217): a landlord must give notice before selling a park; a group of home owners then has 120 days to submit a purchase offer and another 120 days to close, and the landlord must negotiate in good faith.",
@@ -1018,7 +1018,7 @@
           "items": [
             "The site does not model the Proposition 123 tenant equity vehicle or renter equity payments in the Deal Calculator; any amount would be an assumption, so none is shown.",
             "No Colorado limited-equity cooperative was verified, and the West Mountain Regional Housing Coalition and Vail program pages could not be loaded, so they are cited through press reports.",
-            "The Proposition 123 statute was read as amended in 2023; check the current statute and the program guidelines before relying on a detail.",
+            "The Proposition 123 statute was read as amended by HB26-1360, signed May 28, 2026, which left the tenant equity vehicle wording as the 2023 amendments wrote it. Check the program guidelines before relying on a detail.",
             "Figures from ROC USA, CHN Housing Partners and the press are what those organizations report about their own programs."
           ]
         }
@@ -1177,6 +1177,12 @@
           "source": "Colorado General Assembly",
           "link": "https://leg.colorado.gov/bills/hb23-1184",
           "date": "2023-05-25"
+        },
+        {
+          "title": "HB26-1360 session law (Affordable Housing Financing Fund, amends C.R.S. 29-32-104)",
+          "source": "Colorado General Assembly",
+          "link": "https://leg.colorado.gov/laws/session-laws/HB26-1360/192/download",
+          "date": "2026-05-28"
         }
       ],
       "source_quotes": [
@@ -1231,6 +1237,14 @@
         {
           "link": "https://leg.colorado.gov/sites/default/files/documents/2023A/bills/sl/2023a_sl_381.pdf",
           "quote": "tenants who reside in the project for at least one year shall be entitled to a share of the equity growth in the project, if any"
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB26-1360/192/download",
+          "quote": "tenants who reside in the project for at least one year shall be entitled to a share of the equity growth in the project, if any, in the form of funding from the program for a down-payment on housing or related purposes, which may also include ongoing opportunities for tenants to build up their savings"
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB26-1360/192/download",
+          "quote": "for the state fiscal year that begins on July 1, 2026, the office and administrator shall, with the goal of funding all three programs described in subsection (1) of this section, determine the funding percentages for the programs described in subsection (1) of this section based on the following priority order: concessionary debt, affordable housing equity, and land banking"
         }
       ],
       "alert_count": 0,
