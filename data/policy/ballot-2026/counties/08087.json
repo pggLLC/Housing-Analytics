@@ -5,13 +5,14 @@
       "geoid": "08087",
       "level": "county",
       "name": "Morgan County",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://morgancounty.colorado.gov/2026-general-election-information",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://morgancounty.colorado.gov/elections-department",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: no sample ballot, TABOR notice, ballot certification or participating-entities list is posted; the Elections Department page shows only the June primary sample ballots.",
-        "Excluded by owner decision on 2026-09-26: Resolution 2026 BCC 38 (September 1, 2026; scanned) refers to the November 3, 2026 election the question \"Shall the proposed Morgan County Home Rule Charter be adopted?\", called Ballot Question 1A in Resolution 2026 BCC 41. It adopts a form of county government, not a tax or housing measure on its face; the proposed charter contains an Article IX on planning. The charter PDF is scanned and only its cover and table of contents were read.",
+        "Checked 2026-10-10: the Elections Department page posts 27 English sample ballot styles (with Spanish versions); all 27 were read. The only county question is Morgan County Question 1A: \"Shall the proposed Morgan County Home Rule Charter be adopted?\" No TABOR notice or participating-entities list is posted.",
+        "Excluded by owner decision on 2026-09-26: Question 1A, referred by Resolution 2026 BCC 38 (September 1, 2026; scanned) and numbered in Resolution 2026 BCC 41. It adopts a form of county government, not a tax or housing measure on its face; the proposed charter contains an Article IX on planning. The charter PDF is scanned and only its cover and table of contents were read.",
+        "Not county questions and not housing: Central Colorado Water Conservancy District Ballot Issue 7B and its Groundwater Management Subdistrict Ballot Issue 7C (water), and Buffalo School District RE-4J Ballot Issue 5A (debt).",
         "Commissioners' agendas January to September 29, 2026 show no other county ballot referral."
       ],
       "reviewed_sources": [
@@ -21,7 +22,19 @@
         },
         {
           "url": "https://morgancounty.colorado.gov/elections-department",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://morgancounty.colorado.gov/sites/g/files/lrnvjt1911/files/documents/001-01.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://morgancounty.colorado.gov/sites/g/files/lrnvjt1911/files/documents/001-05.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://morgancounty.colorado.gov/sites/g/files/lrnvjt1911/files/documents/013-02.pdf",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://morgancounty.colorado.gov/sites/g/files/lrnvjt1911/files/documents/2026-BCC-38-Home-Rule-Charter.pdf",
@@ -41,12 +54,13 @@
       "geoid": "0809555",
       "level": "municipal",
       "name": "Brush (city)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://morgancounty.colorado.gov/2026-general-election-information",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://morgancounty.colorado.gov/elections-department",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The city holds regular elections in November of odd-numbered years; council agendas June 8 to September 14, 2026 contain no ballot question or county election agreement."
+        "Checked 2026-10-10: none of the 27 county sample ballot styles has a City of Brush section. No participating-entities list is posted.",
+        "The city's elections page states that regular municipal elections are held in November of odd-numbered years. Council agendas June 8 to September 14, 2026 contain no ballot question or county election agreement."
       ],
       "reviewed_sources": [
         {
@@ -54,8 +68,12 @@
           "retrieved": "2026-09-26"
         },
         {
+          "url": "https://morgancounty.colorado.gov/elections-department",
+          "retrieved": "2026-10-10"
+        },
+        {
           "url": "https://www.brushcolo.com/your_city/elections.php",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.brushcolo.com/your_city/agendas_minutes.php",
@@ -67,12 +85,13 @@
       "geoid": "0827810",
       "level": "municipal",
       "name": "Fort Morgan (city)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://morgancounty.colorado.gov/2026-general-election-information",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://morgancounty.colorado.gov/elections-department",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The city holds regular elections in November of odd-numbered years; council agendas May 19 to September 15, 2026 contain no ballot referral (two PDFs had no text layer)."
+        "Checked 2026-10-10: none of the 27 county sample ballot styles has a City of Fort Morgan section. No participating-entities list is posted.",
+        "The city's election page states that its municipal election takes place in November of odd-numbered years. Council agendas May 19 to September 15, 2026 contain no ballot referral (two PDFs had no text layer)."
       ],
       "reviewed_sources": [
         {
@@ -80,8 +99,12 @@
           "retrieved": "2026-09-26"
         },
         {
+          "url": "https://morgancounty.colorado.gov/elections-department",
+          "retrieved": "2026-10-10"
+        },
+        {
           "url": "https://www.cityoffortmorgan.com/147/Election-Information",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.cityoffortmorgan.com/AgendaCenter/City-Council-Agendas-Minutes-2",
@@ -94,16 +117,20 @@
       "level": "municipal",
       "name": "Hillrose (town)",
       "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://morgancounty.colorado.gov/2026-general-election-information",
-      "checked": "2026-09-26",
+      "reviewed_source": "https://morgancounty.colorado.gov/elections-department",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town website had no readable content on 2026-09-26."
+        "Checked 2026-10-10: none of the 27 county sample ballot styles has a Town of Hillrose section, but no participating-entities list is posted and no town website with election information was found, so a separate town election could not be ruled out from the town's own records."
       ],
       "reviewed_sources": [
         {
           "url": "https://morgancounty.colorado.gov/2026-general-election-information",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://morgancounty.colorado.gov/elections-department",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -111,17 +138,26 @@
       "geoid": "0845695",
       "level": "municipal",
       "name": "Log Lane Village (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://morgancounty.colorado.gov/2026-general-election-information",
-      "checked": "2026-09-26",
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://www.townofllv.com/",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town website (townofllv.com) returned HTTP 403 behind a Cloudflare challenge on 2026-09-26."
+        "Checked 2026-10-10: none of the 27 county sample ballot styles has a Town of Log Lane Village section. No participating-entities list is posted.",
+        "The town website (townofllv.com) returned HTTP 403 on 2026-10-10, as it did on 2026-09-26, so a separate town election could not be ruled out from the town's own records."
       ],
       "reviewed_sources": [
         {
           "url": "https://morgancounty.colorado.gov/2026-general-election-information",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://morgancounty.colorado.gov/elections-department",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.townofllv.com/",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -129,18 +165,30 @@
       "geoid": "0884770",
       "level": "municipal",
       "name": "Wiggins (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://morgancounty.colorado.gov/2026-general-election-information",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://morgancounty.colorado.gov/sites/g/files/lrnvjt1911/files/documents/001-03.pdf",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Participating: the town's elections page states the town will participate in a coordinated election with the Morgan County Elections Department (trustee and mayor seats). It lists no ballot questions.",
-        "The county sample ballot is not yet posted, so any town question could not be read. The town's agendas page did not load its documents."
+        "Participating: the town's elections page states the town will participate in a coordinated election with the Morgan County Elections Department (trustee and mayor seats).",
+        "Checked 2026-10-10: the two county styles labelled \"With Town of Wiggins Candidates\" (001-03 and 018-03) list Town of Wiggins Mayor and Trustee races only. No town question appears on them or on any of the other 25 styles."
       ],
       "reviewed_sources": [
         {
           "url": "https://morgancounty.colorado.gov/2026-general-election-information",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://morgancounty.colorado.gov/sites/g/files/lrnvjt1911/files/documents/001-03.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://morgancounty.colorado.gov/sites/g/files/lrnvjt1911/files/documents/018-03.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://morgancounty.colorado.gov/elections-department",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.wigginsco.gov/elections",
