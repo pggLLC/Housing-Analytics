@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-11T03:49:04.533958Z",
+  "generated": "2026-10-11T04:30:45.471497Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 836280
+      "bytes": 836693
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7524,7 +7524,7 @@
     "data/kalshi/prediction-market.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1428
+      "bytes": 1598
     },
     "data/lihtc-trends-by-county.json": {
       "featureCount": 64,
@@ -7882,9 +7882,9 @@
       "bytes": 3208
     },
     "data/market/zori_rents_co.json": {
-      "featureCount": 33,
+      "featureCount": 35,
       "placeholder": false,
-      "bytes": 24712
+      "bytes": 25688
     },
     "data/metadata/rent_burden_sources.json": {
       "featureCount": 0,
@@ -8435,6 +8435,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 12560
+    },
+    "data/polymarket-history.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 159761
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
