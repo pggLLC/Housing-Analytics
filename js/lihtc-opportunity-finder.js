@@ -98,7 +98,7 @@
     sortKey: 'score',
     sortDir: 'desc',
     filters: {
-      target: '9pct',     // '9pct' | '4pct' | 'any'
+      target: '9pct',     // '9pct' | '4pct' | 'both_credits' | 'preservation' | 'workforce_resort' | 'prop123_local' | 'any'
       // Basis-boost designation requirement. Mutually-exclusive radio:
       //   'both'   — must have BOTH QCT AND DDA (default; strongest case)
       //   'either' — has QCT OR DDA (any basis-boost eligible jurisdiction)
@@ -1662,8 +1662,44 @@
 
   /* ── Filtering ────────────────────────────────────────────────────── */
 
+  // 'both_credits' — the user is open to either a 9% or a 4% deal. Each
+  // place is already scored both ways (score9 / score4); in this mode it
+  // ranks by whichever credit type it fits better, and the row says which.
+  // Ties go to 9%. Custom Scenario Builder mixes are per single target, so
+  // they do not apply here (the builder is hidden while this is selected).
+  var BOTH_CREDITS = 'both_credits';
+
+  function _bestCredit(op) {
+    var s9 = Number.isFinite(op.score9) ? op.score9 : null;
+    var s4 = Number.isFinite(op.score4) ? op.score4 : null;
+    if (s9 == null && s4 == null) return null;
+    if (s4 == null) return '9pct';
+    if (s9 == null) return '4pct';
+    return s4 > s9 ? '4pct' : '9pct';
+  }
+
+  // The single target whose weights explain this place's active score.
+  function _effectiveTarget(op) {
+    var t = state.filters.target;
+    if (t !== BOTH_CREDITS) return t;
+    return (op && _bestCredit(op)) || '9pct';
+  }
+
+  // Preset score for one specific target, for ranking peers against the
+  // same target a Compare link exports.
+  function _scoreForTarget(op, t) {
+    if (t === state.filters.target) return _activeScore(op);
+    if (t === '9pct') return op.score9;
+    if (t === '4pct') return op.score4;
+    return _activeScore(op);
+  }
+
   function _activeScore(op) {
     var t = state.filters.target;
+    if (t === BOTH_CREDITS) {
+      var best = _bestCredit(op);
+      return best === '4pct' ? op.score4 : op.score9;
+    }
     // F236 — Scenario Builder override. When a custom scenario is active
     // for the current target preset, compute the score live with the
     // user's chosen weights + recency source instead of using the
@@ -1903,6 +1939,7 @@
     var TARGET_LABELS = {
       '9pct':             '9% Competitive',
       '4pct':             '4% Bond',
+      'both_credits':     '9% or 4%',
       'preservation':     'Preservation',
       'workforce_resort': 'Workforce / Resort',
       'prop123_local':    'Prop 123 / Local',
@@ -1948,7 +1985,7 @@
     if (!filtersEl) return;
     var f = state.filters || {};
     var labels = [];
-    var TARGET_LABELS = { '9pct': '9% credit type', '4pct': '4% credit type', 'preservation': 'Preservation', 'workforce_resort': 'Workforce/Resort', 'prop123_local': 'Prop 123 / Local', 'any': 'Balanced' };
+    var TARGET_LABELS = { '9pct': '9% credit type', '4pct': '4% credit type', 'both_credits': '9% and 4% credit types', 'preservation': 'Preservation', 'workforce_resort': 'Workforce/Resort', 'prop123_local': 'Prop 123 / Local', 'any': 'Balanced' };
     var BASIS_LABELS = { 'either': 'QCT or DDA', 'both': 'QCT + DDA both', 'qct': 'QCT only', 'dda': 'DDA only', 'none': 'no basis-boost filter' };
     if (f.target && TARGET_LABELS[f.target]) labels.push(TARGET_LABELS[f.target]);
     if (f.region) labels.push(f.region);
@@ -1995,6 +2032,7 @@
     var TARGET_LABELS = {
       '9pct':             '9% Competitive',
       '4pct':             '4% Bond',
+      'both_credits':     '9% Competitive and 4% Bond',
       'preservation':     'Preservation',
       'workforce_resort': 'Workforce / Resort',
       'prop123_local':    'Prop 123 / Local',
@@ -2038,11 +2076,24 @@
       return why[target] || why.any;
     }
     var targetLabel = TARGET_LABELS[state.filters.target] || 'Balanced (any)';
+    var weightsBody;
+    if (state.filters.target === BOTH_CREDITS) {
+      var n9 = filtered.filter(function (op) { return _bestCredit(op) === '9pct'; }).length;
+      var n4 = filtered.filter(function (op) { return _bestCredit(op) === '4pct'; }).length;
+      weightsBody =
+        '<div class="lof-weight-chips"><span class="lof-weight-chip-label">9%</span> ' + _weightChips('9pct') + '</div>' +
+        '<div class="lof-weight-chips"><span class="lof-weight-chip-label">4%</span> ' + _weightChips('4pct') + '</div>' +
+        '<div class="lof-weight-why">Each place is scored as a 9% deal and as a 4% deal and ranked by the higher of the two. ' +
+          n9 + ' fit 9% better and ' + n4 + ' fit 4% better.</div>';
+    } else {
+      weightsBody =
+        '<div class="lof-weight-chips">' + _weightChips(state.filters.target) + '</div>' +
+        '<div class="lof-weight-why">' + _weightWhyLine(state.filters.target) + '</div>';
+    }
     var html =
       '<div class="lof-summary-card lof-summary-card--weights"><div class="k">Target deal type · active weights</div>' +
         '<div class="v" style="font-size:.95rem;line-height:1.25">' + targetLabel + '</div>' +
-        '<div class="lof-weight-chips">' + _weightChips(state.filters.target) + '</div>' +
-        '<div class="lof-weight-why">' + _weightWhyLine(state.filters.target) + '</div>' +
+        weightsBody +
       '</div>' +
       '<div class="lof-summary-card"><div class="k">Jurisdictions matching</div>' +
         '<div class="v">' + n + '</div>' +
@@ -2528,9 +2579,8 @@
     // composite score on each list row. Two drivers only here; the detail
     // panel keeps the full drag/move-up template (F163). Visually subtle:
     // 0.66rem muted italic so the score number stays the visual anchor.
-    var _activeTarget = state.filters.target;
-    var _targetWeights = SCORE_WEIGHTS[_activeTarget] || SCORE_WEIGHTS.any;
     function _rowTopDrivers(op) {
+      var _targetWeights = SCORE_WEIGHTS[_effectiveTarget(op)] || SCORE_WEIGHTS.any;
       var dims = [
         { label: 'need',    score: op.needScore,        weight: _targetWeights.need },
         { label: 'recency', score: op.recencyScore,     weight: _targetWeights.recency },
@@ -2574,6 +2624,11 @@
       }
       var activeScore = _activeScore(op);
       var scoreCls = 'lof-score-' + _scoreBand(activeScore);
+      var bestFitHtml = '';
+      if (state.filters.target === BOTH_CREDITS && _bestCredit(op)) {
+        var _bf = _bestCredit(op) === '4pct' ? '4%' : '9%';
+        bestFitHtml = ' <span class="lof-best-fit" title="Scores higher as a ' + _bf + ' deal (9% ' + op.score9 + ' · 4% ' + op.score4 + ')">' + _bf + '</span>';
+      }
       var selectedCls = (state.selectedId === op.id) ? ' is-selected' : '';
       var topDriversText = _rowTopDrivers(op);
       var topDriversHtml = topDriversText
@@ -2608,7 +2663,7 @@
         : '';
 
       return '<tr data-op-id="' + escHtml(op.id) + '" class="' + selectedCls.trim() + '">' +
-        '<td data-priority="primary"><span class="lof-score-cell ' + scoreCls + '">' + activeScore + '</span>' + topDriversHtml + '</td>' +
+        '<td data-priority="primary"><span class="lof-score-cell ' + scoreCls + '">' + activeScore + '</span>' + bestFitHtml + topDriversHtml + '</td>' +
         '<td data-priority="primary"><strong>' + escHtml(op.name) + '</strong>' + r1Badge + watchlistBadge +
           ' <a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" ' +
             'target="_blank" rel="noopener" class="lof-hna-link" ' +
@@ -3309,7 +3364,7 @@
       reasons.push('<strong>Resort county:</strong> active workforce-housing pressure (' + escHtml(op.resortLabel) + ').');
     }
     // 8. Population scale (for 4% bond targets)
-    if (op.population != null && op.population >= 30000 && state.filters.target === '4pct') {
+    if (op.population != null && op.population >= 30000 && _effectiveTarget(op) === '4pct') {
       reasons.push('<strong>Renter scale:</strong> ' + fmtInt(op.population) + ' approximate renter pool — supports 4% bond financing.');
     }
     // 9. F116 — Fresh CHFA 2026 R1 award (bridge data, announced 2026-05-21).
@@ -3474,14 +3529,15 @@
 
       // Existing region-rank pick (kept for backward compatibility — the
       // primary "compare with peers" CTA still uses this).
+      var _peerTarget = _effectiveTarget(op);
       var sameRegion = state.opportunities
         .filter(function (o) { return o.region === op.region && o.id !== op.id; })
-        .sort(function (a, b) { return _activeScore(b) - _activeScore(a); })
+        .sort(function (a, b) { return _scoreForTarget(b, _peerTarget) - _scoreForTarget(a, _peerTarget); })
         .slice(0, 3)
         .map(function (o) { return o.placeGeoid; });
       var compareIds = [op.placeGeoid].concat(sameRegion).join(',');
       var compareHref = 'compare.html?jurisdictions=' + encodeURIComponent(compareIds) +
-        '&target=' + encodeURIComponent(state.filters.target);
+        '&target=' + encodeURIComponent(_effectiveTarget(op));
 
       // F71: same-character peers, statewide, picked by score. Only show
       // when we successfully classified this jurisdiction's character.
@@ -3490,13 +3546,13 @@
       if (selfChar) {
         var sameChar = state.opportunities
           .filter(function (o) { return o.id !== op.id && labelCharacter(o) === selfChar; })
-          .sort(function (a, b) { return _activeScore(b) - _activeScore(a); })
+          .sort(function (a, b) { return _scoreForTarget(b, _peerTarget) - _scoreForTarget(a, _peerTarget); })
           .slice(0, 3)
           .map(function (o) { return o.placeGeoid; });
         if (sameChar.length > 0) {
           var charIds = [op.placeGeoid].concat(sameChar).join(',');
           charCompareHref = 'compare.html?jurisdictions=' + encodeURIComponent(charIds) +
-            '&target=' + encodeURIComponent(state.filters.target);
+            '&target=' + encodeURIComponent(_effectiveTarget(op));
           charLabel = selfChar === 'bedroom' ? '🛏️ Bedroom communities'
                     : selfChar === 'mixed'   ? '🔀 Mixed markets'
                                              : '🏢 Self-contained markets';
@@ -3705,7 +3761,7 @@
     // the drag dimension scored < 45 or noticeably below the row's avg).
     // Detail-panel only — we deliberately do NOT render this on list rows.
     (function _renderOfDrivers() {
-      var t = state.filters.target;
+      var t = _effectiveTarget(op);
       var w = SCORE_WEIGHTS[t] || SCORE_WEIGHTS.any;
       var DRIVER_DIMS = [
         { key: 'need',    label: 'AMI need',     score: op.needScore,        weight: w.need,
@@ -4536,6 +4592,9 @@
       minYears.value = 0; minYearsVal.textContent = '0';
       minScore.value = 0; minScoreVal.textContent = '0';
       minPop.value = 0;
+      // Target is back to 9%, so the target-dependent builder (hidden in
+      // 9% + 4% mode) has to be rebuilt too.
+      _scenarioBuilderRebuild();
       _refresh();
     });
 
@@ -5075,6 +5134,12 @@
     var det = document.getElementById('lofScenarioBuilder');
     if (!det) return;
     var t = state.filters.target;
+    // 9% + 4% mode ranks by the better of two preset scores; a single
+    // custom mix has no meaning there, so the builder steps aside.
+    det.hidden = (t === BOTH_CREDITS);
+    var bothNote = document.getElementById('lofBothCreditsNote');
+    if (bothNote) bothNote.hidden = (t !== BOTH_CREDITS);
+    if (t === BOTH_CREDITS) { state.customScenario = null; return; }
     var preset = SCORE_WEIGHTS[t] || SCORE_WEIGHTS.any;
     // Multiply preset (0..1 fractions) by 100 so the sliders work in
     // whole-percentage units that sum to 100.
