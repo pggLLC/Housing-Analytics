@@ -16,10 +16,13 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          # The derived chain's paper:build step measures repo history.
+          fetch-depth: 0
 
       - name: Set up Node.js 20
         uses: actions/setup-node@v7
@@ -48,24 +51,37 @@ jobs:
       # object rather than exporting one -- so `{ ...process.env }` inherited an
       # environment that never had it. Zero issues in this repository's history match
       # alert.js's title formats, across fifteen callers.
-      - name: Commit and push data file
+      - name: Rebuild the home-value cascade
+        # Its CAR review flags are computed from the latest county report. On
+        # 2026-10-11 this workflow added county prices to the 2026-09 report and
+        # committed it alone; the cascade kept a flag from the 2026-08 report and
+        # main failed test/home-value-integrity.test.mjs until it was rebuilt.
+        run: npm run build:home-values
+
+      - name: Re-check the Redfin tracker's review flags
+        # The place tracker flags modeled prices above the latest CAR county
+        # median too. This re-checks the committed tracker offline; a full
+        # rebuild would re-download Redfin. Left stale on 2026-10-11, it failed
+        # tests/test_market_construction.py on main.
+        run: python3 scripts/market/build_redfin_place_market_tracker.py --refresh-review-flags
+
+      - name: Rebuild derived data and commit the refresh
+        id: commit
+        # The cascade feeds the jurisdiction digests, so the commit goes through
+        # the derived chain (AGENTS.md: a workflow that commits a chain input
+        # must run the chain before it commits).
+        env:
+          DERIVED_COMMIT_BRANCH: ${{ github.ref_name }}
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          python3 scripts/rebuild_manifest.py
-          git add data/car-market-report-*.json data/car-market-reports.json data/manifest.json
-          if git diff --cached --quiet; then
-            echo "No changes to commit — CAR data is already up to date."
-          else
-            git commit -m "chore: update CAR market report data [$(date -u '+%Y-%m')]"
-            git pull --rebase --autostash -X theirs origin "$GITHUB_REF_NAME"
-            python3 scripts/rebuild_manifest.py
-            if ! git diff --quiet -- data/; then
-              git add data/
-              git commit --amend --no-edit
-            fi
-            git push origin HEAD:"$GITHUB_REF_NAME"
-          fi
+          scripts/commit-with-derived-chain.sh "chore: update CAR market report data [$(date -u '+%Y-%m')]" -- \
+            data/car-market-report-*.json \
+            data/car-market-reports.json \
+            data/hna/home-value-cascade.json \
+            data/hna/zhvi-place-crosswalk.json \
+            data/hna/summary \
+            data/market/redfin_place_market_tracker_co.json
+
       - name: Dispatch Pages deploy for this run's commit
+        if: steps.commit.outputs.pushed == 'true'
         # A workflow-token push does not trigger deploy.yml (#1875).
         uses: ./.github/actions/dispatch-pages-deploy
