@@ -5802,38 +5802,6 @@
     },
     "notes": "Town housing page covers Nuche Village, the town's income- and asset-restricted workforce for-sale development, and the Community Housing Interest Form. Verified 2026-10-11."
   },
-  "place:0843660": {
-    "name": "Las Animas",
-    "housingLead": {
-      "name": "City of Las Animas (official site)",
-      "url": "https://cityoflasanimasco.gov/"
-    },
-    "notes": "Official city site verified 2026-10-11; no dedicated housing page found. Do not use geo.org, a tour-booking site the discovery crawler proposed."
-  },
-  "place:0886750": {
-    "name": "Yuma",
-    "housingLead": {
-      "name": "City of Yuma (official site)",
-      "url": "https://cityofyuma.colorado.gov/"
-    },
-    "notes": "Official city site verified 2026-10-11; no dedicated housing page found. cityofyuma.com is a visitor-guide content site, not the city."
-  },
-  "place:0825610": {
-    "name": "Fairplay",
-    "housingLead": {
-      "name": "Town of Fairplay (official site)",
-      "url": "https://www.fairplayco.us/"
-    },
-    "notes": "Official town site verified 2026-10-11; no dedicated housing page found. townoffairplay.com is the town's older site (last updated 2022) and links here."
-  },
-  "place:0818530": {
-    "name": "Cripple Creek",
-    "housingLead": {
-      "name": "City of Cripple Creek (official site)",
-      "url": "https://www.cityofcripplecreek.com/"
-    },
-    "notes": "Official city site verified 2026-10-11; no dedicated housing page found."
-  },
   "place:0819080": {
     "name": "Dacono",
     "housingLead": {
@@ -5846,17 +5814,15 @@
         "year": 2026,
         "name": "2026 Dacono Housing Needs Assessment and Housing Action Plan (final drafts)",
         "url": "https://www.daconoco.gov/900/Comprehensive-Plan"
+      },
+      {
+        "type": "Comprehensive Plan",
+        "year": 2026,
+        "name": "Dacono Comprehensive Plan (current draft)",
+        "url": "https://www.daconoco.gov/900/Comprehensive-Plan"
       }
     ],
     "notes": "Final drafts of the 2026 HNA and Housing Action Plan were posted for public review in September 2026, ahead of City Council adoption. Verified 2026-10-11."
-  },
-  "place:0812855": {
-    "name": "Center",
-    "housingLead": {
-      "name": "Town of Center (official site)",
-      "url": "https://www.centerco.gov/"
-    },
-    "notes": "Official town site verified 2026-10-11. No standing housing page; the town has issued a series of affordable-housing RFQs (liaison, grant writing, legal, development review) posted as news items."
   },
   "place:0827865": {
     "name": "Fountain",
@@ -5872,30 +5838,6 @@
     ],
     "notes": "City site is fountain.colorado.gov. Verified 2026-10-11."
   },
-  "place:0830340": {
-    "name": "Glendale",
-    "housingLead": {
-      "name": "City of Glendale (official site)",
-      "url": "https://glendale.co.us/"
-    },
-    "notes": "Official city site verified 2026-10-11; no dedicated housing page found. cityofglendale.org is a domain-for-sale page, not the city."
-  },
-  "place:0826270": {
-    "name": "Federal Heights",
-    "housingLead": {
-      "name": "City of Federal Heights (official site)",
-      "url": "https://www.fedheights.org/"
-    },
-    "notes": "Official city site verified 2026-10-11; no dedicated housing page found."
-  },
-  "place:0825280": {
-    "name": "Evans",
-    "housingLead": {
-      "name": "City of Evans (official site)",
-      "url": "https://www.evanscolorado.gov/"
-    },
-    "notes": "Official city site verified 2026-10-11; no dedicated housing page found. Do not use townofevansny.gov (Evans, New York)."
-  },
   "place:0873935": {
     "name": "Sterling",
     "housingLead": {
@@ -5909,37 +5851,5 @@
       }
     ],
     "notes": "The housing authority is a separate public body under C.R.S. 29-4-209 whose five commissioners are appointed by the Mayor; the page is on the official city site. Verified 2026-10-11."
-  },
-  "place:0811810": {
-    "name": "Cañon City",
-    "housingLead": {
-      "name": "City of Cañon City (official site)",
-      "url": "https://www.canoncity.org/"
-    },
-    "notes": "Official city site verified 2026-10-11; no dedicated housing page found."
-  },
-  "place:0827810": {
-    "name": "Fort Morgan",
-    "housingLead": {
-      "name": "City of Fort Morgan (official site)",
-      "url": "https://www.cityoffortmorgan.com/"
-    },
-    "notes": "Official city site verified 2026-10-11; no dedicated housing page found."
-  },
-  "place:0812387": {
-    "name": "Castle Pines",
-    "housingLead": {
-      "name": "City of Castle Pines Community Development",
-      "url": "https://www.castlepinesco.gov/city-services/city-departments/community-development/"
-    },
-    "notes": "Official city site verified 2026-10-11. No dedicated housing page; Community Development is the planning/development contact."
-  },
-  "place:0827040": {
-    "name": "Florence",
-    "housingLead": {
-      "name": "City of Florence (official site)",
-      "url": "https://www.cityofflorenceco.gov/"
-    },
-    "notes": "Official city site verified 2026-10-11; no dedicated housing page found. Do not use cityofflorencesc.gov (Florence, South Carolina)."
   }
 }
