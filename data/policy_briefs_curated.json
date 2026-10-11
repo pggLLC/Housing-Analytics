@@ -160,55 +160,78 @@
       "qap_quotes": [
         {
           "section": "8",
-          "quote": "CHFA requires all projects to obtain green building certification"
-        },
-        {
-          "section": "8.B",
-          "quote": "10 percent of the lesser of total spaces or total units must be EV-ready"
-        },
-        {
-          "section": "8",
-          "quote": "Post-construction Energy Use Intensity Reporting"
-        },
-        {
-          "section": "8",
-          "quote": "Water-wise Landscaping and Non-functional Turf"
+          "quote": "CHFA requires all projects to obtain green building certification",
+          "row": 0
         },
         {
           "section": "8.A",
-          "quote": "Passive House Institute US (PHIUS)"
+          "quote": "CHFA accepts green building certification under the latest version at time of preliminary application for Enterprise Green Communities (EGC)",
+          "row": 0
+        },
+        {
+          "section": "8.B",
+          "quote": "10 percent of the lesser of total spaces or total units must be EV-ready",
+          "row": 2
+        },
+        {
+          "section": "8",
+          "quote": "Post-construction Energy Use Intensity Reporting",
+          "row": 3
+        },
+        {
+          "section": "8",
+          "quote": "Water-wise Landscaping and Non-functional Turf",
+          "row": 1
+        },
+        {
+          "section": "8.A",
+          "quote": "Passive House Institute US (PHIUS)",
+          "row": 10
         },
         {
           "section": "3.O",
-          "quote": "All market-rate and low-income units must have the same design regarding unit amenities and square footage"
+          "quote": "All market-rate and low-income units must have the same design regarding unit amenities and square footage, to the extent possible",
+          "row": 4
         },
         {
           "section": "3.O",
-          "quote": "All targeting levels must have the same design regarding unit amenities and square footage"
+          "quote": "proportionately throughout each building, and to the extent possible, each floor of each building",
+          "row": 4
+        },
+        {
+          "section": "3.O",
+          "quote": "All targeting levels must have the same design regarding unit amenities and square footage",
+          "row": 4
         },
         {
           "section": "5.B.3.g",
-          "quote": "(Two points) Projects utilizing Universal Design or providing accessible Type A units"
+          "quote": "(Two points) Projects utilizing Universal Design or providing accessible Type A units",
+          "row": 5
         },
         {
           "section": "5.B.3.g",
-          "quote": "units which total at least five percent of the project’s total units"
+          "quote": "units which total at least five percent of the project’s total units",
+          "row": 5
         },
         {
           "section": "5.B.3.e",
-          "quote": "(One point) No-smoking policy"
+          "quote": "(One point) No-smoking policy",
+          "row": 6
         },
         {
           "section": "5.B.3.h",
-          "quote": "(One point) Projects that are pet-inclusive"
+          "quote": "(One point) Projects that are pet-inclusive",
+          "row": 7
         },
         {
           "section": "5.B.5",
-          "quote": "trauma informed design"
+          "quote": "trauma informed design",
+          "row": 8
         },
         {
           "section": "2.B",
-          "quote": "community amenity space uses"
+          "quote": "community amenity space uses",
+          "row": 9
         }
       ],
       "sections": [
@@ -322,7 +345,7 @@
                 "8"
               ],
               [
-                "Same unit design, finishes and amenities for every income tier and for market-rate units, spread across buildings and floors",
+                "Same unit amenities and square footage for every income tier, and for market-rate units to the extent possible, with affordable units spread through each building and, to the extent possible, each floor",
                 "Required",
                 "3.O"
               ],
@@ -433,7 +456,7 @@
           "heading": "Safety and dignity",
           "paragraphs": [
             "Oscar Newman's defensible-space argument, that building form drove crime in public housing, is better known than it is supported. A federal review found that only limited reliable conclusions could be drawn from his studies, and his central comparison did not account for the different share of children in the two projects. Clear sightlines, entrances that face the street and good lighting are still sensible. The evidence just does not show they are enough on their own.",
-            "Dignity has a direct rule in Colorado. CHFA requires that affordable units, and every income tier, get the same design, finishes and amenities as market-rate units, spread across buildings and floors. A separate entrance or a lesser finish package for the affordable units would break that rule."
+            "Dignity has a direct rule in Colorado. CHFA’s QAP requires every income tier to get units with the same amenities and square footage, asks the same of market-rate units to the extent possible, and spreads affordable units through each building and, where it can, each floor. A separate wing of smaller or plainer affordable units works against that rule."
           ]
         },
         {
