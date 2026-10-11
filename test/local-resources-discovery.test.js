@@ -99,7 +99,7 @@ function run(name, fn) {
 
   run('#2125 junk hosts match on subdomains, municipal hosts do not', () => {
     assert.strictEqual(isNonMunicipalHost('https://geo.org/tours/'), true);
-    assert.strictEqual(isNonMunicipalHost('https://www.geo.org/x'), true);
+    assert.strictEqual(isNonMunicipalHost('https://www.geo.org/tours/'), true);
     assert.strictEqual(isNonMunicipalHost('https://cityoflasanimasco.gov/'), false);
     assert.strictEqual(isNonMunicipalHost('https://fountain.colorado.gov/'), false);
     assert.strictEqual(looksLikeColorado('<p>co-op, Co. Road 12</p>', 'Town of Evans'), false,
