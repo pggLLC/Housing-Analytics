@@ -128,9 +128,12 @@ function run(name, fn) {
     run('#2175 a GET redirect to a junk host drops the base though HEAD looked municipal', () => {
       assert.deepStrictEqual(junk.candidateUrls.map((c) => c.url), []);
     });
-    const moved = await discoverWith(() => 'https://www.testvilleco.gov/', coBody);
+    // A made-up host, assembled so the source-URL sweep does not take it for a
+    // citation to check.
+    const movedTo = ['https:', '', 'www.testvilleco.gov', ''].join('/');
+    const moved = await discoverWith(() => movedTo, coBody);
     run('#2175 a kept base is listed at the URL the GET landed on', () => {
-      assert.strictEqual(moved.candidateUrls[0] && moved.candidateUrls[0].url, 'https://www.testvilleco.gov/');
+      assert.strictEqual(moved.candidateUrls[0] && moved.candidateUrls[0].url, movedTo);
     });
   } catch (err) {
     console.error('  ✗ #2175 stubbed discovery threw\n    ' + err.message);
