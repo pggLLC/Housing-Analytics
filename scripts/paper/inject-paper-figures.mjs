@@ -145,6 +145,56 @@ const BLOCKS = {
     return rows.join('');
   },
 
+  // methods.html §06: the scoring chain drawn as a tree. Built from the same
+  // extracted weights as Table 3 ('ranking-weights' above), so the diagram and
+  // the table cannot disagree; a factor the code adds appears under its raw
+  // name until it is given a plain one here.
+  'ranking-tree'() {
+    const r = at('methods.ranking');
+    if (!r || !r.community_need_weights || !r.axis_weights) {
+      return `<p class="mx-unknown">Weights not readable, so the diagram is not drawn.</p>`;
+    }
+    const pct = (w) => (typeof w === 'number' && Number.isFinite(w)
+      ? `${Math.round(w * 100)}%` : '<span class="mx-unknown">n/a</span>');
+    const sw = r.subscore_weights || {};
+    const g = (k) => sw[k] || {};
+    const NEED = {
+      gap_pressure_score: ['Housing gap', `the higher of the resident and workforce gaps, each ${pct(g('gap').count)} unit count and ${pct(g('gap').rate)} rate`],
+      cost_burden_pressure_score: ['Cost burden', `renters burdened ${pct(g('cost_burden').all_renter)}, severely burdened ${pct(g('cost_burden').severe)}, deepest income tier ${pct(g('cost_burden').deep_tier)}`],
+      affordability_intensity_score: ['Affordability', `home value to income ${pct(g('affordability').homebuyer)}, rent to income ${pct(g('affordability').renter)}`],
+      future_pressure_score: ['Future pressure', `20-year units needed ${pct(g('future').units)}, senior growth ${pct(g('future').senior)}`],
+      overcrowding_score: ['Overcrowding', 'share of overcrowded households'],
+    };
+    const OPP = {
+      opportunity_mobility_score: 'Economic mobility',
+      walkability_score: 'Walkability',
+      amenity_access_score: 'Amenity access',
+      qct_dda_score: 'QCT / DDA status',
+    };
+    const node = (cls, title, weight, detail) => `
+            <div class="dg-node${cls}"><strong>${esc(title)} <span class="dg-weight" style="display:inline">${weight}</span></strong>${detail ? `<span>${detail}</span>` : ''}</div>`;
+    const need = Object.entries(r.community_need_weights)
+      .map(([k, w]) => node('', NEED[k] ? NEED[k][0] : k, pct(w), NEED[k] ? NEED[k][1] : '')).join('');
+    const opp = Object.entries(r.opportunity_weights || {})
+      .map(([k, w]) => node(' dg-node--accent2', OPP[k] || k, pct(w), '')).join('');
+    const alpha = g('commuter').augment_alpha;
+    return `
+        <p class="diagram__title" id="scoreTreeTitle">How the overall score is built</p>
+        <div class="dg-tree">
+          <div class="dg-tree__col">
+            <div class="dg-tree__group"><span class="dg-tree__label">Need factors</span>${need}
+            </div>
+            <div class="dg-tree__group"><span class="dg-tree__label">Opportunity factors</span>${opp}
+            </div>
+          </div>
+          <div class="dg-tree__col dg-tree__join">${node(' dg-node--soft', 'Community need', pct(r.axis_weights.community_need), `raised by up to ${pct(alpha)} where many workers commute in`)}${node(' dg-node--accent2', 'Opportunity', pct(r.axis_weights.opportunity), '')}
+          </div>
+          <div class="dg-tree__col dg-tree__join">${node(' dg-node--accent', 'Overall score', '', `${pct(r.axis_weights.community_need)} need percentile + ${pct(r.axis_weights.opportunity)} opportunity, scaled down when data are thin`)}
+          </div>
+        </div>
+        <figcaption>Every factor is a percentile among the same type of place: counties against counties, towns and CDPs against towns and CDPs. Percentages are the weights in Table 3, read from <code>scripts/hna/build_ranking_index.py</code>. When a factor is missing, the rest are reweighted to sum to 100%.</figcaption>`;
+  },
+
   'tractable-rows'() {
     const rows = at('tractable.top');
     if (!rows) return `<tr><td colspan="6" class="wp-unknown">Screen not available &mdash; ${esc(reasonFor('tractable.eligible'))}</td></tr>`;
