@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-11T11:02:50.997Z",
+    "generated_at": "2026-10-11T11:05:35.319Z",
     "root": "data/",
-    "file_count": 1710,
-    "total_size_bytes": 180042758,
+    "file_count": 1711,
+    "total_size_bytes": 180078633,
     "kinds": {
-      "json": 1673,
+      "json": 1674,
       "geojson": 33,
       "csv": 4
     }
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-11T11:02:46.626Z",
+      "mtime": "2026-10-11T11:05:32.611Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -29494,8 +29494,8 @@
     {
       "path": "insights/catalog.json",
       "kind": "json",
-      "size_bytes": 9364,
-      "mtime": "2026-10-10T20:58:58.650Z",
+      "size_bytes": 10053,
+      "mtime": "2026-10-11T11:05:03.342Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -29504,7 +29504,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "entries",
-      "primary_array_length": 13,
+      "primary_array_length": 14,
       "primary_array_first_keys": [
         "id",
         "section",
@@ -32054,7 +32054,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15108,
-      "mtime": "2026-10-11T11:02:48.478Z",
+      "mtime": "2026-10-11T11:05:33.807Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32078,7 +32078,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-11T11:02:48.037Z",
+      "mtime": "2026-10-11T11:05:33.511Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34541,6 +34541,36 @@
         "free",
         "why_lihtc_devs_care",
         "integrated_in_coho"
+      ]
+    },
+    {
+      "path": "policy/resident-services.json",
+      "kind": "json",
+      "size_bytes": 35186,
+      "mtime": "2026-10-11T11:05:03.489Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "entries",
+        "awards"
+      ],
+      "key_count": 4,
+      "primary_array_key": "entries",
+      "primary_array_length": 24,
+      "primary_array_first_keys": [
+        "id",
+        "kind",
+        "strength",
+        "outcomes",
+        "title",
+        "population",
+        "finding",
+        "quote",
+        "caveat",
+        "source_url",
+        "source_title",
+        "publisher"
       ]
     },
     {
