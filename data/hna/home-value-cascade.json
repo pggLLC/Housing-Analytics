@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-11T08:08:26.513Z",
+    "generated_at": "2026-10-11T08:28:48.005Z",
     "schema": "median_home_value = { value, source, as_of, confidence }; counties are display-only affordability inputs and are ignored by rank/score models",
     "sources": {
       "zhvi_city_csv": "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
