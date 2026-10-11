@@ -38,6 +38,10 @@
       ],
       "reviewed_sources": [
         {
+          "url": "https://townofarriba.colorado.gov/proposed-ordinances",
+          "retrieved": "2026-09-26"
+        },
+        {
           "url": "https://lincolncounty.colorado.gov/elections",
           "retrieved": "2026-10-10"
         },
@@ -117,6 +121,10 @@
         "Left at official_notice_unavailable: no participating-entities list and no town election page to read."
       ],
       "reviewed_sources": [
+        {
+          "url": "https://www.townoflimon.com/index.php/government/trustee-meetings/agenda",
+          "retrieved": "2026-09-26"
+        },
         {
           "url": "https://lincolncounty.colorado.gov/elections",
           "retrieved": "2026-10-10"
