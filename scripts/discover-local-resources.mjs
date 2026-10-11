@@ -210,7 +210,10 @@ async function probeUrl(url) {
   }
 }
 
-// Returns { title, hasHousingKeyword, looksLikeColorado } from page body.
+// Returns { finalUrl, title, hasHousingKeyword, looksLikeColorado } from page
+// body. finalUrl is where this GET landed; a host can answer HEAD and GET
+// differently, so it, not the HEAD probe's URL, is the page the metadata
+// describes.
 // looksLikeColorado is the critical false-positive guard — many CO city
 // names collide with cities elsewhere (Westminster WA, Englewood NJ,
 // Centennial Conference). We need positive evidence the site is the CO
@@ -227,21 +230,22 @@ async function extractMetadata(url) {
       }
     });
     clearTimeout(timeout);
-    if (!res.ok) return { title: null, body: '', hasHousingKeyword: false, looksLikeColorado: false };
+    const finalUrl = res.url || url;
+    if (!res.ok) return { finalUrl, title: null, body: '', hasHousingKeyword: false, looksLikeColorado: false };
     const body = await res.text();
     const titleMatch = body.match(/<title[^>]*>([^<]+)<\/title>/i);
     const title = titleMatch ? titleMatch[1].trim().slice(0, 100) : null;
     const housingKeywords = /\b(affordable\s+housing|housing\s+authority|inclusionary|housing\s+plan|comprehensive\s+plan|prop\s*123|housing\s+trust)\b/i;
-    return { title, body, hasHousingKeyword: housingKeywords.test(body), looksLikeColorado: looksLikeColorado(body, title) };
+    return { finalUrl, title, body, hasHousingKeyword: housingKeywords.test(body), looksLikeColorado: looksLikeColorado(body, title) };
   } catch (_) {
     clearTimeout(timeout);
-    return { title: null, body: '', hasHousingKeyword: false, looksLikeColorado: false };
+    return { finalUrl: null, title: null, body: '', hasHousingKeyword: false, looksLikeColorado: false };
   }
 }
 
 /* ── Per-place discovery ──────────────────────────────────────────── */
 
-async function discoverForPlace(place) {
+export async function discoverForPlace(place) {
   const slug = slugify(place.name);
   if (!slug || slug.length < 3) {
     return { ...place, slug, candidateUrls: [], note: 'slug-too-short' };
@@ -258,10 +262,14 @@ async function discoverForPlace(place) {
     const probe = await probeUrl(base);
     if (!probe.ok) continue;
     const meta = await extractMetadata(probe.finalUrl);
-    const verdict = classifyBaseCandidate({ url: base, finalUrl: probe.finalUrl, title: meta.title, body: meta.body });
+    // Classify the page the metadata came from: the GET can redirect where
+    // the HEAD probe did not.
+    const landed = meta.finalUrl || probe.finalUrl;
+    if (isNonMunicipalHost(probe.finalUrl)) continue;
+    const verdict = classifyBaseCandidate({ url: base, finalUrl: landed, title: meta.title, body: meta.body });
     if (!verdict.keep) continue;
     candidates.push({
-      url: probe.finalUrl,
+      url: landed,
       type: 'base',
       status: probe.status,
       title: meta.title,
@@ -278,8 +286,10 @@ async function discoverForPlace(place) {
       const subProbe = await probeUrl(subUrl);
       if (subProbe.ok && !isNonMunicipalHost(subProbe.finalUrl)) {
         const subMeta = await extractMetadata(subProbe.finalUrl);
+        const subLanded = subMeta.finalUrl || subProbe.finalUrl;
+        if (isNonMunicipalHost(subLanded)) continue;
         candidates.push({
-          url: subProbe.finalUrl,
+          url: subLanded,
           type: 'subpath',
           subpath: sub,
           status: subProbe.status,
