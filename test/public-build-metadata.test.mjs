@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { isSensitive } from '../scripts/lib/public-sensitive-patterns.mjs';
-import { pageTabs, pageText, redirectAlias, wordBag } from '../scripts/lib/search-index.mjs';
+import { briefRenderedText, pageTabs, pageText, redirectAlias, wordBag } from '../scripts/lib/search-index.mjs';
 
 execFileSync(process.execPath, ['scripts/build-public-site.mjs'], { stdio: 'inherit' });
 
@@ -65,9 +65,8 @@ for (const county of counties) {
 for (const brief of curated.briefs.filter((b) => b.is_curated)) {
   const record = searchIndex.find((r) => r.u === `research-brief.html?id=${encodeURIComponent(brief.id)}`);
   assert(record, `search must find curated brief ${brief.id}`);
-  // The reader renders the implications and the source titles, so their words must be searchable too.
-  const rendered = [brief.summary, brief.implications, ...(brief.articles || []).map((a) => a && a.title)]
-    .flat().filter((v) => typeof v === 'string').join(' ');
+  // Everything the reader renders, long-form sections included, must be searchable too.
+  const rendered = briefRenderedText(brief).join(' ');
   const missing = wordBag(pageText(rendered)).split(' ').filter((w) => w.length >= 4 && !searchable(record).includes(w));
   assert.deepEqual(missing.slice(0, 5), [], `brief ${brief.id}: rendered words missing from its search record`);
 }
