@@ -485,11 +485,11 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            ticks: { color: '#e8dcc4', callback: v => '$' + v + 'M' },
+                            ticks: { callback: v => '$' + v + 'M' },
                             grid: { color: 'rgba(58, 53, 48, 0.3)' }
                         },
                         x: {
-                            ticks: { color: '#e8dcc4' },
+                            ticks: {},
                             grid: { display: false }
                         }
                     }
@@ -514,11 +514,11 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            ticks: { color: '#e8dcc4', callback: v => '$' + v.toFixed(2) },
+                            ticks: { callback: v => '$' + v.toFixed(2) },
                             grid: { color: 'rgba(58, 53, 48, 0.3)' }
                         },
                         x: {
-                            ticks: { color: '#e8dcc4' },
+                            ticks: {},
                             grid: { display: false }
                         }
                     }
