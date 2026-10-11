@@ -242,6 +242,45 @@ test('the ownership link opens the calculator in ownership mode', () => {
   assert.deepStrictEqual(mode('?mode=condo'), ['rental', 0], 'an unknown mode keeps rental');
 });
 
+test('choosing a jurisdiction returns to a routed step, and only to one', () => {
+  const back = (next) => {
+    const dom = new JSDOM('<!doctype html><button id="sjContinueBtn">x</button>',
+      { url: 'https://cohoanalytics.com/select-jurisdiction.html?next=' + encodeURIComponent(next), runScripts: 'outside-only' });
+    dom.window.eval(railSrc);
+    dom.window.eval(read('js/jurisdiction-selector.js'));
+    return dom.window.JurisdictionSelector.returnTarget();
+  };
+  const WP = WP0();
+  const targets = [];
+  WP.PRODUCTS.forEach((p) => WP.stepsFor(p.id).forEach((s) => {
+    if (s.routed) targets.push(s.href);
+    if (s.companion) targets.push(s.companion.href);
+  }));
+  assert(targets.includes('deal-calculator.html?mode=ownership'), 'scan found the ownership-mode step');
+  targets.forEach((href) => assert.strictEqual(back(href), href, href + ' is a step the route sends readers to'));
+  assert.strictEqual(back('deal-calculator.html?mode=anything'), null, 'a query the route never uses is refused');
+  assert.strictEqual(back('https://example.com/'), null);
+});
+
+test('the banner follows the calculator\'s mode, however it was set', () => {
+  // A restored share link sets the mode without ?mode=ownership in the URL.
+  const win = page('deal-calculator.html', '<!doctype html><main><section class="hero"><h1>x</h1></section></main>');
+  win.WorkflowState = { getProgress: () => ({ completedSteps: ['jurisdiction', 'hsa', 'market', 'scenario'] }) };
+  win.WorkflowProgress.setProduct('mixed');
+  win.eval(bannerSrc);
+  win.WorkflowNextAction.render();
+  const deal = WP0().stepsFor('mixed').find((s) => s.key === 'deal');
+  const links = () => Array.from(win.document.querySelectorAll('#workflowNextAction a'), (a) => a.getAttribute('href'));
+  assert(links().includes(deal.companion.href), 'rental mode offers the ownership calculator');
+  // What the calculator does on a mode change (deal-calculator.js updateDealModeUi).
+  const fn = read('js/deal-calculator.js').match(/var page = isOwnership[\s\S]*?\n    \}\n/);
+  assert(fn, 'the calculator declares its mode to the guided path');
+  win.eval('(function (isOwnership) {' + fn[0] + '})(true)');
+  win.WorkflowNextAction.render();
+  assert(links().includes(deal.href), 'ownership mode links back to the rental calculator');
+  assert(!links().includes(deal.companion.href), 'and no longer offers itself');
+});
+
 function WP0() { return page('index.html', '<!doctype html><main></main>').WorkflowProgress; }
 
 pending.then(() => {

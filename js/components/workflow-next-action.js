@@ -164,10 +164,13 @@
   function _onCompanionPage(key) {
     var c = canon().companions[key];
     if (!c) return false;
-    var loc = (global.location.pathname.split('/').pop() || '').toLowerCase();
-    // The query counts: deal-calculator.html?mode=ownership is the companion
-    // of deal-calculator.html.
-    return loc + (global.location.search || '') === String(c.href).split('#')[0];
+    // A page that has more than one mode says which it is showing in
+    // data-wf-page (the Deal Calculator: deal-calculator.html?mode=ownership).
+    // Otherwise the file name and the query are the page.
+    var declared = document.documentElement.getAttribute('data-wf-page');
+    var here = declared
+      || (global.location.pathname.split('/').pop() || '').toLowerCase() + (global.location.search || '');
+    return here === String(c.href).split('#')[0];
   }
 
   /* "For the for-sale homes, also open …" for a step with a companion page. */
@@ -412,6 +415,8 @@
     document.addEventListener('jurisdiction-url-context:resolved', _render);
     // A new product changes the route, so the cached sequence is stale.
     document.addEventListener('workflow:product-changed', function () { _canon = null; _render(); });
+    // The page switched mode (the Deal Calculator's rental/ownership toggle).
+    document.addEventListener('workflow:page-changed', _render);
   }
 
   // Run after DOM ready
