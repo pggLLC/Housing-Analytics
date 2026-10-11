@@ -29,21 +29,29 @@
       "name": "Arriba (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://lincolncounty.colorado.gov/sites/g/files/lrnvjt1881/files/General-2026-English-Sample-Ballots_0.pdf",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
-        "No town ballot question appears on any ballot style of the county's official sample ballots.",
-        "Town website has no election page or ballot notice."
+        "Rechecked 2026-10-10: the Lincoln County elections page now carries the Clerk and Recorder's 'Certification of 2026 General Election Ballot Content' (dated 2026-09-18), which certifies that the posted sample ballot is complete and that ballot issues are copied from the political subdivisions' certifications. It names no participating entities, and no TABOR notice or IGA list is posted. The English sample ballots PDF (12 pages, image-only, read visually page by page) has one county measure, Lincoln County Ballot Issue 1A (lodging tax), and one special-district measure, Hugo Fire Protection District Ballot Issue 6A. No style has a town contest or question.",
+        "Town of Arriba website (townofarriba.colorado.gov, read 2026-10-10) has no elections page or election notice (board agendas, minutes and ordinances only).",
+        "Left at official_notice_unavailable: no participating-entities list and no town election page to read."
       ],
       "reviewed_sources": [
         {
-          "url": "https://townofarriba.colorado.gov/",
+          "url": "https://townofarriba.colorado.gov/proposed-ordinances",
           "retrieved": "2026-09-26"
         },
         {
-          "url": "https://townofarriba.colorado.gov/proposed-ordinances",
-          "retrieved": "2026-09-26"
+          "url": "https://lincolncounty.colorado.gov/elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://lincolncounty.colorado.gov/sites/g/files/lrnvjt1881/files/General-2026-English-Sample-Ballots_0.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofarriba.colorado.gov/",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -53,17 +61,25 @@
       "name": "Genoa (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://lincolncounty.colorado.gov/sites/g/files/lrnvjt1881/files/General-2026-English-Sample-Ballots_0.pdf",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
-        "No town ballot question appears on any ballot style of the county's official sample ballots.",
-        "Town website has no election page or ballot notice."
+        "Rechecked 2026-10-10: the Lincoln County elections page now carries the Clerk and Recorder's 'Certification of 2026 General Election Ballot Content' (dated 2026-09-18), which certifies that the posted sample ballot is complete and that ballot issues are copied from the political subdivisions' certifications. It names no participating entities, and no TABOR notice or IGA list is posted. The English sample ballots PDF (12 pages, image-only, read visually page by page) has one county measure, Lincoln County Ballot Issue 1A (lodging tax), and one special-district measure, Hugo Fire Protection District Ballot Issue 6A. No style has a town contest or question.",
+        "Town of Genoa website (townofgenoa.colorado.gov, read 2026-10-10) has no elections page or election notice (board meeting pages only).",
+        "Left at official_notice_unavailable: no participating-entities list and no town election page to read."
       ],
       "reviewed_sources": [
         {
+          "url": "https://lincolncounty.colorado.gov/elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://lincolncounty.colorado.gov/sites/g/files/lrnvjt1881/files/General-2026-English-Sample-Ballots_0.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
           "url": "https://townofgenoa.colorado.gov/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -73,12 +89,22 @@
       "name": "Hugo (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://lincolncounty.colorado.gov/sites/g/files/lrnvjt1881/files/General-2026-English-Sample-Ballots_0.pdf",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
-        "No Town of Hugo question on any county ballot style (Hugo Fire Protection District 6A is a special district fire levy, not the town, not housing).",
-        "No official Town of Hugo website found (tried townofhugo.com, townofhugoco.com, hugocolorado.com, hugo/townofhugo.colorado.gov - none resolve)."
+        "Rechecked 2026-10-10: the Lincoln County elections page now carries the Clerk and Recorder's 'Certification of 2026 General Election Ballot Content' (dated 2026-09-18), which certifies that the posted sample ballot is complete and that ballot issues are copied from the political subdivisions' certifications. It names no participating entities, and no TABOR notice or IGA list is posted. The English sample ballots PDF (12 pages, image-only, read visually page by page) has one county measure, Lincoln County Ballot Issue 1A (lodging tax), and one special-district measure, Hugo Fire Protection District Ballot Issue 6A. No style has a town contest or question.",
+        "Hugo Fire Protection District 6A is a special-district fire levy, not a town measure and not housing.",
+        "No official Town of Hugo website found (hugo.colorado.gov and townofhugo.colorado.gov do not resolve on 2026-10-10)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://lincolncounty.colorado.gov/elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://lincolncounty.colorado.gov/sites/g/files/lrnvjt1881/files/General-2026-English-Sample-Ballots_0.pdf",
+          "retrieved": "2026-10-10"
+        }
       ]
     },
     {
@@ -87,21 +113,29 @@
       "name": "Limon (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://lincolncounty.colorado.gov/sites/g/files/lrnvjt1881/files/General-2026-English-Sample-Ballots_0.pdf",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
-        "No town ballot question on any county ballot style.",
-        "Town website has no election page; Jul-Aug 2026 trustee agendas/minutes mention no ballot referral (Aug 6 agenda has a Limon Housing Authority board appointment only). Sept 2026 agenda link is a stale 2024 file."
+        "Rechecked 2026-10-10: the Lincoln County elections page now carries the Clerk and Recorder's 'Certification of 2026 General Election Ballot Content' (dated 2026-09-18), which certifies that the posted sample ballot is complete and that ballot issues are copied from the political subdivisions' certifications. It names no participating entities, and no TABOR notice or IGA list is posted. The English sample ballots PDF (12 pages, image-only, read visually page by page) has one county measure, Lincoln County Ballot Issue 1A (lodging tax), and one special-district measure, Hugo Fire Protection District Ballot Issue 6A. No style has a town contest or question.",
+        "Town of Limon website (www.townoflimon.com, read 2026-10-10) has no elections page or election notice (trustee agendas and minutes only).",
+        "Left at official_notice_unavailable: no participating-entities list and no town election page to read."
       ],
       "reviewed_sources": [
         {
-          "url": "https://www.townoflimon.com/",
+          "url": "https://www.townoflimon.com/index.php/government/trustee-meetings/agenda",
           "retrieved": "2026-09-26"
         },
         {
-          "url": "https://www.townoflimon.com/index.php/government/trustee-meetings/agenda",
-          "retrieved": "2026-09-26"
+          "url": "https://lincolncounty.colorado.gov/elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://lincolncounty.colorado.gov/sites/g/files/lrnvjt1881/files/General-2026-English-Sample-Ballots_0.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.townoflimon.com/",
+          "retrieved": "2026-10-10"
         }
       ]
     }

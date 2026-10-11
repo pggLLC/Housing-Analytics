@@ -86,7 +86,7 @@
     // ── Data Source Metadata ────────────────────────────────────────
     acsVintage:       '2024',      // ACS 5-year estimates vintage (2025 pending Census release)
     acsYear:          '2024',      // for display labels
-    hudFmrYear:       'FY2025',    // HUD FMR fiscal year — FY2026 not yet published
+    hudFmrYear:       'FY2026',    // HUD FMR fiscal year; kept equal to data/hud-fmr-income-limits.json by scripts/sync-hud-vintage-labels.mjs
     dolaProjectionYr: '2050',      // DOLA population projection horizon
     lastReviewDate:   '2026-07-15',
   };
