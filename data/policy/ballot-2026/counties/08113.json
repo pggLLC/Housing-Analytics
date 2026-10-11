@@ -31,12 +31,13 @@
       "name": "Mountain Village (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://townofmountainvillage.com/government/town-council/election/",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The town election page and election blog category only cover 2025. The town often runs its own elections separately from the county's coordinated election, because it has non-resident property-owner electors.",
-        "The July, August and September 2026 council summaries mention no town ballot referral for Nov 3, 2026. This is not an official statement that there are no measures.",
-        "No sample ballot for the Mountain Village precinct (Precinct 6) is posted, and no county participating-entities list was found."
+        "Rechecked 2026-10-10: the county elections page still posts only two general-election sample ballots, style 004-1 (precinct 3065857004) and style 001-2 (precinct 3065857001, Telluride School District R-1), both last modified Sep 15, 2026. No TABOR notice, ballot-content certification or participating-entities list is posted. Neither posted style has a Town of Mountain Village section, and neither is identified as Mountain Village's precinct.",
+        "Rechecked 2026-10-10: the town election page still covers only the November 4, 2025 special election (Ballot Issue A, lift ticket tax). The town runs some elections separately from the county's coordinated election, because it has non-resident property-owner electors.",
+        "The July, August and September 2026 Mountain Village Minute summaries mention no town ballot referral for Nov 3, 2026, and no October 2026 summary is posted. This is not an official statement that there are no measures.",
+        "On 2026-09-26 the town's election blog category also covered only 2025."
       ],
       "reviewed_sources": [
         {
@@ -58,6 +59,26 @@
         {
           "url": "https://townofmountainvillage.com/blog/july-2026-mountain-village-minute/",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/164/Elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/DocumentCenter/View/14795/Sample-Ballot-for-the-2026-General-Election-",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/DocumentCenter/View/14796/Sample-Ballot-for-the-2026-General-Election-R-1-School-District",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofmountainvillage.com/government/town-council/election/",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofmountainvillage.com/blog/september-2026-mountain-village-minute/",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -67,12 +88,13 @@
       "name": "Norwood (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://norwoodtown.com/resolutions-and-proclamations",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The town's posted 2026 resolutions (through Resolution 0812 Series 2026) and ordinances (through 0814 Series 2026) include no Nov 2026 ballot referral. This is not a clerk statement that there are no measures.",
-        "Sample ballot style 004-1 has no local questions, but the precinct-to-town mapping for style 004 could not be confirmed, so it is not treated as covering Norwood.",
-        "No county participating-entities list was found."
+        "Rechecked 2026-10-10: the county elections page still posts only two general-election sample ballots, style 004-1 (precinct 3065857004) and style 001-2 (precinct 3065857001, Telluride School District R-1), both last modified Sep 15, 2026. No TABOR notice, ballot-content certification or participating-entities list is posted.",
+        "Style 004-1 has no local questions, but neither the sample ballot nor the elections page says which town precinct 004 covers, so it is not treated as covering Norwood. The page lists Norwood Town Hall as an Election Day polling location, which does not show which style Norwood voters receive.",
+        "Rechecked 2026-10-10: the town's posted 2026 resolutions still end at Resolution 0812 Series 2026, and none refers a question to the Nov 3, 2026 ballot. Resolution No. 212 Series 2026 cancelled the town's regular municipal election. The public notices page lists no notices.",
+        "The town's 2026 ordinances (through 0814 Series 2026, reviewed 2026-09-26) include no Nov 2026 ballot referral. The ordinances page returned HTTP 429 on 2026-10-10, so it was not rechecked."
       ],
       "reviewed_sources": [
         {
@@ -86,6 +108,22 @@
         {
           "url": "https://www.sanmiguelcountyco.gov/DocumentCenter/View/14795/Sample-Ballot-for-the-2026-General-Election-",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/164/Elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/DocumentCenter/View/14795/Sample-Ballot-for-the-2026-General-Election-",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://norwoodtown.com/resolutions-and-proclamations",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://norwoodtown.com/public-notices",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -95,12 +133,12 @@
       "name": "Ophir (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://townofophir.colorado.gov/node/10306",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The Jun, Jul, Aug and Sep 2026 General Assembly packets and the Jul and Aug draft minutes contain no Nov 2026 ballot referral. The town's online resolution and ordinance lists are not current (latest entries 2017-2018).",
-        "A 2025 petition for a home-rule charter amendment (changing the form of government; not housing) was reported. Whether it goes on a 2026 ballot was not determined.",
-        "No sample ballot for Ophir's precinct is posted, and no county participating-entities list was found."
+        "Rechecked 2026-10-10: the county elections page still posts only two general-election sample ballots, style 004-1 (precinct 3065857004) and style 001-2 (precinct 3065857001, Telluride School District R-1), both last modified Sep 15, 2026. No TABOR notice, ballot-content certification or participating-entities list is posted. Neither posted style is identified as Ophir's precinct.",
+        "Rechecked 2026-10-10: the General Assembly page posts no packet after the September 15, 2026 packet and no minutes after the August 18, 2026 draft. The Jun to Sep 2026 packets reviewed on 2026-09-26 contained no Nov 2026 ballot referral. The online resolution and ordinance lists are not current (latest entries 2017-2018).",
+        "A 2025 petition for a home-rule charter amendment (form of government; not housing) was reported. Whether it goes on a 2026 ballot was not determined."
       ],
       "reviewed_sources": [
         {
@@ -114,6 +152,22 @@
         {
           "url": "https://townofophir.colorado.gov/ordinances",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/164/Elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/DocumentCenter/View/14795/Sample-Ballot-for-the-2026-General-Election-",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/DocumentCenter/View/14796/Sample-Ballot-for-the-2026-General-Election-R-1-School-District",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofophir.colorado.gov/node/10306",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -123,17 +177,28 @@
       "name": "Sawpit (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.sanmiguelcountyco.gov/164/Elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Reviewed source is the county clerk's 2026 election page, whose posted sample ballots (styles 004-1 and 001-2) do not identify Sawpit's precinct.",
-        "No official Town of Sawpit website was found (townofsawpit.colorado.gov and sawpit.colorado.gov did not resolve).",
-        "No sample ballot for Sawpit's precinct is posted, and no county participating-entities list was found."
+        "Rechecked 2026-10-10: the county elections page still posts only two general-election sample ballots, style 004-1 (precinct 3065857004) and style 001-2 (precinct 3065857001, Telluride School District R-1), both last modified Sep 15, 2026. No TABOR notice, ballot-content certification or participating-entities list is posted. Neither posted style is identified as Sawpit's precinct.",
+        "No official Town of Sawpit website was found (townofsawpit.colorado.gov and sawpit.colorado.gov did not resolve on 2026-09-26)."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.sanmiguelcountyco.gov/164/Elections",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/164/Elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/DocumentCenter/View/14795/Sample-Ballot-for-the-2026-General-Election-",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/DocumentCenter/View/14796/Sample-Ballot-for-the-2026-General-Election-R-1-School-District",
+          "retrieved": "2026-10-10"
         }
       ]
     },
