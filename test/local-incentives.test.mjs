@@ -161,9 +161,9 @@ assert(docs.alternatives.tools.some((t) => ['prohibited_for_new', 'not_usable_fo
 // 6. Prop 123 names resolve. Names that are not a Colorado county or
 // municipality are listed with the reason; a new unmatched name fails here.
 const NOT_A_MUNICIPALITY = {
-  'City of Highlands Ranch': 'Highlands Ranch is an unincorporated CDP governed by a metropolitan district, not a city',
-  'Town of Gilman': 'Gilman is an abandoned mining town in Eagle County, not an incorporated town',
-  'Town of Penrose': 'Penrose is an unincorporated CDP in Fremont County, not a town',
+  'Southern Ute Indian Tribe': 'a tribal government, which DOLA accepts filings from; it is not a county or municipality',
+  'Ute Mountain Ute Tribe': 'a tribal government, which DOLA accepts filings from; it is not a county or municipality',
+  'Town of Keystone': 'incorporated in 2024, after the 2020 Census, so the site still has Keystone as a CDP',
 };
 const p123 = D.prop123Index(docs.prop123, D.geographies(docs.geoConfig));
 assert.deepEqual([...p123.unmatched].sort(), Object.keys(NOT_A_MUNICIPALITY).sort(), 'Prop 123 names that resolve to no county or municipality');
@@ -179,9 +179,12 @@ assert.equal(p123.byGeoid.get('0820000')?.name, 'City and County of Denver');
   for (let i = 1; i < q.rows.length; i++) assert(q.rows[i - 1].tier <= q.rows[i].tier, 'queue must list fast-track filers first');
   assert(q.rows.every((r) => !tally.has(r.geoid) || r.open.length), 'queued jurisdictions must have an unchecked scope');
   const stale = monthlyIssue({ ...all, prop123: { ...docs.prop123, updated: '2026-01-15' } }, '2026-10-10');
-  assert(/Refresh it by hand/.test(stale.body) && /refresh the Prop 123 list/.test(stale.title), 'a 268-day-old Prop 123 list must be flagged');
+  assert(/\*\*Refresh it\.\*\*/.test(stale.body) && /refresh the Prop 123 list/.test(stale.title), 'a 268-day-old Prop 123 list must be flagged');
+  // The refresh it asks for must be a command that exists.
+  const cmd = /Run `python3 ([^`]+)`/.exec(stale.body);
+  assert(cmd && fs.existsSync(path.join(ROOT, cmd[1])), 'the stale-list issue names the builder script, and it exists');
   const fresh = monthlyIssue({ ...all, prop123: { ...docs.prop123, updated: '2026-09-01' } }, '2026-10-10');
-  assert(!/Refresh it by hand/.test(fresh.body), 'a recent Prop 123 list is not flagged');
+  assert(!/Refresh it/.test(fresh.body), 'a recent Prop 123 list is not flagged');
   assert.equal(monthlyIssue(all, '2026-10-20', [`x ${marker('2026-10-10')}`]), null, 'one issue a month');
 }
 

@@ -1,0 +1,462 @@
+{
+  "schema": "resident-services/1",
+  "meta": {
+    "title": "Services in affordable housing: research, CHFA requirements, funding and costs",
+    "as_of": "2026-10-11",
+    "last_verified": "2026-10-11",
+    "review_by": "2026-12-15",
+    "method": "Curated, not a feed. Every record was read from its named source on the check date, and its quote copied from the source text. Every number a record states appears in its own quote (test/resident-services.test.mjs). QAP quotes are checked against the QAP text in data/audit/chfa-qap-watch.json; award quotes against data/affordable-housing/chfa-awards/2026-round-one.json. Evidence strength is this site's reading: strong means a randomized trial or a systematic review agreeing with trials; moderate means a large quasi-experimental study or a trial-based cost analysis; limited means observational, interim or mixed findings.",
+    "qap_document": {
+      "title": "2025-26 QAP Second Amendment (PDF)",
+      "url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "note": "The plan in force for 2025-26 awards. The 2027-28 third draft keeps these services requirements; re-check the quotes when CHFA adopts it."
+    }
+  },
+  "entries": [
+    {
+      "id": "denver-sib-housing",
+      "kind": "evidence",
+      "strength": "strong",
+      "outcomes": [
+        "housing"
+      ],
+      "title": "Denver: most people with long jail and homelessness histories stayed housed",
+      "population": "Denver residents with frequent arrests and jail stays who were homeless, in a randomized trial of supportive housing.",
+      "finding": "Among participants still living, 86 percent were stably housed one year after moving in, 81 percent at two years and 77 percent at three years.",
+      "quote": "Excluding those who died during the observation period, 86 percent of participants remained in stable housing one year after entering housing. At two years, the housing retention rate for living participants was 81 percent. At year 3, the rate was 77 percent.",
+      "caveat": "Retention excludes participants who died, and this population has high mortality.",
+      "source_url": "https://www.urban.org/research/publication/breaking-homelessness-jail-cycle-housing-first-results-denver-supportive-housing-social-impact-bond-initiative",
+      "source_title": "Breaking the Homelessness-Jail Cycle with Housing First: Results from the Denver Supportive Housing Social Impact Bond Initiative",
+      "publisher": "Urban Institute",
+      "published": "July 2021",
+      "last_verified": "2026-10-11",
+      "review_by": "2027-04-11"
+    },
+    {
+      "id": "denver-sib-justice",
+      "kind": "evidence",
+      "strength": "strong",
+      "outcomes": [
+        "justice",
+        "public_cost"
+      ],
+      "title": "Denver: fewer arrests, jail days, shelter stays and detox visits",
+      "population": "The same randomized trial: people offered supportive housing compared with people who received usual services, over three years.",
+      "finding": "People offered supportive housing had 34 percent fewer police contacts, 40 percent fewer arrests, 27 percent fewer jail days, 40 percent fewer shelter stays and 65 percent fewer detox visits. Emergency medical use did not differ by a statistically significant amount.",
+      "quote": "This represents a 40 percent reduction in shelter stays because of supportive housing. ... This represents a 34 percent reduction in police contacts and a 40 percent reduction in arrests. ... This represents a 30 percent reduction in unique jail stays and a 27 percent reduction in total jail days. ... This represents a 65 percent reduction in use of detoxification services. The differences between the two groups' uses of emergency medical services were not statistically significant.",
+      "caveat": "A randomized trial, so the differences are caused by the housing offer, but it covers one city and one high-need group.",
+      "source_url": "https://www.urban.org/research/publication/breaking-homelessness-jail-cycle-housing-first-results-denver-supportive-housing-social-impact-bond-initiative",
+      "source_title": "Breaking the Homelessness-Jail Cycle with Housing First",
+      "publisher": "Urban Institute",
+      "published": "July 2021",
+      "last_verified": "2026-10-11",
+      "review_by": "2027-04-11"
+    },
+    {
+      "id": "denver-sib-offsets",
+      "kind": "evidence",
+      "strength": "moderate",
+      "outcomes": [
+        "public_cost"
+      ],
+      "title": "Denver: about half the cost came back in avoided public services",
+      "population": "The Denver trial, costing housing and services against the jail, police, shelter, detox and emergency care participants avoided.",
+      "finding": "Avoided public costs offset about half of the program cost, $6,876 per person per year, led by jail days, ambulance rides and emergency department visits. The other half was a net public cost.",
+      "quote": "Approximately half the total annual per person cost of the Denver SIB was offset by reductions in the costs of other public services. The treatment group had $6,876 less in total annual per person costs associated with avoided outcomes compared with the control group.",
+      "caveat": "Offsets this large come from housing the people who use the most public services. Housing a less intensive group would offset less.",
+      "source_url": "https://www.urban.org/research/publication/costs-and-offsets-providing-supportive-housing-break-homelessness-jail-cycle",
+      "source_title": "Costs and Offsets of Providing Supportive Housing to Break the Homelessness-Jail Cycle",
+      "publisher": "Urban Institute",
+      "published": "July 2021",
+      "last_verified": "2026-10-11",
+      "review_by": "2027-04-11"
+    },
+    {
+      "id": "denver-h2h",
+      "kind": "evidence",
+      "strength": "limited",
+      "outcomes": [
+        "housing"
+      ],
+      "title": "Denver Housing to Health: early results from the follow-on program",
+      "population": "Denver's Housing to Health pay-for-success program, which pairs supportive housing with Medicaid-funded services.",
+      "finding": "Six months after moving in, 87 percent of participants were stably housed or had left for planned reasons. Services are delivered at 1 staff member for every 12 participants.",
+      "quote": "Six months after entering housing, 87 percent of participants were stably housed or had a planned exit ... Individualized services are provided at a ratio of 1 staff member for every 12 participants.",
+      "caveat": "An interim progress report covering the program's first two years, not a final evaluation.",
+      "source_url": "https://home.treasury.gov/system/files/226/Denver-Evaluation-Report-July-2024.pdf",
+      "source_title": "Denver Housing to Health evaluation progress report",
+      "publisher": "Urban Institute for the U.S. Treasury",
+      "published": "July 2024",
+      "last_verified": "2026-10-11",
+      "review_by": "2027-04-11"
+    },
+    {
+      "id": "at-home-chez-soi",
+      "kind": "evidence",
+      "strength": "strong",
+      "outcomes": [
+        "housing"
+      ],
+      "title": "Canada: Housing First doubled the share housed all of the time",
+      "population": "People who were homeless with a mental illness in five Canadian cities, in a randomized trial.",
+      "finding": "In the last six months of the study, 62 percent of Housing First participants were housed all of the time, compared with 31 percent of those receiving usual services.",
+      "quote": "In the last six months of the study, 62 per cent of HF participants were housed all of the time, 22 per cent some of the time, and 16 per cent none of the time; whereas 31 per cent of treatment as usual (TAU) participants were housed all of the time",
+      "source_url": "https://mentalhealthcommission.ca/resource/national-at-home-chez-soi-final-report/",
+      "source_title": "National At Home/Chez Soi Final Report",
+      "publisher": "Mental Health Commission of Canada",
+      "published": "2014",
+      "last_verified": "2026-10-11",
+      "review_by": "2027-04-11"
+    },
+    {
+      "id": "nasem-2018",
+      "kind": "evidence",
+      "strength": "limited",
+      "outcomes": [
+        "health",
+        "public_cost"
+      ],
+      "title": "National Academies: housing stability yes, health and savings not yet shown",
+      "population": "A review of all published research on permanent supportive housing for people experiencing chronic homelessness.",
+      "finding": "The review found supportive housing keeps most people housed, but not enough evidence yet that it improves health outcomes or reduces health care costs, except for people with HIV/AIDS.",
+      "quote": "Based on studies conducted over a 1- to 2-year period, PSH effectively maintains housing stability for most people experiencing chronic homelessness. ... Overall, except for some evidence that PSH improves health outcomes among individuals with HIV/AIDS, the committee finds that there is no substantial published evidence as yet to demonstrate that PSH improves health outcomes or reduces health care costs.",
+      "caveat": "\"No substantial evidence\" is not evidence of no effect. The committee noted that these outcomes are hard to measure.",
+      "source_url": "https://www.nationalacademies.org/read/25133/chapter/2",
+      "source_title": "Permanent Supportive Housing: Evaluating the Evidence for Improving Health Outcomes Among People Experiencing Chronic Homelessness",
+      "publisher": "National Academies of Sciences, Engineering, and Medicine",
+      "published": "2018",
+      "last_verified": "2026-10-11",
+      "review_by": "2027-04-11"
+    },
+    {
+      "id": "sash-vermont",
+      "kind": "evidence",
+      "strength": "moderate",
+      "outcomes": [
+        "health",
+        "public_cost"
+      ],
+      "title": "Vermont SASH: services in senior housing slowed Medicare spending in some places",
+      "population": "Older adults in affordable housing in Vermont served by a coordinator and a part-time wellness nurse, each team covering about 100 participants.",
+      "finding": "Medicare spending grew more slowly by about $1,100 per beneficiary per year in one region's site-based panels, and by over $1,450 in urban panels. Five other regions showed no Medicare savings.",
+      "quote": "panels of approximately 100 participants ... among the site-based SASH participants in the CSC DRHO panels, growth in annual Medicare expenditures was slower by an estimated $1,100 per beneficiary per year (see Exhibit 1). Participants in urban panels (i.e., those in Chittenden County) saw slower growth in Medicare expenditures of over $1,450 per beneficiary per year ... there was no evidence that the SASH program decreased Medicare expenditures for the participants in the panels in the other five DRHOs.",
+      "caveat": "Not a randomized trial, and the savings were not found everywhere the program ran.",
+      "source_url": "https://www.aspe.hhs.gov/sites/default/files/migrated_legacy_files//190061/SASH5hl-rs.pdf",
+      "source_title": "Evaluation of the Support and Services at Home (SASH) Program: Research Summary",
+      "publisher": "U.S. HHS Office of the Assistant Secretary for Planning and Evaluation (ASPE)",
+      "published": "July 2019",
+      "last_verified": "2026-10-11",
+      "review_by": "2027-04-11"
+    },
+    {
+      "id": "abt-sahf-noi",
+      "kind": "evidence",
+      "strength": "limited",
+      "outcomes": [
+        "property"
+      ],
+      "title": "Resident services and property finances",
+      "population": "248 affordable properties across 19 nonprofit housing organizations, comparing properties with and without resident services (2015 to 2019 data).",
+      "finding": "Properties with resident services had 26% higher net operating income, nearly $1,200 more per unit a year, than comparable properties without them.",
+      "quote": "Service-enriched properties generate 26% higher Net Operating Income (NOI)—nearly $1,200 more per unit annually—than comparable properties without services. ... The study uses 2015-2019 data, from 248 properties across 19 diverse housing organizations",
+      "caveat": "Commissioned by an industry group of owners that provide services, and observational: owners who invest in services may also manage better in other ways.",
+      "source_url": "https://sahfnet.org/resources/impact-resident-services-property-financial-performance",
+      "source_title": "The Impact of Resident Services on Property Financial Performance",
+      "publisher": "Abt Global for Stewards of Affordable Housing for the Future (SAHF)",
+      "published": "March 2026",
+      "last_verified": "2026-10-11",
+      "review_by": "2027-04-11"
+    },
+    {
+      "id": "sahf-arrears",
+      "kind": "evidence",
+      "strength": "limited",
+      "outcomes": [
+        "housing",
+        "property"
+      ],
+      "title": "Resident services and rent arrears",
+      "population": "Households in properties owned by Stewards of Affordable Housing for the Future members, comparing properties with and without resident services.",
+      "finding": "Households at properties with resident services had 24% lower rates of falling behind on rent, at both the $100 and $500 thresholds.",
+      "quote": "Households in properties with resident services had 24% lower rates both at the $100 and $500 thresholds.",
+      "caveat": "Observational and reported by the owners' own industry group.",
+      "source_url": "https://sahfnet.org/sites/default/files/documents/The-Case-for-RS_0.pdf",
+      "source_title": "The Case for Resident Services",
+      "publisher": "Stewards of Affordable Housing for the Future (SAHF)",
+      "published": "2026",
+      "last_verified": "2026-10-11",
+      "review_by": "2027-04-11"
+    },
+    {
+      "id": "qap-special-populations-definition",
+      "kind": "qap",
+      "title": "Special populations are served with services",
+      "section": "Section 1, Definitions",
+      "finding": "CHFA's definition of special populations builds services in: housing for these residents is expected to come with services that keep them housed.",
+      "quote": "Persons with a disability (as defined by the Americans with Disabilities Act), Persons experiencing Homelessness, or specified populations in need of supportive housing. Projects serving these populations will provide supportive services to help maintain housing stability and maintain or increase self-sufficiency.",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP Second Amendment",
+      "publisher": "CHFA",
+      "published": "2025",
+      "last_verified": "2026-10-11",
+      "review_by": "2026-12-15"
+    },
+    {
+      "id": "qap-special-populations-points",
+      "kind": "qap",
+      "title": "Points for a supportive housing set-aside",
+      "section": "Section 5.B.5",
+      "finding": "A project earns fifteen points by setting aside at least 25 percent of its units for people experiencing homelessness or another special population, if it also provides the services below.",
+      "quote": "Fifteen points may be earned for the set-aside of at least 25 percent of the units for Persons experiencing Homelessness or Special Populations.",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP Second Amendment",
+      "publisher": "CHFA",
+      "published": "2025",
+      "last_verified": "2026-10-11",
+      "review_by": "2026-12-15"
+    },
+    {
+      "id": "qap-special-populations-services",
+      "kind": "qap",
+      "title": "Services residents choose, at no cost",
+      "section": "Section 5.B.5",
+      "finding": "Services for the set-aside must be free to residents and optional for them, and the plan names the kinds of services CHFA expects.",
+      "quote": "provide a range of supportive services the residents can choose to use, at no cost to the residents, to receive the additional points. The project must provide supportive services that might include, but are not limited to, case management, job training and/or placement, continuing education, transportation, child care, and health care.",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP Second Amendment",
+      "publisher": "CHFA",
+      "published": "2025",
+      "last_verified": "2026-10-11",
+      "review_by": "2026-12-15"
+    },
+    {
+      "id": "qap-special-populations-documents",
+      "kind": "qap",
+      "title": "A services plan, a budget and signed MOUs",
+      "section": "Section 5.B.5",
+      "finding": "To get the points, the application must include a written services plan, a services budget with adequate staffing, and service agreements signed by both parties.",
+      "quote": "A narrative outlining the comprehensive service plan for the proposed project; and • A funding budget for services and demonstration of an adequate level of staffing; and • Memoranda of Understanding (MOUs) from service providers (which must be executed and dated by both parties), including in-kind service providers, and demonstration of a minimum of three years of experience; and",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP Second Amendment",
+      "publisher": "CHFA",
+      "published": "2025",
+      "last_verified": "2026-10-11",
+      "review_by": "2026-12-15"
+    },
+    {
+      "id": "qap-housing-first",
+      "kind": "qap",
+      "title": "Housing First tenant selection",
+      "section": "Section 5.B.5",
+      "finding": "The set-aside must screen tenants in the Housing First way, lowering barriers to getting in rather than requiring treatment or perfect records first.",
+      "quote": "Tenant Selection Plans that follow Housing First best practices, such as pet-friendly policies.",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP Second Amendment",
+      "publisher": "CHFA",
+      "published": "2025",
+      "last_verified": "2026-10-11",
+      "review_by": "2026-12-15"
+    },
+    {
+      "id": "qap-30ami-services",
+      "kind": "qap",
+      "title": "Deep income targeting for these populations needs services too",
+      "section": "Section 5.A.1.(d)",
+      "finding": "Projects earn extra points for renting units to extremely low-income households. When those units house people experiencing homelessness or a special population, the points require free services from a provider with at least three years of experience.",
+      "quote": "Projects providing housing for these populations must provide a range of supportive services to the residents, at no cost to the residents, to receive the additional points. Supportive services might include, but are not limited to, case management, job training and/or placement, continuing education, transportation, child care, and health care. These services must be provided by a service provider(s) with a minimum of three years’ experience in the related field of service provision.",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP Second Amendment",
+      "publisher": "CHFA",
+      "published": "2025",
+      "last_verified": "2026-10-11",
+      "review_by": "2026-12-15"
+    },
+    {
+      "id": "qap-developer-fee-boost",
+      "kind": "qap",
+      "title": "A larger developer fee, committed to services or rent help",
+      "section": "Section 3.M",
+      "finding": "Projects serving these populations at or below 30 percent of area median income can ask for a developer fee up to 5 percent higher, prorated by the share of units served: a 25 percent set-aside earns up to 1.25 percent. The extra fee must pay for services or rent subsidy, and the commitment is written into the property's land use restriction agreement (LURA).",
+      "quote": "An increase of the percent allowed, up to 5 percent, may be requested for projects serving Persons experiencing Homelessness or Special Populations with incomes at or below 30 percent AMI. The maximum boost is pro-rated by the percentage of units in the project serving Persons experiencing Homelessness or Special Populations. For example, if a project is targeting 25 percent, then the project is eligible for up to 1.25 percent boost of the Developer Fee. The increase in developer fee must be committed to provide supportive services or a rental subsidy for such tenants. Evidence of the commitment must be provided with the Application and such commitments will be reflected in the LURA.",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP Second Amendment",
+      "publisher": "CHFA",
+      "published": "2025",
+      "last_verified": "2026-10-11",
+      "review_by": "2026-12-15"
+    },
+    {
+      "id": "fund-medicaid-hrsn",
+      "kind": "funding",
+      "title": "Health First Colorado (Medicaid) housing services",
+      "review_by": "2026-12-15",
+      "finding": "Since July 1, 2025, Colorado Medicaid can pay enrolled supportive housing providers for housing case management and for pre-tenancy and tenancy-sustaining services, under a federal 1115 waiver approved January 13, 2025.",
+      "limits": "Pays for services to eligible Medicaid members, not for rent. Medicaid payment for short-term rental assistance ends after Dec. 31, 2026; tenancy services continue.",
+      "quote": "On January 13, 2025, HCPF was approved by the Centers for Medicare & Medicaid Services (CMS) for an 1115 SUD Demonstration Amendment to cover Health-Related Social Needs (HRSN) services for Medicaid members who meet certain social and clinical criteria. ... Beginning July 1, 2025, Health First Colorado (Colorado's Medicaid program) can reimburse Supportive Housing Providers (PT 89/208) for the following services: Targeted Case Management for Housing Supports Pre-Tenancy Support & Tenancy Sustaining Services ... Medicaid reimbursement for short-term rental assistance will end after Dec. 31, 2026. Current housing vouchers will not be affected, and other approved HRSN housing services, including pre-tenancy navigation, tenancy-sustaining services, case management, transition and moving costs, and utility assistance, will continue for eligible members.",
+      "source_url": "https://hcpf.colorado.gov/supportivehousingservices",
+      "source_title": "Supportive Housing Services",
+      "publisher": "Colorado Department of Health Care Policy & Financing",
+      "last_verified": "2026-10-11"
+    },
+    {
+      "id": "fund-doh-psh-rfa",
+      "kind": "funding",
+      "title": "Colorado Division of Housing supportive housing funding round",
+      "review_by": "2026-12-15",
+      "finding": "The Division of Housing funds the creation of supportive housing through an annual request for applications. Its 2026 round does not include tenancy support services funding, citing state and federal budget limits and the new Medicaid housing benefit, and it gives full points only to applicants that include Medicaid as a funding source.",
+      "limits": "Optional for tax credit projects, though CHFA and DOH encourage supportive housing applicants to take part. Denver projects can seek tenancy support funding from Denver's Department of Housing Stability (HOST).",
+      "quote": "In response to state and federal financial constraints as well as the current state of implementation for Colorado's 1115 Demonstration Waiver with the addition of Health-Related Social Needs (HRSN) - including Housing Supports - in partnership with the Colorado Department of Health Care Policy and Financing (HCPF), DOLA/DOH is not including Tenancy Support Services (TSS) funding in the 2026 PSH RFA. ... Applicants will only receive full points if Medicaid is included as a funding source",
+      "source_url": "https://doh.colorado.gov/creation-of-supportive-housing-rfa",
+      "source_title": "2025-2026 Annual Request for Applications for the Creation of Supportive Housing",
+      "publisher": "Colorado Division of Housing (DOLA)",
+      "published": "November 2025",
+      "last_verified": "2026-10-11"
+    },
+    {
+      "id": "fund-operations-cap",
+      "kind": "funding",
+      "title": "Property cash flow",
+      "finding": "Rents can pay for part of the services budget, but Colorado's supportive housing round caps that share at 50% and requires the first five years of services funding to be committed.",
+      "limits": "Tax credit rents are capped, so cash flow is thin; a property that leans on it for services is exposed when expenses rise.",
+      "quote": "net cash flow from the operation of the property cannot support more than 50% of the total supportive services budget ... The first five years of funding included in the service budget must be committed.",
+      "source_url": "https://doh.colorado.gov/creation-of-supportive-housing-rfa",
+      "source_title": "2025-2026 Annual Request for Applications for the Creation of Supportive Housing",
+      "publisher": "Colorado Division of Housing (DOLA)",
+      "published": "November 2025",
+      "review_by": "2026-12-15",
+      "last_verified": "2026-10-11"
+    },
+    {
+      "id": "fund-chfa-fee-boost",
+      "kind": "funding",
+      "title": "CHFA developer fee boost",
+      "review_by": "2026-12-15",
+      "finding": "Projects serving people experiencing homelessness or special populations at or below 30 percent of area median income can take up to 5 percent more developer fee, which must be committed to services or rent subsidy and is recorded in the LURA.",
+      "limits": "One-time money at construction. It must be set aside or spent over time; it does not renew.",
+      "quote": "An increase of the percent allowed, up to 5 percent, may be requested for projects serving Persons experiencing Homelessness or Special Populations with incomes at or below 30 percent AMI. The maximum boost is pro-rated by the percentage of units in the project serving Persons experiencing Homelessness or Special Populations. For example, if a project is targeting 25 percent, then the project is eligible for up to 1.25 percent boost of the Developer Fee. The increase in developer fee must be committed to provide supportive services or a rental subsidy for such tenants. Evidence of the commitment must be provided with the Application and such commitments will be reflected in the LURA.",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP Second Amendment",
+      "publisher": "CHFA",
+      "published": "2025",
+      "last_verified": "2026-10-11"
+    },
+    {
+      "id": "fund-chfa-toolkit",
+      "kind": "funding",
+      "title": "CHFA and DOH Supportive Housing Toolkit",
+      "review_by": "2027-04-11",
+      "finding": "Not money, but training: CHFA and the Division of Housing have run a Supportive Housing Toolkit for more than ten years to help developer and service provider teams plan supportive housing. CHFA reports supporting more than 1,500 supportive housing units through tax credits as of December 31, 2023.",
+      "limits": "Training and technical assistance, not a funding source, and not required by the QAP.",
+      "quote": "For more than ten years CHFA has partnered with the Colorado Department of Local Affairs, Division of Housing to sponsor a Supportive Housing Toolkit program to support outreach and education to stakeholders seeking solutions to homelessness. ... As of December 31, 2023, CHFA has supported the development of more than 1,500 units of Supportive Housing across the state through the allocation of Housing Tax Credits.",
+      "source_url": "https://www.chfainfo.com/about-chfa/resource-library/chfa-whitepapers/how-chfa-invests-in-supportive-housing",
+      "source_title": "How CHFA Invests in Supportive Housing",
+      "publisher": "CHFA",
+      "last_verified": "2026-10-11"
+    },
+    {
+      "id": "cost-doh-minimum",
+      "kind": "cost",
+      "title": "Colorado's minimum for supportive housing services",
+      "figure": "$7,200 per household per year",
+      "finding": "The Division of Housing treats $7,200 per household per year as the minimum services spending for high-quality supportive housing, with one case manager for every fifteen households. Intensive models such as Assertive Community Treatment cost more.",
+      "quote": "DOH maintains that high-quality supportive housing is supported with a minimum of at least $7,200 per household per year in supportive service spending. This is not inclusive of intensive case management models, such as Assertive Community Treatment (ACT). Applications through the PSH RFA must demonstrate that the proposed project will include a target staff-to-client ratio of no less than one (1) case manager to every fifteen (15) households.",
+      "source_url": "https://doh.colorado.gov/creation-of-supportive-housing-rfa",
+      "source_title": "2025-2026 Annual Request for Applications for the Creation of Supportive Housing",
+      "publisher": "Colorado Division of Housing (DOLA)",
+      "published": "November 2025",
+      "review_by": "2026-12-15",
+      "last_verified": "2026-10-11"
+    },
+    {
+      "id": "cost-denver-sib",
+      "kind": "cost",
+      "title": "What Denver's supportive housing services cost",
+      "figure": "$11,315 to $24,820 per unit per year",
+      "finding": "In the Denver trial, services cost $11,315 a year per unit at one provider and $24,820 at the other, which served people with more intensive behavioral health needs. Rent help added $10,950 a year.",
+      "quote": "The average cost of housing assistance provided to someone in the Denver SIB supportive housing treatment group was $30 per day, or $10,950 for a full year (table 1). ... we estimated the cost per day for CCH SIB supportive services to be $31, or $11,315 for a full year. We estimated the cost per day for MHCD SIB supportive services to be $68, or $24,820 for a full year.",
+      "caveat": "Costs from the trial years, for a population with heavy jail and behavioral health histories.",
+      "source_url": "https://www.urban.org/research/publication/costs-and-offsets-providing-supportive-housing-break-homelessness-jail-cycle",
+      "source_title": "Costs and Offsets of Providing Supportive Housing to Break the Homelessness-Jail Cycle",
+      "publisher": "Urban Institute",
+      "published": "July 2021",
+      "last_verified": "2026-10-11",
+      "review_by": "2027-04-11"
+    },
+    {
+      "id": "cost-sash-panel",
+      "kind": "cost",
+      "title": "What a senior housing services team costs",
+      "figure": "$76,100 to $83,300 per panel per year",
+      "finding": "In Vermont's SASH program, a team of one full-time coordinator and a quarter-time wellness nurse, serving a panel of older adults in affordable housing, cost $76,100 to $83,300 a year to run.",
+      "quote": "each SASH panel received $68,600 per year to cover the salaries of a full-time SASH coordinator and a quarter-time (10 hours per week) wellness nurse. The survey of SASH panels revealed that the annual cost of operating a SASH panel was between $76,100 and $83,300 per year",
+      "caveat": "Costs from the program's first years; wages have risen since.",
+      "source_url": "https://aspe.hhs.gov/sites/default/files/migrated_legacy_files//177211/SASH4hl-rs.pdf",
+      "source_title": "Evaluation of the SASH Program: Fourth Annual Report, Research Summary",
+      "publisher": "U.S. HHS ASPE",
+      "published": "March 2017",
+      "last_verified": "2026-10-11",
+      "review_by": "2027-04-11"
+    }
+  ],
+  "awards": {
+    "file": "data/affordable-housing/chfa-awards/2026-round-one.json",
+    "models": {
+      "resident_services": "Resident services for all residents",
+      "disability": "Services for residents with disabilities",
+      "older_adults": "Aging-in-place services for older adults",
+      "community": "Partner programs (meals, youth, community)"
+    },
+    "items": [
+      {
+        "name": "123 Manitou",
+        "model": "resident_services",
+        "quote": "The sponsors are partnering with Rainbow Housing Assistance Corporation to provide services to residents"
+      },
+      {
+        "name": "Barth Hotel",
+        "model": "older_adults",
+        "quote": "The Sponsor and their model of housing and supportive services centers on eight dimensions of wellness"
+      },
+      {
+        "name": "Cedar Creek Commons",
+        "model": "disability",
+        "quote": "Services will be offered to all residents based on their needs and Community Options Incorporated (COI) will assist with leasing and services"
+      },
+      {
+        "name": "Crawford Commons",
+        "model": "resident_services",
+        "quote": "Residents will have access to onsite workshops and individual counseling on subject matters including rental education, financial fitness and homebuying."
+      },
+      {
+        "name": "Crossroads at Divide",
+        "model": "resident_services",
+        "quote": "Resident services will be provided onsite at space in the clubhouse and will focus on financial literacy and planning, literacy programs for adults and children, health and wellness, eviction prevention, food security programs"
+      },
+      {
+        "name": "Grove at Pinewood",
+        "model": "community",
+        "quote": "The Sponsor has partnered with Aging Dynamics to foster community and intergenerational relationships with the older adult community at the adjacent Pinewood Lodge."
+      },
+      {
+        "name": "Metro Center Apartments",
+        "model": "community",
+        "quote": "The Sponsor will partner with Philo’s Kitchen, a local nonprofit, to provide subsidized, affordable and healthy meals delivered to residents weekly."
+      },
+      {
+        "name": "Montbello Townhomes",
+        "model": "community",
+        "quote": "The Sponsor will provide memberships for residents ages five to 18 to the local Boys & Girls Clubs of Montbello"
+      },
+      {
+        "name": "Silver Key Apartments at North Weber",
+        "model": "older_adults",
+        "quote": "Sponsor-provided services will include health and wellness, nutrition, case management, on-demand transportation, resource navigation"
+      },
+      {
+        "name": "Wildflower Flats",
+        "model": "older_adults",
+        "quote": "Through a partnership with Eaton Senior Communities, residents will receive onsite services focused on physical fitness and therapy, nutritional programs"
+      }
+    ]
+  }
+}
