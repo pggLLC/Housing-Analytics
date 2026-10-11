@@ -58,14 +58,14 @@ test('no product chosen: the route is the LIHTC route', () => {
     'middle-income rental walks the LIHTC route');
 });
 
-test('for-sale reroutes slots 2, 4 and 5 and keeps numbers and keys', () => {
+test('for-sale reroutes slots 2, 4, 5 and 6 and keeps numbers and keys', () => {
   const win = page('index.html', '<!doctype html><main></main>');
   const WP = win.WorkflowProgress;
   assert.strictEqual(WP.setProduct('for-sale'), true);
   assert.strictEqual(WP.getProduct(), 'for-sale');
   const route = WP.routeSteps();
   assert.deepStrictEqual(Array.from(route, (s) => [s.num, s.key]), Array.from(WP.STEPS, (s) => [s.num, s.key]));
-  assert.deepStrictEqual(Array.from(route.filter((s) => s.routed), (s) => s.num), [2, 4, 5]);
+  assert.deepStrictEqual(Array.from(route.filter((s) => s.routed), (s) => s.num), [2, 4, 5, 6]);
   assert.strictEqual(WP.setProduct('condo-hotel'), false, 'an unknown product is refused');
   assert.strictEqual(WP.getProduct(), 'for-sale');
 });
@@ -75,12 +75,15 @@ test('every routed slot opens a page and anchor that exist, named as the nav nam
   const nav = read('js/navigation.js');
   const navItems = [...nav.matchAll(/label:\s*"([^"]+)",\s*href:\s*"([^"]+)"/g)].map((m) => ({ label: m[1], href: m[2] }));
   const routed = WP.stepsFor('for-sale').filter((s) => s.routed);
-  assert.strictEqual(routed.length, 3, 'scan found the routed slots');
+  assert(routed.length >= 3, 'scan found the routed slots');
   routed.forEach((s) => {
-    const [file, anchor] = s.href.split('#');
+    const [target, anchor] = s.href.split('#');
+    const file = target.split('?')[0];
     assert(fs.existsSync(path.join(ROOT, file)), s.href + ': page exists');
     if (anchor) assert(read(file).includes('id="' + anchor + '"'), s.href + ': anchor exists');
-    const navItem = navItems.find((n) => n.href === s.href || (anchor && n.href.endsWith('#' + anchor)) || (!anchor && n.href === file));
+    // An exact link first: the nav links the calculator twice, once per mode.
+    const navItem = navItems.find((n) => n.href === s.href)
+      || navItems.find((n) => (anchor && n.href.endsWith('#' + anchor)) || (!anchor && n.href === file));
     assert(navItem, s.href + ': the nav links this page');
     assert(navItem.label.startsWith(s.label), 'rail "' + s.label + '" vs nav "' + navItem.label + '"');
   });
@@ -212,6 +215,70 @@ const pending = new Promise((resolve) => {
     });
     resolve();
   }, 0);
+});
+
+test('the ownership link opens the calculator in ownership mode', () => {
+  const WP = WP0();
+  const deal = WP.stepsFor('for-sale').find((s) => s.key === 'deal');
+  // The nav item that opens it is the one whose label the rail uses.
+  const nav = [...read('js/navigation.js').matchAll(/label:\s*"([^"]+)",\s*href:\s*"([^"]+)"/g)]
+    .filter((m) => m[1] === deal.label).map((m) => m[2]);
+  assert.deepStrictEqual(nav, [deal.href], 'the nav item and the route open the same link');
+  const url = new URL(deal.href, 'https://cohoanalytics.com/');
+  const src = read('js/deal-calculator.js');
+  const fn = src.match(/function applyModeFromUrl\(\) \{[\s\S]*?\n  \}\n/);
+  assert(fn, 'calculator reads its mode from the URL');
+  const mode = (search) => {
+    const dom = new JSDOM('<input type="radio" name="dc-deal-mode" id="dc-mode-rental" value="rental" checked>'
+      + '<input type="radio" name="dc-deal-mode" id="dc-mode-ownership" value="ownership">',
+      { url: 'https://cohoanalytics.com/deal-calculator.html' + search, runScripts: 'outside-only' });
+    let changed = 0;
+    dom.window.document.getElementById('dc-mode-ownership').addEventListener('change', () => { changed += 1; });
+    dom.window.eval(fn[0] + '; applyModeFromUrl();');
+    return [dom.window.document.querySelector('input[name="dc-deal-mode"]:checked').value, changed];
+  };
+  assert.deepStrictEqual(mode(url.search), ['ownership', 1], 'the link opens ownership mode and the calculator hears it');
+  assert.deepStrictEqual(mode(''), ['rental', 0], 'no parameter keeps rental');
+  assert.deepStrictEqual(mode('?mode=condo'), ['rental', 0], 'an unknown mode keeps rental');
+});
+
+test('choosing a jurisdiction returns to a routed step, and only to one', () => {
+  const back = (next) => {
+    const dom = new JSDOM('<!doctype html><button id="sjContinueBtn">x</button>',
+      { url: 'https://cohoanalytics.com/select-jurisdiction.html?next=' + encodeURIComponent(next), runScripts: 'outside-only' });
+    dom.window.eval(railSrc);
+    dom.window.eval(read('js/jurisdiction-selector.js'));
+    return dom.window.JurisdictionSelector.returnTarget();
+  };
+  const WP = WP0();
+  const targets = [];
+  WP.PRODUCTS.forEach((p) => WP.stepsFor(p.id).forEach((s) => {
+    if (s.routed) targets.push(s.href);
+    if (s.companion) targets.push(s.companion.href);
+  }));
+  assert(targets.includes('deal-calculator.html?mode=ownership'), 'scan found the ownership-mode step');
+  targets.forEach((href) => assert.strictEqual(back(href), href, href + ' is a step the route sends readers to'));
+  assert.strictEqual(back('deal-calculator.html?mode=anything'), null, 'a query the route never uses is refused');
+  assert.strictEqual(back('https://example.com/'), null);
+});
+
+test('the banner follows the calculator\'s mode, however it was set', () => {
+  // A restored share link sets the mode without ?mode=ownership in the URL.
+  const win = page('deal-calculator.html', '<!doctype html><main><section class="hero"><h1>x</h1></section></main>');
+  win.WorkflowState = { getProgress: () => ({ completedSteps: ['jurisdiction', 'hsa', 'market', 'scenario'] }) };
+  win.WorkflowProgress.setProduct('mixed');
+  win.eval(bannerSrc);
+  win.WorkflowNextAction.render();
+  const deal = WP0().stepsFor('mixed').find((s) => s.key === 'deal');
+  const links = () => Array.from(win.document.querySelectorAll('#workflowNextAction a'), (a) => a.getAttribute('href'));
+  assert(links().includes(deal.companion.href), 'rental mode offers the ownership calculator');
+  // What the calculator does on a mode change (deal-calculator.js updateDealModeUi).
+  const fn = read('js/deal-calculator.js').match(/var page = isOwnership[\s\S]*?\n    \}\n/);
+  assert(fn, 'the calculator declares its mode to the guided path');
+  win.eval('(function (isOwnership) {' + fn[0] + '})(true)');
+  win.WorkflowNextAction.render();
+  assert(links().includes(deal.href), 'ownership mode links back to the rental calculator');
+  assert(!links().includes(deal.companion.href), 'and no longer offers itself');
 });
 
 function WP0() { return page('index.html', '<!doctype html><main></main>').WorkflowProgress; }

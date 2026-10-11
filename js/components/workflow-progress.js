@@ -66,7 +66,7 @@
    * select-jurisdiction.html says so.
    *
    * A project with both rental and for-sale homes ("mixed") walks the LIHTC
-   * route too, and the for-sale tool for slots 2, 4 and 5 rides along as a
+   * route too, and the for-sale tool for slots 2, 4, 5 and 6 rides along as a
    * companion: listed under the rail and named by the next-step banner. The
    * Deal Calculator still models one tenure at a time; a combined deal is not
    * built. docs/DEVELOPER-TRACKS.md maps all four.
@@ -87,7 +87,10 @@
     4: { label: 'For-Sale Market Study', href: 'for-sale-market-study.html',
          action: 'Screen buyer demand, capture, absorption and resale for your project.' },
     5: { label: 'Land Value', href: 'land-value.html',
-         action: 'Test what the land is worth against what the homes can sell for.' }
+         action: 'Test what the land is worth against what the homes can sell for.' },
+    // The same calculator, opened in its ownership mode.
+    6: { label: 'For-Sale Feasibility', href: 'deal-calculator.html?mode=ownership',
+         action: 'Size the subsidy gap per home and what the public keeps at resale.' }
   };
   // Slots whose page is replaced, by product.
   var ROUTE_OVERRIDES = { 'for-sale': FOR_SALE_SLOTS };

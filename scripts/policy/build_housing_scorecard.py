@@ -22,7 +22,12 @@ INPUTS = {
     'local_resources': os.path.join(ROOT, 'data', 'hna', 'local-resources.json'),
     'iz': os.path.join(ROOT, 'data', 'market', 'inclusionary_zoning_co.json'),
     'soft_funding': os.path.join(ROOT, 'data', 'policy', 'soft-funding-status.json'),
+    'local_funds': os.path.join(ROOT, 'data', 'policy', 'local-housing-funds.json'),
+    'incentive_coverage': os.path.join(ROOT, 'data', 'policy', 'incentive-coverage.json'),
 }
+
+# City-and-county governments are one jurisdiction with two geoids.
+CONSOLIDATED = {'08031': '0820000', '08014': '0809280'}
 
 OUTPUT = os.path.join(ROOT, 'data', 'policy', 'housing-policy-scorecard.json')
 
@@ -88,6 +93,24 @@ def build_local_funding_counties(sf_data):
     return counties
 
 
+def build_local_fund_geoids(funds_data):
+    """Geoids (canonical) with an adopted record in local-housing-funds.json."""
+    out = set()
+    for r in funds_data.get('entries', []):
+        if r.get('status') == 'adopted' and r.get('geoid'):
+            out.add(CONSOLIDATED.get(r['geoid'], r['geoid']))
+    return out
+
+
+def build_funds_none_found(coverage_data):
+    """Geoids whose official sources were read and hold no local fund."""
+    return {
+        CONSOLIDATED.get(r['geoid'], r['geoid'])
+        for r in coverage_data.get('jurisdictions', [])
+        if (r.get('result_by_scope') or {}).get('funds') == 'none_found'
+    }
+
+
 def main():
     print('Loading data sources...')
     geo_config = load_json(INPUTS['geo_config'])
@@ -95,6 +118,8 @@ def main():
     local_res = load_json(INPUTS['local_resources'])
     iz = load_json(INPUTS['iz'])
     soft_funding = load_json(INPUTS['soft_funding'])
+    local_funds = load_json(INPUTS['local_funds'])
+    coverage = load_json(INPUTS['incentive_coverage'])
 
     # Try ranking-index first; fall back to geo-config for the geography list
     try:
@@ -121,6 +146,8 @@ def main():
     p123_lookup = build_prop123_lookup(prop123)
     iz_lookup = build_iz_lookup(iz)
     local_funding_counties = build_local_funding_counties(soft_funding)
+    fund_geoids = build_local_fund_geoids(local_funds)
+    funds_none_found = build_funds_none_found(coverage)
 
     print(f'  Prop 123 entries: {len(p123_lookup)}')
     print(f'  IZ entries: {len(iz_lookup)}')
@@ -216,18 +243,23 @@ def main():
         else:
             dims['has_iz_ordinance'] = None
 
-        # 7. has_local_funding — check if containing county has local funding programs
-        #    Places/CDPs inherit their containing county's funding programs.
-        if containing_county and containing_county in local_funding_counties:
+        # 7. has_local_funding — a dedicated local fund, tax or fee on record
+        #    (local-housing-funds.json, or a county program in
+        #    soft-funding-status.json; places/CDPs inherit their county's).
+        #    "No" needs someone to have read the jurisdiction's sources and
+        #    found none (incentive-coverage.json funds = none_found). Anything
+        #    else is unknown: absence from a partial list is not evidence of
+        #    absence, and scoring it as "no" lowered every unchecked place.
+        own = CONSOLIDATED.get(geoid, geoid)
+        county_has = bool(containing_county) and (
+            containing_county in local_funding_counties
+            or CONSOLIDATED.get(containing_county, containing_county) in fund_geoids)
+        if own in fund_geoids or (geo_type == 'county' and geoid in local_funding_counties):
             dims['has_local_funding'] = True
-        elif geo_type == 'county' and geoid in local_funding_counties:
+        elif geo_type != 'county' and county_has:
             dims['has_local_funding'] = True
-        elif geo_type == 'county':
-            # Counties without known programs — definitively no local funding
+        elif own in funds_none_found:
             dims['has_local_funding'] = False
-        elif containing_county:
-            # Places/CDPs: if their county has no funding, they don't either
-            dims['has_local_funding'] = containing_county in local_funding_counties
         else:
             dims['has_local_funding'] = None
 
@@ -265,6 +297,8 @@ def main():
                 'localResources': 'data/hna/local-resources.json',
                 'inclusionaryZoning': 'data/market/inclusionary_zoning_co.json',
                 'softFunding': 'data/policy/soft-funding-status.json',
+                'localFunds': 'data/policy/local-housing-funds.json',
+                'incentiveCoverage': 'data/policy/incentive-coverage.json',
             },
             'stats': stats,
         },

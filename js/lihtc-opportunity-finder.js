@@ -98,7 +98,7 @@
     sortKey: 'score',
     sortDir: 'desc',
     filters: {
-      target: '9pct',     // '9pct' | '4pct' | 'any'
+      target: '9pct',     // '9pct' | '4pct' | 'both_credits' | 'preservation' | 'workforce_resort' | 'prop123_local' | 'any'
       // Basis-boost designation requirement. Mutually-exclusive radio:
       //   'both'   — must have BOTH QCT AND DDA (default; strongest case)
       //   'either' — has QCT OR DDA (any basis-boost eligible jurisdiction)
@@ -291,6 +291,14 @@
   //             housing strategy in place.
   // Preservation + prop123_local + any unchanged — civic already weighted
   // appropriately for those targets.
+  // The day the local support windows are measured from (local-support-data.js
+  // takes it as an argument so tests can pin it).
+  var LOCAL_SUPPORT_TODAY = (function () {
+    var d = new Date();
+    var m = d.getMonth() + 1, day = d.getDate();
+    return d.getFullYear() + '-' + (m < 10 ? '0' : '') + m + '-' + (day < 10 ? '0' : '') + day;
+  }());
+
   var SCORE_WEIGHTS = {
     '9pct':              { need: 0.30, recency: 0.22, basis: 0.15, pop: 0.15, civic: 0.18 },
     // F254b (Codex Finding 11) — rebalanced from { need: 0.25, recency:
@@ -759,7 +767,16 @@
       // application deadlines) for the selected jurisdiction. Soft
       // load: a missing file just hides the callout.
       loadSoft('data/policy/soft-funding-status.json'),
-      loadSoft('data/chfa-income-rent-limits-2026.json')
+      loadSoft('data/chfa-income-rent-limits-2026.json'),
+      // Local support bonus (parts[27]..parts[30]): adopted plans and
+      // council / planning-commission votes, plus the Local Housing
+      // Incentives records. js/local-support-data.js scores them; a
+      // jurisdiction nobody has checked gets +0. Soft load: missing files
+      // mean no bonus anywhere, never a lower score.
+      loadSoft('data/policy/local-support.json'),
+      loadSoft('data/policy/fee-reductions.json'),
+      loadSoft('data/policy/local-housing-funds.json'),
+      loadSoft('data/policy/incentive-coverage.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -1022,6 +1039,9 @@
       // Compare page consumes. Used by the detail panel callout to
       // surface LOI + application deadlines for any deal scoped in the
       // selected jurisdiction.
+      state.localSupport = (window.LocalSupportData && parts[27])
+        ? window.LocalSupportData.build({ support: parts[27], fees: parts[28], funds: parts[29], coverage: parts[30] })
+        : null;
       var softFunding = parts[25];
       state.softFundingPrograms = (softFunding && softFunding.programs) || {};
       state.softFundingMeta = (softFunding && softFunding.meta) || null;
@@ -1438,6 +1458,24 @@
       var scoreProp123      = compositeScore(recScore,                       needPct, bbScore, popScore, civicScoreForComposite, 'prop123_local', type);
       var scoreAny          = compositeScore(recScore,                       needPct, bbScore, popScore, civicScoreForComposite, 'any', type);
 
+      // Local support bonus: up to +6 on every target, shown as its own line
+      // in the detail panel. Unchecked jurisdictions get +0, so their scores
+      // are exactly what they were without it.
+      var localSupport = state.localSupport
+        ? state.localSupport.profile(placeGeoid, LOCAL_SUPPORT_TODAY, {
+            kind: type === 'cdp' ? 'cdp' : 'place', county: containingCounty,
+            civic: civic_pre && civic_pre.dimensions })
+        : null;
+      var localSupportBonus = localSupport ? localSupport.bonus : 0;
+      var scoresBeforeLocalSupport = { score9: score9, score4: score4, scorePreservation: scorePreservation,
+        scoreWorkforce: scoreWorkforce, scoreProp123: scoreProp123, scoreAny: scoreAny };
+      score9            = window.LocalSupportData ? window.LocalSupportData.applyBonus(score9, localSupportBonus) : score9;
+      score4            = window.LocalSupportData ? window.LocalSupportData.applyBonus(score4, localSupportBonus) : score4;
+      scorePreservation = window.LocalSupportData ? window.LocalSupportData.applyBonus(scorePreservation, localSupportBonus) : scorePreservation;
+      scoreWorkforce    = window.LocalSupportData ? window.LocalSupportData.applyBonus(scoreWorkforce, localSupportBonus) : scoreWorkforce;
+      scoreProp123      = window.LocalSupportData ? window.LocalSupportData.applyBonus(scoreProp123, localSupportBonus) : scoreProp123;
+      scoreAny          = window.LocalSupportData ? window.LocalSupportData.applyBonus(scoreAny, localSupportBonus) : scoreAny;
+
       // Civic capacity (already computed above as civic_pre — reuse)
       var civic = civic_pre;
       var localRes = localResForPlace(placeGeoid, type, containingCounty);
@@ -1589,6 +1627,9 @@
         scoreWorkforce:       scoreWorkforce,
         scoreProp123:         scoreProp123,
         scoreAny:             scoreAny,
+        localSupport:         localSupport,
+        localSupportBonus:    localSupportBonus,
+        scoresBeforeLocalSupport: scoresBeforeLocalSupport,
         // Place centroid for map (lat/lng, may be null if no tract centroids
         // and no LIHTC project anchor; renderer will skip such markers)
         centroidLat:  centroidLat,
@@ -1662,8 +1703,44 @@
 
   /* ── Filtering ────────────────────────────────────────────────────── */
 
+  // 'both_credits' — the user is open to either a 9% or a 4% deal. Each
+  // place is already scored both ways (score9 / score4); in this mode it
+  // ranks by whichever credit type it fits better, and the row says which.
+  // Ties go to 9%. Custom Scenario Builder mixes are per single target, so
+  // they do not apply here (the builder is hidden while this is selected).
+  var BOTH_CREDITS = 'both_credits';
+
+  function _bestCredit(op) {
+    var s9 = Number.isFinite(op.score9) ? op.score9 : null;
+    var s4 = Number.isFinite(op.score4) ? op.score4 : null;
+    if (s9 == null && s4 == null) return null;
+    if (s4 == null) return '9pct';
+    if (s9 == null) return '4pct';
+    return s4 > s9 ? '4pct' : '9pct';
+  }
+
+  // The single target whose weights explain this place's active score.
+  function _effectiveTarget(op) {
+    var t = state.filters.target;
+    if (t !== BOTH_CREDITS) return t;
+    return (op && _bestCredit(op)) || '9pct';
+  }
+
+  // Preset score for one specific target, for ranking peers against the
+  // same target a Compare link exports.
+  function _scoreForTarget(op, t) {
+    if (t === state.filters.target) return _activeScore(op);
+    if (t === '9pct') return op.score9;
+    if (t === '4pct') return op.score4;
+    return _activeScore(op);
+  }
+
   function _activeScore(op) {
     var t = state.filters.target;
+    if (t === BOTH_CREDITS) {
+      var best = _bestCredit(op);
+      return best === '4pct' ? op.score4 : op.score9;
+    }
     // F236 — Scenario Builder override. When a custom scenario is active
     // for the current target preset, compute the score live with the
     // user's chosen weights + recency source instead of using the
@@ -1703,7 +1780,9 @@
               civicVal * (w.civic / 100);
     // Same CDP penalty as compositeScore so the override stays comparable
     if (op.type === 'cdp' && CDP_PENALTY_TARGETS[scenario.target]) raw += CDP_PENALTY;
-    return Math.max(0, Math.round(raw));
+    var score = Math.max(0, Math.round(raw));
+    // The local support bonus rides on top of any weights, as it does on the presets.
+    return window.LocalSupportData ? window.LocalSupportData.applyBonus(score, op.localSupportBonus) : score;
   }
 
   function _scenarioRecency(op, target, source) {
@@ -1903,6 +1982,7 @@
     var TARGET_LABELS = {
       '9pct':             '9% Competitive',
       '4pct':             '4% Bond',
+      'both_credits':     '9% or 4%',
       'preservation':     'Preservation',
       'workforce_resort': 'Workforce / Resort',
       'prop123_local':    'Prop 123 / Local',
@@ -1948,7 +2028,7 @@
     if (!filtersEl) return;
     var f = state.filters || {};
     var labels = [];
-    var TARGET_LABELS = { '9pct': '9% credit type', '4pct': '4% credit type', 'preservation': 'Preservation', 'workforce_resort': 'Workforce/Resort', 'prop123_local': 'Prop 123 / Local', 'any': 'Balanced' };
+    var TARGET_LABELS = { '9pct': '9% credit type', '4pct': '4% credit type', 'both_credits': '9% and 4% credit types', 'preservation': 'Preservation', 'workforce_resort': 'Workforce/Resort', 'prop123_local': 'Prop 123 / Local', 'any': 'Balanced' };
     var BASIS_LABELS = { 'either': 'QCT or DDA', 'both': 'QCT + DDA both', 'qct': 'QCT only', 'dda': 'DDA only', 'none': 'no basis-boost filter' };
     if (f.target && TARGET_LABELS[f.target]) labels.push(TARGET_LABELS[f.target]);
     if (f.region) labels.push(f.region);
@@ -1995,6 +2075,7 @@
     var TARGET_LABELS = {
       '9pct':             '9% Competitive',
       '4pct':             '4% Bond',
+      'both_credits':     '9% Competitive and 4% Bond',
       'preservation':     'Preservation',
       'workforce_resort': 'Workforce / Resort',
       'prop123_local':    'Prop 123 / Local',
@@ -2038,11 +2119,24 @@
       return why[target] || why.any;
     }
     var targetLabel = TARGET_LABELS[state.filters.target] || 'Balanced (any)';
+    var weightsBody;
+    if (state.filters.target === BOTH_CREDITS) {
+      var n9 = filtered.filter(function (op) { return _bestCredit(op) === '9pct'; }).length;
+      var n4 = filtered.filter(function (op) { return _bestCredit(op) === '4pct'; }).length;
+      weightsBody =
+        '<div class="lof-weight-chips"><span class="lof-weight-chip-label">9%</span> ' + _weightChips('9pct') + '</div>' +
+        '<div class="lof-weight-chips"><span class="lof-weight-chip-label">4%</span> ' + _weightChips('4pct') + '</div>' +
+        '<div class="lof-weight-why">Each place is scored as a 9% deal and as a 4% deal and ranked by the higher of the two. ' +
+          n9 + ' fit 9% better and ' + n4 + ' fit 4% better.</div>';
+    } else {
+      weightsBody =
+        '<div class="lof-weight-chips">' + _weightChips(state.filters.target) + '</div>' +
+        '<div class="lof-weight-why">' + _weightWhyLine(state.filters.target) + '</div>';
+    }
     var html =
       '<div class="lof-summary-card lof-summary-card--weights"><div class="k">Target deal type · active weights</div>' +
         '<div class="v" style="font-size:.95rem;line-height:1.25">' + targetLabel + '</div>' +
-        '<div class="lof-weight-chips">' + _weightChips(state.filters.target) + '</div>' +
-        '<div class="lof-weight-why">' + _weightWhyLine(state.filters.target) + '</div>' +
+        weightsBody +
       '</div>' +
       '<div class="lof-summary-card"><div class="k">Jurisdictions matching</div>' +
         '<div class="v">' + n + '</div>' +
@@ -2528,9 +2622,8 @@
     // composite score on each list row. Two drivers only here; the detail
     // panel keeps the full drag/move-up template (F163). Visually subtle:
     // 0.66rem muted italic so the score number stays the visual anchor.
-    var _activeTarget = state.filters.target;
-    var _targetWeights = SCORE_WEIGHTS[_activeTarget] || SCORE_WEIGHTS.any;
     function _rowTopDrivers(op) {
+      var _targetWeights = SCORE_WEIGHTS[_effectiveTarget(op)] || SCORE_WEIGHTS.any;
       var dims = [
         { label: 'need',    score: op.needScore,        weight: _targetWeights.need },
         { label: 'recency', score: op.recencyScore,     weight: _targetWeights.recency },
@@ -2574,6 +2667,11 @@
       }
       var activeScore = _activeScore(op);
       var scoreCls = 'lof-score-' + _scoreBand(activeScore);
+      var bestFitHtml = '';
+      if (state.filters.target === BOTH_CREDITS && _bestCredit(op)) {
+        var _bf = _bestCredit(op) === '4pct' ? '4%' : '9%';
+        bestFitHtml = ' <span class="lof-best-fit" title="Scores higher as a ' + _bf + ' deal (9% ' + op.score9 + ' · 4% ' + op.score4 + ')">' + _bf + '</span>';
+      }
       var selectedCls = (state.selectedId === op.id) ? ' is-selected' : '';
       var topDriversText = _rowTopDrivers(op);
       var topDriversHtml = topDriversText
@@ -2608,7 +2706,7 @@
         : '';
 
       return '<tr data-op-id="' + escHtml(op.id) + '" class="' + selectedCls.trim() + '">' +
-        '<td data-priority="primary"><span class="lof-score-cell ' + scoreCls + '">' + activeScore + '</span>' + topDriversHtml + '</td>' +
+        '<td data-priority="primary"><span class="lof-score-cell ' + scoreCls + '">' + activeScore + '</span>' + bestFitHtml + topDriversHtml + '</td>' +
         '<td data-priority="primary"><strong>' + escHtml(op.name) + '</strong>' + r1Badge + watchlistBadge +
           ' <a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" ' +
             'target="_blank" rel="noopener" class="lof-hna-link" ' +
@@ -3309,7 +3407,7 @@
       reasons.push('<strong>Resort county:</strong> active workforce-housing pressure (' + escHtml(op.resortLabel) + ').');
     }
     // 8. Population scale (for 4% bond targets)
-    if (op.population != null && op.population >= 30000 && state.filters.target === '4pct') {
+    if (op.population != null && op.population >= 30000 && _effectiveTarget(op) === '4pct') {
       reasons.push('<strong>Renter scale:</strong> ' + fmtInt(op.population) + ' approximate renter pool — supports 4% bond financing.');
     }
     // 9. F116 — Fresh CHFA 2026 R1 award (bridge data, announced 2026-05-21).
@@ -3474,14 +3572,15 @@
 
       // Existing region-rank pick (kept for backward compatibility — the
       // primary "compare with peers" CTA still uses this).
+      var _peerTarget = _effectiveTarget(op);
       var sameRegion = state.opportunities
         .filter(function (o) { return o.region === op.region && o.id !== op.id; })
-        .sort(function (a, b) { return _activeScore(b) - _activeScore(a); })
+        .sort(function (a, b) { return _scoreForTarget(b, _peerTarget) - _scoreForTarget(a, _peerTarget); })
         .slice(0, 3)
         .map(function (o) { return o.placeGeoid; });
       var compareIds = [op.placeGeoid].concat(sameRegion).join(',');
       var compareHref = 'compare.html?jurisdictions=' + encodeURIComponent(compareIds) +
-        '&target=' + encodeURIComponent(state.filters.target);
+        '&target=' + encodeURIComponent(_effectiveTarget(op));
 
       // F71: same-character peers, statewide, picked by score. Only show
       // when we successfully classified this jurisdiction's character.
@@ -3490,13 +3589,13 @@
       if (selfChar) {
         var sameChar = state.opportunities
           .filter(function (o) { return o.id !== op.id && labelCharacter(o) === selfChar; })
-          .sort(function (a, b) { return _activeScore(b) - _activeScore(a); })
+          .sort(function (a, b) { return _scoreForTarget(b, _peerTarget) - _scoreForTarget(a, _peerTarget); })
           .slice(0, 3)
           .map(function (o) { return o.placeGeoid; });
         if (sameChar.length > 0) {
           var charIds = [op.placeGeoid].concat(sameChar).join(',');
           charCompareHref = 'compare.html?jurisdictions=' + encodeURIComponent(charIds) +
-            '&target=' + encodeURIComponent(state.filters.target);
+            '&target=' + encodeURIComponent(_effectiveTarget(op));
           charLabel = selfChar === 'bedroom' ? '🛏️ Bedroom communities'
                     : selfChar === 'mixed'   ? '🔀 Mixed markets'
                                              : '🏢 Self-contained markets';
@@ -3705,7 +3804,7 @@
     // the drag dimension scored < 45 or noticeably below the row's avg).
     // Detail-panel only — we deliberately do NOT render this on list rows.
     (function _renderOfDrivers() {
-      var t = state.filters.target;
+      var t = _effectiveTarget(op);
       var w = SCORE_WEIGHTS[t] || SCORE_WEIGHTS.any;
       var DRIVER_DIMS = [
         { key: 'need',    label: 'AMI need',     score: op.needScore,        weight: w.need,
@@ -3824,6 +3923,7 @@
     // OR matching county), sorted by next LOI deadline ascending so the
     // immediate filing gates float to the top.
     _renderDetailSoftFunding(op);
+    _renderDetailLocalSupport(op);
 
     // F137: render comparable affordable-property set (5 nearest)
     _renderCompSet(op);
@@ -3871,6 +3971,68 @@
      panel. Sourced from data/policy/soft-funding-status.json. Filters
      by county === "All" OR matching containing county. Sorted by next
      LOI deadline ascending. Urgency chips: red ≤30d, amber ≤60d. */
+  /* Local support panel: the bonus line and the evidence behind it, from
+     js/local-support-data.js. Every part says whether it counted, found
+     nothing, could not be read, or has not been checked. */
+  var LOCAL_SUPPORT_STATE_TEXT = {
+    records: 'on record',
+    none_found: 'checked, none found',
+    unreadable: 'official sources could not be read',
+    not_checked: 'not yet checked',
+    overdue: 'past its review date, not counted until re-checked',
+    in_civic: 'already counted in Civic Readiness, so not counted again here'
+  };
+  function _renderDetailLocalSupport(op) {
+    var host = $('lofDetailLocalSupport');
+    if (!host) return;
+    var ls = op.localSupport;
+    var LSD = window.LocalSupportData;
+    if (!ls || !LSD) { host.innerHTML = ''; return; }
+    function itemLine(i) {
+      var url = i.source && i.source.url;
+      var title = url
+        ? '<a href="' + escHtml(url) + '" target="_blank" rel="noopener">' + escHtml(i.title) + '</a>'
+        : escHtml(i.title);
+      return '<li>' + escHtml(i.date) + ' · ' + (i.body ? escHtml(i.body) + ': ' : '') + title +
+        (i.vote ? ' <span style="color:var(--muted)">(vote ' + escHtml(i.vote) + ')</span>' : '') + '</li>';
+    }
+    function incentiveLine(item) {
+      return '<li>' + escHtml(LSD.incentiveLabel(item)) + '</li>';
+    }
+    var rows = LSD.BONUS_PARTS.map(function (k) {
+      var part = ls.parts[k];
+      var counted = part.counted || [];
+      var lineFn = k === 'incentives' ? incentiveLine : itemLine;
+      var inCivic = part.creditedInCivic || [];
+      var list = (counted.length
+        ? '<ul style="margin:.2rem 0 0 1rem;padding:0;font-size:.78rem;line-height:1.5">' +
+            counted.map(lineFn).join('') + '</ul>'
+        : '<div style="font-size:.78rem;color:var(--muted)">' +
+            escHtml(LOCAL_SUPPORT_STATE_TEXT[part.state] || part.state) +
+            (part.state === 'records' ? ', none inside the scoring window' : '') + '</div>') +
+        (inCivic.length
+          ? '<div style="font-size:.78rem;color:var(--muted);margin-top:.15rem">Credited in Civic Readiness, not counted again:</div>' +
+            '<ul style="margin:.1rem 0 0 1rem;padding:0;font-size:.78rem;line-height:1.5;color:var(--muted)">' +
+            inCivic.map(lineFn).join('') + '</ul>'
+          : '');
+      return '<div class="lof-ls-row" data-ls-part="' + k + '" style="margin-top:.4rem">' +
+        '<div style="font-size:.85rem;font-weight:700">' + escHtml(part.label) + ' +' + part.points + '</div>' + list + '</div>';
+    }).join('');
+    var denials = (ls.denials || []).length
+      ? '<div style="margin-top:.4rem;font-size:.78rem"><strong>Recorded denials (shown, not scored)</strong>' +
+          '<ul style="margin:.2rem 0 0 1rem;padding:0">' + ls.denials.map(itemLine).join('') + '</ul></div>'
+      : '';
+    host.innerHTML =
+      '<h4 style="margin:.75rem 0 .25rem;font-size:1rem">Local support bonus: <span data-ls-bonus>+' + ls.bonus + '</span> of +' + LSD.MAX_BONUS + '</h4>' +
+      '<div style="font-size:.78rem;color:var(--muted);line-height:1.45">' +
+        'Added to every deal-type score. Each part is worth +' + LSD.POINTS_PER_PART +
+        ' when there is dated, sourced evidence: an adopted housing plan within ' + LSD.PLAN_WINDOW_YEARS +
+        ' years, a standing incentive or local fund, and a council or planning commission approval within ' +
+        LSD.ACTION_WINDOW_MONTHS + ' months. Nothing on record adds nothing and never lowers the score.' +
+        (ls.checked ? ' Checked ' + escHtml(ls.checked) + (ls.inheritsFrom ? ' (county record; this place has no government of its own)' : '') + '.' : '') +
+      '</div>' + rows + denials;
+  }
+
   function _renderDetailSoftFunding(op) {
     var host = $('lofDetailSoftFunding');
     if (!host) return;
@@ -4536,6 +4698,9 @@
       minYears.value = 0; minYearsVal.textContent = '0';
       minScore.value = 0; minScoreVal.textContent = '0';
       minPop.value = 0;
+      // Target is back to 9%, so the target-dependent builder (hidden in
+      // 9% + 4% mode) has to be rebuilt too.
+      _scenarioBuilderRebuild();
       _refresh();
     });
 
@@ -5075,6 +5240,12 @@
     var det = document.getElementById('lofScenarioBuilder');
     if (!det) return;
     var t = state.filters.target;
+    // 9% + 4% mode ranks by the better of two preset scores; a single
+    // custom mix has no meaning there, so the builder steps aside.
+    det.hidden = (t === BOTH_CREDITS);
+    var bothNote = document.getElementById('lofBothCreditsNote');
+    if (bothNote) bothNote.hidden = (t !== BOTH_CREDITS);
+    if (t === BOTH_CREDITS) { state.customScenario = null; return; }
     var preset = SCORE_WEIGHTS[t] || SCORE_WEIGHTS.any;
     // Multiply preset (0..1 fractions) by 100 so the sliders work in
     // whole-percentage units that sum to 100.

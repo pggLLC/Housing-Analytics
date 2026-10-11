@@ -1191,12 +1191,12 @@
       provider: 'Internal (Generated)',
       url: null,
       localFile: 'data/manifest.json',
-      lastUpdated: '2026-10-10',
+      lastUpdated: '2026-10-11',
       updateFrequency: 'On deploy',
       maxAgeDays: 30,
       geoUnit: 'N/A',
       coverage: 'All data files',
-      features: 1704,
+      features: 1705,
       description: 'Auto-generated manifest listing all data files with feature counts and timestamps.',
       tags: ['manifest', 'system', 'metadata'],
       apiEndpoint: null
@@ -1447,8 +1447,13 @@
       url: 'https://www.openstreetmap.org/',
       localFile: 'data/amenities/transit_stops_co.geojson',
       lastUpdated: '2026-04-07',
-      updateFrequency: 'Manual (no scheduled refresh)',
-      maxAgeDays: 180,
+      // No workflow runs scripts/amenities/build_osm_amenities.py, so the
+      // 180-day window measured a refresh nothing performs and showed this
+      // input as stale. The statewide stop file built from it is weekly.
+      maintenance: 'curated',
+      maintenanceNote: 'Extracted by hand with scripts/amenities/build_osm_amenities.py. No workflow refreshes it, so it carries no cadence. It is one input to the weekly statewide stop file, which marks the OpenStreetMap-only stops as unconfirmed.',
+      updateFrequency: 'Curated \u2014 no automated refresh',
+      maxAgeDays: null,
       geoUnit: 'Stop',
       coverage: 'Colorado stops mapped in OpenStreetMap; sparse outside the Front Range',
       features: 7886,

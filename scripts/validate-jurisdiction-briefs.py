@@ -29,6 +29,7 @@ ROOT       = Path(__file__).resolve().parent.parent
 BRIEFS_DIR = ROOT / "data" / "jurisdiction-briefs"
 REGISTRY   = ROOT / "data" / "hna" / "geography-registry.json"
 DIGEST_DIR = ROOT / "data" / "hna" / "jurisdiction-metrics-digest"
+POLICY_DIR = ROOT / "data" / "policy"
 
 
 def load_co_place_names() -> set[str]:
@@ -109,6 +110,101 @@ def format_metric_variants(value, field: str = "") -> set[str]:
     return {v for v in variants if v}
 
 
+# City-and-county governments are one jurisdiction with two geoids
+# (js/local-support-data.js CONSOLIDATED).
+CONSOLIDATED = {"08031": "0820000", "08014": "0809280"}
+_POLICY_CACHE: dict = {}
+
+
+def load_policy_records() -> dict:
+    """Records a generated Local support section may cite, by dataset then id.
+
+    local-support: plan/action items by id, and each jurisdiction row as
+    "row:<geoid>". fee-reductions: fee entries and land-use records.
+    local-housing-funds: fund records. Each value is (owner geoid, record).
+    """
+    if _POLICY_CACHE:
+        return _POLICY_CACHE
+    def read(name):
+        path = POLICY_DIR / name
+        return json.loads(path.read_text()) if path.exists() else {}
+    support = read("local-support.json")
+    fees = read("fee-reductions.json")
+    funds = read("local-housing-funds.json")
+    ls = {}
+    for row in support.get("jurisdictions") or []:
+        ls[f"row:{row['geoid']}"] = (row["geoid"], row)
+        for item in row.get("items") or []:
+            ls[item["id"]] = (row["geoid"], item)
+    _POLICY_CACHE["local-support"] = ls
+    _POLICY_CACHE["fee-reductions"] = {
+        r["id"]: (r.get("geoid"), r)
+        for r in (fees.get("entries") or []) + (fees.get("land_use") or [])
+    }
+    _POLICY_CACHE["local-housing-funds"] = {
+        r["id"]: (r.get("geoid"), r) for r in funds.get("entries") or []
+    }
+    return _POLICY_CACHE
+
+
+def auto_verify_policy_source(
+    brief: dict,
+    section_id: str,
+    paragraph_index: int,
+    paragraph_text: str,
+    source: dict,
+) -> tuple[Optional[dict], Optional[str]]:
+    """A Local support citation must name a real record of THIS jurisdiction
+    (or, for a CDP, its county), and a plan or vote must be named in the text.
+    The record's own evidence quote is the supporting quote."""
+    geoid = brief.get("geoid") or ""
+    dataset = source.get("dataset")
+    field = source.get("field") or ""
+    rec = load_policy_records().get(dataset, {}).get(field)
+    if rec is None:
+        return None, (
+            f"{geoid}.json: data source '{source.get('id')}' cites {dataset} "
+            f"record '{field}', which does not exist."
+        )
+    owner, record = rec
+    allowed = {CONSOLIDATED.get(geoid, geoid)}
+    if brief.get("scope") == "cdp" and brief.get("containing_county_fips"):
+        allowed.add(brief["containing_county_fips"])
+    if CONSOLIDATED.get(owner, owner) not in allowed:
+        return None, (
+            f"{geoid}.json: data source '{source.get('id')}' cites {dataset} "
+            f"record '{field}', which belongs to {owner}, not this jurisdiction."
+        )
+    if field.startswith("row:"):
+        quote = f"local-support.json row {owner} checked {record.get('checked')}"
+    else:
+        if dataset == "local-support" and record.get("title") not in paragraph_text:
+            return None, (
+                f"{geoid}.json: section '{section_id}' paragraph {paragraph_index} "
+                f"cites '{field}' but does not name it ({record.get('title')!r})."
+            )
+        quotes = [e.get("quote") for e in record.get("evidence") or [] if e.get("quote")]
+        if not quotes:
+            return None, (
+                f"{geoid}.json: data source '{source.get('id')}' cites {dataset} "
+                f"record '{field}', which has no quoted evidence."
+            )
+        quote = quotes[0]
+    return {
+        "section_id": section_id,
+        "paragraph_index": paragraph_index,
+        "source_id": source.get("id"),
+        "source_url": source.get("url"),
+        "verdict": "supported",
+        "supporting_quote": quote,
+        "notes": (
+            f"Auto-verified by scripts/validate-jurisdiction-briefs.py against "
+            f"data/policy/{dataset}.json, whose quotes were checked against the "
+            "saved source text when the record was made."
+        ),
+    }, None
+
+
 def auto_verify_data_source(
     brief: dict,
     section_id: str,
@@ -122,6 +218,10 @@ def auto_verify_data_source(
     geoid = brief.get("geoid") or ""
     if source.get("kind") != "data":
         return None, None
+    if dataset in ("local-support", "fee-reductions", "local-housing-funds"):
+        return auto_verify_policy_source(
+            brief, section_id, paragraph_index, paragraph_text, source
+        )
     if dataset != "jurisdiction-metrics-digest":
         return None, (
             f"{geoid}.json: data source '{source.get('id')}' has unsupported "
