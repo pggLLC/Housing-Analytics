@@ -107,6 +107,7 @@
         { label: "— Research —", isHeader: true },
         { label: "Research & Analysis",    href: "insights.html",                  desc: "Dated analysis and briefs" },
         { label: "Local Housing Incentives", href: "local-incentives.html",       desc: "What each town and county offers" },
+        { label: "Services in Affordable Housing", href: "resident-services.html", desc: "How services help residents stay housed" },
         { label: "Tax Credit Equity Markets", href: "article-pricing.html",        desc: "Equity pricing benchmarks" },
         { label: "Working Paper",         href: "working-paper.html",             desc: "The methodology, written up" },
         { label: "White Paper for Planners", href: "apa-white-paper.html",        desc: "Plain-language companion" },
