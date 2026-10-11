@@ -33,7 +33,6 @@ be placed, so a changed page leaves the committed file as it was.
 
 import argparse
 import csv
-import html
 import io
 import json
 import os
@@ -41,6 +40,7 @@ import re
 import subprocess
 import sys
 import urllib.request
+from html.parser import HTMLParser
 from datetime import date, datetime
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -87,19 +87,43 @@ def fetch(url):
         return r.read().decode('utf-8')
 
 
-def page_text(src):
-    s = re.sub(r'<script.*?</script>|<style.*?</style>', ' ', src, flags=re.S)
-    s = re.sub(r'<[^>]+>', ' ', s)
-    return re.sub(r'\s+', ' ', html.unescape(s)).strip()
+class _TableParser(HTMLParser):
+    """Collects the text of every table cell, row by row.
+
+    An HTML parser rather than regular expressions, so markup inside a cell
+    (DOLA wraps numbers in <p>) and odd tag spellings are handled the way a
+    browser would. Text outside a cell is ignored.
+    """
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.rows, self._row, self._cell = [], None, None
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'tr':
+            self._row = []
+        elif tag in ('td', 'th') and self._row is not None:
+            self._cell = []
+
+    def handle_endtag(self, tag):
+        if tag in ('td', 'th') and self._cell is not None:
+            self._row.append(re.sub(r'\s+', ' ', ''.join(self._cell)).strip())
+            self._cell = None
+        elif tag == 'tr' and self._row is not None:
+            self.rows.append(self._row)
+            self._row = None
+
+    def handle_data(self, data):
+        if self._cell is not None:
+            self._cell.append(data)
 
 
 def table_rows(src):
     """Cell text of every <tr> on a page, header rows included."""
-    rows = []
-    for tr in re.findall(r'<tr[^>]*>(.*?)</tr>', src, flags=re.S | re.I):
-        cells = re.findall(r'<t[dh][^>]*>(.*?)</t[dh]>', tr, flags=re.S | re.I)
-        rows.append([page_text(c) for c in cells])
-    return rows
+    p = _TableParser()
+    p.feed(src)
+    p.close()
+    return p.rows
 
 
 def iso(d):
