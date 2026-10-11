@@ -51,7 +51,7 @@ async function main() {
   assert.equal(checked, 3, 'all three attribute-reaching helpers checked');
 
   // Render the real PMA fallback card, without the optional external renderer.
-  const pma = new JSDOM('<div id="lihtcConceptCard"></div>', { url: 'https://example.test/', runScripts: 'outside-only' });
+  const pma = new JSDOM('<div id="lihtcConceptCard"></div>', { url: 'https://example.com/', runScripts: 'outside-only' });
   try {
     const w = pma.window, handlers = {};
     w.setTimeout = () => 0;
@@ -69,7 +69,7 @@ async function main() {
     attribute(w.document.querySelector('[data-unavailable-reason]'), 'data-unavailable-reason');
   } finally { pma.window.close(); }
 
-  const comparison = new JSDOM('<div id="siteCompTable"></div>', { url: 'https://example.test/', runScripts: 'outside-only' });
+  const comparison = new JSDOM('<div id="siteCompTable"></div>', { url: 'https://example.com/', runScripts: 'outside-only' });
   try {
     const w = comparison.window;
     w.SiteState = { get: () => [{ id: value, label: 'Invented site', demand: 52, subsidy: null, subsidyUnavailableReason: value }] };
@@ -80,7 +80,7 @@ async function main() {
     attribute(w.document.querySelector('td.sc-dim--unavailable'), 'title');
   } finally { comparison.window.close(); }
 
-  const history = new JSDOM('<select id="benchCounty"></select><div id="htErrorBanner" hidden></div>', { url: 'https://example.test/', runScripts: 'outside-only' });
+  const history = new JSDOM('<select id="benchCounty"></select><div id="htErrorBanner" hidden></div>', { url: 'https://example.com/', runScripts: 'outside-only' });
   try {
     const w = history.window;
     w.fetch = async url => ({ ok: true, json: async () => String(url).includes('chfa-lihtc.json') ? { features: [{ properties: { CNTY_NAME: value } }] } : null });
