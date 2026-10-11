@@ -75,6 +75,17 @@ for (const scenario of ['A', 'B']) {
 assert.equal(unknown.exit.nNoi, null);
 assert(unknown.unavailable['exit.nNoi']);
 assert(!JSON.stringify(unknown).includes('NaN'));
+// Typed growth outside the inputs' advertised ranges is unknown, never used or clamped.
+for (const [id, limit, ok, bad] of [['pf-rent-growth', 5, '5', '100'], ['pf-exp-growth', 6, '6', '-1']]) {
+  const edge = inputsFor('A'); edge.fields[id] = ok;
+  assert(computeDeal(edge).exit.nNoi > 0, id + ': the range limit itself is accepted');
+  const out = inputsFor('A'); out.fields[id] = bad;
+  const r = computeDeal(out);
+  assert.equal(r.exit.nNoi, null, id + ': out-of-range growth leaves exit NOI unavailable');
+  assert.equal(r.projection, null, id + ': and the projection');
+  assert.equal(r.waterfall, null, id + ': and the waterfall');
+  assert(r.unavailable['exit.nNoi'].includes('0% to ' + limit + '%'), id + ': the reason names the range');
+}
 // Grep the whole module (stricter than just computeDeal's body).
 const source = fs.readFileSync(path.join(root, 'js/deal-engine.js'), 'utf8');
 assert(!/\b(?:document|window)\b/.test(source), 'engine is independent of browser state');

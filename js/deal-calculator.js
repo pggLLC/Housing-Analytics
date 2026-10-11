@@ -5793,10 +5793,10 @@
         var pctStr = pct >= 0.05 ? pct.toFixed(1) + '%' : '—';
         var color = t.amount > 0 ? 'var(--text)' : 'var(--faint)';
         return '<tr>' +
-          '<td style="padding:3px 6px;color:' + color + ';">' + t.name + '</td>' +
+          '<td style="padding:3px 6px;color:' + color + ';">' + _escHtml(t.name) + '</td>' +
           '<td style="padding:3px 6px;text-align:right;font-weight:600;color:' + color + ';">' + _fmtMoney(t.amount) + '</td>' +
           '<td style="padding:3px 6px;text-align:right;color:var(--muted);">' + pctStr + '</td>' +
-          '<td style="padding:3px 6px;color:var(--muted);font-size:.78rem;">' + t.recipient + '</td>' +
+          '<td style="padding:3px 6px;color:var(--muted);font-size:.78rem;">' + _escHtml(t.recipient) + '</td>' +
         '</tr>';
       }).join('');
       return '<table style="width:100%;border-collapse:collapse;font-size:.82rem;">' +
