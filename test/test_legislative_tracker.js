@@ -106,6 +106,7 @@ test('expected policy entries and tags are available from real JSON', () => {
   check(linked.some((entry) => entry.id === 'obbba-lihtc-ceiling-12pct'), 'LIHTC ceiling record carries an analysis link');
   check(linked.some((entry) => entry.id === 'obbba-lihtc-bond-25pct-test'), 'LIHTC bond-test record carries an analysis link');
   check(linked.some((entry) => entry.id === 'hr6644-road-act'), 'ROAD Act record carries an analysis link');
+  check(linked.some((entry) => entry.id === 'hb24-1175-local-government-rofr-rofo'), 'HB24-1175 record carries an analysis link');
   linked.forEach((entry) => {
     const id = (entry.analysis_url.match(/^research-brief\.html\?id=([\w-]+)$/) || [])[1];
     const brief = curated.briefs.find((item) => item.id === id);
