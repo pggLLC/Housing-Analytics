@@ -92,7 +92,7 @@
       "related_source_urls": [
         "https://www.govtrack.us/congress/bills/119/hr2725"
       ],
-      "source_note": "Status, committee referral and cosponsor count read from GovTrack, which mirrors Congress.gov, on 2026-09-28; congress.gov refused automated access that day. Re-check against the Congress.gov bill page.",
+      "source_note": "Sponsor, introduction date, committee referral, latest action and cosponsor total re-read on 2026-10-11 from the Congress.gov API (api.congress.gov, Library of Congress): introduced 2025-04-08, \"Referred to the House Committee on Ways and Means.\" the same day, no later action, 168 cosponsors. The party split is GovTrack's, which counts Rep. Kevin Kiley as an independent (his current affiliation); the Congress.gov API lists him as a Republican, giving 84 D / 84 R. Provisions read from the GovInfo introduced text (BILLS-119hr2725ih) on 2026-10-11. congress.gov bill pages refuse automated access, so source_url is the page a reader should open.",
       "bill": {
         "number": "H.R. 2725",
         "chamber": "House",
@@ -107,8 +107,75 @@
           "independents": 1
         }
       },
-      "last_verified": "2026-09-28",
-      "review_by": "2026-12-28"
+      "latest_action": {
+        "date": "2025-04-08",
+        "text": "Referred to the House Committee on Ways and Means."
+      },
+      "text_url": "https://www.govinfo.gov/content/pkg/BILLS-119hr2725ih/html/BILLS-119hr2725ih.htm",
+      "provisions": [
+        {
+          "section": "101",
+          "title": "Increases in State allocations",
+          "per_capita_2025": 4.25,
+          "minimum_2025": 4876000,
+          "multiplier_2026": 1.25,
+          "status": "not enacted; Public Law 119-21 enacted a different increase",
+          "enacted_counterpart": "obbba-lihtc-ceiling-12pct"
+        },
+        {
+          "section": "313",
+          "title": "Tax-exempt bond financing requirement",
+          "from_pct": 50,
+          "to_pct": 25,
+          "applies_to": "buildings financed by an obligation first taken into account under section 146 after enactment; effective for buildings financed by an obligation from an issue dated after December 31, 2025",
+          "bond_issue_after": "2025-12-31",
+          "status": "not enacted; Public Law 119-21 enacted a different 25% route",
+          "enacted_counterpart": "obbba-lihtc-bond-25pct-test"
+        },
+        {
+          "section": "201",
+          "title": "Average income test applicability to exempt facility bonds",
+          "status": "pending"
+        },
+        {
+          "section": "203",
+          "title": "Modification of student occupancy rules",
+          "status": "pending"
+        },
+        {
+          "section": "304",
+          "title": "Repeal of qualified census tract population cap",
+          "status": "pending"
+        },
+        {
+          "section": "307",
+          "title": "Increase in credit for certain projects designated to serve extremely low-income households",
+          "status": "pending"
+        },
+        {
+          "section": "311",
+          "title": "Increase of population cap for difficult development areas",
+          "status": "pending"
+        },
+        {
+          "section": "402",
+          "title": "Inclusion of Indian areas as difficult development areas for purposes of certain buildings",
+          "status": "pending"
+        },
+        {
+          "section": "501",
+          "title": "Inclusion of rural areas as difficult development areas",
+          "status": "pending"
+        },
+        {
+          "section": "502",
+          "title": "Uniform income eligibility for rural projects",
+          "status": "pending"
+        }
+      ],
+      "last_verified": "2026-10-11",
+      "review_by": "2026-12-28",
+      "analysis_url": "research-brief.html?id=ahcia-2025-pending-provisions"
     },
     {
       "id": "ahcia-2025-s1515",
@@ -122,7 +189,7 @@
       "related_source_urls": [
         "https://www.govtrack.us/congress/bills/119/s1515"
       ],
-      "source_note": "Status, committee referral and cosponsor count read from GovTrack, which mirrors Congress.gov, on 2026-09-28; congress.gov refused automated access that day. Re-check against the Congress.gov bill page.",
+      "source_note": "Sponsor, introduction date, committee referral, latest action and cosponsor total re-read on 2026-10-11 from the Congress.gov API (api.congress.gov, Library of Congress): introduced 2025-04-29, \"Read twice and referred to the Committee on Finance.\" the same day, no later action, 41 cosponsors (21 D / 20 R, matching GovTrack). The GovInfo introduced text (BILLS-119s1515is), compared with H.R. 2725 on 2026-10-11, has the same sections and substantive provisions; the differences are effective-date wording in several sections. congress.gov bill pages refuse automated access, so source_url is the page a reader should open.",
       "bill": {
         "number": "S. 1515",
         "chamber": "Senate",
@@ -137,8 +204,15 @@
           "independents": 0
         }
       },
-      "last_verified": "2026-09-28",
-      "review_by": "2026-12-28"
+      "latest_action": {
+        "date": "2025-04-29",
+        "text": "Read twice and referred to the Committee on Finance."
+      },
+      "text_url": "https://www.govinfo.gov/content/pkg/BILLS-119s1515is/html/BILLS-119s1515is.htm",
+      "provisions_same_as": "ahcia-2025-hr2725",
+      "last_verified": "2026-10-11",
+      "review_by": "2026-12-28",
+      "analysis_url": "research-brief.html?id=ahcia-2025-pending-provisions"
     },
     {
       "id": "obbba-168k-permanent-bonus-depreciation",

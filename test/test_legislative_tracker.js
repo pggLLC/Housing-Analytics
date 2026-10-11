@@ -104,6 +104,7 @@ test('expected policy entries and tags are available from real JSON', () => {
   const curated = require(path.join(root, 'data', 'policy_briefs_curated.json'));
   const linked = legislation.entries.filter((entry) => entry.analysis_url);
   check(linked.some((entry) => entry.id === 'obbba-lihtc-ceiling-12pct'), 'LIHTC ceiling record carries an analysis link');
+  check(['ahcia-2025-hr2725', 'ahcia-2025-s1515'].every((id) => linked.some((entry) => entry.id === id)), 'both AHCIA records carry an analysis link');
   linked.forEach((entry) => {
     const id = (entry.analysis_url.match(/^research-brief\.html\?id=([\w-]+)$/) || [])[1];
     const brief = curated.briefs.find((item) => item.id === id);
