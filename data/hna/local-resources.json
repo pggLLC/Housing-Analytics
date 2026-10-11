@@ -5793,5 +5793,49 @@
       "name": "City of Wray (official site)",
       "url": "https://www.cityofwray.org/"
     }
+  },
+  "place:0831605": {
+    "name": "Granby",
+    "housingLead": {
+      "name": "Town of Granby Housing",
+      "url": "https://townofgranby.com/housing"
+    },
+    "notes": "Town housing page covers Nuche Village, the town's income- and asset-restricted workforce for-sale development, and the Community Housing Interest Form. Verified 2026-10-11."
+  },
+  "place:0819080": {
+    "name": "Dacono",
+    "housingLead": {
+      "name": "City of Dacono Community Development",
+      "url": "https://www.daconoco.gov/478/Community-Development"
+    },
+    "notes": "Final drafts of the 2026 HNA and Housing Action Plan were posted for public review in September 2026, ahead of City Council adoption (https://www.daconoco.gov/900/Comprehensive-Plan). They are not listed as plans until adopted, so the policy scorecard does not count a draft. Verified 2026-10-11."
+  },
+  "place:0827865": {
+    "name": "Fountain",
+    "housingLead": {
+      "name": "Fountain Housing Authority",
+      "url": "https://fountainhousingauthority.colorado.gov/"
+    },
+    "housingAuthority": [
+      {
+        "name": "Fountain Housing Authority",
+        "url": "https://fountainhousingauthority.colorado.gov/"
+      }
+    ],
+    "notes": "City site is fountain.colorado.gov. Verified 2026-10-11."
+  },
+  "place:0873935": {
+    "name": "Sterling",
+    "housingLead": {
+      "name": "Housing Authority of the City of Sterling",
+      "url": "https://www.sterlingcolo.com/government/boards_and_commissions/housing_authority.php"
+    },
+    "housingAuthority": [
+      {
+        "name": "Sterling Housing Authority",
+        "url": "https://www.sterlingcolo.com/government/boards_and_commissions/housing_authority.php"
+      }
+    ],
+    "notes": "The housing authority is a separate public body under C.R.S. 29-4-209 whose five commissioners are appointed by the Mayor; the page is on the official city site. Verified 2026-10-11."
   }
 }
