@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
-import { watchHudChas, buildWatchPayload } from '../scripts/audit/upstream-vintage-watch.mjs';
+import { watchHudChas, watchHudFmr, buildWatchPayload } from '../scripts/audit/upstream-vintage-watch.mjs';
 
 const current = fs.readFileSync(new URL('../scripts/fetch_chas.py', import.meta.url), 'utf8')
   .match(/^VINTAGE\s*=\s*['"]([\d-]+)['"]/m)[1];
@@ -254,4 +254,22 @@ test('CHFA: one same-year award between rounds does not cover a whole published 
   const covered = chfaRoot({ feedYears: { 2025: ['9% and State', '4% and State'], 2026: ['4% and State', '4% and State', '4% and State'] }, bridges: [[2026, 'one']] });
   const ok = await watchChfaRounds(byUrl(ALL_2025_2026(three)).fetch, OCT_2026, covered);
   assert.equal(ok.is_outdated, false, 'as many feed awards as listed developments counts as covered');
+});
+
+// FMRs for FY N take effect Oct 1 of N-1: a file one fiscal year behind is
+// outdated from that day, not two years later.
+function fmrRoot(fiscalYear) {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fmr-watch-'));
+  fs.mkdirSync(path.join(root, 'data'));
+  fs.writeFileSync(path.join(root, 'data', 'hud-fmr-income-limits.json'), JSON.stringify({ meta: { fiscal_year: fiscalYear } }));
+  return root;
+}
+test('FMRs one fiscal year behind are outdated once the new FY starts', async () => {
+  const before = await watchHudFmr(new Date(2026, 8, 30), fmrRoot(2026));
+  assert.equal(before.is_outdated, false, 'FY2026 is still in effect on Sep 30, 2026');
+  const after = await watchHudFmr(new Date(2026, 9, 1), fmrRoot(2026));
+  assert.equal(after.is_outdated, true, 'FY2027 takes effect Oct 1, 2026');
+  assert.match(after.notes, /FY2027/);
+  const current = await watchHudFmr(new Date(2026, 9, 11), fmrRoot(2027));
+  assert.equal(current.is_outdated, false, 'an FY2027 file is current');
 });

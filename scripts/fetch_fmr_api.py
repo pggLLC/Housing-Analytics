@@ -41,8 +41,7 @@ OUT_FMR_RAW     = os.path.join(_ROOT, 'data', 'market', 'fmr_co.json')
 OUT_COMBINED    = os.path.join(_ROOT, 'data', 'hud-fmr-income-limits.json')
 OUT_TRACT_MAP   = os.path.join(_ROOT, 'data', 'market', 'fmr_tract_map_co.json')
 
-HUD_FMR_URL     = 'https://www.huduser.gov/hudapi/public/fmr/statedata/CO?year=2026'
-HUD_FMR_URL_PREV = 'https://www.huduser.gov/hudapi/public/fmr/statedata/CO?year=2025'
+HUD_FMR_URL_TEMPLATE = 'https://www.huduser.gov/hudapi/public/fmr/statedata/CO?year={year}'
 # HUD documents the listCounties path with the two-letter state code, not
 # numeric state FIPS. The updated=2025 parameter selects the county entity IDs
 # HUD says must be used for the current Income Limits series.
@@ -50,7 +49,20 @@ HUD_IL_URL      = 'https://www.huduser.gov/hudapi/public/fmr/listCounties/CO?upd
 HUD_IL_DATA_URL = 'https://www.huduser.gov/hudapi/public/il/data/{entityid}?year={year}'
 
 TIMEOUT  = 30
-FY       = 2026
+def federal_fiscal_year(today=None) -> int:
+    """The federal fiscal year in effect: FY N runs Oct 1, N-1 to Sep 30, N.
+
+    HUD publishes each fiscal year's FMRs before it starts on Oct 1, so the FY
+    in effect is the one to fetch; the previous FY is only a fallback.
+    """
+    today = today or datetime.now(timezone.utc).date()
+    return today.year + 1 if today.month >= 10 else today.year
+
+
+# FY is the FMR fiscal year actually written. main() sets it to the year the
+# API answered for; it starts at the FY in effect.
+FY       = federal_fiscal_year()
+# Income Limits follow their own April release and stay pinned by hand.
 IL_FY    = 2026
 IL_REQUEST_DELAY = 1.1
 IL_TRANSIENT_RETRIES = 2
@@ -655,7 +667,7 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
     income limits. The builder retains its legacy AMI fallback for callers,
     but main() now requires a complete validated IL index before it writes.
 
-    fmr_api_data: parsed response from HUD_FMR_URL (statedata/CO)
+    fmr_api_data: parsed response from HUD_FMR_URL_TEMPLATE (statedata/CO)
     il_api_data:  county records fetched from HUD's documented listCounties/CO
     """
     # Build an optional IL index keyed by 5-digit FIPS. The HUD listCounties
@@ -788,14 +800,24 @@ def main() -> int:
         records, _shape = _extract_fmr_records(d)
         return bool(records)
 
+    global FY
     fmr_data = None
-    for _url in (HUD_FMR_URL, HUD_FMR_URL_PREV):
+    fmr_url = None
+    wanted_fy = federal_fiscal_year()
+    for _fy in (wanted_fy, wanted_fy - 1):
+        _url = HUD_FMR_URL_TEMPLATE.format(year=_fy)
         print(f'Fetching HUD Fair Market Rents for Colorado ({_url})…')
         _resp = http_get_json(_url, token)
         if _resp and _has_records(_resp):
             fmr_data = _resp
+            fmr_url = _url
+            # Label the output with the year HUD answered for, never the
+            # year that was asked for: a fallback is the previous FY's data.
+            FY = _fy
             _records, _shape = _extract_fmr_records(_resp)
-            print(f'  ✓ Got {len(_records)} FMR records from response shape {_shape}')
+            print(f'  ✓ Got {len(_records)} FY{_fy} FMR records from response shape {_shape}')
+            if _fy != wanted_fy:
+                print(f'  ⚠ FY{wanted_fy} FMRs were not available; wrote FY{_fy}.', file=sys.stderr)
             break
         else:
             print(f'  ⚠ No usable records from {_url}: '
@@ -844,7 +866,8 @@ def main() -> int:
     raw_output = {
         'meta': {
             'source':     'HUD Fair Market Rents API',
-            'url':        HUD_FMR_URL,
+            'url':        fmr_url,
+            'fiscal_year': FY,
             'state':      'Colorado',
             'state_fips': '08',
             'generated':  generated,
@@ -868,7 +891,7 @@ def main() -> int:
     tract_map = build_tract_fmr_map(combined['counties'])
     tract_map_output = {
         'meta': {
-            'source':      'HUD FMR Area cross-reference by Colorado county (FY2026)',
+            'source':      f'HUD FMR Area cross-reference by Colorado county (FY{FY})',
             'state':       'Colorado',
             'state_fips':  '08',
             'generated':   generated,

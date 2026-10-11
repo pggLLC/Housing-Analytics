@@ -234,6 +234,16 @@ def review_flag(price, county, report):
         'note': f'Modeled from ZIP-level medians; {gap:.1f}% above recent county MLS single-family sales ({sales} sales, {report["month"]}). Treat as an upper estimate.'}
 
 
+def apply_review_flags(places, car):
+    """Set or clear each modeled place's CAR review flag against ``car``."""
+    for place in places.values():
+        place.pop('review_flag', None)
+        if place.get('source_level') == 'redfin_zip_to_place_modeled':
+            flag = review_flag(place['latest']['median_sale_price'], place['county_fips'], car)
+            if flag:
+                place['review_flag'] = flag
+
+
 def build_artifact() -> dict:
     crosswalk = load_json(CROSSWALK_PATH)
     membership = load_json(PLACE_MEMBERSHIP_PATH)
@@ -388,14 +398,10 @@ def build_artifact() -> dict:
             'source_url': latest.get('source_url', REDFIN_CITY_URL),
             'source_record': latest.get('source_record'), 'monthly': rows}
         latest_period_end = max(latest_period_end or '', latest['period_end'])
-    car = latest_real_car()
     for geoid, place in places.items():
         place['county_fips'] = geography.get(geoid, {}).get('containingCounty')
         place['latest'].setdefault('source_period_duration_days', 90)
-        if place['source_level'] == 'redfin_zip_to_place_modeled':
-            flag = review_flag(place['latest']['median_sale_price'], place['county_fips'], car)
-            if flag:
-                place['review_flag'] = flag
+    apply_review_flags(places, latest_real_car())
     # A known city with unavailable sales must not disappear just because its
     # published listings have no closed-sale observations to allocate.
     for geoid in geography:
@@ -460,7 +466,23 @@ def build_artifact() -> dict:
     }
 
 
+def refresh_review_flags() -> int:
+    """Re-check the committed tracker against the latest CAR report, offline.
+
+    A new CAR report changes only the review flags, so the CAR workflow runs
+    this instead of re-downloading Redfin.
+    """
+    artifact = load_json(OUT)
+    apply_review_flags(artifact['places'], latest_real_car())
+    OUT.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    flagged = sum(1 for p in artifact['places'].values() if p.get('review_flag'))
+    print(f"Refreshed CAR review flags in {OUT.relative_to(ROOT)}: {flagged} flagged")
+    return 0
+
+
 def main() -> int:
+    if '--refresh-review-flags' in sys.argv[1:]:
+        return refresh_review_flags()
     artifact = build_artifact()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
