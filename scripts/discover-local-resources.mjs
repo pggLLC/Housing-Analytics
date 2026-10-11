@@ -82,6 +82,60 @@ export function isDeniedCandidateUrl(url) {
   }
 }
 
+/* ── Junk-host and Colorado filters (#2125) ───────────────────────────
+   The 2026-10-09 digest listed a tour-booking page on geo.org as Las
+   Animas's city site (a guessed domain redirected there, and the page
+   mentions "colorado" in its query string), and ten "Unconfirmed"
+   candidates that were wrong-state cities, a domain-for-sale page and
+   unrelated organisations. A municipal website is never one of these, so
+   such candidates are now dropped instead of listed for review. */
+
+// Hosts that are never a municipality's own site: tour/booking sites,
+// domain marketplaces and parking services, and listing aggregators.
+// Matched against the host the probe ended on (after redirects), and
+// against any subdomain of it.
+const NON_MUNICIPAL_HOSTS = [
+  'geo.org',
+  'tripadvisor.com', 'viator.com', 'expedia.com', 'booking.com', 'yelp.com',
+  'epik.com', 'sedo.com', 'dan.com', 'afternic.com', 'hugedomains.com',
+  'godaddy.com', 'bodis.com', 'parkingcrew.net', 'above.com',
+];
+
+// Titles of parked or for-sale domains, which sit on the guessed host
+// itself (cityofglendale.org -> "contact with domain owner | Epik.com").
+const PARKED_TITLE = /\b(domain\s+(is\s+)?for\s+sale|buy\s+this\s+domain|contact\s+with\s+domain\s+owner|this\s+domain\s+may\s+be\s+for\s+sale|parked\s+(free|domain))\b|\bepik\.com\b/i;
+
+export function isNonMunicipalHost(url) {
+  let host;
+  try { host = new URL(url).hostname.toLowerCase().replace(/^www\./, ''); } catch (_) { return false; }
+  return NON_MUNICIPAL_HOSTS.some((h) => host === h || host.endsWith('.' + h));
+}
+
+// Positive evidence the page is about Colorado: the word "Colorado", or
+// "CO" in an address context — a Colorado ZIP (80xxx/81xxx) after "CO",
+// or a "Name, CO" title. "CO" is matched case-sensitively so "co-op" and
+// "Co." do not count.
+export function looksLikeColorado(body, title) {
+  const b = body || '';
+  const t = title || '';
+  return /\bColorado\b/i.test(b) ||
+    /\bColorado\b/i.test(t) ||
+    /\bCO\.?,?\s+8[01]\d{3}\b/.test(b) ||
+    /,\s*CO\b/.test(t);
+}
+
+/**
+ * Should a probed base URL be kept as a candidate city website?
+ * Returns { keep, reason }. Dropped candidates never reach the digest.
+ */
+export function classifyBaseCandidate({ url, finalUrl, title, body }) {
+  const landed = finalUrl || url;
+  if (isDeniedCandidateUrl(landed) || isNonMunicipalHost(landed)) return { keep: false, reason: 'non-municipal-host' };
+  if (PARKED_TITLE.test(title || '')) return { keep: false, reason: 'parked-domain' };
+  if (!looksLikeColorado(body, title)) return { keep: false, reason: 'no-colorado-mention' };
+  return { keep: true, reason: 'colorado-confirmed' };
+}
+
 export function urlVariants(slug) {
   // Try a handful of common .gov / .org / .com patterns CO cities use
   const noSpace = slug.replace(/[\s-]+/g, '');
@@ -173,22 +227,15 @@ async function extractMetadata(url) {
       }
     });
     clearTimeout(timeout);
-    if (!res.ok) return { title: null, hasHousingKeyword: false, looksLikeColorado: false };
+    if (!res.ok) return { title: null, body: '', hasHousingKeyword: false, looksLikeColorado: false };
     const body = await res.text();
     const titleMatch = body.match(/<title[^>]*>([^<]+)<\/title>/i);
     const title = titleMatch ? titleMatch[1].trim().slice(0, 100) : null;
     const housingKeywords = /\b(affordable\s+housing|housing\s+authority|inclusionary|housing\s+plan|comprehensive\s+plan|prop\s*123|housing\s+trust)\b/i;
-    // Colorado-mention check — body OR title must reference Colorado or
-    // a CO-specific landmark. Ordered most-specific first to reduce false
-    // positives (just "CO" matches "co-founder" etc., so we anchor it).
-    const coMention =
-      /\bColorado\b/i.test(body) ||
-      /\bColorado\b/i.test(title || '') ||
-      /\b(Denver|Boulder|Front\s+Range|Western\s+Slope|Eagle\s+County|Routt\s+County|Mesa\s+County)\b/i.test(body);
-    return { title, hasHousingKeyword: housingKeywords.test(body), looksLikeColorado: coMention };
+    return { title, body, hasHousingKeyword: housingKeywords.test(body), looksLikeColorado: looksLikeColorado(body, title) };
   } catch (_) {
     clearTimeout(timeout);
-    return { title: null, hasHousingKeyword: false, looksLikeColorado: false };
+    return { title: null, body: '', hasHousingKeyword: false, looksLikeColorado: false };
   }
 }
 
@@ -202,36 +249,26 @@ async function discoverForPlace(place) {
   const baseVariants = urlVariants(slug);
   const candidates = [];
 
-  // 1. Probe base URLs to find which exists. We try ALL variants but keep
-  // the FIRST one that looks like Colorado — many CO city names collide
-  // with cities in other states, so we don't stop at the first 200.
-  let bestBase = null;
+  // 1. Probe base URLs and keep the FIRST one that passes
+  // classifyBaseCandidate(): not a junk/parked host, and the homepage
+  // mentions Colorado. Many CO city names collide with cities in other
+  // states, so we don't stop at the first 200. A base that fails is
+  // dropped — it is not listed for review (#2125).
   for (const base of baseVariants) {
     const probe = await probeUrl(base);
     if (!probe.ok) continue;
     const meta = await extractMetadata(probe.finalUrl);
-    const candidate = {
+    const verdict = classifyBaseCandidate({ url: base, finalUrl: probe.finalUrl, title: meta.title, body: meta.body });
+    if (!verdict.keep) continue;
+    candidates.push({
       url: probe.finalUrl,
       type: 'base',
       status: probe.status,
       title: meta.title,
       hasHousingKeyword: meta.hasHousingKeyword,
-      looksLikeColorado: meta.looksLikeColorado
-    };
-    if (meta.looksLikeColorado) {
-      bestBase = candidate;
-      candidates.push(candidate);
-      break;   // Found a CO-confirmed base — stop trying other variants
-    }
-    // Keep the non-CO match around in case nothing better surfaces — useful
-    // for manual review (e.g., "Castle Rock" chamber-of-commerce site that
-    // might link to the actual government site).
-    if (!bestBase) bestBase = candidate;
-  }
-  // If we never found a CO-confirmed base, fall back to the first 200 we
-  // saw — flag it as `looksLikeColorado: false` so reviewer knows.
-  if (!bestBase || !candidates.length) {
-    if (bestBase) candidates.push(bestBase);
+      looksLikeColorado: true
+    });
+    break;   // Found a CO-confirmed base — stop trying other variants
   }
   // 2. For the FIRST candidate (the chosen base), probe housing sub-paths.
   if (candidates.length) {
@@ -239,7 +276,7 @@ async function discoverForPlace(place) {
     for (const sub of HOUSING_SUBPATHS) {
       const subUrl = baseUrl + '/' + sub;
       const subProbe = await probeUrl(subUrl);
-      if (subProbe.ok) {
+      if (subProbe.ok && !isNonMunicipalHost(subProbe.finalUrl)) {
         const subMeta = await extractMetadata(subProbe.finalUrl);
         candidates.push({
           url: subProbe.finalUrl,
