@@ -32,24 +32,27 @@
       "geoid": "0805265",
       "level": "municipal",
       "name": "Bayfield (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.lpcgov.org/Sample%20Ballot%20Style%2001.pdf",
-      "checked": "2026-09-26",
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://www.bayfieldgov.org/",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
-        "County 2026 sample-ballot page lists only two ballot styles: 'All La Plata County Registered Voters' (Style 001-01) and Durango West Metropolitan District No. 1 (Style 028-02). Style 001-01 was read in full: it contains no county, municipal, school or special-district questions.",
-        "Town of Bayfield website returned HTTP 403 (curl and WebFetch) on 2026-09-26; municipal clerk page not readable.",
-        "County calendar states Bayfield held its municipal election (trustees and questions) in April 2026."
+        "Rechecked 2026-10-10: the La Plata County 2026 sample-ballot page still lists only two styles (All La Plata County Registered Voters, Style 01; Durango West Metropolitan District No. 1, Style 02) and one TABOR notice, for Durango West Metropolitan District No. 1. Style 01 was re-read: it carries federal, state, county-office and judicial contests and state measures only, with no county, municipal, school or special-district question.",
+        "Town of Bayfield website (www.bayfieldgov.org) returned HTTP 403 to curl and WebFetch on 2026-10-10, so the town clerk's election page could not be read and a separate town election could not be ruled out. Unreadable source: the town website (blocked), not a PDF.",
+        "County calendar (2026-09-26) states Bayfield held its municipal election (trustees and questions) in April 2026."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.lpcgov.org/services/elections/sample_ballots_for_the_2026_general_election.php",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
-          "url": "https://www.lpcgov.org/Sample%20Ballot%20Style%2002.pdf",
-          "retrieved": "2026-09-26"
+          "url": "https://www.lpcgov.org/Sample%20Ballot%20Style%2001.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.bayfieldgov.org/",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -57,23 +60,27 @@
       "geoid": "0822035",
       "level": "municipal",
       "name": "Durango (city)",
-      "coverage_state": "official_notice_unavailable",
+      "coverage_state": "official_ballot_reviewed_none_found",
       "reviewed_source": "https://www.lpcgov.org/Sample%20Ballot%20Style%2001.pdf",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
-        "County 2026 sample-ballot page lists only two ballot styles: 'All La Plata County Registered Voters' (Style 001-01) and Durango West Metropolitan District No. 1 (Style 028-02). Style 001-01 was read in full: it contains no county, municipal, school or special-district questions.",
-        "City of Durango Elections page (https://www.durangoco.gov/elections) read 2026-09-26: no November 2026 notice, ballot question, or TABOR notice posted."
+        "Rechecked 2026-10-10: the La Plata County 2026 sample-ballot page still lists only two styles (All La Plata County Registered Voters, Style 01; Durango West Metropolitan District No. 1, Style 02) and one TABOR notice, for Durango West Metropolitan District No. 1. Style 01 was re-read: it carries federal, state, county-office and judicial contests and state measures only, with no county, municipal, school or special-district question.",
+        "City of Durango Elections page re-read 2026-10-10: it shows the April 1, 2025 municipal election results and general election rules; no November 3, 2026 notice, ballot question or TABOR notice is posted.",
+        "Closed on the county all-voters sample ballot plus the city's own elections page (same basis as Winter Park in R2-B4-P2). Owner review: confirm that basis."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.lpcgov.org/services/elections/sample_ballots_for_the_2026_general_election.php",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
-          "url": "https://www.lpcgov.org/Sample%20Ballot%20Style%2002.pdf",
-          "retrieved": "2026-09-26"
+          "url": "https://www.lpcgov.org/Sample%20Ballot%20Style%2001.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.durangoco.gov/elections",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -81,24 +88,31 @@
       "geoid": "0838535",
       "level": "municipal",
       "name": "Ignacio (town)",
-      "coverage_state": "official_notice_unavailable",
+      "coverage_state": "official_ballot_reviewed_none_found",
       "reviewed_source": "https://www.lpcgov.org/Sample%20Ballot%20Style%2001.pdf",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
-        "County 2026 sample-ballot page lists only two ballot styles: 'All La Plata County Registered Voters' (Style 001-01) and Durango West Metropolitan District No. 1 (Style 028-02). Style 001-01 was read in full: it contains no county, municipal, school or special-district questions.",
-        "Town of Ignacio website unreachable on 2026-09-26 (connection reset / HTTP 503); municipal clerk page not readable.",
-        "County calendar states Ignacio held its municipal election (trustees and questions) in April 2026."
+        "Rechecked 2026-10-10: the La Plata County 2026 sample-ballot page still lists only two styles (All La Plata County Registered Voters, Style 01; Durango West Metropolitan District No. 1, Style 02) and one TABOR notice, for Durango West Metropolitan District No. 1. Style 01 was re-read: it carries federal, state, county-office and judicial contests and state measures only, with no county, municipal, school or special-district question.",
+        "Town of Ignacio Election Information page (townofignacio.colorado.gov, read 2026-10-10): regular town elections are held in April of even-numbered years, and the 'next election' named is a Special Election on August 25, 2026, whose calendar lists two trustee seats only. Nothing is posted for November 3, 2026.",
+        "Closed on the county all-voters sample ballot plus the town's own election page. Owner review: confirm that basis."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.lpcgov.org/services/elections/sample_ballots_for_the_2026_general_election.php",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
-          "url": "https://www.lpcgov.org/Sample%20Ballot%20Style%2002.pdf",
-          "retrieved": "2026-09-26"
+          "url": "https://www.lpcgov.org/Sample%20Ballot%20Style%2001.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofignacio.colorado.gov/town-government/election-information",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofignacio.colorado.gov/sites/g/files/lrnvjt3216/files/documents/2026%20Special%20Election%20Calendar.pdf",
+          "retrieved": "2026-10-10"
         }
       ]
     }

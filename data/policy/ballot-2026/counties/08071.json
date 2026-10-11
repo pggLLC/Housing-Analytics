@@ -7,16 +7,20 @@
       "name": "Las Animas County",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "County official election page checked 2026-09-26: no TABOR notice, sample ballot, ballot-content certification, or participating-entities list posted, so not_applicable cannot be established and no ballot text could be read.",
-        "BOCC 2026 resolutions folder reviewed as context only: no ballot-referral resolution listed; 26-014, 26-018, 26-019 absent from listing."
+        "Rechecked 2026-10-10: the Las Animas County Clerk and Recorder elections page shows only the 2026 General Election calendar (ballots mailed October 2, drop boxes, VSPC dates) and results links. No TABOR notice, sample ballot, ballot-content certification or participating-entities list is posted, so not_applicable cannot be established and no ballot text could be read.",
+        "BOCC 2026 resolutions folder reviewed as context only on 2026-10-10: it lists resolutions 26-001 through 26-036 and none refers a question to the ballot (26-028 and 26-030 are resolutions of support for statewide initiatives)."
       ],
       "reviewed_sources": [
         {
+          "url": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+          "retrieved": "2026-10-10"
+        },
+        {
           "url": "https://drive.google.com/drive/folders/1Fmhh-TAt9qyVX0gI6LFV1yAYkCOlyXZE",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -26,10 +30,21 @@
       "name": "Aguilar (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "County official election page checked 2026-09-26: no TABOR notice, sample ballot, ballot-content certification, or participating-entities list posted, so not_applicable cannot be established and no ballot text could be read."
+        "Rechecked 2026-10-10: the Las Animas County Clerk and Recorder elections page shows only the 2026 General Election calendar (ballots mailed October 2, drop boxes, VSPC dates) and results links. No TABOR notice, sample ballot, ballot-content certification or participating-entities list is posted, so not_applicable cannot be established and no ballot text could be read.",
+        "Town of Aguilar website (www.aguilarco.us, read 2026-10-10) has no elections page or election notice; its 2026 postings are a water revenue bond ordinance (No. 2026-291, amending bond terms; not a ballot item) and meeting agendas."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.aguilarco.us/",
+          "retrieved": "2026-10-10"
+        }
       ]
     },
     {
@@ -38,10 +53,17 @@
       "name": "Branson (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "County official election page checked 2026-09-26: no TABOR notice, sample ballot, ballot-content certification, or participating-entities list posted, so not_applicable cannot be established and no ballot text could be read."
+        "Rechecked 2026-10-10: the Las Animas County Clerk and Recorder elections page shows only the 2026 General Election calendar (ballots mailed October 2, drop boxes, VSPC dates) and results links. No TABOR notice, sample ballot, ballot-content certification or participating-entities list is posted, so not_applicable cannot be established and no ballot text could be read.",
+        "No Town of Branson website or municipal election notice was found on 2026-10-10."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+          "retrieved": "2026-10-10"
+        }
       ]
     },
     {
@@ -50,10 +72,21 @@
       "name": "Cokedale (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "County official election page checked 2026-09-26: no TABOR notice, sample ballot, ballot-content certification, or participating-entities list posted, so not_applicable cannot be established and no ballot text could be read."
+        "Rechecked 2026-10-10: the Las Animas County Clerk and Recorder elections page shows only the 2026 General Election calendar (ballots mailed October 2, drop boxes, VSPC dates) and results links. No TABOR notice, sample ballot, ballot-content certification or participating-entities list is posted, so not_applicable cannot be established and no ballot text could be read.",
+        "Town of Cokedale website (townofcokedale.colorado.gov, read 2026-10-10) has no elections page; its Meetings page lists the October 14, 2026 trustee agenda and July 8, 2026 minutes, with no election notice."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofcokedale.colorado.gov/meetings",
+          "retrieved": "2026-10-10"
+        }
       ]
     },
     {
@@ -62,10 +95,17 @@
       "name": "Kim (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "County official election page checked 2026-09-26: no TABOR notice, sample ballot, ballot-content certification, or participating-entities list posted, so not_applicable cannot be established and no ballot text could be read."
+        "Rechecked 2026-10-10: the Las Animas County Clerk and Recorder elections page shows only the 2026 General Election calendar (ballots mailed October 2, drop boxes, VSPC dates) and results links. No TABOR notice, sample ballot, ballot-content certification or participating-entities list is posted, so not_applicable cannot be established and no ballot text could be read.",
+        "No Town of Kim website or municipal election notice was found on 2026-10-10."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+          "retrieved": "2026-10-10"
+        }
       ]
     },
     {
@@ -74,10 +114,17 @@
       "name": "Starkville (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "County official election page checked 2026-09-26: no TABOR notice, sample ballot, ballot-content certification, or participating-entities list posted, so not_applicable cannot be established and no ballot text could be read."
+        "Rechecked 2026-10-10: the Las Animas County Clerk and Recorder elections page shows only the 2026 General Election calendar (ballots mailed October 2, drop boxes, VSPC dates) and results links. No TABOR notice, sample ballot, ballot-content certification or participating-entities list is posted, so not_applicable cannot be established and no ballot text could be read.",
+        "No Town of Starkville website or municipal election notice was found on 2026-10-10."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+          "retrieved": "2026-10-10"
+        }
       ]
     },
     {
@@ -86,16 +133,20 @@
       "name": "Trinidad (city)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.trinidad.co.gov/services/city_clerk/elections.php",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "County official election page checked 2026-09-26: no TABOR notice, sample ballot, ballot-content certification, or participating-entities list posted, so not_applicable cannot be established and no ballot text could be read.",
-        "Trinidad City Clerk Elections page checked 2026-09-26: no 2026 ballot question or notice posted."
+        "Rechecked 2026-10-10: the Las Animas County Clerk and Recorder elections page shows only the 2026 General Election calendar (ballots mailed October 2, drop boxes, VSPC dates) and results links. No TABOR notice, sample ballot, ballot-content certification or participating-entities list is posted, so not_applicable cannot be established and no ballot text could be read.",
+        "City of Trinidad City Clerk Elections page re-read 2026-10-10: regular municipal elections are coordinated with Las Animas County in November of odd-numbered years, and the next is November 2027. No 2026 ballot question or notice is posted. Without a county notice or sample ballot this is not a reviewed notice."
       ],
       "reviewed_sources": [
         {
           "url": "https://lasanimascounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.trinidad.co.gov/services/city_clerk/elections.php",
+          "retrieved": "2026-10-10"
         }
       ]
     }
