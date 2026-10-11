@@ -58,6 +58,13 @@ jobs:
         # main failed test/home-value-integrity.test.mjs until it was rebuilt.
         run: npm run build:home-values
 
+      - name: Re-check the Redfin tracker's review flags
+        # The place tracker flags modeled prices above the latest CAR county
+        # median too. This re-checks the committed tracker offline; a full
+        # rebuild would re-download Redfin. Left stale on 2026-10-11, it failed
+        # tests/test_market_construction.py on main.
+        run: python3 scripts/market/build_redfin_place_market_tracker.py --refresh-review-flags
+
       - name: Rebuild derived data and commit the refresh
         id: commit
         # The cascade feeds the jurisdiction digests, so the commit goes through
@@ -69,7 +76,10 @@ jobs:
           scripts/commit-with-derived-chain.sh "chore: update CAR market report data [$(date -u '+%Y-%m')]" -- \
             data/car-market-report-*.json \
             data/car-market-reports.json \
-            data/hna/home-value-cascade.json
+            data/hna/home-value-cascade.json \
+            data/hna/zhvi-place-crosswalk.json \
+            data/hna/summary \
+            data/market/redfin_place_market_tracker_co.json
 
       - name: Dispatch Pages deploy for this run's commit
         if: steps.commit.outputs.pushed == 'true'
