@@ -603,7 +603,7 @@
       fn: function (r) { return r.needScore; }, fmt: function (v) { return v + 'p'; }, best: 'high' },
     { label: 'Recency / Competition', info: 'min(100, years_since_last_LIHTC × 4). 25-year cap. Never-funded = 100. Source: CHFA HousingTaxCreditProperties_view AwardYear (2025-current).',
       fn: function (r) { return r.recencyScore; }, fmt: function (v) { return v; }, best: 'high' },
-    { label: 'Basis-Boost', info: 'QCT-only: 60 · DDA-only: 60 · Both: 100 · Neither: 0. IRC §42(d)(5)(B) basis boost. Source: HUD QCT 2025 (224 CO tracts) + HUD DDA 2025 (10 CO nonmetro counties).',
+    { label: 'Basis-Boost', info: 'QCT-only: 60 · DDA-only: 60 · Both: 100 · Neither: 0. IRC §42(d)(5)(B) basis boost. Source: HUD QCT 2026 (224 CO tracts) + HUD DDA 2026 (10 CO nonmetro counties).',
       fn: function (r) { return r.basisScore; }, fmt: function (v) { return v; }, best: 'high' },
     { label: 'Population / Feasibility', info: 'Bucketed: <500: 0 · 500–2k: 30 · 2k–5k: 60 · 5k–15k: 85 · ≥15k: 100. Source: CHAS HHs ≤100% AMI × 2.5 proxy.',
       fn: function (r) { return r.popScore; }, fmt: function (v) { return v; }, best: 'high' },

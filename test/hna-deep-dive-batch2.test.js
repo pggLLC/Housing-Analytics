@@ -9,7 +9,8 @@
  * Bugs in scope:
  *   1. FMR year was bumped to FY2026 (which HUD hasn't published) —
  *      every UI label that quoted FY2025 was now wrong. Reverted to
- *      FY2025 in financial-constants.js.
+ *      FY2025 in financial-constants.js. (Since 2026-10 the label follows
+ *      the fetched data instead; see scripts/sync-hud-vintage-labels.mjs.)
  *   2. chartTenure used hard-coded slate+amber from PR #809 — user
  *      asked for theme palette consistency. Switched to c1 + c4.
  *   3. chartLehd expected lehd.flows[] (yearly array) but the cache
@@ -44,11 +45,14 @@ const consts = fs.readFileSync(path.join(root, 'js/config/financial-constants.js
 const rend   = fs.readFileSync(path.join(root, 'js/hna/hna-renderers.js'), 'utf8');
 const theme  = fs.readFileSync(path.join(root, 'css/site-theme.css'), 'utf8');
 
-console.log('\n[test] #1 hudFmrYear is FY2025');
-assert(/hudFmrYear:\s*['"]FY2025['"]/.test(consts),
-  'financial-constants.hudFmrYear is FY2025 (FY2026 not yet published)');
-assert(!/hudFmrYear:\s*['"]FY2026['"]/.test(consts),
-  'no lingering FY2026 reference for hudFmrYear');
+// Bug #1 was a label naming a vintage the data did not hold. The label now
+// follows data/hud-fmr-income-limits.json (scripts/sync-hud-vintage-labels.mjs).
+const fmrFy = JSON.parse(fs.readFileSync(path.join(root, 'data/hud-fmr-income-limits.json'), 'utf8')).meta.fiscal_year;
+console.log(`\n[test] #1 hudFmrYear is the fetched FY${fmrFy}`);
+const declared = /hudFmrYear:\s*['"]FY(\d{4})['"]/.exec(consts);
+assert(declared != null, 'financial-constants declares hudFmrYear');
+assert(declared && Number(declared[1]) === fmrFy,
+  `financial-constants.hudFmrYear equals the FMR data's fiscal_year (FY${fmrFy})`);
 
 console.log('\n[test] #2 chartTenure uses theme palette (c1 + c4)');
 // Restrict to the chartTenure block to avoid colliding with other charts

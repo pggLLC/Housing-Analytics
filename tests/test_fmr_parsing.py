@@ -12,7 +12,9 @@ from fetch_fmr_api import (  # noqa: E402
     _expand_metroareas_to_counties,
     _extract_fmr_records,
     build_combined,
+    federal_fiscal_year,
 )
+import datetime  # noqa: E402
 
 
 def _metro_record(name, code, *, eff=1000, one=1100, two=1300, three=1700, four=1900):
@@ -192,3 +194,11 @@ def test_build_combined_normalizes_three_digit_county_fips():
     )
 
     assert result['counties'][0]['fips'] == '08091'
+
+
+def test_fetches_the_fiscal_year_in_effect():
+    # FY2027 FMRs take effect Oct 1, 2026; a hard-coded year kept the
+    # fetch on FY2026 after that date.
+    assert federal_fiscal_year(datetime.date(2026, 9, 30)) == 2026
+    assert federal_fiscal_year(datetime.date(2026, 10, 1)) == 2027
+    assert federal_fiscal_year(datetime.date(2027, 1, 15)) == 2027
