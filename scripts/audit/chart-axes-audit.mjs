@@ -156,14 +156,11 @@ function inspectPage() {
   const probe = document.createElement('canvas').getContext('2d');
   const toRgba = (color) => {
     if (typeof color !== 'string' || !color.trim()) return null;
-    // The canvas keeps its old fillStyle for a color it cannot parse (a CSS
-    // var(), for one), so set two sentinels and treat disagreement as null.
-    probe.fillStyle = '#010203';
+    // The canvas silently ignores a color it cannot parse (a CSS var(), for
+    // one), so reject those first, then let it normalise the rest.
+    if (!CSS.supports('color', color) || /var\(/i.test(color)) return null;
     probe.fillStyle = color;
     const v = probe.fillStyle;
-    probe.fillStyle = '#030201';
-    probe.fillStyle = color;
-    if (probe.fillStyle !== v) return null;
     let m = /^#([0-9a-f]{6})$/i.exec(v);
     if (m) { const n = parseInt(m[1], 16); return [n >> 16, (n >> 8) & 255, n & 255, 1]; }
     m = /^rgba?\(([^)]+)\)$/.exec(v);
