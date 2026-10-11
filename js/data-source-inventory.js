@@ -1138,7 +1138,7 @@
       provider: 'Kalshi',
       url: 'https://kalshi.com/',
       localFile: 'data/kalshi/prediction-market.json',
-      lastUpdated: '2026-10-10',
+      lastUpdated: '2026-10-11',
       // Not a feed. fetch-kalshi.yml runs weekly but exits early with
       // "Kalshi credentials not configured", preserving this committed seed —
       // so it reported success while changing nothing for 183 days. Declaring
@@ -1210,7 +1210,7 @@
       provider: 'Colorado Legislature / Internal',
       url: 'https://leg.colorado.gov/',
       localFile: 'data/policy/tax-credit-legislation.json',
-      lastUpdated: '2026-10-10',
+      lastUpdated: '2026-10-11',
       updateFrequency: 'Session-based',
       maxAgeDays: 180,
       geoUnit: 'Statewide',
