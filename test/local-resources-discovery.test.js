@@ -106,6 +106,37 @@ function run(name, fn) {
       '"CO" counts only in an address context');
   });
 
+  // A host can answer HEAD and GET differently. Stub fetch so HEAD stays on a
+  // municipal-looking host while the metadata GET is redirected; the
+  // candidate must be judged (and listed) by where the GET landed.
+  const { discoverForPlace } = await import('../scripts/discover-local-resources.mjs');
+  const realFetch = global.fetch;
+  async function discoverWith(getLandsOn, body) {
+    global.fetch = async (url, opts) => {
+      const u = String(url);
+      const isBase = /^https?:\/\/[^/]+\/?$/.test(u);
+      if (!isBase) return { ok: false, status: 404, url: u, text: async () => '' };
+      if (opts.method === 'HEAD') return { ok: true, status: 200, url: u, text: async () => '' };
+      return { ok: true, status: 200, url: getLandsOn(u), text: async () => body };
+    };
+    try { return await discoverForPlace({ geoid: '0899999', name: 'Testville' }); }
+    finally { global.fetch = realFetch; }
+  }
+  const coBody = '<title>Town of Testville</title><p>Testville, Colorado 81000</p>';
+  try {
+    const junk = await discoverWith(() => 'https://geo.org/tours/?keywords1=colorado', coBody);
+    run('#2175 a GET redirect to a junk host drops the base though HEAD looked municipal', () => {
+      assert.deepStrictEqual(junk.candidateUrls.map((c) => c.url), []);
+    });
+    const moved = await discoverWith(() => 'https://www.testvilleco.gov/', coBody);
+    run('#2175 a kept base is listed at the URL the GET landed on', () => {
+      assert.strictEqual(moved.candidateUrls[0] && moved.candidateUrls[0].url, 'https://www.testvilleco.gov/');
+    });
+  } catch (err) {
+    console.error('  ✗ #2175 stubbed discovery threw\n    ' + err.message);
+    process.exitCode = 1;
+  }
+
   run('#2125 discoverForPlace applies the filter and has no non-CO fallback', () => {
     const src = fs.readFileSync(path.join(ROOT, 'scripts/discover-local-resources.mjs'), 'utf8');
     const body = src.slice(src.indexOf('async function discoverForPlace'), src.indexOf('/* ── Main'));
