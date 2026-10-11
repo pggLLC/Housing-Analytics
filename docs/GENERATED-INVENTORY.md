@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T00:39:23.995Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T01:08:59.515Z. Do not edit by hand.
 
 ---
 
@@ -1763,7 +1763,7 @@
 
 ## Test Files
 
-557 test files found.
+558 test files found.
 
 | File | Size |
 |------|------|
@@ -1783,6 +1783,7 @@
 | `test/ami-gap-sign-convention.test.js` | 4.9 KB |
 | `test/analytics.test.js` | 18.2 KB |
 | `test/api-config-wrapper-url-sanitization.test.js` | 3.0 KB |
+| `test/attribute-escaping.test.js` | 4.9 KB |
 | `test/audit-modules/audit-history.js` | 5.5 KB |
 | `test/audit-modules/audit-status.js` | 3.5 KB |
 | `test/audit-modules/data-integrity.js` | 18.9 KB |
