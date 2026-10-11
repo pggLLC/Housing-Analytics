@@ -45,6 +45,11 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { createRequire } from 'node:module';
+
+// The local support bonus: the same module the page loads, so the audit
+// reports the scores the page shows.
+const LocalSupportData = createRequire(import.meta.url)('../../js/local-support-data.js');
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT      = path.resolve(__dirname, '..', '..');
@@ -264,7 +269,8 @@ function composite(rec, need, basis, pop, civic, target, jurisdictionType) {
 async function buildOpportunities() {
   const [
     qct, dda, lihtc, chas, pm, amiGap, gc,
-    scorecard, localRes, prop123
+    scorecard, localRes, prop123,
+    lsSupport, lsFees, lsFunds, lsCoverage
   ] = await Promise.all([
     loadJson('data/qct-colorado.json'),
     loadJson('data/dda-colorado.json'),
@@ -275,8 +281,16 @@ async function buildOpportunities() {
     loadJson('data/hna/geo-config.json'),
     loadJson('data/policy/housing-policy-scorecard.json').catch(() => null),
     loadJson('data/hna/local-resources.json').catch(() => null),
-    loadJson('data/policy/prop123_jurisdictions.json').catch(() => null)
+    loadJson('data/policy/prop123_jurisdictions.json').catch(() => null),
+    loadJson('data/policy/local-support.json').catch(() => null),
+    loadJson('data/policy/fee-reductions.json').catch(() => null),
+    loadJson('data/policy/local-housing-funds.json').catch(() => null),
+    loadJson('data/policy/incentive-coverage.json').catch(() => null)
   ]);
+  const localSupport = lsSupport
+    ? LocalSupportData.build({ support: lsSupport, fees: lsFees, funds: lsFunds, coverage: lsCoverage })
+    : null;
+  const today = new Date().toISOString().slice(0, 10);
 
   const qctIds = new Set();
   (qct.features || []).forEach(f => {
@@ -391,8 +405,14 @@ async function buildOpportunities() {
       : 7;
     const civicPct = civicRawScore != null ? Math.round((civicRawScore / civicMax) * 100) : null;
 
+    const lsProfile = localSupport
+      ? localSupport.profile(geoid, today, { kind: type === 'cdp' ? 'cdp' : 'place', county: containingCounty, civic: civic && civic.dimensions })
+      : null;
+    const lsBonus = lsProfile ? lsProfile.bonus : 0;
+
     ops.push({
       geoid, name: placeNameToCity(label), type,
+      localSupportBonus: lsBonus,
       countyFips: containingCounty,
       countyName: countyName[containingCounty] || '—',
       hasQct, hasDda, hasBoth: hasQct && hasDda,
@@ -402,12 +422,12 @@ async function buildOpportunities() {
       population: pop,
       recencyScore: recScore, needScore: needPct,
       basisBoostScore: bbScore, populationScore: popScore,
-      score9:               composite(recScore, needPct, bbScore, popScore, civicPct, '9pct', type),
-      score4:               composite(recScore, needPct, bbScore, popScore, civicPct, '4pct', type),
-      scorePreservation:    composite(recScore, needPct, bbScore, popScore, civicPct, 'preservation', type),
-      scoreWorkforce:       composite(recScore, needPct, bbScore, popScore, civicPct, 'workforce_resort', type),
-      scoreProp123:         composite(recScore, needPct, bbScore, popScore, civicPct, 'prop123_local', type),
-      scoreAny:             composite(recScore, needPct, bbScore, popScore, civicPct, 'any', type),
+      score9:               LocalSupportData.applyBonus(composite(recScore, needPct, bbScore, popScore, civicPct, '9pct', type), lsBonus),
+      score4:               LocalSupportData.applyBonus(composite(recScore, needPct, bbScore, popScore, civicPct, '4pct', type), lsBonus),
+      scorePreservation:    LocalSupportData.applyBonus(composite(recScore, needPct, bbScore, popScore, civicPct, 'preservation', type), lsBonus),
+      scoreWorkforce:       LocalSupportData.applyBonus(composite(recScore, needPct, bbScore, popScore, civicPct, 'workforce_resort', type), lsBonus),
+      scoreProp123:         LocalSupportData.applyBonus(composite(recScore, needPct, bbScore, popScore, civicPct, 'prop123_local', type), lsBonus),
+      scoreAny:             LocalSupportData.applyBonus(composite(recScore, needPct, bbScore, popScore, civicPct, 'any', type), lsBonus),
       civic, localRes: localResRec, prop123Detail: p123Detail,
       civicScore: civicPct, civicRawScore, civicMax
     });

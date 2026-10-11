@@ -70,6 +70,41 @@
       ]
     },
     {
+      "id": "local-support",
+      "heading": "Local support for affordable housing",
+      "paragraphs": [
+        {
+          "text": "Adopted plans: the official plan sources for Town of Telluride could not be read when checked on October 10, 2026, so no plan is recorded yet.",
+          "cites": [
+            "ls1"
+          ]
+        },
+        {
+          "text": "Incentives and local funding on record: waived tap sewer fees; waived tap water fees; reduced tap water fees; lodging or short-term-rental tax; dedicated sales tax; and dedicated property tax (mill levy). The Local Housing Incentives page has the terms and sources of each. Civic Readiness already credits its local funding, so the bonus does not count the fund records again.",
+          "cites": [
+            "ls2",
+            "ls3",
+            "ls4",
+            "ls5",
+            "ls6",
+            "ls7"
+          ]
+        },
+        {
+          "text": "Council and planning commission record: the official minutes and agendas could not be read when checked on October 10, 2026.",
+          "cites": [
+            "ls1"
+          ]
+        },
+        {
+          "text": "In the Opportunity Finder this record adds a local support bonus of +2 of a possible +6 points as of October 10, 2026: plans +0, incentives and funding +2, council and planning commission +0. A part with nothing counted adds nothing; it never lowers the score.",
+          "cites": [
+            "ls1"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -383,6 +418,69 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for Town of Telluride, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0876795",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Town of Telluride, 2025 fees resolution council packet (Water/Sewer Tap Fee Schedule)",
+      "url": "https://telluride-co.civicweb.net/document/409352/",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "telluride-in-town-deed-restricted-sewer-tap-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Town of Telluride, 2025 fees resolution council packet (Water/Sewer Tap Fee Schedule)",
+      "url": "https://telluride-co.civicweb.net/document/409352/",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "telluride-in-town-deed-restricted-water-tap-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Town of Telluride, 2025 fees resolution council packet (Water/Sewer Tap Fee Schedule)",
+      "url": "https://telluride-co.civicweb.net/document/409352/",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "telluride-out-of-town-deed-restricted-tap-reduction",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "Telluride Daily Planet: Short-term rental tax passes (Nov 2019)",
+      "url": "https://www.telluridenews.com/news/article_7879c028-0061-11ea-88f2-77f970e4be57.html",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-telluride-str-excise-tax",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls6",
+      "label": "Telluride Daily Planet (Town news release): Measure on affordable housing bonding capacity approved for Nov. ballot (2025)",
+      "url": "https://www.telluridenews.com/news_release/article_a7234af0-3c51-4422-8aea-f08b33114f3d.html",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-telluride-housing-sales-tax",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls7",
+      "label": "Telluride Daily Planet (Town news release): Measure on affordable housing bonding capacity approved for Nov. ballot (2025)",
+      "url": "https://www.telluridenews.com/news_release/article_a7234af0-3c51-4422-8aea-f08b33114f3d.html",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-telluride-housing-mill-levy",
+      "accessed": "2026-10-10"
     }
   ],
   "_meta_population_at_draft": 2160

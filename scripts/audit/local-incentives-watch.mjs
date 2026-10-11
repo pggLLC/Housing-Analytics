@@ -98,6 +98,7 @@ export function monthlyIssue(docs, todayDenver, existingBodies = []) {
     '2. Fee relief and land-use incentives go in `data/policy/fee-reductions.json`; funds, taxes, linkage fees, land and ownership tools in `data/policy/local-housing-funds.json`. Every figure must appear in a quoted line of the source; a figure the source does not publish is `null`.',
     '3. Where you read the official source and found nothing, or could not read it, add a row to `data/policy/incentive-coverage.json` so the page says so instead of "not yet checked".',
     '4. Set `last_verified` to the day you checked and `review_by` to the next check.',
+    '5. Check its adopted housing plans and its council and planning commission votes on affordable housing since three years ago. Write one research file in the format of `data/policy/local-support.json` rows, merge it with `python3 scripts/policy/build_local_support.py <dir> --sources <dir>`, then run `node scripts/generate-brief-local-support-sections.mjs`. This is what earns the Opportunity Finder local support bonus.',
     '',
     `Opened by \`scripts/audit/local-incentives-watch.mjs\` (monthly). ${mark}`,
   ];

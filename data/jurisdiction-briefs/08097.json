@@ -192,6 +192,40 @@
       ]
     },
     {
+      "id": "local-support",
+      "heading": "Local support for affordable housing",
+      "paragraphs": [
+        {
+          "text": "Adopted plans. Aspen Pitkin County Housing Authority 2025-2030 Strategic Plan (ratified) (adopted July 23, 2025): Ratifies the housing authority's five-year plan for the deed-restricted workforce housing program, whose mission is to support affordable workforce housing. The Opportunity Finder's Civic Readiness score already credits this jurisdiction with a needs assessment or comprehensive plan, so the local support bonus does not count a plan again.",
+          "cites": [
+            "ls2"
+          ]
+        },
+        {
+          "text": "Incentives and local funding on record: dedicated property tax (mill levy). The Local Housing Incentives page has the terms and sources of each. Civic Readiness already credits its local funding, so the bonus does not count the fund records again.",
+          "cites": [
+            "ls3"
+          ]
+        },
+        {
+          "text": "Council and planning commission record. On June 26, 2024, the Board of County Commissioners approved: Resolution approving grant agreement with West Mountain Regional Housing Coalition for the Good Deeds program (vote 5-0). County grant to the regional Good Deeds program, which buys deed restrictions on existing homes for local workforce. On August 28, 2024, the Board of County Commissioners approved: Resolution referring a 1.5-mill affordable and attainable housing property tax to the November 2024 ballot (vote 5-0). Refers to voters a 1.5 mill levy for not more than twenty-five years to fund affordable and attainable housing programs. On October 23, 2024, the Board of County Commissioners approved: Emergency resolution authorizing MOU with Habitat for Humanity Roaring Fork Valley to support the L3 Condominium housing project (vote 5-0). County support, by memorandum of understanding, for a Habitat for Humanity ownership housing project. On October 8, 2025, the Board of County Commissioners approved: Emergency ordinance approving deed restrictions for Aspen Basalt and Mountain Valley mobile home parks and confirming the county contribution (vote 4-0). County contribution of three million two hundred fifty thousand dollars toward resident purchase of two mobile home parks, conditioned on deed restrictions. On February 11, 2026, the Board of County Commissioners approved: Resolution approving a renewed grant agreement with West Mountain Regional Housing Coalition for the Good Deeds program (vote 4-0). Renewed county grant to the regional Good Deeds deed-restriction program.",
+          "cites": [
+            "ls4",
+            "ls5",
+            "ls6",
+            "ls7",
+            "ls8"
+          ]
+        },
+        {
+          "text": "In the Opportunity Finder this record adds a local support bonus of +2 of a possible +6 points as of October 10, 2026: plans +0, incentives and funding +0, council and planning commission +2. A part with nothing counted adds nothing; it never lowers the score.",
+          "cites": [
+            "ls1"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -665,6 +699,78 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for Pitkin County, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:08097",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Aspen Pitkin County Housing Authority 2025-2030 Strategic Plan (ratified) (BOCC minutes 7/23/2025 and agenda packet (Attachment A: APCHA Strategic Plan 2025-2030))",
+      "url": "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=524614&dbid=0&repo=LFRecords",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-pitkin-apcha-strategic-plan-2025",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Pitkin County 2025 Mill Levy Resolution (2024 taxes collected in 2025)",
+      "url": "https://pitkincounty.com/DocumentCenter/View/33757/2025-Mill-Levy-Resolution",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-pitkin-county-housing-mill-levy",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Resolution approving grant agreement with West Mountain Regional Housing Coalition for the Good Deeds program (BOCC regular meeting minutes, June 26, 2024)",
+      "url": "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=460322&dbid=0&repo=LFRecords",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-pitkin-good-deeds-2024",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "Resolution referring a 1.5-mill affordable and attainable housing property tax to the November 2024 ballot (BOCC regular meeting minutes, Aug. 28, 2024)",
+      "url": "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=471905&dbid=0&repo=LFRecords",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-pitkin-housing-mill-levy-2024",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls6",
+      "label": "Emergency resolution authorizing MOU with Habitat for Humanity Roaring Fork Valley to support the L3 Condominium housing project (BOCC regular meeting minutes, Oct. 23, 2024)",
+      "url": "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=481389&dbid=0&repo=LFRecords",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-pitkin-habitat-l3-2024",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls7",
+      "label": "Emergency ordinance approving deed restrictions for Aspen Basalt and Mountain Valley mobile home parks and confirming the county contribution (BOCC regular meeting minutes, Oct. 8, 2025)",
+      "url": "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=531170&dbid=0&repo=LFRecords",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-pitkin-mobile-home-parks-2025",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls8",
+      "label": "Resolution approving a renewed grant agreement with West Mountain Regional Housing Coalition for the Good Deeds program (BOCC regular meeting minutes, Feb. 11, 2026)",
+      "url": "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=557520&dbid=0&repo=LFRecords",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-pitkin-good-deeds-2026",
+      "accessed": "2026-10-10"
     }
   ]
 }

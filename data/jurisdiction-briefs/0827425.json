@@ -193,6 +193,37 @@
       ]
     },
     {
+      "id": "local-support",
+      "heading": "Local support for affordable housing",
+      "paragraphs": [
+        {
+          "text": "Adopted plans: the official plan sources for City of Fort Collins could not be read when checked on October 10, 2026, so no plan is recorded yet.",
+          "cites": [
+            "ls1"
+          ]
+        },
+        {
+          "text": "Incentives and local funding on record: reimbursed impact other fees and land banking or public land. The Local Housing Incentives page has the terms and sources of each. Civic Readiness already credits its local funding, so the bonus does not count the fund records again.",
+          "cites": [
+            "ls2",
+            "ls3"
+          ]
+        },
+        {
+          "text": "Council and planning commission record: the official minutes and agendas could not be read when checked on October 10, 2026.",
+          "cites": [
+            "ls1"
+          ]
+        },
+        {
+          "text": "In the Opportunity Finder this record adds a local support bonus of +2 of a possible +6 points as of October 10, 2026: plans +0, incentives and funding +2, council and planning commission +0. A part with nothing counted adds nothing; it never lowers the score.",
+          "cites": [
+            "ls1"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -687,6 +718,33 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for City of Fort Collins, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0827425",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Fort Collins Municipal Code ch. 7.5 art. VIII (Municode API)",
+      "url": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH7.5FE_ARTVIIIFECRAFHO",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "d-fortcollins-fee-credit",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Fort Collins Municipal Code ch. 23, art. XIII Land Banking (Municode API)",
+      "url": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH23PUPR_ARTXIIILABA",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-fortcollins-affordable-housing-land-bank",
+      "accessed": "2026-10-10"
     }
   ]
 }

@@ -178,6 +178,40 @@
       ]
     },
     {
+      "id": "local-support",
+      "heading": "Local support for affordable housing",
+      "paragraphs": [
+        {
+          "text": "Adopted plans. Town of Carbondale Community Housing Plan (adopted January 10, 2023): Goal to double deed-restricted, rental-capped and town-owned units from 144 to 288 by 2032; strategies include a 6% short-term-rental tax for housing and a buydown/deed-restriction program.",
+          "cites": [
+            "ls2"
+          ]
+        },
+        {
+          "text": "Incentives and local funding on record: waived building permit fees; reduced building permit fees; and reduced building permit fees. The Local Housing Incentives page has the terms and sources of each.",
+          "cites": [
+            "ls3",
+            "ls4",
+            "ls5"
+          ]
+        },
+        {
+          "text": "Council and planning commission record. On November 12, 2024, the Board of Trustees approved: Ordinance No. 10, Series of 2024 - Community Housing Inclusionary Requirements amendment (vote 7-0). Raises the inclusionary affordable housing requirement from 20% to 25% for large projects, with a sliding scale for smaller ones and rentals at 80% AMI. On August 26, 2025, the Board of Trustees approved: Grant agreement and $1,100,000 payment to West Mountain Regional Housing Coalition for the Mountain Valley Mobile Home Park purchase (vote 6-1). Town housing-fund grant toward resident purchase of the Mountain Valley Mobile Home Park, tied to deed restrictions. On October 14, 2025, the Board of Trustees approved: Resolution 9, Series 2025 approving a regional IGA for two mobile home park purchases (vote 7-0). Approves the intergovernmental agreement with neighboring governments behind the $42M resident purchase of two mobile home parks.",
+          "cites": [
+            "ls6",
+            "ls7",
+            "ls8"
+          ]
+        },
+        {
+          "text": "In the Opportunity Finder this record adds a local support bonus of +6 of a possible +6 points as of October 10, 2026: plans +2, incentives and funding +2, council and planning commission +2. A part with nothing counted adds nothing; it never lowers the score.",
+          "cites": [
+            "ls1"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -602,6 +636,78 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for Town of Carbondale, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0812045",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Town of Carbondale Community Housing Plan (Community Housing Plan, Adopted January 10, 2023)",
+      "url": "https://carbondalegov.org/Community%20Housing%20Plan%20Adopted%20011023.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-carbondale-community-housing-plan-2023",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Carbondale Unified Development Code (Jan 2025 compilation)",
+      "url": "https://cms7files.revize.com/carbondale/Carbondale%20UDC%20Jan%202025%20without%20Appendix%20A%20%28Obsolete%20Zone%20Districts%29.pdf",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "b-carbondale-fee-exemption-1br-80",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Carbondale Unified Development Code (Jan 2025 compilation)",
+      "url": "https://cms7files.revize.com/carbondale/Carbondale%20UDC%20Jan%202025%20without%20Appendix%20A%20%28Obsolete%20Zone%20Districts%29.pdf",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "b-carbondale-fee-exemption-2-3br-120",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "Carbondale Unified Development Code (Jan 2025 compilation)",
+      "url": "https://cms7files.revize.com/carbondale/Carbondale%20UDC%20Jan%202025%20without%20Appendix%20A%20%28Obsolete%20Zone%20Districts%29.pdf",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "b-carbondale-fee-exemption-2br-100",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls6",
+      "label": "Ordinance No. 10, Series of 2024 - Community Housing Inclusionary Requirements amendment (Board of Trustees regular meeting minutes, Nov. 12, 2024)",
+      "url": "https://carbondalegov.community.diligentoneplatform.com/document/23455",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-carbondale-inclusionary-ord10-2024",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls7",
+      "label": "Grant agreement and $1,100,000 payment to West Mountain Regional Housing Coalition for the Mountain Valley Mobile Home Park purchase (Board of Trustees regular meeting minutes, Aug. 26, 2025)",
+      "url": "https://carbondalegov.community.diligentoneplatform.com/document/31163",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-carbondale-mountain-valley-grant-2025",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls8",
+      "label": "Resolution 9, Series 2025 approving a regional IGA for two mobile home park purchases (Board of Trustees regular meeting minutes, Oct. 14, 2025)",
+      "url": "https://carbondalegov.community.diligentoneplatform.com/document/32952",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-carbondale-mhp-iga-res9-2025",
+      "accessed": "2026-10-10"
     }
   ]
 }
