@@ -7,11 +7,11 @@
       "name": "Jackson County",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://jacksoncounty.colorado.gov/clerk",
-      "checked": "2026-10-03",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-03: the county clerk page still has no election section, sample ballot, TABOR notice, notice of election or participating-entities list for November 3, 2026; the county home page, news list and event calendar have no election item, and /elections returns HTTP 404.",
-        "Board of County Commissioners agendas list a request for a marijuana retail initiative on the November ballot (8/25) and a special-session discussion (8/28); no ballot text has been posted. Not housing on its face; recheck when the ballot is posted."
+        "Rechecked 2026-10-10: the county clerk page still has no election section, sample ballot, TABOR notice, notice of election or participating-entities list for November 3, 2026 (it shows only marriage licenses, motor vehicle and recording services). The county home page news list has no election item, and /elections returns HTTP 404. The same was found on 2026-10-03.",
+        "Board of County Commissioners agendas list a request for a marijuana retail initiative on the November ballot (8/25) and a special-session discussion (8/28); no ballot text has been posted. The 10/7/2026 work session lists \"Discussion about creating a Marijuana Working Group, what the process and next steps look like\". The 9/30, 10/7 and 10/13 agendas list no ballot item. Not housing on its face; recheck when the ballot is posted."
       ],
       "reviewed_sources": [
         {
@@ -25,6 +25,26 @@
         {
           "url": "https://jacksoncounty.colorado.gov/sites/g/files/lrnvjt3036/files/documents/BoCC-agenda-9.30.26.specialsession.pdf",
           "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://jacksoncounty.colorado.gov/clerk",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://jacksoncounty.colorado.gov/sites/g/files/lrnvjt3036/files/documents/BoCC-agenda-8.25.26.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://jacksoncounty.colorado.gov/sites/g/files/lrnvjt3036/files/documents/BoCC-agenda-8.28.26.specialsession.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://jacksoncounty.colorado.gov/sites/g/files/lrnvjt3036/files/documents/BoCC-agenda10.7.26.worksession.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://jacksoncounty.colorado.gov/sites/g/files/lrnvjt3036/files/documents/BoCC-agenda-10.13.26.pdf",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -34,11 +54,11 @@
       "name": "Walden (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://jacksoncounty.colorado.gov/clerk",
-      "checked": "2026-10-03",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-03: the county clerk page still has no election section, sample ballot, TABOR notice, notice of election or participating-entities list for November 3, 2026; the county home page, news list and event calendar have no election item, and /elections returns HTTP 404.",
-        "Participation could not be confirmed or ruled out. The town agendas, documents and news pages are unchanged since 2026-09-26 and mention no ballot question, election or election IGA."
+        "Rechecked 2026-10-10: the county clerk page still has no election section, sample ballot, TABOR notice, notice of election or participating-entities list for November 3, 2026 (it shows only marriage licenses, motor vehicle and recording services). The county home page news list has no election item, and /elections returns HTTP 404. The same was found on 2026-10-03.",
+        "Participation could not be confirmed or ruled out. Town Board agendas from August 10 to October 12, 2026 and the August 28 special-meeting minutes mention no town ballot question, election or election IGA; the town home page news has no election item (checked 2026-10-10). The September 14 agenda lists a request to remove the moratorium on retail marijuana dispensaries and the September 28 agenda a Mayor's \"Update on Marijuana Committee\", neither as a ballot referral. The agendas, documents and news pages were also read on 2026-10-03."
       ],
       "reviewed_sources": [
         {
@@ -48,6 +68,22 @@
         {
           "url": "https://www.townofwaldenco.com/",
           "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://towncloud.io/go/walden-co/agendas/285/pdf_packet/get_agenda_document_link",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://towncloud.io/go/walden-co/agendas/287/minutes/get_agenda_document_link",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://towncloud.io/go/walden-co/agendas/288/pdf_packet/get_agenda_document_link",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://towncloud.io/go/walden-co/agendas/291/pdf_packet/get_agenda_document_link",
+          "retrieved": "2026-10-10"
         }
       ]
     }

@@ -31,7 +31,8 @@
  *
  * Data sourced from public-facing city/county housing pages + CDOLA
  * Prop 123 commitment filings + each housing authority's own website.
- * Last verified 2026-05-26; Greenwood Village verified 2026-07-14.
+ * Last verified 2026-05-26; Greenwood Village verified 2026-07-14;
+ * 2026-10-09 discovery intake (#2125) verified 2026-10-11.
  */
 
 'use strict';
@@ -316,6 +317,68 @@ const PLACE_ENTRIES = {
   'place:0886310': {
     name: 'Wray',
     housingLead: { name: 'City of Wray (official site)', url: 'https://www.cityofwray.org/' }
+  },
+  /* ── 2026-10-09 weekly discovery intake (#2125) ──────────────────────
+     Almost every URL the digest proposed was wrong: wrong-state sites
+     (Florence -> Florence, SC; Evans -> Evans, NY), parked or for-sale
+     domains (Glendale -> an Epik sale page), unrelated orgs (Sterling,
+     Cañon City, Fort Morgan, Edgewater) and, for Las Animas, a tour-booking
+     page on geo.org. Each URL below was found by hand on 2026-10-11,
+     fetched with a browser user-agent (HTTP 200), and read: it is on the
+     Colorado municipality's own site (or its housing authority's) and the
+     page is about housing.
+
+     Only places with a real housing page are added. A plain municipal
+     homepage is NOT stored as `housingLead`: hna-renderers.js treats any
+     housingLead as the place's housing contact and stops inheriting the
+     county's lead and housing authorities, and lihtc-opportunity-finder.js
+     uses a place entry without merging the county at all. So a homepage
+     entry would hide e.g. Bent County's Las Animas Housing Authority.
+     These places had a verified official site but no housing page, and are
+     left to the county fallback (official sites recorded for the next
+     intake, so the digest's wrong URLs are not retried):
+       Las Animas 0843660 cityoflasanimasco.gov · Yuma 0886750
+       cityofyuma.colorado.gov · Fairplay 0825610 fairplayco.us (not the
+       stale townoffairplay.com) · Cripple Creek 0818530
+       cityofcripplecreek.com · Center 0812855 centerco.gov · Glendale
+       0830340 glendale.co.us · Federal Heights 0826270 fedheights.org ·
+       Evans 0825280 evanscolorado.gov · Cañon City 0811810 canoncity.org ·
+       Fort Morgan 0827810 cityoffortmorgan.com · Castle Pines 0812387
+       castlepinesco.gov (Community Development only) · Florence 0827040
+       cityofflorenceco.gov.
+
+     Not added because the official site answers every non-browser request
+     with HTTP 403, so the URL cannot be verified here and the URL-health
+     sweep would report it as broken:
+       place:0848445 Manitou Springs — manitouspringsco.gov (Cloudflare 403;
+         the digest's manitousprings.org is the Chamber/tourism site).
+       place:0823135 Edgewater — edgewaterco.gov (Akamai 403; the digest's
+         edgewater.org is an unrelated chamber of commerce). */
+  'place:0831605': {
+    name: 'Granby',
+    housingLead: { name: 'Town of Granby Housing', url: 'https://townofgranby.com/housing' },
+    notes: 'Town housing page covers Nuche Village, the town\'s income- and asset-restricted workforce for-sale development, and the Community Housing Interest Form. Verified 2026-10-11.'
+  },
+  'place:0819080': {
+    name: 'Dacono',
+    housingLead: { name: 'City of Dacono Community Development', url: 'https://www.daconoco.gov/478/Community-Development' },
+    notes: 'Final drafts of the 2026 HNA and Housing Action Plan were posted for public review in September 2026, ahead of City Council adoption (https://www.daconoco.gov/900/Comprehensive-Plan). They are not listed as plans until adopted, so the policy scorecard does not count a draft. Verified 2026-10-11.'
+  },
+  'place:0827865': {
+    name: 'Fountain',
+    housingLead: { name: 'Fountain Housing Authority', url: 'https://fountainhousingauthority.colorado.gov/' },
+    housingAuthority: [
+      { name: 'Fountain Housing Authority', url: 'https://fountainhousingauthority.colorado.gov/' }
+    ],
+    notes: 'City site is fountain.colorado.gov. Verified 2026-10-11.'
+  },
+  'place:0873935': {
+    name: 'Sterling',
+    housingLead: { name: 'Housing Authority of the City of Sterling', url: 'https://www.sterlingcolo.com/government/boards_and_commissions/housing_authority.php' },
+    housingAuthority: [
+      { name: 'Sterling Housing Authority', url: 'https://www.sterlingcolo.com/government/boards_and_commissions/housing_authority.php' }
+    ],
+    notes: 'The housing authority is a separate public body under C.R.S. 29-4-209 whose five commissioners are appointed by the Mayor; the page is on the official city site. Verified 2026-10-11.'
   }
 };
 
