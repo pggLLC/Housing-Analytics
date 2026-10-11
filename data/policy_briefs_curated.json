@@ -1,7 +1,7 @@
 {
   "meta": {
     "updated": "2026-10-11T00:00:00Z",
-    "brief_count": 6,
+    "brief_count": 7,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
@@ -182,6 +182,46 @@
           "source": "Colorado Housing and Finance Authority",
           "link": "https://www.chfainfo.com/rental-housing/housing-credit",
           "date": ""
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
+        "United States",
+        "Colorado"
+      ],
+      "generated": "2026-10-11T00:00:00Z"
+    },
+    {
+      "id": "obbba-lihtc-bond-25pct-test-2026",
+      "title": "The 25% bond-financing test for 4% LIHTC buildings: what the 2025 federal law changed",
+      "policy_topic": "Federal Tax Credits & LIHTC",
+      "is_curated": true,
+      "source_reviewed": true,
+      "summary": "Public Law 119-21 (H.R. 1), approved on July 4, 2025, changed the tax-exempt bond test that lets a building claim housing credits without an allocation from the state's annual credit ceiling. Buildings that qualify this way receive the credits commonly called 4% credits. Section 70422(b) of the law rewrites section 42(h)(4)(B) of the Internal Revenue Code. Before the change, the test had one route: tax-exempt private activity bonds counted against the state's volume cap had to finance 50% or more of the aggregate basis of the building and the land under it. The amended provision keeps that 50% route and adds a second one. A building also qualifies if such bonds finance 25% or more of that basis, as long as one or more of those bonds come from an issue dated after December 31, 2025 and together finance at least 5% of the basis. The change applies to buildings placed in service in taxable years beginning after December 31, 2025. The amended provision sets no end year.",
+      "implications": "A building can now meet the test with a smaller share of bond financing than before, so the same amount of volume cap can support credits for more buildings. Bonds issued before 2026 still count toward the 25%, but only when bonds from post-2025 issues together provide at least 5% of the basis; that 5% can come from more than one such bond. For a rehabilitation that is treated as a separate new building, section 70422(b)(2)(B) treats both the existing building and the rehabilitation as placed in service on the date the rehabilitation expenditures are. The change does not alter the credit rate, the income and rent tests, or the state's annual credit ceiling. The law's other change to section 42, the 12% ceiling increase in section 70422(a), has its own COHO brief. In Colorado, the Department of Local Affairs receives the state's volume cap; CHFA's December 4, 2025 stakeholder presentation says that by statute 50% goes to statewide authorities, including CHFA, and 50% to local governments. In the same presentation CHFA said new CHFA multifamily lending and 2026 Round Two projects would use not more than 45% bond financing, lower when feasible. COHO has not verified a CHFA policy for later years, so this brief does not state one.",
+      "related_data": "data/policy/tax-credit-legislation.json",
+      "sources": [
+        "U.S. Government Publishing Office (GovInfo)",
+        "Colorado Housing and Finance Authority"
+      ],
+      "articles": [
+        {
+          "title": "Public Law 119-21 (H.R. 1), section 70422",
+          "source": "U.S. Government Publishing Office (GovInfo)",
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+          "date": "2025-07-04"
+        },
+        {
+          "title": "26 U.S.C. 42, U.S. Code 2024 edition (text before the amendment)",
+          "source": "U.S. Government Publishing Office (GovInfo)",
+          "link": "https://www.govinfo.gov/content/pkg/USCODE-2024-title26/html/USCODE-2024-title26-subtitleA-chap1-subchapA-partIV-subpartD-sec42.htm",
+          "date": ""
+        },
+        {
+          "title": "2026 Private Activity Bonds: PAB Stakeholder Meeting",
+          "source": "Colorado Housing and Finance Authority",
+          "link": "https://www.chfainfo.com/getattachment/2794e07d-d166-446c-b37d-56d7ed3cb5e2/CHFA-2026-PAB-StakeholderOutreachSession-12042025.pdf",
+          "date": "2025-12-04"
         }
       ],
       "alert_count": 0,
