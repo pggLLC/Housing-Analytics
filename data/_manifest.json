@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-11T11:32:47.576Z",
+    "generated_at": "2026-10-11T11:39:57.619Z",
     "root": "data/",
     "file_count": 1711,
-    "total_size_bytes": 180088279,
+    "total_size_bytes": 180078759,
     "kinds": {
       "json": 1674,
       "geojson": 33,
@@ -424,7 +424,7 @@
       "path": "amenities/transit_stops_statewide_co.geojson",
       "kind": "geojson",
       "size_bytes": 3961711,
-      "mtime": "2026-10-04T11:16:48.654Z",
+      "mtime": "2026-10-11T11:34:50.129Z",
       "shape": "geojson",
       "feature_count": 14245,
       "property_keys": [
@@ -1582,7 +1582,7 @@
       "path": "fred-data.json",
       "kind": "json",
       "size_bytes": 1256187,
-      "mtime": "2026-10-11T11:32:06.561Z",
+      "mtime": "2026-10-11T11:26:33.183Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -29392,7 +29392,7 @@
       "path": "hna/transit-zone-by-geography.json",
       "kind": "json",
       "size_bytes": 399317,
-      "mtime": "2026-10-04T11:21:48.071Z",
+      "mtime": "2026-10-11T11:39:50.452Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -30590,7 +30590,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 217463,
-      "mtime": "2026-10-11T11:32:06.751Z",
+      "mtime": "2026-10-11T11:26:33.399Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31675,7 +31675,7 @@
       "path": "market/schools_co.geojson",
       "kind": "geojson",
       "size_bytes": 1243277,
-      "mtime": "2026-10-04T11:21:49.424Z",
+      "mtime": "2026-10-11T11:39:52.051Z",
       "shape": "geojson",
       "feature_count": 1941,
       "property_keys": [
@@ -31782,7 +31782,7 @@
       "path": "market/transit_routes_co.geojson",
       "kind": "geojson",
       "size_bytes": 4720382,
-      "mtime": "2026-10-04T11:21:52.289Z",
+      "mtime": "2026-10-11T11:39:54.764Z",
       "shape": "geojson",
       "feature_count": 1675,
       "property_keys": [
@@ -31796,7 +31796,7 @@
       "path": "market/transit_stops_coverage_co.json",
       "kind": "json",
       "size_bytes": 236348,
-      "mtime": "2026-10-04T11:16:48.664Z",
+      "mtime": "2026-10-11T11:34:50.140Z",
       "shape": "object",
       "keys": [
         "meta",
