@@ -291,7 +291,7 @@
     if (s === null || s === undefined) return '';
     var d = document.createElement('div');
     d.textContent = String(s);
-    return d.innerHTML;
+    return d.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
   // ── Event Wiring ───────────────────────────────────────────────────
