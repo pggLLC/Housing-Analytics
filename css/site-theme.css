@@ -288,6 +288,20 @@
   --chart-5: #166534;
   --chart-6: #92400e;
   --chart-7: #991b1b;
+  /* Policy-event markers (js/components/policy-timeline.js): one per event,
+     each >= 4.5:1 on white and >= 20 apart in CIE Lab, so a chart key stays readable */
+  --event-1: #1d4ed8;
+  --event-2: #9a3412;
+  --event-3: #0f766e;
+  --event-4: #e11d48;
+  --event-5: #7c3aed;
+  --event-6: #4d7c0f;
+  --event-7: #075985;
+  --event-8: #a21caf;
+  --event-9: #a16207;
+  --event-10: #166534;
+  --event-11: #db2777;
+  --event-12: #57534e;
 }
 
 /* ================================================================
@@ -372,6 +386,19 @@
   --chart-5: #4ade80;
   --chart-6: #fb923c;
   --chart-7: #f87171;
+  /* Policy-event markers, dark mode: same hues, each >= 4.5:1 on the dark card */
+  --event-1: #60a5fa;
+  --event-2: #fb923c;
+  --event-3: #2dd4bf;
+  --event-4: #fda4af;
+  --event-5: #a78bfa;
+  --event-6: #bef264;
+  --event-7: #7dd3fc;
+  --event-8: #e879f9;
+  --event-9: #facc15;
+  --event-10: #86efac;
+  --event-11: #f472b6;
+  --event-12: #a8a29e;
   }
   /* Selection: dark text on bright-cyan accent keeps contrast ≥ 6.2:1 */
   ::selection      { background: var(--accent); color: #0d1f35; }

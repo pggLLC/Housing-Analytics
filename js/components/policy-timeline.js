@@ -17,17 +17,26 @@
     // A dated milestone is historical even if its law remains in force.
     return event.date < (today || new Date().toISOString().slice(0, 10)) ? 'historical' : event.status;
   }
-  // One color per event, so a chart's event key can be read. Every color
-  // keeps 3:1 contrast on both the light and the dark card, and no two are
-  // closer than about 20 in CIE Lab; neighbours in time sit far apart on
-  // purpose. Order follows the timeline file, so an event keeps its color
-  // on every chart. More events than colors wraps round, which the
-  // legend check in scripts/audit/chart-axes-audit.mjs would flag.
-  var EVENT_COLORS = ['#6366f1', '#d97706', '#0d9488', '#dc2626', '#0284c7', '#db2777',
-    '#65a30d', '#9333ea', '#ea580c', '#16a34a', '#64748b', '#0891b2'];
+  // One color per event, so a chart's event key can be read. The colors are
+  // the --event-1..12 tokens in css/site-theme.css (light and dark sets, each
+  // >= 4.5:1 on its card and >= 20 apart in CIE Lab), resolved here because a
+  // canvas cannot draw var(). The fallback is the light set. Order follows the
+  // timeline file, so an event keeps its color on every chart; more events than
+  // tokens wraps round, which the legend check in
+  // scripts/audit/chart-axes-audit.mjs flags.
+  var EVENT_COLORS = ['#1d4ed8', '#9a3412', '#0f766e', '#e11d48', '#7c3aed', '#4d7c0f',
+    '#075985', '#a21caf', '#a16207', '#166534', '#db2777', '#57534e'];
+  function eventColors() {
+    var css = root.getComputedStyle ? root.getComputedStyle(root.document.documentElement) : null;
+    return EVENT_COLORS.map(function (fallback, i) {
+      var token = css && css.getPropertyValue('--event-' + (i + 1)).trim();
+      return token || fallback;
+    });
+  }
   function chartEvents(data) {
+    var colors = eventColors();
     return data.events.map(function (event, i) {
-      var color = EVENT_COLORS[i % EVENT_COLORS.length];
+      var color = colors[i % colors.length];
       var month = new Date(event.date + 'T00:00:00Z').toLocaleString('en-US', { month: 'short', timeZone: 'UTC' });
       return {
         id: event.id, date: event.date, year: event.date.slice(0, 4), label: event.title, short: event.title,

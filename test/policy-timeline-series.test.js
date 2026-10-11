@@ -336,3 +336,36 @@ test('every policy event has its own color, and each chart key matches the line 
     }
   } finally { r.dom.window.close(); }
 });
+
+test('event color tokens: one per event, AA on their card, and far enough apart to tell apart', () => {
+  // Rule 10 of .github/copilot-instructions.md: chart colors come from the
+  // theme tokens and meet 4.5:1. The distance floor is the legend check's in
+  // scripts/audit/chart-axes-audit.mjs.
+  const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255).map(v => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  const lum = h => { const [r, g, b] = hex(h); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+  const contrast = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+  const lab = h => {
+    const [r, g, b] = hex(h);
+    const f = [(r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047, r * 0.2126 + g * 0.7152 + b * 0.0722, (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883]
+      .map(t => (t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116));
+    return [116 * f[1] - 16, 500 * (f[0] - f[1]), 200 * (f[1] - f[2])];
+  };
+  const deltaE = (a, b) => Math.hypot(...lab(a).map((v, i) => v - lab(b)[i]));
+  const css = read('css/site-theme.css');
+  const darkAt = css.indexOf('@media (prefers-color-scheme: dark)');
+  const tokens = text => [...text.matchAll(/--event-(\d+):\s*(#[0-9a-f]{6})/gi)].map(m => m[2].toLowerCase());
+  const card = text => /--card:\s*(#[0-9a-f]{6})/i.exec(text)[1];
+  const sets = [
+    ['light', tokens(css.slice(0, darkAt)), card(css.slice(0, darkAt))],
+    ['dark', tokens(css.slice(darkAt)), card(css.slice(darkAt))],
+    ['dark (dark-mode.css)', tokens(read('css/dark-mode.css').slice(read('css/dark-mode.css').indexOf('html.dark-mode {'))), card(css.slice(darkAt))]
+  ];
+  for (const [name, colors, bg] of sets) {
+    assert(colors.length >= timeline.events.length, `${name}: ${colors.length} event tokens for ${timeline.events.length} events`);
+    for (const c of colors) assert(contrast(c, bg) >= 4.5, `${name}: ${c} is ${contrast(c, bg).toFixed(2)}:1 on ${bg}`);
+    colors.forEach((a, i) => colors.slice(i + 1).forEach(b => assert(deltaE(a, b) >= 20, `${name}: ${a} and ${b} are too close`)));
+  }
+  assert.deepEqual(sets[2][1], sets[1][1], 'both dark-mode sets agree');
+  const fallback = /var EVENT_COLORS = \[([^\]]+)\]/.exec(read('js/components/policy-timeline.js'))[1].match(/#[0-9a-f]{6}/gi).map(c => c.toLowerCase());
+  assert.deepEqual(fallback, sets[0][1], 'the script fallback is the light token set');
+});
