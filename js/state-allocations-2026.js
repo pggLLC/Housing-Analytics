@@ -99,6 +99,12 @@ const StateAllocations2026 = {
     }
 };
 
+// Each record's postal code is its key. Pages read it as `s.abbr` (chart
+// labels, region and state filters), so copy the key onto the record.
+Object.keys(StateAllocations2026.states).forEach(abbr => {
+    StateAllocations2026.states[abbr].abbr = abbr;
+});
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = StateAllocations2026;
 }
