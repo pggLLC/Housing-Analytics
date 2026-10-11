@@ -200,6 +200,10 @@
       return;
     }
 
+    // The canvas cannot draw var(--chart-1), so resolve the theme tokens.
+    var css = getComputedStyle(document.documentElement);
+    var unitsColor = css.getPropertyValue('--chart-1').trim() || '#1e5799';
+    var propsColor = css.getPropertyValue('--chart-6').trim() || '#92400e';
     _chart = new window.Chart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
@@ -208,8 +212,8 @@
           {
             label: 'Snapshot Assisted Units Expiring',
             data: cd.unitCounts,
-            backgroundColor: 'var(--chart-1)',
-            borderColor: 'var(--chart-1)',
+            backgroundColor: unitsColor,
+            borderColor: unitsColor,
             borderWidth: 1,
             yAxisID: 'yUnits',
           },
@@ -218,7 +222,7 @@
             data: cd.propertyCounts,
             type: 'line',
             backgroundColor: 'transparent',
-            borderColor: 'var(--chart-2)',
+            borderColor: propsColor,
             borderWidth: 2,
             pointRadius: 4,
             yAxisID: 'yProps',
