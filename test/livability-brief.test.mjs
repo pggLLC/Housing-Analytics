@@ -2,8 +2,9 @@
  * The livability brief states what CHFA's QAP requires and scores. Those
  * claims are pinned to the QAP text COHO already fetches
  * (data/audit/chfa-qap-watch.json), not to the brief's wording: every quoted
- * requirement must still be in the named CHFA document, every QAP section the
- * brief's table cites must be backed by a quote and the reverse, and the point
+ * requirement must still be in the named CHFA document, every row of the
+ * brief's QAP table must be backed by a quote from each section it cites (and
+ * keep any "to the extent possible" the quote carries), and the point
  * value the brief states for universal design must equal the one in the QAP.
  * The Deal Calculator's link must open this brief, and the reader must render
  * every section the feed carries.
@@ -14,6 +15,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
+import { briefRenderedText, wordBag } from '../scripts/lib/search-index.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (file) => fs.readFileSync(path.join(ROOT, file), 'utf8');
@@ -47,14 +49,28 @@ test('every quoted QAP requirement is in the named CHFA document', () => {
   assert.ok(pdf, 'the brief does not cite the PDF its QAP claims are checked against');
 });
 
-test('the QAP table and the quotes cite the same sections', () => {
+test('every row of the QAP table is backed by a quote from the section it cites', () => {
   const table = brief.sections.find((s) => s.id === 'qap').table;
   const col = table.columns.indexOf('QAP section');
   assert.ok(col > 0 && table.rows.length > 0, 'no QAP table to check');
-  const cited = new Set(table.rows.flatMap((row) => row[col].split(',').map((s) => s.trim())));
-  const quoted = new Set(brief.qap_quotes.map((q) => q.section));
-  for (const s of cited) assert.ok(quoted.has(s), `table cites QAP ${s} with no supporting quote`);
-  for (const s of quoted) assert.ok(cited.has(s), `quote for QAP ${s} backs no row of the table`);
+  table.rows.forEach((row, i) => {
+    const cited = row[col].split(',').map((s) => s.trim());
+    const backing = brief.qap_quotes.filter((q) => q.row === i);
+    assert.ok(backing.length > 0, `QAP table row "${row[0]}" has no supporting quote`);
+    for (const s of cited) {
+      assert.ok(backing.some((q) => q.section === s), `row "${row[0]}" cites QAP ${s} with no quote from it`);
+    }
+    for (const q of backing) {
+      assert.ok(cited.includes(q.section), `quote from QAP ${q.section} backs row "${row[0]}", which does not cite it`);
+      // A requirement the QAP qualifies must not be stated as absolute.
+      if (/to the extent possible/i.test(q.quote)) {
+        assert.match(row[0], /to the extent possible/i, `row "${row[0]}" drops the QAP's "to the extent possible"`);
+      }
+    }
+  });
+  for (const q of brief.qap_quotes) {
+    assert.ok(Number.isInteger(q.row) && table.rows[q.row], `quote from QAP ${q.section} backs no row of the table`);
+  }
 });
 
 test('the universal design points the brief states equal the QAP', () => {
@@ -105,6 +121,12 @@ test('the reader renders every section, list and table the feed carries', async 
       rows.forEach((tr, i) => assert.equal(tr.firstElementChild.textContent, item.table.rows[i][0]));
     }
   }
+  // The search index reads the brief through briefRenderedText; every word the reader shows in
+  // the long-form sections must be in it, or the sections are rendered but not searchable.
+  const indexed = new Set(wordBag(briefRenderedText(brief).join(' ')).split(' '));
+  const shown = [...doc.querySelectorAll('[data-section] :is(h2, h3, p, li, caption, th, td)')].map((n) => n.textContent).join(' ');
+  const unindexed = wordBag(shown).split(' ').filter((w) => w.length >= 4 && !indexed.has(w));
+  assert.deepEqual(unindexed, [], 'rendered section words missing from the search text');
   const verified = doc.querySelector('.brief-meta time:last-of-type');
   assert.equal(verified.dateTime, brief.verified, 'meta does not show the brief\'s own verification date');
 });

@@ -116,6 +116,20 @@ export function countyRecords(rankingIndex) {
     }));
 }
 
+// Every string research-brief.html renders as text for a brief: takeaway, summary, practical
+// implications, long-form sections (headings, paragraphs, list, table, note) and source titles.
+// The search record and test/public-build-metadata.test.mjs both read it, so a field the reader
+// starts rendering is searchable once it is added here.
+export function briefRenderedText(brief) {
+  const sections = (Array.isArray(brief.sections) ? brief.sections : []).flatMap((s) => [
+    s && s.heading, ...((s && s.paragraphs) || []), s && s.items_heading, ...((s && s.items) || []),
+    s && s.table && s.table.caption, ...((s && s.table && s.table.columns) || []),
+    ...((s && s.table && s.table.rows) || []).flat(), s && s.note
+  ]);
+  return [brief.takeaway, brief.summary, brief.implications, ...sections, ...(brief.articles || []).map((a) => a && a.title)]
+    .flat().filter((v) => typeof v === 'string');
+}
+
 // Curated research briefs are only reachable by id; the bare reader is an empty shell.
 export function briefRecords(curated) {
   return (curated.briefs || [])
@@ -127,9 +141,7 @@ export function briefRecords(curated) {
         d: clean(brief.summary || '').slice(0, 300),
         k: clean(brief.policy_topic || 'Research brief')
       };
-      // Every field the reader renders as text: summary, practical implications, source titles.
-      const text = [brief.summary, brief.implications, ...(brief.articles || []).map((a) => a && a.title)]
-        .flat().filter((v) => typeof v === 'string').map(clean).join(' ');
+      const text = briefRenderedText(brief).map(clean).join(' ');
       const b = wordBag(text, `${rec.t} ${rec.k}`);
       if (b) rec.b = b;
       return rec;
