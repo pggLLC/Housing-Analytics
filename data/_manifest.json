@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-11T11:05:35.319Z",
+    "generated_at": "2026-10-11T11:32:47.576Z",
     "root": "data/",
     "file_count": 1711,
-    "total_size_bytes": 180078633,
+    "total_size_bytes": 180088279,
     "kinds": {
       "json": 1674,
       "geojson": 33,
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-11T11:05:32.611Z",
+      "mtime": "2026-10-11T11:32:44.473Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1582,7 +1582,7 @@
       "path": "fred-data.json",
       "kind": "json",
       "size_bytes": 1256187,
-      "mtime": "2026-10-11T07:50:12.200Z",
+      "mtime": "2026-10-11T11:32:06.561Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30589,8 +30589,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 217337,
-      "mtime": "2026-10-11T10:17:20.529Z",
+      "size_bytes": 217463,
+      "mtime": "2026-10-11T11:32:06.751Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32054,7 +32054,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15108,
-      "mtime": "2026-10-11T11:05:33.807Z",
+      "mtime": "2026-10-11T11:32:46.072Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32078,7 +32078,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-11T11:05:33.511Z",
+      "mtime": "2026-10-11T11:32:45.658Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34623,8 +34623,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 32078,
-      "mtime": "2026-10-11T11:01:59.544Z",
+      "size_bytes": 37056,
+      "mtime": "2026-10-11T11:32:06.947Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -34761,8 +34761,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 25669,
-      "mtime": "2026-10-11T11:01:59.545Z",
+      "size_bytes": 30211,
+      "mtime": "2026-10-11T11:32:06.949Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34770,7 +34770,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 6,
+      "primary_array_length": 7,
       "primary_array_first_keys": [
         "id",
         "title",
