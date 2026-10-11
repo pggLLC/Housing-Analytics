@@ -4006,14 +4006,14 @@
             escHtml(LOCAL_SUPPORT_STATE_TEXT[part.state] || part.state) +
             (part.state === 'records' ? ', none inside the scoring window' : '') + '</div>';
       return '<div class="lof-ls-row" data-ls-part="' + k + '" style="margin-top:.4rem">' +
-        '<strong>' + escHtml(part.label) + ' +' + part.points + '</strong>' + list + '</div>';
+        '<div style="font-size:.85rem;font-weight:700">' + escHtml(part.label) + ' +' + part.points + '</div>' + list + '</div>';
     }).join('');
     var denials = (ls.denials || []).length
       ? '<div style="margin-top:.4rem;font-size:.78rem"><strong>Recorded denials (shown, not scored)</strong>' +
           '<ul style="margin:.2rem 0 0 1rem;padding:0">' + ls.denials.map(itemLine).join('') + '</ul></div>'
       : '';
     host.innerHTML =
-      '<h4 style="margin:.75rem 0 .25rem">Local support bonus: <span data-ls-bonus>+' + ls.bonus + '</span> of +' + LSD.MAX_BONUS + '</h4>' +
+      '<h4 style="margin:.75rem 0 .25rem;font-size:1rem">Local support bonus: <span data-ls-bonus>+' + ls.bonus + '</span> of +' + LSD.MAX_BONUS + '</h4>' +
       '<div style="font-size:.78rem;color:var(--muted);line-height:1.45">' +
         'Added to every deal-type score. Each part is worth +' + LSD.POINTS_PER_PART +
         ' when there is dated, sourced evidence: an adopted housing plan within ' + LSD.PLAN_WINDOW_YEARS +
