@@ -796,6 +796,203 @@ const ceilingClaims = ceilingText.toLowerCase();
   console.log('HB24-1175 brief: ' + checked + ' figures checked against the record');
 }
 
+// ── AHCIA (H.R. 2725 / S. 1515) brief: every figure comes from the records ──
+// One brief covers both bill records. Its status claims must agree with each
+// record's bill fields and latest action; each $, %, multiplier, count, date
+// and section it states is bound to the record field it describes; and every
+// provision it names must be one the record lists, with the enacted
+// counterparts checked against their own records. Reword freely; change or
+// swap a figure on either side and this fails.
+{
+  const house = legislation.entries.find((entry) => entry.id === 'ahcia-2025-hr2725');
+  const senate = legislation.entries.find((entry) => entry.id === 'ahcia-2025-s1515');
+  const brief = payload.briefs.find((item) => item.id === 'ahcia-2025-pending-provisions');
+  assert.ok(house && senate && brief, 'both AHCIA records and the public brief must exist');
+  assert.strictEqual(brief.is_curated, true);
+  assert.strictEqual(brief.source_reviewed, true);
+  assert.strictEqual(brief.related_data, 'data/policy/tax-credit-legislation.json');
+  [house, senate].forEach((rec) => assert.strictEqual(rec.analysis_url, 'research-brief.html?id=' + brief.id, rec.id + ' must link the AHCIA brief'));
+  assert.strictEqual(senate.provisions_same_as, house.id, 'the brief covers both bills only while the Senate record says its text matches the House bill');
+  const provisions = house.provisions || [];
+  assert.ok(provisions.length > 0 && house.latest_action && senate.latest_action, 'the AHCIA records must carry the provisions and latest actions the brief is checked against');
+  const text = brief.title + ' ' + brief.summary + ' ' + brief.implications;
+  let checked = 0;
+  const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const DATE_RE = new RegExp('(' + MONTH_NAMES.join('|') + ') (\\d{1,2}), (\\d{4})', 'g');
+  const datesIn = (t) => [...t.matchAll(DATE_RE)]
+    .map((m) => m[3] + '-' + String(MONTH_NAMES.indexOf(m[1]) + 1).padStart(2, '0') + '-' + m[2].padStart(2, '0'));
+  const prov = (section) => provisions.find((p) => p.section === section);
+  const allocation = prov('101');
+  const bondTest = prov('313');
+  const ceilingLaw = legislation.entries.find((entry) => entry.id === allocation.enacted_counterpart);
+  const bondLaw = legislation.entries.find((entry) => entry.id === bondTest.enacted_counterpart);
+  assert.ok(ceilingLaw && bondLaw && ceilingLaw.status === 'enacted' && bondLaw.status === 'enacted', 'the enacted counterparts the brief names must be enacted records');
+  const ceilingPct = ceilingLaw.ceiling_increase ? Math.round((ceilingLaw.ceiling_increase.multiplier - 1) * 1000) / 10 : pcts(ceilingLaw.title)[0];
+  const bondMinPct = bondLaw.bond_test ? bondLaw.bond_test.post_2025_issue_min_pct
+    : Number((bondLaw.pricing_impact.match(/at least (\d+)% of basis/) || [])[1]);
+  assert.ok(Number.isFinite(ceilingPct) && Number.isFinite(bondMinPct), 'the enacted counterparts must carry the figures the brief states');
+  // Bind each figure to the provision it describes. For every "<number>
+  // <unit>" in the brief, the binding whose context words sit nearest to it in
+  // the same clause names the record value it must equal; every binding must
+  // be used, and no figure may go unbound. Swapping two figures (or moving a
+  // figure to another provision) therefore fails even though both values
+  // exist in the record. A binding with side 'before' only counts context
+  // words that come before the figure ('from 50% to 25%').
+  const bindFigures = (t, bindings, what) => {
+    const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+    const toNumber = (s) => (/^\$/.test(s) ? Number(s.replace(/[$,\s]/g, '')) : /^\d/.test(s) ? Number(s.replace(/,/g, '')) : WORDS.indexOf(s.toLowerCase()));
+    const clauseOf = (at) => {
+      const before = t.slice(0, at);
+      const starts = [...before.matchAll(/[.;]\s+(?=[A-Z(])/g)].map((m) => m.index + m[0].length);
+      const start = starts.length ? starts[starts.length - 1] : 0;
+      const end = t.slice(at).search(/[.;]\s+(?=[A-Z(])|[.;]?$/);
+      return [start, at + end];
+    };
+    const spans = [];
+    let count = 0;
+    const used = new Set();
+    for (const unit of new Set(bindings.map((b) => b.unit))) {
+      const re = unit === '$'
+        ? /(\$\s?\d[\d,]*(?:\.\d+)?)/g
+        : new RegExp('(?<![\\d.-])\\b(\\d[\\d,]*(?:\\.\\d+)?|' + WORDS.join('|') + ')\\s*(?:calendar\\s+)?(?:' + unit + ')(?![a-z])', 'gi');
+      for (const m of t.matchAll(re)) {
+        const at = m.index;
+        const [cs, ce] = clauseOf(at);
+        const clause = t.slice(cs, ce);
+        let best = null;
+        let bestDist = Infinity;
+        bindings.filter((b) => b.unit === unit).forEach((b) => {
+          for (const c of clause.matchAll(new RegExp(b.context.source, 'gi'))) {
+            const cStart = cs + c.index;
+            const cEnd = cStart + c[0].length;
+            if (b.side === 'before' && cEnd > at) continue;
+            const dist = cEnd <= at ? at - cEnd : cStart >= at + m[0].length ? cStart - (at + m[0].length) : 0;
+            if (dist < bestDist) { bestDist = dist; best = b; }
+          }
+        });
+        assert.ok(best, `${what}: "${m[0]}" is not tied to any provision the record carries (clause: ${clause})`);
+        assert.strictEqual(toNumber(m[1]), best.value, `${what}: "${m[0]}" describes ${best.name}, which the record gives as ${best.value}`);
+        used.add(best.name);
+        spans.push([at, at + m[0].length]);
+        count++;
+      }
+    }
+    bindings.forEach((b) => assert.ok(b.optional || used.has(b.name), `${what}: brief must state ${b.name} (${b.value})`));
+    return { count, spans };
+  };
+  const bound = bindFigures(text, [
+    { name: 'section 101\'s 2025 per-resident amount', unit: '$', value: allocation.per_capita_2025, context: /per-resident|per resident/, side: 'before' },
+    { name: 'section 101\'s 2025 small-state minimum', unit: '$', value: allocation.minimum_2025, context: /minimum/, side: 'before' },
+    { name: 'the enacted ceiling increase', unit: '%|percent', value: ceilingPct, context: /raises|70422\(a\)/ },
+    { name: 'section 313\'s current bond test', unit: '%|percent', value: bondTest.from_pct, context: /\bfrom\b|keeps/, side: 'before' },
+    { name: 'section 313\'s proposed bond test', unit: '%|percent', value: bondTest.to_pct, context: /\bto\b|adds a/, side: 'before' },
+    { name: 'the enacted post-2025 bond minimum', unit: '%|percent', value: bondMinPct, context: /together|at least/, side: 'before' },
+    { name: 'the House cosponsor count', unit: 'cosponsors', value: house.bill.cosponsors.total, context: /H\.R\. 2725/, side: 'before' },
+    { name: 'the Senate cosponsor count', unit: 'cosponsors', value: senate.bill.cosponsors.total, context: /S\. 1515/, side: 'before' },
+  ], 'AHCIA brief');
+  checked += bound.count;
+  assert.ok(String(house.bill.number).includes('2725') && String(senate.bill.number).includes('1515'), 'the bound bill numbers must be the records\' bill numbers');
+  // The multiplier: the only bare decimal, equal to section 101's.
+  const bareDecimals = [...text.matchAll(/(?<![\d$.,])\d+\.\d+(?![\d.]|\s*(?:%|percent\b))/g)].map((m) => Number(m[0]));
+  checked += bareDecimals.length;
+  assert.deepStrictEqual(bareDecimals, [allocation.multiplier_2026], 'the brief\'s multiplier must be section 101\'s');
+
+  // Dates: each is a record date; every record date is stated, each in the
+  // context it belongs to.
+  const recordDates = {
+    [house.bill.introduced]: /H\.R\. 2725/, [senate.bill.introduced]: /S\. 1515/, [ceilingLaw.enacted_date]: /Public Law/,
+    [bondTest.bond_issue_after]: /issued after|issue/, [house.last_verified]: /As of/,
+  };
+  assert.strictEqual(house.bill.introduced, house.latest_action.date, 'H.R. 2725 has no action after its introduction day');
+  assert.strictEqual(senate.bill.introduced, senate.latest_action.date, 'S. 1515 has no action after its introduction day');
+  assert.strictEqual(senate.last_verified, house.last_verified, 'both AHCIA records must be checked on the same day');
+  const statedDates = [...text.matchAll(DATE_RE)];
+  checked += statedDates.length;
+  statedDates.forEach((m) => {
+    const iso = datesIn(m[0])[0];
+    assert.ok(iso in recordDates, `brief states ${iso}, which is not a date in the records`);
+    const before = text.slice(Math.max(0, m.index - 120), m.index);
+    assert.ok(recordDates[iso].test(before), `brief states ${iso} without the context the record gives it`);
+  });
+  Object.keys(recordDates).forEach((iso) => assert.ok(datesIn(text).includes(iso), `brief must state the record date ${iso}`));
+  const recordYears = new Set([...Object.keys(recordDates).map((d) => Number(d.slice(0, 4))), 2026]);
+  assert.ok(Object.keys(recordDates).some((d) => d.startsWith('2026')), 'the 2026 multiplier year must be one the records date');
+
+  // Sections: each one cited is a provision the record lists or an enacted
+  // counterpart's amending section; every pending provision is named, and
+  // each enacted counterpart is cited next to its own provision.
+  const cites = [...text.matchAll(/\bsections? (\d+(?:\([a-z]\))?)/gi)].map((m) => m[1]);
+  checked += cites.length;
+  const counterpartCites = [ceilingLaw, bondLaw].map((rec) => (rec.source_note.match(/section (70422\([a-z]\))/) || [])[1]);
+  cites.forEach((c) => assert.ok(prov(c) || counterpartCites.includes(c), `brief cites section ${c}, which the records do not`));
+  provisions.forEach((p) => assert.ok(cites.includes(p.section), `brief must name section ${p.section} (${p.title})`));
+  const sentences = text.split(/(?<=\.)\s+/);
+  [[allocation, counterpartCites[0]], [bondTest, counterpartCites[1]]].forEach(([p, cite]) => {
+    const s = sentences.find((t) => new RegExp('Section ' + p.section + '\\b').test(t));
+    assert.ok(s && s.includes(cite), `section ${p.section}'s sentence must cite its enacted counterpart ${cite}`);
+  });
+  // Pending provisions are named as not law.
+  const pendingSentence = sentences.find((t) => provisions.filter((p) => p.status === 'pending').every((p) => t.includes('section ' + p.section)));
+  assert.ok(pendingSentence && /\bnot law\b|\bnot enacted\b|\bpending\b/i.test(pendingSentence), 'the pending provisions must be named, together, as not law');
+
+  // Per-bill facts, each compared on its own: every mention of a bill's
+  // sponsor, committee and introduction date must belong to that bill (the
+  // nearest bill number before it is its own), and each chamber named must be
+  // followed by its own bill. Swapping any one of them between the bills fails.
+  const billMentions = [house, senate].flatMap((rec) =>
+    [...text.matchAll(new RegExp(rec.bill.number.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s'), 'g'))].map((m) => ({ at: m.index, rec })));
+  const billBefore = (at) => billMentions.filter((m) => m.at < at).sort((x, y) => y.at - x.at)[0];
+  const billAfter = (at) => billMentions.filter((m) => m.at > at).sort((x, y) => x.at - y.at)[0];
+  const introPhrase = (iso) => MONTH_NAMES[Number(iso.slice(5, 7)) - 1] + ' ' + Number(iso.slice(8, 10)) + ', ' + iso.slice(0, 4);
+  [house, senate].forEach((rec) => {
+    assert.strictEqual(rec.status, 'proposed');
+    const facts = {
+      sponsor: rec.bill.sponsor.match(/\b([A-Z][a-zA-Z]+) \(/)[1],
+      committee: rec.bill.committee.replace(/^(House|Senate) /, ''),
+      introduced: introPhrase(rec.bill.introduced),
+    };
+    Object.entries(facts).forEach(([what, value]) => {
+      const hits = [...text.matchAll(new RegExp('\\b' + value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'g'))];
+      assert.ok(hits.length > 0, `brief must state ${rec.bill.number}'s ${what} (${value})`);
+      hits.forEach((h) => {
+        checked++;
+        const owner = billBefore(h.index);
+        assert.ok(owner && owner.rec === rec, `"${value}" is ${rec.bill.number}'s ${what}, but the brief attaches it to ${owner ? owner.rec.bill.number : 'no bill'}`);
+      });
+    });
+    [...text.matchAll(new RegExp('\\bin the ' + rec.bill.chamber + '\\b', 'g'))].forEach((h) => {
+      checked++;
+      const next = billAfter(h.index);
+      assert.ok(next && next.rec === rec, `the ${rec.bill.chamber} must be followed by its own bill, ${rec.bill.number}`);
+    });
+    assert.ok(/referred/i.test(rec.latest_action.text), `${rec.id}'s latest action must be a referral for the brief to say so`);
+  });
+  assert.strictEqual(/neither is law|neither bill is law/i.test(text), house.status === 'proposed' && senate.status === 'proposed',
+    'brief may say neither bill is law only while both records are proposed');
+  assert.ok(/no action[^.]*after (?:its )?referral/i.test(text), 'brief must say no action followed the referrals, as both latest actions show');
+  assert.ok(/same sections/i.test(text) === (senate.provisions_same_as === house.id), 'brief may say the bills have the same sections only when the Senate record says so');
+  // Every source the records cite is linked.
+  [house.source_url, senate.source_url, house.text_url, senate.text_url].forEach((url) =>
+    assert.ok(brief.articles.some((article) => article.link === url), 'brief must link ' + url));
+  // No figure left unbound.
+  let rest = text;
+  bound.spans.slice().sort((x, y) => y[0] - x[0]).forEach(([from, to]) => { rest = rest.slice(0, from) + ' '.repeat(to - from) + rest.slice(to); });
+  rest = rest
+    .replace(DATE_RE, ' ')
+    .replace(/H\.R\. \d+|S\. \d+|Public Law \d+-\d+/g, ' ')
+    .replace(/\bsections? \d+(?:\([a-z]\))?/gi, ' ')
+    .replace(/(?<![\d$.,])\d+\.\d+/g, ' ')
+    .replace(/(?<!\d)(?<!\d-)(?:19|20)\d{2}(?![\d)])/g, (y) => { checked++; assert.ok(recordYears.has(Number(y)), `brief names ${y}, which the records do not support`); return ' '; });
+  const unbound = rest.match(/\$|%|\b(?:\d+|zero|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\b/gi) || [];
+  assert.deepStrictEqual(unbound, [], 'AHCIA brief states figures that are not bound to a record field');
+  assert.ok(checked >= 25, `only ${checked} AHCIA brief figures checked; the scan has drifted`);
+  const claims = text.toLowerCase();
+  ['will lower', 'will raise', 'will increase', 'will reduce', 'expected to', 'likely', 'guarantee', 'will pass'].forEach((phrase) => {
+    assert.ok(!claims.includes(phrase), 'the AHCIA brief must not predict outcomes: ' + phrase);
+  });
+  console.log('AHCIA brief: ' + checked + ' figures checked against the records');
+}
+
 const page = fs.readFileSync(pagePath, 'utf8');
 assert.match(page, /CURATED_BRIEFS_URL/);
 assert.match(page, /data\/policy_briefs_curated\.json/);
