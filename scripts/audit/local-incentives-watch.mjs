@@ -9,10 +9,10 @@
 //      next batch of jurisdictions with a scope nobody has checked, in priority
 //      order: Prop 123 fast-track filers, then other Prop 123 filers, then
 //      everyone else, largest population first within each group.
-//   2. The Prop 123 filing list. DOLA's commitment-filings page refuses
-//      automated reads (CloudFront 403), so data/policy/prop123_jurisdictions.json
-//      is refreshed by hand. The issue says how old it is and, past
-//      PROP123_MAX_DAYS, asks for the refresh.
+//   2. The Prop 123 filing list. data/policy/prop123_jurisdictions.json is
+//      rebuilt from DOLA's lists by scripts/policy/build_prop123_jurisdictions.py,
+//      run by hand. The issue says how old it is and, past PROP123_MAX_DAYS,
+//      asks for the refresh.
 //
 // Re-checking records that come due is a separate, daily job
 // (policy-review-reminders.mjs). This one opens at most one issue per month.
@@ -28,6 +28,7 @@ const D = require('../../js/local-incentives-data.js');
 export const LABEL = 'local-incentives';
 export const BATCH_SIZE = 15;
 export const PROP123_MAX_DAYS = 120;
+export const PROP123_BUILDER = 'scripts/policy/build_prop123_jurisdictions.py';
 export const FILES = {
   geoConfig: 'data/hna/geo-config.json',
   fees: 'data/policy/fee-reductions.json',
@@ -87,7 +88,7 @@ export function monthlyIssue(docs, todayDenver, existingBodies = []) {
       ? `\`${FILES.prop123}\` was last updated ${updated} (${age} days ago).`
       : `\`${FILES.prop123}\` carries no \`updated\` date.`,
     stale
-      ? `**Refresh it by hand.** DOLA's https://cdola.colorado.gov/commitment-filings refuses automated reads. Open it in a browser, update each jurisdiction's status, filing date and fast-track flag, set \`updated\`, and re-check that every name is a real county or municipality (${model.prop123.unmatched.length} name${model.prop123.unmatched.length === 1 ? ' does' : 's do'} not match one: ${model.prop123.unmatched.join(', ') || 'none'}).`
+      ? `**Refresh it.** Run \`python3 ${PROP123_BUILDER}\`. It reads DOLA's commitment filings, fast-track and fully compliant lists, and writes nothing if one has changed shape. If DOLA refuses the read, save DOLA's commitment filings page (https://cdola.colorado.gov/commitment-filings) and fully compliant page and the two linked sheets (as CSV), then pass \`--from-dir\`. ${model.prop123.unmatched.length} name${model.prop123.unmatched.length === 1 ? ' does' : 's do'} not match a county or municipality on this site (${model.prop123.unmatched.join(', ') || 'none'}); a tribe or a town incorporated after 2020 is expected here, anything else is a spelling to alias in \`js/local-incentives-data.js\`.`
       : `Within ${PROP123_MAX_DAYS} days; no refresh needed this month.`,
     '',
     `### Next ${rows.length} jurisdictions to research`,
