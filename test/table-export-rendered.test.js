@@ -84,7 +84,8 @@ async function reveal(tab, id) {
     await tab.waitForTimeout(250);
   }
   for (const s of Object.values(registry[id].selection || {})) {
-    await tab.evaluate((q) => { const el = document.querySelector(q); if (el) el.scrollIntoView(); }, s);
+    const isSelect = await tab.evaluate((q) => { const el = document.querySelector(q); if (el) el.scrollIntoView(); return !!el && el.tagName === 'SELECT'; }, s);
+    if (!isSelect) continue;
     await tab.waitForFunction((q) => { const el = document.querySelector(q); return el && el.options && el.options.length > 1; }, s, { timeout: 30000 })
       .catch(() => { throw new Error(`${id}: picker ${s} never filled`); });
     await tab.evaluate((q) => { const el = document.querySelector(q); el.selectedIndex = 1; el.dispatchEvent(new Event('change', { bubbles: true })); }, s);
@@ -102,6 +103,7 @@ async function run() {
   const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (fs.existsSync(bundled) ? bundled : await require('puppeteer').executablePath());
   const browser = await chromium.launch({ headless: true, executablePath, args: ['--no-sandbox'] });
   const problems = [];
+  const buttonSize = {};
   let checked = 0;
   try {
     for (const [page, ids] of Object.entries(PAGES)) {
@@ -109,6 +111,11 @@ async function run() {
       for (const id of ids) {
         const t0 = Date.now();
         await reveal(tab, id);
+        buttonSize[id] = await tab.evaluate((x) => {
+          const t = document.querySelector(`table[data-export="${x}"]`);
+          const btns = t && t.__txBar ? [...t.__txBar.querySelectorAll('button')] : [];
+          return btns.length ? Math.min(...btns.map((b) => { const r = b.getBoundingClientRect(); return Math.min(r.width, r.height); })) : 0;
+        }, id);
         if (process.env.TX_TIMING) console.log(`  ${id}: ${Date.now() - t0} ms`);
       }
       const results = await tab.evaluate(async (list) => {
@@ -128,6 +135,9 @@ async function run() {
               undefinedColumns: x.model.columns.filter((c) => !c.definition).map((c) => c.label),
               blankLabels: x.model.columns.filter((c) => !c.label || /^Column \d+$/.test(c.label)).length,
               missingSources: x.model.sources.filter((s) => s.missing).map((s) => s.id),
+              sourceIds: x.model.sources.map((s) => s.id),
+              control: (() => { const by = x.model.entry && x.model.entry.sourcesBySelection; const el = by && document.querySelector(by.control); return el ? el.value : null; })(),
+              selection: x.model.selection.map((p) => p[0]),
               zipBytes: Array.from(bytes.slice(0, 4)),
               name: x.name
             });
@@ -139,10 +149,20 @@ async function run() {
         if (r.error) { problems.push(`${page} ${r.id}: ${r.error}`); continue; }
         checked++;
         if (!r.bar) problems.push(`${page} ${r.id}: no download buttons`);
+        if (!(buttonSize[r.id] >= 44)) problems.push(`${page} ${r.id}: download button touch target ${buttonSize[r.id]}px, under 44px (Rule 14)`);
         if (r.rows < 1) problems.push(`${page} ${r.id}: no rows`);
         if (r.undefinedColumns.length) problems.push(`${page} ${r.id}: columns with no on-page definition: ${r.undefinedColumns.join(', ')}`);
         if (r.blankLabels) problems.push(`${page} ${r.id}: ${r.blankLabels} column(s) with no header label`);
         if (r.missingSources.length) problems.push(`${page} ${r.id}: sources not in the inventory: ${r.missingSources.join(', ')}`);
+        const by = registry[r.id].sourcesBySelection;
+        if (by) {
+          const want = (by.values && by.values[r.control]) || by.otherwise;
+          if (r.sourceIds.join() !== want.join()) problems.push(`${page} ${r.id}: with ${by.control} at ${r.control}, cites ${r.sourceIds.join()} instead of ${want.join()}`);
+        }
+        for (const label of Object.keys(registry[r.id].selection || {})) {
+          // A select always has a value; a text box is recorded only when filled.
+          if (!/search/i.test(label) && !r.selection.includes(label)) problems.push(`${page} ${r.id}: About does not record ${label}`);
+        }
         if (!(r.format === 'csv' && r.fellBack)) problems.push(`${page} ${r.id}: with Excel blocked, expected the CSV zip fallback, got ${r.format}`);
         if (r.zipBytes.join(',') !== '80,75,3,4') problems.push(`${page} ${r.id}: download is not a zip`);
         if (!/^coho-[a-z0-9-]+-\d{4}-\d{2}-\d{2}\.zip$/.test(r.name)) problems.push(`${page} ${r.id}: unexpected file name ${r.name}`);

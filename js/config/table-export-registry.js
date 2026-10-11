@@ -13,6 +13,10 @@
  *                last-changed date are never copied here.
  *   selection    { label: CSS selector } for controls whose current value
  *                changes the rows (a county picker); recorded on About.
+ *   sourcesBySelection
+ *                for a table whose rows come from a different dataset
+ *                depending on a control: { control, values: { value: [ids] },
+ *                otherwise: [ids] }. `sources` is then the page's default.
  *   notes        caveats a reader of the file needs that the table can't say
  *
  * Column definitions are deliberately absent: each comes from the header's
@@ -122,12 +126,24 @@
     'la-regions': {
       title: 'LIHTC allocation by U.S. region',
       description: 'One row per U.S. Census region for the year and filters selected on the page.',
-      sources: ['lihtc-state-allocations']
+      sources: ['lihtc-state-allocations'],
+      selection: { Year: '#year-select', Region: '#region-select', State: '#state-select', 'Quick search': '#state-search' },
+      sourcesBySelection: {
+        control: '#year-select',
+        values: { '2026': ['lihtc-state-allocations'] },
+        otherwise: ['lihtc-state-allocations-historical']
+      }
     },
     'la-states': {
       title: 'LIHTC allocation by state',
       description: 'One row per state for the year, region, state and search filters selected on the page.',
       sources: ['lihtc-state-allocations'],
+      selection: { Year: '#year-select', Region: '#region-select', State: '#state-select', 'Quick search': '#state-search' },
+      sourcesBySelection: {
+        control: '#year-select',
+        values: { '2026': ['lihtc-state-allocations'] },
+        otherwise: ['lihtc-state-allocations-historical']
+      },
       notes: 'The page lists up to 50 rows, so with no filter one of the 51 jurisdictions (50 states and DC) is not shown and not downloaded.'
     },
 
