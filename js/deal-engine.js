@@ -355,6 +355,13 @@
   function fieldNumber(fields, id, initial) {
     return fields[id] === undefined ? initial : parseFloat(fields[id]);
   }
+  // Projection growth inputs advertise these ranges; a typed value outside
+  // them is unknown, not clamped, so no projection is built from it.
+  var GROWTH_LIMITS = { 'pf-rent-growth': 5, 'pf-exp-growth': 6 };
+  function growthRate(fields, id, initial) {
+    var pct = fieldNumber(fields, id, initial);
+    return known(pct) && pct >= 0 && pct <= GROWTH_LIMITS[id] ? pct / 100 : NaN;
+  }
   function operatingProjection(result, fields) {
     if (!result.dscrAutoMode || ![result.annualRents, result.noi, result.annualOpex,
         result.annualRepReserve, result.netPropTax, result.annualDebtService,
@@ -838,8 +845,8 @@
       var exitCap   = (parseFloat(fields['dc-exit-cap']) || 6.5) / 100;
 
       // Read growth rates from the pro forma inputs if present (defaults: 2% / 3%).
-      var rentGrowth = fieldNumber(fields, 'pf-rent-growth', 2) / 100;
-      var expGrowth  = fieldNumber(fields, 'pf-exp-growth', 3) / 100;
+      var rentGrowth = growthRate(fields, 'pf-rent-growth', 2);
+      var expGrowth  = growthRate(fields, 'pf-exp-growth', 3);
 
       // Year-N NOI projection. annualRents and annualOpex/repReserve/netPropTax
       // are local closures from earlier in recalculate(). Defensive guards.
@@ -1084,8 +1091,8 @@
       sensitivityKnown: sensitivityKnown,
       vacancyRate: vacFrac(), scheduleMode: scheduleMode
     };
-    var projectionInputsReason = !known(exit.rentGrowth) ? 'Enter annual rent growth.'
-      : !known(exit.expGrowth) ? 'Enter annual expense growth.'
+    var projectionInputsReason = !known(exit.rentGrowth) ? 'Enter annual rent growth from 0% to ' + GROWTH_LIMITS['pf-rent-growth'] + '%.'
+      : !known(exit.expGrowth) ? 'Enter annual expense growth from 0% to ' + GROWTH_LIMITS['pf-exp-growth'] + '%.'
       : !known(fieldNumber(fields, 'pf-years', 15)) ? 'Enter the projection horizon.' : null;
     result.projection = operatingProjection(result, fields);
     result.stressBase = known(noi) && known(baseDSCR) ? { noi: noi, dscr: baseDSCR, margin: baseDSCR - dcr } : null;
