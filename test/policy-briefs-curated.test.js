@@ -422,12 +422,36 @@ const ceilingClaims = ceilingText.toLowerCase();
   const pendingSentence = sentences.find((t) => provisions.filter((p) => p.status === 'pending').every((p) => t.includes('section ' + p.section)));
   assert.ok(pendingSentence && /\bnot law\b|\bnot enacted\b|\bpending\b/i.test(pendingSentence), 'the pending provisions must be named, together, as not law');
 
-  // Status claims, each tied to the record field that makes it true.
+  // Per-bill facts, each compared on its own: every mention of a bill's
+  // sponsor, committee and introduction date must belong to that bill (the
+  // nearest bill number before it is its own), and each chamber named must be
+  // followed by its own bill. Swapping any one of them between the bills fails.
+  const billMentions = [house, senate].flatMap((rec) =>
+    [...text.matchAll(new RegExp(rec.bill.number.replace(/\./g, '\\.').replace(' ', '\\s'), 'g'))].map((m) => ({ at: m.index, rec })));
+  const billBefore = (at) => billMentions.filter((m) => m.at < at).sort((x, y) => y.at - x.at)[0];
+  const billAfter = (at) => billMentions.filter((m) => m.at > at).sort((x, y) => x.at - y.at)[0];
+  const introPhrase = (iso) => MONTH_NAMES[Number(iso.slice(5, 7)) - 1] + ' ' + Number(iso.slice(8, 10)) + ', ' + iso.slice(0, 4);
   [house, senate].forEach((rec) => {
     assert.strictEqual(rec.status, 'proposed');
-    const last = rec.bill.sponsor.match(/\b([A-Z][a-zA-Z]+) \(/)[1];
-    assert.ok(text.includes(last), `brief must name ${rec.bill.number}'s sponsor ${rec.bill.sponsor}`);
-    assert.ok(text.includes(rec.bill.committee.replace(/^(House|Senate) /, '')), `brief must name ${rec.bill.number}'s committee`);
+    const facts = {
+      sponsor: rec.bill.sponsor.match(/\b([A-Z][a-zA-Z]+) \(/)[1],
+      committee: rec.bill.committee.replace(/^(House|Senate) /, ''),
+      introduced: introPhrase(rec.bill.introduced),
+    };
+    Object.entries(facts).forEach(([what, value]) => {
+      const hits = [...text.matchAll(new RegExp('\\b' + value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'g'))];
+      assert.ok(hits.length > 0, `brief must state ${rec.bill.number}'s ${what} (${value})`);
+      hits.forEach((h) => {
+        checked++;
+        const owner = billBefore(h.index);
+        assert.ok(owner && owner.rec === rec, `"${value}" is ${rec.bill.number}'s ${what}, but the brief attaches it to ${owner ? owner.rec.bill.number : 'no bill'}`);
+      });
+    });
+    [...text.matchAll(new RegExp('\\bin the ' + rec.bill.chamber + '\\b', 'g'))].forEach((h) => {
+      checked++;
+      const next = billAfter(h.index);
+      assert.ok(next && next.rec === rec, `the ${rec.bill.chamber} must be followed by its own bill, ${rec.bill.number}`);
+    });
     assert.ok(/referred/i.test(rec.latest_action.text), `${rec.id}'s latest action must be a referral for the brief to say so`);
   });
   assert.strictEqual(/neither is law|neither bill is law/i.test(text), house.status === 'proposed' && senate.status === 'proposed',
