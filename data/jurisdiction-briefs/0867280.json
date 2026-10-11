@@ -169,6 +169,37 @@
       ]
     },
     {
+      "id": "local-support",
+      "heading": "Local support for affordable housing",
+      "paragraphs": [
+        {
+          "text": "Adopted plans: the official plan sources for City of Salida could not be read when checked on October 10, 2026, so no plan is recorded yet.",
+          "cites": [
+            "ls1"
+          ]
+        },
+        {
+          "text": "Incentives and local funding on record: expedited review and density bonus. The Local Housing Incentives page has the terms and sources of each.",
+          "cites": [
+            "ls2",
+            "ls3"
+          ]
+        },
+        {
+          "text": "Council and planning commission record: the official minutes and agendas could not be read when checked on October 10, 2026.",
+          "cites": [
+            "ls1"
+          ]
+        },
+        {
+          "text": "In the Opportunity Finder this record adds a local support bonus of +2 of a possible +6 points as of October 10, 2026: plans +0, incentives and funding +2, council and planning commission +0. A part with nothing counted adds nothing; it never lowers the score.",
+          "cites": [
+            "ls1"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -600,6 +631,33 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for City of Salida, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0867280",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Salida Land Use Code §16-9-90 (Municode)",
+      "url": "https://library.municode.com/co/salida/codes/code_of_ordinances?nodeId=CH16LAUSCOLU_ARTIXINHO_S16-9-20GEINHORE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "salida-exemplary-affordable-expedited-review",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Salida Land Use Code §16-9-50 (Municode)",
+      "url": "https://library.municode.com/co/salida/codes/code_of_ordinances?nodeId=CH16LAUSCOLU_ARTIXINHO_S16-9-20GEINHORE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "salida-inclusionary-density-parking-incentives",
+      "accessed": "2026-10-10"
     }
   ]
 }
