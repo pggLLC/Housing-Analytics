@@ -1,0 +1,2571 @@
+{
+  "schema": "local-support/v1",
+  "meta": {
+    "title": "Colorado local support for affordable housing: adopted plans and council / planning commission record",
+    "as_of": "2026-10-10",
+    "method": "Curated, not a feed. One row per jurisdiction whose official sources were read for two scopes: plans (an adopted housing needs assessment, housing plan or strategy, or comprehensive-plan housing goals that set affordable-housing goals or targets) and council (recorded votes by the governing body or planning commission specifically on income-restricted, affordable or workforce housing: project approvals, rezonings, land contributions, funding awards, fee waivers, policy adoptions, and denials). Each item was read from the jurisdiction's own site, agenda/minutes system, code or DOLA, the text saved, and every evidence quote checked by exact substring match against the saved text (whitespace collapsed). A date the source gives only as a month or year is kept at that precision and scored as its earliest possible day. A vote count the source does not state is null. result_by_scope is records, none_found (the named sources were read and hold nothing in scope) or unreadable (blocked, a scan with no text, or a dead link). A jurisdiction with no row has not been checked, which is not the same as having nothing.",
+    "scoring": "js/local-support-data.js turns this file, data/policy/fee-reductions.json and data/policy/local-housing-funds.json into the Opportunity Finder's local support bonus: +2 for an adopted plan within 5 years, +2 for a standing fee reduction, land-use incentive (other than inclusionary zoning) or dedicated fund, +2 for a recorded approval within 36 months; at most +6. Unchecked adds 0 and so changes nothing. Denials are shown in the briefs and not scored. A row past review_by stops counting until it is re-checked.",
+    "known_gaps": [
+      "Coverage starts with the jurisdictions that have a published or draft brief; the monthly local-incentives research issue extends it.",
+      "Many city and county sites block automated reads; those scopes are recorded as unreadable."
+    ]
+  },
+  "jurisdictions": [
+    {
+      "geoid": "0803620",
+      "jurisdiction": "City of Aspen",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "records",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://aspen.gov/DocumentCenter/View/14164/Strategic-Housing-Plan---COA-2024",
+        "https://www.aspen.gov/CivicAlerts.asp?AID=863",
+        "https://aspen.gov/CivicAlerts.aspx?AID=933",
+        "https://aspen.gov/CivicAlerts.aspx?AID=793",
+        "https://aspen.gov/CivicAlerts.aspx?AID=762",
+        "https://www.aspen.gov/1243/Employee-Housing-Development",
+        "https://www.aspen.gov/AgendaCenter (only pre-2022 items; council records live in Laserfiche)",
+        "https://records.aspen.gov/WebLink/DocView.aspx?id=1796837 (connection reset through proxy - Laserfiche minutes/resolutions unreachable)",
+        "https://cdola.colorado.gov/commitment-filings"
+      ],
+      "note": "Aspen's council minutes and resolutions are in Laserfiche (records.aspen.gov), which could not be reached, so the actions below are documented from the City's own press releases and carry no vote counts. The Lumberyard land-use entitlements (Sept 2023) predate the window and are not recorded. The DOLA Prop 123 commitment filing is not recorded here: the Opportunity Finder Civic component already scores it.",
+      "items": [
+        {
+          "id": "ls-aspen-ahsp-2022",
+          "kind": "plan",
+          "type": "housing_plan",
+          "body": "City Council",
+          "title": "2022-2026 Affordable Housing Strategic Plan (later updated and extended to 2028)",
+          "date": "2022-05",
+          "outcome": "adopted",
+          "vote": null,
+          "affordable_detail": "Set a target of 500 affordable housing units by 2026 with 14 action items; a later update extends the plan to 2028 with 17 actions.",
+          "source": {
+            "label": "City of Aspen, 2022-2028 Affordable Housing Strategic Plan, 2024 Update",
+            "url": "https://aspen.gov/DocumentCenter/View/14164/Strategic-Housing-Plan---COA-2024"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Introduction",
+              "quote": "In May 2022, Aspen City Council adopted by resolution the 2022-2026 Affordable Housing Strategic Plan (AHSP) to solidify actionable steps towards creating and supporting more affordable housing for our community. The plan set a target of 500 affordable housing units by 2026 and identified 14 specific action items to accomplish this goal.",
+              "source_file": "sources/0803620/affordable-housing-strategic-plan-2024-update.txt"
+            },
+            {
+              "section": "Introduction",
+              "quote": "introduces three new action items, resulting in 17 actions which will bring more affordable housing to our community. In tandem with these changes, the timeline for the Affordable Housing Strategic Plan is extended to 2028.",
+              "source_file": "sources/0803620/affordable-housing-strategic-plan-2024-update.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-aspen-lumberyard-gould-2024",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "City Council",
+          "title": "$3 million Gould Construction contract for Lumberyard affordable housing site preparation",
+          "date": "2024-11-12",
+          "outcome": "approved",
+          "vote": null,
+          "affordable_detail": "City-funded first construction phase of what will be up to 300 affordable deed-restricted housing units on city land.",
+          "source": {
+            "label": "City of Aspen press release, Nov. 22, 2024",
+            "url": "https://aspen.gov/CivicAlerts.aspx?AID=793"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Press release body",
+              "quote": "Aspen City Council on Nov. 12 approved a $3 million contract with Gould Construction to commence preparatory work for the Lumberyard Affordable Housing site near the Airport Business Center. This marks the first phase of construction of what will eventually be up to 300 affordable deed-restricted housing units.",
+              "source_file": "sources/0803620/press-2024-11-22-lumberyard-gould-contract.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-aspen-lumberyard-gorman-2025",
+          "kind": "action",
+          "type": "land_contribution",
+          "body": "City Council",
+          "title": "Lumberyard development agreement and ground lease with Gorman & Company",
+          "date": "2025-07-14",
+          "outcome": "approved",
+          "vote": null,
+          "affordable_detail": "City retains the land under a long-term ground lease; developer builds about 300 deed-restricted rental units under APCHA regulations, with $250 million planned from the city housing fund.",
+          "source": {
+            "label": "City of Aspen press release, July 15, 2025",
+            "url": "https://www.aspen.gov/CivicAlerts.asp?AID=863"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Press release body",
+              "quote": "Aspen City Council has approved a contract with Gorman & Company as the development partner for the Lumberyard affordable housing project, following a special meeting on July 14, 2025.",
+              "source_file": "sources/0803620/press-2025-07-15-gorman-lumberyard.txt"
+            },
+            {
+              "section": "Press release body",
+              "quote": "Under the agreement, the city of Aspen will retain ownership of the land and enter into a long-term ground lease with Gorman, who will build, own and manage the housing in compliance with deed restrictions and APCHA regulations.",
+              "source_file": "sources/0803620/press-2025-07-15-gorman-lumberyard.txt"
+            },
+            {
+              "section": "Press release body",
+              "quote": "To deliver the full buildout of approximately 300 rental units, the city plans to invest $250 million from its housing fund.",
+              "source_file": "sources/0803620/press-2025-07-15-gorman-lumberyard.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-aspen-lumberyard-phase-a-2026",
+          "kind": "action",
+          "type": "project_approval",
+          "body": "City Council",
+          "title": "Lumberyard Phase A approval (104 deed-restricted rental units)",
+          "date": "2026-03",
+          "outcome": "approved",
+          "vote": null,
+          "affordable_detail": "Phase A of 104 units toward 277 permanently deed-restricted rental apartments serving households at 50% to 240% AMI.",
+          "source": {
+            "label": "City of Aspen press release, Apr. 20, 2026",
+            "url": "https://aspen.gov/CivicAlerts.aspx?AID=933"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Press release body",
+              "quote": "will ultimately deliver 277 deed-restricted rental apartments throughout two phases. Following City Council approval in March and completion of financial closing, developer Gorman & Company has initiated Phase A.",
+              "source_file": "sources/0803620/press-2026-04-20-lumberyard-construction.txt"
+            },
+            {
+              "section": "Press release body",
+              "quote": "It will include the development of 104 units, along with significant improvements in public infrastructure",
+              "source_file": "sources/0803620/press-2026-04-20-lumberyard-construction.txt"
+            },
+            {
+              "section": "Press release body",
+              "quote": "The development will serve households earning incomes between 50% and 240% of Area Median Income (AMI)",
+              "source_file": "sources/0803620/press-2026-04-20-lumberyard-construction.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "08045",
+      "jurisdiction": "Garfield County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "none_found",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://www.garfieldcountyco.gov/board-commissioners/meetings",
+        "https://www.garfieldcountyco.gov/board-commissioners/meeting-minutes/ (archive only through 2012)",
+        "https://pub-garfield.escribemeetings.com/ (BOCC meetings 2023-10 to 2026-10; all 189 HTML agendas text-searched)",
+        "https://pub-garfield.escribemeetings.com/FileStream.ashx?DocumentId=1231 (BOCC minutes PDFs - Cloudflare browser challenge, unreadable)",
+        "https://www.garfieldcountyco.gov/?s=affordable+housing",
+        "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
+        "https://www.garfieldcountyco.gov/news/state-invests-with-county-in-canyon-vista-housing/",
+        "https://www.garfieldcountyco.gov/news/county-approves-glenwood-mobile-home-park-improvements/ (infrastructure permit, no affordability terms - not recorded)",
+        "https://www.garfieldcountyco.gov/news/text-amendments-approved-to-support-housing/ (April 2023, before window)",
+        "https://cdola.colorado.gov/commitment-filings"
+      ],
+      "note": "The county's eScribe minutes PDFs sit behind a Cloudflare challenge, so votes are documented only where a county press release or DOLA states them. Agendas show further housing items whose outcomes could not be confirmed from an official text: a Habitat for Humanity employee-unit purchase (2024-08-05), the L3 Habitat MOU (2024-10-21), and a 2026 land-use code amendment to expedite affordable housing approval (2026-06-15). The regional housing needs assessment was presented 2026-07-13 as an information item; no county-adopted housing plan was found. The DOLA Prop 123 commitment filing is not recorded here: the Opportunity Finder Civic component already scores it.",
+      "items": [
+        {
+          "id": "ls-garfield-county-canyon-vista-pab-2024",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "Board of County Commissioners",
+          "title": "Private activity bond allocation recommended for Canyon Vista (Cohen-Esrey), Glenwood Springs",
+          "date": "2024",
+          "outcome": "approved",
+          "vote": null,
+          "affordable_detail": "County bond cap directed to an 80-unit income-restricted rental project for households earning between 20 and 80 percent of AMI.",
+          "source": {
+            "label": "Garfield County press release, Sept. 11, 2025",
+            "url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Press release body",
+              "quote": "In 2024, The board recommended to CHFA that the county",
+              "source_file": "sources/08045/press-2025-09-11-chfa-pab.txt"
+            },
+            {
+              "section": "Press release body",
+              "quote": "affordable-housing developer Cohen-Esrey, which is building Canyon Vista in Glenwood Springs. Once complete, this property will be home to 80 income-restricted rental units for individuals earning between 20 and 80 percent of the AMI.",
+              "source_file": "sources/08045/press-2025-09-11-chfa-pab.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-garfield-county-chfa-pab-2025",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "Board of County Commissioners",
+          "title": "Transfer of nearly $4.1 million in private activity bond authority to CHFA for affordable housing",
+          "date": "2025-09",
+          "outcome": "approved",
+          "vote": "3-0",
+          "affordable_detail": "Bond authority assigned to CHFA for affordable housing initiatives benefiting low- and moderate-income buyers, including first-time homebuyer loans.",
+          "source": {
+            "label": "Garfield County press release, Sept. 11, 2025",
+            "url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Press release body",
+              "quote": "Garfield County has transferred nearly $4.1 million in private activity bonds ( PABs ) to the Colorado Housing and Finance Authority ( CHFA ) to help bolster affordable housing initiatives in the area. Through the bonds, CHFA funds housing initiatives that benefit low- and moderate-income buyers, including first-time homebuyer loan programs.",
+              "source_file": "sources/08045/press-2025-09-11-chfa-pab.txt"
+            },
+            {
+              "section": "Press release body",
+              "quote": "The board approved allocating its authority to issue the tax-exempt bonds to CHFA unanimously, 3-0.",
+              "source_file": "sources/08045/press-2025-09-11-chfa-pab.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "08097",
+      "jurisdiction": "Pitkin County",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "records",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://pitkincoco.api.civicclerk.com/v1/Events (CivicClerk BOCC regular-meeting agendas 2023-10 to 2026-10, all agendas text-searched)",
+        "https://records.pitkincounty.com/weblink/Browse.aspx?startid=9&dbid=0 (Laserfiche BOCC minutes/resolutions/ordinances index)",
+        "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=460322&dbid=0&repo=LFRecords",
+        "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=471120&dbid=0&repo=LFRecords",
+        "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=471905&dbid=0&repo=LFRecords",
+        "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=481389&dbid=0&repo=LFRecords",
+        "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=507783&dbid=0&repo=LFRecords",
+        "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=508381&dbid=0&repo=LFRecords",
+        "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=524614&dbid=0&repo=LFRecords",
+        "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=524617&dbid=0&repo=LFRecords",
+        "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=524618&dbid=0&repo=LFRecords",
+        "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=531170&dbid=0&repo=LFRecords",
+        "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=557520&dbid=0&repo=LFRecords",
+        "https://pitkincoco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=8131,plainText=false%29 (7/23/2025 agenda packet)",
+        "https://pitkincounty.com/DocumentCenter/View/34744/Emergency (draft 2025 mobile home park ordinance, unsigned - not used)",
+        "https://pitkincounty.com/DocumentCenter/View/14272 (2017 ordinance - out of window)"
+      ],
+      "note": "Pitkin County has no county-adopted housing plan or HNA from the last five years that I could find; the only plan recorded is the APCHA 2025-2030 Strategic Plan, which the BOCC ratified. The regional Roaring Fork/Colorado River Valley housing needs analysis (EPS, 2025) was co-funded by the county but no adoption record was found. Good Deeds grants were also approved 2025-05-14 (5-0) and are omitted for brevity.",
+      "items": [
+        {
+          "id": "ls-pitkin-apcha-strategic-plan-2025",
+          "kind": "plan",
+          "type": "housing_plan",
+          "body": "Board of County Commissioners",
+          "title": "Aspen Pitkin County Housing Authority 2025-2030 Strategic Plan (ratified)",
+          "date": "2025-07-23",
+          "outcome": "adopted",
+          "vote": "4-0",
+          "affordable_detail": "Ratifies the housing authority's five-year plan for the deed-restricted workforce housing program, whose mission is to support affordable workforce housing.",
+          "source": {
+            "label": "BOCC minutes 7/23/2025 and agenda packet (Attachment A: APCHA Strategic Plan 2025-2030)",
+            "url": "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=524614&dbid=0&repo=LFRecords"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 3, Individual Consideration Items",
+              "quote": "Ratifying the Aspen Pitkin County Housing Authority 2025-2030 Strategic Plan - Ashley Perl Motion: Commissioner Clapper moved approval of this Resolution as written. Commissioner McNicholas Kury seconded the motion. Motion passed with the following votes cast: COMMISSIONER: VOTE: McNicholas Kury In Favor Woodruff In Favor Clapper In Favor Poschman Not Present Jacober In Favor",
+              "source_file": "sources/08097/bocc-minutes-2025-07-23.txt"
+            },
+            {
+              "section": "Attachment A, Mission",
+              "quote": "APCHA supports affordable workforce housing for a sustainable community and a prosperous economy.",
+              "source_file": "sources/08097/bocc-packet-2025-07-23-apcha-strategic-plan.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-pitkin-good-deeds-2024",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "Board of County Commissioners",
+          "title": "Resolution approving grant agreement with West Mountain Regional Housing Coalition for the Good Deeds program",
+          "date": "2024-06-26",
+          "outcome": "approved",
+          "vote": "5-0",
+          "affordable_detail": "County grant to the regional Good Deeds program, which buys deed restrictions on existing homes for local workforce.",
+          "source": {
+            "label": "BOCC regular meeting minutes, June 26, 2024",
+            "url": "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=460322&dbid=0&repo=LFRecords"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 10",
+              "quote": "Approving a Grant Agreement with West Mountain Regional Housing Coalition to Fund the Good Deeds Program - Ashley Perl Motion: Commissioner Child moved approval of the Resolution as written. Commissioner Clapper seconded the motion. Motion passed with five yea votes.",
+              "source_file": "sources/08097/bocc-minutes-2024-06-26.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-pitkin-housing-mill-levy-2024",
+          "kind": "action",
+          "type": "housing_policy_adoption",
+          "body": "Board of County Commissioners",
+          "title": "Resolution referring a 1.5-mill affordable and attainable housing property tax to the November 2024 ballot",
+          "date": "2024-08-28",
+          "outcome": "approved",
+          "vote": "5-0",
+          "affordable_detail": "Refers to voters a 1.5 mill levy for not more than twenty-five years to fund affordable and attainable housing programs.",
+          "source": {
+            "label": "BOCC regular meeting minutes, Aug. 28, 2024",
+            "url": "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=471905&dbid=0&repo=LFRecords"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 11",
+              "quote": "Approving a Ballot Title to be Submitted for the November 5, 2024, General Election Authorizing an Annual Ad Valorem Property Tax Mill Levy Imposed at a Rate of 1.5 Mills for Not more than Twenty Five Years for the Purposes of Funding Affordable and Attainable Housing and Related Support Programs Addressing Housing and Authorizing that all Appropriate Actions be Taken Relating to the Election - Jon Peacock, Kara Silbernagel, Ashley Perl, Ann Driggers Motion: Commissioner McNicholas Kury moved approval of the Resolution as written. Commissioner Clapper seconded the motion. Motion passed with five yea votes.",
+              "source_file": "sources/08097/bocc-minutes-2024-08-28.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-pitkin-habitat-l3-2024",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "Board of County Commissioners",
+          "title": "Emergency resolution authorizing MOU with Habitat for Humanity Roaring Fork Valley to support the L3 Condominium housing project",
+          "date": "2024-10-23",
+          "outcome": "approved",
+          "vote": "5-0",
+          "affordable_detail": "County support, by memorandum of understanding, for a Habitat for Humanity ownership housing project.",
+          "source": {
+            "label": "BOCC regular meeting minutes, Oct. 23, 2024",
+            "url": "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=481389&dbid=0&repo=LFRecords"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 8",
+              "quote": "Emergency Resolution Authorizing a Memorandum of Understanding with Habitat for Humanity Roaring Fork Valley Chapter to Support the L3 Condominium Housing Project - Ashley Perl Motion: Commissioner Jacober moved approval of the Emergency Resolution as written. Commissioner McNicholas Kury seconded the motion. Motion passed with the following votes cast: COMMISSIONER: VOTE: Poschman In Favor Child In Favor Clapper In Favor McNicholas Kury In Favor Jacober In Favor",
+              "source_file": "sources/08097/bocc-minutes-2024-10-23.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-pitkin-mobile-home-parks-2025",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "Board of County Commissioners",
+          "title": "Emergency ordinance approving deed restrictions for Aspen Basalt and Mountain Valley mobile home parks and confirming the county contribution",
+          "date": "2025-10-08",
+          "outcome": "approved",
+          "vote": "4-0",
+          "affordable_detail": "County contribution of three million two hundred fifty thousand dollars toward resident purchase of two mobile home parks, conditioned on deed restrictions.",
+          "source": {
+            "label": "BOCC regular meeting minutes, Oct. 8, 2025",
+            "url": "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=531170&dbid=0&repo=LFRecords"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 5",
+              "quote": "Approving the Deed Restrictions for the Aspen Basalt and Mountain Valley Mobile Home Parks and Confirming Pitkin County's Contribution towards the Parks of Three Million Two Hundred Fifty Thousand Dollars — Ashley Perl Motion: Commissioner McNicholas Kury moved approval of the Emergency Ordinance as written. Commissioner Clapper seconded the motion. Motion passed with the following votes cast: COMMISSIONER: VOTE: McNicholas Kury In Favor Woodruff In Favor Clapper In Favor Poschman In Favor Jacober Not Present",
+              "source_file": "sources/08097/bocc-minutes-2025-10-08.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-pitkin-good-deeds-2026",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "Board of County Commissioners",
+          "title": "Resolution approving a renewed grant agreement with West Mountain Regional Housing Coalition for the Good Deeds program",
+          "date": "2026-02-11",
+          "outcome": "approved",
+          "vote": "4-0",
+          "affordable_detail": "Renewed county grant to the regional Good Deeds deed-restriction program.",
+          "source": {
+            "label": "BOCC regular meeting minutes, Feb. 11, 2026",
+            "url": "https://records.pitkincounty.com/weblink/ElectronicFile.aspx?docid=557520&dbid=0&repo=LFRecords"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 14",
+              "quote": "Approving a Grant Agreement with the West Mountain Regional Housing Coalition to Support the Good Deeds Program - Ashley Perl Motion: Commissioner Jacober moved approval of the Resolution as written. Commissioner Clapper seconded the motion. Motion passed with the following votes cast: COMMISSIONER: VOTE: McNicholas Kury In Favor Woodruff In Favor Clapper In Favor Poschman Not Present Jacober In Favor",
+              "source_file": "sources/08097/bocc-minutes-2026-02-11.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0810105",
+      "jurisdiction": "Town of Buena Vista",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "records",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://www.buenavistaco.gov/2194/Master-Plans",
+        "https://www.buenavistaco.gov/DocumentCenter/View/5431 (Comprehensive Plan 2025 PDF)",
+        "https://www.buenavistaco.gov/AgendaCenter (Board of Trustees and Planning & Zoning minutes, Oct 2023 - Sep 2026: 116 minutes PDFs downloaded; 110 are image-only scans with no text layer)",
+        "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Agenda/_09092025-2016 (Trustee packet with draft minutes of Aug 26, 2025)",
+        "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Agenda/_12092025-2066 (Trustee packet with draft minutes of Nov 25, 2025)",
+        "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Minutes/_11192025-2054 (Planning & Zoning minutes)",
+        "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Minutes/_03252025-1931",
+        "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Minutes/_03242026-2117",
+        "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Minutes/_04142026-2126",
+        "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Minutes/_05142024-1766"
+      ],
+      "note": "Most posted Buena Vista minutes are image-only scans that could not be searched, so earlier trustee actions (e.g. Carbonate Street covenants, which predate the window anyway) may be missed; the two trustee votes recorded come from draft minutes printed in the following meeting's packet. The comprehensive-plan quotes come from a plain (non-layout) pdftotext extraction because the -layout text interleaves two columns.",
+      "items": [
+        {
+          "id": "ls-buena-vista-comp-plan-2025",
+          "kind": "plan",
+          "type": "comp_plan_housing",
+          "body": "Board of Trustees",
+          "title": "Town of Buena Vista Comprehensive Plan (Resolution No. 63, Series 2025)",
+          "date": "2025-08-26",
+          "outcome": "adopted",
+          "vote": "5-0",
+          "affordable_detail": "Economy & Housing chapter calls for removing barriers to affordable and workforce housing, a minimum 15-year deed restriction (standard 30 years) with AMI caps, and Prop 123 expedited review for projects with at least 50% affordable units",
+          "source": {
+            "label": "Buena Vista Comprehensive Plan PDF; Trustee minutes of Aug 26, 2025 (in Sept 9, 2025 packet)",
+            "url": "https://www.buenavistaco.gov/DocumentCenter/View/5431"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Trustee minutes Aug 26, 2025, Motion No. 03",
+              "quote": "MOVE TO APPROVE RESOLUTION NO 63 ADOPTING THE TOWN OF BUENA VISTA COMPREHENSIVE PLAN DATED AUGUST 26, 2025, WITH PROPOSED EDITS.",
+              "source_file": "sources/0810105/trustee-packet-2025-09-09.txt"
+            },
+            {
+              "section": "Trustee minutes Aug 26, 2025, Motion No. 03 result",
+              "quote": "RESULTS CARRIED MOVER Trustee Strum SECONDER: Trustee Huyck AYES: Huyck, Rosenoer, Rowe, Strum, Swisher",
+              "source_file": "sources/0810105/trustee-packet-2025-09-09.txt"
+            },
+            {
+              "section": "Plan, Economy & Housing, EH Big Idea #7 / Action 7D",
+              "quote": "All housing in Buena Vista that is subject to affordability requirements should be subject to a minimum 15-year deed restriction, an AMI cap, and residency or employment requirements. Standard deed restrictions should be 30 years.",
+              "source_file": "sources/0810105/comp-plan-2025-flow.txt"
+            },
+            {
+              "section": "Plan, Economy & Housing, Action 7E",
+              "quote": "The Town should codify an expedited review process for affordable housing projects in alignment with Colorado Proposition 123 requirements, which the Town opted into in 2023. For example, projects where at least 50% of units meet affordability thresholds (60% AMI for rentals, 100% AMI for ownership) could be expedited.",
+              "source_file": "sources/0810105/comp-plan-2025-flow.txt"
+            },
+            {
+              "section": "Plan, Economy & Housing heading",
+              "quote": "EH BIG IDEA #7: REMOVE BARRIERS TO AFFORDABLE, ATTAINABLE, AND WORKFORCE HOUSING DEVELOPMENT",
+              "source_file": "sources/0810105/comp-plan-2025-flow.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-buena-vista-pz-prop123-expedited-review",
+          "kind": "action",
+          "type": "commission_recommendation",
+          "body": "Planning and Zoning Commission",
+          "title": "Recommendation to adopt Prop 123 expedited review code amendment for affordable housing",
+          "date": "2025-11-19",
+          "outcome": "recommended_approval",
+          "vote": "2-1",
+          "affordable_detail": "Code amendments so affordable housing projects get a decision within 90 days, as required for Proposition 123 funding",
+          "source": {
+            "label": "Buena Vista Planning & Zoning Commission minutes, Nov 19, 2025",
+            "url": "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Minutes/_11192025-2054"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Header",
+              "quote": "Wednesday, November 19, 2025, 6:00 p.m.",
+              "source_file": "sources/0810105/pz-minutes-2025-11-19.txt"
+            },
+            {
+              "section": "Business items",
+              "quote": "1. Public Hearing – Prop 123 Expedited Review Code Amendment - open at 6:10",
+              "source_file": "sources/0810105/pz-minutes-2025-11-19.txt"
+            },
+            {
+              "section": "Business item 1",
+              "quote": "The purpose of this initiative is to meet a baseline and commitment to increase affordable housing and to ensure that affordable housing projects are reviewed and a decision rendered within 90 days of a complete application.",
+              "source_file": "sources/0810105/pz-minutes-2025-11-19.txt"
+            },
+            {
+              "section": "Business item 1, vote",
+              "quote": "Passed with 2-to-1 for recommendation of adoption with amendments.",
+              "source_file": "sources/0810105/pz-minutes-2025-11-19.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-buena-vista-ordinance-14-2025-expedited-review",
+          "kind": "action",
+          "type": "housing_policy_adoption",
+          "body": "Board of Trustees",
+          "title": "Ordinance No. 14, Series 2025: Proposition 123 affordable housing expedited review",
+          "date": "2025-11-25",
+          "outcome": "approved",
+          "vote": "6-0",
+          "affordable_detail": "Creates a 90-day fast-track review for projects with at least 50% affordable units",
+          "source": {
+            "label": "Trustee minutes of Nov 25, 2025 (in Dec 9, 2025 packet)",
+            "url": "https://www.buenavistaco.gov/AgendaCenter/ViewFile/Agenda/_12092025-2066"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Minutes header",
+              "quote": "MINUTES OF THE BUENA VISTA BOARD OF TRUSTEES REGULAR MEETING Tuesday, November 25, 2025",
+              "source_file": "sources/0810105/trustee-packet-2025-12-09.txt"
+            },
+            {
+              "section": "Ordinance discussion",
+              "quote": "He explained the proposition requires a 90-day fast-track review for projects with at least 50% affordable units and shared the draft ordinance’s key elements.",
+              "source_file": "sources/0810105/trustee-packet-2025-12-09.txt"
+            },
+            {
+              "section": "Motion No. 04",
+              "quote": "MOVE TO ADOPT ORDINANCE NO. 14 AMENDING MULTIPLE SECTIONS OF CHAPTER 16 OF THE BUENA VISTA MUNICIPAL CODE TO COMPLY WITH PROPOSITION 123 REGARDING AFFORDABLE HOUSING EXPEDITED REVIEW WITH A REVISION IN SECTION 3 CHANGING POSTING “ONLINE” TO “TOWN WEBSITE”. RESULTS CARRIED MOVER Trustee Sturm SECONDER: Trustee Rosenoer AYES: Huyck, Rice, Rosenoer, Rowe, Sturm, Swisher",
+              "source_file": "sources/0810105/trustee-packet-2025-12-09.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0812045",
+      "jurisdiction": "Town of Carbondale",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "records",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://carbondalegov.org/residents/affordable_housing.php",
+        "https://carbondalegov.org/Community%20Housing%20Plan%20Adopted%20011023.pdf",
+        "https://carbondalegov.diligent.community/Portal/MeetingInformation.aspx?Id=528 (Board of Trustees regular meeting list, Jul 2023 - Oct 2026; every agenda text-searched)",
+        "https://carbondalegov.community.diligentoneplatform.com/Services/ItemsService.svc/portal/search (Diligent document search for minutes)",
+        "https://carbondalegov.community.diligentoneplatform.com/document/23455",
+        "https://carbondalegov.community.diligentoneplatform.com/document/31163",
+        "https://carbondalegov.community.diligentoneplatform.com/document/31738",
+        "https://carbondalegov.community.diligentoneplatform.com/document/32952",
+        "https://carbondalegov.community.diligentoneplatform.com/document/36429",
+        "https://carbondalegov.community.diligentoneplatform.com/document/49089",
+        "https://cdola.colorado.gov/commitment-filings"
+      ],
+      "note": "The regional Roaring Fork/Colorado River Valley housing needs assessment was presented to the Trustees on 2026-06-23 'For Discussion Only' (not adopted), so it is not recorded. The Dec 16, 2025 Cavern Springs mobile home park funding request was approved only as a consent-agenda staff report, so it is not recorded either. The Trustees also approved the Mountain Valley MHP affordable-housing deed restriction 6-0 on 2025-09-09 (minutes saved, not itemized). The DOLA Prop 123 commitment filing is not recorded here: the Opportunity Finder Civic component already scores it.",
+      "items": [
+        {
+          "id": "ls-carbondale-community-housing-plan-2023",
+          "kind": "plan",
+          "type": "housing_plan",
+          "body": "Board of Trustees",
+          "title": "Town of Carbondale Community Housing Plan",
+          "date": "2023-01-10",
+          "outcome": "adopted",
+          "vote": null,
+          "affordable_detail": "Goal to double deed-restricted, rental-capped and town-owned units from 144 to 288 by 2032; strategies include a 6% short-term-rental tax for housing and a buydown/deed-restriction program.",
+          "source": {
+            "label": "Community Housing Plan, Adopted January 10, 2023",
+            "url": "https://carbondalegov.org/Community%20Housing%20Plan%20Adopted%20011023.pdf"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Cover",
+              "quote": "Community Housing Plan Adopted January 10, 2023",
+              "source_file": "sources/0812045/community-housing-plan-2023.txt"
+            },
+            {
+              "section": "Executive Summary",
+              "quote": "The Town of Carbondale affordable housing goal is to double the number of deed restricted, rental capped, and town owned units from 144 to 288 by 2032.",
+              "source_file": "sources/0812045/community-housing-plan-2023.txt"
+            },
+            {
+              "section": "Community Housing Strategies Summary",
+              "quote": "Ask voters to a 6% tax on short term rentals to support affordable housing efforts.",
+              "source_file": "sources/0812045/community-housing-plan-2023.txt"
+            },
+            {
+              "section": "Community Housing Strategies Summary",
+              "quote": "Create a buydown/deed restrict and shared equity program with STR tax revenue, grants and contributions.",
+              "source_file": "sources/0812045/community-housing-plan-2023.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-carbondale-inclusionary-ord10-2024",
+          "kind": "action",
+          "type": "housing_policy_adoption",
+          "body": "Board of Trustees",
+          "title": "Ordinance No. 10, Series of 2024 - Community Housing Inclusionary Requirements amendment",
+          "date": "2024-11-12",
+          "outcome": "approved",
+          "vote": "7-0",
+          "affordable_detail": "Raises the inclusionary affordable housing requirement from 20% to 25% for large projects, with a sliding scale for smaller ones and rentals at 80% AMI.",
+          "source": {
+            "label": "Board of Trustees regular meeting minutes, Nov. 12, 2024",
+            "url": "https://carbondalegov.community.diligentoneplatform.com/document/23455"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item c",
+              "quote": "Ordinance 10 adopts the changes that were discussed at the last meeting. He presented updates increasing affordable housing requirements (20% to 25% for large projects, sliding scale for smaller ones, rentals at 80% AMI).",
+              "source_file": "sources/0812045/bot-minutes-2024-11-12.txt"
+            },
+            {
+              "section": "Item c",
+              "quote": "Motion to approve Ordinance No. 10, Series of 2024 made by Trustee Hassig and seconded by Trustee Laird. Motion passes 7-0.",
+              "source_file": "sources/0812045/bot-minutes-2024-11-12.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-carbondale-mountain-valley-grant-2025",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "Board of Trustees",
+          "title": "Grant agreement and $1,100,000 payment to West Mountain Regional Housing Coalition for the Mountain Valley Mobile Home Park purchase",
+          "date": "2025-08-26",
+          "outcome": "approved",
+          "vote": "6-1",
+          "affordable_detail": "Town housing-fund grant toward resident purchase of the Mountain Valley Mobile Home Park, tied to deed restrictions.",
+          "source": {
+            "label": "Board of Trustees regular meeting minutes, Aug. 26, 2025",
+            "url": "https://carbondalegov.community.diligentoneplatform.com/document/31163"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 7a",
+              "quote": "The agreement references deed restrictions, with one for Aspen- Basalt included and another for Mountain Valley in progress.",
+              "source_file": "sources/0812045/bot-minutes-2025-08-26.txt"
+            },
+            {
+              "section": "Item 7a",
+              "quote": "Motion to approve the Town of Carbondale Grant Agreement with West Mountain Regional Housing Coalition and authorize payment of $1,100,000 to West Mountain Regional Housing Coalition. The final grant agreement shall be in a form acceptable to and approved by the Town Attorney and Town Manager prior to execution, made by Trustee Laird and seconded by Trustee Kribbs. Motion passes 6-1 with Mayor Bohmfalk voting no.",
+              "source_file": "sources/0812045/bot-minutes-2025-08-26.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-carbondale-mhp-iga-res9-2025",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "Board of Trustees",
+          "title": "Resolution 9, Series 2025 approving a regional IGA for two mobile home park purchases",
+          "date": "2025-10-14",
+          "outcome": "approved",
+          "vote": "7-0",
+          "affordable_detail": "Approves the intergovernmental agreement with neighboring governments behind the $42M resident purchase of two mobile home parks.",
+          "source": {
+            "label": "Board of Trustees regular meeting minutes, Oct. 14, 2025",
+            "url": "https://carbondalegov.community.diligentoneplatform.com/document/32952"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item c",
+              "quote": "Closed deal ($42M via IGA with local governments). Resolution 9-2025 approves IGA.",
+              "source_file": "sources/0812045/bot-minutes-2025-10-14.txt"
+            },
+            {
+              "section": "Item c",
+              "quote": "Motion to approve Resolution 9, Series 2025 approving an Intergovernmental Agreement between the Town of Carbondale, Eagle County Housing & Development Authority; Pitkin County, Colorado; The City of Aspen; The City of Glenwood Springs; The Town of Snowmass Village; Town of Basalt; and West Mountain Regional Housing Coalition, made by Trustee Laird and seconded by Trustee Montemayor. Motion passes 7-0.",
+              "source_file": "sources/0812045/bot-minutes-2025-10-14.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0816000",
+      "jurisdiction": "City of Colorado Springs",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "records",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://webapi.legistar.com/v1/coloradosprings/matters (title searches: affordab, ousing, Housing Plan, HomeCOS, Needs Assessment, attainable, workforce housing, deed restrict, Eligible Affordable, income-restricted, Proposition 123; intro 2021-10-01 onward)",
+        "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=12165",
+        "https://coloradosprings.legistar.com/HistoryDetail.aspx?ID=32947679&GUID=55B94F72-DA3F-4CDB-977F-F2993DD82959",
+        "https://coloradosprings.legistar.com/View.ashx?M=F&ID=13934747&GUID=EF438AB9-71E1-485C-8471-516781C89BF6",
+        "https://coloradosprings.legistar.com/View.ashx?M=F&ID=13932863&GUID=872E6287-A93C-4382-9E27-DE345C8C431F",
+        "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=12648",
+        "https://coloradosprings.legistar.com/HistoryDetail.aspx?ID=34839759&GUID=1039DEDA-8120-42F4-8F2B-2C8B571D522E",
+        "https://coloradosprings.legistar.com/View.ashx?M=F&ID=14570026&GUID=13A30778-9436-4421-B666-DBA38D1AC14A",
+        "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=12454",
+        "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=13039",
+        "https://coloradosprings.legistar.com/HistoryDetail.aspx?ID=35728751&GUID=611BE597-EB63-43BB-AE1F-2032E7161199",
+        "coloradosprings.gov/housing (HTTP 404, link not kept)",
+        "https://coloradosprings.gov/HousingNeedsAssessment",
+        "https://coloradosprings.gov/system/files/2025-12/1.%20Executive%20Summary.pdf",
+        "https://cdola.colorado.gov/housing-plans and its linked 'SB24-174 Approved Housing Needs Assessments and Housing Action Plans' sheet (CSV export)"
+      ],
+      "note": "The 2025 Colorado Springs / El Paso County Regional Housing Needs Assessment was presented to council only as an informational item (Legistar 25-593) and DOLA's SB24-174 list shows it approved for conformity on April 2, 2026; it makes recommendations rather than setting targets and was not adopted locally, so it is not recorded. HomeCOS predates the five-year window.",
+      "items": [
+        {
+          "id": "ls-colorado-springs-consolidated-plan-2025",
+          "kind": "plan",
+          "type": "housing_plan",
+          "body": "City Council",
+          "title": "2025-2029 Consolidated Plan and 2025 Annual Action Plan",
+          "date": "2025-03-25",
+          "outcome": "adopted",
+          "vote": "8-0",
+          "affordable_detail": "Five-year HUD plan goal of 200 rental units constructed and 250 homeowner units rehabilitated for low- and moderate-income households",
+          "source": {
+            "label": "Colorado Springs Legistar file 24-662 and attached Consolidated Plan",
+            "url": "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=12165"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Legislation history",
+              "quote": "3/25/2025 1 City Council adopted Pass",
+              "source_file": "sources/0816000/legistar-24-662.txt"
+            },
+            {
+              "section": "Action details, vote",
+              "quote": "The motion passed by a vote of 8-0-1-0 Votes (8:0)",
+              "source_file": "sources/0816000/legistar-24-662-vote.txt"
+            },
+            {
+              "section": "Consolidated Plan, affordable housing estimate (p. 173)",
+              "quote": "The City estimates that in the five-years of the 2025-2029 Consolidated Plan, it will assist LMI households with affordable housing activities: Homeowner Housing Rehabilitated: 250 Household Housing Unit Direct Financial Assistance to Homebuyers: 20 Households Assisted Rental units constructed: 200 Household Housing Unit",
+              "source_file": "sources/0816000/conplan-2025-2029.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-colorado-springs-bradley-ridge-bonds",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "City Council",
+          "title": "Ordinance authorizing up to $76,832,222.72 in private activity bonds for Bradley Ridge Apartments",
+          "date": "2025-09-09",
+          "outcome": "approved",
+          "vote": "9-0",
+          "affordable_detail": "Bonds for construction of 336 affordable units at 60% AMI",
+          "source": {
+            "label": "Colorado Springs Legistar file 25-380 and attached presentation",
+            "url": "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=12648"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Legislation history",
+              "quote": "9/9/2025 1 City Council finally passed Pass",
+              "source_file": "sources/0816000/legistar-25-380.txt"
+            },
+            {
+              "section": "Action details, vote",
+              "quote": "This Ordinance was finally passed on the Consent Calendar. Consent Votes (9:0)",
+              "source_file": "sources/0816000/legistar-25-380-vote.txt"
+            },
+            {
+              "section": "Presentation, title slide",
+              "quote": "AN ORDINANCE AUTHORIZING THE ISSUANCE OF UP TO $76,832,222.72 IN PRIVATE ACTIVITY BONDS FOR THE CONSTRUCTION OF 336 UNITS OF AFFORDABLE HOUSING",
+              "source_file": "sources/0816000/bradley-ridge-presentation.txt"
+            },
+            {
+              "section": "Presentation, About the Development",
+              "quote": "60% AMI",
+              "source_file": "sources/0816000/bradley-ridge-presentation.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-colorado-springs-weber-dvsa",
+          "kind": "action",
+          "type": "project_approval",
+          "body": "Planning Commission",
+          "title": "Development standards adjustment for a 49-unit affordable multifamily building at 2126 North Weber Street",
+          "date": "2026-01-14",
+          "outcome": "approved",
+          "vote": "8-0",
+          "affordable_detail": "Allows a 49-unit building with affordable housing as the compensating benefit, conditioned on a deed restriction or land use restriction agreement",
+          "source": {
+            "label": "Colorado Springs Legistar file DVSA-25-0009",
+            "url": "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=13039"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Legislation history",
+              "quote": "1/14/2026 1 City Planning Commission approved Pass",
+              "source_file": "sources/0816000/legistar-dvsa-25-0009.txt"
+            },
+            {
+              "section": "Action details, motion",
+              "quote": "to allow a 49-unit, Multi-Family Dwelling when the use is limited to no more than ten (10) units in a single structure, and the compensating benefit being affordable housing, located at 2126 North Weber Street",
+              "source_file": "sources/0816000/legistar-dvsa-25-0009-vote.txt"
+            },
+            {
+              "section": "Action details, conditions and vote",
+              "quote": "1. A Deed Restriction or Land Use Restriction Agreement is provided prior to or with any future building permit for the proposed multi-family structure.",
+              "source_file": "sources/0816000/legistar-dvsa-25-0009-vote.txt"
+            },
+            {
+              "section": "Action details, vote tally",
+              "quote": "Votes (8:0)",
+              "source_file": "sources/0816000/legistar-dvsa-25-0009-vote.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0817375",
+      "jurisdiction": "City of Cortez",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "records",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://www.cortezco.gov/867/Housing-Action-Plan",
+        "https://www.cortezco.gov/DocumentCenter/View/3298/Action-Plan-FINAL",
+        "https://www.cortezco.gov/AgendaCenter (City Council minutes here end in 2022; some requests reset the connection)",
+        "https://public.destinyhosted.com/agenda_publish.cfm?id=26783 (City Council and P&Z minutes 2023-10 through 2026-10; 143 documents downloaded and searched)",
+        "https://public.destinyhosted.com/adv_search_results.cfm?fp=ADVSRCH&id=26783 (agenda item search: housing, affordable, deed restrict)",
+        "https://public.destinyhosted.com/cortedocs/2024/CC/20241008_170/170_10082024.doc",
+        "https://public.destinyhosted.com/cortedocs/2025/CC/20251125_243/243_MinutesNovember252025.pdf",
+        "https://public.destinyhosted.com/cortedocs/2026/CC/20260609_273/273_MinutesJune92026.pdf",
+        "https://public.destinyhosted.com/cortedocs/2024/CC/20240709_157/157_07092024.doc"
+      ],
+      "note": "On 2024-07-09 the council voted 7-0 for Resolution No. 14, Series 2024, waiving the City's HB24-1175 right of first refusal and first offer on affordable housing sales. It is a policy opt-out, not a project denial, so it is not listed as an item. The 2024 minutes are Word .doc files, converted to text with LibreOffice.",
+      "items": [
+        {
+          "id": "ls-cortez-2023-hap",
+          "kind": "plan",
+          "type": "housing_plan",
+          "body": "City Council",
+          "title": "Cortez Housing Action Plan",
+          "date": "2023-08-08",
+          "outcome": "adopted",
+          "vote": null,
+          "affordable_detail": "Focuses new housing on the full range of incomes; top priority is supportive housing below 30% AMI, rentals up to 60% AMI and for-sale homes up to 80% AMI",
+          "source": {
+            "label": "City of Cortez Housing Action Plan page and plan PDF",
+            "url": "https://www.cortezco.gov/DocumentCenter/View/3298/Action-Plan-FINAL"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Housing Action Plan web page",
+              "quote": "The Final Housing Action Plan was adopted by the Cortez City Council on August 8, 2023.",
+              "source_file": "sources/0817375/hap-page.txt"
+            },
+            {
+              "section": "Plan, Goal 3",
+              "quote": "Focus new housing on the full range of incomes in need and for various life stages with priority placed on entry level rentals, first-time homeownership, missing middle, and supportive housing.",
+              "source_file": "sources/0817375/housing-action-plan-2023.txt"
+            },
+            {
+              "section": "Plan, Goal 3 priority table",
+              "quote": "1 Supportive Housing (below 30% AMI with services to support residents) Rentals - Priced up to 60% AMI (up to $987/month in 2022) For Sale – Priced up to 80% AMI",
+              "source_file": "sources/0817375/housing-action-plan-2023.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-cortez-2024-housing-coordinator",
+          "kind": "action",
+          "type": "housing_policy_adoption",
+          "body": "City Council",
+          "title": "Contract for an Affordable and Workforce Housing Coordinator (Prop 123 commitment of 89 units)",
+          "date": "2024-10-08",
+          "outcome": "approved",
+          "vote": "7-0",
+          "affordable_detail": "Coordinator to implement the Housing Action Plan and Proposition 123 commitment to increase affordable housing by 89 units by end of 2026; contract up to $166,400 (DOLA grant $133,120)",
+          "source": {
+            "label": "Cortez City Council minutes, October 8, 2024",
+            "url": "https://public.destinyhosted.com/cortedocs/2024/CC/20241008_170/170_10082024.doc"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "7.a Acceptance of Proposal for Housing Coordinator Contract Position",
+              "quote": "The City of Cortez committed to increasing the overall affordable housing units by 89 units (rental or for sale) by the end of 2026 with the approval of Proposition 123.",
+              "source_file": "sources/0817375/council-minutes-2024-10-08.txt"
+            },
+            {
+              "section": "7.a",
+              "quote": "The City was awarded a $133,120.00 Local Planning Capacity Grant",
+              "source_file": "sources/0817375/council-minutes-2024-10-08.txt"
+            },
+            {
+              "section": "7.a motion",
+              "quote": "Mayor Pro-tem DeHaven moved that Council authorize City Manager Drew Sanders to negotiate and sign a contract with Lisa Bloomquist Consulting Service, LLC, to serve in the position of Affordable and Workforce Housing Coordinator for the City of Cortez, as an independent contractor for an amount not to exceed $166,400.00.",
+              "source_file": "sources/0817375/council-minutes-2024-10-08.txt"
+            },
+            {
+              "section": "7.a vote",
+              "quote": "DeHaven Dobry Lewis Keefauver Medina Randle Spruell Yes Yes Yes Yes Yes Yes Yes",
+              "source_file": "sources/0817375/council-minutes-2024-10-08.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-cortez-2025-ord-1352",
+          "kind": "action",
+          "type": "housing_policy_adoption",
+          "body": "City Council",
+          "title": "Ordinance 1352, Series 2025: Land Use Code incentives for affordable housing projects (Prop 123 fast track)",
+          "date": "2025-11-25",
+          "outcome": "approved",
+          "vote": "7-0",
+          "affordable_detail": "Adds affordable housing incentives (density bonuses, fast-track review within 90 days) required by Proposition 123",
+          "source": {
+            "label": "Cortez City Council minutes, November 25, 2025",
+            "url": "https://public.destinyhosted.com/cortedocs/2025/CC/20251125_243/243_MinutesNovember252025.pdf"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "5.b Ordinance No. 1352",
+              "quote": "To remain eligible for a $50,000 grant supporting affordable housing, the City must adopt an ordinance by year-end as required by Proposition 123. The change is minor, formalizing the City’s existing practice of processing applications within 90 days. Cortez has already added incentives such as density bonuses and fast-track stipulations.",
+              "source_file": "sources/0817375/council-minutes-2025-11-25.txt"
+            },
+            {
+              "section": "5.b motion",
+              "quote": "Councilmember Randle moved that Council approve on second reading Ordinance 1352, Series 2025, an ordinance revising the Land Use Code to add incentives for affordable housing projects",
+              "source_file": "sources/0817375/council-minutes-2025-11-25.txt"
+            },
+            {
+              "section": "5.b vote",
+              "quote": "Councilmember Dobry seconded the motion and the vote was as follows: DeHaven Dobry Lewis Keefauver Medina Randle Spruell Yes Yes Yes Yes Yes Yes Yes",
+              "source_file": "sources/0817375/council-minutes-2025-11-25.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-cortez-2026-evergreen-7th-street",
+          "kind": "action",
+          "type": "land_contribution",
+          "body": "City Council",
+          "title": "MOU with developer Evergreen Redevelopment West for affordable multifamily rental housing on City-owned West 7th Street land",
+          "date": "2026-06-09",
+          "outcome": "approved",
+          "vote": "7-0",
+          "affordable_detail": "Selects a developer for affordable multifamily rental housing on City-owned land and authorizes negotiation of a purchase and sale agreement; reviewed by the City's low-income tax credit attorney",
+          "source": {
+            "label": "Cortez City Council minutes, June 9, 2026",
+            "url": "https://public.destinyhosted.com/cortedocs/2026/CC/20260609_273/273_MinutesJune92026.pdf"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "7.b MOU presentation",
+              "quote": "Mr. Armstrong noted the MOU was reviewed by the City Attorney, the City's low-income tax credit attorney, and legal counsel for Evergreen",
+              "source_file": "sources/0817375/council-minutes-2026-06-09.txt"
+            },
+            {
+              "section": "7.b motion",
+              "quote": "Mayor Pro Tem Lewis moved that Council select Evergreen Redevelopment West LLC as the developer of affordable multifamily rental housing on City-owned property located on West 7th Street, approve the Memorandum of Understanding between the City and Evergreen, authorize the Mayor to sign the MOU, and authorize the City Manager to negotiate a Purchase and Sale Agreement for the 7th Street property with the final purchase price to be approved by City Council.",
+              "source_file": "sources/0817375/council-minutes-2026-06-09.txt"
+            },
+            {
+              "section": "7.b vote",
+              "quote": "Councilmember Wolf seconded the motion and the vote was as follows: Lewis Osborn Randle Spruell Swope West Wolf Yes Yes Yes Yes Yes Yes Yes",
+              "source_file": "sources/0817375/council-minutes-2026-06-09.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0818310",
+      "jurisdiction": "Town of Crested Butte",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "records",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://www.crestedbutte-co.gov (redirects to townofcrestedbutte.colorado.gov; CloudFront answers HTTP 403 unless browser Accept headers are sent)",
+        "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
+        "https://townofcrestedbutte.colorado.gov/stay-informed/town-plans",
+        "https://townofcrestedbutte.colorado.gov/government/town-council (2025-2026 agendas, minutes and packets only)",
+        "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf",
+        "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Town%20of%20Crested%20Butte%20Affordable%20Housing%20Guidelines%20Adopted%20June%2015%2C%202026.pdf",
+        "Signed minutes PDFs 2025-2026 (36 files, e.g. https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Minutes%2005-18-2026.pdf): image-only scans with no text layer",
+        "Comprehensive E-Packets 2025-2026 (41 downloaded; they carry the draft minutes of the previous meeting as text)",
+        "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Executive%20Summary%20E-Packet%2006-01-2026.pdf",
+        "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Comprehensive%20E-Packet%2001.20.2026_0.pdf",
+        "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Comprehensive%20E-Packet%2002-02-2026.pdf",
+        "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Comprehensive%20E-Packet%2007-06-2026.pdf"
+      ],
+      "note": "The council page lists only 2025-2026 meetings, so votes from late 2023-2024 could not be checked. The signed minutes are image-only scans, so votes are quoted from the draft minutes in the next meeting's packet. The Housing page also links the regional 2024 Gunnison Valley Housing Needs Assessment and the 2020 Town housing plan; neither was recorded.",
+      "items": [
+        {
+          "id": "ls-crested-butte-2026-5yr-housing-strategy",
+          "kind": "plan",
+          "type": "housing_plan",
+          "body": "Town Council",
+          "title": "Crested Butte 5-Year Housing Strategy",
+          "date": "2026-05-18",
+          "outcome": "adopted",
+          "vote": null,
+          "affordable_detail": "Targets lower income renters (at or below 60% AMI), middle income homebuyers (at or below 120% AMI) and supportive housing; strategies to produce and steward deed-restricted housing",
+          "source": {
+            "label": "Crested Butte 5-Year Housing Strategy (adopted May 18, 2026); May 18, 2026 draft minutes in June 1, 2026 packet",
+            "url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Cover",
+              "quote": "Crested Butte 5-Year Housing Strategy Adopted May 18, 2026",
+              "source_file": "sources/0818310/five-year-housing-strategy-2026.txt"
+            },
+            {
+              "section": "Executive Summary",
+              "quote": "Today’s housing needs increasingly center on lower income renters (≤ 60% AMI), middle income homebuyers (≤120% AMI), and those that need supportive housing, groups not well-served by the current mix of units.",
+              "source_file": "sources/0818310/five-year-housing-strategy-2026.txt"
+            },
+            {
+              "section": "Minutes of May 18, 2026, item 3 (in June 1, 2026 packet)",
+              "quote": "Magner moved and Goldstone seconded a motion to adopt the 5-Year Housing Strategy as amended. A roll call vote was taken with all voting, “Yes.” Motion passed unanimously.",
+              "source_file": "sources/0818310/packet-2026-06-01-exec.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-crested-butte-2026-828-gothic",
+          "kind": "action",
+          "type": "project_approval",
+          "body": "Town Council",
+          "title": "Ordinance No. 1, Series 2026 authorizing sale of deed-restricted unit 828 Gothic Avenue #1A with new income and asset limits",
+          "date": "2026-01-20",
+          "outcome": "approved",
+          "vote": null,
+          "affordable_detail": "Town bought the deed-restricted unit to add income and asset limits to the deed restriction and resell it by lottery under the Affordable Housing Guidelines",
+          "source": {
+            "label": "Crested Butte January 20, 2026 packet (staff report) and draft minutes of January 20, 2026 (in February 2, 2026 packet)",
+            "url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Comprehensive%20E-Packet%2002-02-2026.pdf"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Staff report, Ordinance No. 1 Series 2026",
+              "quote": "On October 20th, the Town Council approved the purchase of 828 Gothic, a deed restricted unit, to add income and asset limits to the deed restriction and to grant the Town the first right of refusal on future sales with the intent of selling the unit under the Town’s Affordable Housing Guidelines by lottery to a qualified buyer.",
+              "source_file": "sources/0818310/packet-2026-01-20.txt"
+            },
+            {
+              "section": "Minutes of January 20, 2026, Public Hearing 1",
+              "quote": "O’Neal moved and Guibert seconded a motion to approve Ordinance No. 1, Series 2026, An Ordinance of the Crested Butte Town Council Authorizing the Sale of 828 Gothic Avenue, #1A, Crested Butte. A roll call vote was taken with all voting, “Yes.” Motion passed unanimously.",
+              "source_file": "sources/0818310/packet-2026-02-02.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-crested-butte-2026-ah-guidelines",
+          "kind": "action",
+          "type": "housing_policy_adoption",
+          "body": "Town Council",
+          "title": "Resolution No. 13, Series 2026 approving the 2026 Amended Affordable Housing Guidelines",
+          "date": "2026-06-15",
+          "outcome": "approved",
+          "vote": null,
+          "affordable_detail": "Amended guidelines govern eligibility, income qualification and lotteries for the Town's deed-restricted affordable housing",
+          "source": {
+            "label": "Draft minutes of June 15, 2026 (in July 6, 2026 packet); Affordable Housing Guidelines amended June 15, 2026",
+            "url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Comprehensive%20E-Packet%2007-06-2026.pdf"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Minutes of June 15, 2026, New Business 1",
+              "quote": "Resolution No. 13, Series 2026 - A Resolution of the Crested Butte Town Council Approving the 2026 Amended Affordable Housing Guidelines.",
+              "source_file": "sources/0818310/packet-2026-07-06.txt"
+            },
+            {
+              "section": "Minutes of June 15, 2026, motion",
+              "quote": "Prochaska moved and Guibert seconded a motion to approve Resolution No. 13, Series 2026 with the amendment to the guidelines. A roll call vote was taken with all voting, “Yes.” Motion passed unanimously.",
+              "source_file": "sources/0818310/packet-2026-07-06.txt"
+            },
+            {
+              "section": "Guidelines cover",
+              "quote": "AFFORDABLE HOUSING GUIDELINES Adopted February 1, 2016 Amended November 18, 2024 Amended July 7, 2025 Amended June 15, 2026",
+              "source_file": "sources/0818310/affordable-housing-guidelines-2026.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0820000",
+      "jurisdiction": "City and County of Denver",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "records",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://webapi.legistar.com/v1/denver/matters (title searches: affordab, Strategic Plan, Housing Plan, Needs Assessment, Comprehensive Plan; intro 2021-10-01 onward)",
+        "https://denver.legistar.com/gateway.aspx?M=L&ID=19751",
+        "https://denver.legistar.com/HistoryDetail.aspx?ID=23445593&GUID=8F756B5D-699C-4FA2-90AB-1E17E1D23312",
+        "https://denver.legistar.com/View.ashx?M=F&ID=9900732&GUID=1EC73E5A-8750-4D2A-8314-9420BBA6FCB8",
+        "https://denver.legistar.com/gateway.aspx?M=L&ID=25748",
+        "https://denver.legistar.com/HistoryDetail.aspx?ID=31402767&GUID=1D75B2F2-B99F-4A70-8539-B2490B516289",
+        "https://denver.legistar.com/gateway.aspx?M=L&ID=26256",
+        "https://denver.legistar.com/HistoryDetail.aspx?ID=32094386&GUID=62A2F538-F89F-4B05-9D1F-EC5B2D2C22A7",
+        "https://denver.legistar.com/gateway.aspx?M=L&ID=27437",
+        "https://denver.legistar.com/HistoryDetail.aspx?ID=33722543&GUID=E324ED43-AED2-4D96-919D-FB2DCC0C6B45",
+        "https://denver.legistar.com/gateway.aspx?M=L&ID=28013",
+        "https://denver.legistar.com/HistoryDetail.aspx?ID=35162707&GUID=D4672831-CD91-4BC6-B50B-3989C15D54D0",
+        "https://denver.legistar.com/gateway.aspx?M=L&ID=56740",
+        "https://denver.legistar.com/HistoryDetail.aspx?ID=36780424&GUID=6397C7E3-6985-4FBF-A329-80931FB92170"
+      ],
+      "note": "Denver's 2026 Housing Needs Assessment was only heard in committee (26-0477) and a one-year continuation of the HOST strategic plan for 2027 was adopted in 2026 (26-1254); neither is recorded. The 2024 sales-tax referral passed council 9-4 but the ballot outcome is not recorded here.",
+      "items": [
+        {
+          "id": "ls-denver-host-strategic-plan-2022",
+          "kind": "plan",
+          "type": "housing_plan",
+          "body": "City Council",
+          "title": "Department of Housing Stability Five-Year Strategic Plan (Council Resolution 21-1233)",
+          "date": "2021-11-08",
+          "outcome": "adopted",
+          "vote": "13-0",
+          "affordable_detail": "Calls for the creation and preservation of 7,000 affordable homes over five years",
+          "source": {
+            "label": "Denver Legistar file 21-1233 and attached plan PDF",
+            "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=19751"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Legislation details, title",
+              "quote": "A resolution approving a proposed Department of Housing Stability Five-Year Strategic Plan for the City and County of Denver.",
+              "source_file": "sources/0820000/legistar-21-1233.txt"
+            },
+            {
+              "section": "Legislation history",
+              "quote": "11/8/2021 1 City Council adopted Pass",
+              "source_file": "sources/0820000/legistar-21-1233.txt"
+            },
+            {
+              "section": "Action details, vote",
+              "quote": "that Council Resolution 21-1233 be adopted en bloc, carried by the following vote: Consent Votes (13:0)",
+              "source_file": "sources/0820000/legistar-21-1233-vote.txt"
+            },
+            {
+              "section": "Plan text",
+              "quote": "This plan calls for the creation and preservation of 7,000 affordable homes in Denver over the next five years.",
+              "source_file": "sources/0820000/host-strategic-plan-2022-2026.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-denver-affordable-denver-ballot-referral",
+          "kind": "action",
+          "type": "housing_policy_adoption",
+          "body": "City Council",
+          "title": "Council Bill 24-0972 referring an affordable-housing sales tax to the ballot",
+          "date": "2024-08-19",
+          "outcome": "approved",
+          "vote": "9-4",
+          "affordable_detail": "Refers a 0.50 percent sales and use tax increase dedicated to affordable housing and housing support services to voters",
+          "source": {
+            "label": "Denver Legistar file 24-0972",
+            "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=25748"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Legislation details, title",
+              "quote": "Refers a question to the ballot to increase the sales and use tax by a rate of 0.50 percent to fund affordable housing and related housing support services citywide, subject to voter approval.",
+              "source_file": "sources/0820000/legistar-24-0972.txt"
+            },
+            {
+              "section": "Legislation history",
+              "quote": "8/19/2024 1 City Council placed upon final consideration and do pass as amended Pass",
+              "source_file": "sources/0820000/legistar-24-0972.txt"
+            },
+            {
+              "section": "Action details, vote",
+              "quote": "that Council Bill 24-0972 be placed upon final consideration and do pass as amended, carried by the following vote: Votes (9:4)",
+              "source_file": "sources/0820000/legistar-24-0972-vote8.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-denver-mercy-navajo-loan",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "City Council",
+          "title": "Resolution 24-1480 approving $8,550,000 loan to Mercy Housing Mountain Plains",
+          "date": "2024-11-18",
+          "outcome": "approved",
+          "vote": "13-0",
+          "affordable_detail": "Loan to finance construction of 190 income-restricted units leased at rents affordable to qualifying households",
+          "source": {
+            "label": "Denver Legistar file 24-1480",
+            "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=26256"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Legislation details, title",
+              "quote": "Approves the loan agreement with Mercy Housing Mountain Plains in the amount of $8,550,000 to finance construction of 190 income-restricted units to be leased at rents affordable to qualifying households",
+              "source_file": "sources/0820000/legistar-24-1480.txt"
+            },
+            {
+              "section": "Legislation history",
+              "quote": "11/18/2024 1 City Council adopted Pass",
+              "source_file": "sources/0820000/legistar-24-1480.txt"
+            },
+            {
+              "section": "Action details, vote",
+              "quote": "that Council Resolution 24-1480 be adopted en bloc, carried by the following vote: Consent Votes (13:0)",
+              "source_file": "sources/0820000/legistar-24-1480-vote.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-denver-49th-vine-loan",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "City Council",
+          "title": "Resolution 25-0811 approving a $5,270,000.00 loan for 49th & Vine (4% phase)",
+          "date": "2025-06-16",
+          "outcome": "approved",
+          "vote": "8-0",
+          "affordable_detail": "Finances construction of 102 income-restricted units leased at affordable rents to qualifying households",
+          "source": {
+            "label": "Denver Legistar file 25-0811",
+            "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=27437"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Legislation details, title",
+              "quote": "Approves a loan agreement between the City and County of Denver and CVCO 49th & Vine 4% Property Owner, LLP for $5,270,000.00 and 360 months to finance the construction of 102 income-restricted units to be leased at affordable rents to qualifying households",
+              "source_file": "sources/0820000/legistar-25-0811.txt"
+            },
+            {
+              "section": "Legislation history",
+              "quote": "6/16/2025 1 City Council adopted Pass",
+              "source_file": "sources/0820000/legistar-25-0811.txt"
+            },
+            {
+              "section": "Action details, vote",
+              "quote": "that Council Resolution 25-0811 be adopted en bloc, carried by the following vote: Consent Votes (8:0)",
+              "source_file": "sources/0820000/legistar-25-0811-vote2.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-denver-tremont-purchase-failed",
+          "kind": "action",
+          "type": "denial",
+          "body": "City Council",
+          "title": "Resolution 25-1425 to buy 1460 and 1480 Tremont Place for affordable housing failed",
+          "date": "2025-10-14",
+          "outcome": "denied",
+          "vote": "4-7",
+          "affordable_detail": "Council rejected a $2,500,000.00 purchase of property to support an affordable housing development in the Central Business District",
+          "source": {
+            "label": "Denver Legistar file 25-1425",
+            "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=28013"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Legislation details, title",
+              "quote": "for $2,500,000.00 with an end date of 3-31-2026 for the property located at 1460 and 1480 Tremont Place to support an affordable housing development project in the Central Business District",
+              "source_file": "sources/0820000/legistar-25-1425.txt"
+            },
+            {
+              "section": "Legislation history",
+              "quote": "10/14/2025 1 City Council adopted Fail",
+              "source_file": "sources/0820000/legistar-25-1425.txt"
+            },
+            {
+              "section": "Action details, vote",
+              "quote": "that Council Resolution 25-1425 be adopted, failed to carry by the following vote: Votes (4:7)",
+              "source_file": "sources/0820000/legistar-25-1425-vote1.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-denver-preservation-ordinance-2026",
+          "kind": "action",
+          "type": "housing_policy_adoption",
+          "body": "City Council",
+          "title": "Council Bill 26-0561 amending the Preservation of Affordable Housing Ordinance",
+          "date": "2026-05-18",
+          "outcome": "approved",
+          "vote": "12-0",
+          "affordable_detail": "Amends the city's Preservation of Affordable Housing Ordinance (DRMC Chapter 27, Article III)",
+          "source": {
+            "label": "Denver Legistar file 26-0561",
+            "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=56740"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Legislation details, title",
+              "quote": "A bill for an ordinance amending Chapter 27, Article III of the Revised Municipal Code, concerning the preservation of affordable housing.",
+              "source_file": "sources/0820000/legistar-26-0561.txt"
+            },
+            {
+              "section": "Legislation history",
+              "quote": "5/18/2026 1 City Council placed upon final consideration and do pass Pass",
+              "source_file": "sources/0820000/legistar-26-0561.txt"
+            },
+            {
+              "section": "Action details, vote",
+              "quote": "that Council Bill 26-0561 be placed upon final consideration and do pass en bloc, carried by the following vote: Consent Votes (12:0)",
+              "source_file": "sources/0820000/legistar-26-0561-vote3.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0822035",
+      "jurisdiction": "City of Durango",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "none_found",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://www.durangoco.gov/",
+        "https://www.durangoco.gov/146/Public-Meetings",
+        "https://www.durangoco.gov/AgendaCenter (HTTP 404)",
+        "https://www.durangoco.gov/Search?searchPhrase=housing%20needs%20assessment (search results not rendered server-side)",
+        "https://durangogov.hylandcloud.com/251agendaonline/Meetings/Search (City Council regular and special meetings 2023-10-01 to 2026-10-10; 87 minutes PDFs downloaded and searched)",
+        "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/x.pdf?documentType=1&meetingId=8179&itemId=86755&publishId=22517&isSection=False&isAttachment=True (CDC staff report, 2026-09-28)",
+        "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_6939_Minutes_2_6_2024_5_30_00_PM.pdf?documentType=2&meetingId=6939",
+        "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_7246_Minutes_11_19_2024_5_30_00_PM.pdf?documentType=2&meetingId=7246",
+        "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_7889_Minutes_3_3_2026_5_30_00_PM.pdf?documentType=2&meetingId=7889"
+      ],
+      "note": "No city-adopted housing plan from the last 5 years was found. Durango took part in the regional 2025 La Plata County Housing Needs Assessment (RHA, completed November 2025), and the 2022 Workforce Housing Investment Strategy is a joint document, but no council adoption of either was found in the minutes. The 2018 Durango Housing Plan is older than 5 years and was found only on a non-city host. The 2024-11-19 votes were first consideration; the final readings were on the 2024-12-03 consent agenda, whose minutes do not record the consent vote.",
+      "items": [
+        {
+          "id": "ls-durango-2024-durango-crossings",
+          "kind": "action",
+          "type": "rezoning_approval",
+          "body": "City Council",
+          "title": "Durango Crossings Partnership annexation, initial zoning and conceptual planned development",
+          "date": "2024-02-06",
+          "outcome": "approved",
+          "vote": "5-0",
+          "affordable_detail": "Deed-restricted workforce housing development with a minimum 50% deed-restricted units and 70% AMI requirements",
+          "source": {
+            "label": "Durango City Council minutes, February 6, 2024",
+            "url": "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_6939_Minutes_2_6_2024_5_30_00_PM.pdf?documentType=2&meetingId=6939"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Land Use and Development, Durango Crossings",
+              "quote": "The project would develop deed restricted workforce housing",
+              "source_file": "sources/0822035/council-minutes-2024-02-06.txt"
+            },
+            {
+              "section": "Annexation ordinance discussion",
+              "quote": "She and Mr. Armentano reviewed the minimum 50% deed restricted units and 70% AMI requirements.",
+              "source_file": "sources/0822035/council-minutes-2024-02-06.txt"
+            },
+            {
+              "section": "Annexation ordinance vote",
+              "quote": "A roll call was taken, and the motion passed. The motion passed: 5 in favor; 0 opposed; Abstain 0; Absent 0 A Resolution Approving the Conceptual Planned Development for the Durango Crossings Partnership",
+              "source_file": "sources/0822035/council-minutes-2024-02-06.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-durango-2024-rivergate-land",
+          "kind": "action",
+          "type": "land_contribution",
+          "body": "City Council",
+          "title": "Ordinance authorizing acquisition of Lot 4 Rivergate Subdivision for future affordable housing (first consideration)",
+          "date": "2024-11-19",
+          "outcome": "approved",
+          "vote": "5-0",
+          "affordable_detail": "City land purchase for future affordable housing development using ARPA/SLFRF funds earmarked for affordable housing",
+          "source": {
+            "label": "Durango City Council minutes, November 19, 2024",
+            "url": "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_7246_Minutes_11_19_2024_5_30_00_PM.pdf?documentType=2&meetingId=7246"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "12.3 presentation",
+              "quote": "He explained that the City has unspent American Rescue Plan Act (ARPA) and State and Local Fiscal Recovery Funds (SLFRF) earmarked for affordable housing.",
+              "source_file": "sources/0822035/council-minutes-2024-11-19.txt"
+            },
+            {
+              "section": "12.3 motion",
+              "quote": "Councilor Woodruff made a motion to approve Item 12.3., an Ordinance Authorizing the City Manager to Execute a Land Acquisition Agreement for PARCEL # 566732106004 LOT 4 RIVERGATE SUBDIVISION for the Purposes of Future Affordable Housing Development.",
+              "source_file": "sources/0822035/council-minutes-2024-11-19.txt"
+            },
+            {
+              "section": "12.3 vote",
+              "quote": "that a phase I environmental and a geotechnical study would be conducted. A roll call was taken and the motion passed unanimously. Passed: For 5; Against: 0; Abstain: 0; Absent: 0",
+              "source_file": "sources/0822035/council-minutes-2024-11-19.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-durango-2026-north-main-mou",
+          "kind": "action",
+          "type": "project_approval",
+          "body": "City Council",
+          "title": "Resolution authorizing an MOU with the Colorado Department of Personnel and Administration for the North Main Housing Project",
+          "date": "2026-03-03",
+          "outcome": "approved",
+          "vote": "4-0",
+          "affordable_detail": "Partnership with the State to develop affordable housing on state-owned property",
+          "source": {
+            "label": "Durango City Council minutes, March 3, 2026",
+            "url": "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_7889_Minutes_3_3_2026_5_30_00_PM.pdf?documentType=2&meetingId=7889"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "11.2 North Main Housing Project",
+              "quote": "He reviewed property that was owned by the state of Colorado, that was intended for developing affordable housing. The resolution would approve the City of Durango to enter an agreement with the state for development.",
+              "source_file": "sources/0822035/council-minutes-2026-03-03.txt"
+            },
+            {
+              "section": "11.2 vote",
+              "quote": "would satisfy Proposition 123 requirements. A vote was taken, and the motion passed unanimously. The motion passed: 4 in favor; 0 opposed; Abstain 0; Absent 1",
+              "source_file": "sources/0822035/council-minutes-2026-03-03.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-durango-2026-fair-share-amendments",
+          "kind": "action",
+          "type": "housing_policy_adoption",
+          "body": "City Council",
+          "title": "Ordinance amending the Land Use and Development Code regarding Fair Share (inclusionary) housing",
+          "date": "2026-03-03",
+          "outcome": "approved",
+          "vote": "4-0",
+          "affordable_detail": "Fair Share program requires a portion of new development to be workforce or affordable housing; amendments revise exemption and fee-in-lieu rules to incentivize construction",
+          "source": {
+            "label": "Durango City Council minutes, March 3, 2026",
+            "url": "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_7889_Minutes_3_3_2026_5_30_00_PM.pdf?documentType=2&meetingId=7889"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "12.2 Fair Share text amendments",
+              "quote": "He began with some history on the program, requiring that a portion of Durango’s new developments be workforce or affordable housing.",
+              "source_file": "sources/0822035/council-minutes-2026-03-03.txt"
+            },
+            {
+              "section": "12.2 discussion",
+              "quote": "The amendments to the Land Use and Development Code were intended to heavily incentivize construction versus fees in lieu.",
+              "source_file": "sources/0822035/council-minutes-2026-03-03.txt"
+            },
+            {
+              "section": "12.2 vote",
+              "quote": "Mr. Devine gave clarity to AMI calculations and how they were applied to the program. A vote was taken, and the motion passed unanimously. The motion passed: 4 in favor; 0 opposed; Abstain 0; Absent 1",
+              "source_file": "sources/0822035/council-minutes-2026-03-03.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0827425",
+      "jurisdiction": "City of Fort Collins",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "unreadable",
+        "council": "unreadable"
+      },
+      "sources_checked": [
+        "https://www.fcgov.com/housing/ (HTTP 403)",
+        "www.fcgov.com/housing/housing-strategic-plan (HTTP 404, link not kept)",
+        "https://www.fcgov.com/cityclerk/agendas (HTTP 403)",
+        "https://fcgov.com/affordable-housing (HTTP 403)",
+        "https://www.fcgov.com/elections/files/reso-073-ballot-property-tax-affordable-housing-only.pdf (HTTP 403)",
+        "https://www.fortcollins.gov/ (HTTP 403)",
+        "https://www.fortcollins.gov/News-Articles/News/2026-Q1/City-adds-2-acres-to-Affordable-Housing-Land-Bank (HTTP 403)",
+        "https://records.fcgov.com/WebLink/Browse.aspx (HTTP 200 but JavaScript-only Laserfiche shell, no document text)",
+        "Legistar web API, fortcollins client (none configured: HTTP 500)",
+        "https://cdola.colorado.gov/housing-plans SB24-174 approved HNA sheet (no Fort Collins entry)"
+      ],
+      "note": "Every fcgov.com and fortcollins.gov page returned an Akamai 'Access Denied' (403) to automated requests, and the Laserfiche records portal renders only through JavaScript. Search results point to a 2023 council-referred affordable-housing property tax (Resolution 2023-073) and 2026 land-bank purchases, but none could be read from an official source, so nothing is recorded.",
+      "items": [],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0828745",
+      "jurisdiction": "City of Fruita",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "records",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://www.fruita.org/AgendaCenter",
+        "https://www.fruita.org/AgendaCenter (City Council 2023-2026 and Planning Commission 2023-2026 minutes lists; ~125 minutes PDFs from 2023-10 onward downloaded and searched)",
+        "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_01202026-963",
+        "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_09032024-96",
+        "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_05202025-62",
+        "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_05192026-1010",
+        "https://www.fruita.org/Search?searchPhrase=housing%20action%20plan (no plan PDF link found)"
+      ],
+      "note": "The HNA/Housing Action Plan PDF itself was not located on fruita.org; the plan item rests on the adopting council minutes. Several housing votes were taken by the council sitting as the Fruita Housing Authority board.",
+      "items": [
+        {
+          "id": "ls-fruita-2026-hna-hap",
+          "kind": "plan",
+          "type": "housing_needs_assessment",
+          "body": "City Council",
+          "title": "Resolution 2026-08 adopting the Fruita Housing Needs Assessment and Housing Action Plan",
+          "date": "2026-01-20",
+          "outcome": "adopted",
+          "vote": "6-0",
+          "affordable_detail": "Housing Action Plan goals include supporting affordable and workforce housing; adopted as guiding policy for housing decisions",
+          "source": {
+            "label": "Fruita City Council minutes, January 20, 2026",
+            "url": "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_01202026-963"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 6.C, Resolution 2026-08 presentation",
+              "quote": "The HAP outlines clear goals and strategies to guide future housing decisions including encouraging a greater mix of housing types, supporting infill and redevelopment within existing city limits, and supporting opportunities for affordable and workforce housing.",
+              "source_file": "sources/0828745/council-minutes-2026-01-20.txt"
+            },
+            {
+              "section": "Item 6.C, motion",
+              "quote": "COUNCILOR PURSER MOVED TO ADOPT RESOLUTION 2026-08 – THE HOUSING NEEDS ASSESSMENT AND HOUSING ACTION PLAN AS PREPARED TO SERVE AS GUIDING POLICY DOCUMENTS FOR FUTURE HOUSING-RELATED DECISIONS AND IMPLEMENTATION EFFORTS. COUNCILOR PARRISH SECONDED THE MOTION. THE MOTION PASSED WITH SIX YES VOTES.",
+              "source_file": "sources/0828745/council-minutes-2026-01-20.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-fruita-2024-prop123-landbank",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "City Council",
+          "title": "Direction to apply for CHFA Prop 123 Land Banking grant (The Fruita Commons site)",
+          "date": "2024-09-03",
+          "outcome": "approved",
+          "vote": "3-2",
+          "affordable_detail": "Prop 123 land banking requires 70% of rental homes at or below 60% AMI and 70% of homeownership at or below 100% AMI; partnership with Housing Resources of Western Colorado and a developer",
+          "source": {
+            "label": "Fruita City Council minutes, September 3, 2024",
+            "url": "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_09032024-96"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Public hearing discussion",
+              "quote": "Authority would have the same restrictions of 70% of the rental homes must be at 60% of AMI or less and for homeownership, 70% needs to be at 100% of AMI or less.",
+              "source_file": "sources/0828745/council-minutes-2024-09-03.txt"
+            },
+            {
+              "section": "Motion",
+              "quote": "COUNCILOR PURSER MOVED TO DIRECT THE CITY MANAGER TO APPLY FOR THE CHFA PROP 123 LAND BANKING GRANT REQUEST WITH HOUSING RESOURCES OF WESTERN COLORADO",
+              "source_file": "sources/0828745/council-minutes-2024-09-03.txt"
+            },
+            {
+              "section": "Motion",
+              "quote": "FOR THE PROPERTY LOCATED AT 1138 18 ½ ROAD, FRUITA CO 81521. COUNCILOR PARRISH SECONDED THE MOTION. THE MOTION PASSED WITH THREE YES VOTES. COUNCILORS WILLIAMS AND HANCEY VOTED NO.",
+              "source_file": "sources/0828745/council-minutes-2024-09-03.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-fruita-2025-the-oaks",
+          "kind": "action",
+          "type": "project_approval",
+          "body": "City Council",
+          "title": "Resolution 2025-17 approving the Redevelopment, Financing and AMI Restriction Agreement for The Oaks",
+          "date": "2025-05-20",
+          "outcome": "approved",
+          "vote": "6-0",
+          "affordable_detail": "62 multi-family rental units at the former Family Health West property restricted to 100% AMI or less, with city/housing authority contributions (initial $400,000)",
+          "source": {
+            "label": "Fruita City Council minutes, May 20, 2025",
+            "url": "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_05202025-62"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 8.A, Resolution FHA 2025-03 presentation",
+              "quote": "will redevelop the 62 units of the former Family Health West property to create multi-family rental residential units. In accordance with the Term Sheet, all 62 units will be restricted to 100% AMI or less",
+              "source_file": "sources/0828745/council-minutes-2025-05-20.txt"
+            },
+            {
+              "section": "Item 9.A, Resolution 2025-17",
+              "quote": "Councilor Hancey recalled that there was an initial $400,000 contribution",
+              "source_file": "sources/0828745/council-minutes-2025-05-20.txt"
+            },
+            {
+              "section": "Item 9.A, motion",
+              "quote": "COUNCILOR PARRISH MOVED TO APPROVE RESOLUTION 2025-17 - APPROVING THE REDEVELOPMENT, FINANCING AND AMI RESTRICTION AGREEMENT AND LOAN DEFAULT AGREEMENT AND ASSIGNMENT OF RIGHTS UNDER REDEVELOPMENT AGREEMENT FOR THE OAKS PROJECT. COMMISSIONER MILLER SECONDED THE MOTION. THE MOTION PASSED WITH SIX YES VOTES.",
+              "source_file": "sources/0828745/council-minutes-2025-05-20.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-fruita-2026-prop123-iga",
+          "kind": "action",
+          "type": "housing_policy_adoption",
+          "body": "City Council",
+          "title": "Resolution 2026-17 approving regional IGA for attribution of affordable housing units for Proposition 123 unit credit",
+          "date": "2026-05-19",
+          "outcome": "approved",
+          "vote": null,
+          "affordable_detail": "IGA with neighboring Mesa County governments to share counts of affordable housing units toward Proposition 123 commitments",
+          "source": {
+            "label": "Fruita City Council minutes, May 19, 2026",
+            "url": "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_05192026-1010"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 8.A presentation",
+              "quote": "Hemphill explained that the purpose of the Intergovernmental Agreement (IGA) is to allow the City of Fruita to share its counts of affordable housing units with Mesa County, the Town of Palisade and/or the City of Grand Junction.",
+              "source_file": "sources/0828745/council-minutes-2026-05-19.txt"
+            },
+            {
+              "section": "Item 8.A motion",
+              "quote": "COUNCILOR MILLER MOVED TO ADOPT RESOLUTION 2026-17 – APPROVING AN INTERGOVERNMENTAL AGREEMENT (IGA) PROVIDING FOR REGIONAL COLLABORATION FOR ATTRIBUTION OF AFFORDABLE HOUSING UNITS FOR THE PURPOSES OF PROPOSITION 123 UNIT CREDIT BETWEEN THE CITY OF FRUITA, CITY OF GRAND JUNCTION, TOWN OF PALISADE AND MESA COUNTY. COUNCILOR PURSER SECONDED THE MOTION. THE MOTION PASSED WITH FIVE YES VOTES.",
+              "source_file": "sources/0828745/council-minutes-2026-05-19.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0830780",
+      "jurisdiction": "City of Glenwood Springs",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "records",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://cogs.us/845/About-Housing-Stability",
+        "https://cogs.us/DocumentCenter/View/9241/Strategic-Housing-Plan-Update",
+        "https://cogs.us/DocumentCenter/View/9961 (2010 Strategic Housing Plan - superseded)",
+        "https://www.cogs.us/AgendaCenter (City Council minutes 2023-2025, all text-searched)",
+        "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_07202023-1700",
+        "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_07182024-1882",
+        "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_05152025-2049",
+        "https://glenwoodspringsco.api.civicclerk.com/v1/Events (City Council minutes Oct 2025 - Jun 2026, all text-searched)",
+        "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=6999,plainText=false%29",
+        "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=8217,plainText=false%29",
+        "https://cdola.colorado.gov/commitment-filings (Glenwood's Prop 123 commitment was accepted 7/14/2023, before the window)"
+      ],
+      "note": "Glenwood funds most of these awards from its voter-approved 2C workforce housing fund. Other in-window actions not itemized: Good Deeds funding of $100,000/yr for 2025-2027 (2025-02-20, 6-1), a Canyon Vista fee-waiver reimbursement (2025-09-04, 5-2) and further Canyon Vista funding (2025-12-04, unanimous), and the employer-based rental assistance pilot (2024-11-21).",
+      "items": [
+        {
+          "id": "ls-glenwood-springs-strategic-housing-plan-2023",
+          "kind": "plan",
+          "type": "housing_plan",
+          "body": "City Council",
+          "title": "Glenwood Springs Strategic Housing Plan Update (Resolution 2023-26)",
+          "date": "2023-07-20",
+          "outcome": "adopted",
+          "vote": null,
+          "affordable_detail": "Adopted as a guiding document; its needs assessment sets a target need of 1,346 new and/or more affordable units between 30% and 150% of AMI.",
+          "source": {
+            "label": "City Council minutes July 20, 2023; Strategic Housing Plan Update (EPS, June 2023)",
+            "url": "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_07202023-1700"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 11",
+              "quote": "Councilor Kaup moved, seconded by Councilor Schachter, to adopt Resolution 2023 as a guiding document as presented.",
+              "source_file": "sources/0830780/council-minutes-2023-07-20.txt"
+            },
+            {
+              "section": "Item 11",
+              "quote": "Councilor Kaup moved to amend the motion to set the Resolution as 2023-26, Councilor Schachter seconded amend.",
+              "source_file": "sources/0830780/council-minutes-2023-07-20.txt"
+            },
+            {
+              "section": "Item 11",
+              "quote": "Motion passed unanimously.",
+              "source_file": "sources/0830780/council-minutes-2023-07-20.txt"
+            },
+            {
+              "section": "3. Needs Assessment, Summary",
+              "quote": "After accounting for income level, total target need between 30% and 150% of AMI equals to 1,346 new and/or more affordable units.",
+              "source_file": "sources/0830780/strategic-housing-plan-update-2023.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-glenwood-springs-habitat-lofts-2024",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "City Council",
+          "title": "Additional funding for the Habitat for Humanity Lofts project",
+          "date": "2024-07-18",
+          "outcome": "approved",
+          "vote": null,
+          "affordable_detail": "Additional half-million-dollar Workforce Housing Fund grant on top of $1M already committed, for a total of 15 units, plus a $1.5M loan to Habitat for Humanity.",
+          "source": {
+            "label": "City Council minutes July 18, 2024",
+            "url": "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_07182024-1882"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 15",
+              "quote": "Councilor Schachter amended his motion to commit an additional half a million, on top of the already committed $1M, which will come as a grant from the Workforce Fund, under the same terms and conditions as the original grant, which will result in a total of 15 units, with another $1.5M to be a loan to come from funding sources to be determined.",
+              "source_file": "sources/0830780/council-minutes-2024-07-18.txt"
+            },
+            {
+              "section": "Item 15",
+              "quote": "1:11:12 the motion passed unanimously.",
+              "source_file": "sources/0830780/council-minutes-2024-07-18.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-glenwood-springs-glenwood-gardens-lihtc-2024",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "City Council",
+          "title": "Workforce Housing (2C) funding for Glenwood Gardens Low Income Housing Tax Credit project",
+          "date": "2024-07-18",
+          "outcome": "approved",
+          "vote": null,
+          "affordable_detail": "$785,000 from the 2C fund for 2025 and $785,000 for 2026 toward a LIHTC multifamily development.",
+          "source": {
+            "label": "City Council minutes July 18, 2024",
+            "url": "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_07182024-1882"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 21",
+              "quote": "Mayor Pro Tem Dehm moved to approve the Fee Waiver and Funding Request for Glenwood Gardens Low Income Housing Tax Credit – approving $785,000 out of the 2C fund for year 2025 and $785,000 out of 2C Fund for year 2026 without a fee waiver reduction following the recommendation of the applicants. Councilor Kaup seconded the motion. The full Council made comments. 3:21:46 The motion passed unanimously.",
+              "source_file": "sources/0830780/council-minutes-2024-07-18.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-glenwood-springs-mountain-mhp-2025",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "City Council",
+          "title": "$1.5 million 2C funding for resident purchase of the Mountain Mobile Home Park",
+          "date": "2025-05-15",
+          "outcome": "approved",
+          "vote": "6-1",
+          "affordable_detail": "Forgivable-loan funding from the workforce housing (2C) fund for a resident-owned community, subject to 2C requirements.",
+          "source": {
+            "label": "City Council minutes May 15, 2025",
+            "url": "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_05152025-2049"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 11",
+              "quote": "introduced the Mountain Mobile Home Park and the request for funding for a Resident Owned Community.",
+              "source_file": "sources/0830780/council-minutes-2025-05-15.txt"
+            },
+            {
+              "section": "Item 11",
+              "quote": "Councilor Schachter moved to approve the $1.5 Million 2C funding that it would be in two traches",
+              "source_file": "sources/0830780/council-minutes-2025-05-15.txt"
+            },
+            {
+              "section": "Item 11",
+              "quote": "The motion passed 6-1 with Councilor Schmahl voting against.",
+              "source_file": "sources/0830780/council-minutes-2025-05-15.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-glenwood-springs-prop123-expedited-review-2025",
+          "kind": "action",
+          "type": "housing_policy_adoption",
+          "body": "City Council",
+          "title": "Resolution 2025-29 (renumbered 2025-29A) affirming intent to follow Proposition 123 expedited review guidance",
+          "date": "2025-12-04",
+          "outcome": "approved",
+          "vote": null,
+          "affordable_detail": "Commits the city to Proposition 123 expedited (fast-track) review for affordable housing projects.",
+          "source": {
+            "label": "City Council minutes Dec. 4, 2025",
+            "url": "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=6999,plainText=false%29"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 9",
+              "quote": "Councilor Schachter moved, seconded by Councilor Weimer, to approve Resolution 2025-29; Affirming Intent to Follow Proposition 123 Expedited Review Guidance. 3:07:29 The motion passed unanimously.",
+              "source_file": "sources/0830780/council-minutes-2025-12-04.txt"
+            },
+            {
+              "section": "Item 9 note",
+              "quote": "has been changed to Resolution 2025-29A due to duplicate numbering",
+              "source_file": "sources/0830780/council-minutes-2025-12-04.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-glenwood-springs-cavern-springs-2026",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "City Council",
+          "title": "Forgivable loan to West Mountain Regional Housing Coalition for Cavern Springs Mobile Home Park",
+          "date": "2026-05-07",
+          "outcome": "approved",
+          "vote": "5-2",
+          "affordable_detail": "Forgivable loan conditioned on an affordability covenant on the mobile home park property.",
+          "source": {
+            "label": "City Council minutes May 7, 2026",
+            "url": "https://glenwoodspringsco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=8217,plainText=false%29"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Item 10",
+              "quote": "Councilor Schachter moved, seconded by Mayor Pro Tem Zalinski, to approve the forgivable loan request from West Mountain Regional Housing Coalition for Cavern Springs Mobile Home Park with an affordability covenant upon the mobile home park property",
+              "source_file": "sources/0830780/council-minutes-2026-05-07.txt"
+            },
+            {
+              "section": "Item 10",
+              "quote": "The motion passed 5:2 with Councilor Schmahl and Councilor Townsley voting against.",
+              "source_file": "sources/0830780/council-minutes-2026-05-07.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0864255",
+      "jurisdiction": "City of Rifle",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "records",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://www.rifleco.org/AgendaCenter",
+        "https://rifleco.api.civicclerk.com/v1/Events (City Council agendas 2023-10 to 2026-10, all text-searched)",
+        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=1235,plainText=false%29 (signed minutes are image scans with no text layer; draft minutes were read from the following meeting's packet instead)",
+        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2565,plainText=false%29",
+        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2573,plainText=false%29",
+        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2396,plainText=false%29",
+        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2409,plainText=false%29",
+        "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2497,plainText=false%29",
+        "https://cdola.colorado.gov/commitment-filings (Rifle's Prop 123 commitment was accepted 9/12/2023, before the window)"
+      ],
+      "note": "Rifle's published minutes are scanned images, so votes come from the draft minutes printed in the next meeting's agenda packet (approved there). An amended 'Rooted in Rifle' Housing Needs Assessment (Resolution No. 23, Series of 2026) was on the Oct. 7, 2026 agenda; its outcome is not yet published. Both actions below support Habitat for Humanity's modular housing factory on city land rather than specific income-restricted units.",
+      "items": [
+        {
+          "id": "ls-rifle-housing-study-action-plan-2025",
+          "kind": "plan",
+          "type": "housing_needs_assessment",
+          "body": "City Council",
+          "title": "Rifle Housing Study and Action Plan (Resolution No. 19, Series of 2025)",
+          "date": "2025-09-03",
+          "outcome": "adopted",
+          "vote": "6-0",
+          "affordable_detail": "DOLA-funded housing needs assessment with an Affordable Housing Action Plan; quantifies need by AMI level (e.g. 661 units at 50-80% AMI and 416 units at 0-30% AMI under needs-driven growth) and recommends density bonuses for multifamily projects with affordable units.",
+          "source": {
+            "label": "Draft minutes of Sept. 3, 2025 (in Sept. 17, 2025 council packet) and Sept. 3, 2025 council packet (housing study)",
+            "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2573,plainText=false%29"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Draft minutes Sept. 3, 2025",
+              "quote": "The City of Rifle received a Strong Communities grant through Department of Local Affairs - DOLA to complete a Housing Needs Assessment (HNA).",
+              "source_file": "sources/0864255/council-packet-2025-09-17-with-draft-minutes-2025-09-03.txt"
+            },
+            {
+              "section": "Draft minutes Sept. 3, 2025",
+              "quote": "Councilor Alicia Gresley moved to approve the Rifle Housing Study and Action Plan – Resolution No. 19, Series of 2025; seconded by Councilor Michael Clancy. Roll Call: Yes - Clint Hostettler, Chris Bornholdt, Joe Carpenter, Michael Clancy, Alicia Gresley, and Sean Strode. No – None.",
+              "source_file": "sources/0864255/council-packet-2025-09-17-with-draft-minutes-2025-09-03.txt"
+            },
+            {
+              "section": "Housing study, Housing Needs Forecast",
+              "quote": "Needs-Driven Potential Growth ▪ 0–30% AMI: 416 units ▪ 30–50% AMI: 317 units ▪ 50–80% AMI: 661 units",
+              "source_file": "sources/0864255/council-packet-2025-09-03-housing-study.txt"
+            },
+            {
+              "section": "Housing study, Table 3.6 Affordable Housing Action Plan",
+              "quote": "1.3 Adopt density bonuses for multifamily projects with affordable",
+              "source_file": "sources/0864255/council-packet-2025-09-03-housing-study.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-rifle-habitat-fee-waiver-2024",
+          "kind": "action",
+          "type": "fee_waiver_approval",
+          "body": "City Council",
+          "title": "Fee waivers for Habitat for Humanity modular housing factory",
+          "date": "2024-12-18",
+          "outcome": "approved",
+          "vote": "6-0",
+          "affordable_detail": "Waives $14,712.63 in city building, impact, water and sewer fees for Habitat for Humanity's modular housing factory on city property.",
+          "source": {
+            "label": "Draft minutes of Dec. 18, 2024 (in Jan. 15, 2025 council packet)",
+            "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2396,plainText=false%29"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Draft minutes Dec. 18, 2024",
+              "quote": "Habitat for Humanity has proposed to construct a 60,000 square foot factory to construct modular housing units on City of Rifle property",
+              "source_file": "sources/0864255/council-packet-2025-01-15-with-draft-minutes-2024-12-18.txt"
+            },
+            {
+              "section": "Draft minutes Dec. 18, 2024",
+              "quote": "Councilor Clint Hostettler moved to approve fee waivers as identified in City Staff’s memo for the amount of $14,712.63; seconded by Councilor Michael Clancy. Roll Call: Yes - Karen Roberts, Chris Bornholdt, Clint Hostettler, Michael Clancy, Joe Carpenter, and Sean Strode. No – None.",
+              "source_file": "sources/0864255/council-packet-2025-01-15-with-draft-minutes-2024-12-18.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-rifle-habitat-conduit-bond-lease-2025",
+          "kind": "action",
+          "type": "land_contribution",
+          "body": "City Council",
+          "title": "Ordinance No. 2, Series of 2025 - conduit bond financing and ground lease amendment for Habitat for Humanity Roaring Fork Valley",
+          "date": "2025-01-15",
+          "outcome": "approved",
+          "vote": "6-0",
+          "affordable_detail": "City acts as conduit bond issuer and amends the ground lease of city-owned land for Habitat for Humanity's modular housing production facility.",
+          "source": {
+            "label": "Draft minutes of Jan. 15, 2025 (in Feb. 5, 2025 council packet)",
+            "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2409,plainText=false%29"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Draft minutes Jan. 15, 2025",
+              "quote": "The Ordinance provides for the issuance by the City of Rifle of revenue bonds under the Indenture, the proceeds of which will be loaned to Habitat Roaring Fork Valley, Inc. to fund the construction of a modular housing production facility",
+              "source_file": "sources/0864255/council-packet-2025-02-05-with-draft-minutes-2025-01-15.txt"
+            },
+            {
+              "section": "Draft minutes Jan. 15, 2025",
+              "quote": "The Project will be constructed on land which is owned by the City of Rifle and has been leased to Habitat Roaring Fork Valley, Inc. pursuant to the Ground Lease.",
+              "source_file": "sources/0864255/council-packet-2025-02-05-with-draft-minutes-2025-01-15.txt"
+            },
+            {
+              "section": "Draft minutes Jan. 15, 2025",
+              "quote": "Councilor Chris Bornholdt moved to approve Ordinance No. 2, Series of 2025 on the first and only reading as presented and order it to be published as required by Charter, effective immediately; seconded by Councilor Alicia Gresley. Roll Call: Yes - Karen Roberts, Chris Bornholdt, Alicia Gresley, Michael Clancy, Joe Carpenter, and Sean Strode. No – None.",
+              "source_file": "sources/0864255/council-packet-2025-02-05-with-draft-minutes-2025-01-15.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0867280",
+      "jurisdiction": "City of Salida",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "unreadable",
+        "council": "unreadable"
+      },
+      "sources_checked": [
+        "https://www.cityofsalida.com/ (HTTP 403, Cloudflare 'Just a moment...' challenge)",
+        "https://cityofsalida.com/ (HTTP 403)",
+        "https://www.cityofsalida.com/ordinance/resolution-city-council-city-salida-colorado-establishing-affordable-housing-fee-transfer (HTTP 403, Cloudflare challenge)",
+        "https://www.cityofsalida.com/commdev/page/inclusionary-housing (HTTP 403, Cloudflare challenge)",
+        "salidaco.gov (no such site)",
+        "https://cdola.colorado.gov/housing-plans SB24-174 approved HNA sheet (no Salida or Chaffee County entry)"
+      ],
+      "note": "The city site serves a Cloudflare JavaScript challenge to every automated request, and no other official host for Salida council minutes or plans was found. Search results point to an affordable housing fee transfer resolution (2026-03) and inclusionary housing items, but none could be read from an official source, so nothing is recorded.",
+      "items": [],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0870195",
+      "jurisdiction": "Town of Silt",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "records",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://www.townofsilt.org/",
+        "https://www.townofsilt.org/adopted_studies_",
+        "https://www.townofsilt.org/community_development (Comprehensive Plan 2017 only - older than 5 years)",
+        "https://www.townofsilt.org/resolutions_ (2025-2026 resolution titles)",
+        "https://www.townofsilt.org/board_of_trustees_agendas_minutes (signed minutes 2025-2026 are image-only scans with no text layer)",
+        "https://www.townofsilt.org/board_of_trustees_packets (43 packets 2025-2026 downloaded and searched; packets contain text draft minutes of the previous meeting)",
+        "https://townofsilt.org/i/u/2017580/f/BOT%20Packets/2025%20BOT%20Packets/April_14__2025_BOT_packet_PDF.pdf",
+        "https://townofsilt.org/i/u/2017580/f/BOT%20Packets/2025%20BOT%20Packets/April_28__2025_BOT_packet_PDF_amended.pdf",
+        "https://townofsilt.org/i/u/2017580/f/BOT%20Packets/2026%20BOT%20Packets/June_8__2026_BOT_packet_PDF.pdf",
+        "https://townofsilt.org/i/u/2017580/f/BOT%20Packets/2026%20BOT%20Packets/June_22__2026_BOT_packet_PDF.pdf"
+      ],
+      "note": "Silt's website lists only 2025-2026 minutes and packets, so votes from late 2023-2024 could not be checked. The signed minutes are image-only scans, so vote evidence comes from the draft minutes in the next meeting's packet. The Board accepted the 2025 Housing Needs Assessment and put it on file; it did not adopt it. The Heron's Nest 'workforce housing' PUD (Jan-Feb 2026) was left out because the packet shows no income or deed restriction.",
+      "items": [
+        {
+          "id": "ls-silt-2025-hna",
+          "kind": "plan",
+          "type": "housing_needs_assessment",
+          "body": "Board of Trustees",
+          "title": "Silt Housing Needs Assessment (ECOnorthwest), accepted and placed on file",
+          "date": "2025-04-14",
+          "outcome": "approved",
+          "vote": null,
+          "affordable_detail": "Report recommends creating more diverse and affordable housing options, including for low-income households; presentation raises density bonuses for deed-restricted affordable housing",
+          "source": {
+            "label": "Silt Board of Trustees draft minutes of April 14, 2025 (in April 28, 2025 packet); March 24, 2025 minutes (in April 14, 2025 packet)",
+            "url": "https://townofsilt.org/i/u/2017580/f/BOT%20Packets/2025%20BOT%20Packets/April_28__2025_BOT_packet_PDF_amended.pdf"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Minutes of 3/24/2025, Housing Needs Analysis - Final Report",
+              "quote": "The report identified suggestions that the Town needs to work on creating more diverse and affordable housing options in order to meet the needs of different demographic groups, including low-income households, seniors and Hispanic residents.",
+              "source_file": "sources/0870195/bot-packet-2025-04-14.txt"
+            },
+            {
+              "section": "Minutes of 4/14/2025, Silt Housing Needs Analysis - Final Presentation",
+              "quote": "Mayor Pro-tem Hanrahan made a motion to accept the Silt Housing Needs report and to put it on file for consideration. Trustee Ingelhart seconded motion and the motion carried unanimously.",
+              "source_file": "sources/0870195/bot-packet-2025-04-28.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-silt-2026-wsvc-veterans-sia",
+          "kind": "action",
+          "type": "fee_waiver_approval",
+          "body": "Board of Trustees",
+          "title": "Resolution No. 19, Series 2026 approving the Subdivision Improvement Agreement for the Flattops Cowboy Church / Western Slope Veterans Coalition property",
+          "date": "2026-06-08",
+          "outcome": "approved",
+          "vote": null,
+          "affordable_detail": "Affordable veterans housing with rents capped at 30% of income at 60% of county AMI for 15 years; impact fees cut to 60% of current rates and parkland dedication waived",
+          "source": {
+            "label": "Silt Board of Trustees June 8, 2026 packet (SIA) and draft minutes of June 8, 2026 (in June 22, 2026 packet)",
+            "url": "https://townofsilt.org/i/u/2017580/f/BOT%20Packets/2026%20BOT%20Packets/June_22__2026_BOT_packet_PDF.pdf"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "SIA section 3.03 B, Parcel 1",
+              "quote": "Rents charged for housing on Parcel 1 will be made available to the veterans community at monthly rents not exceeding 30% of a wage earner’s monthly gross income set at 60% of the Area Median Income for Garfield County.",
+              "source_file": "sources/0870195/bot-packet-2026-06-08.txt"
+            },
+            {
+              "section": "SIA section 3.03 B, Parcel 1",
+              "quote": "the affordable housing rent structure defined herein for a period of 15 years, the Town agrees to reduce the Town impact fees for Parcel 1",
+              "source_file": "sources/0870195/bot-packet-2026-06-08.txt"
+            },
+            {
+              "section": "SIA section 3.03 B, fee terms",
+              "quote": "construction impact, and park impact will be assessed at 60% of the current rates established by the Board of Trustees",
+              "source_file": "sources/0870195/bot-packet-2026-06-08.txt"
+            },
+            {
+              "section": "Minutes of 6/8/2026, Resolution No. 19",
+              "quote": "Trustee Sanchez made a motion to approve Resolution No. 19, Series 2026, A RESOLUTION OF THE TOWN OF SILT, COLORADO, APPROVING A SUBDIVISION",
+              "source_file": "sources/0870195/bot-packet-2026-06-22.txt"
+            },
+            {
+              "section": "Minutes of 6/8/2026, Resolution No. 19",
+              "quote": "NORTH 1ST STREET, WITHIN THE TOWN OF SILT, COLORADO. Trustee Ingelhart seconded the motion, and the motion carried unanimously.",
+              "source_file": "sources/0870195/bot-packet-2026-06-22.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0873825",
+      "jurisdiction": "City of Steamboat Springs",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "records",
+        "council": "records"
+      },
+      "sources_checked": [
+        "https://www.steamboatsprings.net/housing",
+        "https://www.steamboatsprings.net/245/Long-Range-Planning",
+        "https://www.steamboatsprings.net/DocumentCenter/View/42270 (Steamboat Springs Community Plan 2025)",
+        "https://steamboatsprings.net/DocumentCenter/View/42146/City-Finalizes-Campbell-Property-Purchase",
+        "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Meetings/Search?dropid=11&mtids=108&dropsv=10/01/2023&dropev=10/10/2026 (75 City Council minutes, Oct 2023 - Aug 2026, all downloaded and searched)",
+        "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2005_Minutes_8_6_2024_5_00_00_PM.pdf?documentType=2&meetingId=2005",
+        "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2339_Minutes_10_21_2025_5_00_00_PM.pdf?documentType=2&meetingId=2339",
+        "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2052_Minutes_1_21_2025_5_00_00_PM.pdf?documentType=2&meetingId=2052",
+        "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2277_Minutes_8_19_2025_5_00_00_PM.pdf?documentType=2&meetingId=2277",
+        "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2341_Minutes_11_25_2025_5_00_00_PM.pdf?documentType=2&meetingId=2341",
+        "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2381_Minutes_2_3_2026_5_00_00_PM.pdf?documentType=2&meetingId=2381",
+        "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2421_Minutes_2_17_2026_5_00_00_PM.pdf?documentType=2&meetingId=2421"
+      ],
+      "note": "The Housing Strategy and Action Plan (2024-2025) itself was not found on the city website (planning documents are served through NextRequest); its adoption is taken from council minutes and its content from the 2025 Community Plan's description of it. Community Plan quotes come from a plain (non-layout) pdftotext extraction because the -layout text interleaves columns.",
+      "items": [
+        {
+          "id": "ls-steamboat-housing-strategy-2024",
+          "kind": "plan",
+          "type": "housing_plan",
+          "body": "City Council",
+          "title": "Housing Strategy and Action Plan (2024-2025)",
+          "date": "2024-08-06",
+          "outcome": "adopted",
+          "vote": "7-0",
+          "affordable_detail": "Recommendations aimed at preserving existing affordable housing and creating new affordable and attainable housing",
+          "source": {
+            "label": "Steamboat Springs City Council minutes, Aug 6, 2024",
+            "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2005_Minutes_8_6_2024_5_00_00_PM.pdf?documentType=2&meetingId=2005"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Minutes header",
+              "quote": "Regular Meeting No. 2024-22 Tuesday, August 6, 2024",
+              "source_file": "sources/0873825/council-minutes-2024-08-06.txt"
+            },
+            {
+              "section": "Consent calendar item 4, motion",
+              "quote": "seconded to approve a resolution of the City Council of the City Of Steamboat Springs adopting the Housing Strategy and Action Plan (2024-2025). The motion carried 7/0.",
+              "source_file": "sources/0873825/council-minutes-2024-08-06.txt"
+            },
+            {
+              "section": "Community Plan 2025, Call to Action: housing",
+              "quote": "the Steamboat Springs Housing Strategy and Action Plan was adopted by City Council in 2024 and contains numerous recommendations aimed at preserving existing affordable housing, creating new affordable and attainable housing, and assisting both renters and buyers.",
+              "source_file": "sources/0873825/community-plan-flow.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-steamboat-community-plan-2025",
+          "kind": "plan",
+          "type": "comp_plan_housing",
+          "body": "City Council",
+          "title": "Steamboat Springs Community Plan (Community Canvas)",
+          "date": "2025-10-21",
+          "outcome": "adopted",
+          "vote": "7-0",
+          "affordable_detail": "Comprehensive plan housing chapter targets 475 deed-restricted units to address catch-up demand",
+          "source": {
+            "label": "Steamboat Springs Community Plan PDF; City Council minutes, Oct 21, 2025",
+            "url": "https://www.steamboatsprings.net/DocumentCenter/View/42270"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Minutes header",
+              "quote": "Regular Meeting No. 2025-30 Tuesday, October 21, 2025",
+              "source_file": "sources/0873825/council-minutes-2025-10-21.txt"
+            },
+            {
+              "section": "Minutes, Community Plan motion",
+              "quote": "seconded to approve a resolution adopting the Steamboat Springs Community Plan. The motion carried 7/0",
+              "source_file": "sources/0873825/council-minutes-2025-10-21.txt"
+            },
+            {
+              "section": "Plan, Maintain Community: Measuring Success",
+              "quote": "The addition of new housing units—target 475 deed-restricted units to address “catch-up demand”—",
+              "source_file": "sources/0873825/community-plan-flow.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-steamboat-cottonwoods-yvha-grant",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "City Council",
+          "title": "Ordinance approving an STR-tax grant agreement with the regional housing authority (YVHA) for Cottonwoods at Mid-Valley",
+          "date": "2025-01-21",
+          "outcome": "approved",
+          "vote": "7-0",
+          "affordable_detail": "Grant for the development of affordable and attainable housing at the Cottonwoods at Mid-Valley project",
+          "source": {
+            "label": "Steamboat Springs City Council minutes, Jan 21, 2025",
+            "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2052_Minutes_1_21_2025_5_00_00_PM.pdf?documentType=2&meetingId=2052"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Minutes header",
+              "quote": "Regular Meeting No. 2025-03 Tuesday, January 21, 2025",
+              "source_file": "sources/0873825/council-minutes-2025-01-21.txt"
+            },
+            {
+              "section": "Item 8, motion",
+              "quote": "seconded to approve the second reading of an ordinance approving a Grant Agreement between the City of Steamboat Springs and the Yampa Valley Housing Authority (“YVHA”) for the development of affordable and attainable housing at the Cottonwoods at Mid-Valley project.",
+              "source_file": "sources/0873825/council-minutes-2025-01-21.txt"
+            },
+            {
+              "section": "Item 8, vote",
+              "quote": "Council Member Buccino supports the motion. The project isn’t perfect, but the applicant did their due diligence. The motion carried 7/0.",
+              "source_file": "sources/0873825/council-minutes-2025-01-21.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-steamboat-lofts-basecamp-subsidy",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "City Council",
+          "title": "Resolution approving STR-tax grant agreement with FV Basecamp, LLC (Lofts at Steamboat Basecamp)",
+          "date": "2025-08-19",
+          "outcome": "approved",
+          "vote": "4-1",
+          "affordable_detail": "Operating subsidy for ten units for households earning 60-100% of Area Median Income",
+          "source": {
+            "label": "Steamboat Springs City Council minutes, Aug 19, 2025",
+            "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2277_Minutes_8_19_2025_5_00_00_PM.pdf?documentType=2&meetingId=2277"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Minutes header",
+              "quote": "Regular Meeting No. 2025-24 Tuesday, August 19, 2025",
+              "source_file": "sources/0873825/council-minutes-2025-08-19.txt"
+            },
+            {
+              "section": "Item 11, staff summary",
+              "quote": "the City would agree to contribute short term rental (STR) Tax revenues as operating subsidy for ten units that would otherwise rent at market rates. The units will be available for individuals and families earning between 60 – 100% of Area Median Income (AMI).",
+              "source_file": "sources/0873825/council-minutes-2025-08-19.txt"
+            },
+            {
+              "section": "Item 11, vote",
+              "quote": "The motion carried 4/1. Council Member Dickson opposed.",
+              "source_file": "sources/0873825/council-minutes-2025-08-19.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-steamboat-campbell-property",
+          "kind": "action",
+          "type": "land_contribution",
+          "body": "City Council",
+          "title": "Ordinances approving purchase of the Campbell property with Short-Term Rental tax funds for affordable housing",
+          "date": "2025-11-25",
+          "outcome": "approved",
+          "vote": "7-0",
+          "affordable_detail": "City land purchase, funded from Short-Term Rental tax revenue, for the purpose of providing affordable and attainable housing",
+          "source": {
+            "label": "Steamboat Springs City Council minutes, Nov 25, 2025",
+            "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2341_Minutes_11_25_2025_5_00_00_PM.pdf?documentType=2&meetingId=2341"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Minutes header",
+              "quote": "Regular Meeting No. 2025-32 Tuesday, November 25, 2025",
+              "source_file": "sources/0873825/council-minutes-2025-11-25.txt"
+            },
+            {
+              "section": "Item 10, motion and vote",
+              "quote": "seconded to approve the second reading of an ordinance approving a supplemental budget appropriation for 2026, utilizing Short-Term Rental tax funds to acquire property referred to as the Campbell property, for the purpose of providing affordable and attainable housing. The motion carried 7/0.",
+              "source_file": "sources/0873825/council-minutes-2025-11-25.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-steamboat-affordable-housing-guidelines-2026",
+          "kind": "action",
+          "type": "housing_policy_adoption",
+          "body": "City Council",
+          "title": "Resolution adopting the City of Steamboat Springs Affordable Housing Guidelines",
+          "date": "2026-02-03",
+          "outcome": "adopted",
+          "vote": "7-0",
+          "affordable_detail": "Adopts guidelines for the city's deed restriction program, including a pilot purchase-of-deed-restriction program",
+          "source": {
+            "label": "Steamboat Springs City Council minutes, Feb 3, 2026",
+            "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2381_Minutes_2_3_2026_5_00_00_PM.pdf?documentType=2&meetingId=2381"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Minutes header",
+              "quote": "Regular Meeting No. 2026-04 Tuesday, February 3, 2026",
+              "source_file": "sources/0873825/council-minutes-2026-02-03.txt"
+            },
+            {
+              "section": "Item 7, staff presentation",
+              "quote": "Mr. Calvert provided a PowerPoint presentation reviewing the following: deed restriction program structure; program updates; Pilot Program;",
+              "source_file": "sources/0873825/council-minutes-2026-02-03.txt"
+            },
+            {
+              "section": "Item 7, motion and vote",
+              "quote": "approve a resolution of the City Council of Steamboat Springs adopting the City of Steamboat Springs Affordable Housing Guidelines as amended. The motion carried 7/0.",
+              "source_file": "sources/0873825/council-minutes-2026-02-03.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-steamboat-deed-restriction-purchase-program",
+          "kind": "action",
+          "type": "housing_policy_adoption",
+          "body": "City Council",
+          "title": "Ordinance approving Deed Restriction Purchase Program Agreements",
+          "date": "2026-02-17",
+          "outcome": "approved",
+          "vote": "4-0",
+          "affordable_detail": "Approves agreements for the city to buy deed restrictions on homes, using Short-Term Rental Tax funds for a pilot",
+          "source": {
+            "label": "Steamboat Springs City Council minutes, Feb 17, 2026",
+            "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2421_Minutes_2_17_2026_5_00_00_PM.pdf?documentType=2&meetingId=2421"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-10"
+          },
+          "evidence": [
+            {
+              "section": "Header",
+              "quote": "TUESDAY, FEBRUARY 17, 2026",
+              "source_file": "sources/0873825/council-minutes-2026-02-17.txt"
+            },
+            {
+              "section": "Item 9 title",
+              "quote": "utilizing Short-Term Rental Tax funds to acquire deed restrictions through pilot Purchase of Deed",
+              "source_file": "sources/0873825/council-minutes-2026-02-17.txt"
+            },
+            {
+              "section": "Item 8, motion and vote",
+              "quote": "approve the second reading of an ordinance approving City of Steamboat Springs Deed Restriction Purchase Program Agreements as amended. The motion carried 4/0. Council Members Garey, Agosta and Barnes were absent.",
+              "source_file": "sources/0873825/council-minutes-2026-02-17.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0876795",
+      "jurisdiction": "Town of Telluride",
+      "checked": "2026-10-10",
+      "result_by_scope": {
+        "plans": "unreadable",
+        "council": "unreadable"
+      },
+      "sources_checked": [
+        "telluride-co.gov/ (blocked: egress proxy refused CONNECT, HTTP 502)",
+        "www.telluride-co.gov/ (blocked: egress proxy refused CONNECT, HTTP 502)",
+        "telluride-co.gov/AgendaCenter (blocked: HTTP 502)",
+        "telluride-co.gov/CivicAlerts.asp?AID=340 (blocked: HTTP 502)",
+        "www.telluride-co.gov/DocumentCenter/View/14992/Telluride-Employee-Rental-Housing-Policies (found via search; host blocked, not fetched)",
+        "www.telluride-co.gov/DocumentCenter/View/15339/Telluride-Affordable-Housing-Guidelines---October-21-2025 (found via search; host blocked, not fetched)",
+        "https://telluride.municipal.codes/LUC/2-247 (HTTP 403)",
+        "https://tellurideco.portal.civicclerk.com (generic portal shell; the CivicClerk Events API answers HTTP 404, so no CivicClerk tenant)"
+      ],
+      "note": "This environment's network policy blocks every telluride-co.gov document, so nothing could be quoted. Search results point to items worth checking once the host is reachable: Employee Rental Housing Policies adopted by joint Town Council/Telluride Housing Authority resolution (reported as November 19, 2024), amendments (reported as October 28, 2025), and Affordable Housing Guidelines amended October 21, 2025.",
+      "items": [],
+      "review_by": "2027-04-10"
+    }
+  ]
+}
