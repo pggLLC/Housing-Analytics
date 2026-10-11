@@ -155,13 +155,19 @@ jobs:
       # object rather than exporting one -- so `{ ...process.env }` inherited an
       # environment that never had it. Zero issues in this repository's history match
       # alert.js's title formats, across fifteen callers.
+      # A new fiscal year (FY2027 from 2026-10-01) changes the vintage every
+      # page and export names; rewrite those labels to match the data.
+      - name: Sync HUD vintage labels to the fetched data
+        run: node scripts/sync-hud-vintage-labels.mjs
+
       - name: Commit and push data files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           python3 scripts/rebuild_manifest.py
           npm run audit:file-manifest
-          git add data/market/fmr_co.json data/hud-fmr-income-limits.json data/market/fmr_tract_map_co.json data/market/hud_zip_tract_crosswalk_co.json data/manifest.json data/_manifest.json
+          LABEL_FILES=$(node --input-type=module -e "import('./scripts/sync-hud-vintage-labels.mjs').then(m => console.log([...new Set(m.RULES.flatMap(r => r.files))].join(' ')))")
+          git add data/market/fmr_co.json data/hud-fmr-income-limits.json data/market/fmr_tract_map_co.json data/market/hud_zip_tract_crosswalk_co.json data/manifest.json data/_manifest.json $LABEL_FILES
           if git diff --cached --quiet; then
             echo "No HUD data changes to commit."
           else

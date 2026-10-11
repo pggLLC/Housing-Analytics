@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "c7a4a7ab3",
+  "generated_from_commit": "56246ee41",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-11",
-    "total_commits": 8005,
+    "total_commits": 8066,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,8 +49,8 @@
       },
       {
         "month": "2026-10",
-        "commits": 408,
-        "pct_of_peak": 28.6
+        "commits": 469,
+        "pct_of_peak": 32.8
       }
     ]
   },
@@ -59,18 +59,18 @@
     "html_pages_toplevel": 67,
     "html_pages_total": 561,
     "workflows": 80,
-    "scripts": 299,
+    "scripts": 301,
     "docs": 503,
-    "data_files": 1747,
+    "data_files": 1748,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 67,
-    "test_files": 499,
-    "absence_test_cases": 254,
-    "absence_tests": 95,
+    "test_files": 504,
+    "absence_test_cases": 256,
+    "absence_tests": 97,
     "lihtc_features": 926
   },
   "case": {
@@ -150,8 +150,8 @@
       "MIN_BURDEN_SHARE": 0.2,
       "MAX_TARGET": 600
     },
-    "eligible": 231,
-    "tractable": 63,
+    "eligible": 230,
+    "tractable": 62,
     "top": [
       {
         "geoid": "0800870",
@@ -246,12 +246,12 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 416698,
-    "generated_place_page_lines": 226824,
+    "hand_written_lines": 418394,
+    "generated_place_page_lines": 226822,
     "top_level_pages": 67,
-    "html_nonblank_lines": 48276,
-    "html_distinct_lines": 19602,
-    "html_distinct_share": 0.406,
+    "html_nonblank_lines": 48354,
+    "html_distinct_lines": 19666,
+    "html_distinct_share": 0.407,
     "substantial_tools": 27,
     "declared_data_sources": 67,
     "estimate": {
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "c7a4a7ab3",
+    "extracted_at_commit": "56246ee41",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -536,10 +536,10 @@
   },
   "methods_data": {
     "anchor_places_total": 482,
-    "anchor_places_applied": 405,
-    "anchor_places_unmeasured": 77,
+    "anchor_places_applied": 404,
+    "anchor_places_unmeasured": 78,
     "anchor_overcount_places": 143,
-    "anchor_overcount_share": 0.353,
+    "anchor_overcount_share": 0.354,
     "ranked_geographies": 546,
     "workforce_gap_wins": 265,
     "future_units_workforce_reading": 365

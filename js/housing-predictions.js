@@ -451,8 +451,18 @@
      * @param {Object[]} mockArr
      * @returns {Object[]}
      */
+    // A contract with no price carries prob null (see
+    // scripts/kalshi/fetch_kalshi_prediction_markets.js). It is left out
+    // rather than drawn as 0%; a metric with no priced contract at all is
+    // treated like a metric Kalshi did not return.
+    function priced(item) {
+      return item && Array.isArray(item.outcomes) &&
+        item.outcomes.some(o => typeof o.prob === 'number' && Number.isFinite(o.prob)) ? item : null;
+    }
+    Object.keys(byMetric).forEach(k => { if (!priced(byMetric[k])) delete byMetric[k]; });
+
     function outcomesToChartData(outcomes, mockArr) {
-      return outcomes.map((o, i) => {
+      return outcomes.filter(o => typeof o.prob === 'number' && Number.isFinite(o.prob)).map((o, i) => {
         const probPct = Math.round(o.prob * 100);
         // Try to find an expert consensus from the mock data at the same index
         const mockEntry = mockArr[i];
@@ -616,7 +626,10 @@
 
     // Load Kalshi data (falls back to null → mock data used inside render)
     const kalshiData    = await loadKalshiData();
-    const usingLiveData = kalshiData != null;
+    // "Live" needs at least one priced contract: a file whose contracts all
+    // carry prob null holds no live odds, so the illustrative banner shows.
+    const usingLiveData = kalshiData != null && kalshiData.items.some(item =>
+      Array.isArray(item.outcomes) && item.outcomes.some(o => typeof o.prob === 'number' && Number.isFinite(o.prob)));
     const updatedLabel  = usingLiveData
       ? formatDDMMYY(kalshiData.updated)
       : LAST_UPDATED;
