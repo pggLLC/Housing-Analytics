@@ -88,7 +88,7 @@ export function monthlyIssue(docs, todayDenver, existingBodies = []) {
       ? `\`${FILES.prop123}\` was last updated ${updated} (${age} days ago).`
       : `\`${FILES.prop123}\` carries no \`updated\` date.`,
     stale
-      ? `**Refresh it.** Run \`python3 ${PROP123_BUILDER}\`. It reads DOLA's commitment filings, fast-track and fully compliant lists, and writes nothing if one has changed shape. If DOLA refuses the read, save https://cdola.colorado.gov/commitment-filings, the fully compliant page and the two linked sheets (as CSV), and pass \`--from-dir\`. ${model.prop123.unmatched.length} name${model.prop123.unmatched.length === 1 ? ' does' : 's do'} not match a county or municipality on this site (${model.prop123.unmatched.join(', ') || 'none'}); a tribe or a town incorporated after 2020 is expected here, anything else is a spelling to alias in \`js/local-incentives-data.js\`.`
+      ? `**Refresh it.** Run \`python3 ${PROP123_BUILDER}\`. It reads DOLA's commitment filings, fast-track and fully compliant lists, and writes nothing if one has changed shape. If DOLA refuses the read, save DOLA's commitment filings page (https://cdola.colorado.gov/commitment-filings) and fully compliant page and the two linked sheets (as CSV), then pass \`--from-dir\`. ${model.prop123.unmatched.length} name${model.prop123.unmatched.length === 1 ? ' does' : 's do'} not match a county or municipality on this site (${model.prop123.unmatched.join(', ') || 'none'}); a tribe or a town incorporated after 2020 is expected here, anything else is a spelling to alias in \`js/local-incentives-data.js\`.`
       : `Within ${PROP123_MAX_DAYS} days; no refresh needed this month.`,
     '',
     `### Next ${rows.length} jurisdictions to research`,
