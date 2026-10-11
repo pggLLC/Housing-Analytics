@@ -146,7 +146,7 @@
     },
     {
       "id": "livability-universal-design-2026",
-      "title": "Livability beyond the pro forma: universal design, privacy, shared space and green infrastructure in affordable housing",
+      "title": "Livability beyond the pro forma: universal and functional design, privacy, shared space and green infrastructure in affordable housing",
       "policy_topic": "Design & Livability",
       "is_curated": true,
       "source_reviewed": true,
@@ -154,7 +154,7 @@
       "verified": "2026-10-11",
       "takeaway": "Design for everyone who will live in the building over its life: step-free, easy to understand, quiet, private and green. That is where the evidence for livability is strongest, CHFA already requires or scores part of it, and the rest costs least when it is settled before the first drawing.",
       "summary": "The qualities residents feel every day, such as whether they can get in the door, find their way, close a door for privacy, meet a neighbor or look at a tree, do not appear in a pro forma. The research on them is uneven. Evidence is strongest for green infrastructure: a randomized trial in Philadelphia found that greening vacant lots reduced shootings, and a second analysis of the same trial found that nearby residents reported feeling depressed less often. Following the same people over 17 years, a UK panel study found that people reported higher life satisfaction and less distress in the years they lived in greener urban areas. Evidence on universal design is mostly about need rather than outcomes: under 5% of U.S. homes are livable for someone with moderate mobility difficulties and under 1% are wheelchair accessible, while the people who will need those features are a large and growing share of residents over a building's life. Evidence on shared space and on privacy is real but mostly observational or qualitative. CHFA's 2027-28 QAP Third Draft already requires green building certification, water-wise landscaping and the same unit design for every income tier, and awards two points for universal design or accessible Type A units in at least 5% of units.",
-      "implications": "Treat universal design as the organizing idea rather than an add-on: a building that a wheelchair user, a parent with a stroller, an older resident and a new arrival who does not read English can all use without help is also easier to lease, manage and keep occupied. Most of it is cheap only at the start. Step-free routes, door widths, blocking for grab bars and room sizes are set by the site plan and the first floor plans, and are expensive to change later. Green infrastructure in Colorado should mean shade trees, native and water-wise planting and usable outdoor rooms, because CHFA now limits non-functional turf. Put shared rooms on the routes residents already walk, such as the entry, mailroom and laundry, rather than behind a locked door at the end of a corridor. Do not put a dollar value on any of this in a deal model. The studies do not support one, and a made-up number is worse than none. Use this brief to decide design priorities and to write the QAP narrative, and use the Deal Calculator for the numbers it can actually support.",
+      "implications": "Treat universal design as the organizing idea rather than an add-on: a building that a wheelchair user, a parent with a stroller, an older resident and a new arrival who does not read English can all use without help is also easier to lease, manage and keep occupied. Most of it is cheap only at the start. Step-free routes, door widths, blocking for grab bars and room sizes are set by the site plan and the first floor plans, and are expensive to change later. Green infrastructure in Colorado should mean shade trees, native and water-wise planting and usable outdoor rooms, because CHFA now limits non-functional turf. Smaller homes can live well when the plan does the work: storage where it is used, a real entry, rooms that fit furniture, one-floor living for older residents and a porch deep enough to sit on. Put shared rooms on the routes residents already walk, such as the entry, mailroom and laundry, rather than behind a locked door at the end of a corridor. Do not put a dollar value on any of this in a deal model. The studies do not support one, and a made-up number is worse than none. Use this brief to decide design priorities and to write the QAP narrative, and use the Deal Calculator for the numbers it can actually support.",
       "related_data": "data/audit/chfa-qap-watch.json",
       "qap_document": "2027-28 QAP - Third Draft (PDF)",
       "qap_quotes": [
@@ -231,6 +231,61 @@
             "Rooms that flex as a household changes: a bedroom that can serve as an office or a carer's room, and a door that closes on the space where a child does homework."
           ],
           "note": "These practices follow the seven principles and the Fair Housing Act requirements. They were not each tested in a trial, and the brief does not claim they were."
+        },
+        {
+          "id": "functional-design",
+          "heading": "Functional design: smaller homes that live well, and a porch that works",
+          "paragraphs": [
+            "Affordable homes are often smaller than market-rate ones, and Colorado sets no floor. CHFA's QAP has no minimum unit size by bedroom count, while North Carolina's 2026 QAP requires at least 660 square feet for a one-bedroom and England's national space standard sets 50 square meters (about 540 square feet) for a one-bedroom home for two people, with 1.5 square meters of built-in storage. Size matters, but it is not the whole story. In a survey of 8,177 Milan students during the 2020 lockdown, living in an apartment under 60 square meters (about 650 square feet) raised the odds of moderate to severe depressive symptoms by about a third (odds ratio 1.31), and a poor view from the home raised them about as much (1.37).",
+            "Layout can make a small home feel bigger. In a study of 9-year-olds, Evans and Rollings found that higher bedroom ceilings weakened the link between feeling crowded at home and physiological stress. RIBA's survey of new English homes found the average three-bedroom home was about one single bedroom short of the London standard, which RIBA described as the space for a bed, bedside table, wardrobe, desk and chair. Testing a plan with real furniture is the simplest way to catch that. For older residents, one-floor living matters most: in a national sample of 7,197 adults aged 65 and older, having the kitchen, bedroom and bathroom on one floor was among the home features most strongly linked to staying in place rather than moving (Granbom et al., 2018).",
+            "The front porch is where privacy and community meet. Jan Gehl's studies of residential streets in Australia, Canada and Scandinavia found more lingering and street life where front yards, forecourts and porches form a 'soft edge' between home and street. In 10 Portland neighborhoods, Wilkerson and colleagues found more neighborliness where front porches and continuous sidewalks give people semi-private space for casual contact, though several of their results were not statistically significant. A porch only does this if it is usable. The London Plan sets 1.5 meters (about 5 feet) as the minimum depth and width for private outdoor space, which is roughly what a chair and a person need. A narrow stoop is only a step up to the door."
+          ],
+          "items_heading": "What makes a small home and its porch functional",
+          "items": [
+            "Storage inside the home where it is used: an entry closet, a pantry, linen storage and bedroom closets, counted in the plan rather than left to leftover corners.",
+            "A defined entry: a place to stop, drop keys and bags, and take off boots, so the living room is not also the hallway.",
+            "A kitchen with a work surface that doubles as a table, such as an island or peninsula, when there is no room for a separate dining area.",
+            "Rooms checked against real furniture for the household the unit is meant for: beds, a dresser, a desk or homework table, and a table that seats everyone.",
+            "Daylight and a view from the main living space, and from two sides where the plan allows. Ceiling height is a cheap way to make a small room feel larger.",
+            "For older residents and anyone with limited mobility: the kitchen, a bedroom and a full bathroom on the entry level, with a step-free route from parking to the door.",
+            "A porch at least 5 feet deep, covered and lit, facing the shared walk rather than the parking lot, with room for two chairs and a privacy screen between neighbors.",
+            "A second, private outdoor space at the back, such as a patio or small yard, so the front porch can be social while the household still has somewhere private."
+          ],
+          "note": "The design items are practices consistent with the cited studies and standards. Apart from the cited findings, they have not each been tested in a trial."
+        },
+        {
+          "id": "fruita-mews",
+          "heading": "From practice: questions from Fruita Mews, and what the research says",
+          "paragraphs": [
+            "Fruita Mews Phase I is a 50-unit affordable townhome community in Fruita, with an individual porch for every home along tree-lined pedestrian walks. Phase II is a proposal that has applied to CHFA for housing tax credits. It has not been awarded, and its design may change.",
+            "In a March 2026 response to CHFA's questions on the Phase II application, the developer described what residents of Phase I valued and what went unused. Those are one team's observations, not an evaluation. This brief uses them as questions and sets each one beside the research that supports it, qualifies it, or leaves it untested."
+          ],
+          "table": {
+            "caption": "Fruita Mews observations and the research on each",
+            "columns": [
+              "What Phase I residents showed",
+              "What the research says"
+            ],
+            "rows": [
+              [
+                "Residents valued their own front porches, front and rear entries and defined outdoor space. The Phase II proposal adds privacy screens on the porches.",
+                "Supported in part. Gehl's street studies and Wilkerson's Portland study link porches and front yards to more lingering and neighbor contact, though several of Wilkerson's results were not significant. The London Plan treats 1.5 meters (about 5 feet) as the minimum usable depth. No study found tested privacy screens on porches."
+              ],
+              [
+                "Detached exterior storage went largely unused. Residents preferred storage inside their homes, and the Phase II proposal moves that budget indoors.",
+                "Consistent, but untested directly. England's space standard requires built-in storage inside each home (1.5 square meters for a one-bedroom home for two people), and RIBA framed the space shortfall in new homes in terms of furniture and storage. No study found compared detached and in-unit storage use."
+              ],
+              [
+                "Older adults filled more of the one-bedroom homes than expected. The Phase II proposal groups single-story one-bedroom homes around a garden, next to family townhomes.",
+                "Supported. Having the kitchen, bedroom and bathroom on one floor was among the home features most linked to older adults staying in place (Granbom et al., 2018). Under 5% of U.S. homes suit someone with moderate mobility difficulties. Shared outdoor space and nearby greenery are linked to neighbor ties and higher well-being, though the shared-space evidence is mostly qualitative."
+              ],
+              [
+                "The Phase II plans add kitchen islands, defined entries, larger living areas and walk-in closets, and move entries off the face of the porch.",
+                "Partly supported. Layout and room volume can offset crowding stress (Evans and Rollings), and small size and poor views each raised the odds of depressive symptoms in the Milan lockdown study. Universal design's 'size and space for approach and use' supports clear entries. No study found tested kitchen islands or foyers on their own."
+              ]
+            ]
+          },
+          "note": "Source for the left column: the developer's clarification response to CHFA on the Fruita Mews II application (March 2026), provided to COHO. Where a row says no study was found, that is a gap in the evidence, not evidence against the design."
         },
         {
           "id": "qap",
@@ -435,6 +490,59 @@
           "title": "24 CFR 8.22: Section 504 accessible units in new construction",
           "source": "eCFR",
           "link": "https://www.ecfr.gov/current/title-24/subtitle-A/part-8/subpart-C/section-8.22"
+        },
+        {
+          "title": "Technical housing standards: nationally described space standard",
+          "source": "UK Government",
+          "link": "https://www.gov.uk/government/publications/technical-housing-standards-nationally-described-space-standard",
+          "date": "2015-03"
+        },
+        {
+          "title": "2026 QAP Appendix B: Design Quality Standards and Requirements",
+          "source": "North Carolina Housing Finance Agency",
+          "link": "https://www.nchfa.com/sites/default/files/page_attachments/2026FinalAppendixB1.pdf",
+          "date": "2026"
+        },
+        {
+          "title": "COVID-19 Lockdown: Housing Built Environment's Effects on Mental Health (Amerio et al.), International Journal of Environmental Research and Public Health",
+          "source": "IJERPH",
+          "link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7459481/",
+          "date": "2020"
+        },
+        {
+          "title": "Design Moderators of Perceived Residential Crowding and Chronic Physiological Stress Among Children (Evans and Rollings)",
+          "source": "University of Notre Dame repository",
+          "link": "https://curate.nd.edu/show/6t053f49424"
+        },
+        {
+          "title": "RIBA report on the size of England's new homes (The Case for Space)",
+          "source": "Dezeen",
+          "link": "https://www.dezeen.com/2011/09/14/riba-report-highlights-shameful-shoe-box-homes/",
+          "date": "2011-09"
+        },
+        {
+          "title": "Household Accessibility and Residential Relocation in Older Adults (Granbom et al.), Journals of Gerontology Series B",
+          "source": "Journals of Gerontology",
+          "link": "https://doi.org/10.1093/geronb/gby131",
+          "date": "2018"
+        },
+        {
+          "title": "Soft edges in residential streets (Gehl), Scandinavian Housing and Planning Research 3",
+          "source": "Scandinavian Housing and Planning Research (now Housing, Theory and Society)",
+          "link": "https://ibl.kb.nl/article/0000000120425/3/2/5",
+          "date": "1986"
+        },
+        {
+          "title": "Neighborhood Physical Features and Relationships With Neighbors (Wilkerson, Carlson, Yen and Michael), Environment and Behavior 44(5)",
+          "source": "Environment and Behavior",
+          "link": "https://researchdiscovery.drexel.edu/esploro/outputs/journalArticle/Neighborhood-Physical-Features-and-Relationships-With/991014878332104721",
+          "date": "2012"
+        },
+        {
+          "title": "The London Plan 2021, Policy D6: Housing quality and standards",
+          "source": "Greater London Authority",
+          "link": "https://www.london.gov.uk/programmes-strategies/planning/london-plan/the-london-plan-2021-table-contents",
+          "date": "2021"
         },
         {
           "title": "Effect of Greening Vacant Land on Mental Health of Community-Dwelling Adults: A Cluster Randomized Trial (South et al.), JAMA Network Open",
