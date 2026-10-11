@@ -18,9 +18,11 @@
  * therefore scores exactly what it scored before: unknown is never a penalty,
  * and never a reward. Denials are shown, not scored.
  *
- * Inclusionary zoning and the Prop 123 filing are deliberately not counted
- * here: the Civic component already scores both, and the bonus counts only
- * evidence Civic does not.
+ * Nothing counts twice. Inclusionary zoning and the Prop 123 filing are never
+ * counted here: the Civic component scores both. A plan is not counted when
+ * Civic already credits the place with an HNA or comprehensive plan, and a
+ * local fund is not counted when Civic already credits local funding; that
+ * evidence is still listed, marked as credited in Civic.
  *
  * No DOM, no fetch, no clock: the caller passes `today`, so the page and the
  * tests get the same answer for the same date.
@@ -139,6 +141,9 @@
     /**
      * One jurisdiction's local-support profile on `today`.
      * opts.kind 'cdp' + opts.county: a CDP has no government of its own, so its county's record applies.
+     * opts.civic: the place's Civic Readiness dimensions (housing-policy-scorecard.json). Evidence
+     *   Civic already credits is listed but not counted again: the plans part when Civic has
+     *   has_hna or has_comp_plan true, and fund records when it has has_local_funding true.
      */
     function profile(geoid, today, opts) {
       opts = opts || {};
@@ -172,11 +177,19 @@
         return (i.type === 'denial' || i.outcome === 'denied' || i.outcome === 'recommended_denial') && d && d >= actionCutoff;
       });
 
-      var incentives = countedIncentives(
+      var civic = opts.civic || {};
+      var plansInCivic = civic.has_hna === true || civic.has_comp_plan === true;
+      var fundsInCivic = civic.has_local_funding === true;
+      var allIncentives = countedIncentives(
         fees.get(subject) || [], landUse.get(subject) || [], funds.get(subject) || [], today);
+      var incentives = fundsInCivic
+        ? allIncentives.filter(function (i) { return i.scope !== 'funds'; })
+        : allIncentives;
+      var creditedInCivic = allIncentives.filter(function (i) { return incentives.indexOf(i) === -1; });
       var cov = coverage.get(subject);
       var incentiveState;
       if (incentives.length) incentiveState = 'records';
+      else if (creditedInCivic.length) incentiveState = 'in_civic';
       else if (!cov) incentiveState = 'not_checked';
       else {
         var res = cov.result_by_scope || {};
@@ -186,12 +199,17 @@
       }
 
       var parts = {
-        plans: { label: PART_LABELS.plans, state: scopeState('plans', plans.length > 0),
-                 counted: countedPlans, points: countedPlans.length ? POINTS_PER_PART : 0 },
+        plans: { label: PART_LABELS.plans,
+                 state: countedPlans.length && plansInCivic ? 'in_civic' : scopeState('plans', plans.length > 0),
+                 counted: plansInCivic ? [] : countedPlans,
+                 creditedInCivic: plansInCivic ? countedPlans : [],
+                 points: countedPlans.length && !plansInCivic ? POINTS_PER_PART : 0 },
         incentives: { label: PART_LABELS.incentives, state: incentiveState,
-                      counted: incentives, points: incentives.length ? POINTS_PER_PART : 0 },
+                      counted: incentives, creditedInCivic: creditedInCivic,
+                      points: incentives.length ? POINTS_PER_PART : 0 },
         council: { label: PART_LABELS.council, state: scopeState('council', actions.length > 0),
-                   counted: countedActions, points: countedActions.length ? POINTS_PER_PART : 0 }
+                   counted: countedActions, creditedInCivic: [],
+                   points: countedActions.length ? POINTS_PER_PART : 0 }
       };
       var bonus = BONUS_PARTS.reduce(function (s, k) { return s + parts[k].points; }, 0);
       return {
@@ -205,7 +223,7 @@
         actions: actions,
         denials: denials,
         bonus: bonus,
-        anyChecked: !!row || !!cov || incentives.length > 0
+        anyChecked: !!row || !!cov || allIncentives.length > 0
       };
     }
 

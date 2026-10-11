@@ -98,8 +98,8 @@ def main() -> int:
                 "stops counting until it is re-checked."
             ),
             "known_gaps": [
-                "Coverage starts with the jurisdictions that have a published or draft brief; "
-                "the monthly local-incentives research issue extends it.",
+                ("Coverage starts with the jurisdictions that have a published or draft brief; "
+                 "the monthly local-incentives research issue extends it."),
                 "Many city and county sites block automated reads; those scopes are recorded as unreadable.",
             ],
         },

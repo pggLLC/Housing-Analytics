@@ -1462,7 +1462,9 @@
       // in the detail panel. Unchecked jurisdictions get +0, so their scores
       // are exactly what they were without it.
       var localSupport = state.localSupport
-        ? state.localSupport.profile(placeGeoid, LOCAL_SUPPORT_TODAY, { kind: type === 'cdp' ? 'cdp' : 'place', county: containingCounty })
+        ? state.localSupport.profile(placeGeoid, LOCAL_SUPPORT_TODAY, {
+            kind: type === 'cdp' ? 'cdp' : 'place', county: containingCounty,
+            civic: civic_pre && civic_pre.dimensions })
         : null;
       var localSupportBonus = localSupport ? localSupport.bonus : 0;
       var scoresBeforeLocalSupport = { score9: score9, score4: score4, scorePreservation: scorePreservation,
@@ -3977,7 +3979,8 @@
     none_found: 'checked, none found',
     unreadable: 'official sources could not be read',
     not_checked: 'not yet checked',
-    overdue: 'past its review date, not counted until re-checked'
+    overdue: 'past its review date, not counted until re-checked',
+    in_civic: 'already counted in Civic Readiness, so not counted again here'
   };
   function _renderDetailLocalSupport(op) {
     var host = $('lofDetailLocalSupport');
@@ -3999,12 +4002,19 @@
     var rows = LSD.BONUS_PARTS.map(function (k) {
       var part = ls.parts[k];
       var counted = part.counted || [];
-      var list = counted.length
+      var lineFn = k === 'incentives' ? incentiveLine : itemLine;
+      var inCivic = part.creditedInCivic || [];
+      var list = (counted.length
         ? '<ul style="margin:.2rem 0 0 1rem;padding:0;font-size:.78rem;line-height:1.5">' +
-            counted.map(k === 'incentives' ? incentiveLine : itemLine).join('') + '</ul>'
+            counted.map(lineFn).join('') + '</ul>'
         : '<div style="font-size:.78rem;color:var(--muted)">' +
             escHtml(LOCAL_SUPPORT_STATE_TEXT[part.state] || part.state) +
-            (part.state === 'records' ? ', none inside the scoring window' : '') + '</div>';
+            (part.state === 'records' ? ', none inside the scoring window' : '') + '</div>') +
+        (inCivic.length
+          ? '<div style="font-size:.78rem;color:var(--muted);margin-top:.15rem">Credited in Civic Readiness, not counted again:</div>' +
+            '<ul style="margin:.1rem 0 0 1rem;padding:0;font-size:.78rem;line-height:1.5;color:var(--muted)">' +
+            inCivic.map(lineFn).join('') + '</ul>'
+          : '');
       return '<div class="lof-ls-row" data-ls-part="' + k + '" style="margin-top:.4rem">' +
         '<div style="font-size:.85rem;font-weight:700">' + escHtml(part.label) + ' +' + part.points + '</div>' + list + '</div>';
     }).join('');

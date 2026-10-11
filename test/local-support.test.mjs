@@ -13,7 +13,7 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 
-import { applyTo, briefFiles, loadDocs, sectionFor, SECTION_ID } from '../scripts/generate-brief-local-support-sections.mjs';
+import { applyTo, briefFiles, civicFor, loadDocs, sectionFor, SECTION_ID } from '../scripts/generate-brief-local-support-sections.mjs';
 
 const require = createRequire(import.meta.url);
 const LSD = require('../js/local-support-data.js');
@@ -119,6 +119,33 @@ test('incentives: deferrals, rate discounts, one-off awards and IZ (scored by Ci
   assert.equal(LSD.build(docs([], { fees })).profile('0811111', TODAY).bonus, 2);
 });
 
+test('nothing counts twice: evidence Civic already credits is listed but earns no bonus', () => {
+  const d = docs([row('0811111', [
+    item({ id: 'p', kind: 'plan', type: 'housing_plan', outcome: 'adopted', date: '2024-02-01' })
+  ])], { funds: { entries: [{ id: 'f', geoid: '0811111', status: 'adopted' }] },
+         fees: { entries: [], land_use: [{ id: 'l', geoid: '0811111', status: 'adopted', measure: 'density_bonus' }] } });
+  const m = LSD.build(d);
+  assert.equal(m.profile('0811111', TODAY).bonus, 4);
+  const civic = m.profile('0811111', TODAY, { civic: { has_hna: true, has_local_funding: true } });
+  assert.equal(civic.parts.plans.points, 0);
+  assert.equal(civic.parts.plans.state, 'in_civic');
+  assert.equal(civic.parts.plans.creditedInCivic.length, 1);
+  assert.equal(civic.parts.incentives.points, 2, 'the density bonus still counts');
+  assert.deepEqual(civic.parts.incentives.creditedInCivic.map((i) => i.record.id), ['f']);
+  const onlyFund = LSD.build(docs([], { funds: { entries: [{ id: 'f', geoid: '0811111', status: 'adopted' }] } }));
+  const p = onlyFund.profile('0811111', TODAY, { civic: { has_local_funding: true } });
+  assert.equal(p.bonus, 0);
+  assert.equal(p.parts.incentives.state, 'in_civic');
+  assert.equal(onlyFund.profile('0811111', TODAY, { civic: { has_local_funding: null } }).bonus, 2, 'unknown in Civic is not credit');
+});
+
+test('the Finder passes the same Civic dimensions the brief generator uses', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/lihtc-opportunity-finder.js'), 'utf8');
+  assert.match(src, /civic: civic_pre && civic_pre\.dimensions/);
+  assert.match(src, /function civicForPlace\(placeGeoid, countyFips\) \{\s*return state\.policyScores\[placeGeoid\] \|\|\s*\(countyFips \? state\.policyScores\[countyFips\] : null\)/,
+    'civicFor() in the generator mirrors civicForPlace(): own row, else county row');
+});
+
 test('a CDP is scored on its county; Denver county and city are one jurisdiction', () => {
   const d = docs([row('08097', [item({ id: 'a' })]), row('0820000', [item({ id: 'b' })])]);
   const m = LSD.build(d);
@@ -159,7 +186,7 @@ test('the bonus a brief states is the bonus the Finder module computes', () => {
     const sec = brief.sections.find((s) => s.id === SECTION_ID);
     if (!sec) continue;
     const prof = model.profile(brief.geoid, real.support.meta.as_of,
-      { kind: brief.scope, county: brief.containing_county_fips });
+      { kind: brief.scope, county: brief.containing_county_fips, civic: civicFor(brief, real) });
     const last = sec.paragraphs[sec.paragraphs.length - 1].text;
     const m = /local support bonus of \+(\d+) of a possible \+(\d+)/.exec(last);
     assert.ok(m, `${brief.geoid}: no bonus sentence`);

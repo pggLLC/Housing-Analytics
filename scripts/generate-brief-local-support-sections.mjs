@@ -45,6 +45,7 @@ export function loadDocs() {
     fees: readJson("data/policy/fee-reductions.json"),
     funds: readJson("data/policy/local-housing-funds.json"),
     coverage: readJson("data/policy/incentive-coverage.json"),
+    scorecard: readJson("data/policy/housing-policy-scorecard.json"),
   };
 }
 
@@ -81,6 +82,13 @@ function incentiveLabel(item) {
   return LocalSupportData.incentiveLabel(item);
 }
 
+/** The Civic Readiness dimensions the Finder uses for this place: its own scorecard row, else its county's. */
+export function civicFor(brief, docs) {
+  const scores = (docs.scorecard && docs.scorecard.scores) || {};
+  const rec = scores[brief.geoid] || scores[brief.containing_county_fips] || null;
+  return rec ? rec.dimensions : null;
+}
+
 /**
  * The section and the sources it cites, or null when the jurisdiction has not
  * been checked. `brief` needs geoid, jurisdiction and scope.
@@ -89,7 +97,9 @@ export function sectionFor(brief, docs) {
   const model = LocalSupportData.build(docs);
   const asOf = docs.support.meta.as_of;
   const kind = brief.scope === "cdp" ? "cdp" : brief.scope;
-  const prof = model.profile(brief.geoid, asOf, { kind, county: brief.containing_county_fips });
+  const prof = model.profile(brief.geoid, asOf, {
+    kind, county: brief.containing_county_fips, civic: civicFor(brief, docs),
+  });
   const row = model.rows.get(prof.subjectGeoid);
   if (!row) return null;
 
@@ -112,12 +122,15 @@ export function sectionFor(brief, docs) {
     const cites = [];
     const bits = plans.map((p) => {
       cites.push(cite("local-support", p.id, `${p.title} (${p.source.label})`, p.source.url));
-      const counted = prof.parts.plans.counted.includes(p);
+      const counted = prof.parts.plans.counted.includes(p) || prof.parts.plans.creditedInCivic.includes(p);
       return `${p.title} (${p.outcome === "approved" ? "accepted" : p.outcome} ${fmtDate(p.date)})` +
         (p.affordable_detail ? `: ${p.affordable_detail.replace(/\.$/, "")}` : "") +
         (counted ? "." : `. It is older than the ${LocalSupportData.PLAN_WINDOW_YEARS}-year window the score counts.`);
     });
-    paragraphs.push({ text: `Adopted plans. ${bits.join(" ")}`, cites });
+    const civicNote = prof.parts.plans.state === "in_civic"
+      ? " The Opportunity Finder's Civic Readiness score already credits this jurisdiction with a needs assessment or comprehensive plan, so the local support bonus does not count a plan again."
+      : "";
+    paragraphs.push({ text: `Adopted plans. ${bits.join(" ")}${civicNote}`, cites });
   } else {
     const state = row.result_by_scope && row.result_by_scope.plans;
     paragraphs.push({
@@ -129,7 +142,7 @@ export function sectionFor(brief, docs) {
   }
 
   // 2. Incentives and local funding (from the Local Housing Incentives records)
-  const inc = prof.parts.incentives.counted;
+  const inc = prof.parts.incentives.counted.concat(prof.parts.incentives.creditedInCivic);
   if (inc.length) {
     const cites = [];
     const bits = inc.map((i) => {
@@ -138,8 +151,11 @@ export function sectionFor(brief, docs) {
       cites.push(cite(dataset, r.id, r.source.label, r.source.url));
       return incentiveLabel(i);
     });
+    const fundNote = prof.parts.incentives.creditedInCivic.length
+      ? " Civic Readiness already credits its local funding, so the bonus does not count the fund records again."
+      : "";
     paragraphs.push({
-      text: `Incentives and local funding on record: ${list(bits)}. The Local Housing Incentives page has the terms and sources of each.`,
+      text: `Incentives and local funding on record: ${list(bits)}. The Local Housing Incentives page has the terms and sources of each.${fundNote}`,
       cites,
     });
   } else {
