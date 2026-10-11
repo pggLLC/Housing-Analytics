@@ -953,3 +953,20 @@ mark {
   border: 1px solid color-mix(in oklab, var(--card, #fff) 70%, var(--info, #2563eb) 30%);
 }
 @media print { .input-prov { border: none; background: none; } }
+
+/* "Which document do you need?" — the same guide on the white paper, the
+   working paper and the methods page (test/document-guide.test.mjs). */
+.doc-guide { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 1rem 1.2rem; margin: 1.6rem 0; max-width: 72ch; }
+.doc-guide__title { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: var(--muted); margin: 0 0 .7rem; }
+.doc-guide__list { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
+.doc-guide__list > li { margin: 0; padding-left: .8rem; border-left: 3px solid var(--border); }
+.doc-guide__list > li.is-current { border-left-color: var(--accent); }
+.doc-guide .doc-guide__list p { margin: 0 0 .2rem; line-height: 1.5; max-width: none; }
+.doc-guide .doc-guide__list p:last-child { margin-bottom: 0; }
+.doc-guide p.doc-guide__title { margin: 0 0 .7rem; }
+.doc-guide__name { font-weight: 700; }
+.doc-guide__name a[aria-current="page"] { color: var(--text-strong); text-decoration: none; }
+.doc-guide__here { font-size: .72rem; font-weight: 600; color: var(--muted); margin-left: .4rem; }
+.doc-guide__for { font-size: .95rem; color: var(--text); }
+.doc-guide__about { font-size: .85rem; color: var(--muted); }
+@media print { .doc-guide { display: none; } }
