@@ -283,6 +283,111 @@ const ceilingClaims = ceilingText.toLowerCase();
   assert.ok(!ceilingClaims.includes(phrase), 'the ceiling brief must not predict outcomes: ' + phrase);
 });
 
+// ── P.L. 119-21 §70422(b) bond-test brief: every figure comes from the record ──
+// Each %, full date, year, 70422 citation and Code citation the brief states
+// must be a value of the canonical legislation record (or derived from one),
+// and the record's key values must all be stated. Reword the brief freely;
+// change a figure on either side and this fails.
+{
+  const bond = legislation.entries.find((entry) => entry.id === 'obbba-lihtc-bond-25pct-test');
+  const brief = payload.briefs.find((item) => item.id === 'obbba-lihtc-bond-25pct-test-2026');
+  assert.ok(bond && brief, 'bond-test record and public brief must both exist');
+  assert.strictEqual(brief.is_curated, true);
+  assert.strictEqual(brief.source_reviewed, true);
+  assert.strictEqual(brief.related_data, 'data/policy/tax-credit-legislation.json');
+  assert.strictEqual(bond.analysis_url, 'research-brief.html?id=' + brief.id);
+  const test = bond.bond_test;
+  const co = bond.colorado_context;
+  assert.ok(test && co, 'bond-test record must carry the statutory test and the Colorado source it is checked against');
+  const text = brief.title + ' ' + brief.summary + ' ' + brief.implications;
+  let checked = 0;
+  const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const datesIn = (t) => [...t.matchAll(new RegExp('(' + MONTH_NAMES.join('|') + ') (\\d{1,2}), (\\d{4})', 'g'))]
+    .map((m) => m[3] + '-' + String(MONTH_NAMES.indexOf(m[1]) + 1).padStart(2, '0') + '-' + m[2].padStart(2, '0'));
+  const dayAfter = (iso) => { const d = new Date(iso + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + 1); return d.toISOString().slice(0, 10); };
+
+  // Dollars: the record has none, so the brief states none.
+  assert.deepStrictEqual(money(text), [], 'the bond-test record carries no dollar amount, so the brief may state none');
+  // Percentages: the statutory thresholds, the Colorado figures, the credit
+  // type named in the record title, and the ceiling increase named in the
+  // linked ceiling record's title when the brief points to it.
+  const ceiling = legislation.entries.find((entry) => entry.id === 'obbba-lihtc-ceiling-12pct');
+  const pointsToCeiling = /70422\(a\)/.test(text);
+  const allowedPcts = new Set([
+    test.previous_threshold_pct, test.retained_threshold_pct, test.new_threshold_pct, test.post_2025_issue_min_pct,
+    ...Object.values(co.volume_cap_split_pct), co.chfa_max_pab_financing_pct, ...pcts(bond.title),
+    ...(pointsToCeiling ? pcts(ceiling.title) : [])
+  ]);
+  const statedPcts = pcts(text);
+  checked += statedPcts.length;
+  statedPcts.forEach((p) => assert.ok(allowedPcts.has(p), `brief states ${p}%, which is not a value in the record`));
+  [test.retained_threshold_pct, test.new_threshold_pct, test.post_2025_issue_min_pct, co.chfa_max_pab_financing_pct]
+    .forEach((p) => assert.ok(statedPcts.includes(p), `brief must state the record's ${p}%`));
+  assert.ok(pcts(bond.title).includes(test.new_threshold_pct), 'the record title must agree with its new threshold');
+
+  // Dates: every full date is a record date; the enactment, bond-issue and
+  // placed-in-service cutoffs and the Colorado source date are all stated.
+  const recordDates = [bond.enacted_date, test.issue_date_after, test.placed_in_service_taxable_years_after, co.date];
+  const stated = datesIn(text);
+  checked += stated.length;
+  stated.forEach((d) => assert.ok(recordDates.includes(d), `brief states ${d}, which is not a date in the record`));
+  recordDates.forEach((d) => assert.ok(stated.includes(d), `brief must state the record date ${d}`));
+  assert.strictEqual(dayAfter(test.placed_in_service_taxable_years_after), bond.effective_date,
+    'effective date must be the day after the placed-in-service cutoff');
+  // The issue-date and placed-in-service cutoffs are each stated in their own context.
+  const near = (iso, re) => {
+    const [y, m, d] = iso.split('-');
+    const phrase = MONTH_NAMES[Number(m) - 1] + ' ' + Number(d) + ', ' + y;
+    let at = text.indexOf(phrase);
+    let found = false;
+    while (at >= 0) { if (re.test(text.slice(Math.max(0, at - 140), at))) found = true; at = text.indexOf(phrase, at + 1); }
+    return found;
+  };
+  assert.ok(near(test.issue_date_after, /\bissue[^.]*after\s*$/), 'the bond-issue cutoff must be stated as an issue date');
+  assert.ok(near(test.placed_in_service_taxable_years_after, /placed in service[^.]*after\s*$/),
+    'the placed-in-service cutoff must be stated as taxable years beginning after it');
+  // Years: every year named is one the record supports.
+  const recordYears = new Set([...recordDates.map((d) => Number(d.slice(0, 4))), Number(dayAfter(test.issue_date_after).slice(0, 4)), co.chfa_max_pab_financing_year]);
+  const statedYears = [...text.matchAll(/(?<![\d-])(?:19|20)\d{2}(?![\d)])/g)].map((m) => Number(m[0]));
+  checked += statedYears.length;
+  statedYears.forEach((y) => assert.ok(recordYears.has(y), `brief names ${y}, which the record does not support`));
+
+  // Legal citations and claims.
+  const recordText = bond.source_note + ' ' + test.statute + ' ' + test.rehabilitation_rule;
+  [...text.matchAll(/\b70422(?:\([a-z0-9]+\))+/gi)].map((m) => m[0]).forEach((cite) => {
+    checked++;
+    assert.ok(recordText.includes(cite), `brief cites section ${cite}, which the record does not`);
+  });
+  assert.ok(text.includes('70422(b)') && test.statute.includes('section 70422(b)'), 'brief and record must cite the same amending section');
+  const amended = test.statute.match(/42\(h\)\(\d\)\([A-Z]\)/)[0];
+  assert.ok(text.includes(amended), 'brief must cite the amended Code provision ' + amended);
+  (text.match(/42\(h\)\(\d\)\([A-Z]\)/g) || []).forEach((c) => assert.strictEqual(c, amended, 'brief cites a Code provision the record does not: ' + c));
+  const plNo = (t) => (t.match(/Public Law (\d+-\d+)/) || [])[1];
+  assert.ok(plNo(text) && plNo(text) === plNo(bond.source_note), 'brief and record must name the same Public Law');
+  const statesNoEnd = (t) => /\b(?:no end year|no sunset|permanent)\b/i.test(t);
+  assert.strictEqual(statesNoEnd(text), bond.sunset_date === null && test.end_year === null,
+    'brief may call the test permanent only when the record has no sunset or end year');
+  assert.ok(statesNoEnd(text), 'the record has no end year, so the brief must say so');
+  // The 70422(a) brief the text points to must exist and be linked from its record.
+  if (pointsToCeiling) {
+    assert.ok(ceiling && bond.source_note.includes(ceiling.id), 'the 70422(a) record the brief points to must exist and be named by the bond record');
+    const linked = (ceiling.analysis_url || '').replace('research-brief.html?id=', '');
+    assert.ok(payload.briefs.some((item) => item.id === linked), 'the 70422(a) brief the bond brief points to must exist');
+  }
+  assert.strictEqual(bond.status, 'enacted');
+  assert.ok(/\bapproved\b|\bsigned\b|\benacted\b/i.test(brief.summary), 'brief must describe the record as enacted law');
+  // Every source the record cites is linked from the brief.
+  [test.source_url, test.pre_amendment_text_url, co.source_url].forEach((url) =>
+    assert.ok(brief.articles.some((article) => article.link === url), 'brief must link ' + url));
+  [test.last_verified, co.last_verified].forEach((d) => assert.strictEqual(d, bond.last_verified));
+  assert.ok(checked >= 15, `only ${checked} bond-test brief figures checked; the scan has drifted`);
+  const claims = text.toLowerCase();
+  ['will lower', 'will raise', 'will increase', 'will reduce', 'expected to', 'likely', 'guarantee'].forEach((phrase) => {
+    assert.ok(!claims.includes(phrase), 'the bond-test brief must not predict outcomes: ' + phrase);
+  });
+  console.log('bond-test brief: ' + checked + ' figures checked against the record');
+}
+
 const page = fs.readFileSync(pagePath, 'utf8');
 assert.match(page, /CURATED_BRIEFS_URL/);
 assert.match(page, /data\/policy_briefs_curated\.json/);
