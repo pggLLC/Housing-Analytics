@@ -61,7 +61,7 @@ const numbers = (s) => (String(s || '').match(/\d[\d,]*(?:\.\d+)?/g) || []).map(
 let figuresChecked = 0;
 for (const e of DOC.entries) {
   const inQuote = new Set(numbers(e.quote));
-  for (const field of ['title', 'finding', 'figure']) {
+  for (const field of ['title', 'finding', 'figure', 'population', 'caveat', 'limits']) {
     for (const n of numbers(e[field])) {
       figuresChecked++;
       assert(inQuote.has(n), `${e.id}: ${field} states ${n}, which its quote does not`);
