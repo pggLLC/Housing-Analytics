@@ -5,18 +5,47 @@
       "geoid": "08109",
       "level": "county",
       "name": "Saguache County",
-      "coverage_state": "official_notice_unavailable",
+      "coverage_state": "official_ballot_reviewed_none_found",
       "reviewed_source": "https://saguachecoclerk.colorado.gov/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county clerk's elections page had only 2026 primary sample ballots and the Notice of 2026 General Election on 2026-09-26: no general-election sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "Checked 2026-10-10: the county elections page now posts seven 2026 General Election sample ballot styles (Precincts 1 to 7, styles 001-01 to 007-01, bilingual); all seven were read from their text layer. Apart from state and county offices, judicial retention and statewide measures, the only question on any style is 12th Judicial District Ballot Question 7A. No TABOR notice or participating-entities list is posted.",
+        "There is no county question on any style. Excluded, not housing: Question 7A asks whether the term limits for the District Attorney of the 12th Judicial District should be eliminated.",
         "The commissioners agenda page has no archive, so no election IGA or county ballot referral could be checked."
       ],
       "reviewed_sources": [
         {
           "url": "https://saguachecoclerk.colorado.gov/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1PZijlSCSTN2RKpN4d5M5r8R5bMUf5o2e/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1chLqsmN5lf2Vodhr1RbUahMBcdJnUYsJ/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/147M0JPp0pMw8GkVsNLlCk1iE_wbJoznK/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/16OfvqrOH1DP4c2D3TLyc4MZ5nbZTZ66c/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/12ivZNS0zkprUassAdpHpRPPjHw0WJWre/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1xHt7dVvtKRILOcSKuwKs9dbwklU1L9i2/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1X0pQ95ulHn5o72bxswMqRniDFW_Mze3x/view?usp=sharing",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://saguachecoclerk.colorado.gov/news-articles/notice-of-2026-general-election/aviso-de-las-elecciones-generales-de-2026",
@@ -34,16 +63,44 @@
       "name": "Bonanza (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://saguachecoclerk.colorado.gov/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county clerk's elections page had only 2026 primary sample ballots and the Notice of 2026 General Election on 2026-09-26: no general-election sample ballot, TABOR notice, ballot certification or participating-entities list.",
-        "Participation unknown; no official Town of Bonanza website was found."
+        "Checked 2026-10-10: none of the seven county sample ballot styles has a Town of Bonanza section. No participating-entities list is posted.",
+        "No official Town of Bonanza website was found, so a separate town election could not be ruled out; the row stays open, as for towns with no website in #2072."
       ],
       "reviewed_sources": [
         {
           "url": "https://saguachecoclerk.colorado.gov/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1PZijlSCSTN2RKpN4d5M5r8R5bMUf5o2e/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1chLqsmN5lf2Vodhr1RbUahMBcdJnUYsJ/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/147M0JPp0pMw8GkVsNLlCk1iE_wbJoznK/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/16OfvqrOH1DP4c2D3TLyc4MZ5nbZTZ66c/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/12ivZNS0zkprUassAdpHpRPPjHw0WJWre/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1xHt7dVvtKRILOcSKuwKs9dbwklU1L9i2/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1X0pQ95ulHn5o72bxswMqRniDFW_Mze3x/view?usp=sharing",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://saguachecoclerk.colorado.gov/news-articles/notice-of-2026-general-election/aviso-de-las-elecciones-generales-de-2026",
@@ -55,18 +112,46 @@
       "geoid": "0812855",
       "level": "municipal",
       "name": "Center (town)",
-      "coverage_state": "official_notice_unavailable",
+      "coverage_state": "official_ballot_reviewed_none_found",
       "reviewed_source": "https://saguachecoclerk.colorado.gov/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county clerk's elections page had only 2026 primary sample ballots and the Notice of 2026 General Election on 2026-09-26: no general-election sample ballot, TABOR notice, ballot certification or participating-entities list.",
-        "Participation unknown. Town board agendas April through September 2026 contain no ballot referral or county election IGA (agenda text only; packets not read)."
+        "Checked 2026-10-10: none of the seven county sample ballot styles has a Town of Center section. No participating-entities list is posted.",
+        "The town agendas page, read on 2026-10-10, lists agendas through September 2026; agenda text April through September 2026 (read 2026-09-26) contains no ballot referral or county election IGA."
       ],
       "reviewed_sources": [
         {
           "url": "https://saguachecoclerk.colorado.gov/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1PZijlSCSTN2RKpN4d5M5r8R5bMUf5o2e/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1chLqsmN5lf2Vodhr1RbUahMBcdJnUYsJ/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/147M0JPp0pMw8GkVsNLlCk1iE_wbJoznK/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/16OfvqrOH1DP4c2D3TLyc4MZ5nbZTZ66c/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/12ivZNS0zkprUassAdpHpRPPjHw0WJWre/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1xHt7dVvtKRILOcSKuwKs9dbwklU1L9i2/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1X0pQ95ulHn5o72bxswMqRniDFW_Mze3x/view?usp=sharing",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://saguachecoclerk.colorado.gov/news-articles/notice-of-2026-general-election/aviso-de-las-elecciones-generales-de-2026",
@@ -74,7 +159,7 @@
         },
         {
           "url": "https://www.centerco.gov/agendas",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -82,18 +167,46 @@
       "geoid": "0818420",
       "level": "municipal",
       "name": "Crestone (town)",
-      "coverage_state": "official_notice_unavailable",
+      "coverage_state": "official_ballot_reviewed_none_found",
       "reviewed_source": "https://saguachecoclerk.colorado.gov/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county clerk's elections page had only 2026 primary sample ballots and the Notice of 2026 General Election on 2026-09-26: no general-election sample ballot, TABOR notice, ballot certification or participating-entities list.",
-        "Participation unknown. Town board agendas April through September 2026 contain no ballot referral or county election IGA (agenda text only; packets not read)."
+        "Checked 2026-10-10: none of the seven county sample ballot styles has a Town of Crestone section. No participating-entities list is posted.",
+        "The town election notice, read on 2026-10-10, gives the Board of Trustees election as April 7, 2026; the town news page lists no November election item."
       ],
       "reviewed_sources": [
         {
           "url": "https://saguachecoclerk.colorado.gov/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1PZijlSCSTN2RKpN4d5M5r8R5bMUf5o2e/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1chLqsmN5lf2Vodhr1RbUahMBcdJnUYsJ/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/147M0JPp0pMw8GkVsNLlCk1iE_wbJoznK/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/16OfvqrOH1DP4c2D3TLyc4MZ5nbZTZ66c/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/12ivZNS0zkprUassAdpHpRPPjHw0WJWre/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1xHt7dVvtKRILOcSKuwKs9dbwklU1L9i2/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1X0pQ95ulHn5o72bxswMqRniDFW_Mze3x/view?usp=sharing",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://saguachecoclerk.colorado.gov/news-articles/notice-of-2026-general-election/aviso-de-las-elecciones-generales-de-2026",
@@ -101,7 +214,11 @@
         },
         {
           "url": "https://townofcrestone.gov/news/%F0%9F%97%B3%EF%B8%8F-town-of-crestone-election-%F0%9F%97%B3%EF%B8%8F",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofcrestone.gov/news",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -109,18 +226,46 @@
       "geoid": "0851250",
       "level": "municipal",
       "name": "Moffat (town)",
-      "coverage_state": "official_notice_unavailable",
+      "coverage_state": "official_ballot_reviewed_none_found",
       "reviewed_source": "https://saguachecoclerk.colorado.gov/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county clerk's elections page had only 2026 primary sample ballots and the Notice of 2026 General Election on 2026-09-26: no general-election sample ballot, TABOR notice, ballot certification or participating-entities list.",
-        "Participation unknown. Town minutes and agendas June through September 2026 discuss housing projects and policies as board business; none refers a ballot question."
+        "Checked 2026-10-10: none of the seven county sample ballot styles has a Town of Moffat section. No participating-entities list is posted.",
+        "Town minutes and agendas June through September 2026 discuss housing projects and policies as board business; none refers a ballot question. The documents page was re-read on 2026-10-10."
       ],
       "reviewed_sources": [
         {
           "url": "https://saguachecoclerk.colorado.gov/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1PZijlSCSTN2RKpN4d5M5r8R5bMUf5o2e/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1chLqsmN5lf2Vodhr1RbUahMBcdJnUYsJ/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/147M0JPp0pMw8GkVsNLlCk1iE_wbJoznK/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/16OfvqrOH1DP4c2D3TLyc4MZ5nbZTZ66c/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/12ivZNS0zkprUassAdpHpRPPjHw0WJWre/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1xHt7dVvtKRILOcSKuwKs9dbwklU1L9i2/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1X0pQ95ulHn5o72bxswMqRniDFW_Mze3x/view?usp=sharing",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://saguachecoclerk.colorado.gov/news-articles/notice-of-2026-general-election/aviso-de-las-elecciones-generales-de-2026",
@@ -128,7 +273,7 @@
         },
         {
           "url": "https://www.townofmoffatco.gov/documents",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -136,18 +281,46 @@
       "geoid": "0867005",
       "level": "municipal",
       "name": "Saguache (town)",
-      "coverage_state": "official_notice_unavailable",
+      "coverage_state": "official_ballot_reviewed_none_found",
       "reviewed_source": "https://saguachecoclerk.colorado.gov/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county clerk's elections page had only 2026 primary sample ballots and the Notice of 2026 General Election on 2026-09-26: no general-election sample ballot, TABOR notice, ballot certification or participating-entities list.",
-        "Participation unknown. The town website posts no 2026 agendas or minutes (latest agenda August 2025)."
+        "Checked 2026-10-10: none of the seven county sample ballot styles has a Town of Saguache section. No participating-entities list is posted.",
+        "The town agendas and documents pages, re-read on 2026-10-10, post no 2026 agendas, minutes or election notice (latest agenda August 2025)."
       ],
       "reviewed_sources": [
         {
           "url": "https://saguachecoclerk.colorado.gov/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1PZijlSCSTN2RKpN4d5M5r8R5bMUf5o2e/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1chLqsmN5lf2Vodhr1RbUahMBcdJnUYsJ/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/147M0JPp0pMw8GkVsNLlCk1iE_wbJoznK/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/16OfvqrOH1DP4c2D3TLyc4MZ5nbZTZ66c/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/12ivZNS0zkprUassAdpHpRPPjHw0WJWre/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1xHt7dVvtKRILOcSKuwKs9dbwklU1L9i2/view?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1X0pQ95ulHn5o72bxswMqRniDFW_Mze3x/view?usp=sharing",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://saguachecoclerk.colorado.gov/news-articles/notice-of-2026-general-election/aviso-de-las-elecciones-generales-de-2026",
@@ -155,11 +328,11 @@
         },
         {
           "url": "https://www.townofsaguache.org/agendas",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.townofsaguache.org/documents",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         }
       ]
     }

@@ -5,30 +5,55 @@
       "geoid": "08039",
       "level": "county",
       "name": "Elbert County",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.elbertcounty-co.gov/290/Elections",
-      "checked": "2026-09-26",
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://www.elbertcounty-co.gov/DocumentCenter/View/5755/2026-SAMPLE-BALLOT",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "As of 2026-09-26 the Elbert County Clerk had posted no sample ballot, TABOR notice, ballot-content certification or participating-entities list for the 2026 General Election; the only 2026 General documents were a logic and accuracy test notice and voter instructions. The previously indexed /640/2026-Sample-Ballot page returned 404."
+        "The county's only posted 2026 sample ballot (\"2026 SAMPLE BALLOT.pdf\", one two-page style, PDF modified 2026-09-30) is image-only: it was produced by Microsoft Print to PDF and its only text layer is the \"SAMPLE BALLOT\" watermark. Under the scanned-PDF rule no conclusion is drawn from it (checked 2026-10-10).",
+        "The Elections page posts no TABOR notice, ballot-content certification or participating-entities list. Its other 2026 General documents are the logic and accuracy test notice, voter instructions and the state Ballot Blue Book (checked 2026-10-10).",
+        "Leads only, for owner review: the rendered pages show no Elbert County question. The local ballot issues shown are Douglas County School District RE-1 Ballot Issue 5A and Elbert Fire Protection District Ballot Issue 7B. A text-readable ballot or the TABOR notice is needed to close this row."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.elbertcounty-co.gov/290/Elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.elbertcounty-co.gov/DocumentCenter/View/5755/2026-SAMPLE-BALLOT",
+          "retrieved": "2026-10-10"
+        }
       ]
     },
     {
       "geoid": "0823740",
       "level": "municipal",
       "name": "Elizabeth (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.elbertcounty-co.gov/290/Elections",
-      "checked": "2026-09-26",
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://www.elbertcounty-co.gov/DocumentCenter/View/5755/2026-SAMPLE-BALLOT",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "As of 2026-09-26 the Elbert County Clerk had posted no sample ballot, TABOR notice, ballot-content certification or participating-entities list for the 2026 General Election; the only 2026 General documents were a logic and accuracy test notice and voter instructions. The previously indexed /640/2026-Sample-Ballot page returned 404.",
-        "The Town of Elizabeth notice of election and election pages returned a Cloudflare challenge (HTTP 403) and could not be read (checked 2026-09-26)."
+        "The county's only posted 2026 sample ballot (\"2026 SAMPLE BALLOT.pdf\", one two-page style, PDF modified 2026-09-30) is image-only: it was produced by Microsoft Print to PDF and its only text layer is the \"SAMPLE BALLOT\" watermark. Under the scanned-PDF rule no conclusion is drawn from it (checked 2026-10-10).",
+        "The Town of Elizabeth notice of election and election pages returned a Cloudflare challenge (HTTP 403) on 2026-09-26 and again on 2026-10-10, to curl with a browser User-Agent and to a fetch tool, so they could not be read.",
+        "Leads only, for owner review: the rendered ballot has a Town of Elizabeth section with the Elizabeth Trustee contest (vote for four) and no town question."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.townofelizabeth.org/townclerk/page/notice-election-town-elizabeth",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.elbertcounty-co.gov/290/Elections",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.elbertcounty-co.gov/DocumentCenter/View/5755/2026-SAMPLE-BALLOT",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.townofelizabeth.org/",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -37,17 +62,30 @@
       "level": "municipal",
       "name": "Kiowa (town)",
       "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.elbertcounty-co.gov/290/Elections",
-      "checked": "2026-09-26",
+      "reviewed_source": "https://townofkiowa.colorado.gov/election",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "As of 2026-09-26 the Elbert County Clerk had posted no sample ballot, TABOR notice, ballot-content certification or participating-entities list for the 2026 General Election; the only 2026 General documents were a logic and accuracy test notice and voter instructions. The previously indexed /640/2026-Sample-Ballot page returned 404.",
-        "The town site states the November ballot will carry the Mayor and Trustee seats; no ballot question appears in its notices, but no town notice of election or ballot content was posted."
+        "The county's only posted 2026 sample ballot (\"2026 SAMPLE BALLOT.pdf\", one two-page style, PDF modified 2026-09-30) is image-only: it was produced by Microsoft Print to PDF and its only text layer is the \"SAMPLE BALLOT\" watermark. Under the scanned-PDF rule no conclusion is drawn from it (checked 2026-10-10). Read for leads only, it has no Town of Kiowa section. No participating-entities list is posted, so the town's absence cannot be confirmed from a text source.",
+        "On 2026-09-26 the town site was recorded as stating that the November ballot would carry the Mayor and Trustee seats. On 2026-10-10 the town Election page still described the November 5, 2024 General Election, linked the 2024 sample ballot, and said \"Regular Town elections are coordinated with the County and held every 2 years during even-numbered years.\"",
+        "The town Agendas and Minutes page lists nothing after June 2025, and the home page posts no 2026 election notice (checked 2026-10-10). The town site has no 2026 election content, so under the #2072 rule the row stays open."
       ],
       "reviewed_sources": [
         {
           "url": "https://townofkiowa.colorado.gov/election",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.elbertcounty-co.gov/DocumentCenter/View/5755/2026-SAMPLE-BALLOT",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofkiowa.colorado.gov/",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofkiowa.colorado.gov/agendas-and-minutes",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -56,17 +94,26 @@
       "level": "municipal",
       "name": "Simla (town)",
       "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.elbertcounty-co.gov/290/Elections",
-      "checked": "2026-09-26",
+      "reviewed_source": "https://townofsimla.com/pages/voting-elections",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "As of 2026-09-26 the Elbert County Clerk had posted no sample ballot, TABOR notice, ballot-content certification or participating-entities list for the 2026 General Election; the only 2026 General documents were a logic and accuracy test notice and voter instructions. The previously indexed /640/2026-Sample-Ballot page returned 404.",
-        "The town site states its regular elections are held in April of even years; participation in the November election could not be confirmed without a county list."
+        "The county's only posted 2026 sample ballot (\"2026 SAMPLE BALLOT.pdf\", one two-page style, PDF modified 2026-09-30) is image-only: it was produced by Microsoft Print to PDF and its only text layer is the \"SAMPLE BALLOT\" watermark. Under the scanned-PDF rule no conclusion is drawn from it (checked 2026-10-10). Read for leads only, it has no Town of Simla section. It is a single style, and no official source says which areas it covers.",
+        "The town Voting & Elections page states: \"The Town of Simla holds a regular municipal election on the first Tuesday of April in every even-numbered year.\" It adds: \"From time to time, the Town may participate in coordinated elections held by Elbert County.\" Participation in the November election could not be confirmed without a county list.",
+        "The town Public Notices page lists ordinances adopted through the August 11, 2026 board meeting (Ordinances 357 to 368); none refers a ballot question. With no county list and no text-readable style for the Simla area, the row stays open (checked 2026-10-10)."
       ],
       "reviewed_sources": [
         {
           "url": "https://townofsimla.com/pages/voting-elections",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.elbertcounty-co.gov/DocumentCenter/View/5755/2026-SAMPLE-BALLOT",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofsimla.com/pages/public-notices",
+          "retrieved": "2026-10-10"
         }
       ]
     }

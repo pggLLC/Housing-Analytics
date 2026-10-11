@@ -301,6 +301,24 @@ async function fetchMarketsForMetric(cfg) {
 }
 
 /**
+ * Probability (0–1, two decimals) of a contract's "yes" side, from the best
+ * bid, else the last trade. null when the contract has neither.
+ * @param {Object} m
+ * @returns {number|null}
+ */
+function contractProb(m) {
+  const fromDollars = (v) => {
+    if (v == null || v === '') return null;
+    const n = typeof v === 'number' ? v : parseFloat(v);
+    return Number.isFinite(n) && n > 0 && n <= 1 ? n : null;
+  };
+  const fromCents = (v) => (typeof v === 'number' && Number.isFinite(v) && v > 0 && v <= 100 ? v / 100 : null);
+  const p = fromDollars(m.yes_bid_dollars) ?? fromCents(m.yes_bid) ??
+    fromDollars(m.last_price_dollars) ?? fromCents(m.last_price);
+  return p == null ? null : Math.round(p * 100) / 100;
+}
+
+/**
  * Convert raw Kalshi market objects into the normalized output schema.
  * @param {MetricConfig} cfg
  * @param {Object[]} markets
@@ -316,34 +334,28 @@ function normalizeMarket(cfg, markets) {
     return vol > bestVol ? m : best;
   }, markets[0]);
 
-  // Build outcomes from yes_bid / no_bid or yes_ask / no_ask probabilities
-  const yesProb = market.yes_bid != null
-    ? market.yes_bid / 100
-    : market.last_price != null
-      ? market.last_price / 100
-      : null;
+  // Each contract's own "yes" price, as a probability. Kalshi's v2 API quotes
+  // prices as dollar strings (`yes_bid_dollars`, "0.4500"); older responses
+  // used integer cents (`yes_bid`). A contract with no bid and no trade has
+  // no price: that is null, never 0 — a 0 here rendered as "0%" for every
+  // housing-starts threshold on the dashboard.
+  const yesProb = contractProb(market);
 
   let outcomes = [];
   if (yesProb != null) {
     outcomes = [
-      { name: 'Yes', prob: Math.round(yesProb * 100) / 100 },
+      { name: 'Yes', prob: yesProb },
       { name: 'No',  prob: Math.round((1 - yesProb) * 100) / 100 },
     ];
   }
 
-  // For multi-outcome markets, use yes_bid per contract as the probability
-  // (each contract in a mutually-exclusive set sums to ~1)
+  // Several contracts from one series are a strike ladder ("above 1.30M",
+  // "above 1.35M", ...): overlapping events, so each keeps its own
+  // probability. Rescaling them to sum to 1 — as this used to — is only
+  // valid for mutually exclusive outcomes, and turned P(above 1.10M) = 0.95
+  // into a share of a total.
   if (markets.length > 1) {
-    let total = 0;
-    const raw = markets.map(m => {
-      const rawPrice = m.yes_bid != null ? m.yes_bid : (m.last_price || 0);
-      total += rawPrice;
-      return { name: m.title || m.ticker || '?', rawP: rawPrice };
-    });
-    // Normalise so probabilities sum to 1
-    outcomes = total > 0
-      ? raw.map(r => ({ name: r.name, prob: Math.round((r.rawP / total) * 100) / 100 }))
-      : raw.map(r => ({ name: r.name, prob: 0 }));
+    outcomes = markets.map(m => ({ name: m.title || m.ticker || '?', prob: contractProb(m) }));
   }
 
   return {

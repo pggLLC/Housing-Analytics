@@ -1,6 +1,7 @@
 /**
  * js/components/equity-forecast-panel.js
- * LIHTC Equity Pricing Forecast — renders ARIMA-based forward curve
+ * LIHTC Equity Pricing Trend Extension — renders an ARIMA-based forward curve.
+ * With ~19 quarters of history this extends the trend; the panel says so.
  * with 95% confidence interval on the Deal Calculator page.
  *
  * Uses js/forecasting.js (EconometricForecaster.forecastPricing) for
@@ -187,9 +188,9 @@
     if (!rates || !rates.mortgageRate) return null;
 
     var signals = [];
-    if (rates.creditStress) {
-      signals.push({ type: 'warn', text: 'Elevated credit spreads may suppress equity pricing by 2–5¢/credit.' });
-    }
+    // No credit-spread signal: the Baa spread shows no stable relationship
+    // with Novogradac pricing (article-pricing.html#tceDrivers), and the
+    // cents-per-credit range this line used to show had no source.
     if (rates.yieldCurveInverted) {
       signals.push({ type: 'warn', text: 'Inverted yield curve signals potential recession — investor demand may soften.' });
     }
@@ -281,8 +282,8 @@
     mount.innerHTML =
       '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px;">' +
         '<div>' +
-          '<strong style="font-size:.88rem;">Equity Pricing Forecast</strong>' +
-          '<span style="font-size:.72rem;color:var(--muted);margin-left:8px;">' + creditType + ' Credits · ARIMA(2,1,1) · 95% CI</span>' +
+          '<strong style="font-size:.88rem;">Equity Pricing Trend Extension</strong>' +
+          '<span style="font-size:.72rem;color:var(--muted);margin-left:8px;">' + creditType + ' Credits · ARIMA(2,1,1) on ' + history.length + ' quarters · 95% band</span>' +
         '</div>' +
         '<span style="font-size:.82rem;font-weight:700;color:' + dirColor + ';">' + dirIcon + ' ' + dirText + '</span>' +
       '</div>' +
@@ -319,8 +320,9 @@
 
       // Disclaimer
       '<p style="font-size:.68rem;color:var(--muted);margin:8px 0 0;line-height:1.4;">' +
-        'ARIMA(2,1,1) model fitted on ' + _history.length + ' quarters of historical equity pricing data. ' +
-        'Confidence intervals widen with forecast horizon. Actual pricing depends on investor appetite, CRA demand, legislative changes, and macro conditions. ' +
+        'ARIMA(2,1,1) fitted on only ' + _history.length + ' quarters of national pricing, so this mostly extends the recent trend; it is not a forecast. ' +
+        'No interest-rate series predicted pricing over this period: see <a href="article-pricing.html#tceDrivers">what moves LIHTC pricing</a>. ' +
+        'Actual pricing depends on investor appetite, CRA demand, credit supply, legislative changes, and macro conditions. ' +
         'Not investment advice — consult your syndicator or financial advisor.' +
       '</p>';
   }
