@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T03:48:44.805Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T04:30:50.530Z. Do not edit by hand.
 
 ---
 
@@ -16,7 +16,7 @@
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 40.8 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.9 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | Colorado Public Data Reference | 17.9 KB |
-| `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.9 KB |
+| `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 13.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 39.9 KB |
 | `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 196.8 KB |
@@ -38,7 +38,7 @@
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 92.5 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 93.2 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 18.6 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 6.0 KB |
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
@@ -82,11 +82,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1673 JSON files found.
+1674 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 816.7 KB | ✅ | — |
+| `data/_manifest.json` | 817.1 KB | ✅ | — |
 | `data/_qa-status.json` | 7.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1580,9 +1580,9 @@
 | `data/jurisdiction-briefs/_verified/0864255.json` | 13.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0867280.json` | 16.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
-| `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
+| `data/kalshi/prediction-market.json` | 1.6 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 212.1 KB | ✅ | — |
+| `data/manifest.json` | 212.2 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 1.8 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1631,7 +1631,7 @@
 | `data/market/yardi-matrix-national-multifamily.json` | 3.8 KB | ✅ | — |
 | `data/market/zillow_co_metros.json` | 106.6 KB | ✅ | — |
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
-| `data/market/zori_rents_co.json` | 24.1 KB | ✅ | — |
+| `data/market/zori_rents_co.json` | 25.1 KB | ✅ | — |
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 90.7 KB | ✅ | — |
 | `data/paper/compute-footprint.json` | 1.8 KB | ✅ | — |
@@ -1742,6 +1742,7 @@
 | `data/policy_briefs_curated.json` | 13.8 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
+| `data/polymarket-history.json` | 156.0 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
@@ -1764,7 +1765,7 @@
 
 ## Test Files
 
-561 test files found.
+565 test files found.
 
 | File | Size |
 |------|------|
@@ -1897,6 +1898,7 @@
 | `test/epa-walkability-d4a-distance.test.js` | 14.4 KB |
 | `test/epa-walkability-site-lookup.test.js` | 11.1 KB |
 | `test/epa-walkability-waits-for-geometry.test.js` | 9.6 KB |
+| `test/equity-pricing-drivers.test.js` | 11.5 KB |
 | `test/equity-pricing-single-source.test.mjs` | 9.1 KB |
 | `test/equity-pricing-watch.test.mjs` | 6.5 KB |
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
@@ -1915,6 +1917,7 @@
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
 | `test/fixtures/deal-engine/golden.json` | 36.1 KB |
 | `test/fixtures/deal-engine/invented-sources.cjs` | 2.1 KB |
+| `test/fixtures/equity-pricing-drivers.json` | 7.8 KB |
 | `test/fixtures/pma/barrier-downweight.fixture.json` | 412 B |
 | `test/fixtures/pma/commute-shed-params.fixture.json` | 1.3 KB |
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
@@ -2008,6 +2011,7 @@
 | `test/housing-need-face-validity.test.mjs` | 26.4 KB |
 | `test/housing-news-leads-with-the-newest.test.mjs` | 22.1 KB |
 | `test/housing-outcome-score-absence.test.js` | 9.4 KB |
+| `test/housing-predictions-null-odds.test.js` | 3.1 KB |
 | `test/housing-type-need-middle-income.test.js` | 6.0 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 2.8 KB |
@@ -2031,7 +2035,7 @@
 | `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
 | `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
 | `test/jurisdiction-select-search.test.js` | 8.9 KB |
-| `test/kalshi-signing-and-write.test.js` | 4.7 KB |
+| `test/kalshi-signing-and-write.test.js` | 6.4 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
@@ -2318,6 +2322,7 @@
 | `tests/test_policy_foundation.py` | 24.0 KB |
 | `tests/test_policy_timeline.py` | 2.4 KB |
 | `tests/test_policy_watch.py` | 5.5 KB |
+| `tests/test_polymarket_history.py` | 2.6 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_ranking_index_transit_zone.py` | 11.8 KB |
 | `tests/test_school_transport_exclusion.py` | 9.6 KB |
@@ -2387,7 +2392,7 @@
 | `.github/workflows/fetch-kalshi.yml` | 5.3 KB |
 | `.github/workflows/fetch-market-rents.yml` | 8.2 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 20.4 KB |
-| `.github/workflows/fetch-polymarket-data.yml` | 8.9 KB |
+| `.github/workflows/fetch-polymarket-data.yml` | 9.4 KB |
 | `.github/workflows/funding-awards.yml` | 3.2 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 5.2 KB |
 | `.github/workflows/local-incentives-watch.yml` | 1.8 KB |
