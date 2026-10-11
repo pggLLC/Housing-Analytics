@@ -220,7 +220,7 @@
       provider: 'DOLA / Internal',
       url: 'https://cdola.colorado.gov/prop123',
       localFile: 'data/policy/prop123_jurisdictions.json',
-      lastUpdated: '2026-10-10',
+      lastUpdated: '2026-10-11',
       updateFrequency: 'As-filed',
       maxAgeDays: 180,
       geoUnit: 'Municipality / County',

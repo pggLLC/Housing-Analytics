@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-11T08:11:15.737Z",
+    "generated_at": "2026-10-11T10:35:38.366Z",
     "root": "data/",
     "file_count": 1710,
-    "total_size_bytes": 179966761,
+    "total_size_bytes": 180034518,
     "kinds": {
       "json": 1673,
       "geojson": 33,
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-11T08:11:13.361Z",
+      "mtime": "2026-10-11T10:35:34.069Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -3198,7 +3198,7 @@
       "path": "hna/home-value-cascade.json",
       "kind": "json",
       "size_bytes": 133724,
-      "mtime": "2026-10-05T12:08:59.255Z",
+      "mtime": "2026-10-11T09:30:42.587Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -30548,7 +30548,7 @@
       "path": "kalshi/prediction-market.json",
       "kind": "json",
       "size_bytes": 1451,
-      "mtime": "2026-10-11T07:50:12.430Z",
+      "mtime": "2026-10-11T10:04:50.379Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30589,8 +30589,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 217336,
-      "mtime": "2026-10-11T08:10:43.932Z",
+      "size_bytes": 217337,
+      "mtime": "2026-10-11T10:17:20.529Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31631,8 +31631,8 @@
     {
       "path": "market/redfin_place_market_tracker_co.json",
       "kind": "json",
-      "size_bytes": 2325841,
-      "mtime": "2026-10-06T01:49:10.136Z",
+      "size_bytes": 2325853,
+      "mtime": "2026-10-11T09:30:42.932Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -32054,7 +32054,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15108,
-      "mtime": "2026-10-11T08:11:14.483Z",
+      "mtime": "2026-10-11T10:35:35.880Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32078,7 +32078,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-11T08:11:14.215Z",
+      "mtime": "2026-10-11T10:35:35.466Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34171,8 +34171,8 @@
     {
       "path": "policy/housing-policy-scorecard.json",
       "kind": "json",
-      "size_bytes": 183035,
-      "mtime": "2026-10-11T06:37:28.994Z",
+      "size_bytes": 183036,
+      "mtime": "2026-10-11T10:13:22.915Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -34457,19 +34457,22 @@
     {
       "path": "policy/prop123_jurisdictions.json",
       "kind": "json",
-      "size_bytes": 72668,
-      "mtime": "2026-10-10T19:13:25.027Z",
+      "size_bytes": 133084,
+      "mtime": "2026-10-11T10:13:22.916Z",
       "shape": "object",
       "keys": [
         "updated",
         "source_url",
+        "sources",
         "note",
         "total_projected_units",
         "fast_track_count",
+        "fast_track_without_cycle1_commitment",
         "commitment_met_count",
+        "next_cycle",
         "jurisdictions"
       ],
-      "key_count": 7,
+      "key_count": 10,
       "primary_array_key": "jurisdictions",
       "primary_array_length": 217,
       "primary_array_first_keys": [
@@ -34477,10 +34480,14 @@
         "kind",
         "type",
         "required_commitment",
+        "commitment_length",
+        "proposed_units",
         "status",
         "filing_date",
         "source_url",
-        "fast_track"
+        "fast_track",
+        "fast_track_adopted",
+        "fast_track_instrument"
       ]
     },
     {
@@ -34586,8 +34593,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 24292,
-      "mtime": "2026-10-11T07:51:15.384Z",
+      "size_bytes": 27740,
+      "mtime": "2026-10-11T10:14:13.122Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -34724,8 +34731,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 17888,
-      "mtime": "2026-10-11T07:51:15.385Z",
+      "size_bytes": 21767,
+      "mtime": "2026-10-11T10:14:13.123Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34733,7 +34740,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 4,
+      "primary_array_length": 5,
       "primary_array_first_keys": [
         "id",
         "title",
