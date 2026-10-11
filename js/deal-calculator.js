@@ -527,6 +527,20 @@
     document.querySelectorAll('[data-dc-mode="ownership"]').forEach(function (el) {
       el.hidden = !isOwnership;
     });
+    // Tell the guided path which page this is: the ownership-mode calculator
+    // is a different step page from the rental one, however the mode was set
+    // (the toggle, ?mode=ownership, or a restored share link).
+    var page = isOwnership ? 'deal-calculator.html?mode=ownership' : 'deal-calculator.html';
+    if (document.documentElement.getAttribute('data-wf-page') !== page) {
+      document.documentElement.setAttribute('data-wf-page', page);
+      // The document's own window builds the event: test harnesses pair a
+      // jsdom document with Node's globals, and dispatchEvent refuses an
+      // event from another realm.
+      var view = document.defaultView || window;
+      try {
+        document.dispatchEvent(new view.CustomEvent('workflow:page-changed', { detail: { page: page } }));
+      } catch (_) { /* the guided path is optional on this page */ }
+    }
   }
 
   function _fundingUseCaseForDealMode() {
@@ -2436,7 +2450,7 @@
             <strong>Bridge</strong>: the gap between the two, which public subsidy must fill.
             <strong>Public interest</strong>: the steward's claim on the home and its resale proceeds.
           </p>
-          <dl id="dc-own-rows" style="display:grid;grid-template-columns:1fr auto;gap:0.45rem 0.75rem;font-size:var(--small);margin:0;">
+          <dl id="dc-own-rows" style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0.45rem 0.75rem;font-size:var(--small);margin:0;">
             <dt data-actor="developer" style="color:var(--muted);">Development cost / unit <span class="dc-own-actor" data-actor="developer">Developer / operator</span></dt>
             <dd id="dc-own-cost-per-unit" style="font-weight:700;text-align:right;">—</dd>
 
@@ -4788,10 +4802,24 @@
   // -------------------------------------------------------------------
   // Public API
   // -------------------------------------------------------------------
+  /* A link can open the calculator in ownership mode (?mode=ownership): the
+   * nav's "For-Sale Feasibility" item and the for-sale route's Deal step both
+   * do (docs/DEVELOPER-TRACKS.md). Any other value leaves the default. */
+  function applyModeFromUrl() {
+    var mode = new URLSearchParams(window.location.search).get('mode');
+    if (mode !== 'ownership') return;
+    var radio = document.getElementById('dc-mode-ownership');
+    if (!radio || radio.checked) return;
+    radio.checked = true;
+    var view = radio.ownerDocument.defaultView || window;
+    radio.dispatchEvent(new view.Event('change', { bubbles: true }));
+  }
+
   function init() {
     var mount = document.getElementById('dealCalcMount');
     if (!mount) return;
     render(mount);
+    applyModeFromUrl();
     _renderSoftFundingReference();
     var chfaLoad = window.__DealCalcChfaTablePromise || fetch('data/chfa-income-rent-limits-2026.json').then(function (r) {
       return r.ok ? r.json() : null;
