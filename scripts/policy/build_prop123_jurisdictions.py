@@ -6,10 +6,10 @@ DOLA publishes four lists, and this file joins them by jurisdiction:
   1. First-cycle (2024-2026) commitment filings: a Google Sheet linked from
      https://cdola.colorado.gov/commitment-filings (217 rows, 22,988 units).
   2. Expedited review ("fast track") policies DOLA has verified: a Google
-     Sheet linked from https://cdola.colorado.gov/prop123fasttrack.
+     Sheet linked from https://cdola.colorado.gov/prop123fasttrack
   3. Jurisdictions DOLA has verified as meeting every statutory requirement
      (fast track plus the unit commitment): the table on
-     https://cdola.colorado.gov/fully-compliant-jurisdictions-under-proposition-123.
+     https://cdola.colorado.gov/fully-compliant-jurisdictions-under-proposition-123
   4. Second-cycle (2027-2029) commitments filed in 2026: the table on the
      commitment-filings page. It grows until the November 1 deadline.
 
