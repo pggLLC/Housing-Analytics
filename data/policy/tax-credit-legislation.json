@@ -3,7 +3,7 @@
   "meta": {
     "title": "Tax Credit Legislation Watchlist",
     "as_of": "2026-10-10",
-    "last_updated": "2026-10-10",
+    "last_updated": "2026-10-11",
     "last_verified": "2026-10-10",
     "review_by": "2026-11-15",
     "methodology": "Curated federal and state tax-credit policy entries. Legislative status source_url fields point to official federal or state legislative sources; market impact text is directional and should be re-reviewed quarterly."
@@ -34,9 +34,38 @@
       "sunset_date": null,
       "pricing_impact": "Expands competitive 9% credit authority beginning in 2026. More credit supply can modestly pressure cents-per-credit pricing lower unless investor demand rises with allocation volume.",
       "source_url": "https://www.congress.gov/bill/119th-congress/house-bill/1/text",
-      "source_note": "Public Law 119-21, section 70422(a), permanent state housing credit ceiling increase. Section text re-read in the GovInfo Public Law 119-21 text on 2026-10-10; no later amendment found.",
-      "last_verified": "2026-10-10",
-      "review_by": "2027-01-08"
+      "source_note": "Public Law 119-21 (H.R. 1, approved 2025-07-04), section 70422(a), amends 26 U.S.C. 42(h)(3)(I): it strikes the 2018-2021 years and the 1.125 multiplier and inserts calendar years beginning after December 31, 2025 and 1.12, with no end year. Under section 42(h)(3)(I) the multiplier applies to the per-capita and small-state-minimum amounts in 42(h)(3)(C)(ii), after the cost-of-living increase under 42(h)(3)(H); it does not apply to the carryforward, returned-credit or national-pool parts of the ceiling. Section 70422 is the law's only amendment to section 42 besides the bond-financing test in 70422(b), tracked as obbba-lihtc-bond-25pct-test. Amendment text re-read in the GovInfo Public Law 119-21 text, and the pre-amendment section 42(h)(3)(I) read in the GovInfo U.S. Code 2024 edition, on 2026-10-11 (congress.gov returned HTTP 403 to an automated request); no later amendment found.",
+      "enacted_date": "2025-07-04",
+      "ceiling_increase": {
+        "statute": "26 U.S.C. 42(h)(3)(I), as amended by Public Law 119-21 section 70422(a)",
+        "multiplier": 1.12,
+        "applies_to": "calendar years beginning after December 31, 2025",
+        "applies_after": "2025-12-31",
+        "end_year": null,
+        "applies_to_amounts": "the per-capita amount and the small-state minimum in 42(h)(3)(C)(ii), after the cost-of-living increase under 42(h)(3)(H)",
+        "previous_multiplier": 1.125,
+        "previous_years": [
+          2018,
+          2019,
+          2020,
+          2021
+        ],
+        "source_url": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+        "pre_amendment_text_url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title26/html/USCODE-2024-title26-subtitleA-chap1-subchapA-partIV-subpartD-sec42.htm",
+        "last_verified": "2026-10-11"
+      },
+      "ceiling_2026": {
+        "year": 2026,
+        "per_capita": 3.416,
+        "small_state_minimum": 3953600,
+        "rule": "greater of the per-capita amount multiplied by the State population, or the small-state minimum (42(h)(3)(C)(ii))",
+        "source": "IRS Rev. Proc. 2025-32, section 4.08 (section 2.05 lists the section 70422(a) amendment)",
+        "source_url": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf",
+        "last_verified": "2026-10-11"
+      },
+      "last_verified": "2026-10-11",
+      "review_by": "2027-01-08",
+      "analysis_url": "research-brief.html?id=obbba-lihtc-ceiling-12pct-2026"
     },
     {
       "id": "obbba-lihtc-bond-25pct-test",
