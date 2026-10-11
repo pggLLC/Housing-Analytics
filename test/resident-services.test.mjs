@@ -115,7 +115,7 @@ function today(offset) {
   const d = new Date(`${denver}T12:00:00Z`); d.setUTCDate(d.getUTCDate() + offset); return d.toISOString().slice(0, 10);
 }
 async function renderPage(doc) {
-  const dom = new JSDOM(read('resident-services.html'), { runScripts: 'outside-only', url: 'https://example.test/resident-services.html' });
+  const dom = new JSDOM(read('resident-services.html'), { runScripts: 'outside-only', url: 'http://localhost/resident-services.html' });
   const w = dom.window;
   w.fetch = () => new Promise(() => {}); // render() is called directly below
   w.eval(read('js/provenance-label.js'));
