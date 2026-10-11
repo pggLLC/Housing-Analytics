@@ -283,8 +283,13 @@ jobs:
         # describing the previous overlays, with no failing run (#2092). The
         # script rebuilds the chain, validates, commits inputs and derived files
         # together, runs the freshness checkers and pushes, or commits nothing.
+        # A new designation year also rewrites the QCT/DDA labels and fallback
+        # endpoints that name it (scripts/sync-hud-vintage-labels.mjs); they
+        # are committed with the overlays they describe.
         run: |
-          scripts/commit-with-derived-chain.sh "chore: update HUD QCT/DDA overlay cache and county boundaries [$(date -u '+%Y-%m-%d')]" -- data/qct-colorado.json data/dda-colorado.json data/co-county-boundaries.json data/boundaries/counties_co.geojson
+          node scripts/sync-hud-vintage-labels.mjs
+          LABEL_FILES=$(node --input-type=module -e "import('./scripts/sync-hud-vintage-labels.mjs').then(m => console.log([...new Set(m.RULES.flatMap(r => r.files))].join(' ')))")
+          scripts/commit-with-derived-chain.sh "chore: update HUD QCT/DDA overlay cache and county boundaries [$(date -u '+%Y-%m-%d')]" -- data/qct-colorado.json data/dda-colorado.json data/co-county-boundaries.json data/boundaries/counties_co.geojson $LABEL_FILES
 
       - name: Dispatch Pages deploy for this run's commit
         # A workflow-token push does not trigger deploy.yml (#1875).
