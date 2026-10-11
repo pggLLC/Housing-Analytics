@@ -178,6 +178,111 @@ assert.deepStrictEqual(
 assert.ok(hbBrief.articles.some((article) => article.link === hb.source_url));
 assert.ok(hbBrief.articles.some((article) => article.link === hb.tz_credit_pairing.source_url));
 
+// ── P.L. 119-21 §70422(a) ceiling brief: every figure comes from the record ──
+// Each $ amount, percentage, multiplier, date, year and citation the brief
+// states must be a value of the canonical legislation record (or be derived
+// from one), and the record's key values must all be stated. Reword the brief
+// freely; change a figure on either side and this fails.
+const ceiling = legislation.entries.find((entry) => entry.id === 'obbba-lihtc-ceiling-12pct');
+const ceilingBrief = payload.briefs.find((brief) => brief.id === 'obbba-lihtc-ceiling-12pct-2026');
+assert.ok(ceiling && ceilingBrief, 'LIHTC ceiling record and public brief must both exist');
+assert.strictEqual(ceilingBrief.is_curated, true);
+assert.strictEqual(ceilingBrief.source_reviewed, true);
+assert.strictEqual(ceilingBrief.related_data, 'data/policy/tax-credit-legislation.json');
+assert.strictEqual(ceiling.analysis_url, 'research-brief.html?id=' + ceilingBrief.id);
+const inc = ceiling.ceiling_increase;
+const y26 = ceiling.ceiling_2026;
+assert.ok(inc && y26, 'ceiling record must carry the statutory change and the IRS figures it is checked against');
+const ceilingText = ceilingBrief.title + ' ' + ceilingBrief.summary + ' ' + ceilingBrief.implications;
+let ceilingChecked = 0;
+const sameSet = (stated, canonical, what) => {
+  ceilingChecked += stated.length;
+  assert.deepStrictEqual([...new Set(stated)].sort(), [...new Set(canonical)].sort(), what);
+};
+const pctOf = (multiplier) => Math.round((multiplier - 1) * 1000) / 10;
+
+// Dollars: exactly the IRS per-capita amount and small-state minimum.
+sameSet(money(ceilingText), [y26.per_capita, y26.small_state_minimum],
+  'brief dollar amounts must equal the record\'s 2026 per-capita amount and small-state minimum');
+// Percentages: the increase and the earlier increase, both derived from the
+// record's multipliers, plus the credit type the record's own title names.
+const titlePcts = pcts(ceiling.title);
+sameSet(pcts(ceilingText), [pctOf(inc.multiplier), pctOf(inc.previous_multiplier), ...titlePcts],
+  'brief percentages must equal the record\'s multipliers (and the credit type in its title)');
+assert.ok(titlePcts.includes(pctOf(inc.multiplier)), 'the record title\'s increase must agree with its multiplier');
+// Bare decimals (not $, not %): the statutory multiplier.
+const bareDecimals = (t) => [...t.matchAll(/(?<![\d$.,])\d+\.\d+(?![\d.]|\s*(?:%|percent\b))/g)].map((m) => Number(m[0]));
+sameSet(bareDecimals(ceilingText), [inc.multiplier], 'brief multipliers must equal the record\'s multiplier');
+
+// Dates: every full date is a record date; the enactment and start dates are stated.
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const statedDates = [...ceilingText.matchAll(new RegExp('(' + MONTHS.join('|') + ') (\\d{1,2}), (\\d{4})', 'g'))]
+  .map((m) => m[3] + '-' + String(MONTHS.indexOf(m[1]) + 1).padStart(2, '0') + '-' + m[2].padStart(2, '0'));
+const recordDates = [ceiling.enacted_date, inc.applies_after, ceiling.effective_date];
+ceilingChecked += statedDates.length;
+statedDates.forEach((date) => assert.ok(recordDates.includes(date), `brief states ${date}, which is not a date in the record`));
+[ceiling.enacted_date, inc.applies_after].forEach((date) => assert.ok(statedDates.includes(date), `brief must state the record date ${date}`));
+const dayAfter = new Date(inc.applies_after + 'T00:00:00Z');
+dayAfter.setUTCDate(dayAfter.getUTCDate() + 1);
+assert.strictEqual(dayAfter.toISOString().slice(0, 10), ceiling.effective_date, 'effective date must be the day after the statutory cutoff');
+assert.strictEqual(y26.year, Number(ceiling.effective_date.slice(0, 4)), 'the IRS figures must be for the first year the change applies');
+const firstDollar = ceilingText.search(/\$\s?\d/);
+assert.ok(firstDollar > 0 && ceilingText.slice(Math.max(0, firstDollar - 120), firstDollar).includes(String(y26.year)),
+  'the IRS amounts must be stated for the record\'s year');
+// Years: every year named is one the record supports; the earlier window matches.
+const revProcNo = (y26.source.match(/Rev\. Proc\. (\d{4}-\d+)/) || [])[1];
+const recordYears = new Set([
+  ...recordDates.map((date) => Number(date.slice(0, 4))), y26.year, ...inc.previous_years, Number(String(revProcNo).slice(0, 4))
+]);
+const statedYears = [...ceilingText.matchAll(/(?<![\d-])(?:19|20)\d{2}(?![\d)])/g)].map((m) => Number(m[0]));
+ceilingChecked += statedYears.length;
+statedYears.forEach((year) => assert.ok(recordYears.has(year), `brief names ${year}, which the record does not support`));
+// A year range is two years joined by any connective (through / to / and /
+// a dash), optionally introduced by "from" or "between"; its endpoints are
+// what must agree with the record, not the word that joins them.
+const yearRanges = [...ceilingText.matchAll(/\b((?:19|20)\d{2})\s*(?:through|thru|to|until|and|[-–—])\s*((?:19|20)\d{2})\b/gi)]
+  .map((m) => [Number(m[1]), Number(m[2])]);
+assert.ok(yearRanges.length > 0, 'brief must state the years of the earlier increase');
+const previousWindow = [Math.min(...inc.previous_years), Math.max(...inc.previous_years)];
+ceilingChecked += yearRanges.length;
+yearRanges.forEach((range) => assert.deepStrictEqual(range, previousWindow,
+  `brief states the year range ${range.join('-')}, but the record's earlier increase covers ${previousWindow.join('-')}`));
+
+// Legal citations and claims.
+const citesOf = (t) => [...t.matchAll(/\b70422\([a-z]\)/g)].map((m) => m[0]);
+citesOf(ceilingText).forEach((cite) => {
+  ceilingChecked++;
+  assert.ok(ceiling.source_note.includes(cite), `brief cites section ${cite}, which the record does not`);
+});
+assert.ok(ceilingText.includes('70422(a)') && inc.statute.includes('section 70422(a)'), 'brief and record must cite the same amending section');
+const amended = inc.statute.match(/42\(h\)\(3\)\([A-Z]\)/)[0];
+assert.ok(ceilingText.includes(amended), 'brief must cite the amended Code provision ' + amended);
+(ceilingText.match(/42\(h\)\(\d\)\([A-Z]\)/g) || []).forEach((c) => assert.strictEqual(c, amended, 'brief cites a Code provision the record does not: ' + c));
+const plNo = (t) => (t.match(/Public Law (\d+-\d+)/) || [])[1];
+assert.ok(plNo(ceilingText) && plNo(ceilingText) === plNo(ceiling.source_note), 'brief and record must name the same Public Law');
+assert.ok(revProcNo && ceilingText.includes('Rev. Proc. ' + revProcNo), 'brief must cite the IRS Rev. Proc. the record cites');
+// "No end year" is true only if the record carries no sunset and no end year.
+const statesNoEnd = (t) => /\b(?:no end year|no sunset|permanent)\b/i.test(t);
+assert.strictEqual(statesNoEnd(ceilingText), ceiling.sunset_date === null && inc.end_year === null,
+  'brief may call the increase permanent only when the record has no sunset or end year');
+assert.ok(statesNoEnd(ceilingText), 'the record has no end year, so the brief must say so');
+// The brief names 70422(b) as the only other §42 change; the record must agree and track it.
+if (/70422\(b\)/.test(ceilingText)) {
+  const bond = legislation.entries.find((entry) => entry !== ceiling && /70422\(b\)/.test(entry.source_note || ''));
+  assert.ok(bond && ceiling.source_note.includes(bond.id), 'the 70422(b) record the brief points to must exist and be named by the ceiling record');
+}
+assert.strictEqual(ceiling.status, 'enacted');
+assert.ok(/\bapproved\b|\bsigned\b|\benacted\b/i.test(ceilingBrief.summary), 'brief must describe the record as enacted law');
+// Every source the record cites for these figures is linked from the brief.
+[inc.source_url, inc.pre_amendment_text_url, y26.source_url].forEach((url) =>
+  assert.ok(ceilingBrief.articles.some((article) => article.link === url), 'brief must link ' + url));
+[inc.last_verified, y26.last_verified].forEach((d) => assert.strictEqual(d, ceiling.last_verified));
+assert.ok(ceilingChecked >= 15, `only ${ceilingChecked} ceiling-brief figures checked; the scan has drifted`);
+const ceilingClaims = ceilingText.toLowerCase();
+['will lower', 'will raise', 'will increase', 'will reduce', 'expected to', 'likely', 'guarantee'].forEach((phrase) => {
+  assert.ok(!ceilingClaims.includes(phrase), 'the ceiling brief must not predict outcomes: ' + phrase);
+});
+
 const page = fs.readFileSync(pagePath, 'utf8');
 assert.match(page, /CURATED_BRIEFS_URL/);
 assert.match(page, /data\/policy_briefs_curated\.json/);
@@ -190,4 +295,4 @@ assert.match(catalogJs, /b\.is_curated/);
 assert.match(catalogJs, /Source-reviewed/);
 assert.match(page, /Promise\.all\(\[/);
 
-console.log('policy briefs curated feed regression tests passed');
+console.log('policy briefs curated feed regression tests passed (' + ceilingChecked + ' LIHTC ceiling-brief figures checked against the record)');
