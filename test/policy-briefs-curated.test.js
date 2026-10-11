@@ -368,6 +368,28 @@ const ceilingClaims = ceilingText.toLowerCase();
   assert.strictEqual(statesNoEnd(text), bond.sunset_date === null && test.end_year === null,
     'brief may call the test permanent only when the record has no sunset or end year');
   assert.ok(statesNoEnd(text), 'the record has no end year, so the brief must say so');
+  // How the post-2025 bonds meet their minimum: the statute counts "1 or more
+  // of such obligations" together. The record's flag must agree with its own
+  // source_note, and every sentence of the brief (and pricing_impact) that
+  // states that minimum must agree with the flag: aggregate wording when it is
+  // true, single-bond wording when it is false.
+  assert.strictEqual(test.post_2025_min_pct_aggregate, /one or more of (?:those|such|the) obligations/i.test(bond.source_note),
+    'the record\'s post-2025 aggregation flag must agree with its source_note');
+  const AGGREGATE = /\b(?:one or more|1 or more|together|combined|in aggregate|in total|more than one)\b/i;
+  const SINGLE = /\b(?:on its own|by itself|alone|a single|one bond|at least one of (?:those|the|these) bonds)\b/i;
+  const minSentences = (t) => t.split(/(?<=\.)\s+/).filter((sentence) => pcts(sentence).includes(test.post_2025_issue_min_pct));
+  const briefMin = minSentences(text);
+  const impactMin = minSentences(bond.pricing_impact);
+  assert.ok(briefMin.length > 0 && impactMin.length > 0, 'the brief and pricing_impact must both state the post-2025 minimum');
+  [...briefMin, ...impactMin].forEach((sentence) => {
+    checked++;
+    if (test.post_2025_min_pct_aggregate) {
+      assert.ok(AGGREGATE.test(sentence) && !SINGLE.test(sentence),
+        'the record counts post-2025 bonds together, but this sentence does not: ' + sentence);
+    } else {
+      assert.ok(!AGGREGATE.test(sentence), 'the record counts one post-2025 bond, but this sentence aggregates: ' + sentence);
+    }
+  });
   // The 70422(a) brief the text points to must exist and be linked from its record.
   if (pointsToCeiling) {
     assert.ok(ceiling && bond.source_note.includes(ceiling.id), 'the 70422(a) record the brief points to must exist and be named by the bond record');
