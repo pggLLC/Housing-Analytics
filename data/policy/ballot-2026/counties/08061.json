@@ -41,11 +41,12 @@
       "name": "Eads (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://drive.google.com/drive/folders/15Gj_K3Xs-A80JUmgXO5JI9OTjpAYaZmo?usp=sharing",
-      "checked": "2026-10-03",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
         "No county sample ballot style has a town section or town question, and no participating-entities list was posted. The town has no website, so a separate town election or notice could not be checked; the row stays open until a list or town notice is available.",
-        "The county Notice of Election and Sample Ballots folder (linked from the clerk page, files dated September 28) holds a notice of election and five precinct sample ballots (001-1, 001-2, 002-2, 003-2, 004-2), all read on 2026-10-03. No separate TABOR notice or participating-entities list was posted."
+        "The county Notice of Election and Sample Ballots folder (linked from the clerk page, files dated September 28) holds a notice of election and five precinct sample ballots (001-1, 001-2, 002-2, 003-2, 004-2), all read on 2026-10-03. No separate TABOR notice or participating-entities list was posted.",
+        "Rechecked 2026-10-10: the folder still holds the notice and the five styles, all dated September 28, plus a \"STATE SAMPLE\" file with no county, municipal or district question, and the clerk page has no TABOR notice or participating-entities list. The five styles were re-read and none names Eads. The domains townofeads.com and eadscolorado.com are parked pages, not a town site."
       ],
       "reviewed_sources": [
         {
@@ -67,6 +68,18 @@
         {
           "url": "https://drive.google.com/uc?export=download&id=1NDvCXNqJxAi6osJpzW1g3a_C2xL6U23U",
           "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/drive/folders/15Gj_K3Xs-A80JUmgXO5JI9OTjpAYaZmo?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kiowacounty.colorado.gov/government/elected-officials/clerk-and-recorder",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1BOU1C07Inscasp-hwceOr6RB5TKIGWct",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -76,11 +89,12 @@
       "name": "Haswell (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://drive.google.com/drive/folders/15Gj_K3Xs-A80JUmgXO5JI9OTjpAYaZmo?usp=sharing",
-      "checked": "2026-10-03",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
         "No county sample ballot style has a town section or town question, and no participating-entities list was posted. The town has no website, so a separate town election or notice could not be checked; the row stays open until a list or town notice is available.",
-        "The county Notice of Election and Sample Ballots folder (linked from the clerk page, files dated September 28) holds a notice of election and five precinct sample ballots (001-1, 001-2, 002-2, 003-2, 004-2), all read on 2026-10-03. No separate TABOR notice or participating-entities list was posted."
+        "The county Notice of Election and Sample Ballots folder (linked from the clerk page, files dated September 28) holds a notice of election and five precinct sample ballots (001-1, 001-2, 002-2, 003-2, 004-2), all read on 2026-10-03. No separate TABOR notice or participating-entities list was posted.",
+        "Rechecked 2026-10-10: the folder still holds the notice and the five styles, all dated September 28, plus a \"STATE SAMPLE\" file with no county, municipal or district question, and the clerk page has no TABOR notice or participating-entities list. The five styles were re-read and none names Haswell. No town website was found."
       ],
       "reviewed_sources": [
         {
@@ -102,6 +116,18 @@
         {
           "url": "https://drive.google.com/uc?export=download&id=1NDvCXNqJxAi6osJpzW1g3a_C2xL6U23U",
           "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/drive/folders/15Gj_K3Xs-A80JUmgXO5JI9OTjpAYaZmo?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kiowacounty.colorado.gov/government/elected-officials/clerk-and-recorder",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1BOU1C07Inscasp-hwceOr6RB5TKIGWct",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -111,11 +137,12 @@
       "name": "Sheridan Lake (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://drive.google.com/drive/folders/15Gj_K3Xs-A80JUmgXO5JI9OTjpAYaZmo?usp=sharing",
-      "checked": "2026-10-03",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
         "No county sample ballot style has a town section or town question, and no participating-entities list was posted. The town has no website, so a separate town election or notice could not be checked; the row stays open until a list or town notice is available.",
-        "The county Notice of Election and Sample Ballots folder (linked from the clerk page, files dated September 28) holds a notice of election and five precinct sample ballots (001-1, 001-2, 002-2, 003-2, 004-2), all read on 2026-10-03. No separate TABOR notice or participating-entities list was posted."
+        "The county Notice of Election and Sample Ballots folder (linked from the clerk page, files dated September 28) holds a notice of election and five precinct sample ballots (001-1, 001-2, 002-2, 003-2, 004-2), all read on 2026-10-03. No separate TABOR notice or participating-entities list was posted.",
+        "Rechecked 2026-10-10: the folder still holds the notice and the five styles, all dated September 28, plus a \"STATE SAMPLE\" file with no county, municipal or district question, and the clerk page has no TABOR notice or participating-entities list. The five styles were re-read and none names Sheridan Lake. No town website was found."
       ],
       "reviewed_sources": [
         {
@@ -137,6 +164,18 @@
         {
           "url": "https://drive.google.com/uc?export=download&id=1NDvCXNqJxAi6osJpzW1g3a_C2xL6U23U",
           "retrieved": "2026-10-03"
+        },
+        {
+          "url": "https://drive.google.com/drive/folders/15Gj_K3Xs-A80JUmgXO5JI9OTjpAYaZmo?usp=sharing",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kiowacounty.colorado.gov/government/elected-officials/clerk-and-recorder",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1BOU1C07Inscasp-hwceOr6RB5TKIGWct",
+          "retrieved": "2026-10-10"
         }
       ]
     }

@@ -743,16 +743,16 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="kpi-source"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a></div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-value">7.6%</div>
-      <div class="kpi-label">Denver Vacancy Rate (Q4 2025)</div>
-      <div class="kpi-unit">% of total multifamily units · 16-yr high</div>
-      <div class="kpi-source"><span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD / Apartment Insights Q4 2025</a></div>
+      <div class="kpi-value" id="cddAamdVacancy">—</div>
+      <div class="kpi-label">Metro Denver Apartment Vacancy <span data-aamd-vintage></span></div>
+      <div class="kpi-unit">% of stabilized units · <span id="cddAamdVacancyCompare"></span></div>
+      <div class="kpi-source"><span style="color:var(--good);font-weight:700;">DATA</span> · <a data-aamd-source href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Vacancy &amp; Rent Report</a></div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-value">$169</div>
-      <div class="kpi-label">Avg Monthly Concession</div>
-      <div class="kpi-unit">USD · Denver metro per unit (9.5% of gross rent)</div>
-      <div class="kpi-source"><span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD / Apartment Insights Q4 2025</a></div>
+      <div class="kpi-value" id="cddAamdConcession">—</div>
+      <div class="kpi-label">Avg Monthly Concession <span data-aamd-vintage></span></div>
+      <div class="kpi-unit">USD · Denver metro per unit (<span id="cddAamdConcessionPct">—</span> of gross rent)</div>
+      <div class="kpi-source"><span style="color:var(--good);font-weight:700;">DATA</span> · <a data-aamd-source href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Vacancy &amp; Rent Report</a></div>
     </div>
   </div>
   <script>
@@ -1229,11 +1229,9 @@ document.addEventListener('DOMContentLoaded', function () {
 <!-- F118-1 — STATIC numbers from AAMD/Apartment Insights Q4 2025 (no free API).
      Badge + source link makes it explicit. -->
 <div style="background: rgba(169, 50, 38, 0.05); padding: 2rem; border-left: 4px solid var(--color-error); border-radius: 4px; margin: 2rem 0;">
-<div style="font-size:.72rem; color: var(--color-text-muted); margin-bottom: .6rem;"><span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD / Apartment Insights Q4 2025</a> · numbers refresh quarterly when AAMD publishes</div>
-<h3 style="margin-bottom: 1rem;">Critical Market Alert: Record Concessions</h3>
-<p style="line-height: 1.7; margin-bottom: 1rem;">
-                Metro Denver reached 7.6% vacancy in Q4 2025—the highest rate in 16 years—with concessions averaging $169 per month (9.5% of gross rent), equivalent to 4-5 weeks of free rent. This represents the highest concession level in the 21-year history of Apartment Insights tracking.
-            </p>
+<div style="font-size:.72rem; color: var(--color-text-muted); margin-bottom: .6rem;"><span style="color:var(--good);font-weight:700;">DATA</span> · <a data-aamd-source href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Vacancy &amp; Rent Report</a> · captured quarterly from the published summary</div>
+<h3 style="margin-bottom: 1rem;">Vacancy and Concessions, <span data-aamd-vintage></span></h3>
+<p style="line-height: 1.7; margin-bottom: 1rem;" id="cddAamdNarrative">Vacancy and concession figures are read from <a href="data/market/aamd-denver-vacancy.json">the AAMD data file</a>.</p>
 <p style="line-height: 1.7; margin: 0;">
 <strong>Impact:</strong> New luxury properties offering up to 3 months free rent, creating downward pressure on older Class B/C properties throughout the metro.
             </p>
@@ -1523,11 +1521,11 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 <div style="font-size: 1.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.15rem;" id="cddLihtcPerCap">—</div>
 <div style="font-size: 0.72rem; color: var(--color-text-muted); line-height: 1.25;"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA</a> + Census pop</div>
 </div>
-<!-- Multifamily vacancy — Metro Denver 7.6% Q4 2025, citing Apartment Insights. Public data lags 1 quarter. -->
+<!-- Multifamily vacancy: metro stabilized rate from data/market/aamd-denver-vacancy.json. -->
 <div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
 <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Multifamily Vacancy Rate</div>
-<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-error); margin-bottom: 0.15rem;">7.6%</div>
-<div style="font-size: 0.72rem; color: var(--color-text-muted); line-height: 1.25;"><span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Q4 2025</a> · Metro Denver</div>
+<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-error); margin-bottom: 0.15rem;" id="cddAamdVacancyStrip">—</div>
+<div style="font-size: 0.72rem; color: var(--color-text-muted); line-height: 1.25;"><span style="color:var(--good);font-weight:700;">DATA</span> · <a data-aamd-source href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD <span data-aamd-vintage></span></a> · Metro Denver</div>
 </div>
 <!-- Rent Growth YoY — LIVE from apartment_list_co.json (median across 21 CO cities) -->
 <div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
@@ -3313,6 +3311,49 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       setAll(avg.toFixed(1) + '%');
     })
     .catch(function () { /* leave static fallback values in place */ });
+}());
+</script>
+<script>
+/* Metro Denver vacancy and concessions from data/market/aamd-denver-vacancy.json,
+   captured by hand each quarter (fetch-market-rents.yml opens an issue when
+   AAMD publishes). Was typed AAMD Q4 2025 figures. A missing value stays "—". */
+(function () {
+  'use strict';
+  var url = typeof window.resolveAssetUrl === 'function'
+    ? window.resolveAssetUrl('data/market/aamd-denver-vacancy.json') : 'data/market/aamd-denver-vacancy.json';
+  var num = function (v) { return typeof v === 'number' && isFinite(v) ? v : null; };
+  var pct = function (v) { return v == null ? '—' : v.toFixed(1) + '%'; };
+  var usd = function (v) { return v == null ? '—' : '$' + Math.round(v).toLocaleString('en-US'); };
+  var set = function (id, t) { var el = document.getElementById(id); if (el) el.textContent = t; };
+  fetch(url, { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d || !d.metro) return;
+      var m = d.metro, meta = d.meta || {};
+      var q = String(meta.vintage || '').replace('-', ' ');
+      var vac = num(m.stabilized_vacancy_pct), prior = num(m.stabilized_vacancy_prior_quarter_pct),
+          ago = num(m.stabilized_vacancy_year_ago_pct), con = num(m.average_concession),
+          conPct = num(m.concession_pct_of_gross_rent), conPrior = num(m.average_concession_prior_quarter),
+          eff = num(m.effective_rent_yoy_pct);
+      document.querySelectorAll('[data-aamd-vintage]').forEach(function (el) { el.textContent = q ? '(' + q + ')' : ''; });
+      if (meta.source_url) document.querySelectorAll('[data-aamd-source]').forEach(function (a) { a.setAttribute('href', meta.source_url); });
+      set('cddAamdVacancy', pct(vac));
+      set('cddAamdVacancyStrip', pct(vac));
+      set('cddAamdVacancyCompare', [prior != null ? pct(prior) + ' last quarter' : null, ago != null ? pct(ago) + ' a year ago' : null].filter(Boolean).join(' · '));
+      set('cddAamdConcession', usd(con));
+      set('cddAamdConcessionPct', pct(conPct));
+      var parts = [];
+      if (vac != null) parts.push('Metro Denver stabilized apartment vacancy was ' + pct(vac) + ' in ' + q +
+        (prior != null ? ', against ' + pct(prior) + ' the quarter before' : '') +
+        (ago != null ? ' and ' + pct(ago) + ' a year earlier' : '') + '.');
+      if (con != null) parts.push('Concessions averaged ' + usd(con) + ' a month' +
+        (conPct != null ? ' (' + pct(conPct) + ' of gross rent)' : '') +
+        (conPrior != null ? ', against ' + usd(conPrior) + ' the quarter before' : '') + '.');
+      if (eff != null) parts.push('Effective rents (gross rent net of concessions) were ' +
+        (eff < 0 ? 'down ' : 'up ') + Math.abs(eff).toFixed(1) + '% year over year, per Apartment Insights.');
+      if (parts.length) set('cddAamdNarrative', parts.join(' '));
+    })
+    .catch(function () {});
 }());
 </script>
 </body></html>

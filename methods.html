@@ -125,11 +125,34 @@
         <p class="mx-byline">
           <span>Paul Glasgow &mdash; <a href="https://pggllc.com">pggLLC</a>, working with AI</span>
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
-          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">c7a4a7ab3</code></span>
+          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">c7c346795</code></span>
           <span>Companion to the <a href="working-paper.html">working paper</a></span>
           <span>Every section last read against its code on <time data-spec-reviewed>2026-10-10</time></span>
         </p>
       </header>
+
+      <!-- Shared across apa-white-paper.html, working-paper.html and methods.html;
+           test/document-guide.test.mjs keeps the three copies and the Insights menu in agreement. -->
+      <nav class="doc-guide col" aria-labelledby="doc-guide-title">
+        <p class="doc-guide__title" id="doc-guide-title">Which document do you need?</p>
+        <ol class="doc-guide__list">
+          <li>
+            <p class="doc-guide__name"><a href="apa-white-paper.html">White Paper for Planners</a></p>
+            <p class="doc-guide__for">To explain a finding in plain language</p>
+            <p class="doc-guide__about">For planners, councils and boards. What the site helps a community decide, how need, demand, affordability and feasibility fit together, and what the evidence can and cannot establish. No formulas.</p>
+          </li>
+          <li>
+            <p class="doc-guide__name"><a href="working-paper.html">Working Paper</a></p>
+            <p class="doc-guide__for">Why the system works the way it does</p>
+            <p class="doc-guide__about">For researchers and reviewers. The argument and the record: how the data system was built, where it went wrong, and why it now reports a number as unknown rather than guess.</p>
+          </li>
+          <li class="is-current">
+            <p class="doc-guide__name"><a href="methods.html" aria-current="page">Methods</a> <span class="doc-guide__here">You are here</span></p>
+            <p class="doc-guide__for">Every formula, to check a number</p>
+            <p class="doc-guide__about">For anyone checking or reproducing a figure. Each formula, weight and threshold in the needs ranking and the ownership model, read out of the code.</p>
+          </li>
+        </ol>
+      </nav>
 
       <div class="mx-note col">
         <span class="tag">How to read this, and how to break it</span>
@@ -279,12 +302,12 @@
             Apportionment is geometrically defensible and demographically optimistic. Summed across
             overlapping tracts it overcounts households in
             <span data-figure="methods_data.anchor_overcount_places">143</span> of the
-            <span data-figure="methods_data.anchor_places_applied">405</span> Colorado places the
+            <span data-figure="methods_data.anchor_places_applied">404</span> Colorado places the
             anchor can be checked against in the current build
             (<span data-figure="methods_data.anchor_overcount_share" data-figure-format="percent">35%</span>:
             the apportioned household total exceeds the ACS occupied total before anchoring), and
             under the <code>max</code> rule it must. The other
-            <span data-figure="methods_data.anchor_places_unmeasured">77</span> of
+            <span data-figure="methods_data.anchor_places_unmeasured">78</span> of
             <span data-figure="methods_data.anchor_places_total">482</span> places lack ACS tenure
             counts, so whether they overcount is not known. The correction anchors each place's tenure totals to an
             independent source &mdash; the American Community Survey's occupied-unit counts &mdash;
@@ -523,6 +546,35 @@ price    = budget / k                              (0 if budget ≤ 0)</code>
             improving relative to its peers.
           </p>
         </div>
+
+        <figure class="diagram" aria-labelledby="scoreTreeTitle" data-figure-block="ranking-tree">
+        <p class="diagram__title" id="scoreTreeTitle">How the overall score is built</p>
+        <div class="dg-tree">
+          <div class="dg-tree__col">
+            <div class="dg-tree__group"><span class="dg-tree__label">Need factors</span>
+            <div class="dg-node" data-factor="gap_pressure_score"><strong>Housing gap <span class="dg-weight" style="display:inline">35%</span></strong><span>the higher of the resident and workforce gaps, each 40% unit count and 60% rate</span></div>
+            <div class="dg-node" data-factor="cost_burden_pressure_score"><strong>Cost burden <span class="dg-weight" style="display:inline">25%</span></strong><span>renters burdened 40%, severely burdened 30%, deepest income tier 30%</span></div>
+            <div class="dg-node" data-factor="affordability_intensity_score"><strong>Affordability <span class="dg-weight" style="display:inline">15%</span></strong><span>home value to income 50%, rent to income 50%</span></div>
+            <div class="dg-node" data-factor="future_pressure_score"><strong>Future pressure <span class="dg-weight" style="display:inline">15%</span></strong><span>20-year units needed 70%, senior growth 30%</span></div>
+            <div class="dg-node" data-factor="overcrowding_score"><strong>Overcrowding <span class="dg-weight" style="display:inline">10%</span></strong><span>share of overcrowded households</span></div>
+            </div>
+            <div class="dg-tree__group"><span class="dg-tree__label">Opportunity factors</span>
+            <div class="dg-node dg-node--accent2" data-factor="opportunity_mobility_score"><strong>Economic mobility <span class="dg-weight" style="display:inline">35%</span></strong></div>
+            <div class="dg-node dg-node--accent2" data-factor="walkability_score"><strong>Walkability <span class="dg-weight" style="display:inline">25%</span></strong></div>
+            <div class="dg-node dg-node--accent2" data-factor="amenity_access_score"><strong>Amenity access <span class="dg-weight" style="display:inline">25%</span></strong></div>
+            <div class="dg-node dg-node--accent2" data-factor="qct_dda_score"><strong>QCT / DDA status <span class="dg-weight" style="display:inline">15%</span></strong></div>
+            </div>
+          </div>
+          <div class="dg-tree__col dg-tree__join">
+            <div class="dg-node dg-node--soft" data-factor="community_need"><strong>Community need <span class="dg-weight" style="display:inline">55%</span></strong><span>raised by up to 20% where many workers commute in</span></div>
+            <div class="dg-node dg-node--accent2" data-factor="opportunity"><strong>Opportunity <span class="dg-weight" style="display:inline">45%</span></strong></div>
+          </div>
+          <div class="dg-tree__col dg-tree__join">
+            <div class="dg-node dg-node--accent"><strong>Overall score <span class="dg-weight" style="display:inline"></span></strong><span>55% need percentile + 45% opportunity, scaled down when data are thin</span></div>
+          </div>
+        </div>
+        <figcaption>Every factor is a percentile among the same type of place: counties against counties, towns against towns, and CDPs against CDPs. Percentages are the weights in Table 3, read from <code>scripts/hna/build_ranking_index.py</code>. When a factor is missing, the rest are reweighted to sum to 100%.</figcaption>
+          </figure>
 
         <div class="mx-eq">
           <span class="lbl">Sub-scores (each part a within-type percentile)</span>

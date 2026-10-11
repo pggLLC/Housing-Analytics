@@ -7,24 +7,28 @@
       "name": "Prowers County",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.prowersco.gov/departments/elections/SampleBallots",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county Sample Ballots and Election News pages had no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list on 2026-09-26.",
+        "Checked 2026-10-10: the county Elections, Sample Ballots, Election News and Election Reports pages still post no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list; the Sample Ballots page is empty and the Elections page shows only June 30, 2026 primary results.",
         "Commissioner packets for 2026-08-11, 2026-08-25, 2026-09-01, 2026-09-08 and 2026-09-22 are scanned PDFs with no text layer and were not read; text-layer agendas through 2026-07-28 show no county ballot referral."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.prowersco.gov/departments/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.prowersco.gov/departments/elections/SampleBallots",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.prowersco.gov/departments/elections/ElectionNews",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.prowersco.gov/departments/elections/electionreports",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -34,24 +38,24 @@
       "name": "Granada (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.prowersco.gov/departments/elections/SampleBallots",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county Sample Ballots and Election News pages had no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list on 2026-09-26.",
+        "Checked 2026-10-10: the county Elections, Sample Ballots, Election News and Election Reports pages still post no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list; the Sample Ballots page is empty and the Elections page shows only June 30, 2026 primary results.",
         "Participation unknown; no official Town of Granada website was found."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.prowersco.gov/departments/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.prowersco.gov/departments/elections/SampleBallots",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.prowersco.gov/departments/elections/ElectionNews",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -80,24 +84,24 @@
       "name": "Holly (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.prowersco.gov/departments/elections/SampleBallots",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county Sample Ballots and Election News pages had no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list on 2026-09-26.",
+        "Checked 2026-10-10: the county Elections, Sample Ballots, Election News and Election Reports pages still post no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list; the Sample Ballots page is empty and the Elections page shows only June 30, 2026 primary results.",
         "Participation unknown. Town Resolution 2026-4 states regular elections are held in April of even years; board minutes through 2026-08-05 show no November ballot referral."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.prowersco.gov/departments/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.prowersco.gov/departments/elections/SampleBallots",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.prowersco.gov/departments/elections/ElectionNews",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.townofhollyco.gov/records/resolutions/resolution-2026-4",
@@ -115,24 +119,25 @@
       "name": "Lamar (city)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.prowersco.gov/departments/elections/SampleBallots",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county Sample Ballots and Election News pages had no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list on 2026-09-26.",
-        "Participation unknown. City council agendas and minutes June through September 2026 show no ballot referral."
+        "Checked 2026-10-10: the county Elections, Sample Ballots, Election News and Election Reports pages still post no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list; the Sample Ballots page is empty and the Elections page shows only June 30, 2026 primary results.",
+        "Participation unknown. City council agendas and minutes June through September 2026 show no ballot referral.",
+        "The City Council minutes of 2026-09-28 and agenda of 2026-10-12 contain no ballot item."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.prowersco.gov/departments/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.prowersco.gov/departments/elections/SampleBallots",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.prowersco.gov/departments/elections/ElectionNews",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://ci.lamar.co.us/city-clerk",
@@ -140,7 +145,15 @@
         },
         {
           "url": "https://ci.lamar.co.us/city-council-meetings",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://ci.lamar.co.us/city-council-minutes-09-28-26",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://ci.lamar.co.us/city-council-meeting-9d135c8",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -150,24 +163,24 @@
       "name": "Wiley (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.prowersco.gov/departments/elections/SampleBallots",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "The county Sample Ballots and Election News pages had no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list on 2026-09-26.",
+        "Checked 2026-10-10: the county Elections, Sample Ballots, Election News and Election Reports pages still post no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list; the Sample Ballots page is empty and the Elections page shows only June 30, 2026 primary results.",
         "Participation unknown; the town website posts no meeting documents."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.prowersco.gov/departments/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.prowersco.gov/departments/elections/SampleBallots",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.prowersco.gov/departments/elections/ElectionNews",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://townofwiley.gov/meetings",
