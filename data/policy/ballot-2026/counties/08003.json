@@ -5,22 +5,32 @@
       "geoid": "08003",
       "level": "county",
       "name": "Alamosa County",
-      "coverage_state": "official_notice_unavailable",
+      "coverage_state": "official_ballot_reviewed_none_found",
       "reviewed_source": "https://www.alamosacounty.org/166/Elections-Department",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: the Alamosa County Elections Department page lists only a Logic and Accuracy test notice (2026-09-24), past results and polling locations. No sample ballot, TABOR notice, ballot-content certification, or list/IGA of participating political subdivisions for the Nov 3, 2026 election is posted. County site search and DocumentCenter are JavaScript-driven and could not be enumerated; the site intermittently reset connections through the proxy.",
+        "Checked 2026-10-10: the Alamosa County Elections Department page now posts two Nov 3, 2026 sample ballots, 'Ballot Style 01 (County)' and 'Ballot Style 02 (City & County)'; both were read in full. Neither style has a county question. The local measures on them are City of Alamosa Ballot Issue 2A (Style 02 only) and 12th Judicial District Ballot Question 7A (both styles). Both sample ballot PDFs have a text layer (Quadient Inspire output with embedded Identity-H fonts) but no ToUnicode map, so pdftotext returns every character shifted by one fixed code offset; the text was decoded by reversing that offset and cross-checked against the rendered pages. They are not scans.",
+        "Excluded: 12th Judicial District Ballot Question 7A, which asks whether the term limits for the District Attorney of the 12th Judicial District established in Article XVIII, Section 11(1) of the Colorado Constitution shall be eliminated; not housing.",
+        "No TABOR notice and no list/IGA of participating political subdivisions is posted on the Elections Department page as of 2026-10-10; this row closes on the two posted sample ballot styles.",
         "Supporting (not a coverage basis): BOCC agendas and minutes Jun 3 - Sep 23, 2026 (AgendaCenter, saved as src-08003-bocc/) show no county-referred housing, land-use, lodging or tax question. The only county ballot topic discussed is a San Luis Valley-wide question to eliminate term limits for the 12th Judicial District Attorney (SLVCCA special meeting 2026-06-29; BOCC work sessions 2026-07-01 and 2026-07-27); it is not housing-related and its final certified text was not found. Re-check when the county posts its sample ballot / TABOR notice."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.alamosacounty.org/166/Elections-Department",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.alamosacounty.org/AgendaCenter",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.alamosacounty.org/DocumentCenter/View/1867",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.alamosacounty.org/DocumentCenter/View/1868",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -28,15 +38,15 @@
       "geoid": "0801090",
       "level": "municipal",
       "name": "Alamosa (city)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.alamosacounty.org/166/Elections-Department",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.alamosacounty.org/DocumentCenter/View/1868",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
         "Participation established from the City's own documents (Ordinance No. 19-2026 approving an IGA with Alamosa County for the Nov 3, 2026 coordinated election, second reading 2026-08-19; Resolution No. 13-2026 section 1 \"An election shall be held as a coordinated election with the regular election on Tuesday, November 3, 2026\"), not from a county participating-entities list, which the county had not posted as of 2026-09-26.",
         "City Council Resolution No. 13-2026 (ballot title and text, adopted for certification to the County Clerk by 2026-09-04) was read; it is not a county sample ballot or TABOR notice, and neither was posted by Alamosa County as of 2026-09-26. The Ordinance 19-2026 council communication states: \"The City has no other issues at this election and would otherwise not be participating in it.\"",
         "Excluded: City of Alamosa ballot issue (number not yet assigned, \"__\") - extension of the Streets Trust Fund one-half percent sales and use tax, 2030-2039, \"TO BE USED SOLELY TO FUND STREET MAINTENANCE AND IMPROVEMENTS\"; not housing.",
-        "Owner decision (2026-09-26): kept at official_notice_unavailable because the county sample ballot and TABOR notice were not posted; City Resolution 13-2026 is the certified question text, not the printed ballot. Re-check once the county posts them."
+        "Checked 2026-10-10: Alamosa County's posted 'Ballot Style 02 (City & County)' sample ballot carries one city measure, \"City of Alamosa Ballot Issue 2A - Extension of Streets Trust Fund Sales Tax\" (\"SHALL CITY OF ALAMOSA TAXES BE INCREASED BY $ 2,500,000 IN THE FIRST FISCAL YEAR, BEGINNING JANUARY 1, 2030 ...\", continuing the one-half percent sales and use tax set to expire December 31, 2029, \"TO BE USED SOLELY TO FUND STREET MAINTENANCE AND IMPROVEMENTS\"). It is excluded as not housing. There is no other city question on the style, which matches the City's statement that it has no other issues at this election. This supersedes the 2026-09-26 owner decision to wait for the printed ballot. Both sample ballot PDFs have a text layer (Quadient Inspire output with embedded Identity-H fonts) but no ToUnicode map, so pdftotext returns every character shifted by one fixed code offset; the text was decoded by reversing that offset and cross-checked against the rendered pages. They are not scans."
       ],
       "reviewed_sources": [
         {
@@ -65,7 +75,11 @@
         },
         {
           "url": "https://www.alamosacounty.org/166/Elections-Department",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.alamosacounty.org/DocumentCenter/View/1868",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -75,16 +89,32 @@
       "name": "Hooper (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.alamosacounty.org/166/Elections-Department",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: Alamosa County has not posted a list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election, so Hooper's participation could not be determined; not marked not_applicable because no list was available.",
-        "The Town of Hooper website (https://townofhooper.colorado.gov/) returned HTTP 403 (CloudFront \"Request blocked\") via both curl and WebFetch on 2026-09-26; the Wayback Machine has no snapshot (availability API returned none; CDX requests reset). BOCC agendas/minutes Jun-Sep 2026 contain no Hooper election IGA. No Hooper measure was found in web searches (discovery only)."
+        "Checked 2026-10-10: Alamosa County's two posted sample ballot styles ('Ballot Style 01 (County)', 'Ballot Style 02 (City & County)') contain no Town of Hooper contest or question, but the county has posted no TABOR notice or list/IGA of participating political subdivisions, so Hooper's participation is not confirmed by an official list; not marked not_applicable.",
+        "The Town of Hooper website (https://townofhooper.colorado.gov/) loaded on 2026-10-10 (it returned HTTP 403 on 2026-09-26). Its home, Meeting Minutes & Agendas and Upcoming Events pages were read: there is no election page or election notice, and the newest posted item is a March 18, 2026 agenda. The linked agenda and minutes PDFs returned HTTP 403 to curl and WebFetch. Under the #2072 rule the row is not closed as none-found, because the town posts no election content that could be read. Owner review: the town is absent from both county styles."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.alamosacounty.org/166/Elections-Department",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.alamosacounty.org/DocumentCenter/View/1867",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.alamosacounty.org/DocumentCenter/View/1868",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofhooper.colorado.gov/",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofhooper.colorado.gov/meeting-minutes-agendas",
+          "retrieved": "2026-10-10"
         }
       ]
     }
