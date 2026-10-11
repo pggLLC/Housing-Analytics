@@ -308,21 +308,71 @@ const ceilingClaims = ceilingText.toLowerCase();
 
   // Dollars: the record has none, so the brief states none.
   assert.deepStrictEqual(money(text), [], 'the bond-test record carries no dollar amount, so the brief may state none');
-  // Percentages: the statutory thresholds, the Colorado figures, the credit
-  // type named in the record title, and the ceiling increase named in the
-  // linked ceiling record's title when the brief points to it.
+  // Percentages: each one is bound to the threshold or figure it describes.
   const ceiling = legislation.entries.find((entry) => entry.id === 'obbba-lihtc-ceiling-12pct');
   const pointsToCeiling = /70422\(a\)/.test(text);
-  const allowedPcts = new Set([
-    test.previous_threshold_pct, test.retained_threshold_pct, test.new_threshold_pct, test.post_2025_issue_min_pct,
-    ...Object.values(co.volume_cap_split_pct), co.chfa_max_pab_financing_pct, ...pcts(bond.title),
-    ...(pointsToCeiling ? pcts(ceiling.title) : [])
-  ]);
-  const statedPcts = pcts(text);
-  checked += statedPcts.length;
-  statedPcts.forEach((p) => assert.ok(allowedPcts.has(p), `brief states ${p}%, which is not a value in the record`));
-  [test.retained_threshold_pct, test.new_threshold_pct, test.post_2025_issue_min_pct, co.chfa_max_pab_financing_pct]
-    .forEach((p) => assert.ok(statedPcts.includes(p), `brief must state the record's ${p}%`));
+  // Bind each figure to the provision it describes. For every "<number>
+  // <unit>" in the brief, the binding whose context words sit nearest to it in
+  // the same clause names the record value it must equal; every binding must
+  // be used, and no figure may go unbound. Swapping two figures (or moving a
+  // figure to another provision) therefore fails even though both values
+  // exist in the record.
+  const bindFigures = (t, bindings, what) => {
+    const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+    const toNumber = (s) => (/^\$/.test(s) ? Number(s.replace(/[$,\s]/g, '')) : /^\d/.test(s) ? Number(s.replace(/,/g, '')) : WORDS.indexOf(s.toLowerCase()));
+    const clauseOf = (at) => {
+      const before = t.slice(0, at);
+      const starts = [...before.matchAll(/[.;]\s+(?=[A-Z(])/g)].map((m) => m.index + m[0].length);
+      const start = starts.length ? starts[starts.length - 1] : 0;
+      const end = t.slice(at).search(/[.;]\s+(?=[A-Z(])|[.;]?$/);
+      return [start, at + end];
+    };
+    const spans = [];
+    let count = 0;
+    const used = new Set();
+    for (const unit of new Set(bindings.map((b) => b.unit))) {
+      const re = unit === '$'
+        ? /(\$\s?\d[\d,]*(?:\.\d+)?)/g
+        : new RegExp('\\b(\\d[\\d,]*(?:\\.\\d+)?|' + WORDS.join('|') + ')\\s*(?:calendar\\s+)?(?:' + unit + ')(?![a-z])', 'gi');
+      for (const m of t.matchAll(re)) {
+        const at = m.index;
+        const [cs, ce] = clauseOf(at);
+        const clause = t.slice(cs, ce);
+        let best = null;
+        let bestDist = Infinity;
+        bindings.filter((b) => b.unit === unit).forEach((b) => {
+          for (const c of clause.matchAll(new RegExp(b.context.source, 'gi'))) {
+            const cStart = cs + c.index;
+            const cEnd = cStart + c[0].length;
+            const dist = cEnd <= at ? at - cEnd : cStart >= at + m[0].length ? cStart - (at + m[0].length) : 0;
+            if (dist < bestDist) { bestDist = dist; best = b; }
+          }
+        });
+        assert.ok(best, `${what}: "${m[0]}" is not tied to any provision the record carries (clause: ${clause})`);
+        assert.strictEqual(toNumber(m[1]), best.value, `${what}: "${m[0]}" describes ${best.name}, which the record gives as ${best.value}`);
+        used.add(best.name);
+        spans.push([at, at + m[0].length]);
+        count++;
+      }
+    }
+    bindings.forEach((b) => assert.ok(used.has(b.name), `${what}: brief must state ${b.name} (${b.value})`));
+    return { count, spans };
+  };
+  assert.strictEqual(test.retained_threshold_pct, test.previous_threshold_pct, 'the brief says the earlier route is kept; the record must agree');
+  const creditType = pcts(bond.title).find((p) => p !== test.new_threshold_pct);
+  const pctBindings = [
+    { name: 'the credit type in the record title', unit: '%|percent', value: creditType, context: /\bcredits?\b|\bLIHTC\b/ },
+    { name: 'the 50% route (before the change, and kept)', unit: '%|percent', value: test.previous_threshold_pct, context: /had to|before the change|\bkeeps?\b|\broute\b/ },
+    { name: 'the new 25% route', unit: '%|percent', value: test.new_threshold_pct, context: /bond-financing test|also qualifies|toward the/ },
+    { name: 'the post-2025 bonds\' minimum', unit: '%|percent', value: test.post_2025_issue_min_pct, context: /together|combined|in aggregate|post-2025|more than one|one or more/ },
+    { name: 'the volume-cap share for statewide authorities', unit: '%|percent', value: co.volume_cap_split_pct.statewide_authorities, context: /statewide/ },
+    { name: 'the volume-cap share for local governments', unit: '%|percent', value: co.volume_cap_split_pct.local_governments, context: /local governments/ },
+    { name: 'CHFA\'s 2026 bond-financing limit', unit: '%|percent', value: co.chfa_max_pab_financing_pct, context: /bond financing|when feasible/ },
+  ];
+  if (pointsToCeiling) {
+    pctBindings.push({ name: 'the 70422(a) ceiling increase', unit: '%|percent', value: Math.round((ceiling.ceiling_increase.multiplier - 1) * 1000) / 10, context: /ceiling increase/ });
+  }
+  checked += bindFigures(text, pctBindings, 'bond-test brief').count;
   assert.ok(pcts(bond.title).includes(test.new_threshold_pct), 'the record title must agree with its new threshold');
 
   // Dates: every full date is a record date; the enactment, bond-issue and
