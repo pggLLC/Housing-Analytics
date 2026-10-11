@@ -422,9 +422,31 @@ const ceilingClaims = ceilingText.toLowerCase();
   need(sentences.filter((s) => /resyndicat/i.test(s)), /\bfails?\b|unsuccessful|apply again/i, 'the rights apply again if the resyndication fails');
   need(sentences.filter((s) => money(s).includes(remedies.max_penalty)), /\b(?:no|not) more than\b|\bat most\b|\bmaximum\b|\bcap/i, 'the penalty ceiling is a maximum');
   assert.strictEqual(/\bfree of\b/i.test(text), remedies.title_free_of_rights === true, 'brief may say a buyer takes title free of the rights only when the record does');
-  const assigneesNamed = /housing authority/i.test(text) && /\bCHFA\b|Colorado Housing and Finance Authority/.test(text);
-  assert.strictEqual(assigneesNamed, act.assignees.some((a) => /housing authority/i.test(a)) && act.assignees.some((a) => /Colorado Housing and Finance Authority/.test(a)),
-    'the assignees the brief names must be the record\'s');
+  // Assignees: the local housing authority, the regional housing authority and
+  // CHFA are compared one by one between the sentence that describes
+  // assignment and the record's list, so dropping or adding any one of them
+  // on either side fails.
+  const assignSentence = sentences.find((s) => /\bassign/i.test(s)) || '';
+  assert.ok(assignSentence, 'brief must say to whom the rights can be assigned');
+  const ASSIGNEE_KINDS = {
+    local: { brief: /\blocal\b(?:\s+or\s+regional)?\s+housing authorit|housing authorit\w*\s+within/i, record: /\blocal\b[^,;]*housing authorit|housing authorit\w*\s+within/i },
+    regional: { brief: /\bregional\b(?:\s+or\s+local)?\s+housing authorit/i, record: /\bregional\b[^,;]*housing authorit/i },
+    chfa: { brief: /\bCHFA\b|Colorado Housing and Finance Authority/, record: /\bCHFA\b|Colorado Housing and Finance Authority/ },
+  };
+  Object.entries(ASSIGNEE_KINDS).forEach(([kind, re]) => {
+    checked++;
+    assert.strictEqual(re.brief.test(assignSentence), act.assignees.some((a) => re.record.test(a)),
+      `the brief and the record must agree on whether a ${kind} assignee is allowed`);
+  });
+  assert.strictEqual(act.assignees.length, Object.keys(ASSIGNEE_KINDS).filter((kind) => act.assignees.some((a) => ASSIGNEE_KINDS[kind].record.test(a))).length,
+    'every assignee on the record must be one of the kinds the brief is checked against');
+  // A year bound in the title or text ("before 2029") must not end the rights
+  // earlier than the record's termination date does.
+  [...text.matchAll(/\b(?:before|until|prior to)\s+((?:19|20)\d{2})\b/gi)].forEach((m) => {
+    checked++;
+    assert.ok(Number(m[1]) > Number(termination.date.slice(0, 4)),
+      `"${m[0]}" ends the rights before ${termination.date}, the record's termination date`);
+  });
   assert.strictEqual(rec.status, 'enacted');
   assert.ok(/\bapproved\b|\bsigned\b|\benacted\b/i.test(brief.summary), 'brief must describe the record as enacted law');
   [rec.source_url, act.source_url].forEach((url) => assert.ok(brief.articles.some((article) => article.link === url), 'brief must link ' + url));
