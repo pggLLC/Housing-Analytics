@@ -185,8 +185,12 @@ jobs:
           echo "pushed=false" >> "$GITHUB_OUTPUT"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Two manifests, in this order: data/manifest.json records the
+          # byte count of data/_manifest.json (AGENTS.md, two-manifest trap).
+          npm run -s audit:file-manifest
           python3 scripts/rebuild_manifest.py
-          git add data/polymarket-data.json data/polymarket-history.json data/manifest.json
+          node scripts/validate-schemas.js
+          git add data/polymarket-data.json data/polymarket-history.json data/_manifest.json data/manifest.json
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
