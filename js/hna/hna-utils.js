@@ -117,8 +117,8 @@
     hudDda: 'https://www.huduser.gov/portal/datasets/qct.html',
     chfaLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/0',
     hudLihtcQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC_Properties/FeatureServer/0',
-    hudQctQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0', // Update year annually (e.g. Qualified_Census_Tracts_2027 when HUD publishes next cycle)
-    hudDdaQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0', // Update year annually (e.g. Difficult_Development_Areas_2027 when HUD publishes next cycle)
+    hudQctQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0', // year kept equal to data/qct-colorado.json by scripts/sync-hud-vintage-labels.mjs
+    hudDdaQuery: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0', // year kept equal to data/dda-colorado.json by scripts/sync-hud-vintage-labels.mjs
   };
 
   // GitHub Pages backup base URL — used as a third-tier fallback when both live APIs and
