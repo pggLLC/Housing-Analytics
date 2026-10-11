@@ -17,13 +17,22 @@
     // A dated milestone is historical even if its law remains in force.
     return event.date < (today || new Date().toISOString().slice(0, 10)) ? 'historical' : event.status;
   }
+  // One color per event, so a chart's event key can be read. Every color
+  // keeps 3:1 contrast on both the light and the dark card, and no two are
+  // closer than about 20 in CIE Lab; neighbours in time sit far apart on
+  // purpose. Order follows the timeline file, so an event keeps its color
+  // on every chart. More events than colors wraps round, which the
+  // legend check in scripts/audit/chart-axes-audit.mjs would flag.
+  var EVENT_COLORS = ['#6366f1', '#d97706', '#0d9488', '#dc2626', '#0284c7', '#db2777',
+    '#65a30d', '#9333ea', '#ea580c', '#16a34a', '#64748b', '#0891b2'];
   function chartEvents(data) {
-    return data.events.map(function (event) {
+    return data.events.map(function (event, i) {
+      var color = EVENT_COLORS[i % EVENT_COLORS.length];
       var month = new Date(event.date + 'T00:00:00Z').toLocaleString('en-US', { month: 'short', timeZone: 'UTC' });
       return {
         id: event.id, date: event.date, year: event.date.slice(0, 4), label: event.title, short: event.title,
         match: new RegExp('^' + month + '\\s*' + event.date.slice(2, 4) + '$', 'i'),
-        lineColor: 'rgba(99,102,241,0.8)', pillBg: '#4f46e5',
+        lineColor: color, pillBg: color,
         desc: event.date + ' · ' + status(event) + ' — ' + event.detail
       };
     });
@@ -75,7 +84,7 @@
       });
     });
   }
-  root.PolicyTimeline = { load: load, render: render, status: status, chartEvents: chartEvents, annotations: annotations };
+  root.PolicyTimeline = { EVENT_COLORS: EVENT_COLORS, load: load, render: render, status: status, chartEvents: chartEvents, annotations: annotations };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
   else mount();
 })(window);

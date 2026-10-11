@@ -64,7 +64,7 @@
     // Cross-checked against chfa-properties.json (31 deals 2025) and the
     // bridge file (14 deals 2026 R1) — zero duplicate project names verified
     // 2026-06-06.
-    { key: 'recent_award', label: 'Recent award (2025–26)', color: '#f59e0b',
+    { key: 'recent_award', label: 'Recent award (2025–26)', color: '#db2777',
       desc: 'CHFA awards placed-in-service or allocated in 2025 or 2026. Includes 9% R1, 9% R2, 4% bond, 4%+state, MIHTC, and TOC deals announced or reserved within the last 12-18 months. These are the freshest pipeline news — likely what a developer scoping a new PMA needs to flag for competition / saturation analysis. Visually promoted from their program-type bucket so they don\'t disappear into the 926-project portfolio backdrop.',
       match: function (p) {
         // Bridge entries already matched above — skip here to avoid
@@ -108,13 +108,13 @@
         var pt = p.program_type || [];
         return pt.includes('lihtc-mihtc');
     }},
-    { key: 'hud_mf',       label: 'HUD Multifamily',   color: '#d97706',
+    { key: 'hud_mf',       label: 'HUD Multifamily',   color: '#0d9488',
       desc: 'Property with a HUD-administered subsidy contract — Section 8 PBRA, 202/811 elderly+disabled, or FHA-insured (221d, 223). Federal contract, tracked in HUD MULTIFAMILY_PROPERTIES_ASSISTED.',
       match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('hud-multifamily');
     }},
-    { key: 'restriction_timing', label: 'Restriction timing known', color: '#b45309',
+    { key: 'restriction_timing', label: 'Restriction timing known', color: '#a16207',
       desc: 'Property has a documented restrictive-clause expiration timeline. Use risk_status / years_to_expiration for urgency; this is narrower than preservation-source inventory.',
       match: function (p) {
         return !!p.risk_status;

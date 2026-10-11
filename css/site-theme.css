@@ -847,8 +847,9 @@ html.dark-mode .stat .src a, html.dark-mode .kpi-source a { color: rgba(210, 225
 .info-tooltip-body dt { color: var(--muted, #64748b); font-weight: 600; }
 .info-tooltip-body dd { margin: 0; }
 /* Leaflet map legend swatches (used by co-lihtc-map.js Leaflet legend control) */
-.map-legend .swatch-dda { width:14px;height:10px;border-radius:3px;display:inline-block;flex-shrink:0;background:rgba(255,200,90,.22);border:1px solid rgba(255,200,90,.55); }
-.map-legend .swatch-qct { width:14px;height:10px;border-radius:3px;display:inline-block;flex-shrink:0;background:rgba(120,255,170,.24);border:1px solid rgba(120,255,170,.55); }
+/* Same strokes and fills as the DDA and QCT polygons in js/co-lihtc-map.js. */
+.map-legend .swatch-dda { width:14px;height:10px;border-radius:3px;display:inline-block;flex-shrink:0;background:rgba(255,152,0,.17);border:2px dashed #ff6f00; }
+.map-legend .swatch-qct { width:14px;height:10px;border-radius:3px;display:inline-block;flex-shrink:0;background:rgba(76,175,80,.17);border:2px solid #388e3c; }
 .map-legend .marker-lihtc { width:10px;height:10px;border-radius:50%;background:#5fa8ff;display:inline-block;flex-shrink:0; }
 .map-legend .marker-county { width:10px;height:10px;border-radius:2px;background:rgba(200,200,255,.35);border:1px solid rgba(130,130,220,.5);display:inline-block;flex-shrink:0; }
 /* F176 — collapsible map legend (CO LIHTC + similar). Tap header to toggle;

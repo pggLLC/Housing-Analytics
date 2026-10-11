@@ -305,3 +305,34 @@ test('the Deep Dive does not load Market Signals until its tab is opened', async
     await wait(() => ['demandChart', 'supplyChart', 'lihtcTrendChart'].every(id => r.charts.has(id)), 'Market Signals rendered once opened');
   } finally { r.dom.window.close(); }
 });
+
+test('every policy event has its own color, and each chart key matches the line it names', async () => {
+  // The legend under each chart is the only way to tell the dashed event
+  // lines apart. When every event drew in one indigo (2026-10-11) the key
+  // carried no information.
+  const r = render('colorado-deep-dive.html');
+  try {
+    await wait(() => r.charts.has('lihtcTrendChart') && r.doc.querySelector('.lihtc-trend-event-legend'));
+    const events = r.w.PolicyTimeline.chartEvents(timeline);
+    assert.equal(events.length, timeline.events.length);
+    const colors = events.map(e => e.pillBg.toLowerCase());
+    assert.equal(new Set(colors).size, timeline.events.length, 'one color per event in data/policy/policy-timeline.json: ' + colors.join(' '));
+    for (const e of events) assert.equal(e.lineColor, e.pillBg, e.label + ': the line and its key swatch are one color');
+
+    const annotations = plain(r.charts.get('lihtcTrendChart').options.plugins.annotation.annotations);
+    const chips = [...r.doc.querySelectorAll('.lihtc-trend-event-legend > span')];
+    assert(chips.length >= 2, 'the trend chart shows a key with several events');
+    const seen = new Set();
+    for (const chip of chips) {
+      const name = chip.querySelector('strong').textContent;
+      const swatch = chip.querySelector('span').style.background;
+      const line = annotations[name.replace(/\s+/g, '_').toLowerCase()];
+      assert(line, name + ': the key names a line on the chart');
+      const probe = r.doc.createElement('span');
+      probe.style.background = line.borderColor;
+      assert.equal(swatch, probe.style.background, name + ': key swatch is the line color');
+      assert(!seen.has(swatch), name + ': shares its key color with another event');
+      seen.add(swatch);
+    }
+  } finally { r.dom.window.close(); }
+});
