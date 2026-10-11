@@ -17,6 +17,10 @@
       ],
       "reviewed_sources": [
         {
+          "url": "https://morgancounty.colorado.gov/2026-general-election-information",
+          "retrieved": "2026-09-26"
+        },
+        {
           "url": "https://morgancounty.colorado.gov/elections-department",
           "retrieved": "2026-10-10"
         },
@@ -60,6 +64,10 @@
       ],
       "reviewed_sources": [
         {
+          "url": "https://morgancounty.colorado.gov/2026-general-election-information",
+          "retrieved": "2026-09-26"
+        },
+        {
           "url": "https://morgancounty.colorado.gov/elections-department",
           "retrieved": "2026-10-10"
         },
@@ -87,6 +95,10 @@
       ],
       "reviewed_sources": [
         {
+          "url": "https://morgancounty.colorado.gov/2026-general-election-information",
+          "retrieved": "2026-09-26"
+        },
+        {
           "url": "https://morgancounty.colorado.gov/elections-department",
           "retrieved": "2026-10-10"
         },
@@ -113,6 +125,10 @@
       ],
       "reviewed_sources": [
         {
+          "url": "https://morgancounty.colorado.gov/2026-general-election-information",
+          "retrieved": "2026-09-26"
+        },
+        {
           "url": "https://morgancounty.colorado.gov/elections-department",
           "retrieved": "2026-10-10"
         }
@@ -131,6 +147,10 @@
         "The town website (townofllv.com) returned HTTP 403 on 2026-10-10, as it did on 2026-09-26, so a separate town election could not be ruled out from the town's own records."
       ],
       "reviewed_sources": [
+        {
+          "url": "https://morgancounty.colorado.gov/2026-general-election-information",
+          "retrieved": "2026-09-26"
+        },
         {
           "url": "https://morgancounty.colorado.gov/elections-department",
           "retrieved": "2026-10-10"
@@ -154,6 +174,10 @@
         "Checked 2026-10-10: the two county styles labelled \"With Town of Wiggins Candidates\" (001-03 and 018-03) list Town of Wiggins Mayor and Trustee races only. No town question appears on them or on any of the other 25 styles."
       ],
       "reviewed_sources": [
+        {
+          "url": "https://morgancounty.colorado.gov/2026-general-election-information",
+          "retrieved": "2026-09-26"
+        },
         {
           "url": "https://morgancounty.colorado.gov/sites/g/files/lrnvjt1911/files/documents/001-03.pdf",
           "retrieved": "2026-10-10"
