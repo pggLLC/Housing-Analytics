@@ -7,20 +7,20 @@
       "name": "Baca County",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.bacacountyco.gov/government/clerk-and-recorder/elections/",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: the Baca County Clerk's official site is www.bacacountyco.gov (bacacounty.colorado.gov and other guessed hosts failed at the proxy with 502; bacacountyco.gov was reachable). The Elections page, the Election category listing, the 2026-09-18 'Election Notice' (Logic and Accuracy Testing notice for the 2026 General Election, Nov 3, 2026) and the 2026-05-22 'Baca County General Election' post were read. None of them contains a TABOR notice, sample ballot, ballot-content certification, or list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election. The site's WordPress media library (wp-json media endpoint, uploads since 2026-06-01 and searches for 'ballot', 'sample', 'tabor', 'coordinated', 'intergovernmental') shows no 2026 election documents (only Resolution 2026.14 on fire restrictions and a multi-use building RFP). County-level question content therefore could not be reviewed; re-check once the clerk posts the TABOR notice/sample ballot.",
+        "Checked 2026-10-10: the Baca County Clerk's Elections page (www.bacacountyco.gov) still posts no TABOR notice, sample ballot, ballot-content certification or list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election. Its only 2026 general-election item is the 2026-09-18 Logic and Accuracy Testing notice, and its 'Find Your Sample Ballot' link goes to the Secretary of State's per-voter lookup, not a posted ballot. The site's WordPress REST API shows one post since 2026-09-01 (that notice) and one media upload (the 2026-10-08 commissioners' agenda, which has no election or ballot item); searches for 'ballot' and 'tabor' return only 2017-2025 documents. Re-check once the clerk posts the TABOR notice or sample ballot.",
         "Colorado Health Foundation tracker (coloradohealth.org) returned HTTP 403 and its Wayback copy could not be fetched; web searches found no reported 2026 Baca County ballot question. Not used as a source."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.bacacountyco.gov/government/clerk-and-recorder/elections/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.bacacountyco.gov/election-notice-2/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.bacacountyco.gov/baca-county-general-election/",
@@ -29,6 +29,10 @@
         {
           "url": "https://www.bacacountyco.gov/category/election/",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.bacacountyco.gov/wp-content/uploads/2026/10/Agenda2026.10.08.pdf",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -38,20 +42,20 @@
       "name": "Campo (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.bacacountyco.gov/government/clerk-and-recorder/elections/",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: the Baca County Clerk's official site is www.bacacountyco.gov (bacacounty.colorado.gov and other guessed hosts failed at the proxy with 502; bacacountyco.gov was reachable). The Elections page, the Election category listing, the 2026-09-18 'Election Notice' (Logic and Accuracy Testing notice for the 2026 General Election, Nov 3, 2026) and the 2026-05-22 'Baca County General Election' post were read. None of them contains a TABOR notice, sample ballot, ballot-content certification, or list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election. The site's WordPress media library (wp-json media endpoint, uploads since 2026-06-01 and searches for 'ballot', 'sample', 'tabor', 'coordinated', 'intergovernmental') shows no 2026 election documents (only Resolution 2026.14 on fire restrictions and a multi-use building RFP). Participation of the Town of Campo in the coordinated election could not be determined because no participating-entities list/IGA is posted; not marked not_applicable for that reason.",
+        "Checked 2026-10-10: the Baca County Clerk's Elections page (www.bacacountyco.gov) still posts no TABOR notice, sample ballot, ballot-content certification or list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election. Its only 2026 general-election item is the 2026-09-18 Logic and Accuracy Testing notice, and its 'Find Your Sample Ballot' link goes to the Secretary of State's per-voter lookup, not a posted ballot. The site's WordPress REST API shows one post since 2026-09-01 (that notice) and one media upload (the 2026-10-08 commissioners' agenda, which has no election or ballot item); searches for 'ballot' and 'tabor' return only 2017-2025 documents. Re-check once the clerk posts the TABOR notice or sample ballot. Participation of the Town of Campo in the coordinated election could not be determined because no participating-entities list/IGA is posted; not marked not_applicable for that reason.",
         "No official Town of Campo website was found by web search; town-level election notices could not be checked online."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.bacacountyco.gov/government/clerk-and-recorder/elections/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.bacacountyco.gov/election-notice-2/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.bacacountyco.gov/baca-county-general-election/",
@@ -69,20 +73,20 @@
       "name": "Pritchett (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.bacacountyco.gov/government/clerk-and-recorder/elections/",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: the Baca County Clerk's official site is www.bacacountyco.gov (bacacounty.colorado.gov and other guessed hosts failed at the proxy with 502; bacacountyco.gov was reachable). The Elections page, the Election category listing, the 2026-09-18 'Election Notice' (Logic and Accuracy Testing notice for the 2026 General Election, Nov 3, 2026) and the 2026-05-22 'Baca County General Election' post were read. None of them contains a TABOR notice, sample ballot, ballot-content certification, or list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election. The site's WordPress media library (wp-json media endpoint, uploads since 2026-06-01 and searches for 'ballot', 'sample', 'tabor', 'coordinated', 'intergovernmental') shows no 2026 election documents (only Resolution 2026.14 on fire restrictions and a multi-use building RFP). Participation of the Town of Pritchett in the coordinated election could not be determined because no participating-entities list/IGA is posted; not marked not_applicable for that reason.",
+        "Checked 2026-10-10: the Baca County Clerk's Elections page (www.bacacountyco.gov) still posts no TABOR notice, sample ballot, ballot-content certification or list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election. Its only 2026 general-election item is the 2026-09-18 Logic and Accuracy Testing notice, and its 'Find Your Sample Ballot' link goes to the Secretary of State's per-voter lookup, not a posted ballot. The site's WordPress REST API shows one post since 2026-09-01 (that notice) and one media upload (the 2026-10-08 commissioners' agenda, which has no election or ballot item); searches for 'ballot' and 'tabor' return only 2017-2025 documents. Re-check once the clerk posts the TABOR notice or sample ballot. Participation of the Town of Pritchett in the coordinated election could not be determined because no participating-entities list/IGA is posted; not marked not_applicable for that reason.",
         "No official Town of Pritchett website was found by web search; town-level election notices could not be checked online."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.bacacountyco.gov/government/clerk-and-recorder/elections/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.bacacountyco.gov/election-notice-2/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.bacacountyco.gov/baca-county-general-election/",
@@ -100,20 +104,21 @@
       "name": "Springfield (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.bacacountyco.gov/government/clerk-and-recorder/elections/",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: the Baca County Clerk's official site is www.bacacountyco.gov (bacacounty.colorado.gov and other guessed hosts failed at the proxy with 502; bacacountyco.gov was reachable). The Elections page, the Election category listing, the 2026-09-18 'Election Notice' (Logic and Accuracy Testing notice for the 2026 General Election, Nov 3, 2026) and the 2026-05-22 'Baca County General Election' post were read. None of them contains a TABOR notice, sample ballot, ballot-content certification, or list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election. The site's WordPress media library (wp-json media endpoint, uploads since 2026-06-01 and searches for 'ballot', 'sample', 'tabor', 'coordinated', 'intergovernmental') shows no 2026 election documents (only Resolution 2026.14 on fire restrictions and a multi-use building RFP). Participation of the Town of Springfield in the coordinated election could not be determined because no participating-entities list/IGA is posted; not marked not_applicable for that reason.",
-        "Town of Springfield site (www.springfieldco.gov) live feed read back ~11 months: the only 2026 election posts concern the April 7, 2026 regular municipal (polling-place) election for Mayor and four Trustees; no post mentions a November 3, 2026 ballot question. Board agendas read (July 9, Sept 17, Sept 22, Sept 28 2026) contain no ballot-question/election item. The August 13 and September 10, 2026 regular-meeting agendas were not linked in the feed and the documents folder loads via script, so they were not read — a referral resolution could be in those packets."
+        "Checked 2026-10-10: the Baca County Clerk's Elections page (www.bacacountyco.gov) still posts no TABOR notice, sample ballot, ballot-content certification or list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election. Its only 2026 general-election item is the 2026-09-18 Logic and Accuracy Testing notice, and its 'Find Your Sample Ballot' link goes to the Secretary of State's per-voter lookup, not a posted ballot. The site's WordPress REST API shows one post since 2026-09-01 (that notice) and one media upload (the 2026-10-08 commissioners' agenda, which has no election or ballot item); searches for 'ballot' and 'tabor' return only 2017-2025 documents. Re-check once the clerk posts the TABOR notice or sample ballot. Participation of the Town of Springfield in the coordinated election could not be determined because no participating-entities list/IGA is posted; not marked not_applicable for that reason.",
+        "Town of Springfield site (www.springfieldco.gov) live feed read back ~11 months: the only 2026 election posts concern the April 7, 2026 regular municipal (polling-place) election for Mayor and four Trustees; no post mentions a November 3, 2026 ballot question. Board agendas read (July 9, Sept 17, Sept 22, Sept 28 2026) contain no ballot-question/election item. The August 13 and September 10, 2026 regular-meeting agendas were not linked in the feed and the documents folder loads via script, so they were not read — a referral resolution could be in those packets.",
+        "Checked 2026-10-10: the Town of Springfield live feed (https://www.springfieldco.gov/live-feed) was read through posts dated back to 2026-09-01; no post concerns a November 3, 2026 ballot question (the newest board item is an October 8, 2026 regular-meeting notice). The site now serves a JavaScript client challenge to curl, so it was read with WebFetch."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.bacacountyco.gov/government/clerk-and-recorder/elections/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.bacacountyco.gov/election-notice-2/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.bacacountyco.gov/baca-county-general-election/",
@@ -125,7 +130,7 @@
         },
         {
           "url": "https://www.springfieldco.gov/live-feed",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/4311/Ts/ac98c766-8b1b-4d05-abe5-1ade9beaced5/9.28.2026-Work-Session-Agenda.pdf",
@@ -151,20 +156,20 @@
       "name": "Two Buttes (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.bacacountyco.gov/government/clerk-and-recorder/elections/",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: the Baca County Clerk's official site is www.bacacountyco.gov (bacacounty.colorado.gov and other guessed hosts failed at the proxy with 502; bacacountyco.gov was reachable). The Elections page, the Election category listing, the 2026-09-18 'Election Notice' (Logic and Accuracy Testing notice for the 2026 General Election, Nov 3, 2026) and the 2026-05-22 'Baca County General Election' post were read. None of them contains a TABOR notice, sample ballot, ballot-content certification, or list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election. The site's WordPress media library (wp-json media endpoint, uploads since 2026-06-01 and searches for 'ballot', 'sample', 'tabor', 'coordinated', 'intergovernmental') shows no 2026 election documents (only Resolution 2026.14 on fire restrictions and a multi-use building RFP). Participation of the Town of Two Buttes in the coordinated election could not be determined because no participating-entities list/IGA is posted; not marked not_applicable for that reason.",
+        "Checked 2026-10-10: the Baca County Clerk's Elections page (www.bacacountyco.gov) still posts no TABOR notice, sample ballot, ballot-content certification or list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election. Its only 2026 general-election item is the 2026-09-18 Logic and Accuracy Testing notice, and its 'Find Your Sample Ballot' link goes to the Secretary of State's per-voter lookup, not a posted ballot. The site's WordPress REST API shows one post since 2026-09-01 (that notice) and one media upload (the 2026-10-08 commissioners' agenda, which has no election or ballot item); searches for 'ballot' and 'tabor' return only 2017-2025 documents. Re-check once the clerk posts the TABOR notice or sample ballot. Participation of the Town of Two Buttes in the coordinated election could not be determined because no participating-entities list/IGA is posted; not marked not_applicable for that reason.",
         "No official Town of Two Buttes website was found by web search; town-level election notices could not be checked online."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.bacacountyco.gov/government/clerk-and-recorder/elections/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.bacacountyco.gov/election-notice-2/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.bacacountyco.gov/baca-county-general-election/",
@@ -182,20 +187,20 @@
       "name": "Vilas (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.bacacountyco.gov/government/clerk-and-recorder/elections/",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: the Baca County Clerk's official site is www.bacacountyco.gov (bacacounty.colorado.gov and other guessed hosts failed at the proxy with 502; bacacountyco.gov was reachable). The Elections page, the Election category listing, the 2026-09-18 'Election Notice' (Logic and Accuracy Testing notice for the 2026 General Election, Nov 3, 2026) and the 2026-05-22 'Baca County General Election' post were read. None of them contains a TABOR notice, sample ballot, ballot-content certification, or list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election. The site's WordPress media library (wp-json media endpoint, uploads since 2026-06-01 and searches for 'ballot', 'sample', 'tabor', 'coordinated', 'intergovernmental') shows no 2026 election documents (only Resolution 2026.14 on fire restrictions and a multi-use building RFP). Participation of the Town of Vilas in the coordinated election could not be determined because no participating-entities list/IGA is posted; not marked not_applicable for that reason.",
+        "Checked 2026-10-10: the Baca County Clerk's Elections page (www.bacacountyco.gov) still posts no TABOR notice, sample ballot, ballot-content certification or list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election. Its only 2026 general-election item is the 2026-09-18 Logic and Accuracy Testing notice, and its 'Find Your Sample Ballot' link goes to the Secretary of State's per-voter lookup, not a posted ballot. The site's WordPress REST API shows one post since 2026-09-01 (that notice) and one media upload (the 2026-10-08 commissioners' agenda, which has no election or ballot item); searches for 'ballot' and 'tabor' return only 2017-2025 documents. Re-check once the clerk posts the TABOR notice or sample ballot. Participation of the Town of Vilas in the coordinated election could not be determined because no participating-entities list/IGA is posted; not marked not_applicable for that reason.",
         "No official Town of Vilas website was found by web search; town-level election notices could not be checked online."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.bacacountyco.gov/government/clerk-and-recorder/elections/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.bacacountyco.gov/election-notice-2/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.bacacountyco.gov/baca-county-general-election/",
@@ -213,20 +218,20 @@
       "name": "Walsh (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.bacacountyco.gov/government/clerk-and-recorder/elections/",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: the Baca County Clerk's official site is www.bacacountyco.gov (bacacounty.colorado.gov and other guessed hosts failed at the proxy with 502; bacacountyco.gov was reachable). The Elections page, the Election category listing, the 2026-09-18 'Election Notice' (Logic and Accuracy Testing notice for the 2026 General Election, Nov 3, 2026) and the 2026-05-22 'Baca County General Election' post were read. None of them contains a TABOR notice, sample ballot, ballot-content certification, or list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election. The site's WordPress media library (wp-json media endpoint, uploads since 2026-06-01 and searches for 'ballot', 'sample', 'tabor', 'coordinated', 'intergovernmental') shows no 2026 election documents (only Resolution 2026.14 on fire restrictions and a multi-use building RFP). Participation of the Town of Walsh in the coordinated election could not be determined because no participating-entities list/IGA is posted; not marked not_applicable for that reason.",
-        "Town of Walsh site (townofwalsh.colorado.gov) returned HTTP 403 to both curl and WebFetch; Wayback Machine connection was reset. Town's own election page could not be checked."
+        "Checked 2026-10-10: the Baca County Clerk's Elections page (www.bacacountyco.gov) still posts no TABOR notice, sample ballot, ballot-content certification or list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election. Its only 2026 general-election item is the 2026-09-18 Logic and Accuracy Testing notice, and its 'Find Your Sample Ballot' link goes to the Secretary of State's per-voter lookup, not a posted ballot. The site's WordPress REST API shows one post since 2026-09-01 (that notice) and one media upload (the 2026-10-08 commissioners' agenda, which has no election or ballot item); searches for 'ballot' and 'tabor' return only 2017-2025 documents. Re-check once the clerk posts the TABOR notice or sample ballot. Participation of the Town of Walsh in the coordinated election could not be determined because no participating-entities list/IGA is posted; not marked not_applicable for that reason.",
+        "Town of Walsh site (townofwalsh.colorado.gov) returned HTTP 403 to both curl and WebFetch; Wayback Machine connection was reset. Town's own election page could not be checked. Rechecked 2026-10-10: still HTTP 403 to curl."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.bacacountyco.gov/government/clerk-and-recorder/elections/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.bacacountyco.gov/election-notice-2/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.bacacountyco.gov/baca-county-general-election/",

@@ -145,6 +145,53 @@
       "generated": "2026-09-29T00:00:00Z"
     },
     {
+      "id": "obbba-lihtc-ceiling-12pct-2026",
+      "title": "The permanent 12% increase in the 9% LIHTC state ceiling: what the 2025 federal law changed",
+      "policy_topic": "Federal Tax Credits & LIHTC",
+      "is_curated": true,
+      "source_reviewed": true,
+      "summary": "Public Law 119-21 (H.R. 1), approved on July 4, 2025, changed how much housing credit each state may award every year. Section 70422(a) of the law amends section 42(h)(3)(I) of the Internal Revenue Code. Each state has an annual housing credit ceiling: the authority its housing credit agency uses to award credits outside the tax-exempt bond route, mainly the competitive credits commonly called 9% credits. Part of that ceiling is the greater of a per-resident amount or a small-state minimum. For calendar years beginning after December 31, 2025, the amended law multiplies both of those amounts by 1.12, a 12% increase, after the annual cost-of-living adjustment. The amended provision sets no end year. The same provision previously gave a 12.5% increase for 2018 through 2021 only. For 2026, IRS Rev. Proc. 2025-32 sets the amount at the greater of $3.416 per resident or $3,953,600, and lists the section 70422(a) amendment among the changes it reflects.",
+      "implications": "The increase applies only to the per-resident or minimum amount. The other parts of a state's ceiling, which are unused credit carried forward from the prior year, credit returned during the year, and any national-pool allocation, are not multiplied. Section 70422(a) changes the size of each state's annual credit authority; it does not change the credit rate, the income and rent tests, or the eligible-basis rules for an individual building. The law's only other change to section 42 is the tax-exempt bond-financing test in section 70422(b), which COHO tracks as a separate record. In Colorado, CHFA allocates federal housing credits and administers the program under its Qualified Allocation Plan. Colorado's total for a year depends on the state population figure used and on any carried-forward or returned credit. COHO has not verified a 2026 Colorado total published by CHFA, so this brief does not state one. The legislation record lists January 1, 2026 as the effective date of the change.",
+      "related_data": "data/policy/tax-credit-legislation.json",
+      "sources": [
+        "U.S. Government Publishing Office (GovInfo)",
+        "Internal Revenue Service",
+        "Colorado Housing and Finance Authority"
+      ],
+      "articles": [
+        {
+          "title": "Public Law 119-21 (H.R. 1), section 70422",
+          "source": "U.S. Government Publishing Office (GovInfo)",
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+          "date": "2025-07-04"
+        },
+        {
+          "title": "26 U.S.C. 42, U.S. Code 2024 edition (text before the amendment)",
+          "source": "U.S. Government Publishing Office (GovInfo)",
+          "link": "https://www.govinfo.gov/content/pkg/USCODE-2024-title26/html/USCODE-2024-title26-subtitleA-chap1-subchapA-partIV-subpartD-sec42.htm",
+          "date": ""
+        },
+        {
+          "title": "Rev. Proc. 2025-32, 2026 inflation-adjusted items (section 4.08, low-income housing credit)",
+          "source": "Internal Revenue Service",
+          "link": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf",
+          "date": ""
+        },
+        {
+          "title": "Housing Tax Credit",
+          "source": "Colorado Housing and Finance Authority",
+          "link": "https://www.chfainfo.com/rental-housing/housing-credit",
+          "date": ""
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
+        "United States",
+        "Colorado"
+      ],
+      "generated": "2026-10-11T00:00:00Z"
+    },
+    {
       "id": "livability-universal-design-2026",
       "title": "Livability beyond the pro forma: universal and functional design, privacy, shared space and green infrastructure in affordable housing",
       "policy_topic": "Design & Livability",

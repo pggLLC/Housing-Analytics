@@ -140,15 +140,15 @@ export async function watchHudChas(fetchImpl = fetch) {
 }
 
 /**
- * HUD FMR — typically published annually in April; we read the
- * generated fiscal year out of data/hud-fmr-income-limits.json and
- * compare against the current US fiscal year.
+ * HUD FMR — HUD publishes each fiscal year's FMRs before it takes effect
+ * on Oct 1. We read the fiscal year out of data/hud-fmr-income-limits.json
+ * and compare it with the federal fiscal year in effect.
  */
-async function watchHudFmr() {
+export async function watchHudFmr(now = new Date(), root = ROOT) {
   let currentFy = null;
   try {
     const text = await fs.readFile(
-      path.join(ROOT, 'data', 'hud-fmr-income-limits.json'),
+      path.join(root, 'data', 'hud-fmr-income-limits.json'),
       'utf8',
     );
     const data = JSON.parse(text);
@@ -156,15 +156,14 @@ async function watchHudFmr() {
   } catch { /* ignore */ }
 
   // US Federal fiscal year transitions Oct 1
-  const now = new Date();
   const month = now.getMonth() + 1;
   const year = now.getFullYear();
   const currentUsFy = month >= 10 ? year + 1 : year;
 
-  // HUD usually ships FMR for the following fiscal year in April.
-  // So as of "FY currentUsFy", HUD likely has FY currentUsFy+1 in pipeline
-  // by April. Be conservative: only flag outdated if our file is 2+ FYs behind.
-  const isOutdated = currentFy != null && currentFy < currentUsFy - 1;
+  // FMRs for FY N take effect Oct 1 of N-1 and are published before then,
+  // so any file older than the FY in effect is outdated. (This used to allow
+  // two years and stayed quiet while FY2027 FMRs were in effect.)
+  const isOutdated = currentFy != null && currentFy < currentUsFy;
 
   return {
     source: 'HUD FMR',
@@ -172,8 +171,8 @@ async function watchHudFmr() {
     latest_vintage: `FY${currentUsFy}`,
     is_outdated: isOutdated,
     notes: isOutdated
-      ? 'Current fiscal-year FMR data is 2+ FYs behind. Run scripts/fetch_fmr_api.py.'
-      : 'Within expected refresh window (HUD ships FMR annually in April).',
+      ? `FY${currentUsFy} FMRs are in effect (since Oct 1); the file holds FY${currentFy}. Run scripts/fetch_fmr_api.py.`
+      : 'Matches the fiscal year in effect.',
   };
 }
 
