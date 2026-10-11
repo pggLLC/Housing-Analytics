@@ -138,12 +138,15 @@
     if (STEP_URL_ALIASES[loc] && canon().keys.indexOf(STEP_URL_ALIASES[loc]) !== -1) {
       return STEP_URL_ALIASES[loc];
     }
+    // A route can open a page with a query (deal-calculator.html?mode=ownership)
+    // or an anchor; the page is the file name.
+    function file(href) { return String(href).split(/[?#]/)[0]; }
     for (var key in urls) {
-      if (loc === urls[key]) return key;
+      if (loc === file(urls[key])) return key;
     }
     var comp = canon().companions;
     for (var ck in comp) {
-      if (loc === comp[ck].href.split('#')[0]) return ck;
+      if (loc === file(comp[ck].href)) return ck;
     }
     // Fallback: data-step attribute (only consulted if the URL isn't a known
     // funnel page; numbering follows the 6-step progress-bar scheme:
@@ -161,8 +164,13 @@
   function _onCompanionPage(key) {
     var c = canon().companions[key];
     if (!c) return false;
-    var loc = (global.location.pathname.split('/').pop() || '').toLowerCase();
-    return loc === c.href.split('#')[0];
+    // A page that has more than one mode says which it is showing in
+    // data-wf-page (the Deal Calculator: deal-calculator.html?mode=ownership).
+    // Otherwise the file name and the query are the page.
+    var declared = document.documentElement.getAttribute('data-wf-page');
+    var here = declared
+      || (global.location.pathname.split('/').pop() || '').toLowerCase() + (global.location.search || '');
+    return here === String(c.href).split('#')[0];
   }
 
   /* "For the for-sale homes, also open …" for a step with a companion page. */
@@ -407,6 +415,8 @@
     document.addEventListener('jurisdiction-url-context:resolved', _render);
     // A new product changes the route, so the cached sequence is stale.
     document.addEventListener('workflow:product-changed', function () { _canon = null; _render(); });
+    // The page switched mode (the Deal Calculator's rental/ownership toggle).
+    document.addEventListener('workflow:page-changed', _render);
   }
 
   // Run after DOM ready
