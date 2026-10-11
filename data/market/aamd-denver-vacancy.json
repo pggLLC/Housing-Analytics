@@ -11,7 +11,7 @@
     "last_verified": "2026-10-10",
     "next_expected_update": "2026-Q3",
     "capture": "By hand from the executive summary PDF. The monthly market-rents workflow checks report_url_pattern for the next quarter and opens an issue (label aamd-vacancy) when it is published.",
-    "methodology": "Stabilized vacancy excludes communities still in lease-up; overall vacancy includes them. Average rent is gross rent and does not account for concessions (AAMD's own note)."
+    "methodology": "Stabilized vacancy excludes communities still in lease-up; overall vacancy includes them. Average rent is gross rent and does not account for concessions (AAMD's own note). Concessions are AAMD's reported average monthly concession per unit and its share of gross rent; the effective-rent change is Apartment Insights data quoted in the same report."
   },
   "metro": {
     "stabilized_vacancy_pct": 6.3,
@@ -20,14 +20,37 @@
     "overall_vacancy_pct": 9.4,
     "average_rent": 1776,
     "average_rent_year_ago": 1832,
-    "total_units": 455848
+    "total_units": 455848,
+    "average_concession": 175,
+    "average_concession_prior_quarter": 180,
+    "concession_pct_of_gross_rent": 9.7,
+    "concession_pct_of_gross_rent_prior_quarter": 10.1,
+    "effective_rent_yoy_pct": -8.0
   },
   "counties": {
-    "Adams": { "stabilized_vacancy_pct": 6.0, "average_rent": 1633 },
-    "Arapahoe": { "stabilized_vacancy_pct": 6.6, "average_rent": 1653 },
-    "Boulder/Broomfield": { "stabilized_vacancy_pct": 5.3, "average_rent": 1924 },
-    "Denver": { "stabilized_vacancy_pct": 7.0, "average_rent": 1798 },
-    "Douglas": { "stabilized_vacancy_pct": 5.3, "average_rent": 1980 },
-    "Jefferson": { "stabilized_vacancy_pct": 5.4, "average_rent": 1803 }
+    "Adams": {
+      "stabilized_vacancy_pct": 6.0,
+      "average_rent": 1633
+    },
+    "Arapahoe": {
+      "stabilized_vacancy_pct": 6.6,
+      "average_rent": 1653
+    },
+    "Boulder/Broomfield": {
+      "stabilized_vacancy_pct": 5.3,
+      "average_rent": 1924
+    },
+    "Denver": {
+      "stabilized_vacancy_pct": 7.0,
+      "average_rent": 1798
+    },
+    "Douglas": {
+      "stabilized_vacancy_pct": 5.3,
+      "average_rent": 1980
+    },
+    "Jefferson": {
+      "stabilized_vacancy_pct": 5.4,
+      "average_rent": 1803
+    }
   }
 }
