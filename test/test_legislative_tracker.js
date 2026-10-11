@@ -100,6 +100,16 @@ test('expected policy entries and tags are available from real JSON', () => {
   check(phasedOut && phasedOut.stage === tracker.STAGES.SIGNED, 'phased-out enacted-law entry does not map to failed stage');
   check(windSolar && windSolar.status === 'enacted' && windSolar.stage === tracker.STAGES.SIGNED, '45Y/48E entry maps to enacted law');
   check(hb1065 && hb1065.analysisUrl === 'research-brief.html?id=hb26-1065-thiz-qap-2026', 'HB26-1065 exposes its public analysis link');
+  // Every analysis link opens a source-reviewed brief that exists in the curated feed.
+  const curated = require(path.join(root, 'data', 'policy_briefs_curated.json'));
+  const linked = legislation.entries.filter((entry) => entry.analysis_url);
+  check(linked.some((entry) => entry.id === 'obbba-lihtc-ceiling-12pct'), 'LIHTC ceiling record carries an analysis link');
+  linked.forEach((entry) => {
+    const id = (entry.analysis_url.match(/^research-brief\.html\?id=([\w-]+)$/) || [])[1];
+    const brief = curated.briefs.find((item) => item.id === id);
+    check(brief && brief.source_reviewed === true && tracker.getBill(entry.id).analysisUrl === entry.analysis_url,
+      entry.id + ' analysis link opens a source-reviewed curated brief');
+  });
 });
 
 test('market summary reflects loaded JSON and stays bounded', () => {
@@ -158,6 +168,9 @@ test('housing legislation page renders watchlist statuses without passage heuris
   check(rendered.includes('Phased-out'), 'phased-out status pill rendered');
   check(rendered.includes('obbba-45y-48e-wind-solar-deadlines'), '45Y/48E entry rendered');
   check(rendered.includes('research-brief.html?id=hb26-1065-thiz-qap-2026'), 'HB26-1065 analysis link rendered');
+  legislation.entries.filter((entry) => entry.analysis_url).forEach((entry) => {
+    check(rendered.includes(entry.analysis_url), entry.id + ' analysis link rendered');
+  });
   check(rendered.includes('Read analysis'), 'bill analysis link has a plain-language label');
   check(rendered.includes('Enacted'), 'enacted status pill rendered');
   check(!rendered.includes('Failed'), 'rendered watchlist never labels enacted/phased-out entries as Failed');

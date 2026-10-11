@@ -20,31 +20,57 @@
       "name": "Bethune (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://kitcarsoncounty.colorado.gov/sites/g/files/lrnvjt1876/files/documents/Sample-Ballot-for-Website-v2.pdf",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
-        "No participating-entities/IGA list and no TABOR notice posted on the county election pages as of 2026-09-26. The county's official sample ballot (signed by the Clerk and Recorder, marked 'Contains all ballot questions') was read in full: it has state measures (Amendments 81-87, Propositions NN, 132-137), judicial retention, and one local measure, Burlington School District RE-6J Ballot Issue 5D (mill levy override continuation for school HVAC/facilities; not housing). It has no county, city or town ballot questions.",
-        "No municipal website with election information found."
+        "Rechecked 2026-10-10: the Kit Carson County General Election 11/3/2026 page still links only the same sample ballot (Sample-Ballot-for-Website-v2.pdf), and the county Notices page carries only the election notice (dates, VSPC and drop-off locations). No TABOR notice and no list of participating political subdivisions or IGAs is posted. The sample ballot, read in full on 2026-09-26 and marked 'Contains all ballot questions', has no county, city or town question; its only local measure is Burlington School District RE-6J Ballot Issue 5D (school mill levy; not housing).",
+        "No Town of Bethune website or municipal election notice was found on 2026-10-10 (bethune.colorado.gov and townofbethune.colorado.gov do not resolve).",
+        "Left at official_notice_unavailable: with no participating-entities list and no town page to read, absence from the county sample ballot is not treated as a reviewed notice (same rule as R2-B4-P2)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/clerk-recorder/elections/general-election-11/3/2026",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/clerk-recorder/elections/notices",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/sites/g/files/lrnvjt1876/files/documents/Sample-Ballot-for-Website-v2.pdf",
+          "retrieved": "2026-10-10"
+        }
       ]
     },
     {
       "geoid": "0810600",
       "level": "municipal",
       "name": "Burlington (city)",
-      "coverage_state": "official_notice_unavailable",
+      "coverage_state": "official_ballot_reviewed_none_found",
       "reviewed_source": "https://kitcarsoncounty.colorado.gov/sites/g/files/lrnvjt1876/files/documents/Sample-Ballot-for-Website-v2.pdf",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
-        "No participating-entities/IGA list and no TABOR notice posted on the county election pages as of 2026-09-26. The county's official sample ballot (signed by the Clerk and Recorder, marked 'Contains all ballot questions') was read in full: it has state measures (Amendments 81-87, Propositions NN, 132-137), judicial retention, and one local measure, Burlington School District RE-6J Ballot Issue 5D (mill levy override continuation for school HVAC/facilities; not housing). It has no county, city or town ballot questions.",
-        "City's own elections page checked: its 2026 regular election was April 7, 2026 (not Nov 3). Its only 2026 measure, Referred Ballot Issue 1A (lodger's tax 4% to 6%, revenue to Tourism Promotional Fund for tourism, road improvement and community revitalization), was on the April 7 ballot. It is out of scope (different election) and does not earmark housing."
+        "Rechecked 2026-10-10: the Kit Carson County General Election 11/3/2026 page still links only the same sample ballot (Sample-Ballot-for-Website-v2.pdf), and the county Notices page carries only the election notice (dates, VSPC and drop-off locations). No TABOR notice and no list of participating political subdivisions or IGAs is posted. The sample ballot, read in full on 2026-09-26 and marked 'Contains all ballot questions', has no county, city or town question; its only local measure is Burlington School District RE-6J Ballot Issue 5D (school mill levy; not housing).",
+        "City of Burlington Elections page re-read 2026-10-10: city elections are held in April of even-numbered years; the 2026 regular election was April 7, 2026 (2026 sample ballot, notice of election with TABOR issue, and lodger's tax question information are posted for that election). Nothing is posted for November 3, 2026.",
+        "Out of scope (April 7, 2026 election, not November 3): Referred Ballot Issue 1A, lodger's tax increase to the Tourism Promotional Fund; not housing-earmarked."
       ],
       "reviewed_sources": [
         {
+          "url": "https://kitcarsoncounty.colorado.gov/clerk-recorder/elections/general-election-11/3/2026",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/clerk-recorder/elections/notices",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/sites/g/files/lrnvjt1876/files/documents/Sample-Ballot-for-Website-v2.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
           "url": "https://www.burlingtoncolo.com/167/Elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -52,19 +78,43 @@
       "geoid": "0826765",
       "level": "municipal",
       "name": "Flagler (town)",
-      "coverage_state": "official_notice_unavailable",
+      "coverage_state": "official_ballot_reviewed_none_found",
       "reviewed_source": "https://kitcarsoncounty.colorado.gov/sites/g/files/lrnvjt1876/files/documents/Sample-Ballot-for-Website-v2.pdf",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
-        "No participating-entities/IGA list and no TABOR notice posted on the county election pages as of 2026-09-26. The county's official sample ballot (signed by the Clerk and Recorder, marked 'Contains all ballot questions') was read in full: it has state measures (Amendments 81-87, Propositions NN, 132-137), judicial retention, and one local measure, Burlington School District RE-6J Ballot Issue 5D (mill levy override continuation for school HVAC/facilities; not housing). It has no county, city or town ballot questions.",
-        "Town homepage checked; no election/ballot page found. Web lead indicates the town held a regular election April 7, 2026 (candidates only; not verified)."
+        "Rechecked 2026-10-10: the Kit Carson County General Election 11/3/2026 page still links only the same sample ballot (Sample-Ballot-for-Website-v2.pdf), and the county Notices page carries only the election notice (dates, VSPC and drop-off locations). No TABOR notice and no list of participating political subdivisions or IGAs is posted. The sample ballot, read in full on 2026-09-26 and marked 'Contains all ballot questions', has no county, city or town question; its only local measure is Burlington School District RE-6J Ballot Issue 5D (school mill levy; not housing).",
+        "Town of Flagler Resolution No. 165 (adopted 2026-02-09, read 2026-10-10) cancels the April 7, 2026 regular election; its recitals say the only ballot item was the election of three trustees and a mayor. The town site's resolutions and notices pages show no other 2026 election or ballot referral.",
+        "The town site has no elections page; this row closes on the county sample ballot plus the town's own resolutions (same basis as Kremmling in R2-B4-P2). Owner review: confirm that basis."
       ],
       "reviewed_sources": [
         {
           "url": "https://flagler.colorado.gov/",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/clerk-recorder/elections/general-election-11/3/2026",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/clerk-recorder/elections/notices",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/sites/g/files/lrnvjt1876/files/documents/Sample-Ballot-for-Website-v2.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://flagler.colorado.gov/government/resolutions",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://flagler.colorado.gov/sites/g/files/lrnvjt1796/files/documents/Res%20165%20Election%20Cancellation.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://flagler.colorado.gov/notices/events",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -74,31 +124,61 @@
       "name": "Seibert (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://kitcarsoncounty.colorado.gov/sites/g/files/lrnvjt1876/files/documents/Sample-Ballot-for-Website-v2.pdf",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
-        "No participating-entities/IGA list and no TABOR notice posted on the county election pages as of 2026-09-26. The county's official sample ballot (signed by the Clerk and Recorder, marked 'Contains all ballot questions') was read in full: it has state measures (Amendments 81-87, Propositions NN, 132-137), judicial retention, and one local measure, Burlington School District RE-6J Ballot Issue 5D (mill levy override continuation for school HVAC/facilities; not housing). It has no county, city or town ballot questions.",
-        "Town website (seibertco.us) did not resolve."
+        "Rechecked 2026-10-10: the Kit Carson County General Election 11/3/2026 page still links only the same sample ballot (Sample-Ballot-for-Website-v2.pdf), and the county Notices page carries only the election notice (dates, VSPC and drop-off locations). No TABOR notice and no list of participating political subdivisions or IGAs is posted. The sample ballot, read in full on 2026-09-26 and marked 'Contains all ballot questions', has no county, city or town question; its only local measure is Burlington School District RE-6J Ballot Issue 5D (school mill levy; not housing).",
+        "No Town of Seibert website or municipal election notice was found on 2026-10-10 (seibert.colorado.gov and townofseibert.colorado.gov do not resolve; seibertco.us did not resolve on 2026-09-26).",
+        "Left at official_notice_unavailable: with no participating-entities list and no town page to read, absence from the county sample ballot is not treated as a reviewed notice (same rule as R2-B4-P2)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/clerk-recorder/elections/general-election-11/3/2026",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/clerk-recorder/elections/notices",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/sites/g/files/lrnvjt1876/files/documents/Sample-Ballot-for-Website-v2.pdf",
+          "retrieved": "2026-10-10"
+        }
       ]
     },
     {
       "geoid": "0874485",
       "level": "municipal",
       "name": "Stratton (town)",
-      "coverage_state": "official_notice_unavailable",
+      "coverage_state": "official_ballot_reviewed_none_found",
       "reviewed_source": "https://kitcarsoncounty.colorado.gov/sites/g/files/lrnvjt1876/files/documents/Sample-Ballot-for-Website-v2.pdf",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
-        "No participating-entities/IGA list and no TABOR notice posted on the county election pages as of 2026-09-26. The county's official sample ballot (signed by the Clerk and Recorder, marked 'Contains all ballot questions') was read in full: it has state measures (Amendments 81-87, Propositions NN, 132-137), judicial retention, and one local measure, Burlington School District RE-6J Ballot Issue 5D (mill levy override continuation for school HVAC/facilities; not housing). It has no county, city or town ballot questions.",
-        "Town resolutions list checked: Resolution 2026-03 cancels the 2026 (regular) election. No resolution referring a ballot question is listed. Resolution 2026-02 establishes a Housing Committee (no ballot measure). Resolution PDF is scanned and was not read in detail."
+        "Rechecked 2026-10-10: the Kit Carson County General Election 11/3/2026 page still links only the same sample ballot (Sample-Ballot-for-Website-v2.pdf), and the county Notices page carries only the election notice (dates, VSPC and drop-off locations). No TABOR notice and no list of participating political subdivisions or IGAs is posted. The sample ballot, read in full on 2026-09-26 and marked 'Contains all ballot questions', has no county, city or town question; its only local measure is Burlington School District RE-6J Ballot Issue 5D (school mill levy; not housing).",
+        "Town of Stratton Resolution No. 2026-03 (adopted 2026-02-11; scanned PDF read visually on 2026-10-10) cancels the April 7, 2026 regular election and states 'there are no ballot issues to be decided at the April 7, 2026, election.' The resolutions list shows no later election resolution or ballot referral; Resolution 2026-02 establishes a Housing Committee (not a ballot measure).",
+        "The town site has no elections page; this row closes on the county sample ballot plus the town's own resolutions (same basis as Kremmling in R2-B4-P2). Owner review: confirm that basis."
       ],
       "reviewed_sources": [
         {
+          "url": "https://kitcarsoncounty.colorado.gov/clerk-recorder/elections/general-election-11/3/2026",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/clerk-recorder/elections/notices",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/sites/g/files/lrnvjt1876/files/documents/Sample-Ballot-for-Website-v2.pdf",
+          "retrieved": "2026-10-10"
+        },
+        {
           "url": "https://townofstratton.colorado.gov/resolutions",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofstratton.colorado.gov/sites/g/files/lrnvjt2001/files/Resolution%202026-03%20Cancelling%202026%20Election.pdf",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -108,12 +188,26 @@
       "name": "Vona (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://kitcarsoncounty.colorado.gov/sites/g/files/lrnvjt1876/files/documents/Sample-Ballot-for-Website-v2.pdf",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
-        "No participating-entities/IGA list and no TABOR notice posted on the county election pages as of 2026-09-26. The county's official sample ballot (signed by the Clerk and Recorder, marked 'Contains all ballot questions') was read in full: it has state measures (Amendments 81-87, Propositions NN, 132-137), judicial retention, and one local measure, Burlington School District RE-6J Ballot Issue 5D (mill levy override continuation for school HVAC/facilities; not housing). It has no county, city or town ballot questions.",
-        "No municipal website with election information found."
+        "Rechecked 2026-10-10: the Kit Carson County General Election 11/3/2026 page still links only the same sample ballot (Sample-Ballot-for-Website-v2.pdf), and the county Notices page carries only the election notice (dates, VSPC and drop-off locations). No TABOR notice and no list of participating political subdivisions or IGAs is posted. The sample ballot, read in full on 2026-09-26 and marked 'Contains all ballot questions', has no county, city or town question; its only local measure is Burlington School District RE-6J Ballot Issue 5D (school mill levy; not housing).",
+        "No Town of Vona website or municipal election notice was found on 2026-10-10 (vona.colorado.gov and townofvona.colorado.gov do not resolve).",
+        "Left at official_notice_unavailable: with no participating-entities list and no town page to read, absence from the county sample ballot is not treated as a reviewed notice (same rule as R2-B4-P2)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/clerk-recorder/elections/general-election-11/3/2026",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/clerk-recorder/elections/notices",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://kitcarsoncounty.colorado.gov/sites/g/files/lrnvjt1876/files/documents/Sample-Ballot-for-Website-v2.pdf",
+          "retrieved": "2026-10-10"
+        }
       ]
     }
   ],

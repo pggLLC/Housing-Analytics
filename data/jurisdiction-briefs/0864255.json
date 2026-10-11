@@ -141,7 +141,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Rifle at #330 with an overall housing-need score of 39.0. It identifies 212 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 48.7% of <=30% AMI households. 39.3% of renter households are cost burdened, and 1.9% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Rifle at #331 with an overall housing-need score of 39.0. It identifies 212 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 48.7% of <=30% AMI households. 39.3% of renter households are cost burdened, and 1.9% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -309,8 +309,44 @@
       "accessed": "2026-07-07"
     },
     {
+      "id": "ls1",
+      "label": "Local support record for City of Rifle, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0864255",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Rifle Housing Study and Action Plan (Resolution No. 19, Series of 2025) (Draft minutes of Sept. 3, 2025 (in Sept. 17, 2025 council packet) and Sept. 3, 2025 council packet (housing study))",
+      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2573,plainText=false%29",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-rifle-housing-study-action-plan-2025",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Fee waivers for Habitat for Humanity modular housing factory (Draft minutes of Dec. 18, 2024 (in Jan. 15, 2025 council packet))",
+      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2396,plainText=false%29",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-rifle-habitat-fee-waiver-2024",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Ordinance No. 2, Series of 2025 - conduit bond financing and ground lease amendment for Habitat for Humanity Roaring Fork Valley (Draft minutes of Jan. 15, 2025 (in Feb. 5, 2025 council packet))",
+      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2409,plainText=false%29",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-rifle-habitat-conduit-bond-lease-2025",
+      "accessed": "2026-10-10"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-10T23:05:18Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-11T07:12:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -319,7 +355,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-10T23:05:18Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-11T07:12:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -454,7 +490,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-10T23:05:18Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-11T07:12:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -463,7 +499,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-10T23:05:18Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-11T07:12:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -472,7 +508,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-10T23:05:18Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-11T07:12:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -505,42 +541,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "ls1",
-      "label": "Local support record for City of Rifle, checked 2026-10-10",
-      "url": "data/policy/local-support.json",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "row:0864255",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls2",
-      "label": "Rifle Housing Study and Action Plan (Resolution No. 19, Series of 2025) (Draft minutes of Sept. 3, 2025 (in Sept. 17, 2025 council packet) and Sept. 3, 2025 council packet (housing study))",
-      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2573,plainText=false%29",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-rifle-housing-study-action-plan-2025",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls3",
-      "label": "Fee waivers for Habitat for Humanity modular housing factory (Draft minutes of Dec. 18, 2024 (in Jan. 15, 2025 council packet))",
-      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2396,plainText=false%29",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-rifle-habitat-fee-waiver-2024",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls4",
-      "label": "Ordinance No. 2, Series of 2025 - conduit bond financing and ground lease amendment for Habitat for Humanity Roaring Fork Valley (Draft minutes of Jan. 15, 2025 (in Feb. 5, 2025 council packet))",
-      "url": "https://rifleco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=2409,plainText=false%29",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-rifle-habitat-conduit-bond-lease-2025",
-      "accessed": "2026-10-10"
     }
   ]
 }
