@@ -5,21 +5,34 @@
       "geoid": "08085",
       "level": "county",
       "name": "Montrose County",
-      "coverage_state": "official_notice_unavailable",
+      "coverage_state": "official_ballot_reviewed_none_found",
       "reviewed_source": "https://www.montrosecounty.net/73/Elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: the elections page states the 2026 General Election sample ballot will be available in October. The Ballot Issue Notices page has no 2026 material. No participating-entities list was posted."
+        "Checked 2026-10-10: the elections page posts three sample ballot styles, West End, City and State, with Spanish versions. All three were read. None has a county question. The Ballot Issue Notices page still has no 2026 material, and no participating-entities list is posted.",
+        "Not county questions and not housing: West End Health Service District Ballot Question 6A (organization of the district) and Ballot Issue 6B (a property tax for district operating and capital expenses), on the West End style only."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.montrosecounty.net/73/Elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://montrosecounty.net/939/Ballot-Issue-Notices",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.montrosecounty.net/DocumentCenter/View/26559/Sample-Ballot---West-End",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.montrosecounty.net/DocumentCenter/View/26557/Sample-Ballot---City",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.montrosecounty.net/DocumentCenter/View/26558/Sample-Ballot---State",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -27,23 +40,22 @@
       "geoid": "0851745",
       "level": "municipal",
       "name": "Montrose (city)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.montrosecounty.net/73/Elections",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.montrosecounty.net/DocumentCenter/View/26557/Sample-Ballot---City",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
         "Participating (special coordinated municipal election, November 3, 2026, per the city).",
-        "Reviewed the city's 2026 Proposed City Charter Amendments document (question numbers blank). Its four questions are excluded as not housing: moving the regular municipal election from April to November of even years; an 8-year lifetime term limit for councilmembers; council approval of the appointment or discharge of the Police Chief; council approval of the appointment or discharge of the City Clerk.",
-        "The county sample ballot is not yet posted, so the city's question list could not be confirmed against it."
+        "Checked 2026-10-10: the county's City sample ballot lists City of Montrose Ballot Questions 2A (Elections), 2B (Term Limits), 2C (Police Chief) and 2D (City Clerk), which match the city's Proposed City Charter Amendments document. All four are excluded as not housing: moving the general municipal election from April of even-numbered years to November of even-numbered years; a limit of eight years of elected service in a councilmember's lifetime; council approval of the City Manager's decision to appoint and discharge the Police Chief; the same for the City Clerk."
       ],
       "reviewed_sources": [
         {
-          "url": "https://www.montrosecounty.net/73/Elections",
-          "retrieved": "2026-09-26"
+          "url": "https://www.montrosecounty.net/DocumentCenter/View/26557/Sample-Ballot---City",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.cityofmontrose.org/188/Elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.cityofmontrose.org/DocumentCenter/View/55126/2026-Proposed-City-Charter-Amendments",
@@ -55,21 +67,26 @@
       "geoid": "0853120",
       "level": "municipal",
       "name": "Naturita (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.montrosecounty.net/73/Elections",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.montrosecounty.net/DocumentCenter/View/26559/Sample-Ballot---West-End",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town website has no election or ballot content."
+        "Checked 2026-10-10: the county's West End sample ballot has no Town of Naturita section; its local items are the West End Health Service District questions 6A and 6B and its director races. No other county style has a town section. No participating-entities list is posted.",
+        "The town website (home page and 2026 resolutions page) has no election or ballot content."
       ],
       "reviewed_sources": [
         {
-          "url": "https://www.montrosecounty.net/73/Elections",
-          "retrieved": "2026-09-26"
+          "url": "https://www.montrosecounty.net/DocumentCenter/View/26559/Sample-Ballot---West-End",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://townofnaturita.colorado.gov/",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofnaturita.colorado.gov/ordinances/resolutions",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -77,17 +94,26 @@
       "geoid": "0854935",
       "level": "municipal",
       "name": "Nucla (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.montrosecounty.net/73/Elections",
-      "checked": "2026-09-26",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.montrosecounty.net/DocumentCenter/View/26559/Sample-Ballot---West-End",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town's 2026 election page (townofnucla.colorado.gov) returned a Cloudflare challenge or HTTP 403 on 2026-09-26."
+        "Checked 2026-10-10: the county's West End sample ballot has no Town of Nucla section; its local items are the West End Health Service District questions 6A and 6B and its director races. No other county style has a town section. No participating-entities list is posted.",
+        "The town website loaded on 2026-10-10 (it returned a Cloudflare challenge or HTTP 403 on 2026-09-26). Its Town Board page, with notices posted as of October 5, 2026, lists no election or ballot item."
       ],
       "reviewed_sources": [
         {
-          "url": "https://www.montrosecounty.net/73/Elections",
-          "retrieved": "2026-09-26"
+          "url": "https://www.montrosecounty.net/DocumentCenter/View/26559/Sample-Ballot---West-End",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofnucla.colorado.gov/",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofnucla.colorado.gov/nucla-town-board",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -95,17 +121,26 @@
       "geoid": "0855540",
       "level": "municipal",
       "name": "Olathe (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.montrosecounty.net/73/Elections",
-      "checked": "2026-09-26",
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://www.townofolathe.org/",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town website (townofolathe.org) returned a Cloudflare challenge or HTTP 403 on 2026-09-26."
+        "Checked 2026-10-10: none of the three county sample ballot styles (West End, City, State) has a Town of Olathe section. No participating-entities list is posted.",
+        "The town website (townofolathe.org) returned HTTP 403 on 2026-10-10, as it did on 2026-09-26, so a separate town election could not be ruled out from the town's own records."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.montrosecounty.net/73/Elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.montrosecounty.net/DocumentCenter/View/26558/Sample-Ballot---State",
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.townofolathe.org/",
+          "retrieved": "2026-10-10"
         }
       ]
     }
