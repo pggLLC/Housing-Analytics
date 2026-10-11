@@ -8,24 +8,14 @@ const golden = require('./fixtures/deal-engine/golden.json');
 const sources = require('./fixtures/deal-engine/invented-sources.cjs');
 const root = path.resolve(__dirname, '..');
 const clone = value => JSON.parse(JSON.stringify(value));
-function inputsFor(scenario) {
-  const fixture = golden.scenarios[scenario];
-  return clone({ fields: fixture.fields, tranches: fixture.tranches,
-    amiLimits: Object.fromEntries(Object.entries(fixture.amiLimitsByBr).map(([tier, rows]) => [tier, rows['2br']])),
-    amiLimitsByBr: fixture.amiLimitsByBr, countyFips: '08001', creditRate: 0.09,
-    constants: fixture.constants, equityPriceDefault: 0.82, minimumSetAsideElection: '40-60', regime: 'chfa_lihtc',
-    resolvedDealMix: { available: false, reason: 'schedule_unavailable:subject_project_unavailable' },
-    utilityAllowance: { applied: false, reason: 'allowance_method_missing' },
-    perBrMarket: null, manualMarket: { mode: 'zori', note: '', rents: {}, zori: null, source: {}, fallbackBedroom: '2br' },
-    hasUnitMixWarning: true, fmrData: sources['data/hud-fmr-income-limits.json'].counties[0].fmr });
-}
+const { inputsFor } = require('./helpers/deal-engine-inputs.cjs');
 const money = n => '$' + Math.round(n).toLocaleString('en-US');
 const moneyFields = { annualRents: 'dc-r-rents', noi: 'dc-r-noi-stab', mortgage: 'dc-r-mortgage',
   eligibleBasis: 'dc-r-basis', annualCredits: 'dc-r-credits', equity: 'dc-r-equity',
   devFeeTotal: 'dc-r-devfee', deferredDevFee: 'dc-r-deferred', devFeeAtClosing: 'dc-r-devfee-closing',
   annualDebtService: 'dc-r-ads', netPropTax: 'dc-r-proptax', gap: 'dc-su-gap', tdc: 'dc-su-tdc' };
 let checked = 0;
-for (const scenario of ['A', 'B', 'C']) {
+for (const scenario of ['A', 'B']) {
   const input = inputsFor(scenario);
   const before = clone(input);
   const result = computeDeal(input);
@@ -53,9 +43,19 @@ for (const scenario of ['A', 'B', 'C']) {
   assert.deepEqual(input, before, 'returned nested values do not alias caller inputs');
   assert.equal(computeDeal(input).annualRents, computeDeal(clone(input)).annualRents, 'deterministic from plain inputs');
   if (scenario === 'B') assert.equal(money(result.trancheBreakdown[0].debtService), '$50,592');
-  if (scenario === 'C') assert.equal(result.annualOpex, 0, 'legacy blank-opex rule is intentionally unchanged');
 }
-assert.equal(checked, 78, 'all listed monetary and stress figures checked in every scenario');
+assert.equal(checked, 52, 'all listed monetary and stress figures checked in every scenario');
+const blank = computeDeal(inputsFor('C'));
+for (const key of ['annualOpex', 'noi', 'mortgage', 'annualDebtService', 'gap', 'fundingGap', 'projection', 'waterfall', 'stressBase']) {
+  assert.equal(blank[key], null, key + ': clearing operating cost is unavailable');
+  assert.equal(blank.unavailable[key], blank.unavailable.noi, key + ': same missing-input reason');
+}
+assert.equal(blank.annualRents, computeDeal(inputsFor('A')).annualRents, 'known rent revenue is retained');
+const enteredZero = inputsFor('A'); enteredZero.fields['dc-opex'] = '0';
+assert.equal(computeDeal(enteredZero).annualOpex, 0, 'an explicit entered zero remains a measured zero');
+assert(computeDeal(enteredZero).noi > 0);
+assert.equal(blank.sensitivityKnown, false);
+assert.equal(blank.tornado, null);
 const missing = inputsFor('A');
 missing.countyFips = null; missing.amiLimits = null; missing.amiLimitsByBr = null;
 const unknown = computeDeal(missing);
@@ -67,7 +67,7 @@ for (const key of ['annualRents', 'noi', 'mortgage', 'annualDebtService', 'gap',
 assert.equal(unknown.sensitivityKnown, false);
 assert.equal(unknown.tornado, null, 'unknown NOI/rents: no sensitivity swings computed from 0');
 assert(unknown.unavailable.tornado, 'tornado: reason travels with absence');
-for (const scenario of ['A', 'B', 'C']) {
+for (const scenario of ['A', 'B']) {
   const known = computeDeal(inputsFor(scenario));
   assert.equal(known.sensitivityKnown, true);
   assert(Number.isFinite(known.tornado.mortLo) && known.tornado.mortLo > 0, `${scenario}: known sensitivity is still computed`);
@@ -87,4 +87,4 @@ for (const file of fs.readdirSync(root).filter(name => name.endsWith('.html'))) 
   assert(scripts.indexOf('js/deal-engine.js') >= 0 && scripts.indexOf('js/deal-engine.js') < scripts.indexOf('js/deal-calculator.js'), `${file}: engine loads before calculator`);
 }
 assert.equal(mounts, 2, 'every calculator mount is covered');
-console.log('deal-engine: PASS (invented A/B/C, 78 monetary/stress comparisons, absence, purity and both mounts)');
+console.log('deal-engine: PASS (invented A/B/C, 52 unchanged A/B monetary/stress comparisons and explicit C absence, absence, purity and both mounts)');

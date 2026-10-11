@@ -10,22 +10,25 @@
     }
     return true;
   }
-  function fieldValue(el) {
+  function fieldValue(el, record) {
     if ('value' in el) return present(el.value) ? el.value : null;
-    var copy = el.cloneNode(true);
-    copy.querySelectorAll('.me-icon, .me-pop, .input-prov, [id$="-prov-detail"]').forEach(function (node) { node.remove(); });
-    return copy.textContent.replace(/\s+/g, ' ').trim() || null;
+    // Non-input source displays were bound when the source was applied.
+    // Retain that record instead of scraping their formatted markup.
+    return present(record.origin.value) ? record.origin.value : null;
   }
-  function buildReportMeta() {
+  function buildReportMeta(result) {
+    result = result || (root.__DealCalc && root.__DealCalc.getResult ? root.__DealCalc.getResult() : null);
     var doc = root.document, scope = doc.getElementById('dealCalcMount') || doc;
     var report = { sources: [], assumptions: [], needsSource: [], methodology: [], limitations: LIMITATIONS, sharedUnverified: [] };
+    report.outputs = root.__DealCalc && root.__DealCalc.getOutputRecords
+      ? root.__DealCalc.getOutputRecords(result) : {};
     var sourceIndex = new Map();
     scope.querySelectorAll('[data-provenance]').forEach(function (el) {
       var record = root.InputProvenance && root.InputProvenance.get(el);
       if (!record) return;
       var meta = record.origin.meta;
       var entry = root.DealCalculatorInputRegistry && root.DealCalculatorInputRegistry.get(el.id) || {};
-      var field = { id: el.id, value: fieldValue(el), definition: entry.definition || meta.definition || el.id, status: record.status };
+      var field = { id: el.id, value: fieldValue(el, record), definition: entry.definition || meta.definition || el.id, status: record.status };
       if (record.sharedUnverified) {
         report.sharedUnverified.push(Object.assign({}, field, { verified: false, notice: 'From shared link — not re-checked here.', senderClaim: record.senderClaim || null,
           senderOriginalValue: record.senderOriginalValue == null ? null : record.senderOriginalValue }));
