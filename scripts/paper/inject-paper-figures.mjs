@@ -60,6 +60,7 @@ function reasonFor(objPath) {
 }
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const escAttr = (s) => esc(s).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 const comma = (n) => Number(n).toLocaleString('en-US');
 
 function render(objPath, format) {
@@ -172,7 +173,7 @@ const BLOCKS = {
       qct_dda_score: 'QCT / DDA status',
     };
     const node = (cls, title, weight, detail, key) => `
-            <div class="dg-node${cls}"${key ? ` data-factor="${esc(key)}"` : ''}><strong>${esc(title)} <span class="dg-weight" style="display:inline">${weight}</span></strong>${detail ? `<span>${detail}</span>` : ''}</div>`;
+            <div class="dg-node${cls}"${key ? ` data-factor="${escAttr(key)}"` : ''}><strong>${esc(title)} <span class="dg-weight" style="display:inline">${weight}</span></strong>${detail ? `<span>${detail}</span>` : ''}</div>`;
     const need = Object.entries(r.community_need_weights)
       .map(([k, w]) => node('', NEED[k] ? NEED[k][0] : k, pct(w), NEED[k] ? NEED[k][1] : '', k)).join('');
     const opp = Object.entries(r.opportunity_weights || {})
