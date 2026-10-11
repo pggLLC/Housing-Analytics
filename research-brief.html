@@ -24,6 +24,8 @@
     .brief-reader article > section { margin-top: var(--sp5); }
     .brief-reader h2 { margin-bottom: var(--sp3); }
     .brief-reader p, .brief-reader li { line-height: 1.75; }
+    .brief-reader article ul { list-style: disc; padding-left: 1.5rem; margin: var(--sp3) 0; }
+    .brief-reader article li + li { margin-top: var(--sp2); }
     .brief-reader p + p { margin-top: var(--sp3); }
     .brief-reader a { overflow-wrap: anywhere; }
     .brief-reader .brief-meta { color: var(--muted); font-size: var(--small); }
@@ -215,15 +217,16 @@
         var list = el('ul', undefined, limits);
         gaps.slice(0, 5).forEach(function (gap) { el('li', gap, list); });
       }
-      // Optional long-form sections: heading, plain-text paragraphs, a list and
-      // a text table. Everything is set as textContent; the feed carries no markup.
+      // Optional long-form sections: heading, plain-text paragraphs (already
+      // authored as paragraphs, so not re-split), a list and a text table.
+      // Everything is set as textContent; the feed carries no markup.
       function renderSections(brief) {
         var list = Array.isArray(brief.sections) ? brief.sections : [];
         list.forEach(function (item) {
           if (!item || typeof item.id !== 'string' || typeof item.heading !== 'string') return;
           var node = section('brief-section-' + item.id, item.heading);
           node.dataset.section = item.id;
-          (Array.isArray(item.paragraphs) ? item.paragraphs : []).forEach(function (text) { paragraphs(node, text); });
+          (Array.isArray(item.paragraphs) ? item.paragraphs : []).forEach(function (text) { el('p', text, node); });
           if (Array.isArray(item.items) && item.items.length) {
             if (item.items_heading) el('h3', item.items_heading, node);
             var ul = el('ul', undefined, node);
