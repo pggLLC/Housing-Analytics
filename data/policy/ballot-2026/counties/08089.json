@@ -7,16 +7,20 @@
       "name": "Otero County",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://oterocounty.colorado.gov/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-09-26: the elections page posts no sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "Rechecked 2026-10-10: the county elections page and the Clerk and Recorder page still post no sample ballot, TABOR notice, ballot certification or participating-entities list for November 3, 2026.",
         "Commissioners' public-hearing packets June 8 to September 14, 2026 show no county ballot referral (the September 14 packet is mostly scanned; its agenda has no ballot item)."
       ],
       "reviewed_sources": [
         {
           "url": "https://oterocounty.colorado.gov/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://oterocounty.colorado.gov/clerk-recorder",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://oterocounty.colorado.gov/public-hearing-packets",
@@ -30,15 +34,20 @@
       "name": "Cheraw (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://oterocounty.colorado.gov/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
+        "Rechecked 2026-10-10: the county elections page and the Clerk and Recorder page still post no sample ballot, TABOR notice, ballot certification or participating-entities list for November 3, 2026.",
         "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town website has no agendas or election information."
       ],
       "reviewed_sources": [
         {
           "url": "https://oterocounty.colorado.gov/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://oterocounty.colorado.gov/clerk-recorder",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://townofcheraw.colorado.gov/",
@@ -52,15 +61,20 @@
       "name": "Fowler (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://oterocounty.colorado.gov/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
+        "Rechecked 2026-10-10: the county elections page and the Clerk and Recorder page still post no sample ballot, TABOR notice, ballot certification or participating-entities list for November 3, 2026.",
         "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. The town website (fowlercolorado.com) returned HTTP 403 on 2026-09-26."
       ],
       "reviewed_sources": [
         {
           "url": "https://oterocounty.colorado.gov/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://oterocounty.colorado.gov/clerk-recorder",
+          "retrieved": "2026-10-10"
         }
       ]
     },
@@ -70,15 +84,20 @@
       "name": "La Junta (city)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://oterocounty.colorado.gov/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
+        "Rechecked 2026-10-10: the county elections page and the Clerk and Recorder page still post no sample ballot, TABOR notice, ballot certification or participating-entities list for November 3, 2026.",
         "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. City council agendas and minutes June 1 to September 8, 2026 contain no ballot question, election resolution or county election agreement."
       ],
       "reviewed_sources": [
         {
           "url": "https://oterocounty.colorado.gov/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://oterocounty.colorado.gov/clerk-recorder",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://lajuntaco.portal.civicclerk.com/",
@@ -92,15 +111,20 @@
       "name": "Manzanola (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://oterocounty.colorado.gov/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
+        "Rechecked 2026-10-10: the county elections page and the Clerk and Recorder page still post no sample ballot, TABOR notice, ballot certification or participating-entities list for November 3, 2026.",
         "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. Town board agendas May to September 9, 2026 contain no ballot or election item."
       ],
       "reviewed_sources": [
         {
           "url": "https://oterocounty.colorado.gov/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://oterocounty.colorado.gov/clerk-recorder",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://townofmanzanola.colorado.gov/agendas-meeting-minutes/agendas",
@@ -114,9 +138,10 @@
       "name": "Rocky Ford (city)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://oterocounty.colorado.gov/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
+        "Rechecked 2026-10-10: the county elections page and the Clerk and Recorder page still post no sample ballot, TABOR notice, ballot certification or participating-entities list for November 3, 2026.",
         "Participating: the July 28, 2026 council agenda lists Resolution No. 3 Series 2026 calling a special election on November 3, 2026, and the August 25 agenda lists an agreement with the Otero County Clerk and Recorder for the 2026 General Election.",
         "Excluded, from the city's own page: Ballot Question 2A (temporary 1.5% sales and use tax for police, fire and EMS). Not housing.",
         "The county ballot is not yet posted, so the city's question could not be read on it."
@@ -124,7 +149,11 @@
       "reviewed_sources": [
         {
           "url": "https://oterocounty.colorado.gov/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://oterocounty.colorado.gov/clerk-recorder",
+          "retrieved": "2026-10-10"
         },
         {
           "url": "https://www.cityofrockyfordco.gov/ballot-question-2a-public-safety-sales-tax-measure",
@@ -146,15 +175,20 @@
       "name": "Swink (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://oterocounty.colorado.gov/elections",
-      "checked": "2026-09-26",
+      "checked": "2026-10-10",
       "entry_ids": [],
       "limitations": [
+        "Rechecked 2026-10-10: the county elections page and the Clerk and Recorder page still post no sample ballot, TABOR notice, ballot certification or participating-entities list for November 3, 2026.",
         "No participating-entities list for the county was posted as of 2026-09-26. Participation could not be confirmed or ruled out. No town website with agendas or election information was found."
       ],
       "reviewed_sources": [
         {
           "url": "https://oterocounty.colorado.gov/elections",
-          "retrieved": "2026-09-26"
+          "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://oterocounty.colorado.gov/clerk-recorder",
+          "retrieved": "2026-10-10"
         }
       ]
     }
