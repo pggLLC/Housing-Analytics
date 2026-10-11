@@ -109,9 +109,10 @@
         { label: "Local Housing Incentives", href: "local-incentives.html",       desc: "What each town and county offers" },
         { label: "Services in Affordable Housing", href: "resident-services.html", desc: "How services help residents stay housed" },
         { label: "Tax Credit Equity Markets", href: "article-pricing.html",        desc: "Equity pricing benchmarks" },
-        { label: "Working Paper",         href: "working-paper.html",             desc: "The methodology, written up" },
-        { label: "White Paper for Planners", href: "apa-white-paper.html",        desc: "Plain-language companion" },
-        { label: "Methods",               href: "methods.html",                   desc: "How each figure is computed" },
+        { label: "— How the numbers are made —", isHeader: true },
+        { label: "White Paper for Planners", href: "apa-white-paper.html",        desc: "To explain a finding in plain language" },
+        { label: "Working Paper",         href: "working-paper.html",             desc: "Why the system works the way it does" },
+        { label: "Methods",               href: "methods.html",                   desc: "Every formula, to check a number" },
         { label: "— Guides —", isHeader: true },
         { label: "Help for Homebuyers",     href: "help-for-homebuyers.html",       desc: "Down-payment help, credits" },
       ]
