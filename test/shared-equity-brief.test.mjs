@@ -61,7 +61,7 @@ function prose() {
   }
   return squash(parts.join(' '));
 }
-const FIGURE = /\$\d[\d,]*|\d+(?:\.\d+)?%|\b\d[\d,.]*(?= (?:percent|times|days|properties|homes))/g;
+const FIGURE = /\$\d[\d,]*|\d+(?:\.\d+)?%|\b\d[\d,.]*(?= (?:percent|times|days|properties|homes|land trusts))/g;
 
 test('every figure in the prose sits in a recorded quote from a cited source', () => {
   const cited = new Set(brief.articles.map((a) => a.link));
@@ -108,6 +108,9 @@ test('the reader renders every section, list and table the feed carries', async 
     if (item.table) {
       const rows = node.querySelectorAll(`table[data-table="${item.id}"] tbody tr`);
       assert.equal(rows.length, item.table.rows.length, `${item.id}: table rows`);
+      // A prose last column must wrap, or it pushes the page wider than the screen.
+      const table = node.querySelector(`table[data-table="${item.id}"]`);
+      assert.equal(table.classList.contains('brief-table--wrap'), item.table.wrap === true, `${item.id}: wrap class`);
     }
   }
 });
