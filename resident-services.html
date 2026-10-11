@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Services in Affordable Housing | Colorado Public Data Reference</title>
+  <meta name="description" content="How resident services and supportive housing services help people stay housed, what the evidence shows and does not, what a supportive service agreement contains, what Colorado's tax credit plan requires, and who pays.">
+  <meta property="og:title" content="Services in Affordable Housing | Colorado Public Data Reference">
+  <meta property="og:description" content="How services in affordable housing help residents, properties and the public, with the evidence, Colorado's requirements and the funding behind them.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <style>
+    .rs-muted { color: var(--muted); }
+    .rs-lead { font-size: 1.05rem; line-height: 1.65; max-width: 760px; }
+    .rs-section { margin: var(--sp6) 0 var(--sp5); }
+    .rs-section > h2 { margin-bottom: var(--sp2); }
+    .rs-section > p { max-width: 820px; line-height: 1.65; }
+    .rs-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: var(--sp3); margin-top: var(--sp3); }
+    .rs-card { border: 1px solid var(--border); border-radius: var(--radius, 8px); padding: var(--sp3); background: var(--card, var(--bg2)); }
+    .rs-card h4 { margin: 0 0 var(--sp2); font-size: 1rem; }
+    .rs-card p { margin: var(--sp1) 0; line-height: 1.55; }
+    .rs-tags { display: flex; flex-wrap: wrap; gap: var(--sp1); }
+    .rs-source { color: var(--muted); font-size: var(--small); overflow-wrap: anywhere; }
+    .rs-figure { font-size: 1.35rem; font-weight: 700; color: var(--text-strong, var(--text)); }
+    .rs-quote summary { cursor: pointer; font-size: var(--small); }
+    .rs-quote blockquote, .rs-qap { margin: var(--sp2) 0; padding-left: var(--sp3); border-left: 3px solid var(--border); font-size: var(--small); color: var(--text); }
+    .rs-compare th[scope="row"] { white-space: normal; }
+    .rs-table-wrap { overflow-x: auto; margin-top: var(--sp3); }
+    .data-table td, .data-table th[scope="row"] { vertical-align: top; }
+
+    /* How services help: a left-to-right chain on wide screens, a top-to-bottom
+       chain on phones. It is an ordered list, so it reads in order without CSS. */
+    .rs-flow { list-style: none; padding: 0; margin: var(--sp4) 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp5); counter-reset: none; }
+    .rs-flow > li { position: relative; border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: var(--radius, 8px); padding: var(--sp3); background: var(--card, var(--bg2)); }
+    .rs-flow > li h3 { margin: 0 0 var(--sp2); font-size: 1rem; }
+    .rs-flow > li ul { margin: 0; padding-left: 1.1rem; line-height: 1.55; font-size: .93rem; }
+    .rs-flow > li:not(:last-child)::after { content: "\2192"; position: absolute; right: calc(-1 * var(--sp5) + .35rem); top: 45%; font-size: 1.4rem; color: var(--accent); }
+    .rs-flow .rs-step { display: block; font-size: var(--small); color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: var(--sp1); }
+    .rs-loop { border: 1px dashed var(--accent); border-radius: var(--radius, 8px); padding: var(--sp3); max-width: 820px; }
+    .rs-checklist li { margin-bottom: var(--sp2); line-height: 1.55; }
+    @media (max-width: 900px) {
+      .rs-flow { grid-template-columns: 1fr; gap: var(--sp4); }
+      .rs-flow > li:not(:last-child)::after { content: "\2193"; right: auto; left: 50%; top: auto; bottom: calc(-1 * var(--sp4) - .1rem); }
+    }
+    /* Phones: stack each table row so the quote and source stay readable. */
+    @media (max-width: 640px) {
+      .rs-stack table, .rs-stack tbody, .rs-stack tr, .rs-stack th, .rs-stack td { display: block; width: auto; }
+      .rs-stack thead { display: none; }
+      .rs-stack tr { border-bottom: 1px solid var(--border); padding: var(--sp2) 0; }
+      .rs-stack th[scope="row"], .rs-stack td { border: 0; white-space: normal; overflow-wrap: anywhere; }
+    }
+  </style>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/components/review-status.js"></script>
+  <script defer src="js/resident-services.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header id="site-header"></header>
+
+  <main id="main-content" class="js-glossary-auto">
+    <div class="platform-disclaimer" role="note">
+      This site is a public-data reference. This page summarizes published research and program rules; it is not legal, clinical or underwriting advice. Confirm current terms with CHFA and each funder before relying on them.
+    </div>
+
+    <article class="article-wrap" data-resident-services>
+      <header>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <a href="insights.html">Insights</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Services in Affordable Housing</span>
+        </nav>
+        <span class="tag tag-teal" style="margin:var(--sp3) 0 var(--sp2);display:inline-block;">Research</span>
+        <h1 style="margin-bottom:var(--sp3);">Services in Affordable Housing</h1>
+        <div class="page-meta">
+          <span>Resident services, supportive housing and service agreements</span>
+          <span data-rs-checked></span>
+        </div>
+      </header>
+
+      <div class="article-body" style="margin-top:var(--sp4);">
+        <p class="rs-lead">An affordable apartment solves the rent. It does not, on its own, solve a lost job, a missed medication, a hospital stay or a notice on the door. Services are the help that comes with the home: someone on site or on call who connects residents to what they need before a problem becomes an eviction. This page explains what those services are, how they help, how strong the evidence is, what Colorado requires, and who pays.</p>
+
+        <div class="callout callout-info" style="margin:var(--sp4) 0;">
+          <h3>The short version</h3>
+          <ul style="margin:0;padding-left:1.2rem;line-height:1.6;">
+            <li><strong>Two different things share the word "services".</strong> <em>Resident services</em> are light-touch help offered to everyone in an ordinary affordable property. <em>Supportive housing</em> pairs a home with intensive, voluntary case management for people leaving homelessness or living with a disability.</li>
+            <li><strong>The strongest evidence is about staying housed.</strong> Supportive housing keeps most people with long histories of homelessness housed, which shelters and treatment-first programs did not. Evidence that it improves health or saves public money overall is thinner, and this page says so where it applies.</li>
+            <li><strong>Services pay back partly to the property</strong> through fewer evictions, fewer turnovers and steadier rent, and partly to the public through fewer jail stays, detox visits and emergency trips. The property rarely captures enough of that to pay for the services by itself.</li>
+            <li><strong>Funding is the weak link.</strong> Buildings are financed for 30 years or more; services money is usually renewed one year at a time. A services plan without a durable source of money is a promise, not a plan.</li>
+          </ul>
+        </div>
+
+        <nav aria-label="On this page" class="chart-card" style="padding:var(--sp3);margin:var(--sp4) 0;">
+          <strong>On this page</strong>
+          <ol style="margin:var(--sp2) 0 0;padding-left:1.3rem;line-height:1.7;columns:2 260px;">
+            <li><a href="#rs-kinds">Two kinds of services</a></li>
+            <li><a href="#rs-how">How services help</a></li>
+            <li><a href="#rs-evidence">What the research shows</a></li>
+            <li><a href="#rs-limits">What the research does not show</a></li>
+            <li><a href="#rs-agreements">Supportive service agreements</a></li>
+            <li><a href="#rs-colorado">What Colorado's tax credit plan requires</a></li>
+            <li><a href="#rs-funding">Who pays for services</a></li>
+            <li><a href="#rs-costs">What services cost</a></li>
+            <li><a href="#rs-awards">Services in Colorado's 2026 awards</a></li>
+            <li><a href="#rs-teams">Questions for a project team</a></li>
+          </ol>
+        </nav>
+
+        <!-- 1. Two kinds -->
+        <section id="rs-kinds" class="rs-section" aria-labelledby="rs-kinds-h">
+          <h2 id="rs-kinds-h">Two kinds of services</h2>
+          <p>Most affordable properties offer some services; a smaller number are built around them. The difference matters for who lives there, how much it costs, and what results you can expect.</p>
+          <div class="rs-table-wrap rs-stack">
+            <table class="data-table rs-compare">
+              <thead>
+                <tr><th scope="col"></th><th scope="col">Resident services</th><th scope="col">Permanent supportive housing</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">Who it serves</th><td>Every household in an ordinary affordable property: families, older adults, working households.</td><td>People leaving long-term homelessness, or living with a serious mental illness, substance use disorder, intellectual or developmental disability, or other disability, often in a set-aside of units within a larger property.</td></tr>
+                <tr><th scope="row">What it looks like</th><td>A resident services coordinator who knows residents by name, connects them to benefits, food, health care, child care, jobs and financial coaching, and steps in early when rent falls behind.</td><td>A case manager with a small caseload, help getting and keeping benefits, links to behavioral health and medical care, tenancy support (how to be a tenant, how to resolve a dispute), and crisis response.</td></tr>
+                <tr><th scope="row">Is it required of residents?</th><td>No. Residents choose what to use.</td><td>No. Quality supportive housing is voluntary: keeping the apartment does not depend on taking part in treatment. This is the core of the <em>Housing First</em> approach.</td></tr>
+                <tr><th scope="row">Lease</th><td>A standard lease.</td><td>A standard lease with the same rights as any tenant. It is permanent housing, not a program with a time limit.</td></tr>
+                <tr><th scope="row">Main goal</th><td>Housing stability and economic mobility: fewer evictions, more income, healthier aging in place.</td><td>Ending homelessness for people who cycle through shelters, jails, detox and emergency rooms, and keeping them housed.</td></tr>
+                <tr><th scope="row">Typical cost</th><td colspan="2">See <a href="#rs-costs">What services cost</a>. The figures are kept with their sources so they can be re-checked.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin-top:var(--sp3);">Between the two sit properties for <strong>older adults</strong>, where services help residents age in place (wellness checks, transportation, help with Medicaid and Medicare), and properties for people with <strong>intellectual and developmental disabilities</strong>, where a disability services agency provides support while residents hold their own leases.</p>
+        </section>
+
+        <!-- 2. How services help -->
+        <section id="rs-how" class="rs-section" aria-labelledby="rs-how-h">
+          <h2 id="rs-how-h">How services help</h2>
+          <p>Services work by catching problems early, while they are still small. Read the chain left to right (top to bottom on a phone). The research in the next section tests parts of this chain, and the evidence is not equally strong for every link: it is strongest for staying housed and for jail, shelter and detox use, and weaker for health, income and property finances.</p>
+          <ol class="rs-flow" aria-label="How services lead to outcomes">
+            <li>
+              <span class="rs-step">1. The service</span>
+              <h3>Someone notices and connects</h3>
+              <ul>
+                <li>A coordinator or case manager who residents already know</li>
+                <li>Help applying for benefits, food assistance, Medicaid</li>
+                <li>Links to health, behavioral health and disability care</li>
+                <li>Financial coaching, rent payment plans, job help</li>
+              </ul>
+            </li>
+            <li>
+              <span class="rs-step">2. For the resident</span>
+              <h3>A crisis is caught early</h3>
+              <ul>
+                <li>Late rent becomes a payment plan, not a filing</li>
+                <li>Income rises when benefits are claimed</li>
+                <li>Health problems are treated before an emergency</li>
+                <li>The household stays in the home</li>
+              </ul>
+            </li>
+            <li>
+              <span class="rs-step">3. For the property</span>
+              <h3>Operations steady</h3>
+              <ul>
+                <li>Fewer evictions and the legal costs that come with them</li>
+                <li>Fewer move-outs, so less turnover and vacancy</li>
+                <li>Less bad debt and fewer damaged units</li>
+                <li>A stronger case at CHFA and with investors</li>
+              </ul>
+            </li>
+            <li>
+              <span class="rs-step">4. For the public</span>
+              <h3>Costly systems are used less</h3>
+              <ul>
+                <li>Fewer nights in jail and fewer arrests</li>
+                <li>Fewer detox stays and emergency room visits</li>
+                <li>Fewer shelter nights</li>
+              </ul>
+            </li>
+          </ol>
+          <div class="rs-loop">
+            <p style="margin:0;"><strong>Why the savings do not pay the bill.</strong> The property keeps some of the gain (less turnover and bad debt), but most of it lands in other budgets: the jail, the hospital, the shelter, Medicaid. That is why services are usually paid for by those public systems, by grants, or by a reserve set aside at construction, and rarely by rents alone. It is also why services money is the first thing to disappear when a grant ends.</p>
+          </div>
+        </section>
+
+        <!-- 3. Evidence -->
+        <section id="rs-evidence" class="rs-section" aria-labelledby="rs-evidence-h">
+          <h2 id="rs-evidence-h">What the research shows</h2>
+          <p>Each card names the study, the people it followed, what it found, and how strong the finding is. Open "What the source says" to read the study's own words; every figure on a card appears in that quote.</p>
+          <div data-rs-evidence><p class="rs-muted">Loading the research summaries…</p></div>
+        </section>
+
+        <!-- 4. Limits -->
+        <section id="rs-limits" class="rs-section" aria-labelledby="rs-limits-h">
+          <h2 id="rs-limits-h">What the research does not show</h2>
+          <p>Services are sometimes oversold. These are the claims to be careful with.</p>
+          <ul class="rs-checklist" style="max-width:820px;">
+            <li><strong>"Supportive housing pays for itself."</strong> Some local studies find large offsets for the highest-cost people; others find services and rent cost more than the public services they replace. Savings depend on who is housed. Targeting people who already use the most jail, detox and emergency care is what produces offsets.</li>
+            <li><strong>"Supportive housing improves health."</strong> Staying housed is well established. Measured improvements in health, substance use and mental health are weaker and less consistent. The National Academies review (card above) found too little evidence to say supportive housing improves health outcomes, while noting it is hard to study.</li>
+            <li><strong>"Resident services cut evictions by X percent."</strong> Most resident services studies compare properties that chose to offer services with those that did not, so part of the difference may come from better management. Treat single percentages as suggestive, not as a guarantee for your property.</li>
+            <li><strong>"Any services will do."</strong> Results come from specific models: voluntary services, small caseloads, staff trained in tenancy support, and a real connection to health and behavioral health care. A community room and a flyer board are not a services program.</li>
+          </ul>
+        </section>
+
+        <!-- 5. Agreements -->
+        <section id="rs-agreements" class="rs-section" aria-labelledby="rs-agreements-h">
+          <h2 id="rs-agreements-h">Supportive service agreements</h2>
+          <p>When an owner does not provide services itself, it signs an agreement with a service provider, usually called a memorandum of understanding (MOU) or services agreement. CHFA requires executed, dated MOUs for its supportive housing points (see the next section). A workable agreement settles these points in writing before the building opens:</p>
+          <ol class="rs-checklist" style="max-width:820px;">
+            <li><strong>Who is served and how they are referred.</strong> The target population, how many units, and the referral source, which in Colorado is often a Continuum of Care's coordinated entry system or a housing voucher program.</li>
+            <li><strong>What services are offered.</strong> Case management, tenancy support, benefits help, behavioral health and medical links, crisis response, and what is on site versus by referral.</li>
+            <li><strong>Staffing.</strong> How many staff, with what caseload per worker, what hours, and what happens when a position is vacant.</li>
+            <li><strong>Money and its term.</strong> The annual services budget, who pays each part, how long each source is committed, and what happens when a source ends. This is the clause most often left vague.</li>
+            <li><strong>Roles of the property manager and the provider.</strong> Property management enforces the lease; the provider supports the tenant. The agreement says how they talk to each other before a lease violation becomes an eviction, without making services a condition of tenancy.</li>
+            <li><strong>Space.</strong> Private offices for confidential meetings, a community room, and who pays for them.</li>
+            <li><strong>Privacy and data.</strong> What resident information is shared, with consent, and which outcomes are reported (housing retention, move-outs, evictions, income).</li>
+            <li><strong>Review and exit.</strong> Regular meetings, how disputes are resolved, notice before either side leaves, and how a replacement provider is found.</li>
+          </ol>
+        </section>
+
+        <!-- 6. Colorado QAP -->
+        <section id="rs-colorado" class="rs-section" aria-labelledby="rs-colorado-h">
+          <h2 id="rs-colorado-h">What Colorado's tax credit plan requires</h2>
+          <p>CHFA's Qualified Allocation Plan (QAP) decides who wins Colorado's housing tax credits. It rewards services in three places: points for setting aside units for people experiencing homelessness or other special populations, points for deep income targeting, and a larger developer fee that must be spent on services or rent help. Each card quotes the plan; a test checks the quotes against CHFA's text, which this site fetches every week.</p>
+          <div data-rs-qap><p class="rs-muted">Loading the QAP requirements…</p></div>
+        </section>
+
+        <!-- 7. Funding -->
+        <section id="rs-funding" class="rs-section" aria-labelledby="rs-funding-h">
+          <h2 id="rs-funding-h">Who pays for services</h2>
+          <p>Capital funding (tax credits, loans, grants) pays to build the home. Services need their own money, every year, for as long as residents need them. These are the main sources in Colorado. Each carries the date it was last checked and is flagged here once it is due for a re-check.</p>
+          <div data-rs-funding><p class="rs-muted">Loading the funding sources…</p></div>
+        </section>
+
+        <!-- 8. Costs -->
+        <section id="rs-costs" class="rs-section" aria-labelledby="rs-costs-h">
+          <h2 id="rs-costs-h">What services cost</h2>
+          <p>Services costs are reported per household or per unit per year. They vary with the population, the caseload and local wages, so use these as a starting range and price your own plan with your provider.</p>
+          <div data-rs-costs><p class="rs-muted">Loading the cost figures…</p></div>
+          <p style="margin-top:var(--sp3);">The <a href="deal-calculator.html">Deal Calculator</a> does not add a services line for you. If services are paid from operations, add their annual cost to operating expenses there; if they are paid from a capitalized reserve or a developer fee commitment, size that reserve to cover the years before other funding arrives.</p>
+        </section>
+
+        <!-- 9. Awards -->
+        <section id="rs-awards" class="rs-section" aria-labelledby="rs-awards-h">
+          <h2 id="rs-awards-h">Services in Colorado's 2026 awards</h2>
+          <p>How the developments CHFA most recently awarded tax credits describe their services, quoted from CHFA's own award descriptions.</p>
+          <div data-rs-awards><p class="rs-muted">Loading the 2026 awards…</p></div>
+          <p style="margin-top:var(--sp3);">The full award list, with locations and credit amounts, is on the <a href="colorado-deep-dive.html">Colorado Deep Dive</a>.</p>
+        </section>
+
+        <!-- 10. Teams -->
+        <section id="rs-teams" class="rs-section" aria-labelledby="rs-teams-h">
+          <h2 id="rs-teams-h">Questions for a project team</h2>
+          <p>Settle these before the application, not after the award. They are the questions CHFA, investors and service providers will ask.</p>
+          <ul class="rs-checklist" style="max-width:820px;">
+            <li><strong>Who will live here, and what will they need?</strong> A family property, an older-adult property and a supportive housing set-aside need different services and different budgets. Your <a href="select-jurisdiction.html">Housing Needs Assessment</a> shows how many households in the area pay more than half their income in rent and how many are extremely low income.</li>
+            <li><strong>Who provides the services, and have they done it before?</strong> CHFA requires providers with at least three years of experience for its supportive housing points.</li>
+            <li><strong>What does it cost each year, and who pays for each year?</strong> Write down every source and when it ends. A plan funded for three years in a building financed for thirty needs a stated answer for year four.</li>
+            <li><strong>Is there rent help for the residents you plan to serve?</strong> Households with very low incomes usually need a voucher or operating subsidy as well as services. Without one, the rent is still out of reach.</li>
+            <li><strong>Is there room for it?</strong> Offices with doors, a community room, and space close to where residents already walk.</li>
+            <li><strong>How will you know it is working?</strong> Track housing retention, evictions, move-outs and turnover from the start, so the results can support the next round of funding.</li>
+          </ul>
+        </section>
+
+        <div class="sources-box">
+          <h3>Data Sources &amp; Review Rules</h3>
+          <ul>
+            <li>Research findings, funding sources and cost figures: <code>data/policy/resident-services.json</code>. Every record names its source, quotes it, and carries a check date and a re-check date. A daily job opens an issue before a record falls due, and the record shows a warning here once it is overdue.</li>
+            <li>CHFA QAP quotes are checked against the plan text in <code>data/audit/chfa-qap-watch.json</code>, which a weekly job refreshes from CHFA's site. When CHFA adopts a new QAP, the quotes are re-read against it.</li>
+            <li>2026 award descriptions: <code>data/affordable-housing/chfa-awards/2026-round-one.json</code>, from CHFA's published award descriptions.</li>
+            <li>Related pages: <a href="lihtc-guide-for-stakeholders.html">LIHTC Basics</a>, <a href="local-incentives.html">Local Housing Incentives</a>, <a href="hna-what-to-do.html">What to do</a> in the Housing Needs Assessment.</li>
+          </ul>
+          <p class="no-glossary" style="color:var(--muted);font-size:var(--small);line-height:1.6;margin:0;" role="note">
+            <strong>Disclaimer:</strong> Informational only. Program rules and funding change; CHFA's adopted QAP and each funder's current guidance control.
+          </p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
+  <footer id="site-footer"></footer>
+</body>
+</html>
