@@ -6,13 +6,14 @@
       "level": "county",
       "name": "Adams County",
       "coverage_state": "official_ballot_reviewed_none_found",
-      "reviewed_source": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-Adams-County-2026G-TABOR-Notice-092426.pdf",
-      "checked": "2026-09-26",
+      "reviewed_source": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-2026-General-Election-Sample-Ballot-092826.pdf",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
         "Read the Adams County 2026 coordinated election TABOR notice (50 pages, certified by the Clerk & Recorder, posted 2026-09-24). It contains issues from City of Aurora (3A, 3B, 3C), City of Northglenn (3H), Westminster Public Schools (4A), Bennett School District 29J (5A), North Range Metropolitan District No. 3 (6A-6D), Adams County Fire Protection District (6E), Central Colorado Water Conservancy District (7B), its Groundwater Management Subdistrict (7C), Greater Brighton Fire Protection District (7D), and Bennett Fire Protection District (7F, 7G). None is an Adams County issue; none is housing-related.",
-        "The TABOR notice covers only tax/debt/revenue-retention issues. Any Adams County non-TABOR referred question (e.g. a land-use or charter-type question) would appear only on the county sample ballot, which is 'available October 1, 2026' and was not posted on 2026-09-26. News reports (not official) mention a possible county referral on District Attorney term limits and a non-binding secession question; neither was verified on an official source and neither is housing-related as described. Recheck the sample ballot after Oct 1.",
-        "No list of political subdivisions participating in the Adams County Nov 3, 2026 coordinated election is published: checked the Adams County elections page and the 'Information for Coordinating Entities and Candidates' page on 2026-09-26 (the latter describes the IGA process only). The county sample ballot with all county content is posted as 'available October 1, 2026' and was not available on 2026-09-26."
+        "The TABOR notice covers only tax/debt/revenue-retention issues, so a non-TABOR county question (for example a land-use or charter-type question) could appear only on the sample ballot. News reports (not official) mentioned a possible District Attorney term-limits referral and a non-binding secession question; the sample ballot check below settles both.",
+        "No list of political subdivisions participating in the Adams County Nov 3, 2026 coordinated election is published (the elections page and the 'Information for Coordinating Entities and Candidates' page were checked on 2026-09-26; the latter describes the IGA process only).",
+        "Checked 2026-10-12 against the county's all-inclusive sample ballot (posted 2026-09-28): it carries no Adams County ballot issue or question. Its local content is Front Range Passenger Rail District 7A, 17th Judicial District Question 7E (district attorney term limits, a judicial-district question), Thornton 2A, Aurora 3A-3C, Northglenn 3H, Westminster Public Schools 4A, Bennett 29J 5A and the special-district issues 6A-6E, 7B-7D, 7F and 7G. None is housing-related, and no secession question is on the ballot."
       ],
       "reviewed_sources": [
         {
@@ -22,6 +23,14 @@
         {
           "url": "https://adamscountyco.gov/our-county/elected-officials/clerk-recorder/adams-county-elections/additional-resources/information-for-coordinating-entities-and-candidates/",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-Adams-County-2026G-TABOR-Notice-092426.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-2026-General-Election-Sample-Ballot-092826.pdf",
+          "retrieved": "2026-10-12"
         }
       ]
     },
@@ -166,13 +175,13 @@
       "level": "municipal",
       "name": "Northglenn (city)",
       "coverage_state": "official_ballot_reviewed_none_found",
-      "reviewed_source": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-Adams-County-2026G-TABOR-Notice-092426.pdf",
-      "checked": "2026-09-26",
+      "reviewed_source": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-2026-General-Election-Sample-Ballot-092826.pdf",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
         "Participating: the county TABOR notice contains City of Northglenn Ballot Issue 3H, and the city clerk's elections page states 'City Council has approved the submission of one ballot issue at the Nov. 3, 2026 election'.",
         "Excluded: Ballot Issue 3H (INCREASE IN SALES TAX ON ACCOMMODATIONS SERVICES) raises the accommodations sales tax from 5% to 8% 'WITH PROCEEDS TO BE USED FOR GENERAL GOVERNMENTAL PURPOSES, INCLUDING, BUT NOT LIMITED TO, PUBLIC SAFETY, STREET MAINTENANCE, PARKS, RECREATION, AND CULTURE, AND ADMINISTRATIVE FUNCTIONS OF THE CITY' - a lodging tax not dedicated to housing.",
-        "County sample ballot not posted until Oct 1, 2026; the city page's statement that 3H is the only city issue was relied on for non-TABOR content."
+        "Checked 2026-10-12 against the county's all-inclusive sample ballot (posted 2026-09-28): City of Northglenn Ballot Issue 3H is the only Northglenn measure, matching the city page."
       ],
       "reviewed_sources": [
         {
@@ -182,6 +191,14 @@
         {
           "url": "https://adamscountyco.gov/our-county/elected-officials/clerk-recorder/adams-county-elections/",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-Adams-County-2026G-TABOR-Notice-092426.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-2026-General-Election-Sample-Ballot-092826.pdf",
+          "retrieved": "2026-10-12"
         }
       ]
     },

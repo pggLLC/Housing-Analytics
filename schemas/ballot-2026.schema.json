@@ -102,6 +102,12 @@
               "additionalProperties": false
             },
             "minItems": 0
+          },
+          "basis": {
+            "description": "What the closure rests on when no official ballot was found: official_notice means an official notice, TABOR notice or the jurisdiction's own pages were read because no ballot for this jurisdiction was posted. Absent means the official ballot (sample ballot styles or certified ballot content) was read.",
+            "enum": [
+              "official_notice"
+            ]
           }
         },
         "required": [
