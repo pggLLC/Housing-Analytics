@@ -245,6 +245,29 @@ assert.deepEqual(
   'rendered comparison order is the declared order'
 );
 assert(!mount.querySelector('[data-recommended], .recommended'), 'comparison renders no recommended badge');
+
+// What a convention leaves out of the cap travels with its row: the Deal
+// Calculator and the HNA strategy render this table, not the Market Study's
+// cards, so the calculation note has to be here too.
+data.conventions.filter((row) => row.calculation_note).forEach((row) => {
+  const note = mount.querySelector(`[data-resale-row="${row.id}"] [data-resale-calculation-note]`);
+  assert(note, `${row.id}: rendered row carries its calculation note`);
+  assert.equal(note.textContent, row.calculation_note, `${row.id}: rendered note is the data's note`);
+});
+// APCHA's note names the regulation's improvement cap; it must be the cap
+// the cited regulation states, as recorded in the convention's source note.
+const apchaRecord = byId('apcha_fixed_simple');
+const capIn = (text) => (String(text).match(/(\d+)%\s*of\s*(?:the\s*)?purchase price/i) || [])[1];
+assert(capIn(apchaRecord.source_note), 'APCHA source note records the regulation improvement cap');
+assert.equal(capIn(apchaRecord.calculation_note), capIn(apchaRecord.source_note),
+  'APCHA calculation note states the improvement cap its source note quotes');
+
+// The CPI input only feeds a lesser-of convention. With none in the data it
+// changes nothing, so the comparison must not present it as an input.
+const usesCpi = data.conventions.some((row) => row.type === 'lesser_of_fixed_cpi');
+assert.equal(/CPI input/.test(mount.textContent), usesCpi, 'CPI input is shown only when a convention uses it');
+const withLesserOf = Resale.compareConventions({ conventions: [{ id: 'lesser', label: 'Lesser-of', type: 'lesser_of_fixed_cpi', fixed_rate_upper_bound: 0.03 }] }, comparisonInput);
+assert.equal(withLesserOf.cpiRateAnnual, 0.02, 'a lesser-of convention still reports the CPI input it uses');
 assert(!resaleSrc.includes('.sort('), 'comparison engine applies no outcome sort');
 assert(strategySrc.includes('renderComparisonHtml'), 'HNA ownership strategy uses the shared comparison renderer');
 assert(renderersSrc.includes("'data/policy/resale-conventions.json'"), 'HNA extends its existing dataset load path for the comparison');
