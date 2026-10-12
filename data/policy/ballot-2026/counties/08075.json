@@ -71,13 +71,12 @@
       "name": "Crook (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.logancountyco.gov/186/Elections-Voter-Registration-Information",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-10: the Logan County elections page still links the same 12 sample ballot styles (001-02 through 009-03) and no TABOR notice or participating-entities list. All 12 were re-read: their local content is unchanged (City of Sterling 2A, Buffalo School District RE-4J 5A, Town of Fleming offices).",
-        "No contest or question for Crook appears on any posted sample ballot style.",
-        "No Town of Crook website or municipal election notice was found on 2026-10-10 (crook.colorado.gov and townofcrook.colorado.gov do not resolve).",
-        "Left at official_notice_unavailable: no participating-entities list and no town election page to read."
+        "Rechecked 2026-10-12: the Logan County elections page still links the same 12 sample ballot styles (001-02 through 009-03) and no TABOR notice or participating-entities list. All 12 were re-read from their text layers; none contains the words Crook, Iliff, Merino or Peetz, and their local content is unchanged (City of Sterling 2A, Buffalo School District RE-4J 5A, Town of Fleming offices).",
+        "No Town of Crook website or municipal election notice was found on 2026-10-12 (crook.colorado.gov and townofcrook.colorado.gov do not resolve; a web search found only a non-official social media page, which is not cited).",
+        "Left at official_notice_unavailable (checked 2026-10-12): no participating-entities list and no town election page or notice to read."
       ],
       "reviewed_sources": [
         {
@@ -131,6 +130,58 @@
         {
           "url": "https://www.logancountyco.gov/DocumentCenter/View/1389/Sample-Ballot-Style-009-03",
           "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.logancountyco.gov/186/Elections-Voter-Registration-Information",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1378/Sample-Ballot-Style-001-02",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1379/Sample-Ballot-Style-002-02",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1380/Sample-Ballot-Style-003-02-",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1381/Sample-Ballot-Style-004-02",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1382/Sample-Ballot-Style-005-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1383/Sample-Ballot-Style-006-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1384/Sample-Ballot-Style-006-04-",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1385/Sample-Ballot-Style-007-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1386/Sample-Ballot-Style-007-04-",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1387/Sample-Ballot-Style-008-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1388/Sample-Ballot-Style-009-01--",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1389/Sample-Ballot-Style-009-03",
+          "retrieved": "2026-10-12"
         }
       ]
     },
@@ -203,14 +254,13 @@
       "level": "municipal",
       "name": "Iliff (town)",
       "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.logancountyco.gov/186/Elections-Voter-Registration-Information",
-      "checked": "2026-10-10",
+      "reviewed_source": "https://www.townofiliff.com/",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-10: the Logan County elections page still links the same 12 sample ballot styles (001-02 through 009-03) and no TABOR notice or participating-entities list. All 12 were re-read: their local content is unchanged (City of Sterling 2A, Buffalo School District RE-4J 5A, Town of Fleming offices).",
-        "No contest or question for Iliff appears on any posted sample ballot style.",
-        "No Town of Iliff website or municipal election notice was found on 2026-10-10 (iliff.colorado.gov and townofiliff.colorado.gov do not resolve).",
-        "Left at official_notice_unavailable: no participating-entities list and no town election page to read."
+        "Rechecked 2026-10-12: the Logan County elections page still links the same 12 sample ballot styles (001-02 through 009-03) and no TABOR notice or participating-entities list. All 12 were re-read from their text layers; none contains the words Crook, Iliff, Merino or Peetz, and their local content is unchanged (City of Sterling 2A, Buffalo School District RE-4J 5A, Town of Fleming offices).",
+        "A Town of Iliff website (townofiliff.com, naming the Town Clerk and town office) was found and read on 2026-10-12. Its home page lists 2026 board meeting dates and a May 21, 2026 water-system hearing notice, and its Ordinances & Reports page posts ordinances, the 2026 budget and water reports. It has no elections page, election notice, agenda or minutes, so a separate town election cannot be ruled out from the town's own records.",
+        "Left at official_notice_unavailable (checked 2026-10-12): no participating-entities list and no town election page or notice to read."
       ],
       "reviewed_sources": [
         {
@@ -264,6 +314,66 @@
         {
           "url": "https://www.logancountyco.gov/DocumentCenter/View/1389/Sample-Ballot-Style-009-03",
           "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.logancountyco.gov/186/Elections-Voter-Registration-Information",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1378/Sample-Ballot-Style-001-02",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1379/Sample-Ballot-Style-002-02",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1380/Sample-Ballot-Style-003-02-",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1381/Sample-Ballot-Style-004-02",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1382/Sample-Ballot-Style-005-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1383/Sample-Ballot-Style-006-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1384/Sample-Ballot-Style-006-04-",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1385/Sample-Ballot-Style-007-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1386/Sample-Ballot-Style-007-04-",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1387/Sample-Ballot-Style-008-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1388/Sample-Ballot-Style-009-01--",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1389/Sample-Ballot-Style-009-03",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofiliff.com/",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofiliff.com/ordinances-budget",
+          "retrieved": "2026-10-12"
         }
       ]
     },
@@ -273,13 +383,12 @@
       "name": "Merino (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.logancountyco.gov/186/Elections-Voter-Registration-Information",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-10: the Logan County elections page still links the same 12 sample ballot styles (001-02 through 009-03) and no TABOR notice or participating-entities list. All 12 were re-read: their local content is unchanged (City of Sterling 2A, Buffalo School District RE-4J 5A, Town of Fleming offices).",
-        "No contest or question for Merino appears on any posted sample ballot style.",
-        "Town of Merino website (townofmerino.colorado.gov, read 2026-10-10) has no elections page or election notice (meeting agendas and minutes only).",
-        "Left at official_notice_unavailable: no participating-entities list and no town election page to read."
+        "Rechecked 2026-10-12: the Logan County elections page still links the same 12 sample ballot styles (001-02 through 009-03) and no TABOR notice or participating-entities list. All 12 were re-read from their text layers; none contains the words Crook, Iliff, Merino or Peetz, and their local content is unchanged (City of Sterling 2A, Buffalo School District RE-4J 5A, Town of Fleming offices).",
+        "Town of Merino website rechecked 2026-10-12: the Meeting Minutes and Meeting Agendas pages list nothing after January 2025, and the site has no elections page or election notice.",
+        "Left at official_notice_unavailable (checked 2026-10-12): no participating-entities list and no town election page or notice to read."
       ],
       "reviewed_sources": [
         {
@@ -337,6 +446,70 @@
         {
           "url": "https://townofmerino.colorado.gov/",
           "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.logancountyco.gov/186/Elections-Voter-Registration-Information",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1378/Sample-Ballot-Style-001-02",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1379/Sample-Ballot-Style-002-02",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1380/Sample-Ballot-Style-003-02-",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1381/Sample-Ballot-Style-004-02",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1382/Sample-Ballot-Style-005-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1383/Sample-Ballot-Style-006-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1384/Sample-Ballot-Style-006-04-",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1385/Sample-Ballot-Style-007-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1386/Sample-Ballot-Style-007-04-",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1387/Sample-Ballot-Style-008-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1388/Sample-Ballot-Style-009-01--",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1389/Sample-Ballot-Style-009-03",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofmerino.colorado.gov/",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofmerino.colorado.gov/town-board/meeting-minutes",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofmerino.colorado.gov/town-board/meeting-agendas",
+          "retrieved": "2026-10-12"
         }
       ]
     },
@@ -344,15 +517,15 @@
       "geoid": "0858235",
       "level": "municipal",
       "name": "Peetz (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.logancountyco.gov/186/Elections-Voter-Registration-Information",
-      "checked": "2026-10-10",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.townofpeetz.com/town-board",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-10: the Logan County elections page still links the same 12 sample ballot styles (001-02 through 009-03) and no TABOR notice or participating-entities list. All 12 were re-read: their local content is unchanged (City of Sterling 2A, Buffalo School District RE-4J 5A, Town of Fleming offices).",
-        "No contest or question for Peetz appears on any posted sample ballot style.",
-        "No Town of Peetz website or municipal election notice was found on 2026-10-10 (peetz.colorado.gov and townofpeetz.colorado.gov do not resolve).",
-        "Left at official_notice_unavailable: no participating-entities list and no town election page to read."
+        "Rechecked 2026-10-12: the Logan County elections page still links the same 12 sample ballot styles (001-02 through 009-03) and no TABOR notice or participating-entities list. All 12 were re-read from their text layers; none contains the words Crook, Iliff, Merino or Peetz, and their local content is unchanged (City of Sterling 2A, Buffalo School District RE-4J 5A, Town of Fleming offices).",
+        "A Town of Peetz website (townofpeetz.com, listing Town Hall, the Mayor and the Clerk/Treasurer) was found and read on 2026-10-12. Its Town Board page links an \"Election posting\" notice (Word file, created 2025-12-16): \"THE TOWN OF PEETZ HAS 4 BOARD MEMBER SEATS AND 1 MAYOR SEAT OPEN IN APRIL 2026.\"",
+        "The Bulletin Board page posts 2026 agendas through October 12, 2026 and approved minutes through August 10, 2026. The June 16, July 13, August 10, September 15 and October 12 agendas (text PDFs) and the June 16, July 13 and August 10 minutes (scans, read visually) list no ballot question, election resolution or IGA for November 3, 2026; their business is water-system work, Ordinance 2026-1 (drinking water enterprise), a fire hydrant, a trustee resignation and vacancy applications, and an Xcel franchise agreement.",
+        "Closed under #2072: the town is absent from every Logan County style, and its own notices show its 2026 regular election was in April with no November referral in the board record."
       ],
       "reviewed_sources": [
         {
@@ -406,6 +579,106 @@
         {
           "url": "https://www.logancountyco.gov/DocumentCenter/View/1389/Sample-Ballot-Style-009-03",
           "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.logancountyco.gov/186/Elections-Voter-Registration-Information",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1378/Sample-Ballot-Style-001-02",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1379/Sample-Ballot-Style-002-02",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1380/Sample-Ballot-Style-003-02-",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1381/Sample-Ballot-Style-004-02",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1382/Sample-Ballot-Style-005-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1383/Sample-Ballot-Style-006-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1384/Sample-Ballot-Style-006-04-",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1385/Sample-Ballot-Style-007-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1386/Sample-Ballot-Style-007-04-",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1387/Sample-Ballot-Style-008-01",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1388/Sample-Ballot-Style-009-01--",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.logancountyco.gov/DocumentCenter/View/1389/Sample-Ballot-Style-009-03",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofpeetz.com/",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofpeetz.com/town-board",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofpeetz.com/_files/ugd/7afb50_2d998e01e53a469680d4ad58808bab2e.docx",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofpeetz.com/community-bulletin-board",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofpeetz.com/_files/ugd/7afb50_1ed7a7eccb52425685fcfa9b2ae815db.pdf",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofpeetz.com/_files/ugd/7afb50_572ee78a3d354550bb4b0ca4ba6e4d49.pdf",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofpeetz.com/_files/ugd/7afb50_c942b8e0ab4540a8921dfd48bf8371be.pdf",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofpeetz.com/_files/ugd/7afb50_c89ce97c991e49c78a8b49f39a9d8686.pdf",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofpeetz.com/_files/ugd/7afb50_88ed8d9a755440a4913cf3de0430372b.pdf",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofpeetz.com/_files/ugd/7afb50_a636c3749b1a47bca996a2ffbf2e1009.pdf",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofpeetz.com/_files/ugd/7afb50_1971bc427a5a472a90b6b626fd805a06.pdf",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofpeetz.com/_files/ugd/7afb50_ef71b80bc7604869a09943026f72f2b7.pdf",
+          "retrieved": "2026-10-12"
         }
       ]
     },
