@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-10-11T13:59:32.785Z",
-  "totalScanned": 1716,
-  "newSourceCount": 1685,
+  "scanTimestamp": "2026-10-12T16:42:05.140Z",
+  "totalScanned": 1717,
+  "newSourceCount": 1686,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 837604,
+      "sizeBytes": 837984,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7351,
+      "sizeBytes": 7711,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -290,7 +290,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 258642,
+      "sizeBytes": 260344,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8695,6 +8695,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/hud-home-rent-limits-co-2026.json",
+      "sizeBytes": 61876,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/insights/catalog.json",
       "sizeBytes": 10053,
       "inDataManifest": false,
@@ -9116,7 +9122,7 @@
     },
     {
       "path": "data/market/fmr_tract_map_co.json",
-      "sizeBytes": 103492,
+      "sizeBytes": 103495,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9380,7 +9386,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08003.json",
-      "sizeBytes": 8289,
+      "sizeBytes": 9756,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9398,7 +9404,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08009.json",
-      "sizeBytes": 15990,
+      "sizeBytes": 20342,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9428,19 +9434,19 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08017.json",
-      "sizeBytes": 5058,
+      "sizeBytes": 5663,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/ballot-2026/counties/08019.json",
-      "sizeBytes": 8797,
+      "sizeBytes": 12178,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/ballot-2026/counties/08021.json",
-      "sizeBytes": 6872,
+      "sizeBytes": 8931,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9476,7 +9482,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08033.json",
-      "sizeBytes": 5450,
+      "sizeBytes": 5875,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9494,7 +9500,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08039.json",
-      "sizeBytes": 7001,
+      "sizeBytes": 8678,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9548,7 +9554,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08057.json",
-      "sizeBytes": 4646,
+      "sizeBytes": 5175,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9560,19 +9566,19 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08061.json",
-      "sizeBytes": 9908,
+      "sizeBytes": 11189,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/ballot-2026/counties/08063.json",
-      "sizeBytes": 13935,
+      "sizeBytes": 15946,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/ballot-2026/counties/08065.json",
-      "sizeBytes": 3164,
+      "sizeBytes": 3728,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9590,19 +9596,19 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08071.json",
-      "sizeBytes": 8355,
+      "sizeBytes": 10182,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/ballot-2026/counties/08073.json",
-      "sizeBytes": 9767,
+      "sizeBytes": 15518,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/ballot-2026/counties/08075.json",
-      "sizeBytes": 21731,
+      "sizeBytes": 33569,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9638,13 +9644,13 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08087.json",
-      "sizeBytes": 8838,
+      "sizeBytes": 9642,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/ballot-2026/counties/08089.json",
-      "sizeBytes": 8396,
+      "sizeBytes": 10908,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9674,7 +9680,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08099.json",
-      "sizeBytes": 8199,
+      "sizeBytes": 9349,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9686,7 +9692,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08103.json",
-      "sizeBytes": 3954,
+      "sizeBytes": 6336,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9704,7 +9710,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08109.json",
-      "sizeBytes": 14151,
+      "sizeBytes": 14321,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9716,7 +9722,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08113.json",
-      "sizeBytes": 12230,
+      "sizeBytes": 13952,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9728,7 +9734,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08117.json",
-      "sizeBytes": 11948,
+      "sizeBytes": 14633,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9740,7 +9746,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08121.json",
-      "sizeBytes": 9520,
+      "sizeBytes": 10446,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9752,7 +9758,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08125.json",
-      "sizeBytes": 9597,
+      "sizeBytes": 10496,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9974,7 +9980,7 @@
     },
     {
       "path": "data/policy_briefs_curated.json",
-      "sizeBytes": 70865,
+      "sizeBytes": 104928,
       "inDataManifest": false,
       "inFilesManifest": true
     },
