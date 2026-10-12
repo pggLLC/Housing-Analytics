@@ -480,61 +480,25 @@
   // empty, hides, or does not render is null — never 0, which would read as
   // a computed zero (AGENTS.md: an unmeasurable quantity is null).
   // Ownership exports carry no rental output (PC-2).
-  var OUTPUT_IDS = {
-    rental: {
-      eligibleBasis:        'dc-r-basis',
-      annualCredits:        'dc-r-credits',
-      creditEquity:         'dc-r-equity',
-      annualRents:          'dc-r-rents',
-      developerFee:         'dc-r-devfee',
-      deferredDeveloperFee: 'dc-r-deferred',
-      stabilizedNoi:        'dc-r-noi-stab',
-      mortgageConstant:     'dc-r-mc',
-      firstMortgage:        'dc-r-mortgage',
-      annualDebtService:    'dc-r-ads',
-      dscr:                 'dc-r-dscr-base',
-      breakEvenOccupancy:   'dc-r-beo',
-      totalDevelopmentCost: 'dc-su-tdc',
-      fundingGap:           'dc-su-gap'
-    },
-    ownership: {
-      costPerUnit:          'dc-own-cost-per-unit',
-      costPerGrossSf:       'dc-own-cost-per-sf',
-      maxAffordablePrice:   'dc-own-max-price',
-      subsidyGapPerUnit:    'dc-own-gap-per-unit',
-      totalOwnershipGap:    'dc-own-total-gap'
-    }
-  };
-  function _outputText(id) {
-    var el = _getEl(id);
-    if (!el || (el.closest && el.closest('[hidden]'))) return null;
-    var t = String(el.textContent || '').replace(/\s+/g, ' ').trim();
-    return t && t !== '\u2014' && t !== '-' ? t : null;
-  }
-  function _readOutputs(mode) {
-    var map = OUTPUT_IDS[mode] || {};
-    var out = {};
-    Object.keys(map).forEach(function (k) { out[k] = _outputText(map[k]); });
-    return out;
-  }
-
   // ── Public — Export JSON ──────────────────────────────────────────────
-  function buildReportMeta() {
-    return window.DealCalculatorReportMeta ? window.DealCalculatorReportMeta.buildReportMeta()
+  function buildReportMeta(result) {
+    return window.DealCalculatorReportMeta ? window.DealCalculatorReportMeta.buildReportMeta(result)
       : { unavailableReason: 'The report metadata module is unavailable.' };
   }
   function buildSnapshot() {
+    var result = window.__DealCalc && window.__DealCalc.getResult ? window.__DealCalc.getResult() : null;
     var snapshot = {
       exportedAt: new Date().toISOString(),
       dealMode: _dealMode(),
       url: window.location.origin + window.location.pathname + '?' + _serialize().toString(),
       inputProvenance: _provenanceMap(),
-      reportMeta: buildReportMeta(),
+      reportMeta: buildReportMeta(result),
       inputs: {},
       tranches: [],
       // Added after `inputs`; importers that read only inputs/tranches are
-      // unaffected. Display text, null where the page shows no value.
-      outputs: _readOutputs(_dealMode())
+      // unaffected. Unrounded values, presentation and reasons travel together.
+      outputs: window.__DealCalc && window.__DealCalc.getOutputRecords
+        ? window.__DealCalc.getOutputRecords(result, _dealMode()) : {}
     };
     if (snapshot.dealMode === 'rental') {
       snapshot.rentLimits = window.__DealCalc ? window.__DealCalc.getRentLimitsMetadata() : null;
@@ -578,6 +542,25 @@
       console.warn('[DealCalc] JSON export failed', e);
       _showShareToast('JSON export failed — see console', 'warn');
     }
+  }
+
+  function buildCsv(snapshot) {
+    snapshot = snapshot || buildSnapshot();
+    function cell(value) { return '"' + String(value == null ? '' : value).replace(/"/g, '""') + '"'; }
+    var rows = [['metric', 'value', 'display', 'unavailable_reason']];
+    Object.keys(snapshot.outputs).forEach(function (key) {
+      var output = snapshot.outputs[key];
+      rows.push([key, output.value, output.display, output.unavailableReason]);
+    });
+    return rows.map(function (row) { return row.map(cell).join(','); }).join('\r\n') + '\r\n';
+  }
+  function exportCsv() {
+    var blob = new Blob([buildCsv()], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'deal-calculator-outputs.csv';
+    document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+    _showShareToast('CSV downloaded ✓');
   }
 
   function reportSections(report) {
@@ -712,6 +695,8 @@
     if (btnCopy) btnCopy.addEventListener('click', copyLink);
     if (btnPdf)  btnPdf.addEventListener('click', function () { exportPdf(); });
     if (btnJson) btnJson.addEventListener('click', exportJson);
+    var btnCsv = document.getElementById('dc-share-csv');
+    if (btnCsv) btnCsv.addEventListener('click', exportCsv);
     if (btnIc)   btnIc.addEventListener('click', openIcSummary);
   }
   function _init() {
@@ -727,7 +712,7 @@
   }
 
   // Public API
-  window.__DealCalcShare = { copyLink: copyLink, exportPdf: exportPdf, exportJson: exportJson, openIcSummary: openIcSummary, buildSnapshot: buildSnapshot, buildReportMeta: buildReportMeta,
+  window.__DealCalcShare = { copyLink: copyLink, exportPdf: exportPdf, exportJson: exportJson, exportCsv: exportCsv, buildCsv: buildCsv, openIcSummary: openIcSummary, buildSnapshot: buildSnapshot, buildReportMeta: buildReportMeta,
     shareKeys: shareKeys, auditInputs: auditInputs, serialize: function () { return _serialize().toString(); },
     hydrate: _hydrate };
 })();

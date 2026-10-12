@@ -349,6 +349,140 @@
     };
   }
 
+  function known(value) { return typeof value === 'number' && Number.isFinite(value); }
+  // A not-yet-mounted optional control uses its visible UI default. Clearing an
+  // existing control is absence, and must not silently reapply that default.
+  function fieldNumber(fields, id, initial) {
+    return fields[id] === undefined ? initial : parseFloat(fields[id]);
+  }
+  // Projection growth inputs advertise these ranges; a typed value outside
+  // them is unknown, not clamped, so no projection is built from it.
+  var GROWTH_LIMITS = { 'pf-rent-growth': 5, 'pf-exp-growth': 6 };
+  function growthRate(fields, id, initial) {
+    var pct = fieldNumber(fields, id, initial);
+    return known(pct) && pct >= 0 && pct <= GROWTH_LIMITS[id] ? pct / 100 : NaN;
+  }
+  function operatingProjection(result, fields) {
+    if (!result.dscrAutoMode || ![result.annualRents, result.noi, result.annualOpex,
+        result.annualRepReserve, result.netPropTax, result.annualDebtService,
+        result.totalSoftDebtService, result.exit.rentGrowth, result.exit.expGrowth].every(known)) return null;
+    var years = fieldNumber(fields, 'pf-years', 15);
+    if (!known(years)) return null;
+    var debtService = result.annualDebtService + result.totalSoftDebtService;
+    var rows = [], cumCF = 0;
+    for (var y = 1; y <= 30; y++) {
+      var rm = Math.pow(1 + result.exit.rentGrowth, y - 1);
+      var em = Math.pow(1 + result.exit.expGrowth, y - 1);
+      var rents = result.annualRents * rm, vacancyLoss = rents * result.vacancyRate;
+      var egi = rents - vacancyLoss, opex = result.annualOpex * em;
+      var reserve = result.annualRepReserve * em, tax = result.netPropTax * em;
+      var noi = y === 1 ? result.noi : egi - opex - reserve - tax;
+      var cashFlow = noi - debtService;
+      cumCF += cashFlow;
+      rows.push({ year: y, grossRents: rents, vacancyLoss: vacancyLoss, egi: egi,
+        opex: opex, repReserve: reserve, propTax: tax, noi: noi, debtService: debtService,
+        cashFlow: cashFlow, dscr: debtService > 0 ? noi / debtService : null, cumCF: cumCF });
+    }
+    return { years: Math.min(30, Math.max(5, Math.round(years))), rows: rows };
+  }
+  function sliderImpacts(result, fields) {
+    var price = fieldNumber(fields, 'dc-stress-equity-price', 0.90);
+    var overrun = fieldNumber(fields, 'dc-stress-tdc-overrun', 0) / 100;
+    var leaseup = fieldNumber(fields, 'dc-stress-leaseup', 0);
+    var equity = known(price) && known(result.annualCredits) ? result.annualCredits * CREDIT_YEARS * price : null;
+    var cost = known(overrun) && known(result.tdc) ? result.tdc * (1 + overrun) : null;
+    return { baseEquity: result.equity, equity: equity,
+      equityDelta: known(equity) && known(result.equity) ? equity - result.equity : null,
+      baseTdc: result.tdc, tdc: cost, overrun: known(cost) ? cost - result.tdc : null,
+      baseNoi: result.noi, year1Loss: known(result.noi) && known(leaseup) ? result.noi * 0.5 * Math.min(1, leaseup / 12) : null };
+  }
+  function capitalWaterfall(result, fields) {
+    if (!result.projection || ![result.exit.resale, result.exit.firstMortBal, result.exit.softBal,
+        result.equity, result.deferredDevFee].every(known)) return null;
+    var exit = { resale: result.exit.resale, mortBal: result.exit.firstMortBal, softBal: result.exit.softBal,
+      hold: result.exit.holdYears, defFeeRemaining: result.exit.dfYr == null ? result.deferredDevFee : 0 };
+    var lpEquityOverride = fieldNumber(fields, 'dc-wf-lp-equity', 0);
+    var lpEquity = lpEquityOverride > 0 ? lpEquityOverride : result.equity;
+    var prefRate = fieldNumber(fields, 'dc-wf-pref', 8) / 100;
+    var gpResidualPct = fieldNumber(fields, 'dc-wf-gp-residual', 30) / 100;
+    if (![lpEquityOverride, prefRate, gpResidualPct].every(known)) return null;
+    var lpResidualPct = 1 - gpResidualPct;
+    var catchupMode = fields['dc-wf-catchup'] || 'none';
+    var hold = exit.hold;
+
+    var tiers = [];
+    var grossProceeds = exit.resale;
+    var remaining = grossProceeds;
+
+    // Tier 1: Hard debt payoff (1st mortgage)
+    var tier1 = Math.min(remaining, exit.mortBal);
+    tiers.push({ name: '1. Hard debt payoff (1st mortgage)', amount: tier1, recipient: 'Lender' });
+    remaining -= tier1;
+
+    // Tier 2: Soft debt payoff (by F194 priority order)
+    var tier2 = Math.min(remaining, exit.softBal);
+    tiers.push({ name: '2. Soft debt payoff (priority order)', amount: tier2, recipient: 'Soft lenders' });
+    remaining -= tier2;
+
+    // Tier 3: Deferred dev fee remaining balance
+    var tier3 = Math.min(remaining, exit.defFeeRemaining);
+    tiers.push({ name: '3. Deferred developer fee', amount: tier3, recipient: 'Developer (GP)' });
+    remaining -= tier3;
+
+    // Tier 4: LP return of capital + cumulative preferred return
+    // Pref accrues compound annually on outstanding LP capital. If
+    // ops distributions paid the pref each year, accrued = 0 at exit
+    // (we model that as ops-CF-paid pref since waterfall sees gross resale).
+    // Conservative: model UNPAID pref as compound on full LP capital
+    // across the hold period (zero ops distributions to LP for pref).
+    // This is the standard "accrued-pref" assumption in LIHTC closings.
+    var lpAccruedPref = lpEquity * (Math.pow(1 + prefRate, hold) - 1);
+    var tier4a = Math.min(remaining, lpEquity);         // return of capital
+    remaining -= tier4a;
+    var tier4b = Math.min(remaining, lpAccruedPref);    // cumulative pref
+    remaining -= tier4b;
+    tiers.push({ name: '4a. LP return of capital', amount: tier4a, recipient: 'LP investor' });
+    tiers.push({ name: '4b. LP preferred return (' + (prefRate * 100).toFixed(1) + '% accrued × ' + hold + 'y)', amount: tier4b, recipient: 'LP investor' });
+
+    // Tier 5: GP catch-up (if enabled)
+    // Catch-up math: solve for X such that GP cumulative (catch-up + post-residual)
+    // equals gpResidualPct of (LP pref paid + catch-up + post-residual).
+    // Simplified: GP catch-up = gpResidualPct / lpResidualPct * (LP pref paid).
+    // This makes GP whole on the agreed split for the cumulative pref tier.
+    var tier5 = 0;
+    if (catchupMode === 'full' && tier4b > 0 && lpResidualPct > 0) {
+      var catchupTarget = (gpResidualPct / lpResidualPct) * tier4b;
+      tier5 = Math.min(remaining, catchupTarget);
+      remaining -= tier5;
+    }
+    tiers.push({ name: '5. GP catch-up' + (catchupMode === 'full' ? ' (100% until balanced)' : ' (none — LP keeps gross pref)'), amount: tier5, recipient: 'GP sponsor' });
+
+    // Tier 6: Residual split per gpResidualPct / lpResidualPct
+    var tier6gp = remaining * gpResidualPct;
+    var tier6lp = remaining * lpResidualPct;
+    tiers.push({ name: '6a. Residual split — GP (' + (gpResidualPct * 100).toFixed(0) + '%)', amount: tier6gp, recipient: 'GP sponsor' });
+    tiers.push({ name: '6b. Residual split — LP (' + (lpResidualPct * 100).toFixed(0) + '%)', amount: tier6lp, recipient: 'LP investor' });
+
+    // Totals by party
+    var lpTotal = tier4a + tier4b + tier6lp;
+    var gpTotal = tier3 + tier5 + tier6gp;  // dev fee + catch-up + residual
+
+    // LP IRR — simplified: LP put in lpEquity at year 0, got back lpTotal at year hold
+    // (ignoring tax credits — those are the LP's primary return, not modeled here)
+    var lpCashIrr = lpEquity > 0 ? Math.pow(lpTotal / lpEquity, 1 / hold) - 1 : NaN;
+    var lpMultiple = lpEquity > 0 ? lpTotal / lpEquity : NaN;
+    var gpMultiple = exit.defFeeRemaining > 0 ? gpTotal / exit.defFeeRemaining : NaN;
+
+    return {
+      tiers: tiers, grossProceeds: grossProceeds, remaining: remaining,
+      lpEquity: lpEquity, lpTotal: lpTotal, gpTotal: gpTotal,
+      lpCashIrr: lpCashIrr, lpMultiple: lpMultiple, gpMultiple: gpMultiple,
+      prefRate: prefRate, hold: hold, gpResidualPct: gpResidualPct,
+      autoLpEquity: result.equity, annualCredits: result.annualCredits,
+      inputs: exit
+    };
+  }
+
   function computeDeal(inputs) {
     var fields = inputs.fields;
     function safeVal(id) { return parseFloat(fields[id]); }
@@ -579,21 +713,23 @@
     var annualRepReserve = null;
     var netPropTax = null;
     var taxSavings = 0;
+    var operatingInputsReason = null;
     if (autoNoi) {
       var vacancyPct = vacFrac();
-      // Do NOT silently substitute Denver-MSA defaults (450/350/900) when
-      // any of these fields are blank — they vary materially across CO
-      // counties (rural opex often $250-350/mo vs. $450 Denver). A blank
-      // field should visibly zero the line, not fabricate a plausible
-      // Front-Range number. UI fields keep their initial defaults via the
-      // input `value` attribute so users see suggestions, but clearing a
-      // field now surfaces as "0" rather than silent substitution.
+      // Entered zero is valid; a cleared operating line is unmeasured.
       var opexPerUnitMonth = safeVal('dc-opex');
       var repReservePerUnit = safeVal('dc-rep-reserve');
       var propTaxPerUnit = safeVal('dc-prop-tax');
-      if (!isFinite(opexPerUnitMonth) || opexPerUnitMonth < 0) opexPerUnitMonth = 0;
-      if (!isFinite(repReservePerUnit) || repReservePerUnit < 0) repReservePerUnit = 0;
-      if (!isFinite(propTaxPerUnit) || propTaxPerUnit < 0) propTaxPerUnit = 0;
+      if (!known(opexPerUnitMonth) || opexPerUnitMonth < 0) {
+        opexPerUnitMonth = NaN;
+        operatingInputsReason = 'Enter operating cost per unit per month.';
+      } else if (!known(repReservePerUnit) || repReservePerUnit < 0) {
+        repReservePerUnit = NaN;
+        operatingInputsReason = 'Enter the annual replacement reserve per unit.';
+      } else if (!known(propTaxPerUnit) || propTaxPerUnit < 0) {
+        propTaxPerUnit = NaN;
+        operatingInputsReason = 'Enter the annual property tax per unit.';
+      }
       var effectiveGrossIncome = annualRents * (1 - vacancyPct);
       annualOpex = opexPerUnitMonth * 12 * (units || 60);
       annualRepReserve = repReservePerUnit * (units || 60);
@@ -631,7 +767,9 @@
       : marketRegime ? 'Market rent data is unavailable for the selected bedrooms.'
       : 'Rent limits are unavailable for one or more selected tiers or bedrooms.');
     var noiUnknownReason = null;
-    if (!(autoNoi) && !isFinite(noi)) {
+    if (operatingInputsReason) {
+      noiUnknownReason = operatingInputsReason;
+    } else if (!(autoNoi) && !isFinite(noi)) {
       noiUnknownReason = 'Enter NOI, or turn on auto-compute.';
     } else if (unitMixError) {
       noiUnknownReason = 'Fix the unit mix: the AMI-tier units do not add up to Total Units.';
@@ -707,13 +845,13 @@
       var exitCap   = (parseFloat(fields['dc-exit-cap']) || 6.5) / 100;
 
       // Read growth rates from the pro forma inputs if present (defaults: 2% / 3%).
-      var rentGrowth = (parseFloat(fields['pf-rent-growth']) || 2) / 100;
-      var expGrowth  = (parseFloat(fields['pf-exp-growth']) || 3) / 100;
+      var rentGrowth = growthRate(fields, 'pf-rent-growth', 2);
+      var expGrowth  = growthRate(fields, 'pf-exp-growth', 3);
 
       // Year-N NOI projection. annualRents and annualOpex/repReserve/netPropTax
       // are local closures from earlier in recalculate(). Defensive guards.
       var nNoi = NaN;
-      if (annualRents > 0 && tdc > 0) {
+      if (annualRents > 0 && tdc > 0 && known(noi) && autoNoi) {
         var rentMult = Math.pow(1 + rentGrowth, holdYears - 1);
         var expMult  = Math.pow(1 + expGrowth,  holdYears - 1);
         var vacPct   = vacFrac();
@@ -855,7 +993,7 @@
           vacLoEgi: vacLoEgi, vacHiEgi: vacHiEgi };
     })();
     var budget = { acq: tdc * 0.10, hard: tdc * 0.62, soft: tdc * 0.14, cont: tdc * 0.05, fee: tdc * 0.09 };
-    var fundingGap = Math.max(0, tdc - equity - mortgage);
+    var fundingGap = Math.max(0, gap);
     var gapPct = tdc > 0 ? fundingGap / tdc : 0;
     var hasWorkforceUnits = false;
     DEAL_AMI_BANDS.filter(function (pct) { return pct > 60; }).forEach(function (pct) {
@@ -953,6 +1091,23 @@
       sensitivityKnown: sensitivityKnown,
       vacancyRate: vacFrac(), scheduleMode: scheduleMode
     };
+    var projectionInputsReason = !known(exit.rentGrowth) ? 'Enter annual rent growth from 0% to ' + GROWTH_LIMITS['pf-rent-growth'] + '%.'
+      : !known(exit.expGrowth) ? 'Enter annual expense growth from 0% to ' + GROWTH_LIMITS['pf-exp-growth'] + '%.'
+      : !known(fieldNumber(fields, 'pf-years', 15)) ? 'Enter the projection horizon.' : null;
+    result.projection = operatingProjection(result, fields);
+    result.stressBase = known(noi) && known(baseDSCR) ? { noi: noi, dscr: baseDSCR, margin: baseDSCR - dcr } : null;
+    result.sliderImpacts = sliderImpacts(result, fields);
+    result.waterfall = capitalWaterfall(result, fields);
+    if (result.waterfall) {
+      var cumLp = -result.waterfall.lpEquity, cumGp = 0;
+      result.waterfall.annual = result.projection.rows.slice(0, exit.holdYears).map(function (row) {
+        var surplus = Math.max(0, row.cashFlow);
+        var lp = surplus * 0.9999, gp = surplus * 0.0001;
+        if (row.year === exit.holdYears) { lp += result.waterfall.lpTotal; gp += result.waterfall.gpTotal; }
+        cumLp += lp; cumGp += gp;
+        return { year: row.year, noi: row.noi, debtService: row.debtService, lp: lp, gp: gp, cumLp: cumLp, cumGp: cumGp };
+      });
+    }
     // A reason accompanies every absent numeric result; metadata nulls remain
     // absence too. Copy while normalizing, so neither input records nor their
     // nested rows can be changed through the returned object.
@@ -968,6 +1123,13 @@
       return copy;
     }
     function reasonFor(path) {
+      if (operatingInputsReason && /^(noi|annualOpex|opexPerUnitMonth|annualRepReserve|repReservePerUnit|netPropTax|propTaxPerUnit|mortgage|annualDebtService|gap|deferred|devFeeAtClosing|fundingGap|capRate|baseDSCR|breakEvenOcc|stress|exit|tornado|projection|waterfall|sliderImpacts)/.test(path)) return operatingInputsReason;
+      if (/^(projection|waterfall|exit)/.test(path) && projectionInputsReason) return projectionInputsReason;
+      if (/^projection\.rows\.\d+\.dscr$/.test(path)) return 'DSCR requires positive annual debt service.';
+      if (/^waterfall\.(lpCashIrr|lpMultiple)$/.test(path)) return 'LP cash returns require a positive equity contribution.';
+      if (/^(projection|waterfall)/.test(path)) return noiUnknownReason || rentsUnknownReason || (!autoNoi
+        ? 'Operating detail is unavailable in manual NOI mode.' : 'Enter projection growth rates and waterfall assumptions.');
+      if (/^(stressBase|sliderImpacts)/.test(path)) return noiUnknownReason || rentsUnknownReason || 'Enter the stress assumptions.';
       if (path === 'exit.dfYr' && !rentsUnknownReason) return deferredDevFee > 0
         ? 'Deferred fee is not recovered within the hold period.' : 'No deferred developer fee to recover.';
       if (path === 'exit.irr' && !rentsUnknownReason) return 'Sponsor IRR requires a positive deferred fee and known positive net sale proceeds.';
