@@ -112,6 +112,29 @@ def _failing_colors_present(html: str) -> list:
     return found
 
 
+def _linear(hex_color: str) -> list:
+    rgb = [int(hex_color[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+    return [v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4 for v in rgb]
+
+
+def _contrast(a: str, b: str) -> float:
+    lum = lambda c: sum(w * v for w, v in zip((0.2126, 0.7152, 0.0722), _linear(c)))
+    hi, lo = sorted((lum(a), lum(b)), reverse=True)
+    return (hi + 0.05) / (lo + 0.05)
+
+
+def _delta_e(a: str, b: str) -> float:
+    """CIE76 distance, as scripts/audit/chart-axes-audit.mjs computes it."""
+    def lab(c):
+        r, g, bl = _linear(c)
+        xyz = [(r * 0.4124 + g * 0.3576 + bl * 0.1805) / 0.95047,
+               r * 0.2126 + g * 0.7152 + bl * 0.0722,
+               (r * 0.0193 + g * 0.1192 + bl * 0.9505) / 1.08883]
+        f = [t ** (1 / 3) if t > 0.008856 else 7.787 * t + 16 / 116 for t in xyz]
+        return (116 * f[1] - 16, 500 * (f[0] - f[1]), 200 * (f[1] - f[2]))
+    return sum((x - y) ** 2 for x, y in zip(lab(a), lab(b))) ** 0.5
+
+
 def _canvas_tags(html: str) -> list:
     """Return list of canvas opening tags from html."""
     return re.findall(r'<canvas[^>]*>', html, re.IGNORECASE | re.DOTALL)
@@ -154,12 +177,22 @@ class TestChartColors:
         )
 
     def test_cra_uses_wcag_palette(self, cra_html):
-        """cra-expansion-analysis.html chart datasets must use AA-compliant colors."""
-        expected = ['#1e5799', '#0369a1']
-        for color in expected:
-            assert color.lower() in cra_html.lower(), (
-                f'Expected WCAG-AA color {color} not found in cra-expansion-analysis.html'
-            )
+        """cra-expansion-analysis.html scenario lines: AA contrast, and tellable apart.
+
+        Checks the palette the chart actually draws from rather than pinning
+        two hex values, so a recolor that keeps both properties stays green.
+        The distinctness floor is the legend check's in
+        scripts/audit/chart-axes-audit.mjs (CIE Lab distance 20).
+        """
+        m = re.search(r"var COLORS = \[([^\]]+)\]", cra_html)
+        assert m, 'scenario palette not found in cra-expansion-analysis.html'
+        colors = re.findall(r"'(#[0-9a-fA-F]{6})'", m.group(1))
+        assert len(colors) >= 4, f'one color per scenario, found {colors}'
+        for color in colors:
+            assert _contrast(color, '#ffffff') >= 4.5, f'{color} is under 4.5:1 on white'
+        for i, a in enumerate(colors):
+            for b in colors[i + 1:]:
+                assert _delta_e(a, b) >= 20, f'{a} and {b} are too close to tell apart in the legend'
 
     def test_dashboard_uses_wcag_palette(self, dashboard_html):
         """dashboard.html chart must use the AA-compliant amber (#7c3d00)."""

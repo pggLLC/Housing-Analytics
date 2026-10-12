@@ -1,7 +1,7 @@
 {
   "meta": {
     "updated": "2026-10-11T00:00:00Z",
-    "brief_count": 9,
+    "brief_count": 10,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
@@ -298,6 +298,58 @@
       ],
       "alert_count": 0,
       "regions": [
+        "Colorado"
+      ],
+      "generated": "2026-10-11T00:00:00Z"
+    },
+    {
+      "id": "ahcia-2025-pending-provisions",
+      "title": "The Affordable Housing Credit Improvement Act of 2025 (H.R. 2725 and S. 1515): what is still pending",
+      "policy_topic": "Federal Tax Credits & LIHTC",
+      "is_curated": true,
+      "source_reviewed": true,
+      "summary": "The Affordable Housing Credit Improvement Act of 2025 was introduced in the House as H.R. 2725 by Rep. Darin LaHood on April 8, 2025 and referred to the Committee on Ways and Means, and in the Senate as S. 1515 by Sen. Todd Young on April 29, 2025 and referred to the Committee on Finance. The two bills have the same sections. As of October 11, 2026, Congress.gov records no action on either bill after its referral to committee: H.R. 2725 has 168 cosponsors and S. 1515 has 41 cosponsors. Neither bill has passed either chamber, and neither is law.",
+      "implications": "Two of the bills' ideas became law in a different form through Public Law 119-21, approved on July 4, 2025. Section 101 of the bills would have set the per-resident part of each state's housing credit ceiling at $4.25 and the small-state minimum at $4,876,000 for 2025, and multiplied both by 1.25 for 2026 after a cost-of-living adjustment; the enacted law instead raises those amounts by 12% for calendar years after 2025, in section 70422(a). Section 313 would have lowered the tax-exempt bond-financing test from 50% to 25% for buildings financed with bonds first counted against the volume cap after the bill's enactment and issued after December 31, 2025; the enacted law, in section 70422(b), keeps the 50% test and adds a 25% route that applies only when bonds from post-2025 issues together provide at least 5% of the basis. The rest of the bills is not law, including section 201 (the average income test for exempt facility bonds), section 203 (student occupancy rules), section 304 (repeal of the qualified census tract population cap), section 307 (a higher credit for projects designated to serve extremely low-income households), section 311 (a higher population cap for difficult development areas), section 402 (Indian areas as difficult development areas), section 501 (rural areas as difficult development areas) and section 502 (uniform income eligibility for rural projects). COHO does not size credit volume or equity pricing from these provisions while they are pending.",
+      "related_data": "data/policy/tax-credit-legislation.json",
+      "sources": [
+        "Congress.gov",
+        "U.S. Government Publishing Office (GovInfo)"
+      ],
+      "articles": [
+        {
+          "title": "H.R. 2725, Affordable Housing Credit Improvement Act of 2025",
+          "source": "Congress.gov",
+          "link": "https://www.congress.gov/bill/119th-congress/house-bill/2725",
+          "date": "2025-04-08"
+        },
+        {
+          "title": "S. 1515, Affordable Housing Credit Improvement Act of 2025",
+          "source": "Congress.gov",
+          "link": "https://www.congress.gov/bill/119th-congress/senate-bill/1515",
+          "date": "2025-04-29"
+        },
+        {
+          "title": "H.R. 2725, introduced text",
+          "source": "U.S. Government Publishing Office (GovInfo)",
+          "link": "https://www.govinfo.gov/content/pkg/BILLS-119hr2725ih/html/BILLS-119hr2725ih.htm",
+          "date": "2025-04-08"
+        },
+        {
+          "title": "S. 1515, introduced text",
+          "source": "U.S. Government Publishing Office (GovInfo)",
+          "link": "https://www.govinfo.gov/content/pkg/BILLS-119s1515is/html/BILLS-119s1515is.htm",
+          "date": "2025-04-29"
+        },
+        {
+          "title": "Public Law 119-21 (H.R. 1), section 70422",
+          "source": "U.S. Government Publishing Office (GovInfo)",
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+          "date": "2025-07-04"
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
+        "United States",
         "Colorado"
       ],
       "generated": "2026-10-11T00:00:00Z"

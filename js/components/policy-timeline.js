@@ -17,13 +17,31 @@
     // A dated milestone is historical even if its law remains in force.
     return event.date < (today || new Date().toISOString().slice(0, 10)) ? 'historical' : event.status;
   }
+  // One color per event, so a chart's event key can be read. The colors are
+  // the --event-1..12 tokens in css/site-theme.css (light and dark sets, each
+  // >= 4.5:1 on its card and >= 20 apart in CIE Lab), resolved here because a
+  // canvas cannot draw var(). The fallback is the light set. Order follows the
+  // timeline file, so an event keeps its color on every chart; more events than
+  // tokens wraps round, which the legend check in
+  // scripts/audit/chart-axes-audit.mjs flags.
+  var EVENT_COLORS = ['#1d4ed8', '#9a3412', '#0f766e', '#e11d48', '#7c3aed', '#4d7c0f',
+    '#075985', '#a21caf', '#a16207', '#166534', '#db2777', '#57534e'];
+  function eventColors() {
+    var css = root.getComputedStyle ? root.getComputedStyle(root.document.documentElement) : null;
+    return EVENT_COLORS.map(function (fallback, i) {
+      var token = css && css.getPropertyValue('--event-' + (i + 1)).trim();
+      return token || fallback;
+    });
+  }
   function chartEvents(data) {
-    return data.events.map(function (event) {
+    var colors = eventColors();
+    return data.events.map(function (event, i) {
+      var color = colors[i % colors.length];
       var month = new Date(event.date + 'T00:00:00Z').toLocaleString('en-US', { month: 'short', timeZone: 'UTC' });
       return {
         id: event.id, date: event.date, year: event.date.slice(0, 4), label: event.title, short: event.title,
         match: new RegExp('^' + month + '\\s*' + event.date.slice(2, 4) + '$', 'i'),
-        lineColor: 'rgba(99,102,241,0.8)', pillBg: '#4f46e5',
+        lineColor: color, pillBg: color,
         desc: event.date + ' · ' + status(event) + ' — ' + event.detail
       };
     });
@@ -75,7 +93,7 @@
       });
     });
   }
-  root.PolicyTimeline = { load: load, render: render, status: status, chartEvents: chartEvents, annotations: annotations };
+  root.PolicyTimeline = { EVENT_COLORS: EVENT_COLORS, load: load, render: render, status: status, chartEvents: chartEvents, annotations: annotations };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
   else mount();
 })(window);

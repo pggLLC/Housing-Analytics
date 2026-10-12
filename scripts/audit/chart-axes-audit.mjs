@@ -21,6 +21,12 @@
  *     [data-tick] labels.
  *   Blank labels — any SVG <text> with text content but no rendered box
  *     (an HTML element inside SVG text renders nothing).
+ *   Legends — two entries with different labels whose swatches are the same
+ *     color and dash, in a Chart.js legend or in any HTML legend (a class
+ *     naming "legend", one small colored swatch per entry), fail. So does a
+ *     Chart.js legend entry whose color the canvas cannot draw. On
+ *     2026-10-11 every policy event under the economic-dashboard.html charts
+ *     shared one indigo, and three map-marker categories shared one amber.
  *
  * A failure listed in chart-axes-known-gaps.json (page, chart AND problem,
  * so a new defect on a listed chart is not hidden by the old entry) is
@@ -67,6 +73,8 @@ const PAGE_URLS = {
 // The chart this audit was written for. If the scan stops seeing it, the
 // scan is broken, not the chart fixed.
 const MUST_CHECK = { page: 'article-pricing.html', chart: 'svg#tceHistoryChart' };
+// Likewise for the legend check: the policy-event key under the FRED cards.
+const MUST_CHECK_LEGEND = { page: 'economic-dashboard.html', legend: '.fred-event-legend' };
 
 function listPages() {
   if (process.env.AUDIT_PAGES) return process.env.AUDIT_PAGES.split(',').map((s) => s.trim()).filter(Boolean);
@@ -138,7 +146,138 @@ function inspectPage() {
     }
   });
 
-  return { checked, failures };
+  // Legends: entries a reader cannot tell apart. Two entries with different
+  // labels whose swatches are the same color (and the same dash) carry no
+  // information, which is how ten policy events on economic-dashboard.html
+  // all drew in one indigo (2026-10-11). Colors are compared in CIE Lab;
+  // a distance under LEGEND_MIN_DELTA_E reads as the same color.
+  const LEGEND_MIN_DELTA_E = 20;
+  const legends = [];
+  const probe = document.createElement('canvas').getContext('2d');
+  const toRgba = (color) => {
+    if (typeof color !== 'string' || !color.trim()) return null;
+    // The canvas silently ignores a color it cannot parse (a CSS var(), for
+    // one), so reject those first, then let it normalise the rest.
+    if (!CSS.supports('color', color) || /var\(/i.test(color)) return null;
+    probe.fillStyle = color;
+    const v = probe.fillStyle;
+    let m = /^#([0-9a-f]{6})$/i.exec(v);
+    if (m) { const n = parseInt(m[1], 16); return [n >> 16, (n >> 8) & 255, n & 255, 1]; }
+    m = /^rgba?\(([^)]+)\)$/.exec(v);
+    if (!m) return null;
+    const p = m[1].split(',').map(Number);
+    return [p[0], p[1], p[2], p.length > 3 ? p[3] : 1];
+  };
+  // A translucent swatch is seen against the page, so blend it onto white.
+  const onWhite = (c) => c && [0, 1, 2].map((i) => c[i] * c[3] + 255 * (1 - c[3]));
+  const lab = (rgb) => {
+    const lin = rgb.map((v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    const xyz = [
+      (lin[0] * 0.4124 + lin[1] * 0.3576 + lin[2] * 0.1805) / 0.95047,
+      (lin[0] * 0.2126 + lin[1] * 0.7152 + lin[2] * 0.0722),
+      (lin[0] * 0.0193 + lin[1] * 0.1192 + lin[2] * 0.9505) / 1.08883
+    ].map((t) => (t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116));
+    return [116 * xyz[1] - 16, 500 * (xyz[0] - xyz[1]), 200 * (xyz[1] - xyz[2])];
+  };
+  const deltaE = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+  const hex = (rgb) => '#' + rgb.map((v) => Math.round(v).toString(16).padStart(2, '0')).join('');
+  const checkLegend = (id, entries) => {
+    const items = entries.filter((e) => e.text && e.rgb).map((e) => ({ ...e, lab: lab(e.rgb) }));
+    if (items.length < 2) return;
+    legends.push(id);
+    // Group entries whose swatches match, then report each group once.
+    const group = items.map((_, i) => i);
+    const find = (i) => (group[i] === i ? i : (group[i] = find(group[i])));
+    for (let i = 0; i < items.length; i++) {
+      for (let j = i + 1; j < items.length; j++) {
+        if (items[i].text === items[j].text || (items[i].dash || '') !== (items[j].dash || '')) continue;
+        if (deltaE(items[i].lab, items[j].lab) < LEGEND_MIN_DELTA_E) group[find(j)] = find(i);
+      }
+    }
+    const groups = {};
+    items.forEach((it, i) => { (groups[find(i)] = groups[find(i)] || []).push(it); });
+    Object.values(groups).forEach((g) => {
+      const names = [...new Set(g.map((it) => it.text))];
+      if (names.length < 2) return;
+      failures.push({ chart: id, problem: 'legend entries share one color (' + hex(g[0].rgb) + '): ' + names.join(' | ') });
+    });
+  };
+
+  instances.forEach((chart) => {
+    const canvas = chart.canvas;
+    if (!canvas || !canvas.isConnected || !visible(canvas)) return;
+    const legend = chart.legend;
+    const opts = chart.options && chart.options.plugins && chart.options.plugins.legend;
+    if (!legend || !legend.legendItems || (opts && opts.display === false)) return;
+    const line = ['line', 'radar'].includes((chart.config && chart.config.type) || '');
+    const id = label(canvas, 'canvas');
+    const shownItems = legend.legendItems.filter((it) => !it.hidden);
+    // A color the canvas cannot parse (var(--chart-1) is the usual one) is
+    // silently dropped, so the series draws in whatever color came before.
+    shownItems.forEach((it) => {
+      const named = [it.fillStyle, it.strokeStyle].filter((c) => typeof c === 'string' && c !== 'transparent');
+      if (named.length && named.every((c) => !toRgba(c))) {
+        failures.push({ chart: id, problem: 'legend entry "' + String(it.text || '').trim() + '" has no drawable color (' + named[0] + ')' });
+      }
+    });
+    checkLegend(id, shownItems.map((it) => {
+      const fill = toRgba(it.fillStyle);
+      const stroke = toRgba(it.strokeStyle);
+      // A line's swatch reads as its stroke; a box's as its fill, unless the
+      // fill is a faint wash under a solid border.
+      const shown = line || !fill || (fill[3] < 0.5 && stroke) ? (stroke || fill) : fill;
+      return { text: String(it.text || '').trim(), rgb: onWhite(shown), dash: (it.lineDash || []).join(',') };
+    }));
+  });
+
+  // HTML legends: a container whose class names a legend. Each small colored
+  // swatch in it (a box, or a shape in a small inline SVG) marks one entry,
+  // and the entry is the swatch's nearest ancestor that carries text.
+  const swatchOf = (el) => {
+    if (el.closest('button')) return null; // toggle chevrons, not keys
+    const cs = getComputedStyle(el);
+    const ink = toRgba(cs.color);
+    const same = (c) => ink && c && c[0] === ink[0] && c[1] === ink[1] && c[2] === ink[2];
+    if (el instanceof SVGElement) {
+      if (!/^(rect|circle|ellipse|line|path|polygon|polyline)$/.test(el.tagName)) return null;
+      const svg = el.ownerSVGElement;
+      if (!svg || svg.getBoundingClientRect().width > 48) return null;
+      const fill = cs.fill === 'none' ? null : toRgba(cs.fill);
+      const stroke = cs.stroke === 'none' ? null : toRgba(cs.stroke);
+      const f = fill && fill[3] * parseFloat(cs.fillOpacity || 1) >= 0.5 ? fill : (stroke || fill);
+      return f && f[3] > 0.05 && !same(f) ? { at: svg, rgb: onWhite(f) } : null;
+    }
+    const r = el.getBoundingClientRect();
+    if (!r.width || r.width > 24 || r.height > 24) return null;
+    const bg = toRgba(cs.backgroundColor);
+    const bc = parseFloat(cs.borderTopWidth) >= 1 && cs.borderTopStyle !== 'none' ? toRgba(cs.borderTopColor) : null;
+    const dash = cs.borderTopStyle === 'dashed' || cs.borderTopStyle === 'dotted' ? cs.borderTopStyle : '';
+    // A faint wash inside a solid outline reads as the outline, as on a map.
+    if (bc && bc[3] >= 0.5 && !same(bc) && (!bg || bg[3] < 0.5)) return { at: el, rgb: onWhite(bc), dash };
+    if (bg && bg[3] > 0.05) return { at: el, rgb: onWhite(bg), dash };
+    return null;
+  };
+  document.querySelectorAll('[class*="legend"]').forEach((box) => {
+    if (!visible(box) || (box.parentElement && box.parentElement.closest('[class*="legend"]'))) return;
+    const entries = new Map();
+    box.querySelectorAll('*').forEach((el) => {
+      if (!visible(el)) return;
+      const sw = swatchOf(el);
+      if (!sw) return;
+      let entry = sw.at.parentElement;
+      while (entry && entry !== box && !entry.innerText.trim()) entry = entry.parentElement;
+      if (!entry || entry === box || entries.has(entry)) return;
+      entries.set(entry, sw);
+    });
+    if (entries.size < 2) return;
+    // Name the legend after the chart beside it, else its nearest id.
+    const chart = box.parentElement && box.parentElement.querySelector('canvas[id], svg[id]');
+    const host = box.closest('[id]');
+    const id = 'legend' + (box.id ? '#' + box.id : chart ? '[' + chart.id + ']' : host ? '#' + host.id : '') + '.' + String(box.getAttribute('class')).trim().split(/\s+/)[0];
+    checkLegend(id, [...entries].map(([el, sw]) => ({ text: el.innerText.trim().replace(/\s+/g, ' ').slice(0, 60), rgb: sw.rgb, dash: sw.dash })));
+  });
+
+  return { checked, failures, legends };
 }
 
 async function main() {
@@ -149,6 +288,8 @@ async function main() {
   let checkedTotal = 0;
   const perPage = {};
   let sawMustCheck = false;
+  let sawMustLegend = false;
+  let legendsTotal = 0;
 
   for (const page of pages) {
     const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
@@ -162,8 +303,10 @@ async function main() {
         window.scrollTo(0, 0);
       });
       await tab.waitForTimeout(800);
-      const { checked, failures } = await tab.evaluate(inspectPage);
+      const { checked, failures, legends } = await tab.evaluate(inspectPage);
       checkedTotal += checked.length;
+      legendsTotal += legends.length;
+      if (page === MUST_CHECK_LEGEND.page && legends.some((l) => l.endsWith(MUST_CHECK_LEGEND.legend))) sawMustLegend = true;
       perPage[page] = checked.length;
       if (page === MUST_CHECK.page && checked.some((c) => c.startsWith(MUST_CHECK.chart))) sawMustCheck = true;
       const seen = new Set();
@@ -173,7 +316,7 @@ async function main() {
         seen.add(key);
         results.push({ page, ...f });
       });
-      console.log(`${failures.length ? '✗' : '✓'} ${page} — ${checked.length} chart(s)${failures.length ? ', ' + failures.length + ' problem(s)' : ''}`);
+      console.log(`${failures.length ? '✗' : '✓'} ${page} — ${checked.length} chart(s), ${legends.length} legend(s)${failures.length ? ', ' + failures.length + ' problem(s)' : ''}`);
     } catch (err) {
       console.log(`! ${page} — could not load: ${err.message.split('\n')[0]}`);
       results.push({ page, chart: '(page)', problem: 'could not load: ' + err.message.split('\n')[0] });
@@ -203,10 +346,10 @@ async function main() {
     .map((p) => ({ page: p, expected: floors[p], checked: perPage[p] || 0 }));
 
   fs.mkdirSync(REPORT_DIR, { recursive: true });
-  fs.writeFileSync(path.join(REPORT_DIR, 'report.json'), JSON.stringify({ base: BASE_URL, pages: pages.length, chartsChecked: checkedTotal, results, fresh, stale, perPage, short }, null, 2));
+  fs.writeFileSync(path.join(REPORT_DIR, 'report.json'), JSON.stringify({ base: BASE_URL, pages: pages.length, chartsChecked: checkedTotal, legendsChecked: legendsTotal, results, fresh, stale, perPage, short }, null, 2));
 
   console.log('\n' + '='.repeat(60));
-  console.log(`Chart axes audit: ${pages.length} page(s), ${checkedTotal} chart(s) checked`);
+  console.log(`Chart axes audit: ${pages.length} page(s), ${checkedTotal} chart(s) and ${legendsTotal} legend(s) checked`);
   console.log(`  known gaps still open: ${results.length - fresh.length}`);
   fresh.forEach((r) => console.log(`  NEW  ${r.page} ${r.chart}: ${r.problem}`));
   stale.forEach((k) => console.log(`  STALE known gap no longer fails, remove it: ${k.page} ${k.chart}: ${k.problem}`));
@@ -216,6 +359,10 @@ async function main() {
   if (checkedTotal === 0) { console.log('  FAIL scan checked no charts at all'); failed = true; }
   if (pages.includes(MUST_CHECK.page) && !sawMustCheck) {
     console.log(`  FAIL ${MUST_CHECK.chart} on ${MUST_CHECK.page} was not checked; the scan is broken`);
+    failed = true;
+  }
+  if (pages.includes(MUST_CHECK_LEGEND.page) && !sawMustLegend) {
+    console.log(`  FAIL no ${MUST_CHECK_LEGEND.legend} legend on ${MUST_CHECK_LEGEND.page} was checked; the legend scan is broken`);
     failed = true;
   }
   process.exit(failed ? 1 : 0);

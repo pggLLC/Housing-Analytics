@@ -84,7 +84,14 @@ _METRO_AREAS: dict = {
     },
     'Colorado Springs HUD Metro FMR Area': {
         'code': 'METRO17820CO',
-        'counties': ['08041', '08119'],
+        'counties': ['08041'],
+    },
+    # HUD splits Teller County out of the Colorado Springs MSA into its own
+    # HMFA with lower rents. Its code shares the MSA's 17820 prefix, so it is
+    # listed here to be matched exactly before the prefix fallback below.
+    'Teller County HUD Metro FMR Area': {
+        'code': 'METRO17820N08119',
+        'counties': ['08119'],
     },
     'Fort Collins HUD Metro FMR Area': {
         'code': 'METRO22660CO',
@@ -264,6 +271,11 @@ def _match_metro_area(hud_code: str) -> tuple[str, str] | None:
     for area_name, info in _METRO_AREAS.items():
         if info['code'] == hud_code:
             return area_name, info['code']
+
+    # A sub-area code (METRO<msa>N<county fips>) is its own FMR area; the
+    # prefix fallback would hand its rents to every county in the MSA.
+    if re.match(r'^METRO\d+N\d{5}$', hud_code or ''):
+        return None
 
     match = re.match(r'^(?:METRO|HMFA)(\d+)', hud_code or '')
     if match:

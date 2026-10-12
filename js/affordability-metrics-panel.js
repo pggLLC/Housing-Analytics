@@ -206,7 +206,7 @@
 
   function _homeValueReview(rec) {
     var flag = rec.home_value_review;
-    return flag ? '<p data-home-value-review="' + _esc(flag.reason) + '" style="text-align:left;">' + _esc(flag.note) + '</p>' : '';
+    return flag ? '<p data-home-value-review="' + _esc(flag.reason) + '" data-export-note style="text-align:left;">' + _esc(flag.note) + '</p>' : '';
   }
 
   function _homeValueSourceLabel(source) {
@@ -278,7 +278,7 @@
       _fredRate.toFixed(2) + '% mortgage rate, 30% PITI rule.' +
       '</p>';
     html += '<div style="overflow-x:auto;">';
-    html += '<table class="affordability-table" style="width:100%;border-collapse:collapse;font-size:.85rem;">';
+    html += '<table class="affordability-table" data-export="dd-county-affordability" style="width:100%;border-collapse:collapse;font-size:.85rem;">';
     html += '<thead><tr>';
     columns.forEach(function (col) {
       html += '<th data-sort-key="' + col.key + '" tabindex="0" role="columnheader" ' +

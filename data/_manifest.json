@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-11T11:49:45.253Z",
+    "generated_at": "2026-10-12T01:45:49.333Z",
     "root": "data/",
     "file_count": 1711,
-    "total_size_bytes": 180088279,
+    "total_size_bytes": 180133293,
     "kinds": {
       "json": 1674,
       "geojson": 33,
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 7351,
-      "mtime": "2026-10-10T14:27:34.019Z",
+      "size_bytes": 7711,
+      "mtime": "2026-10-12T01:44:57.745Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-11T11:32:44.473Z",
+      "mtime": "2026-10-12T01:45:44.986Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -880,7 +880,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-10-10T12:38:49.791Z",
+      "mtime": "2026-10-11T12:58:12.447Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -995,8 +995,8 @@
     {
       "path": "co-county-demographics.json",
       "kind": "json",
-      "size_bytes": 41678,
-      "mtime": "2026-10-11T07:50:12.176Z",
+      "size_bytes": 40183,
+      "mtime": "2026-10-11T12:58:09.572Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1388,8 +1388,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 258642,
-      "mtime": "2026-10-10T13:52:01.848Z",
+      "size_bytes": 260344,
+      "mtime": "2026-10-12T01:44:57.820Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -1404,7 +1404,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1674,
+      "primary_array_length": 1685,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -30590,7 +30590,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 217463,
-      "mtime": "2026-10-11T11:26:33.399Z",
+      "mtime": "2026-10-12T01:44:58.045Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32018,7 +32018,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 92895,
-      "mtime": "2026-10-11T11:45:17.019Z",
+      "mtime": "2026-10-11T12:58:12.535Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -32053,8 +32053,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 15108,
-      "mtime": "2026-10-11T11:47:59.947Z",
+      "size_bytes": 15106,
+      "mtime": "2026-10-12T01:45:46.912Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32078,7 +32078,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-11T11:47:59.680Z",
+      "mtime": "2026-10-12T01:45:46.473Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34623,8 +34623,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 37056,
-      "mtime": "2026-10-11T11:32:06.947Z",
+      "size_bytes": 40851,
+      "mtime": "2026-10-11T12:35:29.371Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -34761,8 +34761,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 30211,
-      "mtime": "2026-10-11T11:32:06.949Z",
+      "size_bytes": 70865,
+      "mtime": "2026-10-11T12:35:29.373Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34770,7 +34770,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 7,
+      "primary_array_length": 9,
       "primary_array_first_keys": [
         "id",
         "title",

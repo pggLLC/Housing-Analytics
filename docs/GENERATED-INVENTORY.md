@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-11T11:32:25.090Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-12T01:45:20.849Z. Do not edit by hand.
 
 ---
 
@@ -33,7 +33,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 69.6 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.9 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 76.3 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 78.0 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.1 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -71,7 +71,7 @@
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 6.0 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 14.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 27.5 KB |
-| `research-brief.html` | Research Brief | COHO Analytics | 15.9 KB |
+| `research-brief.html` | Research Brief | COHO Analytics | 18.3 KB |
 | `resident-services.html` | Services in Affordable Housing | Colorado Public Data Reference | 25.4 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.1 KB |
@@ -88,7 +88,7 @@
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
 | `data/_manifest.json` | 818.0 KB | ✅ | — |
-| `data/_qa-status.json` | 7.2 KB | ✅ | — |
+| `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
 | `data/affordable-housing/local-pha-roster/denver-housing-authority.json` | 919 B | ✅ | — |
@@ -125,7 +125,7 @@
 | `data/chfa-lihtc.json` | 817.4 KB | ✅ | 926 features |
 | `data/chfa-qap-calendar.json` | 18.2 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 40.7 KB | ✅ | — |
+| `data/co-county-demographics.json` | 39.2 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 13.9 KB | ✅ | — |
@@ -142,7 +142,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 4.02 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 252.6 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 254.2 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1736,12 +1736,12 @@
 | `data/policy/resident-services.json` | 34.4 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 43.5 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 36.2 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 39.9 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 243.1 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 29.5 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 69.2 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
 | `data/polymarket-history.json` | 156.0 KB | ✅ | — |
@@ -1767,7 +1767,7 @@
 
 ## Test Files
 
-570 test files found.
+575 test files found.
 
 | File | Size |
 |------|------|
@@ -1874,14 +1874,16 @@
 | `test/deal-calc-report-meta.test.js` | 14.6 KB |
 | `test/deal-calc-schedule.test.js` | 23.1 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
-| `test/deal-calc-share-roundtrip.test.js` | 21.7 KB |
+| `test/deal-calc-share-roundtrip.test.js` | 21.9 KB |
 | `test/deal-calc-soft-funding-links-wrap.test.js` | 2.8 KB |
 | `test/deal-calc-studio-units.test.js` | 3.2 KB |
 | `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
-| `test/deal-engine-golden.test.js` | 8.4 KB |
-| `test/deal-engine.test.js` | 6.0 KB |
+| `test/deal-engine-golden.test.js` | 7.5 KB |
+| `test/deal-engine-surfaces.test.js` | 11.5 KB |
+| `test/deal-engine.test.js` | 6.6 KB |
+| `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 6.0 KB |
 | `test/deep-dive-aamd-vacancy.test.mjs` | 4.4 KB |
@@ -1950,6 +1952,8 @@
 | `test/guided-path-product-routes.test.js` | 15.4 KB |
 | `test/helpers/ci-wiring.js` | 1.9 KB |
 | `test/helpers/deal-calculator-page.cjs` | 4.5 KB |
+| `test/helpers/deal-engine-inputs.cjs` | 1.1 KB |
+| `test/helpers/deal-engine-page.cjs` | 1.6 KB |
 | `test/helpers/jspdf-mock.cjs` | 2.8 KB |
 | `test/historical-trends-real-data.test.js` | 15.8 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
@@ -2050,8 +2054,9 @@
 | `test/lihtc-guide-accuracy.test.js` | 2.3 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 8.8 KB |
 | `test/lihtc-project-size.test.js` | 6.8 KB |
+| `test/livability-brief.test.mjs` | 7.5 KB |
 | `test/local-incentives.test.mjs` | 11.4 KB |
-| `test/local-resources-discovery.test.js` | 2.0 KB |
+| `test/local-resources-discovery.test.js` | 8.0 KB |
 | `test/local-resources-entry-completeness.test.js` | 3.3 KB |
 | `test/local-support.test.mjs` | 12.6 KB |
 | `test/lodes-tract-od.test.js` | 5.6 KB |
@@ -2140,17 +2145,17 @@
 | `test/pma-transit-stops.test.js` | 30.4 KB |
 | `test/pma-transit.test.js` | 15.9 KB |
 | `test/pmi-gate-is-one-rule.test.mjs` | 11.2 KB |
-| `test/policy-briefs-curated.test.js` | 56.5 KB |
+| `test/policy-briefs-curated.test.js` | 70.7 KB |
 | `test/policy-data-currency.test.js` | 3.2 KB |
 | `test/policy-page-currency.test.mjs` | 6.0 KB |
 | `test/policy-review-status.test.mjs` | 11.5 KB |
-| `test/policy-timeline-series.test.js` | 18.4 KB |
+| `test/policy-timeline-series.test.js` | 22.5 KB |
 | `test/policy-watch-rail.test.mjs` | 13.7 KB |
 | `test/polymarket-resolved.test.js` | 23.7 KB |
 | `test/predictor-policy-browser.test.js` | 8.4 KB |
 | `test/predictor-policy.test.js` | 4.1 KB |
 | `test/preservation.test.js` | 17.4 KB |
-| `test/pro-forma.test.js` | 8.7 KB |
+| `test/pro-forma.test.js` | 2.7 KB |
 | `test/production-figure-names-its-reading.test.js` | 8.5 KB |
 | `test/production-need-counts-the-workforce.test.mjs` | 8.7 KB |
 | `test/project-scenario.test.js` | 7.8 KB |
@@ -2159,7 +2164,7 @@
 | `test/prop123-historical.test.js` | 19.2 KB |
 | `test/prop123.test.js` | 13.9 KB |
 | `test/provenance-label.test.js` | 2.2 KB |
-| `test/public-build-metadata.test.mjs` | 8.9 KB |
+| `test/public-build-metadata.test.mjs` | 8.8 KB |
 | `test/public-config-no-secrets.test.js` | 4.8 KB |
 | `test/public-facing-numbers.test.js` | 10.5 KB |
 | `test/public-land-contract.test.js` | 9.1 KB |
@@ -2231,7 +2236,7 @@
 | `test/test_fmr_flatten_guard.py` | 10.1 KB |
 | `test/test_hna_market_bridge.js` | 14.6 KB |
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
-| `test/test_legislative_tracker.js` | 10.5 KB |
+| `test/test_legislative_tracker.js` | 10.7 KB |
 | `test/test_lihtc_deal_predictor.js` | 21.6 KB |
 | `test/test_public_land_overlay.js` | 12.0 KB |
 | `test/test_qcew_annual_slice.py` | 8.0 KB |
@@ -2336,7 +2341,7 @@
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
 | `tests/test_stage2_temporal.py` | 38.1 KB |
 | `tests/test_stage3_accessibility.py` | 22.4 KB |
-| `tests/test_stage3_visualization.py` | 21.9 KB |
+| `tests/test_stage3_visualization.py` | 23.5 KB |
 | `tests/test_transit_stop_gate.py` | 9.2 KB |
 | `tests/test_transit_stop_selection.py` | 15.9 KB |
 | `tests/test_transit_stops_statewide.py` | 21.9 KB |

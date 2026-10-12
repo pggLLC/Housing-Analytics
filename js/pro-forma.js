@@ -1,8 +1,7 @@
 /**
  * pro-forma.js — 15-Year Operating Pro Forma Module for LIHTC Deal Calculator
  *
- * ES5 IIFE pattern.  Reads year-1 values from the deal-calculator DOM,
- * projects rent/expense growth over a configurable horizon, and renders
+ * ES5 IIFE pattern.  Renders the engine result's operating projection over a configurable horizon as
  * an interactive table + Chart.js line chart.
  *
  * Mount:  ProForma.render('containerId')
@@ -14,140 +13,14 @@
   // ── helpers ────────────────────────────────────────────────────────
   function $(id) { return document.getElementById(id); }
 
-  function numVal(id, fallback) {
-    var el = $(id);
-    if (!el) return fallback;
-    var v = parseFloat(el.value);
-    return isFinite(v) ? v : fallback;
-  }
-
-  function textNum(id) {
-    var el = $(id);
-    if (!el) return 0;
-    if (el.dataset.unavailableReason) return NaN;
-    var raw = el.textContent.replace(/[^0-9.\-]/g, '');
-    var v = parseFloat(raw);
-    return isFinite(v) ? v : 0;
-  }
-
   function fmt(n) {
-    if (!isFinite(n)) return '\u2014';
+    if (n == null || !isFinite(n)) return '\u2014';
     return '$' + Math.round(n).toLocaleString('en-US');
   }
 
   function fmtPct(n) {
-    if (!isFinite(n)) return '\u2014';
+    if (n == null || !isFinite(n)) return '\u2014';
     return n.toFixed(2) + 'x';
-  }
-
-  // ── mortgage constant (mirrors deal-calculator.js) ────────────────
-  function mortgageConstant(annualRate, termYears) {
-    var monthlyRate = annualRate / 12;
-    var totalMonths = termYears * 12;
-    if (monthlyRate <= 0 || totalMonths <= 0) return 0;
-    var factor = Math.pow(1 + monthlyRate, totalMonths);
-    return (monthlyRate * factor / (factor - 1)) * 12;
-  }
-
-  // ── read year-1 values from deal-calculator DOM ───────────────────
-  function readBaseYear() {
-    var units = numVal('dc-units', 60);
-    var vacancyPct = numVal('dc-vacancy', 7) / 100;
-    var opexPerUnitMonth = numVal('dc-opex', 450);
-    var repReservePerUnit = numVal('dc-rep-reserve', 350);
-    var propTaxPerUnit = numVal('dc-prop-tax', 900);
-    var taxExemptPct = numVal('dc-tax-exempt', 0) / 100;
-
-    // Annual rents from the results element (populated by deal-calculator)
-    var annualRents = textNum('dc-r-rents');
-
-    // Operating expenses annualised
-    var annualOpex = opexPerUnitMonth * 12 * units;
-    var annualRepReserve = repReservePerUnit * units;
-    var annualPropTaxGross = propTaxPerUnit * units;
-    var taxSavings = annualPropTaxGross * taxExemptPct;
-    var netPropTax = annualPropTaxGross - taxSavings;
-
-    var vacancyLoss = annualRents * vacancyPct;
-    var egi = annualRents - vacancyLoss;
-    var noi = egi - annualOpex - annualRepReserve - netPropTax;
-
-    // Debt service: 1st mortgage * mortgage constant
-    var interestRate = numVal('dc-rate', 6.5) / 100;
-    var term = numVal('dc-term', 35);
-    var mc = mortgageConstant(interestRate, term);
-    var mortgageAmt = textNum('dc-r-mortgage');
-    var firstMortgageDS = mc > 0 ? mortgageAmt * mc : 0;
-
-    // G — Aggregate soft-loan amortization from the multi-tranche stack
-    // exposed by deal-calculator.js. Each loan tranche contributes its
-    // annual debt service to the 30-yr projection.
-    var softDS = 0;
-    var softTranches = (typeof window.DealCalcSoftTranches === 'function')
-      ? (window.DealCalcSoftTranches() || []) : [];
-    softTranches.forEach(function (t) {
-      if (!t || t.mode !== 'loan') return;
-      var amt = +t.amount || 0;
-      if (amt <= 0) return;
-      var rPct = +t.rate || 0;
-      var trm = Math.max(1, +t.term || 30);
-      var mcT = mortgageConstant(rPct / 100, trm);
-      softDS += rPct > 0 ? (amt * mcT) : (amt / trm);
-    });
-    var annualDebtService = firstMortgageDS + softDS;
-
-    return {
-      units: units,
-      annualRents: annualRents,
-      vacancyPct: vacancyPct,
-      vacancyLoss: vacancyLoss,
-      egi: egi,
-      annualOpex: annualOpex,
-      annualRepReserve: annualRepReserve,
-      netPropTax: netPropTax,
-      noi: noi,
-      debtService: annualDebtService,
-      firstMortgageDS: firstMortgageDS,
-      softDebtService: softDS
-    };
-  }
-
-  // ── projection engine ─────────────────────────────────────────────
-  function project(base, rentGrowth, expGrowth, years) {
-    var rows = [];
-    var cumCF = 0;
-    for (var y = 1; y <= years; y++) {
-      var rentMult = Math.pow(1 + rentGrowth, y - 1);
-      var expMult  = Math.pow(1 + expGrowth,  y - 1);
-
-      var grossRents    = base.annualRents * rentMult;
-      var vacancyLoss   = grossRents * base.vacancyPct;
-      var egi           = grossRents - vacancyLoss;
-      var opex          = base.annualOpex * expMult;
-      var repReserve    = base.annualRepReserve * expMult;
-      var propTax       = base.netPropTax * expMult;
-      var noi           = egi - opex - repReserve - propTax;
-      var debtService   = base.debtService; // fixed
-      var cashFlow      = noi - debtService;
-      cumCF += cashFlow;
-      var dscr = debtService > 0 ? noi / debtService : 0;
-
-      rows.push({
-        year: y,
-        grossRents: grossRents,
-        vacancyLoss: vacancyLoss,
-        egi: egi,
-        opex: opex,
-        repReserve: repReserve,
-        propTax: propTax,
-        noi: noi,
-        debtService: debtService,
-        cashFlow: cashFlow,
-        dscr: dscr,
-        cumCF: cumCF
-      });
-    }
-    return rows;
   }
 
   // ── rendering ─────────────────────────────────────────────────────
@@ -220,61 +93,34 @@
     for (var i = 0; i < inputs.length; i++) {
       var el = $(inputs[i]);
       if (el) {
-        el.addEventListener('input', update);
+        el.addEventListener('input', function () {
+          if (window.__DealCalc) window.__DealCalc.recalculate();
+        });
       }
     }
 
     update();
   }
 
-  function update() {
+  function update(event) {
     if (!_containerId) return;
-    var base = readBaseYear();
-    // A reason may contain a unit count. Never parse that count as rent or
-    // carry the previous projection forward while the rent roll is unknown.
-    var blocked = ['dc-r-rents', 'dc-r-mortgage'].map($).find(function (el) {
-      return el && el.dataset.unavailableReason;
-    });
-    if (blocked) {
-      var unavailableWrap = $('pf-table-wrap');
-      if (unavailableWrap) unavailableWrap.textContent = blocked.textContent;
+    var result = event && event.detail && event.detail.result ||
+      (window.__DealCalc && window.__DealCalc.getResult());
+    var wrap = $('pf-table-wrap');
+    if (!result || !result.projection) {
+      var reason = result && result.unavailable.projection || 'The deal calculation is unavailable.';
+      if (wrap) { wrap.dataset.unavailableReason = reason; wrap.textContent = 'Unavailable — ' + reason; }
       if (_chart) { _chart.destroy(); _chart = null; }
       return;
     }
-
-    // If auto-NOI is not enabled or rents are zero, show a helpful message
-    var autoNoiEl = $('dc-auto-noi');
-    if (!autoNoiEl || !autoNoiEl.checked || base.annualRents <= 0) {
-      var wrap = $('pf-table-wrap');
-      if (wrap) {
-        wrap.innerHTML =
-          '<p style="font-size:var(--small);color:var(--muted);padding:1rem 0;">' +
-          'Enable <strong>Auto-compute NOI</strong> in the deal calculator above and ensure ' +
-          'AMI tier units are configured to populate the pro forma projection.' +
-          '</p>';
-      }
-      if (_chart) { _chart.destroy(); _chart = null; }
-      return;
-    }
-
-    var rentGrowth = numVal('pf-rent-growth', 2) / 100;
-    var expGrowth  = numVal('pf-exp-growth', 3) / 100;
-    var years      = Math.min(30, Math.max(5, Math.round(numVal('pf-years', 15))));
-
-    // Clamp to valid ranges
-    if (rentGrowth < 0) rentGrowth = 0;
-    if (rentGrowth > 0.05) rentGrowth = 0.05;
-    if (expGrowth < 0) expGrowth = 0;
-    if (expGrowth > 0.06) expGrowth = 0.06;
-
-    var rows = project(base, rentGrowth, expGrowth, years);
-
-    renderTable(rows);
+    if (wrap) delete wrap.dataset.unavailableReason;
+    var rows = result.projection.rows.slice(0, result.projection.years);
+    renderTable(rows, result.unavailable);
     renderChart(rows);
   }
 
   // ── table ─────────────────────────────────────────────────────────
-  function renderTable(rows) {
+  function renderTable(rows, unavailable) {
     var wrap = $('pf-table-wrap');
     if (!wrap) return;
 
@@ -311,7 +157,7 @@
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">' + fmt(r.noi) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + fmt(r.debtService) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;' + cfColor + '">' + fmt(r.cashFlow) + '</td>';
-      html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;' + dscrColor + '">' + fmtPct(r.dscr) + '</td>';
+      html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;' + dscrColor + '">' + (r.dscr == null ? 'Unavailable — ' + unavailable['projection.rows.' + i + '.dscr'] : fmtPct(r.dscr)) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);' + cumColor + '">' + fmt(r.cumCF) + '</td>';
       html += '</tr>';
     }
@@ -446,10 +292,7 @@
   }
 
   // ── event wiring ──────────────────────────────────────────────────
-  document.addEventListener('deal-calc:updated', function () {
-    // Only update if already mounted
-    if (_containerId) update();
-  });
+  document.addEventListener('deal-calc:updated', update);
 
   // ── public API ────────────────────────────────────────────────────
   window.ProForma = {

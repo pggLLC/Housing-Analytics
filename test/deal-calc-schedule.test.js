@@ -246,7 +246,7 @@ async function test(name, fn) {
           assert.equal(recipient.localStorage.getItem('coho.subjectProject.v1'), local ? JSON.stringify(local) : null);
           assert(text(recipient, 'dc-unit-mix-status').includes('shared scenario'));
           recipient.__DealCalc.setChfaRentTable(null);
-          assert.equal(text(recipient, 'dc-r-rents'), snapshot.outputs.annualRents, 'shared prices do not require the recipient table');
+          assert.equal(text(recipient, 'dc-r-rents'), snapshot.outputs.annualRents.display, 'shared prices do not require the recipient table');
         } finally { recipient.close(); }
       }
       const recipient = await calculator(subject(), { search });
