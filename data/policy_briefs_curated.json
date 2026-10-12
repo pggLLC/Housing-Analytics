@@ -927,11 +927,11 @@
           "items_heading": "Resale conventions modeled on the For-Sale Market Study",
           "items": [
             "Fixed simple appreciation (WMRHC Good Deeds)",
-            "Lesser of fixed cap or CPI (APCHA Employee Housing Regulations)",
+            "Fixed simple appreciation, regulation default (APCHA Housing Regulations)",
             "Shared-appreciation CLT (Elevation Community Land Trust)",
             "Fixed public-subsidy recapture (HOME resale and recapture requirements)"
           ],
-          "note": "APCHA's 2026 regulations set the maximum sale price, unless a deed restriction says otherwise, as the seller's purchase price plus three percent simple appreciation for each year owned, plus approved capital improvements of up to 10% of the purchase price, less depreciation. They do not set a CPI alternative for the sale price, so the CPI leg of the Market Study's \"lesser of fixed cap or CPI\" convention is an assumption it marks for verification. The press report on WMRHC Good Deeds cited here gives a three percent annual appreciation cap without saying simple or compound; the Market Study's \"simple\" comes from its own earlier check of the program page. Elevation does not publish its resale formula; the Market Study's shared-appreciation convention is a screening assumption to confirm with the steward."
+          "note": "APCHA's 2026 regulations set the maximum sale price, unless a deed restriction says otherwise, as the seller's purchase price plus three percent simple appreciation for each year owned, plus approved capital improvements of up to 10% of the purchase price, less depreciation. The Market Study models the three percent part and not the improvement credits; a unit's own deed restriction can set a different formula, so read it before relying on the rate. The press report on WMRHC Good Deeds cited here gives a three percent annual appreciation cap without saying simple or compound; the Market Study's \"simple\" comes from its own earlier check of the program page. Elevation does not publish its resale formula; the Market Study's shared-appreciation convention is a screening assumption to confirm with the steward."
         },
         {
           "id": "deed-buydowns",
