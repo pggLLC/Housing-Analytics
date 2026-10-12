@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-12T16:15:13.081Z",
+    "generated_at": "2026-10-12T17:16:45.725Z",
     "root": "data/",
     "file_count": 1712,
-    "total_size_bytes": 180280394,
+    "total_size_bytes": 180281121,
     "kinds": {
       "json": 1675,
       "geojson": 33,
@@ -15,7 +15,7 @@
       "path": "_qa-status.json",
       "kind": "json",
       "size_bytes": 7711,
-      "mtime": "2026-10-12T01:44:57.745Z",
+      "mtime": "2026-10-12T17:16:13.788Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-12T16:15:09.411Z",
+      "mtime": "2026-10-12T17:16:43.250Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1388,8 +1388,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 260344,
-      "mtime": "2026-10-12T01:44:57.820Z",
+      "size_bytes": 260508,
+      "mtime": "2026-10-12T17:16:13.844Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -1404,7 +1404,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1685,
+      "primary_array_length": 1686,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -30604,8 +30604,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 217600,
-      "mtime": "2026-10-12T16:05:20.596Z",
+      "size_bytes": 217601,
+      "mtime": "2026-10-12T17:16:14.005Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32069,7 +32069,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15108,
-      "mtime": "2026-10-12T16:15:11.221Z",
+      "mtime": "2026-10-12T17:16:44.431Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32093,7 +32093,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-12T16:15:10.799Z",
+      "mtime": "2026-10-12T17:16:44.146Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34508,8 +34508,8 @@
     {
       "path": "policy/resale-conventions.json",
       "kind": "json",
-      "size_bytes": 7059,
-      "mtime": "2026-09-25T12:55:19.121Z",
+      "size_bytes": 7610,
+      "mtime": "2026-10-12T17:16:14.151Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -34776,8 +34776,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 104928,
-      "mtime": "2026-10-12T16:14:25.789Z",
+      "size_bytes": 104939,
+      "mtime": "2026-10-12T17:16:14.152Z",
       "shape": "object",
       "keys": [
         "meta",
