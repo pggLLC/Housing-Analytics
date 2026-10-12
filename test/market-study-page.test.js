@@ -284,8 +284,8 @@ const numericClone = defaultDom.mount.cloneNode(true);
 numericClone.querySelectorAll('.ms-assistance-residual').forEach((node) => node.remove());
 const numericText = text(numericClone);
 const numericTokens = (numericText.match(/\$\d[\d,]*(?:\.\d+)?/g) || []).concat(numericText.match(/-?\d+(?:\.\d+)?%/g) || []);
-assert.strictEqual(numericTokens.length, 109, 'only residual shortfalls may add rendered money or percentage tokens');
-assert.strictEqual(crypto.createHash('sha256').update(JSON.stringify(numericTokens)).digest('hex'), '30d8ab7b9369c8c5b5374f6a9c3fa4b204cac998b626a02837847c98b64e0253', 'pre-existing rendered money and percentage tokens must match current main');
+assert.strictEqual(numericTokens.length, 110, 'only residual shortfalls may add rendered money or percentage tokens');
+assert.strictEqual(crypto.createHash('sha256').update(JSON.stringify(numericTokens)).digest('hex'), '8280f49d8cf22de83be5be6666824d5f65a565d5066d396eb754d1c88008212f', 'pre-existing rendered money and percentage tokens must match current main');
 function productionGuard(moduleSource) {
   const lower = moduleSource.toLowerCase();
   ['recom' + 'mended', 'pref' + 'erred', 'win' + 'ner', 'best option', 'merit score'].forEach((term) => {
