@@ -198,6 +198,8 @@
   </style>
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/config/table-export-registry.js"></script>
+  <script defer src="js/components/table-export.js"></script>
 </head>
 <body data-page="chfa-portfolio.html"
       data-page-update-key="lihtc"
@@ -347,7 +349,7 @@
 
   <!-- Table -->
   <div class="portfolio-table-wrap">
-    <table class="portfolio-table" id="portfolioTable" aria-label="CHFA Multifamily Portfolio">
+    <table class="portfolio-table" id="portfolioTable" aria-label="CHFA Multifamily Portfolio" data-export="cp-portfolio">
       <thead>
         <tr>
           <th data-col="PROJECT">Project</th>
@@ -560,7 +562,8 @@
     if (!query) return '<span title="CHFA publishes no coordinates or street address for this property">—</span>';
     var label = 'Open ' + (r.PROJECT || 'this property') + ' on Google Maps' + (r.PROJ_ADD ? ' — ' + addr : '');
     return '<a class="portfolio-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=' + encodeURIComponent(query) +
-      '" target="_blank" rel="noopener" title="' + esc(label) + '" aria-label="' + esc(label) +
+      '" target="_blank" rel="noopener" data-export-text="' + esc(r.PROJ_ADD ? addr : query) +
+      '" title="' + esc(label) + '" aria-label="' + esc(label) +
       ' (opens in a new tab)">Map ↗</a>';
   }
 
@@ -640,7 +643,14 @@
       return;
     }
 
-    tbody.innerHTML = slice.map(r => {
+    tbody.innerHTML = slice.map(rowHtml).join('');
+  }
+
+  // The download (js/components/table-export.js) takes every row the
+  // filters match, not only this page of 50, drawn by the same function.
+  document.getElementById('portfolioTable').txRowsHtml = () => filtered.map(rowHtml).join('');
+
+  function rowHtml(r) {
       // DDA/QCT are null on all 926 records: CHFA's ArcGIS layer carries the
       // columns but publishes no values in them (they are HUD LIHTCPUB fields).
       // Rendering '' for a null therefore drew an EMPTY cell on every row, and
@@ -669,7 +679,6 @@
         <td style="white-space:nowrap;">${mapLinkFor(r)}</td>
         <td>${boost}</td>
       </tr>`;
-    }).join('');
   }
 
   function renderPagination() {
