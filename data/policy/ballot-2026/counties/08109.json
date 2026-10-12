@@ -63,16 +63,16 @@
       "name": "Bonanza (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://saguachecoclerk.colorado.gov/elections",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: none of the seven county sample ballot styles has a Town of Bonanza section. No participating-entities list is posted.",
-        "No official Town of Bonanza website was found, so a separate town election could not be ruled out; the row stays open, as for towns with no website in #2072."
+        "Checked 2026-10-12: the Saguache County Clerk elections page still posts the same seven 2026 General Election sample ballots (Precinct 1 - 001-01 to Precinct 7 - 007-01), last read in full 2026-10-10; none has a Town of Bonanza section. No TABOR notice or participating-entities list is posted.",
+        "No official Town of Bonanza website was found on 2026-10-12, so a separate town election could not be ruled out; the row stays open, as for towns with no website in #2072."
       ],
       "reviewed_sources": [
         {
           "url": "https://saguachecoclerk.colorado.gov/elections",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
         },
         {
           "url": "https://drive.google.com/file/d/1PZijlSCSTN2RKpN4d5M5r8R5bMUf5o2e/view?usp=sharing",
