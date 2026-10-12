@@ -5,6 +5,8 @@
 //   - every exported column has the definition the page shows for it
 //   - every source resolves in the inventory
 //   - the CSV download is a zip with the data, indicators, sources and README
+//   - a source line under it names the same sources and offers each one's
+//     full dataset, which downloads every record the inventory counts
 // Excel is fetched from a CDN, which this test blocks, so it also proves a
 // click on "Download Excel" still downloads (the CSV zip) when Excel is
 // unreachable. The Excel sheets themselves are checked in table-export.test.js.
@@ -105,6 +107,8 @@ async function run() {
   const browser = await chromium.launch({ headless: true, executablePath, args: ['--no-sandbox'] });
   const problems = [];
   const buttonSize = {};
+  const datasetIds = new Set();
+  const datasetsChecked = new Set();
   let checked = 0;
   try {
     for (const [page, ids] of Object.entries(PAGES)) {
@@ -143,6 +147,21 @@ async function run() {
               control: (() => { const by = x.model.entry && x.model.entry.sourcesBySelection; const el = by && document.querySelector(by.control); return el ? el.value : null; })(),
               selection: x.model.selection.map((p) => p[0]),
               textControls: Object.entries((x.model.entry && x.model.entry.selection) || {}).filter(([, q]) => { const el = document.querySelector(q); return el && el.tagName !== 'SELECT'; }).map(([label]) => label),
+              // The source line under the table: the same sources the file
+              // cites, the table's download, and each source's full dataset.
+              line: (() => {
+                const box = t.__txSource;
+                if (!box || !box.isConnected) return null;
+                const names = box.querySelector('.tx-source__names');
+                const btns = [...box.querySelectorAll('button')];
+                return {
+                  text: names ? names.textContent : '',
+                  datasets: [...box.querySelectorAll('[data-download=dataset]')].map((g) => g.getAttribute('data-source-id')),
+                  minButton: btns.length ? Math.min(...btns.map((b) => { const r = b.getBoundingClientRect(); return r.width && r.height ? Math.min(r.width, r.height) : 44; })) : 0
+                };
+              })(),
+              expectDatasets: x.model.sources.filter((s) => !s.missing && s.localFile).map((s) => s.id),
+              sourceNames: x.model.sources.map((s) => s.name),
               zipBytes: Array.from(bytes.slice(0, 4)),
               name: x.name
             });
@@ -172,9 +191,39 @@ async function run() {
           // A select always has a value; a text box is recorded only when filled.
           if (!r.textControls.includes(label) && !r.selection.includes(label)) problems.push(`${page} ${r.id}: About does not record ${label}`);
         }
+        if (!r.line) problems.push(`${page} ${r.id}: no source line under the table`);
+        else {
+          for (const n of r.sourceNames) if (!r.line.text.includes(n)) problems.push(`${page} ${r.id}: the source line does not name ${n}, which the download cites`);
+          if (r.line.datasets.join() !== r.expectDatasets.join()) problems.push(`${page} ${r.id}: source line offers full datasets ${r.line.datasets.join() || 'none'}, expected ${r.expectDatasets.join()}`);
+          if (!(r.line.minButton >= 44)) problems.push(`${page} ${r.id}: source-line button touch target ${r.line.minButton}px, under 44px (Rule 14)`);
+          r.expectDatasets.forEach((sid) => datasetIds.add(sid));
+        }
         if (!(r.format === 'csv' && r.fellBack)) problems.push(`${page} ${r.id}: with Excel blocked, expected the CSV zip fallback, got ${r.format}`);
         if (r.zipBytes.join(',') !== '80,75,3,4') problems.push(`${page} ${r.id}: download is not a zip`);
         if (!/^coho-[a-z0-9-]+-\d{4}-\d{2}-\d{2}\.zip$/.test(r.name)) problems.push(`${page} ${r.id}: unexpected file name ${r.name}`);
+      }
+      // Each full dataset the page offers downloads every record the
+      // inventory counts for it, fetched from the file the page serves.
+      const dsResults = await tab.evaluate(async (list) => {
+        const all = window.DataSourceInventory.getSources();
+        const out = [];
+        for (const sid of list) {
+          const src = all.find((x) => x.id === sid);
+          try {
+            const d = await window.TableExport.buildDataset(src, 'csv');
+            const bytes = new Uint8Array(await d.blob.arrayBuffer());
+            out.push({ sid, records: d.recordCount, features: src.features, zip: Array.from(bytes.slice(0, 4)).join(','), name: d.name });
+          } catch (e) { out.push({ sid, error: e.message }); }
+        }
+        return out;
+      }, [...datasetIds].filter((sid) => !datasetsChecked.has(sid)));
+      for (const d of dsResults) {
+        datasetsChecked.add(d.sid);
+        if (d.error) { problems.push(`${page} full dataset ${d.sid}: ${d.error}`); continue; }
+        if (typeof d.features === 'number' && d.records !== d.features) problems.push(`${page} full dataset ${d.sid}: ${d.records} records, the inventory counts ${d.features}`);
+        if (!(d.records > 0)) problems.push(`${page} full dataset ${d.sid}: no records`);
+        if (d.zip !== '80,75,3,4') problems.push(`${page} full dataset ${d.sid}: CSV download is not a zip`);
+        if (!/^coho-dataset-[a-z0-9-]+-\d{4}-\d{2}-\d{2}\.zip$/.test(d.name)) problems.push(`${page} full dataset ${d.sid}: unexpected file name ${d.name}`);
       }
       // With every filter cleared the portfolio matches all its properties,
       // more than one page of 50; the download must carry all of them.
@@ -204,7 +253,8 @@ async function run() {
     process.exit(1);
   }
   assert.equal(checked, expected, `checked ${checked} of ${expected} registered tables`);
-  console.log(`table-export-rendered: ${checked}/${expected} tables render, define every column and download`);
+  assert.ok(datasetsChecked.size >= 10, `expected the source lines to offer the full datasets, checked ${datasetsChecked.size}`);
+  console.log(`table-export-rendered: ${checked}/${expected} tables render, define every column and download; ${datasetsChecked.size} full datasets download every record`);
 }
 
 run().catch((e) => { console.error(e); process.exit(1); });

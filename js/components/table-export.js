@@ -29,6 +29,11 @@
  * "Value unavailable…" is written as a blank, and the row's last column
  * records what the page showed and why.
  *
+ * Under each table a source line names the table's sources and offers the
+ * table's download plus each source's full dataset (every record in its file
+ * on this site, written by js/components/dataset-export.js, loaded on the
+ * first click).
+ *
  * Usage:
  *   <table data-export="dd-funding-vs-need">…</table>
  *   TableExport.decorateAll();          // runs on load and on DOM changes
@@ -601,20 +606,26 @@
       '.tx-btn{font:inherit;font-size:.8rem;font-weight:600;min-height:44px;min-width:44px;padding:4px 12px;border:1px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--text);cursor:pointer;line-height:1.4;}' +
       '.tx-btn:hover,.tx-btn:focus-visible{border-color:var(--accent);color:var(--accent);}' +
       '.tx-btn[disabled]{opacity:.6;cursor:progress;}' +
-      '.tx-status{font-size:.78rem;color:var(--muted);}';
+      '.tx-status{font-size:.78rem;color:var(--muted);}' +
+      '.tx-source{margin:6px 0 12px;font-size:.8rem;color:var(--muted);}' +
+      '.tx-source__names{margin:0 0 4px;}' +
+      '.tx-source__downloads{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;}' +
+      '.tx-source__group{display:flex;flex-wrap:wrap;align-items:center;gap:6px;}' +
+      '.tx-source__label{font-weight:600;color:var(--text);}';
     document.head.appendChild(s);
   }
 
-  function makeButton(label, format, table, status) {
+  function makeButton(label, format, table, status, run, ariaLabel) {
     var btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'tx-btn';
     btn.setAttribute('data-format', format);
     btn.textContent = label;
+    if (ariaLabel) btn.setAttribute('aria-label', ariaLabel);
     btn.addEventListener('click', function () {
       btn.disabled = true;
       status.textContent = 'Preparing…';
-      build(table, format).then(function (out) {
+      (run ? run(format) : build(table, format)).then(function (out) {
         save(out.blob, out.name);
         status.textContent = out.fellBack ? 'Excel could not load, so a CSV zip was downloaded.' : 'Downloaded.';
       }).catch(function (err) {
@@ -650,6 +661,94 @@
     if (parent && parent.children.length === 1 && parent.tagName === 'DIV') anchor = parent;
     anchor.parentNode.insertBefore(bar, anchor);
     table.__txBar = bar;
+    sourceLine(table, anchor);
+  }
+
+  /* ── Source line under the table ───────────────────────────────────── */
+
+  function ensureDatasets() {
+    return loadScript(BASE + 'js/components/dataset-export.js', function () {
+      return !!(global.DatasetExport && global.DatasetExport.build);
+    });
+  }
+
+  function buildDataset(source, format) {
+    return ensureDatasets().then(function () { return global.DatasetExport.build(source, format); });
+  }
+
+  // Under every exported table: its sources, named from the inventory the
+  // download's Sources sheet reads, and buttons for the table and for each
+  // source's full dataset. One list feeds both, so the line and the file
+  // cannot name different sources.
+  function sourceLine(table, anchor) {
+    if (table.__txSource && table.__txSource.isConnected) return;
+    var entry = registryEntry(table.getAttribute('data-export'));
+    if (!entry) return;
+    var box = document.createElement('div');
+    box.className = 'tx-source no-print';
+    box.setAttribute('data-export-source-for', table.getAttribute('data-export'));
+    anchor.parentNode.insertBefore(box, anchor.nextSibling);
+    table.__txSource = box;
+    var fill = function () { fillSourceLine(box, table, entry); };
+    ensureInventory().catch(function () { /* names fall back to ids */ }).then(fill);
+    var by = entry.sourcesBySelection;
+    var control = by && by.control && document.querySelector(by.control);
+    if (control) control.addEventListener('change', function () { setTimeout(fill, 0); });
+  }
+
+  function fillSourceLine(box, table, entry) {
+    var title = entry.title || 'this table';
+    var sources = inventorySources(entrySources(entry));
+    box.textContent = '';
+    var p = document.createElement('p');
+    p.className = 'tx-source__names';
+    p.appendChild(document.createTextNode(sources.length > 1 ? 'Sources: ' : 'Source: '));
+    sources.forEach(function (s, i) {
+      if (i) p.appendChild(document.createTextNode('; '));
+      if (s.url) {
+        var a = document.createElement('a');
+        a.href = s.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = s.name;
+        p.appendChild(a);
+      } else {
+        p.appendChild(document.createTextNode(s.name));
+      }
+      if (s.provider && s.provider !== s.name) p.appendChild(document.createTextNode(' (' + s.provider + ')'));
+    });
+    p.appendChild(document.createTextNode('.'));
+    box.appendChild(p);
+
+    var status = document.createElement('span');
+    status.className = 'tx-status';
+    status.setAttribute('aria-live', 'polite');
+
+    var groups = document.createElement('div');
+    groups.className = 'tx-source__downloads';
+    function group(label, kind, run, name) {
+      var g = document.createElement('div');
+      g.className = 'tx-source__group';
+      g.setAttribute('role', 'group');
+      g.setAttribute('data-download', kind);
+      g.setAttribute('aria-label', 'Download ' + name);
+      var span = document.createElement('span');
+      span.className = 'tx-source__label';
+      span.textContent = label;
+      g.appendChild(span);
+      g.appendChild(makeButton('Excel', 'xlsx', table, status, run, 'Download ' + name + ' as Excel'));
+      g.appendChild(makeButton('CSV', 'csv', table, status, run, 'Download ' + name + ' as CSV'));
+      groups.appendChild(g);
+      return g;
+    }
+    group('This table:', 'table', null, title);
+    sources.forEach(function (s) {
+      if (s.missing || !s.localFile) return;
+      var g = group('Full dataset, ' + s.name + ':', 'dataset', function (format) { return buildDataset(s, format); }, 'full dataset ' + s.name);
+      g.setAttribute('data-source-id', s.id);
+    });
+    groups.appendChild(status);
+    box.appendChild(groups);
   }
 
   function decorateAll(root) {
@@ -679,6 +778,13 @@
     describe: describe,
     parseValue: parseValue,
     tables: { data: dataTable, indicators: indicatorsTable, sources: sourcesTable, about: aboutTable },
+    // For js/components/dataset-export.js, which writes full datasets with
+    // the same CSV, zip, sheet and Sources code.
+    _internal: {
+      zip: zip, toCsv: toCsv, addSheet: addSheet, sourcesTable: sourcesTable,
+      fileUrl: fileUrl, ensureExcel: ensureExcel, inventorySources: inventorySources
+    },
+    buildDataset: buildDataset,
     _zip: zip,
     _crc32: crc32
   };

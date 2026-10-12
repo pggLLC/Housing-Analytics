@@ -127,6 +127,44 @@ for (const page of pagesUsing) {
 }
 assert.ok(pagesUsing.size >= 3, `expected at least three pages with downloadable tables, saw ${pagesUsing.size}`);
 
+/* ── 1b. Full datasets: every record the inventory counts ───────────── */
+
+// The source line under each table offers each source's full dataset. Its
+// rows are the collection the inventory's feature count is taken from, so
+// the download and the inventory must agree on the number of records, and
+// the record paths must be the drift gate's own.
+const { JSON_COUNT_PATHS } = require('../scripts/audit/inventory-count-paths.cjs');
+function loadDatasetExport() {
+  const sandbox = { window: {} };
+  vm.createContext(sandbox);
+  vm.runInContext(read('js/components/dataset-export.js'), sandbox);
+  return sandbox.window.DatasetExport;
+}
+const DX = loadDatasetExport();
+const tableSourceIds = new Set();
+for (const e of Object.values(registry)) {
+  for (const sid of e.sources || []) tableSourceIds.add(sid);
+  const by = e.sourcesBySelection;
+  if (by) for (const list of [...Object.values(by.values || {}), by.otherwise || []]) for (const sid of list) tableSourceIds.add(sid);
+}
+let datasets = 0;
+for (const sid of tableSourceIds) {
+  const s = inventoryById[sid];
+  if (!s || !s.localFile) continue;
+  datasets++;
+  if (Object.hasOwn(DX.RECORD_PATHS, sid) || Object.hasOwn(JSON_COUNT_PATHS, sid)) {
+    check(JSON.stringify(DX.RECORD_PATHS[sid]) === JSON.stringify(JSON_COUNT_PATHS[sid]),
+      `${sid}: dataset-export.js RECORD_PATHS (${JSON.stringify(DX.RECORD_PATHS[sid])}) must equal inventory-count-paths.cjs (${JSON.stringify(JSON_COUNT_PATHS[sid])})`);
+  }
+  const tab = DX.tabulate(sid, JSON.parse(read(s.localFile)));
+  check(tab && tab.recordCount > 0, `${sid}: the full-dataset download finds no records in ${s.localFile}`);
+  if (tab && typeof s.features === 'number') {
+    check(tab.recordCount === s.features, `${sid}: the full-dataset download holds ${tab.recordCount} records but the inventory counts ${s.features}`);
+  }
+}
+for (const sid of Object.keys(DX.RECORD_PATHS)) check(tableSourceIds.has(sid), `dataset-export.js RECORD_PATHS lists ${sid}, which no exported table cites`);
+assert.ok(datasets >= 10, `expected the table sources to offer full datasets, saw ${datasets}`);
+
 /* ── 2. The download model, in a DOM ─────────────────────────────────── */
 
 function stubExcel(log) {
@@ -204,6 +242,40 @@ async function modelChecks() {
   TX.decorateAll(); TX.decorateAll();
   check(w.document.querySelectorAll('.tx-bar').length === 1, 'decorateAll must add exactly one button bar per table');
   check(table.parentElement.previousElementSibling && table.parentElement.previousElementSibling.classList.contains('tx-bar'), 'button bar sits before the table wrapper');
+
+  // The source line under the table names the same sources the download
+  // cites, and offers the table plus each source that has a file here.
+  await new Promise((r) => setTimeout(r, 0));
+  const line = w.document.querySelectorAll('.tx-source');
+  check(line.length === 1, 'decorateAll must add exactly one source line per table');
+  check(table.parentElement.nextElementSibling === line[0], 'the source line sits right after the table wrapper');
+  const lineText = line[0].querySelector('.tx-source__names').textContent;
+  check(lineText.includes(fredName) && lineText.includes('not-a-source'), `the source line names every cited source, saw: ${lineText}`);
+  const groups = [...line[0].querySelectorAll('[data-download]')].map((g) => g.getAttribute('data-download') + ':' + (g.getAttribute('data-source-id') || ''));
+  assert.deepEqual(groups, ['table:', 'dataset:fred-data'], 'the table download, then one full dataset per source with a file here');
+  for (const b of line[0].querySelectorAll('button')) check(/^Download .+ as (Excel|CSV)$/.test(b.getAttribute('aria-label') || ''), 'each source-line button names what it downloads');
+
+  // The full dataset: every record, nested lists on their own sheet.
+  w.eval(read('js/components/dataset-export.js'));
+  const fred = JSON.parse(read('data/fred-data.json'));
+  const fredSource = inventoryById['fred-data'];
+  const ds = await w.DatasetExport.build(fredSource, 'csv', fred);
+  const dsFiles = unzip(Buffer.from(await ds.blob.arrayBuffer()));
+  const dsBase = ds.name.replace(/\.zip$/, '');
+  assert.ok(dsFiles[dsBase + '-series.csv'] && dsFiles[dsBase + '-series-observations.csv'], `the series and, on their own file, their observations; saw ${Object.keys(dsFiles).join(', ')}`);
+  const seriesCsv = parseCsv(dsFiles[dsBase + '-series.csv']);
+  assert.equal(seriesCsv.length - 1, Object.keys(fred.series).length, 'one row per series');
+  assert.equal(seriesCsv[0][0], 'key', 'an object collection gets its key as the first column');
+  const obsCsv = parseCsv(dsFiles[dsBase + '-series-observations.csv']);
+  const obsTotal = Object.values(fred.series).reduce((n, x) => n + (x.observations || []).length, 0);
+  assert.equal(obsCsv.length - 1, obsTotal, 'every observation, joined back by the series key');
+  assert.equal(obsCsv[0][0], 'series key');
+  assert.ok(dsFiles[dsBase + '-sources.csv'].includes(fredName), 'the dataset carries the inventory source record');
+  assert.match(dsFiles['README.txt'], /Blank cells: .*never means zero/);
+  assert.match(dsFiles['README.txt'], new RegExp('Records: ' + Object.keys(fred.series).length));
+  // A null stays blank and a FIPS code stays text.
+  const nulls = w.DatasetExport.tabulate('x', [{ fips: '08001', v: null, nested: { a: 0 } }]);
+  assert.deepEqual(plain(nulls.sheets[0].table()), [['fips', 'v', 'nested.a'], ['08001', null, 0]]);
 
   const m = plain(TX.collect(table));
   const labels = m.columns.map((c) => c.label);
@@ -349,5 +421,5 @@ modelChecks().then(reportChecks).then(() => {
     console.error('table-export: ' + failures.length + ' failure(s)\n  - ' + failures.join('\n  - '));
     process.exit(1);
   }
-  console.log(`table-export: ${ids.length} registry entries, ${literals} data-export attributes, ${pagesUsing.size} pages, model and both formats OK`);
+  console.log(`table-export: ${ids.length} registry entries, ${literals} data-export attributes, ${pagesUsing.size} pages, ${datasets} full datasets, model and both formats OK`);
 }).catch((e) => { console.error(e); process.exit(1); });
