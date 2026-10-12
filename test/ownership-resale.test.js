@@ -63,11 +63,11 @@ assert(dealSrc.includes('computeOwnershipResale'), 'Deal Calculator wires resale
 assert.equal(data.conventions.length, 4, 'four peer resale mechanisms are present');
 const expectedProvenance = {
   fixed_simple: { classification: 'modeled', observation_class: undefined, evidence_basis: undefined },
-  lesser_of_fixed_cpi: { classification: 'not_available', observation_class: 'unverified', evidence_basis: 'named_unretrieved' },
+  apcha_fixed_simple: { classification: 'modeled', observation_class: undefined, evidence_basis: undefined },
   shared_appreciation: { classification: 'not_available', observation_class: 'unverified', evidence_basis: 'named_unretrieved' },
   recapture: { classification: 'user_entered', observation_class: 'unverified', evidence_basis: 'none' }
 };
-['fixed_simple', 'lesser_of_fixed_cpi', 'shared_appreciation', 'recapture'].forEach((id) => {
+['fixed_simple', 'apcha_fixed_simple', 'shared_appreciation', 'recapture'].forEach((id) => {
   const convention = byId(id);
   assert(convention, `${id} convention exists`);
   assert(convention.source_program, `${id} has source_program`);
@@ -83,7 +83,8 @@ const expectedProvenance = {
 });
 assert.equal(byId('fixed_simple').default, true, 'WMRHC fixed_simple is the default convention');
 assert.equal(byId('fixed_simple').annual_rate, 0.03, 'WMRHC simple rate is pinned at 3%');
-assert.equal(byId('lesser_of_fixed_cpi').annual_rate, 'VERIFY', 'APCHA exact rate remains VERIFY until primary-source confirmed');
+assert.equal(byId('apcha_fixed_simple').annual_rate, 0.03, 'APCHA regulation default is 3% simple (Housing Regulations Part V, Section 1.B)');
+assert(/APCHA-Housing-Regulations/.test(byId('apcha_fixed_simple').source_url), 'APCHA rate is sourced to the regulation document, not the program page');
 assert.equal(byId('shared_appreciation').parameter_status, 'VERIFY_PRIMARY_DOC', 'Elevation share remains primary-doc VERIFY');
 assert.equal(byId('recapture').default_recapture_amount, 90000, 'recapture comparison carries the $90,000 screening default');
 
@@ -111,7 +112,7 @@ assert.equal(wmrhc.maxResalePrice, 460000, 'WMRHC 3% simple math: 400,000 held 5
 assert.equal(wmrhc.ownerGrossEquity, 140000, 'owner gross equity subtracts remaining principal and selling costs');
 assert.equal(wmrhc.preservesAffordability, true, 'WMRHC example remains below the current AMI-affordable benchmark');
 
-const apcha = Resale.evaluateConvention(byId('lesser_of_fixed_cpi'), {
+const apcha = Resale.evaluateConvention(byId('apcha_fixed_simple'), {
   purchasePrice: 400000,
   holdingPeriodYears: 5,
   remainingPrincipal: 300000,
@@ -120,8 +121,8 @@ const apcha = Resale.evaluateConvention(byId('lesser_of_fixed_cpi'), {
   targetAmiPct: 1.20,
   maxAffordablePrice: Ownership.maxAffordablePrice
 });
-assert.equal(apcha.maxResalePrice, 460000, 'APCHA upper-bound screen uses the fixed leg only');
-assert.equal(apcha.verifyParameter, true, 'APCHA rate is visibly VERIFY');
+assert.equal(apcha.maxResalePrice, 460000, 'APCHA 3% simple math: 400,000 held 5 years -> 460,000');
+assert.equal(apcha.verifyParameter, false, 'APCHA rate is verified against the regulation');
 
 const elevation = Resale.evaluateConvention(byId('shared_appreciation'), {
   purchasePrice: 400000,
@@ -190,8 +191,9 @@ assert.deepEqual(
   'comparison preserves declared dataset order instead of outcome ordering'
 );
 const highPrices = comparison.rows.map((row) => row.outcomes[0].maxResalePrice);
-assert.equal(new Set(highPrices).size, 4, 'all four mechanisms produce distinct next-buyer prices under the same 6% scenario');
-assert.deepEqual(highPrices, [520000, 480000, 499085, 716339], 'same-scenario comparison pins each mechanism without ranking');
+assert.equal(new Set(highPrices).size, 3, 'the three mechanism types produce distinct next-buyer prices under the same 6% scenario');
+assert.equal(highPrices[0], highPrices[1], 'WMRHC and APCHA both cap resale at 3% simple, so their caps agree');
+assert.deepEqual(highPrices, [520000, 520000, 499085, 716339], 'same-scenario comparison pins each mechanism without ranking');
 assert.equal(comparison.rows.find((row) => row.conventionId === 'recapture').outcomes[0].publicSubsidyRecaptured, 90000, 'recapture returns the fixed screening amount when net proceeds permit');
 
 // Recapture net-proceeds cap: downturn drives market value below principal+costs+recaptureAmount
