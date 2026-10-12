@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-11T12:58:17.806Z",
+    "generated_at": "2026-10-12T01:45:49.333Z",
     "root": "data/",
     "file_count": 1711,
-    "total_size_bytes": 180131233,
+    "total_size_bytes": 180133293,
     "kinds": {
       "json": 1674,
       "geojson": 33,
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 7351,
-      "mtime": "2026-10-10T14:27:34.019Z",
+      "size_bytes": 7711,
+      "mtime": "2026-10-12T01:44:57.745Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-11T12:47:08.981Z",
+      "mtime": "2026-10-12T01:45:44.986Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1388,8 +1388,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 258642,
-      "mtime": "2026-10-10T13:52:01.848Z",
+      "size_bytes": 260344,
+      "mtime": "2026-10-12T01:44:57.820Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -1404,7 +1404,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1674,
+      "primary_array_length": 1685,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -30590,7 +30590,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 217463,
-      "mtime": "2026-10-11T12:58:15.553Z",
+      "mtime": "2026-10-12T01:44:58.045Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32053,8 +32053,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 15108,
-      "mtime": "2026-10-11T12:47:10.884Z",
+      "size_bytes": 15106,
+      "mtime": "2026-10-12T01:45:46.912Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32078,7 +32078,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-11T12:47:10.390Z",
+      "mtime": "2026-10-12T01:45:46.473Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
