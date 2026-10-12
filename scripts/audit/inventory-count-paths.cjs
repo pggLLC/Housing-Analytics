@@ -68,6 +68,7 @@ const JSON_COUNT_PATHS = {
   'lihtc-state-allocations': 'states',
   'co-ami-gap-county': 'counties',
   'hmda-co': 'counties',
+  'affordable-housing-properties': 'properties',
   'hud-chas-co': 'counties',
   'hna-ranking-index': 'rankings',
   'home-value-cascade': ['counties', 'places'],

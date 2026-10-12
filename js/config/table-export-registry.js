@@ -189,7 +189,8 @@
       title: 'Market analysis (PMA) site screen',
       description: 'The screening result for one site: the overall and dimension scores, the census-tract aggregates inside the market area, existing affordable supply and the nearest services.',
       sources: ['acs-tract-metrics', 'tract-centroids-co', 'hud-chas-co', 'lodes-co', 'hud-lihtc-co', 'chfa-lihtc', 'transit-stops-statewide-co',
-        'amenities-grocery-co', 'amenities-healthcare-co', 'fema-flood-co'],
+        'affordable-housing-properties', 'chfa-income-rent-limits', 'nces-schools-co', 'amenities-grocery-co', 'amenities-healthcare-co',
+        'amenities-parks-co', 'fema-flood-co'],
       notes: 'A screening signal from public data, not a substitute for a CHFA-required market study.'
     }
   };
