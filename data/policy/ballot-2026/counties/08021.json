@@ -7,26 +7,30 @@
       "name": "Conejos County",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://conejoscounty.colorado.gov/ballot-information",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: the Conejos County ballot-information page still posts only the 2026 primary sample ballot; no November 3, 2026 sample ballot, ballot-content certification or TABOR notice.",
-        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-10-10, so non-participation (not_applicable) could not be established.",
-        "Not housing, noted only: April 2, 2026 BOCC minutes record Resolution C-09-26 on lifting term limits for the 12th Judicial District DA; no ballot text or letter was found.",
-        "Board of County Commissioners minutes posted through August 6, 2026 (June 4 to August 6 read 2026-10-10) record no county ballot referral."
+        "Rechecked 2026-10-12: the Conejos County ballot-information page still posts only \"Sample Ballot 2026 Primary\"; no November 3, 2026 sample ballot, ballot-content certification or TABOR notice. The Clerk and Recorder and Election Information pages post only forms, results links and contacts.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-10-12, so non-participation (not_applicable) could not be established.",
+        "Not housing, noted only: April 2, 2026 BOCC minutes record Resolution C-09-26 on lifting term limits for the 12th Judicial District DA; no Conejos ballot text was found. (Alamosa County's posted sample ballots carry it as 12th Judicial District Ballot Question 7A.)",
+        "Board of County Commissioners minutes posted on the archive page still end at August 6, 2026 (re-listed 2026-10-12); none read records a county ballot referral."
       ],
       "reviewed_sources": [
         {
           "url": "https://conejoscounty.colorado.gov/ballot-information",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
         },
         {
           "url": "https://conejoscounty.colorado.gov/election-information",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://conejoscounty.colorado.gov/clerk-and-recorder",
+          "retrieved": "2026-10-12"
         },
         {
           "url": "https://conejoscounty.colorado.gov/commissioners-archive-page",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
         }
       ]
     },
@@ -36,17 +40,17 @@
       "name": "Antonito (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://conejoscounty.colorado.gov/ballot-information",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: the Conejos County ballot-information page still posts only the 2026 primary sample ballot; no November 3, 2026 sample ballot, ballot-content certification or TABOR notice.",
-        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-10-10, so non-participation (not_applicable) could not be established.",
-        "No official town website was found."
+        "Rechecked 2026-10-12: the Conejos County ballot-information page still posts only \"Sample Ballot 2026 Primary\"; no November 3, 2026 sample ballot, ballot-content certification or TABOR notice. The Clerk and Recorder and Election Information pages post only forms, results links and contacts.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-10-12, so non-participation (not_applicable) could not be established.",
+        "No official town website was found; townofantonito.colorado.gov did not resolve through the network proxy on 2026-10-12 (connection failed, not a 403 from the town)."
       ],
       "reviewed_sources": [
         {
           "url": "https://conejoscounty.colorado.gov/ballot-information",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
         }
       ]
     },
@@ -56,21 +60,25 @@
       "name": "La Jara (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://conejoscounty.colorado.gov/ballot-information",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: the Conejos County ballot-information page still posts only the 2026 primary sample ballot; no November 3, 2026 sample ballot, ballot-content certification or TABOR notice.",
-        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-10-10, so non-participation (not_applicable) could not be established.",
-        "Town website checked 2026-10-10: no election content."
+        "Rechecked 2026-10-12: the Conejos County ballot-information page still posts only \"Sample Ballot 2026 Primary\"; no November 3, 2026 sample ballot, ballot-content certification or TABOR notice. The Clerk and Recorder and Election Information pages post only forms, results links and contacts.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-10-12, so non-participation (not_applicable) could not be established.",
+        "Town website re-checked 2026-10-12: no election page or notice. Its Town Board Meetings page links a \"2026 Meeting Minutes\" folder holding minutes for January 8 to April 9, 2026 only; the Ordinances and Resolutions page links only to the town code."
       ],
       "reviewed_sources": [
         {
           "url": "https://conejoscounty.colorado.gov/ballot-information",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
         },
         {
           "url": "https://townoflajara.colorado.gov/",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townoflajara.colorado.gov/town-board-meetings",
+          "retrieved": "2026-10-12"
         }
       ]
     },
@@ -80,21 +88,29 @@
       "name": "Manassa (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://conejoscounty.colorado.gov/ballot-information",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: the Conejos County ballot-information page still posts only the 2026 primary sample ballot; no November 3, 2026 sample ballot, ballot-content certification or TABOR notice.",
-        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-10-10, so non-participation (not_applicable) could not be established.",
-        "Town website checked 2026-10-10: no election content."
+        "Rechecked 2026-10-12: the Conejos County ballot-information page still posts only \"Sample Ballot 2026 Primary\"; no November 3, 2026 sample ballot, ballot-content certification or TABOR notice. The Clerk and Recorder and Election Information pages post only forms, results links and contacts.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-10-12, so non-participation (not_applicable) could not be established.",
+        "Town website re-checked 2026-10-12: no election page or notice. The Board Meetings page posts minutes only through June 2024 (2025 listed with no files), and the Resolutions and Ordinances page lists only a 2023 ordinance amendment, so no 2026 town action can be read there."
       ],
       "reviewed_sources": [
         {
           "url": "https://conejoscounty.colorado.gov/ballot-information",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
         },
         {
           "url": "https://townofmanassa.colorado.gov/",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofmanassa.colorado.gov/board-meetings",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofmanassa.colorado.gov/resolutions-and-ordinances",
+          "retrieved": "2026-10-12"
         }
       ]
     },
@@ -104,17 +120,17 @@
       "name": "Romeo (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://conejoscounty.colorado.gov/ballot-information",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: the Conejos County ballot-information page still posts only the 2026 primary sample ballot; no November 3, 2026 sample ballot, ballot-content certification or TABOR notice.",
-        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-10-10, so non-participation (not_applicable) could not be established.",
-        "No official town website was found."
+        "Rechecked 2026-10-12: the Conejos County ballot-information page still posts only \"Sample Ballot 2026 Primary\"; no November 3, 2026 sample ballot, ballot-content certification or TABOR notice. The Clerk and Recorder and Election Information pages post only forms, results links and contacts.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-10-12, so non-participation (not_applicable) could not be established.",
+        "No official town website was found on 2026-10-12."
       ],
       "reviewed_sources": [
         {
           "url": "https://conejoscounty.colorado.gov/ballot-information",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
         }
       ]
     },
@@ -124,21 +140,21 @@
       "name": "Sanford (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://conejoscounty.colorado.gov/ballot-information",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: the Conejos County ballot-information page still posts only the 2026 primary sample ballot; no November 3, 2026 sample ballot, ballot-content certification or TABOR notice.",
-        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-10-10, so non-participation (not_applicable) could not be established.",
-        "Town notices page (checked 2026-10-10) reports its April 7, 2026 regular town election and no November 2026 measure."
+        "Rechecked 2026-10-12: the Conejos County ballot-information page still posts only \"Sample Ballot 2026 Primary\"; no November 3, 2026 sample ballot, ballot-content certification or TABOR notice. The Clerk and Recorder and Election Information pages post only forms, results links and contacts.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-10-12, so non-participation (not_applicable) could not be established.",
+        "Town notices page re-read 2026-10-12: \"During the April 7, 2026 Regular Town Election, voters passed the 2% sales tax\" (a general sales tax, not earmarked for housing; out of scope as an April measure). No November 2026 measure is posted. Not closed as none-found because Conejos County has posted no November ballot styles to show the town is absent from them."
       ],
       "reviewed_sources": [
         {
           "url": "https://conejoscounty.colorado.gov/ballot-information",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
         },
         {
           "url": "https://townofsanford.colorado.gov/home/community-notices",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
         }
       ]
     }
