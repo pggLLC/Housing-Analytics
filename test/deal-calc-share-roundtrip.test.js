@@ -319,14 +319,14 @@ async function roundTrip(sender, label, savedSubject) {
     assert.strictEqual(snap.dealMode, 'rental');
     assert(snap.inputs && typeof snap.inputs.tdc === 'string' && Array.isArray(snap.tranches), 'inputs/tranches shape changed');
     assert(snap.outputs && typeof snap.outputs === 'object', 'the export has no outputs key');
-    assert.strictEqual(snap.outputs.annualRents, null, 'no county, but annualRents is ' + JSON.stringify(snap.outputs.annualRents));
-    assert.strictEqual(snap.outputs.firstMortgage, null, 'no county, but firstMortgage is ' + JSON.stringify(snap.outputs.firstMortgage));
+    assert.strictEqual(snap.outputs.annualRents.value, null, 'no county, but annualRents is ' + JSON.stringify(snap.outputs.annualRents));
+    assert.strictEqual(snap.outputs.firstMortgage.value, null, 'no county, but firstMortgage is ' + JSON.stringify(snap.outputs.firstMortgage));
     Object.keys(snap.outputs).forEach((k) => {
-      const v = snap.outputs[k];
-      assert(v === null || (typeof v === 'string' && isValue(v)), k + ' is ' + JSON.stringify(v) + ', neither a value nor null');
-      assert(!(v !== null && /^\$0$/.test(v) && /rents|mortgage/i.test(k)), k + ' reports $0 for an unmeasured value');
+      const v = snap.outputs[k].value;
+      assert(v === null || (typeof v === 'number' && Number.isFinite(v)), k + ' is ' + JSON.stringify(v) + ', neither a value nor null');
+      assert(!(v === 0 && /rents|mortgage/i.test(k)), k + ' reports $0 for an unmeasured value');
     });
-    assert.strictEqual(snap.outputs.eligibleBasis, p.d.getElementById('dc-r-basis').textContent,
+    assert.strictEqual(snap.outputs.eligibleBasis.display, p.d.getElementById('dc-r-basis').textContent,
       'eligibleBasis is not what the page shows');
 
     p.w.document.getElementById('dc-mode-ownership').checked = true;
@@ -338,9 +338,9 @@ async function roundTrip(sender, label, savedSubject) {
     assert.deepStrictEqual(Object.keys(own.outputs).sort(),
       ['costPerGrossSf', 'costPerUnit', 'maxAffordablePrice', 'subsidyGapPerUnit', 'totalOwnershipGap'],
       'ownership outputs carry a rental figure or miss an ownership one');
-    assert.strictEqual(own.outputs.maxAffordablePrice, p.d.getElementById('dc-own-max-price').textContent.trim());
-    assert(isValue(own.outputs.maxAffordablePrice), 'Mesa ownership max price unavailable: ' + own.outputs.maxAffordablePrice);
-    assert.strictEqual(own.outputs.costPerGrossSf, null, 'no gross SF entered, but costPerGrossSf is ' + own.outputs.costPerGrossSf);
+    assert.strictEqual(own.outputs.maxAffordablePrice.display, p.d.getElementById('dc-own-max-price').textContent.trim());
+    assert(isValue(own.outputs.maxAffordablePrice.display), 'Mesa ownership max price unavailable: ' + own.outputs.maxAffordablePrice);
+    assert.strictEqual(own.outputs.costPerGrossSf.value, null, 'no gross SF entered, but costPerGrossSf is ' + own.outputs.costPerGrossSf);
   });
 
   await test('tier units exceeding Total Units render no basis, credits, equity or set-aside verdict', async () => {
@@ -351,12 +351,13 @@ async function roundTrip(sender, label, savedSubject) {
     setField(p, 'dc-units', 20);   // default tiers hold 60 units
     const warn = p.d.getElementById('dc-units-sync-warn');
     assert(!warn.hidden && /exceed Total Units/.test(warn.textContent), 'the hard error did not show');
-    ['dc-r-basis', 'dc-r-credits', 'dc-r-equity', 'dc-r-rents', 'dc-su-gap'].forEach((id) =>
+    ['dc-r-basis', 'dc-r-credits', 'dc-r-equity', 'dc-r-rents'].forEach((id) =>
       assert.strictEqual(p.d.getElementById(id).textContent.trim(), '—', id + ' still renders ' + p.d.getElementById(id).textContent));
+    assert(p.d.getElementById('dc-su-gap').textContent.includes(p.w.__DealCalc.getResult().unavailable.gap), 'invalid mix gap carries the engine reason');
     const msa = p.d.getElementById('dc-minimum-set-aside-status').textContent;
     assert(!/Qualifies/.test(msa) && !/60 of 20/.test(msa), 'set-aside still evaluated: ' + msa);
     const snap = p.w.__DealCalcShare.buildSnapshot();
-    assert.strictEqual(snap.outputs.creditEquity, null, 'JSON export creditEquity is ' + snap.outputs.creditEquity);
+    assert.strictEqual(snap.outputs.creditEquity.value, null, 'JSON export creditEquity is ' + snap.outputs.creditEquity);
     setField(p, 'dc-units', 60);
     assert(isValue(p.d.getElementById('dc-r-equity').textContent), 'equity did not return once the mix was fixed');
   });
