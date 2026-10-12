@@ -17,11 +17,13 @@ import json
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urljoin
 
 import openpyxl
 
 ROOT = Path(__file__).resolve().parent.parent
 COLORADO_STATE_FIPS = 8
+SOURCE_PAGE = 'https://www.huduser.gov/portal/datasets/HOME-Rent-limits.html'
 
 # Effective dates are stated in each year's HUD memo, not in the workbook.
 EFFECTIVE_DATES = {2026: '2026-06-01'}
@@ -79,9 +81,9 @@ def main():
         'meta': {
             'source': f'HUD HOME Program Rent Limits, {year}',
             'publisher': 'U.S. Department of Housing and Urban Development (PD&R for CPD)',
-            'source_page': 'https://www.huduser.gov/portal/datasets/HOME-Rent-limits.html',
-            'source_file': f'https://www.huduser.gov/portal/datasets/home-datasets/files/{src.name}',
-            'source_memo': f'https://www.huduser.gov/portal/datasets/home-datasets/files/{year}-HOME-RentLimits-Memo.pdf',
+            'source_page': SOURCE_PAGE,
+            'source_file': urljoin(SOURCE_PAGE, f'home-datasets/files/{src.name}'),
+            'source_memo': urljoin(SOURCE_PAGE, f'home-datasets/files/{year}-HOME-RentLimits-Memo.pdf'),
             'fiscal_year': year,
             'effective_date': EFFECTIVE_DATES[year],
             'retrieved': datetime.date.today().isoformat(),
