@@ -1,7 +1,7 @@
 {
   "meta": {
     "updated": "2026-10-11T00:00:00Z",
-    "brief_count": 9,
+    "brief_count": 10,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
@@ -862,6 +862,477 @@
           "title": "Defensible Space: Crime Prevention Through Urban Design (review abstract)",
           "source": "National Criminal Justice Reference Service",
           "link": "https://www.ojp.gov/ncjrs/virtual-library/abstracts/defensible-space-crime-prevention-through-urban-design-and"
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
+        "Colorado",
+        "Statewide"
+      ]
+    },
+    {
+      "id": "shared-equity-for-sale-rental-2026",
+      "title": "Shared equity in Colorado: how for-sale and rental housing can build household wealth and stay affordable",
+      "policy_topic": "Ownership & Shared Equity",
+      "is_curated": true,
+      "source_reviewed": true,
+      "generated": "2026-10-11T00:00:00Z",
+      "verified": "2026-10-11",
+      "takeaway": "Shared equity trades some of a household's upside for a home that stays affordable to the next household. The evidence that it keeps homes affordable and keeps owners in them is good; the evidence on how much wealth it builds is thinner, and on the rental side most models are new. Pick the resale or equity rule first, because it decides who the project serves in year 20, not just at opening.",
+      "summary": "Shared equity is any arrangement in which a public or nonprofit investment makes a home affordable and a rule written into the deed, ground lease, co-op shares or partnership agreement keeps it affordable afterwards, while the household still keeps part of the gain. Grounded Solutions Network describes it as a model that takes a one-time public investment and then restricts the home's sale price each time it is sold. On the for-sale side the established forms are community land trust ground leases, deed-restricted homes with a resale formula, and limited-equity cooperatives. A shared-appreciation loan is related but different: the home resells at market price and the lender, not the next buyer, gets the share of the gain. On the rental side the forms are newer: resident-owned manufactured home communities, renter equity programs that pay tenants a share of savings, LIHTC buildings sold to tenants or a nonprofit after the 15-year compliance period, and in Colorado the tenant equity vehicle that state law requires in projects funded by the Proposition 123 equity program. Studies of established for-sale programs find that resold homes stayed affordable and that foreclosure was rare; a 2019 study of 4,108 shared equity homes found the median household accumulated approximately $14,000 against a median equity investment at purchase of $1,875. The trade-off is real: the same studies find that a formula giving sellers more return makes the home less affordable to the next buyer.",
+      "implications": "For a for-sale project, settle the steward and the resale rule before the pro forma, because the rule decides the price the second and third buyers pay and what the first owner walks away with. The For-Sale Market Study runs the same appreciation scenarios through each resale convention side by side and does not rank them, because they optimize different things. Mountain towns already buy deed restrictions on existing homes; that is a way to add shared-equity homes without building, and the table below lists the programs this site has on record. For a rental project funded by the Proposition 123 equity program, the tenant equity vehicle is not optional: tenants who stay at least a year are entitled by statute to a share of any equity growth. The program pays that share from its own returns above its initial investment, so confirm with the program's administrator how the vehicle runs in the project and what it asks of the owner. For a manufactured home community, state law gives residents notice and a time-limited opportunity to buy the park, and Proposition 123 can fund the purchase. Budget for stewardship in every model. A resale rule that nobody monitors is a rule that lapses, and the study of land trust loan performance found that only a minority of land trusts had outside funding to expand or support their work.",
+      "related_data": "data/policy/resale-conventions.json",
+      "sections": [
+        {
+          "id": "for-sale-models",
+          "heading": "For-sale models",
+          "paragraphs": [
+            "Each model keeps the home affordable by a different legal device, and the device decides who holds the land, who approves the next buyer and how the sale price is set. The four resale conventions the For-Sale Market Study models are listed after the table; the labels are the Market Study's own, each named after the program it was drawn from, and the Market Study treats them as screening conventions, not final underwriting terms. The note below says where a label goes beyond what the cited program publishes."
+          ],
+          "table": {
+            "caption": "How each for-sale model keeps the home affordable",
+            "columns": [
+              "Model",
+              "How affordability is kept",
+              "Colorado example"
+            ],
+            "rows": [
+              [
+                "Community land trust ground lease",
+                "The land trust keeps the land and leases it to the homeowner, typically for 99 years; the lease restricts the resale price and requires owner occupancy.",
+                "Elevation Community Land Trust; Thistle Community Housing (Boulder)"
+              ],
+              [
+                "Deed-restricted home with a resale formula",
+                "The owner holds house and land, but a recorded covenant limits who can buy next and caps the price, for example by a fixed annual appreciation rate.",
+                "APCHA (Aspen and Pitkin County); Habitat for Humanity of Metro Denver"
+              ],
+              [
+                "Limited-equity cooperative",
+                "Residents buy shares in a cooperative that owns the building; a formula caps what a share can be sold for.",
+                "None found in Colorado for this brief"
+              ],
+              [
+                "Deed restriction bought on an existing home",
+                "A town or county pays an owner or buyer to record a deed restriction on a market-rate home, usually requiring a local worker to live there.",
+                "Summit County, Breckenridge, Frisco, Vail, Eagle County and Avon (table below)"
+              ],
+              [
+                "Shared-appreciation loan (related, not shared equity)",
+                "A second mortgage lowers the buyer's price and takes a share of the gain at sale; the home resells at market price, so it does not stay affordable.",
+                "Not tracked by this site"
+              ]
+            ]
+          },
+          "items_heading": "Resale conventions modeled on the For-Sale Market Study",
+          "items": [
+            "Fixed simple appreciation (WMRHC Good Deeds)",
+            "Lesser of fixed cap or CPI (APCHA Employee Housing Regulations)",
+            "Shared-appreciation CLT (Elevation Community Land Trust)",
+            "Fixed public-subsidy recapture (HOME resale and recapture requirements)"
+          ],
+          "note": "APCHA's 2026 regulations set the maximum sale price, unless a deed restriction says otherwise, as the seller's purchase price plus three percent simple appreciation for each year owned, plus approved capital improvements of up to 10% of the purchase price, less depreciation. They do not set a CPI alternative for the sale price, so the CPI leg of the Market Study's \"lesser of fixed cap or CPI\" convention is an assumption it marks for verification. The press report on WMRHC Good Deeds cited here gives a three percent annual appreciation cap without saying simple or compound; the Market Study's \"simple\" comes from its own earlier check of the program page. Elevation does not publish its resale formula; the Market Study's shared-appreciation convention is a screening assumption to confirm with the steward."
+        },
+        {
+          "id": "deed-buydowns",
+          "heading": "Deed restrictions towns buy on existing homes",
+          "paragraphs": [
+            "These are the deed-restriction purchase programs in this site's local housing funds records. Each line is that record's own summary, and its source is listed with this brief's sources; check the program's current terms with the town before relying on a figure. Coverage is partial: a town that is not listed has not been shown to have no program."
+          ],
+          "table": {
+            "caption": "Deed-restriction purchase programs on record",
+            "columns": [
+              "Jurisdiction",
+              "How it works",
+              "Checked against"
+            ],
+            "rows": [
+              [
+                "Summit County",
+                "Through Housing Helps, Summit County pays buyers 10%-25% of a home's value to record a local-worker deed restriction on a market-rate home: 10-15% for a light restriction, 15-25% for one with a 3% annual appreciation cap; the money is not a loan.",
+                "Primary source, checked 2026-10-10"
+              ],
+              [
+                "Town of Breckenridge",
+                "Breckenridge's Housing Helps program, created by Resolution 17 (Series 2019), pays owners, buyers and local businesses 15-25% for a deed restriction on unrestricted homes: 15% for a light work-requirement restriction, 20-25% for a full restriction with a 3% appreciation cap.",
+                "Primary source, checked 2026-10-10"
+              ],
+              [
+                "Town of Frisco",
+                "Frisco's Housing Helps program (framework set by Resolution 19-31, August 2019) pays buyers and owners for deed restrictions on unrestricted homes and funds town buy-downs, using voter-approved 5A funds and the 5% STR excise tax.",
+                "Primary source, checked 2026-10-10"
+              ],
+              [
+                "Town of Vail",
+                "Vail InDEED, begun in 2017, pays homeowners and buyers for a perpetual deed restriction requiring occupancy by people working in Eagle County; per Vail Daily the town provides 20% of market value with no income or appreciation caps.",
+                "Reported (Vail Daily), checked 2026-10-10"
+              ],
+              [
+                "Town of Vail",
+                "Under Good Deeds Vail (2026), the Town of Vail and the Eagle County Housing and Development Authority each contribute up to 15% of a home's price (max $1.25 million) for a combined buy-down of up to 30%, capped at $375,000, in exchange for a price-capped deed restriction.",
+                "Reported (Vail Daily), checked 2026-10-10"
+              ],
+              [
+                "Eagle County",
+                "Eagle County Good Deeds (since 2021, run by the Eagle County Housing and Development Authority) pays 15% of the purchase price, up to $187,500, for a perpetual price-capped deed restriction on open-market homes up to $1,250,000; ECHDA added $2.5 million in 2026 after its initial $4 million budget was nearly depleted.",
+                "Primary source, checked 2026-10-10"
+              ],
+              [
+                "Town of Avon",
+                "Mi Casa Avon pays home buyers a 12% match, up to $150,000, for a perpetual resident-occupied deed restriction limiting ownership and use to full-time Eagle County employees, with no appreciation cap; 56 units were added from 2020 to 2025.",
+                "Primary source, checked 2026-10-10"
+              ],
+              [
+                "Town of Avon",
+                "Good Deeds Avon pays 30% of the purchase price, capped at $375,000 (15% from the Town, 15% from ECHDA), on homes up to $1,250,000 in exchange for a price-capped deed restriction with 0-3% annual appreciation.",
+                "Primary source, checked 2026-10-10"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "rental-models",
+          "heading": "Rental and resident-ownership models",
+          "paragraphs": [
+            "Shared equity for renters is newer and has far less evidence behind it. The models below either let residents buy the property together, or pay tenants a share of what their tenancy saves or earns the owner."
+          ],
+          "items": [
+            "Resident-owned manufactured home communities. Residents form a cooperative and buy the land under their homes. ROC USA reports, from a longitudinal study by an appraisal firm, that site fees in its member communities were 11% below market after five years and 21% below market after 10 years. ROC USA documented the Meadowood Village residents' purchase of their park in Littleton in January 2025.",
+            "Renter equity. Cornerstone Corporation for Shared Equity's model in Cincinnati, used by Northeast Shores in Cleveland, gives tenants credits for paying rent on time, following house rules and doing work on the property, paid from savings on turnover and vacancy. Next City reported in 2015 that renters could earn up to $10,000 over 10 years. No independent evaluation was found.",
+            "Proposition 123 tenant equity vehicle. State law requires the equity program to include a tenant equity vehicle: in projects it funds, tenants who live there at least one year are entitled to a share of the equity growth, if any, as funding for a down payment or related purposes, which may also include ongoing opportunities to build up savings. Program returns above the initial investment stay in the program to fund the tenant equity vehicle. Denver7 reported in February 2026 that OEDIT describes its new renter rewards program as the tenant equity vehicle, and that the first property in it, Fall River Village in Estes Park, pays tenants who pay on time 2% of their rent back each month.",
+            "LIHTC conversion after year 15. Federal law lets an owner grant tenants, a resident management corporation, a qualified nonprofit or a government agency a right of first refusal to buy a tax credit building after the compliance period, at a minimum price set by its outstanding debt and taxes, without losing the credit. CHN Housing Partners in Cleveland runs a lease-purchase program in which families in tax credit homes can take title starting in year 16.",
+            "Limited-equity cooperatives, which also serve renters who become shareholders. No Colorado example was verified for this brief."
+          ]
+        },
+        {
+          "id": "colorado-law",
+          "heading": "Colorado law and money",
+          "items": [
+            "Proposition 123 equity program (C.R.S. 29-32-104; OEDIT contracts with an administrator, the Colorado Housing and Finance Authority, to run it): equity investments in low- and middle-income multifamily rental housing, with the tenant equity vehicle described above. For the 2026-27 state fiscal year, HB26-1360 sets the program shares by priority instead of the usual percentages: concessionary debt first, this equity program second, land banking third.",
+            "Proposition 123 land banking: grants to local governments and loans to nonprofits to acquire and preserve land for affordable housing, which is where a land trust or a deed-restricted ownership project can get its site.",
+            "Proposition 123 affordable home ownership program (run by DOLA's Division of Housing): down-payment assistance for first-time buyers, prioritising first-generation buyers, plus support for community land trusts and grants or loans to mobile home owners buying their park.",
+            "Mobile home park opportunity to purchase (C.R.S. 38-12-217): a landlord must give notice before selling a park; a group of home owners then has 120 days to submit a purchase offer and another 120 days to close, and the landlord must negotiate in good faith.",
+            "Mobile Home Park Resident Empowerment Loan and Grant Program (C.R.S. 24-32-728, created by SB22-160): acquisition and capital improvement financing for home owners buying their park.",
+            "Community land trust property tax exemption (HB23-1184, C.R.S. 39-3-127.7): from tax year 2024 the land a land trust holds for affordable homeownership can be exempt when it is a separate parcel from the house. The house itself is still taxed. No Colorado law was found that requires assessors to value a deed-restricted home at its restricted price."
+          ]
+        },
+        {
+          "id": "evidence",
+          "heading": "What the evidence shows",
+          "paragraphs": [
+            "The strongest studies are of established for-sale programs. They answer whether homes stay affordable and whether owners keep them. They answer less well how much wealth owners build compared with what they would have built otherwise, because none of them follows a matched group of market-rate buyers."
+          ],
+          "table": {
+            "caption": "Studies of shared equity homeownership",
+            "columns": [
+              "Study",
+              "What it found",
+              "What it cannot show"
+            ],
+            "rows": [
+              [
+                "Temkin, Theodos and Price, Urban Institute (2010): seven programs, including Thistle in Boulder",
+                "Resold homes stayed affordable to households well below the area median; few owners lost their home to foreclosure, and over 90 percent remained homeowners five years after buying in the three programs with data.",
+                "Its rate of return is on the buyer's down payment, not total wealth; it also finds that a formula giving sellers more return makes resale homes less affordable."
+              ],
+              [
+                "Thaden, Lincoln Institute (2010): survey of land trust mortgages",
+                "Land trust loans outperformed loans in the MBA national delinquency survey on every comparable delinquency and foreclosure measure; prime loans were 4.3 times more likely to be seriously delinquent at the end of 2009.",
+                "Self-reported survey of 42 land trusts during the foreclosure crisis; it also found only a minority of land trusts had outside funding to expand or support their work."
+              ],
+              [
+                "Wang, Cahen, Acolin and Walter, Lincoln Institute (2019): 4,108 homes in 58 programs",
+                "Affordability held for first sales and resales; the median household accumulated approximately $14,000 against a median equity investment at purchase of $1,875.",
+                "Owners still carry market risk: the typical owner had negative net appreciation during the recovery period."
+              ],
+              [
+                "Jacobus, Center for Housing Policy (2007)",
+                "Shared equity generally offers lower returns than market-rate ownership but can expose owners to far less risk.",
+                "A policy brief, not an outcome study."
+              ]
+            ]
+          },
+          "note": "Rental shared equity has no comparable study. ROC USA's site-fee figures come from its own commissioned study; the renter equity and tenant equity vehicle figures come from press reports."
+        },
+        {
+          "id": "using-it",
+          "heading": "Using it on this site",
+          "items": [
+            "For-Sale Market Study: compare the resale conventions under the same appreciation scenarios and see what the public keeps at resale.",
+            "Deal Calculator in ownership mode: test whether a for-sale project closes at the price a household at the target income can afford.",
+            "Local Housing Incentives: the deed-restriction purchase programs and local funds on record for each jurisdiction.",
+            "Select a Jurisdiction: choose For-sale ownership, or Rental and for-sale, to follow the for-sale steps."
+          ]
+        },
+        {
+          "id": "limits",
+          "heading": "Limits of this brief",
+          "items": [
+            "The site does not model the Proposition 123 tenant equity vehicle or renter equity payments in the Deal Calculator; any amount would be an assumption, so none is shown.",
+            "No Colorado limited-equity cooperative was verified, and the West Mountain Regional Housing Coalition and Vail program pages could not be loaded, so they are cited through press reports.",
+            "The Proposition 123 statute was read as amended by HB26-1360, signed May 28, 2026, which left the tenant equity vehicle wording as the 2023 amendments wrote it. Check the program guidelines before relying on a detail.",
+            "Figures from ROC USA, CHN Housing Partners and the press are what those organizations report about their own programs."
+          ]
+        }
+      ],
+      "sources": [
+        "Grounded Solutions Network",
+        "Urban Institute",
+        "Lincoln Institute of Land Policy",
+        "Colorado General Assembly",
+        "eCFR",
+        "Program pages and press reports"
+      ],
+      "articles": [
+        {
+          "title": "Shared Equity Homeownership",
+          "source": "Grounded Solutions Network",
+          "link": "https://groundedsolutions.org/strengthening-neighborhoods/shared-equity-homeownership"
+        },
+        {
+          "title": "Shared Equity Homeownership: The Changing Landscape of Resale-Restricted, Owner-Occupied Housing (Davis)",
+          "source": "National Housing Institute",
+          "link": "https://shelterforce.org/wp-content/uploads/2008/04/SharedEquityHome.pdf",
+          "date": "2006"
+        },
+        {
+          "title": "24 CFR 92.254: HOME homeownership resale and recapture",
+          "source": "eCFR",
+          "link": "https://www.ecfr.gov/current/title-24/subtitle-A/part-92/subpart-F/section-92.254"
+        },
+        {
+          "title": "Balancing Affordability and Opportunity: An Evaluation of Affordable Homeownership Programs with Long-term Affordability Controls (Temkin, Theodos and Price)",
+          "source": "Urban Institute",
+          "link": "https://www.urban.org/sites/default/files/publication/29291/412244-Balancing-Affordability-and-Opportunity-An-Evaluation-of-Affordable-Homeownership-Programs-with-Long-term-Affordability-Controls.PDF",
+          "date": "2010-10"
+        },
+        {
+          "title": "Outperforming the Market: Making Sense of the Low Rates of Delinquencies and Foreclosures in Community Land Trusts (Thaden), Working Paper WP10ET1",
+          "source": "Lincoln Institute of Land Policy",
+          "link": "https://www.lincolninst.edu/app/uploads/2024/04/1857_1164_thaden_final.pdf",
+          "date": "2010"
+        },
+        {
+          "title": "Tracking Growth and Evaluating Performance of Shared Equity Homeownership Programs During Housing Market Fluctuations (Wang, Cahen, Acolin and Walter), Working Paper WP19RW1",
+          "source": "Lincoln Institute of Land Policy",
+          "link": "https://lincolninst.edu/sites/default/files/pubfiles/wang_wp19rw1_rev_0.pdf",
+          "date": "2019-04"
+        },
+        {
+          "title": "Shared Equity, Transformative Wealth (Jacobus)",
+          "source": "Center for Housing Policy",
+          "link": "https://groundedsolutions.org/wp-content/uploads/2018-10/14%202007-Shared-EquityTransformative-Wealth.pdf",
+          "date": "2007-04"
+        },
+        {
+          "title": "What is a community land trust?",
+          "source": "Elevation Community Land Trust",
+          "link": "https://elevationclt.org/what-is-a-community-land-trust/"
+        },
+        {
+          "title": "Community Land Trust",
+          "source": "Thistle Community Housing",
+          "link": "https://www.thistlecommunityhousing.org/community-land-trust"
+        },
+        {
+          "title": "Habitat Metro Denver and Colorado Community Land Trust announce strategic partnership and merger",
+          "source": "Habitat for Humanity of Metro Denver",
+          "link": "https://habitatmetrodenver.org/habitat-metro-denver-and-colorado-community-land-trust-announce-strategic-partnership-and-merger/",
+          "date": "2020"
+        },
+        {
+          "title": "APCHA Housing Regulations (2026)",
+          "source": "Aspen/Pitkin County Housing Authority",
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "date": "2026-04-16"
+        },
+        {
+          "title": "Housing Helps",
+          "source": "Summit County",
+          "link": "https://www.summitcountyco.gov/services/housing/housing_helps.php"
+        },
+        {
+          "title": "Housing coalition's Good Deeds buydown program hoping for summer launch",
+          "source": "The Sopris Sun",
+          "link": "https://soprissun.com/housing-coalitions-good-deeds-buydown-program-hoping-for-summer-launch/",
+          "date": "2024-05-15"
+        },
+        {
+          "title": "limited equity housing",
+          "source": "Legal Information Institute, Cornell Law School",
+          "link": "https://www.law.cornell.edu/wex/limited_equity_housing"
+        },
+        {
+          "title": "What is a ROC?",
+          "source": "ROC USA",
+          "link": "https://rocusa.org/whats-a-roc/"
+        },
+        {
+          "title": "Meadowood Village residents purchase their mobile home park in Littleton",
+          "source": "ROC USA",
+          "link": "https://rocusa.org/blog/meadowood-village-residents-purchase-their-mobile-home-park-in-littleton-locking-in-affordable-housing-for-decades-to-come/",
+          "date": "2025-01-24"
+        },
+        {
+          "title": "Renters Are Getting a Stake in Cleveland Real Estate",
+          "source": "Next City",
+          "link": "https://nextcity.org/urbanist-news/cleveland",
+          "date": "2015-10-14"
+        },
+        {
+          "title": "Colorado implements first-of-its-kind rewards program for renters",
+          "source": "Denver7",
+          "link": "https://www.denver7.com/money/co-implements-first-of-its-kind-rewards-program-for-renters-putting-money-back-in-their-pockets-to-pay-rent",
+          "date": "2026-02-03"
+        },
+        {
+          "title": "26 U.S. Code 42: Low-income housing credit (subsection (i)(7), tenant right of first refusal)",
+          "source": "Legal Information Institute, Cornell Law School",
+          "link": "https://www.law.cornell.edu/uscode/text/26/42"
+        },
+        {
+          "title": "CHN Through the Years: Post 3",
+          "source": "CHN Housing Partners",
+          "link": "https://chnhousingpartners.org/news/chn-through-the-years-post-3/",
+          "date": "2021"
+        },
+        {
+          "title": "HB23-1304 session law (Proposition 123 amendments, C.R.S. 29-32-104)",
+          "source": "Colorado General Assembly",
+          "link": "https://leg.colorado.gov/sites/default/files/documents/2023A/bills/sl/2023a_sl_381.pdf",
+          "date": "2023-06-05"
+        },
+        {
+          "title": "Proposition 123 Equity Program to Support 1,017 Affordable Housing Units Across Colorado",
+          "source": "Office of Governor Jared Polis",
+          "link": "https://governorsoffice.colorado.gov/governor/news/proposition-123-equity-program-support-1017-affordable-housing-units-across-colorado",
+          "date": "2025-06-04"
+        },
+        {
+          "title": "Proposition 123 Funding Opportunities",
+          "source": "Colorado Department of Local Affairs",
+          "link": "https://cdola.colorado.gov/prop123-funding-opportunities"
+        },
+        {
+          "title": "C.R.S. 38-12-217: Notice of change of use; opportunity to purchase",
+          "source": "Colorado Revised Statutes (public.law)",
+          "link": "https://colorado.public.law/statutes/crs_38-12-217"
+        },
+        {
+          "title": "SB22-160: Loan Program for Mobile Home Park Residents",
+          "source": "Colorado General Assembly",
+          "link": "https://leg.colorado.gov/bills/sb22-160",
+          "date": "2022-05-17"
+        },
+        {
+          "title": "HB23-1184: Low-income Housing Property Tax Exemptions",
+          "source": "Colorado General Assembly",
+          "link": "https://leg.colorado.gov/bills/hb23-1184",
+          "date": "2023-05-25"
+        },
+        {
+          "title": "HB26-1360 session law (Affordable Housing Financing Fund, amends C.R.S. 29-32-104)",
+          "source": "Colorado General Assembly",
+          "link": "https://leg.colorado.gov/laws/session-laws/HB26-1360/192/download",
+          "date": "2026-05-28"
+        },
+        {
+          "title": "Town of Breckenridge Housing - Housing Helps",
+          "source": "Town of Breckenridge",
+          "link": "https://www.townofbreckhousing.com/housing-helps",
+          "date": "2026-10-10"
+        },
+        {
+          "title": "Town of Frisco - Workforce & Affordable Housing",
+          "source": "Town of Frisco",
+          "link": "https://www.friscogov.com/departments/community-development/workforce-and-affordable-housing/",
+          "date": "2026-10-10"
+        },
+        {
+          "title": "Vail Daily: Good Deeds Vail partnership with Eagle County",
+          "source": "Town of Vail",
+          "link": "https://www.vaildaily.com/news/good-deeds-vail-partnership-with-eagle-county-looks-to-bring-more-locals-back-into-town/",
+          "date": "2026-10-10"
+        },
+        {
+          "title": "Housing Eagle County - Good Deeds",
+          "source": "Eagle County",
+          "link": "https://www.housingeaglecounty.com/gooddeeds",
+          "date": "2026-10-10"
+        },
+        {
+          "title": "Town of Avon 2026 Community Housing Plan (Council 9-8, final)",
+          "source": "Town of Avon",
+          "link": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL",
+          "date": "2026-10-10"
+        },
+        {
+          "title": "Town of Avon - Housing",
+          "source": "Town of Avon",
+          "link": "https://www.avon.org/2382/Housing",
+          "date": "2026-10-10"
+        }
+      ],
+      "source_quotes": [
+        {
+          "link": "https://www.lincolninst.edu/app/uploads/2024/04/1857_1164_thaden_final.pdf",
+          "quote": "yielding a sample of 42 CLTs that represented 2,173 owner-occupied, resale-restricted mortgages"
+        },
+        {
+          "link": "https://elevationclt.org/what-is-a-community-land-trust/",
+          "quote": "The homeowner enters into a 99-year, renewable land lease"
+        },
+        {
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "quote": "Plus three percent (3%) simple appreciation for each year owned; c. Plus cost, at present value, of approved, permitted capital improvements, not to exceed 10% of purchase price, less depreciation"
+        },
+        {
+          "link": "https://www.lincolninst.edu/app/uploads/2024/04/1857_1164_thaden_final.pdf",
+          "quote": "MBA prime loans were 4.3 times more likely to be seriously delinquent on December 31st, 2009 than CLT mortgages"
+        },
+        {
+          "link": "https://lincolninst.edu/sites/default/files/pubfiles/wang_wp19rw1_rev_0.pdf",
+          "quote": "58 shared equity homeownership programs and 4,108 properties"
+        },
+        {
+          "link": "https://lincolninst.edu/sites/default/files/pubfiles/wang_wp19rw1_rev_0.pdf",
+          "quote": "The median shared equity household accumulates approximately $14,000 through their participation in shared equity programs across housing market periods. By comparison, the median equity investment at purchase is $1,875."
+        },
+        {
+          "link": "https://www.urban.org/sites/default/files/publication/29291/412244-Balancing-Affordability-and-Opportunity-An-Evaluation-of-Affordable-Homeownership-Programs-with-Long-term-Affordability-Controls.PDF",
+          "quote": "over 90 percent in the three programs for which data were available"
+        },
+        {
+          "link": "https://rocusa.org/whats-a-roc/",
+          "quote": "ROC Members’ site fees are already 11% below market after just five years, and 21% below market after 10 years."
+        },
+        {
+          "link": "https://nextcity.org/urbanist-news/cleveland",
+          "quote": "Renters can earn up to $10,000 over 10 years."
+        },
+        {
+          "link": "https://www.denver7.com/money/co-implements-first-of-its-kind-rewards-program-for-renters-putting-money-back-in-their-pockets-to-pay-rent",
+          "quote": "will earn 2% of their rent payment in cash back each month through the Stake app"
+        },
+        {
+          "link": "https://colorado.public.law/statutes/crs_38-12-217",
+          "quote": "A group or association of home owners or their assignees have one hundred twenty days after the date that the landlord mails a notice"
+        },
+        {
+          "link": "https://colorado.public.law/statutes/crs_38-12-217",
+          "quote": "an additional one hundred twenty days after the one-hundred-twenty-day period provided by subsection (4)(a) of this section to close on the purchase of the mobile home park"
+        },
+        {
+          "link": "https://leg.colorado.gov/sites/default/files/documents/2023A/bills/sl/2023a_sl_381.pdf",
+          "quote": "tenants who reside in the project for at least one year shall be entitled to a share of the equity growth in the project, if any"
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB26-1360/192/download",
+          "quote": "tenants who reside in the project for at least one year shall be entitled to a share of the equity growth in the project, if any, in the form of funding from the program for a down-payment on housing or related purposes, which may also include ongoing opportunities for tenants to build up their savings"
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB26-1360/192/download",
+          "quote": "for the state fiscal year that begins on July 1, 2026, the office and administrator shall, with the goal of funding all three programs described in subsection (1) of this section, determine the funding percentages for the programs described in subsection (1) of this section based on the following priority order: concessionary debt, affordable housing equity, and land banking"
         }
       ],
       "alert_count": 0,
