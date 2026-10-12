@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-12T01:45:49.333Z",
+    "generated_at": "2026-10-12T05:55:31.537Z",
     "root": "data/",
     "file_count": 1711,
-    "total_size_bytes": 180133293,
+    "total_size_bytes": 180133301,
     "kinds": {
       "json": 1674,
       "geojson": 33,
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-12T01:45:44.986Z",
+      "mtime": "2026-10-12T05:55:27.835Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -29454,8 +29454,8 @@
     {
       "path": "hud-fmr-income-limits.json",
       "kind": "json",
-      "size_bytes": 102604,
-      "mtime": "2026-10-05T11:42:33.299Z",
+      "size_bytes": 102607,
+      "mtime": "2026-10-12T05:55:05.162Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31177,8 +31177,8 @@
     {
       "path": "market/fmr_tract_map_co.json",
       "kind": "json",
-      "size_bytes": 103492,
-      "mtime": "2026-10-05T11:42:33.303Z",
+      "size_bytes": 103495,
+      "mtime": "2026-10-12T05:55:05.163Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -32053,8 +32053,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 15106,
-      "mtime": "2026-10-12T01:45:46.912Z",
+      "size_bytes": 15108,
+      "mtime": "2026-10-12T05:55:29.679Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32078,7 +32078,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-12T01:45:46.473Z",
+      "mtime": "2026-10-12T05:55:29.214Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
