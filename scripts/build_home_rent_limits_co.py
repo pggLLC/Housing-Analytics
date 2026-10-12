@@ -6,6 +6,7 @@ workbook (HOME_Limits_Rents_<year>.xlsx). huduser.gov answers scripted
 requests with an empty HTTP 202, so the workbook is downloaded by hand in a
 browser (docs/runbooks/home-rent-limits-refresh.md) and passed to this script.
 
+    python3 -m pip install openpyxl   # once; not in CI's Python setup
     python3 scripts/build_home_rent_limits_co.py path/to/HOME_Limits_Rents_2026.xlsx
 
 Only Colorado rows are kept. Every value is copied from the workbook; nothing

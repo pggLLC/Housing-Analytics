@@ -10,7 +10,9 @@ is downloaded in a browser.
    memo (`<year>-HOME-RentLimits-Memo.pdf`). Do not commit either file.
 2. Read the effective date from the memo and add it to `EFFECTIVE_DATES` in
    `scripts/build_home_rent_limits_co.py`.
-3. Run `python3 scripts/build_home_rent_limits_co.py <path to the workbook>`.
+3. Install the workbook reader once (`python3 -m pip install openpyxl`; it is
+   not in CI's Python setup), then run
+   `python3 scripts/build_home_rent_limits_co.py <path to the workbook>`.
    It writes `data/hud-home-rent-limits-co-<year>.json` with all 64 counties
    and refuses to write a missing or zero limit.
 4. Point `test/hud-home-rent-limits.test.js` at the new year and run
