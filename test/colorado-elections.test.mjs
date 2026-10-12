@@ -362,6 +362,34 @@ test('live coverage figures and every table row agree with files; county filter 
   assert.ok(doc.querySelector(new URL(link.href).hash));
 });
 
+// A notes line saying no ballot was posted contradicts "Official ballot reviewed".
+const NO_BALLOT_NOTE = /\bno (?:county |town )?sample ballot (?:is|has been|was) (?:yet )?posted|\bsample ballot (?:was |is )?not (?:yet )?posted|\bbasis is the notice, not a ballot|\bsample ballot was "coming soon"|\bno sample ballot was read/i;
+
+test('a row closed without an official ballot says so, and agrees with its own notes', async (t) => {
+  const closed = BALLOTS.flatMap((b) => b.coverage)
+    .filter((row) => row.coverage_state === 'official_ballot_reviewed_none_found');
+  const notice = closed.filter((row) => row.basis === 'official_notice');
+  assert.ok(closed.length > 0 && notice.length > 0, 'the scan must find closed rows and notice-basis rows');
+  for (const row of BALLOTS.flatMap((b) => b.coverage).filter((r) => r.basis)) {
+    assert.equal(row.coverage_state, 'official_ballot_reviewed_none_found', `${row.name}: basis only qualifies a closed row`);
+  }
+  for (const row of closed) {
+    const said = row.limitations.find((text) => NO_BALLOT_NOTE.test(text));
+    if (said) assert.equal(row.basis, 'official_notice', `${row.name} notes that no ballot was posted or read: ${said}`);
+  }
+  const { doc } = await page(t);
+  const rendered = new Map([...doc.querySelectorAll('#coverage-rows tr')].map((tr) => [tr.dataset.geoid, tr]));
+  for (const row of closed) {
+    const label = rendered.get(row.geoid).cells[2].textContent;
+    if (row.basis === 'official_notice') {
+      assert.match(label, /^No official ballot found/, `${row.name} must say no official ballot was found`);
+      assert.doesNotMatch(label, /Official ballot reviewed/);
+    } else {
+      assert.match(label, /^Official ballot reviewed/);
+    }
+  }
+});
+
 test('mostly unresearched data shows unknowns, never a claim that no measures exist', async (t) => {
   const ballots = structuredClone(BALLOTS);
   ballots.forEach((file) => {
