@@ -26,7 +26,8 @@ const registry = sandbox.window.TableExportRegistry.tables;
 const PAGES = {
   'colorado-deep-dive.html': Object.keys(registry).filter((id) => id.startsWith('dd-')),
   'lihtc-allocations.html': Object.keys(registry).filter((id) => id.startsWith('la-')),
-  'insights.html': Object.keys(registry).filter((id) => id.startsWith('in-'))
+  'insights.html': Object.keys(registry).filter((id) => id.startsWith('in-')),
+  'chfa-portfolio.html': Object.keys(registry).filter((id) => id.startsWith('cp-'))
 };
 assert.equal(Object.values(PAGES).flat().length, Object.keys(registry).length, 'every registry entry is assigned to a page this test opens');
 
@@ -132,12 +133,16 @@ async function run() {
               fellBack: !!x.fellBack,
               bar: !!(t.__txBar && t.__txBar.isConnected),
               rows: x.model.rows.length,
+              onScreenRows: [...t.tBodies].reduce((n, b) => n + b.rows.length, 0),
+              statusShown: (() => { const m = /^([\d,]+) of [\d,]+ properties shown/.exec((document.getElementById('statusBar') || {}).textContent || ''); return m ? Number(m[1].replace(/,/g, '')) : null; })(),
               undefinedColumns: x.model.columns.filter((c) => !c.definition).map((c) => c.label),
               blankLabels: x.model.columns.filter((c) => !c.label || /^Column \d+$/.test(c.label)).length,
+              markedLabels: x.model.columns.filter((c) => /[†‡§*▲▼↑↓]\s*$/.test(c.label)).map((c) => c.label),
               missingSources: x.model.sources.filter((s) => s.missing).map((s) => s.id),
               sourceIds: x.model.sources.map((s) => s.id),
               control: (() => { const by = x.model.entry && x.model.entry.sourcesBySelection; const el = by && document.querySelector(by.control); return el ? el.value : null; })(),
               selection: x.model.selection.map((p) => p[0]),
+              textControls: Object.entries((x.model.entry && x.model.entry.selection) || {}).filter(([, q]) => { const el = document.querySelector(q); return el && el.tagName !== 'SELECT'; }).map(([label]) => label),
               zipBytes: Array.from(bytes.slice(0, 4)),
               name: x.name
             });
@@ -151,7 +156,11 @@ async function run() {
         if (!r.bar) problems.push(`${page} ${r.id}: no download buttons`);
         if (!(buttonSize[r.id] >= 44)) problems.push(`${page} ${r.id}: download button touch target ${buttonSize[r.id]}px, under 44px (Rule 14)`);
         if (r.rows < 1) problems.push(`${page} ${r.id}: no rows`);
+        // The portfolio shows 50 properties a page; its download is every
+        // property the filters match, the count the page's status line states.
+        if (r.id === 'cp-portfolio' && r.rows !== r.statusShown) problems.push(`${page} ${r.id}: downloads ${r.rows} rows, the page says ${r.statusShown} properties match (${r.onScreenRows} on screen)`);
         if (r.undefinedColumns.length) problems.push(`${page} ${r.id}: columns with no on-page definition: ${r.undefinedColumns.join(', ')}`);
+        if (r.markedLabels.length) problems.push(`${page} ${r.id}: header labels carry page marks: ${r.markedLabels.join(', ')}`);
         if (r.blankLabels) problems.push(`${page} ${r.id}: ${r.blankLabels} column(s) with no header label`);
         if (r.missingSources.length) problems.push(`${page} ${r.id}: sources not in the inventory: ${r.missingSources.join(', ')}`);
         const by = registry[r.id].sourcesBySelection;
@@ -161,11 +170,26 @@ async function run() {
         }
         for (const label of Object.keys(registry[r.id].selection || {})) {
           // A select always has a value; a text box is recorded only when filled.
-          if (!/search/i.test(label) && !r.selection.includes(label)) problems.push(`${page} ${r.id}: About does not record ${label}`);
+          if (!r.textControls.includes(label) && !r.selection.includes(label)) problems.push(`${page} ${r.id}: About does not record ${label}`);
         }
         if (!(r.format === 'csv' && r.fellBack)) problems.push(`${page} ${r.id}: with Excel blocked, expected the CSV zip fallback, got ${r.format}`);
         if (r.zipBytes.join(',') !== '80,75,3,4') problems.push(`${page} ${r.id}: download is not a zip`);
         if (!/^coho-[a-z0-9-]+-\d{4}-\d{2}-\d{2}\.zip$/.test(r.name)) problems.push(`${page} ${r.id}: unexpected file name ${r.name}`);
+      }
+      // With every filter cleared the portfolio matches all its properties,
+      // more than one page of 50; the download must carry all of them.
+      if (ids.includes('cp-portfolio')) {
+        const all = await tab.evaluate(async () => {
+          document.querySelectorAll('.filters select, select[id^="filter"]').forEach((el) => { el.selectedIndex = 0; el.dispatchEvent(new Event('change', { bubbles: true })); });
+          document.querySelectorAll('input[id^="filter"]').forEach((el) => { el.value = ''; el.dispatchEvent(new Event('input', { bubbles: true })); });
+          await new Promise((r) => setTimeout(r, 500));
+          const t = document.querySelector('table[data-export="cp-portfolio"]');
+          const x = await window.TableExport.build(t, 'csv');
+          const m = /^([\d,]+) of/.exec(document.getElementById('statusBar').textContent);
+          return { rows: x.model.rows.length, shown: m ? Number(m[1].replace(/,/g, '')) : null, onScreen: t.tBodies[0].rows.length };
+        });
+        if (!(all.shown > all.onScreen)) problems.push(`${page} cp-portfolio: fixture did not clear the filters (${all.shown} match, ${all.onScreen} on screen)`);
+        if (all.rows !== all.shown) problems.push(`${page} cp-portfolio: with no filter, downloads ${all.rows} rows of the ${all.shown} the page says match`);
       }
       const ownErrors = errors.filter((e) => /table-export|TableExport/.test(e));
       if (ownErrors.length) problems.push(`${page}: ${ownErrors.join('; ')}`);
