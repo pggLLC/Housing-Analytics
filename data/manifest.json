@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-12T16:01:10.112834Z",
+  "generated": "2026-10-12T16:04:34.838201Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 837976
+      "bytes": 837982
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7949,7 +7949,7 @@
     "data/policy/ballot-2026/counties/08009.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 15990
+      "bytes": 20342
     },
     "data/policy/ballot-2026/counties/08011.json": {
       "featureCount": 0,
@@ -7974,12 +7974,12 @@
     "data/policy/ballot-2026/counties/08017.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5058
+      "bytes": 5663
     },
     "data/policy/ballot-2026/counties/08019.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 8797
+      "bytes": 12178
     },
     "data/policy/ballot-2026/counties/08021.json": {
       "featureCount": 0,
@@ -8014,7 +8014,7 @@
     "data/policy/ballot-2026/counties/08033.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5450
+      "bytes": 5875
     },
     "data/policy/ballot-2026/counties/08035.json": {
       "featureCount": 0,
@@ -8029,7 +8029,7 @@
     "data/policy/ballot-2026/counties/08039.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7001
+      "bytes": 8678
     },
     "data/policy/ballot-2026/counties/08041.json": {
       "featureCount": 0,
@@ -8074,7 +8074,7 @@
     "data/policy/ballot-2026/counties/08057.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4646
+      "bytes": 5175
     },
     "data/policy/ballot-2026/counties/08059.json": {
       "featureCount": 0,
@@ -8084,17 +8084,17 @@
     "data/policy/ballot-2026/counties/08061.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9908
+      "bytes": 11189
     },
     "data/policy/ballot-2026/counties/08063.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13935
+      "bytes": 15946
     },
     "data/policy/ballot-2026/counties/08065.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3164
+      "bytes": 3728
     },
     "data/policy/ballot-2026/counties/08067.json": {
       "featureCount": 0,
@@ -8114,12 +8114,12 @@
     "data/policy/ballot-2026/counties/08073.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9767
+      "bytes": 15518
     },
     "data/policy/ballot-2026/counties/08075.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21731
+      "bytes": 33569
     },
     "data/policy/ballot-2026/counties/08077.json": {
       "featureCount": 0,
@@ -8149,12 +8149,12 @@
     "data/policy/ballot-2026/counties/08087.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 8838
+      "bytes": 9642
     },
     "data/policy/ballot-2026/counties/08089.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 8396
+      "bytes": 10908
     },
     "data/policy/ballot-2026/counties/08091.json": {
       "featureCount": 0,
@@ -8179,7 +8179,7 @@
     "data/policy/ballot-2026/counties/08099.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 8199
+      "bytes": 9349
     },
     "data/policy/ballot-2026/counties/08101.json": {
       "featureCount": 0,
@@ -8189,7 +8189,7 @@
     "data/policy/ballot-2026/counties/08103.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3954
+      "bytes": 6336
     },
     "data/policy/ballot-2026/counties/08105.json": {
       "featureCount": 0,
@@ -8214,7 +8214,7 @@
     "data/policy/ballot-2026/counties/08113.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12230
+      "bytes": 13952
     },
     "data/policy/ballot-2026/counties/08115.json": {
       "featureCount": 0,
@@ -8224,7 +8224,7 @@
     "data/policy/ballot-2026/counties/08117.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 11948
+      "bytes": 14633
     },
     "data/policy/ballot-2026/counties/08119.json": {
       "featureCount": 0,
@@ -8234,7 +8234,7 @@
     "data/policy/ballot-2026/counties/08121.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9520
+      "bytes": 10446
     },
     "data/policy/ballot-2026/counties/08123.json": {
       "featureCount": 0,
@@ -8244,7 +8244,7 @@
     "data/policy/ballot-2026/counties/08125.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9597
+      "bytes": 10496
     },
     "data/policy/ballot-2026/statewide.json": {
       "featureCount": 0,

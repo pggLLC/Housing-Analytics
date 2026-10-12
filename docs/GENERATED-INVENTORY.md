@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-12T16:00:39.114Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-12T16:04:02.593Z. Do not edit by hand.
 
 ---
 
@@ -1645,23 +1645,23 @@
 | `data/policy/ballot-2026/counties/08003.json` | 9.5 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08005.json` | 26.2 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08007.json` | 3.7 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08009.json` | 15.6 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08009.json` | 19.9 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08011.json` | 6.3 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08013.json` | 18.3 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08014.json` | 9.3 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08015.json` | 8.0 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08017.json` | 4.9 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08019.json` | 8.6 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08017.json` | 5.5 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08019.json` | 11.9 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08021.json` | 8.7 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08023.json` | 2.3 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08025.json` | 8.7 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08027.json` | 4.9 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08029.json` | 8.9 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08031.json` | 4.2 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08033.json` | 5.3 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08033.json` | 5.7 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08035.json` | 13.9 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08037.json` | 9.3 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08039.json` | 6.8 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08039.json` | 8.5 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08041.json` | 7.4 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08043.json` | 5.5 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08045.json` | 9.3 KB | ✅ | — |
@@ -1670,41 +1670,41 @@
 | `data/policy/ballot-2026/counties/08051.json` | 9.6 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08053.json` | 2.9 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08055.json` | 6.0 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08057.json` | 4.5 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08057.json` | 5.1 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08059.json` | 12.0 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08061.json` | 9.7 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08063.json` | 13.6 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08065.json` | 3.1 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08061.json` | 10.9 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08063.json` | 15.6 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08065.json` | 3.6 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08067.json` | 6.6 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08069.json` | 10.9 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08071.json` | 9.9 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08073.json` | 9.5 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08075.json` | 21.2 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08073.json` | 15.2 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08075.json` | 32.8 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08077.json` | 18.0 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08079.json` | 3.0 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08081.json` | 6.2 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08083.json` | 5.2 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08085.json` | 6.9 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08087.json` | 8.6 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08089.json` | 8.2 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08087.json` | 9.4 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08089.json` | 10.7 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08091.json` | 2.9 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08093.json` | 4.7 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08095.json` | 5.6 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08097.json` | 4.1 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08099.json` | 8.0 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08099.json` | 9.1 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08101.json` | 5.4 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08103.json` | 3.9 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08103.json` | 6.2 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08105.json` | 15.4 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08107.json` | 11.7 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08109.json` | 14.0 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08111.json` | 9.1 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08113.json` | 11.9 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08113.json` | 13.6 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08115.json` | 4.6 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08117.json` | 11.7 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08117.json` | 14.3 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08119.json` | 5.8 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08121.json` | 9.3 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08121.json` | 10.2 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08123.json` | 29.6 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08125.json` | 9.4 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08125.json` | 10.3 KB | ✅ | — |
 | `data/policy/ballot-2026/statewide.json` | 6.0 KB | ✅ | — |
 | `data/policy/buyer-assistance-programs.json` | 1.9 KB | ✅ | — |
 | `data/policy/candidate-platforms-2026.json` | 36.7 KB | ✅ | — |
