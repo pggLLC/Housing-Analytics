@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-12T16:59:55.840916Z",
+  "generated": "2026-10-12T17:16:48.201867Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8384,7 +8384,7 @@
     "data/policy/resale-conventions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7059
+      "bytes": 7610
     },
     "data/policy/research-orgs-housing.json": {
       "featureCount": 0,
@@ -8434,7 +8434,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 104928
+      "bytes": 104939
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,

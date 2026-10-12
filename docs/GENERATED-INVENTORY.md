@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-12T16:14:46.673Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-12T17:16:27.862Z. Do not edit by hand.
 
 ---
 
@@ -142,7 +142,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 4.02 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 254.2 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 254.4 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1732,7 +1732,7 @@
 | `data/policy/policy-timeline.json` | 6.7 KB | ✅ | — |
 | `data/policy/policy-watch.json` | 50.5 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 130.0 KB | ✅ | — |
-| `data/policy/resale-conventions.json` | 6.9 KB | ✅ | — |
+| `data/policy/resale-conventions.json` | 7.4 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.8 KB | ✅ | — |
 | `data/policy/resident-services.json` | 34.4 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 43.5 KB | ✅ | — |
@@ -2069,8 +2069,8 @@
 | `test/market-geography-binding.test.mjs` | 17.9 KB |
 | `test/market-jurisdiction-clears.test.js` | 22.2 KB |
 | `test/market-site-point-persisted.test.js` | 11.7 KB |
-| `test/market-study-page.test.js` | 20.5 KB |
-| `test/market-study-report.test.js` | 29.3 KB |
+| `test/market-study-page.test.js` | 21.4 KB |
+| `test/market-study-report.test.js` | 29.7 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
 | `test/methods-spec-sources.test.mjs` | 5.1 KB |
@@ -2098,7 +2098,7 @@
 | `test/ownership-finance.test.js` | 22.5 KB |
 | `test/ownership-funding-schema.test.js` | 5.6 KB |
 | `test/ownership-rental-separation.test.js` | 16.1 KB |
-| `test/ownership-resale.test.js` | 14.5 KB |
+| `test/ownership-resale.test.js` | 16.5 KB |
 | `test/package-4-user-visible.test.js` | 7.8 KB |
 | `test/page-dates.test.mjs` | 9.4 KB |
 | `test/pages-availability-check.js` | 17.2 KB |
