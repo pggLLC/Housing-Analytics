@@ -63,11 +63,11 @@ assert(dealSrc.includes('computeOwnershipResale'), 'Deal Calculator wires resale
 assert.equal(data.conventions.length, 4, 'four peer resale mechanisms are present');
 const expectedProvenance = {
   fixed_simple: { classification: 'modeled', observation_class: undefined, evidence_basis: undefined },
-  lesser_of_fixed_cpi: { classification: 'not_available', observation_class: 'unverified', evidence_basis: 'named_unretrieved' },
+  apcha_fixed_simple: { classification: 'modeled', observation_class: undefined, evidence_basis: undefined },
   shared_appreciation: { classification: 'not_available', observation_class: 'unverified', evidence_basis: 'named_unretrieved' },
   recapture: { classification: 'user_entered', observation_class: 'unverified', evidence_basis: 'none' }
 };
-['fixed_simple', 'lesser_of_fixed_cpi', 'shared_appreciation', 'recapture'].forEach((id) => {
+['fixed_simple', 'apcha_fixed_simple', 'shared_appreciation', 'recapture'].forEach((id) => {
   const convention = byId(id);
   assert(convention, `${id} convention exists`);
   assert(convention.source_program, `${id} has source_program`);
@@ -83,7 +83,8 @@ const expectedProvenance = {
 });
 assert.equal(byId('fixed_simple').default, true, 'WMRHC fixed_simple is the default convention');
 assert.equal(byId('fixed_simple').annual_rate, 0.03, 'WMRHC simple rate is pinned at 3%');
-assert.equal(byId('lesser_of_fixed_cpi').annual_rate, 'VERIFY', 'APCHA exact rate remains VERIFY until primary-source confirmed');
+assert.equal(byId('apcha_fixed_simple').annual_rate, 0.03, 'APCHA regulation default is 3% simple (Housing Regulations Part V, Section 1.B)');
+assert(/APCHA-Housing-Regulations/.test(byId('apcha_fixed_simple').source_url), 'APCHA rate is sourced to the regulation document, not the program page');
 assert.equal(byId('shared_appreciation').parameter_status, 'VERIFY_PRIMARY_DOC', 'Elevation share remains primary-doc VERIFY');
 assert.equal(byId('recapture').default_recapture_amount, 90000, 'recapture comparison carries the $90,000 screening default');
 
@@ -111,7 +112,7 @@ assert.equal(wmrhc.maxResalePrice, 460000, 'WMRHC 3% simple math: 400,000 held 5
 assert.equal(wmrhc.ownerGrossEquity, 140000, 'owner gross equity subtracts remaining principal and selling costs');
 assert.equal(wmrhc.preservesAffordability, true, 'WMRHC example remains below the current AMI-affordable benchmark');
 
-const apcha = Resale.evaluateConvention(byId('lesser_of_fixed_cpi'), {
+const apcha = Resale.evaluateConvention(byId('apcha_fixed_simple'), {
   purchasePrice: 400000,
   holdingPeriodYears: 5,
   remainingPrincipal: 300000,
@@ -120,8 +121,8 @@ const apcha = Resale.evaluateConvention(byId('lesser_of_fixed_cpi'), {
   targetAmiPct: 1.20,
   maxAffordablePrice: Ownership.maxAffordablePrice
 });
-assert.equal(apcha.maxResalePrice, 460000, 'APCHA upper-bound screen uses the fixed leg only');
-assert.equal(apcha.verifyParameter, true, 'APCHA rate is visibly VERIFY');
+assert.equal(apcha.maxResalePrice, 460000, 'APCHA 3% simple math: 400,000 held 5 years -> 460,000');
+assert.equal(apcha.verifyParameter, false, 'APCHA rate is verified against the regulation');
 
 const elevation = Resale.evaluateConvention(byId('shared_appreciation'), {
   purchasePrice: 400000,
@@ -190,8 +191,9 @@ assert.deepEqual(
   'comparison preserves declared dataset order instead of outcome ordering'
 );
 const highPrices = comparison.rows.map((row) => row.outcomes[0].maxResalePrice);
-assert.equal(new Set(highPrices).size, 4, 'all four mechanisms produce distinct next-buyer prices under the same 6% scenario');
-assert.deepEqual(highPrices, [520000, 480000, 499085, 716339], 'same-scenario comparison pins each mechanism without ranking');
+assert.equal(new Set(highPrices).size, 3, 'the three mechanism types produce distinct next-buyer prices under the same 6% scenario');
+assert.equal(highPrices[0], highPrices[1], 'WMRHC and APCHA both cap resale at 3% simple, so their caps agree');
+assert.deepEqual(highPrices, [520000, 520000, 499085, 716339], 'same-scenario comparison pins each mechanism without ranking');
 assert.equal(comparison.rows.find((row) => row.conventionId === 'recapture').outcomes[0].publicSubsidyRecaptured, 90000, 'recapture returns the fixed screening amount when net proceeds permit');
 
 // Recapture net-proceeds cap: downturn drives market value below principal+costs+recaptureAmount
@@ -243,6 +245,29 @@ assert.deepEqual(
   'rendered comparison order is the declared order'
 );
 assert(!mount.querySelector('[data-recommended], .recommended'), 'comparison renders no recommended badge');
+
+// What a convention leaves out of the cap travels with its row: the Deal
+// Calculator and the HNA strategy render this table, not the Market Study's
+// cards, so the calculation note has to be here too.
+data.conventions.filter((row) => row.calculation_note).forEach((row) => {
+  const note = mount.querySelector(`[data-resale-row="${row.id}"] [data-resale-calculation-note]`);
+  assert(note, `${row.id}: rendered row carries its calculation note`);
+  assert.equal(note.textContent, row.calculation_note, `${row.id}: rendered note is the data's note`);
+});
+// APCHA's note names the regulation's improvement cap; it must be the cap
+// the cited regulation states, as recorded in the convention's source note.
+const apchaRecord = byId('apcha_fixed_simple');
+const capIn = (text) => (String(text).match(/(\d+)%\s*of\s*(?:the\s*)?purchase price/i) || [])[1];
+assert(capIn(apchaRecord.source_note), 'APCHA source note records the regulation improvement cap');
+assert.equal(capIn(apchaRecord.calculation_note), capIn(apchaRecord.source_note),
+  'APCHA calculation note states the improvement cap its source note quotes');
+
+// The CPI input only feeds a lesser-of convention. With none in the data it
+// changes nothing, so the comparison must not present it as an input.
+const usesCpi = data.conventions.some((row) => row.type === 'lesser_of_fixed_cpi');
+assert.equal(/CPI input/.test(mount.textContent), usesCpi, 'CPI input is shown only when a convention uses it');
+const withLesserOf = Resale.compareConventions({ conventions: [{ id: 'lesser', label: 'Lesser-of', type: 'lesser_of_fixed_cpi', fixed_rate_upper_bound: 0.03 }] }, comparisonInput);
+assert.equal(withLesserOf.cpiRateAnnual, 0.02, 'a lesser-of convention still reports the CPI input it uses');
 assert(!resaleSrc.includes('.sort('), 'comparison engine applies no outcome sort');
 assert(strategySrc.includes('renderComparisonHtml'), 'HNA ownership strategy uses the shared comparison renderer');
 assert(renderersSrc.includes("'data/policy/resale-conventions.json'"), 'HNA extends its existing dataset load path for the comparison');

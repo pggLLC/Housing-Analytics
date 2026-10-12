@@ -93,10 +93,18 @@ const BADGE_COUNTS = {
   'Owner input required': 22,
   'Not yet verified': 2,
 };
+// The one deliberate move since #1514: the APCHA resale convention was read
+// against APCHA's Housing Regulations (Part V, Section 1.B) and is now a
+// modeled 3% simple cap instead of an unretrieved rule, so its one badge
+// moved from "Not yet verified" to "Calculated estimate".
+const SINCE_1514 = {
+  'Calculated estimate': +1,
+  'Not yet verified': -1,
+};
 Object.entries(BADGE_COUNTS).forEach(([label, expectedCount]) => {
   const badge = `data-provenance-label="${label}"`;
-  assert.strictEqual(exported.split(badge).length - 1, expectedCount,
-    `${label} export count must remain unchanged from #1514`);
+  assert.strictEqual(exported.split(badge).length - 1, expectedCount + (SINCE_1514[label] || 0),
+    `${label} export count must remain unchanged from #1514, apart from the APCHA move`);
   assert.strictEqual(expectedCount * 2 + 1, HISTORICAL_BARE_COUNTS[label],
     `${label}: the badge count no longer reconciles with the #1514 bare-substring figure, `
     + 'so one of them has stopped describing the same thing');
