@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-12T05:57:16.070Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-12T06:25:22.675Z. Do not edit by hand.
 
 ---
 
@@ -83,7 +83,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1675 JSON files found.
+1676 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1542,6 +1542,7 @@
 | `data/hna/zhvi-place-crosswalk.json` | 45.1 KB | ✅ | — |
 | `data/home-snapshot.json` | 2.1 KB | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 100.2 KB | ✅ | — |
+| `data/hud-home-rent-limits-co-2026.json` | 60.4 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/insights/catalog.json` | 9.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0803620.json` | 34.5 KB | ✅ | — |
@@ -1767,7 +1768,7 @@
 
 ## Test Files
 
-577 test files found.
+578 test files found.
 
 | File | Size |
 |------|------|
@@ -2024,6 +2025,7 @@
 | `test/housing-type-need-middle-income.test.js` | 6.0 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 2.8 KB |
+| `test/hud-home-rent-limits.test.js` | 3.2 KB |
 | `test/hud-vintage-labels-sync.test.mjs` | 2.4 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
 | `test/input-provenance.test.js` | 6.4 KB |

@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-12T05:57:43.446Z",
+    "generated_at": "2026-10-12T06:25:49.858Z",
     "root": "data/",
-    "file_count": 1711,
-    "total_size_bytes": 180133301,
+    "file_count": 1712,
+    "total_size_bytes": 180195175,
     "kinds": {
-      "json": 1674,
+      "json": 1675,
       "geojson": 33,
       "csv": 4
     }
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-12T05:57:39.183Z",
+      "mtime": "2026-10-12T06:25:46.096Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -29475,6 +29475,21 @@
       ]
     },
     {
+      "path": "hud-home-rent-limits-co-2026.json",
+      "kind": "json",
+      "size_bytes": 61876,
+      "mtime": "2026-10-12T06:25:01.637Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "counties"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "insights-meta.json",
       "kind": "json",
       "size_bytes": 970,
@@ -32053,8 +32068,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 15108,
-      "mtime": "2026-10-12T05:57:40.996Z",
+      "size_bytes": 15106,
+      "mtime": "2026-10-12T06:25:47.951Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32078,7 +32093,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-12T05:57:40.572Z",
+      "mtime": "2026-10-12T06:25:47.500Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
