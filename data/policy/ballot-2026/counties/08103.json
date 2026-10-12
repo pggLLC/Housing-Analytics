@@ -7,10 +7,10 @@
       "name": "Rio Blanco County",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.rbc.us/government/elected_officials/clerk_and_recorder/elections.php",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: the county Elections page still posts no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "Rechecked 2026-10-12: the county Elections page still posts no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list (only registration links, precinct and district maps, polling centers and drop boxes).",
         "Commissioner agendas are posted only for September 2026 and contain no ballot items; August agendas, where referrals and IGAs would appear, are not online."
       ],
       "reviewed_sources": [
@@ -21,6 +21,10 @@
         {
           "url": "https://www.rbc.us/government/county_commissioners/notice_of_meetings,_agendas___minutes.php",
           "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.rbc.us/government/elected_officials/clerk_and_recorder/elections.php",
+          "retrieved": "2026-10-12"
         }
       ]
     },
@@ -30,12 +34,13 @@
       "name": "Meeker (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.rbc.us/government/elected_officials/clerk_and_recorder/elections.php",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: the county Elections page still posts no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "Rechecked 2026-10-12: the county Elections page still posts no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list (only registration links, precinct and district maps, polling centers and drop boxes).",
         "Participation unknown. The town has no elections page; its 2026 trustee documents are scanned PDFs with no text layer, and none are posted after 2026-06-16.",
-        "On 2026-10-10 the town meeting-information page still lists no trustee documents after June 2026."
+        "On 2026-10-10 the town meeting-information page still lists no trustee documents after June 2026.",
+        "Rechecked 2026-10-12: the town now lists Board of Trustees agendas for July 7, July 21, August 18 and October 6, 2026 (all with a text layer); none lists a ballot referral, election item or coordinated-election IGA. The town Elections page (dated 2024) says: 'The Town of Meeker regular election is held the first Tuesday of April on even numbered years.' Neither is an official statement about November 3, 2026, and no county ballot style is posted to check the town against."
       ],
       "reviewed_sources": [
         {
@@ -49,6 +54,22 @@
         {
           "url": "https://www.townofmeeker.org/meeting-information/",
           "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.rbc.us/government/elected_officials/clerk_and_recorder/elections.php",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofmeeker.org/meeting-information/",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofmeeker.org/elections/",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofmeeker.org/townofmeeker/shared-files/17512/BOT%2010.6.26.pdf",
+          "retrieved": "2026-10-12"
         }
       ]
     },
@@ -58,12 +79,13 @@
       "name": "Rangely (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.rbc.us/government/elected_officials/clerk_and_recorder/elections.php",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: the county Elections page still posts no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list.",
+        "Rechecked 2026-10-12: the county Elections page still posts no November 3, 2026 sample ballot, TABOR notice, ballot certification or participating-entities list (only registration links, precinct and district maps, polling centers and drop boxes).",
         "Participation unknown. Rangely held its regular election on 2026-04-07; council packets 2026-05-12 through 2026-09-22 contain no ballot referral or coordinated-election IGA.",
-        "On 2026-10-10 the town municipal-elections page returned HTTP 403; the 2026-09-26 findings are kept."
+        "On 2026-10-10 the town municipal-elections page returned HTTP 403; the 2026-09-26 findings are kept.",
+        "Rechecked 2026-10-12: the town Municipal Elections page loads again and says: 'The Town of Rangely municipal elections are held the first Tuesday of April on even numbered years.' The October 13, 2026 council packet (54 pages, text layer) has no ballot referral or coordinated-election IGA. No county ballot style is posted to check the town against, so the row stays open."
       ],
       "reviewed_sources": [
         {
@@ -81,6 +103,18 @@
         {
           "url": "https://townofrangely.colorado.gov/departments/administrative-services/town-council/meeting-dates-board-packets",
           "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.rbc.us/government/elected_officials/clerk_and_recorder/elections.php",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofrangely.colorado.gov/departments/administrative-services/town-clerk/treasurer/municipal-elections",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofrangely.colorado.gov/sites/g/files/lrnvjt1566/files/documents/Town-Council-Packet-Web-10-13-26.pdf",
+          "retrieved": "2026-10-12"
         }
       ]
     }

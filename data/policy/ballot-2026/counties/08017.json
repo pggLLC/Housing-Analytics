@@ -63,13 +63,13 @@
       "name": "Kit Carson (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Read 2026-10-10: the Cheyenne County Clerk and Recorder page now posts \"2026 General Election Sample Ballot - All Precincts\" (text-readable PDF, 2 pages, a single ballot style 001-01). Its only questions are the statewide amendments and propositions and the judicial retention questions; it has no county, municipal, school or special district ballot question.",
-        "No TABOR notice and no list of participating political subdivisions was posted on the county clerk page checked on 2026-10-10.",
-        "The all-precincts sample ballot has no Town of Kit Carson section.",
-        "Town website checked 2026-10-10: the Documents & Services page posts minutes only through January 2025 and the Ordinances page lists only 2025 ordinances and resolutions; there is no 2026 election content, so a separate town election could not be ruled out and the row stays open."
+        "Rechecked 2026-10-12: the Cheyenne County Clerk and Recorder page still posts only \"2026 General Election Sample Ballot - All Precincts\" (a single style 001-01, read 2026-10-10). Its only questions are the statewide amendments and propositions and the judicial retention questions; it has no county, municipal, school or special district question and no Town of Kit Carson section.",
+        "No TABOR notice and no list of participating political subdivisions is posted on the county clerk page (checked 2026-10-12).",
+        "Town website rechecked 2026-10-12: the home, Documents & Services and Ordinances pages contain no election content (the newest items are a 2026 tornado siren notice, a January 2026 utility rate-study RFP and 2025 ordinances). A separate town election could not be ruled out from the town's own records.",
+        "Left at official_notice_unavailable (checked 2026-10-12): no participating-entities list and no town election page or notice to read."
       ],
       "reviewed_sources": [
         {
@@ -91,6 +91,22 @@
         {
           "url": "https://www.townofkitcarson.com/ordinances",
           "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.co.cheyenne.co.us/departments/clerk_recorder.html",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofkitcarson.com/",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofkitcarson.com/documents-services",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.townofkitcarson.com/ordinances",
+          "retrieved": "2026-10-12"
         }
       ]
     }

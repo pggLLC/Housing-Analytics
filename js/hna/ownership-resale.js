@@ -196,6 +196,7 @@
         conventionId: convention.id,
         label: convention.label,
         objective: convention.objective || convention.screening_note || '',
+        calculationNote: convention.calculation_note || '',
         sourceProgram: convention.source_program || '',
         sourceUrl: convention.source_url || '',
         sourceNote: convention.source_note || '',
@@ -218,7 +219,10 @@
     });
     return {
       subsidyType: subsidyType,
-      cpiRateAnnual: num(input.cpiRateAnnual),
+      // Only a lesser-of convention reads the CPI input; with none in the
+      // data the input changes nothing, so it is not reported.
+      cpiRateAnnual: conventions.some(function (convention) { return convention.type === 'lesser_of_fixed_cpi'; })
+        ? num(input.cpiRateAnnual) : null,
       selectedConventionId: selectedOption ? selectedOption.id : null,
       options: options,
       scenarios: scenarios,
@@ -249,7 +253,7 @@
       var outcomes = row.outcomes.map(function (outcome) {
         return '<td><span>Next buyer ' + displayMoney(outcome.maxResalePrice) + '</span><br><span>Owner equity ' + displayMoney(outcome.ownerGrossEquity) + '</span><br><span>Public recovery ' + displayMoney(outcome.publicSubsidyRecaptured) + '</span></td>';
       }).join('');
-      return '<tr data-resale-row="' + escapeHtml(row.conventionId) + '"' + (row.conventionId === comparison.selectedConventionId ? ' data-selected="true"' : '') + '><th scope="row">' + escapeHtml(row.label) + '<br><small>' + escapeHtml(row.objective) + '</small><br><small>' + ProvenanceLabel.html(row, { sourceText: row.sourceProgram || 'View source' }) + '</small></th>' + outcomes + '</tr>';
+      return '<tr data-resale-row="' + escapeHtml(row.conventionId) + '"' + (row.conventionId === comparison.selectedConventionId ? ' data-selected="true"' : '') + '><th scope="row">' + escapeHtml(row.label) + '<br><small>' + escapeHtml(row.objective) + '</small>' + (row.calculationNote ? '<br><small data-resale-calculation-note>' + escapeHtml(row.calculationNote) + '</small>' : '') + '<br><small>' + ProvenanceLabel.html(row, { sourceText: row.sourceProgram || 'View source' }) + '</small></th>' + outcomes + '</tr>';
     }).join('');
     return '<div data-resale-comparison><p><strong>Compare mechanisms in declared source order.</strong> These alternatives are not ranked; they protect different interests.</p>' +
       (Number.isFinite(comparison.cpiRateAnnual) ? '<p>Lesser-of comparison CPI input: ' + escapeHtml((comparison.cpiRateAnnual * 100).toFixed(1)) + '% annually.</p>' : '') +

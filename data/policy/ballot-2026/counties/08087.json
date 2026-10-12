@@ -118,10 +118,12 @@
       "name": "Hillrose (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://morgancounty.colorado.gov/elections-department",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: none of the 27 county sample ballot styles has a Town of Hillrose section, but no participating-entities list is posted and no town website with election information was found, so a separate town election could not be ruled out from the town's own records."
+        "Rechecked 2026-10-12: the Morgan County Elections Department page lists the same sample ballot styles per precinct (State and County, Town of Wiggins, Central Water, Central CO Water and Groundwater Management, and RE4J School variants). None is a Town of Hillrose style, and no TABOR notice or participating-entities list is posted.",
+        "A Town of Hillrose website (hillrosecolorado.org) was found and read on 2026-10-12. It says \"Website under construction, not all links are funtional\"; its newest items are a February 21, 2022 board agenda and the 2021 water quality report, and it has no election content. A separate town election cannot be ruled out from the town's own records.",
+        "Left at official_notice_unavailable (checked 2026-10-12): no participating-entities list and no town election page or notice to read."
       ],
       "reviewed_sources": [
         {
@@ -131,6 +133,14 @@
         {
           "url": "https://morgancounty.colorado.gov/elections-department",
           "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://morgancounty.colorado.gov/elections-department",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://www.hillrosecolorado.org/",
+          "retrieved": "2026-10-12"
         }
       ]
     },

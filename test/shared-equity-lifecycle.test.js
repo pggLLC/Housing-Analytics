@@ -425,11 +425,11 @@ test('fromConvention integrates all real conventions and preserves VERIFY discip
     assert(Number.isFinite(year(result, 10).formulaResalePrice), convention.id);
     assert.equal(result.conventionId, convention.id);
   });
-  const apcha = lifecycle.fromConvention(conventions, 'lesser_of_fixed_cpi', input({ horizons: [10] }));
+  const apcha = lifecycle.fromConvention(conventions, 'apcha_fixed_simple', input({ horizons: [10] }));
   const elevation = lifecycle.fromConvention(conventions, 'shared_appreciation', input({ horizons: [10] }));
   const recapture = lifecycle.fromConvention(conventions, 'recapture', input({ horizons: [10] }));
-  assert.equal(apcha.verifyParameter, true);
-  assert(apcha.parameterCaveat);
+  assert.equal(apcha.verifyParameter, false);
+  assert.equal(apcha.formulaType, 'fixed_simple');
   assert.equal(elevation.verifyParameter, true);
   assert(elevation.parameterCaveat);
   assert.equal(year(recapture, 10).formulaResalePrice, year(recapture, 10).unrestrictedMarketValue);

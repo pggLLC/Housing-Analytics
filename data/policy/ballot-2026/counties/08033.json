@@ -48,15 +48,17 @@
       "geoid": "0864090",
       "level": "municipal",
       "name": "Rico (town)",
-      "coverage_state": "official_notice_unavailable",
+      "coverage_state": "official_ballot_reviewed_none_found",
       "reviewed_source": "https://townofrico.colorado.gov/",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
         "The Town of Rico is not on the county coordinated ballot (the county notice names no municipality and the Rico-area ballot style 001-02 has no town contest). It runs its own municipal election on November 3, 2026.",
         "The Notice of Election on the town home page reads: \"The Town of Rico’s Municipal Election will be held on November 3, 2026, for the purpose of electing two (2) Board of Trustees.\" It names no ballot question (checked 2026-10-10).",
         "The Town Clerk's November election update in the August 2026 board packet reads \"2 Trustee seats will be on the ballot.\" No ballot question, referral or TABOR notice appears in the June to September 2026 board packets (including the September 2 special meeting and the September 28 budget hearing), in Ordinances 2026-03 to 2026-12, or in the October 21, 2026 agenda items listed on the home page. All of these packets have a text layer.",
-        "The row stays open: the town runs its own election and has posted no sample ballot, ballot-content notice or TABOR notice, so no official ballot has been reviewed. The town's short web Notice of Election and board records show no ballot question, but they are not the ballot itself. The county sample ballot and notice are scanned images and are not the basis for any conclusion here (checked 2026-10-10)."
+        "Rechecked 2026-10-12: the Notice of Election on the town home page is unchanged. It reads: \"The Town of Rico’s Municipal Election will be held on November 3, 2026, for the purpose of electing two (2) Board of Trustees.\" The page lists no ballot question, ballot issue or TABOR notice, and the October 21, 2026 agenda items it lists include no ballot referral.",
+        "Closed under the town-closure rule (#2072, confirmed 2026-10-11): the town is absent from the county coordinated ballot, and its own official Notice of Election, which states the purpose of its November 3, 2026 election, was read. No town sample ballot has been posted, so the basis is the notice, not a ballot. Flagged for owner review.",
+        "No official ballot found. Rechecked 2026-10-12: the town site posts no ballot or sample ballot for its November 3, 2026 municipal election. This row rests on the town's Notice of Election, not on a ballot."
       ],
       "reviewed_sources": [
         {
@@ -94,8 +96,13 @@
         {
           "url": "https://townofrico.colorado.gov/sites/g/files/lrnvjt3111/files/documents/Board-of-Trustees-September-28-2026-Packet.pdf",
           "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://townofrico.colorado.gov/",
+          "retrieved": "2026-10-12"
         }
-      ]
+      ],
+      "basis": "official_notice"
     }
   ],
   "entries": []
