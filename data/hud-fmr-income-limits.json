@@ -131,14 +131,14 @@
     {
       "fips": "08119",
       "county_name": "Teller County",
-      "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
-      "fmr_area_code": "METRO17820CO",
+      "fmr_area_name": "Teller County HUD Metro FMR Area",
+      "fmr_area_code": "METRO17820N08119",
       "fmr": {
-        "efficiency": 1196,
-        "one_br": 1464,
-        "two_br": 1735,
-        "three_br": 2413,
-        "four_br": 2744
+        "efficiency": 1029,
+        "one_br": 1362,
+        "two_br": 1493,
+        "three_br": 2076,
+        "four_br": 2505
       },
       "income_limits": {
         "ami_4person": 112600,
@@ -163,26 +163,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1180,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1196,
-          "pct_of_fmr": 98.7
+          "fmr_amount": 1029,
+          "pct_of_fmr": 114.7
         },
         "rent_60pct_2person": {
           "gross_rent": 1350,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1464,
-          "pct_of_fmr": 92.2
+          "fmr_amount": 1362,
+          "pct_of_fmr": 99.1
         },
         "rent_60pct_3person": {
           "gross_rent": 1520,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1735,
-          "pct_of_fmr": 87.6
+          "fmr_amount": 1493,
+          "pct_of_fmr": 101.8
         },
         "rent_60pct_4person": {
           "gross_rent": 1690,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2413,
-          "pct_of_fmr": 70.0
+          "fmr_amount": 2076,
+          "pct_of_fmr": 81.4
         }
       }
     },

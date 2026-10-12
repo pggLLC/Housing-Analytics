@@ -92,6 +92,49 @@ def test_expand_metroareas_to_counties_maps_metro_and_non_metro_records():
     assert alamosa['fmr']['two_br'] == 940
 
 
+COLORADO_SPRINGS_RECORD = _metro_record(
+    'Colorado Springs, CO HUD Metro FMR Area',
+    'METRO17820M17820',
+    eff=1196,
+    one=1464,
+    two=1735,
+    three=2413,
+    four=2744,
+)
+TELLER_RECORD = _metro_record(
+    'Teller County, CO HUD Metro FMR Area',
+    'METRO17820N08119',
+    eff=1029,
+    one=1362,
+    two=1493,
+    three=2076,
+    four=2505,
+)
+
+
+def test_teller_county_keeps_its_own_fmr_area_in_either_order():
+    # HUD's FY2026 statedata lists Teller as its own HMFA inside the
+    # Colorado Springs MSA. Its code shares the 17820 prefix, which once
+    # gave Teller El Paso's rents; first-wins de-duping made the result
+    # depend on response order.
+    for records in ([COLORADO_SPRINGS_RECORD, TELLER_RECORD],
+                    [TELLER_RECORD, COLORADO_SPRINGS_RECORD]):
+        rows = {}
+        for row in _expand_metroareas_to_counties(records, {}):
+            rows.setdefault(row['fips'], row)
+        assert rows['08041']['fmr']['two_br'] == 1735
+        assert rows['08041']['fmr_area_code'] == 'METRO17820CO'
+        assert rows['08119']['fmr']['two_br'] == 1493
+        assert rows['08119']['fmr_area_code'] == 'METRO17820N08119'
+        assert rows['08119']['fmr_area_name'] == 'Teller County HUD Metro FMR Area'
+
+
+def test_unmapped_sub_area_code_is_not_spread_across_the_msa():
+    other = _metro_record('Somewhere, CO HUD Metro FMR Area', 'METRO17820N08999', two=999)
+    rows = _expand_metroareas_to_counties([other], {})
+    assert all(row['fmr']['two_br'] != 999 for row in rows)
+
+
 def test_expand_metroareas_to_counties_prefers_canonical_name_and_falls_back_to_il_name():
     counties = _expand_metroareas_to_counties(
         [BOULDER_RECORD],
@@ -202,3 +245,23 @@ def test_fetches_the_fiscal_year_in_effect():
     assert federal_fiscal_year(datetime.date(2026, 9, 30)) == 2026
     assert federal_fiscal_year(datetime.date(2026, 10, 1)) == 2027
     assert federal_fiscal_year(datetime.date(2027, 1, 15)) == 2027
+
+
+def test_committed_fmrs_agree_with_hud_county_records():
+    # HUD's statedata response lists every county with the FMRs of the area
+    # it belongs to. The combined file must carry the same numbers, whatever
+    # area mapping produced them.
+    import json
+    root = os.path.join(os.path.dirname(__file__), '..', 'data')
+    with open(os.path.join(root, 'market', 'fmr_co.json'), encoding='utf-8') as fh:
+        raw = json.load(fh)['data']['data']['counties']
+    with open(os.path.join(root, 'hud-fmr-income-limits.json'), encoding='utf-8') as fh:
+        combined = {c['fips']: c for c in json.load(fh)['counties']}
+    keys = [('Efficiency', 'efficiency'), ('One-Bedroom', 'one_br'), ('Two-Bedroom', 'two_br'),
+            ('Three-Bedroom', 'three_br'), ('Four-Bedroom', 'four_br')]
+    assert len(raw) == 64
+    for record in raw:
+        fips = str(record['fips_code'])[:5]
+        got = [combined[fips]['fmr'][k] for _, k in keys]
+        want = [record[k] for k, _ in keys]
+        assert got == want, f"{record['county_name']} ({fips}): {got} != HUD {want}"

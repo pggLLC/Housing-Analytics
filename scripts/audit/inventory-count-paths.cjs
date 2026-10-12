@@ -61,6 +61,14 @@ const JSON_COUNT_PATHS = {
   'housing-legislation-2026': 'entries',
   'policy-watch': 'entries',
   'regrid-parcels': 'counties',
+  'novogradac-equity-pricing': 'pricing.by_state',
+  'aamd-denver-vacancy': 'counties',
+  'chfa-income-rent-limits': 'counties',
+  'funding-vs-need': 'counties',
+  'lihtc-state-allocations': 'states',
+  'co-ami-gap-county': 'counties',
+  'hmda-co': 'counties',
+  'home-value-cascade': ['counties', 'places'],
 };
 
 // These count per-county files present in a directory against the geo-config

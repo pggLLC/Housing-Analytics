@@ -366,6 +366,8 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 </style>
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/config/table-export-registry.js"></script>
+  <script defer src="js/components/table-export.js"></script>
   <script src="js/components/policy-timeline.js"></script>
   <script src="js/components/lihtc-by-year.js"></script>
   <script defer src="js/components/data-quality-summary.js"></script>
@@ -1188,7 +1190,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <p class="chart-subtitle">All metrics by AMI band for the selected county/region</p>
     </div>
     <div class="data-table" style="overflow-x:auto; padding:0 .25rem .75rem;">
-      <table style="width:100%; min-width:560px;">
+      <table data-export="dd-ami-gap-detail" style="width:100%; min-width:560px;">
         <thead>
           <tr>
             <th>AMI Band</th>
@@ -1647,12 +1649,12 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
         </p>
         <div id="prop123Summary" style="font-size:.9rem;color:var(--text);margin:.25rem 0 1rem;"></div>
         <div class="data-table">
-          <table aria-label="Prop 123 jurisdictions list">
+          <table aria-label="Prop 123 jurisdictions list" data-export="dd-prop123">
             <thead>
               <tr>
                 <th>Jurisdiction</th>
                 <th>Type</th>
-                <th>Status</th>
+                <th data-tip="Where the jurisdiction stands with DOLA: Committed means it filed a Proposition 123 commitment; Commitment Met means DOLA lists it as fully compliant.">Status</th>
                 <th>Commitment Date</th>
               </tr>
             </thead>
@@ -1836,11 +1838,11 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       </div>
       <div style="padding:0 1.25rem 1.25rem;">
         <div id="affGapTableWrap" class="data-table" style="overflow-x:auto;">
-          <table aria-label="Top 10 counties by AMI gap at 50% AMI" style="width:100%;">
+          <table aria-label="Top 10 counties by AMI gap at 50% AMI" data-export="dd-aff-gap-top10" style="width:100%;">
             <thead>
               <tr>
                 <th>County</th>
-                <th>Gap (units)</th>
+                <th data-tip="Rental homes priced affordable at 50% AMI minus renter households at or below 50% AMI. Negative means more households than affordable homes.">Gap (units)</th>
                 <th>Supply coverage</th>
                 <th>Notes</th>
               </tr>
@@ -2145,7 +2147,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 
     <h3 style="margin-top:1.5rem;" id="ccTradeHeading">Hourly wage by trade</h3>
     <div class="cc-table-wrap" role="region" aria-labelledby="ccTradeHeading" tabindex="0">
-      <table class="cc-table" id="ccTradeTable">
+      <table class="cc-table" id="ccTradeTable" data-export="dd-trade-wages">
         <caption class="sr-only">Mean hourly wage by construction trade, Colorado and its metro areas (BLS OEWS)</caption>
         <thead><tr id="ccTradeHead"></tr></thead>
         <tbody id="ccTradeBody"><tr><td>Loading…</td></tr></tbody>
@@ -2171,7 +2173,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   <section class="mi-section" aria-labelledby="cc-history-heading">
     <h2 id="cc-history-heading">Month by month</h2>
     <div class="cc-table-wrap" role="region" aria-labelledby="cc-history-heading" tabindex="0">
-      <table class="cc-table" id="ccHistoryTable">
+      <table class="cc-table" id="ccHistoryTable" data-export="dd-cost-history">
         <caption class="sr-only">Year-over-year change in Colorado construction wages, construction employment and construction input prices, by month</caption>
         <thead><tr><th scope="col" title="Reference month of the BLS release">Month</th><th scope="col" title="Change in Colorado construction average hourly earnings (BLS CES) from the same month a year earlier">CO construction hourly earnings, YoY</th><th scope="col" title="Change in Colorado construction employment (BLS CES) from the same month a year earlier">CO construction employment, YoY</th><th scope="col" title="Change in the national PPI for net inputs to multifamily construction from the same month a year earlier">Construction input prices, YoY</th></tr></thead>
         <tbody id="ccHistoryBody"><tr><td colspan="4">Loading…</td></tr></tbody>
@@ -2216,7 +2218,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <label for="dfAmiCounty" class="df-label">County</label>
     <select id="dfAmiCounty" class="df-select"></select>
     <div class="cc-table-wrap" role="region" aria-labelledby="df-ami-heading" tabindex="0">
-      <table class="cc-table" id="dfAmiTable">
+      <table class="cc-table" id="dfAmiTable" data-export="dd-chfa-limits">
         <caption class="sr-only">CHFA income limits by household size and maximum gross rents by bedroom count, by AMI tier, for the selected county</caption>
         <thead><tr>
           <th scope="col" title="Percent of area median income">AMI tier</th>
@@ -2371,7 +2373,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     </div>
     <p id="benchSummary" style="font-size:.85rem;color:var(--muted);margin:0 0 .5rem;"></p>
     <div style="overflow-x:auto;">
-      <table class="ht-bench-table">
+      <table class="ht-bench-table" data-export="dd-peer-benchmark">
         <thead>
           <tr>
             <th scope="col">Project</th>
@@ -2458,9 +2460,9 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <h2>Metro Area Breakdown</h2>
     <p style="font-size:.85rem;color:var(--color-text-muted);margin:.25rem 0 .75rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · aggregated from <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA HousingTaxCreditProperties</a> by county / metro grouping. Updates when CHFA refreshes the ArcGIS service.</p>
     <div class="data-table">
-      <table>
+      <table data-export="dd-metro-breakdown">
         <thead>
-          <tr><th>Metro Area</th><th>Properties</th><th>Total Units</th><th>LI Units</th><th>% of LI Units</th></tr>
+          <tr><th data-tip="Metro area the county is grouped into for this table.">Metro Area</th><th data-tip="Tax-credit developments in the metro area in CHFA's portfolio.">Properties</th><th data-tip="All homes in those developments, restricted and unrestricted.">Total Units</th><th data-tip="Low-income units: homes restricted to income-qualified households under the tax-credit agreement.">LI Units</th><th data-tip="This metro area's share of all low-income units in the table.">% of LI Units</th></tr>
         </thead>
         <tbody id="moMetroBreakdownBody">
           <tr><td colspan="5" style="text-align:center;color:var(--color-text-muted);padding:1rem;">Loading metro breakdown from CHFA portfolio…</td></tr>
@@ -2623,9 +2625,9 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 
   <section class="mi-section" aria-labelledby="fvn-table-heading">
     <h2 id="fvn-table-heading">Every county</h2>
-    <p><button type="button" class="btn" id="fvnCsv" title="Downloads every county row and metric as a CSV file">Download CSV</button></p>
+    <p><button type="button" class="btn" id="fvnCsv" title="Downloads every county row with all the raw fields behind this table, including FIPS codes and credit amounts, as a CSV file">Download every field (CSV)</button></p>
     <div class="cc-table-wrap" role="region" aria-labelledby="fvn-table-heading" tabindex="0">
-      <table class="cc-table" id="fvnTable">
+      <table class="cc-table" id="fvnTable" data-export="dd-funding-vs-need">
         <caption class="sr-only">Affordable-housing need, tax-credit and Prop 123 awards, and market signals for each Colorado county. Select a column heading to sort.</caption>
         <thead><tr id="fvnTableHead"></tr></thead>
         <tbody id="fvnTableBody"><tr><td>Loading…</td></tr></tbody>
