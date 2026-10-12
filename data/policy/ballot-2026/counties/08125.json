@@ -96,11 +96,12 @@
       "name": "Eckley (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://townofeckley.colorado.gov/",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "The county's certified complete ballot content (Notice of General Election, Sep 18, 2026) lists no Town of Eckley measure, and none of the twelve sample ballot styles has an Eckley section.",
-        "Rechecked 2026-10-10: the town website's agenda archive still stops at 2023, and it posts no election documents. Under the rule used in #2072, a town absent from every county style stays open when its own site has no election content."
+        "The county's certified complete ballot content (Notice of General Election, Sep 18, 2026) lists no Town of Eckley measure, and none of the twelve sample ballot styles has an Eckley section. Rechecked 2026-10-12: the Yuma County elections page links the same notice and styles, and no participating-entities list is posted.",
+        "Town website rechecked 2026-10-12: the agenda archive still stops at 2023, the Town Clerk page is empty, and the Ordinances page has no ordinance later than 2022. It posts no election documents.",
+        "Left at official_notice_unavailable (checked 2026-10-12): no participating-entities list and no town election page or notice to read."
       ],
       "reviewed_sources": [
         {
@@ -114,6 +115,26 @@
         {
           "url": "https://townofeckley.colorado.gov/",
           "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://yumacounty.net/clerk-and-recorder/elections/",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://yumacounty.net/wp-content/uploads/2026/09/2026-General-Election.pdf",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofeckley.colorado.gov/",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofeckley.colorado.gov/government/town-clerk",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofeckley.colorado.gov/government/ordinances",
+          "retrieved": "2026-10-12"
         }
       ]
     },
