@@ -10,25 +10,7 @@ const root = path.resolve(__dirname, '..');
 const fixturePath = path.join(__dirname, 'fixtures/deal-engine/golden.json');
 const record = process.argv.includes('--record');
 const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.svg': 'image/svg+xml', '.json': 'application/json' };
-async function routeInvented(page) {
-  await page.route('**/*', async route => {
-    const u = new URL(route.request().url());
-    if (u.origin !== 'http://example.org') return route.abort();
-    const rel = decodeURIComponent(u.pathname.slice(1));
-    if (Object.hasOwn(sources, rel)) return route.fulfill({ json: sources[rel] });
-    if (rel.startsWith('data/')) return route.fulfill({ status: 404, json: { unavailableReason: 'not_in_invented_fixture' } });
-    // The baseline also captured hidden explanation text initialized at mount.
-    // Make the invented CHFA source ready before the deferred calculator runs,
-    // rather than letting response timing choose that initial source-date text.
-    if (rel === 'js/deal-calculator.js' && new URL(page.url()).pathname === '/deal-calculator.html') {
-      await page.waitForFunction(() => window.__DealCalcChfaTablePromise);
-      await page.evaluate(() => window.__DealCalcChfaTablePromise);
-    }
-    const file = path.resolve(root, rel);
-    if (!file.startsWith(root + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) return route.fulfill({ status: 404, body: '' });
-    return route.fulfill({ body: fs.readFileSync(file), contentType: mime[path.extname(file)] || 'application/octet-stream' });
-  });
-}
+const { routeInvented } = require('./helpers/deal-engine-page.cjs');
 async function run() {
   // CI already installs Puppeteer's Chrome for its rendered audit tests.
   const explicit = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
@@ -62,7 +44,7 @@ async function run() {
         document.querySelectorAll('[id^="dc-r-"], [id^="dc-su-"], [id^="dc-exit-"], #dc-noi-computed').forEach(el => {
           if (!el.matches('input, select, button, textarea')) figures[el.id] = el.textContent.trim();
         });
-        figures.stressTable = [...document.querySelectorAll('#dc-dscr-stress-table tbody tr')].map(row => [...row.querySelectorAll('td')].slice(1).map(td => td.textContent.trim()));
+        figures.stressTable = [...document.querySelectorAll('#dc-dscr-stress-table tbody tr:not([data-scenario=base])')].map(row => [...row.querySelectorAll('td')].slice(1).map(td => td.textContent.trim()));
         const fields = Object.fromEntries([...document.querySelectorAll('#dealCalcMount input[id], #dealCalcMount select[id], [id^="pf-"]')].map(el => [el.id, el.type === 'checkbox' || el.type === 'radio' ? el.checked : el.value]));
         return { figures, fields, tranches: window.DealCalcSoftTranches(), amiLimitsByBr: window.__DealCalc.getAmiLimitsByBr(), constants: window.__DealCalc._getConstants() };
       });
@@ -71,11 +53,12 @@ async function run() {
       assert.equal(captured.fields['dc-units'], '60');
       assert(Object.keys(captured.figures).length > 40, 'non-empty figure scan');
       assert(captured.figures.stressTable.length === 4, 'every stress scenario captured');
-      assert(!captured.figures['dc-r-noi-stab'].includes('Unavailable'));
+      assert.equal(captured.figures['dc-r-noi-stab'].includes('Unavailable'), scenario === 'C');
       if (scenario === 'B') assert(captured.figures['dc-su-impact-note'].includes('$50,592'), 'preserve the existing soft-loan payment even at 0% cash-flow pay');
       if (!record) {
         const expected = JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
-        assert.deepEqual(captured.figures, expected.scenarios[scenario].figures, `scenario ${scenario}: every displayed figure is unchanged`);
+        if (scenario !== 'C') assert.deepEqual(captured.figures, expected.scenarios[scenario].figures, `scenario ${scenario}: every displayed figure is unchanged`);
+        else for (const id of ['dc-r-noi-stab', 'dc-r-mortgage', 'dc-su-gap', 'dc-exit-noi', 'dc-exit-resale']) assert(captured.figures[id].includes('Enter operating cost'), id + ': C has the missing-cost reason');
         const contract = await page.evaluate(() => {
           const expected = window.__DealCalc.getResult();
           const copy = window.__DealCalc.getResult();
@@ -121,8 +104,8 @@ async function run() {
   if (record) fs.writeFileSync(fixturePath, JSON.stringify(result, null, 2) + '\n');
   else {
     const expected = JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
-    for (const scenario of ['A', 'B', 'C']) assert.deepEqual(result.scenarios[scenario].figures, expected.scenarios[scenario].figures, `scenario ${scenario}: every displayed figure is unchanged`);
-    console.log('deal-engine golden: PASS (all three invented scenarios, character-for-character)');
+    for (const scenario of ['A', 'B']) assert.deepEqual(result.scenarios[scenario].figures, expected.scenarios[scenario].figures, `scenario ${scenario}: every displayed figure is unchanged`);
+    console.log('deal-engine golden: PASS (invented A/B unchanged character-for-character; C blocks missing operating cost)');
   }
 }
 run().catch(error => { console.error(error); process.exitCode = 1; });

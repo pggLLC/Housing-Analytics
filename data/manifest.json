@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-11T11:49:47.646114Z",
+  "generated": "2026-10-12T01:45:53.283797Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9,7 +9,7 @@
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7351
+      "bytes": 7711
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -234,7 +234,7 @@
     "data/co-county-demographics.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 41678
+      "bytes": 40183
     },
     "data/co-county-economic-indicators.json": {
       "featureCount": 64,
@@ -324,7 +324,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 258642
+      "bytes": 260344
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -7904,7 +7904,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 15108
+      "bytes": 15106
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -8404,7 +8404,7 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 37056
+      "bytes": 40851
     },
     "data/policy/thiz-map-status.json": {
       "featureCount": 0,
@@ -8429,7 +8429,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 30211
+      "bytes": 70865
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,

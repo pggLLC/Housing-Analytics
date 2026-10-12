@@ -164,7 +164,7 @@
       'Hover any column header for the definition; click to sort.' +
       '</p>';
     html += '<div style="overflow-x:auto;">';
-    html += '<table class="mhc-table" style="width:100%;border-collapse:collapse;font-size:.85rem;">';
+    html += '<table class="mhc-table" data-export="dd-market-health" style="width:100%;border-collapse:collapse;font-size:.85rem;">';
     html += '<thead><tr>';
     columns.forEach(function (col) {
       html += '<th data-sort-key="' + col.key + '" tabindex="0" role="columnheader" ' +

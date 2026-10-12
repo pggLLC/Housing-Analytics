@@ -32,7 +32,7 @@
   /* ─────────────────────────────────────────────────────────────── */
 
   function esc(s) {
-    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
   function _resolveUrl(path) {
@@ -118,13 +118,19 @@
   // YR_PIS must never be presented as the year a project opened.
   function _projects(features) { return global.LihtcByYear.projects(features || state.lihtcFeatures || []); }
 
-  function _dataTable(elId, caption, headers, rows) {
+  // exportId names the table in js/config/table-export-registry.js, which
+  // gives it Download Excel / CSV buttons; tips are the header definitions
+  // the page shows and the download's Indicators sheet repeats.
+  function _dataTable(elId, caption, headers, rows, exportId, tips) {
     var el = document.getElementById(elId);
     if (!el) return;
     el.innerHTML =
       '<details class="ht-table-toggle"><summary>Show the numbers behind this chart</summary>' +
-      '<div style="overflow-x:auto;"><table class="ht-bench-table ht-data-table"><caption class="sr-only">' + esc(caption) + '</caption><thead><tr>' +
-      headers.map(function (h, i) { return '<th scope="col"' + (i ? ' style="text-align:right"' : '') + '>' + esc(h) + '</th>'; }).join('') +
+      '<div style="overflow-x:auto;"><table class="ht-bench-table ht-data-table"' + (exportId ? ' data-export="' + esc(exportId) + '"' : '') + '><caption class="sr-only">' + esc(caption) + '</caption><thead><tr>' +
+      headers.map(function (h, i) {
+        var tip = tips && tips[h];
+        return '<th scope="col"' + (i ? ' style="text-align:right"' : '') + (tip ? ' data-tip="' + esc(tip) + '"' : '') + '>' + esc(h) + '</th>';
+      }).join('') +
       '</tr></thead><tbody>' +
       rows.map(function (r) {
         return '<tr>' + r.map(function (v, i) {
@@ -207,7 +213,15 @@
     ], years.map(function (y, i) {
       return [y, agg.nine.projects[i], agg.four.projects[i], agg.other.projects[i],
         _fmt(agg.nine.units[i]), _fmt(agg.four.units[i]), _fmt(agg.other.units[i])];
-    }).reverse());
+    }).reverse(), 'dd-lihtc-by-year', {
+      'Award year': 'Year CHFA awarded the tax credits.',
+      '9% projects': 'Developments awarded 9% (competitive) credits that year.',
+      '4% projects': 'Developments awarded 4% credits, paired with tax-exempt bonds, that year.',
+      'Other': 'Developments whose credit type CHFA records as neither 9% nor 4%, or as mixed.',
+      '9% units': 'Housing units in that year\u2019s 9% developments. Developments with no unit count are left out of the sum.',
+      '4% units': 'Housing units in that year\u2019s 4% developments. Developments with no unit count are left out of the sum.',
+      'Other units': 'Housing units in that year\u2019s other or mixed developments. Developments with no unit count are left out of the sum.'
+    });
 
     var d = dealStats(state.lihtcFeatures);
     var dealEl = document.getElementById('dealStats');
@@ -419,7 +433,12 @@
       ['Award year', 'Projects', 'Units', 'Cumulative projects', 'Cumulative units'],
       years.map(function (y, i) {
         return [y, projByYr[i], _fmt(unitsByYr[i]), _fmt(cumProj[i]), _fmt(cumUnits[i])];
-      }).reverse());
+      }).reverse(), 'dd-lihtc-cumulative', {
+        'Award year': 'Year CHFA awarded the tax credits.',
+        'Projects': 'Developments awarded tax credits that year.',
+        'Cumulative projects': 'Running total of developments from the earliest award year in CHFA\u2019s feed through this year.',
+        'Cumulative units': 'Running total of housing units from the earliest award year in CHFA\u2019s feed through this year.'
+      });
 
     var statsEl = document.getElementById('stockStats');
     if (statsEl) {
