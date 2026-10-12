@@ -129,11 +129,12 @@
       "name": "Otis (town)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://townofotis.colorado.gov/",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "None of the ten county sample ballot styles posted on the county elections page has a Town of Otis section (all read 2026-10-10). The county has posted no participating-entities list.",
-        "Rechecked 2026-10-10: the town website still posts no agendas, minutes, ordinances or election documents. Under the rule used in #2072, a town absent from every county style stays open when its own site has no election content."
+        "Rechecked 2026-10-12: the Washington County elections page still links the same ten 2026 General Election sample ballots (Precincts 1-6 with Akron, Akron Rural Fire and Arickaree variants, read 2026-10-10), none with a Town of Otis section. Its only new document is a dates sheet (\"2026-Elections-(1).pdf\": ballot mailing, drop-off and VSPC hours). No TABOR notice or participating-entities list is posted.",
+        "Town website rechecked 2026-10-12: the home and Board of Trustees pages post no agendas, minutes, ordinances or election documents; the Board page says approved minutes \"may be obtained from the Clerk's Office at Town Hall.\"",
+        "Left at official_notice_unavailable (checked 2026-10-12): no participating-entities list and no town election page or notice to read."
       ],
       "reviewed_sources": [
         {
@@ -191,6 +192,22 @@
         {
           "url": "https://townofotis.colorado.gov/",
           "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/departments/elections",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/2026-Elections-%281%29.pdf",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofotis.colorado.gov/",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofotis.colorado.gov/board-of-trustees",
+          "retrieved": "2026-10-12"
         }
       ]
     }

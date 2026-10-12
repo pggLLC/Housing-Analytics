@@ -19,6 +19,12 @@
     official_notice_unavailable: 'Official notice unavailable',
     not_applicable: 'Not applicable'
   };
+  // A row closed on an official notice must not claim a ballot was reviewed.
+  var NOTICE_BASIS = 'No official ballot found — official notice reviewed, no direct housing measure found';
+  function stateLabel(row) {
+    if (row.coverage_state === 'official_ballot_reviewed_none_found' && row.basis === 'official_notice') return NOTICE_BASIS;
+    return STATES[row.coverage_state] || row.coverage_state;
+  }
   var past = document.getElementById('past-election-records');
 
   function node(tag, text, className) {
@@ -167,10 +173,11 @@
         tr.dataset.geoid = row.geoid;
         tr.dataset.county = index ? counties[index - 1].geoid : 'state';
         tr.dataset.coverageState = row.coverage_state;
+        if (row.basis) tr.dataset.basis = row.basis;
         var th = add(tr, 'th', row.name);
         th.scope = 'row';
         add(tr, 'td', index ? counties[index - 1].label : 'Statewide');
-        add(tr, 'td', STATES[row.coverage_state] || row.coverage_state);
+        add(tr, 'td', stateLabel(row));
         add(tr, 'td', row.checked || 'Not yet checked');
         var source = add(tr, 'td');
         if (row.reviewed_source) link(source, 'Reviewed source', row.reviewed_source);

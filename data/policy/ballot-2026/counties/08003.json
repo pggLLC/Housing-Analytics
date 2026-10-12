@@ -87,18 +87,19 @@
       "geoid": "0837380",
       "level": "municipal",
       "name": "Hooper (town)",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://www.alamosacounty.org/166/Elections-Department",
-      "checked": "2026-10-10",
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.alamosacounty.org/DocumentCenter/View/1867",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Checked 2026-10-10: Alamosa County's two posted sample ballot styles ('Ballot Style 01 (County)', 'Ballot Style 02 (City & County)') contain no Town of Hooper contest or question, but the county has posted no TABOR notice or list/IGA of participating political subdivisions, so Hooper's participation is not confirmed by an official list; not marked not_applicable.",
-        "The Town of Hooper website (https://townofhooper.colorado.gov/) loaded on 2026-10-10 (it returned HTTP 403 on 2026-09-26). Its home, Meeting Minutes & Agendas and Upcoming Events pages were read: there is no election page or election notice, and the newest posted item is a March 18, 2026 agenda. The linked agenda and minutes PDFs returned HTTP 403 to curl and WebFetch. Under the #2072 rule the row is not closed as none-found, because the town posts no election content that could be read. Owner review: the town is absent from both county styles."
+        "Checked 2026-10-12: the Alamosa County Elections Department page still posts the same two Nov 3, 2026 sample ballot styles, 'Ballot Style 01 (County)' and 'Ballot Style 02 (City & County)', and both were read in full on 2026-10-10. Neither has a Town of Hooper contest or question. Hooper lies outside the City of Alamosa, so its voters receive Style 01, whose only local measure is 12th Judicial District Ballot Question 7A (DA term limits; not housing). No TABOR notice and no list/IGA of participating political subdivisions is posted, so the row closes on the ballot styles plus the town's own notices, not on an entity list.",
+        "Town notices read 2026-10-12 (the agenda and minutes PDFs returned HTTP 403 on 2026-10-10 and now load): the December 3, 2025 agenda lists \"Resolution 4-2025 A Resolution of the Town of Hooper, Colorado, Calling the Regular Election to be Held on April 7, 2026\"; the January 28, 2026 agenda lists \"Election Update and Random Draw of Candidate Names for Order on Election Ballot\"; the September 17, 2025 minutes record a contract with an election official \"for the 2026 Election\". The March 18, 2026 agenda is the newest posting and has no ballot item. The town's 2026 regular election was therefore its own April 7 election, outside this coordinated election.",
+        "Owner review: closed under the #2072 town rule on the county ballot styles plus the town's own election notices. The town has no elections page, and no town notice after March 18, 2026 is posted, so a November referral is ruled out by its absence from both county styles rather than by a town statement."
       ],
       "reviewed_sources": [
         {
           "url": "https://www.alamosacounty.org/166/Elections-Department",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
         },
         {
           "url": "https://www.alamosacounty.org/DocumentCenter/View/1867",
@@ -110,11 +111,27 @@
         },
         {
           "url": "https://townofhooper.colorado.gov/",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
         },
         {
           "url": "https://townofhooper.colorado.gov/meeting-minutes-agendas",
-          "retrieved": "2026-10-10"
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofhooper.colorado.gov/sites/g/files/lrnvjt3366/files/documents/Agenda%20December%203%2C%202025_0.pdf",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofhooper.colorado.gov/sites/g/files/lrnvjt3366/files/documents/Agenda%20January%2028%2C%202026.pdf",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofhooper.colorado.gov/sites/g/files/lrnvjt3366/files/documents/Agenda%20March%2018%2C%202026.pdf",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://townofhooper.colorado.gov/sites/g/files/lrnvjt3366/files/documents/Minutes%20September%2017%2C%202025%20%281%29.pdf",
+          "retrieved": "2026-10-12"
         }
       ]
     }

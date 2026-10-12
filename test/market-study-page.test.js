@@ -284,8 +284,18 @@ const numericClone = defaultDom.mount.cloneNode(true);
 numericClone.querySelectorAll('.ms-assistance-residual').forEach((node) => node.remove());
 const numericText = text(numericClone);
 const numericTokens = (numericText.match(/\$\d[\d,]*(?:\.\d+)?/g) || []).concat(numericText.match(/-?\d+(?:\.\d+)?%/g) || []);
-assert.strictEqual(numericTokens.length, 109, 'only residual shortfalls may add rendered money or percentage tokens');
-assert.strictEqual(crypto.createHash('sha256').update(JSON.stringify(numericTokens)).digest('hex'), '30d8ab7b9369c8c5b5374f6a9c3fa4b204cac998b626a02837847c98b64e0253', 'pre-existing rendered money and percentage tokens must match current main');
+// The one token added since #1514 is APCHA's improvement cap. Pin what it
+// must agree with, not the snapshot: the cap the cited regulation states (as
+// quoted in the convention's source note) is the cap the APCHA card renders,
+// inside the card's statement of what the calculation leaves out.
+const apchaConvention = conventions.conventions.find((item) => item.id === 'apcha_fixed_simple');
+const regulationCap = (apchaConvention.source_note.match(/(\d+)%\s*of\s*purchase price/i) || [])[1];
+assert(regulationCap, 'APCHA source note quotes the regulation improvement cap');
+const apchaCard = text(defaultDom.mount.querySelector('[data-convention="apcha_fixed_simple"]') || interactive.mount.querySelector('[data-convention="apcha_fixed_simple"]'));
+assert(new RegExp(`up to ${regulationCap}% of the purchase price[^.]*not (?:calculated|modeled)`).test(apchaCard),
+  'APCHA card states the regulation improvement cap as excluded from the calculated cap');
+assert.strictEqual(numericTokens.length, 110, 'only residual shortfalls may add rendered money or percentage tokens');
+assert.strictEqual(crypto.createHash('sha256').update(JSON.stringify(numericTokens)).digest('hex'), '8280f49d8cf22de83be5be6666824d5f65a565d5066d396eb754d1c88008212f', 'pre-existing rendered money and percentage tokens must match current main');
 function productionGuard(moduleSource) {
   const lower = moduleSource.toLowerCase();
   ['recom' + 'mended', 'pref' + 'erred', 'win' + 'ner', 'best option', 'merit score'].forEach((term) => {
