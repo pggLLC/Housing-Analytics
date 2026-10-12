@@ -880,14 +880,14 @@
       "verified": "2026-10-11",
       "takeaway": "Shared equity trades some of a household's upside for a home that stays affordable to the next household. The evidence that it keeps homes affordable and keeps owners in them is good; the evidence on how much wealth it builds is thinner, and on the rental side most models are new. Pick the resale or equity rule first, because it decides who the project serves in year 20, not just at opening.",
       "summary": "Shared equity is any arrangement in which a public or nonprofit investment makes a home affordable and a rule written into the deed, ground lease, co-op shares or partnership agreement keeps it affordable afterwards, while the household still keeps part of the gain. Grounded Solutions Network describes it as a model that takes a one-time public investment and then restricts the home's sale price each time it is sold. On the for-sale side the established forms are community land trust ground leases, deed-restricted homes with a resale formula, and limited-equity cooperatives. A shared-appreciation loan is related but different: the home resells at market price and the lender, not the next buyer, gets the share of the gain. On the rental side the forms are newer: resident-owned manufactured home communities, renter equity programs that pay tenants a share of savings, LIHTC buildings sold to tenants or a nonprofit after the 15-year compliance period, and in Colorado the tenant equity vehicle that state law requires in projects funded by the Proposition 123 equity program. Studies of established for-sale programs find that resold homes stayed affordable and that foreclosure was rare; a 2019 study of 4,108 shared equity homes found the median household accumulated approximately $14,000 against a median equity investment at purchase of $1,875. The trade-off is real: the same studies find that a formula giving sellers more return makes the home less affordable to the next buyer.",
-      "implications": "For a for-sale project, settle the steward and the resale rule before the pro forma, because the rule decides the price the second and third buyers pay and what the first owner walks away with. The For-Sale Market Study runs the same appreciation scenarios through each resale convention side by side and does not rank them, because they optimize different things. Mountain towns already buy deed restrictions on existing homes; that is a way to add shared-equity homes without building, and the table below lists the programs this site has on record. For a rental project funded by the Proposition 123 equity program, the tenant equity vehicle is not optional: tenants who stay at least a year are entitled by statute to a share of any equity growth, so the operating budget and investor terms have to leave room for it. For a manufactured home community, state law gives residents notice and a time-limited opportunity to buy the park, and Proposition 123 can fund the purchase. Budget for stewardship in every model. A resale rule that nobody monitors is a rule that lapses, and the study of land trust loan performance found that only a minority of land trusts had outside funding to expand or support their work.",
+      "implications": "For a for-sale project, settle the steward and the resale rule before the pro forma, because the rule decides the price the second and third buyers pay and what the first owner walks away with. The For-Sale Market Study runs the same appreciation scenarios through each resale convention side by side and does not rank them, because they optimize different things. Mountain towns already buy deed restrictions on existing homes; that is a way to add shared-equity homes without building, and the table below lists the programs this site has on record. For a rental project funded by the Proposition 123 equity program, the tenant equity vehicle is not optional: tenants who stay at least a year are entitled by statute to a share of any equity growth. The program pays that share from its own returns above its initial investment, so confirm with the program's administrator how the vehicle runs in the project and what it asks of the owner. For a manufactured home community, state law gives residents notice and a time-limited opportunity to buy the park, and Proposition 123 can fund the purchase. Budget for stewardship in every model. A resale rule that nobody monitors is a rule that lapses, and the study of land trust loan performance found that only a minority of land trusts had outside funding to expand or support their work.",
       "related_data": "data/policy/resale-conventions.json",
       "sections": [
         {
           "id": "for-sale-models",
           "heading": "For-sale models",
           "paragraphs": [
-            "Each model keeps the home affordable by a different legal device, and the device decides who holds the land, who approves the next buyer and how the sale price is set. The four resale conventions the For-Sale Market Study models are listed after the table; they come from Colorado and federal programs and are labelled there as screening conventions, not final underwriting terms."
+            "Each model keeps the home affordable by a different legal device, and the device decides who holds the land, who approves the next buyer and how the sale price is set. The four resale conventions the For-Sale Market Study models are listed after the table; the labels are the Market Study's own, each named after the program it was drawn from, and the Market Study treats them as screening conventions, not final underwriting terms. The note below says where a label goes beyond what the cited program publishes."
           ],
           "table": {
             "caption": "How each for-sale model keeps the home affordable",
@@ -931,13 +931,13 @@
             "Shared-appreciation CLT (Elevation Community Land Trust)",
             "Fixed public-subsidy recapture (HOME resale and recapture requirements)"
           ],
-          "note": "APCHA's 2026 regulations set the maximum sale price, unless a deed restriction says otherwise, as the seller's purchase price plus three percent simple appreciation for each year owned, plus approved capital improvements of up to 10% of the purchase price, less depreciation. Elevation does not publish its resale formula; the Market Study's shared-appreciation convention is a screening assumption to confirm with the steward."
+          "note": "APCHA's 2026 regulations set the maximum sale price, unless a deed restriction says otherwise, as the seller's purchase price plus three percent simple appreciation for each year owned, plus approved capital improvements of up to 10% of the purchase price, less depreciation. They do not set a CPI alternative for the sale price, so the CPI leg of the Market Study's \"lesser of fixed cap or CPI\" convention is an assumption it marks for verification. The press report on WMRHC Good Deeds cited here gives a three percent annual appreciation cap without saying simple or compound; the Market Study's \"simple\" comes from its own earlier check of the program page. Elevation does not publish its resale formula; the Market Study's shared-appreciation convention is a screening assumption to confirm with the steward."
         },
         {
           "id": "deed-buydowns",
           "heading": "Deed restrictions towns buy on existing homes",
           "paragraphs": [
-            "These are the deed-restriction purchase programs in this site's local housing funds records. Each line is that record's own summary, and each figure in it is in the record's evidence quotes. Coverage is partial: a town that is not listed has not been shown to have no program."
+            "These are the deed-restriction purchase programs in this site's local housing funds records. Each line is that record's own summary, and its source is listed with this brief's sources; check the program's current terms with the town before relying on a figure. Coverage is partial: a town that is not listed has not been shown to have no program."
           ],
           "table": {
             "caption": "Deed-restriction purchase programs on record",
@@ -999,8 +999,8 @@
           "items": [
             "Resident-owned manufactured home communities. Residents form a cooperative and buy the land under their homes. ROC USA reports, from a longitudinal study by an appraisal firm, that site fees in its member communities were 11% below market after five years and 21% below market after 10 years. ROC USA documented the Meadowood Village residents' purchase of their park in Littleton in January 2025.",
             "Renter equity. Cornerstone Corporation for Shared Equity's model in Cincinnati, used by Northeast Shores in Cleveland, gives tenants credits for paying rent on time, following house rules and doing work on the property, paid from savings on turnover and vacancy. Next City reported in 2015 that renters could earn up to $10,000 over 10 years. No independent evaluation was found.",
-            "Proposition 123 tenant equity vehicle. State law requires the equity program to include a tenant equity vehicle: in projects it funds, tenants who live there at least one year are entitled to a share of the equity growth, if any, as funding for a down payment or related purposes, which may also include ongoing opportunities to build up savings. Program returns above the initial investment stay in the program to fund it. Denver7 reported in February 2026 that the first property in the related renter rewards program, Fall River Village in Estes Park, pays tenants who pay on time 2% of their rent back each month.",
-            "LIHTC conversion after year 15. Federal law lets tenants, a resident management corporation, a qualified nonprofit or a government agency hold a right of first refusal to buy a tax credit building after the compliance period at a minimum price set by its outstanding debt and taxes. CHN Housing Partners in Cleveland used this to run a lease-purchase program in which families could take title to their homes starting in year 16.",
+            "Proposition 123 tenant equity vehicle. State law requires the equity program to include a tenant equity vehicle: in projects it funds, tenants who live there at least one year are entitled to a share of the equity growth, if any, as funding for a down payment or related purposes, which may also include ongoing opportunities to build up savings. Program returns above the initial investment stay in the program to fund the tenant equity vehicle. Denver7 reported in February 2026 that OEDIT describes its new renter rewards program as the tenant equity vehicle, and that the first property in it, Fall River Village in Estes Park, pays tenants who pay on time 2% of their rent back each month.",
+            "LIHTC conversion after year 15. Federal law lets an owner grant tenants, a resident management corporation, a qualified nonprofit or a government agency a right of first refusal to buy a tax credit building after the compliance period, at a minimum price set by its outstanding debt and taxes, without losing the credit. CHN Housing Partners in Cleveland runs a lease-purchase program in which families in tax credit homes can take title starting in year 16.",
             "Limited-equity cooperatives, which also serve renters who become shareholders. No Colorado example was verified for this brief."
           ]
         },
@@ -1008,7 +1008,7 @@
           "id": "colorado-law",
           "heading": "Colorado law and money",
           "items": [
-            "Proposition 123 equity program (C.R.S. 29-32-104, run by OEDIT): equity investments in low- and middle-income multifamily rental housing, with the tenant equity vehicle described above. For the 2026-27 state fiscal year, HB26-1360 sets the program shares by priority instead of the usual percentages: concessionary debt first, this equity program second, land banking third.",
+            "Proposition 123 equity program (C.R.S. 29-32-104; OEDIT contracts with an administrator, the Colorado Housing and Finance Authority, to run it): equity investments in low- and middle-income multifamily rental housing, with the tenant equity vehicle described above. For the 2026-27 state fiscal year, HB26-1360 sets the program shares by priority instead of the usual percentages: concessionary debt first, this equity program second, land banking third.",
             "Proposition 123 land banking: grants to local governments and loans to nonprofits to acquire and preserve land for affordable housing, which is where a land trust or a deed-restricted ownership project can get its site.",
             "Proposition 123 affordable home ownership program (run by DOLA's Division of Housing): down-payment assistance for first-time buyers, prioritising first-generation buyers, plus support for community land trusts and grants or loans to mobile home owners buying their park.",
             "Mobile home park opportunity to purchase (C.R.S. 38-12-217): a landlord must give notice before selling a park; a group of home owners then has 120 days to submit a purchase offer and another 120 days to close, and the landlord must negotiate in good faith.",
@@ -1235,6 +1235,42 @@
           "source": "Colorado General Assembly",
           "link": "https://leg.colorado.gov/laws/session-laws/HB26-1360/192/download",
           "date": "2026-05-28"
+        },
+        {
+          "title": "Town of Breckenridge Housing - Housing Helps",
+          "source": "Town of Breckenridge",
+          "link": "https://www.townofbreckhousing.com/housing-helps",
+          "date": "2026-10-10"
+        },
+        {
+          "title": "Town of Frisco - Workforce & Affordable Housing",
+          "source": "Town of Frisco",
+          "link": "https://www.friscogov.com/departments/community-development/workforce-and-affordable-housing/",
+          "date": "2026-10-10"
+        },
+        {
+          "title": "Vail Daily: Good Deeds Vail partnership with Eagle County",
+          "source": "Town of Vail",
+          "link": "https://www.vaildaily.com/news/good-deeds-vail-partnership-with-eagle-county-looks-to-bring-more-locals-back-into-town/",
+          "date": "2026-10-10"
+        },
+        {
+          "title": "Housing Eagle County - Good Deeds",
+          "source": "Eagle County",
+          "link": "https://www.housingeaglecounty.com/gooddeeds",
+          "date": "2026-10-10"
+        },
+        {
+          "title": "Town of Avon 2026 Community Housing Plan (Council 9-8, final)",
+          "source": "Town of Avon",
+          "link": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL",
+          "date": "2026-10-10"
+        },
+        {
+          "title": "Town of Avon - Housing",
+          "source": "Town of Avon",
+          "link": "https://www.avon.org/2382/Housing",
+          "date": "2026-10-10"
         }
       ],
       "source_quotes": [

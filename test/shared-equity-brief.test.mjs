@@ -3,10 +3,11 @@
  * wording: the deed-restriction table is the local housing funds records'
  * own summaries (data/policy/local-housing-funds.json), the resale
  * conventions it lists are the ones the For-Sale Market Study models
- * (data/policy/resale-conventions.json), and every dollar, percent, "times"
- * or "days" figure in its prose sits in a recorded source quote whose link
- * the brief cites. The pages that link to it must open this curated brief,
- * and the reader must render every section the feed carries.
+ * (data/policy/resale-conventions.json), and every dollar, percent, "times",
+ * "days", "properties", "homes" or "land trusts" figure in its prose sits in
+ * a recorded source quote whose link the brief cites. The pages that link
+ * to it must open this curated brief, and the reader must render every
+ * section the feed carries.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -74,7 +75,7 @@ test('every figure in the prose sits in a recorded quote from a cited source', (
 
 test('the for-sale and route pages open this brief', () => {
   const pages = {
-    'for-sale-market-study.html': '#msShareEquityBrief a',
+    'for-sale-market-study.html': '#msSharedEquityBrief a',
     'deal-calculator.html': '#dc-shared-equity-brief',
     'select-jurisdiction.html': '#sjSharedEquityBrief a',
   };
