@@ -100,6 +100,8 @@
   </style>
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/config/table-export-registry.js"></script>
+  <script defer src="js/components/table-export.js"></script>
 </head>
 <body data-page-update-key="lihtc"
       data-page-source="IRS · HUD LIHTC Database · CHFA">
@@ -240,10 +242,10 @@
       <h2>Regional allocation summary</h2>
       <div class="muted small">Totals and shares update when you select a year and region.</div>
       <div class="table-scroll">
-        <table>
+        <table data-export="la-regions">
           <thead>
             <tr>
-              <th data-sort="region">Region</th>
+              <th data-sort="region" data-tip="U.S. Census region (Northeast, Midwest, South, West).">Region</th>
               <th class="right" data-sort="states">States</th>
               <th class="right" data-sort="alloc">Total allocation</th>
               <th class="right" data-sort="share">% of national</th>
@@ -276,7 +278,7 @@
       <h2>State table</h2>
       <div class="muted small">Sortable. Filtered by year, region, state, and search. Shows up to 50 rows.</div>
       <div class="table-scroll">
-        <table id="states-table">
+        <table id="states-table" data-export="la-states">
           <thead>
             <tr>
               <th data-sort="rank">#</th>
