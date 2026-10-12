@@ -7,10 +7,10 @@
       "name": "Lake County",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.lakecountyco.gov/354/Elections",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-10: the Lake County Clerk and Recorder Elections page now carries a 'Notice of General Mail Ballot Election' for November 3, 2026 (dates, mailing, VSPC hours). It says 'The ballots shown includes all races', but no sample ballot, TABOR notice, ballot-content certification or participating-entities list is posted or linked; the only document linked from the notice is a 2024 Election Summary Report (DocumentCenter/View/1636).",
+        "Rechecked 2026-10-12: the Elections page carries the same 'Notice of General Mail Ballot Election' (it says active voters 'will be mailed ballots prior to October 9th'), but still no sample ballot, TABOR notice, ballot-content certification or participating-entities list. No election document appears among the county Document Center files posted since 2026-09 (IDs up to 3149), and the Historical Elections Information Database still lists only the June 30, 2026 Primary for 2026.",
         "The county Elections-Voting page and the Historical Elections Information Database (whose 2026 entries cover only the June 30, 2026 Primary) were also checked; neither has November 3, 2026 ballot content.",
         "Lead searches (used only to find measures, not cited) surfaced no Lake County housing question for November 3, 2026."
       ],
@@ -26,6 +26,14 @@
         {
           "url": "https://electionhistory.lakecountyco.gov/eng/",
           "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.lakecountyco.gov/354/Elections",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "url": "https://electionhistory.lakecountyco.gov/eng/",
+          "retrieved": "2026-10-12"
         }
       ]
     },
@@ -35,13 +43,14 @@
       "name": "Leadville (city)",
       "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.lakecountyco.gov/354/Elections",
-      "checked": "2026-10-10",
+      "checked": "2026-10-12",
       "entry_ids": [],
       "limitations": [
-        "Rechecked 2026-10-10: the Lake County Clerk and Recorder Elections page now carries a 'Notice of General Mail Ballot Election' for November 3, 2026 (dates, mailing, VSPC hours). It says 'The ballots shown includes all races', but no sample ballot, TABOR notice, ballot-content certification or participating-entities list is posted or linked; the only document linked from the notice is a 2024 Election Summary Report (DocumentCenter/View/1636).",
+        "Rechecked 2026-10-12: the Elections page carries the same 'Notice of General Mail Ballot Election' (it says active voters 'will be mailed ballots prior to October 9th'), but still no sample ballot, TABOR notice, ballot-content certification or participating-entities list. No election document appears among the county Document Center files posted since 2026-09 (IDs up to 3149), and the Historical Elections Information Database still lists only the June 30, 2026 Primary for 2026.",
         "No county participating-entities list or sample ballot is posted, so neither not_applicable nor none_found can be used.",
         "City of Leadville website (www.leadville-co.gov, including /city-clerk) still returns HTTP 403 to curl and WebFetch on 2026-10-10; the city clerk page could not be read.",
-        "Lead searches (used only to find measures, not cited) surfaced no Leadville housing question for November 3, 2026; council records found concern a development agreement and ARPA-funded housing code work, not a ballot referral."
+        "Lead searches (used only to find measures, not cited) surfaced no Leadville housing question for November 3, 2026; council records found concern a development agreement and ARPA-funded housing code work, not a ballot referral.",
+        "Rechecked 2026-10-12: www.leadville-co.gov (home page and /city-clerk) still returns HTTP 403 to curl and WebFetch."
       ],
       "reviewed_sources": [
         {
@@ -51,6 +60,10 @@
         {
           "url": "https://www.leadville-co.gov/city-clerk",
           "retrieved": "2026-10-10"
+        },
+        {
+          "url": "https://www.lakecountyco.gov/354/Elections",
+          "retrieved": "2026-10-12"
         }
       ]
     }
