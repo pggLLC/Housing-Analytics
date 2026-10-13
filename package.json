@@ -489,7 +489,7 @@
     "test:shared-equity-brief": "node --test test/shared-equity-brief.test.mjs"
   },
   "dependencies": {
-    "jsdom": "^30.1.1"
+    "jsdom": "^30.1.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
