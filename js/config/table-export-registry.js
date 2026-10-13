@@ -147,6 +147,19 @@
       notes: 'The page lists up to 50 rows, so with no filter one of the 51 jurisdictions (50 states and DC) is not shown and not downloaded.'
     },
 
+    /* ── chfa-portfolio.html ──────────────────────────────────────────── */
+    'cp-portfolio': {
+      title: 'CHFA multifamily tax-credit portfolio',
+      description: 'One row per tax-credit property CHFA lists, for the filters selected on the page. Every matching property is included, not only the page of 50 on screen.',
+      sources: ['chfa-lihtc'],
+      selection: {
+        County: '#filterCounty', 'Credit type': '#filterCredit', Development: '#filterDevType', Setting: '#filterSetting',
+        'Population served': '#filterServes', 'Income targeting': '#filterIncome', 'Award year from': '#filterYearFrom',
+        'Award year to': '#filterYearTo', Search: '#filterSearch'
+      },
+      notes: 'The Location column holds the street address CHFA publishes, or its coordinates where there is no address. CHFA’s feed publishes no DDA or QCT values, so that column is blank with the reason in the notes column.'
+    },
+
     /* ── insights.html ───────────────────────────────────────────────── */
     'in-equity-pricing': {
       title: 'LIHTC equity pricing',
@@ -161,5 +174,26 @@
     }
   };
 
-  global.TableExportRegistry = { tables: tables };
+  /* Downloads that are a whole report rather than one table. Their own
+   * code writes the data; TableExport.describe() adds the same Sources and
+   * About metadata from these entries. */
+  var reports = {
+    'hna-report': {
+      title: 'Housing Needs Assessment',
+      description: 'The figures the Housing Needs Assessment shows for the selected geography: the page’s stat cards, housing stock, cost burden by income, the AMI gap, jobs and commuting, tax-credit properties and the transit-zone screen.',
+      sources: ['hna-county-profiles', 'hna-ranking-index', 'hud-chas-co', 'co-ami-gap-county', 'lehd-wac', 'dola-sya', 'hna-projections',
+        'hud-income-limits', 'hud-fair-market-rents', 'home-value-cascade', 'chfa-lihtc', 'qct-colorado', 'dda-colorado', 'transit-stops-statewide-co'],
+      notes: 'Each value carries the reason the page gives when it is unavailable. Vintages for ACS, CHAS, LEHD, DOLA and FMR are listed in the data itself.'
+    },
+    'pma-site-analysis': {
+      title: 'Market analysis (PMA) site screen',
+      description: 'The screening result for one site: the overall and dimension scores, the census-tract aggregates inside the market area, existing affordable supply and the nearest services.',
+      sources: ['acs-tract-metrics', 'tract-centroids-co', 'hud-chas-co', 'lodes-co', 'hud-lihtc-co', 'chfa-lihtc', 'transit-stops-statewide-co',
+        'affordable-housing-properties', 'chfa-income-rent-limits', 'nces-schools-co', 'amenities-grocery-co', 'amenities-healthcare-co',
+        'amenities-parks-co', 'fema-flood-co'],
+      notes: 'A screening signal from public data, not a substitute for a CHFA-required market study.'
+    }
+  };
+
+  global.TableExportRegistry = { tables: tables, reports: reports };
 })(window);

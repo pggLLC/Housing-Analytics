@@ -5218,6 +5218,28 @@
     return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
   }
 
+  // The Sources and About metadata every table download on the site carries
+  // (js/components/table-export.js), read from the source inventory. Null
+  // when the page has not loaded that component.
+  function _describePmaReport(d) {
+    var TX = window.TableExport;
+    var reports = window.TableExportRegistry && window.TableExportRegistry.reports;
+    var entry = reports && reports['pma-site-analysis'];
+    if (!TX || typeof TX.describe !== 'function' || !entry) return null;
+    var s = d.site || {};
+    return TX.describe({
+      title: entry.title,
+      description: entry.description,
+      sources: entry.sources,
+      notes: entry.notes,
+      selection: [
+        ['Site', s.latitude != null && s.longitude != null ? s.latitude + ', ' + s.longitude : null],
+        ['Market area', s.pmaMode],
+        ['Buffer (miles)', s.bufferMiles]
+      ]
+    }).catch(function () { return null; });
+  }
+
   function exportPmaCsv() {
     if (!lastResult) {
       alert('Run an analysis first, then download the CSV.');
@@ -5330,14 +5352,20 @@
       ['Market Tightness', dq.market_tightness || ''],
       ['Workforce',        dq.workforce || '']
     ];
-    var csv = rows.map(function (r) {
-      return r.map(_pmaCsvEscape).join(',');
-    }).join('\n');
-    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     var coord = (s.latitude != null && s.longitude != null)
       ? '_' + s.latitude.toFixed(4) + '_' + s.longitude.toFixed(4)
       : '';
-    _pmaTriggerDownload(blob, 'pma-site-analysis' + coord + '.csv');
+    function finish(meta) {
+      var all = meta ? rows.concat([['', '']], meta.fieldRows) : rows;
+      var csv = all.map(function (r) {
+        return r.map(_pmaCsvEscape).join(',');
+      }).join('\n');
+      var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      _pmaTriggerDownload(blob, 'pma-site-analysis' + coord + '.csv');
+    }
+    var pending = _describePmaReport(d);
+    if (pending) return pending.then(finish);
+    finish(null);
   }
 
   function exportPmaJson() {
@@ -5510,15 +5538,24 @@
         rows.push(['rent_schedule.sources', JSON.stringify(schedule.sourceMeta)]);
         rows.push(['rent_schedule.unavailable_reason', schedule.totals.unavailableReason || schedule.totals.effectiveRentUnavailableReason || '']);
       } else rows.push(['rent_schedule.unavailable_reason', schedule.unavailableReason]);
-      var csv = rows.map(function (row) { return row.map(function (value) {
-        var text = value == null ? '' : String(value);
-        return /[",\r\n]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text;
-      }).join(','); }).join('\n');
-      var blob = new Blob([csv], { type: 'text/csv' });
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'pma-result.csv';
-      a.click();
+      function finish(meta) {
+        var all = meta ? rows.concat([['', '']], meta.fieldRows) : rows;
+        var csv = all.map(function (row) { return row.map(function (value) {
+          var text = value == null ? '' : String(value);
+          return /[",\r\n]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text;
+        }).join(','); }).join('\n');
+        var blob = new Blob([csv], { type: 'text/csv' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'pma-result.csv';
+        a.click();
+      }
+      var pending = _describePmaReport({ site: {
+        latitude: r.lat, longitude: r.lon, bufferMiles: r.bufferMiles,
+        pmaMode: r.commuteShapedPma && r.commuteShapedPma.enabled ? r.commuteShapedPma.mode_label : 'Circular buffer PMA'
+      } });
+      if (pending) return pending.then(finish);
+      finish(null);
     }
     return exported && typeof exported.then === 'function' ? exported.then(download) : download(exported);
   }
