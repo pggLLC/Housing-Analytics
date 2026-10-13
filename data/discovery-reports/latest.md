@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-10-12T16:42:05.140Z
+**Scan timestamp:** 2026-10-13T14:59:18.091Z
 
 ## Summary
 
@@ -1576,11 +1576,11 @@
 - `data/paper/model-parameters.json` (6 KB)
 - `data/pipeline/content.json` (43 KB)
 - `data/policy/affordability-models.json` (14 KB)
-- `data/policy/ballot-2026/counties/08001.json` (15 KB)
+- `data/policy/ballot-2026/counties/08001.json` (16 KB)
 - `data/policy/ballot-2026/counties/08003.json` (10 KB)
 - `data/policy/ballot-2026/counties/08005.json` (26 KB)
 - `data/policy/ballot-2026/counties/08007.json` (4 KB)
-- `data/policy/ballot-2026/counties/08009.json` (20 KB)
+- `data/policy/ballot-2026/counties/08009.json` (21 KB)
 - `data/policy/ballot-2026/counties/08011.json` (6 KB)
 - `data/policy/ballot-2026/counties/08013.json` (18 KB)
 - `data/policy/ballot-2026/counties/08014.json` (9 KB)
@@ -1606,7 +1606,7 @@
 - `data/policy/ballot-2026/counties/08053.json` (3 KB)
 - `data/policy/ballot-2026/counties/08055.json` (6 KB)
 - `data/policy/ballot-2026/counties/08057.json` (5 KB)
-- `data/policy/ballot-2026/counties/08059.json` (12 KB)
+- `data/policy/ballot-2026/counties/08059.json` (15 KB)
 - `data/policy/ballot-2026/counties/08061.json` (11 KB)
 - `data/policy/ballot-2026/counties/08063.json` (16 KB)
 - `data/policy/ballot-2026/counties/08065.json` (4 KB)
@@ -1627,7 +1627,7 @@
 - `data/policy/ballot-2026/counties/08095.json` (6 KB)
 - `data/policy/ballot-2026/counties/08097.json` (4 KB)
 - `data/policy/ballot-2026/counties/08099.json` (9 KB)
-- `data/policy/ballot-2026/counties/08101.json` (5 KB)
+- `data/policy/ballot-2026/counties/08101.json` (6 KB)
 - `data/policy/ballot-2026/counties/08103.json` (6 KB)
 - `data/policy/ballot-2026/counties/08105.json` (15 KB)
 - `data/policy/ballot-2026/counties/08107.json` (12 KB)
@@ -1679,7 +1679,7 @@
 - `data/policy_briefs_curated.json` (102 KB)
 - `data/polymarket-curated.json` (4 KB)
 - `data/polymarket-data.json` (12 KB)
-- `data/polymarket-history.json` (156 KB)
+- `data/polymarket-history.json` (157 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)

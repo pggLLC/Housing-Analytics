@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-10-12T16:42:05.140Z",
+  "scanTimestamp": "2026-10-13T14:59:18.091Z",
   "totalScanned": 1717,
   "newSourceCount": 1686,
   "existingCount": 30,
@@ -8,7 +8,7 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 837984,
+      "sizeBytes": 838001,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -290,7 +290,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 260344,
+      "sizeBytes": 260508,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9380,7 +9380,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08001.json",
-      "sizeBytes": 15762,
+      "sizeBytes": 16858,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9404,7 +9404,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08009.json",
-      "sizeBytes": 20342,
+      "sizeBytes": 21257,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9482,7 +9482,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08033.json",
-      "sizeBytes": 5875,
+      "sizeBytes": 6126,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9560,7 +9560,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08059.json",
-      "sizeBytes": 12328,
+      "sizeBytes": 15165,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9686,7 +9686,7 @@
     },
     {
       "path": "data/policy/ballot-2026/counties/08101.json",
-      "sizeBytes": 5505,
+      "sizeBytes": 5820,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9920,7 +9920,7 @@
     },
     {
       "path": "data/policy/resale-conventions.json",
-      "sizeBytes": 7059,
+      "sizeBytes": 7610,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9980,7 +9980,7 @@
     },
     {
       "path": "data/policy_briefs_curated.json",
-      "sizeBytes": 104928,
+      "sizeBytes": 104939,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9992,13 +9992,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 12560,
+      "sizeBytes": 12548,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 159761,
+      "sizeBytes": 161207,
       "inDataManifest": false,
       "inFilesManifest": true
     },
