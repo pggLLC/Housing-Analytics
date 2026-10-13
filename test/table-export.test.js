@@ -29,7 +29,7 @@ function loadRegistry() {
   const sandbox = { window: {} };
   vm.createContext(sandbox);
   vm.runInContext(read('js/config/table-export-registry.js'), sandbox);
-  return sandbox.window.TableExportRegistry.tables;
+  return sandbox.window.TableExportRegistry;
 }
 function loadInventory() {
   const sandbox = { window: {}, console };
@@ -38,7 +38,9 @@ function loadInventory() {
   return sandbox.window.DataSourceInventory.getSources();
 }
 
-const registry = loadRegistry();
+const registryAll = loadRegistry();
+const registry = registryAll.tables;
+const reports = registryAll.reports || {};
 const inventory = loadInventory();
 const inventoryIds = new Set(inventory.map((s) => s.id));
 const inventoryById = Object.fromEntries(inventory.map((s) => [s.id, s]));
@@ -102,6 +104,20 @@ for (const id of ids) {
     if (direct || viaScript) pagesUsing.add(page);
   }
 }
+// Report downloads (the HNA workbook and CSV, the PMA site CSV) carry the
+// same Sources and About: each report entry names inventory sources, is used
+// by the script that writes the report, and every page loading that script
+// loads the component.
+const REPORT_WRITERS = { 'hna-report': 'js/hna/hna-export.js', 'pma-site-analysis': 'js/market-analysis.js' };
+assert.deepEqual(Object.keys(reports).sort(), Object.keys(REPORT_WRITERS).sort(), 'every report entry has a known writer, and every writer an entry');
+for (const [id, writer] of Object.entries(REPORT_WRITERS)) {
+  const e = reports[id];
+  check(sources[writer].includes(`'${id}'`), `${writer} does not read its report entry ${id}`);
+  check(Array.isArray(e.sources) && e.sources.length > 0, `${id}: needs at least one source`);
+  for (const sid of e.sources || []) check(inventoryIds.has(sid), `${id}: source "${sid}" is not in js/data-source-inventory.js`);
+  for (const page of htmlFiles) if (sources[page].includes(`src="${writer}"`)) pagesUsing.add(page);
+}
+
 for (const page of pagesUsing) {
   const html = sources[page];
   const reg = html.indexOf('js/config/table-export-registry.js');
@@ -110,6 +126,44 @@ for (const page of pagesUsing) {
   check(reg < comp, `${page}: must load the registry before js/components/table-export.js`);
 }
 assert.ok(pagesUsing.size >= 3, `expected at least three pages with downloadable tables, saw ${pagesUsing.size}`);
+
+/* ── 1b. Full datasets: every record the inventory counts ───────────── */
+
+// The source line under each table offers each source's full dataset. Its
+// rows are the collection the inventory's feature count is taken from, so
+// the download and the inventory must agree on the number of records, and
+// the record paths must be the drift gate's own.
+const { JSON_COUNT_PATHS } = require('../scripts/audit/inventory-count-paths.cjs');
+function loadDatasetExport() {
+  const sandbox = { window: {} };
+  vm.createContext(sandbox);
+  vm.runInContext(read('js/components/dataset-export.js'), sandbox);
+  return sandbox.window.DatasetExport;
+}
+const DX = loadDatasetExport();
+const tableSourceIds = new Set();
+for (const e of Object.values(registry)) {
+  for (const sid of e.sources || []) tableSourceIds.add(sid);
+  const by = e.sourcesBySelection;
+  if (by) for (const list of [...Object.values(by.values || {}), by.otherwise || []]) for (const sid of list) tableSourceIds.add(sid);
+}
+let datasets = 0;
+for (const sid of tableSourceIds) {
+  const s = inventoryById[sid];
+  if (!s || !s.localFile) continue;
+  datasets++;
+  if (Object.hasOwn(DX.RECORD_PATHS, sid) || Object.hasOwn(JSON_COUNT_PATHS, sid)) {
+    check(JSON.stringify(DX.RECORD_PATHS[sid]) === JSON.stringify(JSON_COUNT_PATHS[sid]),
+      `${sid}: dataset-export.js RECORD_PATHS (${JSON.stringify(DX.RECORD_PATHS[sid])}) must equal inventory-count-paths.cjs (${JSON.stringify(JSON_COUNT_PATHS[sid])})`);
+  }
+  const tab = DX.tabulate(sid, JSON.parse(read(s.localFile)));
+  check(tab && tab.recordCount > 0, `${sid}: the full-dataset download finds no records in ${s.localFile}`);
+  if (tab && typeof s.features === 'number') {
+    check(tab.recordCount === s.features, `${sid}: the full-dataset download holds ${tab.recordCount} records but the inventory counts ${s.features}`);
+  }
+}
+for (const sid of Object.keys(DX.RECORD_PATHS)) check(tableSourceIds.has(sid), `dataset-export.js RECORD_PATHS lists ${sid}, which no exported table cites`);
+assert.ok(datasets >= 10, `expected the table sources to offer full datasets, saw ${datasets}`);
 
 /* ── 2. The download model, in a DOM ─────────────────────────────────── */
 
@@ -189,6 +243,40 @@ async function modelChecks() {
   check(w.document.querySelectorAll('.tx-bar').length === 1, 'decorateAll must add exactly one button bar per table');
   check(table.parentElement.previousElementSibling && table.parentElement.previousElementSibling.classList.contains('tx-bar'), 'button bar sits before the table wrapper');
 
+  // The source line under the table names the same sources the download
+  // cites, and offers the table plus each source that has a file here.
+  await new Promise((r) => setTimeout(r, 0));
+  const line = w.document.querySelectorAll('.tx-source');
+  check(line.length === 1, 'decorateAll must add exactly one source line per table');
+  check(table.parentElement.nextElementSibling === line[0], 'the source line sits right after the table wrapper');
+  const lineText = line[0].querySelector('.tx-source__names').textContent;
+  check(lineText.includes(fredName) && lineText.includes('not-a-source'), `the source line names every cited source, saw: ${lineText}`);
+  const groups = [...line[0].querySelectorAll('[data-download]')].map((g) => g.getAttribute('data-download') + ':' + (g.getAttribute('data-source-id') || ''));
+  assert.deepEqual(groups, ['table:', 'dataset:fred-data'], 'the table download, then one full dataset per source with a file here');
+  for (const b of line[0].querySelectorAll('button')) check(/^Download .+ as (Excel|CSV)$/.test(b.getAttribute('aria-label') || ''), 'each source-line button names what it downloads');
+
+  // The full dataset: every record, nested lists on their own sheet.
+  w.eval(read('js/components/dataset-export.js'));
+  const fred = JSON.parse(read('data/fred-data.json'));
+  const fredSource = inventoryById['fred-data'];
+  const ds = await w.DatasetExport.build(fredSource, 'csv', fred);
+  const dsFiles = unzip(Buffer.from(await ds.blob.arrayBuffer()));
+  const dsBase = ds.name.replace(/\.zip$/, '');
+  assert.ok(dsFiles[dsBase + '-series.csv'] && dsFiles[dsBase + '-series-observations.csv'], `the series and, on their own file, their observations; saw ${Object.keys(dsFiles).join(', ')}`);
+  const seriesCsv = parseCsv(dsFiles[dsBase + '-series.csv']);
+  assert.equal(seriesCsv.length - 1, Object.keys(fred.series).length, 'one row per series');
+  assert.equal(seriesCsv[0][0], 'key', 'an object collection gets its key as the first column');
+  const obsCsv = parseCsv(dsFiles[dsBase + '-series-observations.csv']);
+  const obsTotal = Object.values(fred.series).reduce((n, x) => n + (x.observations || []).length, 0);
+  assert.equal(obsCsv.length - 1, obsTotal, 'every observation, joined back by the series key');
+  assert.equal(obsCsv[0][0], 'series key');
+  assert.ok(dsFiles[dsBase + '-sources.csv'].includes(fredName), 'the dataset carries the inventory source record');
+  assert.match(dsFiles['README.txt'], /Blank cells: .*never means zero/);
+  assert.match(dsFiles['README.txt'], new RegExp('Records: ' + Object.keys(fred.series).length));
+  // A null stays blank and a FIPS code stays text.
+  const nulls = w.DatasetExport.tabulate('x', [{ fips: '08001', v: null, nested: { a: 0 } }]);
+  assert.deepEqual(plain(nulls.sheets[0].table()), [['fips', 'v', 'nested.a'], ['08001', null, 0]]);
+
   const m = plain(TX.collect(table));
   const labels = m.columns.map((c) => c.label);
   assert.deepEqual(labels, ['Place', 'Gap', 'Rent', 'FIPS', 'Share'], 'header labels drop tip controls and sort glyphs');
@@ -248,6 +336,14 @@ async function modelChecks() {
   assert.ok(sheet('About').some((r) => r[0] === 'Notes' && r[1] === 'Fixture note.'));
   assert.equal(log[0].sheets[0].cols[3].numFmt, '"$"#,##0', 'whole-dollar column gets a dollar format');
 
+  // A paginated table downloads every row its filters match, drawn by the
+  // page's own row function; a control in a cell exports the value it names.
+  table.txRowsHtml = () => ['Alpha', 'Beta', 'Gamma'].map((n, i) => `<tr><td>${n}</td><td>${i}</td><td><a href="#" data-export-text="${n} address">Map ↗</a></td><td>0800${i}</td><td>${i}%</td></tr>`).join('');
+  const all = plain(TX.collect(table));
+  assert.equal(all.rows.length, 3, 'txRowsHtml rows, not the page on screen, are downloaded');
+  assert.equal(all.rows[2].values[2], 'Gamma address', 'data-export-text replaces the control text');
+  delete table.txRowsHtml;
+
   // A table whose dataset follows a control cites the source for the current
   // value of that control, not a fixed one.
   const entry = w.TableExportRegistry.tables['fixture-table'];
@@ -267,10 +363,63 @@ async function modelChecks() {
   assert.equal(fb.fellBack, true);
 }
 
-modelChecks().then(() => {
+// The HNA and PMA writers append the registry's report metadata, read from
+// the inventory: every source by its inventory name, and the selection.
+async function reportChecks() {
+  const inventoryById = Object.fromEntries(loadInventory().map((x) => [x.id, x]));
+  const dom = new JSDOM('<!doctype html><body></body>', { url: 'https://example.org/housing-needs-assessment.html', runScripts: 'outside-only' });
+  const w = dom.window;
+  w.TextEncoder = TextEncoder;
+  w.Blob = Blob;
+  const saved = [];
+  w.URL.createObjectURL = (b) => { saved.push(b); return 'blob:x'; };
+  w.URL.revokeObjectURL = () => {};
+  w.eval(read('js/data-source-inventory.js'));
+  w.eval(read('js/config/table-export-registry.js'));
+  w.eval(read('js/components/table-export.js'));
+  w.eval(read('js/hna/hna-export.js'));
+  const d = {
+    geography: { label: 'Mesa County', type: 'county', geoid: '08077' },
+    snapshot: {}, housingStock: {}, chasCostBurden: {}, amiGap: {}, employment: {}, dataQuality: {},
+    vintages: { acs: 'ACS 5-Year 2020-2024' }, lihtc: {}, transitZone: {}
+  };
+  await w.__HNA_exportCsv(d, 't.csv');
+  const csv = await saved.pop().text();
+  const rows = parseCsv(csv.replace(/^\uFEFF/, '') + '\n');
+  const at = rows.findIndex((r) => r[0] === 'SECTION' && r[1] === 'Sources');
+  assert.ok(at > 0, 'the HNA CSV has a Sources section');
+  const names = reports['hna-report'].sources.filter((sid) => inventoryById[sid]).map((sid) => inventoryById[sid].name);
+  for (const n of names) assert.ok(rows.slice(at).some((r) => r[0] === n), `the HNA CSV's Sources section names ${n}`);
+  assert.ok(rows.some((r) => r[0] === 'Selection: GEOID' && r[1] === '08077'), 'the HNA CSV records the geography');
+  assert.ok(rows.some((r) => r[0] === 'Blank values' && /never means zero/.test(r[1])), 'the HNA CSV says a blank is not zero');
+
+  const log = [];
+  w.ExcelJS = (function () {
+    function Ws(name) { this.name = name; this.rows = []; this.columns = []; }
+    Ws.prototype.addRow = function (r) { this.rows.push(r); return { font: {} }; };
+    Ws.prototype.getRow = function () { return { font: {}, fill: {}, values: [] }; };
+    Ws.prototype.getColumn = function () { return {}; };
+    Ws.prototype.getCell = function () { return { font: {} }; };
+    Ws.prototype.addChart = function () {};
+    function Wb() { this.sheets = []; log.push(this); this.xlsx = { writeBuffer: () => Promise.resolve(new Uint8Array([80, 75])) }; }
+    Wb.prototype.addWorksheet = function (n) { const ws = new Ws(n); this.sheets.push(ws); return ws; };
+    return { Workbook: Wb };
+  })();
+  await w.__HNA_exportExcel(d, 't.xlsx');
+  const wb = log[0];
+  assert.ok(wb, 'the HNA workbook was built');
+  const sheetNames = wb.sheets.map((x) => x.name);
+  assert.ok(sheetNames.includes('Sources') && sheetNames.includes('About'), `the HNA workbook has Sources and About sheets, saw ${sheetNames.join(', ')}`);
+  assert.ok(!sheetNames.includes('Notes & sources'), 'the typed notes sheet is replaced');
+  const srcSheet = wb.sheets.find((x) => x.name === 'Sources').rows.map((r) => r[0]);
+  for (const n of names) assert.ok(srcSheet.includes(n), `the HNA workbook's Sources sheet names ${n}`);
+  w.close();
+}
+
+modelChecks().then(reportChecks).then(() => {
   if (failures.length) {
     console.error('table-export: ' + failures.length + ' failure(s)\n  - ' + failures.join('\n  - '));
     process.exit(1);
   }
-  console.log(`table-export: ${ids.length} registry entries, ${literals} data-export attributes, ${pagesUsing.size} pages, model and both formats OK`);
+  console.log(`table-export: ${ids.length} registry entries, ${literals} data-export attributes, ${pagesUsing.size} pages, ${datasets} full datasets, model and both formats OK`);
 }).catch((e) => { console.error(e); process.exit(1); });

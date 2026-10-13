@@ -29,6 +29,11 @@
  * "Value unavailable…" is written as a blank, and the row's last column
  * records what the page showed and why.
  *
+ * Under each table a source line names the table's sources and offers the
+ * table's download plus each source's full dataset (every record in its file
+ * on this site, written by js/components/dataset-export.js, loaded on the
+ * first click).
+ *
  * Usage:
  *   <table data-export="dd-funding-vs-need">…</table>
  *   TableExport.decorateAll();          // runs on load and on DOM changes
@@ -74,13 +79,18 @@
     // Sort buttons stay: their text is the header's label.
     var drop = clone.querySelectorAll('[aria-hidden="true"], .th-tip__btn, .th-tip__pop, .gl-tooltip-popup, .tx-bar, script, style' + (keepNotes ? '' : ', [data-export-note]'));
     for (var i = 0; i < drop.length; i++) drop[i].parentNode.removeChild(drop[i]);
+    // A cell whose display text is a control ("Map ↗") names the value a file
+    // should carry instead (the address it opens) in data-export-text.
+    var subs = clone.querySelectorAll('[data-export-text]');
+    for (var k = 0; k < subs.length; k++) subs[k].parentNode.replaceChild(document.createTextNode(subs[k].getAttribute('data-export-text')), subs[k]);
     var brs = clone.querySelectorAll('br');
     for (var j = 0; j < brs.length; j++) brs[j].parentNode.replaceChild(document.createTextNode(' '), brs[j]);
     return String(clone.textContent || '').replace(/\s+/g, ' ').trim();
   }
 
   function headerLabel(th) {
-    return visibleText(th).replace(/\s*[▲▼↑↓⇅↕]+/g, '').trim();
+    // Sort arrows and trailing footnote marks (†, *) are page furniture.
+    return visibleText(th).replace(/\s*[▲▼↑↓⇅↕]+/g, '').replace(/\s*[†‡§*]+$/, '').trim();
   }
 
   // The definition the page itself shows for this header.
@@ -98,10 +108,23 @@
     return [];
   }
 
+  // A paginated table shows one page but downloads every row its filters
+  // match: the page sets table.txRowsHtml to a function returning the <tr>
+  // markup for all of them, built by the same code that draws the page.
+  function bodySections(table) {
+    if (typeof table.txRowsHtml !== 'function') return table.tBodies;
+    var t = document.createElement('table');
+    var tb = document.createElement('tbody');
+    tb.innerHTML = table.txRowsHtml();
+    t.appendChild(tb);
+    return t.tBodies;
+  }
+
   function bodyRows(table, columnCount) {
     var out = [];
-    for (var b = 0; b < table.tBodies.length; b++) {
-      var rows = table.tBodies[b].rows;
+    var bodies = bodySections(table);
+    for (var b = 0; b < bodies.length; b++) {
+      var rows = bodies[b].rows;
       for (var r = 0; r < rows.length; r++) {
         var row = rows[r];
         if (row.hidden) continue;
@@ -322,16 +345,20 @@
     var e = model.entry || {};
     var day = model.exportedAt.slice(0, 10);
     var rows = [['Field', 'Value']];
-    rows.push(['Table', model.title]);
+    rows.push([model.report ? 'Report' : 'Table', model.title]);
     if (e.description) rows.push(['What the rows show', e.description]);
     rows.push(['Page', model.page]);
     rows.push(['Downloaded', model.exportedAt]);
     model.selection.forEach(function (s) { rows.push(['Selection: ' + s[0], s[1]]); });
-    rows.push(['Rows', String(model.rows.length)]);
-    rows.push(['Blank cells', 'A blank cell means the value is unavailable. It never means zero.' + (model.hasNotes ? ' The last column of the data says what the page showed and why, along with any caveat printed beside a value.' : '')]);
-    rows.push(['Rounding', 'Values are taken from the table as displayed, so they carry the page’s rounding (for example $24.2M is exported as 24200000).']);
+    if (model.report) {
+      rows.push(['Blank values', 'A blank value, or one marked unavailable, means the figure could not be measured for this selection. It never means zero.']);
+    } else {
+      rows.push(['Rows', String(model.rows.length)]);
+      rows.push(['Blank cells', 'A blank cell means the value is unavailable. It never means zero.' + (model.hasNotes ? ' The last column of the data says what the page showed and why, along with any caveat printed beside a value.' : '')]);
+      rows.push(['Rounding', 'Values are taken from the table as displayed, so they carry the page’s rounding (for example $24.2M is exported as 24200000).']);
+    }
     if (e.notes) rows.push(['Notes', e.notes]);
-    rows.push(['Sources', 'Listed with their maintenance mode and freshness on the Sources sheet (sources.csv in the CSV download).']);
+    rows.push(['Sources', model.report ? 'Listed with their maintenance mode and freshness under Sources in this file.' : 'Listed with their maintenance mode and freshness on the Sources sheet (sources.csv in the CSV download).']);
     rows.push(['Suggested citation', 'COHO Analytics, “' + model.title + '”, ' + model.page + ', downloaded ' + day + '. Original data: ' + model.sources.map(function (s) { return s.provider || s.name; }).join('; ') + '.']);
     return rows;
   }
@@ -498,6 +525,43 @@
     return loadScript(EXCELJS_SRC, function () { return !!(global.ExcelJS && global.ExcelJS.Workbook); });
   }
 
+  /**
+   * The same Sources and About metadata, for a download that is a report
+   * rather than one table (the HNA workbook, the PMA site CSV).
+   *   spec = { title, description, sources: [inventory ids], selection:
+   *            [[label, value]], notes }
+   * Resolves to { model, sources: [[header], ...rows], about: [[header], ...],
+   * fieldRows: Field/Value rows for a two-column CSV }.
+   */
+  function describe(spec) {
+    spec = spec || {};
+    return ensureInventory().catch(function () { /* missing sources are listed as missing */ }).then(function () {
+      var model = {
+        report: true,
+        entry: { description: spec.description, notes: spec.notes },
+        title: spec.title || 'COHO Analytics download',
+        rows: [],
+        hasNotes: false,
+        sources: inventorySources(spec.sources),
+        selection: (spec.selection || []).filter(function (p) { return p && p[1] !== null && p[1] !== undefined && String(p[1]).trim() !== ''; })
+          .map(function (p) { return [String(p[0]), String(p[1])]; }),
+        page: String(global.location && global.location.href || '').split('#')[0],
+        exportedAt: new Date().toISOString()
+      };
+      var src = sourcesTable(model);
+      var about = aboutTable(model);
+      var fields = [['SECTION', 'Sources']];
+      src.slice(1).forEach(function (r) {
+        var parts = [];
+        for (var i = 1; i < src[0].length; i++) if (r[i]) parts.push(src[0][i] + ': ' + r[i]);
+        fields.push([r[0], parts.join('; ')]);
+      });
+      fields.push(['', ''], ['SECTION', 'About this file']);
+      about.slice(1).forEach(function (r) { fields.push(r); });
+      return { model: model, sources: src, about: about, fieldRows: fields };
+    });
+  }
+
   function save(blob, name) {
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
@@ -542,20 +606,26 @@
       '.tx-btn{font:inherit;font-size:.8rem;font-weight:600;min-height:44px;min-width:44px;padding:4px 12px;border:1px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--text);cursor:pointer;line-height:1.4;}' +
       '.tx-btn:hover,.tx-btn:focus-visible{border-color:var(--accent);color:var(--accent);}' +
       '.tx-btn[disabled]{opacity:.6;cursor:progress;}' +
-      '.tx-status{font-size:.78rem;color:var(--muted);}';
+      '.tx-status{font-size:.78rem;color:var(--muted);}' +
+      '.tx-source{margin:6px 0 12px;font-size:.8rem;color:var(--muted);}' +
+      '.tx-source__names{margin:0 0 4px;}' +
+      '.tx-source__downloads{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;}' +
+      '.tx-source__group{display:flex;flex-wrap:wrap;align-items:center;gap:6px;}' +
+      '.tx-source__label{font-weight:600;color:var(--text);}';
     document.head.appendChild(s);
   }
 
-  function makeButton(label, format, table, status) {
+  function makeButton(label, format, table, status, run, ariaLabel) {
     var btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'tx-btn';
     btn.setAttribute('data-format', format);
     btn.textContent = label;
+    if (ariaLabel) btn.setAttribute('aria-label', ariaLabel);
     btn.addEventListener('click', function () {
       btn.disabled = true;
       status.textContent = 'Preparing…';
-      build(table, format).then(function (out) {
+      (run ? run(format) : build(table, format)).then(function (out) {
         save(out.blob, out.name);
         status.textContent = out.fellBack ? 'Excel could not load, so a CSV zip was downloaded.' : 'Downloaded.';
       }).catch(function (err) {
@@ -591,6 +661,94 @@
     if (parent && parent.children.length === 1 && parent.tagName === 'DIV') anchor = parent;
     anchor.parentNode.insertBefore(bar, anchor);
     table.__txBar = bar;
+    sourceLine(table, anchor);
+  }
+
+  /* ── Source line under the table ───────────────────────────────────── */
+
+  function ensureDatasets() {
+    return loadScript(BASE + 'js/components/dataset-export.js', function () {
+      return !!(global.DatasetExport && global.DatasetExport.build);
+    });
+  }
+
+  function buildDataset(source, format) {
+    return ensureDatasets().then(function () { return global.DatasetExport.build(source, format); });
+  }
+
+  // Under every exported table: its sources, named from the inventory the
+  // download's Sources sheet reads, and buttons for the table and for each
+  // source's full dataset. One list feeds both, so the line and the file
+  // cannot name different sources.
+  function sourceLine(table, anchor) {
+    if (table.__txSource && table.__txSource.isConnected) return;
+    var entry = registryEntry(table.getAttribute('data-export'));
+    if (!entry) return;
+    var box = document.createElement('div');
+    box.className = 'tx-source no-print';
+    box.setAttribute('data-export-source-for', table.getAttribute('data-export'));
+    anchor.parentNode.insertBefore(box, anchor.nextSibling);
+    table.__txSource = box;
+    var fill = function () { fillSourceLine(box, table, entry); };
+    ensureInventory().catch(function () { /* names fall back to ids */ }).then(fill);
+    var by = entry.sourcesBySelection;
+    var control = by && by.control && document.querySelector(by.control);
+    if (control) control.addEventListener('change', function () { setTimeout(fill, 0); });
+  }
+
+  function fillSourceLine(box, table, entry) {
+    var title = entry.title || 'this table';
+    var sources = inventorySources(entrySources(entry));
+    box.textContent = '';
+    var p = document.createElement('p');
+    p.className = 'tx-source__names';
+    p.appendChild(document.createTextNode(sources.length > 1 ? 'Sources: ' : 'Source: '));
+    sources.forEach(function (s, i) {
+      if (i) p.appendChild(document.createTextNode('; '));
+      if (s.url) {
+        var a = document.createElement('a');
+        a.href = s.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = s.name;
+        p.appendChild(a);
+      } else {
+        p.appendChild(document.createTextNode(s.name));
+      }
+      if (s.provider && s.provider !== s.name) p.appendChild(document.createTextNode(' (' + s.provider + ')'));
+    });
+    p.appendChild(document.createTextNode('.'));
+    box.appendChild(p);
+
+    var status = document.createElement('span');
+    status.className = 'tx-status';
+    status.setAttribute('aria-live', 'polite');
+
+    var groups = document.createElement('div');
+    groups.className = 'tx-source__downloads';
+    function group(label, kind, run, name) {
+      var g = document.createElement('div');
+      g.className = 'tx-source__group';
+      g.setAttribute('role', 'group');
+      g.setAttribute('data-download', kind);
+      g.setAttribute('aria-label', 'Download ' + name);
+      var span = document.createElement('span');
+      span.className = 'tx-source__label';
+      span.textContent = label;
+      g.appendChild(span);
+      g.appendChild(makeButton('Excel', 'xlsx', table, status, run, 'Download ' + name + ' as Excel'));
+      g.appendChild(makeButton('CSV', 'csv', table, status, run, 'Download ' + name + ' as CSV'));
+      groups.appendChild(g);
+      return g;
+    }
+    group('This table:', 'table', null, title);
+    sources.forEach(function (s) {
+      if (s.missing || !s.localFile) return;
+      var g = group('Full dataset, ' + s.name + ':', 'dataset', function (format) { return buildDataset(s, format); }, 'full dataset ' + s.name);
+      g.setAttribute('data-source-id', s.id);
+    });
+    groups.appendChild(status);
+    box.appendChild(groups);
   }
 
   function decorateAll(root) {
@@ -617,8 +775,16 @@
     decorateAll: decorateAll,
     collect: collect,
     build: build,
+    describe: describe,
     parseValue: parseValue,
     tables: { data: dataTable, indicators: indicatorsTable, sources: sourcesTable, about: aboutTable },
+    // For js/components/dataset-export.js, which writes full datasets with
+    // the same CSV, zip, sheet and Sources code.
+    _internal: {
+      zip: zip, toCsv: toCsv, addSheet: addSheet, sourcesTable: sourcesTable,
+      fileUrl: fileUrl, ensureExcel: ensureExcel, inventorySources: inventorySources
+    },
+    buildDataset: buildDataset,
     _zip: zip,
     _crc32: crc32
   };
