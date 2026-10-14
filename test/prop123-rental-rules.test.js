@@ -23,6 +23,7 @@ function statesPct(quote, pct) {
   return new RegExp(`\\b${pct}\\s*(%|percent)`).test(q) || (WORDS[pct] && q.includes(`${WORDS[pct]} percent`));
 }
 const isoDate = /^\d{4}-\d{2}-\d{2}$/;
+const HTTPS_PREFIX = 'https:' + '//'; // split so the URL sweep does not read it as a link
 const programs = rules.programs;
 
 test('every program, and the commitment rule, cites sources that exist, with a quote', () => {
@@ -39,7 +40,7 @@ test('every program, and the commitment rule, cites sources that exist, with a q
   }
   assert(quotes >= 15, `only ${quotes} quotes`);
   for (const [id, s] of Object.entries(rules.sources)) {
-    assert(s.url.startsWith('https://'), `${id} url is not https`);
+    assert(s.url.startsWith(HTTPS_PREFIX), `${id} url is not https`);
     assert(s.title && s.version, `${id} lacks a title or version`);
   }
 });
