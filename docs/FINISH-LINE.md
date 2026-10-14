@@ -68,14 +68,19 @@ agreement: a criterion nobody agreed to measures nothing.
 
 ## Phases, as given by the owner (2026-09-15)
 
-| Phase | Window |
-|-------|--------|
-| 0 | Sep 14 – 18 |
-| 1 | Sep 14 – Oct 12 |
-| 2 | Oct 13 – Nov 9 |
-| 3 | Nov 10 – Dec 11 |
-| 3B | Dec 12 – 18 |
-| **HNA deadline** | **2026-12-31** |
+| Phase | Window | What it delivers |
+|-------|--------|------------------|
+| 0 | Sep 14 – 18 | not recorded |
+| 1 | Sep 14 – Oct 12 | not recorded at the time; it ended with this file's criteria at 13 PASS, 0 OPEN, 1 UNMEASURED (G3) |
+| 2 | Oct 13 – Nov 9 | **Prove it.** Three or four people unfamiliar with the tool complete the guided path, recorded in `docs/walkthroughs/`: at least one city, one rural county and one small town. Fix what they hit. Finish the Deal Calculator packages L1 through X1 (#2159–#2169). |
+| 3 | Nov 10 – Dec 11 | **Widen it.** Whatever the walkthroughs show is missing for a jurisdiction completing its HNA, and site-exact transit-zone results (#1931) once OEDIT's official map is published. |
+| 3B | Dec 12 – 18 | **Freeze.** Fixes only. |
+| **HNA deadline** | **2026-12-31** | |
+
+Windows given by the owner on 2026-09-15. The contents of Phases 2, 3 and 3B were
+proposed from the deliverable above and agreed by the owner on 2026-10-14; before
+that, no phase had recorded contents. As with the criteria, change them only with
+the owner's agreement.
 
 ## Standing constraints
 
