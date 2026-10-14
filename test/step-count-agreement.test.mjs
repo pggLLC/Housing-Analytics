@@ -83,7 +83,7 @@ assert.deepStrictEqual(bad, [], 'step counts disagree with the rail:\n  ' + bad.
 const pipelineSources = {
   'js/pipeline.js': read('js/pipeline.js').replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, ''),
   'data/pipeline/content.json': read('data/pipeline/content.json'),
-  'pipeline.html': read('pipeline.html').replace(/<!--[\s\S]*?-->/g, ''),
+  'pipeline.html': read('pipeline.html'),
 };
 const stageLabels = [];
 for (const [f, src] of Object.entries(pipelineSources)) {
