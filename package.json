@@ -309,7 +309,7 @@
     "test:housing-news-order": "node --test test/housing-news-leads-with-the-newest.test.mjs",
     "test:homepage-job-routing": "node test/homepage-job-routing.test.js",
     "test:home-need-map-legend": "node test/home-need-map-legend-colors.test.js",
-    "test:home-jurisdiction-search": "node test/home-jurisdiction-search.test.js && node test/jurisdiction-select-search.test.js",
+    "test:home-jurisdiction-search": "node test/home-jurisdiction-search.test.js && node test/jurisdiction-select-search.test.js && node test/home-answer-card.test.js",
     "test:augment-nondestructive": "node test/augment-local-resources-nondestructive.test.js",
     "test:pma-barrier-data": "node test/pma-barrier-data.test.js",
     "test:pma-commute-context": "node test/pma-commute-context.test.js",
