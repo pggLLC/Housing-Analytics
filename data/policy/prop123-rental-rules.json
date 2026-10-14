@@ -1,0 +1,780 @@
+{
+  "schema": "prop123-rental-rules/v1",
+  "meta": {
+    "title": "Proposition 123 rental income and rent rules",
+    "as_of": "2026-10-14",
+    "last_verified": "2026-10-14",
+    "review_by": "2027-01-15",
+    "review_reason": "DOLA must issue guidance on renting units in its home ownership program by 2026-12-31 (SB26-040), and the AHFF guidelines are revised each fiscal year.",
+    "scope": "Income and rent limits for rental housing funded by Colorado Proposition 123 (C.R.S. Title 29, Article 32), by program, plus the rule DOLA uses to count rental units toward local commitments.",
+    "methodology": "Every limit is copied from the statute or the current program guidelines and carries a verbatim quote. A rule that could not be confirmed from a primary source is null with a reason. The only computed part is rent_table_deviations, which compares CHFA's published maximum rents with the 30% rule.",
+    "rent_formula": "Where the rule is a gross rent of 30% of the unit's income limit, CHFA's published maximum rents apply it as 30% of the income limit for 1.5 persons per bedroom (one person for a studio), divided by 12 and rounded down.",
+    "rent_table": "data/chfa-income-rent-limits-2026.json",
+    "not_included": "For-sale and down-payment programs, homelessness rental assistance and vouchers, and local inclusionary rules."
+  },
+  "sources": {
+    "S1": {
+      "title": "Initiative #108 Final Text (Proposition 123, adds C.R.S. 29-32-101 to -106)",
+      "url": "https://www.sos.state.co.us/pubs/elections/Initiatives/titleBoard/filings/2021-2022/108Final.pdf",
+      "version": "Approved by voters November 2022",
+      "kind": "statute"
+    },
+    "S2": {
+      "title": "HB23-1304, 2023 Session Laws chapter 381",
+      "url": "https://leg.colorado.gov/sites/default/files/documents/2023A/bills/sl/2023a_sl_381.pdf",
+      "version": "Approved 2023-06-05",
+      "kind": "statute"
+    },
+    "S4": {
+      "title": "SB26-040, 2026 Session Laws chapter 125",
+      "url": "https://leg.colorado.gov/laws/session-laws/SB26-040/125/download",
+      "version": "Approved 2026-05-06; effective 2026-07-01",
+      "kind": "statute"
+    },
+    "S5": {
+      "title": "HB26-1313, 2026 Session Laws chapter 154",
+      "url": "https://leg.colorado.gov/laws/session-laws/HB26-1313/154/download",
+      "version": "Approved 2026-05-26",
+      "kind": "statute"
+    },
+    "S6": {
+      "title": "HB26-1360, 2026 Session Laws chapter 192",
+      "url": "https://leg.colorado.gov/laws/session-laws/HB26-1360/192/download",
+      "version": "Approved 2026-05-28",
+      "kind": "statute"
+    },
+    "G1": {
+      "title": "Proposition 123: Equity Program Guidelines",
+      "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/01/Prop123-CO-AHFF-EquityProgramGuidelines-V5.pdf",
+      "version": "01/26.v5 (2026-01-26)",
+      "kind": "guideline"
+    },
+    "G2": {
+      "title": "Proposition 123: Equity Program FAQs",
+      "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/01/Prop123-CO-AHFF-Equity-FAQFlyer-V7.pdf",
+      "version": "07/26.v7",
+      "kind": "guideline"
+    },
+    "G3": {
+      "title": "Concessionary Debt Program: Multifamily Finance Guidelines",
+      "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/05/Prop123-CO-AHFF-ConcessionaryDebt-MultifamilyFinanceGuidelines.pdf",
+      "version": "05/26.v5 (2026-05-26)",
+      "kind": "guideline"
+    },
+    "G4": {
+      "title": "Concessionary Debt: LIHTC Gap Finance Guidelines",
+      "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/05/Prop123-CO-AHFF-ConcessionaryDebt-LIHTC-GapFinanceGuidelines.pdf",
+      "version": "05/26.v6 (2026-05-26)",
+      "kind": "guideline"
+    },
+    "G5": {
+      "title": "Concessionary Debt: LIHTC Predevelopment Finance Guidelines",
+      "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/05/Prop123-CO-AHFF-ConcessionaryDebt-LIHTC-PredevelopmentFinanceGuidelines.pdf",
+      "version": "05/26.v6 (2026-05-26)",
+      "kind": "guideline"
+    },
+    "G6": {
+      "title": "Proposition 123: Land Banking Program Guidelines (FY26-27)",
+      "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-CO-AHFF-LandBanking-ProgramGuidelines.pdf",
+      "version": "09/26.v9 (guidelines dated 2026-07-01)",
+      "kind": "guideline"
+    },
+    "G7": {
+      "title": "Affordable Housing Financing Fund: Fiscal Year 2027 Funding Plan",
+      "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-CO-AHFF-FiscalYear2027FundingPlan.pdf",
+      "version": "Approved by OEDIT 2026-09-01",
+      "kind": "guideline"
+    },
+    "G8": {
+      "title": "Prop 123 Equity/Concessionary Debt not paired with Housing Tax Credits: Compliance Monitoring Guidance",
+      "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2025/02/Prop123-Equity-Debt-Compliance-Summary.pdf",
+      "version": "07/24.v1",
+      "kind": "guideline"
+    },
+    "G9": {
+      "title": "CHFA, 2026 Colorado Income Limits and Maximum Rents for Developments with Housing Tax Credits and CHFA Multifamily Loans",
+      "url": "https://www.chfainfo.com/getattachment/620a2abf-e2d3-44a6-868b-4318906acc3e/2026-Rent-and-income-limits.pdf",
+      "version": "Memo dated 2026-05-07; HUD effective date 2026-05-01",
+      "kind": "table"
+    },
+    "D1": {
+      "title": "DOLA, Proposition 123 Frequently Asked Questions",
+      "url": "https://cdola.colorado.gov/prop-123-frequently-asked-questions",
+      "version": "Web page, read 2026-10-14",
+      "kind": "guidance"
+    },
+    "D3": {
+      "title": "DOLA/DOH, Meeting Proposition 123 Commitments: Unit Count & Expedited Review Guidance, Second Cycle 2027-2029",
+      "url": "https://cdola.colorado.gov/2027-2029-cycle",
+      "version": "Linked from the 2027-2029 cycle page; cites HB26-1313 as of 2026-05-26",
+      "kind": "guidance"
+    },
+    "D5": {
+      "title": "DOLA, Rural Resort Income Limit Petition Process",
+      "url": "https://cdola.colorado.gov/rural-resort-income-limit-petition-process",
+      "version": "Web page, read 2026-10-14",
+      "kind": "guidance"
+    }
+  },
+  "programs": [
+    {
+      "id": "equity",
+      "name": "Affordable Housing Equity Program",
+      "fund": "Affordable Housing Financing Fund (OEDIT; CHFA is contract administrator)",
+      "statute": "C.R.S. 29-32-104(1)(b)",
+      "income_rule": {
+        "type": "project_average",
+        "max_ami_pct": 90,
+        "per_unit_max_ami_pct": null,
+        "per_unit_max_reason": "Neither the statute nor the guidelines set a per-unit maximum; the FAQ says individual units may be above or below 90% AMI as long as the average holds.",
+        "rural_resort_petition": true
+      },
+      "rent_rule": {
+        "basis": "gross",
+        "burden_pct": 30,
+        "rule": "Gross rent may not exceed 30% of the income limit designated for the unit.",
+        "utility_allowance": "CHFA Specialized Multifamily Loan Programs Utility Allowance Policy (G8), unless the regulatory agreement says otherwise.",
+        "annual_increase_cap_pct": null,
+        "annual_increase_cap_reason": "No annual rent-increase cap appears in the statute or any guideline read. G8 allows increases only at lease renewal; the 3% figures in the guidelines are underwriting discounts to market rent, not increase caps.",
+        "underwriting": "Rents underwritten at least 3% below local market rents (G1)."
+      },
+      "ami_source": "HUD area median income as published by HUD or a statewide housing authority (CHFA)",
+      "affordability_years": 30,
+      "affordability_basis": "guideline",
+      "evidence": [
+        {
+          "claim": "Project average of designated income at or below 90% AMI; gross rent at most 30% of the unit's income limit",
+          "source": "S6",
+          "location": "p. 1113, reprinting C.R.S. 29-32-104(1)(b)",
+          "quote": "average designated imputed income by household size for projects funded by the program must not exceed 90% of the area median income as established by the United States Department of Housing and Urban Development and published by the department or a statewide political subdivision or authority on housing, and regulated units in the project must have a gross rent limit that does not exceed thirty percent of the imputed income limitation applicable to the units"
+        },
+        {
+          "claim": "90% is an average across restricted units",
+          "source": "G1",
+          "location": "p. 1",
+          "quote": "Not to exceed 90% average AMI for all restricted units"
+        },
+        {
+          "claim": "No per-unit cap",
+          "source": "G2",
+          "location": "p. 1",
+          "quote": "Individual units may be more or less than 90 percent AMI"
+        },
+        {
+          "claim": "30-year affordability",
+          "source": "G1",
+          "location": "p. 1",
+          "quote": "A Regulatory Agreement ensuring affordability for 30 years will be required"
+        },
+        {
+          "claim": "Rent increases only at renewal",
+          "source": "G8",
+          "location": "Rent increases",
+          "quote": "Mid-term rent increases prohibited"
+        }
+      ]
+    },
+    {
+      "id": "concessionary_debt_multifamily",
+      "name": "Concessionary Debt Program: Multifamily Finance (low- and middle-income rental and preservation)",
+      "fund": "Affordable Housing Financing Fund (OEDIT; CHFA is contract administrator)",
+      "statute": "C.R.S. 29-32-104(1)(c)(I) and (III); income rule in (1)(c)(V)(A)",
+      "income_rule": {
+        "type": "project_average",
+        "max_ami_pct": 60,
+        "per_unit_max_ami_pct": null,
+        "per_unit_max_reason": "No per-unit maximum is stated. Up to 25% of units may be unrestricted but are excluded from the financing (G3). If the Prop 123 loan is subordinate, the senior lender's AMI rules may govern instead.",
+        "rural_resort_petition": true
+      },
+      "rent_rule": {
+        "basis": "gross",
+        "burden_pct": 30,
+        "rule": "Gross rent may not exceed 30% of the income limit designated for the unit.",
+        "utility_allowance": "CHFA Specialized Multifamily Loan Programs Utility Allowance Policy (G8), unless the regulatory agreement says otherwise.",
+        "annual_increase_cap_pct": null,
+        "annual_increase_cap_reason": "No annual rent-increase cap appears in the statute or any guideline read. G8 allows increases only at lease renewal; the 3% figures in the guidelines are underwriting discounts to market rent, not increase caps.",
+        "underwriting": "Rents underwritten at least 3% below local market rents (G3)."
+      },
+      "ami_source": "HUD area median income as published by HUD or a statewide housing authority (CHFA)",
+      "affordability_years": 30,
+      "affordability_basis": "guideline: the greater of the loan term or 30 years",
+      "evidence": [
+        {
+          "claim": "Project average at or below 60% AMI; gross rent at most 30% of the unit's income limit",
+          "source": "S2",
+          "location": "pp. 2285-2286, C.R.S. 29-32-104(1)(c)(V)(A)",
+          "quote": "SUBPROGRAMS SPECIFIED IN SUBSECTIONS (1)(c)(I), (1)(c)(II), AND (1)(c)(III) OF THIS SECTION MUST NOT EXCEED 60% OF THE AREA MEDIAN INCOME"
+        },
+        {
+          "claim": "60% is an average across restricted units",
+          "source": "G3",
+          "location": "p. 2",
+          "quote": "Not to exceed 60% average AMI for all restricted units comprising the project"
+        },
+        {
+          "claim": "Affordability period",
+          "source": "G3",
+          "location": "p. 2",
+          "quote": "greater of the loan term or 30 years"
+        }
+      ]
+    },
+    {
+      "id": "concessionary_debt_lihtc_gap",
+      "name": "Concessionary Debt Program: LIHTC Gap Finance",
+      "fund": "Affordable Housing Financing Fund (OEDIT; CHFA is contract administrator)",
+      "statute": "C.R.S. 29-32-104(1)(c)(II); income rule in (1)(c)(V)(A)",
+      "income_rule": {
+        "type": "project_average",
+        "max_ami_pct": 60,
+        "per_unit_max_ami_pct": null,
+        "per_unit_max_reason": "No per-unit maximum is stated; the project's tax-credit rules also apply.",
+        "rural_resort_petition": false
+      },
+      "rent_rule": {
+        "basis": "gross",
+        "burden_pct": 30,
+        "rule": "Gross rent may not exceed 30% of the income limit designated for the unit.",
+        "utility_allowance": "CHFA Specialized Multifamily Loan Programs Utility Allowance Policy (G8), unless the regulatory agreement says otherwise.",
+        "annual_increase_cap_pct": null,
+        "annual_increase_cap_reason": "No annual rent-increase cap appears in the statute or any guideline read. G8 allows increases only at lease renewal; the 3% figures in the guidelines are underwriting discounts to market rent, not increase caps.",
+        "underwriting": "Rents underwritten at least 3% below local market rents (G4)."
+      },
+      "ami_source": "HUD area median income as published by CHFA",
+      "affordability_years": 30,
+      "affordability_basis": "guideline: the greater of the loan term or 30 years",
+      "evidence": [
+        {
+          "claim": "Project average at or below 60% AMI",
+          "source": "G4",
+          "location": "p. 1",
+          "quote": "Not to exceed 60% average AMI for all restricted units"
+        },
+        {
+          "claim": "Gross rent at most 30% of the unit's income limit",
+          "source": "S2",
+          "location": "pp. 2285-2286, C.R.S. 29-32-104(1)(c)(V)(A)",
+          "quote": "SUBPROGRAMS SPECIFIED IN SUBSECTIONS (1)(c)(I), (1)(c)(II), AND (1)(c)(III) OF THIS SECTION MUST NOT EXCEED 60% OF THE AREA MEDIAN INCOME"
+        },
+        {
+          "claim": "Affordability period",
+          "source": "G4",
+          "location": "Affordability",
+          "quote": "greater of the loan term or 30 years"
+        }
+      ]
+    },
+    {
+      "id": "concessionary_debt_lihtc_predevelopment",
+      "name": "Concessionary Debt Program: LIHTC Predevelopment Finance",
+      "fund": "Affordable Housing Financing Fund (OEDIT; CHFA is contract administrator)",
+      "statute": "C.R.S. 29-32-104(1)(c)(II); income rule in (1)(c)(V)(A)",
+      "income_rule": {
+        "type": "project_average",
+        "max_ami_pct": 60,
+        "per_unit_max_ami_pct": null,
+        "per_unit_max_reason": "No per-unit maximum is stated; the project's tax-credit rules apply.",
+        "rural_resort_petition": false
+      },
+      "rent_rule": {
+        "basis": "gross",
+        "burden_pct": 30,
+        "rule": "Gross rent may not exceed 30% of the income limit designated for the unit.",
+        "utility_allowance": "CHFA Specialized Multifamily Loan Programs Utility Allowance Policy (G8), unless the regulatory agreement says otherwise.",
+        "annual_increase_cap_pct": null,
+        "annual_increase_cap_reason": "No annual rent-increase cap appears in the statute or any guideline read. G8 allows increases only at lease renewal; the 3% figures in the guidelines are underwriting discounts to market rent, not increase caps.",
+        "underwriting": null
+      },
+      "ami_source": "HUD area median income as published by CHFA",
+      "affordability_years": null,
+      "affordability_reason": "The guideline adds no affordability period beyond the project's tax-credit requirements.",
+      "affordability_basis": "guideline",
+      "evidence": [
+        {
+          "claim": "Project average at or below 60% AMI",
+          "source": "G5",
+          "location": "AMI Restrictions",
+          "quote": "must average 60% of Area Median Income (AMI) or below"
+        },
+        {
+          "claim": "No separate affordability period",
+          "source": "G5",
+          "location": "Affordability Restrictions",
+          "quote": "None in addition to LIHTC requirements"
+        }
+      ]
+    },
+    {
+      "id": "concessionary_debt_modular",
+      "name": "Concessionary Debt Program: modular and factory-built manufacturer financing",
+      "fund": "Affordable Housing Financing Fund (OEDIT; CHFA is contract administrator)",
+      "statute": "C.R.S. 29-32-104(1)(c)(IV)",
+      "income_rule": {
+        "type": "none",
+        "max_ami_pct": null,
+        "per_unit_max_ami_pct": null,
+        "max_ami_reason": "The statute says this subprogram has no designated income or rent limit; it finances manufacturers, not units.",
+        "per_unit_max_reason": "Not applicable.",
+        "rural_resort_petition": false
+      },
+      "rent_rule": {
+        "basis": "none",
+        "burden_pct": null,
+        "rule": "No rent limit.",
+        "utility_allowance": null,
+        "annual_increase_cap_pct": null,
+        "annual_increase_cap_reason": "Not applicable."
+      },
+      "ami_source": null,
+      "affordability_years": null,
+      "affordability_reason": "Not applicable: no units are restricted.",
+      "affordability_basis": "statute",
+      "evidence": [
+        {
+          "claim": "No income or rent limit",
+          "source": "S2",
+          "location": "p. 2286, C.R.S. 29-32-104(1)(c)(V)(A)",
+          "quote": "DOES NOT HAVE A DESIGNATED IMPUTED INCOME OR RENT LIMIT"
+        }
+      ]
+    },
+    {
+      "id": "land_banking",
+      "name": "Land Banking Program",
+      "fund": "Affordable Housing Financing Fund (OEDIT; CHFA is contract administrator)",
+      "statute": "C.R.S. 29-32-104(1)(a)",
+      "income_rule": {
+        "type": "per_unit",
+        "max_ami_pct": 60,
+        "per_unit_max_ami_pct": 60,
+        "per_unit_max_reason": null,
+        "predominant_use_min_pct": 70,
+        "predominant_use_note": "At least 70% of the project's improved square footage or units must be affordable; the rest may be market-rate, restricted above 60% AMI, or commercial. Projects at 51-69% may apply with a justification (G6).",
+        "rural_resort_petition": true
+      },
+      "rent_rule": {
+        "basis": "gross",
+        "burden_pct": 30,
+        "rule": "Gross rent may not exceed 30% of the income limit designated for the unit.",
+        "utility_allowance": "CHFA Specialized Multifamily Loan Programs Utility Allowance Policy (G8), unless the regulatory agreement says otherwise.",
+        "annual_increase_cap_pct": null,
+        "annual_increase_cap_reason": "No annual rent-increase cap appears in the statute or any guideline read. G8 allows increases only at lease renewal; the 3% figures in the guidelines are underwriting discounts to market rent, not increase caps.",
+        "underwriting": null
+      },
+      "ami_source": "HUD area median income as published by HUD or a statewide housing authority",
+      "affordability_years": 30,
+      "affordability_basis": "guideline: at least 30 years after the final improvements; a waiver to 20 years is possible with a market analysis",
+      "evidence": [
+        {
+          "claim": "Each rental unit at or below 60% AMI; gross rent at most 30% of its income limit",
+          "source": "S4",
+          "location": "p. 541, C.R.S. 29-32-104(1)(a)",
+          "quote": "rental housing that has a designated imputed income limit by household size not to exceed sixty percent of the area median income"
+        },
+        {
+          "claim": "All rental units at or below 60% AMI",
+          "source": "G6",
+          "location": "p. 4",
+          "quote": "All rental units to be developed on the subject property will be restricted to households with annual incomes at or below 60 percent of the Area Median Income"
+        },
+        {
+          "claim": "Affordability period",
+          "source": "G6",
+          "location": "p. 4",
+          "quote": "at least 30 years after the final improvements are developed"
+        }
+      ]
+    },
+    {
+      "id": "doh_supportive_housing",
+      "name": "Program serving persons experiencing homelessness (supportive housing development)",
+      "fund": "Affordable Housing Support Fund (DOLA Division of Housing)",
+      "statute": "C.R.S. 29-32-104(3)(b)",
+      "income_rule": {
+        "type": "unconfirmed",
+        "max_ami_pct": null,
+        "per_unit_max_ami_pct": null,
+        "max_ami_reason": "The statute sets no income limit for this program, and no Prop 123-specific limit was found in DOLA's program page or the combined 2025-2026 supportive housing RFA, which targets extremely low-income households alongside vouchers.",
+        "per_unit_max_reason": "Not confirmed.",
+        "rural_resort_petition": false
+      },
+      "rent_rule": {
+        "basis": "unconfirmed",
+        "burden_pct": null,
+        "rule": "Not confirmed for Prop 123 capital awards.",
+        "utility_allowance": null,
+        "annual_increase_cap_pct": null,
+        "annual_increase_cap_reason": "Not confirmed."
+      },
+      "ami_source": null,
+      "affordability_years": null,
+      "affordability_reason": "Not confirmed.",
+      "affordability_basis": "unconfirmed",
+      "evidence": []
+    }
+  ],
+  "commitment_counting": {
+    "statute": "C.R.S. 29-32-101(2) and 29-32-105",
+    "rental_max_ami_pct": 60,
+    "cost_rule": "Costs the household less than 30% of its monthly income.",
+    "rent_basis": "rent_only",
+    "rent_basis_note": "For counting units toward a local commitment, DOLA counts the rent payment only and excludes utilities (D1). This differs from the gross-rent limit the OEDIT programs use.",
+    "averaging_from_2027": "A project with a deed restriction of at least 15 years whose average rent is affordable at or below 60% AMI counts every unit (C.R.S. 29-32-105(3)(d)(I)(E), added by HB26-1313).",
+    "always_counted": [
+      "equity",
+      "concessionary_debt_multifamily",
+      "concessionary_debt_lihtc_gap",
+      "concessionary_debt_lihtc_predevelopment"
+    ],
+    "deep_affordability_bonus": "From 2027 a unit restricted at or below 40% AMI counts as 1.2 units (C.R.S. 29-32-105(9)(d)).",
+    "evidence": [
+      {
+        "claim": "Rental affordable housing is at or below 60% AMI and costs less than 30% of income",
+        "source": "S2",
+        "location": "p. 2282, C.R.S. 29-32-101(2)",
+        "quote": "\"Affordable housing\" means rental housing affordable to a household with an annual income of at or below sixty percent of the area median income, and that costs the household less than thirty percent of its monthly income."
+      },
+      {
+        "claim": "Utilities excluded when counting",
+        "source": "D1",
+        "location": "FAQ",
+        "quote": "For rental, the housing costs include the rental payment. Excluded from the housing costs are utility payments of any kind."
+      },
+      {
+        "claim": "Averaging allowed from 2027",
+        "source": "D3",
+        "location": "Section 4A",
+        "quote": "Rental projects that are subject to a 15-year minimum deed restriction, may use income averaging at 60% AMI."
+      }
+    ]
+  },
+  "rural_resort_petitions": {
+    "source": "D5",
+    "rule": "A rural resort community may petition DOLA to use different AMI percentages for Land Banking, Equity and Concessionary Debt (C.R.S. 29-32-105.5(3)); an approved petition holds for the current three-year cycle.",
+    "note": "AMI percentages are the levels DOLA lists for each petition. Where DOLA lists one percentage without splitting rental and ownership, it is recorded for both. Only approved petitions change a program limit.",
+    "petitions": [
+      {
+        "jurisdiction": "Town of Basalt",
+        "submitted": "2026-10-02",
+        "programs": [
+          "equity",
+          "land_banking",
+          "concessionary_debt"
+        ],
+        "ami_pct_rental": 120,
+        "ami_pct_ownership": 120,
+        "status": "in_review"
+      },
+      {
+        "jurisdiction": "Town of Avon",
+        "submitted": "2026-08-07",
+        "programs": [
+          "equity",
+          "land_banking",
+          "concessionary_debt"
+        ],
+        "ami_pct_rental": 100,
+        "ami_pct_ownership": 140,
+        "status": "approved"
+      },
+      {
+        "jurisdiction": "Town of Estes Park",
+        "submitted": "2026-05-26",
+        "programs": [
+          "land_banking"
+        ],
+        "ami_pct_rental": 80,
+        "ami_pct_ownership": 125,
+        "status": "did_not_meet_statutory_requirements"
+      },
+      {
+        "jurisdiction": "La Plata County (regional)",
+        "submitted": "2026-03-06",
+        "programs": [
+          "equity",
+          "land_banking",
+          "concessionary_debt"
+        ],
+        "ami_pct_rental": 80,
+        "ami_pct_ownership": 120,
+        "status": "denied"
+      },
+      {
+        "jurisdiction": "Pitkin County (regional)",
+        "submitted": "2026-02-11",
+        "programs": [
+          "equity",
+          "land_banking",
+          "concessionary_debt"
+        ],
+        "ami_pct_rental": 120,
+        "ami_pct_ownership": 120,
+        "status": "approved"
+      },
+      {
+        "jurisdiction": "Lake County (regional)",
+        "submitted": "2025-07-02",
+        "programs": [
+          "equity",
+          "land_banking",
+          "concessionary_debt"
+        ],
+        "ami_pct_rental": 100,
+        "ami_pct_ownership": 100,
+        "status": "approved"
+      },
+      {
+        "jurisdiction": "Summit County",
+        "submitted": "2024-09-05",
+        "programs": [
+          "equity",
+          "land_banking",
+          "concessionary_debt"
+        ],
+        "ami_pct_rental": 100,
+        "ami_pct_ownership": 100,
+        "status": "approved"
+      },
+      {
+        "jurisdiction": "Town of Fraser",
+        "submitted": "2024-05-20",
+        "programs": [
+          "equity"
+        ],
+        "ami_pct_rental": 100,
+        "ami_pct_ownership": 100,
+        "status": "withdrawn"
+      },
+      {
+        "jurisdiction": "Town of Vail",
+        "submitted": "2024-05-14",
+        "programs": [
+          "equity",
+          "land_banking",
+          "concessionary_debt"
+        ],
+        "ami_pct_rental": 160,
+        "ami_pct_ownership": 160,
+        "status": "withdrawn"
+      },
+      {
+        "jurisdiction": "Chaffee County",
+        "submitted": "2024-03-26",
+        "programs": [
+          "land_banking"
+        ],
+        "ami_pct_rental": 120,
+        "ami_pct_ownership": 140,
+        "status": "withdrawn"
+      },
+      {
+        "jurisdiction": "Town of Hayden",
+        "submitted": "2024-03-26",
+        "programs": [
+          "equity"
+        ],
+        "ami_pct_rental": 122,
+        "ami_pct_ownership": 122,
+        "status": "withdrawn"
+      },
+      {
+        "jurisdiction": "Town of Frisco",
+        "submitted": "2023-12-29",
+        "programs": [
+          "land_banking"
+        ],
+        "ami_pct_rental": 80,
+        "ami_pct_ownership": 80,
+        "status": "approved"
+      },
+      {
+        "jurisdiction": "City of Ouray",
+        "submitted": "2023-11-30",
+        "programs": [
+          "equity"
+        ],
+        "ami_pct_rental": 120,
+        "ami_pct_ownership": 120,
+        "status": "withdrawn"
+      }
+    ]
+  },
+  "conflicts": [
+    {
+      "topic": "Gross rent or rent only",
+      "detail": "The OEDIT programs limit gross rent (rent plus CHFA utility allowance and required fees). DOLA's commitment counting uses the rent payment only and excludes utilities.",
+      "sources": [
+        "S2",
+        "G8",
+        "D1"
+      ]
+    },
+    {
+      "topic": "Land Banking averaging",
+      "detail": "The Land Banking guidelines restrict all rental units to 60% AMI. DOLA's petition page says units may exceed the limit if the development averages at or below it. This file follows the guidelines, which govern awards.",
+      "sources": [
+        "G6",
+        "D5"
+      ]
+    },
+    {
+      "topic": "Equity guideline wording",
+      "detail": "The Equity guidelines still say the average of rents must not exceed 90% AMI, the pre-2023 statutory wording. Since HB23-1304 the statute averages designated income, which this file follows.",
+      "sources": [
+        "G1",
+        "S2"
+      ]
+    },
+    {
+      "topic": "Which CHFA table governs",
+      "detail": "CHFA's 2026 tables carry Prop 123 rural resort tiers, but no Prop 123 guideline names that table as the governing one, and how HERA and hold-harmless limits apply to Prop 123-only projects is not stated.",
+      "sources": [
+        "G9",
+        "G1"
+      ]
+    },
+    {
+      "topic": "Compiled statute",
+      "detail": "The compiled C.R.S. could not be reached. The statutory text here is assembled from the voter-approved text and the enacted session laws, and checked against HB26-1360's plain-text reprint of 29-32-104(1)(a) and (1)(b).",
+      "sources": [
+        "S1",
+        "S2",
+        "S4",
+        "S5",
+        "S6"
+      ]
+    }
+  ],
+  "rent_table_deviations": {
+    "note": "Cells in CHFA's 2026 table whose published maximum rent differs from 30% of the income limit for 1.5 persons per bedroom. Each value matches CHFA's PDF as published. For a Prop 123 unit the statutory cap is the 30% rule, so where the published rent is higher it overstates the Prop 123 limit.",
+    "source": "G9",
+    "cells": [
+      {
+        "fips": "08001",
+        "county": "Adams",
+        "table": "regular_tiers",
+        "ami_pct": 55,
+        "bedrooms": "4br",
+        "published_max_rent": 2139,
+        "thirty_percent_rule_rent": 2297
+      },
+      {
+        "fips": "08005",
+        "county": "Arapahoe",
+        "table": "regular_tiers",
+        "ami_pct": 55,
+        "bedrooms": "4br",
+        "published_max_rent": 2139,
+        "thirty_percent_rule_rent": 2297
+      },
+      {
+        "fips": "08009",
+        "county": "Baca",
+        "table": "regular_tiers",
+        "ami_pct": 90,
+        "bedrooms": "1br",
+        "published_max_rent": 1755,
+        "thirty_percent_rule_rent": 1644
+      },
+      {
+        "fips": "08009",
+        "county": "Baca",
+        "table": "regular_tiers",
+        "ami_pct": 90,
+        "bedrooms": "3br",
+        "published_max_rent": 2191,
+        "thirty_percent_rule_rent": 2279
+      },
+      {
+        "fips": "08009",
+        "county": "Baca",
+        "table": "regular_tiers",
+        "ami_pct": 90,
+        "bedrooms": "4br",
+        "published_max_rent": 2367,
+        "thirty_percent_rule_rent": 2542
+      },
+      {
+        "fips": "08009",
+        "county": "Baca",
+        "table": "regular_tiers",
+        "ami_pct": 70,
+        "bedrooms": "1br",
+        "published_max_rent": 1365,
+        "thirty_percent_rule_rent": 1279
+      },
+      {
+        "fips": "08009",
+        "county": "Baca",
+        "table": "regular_tiers",
+        "ami_pct": 70,
+        "bedrooms": "3br",
+        "published_max_rent": 1704,
+        "thirty_percent_rule_rent": 1772
+      },
+      {
+        "fips": "08009",
+        "county": "Baca",
+        "table": "regular_tiers",
+        "ami_pct": 70,
+        "bedrooms": "4br",
+        "published_max_rent": 1841,
+        "thirty_percent_rule_rent": 1977
+      },
+      {
+        "fips": "08011",
+        "county": "Bent",
+        "table": "regular_tiers",
+        "ami_pct": 90,
+        "bedrooms": "1br",
+        "published_max_rent": 1755,
+        "thirty_percent_rule_rent": 1644
+      },
+      {
+        "fips": "08011",
+        "county": "Bent",
+        "table": "regular_tiers",
+        "ami_pct": 90,
+        "bedrooms": "3br",
+        "published_max_rent": 2191,
+        "thirty_percent_rule_rent": 2279
+      },
+      {
+        "fips": "08011",
+        "county": "Bent",
+        "table": "regular_tiers",
+        "ami_pct": 90,
+        "bedrooms": "4br",
+        "published_max_rent": 2367,
+        "thirty_percent_rule_rent": 2542
+      },
+      {
+        "fips": "08011",
+        "county": "Bent",
+        "table": "regular_tiers",
+        "ami_pct": 70,
+        "bedrooms": "1br",
+        "published_max_rent": 1365,
+        "thirty_percent_rule_rent": 1279
+      },
+      {
+        "fips": "08011",
+        "county": "Bent",
+        "table": "regular_tiers",
+        "ami_pct": 70,
+        "bedrooms": "3br",
+        "published_max_rent": 1704,
+        "thirty_percent_rule_rent": 1772
+      },
+      {
+        "fips": "08011",
+        "county": "Bent",
+        "table": "regular_tiers",
+        "ami_pct": 70,
+        "bedrooms": "4br",
+        "published_max_rent": 1841,
+        "thirty_percent_rule_rent": 1977
+      }
+    ]
+  }
+}
