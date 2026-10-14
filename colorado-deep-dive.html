@@ -966,7 +966,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <table id="denverIncomeLimits" aria-describedby="denverIncomeLimitsSource">
 <thead>
 <tr>
-<th scope="col">Income tier</th>
+<th scope="col" data-tip="Share of HUD area median income (AMI). A household qualifies for a tier when its income is at or below the limit shown for its size.">Income tier</th>
 <th scope="col">1 Person</th>
 <th scope="col">2 Person</th>
 <th scope="col">3 Person</th>
@@ -974,10 +974,10 @@ document.addEventListener('DOMContentLoaded', function () {
 </tr>
 </thead>
 <tbody>
-<tr data-il-tier="30"><th scope="row"><strong>30% AMI</strong> (Extremely Low)</th><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-<tr data-il-tier="50"><th scope="row"><strong>50% AMI</strong> (Very Low)</th><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-<tr data-il-tier="60"><th scope="row"><strong>60% AMI</strong> (LIHTC Standard)</th><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-<tr data-il-tier="80" style="background: rgba(52, 152, 219, 0.1);"><th scope="row"><strong>80% AMI</strong> (Low Income)</th><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr data-il-tier="30"><th scope="row" data-tip="HUD extremely low-income limit: at or below 30% of area median income."><strong>30% AMI</strong> (Extremely Low)</th><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr data-il-tier="50"><th scope="row" data-tip="HUD very low-income limit: at or below 50% of area median income."><strong>50% AMI</strong> (Very Low)</th><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr data-il-tier="60"><th scope="row" data-tip="The 60% limit most LIHTC units use to set who qualifies and the maximum rent."><strong>60% AMI</strong> (LIHTC Standard)</th><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr data-il-tier="80" style="background: rgba(52, 152, 219, 0.1);"><th scope="row" data-tip="HUD low-income limit: at or below 80% of area median income."><strong>80% AMI</strong> (Low Income)</th><td>—</td><td>—</td><td>—</td><td>—</td></tr>
 </tbody>
 </table>
 </div>
