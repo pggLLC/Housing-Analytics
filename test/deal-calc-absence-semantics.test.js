@@ -21,6 +21,8 @@ const assert = require('node:assert');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
+const engine = require('../js/deal-engine');
+const { inputsFor } = require('./helpers/deal-engine-inputs.cjs');
 
 const ROOT = path.resolve(__dirname, '..');
 const UI_SRC = fs.readFileSync(path.join(ROOT, 'js', 'deal-calculator.js'), 'utf8');
@@ -174,11 +176,14 @@ test('a blank manual NOI is unknown, not $0', () => {
 });
 
 test('an unknown NOI sizes an unknown mortgage, not a $0 one', () => {
-  // `NaN > 0` is false, so `(mc > 0 && noi > 0) ? ... : 0` turned an unknown
-  // NOI into a computed-looking $0 in Sources & Uses, and a funding gap equal
-  // to TDC minus equity.
-  assert.ok(/var mortgage = !isFinite\(noi\) \? NaN/.test(SRC),
-    'mortgage sizing no longer keeps an unknown NOI unknown');
+  const input = inputsFor('A'); // Explicitly invented source records.
+  input.fields['dc-auto-noi'] = false;
+  input.fields['dc-noi'] = '';
+  const missing = engine.computeDeal(input);
+  assert.strictEqual(missing.mortgage, null, 'unknown NOI must not size a zero mortgage');
+  assert.ok(missing.unavailable.mortgage, 'missing mortgage carries its reason');
+  input.fields['dc-noi'] = '360000';
+  assert.ok(engine.computeDeal(input).mortgage > 0, 'known invented NOI still sizes a loan');
 });
 
 test('auto-balance does not call an uncomputable gap balanced', () => {
@@ -187,8 +192,16 @@ test('auto-balance does not call an uncomputable gap balanced', () => {
 });
 
 test('the sensitivity chart is not drawn from an unknown NOI', () => {
-  assert.ok(/var sensitivityKnown = isFinite\(noi\) && annualRents > 0;/.test(SRC),
-    'the sensitivity gate is gone');
+  const input = inputsFor('A');
+  input.fields['dc-auto-noi'] = false;
+  input.fields['dc-noi'] = '';
+  const missing = engine.computeDeal(input);
+  assert.strictEqual(missing.sensitivityKnown, false);
+  assert.strictEqual(missing.tornado, null, 'unknown NOI produces no sensitivity figures');
+  input.fields['dc-noi'] = '360000';
+  const known = engine.computeDeal(input);
+  assert.strictEqual(known.sensitivityKnown, true);
+  assert.ok(known.tornado, 'known invented NOI still produces sensitivities');
   assert.ok(/window\.TornadoSensitivity && tdc > 0 && sensitivityKnown/.test(SRC),
     'the chart renders without checking NOI and rents are known — its bars '
     + 'coerce them with `|| 0` and draw $0 ranges');
