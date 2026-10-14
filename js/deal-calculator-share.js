@@ -247,7 +247,10 @@
       var cfPay = (row.querySelector('.dc-tr-cfpay') || {}).value || '';
       var accrue = (row.querySelector('.dc-tr-accrue') || {}).value || '';
       var prio  = (row.querySelector('.dc-tr-priority') || {}).value || '';
-      out.push([prog, amt, mode, rate, term, cfPay, accrue, prio].join(':'));
+      var type = (row.querySelector('.dc-tr-type') || {}).value;
+      var maturity = (row.querySelector('.dc-tr-maturity') || {}).value;
+      var io = (row.querySelector('.dc-tr-io') || {}).value;
+      out.push([prog, amt, mode, rate, term, cfPay, accrue, prio, type, maturity, io].join(':'));
     });
     return out.join(';');
   }
@@ -276,7 +279,7 @@
         var term = parts[4], cfPay = parts[5], accrue = parts[6], prio = parts[7];
         function _setRowInput(sel, val) {
           var el = row.querySelector(sel);
-          if (!el || val == null || val === '') return;
+          if (!el || val == null) return;
           el.value = val;
           _notifyInput(el, 'input');
           _notifyInput(el, 'change');
@@ -295,6 +298,9 @@
           if (accEl) { accEl.value = accrue; _notifyInput(accEl, 'change'); }
         }
         _setRowInput('.dc-tr-priority', prio);
+        _setRowInput('.dc-tr-type', parts[8] === undefined ? (accrue === 'accrued' ? 'accrue_defer' : cfPay !== undefined && cfPay !== '' && Number(cfPay) < 100 ? 'cash_flow' : 'amortizing') : parts[8]);
+        _setRowInput('.dc-tr-maturity', parts[9] === undefined ? term : parts[9]);
+        _setRowInput('.dc-tr-io', parts[10] === undefined ? '2' : parts[10]);
       });
       if (_sharedProvenance && window.InputProvenance) window.InputProvenance.restore(_sharedProvenance);
     }, 80);
@@ -501,6 +507,8 @@
         ? window.__DealCalc.getOutputRecords(result, _dealMode()) : {}
     };
     if (snapshot.dealMode === 'rental') {
+      snapshot.loanObligations = result ? result.obligations : null;
+      snapshot.debtCoverage = result ? result.coverage : null;
       snapshot.rentLimits = window.__DealCalc ? window.__DealCalc.getRentLimitsMetadata() : null;
       snapshot.rentSchedule = window.__DealCalc && window.__DealCalc.getRentScheduleMetadata ? window.__DealCalc.getRentScheduleMetadata() : null;
       snapshot.utilityAllowance = window.__DealCalc && window.__DealCalc.getUtilityAllowanceMetadata
@@ -520,7 +528,7 @@
         var p = s.split(':');
         return {
           program: p[0], amount: p[1], mode: p[2], rate: p[3], term: p[4],
-          cashflowPayPct: p[5], accrueMode: p[6], priority: p[7]
+          cashflowPayPct: p[5], accrueMode: p[6], priority: p[7], loanType: p[8], maturity: p[9], ioYears: p[10]
         };
       });
     }

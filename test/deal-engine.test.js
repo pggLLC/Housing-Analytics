@@ -19,7 +19,7 @@ for (const scenario of ['A', 'B']) {
   const input = inputsFor(scenario);
   const before = clone(input);
   const result = computeDeal(input);
-  const figures = golden.scenarios[scenario].figures;
+  const figures = require('./helpers/deal-engine-l1-expected.cjs')(scenario, golden.scenarios[scenario].figures);
   for (const [key, id] of Object.entries(moneyFields)) {
     assert.equal(money(result[key]), figures[id], `${scenario}: ${key} equals the pre-move display`); checked++;
   }
@@ -42,7 +42,7 @@ for (const scenario of ['A', 'B']) {
   result.pricedRows[0].units = 999;
   assert.deepEqual(input, before, 'returned nested values do not alias caller inputs');
   assert.equal(computeDeal(input).annualRents, computeDeal(clone(input)).annualRents, 'deterministic from plain inputs');
-  if (scenario === 'B') assert.equal(money(result.trancheBreakdown[0].debtService), '$50,592');
+  if (scenario === 'B') assert.equal(money(result.trancheBreakdown[0].debtService), '$0');
 }
 assert.equal(checked, 52, 'all listed monetary and stress figures checked in every scenario');
 const blank = computeDeal(inputsFor('C'));
@@ -98,4 +98,4 @@ for (const file of fs.readdirSync(root).filter(name => name.endsWith('.html'))) 
   assert(scripts.indexOf('js/deal-engine.js') >= 0 && scripts.indexOf('js/deal-engine.js') < scripts.indexOf('js/deal-calculator.js'), `${file}: engine loads before calculator`);
 }
 assert.equal(mounts, 2, 'every calculator mount is covered');
-console.log('deal-engine: PASS (invented A/B/C, 52 unchanged A/B monetary/stress comparisons and explicit C absence, absence, purity and both mounts)');
+console.log('deal-engine: PASS (invented A/B/C, 52 A/B monetary/stress comparisons with explicit L1 accrual corrections and explicit C absence, absence, purity and both mounts)');

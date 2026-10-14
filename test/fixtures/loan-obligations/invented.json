@@ -1,0 +1,12 @@
+{
+  "invented": true,
+  "note": "Invented L1 acceptance inputs only; expected values independently calculated with monthly annuities and annual compounding, rounded to dollars.",
+  "cases": {
+    "accrue": {"amount":1000000,"rate":3,"term":30,"maturity":15,"priority":5,"loanType":"accrue_defer","expected":{"balance":1557967,"due":0}},
+    "mustPay": {"amount":2000000,"rate":4,"term":30,"maturity":30,"priority":5,"loanType":"amortizing","expected":{"due":114580}},
+    "ioThenAmortize": {"amount":2000000,"rate":4,"term":30,"maturity":15,"ioYears":2,"priority":5,"loanType":"io_then_amortizing","expected":{"ioDue":80000,"due":114580,"maturityDue":1411650}},
+    "fullIo": {"amount":1000000,"rate":2,"term":35,"maturity":35,"priority":5,"loanType":"interest_only","expected":{"due":20000,"maturityDue":1000000}},
+    "coverage": {"noi":600000,"seniorService":450000,"softService":114580,"expected":{"senior":1.33,"all":1.06}},
+    "enteredSenior": {"amount":4000000,"rate":6.5,"term":35,"maturity":35,"noi":360000,"softService":20000,"expected":{"due":289994,"senior":1.241,"all":1.161}}
+  }
+}
