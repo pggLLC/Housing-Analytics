@@ -184,25 +184,40 @@ Population is read from `data/hna/summary/<geoid>.json` `acsProfile.DP05_0001E`.
 
 ## Brief-management scripts
 
-Two scripts surface the curation backlog. The monthly GitHub Actions cron
-([`jurisdiction-briefs-monthly.yml`](../../.github/workflows/jurisdiction-briefs-monthly.yml))
-runs both and opens a PR with the snapshots.
+The review queue is one GitHub issue, **Jurisdiction briefs to review** (label
+`brief-review`), rewritten every day by the news run
+([`weekly_housing_brief.yml`](../../.github/workflows/weekly_housing_brief.yml)).
+It lists each brief with the reason it needs a look: the headlines that named
+it since its `last_curated` date, or how long since it was reviewed, and the
+places that should have a brief and do not. The same headlines show at the
+bottom of each brief on `developer-brief.html`. It replaced a monthly PR of
+`_stale.json` and `_candidates.json` snapshots that nobody merged (#1369,
+#1504, #2061 were all closed unmerged).
+
+The queue is `data/alerts/brief-news-queue.json`, built by
+`scripts/news/build_brief_news_queue.py` from the place tags the news pipeline
+already puts on every headline. A headline is a lead, not a source: a claim
+still needs the article and its quote in `_verified/`. A story leaves the queue
+when the brief is re-reviewed (`last_curated` moves past its date), or when it
+is recorded in `_news-used.json` as `used` (the brief was updated from it) or
+`dismissed` (with a reason).
 
 ```bash
 # What needs a brief but doesn't have one?
 python3 scripts/list-brief-candidates.py            # JSON to stdout
 python3 scripts/list-brief-candidates.py --top 20   # top-N by population
-python3 scripts/list-brief-candidates.py --write    # _candidates.json
 
 # What existing briefs are stale (>30 days since last_curated)?
 python3 scripts/find-stale-briefs.py                # default 30 days
 python3 scripts/find-stale-briefs.py --days 60
-python3 scripts/find-stale-briefs.py --write        # _stale.json
+
+# The queue and the issue body, locally
+python3 scripts/news/build_brief_news_queue.py
+node scripts/news/update-brief-review-issue.mjs --dry-run
 ```
 
-Both produce JSON files under `data/jurisdiction-briefs/` prefixed with `_`
-(skipped by the validator). The curator picks GEOIDs off these lists, runs
-the research + authoring workflow, and lands the brief in a separate PR.
+The curator picks a brief off the issue, runs the research + authoring
+workflow, and lands the brief in a separate PR.
 
 ## Adding a new brief
 

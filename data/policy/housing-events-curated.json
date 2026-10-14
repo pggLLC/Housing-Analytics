@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "description": "Colorado housing events that no feed lists, checked by hand. scripts/news/fetch_housing_events.py merges them with CHFA's calendar feed and Housing Colorado's upcoming-events list into data/policy/housing-events.json. Each entry names the page it was checked against, the date, and the words on that page it rests on.",
+    "last_checked": "2026-10-14",
+    "review": "Quarterly: re-check each organizer's events page and add the next conference dates as soon as they are announced. Past events drop off by themselves."
+  },
+  "events": [
+    {
+      "title": "Housing Colorado Annual Conference",
+      "start": "2026-10-14",
+      "end": "2026-10-16",
+      "location": "Keystone Resort & Conference Center, Keystone",
+      "organizer": "Housing Colorado",
+      "url": "https://housingcolorado.org/events/annual-housing-colorado-conference/",
+      "category": "conference",
+      "checked": {
+        "date": "2026-10-14",
+        "source_url": "https://housingcolorado.org/events/annual-housing-colorado-conference/",
+        "quote": "The 2026 Housing Colorado Conference will be held October 14-16 at the Keystone Conference Center in Keystone, Colorado."
+      }
+    },
+    {
+      "title": "NAHRO 2026 National Conference & Exhibition",
+      "start": "2026-10-15",
+      "end": "2026-10-17",
+      "location": "Colorado Convention Center, Denver",
+      "organizer": "NAHRO",
+      "url": "https://www.nahro.org/national-conference/",
+      "category": "conference",
+      "checked": {
+        "date": "2026-10-14",
+        "source_url": "https://www.nahro.org/national-conference/",
+        "quote": "2026 National Conference & Exhibition October 15-17, 2026"
+      }
+    }
+  ]
+}
