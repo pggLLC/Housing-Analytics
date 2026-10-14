@@ -213,7 +213,8 @@ visitor can use it. So every PR that changes what a visitor sees gets this check
 before it is marked ready (2026-10-14, after a persona walk found newcomers
 landing on 100-screen reports and four different step counts):
 
-1. Open each changed page at phone width (390px) and attach one phone screenshot to the PR.
+1. Open each changed page at phone width (390px) and attach one phone screenshot to the PR
+   (or, where your tools cannot upload images, to the conversation that hands the PR over).
 2. In the PR body, answer in one line each: what a first-time Colorado resident with no
    housing background understands in ten seconds, and what they would tap next.
 3. If the change adds anything above a page's first useful answer, or puts an
