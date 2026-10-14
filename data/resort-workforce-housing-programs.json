@@ -2127,7 +2127,7 @@
           "reason": "Appears in news coverage only. The town's Five-Year Blueprint (2022) states a goal of 150-200 new units a year and 974 units over five years, but no 2,060 figure.",
           "urls_tried": [
             "https://www.townofbreckhousing.com/_files/ugd/05acef_5d4c4ba4e3794dc1aadb551220593ddb.pdf",
-            "https://www.townofbreckenridge.com/your-government/housing (HTTP 403, Akamai block)"
+            "www.townofbreckenridge.com/your-government/housing (HTTP 403 from here, 404 from CI; not a citation)"
           ]
         },
         {
