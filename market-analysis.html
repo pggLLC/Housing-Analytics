@@ -76,7 +76,7 @@
   <!-- F162 — gated CRM CRUD. Only hydrated for visitors with a live
        developer session; mount stays empty for the public visitor. -->
 </head>
-<body data-page-update-key="manifest" data-page-source="Census ACS · HUD LIHTC · FRED · CoStar (public)">
+<body data-page-update-key="manifest" data-page-source="Census ACS · HUD LIHTC · HUD FMR &amp; Income Limits · FRED">
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <header class="site-header">
@@ -86,18 +86,18 @@
   <!-- Workflow progress bar (Step 4 of 7) — outside <main class="js-glossary-auto"> so it sticks independently -->
   <div class="wf-progress-wrap" id="maWorkflowProgress">
     <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
-      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
-        <span class="wf-step__num">✓</span>
+      <a class="wf-step" href="select-jurisdiction.html" data-step="1">
+        <span class="wf-step__num">1</span>
         <span class="wf-step__label">Jurisdiction</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="2">
-        <span class="wf-step__num">✓</span>
+      <a class="wf-step" href="lihtc-opportunity-finder.html" data-step="2">
+        <span class="wf-step__num">2</span>
         <span class="wf-step__label">Opportunity Finder</span>
       </a>
       <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="hna-what-housing-exists.html" data-step="3">
-        <span class="wf-step__num">✓</span>
+      <a class="wf-step" href="hna-what-housing-exists.html" data-step="3">
+        <span class="wf-step__num">3</span>
         <span class="wf-step__label">Needs Assessment</span>
       </a>
       <div class="wf-step-connector"></div>
@@ -113,7 +113,7 @@
       <div class="wf-step-connector"></div>
       <a class="wf-step" href="deal-calculator.html" data-step="6">
         <span class="wf-step__num">6</span>
-        <span class="wf-step__label">Deal</span>
+        <span class="wf-step__label">Deal Calculator</span>
       </a>
       <div class="wf-step-connector"></div>
       <a class="wf-step" href="recommendation.html" data-step="7">
@@ -291,7 +291,7 @@
       if (window.DataQualitySummary) {
         window.DataQualitySummary.render('pmaDataQualitySummary', {
           sources: [
-            { name: 'Census ACS Tract Metrics', status: 'primary', vintage: '2023', coverage: '~1,500 CO tracts' },
+            { name: 'Census ACS Tract Metrics', status: 'primary', vintage: '2024', coverage: '~1,500 CO tracts' },
             { name: 'CHFA LIHTC Projects', status: 'primary', vintage: '2025', coverage: '926 projects statewide (1987–2025)', note: 'Live from CHFA HousingTaxCreditProperties_view; refreshed weekly via CI' },
             { name: 'HUD QCT/DDA Overlays', status: 'primary', vintage: '2025', coverage: '224 QCT tracts + DDA areas' },
             { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FMR FY2026 · IL FY2026', coverage: 'All CO counties' },
@@ -689,7 +689,7 @@
         </div>
 
         <!-- Vacancy Context — ACS B25004 buffer-weighted + source landscape -->
-        <div class="pma-card" id="pmaVacancyContextCard" data-source="Census ACS 5-Year B25004 + B25003 (tract metrics)" data-source-url="https://www.census.gov/programs-surveys/acs" data-vintage="ACS 5-yr 2019-2023" data-source-type="primary" style="display:none">
+        <div class="pma-card" id="pmaVacancyContextCard" data-source="Census ACS 5-Year B25004 + B25003 (tract metrics)" data-source-url="https://www.census.gov/programs-surveys/acs" data-vintage="ACS 5-yr 2020-2024" data-source-type="primary" style="display:none">
           <div id="pmaVacancyContextMount" aria-live="polite"></div>
         </div>
 
@@ -782,7 +782,7 @@
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaRenterHh">—</div>
               <div class="pma-stat-label">Renter households (all incomes)</div>
-              <div class="kpi-source"><a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener">ACS 2023</a></div>
+              <div class="kpi-source"><a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">ACS 2020–2024</a></div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaLihtcProp123" style="color:var(--accent)">—</div>
