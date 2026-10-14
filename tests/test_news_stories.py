@@ -152,3 +152,13 @@ def test_the_committed_stories_are_well_formed():
         assert re.match(r'^\d{4}-\d{2}-\d{2}$', s['date']), s
         assert all(p['geoid'] in geoids for p in s['places']), s
         assert set(s['regions']) <= regions, s
+
+
+def test_a_property_listing_is_not_news(geos):
+    stories, counts = gpb.build_stories([
+        alert('124 Deer Trail Ave, Carbondale, CO 81623', 'Realtor.com'),
+        alert('2 bed apartment in Carbondale', 'Zillow'),
+        alert('Carbondale council approves affordable housing lease', 'The Sopris Sun'),
+    ], geos)
+    assert [s['title'] for s in stories] == ['Carbondale council approves affordable housing lease']
+    assert counts['out_of_scope'] == 2
