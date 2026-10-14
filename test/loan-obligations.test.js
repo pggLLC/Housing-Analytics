@@ -102,6 +102,7 @@ assert.equal(round(r.allMustPayDSCR,9),1.2, 'sizing reserves must-pay soft servi
 assert(r.baseDSCR > r.allMustPayDSCR);
 i = inputsFor('A'); i.fields['dc-opex']=''; r = engine.computeDeal(i);
 assert.equal(r.stress,null, 'unknown costs are not substituted with zero');
+assert.equal(r.unavailable['exit.netProceeds'],r.unavailable.noi,'exit retains the missing operating-input reason');
 assert.equal(r.obligations.years,null);
 assert(r.obligations.unavailableReason);
 i = inputsFor('A'); i.fields['dc-senior-mode']='entered'; i.fields['dc-senior-amount']='0'; i.fields['dc-deferred-auto-balance']=false;

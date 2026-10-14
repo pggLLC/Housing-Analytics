@@ -1241,10 +1241,10 @@
     function reasonFor(path) {
       if (debtInputsReason && /^(dcr|interestRate|term|mc|mortgage|annualDebtService|allMustPay|baseDSCR|stress|gap|deferred|devFeeAtClosing|fundingGap|breakEvenOcc|exit|tornado|projection|waterfall|coverage|obligations|totalSoftDebtService)/.test(path)) return debtInputsReason;
       if (/^(coverage|obligations)/.test(path)) return noiUnknownReason || 'Coverage needs positive scheduled payments and known NOI; years after an unpaid maturity require refinancing assumptions.';
-      if (/^exit\.(firstMortBal|softBal|netProceeds|dfYr|irr)$/.test(path) && exit.loanUnavailableReason) return exit.loanUnavailableReason;
       if (/^allMustPay/.test(path)) return noiUnknownReason || 'Coverage requires positive must-pay debt service.';
       if (operatingInputsReason && /^(noi|annualOpex|opexPerUnitMonth|annualRepReserve|repReservePerUnit|netPropTax|propTaxPerUnit|mortgage|annualDebtService|gap|deferred|devFeeAtClosing|fundingGap|capRate|baseDSCR|breakEvenOcc|stress|exit|tornado|projection|waterfall|sliderImpacts)/.test(path)) return operatingInputsReason;
       if (/^(projection|waterfall|exit)/.test(path) && projectionInputsReason) return projectionInputsReason;
+      if (/^exit\.(firstMortBal|softBal|netProceeds|dfYr|irr)$/.test(path) && exit.loanUnavailableReason) return noiUnknownReason || rentsUnknownReason || exit.loanUnavailableReason;
       if (/^projection\.rows\.\d+\.dscr$/.test(path)) return 'DSCR requires positive annual debt service.';
       if (/^waterfall\.(lpCashIrr|lpMultiple)$/.test(path)) return 'LP cash returns require a positive equity contribution.';
       if (/^(projection|waterfall)/.test(path)) return noiUnknownReason || rentsUnknownReason || (!autoNoi
