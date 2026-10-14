@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-14T10:31:10.444569Z",
+  "generated": "2026-10-14T11:10:05.879214Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7919,7 +7919,7 @@
     "data/pipeline/content.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 43825
+      "bytes": 44126
     },
     "data/policy/affordability-models.json": {
       "featureCount": 0,
@@ -8274,7 +8274,7 @@
     "data/policy/co-developer-funding-guide.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 342738
+      "bytes": 365611
     },
     "data/policy/county-ownership.json": {
       "featureCount": 14,
