@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T12:57:26.751Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T13:59:24.855Z. Do not edit by hand.
 
 ---
 
@@ -83,7 +83,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1680 JSON files found.
+1682 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1564,6 +1564,8 @@
 | `data/jurisdiction-briefs/0870195.json` | 32.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0873825.json` | 22.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0876795.json` | 19.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/_lihtc-applications-excluded.json` | 465 B | ✅ | — |
+| `data/jurisdiction-briefs/_lihtc-applications.json` | 408.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 272.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_news-used.json` | 557 B | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.5 KB | ✅ | — |
@@ -1772,7 +1774,7 @@
 
 ## Test Files
 
-590 test files found.
+595 test files found.
 
 | File | Size |
 |------|------|
@@ -2060,6 +2062,7 @@
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
+| `test/lihtc-activity-panel.test.mjs` | 4.8 KB |
 | `test/lihtc-award-year-not-pis.test.js` | 10.2 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.9 KB |
 | `test/lihtc-guide-accuracy.test.js` | 2.3 KB |
@@ -2315,6 +2318,9 @@
 | `tests/economic_indicators_test.py` | 26.9 KB |
 | `tests/fixtures/funding-awards/FY23-24-LandBankingAwards.txt` | 5.1 KB |
 | `tests/fixtures/funding-awards/Prop123-AHFF-FY24-25-ConcessionaryDebtSelections.txt` | 2.1 KB |
+| `tests/fixtures/lihtc-applications/2023-HTC-Round-Two-Applicant-Report.json` | 8.9 KB |
+| `tests/fixtures/lihtc-applications/2026-HTC-Round-One-Applicant-Report.json` | 8.0 KB |
+| `tests/fixtures/lihtc-applications/Federal-4-percent-Credit-LOI-and-Applicant-Report.json` | 3.0 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/policy_schema.py` | 13.8 KB |
 | `tests/test_acs_vintage_var_aliases.py` | 4.2 KB |
@@ -2341,6 +2347,7 @@
 | `tests/test_hna_geography_coverage.py` | 9.2 KB |
 | `tests/test_hna_ranking_integrity.py` | 22.5 KB |
 | `tests/test_housing_events.py` | 6.4 KB |
+| `tests/test_lihtc_applications.py` | 13.6 KB |
 | `tests/test_local_incentives.py` | 12.1 KB |
 | `tests/test_local_support.py` | 5.1 KB |
 | `tests/test_market_construction.py` | 10.9 KB |
@@ -2424,7 +2431,7 @@
 | `.github/workflows/fetch-market-rents.yml` | 8.2 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 20.4 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 9.4 KB |
-| `.github/workflows/funding-awards.yml` | 3.2 KB |
+| `.github/workflows/funding-awards.yml` | 4.0 KB |
 | `.github/workflows/local-incentives-watch.yml` | 1.8 KB |
 | `.github/workflows/market_data_build.yml` | 21.8 KB |
 | `.github/workflows/merge-ref-gate.yml` | 3.6 KB |
