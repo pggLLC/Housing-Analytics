@@ -57,12 +57,24 @@ jobs:
         # rebuild kept the committed place rows and their ZHVI month froze at
         # 2026-05 while Zillow published June, July and August. A failed
         # download leaves the committed rows in place, as before.
+        #
+        # The builder treats the file's existence as authoritative, so a
+        # truncated transfer must never reach that path: download to a temp
+        # file, check it is a whole ZHVI table with Colorado rows, then move it.
         run: |
           mkdir -p data/zillow
-          curl -fsSL --retry 3 --max-time 300 \
-            -o data/zillow/city_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv \
-            "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv" \
-            || echo "::warning::Zillow city ZHVI download failed; place rows keep their committed month."
+          dest=data/zillow/city_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv
+          tmp="$(mktemp)"
+          if curl -fsSL --retry 3 --max-time 300 -o "$tmp" \
+               "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv" \
+             && head -1 "$tmp" | grep -q '^RegionID,SizeRank,RegionName,RegionType,StateName,State,' \
+             && [ "$(wc -l < "$tmp")" -ge 15000 ] \
+             && [ "$(grep -c ',CO,' "$tmp")" -ge 200 ]; then
+            mv "$tmp" "$dest"
+          else
+            rm -f "$tmp" "$dest"
+            echo "::warning::Zillow city ZHVI download failed or was incomplete; place rows keep their committed month."
+          fi
 
       - name: Rebuild the home-value cascade
         # Its CAR review flags are computed from the latest county report. On

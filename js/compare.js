@@ -584,17 +584,22 @@
   // user clicks the row label (opens an inline popover).
   // The PAB figures come from data/policy/pab-allocations.json, so the annual
   // refresh updates this definition with nothing typed here.
+  function pabThreshold() {
+    var m = state.pabMeta || {};
+    var minimum = (typeof m.minimumAllocation === 'number' && m.minimumAllocation > 0) ? '$' + (m.minimumAllocation / 1e6).toFixed(0) + 'M' : 'the issuer';
+    var pop = (typeof m.approxPopulationThreshold === 'number' && m.approxPopulationThreshold > 0) ? ' / ~' + m.approxPopulationThreshold.toLocaleString('en-US') + '-population' : '';
+    return minimum + pop + ' minimum';
+  }
+
   function pabInfo() {
     var m = state.pabMeta || {};
     var sw = m.statewide || {};
     var money = function (v) { return (typeof v === 'number' && v > 0) ? '$' + (v / 1e6).toFixed(1) + 'M' : 'unavailable'; };
     var year = m.year || 'year unavailable';
-    var minimum = (typeof m.minimumAllocation === 'number' && m.minimumAllocation > 0) ? '$' + (m.minimumAllocation / 1e6).toFixed(0) + 'M' : 'the minimum';
-    var pop = (typeof m.approxPopulationThreshold === 'number' && m.approxPopulationThreshold > 0) ? m.approxPopulationThreshold.toLocaleString('en-US') + '-pop' : 'population';
     var rate = (typeof m.localPerCapita === 'number' && m.localPerCapita > 0) ? '$' + m.localPerCapita.toFixed(2) + '/capita' : 'the year\'s per-capita rate';
     return 'A jurisdiction\'s OWN private-activity-bond direct allocation — NOT how a 4% deal typically gets cap. ' +
       'In Colorado, 4% LIHTC volume cap comes primarily from CHFA\'s statewide pool (' + money(sw.chfaPool) + ' in ' + year + '), not local allocations. ' +
-      'This row shows whether a city/county is a designated local issuer (≥ ' + minimum + ' / ~' + pop + ' minimum, at ' + rate + '); that slice mostly funds single-family bonds / MCCs. ' +
+      'This row shows whether a city/county is a designated local issuer (' + pabThreshold() + ', at ' + rate + '); that slice mostly funds single-family bonds / MCCs. ' +
       '"$0 · statewide pool" = below the minimum, uses CHFA\'s pool (expected, not missing data); "—" = dataset failed to load; "county" tag = the place\'s containing county is the issuer. ' +
       'Issuing-authority signal, not a deal cap. Source: Colorado DOLA ' + year + '.';
   }
@@ -717,7 +722,7 @@
         var loaded = state.pabByGeoid && Object.keys(state.pabByGeoid).length > 0;
         if (v == null) {
           return loaded
-            ? '<span style="color:var(--muted)" title="No direct allocation — this jurisdiction is below the $1M / ~15,300-population minimum, so 4% deals here use CHFA’s statewide bond-cap pool. Expected, not missing data.">$0 · statewide pool</span>'
+            ? '<span style="color:var(--muted)" title="' + escHtml('No direct allocation — this jurisdiction is below the ' + pabThreshold() + ', so 4% deals here use CHFA’s statewide bond-cap pool. Expected, not missing data.') + '">$0 · statewide pool</span>'
             : '<span style="color:var(--muted)" title="Bond-cap dataset unavailable.">—</span>';
         }
         var amt = '$' + Math.round(v).toLocaleString('en-US');

@@ -102,14 +102,18 @@ async function getHtml() {
   );
 }
 
-function cellText(raw) {
+// Tags out, then entities decoded in one pass, so "&amp;nbsp;" becomes the
+// text "&nbsp;" rather than being decoded twice into a space.
+const ENTITIES = { '&nbsp;': ' ', '&amp;': '&', '&#36;': '$' };
+function plainText(raw) {
   return raw
     .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&#36;/g, '$')
-    .replace(/\s+/g, ' ')
-    .trim();
+    .replace(/&(?:nbsp|amp|#36);/g, (m) => ENTITIES[m])
+    .replace(/\s+/g, ' ');
+}
+
+function cellText(raw) {
+  return plainText(raw).trim();
 }
 
 // Columns are found by their headers, not their position: the 2025 page
@@ -183,8 +187,7 @@ function main() {
     }
 
     // Plain-text projection for labeled-figure extraction.
-    const plain = html.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ')
-      .replace(/&amp;/g, '&').replace(/&#36;/g, '$').replace(/\s+/g, ' ');
+    const plain = plainText(html);
 
     // The page must name its own year; a saved copy of another year's page
     // would otherwise be written under this year's label.
