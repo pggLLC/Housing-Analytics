@@ -250,15 +250,14 @@
     var mount   = $('icResortWfh');
     var section = $('icResortWfhSection');
     if (!mount || !window.ResortWfh) return;
-    window.ResortWfh.attach(mount, {
+    Promise.resolve(window.ResortWfh.attach(mount, {
       placeGeoid: isPlace ? geoid : null,
       countyFips: countyFips ? String(countyFips).slice(-3) : null,
       jurisName:  $('icTitle').textContent
-    });
-    // Reveal section once renderer has injected content
-    setTimeout(function () {
+    })).then(function () {
+      // Reveal section once renderer has injected content
       if (section && mount.innerHTML.trim().length > 0) section.hidden = false;
-    }, 50);
+    });
   }
 
   /* ── F141: Tax abatement / PILOT / fee inventory ────────────── */

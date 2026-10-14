@@ -37,6 +37,7 @@
     .brief-reader .brief-table th[scope="row"] { width: 84%; text-transform: none; letter-spacing: normal; }
     .brief-reader .brief-table th[scope="col"]:last-child { text-align: right; }
     .brief-reader .brief-table td:nth-child(2) { text-align: right; font-variant-numeric: tabular-nums; }
+    .brief-reader .brief-table-scroll { overflow-x: auto; max-width: 100%; }
     .brief-reader .brief-table--text th, .brief-reader .brief-table--text td { text-align: left !important; width: auto !important; font-variant-numeric: normal; }
     .brief-reader .brief-note { color: var(--muted); font-size: var(--small); }
     .brief-reader .brief-definition { display: block; font-size: var(--small); font-weight: 400; color: var(--muted); margin-top: var(--sp1); }
@@ -230,7 +231,8 @@
           }
           var spec = item.table;
           if (spec && Array.isArray(spec.columns) && Array.isArray(spec.rows)) {
-            var table = el('table', undefined, node, 'brief-table brief-table--text');
+            // Wide tables scroll inside their own box on a phone instead of widening the page.
+            var table = el('table', undefined, el('div', undefined, node, 'brief-table-scroll'), 'brief-table brief-table--text');
             table.dataset.table = item.id;
             if (spec.caption) el('caption', spec.caption, table);
             var head = el('tr', undefined, el('thead', undefined, table));
