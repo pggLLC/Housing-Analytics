@@ -683,7 +683,7 @@
       provider: 'Census LEHD',
       url: 'https://lehd.ces.census.gov/',
       localFile: 'data/hna/lehd/',
-      lastUpdated: '2026-10-11',
+      lastUpdated: '2026-10-14',
       updateFrequency: 'Annual',
       maxAgeDays: 400,
       geoUnit: 'County',
