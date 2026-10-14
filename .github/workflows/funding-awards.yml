@@ -8,6 +8,12 @@ name: Funding award ledger
 # for any list page it cannot reach. Neither agency publishes these awards as
 # data, so the PDFs are the source.
 #
+# The same run reads CHFA's Housing Tax Credit applicant reports with
+# scripts/funding/build_lihtc_applications.py into
+# data/jurisdiction-briefs/_lihtc-applications.json: every application of the
+# last four years of rounds, funded or not, with its outcome matched against
+# the ledger. The developer brief shows it per jurisdiction.
+#
 # The ledger feeds data/derived/funding-vs-need.json, a step of
 # scripts/rebuild-derived.mjs, so the commit goes through
 # scripts/commit-with-derived-chain.sh: the chain is rebuilt and committed
@@ -52,8 +58,10 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
-      - name: Install pdftotext
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      - name: Install pdftotext and pdfplumber
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+          pip install pdfplumber==0.11.10
 
       - name: Parse the award PDFs (branch and PR runs are always dry)
         id: parse
@@ -66,6 +74,14 @@ jobs:
           python3 scripts/funding/build_funding_awards.py "${args[@]}"
           echo "dry_run=$DRY_RUN" >> "$GITHUB_OUTPUT"
 
+      - name: Read the applicant reports and match them to the ledger
+        env:
+          DRY_RUN: ${{ steps.parse.outputs.dry_run }}
+        run: |
+          args=()
+          if [ "$DRY_RUN" = "true" ]; then args+=(--check); fi
+          python3 scripts/funding/build_lihtc_applications.py "${args[@]}"
+
       - name: Install dependencies
         if: steps.parse.outputs.dry_run != 'true'
         run: npm ci
@@ -74,7 +90,7 @@ jobs:
         if: steps.parse.outputs.dry_run != 'true'
         id: commit
         run: |
-          scripts/commit-with-derived-chain.sh "chore: refresh funding award ledger [$(date -u '+%Y-%m-%d')]" -- data/policy/funding-awards/ledger.json data/policy/funding-awards/documents.json
+          scripts/commit-with-derived-chain.sh "chore: refresh funding award ledger [$(date -u '+%Y-%m-%d')]" -- data/policy/funding-awards/ledger.json data/policy/funding-awards/documents.json data/jurisdiction-briefs/_lihtc-applications.json
 
       - name: Dispatch Pages deploy for this run's commit
         if: steps.commit.outputs.pushed == 'true'

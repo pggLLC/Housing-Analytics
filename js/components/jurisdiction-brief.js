@@ -31,6 +31,12 @@
   // below the brief and apart from it: none of it is brief content.
   var NEWS_QUEUE_PATH = 'data/alerts/brief-news-queue.json';
   var NEWS_STALE_DAYS = 7;
+  // Every CHFA Housing Tax Credit application in the last four years of
+  // rounds, with its outcome, rebuilt weekly by
+  // scripts/funding/build_lihtc_applications.py. Kept beside the briefs so
+  // the public build leaves it out with them.
+  var ACTIVITY_PATH = BASE_PATH + '_lihtc-applications.json';
+  var ACTIVITY_SHOWN = 8;
 
   function _esc(s) {
     return String(s == null ? '' : s)
@@ -192,7 +198,26 @@
       '.jbrief-news li:last-child { border-bottom:0; }',
       '.jbrief-news__date { font-family:var(--font-mono,ui-monospace,monospace); font-size:.72rem; color:var(--muted); margin-right:.45rem; }',
       '.jbrief-news a { color:var(--link,var(--accent,#096e65)); }',
-      '.jbrief-news__meta { display:block; font-size:.74rem; color:var(--muted); }'
+      '.jbrief-news__meta { display:block; font-size:.74rem; color:var(--muted); }',
+      '.jbrief-lihtc { margin-top:1.1rem; padding:.75rem .85rem; border:1px solid var(--border,#cbd5e1); border-radius:6px; font-size:.84rem; }',
+      '.jbrief-lihtc__title { margin:0 0 .25rem; font-size:.92rem; font-weight:700; color:var(--text); }',
+      '.jbrief-lihtc__note { margin:0 0 .5rem; font-size:.76rem; color:var(--muted); }',
+      '.jbrief-lihtc__sub { margin:.7rem 0 .25rem; font-size:.74rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }',
+      '.jbrief-lihtc ul { list-style:none; margin:0; padding:0; }',
+      '.jbrief-lihtc li { padding:.4rem 0; border-bottom:1px solid var(--border,#e2e8f0); overflow-wrap:anywhere; }',
+      '.jbrief-lihtc li:last-child { border-bottom:0; }',
+      '.jbrief-lihtc__round { font-family:var(--font-mono,ui-monospace,monospace); font-size:.72rem; color:var(--muted); margin-right:.45rem; }',
+      '.jbrief-lihtc__name { font-weight:600; color:var(--text); }',
+      '.jbrief-lihtc__meta { display:block; font-size:.74rem; color:var(--muted); }',
+      '.jbrief-lihtc__outcome { display:inline-block; margin-left:.35rem; padding:0 .4rem; border-radius:999px; font-size:.7rem; font-weight:700; border:1px solid currentColor; }',
+      '.jbrief-lihtc__outcome--awarded { color:var(--good,#047857); }',
+      '.jbrief-lihtc__outcome--not_awarded { color:var(--bad,#b42318); }',
+      '.jbrief-lihtc__outcome--pending, .jbrief-lihtc__outcome--in_review, .jbrief-lihtc__outcome--letter_of_intent, .jbrief-lihtc__outcome--unresolved { color:var(--muted); }',
+      '.jbrief-lihtc li details { margin-top:.1rem; border:0; border-radius:0; overflow:visible; font-size:.74rem; color:var(--muted); }',
+      // the site styles every <details> as a card; a source note under one row is a link-sized toggle
+      '.jbrief-lihtc li details > summary { padding:.3rem 0; justify-content:flex-start; gap:.3rem; background:transparent; border:0; font-size:.74rem; font-weight:600; color:var(--link,var(--accent,#096e65)) !important; }',
+      '.jbrief-lihtc li details[open] > summary { background:transparent; border-bottom:0; }',
+      '.jbrief-lihtc a { color:var(--link,var(--accent,#096e65)); }'
     ].join('\n');
     document.head.appendChild(st);
   }
@@ -287,6 +312,92 @@
         return '<li><span class="jbrief-news__date">' + _esc(when) + '</span>' + head +
           (meta ? '<span class="jbrief-news__meta">' + meta + '</span>' : '') + '</li>';
       }).join('') + '</ul>';
+    }
+    return html + '</section>';
+  }
+
+  var OUTCOME_LABEL = {
+    awarded: 'Awarded',
+    not_awarded: 'Not funded that round',
+    pending: 'Decision pending',
+    in_review: 'Under review',
+    letter_of_intent: 'Letter of intent',
+    unresolved: 'Unclear'
+  };
+  var CREDIT_LABEL = { '9%': '9% credit', '4%': '4% credit', MIHTC: 'middle-income credit' };
+
+  /**
+   * Who has applied for Housing Tax Credits in this jurisdiction, from
+   * CHFA's applicant reports, and what became of each application. `data`
+   * null means the file could not be loaded; that is said, not shown as
+   * "no applications". A 7-digit geoid matches by place, a 5-digit one by
+   * county; a scattered-site application shows in every place it builds in.
+   */
+  function _renderActivity(geoid, label, data) {
+    var head = '<section class="jbrief-lihtc" aria-label="Recent housing tax credit applications">' +
+      '<p class="jbrief-lihtc__title">Who has applied for housing tax credits here';
+    if (!data || !Array.isArray(data.applications)) {
+      return head + '</p><p class="jbrief-lihtc__note">The list of CHFA tax credit applications could not be loaded, so recent applicants here are not shown.</p></section>';
+    }
+    var byCounty = String(geoid || '').length === 5;
+    var rows = data.applications.filter(function (a) {
+      var list = byCounty ? a && a.county_fips_all : a && a.place_geoids;
+      return Array.isArray(list) && list.indexOf(geoid) !== -1;
+    });
+    var meta = data.meta || {};
+    var since = meta.first_year ? ' since ' + meta.first_year : '';
+    var awarded = rows.filter(function (a) { return a.outcome === 'awarded'; }).length;
+    var lost = rows.filter(function (a) { return a.outcome === 'not_awarded'; }).length;
+    var html = head + (rows.length ? ' (' + rows.length + ')' : '') + '</p>' +
+      '<p class="jbrief-lihtc__note">Every application CHFA lists for Housing Tax Credits (LIHTC) in ' +
+      _esc(label || 'this jurisdiction') + since + ', including the ones that were not funded. ' +
+      'Outcomes are matched by project name and place against CHFA\'s award reports; CHFA does not say why an application lost.</p>';
+    if (!rows.length) {
+      return html + '<p class="jbrief-lihtc__note">No applications here' + _esc(since) + '.</p></section>';
+    }
+    html += '<p class="jbrief-lihtc__note"><strong>' + awarded + ' awarded, ' + lost + ' not funded</strong>' +
+      (rows.length - awarded - lost ? ', ' + (rows.length - awarded - lost) + ' undecided or unclear' : '') + '.</p>';
+    var sponsors = {};
+    rows.forEach(function (a) {
+      if (!a.sponsor) return;
+      var s = sponsors[a.sponsor] || (sponsors[a.sponsor] = { name: a.sponsor, n: 0, won: 0 });
+      s.n += 1;
+      if (a.outcome === 'awarded') s.won += 1;
+    });
+    var active = Object.keys(sponsors).map(function (k) { return sponsors[k]; })
+      .sort(function (x, y) { return (y.n - x.n) || (y.won - x.won) || (x.name < y.name ? -1 : 1); });
+    if (active.length) {
+      html += '<p class="jbrief-lihtc__sub">Most active sponsors</p><ul>' + active.slice(0, 5).map(function (s) {
+        return '<li><span class="jbrief-lihtc__name">' + _esc(s.name) + '</span>' +
+          '<span class="jbrief-lihtc__meta">' + s.n + (s.n === 1 ? ' application' : ' applications') +
+          ', ' + s.won + ' awarded</span></li>';
+      }).join('') + '</ul>';
+    }
+    function item(a) {
+      var url = _safeUrl(a.source_url);
+      var units = a.total_units != null ? a.total_units + ' units' : '';
+      var bits = [a.sponsor, CREDIT_LABEL[a.credit_type], units].filter(Boolean).map(_esc).join(' · ');
+      var later = (a.later_applications || []).map(function (l) {
+        return 'Applied again: ' + l.round_label + ' (' + (OUTCOME_LABEL[l.outcome] || l.outcome) + ')';
+      });
+      return '<li><span class="jbrief-lihtc__round">' + _esc(a.round_label) + '</span>' +
+        '<span class="jbrief-lihtc__name">' + _esc(a.name || 'Name withheld') + '</span>' +
+        '<span class="jbrief-lihtc__outcome jbrief-lihtc__outcome--' + _esc(a.outcome) + '">' +
+        _esc(OUTCOME_LABEL[a.outcome] || a.outcome) + '</span>' +
+        (bits ? '<span class="jbrief-lihtc__meta">' + bits + '</span>' : '') +
+        later.map(function (t) { return '<span class="jbrief-lihtc__meta">' + _esc(t) + '</span>'; }).join('') +
+        '<details><summary>Source and outcome</summary>' +
+        (a.quote ? '<q>' + _esc(a.quote) + '</q> ' : '') +
+        (url ? '<a href="' + _esc(url) + '" target="_blank" rel="noopener">' + _esc(a.source_file || 'CHFA report') + '</a>' +
+          (a.source_as_of ? ' (as of ' + _esc(_newsDate(a.source_as_of)) + ')' : '') : '') +
+        (a.outcome_detail ? '<br>' + _esc(a.outcome_detail) + (/[.]$/.test(a.outcome_detail) ? '' : '.') : '') +
+        '</details></li>';
+    }
+    html += '<p class="jbrief-lihtc__sub">Applications, newest first</p><ul>' +
+      rows.slice(0, ACTIVITY_SHOWN).map(item).join('') + '</ul>';
+    if (rows.length > ACTIVITY_SHOWN) {
+      html += '<details><summary>Show ' + (rows.length - ACTIVITY_SHOWN) + ' earlier applications</summary><ul>' +
+        rows.slice(ACTIVITY_SHOWN).map(item).join('') + '</ul></details>';
     }
     return html + '</section>';
   }
@@ -551,6 +662,13 @@
     });
   }
 
+  function _appendActivity(container, geoid, label) {
+    if (!geoid) return;
+    _fetchJson(ACTIVITY_PATH).then(function (data) {
+      container.insertAdjacentHTML('beforeend', _renderActivity(geoid, label, data));
+    });
+  }
+
   function attach(container, opts) {
     if (!container) return;
     opts = opts || {};
@@ -573,6 +691,7 @@
         if (opts.showFallback) {
           container.innerHTML = _renderMissingAffordance(opts);
           _wireMissingActions(container);
+          _appendActivity(container, opts.placeGeoid || opts.countyFips, opts.jurisdictionLabel);
         } else {
           container.innerHTML = '';
           if (typeof opts.onMissing === 'function') opts.onMissing();
@@ -583,8 +702,9 @@
       _fetchJson(NEWS_QUEUE_PATH).then(function (queue) {
         container.insertAdjacentHTML('beforeend', _renderNews(brief, queue, new Date()));
       });
+      _appendActivity(container, brief.geoid, brief.jurisdiction);
     });
   }
 
-  global.JurisdictionBrief = { attach: attach, _renderNews: _renderNews };
+  global.JurisdictionBrief = { attach: attach, _renderNews: _renderNews, _renderActivity: _renderActivity };
 })(typeof window !== 'undefined' ? window : globalThis);
