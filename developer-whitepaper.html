@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jurisdiction White Paper — COHO</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/site-theme.css">
+<script src="js/developer-gate.js"></script>
+<style>
+  .ib-section-nav { display:flex;gap:1rem;align-items:center;flex-wrap:wrap;padding:.6rem 0;margin-bottom:var(--sp3);border-bottom:1px solid var(--border);font-size:var(--small); }
+  .ib-section-nav a { color:var(--muted);text-decoration:none;font-weight:600;padding:.35rem .7rem;border-radius:var(--radius-sm); }
+  .ib-section-nav a.active { color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,transparent 90%); }
+  .ib-section-nav .spacer { flex:1; }
+  .ib-section-nav .badge { background:var(--warn);color:var(--card);font-size:.65rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em; }
+  .wp-picker { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3); }
+  .wp-picker label { display:block;font-weight:700;margin-bottom:.4rem; }
+  .wp-picker-row { display:flex;gap:var(--sp2);flex-wrap:wrap; }
+  .wp-picker input { flex:1 1 240px;min-width:0;padding:.6rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg2);color:var(--text);font-size:1rem; }
+  .wp-picker button { padding:.6rem 1rem;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;font-weight:700;font-size:1rem;cursor:pointer; }
+  .wp-picker button.secondary { background:transparent;color:var(--accent); }
+  .wp-picker button:disabled { opacity:.5;cursor:not-allowed; }
+  .wp-actions { display:flex;gap:var(--sp2);flex-wrap:wrap;margin-top:var(--sp2); }
+  .wp-status { color:var(--muted);font-size:var(--small);margin:.6rem 0 0; }
+  #wpFrame { width:100%;border:1px solid var(--border);border-radius:var(--radius);background:#fff;min-height:70vh; }
+</style>
+</head>
+<body>
+<header id="siteHeader"></header>
+
+<main class="page-container" style="max-width:960px;margin:0 auto;padding:var(--sp3);">
+  <nav class="ib-section-nav" aria-label="Developer pages">
+    <a href="developer.html">Home</a>
+    <a href="developer-brief.html">Jurisdiction Briefs</a>
+    <a href="developer-whitepaper.html" class="active">White Paper</a>
+    <a href="lihtc-opportunity-finder.html">← Opportunity Finder</a>
+    <span class="spacer"></span>
+    <span class="badge">INTERNAL</span>
+  </nav>
+
+  <h1>Jurisdiction white paper</h1>
+  <p>Pick a town or county to get one document you can share: housing need, rents, tax-credit history, Prop 123, local funds, funding that fits, the deal shape and who to contact, with the source of every figure.</p>
+
+  <form class="wp-picker" id="wpForm">
+    <label for="wpQuery">Town or county</label>
+    <div class="wp-picker-row">
+      <input id="wpQuery" list="wpList" autocomplete="off" placeholder="e.g. Gunnison" required>
+      <datalist id="wpList"></datalist>
+      <button type="submit" id="wpBuild">Build white paper</button>
+    </div>
+    <div class="wp-actions">
+      <button type="button" class="secondary" id="wpPdf" disabled>Save as PDF</button>
+      <button type="button" class="secondary" id="wpDownload" disabled>Download file</button>
+    </div>
+    <p class="wp-status" id="wpStatus" role="status">Loading the jurisdiction list…</p>
+  </form>
+
+  <iframe id="wpFrame" title="White paper preview"></iframe>
+</main>
+
+<script src="js/navigation.js"></script>
+<script src="js/funding-fit.js"></script>
+<script src="js/whitepaper/jurisdiction-whitepaper.js"></script>
+<script>
+(function () {
+  'use strict';
+  var WP = window.JurisdictionWhitepaper;
+  var $ = function (id) { return document.getElementById(id); };
+  var sources = null, html = null, current = null;
+
+  function getJson(path, optional) {
+    return fetch(path, { cache: 'no-cache' }).then(function (r) {
+      if (!r.ok) { if (optional) return null; throw new Error(path + ' returned ' + r.status); }
+      return r.json();
+    }).catch(function (e) { if (optional) return null; throw e; });
+  }
+
+  function loadSources() {
+    var keys = Object.keys(WP.SOURCE_FILES);
+    return Promise.all(keys.map(function (k) { return getJson(WP.sourcePath(k), WP.isOptional(k)); }))
+      .then(function (vals) { var s = {}; keys.forEach(function (k, i) { s[k] = vals[i]; }); return s; });
+  }
+
+  function label(r) { return r.type === 'county' ? r.name : r.name + ' — ' + (r.containingCountyName || 'Colorado'); }
+
+  function build(query) {
+    var row = /^\d{5}(\d{2})?$/.test(query)
+      ? sources.rankingIndex.rankings.find(function (r) { return r.geoid === query; })
+      : WP.findByName(sources.rankingIndex, query.replace(/\s+—\s+.*$/, ''));
+    if (!row) { $('wpStatus').textContent = 'No Colorado town or county matches "' + query + '".'; return; }
+    $('wpStatus').textContent = 'Building the white paper for ' + row.name + '…';
+    Promise.all([
+      getJson(WP.briefPath(row.geoid), true),
+      getJson(WP.contactsPath(row.geoid), true),
+      getJson('data/hna/local-resources.json', true)
+    ]).then(function (extra) {
+      var model = WP.buildModel(sources, row.geoid, {
+        FundingFit: window.FundingFit, brief: extra[0], contacts: extra[1], localResources: extra[2]
+      });
+      html = WP.renderHtml(model);
+      current = model;
+      $('wpFrame').srcdoc = html;
+      $('wpPdf').disabled = $('wpDownload').disabled = !!model.error;
+      $('wpStatus').textContent = model.error || ('White paper for ' + model.name + ', built ' + model.generated + '. Save it as a PDF to share.');
+      var url = new URL(location.href); url.searchParams.set('geoid', row.geoid); history.replaceState(null, '', url);
+    }).catch(function (e) { $('wpStatus').textContent = 'Could not build it: ' + e.message; });
+  }
+
+  $('wpFrame').addEventListener('load', function () {
+    var f = $('wpFrame');
+    try { f.style.height = (f.contentDocument.documentElement.scrollHeight + 24) + 'px'; } catch (e) { /* sized by min-height */ }
+  });
+  $('wpForm').addEventListener('submit', function (e) { e.preventDefault(); if (sources) build($('wpQuery').value.trim()); });
+  $('wpPdf').addEventListener('click', function () { $('wpFrame').contentWindow.print(); });
+  $('wpDownload').addEventListener('click', function () {
+    if (!html || !current) return;
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+    a.download = current.geoid + '-' + current.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-white-paper.html';
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+
+  loadSources().then(function (s) {
+    sources = s;
+    var names = {};
+    s.rankingIndex.rankings.forEach(function (r) { if (r.type === 'county') names[r.geoid] = r.name; });
+    $('wpList').innerHTML = s.rankingIndex.rankings.map(function (r) {
+      r.containingCountyName = names[r.containingCounty];
+      return '<option value="' + label(r).replace(/"/g, '&quot;') + '">';
+    }).join('');
+    $('wpStatus').textContent = s.rankingIndex.rankings.length + ' Colorado towns and counties available.';
+    var g = new URLSearchParams(location.search).get('geoid');
+    if (g) build(g);
+  }).catch(function (e) { $('wpStatus').textContent = 'Could not load the data: ' + e.message; });
+})();
+</script>
+</body>
+</html>

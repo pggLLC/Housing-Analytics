@@ -20,6 +20,7 @@ const PRIVATE_ROOT_HTML = new Set([
   'developer-where.html',
   'developer-pipeline.html',
   'developer-brief.html',
+  'developer-whitepaper.html',
   'indibuild.html',
   'indibuild-where.html',
   'indibuild-pipeline.html',
@@ -122,7 +123,8 @@ const BLOCKED_PATHS = [
   'js/developer-gate.js',
   'js/components/jurisdiction-brief.js',
   'js/components/pipeline-add-button.js',
-  'js/components/pipeline-store.js'
+  'js/components/pipeline-store.js',
+  'js/whitepaper'
 ];
 
 function toPosix(relPath) {
