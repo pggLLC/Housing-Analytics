@@ -34,7 +34,7 @@ on:
       - "Build HNA Data Cache"
       - "Build Market Data"
       - "CHFA QAP Watch"
-      - "Configure Alerts & Generate Policy Briefs"
+      - "Daily Housing News Update"
       - "Data Refresh Pipeline"
       - "Data Source Monitoring"
       - "Docs Sync — Generate Inventory"
@@ -53,7 +53,6 @@ on:
       - "Scrape Council Agenda Items"
       - "Upstream Vintage Watch"
       - "Weekly Market Data Sync (Bridge + Zillow Research)"
-      - "Weekly Policy Briefs Update"
     types: [completed]
 
   workflow_dispatch:
