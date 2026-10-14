@@ -59,7 +59,9 @@ const amiGap = read('js/co-ami-gap.js');
 const staleCountyIncomeLimits = 'FY 20' + '25 Income Limits';
 assertIncludes(amiGap, `FY ${hudMeta.income_limits_fiscal_year} county Income Limits`, 'AMI-gap county tooltip uses the current Income Limits vintage');
 assertExcludes(amiGap, staleCountyIncomeLimits, 'AMI-gap has no stale FY2025 county Income Limits label');
-assertIncludes(amiGap, 'statewide benchmark remains FY 2025', 'AMI-gap preserves the separate FY2025 statewide disclosure');
+// The statewide benchmark's year is read from the AMI-gap file's meta, never typed.
+assertIncludes(amiGap, 'fy(meta.statewide_ami_year)', 'AMI-gap names the statewide benchmark year from the data file');
+assertExcludes(amiGap, 'statewide benchmark remains FY', 'AMI-gap has no typed statewide benchmark year');
 
 ['housing-needs-assessment.html', 'deal-calculator.html', 'market-analysis.html'].forEach((relPath) => {
   const src = read(relPath);
@@ -168,10 +170,13 @@ doc.close();
 
 const market = read('market-analysis.html');
 const marketJs = read('js/market-analysis.js');
-assertExcludes(market, 'ACSDP5Y2024', 'Market Analysis ACS tract-metric links use 2023 table URLs');
+// The tract-metric labels must name the vintage in the data file.
+const tractVintage = JSON.parse(read('data/market/acs_tract_metrics_co.json')).meta.vintage;
+const staleTractYear = String(Number(tractVintage) - 1);
+assertExcludes(market, 'ACSDP5Y' + staleTractYear, `Market Analysis ACS tract-metric links use ${tractVintage} table URLs`);
 assertIncludes(
   market,
-  "{ name: 'Census ACS Tract Metrics', status: 'primary', vintage: '2023'",
+  `{ name: 'Census ACS Tract Metrics', status: 'primary', vintage: '${tractVintage}'`,
   'Market Analysis ACS Tract Metrics inventory vintage'
 );
 assertIncludes(marketJs, `HUD FMR ${FMR_FY}`, 'Market Analysis export FMR vintage');

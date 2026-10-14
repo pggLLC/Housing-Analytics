@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-06-27T03:57:02.824Z",
+    "generated_at": "2026-10-14T02:55:41.547Z",
     "source": "Derived from Census GEOID place names + containing county matched to Zillow city RegionID + CountyName.",
-    "latest_zhvi_month": "2026-05-31",
-    "count": 264
+    "latest_zhvi_month": "2026-08-31",
+    "count": 270
   },
   "places": {
     "0800320": {
@@ -84,6 +84,12 @@
       "zillow_county_name": "Pueblo County",
       "county_fips": "08101"
     },
+    "0804935": {
+      "zillow_region_id": "35225",
+      "zillow_region_name": "Basalt",
+      "zillow_county_name": "Eagle County",
+      "county_fips": "08037"
+    },
     "0805265": {
       "zillow_region_id": "23622",
       "zillow_region_name": "Bayfield",
@@ -95,6 +101,12 @@
       "zillow_region_name": "Bennett",
       "zillow_county_name": "Adams County",
       "county_fips": "08001"
+    },
+    "0806255": {
+      "zillow_region_id": "48972",
+      "zillow_region_name": "Berthoud",
+      "zillow_county_name": "Larimer County",
+      "county_fips": "08069"
     },
     "0807190": {
       "zillow_region_id": "37453",
@@ -144,6 +156,12 @@
       "zillow_county_name": "Broomfield County",
       "county_fips": "08014"
     },
+    "0809555": {
+      "zillow_region_id": "10591",
+      "zillow_region_name": "Brush",
+      "zillow_county_name": "Morgan County",
+      "county_fips": "08087"
+    },
     "0810105": {
       "zillow_region_id": "37640",
       "zillow_region_name": "Buena Vista",
@@ -161,6 +179,12 @@
       "zillow_region_name": "Calhan",
       "zillow_county_name": "El Paso County",
       "county_fips": "08041"
+    },
+    "0812045": {
+      "zillow_region_id": "10710",
+      "zillow_region_name": "Carbondale",
+      "zillow_county_name": "Garfield County",
+      "county_fips": "08045"
     },
     "0812387": {
       "zillow_region_id": "119344",
@@ -510,6 +534,12 @@
       "zillow_county_name": "Weld County",
       "county_fips": "08123"
     },
+    "0827810": {
+      "zillow_region_id": "4776",
+      "zillow_region_name": "Fort Morgan",
+      "zillow_county_name": "Morgan County",
+      "county_fips": "08087"
+    },
     "0827865": {
       "zillow_region_id": "4790",
       "zillow_region_name": "Fountain",
@@ -833,6 +863,12 @@
       "zillow_region_name": "Lakewood",
       "zillow_county_name": "Jefferson County",
       "county_fips": "08059"
+    },
+    "0843110": {
+      "zillow_region_id": "5523",
+      "zillow_region_name": "Lamar",
+      "zillow_county_name": "Prowers County",
+      "county_fips": "08099"
     },
     "0843220": {
       "zillow_region_id": "18954",

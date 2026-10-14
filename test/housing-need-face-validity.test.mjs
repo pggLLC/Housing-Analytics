@@ -20,11 +20,12 @@
  * workforce-housing layer already flags as under pressure, may not rank in the
  * bottom half of housing need.
  *
- * The thresholds are stable from 12x/70 to 13.5x/80 — asserted below, including
+ * The thresholds are stable from 12x/70 to 13.3x/80 — asserted below, including
  * where the stability ENDS at both ends. Below 12x the set grows to include
  * Granby (10.8x) and Red Cliff (11.6x), which are not extreme markets, so 12x is
- * where "expensive" stops being a judgement call. Above 13.5x it loses Larkspur
- * (13.52x) and shrinks to the three older entries, which hold through 20x/80.
+ * where "expensive" stops being a judgement call. Above 13.3x it loses Larkspur
+ * (13.37x on the August 2026 ZHVI; 13.52x when it was pinned) and shrinks to
+ * the three older entries, which hold through 20x/80.
  * The range was 12x-20x until Larkspur joined the ledger (#1991); it narrowed
  * because a real failure sits inside it, not because a threshold was tuned. Recording the boundary matters as
  * much as recording the rule: a threshold with no stated range of validity is
@@ -234,8 +235,8 @@ test('the inputs the rule depends on are present and populated', () => {
 
 test('the failing set is stable across the range the rule claims', () => {
   // A rule that only works at one setting is a rule reverse-engineered from
-  // its answer. This one holds from 12x/70 to 13.5x/80.
-  const RANGE = [[12, 70], [12, 75], [13, 75], [13.5, 78], [13.5, 80]];
+  // its answer. This one holds from 12x/70 to 13.3x/80.
+  const RANGE = [[12, 70], [12, 75], [13, 75], [13.3, 78], [13.3, 80]];
   const sets = RANGE.map(([p, w]) => failing(p, w).map((x) => x.geoid).sort().join(','));
   const distinct = [...new Set(sets)];
   assert.strictEqual(distinct.length, 1,
@@ -257,7 +258,7 @@ test('and the rule stops being stable where it says it does', () => {
   // range is wider than this file says and should be restated.
   const at15 = failing(15, 75).map((p) => p.geoid).sort().join(',');
   assert.notStrictEqual(at15, at12,
-    'the set no longer shrinks by 15x, so the stable range reaches further than 13.5x — '
+    'the set no longer shrinks by 15x, so the stable range reaches further than 13.3x — '
     + 're-derive it and update the docstring');
 });
 

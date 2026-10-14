@@ -54,9 +54,11 @@ if ami_ok:
           statewide.get('ami_4person') is not None,
           f'value={statewide.get("ami_4person")}')
 
-    # Check 2: statewide ami_4person equals 107200
-    check('Statewide ami_4person == 107200',
-          statewide.get('ami_4person') == 107200,
+    # Check 2: statewide ami_4person equals HUD's recorded state median
+    state_mfi = json.load(open(os.path.join(DATA_DIR, 'policy', 'hud-state-median-family-income.json')))
+    expected_mfi = state_mfi['median_family_income']['total']
+    check(f'Statewide ami_4person == HUD state median ({expected_mfi})',
+          statewide.get('ami_4person') == expected_mfi,
           f'value={statewide.get("ami_4person")}')
 
     # Check 3: statewide affordable_rent_monthly is not empty

@@ -61,10 +61,6 @@
     <lastmod>2026-04-05</lastmod>
   </url>
   <url>
-    <loc>https://cohoanalytics.com/census-dashboard.html</loc>
-    <lastmod>2026-06-15</lastmod>
-  </url>
-  <url>
     <loc>https://cohoanalytics.com/chfa-portfolio.html</loc>
     <lastmod>2026-06-15</lastmod>
   </url>
@@ -211,6 +207,10 @@
   <url>
     <loc>https://cohoanalytics.com/market-analysis.html</loc>
     <lastmod>2026-06-17</lastmod>
+  </url>
+  <url>
+    <loc>https://cohoanalytics.com/methods.html</loc>
+    <lastmod>2026-10-13</lastmod>
   </url>
   <url>
     <loc>https://cohoanalytics.com/og-card.html</loc>
@@ -2179,5 +2179,9 @@
   <url>
     <loc>https://cohoanalytics.com/sitemap.html</loc>
     <lastmod>2026-06-15</lastmod>
+  </url>
+  <url>
+    <loc>https://cohoanalytics.com/working-paper.html</loc>
+    <lastmod>2026-10-13</lastmod>
   </url>
 </urlset>

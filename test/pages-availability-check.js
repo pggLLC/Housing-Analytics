@@ -269,6 +269,17 @@ test('sitemap.xml: public sitemap includes generated place pages and excludes pr
     assert(!sitemap.includes('404.html'), 'sitemap excludes 404 page');
     assert(!sitemap.includes('developer-brief'), 'sitemap excludes private developer pages');
     assert(!urls.some((u) => u.includes('state-allocation-map.html')), 'sitemap excludes state-allocation-map redirect stub');
+    assert(sitemap.includes('<loc>https://cohoanalytics.com/methods.html</loc>'), 'sitemap includes the methods page');
+    assert(sitemap.includes('<loc>https://cohoanalytics.com/working-paper.html</loc>'), 'sitemap includes the working paper');
+    // A page that tells crawlers noindex must not be offered to them here.
+    const noindexPages = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html')
+        && /<meta[^>]+name=["']?robots["']?[^>]+content=["'][^"']*noindex/i.test(fs.readFileSync(path.join(ROOT, f), 'utf8')));
+    assert(noindexPages.includes('census-dashboard.html'), 'the deprecated census dashboard asks not to be indexed');
+    for (const f of noindexPages) {
+        assert(!sitemap.includes(`<loc>https://cohoanalytics.com/${f}</loc>`), `sitemap excludes noindex page ${f}`);
+    }
+    const generator = fs.readFileSync(path.join(ROOT, 'scripts', 'build-public-site.mjs'), 'utf8');
+    assert(/noindex/.test(generator), 'the deployed sitemap generator skips noindex pages');
 });
 
 // ---------------------------------------------------------------------------

@@ -42,7 +42,7 @@
     { num: 3, key: 'hsa',          label: 'Needs Assessment',   href: 'hna-what-housing-exists.html' },
     { num: 4, key: 'market',       label: 'Market Analysis',    href: 'market-analysis.html' },
     { num: 5, key: 'scenario',     label: 'Scenarios',          href: 'hna-scenario-builder.html' },
-    { num: 6, key: 'deal',         label: 'Deal',               href: 'deal-calculator.html' },
+    { num: 6, key: 'deal',         label: 'Deal Calculator',    href: 'deal-calculator.html' },
     // Step 7 is the synthesis. Every conclusion the workflow reaches is
     // computed on one of steps 1-6 and then left there; before this the
     // reader finished the route holding six pages and no answer.
@@ -267,6 +267,7 @@
       '.wf-step--active .wf-step__label{color:var(--accent);}',
       '.wf-step--done .wf-step__num{background:var(--good,#047857);color:#fff;border-color:var(--good,#047857);}',
       '.wf-step--done .wf-step__label{color:var(--good,#047857);}',
+      // The "optional" tag on step 2 lives in css/site-theme.css.
       '.wf-step-connector{flex:1;height:2px;background:var(--border);min-width:20px;margin-bottom:18px;}',
       '.wf-companions{max-width:1200px;margin:6px auto 0;font-size:.74rem;line-height:1.4;color:var(--muted);text-align:center;}',
       '@media(max-width:' + compactBelowPx() + 'px){',
@@ -296,8 +297,7 @@
     // literal used to live at this line and survived the #1620 reorder pointing
     // at the wrong steps — a finished jurisdiction would have ticked the finder.
     // "opportunity" is a forward-compat key; WorkflowState doesn't write it
-    // today, so that step is normally surfaced via the conservative fallback in
-    // resolveDoneSteps() (any step < activeStep counts as done), not this map.
+    // today, so the optional Opportunity Finder step is never ticked.
     var map = {};
     for (var m = 0; m < STEPS.length; m++) { map[STEPS[m].key] = STEPS[m].num; }
     var keys = Object.keys(map);
@@ -380,18 +380,12 @@
     if (options && Array.isArray(options.doneSteps)) {
       return options.doneSteps;
     }
-    // Auto-compute from WorkflowState
-    var fromState = getDoneSteps();
-    if (fromState.length > 0) {
-      return fromState;
-    }
-    // Conservative fallback: mark all steps before activeStep as done
-    var fallback = [];
-    var i;
-    for (i = 1; i < activeStep; i++) {
-      fallback.push(i);
-    }
-    return fallback;
+    // Auto-compute from WorkflowState. Only a step with a recorded
+    // completion is ticked. This used to fall back to "every step before
+    // this one is done" when nothing was recorded, so a visitor who landed
+    // on the Deal Calculator saw steps 1-5 ticked while the Recommendation
+    // page said none of them had run. An unrecorded step is not done.
+    return getDoneSteps();
   }
 
   /* ── Store last render args per container for refresh() ─────────────────── */

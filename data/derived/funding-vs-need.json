@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-10-11T11:45:28Z",
+  "generatedAt": "2026-10-14T05:18:27Z",
   "generator": "scripts/funding/build_funding_vs_need.mjs",
   "window": {
    "first_year": 2016,
@@ -165,7 +165,7 @@
    "need": {
     "gap_units_30ami": 14732,
     "gap_units_50ami": 7058,
-    "overall_need_score": 84.3,
+    "overall_need_score": 84.6,
     "pct_renter_severe_burdened": 31.2,
     "gap_per_1000_residents": 44.6,
     "share_of_state_gap": 9.34
@@ -215,7 +215,7 @@
    "need": {
     "gap_units_30ami": 1629,
     "gap_units_50ami": 2037,
-    "overall_need_score": 80.3,
+    "overall_need_score": 80.8,
     "pct_renter_severe_burdened": 25.9,
     "gap_per_1000_residents": 29.5,
     "share_of_state_gap": 1.03
@@ -324,7 +324,7 @@
    "need": {
     "gap_units_30ami": 20946,
     "gap_units_50ami": 9404,
-    "overall_need_score": 79.6,
+    "overall_need_score": 79.3,
     "pct_renter_severe_burdened": 24.5,
     "gap_per_1000_residents": 31.4,
     "share_of_state_gap": 13.28
@@ -374,7 +374,7 @@
    "need": {
     "gap_units_30ami": 14174,
     "gap_units_50ami": 4650,
-    "overall_need_score": 78.7,
+    "overall_need_score": 78.5,
     "pct_renter_severe_burdened": 24.4,
     "gap_per_1000_residents": 24.5,
     "share_of_state_gap": 8.98
@@ -478,7 +478,7 @@
    "need": {
     "gap_units_30ami": 12466,
     "gap_units_50ami": 6087,
-    "overall_need_score": 76.8,
+    "overall_need_score": 77.1,
     "pct_renter_severe_burdened": 25.9,
     "gap_per_1000_residents": 33.3,
     "share_of_state_gap": 7.9
@@ -722,7 +722,7 @@
    "need": {
     "gap_units_30ami": 17815,
     "gap_units_50ami": 11234,
-    "overall_need_score": 69.7,
+    "overall_need_score": 69.6,
     "pct_renter_severe_burdened": 23.6,
     "gap_per_1000_residents": 23.7,
     "share_of_state_gap": 11.29
@@ -855,51 +855,6 @@
    "quadrant": "aligned"
   },
   {
-   "fips": "08014",
-   "name": "Broomfield County",
-   "region": "Front Range",
-   "population": 78323,
-   "need": {
-    "gap_units_30ami": 1888,
-    "gap_units_50ami": 933,
-    "overall_need_score": 66.1,
-    "pct_renter_severe_burdened": 18.6,
-    "gap_per_1000_residents": 24.1,
-    "share_of_state_gap": 1.2
-   },
-   "market": {
-    "active_market_vacancy_pct": 1.5,
-    "raw_rental_vacancy_pct": 2.5,
-    "seasonal_share_of_vacant_pct": 21.1,
-    "median_gross_rent_acs": 2141,
-    "permits_avg_annual_5yr": 738.2,
-    "projected_need_annual_10yr": 534.2,
-    "production_to_need_ratio": 1.38,
-    "chfa_60ami_max_rent_1br": 1620,
-    "chfa_60ami_max_rent_2br": 1944
-   },
-   "funding": {
-    "tax_credit_awards": 4,
-    "lihtc_units": 290,
-    "lihtc_9pct_units": 138,
-    "federal_9pct_credit_annual": 3954996,
-    "federal_4pct_credit_annual": 2182105,
-    "state_credit_annual": 1500000,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 2,
-    "prop123_dollars": 6000000,
-    "prop123_units": 82,
-    "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 15.4,
-    "federal_9pct_credit_per_unit_annual": 28659,
-    "share_of_state_lihtc_units": 1.36
-   },
-   "flags": [],
-   "quadrant": "aligned"
-  },
-  {
    "fips": "08123",
    "name": "Weld County",
    "region": "Front Range",
@@ -943,6 +898,51 @@
    },
    "flags": [],
    "quadrant": "low-need-low-funding"
+  },
+  {
+   "fips": "08014",
+   "name": "Broomfield County",
+   "region": "Front Range",
+   "population": 78323,
+   "need": {
+    "gap_units_30ami": 1888,
+    "gap_units_50ami": 933,
+    "overall_need_score": 65.9,
+    "pct_renter_severe_burdened": 18.6,
+    "gap_per_1000_residents": 24.1,
+    "share_of_state_gap": 1.2
+   },
+   "market": {
+    "active_market_vacancy_pct": 1.5,
+    "raw_rental_vacancy_pct": 2.5,
+    "seasonal_share_of_vacant_pct": 21.1,
+    "median_gross_rent_acs": 2141,
+    "permits_avg_annual_5yr": 738.2,
+    "projected_need_annual_10yr": 534.2,
+    "production_to_need_ratio": 1.38,
+    "chfa_60ami_max_rent_1br": 1620,
+    "chfa_60ami_max_rent_2br": 1944
+   },
+   "funding": {
+    "tax_credit_awards": 4,
+    "lihtc_units": 290,
+    "lihtc_9pct_units": 138,
+    "federal_9pct_credit_annual": 3954996,
+    "federal_4pct_credit_annual": 2182105,
+    "state_credit_annual": 1500000,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 2,
+    "prop123_dollars": 6000000,
+    "prop123_units": 82,
+    "prop123_mixed_income_dollars": 0,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 15.4,
+    "federal_9pct_credit_per_unit_annual": 28659,
+    "share_of_state_lihtc_units": 1.36
+   },
+   "flags": [],
+   "quadrant": "aligned"
   },
   {
    "fips": "08077",
@@ -1147,7 +1147,7 @@
    "need": {
     "gap_units_30ami": 401,
     "gap_units_50ami": 239,
-    "overall_need_score": 57.9,
+    "overall_need_score": 57.7,
     "pct_renter_severe_burdened": 24.1,
     "gap_per_1000_residents": 19.9,
     "share_of_state_gap": 0.25
@@ -1287,7 +1287,7 @@
    "need": {
     "gap_units_30ami": 506,
     "gap_units_50ami": 91,
-    "overall_need_score": 51.7,
+    "overall_need_score": 51.9,
     "pct_renter_severe_burdened": 25.4,
     "gap_per_1000_residents": 11.6,
     "share_of_state_gap": 0.32
@@ -1391,7 +1391,7 @@
    "need": {
     "gap_units_30ami": 146,
     "gap_units_50ami": 0,
-    "overall_need_score": 49.2,
+    "overall_need_score": 49.3,
     "pct_renter_severe_burdened": 18,
     "gap_per_1000_residents": 15.8,
     "share_of_state_gap": 0.09
@@ -1588,52 +1588,6 @@
    "quadrant": "aligned"
   },
   {
-   "fips": "08099",
-   "name": "Prowers County",
-   "region": "Eastern Plains",
-   "population": 11910,
-   "need": {
-    "gap_units_30ami": 94,
-    "gap_units_50ami": 0,
-    "overall_need_score": 46.2,
-    "pct_renter_severe_burdened": 14.9,
-    "gap_per_1000_residents": 7.9,
-    "share_of_state_gap": 0.06
-   },
-   "market": {
-    "active_market_vacancy_pct": 1.4,
-    "raw_rental_vacancy_pct": 4.8,
-    "seasonal_share_of_vacant_pct": 2.8,
-    "median_gross_rent_acs": 808,
-    "permits_avg_annual_5yr": 12.4,
-    "projected_need_annual_10yr": -2.5,
-    "production_to_need_ratio": null,
-    "chfa_60ami_max_rent_1br": 1096,
-    "chfa_60ami_max_rent_2br": 1315
-   },
-   "funding": {
-    "tax_credit_awards": 0,
-    "lihtc_units": 0,
-    "lihtc_9pct_units": 0,
-    "federal_9pct_credit_annual": 0,
-    "federal_4pct_credit_annual": 0,
-    "state_credit_annual": 0,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 0,
-    "prop123_dollars": 0,
-    "prop123_units": 0,
-    "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 0,
-    "federal_9pct_credit_per_unit_annual": null,
-    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
-    "share_of_state_lihtc_units": 0
-   },
-   "flags": [],
-   "quadrant": "low-need-low-funding"
-  },
-  {
    "fips": "08007",
    "name": "Archuleta County",
    "region": "Western Slope",
@@ -1686,6 +1640,52 @@
     }
    ],
    "quadrant": "funded-above-need"
+  },
+  {
+   "fips": "08099",
+   "name": "Prowers County",
+   "region": "Eastern Plains",
+   "population": 11910,
+   "need": {
+    "gap_units_30ami": 94,
+    "gap_units_50ami": 0,
+    "overall_need_score": 46.1,
+    "pct_renter_severe_burdened": 14.9,
+    "gap_per_1000_residents": 7.9,
+    "share_of_state_gap": 0.06
+   },
+   "market": {
+    "active_market_vacancy_pct": 1.4,
+    "raw_rental_vacancy_pct": 4.8,
+    "seasonal_share_of_vacant_pct": 2.8,
+    "median_gross_rent_acs": 808,
+    "permits_avg_annual_5yr": 12.4,
+    "projected_need_annual_10yr": -2.5,
+    "production_to_need_ratio": null,
+    "chfa_60ami_max_rent_1br": 1096,
+    "chfa_60ami_max_rent_2br": 1315
+   },
+   "funding": {
+    "tax_credit_awards": 0,
+    "lihtc_units": 0,
+    "lihtc_9pct_units": 0,
+    "federal_9pct_credit_annual": 0,
+    "federal_4pct_credit_annual": 0,
+    "state_credit_annual": 0,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 0,
+    "prop123_dollars": 0,
+    "prop123_units": 0,
+    "prop123_mixed_income_dollars": 0,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 0,
+    "federal_9pct_credit_per_unit_annual": null,
+    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
+    "share_of_state_lihtc_units": 0
+   },
+   "flags": [],
+   "quadrant": "low-need-low-funding"
   },
   {
    "fips": "08057",
@@ -1797,7 +1797,7 @@
    "need": {
     "gap_units_30ami": 357,
     "gap_units_50ami": 0,
-    "overall_need_score": 44.6,
+    "overall_need_score": 44.7,
     "pct_renter_severe_burdened": 22.2,
     "gap_per_1000_residents": 20.7,
     "share_of_state_gap": 0.23
@@ -2144,7 +2144,7 @@
    "need": {
     "gap_units_30ami": 570,
     "gap_units_50ami": 148,
-    "overall_need_score": 35.5,
+    "overall_need_score": 35.3,
     "pct_renter_severe_burdened": 22.7,
     "gap_per_1000_residents": 11.5,
     "share_of_state_gap": 0.36
@@ -2235,7 +2235,7 @@
    "need": {
     "gap_units_30ami": 309,
     "gap_units_50ami": 153,
-    "overall_need_score": 34.1,
+    "overall_need_score": 33.8,
     "pct_renter_severe_burdened": 20.1,
     "gap_per_1000_residents": 21.4,
     "share_of_state_gap": 0.2
@@ -2522,7 +2522,7 @@
    "need": {
     "gap_units_30ami": 142,
     "gap_units_50ami": 44,
-    "overall_need_score": 29.2,
+    "overall_need_score": 29,
     "pct_renter_severe_burdened": 13.2,
     "gap_per_1000_residents": 18.9,
     "share_of_state_gap": 0.09
@@ -2573,7 +2573,7 @@
    "need": {
     "gap_units_30ami": 15,
     "gap_units_50ami": 0,
-    "overall_need_score": 28.8,
+    "overall_need_score": 29,
     "pct_renter_severe_burdened": 14.3,
     "gap_per_1000_residents": 2.1,
     "share_of_state_gap": 0.01
@@ -2932,7 +2932,7 @@
    "need": {
     "gap_units_30ami": 197,
     "gap_units_50ami": 0,
-    "overall_need_score": 23.4,
+    "overall_need_score": 23.6,
     "pct_renter_severe_burdened": 4.5,
     "gap_per_1000_residents": 17.4,
     "share_of_state_gap": 0.12

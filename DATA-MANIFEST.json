@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-10-14T03:45:23Z",
+  "generated": "2026-10-14T08:31:09Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -30,7 +30,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Show statewide ACS summary only; disable per-tract choropleth layer",
-      "last_update": "2026-10-10T23:09:04Z",
+      "last_update": "2026-10-14T08:30:37Z",
       "description": "Census tract-level housing and economic indicators for Colorado, including renter/owner household counts, median gross rent, median household income, cost burden rate, and vacancy rate (15 tracts)."
     },
     {
@@ -210,7 +210,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Display statewide AMI gap only; disable county-level choropleth",
-      "last_update": "2026-10-01T13:38:07Z",
+      "last_update": "2026-10-14T08:30:37Z",
       "description": "County-level AMI gap data showing the difference between area median income (AMI) and the income required to afford median-priced housing in each of Colorado's 64 counties. Used in the Colorado Deep Dive AMI Gap tab."
     },
     {

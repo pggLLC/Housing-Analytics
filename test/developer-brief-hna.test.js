@@ -15,7 +15,12 @@ assert(html.includes('<strong>Summary analysis:</strong>'), 'brief must include 
 assert(html.includes('not a funding award score'), 'brief must distinguish screening from award scoring');
 assert(!html.includes('cdola.colorado.gov/private-activity-bonds'),
   'brief must not link the retired DOLA PAB page');
-assert(html.includes('data-source-status="inactive"') && html.includes('source page retired'),
-  'brief must visibly mark the retired DOLA PAB source inactive');
+// The PAB link is the data file's own sourceUrl (the page the annual fetch read);
+// with no verified DOLA URL the source is marked inactive instead of linked.
+const pabMeta = JSON.parse(fs.readFileSync('data/policy/pab-allocations.json', 'utf8')).metadata;
+assert.match(pabMeta.sourceUrl, /^https:\/\/doh\.colorado\.gov\//, 'PAB data names its DOLA source page');
+assert(html.includes('href="${esc(pabMeta.sourceUrl)}"'), 'brief must link the PAB source the data file was read from');
+assert(html.includes('data-source-status="inactive">DOLA PAB direct allocations (source unavailable)'),
+  'brief must mark the PAB source inactive when the data names no DOLA page');
 
 console.log('Developer brief HNA scoring and summary: PASS');
