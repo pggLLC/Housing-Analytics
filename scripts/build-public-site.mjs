@@ -6,7 +6,7 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { contentChangedDate, isArticle, isStampable, parseHistory, stampPage, visibleText } from './lib/page-dates.mjs';
 import { isSensitive } from './lib/public-sensitive-patterns.mjs';
-import { briefRecords, countyRecords, markdownRecord, pageRecords, redirectAlias } from './lib/search-index.mjs';
+import { briefRecords, countyRecords, fundingProgramRecords, markdownRecord, pageRecords, redirectAlias } from './lib/search-index.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = process.env.COHO_PUBLIC_DIST
@@ -525,6 +525,8 @@ async function generateSearchIndex() {
     } catch (err) {
       console.warn(`search-index: curated briefs skipped: ${err.message}`);
     }
+    const fundingGuide = JSON.parse(await readFile(path.join(DIST, 'data/policy/co-developer-funding-guide.json'), 'utf8'));
+    records.push(...fundingProgramRecords(fundingGuide));
     // An old page name finds the page (or tab) it now redirects to.
     const byUrl = new Map(records.map((r) => [r.u, r]));
     for (const { alias, target } of aliases) {
