@@ -182,10 +182,21 @@
   function lihtcSection(row, src, countyName) {
     var county = row.type === 'county' ? row.geoid : row.containingCounty;
     var placeKey = norm(plainName(row.name));
+    // A city can span counties (Aurora: Arapahoe, Adams, Douglas), and the records
+    // carry the county the project sits in, not the city's main one. So a place
+    // matches by name in any county, unless another Colorado place shares the
+    // name, when it is held to its own county.
+    var sameName = ((src.rankingIndex && src.rankingIndex.rankings) || []).filter(function (r) {
+      return r.type !== 'county' && norm(plainName(r.name)) === placeKey;
+    }).length;
+    function inScope(recCounty, recTown) {
+      if (row.type === 'county') return recCounty === county;
+      if (norm(recTown) !== placeKey) return false;
+      return sameName <= 1 || recCounty === county;
+    }
     var props = ((src.chfaLihtc && src.chfaLihtc.features) || []).map(function (f) { return f.properties || f; })
       .filter(function (p) {
-        if (p.CNTY_FIPS !== county || excluded(p)) return false;
-        return row.type === 'county' || norm(p.PROJ_CTY) === placeKey;
+        return !excluded(p) && inScope(p.CNTY_FIPS, p.PROJ_CTY);
       })
       .map(function (p) {
         var a = p.AMIUnits || {};
@@ -199,8 +210,7 @@
       .sort(function (x, y) { return (y.awardYear || 0) - (x.awardYear || 0); });
 
     var awards = (((src.awards || {}).awards) || []).filter(function (a) {
-      if (a.county_fips !== county) return false;
-      return row.type === 'county' || norm(a.location) === placeKey;
+      return inScope(a.county_fips, a.location);
     }).filter(function (a) { return !excluded(a); }).sort(function (x, y) { return (y.year || 0) - (x.year || 0); });
 
     var apps = null;

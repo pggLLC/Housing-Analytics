@@ -107,6 +107,16 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   ok(WP.renderHtml(WP.buildModel(s, '0833640', { FundingFit })).includes('<td>At or below 60% AMI</td><td class="n">200</td>'), 'sabotage: the row follows the data');
 }
 
+// ---- 3c. A city that spans counties keeps its records from every county.
+{
+  const props = src.chfaLihtc.features.map((f) => f.properties || f);
+  const outside = props.filter((p) => p.PROJ_CTY === 'Aurora' && p.CNTY_FIPS !== '08005');
+  ok(outside.length > 0, 'non-vacuity: Aurora has tax-credit properties outside Arapahoe County');
+  const m = WP.buildModel(src, '0804000', { FundingFit });
+  ok(outside.every((p) => m.lihtc.properties.some((x) => x.name === p.PROJECT)), 'Aurora keeps its Adams/Douglas County properties');
+  ok(m.lihtc.properties.every((x) => x.city === 'Aurora'), 'and only Aurora properties');
+}
+
 // ---- 4. The owner's project and guarded text never reach the paper.
 {
   const s = clone(src);
