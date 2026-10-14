@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-14T16:48:07.199Z",
+    "generated_at": "2026-10-14T17:13:57.458Z",
     "root": "data/",
-    "file_count": 1718,
-    "total_size_bytes": 181218465,
+    "file_count": 1719,
+    "total_size_bytes": 181221672,
     "kinds": {
-      "json": 1681,
+      "json": 1682,
       "geojson": 33,
       "csv": 4
     }
@@ -502,7 +502,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-14T16:48:04.492Z",
+      "mtime": "2026-10-14T17:13:53.922Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30080,6 +30080,32 @@
       ]
     },
     {
+      "path": "jurisdiction-briefs/_contacts/0833640.json",
+      "kind": "json",
+      "size_bytes": 3205,
+      "mtime": "2026-10-14T17:13:16.630Z",
+      "shape": "object",
+      "keys": [
+        "geoid",
+        "name",
+        "checked",
+        "note",
+        "contacts"
+      ],
+      "key_count": 5,
+      "primary_array_key": "contacts",
+      "primary_array_length": 6,
+      "primary_array_first_keys": [
+        "name",
+        "role",
+        "org",
+        "phone",
+        "source_label",
+        "source_url",
+        "source_quote"
+      ]
+    },
+    {
       "path": "jurisdiction-briefs/_lihtc-applications-excluded.json",
       "kind": "json",
       "size_bytes": 465,
@@ -30646,8 +30672,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 218400,
-      "mtime": "2026-10-14T16:47:34.327Z",
+      "size_bytes": 218401,
+      "mtime": "2026-10-14T16:49:23.818Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32110,8 +32136,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 15108,
-      "mtime": "2026-10-14T16:48:05.727Z",
+      "size_bytes": 15109,
+      "mtime": "2026-10-14T17:13:55.463Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32135,7 +32161,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-14T16:48:05.392Z",
+      "mtime": "2026-10-14T17:13:55.072Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
