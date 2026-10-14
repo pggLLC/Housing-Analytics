@@ -8,20 +8,14 @@
 <link rel="stylesheet" href="css/site-theme.css">
 <script src="js/developer-gate.js"></script>
 <style>
-  .ib-section-nav {
     display: flex; gap: 1rem; align-items: center;
     padding: 0.6rem 0; margin-bottom: var(--sp3);
     border-bottom: 1px solid var(--border);
     font-size: var(--small);
   }
-  .ib-section-nav a {
     color: var(--muted); text-decoration: none; font-weight: 600;
     padding: 0.35rem 0.7rem; border-radius: var(--radius-sm);
   }
-  .ib-section-nav a.active { color: var(--accent); background: color-mix(in oklab, var(--accent) 10%, transparent 90%); }
-  .ib-section-nav a:hover { color: var(--accent); }
-  .ib-section-nav .spacer { flex: 1; }
-  .ib-section-nav .badge {
     background: var(--warn); color: var(--card);
     font-size: .65rem; padding: 2px 7px; border-radius: 9999px;
     font-weight: 700; letter-spacing: .03em;
@@ -140,6 +134,11 @@
 
   .ib-loading { padding: 1.5rem; text-align: center; color: var(--muted); font-style: italic; font-size: var(--small); }
   .ib-empty { padding: 1.5rem; text-align: center; color: var(--muted); font-style: italic; font-size: var(--small); }
+  .ib-find { margin-top: var(--sp3); }
+  .ib-find label { display:block; font-weight:700; margin-bottom:.35rem; }
+  .ib-find-row { display:flex; gap:.5rem; flex-wrap:wrap; }
+  .ib-find-row input { flex:1 1 220px; min-width:0; padding:.6rem .8rem; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg2); color:var(--text); font-size:1rem; }
+  .ib-find-row button { padding:.6rem 1rem; border-radius:var(--radius-sm); border:1px solid var(--accent); background:var(--accent); color:var(--on-accent, #fff); font-weight:700; font-size:1rem; cursor:pointer; }
 </style>
   <script defer src="js/components/inline-glossary.js"></script>
 </head>
@@ -149,21 +148,20 @@
 <main class="page-container js-glossary-auto" style="max-width: 1400px; margin: 0 auto; padding: var(--sp3);">
 
   <!-- Sub-section nav -->
-  <nav class="ib-section-nav">
-    <a href="developer.html" class="active">Home</a>
-    <a href="developer-pipeline.html">Pipeline</a>
-    <a href="developer-brief.html">Jurisdiction Briefs</a>
-    <a href="developer-whitepaper.html">White Paper</a>
-    <a href="lihtc-opportunity-finder.html">← Opportunity Finder</a>
-    <span class="spacer"></span>
-    <span class="badge">INTERNAL</span>
-  </nav>
+  <nav id="devNav" class="ib-section-nav"></nav>
 
   <div class="ib-hero">
-    <h1>Affordable Housing Partnership Pipeline</h1>
+    <h1>Developer home</h1>
     <p>
-      Internal working dashboard for tracking our active partnership conversations with Colorado communities — focused on small-to-mid rural and recreational towns where a developer can be a thoughtful, place-based partner.
+      Start with a place: the jurisdiction report covers who lives there, the housing that exists, need, rents, tax-credit history, who is already working on housing and how a deal comes together. The pipeline below tracks partnership conversations with Colorado communities.
     </p>
+    <form action="developer-brief.html" method="get" class="ib-find" role="search">
+      <label for="findPlace">Find a town or county</label>
+      <div class="ib-find-row">
+        <input id="findPlace" name="q" required autocomplete="off" placeholder="e.g. Gunnison">
+        <button type="submit">Open report</button>
+      </div>
+    </form>
   </div>
 
   <details class="ib-section-card" style="margin-bottom:var(--sp4);">
@@ -269,5 +267,6 @@
 </main>
 
 <script src="js/navigation.js"></script>
+<script src="js/whitepaper/developer-nav.js"></script>
 </body>
 </html>

@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Contract for the jurisdiction white paper (js/whitepaper/jurisdiction-whitepaper.js,
- * scripts/whitepaper/build-whitepaper.mjs, developer-whitepaper.html).
+ * scripts/whitepaper/build-whitepaper.mjs, and the Jurisdiction Report page developer-brief.html,
+ * which merged the old brief and white paper on 2026-10-14).
  *
  * What it pins is agreement, not copy:
  *   - every figure in the need and rent sections equals the file it cites
@@ -173,11 +174,15 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   ok(/PRIVATE_ROOT_HTML = new Set\(\[[^\]]*'developer-whitepaper\.html'/.test(pub), 'public build must exclude developer-whitepaper.html');
   ok(/'js\/whitepaper'/.test(pub) && /'js\/whitepaper'/.test(guard), 'public build and guard must exclude js/whitepaper');
   ok((guard.match(/'developer-whitepaper\.html'/g) || []).length >= 2, 'guard forbids the page as a path and as a link');
-  const page = read('developer-whitepaper.html');
+  ok(/PRIVATE_ROOT_HTML = new Set\(\[[^\]]*'developer-brief\.html'/.test(pub), 'public build must exclude developer-brief.html');
+  const page = read('developer-brief.html');
   const i = (s) => page.indexOf(s);
   ok(i('js/developer-gate.js') > -1 && i('js/developer-gate.js') < i('js/whitepaper/jurisdiction-whitepaper.js'), 'the gate loads before the generator');
-  ok(i('js/funding-fit.js') > -1 && i('js/funding-fit.js') < i('JurisdictionWhitepaper;'), 'the matcher loads before the page script');
-  ok(/isSensitive: isSensitive/.test(page) && /isSensitive\(html\)/.test(page), 'the page passes the guard to buildModel and checks the finished HTML');
+  ok(i('js/funding-fit.js') > -1 && i('js/funding-fit.js') < i('window.JurisdictionWhitepaper;'), 'the matcher loads before the page script');
+  ok(/isSensitive\b/.test(page.slice(page.indexOf('WP.buildModel'))) && /isSensitive\(html\)/.test(page), 'the page passes the guard to buildModel and checks the finished HTML');
+  // The old white paper address forwards to the report, keeping the jurisdiction.
+  const old = read('developer-whitepaper.html');
+  ok(/location\.replace\('developer-brief\.html'/.test(old) && /\?geoid=' \+ g/.test(old), 'developer-whitepaper.html forwards to the report with its geoid');
   ok(/did not load, so nothing was built/.test(page), 'the page refuses to build without the guard');
   for (const k of Object.keys(WP.SOURCE_FILES)) {
     if (!WP.isOptional(k)) ok(existsSync(join(ROOT, WP.sourcePath(k))), `${WP.sourcePath(k)} exists`);
@@ -239,8 +244,72 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   ok(WP.buildModel(noPab, '0833640', { FundingFit }).dynamics.pab.length === 0, 'missing bond file: no allocation printed');
   const wa = WP.buildModel(src, '0833640', { FundingFit }).dynamics.localMoney;
   ok(wa.some((w) => /Land Banking/.test(w.program)), 'the Gunnison land-banking award reaches the landscape (non-vacuity)');
-  const page = read('developer-whitepaper.html');
-  ok(/WP\.landscapePath\(row\.geoid\)/.test(page) && /WP\.landscapePath\(row\.containingCounty\)/.test(page) && /landscape: extra\[3\]/.test(page), 'the page loads the town file, falls back to the county, and passes it on');
+  const page = read('developer-brief.html');
+  ok(/WP\.landscapePath\(geoid\)/.test(page) && /WP\.landscapePath\(row\.containingCounty\)/.test(page) && /\blandscape, summary\b/.test(page), 'the page loads the town file, falls back to the county, and passes it on');
+}
+
+// ---- 8. The merged report: community profile, market rents, all properties, policy
+// markers. Each figure equals the file it comes from; a missing value never prints 0.
+{
+  const sum = JSON.parse(read(WP.summaryPath('0833640')));
+  const p = sum.acsProfile;
+  const m = WP.buildModel(src, '0833640', { FundingFit, summary: sum });
+  const html = WP.renderHtml(m);
+  ok(m.community && m.community.people.population === p.DP05_0001E, 'population equals the ACS profile');
+  // DP04_0005E is a published rate. The old brief divided it by total units and printed 0.0%.
+  ok(m.community.stock.rentalVacancyPct === p.DP04_0005E && html.includes('<th scope="row">Rental vacancy rate</th><td>' + p.DP04_0005E.toFixed(1) + '%</td>'), 'rental vacancy prints the published rate');
+  const nullVac = clone(sum); nullVac.acsProfile.DP04_0005E = null;
+  ok(WP.renderHtml(WP.buildModel(src, '0833640', { FundingFit, summary: nullVac })).includes('<th scope="row">Rental vacancy rate</th><td>Not available</td>'), 'sabotage: a missing vacancy rate prints Not available, not 0');
+  const incomeTotal = m.community.people.income.reduce((a, r) => a + r.count, 0);
+  ok(incomeTotal === p.DP02_0001E, 'income bins add up to the households they divide (non-vacuity)');
+  // The home value agrees with the ranking index, which every other page uses.
+  const row = src.rankingIndex.rankings.find((r) => r.geoid === '0833640');
+  ok(m.community.stock.homeValue.value === row.metrics.median_home_value, 'home value equals the ranking index');
+  ok(html.includes('$' + fmt(row.metrics.median_home_value) + '</div><div class="wp-tile-l">Median home value'), 'the first screen shows the same home value');
+  ok(html.includes('<div class="wp-tile-v">' + fmt(m.need.gap30) + '</div><div class="wp-tile-l">Rental homes short, 30% AMI or less'), 'the first screen shows the need section\'s 30% shortfall');
+  // A profile for another place is ignored rather than printed under this name.
+  ok(WP.buildModel(src, '0822035', { FundingFit, summary: sum }).community === null, 'another place\'s profile is ignored');
+  // The need score is explained in the builder's own words, carried in the data file.
+  const desc = src.rankingIndex.metrics.find((x) => x.id === 'overall_need_score').description;
+  ok(html.includes(desc.replace(/&/g, '&amp;')), 'the need-score explanation is the ranking index\'s own description');
+  const reworded = clone(src); reworded.rankingIndex.metrics.find((x) => x.id === 'overall_need_score').description = 'Sabotage wording.';
+  ok(WP.renderHtml(WP.buildModel(reworded, '0833640', { FundingFit })).includes('Sabotage wording.'), 'sabotage: reword the data and the report follows');
+  // Market rents equal their files.
+  const z = src.zori.counties['08051'];
+  ok(m.market.some((x) => /ZORI/.test(x.source) && x.all === z.rent), 'Zillow rent equals the ZORI file');
+  const den = WP.buildModel(src, '0820000', { FundingFit });
+  ok(den.market.some((x) => /Apartment List/.test(x.source) && x.br2 === src.apartmentList.cities.denver.rent_2br), 'Apartment List 2BR equals its file');
+  ok(!m.market.some((x) => /Apartment List/.test(x.source)), 'no Apartment List row for a city it does not cover');
+  // Every assisted property in the town, and nothing from another county's same-named town.
+  const inv = m.inventory.properties;
+  const want = src.properties.properties.filter((q) => (q.city || '').toLowerCase() === 'gunnison' && !/fruita\s+mews/i.test(q.property_name || ''));
+  ok(inv.length === want.length && inv.length > 0, 'the property list matches the inventory file for the town');
+  const withOwner = clone(src); withOwner.properties.properties.push({ property_name: 'Fruita Mews Phase II', city: 'Gunnison', county_fips: '08051', program_type: ['lihtc-9pct'] });
+  ok(WP.buildModel(withOwner, '0833640', { FundingFit }).inventory.properties.length === inv.length, 'sabotage: the owner\'s project never enters the property list');
+  // Policy markers equal the scorecard; an unassessed marker is not a No.
+  const sc = src.scorecard.scores['0833640'];
+  ok(m.civic.total === sc.totalScore && html.includes('<th scope="row">Has Housing Needs Assessment</th><td>Not assessed</td>'), 'policy markers equal the scorecard, unknown stays unknown');
+  // The PAB source is linked only when the data names the DOLA page.
+  ok(src.pab.metadata.sourceUrl && html.includes('href="' + src.pab.metadata.sourceUrl + '"'), 'the bond allocation links the page the data was read from');
+  const noUrl = clone(src); noUrl.pab.metadata.sourceUrl = 'https://example.localhost/old';
+  ok(WP.renderHtml(WP.buildModel(noUrl, '0833640', { FundingFit })).includes('DOLA allocation page not on record'), 'sabotage: an unknown source is marked, not linked');
+  ok(!html.includes('cdola.colorado.gov/private-activity-bonds'), 'the retired DOLA bond page is never linked');
+}
+
+// ---- 9. One menu for every gated page.
+{
+  const Nav = require(join(ROOT, 'js/whitepaper/developer-nav.js'));
+  const gated = readdirSync(ROOT).filter((f) => /^developer.*\.html$/.test(f) && f !== 'developer-whitepaper.html');
+  ok(gated.length >= 4, 'the scan finds the gated pages');
+  for (const f of gated) {
+    const s = read(f);
+    ok(s.includes('<nav id="devNav" class="ib-section-nav"></nav>') && s.includes('js/whitepaper/developer-nav.js'), `${f} uses the shared menu`);
+    ok(!/<nav[^>]*>\s*<a href="developer/.test(s), `${f} writes no menu of its own`);
+  }
+  const listed = Nav.PAGES.map((p) => p.href);
+  ok(gated.every((f) => listed.includes(f)), 'the menu lists every gated page');
+  ok(listed.every((h) => existsSync(join(ROOT, h))), 'every menu entry exists');
+  ok(/aria-current="page"[^>]*>Jurisdiction reports/.test(Nav.html('/developer-whitepaper.html')), 'the old white paper address marks the reports entry');
 }
 
 console.log(`jurisdiction-whitepaper: ${checks} checks passed`);

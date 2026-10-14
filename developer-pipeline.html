@@ -38,14 +38,7 @@
 <main class="page-container js-glossary-auto ib-doc" style="max-width: 950px; margin: 0 auto; padding: var(--sp3);">
 
   <!-- Sub-section nav (matches developer.html + developer-brief.html) -->
-  <nav style="display:flex;gap:1rem;align-items:center;padding:0.6rem 0;margin-bottom:var(--sp3);border-bottom:1px solid var(--border);font-size:var(--small);">
-    <a href="developer.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">Home</a>
-    <a href="developer-pipeline.html" style="color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,transparent 90%);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">Pipeline</a>
-    <a href="developer-brief.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">Jurisdiction Briefs</a>
-    <a href="lihtc-opportunity-finder.html" style="color:var(--muted);text-decoration:none;font-weight:600;padding:0.35rem 0.7rem;border-radius:var(--radius-sm);">← Opportunity Finder</a>
-    <span style="flex:1;"></span>
-    <span style="background:var(--warn);color:var(--card);font-size:.65rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em;">INTERNAL</span>
-  </nav>
+  <nav id="devNav" class="ib-section-nav"></nav>
 
   <h1>Affordable Housing Pipeline — Methodology</h1>
 
@@ -55,7 +48,7 @@
     June 2026 and is no longer published in this repository. This page documents the
     methodology that the pipeline follows, so the ranking tools
     (<a href="lihtc-opportunity-finder.html">Opportunity Finder</a>,
-    <a href="developer-brief.html">Jurisdiction Briefs</a>) can be read in context.
+    <a href="developer-brief.html">Jurisdiction reports</a>) can be read in context.
     The only working data kept here is <a href="#localDrafts">your browser-local
     drafts</a> below.
   </div>
@@ -64,7 +57,7 @@
     <h2 id="localDraftsH">Your local drafts</h2>
     <p>
       Entries added with <em>Add to Pipeline</em> (on the Opportunity Finder or a
-      Jurisdiction Brief) are saved <strong>in this browser only</strong> — nothing
+      Jurisdiction Report) are saved <strong>in this browser only</strong> — nothing
       is uploaded to the public site. Export them here to carry them into the
       private workspace.
     </p>
@@ -151,7 +144,7 @@
 
   <h2>How pipeline entries connect to the public tools</h2>
   <ul>
-    <li>Each pipeline entry links to its <strong><a href="developer-brief.html">Jurisdiction Brief</a></strong> — a full data sheet with HNA status, AMI gap, LIHTC inventory, funding readiness, and civic scoring.</li>
+    <li>Each pipeline entry links to its <strong><a href="developer-brief.html">Jurisdiction Report</a></strong>: who lives there, the housing that exists, need, rents, tax-credit history, funding and who to contact.</li>
     <li>Each entry carries the signal-log sources (and their original URLs) that justified the pipeline placement. An entry with no sources is a flag — promote a signal or demote the entry.</li>
     <li>The <strong><a href="lihtc-opportunity-finder.html">Opportunity Finder</a></strong> is the top of the funnel: its IOI ranking decides which jurisdictions enter the Screen stage at all.</li>
   </ul>
@@ -263,5 +256,6 @@
 })();
 </script>
 <script src="js/navigation.js"></script>
+<script src="js/whitepaper/developer-nav.js"></script>
 </body>
 </html>

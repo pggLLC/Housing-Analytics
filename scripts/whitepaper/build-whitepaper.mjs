@@ -3,6 +3,11 @@
  * build-whitepaper.mjs — write the white paper for one jurisdiction.
  *
  *   node scripts/whitepaper/build-whitepaper.mjs <geoid|name> [--out dir] [--pdf] [--today YYYY-MM-DD]
+ *   node scripts/whitepaper/build-whitepaper.mjs --all [--out dir]
+ *
+ * --all writes every jurisdiction in the ranking index (546) plus index.html, a list
+ * of them with the date built, so the gated site can carry a ready-made report for
+ * every town and county. It is rebuilt from the current data on each deploy.
  *
  * Reads the same files the gated page (developer-whitepaper.html) fetches, through
  * js/whitepaper/jurisdiction-whitepaper.js, and writes <geoid>-<slug>.html (and .pdf
@@ -40,8 +45,7 @@ function countyOf(src, geoid) {
   return row ? row.containingCounty : null;
 }
 
-export function build(query, { today } = {}) {
-  const src = loadSources();
+export function build(query, { today, src = loadSources() } = {}) {
   let geoid = String(query);
   if (!/^\d{5}$|^\d{7}$/.test(geoid)) {
     const row = WP.findByName(src.rankingIndex, geoid);
@@ -56,6 +60,7 @@ export function build(query, { today } = {}) {
     contacts: readJson(WP.contactsPath(geoid), true),
     landscape: readJson(WP.landscapePath(geoid), true) || (geoid.length === 7 ? readJson(WP.landscapePath(countyOf(src, geoid)), true) : null),
     localResources: readJson('data/hna/local-resources.json', true),
+    summary: readJson(WP.summaryPath(geoid), true),
   });
   if (model.error) throw new Error(model.error);
   const html = WP.renderHtml(model);
@@ -69,6 +74,8 @@ async function main() {
   const out = resolve(opt('--out') || join(ROOT, 'dist-whitepapers'));
   const today = opt('--today') || undefined;
   const pdf = args.includes('--pdf');
+  const all = args.includes('--all');
+  if (all) return buildAll(out, today);
   const queries = args.filter((a) => a !== '--pdf');
   if (!queries.length) {
     console.error('usage: build-whitepaper.mjs <geoid|name> [...] [--out dir] [--pdf] [--today YYYY-MM-DD]');
@@ -78,8 +85,7 @@ async function main() {
   let browser = null;
   for (const q of queries) {
     const { model, html } = build(q, { today });
-    const slug = model.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    const base = join(out, `${model.geoid}-${slug}`);
+    const base = join(out, `${model.geoid}-${slugOf(model.name)}`);
     writeFileSync(`${base}.html`, html);
     console.log(`wrote ${base}.html`);
     if (pdf) {
@@ -99,6 +105,46 @@ async function main() {
     }
   }
   if (browser) await browser.close();
+}
+
+function slugOf(name) { return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+const escHtml = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+// Every jurisdiction, one sources load. A report the private-text guard refuses is
+// listed as not built, with no file, rather than stopping the run.
+export function buildAll(out, today) {
+  const src = loadSources();
+  mkdirSync(out, { recursive: true });
+  const rows = src.rankingIndex.rankings.slice().sort((a, b) => a.name.localeCompare(b.name));
+  const county = {};
+  rows.forEach((r) => { if (r.type === 'county') county[r.geoid] = r.name; });
+  const listed = [];
+  let built = 0;
+  for (const r of rows) {
+    try {
+      const { model, html } = build(r.geoid, { today, src });
+      const file = `${model.geoid}-${slugOf(model.name)}.html`;
+      writeFileSync(join(out, file), html);
+      listed.push({ r, file, date: model.generated });
+      built++;
+    } catch (e) {
+      listed.push({ r, file: null, why: e.message });
+    }
+  }
+  const day = today || new Date().toISOString().slice(0, 10);
+  const items = listed.map(({ r, file, why }) => {
+    const label = escHtml(r.type === 'county' ? r.name : `${r.name}, ${county[r.containingCounty] || 'Colorado'}`);
+    return file ? `<li><a href="${escHtml(file)}">${label}</a></li>` : `<li>${label} <em>(not built: ${escHtml(why)})</em></li>`;
+  }).join('\n');
+  writeFileSync(join(out, 'index.html'), `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>Jurisdiction reports</title>
+<style>body{font:16px/1.5 system-ui,sans-serif;max-width:760px;margin:0 auto;padding:16px}li{margin:.2em 0}em{color:#555}</style></head><body>
+<h1>Jurisdiction reports</h1><p>${built} of ${rows.length} Colorado towns and counties, built ${escHtml(day)} from the data in the repository. Each report is also built live, from the current data, on the Jurisdiction Report page.</p>
+<ul>
+${items}
+</ul></body></html>
+`);
+  console.log(`wrote ${built} of ${rows.length} reports and index.html to ${out}`);
+  if (built < rows.length) process.exitCode = 1;
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

@@ -45,7 +45,7 @@ const HNA_PAGES = [
 export const RULES = [
   // Fair Market Rents: data/hud-fmr-income-limits.json meta.fiscal_year
   { vintage: 'fmr', files: SOURCE_LIST_PAGES, pattern: /FMR FY(\d{4}) · IL FY\d{4}/g },
-  { vintage: 'fmr', files: ['developer-brief.html', 'js/deal-calculator.js', 'js/hna/hna-export.js', 'js/market-analysis.js'], pattern: /HUD FMR FY(\d{4})/g },
+  { vintage: 'fmr', files: ['js/deal-calculator.js', 'js/hna/hna-export.js', 'js/market-analysis.js'], pattern: /HUD FMR FY(\d{4})/g },
   { vintage: 'fmr', files: ['js/deal-calculator.js'], pattern: /HUD FMR by bedroom size \(FY(\d{4}),/g },
   { vintage: 'fmr', files: ['js/data-connectors/hud-fmr.js'], pattern: /FY(\d{4}) FMR \/ mo/g },
   { vintage: 'fmr', files: ['hna-what-households-can-afford.html', 'housing-needs-assessment.html'], pattern: /HUD Fair Market Rents \(FY(\d{4})\)/g },
@@ -56,7 +56,7 @@ export const RULES = [
   // Income Limits: meta.income_limits_fiscal_year
   { vintage: 'il', files: SOURCE_LIST_PAGES, pattern: /FMR FY\d{4} · IL FY(\d{4})/g },
   { vintage: 'il', files: ['hna-what-households-can-afford.html', 'housing-needs-assessment.html'], pattern: /by bedroom size and FY(\d{4}) county Income Limits/g },
-  { vintage: 'il', files: ['hna-what-households-can-afford.html', 'housing-needs-assessment.html', 'hna-where-its-heading.html', 'developer-brief.html', 'js/hna/hna-export.js'], pattern: /HUD MTSP FY(\d{4})/g },
+  { vintage: 'il', files: ['hna-what-households-can-afford.html', 'housing-needs-assessment.html', 'hna-where-its-heading.html', 'js/hna/hna-export.js'], pattern: /HUD MTSP FY(\d{4})/g },
   { vintage: 'il', files: ['js/co-ami-gap.js'], pattern: /FY (\d{4}) county Income Limits/g },
   // QCT/DDA designations: data/qct-colorado.json and data/dda-colorado.json
   { vintage: 'qct', files: ['js/hna/hna-utils.js', 'js/data-source-inventory.js'], pattern: /Qualified_Census_Tracts_(\d{4})/g },
