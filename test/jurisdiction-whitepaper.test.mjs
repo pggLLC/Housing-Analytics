@@ -184,4 +184,63 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   }
 }
 
+// ---- 7. Local landscape and deal dynamics agree with their files.
+{
+  const dir = join(ROOT, 'data/jurisdiction-briefs/_landscape');
+  const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.json')) : [];
+  ok(files.length >= 1, 'at least one researched landscape file');
+  for (const f of files) {
+    const L = JSON.parse(readFileSync(join(dir, f), 'utf8'));
+    assert.equal(L.geoid + '.json', f, `${f}: geoid must match the file name`);
+    assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(L.researched), `${f}: researched date`);
+    let entries = 0;
+    for (const [key] of [['plans'], ['agencies'], ['state_funds'], ['task_forces'], ['people'], ['land'], ['lihtc_and_pipeline']]) {
+      for (const e of L[key] || []) {
+        entries++;
+        assert.ok(/^https:\/\//.test(e.source_url) && e.source_quote && e.source_quote.length > 15, `${f}: ${key} entry needs a source URL and quote`);
+        assert.ok(!WP._internal.isSearchLink(e.source_url), `${f}: ${key} entry cites a search page`);
+      }
+    }
+    const m = WP.buildModel(src, L.geoid, { FundingFit, landscape: L, isSensitive });
+    const shown = m.landscape.research.groups.reduce((n, g) => n + g.items.length, 0);
+    ok(shown === entries && entries > 0, `${f}: every sourced entry reaches the paper`);
+    ok(!isSensitive(WP.renderHtml(m)), `${f}: the paper passes the private-text guard`);
+  }
+  // Sabotage: an unsourced entry and the owner's project never print.
+  const fake = { geoid: '0833640', researched: '2026-10-14', land: [{ name: 'Unsourced lot', acres: 5 }], lihtc_and_pipeline: [{ name: 'Fruita Mews Phase II', units: 40, source_url: 'https://example.org/x', source_quote: 'a quote long enough to pass the check' }] };
+  const fm = WP.buildModel(src, '0833640', { FundingFit, landscape: fake });
+  ok(fm.landscape.research.groups.every((g) => g.items.length === 0), 'sabotage: unsourced and excluded entries are dropped');
+  // The owner's project is caught in any field, including plan findings and open questions.
+  const fake2 = { geoid: '0833640', researched: '2026-10-14', plans: [{ title: 'A plan', finding: 'mentions Fruita Mews Phase II', source_url: 'https://example.org/p', source_quote: 'a quote long enough to pass the check' }], not_found: ['Status of Fruita Mews Phase 2', 'Who bought the land'] };
+  const f2 = WP.renderHtml(WP.buildModel(src, '0833640', { FundingFit, landscape: fake2 }));
+  ok(!/fruita\s+mews/i.test(f2) && /Who bought the land/.test(f2), 'sabotage: the owner\'s project is dropped from any field, other open questions stay');
+  // Stewardship roles: only those the provider record marks verified.
+  const hr = src.stewardship.providers.find((p) => (p.counties_served || []).includes('08051'));
+  const shown = WP.buildModel(src, '0833640', { FundingFit }).landscape.stewards[0].roles;
+  ok(hr && hr.role_evidence.verify_with_provider.length > 0 && hr.role_evidence.verify_with_provider.every((r) => !shown.includes(r.replace(/_/g, ' '))), 'unverified provider roles never print');
+  // A county file stands in for a town without its own, and says so.
+  const cm = WP.buildModel(src, '0833640', { FundingFit, landscape: { ...fake, geoid: '08051' } });
+  ok(cm.landscape.research && cm.landscape.research.countyLevel, 'county research stands in for the town');
+  ok(/Researched for Gunnison County as a whole/.test(WP.renderHtml(cm)), 'the paper says the research is county-level');
+  // A file for another place is ignored.
+  ok(WP.buildModel(src, '0833640', { FundingFit, landscape: { ...fake, geoid: '0818310' } }).landscape.research === null, 'research for another place is ignored');
+  // Housing authorities come from the resort programs file and match the town.
+  const cb = WP.buildModel(src, '0818310', { FundingFit });
+  const auth = src.resortPrograms.authorities.filter((a) => (a.serves_place_geoids || []).includes('0818310'));
+  ok(auth.length > 0 && cb.landscape.authorities.length === auth.length, 'Crested Butte lists its housing authority (non-vacuity)');
+  ok(WP.buildModel(src, '0820000', { FundingFit }).landscape.authorities.every((a) => !/Crested Butte/.test(a.name)), 'another town\'s authority never leaks into Denver');
+  // Deal dynamics: bond cap and equity price equal their files.
+  const g = WP.buildModel(src, '0833640', { FundingFit });
+  const pabCounty = src.pab.allocations['08051'];
+  ok(pabCounty && g.dynamics.pab.some((x) => x.amount === pabCounty.directAllocation), 'bond cap equals pab-allocations.json');
+  ok(new RegExp(`initial ${src.pab.metadata.year} direct allocation`).test(WP.renderHtml(g)) && !/ holds \$/.test(WP.renderHtml(g)), 'the local bond figure is labelled an initial allocation, not available cap');
+  ok(g.dynamics.equity9 === src.equityPricing.pricing.national_avg.credit_9pct, '9% equity price equals the Novogradac file');
+  const noPab = clone(src); noPab.pab = null;
+  ok(WP.buildModel(noPab, '0833640', { FundingFit }).dynamics.pab.length === 0, 'missing bond file: no allocation printed');
+  const wa = WP.buildModel(src, '0833640', { FundingFit }).dynamics.localMoney;
+  ok(wa.some((w) => /Land Banking/.test(w.program)), 'the Gunnison land-banking award reaches the landscape (non-vacuity)');
+  const page = read('developer-whitepaper.html');
+  ok(/WP\.landscapePath\(row\.geoid\)/.test(page) && /WP\.landscapePath\(row\.containingCounty\)/.test(page) && /landscape: extra\[3\]/.test(page), 'the page loads the town file, falls back to the county, and passes it on');
+}
+
 console.log(`jurisdiction-whitepaper: ${checks} checks passed`);

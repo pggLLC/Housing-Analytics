@@ -42,7 +42,12 @@
     rentLimits: 'data/chfa-income-rent-limits-2026.json',
     fmr: 'data/hud-fmr-income-limits.json',
     fundingGuide: 'data/policy/co-developer-funding-guide.json',
-    qapCalendar: 'data/chfa-qap-calendar.json'
+    qapCalendar: 'data/chfa-qap-calendar.json',
+    resortPrograms: { path: 'data/resort-workforce-housing-programs.json', optional: true },
+    stewardship: { path: 'data/policy/stewardship-providers.json', optional: true },
+    assumptions: { path: 'data/policy/lihtc-assumptions.json', optional: true },
+    equityPricing: { path: 'data/market/novogradac-equity-pricing.json', optional: true },
+    pab: { path: 'data/policy/pab-allocations.json', optional: true }
   };
 
   function sourcePath(key) {
@@ -56,6 +61,9 @@
   // Per-jurisdiction files, also optional.
   function briefPath(geoid) { return 'data/jurisdiction-briefs/' + geoid + '.json'; }
   function contactsPath(geoid) { return 'data/jurisdiction-briefs/_contacts/' + geoid + '.json'; }
+  // Researched local landscape (agencies, plans, task forces, people, land, pipeline).
+  // A place without its own file falls back to its county's.
+  function landscapePath(geoid) { return 'data/jurisdiction-briefs/_landscape/' + geoid + '.json'; }
 
   // ---------------------------------------------------------------- helpers
 
@@ -381,6 +389,93 @@
     };
   }
 
+  // What the landscape research file may hold. Each entry is shown only when it carries
+  // a public source URL and a quote from that page.
+  var LANDSCAPE_KINDS = [
+    ['plans', 'Plans and studies'],
+    ['agencies', 'Housing authorities, funds and trusts'],
+    ['state_funds', 'Recent state and federal money'],
+    ['task_forces', 'Task forces and coalitions'],
+    ['people', 'People to know'],
+    ['land', 'Land and large sites'],
+    ['lihtc_and_pipeline', 'Projects built and in the pipeline']
+  ];
+
+  function sourced(e) { return e && safeHref(e.source_url) && !isSearchLink(e.source_url) && e.source_quote; }
+
+  function landscapeSection(row, src, file, countyName) {
+    var county = row.type === 'county' ? row.geoid : row.containingCounty;
+    // From the site's own data, for every jurisdiction.
+    var authorities = (((src.resortPrograms || {}).authorities) || []).filter(function (a) {
+      if (row.type === 'county') return a.county_fips === county;
+      var serves = a.serves_place_geoids || a.place_geoids || [];
+      return serves.indexOf(row.geoid) !== -1 || (a.county_fips === county && !serves.length);
+    }).map(function (a) {
+      var inv = a.inventory && Array.isArray(a.inventory.display) ? a.inventory.display.join('; ') : null;
+      return { name: a.name, area: a.service_area || null, inventory: inv, url: safeHref(a.url) };
+    });
+    var stewards = (((src.stewardship || {}).providers) || []).filter(function (p) {
+      return (p.counties_served || []).indexOf(county) !== -1;
+    }).map(function (p) { // Only roles the provider record marks verified; the rest await confirmation.
+      var verified = (p.role_evidence && Array.isArray(p.role_evidence.verified)) ? p.role_evidence.verified : [];
+      return { name: p.name, url: safeHref(p.url), roles: verified.join(', ').replace(/_/g, ' ') }; });
+
+    // From the hand-researched file, when there is one.
+    var research = null;
+    if (file && (file.geoid === row.geoid || file.geoid === county)) {
+      research = { geoid: file.geoid, countyLevel: file.geoid !== row.geoid, researched: file.researched || null, groups: [], notFound: (Array.isArray(file.not_found) ? file.not_found : []).filter(function (t) { return typeof t === 'string' && !EXCLUDED_PROJECT.test(t); }) };
+      LANDSCAPE_KINDS.forEach(function (k) {
+        var items = (Array.isArray(file[k[0]]) ? file[k[0]] : []).filter(sourced).filter(function (e) { return !EXCLUDED_PROJECT.test(JSON.stringify(e)); });
+        research.groups.push({ key: k[0], label: k[1], items: items });
+      });
+    }
+    var missing = LANDSCAPE_KINDS.filter(function (k) {
+      return !research || !research.groups.some(function (g) { return g.key === k[0] && g.items.length; });
+    }).map(function (k) { return k[1]; });
+    return {
+      authorities: authorities,
+      stewards: stewards,
+      research: research,
+      missing: missing,
+      countyName: countyName,
+      sources: [sourcePath('resortPrograms'), sourcePath('stewardship'), landscapePath(research ? research.geoid : row.geoid)]
+    };
+  }
+
+  // How a tax-credit deal is put together here: the stack, the local pieces the data
+  // already shows, and the path from letter of intent to a finished building.
+  function dealDynamics(row, src, need, lihtc, policy) {
+    var county = row.type === 'county' ? row.geoid : row.containingCounty;
+    var a = src.assumptions || null;
+    var eq = (((src.equityPricing || {}).pricing) || {}).national_avg || null;
+    var region = ((((src.equityPricing || {}).pricing) || {}).by_region || {}).north_central || null;
+    var pabRows = ((src.pab || {}).allocations) || {};
+    var pab = [pabRows[row.geoid], row.type === 'county' ? null : pabRows[county]].filter(Boolean).map(function (r) {
+      return { name: r.type === 'county' && !/county/i.test(r.name) ? r.name + ' County' : r.name, amount: num(r.directAllocation) };
+    });
+    var pabMeta = (src.pab || {}).metadata || {};
+    var localMoney = lihtc.awards.filter(function (w) { return !/LIHTC|MIHTC/.test(w.program || ''); }).map(function (w) {
+      return { year: w.year, program: w.program, sponsor: w.sponsor && !/^\d+$/.test(String(w.sponsor)) ? w.sponsor : null, name: w.name, amount: num(w.amount_awarded), url: safeHref(w.source_url) };
+    });
+    return {
+      equity9: eq ? num(eq.credit_9pct) : (a && a.equityPricing ? num(a.equityPricing.default9Pct) : null),
+      equity4: eq ? num(eq.credit_4pct) : (a && a.equityPricing ? num(a.equityPricing.default4Pct) : null),
+      equityRegion: region ? num(region.median_all_credits) : null,
+      hardCost: a && a.hardCostPerUnit ? num(a.hardCostPerUnit.family) : null,
+      hardCostSource: a && a.hardCostPerUnit ? a.hardCostPerUnit.source || null : null,
+      softCostPct: a ? share(a.softCostPct) : null,
+      devFeePct: a ? share(a.devFeePct) : null,
+      basisBoostPct: a && a.basisBoost ? share(a.basisBoost.qct) : null,
+      boostHere: need.qctSharePct !== null && need.qctSharePct > 0 || need.ddaSharePct !== null && need.ddaSharePct > 0,
+      pab: pab,
+      pabYear: pabMeta.year || null,
+      pabStatewidePool: num((pabMeta.statewide || {}).chfaPool),
+      localMoney: localMoney,
+      localFunds: policy.funds.length,
+      sources: [sourcePath('equityPricing'), sourcePath('assumptions'), sourcePath('pab'), sourcePath('awards')]
+    };
+  }
+
   function nextDates(src, today) {
     var ev = ((src.qapCalendar || {}).events) || [];
     return ev.filter(function (e) { return e.date && e.date >= today && /LIHTC|R1|R2|Letter of Intent/i.test(e.name || ''); })
@@ -398,6 +493,7 @@
     var rents = rentsSection(row, src);
     var lihtc = lihtcSection(row, src, countyName);
     var today = opts.today || new Date().toISOString().slice(0, 10);
+    var policy = localPolicySection(row, src);
     var brief = opts.brief && opts.brief.geoid === geoid ? opts.brief : null;
     // Text the public-artifact guard blocks is dropped paragraph by paragraph, so one
     // sentence does not cost the whole paper. The caller still checks the finished HTML.
@@ -415,9 +511,11 @@
       rents: rents,
       lihtc: lihtc,
       prop123: prop123Section(row, src, countyName),
-      policy: localPolicySection(row, src),
+      policy: policy,
       funding: fundingSection(row, src, opts.FundingFit),
       deal: dealShape(need, rents, lihtc),
+      landscape: landscapeSection(row, src, opts.landscape || null, countyName),
+      dynamics: dealDynamics(row, src, need, lihtc, policy),
       contacts: contactsSection(row, src, opts.contacts || null, opts.localResources || null),
       dates: nextDates(src, today),
       brief: brief ? {
@@ -475,7 +573,7 @@
 
   function renderNeed(m) {
     var n = m.need;
-    var h = '<h2 id="need">1. Housing need</h2><table><tbody>' +
+    var h = '<h2 id="need">Housing need</h2><table><tbody>' +
       row2('Population', fmtInt(n.population)) +
       row2('Median household income', fmtMoney(n.medianIncome)) +
       row2('Median gross rent', fmtMoney(n.medianRent)) +
@@ -505,7 +603,7 @@
       var x = r.tiers[t];
       return '<tr><td>' + t + '% AMI</td><td class="n">' + fmtMoney(x.rent2br) + '</td><td class="n">' + fmtMoney(x.income1p) + '</td><td class="n">' + fmtMoney(x.income4p) + '</td></tr>';
     }).join('');
-    return '<h2 id="rents">2. Rents and income limits</h2>' +
+    return '<h2 id="rents">Rents and income limits</h2>' +
       (rows ? '<div class="wp-scroll"><table><thead><tr><th>Tier</th><th>2BR max gross rent</th><th>Income limit, 1 person</th><th>Income limit, 4 people</th></tr></thead><tbody>' + rows + '</tbody></table></div>' : '<p>CHFA limits not available for this county.</p>') +
       srcLine(r.limitsSource) +
       '<table><tbody>' + row2('HUD fair market rent, 2BR' + (r.fmrYear ? ' (FY' + r.fmrYear + ')' : ''), fmtMoney(r.fmr2br)) + row2('Median gross rent (ACS 2020–2024)', fmtMoney(r.medianRent)) +
@@ -518,7 +616,7 @@
 
   function renderLihtc(m) {
     var L = m.lihtc;
-    var h = '<h2 id="lihtc">3. Tax-credit history</h2><p class="wp-meta">Scope: ' + esc(L.scopeLabel) + '</p>';
+    var h = '<h2 id="lihtc">Tax-credit history</h2><p class="wp-meta">Scope: ' + esc(L.scopeLabel) + '</p>';
     if (L.properties.length) {
       h += '<h3>Properties</h3><div class="wp-scroll"><table><thead><tr><th>Project</th><th>Town</th><th>Award</th><th>Credit</th><th>Units</th><th>30%</th><th>40%</th><th>50%</th><th>60%</th><th>70%</th><th>80%</th></tr></thead><tbody>' +
         L.properties.map(function (p) {
@@ -559,14 +657,14 @@
         row2('Fast-track approvals', r.fast_track ? 'Adopted' + (r.fast_track_adopted ? ' ' + esc(r.fast_track_adopted) : '') + (r.fast_track_instrument ? ' (' + esc(r.fast_track_instrument) + ')' : '') : 'Not adopted') +
         '</tbody></table>';
     }
-    return '<h2 id="prop123">4. Proposition 123 standing</h2>' + one(P.record, m.name) + (m.kind !== 'county' ? one(P.countyRecord, m.countyName) : '') +
+    return '<h2 id="prop123">Proposition 123 standing</h2>' + one(P.record, m.name) + (m.kind !== 'county' ? one(P.countyRecord, m.countyName) : '') +
       '<p>A jurisdiction that promised units has to show them; a tax-credit project counts toward the promise, which makes it the natural first topic with staff.</p>' +
       srcLine(P.source + (P.updated ? ', updated ' + P.updated : ''));
   }
 
   function renderPolicy(m) {
     var P = m.policy;
-    var h = '<h2 id="policy">5. Local funds, fee relief and support</h2>';
+    var h = '<h2 id="policy">Local funds, fee relief and support</h2>';
     if (P.funds.length) {
       h += '<h3>Local funds and dedicated revenue</h3><ul>' + P.funds.map(function (f) {
         return '<li><strong>' + esc(f.jurisdiction) + ':</strong> ' + esc(f.summary || f.rate_text || '') + ' ' + (f.source ? link('(' + (f.source.label || 'source') + ')', f.source.url) : '') + '</li>';
@@ -589,19 +687,19 @@
 
   function renderFunding(m) {
     var F = m.funding;
-    if (!F.programs) return '<h2 id="funding">6. Funding that fits</h2><p>The funding guide was not available.</p>' + srcLine(F.source);
+    if (!F.programs) return '<h2 id="funding">Funding that fits</h2><p>The funding guide was not available.</p>' + srcLine(F.source);
     function list(ex) {
       var ps = F.programs[ex] || [];
       return '<h3>' + esc(ex) + ' new construction: ' + ps.length + ' program' + (ps.length === 1 ? '' : 's') + ' taking applications or with a published round</h3><ul>' +
         ps.map(function (p) { return '<li>' + link(p.name, p.url) + ' <span class="wp-meta">(' + esc(p.administrator) + (p.availability === 'scheduled' ? '; next round published' : '') + ')</span>' + (p.notes.length ? ' <span class="wp-meta">' + esc(p.notes.join(' ')) + '</span>' : '') + '</li>'; }).join('') + '</ul>';
     }
-    return '<h2 id="funding">6. Funding that fits</h2><p>Screened for eligibility from each program\'s own terms; not ranked and not an award prediction.</p>' +
+    return '<h2 id="funding">Funding that fits</h2><p>Screened for eligibility from each program\'s own terms; not ranked and not an award prediction.</p>' +
       list('9%') + list('4%') + srcLine(F.source + (F.asOf ? ', checked ' + F.asOf : ''));
   }
 
   function renderDeal(m) {
     var d = m.deal;
-    var h = '<h2 id="deal">7. Ideal deal shape</h2><p><strong>Credit route:</strong> ' + esc(d.route) + '</p>';
+    var h = '<h2 id="deal">Ideal deal shape</h2><p><strong>Credit route:</strong> ' + esc(d.route) + '</p>';
     if (d.mix) {
       h += '<table><thead><tr><th>Income band</th><th>Rental homes short</th></tr></thead><tbody>' +
         '<tr><td>At or below 30% AMI</td><td class="n">' + fmtInt(d.mix.le30) + '</td></tr>' +
@@ -613,12 +711,84 @@
     h += '<p class="wp-note">This is the deal\'s shape from the data, not a pro forma. Size the dollars in the ' +
       link('Deal Calculator for ' + m.name, 'https://cohoanalytics.com/deal-calculator.html?geoid=' + encodeURIComponent(m.geoid)) +
       ' and confirm achievable rents with a CHFA market study.</p>';
-    return h + srcLine('Rules in js/whitepaper/jurisdiction-whitepaper.js (dealShape), applied to sections 1–3');
+    return h + srcLine('Rules in js/whitepaper/jurisdiction-whitepaper.js (dealShape), applied to the need, rent and tax-credit sections');
+  }
+
+  function renderLandscape(m) {
+    var L = m.landscape;
+    var h = '<h2 id="landscape">Local landscape: who is already working on housing here</h2>';
+    if (L.authorities.length) {
+      h += '<h3>Housing authorities with programs here</h3><ul>' + L.authorities.map(function (a) {
+        return '<li>' + link(a.name, a.url) + (a.area ? ' <span class="wp-meta">(' + esc(a.area) + ')</span>' : '') + (a.inventory ? ': ' + esc(a.inventory) : '') + '</li>';
+      }).join('') + '</ul>';
+    }
+    var money = m.dynamics.localMoney;
+    if (money.length) {
+      h += '<h3>Recent state awards in this area</h3><ul>' + money.map(function (w) {
+        return '<li>' + esc(w.year) + ' · ' + esc(w.program) + ': ' + link(w.name || 'project', w.url) + (w.sponsor ? ', to ' + esc(w.sponsor) : '') + (w.amount !== null ? ', ' + fmtMoney(w.amount) : '') + '</li>';
+      }).join('') + '</ul>';
+    }
+    if (L.research) {
+      var R = L.research;
+      if (R.countyLevel) h += '<p class="wp-meta">Researched for ' + esc(L.countyName) + ' as a whole; nothing yet specific to ' + esc(m.name) + '.</p>';
+      R.groups.forEach(function (g) {
+        if (!g.items.length) return;
+        h += '<h3>' + esc(g.label) + '</h3><ul>' + g.items.map(function (e) { return '<li>' + landscapeItem(g.key, e) + '</li>'; }).join('') + '</ul>';
+      });
+      h += '<p class="wp-meta">Researched ' + esc(R.researched || NA) + ' from public sources; each finding above quotes its source. Confirm before relying on it.</p>';
+      if (R.notFound.length) h += '<h3>Open questions</h3><p class="wp-meta">What the research looked for and could not find. These are gaps to ask about, not findings: a thing not found in public sources may still exist.</p><ul>' + R.notFound.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
+    }
+    if (L.stewards.length) {
+      h += '<h3>Regional nonprofits serving the county</h3><ul>' + L.stewards.map(function (p) {
+        return '<li>' + link(p.name, p.url) + (p.roles ? ' <span class="wp-meta">(' + esc(p.roles) + ')</span>' : '') + '</li>';
+      }).join('') + '</ul>';
+    }
+    if (L.missing.length) {
+      h += '<p class="wp-note">Not yet researched for ' + esc(m.name) + ': ' + esc(L.missing.join(', ').toLowerCase()) + '. The local funds section and the curated brief, where there is one, carry what is on file.</p>';
+    }
+    return h + srcLine(L.sources);
+  }
+
+  function landscapeItem(key, e) {
+    var title, rest = [];
+    if (key === 'plans') { title = e.title; rest = [e.year, e.body, e.finding]; }
+    else if (key === 'agencies') { title = e.name; rest = [e.role, e.funding, e.recent_activity, e.how_to_work_with]; }
+    else if (key === 'state_funds') { title = e.program; rest = [e.recipient, e.amount, e.date, e.purpose]; }
+    else if (key === 'task_forces') { title = e.name; rest = [e.members_public, e.activity]; }
+    else if (key === 'people') { title = e.name; rest = [e.public_role, e.housing_involvement]; }
+    else if (key === 'land') { title = e.name; rest = [e.acres != null ? e.acres + ' acres' : null, e.owner, e.status]; }
+    else { title = e.name; rest = [e.units != null ? e.units + ' units' : null, e.status, e.year]; }
+    rest = rest.filter(function (x) { return x !== null && x !== undefined && x !== ''; }).map(function (x) { return esc(x); });
+    return '<strong>' + esc(title || '') + '</strong>' + (rest.length ? ': ' + rest.join('. ').replace(/\.\./g, '.') : '') +
+      ' <span class="wp-meta">' + link('source', e.source_url) + ': “' + esc(e.source_quote) + '”</span>';
+  }
+
+  function renderDynamics(m) {
+    var D = m.dynamics;
+    var h = '<h2 id="dynamics">How a tax-credit deal comes together here</h2>';
+    h += '<h3>The capital stack</h3><ul>' +
+      '<li><strong>Tax-credit equity</strong> is the largest source. Investors paid about ' + (D.equity9 !== null ? '$' + D.equity9.toFixed(2) : NA) + ' per dollar of 9% credit and ' + (D.equity4 !== null ? '$' + D.equity4.toFixed(2) : NA) + ' for 4% (national average)' + (D.equityRegion !== null ? '; Novogradac\'s median for its North Central region, which includes Colorado, was $' + D.equityRegion.toFixed(2) : '') + '.</li>' +
+      '<li><strong>Eligible basis</strong> sets the credit. A site in a QCT or DDA gets a ' + (D.basisBoostPct !== null ? fmtPct(D.basisBoostPct, 0) : NA) + ' boost' + (D.boostHere ? ', and part of this area qualifies (see Ideal deal shape)' : '; none of this area is designated, so plan without it') + '.</li>' +
+      '<li><strong>Permanent debt</strong> is sized to the rents under Rents and income limits; deep 30% units carry little debt, which is why they need rental subsidy or more soft money.</li>' +
+      '<li><strong>Soft money</strong> closes the gap: state programs (Funding that fits), local funds and fee relief, and land at low or no cost.' + (D.localMoney.length ? ' This area already has recent state awards, listed in the landscape section.' : '') + '</li>' +
+      '<li><strong>Screening costs:</strong> ' + fmtMoney(D.hardCost) + ' hard cost per family unit' + (D.hardCostSource ? ' (' + esc(D.hardCostSource) + ')' : '') + ', soft costs ' + fmtPct(D.softCostPct, 0) + ' of hard, developer fee ' + fmtPct(D.devFeePct, 0) + '. Replace them with your own bids.</li></ul>';
+    h += '<h3>The two credit routes</h3><ul>' +
+      '<li><strong>9% (competitive):</strong> letter of intent, then a scored CHFA application (see Next CHFA dates). Over ten years the credits are worth about 70% of qualified basis in present value, so the gap is small but the competition is hard.</li>' +
+      '<li><strong>4% with tax-exempt bonds:</strong> not competitive for credits, but it needs private activity bond cap. Most Colorado 4% deals draw it from CHFA\'s statewide pool' + (D.pabStatewidePool !== null ? ' (' + fmtMoney(D.pabStatewidePool) + ' in ' + esc(D.pabYear || '') + ')' : '') + '. ' +
+      (D.pab.length ? D.pab.map(function (x) { return esc(x.name); }).join(' and ') + ' received an initial ' + esc(D.pabYear || '') + ' direct allocation of ' + D.pab.map(function (x) { return fmtMoney(x.amount); }).join(' and ') + ': a gross starting figure, not what is left, which may go to other bond uses or be ceded to CHFA. ' : 'No local direct allocation is recorded here. ') +
+      'The credits are worth about 30% of qualified basis, so the gap is much larger.</li></ul>';
+    h += '<h3>From award to occupancy</h3><ol>' +
+      '<li>Site control, zoning and a CHFA market study before applying.</li>' +
+      '<li>Local support: a council resolution, fee relief, land or a local loan, which also helps the jurisdiction count units toward its Prop 123 promise.</li>' +
+      '<li><strong>9%:</strong> CHFA allocates credits after the round. A project not yet in service gets a carryover allocation, must have incurred more than 10% of its reasonably expected basis within 12 months of that allocation, and the building must be finished and in service by the end of the second calendar year after the allocation year.</li>' +
+      '<li><strong>4%:</strong> the credits come with the tax-exempt bonds rather than a CHFA credit allocation, so the 9% carryover deadlines do not apply. The bonds must finance the required share of land and building, and CHFA still reviews the deal against its QAP.</li>' +
+      '<li>Rents and incomes stay restricted through the compliance period and CHFA\'s extended use period.</li></ol>';
+    return h + srcLine(D.sources);
   }
 
   function renderContacts(m) {
     var C = m.contacts;
-    var h = '<h2 id="contacts">8. Who to contact</h2>';
+    var h = '<h2 id="contacts">Who to contact</h2>';
     if (C.researched.length) {
       h += '<div class="wp-scroll"><table><thead><tr><th>Name</th><th>Role</th><th>Contact</th><th>Source</th></tr></thead><tbody>' +
         C.researched.map(function (c) {
@@ -636,7 +806,7 @@
 
   function renderDates(m) {
     if (!m.dates.length) return '';
-    return '<h2 id="dates">9. Next CHFA dates</h2><ul>' + m.dates.map(function (e) {
+    return '<h2 id="dates">Next CHFA dates</h2><ul>' + m.dates.map(function (e) {
       return '<li><strong>' + esc(e.date) + '</strong>: ' + link(e.name, e.url) + (e.draft ? ' <span class="wp-tag">draft QAP, may change</span>' : '') + '</li>';
     }).join('') + '</ul>' + srcLine('data/chfa-qap-calendar.json');
   }
@@ -644,7 +814,7 @@
   function renderBrief(m) {
     if (!m.brief) return '';
     var b = m.brief;
-    return '<h2 id="brief">10. Local housing history (curated brief)</h2>' + (b.summary ? '<p>' + esc(b.summary) + '</p>' : '') +
+    return '<h2 id="brief">Local housing history (curated brief)</h2>' + (b.summary ? '<p>' + esc(b.summary) + '</p>' : '') +
       b.sections.map(function (s) { return '<h3>' + esc(s.heading) + '</h3>' + s.paragraphs.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join(''); }).join('') +
       (b.sources.length ? '<h3>Brief sources</h3><ol>' + b.sources.map(function (s) { return '<li>' + link(s.title || s.url || s.id, s.url) + '</li>'; }).join('') + '</ol>' : '') +
       (b.dropped ? '<p class="wp-meta">' + b.dropped + ' passage' + (b.dropped === 1 ? '' : 's') + ' of the brief left out because they name private developer material.</p>' : '') +
@@ -659,7 +829,10 @@
       '<p class="wp-meta">GEOID ' + esc(m.geoid) + (m.region ? ' · ' + esc(m.region) : '') + ' · built ' + esc(m.generated) +
       ' from public data in the COHO Analytics repository. Screening analysis: not a CHFA market study, underwriting, or legal advice.</p>' +
       renderSummary(m) + renderNeed(m) + renderRents(m) + renderLihtc(m) + renderProp123(m) + renderPolicy(m) +
-      renderFunding(m) + renderDeal(m) + renderContacts(m) + renderDates(m) + renderBrief(m);
+      renderLandscape(m) + renderFunding(m) + renderDeal(m) + renderDynamics(m) + renderContacts(m) + renderDates(m) + renderBrief(m);
+    // Number the sections in the order they print.
+    var n = 0;
+    body = body.replace(/<h2 id="(\w+)">/g, function (all, id) { return id === 'summary' ? all : '<h2 id="' + id + '">' + (++n) + '. '; });
     return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">' +
       '<title>' + esc(title) + ' — housing white paper</title><style>' + STYLE + '</style></head><body><main class="wp">' + body + '</main></body></html>';
   }
@@ -670,6 +843,7 @@
     isOptional: isOptional,
     briefPath: briefPath,
     contactsPath: contactsPath,
+    landscapePath: landscapePath,
     findByName: findByName,
     buildModel: buildModel,
     renderHtml: renderHtml,

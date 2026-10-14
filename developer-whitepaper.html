@@ -97,11 +97,14 @@
     Promise.all([
       getJson(WP.briefPath(row.geoid), true),
       getJson(WP.contactsPath(row.geoid), true),
-      getJson('data/hna/local-resources.json', true)
+      getJson('data/hna/local-resources.json', true),
+      getJson(WP.landscapePath(row.geoid), true).then(function (own) {
+        return own || (row.type === 'county' ? null : getJson(WP.landscapePath(row.containingCounty), true));
+      })
     ]).then(function (extra) {
       if (typeof isSensitive !== 'function') throw new Error('the private-text check (scripts/lib/public-sensitive-patterns.mjs) did not load, so nothing was built');
       var model = WP.buildModel(sources, row.geoid, {
-        FundingFit: window.FundingFit, brief: extra[0], contacts: extra[1], localResources: extra[2], isSensitive: isSensitive
+        FundingFit: window.FundingFit, brief: extra[0], contacts: extra[1], localResources: extra[2], landscape: extra[3], isSensitive: isSensitive
       });
       html = WP.renderHtml(model);
       if (!model.error && isSensitive(html)) {

@@ -35,6 +35,11 @@ export function loadSources() {
   return src;
 }
 
+function countyOf(src, geoid) {
+  const row = (src.rankingIndex.rankings || []).find((r) => r.geoid === geoid);
+  return row ? row.containingCounty : null;
+}
+
 export function build(query, { today } = {}) {
   const src = loadSources();
   let geoid = String(query);
@@ -49,6 +54,7 @@ export function build(query, { today } = {}) {
     isSensitive,
     brief: readJson(WP.briefPath(geoid), true),
     contacts: readJson(WP.contactsPath(geoid), true),
+    landscape: readJson(WP.landscapePath(geoid), true) || (geoid.length === 7 ? readJson(WP.landscapePath(countyOf(src, geoid)), true) : null),
     localResources: readJson('data/hna/local-resources.json', true),
   });
   if (model.error) throw new Error(model.error);
