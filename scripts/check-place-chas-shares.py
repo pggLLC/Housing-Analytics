@@ -52,11 +52,14 @@ PAIRS = [
 # round() gives 0.4437, not 0.4438. That asymmetry is exactly why this guard
 # must not model the rounding -- only observe it.
 TIE_CASES = [(9.3, 48, 0.1938), (104.7, 240, 0.4363), (177.5, 400, 0.4437),
-             (6.9, 16, 0.4313), (11.4, 32, 0.3563)]
+             (6.9, 16, 0.4313), (11.4, 32, 0.3563), (4.2, 32, 0.1313)]
 
 # Dividing any of these raw accumulators is the bug returning.
 FORBIDDEN = ['round(cr30 / tr, 4)', 'round(cr50 / tr, 4)',
-             'round(co30 / to, 4)', 'round(co50 / to, 4)']
+             'round(co30 / to, 4)', 'round(co50 / to, 4)',
+             # the per-place builder's own summary, fixed 2026-10-14 (0839250)
+             'round(cb30_renter / total_renter, 4)', 'round(cb50_renter / total_renter, 4)',
+             'round(cb30_owner / total_owner, 4)', 'round(cb50_owner / total_owner, 4)']
 
 
 def main() -> int:

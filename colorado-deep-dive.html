@@ -959,62 +959,32 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="dashboard-grid" style="margin: 2rem 0;">
 <div class="chart-card">
 <div class="chart-header">
-<h3 class="chart-title">Denver Metro AMI Breakdown (2025)</h3>
-<p class="chart-subtitle">Income limits by household size</p>
+<h3 class="chart-title">Denver Income Limits (HUD <span data-denver-il-year>FY—</span>)</h3>
+<p class="chart-subtitle">The most a household can earn and still qualify, by household size</p>
 </div>
 <div class="data-table">
-<table>
+<table id="denverIncomeLimits" aria-describedby="denverIncomeLimitsSource">
 <thead>
 <tr>
-<th>AMI Level</th>
-<th>1 Person</th>
-<th>2 Person</th>
-<th>3 Person</th>
-<th>4 Person</th>
+<th scope="col" data-tip="Share of HUD area median income (AMI). A household qualifies for a tier when its income is at or below the limit shown for its size.">Income tier</th>
+<th scope="col">1 Person</th>
+<th scope="col">2 Person</th>
+<th scope="col">3 Person</th>
+<th scope="col">4 Person</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><strong>30% AMI</strong> (Extremely Low)</td>
-<td>$26,100</td>
-<td>$29,850</td>
-<td>$33,600</td>
-<td>$37,350</td>
-</tr>
-<tr>
-<td><strong>50% AMI</strong> (Very Low)</td>
-<td>$43,450</td>
-<td>$49,650</td>
-<td>$55,850</td>
-<td>$62,050</td>
-</tr>
-<tr>
-<td><strong>60% AMI</strong> (LIHTC Standard)</td>
-<td>$52,140</td>
-<td>$59,580</td>
-<td>$67,020</td>
-<td>$74,460</td>
-</tr>
-<tr style="background: rgba(52, 152, 219, 0.1);">
-<td><strong>80% AMI</strong> (Low Income)</td>
-<td>$66,300</td>
-<td>$75,750</td>
-<td>$85,200</td>
-<td>$94,650</td>
-</tr>
-<tr>
-<td><strong>100% AMI</strong> (Median)</td>
-<td>$86,870</td>
-<td>$99,300</td>
-<td>$111,700</td>
-<td>$124,100</td>
-</tr>
+<tr data-il-tier="30"><th scope="row" data-tip="HUD extremely low-income limit: at or below 30% of area median income."><strong>30% AMI</strong> (Extremely Low)</th><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr data-il-tier="50"><th scope="row" data-tip="HUD very low-income limit: at or below 50% of area median income."><strong>50% AMI</strong> (Very Low)</th><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr data-il-tier="60"><th scope="row" data-tip="The 60% limit most LIHTC units use to set who qualifies and the maximum rent."><strong>60% AMI</strong> (LIHTC Standard)</th><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr data-il-tier="80" style="background: rgba(52, 152, 219, 0.1);"><th scope="row" data-tip="HUD low-income limit: at or below 80% of area median income."><strong>80% AMI</strong> (Low Income)</th><td>—</td><td>—</td><td>—</td><td>—</td></tr>
 </tbody>
 </table>
 </div>
+<p class="chart-source" id="denverIncomeLimitsSource">Source: <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD <span data-denver-il-year>FY—</span> Income Limits</a>, Denver County (<code>data/hud-fmr-income-limits.json</code>). Area median income, 4-person household: <span data-denver-ami>—</span>. HUD publishes the median for a 4-person household only, so no per-size median is shown.</p>
 <div style="margin-top: 1rem; padding: 1rem; background: rgba(243, 156, 18, 0.1); border-radius: 4px; border-left: 3px solid var(--color-warning);">
-<p style="font-size: 0.875rem; margin: 0; line-height: 1.6;">
-<strong>Context:</strong> In Denver, a single person making $31.88/hour ($66,300 annually) is considered "low income" at 80% AMI. This creates significant affordable housing demand even among working professionals.
+<p style="font-size: 0.875rem; margin: 0; line-height: 1.6;" data-denver-context>
+<strong>Context:</strong> In Denver, one person earning up to the 80% AMI limit is considered "low income" under HUD's definition. The figures load from HUD's current income limits.
                     </p>
 </div>
 </div>
@@ -3004,6 +2974,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   <script src="js/ui-interactions.js"></script>
   <script src="js/prop123-map.js"></script>
 <script src="js/utils/format-money.js"></script>
+<script src="js/components/denver-income-limits.js"></script>
 <script src="js/colorado-deep-dive.js"></script>
 <script src="js/colorado-regional-predictions.js"></script>
 <!-- Affordability metrics panel (Phase 3 / C1) -->

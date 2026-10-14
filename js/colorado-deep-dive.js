@@ -445,6 +445,8 @@ function initPolicyPanel(panelId) {
       ]).then(function (res) {
         var tracts     = (res[0].tracts || []);
         var boundaries = res[1];
+        // Name the vintage the file says it is, not a typed year.
+        var acsVintage = (res[0].meta && res[0].meta.vintage) ? 'ACS ' + res[0].meta.vintage + ' 5-year estimates' : 'ACS 5-year estimates (vintage unavailable)';
         var metricsMap = {};
         tracts.forEach(function (t) { metricsMap[t.geoid] = t; });
 
@@ -480,7 +482,7 @@ function initPolicyPanel(panelId) {
           var st = document.getElementById('affRatioMapStatus');
           // F120 — polygon-rendered branch. Explicitly says "tract polygons"
           // so the user can distinguish from the centroid-dot fallback below.
-          if (st) st.textContent = rendered + ' tract polygons rendered · ACS 2023 5-year estimates';
+          if (st) st.textContent = rendered + ' tract polygons rendered · ' + acsVintage;
         } else {
           /* ── Fallback: centroid circle markers ── */
           DataService.getJSON('data/market/tract_centroids_co.json').then(function (centData) {
@@ -510,7 +512,7 @@ function initPolicyPanel(panelId) {
             // as "centroid dots" + "(polygon source unavailable)" so the user
             // sees the choropleth is degraded, not the data. Was previously
             // identical to the polygon-branch status string — silent fallback.
-            if (st) st.textContent = rendered + ' tract centroid dots rendered (polygon source unavailable) · ACS 2023 5-year estimates';
+            if (st) st.textContent = rendered + ' tract centroid dots rendered (polygon source unavailable) · ' + acsVintage;
           }).catch(function () {
             var st = document.getElementById('affRatioMapStatus');
             if (st) st.textContent = 'Affordability ratio data currently unavailable.';

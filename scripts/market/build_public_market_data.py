@@ -71,7 +71,14 @@ _CENSUS_CB_FALLBACK_URLS = [
     "https://www2.census.gov/geo/tiger/GENZ2023/json/cb_2023_08_tract_500k.json?dl=1",
     "https://www2.census.gov/geo/tiger/GENZ2022/json/cb_2022_08_tract_500k.json?dl=1",
 ]
-ACS_BASE = "https://api.census.gov/data/2023/acs/acs5"
+# One ACS 5-year vintage for the URL and the meta label. The 2020-2024
+# release has been out since Dec 2025; this was pinned at 2023 until
+# 2026-10 and fed every place-CHAS and place-LEHD weight from it.
+ACS_YEAR = 2024
+ACS_BASE = f"https://api.census.gov/data/{ACS_YEAR}/acs/acs5"
+# Keyless fallback: Census Reporter serves the same ACS releases. Used only
+# when CENSUS_API_KEY is unset (local runs); CI always has the key.
+CENSUS_REPORTER_SHOW = "https://api.censusreporter.org/1.0/data/show/acs{year}_5yr"
 HUD_LIHTC_URL = (
     "https://hudgis-hud.opendata.arcgis.com/datasets/"
     "8c3c3b26-38f1-4e06-a8f7-a0f2a60cc4d2_0.geojson"
@@ -130,6 +137,7 @@ def fetch_url(
     timeout: int = 120,
     backoff_base: float = 5.0,
     max_backoff: float = 60.0,
+    secret_query: str = "",
 ) -> bytes:
     """Fetch a URL with retries, exponential backoff + jitter, and disk caching.
 
@@ -143,6 +151,9 @@ def fetch_url(
                   is more appropriate for rate-limited external APIs than the
                   previous 1 s default.
     max_backoff:  Upper cap on the computed wait interval (seconds).
+    secret_query: Appended to the URL for the request only (an API key).
+                  It is kept out of the cache key and the log line, so the
+                  key is never hashed into a filename or printed.
     """
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     cache_key = hashlib.md5(url.encode()).hexdigest()
@@ -163,7 +174,7 @@ def fetch_url(
     for attempt in range(retries):
         try:
             log(f"[fetch attempt {attempt + 1}/{retries}] {url[:120]}")
-            req = urllib.request.Request(url, headers={"User-Agent": "pma-build/1.0"})
+            req = urllib.request.Request(url + secret_query, headers={"User-Agent": "pma-build/1.0"})
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 status = resp.status
                 log(f"[fetch] HTTP {status} in {time.monotonic() - t_start:.1f}s")
@@ -629,19 +640,56 @@ ACS_VARIABLES = [
     "B25032_022E",  # renter, mobile home + boat/RV/van
 ]
 
+def _acs_rows_from_census_reporter(variables: list[str]) -> list[list]:
+    """Return the Census API's row shape ([header, *rows]) from Census Reporter.
+
+    Census Reporter keys a cell as B25003003 where the Census API says
+    B25003_003E. A suppressed cell comes back null and is passed through as
+    None, which safe_int/safe_median already treat as unknown.
+    """
+    log("  [info] CENSUS_API_KEY not set — fetching tract ACS via Census Reporter")
+    tables = sorted({v.split("_")[0] for v in variables if v != "GEO_ID"})
+    cells: dict[str, dict[str, float | None]] = {}
+    for i in range(0, len(tables), 4):
+        chunk = ",".join(tables[i:i + 4])
+        url = (CENSUS_REPORTER_SHOW.format(year=ACS_YEAR)
+               + f"?table_ids={chunk}&geo_ids=140|04000US{STATE_FIPS}")
+        doc = json.loads(fetch_url(url))
+        release = (doc.get("release") or {}).get("id", "")
+        if f"acs{ACS_YEAR}_5yr" not in release:
+            raise RuntimeError(f"Census Reporter answered {release!r}, not acs{ACS_YEAR}_5yr")
+        for geo, by_table in (doc.get("data") or {}).items():
+            row = cells.setdefault(geo, {})
+            for table, payload in by_table.items():
+                row.update((payload or {}).get("estimate") or {})
+    header = list(variables) + ["state", "county", "tract"]
+    rows: list[list] = [header]
+    for geo, row in sorted(cells.items()):
+        geoid = geo.split("US", 1)[1]  # 14000US08001007801 -> 08001007801
+        vals = []
+        for v in variables:
+            if v == "GEO_ID":
+                vals.append("1400000" + geo)  # the Census API's GEO_ID form
+                continue
+            table, num = v.split("_")
+            cell = row.get(table + num[:-1])
+            vals.append(None if cell is None else str(int(cell)) if float(cell).is_integer() else str(cell))
+        rows.append(vals + [geoid[:2], geoid[2:5], geoid[5:]])
+    return rows
+
+
 def build_acs_metrics(centroids: dict) -> dict:
     log("\n[2/3] Fetching ACS tract metrics from Census API…")
 
     vars_str = ",".join(ACS_VARIABLES)
-    key_param = f"&key={CENSUS_API_KEY}" if CENSUS_API_KEY else ""
-    url = (
-        f"{ACS_BASE}?get={vars_str}"
-        f"&for=tract:*&in=state:{STATE_FIPS}{key_param}"
-    )
+    url = f"{ACS_BASE}?get={vars_str}&for=tract:*&in=state:{STATE_FIPS}"
 
     try:
-        raw = fetch_url(url)
-        rows = json.loads(raw)
+        if CENSUS_API_KEY:
+            raw = fetch_url(url, secret_query=f"&key={CENSUS_API_KEY}")
+            rows = json.loads(raw)
+        else:
+            rows = _acs_rows_from_census_reporter(ACS_VARIABLES)
     except Exception as e:
         log(f"ACS fetch failed: {e}. Returning empty metrics.", level="WARN")
         return {"meta": _acs_meta(), "tracts": []}
@@ -793,7 +841,7 @@ def build_acs_metrics(centroids: dict) -> dict:
 def _acs_meta() -> dict:
     return {
         "source": "US Census ACS 5-Year Estimates (public)",
-        "vintage": "2023",
+        "vintage": str(ACS_YEAR),
         "state": "Colorado",
         "state_fips": STATE_FIPS,
         "generated": datetime.now(timezone.utc).isoformat(),

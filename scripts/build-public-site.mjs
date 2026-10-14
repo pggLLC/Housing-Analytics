@@ -403,6 +403,9 @@ async function stampPageDates() {
       const filePath = path.join(DIST, childRel);
       const html = await readFile(filePath, 'utf8');
       if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue;
+      // A page that asks not to be indexed (the deprecated census dashboard,
+      // the gated developer pages) does not belong in the sitemap either.
+      if (/<meta[^>]+name=["']?robots["']?[^>]+content=["'][^"']*noindex/i.test(html)) continue;
       const iso = lastChanged.get(toPosix(childRel));
       if (!iso) { undated.push(toPosix(childRel)); continue; }
       const next = stampPage(html, iso, { article: isArticle(childRel) });
@@ -439,6 +442,9 @@ async function generateSitemap() {
       if (!entry.name.endsWith('.html') || skip.has(toPosix(childRel))) continue;
       const html = await readFile(path.join(DIST, childRel), 'utf8');
       if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue;
+      // A page that asks not to be indexed (the deprecated census dashboard,
+      // the gated developer pages) does not belong in the sitemap either.
+      if (/<meta[^>]+name=["']?robots["']?[^>]+content=["'][^"']*noindex/i.test(html)) continue;
       // A reader URL needs a curated id; its bare path is a not-found state.
       if (childRel === 'research-brief.html') {
         const curated = JSON.parse(await readFile(path.join(DIST, 'data/policy_briefs_curated.json'), 'utf8'));
@@ -501,7 +507,10 @@ async function generateSearchIndex() {
         const redirect = redirectAlias(relPath, html);
         // A retired name the public guard forbids (e.g. an old brand) is not offered as an alias.
         if (redirect) { if (!isSensitive(redirect.alias)) aliases.push(redirect); continue; }
-        if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue; // off-site redirect
+        if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue;
+      // A page that asks not to be indexed (the deprecated census dashboard,
+      // the gated developer pages) does not belong in the sitemap either.
+      if (/<meta[^>]+name=["']?robots["']?[^>]+content=["'][^"']*noindex/i.test(html)) continue; // off-site redirect
         // The place profiles share one template, so their body words would match every topic
         // query 480 times over; their names and headings are what tell them apart.
         records.push(...pageRecords(relPath, html, { body: !/^places\/\d+\.html$/.test(relPath) }));

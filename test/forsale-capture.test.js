@@ -53,10 +53,16 @@ function clone(value) { return JSON.parse(JSON.stringify(value)); }
 function scenarioAt(result, months) { return result.scenarios.find((item) => item.selloutMonths === months); }
 
 const funnel = realFunnel();
-// Hand derivation from real ProjectScenario + EffectiveDemand calls:
-// observed pool = 343; ten pass-through stages leave 343; the funnel's
-// contract_fallout share is 0.10, so effective demand = 343 * .10 = 34.3.
-close(funnel.effectiveDemand, 34.3, 'real funnel pool');
+// Hand derivation from real ProjectScenario + EffectiveDemand calls: the
+// observed pool is Fruita's CHAS renters at 51-80% plus 81-100% AMI, read here
+// from the data file (343.1 households after the 2020-2024 tract rebuild).
+// Ten pass-through stages leave it unchanged; the funnel's contract_fallout
+// share is 0.10, so effective demand = pool * .10.
+const fruitaRenters = require('../data/hna/place-chas.json').places['0828745'].renter_hh_by_ami;
+const POOL = Number((fruitaRenters['51to80'].total + fruitaRenters['81to100'].total).toFixed(1));
+assert.ok(POOL > 0, 'Fruita has an observed renter pool');
+const EFFECTIVE = POOL * 0.1;
+close(funnel.effectiveDemand, EFFECTIVE, 'real funnel pool');
 const result = ForsaleCapture.run(scenario, funnel, { selloutMonths: 30, distribution: 'even' });
 assert.deepStrictEqual(ForsaleCapture.SELLOUT_SCENARIOS, [24, 30, 36, 48]);
 assert.deepStrictEqual(result.scenarios.map((item) => item.selloutMonths), [24, 30, 36, 48]);
@@ -64,13 +70,13 @@ assert.deepStrictEqual(result.scenarios.map((item) => item.selloutMonths), [24, 
 const thirty = scenarioAt(result, 30);
 // Hand derivation: 50 / 30 = 1.6666666666666667 for months 1-29; month
 // 30 absorbs 50 - sum(months 1-29). The first 12 months total 20 and the
-// full schedule totals exactly 50. Penetration = 50 / 34.3.
+// full schedule totals exactly 50. Penetration = 50 / effective demand.
 close(thirty.monthlyClosings[0], 50 / 30, 'month one');
 close(sum(thirty.monthlyClosings.slice(0, 12)), 20, 'year-one closings');
 assert.strictEqual(sum(thirty.monthlyClosings), 50);
 close(thirty.annualClosings[0], 20, 'annual closings');
-close(thirty.annualCaptureRate[0].value, 20 / 34.3, 'year-one capture');
-close(thirty.totalProjectPenetration.value, 50 / 34.3, 'penetration');
+close(thirty.annualCaptureRate[0].value, 20 / EFFECTIVE, 'year-one capture');
+close(thirty.totalProjectPenetration.value, 50 / EFFECTIVE, 'penetration');
 assert.deepStrictEqual(thirty.totalProjectPenetration.denominator, {
   value: funnel.effectiveDemand, basis: 'Phase-6 modeled effective demand', classification: 'modeled'
 });
@@ -99,12 +105,12 @@ assert.strictEqual(
 );
 
 // Hand derivation with 10% annual replenishment: year two starts with
-// 34.3 * 1.10 - 20 prior closings = 17.73 available households.
+// effective demand * 1.10 - 20 prior closings available households.
 const growing = ForsaleCapture.run(scenario, funnel, {
   selloutMonths: 30, distribution: 'even',
   poolGrowthAnnual: { share: 0.1, classification: 'user_entered', basis: 'Test-only annual replenishment.', verify: true }
 });
-close(scenarioAt(growing, 30).annualCaptureRate[1].denominator.value, 17.73, 'year-two growing pool');
+close(scenarioAt(growing, 30).annualCaptureRate[1].denominator.value, EFFECTIVE * 1.1 - 20, 'year-two growing pool');
 assert.strictEqual(scenarioAt(growing, 30).poolDepletionModeled, false);
 
 const custom = Array(10).fill(5);

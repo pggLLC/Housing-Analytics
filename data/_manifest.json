@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-14T03:46:11.579Z",
+    "generated_at": "2026-10-14T08:28:13.401Z",
     "root": "data/",
-    "file_count": 1712,
-    "total_size_bytes": 180288719,
+    "file_count": 1713,
+    "total_size_bytes": 180321682,
     "kinds": {
-      "json": 1675,
+      "json": 1676,
       "geojson": 33,
       "csv": 4
     }
@@ -479,7 +479,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-14T03:46:09.291Z",
+      "mtime": "2026-10-14T08:28:09.206Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -32069,7 +32069,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15108,
-      "mtime": "2026-10-14T03:46:10.445Z",
+      "mtime": "2026-10-14T08:28:11.045Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32093,7 +32093,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-14T03:46:10.170Z",
+      "mtime": "2026-10-14T08:28:10.615Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34467,6 +34467,38 @@
         "source",
         "verification",
         "review_by",
+        "evidence"
+      ]
+    },
+    {
+      "path": "policy/prop123-rental-rules.json",
+      "kind": "json",
+      "size_bytes": 32963,
+      "mtime": "2026-10-14T08:27:25.269Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "sources",
+        "programs",
+        "commitment_counting",
+        "rural_resort_petitions",
+        "conflicts",
+        "rent_table_deviations"
+      ],
+      "key_count": 8,
+      "primary_array_key": "programs",
+      "primary_array_length": 7,
+      "primary_array_first_keys": [
+        "id",
+        "name",
+        "fund",
+        "statute",
+        "income_rule",
+        "rent_rule",
+        "ami_source",
+        "affordability_years",
+        "affordability_basis",
         "evidence"
       ]
     },

@@ -31,16 +31,16 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 3.1,
+    "total_renter_hh": 3.0,
     "total_owner_hh": 13.0,
     "renter_cb30_count": 1.5,
-    "renter_cb30_share": 0.4839,
+    "renter_cb30_share": 0.5,
     "renter_cb50_count": 1.0,
-    "renter_cb50_share": 0.3226,
+    "renter_cb50_share": 0.3333,
     "owner_cb30_count": 2.0,
     "owner_cb30_share": 0.1538,
-    "owner_cb50_count": 1.1,
-    "owner_cb50_share": 0.0846
+    "owner_cb50_count": 1.0,
+    "owner_cb50_share": 0.0769
   },
   "renter_hh_by_ami": {
     "lte30": {
@@ -72,7 +72,7 @@
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 0.6,
+      "total": 0.5,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,9 +81,9 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 1.2,
+      "total": 1.1,
       "cost_burdened_30pct": 0.5,
-      "cost_burdened_50pct": 0.5,
+      "cost_burdened_50pct": 0.4,
       "pct_cost_burdened_30": 0.4929,
       "pct_cost_burdened_50": 0.3857
     },
@@ -102,7 +102,7 @@
       "pct_cost_burdened_50": 0.0682
     },
     "81to100": {
-      "total": 1.2,
+      "total": 1.3,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0258,
@@ -119,20 +119,20 @@
   "acs_anchor": {
     "applied": false,
     "acs_occupied_hh": 16,
-    "base_hh": 10.5,
+    "base_hh": 10.1,
     "superseded_by": "tenure_anchor"
   },
   "tenure_anchor": {
     "applied": true,
     "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
-    "renter_scale": 0.9677,
-    "owner_scale": 1.7568,
+    "renter_scale": 1.0,
+    "owner_scale": 1.831,
     "acs_renter_hh": 3.0,
     "acs_owner_hh": 13.0,
-    "base_renter_hh_before": 3.1,
-    "base_owner_hh_before": 7.4,
-    "renter_share_before": 0.2952,
-    "renter_share_after": 0.1925,
+    "base_renter_hh_before": 3.0,
+    "base_owner_hh_before": 7.1,
+    "renter_share_before": 0.297,
+    "renter_share_after": 0.1875,
     "rates_preserved": true
   },
   "chas_meta": {
@@ -147,8 +147,8 @@
     "geoid": "0840900",
     "name": "Kirk (CDP)",
     "type": "cdp",
-    "recommendation": "Rental priority",
-    "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
+    "recommendation": "Verify locally",
+    "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "Medium",
     "renter_cost_burdened": 1.5,
     "owner_cost_burdened": 2,
@@ -158,7 +158,7 @@
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "High",
     "ownership_pressure_tier": "Low",
-    "ownership_fit_tier": "Low",
+    "ownership_fit_tier": "Moderate",
     "affordability_classification": null,
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -207,7 +207,7 @@
           Colorado · Yuma County
         </div>
         <h1>Kirk</h1>
-        <p class="place-sub">~16 households · renter cost-burden 48.4%</p>
+        <p class="place-sub">~16 households · renter cost-burden 50.0%</p>
       </div>
     </div>
 

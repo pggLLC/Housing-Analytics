@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T03:45:53.358Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T08:27:46.093Z. Do not edit by hand.
 
 ---
 
@@ -83,7 +83,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1676 JSON files found.
+1677 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1731,6 +1731,7 @@
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/policy-timeline.json` | 6.7 KB | ✅ | — |
 | `data/policy/policy-watch.json` | 50.5 KB | ✅ | — |
+| `data/policy/prop123-rental-rules.json` | 32.2 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 130.0 KB | ✅ | — |
 | `data/policy/resale-conventions.json` | 7.4 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.8 KB | ✅ | — |
@@ -1768,7 +1769,7 @@
 
 ## Test Files
 
-579 test files found.
+580 test files found.
 
 | File | Size |
 |------|------|
@@ -2164,6 +2165,7 @@
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-administration.test.js` | 7.9 KB |
 | `test/prop123-historical.test.js` | 19.2 KB |
+| `test/prop123-rental-rules.test.js` | 7.0 KB |
 | `test/prop123.test.js` | 13.9 KB |
 | `test/provenance-label.test.js` | 2.2 KB |
 | `test/public-build-metadata.test.mjs` | 8.8 KB |

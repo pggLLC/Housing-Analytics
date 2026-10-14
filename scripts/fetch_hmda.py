@@ -22,7 +22,8 @@ flow*: who got loans, who didn't, in what amounts. Critical inputs for:
     cost-burden-by-income dashboard
 
 CFPB API: https://ffiec.cfpb.gov/v2/data-browser-api/
-Vintages: 2018-2024 (calendar 2024 published spring 2025)
+Vintages: 2018 through the latest published year (calendar year Y is
+published each spring of Y+1; latest_published_year() picks it).
 
 Output
 ------
@@ -70,7 +71,21 @@ OUT_COUNTIES = os.path.join(REPO_ROOT, 'data', 'hmda', 'co-county-aggregates.jso
 OUT_STATE = os.path.join(REPO_ROOT, 'data', 'hmda', 'co-state-trends.json')
 
 API_BASE = 'https://ffiec.cfpb.gov/v2/data-browser-api/view/aggregations'
-DEFAULT_YEARS = [2018, 2019, 2020, 2021, 2022, 2023, 2024]
+FIRST_YEAR = 2018
+
+
+def latest_published_year(today=None) -> int:
+    """The newest HMDA calendar year the CFPB has published.
+
+    Year Y's snapshot is released in the spring of Y+1 (late March). Until
+    2026-10 this list was typed out and stopped at 2024, so the monthly
+    fetch kept refreshing 2018-2024 for six months after 2025 came out.
+    """
+    today = today or datetime.now(timezone.utc).date()
+    return today.year - 1 if today.month >= 4 else today.year - 2
+
+
+DEFAULT_YEARS = list(range(FIRST_YEAR, latest_published_year() + 1))
 COLORADO_STATE_CODE = 'CO'
 REQ_DELAY = 0.20  # 200 ms — ~3 req/s polite cadence
 TIMEOUT = 30
@@ -221,7 +236,7 @@ def aggregate_metrics_for_geo(
 
 def main() -> int:
     p = argparse.ArgumentParser()
-    p.add_argument('--years', help='Comma-separated years (default: 2018-2024)')
+    p.add_argument('--years', help='Comma-separated years (default: 2018 through the latest published year)')
     p.add_argument('--counties', help='Comma-separated county FIPS (default: all 64 CO counties)')
     p.add_argument('--state-only', action='store_true', help='Skip per-county loop')
     args = p.parse_args()

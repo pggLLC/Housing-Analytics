@@ -1,13 +1,13 @@
 {
-  "generated": "2026-10-11T11:47:59.028Z",
+  "generated": "2026-10-14T05:24:19.574Z",
   "values": {
-    "renter_cost_burden_pct": 49.9,
+    "renter_cost_burden_pct": 50.5,
     "lihtc_property_count": 926,
     "average_lihtc_units_per_year": 3735,
     "average_lihtc_new_construction_units_per_year": 2935,
     "average_lihtc_preservation_units_per_year": 800,
-    "annual_le60_renter_household_growth": 3280,
-    "lihtc_new_construction_coverage_of_le60_renter_growth": 0.895
+    "annual_le60_renter_household_growth": 3870,
+    "lihtc_new_construction_coverage_of_le60_renter_growth": 0.758
   },
   "deficit_growth_basis": {
     "dola_household_growth_per_year": 20222,
@@ -15,14 +15,14 @@
       2024,
       2044
     ],
-    "le60_households_renter": 402239,
+    "le60_households_renter": 474599,
     "total_households_acs": 2479892,
-    "le60_renter_share_of_all_households": 0.1622,
+    "le60_renter_share_of_all_households": 0.1914,
     "tenure": "renter",
     "assumption": "new households are assumed to carry the current CHAS income and tenure mix; DOLA projects households by age, not income",
     "all_tenure_comparison": {
-      "le60_households_all_tenure": 785576,
-      "annual_growth_if_all_tenure": 6406,
+      "le60_households_all_tenure": 956369,
+      "annual_growth_if_all_tenure": 7799,
       "not_used_because": "rental supply cannot be netted against owner households; see build_place_ami_gap.py v2 rationale"
     }
   },
@@ -35,11 +35,11 @@
   },
   "source_vintages": {
     "data/hna/ranking-index.json": {
-      "updated": "2026-10-11T11:45:28Z",
+      "updated": "2026-10-14T05:18:27Z",
       "source": "metadata.generatedAt"
     },
     "data/market/acs_tract_metrics_co.json": {
-      "updated": "2026-10-10T23:00:38.585096+00:00",
+      "updated": "2026-10-14T02:49:52.549365+00:00",
       "source": "meta.generated"
     },
     "data/chfa-lihtc.json": {
@@ -51,7 +51,7 @@
       "source": "updated"
     },
     "data/co_ami_gap_by_county.json": {
-      "updated": "2026-09-12T13:29:55Z",
+      "updated": "2026-10-14T02:45:29Z",
       "source": "meta.generated_at"
     },
     "data/hna/summary/08.json": {

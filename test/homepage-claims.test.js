@@ -147,8 +147,12 @@ async function assertRenderedGapFigures() {
   await new Promise((resolve) => setTimeout(resolve, 0));
   await new Promise((resolve) => setTimeout(resolve, 0));
 
-  assert.equal(document.getElementById('snapGap30').textContent, '135,587', '≤30% headline renders unchanged');
-  assert.equal(document.getElementById('snapGap60').textContent, '83,490', '≤60% headline renders unchanged');
+  // The headline is the statewide deficit in the data file, shown unsigned.
+  // Pinned to the data rather than to a number, so a rebuild of the AMI gap
+  // (new ACS vintage, new HUD state median) does not need a test edit.
+  const shownDeficit = (tier) => Math.abs(amiGap.statewide.gap_units_minus_households_le_ami_pct[tier]).toLocaleString('en-US');
+  assert.equal(document.getElementById('snapGap30').textContent, shownDeficit('30'), '≤30% headline renders the data file\'s statewide deficit');
+  assert.equal(document.getElementById('snapGap60').textContent, shownDeficit('60'), '≤60% headline renders the data file\'s statewide deficit');
 }
 
 assertRenderedGapFigures()
