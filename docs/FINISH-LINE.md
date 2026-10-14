@@ -82,6 +82,13 @@ proposed from the deliverable above and agreed by the owner on 2026-10-14; befor
 that, no phase had recorded contents. As with the criteria, change them only with
 the owner's agreement.
 
+Phase 2 is measured, not just planned. **G3** reads every record in
+`docs/walkthroughs/` and passes only when a city, a rural county and a small town
+have each been walked to a would-act verdict by three different first-time
+readers (`scripts/audit/walkthrough-record.mjs`). **O3** stays OPEN until every
+package L1 through X1 names a guard reachable from `test:ci`; each package's PR
+sets its own `guard` in `DEAL_PACKAGES` in `scripts/audit/finish-line.mjs`.
+
 ## Standing constraints
 
 From the owner's plan. These govern *how* work happens, not whether it is done.
