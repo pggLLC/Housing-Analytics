@@ -35,18 +35,27 @@ import transit_stops  # noqa: E402  (the one statewide stop-selection rule)
 # Constants
 # ---------------------------------------------------------------------------
 
+# Membership follows DOLA's planning and management regions, folded into
+# six labels: Southwest = Region 9, San Luis Valley = Region 8, Western Slope
+# = Regions 10 and 11 (Routt kept with the resort Mountains), Mountains =
+# Regions 12 and 13 plus the resort/foothill counties of Region 3 and 4,
+# Eastern Plains = Regions 1, 5, 6 and 14. Until 2026-10-14 twelve counties
+# were misfiled (Montezuma under San Luis Valley, so Cortez never appeared
+# beside Durango; Washington under Western Slope; Baca under Mountains).
+# test/region-membership.test.js pins the regions.
 REGIONS: dict[str, list[str]] = {
     "Front Range":   ["08001", "08005", "08013", "08014", "08019", "08031",
                       "08035", "08041", "08059", "08069", "08101", "08123"],
-    "Western Slope": ["08007", "08029", "08045", "08051", "08053",
-                      "08077", "08085", "08103", "08113", "08121"],
-    "Mountains":     ["08009", "08015", "08037", "08047", "08049", "08065",
-                      "08093", "08097", "08107", "08117", "08119"],
-    "Eastern Plains":["08011", "08017", "08023", "08025", "08039", "08057",
-                      "08061", "08063", "08071", "08073", "08075", "08079",
-                      "08087", "08089", "08095", "08099", "08111", "08115", "08125"],
-    "San Luis Valley":["08003", "08021", "08055", "08083", "08105", "08109"],
-    "Southwest":     ["08027", "08033", "08043", "08067", "08081", "08091"],
+    "Western Slope": ["08029", "08045", "08051", "08053", "08077", "08081",
+                      "08085", "08091", "08103", "08113"],
+    "Mountains":     ["08015", "08027", "08037", "08043", "08047", "08049",
+                      "08057", "08065", "08093", "08097", "08107", "08117",
+                      "08119"],
+    "Eastern Plains":["08009", "08011", "08017", "08025", "08039", "08055",
+                      "08061", "08063", "08071", "08073", "08075", "08087",
+                      "08089", "08095", "08099", "08115", "08121", "08125"],
+    "San Luis Valley":["08003", "08021", "08023", "08079", "08105", "08109"],
+    "Southwest":     ["08007", "08033", "08067", "08083", "08111"],
 }
 
 # Build reversed lookup: county fips -> region
