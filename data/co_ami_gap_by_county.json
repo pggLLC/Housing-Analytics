@@ -2,9 +2,9 @@
   "meta": {
     "state": "CO",
     "hud_income_limits_year": 2026,
-    "statewide_ami_year": 2025,
+    "statewide_ami_year": 2026,
     "acs_year": 2024,
-    "generated_at": "2026-09-12T13:29:55Z",
+    "generated_at": "2026-10-14T02:45:29Z",
     "methodology_version": 2,
     "demand_tenure": "renter",
     "gap_sign": "units_minus_households",
@@ -22,61 +22,61 @@
   "statewide": {
     "fips": "08",
     "county_name": "Colorado (statewide)",
-    "ami_4person": 107200,
+    "ami_4person": 127800,
     "affordable_rent_monthly": {
-      "30": 804,
-      "40": 1072,
-      "50": 1340,
-      "60": 1608,
-      "70": 1876,
-      "80": 2144,
-      "100": 2680
+      "30": 958,
+      "40": 1278,
+      "50": 1598,
+      "60": 1917,
+      "70": 2236,
+      "80": 2556,
+      "100": 3195
     },
     "households_le_ami_pct": {
-      "30": 199358,
-      "40": 268798,
-      "50": 337179,
-      "60": 402239,
-      "70": 467230,
-      "80": 515402,
-      "100": 597514
+      "30": 239122,
+      "40": 322128,
+      "50": 399690,
+      "60": 474599,
+      "70": 532028,
+      "80": 585027,
+      "100": 649379
     },
     "all_households_le_ami_pct": {
-      "30": 353264,
-      "40": 490612,
-      "50": 637605,
-      "60": 785576,
-      "70": 936503,
-      "80": 1066363,
-      "100": 1311397
+      "30": 430385,
+      "40": 603844,
+      "50": 779660,
+      "60": 956369,
+      "70": 1111184,
+      "80": 1261421,
+      "100": 1513450
     },
     "renter_households_total": 802483,
     "units_priced_affordable_le_ami_pct": {
-      "30": 63771,
-      "40": 122874,
-      "50": 210088,
-      "60": 318749,
-      "70": 440410,
-      "80": 541092,
-      "100": 676035
+      "30": 92401,
+      "40": 186834,
+      "50": 313982,
+      "60": 459022,
+      "70": 569899,
+      "80": 659234,
+      "100": 730571
     },
     "gap_units_minus_households_le_ami_pct": {
-      "30": -135587,
-      "40": -145924,
-      "50": -127091,
-      "60": -83490,
-      "70": -26820,
-      "80": 25690,
-      "100": 78521
+      "30": -146721,
+      "40": -135294,
+      "50": -85708,
+      "60": -15577,
+      "70": 37871,
+      "80": 74207,
+      "100": 81192
     },
     "coverage_le_ami_pct": {
-      "30": 0.3199,
-      "40": 0.4571,
-      "50": 0.6231,
-      "60": 0.7924,
-      "70": 0.9426,
-      "80": 1.0498,
-      "100": 1.1314
+      "30": 0.3864,
+      "40": 0.58,
+      "50": 0.7856,
+      "60": 0.9672,
+      "70": 1.0712,
+      "80": 1.1268,
+      "100": 1.125
     },
     "demand_tenure": "renter"
   },
@@ -3988,7 +3988,7 @@
   ],
   "methodology": [
     "Methodology v2 (2026-07): the gap's demand side is RENTER households (ACS B25118, Tenure \u00d7 Household Income) at or below each income threshold \u2014 matching professional HNA practice (renter households vs rental units). v1 used ALL households (B19001, owners included) against renter-only supply, which structurally inflated gaps ~2.5-4x. The v1 all-tenure series is retained as all_households_le_ami_pct.",
-    "Income thresholds use HUD FY2026 4-person AMI for the geography's county; the statewide record remains the HUD FY2025 Colorado state median.",
+    "Income thresholds use HUD FY2026 4-person AMI for the geography's county; the statewide record uses HUD's FY2026 Colorado state median family income ($127,800).",
     "Priced-affordable units come from ACS table B25063 (gross rent, renter-occupied with cash rent), counted at or below the rent threshold equal to 30% of monthly threshold income.",
     "Gap = renter households at-or-below threshold minus units priced affordable at-or-below threshold.",
     "Per-tier renter-household demand is clamped to the corresponding all-household cumulative count from B19001. This prevents small-place ACS cross-table sampling noise from reporting more renter households than total households at the same AMI threshold.",
@@ -3997,8 +3997,12 @@
   ],
   "sources": [
     {
-      "name": "HUD FY2026 county Income Limits (FY2025 statewide benchmark)",
+      "name": "HUD FY2026 county Income Limits",
       "url": "https://www.huduser.gov/portal/datasets/il.html"
+    },
+    {
+      "name": "HUD FY2026 state median family incomes (statewide benchmark)",
+      "url": "https://www.huduser.gov/portal/datasets/il/il26/FY26-Median-Attachment-State-Medians.pdf"
     },
     {
       "name": "Census ACS 5-year B25118 (Tenure by Household Income)",

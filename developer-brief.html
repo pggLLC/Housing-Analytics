@@ -1144,7 +1144,9 @@
         <div class="ib-card-source">
           <strong>Sources:</strong>
           <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Prop 123 commitment filings</a> ·
-          <span data-source-status="inactive">DOLA PAB direct allocations (${esc(pabMeta && pabMeta.year || '2025')}; source page retired)</span> ·
+          ${pabMeta && /^https:\/\/doh\.colorado\.gov\//.test(pabMeta.sourceUrl || '')
+            ? `<a href="${esc(pabMeta.sourceUrl)}" target="_blank" rel="noopener">DOLA PAB direct allocations (${esc(pabMeta.year)})</a>`
+            : `<span data-source-status="inactive">DOLA PAB direct allocations (source unavailable)</span>`} ·
           <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener">CHFA statewide PAB pool</a>.
         </div>
         ${inner}

@@ -104,7 +104,10 @@ assert.equal(fallback.scope, 'county-fallback');
 assert(Strategy.renderHtml(Strategy.buildViewModel(Object.assign(input({ type: 'place', geoid: '0899999', countyGeoid: '08077', allowCountyFallback: true }, 100000), { price: fallback }))).includes('County fallback — not place data'));
 
 const fruitaHtml = Strategy.renderHtml(fruita);
-assert(fruitaHtml.includes('$486,295'));
+// The rendered price is the cascade's place value, so a monthly ZHVI refresh stays green.
+const fruitaPrice = cascade.places[fruitaGeo.geoid].value;
+assert(Number.isFinite(fruitaPrice) && fruitaPrice > 0, 'Fruita has a place value to render');
+assert(fruitaHtml.includes('$' + fruitaPrice.toLocaleString('en-US')), 'the panel shows the cascade place value');
 assert(fruitaHtml.includes('data-scope="place"'));
 assert(fruitaHtml.includes('Place value</span>'));
 assert(fruitaHtml.includes('Fruita Housing Authority'));

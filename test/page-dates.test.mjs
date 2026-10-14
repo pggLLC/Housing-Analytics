@@ -92,6 +92,9 @@ async function walk(rel = '') {
     if (!isStampable(childRel)) continue;
     const html = await readFile(path.join('dist', childRel), 'utf8');
     if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue;
+    // Not served to search or readers as a page of its own: the build skips
+    // noindex pages when stamping, exactly as it does for redirects.
+    if (/<meta[^>]+name=["']?robots["']?[^>]+content=["'][^"']*noindex/i.test(html)) continue;
     checked++;
     const m = html.match(new RegExp(`class="${STAMP_CLASS}"[^>]*>Last updated <time datetime="(\\d{4}-\\d{2}-\\d{2})">`));
     if (!m) { missing.push(childRel); continue; }

@@ -107,12 +107,28 @@ COLORADO_FIPS = "08"
 
 METHODOLOGY_VERSION = 2
 
-# HUD FY2025 Colorado state median family income (4-person). The county input
-# has advanced to FY2026, but the HUD file only carries county rows, so the
-# statewide record remains explicitly pinned to its verified FY2025 value.
-# scripts/qa_stage1.py asserts this exact value.
-STATEWIDE_AMI_4PERSON = 107_200
-STATEWIDE_AMI_YEAR = 2025
+# HUD's Colorado state median family income (the statewide 4-person AMI),
+# read from data/policy/hud-state-median-family-income.json, which records
+# the HUD attachment it was copied from. The county rows come from the HUD
+# Income Limits file; HUD publishes the state median only in that PDF.
+# This used to be a hard-coded 107,200 labelled FY2025, a figure that
+# matches no HUD state median (FY2025 was 124,600; FY2026 is 127,800).
+STATE_MFI_FILE = os.path.join(
+    REPO_ROOT, "data", "policy", "hud-state-median-family-income.json"
+)
+
+
+def _load_state_mfi() -> tuple[int, int]:
+    with open(STATE_MFI_FILE, encoding="utf-8") as f:
+        doc = json.load(f)
+    value = (doc.get("median_family_income") or {}).get("total")
+    year = (doc.get("meta") or {}).get("fiscal_year")
+    if not isinstance(value, int) or value <= 0 or not isinstance(year, int):
+        raise RuntimeError(f"{STATE_MFI_FILE} has no usable statewide median")
+    return value, year
+
+
+STATEWIDE_AMI_4PERSON, STATEWIDE_AMI_YEAR = _load_state_mfi()
 COUNTY_AMI_YEAR = 2026
 
 # AMI tiers we report for each geography (matches the county file's keys)
@@ -198,8 +214,10 @@ METHODOLOGY_NOTES = [
     "rental units). v1 used ALL households (B19001, owners included) "
     "against renter-only supply, which structurally inflated gaps ~2.5-4x. "
     "The v1 all-tenure series is retained as all_households_le_ami_pct.",
-    "Income thresholds use HUD FY2026 4-person AMI for the geography's "
-    "county; the statewide record remains the HUD FY2025 Colorado state median.",
+    f"Income thresholds use HUD FY{COUNTY_AMI_YEAR} 4-person AMI for the "
+    "geography's county; the statewide record uses HUD's "
+    f"FY{STATEWIDE_AMI_YEAR} Colorado state median family income "
+    f"(${STATEWIDE_AMI_4PERSON:,}).",
     "Priced-affordable units come from ACS table B25063 (gross rent, "
     "renter-occupied with cash rent), counted at or below the rent "
     "threshold equal to 30% of monthly threshold income.",
@@ -644,8 +662,10 @@ def compute_county_record(
 
 def _sources(vintage: int) -> list[dict[str, str]]:
     return [
-        {"name": "HUD FY2026 county Income Limits (FY2025 statewide benchmark)",
+        {"name": f"HUD FY{COUNTY_AMI_YEAR} county Income Limits",
          "url": "https://www.huduser.gov/portal/datasets/il.html"},
+        {"name": f"HUD FY{STATEWIDE_AMI_YEAR} state median family incomes (statewide benchmark)",
+         "url": "https://www.huduser.gov/portal/datasets/il/il26/FY26-Median-Attachment-State-Medians.pdf"},
         {"name": "Census ACS 5-year B25118 (Tenure by Household Income)",
          "url": f"https://data.census.gov/table/ACSDT5Y{vintage}.B25118"},
         {"name": "Census ACS 5-year B25063 (Gross Rent)",

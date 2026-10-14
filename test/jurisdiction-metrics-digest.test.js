@@ -392,7 +392,8 @@ test('regional comparison fixture values stay stable for Garfield County and Roa
       pct_bipoc_households: 28.3,
     },
     '0803620': {
-      pct_ami_gt80: 60.5,
+      // Place CHAS apportioned by ACS 2020-2024 tract population (was 60.5 on 2019-2023).
+      pct_ami_gt80: 60.4,
       pct_housing_built_pre1970: 18.2,
       pct_no_hs_degree_25plus: 1.2,
       pct_single_parent_households: 4.1,

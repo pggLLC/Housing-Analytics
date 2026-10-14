@@ -456,13 +456,15 @@
   function renderMethodology(payload) {
     const el = $("#amiGapMethodology");
     if (!el) return;
+    const meta = (payload && payload.meta) || {};
+    const fy = (y) => (Number.isInteger(y) ? "FY " + y : "(year unavailable)");
     const lines = (payload && payload.methodology) ? payload.methodology : [
       "Renter households are counted from ACS 5-year estimates (Table B25118, Tenure × Household Income) where household income ≤ the specified % AMI.",
       "Affordable units are renter-occupied housing units with gross rent ≤ 30% of income at the AMI band threshold (ACS Table B25063).",
       "Priced-affordable units are renter-occupied and are not necessarily vacant or available, so a positive gap does not establish that housing is obtainable.",
       "Gap = affordable units − eligible households. A negative gap indicates more eligible households than affordable units.",
       "Coverage = affordable units ÷ eligible households, expressed as a percentage.",
-      "County AMI thresholds use HUD FY 2026 Income Limits for 4-person households; the statewide benchmark remains FY 2025."
+      "County AMI thresholds use HUD " + fy(meta.hud_income_limits_year) + " Income Limits for 4-person households; the statewide benchmark is HUD's " + fy(meta.statewide_ami_year) + " Colorado state median family income."
     ];
     el.innerHTML = lines.map(p => `<p>${p}</p>`).join("");
     if (payload.sources && payload.sources.length) {

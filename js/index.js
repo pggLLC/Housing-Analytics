@@ -60,8 +60,12 @@
         // We display magnitude of statewide deficit for readability on
         // homepage cards. County-file convention: units − households,
         // negative = deficit; clamp surpluses to 0 instead of abs().
-        setText('snapGap30', fmtInt(Math.max(0, -(gaps['30'] || 0))));
-        setText('snapGap60', fmtInt(Math.max(0, -(gaps['60'] || 0))));
+        // A missing tier stays '—' (the placeholder), never a 0 deficit.
+        var deficit = function (v) {
+          return (typeof v === 'number' && isFinite(v)) ? fmtInt(Math.max(0, -v)) : '—';
+        };
+        setText('snapGap30', deficit(gaps['30']));
+        setText('snapGap60', deficit(gaps['60']));
 
         var vintage = data && data.meta && (data.meta.generated || data.meta.generated_at || data.meta.updated || '');
         if (vintage) {

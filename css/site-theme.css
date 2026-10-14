@@ -1997,6 +1997,17 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
 .workflow-progress__step--done .workflow-progress__step__label {
   color: var(--good, #047857) !important;
 }
+/* Step 2 (statewide Opportunity Finder) is a detour for someone who already
+   knows their town; say so on the rail, where a first-time reader decides
+   whether to open it. Lives here because several pages inject their own rail
+   styles under the same id, which stops workflow-progress.js adding its own. */
+.wf-step[data-step="2"] .wf-step__label::after {
+  content: "optional";
+  display: block;
+  font-weight: 400;
+  font-style: italic;
+  opacity: .85;
+}
 
 /* The width at which the full-size workflow rail stops fitting.
  *

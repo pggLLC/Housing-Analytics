@@ -53,6 +53,24 @@ test('without CHAS the all-renter fallback is labelled as all incomes, not as el
   assert(/all incomes/.test(d.label) && !/eligible/i.test(d.label), 'fallback label: ' + d.label);
 });
 
+test('no renter count withholds the capture score instead of scoring capture against 1 household', () => {
+  const PMAScoring = require(path.join(ROOT, 'js/market-analysis-scoring.js'));
+  const m = src.match(/function scoreCaptureRisk\([\s\S]*?\n  \}/);
+  assert(m, 'scoreCaptureRisk() is gone from js/market-analysis.js');
+  const scoreCaptureRisk = new Function('PMAScoring', m[0] + '; return scoreCaptureRisk;')(PMAScoring);
+  const none = scoreCaptureRisk({}, 40, 0, null);
+  assert.strictEqual(none.score, null, 'score with no denominator: ' + none.score);
+  assert.strictEqual(none.capture, null, 'capture with no denominator: ' + none.capture);
+  assert(none.unavailable && /renter/.test(none.unavailableReason), 'says why it is withheld');
+  const known = scoreCaptureRisk({ renter_hh: 1000 }, 40, 0, null);
+  assert(Number.isFinite(known.score) && known.capture === 0.04, 'a real denominator still scores: ' + JSON.stringify(known));
+});
+
+test('a tract file with no generated stamp shows no date, never today', () => {
+  assert(!/'Data as of ' \+ new Date\(\)/.test(src), 'the timestamp falls back to today');
+  assert(/Data date unavailable/.test(src), 'the missing-date label is gone');
+});
+
 test('no renter count is no denominator, never the scoring placeholder of 1 or 0', () => {
   for (const cd of [{ value: 1, source: 'fallback_1' }, { value: 0, source: 'acs_total_renter_hh' }, { value: null, source: 'chas_lihtc_eligible' }, null]) {
     assert.strictEqual(captureDenominator({ captureDenominator: cd }), null, JSON.stringify(cd) + ' gave a denominator');

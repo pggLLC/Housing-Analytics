@@ -133,7 +133,10 @@
         for (var i = 0; i < fmr.counties.length; i++) {
           if (fmr.counties[i].fips === countyFips5) { amiByCounty = fmr.counties[i]; break; }
         }
-        fmrFy = (fmr.meta && fmr.meta.fiscal_year) ? 'FY' + fmr.meta.fiscal_year : 'FY2025';
+        // The AMI shown is an Income Limits figure, which HUD releases each
+        // April; the FMR fiscal year turns over every Oct 1, so it is not this
+        // figure's year.
+        fmrFy = (fmr.meta && fmr.meta.income_limits_fiscal_year) ? 'FY' + fmr.meta.income_limits_fiscal_year : '(year unavailable)';
       }
       var ami4 = amiByCounty && amiByCounty.income_limits ? amiByCounty.income_limits.ami_4person : null;
 
