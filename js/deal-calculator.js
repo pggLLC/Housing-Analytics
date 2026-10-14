@@ -4710,14 +4710,27 @@
     var label = place ? (rec.place_name || 'this jurisdiction')
                       : (rec.county_name || '');
     function shown(b) { return short[b] == null ? '—' : Math.round(short[b]).toLocaleString(); }
-    container.innerHTML =
-      '<strong style="color:var(--accent);">Affordability Gap — ' + label +
-      (kind === 'place' ? '<span style="color:var(--muted);font-weight:400"> · place-level</span>' : '') +
-      '</strong><br>' +
-      'Rental homes short, at least: ≤30% AMI: ' + shown('30') +
-      ' &bull; ≤50% AMI: ' + shown('50') +
-      ' &bull; ≤60% AMI: ' + shown('60') +
-      '<br><span style="font-size:0.95em">Each band includes the ones below it, and a home counts only for households who can afford its rent.</span>';
+    // Built from text nodes: the place and county names come from a data file.
+    container.textContent = '';
+    var head = document.createElement('strong');
+    head.style.color = 'var(--accent)';
+    head.textContent = 'Affordability Gap — ' + label;
+    if (kind === 'place') {
+      var lvl = document.createElement('span');
+      lvl.style.color = 'var(--muted)';
+      lvl.style.fontWeight = '400';
+      lvl.textContent = ' · place-level';
+      head.appendChild(lvl);
+    }
+    container.appendChild(head);
+    container.appendChild(document.createElement('br'));
+    container.appendChild(document.createTextNode('Rental homes short, at least: ≤30% AMI: ' + shown('30') +
+      ' • ≤50% AMI: ' + shown('50') + ' • ≤60% AMI: ' + shown('60')));
+    container.appendChild(document.createElement('br'));
+    var note = document.createElement('span');
+    note.style.fontSize = '0.95em';
+    note.textContent = 'Each band includes the ones below it, and a home counts only for households who can afford its rent.';
+    container.appendChild(note);
     container.hidden = false;
   }
 
