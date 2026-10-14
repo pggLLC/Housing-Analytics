@@ -51,6 +51,36 @@
       <div class="home-opening__grid">
       <div class="home-opening__text">
         <h1 id="home-heading">Housing with dignity starts with clear data, thoughtful planning, and better decisions about the places people call home.</h1>
+        <!-- Front door (2026-10-14 persona walk). On a phone the town search
+             used to sit below the first screen, and a pick opened a report
+             100+ screens long. Now the visitor says why they came, types a
+             town, and gets a short answer card read from that town's metrics
+             digest, with next steps for their door. The full report is one
+             link away. Logic and tests: js/home-jurisdiction-search.js,
+             test/home-answer-card.test.js. -->
+        <div class="home-doors">
+          <p class="home-doors__question" id="homeDoorsQuestion">What brings you here?</p>
+          <div class="home-doors__list" role="group" aria-labelledby="homeDoorsQuestion">
+            <button type="button" class="home-door" data-home-door="rent" aria-pressed="false">I rent or need a place</button>
+            <button type="button" class="home-door" data-home-door="council" aria-pressed="false">I serve on a council or board</button>
+            <button type="button" class="home-door" data-home-door="build" aria-pressed="false">I build housing</button>
+            <button type="button" class="home-door" data-home-door="analyze" aria-pressed="false">I study the data</button>
+          </div>
+          <div class="home-doors__search">
+            <label for="homeJurisdictionSearch" class="home-doors__label">
+              Type your town or county:
+            </label>
+            <input id="homeJurisdictionSearch" type="text"
+                   role="combobox" aria-expanded="false" aria-autocomplete="list"
+                   aria-controls="homeJurisdictionSearchResults"
+                   placeholder="e.g. Greeley, Cortez, Garfield County…"
+                   autocomplete="off" class="home-doors__input" />
+            <ul id="homeJurisdictionSearchResults" role="listbox" hidden
+                aria-label="Matching jurisdictions" class="home-doors__results">
+            </ul>
+          </div>
+          <section id="homeAnswerCard" class="home-answer" aria-live="polite" hidden></section>
+        </div>
         <p class="home-opening__lead">
           Across Colorado, roughly half of renters now spend more than 30% of every paycheck
           on rent (<a href="https://data.census.gov/table/ACSDT5Y2024.B25070" target="_blank" rel="noopener">ACS B25070</a>) &mdash; and counting homeowners
@@ -76,28 +106,6 @@
             <span style="font-size:1.1rem;">→</span>
             <span>Start a Housing Needs Assessment<span style="display:block;font-size:.82rem;font-weight:600;opacity:.85;">Step 1 &mdash; pick a Colorado jurisdiction</span></span>
           </a>
-          <!-- B-06/#1097 — inline jurisdiction search: lighter-weight complement
-               to the select-jurisdiction.html full-page flow. Registry loads
-               lazily on first focus; matches route to the interactive profile. -->
-          <div style="position:relative;margin-top:.9rem;max-width:420px;">
-            <label for="homeJurisdictionSearch"
-                   style="display:block;font-size:.85rem;font-weight:600;margin-bottom:.3rem;color:var(--muted,#555);">
-              Or search for your community directly:
-            </label>
-            <input id="homeJurisdictionSearch" type="text"
-                   role="combobox" aria-expanded="false" aria-autocomplete="list"
-                   aria-controls="homeJurisdictionSearchResults"
-                   placeholder="e.g. Aspen, Garfield County, Carbondale…"
-                   autocomplete="off"
-                   style="width:100%;padding:10px 14px;font-size:.95rem;border:1.5px solid var(--border,#c9d4d2);
-                          border-radius:8px;background:var(--bg,#fff);color:var(--text,#1a1a1a);min-height:44px;" />
-            <ul id="homeJurisdictionSearchResults" role="listbox" hidden
-                aria-label="Matching jurisdictions"
-                style="position:absolute;z-index:40;left:0;right:0;top:100%;margin:.25rem 0 0;padding:.25rem 0;
-                       list-style:none;background:var(--bg,#fff);border:1px solid var(--border,#c9d4d2);
-                       border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.12);max-height:320px;overflow-y:auto;">
-            </ul>
-          </div>
           <!-- The "compare all 546" route lives once, under the map (where the
                county shading makes it concrete). It used to appear three times
                on this page. -->
@@ -112,8 +120,8 @@
            and severity bands used throughout the site (Need Severity
            decision-strip tile, comparative ranking), not a separate metric
            invented for this map. Colors every county; click routes straight
-           into that county's Needs Assessment, same destination as the
-           jurisdiction search above. -->
+           into that county's Needs Assessment, the same report the town
+           answer card above links to. -->
       <div class="home-opening__map">
         <div id="homeNeedMap" role="img" aria-label="Map of Colorado counties shaded by housing need severity"></div>
         <!-- Literal hex, not var(--good)/var(--accent)/etc: those tokens are
