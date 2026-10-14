@@ -175,7 +175,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Deep affordability priority for City of Fort Collins. It classifies rental pressure as Very High, ownership pressure as Moderate, and identifies 12,402 moderate-income renter households as the ownership-fit base.",
+          "text": "The Affordable Ownership Need screening module recommends Deep affordability priority for City of Fort Collins. It classifies rental pressure as Very High, ownership pressure as Moderate, and identifies 12,394 moderate-income renter households as the ownership-fit base.",
           "cites": [
             "own1",
             "own2",
@@ -184,7 +184,7 @@
           ]
         },
         {
-          "text": "The same screening run counts 18,852 renter households and 7,314 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "text": "The same screening run counts 18,864 renter households and 7,320 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
           "cites": [
             "own5",
             "own6"
@@ -550,7 +550,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -559,7 +559,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -694,7 +694,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -703,7 +703,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -712,7 +712,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

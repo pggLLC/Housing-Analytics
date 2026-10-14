@@ -58,7 +58,7 @@
           ]
         },
         {
-          "text": "The same screening run counts 385 renter households and 1,066 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "text": "The same screening run counts 384 renter households and 1,062 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
           "cites": [
             "own5",
             "own6"
@@ -270,7 +270,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -279,7 +279,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -414,7 +414,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -423,7 +423,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -432,7 +432,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

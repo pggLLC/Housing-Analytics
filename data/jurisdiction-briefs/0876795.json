@@ -52,7 +52,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for Town of Telluride. It classifies rental pressure as Moderate, ownership pressure as Very High, and identifies 45 moderate-income renter households as the ownership-fit base.",
+          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for Town of Telluride. It classifies rental pressure as Moderate, ownership pressure as Very High, and identifies 40 moderate-income renter households as the ownership-fit base.",
           "cites": [
             "own1",
             "own2",
@@ -61,7 +61,7 @@
           ]
         },
         {
-          "text": "The same screening run counts 73 renter households and 283 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "text": "The same screening run counts 73 renter households and 281 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
           "cites": [
             "own5",
             "own6"
@@ -109,7 +109,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Town of Telluride at #33 with an overall housing-need score of 77.6. It identifies 4 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is suppressed because only 19 <=30% AMI households are observed, below the digest's 50-household reporting floor. 43.8% of renter households are cost burdened, and 0% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Town of Telluride at #33 with an overall housing-need score of 77.8. It identifies 4 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is suppressed because only 19 <=30% AMI households are observed, below the digest's 50-household reporting floor. 43.8% of renter households are cost burdened, and 0% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -295,7 +295,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -304,7 +304,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -430,7 +430,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -439,7 +439,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -448,7 +448,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-14T03:18:43Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
