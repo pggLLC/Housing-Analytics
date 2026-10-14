@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-13T14:18:28.030Z",
+    "generated_at": "2026-10-14T02:44:03.458Z",
     "root": "data/",
     "file_count": 1712,
-    "total_size_bytes": 180288006,
+    "total_size_bytes": 180288036,
     "kinds": {
       "json": 1675,
       "geojson": 33,
@@ -29454,8 +29454,8 @@
     {
       "path": "hud-fmr-income-limits.json",
       "kind": "json",
-      "size_bytes": 102607,
-      "mtime": "2026-10-12T05:55:05.162Z",
+      "size_bytes": 102600,
+      "mtime": "2026-10-14T02:43:55.456Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -30605,7 +30605,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 217601,
-      "mtime": "2026-10-13T14:18:25.547Z",
+      "mtime": "2026-10-14T02:44:00.914Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31177,8 +31177,8 @@
     {
       "path": "market/fmr_co.json",
       "kind": "json",
-      "size_bytes": 22697,
-      "mtime": "2026-10-05T11:42:33.295Z",
+      "size_bytes": 22741,
+      "mtime": "2026-10-14T02:43:55.452Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31192,8 +31192,8 @@
     {
       "path": "market/fmr_tract_map_co.json",
       "kind": "json",
-      "size_bytes": 103495,
-      "mtime": "2026-10-12T05:55:05.163Z",
+      "size_bytes": 103488,
+      "mtime": "2026-10-14T02:43:55.460Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31321,7 +31321,7 @@
       "path": "market/hud_zip_tract_crosswalk_co.json",
       "kind": "json",
       "size_bytes": 794427,
-      "mtime": "2026-10-05T11:42:34.050Z",
+      "mtime": "2026-10-14T02:43:56.234Z",
       "shape": "object",
       "keys": [
         "meta",

@@ -655,7 +655,7 @@
         lehd:         lehdYear !== null ? 'LEHD LODES WAC ' + lehdYear : 'LEHD LODES WAC (year unavailable: no LEHD data loaded for this geography)',
         lehdYear:     lehdYear,
         dola:         'DOLA SYA 2024',
-        fmr:          'HUD FMR FY2026',
+        fmr:          'HUD FMR FY2027',
         incomeLimits: 'HUD MTSP FY2026 county Income Limits',
         rankingIndex: idxRec && idxRec._metadata && idxRec._metadata.builtAt || null,
         combined: combinedResult ? 'current combined result' : null,

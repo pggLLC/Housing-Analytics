@@ -1,15 +1,15 @@
 {
   "meta": {
-    "source": "HUD FMR FY2026 and Income Limits FY2026",
+    "source": "HUD FMR FY2027 and Income Limits FY2026",
     "url_fmr": "https://www.huduser.gov/portal/datasets/fmr.html",
     "url_il": "https://www.huduser.gov/portal/datasets/il.html",
-    "fiscal_year": 2026,
+    "fiscal_year": 2027,
     "income_limits_fiscal_year": 2026,
     "state": "Colorado",
     "state_fips": "08",
-    "generated": "2026-10-05T11:42:33Z",
+    "generated": "2026-10-14T02:43:55Z",
     "county_count": 64,
-    "note": "FY2026 Fair Market Rents and FY2026 Income Limits for Colorado counties. Includes 60% AMI affordable rent calculations for LIHTC use. Refresh annually with scripts/fetch_fmr_api.py."
+    "note": "FY2027 Fair Market Rents and FY2026 Income Limits for Colorado counties. Includes 60% AMI affordable rent calculations for LIHTC use. Refresh annually with scripts/fetch_fmr_api.py."
   },
   "counties": [
     {
@@ -18,11 +18,11 @@
       "fmr_area_name": "Boulder HUD Metro FMR Area",
       "fmr_area_code": "METRO14500CO",
       "fmr": {
-        "efficiency": 1553,
-        "one_br": 1795,
-        "two_br": 2124,
-        "three_br": 2820,
-        "four_br": 3239
+        "efficiency": 1520,
+        "one_br": 1735,
+        "two_br": 2033,
+        "three_br": 2703,
+        "four_br": 3146
       },
       "income_limits": {
         "ami_4person": 150000,
@@ -47,26 +47,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1570,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1553,
-          "pct_of_fmr": 101.1
+          "fmr_amount": 1520,
+          "pct_of_fmr": 103.3
         },
         "rent_60pct_2person": {
           "gross_rent": 1800,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1795,
-          "pct_of_fmr": 100.3
+          "fmr_amount": 1735,
+          "pct_of_fmr": 103.7
         },
         "rent_60pct_3person": {
           "gross_rent": 2020,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2124,
-          "pct_of_fmr": 95.1
+          "fmr_amount": 2033,
+          "pct_of_fmr": 99.4
         },
         "rent_60pct_4person": {
           "gross_rent": 2250,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2820,
-          "pct_of_fmr": 79.8
+          "fmr_amount": 2703,
+          "pct_of_fmr": 83.2
         }
       }
     },
@@ -76,11 +76,11 @@
       "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
       "fmr_area_code": "METRO17820CO",
       "fmr": {
-        "efficiency": 1196,
-        "one_br": 1464,
-        "two_br": 1735,
-        "three_br": 2413,
-        "four_br": 2744
+        "efficiency": 1129,
+        "one_br": 1380,
+        "two_br": 1621,
+        "three_br": 2245,
+        "four_br": 2574
       },
       "income_limits": {
         "ami_4person": 116400,
@@ -105,84 +105,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1220,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1196,
-          "pct_of_fmr": 102.0
+          "fmr_amount": 1129,
+          "pct_of_fmr": 108.1
         },
         "rent_60pct_2person": {
           "gross_rent": 1400,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1464,
-          "pct_of_fmr": 95.6
+          "fmr_amount": 1380,
+          "pct_of_fmr": 101.4
         },
         "rent_60pct_3person": {
           "gross_rent": 1570,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1735,
-          "pct_of_fmr": 90.5
+          "fmr_amount": 1621,
+          "pct_of_fmr": 96.9
         },
         "rent_60pct_4person": {
           "gross_rent": 1750,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2413,
-          "pct_of_fmr": 72.5
-        }
-      }
-    },
-    {
-      "fips": "08119",
-      "county_name": "Teller County",
-      "fmr_area_name": "Teller County HUD Metro FMR Area",
-      "fmr_area_code": "METRO17820N08119",
-      "fmr": {
-        "efficiency": 1029,
-        "one_br": 1362,
-        "two_br": 1493,
-        "three_br": 2076,
-        "four_br": 2505
-      },
-      "income_limits": {
-        "ami_4person": 112600,
-        "il30_1person": 23650,
-        "il30_2person": 27000,
-        "il30_3person": 30400,
-        "il30_4person": 33800,
-        "il50_1person": 39400,
-        "il50_2person": 45050,
-        "il50_3person": 50650,
-        "il50_4person": 56300,
-        "il60_1person": 47300,
-        "il60_2person": 54050,
-        "il60_3person": 60800,
-        "il60_4person": 67550,
-        "il80_1person": 63050,
-        "il80_2person": 72050,
-        "il80_3person": 81050,
-        "il80_4person": 90100
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1180,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 1029,
-          "pct_of_fmr": 114.7
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1350,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 1362,
-          "pct_of_fmr": 99.1
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1520,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1493,
-          "pct_of_fmr": 101.8
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1690,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 2076,
-          "pct_of_fmr": 81.4
+          "fmr_amount": 2245,
+          "pct_of_fmr": 78.0
         }
       }
     },
@@ -192,11 +134,11 @@
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
       "fmr": {
-        "efficiency": 1643,
-        "one_br": 1754,
-        "two_br": 2089,
-        "three_br": 2734,
-        "four_br": 3049
+        "efficiency": 1751,
+        "one_br": 1831,
+        "two_br": 2169,
+        "three_br": 2846,
+        "four_br": 3183
       },
       "income_limits": {
         "ami_4person": 144000,
@@ -221,26 +163,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1643,
-          "pct_of_fmr": 91.9
+          "fmr_amount": 1751,
+          "pct_of_fmr": 86.2
         },
         "rent_60pct_2person": {
           "gross_rent": 1730,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1754,
-          "pct_of_fmr": 98.6
+          "fmr_amount": 1831,
+          "pct_of_fmr": 94.5
         },
         "rent_60pct_3person": {
           "gross_rent": 1940,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2089,
-          "pct_of_fmr": 92.9
+          "fmr_amount": 2169,
+          "pct_of_fmr": 89.4
         },
         "rent_60pct_4person": {
           "gross_rent": 2160,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2734,
-          "pct_of_fmr": 79.0
+          "fmr_amount": 2846,
+          "pct_of_fmr": 75.9
         }
       }
     },
@@ -250,11 +192,11 @@
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
       "fmr": {
-        "efficiency": 1643,
-        "one_br": 1754,
-        "two_br": 2089,
-        "three_br": 2734,
-        "four_br": 3049
+        "efficiency": 1751,
+        "one_br": 1831,
+        "two_br": 2169,
+        "three_br": 2846,
+        "four_br": 3183
       },
       "income_limits": {
         "ami_4person": 144000,
@@ -279,26 +221,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1643,
-          "pct_of_fmr": 91.9
+          "fmr_amount": 1751,
+          "pct_of_fmr": 86.2
         },
         "rent_60pct_2person": {
           "gross_rent": 1730,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1754,
-          "pct_of_fmr": 98.6
+          "fmr_amount": 1831,
+          "pct_of_fmr": 94.5
         },
         "rent_60pct_3person": {
           "gross_rent": 1940,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2089,
-          "pct_of_fmr": 92.9
+          "fmr_amount": 2169,
+          "pct_of_fmr": 89.4
         },
         "rent_60pct_4person": {
           "gross_rent": 2160,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2734,
-          "pct_of_fmr": 79.0
+          "fmr_amount": 2846,
+          "pct_of_fmr": 75.9
         }
       }
     },
@@ -308,11 +250,11 @@
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
       "fmr": {
-        "efficiency": 1643,
-        "one_br": 1754,
-        "two_br": 2089,
-        "three_br": 2734,
-        "four_br": 3049
+        "efficiency": 1751,
+        "one_br": 1831,
+        "two_br": 2169,
+        "three_br": 2846,
+        "four_br": 3183
       },
       "income_limits": {
         "ami_4person": 144000,
@@ -337,26 +279,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1643,
-          "pct_of_fmr": 91.9
+          "fmr_amount": 1751,
+          "pct_of_fmr": 86.2
         },
         "rent_60pct_2person": {
           "gross_rent": 1730,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1754,
-          "pct_of_fmr": 98.6
+          "fmr_amount": 1831,
+          "pct_of_fmr": 94.5
         },
         "rent_60pct_3person": {
           "gross_rent": 1940,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2089,
-          "pct_of_fmr": 92.9
+          "fmr_amount": 2169,
+          "pct_of_fmr": 89.4
         },
         "rent_60pct_4person": {
           "gross_rent": 2160,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2734,
-          "pct_of_fmr": 79.0
+          "fmr_amount": 2846,
+          "pct_of_fmr": 75.9
         }
       }
     },
@@ -366,11 +308,11 @@
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
       "fmr": {
-        "efficiency": 1643,
-        "one_br": 1754,
-        "two_br": 2089,
-        "three_br": 2734,
-        "four_br": 3049
+        "efficiency": 1751,
+        "one_br": 1831,
+        "two_br": 2169,
+        "three_br": 2846,
+        "four_br": 3183
       },
       "income_limits": {
         "ami_4person": 144000,
@@ -395,26 +337,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1643,
-          "pct_of_fmr": 91.9
+          "fmr_amount": 1751,
+          "pct_of_fmr": 86.2
         },
         "rent_60pct_2person": {
           "gross_rent": 1730,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1754,
-          "pct_of_fmr": 98.6
+          "fmr_amount": 1831,
+          "pct_of_fmr": 94.5
         },
         "rent_60pct_3person": {
           "gross_rent": 1940,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2089,
-          "pct_of_fmr": 92.9
+          "fmr_amount": 2169,
+          "pct_of_fmr": 89.4
         },
         "rent_60pct_4person": {
           "gross_rent": 2160,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2734,
-          "pct_of_fmr": 79.0
+          "fmr_amount": 2846,
+          "pct_of_fmr": 75.9
         }
       }
     },
@@ -424,11 +366,11 @@
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
       "fmr": {
-        "efficiency": 1643,
-        "one_br": 1754,
-        "two_br": 2089,
-        "three_br": 2734,
-        "four_br": 3049
+        "efficiency": 1751,
+        "one_br": 1831,
+        "two_br": 2169,
+        "three_br": 2846,
+        "four_br": 3183
       },
       "income_limits": {
         "ami_4person": 144000,
@@ -453,26 +395,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1643,
-          "pct_of_fmr": 91.9
+          "fmr_amount": 1751,
+          "pct_of_fmr": 86.2
         },
         "rent_60pct_2person": {
           "gross_rent": 1730,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1754,
-          "pct_of_fmr": 98.6
+          "fmr_amount": 1831,
+          "pct_of_fmr": 94.5
         },
         "rent_60pct_3person": {
           "gross_rent": 1940,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2089,
-          "pct_of_fmr": 92.9
+          "fmr_amount": 2169,
+          "pct_of_fmr": 89.4
         },
         "rent_60pct_4person": {
           "gross_rent": 2160,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2734,
-          "pct_of_fmr": 79.0
+          "fmr_amount": 2846,
+          "pct_of_fmr": 75.9
         }
       }
     },
@@ -482,11 +424,11 @@
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
       "fmr": {
-        "efficiency": 1643,
-        "one_br": 1754,
-        "two_br": 2089,
-        "three_br": 2734,
-        "four_br": 3049
+        "efficiency": 1751,
+        "one_br": 1831,
+        "two_br": 2169,
+        "three_br": 2846,
+        "four_br": 3183
       },
       "income_limits": {
         "ami_4person": 144000,
@@ -511,26 +453,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1643,
-          "pct_of_fmr": 91.9
+          "fmr_amount": 1751,
+          "pct_of_fmr": 86.2
         },
         "rent_60pct_2person": {
           "gross_rent": 1730,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1754,
-          "pct_of_fmr": 98.6
+          "fmr_amount": 1831,
+          "pct_of_fmr": 94.5
         },
         "rent_60pct_3person": {
           "gross_rent": 1940,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2089,
-          "pct_of_fmr": 92.9
+          "fmr_amount": 2169,
+          "pct_of_fmr": 89.4
         },
         "rent_60pct_4person": {
           "gross_rent": 2160,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2734,
-          "pct_of_fmr": 79.0
+          "fmr_amount": 2846,
+          "pct_of_fmr": 75.9
         }
       }
     },
@@ -540,11 +482,11 @@
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
       "fmr": {
-        "efficiency": 1643,
-        "one_br": 1754,
-        "two_br": 2089,
-        "three_br": 2734,
-        "four_br": 3049
+        "efficiency": 1751,
+        "one_br": 1831,
+        "two_br": 2169,
+        "three_br": 2846,
+        "four_br": 3183
       },
       "income_limits": {
         "ami_4person": 144000,
@@ -569,26 +511,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1643,
-          "pct_of_fmr": 91.9
+          "fmr_amount": 1751,
+          "pct_of_fmr": 86.2
         },
         "rent_60pct_2person": {
           "gross_rent": 1730,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1754,
-          "pct_of_fmr": 98.6
+          "fmr_amount": 1831,
+          "pct_of_fmr": 94.5
         },
         "rent_60pct_3person": {
           "gross_rent": 1940,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2089,
-          "pct_of_fmr": 92.9
+          "fmr_amount": 2169,
+          "pct_of_fmr": 89.4
         },
         "rent_60pct_4person": {
           "gross_rent": 2160,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2734,
-          "pct_of_fmr": 79.0
+          "fmr_amount": 2846,
+          "pct_of_fmr": 75.9
         }
       }
     },
@@ -598,11 +540,11 @@
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
       "fmr": {
-        "efficiency": 1643,
-        "one_br": 1754,
-        "two_br": 2089,
-        "three_br": 2734,
-        "four_br": 3049
+        "efficiency": 1751,
+        "one_br": 1831,
+        "two_br": 2169,
+        "three_br": 2846,
+        "four_br": 3183
       },
       "income_limits": {
         "ami_4person": 144000,
@@ -627,26 +569,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1643,
-          "pct_of_fmr": 91.9
+          "fmr_amount": 1751,
+          "pct_of_fmr": 86.2
         },
         "rent_60pct_2person": {
           "gross_rent": 1730,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1754,
-          "pct_of_fmr": 98.6
+          "fmr_amount": 1831,
+          "pct_of_fmr": 94.5
         },
         "rent_60pct_3person": {
           "gross_rent": 1940,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2089,
-          "pct_of_fmr": 92.9
+          "fmr_amount": 2169,
+          "pct_of_fmr": 89.4
         },
         "rent_60pct_4person": {
           "gross_rent": 2160,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2734,
-          "pct_of_fmr": 79.0
+          "fmr_amount": 2846,
+          "pct_of_fmr": 75.9
         }
       }
     },
@@ -656,11 +598,11 @@
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
       "fmr": {
-        "efficiency": 1643,
-        "one_br": 1754,
-        "two_br": 2089,
-        "three_br": 2734,
-        "four_br": 3049
+        "efficiency": 1751,
+        "one_br": 1831,
+        "two_br": 2169,
+        "three_br": 2846,
+        "four_br": 3183
       },
       "income_limits": {
         "ami_4person": 144000,
@@ -685,26 +627,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1643,
-          "pct_of_fmr": 91.9
+          "fmr_amount": 1751,
+          "pct_of_fmr": 86.2
         },
         "rent_60pct_2person": {
           "gross_rent": 1730,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1754,
-          "pct_of_fmr": 98.6
+          "fmr_amount": 1831,
+          "pct_of_fmr": 94.5
         },
         "rent_60pct_3person": {
           "gross_rent": 1940,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2089,
-          "pct_of_fmr": 92.9
+          "fmr_amount": 2169,
+          "pct_of_fmr": 89.4
         },
         "rent_60pct_4person": {
           "gross_rent": 2160,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2734,
-          "pct_of_fmr": 79.0
+          "fmr_amount": 2846,
+          "pct_of_fmr": 75.9
         }
       }
     },
@@ -714,11 +656,11 @@
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr_area_code": "METRO19740CO",
       "fmr": {
-        "efficiency": 1643,
-        "one_br": 1754,
-        "two_br": 2089,
-        "three_br": 2734,
-        "four_br": 3049
+        "efficiency": 1751,
+        "one_br": 1831,
+        "two_br": 2169,
+        "three_br": 2846,
+        "four_br": 3183
       },
       "income_limits": {
         "ami_4person": 144000,
@@ -743,26 +685,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1643,
-          "pct_of_fmr": 91.9
+          "fmr_amount": 1751,
+          "pct_of_fmr": 86.2
         },
         "rent_60pct_2person": {
           "gross_rent": 1730,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1754,
-          "pct_of_fmr": 98.6
+          "fmr_amount": 1831,
+          "pct_of_fmr": 94.5
         },
         "rent_60pct_3person": {
           "gross_rent": 1940,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2089,
-          "pct_of_fmr": 92.9
+          "fmr_amount": 2169,
+          "pct_of_fmr": 89.4
         },
         "rent_60pct_4person": {
           "gross_rent": 2160,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2734,
-          "pct_of_fmr": 79.0
+          "fmr_amount": 2846,
+          "pct_of_fmr": 75.9
         }
       }
     },
@@ -772,11 +714,11 @@
       "fmr_area_name": "Fort Collins HUD Metro FMR Area",
       "fmr_area_code": "METRO22660CO",
       "fmr": {
-        "efficiency": 1509,
-        "one_br": 1537,
-        "two_br": 1732,
-        "three_br": 2385,
-        "four_br": 2540
+        "efficiency": 1551,
+        "one_br": 1589,
+        "two_br": 1759,
+        "three_br": 2379,
+        "four_br": 2576
       },
       "income_limits": {
         "ami_4person": 130400,
@@ -801,26 +743,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1370,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1509,
-          "pct_of_fmr": 90.8
+          "fmr_amount": 1551,
+          "pct_of_fmr": 88.3
         },
         "rent_60pct_2person": {
           "gross_rent": 1560,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1537,
-          "pct_of_fmr": 101.5
+          "fmr_amount": 1589,
+          "pct_of_fmr": 98.2
         },
         "rent_60pct_3person": {
           "gross_rent": 1760,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1732,
-          "pct_of_fmr": 101.6
+          "fmr_amount": 1759,
+          "pct_of_fmr": 100.1
         },
         "rent_60pct_4person": {
           "gross_rent": 1960,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2385,
-          "pct_of_fmr": 82.2
+          "fmr_amount": 2379,
+          "pct_of_fmr": 82.4
         }
       }
     },
@@ -830,11 +772,11 @@
       "fmr_area_name": "Greeley HUD Metro FMR Area",
       "fmr_area_code": "METRO24540CO",
       "fmr": {
-        "efficiency": 1171,
-        "one_br": 1238,
-        "two_br": 1563,
-        "three_br": 2174,
-        "four_br": 2590
+        "efficiency": 1240,
+        "one_br": 1307,
+        "two_br": 1647,
+        "three_br": 2281,
+        "four_br": 2753
       },
       "income_limits": {
         "ami_4person": 128000,
@@ -859,26 +801,84 @@
         "rent_60pct_1person": {
           "gross_rent": 1340,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1171,
-          "pct_of_fmr": 114.4
+          "fmr_amount": 1240,
+          "pct_of_fmr": 108.1
         },
         "rent_60pct_2person": {
           "gross_rent": 1540,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1238,
-          "pct_of_fmr": 124.4
+          "fmr_amount": 1307,
+          "pct_of_fmr": 117.8
         },
         "rent_60pct_3person": {
           "gross_rent": 1730,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1563,
-          "pct_of_fmr": 110.7
+          "fmr_amount": 1647,
+          "pct_of_fmr": 105.0
         },
         "rent_60pct_4person": {
           "gross_rent": 1920,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2174,
-          "pct_of_fmr": 88.3
+          "fmr_amount": 2281,
+          "pct_of_fmr": 84.2
+        }
+      }
+    },
+    {
+      "fips": "08119",
+      "county_name": "Teller County",
+      "fmr_area_name": "Teller County HUD Metro FMR Area",
+      "fmr_area_code": "METRO17820N08119",
+      "fmr": {
+        "efficiency": 1026,
+        "one_br": 1354,
+        "two_br": 1474,
+        "three_br": 2041,
+        "four_br": 2346
+      },
+      "income_limits": {
+        "ami_4person": 112600,
+        "il30_1person": 23650,
+        "il30_2person": 27000,
+        "il30_3person": 30400,
+        "il30_4person": 33800,
+        "il50_1person": 39400,
+        "il50_2person": 45050,
+        "il50_3person": 50650,
+        "il50_4person": 56300,
+        "il60_1person": 47300,
+        "il60_2person": 54050,
+        "il60_3person": 60800,
+        "il60_4person": 67550,
+        "il80_1person": 63050,
+        "il80_2person": 72050,
+        "il80_3person": 81050,
+        "il80_4person": 90100
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1180,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1026,
+          "pct_of_fmr": 115.0
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1350,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1354,
+          "pct_of_fmr": 99.7
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1520,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1474,
+          "pct_of_fmr": 103.1
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1690,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 2041,
+          "pct_of_fmr": 82.8
         }
       }
     },
@@ -888,11 +888,11 @@
       "fmr_area_name": "Alamosa County FMR Area",
       "fmr_area_code": "NCNTY08003N08003",
       "fmr": {
-        "efficiency": 766,
-        "one_br": 833,
-        "two_br": 999,
-        "three_br": 1389,
-        "four_br": 1676
+        "efficiency": 853,
+        "one_br": 949,
+        "two_br": 1149,
+        "three_br": 1570,
+        "four_br": 1920
       },
       "income_limits": {
         "ami_4person": 69600,
@@ -917,26 +917,26 @@
         "rent_60pct_1person": {
           "gross_rent": 730,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 766,
-          "pct_of_fmr": 95.3
+          "fmr_amount": 853,
+          "pct_of_fmr": 85.6
         },
         "rent_60pct_2person": {
           "gross_rent": 840,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 833,
-          "pct_of_fmr": 100.8
+          "fmr_amount": 949,
+          "pct_of_fmr": 88.5
         },
         "rent_60pct_3person": {
           "gross_rent": 940,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 999,
-          "pct_of_fmr": 94.1
+          "fmr_amount": 1149,
+          "pct_of_fmr": 81.8
         },
         "rent_60pct_4person": {
           "gross_rent": 1040,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1389,
-          "pct_of_fmr": 74.9
+          "fmr_amount": 1570,
+          "pct_of_fmr": 66.2
         }
       }
     },
@@ -946,11 +946,11 @@
       "fmr_area_name": "Archuleta County FMR Area",
       "fmr_area_code": "NCNTY08007N08007",
       "fmr": {
-        "efficiency": 1134,
-        "one_br": 1141,
-        "two_br": 1337,
-        "three_br": 1859,
-        "four_br": 2243
+        "efficiency": 1253,
+        "one_br": 1260,
+        "two_br": 1542,
+        "three_br": 2135,
+        "four_br": 2577
       },
       "income_limits": {
         "ami_4person": 98300,
@@ -975,26 +975,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1030,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1134,
-          "pct_of_fmr": 90.8
+          "fmr_amount": 1253,
+          "pct_of_fmr": 82.2
         },
         "rent_60pct_2person": {
           "gross_rent": 1180,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1141,
-          "pct_of_fmr": 103.4
+          "fmr_amount": 1260,
+          "pct_of_fmr": 93.7
         },
         "rent_60pct_3person": {
           "gross_rent": 1330,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1337,
-          "pct_of_fmr": 99.5
+          "fmr_amount": 1542,
+          "pct_of_fmr": 86.3
         },
         "rent_60pct_4person": {
           "gross_rent": 1470,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1859,
-          "pct_of_fmr": 79.1
+          "fmr_amount": 2135,
+          "pct_of_fmr": 68.9
         }
       }
     },
@@ -1004,11 +1004,11 @@
       "fmr_area_name": "Baca County FMR Area",
       "fmr_area_code": "NCNTY08009N08009",
       "fmr": {
-        "efficiency": 746,
-        "one_br": 771,
-        "two_br": 973,
-        "three_br": 1353,
-        "four_br": 1525
+        "efficiency": 753,
+        "one_br": 775,
+        "two_br": 1014,
+        "three_br": 1404,
+        "four_br": 1575
       },
       "income_limits": {
         "ami_4person": 70600,
@@ -1033,26 +1033,26 @@
         "rent_60pct_1person": {
           "gross_rent": 740,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 746,
-          "pct_of_fmr": 99.2
+          "fmr_amount": 753,
+          "pct_of_fmr": 98.3
         },
         "rent_60pct_2person": {
           "gross_rent": 850,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 771,
-          "pct_of_fmr": 110.2
+          "fmr_amount": 775,
+          "pct_of_fmr": 109.7
         },
         "rent_60pct_3person": {
           "gross_rent": 950,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 973,
-          "pct_of_fmr": 97.6
+          "fmr_amount": 1014,
+          "pct_of_fmr": 93.7
         },
         "rent_60pct_4person": {
           "gross_rent": 1060,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1353,
-          "pct_of_fmr": 78.3
+          "fmr_amount": 1404,
+          "pct_of_fmr": 75.5
         }
       }
     },
@@ -1062,11 +1062,11 @@
       "fmr_area_name": "Bent County FMR Area",
       "fmr_area_code": "NCNTY08011N08011",
       "fmr": {
-        "efficiency": 772,
-        "one_br": 777,
-        "two_br": 1019,
-        "three_br": 1417,
-        "four_br": 1598
+        "efficiency": 854,
+        "one_br": 879,
+        "two_br": 1150,
+        "three_br": 1592,
+        "four_br": 1786
       },
       "income_limits": {
         "ami_4person": 67100,
@@ -1091,26 +1091,26 @@
         "rent_60pct_1person": {
           "gross_rent": 700,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 772,
-          "pct_of_fmr": 90.7
+          "fmr_amount": 854,
+          "pct_of_fmr": 82.0
         },
         "rent_60pct_2person": {
           "gross_rent": 810,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 777,
-          "pct_of_fmr": 104.2
+          "fmr_amount": 879,
+          "pct_of_fmr": 92.2
         },
         "rent_60pct_3person": {
           "gross_rent": 910,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1019,
-          "pct_of_fmr": 89.3
+          "fmr_amount": 1150,
+          "pct_of_fmr": 79.1
         },
         "rent_60pct_4person": {
           "gross_rent": 1010,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1417,
-          "pct_of_fmr": 71.3
+          "fmr_amount": 1592,
+          "pct_of_fmr": 63.4
         }
       }
     },
@@ -1120,11 +1120,11 @@
       "fmr_area_name": "Chaffee County FMR Area",
       "fmr_area_code": "NCNTY08015N08015",
       "fmr": {
-        "efficiency": 1110,
-        "one_br": 1117,
-        "two_br": 1466,
-        "three_br": 2039,
-        "four_br": 2298
+        "efficiency": 1304,
+        "one_br": 1342,
+        "two_br": 1755,
+        "three_br": 2362,
+        "four_br": 2725
       },
       "income_limits": {
         "ami_4person": 111100,
@@ -1149,26 +1149,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1170,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1110,
-          "pct_of_fmr": 105.4
+          "fmr_amount": 1304,
+          "pct_of_fmr": 89.7
         },
         "rent_60pct_2person": {
           "gross_rent": 1330,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1117,
-          "pct_of_fmr": 119.1
+          "fmr_amount": 1342,
+          "pct_of_fmr": 99.1
         },
         "rent_60pct_3person": {
           "gross_rent": 1500,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1466,
-          "pct_of_fmr": 102.3
+          "fmr_amount": 1755,
+          "pct_of_fmr": 85.5
         },
         "rent_60pct_4person": {
           "gross_rent": 1670,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2039,
-          "pct_of_fmr": 81.9
+          "fmr_amount": 2362,
+          "pct_of_fmr": 70.7
         }
       }
     },
@@ -1178,11 +1178,11 @@
       "fmr_area_name": "Cheyenne County FMR Area",
       "fmr_area_code": "NCNTY08017N08017",
       "fmr": {
-        "efficiency": 790,
-        "one_br": 796,
-        "two_br": 1044,
-        "three_br": 1343,
-        "four_br": 1637
+        "efficiency": 867,
+        "one_br": 898,
+        "two_br": 1167,
+        "three_br": 1545,
+        "four_br": 1812
       },
       "income_limits": {
         "ami_4person": 84500,
@@ -1207,26 +1207,26 @@
         "rent_60pct_1person": {
           "gross_rent": 890,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 790,
-          "pct_of_fmr": 112.7
+          "fmr_amount": 867,
+          "pct_of_fmr": 102.7
         },
         "rent_60pct_2person": {
           "gross_rent": 1010,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 796,
-          "pct_of_fmr": 126.9
+          "fmr_amount": 898,
+          "pct_of_fmr": 112.5
         },
         "rent_60pct_3person": {
           "gross_rent": 1140,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1044,
-          "pct_of_fmr": 109.2
+          "fmr_amount": 1167,
+          "pct_of_fmr": 97.7
         },
         "rent_60pct_4person": {
           "gross_rent": 1270,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1343,
-          "pct_of_fmr": 94.6
+          "fmr_amount": 1545,
+          "pct_of_fmr": 82.2
         }
       }
     },
@@ -1236,11 +1236,11 @@
       "fmr_area_name": "Conejos County FMR Area",
       "fmr_area_code": "NCNTY08021N08021",
       "fmr": {
-        "efficiency": 746,
-        "one_br": 865,
-        "two_br": 973,
-        "three_br": 1332,
-        "four_br": 1336
+        "efficiency": 753,
+        "one_br": 922,
+        "two_br": 1014,
+        "three_br": 1390,
+        "four_br": 1395
       },
       "income_limits": {
         "ami_4person": 75700,
@@ -1265,26 +1265,26 @@
         "rent_60pct_1person": {
           "gross_rent": 790,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 746,
-          "pct_of_fmr": 105.9
+          "fmr_amount": 753,
+          "pct_of_fmr": 104.9
         },
         "rent_60pct_2person": {
           "gross_rent": 910,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 865,
-          "pct_of_fmr": 105.2
+          "fmr_amount": 922,
+          "pct_of_fmr": 98.7
         },
         "rent_60pct_3person": {
           "gross_rent": 1020,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 973,
-          "pct_of_fmr": 104.8
+          "fmr_amount": 1014,
+          "pct_of_fmr": 100.6
         },
         "rent_60pct_4person": {
           "gross_rent": 1140,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1332,
-          "pct_of_fmr": 85.6
+          "fmr_amount": 1390,
+          "pct_of_fmr": 82.0
         }
       }
     },
@@ -1294,11 +1294,11 @@
       "fmr_area_name": "Costilla County FMR Area",
       "fmr_area_code": "NCNTY08023N08023",
       "fmr": {
-        "efficiency": 737,
-        "one_br": 742,
-        "two_br": 973,
-        "three_br": 1353,
-        "four_br": 1525
+        "efficiency": 753,
+        "one_br": 781,
+        "two_br": 1014,
+        "three_br": 1404,
+        "four_br": 1575
       },
       "income_limits": {
         "ami_4person": 52800,
@@ -1323,26 +1323,26 @@
         "rent_60pct_1person": {
           "gross_rent": 550,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 737,
-          "pct_of_fmr": 74.6
+          "fmr_amount": 753,
+          "pct_of_fmr": 73.0
         },
         "rent_60pct_2person": {
           "gross_rent": 630,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 742,
-          "pct_of_fmr": 84.9
+          "fmr_amount": 781,
+          "pct_of_fmr": 80.7
         },
         "rent_60pct_3person": {
           "gross_rent": 710,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 973,
-          "pct_of_fmr": 73.0
+          "fmr_amount": 1014,
+          "pct_of_fmr": 70.0
         },
         "rent_60pct_4person": {
           "gross_rent": 790,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1353,
-          "pct_of_fmr": 58.4
+          "fmr_amount": 1404,
+          "pct_of_fmr": 56.3
         }
       }
     },
@@ -1352,11 +1352,11 @@
       "fmr_area_name": "Crowley County FMR Area",
       "fmr_area_code": "NCNTY08025N08025",
       "fmr": {
-        "efficiency": 976,
-        "one_br": 982,
-        "two_br": 1289,
-        "three_br": 1546,
-        "four_br": 2021
+        "efficiency": 1044,
+        "one_br": 1074,
+        "two_br": 1405,
+        "three_br": 1674,
+        "four_br": 2182
       },
       "income_limits": {
         "ami_4person": 69500,
@@ -1381,26 +1381,26 @@
         "rent_60pct_1person": {
           "gross_rent": 730,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 976,
-          "pct_of_fmr": 74.8
+          "fmr_amount": 1044,
+          "pct_of_fmr": 69.9
         },
         "rent_60pct_2person": {
           "gross_rent": 830,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 982,
-          "pct_of_fmr": 84.5
+          "fmr_amount": 1074,
+          "pct_of_fmr": 77.3
         },
         "rent_60pct_3person": {
           "gross_rent": 940,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1289,
-          "pct_of_fmr": 72.9
+          "fmr_amount": 1405,
+          "pct_of_fmr": 66.9
         },
         "rent_60pct_4person": {
           "gross_rent": 1040,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1546,
-          "pct_of_fmr": 67.3
+          "fmr_amount": 1674,
+          "pct_of_fmr": 62.1
         }
       }
     },
@@ -1410,11 +1410,11 @@
       "fmr_area_name": "Custer County FMR Area",
       "fmr_area_code": "NCNTY08027N08027",
       "fmr": {
-        "efficiency": 853,
-        "one_br": 856,
-        "two_br": 1112,
-        "three_br": 1333,
-        "four_br": 1743
+        "efficiency": 893,
+        "one_br": 970,
+        "two_br": 1202,
+        "three_br": 1432,
+        "four_br": 1867
       },
       "income_limits": {
         "ami_4person": 85600,
@@ -1439,26 +1439,26 @@
         "rent_60pct_1person": {
           "gross_rent": 900,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 853,
-          "pct_of_fmr": 105.5
+          "fmr_amount": 893,
+          "pct_of_fmr": 100.8
         },
         "rent_60pct_2person": {
           "gross_rent": 1030,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 856,
-          "pct_of_fmr": 120.3
+          "fmr_amount": 970,
+          "pct_of_fmr": 106.2
         },
         "rent_60pct_3person": {
           "gross_rent": 1160,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1112,
-          "pct_of_fmr": 104.3
+          "fmr_amount": 1202,
+          "pct_of_fmr": 96.5
         },
         "rent_60pct_4person": {
           "gross_rent": 1280,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1333,
-          "pct_of_fmr": 96.0
+          "fmr_amount": 1432,
+          "pct_of_fmr": 89.4
         }
       }
     },
@@ -1468,11 +1468,11 @@
       "fmr_area_name": "Delta County FMR Area",
       "fmr_area_code": "NCNTY08029N08029",
       "fmr": {
-        "efficiency": 854,
-        "one_br": 865,
-        "two_br": 1114,
-        "three_br": 1537,
-        "four_br": 1869
+        "efficiency": 940,
+        "one_br": 972,
+        "two_br": 1266,
+        "three_br": 1753,
+        "four_br": 2105
       },
       "income_limits": {
         "ami_4person": 78600,
@@ -1497,26 +1497,26 @@
         "rent_60pct_1person": {
           "gross_rent": 830,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 854,
-          "pct_of_fmr": 97.2
+          "fmr_amount": 940,
+          "pct_of_fmr": 88.3
         },
         "rent_60pct_2person": {
           "gross_rent": 940,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 865,
-          "pct_of_fmr": 108.7
+          "fmr_amount": 972,
+          "pct_of_fmr": 96.7
         },
         "rent_60pct_3person": {
           "gross_rent": 1060,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1114,
-          "pct_of_fmr": 95.2
+          "fmr_amount": 1266,
+          "pct_of_fmr": 83.7
         },
         "rent_60pct_4person": {
           "gross_rent": 1180,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1537,
-          "pct_of_fmr": 76.8
+          "fmr_amount": 1753,
+          "pct_of_fmr": 67.3
         }
       }
     },
@@ -1526,11 +1526,11 @@
       "fmr_area_name": "Dolores County FMR Area",
       "fmr_area_code": "NCNTY08033N08033",
       "fmr": {
-        "efficiency": 855,
-        "one_br": 1017,
-        "two_br": 1115,
-        "three_br": 1423,
-        "four_br": 1748
+        "efficiency": 989,
+        "one_br": 1224,
+        "two_br": 1332,
+        "three_br": 1716,
+        "four_br": 2068
       },
       "income_limits": {
         "ami_4person": 88100,
@@ -1555,26 +1555,26 @@
         "rent_60pct_1person": {
           "gross_rent": 930,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 855,
-          "pct_of_fmr": 108.8
+          "fmr_amount": 989,
+          "pct_of_fmr": 94.0
         },
         "rent_60pct_2person": {
           "gross_rent": 1060,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1017,
-          "pct_of_fmr": 104.2
+          "fmr_amount": 1224,
+          "pct_of_fmr": 86.6
         },
         "rent_60pct_3person": {
           "gross_rent": 1190,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1115,
-          "pct_of_fmr": 106.7
+          "fmr_amount": 1332,
+          "pct_of_fmr": 89.3
         },
         "rent_60pct_4person": {
           "gross_rent": 1320,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1423,
-          "pct_of_fmr": 92.8
+          "fmr_amount": 1716,
+          "pct_of_fmr": 76.9
         }
       }
     },
@@ -1584,11 +1584,11 @@
       "fmr_area_name": "Edwards HUD Metro FMR Area",
       "fmr_area_code": "HMFA16620CO",
       "fmr": {
-        "efficiency": 1640,
-        "one_br": 1813,
-        "two_br": 2379,
-        "three_br": 2852,
-        "four_br": 3688
+        "efficiency": 1815,
+        "one_br": 1993,
+        "two_br": 2607,
+        "three_br": 3106,
+        "four_br": 4357
       },
       "income_limits": {
         "ami_4person": 125600,
@@ -1613,26 +1613,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1320,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1640,
-          "pct_of_fmr": 80.5
+          "fmr_amount": 1815,
+          "pct_of_fmr": 72.7
         },
         "rent_60pct_2person": {
           "gross_rent": 1510,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1813,
-          "pct_of_fmr": 83.3
+          "fmr_amount": 1993,
+          "pct_of_fmr": 75.8
         },
         "rent_60pct_3person": {
           "gross_rent": 1700,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2379,
-          "pct_of_fmr": 71.5
+          "fmr_amount": 2607,
+          "pct_of_fmr": 65.2
         },
         "rent_60pct_4person": {
           "gross_rent": 1880,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2852,
-          "pct_of_fmr": 65.9
+          "fmr_amount": 3106,
+          "pct_of_fmr": 60.5
         }
       }
     },
@@ -1642,11 +1642,11 @@
       "fmr_area_name": "Fremont County FMR Area",
       "fmr_area_code": "NCNTY08043N08043",
       "fmr": {
-        "efficiency": 942,
-        "one_br": 948,
-        "two_br": 1244,
-        "three_br": 1593,
-        "four_br": 1647
+        "efficiency": 1067,
+        "one_br": 1098,
+        "two_br": 1436,
+        "three_br": 1794,
+        "four_br": 2230
       },
       "income_limits": {
         "ami_4person": 87700,
@@ -1671,26 +1671,26 @@
         "rent_60pct_1person": {
           "gross_rent": 920,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 942,
-          "pct_of_fmr": 97.7
+          "fmr_amount": 1067,
+          "pct_of_fmr": 86.2
         },
         "rent_60pct_2person": {
           "gross_rent": 1050,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 948,
-          "pct_of_fmr": 110.8
+          "fmr_amount": 1098,
+          "pct_of_fmr": 95.6
         },
         "rent_60pct_3person": {
           "gross_rent": 1180,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1244,
-          "pct_of_fmr": 94.9
+          "fmr_amount": 1436,
+          "pct_of_fmr": 82.2
         },
         "rent_60pct_4person": {
           "gross_rent": 1320,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1593,
-          "pct_of_fmr": 82.9
+          "fmr_amount": 1794,
+          "pct_of_fmr": 73.6
         }
       }
     },
@@ -1700,11 +1700,11 @@
       "fmr_area_name": "Garfield County FMR Area",
       "fmr_area_code": "NCNTY08045N08045",
       "fmr": {
-        "efficiency": 1215,
-        "one_br": 1223,
-        "two_br": 1605,
-        "three_br": 2232,
-        "four_br": 2391
+        "efficiency": 1240,
+        "one_br": 1387,
+        "two_br": 1781,
+        "three_br": 2466,
+        "four_br": 2477
       },
       "income_limits": {
         "ami_4person": 114100,
@@ -1729,26 +1729,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1200,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1215,
-          "pct_of_fmr": 98.8
+          "fmr_amount": 1240,
+          "pct_of_fmr": 96.8
         },
         "rent_60pct_2person": {
           "gross_rent": 1370,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1223,
-          "pct_of_fmr": 112.0
+          "fmr_amount": 1387,
+          "pct_of_fmr": 98.8
         },
         "rent_60pct_3person": {
           "gross_rent": 1540,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1605,
-          "pct_of_fmr": 96.0
+          "fmr_amount": 1781,
+          "pct_of_fmr": 86.5
         },
         "rent_60pct_4person": {
           "gross_rent": 1710,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2232,
-          "pct_of_fmr": 76.6
+          "fmr_amount": 2466,
+          "pct_of_fmr": 69.3
         }
       }
     },
@@ -1758,11 +1758,11 @@
       "fmr_area_name": "Grand County FMR Area",
       "fmr_area_code": "NCNTY08049N08049",
       "fmr": {
-        "efficiency": 1107,
-        "one_br": 1318,
-        "two_br": 1475,
-        "three_br": 1769,
-        "four_br": 2474
+        "efficiency": 1370,
+        "one_br": 1464,
+        "two_br": 1844,
+        "three_br": 2197,
+        "four_br": 2617
       },
       "income_limits": {
         "ami_4person": 123600,
@@ -1787,26 +1787,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1300,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1107,
-          "pct_of_fmr": 117.4
+          "fmr_amount": 1370,
+          "pct_of_fmr": 94.9
         },
         "rent_60pct_2person": {
           "gross_rent": 1480,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1318,
-          "pct_of_fmr": 112.3
+          "fmr_amount": 1464,
+          "pct_of_fmr": 101.1
         },
         "rent_60pct_3person": {
           "gross_rent": 1670,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1475,
-          "pct_of_fmr": 113.2
+          "fmr_amount": 1844,
+          "pct_of_fmr": 90.6
         },
         "rent_60pct_4person": {
           "gross_rent": 1850,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1769,
-          "pct_of_fmr": 104.6
+          "fmr_amount": 2197,
+          "pct_of_fmr": 84.2
         }
       }
     },
@@ -1816,11 +1816,11 @@
       "fmr_area_name": "Gunnison County FMR Area",
       "fmr_area_code": "NCNTY08051N08051",
       "fmr": {
-        "efficiency": 1015,
-        "one_br": 1149,
-        "two_br": 1334,
-        "three_br": 1855,
-        "four_br": 2238
+        "efficiency": 1222,
+        "one_br": 1276,
+        "two_br": 1437,
+        "three_br": 1990,
+        "four_br": 2231
       },
       "income_limits": {
         "ami_4person": 130800,
@@ -1845,26 +1845,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1370,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1015,
-          "pct_of_fmr": 135.0
+          "fmr_amount": 1222,
+          "pct_of_fmr": 112.1
         },
         "rent_60pct_2person": {
           "gross_rent": 1570,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1149,
-          "pct_of_fmr": 136.6
+          "fmr_amount": 1276,
+          "pct_of_fmr": 123.0
         },
         "rent_60pct_3person": {
           "gross_rent": 1770,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1334,
-          "pct_of_fmr": 132.7
+          "fmr_amount": 1437,
+          "pct_of_fmr": 123.2
         },
         "rent_60pct_4person": {
           "gross_rent": 1960,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1855,
-          "pct_of_fmr": 105.7
+          "fmr_amount": 1990,
+          "pct_of_fmr": 98.5
         }
       }
     },
@@ -1874,11 +1874,11 @@
       "fmr_area_name": "Hinsdale County FMR Area",
       "fmr_area_code": "NCNTY08053N08053",
       "fmr": {
-        "efficiency": 867,
-        "one_br": 873,
-        "two_br": 1145,
-        "three_br": 1461,
-        "four_br": 1795
+        "efficiency": 978,
+        "one_br": 1013,
+        "two_br": 1316,
+        "three_br": 1696,
+        "four_br": 2044
       },
       "income_limits": {
         "ami_4person": 87500,
@@ -1903,26 +1903,26 @@
         "rent_60pct_1person": {
           "gross_rent": 920,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 867,
-          "pct_of_fmr": 106.1
+          "fmr_amount": 978,
+          "pct_of_fmr": 94.1
         },
         "rent_60pct_2person": {
           "gross_rent": 1050,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 873,
-          "pct_of_fmr": 120.3
+          "fmr_amount": 1013,
+          "pct_of_fmr": 103.7
         },
         "rent_60pct_3person": {
           "gross_rent": 1180,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1145,
-          "pct_of_fmr": 103.1
+          "fmr_amount": 1316,
+          "pct_of_fmr": 89.7
         },
         "rent_60pct_4person": {
           "gross_rent": 1310,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1461,
-          "pct_of_fmr": 89.7
+          "fmr_amount": 1696,
+          "pct_of_fmr": 77.2
         }
       }
     },
@@ -1932,11 +1932,11 @@
       "fmr_area_name": "Huerfano County FMR Area",
       "fmr_area_code": "NCNTY08055N08055",
       "fmr": {
-        "efficiency": 698,
-        "one_br": 811,
-        "two_br": 1013,
-        "three_br": 1215,
-        "four_br": 1588
+        "efficiency": 829,
+        "one_br": 859,
+        "two_br": 1116,
+        "three_br": 1438,
+        "four_br": 1733
       },
       "income_limits": {
         "ami_4person": 71000,
@@ -1961,26 +1961,26 @@
         "rent_60pct_1person": {
           "gross_rent": 750,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 698,
-          "pct_of_fmr": 107.4
+          "fmr_amount": 829,
+          "pct_of_fmr": 90.5
         },
         "rent_60pct_2person": {
           "gross_rent": 850,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 811,
-          "pct_of_fmr": 104.8
+          "fmr_amount": 859,
+          "pct_of_fmr": 99.0
         },
         "rent_60pct_3person": {
           "gross_rent": 960,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1013,
-          "pct_of_fmr": 94.8
+          "fmr_amount": 1116,
+          "pct_of_fmr": 86.0
         },
         "rent_60pct_4person": {
           "gross_rent": 1060,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1215,
-          "pct_of_fmr": 87.2
+          "fmr_amount": 1438,
+          "pct_of_fmr": 73.7
         }
       }
     },
@@ -1990,11 +1990,11 @@
       "fmr_area_name": "Jackson County FMR Area",
       "fmr_area_code": "NCNTY08057N08057",
       "fmr": {
-        "efficiency": 749,
-        "one_br": 754,
-        "two_br": 989,
-        "three_br": 1262,
-        "four_br": 1551
+        "efficiency": 1103,
+        "one_br": 1143,
+        "two_br": 1485,
+        "three_br": 1913,
+        "four_br": 2306
       },
       "income_limits": {
         "ami_4person": 97400,
@@ -2019,26 +2019,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1020,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 749,
-          "pct_of_fmr": 136.2
+          "fmr_amount": 1103,
+          "pct_of_fmr": 92.5
         },
         "rent_60pct_2person": {
           "gross_rent": 1170,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 754,
-          "pct_of_fmr": 155.2
+          "fmr_amount": 1143,
+          "pct_of_fmr": 102.4
         },
         "rent_60pct_3person": {
           "gross_rent": 1310,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 989,
-          "pct_of_fmr": 132.5
+          "fmr_amount": 1485,
+          "pct_of_fmr": 88.2
         },
         "rent_60pct_4person": {
           "gross_rent": 1460,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1262,
-          "pct_of_fmr": 115.7
+          "fmr_amount": 1913,
+          "pct_of_fmr": 76.3
         }
       }
     },
@@ -2048,11 +2048,11 @@
       "fmr_area_name": "Kiowa County FMR Area",
       "fmr_area_code": "NCNTY08061N08061",
       "fmr": {
-        "efficiency": 868,
-        "one_br": 873,
-        "two_br": 1146,
-        "three_br": 1463,
-        "four_br": 1797
+        "efficiency": 980,
+        "one_br": 1015,
+        "two_br": 1319,
+        "three_br": 1700,
+        "four_br": 2048
       },
       "income_limits": {
         "ami_4person": 76900,
@@ -2077,26 +2077,26 @@
         "rent_60pct_1person": {
           "gross_rent": 810,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 868,
-          "pct_of_fmr": 93.3
+          "fmr_amount": 980,
+          "pct_of_fmr": 82.7
         },
         "rent_60pct_2person": {
           "gross_rent": 920,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 873,
-          "pct_of_fmr": 105.4
+          "fmr_amount": 1015,
+          "pct_of_fmr": 90.6
         },
         "rent_60pct_3person": {
           "gross_rent": 1040,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1146,
-          "pct_of_fmr": 90.8
+          "fmr_amount": 1319,
+          "pct_of_fmr": 78.8
         },
         "rent_60pct_4person": {
           "gross_rent": 1150,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1463,
-          "pct_of_fmr": 78.6
+          "fmr_amount": 1700,
+          "pct_of_fmr": 67.6
         }
       }
     },
@@ -2106,11 +2106,11 @@
       "fmr_area_name": "Kit Carson County FMR Area",
       "fmr_area_code": "NCNTY08063N08063",
       "fmr": {
-        "efficiency": 828,
-        "one_br": 833,
-        "two_br": 1093,
-        "three_br": 1311,
-        "four_br": 1714
+        "efficiency": 922,
+        "one_br": 1058,
+        "two_br": 1241,
+        "three_br": 1479,
+        "four_br": 1927
       },
       "income_limits": {
         "ami_4person": 89000,
@@ -2135,26 +2135,26 @@
         "rent_60pct_1person": {
           "gross_rent": 930,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 828,
-          "pct_of_fmr": 112.3
+          "fmr_amount": 922,
+          "pct_of_fmr": 100.9
         },
         "rent_60pct_2person": {
           "gross_rent": 1070,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 833,
-          "pct_of_fmr": 128.5
+          "fmr_amount": 1058,
+          "pct_of_fmr": 101.1
         },
         "rent_60pct_3person": {
           "gross_rent": 1200,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1093,
-          "pct_of_fmr": 109.8
+          "fmr_amount": 1241,
+          "pct_of_fmr": 96.7
         },
         "rent_60pct_4person": {
           "gross_rent": 1340,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1311,
-          "pct_of_fmr": 102.2
+          "fmr_amount": 1479,
+          "pct_of_fmr": 90.6
         }
       }
     },
@@ -2164,11 +2164,11 @@
       "fmr_area_name": "La Plata County FMR Area",
       "fmr_area_code": "NCNTY08067N08067",
       "fmr": {
-        "efficiency": 1181,
-        "one_br": 1211,
-        "two_br": 1589,
-        "three_br": 1942,
-        "four_br": 2288
+        "efficiency": 1338,
+        "one_br": 1392,
+        "two_br": 1821,
+        "three_br": 2209,
+        "four_br": 2393
       },
       "income_limits": {
         "ami_4person": 114700,
@@ -2193,26 +2193,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1200,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1181,
-          "pct_of_fmr": 101.6
+          "fmr_amount": 1338,
+          "pct_of_fmr": 89.7
         },
         "rent_60pct_2person": {
           "gross_rent": 1380,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1211,
-          "pct_of_fmr": 114.0
+          "fmr_amount": 1392,
+          "pct_of_fmr": 99.1
         },
         "rent_60pct_3person": {
           "gross_rent": 1550,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1589,
-          "pct_of_fmr": 97.5
+          "fmr_amount": 1821,
+          "pct_of_fmr": 85.1
         },
         "rent_60pct_4person": {
           "gross_rent": 1720,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1942,
-          "pct_of_fmr": 88.6
+          "fmr_amount": 2209,
+          "pct_of_fmr": 77.9
         }
       }
     },
@@ -2222,11 +2222,11 @@
       "fmr_area_name": "Lake County FMR Area",
       "fmr_area_code": "NCNTY08065N08065",
       "fmr": {
-        "efficiency": 1017,
-        "one_br": 1024,
-        "two_br": 1343,
-        "three_br": 1714,
-        "four_br": 2106
+        "efficiency": 1103,
+        "one_br": 1143,
+        "two_br": 1485,
+        "three_br": 1913,
+        "four_br": 2306
       },
       "income_limits": {
         "ami_4person": 124600,
@@ -2251,26 +2251,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1310,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1017,
-          "pct_of_fmr": 128.8
+          "fmr_amount": 1103,
+          "pct_of_fmr": 118.8
         },
         "rent_60pct_2person": {
           "gross_rent": 1500,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1024,
-          "pct_of_fmr": 146.5
+          "fmr_amount": 1143,
+          "pct_of_fmr": 131.2
         },
         "rent_60pct_3person": {
           "gross_rent": 1680,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1343,
-          "pct_of_fmr": 125.1
+          "fmr_amount": 1485,
+          "pct_of_fmr": 113.1
         },
         "rent_60pct_4person": {
           "gross_rent": 1870,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1714,
-          "pct_of_fmr": 109.1
+          "fmr_amount": 1913,
+          "pct_of_fmr": 97.8
         }
       }
     },
@@ -2280,11 +2280,11 @@
       "fmr_area_name": "Las Animas County FMR Area",
       "fmr_area_code": "NCNTY08071N08071",
       "fmr": {
-        "efficiency": 796,
-        "one_br": 880,
-        "two_br": 1155,
-        "three_br": 1425,
-        "four_br": 1529
+        "efficiency": 959,
+        "one_br": 1000,
+        "two_br": 1291,
+        "three_br": 1620,
+        "four_br": 1719
       },
       "income_limits": {
         "ami_4person": 74400,
@@ -2309,26 +2309,26 @@
         "rent_60pct_1person": {
           "gross_rent": 780,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 796,
-          "pct_of_fmr": 98.0
+          "fmr_amount": 959,
+          "pct_of_fmr": 81.3
         },
         "rent_60pct_2person": {
           "gross_rent": 890,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 880,
-          "pct_of_fmr": 101.1
+          "fmr_amount": 1000,
+          "pct_of_fmr": 89.0
         },
         "rent_60pct_3person": {
           "gross_rent": 1000,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1155,
-          "pct_of_fmr": 86.6
+          "fmr_amount": 1291,
+          "pct_of_fmr": 77.5
         },
         "rent_60pct_4person": {
           "gross_rent": 1120,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1425,
-          "pct_of_fmr": 78.6
+          "fmr_amount": 1620,
+          "pct_of_fmr": 69.1
         }
       }
     },
@@ -2338,11 +2338,11 @@
       "fmr_area_name": "Lincoln County FMR Area",
       "fmr_area_code": "NCNTY08073N08073",
       "fmr": {
-        "efficiency": 769,
-        "one_br": 774,
-        "two_br": 1016,
-        "three_br": 1413,
-        "four_br": 1593
+        "efficiency": 795,
+        "one_br": 818,
+        "two_br": 1070,
+        "three_br": 1482,
+        "four_br": 1662
       },
       "income_limits": {
         "ami_4person": 87700,
@@ -2367,26 +2367,26 @@
         "rent_60pct_1person": {
           "gross_rent": 920,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 769,
-          "pct_of_fmr": 119.6
+          "fmr_amount": 795,
+          "pct_of_fmr": 115.7
         },
         "rent_60pct_2person": {
           "gross_rent": 1050,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 774,
-          "pct_of_fmr": 135.7
+          "fmr_amount": 818,
+          "pct_of_fmr": 128.4
         },
         "rent_60pct_3person": {
           "gross_rent": 1180,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1016,
-          "pct_of_fmr": 116.1
+          "fmr_amount": 1070,
+          "pct_of_fmr": 110.3
         },
         "rent_60pct_4person": {
           "gross_rent": 1320,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1413,
-          "pct_of_fmr": 93.4
+          "fmr_amount": 1482,
+          "pct_of_fmr": 89.1
         }
       }
     },
@@ -2396,11 +2396,11 @@
       "fmr_area_name": "Logan County FMR Area",
       "fmr_area_code": "NCNTY08075N08075",
       "fmr": {
-        "efficiency": 769,
-        "one_br": 839,
-        "two_br": 1101,
-        "three_br": 1452,
-        "four_br": 1458
+        "efficiency": 928,
+        "one_br": 955,
+        "two_br": 1249,
+        "three_br": 1650,
+        "four_br": 1707
       },
       "income_limits": {
         "ami_4person": 83000,
@@ -2425,26 +2425,26 @@
         "rent_60pct_1person": {
           "gross_rent": 870,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 769,
-          "pct_of_fmr": 113.1
+          "fmr_amount": 928,
+          "pct_of_fmr": 93.8
         },
         "rent_60pct_2person": {
           "gross_rent": 1000,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 839,
-          "pct_of_fmr": 119.2
+          "fmr_amount": 955,
+          "pct_of_fmr": 104.7
         },
         "rent_60pct_3person": {
           "gross_rent": 1120,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1101,
-          "pct_of_fmr": 101.7
+          "fmr_amount": 1249,
+          "pct_of_fmr": 89.7
         },
         "rent_60pct_4person": {
           "gross_rent": 1240,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1452,
-          "pct_of_fmr": 85.4
+          "fmr_amount": 1650,
+          "pct_of_fmr": 75.2
         }
       }
     },
@@ -2454,11 +2454,11 @@
       "fmr_area_name": "Mesa County FMR Area",
       "fmr_area_code": "NCNTY08077N08077",
       "fmr": {
-        "efficiency": 881,
-        "one_br": 986,
-        "two_br": 1249,
-        "three_br": 1737,
-        "four_br": 2095
+        "efficiency": 893,
+        "one_br": 1017,
+        "two_br": 1282,
+        "three_br": 1775,
+        "four_br": 2143
       },
       "income_limits": {
         "ami_4person": 100600,
@@ -2483,26 +2483,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1060,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 881,
-          "pct_of_fmr": 120.3
+          "fmr_amount": 893,
+          "pct_of_fmr": 118.7
         },
         "rent_60pct_2person": {
           "gross_rent": 1210,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 986,
-          "pct_of_fmr": 122.7
+          "fmr_amount": 1017,
+          "pct_of_fmr": 119.0
         },
         "rent_60pct_3person": {
           "gross_rent": 1360,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1249,
-          "pct_of_fmr": 108.9
+          "fmr_amount": 1282,
+          "pct_of_fmr": 106.1
         },
         "rent_60pct_4person": {
           "gross_rent": 1510,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1737,
-          "pct_of_fmr": 86.9
+          "fmr_amount": 1775,
+          "pct_of_fmr": 85.1
         }
       }
     },
@@ -2512,11 +2512,11 @@
       "fmr_area_name": "Mineral County FMR Area",
       "fmr_area_code": "NCNTY08079N08079",
       "fmr": {
-        "efficiency": 1017,
-        "one_br": 1024,
-        "two_br": 1343,
-        "three_br": 1714,
-        "four_br": 2106
+        "efficiency": 1103,
+        "one_br": 1143,
+        "two_br": 1485,
+        "three_br": 1913,
+        "four_br": 2306
       },
       "income_limits": {
         "ami_4person": 76400,
@@ -2541,26 +2541,26 @@
         "rent_60pct_1person": {
           "gross_rent": 800,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1017,
-          "pct_of_fmr": 78.7
+          "fmr_amount": 1103,
+          "pct_of_fmr": 72.5
         },
         "rent_60pct_2person": {
           "gross_rent": 920,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1024,
-          "pct_of_fmr": 89.8
+          "fmr_amount": 1143,
+          "pct_of_fmr": 80.5
         },
         "rent_60pct_3person": {
           "gross_rent": 1030,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1343,
-          "pct_of_fmr": 76.7
+          "fmr_amount": 1485,
+          "pct_of_fmr": 69.4
         },
         "rent_60pct_4person": {
           "gross_rent": 1150,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1714,
-          "pct_of_fmr": 67.1
+          "fmr_amount": 1913,
+          "pct_of_fmr": 60.1
         }
       }
     },
@@ -2570,11 +2570,11 @@
       "fmr_area_name": "Moffat County FMR Area",
       "fmr_area_code": "NCNTY08081N08081",
       "fmr": {
-        "efficiency": 881,
-        "one_br": 887,
-        "two_br": 1164,
-        "three_br": 1396,
-        "four_br": 1614
+        "efficiency": 910,
+        "one_br": 936,
+        "two_br": 1225,
+        "three_br": 1586,
+        "four_br": 1992
       },
       "income_limits": {
         "ami_4person": 96100,
@@ -2599,26 +2599,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1010,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 881,
-          "pct_of_fmr": 114.6
+          "fmr_amount": 910,
+          "pct_of_fmr": 111.0
         },
         "rent_60pct_2person": {
           "gross_rent": 1150,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 887,
-          "pct_of_fmr": 129.7
+          "fmr_amount": 936,
+          "pct_of_fmr": 122.9
         },
         "rent_60pct_3person": {
           "gross_rent": 1300,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1164,
-          "pct_of_fmr": 111.7
+          "fmr_amount": 1225,
+          "pct_of_fmr": 106.1
         },
         "rent_60pct_4person": {
           "gross_rent": 1440,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1396,
-          "pct_of_fmr": 103.2
+          "fmr_amount": 1586,
+          "pct_of_fmr": 90.8
         }
       }
     },
@@ -2628,11 +2628,11 @@
       "fmr_area_name": "Montezuma County FMR Area",
       "fmr_area_code": "NCNTY08083N08083",
       "fmr": {
-        "efficiency": 852,
-        "one_br": 906,
-        "two_br": 1180,
-        "three_br": 1569,
-        "four_br": 1850
+        "efficiency": 953,
+        "one_br": 1025,
+        "two_br": 1280,
+        "three_br": 1772,
+        "four_br": 1988
       },
       "income_limits": {
         "ami_4person": 84800,
@@ -2657,26 +2657,26 @@
         "rent_60pct_1person": {
           "gross_rent": 890,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 852,
-          "pct_of_fmr": 104.5
+          "fmr_amount": 953,
+          "pct_of_fmr": 93.4
         },
         "rent_60pct_2person": {
           "gross_rent": 1020,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 906,
-          "pct_of_fmr": 112.6
+          "fmr_amount": 1025,
+          "pct_of_fmr": 99.5
         },
         "rent_60pct_3person": {
           "gross_rent": 1140,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1180,
-          "pct_of_fmr": 96.6
+          "fmr_amount": 1280,
+          "pct_of_fmr": 89.1
         },
         "rent_60pct_4person": {
           "gross_rent": 1270,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1569,
-          "pct_of_fmr": 80.9
+          "fmr_amount": 1772,
+          "pct_of_fmr": 71.7
         }
       }
     },
@@ -2686,11 +2686,11 @@
       "fmr_area_name": "Montrose County FMR Area",
       "fmr_area_code": "NCNTY08085N08085",
       "fmr": {
-        "efficiency": 884,
-        "one_br": 890,
-        "two_br": 1168,
-        "three_br": 1624,
-        "four_br": 1959
+        "efficiency": 995,
+        "one_br": 1054,
+        "two_br": 1321,
+        "three_br": 1829,
+        "four_br": 2208
       },
       "income_limits": {
         "ami_4person": 89900,
@@ -2715,26 +2715,26 @@
         "rent_60pct_1person": {
           "gross_rent": 940,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 884,
-          "pct_of_fmr": 106.3
+          "fmr_amount": 995,
+          "pct_of_fmr": 94.5
         },
         "rent_60pct_2person": {
           "gross_rent": 1080,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 890,
-          "pct_of_fmr": 121.3
+          "fmr_amount": 1054,
+          "pct_of_fmr": 102.5
         },
         "rent_60pct_3person": {
           "gross_rent": 1210,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1168,
-          "pct_of_fmr": 103.6
+          "fmr_amount": 1321,
+          "pct_of_fmr": 91.6
         },
         "rent_60pct_4person": {
           "gross_rent": 1350,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1624,
-          "pct_of_fmr": 83.1
+          "fmr_amount": 1829,
+          "pct_of_fmr": 73.8
         }
       }
     },
@@ -2744,11 +2744,11 @@
       "fmr_area_name": "Morgan County FMR Area",
       "fmr_area_code": "NCNTY08087N08087",
       "fmr": {
-        "efficiency": 878,
-        "one_br": 884,
-        "two_br": 1160,
-        "three_br": 1606,
-        "four_br": 1824
+        "efficiency": 937,
+        "one_br": 964,
+        "two_br": 1261,
+        "three_br": 1746,
+        "four_br": 1959
       },
       "income_limits": {
         "ami_4person": 87100,
@@ -2773,26 +2773,26 @@
         "rent_60pct_1person": {
           "gross_rent": 910,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 878,
-          "pct_of_fmr": 103.6
+          "fmr_amount": 937,
+          "pct_of_fmr": 97.1
         },
         "rent_60pct_2person": {
           "gross_rent": 1050,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 884,
-          "pct_of_fmr": 118.8
+          "fmr_amount": 964,
+          "pct_of_fmr": 108.9
         },
         "rent_60pct_3person": {
           "gross_rent": 1180,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1160,
-          "pct_of_fmr": 101.7
+          "fmr_amount": 1261,
+          "pct_of_fmr": 93.6
         },
         "rent_60pct_4person": {
           "gross_rent": 1310,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1606,
-          "pct_of_fmr": 81.6
+          "fmr_amount": 1746,
+          "pct_of_fmr": 75.0
         }
       }
     },
@@ -2802,11 +2802,11 @@
       "fmr_area_name": "Otero County FMR Area",
       "fmr_area_code": "NCNTY08089N08089",
       "fmr": {
-        "efficiency": 737,
-        "one_br": 742,
-        "two_br": 973,
-        "three_br": 1303,
-        "four_br": 1632
+        "efficiency": 787,
+        "one_br": 810,
+        "two_br": 1059,
+        "three_br": 1359,
+        "four_br": 1770
       },
       "income_limits": {
         "ami_4person": 68500,
@@ -2831,26 +2831,26 @@
         "rent_60pct_1person": {
           "gross_rent": 720,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 737,
-          "pct_of_fmr": 97.7
+          "fmr_amount": 787,
+          "pct_of_fmr": 91.5
         },
         "rent_60pct_2person": {
           "gross_rent": 820,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 742,
-          "pct_of_fmr": 110.5
+          "fmr_amount": 810,
+          "pct_of_fmr": 101.2
         },
         "rent_60pct_3person": {
           "gross_rent": 920,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 973,
-          "pct_of_fmr": 94.6
+          "fmr_amount": 1059,
+          "pct_of_fmr": 86.9
         },
         "rent_60pct_4person": {
           "gross_rent": 1030,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1303,
-          "pct_of_fmr": 79.0
+          "fmr_amount": 1359,
+          "pct_of_fmr": 75.8
         }
       }
     },
@@ -2860,11 +2860,11 @@
       "fmr_area_name": "Ouray County FMR Area",
       "fmr_area_code": "NCNTY08091N08091",
       "fmr": {
-        "efficiency": 1170,
-        "one_br": 1245,
-        "two_br": 1526,
-        "three_br": 2122,
-        "four_br": 2392
+        "efficiency": 1218,
+        "one_br": 1507,
+        "two_br": 1640,
+        "three_br": 2271,
+        "four_br": 2547
       },
       "income_limits": {
         "ami_4person": 112400,
@@ -2889,26 +2889,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1180,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1170,
-          "pct_of_fmr": 100.9
+          "fmr_amount": 1218,
+          "pct_of_fmr": 96.9
         },
         "rent_60pct_2person": {
           "gross_rent": 1350,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1245,
-          "pct_of_fmr": 108.4
+          "fmr_amount": 1507,
+          "pct_of_fmr": 89.6
         },
         "rent_60pct_3person": {
           "gross_rent": 1520,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1526,
-          "pct_of_fmr": 99.6
+          "fmr_amount": 1640,
+          "pct_of_fmr": 92.7
         },
         "rent_60pct_4person": {
           "gross_rent": 1690,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2122,
-          "pct_of_fmr": 79.6
+          "fmr_amount": 2271,
+          "pct_of_fmr": 74.4
         }
       }
     },
@@ -2918,11 +2918,11 @@
       "fmr_area_name": "Phillips County FMR Area",
       "fmr_area_code": "NCNTY08095N08095",
       "fmr": {
-        "efficiency": 798,
-        "one_br": 803,
-        "two_br": 1054,
-        "three_br": 1345,
-        "four_br": 1652
+        "efficiency": 845,
+        "one_br": 875,
+        "two_br": 1137,
+        "three_br": 1465,
+        "four_br": 1766
       },
       "income_limits": {
         "ami_4person": 103100,
@@ -2947,26 +2947,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1080,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 798,
-          "pct_of_fmr": 135.3
+          "fmr_amount": 845,
+          "pct_of_fmr": 127.8
         },
         "rent_60pct_2person": {
           "gross_rent": 1240,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 803,
-          "pct_of_fmr": 154.4
+          "fmr_amount": 875,
+          "pct_of_fmr": 141.7
         },
         "rent_60pct_3person": {
           "gross_rent": 1390,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1054,
-          "pct_of_fmr": 131.9
+          "fmr_amount": 1137,
+          "pct_of_fmr": 122.3
         },
         "rent_60pct_4person": {
           "gross_rent": 1550,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1345,
-          "pct_of_fmr": 115.2
+          "fmr_amount": 1465,
+          "pct_of_fmr": 105.8
         }
       }
     },
@@ -2976,11 +2976,11 @@
       "fmr_area_name": "Aspen HUD Metro FMR Area",
       "fmr_area_code": "HMFA11220CO",
       "fmr": {
-        "efficiency": 1526,
-        "one_br": 2020,
-        "two_br": 2214,
-        "three_br": 2826,
-        "four_br": 3471
+        "efficiency": 1808,
+        "one_br": 2169,
+        "two_br": 2597,
+        "three_br": 3346,
+        "four_br": 4033
       },
       "income_limits": {
         "ami_4person": 142100,
@@ -3005,26 +3005,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1490,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1526,
-          "pct_of_fmr": 97.6
+          "fmr_amount": 1808,
+          "pct_of_fmr": 82.4
         },
         "rent_60pct_2person": {
           "gross_rent": 1710,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 2020,
-          "pct_of_fmr": 84.7
+          "fmr_amount": 2169,
+          "pct_of_fmr": 78.8
         },
         "rent_60pct_3person": {
           "gross_rent": 1920,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2214,
-          "pct_of_fmr": 86.7
+          "fmr_amount": 2597,
+          "pct_of_fmr": 73.9
         },
         "rent_60pct_4person": {
           "gross_rent": 2130,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2826,
-          "pct_of_fmr": 75.4
+          "fmr_amount": 3346,
+          "pct_of_fmr": 63.7
         }
       }
     },
@@ -3034,11 +3034,11 @@
       "fmr_area_name": "Prowers County FMR Area",
       "fmr_area_code": "NCNTY08099N08099",
       "fmr": {
-        "efficiency": 746,
-        "one_br": 888,
-        "two_br": 973,
-        "three_br": 1249,
-        "four_br": 1542
+        "efficiency": 780,
+        "one_br": 907,
+        "two_br": 1050,
+        "three_br": 1419,
+        "four_br": 1631
       },
       "income_limits": {
         "ami_4person": 72600,
@@ -3063,26 +3063,26 @@
         "rent_60pct_1person": {
           "gross_rent": 760,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 746,
-          "pct_of_fmr": 101.9
+          "fmr_amount": 780,
+          "pct_of_fmr": 97.4
         },
         "rent_60pct_2person": {
           "gross_rent": 870,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 888,
-          "pct_of_fmr": 98.0
+          "fmr_amount": 907,
+          "pct_of_fmr": 95.9
         },
         "rent_60pct_3person": {
           "gross_rent": 980,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 973,
-          "pct_of_fmr": 100.7
+          "fmr_amount": 1050,
+          "pct_of_fmr": 93.3
         },
         "rent_60pct_4person": {
           "gross_rent": 1090,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1249,
-          "pct_of_fmr": 87.3
+          "fmr_amount": 1419,
+          "pct_of_fmr": 76.8
         }
       }
     },
@@ -3092,11 +3092,11 @@
       "fmr_area_name": "Pueblo County FMR Area",
       "fmr_area_code": "NCNTY08101N08101",
       "fmr": {
-        "efficiency": 875,
-        "one_br": 967,
-        "two_br": 1269,
-        "three_br": 1617,
-        "four_br": 1893
+        "efficiency": 879,
+        "one_br": 978,
+        "two_br": 1263,
+        "three_br": 1611,
+        "four_br": 1891
       },
       "income_limits": {
         "ami_4person": 87700,
@@ -3121,26 +3121,26 @@
         "rent_60pct_1person": {
           "gross_rent": 920,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 875,
-          "pct_of_fmr": 105.1
+          "fmr_amount": 879,
+          "pct_of_fmr": 104.7
         },
         "rent_60pct_2person": {
           "gross_rent": 1050,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 967,
-          "pct_of_fmr": 108.6
+          "fmr_amount": 978,
+          "pct_of_fmr": 107.4
         },
         "rent_60pct_3person": {
           "gross_rent": 1180,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1269,
-          "pct_of_fmr": 93.0
+          "fmr_amount": 1263,
+          "pct_of_fmr": 93.4
         },
         "rent_60pct_4person": {
           "gross_rent": 1320,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1617,
-          "pct_of_fmr": 81.6
+          "fmr_amount": 1611,
+          "pct_of_fmr": 81.9
         }
       }
     },
@@ -3150,11 +3150,11 @@
       "fmr_area_name": "Rio Blanco County FMR Area",
       "fmr_area_code": "NCNTY08103N08103",
       "fmr": {
-        "efficiency": 764,
-        "one_br": 769,
-        "two_br": 1009,
-        "three_br": 1285,
-        "four_br": 1582
+        "efficiency": 865,
+        "one_br": 891,
+        "two_br": 1165,
+        "three_br": 1488,
+        "four_br": 1809
       },
       "income_limits": {
         "ami_4person": 84000,
@@ -3179,26 +3179,26 @@
         "rent_60pct_1person": {
           "gross_rent": 880,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 764,
-          "pct_of_fmr": 115.2
+          "fmr_amount": 865,
+          "pct_of_fmr": 101.7
         },
         "rent_60pct_2person": {
           "gross_rent": 1010,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 769,
-          "pct_of_fmr": 131.3
+          "fmr_amount": 891,
+          "pct_of_fmr": 113.4
         },
         "rent_60pct_3person": {
           "gross_rent": 1130,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1009,
-          "pct_of_fmr": 112.0
+          "fmr_amount": 1165,
+          "pct_of_fmr": 97.0
         },
         "rent_60pct_4person": {
           "gross_rent": 1260,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1285,
-          "pct_of_fmr": 98.1
+          "fmr_amount": 1488,
+          "pct_of_fmr": 84.7
         }
       }
     },
@@ -3208,11 +3208,11 @@
       "fmr_area_name": "Rio Grande County FMR Area",
       "fmr_area_code": "NCNTY08105N08105",
       "fmr": {
-        "efficiency": 839,
-        "one_br": 976,
-        "two_br": 1094,
-        "three_br": 1312,
-        "four_br": 1715
+        "efficiency": 906,
+        "one_br": 939,
+        "two_br": 1220,
+        "three_br": 1454,
+        "four_br": 1895
       },
       "income_limits": {
         "ami_4person": 87800,
@@ -3237,26 +3237,26 @@
         "rent_60pct_1person": {
           "gross_rent": 920,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 839,
-          "pct_of_fmr": 109.7
+          "fmr_amount": 906,
+          "pct_of_fmr": 101.5
         },
         "rent_60pct_2person": {
           "gross_rent": 1050,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 976,
-          "pct_of_fmr": 107.6
+          "fmr_amount": 939,
+          "pct_of_fmr": 111.8
         },
         "rent_60pct_3person": {
           "gross_rent": 1190,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1094,
-          "pct_of_fmr": 108.8
+          "fmr_amount": 1220,
+          "pct_of_fmr": 97.5
         },
         "rent_60pct_4person": {
           "gross_rent": 1320,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1312,
-          "pct_of_fmr": 100.6
+          "fmr_amount": 1454,
+          "pct_of_fmr": 90.8
         }
       }
     },
@@ -3266,11 +3266,11 @@
       "fmr_area_name": "Routt County FMR Area",
       "fmr_area_code": "NCNTY08107N08107",
       "fmr": {
-        "efficiency": 1726,
-        "one_br": 1845,
-        "two_br": 2022,
-        "three_br": 2424,
-        "four_br": 3170
+        "efficiency": 2020,
+        "one_br": 2119,
+        "two_br": 2384,
+        "three_br": 2841,
+        "four_br": 3702
       },
       "income_limits": {
         "ami_4person": 138700,
@@ -3295,26 +3295,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1460,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1726,
-          "pct_of_fmr": 84.6
+          "fmr_amount": 2020,
+          "pct_of_fmr": 72.3
         },
         "rent_60pct_2person": {
           "gross_rent": 1660,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1845,
-          "pct_of_fmr": 90.0
+          "fmr_amount": 2119,
+          "pct_of_fmr": 78.3
         },
         "rent_60pct_3person": {
           "gross_rent": 1870,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2022,
-          "pct_of_fmr": 92.5
+          "fmr_amount": 2384,
+          "pct_of_fmr": 78.4
         },
         "rent_60pct_4person": {
           "gross_rent": 2080,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2424,
-          "pct_of_fmr": 85.8
+          "fmr_amount": 2841,
+          "pct_of_fmr": 73.2
         }
       }
     },
@@ -3324,11 +3324,11 @@
       "fmr_area_name": "Saguache County FMR Area",
       "fmr_area_code": "NCNTY08109N08109",
       "fmr": {
-        "efficiency": 748,
-        "one_br": 797,
-        "two_br": 975,
-        "three_br": 1295,
-        "four_br": 1529
+        "efficiency": 787,
+        "one_br": 957,
+        "two_br": 1059,
+        "three_br": 1466,
+        "four_br": 1645
       },
       "income_limits": {
         "ami_4person": 63200,
@@ -3353,26 +3353,26 @@
         "rent_60pct_1person": {
           "gross_rent": 660,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 748,
-          "pct_of_fmr": 88.2
+          "fmr_amount": 787,
+          "pct_of_fmr": 83.9
         },
         "rent_60pct_2person": {
           "gross_rent": 760,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 797,
-          "pct_of_fmr": 95.4
+          "fmr_amount": 957,
+          "pct_of_fmr": 79.4
         },
         "rent_60pct_3person": {
           "gross_rent": 850,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 975,
-          "pct_of_fmr": 87.2
+          "fmr_amount": 1059,
+          "pct_of_fmr": 80.3
         },
         "rent_60pct_4person": {
           "gross_rent": 950,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1295,
-          "pct_of_fmr": 73.4
+          "fmr_amount": 1466,
+          "pct_of_fmr": 64.8
         }
       }
     },
@@ -3382,11 +3382,11 @@
       "fmr_area_name": "San Juan County FMR Area",
       "fmr_area_code": "NCNTY08111N08111",
       "fmr": {
-        "efficiency": 945,
-        "one_br": 1119,
-        "two_br": 1227,
-        "three_br": 1509,
-        "four_br": 1924
+        "efficiency": 936,
+        "one_br": 1035,
+        "two_br": 1344,
+        "three_br": 1620,
+        "four_br": 2087
       },
       "income_limits": {
         "ami_4person": 90000,
@@ -3411,26 +3411,26 @@
         "rent_60pct_1person": {
           "gross_rent": 940,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 945,
-          "pct_of_fmr": 99.5
+          "fmr_amount": 936,
+          "pct_of_fmr": 100.4
         },
         "rent_60pct_2person": {
           "gross_rent": 1080,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1119,
-          "pct_of_fmr": 96.5
+          "fmr_amount": 1035,
+          "pct_of_fmr": 104.3
         },
         "rent_60pct_3person": {
           "gross_rent": 1220,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1227,
-          "pct_of_fmr": 99.4
+          "fmr_amount": 1344,
+          "pct_of_fmr": 90.8
         },
         "rent_60pct_4person": {
           "gross_rent": 1350,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1509,
-          "pct_of_fmr": 89.5
+          "fmr_amount": 1620,
+          "pct_of_fmr": 83.3
         }
       }
     },
@@ -3440,11 +3440,11 @@
       "fmr_area_name": "San Miguel County FMR Area",
       "fmr_area_code": "NCNTY08113N08113",
       "fmr": {
-        "efficiency": 1245,
-        "one_br": 1254,
-        "two_br": 1645,
-        "three_br": 2288,
-        "four_br": 2579
+        "efficiency": 1136,
+        "one_br": 1377,
+        "two_br": 1631,
+        "three_br": 2258,
+        "four_br": 2533
       },
       "income_limits": {
         "ami_4person": 131100,
@@ -3469,26 +3469,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1380,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1245,
-          "pct_of_fmr": 110.8
+          "fmr_amount": 1136,
+          "pct_of_fmr": 121.5
         },
         "rent_60pct_2person": {
           "gross_rent": 1570,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1254,
-          "pct_of_fmr": 125.2
+          "fmr_amount": 1377,
+          "pct_of_fmr": 114.0
         },
         "rent_60pct_3person": {
           "gross_rent": 1770,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1645,
-          "pct_of_fmr": 107.6
+          "fmr_amount": 1631,
+          "pct_of_fmr": 108.5
         },
         "rent_60pct_4person": {
           "gross_rent": 1970,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2288,
-          "pct_of_fmr": 86.1
+          "fmr_amount": 2258,
+          "pct_of_fmr": 87.2
         }
       }
     },
@@ -3498,11 +3498,11 @@
       "fmr_area_name": "Sedgwick County FMR Area",
       "fmr_area_code": "NCNTY08115N08115",
       "fmr": {
-        "efficiency": 746,
-        "one_br": 759,
-        "two_br": 973,
-        "three_br": 1167,
-        "four_br": 1525
+        "efficiency": 753,
+        "one_br": 775,
+        "two_br": 1014,
+        "three_br": 1208,
+        "four_br": 1575
       },
       "income_limits": {
         "ami_4person": 78700,
@@ -3527,26 +3527,26 @@
         "rent_60pct_1person": {
           "gross_rent": 830,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 746,
-          "pct_of_fmr": 111.3
+          "fmr_amount": 753,
+          "pct_of_fmr": 110.2
         },
         "rent_60pct_2person": {
           "gross_rent": 940,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 759,
-          "pct_of_fmr": 123.8
+          "fmr_amount": 775,
+          "pct_of_fmr": 121.3
         },
         "rent_60pct_3person": {
           "gross_rent": 1060,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 973,
-          "pct_of_fmr": 108.9
+          "fmr_amount": 1014,
+          "pct_of_fmr": 104.5
         },
         "rent_60pct_4person": {
           "gross_rent": 1180,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1167,
-          "pct_of_fmr": 101.1
+          "fmr_amount": 1208,
+          "pct_of_fmr": 97.7
         }
       }
     },
@@ -3556,11 +3556,11 @@
       "fmr_area_name": "Summit County HUD Metro FMR Area",
       "fmr_area_code": "HMFA44700CO",
       "fmr": {
-        "efficiency": 1701,
-        "one_br": 1880,
-        "two_br": 2467,
-        "three_br": 2958,
-        "four_br": 3268
+        "efficiency": 1926,
+        "one_br": 2114,
+        "two_br": 2766,
+        "three_br": 3296,
+        "four_br": 3749
       },
       "income_limits": {
         "ami_4person": 145800,
@@ -3585,26 +3585,26 @@
         "rent_60pct_1person": {
           "gross_rent": 1530,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 1701,
-          "pct_of_fmr": 89.9
+          "fmr_amount": 1926,
+          "pct_of_fmr": 79.4
         },
         "rent_60pct_2person": {
           "gross_rent": 1750,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 1880,
-          "pct_of_fmr": 93.1
+          "fmr_amount": 2114,
+          "pct_of_fmr": 82.8
         },
         "rent_60pct_3person": {
           "gross_rent": 1970,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 2467,
-          "pct_of_fmr": 79.9
+          "fmr_amount": 2766,
+          "pct_of_fmr": 71.2
         },
         "rent_60pct_4person": {
           "gross_rent": 2190,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 2958,
-          "pct_of_fmr": 74.0
+          "fmr_amount": 3296,
+          "pct_of_fmr": 66.4
         }
       }
     },
@@ -3614,11 +3614,11 @@
       "fmr_area_name": "Washington County FMR Area",
       "fmr_area_code": "NCNTY08121N08121",
       "fmr": {
-        "efficiency": 854,
-        "one_br": 856,
-        "two_br": 1114,
-        "three_br": 1336,
-        "four_br": 1475
+        "efficiency": 963,
+        "one_br": 991,
+        "two_br": 1297,
+        "three_br": 1545,
+        "four_br": 1705
       },
       "income_limits": {
         "ami_4person": 93300,
@@ -3643,26 +3643,26 @@
         "rent_60pct_1person": {
           "gross_rent": 980,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 854,
-          "pct_of_fmr": 114.8
+          "fmr_amount": 963,
+          "pct_of_fmr": 101.8
         },
         "rent_60pct_2person": {
           "gross_rent": 1120,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 856,
-          "pct_of_fmr": 130.8
+          "fmr_amount": 991,
+          "pct_of_fmr": 113.0
         },
         "rent_60pct_3person": {
           "gross_rent": 1260,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1114,
-          "pct_of_fmr": 113.1
+          "fmr_amount": 1297,
+          "pct_of_fmr": 97.1
         },
         "rent_60pct_4person": {
           "gross_rent": 1400,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1336,
-          "pct_of_fmr": 104.8
+          "fmr_amount": 1545,
+          "pct_of_fmr": 90.6
         }
       }
     },
@@ -3672,11 +3672,11 @@
       "fmr_area_name": "Yuma County FMR Area",
       "fmr_area_code": "NCNTY08125N08125",
       "fmr": {
-        "efficiency": 803,
-        "one_br": 809,
-        "two_br": 1061,
-        "three_br": 1361,
-        "four_br": 1405
+        "efficiency": 841,
+        "one_br": 865,
+        "two_br": 1132,
+        "three_br": 1530,
+        "four_br": 1758
       },
       "income_limits": {
         "ami_4person": 92600,
@@ -3701,26 +3701,26 @@
         "rent_60pct_1person": {
           "gross_rent": 970,
           "fmr_bedroom": "efficiency",
-          "fmr_amount": 803,
-          "pct_of_fmr": 120.8
+          "fmr_amount": 841,
+          "pct_of_fmr": 115.3
         },
         "rent_60pct_2person": {
           "gross_rent": 1110,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 809,
-          "pct_of_fmr": 137.2
+          "fmr_amount": 865,
+          "pct_of_fmr": 128.3
         },
         "rent_60pct_3person": {
           "gross_rent": 1250,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1061,
-          "pct_of_fmr": 117.8
+          "fmr_amount": 1132,
+          "pct_of_fmr": 110.4
         },
         "rent_60pct_4person": {
           "gross_rent": 1390,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1361,
-          "pct_of_fmr": 102.1
+          "fmr_amount": 1530,
+          "pct_of_fmr": 90.8
         }
       }
     }

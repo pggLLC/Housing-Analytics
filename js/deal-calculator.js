@@ -2729,7 +2729,7 @@
           </tbody>
         </table>
         <div id="dc-rent-ach-fmr-grid" style="margin-top:var(--sp3);display:none;">
-          <div style="font-size:var(--tiny);color:var(--muted);font-weight:600;margin-bottom:0.35rem;">HUD FMR by bedroom size (FY2026, gross rent $USD/mo)</div>
+          <div style="font-size:var(--tiny);color:var(--muted);font-weight:600;margin-bottom:0.35rem;">HUD FMR by bedroom size (FY2027, gross rent $USD/mo)</div>
           <table style="width:100%;border-collapse:collapse;font-size:var(--tiny);">
             <thead>
               <tr>
@@ -2755,7 +2755,7 @@
           <span id="dc-rent-limit-example"></span><br>HUD FMR is the 40th-percentile
           market rent for the area and lags ~18 mo. For a binding market-rent test, commission a rent comparability study
           before closing. Source:
-          <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY2026</a>.
+          <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY2027</a>.
         </p>
       </fieldset>
 
