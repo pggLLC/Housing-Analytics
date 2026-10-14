@@ -256,7 +256,7 @@
   <script defer src="js/hna/hna-workflow-autosave.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
-<!-- [hna-view] not loaded here: js/components/affordable-housing-layer.js, js/components/map-home-btn.js, js/prop123-map.js, js/transit-zone.js, js/vendor/leaflet.css, js/vendor/leaflet.js -->
+<!-- [hna-view] not loaded here: js/components/affordable-housing-layer.js, js/components/map-home-btn.js, js/components/second-homes-panel.js, js/prop123-map.js, js/transit-zone.js, js/vendor/leaflet.css, js/vendor/leaflet.js -->
 <script>window.HNA_VIEW={"id": "people", "nav": "Who lives here", "question": "Who lives here, and how is that changing?", "slug": "hna-who-lives-here.html"};window.HNA_VIEW_ANCHORS={"affordable-ownership-need-section": {"label": "What to do about it", "page": "hna-what-to-do.html"}, "hnaScorecardPanel": {"label": "What to do about it", "page": "hna-what-to-do.html"}, "statUnitsNeed": {"label": "What to do about it", "page": "hna-what-to-do.html"}};</script>
 </head>
 <body data-page-update-key="hna"
@@ -663,6 +663,10 @@
         <p>Owner and renter occupied housing shares (ACS).</p>
         <div class="chart-box" data-source="ACS 5-Year DP04" data-vintage="ACS 2020–2024" data-source-type="transformed"><canvas id="chartTenure" role="img" aria-label="Owner and renter tenure share chart"></canvas></div>
       </div>
+
+      
+<!-- [hna-view:people] not on this view: Second homes, short-term rentals & lodging taxes -->
+
 
       <!-- F160 — Owner-occupied home value distribution by price bracket.
            ACS DP04_0081E - DP04_0088E. The median alone hides a lot of

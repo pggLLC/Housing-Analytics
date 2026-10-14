@@ -40,6 +40,13 @@
         "files": [
           "js/transit-zone.js"
         ]
+      },
+      {
+        "needs_id": "hnaSecondHomesMount",
+        "why": "The second homes panel. The controller calls SecondHomesPanel.attach only when window.SecondHomesPanel exists, and attach returns at once when its mount is absent, so views without the panel never load the data file.",
+        "files": [
+          "js/components/second-homes-panel.js"
+        ]
       }
     ]
   },
@@ -78,6 +85,10 @@
         {
           "n": 7,
           "title": "Housing stock by structure type"
+        },
+        {
+          "n": 55,
+          "title": "Second homes, short-term rentals & lodging taxes"
         },
         {
           "n": 9,

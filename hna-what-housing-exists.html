@@ -140,6 +140,7 @@
   <script src="js/components/chfa-award-history.js"></script>
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
+  <script src="js/components/second-homes-panel.js"></script>
   <!-- F162: targeted Google searches for housing topics on planning/council agendas + minutes -->
   <script src="js/components/agenda-search-links.js"></script>
   <script defer src="js/vendor/chart.umd.min.js"></script>
@@ -790,6 +791,14 @@
       
 <!-- [hna-view:stock] not on this view: Owner/renter shares -->
 
+
+      <section class="chart-card span-12" id="hnaSecondHomesSection" aria-labelledby="hnaH2SecondHomes">
+        <!-- Second homes + short-term rentals, read with the lodging taxes and
+             workforce housing programs that answer them (js/components/second-homes-panel.js,
+             data/hna/second-homes-str.json). -->
+        <h2 id="hnaH2SecondHomes">Second homes, short-term rentals &amp; lodging taxes</h2>
+        <div id="hnaSecondHomesMount" aria-live="polite"></div>
+      </section>
 
       <!-- F160 — Owner-occupied home value distribution by price bracket.
            ACS DP04_0081E - DP04_0088E. The median alone hides a lot of
