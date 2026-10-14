@@ -272,6 +272,7 @@
       },
       "why_it_matters": "Funding partners — lenders, equity investors, soft-debt sources, and the stewardship entities and buyer-assistance programs on the ownership side — expect different levels of completion at different times. Naming the level explicitly prevents the common failure of approaching a funder before the project is far enough along, which usually produces a polite 'come back later' rather than a working relationship.",
       "data_sources": [
+        {"label": "Funding Sources", "href": "colorado-deep-dive.html#tab-funding", "vintage": "Terms checked quarterly", "what": "Every Colorado tax credit, loan, grant and rental assistance program, with a finder that narrows them to the ones a project can use and shows their terms side by side"},
         {"label": "CHFA Qualified Allocation Plan", "vintage": "2026 cycle", "what": "Scoring rules and policy priorities for the year"},
         {"label": "CHFA portfolio of past awards", "vintage": "Live", "what": "Sponsor track record and regional allocation patterns"},
         {"label": "Capital partner reference list", "vintage": "Refreshed quarterly", "what": "29 lenders, syndicators, and banks active in Colorado affordable housing"},

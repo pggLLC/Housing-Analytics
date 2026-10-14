@@ -762,11 +762,11 @@
       // candidates for PMA attention, not confirmed pending applicants. Soft
       // load: a missing file just suppresses the W badge with no UI breakage.
       loadSoft('data/policy/chfa-watchlist.json'),
-      // F176 — Soft funding deadlines + capacity. Powers the detail
-      // panel callout that surfaces the immediate filing gates (LOI +
-      // application deadlines) for the selected jurisdiction. Soft
-      // load: a missing file just hides the callout.
-      loadSoft('data/policy/soft-funding-status.json'),
+      // The verified funding guide (parts[25]). Powers the detail panel's
+      // "Funding programs that fit" list through js/funding-fit.js. Soft
+      // load: a missing file just hides the list. (Was soft-funding-status.json,
+      // whose unconfirmed and closed rows were shown as eligible.)
+      loadSoft('data/policy/co-developer-funding-guide.json'),
       loadSoft('data/chfa-income-rent-limits-2026.json'),
       // Local support bonus (parts[27]..parts[30]): adopted plans and
       // council / planning-commission votes, plus the Local Housing
@@ -1035,16 +1035,11 @@
       var placeChas = parts[23];
       state.placeChas = (placeChas && placeChas.places) || {};
 
-      // F176 — Soft-funding programs (parts[25]). Same shape as the
-      // Compare page consumes. Used by the detail panel callout to
-      // surface LOI + application deadlines for any deal scoped in the
-      // selected jurisdiction.
+      // parts[25] is the verified funding guide; see _renderDetailSoftFunding.
       state.localSupport = (window.LocalSupportData && parts[27])
         ? window.LocalSupportData.build({ support: parts[27], fees: parts[28], funds: parts[29], coverage: parts[30] })
         : null;
-      var softFunding = parts[25];
-      state.softFundingPrograms = (softFunding && softFunding.programs) || {};
-      state.softFundingMeta = (softFunding && softFunding.meta) || null;
+      state.fundingGuide = parts[25] || null;
 
       // F121 — CHFA watchlist (parts[24]). Index by place_geoid so the table
       // renderer can append a W badge when the row matches. We zero-pad the
@@ -4033,88 +4028,57 @@
       '</div>' + rows + denials;
   }
 
+  // The deal type the user is ranking by, as js/funding-fit.js names it.
+  var TARGET_EXECUTION = { '9pct': '9%', '4pct': '4%' };
+
+  // Funding programs for the selected jurisdiction, from the verified guide
+  // (data/policy/co-developer-funding-guide.json) through js/funding-fit.js,
+  // the same matcher the Funding Sources tab and Compare use. Until 2026-10
+  // this panel listed every row of soft-funding-status.json as "eligible",
+  // including legacy labels no official page establishes and closed rounds
+  // (test/funding-eligibility-claims.test.js now guards against that).
   function _renderDetailSoftFunding(op) {
     var host = $('lofDetailSoftFunding');
     if (!host) return;
-    var progs = state.softFundingPrograms || {};
-    var keys = Object.keys(progs);
-    if (!keys.length) { host.innerHTML = ''; return; }
+    var F = window.FundingFit;
+    var guide = state.fundingGuide;
+    if (!F || !guide || !Array.isArray(guide.programs)) { host.innerHTML = ''; return; }
 
     var county = op && op.containingCounty;
-    var rows = keys.map(function (k) {
-      return Object.assign({ _key: k }, progs[k]);
-    }).filter(function (p) {
-      var c = (p.county || '').toString();
-      return c === 'All' || c === '' || (county && c === county);
-    });
-    if (!rows.length) {
-      host.innerHTML =
-        '<h4 style="margin:14px 0 4px">Soft-funding programs</h4>' +
-        '<p style="margin:0;color:var(--muted);font-size:.85rem">No statewide or county-matched soft-funding programs in scope. Verify against the live CDOLA / CHFA NOFA roster.</p>';
-      return;
-    }
-    rows.sort(function (a, b) {
-      var ad = a.loiDeadline || a.deadline || '9999-12-31';
-      var bd = b.loiDeadline || b.deadline || '9999-12-31';
-      return ad < bd ? -1 : ad > bd ? 1 : 0;
-    });
-
-    function _fmtDate(s) {
-      if (!s) return '<span style="color:var(--muted)">—</span>';
-      try {
-        var d = new Date(s + 'T00:00:00Z');
-        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        return months[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear();
-      } catch (_) { return s; }
-    }
-    function _fmtMoney(n) {
-      if (n == null) return '—';
-      if (n >= 1e6) return '$' + (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
-      if (n >= 1e3) return '$' + Math.round(n / 1e3) + 'k';
-      return '$' + n;
-    }
-    function _urgencyChip(date) {
-      if (!date) return '';
-      var t = new Date(date + 'T00:00:00Z').getTime();
-      var days = Math.round((t - Date.now()) / (1000*60*60*24));
-      if (days < 0) return '<span style="background:#94a3b822;color:#94a3b8;padding:0 5px;border-radius:8px;font-size:.65rem;font-weight:600;margin-left:5px">past</span>';
-      if (days <= 30) return '<span style="background:#dc262622;color:#dc2626;padding:0 5px;border-radius:8px;font-size:.65rem;font-weight:600;margin-left:5px">≤ 30d</span>';
-      if (days <= 60) return '<span style="background:#f59e0b22;color:#f59e0b;padding:0 5px;border-radius:8px;font-size:.65rem;font-weight:600;margin-left:5px">≤ 60d</span>';
-      return '';
-    }
+    var q = {
+      execution: TARGET_EXECUTION[state.filters && state.filters.target] || undefined,
+      projectType: state.filters && state.filters.target === 'preservation' ? 'preservation' : undefined,
+      county: county || undefined,
+      place: op && op.placeGeoid,
+      openOnly: true
+    };
+    var rows = F.select(guide, q);
+    var all = F.select(guide, { execution: q.execution, projectType: q.projectType, county: q.county, place: q.place });
     function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+    var scope = (q.execution ? F.executionLabel(q.execution) + ' ' : '') + 'programs';
+    var guideAll = F.guideUrl({ execution: q.execution, projectType: q.projectType, county: q.county, openOnly: true });
 
-    var bodyHtml = rows.map(function (r) {
-      var compColor = r.competitiveness === 'high' ? '#dc2626' : (r.competitiveness === 'moderate' ? '#f59e0b' : '#0891b2');
-      var compPill = r.competitiveness
-        ? '<span style="background:' + compColor + '22;color:' + compColor + ';padding:0 6px;border-radius:8px;font-size:.7rem;font-weight:600;margin-left:6px">' + r.competitiveness + '</span>'
-        : '';
-      return '<div style="padding:.55rem .65rem;border-bottom:1px solid var(--border)">' +
-        '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;flex-wrap:wrap">' +
-          '<div><strong>' + esc(r.name || r._key) + '</strong>' + compPill +
-            (r.adminEntity ? ' <span style="color:var(--muted);font-size:.7rem">· ' + esc(r.adminEntity) + '</span>' : '') +
-          '</div>' +
-          '<div style="font-size:.78rem;color:var(--muted)">' +
-            'Avail ' + _fmtMoney(r.available) + ' · Max ' + _fmtMoney(r.maxPerProject) + '/project' +
-          '</div>' +
-        '</div>' +
-        '<div style="margin-top:3px;font-size:.78rem">' +
-          '<span style="color:var(--muted)">LOI:</span> ' + _fmtDate(r.loiDeadline) + _urgencyChip(r.loiDeadline) +
-          '<span style="margin:0 .5rem;color:var(--muted)">·</span>' +
-          '<span style="color:var(--muted)">Application:</span> ' + _fmtDate(r.deadline) + _urgencyChip(r.deadline) +
-        '</div>' +
-        (r.contactUrl
-          ? '<div style="margin-top:3px;font-size:.74rem"><a href="' + esc(r.contactUrl) + '" target="_blank" rel="noopener">Program details ↗</a></div>'
-          : '') +
-      '</div>';
+    var SHOW = 8;
+    var bodyHtml = rows.slice(0, SHOW).map(function (r) {
+      var p = r.program;
+      return '<li style="padding:.4rem .65rem;border-bottom:1px solid var(--border)">' +
+        '<a href="' + esc(F.guideUrl({ program: p.id })) + '"><strong>' + esc(p.name) + '</strong></a>' +
+        '<div style="font-size:.76rem;color:var(--muted)">' + esc(p.administrator) + ' · ' + esc(F.AVAILABILITY_LABELS[r.availability]) +
+          (r.notes.length ? ' · ' + esc(r.notes.join(' ')) : '') + '</div>' +
+      '</li>';
     }).join('');
 
     host.innerHTML =
-      '<h4 style="margin:14px 0 4px">Soft-funding programs · ' + esc(rows.length) + ' eligible</h4>' +
-      '<p style="margin:0 0 .4rem;color:var(--muted);font-size:.78rem">Sorted by next LOI deadline. LOI is the threshold gate — most DOH programs require an LOI ~30–45 days before the full application closes. Click "Program details" for the live NOFA.</p>' +
-      '<div style="border:1px solid var(--border);border-radius:6px;overflow:hidden">' +
-        bodyHtml +
-      '</div>';
+      '<h4 style="margin:14px 0 4px">Funding programs that fit · ' + esc(rows.length) + ' open or with a published round</h4>' +
+      '<p style="margin:0 0 .4rem;color:var(--muted);font-size:.78rem">' +
+        esc(scope.charAt(0).toUpperCase() + scope.slice(1)) + ' a project in ' + esc(op && op.countyName || 'this county') +
+        ' can apply to, from the verified funding guide (' + esc(all.length - rows.length) + ' more are closed or have no published round). ' +
+        'This screens eligibility from each program\'s published terms; it does not predict an award.</p>' +
+      (rows.length
+        ? '<ul style="list-style:none;margin:0;padding:0;border:1px solid var(--border);border-radius:6px;overflow:hidden">' + bodyHtml + '</ul>'
+        : '<p style="margin:0;color:var(--muted);font-size:.85rem">No program in the guide is open for this deal type here right now.</p>') +
+      '<p style="margin:.4rem 0 0;font-size:.8rem"><a href="' + esc(guideAll) + '">' +
+        (rows.length > SHOW ? 'See all ' + esc(rows.length) + ' and compare their terms' : 'Compare these programs\' terms') + ' in Funding Sources →</a></p>';
   }
 
   function _renderCompSet(op) {

@@ -169,9 +169,16 @@
 
     var programs = SFT.getEligiblePrograms(countyFips, executionType);
     var updated = SFT.getLastUpdated();
+    // Every program, confirmed or not, with its terms: the Funding Sources
+    // tab, already filtered to this deal's credit type and county.
+    var guideHref = 'colorado-deep-dive.html?' +
+      (executionType === '9%' || executionType === '4%' ? 'exec=' + encodeURIComponent(executionType) + '&' : '') +
+      'county=' + encodeURIComponent(countyFips) + '&open=1#tab-funding';
+    var guideLink = '<a href="' + _escape(guideHref) + '">Funding Sources</a>';
 
     if (!programs || programs.length === 0) {
-      mount.innerHTML = '<p style="font-size:.78rem;color:var(--muted);margin:0;">No active soft-funding programs found for this county and credit type.</p>';
+      mount.innerHTML = '<p style="font-size:.78rem;color:var(--muted);margin:0;">No program in this list has confirmed current terms for this county and credit type. ' +
+        guideLink + ' lists every Colorado program that fits, with its terms and next round.</p>';
       return;
     }
 
@@ -248,7 +255,8 @@
         '</table>' +
         '<p style="font-size:.68rem;color:var(--muted);margin:6px 0 0;">' +
           'Catalog only — verify availability with CHFA, DOH, or county housing offices before advising clients. ' +
-          'Programs may have additional eligibility criteria not shown here.' +
+          'Programs may have additional eligibility criteria not shown here. ' +
+          'Only programs whose current terms were confirmed are listed; ' + guideLink + ' has every program that fits this deal, with its terms side by side.' +
         '</p>' +
       '</details>';
   }
