@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-14T17:13:57.458Z",
+    "generated_at": "2026-10-14T17:56:38.996Z",
     "root": "data/",
-    "file_count": 1719,
-    "total_size_bytes": 181221672,
+    "file_count": 1721,
+    "total_size_bytes": 181735097,
     "kinds": {
-      "json": 1682,
+      "json": 1684,
       "geojson": 33,
       "csv": 4
     }
@@ -502,7 +502,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-14T17:13:53.922Z",
+      "mtime": "2026-10-14T17:56:35.877Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -543,8 +543,8 @@
     {
       "path": "benchmarks/str-license-counts.json",
       "kind": "json",
-      "size_bytes": 3084,
-      "mtime": "2026-09-25T12:55:18.601Z",
+      "size_bytes": 5921,
+      "mtime": "2026-10-14T17:56:02.834Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -552,7 +552,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "entries",
-      "primary_array_length": 5,
+      "primary_array_length": 8,
       "primary_array_first_keys": [
         "jurisdiction",
         "geoid",
@@ -3204,8 +3204,8 @@
     {
       "path": "hna/hna-views.json",
       "kind": "json",
-      "size_bytes": 12464,
-      "mtime": "2026-09-27T10:27:39.819Z",
+      "size_bytes": 12946,
+      "mtime": "2026-10-14T17:56:02.883Z",
       "shape": "object",
       "keys": [
         "_comment",
@@ -3231,6 +3231,21 @@
         "review_flags"
       ],
       "key_count": 4,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "hna/housing-units-b25001.json",
+      "kind": "json",
+      "size_bytes": 37780,
+      "mtime": "2026-10-14T17:56:02.883Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "geographies"
+      ],
+      "key_count": 2,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -18953,6 +18968,21 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "hna/second-homes-str.json",
+      "kind": "json",
+      "size_bytes": 259449,
+      "mtime": "2026-10-14T17:56:02.964Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "geographies"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "hna/source/dola_components_county.csv",
       "kind": "csv",
       "size_bytes": 316471,
@@ -30672,8 +30702,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 218401,
-      "mtime": "2026-10-14T16:49:23.818Z",
+      "size_bytes": 218538,
+      "mtime": "2026-10-14T17:56:03.056Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32137,7 +32167,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15109,
-      "mtime": "2026-10-14T17:13:55.463Z",
+      "mtime": "2026-10-14T17:56:37.286Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32161,7 +32191,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-14T17:13:55.072Z",
+      "mtime": "2026-10-14T17:56:36.935Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34474,8 +34504,8 @@
     {
       "path": "policy/local-housing-funds.json",
       "kind": "json",
-      "size_bytes": 139958,
-      "mtime": "2026-10-10T20:58:58.855Z",
+      "size_bytes": 140369,
+      "mtime": "2026-10-14T17:56:03.252Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -34946,8 +34976,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 119922,
-      "mtime": "2026-10-14T12:56:17.812Z",
+      "size_bytes": 184859,
+      "mtime": "2026-10-14T17:56:03.255Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34955,7 +34985,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 10,
+      "primary_array_length": 11,
       "primary_array_first_keys": [
         "id",
         "title",
@@ -35289,8 +35319,8 @@
     {
       "path": "resort-workforce-housing-programs.json",
       "kind": "json",
-      "size_bytes": 15256,
-      "mtime": "2026-09-25T12:55:19.130Z",
+      "size_bytes": 162648,
+      "mtime": "2026-10-14T17:56:03.263Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -35298,19 +35328,18 @@
       ],
       "key_count": 2,
       "primary_array_key": "authorities",
-      "primary_array_length": 7,
+      "primary_array_length": 10,
       "primary_array_first_keys": [
         "id",
         "name",
         "url",
         "service_area",
         "place_geoids",
+        "serves_place_geoids",
         "county_fips",
-        "headline",
-        "portfolio_size_units",
-        "portfolio_size_units_year",
+        "inventory",
         "key_programs",
-        "developer_actions"
+        "not_verified"
       ]
     },
     {
