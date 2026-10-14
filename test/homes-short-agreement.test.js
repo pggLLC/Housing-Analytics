@@ -54,13 +54,17 @@ let checked = 0;
 const bands = ['30', '50', '80'];
 for (const [fips, rec] of Object.entries(aa.counties)) {
   const got = rendered(fips, null);
-  assert.deepEqual(got.values, bands.map((b) => rec.tiers[b].homes_short), `${rec.name}: Deal Calculator shows the file's homes short`);
+  assert.deepEqual(got.values, bands.map((b) => rec.tiers[b].homes_short_nested), `${rec.name}: Deal Calculator shows the file's nested homes short`);
   assert(got.text.includes(rec.name) && got.text.includes(aa.meta.vintage), `${rec.name}: line names the place and the CHAS vintage`);
+  // The nested figure is this site's rule; the line says so whenever it differs from HUD's.
+  if (bands.some((b) => rec.tiers[b].homes_short_nested !== rec.tiers[b].homes_short)) {
+    assert(/not HUD/.test(got.text), `${rec.name}: line says the carried-forward shortfall is this site's rule, not HUD's`);
+  }
   checked++;
 }
 for (const [geoid, rec] of Object.entries(aa.places)) {
   const got = rendered('08001', geoid);
-  assert.deepEqual(got.values, bands.map((b) => rec.tiers[b].homes_short), `${rec.name}: place record wins over the county`);
+  assert.deepEqual(got.values, bands.map((b) => rec.tiers[b].homes_short_nested), `${rec.name}: place record wins over the county`);
   for (const b of bands) {
     const p = rec.tiers[b].homes_per_100_households;
     if (p != null) assert(got.text.includes(`(${Math.round(p)} per 100)`), `${rec.name}: ≤${b}% per 100 shown`);

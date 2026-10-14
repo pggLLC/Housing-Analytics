@@ -4577,6 +4577,9 @@
   // available to each income group (HUD CHAS Tables 15C and 14B), the same
   // file the homepage cards render. A cheap home rented by a higher-income
   // household does not count. Place record first (F45), county otherwise.
+  // The line shows homes_short_nested: never fewer homes short in a wider
+  // band (this site's rule, stated on the line; HUD's own tier figure is
+  // homes_short).
   function _findChasRecord(fips, placeGeoid) {
     if (!_chasAaData) return null;
     var place = placeGeoid && _chasAaData.places && _chasAaData.places[placeGeoid];
@@ -4592,7 +4595,7 @@
     var out = {};
     ['30', '50', '80'].forEach(function (b) {
       var t = tiers[b] || {};
-      var v = t.homes_short;
+      var v = t.homes_short_nested;
       var p = t.homes_per_100_households;
       out[b] = {
         short: (typeof v === 'number' && isFinite(v) && v >= 0) ? v : null,
@@ -4749,8 +4752,9 @@
     container.appendChild(document.createElement('br'));
     var note = document.createElement('span');
     note.style.fontSize = '0.95em';
-    note.textContent = 'HUD CHAS' + (vintage ? ' ' + vintage : '') + '. Each band includes the ones below it and never shows ' +
-      'fewer homes short than a band inside it, because homes renting above what the lower incomes can pay do not close their shortfall. ' +
+    note.textContent = 'HUD CHAS' + (vintage ? ' ' + vintage : '') + '. Each band includes the ones below it. ' +
+      'This site, not HUD, never shows a band fewer homes short than a band inside it, because homes renting above what ' +
+      'the lower incomes can pay do not close their shortfall. ' +
       'A home counts only if its rent is affordable to the group and it is vacant or rented by someone in the group; ' +
       'per 100 is affordable, available homes for every 100 renter households. HUD\'s tables have no 60% tier.';
     container.appendChild(note);

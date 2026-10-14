@@ -132,34 +132,26 @@ assert.equal(/no 60% figure/i.test(gapCards['50'].note), !('60' in t),
 assert(/for each area/.test(aaData.meta.income_basis), 'fixture: income basis is per area');
 assert(/each county/i.test(gapCards['50'].note) && !/statewide AMI/i.test(gapCards['50'].note),
   '≤50% card says income limits are set for each county');
-// The data's own arithmetic. Per county: available = occupied within the
-// group + vacant, and homes short never falls as the tier widens (homes
-// renting above what the lower group can pay do not close its shortfall).
-// Statewide: the sum of the county shortfalls.
+// The data's own arithmetic, for every county and the state: available =
+// occupied within the group + vacant; HUD's shortfall = households − homes,
+// floored at 0; the nested figure never falls as the tier widens.
 const tierOrder = Object.keys(aaData.statewide.tiers).sort((a, b) => a - b);
-const countyShort = Object.fromEntries(tierOrder.map((k) => [k, 0]));
-for (const [name, rec] of Object.entries(aaData.counties)) {
+for (const [name, rec] of [['statewide', aaData.statewide], ...Object.entries(aaData.counties)]) {
   let worst = 0;
   for (const tier of tierOrder) {
     const r = rec.tiers[tier];
     assert.equal(r.affordable_available_homes, r.occupied_by_group + r.vacant_for_rent, `${name} ≤${tier}%: available = occupied within group + vacant`);
+    assert.equal(r.homes_short, Math.max(0, r.renter_households - r.affordable_available_homes), `${name} ≤${tier}%: HUD shortfall = households − homes`);
     worst = Math.max(worst, r.renter_households - r.affordable_available_homes);
-    assert.equal(r.homes_short, worst, `${name} ≤${tier}%: homes short is the largest gap at this tier or any inside it`);
-    countyShort[tier] += worst;
+    assert.equal(r.homes_short_nested, worst, `${name} ≤${tier}%: nested shortfall is the largest gap at this tier or any inside it`);
   }
 }
-for (const tier of tierOrder) {
-  assert.equal(aaData.statewide.tiers[tier].homes_short, countyShort[tier], `statewide ≤${tier}% homes short is the county sum`);
-}
-// When the headline is not simply households minus homes, the card says why.
-for (const tier of GAP_TIERS) {
-  const r = aaData.statewide.tiers[tier];
-  assert.equal(/county by county/i.test(gapCards[tier].note), r.homes_short !== r.renter_households - r.affordable_available_homes,
-    `≤${tier}% card explains the county-by-county count exactly when its headline differs from households − homes`);
-}
-assert.equal(/never fewer homes short than at ≤30%/i.test(gapCards['50'].note),
-  Object.values(aaData.counties).some((c) => c.tiers['50'].renter_households - c.tiers['50'].affordable_available_homes < c.tiers['30'].homes_short),
-  '≤50% card says it carries the ≤30% shortfall forward exactly when some county needs it');
+// The cards show HUD's shortfall, which a reader can check against the two
+// counts beside it. If the wider card ever showed fewer homes short than the
+// narrower one, the nested rule would be needed here too: fail until then.
+const st = aaData.statewide.tiers;
+assert(st['50'].homes_short >= st['30'].homes_short,
+  'statewide ≤50% shortfall is at least the ≤30% one; if not, the homepage needs the nested figure and a note saying so');
 // The vintage the cards show is the data's.
 for (const tier of GAP_TIERS) {
   assert(gapCards[tier].html.includes(`id="snapGapVintage${tier}"`), `≤${tier}% card shows the data vintage`);
@@ -200,6 +192,7 @@ async function assertRenderedGapFigures() {
   for (const tier of GAP_TIERS) {
     const r = aaData.statewide.tiers[tier];
     assert.equal(text(`snapGap${tier}`), r.homes_short.toLocaleString('en-US'), `≤${tier}% headline renders the statewide homes short`);
+    assert.equal(r.homes_short, r.renter_households - r.affordable_available_homes, `≤${tier}% headline equals the households minus the homes shown beside it`);
     assert.equal(text(`snapGap${tier}Households`), r.renter_households.toLocaleString('en-US'), `≤${tier}% note renders the statewide households`);
     assert.equal(text(`snapGap${tier}Homes`), r.affordable_available_homes.toLocaleString('en-US'), `≤${tier}% note renders the statewide available homes`);
     assert.equal(text(`snapGap${tier}Per100`), String(Math.round(100 * r.affordable_available_homes / r.renter_households)),
