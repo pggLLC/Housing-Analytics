@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T13:59:24.855Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T16:47:48.159Z. Do not edit by hand.
 
 ---
 
@@ -52,7 +52,7 @@
 | `housing-legislation-2026.html` | Policy &amp; Legislation | Colorado Public Data Reference | 22.2 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 239.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
-| `index.html` | Colorado Affordable Housing Data Reference | 39.6 KB |
+| `index.html` | Colorado Affordable Housing Data Reference | 39.7 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 584 B |
 | `insights.html` | Research &amp; Analysis | Colorado Public Data Reference | 29.3 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 17.4 KB |
@@ -87,7 +87,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 820.5 KB | ✅ | — |
+| `data/_manifest.json` | 821.5 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -132,8 +132,8 @@
 | `data/co-historical-allocations.json` | 13.9 KB | ✅ | — |
 | `data/co-housing-costs/county-trends.json` | 50.2 KB | ✅ | — |
 | `data/co-place-centroids.json` | 49.3 KB | ✅ | — |
-| `data/co_ami_gap_by_county.json` | 85.9 KB | ✅ | — |
-| `data/co_ami_gap_by_place.json` | 627.4 KB | ✅ | — |
+| `data/co_ami_gap_by_county.json` | 100.6 KB | ✅ | — |
+| `data/co_ami_gap_by_place.json` | 729.4 KB | ✅ | — |
 | `data/core/educational-content.json` | 66.0 KB | ✅ | — |
 | `data/core/neighborhood-context.json` | 69.6 KB | ✅ | — |
 | `data/coverage-report.json` | 12.8 KB | ✅ | — |
@@ -393,7 +393,7 @@
 | `data/hna/jurisdiction-metrics-digest/0816715.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0817100.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0817150.json` | 39.0 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0817375.json` | 40.5 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0817375.json` | 40.4 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0817485.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0817760.json` | 40.5 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0817925.json` | 40.6 KB | ✅ | — |
@@ -666,7 +666,7 @@
 | `data/hna/jurisdiction-metrics-digest/0863650.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0863705.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0864090.json` | 40.5 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0864200.json` | 40.5 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0864200.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0864255.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0864870.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0864970.json` | 40.6 KB | ✅ | — |
@@ -709,7 +709,7 @@
 | `data/hna/jurisdiction-metrics-digest/0871845.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0872320.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0872395.json` | 40.4 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0873330.json` | 40.2 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0873330.json` | 40.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0873715.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0873825.json` | 40.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0873925.json` | 39.0 KB | ✅ | — |
@@ -746,7 +746,7 @@
 | `data/hna/jurisdiction-metrics-digest/0880370.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0880755.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0880865.json` | 40.7 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0881030.json` | 39.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0881030.json` | 40.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0881305.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0881690.json` | 40.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0882130.json` | 40.2 KB | ✅ | — |
@@ -1586,7 +1586,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 213.0 KB | ✅ | — |
+| `data/manifest.json` | 213.3 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1774,7 +1774,7 @@
 
 ## Test Files
 
-595 test files found.
+598 test files found.
 
 | File | Size |
 |------|------|
@@ -1789,7 +1789,7 @@
 | `test/affordability-defaults-inventory.test.js` | 6.7 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 3.2 KB |
 | `test/ahcia-status.test.mjs` | 5.9 KB |
-| `test/ami-gap-contract.test.js` | 12.3 KB |
+| `test/ami-gap-contract.test.js` | 13.5 KB |
 | `test/ami-gap-evidence-language.test.js` | 4.8 KB |
 | `test/ami-gap-sign-convention.test.js` | 4.9 KB |
 | `test/analytics.test.js` | 18.2 KB |
@@ -1928,6 +1928,7 @@
 | `test/figure-explanations.test.js` | 20.7 KB |
 | `test/file-manifest.test.js` | 9.5 KB |
 | `test/financial-copy-agreement.test.js` | 10.9 KB |
+| `test/finder-and-narrative-agree.test.js` | 6.9 KB |
 | `test/finish-line-holds.test.mjs` | 15.7 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
@@ -2024,9 +2025,10 @@
 | `test/home-need-map-legend-colors.test.js` | 3.3 KB |
 | `test/home-value-integrity.test.mjs` | 19.1 KB |
 | `test/homeownership-programs.test.js` | 6.6 KB |
-| `test/homepage-claims.test.js` | 8.3 KB |
+| `test/homepage-claims.test.js` | 9.8 KB |
 | `test/homepage-job-routing.test.js` | 8.4 KB |
 | `test/homepage-snapshot.test.js` | 12.3 KB |
+| `test/homes-short-agreement.test.js` | 3.3 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.2 KB |
 | `test/housing-events-and-brief-news.test.mjs` | 11.7 KB |
 | `test/housing-need-face-validity.test.mjs` | 26.5 KB |
@@ -2086,7 +2088,7 @@
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
 | `test/methods-spec-sources.test.mjs` | 5.1 KB |
-| `test/metric-semantics-wording.test.js` | 4.3 KB |
+| `test/metric-semantics-wording.test.js` | 4.5 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
 | `test/metric-truth-crosssurface.test.js` | 8.1 KB |
 | `test/mi-supply-co-vs-national.test.js` | 3.4 KB |
@@ -2197,6 +2199,7 @@
 | `test/recommendation-leads-with-the-conclusion.test.mjs` | 25.7 KB |
 | `test/recommendation-transit-zone.test.mjs` | 13.6 KB |
 | `test/redfin-place-market-tracker.test.js` | 4.8 KB |
+| `test/region-membership.test.js` | 3.9 KB |
 | `test/registry-cross-county-consistency.test.js` | 1.8 KB |
 | `test/regrid-cache-honesty.test.js` | 8.6 KB |
 | `test/rendered-absence-not-zero.test.js` | 4.2 KB |
