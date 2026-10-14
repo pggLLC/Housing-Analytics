@@ -124,7 +124,10 @@ export function briefRenderedText(brief) {
   const sections = (Array.isArray(brief.sections) ? brief.sections : []).flatMap((s) => [
     s && s.heading, ...((s && s.paragraphs) || []), s && s.items_heading, ...((s && s.items) || []),
     s && s.table && s.table.caption, ...((s && s.table && s.table.columns) || []),
-    ...((s && s.table && s.table.rows) || []).flat(), s && s.note
+    ...((s && s.table && s.table.rows) || []).flat(), s && s.note,
+    s && s.steps && s.steps.caption,
+    ...((s && s.steps && s.steps.items) || []).flatMap((step) => [step && step.level, step && step.label, step && step.text]),
+    s && s.see_also && s.see_also.text
   ]);
   return [brief.takeaway, brief.summary, brief.implications, ...sections, ...(brief.articles || []).map((a) => a && a.title)]
     .flat().filter((v) => typeof v === 'string');

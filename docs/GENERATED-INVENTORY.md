@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T11:32:37.786Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T12:57:26.751Z. Do not edit by hand.
 
 ---
 
@@ -33,7 +33,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 69.6 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.9 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 77.3 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 78.9 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.2 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -71,8 +71,8 @@
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 6.0 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.0 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 27.5 KB |
-| `research-brief.html` | Research Brief | COHO Analytics | 18.3 KB |
-| `resident-services.html` | Services in Affordable Housing | Colorado Public Data Reference | 25.4 KB |
+| `research-brief.html` | Research Brief | COHO Analytics | 22.6 KB |
+| `resident-services.html` | Services in Affordable Housing | Colorado Public Data Reference | 25.7 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.4 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 12.0 KB |
@@ -143,7 +143,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 4.02 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 254.4 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 255.0 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1746,7 +1746,7 @@
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 374.9 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 102.5 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 117.1 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
 | `data/polymarket-history.json` | 158.8 KB | ✅ | — |
@@ -1772,7 +1772,7 @@
 
 ## Test Files
 
-589 test files found.
+590 test files found.
 
 | File | Size |
 |------|------|
@@ -1885,6 +1885,7 @@
 | `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
+| `test/deal-calculator-rent-link.test.js` | 5.8 KB |
 | `test/deal-engine-golden.test.js` | 7.5 KB |
 | `test/deal-engine-surfaces.test.js` | 11.5 KB |
 | `test/deal-engine.test.js` | 6.6 KB |
@@ -2023,7 +2024,7 @@
 | `test/homeownership-programs.test.js` | 6.6 KB |
 | `test/homepage-claims.test.js` | 8.3 KB |
 | `test/homepage-job-routing.test.js` | 8.4 KB |
-| `test/homepage-snapshot.test.js` | 10.9 KB |
+| `test/homepage-snapshot.test.js` | 12.3 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.2 KB |
 | `test/housing-events-and-brief-news.test.mjs` | 11.7 KB |
 | `test/housing-need-face-validity.test.mjs` | 26.5 KB |
@@ -2034,7 +2035,7 @@
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 2.8 KB |
 | `test/hud-home-rent-limits.test.js` | 3.2 KB |
-| `test/hud-vintage-labels-sync.test.mjs` | 2.4 KB |
+| `test/hud-vintage-labels-sync.test.mjs` | 5.1 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
 | `test/input-provenance.test.js` | 6.4 KB |
 | `test/insights-agreement.test.mjs` | 5.3 KB |
@@ -2064,7 +2065,7 @@
 | `test/lihtc-guide-accuracy.test.js` | 2.3 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 8.8 KB |
 | `test/lihtc-project-size.test.js` | 6.8 KB |
-| `test/livability-brief.test.mjs` | 7.5 KB |
+| `test/livability-brief.test.mjs` | 10.4 KB |
 | `test/local-incentives.test.mjs` | 11.4 KB |
 | `test/local-resources-discovery.test.js` | 8.0 KB |
 | `test/local-resources-entry-completeness.test.js` | 3.3 KB |
@@ -2383,7 +2384,7 @@
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.0 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
-| `.github/workflows/build-hna-data.yml` | 32.6 KB |
+| `.github/workflows/build-hna-data.yml` | 32.8 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 4.0 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 13.0 KB |
 | `.github/workflows/car-data-update.yml` | 5.3 KB |

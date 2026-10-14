@@ -356,15 +356,15 @@
     },
     {
       "id": "livability-universal-design-2026",
-      "title": "Livability beyond the pro forma: universal and functional design, privacy, shared space and green infrastructure in affordable housing",
+      "title": "Livability beyond the pro forma: design for every resident, from universal access to supportive housing and community",
       "policy_topic": "Design & Livability",
       "is_curated": true,
       "source_reviewed": true,
       "generated": "2026-10-11T00:00:00Z",
-      "verified": "2026-10-11",
-      "takeaway": "Design for everyone who will live in the building over its life: step-free, easy to understand, quiet, private and green. That is where the evidence for livability is strongest, CHFA already requires or scores part of it, and the rest costs least when it is settled before the first drawing.",
-      "summary": "The qualities residents feel every day, such as whether they can get in the door, find their way, close a door for privacy, meet a neighbor or look at a tree, do not appear in a pro forma. The research on them is uneven. Evidence is strongest for green infrastructure: a randomized trial in Philadelphia found that greening vacant lots reduced shootings, and a second analysis of the same trial found that nearby residents reported feeling depressed less often. Following the same people over 17 years, a UK panel study found that people reported higher life satisfaction and less distress in the years they lived in greener urban areas. Evidence on universal design is mostly about need rather than outcomes: under 5% of U.S. homes are livable for someone with moderate mobility difficulties and under 1% are wheelchair accessible, while the people who will need those features are a large and growing share of residents over a building's life. Evidence on shared space and on privacy is real but mostly observational or qualitative. CHFA's 2027-28 QAP Third Draft already requires green building certification, water-wise landscaping and the same unit design for every income tier, and awards two points for universal design or accessible Type A units in at least 5% of units.",
-      "implications": "Treat universal design as the organizing idea rather than an add-on: a building that a wheelchair user, a parent with a stroller, an older resident and a new arrival who does not read English can all use without help is also easier to lease, manage and keep occupied. Most of it is cheap only at the start. Step-free routes, door widths, blocking for grab bars and room sizes are set by the site plan and the first floor plans, and are expensive to change later. Green infrastructure in Colorado should mean shade trees, native and water-wise planting and usable outdoor rooms, because CHFA now limits non-functional turf. Smaller homes can live well when the plan does the work: storage where it is used, a real entry, rooms that fit furniture, one-floor living for older residents and a porch deep enough to sit on. Put shared rooms on the routes residents already walk, such as the entry, mailroom and laundry, rather than behind a locked door at the end of a corridor. Do not put a dollar value on any of this in a deal model. The studies do not support one, and a made-up number is worse than none. Use this brief to decide design priorities and to write the QAP narrative, and use the Deal Calculator for the numbers it can actually support.",
+      "verified": "2026-10-14",
+      "takeaway": "Design for everyone who will live in the building over its life: step-free, easy to understand, calm, private, and connected to the street and to neighbors. That is where the evidence for livability is strongest, CHFA already requires or scores part of it, and the rest costs least when it is settled before the first drawing.",
+      "summary": "The qualities residents feel every day, such as whether they can get in the door, find their way, close a door for privacy, meet a neighbor or look at a tree, do not appear in a pro forma. The research on them is uneven. Evidence is strongest for green infrastructure: a randomized trial in Philadelphia found that greening vacant lots reduced shootings, and a second analysis of the same trial found that nearby residents reported feeling depressed less often. Following the same people over 17 years, a UK panel study found that people reported higher life satisfaction and less distress in the years they lived in greener urban areas. Evidence on universal design is mostly about need rather than outcomes: under 5% of U.S. homes are livable for someone with moderate mobility difficulties and under 1% are wheelchair accessible, while the people who will need those features are a large and growing share of residents over a building's life. Two newer bodies of guidance carry universal design further. Neuro-inclusive design plans for people who process noise, light and crowding differently, and trauma-informed design, developed in Denver, shapes supportive housing around safety and choice. Both are well reasoned and thinly tested. Supportive housing itself is well tested: in Denver's randomized trial, 77% of the people it housed, not counting those who died, were still housed three years later. Evidence on shared space, on how a building meets the street and on privacy is real but mostly observational or qualitative. CHFA's 2027-28 QAP Third Draft already requires green building certification, water-wise landscaping and the same unit design for every income tier, and awards two points for universal design or accessible Type A units in at least 5% of units.",
+      "implications": "Treat universal design as the organizing idea rather than an add-on: a building that a wheelchair user, a parent with a stroller, an older resident and a new arrival who does not read English can all use without help is also easier to lease, manage and keep occupied. Most of it is cheap only at the start. Step-free routes, door widths, blocking for grab bars and room sizes are set by the site plan and the first floor plans, and are expensive to change later. Green infrastructure in Colorado should mean shade trees, native and water-wise planting and usable outdoor rooms, because CHFA now limits non-functional turf. Smaller homes can live well when the plan does the work: storage where it is used, a real entry, rooms that fit furniture, one-floor living for older residents and a porch deep enough to sit on. Plan the steps from street to front door as a gradient from public to private, so residents can choose how much contact they want, and put shared rooms on the routes residents already walk, such as the entry, mailroom and laundry, rather than behind a locked door at the end of a corridor. Zone noisy rooms away from bedrooms and keep routes simple, which helps residents who are easily overloaded and costs little at the start. In supportive housing, settle where residents meet staff, how they control who comes in, and how people with lived experience of homelessness shape the design before the floor plans are drawn. Do not put a dollar value on any of this in a deal model. The studies do not support one, and a made-up number is worse than none. Use this brief to decide design priorities and to write the QAP narrative, and use the Deal Calculator for the numbers it can actually support.",
       "related_data": "data/audit/chfa-qap-watch.json",
       "qap_document": "2027-28 QAP - Third Draft (PDF)",
       "qap_quotes": [
@@ -442,16 +442,37 @@
           "section": "2.B",
           "quote": "community amenity space uses",
           "row": 9
+        },
+        {
+          "section": "5.B.3.g",
+          "quote": "accessible Type A units under technical accessibility standard options of either American National Standards Institute (ANSI) A117.1 or Uniform Federal Accessibility Standards (UFAS)",
+          "row": 5
+        },
+        {
+          "section": "5.B.5",
+          "quote": "Tenant Selection Plans that follow Housing First best practices, such as pet-friendly policies",
+          "row": 11
+        },
+        {
+          "section": "3.B.4",
+          "quote": "locked laundry closets are not allowed",
+          "row": 12
+        },
+        {
+          "section": "3.B.4",
+          "quote": "unless CHFA allows an exception in its sole discretion",
+          "row": 12
         }
       ],
       "sections": [
         {
           "id": "universal-design",
-          "heading": "Universal design: spaces anyone can use without help",
+          "heading": "Universal access: spaces anyone can use without help",
           "paragraphs": [
             "Universal design means designing a place so that as many people as possible can use it, without adaptation and without being singled out. The seven principles written at North Carolina State University's Center for Universal Design in 1997 are still the clearest test: equitable use, flexibility in use, simple and intuitive use, perceptible information, tolerance for error, low physical effort, and size and space for approach and use. Four of the seven are about usability, not access codes. A space can pass an accessibility inspection and still be hard to use.",
             "The need is large and mostly unmet. HUD's analysis of the 2011 American Housing Survey found that about a third of U.S. homes could be modified for a person with a mobility disability, under 5% were livable for someone with moderate mobility difficulties, and under 1% were wheelchair accessible. Smith, Rayer and Smith (2008) projected how aging will raise the number of households with a disabled member and concluded that a home built today will very likely house someone with a disability during its life. An affordable rental building will house many households over its compliance period and after it, so it should be designed for the residents it will have later as well as the first ones.",
-            "Federal rules set a floor, not a goal. The Fair Housing Act requires seven accessibility features in covered multifamily buildings first occupied after March 13, 1991: in every unit of an elevator building, and in ground-floor units otherwise. Projects with HUD funds, such as HOME, must also meet Section 504: at least 5% of units accessible for people with mobility impairments and another 2% for people with hearing or vision impairments. CHFA's draft QAP adds two points for universal design or for Type A accessible units in at least 5% of units. Zero-step entrances and wider doors cost little when planned into new construction and are much harder to add later (Maisel, Smith and Steinfeld, 2008)."
+            "Federal rules set a floor, not a goal. The Fair Housing Act requires seven accessibility features in covered multifamily buildings first occupied after March 13, 1991: in every unit of an elevator building, and in ground-floor units otherwise. Projects with HUD funds, such as HOME, must also meet Section 504: at least 5% of units accessible for people with mobility impairments and another 2% for people with hearing or vision impairments. CHFA's draft QAP adds two points for universal design or for Type A accessible units in at least 5% of units. Zero-step entrances and wider doors cost little when planned into new construction and are much harder to add later (Maisel, Smith and Steinfeld, 2008).",
+            "Access is more than a step-free route. A building is also hard to use if a resident cannot hear the intercom, read the signs, follow the route or tolerate the noise in the lobby. The next two sections take universal design's principles of simple, intuitive use and perceptible information further: neuro-inclusive design for people who process their surroundings differently, and trauma-informed design for people who have been homeless."
           ],
           "items_heading": "What highly usable looks like in practice",
           "items": [
@@ -464,6 +485,88 @@
             "Rooms that flex as a household changes: a bedroom that can serve as an office or a carer's room, and a door that closes on the space where a child does homework."
           ],
           "note": "These practices follow the seven principles and the Fair Housing Act requirements. They were not each tested in a trial, and the brief does not claim they were."
+        },
+        {
+          "id": "neuro-inclusive",
+          "heading": "Neuro-inclusive design: calm spaces that make sense",
+          "paragraphs": [
+            "Neuro-inclusive design plans for how people take in their surroundings: noise, light, smell, crowding and how easy a place is to understand. It matters most for residents who are autistic or have ADHD, dementia or another neurological difference, and it makes a building calmer for everyone else. The UK's PAS 6463:2022, Design for the mind, was the first national guidance on it. It covers homes for independent or supported living as well as public buildings, and addresses lighting, acoustics, décor, flooring, layout, wayfinding, familiarity, thermal comfort and smell. It is guidance, not a code.",
+            "Magda Mostafa's ASPECTSS Design Index, published in 2014, names seven criteria: acoustics, spatial sequencing, escape spaces, compartmentalization, transitions, sensory zoning and safety. For housing, Arizona State University's Advancing Full Spectrum Housing (2010), by Sherry Ahrentzen and Kim Steele and a companion to ULI Arizona's Opening Doors, set ten resident-based design goals for adults with autism, running from neighborhood amenities to assistive technology in the home.",
+            "The evidence for housing is thin. The studies behind ASPECTSS are post-occupancy evaluations of schools, built on staff surveys and classroom observation, and this review found no study that measured resident outcomes in affordable rental housing. Treat neuro-inclusive design as careful guidance that costs little when it is planned early, not as a proven effect."
+          ],
+          "items_heading": "What it looks like in a building",
+          "items": [
+            "Sensory zoning: laundry, trash rooms, elevators and mechanical equipment kept away from bedroom walls, and busy shared rooms kept apart from quiet ones.",
+            "Sound separation between units, and between units and corridors, better than the code minimum.",
+            "Even, glare-free lighting that residents can dim, with daylight, and no flickering or buzzing fixtures.",
+            "A sequence that makes sense: entry, mail, elevator, home in a predictable order, with one obvious route instead of many choices.",
+            "A transition space at the building entry and at each unit door, where a resident can pause before moving from street to building or building to home.",
+            "A small quiet room or alcove off a busy shared space, where someone can step away without leaving.",
+            "Calm, consistent materials, with colors and signs used the same way on every floor."
+          ]
+        },
+        {
+          "id": "supportive-housing",
+          "heading": "Permanent supportive housing: design for safety, choice and recovery",
+          "paragraphs": [
+            "Permanent supportive housing pairs a standard lease with services residents choose to use, for people leaving long-term homelessness who live with a disability. Most follows Housing First, which does not require sobriety or treatment to get or keep the home. The model is well tested. In Denver's Supportive Housing Social Impact Bond, a randomized trial of 724 people, 77% of those it housed, not counting those who died, were still in stable housing three years later, and the supportive housing group had 40% fewer arrests and 27% fewer days in jail than people who received usual services (Urban Institute, 2021). In Canada's At Home/Chez Soi trial in five cities, 62% of Housing First participants were housed all of the time in the study's last six months, against 31% of those who received usual services.",
+            "Design for supportive housing is newer and less proven. The most developed approach comes from Colorado: trauma-informed design, built by Shopworks Architecture, Group14 Engineering and the University of Denver's Center for Housing and Homelessness Research, with research funders that include CHFA. Safety, real and perceived, sits at the center, surrounded by comfort, choice and connection, and the authors say plainly that it is not a checklist. A 2022 scoping review of 13 studies found that the evidence lines up with these principles but is limited, mostly qualitative and from few places (Owen and Crane). The first quasi-experimental test, at five supportive housing sites, three designed this way and two not, found mixed results: some measures of relationships improved at the trauma-informed sites, while measures of psychological safety fell and reported conflict rose over the study. The authors conclude that safety, conflict and relationships change together as residents settle in (Brisson and colleagues, 2025).",
+            "CHFA asks for this design. Points for homelessness and special-population set-asides under QAP 5.B.5 require design suited to the population served, such as trauma-informed design, services residents can choose at no cost, and tenant selection that follows Housing First practices such as pet-friendly policies. The third draft also bars locked laundry closets as a minimum amenity, unless CHFA allows an exception in its sole discretion."
+          ],
+          "items_heading": "Questions to settle before the floor plans",
+          "items": [
+            "Where does a resident first meet staff, and does the entry feel welcoming rather than guarded?",
+            "Can people see who is in a shared room before they go in, and leave it another way?",
+            "Is there a private room for meeting a case manager or a nurse that is not on a corridor everyone uses?",
+            "Can each resident control their own light, heat, noise and who comes to the door?",
+            "Where do pets go, and where can residents store belongings securely?",
+            "Are there places to be near other people without having to talk, such as a porch, a window seat or a bench by the entry?",
+            "How did people with lived experience of homelessness shape the design, and how will the team learn from residents after move-in?"
+          ],
+          "see_also": {
+            "text": "For the services themselves, who pays for them and what they cost, see Services in Affordable Housing.",
+            "href": "resident-services.html#rs-kinds"
+          }
+        },
+        {
+          "id": "community",
+          "heading": "Design for community: public and private spaces that work together",
+          "paragraphs": [
+            "People meet their neighbors in the spaces between the street and the front door, so those spaces need a clear order. Christopher Alexander's A Pattern Language (1977) calls it an intimacy gradient: arrange a building so a person moves from the most public places, through shared ones, to the most private. When each step is clear, residents can choose how much contact they want, which is also what neuro-inclusive and trauma-informed design ask for. Jan Gehl's studies of residential streets found that soft edges, such as front yards, porches and stoops where people can sit and putter, give residents of all ages reasons to stay outside, and make the street livelier for it.",
+            "Shared space helps residents get to know neighbors, and that reduces loneliness, but most of the evidence is interviews and surveys rather than trials. Social-housing tenants in New Zealand, most of them over 55 and living alone, described common areas as where neighbor ties began and grew into mutual help. A survey of multifamily residents found that those with more shared amenities knew more neighbors and felt less lonely, and that everyday spaces such as lobbies and laundry rooms mattered as much as courtyards.",
+            "The size of the room matters less than where it is and what happens in it. A community room on the way to the mailboxes gets used; one behind a locked door at the end of a corridor does not. Resident services are part of the same picture: industry studies of properties with on-site services report lower rent arrears and fewer eviction move-outs, though none of them is a controlled study.",
+            "Some of these spaces can serve the neighborhood as well as residents: a ground-floor clinic, child care center, café or public courtyard. They turn the building's edge toward the street, but they need a clear line where public use ends and residents' space begins, such as a separate entrance or a gate residents control. In supportive housing that line matters more, because control over who comes in is part of safety."
+          ],
+          "steps": {
+            "caption": "From street to home: each step a little more private",
+            "items": [
+              {
+                "label": "Street",
+                "level": "Public",
+                "text": "Sidewalk, street trees, lighting and windows that look out on it."
+              },
+              {
+                "label": "Front edge",
+                "level": "Public, near home",
+                "text": "A porch, stoop, front garden or bench where residents can sit and see the street, and any ground-floor use the neighborhood shares."
+              },
+              {
+                "label": "Shared rooms",
+                "level": "Residents together",
+                "text": "Lobby, mail, laundry, courtyard and community room, on the routes residents already walk."
+              },
+              {
+                "label": "Near the door",
+                "level": "A few neighbors",
+                "text": "A short corridor or shared landing serving a handful of homes, with a spot to pause."
+              },
+              {
+                "label": "Home",
+                "level": "Private",
+                "text": "A real entry, a door that closes, and rooms the household controls."
+              }
+            ]
+          }
         },
         {
           "id": "functional-design",
@@ -560,7 +663,7 @@
                 "3.O"
               ],
               [
-                "Universal design, or Type A accessible units in at least 5% of units",
+                "Universal design, or Type A accessible units (ANSI A117.1 or UFAS) in at least 5% of units",
                 "2 points",
                 "5.B.3.g"
               ],
@@ -588,6 +691,16 @@
                 "Higher energy performance (PHIUS/PHI, DOE Efficient New Homes, EGC+) or all-electric",
                 "More competitive, not scored",
                 "8.A"
+              ],
+              [
+                "Tenant selection that follows Housing First practices, such as pet-friendly policies, for homelessness and special-population set-asides",
+                "Required for those points",
+                "5.B.5"
+              ],
+              [
+                "No locked laundry closets; laundry sized to the project unless a washer and dryer are in each unit. CHFA may allow an exception in its sole discretion",
+                "Required",
+                "3.B.4"
               ]
             ]
           }
@@ -646,14 +759,6 @@
           }
         },
         {
-          "id": "shared-space",
-          "heading": "Shared space that people actually use",
-          "paragraphs": [
-            "Shared space helps residents get to know neighbors, and that reduces loneliness, but most of the evidence is interviews and surveys rather than trials. Social-housing tenants in New Zealand, most of them over 55 and living alone, described common areas as where neighbor ties began and grew into mutual help. A survey of multifamily residents found that those with more shared amenities knew more neighbors and felt less lonely, and that everyday spaces such as lobbies and laundry rooms mattered as much as courtyards.",
-            "The size of the room matters less than where it is and what happens in it. A community room on the way to the mailboxes gets used; one behind a locked door at the end of a corridor does not. Resident services are part of the same picture: industry studies of properties with on-site services report lower rent arrears and fewer eviction move-outs, though none of them is a controlled study."
-          ]
-        },
-        {
           "id": "privacy",
           "heading": "Privacy, crowding and quiet",
           "paragraphs": [
@@ -673,7 +778,7 @@
           "id": "limits",
           "heading": "Limits of this brief",
           "paragraphs": [
-            "Most studies here are observational, small, or both, and several come from one research group. Only the Philadelphia greening trial is randomized. None of the studies measured effects on operating costs in Colorado affordable housing, so the brief gives no dollar figures, and none should be added to a deal model on its strength. The QAP items come from a draft. COHO checks each quoted requirement against the machine-extracted text of the named CHFA document on every build, but the PDF is the authority."
+            "Most studies here are observational, small, or both, and several come from one research group. Only the Philadelphia greening trial and the Denver and Canadian supportive housing trials are randomized, and the housing trials test the model of a lease plus services, not the design of the building. Neuro-inclusive and trauma-informed design rest mostly on expert guidance, interviews and studies of schools or a few sites. None of the studies measured effects on operating costs in Colorado affordable housing, so the brief gives no dollar figures, and none should be added to a deal model on its strength. The QAP items come from a draft. COHO checks each quoted requirement against the machine-extracted text of the named CHFA document on every build, but the PDF is the authority."
           ]
         }
       ],
@@ -681,7 +786,10 @@
         "Colorado Housing and Finance Authority",
         "North Carolina State University Center for Universal Design",
         "U.S. Department of Housing and Urban Development",
-        "Peer-reviewed journals"
+        "Peer-reviewed journals",
+        "Urban Institute",
+        "Shopworks Architecture and University of Denver",
+        "BSI"
       ],
       "articles": [
         {
@@ -862,6 +970,60 @@
           "title": "Defensible Space: Crime Prevention Through Urban Design (review abstract)",
           "source": "National Criminal Justice Reference Service",
           "link": "https://www.ojp.gov/ncjrs/virtual-library/abstracts/defensible-space-crime-prevention-through-urban-design-and"
+        },
+        {
+          "title": "Breaking the Homelessness-Jail Cycle with Housing First: Results from the Denver Supportive Housing Social Impact Bond Initiative (Cunningham et al.)",
+          "source": "Urban Institute",
+          "link": "https://www.urban.org/research/publication/breaking-homelessness-jail-cycle-housing-first-results-denver-supportive-housing-social-impact-bond-initiative",
+          "date": "2021-07-15"
+        },
+        {
+          "title": "National Final Report: Cross-Site At Home/Chez Soi Project, main messages (Goering et al.)",
+          "source": "Mental Health Commission of Canada",
+          "link": "https://mentalhealthcommission.ca/wp-content/uploads/2021/09/At2520Home2520Final2520Report2520-2520Main2520Messages2520-2520ENG_0.pdf",
+          "date": "2014"
+        },
+        {
+          "title": "Trauma-Informed Design: Designing for Healing, Dignity and Joy, and the four-phase TID process",
+          "source": "Shopworks Architecture, Group14 Engineering and University of Denver Center for Housing and Homelessness Research",
+          "link": "https://www.shopworksarc.com/tid",
+          "date": "2023"
+        },
+        {
+          "title": "Trauma-Informed Design of Supported Housing: A Scoping Review through the Lens of Neuroscience (Owen and Crane), International Journal of Environmental Research and Public Health",
+          "source": "IJERPH",
+          "link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9658651/",
+          "date": "2022"
+        },
+        {
+          "title": "Impact of Trauma-Informed Design on Health and Well-Being of People Formerly Experiencing Homelessness in Permanent Supportive Housing (Brisson, Macur, Mann and Wilson), Social Sciences 14(7)",
+          "source": "Social Sciences",
+          "link": "https://doi.org/10.3390/socsci14070417",
+          "date": "2025-07"
+        },
+        {
+          "title": "PAS 6463:2022 Design for the mind: Neurodiversity and the built environment",
+          "source": "BSI",
+          "link": "https://shop-checkout.bsigroup.com/products/design-for-the-mind-neurodiversity-and-the-built-environment-guide",
+          "date": "2022"
+        },
+        {
+          "title": "Supporting autism-friendly design in an existing school: an ASPECTSS post-occupancy study (Archnet-IJAR), with the seven ASPECTSS criteria",
+          "source": "Emerald / Archnet-IJAR",
+          "link": "https://www.emerald.com/insight/content/doi/10.1108/ARCH-11-2022-0258",
+          "date": "2023"
+        },
+        {
+          "title": "Study addresses living options for adults with autism (Opening Doors and Advancing Full Spectrum Housing)",
+          "source": "Arizona State University",
+          "link": "https://news.asu.edu/20100216-study-addresses-living-options-adults-autism-related-disorders",
+          "date": "2010-02-16"
+        },
+        {
+          "title": "A Pattern Language (Alexander, Ishikawa and Silverstein), pattern 127: Intimacy Gradient",
+          "source": "Oxford University Press / PatternLanguage.com",
+          "link": "https://www.patternlanguage.com/",
+          "date": "1977"
         }
       ],
       "alert_count": 0,
