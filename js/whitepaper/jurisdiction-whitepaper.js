@@ -416,14 +416,16 @@
     });
     var stewards = (((src.stewardship || {}).providers) || []).filter(function (p) {
       return (p.counties_served || []).indexOf(county) !== -1;
-    }).map(function (p) { return { name: p.name, url: safeHref(p.url), roles: (p.roles || []).slice(0, 5).join(', ').replace(/_/g, ' ') }; });
+    }).map(function (p) { // Only roles the provider record marks verified; the rest await confirmation.
+      var verified = (p.role_evidence && Array.isArray(p.role_evidence.verified)) ? p.role_evidence.verified : [];
+      return { name: p.name, url: safeHref(p.url), roles: verified.join(', ').replace(/_/g, ' ') }; });
 
     // From the hand-researched file, when there is one.
     var research = null;
     if (file && (file.geoid === row.geoid || file.geoid === county)) {
-      research = { geoid: file.geoid, countyLevel: file.geoid !== row.geoid, researched: file.researched || null, groups: [], notFound: Array.isArray(file.not_found) ? file.not_found : [] };
+      research = { geoid: file.geoid, countyLevel: file.geoid !== row.geoid, researched: file.researched || null, groups: [], notFound: (Array.isArray(file.not_found) ? file.not_found : []).filter(function (t) { return typeof t === 'string' && !EXCLUDED_PROJECT.test(t); }) };
       LANDSCAPE_KINDS.forEach(function (k) {
-        var items = (Array.isArray(file[k[0]]) ? file[k[0]] : []).filter(sourced).filter(function (e) { return !excluded(e); });
+        var items = (Array.isArray(file[k[0]]) ? file[k[0]] : []).filter(sourced).filter(function (e) { return !EXCLUDED_PROJECT.test(JSON.stringify(e)); });
         research.groups.push({ key: k[0], label: k[1], items: items });
       });
     }
@@ -451,6 +453,7 @@
     var pab = [pabRows[row.geoid], row.type === 'county' ? null : pabRows[county]].filter(Boolean).map(function (r) {
       return { name: r.type === 'county' && !/county/i.test(r.name) ? r.name + ' County' : r.name, amount: num(r.directAllocation) };
     });
+    var pabMeta = (src.pab || {}).metadata || {};
     var localMoney = lihtc.awards.filter(function (w) { return !/LIHTC|MIHTC/.test(w.program || ''); }).map(function (w) {
       return { year: w.year, program: w.program, sponsor: w.sponsor && !/^\d+$/.test(String(w.sponsor)) ? w.sponsor : null, name: w.name, amount: num(w.amount_awarded), url: safeHref(w.source_url) };
     });
@@ -465,7 +468,8 @@
       basisBoostPct: a && a.basisBoost ? share(a.basisBoost.qct) : null,
       boostHere: need.qctSharePct !== null && need.qctSharePct > 0 || need.ddaSharePct !== null && need.ddaSharePct > 0,
       pab: pab,
-      pabYear: ((src.pab || {}).metadata || {}).year || null,
+      pabYear: pabMeta.year || null,
+      pabStatewidePool: num((pabMeta.statewide || {}).chfaPool),
       localMoney: localMoney,
       localFunds: policy.funds.length,
       sources: [sourcePath('equityPricing'), sourcePath('assumptions'), sourcePath('pab'), sourcePath('awards')]
@@ -731,8 +735,8 @@
         if (!g.items.length) return;
         h += '<h3>' + esc(g.label) + '</h3><ul>' + g.items.map(function (e) { return '<li>' + landscapeItem(g.key, e) + '</li>'; }).join('') + '</ul>';
       });
-      if (R.notFound.length) h += '<h3>Looked for and not found</h3><ul>' + R.notFound.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
-      h += '<p class="wp-meta">Researched ' + esc(R.researched || NA) + ' from public sources; each line quotes its source. Confirm before relying on it.</p>';
+      h += '<p class="wp-meta">Researched ' + esc(R.researched || NA) + ' from public sources; each finding above quotes its source. Confirm before relying on it.</p>';
+      if (R.notFound.length) h += '<h3>Open questions</h3><p class="wp-meta">What the research looked for and could not find. These are gaps to ask about, not findings: a thing not found in public sources may still exist.</p><ul>' + R.notFound.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
     }
     if (L.stewards.length) {
       h += '<h3>Regional nonprofits serving the county</h3><ul>' + L.stewards.map(function (p) {
@@ -770,14 +774,14 @@
       '<li><strong>Screening costs:</strong> ' + fmtMoney(D.hardCost) + ' hard cost per family unit' + (D.hardCostSource ? ' (' + esc(D.hardCostSource) + ')' : '') + ', soft costs ' + fmtPct(D.softCostPct, 0) + ' of hard, developer fee ' + fmtPct(D.devFeePct, 0) + '. Replace them with your own bids.</li></ul>';
     h += '<h3>The two credit routes</h3><ul>' +
       '<li><strong>9% (competitive):</strong> letter of intent, then a scored CHFA application (see Next CHFA dates). Over ten years the credits are worth about 70% of qualified basis in present value, so the gap is small but the competition is hard.</li>' +
-      '<li><strong>4% with tax-exempt bonds:</strong> not competitive for credits, but it needs private activity bond cap. ' +
-      (D.pab.length ? D.pab.map(function (x) { return esc(x.name) + ' holds ' + fmtMoney(x.amount); }).join(' and ') + ' of ' + esc(D.pabYear || '') + ' direct allocation, which it can issue or assign.' : 'No local direct allocation is recorded here, so the bonds come from the state ceiling.') +
-      ' The credits are worth about 30% of qualified basis, so the gap is much larger.</li></ul>';
+      '<li><strong>4% with tax-exempt bonds:</strong> not competitive for credits, but it needs private activity bond cap. Most Colorado 4% deals draw it from CHFA\'s statewide pool' + (D.pabStatewidePool !== null ? ' (' + fmtMoney(D.pabStatewidePool) + ' in ' + esc(D.pabYear || '') + ')' : '') + '. ' +
+      (D.pab.length ? D.pab.map(function (x) { return esc(x.name); }).join(' and ') + ' received an initial ' + esc(D.pabYear || '') + ' direct allocation of ' + D.pab.map(function (x) { return fmtMoney(x.amount); }).join(' and ') + ': a gross starting figure, not what is left, which may go to other bond uses or be ceded to CHFA. ' : 'No local direct allocation is recorded here. ') +
+      'The credits are worth about 30% of qualified basis, so the gap is much larger.</li></ul>';
     h += '<h3>From award to occupancy</h3><ol>' +
-      '<li>Site control, zoning and a CHFA market study before the letter of intent.</li>' +
+      '<li>Site control, zoning and a CHFA market study before applying.</li>' +
       '<li>Local support: a council resolution, fee relief, land or a local loan, which also helps the jurisdiction count units toward its Prop 123 promise.</li>' +
-      '<li>Award, then 10% of expected basis spent within a year of the carryover allocation.</li>' +
-      '<li>Placed in service by the end of the second year after the award year.</li>' +
+      '<li><strong>9%:</strong> CHFA allocates credits after the round. A project not yet in service gets a carryover allocation, must have incurred more than 10% of its reasonably expected basis within 12 months of that allocation, and must be placed in service by the end of the second calendar year after the allocation year.</li>' +
+      '<li><strong>4%:</strong> the credits come with the tax-exempt bonds rather than a CHFA credit allocation, so the 9% carryover deadlines do not apply. The bonds must finance the required share of land and building, and CHFA still reviews the deal against its QAP.</li>' +
       '<li>Rents and incomes stay restricted through the compliance period and CHFA\'s extended use period.</li></ol>';
     return h + srcLine(D.sources);
   }

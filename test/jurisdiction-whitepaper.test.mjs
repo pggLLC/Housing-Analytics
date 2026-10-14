@@ -210,6 +210,14 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   const fake = { geoid: '0833640', researched: '2026-10-14', land: [{ name: 'Unsourced lot', acres: 5 }], lihtc_and_pipeline: [{ name: 'Fruita Mews Phase II', units: 40, source_url: 'https://example.org/x', source_quote: 'a quote long enough to pass the check' }] };
   const fm = WP.buildModel(src, '0833640', { FundingFit, landscape: fake });
   ok(fm.landscape.research.groups.every((g) => g.items.length === 0), 'sabotage: unsourced and excluded entries are dropped');
+  // The owner's project is caught in any field, including plan findings and open questions.
+  const fake2 = { geoid: '0833640', researched: '2026-10-14', plans: [{ title: 'A plan', finding: 'mentions Fruita Mews Phase II', source_url: 'https://example.org/p', source_quote: 'a quote long enough to pass the check' }], not_found: ['Status of Fruita Mews Phase 2', 'Who bought the land'] };
+  const f2 = WP.renderHtml(WP.buildModel(src, '0833640', { FundingFit, landscape: fake2 }));
+  ok(!/fruita\s+mews/i.test(f2) && /Who bought the land/.test(f2), 'sabotage: the owner\'s project is dropped from any field, other open questions stay');
+  // Stewardship roles: only those the provider record marks verified.
+  const hr = src.stewardship.providers.find((p) => (p.counties_served || []).includes('08051'));
+  const shown = WP.buildModel(src, '0833640', { FundingFit }).landscape.stewards[0].roles;
+  ok(hr && hr.role_evidence.verify_with_provider.length > 0 && hr.role_evidence.verify_with_provider.every((r) => !shown.includes(r.replace(/_/g, ' '))), 'unverified provider roles never print');
   // A county file stands in for a town without its own, and says so.
   const cm = WP.buildModel(src, '0833640', { FundingFit, landscape: { ...fake, geoid: '08051' } });
   ok(cm.landscape.research && cm.landscape.research.countyLevel, 'county research stands in for the town');
@@ -225,6 +233,7 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   const g = WP.buildModel(src, '0833640', { FundingFit });
   const pabCounty = src.pab.allocations['08051'];
   ok(pabCounty && g.dynamics.pab.some((x) => x.amount === pabCounty.directAllocation), 'bond cap equals pab-allocations.json');
+  ok(new RegExp(`initial ${src.pab.metadata.year} direct allocation`).test(WP.renderHtml(g)) && !/ holds \$/.test(WP.renderHtml(g)), 'the local bond figure is labelled an initial allocation, not available cap');
   ok(g.dynamics.equity9 === src.equityPricing.pricing.national_avg.credit_9pct, '9% equity price equals the Novogradac file');
   const noPab = clone(src); noPab.pab = null;
   ok(WP.buildModel(noPab, '0833640', { FundingFit }).dynamics.pab.length === 0, 'missing bond file: no allocation printed');
