@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-14T02:44:07.341523Z",
+  "generated": "2026-10-14T03:46:14.167821Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8419,7 +8419,7 @@
     "data/policy/tool-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4840
+      "bytes": 5504
     },
     "data/policy/unit-size-standards.json": {
       "featureCount": 0,
@@ -8429,7 +8429,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 248978
+      "bytes": 248997
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
