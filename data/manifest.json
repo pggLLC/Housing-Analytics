@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-14T08:33:01.568835Z",
+  "generated": "2026-10-14T09:06:36.456959Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 839199
+      "bytes": 840155
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -75,6 +75,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 194381
+    },
+    "data/alerts/brief-news-queue.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 23527
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -7431,25 +7436,20 @@
       "placeholder": false,
       "bytes": 19534
     },
-    "data/jurisdiction-briefs/_candidates.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 24507
-    },
     "data/jurisdiction-briefs/_liveness.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 279251
     },
+    "data/jurisdiction-briefs/_news-used.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 557
+    },
     "data/jurisdiction-briefs/_schema.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 3550
-    },
-    "data/jurisdiction-briefs/_stale.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 3253
     },
     "data/jurisdiction-briefs/_verification-plan.json": {
       "featureCount": 0,
@@ -8310,6 +8310,16 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 17186
+    },
+    "data/policy/housing-events-curated.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1726
+    },
+    "data/policy/housing-events.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 15562
     },
     "data/policy/housing-policy-scorecard.json": {
       "featureCount": 0,

@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-14T08:32:57.779Z",
+    "generated_at": "2026-10-14T09:06:32.597Z",
     "root": "data/",
-    "file_count": 1714,
-    "total_size_bytes": 180360292,
+    "file_count": 1716,
+    "total_size_bytes": 180374041,
     "kinds": {
-      "json": 1677,
+      "json": 1679,
       "geojson": 33,
       "csv": 4
     }
@@ -297,6 +297,29 @@
       ]
     },
     {
+      "path": "alerts/brief-news-queue.json",
+      "kind": "json",
+      "size_bytes": 23527,
+      "mtime": "2026-10-14T09:05:41.534Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "briefs",
+        "candidates",
+        "candidate_count"
+      ],
+      "key_count": 4,
+      "primary_array_key": "candidates",
+      "primary_array_length": 20,
+      "primary_array_first_keys": [
+        "geoid",
+        "name",
+        "type",
+        "population",
+        "priority"
+      ]
+    },
+    {
       "path": "allocations.json",
       "kind": "json",
       "size_bytes": 12560,
@@ -479,7 +502,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-14T08:32:54.093Z",
+      "mtime": "2026-10-14T09:06:28.664Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30056,28 +30079,6 @@
       ]
     },
     {
-      "path": "jurisdiction-briefs/_candidates.json",
-      "kind": "json",
-      "size_bytes": 24507,
-      "mtime": "2026-09-25T12:55:18.818Z",
-      "shape": "object",
-      "keys": [
-        "generated",
-        "scope_rules",
-        "candidates"
-      ],
-      "key_count": 3,
-      "primary_array_key": "candidates",
-      "primary_array_length": 168,
-      "primary_array_first_keys": [
-        "geoid",
-        "name",
-        "type",
-        "population",
-        "priority"
-      ]
-    },
-    {
       "path": "jurisdiction-briefs/_liveness.json",
       "kind": "json",
       "size_bytes": 279251,
@@ -30102,6 +30103,21 @@
       ]
     },
     {
+      "path": "jurisdiction-briefs/_news-used.json",
+      "kind": "json",
+      "size_bytes": 557,
+      "mtime": "2026-10-14T09:05:41.815Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "entries"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "jurisdiction-briefs/_schema.json",
       "kind": "json",
       "size_bytes": 3550,
@@ -30118,28 +30134,6 @@
       "primary_array_key": "required",
       "primary_array_length": 8,
       "primary_array_first_keys": null
-    },
-    {
-      "path": "jurisdiction-briefs/_stale.json",
-      "kind": "json",
-      "size_bytes": 3253,
-      "mtime": "2026-09-25T12:55:18.819Z",
-      "shape": "object",
-      "keys": [
-        "generated",
-        "threshold_days",
-        "stale"
-      ],
-      "key_count": 3,
-      "primary_array_key": "stale",
-      "primary_array_length": 18,
-      "primary_array_first_keys": [
-        "geoid",
-        "jurisdiction",
-        "last_curated",
-        "days_old",
-        "reason"
-      ]
     },
     {
       "path": "jurisdiction-briefs/_verification-plan.json",
@@ -30604,8 +30598,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 217729,
-      "mtime": "2026-10-14T08:32:30.904Z",
+      "size_bytes": 217866,
+      "mtime": "2026-10-14T09:05:41.818Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32069,7 +32063,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15108,
-      "mtime": "2026-10-14T08:32:55.899Z",
+      "mtime": "2026-10-14T09:06:30.501Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32093,7 +32087,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-14T08:32:55.469Z",
+      "mtime": "2026-10-14T09:06:30.063Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34182,6 +34176,57 @@
         "benefit_unit",
         "how_to_start",
         "source_url"
+      ]
+    },
+    {
+      "path": "policy/housing-events-curated.json",
+      "kind": "json",
+      "size_bytes": 1726,
+      "mtime": "2026-10-14T09:05:42.008Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "events"
+      ],
+      "key_count": 2,
+      "primary_array_key": "events",
+      "primary_array_length": 2,
+      "primary_array_first_keys": [
+        "title",
+        "start",
+        "end",
+        "location",
+        "organizer",
+        "url",
+        "category",
+        "checked"
+      ]
+    },
+    {
+      "path": "policy/housing-events.json",
+      "kind": "json",
+      "size_bytes": 15562,
+      "mtime": "2026-10-14T09:05:42.008Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "sources",
+        "events"
+      ],
+      "key_count": 3,
+      "primary_array_key": "events",
+      "primary_array_length": 32,
+      "primary_array_first_keys": [
+        "title",
+        "start",
+        "end",
+        "time",
+        "location",
+        "online",
+        "organizer",
+        "url",
+        "source",
+        "category"
       ]
     },
     {
