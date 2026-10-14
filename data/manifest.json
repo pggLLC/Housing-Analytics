@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-14T11:16:00.615991Z",
+  "generated": "2026-10-14T11:33:04.879422Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7919,7 +7919,7 @@
     "data/pipeline/content.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 44126
+      "bytes": 44146
     },
     "data/policy/affordability-models.json": {
       "featureCount": 0,

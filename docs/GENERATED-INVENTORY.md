@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T11:15:33.990Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T11:32:37.786Z. Do not edit by hand.
 
 ---
 
@@ -65,7 +65,7 @@
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 56.7 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
-| `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
+| `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.1 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 44.5 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 17.9 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 6.0 KB |
@@ -1772,7 +1772,7 @@
 
 ## Test Files
 
-588 test files found.
+589 test files found.
 
 | File | Size |
 |------|------|
@@ -2234,6 +2234,7 @@
 | `test/source-url-sweep-skip-templates.test.js` | 2.7 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/state-allocations-abbr.test.js` | 1.8 KB |
+| `test/step-count-agreement.test.mjs` | 5.5 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
 | `test/table-export-rendered.test.js` | 16.2 KB |
 | `test/table-export.test.js` | 24.7 KB |
