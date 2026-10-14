@@ -149,7 +149,7 @@
     var head = el('div', { class: 'ipp-step__head' });
     head.appendChild(el('div', { class: 'ipp-step__n', text: String(s.n) }));
     var tb = el('div', { class: 'ipp-step__titleblock' });
-    tb.appendChild(el('h2', { text: 'Step ' + s.n + ' — ' + s.title }));
+    tb.appendChild(el('h2', { text: 'Stage ' + s.n + ' — ' + s.title }));
     tb.appendChild(el('p', { class: 'ipp-step__summary', text: s.summary }));
     head.appendChild(tb);
     step.appendChild(head);

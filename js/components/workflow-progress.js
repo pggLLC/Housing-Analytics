@@ -1,6 +1,6 @@
 /**
  * workflow-progress.js — COHO Analytics
- * Reusable 5-step workflow progress bar component.
+ * Reusable 7-step workflow progress bar component.
  *
  * Reads step completion from WorkflowState when available, so each page no
  * longer needs to inline duplicate progress-bar styles and markup.

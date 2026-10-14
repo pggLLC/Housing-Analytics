@@ -36,11 +36,11 @@
     {
       label: "Scoping a Project",
       items: [
-        { label: "The Affordable Housing Pipeline",  href: "pipeline.html", desc: "From housing need to housing built — our 8-step public methodology", isNew: true },
+        { label: "The Affordable Housing Pipeline",  href: "pipeline.html", desc: "Eight stages from housing need to housing built", isNew: true },
         { label: "LIHTC Guide",             href: "lihtc-guide-for-stakeholders.html", desc: "Start here — LIHTC basics for all audiences" },
         { label: "— Rental (LIHTC) —", isHeader: true },
-        { label: "Opportunity Finder",      href: "lihtc-opportunity-finder.html",  desc: "Step 1: Rank CO jurisdictions for 4% bond + 9% competitive LIHTC", isNew: true },
-        { label: "Select Jurisdiction",     href: "select-jurisdiction.html",       desc: "Step 2: Pick your target county / city" },
+        { label: "Select Jurisdiction",     href: "select-jurisdiction.html",       desc: "Step 1: Pick your target county / city" },
+        { label: "Opportunity Finder",      href: "lihtc-opportunity-finder.html",  desc: "Step 2 (optional): Rank CO jurisdictions for 4% bond + 9% competitive LIHTC", isNew: true },
         { label: "Housing Needs Assessment",href: "housing-needs-assessment.html",  desc: "Step 3: Community need evidence — full report, all 54 sections" },
         { label: "What housing exists", href: "hna-what-housing-exists.html", isSub: true, desc: "What housing is here, and what shape is it in?" },
         { label: "Who lives here", href: "hna-who-lives-here.html", isSub: true, desc: "Who lives here, and how is that changing?" },

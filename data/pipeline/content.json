@@ -16,9 +16,9 @@
         "source": "DOLA State Demography Office (2024 mid-projection); Shimberg Center 2024 needs assessment; Up For Growth 2024 housing underproduction report."
       },
       {
-        "label": "Pipeline steps",
+        "label": "Pipeline stages",
         "value": "8",
-        "sub": "Each step ends in a concrete next move, with confidence and limits to keep in mind."
+        "sub": "Each stage ends in a concrete next move, with confidence and limits to keep in mind."
       },
       {
         "label": "Readiness categories",
@@ -30,8 +30,8 @@
   "intro": {
     "why_this_matters": "Colorado is short an estimated quarter-million homes for households earning under 80% of Area Median Income — neighbors, coworkers, and family who simply cannot find a place they can afford. Closing that gap takes a clear-eyed way of asking, in each community: where is the need real, where can local conditions support new homes, and where is a project likely to actually get built? This page gathers the public information anyone can use to ask those questions honestly — the same ACS, HUD CHAS, CHFA, and DOLA sources that practitioners across Colorado already rely on — so the reasoning is open to be read, challenged, and improved.",
     "how_to_read": [
-      "Each step is sequential. Step 1 narrows the universe; Step 8 ends with a concrete action.",
-      "Every step lists its data source, a confidence rating (high / medium / low), the limits to keep in mind, and what the step does NOT tell you.",
+      "Each stage is sequential. Stage 1 narrows the universe; Stage 8 ends with a concrete action.",
+      "Every stage lists its data source, a confidence rating (high / medium / low), the limits to keep in mind, and what the stage does NOT tell you.",
       "Jargon is defined inline the first time it appears — hover or tap any underlined term for a plain-English definition.",
       "This page is a public-data reference for anyone reading along; it does not include specific sites, owner names, or relationship status."
     ]
@@ -89,7 +89,7 @@
         "A jurisdiction with low absolute need but a fast-growing employment base can still belong on the short list."
       ],
       "does_not_tell_you": "Whether a specific parcel is buildable, whether the council will support a project, or whether the housing authority has capacity to operate new units.",
-      "next_step": "Short-listed jurisdictions move into Step 2 for a data-quality check before any qualitative work begins."
+      "next_step": "Short-listed jurisdictions move into Stage 2 for a data-quality check before any qualitative work begins."
     },
     {
       "n": 2,
@@ -97,7 +97,7 @@
       "summary": "Verify the underlying data is current, complete, and reconciles across sources before any conclusion is drawn.",
       "what_this_means": "QA/QC — Quality Assurance / Quality Control — is the discipline of verifying that the numbers being used are current, complete, and internally consistent. Before drawing any conclusion from a jurisdiction screen, the underlying datasets should be run through a freshness audit, a coverage audit, and a reconciliation check against external sources.",
       "why_it_matters": "Stale or partial data quietly produces confident-looking wrong answers. A LIHTC inventory missing a recent 80-unit lease-up will overstate need. An ACS vintage older than the latest income limits will understate the gap. Catching these mismatches at this step prevents them from becoming the foundation of a site recommendation later.",
-      "why_a_council_member_should_care": "If a council member is asked to commit local funds or zoning capacity to a project, they should know whether the underlying need figure is current, what its margin of error is, and how it reconciles with what the State Demography Office and HUD CHAS show. Step 2 is the receipt for the rest of the analysis.",
+      "why_a_council_member_should_care": "If a council member is asked to commit local funds or zoning capacity to a project, they should know whether the underlying need figure is current, what its margin of error is, and how it reconciles with what the State Demography Office and HUD CHAS show. Stage 2 is the receipt for the rest of the analysis.",
       "external_reconciliation": {
         "title": "Three external sources to reconcile against before relying on a number",
         "sources": [
@@ -133,7 +133,7 @@
         "CHFA's published LIHTC inventory can lag actual placements-in-service by 1-4 quarters — stamp every CHFA figure with its inventory generation date."
       ],
       "does_not_tell_you": "Whether the data is right for any specific block or building — only that it passes baseline freshness, coverage, and reconciliation checks.",
-      "next_step": "Once datasets pass QA/QC for the jurisdictions on the short list, the analysis can be trusted enough to test against on-the-ground reality in Step 3."
+      "next_step": "Once datasets pass QA/QC for the jurisdictions on the short list, the analysis can be trusted enough to test against on-the-ground reality in Stage 3."
     },
     {
       "n": 3,
@@ -155,7 +155,7 @@
         "Housing-strategy plans frequently set goals without committing funding — record both the goal and the funding mechanism, separately."
       ],
       "does_not_tell_you": "Whether a specific council member or staff person will support a specific project. That requires direct conversation, not document review.",
-      "next_step": "Verified jurisdictions are then assessed for partnership readiness in Step 4."
+      "next_step": "Verified jurisdictions are then assessed for partnership readiness in Stage 4."
     },
     {
       "n": 4,
@@ -170,7 +170,7 @@
       ],
       "why_it_matters": "Affordable housing partnerships work when developers and funders show up at the right time. The four-tier lens helps direct attention toward communities where a project can close together in the current funding cycle, while staying patient and available for communities where the partnership shape is still preparatory. A community in the long-horizon tier today can become an active partnership after a comprehensive plan update — and the readiness lens makes that easier to see in advance.",
       "data_sources": [
-        {"label": "Synthesis of Steps 1-3", "vintage": "—", "what": "AMI gap magnitude, ACS context, CHFA inventory, civic-capacity scorecard, local verification notes"}
+        {"label": "Synthesis of Stages 1-3", "vintage": "—", "what": "AMI gap magnitude, ACS context, CHFA inventory, civic-capacity scorecard, local verification notes"}
       ],
       "confidence": "medium-public",
       "confidence_note": "Inputs are high-confidence; the synthesis is a judgment call. Reclassification typically happens quarterly, with reasons for any movement between buckets documented so others can read and challenge the call.",
@@ -180,7 +180,7 @@
         "The bucket is the jurisdiction's, not the project's. A great site in a C jurisdiction is still a great site."
       ],
       "does_not_tell_you": "Which jurisdictions specifically fall into each category today. Public reference pages should describe the criteria without publishing current classifications for named communities.",
-      "next_step": "A and B jurisdictions move into site strategy in Step 5; C and D jurisdictions remain on a monitoring list with quarterly review."
+      "next_step": "A and B jurisdictions move into site strategy in Stage 5; C and D jurisdictions remain on a monitoring list with quarterly review."
     },
     {
       "n": 5,
@@ -212,7 +212,7 @@
         "Annexation requires both jurisdictional willingness and a contiguous boundary — without contiguity, the path is foreclosed regardless of policy posture."
       ],
       "does_not_tell_you": "Whether a specific owner is willing to sell or ground-lease. That always requires a direct conversation.",
-      "next_step": "A short list of viable site lenses for the jurisdiction feeds the readiness review in Step 6."
+      "next_step": "A short list of viable site lenses for the jurisdiction feeds the readiness review in Stage 6."
     },
     {
       "n": 6,
@@ -286,7 +286,7 @@
         "Colorado state LIHTC, MIHTC, and Prop 123 dollars have their own readiness conventions that overlap but do not perfectly align with the federal LIHTC levels."
       ],
       "does_not_tell_you": "Whether CHFA will award credits to a specific project — the QAP is competitive and scoring outcomes depend on the full applicant pool each round — or, on the ownership track, whether a stewardship entity will take the home on and which resale convention the jurisdiction will accept.",
-      "next_step": "The current readiness level, on whichever track, determines what goes into the evidence package in Step 7 — and the after-closing obligations above are what the evidence package should show the sponsor is prepared for."
+      "next_step": "The current readiness level, on whichever track, determines what goes into the evidence package in Stage 7 — and the after-closing obligations above are what the evidence package should show the sponsor is prepared for."
     },
     {
       "n": 7,
@@ -309,13 +309,13 @@
         "Funding-readiness figures change with each annual allocation cycle and should be dated."
       ],
       "does_not_tell_you": "Whether the project will be approved or funded. The package supports decisions; it does not make them.",
-      "next_step": "With the evidence package assembled, a specific next action becomes possible in Step 8."
+      "next_step": "With the evidence package assembled, a specific next action becomes possible in Stage 8."
     },
     {
       "n": 8,
       "title": "Next Action",
       "summary": "Force the analysis to end in a single named, dated next move — not in 'more analysis.'",
-      "what_this_means": "Every jurisdiction-site pairing that completes Steps 1-7 ends with a single named next action — a concrete, dated, public step that moves the project forward.",
+      "what_this_means": "Every jurisdiction-site pairing that completes Stages 1-7 ends with a single named next action — a concrete, dated, public step that moves the project forward.",
       "examples": [
         "Schedule a pre-application meeting with the jurisdiction's planning department",
         "Commission a market study",
@@ -325,14 +325,14 @@
       ],
       "why_it_matters": "An analysis that ends in 'more analysis' does not produce housing. Forcing the methodology to terminate in a named action keeps the pipeline accountable to the goal — units in service for households at 30-80% AMI — rather than to its own internal completeness.",
       "data_sources": [
-        {"label": "Reads from Steps 3, 5, and 6", "vintage": "—", "what": "Procedural rather than data-driven"}
+        {"label": "Reads from Stages 3, 5, and 6", "vintage": "—", "what": "Procedural rather than data-driven"}
       ],
       "confidence": "high",
       "confidence_note": "High when the prior steps have been completed cleanly. Low when any prior step has been skipped — in which case the next action is to return to the skipped step rather than to advance.",
       "watch_outs": [
         "A next action without an owner and a date is not a next action — it is a wish.",
         "Some next actions are the responsibility of the jurisdiction rather than the developer; naming the responsible party matters.",
-        "If two cycles pass without progress on the named action, the pairing returns to Step 4 for re-classification rather than continuing to age in the pipeline."
+        "If two cycles pass without progress on the named action, the pairing returns to Stage 4 for re-classification rather than continuing to age in the pipeline."
       ],
       "does_not_tell_you": "Whether the action will succeed. Naming a next move is the discipline; outcomes follow from execution.",
       "next_step": "Execute, document outcome, and re-enter at the appropriate prior step."
@@ -358,7 +358,7 @@
     "title": "Public methodology, private deal work",
     "body": "Everything described above runs on data the public can read. The American Community Survey, HUD income limits and Fair Market Rents, CHFA's published LIHTC inventory and Qualified Allocation Plan, the Census Bureau's TIGER geographic files, and published municipal land inventories together cover every quantitative claim made on this page. The value of this site is in the joining, the QA/QC, the vintage discipline, and the consistent framework across jurisdictions — not in proprietary information.",
     "what_is_public": [
-      "The eight-step framework itself — steps, definitions, methodology",
+      "The eight-stage framework itself — steps, definitions, methodology",
       "Classification criteria (A/B/C/D) and evidence types — without jurisdiction names attached",
       "LIHTC readiness levels 1-5 in concept",
       "Confidence labels, watch-outs, data sources, vintages",
