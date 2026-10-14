@@ -206,6 +206,23 @@ A passing check list answers "did the jobs report success", not "did the work ha
 - **`cancelled` is a failure mode, not a neutral outcome.** A hung step is killed by the job timeout and recorded as `cancelled`, which renders grey rather than as a red X. Scanning for red misses it. Worse, the timeout is not reliable: on 2026-08-19 a job with `timeout-minutes: 30` was still `in_progress` at 232 minutes.
 - **Is `main` itself green right now?** Data crons suppress CI on their own commits, so `main` can be broken for hours with no failing run to show for it. A PR failing on files it never touched is the usual first symptom — check `main` before debugging your own diff.
 
+## Human-experience check on every page change
+
+Data checks say whether a page is right; nothing else says whether a first-time
+visitor can use it. So every PR that changes what a visitor sees gets this check
+before it is marked ready (2026-10-14, after a persona walk found newcomers
+landing on 100-screen reports and four different step counts):
+
+1. Open each changed page at phone width (390px) and attach one phone screenshot to the PR
+   (or, where your tools cannot upload images, to the conversation that hands the PR over).
+2. In the PR body, answer in one line each: what a first-time Colorado resident with no
+   housing background understands in ten seconds, and what they would tap next.
+3. If the change adds anything above a page's first useful answer, or puts an
+   unexplained acronym on a first screen, say why.
+
+Accuracy fixes come first; this check never blocks one. Real people still decide
+"would act": that is the G3 walkthrough, not this check.
+
 ## Guards: pin the agreement, not the copy
 A pinned string (`src.includes('some prose')`) is the right tool when the string is **a claim that must be true** — `HUD CHAS 2018-2022` in a vintage disclosure, `null` in an absence rule. It is the wrong tool for **copy whose wording is a choice**: pinning it freezes the choice and says nothing about whether it still agrees with anything else. That is how `Start a Housing Market Study` survived on the homepage one click away from a page calling the same thing a Housing Needs Assessment, both files green (#1742), and how three copy edits requested on 2026-09-22 were each held by a guard asserting the previous sentence (#1746).
 
