@@ -183,7 +183,7 @@
       (global.MethodFooter ? global.MethodFooter.html({
         sources: [
           { label: 'ACS B25004 + B25001 (' + ((data.meta.acs_release && data.meta.acs_release.years) || '') + ')', url: 'https://censusreporter.org/tables/B25004/' },
-          { label: 'data/hna/second-homes-str.json', url: 'https://github.com/pggLLC/Housing-Analytics/blob/main/data/hna/second-homes-str.json' }
+          { label: 'data/hna/second-homes-str.json', url: 'data/hna/second-homes-str.json' }
         ],
         vintage: (data.meta.acs_release && data.meta.acs_release.name) || '',
         method: data.meta.method,

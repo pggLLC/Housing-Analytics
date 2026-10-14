@@ -485,17 +485,17 @@
           "reason": "telluride.municipal.codes returned HTTP 403, and telluride-co.gov was unreachable (proxy CONNECT rejected / DNS failure). The 40%-90% range above comes from the SMRHA-published 2025 HNA, not the code itself.",
           "urls_tried": [
             "https://telluride.municipal.codes/LUC/3-720",
-            "https://www.telluride-co.gov/",
-            "https://telluride-co.gov/369/Affordable-Housing"
+            "www.telluride-co.gov/ (unreachable: DNS lookup fails; not a citation)",
+            "telluride-co.gov/369/Affordable-Housing (unreachable: DNS lookup fails; not a citation)"
           ]
         },
         {
           "claim": "Virginia Placer unit count, rents and income limits (existing phase)",
           "reason": "The Telluride Employee Rental Housing Policies and Town rental pages live on telluride-co.gov, which was unreachable. Only the property's governance (TAHG definition) and the Phase II pipeline (HNA) were verified.",
           "urls_tried": [
-            "https://www.telluride-co.gov/DocumentCenter/View/14992/Telluride-Employee-Rental-Housing-Policies",
-            "https://telluride-co.gov/745/Town-Owned-Rental-Properties",
-            "https://telluride-co.gov/735/Rental-Housing"
+            "www.telluride-co.gov/DocumentCenter/View/14992/Telluride-Employee-Rental-Housing-Policies (unreachable: DNS lookup fails; not a citation)",
+            "telluride-co.gov/745/Town-Owned-Rental-Properties (unreachable: DNS lookup fails; not a citation)",
+            "telluride-co.gov/735/Rental-Housing (unreachable: DNS lookup fails; not a citation)"
           ]
         },
         {
@@ -504,7 +504,7 @@
           "urls_tried": [
             "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf",
             "https://smrha.org/wp-content/uploads/2025/07/HNA-Final.pdf",
-            "https://www.telluride-co.gov/"
+            "www.telluride-co.gov/ (unreachable: DNS lookup fails; not a citation)"
           ]
         },
         {
@@ -512,7 +512,7 @@
           "reason": "The Guidelines say it is set in the annual Town Fee Resolution, which is on the unreachable Town site.",
           "urls_tried": [
             "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf",
-            "https://www.telluride-co.gov/"
+            "www.telluride-co.gov/ (unreachable: DNS lookup fails; not a citation)"
           ]
         },
         {
@@ -2529,7 +2529,7 @@
           "reason": "Town page says 'by 3.5%'; EPHA page says 'from 2% to 3.5%' (inconsistent). The 5.5% total appears only in secondary sources; Visit Estes Park press release URL returned 404.",
           "urls_tried": [
             "https://esteshousing.colorado.gov/lodging-tax-extension/ballot-initiative-6e",
-            "https://www.visitestespark.com/tax-you-dont-pay/press/ballot-issue-6e-passes/ (404)"
+            "www.visitestespark.com/tax-you-dont-pay/press/ballot-issue-6e-passes/ (HTTP 404; not a citation)"
           ]
         },
         {
