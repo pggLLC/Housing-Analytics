@@ -18,11 +18,16 @@ function checkRecord(record, bands, sign) {
   }
   // Matched shortfall: a home counts only for households who can afford it,
   // so at each band it is the worst pooled shortfall at that band or below,
-  // never negative. Recomputed here from the same two series.
+  // never negative. Renter households in homes with no cash rent are in the
+  // demand series but their homes are not in the priced series, so those
+  // homes count as housing someone at every band; without that the "minimum"
+  // could exceed the true shortfall. Recomputed here from the same series.
   if (!('min_shortfall_matched_le_ami_pct' in record)) return; // the null-component fixtures below
+  const noCash = record.renter_units_no_cash_rent;
+  assert(Number.isInteger(noCash) && noCash >= 0, `${record.fips}: no-cash-rent homes are a count`);
   let worst = 0;
   for (const band of [...bands].sort((a, b) => a - b)) {
-    worst = Math.max(worst, record.households_le_ami_pct[band] - record.units_priced_affordable_le_ami_pct[band]);
+    worst = Math.max(worst, record.households_le_ami_pct[band] - record.units_priced_affordable_le_ami_pct[band] - noCash);
     assert.equal(record.min_shortfall_matched_le_ami_pct[band], worst, `${record.fips} ≤${band}: matched shortfall`);
   }
 }

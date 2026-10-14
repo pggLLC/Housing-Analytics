@@ -4571,6 +4571,21 @@
     return out;
   }
 
+  // The homes-short figures shown to a reader: the matched shortfall both AMI
+  // gap files carry, the same series the homepage cards render. A home counts
+  // only for households who can afford its rent, so ≤60% is never smaller
+  // than ≤30%. The pooled trio above stays an allocation weight only. A band
+  // the file does not carry is null, never 0.
+  function _homesShortFromRecord(rec) {
+    var m = (rec && rec.min_shortfall_matched_le_ami_pct) || {};
+    var out = {};
+    ['30', '50', '60'].forEach(function (b) {
+      var v = m[b];
+      out[b] = (typeof v === 'number' && isFinite(v) && v >= 0) ? v : null;
+    });
+    return out;
+  }
+
   // F257 — "Pre-fill from local need" handler. Allocates the LIHTC-eligible
   // tier inputs (30/50/60% AMI) proportionally to the documented gap counts
   // for the selected jurisdiction. Prefers place-level gap when available,
@@ -4691,16 +4706,18 @@
     var rec   = place || _findAmiGapCounty(fips);
     if (!rec) { container.hidden = true; return; }
     var kind  = place ? 'place' : 'county';
-    var gaps  = _gapTrioFromRecord(rec, kind);
+    var short = _homesShortFromRecord(rec);
     var label = place ? (rec.place_name || 'this jurisdiction')
                       : (rec.county_name || '');
+    function shown(b) { return short[b] == null ? '—' : Math.round(short[b]).toLocaleString(); }
     container.innerHTML =
       '<strong style="color:var(--accent);">Affordability Gap — ' + label +
       (kind === 'place' ? '<span style="color:var(--muted);font-weight:400"> · place-level</span>' : '') +
       '</strong><br>' +
-      '30% AMI: ' + Math.round(gaps['30']).toLocaleString() + ' units needed' +
-      ' &bull; 50% AMI: ' + Math.round(gaps['50']).toLocaleString() + ' units needed' +
-      ' &bull; 60% AMI: ' + Math.round(gaps['60']).toLocaleString() + ' units needed';
+      'Rental homes short, at least: ≤30% AMI: ' + shown('30') +
+      ' &bull; ≤50% AMI: ' + shown('50') +
+      ' &bull; ≤60% AMI: ' + shown('60') +
+      '<br><span style="font-size:0.95em">Each band includes the ones below it, and a home counts only for households who can afford its rent.</span>';
     container.hidden = false;
   }
 

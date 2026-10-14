@@ -207,6 +207,12 @@ B25063_BINS: list[tuple[int, int | None, str]] = [
     (3_500, None,  "B25063_026E"),  # open-ended top bin
 ]
 
+# Renter-occupied homes with no cash rent. Excluded from the priced-affordable
+# series above, but the households living in them are in B25118's renter
+# demand, so the matched shortfall counts these homes as housing someone at
+# every tier; otherwise its "minimum" could exceed the true shortfall.
+B25063_NO_CASH_RENT = "B25063_027E"
+
 METHODOLOGY_NOTES = [
     "Methodology v2 (2026-07): the gap's demand side is RENTER households "
     "(ACS B25118, Tenure × Household Income) at or below each income "
@@ -226,8 +232,11 @@ METHODOLOGY_NOTES = [
     "min_shortfall_matched_le_ami_pct counts homes short without pooling: "
     "a home is counted only for households who can afford its rent, the "
     "cheapest homes going to the lowest incomes first. At each tier it is "
-    "the largest pooled shortfall at that tier or any tier below it, so "
-    "the <=60% figure is never smaller than the <=30% one. It is a minimum: "
+    "the largest pooled shortfall at that tier or any tier below it, less "
+    "the renter homes with no cash rent (B25063_027E, stored as "
+    "renter_units_no_cash_rent), which house renter households counted in "
+    "the demand at every tier. So the <=60% figure is never smaller than "
+    "the <=30% one. It is a minimum: "
     "it ignores that many priced-affordable homes are rented by "
     "higher-income households, which HUD CHAS 'affordable and available' "
     "tables would subtract.",
@@ -592,6 +601,7 @@ def compute_tier_series(
 def matched_shortfall_le(
     households_le: dict[str, int],
     units_le: dict[str, int],
+    no_cash_rent_units: int,
 ) -> dict[str, int]:
     """Homes short at or below each tier when no household is counted
     against a home it cannot afford.
@@ -608,12 +618,17 @@ def matched_shortfall_le(
     In reality many are rented by higher-income households (HUD CHAS
     "affordable and available" counts subtract those), so the true
     shortfall is larger. Never negative; 0 means no shortfall.
+
+    Homes rented with no cash rent are left out of units_le, but the
+    renter households living in them are in households_le, so they are
+    counted here as housing someone at every tier (the most generous
+    assumption, which keeps the result a minimum).
     """
     out: dict[str, int] = {}
     worst = 0
     for tier in AMI_TIERS:
         key = str(tier)
-        worst = max(worst, households_le[key] - units_le[key])
+        worst = max(worst, households_le[key] - units_le[key] - no_cash_rent_units)
         out[key] = worst
     return out
 
@@ -652,8 +667,10 @@ def compute_place_record(
         "renter_households_total": safe_int(row.get(B25118_RENTER_TOTAL, 0)),
         "units_priced_affordable_le_ami_pct": series["units_le"],
         "gap_units_minus_households_le_ami_pct": gap,
+        "renter_units_no_cash_rent": safe_int(row.get(B25063_NO_CASH_RENT, 0)),
         "min_shortfall_matched_le_ami_pct": matched_shortfall_le(
-            series["households_le"], series["units_le"]
+            series["households_le"], series["units_le"],
+            safe_int(row.get(B25063_NO_CASH_RENT, 0)),
         ),
         "coverage_le_ami_pct": coverage,
         "source": "place_acs_direct",
@@ -695,8 +712,10 @@ def compute_county_record(
         "renter_households_total": safe_int(row.get(B25118_RENTER_TOTAL, 0)),
         "units_priced_affordable_le_ami_pct": series["units_le"],
         "gap_units_minus_households_le_ami_pct": gap,
+        "renter_units_no_cash_rent": safe_int(row.get(B25063_NO_CASH_RENT, 0)),
         "min_shortfall_matched_le_ami_pct": matched_shortfall_le(
-            series["households_le"], series["units_le"]
+            series["households_le"], series["units_le"],
+            safe_int(row.get(B25063_NO_CASH_RENT, 0)),
         ),
         "coverage_le_ami_pct": coverage,
         "demand_tenure": "renter",
@@ -726,6 +745,7 @@ ALL_VARIABLES = (
     + [b[2] for b in B25118_RENTER_BINS]
     + [B25118_RENTER_TOTAL]
     + [b[2] for b in B25063_BINS]
+    + [B25063_NO_CASH_RENT]
 )
 ALL_TABLES = ["B19001", "B25118", "B25063"]
 

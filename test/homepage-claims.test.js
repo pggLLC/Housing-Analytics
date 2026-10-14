@@ -113,9 +113,13 @@ for (const rec of [amiGapData.statewide, ...amiGapData.counties]) {
   const m = rec.min_shortfall_matched_le_ami_pct;
   assert(m && m['60'] >= m['30'] && m['30'] >= 0,
     `${rec.county_name}: ≤60% shortfall is at least the ≤30% one and never negative`);
-  assert.equal(m['30'], Math.max(0, -rec.gap_units_minus_households_le_ami_pct['30']),
-    `${rec.county_name}: at ≤30% nothing is pooled, so the matched and pooled shortfalls agree`);
+  assert.equal(m['30'], Math.max(0, -rec.gap_units_minus_households_le_ami_pct['30'] - rec.renter_units_no_cash_rent),
+    `${rec.county_name}: at ≤30% nothing is pooled, so the matched shortfall is the pooled one less the homes rented for no cash rent`);
 }
+// The data subtracts homes rented for no cash rent; the ≤30% card must say
+// so whenever there are any, or its basis line no longer matches the number.
+assert.equal(/no cash rent/i.test(gap30Note), amiGapData.statewide.renter_units_no_cash_rent > 0,
+  '≤30% card names the no-cash-rent homes the statewide figure subtracts');
 // It is a floor (higher-income renters occupy some counted homes), so the
 // ≤60% card must say so.
 assert(/at least|minimum/i.test(gap60Note) && /higher-income/i.test(gap60Note),
