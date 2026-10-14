@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-14T12:57:54.598Z",
+    "generated_at": "2026-10-14T13:48:39.563Z",
     "root": "data/",
-    "file_count": 1716,
-    "total_size_bytes": 180679733,
+    "file_count": 1717,
+    "total_size_bytes": 180682937,
     "kinds": {
-      "json": 1679,
+      "json": 1680,
       "geojson": 33,
       "csv": 4
     }
@@ -30079,6 +30079,32 @@
       ]
     },
     {
+      "path": "jurisdiction-briefs/_contacts/0833640.json",
+      "kind": "json",
+      "size_bytes": 3205,
+      "mtime": "2026-10-14T13:07:19.488Z",
+      "shape": "object",
+      "keys": [
+        "geoid",
+        "name",
+        "checked",
+        "note",
+        "contacts"
+      ],
+      "key_count": 5,
+      "primary_array_key": "contacts",
+      "primary_array_length": 6,
+      "primary_array_first_keys": [
+        "name",
+        "role",
+        "org",
+        "phone",
+        "source_label",
+        "source_url",
+        "source_quote"
+      ]
+    },
+    {
       "path": "jurisdiction-briefs/_liveness.json",
       "kind": "json",
       "size_bytes": 279251,
@@ -32062,8 +32088,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 15108,
-      "mtime": "2026-10-14T12:57:52.641Z",
+      "size_bytes": 15107,
+      "mtime": "2026-10-14T13:48:36.976Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32087,7 +32113,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-14T12:57:52.207Z",
+      "mtime": "2026-10-14T13:48:36.164Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
