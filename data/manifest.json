@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-14T12:50:56.384483Z",
+  "generated": "2026-10-14T12:57:58.392668Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8454,7 +8454,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 104939
+      "bytes": 119922
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,
