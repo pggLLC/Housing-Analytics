@@ -6,9 +6,11 @@
       "occupancy-only": "Limits WHO may occupy (local employment). Does not cap price or appreciation. Keeps a unit in the workforce; does not make it affordable to a target AMI.",
       "price-capped": "Caps resale price, usually at original price plus an index. Preserves affordability to a defined AMI band across resales. This is the shared-equity family.",
       "unverified": "Restriction mechanics not yet checked against a primary source.",
-      "n/a": "Not a deed restriction (a fee, tax, loan or land holding)."
+      "n/a": "Not a deed restriction (a fee, tax, loan or land holding).",
+      "either": "The owner picks one of two restrictions when it is recorded: an occupancy-only one, or a price-capped one that pays more. Read the recorded deed to know which applies to a home."
     },
-    "sourcing_note": "Rebuilt 2026-10-14. Each program carries source_url and verbatim evidence quotes, and every figure in its summary or magnitude appears in one of those quotes (test:resort-programs). Earlier unsourced headlines, portfolio sizes and developer-action notes were removed rather than kept unverified. Claims that could not be checked are listed per authority under not_verified, with the reason."
+    "sourcing_note": "Rebuilt 2026-10-14. Each program carries source_url and verbatim evidence quotes, and every figure in its summary or magnitude appears in one of those quotes (test:resort-programs). Earlier unsourced headlines, portfolio sizes and developer-action notes were removed rather than kept unverified. Claims that could not be checked are listed per authority under not_verified, with the reason.",
+    "serves_place_geoids_note": "Every place where an authority's programs apply, from its own stated service area. A county page lists every authority in the county; a town page lists only authorities whose service area names it. Nothing is inferred from county FIPS alone."
   },
   "authorities": [
     {
@@ -20,8 +22,14 @@
         "0803620",
         "0871755"
       ],
+      "serves_place_geoids": [
+        "0803620",
+        "0853945",
+        "0863650",
+        "0871755",
+        "0886200"
+      ],
       "county_fips": "08097",
-      "scope": "county",
       "inventory": null,
       "key_programs": [
         {
@@ -295,12 +303,18 @@
       "place_geoids": [
         "0876795"
       ],
+      "serves_place_geoids": [
+        "0876795"
+      ],
       "county_fips": "08113",
-      "scope": "town",
       "inventory": {
         "units": 470,
         "year": 2025,
         "quote": "In 2025 Q1, there were a total of 304 affordable/deed-restricted housing units in unincorporated San Miguel County, 470 in Telluride, and 613 in Mountain Village",
+        "display": [
+          "affordable/deed-restricted housing units",
+          "470 in Telluride"
+        ],
         "source_url": "https://smrha.org/wp-content/uploads/2025/07/HNA-Final.pdf",
         "note": "From the June 2025 San Miguel County Housing Needs Analysis prepared for SMRHA/Town of Telluride and published on smrha.org (consultant report, not a Town record)."
       },
@@ -518,12 +532,17 @@
       "place_geoids": [
         "0818310"
       ],
+      "serves_place_geoids": [
+        "0818310"
+      ],
       "county_fips": "08051",
-      "scope": "town",
       "inventory": {
         "units": 371,
         "year": 2026,
         "quote": "Today, 371 deed-restricted units make up approximately 28% of the Town’s total housing stock, offering a mix of rental and ownership options thoughtfully designed to match the community’s historic character.",
+        "display": [
+          "371 deed-restricted units"
+        ],
         "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
         "corroboration": {
           "quote": "Today, there are 371 deed-restricted units across town, representing about 28% of Crested Butte’s total housing stock.",
@@ -843,12 +862,17 @@
       "place_geoids": [
         "0880040"
       ],
+      "serves_place_geoids": [
+        "0880040"
+      ],
       "county_fips": "08037",
-      "scope": "town",
       "inventory": {
         "units": 1040,
         "year": "undated page, accessed 2026-10-14",
         "quote": "Currently with nearly 1,040 deed restricted homes, the Town is progressing towards the goal.",
+        "display": [
+          "nearly 1,040 deed restricted homes"
+        ],
         "source_url": "https://www.vail.gov/government/departments/housing/community-housing-developments",
         "note": "The source says 'nearly 1,040'; treat as approximate."
       },
@@ -1176,8 +1200,22 @@
       "url": "https://www.housingeaglecounty.com/",
       "service_area": "Eagle County, Colorado (programs countywide unless noted; lodging tax applies to unincorporated county and Gypsum)",
       "place_geoids": [],
+      "serves_place_geoids": [
+        "0804110",
+        "0804935",
+        "0821155",
+        "0822200",
+        "0823300",
+        "0823795",
+        "0828830",
+        "0833695",
+        "0847345",
+        "0850920",
+        "0863265",
+        "0880040",
+        "0885760"
+      ],
       "county_fips": "08037",
-      "scope": "county",
       "inventory": null,
       "key_programs": [
         {
@@ -1412,12 +1450,17 @@
       "place_geoids": [
         "0804110"
       ],
+      "serves_place_geoids": [
+        "0804110"
+      ],
       "county_fips": "08037",
-      "scope": "town",
       "inventory": {
         "units": 544,
         "year": "2026 Community Housing Plan (Council 9-8, FINAL)",
         "quote": "Several large-scale Town-sponsored rental projects in the 1990s and 2000s, resulting in an inventory of 544 income restricted or price capped units,",
+        "display": [
+          "544 income restricted or price capped units"
+        ],
         "source_url": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL",
         "note": "The plan separately lists 63 deed-restricted for-sale units from PUD negotiations, 56 Mi Casa Avon units (2020-2025) and 10 Good Deeds Avon units (2025). These may overlap and are not summed here.",
         "evidence": [
@@ -1587,8 +1630,18 @@
       "url": "https://www.summitcountyco.gov/services/housing/index.php",
       "service_area": "Summit County, Colorado (county-wide; SCHA serves the county and its towns)",
       "place_geoids": [],
+      "serves_place_geoids": [
+        "0807410",
+        "0808400",
+        "0817150",
+        "0820440",
+        "0828690",
+        "0835400",
+        "0840550",
+        "0851690",
+        "0870525"
+      ],
       "county_fips": "08117",
-      "scope": "county",
       "inventory": {
         "units": {
           "ownership": 1540,
@@ -1596,6 +1649,10 @@
         },
         "year": 2023,
         "quote": "Approximately 1,540 units of owner-occupied deed-restricted units exist in the county, with most targeting the 80% to 120% AMI range. ... There are approximately 1,028 deed-restricted rental units ... The typical targeting of deed-restricted rentals is 60% to 100% AMI.",
+        "display": [
+          "Approximately 1,540 units of owner-occupied deed-restricted units",
+          "approximately 1,028 deed-restricted rental units"
+        ],
         "source_url": "https://www.summithousing.us/wp-content/uploads/2023/10/2023-Summit-County-Housing-Needs-Assessment.pdf",
         "income_band": "ownership mostly 80%-120% AMI; rentals typically 60%-100% AMI",
         "note": "Figures are from the 2023 Summit County Housing Needs Assessment (Root Policy Research) published by SCHA; quote joins two adjacent bullets with ellipses. The same section counts 73 Housing Helps units separately."
@@ -1604,7 +1661,7 @@
         {
           "name": "Summit County Housing Helps",
           "type": "buy-down-deed-restriction",
-          "restriction_type": "occupancy-only",
+          "restriction_type": "either",
           "caps_appreciation": false,
           "caps_income": false,
           "summary": "The county pays buyers of unrestricted market-rate homes to record a deed restriction requiring a local-worker occupant. A light option carries no appreciation, income or rent caps; a capped option adds a 3% per year appreciation cap, with a larger payment.",
@@ -1881,12 +1938,17 @@
       "place_geoids": [
         "0808400"
       ],
+      "serves_place_geoids": [
+        "0808400"
+      ],
       "county_fips": "08117",
-      "scope": "town",
       "inventory": {
         "units": 1750,
         "year": null,
         "quote": "There are approximately 1,750 deed restricted properties in Breckenridge.",
+        "display": [
+          "approximately 1,750 deed restricted properties"
+        ],
         "source_url": "https://www.townofbreckhousing.com/copy-of-programs-accomplishments",
         "note": "Undated page (checked 2026-10-14). The town's Five-Year Blueprint (2/22/2022) gives an earlier figure: 'As of January 2022 there are approximately 1,130 housing units in Breckenridge and the Upper Blue Basin that are restricted to the local workforce.' The neighborhoods page cites 'over 256 individual units (as of 2023 year end)' outside neighborhoods."
       },
@@ -1894,7 +1956,7 @@
         {
           "name": "Breckenridge Housing Helps",
           "type": "buy-down-deed-restriction",
-          "restriction_type": "occupancy-only",
+          "restriction_type": "either",
           "caps_appreciation": false,
           "caps_income": false,
           "summary": "The town pays owners, buyers and local businesses in the Upper Blue Basin for a perpetual deed restriction on unrestricted homes. A light restriction requires occupancy by a Summit County worker; a full restriction adds a 3% appreciation cap; neither imposes income caps.",
@@ -2103,12 +2165,17 @@
       "place_geoids": [
         "0873825"
       ],
+      "serves_place_geoids": [
+        "0873825"
+      ],
       "county_fips": "08107",
-      "scope": "county",
       "inventory": {
         "units": 185,
         "year": null,
         "quote": "YVHA currently manages 185 deed restrictions, including Fox Creek, West End Village, The Cottonwoods, and a handful of others, with restrictions varying from property to property.",
+        "display": [
+          "185 deed restrictions"
+        ],
         "source_url": "https://yvha.org/deed-restricted-home-ownership/",
         "note": "Undated page (checked 2026-10-14); counts deed restrictions YVHA administers, not all restricted units. YVHA history page: 'Since 2016, YVHA has leveraged 4.5 million dollars in community funds to build 285 new homes added to the 150 homes held in trust for the community'."
       },
@@ -2116,7 +2183,7 @@
         {
           "name": "Home Base Steamboat (purchase of deed restriction pilot)",
           "type": "buy-down-deed-restriction",
-          "restriction_type": "occupancy-only",
+          "restriction_type": "either",
           "caps_appreciation": false,
           "caps_income": false,
           "summary": "The city pays homebuyers or owners a one-time payment for a deed restriction requiring year-round occupancy by a Routt County worker, with no income limit; YVHA administers it. A resident-occupied option keeps market resale; a price-capped option caps resale appreciation for a larger payment.",
@@ -2307,12 +2374,17 @@
       "place_geoids": [
         "0825115"
       ],
+      "serves_place_geoids": [
+        "0825115"
+      ],
       "county_fips": "08069",
-      "scope": "town",
       "inventory": {
         "units": 200,
         "year": null,
         "quote": "Estes Park Housing Authority (EPHA) offers over 200 apartments for rent within the Estes Valley.",
+        "display": [
+          "over 200 apartments"
+        ],
         "source_url": "https://esteshousing.colorado.gov/rental-properties-programs",
         "note": "'over 200' is a floor, undated (checked 2026-10-14). Most units at or below 60% AMI; Beaver Brook Crossing, Grand Estates and Peak View are workforce-qualified instead.",
         "income_band": "most at or below 60% AMI"

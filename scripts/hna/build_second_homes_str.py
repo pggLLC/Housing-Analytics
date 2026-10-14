@@ -148,20 +148,19 @@ def program_index(resort: dict) -> list[dict]:
             continue
         out.append({"authority_id": a["id"], "name": a["name"], "url": a.get("url"),
                     "programs": [p["name"] for p in verified],
-                    "_places": a.get("place_geoids", []), "_county": a.get("county_fips"),
-                    "_scope": a.get("scope")})
+                    "_serves": a.get("serves_place_geoids", []), "_county": a.get("county_fips")})
     return out
 
 
 def programs_for(index: list[dict], geoid: str, level: str, county: str | None) -> list[dict]:
-    """Same rule as js/components/resort-wfh.js: a town's own authority, or a
-    county-wide one covering its county; a county gets every authority in it."""
+    """Same rule as js/components/resort-wfh.js: a town gets the authorities
+    whose stated service area names it; a county gets every authority in it."""
     hits = []
     for a in index:
         if level == "county":
             ok = a["_county"] == geoid
         else:
-            ok = geoid in a["_places"] or (a["_scope"] == "county" and a["_county"] == county)
+            ok = geoid in a["_serves"]
         if ok:
             hits.append({k: v for k, v in a.items() if not k.startswith("_")})
     return hits

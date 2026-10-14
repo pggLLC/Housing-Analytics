@@ -105,16 +105,16 @@
     return f.length === 3 ? '08' + f : f;
   }
 
-  // A town or city's own authority matches its place GEOID. A county-wide
-  // authority (scope "county") matches every place in that county. A county
-  // page matches every authority in the county, town ones included.
+  // A town page gets the authorities whose stated service area names it
+  // (serves_place_geoids); nothing is inferred from the county alone, because
+  // some county-based authorities serve one town (YVHA serves Steamboat
+  // Springs, not Hayden). A county page gets every authority in the county.
   function _matchAuthority(authorities, opts) {
     if (!Array.isArray(authorities)) return [];
     var county = _fips5(opts.countyFips);
     return authorities.filter(function (a) {
       if (opts.placeGeoid) {
-        if (Array.isArray(a.place_geoids) && a.place_geoids.indexOf(opts.placeGeoid) !== -1) return true;
-        return a.scope === 'county' && county && a.county_fips === county;
+        return Array.isArray(a.serves_place_geoids) && a.serves_place_geoids.indexOf(opts.placeGeoid) !== -1;
       }
       return !!(county && a.county_fips === county);
     });
@@ -123,6 +123,7 @@
   var RESTRICTION = {
     'occupancy-only': 'Occupancy only: keeps the home for local workers, does not cap its price',
     'price-capped': 'Price-capped resale',
+    'either': 'Owner\'s choice: occupancy only (no price cap) or price-capped resale for a larger payment',
     'unverified': 'Restriction terms not confirmed'
   };
 
@@ -146,12 +147,12 @@
            '</li>';
   }
 
+  // The source's own words, qualifier and noun included ("nearly 1,040",
+  // "over 200 apartments"), never a bare number restated as exact.
   function _inventory(inv) {
-    if (!inv || inv.units == null) return '';
-    var n = typeof inv.units === 'object'
-      ? Object.keys(inv.units).map(function (k) { return Number(inv.units[k]).toLocaleString('en-US') + ' ' + k; }).join(' + ')
-      : Number(inv.units).toLocaleString('en-US');
-    return '<span class="rw-portfolio" title="' + _esc(inv.quote || '') + '">' + n + ' deed-restricted units' +
+    if (!inv || !Array.isArray(inv.display) || !inv.display.length) return '';
+    return '<span class="rw-portfolio" title="' + _esc(inv.quote || '') + '">\u201c' +
+      inv.display.map(_esc).join(' \u2026 ') + '\u201d' +
       (inv.year && /^\d{4}$/.test(String(inv.year)) ? ' (' + inv.year + ')' : '') + '</span>';
   }
 

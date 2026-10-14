@@ -68,7 +68,7 @@ test('the tax table is the lodging tax records, summary for summary', () => {
 
 test('the program table is the resort program records, summary and rule for summary and rule', () => {
   const all = RESORT.authorities.flatMap((a) => (a.key_programs || []).concat(a.funding || []));
-  const key = { 'occupancy-only': 'Occupancy only', 'price-capped': 'Price-capped', unverified: 'not confirmed', 'n/a': 'Not a deed restriction' };
+  const key = { 'occupancy-only': 'Occupancy only', 'price-capped': 'Price-capped', unverified: 'not confirmed', 'n/a': 'Not a deed restriction', either: "Owner's choice" };
   const rows = section('toolkit').table.rows;
   assert.ok(rows.length >= 10);
   for (const [, name, summary, rule] of rows) {
