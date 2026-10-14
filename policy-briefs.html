@@ -59,7 +59,7 @@
       .news-main, .news-aside { display: contents; }
       /* News first: the side column is a few rows, so it may sit between the
          latest stories and the rest, but the full lists live on other pages. */
-      #newsLatest { order: 1; } #policyWatchPanel { order: 2; } #newsRiver { order: 3; } #researchPanel { order: 4; }
+      #newsLatest { order: 1; } #eventsPanel { order: 2; } #policyWatchPanel { order: 3; } #newsRiver { order: 4; } #researchPanel { order: 5; }
     }
 
     .news-label { display: flex; align-items: center; gap: .6rem; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0 0 .6rem; }
@@ -118,6 +118,16 @@
     .watch-row a:hover { color: var(--link); text-decoration: underline; }
     .watch-row__meta { display: block; margin-top: .15rem; font-size: .76rem; color: var(--faint); }
     .news-panel__more { margin: .6rem 0 0; font-size: .85rem; }
+    /* Upcoming events (js/components/housing-events.js): date, title, who and where. */
+    .event-chips { display: flex; flex-wrap: wrap; gap: .35rem; margin: 0 0 .4rem; }
+    .event-chips .news-chip { font-size: .76rem; }
+    .event-rows { list-style: none; margin: 0; padding: 0; }
+    .event-row { padding-block: .5rem; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: .1rem; }
+    .event-row__when { font-family: var(--font-mono); font-size: .74rem; color: var(--accent); }
+    .event-row__title { font-weight: 600; font-size: .9rem; line-height: 1.35; }
+    .event-row__title a { color: var(--text); text-decoration: none; }
+    .event-row__title a:hover { color: var(--link); text-decoration: underline; }
+    .event-row__meta { font-size: .76rem; color: var(--faint); }
     .news-panel__more a { color: var(--link); font-weight: 600; }
     .news-note { margin: 0 0 .4rem; font-size: .78rem; color: var(--faint); line-height: 1.45; }
     /* One quiet disclosure under the header, not a card: the site's default
@@ -135,6 +145,7 @@
   <script defer src="js/workflow/recommendation-contract.js"></script>
   <script defer src="js/components/policy-watch.js"></script>
   <script defer src="js/components/research-catalog.js"></script>
+  <script defer src="js/components/housing-events.js"></script>
 </head>
 <body data-page="policy-briefs.html">
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -155,9 +166,10 @@
          under the header link that opens it, not below the last story. -->
     <details id="aboutFeed" class="news-wrap news-about">
       <summary>About this feed: what it includes and how entries are checked</summary>
-      <p><strong>What it is.</strong> Headlines about Colorado affordable housing and the federal policy that shapes Colorado deals (HUD, Congress, Treasury, LIHTC trade press), pulled from public news feeds and refreshed weekly. Stories that are only about other states are left out.</p>
+      <p><strong>What it is.</strong> Headlines about Colorado affordable housing and the federal policy that shapes Colorado deals (HUD, Congress, Treasury, LIHTC trade press), pulled from public news feeds and refreshed daily, including one search for each jurisdiction that has a brief. Stories that are only about other states are left out.</p>
       <p><strong>What it is not.</strong> Editorial reporting. Headlines and publisher names are the publishers' own, and COHO does not rewrite them. The same story from several outlets is shown once, with the other outlets listed under it.</p>
       <p><strong>Places and local numbers.</strong> A headline that names a Colorado city, town, CDP or county is tagged with that place and its region, the same ones the Housing Needs Assessment uses, and shows one line of that place's own numbers with their survey vintage. A number the data does not have is left out, not shown as zero. The line describes the place, not the project in the story.</p>
+      <p><strong>Upcoming events</strong> come from CHFA's public calendar (chfareach trainings, board meetings, lender and homebuyer classes) and Housing Colorado's events page, read daily, plus a short list checked by hand against each organizer's own page (conferences no feed lists). Ended events are not shown. If a calendar cannot be read, the panel says so instead of showing an old list.</p>
       <p><strong>Policy watch</strong> is curated by hand, not pulled from a feed. Each entry says how it was checked: against the primary document, with the exact wording it rests on kept in the data, or as reported by a named outlet. Topics nobody has checked yet are listed as not covered, rather than filled in from search results. This page shows a summary; each row opens the page that lists those entries in full.</p>
       <p><strong>Before you quote it.</strong> Open the original article. If a link is blocked, "Alt. link" searches Google News for the same headline.</p>
       <p><strong>Research briefs</strong> marked source-reviewed have been checked against the sources they link. They are analytical summaries, not substitutes for the original research. Each opens in a reader that lists its sources.</p>
@@ -203,7 +215,14 @@
       <!-- A summary rail, not a second page: a few rows, each linked to where
            the full list lives. It used to print every Policy watch entry and
            ran 6,804px beside ~3,050px of news (2026-09-28). -->
-      <aside class="news-aside" aria-label="Policy watch and latest research">
+      <aside class="news-aside" aria-label="Upcoming events, policy watch and latest research">
+        <section id="eventsPanel" class="news-panel" aria-labelledby="eventsLabel" hidden>
+          <h2 class="news-label" id="eventsLabel">Upcoming events</h2>
+          <p class="news-note" id="eventsNote"></p>
+          <div class="event-chips" id="eventChips" role="group" aria-label="Filter events by type"></div>
+          <ul id="eventsList" class="event-rows no-glossary"></ul>
+          <button type="button" class="news-linkbtn" id="eventsMore" hidden></button>
+        </section>
         <section id="policyWatchPanel" class="news-panel" aria-labelledby="policyWatchLabel" hidden>
           <h2 class="news-label" id="policyWatchLabel">Policy watch</h2>
           <p class="news-note" id="policyWatchAsOf"></p>
@@ -245,6 +264,9 @@
     var CATALOG_URL = (typeof window.resolveAssetUrl === 'function')
       ? window.resolveAssetUrl('data/insights/catalog.json')
       : 'data/insights/catalog.json';
+    var EVENTS_URL = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/policy/housing-events.json')
+      : 'data/policy/housing-events.json';
 
     // Headlines are shown this many at a time. There is no cap: "Show earlier"
     // reaches every story. The old page showed 25 articles per topic card with no
@@ -603,6 +625,53 @@
       $('policyWatchPanel').hidden = false;
     }
 
+    // ── Upcoming events ──────────────────────────────────────────────────
+    // data/policy/housing-events.json through js/components/housing-events.js,
+    // which drops ended events and refuses a file that stopped updating. A few
+    // rows, the rest one click away; a chip per event type that has events.
+    var EVENTS_SHOWN = 6;
+    function renderEvents(doc) {
+      var HE = window.HousingEvents;
+      if (!HE || !doc) return;
+      var st = HE.read(doc, new Date());
+      var panel = $('eventsPanel'), list = $('eventsList'), chips = $('eventChips'), more = $('eventsMore');
+      $('eventsNote').textContent = HE.noteText(st);
+      panel.hidden = false;
+      var active = '', expanded = false;
+      function draw() {
+        var shown = st.events.filter(function (e) { return !active || e.category === active; });
+        var cut = expanded ? shown : shown.slice(0, EVENTS_SHOWN);
+        list.innerHTML = cut.length
+          ? cut.map(function (e) { return HE.rowHtml(e, st.categories); }).join('')
+          : (st.stale ? '' : '<li class="event-row"><span class="event-row__meta">No events in the next ' + HE.WINDOW_DAYS + ' days.</span></li>');
+        more.hidden = shown.length <= EVENTS_SHOWN;
+        more.textContent = expanded ? 'Show fewer events' : 'Show all ' + shown.length + ' events';
+        Array.prototype.forEach.call(chips.querySelectorAll('button'), function (b) {
+          b.setAttribute('aria-pressed', String(b.getAttribute('data-category') === active));
+        });
+      }
+      var counts = {};
+      st.events.forEach(function (e) { counts[e.category] = (counts[e.category] || 0) + 1; });
+      var cats = Object.keys(st.categories).filter(function (k) { return counts[k]; });
+      chips.innerHTML = cats.length > 1
+        ? ['<button type="button" class="news-chip" data-category="" aria-pressed="true">All<span class="n">' + st.events.length + '</span></button>']
+          .concat(cats.map(function (k) {
+            return '<button type="button" class="news-chip" data-category="' + escapeHtml(k) + '" aria-pressed="false">' +
+              escapeHtml(st.categories[k]) + '<span class="n">' + counts[k] + '</span></button>';
+          })).join('')
+        : '';
+      chips.hidden = !chips.innerHTML;
+      chips.addEventListener('click', function (ev) {
+        var b = ev.target.closest('button');
+        if (!b) return;
+        active = b.getAttribute('data-category') || '';
+        expanded = false;
+        draw();
+      });
+      more.addEventListener('click', function () { expanded = !expanded; draw(); });
+      draw();
+    }
+
     function renderPipelineStatus(meta) {
       var el = $('alertPipelineStatus');
       if (!meta || !meta.generated) { el.textContent = ''; return; }
@@ -610,7 +679,7 @@
       if (isNaN(generated.getTime())) { el.textContent = ''; return; }
       var ageDays = Math.floor((Date.now() - generated.getTime()) / 864e5);
       var dateStr = generated.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-      el.textContent = ageDays > 30
+      el.textContent = ageDays > 7
         ? 'Feed stale · last updated ' + dateStr + ' (' + ageDays + ' days ago)'
         : 'Updated ' + dateStr;
     }
@@ -630,16 +699,20 @@
           .catch(function () { return null; }),
         fetcher(CATALOG_URL, {}, 15000)
           .then(function (res) { return res.ok ? res.json() : null; })
+          .catch(function () { return null; }),
+        fetcher(EVENTS_URL, {}, 15000)
+          .then(function (res) { return res.ok ? res.json() : null; })
           .catch(function () { return null; })
       ]).then(function (payloads) {
         var data = payloads[0], curatedData = payloads[1];
         renderPolicyWatch(payloads[2]);
+        renderEvents(payloads[4]);
         var RC = window.ResearchCatalog;
         stories = readStories(data);
         renderPipelineStatus(data && data.meta);
         renderResearch(RC ? RC.latest(RC.items(payloads[3], curatedData, null)) : []);
         if (!stories.length) {
-          $('briefsStatus').textContent = 'No headlines are available right now. The feed refreshes weekly.';
+          $('briefsStatus').textContent = 'No headlines are available right now. The feed refreshes daily.';
           $('newsLatest').hidden = true;
           return;
         }
