@@ -175,7 +175,7 @@ ok('the page carries the tab, the panel, the script and the tab-switch wiring', 
   assert.match(PAGE, /<script defer src="js\/co-developer-funding\.js"><\/script>/);
   // The tab toggle finds each panel from its button's aria-controls (#2138).
   assert.match(PAGE, /getElementById\(t\.getAttribute\('aria-controls'\)\)/);
-  assert.match(PAGE, /<li><strong>Developer Funding<\/strong>:/, 'the hero tab summary names this tab');
+  assert.match(PAGE, /<li><strong>Funding Sources<\/strong>:/, 'the hero tab summary names this tab');
   assert.match(PAGE, /targetId === 'tab-funding' && window\.CoDeveloperFunding/);
   for (const id of ['dfMeta', 'dfStack', 'dfConsiderations', 'dfFilters', 'dfPrograms', 'dfAmiCounty', 'dfAmiBody']) {
     assert.ok(PAGE.includes(`id="${id}"`), `page lacks #${id}`);

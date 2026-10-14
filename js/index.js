@@ -100,14 +100,17 @@
     DS.getJSON(DS.baseData('home-snapshot.json'))
       .then(function (data) {
         var values = data && data.values || {};
-        var burdenPct = Number(values.renter_cost_burden_pct);
+        // Number(null) is 0 and finite, so a missing value would render as
+        // "0.0%" or "0" (#1480). An absent field stays NaN and leaves "—".
+        function measured(v) { return v == null || v === '' ? NaN : Number(v); }
+        var burdenPct = measured(values.renter_cost_burden_pct);
         var propertyCount = Number(values.lihtc_property_count);
         var avgPerYr = Number(values.average_lihtc_units_per_year);
-        if (Number.isFinite(burdenPct)) setText('snapCostBurden', burdenPct.toFixed(1) + '%');
+        if (Number.isFinite(burdenPct) && burdenPct > 0) setText('snapCostBurden', burdenPct.toFixed(1) + '%');
         if (Number.isFinite(propertyCount) && propertyCount > 0) setText('snapLihtcCount', fmtInt(propertyCount));
         var renterGrowth = Number(values.annual_le60_renter_household_growth);
         var newConst = Number(values.average_lihtc_new_construction_units_per_year);
-        var preservation = Number(values.average_lihtc_preservation_units_per_year);
+        var preservation = measured(values.average_lihtc_preservation_units_per_year);
         var coverage = Number(values.lihtc_new_construction_coverage_of_le60_renter_growth);
         if (Number.isFinite(avgPerYr) && avgPerYr > 0) setText('snapAvgUnitsPerYr', fmtInt(avgPerYr));
 

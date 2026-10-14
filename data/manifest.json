@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-14T10:04:54.263011Z",
+  "generated": "2026-10-14T11:33:04.879422Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7919,7 +7919,7 @@
     "data/pipeline/content.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 43825
+      "bytes": 44146
     },
     "data/policy/affordability-models.json": {
       "featureCount": 0,
@@ -8274,7 +8274,7 @@
     "data/policy/co-developer-funding-guide.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 342738
+      "bytes": 365611
     },
     "data/policy/county-ownership.json": {
       "featureCount": 14,
@@ -8464,12 +8464,12 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12548
+      "bytes": 12568
     },
     "data/polymarket-history.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 161207
+      "bytes": 162656
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,

@@ -71,6 +71,16 @@ for (const brief of curated.briefs.filter((b) => b.is_curated)) {
   assert.deepEqual(missing.slice(0, 5), [], `brief ${brief.id}: rendered words missing from its search record`);
 }
 
+// Every funding program opens its own card from search; the cards are drawn from JSON,
+// so the tab's static HTML does not carry their names.
+const fundingGuide = JSON.parse(await readFile('dist/data/policy/co-developer-funding-guide.json', 'utf8'));
+assert(fundingGuide.programs.length > 0, 'no funding programs to check in search');
+for (const program of fundingGuide.programs) {
+  const record = searchIndex.find((r) => r.u === `colorado-deep-dive.html?program=${encodeURIComponent(program.id)}#tab-funding`);
+  assert(record, `search must find funding program ${program.id}`);
+  assert(record.t.includes(program.name), `${program.id}'s search title must carry the program's name`);
+}
+
 const servedDocs = (await readdir('dist/docs', { recursive: true })).filter((name) => name.endsWith('.md'));
 assert(servedDocs.length > 0, 'no public methodology docs found to check in search');
 for (const name of servedDocs) assert(searchUrls.has(`docs/${name.split(path.sep).join('/')}`), `search must find docs/${name}`);

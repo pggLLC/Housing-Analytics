@@ -72,6 +72,69 @@ function readGuidedPath() {
 }
 
 const PASS = 'PASS', OPEN = 'OPEN', UNMEASURED = 'UNMEASURED';
+
+/**
+ * The Deal Calculator packages Phase 2 has to finish (docs/FINISH-LINE.md,
+ * agreed by the owner 2026-10-14), in the order they must merge.
+ *
+ * A package is done when its PR names the guard that holds its acceptance
+ * cases and that guard is reachable from test:ci — the standard O2 applies to
+ * the market-study artifacts. A closed issue is not evidence: issues close by
+ * hand, and this audit runs offline.
+ *
+ * Each package's PR sets its own `guard` here. Every guard must be distinct;
+ * two packages pointing at one script means one of them is not held.
+ */
+export const DEAL_PACKAGES = [
+  { id: 'L1', issue: 2159, title: 'loan obligations', guard: null },
+  { id: 'B1', issue: 2160, title: 'itemized basis, fees and credit limits', guard: null },
+  { id: 'K1', issue: 2161, title: 'credit stacking and net new equity', guard: null },
+  { id: 'R1', issue: 2163, title: 'funding evidence and source status', guard: null },
+  { id: 'O1', issue: 2164, title: 'operating budget and reserves', guard: null },
+  { id: 'W1', issue: 2165, title: 'annual payment order', guard: null },
+  { id: 'C1', issue: 2166, title: 'construction cash timing', guard: null },
+  { id: 'M1', issue: 2167, title: 'achievable rents and capture', guard: null },
+  { id: 'S1', issue: 2168, title: 'stress scenarios against a kept baseline', guard: null },
+  { id: 'X1', issue: 2169, title: 'plain-language results and the agreement gate', guard: null },
+];
+
+/**
+ * Decide O3 from the package list and the set of scripts reachable from
+ * test:ci. Separated out, like evaluateGuidedPath, so the failing cases can be
+ * tested with lists the repo does not contain.
+ *
+ * An empty list is OPEN, never PASS: a list that names nothing has nothing to
+ * say about whether the work is done.
+ */
+export function evaluateDealPackages(packages, reachable) {
+  if (!Array.isArray(packages) || packages.length === 0) {
+    return { state: OPEN, detail: 'the Deal Calculator package list could not be read' };
+  }
+  const seen = new Map();
+  for (const p of packages) {
+    if (p.guard) seen.set(p.guard, (seen.get(p.guard) || []).concat(p.id));
+  }
+  const shared = [...seen.entries()].filter(([, ids]) => ids.length > 1);
+  const done = packages.filter((p) => p.guard && reachable && reachable.has(p.guard)
+    && seen.get(p.guard).length === 1);
+  const unwired = packages.filter((p) => p.guard && !(reachable && reachable.has(p.guard)));
+  const remaining = packages.filter((p) => !done.includes(p));
+  if (remaining.length === 0) {
+    return {
+      state: PASS,
+      detail: `all ${packages.length} Deal Calculator packages (${packages[0].id}–`
+        + `${packages[packages.length - 1].id}) are held by guards in test:ci`,
+    };
+  }
+  const parts = [`${done.length} of ${packages.length} Deal Calculator packages done; `
+    + `remaining: ${remaining.map((p) => `${p.id} (#${p.issue})`).join(', ')}`];
+  if (shared.length) {
+    parts.push(`one guard named by several packages: ${shared.map(([g, ids]) => `${g} (${ids.join(', ')})`).join('; ')}`);
+  }
+  // Last, so the holds test can read the guard names after "not in test:ci:".
+  if (unwired.length) parts.push(`not in test:ci: ${unwired.map((p) => p.guard).join(', ')}`);
+  return { state: OPEN, detail: parts.join('; ') };
+}
 const WALKTHROUGH_DIR = path.join(ROOT, 'docs/walkthroughs');
 
 /**
@@ -228,6 +291,9 @@ export function measure({ runTests = false } = {}) {
         + [missingArtifacts.length ? `missing: ${missingArtifacts.join(', ')}` : '',
            unwiredGuards.length ? `not in test:ci: ${unwiredGuards.join(', ')}` : ''].filter(Boolean).join('; '),
     'source scan + package.json');
+
+  const o3 = evaluateDealPackages(DEAL_PACKAGES, reachableFromCi);
+  add('O3', 'Open product work', o3.state, o3.detail, 'DEAL_PACKAGES in finish-line.mjs + package.json');
 
   /* ── The definition itself ────────────────────────────────────────────── */
 

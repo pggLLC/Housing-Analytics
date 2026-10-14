@@ -26,11 +26,13 @@
   // ── Comparator constants ─────────────────────────────────────────
   // CO/US renter burden anchors. CO from HUD CHAS 2018–2022 state row
   // (verified at data/hna/chas_affordability_gap.json.state.summary).
-  // US from ACS 2023 5-year B25070 published estimate. These shift
-  // slowly enough that a quarterly refresh is sufficient.
+  // US from ACS 2020-2024 5-year B25070 (rows 007-010 over all renter
+  // households, 001, so "not computed" stays in the denominator as it does
+  // in CHAS). Checked 2026-10-14 via Census Reporter acs2024_5yr. These shift
+  // slowly enough that a yearly refresh with the ACS release is sufficient.
   var CO_RENTER_CB30 = 47.2;  // %
   var CO_RENTER_CB50 = 23.4;  // %
-  var US_RENTER_CB30 = 46.9;  // %
+  var US_RENTER_CB30 = 47.6;  // %
 
   // ── Light HTML escape ─────────────────────────────────────────────
   function _esc(s) {

@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T10:01:25.140Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T11:32:37.786Z. Do not edit by hand.
 
 ---
 
@@ -19,7 +19,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 13.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.4 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 40.4 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 202.0 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 206.5 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 17.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.4 KB |
@@ -33,7 +33,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 69.6 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.9 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 78.0 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 77.3 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.2 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -46,11 +46,11 @@
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 35.7 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 135.1 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 135.5 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 162.3 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 162.5 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 166.1 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 134.4 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | Colorado Public Data Reference | 22.2 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 238.8 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 239.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 39.6 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 584 B |
@@ -59,17 +59,17 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 15.9 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 56.2 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 134.4 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 134.5 KB |
 | `local-incentives.html` | Local Housing Incentives | Colorado Public Data Reference | 8.7 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 148.6 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 56.7 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
-| `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
+| `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.1 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 44.5 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 17.9 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 6.0 KB |
-| `recommendation.html` | Recommendation | COHO Analytics | 14.6 KB |
+| `recommendation.html` | Recommendation | COHO Analytics | 15.0 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 27.5 KB |
 | `research-brief.html` | Research Brief | COHO Analytics | 18.3 KB |
 | `resident-services.html` | Services in Affordable Housing | Colorado Public Data Reference | 25.4 KB |
@@ -1639,7 +1639,7 @@
 | `data/paper/compute-footprint.json` | 1.8 KB | ✅ | — |
 | `data/paper/figures.json` | 14.8 KB | ✅ | — |
 | `data/paper/model-parameters.json` | 6.1 KB | ✅ | — |
-| `data/pipeline/content.json` | 42.8 KB | ✅ | — |
+| `data/pipeline/content.json` | 43.1 KB | ✅ | — |
 | `data/policy/affordability-models.json` | 14.1 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08001.json` | 16.5 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08003.json` | 9.5 KB | ✅ | — |
@@ -1710,7 +1710,7 @@
 | `data/policy/candidate-platforms-2026.json` | 36.7 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
-| `data/policy/co-developer-funding-guide.json` | 334.7 KB | ✅ | — |
+| `data/policy/co-developer-funding-guide.json` | 357.0 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 20.3 KB | ✅ | — |
@@ -1749,7 +1749,7 @@
 | `data/policy_briefs_curated.json` | 102.5 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
-| `data/polymarket-history.json` | 157.4 KB | ✅ | — |
+| `data/polymarket-history.json` | 158.8 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
@@ -1772,7 +1772,7 @@
 
 ## Test Files
 
-586 test files found.
+589 test files found.
 
 | File | Size |
 |------|------|
@@ -1795,7 +1795,7 @@
 | `test/attribute-escaping.test.js` | 4.9 KB |
 | `test/audit-modules/audit-history.js` | 5.5 KB |
 | `test/audit-modules/audit-status.js` | 3.5 KB |
-| `test/audit-modules/data-integrity.js` | 18.9 KB |
+| `test/audit-modules/data-integrity.js` | 20.2 KB |
 | `test/audit-modules/link-check.js` | 3.4 KB |
 | `test/audit-modules/logic-validation.js` | 14.2 KB |
 | `test/audit-modules/repo-health.js` | 28.5 KB |
@@ -1925,7 +1925,7 @@
 | `test/figure-explanations.test.js` | 20.7 KB |
 | `test/file-manifest.test.js` | 9.5 KB |
 | `test/financial-copy-agreement.test.js` | 10.9 KB |
-| `test/finish-line-holds.test.mjs` | 13.7 KB |
+| `test/finish-line-holds.test.mjs` | 15.7 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
 | `test/fixtures/deal-engine/golden.json` | 36.1 KB |
@@ -1944,6 +1944,8 @@
 | `test/freshness-gates-run-first.test.mjs` | 7.3 KB |
 | `test/freshness-guard-dirty-tree.test.js` | 12.5 KB |
 | `test/funding-context-card.test.js` | 7.7 KB |
+| `test/funding-eligibility-claims.test.js` | 8.9 KB |
+| `test/funding-fit.test.js` | 12.3 KB |
 | `test/funding-vs-need.test.mjs` | 13.7 KB |
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-naming.test.js` | 22.9 KB |
@@ -2023,7 +2025,7 @@
 | `test/homepage-job-routing.test.js` | 8.4 KB |
 | `test/homepage-snapshot.test.js` | 10.9 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.2 KB |
-| `test/housing-events-and-brief-news.test.mjs` | 11.5 KB |
+| `test/housing-events-and-brief-news.test.mjs` | 11.7 KB |
 | `test/housing-need-face-validity.test.mjs` | 26.5 KB |
 | `test/housing-news-leads-with-the-newest.test.mjs` | 22.1 KB |
 | `test/housing-outcome-score-absence.test.js` | 9.4 KB |
@@ -2173,7 +2175,7 @@
 | `test/prop123-rental-rules.test.js` | 7.0 KB |
 | `test/prop123.test.js` | 13.9 KB |
 | `test/provenance-label.test.js` | 2.2 KB |
-| `test/public-build-metadata.test.mjs` | 8.8 KB |
+| `test/public-build-metadata.test.mjs` | 9.5 KB |
 | `test/public-config-no-secrets.test.js` | 4.8 KB |
 | `test/public-facing-numbers.test.js` | 10.5 KB |
 | `test/public-land-contract.test.js` | 9.1 KB |
@@ -2225,13 +2227,14 @@
 | `test/smoke.test.js` | 10.1 KB |
 | `test/soft-funding-availability.test.js` | 5.1 KB |
 | `test/soft-funding-terms.test.js` | 7.0 KB |
-| `test/soft-funding-tracker.test.js` | 16.5 KB |
+| `test/soft-funding-tracker.test.js` | 16.8 KB |
 | `test/source-liveness-local-path.test.py` | 1.5 KB |
 | `test/source-maintenance-declarations.test.js` | 8.9 KB |
 | `test/source-url-sweep-retry.test.js` | 5.5 KB |
 | `test/source-url-sweep-skip-templates.test.js` | 2.7 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/state-allocations-abbr.test.js` | 1.8 KB |
+| `test/step-count-agreement.test.mjs` | 5.5 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
 | `test/table-export-rendered.test.js` | 16.2 KB |
 | `test/table-export.test.js` | 24.7 KB |
@@ -2285,7 +2288,7 @@
 | `test/utility-allowance-basis.test.js` | 18.8 KB |
 | `test/validate-site.js` | 9.6 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
-| `test/walkthrough-record.test.mjs` | 8.6 KB |
+| `test/walkthrough-record.test.mjs` | 12.1 KB |
 | `test/wcag-pill-contrast.test.js` | 12.4 KB |
 | `test/website-monitor-config.js` | 1.4 KB |
 | `test/website-monitor-enhanced.js` | 13.2 KB |
@@ -2300,7 +2303,7 @@
 | `test/workflows-rebuild-derived-chain.test.mjs` | 9.9 KB |
 | `test/workforce-gap-is-job-based.test.mjs` | 8.8 KB |
 | `test/working-paper-download.test.js` | 4.9 KB |
-| `test/xss-comparison-surfaces.test.js` | 14.5 KB |
+| `test/xss-comparison-surfaces.test.js` | 14.8 KB |
 | `test/xss-data-quality.test.js` | 5.1 KB |
 | `test/xss-hmda-lookup.test.js` | 1.6 KB |
 | `test/xss-navigation.test.js` | 3.5 KB |
