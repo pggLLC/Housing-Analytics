@@ -67,7 +67,7 @@ test('inventory counts are quoted, the badge keeps the source\'s qualifier, and 
       assert.ok(quote.includes(n), `${a.id}: ${u} not in its quote`);
       assert.ok(shown.some((f) => f.includes(n)), `${a.id}: ${n} not in what the badge shows`);
       // A qualifier in front of the number in the source must be in front of it on the badge.
-      const q = new RegExp(`\\b(nearly|over|approximately|about|more than|almost)\\s+${n.replace(/,/g, ',')}\\b`, 'i').exec(quote);
+      const q = new RegExp(`\\b(nearly|over|approximately|about|more than|almost)\\s+${n}\\b`, 'i').exec(quote);
       if (q) { qualified++; assert.ok(shown.some((f) => f.toLowerCase().includes(q[0].toLowerCase())), `${a.id}: badge drops "${q[1]}"`); }
     }
     assert.match(a.inventory.source_url, /^https:\/\//);
