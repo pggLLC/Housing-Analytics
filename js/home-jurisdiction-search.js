@@ -80,6 +80,130 @@
            '&geoType=' + encodeURIComponent(entry.type) + '&auto=1';
   }
 
+  /* ── Answer card (2026-10-14 persona walk) ─────────────────────────
+   * A town search used to drop every visitor onto the full Needs
+   * Assessment, 100+ phone screens long. The card answers first: a few
+   * plain facts read from that town's metrics digest (the same file the
+   * report's numbers come from), then next steps for the door the visitor
+   * picked. A fact the digest cannot support is left out, never shown as 0.
+   */
+
+  var DOORS = {
+    rent: 'I rent or need a place',
+    council: 'I serve on a council or board',
+    build: 'I build housing',
+    analyze: 'I study the data'
+  };
+
+  function digestUrl(geoid) {
+    return 'data/hna/jurisdiction-metrics-digest/' + encodeURIComponent(geoid) + '.json';
+  }
+
+  function usable(m, money) {
+    if (!m || m.value === null || m.value === undefined || m.value === '') return false;
+    if (m.denominator_floor_applied) return false;
+    var v = Number(m.value);
+    if (!isFinite(v)) return false;
+    return money ? v > 0 : v >= 0;
+  }
+
+  function dollars(v) {
+    return '$' + Math.round(Number(v)).toLocaleString('en-US');
+  }
+
+  var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+    'August', 'September', 'October', 'November', 'December'];
+
+  function sourceLabel(m) {
+    var asOf = String(m.as_of || '');
+    var date = /^(\d{4})-(\d{2})-\d{2}$/.exec(asOf);
+    var when = date ? MONTHS[Number(date[2]) - 1] + ' ' + date[1] : asOf;
+    if (/zillow/i.test(m.source_id || '')) return 'Zillow home value index, ' + when;
+    if (/chas/i.test(m.source_id || '')) return when || 'HUD CHAS';
+    return when ? 'Census ' + when : 'Census ACS';
+  }
+
+  function caveat(m) {
+    var notes = [];
+    if (m.geography_level === 'county_context') notes.push('county figure');
+    if (m.confidence === 'low') notes.push('small sample, treat as rough');
+    return notes.length ? ' (' + notes.join('; ') + ')' : '';
+  }
+
+  /**
+   * Plain-language facts for one jurisdiction's digest.
+   * @param {object} digest  data/hna/jurisdiction-metrics-digest/<geoid>.json
+   * @returns {Array<{key:string,label:string,value:string,note:string,source:string}>}
+   */
+  function answerFacts(digest) {
+    var m = digest && digest.metrics ? digest.metrics : {};
+    var facts = [];
+    var cb = m.pct_cost_burdened;
+    if (usable(cb, false)) {
+      facts.push({ key: 'pct_cost_burdened', label: 'Renters stretched by rent',
+        value: Math.round(Number(cb.value)) + '%',
+        note: 'of renter households pay 30% or more of their income on rent and utilities' + caveat(cb),
+        source: sourceLabel(cb) });
+    }
+    var rent = m.gross_rent_median;
+    if (usable(rent, true)) {
+      facts.push({ key: 'gross_rent_median', label: 'Typical rent',
+        value: dollars(rent.value) + ' a month',
+        note: 'median rent including utilities' + caveat(rent), source: sourceLabel(rent) });
+    }
+    var inc = m.median_hh_income;
+    if (usable(inc, true)) {
+      facts.push({ key: 'median_hh_income', label: 'Typical household income',
+        value: dollars(inc.value) + ' a year',
+        note: 'median for all households, renters and owners' + caveat(inc), source: sourceLabel(inc) });
+    }
+    var home = m.median_home_value;
+    if (usable(home, true)) {
+      facts.push({ key: 'median_home_value', label: 'Typical home value',
+        value: dollars(home.value),
+        note: 'typical value of a home here' + caveat(home), source: sourceLabel(home) });
+    }
+    return facts;
+  }
+
+  /**
+   * Next steps for a door, for one jurisdiction. Every href is either a page
+   * in this repo or an https link; test/home-answer-card.test.js checks both.
+   * @param {string} door  a DOORS key, or anything else for the default
+   * @param {{geoid:string,type:string}} entry
+   */
+  function doorLinks(door, entry) {
+    var report = { label: 'Open the full Housing Needs Assessment', href: jurisdictionUrl(entry) };
+    var isPlace = entry && /^08\d{5}$/.test(entry.geoid || '');
+    var profile = isPlace ? { label: 'Short local profile', href: 'places/' + entry.geoid + '.html' } : null;
+    var compare = { label: 'Compare with other Colorado places', href: 'hna-comparative-analysis.html' };
+    var links;
+    if (door === 'rent') {
+      links = [
+        { label: 'Free housing help line: Colorado Housing Connects, 1-844-926-6632', href: 'https://coloradohousingconnects.org/', external: true },
+        { label: 'Search income-restricted rentals: ColoradoHousingSearch.com', href: 'https://www.coloradohousingsearch.com/', external: true },
+        { label: 'Thinking about buying? Help for homebuyers', href: 'help-for-homebuyers.html' }
+      ];
+    } else if (door === 'council') {
+      links = [report, compare, { label: 'What other Colorado towns offer builders', href: 'local-incentives.html' }];
+    } else if (door === 'build') {
+      links = [
+        { label: 'Where tax-credit housing scores well: Opportunity Finder', href: 'lihtc-opportunity-finder.html' },
+        { label: 'Test a project: Deal Calculator', href: 'deal-calculator.html' + (isPlace ? '?geoid=' + entry.geoid : '') },
+        { label: 'Funding programs that fit', href: 'colorado-deep-dive.html#tab-funding' },
+        report
+      ];
+    } else if (door === 'analyze') {
+      links = [report, compare,
+        { label: 'Every number for this place (JSON)', href: digestUrl(entry.geoid) },
+        { label: 'Sources and how we check them', href: 'data-review-hub.html' }];
+    } else {
+      links = [report];
+    }
+    if (profile && door !== 'analyze' && door !== 'build') links.push(profile);
+    return links.filter(function (l) { return l && l.href; });
+  }
+
   /* ── Browser bootstrap (combobox wiring) ─────────────────────────── */
 
   function initBrowser() {
@@ -115,10 +239,107 @@
       activeIndex = -1;
     }
 
-    function go(entry) {
-      var url = jurisdictionUrl(entry);
-      if (url) window.location.href = url;
+    var card = document.getElementById('homeAnswerCard');
+    var doorButtons = document.querySelectorAll('[data-home-door]');
+    var door = null;
+    var current = null;
+    var lastDigest;
+
+    function el(tag, cls, text) {
+      var n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text !== undefined) n.textContent = text;
+      return n;
     }
+
+    function syncUrl() {
+      if (!window.history || !window.history.replaceState) return;
+      var params = new URLSearchParams(window.location.search);
+      if (current) params.set('town', current.geoid); else params.delete('town');
+      if (door) params.set('door', door); else params.delete('door');
+      var q = params.toString();
+      window.history.replaceState(null, '', window.location.pathname + (q ? '?' + q : '') + window.location.hash);
+    }
+
+    function renderLinks(target) {
+      var list = el('ul', 'home-answer__links');
+      doorLinks(door, current).forEach(function (l) {
+        var li = el('li');
+        var a = el('a', null, l.label);
+        a.href = l.href;
+        if (l.external) { a.target = '_blank'; a.rel = 'noopener'; }
+        li.appendChild(a);
+        list.appendChild(li);
+      });
+      target.appendChild(list);
+    }
+
+    function renderCard(entry, digest) {
+      card.innerHTML = '';
+      card.appendChild(el('h2', 'home-answer__title', entry.name));
+      var facts = digest ? answerFacts(digest) : [];
+      if (facts.length) {
+        var dl = el('dl', 'home-answer__facts');
+        var sources = [];
+        facts.forEach(function (f) {
+          var row = el('div', 'home-answer__fact');
+          row.appendChild(el('dt', null, f.label));
+          var dd = el('dd');
+          dd.appendChild(el('strong', null, f.value));
+          dd.appendChild(document.createTextNode(' ' + f.note));
+          row.appendChild(dd);
+          dl.appendChild(row);
+          if (sources.indexOf(f.source) === -1) sources.push(f.source);
+        });
+        card.appendChild(dl);
+        card.appendChild(el('p', 'home-answer__source', 'Sources: ' + sources.join('; ') + '.'));
+      } else {
+        card.appendChild(el('p', 'home-answer__empty',
+          'Public surveys have too few households here to give reliable local numbers. The full report shows the county picture.'));
+      }
+      card.appendChild(el('p', 'home-answer__next', door ? 'Next steps for you' : 'Next steps (pick what brings you here above to tailor these)'));
+      renderLinks(card);
+      card.hidden = false;
+    }
+
+    function showAnswer(entry) {
+      if (!card) {
+        var url = jurisdictionUrl(entry);
+        if (url) window.location.href = url;
+        return;
+      }
+      current = entry;
+      lastDigest = undefined;
+      input.value = entry.name;
+      close();
+      syncUrl();
+      card.hidden = false;
+      card.innerHTML = '';
+      card.appendChild(el('p', 'home-answer__loading', 'Loading ' + entry.name + '…'));
+      fetch(digestUrl(entry.geoid))
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (d) { if (current === entry) { lastDigest = d; renderCard(entry, d); } })
+        .catch(function () { if (current === entry) { lastDigest = null; renderCard(entry, null); } });
+    }
+
+    function setDoor(key) {
+      door = DOORS[key] ? key : null;
+      for (var k = 0; k < doorButtons.length; k++) {
+        doorButtons[k].setAttribute('aria-pressed', doorButtons[k].getAttribute('data-home-door') === door ? 'true' : 'false');
+      }
+    }
+
+    for (var b = 0; b < doorButtons.length; b++) {
+      doorButtons[b].addEventListener('click', function () {
+        var key = this.getAttribute('data-home-door');
+        setDoor(door === key ? null : key);
+        syncUrl();
+        if (current && lastDigest !== undefined) renderCard(current, lastDigest);
+        else input.focus();
+      });
+    }
+
+    function go(entry) { showAnswer(entry); }
 
     function setActive(i) {
       activeIndex = i;
@@ -166,6 +387,24 @@
       setActive(-1);
     }
 
+    // Shared links: ?town=<geoid>&door=<key> reopens the same card.
+    (function restore() {
+      var params = new URLSearchParams(window.location.search);
+      var d = params.get('door');
+      if (DOORS[d]) setDoor(d);
+      var town = params.get('town');
+      if (!card || !/^08\d{3}(\d{2})?$/.test(town || '')) return;
+      fetch('data/hna/geography-registry.json')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          entries = Array.isArray(data) ? data : (data && data.geographies) ? data.geographies : [];
+          for (var i = 0; i < entries.length; i++) {
+            if (entries[i].geoid === town) { showAnswer(entries[i]); return; }
+          }
+        })
+        .catch(function () {});
+    }());
+
     input.addEventListener('focus', loadRegistry);
     input.addEventListener('input', function () { render(input.value); });
     input.addEventListener('blur', function () { setTimeout(close, 150); });
@@ -205,7 +444,11 @@
   return {
     MAX_RESULTS: MAX_RESULTS,
     TYPE_LABELS: TYPE_LABELS,
+    DOORS: DOORS,
     searchJurisdictions: searchJurisdictions,
-    jurisdictionUrl: jurisdictionUrl
+    jurisdictionUrl: jurisdictionUrl,
+    digestUrl: digestUrl,
+    answerFacts: answerFacts,
+    doorLinks: doorLinks
   };
 }));
