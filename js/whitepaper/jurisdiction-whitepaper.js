@@ -443,7 +443,7 @@
   }
 
   // How a tax-credit deal is put together here: the stack, the local pieces the data
-  // already shows, and the path from letter of intent to placed in service.
+  // already shows, and the path from letter of intent to a finished building.
   function dealDynamics(row, src, need, lihtc, policy) {
     var county = row.type === 'county' ? row.geoid : row.containingCounty;
     var a = src.assumptions || null;
@@ -780,7 +780,7 @@
     h += '<h3>From award to occupancy</h3><ol>' +
       '<li>Site control, zoning and a CHFA market study before applying.</li>' +
       '<li>Local support: a council resolution, fee relief, land or a local loan, which also helps the jurisdiction count units toward its Prop 123 promise.</li>' +
-      '<li><strong>9%:</strong> CHFA allocates credits after the round. A project not yet in service gets a carryover allocation, must have incurred more than 10% of its reasonably expected basis within 12 months of that allocation, and must be placed in service by the end of the second calendar year after the allocation year.</li>' +
+      '<li><strong>9%:</strong> CHFA allocates credits after the round. A project not yet in service gets a carryover allocation, must have incurred more than 10% of its reasonably expected basis within 12 months of that allocation, and the building must be finished and in service by the end of the second calendar year after the allocation year.</li>' +
       '<li><strong>4%:</strong> the credits come with the tax-exempt bonds rather than a CHFA credit allocation, so the 9% carryover deadlines do not apply. The bonds must finance the required share of land and building, and CHFA still reviews the deal against its QAP.</li>' +
       '<li>Rents and incomes stay restricted through the compliance period and CHFA\'s extended use period.</li></ol>';
     return h + srcLine(D.sources);
