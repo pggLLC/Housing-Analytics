@@ -5094,7 +5094,7 @@
       vintages: {
         acs:  r.acsVintageLabel || _acsVintageLabel(),
         chas: 'HUD CHAS 2018-2022',
-        lehd: 'LEHD WAC 2021',
+        lehd: 'LEHD WAC 2023',
         fmr:  'HUD FMR FY2027',
         lihtc:'HUD LIHTC Database (most recent quarterly)'
       },
