@@ -20,7 +20,9 @@ import assert from 'node:assert';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { measure, GUIDED_PATH, evaluateGuidedPath } from '../scripts/audit/finish-line.mjs';
+import {
+  measure, GUIDED_PATH, evaluateGuidedPath, evaluateDealPackages, DEAL_PACKAGES,
+} from '../scripts/audit/finish-line.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -140,6 +142,39 @@ test('G1 refuses to pass on a route that is empty, misordered or missing a page'
   const g1 = items.find((i) => i.id === 'G1');
   assert.ok(g1 && /STEPS/.test(g1.evidence),
     `G1 no longer says it reads the component: "${g1 && g1.evidence}"`);
+});
+
+test('O3 holds the Deal Calculator packages to guards in test:ci', () => {
+  // Phase 2 (docs/FINISH-LINE.md, agreed 2026-10-14) has to finish L1-X1.
+  // The list must name every package FINISH-LINE.md names, in merge order.
+  const doc = fs.readFileSync(path.join(ROOT, 'docs', 'FINISH-LINE.md'), 'utf8');
+  assert.ok(/L1 through X1 \(#2159–#2169\)/.test(doc),
+    'FINISH-LINE.md no longer names the L1-X1 packages O3 measures');
+  assert.deepStrictEqual(DEAL_PACKAGES.map((p) => p.id),
+    ['L1', 'B1', 'K1', 'R1', 'O1', 'W1', 'C1', 'M1', 'S1', 'X1'],
+    'the package list drifted from the remediation order');
+  assert.ok(byId.O3, 'O3 is gone');
+  if (DEAL_PACKAGES.some((p) => !p.guard)) {
+    assert.strictEqual(byId.O3.state, 'OPEN', `O3 reports ${byId.O3.state} with packages unguarded`);
+  }
+
+  // Exercised with lists the repo does not contain, like G1 above.
+  const pk = (id, guard) => ({ id, issue: 1, title: id, guard });
+  const ci = new Set(['test:a', 'test:b']);
+  assert.strictEqual(evaluateDealPackages([pk('L1', 'test:a'), pk('B1', 'test:b')], ci).state, 'PASS',
+    'every package guarded and wired does not pass');
+  for (const empty of [[], null, undefined]) {
+    assert.strictEqual(evaluateDealPackages(empty, ci).state, 'OPEN', 'an empty package list passed');
+  }
+  const none = evaluateDealPackages([pk('L1', null), pk('B1', 'test:b')], ci);
+  assert.strictEqual(none.state, 'OPEN', 'a package with no guard passed');
+  assert.match(none.detail, /1 of 2 .*remaining: L1/);
+  const unwired = evaluateDealPackages([pk('L1', 'test:zzz'), pk('B1', 'test:b')], ci);
+  assert.strictEqual(unwired.state, 'OPEN', 'a guard outside test:ci passed');
+  assert.match(unwired.detail, /not in test:ci: test:zzz$/);
+  const shared = evaluateDealPackages([pk('L1', 'test:a'), pk('B1', 'test:a')], ci);
+  assert.strictEqual(shared.state, 'OPEN', 'two packages sharing one guard passed');
+  assert.match(shared.detail, /test:a \(L1, B1\)/);
 });
 
 test('no finish-line item regresses from PASS by a wiring change', () => {

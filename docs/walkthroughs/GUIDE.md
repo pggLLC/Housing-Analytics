@@ -16,6 +16,10 @@ planning commissioner, a nonprofit board member, a planner who works on
 something else. G3 does not count a walkthrough by someone who already knows
 the tool (see `walkthrough-record.mjs`).
 
+**How many.** Three walkthroughs by three different people: one for a city,
+one for a rural county and one for a small town. Each walker picks a place of
+that kind, ideally their own. G3 stays UNMEASURED until all three are recorded.
+
 **What to give them.** Part 2 of this page and the start link. Nothing else.
 Do not explain the tool first, and do not answer questions while they work.
 Where they get stuck is the result. If they ask, say "what would you try?",
@@ -51,6 +55,7 @@ and fill it in from their notes. Use their words and not a summary of them.
 The record is only complete when:
 
 - `Unfamiliar with the tool` says `yes`;
+- `Jurisdiction type` is `city`, `rural county` or `small town`;
 - every one of the seven steps has real notes (at least a sentence or two, with
   no template text left in);
 - `Verdict` is `would-act` or `would-not-act`.

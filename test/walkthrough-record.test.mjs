@@ -27,7 +27,9 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { readWalkthrough, recordFiles, VERDICTS } from '../scripts/audit/walkthrough-record.mjs';
+import {
+  readWalkthrough, judgeRecord, recordFiles, VERDICTS, JURISDICTION_TYPES,
+} from '../scripts/audit/walkthrough-record.mjs';
 import { GUIDED_PATH } from '../scripts/audit/finish-line.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -45,6 +47,7 @@ function record(fields = {}, opts = {}) {
     Walker: 'Jane Rivera',
     'Unfamiliar with the tool': 'yes',
     Jurisdiction: 'Salida (Chaffee County)',
+    'Jurisdiction type': 'small town',
     Date: '2026-09-24',
     Verdict: VERDICTS.ACT,
     ...fields,
@@ -63,15 +66,35 @@ function record(fields = {}, opts = {}) {
   return s;
 }
 
+/** One record, judged on its own. */
 function judge(content) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'walkthrough-'));
   try {
-    if (content !== null) fs.writeFileSync(path.join(dir, '2026-09-24-probe.md'), content);
+    const file = path.join(dir, '2026-09-24-probe.md');
+    fs.writeFileSync(file, content);
+    return judgeRecord(file, GUIDED_PATH);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+/** G3 across a set of records, given as { 'YYYY-MM-DD-name.md': content }. */
+function g3(files) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'walkthrough-'));
+  try {
+    for (const [name, content] of Object.entries(files)) fs.writeFileSync(path.join(dir, name), content);
     return readWalkthrough(dir, GUIDED_PATH);
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }
 }
+
+/** Three complete would-act records, one per type, by three people. */
+const THREE = {
+  '2026-10-20-city.md': record({ Walker: 'Ana Ortiz', Jurisdiction: 'Greeley (city)', 'Jurisdiction type': 'city' }),
+  '2026-10-21-county.md': record({ Walker: 'Ben Kerr', Jurisdiction: 'Kiowa County', 'Jurisdiction type': 'rural county' }),
+  '2026-10-22-town.md': record({ Walker: 'Jane Rivera' }),
+};
 
 console.log('walkthrough-record');
 
@@ -81,15 +104,72 @@ test('the guided path is readable, so these probes mean something', () => {
 });
 
 test('no record reads as UNMEASURED, and says how to make one', () => {
-  const r = judge(null);
+  const r = g3({});
   assert.strictEqual(r.state, 'UNMEASURED');
   assert.match(r.detail, /TEMPLATE\.md/, 'the message does not say where the template is');
 });
 
-test('a complete walkthrough with a positive verdict PASSES', () => {
+test('a complete walkthrough with a positive verdict counts as a pass for its place', () => {
   const r = judge(record());
   assert.strictEqual(r.state, 'PASS', r.detail);
   assert.match(r.detail, /Jane Rivera/, 'the detail does not name who walked it');
+  assert.strictEqual(r.type, 'small town');
+});
+
+test('one passing walkthrough does not pass G3; it names the types still needed', () => {
+  // Until 2026-10-14 G3 read only the newest record, so a single city walk
+  // would have closed it. Phase 2 needs a city, a rural county and a small town.
+  const r = g3({ '2026-10-20-town.md': record() });
+  assert.strictEqual(r.state, 'UNMEASURED', r.detail);
+  assert.match(r.detail, /1 of 3 walked/);
+  assert.match(r.detail, /still needed: city, rural county/);
+});
+
+test('one passing walkthrough of each type, by three people, PASSES G3', () => {
+  assert.deepStrictEqual(JURISDICTION_TYPES, ['city', 'rural county', 'small town']);
+  const r = g3(THREE);
+  assert.strictEqual(r.state, 'PASS', r.detail);
+  for (const who of ['Ana Ortiz', 'Ben Kerr', 'Jane Rivera']) assert.match(r.detail, new RegExp(who));
+});
+
+test('two passing types are still not enough', () => {
+  const { '2026-10-21-county.md': _drop, ...two } = THREE;
+  const r = g3(two);
+  assert.strictEqual(r.state, 'UNMEASURED', r.detail);
+  assert.match(r.detail, /still needed: rural county/);
+});
+
+test('one person walking all three types does not count as three readers', () => {
+  const same = Object.fromEntries(Object.entries(THREE)
+    .map(([n, c]) => [n, c.replace(/\*\*Walker:\*\* .*/, '**Walker:** Ana Ortiz')]));
+  const r = g3(same);
+  assert.strictEqual(r.state, 'UNMEASURED', r.detail);
+  assert.match(r.detail, /by 1 person/);
+});
+
+test('a would-not-act record for any type makes G3 OPEN, whatever the others say', () => {
+  const r = g3({ ...THREE, '2026-10-23-town-again.md': record({ Verdict: VERDICTS.NOT }) });
+  assert.strictEqual(r.state, 'OPEN', r.detail);
+  assert.match(r.detail, /would NOT act/);
+});
+
+test('a newer would-act walk of a type supersedes an older would-not-act', () => {
+  const r = g3({ ...THREE, '2026-10-19-town-first.md': record({ Walker: 'Cal Reyes', Verdict: VERDICTS.NOT }) });
+  assert.strictEqual(r.state, 'PASS', r.detail);
+});
+
+test('a record that does not count is named, not silently skipped', () => {
+  const r = g3({ ...THREE, '2026-10-24-familiar.md': record({ Walker: 'Dee Park', 'Unfamiliar with the tool': 'no' }) });
+  assert.strictEqual(r.state, 'PASS', r.detail);
+  assert.match(r.detail, /Not counted: .*familiar/);
+});
+
+test('a record without a jurisdiction type does not count', () => {
+  for (const value of ['<city, rural county or small town>', 'suburb']) {
+    const r = judge(record({ 'Jurisdiction type': value }));
+    assert.strictEqual(r.state, 'UNMEASURED', `type "${value}" was accepted: ${r.detail}`);
+    assert.match(r.detail, /Jurisdiction type/);
+  }
 });
 
 test('a complete walkthrough with a NEGATIVE verdict is OPEN, not missing', () => {
@@ -134,7 +214,7 @@ test('a record of a path the product no longer has does not count', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'walkthrough-'));
   try {
     fs.writeFileSync(path.join(dir, '2026-09-24-probe.md'), record());
-    const r = readWalkthrough(dir, shorter);
+    const r = judgeRecord(path.join(dir, '2026-09-24-probe.md'), shorter);
     assert.strictEqual(r.state, 'UNMEASURED', r.detail);
     assert.match(r.detail, /path changed|covers steps/i);
   } finally {
