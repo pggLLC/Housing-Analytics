@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T11:32:37.786Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T11:39:59.103Z. Do not edit by hand.
 
 ---
 
@@ -33,7 +33,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 69.6 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.9 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 77.3 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 78.7 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.2 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -1772,7 +1772,7 @@
 
 ## Test Files
 
-589 test files found.
+590 test files found.
 
 | File | Size |
 |------|------|
@@ -1885,6 +1885,7 @@
 | `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
+| `test/deal-calculator-rent-link.test.js` | 5.8 KB |
 | `test/deal-engine-golden.test.js` | 7.5 KB |
 | `test/deal-engine-surfaces.test.js` | 11.5 KB |
 | `test/deal-engine.test.js` | 6.6 KB |
@@ -2023,7 +2024,7 @@
 | `test/homeownership-programs.test.js` | 6.6 KB |
 | `test/homepage-claims.test.js` | 8.3 KB |
 | `test/homepage-job-routing.test.js` | 8.4 KB |
-| `test/homepage-snapshot.test.js` | 10.9 KB |
+| `test/homepage-snapshot.test.js` | 12.3 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.2 KB |
 | `test/housing-events-and-brief-news.test.mjs` | 11.7 KB |
 | `test/housing-need-face-validity.test.mjs` | 26.5 KB |
@@ -2034,7 +2035,7 @@
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 2.8 KB |
 | `test/hud-home-rent-limits.test.js` | 3.2 KB |
-| `test/hud-vintage-labels-sync.test.mjs` | 2.4 KB |
+| `test/hud-vintage-labels-sync.test.mjs` | 5.1 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
 | `test/input-provenance.test.js` | 6.4 KB |
 | `test/insights-agreement.test.mjs` | 5.3 KB |
@@ -2383,7 +2384,7 @@
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.0 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
-| `.github/workflows/build-hna-data.yml` | 32.6 KB |
+| `.github/workflows/build-hna-data.yml` | 32.8 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 4.0 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 13.0 KB |
 | `.github/workflows/car-data-update.yml` | 5.3 KB |
