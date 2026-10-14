@@ -2,10 +2,10 @@
   "schema": "tool-watch/v1",
   "meta": {
     "title": "Affordable Housing Analysis Tool Watch",
-    "as_of": "2026-07-21",
-    "last_updated": "2026-07-21",
-    "last_verified": "2026-07-21",
-    "review_by": "2026-10-19",
+    "as_of": "2026-10-13",
+    "last_updated": "2026-10-13",
+    "last_verified": "2026-10-13",
+    "review_by": "2027-01-07",
     "refresh_cadence": "Quarterly review, or sooner when major LIHTC, HUD income-limit, QCT/DDA, FMR, or underwriting-tool releases are announced.",
     "methodology": "Curated watchlist of external affordable-housing analysis tools relevant to COHO workflows. Entries are descriptive evaluations, not endorsements. Source URLs are official vendor or agency pages; unavailable values should remain null plus VERIFY until directly confirmed.",
     "source_verification_note": "Before adding a tool-watch entry, browser-load the official source page before commit; automated guards may not reach WAF-protected vendor hosts."
@@ -18,12 +18,12 @@
       "vendor": "Novogradac",
       "category": "rent_income_limits",
       "status": "active",
-      "capability_summary": "Calculates affordable-housing income and rent limits used in LIHTC underwriting and compliance workflows.",
+      "capability_summary": "Free calculator of LIHTC rent and income limits from HUD data; updated for FY2026 income limits and labelled Beta, with users told to confirm figures with the state housing agency. Novogradac points to a separate Rent and Income Limit Estimator for forward-looking estimates.",
       "relevance_to_coho": "Benchmark peer for Deal Calculator rent-limit UX, AMI-band handling, and county/state selection patterns.",
       "source_url": "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/rent-income-limit-calculator",
-      "source_note": "Official Novogradac product page; verified in browser, not bot-fetchable due to WAF.",
-      "last_verified": "2026-07-21",
-      "review_by": "2026-10-19"
+      "source_note": "Official Novogradac page; re-checked 2026-10-13 in a headless browser after Cloudflare's challenge (plain requests get HTTP 403). The page says the calculator is updated for FY2026 income limits and is in Beta.",
+      "last_verified": "2026-10-13",
+      "review_by": "2027-01-11"
     },
     {
       "id": "novogradac-qualified-census-tract-estimator",
@@ -32,12 +32,12 @@
       "vendor": "Novogradac",
       "category": "qct_dda",
       "status": "active",
-      "capability_summary": "Screens address or geography context for Qualified Census Tract and Difficult Development Area relevance.",
+      "capability_summary": "Paid report ($500 per HUD-defined area, ordered by email) estimating whether a census tract is likely to gain or lose Qualified Census Tract status before HUD publishes the official list, to help plan around the 30% basis boost. It does not cover Difficult Development Areas.",
       "relevance_to_coho": "Benchmark peer for COHO Opportunity Finder and PMA QCT/DDA disclosure patterns.",
       "source_url": "https://www.novoco.com/products/novogradac-qualified-census-tract-estimator",
-      "source_note": "Official Novogradac product page; verified in browser, not bot-fetchable due to WAF.",
-      "last_verified": "2026-07-21",
-      "review_by": "2026-10-19"
+      "source_note": "Official Novogradac product page; re-checked 2026-10-13 in a headless browser (plain requests get Cloudflare's HTTP 403). The earlier summary described it as a QCT/DDA screener; the page describes a paid QCT-change forecast and says nothing about DDAs, so the summary was corrected.",
+      "last_verified": "2026-10-13",
+      "review_by": "2027-01-11"
     },
     {
       "id": "huduser-qct-dda-data",
