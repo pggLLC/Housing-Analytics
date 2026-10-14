@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-14T13:48:39.563Z",
+    "generated_at": "2026-10-14T13:59:54.219Z",
     "root": "data/",
-    "file_count": 1717,
-    "total_size_bytes": 180682937,
+    "file_count": 1718,
+    "total_size_bytes": 181098604,
     "kinds": {
-      "json": 1680,
+      "json": 1681,
       "geojson": 33,
       "csv": 4
     }
@@ -15,7 +15,7 @@
       "path": "_qa-status.json",
       "kind": "json",
       "size_bytes": 7711,
-      "mtime": "2026-10-12T17:16:13.788Z",
+      "mtime": "2026-10-14T13:59:01.699Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -502,7 +502,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-14T12:57:50.798Z",
+      "mtime": "2026-10-14T13:59:49.997Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30079,29 +30079,50 @@
       ]
     },
     {
-      "path": "jurisdiction-briefs/_contacts/0833640.json",
+      "path": "jurisdiction-briefs/_lihtc-applications-excluded.json",
       "kind": "json",
-      "size_bytes": 3205,
-      "mtime": "2026-10-14T13:07:19.488Z",
+      "size_bytes": 465,
+      "mtime": "2026-10-14T13:59:02.005Z",
       "shape": "object",
       "keys": [
-        "geoid",
-        "name",
-        "checked",
-        "note",
-        "contacts"
+        "about",
+        "excluded"
       ],
-      "key_count": 5,
-      "primary_array_key": "contacts",
-      "primary_array_length": 6,
+      "key_count": 2,
+      "primary_array_key": "excluded",
+      "primary_array_length": 1,
       "primary_array_first_keys": [
+        "sha256",
+        "reason",
+        "added"
+      ]
+    },
+    {
+      "path": "jurisdiction-briefs/_lihtc-applications.json",
+      "kind": "json",
+      "size_bytes": 418406,
+      "mtime": "2026-10-14T13:59:02.005Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "applications"
+      ],
+      "key_count": 2,
+      "primary_array_key": "applications",
+      "primary_array_length": 270,
+      "primary_array_first_keys": [
+        "year",
+        "round",
+        "round_label",
+        "rolling",
+        "credit_type",
+        "stage",
+        "type",
         "name",
-        "role",
-        "org",
-        "phone",
-        "source_label",
-        "source_url",
-        "source_quote"
+        "address",
+        "city",
+        "sponsor",
+        "pab_issuer"
       ]
     },
     {
@@ -30625,7 +30646,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 218112,
-      "mtime": "2026-10-14T12:57:26.705Z",
+      "mtime": "2026-10-14T13:59:02.009Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32088,8 +32109,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 15107,
-      "mtime": "2026-10-14T13:48:36.976Z",
+      "size_bytes": 15108,
+      "mtime": "2026-10-14T13:59:51.903Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32113,7 +32134,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-14T13:48:36.164Z",
+      "mtime": "2026-10-14T13:59:51.446Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
