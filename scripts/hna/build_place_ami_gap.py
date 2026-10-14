@@ -223,6 +223,14 @@ METHODOLOGY_NOTES = [
     "threshold equal to 30% of monthly threshold income.",
     "Gap = renter households at-or-below threshold minus units priced "
     "affordable at-or-below threshold.",
+    "min_shortfall_matched_le_ami_pct counts homes short without pooling: "
+    "a home is counted only for households who can afford its rent, the "
+    "cheapest homes going to the lowest incomes first. At each tier it is "
+    "the largest pooled shortfall at that tier or any tier below it, so "
+    "the <=60% figure is never smaller than the <=30% one. It is a minimum: "
+    "it ignores that many priced-affordable homes are rented by "
+    "higher-income households, which HUD CHAS 'affordable and available' "
+    "tables would subtract.",
     "Per-tier renter-household demand is clamped to the corresponding "
     "all-household cumulative count from B19001. This prevents small-place "
     "ACS cross-table sampling noise from reporting more renter households "
@@ -581,6 +589,35 @@ def compute_tier_series(
     }
 
 
+def matched_shortfall_le(
+    households_le: dict[str, int],
+    units_le: dict[str, int],
+) -> dict[str, int]:
+    """Homes short at or below each tier when no household is counted
+    against a home it cannot afford.
+
+    The pooled gap (households_le − units_le) lets a home renting at 60% AMI
+    offset a household at 30% AMI that cannot pay that rent, so a wider tier
+    can show a SMALLER shortfall than a narrower one inside it. Here the
+    cheapest homes go to the lowest incomes first: households at or below
+    tier T are short by the largest pooled shortfall at any tier t ≤ T,
+    because homes priced above t's rent cannot house anyone at or below t.
+
+    It is a minimum, not an estimate: it assumes every priced-affordable
+    home is rented by a household in the lowest tier that can afford it.
+    In reality many are rented by higher-income households (HUD CHAS
+    "affordable and available" counts subtract those), so the true
+    shortfall is larger. Never negative; 0 means no shortfall.
+    """
+    out: dict[str, int] = {}
+    worst = 0
+    for tier in AMI_TIERS:
+        key = str(tier)
+        worst = max(worst, households_le[key] - units_le[key])
+        out[key] = worst
+    return out
+
+
 def compute_place_record(
     *,
     geoid7: str,
@@ -615,6 +652,9 @@ def compute_place_record(
         "renter_households_total": safe_int(row.get(B25118_RENTER_TOTAL, 0)),
         "units_priced_affordable_le_ami_pct": series["units_le"],
         "gap_units_minus_households_le_ami_pct": gap,
+        "min_shortfall_matched_le_ami_pct": matched_shortfall_le(
+            series["households_le"], series["units_le"]
+        ),
         "coverage_le_ami_pct": coverage,
         "source": "place_acs_direct",
         "demand_tenure": "renter",
@@ -655,6 +695,9 @@ def compute_county_record(
         "renter_households_total": safe_int(row.get(B25118_RENTER_TOTAL, 0)),
         "units_priced_affordable_le_ami_pct": series["units_le"],
         "gap_units_minus_households_le_ami_pct": gap,
+        "min_shortfall_matched_le_ami_pct": matched_shortfall_le(
+            series["households_le"], series["units_le"]
+        ),
         "coverage_le_ami_pct": coverage,
         "demand_tenure": "renter",
     }
