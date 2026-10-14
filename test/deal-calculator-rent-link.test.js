@@ -17,7 +17,8 @@ const zori = JSON.parse(read('data/market/zori_rents_co.json'));
 
 // The page's own hydrator, taken from deal-calculator.html as shipped.
 const html = read('deal-calculator.html');
-const hydrator = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]).find((s) => s.includes('_hydrateDcRent'));
+const hydrator = [...new JSDOM(html).window.document.querySelectorAll('script:not([src])')]
+  .map((el) => el.textContent).find((s) => s.includes('_hydrateDcRent'));
 assert.ok(hydrator, 'deal-calculator.html carries the rent-card hydrator');
 
 function page(query, selectValue) {
