@@ -194,6 +194,9 @@
         container.innerHTML = '<p class="rt-empty">Choose a county to compare local rents.</p>';
         return;
       }
+      // A county known only by FIPS (a shared county link) is named from
+      // its own FMR or ACS record.
+      if (!countyName) countyName = (fmr && fmr.county_name) || (acsCty && acsCty.name) || null;
       var jurisLabel = placeName || countyName || 'this jurisdiction';
       var hasAny = acsRow || zoriRow || fmr;
       if (!hasAny) {

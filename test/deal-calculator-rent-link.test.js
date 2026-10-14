@@ -21,7 +21,7 @@ const hydrator = [...new JSDOM(html).window.document.querySelectorAll('script:no
   .map((el) => el.textContent).find((s) => s.includes('_hydrateDcRent'));
 assert.ok(hydrator, 'deal-calculator.html carries the rent-card hydrator');
 
-function page(query, selectValue) {
+function page(query, selectValue, savedJurisdiction) {
   const dom = new JSDOM(`<!doctype html><body>
     <select id="dc-county-select"><option value="">Select a county…</option>
       <option value="08003">Alamosa County — Alamosa County, CO</option>
@@ -32,15 +32,27 @@ function page(query, selectValue) {
   w.document.getElementById('dc-county-select').value = selectValue;
   const calls = [];
   w.RentTriangulation = { attach: (mount, opts) => calls.push(opts) };
+  if (savedJurisdiction) w.WorkflowState = { getActiveProject: () => ({ jurisdiction: savedJurisdiction }) };
   w.eval(hydrator);
   w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
   return { w, calls };
 }
 
-// Linked place, county already chosen by the calculator.
+// Linked place: the place alone goes to the card, which takes its county
+// from the place's ACS record rather than mixing in another county.
 let { calls } = page('?geoid=0801090', '08003');
 assert.equal(calls.at(-1).placeGeoid, '0801090', 'the linked place reaches the rent card');
-assert.equal(calls.at(-1).countyFips, '003', 'the calculator county reaches the rent card');
+assert.equal(calls.at(-1).countyFips, null, 'no county is mixed in beside a linked place');
+
+// A link outranks a different place saved in the visitor's project.
+const saved = { type: 'city', placeGeoid: '0820000', name: 'Denver', fips: '08031', countyName: 'Denver County' };
+({ calls } = page('?geoid=0832155', '08123', saved));
+assert.deepEqual([calls.at(-1).placeGeoid, calls.at(-1).countyFips, calls.at(-1).placeName], ['0832155', null, null],
+  'a linked Greeley is not overridden by a saved Denver project');
+({ calls } = page('?geoid=08003', '08003', saved));
+assert.deepEqual([calls.at(-1).placeGeoid, calls.at(-1).countyFips], [null, '003'], 'a linked county outranks a saved place');
+({ calls } = page('', '08123', saved));
+assert.equal(calls.at(-1).placeGeoid, '0820000', 'without a link the saved project still drives the card');
 
 // No link: the selector alone, and a change to it, drive the card.
 const p2 = page('', '');
@@ -76,6 +88,10 @@ async function render(opts) {
     assert.ok(text.includes(bare), `the card names ${bare}, from the ACS place record`);
     assert.ok(text.includes(fmrRow.fmr.two_br.toLocaleString()), `the card shows ${county}'s 2BR FMR from the data`);
   }
+  const countyOnly = await render({ countyFips: '003' });
+  const alamosaCounty = fmr.counties.find((c) => c.fips === '08003').county_name;
+  assert.ok(alamosaCounty && countyOnly.includes(alamosaCounty), `a county known only by FIPS is named (${alamosaCounty}) from the data`);
+  assert.doesNotMatch(countyOnly, /this jurisdiction/, 'never "this jurisdiction" when the county is known');
   const none = await render({});
   assert.match(none, /Choose a county/, 'no geography chosen asks for one');
   assert.doesNotMatch(none, /No rent data on file/, 'no geography chosen is not "no data"');
