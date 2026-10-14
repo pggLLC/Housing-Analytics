@@ -76,9 +76,15 @@ assert(
 // ≤30%-inside-≤60% relationship the data has, shows an AMI figure the data
 // does not carry, or loses the occupancy caveat, fails.
 const amiGapData = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'co_ami_gap_by_county.json'), 'utf8'));
-const statewideGap = amiGapData.statewide.gap_units_minus_households_le_ami_pct;
-const gap30Card = htmlBlock('<span class="home-snapshot__key">CO rental deficit ≤30% AMI', '</div>');
-const gap60Card = htmlBlock('<span class="home-snapshot__key">CO rental deficit ≤60% AMI', '</div>');
+// Located by the value each card renders, not by its wording.
+function cardFor(valueId) {
+  const at = index.indexOf(`id="${valueId}"`);
+  assert.notEqual(at, -1, `index.html renders #${valueId}`);
+  const start = index.lastIndexOf('<div class="home-snapshot__item"', at);
+  return index.slice(start, index.indexOf('</div>', at));
+}
+const gap30Card = cardFor('snapGap30');
+const gap60Card = cardFor('snapGap60');
 const gap30Note = new JSDOM(gap30Card).window.document.querySelector('.home-snapshot__note').textContent.trim();
 const gap60Note = new JSDOM(gap60Card).window.document.querySelector('.home-snapshot__note').textContent.trim();
 assert.notEqual(gap30Note, gap60Note, 'the two cumulative AMI cards must not carry identical sublabels');
@@ -96,13 +102,32 @@ assert(/renter households/i.test(gap30Note) && /afford/i.test(gap30Note),
 // card must say it includes the ≤30% group — the reader otherwise adds them.
 assert(/≤30%/.test(gap60Note) && /includ/i.test(gap60Note),
   '≤60% card states that it includes the ≤30% households (the data tiers are cumulative)');
-// In the data the WIDER tier's deficit is the smaller number. That reads as
-// a contradiction, so the card must acknowledge it and attribute it to the
-// count of affordable homes, not to need falling. If the data ever flips,
-// drop this requirement with it — that is why it is conditional.
-if (-statewideGap['60'] < -statewideGap['30']) {
-  assert(/smaller/i.test(gap60Note) && /need/i.test(gap60Note) && /homes|units/i.test(gap60Note),
-    '≤60% deficit is smaller than ≤30% in the data, so the card must explain why (need vs counted homes)');
+// The cards show the matched shortfall: a home counts only for households
+// who can afford it, so the wider tier can never show fewer homes short
+// than the tier inside it. The pooled gap broke that (146,721 at ≤30%,
+// 15,577 at ≤60%) and read as fewer people in the wider group. Pin the
+// invariant on the data, and on every county, not on a number.
+const matched = amiGapData.statewide.min_shortfall_matched_le_ami_pct;
+assert(matched, 'statewide carries min_shortfall_matched_le_ami_pct, which the cards render');
+for (const rec of [amiGapData.statewide, ...amiGapData.counties]) {
+  const m = rec.min_shortfall_matched_le_ami_pct;
+  assert(m && m['60'] >= m['30'] && m['30'] >= 0,
+    `${rec.county_name}: ≤60% shortfall is at least the ≤30% one and never negative`);
+  assert.equal(m['30'], Math.max(0, -rec.gap_units_minus_households_le_ami_pct['30'] - rec.renter_units_no_cash_rent),
+    `${rec.county_name}: at ≤30% nothing is pooled, so the matched shortfall is the pooled one less the homes rented for no cash rent`);
+}
+// The data subtracts homes rented for no cash rent; the ≤30% card must say
+// so whenever there are any, or its basis line no longer matches the number.
+assert.equal(/no cash rent/i.test(gap30Note), amiGapData.statewide.renter_units_no_cash_rent > 0,
+  '≤30% card names the no-cash-rent homes the statewide figure subtracts');
+// It is a floor (higher-income renters occupy some counted homes), so the
+// ≤60% card must say so.
+assert(/at least|minimum/i.test(gap60Note) && /higher-income/i.test(gap60Note),
+  '≤60% card says the figure is a minimum because higher-income households rent some counted homes');
+// Both cards count homes, not people (#2220 follow-up: read as people).
+for (const [tier, card] of [['≤30%', gap30Card], ['≤60%', gap60Card]]) {
+  const key = new JSDOM(card).window.document.querySelector('.home-snapshot__key').textContent;
+  assert(/homes/i.test(key), `${tier} card's heading names homes, the unit of the number`);
 }
 // The AMI figure shown must be the one the data was built on, for the
 // household size the data names (ami_4person) — a copy edit cannot leave a
@@ -147,12 +172,12 @@ async function assertRenderedGapFigures() {
   await new Promise((resolve) => setTimeout(resolve, 0));
   await new Promise((resolve) => setTimeout(resolve, 0));
 
-  // The headline is the statewide deficit in the data file, shown unsigned.
+  // The headline is the statewide matched shortfall in the data file.
   // Pinned to the data rather than to a number, so a rebuild of the AMI gap
   // (new ACS vintage, new HUD state median) does not need a test edit.
-  const shownDeficit = (tier) => Math.abs(amiGap.statewide.gap_units_minus_households_le_ami_pct[tier]).toLocaleString('en-US');
-  assert.equal(document.getElementById('snapGap30').textContent, shownDeficit('30'), '≤30% headline renders the data file\'s statewide deficit');
-  assert.equal(document.getElementById('snapGap60').textContent, shownDeficit('60'), '≤60% headline renders the data file\'s statewide deficit');
+  const shown = (tier) => amiGap.statewide.min_shortfall_matched_le_ami_pct[tier].toLocaleString('en-US');
+  assert.equal(document.getElementById('snapGap30').textContent, shown('30'), '≤30% headline renders the data file\'s statewide shortfall');
+  assert.equal(document.getElementById('snapGap60').textContent, shown('60'), '≤60% headline renders the data file\'s statewide shortfall');
 }
 
 assertRenderedGapFigures()

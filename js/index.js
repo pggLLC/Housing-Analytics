@@ -55,17 +55,19 @@
     DS.getJSON(DS.baseData('co_ami_gap_by_county.json'))
       .then(function (data) {
         var statewide = data && data.statewide;
-        var gaps = statewide && statewide.gap_units_minus_households_le_ami_pct;
-        if (!gaps) return;
-        // We display magnitude of statewide deficit for readability on
-        // homepage cards. County-file convention: units − households,
-        // negative = deficit; clamp surpluses to 0 instead of abs().
-        // A missing tier stays '—' (the placeholder), never a 0 deficit.
-        var deficit = function (v) {
-          return (typeof v === 'number' && isFinite(v)) ? fmtInt(Math.max(0, -v)) : '—';
+        // Homes short without pooling: a home counts only for households who
+        // can afford its rent, so the ≤60% figure cannot hide the ≤30%
+        // shortfall behind homes those households cannot pay for. The pooled
+        // gap_units_minus_households_le_ami_pct did exactly that (146,721 at
+        // ≤30% vs 15,577 at ≤60%). Positive = homes short; a missing tier
+        // stays '—' (the placeholder), never a 0 shortfall.
+        var short = statewide && statewide.min_shortfall_matched_le_ami_pct;
+        if (!short) return;
+        var shortfall = function (v) {
+          return (typeof v === 'number' && isFinite(v) && v >= 0) ? fmtInt(v) : '—';
         };
-        setText('snapGap30', deficit(gaps['30']));
-        setText('snapGap60', deficit(gaps['60']));
+        setText('snapGap30', shortfall(short['30']));
+        setText('snapGap60', shortfall(short['60']));
 
         var vintage = data && data.meta && (data.meta.generated || data.meta.generated_at || data.meta.updated || '');
         if (vintage) {
