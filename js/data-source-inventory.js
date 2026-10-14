@@ -592,7 +592,7 @@
       geoUnit: 'FMR Area / County',
       coverage: 'Colorado statewide',
       features: 64,
-      description: 'HUD Fair Market Rents by bedroom size for all 64 Colorado counties (FY2026). Combined with income limits.',
+      description: 'HUD Fair Market Rents by bedroom size for all 64 Colorado counties (FY2027). Combined with income limits.',
       tags: ['fmr', 'hud', 'rent', 'affordability'],
       apiEndpoint: 'https://www.huduser.gov/hudapi/public/fmr',
       alternatives: [

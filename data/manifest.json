@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-13T15:16:19.281453Z",
+  "generated": "2026-10-14T02:44:07.341523Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7324,7 +7324,7 @@
     "data/hud-fmr-income-limits.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 102607
+      "bytes": 102600
     },
     "data/hud-home-rent-limits-co-2026.json": {
       "featureCount": 64,
@@ -7689,12 +7689,12 @@
     "data/market/fmr_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 22697
+      "bytes": 22741
     },
     "data/market/fmr_tract_map_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 103495
+      "bytes": 103488
     },
     "data/market/food_access_co.json": {
       "featureCount": 0,

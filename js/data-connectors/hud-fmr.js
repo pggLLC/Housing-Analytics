@@ -240,7 +240,7 @@
     var html = '<table style="width:100%;border-collapse:collapse;font-size:var(--small);">' +
       '<thead><tr>' +
         '<th style="text-align:left;padding:3px 6px;border-bottom:1px solid var(--border);">Bedroom Size</th>' +
-        '<th style="text-align:right;padding:3px 6px;border-bottom:1px solid var(--border);">FY2026 FMR / mo</th>' +
+        '<th style="text-align:right;padding:3px 6px;border-bottom:1px solid var(--border);">FY2027 FMR / mo</th>' +
       '</tr></thead><tbody>';
     for (var i = 0; i < rows.length; i++) {
       html += '<tr>' +
