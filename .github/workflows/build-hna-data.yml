@@ -132,7 +132,10 @@ jobs:
         if: ${{ inputs.statewide_only != true }}
         env:
           HNA_BUILD_PHASES: 'lehd'
-          LODES_YEAR: '2022'
+          # Latest LODES8 OD release (2024 is not published yet). Changing it
+          # changes the commute-flow labels on the HNA pages, which
+          # test/hud-vintage-labels-sync.test.mjs ties to data/hna/lehd.
+          LODES_YEAR: '2023'
           SKIP_GEO_CONFIG: 'true'
         run: |
           set -x

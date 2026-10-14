@@ -39,7 +39,7 @@ OUT_FILE = ROOT / "data" / "market" / "lodes_co.json"
 LODES_BASE = "https://lehd.ces.census.gov/data/lodes/LODES8/co"
 
 # Try years in descending order until we find one that exists
-# LODES 2022 is the latest confirmed release as of April 2026.
+# LODES 2023 is the latest release as of October 2026 (2024 returns 404).
 # LODES typically has a 2-3 year lag from the reference year.
 CANDIDATE_YEARS = [2023, 2022, 2021, 2020]
 

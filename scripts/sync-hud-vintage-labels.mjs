@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Keep every hard-coded HUD vintage label on the site equal to the vintage
- * of the data it describes.
+ * Keep every hard-coded HUD, ACS and LODES vintage label on the site equal to
+ * the vintage of the data it describes.
  *
  * The FMR and QCT/DDA fetchers now take the year in effect (FY2027 Fair
  * Market Rents from 2026-10-01; each year's QCT/DDA designations from
@@ -14,7 +14,14 @@
  *   node scripts/sync-hud-vintage-labels.mjs           # rewrite labels
  *   node scripts/sync-hud-vintage-labels.mjs --check   # exit 1 on any mismatch
  *
- * Each rule names one label pattern with the year as its only capture group.
+ * Each rule names one label pattern with the year as its only capture group,
+ * or, with `span: true`, an ACS 5-year range ("ACS 2020–2024") whose second
+ * group is the data year and whose first is four years earlier.
+ *
+ * ACS and LODES change only when a builder's year changes in code
+ * (ACS_START_YEAR in scripts/hna/build_hna_data.py, ACS_YEAR in
+ * scripts/market/build_public_market_data.py, LODES_YEAR in
+ * build-hna-data.yml), so the test fails that PR until the labels follow.
  * js/data-source-inventory.js is covered too: its mtimes are generated, but
  * its descriptions and URLs are not. Docs and the working paper are not.
  */
@@ -28,6 +35,11 @@ const SOURCE_LIST_PAGES = [
   'deal-calculator.html', 'hna-what-households-can-afford.html', 'hna-what-housing-exists.html',
   'hna-what-to-do.html', 'hna-where-its-heading.html', 'hna-who-lives-here.html',
   'housing-needs-assessment.html', 'market-analysis.html',
+];
+
+const HNA_PAGES = [
+  'housing-needs-assessment.html', 'hna-what-households-can-afford.html', 'hna-what-housing-exists.html',
+  'hna-what-to-do.html', 'hna-where-its-heading.html', 'hna-who-lives-here.html',
 ];
 
 export const RULES = [
@@ -55,6 +67,20 @@ export const RULES = [
   { vintage: 'dda', files: ['lihtc-opportunity-finder.html'], pattern: />HUD DDA (\d{4})</g },
   { vintage: 'dda', files: ['colorado-deep-dive.html'], pattern: / DDA (\d{4})<\/label>/g },
   { vintage: 'dda', files: ['js/compare.js'], pattern: /\+ HUD DDA (\d{4}) \(/g },
+  { vintage: 'fmr', files: ['market-analysis.html'], pattern: /data-vintage="CHFA \d{4} · HUD FMR FY(\d{4})"/g },
+  { vintage: 'il', files: ['market-analysis.html'], pattern: / · HUD FY(\d{4}) limits"/g },
+  // ACS 5-year on the HNA pages: data/hna/summary/08.json acsProfile._acsYear
+  { vintage: 'acs5', span: true, files: [...HNA_PAGES, 'hna-comparative-analysis.html'], pattern: /ACS (\d{4})[–-](\d{4})/g },
+  { vintage: 'acs5', files: HNA_PAGES, pattern: /data\.census\.gov\/table\/ACS(?:DP|ST)5Y(\d{4})\./g },
+  { vintage: 'acs5', files: ['hna-what-to-do.html', 'housing-needs-assessment.html'], pattern: /data-vintage="ACS (\d{4}) 5-year"/g },
+  // ACS 5-year tract metrics: data/market/acs_tract_metrics_co.json meta.vintage
+  { vintage: 'acsTract', span: true, files: ['market-analysis.html', 'colorado-deep-dive.html', 'js/components/vacancy-context.js'], pattern: /ACS (?:5-yr )?(\d{4})[–-](\d{4})/g },
+  { vintage: 'acsTract', files: ['index.html', 'market-analysis.html'], pattern: /data\.census\.gov\/table\/ACS(?:DP|DT)5Y(\d{4})\./g },
+  // LODES commute flows on the HNA pages: data/hna/lehd/<county>.json year
+  { vintage: 'lodes', files: ['hna-where-its-heading.html', 'housing-needs-assessment.html'], pattern: /LODES (\d{4})/g },
+  // LODES on Market Analysis: data/market/lodes_co.json meta.vintage
+  { vintage: 'lodesTract', files: ['market-analysis.html', 'js/pma-commute-context.js', 'js/pma-commute-shaped.js', 'js/pma-commuting.js'], pattern: /LODES (\d{4})/g },
+  { vintage: 'lodesTract', files: ['js/market-analysis.js'], pattern: /LEHD WAC (\d{4})|LODES (\d{4})/g },
 ];
 
 function readJson(root, rel) {
@@ -69,6 +95,24 @@ function designationYear(doc) {
   return m ? Number(m[1]) : null;
 }
 
+function readOptional(root, rel) {
+  try { return readJson(root, rel); } catch { return null; }
+}
+
+function year(v) {
+  const n = Number(v);
+  return v != null && v !== '' && Number.isInteger(n) ? n : null;
+}
+
+// Every county file must carry the same OD year, or no label can name one.
+function lodesCountyYear(root) {
+  const dir = path.join(root, 'data/hna/lehd');
+  let files;
+  try { files = fs.readdirSync(dir).filter((f) => /^08\d{3}\.json$/.test(f)); } catch { return null; }
+  const years = new Set(files.map((f) => year(readJson(root, `data/hna/lehd/${f}`).year)));
+  return files.length && years.size === 1 ? [...years][0] : null;
+}
+
 /** The vintage each label must name, read from the data it describes. */
 export function readVintages(root = ROOT) {
   const hud = readJson(root, 'data/hud-fmr-income-limits.json').meta || {};
@@ -77,6 +121,10 @@ export function readVintages(root = ROOT) {
     il: hud.income_limits_fiscal_year ?? null,
     qct: designationYear(readJson(root, 'data/qct-colorado.json')),
     dda: designationYear(readJson(root, 'data/dda-colorado.json')),
+    acs5: year(readOptional(root, 'data/hna/summary/08.json')?.acsProfile?._acsYear),
+    acsTract: year(readOptional(root, 'data/market/acs_tract_metrics_co.json')?.meta?.vintage),
+    lodes: lodesCountyYear(root),
+    lodesTract: year(readOptional(root, 'data/market/lodes_co.json')?.meta?.vintage),
   };
 }
 
@@ -94,13 +142,32 @@ export function plan(vintages, read = (rel) => fs.readFileSync(path.join(ROOT, r
     for (const file of rule.files) {
       if (!texts.has(file)) texts.set(file, read(file));
       const before = texts.get(file);
+      // Rewrite by the captured groups' own offsets ('d' flag), never by
+      // searching the match for equal digits: "CHFA 2026 · HUD FMR FY2026"
+      // keeps its CHFA year, and "FMR FY2026 · IL FY2026" its IL year.
+      const re = new RegExp(rule.pattern.source, rule.pattern.flags.replace('d', '') + 'd');
+      const edits = [];
       let hits = 0;
-      const after = before.replace(rule.pattern, (whole, year) => {
+      for (const m of before.matchAll(re)) {
         hits += 1;
-        if (Number(year) === want) return whole;
-        mismatches.push({ file, rule: i, found: Number(year), want });
-        return whole.replace(year, String(want));
-      });
+        const spans = m.indices.slice(1).map((ix, g) => ix && { at: ix, text: m[g + 1] }).filter(Boolean);
+        if (rule.span) {
+          const [start, end] = spans;
+          if (Number(end.text) === want && Number(start.text) === want - 4) continue;
+          mismatches.push({ file, rule: i, found: `${start.text}–${end.text}`, want });
+          edits.push({ at: start.at, text: String(want - 4) }, { at: end.at, text: String(want) });
+        } else {
+          // A pattern with alternatives fills one group per branch.
+          const [year] = spans;
+          if (Number(year.text) === want) continue;
+          mismatches.push({ file, rule: i, found: Number(year.text), want });
+          edits.push({ at: year.at, text: String(want) });
+        }
+      }
+      let after = before;
+      for (const e of edits.sort((a, b) => b.at[0] - a.at[0])) {
+        after = after.slice(0, e.at[0]) + e.text + after.slice(e.at[1]);
+      }
       if (!hits) throw new Error(`rule ${i} (${rule.pattern}) matched nothing in ${file}; update RULES`);
       matches += hits;
       texts.set(file, after);
@@ -117,11 +184,11 @@ function main() {
   const { matches, mismatches, rewrites } = plan(vintages);
   if (check) {
     for (const m of mismatches) console.error(`${m.file}: label says ${m.found}, data is ${m.want} (rule ${m.rule})`);
-    console.log(`${matches} HUD vintage labels checked against ${JSON.stringify(vintages)}; ${mismatches.length} disagree.`);
+    console.log(`${matches} vintage labels checked against ${JSON.stringify(vintages)}; ${mismatches.length} disagree.`);
     process.exit(mismatches.length ? 1 : 0);
   }
   for (const [file, text] of rewrites) fs.writeFileSync(path.join(ROOT, file), text);
-  console.log(`${matches} HUD vintage labels; rewrote ${mismatches.length} in ${rewrites.size} files to ${JSON.stringify(vintages)}.`);
+  console.log(`${matches} vintage labels; rewrote ${mismatches.length} in ${rewrites.size} files to ${JSON.stringify(vintages)}.`);
   for (const file of rewrites.keys()) console.log(`  ${file}`);
 }
 
