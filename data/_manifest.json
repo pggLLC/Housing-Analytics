@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-14T09:06:32.597Z",
+    "generated_at": "2026-10-14T10:31:07.283Z",
     "root": "data/",
     "file_count": 1716,
-    "total_size_bytes": 180374041,
+    "total_size_bytes": 180640947,
     "kinds": {
       "json": 1679,
       "geojson": 33,
@@ -276,8 +276,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 194381,
-      "mtime": "2026-10-10T11:49:50.119Z",
+      "size_bytes": 282175,
+      "mtime": "2026-10-14T09:58:54.151Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -285,7 +285,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 280,
+      "primary_array_length": 410,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -299,8 +299,8 @@
     {
       "path": "alerts/brief-news-queue.json",
       "kind": "json",
-      "size_bytes": 23527,
-      "mtime": "2026-10-14T09:05:41.534Z",
+      "size_bytes": 65682,
+      "mtime": "2026-10-14T09:59:13.809Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -502,7 +502,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-14T09:06:28.664Z",
+      "mtime": "2026-10-14T10:01:47.459Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1604,8 +1604,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1256224,
-      "mtime": "2026-10-13T12:54:17.003Z",
+      "size_bytes": 1256551,
+      "mtime": "2026-10-14T10:31:03.715Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30598,8 +30598,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 217866,
-      "mtime": "2026-10-14T09:05:41.818Z",
+      "size_bytes": 218112,
+      "mtime": "2026-10-14T09:58:39.066Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32062,8 +32062,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 15108,
-      "mtime": "2026-10-14T09:06:30.501Z",
+      "size_bytes": 15109,
+      "mtime": "2026-10-14T10:01:49.290Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32087,7 +32087,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-14T09:06:30.063Z",
+      "mtime": "2026-10-14T10:01:48.811Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34206,7 +34206,7 @@
       "path": "policy/housing-events.json",
       "kind": "json",
       "size_bytes": 15562,
-      "mtime": "2026-10-14T09:05:42.008Z",
+      "mtime": "2026-10-14T09:59:13.683Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34845,8 +34845,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 248997,
-      "mtime": "2026-10-14T03:45:10.236Z",
+      "size_bytes": 383911,
+      "mtime": "2026-10-14T09:59:12.830Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34856,7 +34856,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "stories",
-      "primary_array_length": 121,
+      "primary_array_length": 218,
       "primary_array_first_keys": [
         "title",
         "source",
@@ -34925,8 +34925,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 12548,
-      "mtime": "2026-10-13T12:54:18.228Z",
+      "size_bytes": 12568,
+      "mtime": "2026-10-14T10:31:04.918Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -34945,8 +34945,8 @@
     {
       "path": "polymarket-history.json",
       "kind": "json",
-      "size_bytes": 161207,
-      "mtime": "2026-10-13T12:54:18.286Z",
+      "size_bytes": 162656,
+      "mtime": "2026-10-14T10:31:05.092Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34954,7 +34954,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "rows",
-      "primary_array_length": 182,
+      "primary_array_length": 183,
       "primary_array_first_keys": [
         "date",
         "events"

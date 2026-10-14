@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-14T09:06:36.456959Z",
+  "generated": "2026-10-14T10:31:10.444569Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -74,12 +74,12 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 194381
+      "bytes": 282175
     },
     "data/alerts/brief-news-queue.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 23527
+      "bytes": 65682
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -364,7 +364,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1256224
+      "bytes": 1256551
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -7909,7 +7909,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 15108
+      "bytes": 15109
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -8449,7 +8449,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 248997
+      "bytes": 383911
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
@@ -8464,12 +8464,12 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12548
+      "bytes": 12568
     },
     "data/polymarket-history.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 161207
+      "bytes": 162656
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
