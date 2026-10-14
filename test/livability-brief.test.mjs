@@ -66,6 +66,9 @@ test('every row of the QAP table is backed by a quote from the section it cites'
       if (/to the extent possible/i.test(q.quote)) {
         assert.match(row[0], /to the extent possible/i, `row "${row[0]}" drops the QAP's "to the extent possible"`);
       }
+      if (/sole discretion/i.test(q.quote)) {
+        assert.match(row[0], /sole discretion/i, `row "${row[0]}" drops the QAP's "sole discretion" exception`);
+      }
     }
   });
   for (const q of brief.qap_quotes) {
@@ -158,11 +161,12 @@ test('the supportive housing section and the services page link to each other', 
   assert.ok(brief.sections.some((s) => s.id === target), `the services link opens #brief-section-${target}, which the brief does not have`);
 });
 
-// The brief's PSH figures are the trial's own: 724 randomized, 77% housed at three years.
+// The brief's PSH figures are the trial's own: 724 randomized, 77% housed at three years. The trial counts
+// only participants who were still living, so both statements must carry that exclusion.
 test('the Denver trial figures agree wherever the brief states them', () => {
   const psh = brief.sections.find((s) => s.id === 'supportive-housing').paragraphs.join(' ');
-  const inSection = psh.match(/(\d+)% of those it housed were still in stable housing\s+three years later/);
-  const inSummary = squash(brief.summary).match(/(\d+)% of the people it housed were still housed three years later/);
+  const inSection = psh.match(/(\d+)% of those it housed, not counting those who died, were still in stable housing\s+three years later/);
+  const inSummary = squash(brief.summary).match(/(\d+)% of the people it housed, not counting those who died, were still housed three years later/);
   assert.ok(inSection && inSummary, 'the three-year housing figure is missing from the section or the summary');
   assert.equal(inSection[1], inSummary[1], 'summary and section disagree on the three-year figure');
   assert.ok(brief.articles.some((a) => /Denver Supportive Housing Social Impact Bond/.test(a.title)), 'the Denver trial is not cited');
