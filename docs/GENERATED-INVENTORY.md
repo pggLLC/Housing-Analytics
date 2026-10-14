@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T16:49:40.044Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T17:13:33.486Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-68 pages found.
+69 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -37,6 +37,7 @@
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.2 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
+| `developer-whitepaper.html` | Jurisdiction White Paper — COHO | 8.2 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 93.2 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 18.8 KB |
@@ -83,7 +84,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1682 JSON files found.
+1683 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1564,6 +1565,7 @@
 | `data/jurisdiction-briefs/0870195.json` | 32.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0873825.json` | 22.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0876795.json` | 19.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/_contacts/0833640.json` | 3.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications-excluded.json` | 465 B | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications.json` | 408.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 272.7 KB | ✅ | — |
@@ -1774,7 +1776,7 @@
 
 ## Test Files
 
-599 test files found.
+600 test files found.
 
 | File | Size |
 |------|------|
@@ -2061,6 +2063,7 @@
 | `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
 | `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
 | `test/jurisdiction-select-search.test.js` | 8.9 KB |
+| `test/jurisdiction-whitepaper.test.mjs` | 11.9 KB |
 | `test/kalshi-signing-and-write.test.js` | 6.4 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
