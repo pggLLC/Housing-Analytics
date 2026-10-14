@@ -452,7 +452,7 @@
          Defined inline (no extra CSS file) to keep the integration minimal. -->
     <aside class="developer-pipeline-teaser" style="background:color-mix(in oklab, var(--accent) 6%, var(--card) 94%);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:.7rem 1.1rem;margin:0 var(--sp4) var(--sp3);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.88rem;">
       <span style="flex:1;min-width:240px;color:var(--text);line-height:1.5;">
-        New: <strong style="color:var(--accent);">The Affordable Housing Pipeline</strong> — see how this assessment fits into our 8-step public methodology for turning housing data into housing built.
+        New: <strong style="color:var(--accent);">The Affordable Housing Pipeline</strong> — see how this assessment fits into our eight-stage public methodology for turning housing data into housing built.
       </span>
       <a href="pipeline.html" style="display:inline-block;padding:.4rem .85rem;background:var(--accent);color:var(--on-accent,#fff);border-radius:var(--radius);text-decoration:none;font-weight:700;font-size:.82rem;white-space:nowrap;">Read the methodology →</a>
     </aside>
@@ -965,8 +965,8 @@
           <!-- Household-type mix chart -->
           <div class="chart-card span-6" style="margin:0">
             <h2>Household type mix</h2>
-            <p style="font-size:1.133rem;color:var(--muted);margin:.2rem 0 .4rem;">Households grouped by structure: married couples, cohabiting couples, single parents with kids, residents living alone, and other (shared / roommate / multi-adult). Heavy single-parent and living-alone shares are the canonical 1- and 2-bedroom demand drivers; heavy married-couple share signals 3+ BR family-formation demand. (ACS DP02 — 2023 vintage does not publish 1-7+ person household-size bins; that distribution lives in detail table B11016.)</p>
-            <div class="chart-box" data-source="ACS DP02_0002E / 0004E / 0007E+0011E / 0008E+0012E" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP02" data-vintage="ACS 2019–2023" data-source-type="raw" style="height:280px"><canvas id="chartHouseholdSize" role="img" aria-label="Household type mix chart"></canvas></div>
+            <p style="font-size:1.133rem;color:var(--muted);margin:.2rem 0 .4rem;">Households grouped by structure: married couples, cohabiting couples, single parents with kids, residents living alone, and other (shared / roommate / multi-adult). Heavy single-parent and living-alone shares are the canonical 1- and 2-bedroom demand drivers; heavy married-couple share signals 3+ BR family-formation demand. (The ACS DP02 profile does not publish 1-7+ person household-size bins; that distribution lives in detail table B11016.)</p>
+            <div class="chart-box" data-source="ACS DP02_0002E / 0004E / 0007E+0011E / 0008E+0012E" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP02" data-vintage="ACS 2020–2024" data-source-type="raw" style="height:280px"><canvas id="chartHouseholdSize" role="img" aria-label="Household type mix chart"></canvas></div>
           </div>
 
           <!-- Occupation mix chart -->
@@ -1014,7 +1014,7 @@
           <div class="stat"><div class="k">Two or more races</div><div class="v" id="statRaceTwoOrMore">—</div><div class="s">DP05_0061E / pop</div></div>
         </div>
 
-        <div class="chart-box" data-source="ACS DP05 RACE + HISPANIC OR LATINO" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP05" data-vintage="ACS 2019–2023" data-source-type="raw" style="height:320px;margin-top:var(--sp3)">
+        <div class="chart-box" data-source="ACS DP05 RACE + HISPANIC OR LATINO" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP05" data-vintage="ACS 2020–2024" data-source-type="raw" style="height:320px;margin-top:var(--sp3)">
           <canvas id="chartRaceEthnicity" role="img" aria-label="Race and ethnicity bar chart"></canvas>
         </div>
         <div id="raceEthnicityNote" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--text);">—</div>
@@ -1041,7 +1041,7 @@
           <div class="stat"><div class="k">Graduate or professional degree</div><div class="v" id="statEduGradProf">—</div><div class="s">DP02_0066E / pop 25+</div></div>
         </div>
 
-        <div class="chart-box" data-source="ACS DP02_0060E–0066E (Pop 25+)" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP02" data-vintage="ACS 2019–2023" data-source-type="raw" style="height:300px;margin-top:var(--sp3)">
+        <div class="chart-box" data-source="ACS DP02_0060E–0066E (Pop 25+)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP02" data-vintage="ACS 2020–2024" data-source-type="raw" style="height:300px;margin-top:var(--sp3)">
           <canvas id="chartEducation" role="img" aria-label="Educational attainment bar chart"></canvas>
         </div>
       </div>
@@ -1652,6 +1652,7 @@
             <li><strong>Annual filing deadline:</strong> January 31 each year — <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">File commitment notice with DOLA</a></li>
             <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA HB 22-1093 / Prop 123 Page</a> — Official guidance, FAQ, and forms</li>
             <li><a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener">DOLA State Demography Office</a> — Population forecasts and Regional Data Explorer used in projections above</li>
+            <li>The <a href="colorado-deep-dive.html#tab-funding">Funding Sources tab</a> of the Colorado Deep Dive — Every Colorado program that funds affordable housing, with a finder that narrows them to the ones a project can use</li>
             <li><a href="https://cdola.colorado.gov/housing" target="_blank" rel="noopener">CDOH (Colorado Division of Housing)</a> — State housing programs, vouchers, and funding streams</li>
             <li><a href="https://www.chfainfo.com/community-partnerships/the-housing-affordability-gap" target="_blank" rel="noopener">CHFA Housing Affordability Gap Map</a> — County-level gap analysis aligned with Prop 123 baseline</li>
             <li><a href="https://www.chfainfo.com/about-chfa/resource-library" target="_blank" rel="noopener">CHFA Resource Library</a> — Developer guides, LIHTC program resources, and QAP</li>
@@ -1716,7 +1717,7 @@
         <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
           How many renter households need a studio, 1BR, 2BR, 3BR, or 4BR+ unit — derived from ACS B25009 (tenure by household size) using the HUD "max 2 people per bedroom" occupancy standard. Feeds the Market Analysis concept recommendation so the suggested unit mix reflects local renter demand, not just an industry default per concept type.
         </p>
-        <div class="chart-box" data-source="ACS 5-Year B25009 — Tenure by Household Size" data-source-url="https://data.census.gov/table/ACSDT5Y.B25009" data-vintage="ACS 2023 5-year" data-source-type="live">
+        <div class="chart-box" data-source="ACS 5-Year B25009 — Tenure by Household Size" data-source-url="https://data.census.gov/table/ACSDT5Y.B25009" data-vintage="ACS 2024 5-year" data-source-type="live">
           <canvas id="chartBedroomNeed" role="img" aria-label="Renter households by needed bedroom count"></canvas>
         </div>
         <p id="bedroomNeedNote" style="font-size:1rem;color:var(--muted);margin-top:6px;font-style:italic"></p>

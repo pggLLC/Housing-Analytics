@@ -36,11 +36,11 @@
     {
       label: "Scoping a Project",
       items: [
-        { label: "The Affordable Housing Pipeline",  href: "pipeline.html", desc: "From housing need to housing built — our 8-step public methodology", isNew: true },
+        { label: "The Affordable Housing Pipeline",  href: "pipeline.html", desc: "Eight stages from housing need to housing built", isNew: true },
         { label: "LIHTC Guide",             href: "lihtc-guide-for-stakeholders.html", desc: "Start here — LIHTC basics for all audiences" },
         { label: "— Rental (LIHTC) —", isHeader: true },
-        { label: "Opportunity Finder",      href: "lihtc-opportunity-finder.html",  desc: "Step 1: Rank CO jurisdictions for 4% bond + 9% competitive LIHTC", isNew: true },
-        { label: "Select Jurisdiction",     href: "select-jurisdiction.html",       desc: "Step 2: Pick your target county / city" },
+        { label: "Select Jurisdiction",     href: "select-jurisdiction.html",       desc: "Step 1: Pick your target county / city" },
+        { label: "Opportunity Finder",      href: "lihtc-opportunity-finder.html",  desc: "Step 2 (optional): Rank CO jurisdictions for 4% bond + 9% competitive LIHTC", isNew: true },
         { label: "Housing Needs Assessment",href: "housing-needs-assessment.html",  desc: "Step 3: Community need evidence — full report, all 54 sections" },
         { label: "What housing exists", href: "hna-what-housing-exists.html", isSub: true, desc: "What housing is here, and what shape is it in?" },
         { label: "Who lives here", href: "hna-who-lives-here.html", isSub: true, desc: "Who lives here, and how is that changing?" },
@@ -49,6 +49,7 @@
         { label: "What to do about it", href: "hna-what-to-do.html", isSub: true, desc: "How much of what, for whom, and what is already available?" },
         { label: "Market Analysis",         href: "market-analysis.html",           desc: "Step 4: Site screening & PMA scoring" },
         { label: "Scenario Builder",        href: "hna-scenario-builder.html",      desc: "Step 5: 20-year demographic projections" },
+        { label: "Funding Sources",         href: "colorado-deep-dive.html#tab-funding", desc: "Every Colorado funding program, narrowed to what fits your project" },
         { label: "Deal Calculator",         href: "deal-calculator.html",           desc: "Step 6: LIHTC pro forma & capital stack" },
         { label: "Recommendation",          href: "recommendation.html",            desc: "Step 7: what the seven steps add up to" },
         { label: "— For-Sale / Ownership —", isHeader: true },
@@ -63,7 +64,7 @@
       items: [
         { label: "Compare Opportunity Scores", href: "compare.html",                 desc: "Side-by-side 2–6 jurisdictions across every LIHTC score dimension", isNew: true },
         { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Rank 546 geographies by housing need" },
-        { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "Market signals, construction costs, LIHTC history, county LIHTC" },
+        { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "Market signals, construction costs, LIHTC history, funding sources" },
         { label: "CHFA Portfolio",        href: "chfa-portfolio.html",            desc: "Browse CHFA LIHTC projects" },
         { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
         { label: "Land Value & Negotiation", href: "land-value.html",            desc: "Market comps + residual bid for site negotiation" },

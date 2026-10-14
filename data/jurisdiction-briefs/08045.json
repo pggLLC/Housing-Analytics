@@ -230,7 +230,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Garfield County at #180 with an overall housing-need score of 54.8. It identifies 821 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 53.9% of <=30% AMI households. 46.2% of renter households are cost burdened, and 2% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Garfield County at #175 with an overall housing-need score of 55.6. It identifies 821 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 53.9% of <=30% AMI households. 46.2% of renter households are cost burdened, and 2% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -250,7 +250,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 62,479. LEHD-based commuting signals show 6,981 in-commuters and a commute ratio of 30.7%. The digest's county-context projection shows 6,247 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "text": "Demographics and demand: the population metric is 62,479. LEHD-based commuting signals show 7,216 in-commuters and a commute ratio of 31.6%. The digest's county-context projection shows 6,247 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
           "cites": [
             "d11",
             "d12",
@@ -266,7 +266,7 @@
           ]
         },
         {
-          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 47.6. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $73,676 and a rent affordability gap of $10,480. The county-context service-sector employment share is 36.4%, and county-context ACS cohorts show median gross rent changed 84.4% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 47.7. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $73,676 and a rent affordability gap of $10,480. The county-context service-sector employment share is 36.4%, and county-context ACS cohorts show median gross rent changed 84.4% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
           "cites": [
             "d17",
             "d18",
@@ -531,7 +531,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-14T05:18:27Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-14T09:10:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -540,7 +540,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-14T05:18:27Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-14T09:10:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -675,7 +675,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-14T05:18:27Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-14T09:10:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -684,7 +684,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-14T05:18:27Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-14T09:10:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -693,7 +693,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-14T05:18:27Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-14T09:10:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

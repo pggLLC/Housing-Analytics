@@ -149,6 +149,30 @@ async function testNoLiteralFallback() {
   assert.equal(document.getElementById('snapDeficitGrowth').textContent, '—', 'no renter household-growth basis → no coverage figure (no literal fallback)');
 }
 
+async function testNullIsNotZero() {
+  // Number(null) is 0 (#1480): a null burden or preservation pace in the
+  // snapshot must leave "—", not render "0.0%" or "0".
+  const dom = new JSDOM(`<!doctype html><body>
+    <span id="snapCostBurden">—</span>
+    <span id="snapDeficitGrowth">—</span>
+    <span id="snapPreservationPerYr">—</span>
+  </body>`, { url: 'http://127.0.0.1/index.html' });
+  installDom(dom);
+  const committed = require('../data/home-snapshot.json');
+  const nulls = { ...committed, values: { ...committed.values, renter_cost_burden_pct: null, average_lihtc_preservation_units_per_year: null } };
+  window.DataService = {
+    baseData: (name) => 'data/' + name,
+    getJSON: (url) => (url === 'data/home-snapshot.json' ? Promise.resolve(nulls) : Promise.reject(new Error('not used in fixture'))),
+  };
+  freshRequire('js/index.js');
+  document.dispatchEvent(new window.Event('DOMContentLoaded'));
+  await flushPromises();
+  await flushPromises();
+  assert.notEqual(document.getElementById('snapDeficitGrowth').textContent, '—', 'the fixture still renders the rest of the snapshot');
+  assert.equal(document.getElementById('snapCostBurden').textContent, '—', 'null burden is unknown, not 0.0%');
+  assert.equal(document.getElementById('snapPreservationPerYr').textContent, '—', 'null preservation pace is unknown, not 0');
+}
+
 async function runBadgeFixture(snapshot, sourceResult) {
   const dom = new JSDOM('<!doctype html><body><div id="target" data-vintage-source="data/hna/ranking-index.json"></div></body>', {
     url: 'http://127.0.0.1/index.html',
@@ -190,6 +214,7 @@ async function testVintageSidecarAndFallback() {
   await testSnapshotFidelity();
   await testHomepageRendering();
   await testNoLiteralFallback();
+  await testNullIsNotZero();
   await testVintageSidecarAndFallback();
   console.log('homepage snapshot delivery: PASS');
 })().catch((error) => {

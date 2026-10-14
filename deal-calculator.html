@@ -228,20 +228,40 @@
         var mount = document.getElementById('dcRentTriangulationMount');
         if (!mount) return;
         var placeGeoid = null, placeName = null, countyFips = null, countyName = null;
-        try {
-          var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
-                     window.WorkflowState.getActiveProject();
-          var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-          if (jx) {
-            if (jx.type === 'city' && jx.placeGeoid) {
-              placeGeoid = jx.placeGeoid;
-              placeName  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim();
+        // A shared link (?geoid=) names the place being analysed without
+        // writing it into the visitor's project, so it outranks the saved
+        // project: mixing a saved place's rents with the linked county's FMR
+        // would be a silent mixed-geography card. A linked place takes its
+        // name and county from its own ACS record inside the component.
+        var linked = new URLSearchParams(window.location.search).get('geoid') || '';
+        var linkedPlace = /^08\d{5}$/.test(linked);
+        var linkedCounty = /^08\d{3}$/.test(linked);
+        if (linkedPlace) placeGeoid = linked;
+        else if (linkedCounty) countyFips = linked.slice(-3);
+        if (!linkedPlace && !linkedCounty) {
+          try {
+            var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                       window.WorkflowState.getActiveProject();
+            var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+            if (jx) {
+              if (jx.type === 'city' && jx.placeGeoid) {
+                placeGeoid = jx.placeGeoid;
+                placeName  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim();
+              }
+              if (jx.fips || jx.containingCounty) countyFips = String(jx.fips || jx.containingCounty).slice(-3);
+              if (jx.countyName || jx.name) countyName = jx.countyName || jx.name;
             }
-            if (jx.fips || jx.containingCounty) countyFips = String(jx.fips || jx.containingCounty).slice(-3);
-            if (jx.countyName || jx.name) countyName = jx.countyName || jx.name;
-          }
-        } catch (_) {}
-        if (!countyFips) {
+          } catch (_) {}
+        }
+        // Without a link or a project, the calculator's own county selector
+        // holds the county it is pricing; it outranks the site-wide county.
+        var sel = document.getElementById('dc-county-select');
+        if (!countyFips && !linkedPlace && sel && /^08\d{3}$/.test(sel.value)) {
+          countyFips = sel.value.slice(-3);
+          var opt = sel.options[sel.selectedIndex];
+          if (opt && !countyName) countyName = opt.textContent.split(' — ')[0].trim();
+        }
+        if (!countyFips && !linkedPlace) {
           try {
             var sc = window.SiteState && window.SiteState.getCounty && window.SiteState.getCounty();
             if (sc && sc.fips) countyFips = String(sc.fips).slice(-3);
@@ -251,6 +271,9 @@
         window.RentTriangulation.attach(mount, { placeGeoid: placeGeoid, placeName: placeName, countyFips: countyFips, countyName: countyName });
       }
       _hydrateDcRent();
+      document.addEventListener('change', function (e) {
+        if (e.target && e.target.id === 'dc-county-select') _hydrateDcRent();
+      });
       document.addEventListener('workflow:step-updated', _hydrateDcRent);
       document.addEventListener('sitestate:county-changed', _hydrateDcRent);
       document.addEventListener('jurisdiction-changed', _hydrateDcRent);
@@ -627,25 +650,7 @@
     <!-- ── Soft Funding Program Reference ───────────────────────────── -->
     <section data-dc-mode="rental" class="dc-edu-section" aria-labelledby="dcSoftFundingHeading">
       <h2 id="dcSoftFundingHeading">Soft-Funding Program Reference (Colorado)</h2>
-      <p class="dc-edu-intro">Common gap-filling sources used alongside LIHTC equity and first mortgage proceeds. <strong>For eligibility specific to your county and 9%/4% election, see the live breakdown below the Sources &amp; Uses table above</strong> — it reads current availability, deadlines, and competitiveness from <a href="data/policy/soft-funding-status.json" target="_blank" rel="noopener"><code>data/policy/soft-funding-status.json</code></a>.</p>
-      <ul style="margin:.25rem 0 0 1.15rem;line-height:1.7;">
-        <li>CHFA Housing Trust Fund (CHFA HTF)</li>
-        <li>CHFA Capital Magnet Fund (CHFA CMF) — federal CDFI Fund award re-granted by CHFA</li>
-        <li>CHFA Construction/Permanent Loan Advantage (CCLA)</li>
-        <li>DOLA Housing Trust Fund (DOLA HTF)</li>
-        <li>HOME Investment Partnerships Program</li>
-        <li>Community Development Block Grant (CDBG)</li>
-        <li>Local housing trust fund (e.g., Denver AHTF, Boulder County HTF)</li>
-        <li>National Housing Trust Fund (NHTF)</li>
-        <li>Proposition 123 Affordable Housing Fund (AHTF &amp; Land Banking)</li>
-        <li>Private Activity Bonds (PAB volume cap)</li>
-        <li>Impact fee loan</li>
-        <li>Historic Tax Credit (HTC)</li>
-        <li>New Markets Tax Credit (NMTC)</li>
-        <li>Opportunity Zone equity investment</li>
-        <li>Tax Increment Financing (local TIF)</li>
-        <li>Seller-carry note</li>
-      </ul>
+      <p class="dc-edu-intro">Gap sources sit alongside LIHTC equity and the first mortgage: CHFA's gap and preservation loans, Proposition 123 funds, Division of Housing grants and loans (including HOME, the National Housing Trust Fund and CDBG), city housing funds, historic and new markets tax credits, and seller notes. The <a href="colorado-deep-dive.html#tab-funding">Funding Sources tab</a> of the Colorado Deep Dive lists every Colorado program with its award size, rate, term, AMI restriction and next round quoted from the official source, and its finder narrows them to your deal type and county. The breakdown below the Sources &amp; Uses table above lists only programs whose current terms were confirmed on the program's own page.</p>
     </section>
 
     <!-- ── CRA Lender Partnership Guide ───────────────────────────────── -->

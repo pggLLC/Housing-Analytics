@@ -193,9 +193,8 @@ test('the review issue lists each brief with news, with its reasons and headline
   const withNews = q.briefs.filter((b) => b.stories.length);
   assert.ok(withNews.length > 0, 'the committed queue has no brief with news to check');
   for (const b of withNews) {
-    // Match the section's own heading: a town's section can quote its county's name in a headline.
-    const name = md(b.jurisdiction);
-    const section = body.split('\n### ').find((s) => { const head = s.split('\n')[0]; return head.startsWith(name) || head.startsWith(`[${name}]`); });
+    // Match the section's own heading line: another brief's headline can name this place.
+    const section = body.split('\n### ').find((s) => s.split('\n')[0].includes(md(b.jurisdiction)));
     assert.ok(section, `${b.jurisdiction} has news but no section`);
     assert.ok(section.includes(b.reasons.join('; ')), `${b.jurisdiction}'s reasons are missing`);
   }
