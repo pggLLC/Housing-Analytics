@@ -429,7 +429,10 @@
       // low-MHI workforce markets (Pueblo) where the real need is deeply
       // affordable, not workforce. Pivot kept reasonable so resort/SF towns
       // still register but burden alone doesn't dominate.
-      ind('Renter cost burden (severe, 35%+)', 0.22,
+      // renterCBAny is the share paying 30% or more (DP04_0141PE + 0142PE).
+      // It was labelled "severe, 35%+", so one card read 47.6% under that
+      // heading while the next read 39.3% for the true 35%+ share.
+      ind('Renter cost burden (30%+ of income)', 0.22,
         renterCBAny,
         ramp(renterCBAny, [[20, 0], [30, 35], [45, 75], [60, 100]])),
       // Bumped to 0.20 from 0.15 — burden *inside* the 51-80% AMI cohort

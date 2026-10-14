@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-10-14T09:10:53Z",
+  "generatedAt": "2026-10-14T12:15:46Z",
   "generator": "scripts/funding/build_funding_vs_need.mjs",
   "window": {
    "first_year": 2016,
@@ -992,7 +992,7 @@
   {
    "fips": "08091",
    "name": "Ouray County",
-   "region": "Southwest",
+   "region": "Western Slope",
    "population": 5087,
    "need": {
     "gap_units_30ami": 59,
@@ -1540,7 +1540,7 @@
   {
    "fips": "08083",
    "name": "Montezuma County",
-   "region": "San Luis Valley",
+   "region": "Southwest",
    "population": 26412,
    "need": {
     "gap_units_30ami": 532,
@@ -1590,7 +1590,7 @@
   {
    "fips": "08007",
    "name": "Archuleta County",
-   "region": "Western Slope",
+   "region": "Southwest",
    "population": 13900,
    "need": {
     "gap_units_30ami": 159,
@@ -1795,7 +1795,7 @@
   {
    "fips": "08057",
    "name": "Jackson County",
-   "region": "Eastern Plains",
+   "region": "Mountains",
    "population": 1372,
    "need": {
     "gap_units_30ami": 47,
@@ -1997,7 +1997,7 @@
   {
    "fips": "08079",
    "name": "Mineral County",
-   "region": "Eastern Plains",
+   "region": "San Luis Valley",
    "population": 729,
    "need": {
     "gap_units_30ami": 33,
@@ -2139,7 +2139,7 @@
   {
    "fips": "08043",
    "name": "Fremont County",
-   "region": "Southwest",
+   "region": "Mountains",
    "population": 49634,
    "need": {
     "gap_units_30ami": 570,
@@ -2372,7 +2372,7 @@
   {
    "fips": "08023",
    "name": "Costilla County",
-   "region": "Eastern Plains",
+   "region": "San Luis Valley",
    "population": 3607,
    "need": {
     "gap_units_30ami": 140,
@@ -2623,7 +2623,7 @@
   {
    "fips": "08055",
    "name": "Huerfano County",
-   "region": "San Luis Valley",
+   "region": "Eastern Plains",
    "population": 6972,
    "need": {
     "gap_units_30ami": 35,
@@ -2669,7 +2669,7 @@
   {
    "fips": "08081",
    "name": "Moffat County",
-   "region": "Southwest",
+   "region": "Western Slope",
    "population": 13207,
    "need": {
     "gap_units_30ami": 139,
@@ -2819,7 +2819,7 @@
   {
    "fips": "08111",
    "name": "San Juan County",
-   "region": "Eastern Plains",
+   "region": "Southwest",
    "population": 724,
    "need": {
     "gap_units_30ami": 11,
@@ -3024,7 +3024,7 @@
   {
    "fips": "08009",
    "name": "Baca County",
-   "region": "Mountains",
+   "region": "Eastern Plains",
    "population": 3428,
    "need": {
     "gap_units_30ami": 37,
@@ -3167,7 +3167,7 @@
   {
    "fips": "08121",
    "name": "Washington County",
-   "region": "Western Slope",
+   "region": "Eastern Plains",
    "population": 4831,
    "need": {
     "gap_units_30ami": 66,
@@ -3213,7 +3213,7 @@
   {
    "fips": "08027",
    "name": "Custer County",
-   "region": "Southwest",
+   "region": "Mountains",
    "population": 5247,
    "need": {
     "gap_units_30ami": 99,
