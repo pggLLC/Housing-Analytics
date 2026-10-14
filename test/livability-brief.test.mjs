@@ -66,6 +66,9 @@ test('every row of the QAP table is backed by a quote from the section it cites'
       if (/to the extent possible/i.test(q.quote)) {
         assert.match(row[0], /to the extent possible/i, `row "${row[0]}" drops the QAP's "to the extent possible"`);
       }
+      if (/sole discretion/i.test(q.quote)) {
+        assert.match(row[0], /sole discretion/i, `row "${row[0]}" drops the QAP's "sole discretion" exception`);
+      }
     }
   });
   for (const q of brief.qap_quotes) {
@@ -114,7 +117,17 @@ test('the reader renders every section, list and table the feed carries', async 
     const node = doc.querySelector(`[data-section="${item.id}"]`);
     assert.ok(node, `section ${item.id} not rendered`);
     assert.equal(node.querySelector('h2').textContent, item.heading);
-    if (item.items) assert.equal(node.querySelectorAll('li').length, item.items.length, `${item.id}: list items`);
+    if (item.items) assert.equal(node.querySelectorAll('ul > li').length, item.items.length, `${item.id}: list items`);
+    if (item.steps) {
+      const steps = [...node.querySelectorAll(`figure[data-steps="${item.id}"] ol > li`)];
+      assert.equal(steps.length, item.steps.items.length, `${item.id}: diagram steps`);
+      steps.forEach((li, i) => assert.equal(li.querySelector('.brief-step-label').textContent, item.steps.items[i].label));
+    }
+    if (item.see_also) {
+      const a = node.querySelector('p.brief-note a');
+      assert.ok(a, `${item.id}: see-also link not rendered`);
+      assert.equal(new URL(a.href).pathname.split('/').pop(), item.see_also.href.split('#')[0]);
+    }
     if (item.table) {
       const rows = node.querySelectorAll(`table[data-table="${item.id}"] tbody tr`);
       assert.equal(rows.length, item.table.rows.length, `${item.id}: table rows`);
@@ -124,9 +137,37 @@ test('the reader renders every section, list and table the feed carries', async 
   // The search index reads the brief through briefRenderedText; every word the reader shows in
   // the long-form sections must be in it, or the sections are rendered but not searchable.
   const indexed = new Set(wordBag(briefRenderedText(brief).join(' ')).split(' '));
-  const shown = [...doc.querySelectorAll('[data-section] :is(h2, h3, p, li, caption, th, td)')].map((n) => n.textContent).join(' ');
+  const shown = [...doc.querySelectorAll('[data-section] :is(h2, h3, p, li, caption, th, td, figcaption)')].map((n) => n.textContent).join(' ');
   const unindexed = wordBag(shown).split(' ').filter((w) => w.length >= 4 && !indexed.has(w));
   assert.deepEqual(unindexed, [], 'rendered section words missing from the search text');
   const verified = doc.querySelector('.brief-meta time:last-of-type');
   assert.equal(verified.dateTime, brief.verified, 'meta does not show the brief\'s own verification date');
+});
+
+// The services page and the brief point at each other: the brief's supportive housing section links to
+// a section the services page really has, and the services page links to a section the brief really has.
+test('the supportive housing section and the services page link to each other', () => {
+  const psh = brief.sections.find((s) => s.id === 'supportive-housing');
+  assert.ok(psh && psh.see_also, 'no supportive housing section with a services link');
+  const [page, hash] = psh.see_also.href.split('#');
+  assert.equal(page, 'resident-services.html');
+  const services = new JSDOM(read(page)).window.document;
+  assert.ok(services.getElementById(hash), `resident-services.html has no #${hash}`);
+  const back = services.querySelector('#rs-design-link a[href^="research-brief.html"]');
+  assert.ok(back, 'resident-services.html does not link back to the brief');
+  const url = new URL(back.getAttribute('href'), 'https://example.org/');
+  assert.equal(url.searchParams.get('id'), ID);
+  const target = url.hash.replace(/^#brief-section-/, '');
+  assert.ok(brief.sections.some((s) => s.id === target), `the services link opens #brief-section-${target}, which the brief does not have`);
+});
+
+// The brief's PSH figures are the trial's own: 724 randomized, 77% housed at three years. The trial counts
+// only participants who were still living, so both statements must carry that exclusion.
+test('the Denver trial figures agree wherever the brief states them', () => {
+  const psh = brief.sections.find((s) => s.id === 'supportive-housing').paragraphs.join(' ');
+  const inSection = psh.match(/(\d+)% of those it housed, not counting those who died, were still in stable housing\s+three years later/);
+  const inSummary = squash(brief.summary).match(/(\d+)% of the people it housed, not counting those who died, were still housed three years later/);
+  assert.ok(inSection && inSummary, 'the three-year housing figure is missing from the section or the summary');
+  assert.equal(inSection[1], inSummary[1], 'summary and section disagree on the three-year figure');
+  assert.ok(brief.articles.some((a) => /Denver Supportive Housing Social Impact Bond/.test(a.title)), 'the Denver trial is not cited');
 });
