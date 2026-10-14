@@ -13,7 +13,7 @@ on:
       - Build Rent Burden Crosscheck
       - Cache HUD GIS Overlay Data
       - CAR Data Update
-      - Configure Alerts & Generate Policy Briefs
+      - Daily Housing News Update
       - Daily Website Monitoring
       - Data Refresh Pipeline
       - Data Source Monitoring
@@ -34,7 +34,6 @@ on:
       - Scrape Council Agenda Items
       - Update CO Housing Costs Data
       - Weekly Market Data Sync (Bridge + Zillow Research)
-      - Weekly Policy Briefs Update
     types: [completed]
 
 permissions:

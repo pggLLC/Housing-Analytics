@@ -26,6 +26,11 @@
   if (global.JurisdictionBrief) return;
 
   var BASE_PATH = 'data/jurisdiction-briefs/';
+  // Headlines and events per brief since its last review, rebuilt daily by
+  // scripts/news/build_brief_news_queue.py. Leads for the reviewer, shown
+  // below the brief and apart from it: none of it is brief content.
+  var NEWS_QUEUE_PATH = 'data/alerts/brief-news-queue.json';
+  var NEWS_STALE_DAYS = 7;
 
   function _esc(s) {
     return String(s == null ? '' : s)
@@ -176,7 +181,18 @@
       '  .jbrief__report-btn:hover { background:rgba(251,191,36,.26); border-color:#fbbf24; }',
       '}',
       'html.dark-mode .jbrief__report-btn { background:rgba(251,191,36,.18); color:#fde68a; border-color:rgba(251,191,36,.28); }',
-      'html.dark-mode .jbrief__report-btn:hover { background:rgba(251,191,36,.26); border-color:#fbbf24; }'
+      'html.dark-mode .jbrief__report-btn:hover { background:rgba(251,191,36,.26); border-color:#fbbf24; }',
+      // News since the last review: below the brief, visibly not part of it.
+      '.jbrief-news { margin-top:1.1rem; padding:.75rem .85rem; border:1px dashed var(--border,#cbd5e1); border-radius:6px; font-size:.84rem; }',
+      '.jbrief-news__title { margin:0 0 .25rem; font-size:.92rem; font-weight:700; color:var(--text); }',
+      '.jbrief-news__note { margin:0 0 .5rem; font-size:.76rem; color:var(--muted); }',
+      '.jbrief-news__sub { margin:.7rem 0 .25rem; font-size:.74rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }',
+      '.jbrief-news ul { list-style:none; margin:0; padding:0; }',
+      '.jbrief-news li { padding:.35rem 0; border-bottom:1px solid var(--border,#e2e8f0); }',
+      '.jbrief-news li:last-child { border-bottom:0; }',
+      '.jbrief-news__date { font-family:var(--font-mono,ui-monospace,monospace); font-size:.72rem; color:var(--muted); margin-right:.45rem; }',
+      '.jbrief-news a { color:var(--link,var(--accent,#096e65)); }',
+      '.jbrief-news__meta { display:block; font-size:.74rem; color:var(--muted); }'
     ].join('\n');
     document.head.appendChild(st);
   }
@@ -206,6 +222,73 @@
       });
     });
     return chain;
+  }
+
+  var MATCH_LABEL = { place: '', in_county: 'names a town in the county', county: 'names the county' };
+
+  function _newsDate(iso) {
+    var p = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ''));
+    if (!p) return '';
+    return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][+p[2] - 1] +
+      ' ' + (+p[3]) + ', ' + p[1];
+  }
+
+  function _safeUrl(url) {
+    return /^https?:\/\//i.test(String(url || '')) ? String(url) : '';
+  }
+
+  /**
+   * The news panel for one brief, from the queue file. `queue` null means the
+   * file could not be loaded; that is said, not shown as "no news".
+   */
+  function _renderNews(brief, queue, now) {
+    var title = '<p class="jbrief-news__title">News since this brief was last reviewed';
+    if (!queue || !Array.isArray(queue.briefs)) {
+      return '<section class="jbrief-news" aria-label="News since the last review">' + title + '</p>' +
+        '<p class="jbrief-news__note">The news queue could not be loaded, so new headlines for this brief are not shown.</p></section>';
+    }
+    var row = null;
+    queue.briefs.forEach(function (b) { if (b && b.geoid === brief.geoid) row = b; });
+    var generated = Date.parse((queue.meta && queue.meta.generated) || '');
+    var stale = !isFinite(generated) || ((now || new Date()).getTime() - generated) > NEWS_STALE_DAYS * 864e5;
+    // The brief's own review date wins over the queue's: a brief re-reviewed
+    // today drops the older headlines before the next daily rebuild.
+    var stories = (row && Array.isArray(row.stories) ? row.stories : []).filter(function (st) {
+      return st && st.title && (!brief.last_curated || String(st.date || '') >= brief.last_curated);
+    });
+    var events = row && Array.isArray(row.events) ? row.events : [];
+    var today = new Date((now || new Date()).getTime() - 7 * 36e5).toISOString().slice(0, 10);
+    // A stale queue shows no events: one may have been cancelled or moved since.
+    events = stale ? [] : events.filter(function (e) { return e && (e.end || e.start) >= today; });
+    var html = '<section class="jbrief-news" aria-label="News since the last review">' + title +
+      (stories.length ? ' (' + stories.length + ')' : '') + '</p>' +
+      '<p class="jbrief-news__note">Headlines that named ' + _esc(brief.jurisdiction) + ' on or after ' +
+      _esc(_newsDate(brief.last_curated) || 'its last review') + ', matched by place name. They are leads for the ' +
+      'next review, not part of this brief and not sources for it.' +
+      (stale ? ' <strong>The queue has not updated since ' + _esc(_newsDate(new Date(generated || 0).toISOString().slice(0, 10)) || 'an unknown date') + '.</strong>' : '') +
+      '</p>';
+    if (!stories.length) {
+      html += '<p class="jbrief-news__note">No new headlines since the last review.</p>';
+    } else {
+      html += '<ul>' + stories.map(function (st) {
+        var url = _safeUrl(st.link);
+        var head = url ? '<a href="' + _esc(url) + '" target="_blank" rel="noopener">' + _esc(st.title) + '</a>' : _esc(st.title);
+        var meta = [st.source, MATCH_LABEL[st.match]].filter(Boolean).map(_esc).join(' · ');
+        return '<li><span class="jbrief-news__date">' + _esc(_newsDate(st.date)) + '</span>' + head +
+          (meta ? '<span class="jbrief-news__meta">' + meta + '</span>' : '') + '</li>';
+      }).join('') + '</ul>';
+    }
+    if (events.length) {
+      html += '<p class="jbrief-news__sub">Upcoming events here</p><ul>' + events.map(function (e) {
+        var url = _safeUrl(e.url);
+        var head = url ? '<a href="' + _esc(url) + '" target="_blank" rel="noopener">' + _esc(e.title) + '</a>' : _esc(e.title);
+        var when = _newsDate(e.start) + (e.end && e.end !== e.start ? ' – ' + _newsDate(e.end) : '');
+        var meta = [e.organizer, e.location].filter(Boolean).map(_esc).join(' · ');
+        return '<li><span class="jbrief-news__date">' + _esc(when) + '</span>' + head +
+          (meta ? '<span class="jbrief-news__meta">' + meta + '</span>' : '') + '</li>';
+      }).join('') + '</ul>';
+    }
+    return html + '</section>';
   }
 
   function _renderBrief(brief) {
@@ -497,8 +580,11 @@
         return;
       }
       container.innerHTML = _renderBrief(brief);
+      _fetchJson(NEWS_QUEUE_PATH).then(function (queue) {
+        container.insertAdjacentHTML('beforeend', _renderNews(brief, queue, new Date()));
+      });
     });
   }
 
-  global.JurisdictionBrief = { attach: attach };
+  global.JurisdictionBrief = { attach: attach, _renderNews: _renderNews };
 })(typeof window !== 'undefined' ? window : globalThis);
