@@ -114,7 +114,7 @@ under the button, then carry on to step 3 from there.
 - What does it say will happen to the population by 2050?
 - Did you try changing anything? Could you tell what your change did?
 
-### 6. Deal
+### 6. Deal Calculator
 
 - Did you know what to enter, or did you leave the defaults in place?
 - Could you tell whether the project works financially? If the page said it

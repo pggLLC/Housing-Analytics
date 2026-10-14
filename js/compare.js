@@ -229,6 +229,7 @@
       state.needDist = buildNeedDistribution(state.chasByFips);
       // F25: PAB direct allocations keyed by place GEOID / county FIPS.
       state.pabByGeoid = (parts[9] && parts[9].allocations) || {};
+      state.pabMeta = (parts[9] && parts[9].metadata) || null;
       // F45: place-level CHAS — preferred for needComposite when present so a
       // small town's need score reflects the town, not its containing county.
       state.placeChasByGeoid = (parts[10] && parts[10].places) || {};
@@ -581,6 +582,28 @@
 
   // Row definitions. `info` is the plain-English definition shown when the
   // user clicks the row label (opens an inline popover).
+  // The PAB figures come from data/policy/pab-allocations.json, so the annual
+  // refresh updates this definition with nothing typed here.
+  function pabThreshold() {
+    var m = state.pabMeta || {};
+    var minimum = (typeof m.minimumAllocation === 'number' && m.minimumAllocation > 0) ? '$' + (m.minimumAllocation / 1e6).toFixed(0) + 'M' : 'the issuer';
+    var pop = (typeof m.approxPopulationThreshold === 'number' && m.approxPopulationThreshold > 0) ? ' / ~' + m.approxPopulationThreshold.toLocaleString('en-US') + '-population' : '';
+    return minimum + pop + ' minimum';
+  }
+
+  function pabInfo() {
+    var m = state.pabMeta || {};
+    var sw = m.statewide || {};
+    var money = function (v) { return (typeof v === 'number' && v > 0) ? '$' + (v / 1e6).toFixed(1) + 'M' : 'unavailable'; };
+    var year = m.year || 'year unavailable';
+    var rate = (typeof m.localPerCapita === 'number' && m.localPerCapita > 0) ? '$' + m.localPerCapita.toFixed(2) + '/capita' : 'the year\'s per-capita rate';
+    return 'A jurisdiction\'s OWN private-activity-bond direct allocation — NOT how a 4% deal typically gets cap. ' +
+      'In Colorado, 4% LIHTC volume cap comes primarily from CHFA\'s statewide pool (' + money(sw.chfaPool) + ' in ' + year + '), not local allocations. ' +
+      'This row shows whether a city/county is a designated local issuer (' + pabThreshold() + ', at ' + rate + '); that slice mostly funds single-family bonds / MCCs. ' +
+      '"$0 · statewide pool" = below the minimum, uses CHFA\'s pool (expected, not missing data); "—" = dataset failed to load; "county" tag = the place\'s containing county is the issuer. ' +
+      'Issuing-authority signal, not a deal cap. Source: Colorado DOLA ' + year + '.';
+  }
+
   var ROWS = [
     { group: 'Composite scores' },
     { label: 'Active target score',  info: 'The composite for the deal type currently selected in the Target dropdown above. Highest = strongest opportunity FOR THAT deal type.',
@@ -689,7 +712,7 @@
       }, best: 'high' },
     { label: 'LIHTC projects on record', info: 'Count of CHFA-tracked LIHTC projects matching this jurisdiction\'s name. Lower = more saturation headroom = stronger 9% competitive case.',
       fn: function (r) { return r.projectCount; }, fmt: function (v) { return v; }, best: 'low' },
-    { label: 'Local PAB issuing authority', info: 'A jurisdiction\'s OWN private-activity-bond direct allocation — NOT how a 4% deal typically gets cap. In Colorado, 4% LIHTC volume cap comes primarily from CHFA\'s statewide pool ($376.6M in 2025), not local allocations. This row shows whether a city/county is a designated local issuer (≥ ~$1M / 15,300-pop minimum, at $65.28/capita); that slice mostly funds single-family bonds / MCCs. "$0 · statewide pool" = below the minimum, uses CHFA\'s pool (expected, not missing data); "—" = dataset failed to load; "county" tag = the place\'s containing county is the issuer. Issuing-authority signal, not a deal cap. Source: Colorado DOLA 2025.',
+    { label: 'Local PAB issuing authority', info: pabInfo,
       fn: function (r) { return r.pabDirect; },
       fmt: function (v, r) {
         // Distinguish genuinely-$0 (below the issuer threshold, by design)
@@ -699,7 +722,7 @@
         var loaded = state.pabByGeoid && Object.keys(state.pabByGeoid).length > 0;
         if (v == null) {
           return loaded
-            ? '<span style="color:var(--muted)" title="No direct allocation — this jurisdiction is below the $1M / ~15,300-population minimum, so 4% deals here use CHFA’s statewide bond-cap pool. Expected, not missing data.">$0 · statewide pool</span>'
+            ? '<span style="color:var(--muted)" title="' + escHtml('No direct allocation — this jurisdiction is below the ' + pabThreshold() + ', so 4% deals here use CHFA’s statewide bond-cap pool. Expected, not missing data.') + '">$0 · statewide pool</span>'
             : '<span style="color:var(--muted)" title="Bond-cap dataset unavailable.">—</span>';
         }
         var amt = '$' + Math.round(v).toLocaleString('en-US');
@@ -887,11 +910,12 @@
         return;
       }
       // Row label cell with click-to-toggle info popover when row.info exists
-      var hasInfo = !!row.info;
+      var rowInfo = typeof row.info === 'function' ? row.info() : row.info;
+      var hasInfo = !!rowInfo;
       var labelCell = hasInfo
         ? '<td class="cmp-dim-label cmp-dim-label--clickable" tabindex="0" role="button" aria-expanded="false" ' +
             'title="Click for definition + formula" ' +
-            'data-info="' + escHtml(row.info) + '">' +
+            'data-info="' + escHtml(rowInfo) + '">' +
             escHtml(row.label) + ' <span class="cmp-info-icon" aria-hidden="true">ⓘ</span>' +
           '</td>'
         : '<td class="cmp-dim-label">' + escHtml(row.label) + '</td>';
