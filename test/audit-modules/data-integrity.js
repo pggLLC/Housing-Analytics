@@ -9,6 +9,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { fundingProgramFindings } = require('../../scripts/lib/funding-program-audit');
 
 const ROOT = path.join(__dirname, '..', '..');
 const DATA_DIR = path.join(ROOT, 'data');
@@ -489,6 +490,28 @@ function checkCarMarketReports() {
 }
 
 /**
+ * Funding programs that are unconfirmed, or whose published round has passed
+ * (scripts/lib/funding-program-audit.js). A fresh last-checked date does not
+ * hide them: the check reads what each entry says, not when it was touched.
+ * @returns {Array<object>} issues
+ */
+function checkFundingPrograms(today = new Date().toISOString().slice(0, 10)) {
+    const guide = safeReadJson(path.join(DATA_DIR, 'policy', 'co-developer-funding-guide.json'));
+    const soft = safeReadJson(path.join(DATA_DIR, 'policy', 'soft-funding-status.json'));
+    const issues = [];
+    if (!guide || !soft) {
+        issues.push({
+            severity: 'high', type: 'data',
+            file: !guide ? 'data/policy/co-developer-funding-guide.json' : 'data/policy/soft-funding-status.json',
+            description: 'A funding program catalog could not be read',
+            expected: 'Both funding catalogs parse', actual: 'missing or invalid JSON',
+            recommendation: 'Restore the file from main.',
+        });
+    }
+    return issues.concat(fundingProgramFindings({ guide, soft, today }).map(f => ({ type: 'data', ...f })));
+}
+
+/**
  * Runs all data integrity checks and returns a combined list of issues.
  * @returns {Promise<Array<object>>}
  */
@@ -503,9 +526,10 @@ async function runDataIntegrityChecks() {
         ...checkManifest(),
         ...checkFredData(),
         ...checkCarMarketReports(),
+        ...checkFundingPrograms(),
     ];
     console.log(`[data-integrity] Found ${issues.length} issue(s).`);
     return issues;
 }
 
-module.exports = { runDataIntegrityChecks, countyEntriesIn };
+module.exports = { runDataIntegrityChecks, countyEntriesIn, checkFundingPrograms };

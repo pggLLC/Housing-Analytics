@@ -12,7 +12,8 @@
       "data/capital-partners.json",
       "data/chfa-qap-calendar.json"
     ],
-    "disclaimer": "Screening information, not legal or financial advice. Rounds, rates and limits change; confirm every term with the administrator before relying on it."
+    "disclaimer": "Screening information, not legal or financial advice. Rounds, rates and limits change; confirm every term with the administrator before relying on it.",
+    "fit_note": "Each program's fit tags (deal type, project type, geography and role) are read from its own quoted text: fit.basis holds the words each tag rests on, and test/funding-fit.test.js fails on a tag whose words are not in the program's record. Tags screen for eligibility; they do not rank programs."
   },
   "categories": [
     {
@@ -528,7 +529,24 @@
           "reason": "The 2026 round's actual credit totals and awards were not re-verified from CHFA's award report in this pass."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "Federal 9% Low-Income Housing Tax Credit",
+          "project_types": "Equity for new construction, acquisition and rehabilitation"
+        }
+      }
     },
     {
       "id": "chfa-federal-4pct-lihtc-pab",
@@ -719,7 +737,24 @@
           "reason": "The 10-year credit period and the compliance and extended use periods are federal law and the QAP; see How long units stay affordable under Major considerations."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "4%"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "Bond-financed new construction or acquisition/rehab",
+          "project_types": "Bond-financed new construction or acquisition/rehab"
+        }
+      }
     },
     {
       "id": "chfa-colorado-state-ahtc",
@@ -881,7 +916,21 @@
           "reason": "The state credit follows the AMI election of the federal credit it is paired with; see AMI elections under Major considerations."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%"
+        ],
+        "project_types": [],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "Standard credit goes with 9% deals in Round One; accelerated credit goes with 4% bond deals"
+        }
+      }
     },
     {
       "id": "chfa-mihtc",
@@ -1049,7 +1098,24 @@
           "reason": "The $10 million per year 2027 to 2029 authorization comes from CHFA's August 2024 flyer; later statute changes were not checked."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "rental"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "stand-alone Colorado tax credit (not paired with federal LIHTC)",
+          "project_types": "New construction, adaptive reuse, or acquisition and rehabilitation"
+        }
+      }
     },
     {
       "id": "oedit-commercial-historic-preservation-tax-credit",
@@ -1192,7 +1258,25 @@
           "reason": "Not stated in the sources checked."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "converting at least 50% of square footage to net new rental housing",
+          "project_types": "qualified rehabilitation expenses on historic income-producing buildings"
+        }
+      }
     },
     {
       "id": "federal-historic-tax-credit",
@@ -1286,7 +1370,25 @@
           "reason": "The credit has no tenant income limit."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "income-producing use, including rental housing",
+          "project_types": "qualified rehabilitation expenditures"
+        }
+      }
     },
     {
       "id": "nmtc",
@@ -1376,7 +1478,18 @@
           "reason": "No resident income limit; investments must be in low-income communities, which are defined by census tract."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "support",
+        "execution": [],
+        "project_types": [],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "role": "only the non-residential parts of a mixed-use project can qualify"
+        }
+      }
     },
     {
       "id": "opportunity-zones",
@@ -1479,7 +1592,28 @@
           "reason": "Not applicable."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental",
+          "for-sale"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "designated-areas"
+        },
+        "basis": {
+          "execution": "Can be used for housing development or substantial rehabilitation",
+          "project_types": "Can be used for housing development or substantial rehabilitation",
+          "geography": "designated low-income census tracts"
+        }
+      }
     },
     {
       "id": "irc-45l",
@@ -1569,7 +1703,26 @@
           "reason": "The credit has no tenant income limit."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental",
+          "for-sale"
+        ],
+        "project_types": [
+          "new-construction"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "new energy-efficient homes, including multifamily units",
+          "project_types": "new energy-efficient homes"
+        }
+      }
     },
     {
       "id": "irc-48e",
@@ -1675,7 +1828,18 @@
           "reason": "Not applicable."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "support",
+        "execution": [],
+        "project_types": [],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "role": "qualified clean electricity facilities and energy storage"
+        }
+      }
     },
     {
       "id": "chfa-smart-risk-share-perm",
@@ -1806,7 +1970,26 @@
           "reason": "Regulatory agreement term for CHFA multifamily loans was not found on these pages."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "4% and 9% housing credit projects and non-housing-credit projects",
+          "project_types": "acquisition, new construction or rehabilitation"
+        }
+      }
     },
     {
       "id": "chfa-simple-perm",
@@ -1916,7 +2099,24 @@
           "reason": "Regulatory agreement term not found on these pages."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "mainly for 9% housing credit projects",
+          "project_types": "acquisition, new construction or substantial rehab"
+        }
+      }
     },
     {
       "id": "chfa-capable-bond-c2p",
@@ -2049,7 +2249,24 @@
           "reason": "Minimum DSCR conflict (1.15 vs 1.20) between CHFA's flyer and matrix is unresolved."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "4%"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "for 4% housing credit projects",
+          "project_types": "4% housing credit new construction and acquisition/rehab"
+        }
+      }
     },
     {
       "id": "chfa-pairable-bond-perm",
@@ -2159,7 +2376,24 @@
           "reason": "Regulatory agreement term not found on these pages."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "4%"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "on 4% housing credit projects",
+          "project_types": "4% housing credit new construction and acquisition/rehab"
+        }
+      }
     },
     {
       "id": "chfa-small-scale-perm-loan",
@@ -2270,7 +2504,26 @@
           "reason": "Regulatory agreement term not stated beyond 'throughout the loan term'."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "Rental properties with 5 to 19 units",
+          "project_types": "new construction, acq/rehab or refinance"
+        }
+      }
     },
     {
       "id": "chfa-housing-opportunity-fund",
@@ -2402,7 +2655,26 @@
           "reason": "No current HOF funding balance is published."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "9%, 4% and non-housing-credit projects",
+          "project_types": "Acquisition, new construction and substantial rehabilitation"
+        }
+      }
     },
     {
       "id": "chfa-capital-magnet-fund",
@@ -2544,7 +2816,27 @@
           "reason": "CHFA's own pages differ: 'at or below 50%' on the page and flyer versus a 60% AMI preference in the FAQ."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab",
+          "preservation"
+        ],
+        "geography": {
+          "scope": "designated-areas"
+        },
+        "basis": {
+          "execution": "4% or 9% LIHTC acquisition, new construction and rehabilitation",
+          "project_types": "preservation or construction",
+          "geography": "eligible areas (areas of economic distress)"
+        }
+      }
     },
     {
       "id": "chfa-cahp-preservation-fund",
@@ -2640,7 +2932,26 @@
           "reason": "No current CAHP fund balance is published."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "preservation",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "existing subsidized or naturally occurring affordable rentals",
+          "project_types": "preserve existing subsidized or naturally occurring affordable rentals"
+        }
+      }
     },
     {
       "id": "prop123-ahff-lihtc-gap",
@@ -2779,7 +3090,22 @@
           "reason": "FY2027 Funding Plan says open rounds open 'October 2026' but no exact open or close date was published on the program page as of 2026-10-10."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%"
+        ],
+        "project_types": [],
+        "geography": {
+          "scope": "prop123-committed"
+        },
+        "basis": {
+          "execution": "have a federal Low Income Housing Tax Credit award",
+          "geography": "project must be in a jurisdiction with a filed Prop 123 commitment"
+        }
+      }
     },
     {
       "id": "prop123-ahff-multifamily-finance",
@@ -2877,7 +3203,24 @@
           "reason": "Program page and FY2027 plan do not publish a loan term; only that amortizing and non-amortizing structures are available based on underwriting."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "rental"
+        ],
+        "project_types": [
+          "new-construction",
+          "preservation"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "not using state or federal Housing Tax Credits",
+          "project_types": "new construction or preservation"
+        }
+      }
     },
     {
       "id": "prop123-ahff-lihtc-predevelopment",
@@ -2969,7 +3312,24 @@
         }
       ],
       "unverified": [],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%"
+        ],
+        "project_types": [
+          "predevelopment"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "projects that qualify for federal Housing Tax Credits",
+          "project_types": "Unsecured predevelopment loans"
+        }
+      }
     },
     {
       "id": "prop123-ahff-equity",
@@ -3142,7 +3502,24 @@
           "reason": "Program page says remaining capital paid 'in full or in part' at a capital event; the January 2026 guidelines summary table says 'paid in full'. Body text of guidelines allows partial repayment with buyer assumption."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "rental"
+        ],
+        "project_types": [
+          "new-construction",
+          "preservation"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "cannot be paired with state or federal LIHTC equity",
+          "project_types": "construction or preservation"
+        }
+      }
     },
     {
       "id": "prop123-ahff-land-banking",
@@ -3308,7 +3685,26 @@
           "reason": "FY27 land banking allocation differs between the program page (~$31 million) and the FY2027 Funding Plan ($32M); treat as approximate."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental",
+          "for-sale"
+        ],
+        "project_types": [
+          "land"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "future affordable rental or for-sale housing",
+          "project_types": "Land acquisition"
+        }
+      }
     },
     {
       "id": "prop123-ahff-modular-finance",
@@ -3391,7 +3787,18 @@
           "reason": "Not stated in the sources checked."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "support",
+        "execution": [],
+        "project_types": [],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "role": "Not a project-level housing loan."
+        }
+      }
     },
     {
       "id": "prop123-dola-affordable-homeownership",
@@ -3568,7 +3975,27 @@
           "reason": "Not stated in the sources checked."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "for-sale"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab",
+          "land",
+          "predevelopment"
+        ],
+        "geography": {
+          "scope": "prop123-committed"
+        },
+        "basis": {
+          "execution": "Grants for affordable for-sale housing",
+          "project_types": "new construction, acquisition/rehab of homes, land acquisition, plus predevelopment grants",
+          "geography": "in a jurisdiction with a filed Prop 123 commitment"
+        }
+      }
     },
     {
       "id": "prop123-dola-persons-experiencing-homelessness",
@@ -3691,7 +4118,27 @@
           "reason": "The $60,000 per-unit figure is a DOH cost-range benchmark for PSH, not a published PEH program cap."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "supportive",
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "Rental supportive housing.",
+          "project_types": "supportive housing for people experiencing homelessness (new construction, acquisition, rehabilitation)"
+        }
+      }
     },
     {
       "id": "prop123-dola-local-planning-capacity",
@@ -3776,7 +4223,18 @@
           "reason": "Not stated in the sources checked."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "support",
+        "execution": [],
+        "project_types": [],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "role": "Not project capital."
+        }
+      }
     },
     {
       "id": "doh-housing-development-grant",
@@ -3927,7 +4385,27 @@
         }
       ],
       "unverified": [],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental",
+          "for-sale"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "affordable rental and for-sale housing",
+          "project_types": "New construction, property acquisition, and rehabilitation"
+        }
+      }
     },
     {
       "id": "doh-housing-development-loan-fund",
@@ -4005,7 +4483,27 @@
           "reason": "HDLF does not appear in the DOH application schedule; no round published."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental",
+          "for-sale"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "development, redevelopment or rehabilitation of low- or moderate-income housing",
+          "project_types": "development, redevelopment or rehabilitation"
+        }
+      }
     },
     {
       "id": "doh-home",
@@ -4132,7 +4630,28 @@
           "reason": "Next HOME development round after July 2026 is not listed on DOH's Future Opportunities schedule."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental",
+          "for-sale"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "non-entitlement"
+        },
+        "basis": {
+          "execution": "Rental and homeownership development",
+          "project_types": "Rental acquisition, rehabilitation and construction",
+          "geography": "balance of state"
+        }
+      }
     },
     {
       "id": "doh-national-housing-trust-fund",
@@ -4213,7 +4732,26 @@
           "reason": "No HTF round after July 2026 is listed."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "rental housing for extremely low-income households",
+          "project_types": "New construction, acquisition and rehabilitation"
+        }
+      }
     },
     {
       "id": "doh-cdbg-housing",
@@ -4316,7 +4854,27 @@
           "reason": "Not stated in the sources checked."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental",
+          "for-sale"
+        ],
+        "project_types": [
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "non-entitlement"
+        },
+        "basis": {
+          "execution": "Rental and homeownership housing activities",
+          "project_types": "rental acquisition and rehab",
+          "geography": "non-entitlement areas"
+        }
+      }
     },
     {
       "id": "doh-creation-of-supportive-housing-rfa",
@@ -4434,7 +4992,27 @@
           "reason": "The 2026-27 RFA (rounds after Round D) had not been published as of 2026-10-10."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "supportive",
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "Coordinated application for permanent supportive housing",
+          "project_types": "Net new supportive housing units via new construction, rehabilitation, or acquisition"
+        }
+      }
     },
     {
       "id": "oedit-innovative-housing-incentive-program",
@@ -4535,7 +5113,18 @@
           "reason": "Not stated in the sources checked."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "support",
+        "execution": [],
+        "project_types": [],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "role": "Grants to Colorado innovative (modular, panelized, 3D-printed) housing manufacturers"
+        }
+      }
     },
     {
       "id": "hud-221d4",
@@ -4693,7 +5282,26 @@
           "reason": "The program itself requires none. The Middle Income option carries a use restriction set by Mortgagee Letter 2026-01, whose period was not confirmed."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "rental or cooperative housing with 5 or more units",
+          "project_types": "new construction or substantial rehabilitation"
+        }
+      }
     },
     {
       "id": "hud-223f",
@@ -4787,7 +5395,25 @@
           "reason": "223(f) section of the HUD page did not list eligible borrower types in the extracted text."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "preservation"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "existing multifamily rental housing",
+          "project_types": "buy or refinance existing multifamily rental housing"
+        }
+      }
     },
     {
       "id": "fannie-mae-mah",
@@ -4882,7 +5508,26 @@
           "reason": "Not program-imposed."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "new-construction",
+          "preservation"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "properties with LIHTC or other rent restrictions",
+          "project_types": "unfunded forward commitments for 4% and 9% LIHTC, preservation loans"
+        }
+      }
     },
     {
       "id": "freddie-mac-tah",
@@ -4960,7 +5605,26 @@
           "reason": "Not program-imposed."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "preservation",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "Affordable rental properties, including 4% and 9% LIHTC",
+          "project_types": "preservation rehab"
+        }
+      }
     },
     {
       "id": "usda-515",
@@ -5080,7 +5744,27 @@
           "reason": "Colorado-specific list of eligible rural places not retrieved; USDA directs applicants to regional contacts and the USDA eligibility site."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "rural"
+        },
+        "basis": {
+          "execution": "affordable multifamily rental housing",
+          "project_types": "construction, improvement and purchase",
+          "geography": "eligible rural areas"
+        }
+      }
     },
     {
       "id": "usda-538",
@@ -5191,7 +5875,27 @@
           "reason": "$6,500 per unit rehab minimum is from 7 CFR 3565.252 (https://www.ecfr.gov/current/title-7/section-3565.252), not quoted in evidence here."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "rural"
+        },
+        "basis": {
+          "execution": "affordable rental housing",
+          "project_types": "construction, improvement and purchase",
+          "geography": "eligible rural areas"
+        }
+      }
     },
     {
       "id": "fhlb-topeka-ahp",
@@ -5314,7 +6018,23 @@
           "reason": "Grant or subsidized advance; no rate published."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental",
+          "for-sale"
+        ],
+        "project_types": [],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "owner-occupied and rental affordable housing"
+        }
+      }
     },
     {
       "id": "hud-pbv",
@@ -5403,7 +6123,23 @@
           "reason": "Not stated in the sources checked."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "rental-assistance",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "attaches Housing Choice Voucher assistance to specific units",
+          "role": "Housing Choice Voucher assistance"
+        }
+      }
     },
     {
       "id": "hud-811-pra",
@@ -5494,7 +6230,26 @@
           "reason": "Which Colorado agency is the current 811 PRA grantee was not verified from an official page in this pass."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "rental-assistance",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "supportive"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "new or existing multifamily projects whose development is funded by other sources",
+          "project_types": "persons with disabilities",
+          "role": "Project-based rental assistance"
+        }
+      }
     },
     {
       "id": "hud-home",
@@ -5613,7 +6368,27 @@
           "reason": "HOME can be a grant, deferred loan or amortizing loan at the PJ's discretion; deferred_loan is the common form, not a rule."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental",
+          "for-sale"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "execution": "affordable rental and ownership housing",
+          "project_types": "acquisition, rehabilitation and new construction"
+        }
+      }
     },
     {
       "id": "denver-host-gap",
@@ -5699,7 +6474,35 @@
           "reason": "Not stated in extracted text."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental",
+          "for-sale"
+        ],
+        "project_types": [
+          "new-construction",
+          "preservation"
+        ],
+        "geography": {
+          "scope": "local",
+          "counties": [
+            "08031"
+          ],
+          "places": [
+            "0820000"
+          ],
+          "label": "City and County of Denver only"
+        },
+        "basis": {
+          "execution": "affordable rental and homeownership housing",
+          "project_types": "new development and preservation",
+          "geography": "developments in Denver"
+        }
+      }
     },
     {
       "id": "colorado-springs-housing",
@@ -5778,7 +6581,34 @@
           "reason": "Not published on landing pages."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental"
+        ],
+        "project_types": [
+          "new-construction",
+          "acq-rehab"
+        ],
+        "geography": {
+          "scope": "local",
+          "counties": [
+            "08041"
+          ],
+          "places": [
+            "0816000"
+          ],
+          "label": "City of Colorado Springs only"
+        },
+        "basis": {
+          "execution": "affordable rental housing",
+          "project_types": "acquire, build or rehabilitate",
+          "geography": "City of Colorado Springs"
+        }
+      }
     },
     {
       "id": "aurora-cif",
@@ -5787,7 +6617,7 @@
       "administrator": "City of Aurora, Housing and Community Development",
       "official_url": "https://www.auroragov.org/business_services/development_center/affordable_housing_resources",
       "funding_type": "loan",
-      "status": "rounds",
+      "status": "watch",
       "what_it_funds": "Gap financing (loans or grants) to create or preserve affordable housing in Aurora, from private activity bonds, HOME, CDBG and other sources that vary by round.",
       "award_size": "2026 round 1 listed Private Activity Bonds of $26,624,164; other amounts not extracted.",
       "rate": "Cash-flow or must-pay loan terms at the city's discretion.",
@@ -5796,7 +6626,7 @@
       "affordability_period": null,
       "eligible_applicants": "Developers creating or preserving affordable housing in Aurora.",
       "eligible_projects": null,
-      "application_cycle": "Two rounds per year (spring and summer). 2026 round 1 ran February 18 to March 31, 2026.",
+      "application_cycle": "Two rounds per year (spring and summer). 2026 round 1 ran February 18 to March 31, 2026. When the city's page was rechecked on October 14, 2026 it listed no later 2026 round, so none is published.",
       "key_considerations": [
         "Federal rules apply: Davis-Bacon, Section 3, BABA and environmental review.",
         "Separate applications are needed for each fund source.",
@@ -5859,7 +6689,37 @@
           "reason": "Not on landing page."
         }
       ],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental",
+          "for-sale"
+        ],
+        "project_types": [
+          "new-construction",
+          "preservation"
+        ],
+        "geography": {
+          "scope": "local",
+          "counties": [
+            "08001",
+            "08005",
+            "08035"
+          ],
+          "places": [
+            "0804000"
+          ],
+          "label": "City of Aurora only"
+        },
+        "basis": {
+          "execution": "create or preserve affordable housing",
+          "project_types": "create or preserve",
+          "geography": "affordable housing in Aurora"
+        }
+      }
     },
     {
       "id": "boulder-ahf",
@@ -5957,7 +6817,36 @@
         }
       ],
       "unverified": [],
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "fit": {
+        "role": "capital",
+        "execution": [
+          "9%",
+          "4%",
+          "rental",
+          "for-sale"
+        ],
+        "project_types": [
+          "new-construction",
+          "preservation",
+          "predevelopment"
+        ],
+        "geography": {
+          "scope": "local",
+          "counties": [
+            "08013"
+          ],
+          "places": [
+            "0807850"
+          ],
+          "label": "City of Boulder only"
+        },
+        "basis": {
+          "execution": "permanently affordable housing",
+          "project_types": "acquisition, gap financing and predevelopment",
+          "geography": "affordable housing in Boulder"
+        }
+      }
     }
   ]
 }
