@@ -76,8 +76,8 @@
   /**
    * Does one program fit a query?
    * @param {Object} program  a guide program with a `fit` object
-   * @param {Object} q        { execution, projectType, county (5-digit FIPS), place (7-digit GEOID, optional),
-   *                            openOnly, includeSupport }
+   * @param {Object} q        { execution (one deal type, or a list meaning "any of these"), projectType,
+   *                            county (5-digit FIPS), place (7-digit GEOID, optional), openOnly, includeSupport }
    * @returns {{ fits: boolean, notes: string[] }}
    */
   function match(program, q) {
@@ -86,7 +86,11 @@
     if (!f) return { fits: false, notes: [] };
     var notes = [];
     if (f.role === 'support' && !q.includeSupport) return { fits: false, notes: notes };
-    if (q.execution && (f.execution || []).indexOf(q.execution) === -1) return { fits: false, notes: notes };
+    if (q.execution) {
+      var wanted = Array.isArray(q.execution) ? q.execution : [q.execution];
+      var offered = f.execution || [];
+      if (!wanted.some(function (e) { return offered.indexOf(e) !== -1; })) return { fits: false, notes: notes };
+    }
     var types = f.project_types || [];
     if (q.projectType && types.length && types.indexOf(q.projectType) === -1) return { fits: false, notes: notes };
     if (q.openOnly && !isOpenOrScheduled(program)) return { fits: false, notes: notes };
@@ -117,14 +121,16 @@
       .map(function (r) { return { program: r.program, notes: r.m.notes, availability: availability(r.program) }; });
   }
 
-  /** The guide link for a query, so another page can open the tab already filtered. */
+  /** The guide link for a query, so another page can open the tab already filtered.
+   *  The tab's finder picks one deal type, so a list ("either credit") is left out of the link. */
   function guideUrl(q, base) {
     q = q || {};
     var parts = [];
-    if (q.execution) parts.push('exec=' + encodeURIComponent(q.execution));
+    if (q.execution && !Array.isArray(q.execution)) parts.push('exec=' + encodeURIComponent(q.execution));
     if (q.projectType) parts.push('type=' + encodeURIComponent(q.projectType));
     if (pad5(q.county)) parts.push('county=' + pad5(q.county));
     if (q.openOnly) parts.push('open=1');
+    if (q.includeSupport) parts.push('support=1');
     if (q.program) parts.push('program=' + encodeURIComponent(q.program));
     return (base || 'colorado-deep-dive.html') + (parts.length ? '?' + parts.join('&') : '') + '#tab-funding';
   }
@@ -136,11 +142,14 @@
       if (!kv) return;
       var i = kv.indexOf('=');
       var k = i < 0 ? kv : kv.slice(0, i);
-      var v = i < 0 ? '' : decodeURIComponent(kv.slice(i + 1).replace(/\+/g, ' '));
+      var v = '';
+      // A malformed escape (?exec=%) drops that parameter instead of throwing.
+      try { v = i < 0 ? '' : decodeURIComponent(kv.slice(i + 1).replace(/\+/g, ' ')); } catch (e) { return; }
       if (k === 'exec' && labelOf(EXECUTIONS, v)) out.execution = v;
       else if (k === 'type' && labelOf(PROJECT_TYPES, v)) out.projectType = v;
       else if (k === 'county' && pad5(v)) out.county = pad5(v);
       else if (k === 'open' && v === '1') out.openOnly = true;
+      else if (k === 'support' && v === '1') out.includeSupport = true;
       else if (k === 'program' && /^[a-z0-9-]+$/.test(v)) out.program = v;
     });
     return out;
@@ -153,7 +162,10 @@
     SCOPE_NOTES: SCOPE_NOTES,
     availability: availability,
     isOpenOrScheduled: isOpenOrScheduled,
-    executionLabel: function (v) { return labelOf(EXECUTIONS, v); },
+    executionLabel: function (v) {
+      if (Array.isArray(v)) return v.map(function (x) { return labelOf(EXECUTIONS, x); }).filter(Boolean).join(' or ') || null;
+      return labelOf(EXECUTIONS, v);
+    },
     projectTypeLabel: function (v) { return labelOf(PROJECT_TYPES, v); },
     match: match,
     select: select,

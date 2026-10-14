@@ -4029,7 +4029,8 @@
   }
 
   // The deal type the user is ranking by, as js/funding-fit.js names it.
-  var TARGET_EXECUTION = { '9pct': '9%', '4pct': '4%' };
+  // "Either credit" matches a program that funds a 9% or a 4% deal.
+  var TARGET_EXECUTION = { '9pct': '9%', '4pct': '4%', 'both_credits': ['9%', '4%'] };
 
   // Funding programs for the selected jurisdiction, from the verified guide
   // (data/policy/co-developer-funding-guide.json) through js/funding-fit.js,
