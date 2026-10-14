@@ -60,6 +60,8 @@ async function run() {
       assert.equal(cells[6],money(fixture.ioThenAmortize.expected.maturityDue));
       assert(v.notice.includes(String(v.r.coverage.weakestAllMustPay.year)));
       assert(v.scroll<=width+1,'no page overflow at '+width);
+      const controls=await page.locator('#dc-soft-tranches input[type=number]').evaluateAll(els=>els.map(el=>({width:el.getBoundingClientRect().width,height:el.getBoundingClientRect().height})));
+      assert(controls.length>=7 && controls.every(box=>box.width>=100 && box.height>=44),'loan amounts and terms remain readable at '+width);
       if (process.env.L1_SCREENSHOTS) {
         fs.mkdirSync(process.env.L1_SCREENSHOTS,{recursive:true});
         await page.evaluate(()=>{const note=document.createElement('p');note.textContent='INVENTED L1 SCREENING CASE — no real project data';note.style.cssText='background:white;color:black;padding:12px';document.querySelector('main').prepend(note);});
