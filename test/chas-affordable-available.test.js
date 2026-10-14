@@ -47,13 +47,16 @@ function expected(t15, t14) {
   const occ = RENT_BLOCKS.map((b) => INCOME.map((o) => t15[b + o]));
   const vac = VACANT.map((b) => t14[b]);
   const out = {};
+  let worst = 0;
   for (const [tier, k] of Object.entries(TIERS)) {
     let hh = 0; let rented = 0; let v = 0;
     for (let i = 0; i < k; i++) for (let r = 0; r < 4; r++) hh += occ[r][i];
     for (let r = 0; r < k; r++) for (let i = 0; i < k; i++) rented += occ[r][i];
     for (let r = 0; r < k; r++) v += vac[r];
+    // A wider tier never shows fewer homes short than a tier inside it.
+    worst = Math.max(worst, hh - rented - v);
     out[tier] = { renter_households: hh, occupied_by_group: rented, vacant_for_rent: v,
-      affordable_available_homes: rented + v, homes_short: Math.max(0, hh - rented - v) };
+      affordable_available_homes: rented + v, households_minus_available: hh - rented - v, homes_short: worst };
   }
   return out;
 }
@@ -84,10 +87,10 @@ for (const [level, sum, records] of [['county', '050', data.counties], ['place',
   }
 }
 
-// Statewide is the sum of the 64 counties.
+// Statewide is the sum of the 64 counties, shortfalls included.
 assert.equal(Object.keys(data.counties).length, 64, 'all 64 counties');
 for (const tier of Object.keys(TIERS)) {
-  for (const k of ['renter_households', 'affordable_available_homes']) {
+  for (const k of ['renter_households', 'affordable_available_homes', 'homes_short']) {
     const total = Object.values(data.counties).reduce((s, r) => s + r.tiers[tier][k], 0);
     assert.equal(data.statewide.tiers[tier][k], total, `statewide ≤${tier}% ${k} is the county sum`);
   }

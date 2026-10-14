@@ -10,11 +10,19 @@ cheap enough but rented by higher-income households do not count: nobody in
 the group can move into them. This is the measure HUD's Worst Case Needs
 reports and the National Low Income Housing Coalition's "Gap" use.
 
-    shortfall(T) = renter households <= T
-                   - (occupied homes affordable at T rented by households <= T
-                      + vacant-for-rent homes affordable at T)
+    households_minus_available(T) = renter households <= T
+        - (occupied homes affordable at T rented by households <= T
+           + vacant-for-rent homes affordable at T)
 
 Tiers are cumulative (<= 50% includes <= 30%). CHAS has no 60% tier.
+
+homes_short(T) is the largest households_minus_available at T or any tier
+inside it, floored at 0. A wider tier adds homes that rent above what the
+lower-income households can pay, and those homes cannot close the lower
+tier's shortfall, so the wider tier never shows fewer homes short than a
+tier it contains. (households_minus_available alone does: in 34 of 64
+counties the <= 50% figure is below the <= 30% one.) Statewide <= 30% and
+<= 50% are unaffected; <= 80% is.
 
 HUD blocks automated downloads (every request returns HTTP 202 with an
 empty body), so the national CSVs are downloaded by hand from
@@ -115,17 +123,20 @@ def compute(geoid, t15, t14):
     vacant = [t14[b] for b in VACANT_RENT]
     households = [sum(occupied[r][i] for r in range(4)) for i in range(5)]
     tiers = {}
+    worst = 0
     for tier, k in TIERS:
         hh = sum(households[:k])
         rented = sum(occupied[r][i] for r in range(k) for i in range(k))
         vac = sum(vacant[:k])
         aa = rented + vac
+        worst = max(worst, hh - aa)
         tiers[tier] = {
             'renter_households': hh,
             'affordable_available_homes': aa,
             'occupied_by_group': rented,
             'vacant_for_rent': vac,
-            'homes_short': max(0, hh - aa),
+            'households_minus_available': hh - aa,
+            'homes_short': worst,
             # None, never 0, when there is nobody in the group to divide by.
             'homes_per_100_households': round(100 * aa / hh, 1) if hh > 0 else None,
         }
@@ -143,7 +154,10 @@ def total(records):
            'tiers': {}}
     for tier, _ in TIERS:
         t = {k: sum(r['tiers'][tier][k] for r in records) for k in keys}
-        t['homes_short'] = max(0, t['renter_households'] - t['affordable_available_homes'])
+        t['households_minus_available'] = t['renter_households'] - t['affordable_available_homes']
+        # A spare home in one county does not house a household in another,
+        # so the statewide shortfall is the sum of the county shortfalls.
+        t['homes_short'] = sum(r['tiers'][tier]['homes_short'] for r in records)
         t['homes_per_100_households'] = (round(100 * t['affordable_available_homes'] / t['renter_households'], 1)
                                          if t['renter_households'] > 0 else None)
         out['tiers'][tier] = t
@@ -199,9 +213,11 @@ def build():
             'tiers': {'30': 'at or below 30% HAMFI', '50': 'at or below 50% HAMFI (includes <=30%)',
                       '80': 'at or below 80% HAMFI (includes <=50%)'},
             'method': ('Affordable and available homes at a tier = homes whose rent is affordable at the tier and '
-                       'that are vacant for rent or rented by a household at or below the tier. Homes short = '
-                       'renter households at or below the tier minus those homes, floored at 0. Statewide is the '
-                       'sum of the 64 counties. Homes lacking a complete kitchen or plumbing are not split by rent '
+                       'that are vacant for rent or rented by a household at or below the tier. households_minus_available = '
+                       'renter households at or below the tier minus those homes. homes_short = the largest '
+                       'households_minus_available at the tier or any tier inside it, floored at 0: homes that rent '
+                       'above what lower-income households can pay cannot close their shortfall. Statewide is the '
+                       'sum of the 64 counties, shortfalls included. Homes lacking a complete kitchen or plumbing are not split by rent '
                        'in CHAS and are left out of both sides. Small places carry wide margins of error.'),
             'county_count': len(groups['county']),
             'place_count': len(groups['place']),
