@@ -1,12 +1,12 @@
 {
  "meta": {
-  "generated_at": "2026-10-14T12:02:26Z",
+  "generated_at": "2026-10-14T12:48:17Z",
   "generator": "scripts/funding/build_lihtc_applications.py",
   "source": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
   "first_year": 2023,
   "method": "Each CHFA Applicant Report (and the rolling federal 4% and MIHTC lists) is read as a table; a report whose rows do not add up to the TOTALS row it prints contributes none. Contact names, emails and phones are not read. Outcomes are derived: a project counts as awarded when the same name and city is on a CHFA award report in data/policy/funding-awards/ledger.json for the same credit within two years; not_awarded only when that round's award report is published and the project is on none. CHFA prints neither 'not awarded' nor 'withdrawn'.",
   "amount_note": "Credit amounts are the ANNUAL amounts requested, as CHFA prints them.",
-  "application_count": 265,
+  "application_count": 270,
   "documents": [
    {
     "file": "2023-HTC-Round-One-Applicant-Report.pdf",
@@ -2145,7 +2145,14 @@
    "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
    "source_as_of": "2026-02-09",
    "outcome": "not_awarded",
-   "outcome_detail": "Not on CHFA's 2026 Round One award report (2026-Round-One-Housing-Tax-Credit-Award-Report.pdf). CHFA does not publish reasons."
+   "outcome_detail": "Not on CHFA's 2026 Round One award report (2026-Round-One-Housing-Tax-Credit-Award-Report.pdf). CHFA does not publish reasons.",
+   "later_applications": [
+    {
+     "round_label": "2026 Round Two",
+     "credit_type": "4%",
+     "outcome": "pending"
+    }
+   ]
   },
   {
    "year": 2026,
@@ -3304,6 +3311,48 @@
    "credit_type": "4%",
    "stage": null,
    "type": null,
+   "name": "34th Street",
+   "address": null,
+   "city": "Boulder",
+   "sponsor": null,
+   "pab_issuer": null,
+   "total_units": 44,
+   "restricted_units": 44,
+   "federal_credit_requested": null,
+   "state_credit_requested": null,
+   "accelerated_state_credit_requested": null,
+   "toc_credit_requested": null,
+   "mihtc_credit_requested": null,
+   "pab_requested": null,
+   "county_fips": "08013",
+   "place_geoids": [
+    "0807850"
+   ],
+   "county_fips_all": [
+    "08013"
+   ],
+   "quote": "Name: 34th Street; Location: Boulder; Federal 4% credit: $1,448,752; Year: 2025",
+   "source_file": "federal-4-housing-tax-credit-award-report.pdf",
+   "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
+   "outcome": "awarded",
+   "award_only": true,
+   "outcome_detail": "On CHFA's federal 4% award report; awarded without a state credit round, so CHFA keeps no applicant report for it",
+   "award": {
+    "name": "34th Street",
+    "year": 2025,
+    "round": null,
+    "program": "LIHTC 4% + state",
+    "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+   }
+  },
+  {
+   "year": 2025,
+   "round": null,
+   "round_label": "Federal 4% award",
+   "rolling": true,
+   "credit_type": "4%",
+   "stage": null,
+   "type": null,
    "name": "4965 Washington Street",
    "address": null,
    "city": "Denver",
@@ -3584,6 +3633,90 @@
    "outcome_detail": "On CHFA's federal 4% award report; awarded without a state credit round, so CHFA keeps no applicant report for it",
    "award": {
     "name": "Green Valley Vistas",
+    "year": 2025,
+    "round": null,
+    "program": "LIHTC 4% + state",
+    "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+   }
+  },
+  {
+   "year": 2025,
+   "round": null,
+   "round_label": "Federal 4% award",
+   "rolling": true,
+   "credit_type": "4%",
+   "stage": null,
+   "type": null,
+   "name": "Ives II 4",
+   "address": null,
+   "city": "Wheat Ridge",
+   "sponsor": null,
+   "pab_issuer": null,
+   "total_units": 44,
+   "restricted_units": 43,
+   "federal_credit_requested": null,
+   "state_credit_requested": null,
+   "accelerated_state_credit_requested": null,
+   "toc_credit_requested": null,
+   "mihtc_credit_requested": null,
+   "pab_requested": null,
+   "county_fips": "08059",
+   "place_geoids": [
+    "0884440"
+   ],
+   "county_fips_all": [
+    "08059"
+   ],
+   "quote": "Name: Ives II 4; Location: Wheat Ridge; Federal 4% credit: $772,287; Year: 2025",
+   "source_file": "federal-4-housing-tax-credit-award-report.pdf",
+   "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
+   "outcome": "awarded",
+   "award_only": true,
+   "outcome_detail": "On CHFA's federal 4% award report; awarded without a state credit round, so CHFA keeps no applicant report for it",
+   "award": {
+    "name": "Ives II 4",
+    "year": 2025,
+    "round": null,
+    "program": "LIHTC 4% + state",
+    "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+   }
+  },
+  {
+   "year": 2025,
+   "round": null,
+   "round_label": "Federal 4% award",
+   "rolling": true,
+   "credit_type": "4%",
+   "stage": null,
+   "type": null,
+   "name": "Link and Pin",
+   "address": null,
+   "city": "Denver",
+   "sponsor": null,
+   "pab_issuer": null,
+   "total_units": 150,
+   "restricted_units": 150,
+   "federal_credit_requested": null,
+   "state_credit_requested": null,
+   "accelerated_state_credit_requested": null,
+   "toc_credit_requested": null,
+   "mihtc_credit_requested": null,
+   "pab_requested": null,
+   "county_fips": "08031",
+   "place_geoids": [
+    "0820000"
+   ],
+   "county_fips_all": [
+    "08031"
+   ],
+   "quote": "Name: Link and Pin; Location: Denver; Federal 4% credit: $2,827,116; Year: 2025",
+   "source_file": "federal-4-housing-tax-credit-award-report.pdf",
+   "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
+   "outcome": "awarded",
+   "award_only": true,
+   "outcome_detail": "On CHFA's federal 4% award report; awarded without a state credit round, so CHFA keeps no applicant report for it",
+   "award": {
+    "name": "Link and Pin",
     "year": 2025,
     "round": null,
     "program": "LIHTC 4% + state",
@@ -4156,7 +4289,14 @@
    "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
    "source_as_of": "2025-08-12",
    "outcome": "not_awarded",
-   "outcome_detail": "Not on CHFA's 2025 Round Two award report (2025-Round-Two-Award-Report.pdf) or its federal 4% award report. CHFA does not publish reasons."
+   "outcome_detail": "Not on CHFA's 2025 Round Two award report (2025-Round-Two-Award-Report.pdf) or its federal 4% award report. CHFA does not publish reasons.",
+   "later_applications": [
+    {
+     "round_label": "2026 Round Two",
+     "credit_type": "4%",
+     "outcome": "pending"
+    }
+   ]
   },
   {
    "year": 2025,
@@ -4661,7 +4801,14 @@
    "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
    "source_as_of": "2025-08-12",
    "outcome": "not_awarded",
-   "outcome_detail": "Not on CHFA's 2025 Round Two award report (2025-Round-Two-Award-Report.pdf) or its federal 4% award report. CHFA does not publish reasons."
+   "outcome_detail": "Not on CHFA's 2025 Round Two award report (2025-Round-Two-Award-Report.pdf) or its federal 4% award report. CHFA does not publish reasons.",
+   "later_applications": [
+    {
+     "round_label": "2026 Round Two",
+     "credit_type": "4%",
+     "outcome": "pending"
+    }
+   ]
   },
   {
    "year": 2025,
@@ -5194,14 +5341,7 @@
    "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
    "source_as_of": "2025-02-12",
    "outcome": "not_awarded",
-   "outcome_detail": "Not on CHFA's 2025 Round One award report (2025-Round-One-Housing-Tax-Credit-Award-Report.pdf). CHFA does not publish reasons.",
-   "later_applications": [
-    {
-     "round_label": "2026 Round Two",
-     "credit_type": "4%",
-     "outcome": "pending"
-    }
-   ]
+   "outcome_detail": "Not on CHFA's 2025 Round One award report (2025-Round-One-Housing-Tax-Credit-Award-Report.pdf). CHFA does not publish reasons."
   },
   {
    "year": 2025,
@@ -5565,7 +5705,14 @@
    "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
    "source_as_of": "2025-02-12",
    "outcome": "not_awarded",
-   "outcome_detail": "Not on CHFA's 2025 Round One award report (2025-Round-One-Housing-Tax-Credit-Award-Report.pdf). CHFA does not publish reasons."
+   "outcome_detail": "Not on CHFA's 2025 Round One award report (2025-Round-One-Housing-Tax-Credit-Award-Report.pdf). CHFA does not publish reasons.",
+   "later_applications": [
+    {
+     "round_label": "2026 Round One",
+     "credit_type": "9%",
+     "outcome": "awarded"
+    }
+   ]
   },
   {
    "year": 2025,
@@ -5869,6 +6016,48 @@
    "credit_type": "4%",
    "stage": null,
    "type": null,
+   "name": "Harvest Hill",
+   "address": null,
+   "city": "Broomfield",
+   "sponsor": null,
+   "pab_issuer": null,
+   "total_units": 152,
+   "restricted_units": 152,
+   "federal_credit_requested": null,
+   "state_credit_requested": null,
+   "accelerated_state_credit_requested": null,
+   "toc_credit_requested": null,
+   "mihtc_credit_requested": null,
+   "pab_requested": null,
+   "county_fips": "08014",
+   "place_geoids": [
+    "0809280"
+   ],
+   "county_fips_all": [
+    "08014"
+   ],
+   "quote": "Name: Harvest Hill; Location: Broomfield; Federal 4% credit: $2,182,105; Year: 2024",
+   "source_file": "federal-4-housing-tax-credit-award-report.pdf",
+   "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
+   "outcome": "awarded",
+   "award_only": true,
+   "outcome_detail": "On CHFA's federal 4% award report; awarded without a state credit round, so CHFA keeps no applicant report for it",
+   "award": {
+    "name": "Harvest Hill",
+    "year": 2024,
+    "round": null,
+    "program": "LIHTC 4% + state",
+    "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+   }
+  },
+  {
+   "year": 2024,
+   "round": null,
+   "round_label": "Federal 4% award",
+   "rolling": true,
+   "credit_type": "4%",
+   "stage": null,
+   "type": null,
    "name": "Loretto Heights Family Apartments",
    "address": null,
    "city": "Denver",
@@ -5897,6 +6086,48 @@
    "outcome_detail": "On CHFA's federal 4% award report; awarded without a state credit round, so CHFA keeps no applicant report for it",
    "award": {
     "name": "Loretto Heights Family Apartments",
+    "year": 2024,
+    "round": null,
+    "program": "LIHTC 4% + state",
+    "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+   }
+  },
+  {
+   "year": 2024,
+   "round": null,
+   "round_label": "Federal 4% award",
+   "rolling": true,
+   "credit_type": "4%",
+   "stage": null,
+   "type": null,
+   "name": "Marshall Pointe Apartments",
+   "address": null,
+   "city": "Arvada",
+   "sponsor": null,
+   "pab_issuer": null,
+   "total_units": 260,
+   "restricted_units": 260,
+   "federal_credit_requested": null,
+   "state_credit_requested": null,
+   "accelerated_state_credit_requested": null,
+   "toc_credit_requested": null,
+   "mihtc_credit_requested": null,
+   "pab_requested": null,
+   "county_fips": "08059",
+   "place_geoids": [
+    "0803455"
+   ],
+   "county_fips_all": [
+    "08059"
+   ],
+   "quote": "Name: Marshall Pointe Apartments; Location: Arvada; Federal 4% credit: $5,687,557; Year: 2024",
+   "source_file": "federal-4-housing-tax-credit-award-report.pdf",
+   "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
+   "outcome": "awarded",
+   "award_only": true,
+   "outcome_detail": "On CHFA's federal 4% award report; awarded without a state credit round, so CHFA keeps no applicant report for it",
+   "award": {
+    "name": "Marshall Pointe Apartments",
     "year": 2024,
     "round": null,
     "program": "LIHTC 4% + state",
@@ -6180,15 +6411,15 @@
    "source_file": "2024-HTC-Round-Two-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf",
    "source_as_of": "2024-08-15",
-   "outcome": "awarded",
-   "outcome_detail": "On CHFA's award report federal-4-housing-tax-credit-award-report.pdf (2025)",
-   "award": {
-    "name": "34th Street",
-    "year": 2025,
-    "round": null,
-    "program": "LIHTC 4% + state",
-    "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
-   }
+   "outcome": "unresolved",
+   "outcome_detail": "Not on CHFA's 2024 Round Two award report. CHFA's federal 4% award report lists \"34th Street\" here in its 2025 cycle; its reports do not say whether that award came from this application or a later one",
+   "later_applications": [
+    {
+     "round_label": "Federal 4% award",
+     "credit_type": "4%",
+     "outcome": "awarded"
+    }
+   ]
   },
   {
    "year": 2024,
@@ -6621,15 +6852,8 @@
    "source_file": "2024-HTC-Round-Two-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf",
    "source_as_of": "2024-08-15",
-   "outcome": "awarded",
-   "outcome_detail": "On CHFA's award report federal-4-housing-tax-credit-award-report.pdf (2025)",
-   "award": {
-    "name": "Ives II 4",
-    "year": 2025,
-    "round": null,
-    "program": "LIHTC 4% + state",
-    "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
-   },
+   "outcome": "unresolved",
+   "outcome_detail": "Not on CHFA's 2024 Round Two award report. CHFA's federal 4% award report lists \"Ives II 4\" here in its 2025 cycle; its reports do not say whether that award came from this application or a later one",
    "later_applications": [
     {
      "round_label": "2025 Round One",
@@ -6712,15 +6936,15 @@
    "source_file": "2024-HTC-Round-Two-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf",
    "source_as_of": "2024-08-15",
-   "outcome": "awarded",
-   "outcome_detail": "On CHFA's award report federal-4-housing-tax-credit-award-report.pdf (2025)",
-   "award": {
-    "name": "Link and Pin",
-    "year": 2025,
-    "round": null,
-    "program": "LIHTC 4% + state",
-    "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
-   }
+   "outcome": "unresolved",
+   "outcome_detail": "Not on CHFA's 2024 Round Two award report. CHFA's federal 4% award report lists \"Link and Pin\" here in its 2025 cycle; its reports do not say whether that award came from this application or a later one",
+   "later_applications": [
+    {
+     "round_label": "Federal 4% award",
+     "credit_type": "4%",
+     "outcome": "awarded"
+    }
+   ]
   },
   {
    "year": 2024,
@@ -7642,15 +7866,8 @@
    "source_file": "2024-HTC-Round-One-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf",
    "source_as_of": "2024-02-09",
-   "outcome": "awarded",
-   "outcome_detail": "On CHFA's award report 2024-Round-One-Housing-Tax-Credit-Award-Report.pdf (2024)",
-   "award": {
-    "name": "Annex",
-    "year": 2024,
-    "round": 1,
-    "program": "LIHTC 9% + state",
-    "source_url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
-   }
+   "outcome": "unresolved",
+   "outcome_detail": "The 2024 Round One award report lists \"Annex\" here, matching no application by name; this may be the same project under another name."
   },
   {
    "year": 2024,
@@ -9225,15 +9442,15 @@
    "source_file": "2023-HTC-Round-Two-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf",
    "source_as_of": "2023-08-11",
-   "outcome": "awarded",
-   "outcome_detail": "On CHFA's award report federal-4-housing-tax-credit-award-report.pdf (2024)",
-   "award": {
-    "name": "Harvest Hill",
-    "year": 2024,
-    "round": null,
-    "program": "LIHTC 4% + state",
-    "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
-   }
+   "outcome": "unresolved",
+   "outcome_detail": "Not on CHFA's 2023 Round Two award report. CHFA's federal 4% award report lists \"Harvest Hill\" here in its 2024 cycle; its reports do not say whether that award came from this application or a later one",
+   "later_applications": [
+    {
+     "round_label": "Federal 4% award",
+     "credit_type": "4%",
+     "outcome": "awarded"
+    }
+   ]
   },
   {
    "year": 2023,
@@ -9268,14 +9485,7 @@
    "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf",
    "source_as_of": "2023-08-11",
    "outcome": "not_awarded",
-   "outcome_detail": "Not on CHFA's 2023 Round Two award report (2023-Round-2-Housing-Tax-Credit-Award-Report.pdf) or its federal 4% award report. CHFA does not publish reasons.",
-   "later_applications": [
-    {
-     "round_label": "2024 Round One",
-     "credit_type": "9%",
-     "outcome": "awarded"
-    }
-   ]
+   "outcome_detail": "Not on CHFA's 2023 Round Two award report (2023-Round-2-Housing-Tax-Credit-Award-Report.pdf) or its federal 4% award report. CHFA does not publish reasons."
   },
   {
    "year": 2023,
@@ -9386,11 +9596,16 @@
    "source_file": "2023-HTC-Round-Two-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf",
    "source_as_of": "2023-08-11",
-   "outcome": "not_awarded",
-   "outcome_detail": "Not on CHFA's 2023 Round Two award report (2023-Round-2-Housing-Tax-Credit-Award-Report.pdf) or its federal 4% award report. CHFA does not publish reasons.",
+   "outcome": "unresolved",
+   "outcome_detail": "Not on CHFA's 2023 Round Two award report. CHFA's federal 4% award report lists \"Link and Pin\" here in its 2025 cycle; its reports do not say whether that award came from this application or a later one",
    "later_applications": [
     {
      "round_label": "2024 Round Two",
+     "credit_type": "4%",
+     "outcome": "unresolved"
+    },
+    {
+     "round_label": "Federal 4% award",
      "credit_type": "4%",
      "outcome": "awarded"
     }
@@ -9428,15 +9643,15 @@
    "source_file": "2023-HTC-Round-Two-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf",
    "source_as_of": "2023-08-11",
-   "outcome": "awarded",
-   "outcome_detail": "On CHFA's award report federal-4-housing-tax-credit-award-report.pdf (2024)",
-   "award": {
-    "name": "Marshall Pointe Apartments",
-    "year": 2024,
-    "round": null,
-    "program": "LIHTC 4% + state",
-    "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
-   }
+   "outcome": "unresolved",
+   "outcome_detail": "Not on CHFA's 2023 Round Two award report. CHFA's federal 4% award report lists \"Marshall Pointe Apartments\" here in its 2024 cycle; its reports do not say whether that award came from this application or a later one",
+   "later_applications": [
+    {
+     "round_label": "Federal 4% award",
+     "credit_type": "4%",
+     "outcome": "awarded"
+    }
+   ]
   },
   {
    "year": 2023,
@@ -9595,7 +9810,14 @@
    "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf",
    "source_as_of": "2023-08-11",
    "outcome": "not_awarded",
-   "outcome_detail": "Not on CHFA's 2023 Round Two award report (2023-Round-2-Housing-Tax-Credit-Award-Report.pdf) or its federal 4% award report. CHFA does not publish reasons."
+   "outcome_detail": "Not on CHFA's 2023 Round Two award report (2023-Round-2-Housing-Tax-Credit-Award-Report.pdf) or its federal 4% award report. CHFA does not publish reasons.",
+   "later_applications": [
+    {
+     "round_label": "2024 Round Two",
+     "credit_type": "4%",
+     "outcome": "awarded"
+    }
+   ]
   },
   {
    "year": 2023,
@@ -9860,13 +10082,13 @@
    "source_file": "2023-HTC-Round-Two-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf",
    "source_as_of": "2023-08-11",
-   "outcome": "not_awarded",
-   "outcome_detail": "Not on CHFA's 2023 Round Two award report (2023-Round-2-Housing-Tax-Credit-Award-Report.pdf) or its federal 4% award report. CHFA does not publish reasons.",
+   "outcome": "unresolved",
+   "outcome_detail": "Not on CHFA's 2023 Round Two award report. CHFA's federal 4% award report lists \"Ives II 4\" here in its 2025 cycle; its reports do not say whether that award came from this application or a later one",
    "later_applications": [
     {
      "round_label": "2024 Round Two",
      "credit_type": "4%",
-     "outcome": "awarded"
+     "outcome": "unresolved"
     },
     {
      "round_label": "2025 Round One",
@@ -9995,7 +10217,7 @@
     {
      "round_label": "2024 Round One",
      "credit_type": "9%",
-     "outcome": "awarded"
+     "outcome": "unresolved"
     }
    ]
   },

@@ -210,22 +210,68 @@ def test_the_award_ledger_location_may_carry_a_neighbouring_column():
     assert a['outcome'] == 'awarded'
 
 
-def test_one_rolling_4pct_award_answers_only_the_latest_application():
-    first = app('Ives II', 'Wheat Ridge', 2023, 2, credit='4%', county='08059')
-    second = app('Ives II', 'Wheat Ridge', 2024, 2, credit='4%', county='08059')
-    statuses = STATUSES + [{'agency': 'CHFA', 'program': 'LIHTC 4% + state', 'year': y, 'round': 2,
-                            'status': 'ok', 'file': f'r2-{y}.pdf'} for y in (2023, 2024)]
+def test_a_later_cycles_federal_4pct_award_is_not_this_applications():
+    """CHFA's rolling federal 4% report prints each award's cycle year. A 2025
+    award under the same name does not answer a 2024 Round Two application
+    (CHFA's 2024 Round Two award report omits Ives II; the 2025 award is a
+    different, 44-unit deal), so the 2024 row says it cannot tell."""
+    statuses = STATUSES + [{'agency': 'CHFA', 'program': 'LIHTC 4% + state', 'year': 2024, 'round': 2,
+                            'status': 'ok', 'file': 'r2-2024.pdf'}]
     rolling = award('Ives II', 'Wheat Ridge', 2025, None, program='LIHTC 4% + state',
                     file='federal-4-housing-tax-credit-award-report.pdf', county='08059')
-    apps_mod.finish([first, second], [rolling], statuses, 2023, {'places': {}})
-    assert second['outcome'] == 'awarded'
-    assert first['outcome'] == 'not_awarded'
+    early = app('Ives II', 'Wheat Ridge', 2024, 2, credit='4%', county='08059')
+    apps_mod.finish([early], [rolling], statuses, 2023, {'places': {}})
+    assert early['outcome'] == 'unresolved' and 'later one' in early['outcome_detail']
+    same = app('Ives II', 'Wheat Ridge', 2025, 2, credit='4%', county='08059')
+    apps_mod.finish([same], [rolling], statuses, 2023, {'places': {}})
+    assert same['outcome'] == 'awarded'
+
+
+def test_a_one_word_name_inside_another_is_not_the_same_project():
+    """"Federal Apartments" (3244 S Federal Blvd) is not "4745 N Federal Blvd"."""
+    assert not apps_mod.similar(apps_mod.norm_name('Federal Apartments'), apps_mod.norm_name('4745 N Federal Blvd'))
+    first = app('Federal Apartments', 'Denver', 2025, 1)
+    first.update(address='3244 S Federal Boulevard', sponsor='Silva Development Partners')
+    other = app('4745 N Federal Blvd', 'Denver', 2026, 2, credit='4%')
+    other.update(address='4745 N Federal Boulevard', sponsor='Colorado Coalition for the Homeless')
+    run([first, other], [])
+    assert 'later_applications' not in first
+
+
+def test_a_renamed_reapplication_at_the_same_address_is_linked():
+    first = app('Annex', 'Boulder', 2025, 1, county='08013')
+    first.update(address='1603 Walnut Street', sponsor='Grace Commons Church')
+    again = app('Grace Commons Annex', 'Boulder', 2026, 1, county='08013')
+    again.update(address='1603 Walnut Street', sponsor='Grace Commons Church')
+    run([first, again], [])
+    assert [l['round_label'] for l in first['later_applications']] == ['2026 Round One']
 
 
 def test_rolling_letter_of_intent_is_not_called_a_loss():
     a = app('Rock Crest', 'Loveland', 2026, None, credit='4%', rolling=True, stage='LOI')
     run([a], [])
     assert a['outcome'] == 'letter_of_intent'
+
+
+def test_an_unusable_report_keeps_the_last_list(monkeypatch, tmp_path, ctx):
+    """A report that stops adding up must not drop its round from the list."""
+    out = tmp_path / 'out.json'
+    out.write_text('{"prior": true}')
+    fx = fixture('2026-HTC-Round-One-Applicant-Report')
+    rows = copy.deepcopy(fx['rows'])
+    target = next(r for r in rows if 'Barth Hotel' in r)
+    target[target.index('$1,450,000')] = '$1,460,000'
+    name = '2026-HTC-Round-One-Applicant-Report'
+    monkeypatch.setattr(apps_mod, 'OUT', str(out))
+    monkeypatch.setattr(apps_mod.awards, 'discover', lambda src: [doc(name)])
+    monkeypatch.setattr(apps_mod, 'read_tables', lambda path: (rows, fx['texts']))
+    monkeypatch.setattr(apps_mod, 'context', lambda: ctx)
+    monkeypatch.setattr(apps_mod.sys, 'argv', ['x', '--cache', str(tmp_path)])
+    (tmp_path / f'{name}.pdf').write_bytes(b'%PDF')
+    assert apps_mod.main() == 1
+    assert out.read_text() == '{"prior": true}'
+    monkeypatch.setattr(apps_mod.sys, 'argv', ['x', '--cache', str(tmp_path), '--check'])
+    assert apps_mod.main() == 1
 
 
 def test_committed_list_agrees_with_its_documents():

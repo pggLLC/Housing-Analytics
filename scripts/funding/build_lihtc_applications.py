@@ -292,12 +292,18 @@ def load_places() -> dict[str, str]:
 # ── outcomes ─────────────────────────────────────────────────────────────────
 
 def similar(a: str, b: str) -> bool:
-    """Two normalized project names are the same project: equal, one inside the
-    other, or sharing most of their words (an applicant report says
-    "1001 Lincoln St", the award report "1001 Lincoln Street")."""
+    """Two normalized project names are the same project: equal, a name of two
+    or more words inside the other ("silver key north weber" in its longer
+    form), or sharing most of their words (an applicant report says "1001
+    Lincoln St", the award report "1001 Lincoln Street"). A one-word name
+    inside another is not enough: "federal" is inside "4745 north federal
+    boulevard", a different project."""
     if not a or not b:
         return False
-    if a == b or (len(a) >= 5 and a in b) or (len(b) >= 5 and b in a):
+    if a == b:
+        return True
+    short, long_ = sorted((a, b), key=len)
+    if len(short.split()) >= 2 and re.search(r'(?:^| )' + re.escape(short) + r'(?: |$)', long_):
         return True
     wa, wb = set(a.split()), set(b.split())
     return len(wa & wb) >= 2 and len(wa & wb) / len(wa | wb) >= 0.6
@@ -312,8 +318,8 @@ def answers(app: dict, aw: dict) -> bool:
     later year. A project that lost a round and won the next is not awarded in
     the first; link_reapplications shows the later win."""
     year = aw.get('year') or 0
-    if app['rolling'] or (app['credit_type'] == '4%' and ROLLING_4PCT_AWARDS.match(aw.get('source_file') or '')):
-        return (app['year'] or 0) <= year <= (app['year'] or 0) + 2
+    # the rolling federal 4% report prints each award's cycle year; an award
+    # of a later cycle answers a later application, not this one
     if year != app['year']:
         return False
     return app['credit_type'] == 'MIHTC' or aw.get('round') in (None, app['round'])
@@ -344,6 +350,16 @@ def find_award(app: dict, ledger: list[dict]) -> dict | None:
     return None
 
 
+def later_rolling_award(app: dict, ledger: list[dict]) -> dict | None:
+    a = norm_name(app['name'])
+    for aw in ledger:
+        if (aw.get('agency') == 'CHFA' and ROLLING_4PCT_AWARDS.match(aw.get('source_file') or '')
+                and aw.get('name') and (app['year'] or 0) < (aw.get('year') or 0) <= (app['year'] or 0) + 2
+                and same_place(app, aw) and similar(a, norm_name(aw['name']))):
+            return aw
+    return None
+
+
 def award_published(statuses: list[dict], year: int | None, rnd: int | None, credit_type: str) -> dict | None:
     program = PROGRAM_OF.get(credit_type)
     for s in statuses:
@@ -356,6 +372,13 @@ def award_published(statuses: list[dict], year: int | None, rnd: int | None, cre
 
 def outcome(app: dict, ledger: list[dict], statuses: list[dict]) -> None:
     aw = find_award(app, ledger)
+    later = None if aw or app['credit_type'] != '4%' else later_rolling_award(app, ledger)
+    if later:
+        app['outcome'] = 'unresolved'
+        app['outcome_detail'] = (f"Not on CHFA's {app['round_label']} award report. CHFA's federal 4% award report lists "
+                                 f"\"{later['name']}\" here in its {later['year']} cycle; its reports do not say whether "
+                                 "that award came from this application or a later one")
+        return
     if aw:
         app['outcome'] = 'awarded'
         app['outcome_detail'] = (f"On CHFA's award report {aw['source_file']}"
@@ -381,13 +404,33 @@ def outcome(app: dict, ledger: list[dict], statuses: list[dict]) -> None:
                              + '. CHFA does not publish reasons.')
 
 
+GENERIC = {'housing', 'development', 'developers', 'partners', 'company', 'group', 'llc', 'inc', 'corporation',
+           'communities', 'community', 'colorado', 'authority', 'properties', 'foundation', 'denver', 'affordable'}
+
+
+def same_address(a: dict, b: dict) -> bool:
+    return bool(a.get('address') and b.get('address') and norm_name(a['address']) == norm_name(b['address']))
+
+
+def corroborated(a: dict, b: dict) -> bool:
+    """Two applications under similar names are one project only when the
+    name is identical, the address is, or the sponsors share a distinctive word."""
+    if norm_name(a['name']) == norm_name(b['name']):
+        return True
+    if same_address(a, b):
+        return True
+    wa = {w for w in norm_name(a.get('sponsor') or '').split() if len(w) >= 4 and w not in GENERIC}
+    wb = {w for w in norm_name(b.get('sponsor') or '').split() if len(w) >= 4 and w not in GENERIC}
+    return bool(wa & wb)
+
+
 def link_reapplications(apps: list[dict]) -> None:
     """The same project in a later round, so a reader sees a loss followed by
     a win (or a second loss) without reading both rounds."""
     order = sorted(apps, key=lambda a: (a['year'] or 0, a['round'] or 0))
     for i, a in enumerate(order):
         later = [b for b in order[i + 1:] if b is not a and b['city'] == a['city']
-                 and similar(norm_name(a['name']), norm_name(b['name']))
+                 and (same_address(a, b) or (similar(norm_name(a['name']), norm_name(b['name'])) and corroborated(a, b)))
                  and (b['year'], b['round']) != (a['year'], a['round'])]
         if later:
             a['later_applications'] = [{'round_label': b['round_label'], 'credit_type': b['credit_type'],
@@ -596,12 +639,15 @@ def main() -> int:
         print(f"{s['status']:<14} {s.get('rows', 0):>3} rows  {s['file']}")
     bad = [s for s in statuses if s['status'] not in ('ok', 'no_total_line')]
     print(f'{len(apps)} applications from {len(statuses) - len(bad)} reports; {len(bad)} reports not used')
+    if bad:
+        # Writing now would drop every application in those reports and make
+        # the round look empty. Keep the last good list and fail the run, so a
+        # CHFA layout change is seen rather than committed.
+        print(f"{len(bad)} report(s) unusable ({', '.join(s['file'] + ': ' + s['status'] for s in bad)}); "
+              'leaving the list as it is.', file=sys.stderr)
+        return 1
     if args.check:
         return 0
-    if any(s['status'] == 'error' for s in statuses):
-        # writing now would drop an unreachable report's applicants
-        print('A report could not be read; leaving the list as it is.', file=sys.stderr)
-        return 1
 
     now = dt.datetime.now(dt.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
     prior = {}
