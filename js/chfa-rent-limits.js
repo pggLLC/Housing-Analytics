@@ -126,6 +126,8 @@
       unrestricted_market: 'No restricted limit (market-rate)',
       home_table_missing: 'HOME rent limits unavailable',
       tier_above_program: 'AMI tier is above this program\u2019s income limit',
+      tier_above_program_without_petition: 'AMI tier is above this program\u2019s limit unless the jurisdiction has an approved rural resort petition',
+      prop123_petition_unknown: 'Rural resort petition not found for this jurisdiction',
       prop123_rules_missing: 'Prop 123 rent rules unavailable',
       prop123_program_missing: 'Choose a Prop 123 program',
       prop123_no_unit_limits: 'This Prop 123 program restricts no units',
@@ -364,6 +366,7 @@
     result.publishedRent = null;
     result.ruleRent = null;
     result.caveats = [];
+    result.petition = null;
     if (!rules || !Array.isArray(rules.programs)) return blocked('prop123_rules_missing');
     var program = rules.programs.find(function (p) { return p.id === args.program; });
     if (!program) return blocked('prop123_program_missing');
@@ -374,7 +377,24 @@
     if (args.useHera) return blocked('prop123_hera_not_allowed');
     var tier = _allowance(args.tier);
     if (tier == null || tier <= 0) return blocked('tier_missing');
-    if (income.per_unit_max_ami_pct != null && tier > income.per_unit_max_ami_pct) return blocked('tier_above_program');
+    // An approved rural resort petition (C.R.S. 29-32-105.5(3)) replaces the
+    // program's AMI limit for that jurisdiction. Petitions name jurisdictions,
+    // not counties, so the caller must say which one applies.
+    var petition = null;
+    if (args.petitionJurisdiction != null) {
+      var list = rules.rural_resort_petitions && rules.rural_resort_petitions.petitions || [];
+      petition = list.find(function (x) { return x.jurisdiction === args.petitionJurisdiction; }) || null;
+      if (!petition) return blocked('prop123_petition_unknown');
+      var covers = income.rural_resort_petition && petition.status === 'approved' &&
+        (petition.programs || []).some(function (id) { return program.id === id || program.id.indexOf(id + '_') === 0; });
+      petition = covers && _allowance(petition.ami_pct_rental) > 0 ? petition : null;
+    }
+    var perUnitMax = petition && income.per_unit_max_ami_pct != null ? petition.ami_pct_rental : income.per_unit_max_ami_pct;
+    var averageMax = petition ? petition.ami_pct_rental : income.max_ami_pct;
+    if (perUnitMax != null && tier > perUnitMax) {
+      return blocked(income.rural_resort_petition && !petition ? 'tier_above_program_without_petition' : 'tier_above_program');
+    }
+    result.petition = petition ? { jurisdiction: petition.jurisdiction, amiPctRental: petition.ami_pct_rental } : null;
     var published = maxGrossRent(table, args.fips, tier, args.bedrooms, { useHera: false });
     if (published.unavailableReason) return blocked(published.unavailableReason);
     var rule = _ruleRent(_countyRow(table, args.fips), tier, args.bedrooms);
@@ -388,8 +408,11 @@
       result.caveats.push('CHFA publishes ' + _usd(published.grossRent) + ' for this cell, below the 30% rule (' + _usd(rule) + '); the published rent is used.');
     }
     result.caveats.push('No Prop 123 guideline names CHFA\u2019s table outright; it is used because it carries the Prop 123 tiers.');
+    if (petition) {
+      result.caveats.push(petition.jurisdiction + '\u2019s approved rural resort petition sets the limit at ' + petition.ami_pct_rental + '% AMI.');
+    }
     if (income.type === 'project_average') {
-      result.caveats.push('The program limits the project average to ' + income.max_ami_pct + '% AMI, not each unit.');
+      result.caveats.push('The program limits the project average to ' + averageMax + '% AMI, not each unit.');
     }
     return result;
   }

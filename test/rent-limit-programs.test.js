@@ -84,13 +84,39 @@ test('Prop 123 program rules come from the rules file', () => {
     else if (income.max_ami_pct == null) assert.equal(r.unavailableReason, 'prop123_limit_unconfirmed', p.id);
     else assert(r.grossRent > 0, p.id);
     if (income.per_unit_max_ami_pct != null) {
-      assert.equal(at(p.id, income.per_unit_max_ami_pct + 10).unavailableReason, 'tier_above_program', p.id);
+      assert.equal(at(p.id, income.per_unit_max_ami_pct + 10).unavailableReason,
+        income.rural_resort_petition ? 'tier_above_program_without_petition' : 'tier_above_program', p.id);
     }
     if (income.type === 'project_average') {
       assert(at(p.id, 70).grossRent > 0, `${p.id}: a unit may sit above the project average`);
       assert(r.caveats.some((c) => c.includes(`${income.max_ami_pct}% AMI`)), `${p.id}: average caveat`);
     }
   }
+});
+
+// Petitions name jurisdictions and programs; only an approved one changes a limit.
+test('approved rural resort petitions set the limit for the programs they cover', () => {
+  const at = (program, tier, petitionJurisdiction) => limits.rentCeiling({ regime: 'prop123', program, prop123Rules: rules,
+    chfaTable: chfa, fips: '08117', tier, bedrooms: '2BR', petitionJurisdiction });
+  const petitions = rules.rural_resort_petitions.petitions;
+  const approved = petitions.filter((x) => x.status === 'approved' && x.programs.includes('land_banking'));
+  assert(approved.length >= 1, 'no approved Land Banking petition: the scan checked nothing');
+  for (const x of approved) {
+    const ok = at('land_banking', x.ami_pct_rental, x.jurisdiction);
+    assert(ok.grossRent > 0, `${x.jurisdiction}: ${x.ami_pct_rental}% allowed`);
+    assert.equal(ok.petition.amiPctRental, x.ami_pct_rental);
+    assert(ok.caveats.some((c) => c.includes(x.jurisdiction)), 'petition caveat');
+    assert.equal(at('land_banking', x.ami_pct_rental + 10, x.jurisdiction).unavailableReason, 'tier_above_program');
+    if (x.programs.includes('equity')) {
+      assert(at('equity', 60, x.jurisdiction).caveats.some((c) => c.includes(`average to ${x.ami_pct_rental}% AMI`)), 'equity average follows petition');
+    }
+  }
+  for (const x of petitions.filter((y) => y.status !== 'approved' && y.programs.includes('land_banking'))) {
+    const r = at('land_banking', 70, x.jurisdiction);
+    assert.equal(r.unavailableReason, 'tier_above_program_without_petition', `${x.jurisdiction} (${x.status}) changes nothing`);
+  }
+  assert.equal(at('concessionary_debt_lihtc_gap', 60, approved[0].jurisdiction).petition, null, 'LIHTC programs take no petition');
+  assert.equal(at('land_banking', 60, 'Nowhere').unavailableReason, 'prop123_petition_unknown');
 });
 
 test('a missing program limit is unavailable, never the CHFA LIHTC rent', () => {
@@ -103,7 +129,9 @@ test('a missing program limit is unavailable, never the CHFA LIHTC rent', () => 
     [{ regime: 'prop123', prop123Rules: rules, program: 'concessionary_debt_modular' }, 'prop123_no_unit_limits'],
     [{ regime: 'prop123', prop123Rules: rules, program: 'doh_supportive_housing' }, 'prop123_limit_unconfirmed'],
     [{ regime: 'prop123', prop123Rules: rules, program: 'equity', useHera: true }, 'prop123_hera_not_allowed'],
-    [{ regime: 'prop123', prop123Rules: rules, program: 'equity', tier: 85 }, 'tier_missing']
+    [{ regime: 'prop123', prop123Rules: rules, program: 'equity', tier: 85 }, 'tier_missing'],
+    [{ regime: 'prop123', prop123Rules: rules, program: 'land_banking', tier: 70 }, 'tier_above_program_without_petition'],
+    [{ regime: 'prop123', prop123Rules: rules, program: 'land_banking', petitionJurisdiction: 'Nowhere' }, 'prop123_petition_unknown']
   ];
   for (const [extra, reason] of cases) {
     const r = limits.rentCeiling({ ...base, ...extra });
