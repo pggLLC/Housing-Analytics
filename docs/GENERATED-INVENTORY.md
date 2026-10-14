@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T09:06:04.072Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T09:59:46.229Z. Do not edit by hand.
 
 ---
 
@@ -87,7 +87,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 819.5 KB | ✅ | — |
+| `data/_manifest.json` | 820.5 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -101,8 +101,8 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 189.8 KB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 23.0 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 275.6 KB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 64.1 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
@@ -1584,7 +1584,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 212.8 KB | ✅ | — |
+| `data/manifest.json` | 213.0 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1745,7 +1745,7 @@
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
-| `data/policy_briefs.json` | 243.2 KB | ✅ | — |
+| `data/policy_briefs.json` | 374.9 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 102.5 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
@@ -1772,7 +1772,7 @@
 
 ## Test Files
 
-585 test files found.
+586 test files found.
 
 | File | Size |
 |------|------|
@@ -2196,6 +2196,7 @@
 | `test/rendered-absence-not-zero.test.js` | 4.2 KB |
 | `test/rent-ceiling-regime.test.js` | 17.9 KB |
 | `test/rent-formula-single-source.test.js` | 7.8 KB |
+| `test/rent-limit-programs.test.js` | 8.2 KB |
 | `test/rent-schedule.test.js` | 24.5 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
@@ -2444,7 +2445,7 @@
 | `.github/workflows/update-co-housing-costs.yml` | 5.4 KB |
 | `.github/workflows/upstream-vintage-watch.yml` | 8.8 KB |
 | `.github/workflows/url-health-weekly.yml` | 5.3 KB |
-| `.github/workflows/weekly_housing_brief.yml` | 9.5 KB |
+| `.github/workflows/weekly_housing_brief.yml` | 10.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 7.3 KB |
 | `.github/workflows/workflow-outcome-monitor.yml` | 6.8 KB |
 | `.github/workflows/zillow-data-sync.yml` | 19.5 KB |
