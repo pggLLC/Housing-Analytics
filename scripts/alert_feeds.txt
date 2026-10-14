@@ -1,6 +1,6 @@
 # RSS feed URLs for housing news alerts (one per line)
-# Auto-populated by configure-alerts-feeds.yml — do not edit manually
-# Last updated: by GitHub Actions on $(date -u '+%Y-%m-%d')
+# Auto-populated by weekly_housing_brief.yml — do not edit manually
+# The per-brief searches are appended by scripts/news/brief_news_feeds.py.
 
 # ── Google News: Colorado affordable housing topics ──
 https://news.google.com/rss/search?q=colorado+affordable+housing&hl=en-US&gl=US&ceid=US:en
@@ -16,3 +16,22 @@ https://www.ncsha.org/feed/
 # hudexchange.info/feed/, leg.colorado.gov/rss.xml all return
 # 404. The Google News queries above cover the same topical
 # surface.
+# ── One search per brief jurisdiction (18), from data/jurisdiction-briefs/ ──
+https://news.google.com/rss/search?q=%22Aspen%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Garfield+County%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Pitkin+County%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Buena+Vista%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Carbondale%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Colorado+Springs%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Cortez%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Crested+Butte%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Denver%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Durango%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Fort+Collins%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Fruita%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Glenwood+Springs%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Rifle%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Salida%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Silt%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Steamboat+Springs%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%22Telluride%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
