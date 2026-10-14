@@ -137,6 +137,7 @@ def fetch_url(
     timeout: int = 120,
     backoff_base: float = 5.0,
     max_backoff: float = 60.0,
+    secret_query: str = "",
 ) -> bytes:
     """Fetch a URL with retries, exponential backoff + jitter, and disk caching.
 
@@ -150,6 +151,9 @@ def fetch_url(
                   is more appropriate for rate-limited external APIs than the
                   previous 1 s default.
     max_backoff:  Upper cap on the computed wait interval (seconds).
+    secret_query: Appended to the URL for the request only (an API key).
+                  It is kept out of the cache key and the log line, so the
+                  key is never hashed into a filename or printed.
     """
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     cache_key = hashlib.md5(url.encode()).hexdigest()
@@ -170,7 +174,7 @@ def fetch_url(
     for attempt in range(retries):
         try:
             log(f"[fetch attempt {attempt + 1}/{retries}] {url[:120]}")
-            req = urllib.request.Request(url, headers={"User-Agent": "pma-build/1.0"})
+            req = urllib.request.Request(url + secret_query, headers={"User-Agent": "pma-build/1.0"})
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 status = resp.status
                 log(f"[fetch] HTTP {status} in {time.monotonic() - t_start:.1f}s")
@@ -678,15 +682,11 @@ def build_acs_metrics(centroids: dict) -> dict:
     log("\n[2/3] Fetching ACS tract metrics from Census API…")
 
     vars_str = ",".join(ACS_VARIABLES)
-    key_param = f"&key={CENSUS_API_KEY}" if CENSUS_API_KEY else ""
-    url = (
-        f"{ACS_BASE}?get={vars_str}"
-        f"&for=tract:*&in=state:{STATE_FIPS}{key_param}"
-    )
+    url = f"{ACS_BASE}?get={vars_str}&for=tract:*&in=state:{STATE_FIPS}"
 
     try:
         if CENSUS_API_KEY:
-            raw = fetch_url(url)
+            raw = fetch_url(url, secret_query=f"&key={CENSUS_API_KEY}")
             rows = json.loads(raw)
         else:
             rows = _acs_rows_from_census_reporter(ACS_VARIABLES)
