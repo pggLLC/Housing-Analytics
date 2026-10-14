@@ -18,8 +18,8 @@
   'use strict';
 
   var EXECUTIONS = [
-    ['9%', '9% LIHTC (competitive)'],
-    ['4%', '4% LIHTC with bonds'],
+    ['9%', '9% housing tax credit (competitive)'],
+    ['4%', '4% housing tax credit with bonds'],
     ['rental', 'Rental without LIHTC'],
     ['for-sale', 'For-sale homes']
   ];

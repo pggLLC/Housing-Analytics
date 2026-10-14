@@ -113,7 +113,7 @@ ok('the finder screens by deal type, project type, county, place, open rounds an
   assert.deepEqual(F.select(gf, { execution: ['9%', '4%'] }).map((r) => r.program.id).sort(), ['a', 'b', 'c', 'e'],
     'either credit keeps 9% and 4% programs and drops a rental-only one');
   assert.ok(F.select(gf, {}).some((r) => r.program.id === 'f'), 'non-vacuity: the rental-only program is otherwise listed');
-  assert.equal(F.executionLabel(['9%', '4%']), '9% LIHTC (competitive) or 4% LIHTC with bonds');
+  assert.equal(F.executionLabel(['9%', '4%']), F.executionLabel('9%') + ' or ' + F.executionLabel('4%'), 'either credit names both deal types');
   assert.deepEqual(ids({ projectType: 'acq-rehab' }).sort(), ['b', 'c'], 'an untyped program fits any project type');
   assert.deepEqual(ids({ county: '08001' }).sort(), ['a', 'b', 'e'], 'a city fund does not reach another county');
   assert.deepEqual(ids({ county: '8999' }).sort(), ['a', 'b', 'c', 'e'], 'a county code is padded to five digits');
