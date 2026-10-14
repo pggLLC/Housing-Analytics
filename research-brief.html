@@ -39,6 +39,26 @@
     .brief-reader .brief-table td:nth-child(2) { text-align: right; font-variant-numeric: tabular-nums; }
     .brief-reader .brief-table--text th, .brief-reader .brief-table--text td { text-align: left !important; width: auto !important; font-variant-numeric: normal; }
     .brief-reader .brief-note { color: var(--muted); font-size: var(--small); }
+    /* Steps diagram: a row of stages from most public to most private; stacks on phones. */
+    .brief-reader .brief-steps { margin: var(--sp4) 0; }
+    .brief-reader .brief-steps figcaption { font-weight: 700; margin-bottom: var(--sp2); }
+    .brief-reader .brief-steps ol { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); gap: var(--sp3); counter-reset: step; }
+    .brief-reader .brief-steps li { margin: 0; padding: var(--sp3); border: 1px solid var(--border); border-radius: var(--radius); border-top-width: 4px; border-top-color: color-mix(in srgb, var(--accent) 40%, var(--border)); background: var(--bg2); line-height: 1.5; }
+    .brief-reader .brief-steps li + li { margin-top: 0; }
+    /* The top edge darkens step by step from public to private. */
+    .brief-reader .brief-steps li:nth-child(1) { border-top-color: color-mix(in srgb, var(--accent) 20%, var(--border)); }
+    .brief-reader .brief-steps li:nth-child(2) { border-top-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+    .brief-reader .brief-steps li:nth-child(3) { border-top-color: color-mix(in srgb, var(--accent) 60%, var(--border)); }
+    .brief-reader .brief-steps li:nth-child(4) { border-top-color: color-mix(in srgb, var(--accent) 80%, var(--border)); }
+    .brief-reader .brief-steps li:nth-child(n+5) { border-top-color: var(--accent); }
+    .brief-reader .brief-step-level { display: block; font-size: var(--small); color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .brief-reader .brief-step-label { display: block; font-weight: 700; margin: var(--sp1) 0; }
+    .brief-reader .brief-steps-ends { display: flex; justify-content: space-between; font-size: var(--small); color: var(--muted); margin-top: var(--sp2); }
+    /* On a phone the steps stack in order, one per row, and each card's level line carries the scale. */
+    @media (max-width: 40rem) {
+      .brief-reader .brief-steps ol { grid-template-columns: 1fr; gap: var(--sp2); }
+      .brief-reader .brief-steps-ends { display: none; }
+    }
     .brief-reader .brief-definition { display: block; font-size: var(--small); font-weight: 400; color: var(--muted); margin-top: var(--sp1); }
     .brief-reader .brief-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp3); margin-top: var(--sp4); }
     .brief-reader .brief-actions a, .brief-reader button { min-height: 44px; display: inline-flex; align-items: center; }
@@ -244,6 +264,40 @@
               });
             });
           }
+          // A steps diagram: an ordered row of stages (label, level, text), drawn as text so it
+          // reads in order without the picture, prints, and needs no colors from the feed.
+          var steps = item.steps;
+          if (steps && Array.isArray(steps.items) && steps.items.length) {
+            var figure = el('figure', undefined, node, 'brief-steps');
+            figure.dataset.steps = item.id;
+            if (steps.caption) el('figcaption', steps.caption, figure);
+            var ol = el('ol', undefined, figure);
+            steps.items.forEach(function (step) {
+              if (!step || typeof step.label !== 'string') return;
+              var li = el('li', undefined, ol);
+              // Spaces between the parts keep the words apart for screen readers, copy and search.
+              if (step.level) { el('span', step.level, li, 'brief-step-level'); li.appendChild(document.createTextNode(' ')); }
+              el('span', step.label, li, 'brief-step-label');
+              if (step.text) { li.appendChild(document.createTextNode(' ')); el('span', step.text, li); }
+            });
+            var ends = el('p', undefined, figure, 'brief-steps-ends');
+            ends.setAttribute('aria-hidden', 'true');
+            el('span', 'More public', ends);
+            ends.appendChild(document.createTextNode(' '));
+            el('span', 'More private', ends);
+          }
+          // A pointer to another page on this site. Only same-site pages are linked.
+          var see = item.see_also;
+          if (see && typeof see.text === 'string' && typeof see.href === 'string') {
+            var target = safeUrl(see.href);
+            var p = el('p', undefined, node, 'brief-note');
+            if (target && target.origin === window.location.origin) {
+              var a = el('a', see.text, p);
+              a.href = target.href;
+            } else {
+              p.textContent = see.text;
+            }
+          }
           if (item.note) el('p', item.note, node, 'brief-note');
         });
       }
@@ -287,6 +341,11 @@
         }
         host.hidden = false;
         printButton.hidden = false;
+        // Sections arrive after the page loads, so a link to one (#brief-section-...) has to be followed here.
+        if (/^#brief-section-[\w-]+$/.test(window.location.hash)) {
+          var anchor = document.getElementById(window.location.hash.slice(1));
+          if (anchor && anchor.scrollIntoView) anchor.scrollIntoView();
+        }
         status.textContent = 'Research brief loaded.';
         status.className = 'sr-only';
       }
