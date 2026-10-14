@@ -157,16 +157,12 @@ jobs:
           # private/ has been .gitignore'd since the Apr 19 security commit,
           # so the add was a no-op anyway, but leaving it implied this
           # workflow still ships a private brief. It doesn't.
-          npm run -s audit:file-manifest
-          python3 scripts/rebuild_manifest.py
           node scripts/validate-schemas.js
           git add scripts/alert_feeds.txt
           git add data/alerts/alerts_archive.json
           git add data/policy_briefs.json
           git add data/policy/housing-events.json
           git add data/alerts/brief-news-queue.json
-          git add data/_manifest.json
-          git add data/manifest.json
           git add robots.txt || true
 
           if git diff --cached --quiet; then
@@ -174,21 +170,33 @@ jobs:
             echo "PUSHED=false" >> "$GITHUB_ENV"
           else
             git commit -m "chore: daily housing news refresh $(date -u '+%Y-%m-%d')"
-            # F161 — Rebase onto whatever's currently at origin/main before
-            # pushing. The job runs for ~40s between checkout and push, and
-            # other workflows (data-refresh cron, sync-data-mtimes, etc.)
-            # frequently land on main in that window — without --rebase the
-            # push fails with "remote contains work that you do not have".
-            # --autostash handles the case where the working tree picked up
-            # any unstaged transients from the network fetches.
-            git pull --rebase --autostash origin main
-            npm run -s audit:file-manifest
-            python3 scripts/rebuild_manifest.py
-            if ! git diff --quiet -- data/_manifest.json data/manifest.json; then
+            # The two manifests are not in that commit while it is rebased.
+            # They record every data file's bytes, so nearly every commit to
+            # main changes them (the post-merge archive job always does), and a
+            # news commit carrying them conflicts on rebase: the first run after
+            # #2215 failed that way. So the news-only commit is rebased (F161:
+            # other workflows land on main while this job runs), the manifests
+            # are rebuilt and validated on the rebased tree and amended into
+            # it, and the one commit is pushed. If main moved again, the commit
+            # goes back to news-only and round again.
+            pushed=false
+            for attempt in 1 2 3; do
+              git pull --rebase --autostash origin main
+              news_only=$(git rev-parse HEAD)
+              npm run -s audit:file-manifest
+              python3 scripts/rebuild_manifest.py
+              node scripts/validate-schemas.js
               git add data/_manifest.json data/manifest.json
               git commit --amend --no-edit
+              if git push; then pushed=true; break; fi
+              echo "Push rejected on attempt $attempt: main moved. Retrying."
+              git reset --hard "$news_only"
+              sleep $((attempt * 10))
+            done
+            if [ "$pushed" != true ]; then
+              echo "::error::main kept moving; the news refresh was not pushed after 3 attempts." >&2
+              exit 1
             fi
-            git push
             echo "PUSHED=true" >> "$GITHUB_ENV"
           fi
 
