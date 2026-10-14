@@ -21,7 +21,7 @@ import test from 'node:test';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
-import { issueBody, MARKER } from '../scripts/news/update-brief-review-issue.mjs';
+import { issueBody, MARKER, md } from '../scripts/news/update-brief-review-issue.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -191,7 +191,7 @@ test('the review issue lists each brief with news, with its reasons and headline
   const withNews = q.briefs.filter((b) => b.stories.length);
   assert.ok(withNews.length > 0, 'the committed queue has no brief with news to check');
   for (const b of withNews) {
-    const section = body.split('\n### ').find((s) => s.includes(b.jurisdiction.replace(/[[\]|*_`<>]/g, '\\$&')));
+    const section = body.split('\n### ').find((s) => s.includes(md(b.jurisdiction)));
     assert.ok(section, `${b.jurisdiction} has news but no section`);
     assert.ok(section.includes(b.reasons.join('; ')), `${b.jurisdiction}'s reasons are missing`);
   }

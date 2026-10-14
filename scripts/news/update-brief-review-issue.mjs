@@ -23,7 +23,7 @@ const SITE = 'https://cohoanalytics.com/developer-brief.html?geoid=';
 const STORIES_SHOWN = 8;
 const MATCH = { place: '', in_county: ' (a town in the county)', county: ' (its county)' };
 
-const md = (s) => String(s == null ? '' : s).replace(/([\\[\]|*_`<>])/g, '\\$1');
+export const md = (s) => String(s == null ? '' : s).replace(/([\\[\]|*_`<>])/g, '\\$1');
 
 function storyLine(s) {
   const head = s.link ? `[${md(s.title)}](${s.link})` : md(s.title);
