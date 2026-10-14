@@ -48,6 +48,11 @@
     .brief-reader .brief-step-level { display: block; font-size: var(--small); color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
     .brief-reader .brief-step-label { display: block; font-weight: 700; margin: var(--sp1) 0; }
     .brief-reader .brief-steps-ends { display: flex; justify-content: space-between; font-size: var(--small); color: var(--muted); margin-top: var(--sp2); }
+    /* On a phone the steps stack in order, one per row, and each card's level line carries the scale. */
+    @media (max-width: 40rem) {
+      .brief-reader .brief-steps ol { grid-template-columns: 1fr; gap: var(--sp2); }
+      .brief-reader .brief-steps-ends { display: none; }
+    }
     .brief-reader .brief-definition { display: block; font-size: var(--small); font-weight: 400; color: var(--muted); margin-top: var(--sp1); }
     .brief-reader .brief-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp3); margin-top: var(--sp4); }
     .brief-reader .brief-actions a, .brief-reader button { min-height: 44px; display: inline-flex; align-items: center; }
