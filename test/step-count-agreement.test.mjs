@@ -14,7 +14,8 @@
  * This test asserts agreement with it, not any particular wording:
  *   1. every "Step N" in the menu names the page the rail puts at step N;
  *   2. any "<count>-step workflow / guided path" claim equals the rail length;
- *   3. the Pipeline is described in stages, so nothing calls it "N-step".
+ *   3. the Pipeline is described in stages, so nothing calls it "N-step";
+ *   4. the Pipeline page's own headings and labels say Stage, not Step.
  */
 
 import assert from 'node:assert';
@@ -75,5 +76,24 @@ for (const f of files) {
 }
 assert.ok(claims > 0, 'scan found no step-count claims at all; the pattern has stopped matching');
 assert.deepStrictEqual(bad, [], 'step counts disagree with the rail:\n  ' + bad.join('\n  '));
+
+// ── 4. The Pipeline's own labels use stages ───────────────────────────────
+// The menu and banners call the Pipeline "eight stages", so the page itself
+// must too: a "Step 3" heading there would read as the rail's step 3.
+const pipelineSources = {
+  'js/pipeline.js': read('js/pipeline.js').replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, ''),
+  'data/pipeline/content.json': read('data/pipeline/content.json'),
+  'pipeline.html': read('pipeline.html').replace(/<!--[\s\S]*?-->/g, ''),
+};
+const stageLabels = [];
+for (const [f, src] of Object.entries(pipelineSources)) {
+  for (const m of src.matchAll(/'Step ' \+|\bSteps? [1-8]\b|Pipeline steps|\b(\d|eight)-step\b/g)) {
+    bad.push(`${f}: "${m[0]}" (Pipeline parts are stages)`);
+  }
+  for (const m of src.matchAll(/'Stage ' \+|\bStage [1-8]\b|Pipeline stages/g)) stageLabels.push(m[0]);
+}
+assert.ok(stageLabels.includes("'Stage ' +"), 'js/pipeline.js no longer builds "Stage N" headings; the scan below would be vacuous');
+assert.ok(stageLabels.includes('Pipeline stages'), 'content.json no longer labels the stat "Pipeline stages"');
+assert.deepStrictEqual(bad, [], 'Pipeline labels say steps:\n  ' + bad.join('\n  '));
 
 console.log(`step-count-agreement: ${navSteps.length} menu labels and ${claims} count claims agree with the ${N}-step rail`);

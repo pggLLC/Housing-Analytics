@@ -170,7 +170,7 @@
       ],
       "why_it_matters": "Affordable housing partnerships work when developers and funders show up at the right time. The four-tier lens helps direct attention toward communities where a project can close together in the current funding cycle, while staying patient and available for communities where the partnership shape is still preparatory. A community in the long-horizon tier today can become an active partnership after a comprehensive plan update — and the readiness lens makes that easier to see in advance.",
       "data_sources": [
-        {"label": "Synthesis of Steps 1-3", "vintage": "—", "what": "AMI gap magnitude, ACS context, CHFA inventory, civic-capacity scorecard, local verification notes"}
+        {"label": "Synthesis of Stages 1-3", "vintage": "—", "what": "AMI gap magnitude, ACS context, CHFA inventory, civic-capacity scorecard, local verification notes"}
       ],
       "confidence": "medium-public",
       "confidence_note": "Inputs are high-confidence; the synthesis is a judgment call. Reclassification typically happens quarterly, with reasons for any movement between buckets documented so others can read and challenge the call.",
@@ -314,7 +314,7 @@
       "n": 8,
       "title": "Next Action",
       "summary": "Force the analysis to end in a single named, dated next move — not in 'more analysis.'",
-      "what_this_means": "Every jurisdiction-site pairing that completes Steps 1-7 ends with a single named next action — a concrete, dated, public step that moves the project forward.",
+      "what_this_means": "Every jurisdiction-site pairing that completes Stages 1-7 ends with a single named next action — a concrete, dated, public step that moves the project forward.",
       "examples": [
         "Schedule a pre-application meeting with the jurisdiction's planning department",
         "Commission a market study",
@@ -324,7 +324,7 @@
       ],
       "why_it_matters": "An analysis that ends in 'more analysis' does not produce housing. Forcing the methodology to terminate in a named action keeps the pipeline accountable to the goal — units in service for households at 30-80% AMI — rather than to its own internal completeness.",
       "data_sources": [
-        {"label": "Reads from Steps 3, 5, and 6", "vintage": "—", "what": "Procedural rather than data-driven"}
+        {"label": "Reads from Stages 3, 5, and 6", "vintage": "—", "what": "Procedural rather than data-driven"}
       ],
       "confidence": "high",
       "confidence_note": "High when the prior steps have been completed cleanly. Low when any prior step has been skipped — in which case the next action is to return to the skipped step rather than to advance.",
