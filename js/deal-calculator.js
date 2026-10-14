@@ -3656,7 +3656,8 @@
       return (n * 100).toFixed(1) + '%';
     }
     function vacFrac() { return result.vacancyRate; }
-    function numeric(value) { return value == null ? NaN : value; }
+    // Numbers only: several of these are written into the page as HTML.
+    function numeric(value) { return value == null ? NaN : Number(value); }
     var tdc = numeric(result.tdc);
     var units = numeric(result.units);
     var totalGrant = numeric(result.totalGrant);
@@ -5806,6 +5807,7 @@
   function _initCapitalEventWaterfall() {
     function _fmtMoney(n) {
       if (n == null || !isFinite(n)) return 'Unavailable';
+      n = Number(n);  // a number from here on; the tables are written as HTML
       if (n === 0) return '$0';
       var abs = Math.abs(n);
       var s = abs >= 1e6 ? (n / 1e6).toFixed(2) + 'M' :
@@ -5874,7 +5876,7 @@
         '<td style="padding:3px 6px;text-align:right;color:var(--text);">' + _fmtMoney(cumGp) + '</td>' +
         '</tr>';
       wf.annual.forEach(function (row) {
-        var y = row.year, lpY = row.lp, gpY = row.gp;
+        var y = Number(row.year), lpY = row.lp, gpY = row.gp;
         cumLp = row.cumLp; cumGp = row.cumGp;
         var isExit = (y === n);
         rows += '<tr' + (isExit ? ' style="background:var(--accent-dim);font-weight:600;"' : '') + '>' +
