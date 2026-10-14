@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-14T13:04:52.020385Z",
+  "generated": "2026-10-14T13:59:58.203614Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 840155
+      "bytes": 841228
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7435,6 +7435,16 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 19534
+    },
+    "data/jurisdiction-briefs/_lihtc-applications-excluded.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 465
+    },
+    "data/jurisdiction-briefs/_lihtc-applications.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 418406
     },
     "data/jurisdiction-briefs/_liveness.json": {
       "featureCount": 0,
