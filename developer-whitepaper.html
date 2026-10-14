@@ -66,7 +66,12 @@
   'use strict';
   var WP = window.JurisdictionWhitepaper;
   var $ = function (id) { return document.getElementById(id); };
-  var sources = null, html = null, current = null;
+  var sources = null, html = null, current = null, isSensitive = null;
+  // The same guard the CLI and the public build use. Without it the page refuses to
+  // build, rather than risk printing text that must stay private.
+  var guardReady = import('./scripts/lib/public-sensitive-patterns.mjs')
+    .then(function (mod) { isSensitive = mod.isSensitive; })
+    .catch(function () { isSensitive = null; });
 
   function getJson(path, optional) {
     return fetch(path, { cache: 'no-cache' }).then(function (r) {
@@ -94,10 +99,18 @@
       getJson(WP.contactsPath(row.geoid), true),
       getJson('data/hna/local-resources.json', true)
     ]).then(function (extra) {
+      if (typeof isSensitive !== 'function') throw new Error('the private-text check (scripts/lib/public-sensitive-patterns.mjs) did not load, so nothing was built');
       var model = WP.buildModel(sources, row.geoid, {
-        FundingFit: window.FundingFit, brief: extra[0], contacts: extra[1], localResources: extra[2]
+        FundingFit: window.FundingFit, brief: extra[0], contacts: extra[1], localResources: extra[2], isSensitive: isSensitive
       });
       html = WP.renderHtml(model);
+      if (!model.error && isSensitive(html)) {
+        html = null; current = null;
+        $('wpFrame').srcdoc = '';
+        $('wpPdf').disabled = $('wpDownload').disabled = true;
+        $('wpStatus').textContent = 'Not built: the white paper for ' + row.name + ' still contains text that must stay private.';
+        return;
+      }
       current = model;
       $('wpFrame').srcdoc = html;
       $('wpPdf').disabled = $('wpDownload').disabled = !!model.error;
@@ -120,7 +133,7 @@
     document.body.appendChild(a); a.click(); a.remove();
   });
 
-  loadSources().then(function (s) {
+  Promise.all([loadSources(), guardReady]).then(function (r) { return r[0]; }).then(function (s) {
     sources = s;
     var names = {};
     s.rankingIndex.rankings.forEach(function (r) { if (r.type === 'county') names[r.geoid] = r.name; });

@@ -95,6 +95,18 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   ok(WP.buildModel(s, '0833640', { FundingFit }).need.gap30 === 0, 'a measured zero gap stays zero');
 }
 
+// ---- 3b. AMI gaps are cumulative thresholds (build_place_ami_gap.py), never summed.
+{
+  const row = src.rankingIndex.rankings.find((r) => r.geoid === '0833640');
+  const [g30, g50, g60] = ['ami_gap_30pct', 'ami_gap_50pct', 'ami_gap_60pct'].map((k) => row.metrics[k]);
+  const html = WP.renderHtml(WP.buildModel(src, '0833640', { FundingFit }));
+  ok(html.includes('<td>At or below 60% AMI</td><td class="n">' + fmt(g60) + '</td>'), 'the 60% row shows the cumulative 60% value');
+  ok(!html.includes(fmt(g30 + g50 + g60) + ' rental homes'), 'the three thresholds are never added');
+  const s = clone(src);
+  Object.assign(s.rankingIndex.rankings.find((r) => r.geoid === '0833640').metrics, { ami_gap_30pct: 100, ami_gap_50pct: 150, ami_gap_60pct: 200, pct_burdened_lte30: 50 });
+  ok(WP.renderHtml(WP.buildModel(s, '0833640', { FundingFit })).includes('<td>At or below 60% AMI</td><td class="n">200</td>'), 'sabotage: the row follows the data');
+}
+
 // ---- 4. The owner's project and guarded text never reach the paper.
 {
   const s = clone(src);
@@ -128,6 +140,13 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
     const m = WP.buildModel(src, c.geoid, { FundingFit, contacts: c });
     ok(m.contacts.researched.length === c.contacts.length, `${f}: every contact reaches the paper`);
   }
+  // Curated brief sources: search links never print, here or in any brief.
+  for (const f of readdirSync(join(ROOT, 'data/jurisdiction-briefs')).filter((n) => /^\d+\.json$/.test(n))) {
+    const brief = JSON.parse(readFileSync(join(ROOT, 'data/jurisdiction-briefs', f), 'utf8'));
+    const out = WP.renderHtml(WP.buildModel(src, brief.geoid, { FundingFit, brief, isSensitive }));
+    assert.ok(!/google\.[a-z.]+\/search/.test(out), `${f}: a search link reached the white paper`);
+  }
+  ok((read('data/jurisdiction-briefs/0803620.json').match(/google\.[a-z.]+\/search/g) || []).length > 0, 'non-vacuity: a brief with search links exists');
   const lr = JSON.parse(read('data/hna/local-resources.json'));
   const m = WP.buildModel(src, '0833640', { FundingFit, localResources: lr });
   const html = WP.renderHtml(m);
@@ -148,6 +167,8 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   const i = (s) => page.indexOf(s);
   ok(i('js/developer-gate.js') > -1 && i('js/developer-gate.js') < i('js/whitepaper/jurisdiction-whitepaper.js'), 'the gate loads before the generator');
   ok(i('js/funding-fit.js') > -1 && i('js/funding-fit.js') < i('JurisdictionWhitepaper;'), 'the matcher loads before the page script');
+  ok(/isSensitive: isSensitive/.test(page) && /isSensitive\(html\)/.test(page), 'the page passes the guard to buildModel and checks the finished HTML');
+  ok(/did not load, so nothing was built/.test(page), 'the page refuses to build without the guard');
   for (const k of Object.keys(WP.SOURCE_FILES)) {
     if (!WP.isOptional(k)) ok(existsSync(join(ROOT, WP.sourcePath(k))), `${WP.sourcePath(k)} exists`);
   }

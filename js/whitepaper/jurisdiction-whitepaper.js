@@ -123,9 +123,7 @@
     var zeros = num(m.ami_gap_30pct) === 0 && num(m.ami_gap_50pct) === 0 && num(m.ami_gap_60pct) === 0;
     return !(zeros && num(m.pct_burdened_lte30) === null);
   }
-  function gapTotal(n) {
-    return n.gap30 === null || n.gap50 === null || n.gap60 === null ? null : n.gap30 + n.gap50 + n.gap60;
-  }
+  function gapsKnown(n) { return n.gap30 !== null && n.gap50 !== null && n.gap60 !== null; }
 
   function needSection(row, src) {
     var m = (row && row.metrics) || {};
@@ -160,7 +158,10 @@
       vacancyPct: num(m.active_market_vacancy_rate_pct),
       costBurdenedPct: num(m.pct_cost_burdened),
       severeBurdenedPct: num(m.pct_renter_severe_burdened),
-      // Incremental bands (build_ranking_index.py: 31–50% is "additional beyond 30%").
+      // Each is cumulative: renter households at or below the threshold minus rental
+      // homes priced for them (scripts/hna/build_place_ami_gap.py), floored at 0.
+      // They are not bands and do not add: cheaper homes count toward every
+      // higher threshold, so the 60% figure can be lower than the 30% one.
       // Its no-data fallback writes 0 to all three with no band burden, which is unknown, not zero.
       gap30: gapsMeasured(m) ? num(m.ami_gap_30pct) : null,
       gap50: gapsMeasured(m) ? num(m.ami_gap_50pct) : null,
@@ -302,17 +303,14 @@
     }
 
     var mix = null;
-    var total = gapTotal(need);
-    if (total !== null) {
-      mix = { deep: need.gap30, mid: need.gap50, top: need.gap60, total: total };
-      if (total === 0) {
+    if (gapsKnown(need)) {
+      mix = { le30: need.gap30, le50: need.gap50, le60: need.gap60 };
+      if (need.gap30 === 0 && need.gap50 === 0 && need.gap60 === 0) {
         notes.push('No rental shortfall is measured at or below 60% AMI. A tax-credit deal here has to rest on other evidence (waiting lists, a market study, commuters), and CHFA will ask for it.');
-      } else if (need.gap30 / total >= 0.75) {
-        notes.push(fmtPct(need.gap30 / total * 100, 0) + ' of the shortfall is at or below 30% AMI. Weight the mix to 30–40% AMI units; under income averaging, some higher units keep the average at or below 60%. Plan rental subsidy (project-based vouchers) for the 30% units.');
-      } else if ((need.gap30 + need.gap50) / total >= 0.75) {
-        notes.push('Most of the shortfall is at or below 50% AMI. A mix weighted to 30–50% AMI answers the measured need.');
+      } else if (need.gap30 > 0 && need.gap60 < need.gap30) {
+        notes.push('The shortfall is deepest at the bottom: ' + fmtInt(need.gap30) + ' homes short at or below 30% AMI against ' + fmtInt(need.gap60) + ' at or below 60%. Weight the mix to 30–40% AMI units; under income averaging, some higher units keep the average at or below 60%. Plan rental subsidy (project-based vouchers) for the 30% units.');
       } else {
-        notes.push('The shortfall runs up to 60% AMI, so a conventional 30–60% AMI mix fits the measured need.');
+        notes.push('The shortfall reaches 60% AMI (' + fmtInt(need.gap60) + ' homes at or below 60%, ' + fmtInt(need.gap30) + ' of the need at or below 30%), so a 30–60% AMI mix fits the measured need.');
       }
     }
 
@@ -417,7 +415,10 @@
         sections: (brief.sections || []).map(function (s) {
           return { heading: s.heading, paragraphs: (s.paragraphs || []).map(function (p) { return p.text; }).filter(keep) };
         }).filter(function (s) { return s.paragraphs.length; }),
-        sources: (brief.sources || []).map(function (s) { return { id: s.id, title: s.title || s.label || s.publisher || s.url, url: safeHref(s.url) }; })
+        sources: (brief.sources || []).map(function (s) {
+          var u = safeHref(s.url);
+          return { id: s.id, title: s.title || s.label || s.publisher || (isSearchLink(u) ? null : s.url), url: isSearchLink(u) ? null : u };
+        })
           .filter(function (s) { return keep(JSON.stringify(s)); }),
         summary: brief.summary && keep(brief.summary) ? brief.summary : null,
         dropped: dropped
@@ -451,8 +452,7 @@
   function renderSummary(m) {
     var n = m.need, d = m.deal, p = m.prop123.record;
     var items = [];
-    var total = gapTotal(n);
-    items.push('<li><strong>Need:</strong> ' + (total !== null ? fmtInt(total) + ' rental homes short at or below 60% AMI, ' + fmtInt(n.gap30) + ' of them at or below 30%' : 'rental shortfall not available') + '. ' +
+    items.push('<li><strong>Need:</strong> ' + (gapsKnown(n) ? fmtInt(n.gap30) + ' rental homes short for renters at or below 30% AMI; ' + fmtInt(n.gap60) + ' at or below 60%' : 'rental shortfall not available') + '. ' +
       (n.costBurdenedPct !== null ? fmtPct(n.costBurdenedPct) + ' of renters are cost-burdened.' : '') + '</li>');
     items.push('<li><strong>Tax-credit history:</strong> ' + m.lihtc.properties.length + ' CHFA tax-credit ' + (m.lihtc.properties.length === 1 ? 'property' : 'properties') +
       (m.lihtc.latestAwardYear !== null ? '; latest award ' + m.lihtc.latestAwardYear : '') +
@@ -474,7 +474,7 @@
       row2('Rental vacancy (active market)', fmtPct(n.vacancyPct)) +
       row2('Renters cost-burdened (30%+ of income)', fmtPct(n.costBurdenedPct)) +
       row2('Renters severely burdened (50%+)', fmtPct(n.severeBurdenedPct)) +
-      row2('Rental homes short: 30% AMI or less / 31–50% / 51–60%', fmtInt(n.gap30) + ' / ' + fmtInt(n.gap50) + ' / ' + fmtInt(n.gap60)) +
+      row2('Rental homes short at or below 30% / 50% / 60% AMI (each counts everyone below it)', fmtInt(n.gap30) + ' / ' + fmtInt(n.gap50) + ' / ' + fmtInt(n.gap60)) +
       row2('Low-wage local jobs; workers commuting in', fmtInt(n.lowWageJobs) + '; ' + fmtInt(n.inCommuters)) +
       row2('Homes needed over 20 years', fmtInt(n.need20yr)) +
       row2('Overall need score (0–100); statewide percentile', (n.overallNeedScore === null ? NA : n.overallNeedScore.toFixed(1)) + '; ' + (n.percentileRank === null ? NA : 'p' + Math.round(n.percentileRank))) +
@@ -594,11 +594,10 @@
     var h = '<h2 id="deal">7. Ideal deal shape</h2><p><strong>Credit route:</strong> ' + esc(d.route) + '</p>';
     if (d.mix) {
       h += '<table><thead><tr><th>Income band</th><th>Rental homes short</th></tr></thead><tbody>' +
-        '<tr><td>30% AMI or less</td><td class="n">' + fmtInt(d.mix.deep) + '</td></tr>' +
-        '<tr><td>31–50% AMI</td><td class="n">' + fmtInt(d.mix.mid) + '</td></tr>' +
-        '<tr><td>51–60% AMI</td><td class="n">' + fmtInt(d.mix.top) + '</td></tr>' +
-        '<tr><th scope="row">Total at or below 60% AMI</th><td class="n">' + fmtInt(d.mix.total) + '</td></tr></tbody></table>' +
-        '<p class="wp-meta">Renter households in each band minus the rental homes they can afford, after higher bands take some of the cheaper homes. A minimum: it does not count homes too costly for the band they serve.</p>';
+        '<tr><td>At or below 30% AMI</td><td class="n">' + fmtInt(d.mix.le30) + '</td></tr>' +
+        '<tr><td>At or below 50% AMI</td><td class="n">' + fmtInt(d.mix.le50) + '</td></tr>' +
+        '<tr><td>At or below 60% AMI</td><td class="n">' + fmtInt(d.mix.le60) + '</td></tr></tbody></table>' +
+        '<p class="wp-meta">Each row is renter households at or below that income minus the rental homes priced for them, so the rows overlap and do not add up. A lower 60% figure means the cheaper homes are missing, not the 60% ones. A minimum: a home priced for a band may be rented by a higher-income household.</p>';
     }
     h += '<ul>' + d.notes.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>';
     h += '<p class="wp-note">This is the deal\'s shape from the data, not a pro forma. Size the dollars in the ' +
