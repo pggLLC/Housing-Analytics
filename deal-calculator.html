@@ -228,20 +228,40 @@
         var mount = document.getElementById('dcRentTriangulationMount');
         if (!mount) return;
         var placeGeoid = null, placeName = null, countyFips = null, countyName = null;
-        try {
-          var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
-                     window.WorkflowState.getActiveProject();
-          var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-          if (jx) {
-            if (jx.type === 'city' && jx.placeGeoid) {
-              placeGeoid = jx.placeGeoid;
-              placeName  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim();
+        // A shared link (?geoid=) names the place being analysed without
+        // writing it into the visitor's project, so it outranks the saved
+        // project: mixing a saved place's rents with the linked county's FMR
+        // would be a silent mixed-geography card. A linked place takes its
+        // name and county from its own ACS record inside the component.
+        var linked = new URLSearchParams(window.location.search).get('geoid') || '';
+        var linkedPlace = /^08\d{5}$/.test(linked);
+        var linkedCounty = /^08\d{3}$/.test(linked);
+        if (linkedPlace) placeGeoid = linked;
+        else if (linkedCounty) countyFips = linked.slice(-3);
+        if (!linkedPlace && !linkedCounty) {
+          try {
+            var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                       window.WorkflowState.getActiveProject();
+            var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+            if (jx) {
+              if (jx.type === 'city' && jx.placeGeoid) {
+                placeGeoid = jx.placeGeoid;
+                placeName  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim();
+              }
+              if (jx.fips || jx.containingCounty) countyFips = String(jx.fips || jx.containingCounty).slice(-3);
+              if (jx.countyName || jx.name) countyName = jx.countyName || jx.name;
             }
-            if (jx.fips || jx.containingCounty) countyFips = String(jx.fips || jx.containingCounty).slice(-3);
-            if (jx.countyName || jx.name) countyName = jx.countyName || jx.name;
-          }
-        } catch (_) {}
-        if (!countyFips) {
+          } catch (_) {}
+        }
+        // Without a link or a project, the calculator's own county selector
+        // holds the county it is pricing; it outranks the site-wide county.
+        var sel = document.getElementById('dc-county-select');
+        if (!countyFips && !linkedPlace && sel && /^08\d{3}$/.test(sel.value)) {
+          countyFips = sel.value.slice(-3);
+          var opt = sel.options[sel.selectedIndex];
+          if (opt && !countyName) countyName = opt.textContent.split(' — ')[0].trim();
+        }
+        if (!countyFips && !linkedPlace) {
           try {
             var sc = window.SiteState && window.SiteState.getCounty && window.SiteState.getCounty();
             if (sc && sc.fips) countyFips = String(sc.fips).slice(-3);
@@ -251,6 +271,9 @@
         window.RentTriangulation.attach(mount, { placeGeoid: placeGeoid, placeName: placeName, countyFips: countyFips, countyName: countyName });
       }
       _hydrateDcRent();
+      document.addEventListener('change', function (e) {
+        if (e.target && e.target.id === 'dc-county-select') _hydrateDcRent();
+      });
       document.addEventListener('workflow:step-updated', _hydrateDcRent);
       document.addEventListener('sitestate:county-changed', _hydrateDcRent);
       document.addEventListener('jurisdiction-changed', _hydrateDcRent);
