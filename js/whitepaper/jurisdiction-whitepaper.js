@@ -527,7 +527,7 @@
     if (L.applicationsMissing) {
       h += '<p class="wp-note">The list of everyone who applied for credits here (funded or not) is not in this copy of the data yet.</p>';
     } else if (L.applications.length) {
-      var OUT = { awarded: 'Awarded', not_awarded: 'Not funded that round', pending: 'Decision pending', in_review: 'Under review', loi: 'Letter of intent', unclear: 'Unclear', unresolved: 'Unresolved' };
+      var OUT = { awarded: 'Awarded', not_awarded: 'Not funded that round', pending: 'Decision pending', in_review: 'Under review', letter_of_intent: 'Letter of intent only', unclear: 'Unclear', unresolved: 'Unresolved' };
       h += '<h3>Who has applied (CHFA applicant reports)</h3><div class="wp-scroll"><table><thead><tr><th>Round</th><th>Project</th><th>Sponsor</th><th>Credit</th><th>Units</th><th>Outcome</th></tr></thead><tbody>' +
         L.applications.map(function (a) {
           return '<tr><td>' + esc(a.round_label || a.year) + '</td><td>' + link(a.name || 'Name withheld', a.source_url) + '</td><td>' + esc(a.sponsor || '') + '</td><td>' + esc(a.credit_type || '') + '</td><td class="n">' + fmtInt(a.total_units) + '</td><td>' + esc(OUT[a.outcome] || a.outcome || '') + '</td></tr>';
