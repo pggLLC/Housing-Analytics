@@ -107,6 +107,13 @@ ok('the finder screens by deal type, project type, county, place, open rounds an
   assert.deepEqual(ids({ includeSupport: true }).sort(), ['a', 'b', 'c', 'd', 'e']);
   assert.deepEqual(ids({ execution: '9%' }), ['a', 'e', 'b'], 'open or scheduled first, then unknown, then closed');
   assert.deepEqual(ids({ execution: '4%', openOnly: true }), ['c'], 'closed and watch drop out of open-only');
+  // "Either credit" is the union of 9% and 4%, never "no deal-type filter".
+  const f = { id: 'f', status: 'open', fit: { role: 'capital', execution: ['rental', 'for-sale'], project_types: [], geography: { scope: 'statewide' } } };
+  const gf = { programs: g.programs.concat([f]) };
+  assert.deepEqual(F.select(gf, { execution: ['9%', '4%'] }).map((r) => r.program.id).sort(), ['a', 'b', 'c', 'e'],
+    'either credit keeps 9% and 4% programs and drops a rental-only one');
+  assert.ok(F.select(gf, {}).some((r) => r.program.id === 'f'), 'non-vacuity: the rental-only program is otherwise listed');
+  assert.equal(F.executionLabel(['9%', '4%']), '9% LIHTC (competitive) or 4% LIHTC with bonds');
   assert.deepEqual(ids({ projectType: 'acq-rehab' }).sort(), ['b', 'c'], 'an untyped program fits any project type');
   assert.deepEqual(ids({ county: '08001' }).sort(), ['a', 'b', 'e'], 'a city fund does not reach another county');
   assert.deepEqual(ids({ county: '8999' }).sort(), ['a', 'b', 'c', 'e'], 'a county code is padded to five digits');
@@ -125,6 +132,11 @@ ok('finder URLs round-trip and reject anything outside the vocabulary', () => {
   assert.match(url, /^colorado-deep-dive\.html\?.+#tab-funding$/);
   assert.deepEqual(F.parseQuery(url.slice(url.indexOf('?'), url.indexOf('#'))), q);
   assert.deepEqual(F.parseQuery('?exec=12%25&type=castle&county=abc&open=yes&program=%3Cx%3E'), {});
+  assert.deepEqual(F.parseQuery('?exec=%&county=08077'), { county: '08077' }, 'a malformed escape drops only that parameter');
+  const sq = { includeSupport: true, openOnly: true };
+  const surl = F.guideUrl(sq);
+  assert.deepEqual(F.parseQuery(surl.slice(surl.indexOf('?'), surl.indexOf('#'))), sq, 'the non-capital option survives a reload');
+  assert.doesNotMatch(F.guideUrl({ execution: ['9%', '4%'] }), /exec=/, 'a list of deal types is not written as one');
   assert.equal(F.guideUrl({}), 'colorado-deep-dive.html#tab-funding');
 });
 
