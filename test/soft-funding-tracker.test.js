@@ -56,8 +56,15 @@ function futureDate(daysFromNow) {
   return d.toISOString().slice(0, 10);
 }
 
+// Every INVENTED fixture program is confirmed ('active') unless a test says
+// otherwise: only confirmed programs are eligible sources.
+function confirmed(f) {
+  for (const p of Object.values(f.programs)) if (!p.status) p.status = 'active';
+  return f;
+}
+
 function FIXTURE() {
-  return {
+  return confirmed({
     lastUpdated: '2026-04-15',
     programs: {
       'CHFA-HTF': {
@@ -104,7 +111,7 @@ function FIXTURE() {
         eligibleExecution: ['9%'],
       },
     },
-  };
+  });
 }
 
 // Fixture variant that ALSO includes market-source and volume-cap rows.
@@ -132,7 +139,7 @@ function FIXTURE_WITH_EXTRAS() {
     isVolumeCap:       true,
     eligibleExecution: ['4%'],
   };
-  return f;
+  return confirmed(f);
 }
 
 /* ── Tests ──────────────────────────────────────────────────────────── */

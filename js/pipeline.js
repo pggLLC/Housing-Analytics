@@ -130,8 +130,10 @@
     ])));
     var tb = el('tbody');
     rows.forEach(function (r) {
+      // An on-site page named by a relative href becomes a link; anything else stays text.
+      var internal = typeof r.href === 'string' && /^[a-z0-9-]+\.html(?:[?#][^\s"'<>]*)?$/i.test(r.href);
       tb.appendChild(el('tr', null, [
-        el('td', { text: r.label }),
+        internal ? el('td', null, el('a', { href: r.href, text: r.label })) : el('td', { text: r.label }),
         el('td', { text: r.vintage }),
         el('td', { text: r.what })
       ]));
