@@ -80,7 +80,10 @@ async function main() {
       if (!browser) {
         let pw;
         try { pw = require('playwright'); } catch { pw = require('/opt/node-tools/node_modules/playwright'); }
-        browser = await pw.chromium.launch();
+        // A pinned Playwright may not have its own browser downloaded; fall back to a
+        // system Chromium (CHROMIUM_PATH) rather than failing the PDF.
+        browser = await pw.chromium.launch().catch(() =>
+          pw.chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium' }));
       }
       const page = await browser.newPage();
       await page.setContent(html, { waitUntil: 'load' });
