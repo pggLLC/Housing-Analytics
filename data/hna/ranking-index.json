@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-10-14T09:10:53Z",
+    "generatedAt": "2026-10-14T12:15:46Z",
     "version": "1.0",
     "totalCounties": 64,
     "totalPlaces": 272,
@@ -19643,7 +19643,7 @@
       "geoid": "0845680",
       "name": "Loghill Village (CDP)",
       "type": "cdp",
-      "region": "Southwest",
+      "region": "Western Slope",
       "containingCounty": "08091",
       "metrics": {
         "housing_gap_units": 0,
@@ -20671,7 +20671,7 @@
       "geoid": "0856860",
       "name": "Pagosa Springs (town)",
       "type": "place",
-      "region": "Western Slope",
+      "region": "Southwest",
       "containingCounty": "08007",
       "metrics": {
         "housing_gap_units": 66,
@@ -22024,7 +22024,7 @@
       "geoid": "0856420",
       "name": "Ouray (city)",
       "type": "place",
-      "region": "Southwest",
+      "region": "Western Slope",
       "containingCounty": "08091",
       "metrics": {
         "housing_gap_units": 0,
@@ -23220,7 +23220,7 @@
       "geoid": "08091",
       "name": "Ouray County",
       "type": "county",
-      "region": "Southwest",
+      "region": "Western Slope",
       "containingCounty": "08091",
       "metrics": {
         "housing_gap_units": 59,
@@ -24569,7 +24569,7 @@
       "geoid": "0864200",
       "name": "Ridgway (town)",
       "type": "place",
-      "region": "Southwest",
+      "region": "Western Slope",
       "containingCounty": "08091",
       "metrics": {
         "housing_gap_units": 11,
@@ -26298,7 +26298,7 @@
       "geoid": "0817375",
       "name": "Cortez (city)",
       "type": "place",
-      "region": "San Luis Valley",
+      "region": "Southwest",
       "containingCounty": "08083",
       "metrics": {
         "housing_gap_units": 380,
@@ -28733,7 +28733,7 @@
       "geoid": "0857465",
       "name": "Park Center (CDP)",
       "type": "cdp",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08043",
       "metrics": {
         "housing_gap_units": 103,
@@ -31336,7 +31336,7 @@
       "geoid": "0844595",
       "name": "Lewis (CDP)",
       "type": "cdp",
-      "region": "San Luis Valley",
+      "region": "Southwest",
       "containingCounty": "08083",
       "metrics": {
         "housing_gap_units": 0,
@@ -32770,7 +32770,7 @@
       "geoid": "0858400",
       "name": "Penrose (CDP)",
       "type": "cdp",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08043",
       "metrics": {
         "housing_gap_units": 90,
@@ -34408,7 +34408,7 @@
       "geoid": "0845145",
       "name": "Lincoln Park (CDP)",
       "type": "cdp",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08043",
       "metrics": {
         "housing_gap_units": 157,
@@ -34870,7 +34870,7 @@
       "geoid": "0882130",
       "name": "Walden (town)",
       "type": "place",
-      "region": "Eastern Plains",
+      "region": "Mountains",
       "containingCounty": "08057",
       "metrics": {
         "housing_gap_units": 13,
@@ -38603,7 +38603,7 @@
       "geoid": "0820770",
       "name": "Dolores (town)",
       "type": "place",
-      "region": "San Luis Valley",
+      "region": "Southwest",
       "containingCounty": "08083",
       "metrics": {
         "housing_gap_units": 64,
@@ -40803,7 +40803,7 @@
       "geoid": "08083",
       "name": "Montezuma County",
       "type": "county",
-      "region": "San Luis Valley",
+      "region": "Southwest",
       "containingCounty": "08083",
       "metrics": {
         "housing_gap_units": 532,
@@ -42840,7 +42840,7 @@
       "geoid": "08007",
       "name": "Archuleta County",
       "type": "county",
-      "region": "Western Slope",
+      "region": "Southwest",
       "containingCounty": "08007",
       "metrics": {
         "housing_gap_units": 159,
@@ -43328,7 +43328,7 @@
       "geoid": "0870250",
       "name": "Silver Cliff (town)",
       "type": "place",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08027",
       "metrics": {
         "housing_gap_units": 65,
@@ -45172,7 +45172,7 @@
       "geoid": "0864970",
       "name": "Rockvale (town)",
       "type": "place",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08043",
       "metrics": {
         "housing_gap_units": 13,
@@ -45524,7 +45524,7 @@
       "geoid": "0860765",
       "name": "Portland (CDP)",
       "type": "cdp",
-      "region": "Southwest",
+      "region": "Western Slope",
       "containingCounty": "08091",
       "metrics": {
         "housing_gap_units": 0,
@@ -45682,7 +45682,7 @@
       "geoid": "08057",
       "name": "Jackson County",
       "type": "county",
-      "region": "Eastern Plains",
+      "region": "Mountains",
       "containingCounty": "08057",
       "metrics": {
         "housing_gap_units": 47,
@@ -48448,7 +48448,7 @@
       "geoid": "0827535",
       "name": "Fort Garland (CDP)",
       "type": "cdp",
-      "region": "Eastern Plains",
+      "region": "San Luis Valley",
       "containingCounty": "08023",
       "metrics": {
         "housing_gap_units": 30,
@@ -50847,7 +50847,7 @@
       "geoid": "0820495",
       "name": "Dinosaur (town)",
       "type": "place",
-      "region": "Southwest",
+      "region": "Western Slope",
       "containingCounty": "08081",
       "metrics": {
         "housing_gap_units": 8,
@@ -54200,7 +54200,7 @@
       "geoid": "0885155",
       "name": "Williamsburg (town)",
       "type": "place",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08043",
       "metrics": {
         "housing_gap_units": 7,
@@ -55234,7 +55234,7 @@
       "geoid": "0814765",
       "name": "City of Creede (town)",
       "type": "place",
-      "region": "Eastern Plains",
+      "region": "San Luis Valley",
       "containingCounty": "08079",
       "metrics": {
         "housing_gap_units": 31,
@@ -55740,7 +55740,7 @@
       "geoid": "0815825",
       "name": "Colona (CDP)",
       "type": "cdp",
-      "region": "Southwest",
+      "region": "Western Slope",
       "containingCounty": "08091",
       "metrics": {
         "housing_gap_units": 0,
@@ -56885,7 +56885,7 @@
       "geoid": "08079",
       "name": "Mineral County",
       "type": "county",
-      "region": "Eastern Plains",
+      "region": "San Luis Valley",
       "containingCounty": "08079",
       "metrics": {
         "housing_gap_units": 33,
@@ -57676,7 +57676,7 @@
       "geoid": "0870580",
       "name": "Silverton (town)",
       "type": "place",
-      "region": "Eastern Plains",
+      "region": "Southwest",
       "containingCounty": "08111",
       "metrics": {
         "housing_gap_units": 11,
@@ -58333,7 +58333,7 @@
       "geoid": "0815330",
       "name": "Coal Creek (town)",
       "type": "place",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08043",
       "metrics": {
         "housing_gap_units": 11,
@@ -58506,7 +58506,7 @@
       "geoid": "08043",
       "name": "Fremont County",
       "type": "county",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08043",
       "metrics": {
         "housing_gap_units": 570,
@@ -61345,7 +61345,7 @@
       "geoid": "0811810",
       "name": "Cañon City (city)",
       "type": "place",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08043",
       "metrics": {
         "housing_gap_units": 162,
@@ -62026,7 +62026,7 @@
       "geoid": "0802905",
       "name": "Arboles (CDP)",
       "type": "cdp",
-      "region": "Western Slope",
+      "region": "Southwest",
       "containingCounty": "08007",
       "metrics": {
         "housing_gap_units": 7,
@@ -62984,7 +62984,7 @@
       "geoid": "0848115",
       "name": "Mancos (town)",
       "type": "place",
-      "region": "San Luis Valley",
+      "region": "Southwest",
       "containingCounty": "08083",
       "metrics": {
         "housing_gap_units": 18,
@@ -63345,7 +63345,7 @@
       "geoid": "0882350",
       "name": "Walsenburg (city)",
       "type": "place",
-      "region": "San Luis Valley",
+      "region": "Eastern Plains",
       "containingCounty": "08055",
       "metrics": {
         "housing_gap_units": 3,
@@ -63513,7 +63513,7 @@
       "geoid": "0882460",
       "name": "Walsh (town)",
       "type": "place",
-      "region": "Mountains",
+      "region": "Eastern Plains",
       "containingCounty": "08009",
       "metrics": {
         "housing_gap_units": 53,
@@ -64810,7 +64810,7 @@
       "geoid": "0817760",
       "name": "Craig (city)",
       "type": "place",
-      "region": "Southwest",
+      "region": "Western Slope",
       "containingCounty": "08081",
       "metrics": {
         "housing_gap_units": 125,
@@ -66404,7 +66404,7 @@
       "geoid": "08023",
       "name": "Costilla County",
       "type": "county",
-      "region": "Eastern Plains",
+      "region": "San Luis Valley",
       "containingCounty": "08023",
       "metrics": {
         "housing_gap_units": 140,
@@ -68060,7 +68060,7 @@
       "geoid": "0873330",
       "name": "Springfield (town)",
       "type": "place",
-      "region": "Mountains",
+      "region": "Eastern Plains",
       "containingCounty": "08009",
       "metrics": {
         "housing_gap_units": 0,
@@ -68543,7 +68543,7 @@
       "geoid": "0868105",
       "name": "San Luis (town)",
       "type": "place",
-      "region": "Eastern Plains",
+      "region": "San Luis Valley",
       "containingCounty": "08023",
       "metrics": {
         "housing_gap_units": 23,
@@ -71231,7 +71231,7 @@
       "geoid": "08055",
       "name": "Huerfano County",
       "type": "county",
-      "region": "San Luis Valley",
+      "region": "Eastern Plains",
       "containingCounty": "08055",
       "metrics": {
         "housing_gap_units": 35,
@@ -71557,7 +71557,7 @@
       "geoid": "0815440",
       "name": "Coaldale (CDP)",
       "type": "cdp",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08043",
       "metrics": {
         "housing_gap_units": 0,
@@ -71875,7 +71875,7 @@
       "geoid": "08081",
       "name": "Moffat County",
       "type": "county",
-      "region": "Southwest",
+      "region": "Western Slope",
       "containingCounty": "08081",
       "metrics": {
         "housing_gap_units": 139,
@@ -72514,7 +72514,7 @@
       "geoid": "0861315",
       "name": "Pritchett (town)",
       "type": "place",
-      "region": "Mountains",
+      "region": "Eastern Plains",
       "containingCounty": "08009",
       "metrics": {
         "housing_gap_units": 0,
@@ -72674,7 +72674,7 @@
       "geoid": "0800925",
       "name": "Akron (town)",
       "type": "place",
-      "region": "Western Slope",
+      "region": "Eastern Plains",
       "containingCounty": "08121",
       "metrics": {
         "housing_gap_units": 33,
@@ -73779,7 +73779,7 @@
       "geoid": "0867500",
       "name": "San Acacio (CDP)",
       "type": "cdp",
-      "region": "Eastern Plains",
+      "region": "San Luis Valley",
       "containingCounty": "08023",
       "metrics": {
         "housing_gap_units": 0,
@@ -74430,7 +74430,7 @@
       "geoid": "0883450",
       "name": "Westcliffe (town)",
       "type": "place",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08027",
       "metrics": {
         "housing_gap_units": 6,
@@ -77474,7 +77474,7 @@
       "geoid": "0856365",
       "name": "Otis (town)",
       "type": "place",
-      "region": "Western Slope",
+      "region": "Eastern Plains",
       "containingCounty": "08121",
       "metrics": {
         "housing_gap_units": 16,
@@ -77642,7 +77642,7 @@
       "geoid": "08111",
       "name": "San Juan County",
       "type": "county",
-      "region": "Eastern Plains",
+      "region": "Southwest",
       "containingCounty": "08111",
       "metrics": {
         "housing_gap_units": 11,
@@ -77793,7 +77793,7 @@
       "geoid": "0879270",
       "name": "Two Buttes (town)",
       "type": "place",
-      "region": "Mountains",
+      "region": "Eastern Plains",
       "containingCounty": "08009",
       "metrics": {
         "housing_gap_units": 0,
@@ -78771,7 +78771,7 @@
       "geoid": "0849325",
       "name": "Maybell (CDP)",
       "type": "cdp",
-      "region": "Southwest",
+      "region": "Western Slope",
       "containingCounty": "08081",
       "metrics": {
         "housing_gap_units": 0,
@@ -80263,7 +80263,7 @@
       "geoid": "08009",
       "name": "Baca County",
       "type": "county",
-      "region": "Mountains",
+      "region": "Eastern Plains",
       "containingCounty": "08009",
       "metrics": {
         "housing_gap_units": 37,
@@ -80414,7 +80414,7 @@
       "geoid": "0809115",
       "name": "Brookside (town)",
       "type": "place",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08043",
       "metrics": {
         "housing_gap_units": 0,
@@ -80587,7 +80587,7 @@
       "geoid": "0807190",
       "name": "Blanca (town)",
       "type": "place",
-      "region": "Eastern Plains",
+      "region": "San Luis Valley",
       "containingCounty": "08023",
       "metrics": {
         "housing_gap_units": 12,
@@ -80770,7 +80770,7 @@
       "geoid": "0844100",
       "name": "La Veta (town)",
       "type": "place",
-      "region": "San Luis Valley",
+      "region": "Eastern Plains",
       "containingCounty": "08055",
       "metrics": {
         "housing_gap_units": 27,
@@ -81763,7 +81763,7 @@
       "geoid": "0881030",
       "name": "Vilas (town)",
       "type": "place",
-      "region": "Mountains",
+      "region": "Eastern Plains",
       "containingCounty": "08009",
       "metrics": {
         "housing_gap_units": 0,
@@ -82540,7 +82540,7 @@
       "geoid": "0811645",
       "name": "Campo (town)",
       "type": "place",
-      "region": "Mountains",
+      "region": "Eastern Plains",
       "containingCounty": "08009",
       "metrics": {
         "housing_gap_units": 0,
@@ -85359,7 +85359,7 @@
       "geoid": "0878280",
       "name": "Towaoc (CDP)",
       "type": "cdp",
-      "region": "San Luis Valley",
+      "region": "Southwest",
       "containingCounty": "08083",
       "metrics": {
         "housing_gap_units": 0,
@@ -85509,7 +85509,7 @@
       "geoid": "08121",
       "name": "Washington County",
       "type": "county",
-      "region": "Western Slope",
+      "region": "Eastern Plains",
       "containingCounty": "08121",
       "metrics": {
         "housing_gap_units": 66,
@@ -86330,7 +86330,7 @@
       "geoid": "0827040",
       "name": "Florence (city)",
       "type": "place",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08043",
       "metrics": {
         "housing_gap_units": 8,
@@ -86498,7 +86498,7 @@
       "geoid": "08027",
       "name": "Custer County",
       "type": "county",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08027",
       "metrics": {
         "housing_gap_units": 99,
@@ -86814,7 +86814,7 @@
       "geoid": "0817100",
       "name": "Cope (CDP)",
       "type": "cdp",
-      "region": "Western Slope",
+      "region": "Eastern Plains",
       "containingCounty": "08121",
       "metrics": {
         "housing_gap_units": 0,
@@ -88562,7 +88562,7 @@
       "geoid": "0837655",
       "name": "Howard (CDP)",
       "type": "cdp",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08043",
       "metrics": {
         "housing_gap_units": 0,
@@ -89208,7 +89208,7 @@
       "geoid": "0817485",
       "name": "Cotopaxi (CDP)",
       "type": "cdp",
-      "region": "Southwest",
+      "region": "Mountains",
       "containingCounty": "08043",
       "metrics": {
         "housing_gap_units": 0,
@@ -89704,7 +89704,7 @@
       "geoid": "0829240",
       "name": "Gardner (CDP)",
       "type": "cdp",
-      "region": "San Luis Valley",
+      "region": "Eastern Plains",
       "containingCounty": "08055",
       "metrics": {
         "housing_gap_units": 0,

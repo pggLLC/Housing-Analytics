@@ -16,6 +16,20 @@ function checkRecord(record, bands, sign) {
     const expected = hh == null || units == null ? null : sign === 'units_minus_households' ? units - hh : hh - units;
     assert.equal(record[field][band], expected, `${record.fips} ≤${band}: ${sign}`);
   }
+  // Matched shortfall: a home counts only for households who can afford it,
+  // so at each band it is the worst pooled shortfall at that band or below,
+  // never negative. Renter households in homes with no cash rent are in the
+  // demand series but their homes are not in the priced series, so those
+  // homes count as housing someone at every band; without that the "minimum"
+  // could exceed the true shortfall. Recomputed here from the same series.
+  if (!('min_shortfall_matched_le_ami_pct' in record)) return; // the null-component fixtures below
+  const noCash = record.renter_units_no_cash_rent;
+  assert(Number.isInteger(noCash) && noCash >= 0, `${record.fips}: no-cash-rent homes are a count`);
+  let worst = 0;
+  for (const band of [...bands].sort((a, b) => a - b)) {
+    worst = Math.max(worst, record.households_le_ami_pct[band] - record.units_priced_affordable_le_ami_pct[band] - noCash);
+    assert.equal(record.min_shortfall_matched_le_ami_pct[band], worst, `${record.fips} ≤${band}: matched shortfall`);
+  }
 }
 // Read the payload dictionaries with Python's AST, not a loose textual match
 // that could accidentally find a comment or an unused constant.
@@ -45,6 +59,9 @@ for (const [payload, rows] of [[county, [...county.counties, county.statewide]],
   }
 }
 assert.equal(records, 64 + 1 + Object.keys(place.places).length);
+for (const r of [...county.counties, county.statewide, ...Object.values(place.places)]) {
+  assert(r.min_shortfall_matched_le_ami_pct, `${r.fips} carries the matched shortfall`);
+}
 assert(bands > 0);
 assert.equal(builder.build_county_file, county.meta.gap_sign);
 assert.equal(builder.build_place_file, place.meta.gap_sign);

@@ -639,6 +639,22 @@
   // points to ~15. Combined with F239/F240 regional recency, lets
   // small-town signals (Need, Civic, regional saturation) actually
   // surface against the pop-weight advantage.
+  // ACS population from a ranking-index metrics record; null when absent.
+  function _populationFromRanking(metrics) {
+    var v = metrics && metrics.population;
+    return typeof v === 'number' && Number.isFinite(v) && v > 0 ? Math.round(v) : null;
+  }
+
+  // What would raise the basis-boost score, given the designations a place
+  // already has. Until 2026-10-14 it always said "currently neither", which
+  // a DDA place contradicted on the same panel.
+  function _basisMoveUp(op) {
+    if (op.hasQct && op.hasDda) return 'nothing: it already has both a QCT and a DDA';
+    if (op.hasDda) return 'a QCT is added (it already has a DDA)';
+    if (op.hasQct) return 'a DDA is added (it already has a QCT)';
+    return 'a QCT or DDA designation is added (currently neither)';
+  }
+
   function populationScore(pop) {
     if (pop == null || !Number.isFinite(+pop)) return 0;
     var n = +pop;
@@ -1345,17 +1361,11 @@
         }
       }
 
-      // Population — from co_ami_gap_by_place's households at ≤100% AMI × 2.5
-      // (approximate; the file doesn't directly publish total population).
-      // Methodology v2 made households_le_ami_pct renter-only, so prefer the
-      // retained all-tenure series; fall back for pre-v2 payloads.
-      var amiRec = state.placeFromAmi[placeGeoid];
-      var pop = null;
-      var amiHH = amiRec && (amiRec.all_households_le_ami_pct || amiRec.households_le_ami_pct);
-      if (amiHH && amiHH['100']) {
-        // ≤100% AMI captures most households by count. Avg CO HH size ≈ 2.5
-        pop = Math.round((+amiHH['100'] || 0) * 2.5);
-      }
+      // Population — the ACS total the ranking index carries for this place.
+      // Until 2026-10-14 this was households at or below 100% AMI × 2.5,
+      // which left out every household above AMI (Glenwood Springs showed
+      // 5,853 against ACS 10,241). No population on file stays null.
+      var pop = _populationFromRanking(state.rankByGeoid && state.rankByGeoid[placeGeoid]);
 
       // HNA need composite
       // F223 — Pass placeGeoid so per-place CHAS is preferred when available.
@@ -3403,7 +3413,7 @@
     }
     // 8. Population scale (for 4% bond targets)
     if (op.population != null && op.population >= 30000 && _effectiveTarget(op) === '4pct') {
-      reasons.push('<strong>Renter scale:</strong> ' + fmtInt(op.population) + ' approximate renter pool — supports 4% bond financing.');
+      reasons.push('<strong>Renter scale:</strong> ' + fmtInt(op.population) + ' residents — a market large enough to support 4% bond financing.');
     }
     // 9. F116 — Fresh CHFA 2026 R1 award (bridge data, announced 2026-05-21).
     // Informational only — IOI/recency math intentionally not boosted because
@@ -3786,7 +3796,7 @@
         // 'chas_only' (precompute pipeline pending).
         ' <span data-of-reliability="' + escHtml(op.placeGeoid || '') + '"></span>' +
       '</dd>' +
-      '<dt>Population (approx)</dt><dd>' + (op.population != null ? fmtInt(op.population) : 'unknown') + '</dd>' +
+      '<dt>Population (ACS)</dt><dd>' + (op.population != null ? fmtInt(op.population) : 'unknown') + '</dd>' +
       (op.qctCount > 0 ?
         '<dt>QCT tracts in jurisdiction</dt><dd style="font-family:ui-monospace,monospace;font-size:.78rem">' +
           op.qctTracts.map(function (t) { return t.tract_geoid; }).join(', ') +
@@ -3807,7 +3817,7 @@
         { key: 'recency', label: 'Recency gap',  score: op.recencyScore,     weight: w.recency,
           moveUp: 'years since the last LIHTC award here grow (saturation eases)' },
         { key: 'basis',   label: 'Basis boost',  score: op.basisBoostScore,  weight: w.basis,
-          moveUp: 'a QCT or DDA designation is added (currently neither)' },
+          moveUp: _basisMoveUp(op) },
         { key: 'pop',     label: 'Population',   score: op.populationScore,  weight: w.pop,
           moveUp: 'the jurisdiction reaches a larger absorption pool' },
         { key: 'civic',   label: 'Civic capacity', score: op.civicScore,     weight: w.civic,
@@ -5122,6 +5132,8 @@
       zoriCaptureForMarket: _zoriCaptureForMarket,
       projectMetaTail: _projectMetaTail,
       qctMapStatus: _qctMapStatus,
+      populationFromRanking: _populationFromRanking,
+      basisMoveUp: _basisMoveUp,
       setZoriForTest: function (byCounty, meta, byCity) {
         state.zoriByCounty = byCounty || {};
         state.zoriByCity = byCity || {};
