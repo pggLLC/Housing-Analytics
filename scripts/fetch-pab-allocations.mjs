@@ -35,9 +35,12 @@
  *   4. Match each issuer name to the site's geoid (county FIPS or place GEOID)
  *      via data/hna/ranking-index.json.
  *
- * SOURCE: https://doh.colorado.gov/PAB-Allocations-2025
- * Re-run: `node scripts/fetch-pab-allocations.mjs`  (or `--html <file>` to
- * parse a saved copy when DOLA blocks automated fetches with a 403).
+ * SOURCE: https://doh.colorado.gov/private-activity-bond-direct-allocations-<YEAR>
+ *   (2024 and 2025 used https://doh.colorado.gov/PAB-Allocations-<YEAR>)
+ * Re-run: `node scripts/fetch-pab-allocations.mjs [--year 2026]`  (or
+ * `--html <file>` to parse a saved copy when DOLA blocks automated fetches
+ * with a 403). The year defaults to the current calendar year; it was typed
+ * as 2025 until 2026-10, so the annual run kept re-reading the 2025 page.
  */
 
 import fs from 'node:fs';
@@ -46,7 +49,17 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(__dirname, '..');
-const SOURCE_URL = 'https://doh.colorado.gov/PAB-Allocations-2025';
+function argValue(flag) {
+  const i = process.argv.indexOf(flag);
+  return i !== -1 ? process.argv[i + 1] : null;
+}
+const YEAR = Number(argValue('--year')) || new Date().getUTCFullYear();
+// DOLA renamed the page for 2026; try the new name first, then the old one.
+const SOURCE_URLS = [
+  `https://doh.colorado.gov/private-activity-bond-direct-allocations-${YEAR}`,
+  `https://doh.colorado.gov/PAB-Allocations-${YEAR}`
+];
+let SOURCE_URL = SOURCE_URLS[0];
 const OUT = path.join(REPO, 'data/policy/pab-allocations.json');
 const RANKING = path.join(REPO, 'data/hna/ranking-index.json');
 
@@ -77,44 +90,48 @@ async function getHtml() {
   if (flagIdx !== -1 && process.argv[flagIdx + 1]) {
     return fs.readFileSync(process.argv[flagIdx + 1], 'utf8');
   }
-  const res = await fetch(SOURCE_URL, { headers: { 'User-Agent': UA } });
-  if (!res.ok) {
-    throw new Error(
-      `DOLA returned HTTP ${res.status}. Save the page manually and re-run ` +
-      `with --html <file>. (DOLA sometimes 403s automated fetches.)`
-    );
+  let lastStatus = null;
+  for (const url of SOURCE_URLS) {
+    const res = await fetch(url, { headers: { 'User-Agent': UA } });
+    if (res.ok) { SOURCE_URL = url; return res.text(); }
+    lastStatus = res.status;
   }
-  return res.text();
+  throw new Error(
+    `DOLA returned HTTP ${lastStatus} for every ${YEAR} URL. Save the page manually and re-run ` +
+    `with --html <file>. (DOLA sometimes 403s automated fetches.)`
+  );
 }
 
+function cellText(raw) {
+  return raw
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&#36;/g, '$')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// Columns are found by their headers, not their position: the 2025 page
+// listed Issuer, PAB Cap, Population; the 2026 page lists Issuer,
+// Population, % of State, PAB Cap.
 function parseTable(html) {
-  const cells = [];
-  const re = /<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi;
-  let m;
-  while ((m = re.exec(html)) !== null) {
-    const txt = m[1]
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/&nbsp;/g, ' ')
-      .replace(/&amp;/g, '&')
-      .replace(/&#36;/g, '$')
-      .replace(/\s+/g, ' ')
-      .trim();
-    cells.push(txt);
-  }
-  // Locate header end ("Population as % of State Population")
-  let start = 0;
-  for (let i = 0; i < cells.length; i++) {
-    if (/population as/i.test(cells[i])) { start = i + 1; break; }
-  }
+  const rowsHtml = html.match(/<tr[\s\S]*?<\/tr>/gi) || [];
+  const table = rowsHtml.map((tr) => (tr.match(/<t[dh][^>]*>[\s\S]*?<\/t[dh]>/gi) || [])
+    .map((c) => cellText(c.replace(/^<t[dh][^>]*>|<\/t[dh]>$/gi, ''))));
+  const headerIdx = table.findIndex((cells) => cells.some((c) => /pab cap/i.test(c)) && cells.some((c) => /^population$/i.test(c)));
+  if (headerIdx === -1) return [];
+  const header = table[headerIdx];
+  const capCol = header.findIndex((c) => /pab cap/i.test(c));
+  const popCol = header.findIndex((c) => /^population$/i.test(c));
   const rows = [];
-  for (let i = start; i + 3 < cells.length + 1 && i + 3 <= cells.length; i += 4) {
-    const name = cells[i];
-    const cap = cells[i + 1];
-    const pop = cells[i + 2];
+  for (const cells of table.slice(headerIdx + 1)) {
+    const name = cells[0];
+    const cap = cells[capCol];
     if (!name || !cap || !/\$/.test(cap)) continue;
     if (/^total$/i.test(name)) continue;
     const capNum = Number(cap.replace(/[^0-9.]/g, ''));
-    const popNum = Number((pop || '').replace(/[^0-9.]/g, ''));
+    const popNum = Number((cells[popCol] || '').replace(/[^0-9.]/g, ''));
     if (!capNum) continue;
     rows.push({ name, cap: capNum, pop: popNum || null });
   }
@@ -169,26 +186,33 @@ function main() {
     const plain = html.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ')
       .replace(/&amp;/g, '&').replace(/&#36;/g, '$').replace(/\s+/g, ' ');
 
-    const stateCeiling = extractLabeledDollar(plain, 'Private Activity Bond Cap available in 2025:') ||
+    // The page must name its own year; a saved copy of another year's page
+    // would otherwise be written under this year's label.
+    if (!plain.includes(`Private Activity Bond Cap available in ${YEAR}`)) {
+      throw new Error(`The page does not say "Private Activity Bond Cap available in ${YEAR}" — wrong year's page?`);
+    }
+    const stateCeiling = extractLabeledDollar(plain, `Private Activity Bond Cap available in ${YEAR}:`) ||
                          extractScalar(html, 'State Ceiling') ||
-                         extractScalar(html, 'Total State') || 767174070;
+                         extractScalar(html, 'Total State');
+    // No published ceiling or multiplier is an unknown, not last year's figure.
+    if (!(stateCeiling > 0)) throw new Error('No statewide PAB cap found on the page.');
     const statePerCapita = (() => {
       const i = html.toLowerCase().indexOf('per capita');
-      if (i === -1) return 130;
+      if (i === -1) return null;
       const s = html.slice(i, i + 120).replace(/<[^>]+>/g, ' ');
       const m = s.match(/\$([0-9]+)/);
-      return m ? Number(m[1]) : 130;
+      return m ? Number(m[1]) : null;
     })();
 
     // Statewide-authority breakdown — the slice that actually funds 4% LIHTC.
     // CHFA's pool is the headline number for any 4% bond deal in CO.
-    const chfaPool   = extractLabeledDollar(plain, 'Colorado Housing and Finance Authority:');
-    const agPool     = extractLabeledDollar(plain, 'Colorado Agricultural Development Authority:');
+    const chfaPool   = extractLabeledDollar(plain, 'Colorado Housing and Finance Authority');
+    const agPool     = extractLabeledDollar(plain, 'Colorado Agricultural Development Authority');
     const swBalance  = extractLabeledDollar(plain, 'Statewide Balance:');
 
     // Derive local per-capita rate from the largest issuer (least rounding noise).
     const ref = rows.slice().sort((a, b) => b.cap - a.cap)[0];
-    const localPerCapita = ref.pop ? ref.cap / ref.pop : statePerCapita / 2;
+    const localPerCapita = ref.pop ? ref.cap / ref.pop : (statePerCapita ? statePerCapita / 2 : null);
 
     const { byCounty, byPlace } = buildGeoIndex();
 
@@ -242,7 +266,7 @@ function main() {
     const out = {
       metadata: {
         title: 'Colorado Private Activity Bond — Local Direct Allocations',
-        year: 2025,
+        year: YEAR,
         source: 'Colorado DOLA Division of Housing',
         sourceUrl: SOURCE_URL,
         fetched: new Date().toISOString().slice(0, 10),

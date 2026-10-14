@@ -40,4 +40,15 @@ assert.deepEqual(rail({}), [], 'an empty project: no step is ticked');
 assert.deepEqual(rail({ jurisdiction: { completedAt: '2026-10-14T00:00:00Z' }, market: { completedAt: null } }), [1],
   'only the recorded step is ticked');
 
+// 3. The step the shared stylesheet labels "optional" is the Opportunity
+//    Finder in the rail's own route table, so a reorder cannot move the label
+//    onto a required step.
+const theme = fs.readFileSync(path.join(ROOT, 'css', 'site-theme.css'), 'utf8');
+const optional = /\.wf-step\[data-step="(\d)"\] \.wf-step__label::after\s*\{[^}]*content:\s*"optional"/.exec(theme);
+assert(optional, 'the stylesheet marks one rail step optional');
+const wp = fs.readFileSync(path.join(ROOT, 'js', 'components', 'workflow-progress.js'), 'utf8');
+const stepRow = new RegExp('num: ' + optional[1] + ",\\s*key: '([a-z]+)'").exec(wp);
+assert(stepRow, 'the optional step number exists in the route table');
+assert.equal(stepRow[1], 'opportunity', 'the step marked optional is the statewide Opportunity Finder');
+
 console.log('workflow-rail-truthful: PASS');

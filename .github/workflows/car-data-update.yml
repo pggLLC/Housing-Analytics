@@ -51,6 +51,19 @@ jobs:
       # object rather than exporting one -- so `{ ...process.env }` inherited an
       # environment that never had it. Zero issues in this repository's history match
       # alert.js's title formats, across fifteen callers.
+      - name: Download Zillow city ZHVI
+        # build:home-values rebuilds place rows only when this CSV is on disk
+        # (it is gitignored). No workflow downloaded it, so from May 2026 every
+        # rebuild kept the committed place rows and their ZHVI month froze at
+        # 2026-05 while Zillow published June, July and August. A failed
+        # download leaves the committed rows in place, as before.
+        run: |
+          mkdir -p data/zillow
+          curl -fsSL --retry 3 --max-time 300 \
+            -o data/zillow/city_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv \
+            "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv" \
+            || echo "::warning::Zillow city ZHVI download failed; place rows keep their committed month."
+
       - name: Rebuild the home-value cascade
         # Its CAR review flags are computed from the latest county report. On
         # 2026-10-11 this workflow added county prices to the 2026-09 report and

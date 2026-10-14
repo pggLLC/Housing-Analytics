@@ -302,7 +302,8 @@ function assertEscapeCallGuards() {
     'js/compare.js': [
       { needle: 'escHtml(v)', count: 2 },
       'escHtml(r.competitiveness)',
-      'escHtml(info)'
+      'escHtml(info)',
+      'escHtml(rowInfo)'
     ],
     'js/hna/hna-comparison.js': [
       '_esc(fips)',

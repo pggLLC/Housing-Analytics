@@ -267,10 +267,7 @@
       '.wf-step--active .wf-step__label{color:var(--accent);}',
       '.wf-step--done .wf-step__num{background:var(--good,#047857);color:#fff;border-color:var(--good,#047857);}',
       '.wf-step--done .wf-step__label{color:var(--good,#047857);}',
-      // Step 2 is the statewide Opportunity Finder: useful for "where should
-      // we build", a detour for someone who already knows their town. Say so
-      // on the rail, where a first-time reader decides whether to open it.
-      '.wf-step[data-step="2"] .wf-step__label::after{content:"optional";display:block;font-weight:400;font-style:italic;opacity:.85;}',
+      // The "optional" tag on step 2 lives in css/site-theme.css.
       '.wf-step-connector{flex:1;height:2px;background:var(--border);min-width:20px;margin-bottom:18px;}',
       '.wf-companions{max-width:1200px;margin:6px auto 0;font-size:.74rem;line-height:1.4;color:var(--muted);text-align:center;}',
       '@media(max-width:' + compactBelowPx() + 'px){',

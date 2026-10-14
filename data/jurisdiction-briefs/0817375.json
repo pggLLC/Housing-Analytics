@@ -182,7 +182,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Cortez at #152 with an overall housing-need score of 59.2. It identifies 380 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 72.4% of <=30% AMI households. 55.9% of renter households are cost burdened, and 1.5% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Cortez at #153 with an overall housing-need score of 59.2. It identifies 380 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 72.4% of <=30% AMI households. 55.9% of renter households are cost burdened, and 1.5% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -193,7 +193,7 @@
           ]
         },
         {
-          "text": "Market and supply context: the digest reports a ZHVI market estimate of $345,260 and median gross rent of $984. 34.4% of households rent, and 7.8% of the housing stock is multifamily.",
+          "text": "Market and supply context: the digest reports a ZHVI market estimate of $342,949 and median gross rent of $984. 34.4% of households rent, and 7.8% of the housing stock is multifamily.",
           "cites": [
             "d7",
             "d8",
@@ -218,7 +218,7 @@
           ]
         },
         {
-          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 44.9. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $56,674 and a rent affordability gap of $11,860. The county-context service-sector employment share is 40.4%, and county-context ACS cohorts show median gross rent changed 68.9% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 44.7. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $56,110 and a rent affordability gap of $11,860. The county-context service-sector employment share is 40.4%, and county-context ACS cohorts show median gross rent changed 68.9% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
           "cites": [
             "d17",
             "d18",
@@ -438,7 +438,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -447,7 +447,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -492,7 +492,7 @@
     },
     {
       "id": "d7",
-      "label": "ZHVI market home-value estimate - jurisdiction metrics digest (2026-05-31)",
+      "label": "ZHVI market home-value estimate - jurisdiction metrics digest (2026-08-31)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -582,7 +582,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -591,7 +591,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -600,7 +600,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-11T11:45:28Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-14T03:10:26Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

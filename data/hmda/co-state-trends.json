@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-05T12:14:04Z",
+    "generated_at": "2026-10-14T02:56:18Z",
     "source": "CFPB HMDA Data Browser API",
     "state": "CO",
     "years": [
@@ -10,7 +10,8 @@
       2021,
       2022,
       2023,
-      2024
+      2024,
+      2025
     ]
   },
   "years": {
@@ -145,6 +146,25 @@
       "multifamily": {
         "originations": 421,
         "volume_usd": 5426535000.0
+      }
+    },
+    "2025": {
+      "originations": 156418,
+      "origination_volume_usd": 68395680000.0,
+      "mean_loan_amount_usd": 437262,
+      "denials": 40730,
+      "denial_rate": 0.1966,
+      "decision_total": 207133,
+      "by_purpose": {
+        "purchase": 81568,
+        "home_improvement": 12231,
+        "refinance": 26449,
+        "cashout_refi": 21559,
+        "other": 14611
+      },
+      "multifamily": {
+        "originations": 469,
+        "volume_usd": 6479155000.0
       }
     }
   }
