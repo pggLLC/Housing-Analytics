@@ -76,7 +76,7 @@ test('a scattered-site application shows in every place it builds in, and text i
   const app = {
     name: 'Two Towns <b>Homes</b>', sponsor: 'A & B', round_label: 'Rolling federal 4% list', credit_type: '4%',
     outcome: 'in_review', place_geoids: ['0800001', '0800002'], county_fips_all: ['08037', '08117'],
-    quote: 'Name: Two Towns <b>Homes</b>', source_url: 'https://www.chfainfo.com/x.pdf', source_file: 'x.pdf'
+    quote: 'Name: Two Towns <b>Homes</b>', source_url: 'https://chfa.example.localhost/x.pdf', source_file: 'x.pdf'
   };
   const data = { meta: { first_year: 2023 }, applications: [app] };
   for (const g of ['0800001', '0800002', '08037', '08117']) {
