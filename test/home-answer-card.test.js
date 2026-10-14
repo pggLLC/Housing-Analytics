@@ -7,6 +7,8 @@
 // not its wording:
 //   1. every number on the card is the value in that town's metrics digest,
 //      the file the full report's numbers come from;
+//      a top-coded ACS median reads "or more", and the card names the
+//      source the digest records;
 //   2. a value the digest cannot support (null, 0 dollars, a rate whose
 //      denominator floor applied) is left off, never shown as a number;
 //   3. every next-step link opens a page that exists, and the report link is
@@ -33,8 +35,19 @@ const money = new Set(['gross_rent_median', 'median_hh_income', 'median_home_val
 const rate = new Set(['pct_cost_burdened']);
 const digits = (s) => Number(String(s).replace(/[^0-9]/g, ''));
 
+// ACS publishes a top-coded median as the cap plus one dollar.
+const TOP_CODES = { gross_rent_median: 3501, median_hh_income: 250001, median_home_value: 2000001 };
+const SOURCE_NAMES = {
+  'acs-profile': /^Census ACS/,
+  'acs-profile-dp04': /^Census ACS/,
+  'acs-profile-dp04-grapi': /^Census ACS/,
+  'zillow-zhvi-city-index': /^Zillow home value index/,
+  'zillow-zhvi-county-adjusted': /^county-adjusted Zillow\/ACS estimate/
+};
+
 let shown = 0;
 let withheld = 0;
+let topCodes = 0;
 for (const entry of registry) {
   const file = path.join(digestDir, entry.geoid + '.json');
   assert(fs.existsSync(file), `no digest for ${entry.name} (${entry.geoid}); the card would show nothing`);
@@ -53,14 +66,26 @@ for (const entry of registry) {
       continue;
     }
     assert(fact, `${entry.name}: digest has ${key} = ${m.value} but the card leaves it out`);
-    assert.equal(digits(fact.value), Math.round(Number(m.value)),
-      `${entry.name}: card shows ${key} as "${fact.value}", digest says ${m.value}`);
-    assert(fact.source && fact.source.length > 3, `${entry.name}: ${key} has no source on the card`);
+    const topCoded = /^acs/.test(m.source_id) && TOP_CODES[key] === Number(m.value);
+    if (topCoded) {
+      topCodes++;
+      assert(/or more/.test(fact.value) && digits(fact.value) === Number(m.value) - 1,
+        `${entry.name}: ${key} ${m.value} is an ACS top code ("${Number(m.value) - 1} or more") but the card shows "${fact.value}"`);
+    } else {
+      assert.equal(digits(fact.value), Math.round(Number(m.value)),
+        `${entry.name}: card shows ${key} as "${fact.value}", digest says ${m.value}`);
+      assert(!/or more/.test(fact.value), `${entry.name}: ${key} is not top-coded but reads "${fact.value}"`);
+    }
+    // The source named on the card is the one the digest records.
+    const want = SOURCE_NAMES[m.source_id];
+    assert(want, `${entry.name}: ${key} has source_id ${m.source_id}, which the card has no name for`);
+    assert(want.test(fact.source), `${entry.name}: ${key} comes from ${m.source_id} but the card says "${fact.source}"`);
     if (m.confidence === 'low') assert(/rough/.test(fact.note), `${entry.name}: low-confidence ${key} is not flagged`);
     shown++;
   }
 }
 assert(shown > 1000, `the card scan showed only ${shown} facts across ${registry.length} places; the scan has stopped matching`);
+assert(topCodes > 0, 'the scan met no ACS top-coded median, so the top-code rule was never exercised');
 assert(withheld > 0, 'the scan never met a missing value, so the absence rule above was never exercised');
 
 // The absence rule on its own, independent of what today's data holds.
@@ -118,4 +143,4 @@ assert(index.includes('id="homeAnswerCard"'), 'index.html must carry the answer 
 assert(index.indexOf('id="homeJurisdictionSearch"') < index.indexOf('class="home-opening__lead"'),
   'the town search must come before the long opening paragraph, so it is on the first phone screen');
 
-console.log(`Homepage answer card: ${shown} facts agree with the digests, ${withheld} unsupported values withheld, ${checked} links checked`);
+console.log(`Homepage answer card: ${shown} facts agree with the digests (${topCodes} top-coded), ${withheld} unsupported values withheld, ${checked} links checked`);

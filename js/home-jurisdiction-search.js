@@ -111,6 +111,16 @@
     return '$' + Math.round(Number(v)).toLocaleString('en-US');
   }
 
+  // ACS publishes a top-coded median as the cap plus one dollar: 3501 means
+  // "$3,500 or more", never a measured $3,501.
+  var ACS_TOP_CODES = { gross_rent_median: 3501, median_hh_income: 250001, median_home_value: 2000001 };
+
+  function money(key, m) {
+    var v = Number(m.value);
+    if (/^acs/.test(m.source_id || '') && ACS_TOP_CODES[key] === v) return dollars(v - 1) + ' or more';
+    return dollars(v);
+  }
+
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
     'August', 'September', 'October', 'November', 'December'];
 
@@ -118,7 +128,8 @@
     var asOf = String(m.as_of || '');
     var date = /^(\d{4})-(\d{2})-\d{2}$/.exec(asOf);
     var when = date ? MONTHS[Number(date[2]) - 1] + ' ' + date[1] : asOf;
-    if (/zillow/i.test(m.source_id || '')) return 'Zillow home value index, ' + when;
+    if (m.source_id === 'zillow-zhvi-county-adjusted') return 'county-adjusted Zillow/ACS estimate, ' + when;
+    if (m.source_id === 'zillow-zhvi-city-index') return 'Zillow home value index, ' + when;
     if (/chas/i.test(m.source_id || '')) return when || 'HUD CHAS';
     return when ? 'Census ' + when : 'Census ACS';
   }
@@ -126,6 +137,7 @@
   function caveat(m) {
     var notes = [];
     if (m.geography_level === 'county_context') notes.push('county figure');
+    if (m.source_id === 'zillow-zhvi-county-adjusted') notes.push('estimated from the county trend');
     if (m.confidence === 'low') notes.push('small sample, treat as rough');
     return notes.length ? ' (' + notes.join('; ') + ')' : '';
   }
@@ -148,19 +160,19 @@
     var rent = m.gross_rent_median;
     if (usable(rent, true)) {
       facts.push({ key: 'gross_rent_median', label: 'Typical rent',
-        value: dollars(rent.value) + ' a month',
+        value: money('gross_rent_median', rent) + ' a month',
         note: 'median rent including utilities' + caveat(rent), source: sourceLabel(rent) });
     }
     var inc = m.median_hh_income;
     if (usable(inc, true)) {
       facts.push({ key: 'median_hh_income', label: 'Typical household income',
-        value: dollars(inc.value) + ' a year',
+        value: money('median_hh_income', inc) + ' a year',
         note: 'median for all households, renters and owners' + caveat(inc), source: sourceLabel(inc) });
     }
     var home = m.median_home_value;
     if (usable(home, true)) {
       facts.push({ key: 'median_home_value', label: 'Typical home value',
-        value: dollars(home.value),
+        value: money('median_home_value', home),
         note: 'typical value of a home here' + caveat(home), source: sourceLabel(home) });
     }
     return facts;
