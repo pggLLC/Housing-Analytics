@@ -4045,12 +4045,12 @@
     var guide = state.fundingGuide;
     if (!F || !guide || !Array.isArray(guide.programs)) { host.innerHTML = ''; return; }
 
-    var county = op && op.containingCounty;
+    var county = op.containingCounty;
     var q = {
       execution: TARGET_EXECUTION[state.filters && state.filters.target] || undefined,
       projectType: state.filters && state.filters.target === 'preservation' ? 'preservation' : undefined,
       county: county || undefined,
-      place: op && op.placeGeoid,
+      place: op.placeGeoid,
       openOnly: true
     };
     var rows = F.select(guide, q);
@@ -4072,7 +4072,7 @@
     host.innerHTML =
       '<h4 style="margin:14px 0 4px">Funding programs that fit · ' + esc(rows.length) + ' open or with a published round</h4>' +
       '<p style="margin:0 0 .4rem;color:var(--muted);font-size:.78rem">' +
-        esc(scope.charAt(0).toUpperCase() + scope.slice(1)) + ' a project in ' + esc(op && op.countyName || 'this county') +
+        esc(scope.charAt(0).toUpperCase() + scope.slice(1)) + ' a project in ' + esc(op.countyName || 'this county') +
         ' can apply to, from the verified funding guide (' + esc(all.length - rows.length) + ' more are closed or have no published round). ' +
         'This screens eligibility from each program\'s published terms; it does not predict an award.</p>' +
       (rows.length
