@@ -51,6 +51,9 @@ for (const field of ['amount','rate','term','maturity','priority']) {
     assert.equal(bad.loans,null,field + ': no default'); assert(bad.unavailableReason);
   }
 }
+for (const [field,value] of [['amount',-1],['rate',21],['term',51],['maturity',51],['priority',13]]) {
+  assert(schedule({...f.mustPay,[field]:value}).unavailableReason, field + ': rejects out-of-range terms');
+}
 assert(schedule({...f.mustPay, loanType:'unknown'}).unavailableReason);
 assert(schedule({...f.ioThenAmortize,ioYears:15}).unavailableReason);
 assert(schedule({...f.mustPay,loanType:'cash_flow',cashflowPayPct:null}).unavailableReason);
