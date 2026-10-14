@@ -111,7 +111,7 @@ for (const entry of [place, county]) {
     for (const l of links) {
       checked++;
       if (/^https?:/.test(l.href)) {
-        assert(l.href.startsWith('https://'), `${l.href} must be https`);
+        assert.equal(new URL(l.href).protocol, 'https:', `${l.href} must be https`);
         assert.equal(l.external, true, `${l.href} must open as an external link`);
         continue;
       }
