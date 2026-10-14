@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-14T12:00:08.356Z",
+    "generated_at": "2026-10-14T12:57:54.598Z",
     "root": "data/",
     "file_count": 1716,
-    "total_size_bytes": 180664131,
+    "total_size_bytes": 180679733,
     "kinds": {
       "json": 1679,
       "geojson": 33,
@@ -502,7 +502,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-14T11:40:22.931Z",
+      "mtime": "2026-10-14T12:57:50.798Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1411,8 +1411,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 260508,
-      "mtime": "2026-10-12T17:16:13.844Z",
+      "size_bytes": 261127,
+      "mtime": "2026-10-14T12:56:17.388Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -1427,7 +1427,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1686,
+      "primary_array_length": 1690,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -30599,7 +30599,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 218112,
-      "mtime": "2026-10-14T12:00:06.842Z",
+      "mtime": "2026-10-14T12:57:26.705Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32063,7 +32063,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15108,
-      "mtime": "2026-10-14T11:40:24.737Z",
+      "mtime": "2026-10-14T12:57:52.641Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32087,7 +32087,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-14T11:40:24.315Z",
+      "mtime": "2026-10-14T12:57:52.207Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34872,8 +34872,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 104939,
-      "mtime": "2026-10-12T17:16:14.152Z",
+      "size_bytes": 119922,
+      "mtime": "2026-10-14T12:56:17.812Z",
       "shape": "object",
       "keys": [
         "meta",
