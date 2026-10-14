@@ -241,6 +241,20 @@
             if (jx.countyName || jx.name) countyName = jx.countyName || jx.name;
           }
         } catch (_) {}
+        // A shared link names the place (?geoid=) without writing it into
+        // the visitor's project; the calculator's own county selector holds
+        // the county it is pricing. Both outrank the site-wide county, and
+        // without them a linked Alamosa read "No rent data on file".
+        if (!placeGeoid) {
+          var linked = new URLSearchParams(window.location.search).get('geoid') || '';
+          if (/^08\d{5}$/.test(linked)) placeGeoid = linked;
+        }
+        var sel = document.getElementById('dc-county-select');
+        if (!countyFips && sel && /^08\d{3}$/.test(sel.value)) {
+          countyFips = sel.value.slice(-3);
+          var opt = sel.options[sel.selectedIndex];
+          if (opt && !countyName) countyName = opt.textContent.split(' — ')[0].trim();
+        }
         if (!countyFips) {
           try {
             var sc = window.SiteState && window.SiteState.getCounty && window.SiteState.getCounty();
@@ -251,6 +265,9 @@
         window.RentTriangulation.attach(mount, { placeGeoid: placeGeoid, placeName: placeName, countyFips: countyFips, countyName: countyName });
       }
       _hydrateDcRent();
+      document.addEventListener('change', function (e) {
+        if (e.target && e.target.id === 'dc-county-select') _hydrateDcRent();
+      });
       document.addEventListener('workflow:step-updated', _hydrateDcRent);
       document.addEventListener('sitestate:county-changed', _hydrateDcRent);
       document.addEventListener('jurisdiction-changed', _hydrateDcRent);
