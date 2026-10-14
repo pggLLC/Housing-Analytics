@@ -1,0 +1,10 @@
+{
+ "about": "Applications scripts/funding/build_lihtc_applications.py leaves out of _lihtc-applications.json. Each entry is the sha256 of \"<normalized name>|<normalized city>\" (exclusion_hash in that script), so this file does not name the project.",
+ "excluded": [
+  {
+   "sha256": "9790d58b8554bf80835a7c8f61f17e76579441a5cb7124a3c47e4e2cd4d5264d",
+   "reason": "the site owner's own project; left out at the owner's request",
+   "added": "2026-10-14"
+  }
+ ]
+}
