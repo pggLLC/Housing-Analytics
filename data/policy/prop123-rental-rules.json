@@ -235,9 +235,9 @@
         "basis": "gross",
         "burden_pct": 30,
         "rule": "Gross rent may not exceed 30% of the income limit designated for the unit.",
-        "utility_allowance": "CHFA Specialized Multifamily Loan Programs Utility Allowance Policy (G8), unless the regulatory agreement says otherwise.",
+        "utility_allowance": "CHFA Utility Allowance Policy for Housing Tax Credit and Multifamily Loan Developments, which the CHFA 2026 rent memo (G9) points tax-credit developments to. G8 does not apply: it covers Equity and Concessionary Debt projects not paired with Housing Tax Credits.",
         "annual_increase_cap_pct": null,
-        "annual_increase_cap_reason": "No annual rent-increase cap appears in the statute or any guideline read. G8 allows increases only at lease renewal; the 3% figures in the guidelines are underwriting discounts to market rent, not increase caps.",
+        "annual_increase_cap_reason": "No annual rent-increase cap appears in the statute or any guideline read. For tax-credit developments CHFA allows increases only at lease renewal (G9); the 3% figures in the guidelines are underwriting discounts to market rent, not increase caps.",
         "underwriting": "Rents underwritten at least 3% below local market rents (G4)."
       },
       "ami_source": "HUD area median income as published by CHFA",
@@ -280,9 +280,9 @@
         "basis": "gross",
         "burden_pct": 30,
         "rule": "Gross rent may not exceed 30% of the income limit designated for the unit.",
-        "utility_allowance": "CHFA Specialized Multifamily Loan Programs Utility Allowance Policy (G8), unless the regulatory agreement says otherwise.",
+        "utility_allowance": "CHFA Utility Allowance Policy for Housing Tax Credit and Multifamily Loan Developments, which the CHFA 2026 rent memo (G9) points tax-credit developments to. G8 does not apply: it covers Equity and Concessionary Debt projects not paired with Housing Tax Credits.",
         "annual_increase_cap_pct": null,
-        "annual_increase_cap_reason": "No annual rent-increase cap appears in the statute or any guideline read. G8 allows increases only at lease renewal; the 3% figures in the guidelines are underwriting discounts to market rent, not increase caps.",
+        "annual_increase_cap_reason": "No annual rent-increase cap appears in the statute or any guideline read. For tax-credit developments CHFA allows increases only at lease renewal (G9); the 3% figures in the guidelines are underwriting discounts to market rent, not increase caps.",
         "underwriting": null
       },
       "ami_source": "HUD area median income as published by CHFA",
@@ -322,6 +322,7 @@
         "burden_pct": null,
         "rule": "No rent limit.",
         "utility_allowance": null,
+        "utility_allowance_reason": "Not applicable: no units are restricted.",
         "annual_increase_cap_pct": null,
         "annual_increase_cap_reason": "Not applicable."
       },
@@ -356,9 +357,10 @@
         "basis": "gross",
         "burden_pct": 30,
         "rule": "Gross rent may not exceed 30% of the income limit designated for the unit.",
-        "utility_allowance": "CHFA Specialized Multifamily Loan Programs Utility Allowance Policy (G8), unless the regulatory agreement says otherwise.",
+        "utility_allowance": null,
+        "utility_allowance_reason": "The Land Banking guidelines name no utility allowance policy, and G8 covers only Equity and Concessionary Debt, so none is confirmed.",
         "annual_increase_cap_pct": null,
-        "annual_increase_cap_reason": "No annual rent-increase cap appears in the statute or any guideline read. G8 allows increases only at lease renewal; the 3% figures in the guidelines are underwriting discounts to market rent, not increase caps.",
+        "annual_increase_cap_reason": "No annual rent-increase cap appears in the statute or any guideline read. The 3% figures in the guidelines are underwriting discounts to market rent, not increase caps.",
         "underwriting": null
       },
       "ami_source": "HUD area median income as published by HUD or a statewide housing authority",
@@ -403,6 +405,7 @@
         "burden_pct": null,
         "rule": "Not confirmed for Prop 123 capital awards.",
         "utility_allowance": null,
+        "utility_allowance_reason": "Not confirmed.",
         "annual_increase_cap_pct": null,
         "annual_increase_cap_reason": "Not confirmed."
       },

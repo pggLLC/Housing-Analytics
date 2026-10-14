@@ -66,6 +66,7 @@ test('an unknown rule is null with a reason, never a number', () => {
     if (r.per_unit_max_ami_pct === null) assert(r.per_unit_max_reason, `${p.id}: null per-unit max needs a reason`);
     if (p.affordability_years === null) assert(p.affordability_reason, `${p.id}: null affordability needs a reason`);
     if (p.rent_rule.annual_increase_cap_pct === null) assert(p.rent_rule.annual_increase_cap_reason, `${p.id}: null increase cap needs a reason`);
+    if (p.rent_rule.utility_allowance === null) assert(p.rent_rule.utility_allowance_reason, `${p.id}: null utility allowance needs a reason`);
     if (r.type === 'project_average' || r.type === 'per_unit') {
       assert.equal(p.rent_rule.basis, 'gross', `${p.id}: OEDIT programs limit gross rent`);
       assert.equal(p.rent_rule.burden_pct, 30, `${p.id}: rent is 30% of the income limit`);
@@ -73,6 +74,22 @@ test('an unknown rule is null with a reason, never a number', () => {
   }
   const supportive = programs.find((p) => p.id === 'doh_supportive_housing');
   assert.equal(supportive.income_rule.max_ami_pct, null, 'no Prop 123 limit was confirmed for supportive housing');
+});
+
+// G8's utility allowance policy covers only Equity and Concessionary Debt
+// projects not paired with Housing Tax Credits, so a tax-credit program, or
+// one outside those two funds, must not be pointed at it.
+test('only programs G8 covers use its utility allowance policy', () => {
+  assert(/not paired with Housing Tax Credits/.test(rules.sources.G8.title), 'G8 scope changed: re-check which programs it covers');
+  let cited = 0;
+  for (const p of programs) {
+    const ua = p.rent_rule.utility_allowance;
+    if (!ua || !/\(G8\)/.test(ua)) continue;
+    cited++;
+    const covered = (p.id === 'equity' || p.id.startsWith('concessionary_debt_')) && !p.id.includes('lihtc');
+    assert(covered, `${p.id} cites G8's utility allowance policy, which does not cover it`);
+  }
+  assert(cited >= 1, 'no program cites G8: the scan checked nothing');
 });
 
 // The rent table the site uses must carry each program's AMI tier in every
