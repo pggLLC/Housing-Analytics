@@ -1,0 +1,2199 @@
+{
+  "meta": {
+    "generated_at": "2026-10-14T09:12:17Z",
+    "source": "Census Reporter ACS 2024 5-year API",
+    "release": {
+      "id": "acs2024_5yr",
+      "name": "ACS 2024 5-year",
+      "years": "2020-2024"
+    },
+    "table": "B25001 Housing Units",
+    "geography_count": 546
+  },
+  "geographies": {
+    "08001": {
+      "housing_units": 195793,
+      "moe": 113
+    },
+    "08003": {
+      "housing_units": 7241,
+      "moe": 45
+    },
+    "0800320": {
+      "housing_units": 1053,
+      "moe": 158
+    },
+    "08005": {
+      "housing_units": 269345,
+      "moe": 175
+    },
+    "0800620": {
+      "housing_units": 363,
+      "moe": 186
+    },
+    "08007": {
+      "housing_units": 9858,
+      "moe": 37
+    },
+    "0800760": {
+      "housing_units": 320,
+      "moe": 79
+    },
+    "0800870": {
+      "housing_units": 722,
+      "moe": 87
+    },
+    "08009": {
+      "housing_units": 1983,
+      "moe": 19
+    },
+    "0800925": {
+      "housing_units": 889,
+      "moe": 88
+    },
+    "0801090": {
+      "housing_units": 4464,
+      "moe": 177
+    },
+    "08011": {
+      "housing_units": 2174,
+      "moe": 26
+    },
+    "0801145": {
+      "housing_units": 583,
+      "moe": 135
+    },
+    "08013": {
+      "housing_units": 144729,
+      "moe": 121
+    },
+    "08014": {
+      "housing_units": 33202,
+      "moe": 60
+    },
+    "0801420": {
+      "housing_units": 903,
+      "moe": 129
+    },
+    "08015": {
+      "housing_units": 11482,
+      "moe": 275
+    },
+    "0801530": {
+      "housing_units": 289,
+      "moe": 122
+    },
+    "0801640": {
+      "housing_units": 200,
+      "moe": 96
+    },
+    "08017": {
+      "housing_units": 986,
+      "moe": 90
+    },
+    "0801740": {
+      "housing_units": 282,
+      "moe": 73
+    },
+    "08019": {
+      "housing_units": 5814,
+      "moe": 23
+    },
+    "0801915": {
+      "housing_units": 38,
+      "moe": 36
+    },
+    "08021": {
+      "housing_units": 4106,
+      "moe": 25
+    },
+    "08023": {
+      "housing_units": 2433,
+      "moe": 24
+    },
+    "0802355": {
+      "housing_units": 403,
+      "moe": 76
+    },
+    "08025": {
+      "housing_units": 1556,
+      "moe": 33
+    },
+    "0802575": {
+      "housing_units": 3680,
+      "moe": 334
+    },
+    "08027": {
+      "housing_units": 4631,
+      "moe": 281
+    },
+    "0802850": {
+      "housing_units": 16,
+      "moe": 11
+    },
+    "08029": {
+      "housing_units": 15025,
+      "moe": 39
+    },
+    "0802905": {
+      "housing_units": 236,
+      "moe": 55
+    },
+    "0803015": {
+      "housing_units": 529,
+      "moe": 141
+    },
+    "08031": {
+      "housing_units": 359581,
+      "moe": 203
+    },
+    "0803235": {
+      "housing_units": 169,
+      "moe": 51
+    },
+    "08033": {
+      "housing_units": 1572,
+      "moe": 129
+    },
+    "0803455": {
+      "housing_units": 52169,
+      "moe": 770
+    },
+    "08035": {
+      "housing_units": 144432,
+      "moe": 84
+    },
+    "0803620": {
+      "housing_units": 6152,
+      "moe": 301
+    },
+    "08037": {
+      "housing_units": 33915,
+      "moe": 28
+    },
+    "0803730": {
+      "housing_units": 317,
+      "moe": 99
+    },
+    "0803840": {
+      "housing_units": 19,
+      "moe": 14
+    },
+    "08039": {
+      "housing_units": 10510,
+      "moe": 36
+    },
+    "0803950": {
+      "housing_units": 984,
+      "moe": 120
+    },
+    "0804000": {
+      "housing_units": 152377,
+      "moe": 1265
+    },
+    "08041": {
+      "housing_units": 303482,
+      "moe": 201
+    },
+    "0804110": {
+      "housing_units": 4434,
+      "moe": 352
+    },
+    "0804165": {
+      "housing_units": 137,
+      "moe": 100
+    },
+    "08043": {
+      "housing_units": 20605,
+      "moe": 74
+    },
+    "08045": {
+      "housing_units": 24953,
+      "moe": 61
+    },
+    "0804620": {
+      "housing_units": 98,
+      "moe": 32
+    },
+    "08047": {
+      "housing_units": 3746,
+      "moe": 247
+    },
+    "08049": {
+      "housing_units": 17421,
+      "moe": 25
+    },
+    "0804935": {
+      "housing_units": 2181,
+      "moe": 263
+    },
+    "08051": {
+      "housing_units": 12506,
+      "moe": 37
+    },
+    "0805120": {
+      "housing_units": 2433,
+      "moe": 289
+    },
+    "0805265": {
+      "housing_units": 1172,
+      "moe": 132
+    },
+    "08053": {
+      "housing_units": 1343,
+      "moe": 76
+    },
+    "08055": {
+      "housing_units": 4783,
+      "moe": 27
+    },
+    "08057": {
+      "housing_units": 1107,
+      "moe": 85
+    },
+    "08059": {
+      "housing_units": 253574,
+      "moe": 276
+    },
+    "0806090": {
+      "housing_units": 1157,
+      "moe": 120
+    },
+    "08061": {
+      "housing_units": 740,
+      "moe": 78
+    },
+    "0806172": {
+      "housing_units": 4410,
+      "moe": 400
+    },
+    "0806255": {
+      "housing_units": 5158,
+      "moe": 305
+    },
+    "08063": {
+      "housing_units": 3428,
+      "moe": 22
+    },
+    "08065": {
+      "housing_units": 3983,
+      "moe": 260
+    },
+    "0806530": {
+      "housing_units": 67,
+      "moe": 34
+    },
+    "0806602": {
+      "housing_units": 428,
+      "moe": 142
+    },
+    "08067": {
+      "housing_units": 28990,
+      "moe": 47
+    },
+    "08069": {
+      "housing_units": 164690,
+      "moe": 127
+    },
+    "0806970": {
+      "housing_units": 5638,
+      "moe": 438
+    },
+    "0807025": {
+      "housing_units": 87,
+      "moe": 41
+    },
+    "08071": {
+      "housing_units": 8170,
+      "moe": 33
+    },
+    "0807190": {
+      "housing_units": 120,
+      "moe": 37
+    },
+    "0807245": {
+      "housing_units": 373,
+      "moe": 74
+    },
+    "08073": {
+      "housing_units": 2382,
+      "moe": 25
+    },
+    "0807410": {
+      "housing_units": 840,
+      "moe": 152
+    },
+    "0807420": {
+      "housing_units": 12,
+      "moe": 20
+    },
+    "0807455": {
+      "housing_units": 66,
+      "moe": 50
+    },
+    "08075": {
+      "housing_units": 8741,
+      "moe": 103
+    },
+    "0807571": {
+      "housing_units": 20,
+      "moe": 24
+    },
+    "0807580": {
+      "housing_units": 28,
+      "moe": 24
+    },
+    "08077": {
+      "housing_units": 69969,
+      "moe": 90
+    },
+    "0807795": {
+      "housing_units": 229,
+      "moe": 80
+    },
+    "0807850": {
+      "housing_units": 47465,
+      "moe": 748
+    },
+    "08079": {
+      "housing_units": 1179,
+      "moe": 82
+    },
+    "0808070": {
+      "housing_units": 375,
+      "moe": 59
+    },
+    "08081": {
+      "housing_units": 6136,
+      "moe": 19
+    },
+    "0808290": {
+      "housing_units": 4,
+      "moe": 7
+    },
+    "08083": {
+      "housing_units": 12375,
+      "moe": 34
+    },
+    "0808345": {
+      "housing_units": 65,
+      "moe": 33
+    },
+    "0808400": {
+      "housing_units": 7883,
+      "moe": 335
+    },
+    "08085": {
+      "housing_units": 19758,
+      "moe": 32
+    },
+    "0808530": {
+      "housing_units": 66,
+      "moe": 63
+    },
+    "0808620": {
+      "housing_units": 35,
+      "moe": 22
+    },
+    "0808675": {
+      "housing_units": 14116,
+      "moe": 584
+    },
+    "08087": {
+      "housing_units": 11804,
+      "moe": 50
+    },
+    "08089": {
+      "housing_units": 8746,
+      "moe": 23
+    },
+    "0808950": {
+      "housing_units": 200,
+      "moe": 73
+    },
+    "08091": {
+      "housing_units": 3531,
+      "moe": 179
+    },
+    "0809115": {
+      "housing_units": 126,
+      "moe": 42
+    },
+    "0809280": {
+      "housing_units": 33202,
+      "moe": 60
+    },
+    "08093": {
+      "housing_units": 14066,
+      "moe": 496
+    },
+    "08095": {
+      "housing_units": 2164,
+      "moe": 169
+    },
+    "0809555": {
+      "housing_units": 2311,
+      "moe": 247
+    },
+    "08097": {
+      "housing_units": 13412,
+      "moe": 116
+    },
+    "08099": {
+      "housing_units": 5479,
+      "moe": 37
+    },
+    "08101": {
+      "housing_units": 73646,
+      "moe": 113
+    },
+    "0810105": {
+      "housing_units": 1676,
+      "moe": 224
+    },
+    "08103": {
+      "housing_units": 3296,
+      "moe": 31
+    },
+    "08105": {
+      "housing_units": 6616,
+      "moe": 25
+    },
+    "0810600": {
+      "housing_units": 1542,
+      "moe": 117
+    },
+    "08107": {
+      "housing_units": 17169,
+      "moe": 51
+    },
+    "08109": {
+      "housing_units": 3902,
+      "moe": 19
+    },
+    "0810985": {
+      "housing_units": 609,
+      "moe": 154
+    },
+    "08111": {
+      "housing_units": 738,
+      "moe": 67
+    },
+    "0811260": {
+      "housing_units": 290,
+      "moe": 72
+    },
+    "08113": {
+      "housing_units": 6656,
+      "moe": 22
+    },
+    "08115": {
+      "housing_units": 1214,
+      "moe": 84
+    },
+    "0811645": {
+      "housing_units": 61,
+      "moe": 27
+    },
+    "08117": {
+      "housing_units": 32251,
+      "moe": 25
+    },
+    "0811810": {
+      "housing_units": 7850,
+      "moe": 337
+    },
+    "08119": {
+      "housing_units": 13674,
+      "moe": 27
+    },
+    "0811975": {
+      "housing_units": 46,
+      "moe": 46
+    },
+    "0812030": {
+      "housing_units": 0,
+      "moe": 14
+    },
+    "0812045": {
+      "housing_units": 2956,
+      "moe": 244
+    },
+    "08121": {
+      "housing_units": 2287,
+      "moe": 23
+    },
+    "08123": {
+      "housing_units": 129637,
+      "moe": 75
+    },
+    "0812325": {
+      "housing_units": 791,
+      "moe": 144
+    },
+    "0812387": {
+      "housing_units": 5119,
+      "moe": 213
+    },
+    "0812393": {
+      "housing_units": 1839,
+      "moe": 207
+    },
+    "0812415": {
+      "housing_units": 29159,
+      "moe": 611
+    },
+    "0812450": {
+      "housing_units": 14,
+      "moe": 15
+    },
+    "0812460": {
+      "housing_units": 72,
+      "moe": 36
+    },
+    "0812470": {
+      "housing_units": 241,
+      "moe": 110
+    },
+    "08125": {
+      "housing_units": 4336,
+      "moe": 18
+    },
+    "0812635": {
+      "housing_units": 1304,
+      "moe": 123
+    },
+    "0812815": {
+      "housing_units": 43291,
+      "moe": 701
+    },
+    "0812855": {
+      "housing_units": 1117,
+      "moe": 156
+    },
+    "0812900": {
+      "housing_units": 494,
+      "moe": 119
+    },
+    "0812945": {
+      "housing_units": 239,
+      "moe": 116
+    },
+    "0813460": {
+      "housing_units": 98,
+      "moe": 34
+    },
+    "0813590": {
+      "housing_units": 4340,
+      "moe": 371
+    },
+    "0813845": {
+      "housing_units": 2381,
+      "moe": 120
+    },
+    "0814175": {
+      "housing_units": 532,
+      "moe": 82
+    },
+    "0814587": {
+      "housing_units": 7672,
+      "moe": 524
+    },
+    "0814765": {
+      "housing_units": 305,
+      "moe": 63
+    },
+    "0815165": {
+      "housing_units": 7933,
+      "moe": 514
+    },
+    "0815302": {
+      "housing_units": 1260,
+      "moe": 252
+    },
+    "0815330": {
+      "housing_units": 143,
+      "moe": 47
+    },
+    "0815440": {
+      "housing_units": 271,
+      "moe": 148
+    },
+    "0815550": {
+      "housing_units": 120,
+      "moe": 52
+    },
+    "0815605": {
+      "housing_units": 134,
+      "moe": 38
+    },
+    "0815825": {
+      "housing_units": 47,
+      "moe": 32
+    },
+    "0815935": {
+      "housing_units": 920,
+      "moe": 212
+    },
+    "0816000": {
+      "housing_units": 211353,
+      "moe": 1058
+    },
+    "0816110": {
+      "housing_units": 9809,
+      "moe": 524
+    },
+    "0816385": {
+      "housing_units": 792,
+      "moe": 151
+    },
+    "0816465": {
+      "housing_units": 83,
+      "moe": 58
+    },
+    "0816495": {
+      "housing_units": 23169,
+      "moe": 721
+    },
+    "0816715": {
+      "housing_units": 0,
+      "moe": 14
+    },
+    "0817100": {
+      "housing_units": 48,
+      "moe": 22
+    },
+    "0817150": {
+      "housing_units": 1467,
+      "moe": 225
+    },
+    "0817375": {
+      "housing_units": 3991,
+      "moe": 272
+    },
+    "0817485": {
+      "housing_units": 81,
+      "moe": 52
+    },
+    "0817760": {
+      "housing_units": 4326,
+      "moe": 191
+    },
+    "0817925": {
+      "housing_units": 206,
+      "moe": 75
+    },
+    "0818310": {
+      "housing_units": 1179,
+      "moe": 238
+    },
+    "0818420": {
+      "housing_units": 94,
+      "moe": 63
+    },
+    "0818530": {
+      "housing_units": 793,
+      "moe": 176
+    },
+    "0818585": {
+      "housing_units": 113,
+      "moe": 48
+    },
+    "0818640": {
+      "housing_units": 99,
+      "moe": 32
+    },
+    "0818750": {
+      "housing_units": 83,
+      "moe": 30
+    },
+    "0819080": {
+      "housing_units": 2344,
+      "moe": 184
+    },
+    "0819150": {
+      "housing_units": 13576,
+      "moe": 510
+    },
+    "0819355": {
+      "housing_units": 207,
+      "moe": 51
+    },
+    "0819630": {
+      "housing_units": 472,
+      "moe": 113
+    },
+    "0819795": {
+      "housing_units": 922,
+      "moe": 123
+    },
+    "0819850": {
+      "housing_units": 4095,
+      "moe": 249
+    },
+    "0820000": {
+      "housing_units": 359581,
+      "moe": 203
+    },
+    "0820275": {
+      "housing_units": 2617,
+      "moe": 298
+    },
+    "0820440": {
+      "housing_units": 1224,
+      "moe": 155
+    },
+    "0820495": {
+      "housing_units": 172,
+      "moe": 92
+    },
+    "0820605": {
+      "housing_units": 28,
+      "moe": 36
+    },
+    "0820770": {
+      "housing_units": 549,
+      "moe": 190
+    },
+    "0821155": {
+      "housing_units": 463,
+      "moe": 139
+    },
+    "0821265": {
+      "housing_units": 375,
+      "moe": 122
+    },
+    "0821330": {
+      "housing_units": 2190,
+      "moe": 263
+    },
+    "0821390": {
+      "housing_units": 223,
+      "moe": 74
+    },
+    "0822035": {
+      "housing_units": 9634,
+      "moe": 362
+    },
+    "0822145": {
+      "housing_units": 351,
+      "moe": 62
+    },
+    "0822200": {
+      "housing_units": 2838,
+      "moe": 403
+    },
+    "0822575": {
+      "housing_units": 188,
+      "moe": 102
+    },
+    "0822860": {
+      "housing_units": 2249,
+      "moe": 167
+    },
+    "0822882": {
+      "housing_units": 118,
+      "moe": 106
+    },
+    "0823025": {
+      "housing_units": 150,
+      "moe": 57
+    },
+    "0823135": {
+      "housing_units": 2589,
+      "moe": 235
+    },
+    "0823300": {
+      "housing_units": 5712,
+      "moe": 413
+    },
+    "0823520": {
+      "housing_units": 91,
+      "moe": 31
+    },
+    "0823575": {
+      "housing_units": 480,
+      "moe": 227
+    },
+    "0823630": {
+      "housing_units": 199,
+      "moe": 80
+    },
+    "0823740": {
+      "housing_units": 812,
+      "moe": 66
+    },
+    "0823795": {
+      "housing_units": 1336,
+      "moe": 256
+    },
+    "0824235": {
+      "housing_units": 553,
+      "moe": 231
+    },
+    "0824290": {
+      "housing_units": 99,
+      "moe": 40
+    },
+    "0824620": {
+      "housing_units": 399,
+      "moe": 95
+    },
+    "0824785": {
+      "housing_units": 17798,
+      "moe": 557
+    },
+    "0824950": {
+      "housing_units": 11964,
+      "moe": 355
+    },
+    "0825115": {
+      "housing_units": 3953,
+      "moe": 357
+    },
+    "0825280": {
+      "housing_units": 7491,
+      "moe": 415
+    },
+    "0825390": {
+      "housing_units": 3893,
+      "moe": 323
+    },
+    "0825550": {
+      "housing_units": 3710,
+      "moe": 326
+    },
+    "0825610": {
+      "housing_units": 712,
+      "moe": 266
+    },
+    "0826270": {
+      "housing_units": 5452,
+      "moe": 475
+    },
+    "0826600": {
+      "housing_units": 6520,
+      "moe": 292
+    },
+    "0826765": {
+      "housing_units": 398,
+      "moe": 84
+    },
+    "0826875": {
+      "housing_units": 279,
+      "moe": 57
+    },
+    "0827040": {
+      "housing_units": 1631,
+      "moe": 158
+    },
+    "0827095": {
+      "housing_units": 60,
+      "moe": 63
+    },
+    "0827175": {
+      "housing_units": 450,
+      "moe": 101
+    },
+    "0827370": {
+      "housing_units": 3745,
+      "moe": 373
+    },
+    "0827425": {
+      "housing_units": 74558,
+      "moe": 838
+    },
+    "0827535": {
+      "housing_units": 203,
+      "moe": 55
+    },
+    "0827700": {
+      "housing_units": 2904,
+      "moe": 246
+    },
+    "0827810": {
+      "housing_units": 4313,
+      "moe": 289
+    },
+    "0827865": {
+      "housing_units": 10984,
+      "moe": 502
+    },
+    "0827950": {
+      "housing_units": 10834,
+      "moe": 521
+    },
+    "0827975": {
+      "housing_units": 625,
+      "moe": 114
+    },
+    "0828105": {
+      "housing_units": 257,
+      "moe": 61
+    },
+    "0828250": {
+      "housing_units": 157,
+      "moe": 58
+    },
+    "0828305": {
+      "housing_units": 1466,
+      "moe": 218
+    },
+    "0828360": {
+      "housing_units": 5930,
+      "moe": 230
+    },
+    "0828690": {
+      "housing_units": 3561,
+      "moe": 265
+    },
+    "0828745": {
+      "housing_units": 5455,
+      "moe": 351
+    },
+    "0828800": {
+      "housing_units": 3525,
+      "moe": 239
+    },
+    "0828830": {
+      "housing_units": 32,
+      "moe": 33
+    },
+    "0829185": {
+      "housing_units": 217,
+      "moe": 80
+    },
+    "0829240": {
+      "housing_units": 125,
+      "moe": 73
+    },
+    "0829295": {
+      "housing_units": 87,
+      "moe": 74
+    },
+    "0829625": {
+      "housing_units": 1648,
+      "moe": 142
+    },
+    "0829680": {
+      "housing_units": 124,
+      "moe": 43
+    },
+    "0829735": {
+      "housing_units": 788,
+      "moe": 153
+    },
+    "0829845": {
+      "housing_units": 192,
+      "moe": 95
+    },
+    "0829955": {
+      "housing_units": 310,
+      "moe": 100
+    },
+    "0830340": {
+      "housing_units": 2902,
+      "moe": 255
+    },
+    "0830350": {
+      "housing_units": 24,
+      "moe": 16
+    },
+    "0830420": {
+      "housing_units": 2708,
+      "moe": 319
+    },
+    "0830780": {
+      "housing_units": 4201,
+      "moe": 305
+    },
+    "0830835": {
+      "housing_units": 8175,
+      "moe": 364
+    },
+    "0830890": {
+      "housing_units": 104,
+      "moe": 92
+    },
+    "0830945": {
+      "housing_units": 129,
+      "moe": 63
+    },
+    "0831550": {
+      "housing_units": 211,
+      "moe": 52
+    },
+    "0831605": {
+      "housing_units": 2015,
+      "moe": 301
+    },
+    "0831660": {
+      "housing_units": 31367,
+      "moe": 631
+    },
+    "0831715": {
+      "housing_units": 806,
+      "moe": 132
+    },
+    "0831935": {
+      "housing_units": 197,
+      "moe": 87
+    },
+    "0832155": {
+      "housing_units": 41784,
+      "moe": 815
+    },
+    "0832650": {
+      "housing_units": 439,
+      "moe": 105
+    },
+    "0833035": {
+      "housing_units": 6938,
+      "moe": 291
+    },
+    "0833310": {
+      "housing_units": 80,
+      "moe": 36
+    },
+    "0833420": {
+      "housing_units": 74,
+      "moe": 74
+    },
+    "0833502": {
+      "housing_units": 5017,
+      "moe": 368
+    },
+    "0833640": {
+      "housing_units": 3190,
+      "moe": 229
+    },
+    "0833695": {
+      "housing_units": 2822,
+      "moe": 401
+    },
+    "0834520": {
+      "housing_units": 29,
+      "moe": 20
+    },
+    "0834630": {
+      "housing_units": 0,
+      "moe": 14
+    },
+    "0834685": {
+      "housing_units": 57,
+      "moe": 32
+    },
+    "0834740": {
+      "housing_units": 34,
+      "moe": 15
+    },
+    "0834960": {
+      "housing_units": 472,
+      "moe": 69
+    },
+    "0835070": {
+      "housing_units": 907,
+      "moe": 101
+    },
+    "0835400": {
+      "housing_units": 166,
+      "moe": 102
+    },
+    "0835860": {
+      "housing_units": 56,
+      "moe": 62
+    },
+    "0836410": {
+      "housing_units": 39551,
+      "moe": 809
+    },
+    "0836610": {
+      "housing_units": 131,
+      "moe": 31
+    },
+    "0836940": {
+      "housing_units": 28,
+      "moe": 21
+    },
+    "0837215": {
+      "housing_units": 339,
+      "moe": 81
+    },
+    "0837220": {
+      "housing_units": 1013,
+      "moe": 84
+    },
+    "0837270": {
+      "housing_units": 1180,
+      "moe": 161
+    },
+    "0837380": {
+      "housing_units": 70,
+      "moe": 30
+    },
+    "0837545": {
+      "housing_units": 444,
+      "moe": 99
+    },
+    "0837600": {
+      "housing_units": 395,
+      "moe": 119
+    },
+    "0837655": {
+      "housing_units": 665,
+      "moe": 186
+    },
+    "0837820": {
+      "housing_units": 678,
+      "moe": 190
+    },
+    "0837875": {
+      "housing_units": 475,
+      "moe": 88
+    },
+    "0838370": {
+      "housing_units": 842,
+      "moe": 144
+    },
+    "0838425": {
+      "housing_units": 52,
+      "moe": 36
+    },
+    "0838480": {
+      "housing_units": 161,
+      "moe": 94
+    },
+    "0838535": {
+      "housing_units": 524,
+      "moe": 87
+    },
+    "0838590": {
+      "housing_units": 169,
+      "moe": 60
+    },
+    "0838810": {
+      "housing_units": 481,
+      "moe": 182
+    },
+    "0838910": {
+      "housing_units": 1715,
+      "moe": 286
+    },
+    "0839160": {
+      "housing_units": 222,
+      "moe": 60
+    },
+    "0839195": {
+      "housing_units": 154,
+      "moe": 48
+    },
+    "0839250": {
+      "housing_units": 63,
+      "moe": 50
+    },
+    "0839745": {
+      "housing_units": 34,
+      "moe": 18
+    },
+    "0839800": {
+      "housing_units": 85,
+      "moe": 55
+    },
+    "0839855": {
+      "housing_units": 7124,
+      "moe": 368
+    },
+    "0839965": {
+      "housing_units": 647,
+      "moe": 80
+    },
+    "0840185": {
+      "housing_units": 801,
+      "moe": 180
+    },
+    "0840377": {
+      "housing_units": 13945,
+      "moe": 568
+    },
+    "0840515": {
+      "housing_units": 409,
+      "moe": 110
+    },
+    "0840550": {
+      "housing_units": 3598,
+      "moe": 310
+    },
+    "0840570": {
+      "housing_units": 59,
+      "moe": 27
+    },
+    "0840790": {
+      "housing_units": 271,
+      "moe": 58
+    },
+    "0840900": {
+      "housing_units": 22,
+      "moe": 17
+    },
+    "0841010": {
+      "housing_units": 161,
+      "moe": 44
+    },
+    "0841065": {
+      "housing_units": 364,
+      "moe": 159
+    },
+    "0841560": {
+      "housing_units": 742,
+      "moe": 156
+    },
+    "0841835": {
+      "housing_units": 12939,
+      "moe": 470
+    },
+    "0842000": {
+      "housing_units": 4,
+      "moe": 7
+    },
+    "0842055": {
+      "housing_units": 302,
+      "moe": 71
+    },
+    "0842110": {
+      "housing_units": 3281,
+      "moe": 242
+    },
+    "0842165": {
+      "housing_units": 91,
+      "moe": 67
+    },
+    "0842330": {
+      "housing_units": 506,
+      "moe": 99
+    },
+    "0842495": {
+      "housing_units": 9,
+      "moe": 9
+    },
+    "0843000": {
+      "housing_units": 73547,
+      "moe": 960
+    },
+    "0843110": {
+      "housing_units": 3462,
+      "moe": 131
+    },
+    "0843220": {
+      "housing_units": 962,
+      "moe": 176
+    },
+    "0843550": {
+      "housing_units": 69,
+      "moe": 29
+    },
+    "0843605": {
+      "housing_units": 1077,
+      "moe": 164
+    },
+    "0843660": {
+      "housing_units": 1259,
+      "moe": 107
+    },
+    "0844100": {
+      "housing_units": 617,
+      "moe": 129
+    },
+    "0844265": {
+      "housing_units": 81,
+      "moe": 69
+    },
+    "0844270": {
+      "housing_units": 361,
+      "moe": 137
+    },
+    "0844320": {
+      "housing_units": 1525,
+      "moe": 189
+    },
+    "0844375": {
+      "housing_units": 859,
+      "moe": 139
+    },
+    "0844595": {
+      "housing_units": 155,
+      "moe": 79
+    },
+    "0844695": {
+      "housing_units": 0,
+      "moe": 14
+    },
+    "0844980": {
+      "housing_units": 778,
+      "moe": 87
+    },
+    "0845145": {
+      "housing_units": 1970,
+      "moe": 191
+    },
+    "0845255": {
+      "housing_units": 21606,
+      "moe": 590
+    },
+    "0845530": {
+      "housing_units": 3038,
+      "moe": 371
+    },
+    "0845680": {
+      "housing_units": 458,
+      "moe": 97
+    },
+    "0845695": {
+      "housing_units": 391,
+      "moe": 99
+    },
+    "0845750": {
+      "housing_units": 327,
+      "moe": 164
+    },
+    "0845955": {
+      "housing_units": 6798,
+      "moe": 336
+    },
+    "0845970": {
+      "housing_units": 43528,
+      "moe": 884
+    },
+    "0846355": {
+      "housing_units": 8497,
+      "moe": 371
+    },
+    "0846410": {
+      "housing_units": 136,
+      "moe": 49
+    },
+    "0846465": {
+      "housing_units": 35143,
+      "moe": 597
+    },
+    "0847015": {
+      "housing_units": 0,
+      "moe": 14
+    },
+    "0847070": {
+      "housing_units": 762,
+      "moe": 154
+    },
+    "0847235": {
+      "housing_units": 59,
+      "moe": 40
+    },
+    "0847345": {
+      "housing_units": 0,
+      "moe": 14
+    },
+    "0848060": {
+      "housing_units": 381,
+      "moe": 86
+    },
+    "0848115": {
+      "housing_units": 558,
+      "moe": 100
+    },
+    "0848445": {
+      "housing_units": 2625,
+      "moe": 259
+    },
+    "0848500": {
+      "housing_units": 202,
+      "moe": 57
+    },
+    "0848555": {
+      "housing_units": 193,
+      "moe": 93
+    },
+    "0848940": {
+      "housing_units": 44,
+      "moe": 23
+    },
+    "0849215": {
+      "housing_units": 29,
+      "moe": 17
+    },
+    "0849325": {
+      "housing_units": 16,
+      "moe": 16
+    },
+    "0849490": {
+      "housing_units": 292,
+      "moe": 127
+    },
+    "0849600": {
+      "housing_units": 1994,
+      "moe": 201
+    },
+    "0849875": {
+      "housing_units": 1312,
+      "moe": 132
+    },
+    "0850012": {
+      "housing_units": 2938,
+      "moe": 321
+    },
+    "0850026": {
+      "housing_units": 1090,
+      "moe": 215
+    },
+    "0850040": {
+      "housing_units": 150,
+      "moe": 54
+    },
+    "0850380": {
+      "housing_units": 136,
+      "moe": 78
+    },
+    "0850480": {
+      "housing_units": 3310,
+      "moe": 275
+    },
+    "0850920": {
+      "housing_units": 516,
+      "moe": 100
+    },
+    "0851250": {
+      "housing_units": 34,
+      "moe": 22
+    },
+    "0851635": {
+      "housing_units": 1929,
+      "moe": 196
+    },
+    "0851690": {
+      "housing_units": 55,
+      "moe": 29
+    },
+    "0851745": {
+      "housing_units": 9805,
+      "moe": 355
+    },
+    "0851800": {
+      "housing_units": 4407,
+      "moe": 315
+    },
+    "0851975": {
+      "housing_units": 81,
+      "moe": 58
+    },
+    "0852075": {
+      "housing_units": 151,
+      "moe": 41
+    },
+    "0852210": {
+      "housing_units": 101,
+      "moe": 42
+    },
+    "0852350": {
+      "housing_units": 260,
+      "moe": 44
+    },
+    "0852550": {
+      "housing_units": 2250,
+      "moe": 260
+    },
+    "0852570": {
+      "housing_units": 1603,
+      "moe": 242
+    },
+    "0852820": {
+      "housing_units": 227,
+      "moe": 85
+    },
+    "0853010": {
+      "housing_units": 227,
+      "moe": 133
+    },
+    "0853120": {
+      "housing_units": 287,
+      "moe": 70
+    },
+    "0853175": {
+      "housing_units": 729,
+      "moe": 120
+    },
+    "0853395": {
+      "housing_units": 2056,
+      "moe": 238
+    },
+    "0853780": {
+      "housing_units": 1526,
+      "moe": 212
+    },
+    "0853875": {
+      "housing_units": 105,
+      "moe": 64
+    },
+    "0853945": {
+      "housing_units": 0,
+      "moe": 14
+    },
+    "0854330": {
+      "housing_units": 14914,
+      "moe": 522
+    },
+    "0854495": {
+      "housing_units": 264,
+      "moe": 103
+    },
+    "0854750": {
+      "housing_units": 244,
+      "moe": 119
+    },
+    "0854880": {
+      "housing_units": 233,
+      "moe": 70
+    },
+    "0854935": {
+      "housing_units": 336,
+      "moe": 75
+    },
+    "0855045": {
+      "housing_units": 183,
+      "moe": 61
+    },
+    "0855155": {
+      "housing_units": 434,
+      "moe": 112
+    },
+    "0855540": {
+      "housing_units": 561,
+      "moe": 131
+    },
+    "0855705": {
+      "housing_units": 173,
+      "moe": 41
+    },
+    "0855870": {
+      "housing_units": 68,
+      "moe": 40
+    },
+    "0855925": {
+      "housing_units": 50,
+      "moe": 31
+    },
+    "0855980": {
+      "housing_units": 1500,
+      "moe": 140
+    },
+    "0856035": {
+      "housing_units": 2762,
+      "moe": 352
+    },
+    "0856145": {
+      "housing_units": 672,
+      "moe": 83
+    },
+    "0856365": {
+      "housing_units": 261,
+      "moe": 44
+    },
+    "0856420": {
+      "housing_units": 798,
+      "moe": 122
+    },
+    "0856475": {
+      "housing_units": 187,
+      "moe": 40
+    },
+    "0856695": {
+      "housing_units": 11,
+      "moe": 10
+    },
+    "0856860": {
+      "housing_units": 1148,
+      "moe": 182
+    },
+    "0856970": {
+      "housing_units": 1440,
+      "moe": 233
+    },
+    "0857025": {
+      "housing_units": 1138,
+      "moe": 105
+    },
+    "0857245": {
+      "housing_units": 29,
+      "moe": 19
+    },
+    "0857300": {
+      "housing_units": 943,
+      "moe": 197
+    },
+    "0857400": {
+      "housing_units": 548,
+      "moe": 164
+    },
+    "0857445": {
+      "housing_units": 309,
+      "moe": 99
+    },
+    "0857465": {
+      "housing_units": 1022,
+      "moe": 223
+    },
+    "0857630": {
+      "housing_units": 22397,
+      "moe": 580
+    },
+    "0857850": {
+      "housing_units": 25,
+      "moe": 36
+    },
+    "0858235": {
+      "housing_units": 151,
+      "moe": 36
+    },
+    "0858400": {
+      "housing_units": 1622,
+      "moe": 182
+    },
+    "0858510": {
+      "housing_units": 36,
+      "moe": 24
+    },
+    "0858592": {
+      "housing_units": 730,
+      "moe": 131
+    },
+    "0858675": {
+      "housing_units": 46,
+      "moe": 75
+    },
+    "0858785": {
+      "housing_units": 160,
+      "moe": 77
+    },
+    "0858960": {
+      "housing_units": 53,
+      "moe": 37
+    },
+    "0859005": {
+      "housing_units": 493,
+      "moe": 101
+    },
+    "0859240": {
+      "housing_units": 362,
+      "moe": 131
+    },
+    "0859520": {
+      "housing_units": 155,
+      "moe": 90
+    },
+    "0859830": {
+      "housing_units": 206,
+      "moe": 55
+    },
+    "0859885": {
+      "housing_units": 178,
+      "moe": 69
+    },
+    "0860160": {
+      "housing_units": 1067,
+      "moe": 193
+    },
+    "0860600": {
+      "housing_units": 626,
+      "moe": 180
+    },
+    "0860655": {
+      "housing_units": 1173,
+      "moe": 123
+    },
+    "0860765": {
+      "housing_units": 96,
+      "moe": 63
+    },
+    "0861315": {
+      "housing_units": 75,
+      "moe": 33
+    },
+    "0862000": {
+      "housing_units": 49813,
+      "moe": 570
+    },
+    "0862220": {
+      "housing_units": 13027,
+      "moe": 439
+    },
+    "0862660": {
+      "housing_units": 79,
+      "moe": 46
+    },
+    "0862880": {
+      "housing_units": 1137,
+      "moe": 116
+    },
+    "0863045": {
+      "housing_units": 39,
+      "moe": 22
+    },
+    "0863265": {
+      "housing_units": 165,
+      "moe": 48
+    },
+    "0863320": {
+      "housing_units": 942,
+      "moe": 214
+    },
+    "0863375": {
+      "housing_units": 3784,
+      "moe": 400
+    },
+    "0863650": {
+      "housing_units": 43,
+      "moe": 29
+    },
+    "0863705": {
+      "housing_units": 148,
+      "moe": 56
+    },
+    "0864090": {
+      "housing_units": 259,
+      "moe": 73
+    },
+    "0864200": {
+      "housing_units": 663,
+      "moe": 138
+    },
+    "0864255": {
+      "housing_units": 3968,
+      "moe": 288
+    },
+    "0864870": {
+      "housing_units": 36,
+      "moe": 24
+    },
+    "0864970": {
+      "housing_units": 308,
+      "moe": 90
+    },
+    "0865190": {
+      "housing_units": 1781,
+      "moe": 202
+    },
+    "0865685": {
+      "housing_units": 119,
+      "moe": 98
+    },
+    "0865740": {
+      "housing_units": 202,
+      "moe": 59
+    },
+    "0866197": {
+      "housing_units": 3405,
+      "moe": 216
+    },
+    "0866895": {
+      "housing_units": 107,
+      "moe": 41
+    },
+    "0866995": {
+      "housing_units": 7,
+      "moe": 13
+    },
+    "0867005": {
+      "housing_units": 355,
+      "moe": 110
+    },
+    "0867040": {
+      "housing_units": 179,
+      "moe": 96
+    },
+    "0867142": {
+      "housing_units": 219,
+      "moe": 111
+    },
+    "0867280": {
+      "housing_units": 3131,
+      "moe": 323
+    },
+    "0867445": {
+      "housing_units": 360,
+      "moe": 113
+    },
+    "0867500": {
+      "housing_units": 67,
+      "moe": 51
+    },
+    "0867830": {
+      "housing_units": 518,
+      "moe": 124
+    },
+    "0868105": {
+      "housing_units": 355,
+      "moe": 70
+    },
+    "0868655": {
+      "housing_units": 6,
+      "moe": 11
+    },
+    "0868847": {
+      "housing_units": 13875,
+      "moe": 641
+    },
+    "0868875": {
+      "housing_units": 27,
+      "moe": 25
+    },
+    "0868930": {
+      "housing_units": 110,
+      "moe": 35
+    },
+    "0868985": {
+      "housing_units": 74,
+      "moe": 34
+    },
+    "0869040": {
+      "housing_units": 85,
+      "moe": 28
+    },
+    "0869110": {
+      "housing_units": 108,
+      "moe": 90
+    },
+    "0869150": {
+      "housing_units": 3426,
+      "moe": 270
+    },
+    "0869480": {
+      "housing_units": 1783,
+      "moe": 262
+    },
+    "0869645": {
+      "housing_units": 2486,
+      "moe": 224
+    },
+    "0869700": {
+      "housing_units": 34,
+      "moe": 21
+    },
+    "0869810": {
+      "housing_units": 6742,
+      "moe": 415
+    },
+    "0870112": {
+      "housing_units": 1221,
+      "moe": 261
+    },
+    "0870195": {
+      "housing_units": 1314,
+      "moe": 147
+    },
+    "0870250": {
+      "housing_units": 434,
+      "moe": 95
+    },
+    "0870360": {
+      "housing_units": 131,
+      "moe": 48
+    },
+    "0870525": {
+      "housing_units": 2945,
+      "moe": 308
+    },
+    "0870580": {
+      "housing_units": 545,
+      "moe": 73
+    },
+    "0870635": {
+      "housing_units": 208,
+      "moe": 54
+    },
+    "0871625": {
+      "housing_units": 112,
+      "moe": 101
+    },
+    "0871755": {
+      "housing_units": 2978,
+      "moe": 292
+    },
+    "0871790": {
+      "housing_units": 40,
+      "moe": 48
+    },
+    "0871845": {
+      "housing_units": 37,
+      "moe": 54
+    },
+    "0872320": {
+      "housing_units": 55,
+      "moe": 27
+    },
+    "0872395": {
+      "housing_units": 780,
+      "moe": 164
+    },
+    "0873330": {
+      "housing_units": 711,
+      "moe": 79
+    },
+    "0873715": {
+      "housing_units": 77,
+      "moe": 30
+    },
+    "0873825": {
+      "housing_units": 10942,
+      "moe": 272
+    },
+    "0873925": {
+      "housing_units": 1005,
+      "moe": 182
+    },
+    "0873935": {
+      "housing_units": 5290,
+      "moe": 192
+    },
+    "0873943": {
+      "housing_units": 1573,
+      "moe": 152
+    },
+    "0874080": {
+      "housing_units": 3303,
+      "moe": 293
+    },
+    "0874275": {
+      "housing_units": 122,
+      "moe": 54
+    },
+    "0874375": {
+      "housing_units": 1114,
+      "moe": 188
+    },
+    "0874430": {
+      "housing_units": 2322,
+      "moe": 349
+    },
+    "0874485": {
+      "housing_units": 324,
+      "moe": 66
+    },
+    "0874815": {
+      "housing_units": 156,
+      "moe": 49
+    },
+    "0874980": {
+      "housing_units": 236,
+      "moe": 100
+    },
+    "0875585": {
+      "housing_units": 114,
+      "moe": 76
+    },
+    "0875640": {
+      "housing_units": 5267,
+      "moe": 240
+    },
+    "0875970": {
+      "housing_units": 261,
+      "moe": 90
+    },
+    "0876190": {
+      "housing_units": 429,
+      "moe": 162
+    },
+    "0876325": {
+      "housing_units": 124,
+      "moe": 80
+    },
+    "0876795": {
+      "housing_units": 1886,
+      "moe": 183
+    },
+    "0877235": {
+      "housing_units": 4017,
+      "moe": 323
+    },
+    "0877290": {
+      "housing_units": 52250,
+      "moe": 961
+    },
+    "0877510": {
+      "housing_units": 3308,
+      "moe": 236
+    },
+    "0877757": {
+      "housing_units": 1808,
+      "moe": 246
+    },
+    "0878280": {
+      "housing_units": 362,
+      "moe": 94
+    },
+    "0878335": {
+      "housing_units": 17,
+      "moe": 12
+    },
+    "0878345": {
+      "housing_units": 13,
+      "moe": 22
+    },
+    "0878610": {
+      "housing_units": 4276,
+      "moe": 178
+    },
+    "0879100": {
+      "housing_units": 3455,
+      "moe": 314
+    },
+    "0879105": {
+      "housing_units": 341,
+      "moe": 129
+    },
+    "0879270": {
+      "housing_units": 14,
+      "moe": 9
+    },
+    "0879785": {
+      "housing_units": 558,
+      "moe": 166
+    },
+    "0879800": {
+      "housing_units": 376,
+      "moe": 139
+    },
+    "0880040": {
+      "housing_units": 6787,
+      "moe": 262
+    },
+    "0880095": {
+      "housing_units": 13,
+      "moe": 14
+    },
+    "0880370": {
+      "housing_units": 20,
+      "moe": 15
+    },
+    "0880755": {
+      "housing_units": 0,
+      "moe": 14
+    },
+    "0880865": {
+      "housing_units": 271,
+      "moe": 86
+    },
+    "0881030": {
+      "housing_units": 80,
+      "moe": 30
+    },
+    "0881305": {
+      "housing_units": 187,
+      "moe": 64
+    },
+    "0881690": {
+      "housing_units": 71,
+      "moe": 24
+    },
+    "0882130": {
+      "housing_units": 339,
+      "moe": 89
+    },
+    "0882350": {
+      "housing_units": 1442,
+      "moe": 136
+    },
+    "0882460": {
+      "housing_units": 368,
+      "moe": 75
+    },
+    "0882735": {
+      "housing_units": 76,
+      "moe": 27
+    },
+    "0882900": {
+      "housing_units": 311,
+      "moe": 81
+    },
+    "0883120": {
+      "housing_units": 5985,
+      "moe": 514
+    },
+    "0883175": {
+      "housing_units": 79,
+      "moe": 32
+    },
+    "0883230": {
+      "housing_units": 4210,
+      "moe": 285
+    },
+    "0883450": {
+      "housing_units": 386,
+      "moe": 92
+    },
+    "0883500": {
+      "housing_units": 134,
+      "moe": 63
+    },
+    "0883835": {
+      "housing_units": 50471,
+      "moe": 791
+    },
+    "0884000": {
+      "housing_units": 24,
+      "moe": 18
+    },
+    "0884042": {
+      "housing_units": 1832,
+      "moe": 256
+    },
+    "0884440": {
+      "housing_units": 15695,
+      "moe": 561
+    },
+    "0884770": {
+      "housing_units": 588,
+      "moe": 107
+    },
+    "0885045": {
+      "housing_units": 183,
+      "moe": 38
+    },
+    "0885155": {
+      "housing_units": 324,
+      "moe": 65
+    },
+    "0885485": {
+      "housing_units": 15463,
+      "moe": 455
+    },
+    "0885705": {
+      "housing_units": 2854,
+      "moe": 255
+    },
+    "0885760": {
+      "housing_units": 0,
+      "moe": 14
+    },
+    "0886090": {
+      "housing_units": 3647,
+      "moe": 217
+    },
+    "0886117": {
+      "housing_units": 3412,
+      "moe": 265
+    },
+    "0886200": {
+      "housing_units": 68,
+      "moe": 45
+    },
+    "0886310": {
+      "housing_units": 966,
+      "moe": 160
+    },
+    "0886475": {
+      "housing_units": 185,
+      "moe": 59
+    },
+    "0886750": {
+      "housing_units": 1515,
+      "moe": 187
+    }
+  }
+}

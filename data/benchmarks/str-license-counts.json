@@ -3,7 +3,7 @@
     "generated": "2026-07-14",
     "purpose": "Warn-only calibration benchmark for the PMA STR seasonal-share discount (#1171).",
     "method_note": "Licensed STR counts are not ACS vacant-for-rent units. They use different universes and dates; compare only for order-of-magnitude calibration. License counts are advisory only and are never scoring inputs.",
-    "source_rules": "Each row was queried from an official municipal/county ArcGIS or open-data endpoint on 2026-07-14. Absent jurisdictions are preferable to unverifiable or remembered counts."
+    "source_rules": "Each row was queried from an official municipal/county ArcGIS or open-data endpoint on 2026-07-14. Absent jurisdictions are preferable to unverifiable or remembered counts. Rows added 2026-10-14 were queried the same way that day. Summit County's unincorporated layer (2,298 records, an undocumented Active field) and Telluride's layer (a 2025 permit-year snapshot uploaded by a consultant) were left out as not a current license count."
   },
   "entries": [
     {
@@ -50,6 +50,33 @@
       "as_of": "2026-07-14",
       "source_url": "https://services1.arcgis.com/faTiISwEuJk1lvB1/arcgis/rest/services/GovBuilt_STR_License_Parcels_%28GIS_Friendly%29/FeatureServer/0/query?where=licenseStatus%3D%27Active%27&outFields=licenseNumber&returnDistinctValues=true&returnGeometry=false&f=json",
       "source_note": "Clear Creek County STR license parcel service; distinct active licenseNumber query returned 154 features."
+    },
+    {
+      "jurisdiction": "Aspen",
+      "geoid": "0803620",
+      "geography_level": "place",
+      "licensed_str_units": 753,
+      "as_of": "2026-09-03",
+      "source_url": "https://maps.cityofaspen.com/server/rest/services/ComDev/STR/FeatureServer/0/query?where=1%3D1&returnCountOnly=true&f=json",
+      "source_note": "City of Aspen GIS server, layer 'Existing STR Permit'. The query on 2026-10-14 returned count 753, all with distinct PermitNum; latest last_edited_date is 2026-09-03. PermitType: STR-C / Classic 670, STR-OO / Owner-Occupied 74, STR-LE / Lodging Exempt 7, blank 2. A hosted copy (services3.arcgis.com/5FkYBrhNzpVtlA6F/.../STR/FeatureServer/0) returned 747 and is older."
+    },
+    {
+      "jurisdiction": "Avon",
+      "geoid": "0804110",
+      "geography_level": "place",
+      "licensed_str_units": 1155,
+      "as_of": "2026-08-18",
+      "source_url": "https://services3.arcgis.com/kQJrz0VPtbNiqAV4/arcgis/rest/services/Authorized_Short-Term_Rental_Addresses/FeatureServer/0/query?where=1%3D1&returnCountOnly=true&f=json",
+      "source_note": "Town of Avon ArcGIS (owner of the Town's asset and transit layers), item 'Short-Term Rental Addresses': 'Avon addresses located on parcels or lodging properties where short-term rentals are authorized.' The query on 2026-10-14 returned 1155 address records (all Retired='No', all with a license number); dataLastEditDate is 2026-08-18. Those addresses map to only 342 distinct License__ values, because a front-desk-managed lodge holds one license for many units. Use 1155 as units and 342 as licenses. Type split, from a grouped query that totals 1115 rather than 1155: Front Desk managed 792, Full License 299, Limited 14, Resident Occupied 10."
+    },
+    {
+      "jurisdiction": "Boulder",
+      "geoid": "0807850",
+      "geography_level": "place",
+      "licensed_str_units": 936,
+      "as_of": "2026-10-14",
+      "source_url": "https://gis.bouldercolorado.gov/ags_svr1/rest/services/plan/RentalHousingLicenses/MapServer/0/query?where=RENTALTYPE+LIKE+%27%25Short+Term%25%27+AND+LICENSESTATUS%3D%27Issued%27&returnCountOnly=true&f=json",
+      "source_note": "City of Boulder GIS, layer 'Rental Housing Licenses', the source of the City's Rental License Map. Queries on 2026-10-14: RENTALTYPE LIKE '%Short Term%' AND LICENSESTATUS='Issued' returned 936; RENTALTYPE='Short Term Rental' AND Issued alone returned 896; all statuses with any Short Term type returned 1034. Excluded: 834 'Festival Lodging Rental' licenses. Live layer with no edit timestamp, so as_of is the query date."
     }
   ]
 }

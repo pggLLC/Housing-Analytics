@@ -4415,6 +4415,12 @@
 
     window.HNARenderers.renderLocalResources(geoType, geoid);
 
+    // Second homes, short-term rentals and lodging taxes (non-blocking).
+    if (window.SecondHomesPanel) {
+      window.SecondHomesPanel.attach(document.getElementById('hnaSecondHomesMount'), { geoid, geoType })
+        .catch(e => console.warn('[HNA] second homes panel failed', e));
+    }
+
 
     const derivedEntry = window.HNAState.state.derived?.geos?.[geoid] || null;
     if (derivedEntry) cacheFlags.derived = true;

@@ -1,299 +1,2544 @@
 {
   "metadata": {
-    "generated": "2026-06-03",
-    "vintage": "Curated from each housing authority's published fee schedule + program guidelines. Cash-in-lieu rates + mitigation requirements change annually — verify on each authority's website before underwriting.",
-    "notes": [
-      "Mountain resort markets concentrate around 60-150% AMI service-economy jobs",
-      "Mitigation programs trade development entitlements / fees for affordable units",
-      "Cash-in-lieu rates are typically the highest in the nation in CO resort markets",
-      "Deed restrictions enforce occupancy + maximum sale/lease pricing",
-      "Buy-down programs purchase open-market units to deed-restrict for workforce"
-    ],
+    "generated": "2026-10-14",
+    "vintage": "Every program was re-checked against the housing authority's, town's or county's own pages, code or budget documents on 2026-10-14. Fees, payments and income limits change annually; check the source before underwriting.",
     "restriction_type_key": {
       "occupancy-only": "Limits WHO may occupy (local employment). Does not cap price or appreciation. Keeps a unit in the workforce; does not make it affordable to a target AMI.",
       "price-capped": "Caps resale price, usually at original price plus an index. Preserves affordability to a defined AMI band across resales. This is the shared-equity family.",
-      "unverified": "Restriction mechanics not yet checked against a primary source."
+      "unverified": "Restriction mechanics not yet checked against a primary source.",
+      "n/a": "Not a deed restriction (a fee, tax, loan or land holding).",
+      "either": "The owner picks one of two restrictions when it is recorded: an occupancy-only one, or a price-capped one that pays more. Read the recorded deed to know which applies to a home."
     },
-    "sourcing_note": "Program-level magnitudes were previously unsourced strings. Figures carrying source_url + verified_on have been checked against a primary source on that date; the remainder are marked restriction_type 'unverified' and must not be cited without checking."
+    "sourcing_note": "Rebuilt 2026-10-14. Each program carries source_url and verbatim evidence quotes, and every figure in its summary or magnitude appears in one of those quotes (test:resort-programs). Earlier unsourced headlines, portfolio sizes and developer-action notes were removed rather than kept unverified. Claims that could not be checked are listed per authority under not_verified, with the reason.",
+    "serves_place_geoids_note": "Every place where an authority's programs apply, from its own stated service area. A county page lists every authority in the county; a town page lists only authorities whose service area names it. Nothing is inferred from county FIPS alone."
   },
   "authorities": [
     {
       "id": "apcha",
-      "name": "Aspen-Pitkin County Housing Authority (APCHA)",
+      "name": "Aspen/Pitkin County Housing Authority (APCHA)",
       "url": "https://www.apcha.org/",
-      "service_area": "Aspen + Snowmass Village + Pitkin County (unincorporated)",
+      "service_area": "City of Aspen and Pitkin County",
       "place_geoids": [
         "0803620",
         "0871755"
       ],
+      "serves_place_geoids": [
+        "0803620",
+        "0853945",
+        "0863650",
+        "0871755",
+        "0886200"
+      ],
       "county_fips": "08097",
-      "headline": "Most-active workforce-housing program in CO: ~3,000+ units, $700/sf cash-in-lieu, mandatory mitigation on commercial + residential",
-      "portfolio_size_units": 3000,
-      "portfolio_size_units_year": 2024,
+      "inventory": null,
       "key_programs": [
         {
-          "name": "Commercial Mitigation",
+          "name": "Growth Management affordable housing mitigation and fee-in-lieu (City of Aspen Land Use Code ch. 26.470)",
           "type": "linkage-fee",
-          "summary": "Commercial development must mitigate housing demand it creates. Calculated as ~65% of new employees generated × per-employee floor area required. Met via build-on-site, buy-existing-and-deed-restrict, or cash-in-lieu.",
-          "magnitude": "Cash-in-lieu rates: ~$300-$700/sf of mitigated floor area depending on category 1-4 unit type. Among highest in US.",
-          "restriction_type": "n/a"
+          "restriction_type": "n/a",
+          "summary": "The City of Aspen's growth management rules require new free-market residential development to mitigate its affordable-housing impact, by right through housing certificates above 0.1 FTE or a fee-in-lieu below it; larger fee-in-lieu payments need Council approval. The fee is set per full-time-equivalent employee by APCHA category and collected before building permit issuance.",
+          "magnitude": "Fee-in-lieu per FTE adopted Feb 27, 2024 (Ord. 01-2024): Category 1 $459,878; Category 2 $424,288; Category 3 $389,595; Category 4 $341,346; Category 5 $282,174 (Category 5 for conversions only). Superseded by Ord. No. 1 (2025), effective April 1, 2025, whose rates were not retrieved. Fee-in-lieu over 0.10 FTE requires Council approval.",
+          "source_label": "City of Aspen Ordinance #01, Series of 2024 (amending LUC 26.470.050.E)",
+          "source_url": "https://aspen.gov/DocumentCenter/View/12473",
+          "evidence": [
+            {
+              "section": "Ord. 01-2024, 26.470.050.E",
+              "quote": "Whenever a project provides employee housing via a fee-in-lieu payment, in part or in total, the amount of the payment shall be based upon the following (fee-in-lieu is only allowed for Categories 1-4, Category 5 is included for any necessary conversions between affordable housing unit types or for the purpose of conversions in the value of Certificates of Affordable Housing Credits):",
+              "source_url": "https://aspen.gov/DocumentCenter/View/12473"
+            },
+            {
+              "section": "Ord. 01-2024, fee table",
+              "quote": "Category 1:$459,878",
+              "source_url": "https://aspen.gov/DocumentCenter/View/12473"
+            },
+            {
+              "section": "Ord. 01-2024, fee table",
+              "quote": "Category 2:$424,288",
+              "source_url": "https://aspen.gov/DocumentCenter/View/12473"
+            },
+            {
+              "section": "Ord. 01-2024, fee table",
+              "quote": "Category 3:$389,595",
+              "source_url": "https://aspen.gov/DocumentCenter/View/12473"
+            },
+            {
+              "section": "Ord. 01-2024, fee table",
+              "quote": "Category 4:$341,346",
+              "source_url": "https://aspen.gov/DocumentCenter/View/12473"
+            },
+            {
+              "section": "Ord. 01-2024, fee table",
+              "quote": "Category 5:$282,174",
+              "source_url": "https://aspen.gov/DocumentCenter/View/12473"
+            },
+            {
+              "section": "Ord. 01-2024, 26.470.050.E",
+              "quote": "Unless otherwise stated in this Title or in a Development Order, Fee-in-Lieu payments shall be collected by the City of Aspen Building Department prior to and as a condition of Building Permit issuance.",
+              "source_url": "https://aspen.gov/DocumentCenter/View/12473"
+            },
+            {
+              "section": "Ord. 01-2024, adoption",
+              "quote": "FINALLY, adopted, passed and approved this 27th day of February 2024.",
+              "source_url": "https://aspen.gov/DocumentCenter/View/12473"
+            },
+            {
+              "section": "P&Z agenda Apr 16, 2024, Summary and Background",
+              "quote": "The City’s Growth Management Quota System regulations require affordable housing mitigation of free-market residential development. Development that generates less than 0.1 Full Time Equivalent (FTE) may mitigate via fee-in-lieu by right. Projects that generate more than 0.1 FTEs may mitigate via Affordable Housing Certificates by right.",
+              "source_url": "https://d3n9y02raazwpg.cloudfront.net/cityofaspen/f75096d0-4da0-11ee-ae13-0050569183fa-281a6482-8c28-4870-94d1-39c5de6f7e09-1712864191.pdf"
+            },
+            {
+              "section": "P&Z agenda Apr 16, 2024, quoting 26.470.110.C",
+              "quote": "The City Council may accept any percentage of a project's total affordable housing mitigation to be provided through a fee-in-lieu payment, including all or none.",
+              "source_url": "https://d3n9y02raazwpg.cloudfront.net/cityofaspen/f75096d0-4da0-11ee-ae13-0050569183fa-281a6482-8c28-4870-94d1-39c5de6f7e09-1712864191.pdf"
+            },
+            {
+              "section": "APCHA Regulations Appendix C, Table V",
+              "quote": "See City Ordinance No. 1 (2025), Effective on April 1, 2025, for 2025 Fee-In-Lieu rates for the City of Aspen.",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            }
+          ],
+          "verified_on": "2026-10-14"
         },
         {
-          "name": "Residential Affordable-Housing Requirement (RAH)",
-          "type": "linkage-fee",
-          "summary": "Free-market residential development requires affordable component (typically 70% of new floor area in housing-mitigation credits) OR equivalent cash payment.",
-          "magnitude": "Cash-in-lieu varies; large estates can owe $500K-$2M in RAH.",
-          "restriction_type": "n/a"
-        },
-        {
-          "name": "APCHA Ownership Program",
+          "name": "APCHA category ownership deed restriction (Categories 1-5)",
           "type": "ownership-deed-restriction",
-          "summary": "Categories 1-7 priced to income-qualified buyers (Cat 1 ~30% AMI through Cat 7 ~RO+200% AMI). Resale price-capped at indexed appreciation.",
-          "magnitude": "Cat 4 1BR (~120% AMI) prices around $350-$450K (vs $1.5M+ free-market comp).",
-          "restriction_type": "unverified"
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
+          "caps_income": true,
+          "income_band_ami": "Below 50% AMI (Cat 1) to 205.1-240% AMI (Cat 5)",
+          "summary": "Category ownership units are sold mostly through APCHA's bid and lottery to qualified full-time Pitkin County workers who meet category income and asset limits. Unless the deed restriction says otherwise, resale is capped at the purchase price plus 3% simple appreciation per year plus approved capital improvements up to 10% of purchase price.",
+          "magnitude": "Resale cap: 3% simple appreciation per year owned; capital improvements not to exceed 10% of purchase price. 2026 4-person income limits: Cat 1 $71,050; Cat 2 $120,785; Cat 3 $184,750; Cat 4 $291,350; Cat 5 $341,040. Newly deed-restricted 2-bedroom max sale price (Jan 1, 2026): Cat 1 $78,000 to Cat 5 $658,000.",
+          "source_label": "APCHA Regulations, 2026 Regulations (effective 04/16/2026)",
+          "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "evidence": [
+            {
+              "section": "Part I, Section 2.B",
+              "quote": "Affordable housing is for qualified employees who work in Pitkin County for a Pitkin County employer and are full-time residents in accordance with these Aspen Pitkin County Housing Authority (APCHA) Regulations",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            },
+            {
+              "section": "Part I, Section 4.C",
+              "quote": "Ownership Units are available in Categories 1 through 5 and in the RO Category as provided in the applicable deed restriction. Most ownership units are marketed and sold through APCHA in accordance with the bid and lottery provisions of these Regulations.",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            },
+            {
+              "section": "Part V, Section 1.B Maximum Sale Price",
+              "quote": "Plus three percent (3%) simple appreciation for each year owned;",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            },
+            {
+              "section": "Part V, Section 1.B Maximum Sale Price",
+              "quote": "Plus cost, at present value, of approved, permitted capital improvements, not to exceed 10% of purchase price, less depreciation;",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            },
+            {
+              "section": "Appendix C, Table I",
+              "quote": "Category 1 Low-Income Below 50% AMI",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            },
+            {
+              "section": "Appendix C, Table I",
+              "quote": "Category 5 and RO Upper Middle Income 205.1 - 240% AMI",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            },
+            {
+              "section": "Appendix C, Table II (2026 income limits)",
+              "quote": "4-person $71,050 $120,785 $184,750 $291,350 $341,040 No income limit",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            },
+            {
+              "section": "Appendix C, Table IV (effective Jan 1, 2026)",
+              "quote": "2 Bedroom 78,000 173,000 253,000 391,000 658,000 N/A",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            }
+          ],
+          "verified_on": "2026-10-14"
         },
         {
-          "name": "APCHA Rental Program",
-          "type": "rental-deed-restriction",
-          "summary": "Income-qualified rental units across the Roaring Fork Valley. Long waitlist; tenants must work locally ≥1,500 hrs/yr.",
-          "magnitude": "Burlingame, Lumberyard, Centennial, dozens more — ~1,500+ rental units in portfolio.",
-          "restriction_type": "unverified"
-        }
-      ],
-      "developer_actions": [
-        "Pitkin County developments require APCHA mitigation calculation early in entitlement",
-        "Master-lease agreements with APCHA can convert market-rate units to workforce inventory",
-        "Land donations to APCHA in lieu of mitigation are common on larger projects (recent: Lumberyard 277 units)",
-        "Deed restrictions are PERMANENT (in perpetuity)"
-      ]
-    },
-    {
-      "id": "vail-indeed",
-      "name": "Town of Vail — InDEED Program + Vail Local Housing Authority",
-      "url": "https://www.vailgov.com/government/departments/housing/vail-indeed",
-      "service_area": "Town of Vail",
-      "place_geoids": [
-        "0880040"
-      ],
-      "county_fips": "08037",
-      "headline": "Buy-down deed-restriction program: Town pays up to $200K per unit to deed-restrict existing market-rate condos as 'Vail InDEED' workforce housing",
-      "portfolio_size_units": 220,
-      "portfolio_size_units_year": 2024,
-      "key_programs": [
-        {
-          "name": "Vail InDEED (existing-unit purchase)",
-          "type": "buy-down-deed-restriction",
-          "summary": "Town pays a property owner cash to record a PERPETUAL OCCUPANCY deed restriction. The occupant must work 30+ hours per week for an Eagle County business. There is NO appreciation cap, NO income cap and NO household-size requirement, and the owner keeps full title — the unit stays in the local workforce, but it does not stay affordable to a defined AMI band.",
-          "magnitude": "Town pays ~20% of market value as of 2026 (16-20% historically). Resale is restricted to qualified local workers at market price.",
-          "restriction_type": "occupancy-only",
-          "caps_appreciation": false,
+          "name": "Resident Occupied (RO) ownership units",
+          "type": "ownership-deed-restriction",
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
           "caps_income": false,
-          "source_url": "https://www.vail.gov/government/departments/housing/vailindeed",
-          "secondary_source_url": "https://www.huduser.gov/portal/casestudies/study-081121.html",
-          "verified_on": "2026-09-15",
-          "correction_note": "Corrected 2026-09-15. This record previously stated 'occupancy + appreciation cap' and 'original price + indexed appreciation governs future sales'. Both were wrong: InDEED caps neither appreciation nor income. The distinction is load-bearing — an occupancy-only restriction preserves WORKFORCE occupancy at market price, while a price-capped restriction (see APCHA) preserves AFFORDABILITY at a defined AMI band. They cost different amounts and solve different problems."
+          "summary": "RO units are deed-restricted ownership homes for qualified local workers with no maximum household income, a higher (or unlimited) asset limit, and a resale cap of 3% or 4% simple appreciation per year depending on the deed restriction. Some converted mobile-home RO units carry no appreciation cap.",
+          "magnitude": "Appreciation 3% (some units 4%) simple per year; RO net asset limit $2,724,000 (2026).",
+          "source_label": "APCHA Regulations, 2026 Regulations (effective 04/16/2026)",
+          "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "evidence": [
+            {
+              "section": "Part I, Section 4.D",
+              "quote": "For RO ownership qualification, maximum household gross income requirements do not apply.",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            },
+            {
+              "section": "Part V, Section 3.C RO Maximum Sale Price",
+              "quote": "Plus three percent (3%) simple appreciation for each year owned by the Seller, between date of purchase and date of listing. (Note: some RO units appreciate at 3% and some at 4% depending on the applicable deed restriction);",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            },
+            {
+              "section": "Part V, Section 3.C.2",
+              "quote": "Deed restrictions specific to the unit permit a mobile home converted to a RO unit by a Qualified Owner will not be subject to an appreciation cap (except for units in the Woody Creek Subdivision).",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            },
+            {
+              "section": "Appendix C, Table II",
+              "quote": "Exceed $163,000 $375,000 $497,000 $702,000 $1,097,000 $2,724,000",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            }
+          ],
+          "verified_on": "2026-10-14"
         },
         {
-          "name": "Vail Commercial Linkage",
-          "type": "linkage-fee",
-          "summary": "Commercial development mitigates new employee housing demand via build/buy/fee.",
-          "magnitude": "Fee schedule updates annually.",
-          "restriction_type": "n/a"
-        },
-        {
-          "name": "Timber Ridge Village (Town-owned rental)",
+          "name": "APCHA deed-restricted rental program",
           "type": "rental-deed-restriction",
-          "summary": "Town's flagship rental portfolio — Vail Resorts master-leases for seasonal workforce. ~200 units; recently expanded.",
-          "magnitude": "Master-lease to Vail Resorts; income limits + work-locally requirements.",
-          "restriction_type": "unverified"
+          "restriction_type": "price-capped",
+          "caps_income": true,
+          "income_band_ami": "Categories 1-5 and RO; Truscott Phase II LIHTC at 60% AMI/HERA; Aspen Country Inn at 50% AMI",
+          "summary": "Deed-restricted rentals, managed either by APCHA or by private owners, must be leased to APCHA-qualified tenants at or below category maximum monthly rents. APCHA directly manages four complexes, including LIHTC units at two of them.",
+          "magnitude": "Max monthly rent (Jan 1, 2026), 1-bedroom: Cat 1 $766; Cat 2 $1,294; Cat 3 $1,832; Cat 4 $2,397; Cat 5 $2,920; RO $3,203. 127 LIHTC units in the APCHA-managed inventory (Rental Guide).",
+          "source_label": "APCHA Regulations, 2026 Regulations (effective 04/16/2026); APCHA Rental Guide",
+          "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "evidence": [
+            {
+              "section": "Part I, Section 4.B",
+              "quote": "Rental Units are available in Categories 1 through 5 and in the RO Category.",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            },
+            {
+              "section": "Part I, Section 4.B",
+              "quote": "As provided in the applicable deed restriction, rental units are managed and leased by APCHA and by private property owners. Qualification for all rental units must be approved by APCHA.",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            },
+            {
+              "section": "Appendix C, Table III (effective Jan 1, 2026)",
+              "quote": "1 Bedroom 766 1,294 1,832 2,397 2,920 3,203",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            },
+            {
+              "section": "Appendix C, Table II",
+              "quote": "2026 Max. Incomes for ACI",
+              "source_url": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+            },
+            {
+              "section": "Rental Guide",
+              "quote": "APCHA directly manages four different affordable housing complexes in Aspen.",
+              "source_url": "https://www.apcha.org/379/Rental-Guide"
+            },
+            {
+              "section": "Rental Guide",
+              "quote": "APCHA-managed housing inventory consists of 127 Low Income Tax Credit Units (40 units at Aspen Country Inn and 87 at Truscott Phase II).",
+              "source_url": "https://www.apcha.org/379/Rental-Guide"
+            }
+          ],
+          "verified_on": "2026-10-14"
         },
         {
-          "name": "Chamonix Vail (ownership)",
-          "type": "ownership-deed-restriction",
-          "summary": "Town-developed for-sale workforce condos. ~32 units, ~$400-$650K depending on bedroom count (vs $1.5M+ free-market West Vail).",
-          "restriction_type": "unverified"
+          "name": "APCHA winter seasonal housing",
+          "type": "seasonal-employee-housing",
+          "restriction_type": "unverified",
+          "summary": "APCHA offers winter seasonal rentals on a first-come, first-served basis for a September-April term at three locations.",
+          "source_label": "APCHA Rental Guide",
+          "source_url": "https://www.apcha.org/379/Rental-Guide",
+          "evidence": [
+            {
+              "section": "Rental Guide, Winter Seasonal Housing",
+              "quote": "Seasonal housing is first come, first served starting in May for units available September 1–April 30.",
+              "source_url": "https://www.apcha.org/379/Rental-Guide"
+            },
+            {
+              "section": "Rental Guide, Winter Seasonal Housing",
+              "quote": "Winter seasonal housing is offered at Marolt Ranch, Burlingame, and Aspen Highlands Village.",
+              "source_url": "https://www.apcha.org/379/Rental-Guide"
+            }
+          ],
+          "verified_on": "2026-10-14"
         }
       ],
-      "developer_actions": [
-        "Developers can sell existing market-rate inventory into InDEED for immediate cash + ongoing tax benefit",
-        "New commercial entitlement requires housing mitigation calculation",
-        "Town frequently joint-ventures with developers on land contributions"
-      ]
-    },
-    {
-      "id": "eagle-valley-housing",
-      "name": "Eagle County / Valley Home Store + Eagle Valley Workforce Housing",
-      "url": "https://www.eaglecounty.us/departments/community_development/housing/",
-      "service_area": "Eagle County (Vail / Edwards / Eagle / Gypsum / Avon / Beaver Creek)",
-      "county_fips": "08037",
-      "place_geoids": [
-        "0880040",
-        "0823300",
-        "0822200",
-        "0833695",
-        "0804110"
-      ],
-      "headline": "County-level program; Valley Home Store operates ~1,200 deed-restricted ownership + rental units across the I-70 corridor",
-      "portfolio_size_units": 1200,
-      "portfolio_size_units_year": 2024,
-      "key_programs": [
+      "not_verified": [
         {
-          "name": "Eagle County Deed Restriction Program",
-          "type": "buy-down-deed-restriction",
-          "summary": "Similar to Vail InDEED but for unincorporated Eagle County + smaller towns. County buys deed restrictions on market units.",
-          "magnitude": "Per-unit cash payment varies; tied to county Affordable Housing Fund.",
-          "restriction_type": "unverified"
+          "claim": "Total APCHA deed-restricted inventory unit count",
+          "reason": "No total count found on any APCHA or City of Aspen page that could be fetched. APCHA's 'by the numbers' link is a Tableau dashboard that does not render to text. The ~3,200 figures found are in newspapers/columns, not primary sources. The APCHA History page says only that APCHA is 'the oldest and largest mountain resort workforce housing program in North America'.",
+          "urls_tried": [
+            "https://www.apcha.org/",
+            "https://www.apcha.org/27/About",
+            "https://www.apcha.org/186/History",
+            "https://www.apcha.org/379/Rental-Guide",
+            "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+            "https://public.tableau.com/app/profile/emily.maynard4883/viz/APCHADataDashboard_17843214818820/DashboardHome"
+          ]
         },
         {
-          "name": "Smart Land Use Initiative",
-          "type": "density-bonus",
-          "summary": "Streamlined entitlement + density bonus for projects committing affordability covenants.",
-          "restriction_type": "n/a"
+          "claim": "Commercial/lodge mitigation percentage (e.g. share of employees generated that must be housed) under LUC 26.470",
+          "reason": "Aspen's codified Land Use Code (American Legal) returned 403, and records.aspen.gov reset the connection or returned 503. No fetched primary document states the commercial mitigation percentage or the employee generation rates.",
+          "urls_tried": [
+            "https://codelibrary.amlegal.com/codes/aspenco/latest/overview",
+            "https://codelibrary.amlegal.com/codes/aspenco/latest/aspen_co/0-0-0-36012",
+            "https://records.aspen.gov/WebLink/DocView.aspx?id=2007501",
+            "https://records.aspen.gov/WebLink/DocView.aspx?id=884026",
+            "https://library.municode.com/co/aspen/codes/municipal_code"
+          ]
+        },
+        {
+          "claim": "Current (2025, Ord. No. 1-2025) fee-in-lieu rates",
+          "reason": "APCHA Regulations Table V points to City Ordinance No. 1 (2025), effective April 1, 2025, but that ordinance was not retrievable. The 2024 schedule is recorded above and is superseded.",
+          "urls_tried": [
+            "https://records.aspen.gov/WebLink/DocView.aspx?id=2007501",
+            "https://aspen.gov/DocumentCenter/View/14715/2025-Fee-Schedule---Ordinance-17-2024-PDF"
+          ]
+        },
+        {
+          "claim": "Codified City of Aspen residential mitigation formula (LUC 26.470)",
+          "reason": "Only the P&Z staff description of free-market residential mitigation and the 26.470.110.C quote were retrieved; the codified residential mitigation formula was not.",
+          "urls_tried": [
+            "https://codelibrary.amlegal.com/codes/aspenco/latest/overview"
+          ]
         }
-      ],
-      "developer_actions": [
-        "Edwards + Eagle + Gypsum entitlements increasingly require affordability commitments",
-        "Valley Home Store administers waitlists + qualification for resort workforce"
-      ]
-    },
-    {
-      "id": "scha",
-      "name": "Summit Combined Housing Authority (SCHA)",
-      "url": "https://www.summithousing.us/",
-      "service_area": "Summit County + all incorporated towns (Breckenridge, Frisco, Silverthorne, Dillon, Blue River, Montezuma)",
-      "county_fips": "08117",
-      "place_geoids": [
-        "0875440",
-        "0808400",
-        "0828690",
-        "0820440"
-      ],
-      "headline": "Multi-jurisdictional housing authority combining county + 4 towns + Vail Resorts; ~2,300+ deed-restricted units",
-      "portfolio_size_units": 2300,
-      "portfolio_size_units_year": 2024,
-      "key_programs": [
-        {
-          "name": "Mortgage Assistance Program",
-          "type": "down-payment-assistance",
-          "summary": "5-Year + 20-Year Recapture options for workforce homebuyers. Covers up to $25K-$50K depending on income/employer tier.",
-          "restriction_type": "n/a"
-        },
-        {
-          "name": "Long-Term Rental Program (LTR)",
-          "type": "rental-deed-restriction",
-          "summary": "Property owners can voluntarily deed-restrict short-term-rental-eligible units into long-term rental in exchange for cash incentives. Counters STR conversion of workforce inventory.",
-          "restriction_type": "unverified"
-        },
-        {
-          "name": "Wellington (Breckenridge)",
-          "type": "ownership-deed-restriction",
-          "summary": "Town-of-Breckenridge-built workforce ownership; recent phase ~150 units.",
-          "restriction_type": "unverified"
-        },
-        {
-          "name": "Smith Ranch (Silverthorne)",
-          "type": "mixed-deed-restriction",
-          "summary": "Town-of-Silverthorne workforce community; ~140 units mixed rental + ownership.",
-          "restriction_type": "unverified"
-        }
-      ],
-      "developer_actions": [
-        "Summit linkage requirements apply to commercial + larger residential entitlements",
-        "Town-of-Breckenridge has the most active land donation history in the county"
       ]
     },
     {
       "id": "telluride",
-      "name": "Town of Telluride + San Miguel Regional Housing Authority",
-      "url": "https://www.telluride-co.gov/132/Housing",
-      "service_area": "Telluride + Mountain Village + unincorporated San Miguel County",
-      "county_fips": "08113",
+      "name": "Town of Telluride / Telluride Housing Authority, administered by San Miguel Regional Housing Authority (SMRHA)",
+      "url": "https://smrha.org/town-of-telluride/",
+      "service_area": "Town of Telluride (SMRHA also serves San Miguel County and Mountain Village)",
       "place_geoids": [
-        "0876795",
-        "0852550"
+        "0876795"
       ],
-      "headline": "Per-square-foot mitigation is among the highest in CO. Mandatory inclusionary on commercial + residential.",
-      "portfolio_size_units": 800,
-      "portfolio_size_units_year": 2024,
+      "serves_place_geoids": [
+        "0876795"
+      ],
+      "county_fips": "08113",
+      "inventory": {
+        "units": 470,
+        "year": 2025,
+        "quote": "In 2025 Q1, there were a total of 304 affordable/deed-restricted housing units in unincorporated San Miguel County, 470 in Telluride, and 613 in Mountain Village",
+        "display": [
+          "affordable/deed-restricted housing units",
+          "470 in Telluride"
+        ],
+        "source_url": "https://smrha.org/wp-content/uploads/2025/07/HNA-Final.pdf",
+        "note": "From the June 2025 San Miguel County Housing Needs Analysis prepared for SMRHA/Town of Telluride and published on smrha.org (consultant report, not a Town record)."
+      },
       "key_programs": [
         {
-          "name": "Telluride Affordable Housing Mitigation",
-          "type": "linkage-fee",
-          "summary": "Commercial + residential development must mitigate new housing demand. Mitigation generated per sf of new development.",
-          "restriction_type": "n/a"
+          "name": "Housing Mitigation Program (Land Use Code Section 3-720)",
+          "type": "inclusionary",
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
+          "caps_income": true,
+          "income_band_ami": "Tier 1 (<=120% AMI) and Tier 2 (<=180% AMI) for new mitigation units",
+          "summary": "Development subject to the Land Use Code must provide or fund deed-restricted housing scaled to the employees it generates, with the required share varying by type of use; required square footage is assigned income tiers, and mitigation units carry fixed initial sale prices. Original developers cannot take appreciation and must sell at or below the initial sale price.",
+          "magnitude": "Mitigation = employee generation rate x 400 sq ft per employee x required percentage (40%-90% depending on use). If 2,000 sq ft or more is required, at least 50% of it must be Tier 1.",
+          "source_label": "Telluride Affordable Housing Guidelines, amended June 26, 2026 (Part 2); SMRHA 2025 Housing Needs Analysis",
+          "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf",
+          "evidence": [
+            {
+              "section": "HNA 2025, Telluride Housing Mitigation Program",
+              "quote": "The amount of required housing mitigation is calculated based on employee generation rate (calculated based on type of use) x 400 sq. ft. (gross floor area per employee) x required percentage mitigation (which ranges from 40%-90% depending on the type of use).",
+              "source_url": "https://smrha.org/wp-content/uploads/2025/07/HNA-Final.pdf"
+            },
+            {
+              "section": "TAHG 201.1",
+              "quote": "The Housing Mitigation Program governs Affordable Housing Units as defined in and required by Land Use Code, as may be amended, requiring developers to mitigate the housing impacts of certain types of development by concurrently creating or accommodating Affordable Housing.",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            },
+            {
+              "section": "TAHG 201.4",
+              "quote": "Original Developers of Mitigation Unit are not eligible for appreciation or capital improvement increases, and are required to sell Mitigation Unit at or below the Initial Sale Price or Original Purchase Price indicated in the developer's Deed Restriction.",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            },
+            {
+              "section": "TAHG 210.2.C",
+              "quote": "If 2,000 square feet or greater of Affordable Housing is required, at least fifty percent (50%) of the required square footage shall be designated Tier 1, and the remainder may be Tier 2.",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            }
+          ],
+          "verified_on": "2026-10-14"
         },
         {
-          "name": "Virginia Place + Pine Street Place (rental)",
-          "type": "rental-deed-restriction",
-          "summary": "Town-developed workforce rental. Resort employee priority.",
-          "restriction_type": "unverified"
+          "name": "Payment-in-lieu (PIL) fee for housing mitigation",
+          "type": "linkage-fee",
+          "restriction_type": "n/a",
+          "summary": "Where the Land Use Code allows it, developers can pay a per-square-foot fee instead of building mitigation housing. The fee equals the gap between average free-market and Tier 1 affordable sale prices per square foot, is recalculated each year, and goes into a dedicated affordable housing account.",
+          "magnitude": "Methodology example: $458 per sq ft on January 31, 2018. The current fee was not stated in the Guidelines.",
+          "source_label": "Telluride Affordable Housing Guidelines, amended June 26, 2026 (206.3 and Appendix C)",
+          "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf",
+          "evidence": [
+            {
+              "section": "TAHG 206.3",
+              "quote": "Payment-in-lieu Fees – In certain cases the Land Use Code allows developers subject to housing mitigation requirements to make a payment-in-lieu of providing housing.",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            },
+            {
+              "section": "TAHG 206.3.B",
+              "quote": "Payment-in-lieu fees are paid to the Town and held in an account dedicated to Affordable Housing.",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            },
+            {
+              "section": "TAHG Appendix C",
+              "quote": "The PIL fee is based on the difference between the market price of housing and the price that is affordable to Households with incomes that are targeted by the Telluride Affordable Housing Guidelines.",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            },
+            {
+              "section": "TAHG Appendix C",
+              "quote": "Based on this methodology, the Payment-in-Lieu Fee on January 31, 2018, was $458. For the current Payment-in-Lieu Fee, contact the Town Planning and Building Department.",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Deed-restricted ownership units (Telluride Affordable Housing Guidelines)",
+          "type": "ownership-deed-restriction",
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
+          "caps_income": true,
+          "income_band_ami": "Tier 1 <=120%, Tier 2 <=180%, Tier 3 <=130% (legacy), Tier 4 <=220% of AMI",
+          "summary": "Individually owned affordable units (mitigation units, town-constructed units and employee dwelling units) are limited to qualified households working locally, with income tiers. Resale is capped at the lesser of 3% annual compounded appreciation or a CPI-based increase, plus approved capital improvements up to 10%.",
+          "magnitude": "Max sale price: the lesser of 3% per year compounded or the greater of the Denver or U.S. CPI-W change, plus capital improvements up to 10% of original purchase price. Tier 1 ISP for a 2-bedroom: $428 per sq ft.",
+          "source_label": "Telluride Affordable Housing Guidelines, amended June 26, 2026",
+          "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf",
+          "evidence": [
+            {
+              "section": "SMRHA Telluride page",
+              "quote": "All Affordable Housing Units (AHUs), which includes Mitigation Units (MUs), Town Constructed Units (TCUs), and Employee Dwelling Units (EDUs), are governed by the Telluride Affordable Housing Guidelines",
+              "source_url": "https://smrha.org/town-of-telluride/"
+            },
+            {
+              "section": "TAHG 108.2.D.1.i",
+              "quote": "An increase of the OPP of three percent (3%) per year from the date of purchase to the date of Owner’s Notice of Intent to Sell (compounded annually and prorated at the rate of .25 percent (.25%) per each whole month of any part of a year); or",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            },
+            {
+              "section": "TAHG 108.2.D.3",
+              "quote": "PLUS, the costs of Permitted Capital Improvements, not to exceed ten percent (10%) of the OPP",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            },
+            {
+              "section": "TAHG Appendix A",
+              "quote": "Tier 1 Income – To be eligible to purchase or rent a Tier 1 Housing Unit, Household Income shall not exceed one-hundred and twenty percent (120%) of AMI for San Miguel County adjusted for the number of Bedrooms:",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            },
+            {
+              "section": "TAHG Appendix A",
+              "quote": "Tier 2 Income – To be eligible to purchase or rent a Tier 2 Housing Unit, Household Income shall not exceed one-hundred and eighty percent (180%) of AMI for San Miguel County adjusted for the number of Bedrooms:",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            },
+            {
+              "section": "TAHG Appendix A",
+              "quote": "Tier 4 Income – To be eligible to purchase or rent a Tier 4 Housing Unit, Household Income shall not exceed two-hundred and twenty percent (220%) of AMI for San Miguel County adjusted for the number of Bedrooms:",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            },
+            {
+              "section": "TAHG Appendix B, Tier 1 Initial Sale Prices",
+              "quote": "2 Bedroom 90% of 2 Person AMI $428 per square foot",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Town-constructed employee rental housing (Shandoka, Virginia Placer, Boardinghouse, Sunnyside, Voodoo)",
+          "type": "town-owned-rental",
+          "restriction_type": "unverified",
+          "summary": "Rental properties built by the Town or the Housing Authority are governed by separate Telluride Employee Rental Housing Policies rather than the ownership Guidelines. Recent additions include Sunnyside (30 rental units, 2022) and Voodoo Apartments (27, 2024), with a 20-unit Virginia Placer Phase II in predevelopment.",
+          "magnitude": "Sunnyside 30 rental units (2022); Voodoo Apartments 27 (2024); Shandoka Building F 3 (2024); Virginia Placer Phase II A & B 20 rental units in predevelopment.",
+          "source_label": "Telluride Affordable Housing Guidelines (definitions); SMRHA 2025 Housing Needs Analysis, Tables 8 and 34",
+          "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf",
+          "evidence": [
+            {
+              "section": "TAHG Definitions, Town Constructed Rental Unit",
+              "quote": "Units constructed by the Town or the THA for rental purposes exclusively which are subject to Qualification standards, processes, regulations and procedures developed by the THA Subcommittee and designated by resolution of the Town Council on a project specific basis.",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            },
+            {
+              "section": "TAHG Definitions, Town Constructed Rental Unit",
+              "quote": "Properties subject to the Policies and not these Guidelines include Shandoka, Virginia Placer, the Boardinghouse, Sunnyside, and Voodoo.",
+              "source_url": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+            },
+            {
+              "section": "HNA 2025, Table 8",
+              "quote": "Sunnyside 2022 30 0 30",
+              "source_url": "https://smrha.org/wp-content/uploads/2025/07/HNA-Final.pdf"
+            },
+            {
+              "section": "HNA 2025, Table 8",
+              "quote": "Voodoo Apartments 2024 27 0 27",
+              "source_url": "https://smrha.org/wp-content/uploads/2025/07/HNA-Final.pdf"
+            },
+            {
+              "section": "HNA 2025, Table 8",
+              "quote": "Shandoka Building F 2024 3 0 3",
+              "source_url": "https://smrha.org/wp-content/uploads/2025/07/HNA-Final.pdf"
+            },
+            {
+              "section": "HNA 2025, Table 34",
+              "quote": "Virginia Placer Phase II A & B Predevelopment 0 20 20",
+              "source_url": "https://smrha.org/wp-content/uploads/2025/07/HNA-Final.pdf"
+            }
+          ],
+          "verified_on": "2026-10-14"
         }
       ],
-      "developer_actions": [
-        "Mitigation calculations done by town housing director — engage in pre-application phase",
-        "Mountain Village has its own additional mitigation requirements"
+      "not_verified": [
+        {
+          "claim": "Town of Telluride Land Use Code Section 3-720 text (commercial vs residential mitigation percentages, employee generation rates)",
+          "reason": "telluride.municipal.codes returned HTTP 403, and telluride-co.gov was unreachable (proxy CONNECT rejected / DNS failure). The 40%-90% range above comes from the SMRHA-published 2025 HNA, not the code itself.",
+          "urls_tried": [
+            "https://telluride.municipal.codes/LUC/3-720",
+            "www.telluride-co.gov/ (unreachable: DNS lookup fails; not a citation)",
+            "telluride-co.gov/369/Affordable-Housing (unreachable: DNS lookup fails; not a citation)"
+          ]
+        },
+        {
+          "claim": "Virginia Placer unit count, rents and income limits (existing phase)",
+          "reason": "The Telluride Employee Rental Housing Policies and Town rental pages live on telluride-co.gov, which was unreachable. Only the property's governance (TAHG definition) and the Phase II pipeline (HNA) were verified.",
+          "urls_tried": [
+            "www.telluride-co.gov/DocumentCenter/View/14992/Telluride-Employee-Rental-Housing-Policies (unreachable: DNS lookup fails; not a citation)",
+            "telluride-co.gov/745/Town-Owned-Rental-Properties (unreachable: DNS lookup fails; not a citation)",
+            "telluride-co.gov/735/Rental-Housing (unreachable: DNS lookup fails; not a citation)"
+          ]
+        },
+        {
+          "claim": "'Pine Street Place' rental",
+          "reason": "No property by that name appears in the TAHG list of town rental properties, the TAHG Appendix G unit inventory, or the 2025 HNA development tables. Appendix G does list deed-restricted condos on S Pine St (Ballard, Rivercrown, San Juan Warehouse). The Town site was unreachable, so the property may exist under another name.",
+          "urls_tried": [
+            "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf",
+            "https://smrha.org/wp-content/uploads/2025/07/HNA-Final.pdf",
+            "www.telluride-co.gov/ (unreachable: DNS lookup fails; not a citation)"
+          ]
+        },
+        {
+          "claim": "Current payment-in-lieu fee amount",
+          "reason": "The Guidelines say it is set in the annual Town Fee Resolution, which is on the unreachable Town site.",
+          "urls_tried": [
+            "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf",
+            "www.telluride-co.gov/ (unreachable: DNS lookup fails; not a citation)"
+          ]
+        },
+        {
+          "claim": "Inventory figure from a Town or SMRHA administrative count",
+          "reason": "TAHG Appendix G lists units individually without stating a total (and excludes town rentals). The 470 figure is from the consultant HNA.",
+          "urls_tried": [
+            "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+          ]
+        }
       ]
     },
     {
-      "id": "estes-park-housing",
-      "name": "Estes Park Housing Authority",
-      "url": "https://www.estesparkhousingauthority.org/",
-      "service_area": "Town of Estes Park + unincorporated Larimer County around RMNP",
+      "id": "crested-butte",
+      "name": "Town of Crested Butte Community Housing",
+      "url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
+      "service_area": "Town of Crested Butte (Gunnison County)",
       "place_geoids": [
-        "0825115"
+        "0818310"
       ],
-      "county_fips": "08069",
-      "headline": "Resort-gateway town with year-round + seasonal workforce demand from Rocky Mountain National Park + YMCA of the Rockies",
-      "portfolio_size_units": 250,
-      "portfolio_size_units_year": 2024,
+      "serves_place_geoids": [
+        "0818310"
+      ],
+      "county_fips": "08051",
+      "inventory": {
+        "units": 371,
+        "year": 2026,
+        "quote": "Today, 371 deed-restricted units make up approximately 28% of the Town’s total housing stock, offering a mix of rental and ownership options thoughtfully designed to match the community’s historic character.",
+        "display": [
+          "371 deed-restricted units"
+        ],
+        "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
+        "corroboration": {
+          "quote": "Today, there are 371 deed-restricted units across town, representing about 28% of Crested Butte’s total housing stock.",
+          "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+        }
+      },
       "key_programs": [
         {
-          "name": "Talons Pointe + Vista Ridge (rental)",
-          "type": "rental-deed-restriction",
-          "summary": "Town-developed workforce rentals serving park + tourism workforce. Long waitlists.",
-          "restriction_type": "unverified"
+          "name": "Deed-restricted ownership homes (Paradise Park, Verzuh, Kapushion, Poverty Gulch, Red Lady Estates, Redden)",
+          "type": "ownership-deed-restriction",
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
+          "summary": "The Town's ownership portfolio is governed by individual deed restrictions under the Affordable Housing Guidelines. All require local workforce participation, some carry income or asset limits, and most cap appreciation; Kapushion parcels are an exception with no appreciation cap. Capped units resell at a maximum price based on the deed restriction's appreciation rate plus permitted capital improvements.",
+          "magnitude": "87 deed-restricted ownership units (2026 strategy). Affordable purchase price targets housing costs at or below 25% of gross income.",
+          "source_label": "Town of Crested Butte Affordable Housing Guidelines (amended June 15, 2026); 5-Year Housing Strategy (adopted May 18, 2026)",
+          "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Town%20of%20Crested%20Butte%20Affordable%20Housing%20Guidelines%20Adopted%20June%2015%2C%202026.pdf",
+          "evidence": [
+            {
+              "section": "5-Year Strategy, Housing Portfolio",
+              "quote": "Deed restricted ownership units (87 Units): Includes Paradise Park, Verzuh, Kapushion, Poverty Gulch, Red Lady Estates, and the Redden Mobile Homes",
+              "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+            },
+            {
+              "section": "5-Year Strategy, Housing Portfolio",
+              "quote": "While all require participation in the local workforce, some have income/asset restrictions, and most have appreciation caps.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+            },
+            {
+              "section": "Community Housing page, Kapushion",
+              "quote": "Annexed in 1990, four parcels were dedicated as community housing with no appreciation cap.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+            },
+            {
+              "section": "Guidelines 15.2",
+              "quote": "The Maximum Allowable Resale Price is determined by the appreciation rate allowed in the applicable Deed Restriction and the following formula:",
+              "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Town%20of%20Crested%20Butte%20Affordable%20Housing%20Guidelines%20Adopted%20June%2015%2C%202026.pdf"
+            },
+            {
+              "section": "Guidelines 4.1",
+              "quote": "utilities (including internet access), homeowners’ association dues, assessments, common area charges, and any other involuntary charge are equal to or less than 25% of the Household’s gross income at the income level established in the Deed Restriction.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Town%20of%20Crested%20Butte%20Affordable%20Housing%20Guidelines%20Adopted%20June%2015%2C%202026.pdf"
+            },
+            {
+              "section": "Community Housing page, Poverty Gulch",
+              "quote": "A ten-unit condominium developed in 1999 that targets local workforce households who earn 80%-100% AMI with appreciation limits.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+            }
+          ],
+          "verified_on": "2026-10-14"
         },
         {
-          "name": "Estes Park linkage + inclusionary requirements",
-          "type": "linkage-fee",
-          "summary": "Selective inclusionary requirements on commercial + larger residential developments.",
-          "restriction_type": "n/a"
+          "name": "Resident Occupied Affordable Housing (ROAH) mitigation",
+          "type": "inclusionary",
+          "restriction_type": "unverified",
+          "caps_income": true,
+          "summary": "ROAH requires certain new residential, nonresidential and lodging development to address the workforce housing demand it creates, by building deed-restricted units, deed-restricting an existing unit, or paying a cash-in-lieu fee. The Town's own strategy says it has produced only five units, some income-restricted without rent limits.",
+          "magnitude": "5 ROAH units to date.",
+          "source_label": "Town of Crested Butte Community Housing page; 5-Year Housing Strategy",
+          "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
+          "evidence": [
+            {
+              "section": "Community Housing page, Affordable Housing Programs",
+              "quote": "The Resident Occupied Affordable Housing (ROAH) policy: Requires developers/builders to address the workforce housing demand that is generated by certain new residential, nonresidential, and lodging development.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+            },
+            {
+              "section": "Community Housing page, Affordable Housing Programs",
+              "quote": "There are multiple methods by which the requirements can be met, including but not limited to building requisite deed restricted units within a new development, deed restricting an existing unit, or paying a cash in lieu fee.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+            },
+            {
+              "section": "Community Housing page, ROAH",
+              "quote": "To date, there are five ROAH units that include a local workforce participation requirement restricted at various income levels.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+            },
+            {
+              "section": "5-Year Strategy, Workforce Rental Housing",
+              "quote": "Only 5 ROAH units produced, some have income restrictions without rent restrictions, allowing predatory rents",
+              "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Town-owned workforce rentals (incl. Paradise Park Workforce Rentals)",
+          "type": "town-owned-rental",
+          "restriction_type": "price-capped",
+          "caps_income": true,
+          "income_band_ami": "<=140% AMI (priced at 100% AMI)",
+          "summary": "The Town owns 33 rental units, including scattered Town-employee housing, The Ruby, and 14 Paradise Park workforce rental townhomes built on Town parcels. The Paradise Park units are restricted to households at or below 140% AMI but priced at 100% AMI.",
+          "magnitude": "33 Town-owned units; 14 Paradise Park workforce rentals (final phase leased up end of 2025), restricted at 140% AMI and priced at 100% AMI.",
+          "source_label": "Town of Crested Butte 5-Year Housing Strategy; Community Housing page",
+          "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf",
+          "evidence": [
+            {
+              "section": "5-Year Strategy, Housing Portfolio",
+              "quote": "Town-owned housing (33 Units): Includes scattered Town-employee housing, The Ruby, and Paradise Park workforce rentals.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+            },
+            {
+              "section": "Community Housing page, Paradise Park",
+              "quote": "The Town is currently building 14 additional rental homes targeting households that earn 140% or less of AMI.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+            },
+            {
+              "section": "5-Year Strategy, footnote",
+              "quote": "*Paradise Park Workforce Rentals are restricted at 140% AMI but priced at 100% AMI",
+              "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+            },
+            {
+              "section": "Community Housing page, Paradise Park project status",
+              "quote": "The final phase of the project, which includes one, three-bedroom and two, two-bedroom units located at 8, 10, and 12 Tenth Street, was finished and leased up at the end of 2025.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "The Ruby seasonal workforce housing",
+          "type": "seasonal-employee-housing",
+          "restriction_type": "occupancy-only",
+          "caps_income": false,
+          "summary": "The Town bought a six-bedroom former bed and breakfast in 2021 for communal seasonal workforce housing. Town employees get priority from May through October; at other times, rooms go to local-business employees who meet minimum work hours.",
+          "magnitude": "3,300 sq ft, six bedrooms; local-employer eligibility at 1,450 hours per year or 112 hours per month.",
+          "source_label": "Town of Crested Butte Workforce Rentals page; Community Housing page",
+          "source_url": "https://townofcrestedbutte.colorado.gov/workforce-rentals",
+          "evidence": [
+            {
+              "section": "Community Housing page, Ruby Workforce Housing",
+              "quote": "In 2021, the Town purchased a 3,300 square foot, six bedroom bed and breakfast to help house seasonal workers with priority given to Town employees.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+            },
+            {
+              "section": "Workforce Rentals, The Ruby",
+              "quote": "Qualified Town employees are given priority for living at the Ruby from May 1 through October 31.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/workforce-rentals"
+            },
+            {
+              "section": "Workforce Rentals, The Ruby",
+              "quote": "In the winter, and when there are vacancies with no demand from qualified Town employees, rooms are available to employees of a local business or local employer who lives in Gunnison County and works a minimum of 1,450 hours per calendar year or 112 hours per month for a local business.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/workforce-rentals"
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Good Deed program",
+          "type": "buy-down-deed-restriction",
+          "restriction_type": "occupancy-only",
+          "caps_appreciation": false,
+          "caps_income": false,
+          "summary": "Since 2022 the Town has paid property owners to record a permanent deed restriction requiring at least one occupant to be a full-time member of the local workforce. The Town's strategy reports three Good Deed units so far.",
+          "magnitude": "3 Good Deed units.",
+          "source_label": "Town of Crested Butte Community Housing page; 5-Year Housing Strategy",
+          "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
+          "evidence": [
+            {
+              "section": "Community Housing page, Good Deed",
+              "quote": "Similar to Vail’s In Deed program, the Good Deed program launched in 2022 buys down the market value of a home in exchange for a perpetual restriction that at least one occupant be a full-time member of the local workforce.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+            },
+            {
+              "section": "5-Year Strategy, Workforce Rental Housing",
+              "quote": "3 Good Deed Units",
+              "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Deed-restricted accessory dwelling units (ADUs)",
+          "type": "rental-deed-restriction",
+          "restriction_type": "occupancy-only",
+          "summary": "About 100 deed-restricted ADUs must be leased long-term (minimum six months). Those approved after May 15, 2023 also require local workforce participation. No rent or income limit is stated for them.",
+          "magnitude": "Approximately 100 deed-restricted ADUs; minimum lease term 6 months.",
+          "source_label": "Town of Crested Butte Community Housing page; 5-Year Housing Strategy",
+          "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
+          "evidence": [
+            {
+              "section": "Community Housing page, Accessory Dwelling Units",
+              "quote": "There are approximately 100 deed restricted ADUs throughout Town.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+            },
+            {
+              "section": "Community Housing page, Accessory Dwelling Units",
+              "quote": "Those approved between 1990 and May 15, 2023 simply require the unit be leased for a term of not less than six months.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+            },
+            {
+              "section": "Community Housing page, Accessory Dwelling Units",
+              "quote": "Those approved after May 15, 2023 also have a local workforce participation requirement.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Mineral Point LIHTC rentals (Town-dedicated land)",
+          "type": "rental-deed-restriction",
+          "restriction_type": "unverified",
+          "caps_income": true,
+          "income_band_ami": "30-60% AMI",
+          "summary": "A 34-unit low-income housing tax credit rental on a Town parcel received through the Slate River annexation. Units are restricted to households at 30-60% AMI, with lease-up expected in 2026.",
+          "magnitude": "34 units; 30-60% AMI.",
+          "source_label": "Town of Crested Butte Community Housing page",
+          "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
+          "evidence": [
+            {
+              "section": "Community Housing page, Mineral Point",
+              "quote": "34-unit Low Income Housing Tax Credit (LIHTC) rental property under construction with lease up sometime in 2026. Units are restricted to households at 30-60% Area Median Income (AMI).",
+              "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+            },
+            {
+              "section": "Community Housing page, Mineral Point background",
+              "quote": "The Town of Crested Butte received nine parcels of land to be developed for various public uses through the Slate River Annexation in 2020. Parcels 5 & 3 were specifically designated for development as affordable housing.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Whetstone (Gunnison County-led; Town support)",
+          "type": "rental-deed-restriction",
+          "restriction_type": "occupancy-only",
+          "summary": "A 255-unit rental project led by Gunnison County, aimed at middle- and upper-income renters. Crested Butte supported it by extending water and sewer service and financing taps. The Town's strategy says 202 of the units will require local workforce participation of 1,500 hours a year.",
+          "magnitude": "255 rental units beginning 2027; 202 units with a 1,500 hours/year workforce requirement.",
+          "source_label": "Town of Crested Butte 5-Year Housing Strategy (adopted May 18, 2026)",
+          "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf",
+          "evidence": [
+            {
+              "section": "5-Year Strategy",
+              "quote": "Whetstone, a 255-unit project led by Gunnison County targeting middle- and upper-income renters is the largest community housing development to come online locally, and regionally, ever.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+            },
+            {
+              "section": "5-Year Strategy, Town-Supported Partnerships",
+              "quote": "the Town supported the Whetstone project by financing taps and providing water and sewer services to the development.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+            },
+            {
+              "section": "5-Year Strategy, footnote",
+              "quote": "**Across the project and regardless of income restriction, 202 Whetstone units will require local workforce participation of 1,500 hours per year",
+              "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+            }
+          ],
+          "verified_on": "2026-10-14"
         }
       ],
-      "developer_actions": [
-        "Engagement with Estes Park Housing Authority during entitlement is key",
-        "Town has worked with developers on land contributions for resort workforce projects"
+      "not_verified": [
+        {
+          "claim": "ROAH mitigation rates / cash-in-lieu fee amounts (Town Code)",
+          "reason": "Not stated on the fetched Town pages; the Town Code was not retrieved.",
+          "urls_tried": [
+            "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+          ]
+        },
+        {
+          "claim": "Mineral Point rent caps",
+          "reason": "LIHTC rent limits are implied but not stated on the fetched Town pages; restriction_type left unverified.",
+          "urls_tried": [
+            "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
+            "https://www.liveatmineralpoint.com/"
+          ]
+        },
+        {
+          "claim": "Whetstone income restrictions by unit",
+          "reason": "The Town strategy says only that the project targets middle- and upper-income renters; Gunnison County's project documents were not fetched.",
+          "urls_tried": [
+            "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+          ]
+        }
+      ],
+      "funding": [
+        {
+          "name": "Vacation rental (short-term rental) excise tax",
+          "summary": "Voters approved a 7.5% excise tax on vacation/short-term rentals starting January 1, 2022. It is dedicated to the Affordable Housing Fund and may not fund general operations. The Town says it raises roughly $800,000 a year, and most of it is now committed to debt service on the Paradise Park workforce rental project through 2044.",
+          "magnitude": "7.5% excise tax (total STR tax 20.9%); about $800,000 per year; most obligated to Paradise Park Workforce Rental debt service for 20 years, through 2044.",
+          "evidence": [
+            {
+              "section": "Tax Information, Vacation Rental Excise Tax",
+              "quote": "On November 2, 2021, the voters of the Town of Crested Butte passed Ballot Initiative 2D.  This initiative institutes a 7.5% Excise Tax on all Vacation Rental/Short Term Rentals beginning January 1, 2022.  The 7.5% Excise Tax is specifically for the Affordable Housing Fund.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/government/tax-information"
+            },
+            {
+              "section": "Tax Information",
+              "quote": "It may not be used for general operations of the Town of Crested Butte.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/government/tax-information"
+            },
+            {
+              "section": "Tax Information",
+              "quote": "Total Tax 20.9%",
+              "source_url": "https://townofcrestedbutte.colorado.gov/government/tax-information"
+            },
+            {
+              "section": "5-Year Housing Strategy, How Community Housing Has Been Funded",
+              "quote": "The Town’s only dedicated funding source for affordable housing is the 7.5% excise tax on vacation rentals, which produces roughly $800,000 annually, otherwise housing is funded through the Town’s general or capital funds, resulting in competition with other funding priorities.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+            },
+            {
+              "section": "5-Year Housing Strategy, How Community Housing Has Been Funded",
+              "quote": "Most of the excise tax was recently obligated to pay the debt service on the Paradise Park Workforce Rental project for 20 years, through 2044.",
+              "source_url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+            }
+          ],
+          "type": "dedicated-tax",
+          "restriction_type": "n/a",
+          "source_url": "https://townofcrestedbutte.colorado.gov/government/tax-information",
+          "verified_on": "2026-10-14"
+        }
+      ]
+    },
+    {
+      "id": "vail",
+      "name": "Town of Vail (Housing Department; Vail Local Housing Authority)",
+      "url": "https://www.vail.gov/government/departments/housing",
+      "service_area": "Town of Vail, Eagle County, Colorado",
+      "place_geoids": [
+        "0880040"
+      ],
+      "serves_place_geoids": [
+        "0880040"
+      ],
+      "county_fips": "08037",
+      "inventory": {
+        "units": 1040,
+        "year": "undated page, accessed 2026-10-14",
+        "quote": "Currently with nearly 1,040 deed restricted homes, the Town is progressing towards the goal.",
+        "display": [
+          "nearly 1,040 deed restricted homes"
+        ],
+        "source_url": "https://www.vail.gov/government/departments/housing/community-housing-developments",
+        "note": "The source says 'nearly 1,040'; treat as approximate."
+      },
+      "key_programs": [
+        {
+          "name": "Vail InDEED",
+          "type": "buy-down-deed-restriction",
+          "restriction_type": "occupancy-only",
+          "caps_appreciation": false,
+          "caps_income": false,
+          "summary": "The town pays owners and buyers of existing Vail homes a negotiated sum in exchange for recording a permanent deed restriction requiring occupancy by people working at least 30 hours a week in Eagle County, with no appreciation, income or household-size limits. The town's published summary lists 178 restricted units and $13,064,618 funded to date toward a goal of 1,000 net new deed restrictions by 2027.",
+          "magnitude": "178 units / 286 bedrooms; $13,064,618 funded to date (acquisition summary published Nov 2025); goal 1,000 net new deed restrictions by 2027. Per-restriction payment is negotiated, not a fixed percentage.",
+          "source_label": "Town of Vail, Vail InDEED program page, FAQ, and 'Vail InDEED Acquisition Program Summary to Date' (PDF)",
+          "source_url": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "evidence": [
+            {
+              "section": "Program page",
+              "quote": "purchase deed restrictions on existing homes in Vail to further protect and preserve the Vail community. No appreciation cap. No income cap. No household size requirement."
+            },
+            {
+              "section": "Program page",
+              "quote": "From the inception of the program in 2018, the stated goal of the plan is to acquire 1,000 net new deed-restrictions on homes in Vail by the year 2027."
+            },
+            {
+              "section": "FAQ: key terms",
+              "quote": "1) The property must be occupied as a primary residence by individuals who work a minimum of 30 hours per week in Eagle County."
+            },
+            {
+              "section": "FAQ: key terms",
+              "quote": "2) The deed restriction does not impose an appreciation cap."
+            },
+            {
+              "section": "FAQ: how much money",
+              "quote": "The amount awarded will depend on your circumstances, what your request is and how your property meets the review criteria."
+            },
+            {
+              "section": "FAQ: valuation",
+              "quote": "Determined through owner and Board negotiation."
+            },
+            {
+              "section": "Acquisition summary PDF, totals row",
+              "quote": "Sq. Ft. # Units # Bedrooms Funded to Date 149,768 178 286 $13,064,618"
+            }
+          ],
+          "verified_on": "2026-10-14",
+          "access_note": "vail.gov and codelibrary.amlegal.com return HTTP 403 (Akamai/Cloudflare bot block) to direct requests from this environment; their pages were retrieved through the r.jina.ai reader relay, which fetches and returns the original page text. Quotes are from that returned text."
+        },
+        {
+          "name": "Commercial Linkage (Vail Town Code Title 12, Chapter 23)",
+          "type": "linkage-fee",
+          "restriction_type": "n/a",
+          "summary": "New commercial development and redevelopment must mitigate employee-housing impact by providing employee housing units for 20% of the employees it generates, using per-use employee generation rates in Table 23-1 or a nexus study.",
+          "magnitude": "EHUs for 20% of employees generated; e.g. 10.2 employees per 1,000 sq ft for eating and drinking establishments, 0.6 employee per net new accommodation unit.",
+          "source_label": "Vail Town Code § 12-23-2 Employee Generation and Mitigation Rates (American Legal Publishing)",
+          "source_url": "https://codelibrary.amlegal.com/codes/vailco/latest/vail_co/0-0-0-12615",
+          "evidence": [
+            {
+              "section": "§ 12-23-2(C)(1)",
+              "quote": "Each commercial development or redevelopment shall mitigate its impact on employee housing by providing EHUs for 20% of the employees generated, pursuant to Table 23-1 of this section, or the nexus study, in accordance with the requirements of this chapter."
+            },
+            {
+              "section": "§ 12-23-2 Table 23-1",
+              "quote": "Eating and drinking establishment 10.2 employees per 1,000 feet of new net floor area"
+            },
+            {
+              "section": "§ 12-23-2 Table 23-1",
+              "quote": "Accommodation unit/ limited service lodge unit 0.6 employee per net new units"
+            },
+            {
+              "section": "Timber Ridge Village EHU Credit Program outline (Sept 2025)",
+              "quote": "the Town is encouraging applicants for new development to satisfy Commercial Linkage and/or Inclusionary Zoning housing mitigation requirements through the purchase of Timber Ridge Village employee housing units (EHUs)."
+            }
+          ],
+          "verified_on": "2026-10-14",
+          "access_note": "vail.gov and codelibrary.amlegal.com return HTTP 403 (Akamai/Cloudflare bot block) to direct requests from this environment; their pages were retrieved through the r.jina.ai reader relay, which fetches and returns the original page text. Quotes are from that returned text."
+        },
+        {
+          "name": "Inclusionary Zoning (Vail Town Code Title 12, Chapter 24)",
+          "type": "inclusionary",
+          "restriction_type": "n/a",
+          "summary": "Residential development and redevelopment must provide employee housing equal to 10% of new gross residential floor area, with at least half provided on site for larger new-construction projects; fees in lieu are limited to fractional remainders under 438 square feet.",
+          "magnitude": "10% of total new GRFA; on-site share at least one-half where requirement is 438 sq ft or greater.",
+          "source_label": "Vail Town Code §§ 12-24-2 and 12-24-6 (American Legal Publishing)",
+          "source_url": "https://codelibrary.amlegal.com/codes/vailco/latest/vail_co/0-0-0-12715",
+          "evidence": [
+            {
+              "section": "§ 12-24-2(A)",
+              "quote": "Every residential development and redevelopment shall be required to mitigate its direct and secondary impacts on the town by providing employee housing at a mitigation rate of 10% of the total new GRFA."
+            },
+            {
+              "section": "§ 12-24-6(A)",
+              "quote": "no less than one-half the mitigation of employee housing required by this chapter shall be accomplished with on site units."
+            },
+            {
+              "section": "§ 12-24-6(A)(4)",
+              "quote": "An applicant may provide a payment of fees in lieu only for any fractional remainder of the requirement generated under this chapter totaling less than 438 square feet of EHU floor area."
+            },
+            {
+              "section": "§ 12-24-6(B)(4)(d)",
+              "quote": "The town shall use monies collected from the fees in lieu only to provide incremental new employee housing units."
+            }
+          ],
+          "verified_on": "2026-10-14",
+          "access_note": "vail.gov and codelibrary.amlegal.com return HTTP 403 (Akamai/Cloudflare bot block) to direct requests from this environment; their pages were retrieved through the r.jina.ai reader relay, which fetches and returns the original page text. Quotes are from that returned text."
+        },
+        {
+          "name": "Timber Ridge Village redevelopment",
+          "type": "ownership-deed-restriction",
+          "restriction_type": "unverified",
+          "summary": "The town is redeveloping its Timber Ridge site, replacing 96 units with about 302 fully deed-restricted homes in a public-private partnership; the town page now describes it as a for-purchase development, though one paragraph also says 'for-sale and for-rent'. Buyers can add employee-housing mitigation credits sold at closing that developers may use to meet linkage or inclusionary requirements.",
+          "magnitude": "302 (+/-) residences replacing 96 units; $165 million redevelopment agreement (May 2023); 86,500 sq ft of EHU credits offered through the credit program.",
+          "source_label": "Town of Vail, Timber Ridge Village page; TRV EHU Credit Program outline (Sept 2025 revision)",
+          "source_url": "https://www.vail.gov/government/departments/housing/timber-ridge-village-1066",
+          "evidence": [
+            {
+              "section": "Background",
+              "quote": "Timber Ridge Village is designed for locals by locals and is a 100% deed-restricted, for purchase, residential development planned to include a mix of seven new multi-family buildings with 302+/- residences."
+            },
+            {
+              "section": "Background",
+              "quote": "transform the Timber Ridge location from 96 residential units to more than 300 residential units"
+            },
+            {
+              "section": "Commitment to Community Housing",
+              "quote": "In May of 2023, Town of Vail finalized an agreement for the $165 million redevelopment of Timber Ridge, it's largest capital project that the Town of Vail has taken on."
+            },
+            {
+              "section": "Commitment to Community Housing",
+              "quote": "with 302 new for-sale and for-rent apartments slated for the site."
+            },
+            {
+              "section": "Availability and Assignability",
+              "quote": "The TRV Credit Program makes a total of 86,500 square feet of EHU credits available for acquisition by home buyers."
+            }
+          ],
+          "open_questions": "Deed-restriction terms (occupancy, price cap, income limit) and sale prices are not stated on the town page; it refers buyers to the developer's project site, which was not used as a primary source. The brief's description of Timber Ridge as leased by an employer is not supported by the current town page.",
+          "verified_on": "2026-10-14",
+          "access_note": "vail.gov and codelibrary.amlegal.com return HTTP 403 (Akamai/Cloudflare bot block) to direct requests from this environment; their pages were retrieved through the r.jina.ai reader relay, which fetches and returns the original page text. Quotes are from that returned text."
+        },
+        {
+          "name": "Residences at Main Vail",
+          "type": "rental-deed-restriction",
+          "restriction_type": "occupancy-only",
+          "summary": "A 72-apartment, fully deed-restricted rental building completed in fall 2023; every adult tenant must be a full-time employee of an Eagle County business, and a third-party property manager handles leasing.",
+          "magnitude": "72 one- and two-bedroom apartments; fully occupied by December 2023.",
+          "source_label": "Town of Vail, Residences at Main Vail page",
+          "source_url": "https://www.vail.gov/government/departments/housing/residences-at-main-vail",
+          "evidence": [
+            {
+              "section": "Leasing Opportunities",
+              "quote": "This project has a resident occupied deed restriction, which means that all adult tenants must be full-time employees of a business in Eagle County that serves Eagle County."
+            },
+            {
+              "section": "About",
+              "quote": "The Residences at Main Vail are designed as a 100% deed-restricted, for rent, residential development with a mix of 72 one- and two-bedroom apartments"
+            },
+            {
+              "section": "Commitment",
+              "quote": "was completed in the Fall 2023 and the apartments became fully occupied by December 2023."
+            }
+          ],
+          "open_questions": "Rents and any income limits are not stated on the town page.",
+          "verified_on": "2026-10-14",
+          "access_note": "vail.gov and codelibrary.amlegal.com return HTTP 403 (Akamai/Cloudflare bot block) to direct requests from this environment; their pages were retrieved through the r.jina.ai reader relay, which fetches and returns the original page text. Quotes are from that returned text."
+        },
+        {
+          "name": "Chamonix Vail",
+          "type": "ownership-deed-restriction",
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
+          "summary": "A 32-townhome for-sale community the town developed in West Vail (completed 2018). Its master deed restriction limits resale to the prior price plus 1.5% a year (simple) plus permitted improvements, and requires occupancy by an owner who works an average of 30+ hours a week in Eagle County.",
+          "magnitude": "32 units; resale appreciation 1.5% per annum, not compounded; 2% listing fee on resale.",
+          "source_label": "Town of Vail, Chamonix Vail Deed Restriction (PDF); Community Housing Developments page",
+          "source_url": "https://www.vail.gov/home/showpublisheddocument/206/637605674229170000",
+          "evidence": [
+            {
+              "section": "Chamonix Vail Community",
+              "quote": "A 32-unit community completed in 2018 located in West Vail off Chamonix Road walking distance to West Vail shopping."
+            },
+            {
+              "section": "Definitions: Maximum Resale Price",
+              "quote": "Maximum Resale Price means the Purchase Price paid by the last Qualified Buyer plus: an increase of 1.5% per annum of such Purchase Price"
+            },
+            {
+              "section": "Definitions: Qualified Owner",
+              "quote": "works an average of 30 hours or more per week at a business in Eagle County, Colorado"
+            },
+            {
+              "section": "Transfer",
+              "quote": "the Owner shall pay the Town a nonrefundable listing fee equal to 2% of the Maximum Resale Price."
+            },
+            {
+              "section": "For-sale developments (all five)",
+              "quote": "Sale prices for these units range from approximately $175,000 to $810,000 depending on the type and location of the unit"
+            }
+          ],
+          "open_questions": "Chamonix-specific original sale prices were not found; the $175,000-$810,000 range applies to all five town for-sale developments. No income cap appears in the deed restriction; whether the town's Employee Housing Guidelines add one was not checked.",
+          "verified_on": "2026-10-14",
+          "access_note": "vail.gov and codelibrary.amlegal.com return HTTP 403 (Akamai/Cloudflare bot block) to direct requests from this environment; their pages were retrieved through the r.jina.ai reader relay, which fetches and returns the original page text. Quotes are from that returned text."
+        },
+        {
+          "name": "Good Deeds Vail (Community Partner Program)",
+          "type": "buy-down-deed-restriction",
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
+          "summary": "The town matches the county housing authority's 15% payment, so buyers of eligible open-market homes in and around Vail can get up to 30% of the price in exchange for a perpetual price-capped deed restriction allowing 0-3% simple annual appreciation.",
+          "magnitude": "15% Town of Vail + 15% ECHDA = up to 30% of purchase price, capped at $375,000; maximum purchase price $1,250,000.",
+          "source_label": "Housing Eagle County (ECHDA), Good Deeds Vail page",
+          "source_url": "https://www.housingeaglecounty.com/gooddeedsvail",
+          "evidence": [
+            {
+              "section": "Program summary",
+              "quote": "Funding match: 15% from ECHDA and 15% from the Town of Vail."
+            },
+            {
+              "section": "Program summary",
+              "quote": "Total payment: 30% of the purchase price, capped at $375,000."
+            },
+            {
+              "section": "Program summary",
+              "quote": "Maximum Purchase Price: $1,250,000."
+            },
+            {
+              "section": "Price Capped Deed Restriction",
+              "quote": "Future resale price appreciation is capped between 0–3% simple interest annually."
+            }
+          ],
+          "verified_on": "2026-10-14",
+          "access_note": "vail.gov and codelibrary.amlegal.com return HTTP 403 (Akamai/Cloudflare bot block) to direct requests from this environment; their pages were retrieved through the r.jina.ai reader relay, which fetches and returns the original page text. Quotes are from that returned text."
+        },
+        {
+          "name": "Housing sales tax (0.5%, Ballot Issue 2A, 2021)",
+          "type": "dedicated-tax",
+          "restriction_type": "n/a",
+          "summary": "Vail voters approved a 0.5% sales tax increase (from 4.0% to 4.5%) dedicated to housing on November 2, 2021, effective 2022 through 2052. In 2022 the town asked voters (Ballot Issue 2I) to let it keep collections above the first-year amount.",
+          "magnitude": "0.5% sales tax; $4,300,000 first fiscal year in ballot text; estimated $3.5 million annually (2021 fact sheet); 2022 forecast $5.3M (2I fact sheet).",
+          "source_label": "Town of Vail, Ballot Issue 2A Fact Sheet (2021) and Ballot Issue 2I Fact Sheet",
+          "source_url": "https://www.vail.gov/home/showpublisheddocument/2332/637696525321370000",
+          "evidence": [
+            {
+              "section": "2A ballot text",
+              "quote": "SHALL TOWN OF VAIL TAXES BE INCREASED $4,300,000 IN THE FIRST FISCAL YEAR AND BY WHATEVER AMOUNTS ARE RAISED ANNUALLY THEREAFTER, BY AN INCREASE OF 0.5% IN THE TOWN'S EXISTING SALES TAX (FROM 4.0% TO 4.5%), TO TAKE EFFECT ON JANUARY 1, 2022 AND TO TERMINATE ON DECEMBER 31, 2052"
+            },
+            {
+              "section": "How much would 2A raise?",
+              "quote": "would raise an estimated $3.5 million annually."
+            },
+            {
+              "section": "2I ballot text",
+              "quote": "THE EXCESS REVENUE RECEIVED BY THE TOWN FROM THE 0.5% SALES TAX LEVIED PURSUANT TO BALLOT ISSUE 2A PASSED BY THE TOWN'S REGISTERED ELECTORS ON NOVEMBER 2, 2021"
+            },
+            {
+              "section": "2I fact sheet",
+              "quote": "Current forecasts project collections to total $5.3M in 2022."
+            }
+          ],
+          "open_questions": "The 2I outcome was not confirmed from a primary source. The 2I fact sheet carries no year; its content refers to 2022 collections.",
+          "verified_on": "2026-10-14",
+          "access_note": "vail.gov and codelibrary.amlegal.com return HTTP 403 (Akamai/Cloudflare bot block) to direct requests from this environment; their pages were retrieved through the r.jina.ai reader relay, which fetches and returns the original page text. Quotes are from that returned text."
+        }
+      ],
+      "not_verified": [
+        {
+          "claim": "Vail InDEED pays a fixed share (e.g. 15-22%) of market value",
+          "reason": "The town's FAQ says the amount is negotiated case by case; no percentage appears on the primary pages fetched. Percentages seen in search results come from news or third-party summaries.",
+          "urls_tried": [
+            "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+            "https://www.vail.gov/government/departments/housing/vail-indeed/faq-s",
+            "https://www.vail.gov/home/showpublisheddocument/5432/638979592087400000"
+          ]
+        },
+        {
+          "claim": "Vail 0.5% housing sales tax passed in 2023 (Ballot 2A)",
+          "reason": "Contradicted: town documents show 2A passed on November 2, 2021. The 2023-era measure was 2I (retaining excess revenue), and its outcome was not confirmed.",
+          "urls_tried": [
+            "https://www.vail.gov/home/showpublisheddocument/2332/637696525321370000",
+            "https://www.vail.gov/home/showpublisheddocument/3178/638011722815630000"
+          ]
+        },
+        {
+          "claim": "Vail 6% short-term-rental excise tax for housing (Ballot Issue 2A, Nov 2025)",
+          "reason": "The town's election page shows only unofficial preliminary results (Yes: 863 No: 895), i.e. failing. The certified result was not fetched. The measure would have been a housing-dedicated tax ($8,700,000 first full year in ballot text).",
+          "urls_tried": [
+            "https://www.vail.gov/government/departments/town-clerk-s-office/election-information/election-results",
+            "https://www.vail.gov/home/showpublisheddocument/5326/638960471171430000"
+          ],
+          "evidence": [
+            {
+              "section": "Election results",
+              "quote": "Results of Town of Vail Ballot Issue 2A - 6% Excise Tax on Short-Term Rentals Yes: 863 No: 895"
+            },
+            {
+              "section": "2025 2A ballot text",
+              "quote": "SHALL TOWN OF VAIL TAXES BE INCREASED $8,700,000 IN THE FIRST FULL FISCAL YEAR"
+            }
+          ]
+        },
+        {
+          "claim": "Timber Ridge Village rents, sale prices, eligibility; leased by a ski-resort employer",
+          "reason": "The town page refers buyers to the developer's project site and states no prices or eligibility; the current town page describes the project as for-purchase.",
+          "urls_tried": [
+            "https://www.vail.gov/government/departments/housing/timber-ridge-village-1066"
+          ]
+        },
+        {
+          "claim": "Residences at Main Vail rents and income limits",
+          "reason": "Not stated on the town page; leasing is handled by a third-party manager whose site was not used.",
+          "urls_tried": [
+            "https://www.vail.gov/government/departments/housing/residences-at-main-vail"
+          ]
+        },
+        {
+          "claim": "Chamonix Vail original for-sale prices",
+          "reason": "Not stated on the town pages fetched. The 82-page HOA/guidelines PDF returned no extractable text.",
+          "urls_tried": [
+            "https://www.vail.gov/government/departments/housing/community-housing-developments",
+            "https://www.vail.gov/home/showpublisheddocument/4446/638572517270970000"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "eagle-county",
+      "name": "Eagle County Housing and Development Authority (Housing Eagle County) / Eagle County Government",
+      "url": "https://www.housingeaglecounty.com/",
+      "service_area": "Eagle County, Colorado (programs countywide unless noted; lodging tax applies to unincorporated county and Gypsum)",
+      "place_geoids": [],
+      "serves_place_geoids": [
+        "0804110",
+        "0804935",
+        "0821155",
+        "0822200",
+        "0823300",
+        "0823795",
+        "0828830",
+        "0833695",
+        "0847345",
+        "0850920",
+        "0863265",
+        "0880040",
+        "0885760"
+      ],
+      "county_fips": "08037",
+      "inventory": null,
+      "key_programs": [
+        {
+          "name": "Eagle County Good Deeds",
+          "type": "buy-down-deed-restriction",
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
+          "summary": "Since 2021 the county housing authority has paid buyers of eligible open-market homes 15% of the price in exchange for a perpetual price-capped deed restriction. The restriction requires primary residence and no other residential property, and limits resale appreciation to 0-3% simple interest per year tied to county wage growth.",
+          "magnitude": "15% of purchase price up to $187,500; maximum purchase price $1,250,000; appreciation 0-3% simple per year; 2% resale brokerage fee; buyer minimum 3% down.",
+          "source_label": "Housing Eagle County, Eagle County Good Deeds page",
+          "source_url": "https://www.housingeaglecounty.com/gooddeeds",
+          "evidence": [
+            {
+              "section": "Overview",
+              "quote": "Originally launched in 2021, the program has evolved to meet the growing needs of the community"
+            },
+            {
+              "section": "Deed Restriction",
+              "quote": "You receive a payment at closing: ECHDA contributes 15% of the purchase price (up to $187,500)."
+            },
+            {
+              "section": "Deed Restriction",
+              "quote": "Your home’s resale price is limited to 0–3% simple interest appreciation per year, to keep it affordable for the next buyer."
+            },
+            {
+              "section": "Deed Restriction",
+              "quote": "The annual increase is based on Eagle County average wage growth, capped at 3%."
+            },
+            {
+              "section": "Maximum Purchase Price",
+              "quote": "The maximum purchase price for Eligible Properties is $1,250,000."
+            },
+            {
+              "section": "Buyer Eligibility",
+              "quote": "You cannot own other residential real estate while you own a Good Deeds home."
+            },
+            {
+              "section": "Deed Restriction",
+              "quote": "A 2% brokerage fee applies to resales."
+            },
+            {
+              "section": "Financial Payment",
+              "quote": "In all cases, buyers must contribute a minimum of 3% down payment from their own funds, excluding other assistance programs."
+            }
+          ],
+          "open_questions": "Whether an income limit applies depends on the 'Eligible Household' definition in the Eagle County Affordable Housing Guidelines, which was not reviewed. The program guidelines document states none.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Good Deeds Community Partner Program",
+          "type": "buy-down-deed-restriction",
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
+          "summary": "Municipalities, districts, employers or nonprofits match the authority's 15% payment for a combined buy-down of up to 30% on eligible open-market homes, recorded with the same price-capped deed restriction. Partners may add their own residency or employment requirements.",
+          "magnitude": "Up to 15% ECHDA + up to 15% partner; total capped at $375,000.",
+          "source_label": "Housing Eagle County, Community Partner Program page",
+          "source_url": "https://www.housingeaglecounty.com/communitypartner",
+          "evidence": [
+            {
+              "section": "How it works",
+              "quote": "ECHDA contributes up to 15% of the purchase price, and the Community Partner matches up to 15% for a combined buy-down of up to 30%, capped at $375,000."
+            },
+            {
+              "section": "Overview",
+              "quote": "Launched with the Town of Avon as the first Community Partner"
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Eagle County Loan Fund down payment assistance",
+          "type": "down-payment-assistance",
+          "restriction_type": "n/a",
+          "summary": "A county loan fund running since 1998 lends up to 5% of the purchase price for down payments to buyers who will live in the home, through a shared-equity loan for conventional, RD or VA mortgages or an amortized loan for FHA mortgages.",
+          "magnitude": "Up to 5% of purchase price; maximum home price $850,000 (shared-equity); maximum loan $42,500 (FHA amortized).",
+          "source_label": "Housing Eagle County, Down Payment Assistance page",
+          "source_url": "https://www.housingeaglecounty.com/downpayment",
+          "evidence": [
+            {
+              "section": "Overview",
+              "quote": "Eagle County introduced the Down Payment Assistance (DPA) Program in 1998"
+            },
+            {
+              "section": "ECLF Shared Equity Loan",
+              "quote": "Loan Contribution: Up to 5% of the purchase price, with a maximum home purchase price of $850,000."
+            },
+            {
+              "section": "ECLF Amortized Loan for FHA",
+              "quote": "Loan Contribution: Up to 5% of the purchase price, with a maximum loan amount of $42,500."
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Eagle County Division of Housing down payment assistance (80% AMI)",
+          "type": "down-payment-assistance",
+          "restriction_type": "n/a",
+          "caps_income": true,
+          "summary": "An income-limited down payment loan for households at or below 80% of area median income, amortized at 2.5% simple interest over 30 years.",
+          "magnitude": "Up to 4.5% of purchase price, maximum $40,000; income limit 80% AMI.",
+          "source_label": "Housing Eagle County, Down Payment Assistance page",
+          "source_url": "https://www.housingeaglecounty.com/downpayment",
+          "evidence": [
+            {
+              "section": "ECDOH DPA",
+              "quote": "A down payment assistance loan for homebuyers with a household income limit of 80% of Area Median Income (AMI)."
+            },
+            {
+              "section": "ECDOH DPA",
+              "quote": "Loan Contribution: Up to 4.5% of the purchase price, with a maximum loan amount of $40,000."
+            },
+            {
+              "section": "ECDOH DPA",
+              "quote": "Loan Term: 30 years, with monthly payments amortized at a 2.5% simple interest rate."
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Eagle County lodging excise tax (2022 Ballot Issue 1A; 2025 Ballot Issue 1A increase)",
+          "type": "dedicated-tax",
+          "restriction_type": "n/a",
+          "summary": "In 2022 voters approved a 2% lodging tax in unincorporated Eagle County and Gypsum for child care programs and affordable housing for local workers, with 10% of the revenue for tourism marketing. A second 2% approved in 2025 brought the total to 4%; the county describes what that increase supports as child care for the local workforce and public safety.",
+          "magnitude": "2% (2022) plus 2% (2025), a total of 4%; the 2022 ballot stated $3,000,000 annually; 2025 collections were $3.9 million.",
+          "source_label": "Eagle County Finance, Sales Tax page; 2022 ballot notice; 2025 Lodging Tax Information letter; Lodging Tax Report",
+          "source_url": "https://www.eaglecounty.us/departments___services/finance/sales_tax.php",
+          "evidence": [
+            {
+              "section": "2022 Ballot Issue 1A text",
+              "quote": "SHALL EAGLE COUNTY TAXES BE INCREASED BY $3,000,000 ANNUALLY COMMENCING JANUARY 1, 2023, FROM A TWO PERCENT (2%) LODGING EXCISE TAX"
+            },
+            {
+              "section": "2022 Ballot Issue 1A text",
+              "quote": "BY PROVIDING ADDITIONAL CHILDCARE PROGRAMS AND AFFORDABLE HOUSING OPPORTUNITIES FOR LOCAL WORKERS, WITH TEN PERCENT (10%) OF SAID REVENUE USED FOR ADVERTISING AND MARKETING LOCAL TOURISM"
+            },
+            {
+              "section": "Sales Tax page",
+              "quote": "In 2022 Eagle County voters approved a 2% lodging tax and in 2025 voters approved an additional 2% making it a total of 4% that applies to lodging in all areas of unincorporated Eagle County and the Town of Gypsum."
+            },
+            {
+              "section": "2025 Lodging Tax letter",
+              "quote": "Support initiatives include additional childcare for our local workforce and public safety enhancements."
+            },
+            {
+              "section": "Lodging Tax Report",
+              "quote": "In 2025, lodging tax collected (2% total, approved by voters in 2022) was $3.9 million"
+            },
+            {
+              "section": "Lodging Tax Report table",
+              "quote": "Total $3,683,541 $3,950,813 $3,918,943 $8,000,000"
+            }
+          ],
+          "open_questions": "How the 90% workforce share is split between child care and housing was not found.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "ECHDA-owned rental portfolio",
+          "type": "town-owned-rental",
+          "restriction_type": "n/a",
+          "summary": "The county housing authority owns and manages below-market rental properties across the county. Some are reserved for particular employers' staff (county government, the regional airport, the school district, a community college), and others are senior or Section 8 low-income housing.",
+          "source_label": "Housing Eagle County, Our Portfolio page",
+          "source_url": "https://www.housingeaglecounty.com/portfolio",
+          "evidence": [
+            {
+              "section": "Intro",
+              "quote": "We achieve this by setting rental rates below market averages, often including utilities within the rent"
+            },
+            {
+              "section": "Parkside Apartments",
+              "quote": "Rental housing for Eagle County Government employees, offering 16 one‑bedroom and 4 two‑bedroom units."
+            },
+            {
+              "section": "Golden Eagle Senior Apartments",
+              "quote": "Low-income rental housing for seniors and disabled individuals with 36 one-bedroom units."
+            }
+          ],
+          "verified_on": "2026-10-14"
+        }
+      ],
+      "not_verified": [
+        {
+          "claim": "Good Deeds cumulative homes preserved / funds invested",
+          "reason": "The Impact counters on the Good Deeds page load by script and were empty in the fetched HTML.",
+          "urls_tried": [
+            "https://www.housingeaglecounty.com/gooddeeds"
+          ]
+        },
+        {
+          "claim": "2025 lodging tax increase dedicated to housing",
+          "reason": "Contradicted by primary source: the county's letter describes the 2025 increase as supporting child care and public safety. Housing appears only in the 2022 measure.",
+          "urls_tried": [
+            "https://docs.google.com/document/d/1f4t-kUtzExqRcyeEVMm2k-MSGrB8ro2ir2JctAyq1NU/edit?usp=sharing",
+            "https://www.eaglecounty.us/departments___services/finance/sales_tax.php"
+          ]
+        },
+        {
+          "claim": "Seasonal employee housing program run by the county",
+          "reason": "No seasonal-housing program found on the county or authority sites. Employer-specific rentals in the portfolio are year-round workforce housing.",
+          "urls_tried": [
+            "https://www.housingeaglecounty.com/portfolio",
+            "https://www.housingeaglecounty.com/boldhousingmoves"
+          ]
+        },
+        {
+          "claim": "Countywide deed-restricted inventory count",
+          "reason": "No countywide total found on the pages fetched. The Valley Home Store mentions a database of deed-restricted homes but publishes no count.",
+          "urls_tried": [
+            "https://www.thevalleyhomestore.org/",
+            "https://www.eaglecounty.us/departments___services/housing/index.php"
+          ]
+        },
+        {
+          "claim": "Rental Funds (first-month rent assistance, <=100% AMI)",
+          "reason": "Verified on the authority's Rental Funds page but omitted from programs because it fits none of the allowed types. Quote: 'Renters must earn at or below 100% of the Area Median Income (AMI)'.",
+          "urls_tried": [
+            "https://www.housingeaglecounty.com/rentalfunds"
+          ],
+          "evidence": [
+            {
+              "section": "Eligibility",
+              "quote": "Renters must earn at or below 100% of the Area Median Income (AMI)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "avon",
+      "name": "Town of Avon (Community Development - Housing)",
+      "url": "https://www.avon.org/housing",
+      "service_area": "Town of Avon, Eagle County, Colorado",
+      "place_geoids": [
+        "0804110"
+      ],
+      "serves_place_geoids": [
+        "0804110"
+      ],
+      "county_fips": "08037",
+      "inventory": {
+        "units": 544,
+        "year": "2026 Community Housing Plan (Council 9-8, FINAL)",
+        "quote": "Several large-scale Town-sponsored rental projects in the 1990s and 2000s, resulting in an inventory of 544 income restricted or price capped units,",
+        "display": [
+          "544 income restricted or price capped units"
+        ],
+        "source_url": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL",
+        "note": "The plan separately lists 63 deed-restricted for-sale units from PUD negotiations, 56 Mi Casa Avon units (2020-2025) and 10 Good Deeds Avon units (2025). These may overlap and are not summed here.",
+        "evidence": [
+          {
+            "section": "Strengths & Assets",
+            "quote": "63 deed restricted for sale units that were a result of successful PUD negotiations;"
+          }
+        ]
+      },
+      "key_programs": [
+        {
+          "name": "¡Mi Casa Avon!",
+          "type": "buy-down-deed-restriction",
+          "restriction_type": "occupancy-only",
+          "caps_appreciation": false,
+          "summary": "The town pays a lump sum at closing to buyers who record a permanent resident-occupied deed restriction that limits ownership and use to full-time Eagle County employees, with no cap on resale appreciation. The 2026 plan describes the payment as a 12% match up to $150,000.",
+          "magnitude": "12% match up to $150,000; 56 units added 2020-2025 (the same plan elsewhere says 57 recorded).",
+          "source_label": "Town of Avon, Mi Casa Avon page; 2026 Avon Community Housing Plan",
+          "source_url": "https://www.avon.org/2237/Mi-Casa-Avon",
+          "evidence": [
+            {
+              "section": "Program page",
+              "quote": "There is no price appreciation cap on a ¡Mi Casa Avon! Deed Restriction."
+            },
+            {
+              "section": "Program page",
+              "quote": "the deed restriction limits the ownership and use of the property to full-time Eagle County employees*. In exchange for the deed restriction, the Town of Avon pays you a lump sum"
+            },
+            {
+              "section": "Deed restriction purchase programs",
+              "quote": "¡Mi Casa Avon! provides a 12% match up to a maximum of $150,000 for a Resident Occupied Deed Restriction, which does not have an appreciation cap on the resale price."
+            },
+            {
+              "section": "Strengths & Assets",
+              "quote": "Implementation of the Mi Casa Avon Resident Occupied deed restriction purchase program, with 56 units added between 2020 and 2025."
+            },
+            {
+              "section": "History of Accomplishments",
+              "quote": "There have been 57 Mi Casa Avon deed restrictions recorded on free market units."
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Good Deeds Avon",
+          "type": "buy-down-deed-restriction",
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
+          "summary": "The first county Community Partner buy-down: the town and the county housing authority each pay 15% of the price of an eligible open-market Avon home in exchange for a price-capped deed restriction allowing 0-3% simple annual appreciation.",
+          "magnitude": "15% Avon + 15% ECHDA = 30%, capped at $375,000; max purchase price $1,250,000; 10 units in 2025.",
+          "source_label": "Town of Avon Housing page; Housing Eagle County Good Deeds Avon page; 2026 Avon Community Housing Plan",
+          "source_url": "https://www.avon.org/housing",
+          "evidence": [
+            {
+              "section": "Good Deeds Avon",
+              "quote": "Funding match: 15% from ECHDA and 15% from the Town of Avon."
+            },
+            {
+              "section": "Good Deeds Avon",
+              "quote": "Total payment: 30% of the purchase price, capped at $375,000."
+            },
+            {
+              "section": "Good Deeds Avon",
+              "quote": "Maximum Purchase Price: $1,250,000."
+            },
+            {
+              "section": "Good Deeds Avon",
+              "quote": "Price Capped Deed Restriction: resale appreciation capped between 0–3% simple interest annually."
+            },
+            {
+              "section": "History of Accomplishments",
+              "quote": "10 Good Deeds Avon Price Capped Deed Restricted Units in Avon in 2025."
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Municipal Employee Home Ownership Program (MEHOP)",
+          "type": "buy-down-deed-restriction",
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
+          "summary": "For town employees, Avon pays up to 30% of an open-market home's price in exchange for a price-capped deed restriction that requires resale to a town employee or to the town.",
+          "magnitude": "Up to 30% of purchase price, up to $375,000.",
+          "source_label": "2026 Avon Community Housing Plan",
+          "source_url": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL",
+          "evidence": [
+            {
+              "section": "Deed restriction purchase programs",
+              "quote": "MEHOP or Municipal Employee Housing Ownership Program provides a 30% match to Town of Avon employees up to $375,000 for a Price Capped Deed Restriction, which limits the price appreciation on resale and requires the resale to be to a Town of Avon employee or to the Town of Avon."
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Community Housing Fund dedicated revenues (incl. short-term rental excise tax)",
+          "type": "dedicated-tax",
+          "restriction_type": "n/a",
+          "summary": "Avon's plan lists a 2% short-term rental excise tax, 10% of its 2% real estate transfer tax, and a 4% use tax on construction materials (approved by voters in November 2024) as revenue dedicated to the town's Community Housing Fund.",
+          "magnitude": "2% STR excise tax; 10% of 2% RETT; 4% construction use tax.",
+          "source_label": "2026 Avon Community Housing Plan",
+          "source_url": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL",
+          "evidence": [
+            {
+              "section": "Existing Revenue and Funding Policies",
+              "quote": "2% Short Term Rental Excise Tax is dedicated to the Community Housing Fund."
+            },
+            {
+              "section": "Existing Revenue and Funding Policies",
+              "quote": "10% of Avon’s 2% Real Estate Transfer Tax is dedicated to the Community Housing Fund."
+            },
+            {
+              "section": "History of Accomplishments",
+              "quote": "4% Use Tax on construction and building materials passed by voters in November 2024, funding Community Housing."
+            },
+            {
+              "section": "History of Accomplishments",
+              "quote": "Council Resolution 2021-20, Approving Short-Term Rental Tax Ballot Question for Community Housing funding."
+            }
+          ],
+          "open_questions": "The STR tax election date and result, and annual revenue, were not confirmed from a ballot or finance document.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Employee Housing Mitigation",
+          "type": "inclusionary",
+          "restriction_type": "n/a",
+          "summary": "New development must mitigate 20% of the employee housing demand it creates, under inclusionary housing rules adopted in 2019 that cover new multi-family and commercial development.",
+          "magnitude": "20% of employee housing demand created.",
+          "source_label": "2026 Avon Community Housing Plan",
+          "source_url": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL",
+          "evidence": [
+            {
+              "section": "Policies",
+              "quote": "Employee Housing Mitigation to mitigate 20% of the employee housing demand created by a new development."
+            },
+            {
+              "section": "History of Accomplishments",
+              "quote": "Ordinance 2019-03, Inclusionary Housing regulations to include mitigation for new multi-family and commercial developments."
+            }
+          ],
+          "open_questions": "The municipal code text itself was not fetched.",
+          "verified_on": "2026-10-14"
+        }
+      ],
+      "not_verified": [
+        {
+          "claim": "STR excise tax uses beyond the Community Housing Fund (e.g. specific projects funded)",
+          "reason": "Only the dedication to the fund is stated in the plan; no expenditure breakdown was found.",
+          "urls_tried": [
+            "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL",
+            "https://www.avon.org/housing"
+          ]
+        },
+        {
+          "claim": "Income limit on Mi Casa Avon",
+          "reason": "Neither the program page nor the plan states one. The plan's 140% AMI figure is a priority goal for homeownership programs, not a stated eligibility cap.",
+          "urls_tried": [
+            "https://www.avon.org/2237/Mi-Casa-Avon",
+            "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "summit-county",
+      "name": "Summit County Housing Department / Summit Combined Housing Authority (SCHA)",
+      "url": "https://www.summitcountyco.gov/services/housing/index.php",
+      "service_area": "Summit County, Colorado (county-wide; SCHA serves the county and its towns)",
+      "place_geoids": [],
+      "serves_place_geoids": [
+        "0807410",
+        "0808400",
+        "0817150",
+        "0820440",
+        "0828690",
+        "0835400",
+        "0840550",
+        "0851690",
+        "0870525"
+      ],
+      "county_fips": "08117",
+      "inventory": {
+        "units": {
+          "ownership": 1540,
+          "rental": 1028
+        },
+        "year": 2023,
+        "quote": "Approximately 1,540 units of owner-occupied deed-restricted units exist in the county, with most targeting the 80% to 120% AMI range. ... There are approximately 1,028 deed-restricted rental units ... The typical targeting of deed-restricted rentals is 60% to 100% AMI.",
+        "display": [
+          "Approximately 1,540 units of owner-occupied deed-restricted units",
+          "approximately 1,028 deed-restricted rental units"
+        ],
+        "source_url": "https://www.summithousing.us/wp-content/uploads/2023/10/2023-Summit-County-Housing-Needs-Assessment.pdf",
+        "income_band": "ownership mostly 80%-120% AMI; rentals typically 60%-100% AMI",
+        "note": "Figures are from the 2023 Summit County Housing Needs Assessment (Root Policy Research) published by SCHA; quote joins two adjacent bullets with ellipses. The same section counts 73 Housing Helps units separately."
+      },
+      "key_programs": [
+        {
+          "name": "Summit County Housing Helps",
+          "type": "buy-down-deed-restriction",
+          "restriction_type": "either",
+          "caps_appreciation": false,
+          "caps_income": false,
+          "summary": "The county pays buyers of unrestricted market-rate homes to record a deed restriction requiring a local-worker occupant. A light option carries no appreciation, income or rent caps; a capped option adds a 3% per year appreciation cap, with a larger payment.",
+          "magnitude": "Payment typically 10%-25% of current value: 10-15% of the sales price for the light restriction, 15-25% for the capped one.",
+          "source_label": "Summit County Housing Department - Housing Helps",
+          "source_url": "https://www.summitcountyco.gov/services/housing/housing_helps.php",
+          "evidence": [
+            {
+              "section": "How does the program work?",
+              "quote": "Typically, the County is looking to purchase deed restrictions on market-rate housing units at a price of 10%-25% of the current value of that property, depending on the type of deed restriction proposed."
+            },
+            {
+              "section": "Deed Restriction Options",
+              "quote": "Light deed restriction: The deed restriction requires that a local worker be the owner or a renter, and it does not have an appreciation cap, income caps, or rental caps. The subsidy for this deed restriction is in the 10-15% range of the sales price of the home being purchased."
+            },
+            {
+              "section": "Deed Restriction Options",
+              "quote": "Capped deed restriction: The deed restriction requires that a local worker be the owner or renter, and there is an appreciation cap of 3% per year. There are no income or rental caps. The subsidy for this deed restriction is in the 15-25% range of the sales price of the home being purchased."
+            },
+            {
+              "section": "How can I use the money?",
+              "quote": "This is not a loan; the money does not need to be repaid."
+            }
+          ],
+          "notes": "Two variants: the light option is occupancy-only; the capped option is price-capped (3%/yr) with no income cap. restriction_type/caps_appreciation reflect the light (default) option. The 73-unit count is from the 2023 HNA (hna23.txt): 'There are also 8 market rate workforce (but not price) restricted units in addition to the 73 units in the Housing Helps program.'",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "SCHA Down Payment Assistance Loan (Summit Revolving Loan Fund)",
+          "type": "down-payment-assistance",
+          "restriction_type": "n/a",
+          "caps_income": true,
+          "summary": "SCHA offers a 2% interest down-payment loan to households with income up to 160% AMI. The revolving fund is currently fully lent out and on waitlist status.",
+          "magnitude": "2% interest; max loan $40,000; income up to 160% AMI; repayment up to 20 years; fund on waitlist status.",
+          "source_label": "Summit Combined Housing Authority - Down Payment Assistance",
+          "source_url": "https://www.summithousing.us/lending/",
+          "evidence": [
+            {
+              "section": "Loan terms",
+              "quote": "INTEREST RATE 2%"
+            },
+            {
+              "section": "Loan terms",
+              "quote": "MAX INCOME Up to 160% AMI"
+            },
+            {
+              "section": "Loan terms",
+              "quote": "MAX LOAN AMOUNT $40,000"
+            },
+            {
+              "section": "Loan terms",
+              "quote": "REPAYMENT OPTIONS up to 20 years"
+            },
+            {
+              "section": "Waitlist",
+              "quote": "The Summit Revolving Loan Fund is currently fully utilized with loans out to the community. This down payment assistance fund is currently on a waitlist status."
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "SCHA Referred Measure 5A (2006, extended 2015): 0.125% sales tax and development impact fee",
+          "type": "dedicated-tax",
+          "restriction_type": "n/a",
+          "summary": "Voters approved a 0.125% county-wide sales and use tax plus an affordable-housing impact fee of up to $2 per square foot on new construction, renewed in 2015. Proceeds fund land purchases, construction and acquisition of homes for employees.",
+          "magnitude": "0.125% sales and use tax; development impact fee of $2 or less per square foot.",
+          "source_label": "Summit County Housing Department - Impact Fee",
+          "source_url": "https://www.summitcountyco.gov/services/housing/property_deed_restrictions/impact_fee.php",
+          "evidence": [
+            {
+              "section": "Impact Fee",
+              "quote": "The voters in Summit County voted to support workforce-housing needs by passing the Summit Combined Housing Authority Referred Measure 5A in November 2006, and then renewing the measure in perpetuity in November 2015."
+            },
+            {
+              "section": "Impact Fee",
+              "quote": "The measure authorizes a sales and use tax of one eight of one percent (0.125%) and a Development Impact Fee of two dollars or less per square foot for new construction."
+            }
+          ],
+          "notes": "The impact fee is a fee on new construction (linkage-like) bundled with the tax measure; owners may avoid it by voluntarily imposing a private transfer fee on later sales (same page).",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "SCHA Measure 5A (2016) 0.6% sales tax, extended by Measure 6B (2021)",
+          "type": "dedicated-tax",
+          "restriction_type": "n/a",
+          "summary": "Voters approved a temporary 0.6% county-wide sales tax for affordable housing in 2016 for 10 years, and in 2021 approved a twenty-year extension of it.",
+          "magnitude": "0.6% sales tax; 10-year term (2016), twenty-year extension (2021).",
+          "source_label": "Summit County Housing Department - Ballot Measures",
+          "source_url": "https://www.summitcountyco.gov/services/housing/policies/ballot_measures.php",
+          "evidence": [
+            {
+              "section": "2016-5A",
+              "quote": "Authorizing a temporary sales tax of six tenths of one percent (0.6%) within Summit County, over a period of 10 years, to be used for affordable housing purposes."
+            },
+            {
+              "section": "2021-6B",
+              "quote": "Summit County Housing Authority Measure 6B authorizing a twenty-year extension of the existing sales tax of six tenths of one percent (.6%) within Summit County for affordable housing purposes"
+            }
+          ],
+          "notes": "The county page lists the 2021 extension as Measure 6B, not 6A. No 'Measure 6A' housing tax appears on the county's ballot-measures page.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Summit County Referred Measure 1A (2008) property tax levy",
+          "type": "dedicated-tax",
+          "restriction_type": "n/a",
+          "summary": "A county property tax levy approved in 2008 funds affordable housing among other county needs; in 2019 it was approved in perpetuity.",
+          "source_label": "Summit County Housing Department - Ballot Measures",
+          "source_url": "https://www.summitcountyco.gov/services/housing/policies/ballot_measures.php",
+          "evidence": [
+            {
+              "section": "2008-1A",
+              "quote": "Summit County Referred Measure 1A is a twelve-year property tax levy, approved by voters in November 2008 ad effective January 1, 2010, establishing an ongoing funding mechanism for affordable housing projects (among other County needs, such as open space preservation and wildfire prevention)."
+            },
+            {
+              "section": "2008-1A",
+              "quote": "In 2019, Measure 1A was approved in perpetuity to fund community needs including workforce housing."
+            }
+          ],
+          "notes": "Not housing-exclusive.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Summit County master-lease properties (580 Silverthorne Lane, Alpine Inn)",
+          "type": "master-lease",
+          "restriction_type": "occupancy-only",
+          "caps_appreciation": false,
+          "summary": "The county has master-leased former hotels and sublet rooms long-term to local workers, with some rooms going to local governments, businesses and nonprofits. The county's page describes a lease that expired in January 2025 with an optional extension, so whether these leases continue is not confirmed.",
+          "magnitude": "Silverthorne Lane building: 52 units, 35 for the public, 212 applicants by lottery; Alpine Inn in Frisco: 38 rooms, 6 used as transitional housing for county staff.",
+          "source_label": "Summit County Housing Department - Master Lease Properties",
+          "source_url": "https://www.summitcountyco.gov/services/housing/current_rental_properties.php",
+          "evidence": [
+            {
+              "section": "580 Silverthorne Lane",
+              "quote": "There are a total of 52 units in the building, including an onsite managers suite."
+            },
+            {
+              "section": "580 Silverthorne Lane",
+              "quote": "Out of the 52 units, we have 35 available to the public and the remaining 17 units are split between local government entities, businesses, and non-profits."
+            },
+            {
+              "section": "580 Silverthorne Lane",
+              "quote": "There were 212 applicants for the public rooms available and a lottery system was used to award rooms to applicants. The County’s current lease on the building expires in January 2025 with an optional 12-month extension."
+            },
+            {
+              "section": "Alpine Inn",
+              "quote": "In June 2021 the County began Master Leasing the Alpine Inn in Frisco, a 38 room hotel, for long term rental to local workers. The County is using 6 units as transitional housing for County staff"
+            }
+          ],
+          "notes": "Page text is dated: the 580 Silverthorne lease 'expires in January 2025 with an optional 12-month extension' and the Alpine Inn lease was described as extended 'for another year' after 6/30/22. Current status of both leases not verified. restriction_type reflects worker-occupancy leasing; rent terms not stated.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "165 High Tor Rd (county/Breckenridge-owned former hotel)",
+          "type": "town-owned-rental",
+          "restriction_type": "unverified",
+          "summary": "The county bought a former hotel jointly with the Town of Breckenridge in 2022 and leases its rooms to county employees and local businesses.",
+          "magnitude": "38 hotel rooms.",
+          "source_label": "Summit County Housing Department - Master Lease Properties",
+          "source_url": "https://www.summitcountyco.gov/services/housing/current_rental_properties.php",
+          "evidence": [
+            {
+              "section": "165 High Tor Rd",
+              "quote": "The County purchased this property in partnership with the Town of Breckenridge in the fall of 2022."
+            },
+            {
+              "section": "165 High Tor Rd",
+              "quote": "There are 38 hotel rooms, a common kitchen, and additional common space for meals."
+            },
+            {
+              "section": "165 High Tor Rd",
+              "quote": "We intend to continue leasing these rooms to county employees and local businesses."
+            }
+          ],
+          "notes": "County-owned (type label 'town-owned-rental' used for publicly owned rental).",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "The Wellington Neighborhood & Lincoln Park (Breckenridge)",
+          "type": "ownership-deed-restriction",
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
+          "caps_income": true,
+          "summary": "An owner-occupied neighborhood whose restricted homes require Summit County employment and carry income limits and a resale appreciation cap.",
+          "magnitude": "226 restricted / 56 market units; AMI target 80%-120%; income limits 80%-150% AMI; appreciation 3% per year or change in AMI.",
+          "source_label": "SCHA - The Wellington Neighborhood & Lincoln Park",
+          "source_url": "https://www.summithousing.us/homeownership-3/neighborhoods/upper-blue-basin/the-wellington-neighborhood-and-lincoln-park/",
+          "evidence": [
+            {
+              "section": "Property Information",
+              "quote": "# of Units: 226 restricted; 56 market"
+            },
+            {
+              "section": "Property Information",
+              "quote": "AMI Target: 80%-120% AMI"
+            },
+            {
+              "section": "Restrictive Covenant Highlights",
+              "quote": "Income Limits: 80% – 150% AMI"
+            },
+            {
+              "section": "Restrictive Covenant Highlights",
+              "quote": "Appreciation Limit: 3% per year or the change in AMI from year of purchase to sale date"
+            },
+            {
+              "section": "Restrictive Covenant Highlights",
+              "quote": "Employment: 30+ hours per week in Summit County"
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Smith Ranch (Silverthorne)",
+          "type": "ownership-deed-restriction",
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
+          "caps_income": true,
+          "summary": "A multi-phase owner-occupied neighborhood of roughly 200 deed-restricted homes with income limits and a 2% per year non-compounding appreciation cap.",
+          "magnitude": "+/- 200 deed-restricted units; 80%-120% AMI; appreciation 2% per year not compounded.",
+          "source_label": "SCHA - Smith Ranch",
+          "source_url": "https://www.summithousing.us/homeownership-3/neighborhoods/lower-blue-basin/smith-ranch/",
+          "evidence": [
+            {
+              "section": "Property Information",
+              "quote": "# of Units: +/- 200 deed restricted"
+            },
+            {
+              "section": "Restrictive Covenant Highlights",
+              "quote": "Income Limits: 80% – 120% AMI"
+            },
+            {
+              "section": "Restrictive Covenant Highlights",
+              "quote": "Appreciation Limit: 2% per year not compounded annually"
+            },
+            {
+              "section": "Restrictive Covenant Highlights",
+              "quote": "Employment: 30+ hours per week on an annual average basis in Summit County"
+            }
+          ],
+          "verified_on": "2026-10-14"
+        }
+      ],
+      "not_verified": [
+        {
+          "claim": "Summit County 'Lease to Locals' short-term-rental conversion program",
+          "reason": "No page on the county or SCHA website describes it; only news coverage (Summit Daily, 9News) found, reporting it was sunset. Not recorded as a current program.",
+          "urls_tried": [
+            "https://www.summitcountyco.gov/services/housing/index.php",
+            "https://www.summithousing.us/",
+            "WebSearch: Summit County Colorado \"Lease to Locals\" program summitcountyco.gov"
+          ]
+        },
+        {
+          "claim": "A Summit housing tax called 'Measure 6A'",
+          "reason": "The county ballot-measures page lists 2006-5A, 2008-1A, 2015-5A, 2016-5A and 2021-6B; no 6A. The 2021 extension is 6B.",
+          "urls_tried": [
+            "https://www.summitcountyco.gov/services/housing/policies/ballot_measures.php"
+          ]
+        },
+        {
+          "claim": "Wintergreen (Keystone) as a county program",
+          "reason": "County page describes it as a partnership project with a private developer and ski-resort land; recorded here only as context, not as a county program.",
+          "urls_tried": [
+            "https://www.summitcountyco.gov/services/housing/current_rental_properties.php"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "breckenridge",
+      "name": "Town of Breckenridge Housing Division",
+      "url": "https://www.townofbreckhousing.com/",
+      "service_area": "Town of Breckenridge and the Upper Blue River Basin (Farmers Korner to Hoosier Pass)",
+      "place_geoids": [
+        "0808400"
+      ],
+      "serves_place_geoids": [
+        "0808400"
+      ],
+      "county_fips": "08117",
+      "inventory": {
+        "units": 1750,
+        "year": null,
+        "quote": "There are approximately 1,750 deed restricted properties in Breckenridge.",
+        "display": [
+          "approximately 1,750 deed restricted properties"
+        ],
+        "source_url": "https://www.townofbreckhousing.com/copy-of-programs-accomplishments",
+        "note": "Undated page (checked 2026-10-14). The town's Five-Year Blueprint (2/22/2022) gives an earlier figure: 'As of January 2022 there are approximately 1,130 housing units in Breckenridge and the Upper Blue Basin that are restricted to the local workforce.' The neighborhoods page cites 'over 256 individual units (as of 2023 year end)' outside neighborhoods."
+      },
+      "key_programs": [
+        {
+          "name": "Breckenridge Housing Helps",
+          "type": "buy-down-deed-restriction",
+          "restriction_type": "either",
+          "caps_appreciation": false,
+          "caps_income": false,
+          "summary": "The town pays owners, buyers and local businesses in the Upper Blue Basin for a perpetual deed restriction on unrestricted homes. A light restriction requires occupancy by a Summit County worker; a full restriction adds a 3% appreciation cap; neither imposes income caps.",
+          "magnitude": "Payment 15-25% (light 15%, full 20-25%); the full restriction carries a 3% appreciation cap.",
+          "source_label": "Town of Breckenridge Housing - Housing Helps",
+          "source_url": "https://www.townofbreckhousing.com/housing-helps",
+          "evidence": [
+            {
+              "section": "Program",
+              "quote": "Under the program the Town will pay owners, buyers, and local businesses 15-25% in return for a deed restriction on homes that are currently unrestricted."
+            },
+            {
+              "section": "Key Terms",
+              "quote": "The key terms of the light deed restriction (15%) include:"
+            },
+            {
+              "section": "Key Terms",
+              "quote": "The key terms of the full deed restriction (20-25%) include:"
+            },
+            {
+              "section": "Key Terms",
+              "quote": "The property will be subject to a 3% appreciation cap."
+            },
+            {
+              "section": "Key Terms",
+              "quote": "Unlike some other deed restricted properties these units will not be subject to income caps."
+            },
+            {
+              "section": "Key Terms",
+              "quote": "The property must be occupied as a primary residence by a person employed a minimum of 30 hours (no remote work) a week in Summit County."
+            }
+          ],
+          "notes": "Light option is occupancy-only (default recorded); full option is price-capped. Program established by Town Council Resolution No. 17, Series 2019 (https://breckenridge.town.codes/enactments/Res2019-17/media/original.pdf): 'A RESOLUTION ESTABLISHING THE \"HOUSING HELPS PROGRAM\"'.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Breckenridge Buy Downs",
+          "type": "ownership-deed-restriction",
+          "restriction_type": "unverified",
+          "summary": "Under its 2008 action plan the town acquires existing free-market homes and resells them as permanently deed-restricted workforce housing for people working 30+ hours a week in Summit County.",
+          "source_label": "Town of Breckenridge Housing - Buy Downs",
+          "source_url": "https://www.townofbreckhousing.com/buy-downs",
+          "evidence": [
+            {
+              "section": "Buy Downs",
+              "quote": "Pursuant to the 2008 'Workforce Housing Action Plan', the Town of Breckenridge expanded efforts to acquire existing free-market units and convert them to permanently affordable workforce housing."
+            },
+            {
+              "section": "Buy Downs",
+              "quote": "the home must be occupied by a person who works at least 30 hours per week for a business located in and serving Summit County."
+            }
+          ],
+          "notes": "Price/income caps on buy-down units not stated on the page. 24/year figure from Blueprint table row 'Buy Downs ... 120 ... $175K ... 24 24 24 24 24' (blueprint.txt) - not quoted as evidence because it is a table row.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Breckenridge annual accommodation unit (STR) regulatory fee",
+          "type": "dedicated-tax",
+          "restriction_type": "n/a",
+          "summary": "Short-term rental licensees pay an annual per-bedroom regulatory fee whose proceeds are restricted to workforce housing programs (buy-downs, lease to locals, deed-restriction acquisition, construction) and STR impacts and administration.",
+          "magnitude": "$400 per studio or bedroom in 2022; set annually afterwards, not to exceed $756 per studio or bedroom.",
+          "source_label": "Breckenridge Town Code 4-6-3",
+          "source_url": "https://breckenridge.town.codes/Code/4-6-3",
+          "evidence": [
+            {
+              "section": "4-6-3 B.1",
+              "quote": "The amount of the annual accommodation unit fee for 2022 shall be four hundred dollars ($400.00) per studio and/or per bedroom in any accommodation unit"
+            },
+            {
+              "section": "4-6-3 B.2",
+              "quote": "in an amount not to exceed seven hundred fifty six dollars ($756.00) per studio and/or per bedroom in an accommodation unit."
+            },
+            {
+              "section": "4-6-3 D.2.a",
+              "quote": "The town's housing policies and programs, including buy downs, lease to locals, acquisition of deed restricted units, and/or construction of new units;"
+            }
+          ],
+          "notes": "Legally a regulatory fee, not a tax (code cites Colorado Union of Taxpayers Foundation v. City of Aspen). Type 'dedicated-tax' used as nearest category. Also funds STR secondary-impact mitigation and administration (D.2.b, D.2.c). The $4,000,000 figure is in the Blueprint revenue table ('STR Fee* $4,000,000').",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Alta Verde (phase 1) on town-owned McCain land",
+          "type": "rental-deed-restriction",
+          "restriction_type": "price-capped",
+          "caps_income": true,
+          "summary": "An 80-unit apartment community built by a private developer on a town-owned parcel under a ground lease, with a perpetual affordability deed restriction; most units are tax-credit units at 30-60% AMI.",
+          "magnitude": "80 units; 64 LIHTC units at 30%-60% AMI; 16 non-LIHTC units with incomes capped at 100% AMI and rents at 60% AMI; town offset $3,800,000 in costs.",
+          "source_label": "Town of Breckenridge Resolution No. 21, Series 2020 (CDBG application, Alta Verde)",
+          "source_url": "https://breckenridge.town.codes/enactments/Res2020-21/media/original.pdf",
+          "evidence": [
+            {
+              "section": "Recitals",
+              "quote": "develop an affordable workforce housing project on a Town-owned parcel of land , which project is commonly referred to as the \"Alta Verde Housing Development\""
+            },
+            {
+              "section": "Population served",
+              "quote": "This project will have a perpetually affordable deed restriction on all 80 units."
+            },
+            {
+              "section": "Population served",
+              "quote": "The project includes 64 LIHTC units, with income and rents capped between 30% and 60% AMI and 16 non-LIHTC units with incomes capped at 100% AMI and rents capped at 60% AMI."
+            },
+            {
+              "section": "Cost containment",
+              "quote": "offsetting $3,800,000 in costs that a typical project would incur by paying for (i) water tap fees, (ii) bringing the site out of the flood plain, (iii) running utilities to the site, (iv) waiving building permit fees, and (v) providing a ground lease with a nominal payment in lieu of a land acquisition."
+            }
+          ],
+          "notes": "2020 application document; completion/occupancy not verified from a primary source. Alta Verde 2 appears in the 2022 Blueprint as a planned 175-unit rental at 80%/100% AMI targets; current status not verified.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Town-owned apartments (Huron Landing, Pinewood 2, COTO, Block 11)",
+          "type": "town-owned-rental",
+          "restriction_type": "unverified",
+          "summary": "The town's housing blueprint commits it to operating and maintaining town-owned apartments, including tax-credit compliance at one property.",
+          "source_label": "Town of Breckenridge Workforce Housing Five-Year Blueprint (2/22/2022)",
+          "source_url": "https://www.townofbreckhousing.com/_files/ugd/05acef_5d4c4ba4e3794dc1aadb551220593ddb.pdf",
+          "evidence": [
+            {
+              "section": "Property and Asset Management",
+              "quote": "Insure Town-owned apartments are"
+            },
+            {
+              "section": "Property and Asset Management",
+              "quote": "Manage Huron Landing Operation"
+            }
+          ],
+          "notes": "Unit counts for town-owned apartments not stated in this document. Summit County's master-lease page states Huron Landing has 26 rental units built by the county and town in partnership: 'Summit County & Town of Breckenridge partnered to build 26 Rental Units at 157 Huron Rd. in Breckenridge.' Quotes from the Blueprint are from a two-column table and are short to stay verbatim.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Runway Neighborhood (town land, for sale)",
+          "type": "ownership-deed-restriction",
+          "restriction_type": "unverified",
+          "summary": "A for-sale neighborhood on town land off Airport Road developed with the school district and a private builder; homes are sold by lottery through SCHA.",
+          "magnitude": "81 homes.",
+          "source_label": "Town of Breckenridge Housing - In The Pipeline",
+          "source_url": "https://www.townofbreckhousing.com/pipeline-projects-timeline",
+          "evidence": [
+            {
+              "section": "Runway Neighborhood",
+              "quote": "The Runway Neighborhood is a partnership between the Town of Breckenridge, the Summit School District, and Neighborhood Crafters. The site is located off Airport Road and will include a mix of 81 single family homes, duplexes, and townhomes."
+            }
+          ],
+          "notes": "Deed-restriction terms (AMI bands, appreciation cap) not found on a primary source; news reports 85%-180% AMI - not verified. SCHA homepage lists 'Summit School District Lottery – Runway 1.2'.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Breckenridge annexation policy (80% deed-restricted)",
+          "type": "inclusionary",
+          "restriction_type": "unverified",
+          "summary": "When land is annexed, the town requires at least 80% of the proposed homes to be deed-restricted, in exchange for density transfers and fee and tap deferrals.",
+          "magnitude": "Minimum 80% deed-restricted; maximum 20% market rate.",
+          "source_label": "Town of Breckenridge Housing - Strategies",
+          "source_url": "https://www.townofbreckhousing.com/copy-of-programs-accomplishments",
+          "evidence": [
+            {
+              "section": "Annexations",
+              "quote": "On the proposed annexation, a minimum of 80% of the proposed dwelling units must be developed as deed restricted housing with a maximum of 20% market rate units."
+            }
+          ],
+          "verified_on": "2026-10-14"
+        }
+      ],
+      "not_verified": [
+        {
+          "claim": "Deed-restricted goal of 2,060 units by 2030",
+          "reason": "Appears in news coverage only. The town's Five-Year Blueprint (2022) states a goal of 150-200 new units a year and 974 units over five years, but no 2,060 figure.",
+          "urls_tried": [
+            "https://www.townofbreckhousing.com/_files/ugd/05acef_5d4c4ba4e3794dc1aadb551220593ddb.pdf",
+            "www.townofbreckenridge.com/your-government/housing (HTTP 403 from here, 404 from CI; not a citation)"
+          ]
+        },
+        {
+          "claim": "'Housing Works Initiative'",
+          "reason": "Not found on the town housing site, town code, or in search results.",
+          "urls_tried": [
+            "https://www.townofbreckhousing.com/",
+            "https://www.townofbreckhousing.com/programs-accomplishments",
+            "https://www.townofbreckenridge.com (403)"
+          ]
+        },
+        {
+          "claim": "Breckenridge Lease to Locals program terms",
+          "reason": "Town code 4-6-3 lists 'lease to locals' as a permitted use of STR fees and the Blueprint lists 'Long Term Rental Incentives (L2L)', but no primary page describing current terms or status was reachable (townofbreckenridge.com returns 403).",
+          "urls_tried": [
+            "https://breckenridge.town.codes/Code/4-6-3",
+            "https://www.townofbreckenridge.com/Home/Components/News/News/2097/32 (403)"
+          ]
+        },
+        {
+          "claim": "Blueprint goal figures (974 units over 5 years; 150-200/yr)",
+          "reason": "Verified but recorded here for reference with quote: 'the goal of adding 150-200 new units each year through the construction of new inventory, as well as the preservation of existing stock. The Town is projecting this will increase local workforce housing by 974 units over the next 5 years.'",
+          "urls_tried": [
+            "https://www.townofbreckhousing.com/_files/ugd/05acef_5d4c4ba4e3794dc1aadb551220593ddb.pdf"
+          ],
+          "status": "verified-goal"
+        }
       ]
     },
     {
       "id": "steamboat-yvha",
-      "name": "Yampa Valley Housing Authority (Routt County)",
-      "url": "https://www.yvha.org/",
-      "service_area": "Steamboat Springs + unincorporated Routt County",
+      "name": "Yampa Valley Housing Authority / City of Steamboat Springs",
+      "url": "https://yvha.org/",
+      "service_area": "City of Steamboat Springs and the Steamboat Springs Rural Fire Protection District (Routt County)",
       "place_geoids": [
         "0873825"
       ],
+      "serves_place_geoids": [
+        "0873825"
+      ],
       "county_fips": "08107",
-      "headline": "Active local housing authority; Steamboat has rapidly-growing inventory through 2026",
-      "portfolio_size_units": 600,
-      "portfolio_size_units_year": 2024,
+      "inventory": {
+        "units": 185,
+        "year": null,
+        "quote": "YVHA currently manages 185 deed restrictions, including Fox Creek, West End Village, The Cottonwoods, and a handful of others, with restrictions varying from property to property.",
+        "display": [
+          "185 deed restrictions"
+        ],
+        "source_url": "https://yvha.org/deed-restricted-home-ownership/",
+        "note": "Undated page (checked 2026-10-14); counts deed restrictions YVHA administers, not all restricted units. YVHA history page: 'Since 2016, YVHA has leveraged 4.5 million dollars in community funds to build 285 new homes added to the 150 homes held in trust for the community'."
+      },
       "key_programs": [
         {
-          "name": "Brown Ranch (planning)",
-          "type": "land-banking",
-          "summary": "534-acre property acquired by YVHA in 2023; planned for ~2,400 workforce units over 20 years. Voter-approved annexation in progress.",
-          "restriction_type": "n/a"
+          "name": "Home Base Steamboat (purchase of deed restriction pilot)",
+          "type": "buy-down-deed-restriction",
+          "restriction_type": "either",
+          "caps_appreciation": false,
+          "caps_income": false,
+          "summary": "The city pays homebuyers or owners a one-time payment for a deed restriction requiring year-round occupancy by a Routt County worker, with no income limit; YVHA administers it. A resident-occupied option keeps market resale; a price-capped option caps resale appreciation for a larger payment.",
+          "magnitude": "Payment of 15% of the contract price up to $150,000 (resident occupied) or 25% up to $250,000 (price capped); price-capped resale grows by up to 3% per year; launched June 16, 2026.",
+          "source_label": "City of Steamboat Springs - Home Base Steamboat FAQ",
+          "source_url": "https://www.steamboatsprings.net/DocumentCenter/View/42496",
+          "evidence": [
+            {
+              "section": "The Money",
+              "quote": "The deed restriction payment is 15% of the contract sale price up to $150,000 for resident occupied, and 25% of the contract sale price up to $250,000 for price capped."
+            },
+            {
+              "section": "Eligibility",
+              "quote": "Do I have to meet an income limit? No. The Program is workforce-based, not income-banded."
+            },
+            {
+              "section": "Program Basics",
+              "quote": "June 16, 2026 – for a limited duration and capacity, designed to test the model before any broader rollout."
+            },
+            {
+              "section": "Selling",
+              "quote": "The maximum sales price is the deed-restriction formula (Purchase Price plus indexed annual appreciation up to 3% per year) plus PCI credits"
+            },
+            {
+              "section": "Program Basics",
+              "quote": "The City of Steamboat Springs in partnership with the Yampa Valley Housing Authority (YVHA)."
+            }
+          ],
+          "notes": "Remaining-funds figure from the city Housing page (sbh.txt): 'Home Base Steamboat Pilot Program Remaining Funds as of September 28, 2026: $2,127,725'. Resident-occupied (default recorded) is occupancy-only; price-capped variant caps appreciation.",
+          "verified_on": "2026-10-14"
         },
         {
-          "name": "Steamboat Commercial Linkage",
-          "type": "linkage-fee",
-          "summary": "Commercial development mitigation requirements.",
-          "restriction_type": "n/a"
+          "name": "Steamboat Springs short-term rental tax (2022)",
+          "type": "dedicated-tax",
+          "restriction_type": "n/a",
+          "summary": "Voters approved a short-term rental tax in 2022 to help fund affordable housing; the city has awarded loans and grants from it to deed-restricted projects, including $10 million to YVHA for Cottonwoods ownership units.",
+          "magnitude": "9% STR tax remitted to city; YVHA says 14 million dollars expected annually until 2043; $10 million grant to YVHA (Jan 2025) for 86 ownership units.",
+          "source_label": "City of Steamboat Springs - Municipal Tax",
+          "source_url": "https://www.steamboatsprings.net/119/Municipal-tax",
+          "evidence": [
+            {
+              "section": "Tax rates",
+              "quote": "Short-term rental tax, remit to city = 9%"
+            },
+            {
+              "section": "YVHA history (https://yvha.org/about/history/)",
+              "quote": "In 2022, Steamboat Springs voters passed the short-term rental tax to help fund affordable housing. 14 million dollars in revenue is expected to be generated annually until 2043."
+            },
+            {
+              "section": "City Housing page (https://www.steamboatsprings.net/1535/Housing)",
+              "quote": "Award Date: January 2025 Recipient: Yampa Valley Housing Authority Funding: $10 million grant Housing Created: 86 deed-restricted ownership units (Phase 1)"
+            }
+          ],
+          "notes": "Revenue projection is YVHA's statement, not the city's. YVHA history page also says: 'In 2024, the city of Steamboat Springs voters rejected the Brown Ranch annexation essentially negating the 75% allocation of short-term tax revenue to YVHA.'",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "YVHA one-mill property tax levy (2017 Referendum 5A)",
+          "type": "dedicated-tax",
+          "restriction_type": "n/a",
+          "summary": "Steamboat voters approved a one-mill levy in 2017 giving YVHA a dedicated funding source for permanently attainable housing.",
+          "magnitude": "One mill.",
+          "source_label": "YVHA - History",
+          "source_url": "https://yvha.org/about/history/",
+          "evidence": [
+            {
+              "section": "History",
+              "quote": "In 2017, Steamboat Springs voters approved Referendum 5A, a one-mill levy that provides YVHA with a dedicated funding source to spur the development of permanently attainable housing for low-to-moderate income residents."
+            }
+          ],
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "The Cottonwoods at Mid Valley (YVHA for-sale condos)",
+          "type": "ownership-deed-restriction",
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
+          "caps_income": true,
+          "summary": "YVHA's deed-restricted condo development sells to Routt County workers or retirees earning up to 140% AMI, with resale appreciation limited by formula; city STR-tax funds reduce prices.",
+          "magnitude": "Phase One: 86 condos, completed in early 2026; income cap 140% AMI; $10 million of city short-term rental tax funding, $1.84 million from the mill levy and $4 million in state grants.",
+          "source_label": "YVHA - The Cottonwoods at Mid Valley",
+          "source_url": "https://yvha.org/cottonwoods/",
+          "evidence": [
+            {
+              "section": "Overview",
+              "quote": "Phase One : 86 one-, two-, and three-bedroom condos"
+            },
+            {
+              "section": "Overview",
+              "quote": "With Phase One completed in early 2026"
+            },
+            {
+              "section": "Eligibility",
+              "quote": "Applicants’ income cannot exceed 140% of the Area Median Income (AMI) for Routt County."
+            },
+            {
+              "section": "Funding",
+              "quote": "backed by $1.84 million from the local mill levy, a generous land donation, and $4 million in state grants."
+            },
+            {
+              "section": "Funding",
+              "quote": "The City of Steamboat Springs’ backing in the amount of $10 million in short-term rental (STR) tax funding will be used dollar-for-dollar to reduce prices"
+            }
+          ],
+          "notes": "Appreciation formula from https://yvha.org/deed-restricted-home-ownership/ : 'appreciation will be limited to a 2% increase in the purchase price per year or fifty percent (50%) of the average annual increase in AMI during the time that the owner has owned the unit, whichever is greater.' A private partner is a co-developer.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Alpenglow Village (YVHA partnership rental)",
+          "type": "rental-deed-restriction",
+          "restriction_type": "unverified",
+          "caps_income": true,
+          "summary": "A 72-unit mixed-income apartment complex built by a private partner with YVHA mill-levy investment, serving households from 30% to 100% AMI.",
+          "magnitude": "72 units; $525,000 mill-levy investment; $23.8 million project; 30%-100% AMI; available since 2020.",
+          "source_label": "YVHA - Alpenglow Village",
+          "source_url": "https://yvha.org/below-market-rate-homes/alpenglow-village/",
+          "evidence": [
+            {
+              "section": "Alpenglow Village",
+              "quote": "YVHA invested $525,000 community dollars (2017 mill levy) in partnership with Overland Property Group to build a $23.8 million 72-unit mixed-income apartment complex."
+            },
+            {
+              "section": "Alpenglow Village",
+              "quote": "They serve populations making 30% AMI up to 100% AMI."
+            },
+            {
+              "section": "Alpenglow Village",
+              "quote": "Available since 2020."
+            }
+          ],
+          "notes": "Whether a recorded deed restriction (vs. regulatory agreement) governs rents is not stated; restriction_type left unverified.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Brown Ranch (YVHA land)",
+          "type": "land-banking",
+          "restriction_type": "n/a",
+          "summary": "YVHA received a donation to buy a 534-acre ranch for a locals' community; city voters rejected its annexation in 2024.",
+          "magnitude": "534 acres; $24M donation (2021).",
+          "source_label": "YVHA - Brown Ranch Community Development Plan, Introduction",
+          "source_url": "https://yvha.org/the-brown-ranch-community-development-plan/introduction/",
+          "evidence": [
+            {
+              "section": "Introduction",
+              "quote": "In 2021, the Yampa Valley Housing Authority was gifted $24M by an anonymous donor to purchase the 534-acre Brown Ranch."
+            },
+            {
+              "section": "YVHA history (https://yvha.org/about/history/)",
+              "quote": "In 2024, the city of Steamboat Springs voters rejected the Brown Ranch annexation essentially negating the 75% allocation of short-term tax revenue to YVHA."
+            }
+          ],
+          "notes": "Current development status after the 2024 annexation vote not verified.",
+          "verified_on": "2026-10-14"
         }
       ],
-      "developer_actions": [
-        "Brown Ranch is the largest workforce-housing pipeline in the state; partnerships welcomed",
-        "Routt County partners on land-contribution deals"
+      "not_verified": [
+        {
+          "claim": "Steamboat Springs housing linkage / mitigation fee or inclusionary requirement",
+          "reason": "The city's Affordable Housing Guidelines (adopted Feb 2026) state they 'do not establish requirements for inclusionary zoning, commercial linkage, ... development mitigation, payment-in-lieu'. No adopted linkage fee or inclusionary ordinance found on a primary source; a 2025 RFP for a nexus/inclusionary feasibility study surfaced in search only.",
+          "urls_tried": [
+            "https://www.steamboatsprings.net/DocumentCenter/View/42213/2026-02-17-Affordable-Housing-Guidelines-Remediated",
+            "https://www.steamboatsprings.net/1535/Housing"
+          ]
+        },
+        {
+          "claim": "Steamboat 'Lease to Locals' or similar rental conversion program",
+          "reason": "Not found on the city Housing page or YVHA site.",
+          "urls_tried": [
+            "https://www.steamboatsprings.net/1535/Housing",
+            "https://yvha.org/"
+          ]
+        },
+        {
+          "claim": "'Yampa Valley Home Ownership program' (YVHA)",
+          "reason": "No program by that name found on yvha.org; YVHA's ownership offerings found are The Cottonwoods and administration of Home Base Steamboat.",
+          "urls_tried": [
+            "https://yvha.org/deed-restricted-home-ownership/",
+            "https://yvha.org/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "estes-park",
+      "name": "Estes Park Housing Authority (EPHA) / Town of Estes Park",
+      "url": "https://esteshousing.colorado.gov/",
+      "service_area": "Estes Valley (Town of Estes Park and surrounding Larimer County)",
+      "place_geoids": [
+        "0825115"
+      ],
+      "serves_place_geoids": [
+        "0825115"
+      ],
+      "county_fips": "08069",
+      "inventory": {
+        "units": 200,
+        "year": null,
+        "quote": "Estes Park Housing Authority (EPHA) offers over 200 apartments for rent within the Estes Valley.",
+        "display": [
+          "over 200 apartments"
+        ],
+        "source_url": "https://esteshousing.colorado.gov/rental-properties-programs",
+        "note": "'over 200' is a floor, undated (checked 2026-10-14). Most units at or below 60% AMI; Beaver Brook Crossing, Grand Estates and Peak View are workforce-qualified instead.",
+        "income_band": "most at or below 60% AMI"
+      },
+      "key_programs": [
+        {
+          "name": "Ballot Issue 6E lodging tax extension (2022)",
+          "type": "dedicated-tax",
+          "restriction_type": "n/a",
+          "summary": "Estes Valley voters in November 2022 raised the lodging tax collected through the local marketing district, with the added revenue transferred to the town for workforce housing and childcare; EPHA oversees distribution of the housing share under a 2023 MOU.",
+          "magnitude": "Lodging tax increased by 3.5%; MOU with EPHA signed July 2023.",
+          "source_label": "Town of Estes Park - Workforce Housing and Childcare",
+          "source_url": "https://estespark.colorado.gov/workforcehousingandchildcare",
+          "evidence": [
+            {
+              "section": "Overview",
+              "quote": "In November 2022, the Town of Estes Park citizens voted to approve Ballot Issue 6E to increase the Lodging Taxes throughout the Estes Valley by 3.5%."
+            },
+            {
+              "section": "Overview",
+              "quote": "The funds received by the Local Marketing District, Visit Estes Park are transferred to the Town of Estes Park to address workforce housing and childcare issues."
+            },
+            {
+              "section": "Overview",
+              "quote": "A Memorandum of Understanding was signed in July 2023 with the Estes Park Housing Authority to oversee the distribution of 6E revenue to address workforce housing."
+            }
+          ],
+          "notes": "EPHA's 6E page says the measure increased the lodging tax 'from 2% to 3.5%, with the additional 3.5% dedicated to support workforce housing and childcare' - internally inconsistent; the town page's 'by 3.5%' is recorded. Secondary sources say 2% to 5.5%; not taken from a primary source here. Housing/childcare split not verified on a primary source.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Estes Valley Workforce Housing Assistance (EVWHA) loan",
+          "type": "down-payment-assistance",
+          "restriction_type": "n/a",
+          "caps_income": true,
+          "summary": "EPHA offers first-time buyers who live or work in the Estes Valley a low-interest down-payment loan, subject to funding and AMI eligibility.",
+          "magnitude": "Max 3.5% of purchase price ($15,000 maximum); 2% interest; 10-year term; buyer invests minimum $3,000.",
+          "source_label": "EPHA - Estes Valley Workforce Housing Assistance",
+          "source_url": "https://esteshousing.colorado.gov/homeownership/estes-valley-workforce-housing-assistance",
+          "evidence": [
+            {
+              "section": "EVWHA",
+              "quote": "The EVWHA program is a low interest loan. The maximum loan amount is 3.5% of purchase price ($15,000 maximum) with an interest rate of 2% with a 10 year term."
+            },
+            {
+              "section": "EVWHA",
+              "quote": "Applicants need to invest a minimum of $3,000 of their own money into the home purchase."
+            },
+            {
+              "section": "EVWHA",
+              "quote": "First Time Homebuyers who fall between the required AMI and live/work in the Estes Valley may begin the qualification process"
+            }
+          ],
+          "notes": "Specific AMI range not stated on the page.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Talons Pointe Apartments (EPHA rental)",
+          "type": "rental-deed-restriction",
+          "restriction_type": "unverified",
+          "caps_income": true,
+          "summary": "An EPHA-listed apartment and townhome community built in 2003 that is limited to households earning 60% AMI or less and accepts housing choice vouchers.",
+          "magnitude": "Income limit 60% AMI; built 2003.",
+          "source_label": "EPHA - Talons Pointe Apartments",
+          "source_url": "https://esteshousing.colorado.gov/rental-properties/talons-pointe-apartments",
+          "evidence": [
+            {
+              "section": "Talons Pointe",
+              "quote": "This property, built in 2003, consists of spacious 2- and 3-bedroom apartments and townhomes"
+            },
+            {
+              "section": "Talons Pointe",
+              "quote": "Renting at Talons Pointe is limited to households earning 60% or less of the Area Median Income."
+            }
+          ],
+          "notes": "Unit count and whether limits are set by a recorded deed restriction or a tax-credit regulatory agreement not stated; restriction_type unverified.",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Vista Ridge Condominiums (EPHA ownership)",
+          "type": "ownership-deed-restriction",
+          "restriction_type": "price-capped",
+          "caps_appreciation": true,
+          "caps_income": true,
+          "summary": "A mixed-income condominium community developed by EPHA with local investors; the affordable units are sold to households at or below 80% AMI with a resale price cap and a forgivable soft second mortgage.",
+          "magnitude": "59 units (30 affordable, 29 market); 80% AMI; price reduced by $50,000 via soft second.",
+          "source_label": "EPHA - Vista Ridge Condominiums",
+          "source_url": "https://esteshousing.colorado.gov/homeownership/vista-ridge-condominiums",
+          "evidence": [
+            {
+              "section": "Vista Ridge",
+              "quote": "Consisting of 59 condominium units, 30 are designated affordable and 29 are market rate units. The Affordable units are income, deed, and resale restricted as described below."
+            },
+            {
+              "section": "Vista Ridge",
+              "quote": "These units are sold to families who earn 80% or less of the Area Median Income for Larimer County"
+            },
+            {
+              "section": "Vista Ridge",
+              "quote": "The price of these units is reduced by $50,000. The Estes Park Housing Authority will hold a 'soft' second mortgage for that $50,000."
+            },
+            {
+              "section": "Deed Restriction",
+              "quote": "Primarily the unit MUST be sold to another income qualified household and may not be sold for more than the Maximum Sales Price."
+            }
+          ],
+          "notes": "Vista Ridge is an OWNERSHIP program, not a rental as the task brief suggested. caps_appreciation=true reflects the Maximum Sales Price limit (formula 'includes an appraised price').",
+          "verified_on": "2026-10-14"
+        },
+        {
+          "name": "Town of Estes Park Ordinance 30-17 workforce/attainable housing incentive",
+          "type": "inclusionary",
+          "restriction_type": "occupancy-only",
+          "summary": "A 2017 town ordinance created an incentive for developers to provide attainable and workforce housing; EPHA monitors the resulting restrictive covenants under agreement with the town.",
+          "source_label": "EPHA - Community Workforce Programs",
+          "source_url": "https://esteshousing.colorado.gov/community-workforce-programs",
+          "evidence": [
+            {
+              "section": "Community Workforce Programs",
+              "quote": "One of these steps, executed in late 2017, was ordinance 30-17 which created an incentive to provide a variety of attainable and workforce housing for persons living in the Estes Valley."
+            },
+            {
+              "section": "Community Workforce Programs",
+              "quote": "The Town of Estes Park has entered into an agreement with the Estes Park Housing Authority to monitor compliance with the restrictive covenants"
+            }
+          ],
+          "notes": "This is a voluntary INCENTIVE, not a mandatory inclusionary requirement; type 'inclusionary' is the nearest category. restriction_type 'occupancy-only' inferred from workforce-qualified rentals (e.g. 'at least one member of the household be employed within the boundaries of Estes Park School District for an average of 30 hours a week year round' for Beaver Brook Crossing, Grand Estates and Peak View) - treat as partially verified.",
+          "verified_on": "2026-10-14"
+        }
+      ],
+      "not_verified": [
+        {
+          "claim": "A mandatory Estes Park workforce housing requirement",
+          "reason": "Primary sources describe Ordinance 30-17 as an incentive, not a requirement. No mandatory inclusionary/linkage rule found.",
+          "urls_tried": [
+            "https://esteshousing.colorado.gov/community-workforce-programs",
+            "https://estespark.colorado.gov/workforcehousingandchildcare"
+          ]
+        },
+        {
+          "claim": "6E increased lodging tax from 2% to 5.5%",
+          "reason": "Town page says 'by 3.5%'; EPHA page says 'from 2% to 3.5%' (inconsistent). The 5.5% total appears only in secondary sources; Visit Estes Park press release URL returned 404.",
+          "urls_tried": [
+            "https://esteshousing.colorado.gov/lodging-tax-extension/ballot-initiative-6e",
+            "www.visitestespark.com/tax-you-dont-pay/press/ballot-issue-6e-passes/ (HTTP 404; not a citation)"
+          ]
+        },
+        {
+          "claim": "Short-term rental impact fee used for housing",
+          "reason": "Town page mentions 'revenues from the Impact Fee associated with Short Term Rentals' as a housing funding source, but amount/terms not verified.",
+          "urls_tried": [
+            "https://estespark.colorado.gov/workforcehousingandchildcare"
+          ]
+        }
       ]
     }
   ]
