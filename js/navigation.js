@@ -272,7 +272,9 @@
     }
 
     var root = relToRoot();
-    var pillLabel = city ? county + ' · ' + city : county;
+    // Place first: the pill truncates at phone width, and "Garfield County ·
+    // Glenwood Springs" lost the place the page is about (2026-10-14 walk).
+    var pillLabel = city ? city + ' · ' + county : county;
 
     if (county) {
       wrap.innerHTML =

@@ -239,7 +239,10 @@
   function _announceGeoOptions(count, typeName) {
     var hint = document.getElementById('geoSelectHint');
     if (hint) {
-      hint.textContent = count + ' ' + typeName + (count === 1 ? '' : 's') + ' available';
+      // "municipality" + "s" read "municipalitys"; name the plural outright.
+      var PLURAL = { county: 'counties', municipality: 'municipalities', place: 'places', cdp: 'CDPs', state: 'states' };
+      var noun = count === 1 ? typeName : (PLURAL[typeName] || typeName + 's');
+      hint.textContent = count + ' ' + noun + ' available';
     }
   }
 
