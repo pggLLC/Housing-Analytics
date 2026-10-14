@@ -35,8 +35,8 @@
  *   4. Match each issuer name to the site's geoid (county FIPS or place GEOID)
  *      via data/hna/ranking-index.json.
  *
- * SOURCE: https://doh.colorado.gov/private-activity-bond-direct-allocations-<YEAR>
- *   (2024 and 2025 used https://doh.colorado.gov/PAB-Allocations-<YEAR>)
+ * SOURCE: doh.colorado.gov, page private-activity-bond-direct-allocations-<YEAR>
+ *   (2024 and 2025 used the page PAB-Allocations-<YEAR>)
  * Re-run: `node scripts/fetch-pab-allocations.mjs [--year 2026]`  (or
  * `--html <file>` to parse a saved copy when DOLA blocks automated fetches
  * with a 403). The year defaults to the current calendar year; it was typed
@@ -55,9 +55,10 @@ function argValue(flag) {
 }
 const YEAR = Number(argValue('--year')) || new Date().getUTCFullYear();
 // DOLA renamed the page for 2026; try the new name first, then the old one.
+const DOLA_BASE = 'https://doh.colorado.gov/';
 const SOURCE_URLS = [
-  `https://doh.colorado.gov/private-activity-bond-direct-allocations-${YEAR}`,
-  `https://doh.colorado.gov/PAB-Allocations-${YEAR}`
+  new URL(`private-activity-bond-direct-allocations-${YEAR}`, DOLA_BASE).href,
+  new URL(`PAB-Allocations-${YEAR}`, DOLA_BASE).href
 ];
 let SOURCE_URL = SOURCE_URLS[0];
 const OUT = path.join(REPO, 'data/policy/pab-allocations.json');
