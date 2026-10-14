@@ -258,7 +258,8 @@
     });
     var events = row && Array.isArray(row.events) ? row.events : [];
     var today = new Date((now || new Date()).getTime() - 7 * 36e5).toISOString().slice(0, 10);
-    events = events.filter(function (e) { return e && (e.end || e.start) >= today; });
+    // A stale queue shows no events: one may have been cancelled or moved since.
+    events = stale ? [] : events.filter(function (e) { return e && (e.end || e.start) >= today; });
     var html = '<section class="jbrief-news" aria-label="News since the last review">' + title +
       (stories.length ? ' (' + stories.length + ')' : '') + '</p>' +
       '<p class="jbrief-news__note">Headlines that named ' + _esc(brief.jurisdiction) + ' on or after ' +

@@ -65,6 +65,17 @@ def test_housing_colorado_list_is_parsed():
     assert e['organizer'] == 'Housing Colorado' and e['category'] == 'networking'
 
 
+def test_an_unrecognized_page_is_an_error_not_an_empty_calendar():
+    with pytest.raises(ValueError):
+        fhe.parse_housing_colorado('<html><title>Just a moment...</title></html>')
+    with pytest.raises(ValueError):
+        fhe.parse_chfa({'error': 'maintenance'})
+    assert fhe.parse_housing_colorado('<div class="remembers-events"></div>') == []
+    doc = fhe.build(TODAY, fetch=lambda url: b'<html>challenge</html>')
+    assert {s['id']: s['status'] for s in doc['sources']}['housing_colorado'] == 'unreachable'
+    assert {s['id']: s['status'] for s in doc['sources']}['chfa'] == 'unreachable'
+
+
 def test_past_events_drop_and_a_running_one_stays():
     events = fhe.upcoming(fhe.parse_chfa(CHFA), TODAY)
     shown = [e['title'] for e in events]

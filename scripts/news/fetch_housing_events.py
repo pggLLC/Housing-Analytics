@@ -116,6 +116,8 @@ def _time(value: str, all_day: bool) -> str | None:
 
 def parse_chfa(doc: dict) -> list[dict]:
     """CHFA's calendar JSON → events. Times are Mountain, as CHFA lists them."""
+    if not isinstance(doc, dict) or not isinstance(doc.get('events'), list):
+        raise ValueError('CHFA calendar response has no events list')
     out = []
     for e in (doc or {}).get('events') or []:
         title = clean(e.get('title') or e.get('extendedProps', {}).get('heading') or '')
@@ -153,7 +155,13 @@ def _parse_long_date(text: str) -> str | None:
 
 
 def parse_housing_colorado(page: str) -> list[dict]:
-    """The "Upcoming Events" list on housingcolorado.org/events/."""
+    """The "Upcoming Events" list on housingcolorado.org/events/.
+
+    A 200 that is not that page (a bot challenge, a redesign) must not read as
+    "no events": without the list's container the page is not recognized.
+    """
+    if 'class="remembers-events"' not in (page or ''):
+        raise ValueError('Housing Colorado events list not found on the page')
     out = []
     for art in re.findall(r'<article class="remembers-event">(.*?)</article>', page or '', re.S):
         title = clean(re.sub(r'<[^>]+>', ' ', (re.search(r'<h3[^>]*>(.*?)</h3>', art, re.S) or [None, ''])[1]))

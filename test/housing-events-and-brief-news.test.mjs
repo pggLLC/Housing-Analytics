@@ -176,8 +176,10 @@ test('the brief panel shows this brief\'s headlines since its review, apart from
 test('a missing or stale queue is said, not shown as "no news"', () => {
   const w = briefDom();
   assert.match(w.JurisdictionBrief._renderNews(BRIEF, null, NOW), /could not be loaded/);
-  const stale = w.JurisdictionBrief._renderNews(BRIEF, queue([], [], '2026-10-01T09:00:00Z'), NOW);
+  const stale = w.JurisdictionBrief._renderNews(BRIEF, queue([],
+    [{ title: 'Future event from an old queue', start: '2026-11-01', organizer: 'CHFA' }], '2026-10-01T09:00:00Z'), NOW);
   assert.match(stale, /has not updated since Oct 1, 2026/);
+  assert.ok(!stale.includes('Future event from an old queue'), 'a stale queue still listed an event');
   assert.match(w.JurisdictionBrief._renderNews(BRIEF, queue([]), NOW), /No new headlines since the last review/);
 });
 
