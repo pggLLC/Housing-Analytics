@@ -6,7 +6,7 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 
 - Digest files: 546
 - Total tagged metrics: 78620
-- County-context metric tags: 6748
+- County-context metric tags: 6758
 - Rate metrics with denominator metadata: 15834
 - Min denominator floor: 50
 
@@ -15,8 +15,8 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | geography_level | metric tags |
 |---|---:|
 | county | 8704 |
-| county_context | 6748 |
-| place | 63168 |
+| county_context | 6758 |
+| place | 63158 |
 
 ## Source Tags
 
@@ -27,7 +27,7 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | acs-grapi-and-hud-chas-blend | 546 |
 | acs-profile | 9828 |
 | acs-profile-dp02 | 1092 |
-| acs-profile-dp04 | 1098 |
+| acs-profile-dp04 | 1088 |
 | acs-profile-dp04-grapi | 546 |
 | acs-profile-dp05 | 1092 |
 | ami-gap-county-acs | 448 |
@@ -51,6 +51,7 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | opportunity-amenity-context | 2730 |
 | workforce-gap-lodes-wac-vs-ami-gap | 1638 |
 | zillow-zhvi-city-index | 540 |
+| zillow-zhvi-county-adjusted | 10 |
 
 ## Notes
 

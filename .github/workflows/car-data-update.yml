@@ -69,7 +69,13 @@ jobs:
         # 2026-10-11 this workflow added county prices to the 2026-09 report and
         # committed it alone; the cascade kept a flag from the 2026-08 report and
         # main failed test/home-value-integrity.test.mjs until it was rebuilt.
-        run: npm run build:home-values
+        # build:home-values writes the new values into data/hna/summary but not
+        # the income-to-own suppression rule, and it reformats every summary.
+        # The stamp applies the rule and restores the compact format the HNA
+        # build writes; without it test:hna-home-values fails on the commit.
+        run: |
+          npm run build:home-values
+          node scripts/hna/stamp_home_value_cascade.mjs
 
       - name: Re-check the Redfin tracker's review flags
         # The place tracker flags modeled prices above the latest CAR county

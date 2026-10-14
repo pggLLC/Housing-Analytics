@@ -300,6 +300,8 @@ def row(rent, inc, tract):
 rows = [hdr, row("-666666666", "49549", "001000"), row(None, "-888888888", "001001"),
         row("0", "", "001002"), row("1450", "61000", "001003")]
 b.fetch_url = lambda *a, **k: json.dumps(rows)
+# Take the Census API path (the keyless Census Reporter fallback would ignore the stub).
+b.CENSUS_API_KEY = "stub"
 out = b.build_acs_metrics({})
 print(json.dumps([[t["median_gross_rent"], t["median_hh_income"], t["renter_hh"]] for t in out["tracts"]]))
 `;

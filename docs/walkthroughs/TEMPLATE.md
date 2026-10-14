@@ -39,7 +39,7 @@ and any word you did not know.
 
 <what you expected, what you did, where you hesitated>
 
-### 6. Deal — `deal-calculator.html`
+### 6. Deal Calculator — `deal-calculator.html`
 
 <what you expected, what you did, where you hesitated>
 
