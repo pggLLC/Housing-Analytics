@@ -818,8 +818,19 @@ function initPolicyPanel(panelId) {
     }
   });
 
+  /* Start at the top, unless the link named a tab (#tab-funding from the menu,
+     #tab-signals and #tab-history from the redirects): then start at the tab bar,
+     so the visitor lands on what they asked for, not the hero above it. */
   window.addEventListener('load', function () {
-    try { window.scrollTo(0, 0); } catch (e) { /* ignore */ }
+    try {
+      var hash = window.location.hash.replace('#', '');
+      var bar = document.querySelector('.page-tabs');
+      if (hash && hash !== 'tab-deepdive' && bar && bar.querySelector('[aria-controls="' + hash + '"]')) {
+        bar.scrollIntoView({ block: 'start' });
+      } else {
+        window.scrollTo(0, 0);
+      }
+    } catch (e) { /* ignore */ }
   });
 
   /* ── Public API ────────────────────────────────────────────────── */

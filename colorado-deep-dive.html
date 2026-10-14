@@ -615,7 +615,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   .mi-chart-container.cc-chart { height: 340px; margin-bottom: 4.5rem; }
   #ccTradeTable th[scope="row"] { min-width: 10rem; }
 }
-/* Developer Funding tab */
+/* Funding Sources tab (was Developer Funding) */
 .df-lede { font-size: 1rem; line-height: 1.6; color: var(--text); margin: 0; max-width: 80ch; }
 .df-stack { margin: 0; padding-left: 1.25rem; line-height: 1.6; max-width: 90ch; }
 .df-stack li { margin: .4rem 0; }
@@ -654,6 +654,29 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 .df-label { display: block; font-weight: 600; font-size: .9rem; margin: .5rem 0 .25rem; }
 .df-select { min-height: 44px; padding: .35rem .6rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card); color: var(--text); font: inherit; margin-bottom: .75rem; max-width: 100%; }
 #dfAmiTable th[scope="row"] { text-transform: none; font-weight: 600; }
+.df-finder-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 0 1rem; align-items: end; }
+.df-finder-grid .df-select { width: 100%; }
+.df-finder-check { grid-column: 1 / -1; font-size: .9rem; }
+.df-finder-check label { display: flex; gap: .5rem; align-items: center; min-height: 44px; cursor: pointer; }
+.df-finder-check input { width: 1.1rem; height: 1.1rem; flex: none; }
+.df-find-summary { font-weight: 600; margin: .5rem 0 0; }
+.df-fit { margin: 0 0 .75rem; padding: .5rem .75rem; border-left: 3px solid var(--accent); background: var(--bg2); font-size: .88rem; line-height: 1.5; }
+.df-fit p { margin: 0; }
+.df-compare-btn { min-height: 44px; padding: .35rem .9rem; border-radius: var(--radius-sm); border: 1px solid var(--accent); background: var(--card); color: var(--text); font: inherit; font-size: .85rem; cursor: pointer; margin: 0 0 .75rem; }
+.df-compare-btn[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+.df-compare-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.df-compare { margin-top: 1rem; }
+.df-compare h3 { font-size: 1rem; margin: 0 0 .5rem; }
+.df-compare-table th, .df-compare-table td { white-space: normal; vertical-align: top; text-align: left; min-width: 12rem; line-height: 1.45; }
+.df-compare-table thead th { color: var(--text); text-transform: none; }
+.df-compare-table tbody th[scope="row"] { text-transform: none; font-weight: 600; min-width: 9rem; }
+.df-compare #dfCompareClear { margin-top: .75rem; }
+.df-avail { font-weight: 600; }
+.df-avail-open { color: var(--good); }
+.df-avail-closed { color: var(--bad); }
+.df-more { margin: 0; padding-left: 1.2rem; line-height: 1.6; max-width: 90ch; }
+.df-more li { margin: .35rem 0; }
+.df-empty { color: var(--muted); }
 @media (max-width: 640px) {
   .df-fields { grid-template-columns: minmax(0, 1fr); gap: .1rem; }
   .df-fields dd { margin-bottom: .5rem; }
@@ -682,7 +705,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   <li><strong>Market Signals</strong>: statewide and county demand, supply, affordable inventory and risk indicators.</li>
   <li><strong>Construction Labor &amp; Costs</strong>: construction wages, labor availability and material prices, month by month.</li>
   <li><strong>Historical Trends</strong>: CHFA award history by credit type, the growth of Colorado's LIHTC stock, project size by period and county, and a peer-project benchmark.</li>
-  <li><strong>Developer Funding</strong>: the tax credit, loan, grant and rental assistance programs that finance Colorado affordable housing, with terms, AMI limits, eligibility and a link to each official source.</li>
+  <li><strong>Funding Sources</strong>: every tax credit, loan, grant and rental assistance program that finances Colorado affordable housing, with a finder that narrows them to the ones that fit your project, side-by-side terms, AMI limits and a link to each official source.</li>
   <li><strong>Market Overview</strong>: the 2026 allocation, credit pricing, metro breakdown and CHFA priorities at a glance.</li>
 </ul>
 <span class="freshness-badge data-reliability-badge" data-freshness="now" aria-label="Data freshness indicator" aria-live="polite"><span class="sr-only">Data is current</span></span>
@@ -706,13 +729,13 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-<!-- ── Outer tab navigation: Deep Dive | Market Signals | Construction Labor & Costs | Historical Trends | Developer Funding | Market Overview | Funding vs Need ── -->
+<!-- ── Outer tab navigation: Deep Dive | Market Signals | Construction Labor & Costs | Historical Trends | Funding Sources | Market Overview | Funding vs Need ── -->
 <div role="tablist" aria-label="Page sections" class="page-tabs">
   <button role="tab" id="btn-deepdive" aria-selected="true" aria-controls="tab-deepdive" class="page-tab-btn">Deep Dive</button>
   <button role="tab" id="btn-signals" aria-selected="false" aria-controls="tab-signals" class="page-tab-btn">Market Signals</button>
   <button role="tab" id="btn-construction" aria-selected="false" aria-controls="tab-construction" class="page-tab-btn">Construction Labor &amp; Costs</button>
   <button role="tab" id="btn-history" aria-selected="false" aria-controls="tab-history" class="page-tab-btn">Historical Trends</button>
-  <button role="tab" id="btn-funding" aria-selected="false" aria-controls="tab-funding" class="page-tab-btn">Developer Funding</button>
+  <button role="tab" id="btn-funding" aria-selected="false" aria-controls="tab-funding" class="page-tab-btn">Funding Sources</button>
   <button role="tab" id="btn-market" aria-selected="false" aria-controls="tab-market" class="page-tab-btn">Market Overview</button>
   <button role="tab" id="btn-need" aria-selected="false" aria-controls="tab-need" class="page-tab-btn">Funding vs Need</button>
 </div>
@@ -2152,17 +2175,39 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   </section>
 </div><!-- /tab-construction -->
 
-<!-- ── Developer Funding tab panel ──
-     Rendered by js/co-developer-funding.js from
+<!-- ── Funding Sources tab panel (was "Developer Funding") ──
+     Rendered by js/co-developer-funding.js, with js/funding-fit.js for the
+     project finder (the same matcher the Opportunity Finder and Compare use), from
      data/policy/co-developer-funding-guide.json (curated; every term cites the
      official page and the date it was checked) and
      data/chfa-income-rent-limits-2026.json (AMI quick reference). -->
 <div role="tabpanel" id="tab-funding" aria-labelledby="btn-funding" hidden>
-  <p class="tab-intro">Where the money for a Colorado affordable housing deal comes from. Start with how a deal is usually stacked and the considerations that cut across programs, then open any of the 48 programs for its award size, rate, term, AMI restriction, affordability period, eligibility and current round, each quoted from and linked to its official source. Use them alongside the <a href="deal-calculator.html">Deal Calculator</a>.</p>
+  <p class="tab-intro">Every Colorado program that pays for affordable housing. Tell the finder below what you are building and where, and it lists the ones your project can use.</p>
   <section class="mi-section" aria-labelledby="df-heading" style="margin-top:0;">
-    <h2 id="df-heading">Developer funding resources in Colorado</h2>
-    <p class="df-lede">How Colorado affordable rental housing is financed, which public and private programs fill each layer of the capital stack, and the terms, AMI restrictions and eligibility rules that come with each one. Every program links to its official page, and every term below quotes that page.</p>
+    <h2 id="df-heading">Funding sources for Colorado affordable housing</h2>
+    <p class="df-lede">How Colorado affordable rental housing is financed, which public and private programs fill each layer of the capital stack, and the terms, AMI restrictions and eligibility rules that come with each one. Every program links to its official page, and every term below quotes that page. Use them alongside the <a href="deal-calculator.html">Deal Calculator</a>.</p>
     <p id="dfMeta" class="data-note" style="border-top:0;padding-top:0;margin-top:.25rem;" aria-live="polite">Loading the developer funding guide…</p>
+  </section>
+
+  <section class="mi-section df-finder" aria-labelledby="df-find-heading">
+    <h2 id="df-find-heading">Find programs for my project</h2>
+    <p class="df-cat-summary">Each choice narrows the program list below. The finder screens for eligibility from each program's own published terms; it does not rank programs or predict an award, so confirm fit with the administrator.</p>
+    <form id="dfFinder" class="df-finder-grid" onsubmit="return false;">
+      <div><label for="dfFindExec" class="df-label">Deal type</label><select id="dfFindExec" class="df-select"></select></div>
+      <div><label for="dfFindType" class="df-label">Project type</label><select id="dfFindType" class="df-select"></select></div>
+      <div><label for="dfFindCounty" class="df-label">County</label><select id="dfFindCounty" class="df-select"></select></div>
+      <div class="df-finder-check"><label><input type="checkbox" id="dfFindOpen"> Only programs taking applications or with a published next round</label></div>
+      <div class="df-finder-check"><label><input type="checkbox" id="dfFindSupport"> Also show help that is not project capital (planning grants, factory loans, the commercial part of a mixed-use building)</label></div>
+    </form>
+    <p id="dfFindSummary" class="df-find-summary no-glossary" role="status" aria-live="polite"></p>
+    <div id="dfCompare" class="df-compare" hidden>
+      <h3 id="df-compare-heading">Side by side</h3>
+      <p id="dfCompareHint" class="df-cat-summary"></p>
+      <div class="cc-table-wrap" role="region" aria-labelledby="df-compare-heading" tabindex="0">
+        <table class="cc-table df-compare-table" id="dfCompareTable"></table>
+      </div>
+      <button type="button" class="df-chip" id="dfCompareClear">Clear comparison</button>
+    </div>
   </section>
 
   <section class="mi-section" aria-labelledby="df-stack-heading">
@@ -2180,6 +2225,16 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <p class="df-cat-summary">Open a program to see its award size, rate, term, AMI restriction, affordability period, eligibility and application cycle. “Not stated” means the official sources checked do not publish that term; ask the administrator.</p>
     <div id="dfFilters" class="df-filters" role="group" aria-label="Filter programs by category"></div>
     <div id="dfPrograms" aria-live="polite"></div>
+  </section>
+
+  <section class="mi-section" aria-labelledby="df-more-heading">
+    <h2 id="df-more-heading">More funding, by place and by track</h2>
+    <ul class="df-more">
+      <li><a href="local-incentives.html">Local Housing Incentives</a>: each town's and county's own housing funds, fee waivers and land-use tools, with the record each one comes from. This guide lists only the largest city funds.</li>
+      <li><a href="deal-calculator.html?mode=ownership">Deal Calculator, ownership mode</a>: the funding sources for deed-restricted for-sale homes, including buy-downs, down payment assistance layering and fee deferrals, applied to a for-sale project's subsidy gap.</li>
+      <li><a href="help-for-homebuyers.html">Help for Homebuyers</a>: down payment and mortgage help for the households who buy those homes.</li>
+      <li><a href="#tab-need" data-df-tab="btn-need">Funding vs Need</a>: what CHFA credits and Prop 123 have actually awarded, county by county, against the need.</li>
+    </ul>
   </section>
 
   <section class="mi-section" aria-labelledby="df-ami-heading">
@@ -3112,6 +3167,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 </script>
 <script src="js/market-intelligence.js"></script>
 <script defer src="js/co-construction-costs.js"></script>
+<script defer src="js/funding-fit.js"></script>
 <script defer src="js/co-developer-funding.js"></script>
 <script defer src="js/funding-vs-need.js"></script>
 <script defer src="js/audit-hook.js"></script>
