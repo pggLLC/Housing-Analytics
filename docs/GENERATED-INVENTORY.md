@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-13T01:17:15.211Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T03:45:53.358Z. Do not edit by hand.
 
 ---
 
@@ -1739,13 +1739,13 @@
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 39.9 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
-| `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
+| `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
-| `data/policy_briefs.json` | 243.1 KB | ✅ | — |
+| `data/policy_briefs.json` | 243.2 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 102.5 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
-| `data/polymarket-history.json` | 156.0 KB | ✅ | — |
+| `data/polymarket-history.json` | 157.4 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
