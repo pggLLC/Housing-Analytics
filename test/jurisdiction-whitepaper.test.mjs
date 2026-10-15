@@ -312,4 +312,35 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   ok(/aria-current="page"[^>]*>Jurisdiction reports/.test(Nav.html('/developer-whitepaper.html')), 'the old white paper address marks the reports entry');
 }
 
+// ---- 10. Codex review of #2232: multi-county cities, income universes, blank cells.
+{
+  const norm = (t) => String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  // Aurora spans Arapahoe, Adams and Douglas; every Aurora property is listed, whatever its county.
+  const aurora = src.properties.properties.filter((p) => norm(p.city) === 'aurora');
+  const counties = new Set(aurora.map((p) => p.county_fips));
+  const am = WP.buildModel(src, '0804000', { FundingFit });
+  ok(counties.size > 1 && am.inventory.properties.length === aurora.length, `Aurora lists all ${aurora.length} of its properties across ${counties.size} counties`);
+  // Shares of a binned table add to 100% of that table's own households, for every place with a profile.
+  let scanned = 0;
+  for (const r of src.rankingIndex.rankings) {
+    if (!existsSync(join(ROOT, WP.summaryPath(r.geoid)))) continue;
+    const sum = JSON.parse(read(WP.summaryPath(r.geoid)));
+    const inc = WP.buildModel(src, r.geoid, { FundingFit, summary: sum }).community?.people?.income;
+    if (!inc || inc.some((b) => b.count === null) || inc.every((b) => b.count === 0)) continue;
+    scanned++;
+    const total = inc.reduce((s, b) => s + b.pct, 0);
+    assert.ok(Math.abs(total - 100) < 0.5, `${r.name}: income shares add to ${total.toFixed(1)}%`);
+  }
+  ok(scanned > 400, `income shares add to 100% for all ${scanned} places with a full income table`);
+  // A missing unit count, year or market figure prints Not available, never a blank cell.
+  const s2 = clone(src);
+  s2.properties.properties.push({ property_id: 'test:1', property_name: 'Test Absent Units', city: 'Gunnison', county_fips: '08051', program_type: ['hud-multifamily'], total_units: null });
+  const h2 = WP.renderHtml(WP.buildModel(s2, '0833640', { FundingFit }));
+  ok(/Test Absent Units<\/td><td>Gunnison<\/td><td>HUD assisted<\/td><td class="n">Not available<\/td><td>Not available<\/td>/.test(h2), 'a property with no unit count or year prints Not available in both cells');
+  const gm = WP.buildModel(src, '0833640', { FundingFit });
+  const hasNullCell = (gm.market || []).some((x) => ['studio', 'br1', 'br2', 'br3', 'all'].some((k) => x[k] === null || x[k] === undefined));
+  const gh = WP.renderHtml(gm);
+  ok(hasNullCell && !/<td class="n"><\/td>/.test(gh), 'market rents the source does not publish print Not available, not a blank cell');
+}
+
 console.log(`jurisdiction-whitepaper: ${checks} checks passed`);

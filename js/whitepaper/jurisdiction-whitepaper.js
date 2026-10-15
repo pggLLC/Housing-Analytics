@@ -210,6 +210,9 @@
   function bins(p, list, total) {
     var rows = list.map(function (b) { return { label: b[0], count: num(p[b[1]]) }; });
     if (rows.every(function (r) { return r.count === null; })) return null;
+    // Shares are of the bins' own total when every bin is published: ACS tables have
+    // different universes (Hayden's income bins sum to 837 households, DP02 says 779).
+    if (rows.every(function (r) { return r.count !== null; })) total = rows.reduce(function (s, r) { return s + r.count; }, 0);
     return rows.map(function (r) { return { label: r.label, count: r.count, pct: ratio(r.count, total) }; });
   }
   var INCOME_BINS = [['Under $10,000', 'DP03_0052E'], ['$10,000–14,999', 'DP03_0053E'], ['$15,000–24,999', 'DP03_0054E'], ['$25,000–34,999', 'DP03_0055E'], ['$35,000–49,999', 'DP03_0056E'],
@@ -313,8 +316,7 @@
   // not only CHFA tax-credit projects.
   function inventorySection(row, src) {
     if (!src.properties || !Array.isArray(src.properties.properties)) return null;
-    var county = row.type === 'county' ? row.geoid : row.containingCounty;
-    var placeKey = norm(plainName(row.name));
+    var inScope = placeMatcher(row, src);
     var all = src.properties.properties;
     // A few records have no county; their city places them.
     var cityCounty = {};
@@ -322,8 +324,7 @@
     var list = all.filter(function (p) {
       if (excluded({ name: p.property_name })) return false;
       var cf = p.county_fips ? String(p.county_fips).padStart(5, '0') : cityCounty[norm(p.city)] || null;
-      if (row.type === 'county') return cf === county;
-      return norm(p.city) === placeKey && (!cf || cf === county);
+      return inScope(cf, p.city);
     }).map(function (p) {
       var programs = (Array.isArray(p.program_type) ? p.program_type : [p.program_type]).filter(Boolean);
       return {
@@ -361,21 +362,26 @@
     };
   }
 
-  function lihtcSection(row, src, countyName) {
+  // A city can span counties (Aurora: Arapahoe, Adams, Douglas), and the records
+  // carry the county the project sits in, not the city's main one. So a place
+  // matches by name in any county, unless another Colorado place shares the
+  // name, when it is held to its own county. Tax-credit and property lists share it.
+  function placeMatcher(row, src) {
     var county = row.type === 'county' ? row.geoid : row.containingCounty;
     var placeKey = norm(plainName(row.name));
-    // A city can span counties (Aurora: Arapahoe, Adams, Douglas), and the records
-    // carry the county the project sits in, not the city's main one. So a place
-    // matches by name in any county, unless another Colorado place shares the
-    // name, when it is held to its own county.
     var sameName = ((src.rankingIndex && src.rankingIndex.rankings) || []).filter(function (r) {
       return r.type !== 'county' && norm(plainName(r.name)) === placeKey;
     }).length;
-    function inScope(recCounty, recTown) {
+    return function inScope(recCounty, recTown) {
       if (row.type === 'county') return recCounty === county;
       if (norm(recTown) !== placeKey) return false;
       return sameName <= 1 || recCounty === county;
-    }
+    };
+  }
+
+  function lihtcSection(row, src, countyName) {
+    var county = row.type === 'county' ? row.geoid : row.containingCounty;
+    var inScope = placeMatcher(row, src);
     var props = ((src.chfaLihtc && src.chfaLihtc.features) || []).map(function (f) { return f.properties || f; })
       .filter(function (p) {
         return !excluded(p) && inScope(p.CNTY_FIPS, p.PROJ_CTY);
@@ -860,10 +866,10 @@
     var mk = m.market || [];
     var market = mk.length ? '<h3>Market rent by source</h3><div class="wp-scroll"><table><thead><tr><th>Source</th><th>Area</th><th>Studio</th><th>1BR</th><th>2BR</th><th>3BR</th><th>All units</th><th>Year over year</th></tr></thead><tbody>' +
       mk.map(function (x) {
-        function c(v) { return '<td class="n">' + (v === null || v === undefined ? '' : fmtMoney(v)) + '</td>'; }
+        function c(v) { return '<td class="n">' + (v === null || v === undefined ? NA : fmtMoney(v)) + '</td>'; }
         return '<tr><td>' + link(x.source, x.url) + (x.asOf ? '<br><span class="wp-meta">' + esc(x.asOf) + '</span>' : '') + '</td><td>' + esc(x.scope || '') + '</td>' +
-          c(x.studio) + c(x.br1) + c(x.br2) + c(x.br3) + c(x.all) + '<td class="n">' + (x.yoy === null || x.yoy === undefined ? '' : (x.yoy >= 0 ? '+' : '') + x.yoy.toFixed(1) + '%') + '</td></tr>';
-      }).join('') + '</tbody></table></div><p class="wp-meta">Each source measures something different: ACS is what renters paid over five years, Zillow and Apartment List are asking rents for recent listings, and HUD\'s fair market rent is the 40th percentile used for vouchers. Blank cells are not published by that source.</p>' + srcLine([sourcePath('acsRent'), sourcePath('zori'), sourcePath('apartmentList'), sourcePath('fmr')])
+          c(x.studio) + c(x.br1) + c(x.br2) + c(x.br3) + c(x.all) + '<td class="n">' + (x.yoy === null || x.yoy === undefined ? NA : (x.yoy >= 0 ? '+' : '') + x.yoy.toFixed(1) + '%') + '</td></tr>';
+      }).join('') + '</tbody></table></div><p class="wp-meta">Each source measures something different: ACS is what renters paid over five years, Zillow and Apartment List are asking rents for recent listings, and HUD\'s fair market rent is the 40th percentile used for vouchers. "Not available" means that source does not publish the figure.</p>' + srcLine([sourcePath('acsRent'), sourcePath('zori'), sourcePath('apartmentList'), sourcePath('fmr')])
       : '<p>No market rent source covers this area.</p>';
     return '<h2 id="rents">Rents and income limits</h2>' + market +
       (rows ? '<div class="wp-scroll"><table><thead><tr><th>Tier</th><th>2BR max gross rent</th><th>Income limit, 1 person</th><th>Income limit, 4 people</th></tr></thead><tbody>' + rows + '</tbody></table></div>' : '<p>CHFA limits not available for this county.</p>') +
@@ -914,7 +920,7 @@
         h += '<p>' + I.properties.length + ' ' + (I.properties.length === 1 ? 'property' : 'properties') + (I.totalUnits !== null ? ', ' + fmtInt(I.totalUnits) + ' units in total' : '') + ', counting tax-credit, HUD, USDA and local voucher housing.</p>' +
           '<div class="wp-scroll"><table><thead><tr><th>Property</th><th>Town</th><th>Programs</th><th>Units</th><th>Award or opening year</th></tr></thead><tbody>' +
           shown.map(function (p) {
-            return '<tr><td>' + esc(p.name) + (p.risk ? ' <span class="wp-tag">' + esc(p.risk) + '</span>' : '') + '</td><td>' + esc(p.city || '') + '</td><td>' + esc(p.programs) + '</td><td class="n">' + (p.units === null ? '' : fmtInt(p.units)) + '</td><td>' + (p.year || '') + '</td></tr>';
+            return '<tr><td>' + esc(p.name) + (p.risk ? ' <span class="wp-tag">' + esc(p.risk) + '</span>' : '') + '</td><td>' + esc(p.city || '') + '</td><td>' + esc(p.programs) + '</td><td class="n">' + (p.units === null ? NA : fmtInt(p.units)) + '</td><td>' + (p.year || NA) + '</td></tr>';
           }).join('') + '</tbody></table></div>' + (I.properties.length > shown.length ? '<p class="wp-meta">' + (I.properties.length - shown.length) + ' more not shown.</p>' : '');
       } else {
         h += '<p>No assisted or tax-credit property is on record here.</p>';
