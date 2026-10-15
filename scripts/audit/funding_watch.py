@@ -237,6 +237,16 @@ def check_page(target: dict, prev: dict, fetch: Fetcher, now: str) -> tuple[dict
             error = f'empty page (HTTP {status}, {len(body)} bytes, no text)'
     except Exception as exc:
         error = f'{exc.__class__.__name__}: {exc}'
+    if not error:
+        kl = key_lines(page_text(markup), ROUND_LINE_RE)[:MAX_KEY_LINES]
+        docs = document_links(markup, target['url'])[:MAX_DOCS_PER_PAGE]
+        if not kl and not docs and (prev.get('key_lines') or prev.get('documents')):
+            # Every watched line and document gone at once is almost always an error or
+            # bot page without a telling title ("Access Denied" in the body), not a real
+            # edit (Codex, 2026-10-15). Keep the snapshot; if the page really was emptied,
+            # it reaches the 3-day "check by hand" issue like any failing page.
+            error = (f'page lost every watched line and document (HTTP {status}, title "{title[:80]}"); '
+                     'likely an error page')
     if error:
         first_failed = (prev.get('first_failed_at') if prev.get('ok') is False else None) or now
         entry.update({k: prev.get(k) for k in ('title', 'key_lines', 'documents', 'last_changed_at')})
@@ -244,8 +254,6 @@ def check_page(target: dict, prev: dict, fetch: Fetcher, now: str) -> tuple[dict
                       'unverifiable': _days_between(first_failed, now) >= UNREACHABLE_AFTER_DAYS - 1})
         return entry, None, error
 
-    kl = key_lines(page_text(markup), ROUND_LINE_RE)[:MAX_KEY_LINES]
-    docs = document_links(markup, target['url'])[:MAX_DOCS_PER_PAGE]
     baseline = 'key_lines' not in prev or prev.get('key_lines') is None
     lines = line_diff(prev.get('key_lines') or [], kl)
     prev_docs = {d['url'] for d in prev.get('documents') or []}
@@ -304,11 +312,15 @@ def grants_gov(cfg: dict, fetch: Fetcher, capped: list | None = None) -> tuple[l
             except Exception as exc:
                 err = f'{exc.__class__.__name__}: {exc}'
                 break
-            page = data.get('oppHits') or []
+            page = data['oppHits']
             hits += page
             total = data['hitCount']
+            if not page and len(hits) < total:
+                # Declared more results than it returned, short of our own cap: incomplete.
+                err = f'Grants.gov returned an empty page at record {start} of {total}'
+                break
             start += rows
-            if not page or start >= total:
+            if start >= total:
                 break
         if err:
             # A page that fails part-way leaves this keyword incomplete; keep nothing from it.
@@ -361,6 +373,9 @@ def federal_register(cfg: dict, fetch: Fetcher, capped: list | None = None) -> t
             nxt = data.get('next_page_url')
             # Only follow the API's own next page on the same host.
             url = nxt if isinstance(nxt, str) and urllib.parse.urlsplit(nxt).netloc == urllib.parse.urlsplit(cfg['endpoint']).netloc else None
+        if not err and not url and len(results) < total:
+            # The result set stopped short with no next page to follow and our cap not reached.
+            err = f'Federal Register returned {len(results)} of {total} results with no next page'
         if err:
             # A page that fails part-way leaves this agency incomplete; keep nothing from it.
             failures.append({'source': 'federalregister.gov', 'query': agency, 'error': err})
@@ -539,8 +554,10 @@ def main(argv: list | None = None) -> int:
     if args.dry_run:
         return 0
     if result['all_fetches_failed']:
-        print('[funding-watch] nothing could be fetched; leaving the previous file in place')
-        return _write_run_summary(args.summary, result)
+        # Still written: run() keeps every previous snapshot and notice, and the failure
+        # dates must persist or a total outage would never reach its 3-day escalation
+        # (Codex, 2026-10-15). Unchanged failure state leaves the file as is below.
+        print('[funding-watch] nothing could be fetched; recording failure state only')
     if previous and _content(previous) == _content(result):
         print('[funding-watch] no change since the last recorded run; file left as is')
         return _write_run_summary(args.summary, result)

@@ -377,7 +377,7 @@ jobs:
             }
             if (unverifiable.length || run.all_fetches_failed) {
               await post('<!-- funding-watch:unverifiable -->', 'Funding watch: pages to check by hand',
-                [run.all_fetches_failed ? '# No funding page or federal search could be reached this run. Nothing was updated.' : `# Funding pages failing for 3 days (${run.generated_at})`, '',
+                [run.all_fetches_failed ? '# No funding page or federal search could be reached this run. Page records and notices were kept as they were; only the failure dates were recorded.' : `# Funding pages failing for 3 days (${run.generated_at})`, '',
                  'A blocked or failing page is not "no change". Open each in a browser and check the program records it stands for.', '',
                  ...unverifiable.map(u => `- [${u.id}](${u.url}): ${u.error}, failing since ${u.failing_since}${u.programs.length ? `; programs: ${u.programs.join('; ')}` : ''}`)].join('\n'));
             }

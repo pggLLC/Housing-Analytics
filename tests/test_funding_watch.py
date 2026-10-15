@@ -679,3 +679,53 @@ def test_incomplete_federal_payloads_are_failures_not_empty_searches():
     def empty(url, data=None, headers=None):
         return 200, {}, json.dumps({"description": "Documents matching 'x'", "count": 0}).encode()
     assert watch.federal_register(fr, empty, []) == ([], []), "a real empty search still passes"
+
+
+def test_a_title_less_error_page_keeps_the_snapshot():
+    """A 200 "Access Denied" body with no telling title loses every watched line and
+    document at once; that is a failure, not a removal (Codex, 2026-10-15)."""
+    base = run(site(eiaf=OPEN))
+    days = ["2026-10-16T05:34:00Z", "2026-10-17T05:34:00Z", "2026-10-18T05:34:00Z"]
+    prev = base
+    for day in days:
+        prev = run(site(eiaf="<html><body>Access Denied</body></html>"), previous=prev, now=day)
+        assert prev["changes"]["changed_pages"] == []
+        page = next(p for p in prev["pages"] if p["id"] == "dlg-eiaf")
+        assert page["ok"] is False and "lost every watched line" in page["error"]
+    assert page["key_lines"] == next(p for p in base["pages"] if p["id"] == "dlg-eiaf")["key_lines"]
+    assert [u["id"] for u in prev["changes"]["newly_unverifiable"]] == ["dlg-eiaf"], "reaches the 3-day issue"
+    # Non-vacuity: a page that drops its round lines but keeps a document is a real change.
+    r = run(site(eiaf=QUIET), previous=base, now=days[0])
+    assert [c["id"] for c in r["changes"]["changed_pages"]] == ["dlg-eiaf"]
+
+
+def test_federal_result_sets_that_stop_short_are_failures():
+    """A declared count larger than what was returned, with no next page and the cap not
+    reached, is an incomplete search (Codex, 2026-10-15)."""
+    def gg_short(url, data=None, headers=None):
+        return 200, {}, json.dumps({"errorcode": 0, "data": {"hitCount": 10, "oppHits": []}}).encode()
+    notices, failures = watch.grants_gov(SOURCES["federal"]["grants_gov"], gg_short)
+    assert notices == [] and failures and "empty page" in failures[0]["error"]
+
+    def fr_short(url, data=None, headers=None):
+        return 200, {}, json.dumps({"count": 10, "results": [
+            {"document_number": "1", "title": "Notice of Funding Opportunity", "agencies": [], "html_url": "x"}]}).encode()
+    notices, failures = watch.federal_register(SOURCES["federal"]["federal_register"], fr_short, [])
+    assert notices == [] and failures and "1 of 10" in failures[0]["error"]
+
+
+def test_a_complete_outage_still_records_its_failure_dates(tmp_path, monkeypatch):
+    """Every source down for days: the file keeps its snapshots but records when the
+    failures began, so the 3-day escalation is reached (Codex, 2026-10-15)."""
+    out = tmp_path / "funding-watch.json"
+    real_run = watch.run
+    clock = iter(["2026-10-15T05:34:00Z", "2026-10-16T05:34:00Z", "2026-10-17T05:34:00Z", "2026-10-18T05:34:00Z"])
+    fetches = iter([site()] + [site(blocked=(EIAF, GRANT, GG, FR))] * 3)
+    monkeypatch.setattr(watch, "run", lambda fetch, previous: real_run(next(fetches), previous, next(clock), GUIDE, SOFT, SOURCES))
+    for _ in range(4):
+        assert watch.main(["--out", str(out)]) == 0
+    saved = json.loads(out.read_text())
+    eiaf = next(p for p in saved["pages"] if p["id"] == "dlg-eiaf")
+    assert eiaf["first_failed_at"] == "2026-10-16T05:34:00Z" and eiaf["unverifiable"] is True
+    assert eiaf["key_lines"], "the last good snapshot is kept"
+    assert saved["federal_notices"], "known notices are kept"
