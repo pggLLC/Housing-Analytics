@@ -99,9 +99,11 @@ assert.ok(componentSrc.includes("th.getAttribute('data-tip')") && componentSrc.i
 // The definition glyphs are inline, text-sized controls. css/responsive.css
 // gives every button and summary a 44px minimum box for touch; applied to a
 // glyph inside a header, that turned a 17px "?" into a 44px circle, wrapped
-// headers and broke their alignment (2026-10-15). Whatever minimum the
-// touch rule sets, each glyph rule must reset it, and the header row must
-// share a bottom edge with the glyph glued to the label's last word.
+// headers and broke their alignment (2026-10-15). The fix moves the touch
+// target, not shrinks it: each glyph resets the box minimum and draws a
+// ::before at least as large as the touch rule's minimum (Rule 14 in
+// .github/copilot-instructions.md). Headers share a bottom edge, and the
+// glyph is glued to the label's last word.
 const responsiveCss = read('css/responsive.css');
 const themeCss = read('css/site-theme.css');
 const ruleBody = (css, selector) => {
@@ -111,16 +113,29 @@ const ruleBody = (css, selector) => {
 };
 const touchRule = /(^|\n)a,\s*\nbutton,[\s\S]*?summary,[\s\S]*?\{([^}]*)\}/.exec(responsiveCss);
 assert.ok(touchRule, 'found the touch-target rule in css/responsive.css');
-const touchForcesSize = !!(touchRule && /min-(height|width):\s*44px/.test(touchRule[2]));
-const GLYPHS = ['.th-tip__btn', '.info-tooltip > summary'];
+const touchMin = touchRule && /min-height:\s*(\d+)px/.exec(touchRule[2]);
+assert.ok(touchMin, 'the touch-target rule in css/responsive.css sets a pixel min-height');
+const minPx = Number(touchMin[1]);
+const GLYPHS = ['.th-tip__btn', '.info-tooltip > summary', '.methodology-popover__summary'];
 for (const sel of GLYPHS) {
   const body = ruleBody(themeCss, sel);
   assert.ok(body, `site-theme.css has a rule for ${sel}`);
-  if (touchForcesSize) {
-    assert.ok(/min-width:\s*0/.test(body) && /min-height:\s*0/.test(body),
-      `${sel} resets the 44px touch minimum from css/responsive.css so the glyph stays text-sized`);
-  }
+  assert.ok(/min-width:\s*0/.test(body) && /min-height:\s*0/.test(body),
+    `${sel} resets the box minimum from css/responsive.css so the glyph stays text-sized`);
+  assert.ok(/position:\s*relative/.test(body), `${sel} anchors its ::before touch target`);
+  const hit = ruleBody(themeCss, sel + '::before');
+  assert.ok(hit, `${sel}::before draws the touch target`);
+  const w = /width:\s*(?:max\([^,]*,\s*)?(\d+)px/.exec(hit);
+  const h = /height:\s*(\d+)px/.exec(hit);
+  assert.ok(w && h && Number(w[1]) >= minPx && Number(h[1]) >= minPx,
+    `${sel}::before is at least ${minPx} x ${minPx}px (Rule 14), got ${w && w[1]} x ${h && h[1]}`);
 }
+assert.ok(/th\.th-tip\s*\{[^}]*height:\s*(\d+)px/.test(themeCss) && Number(/th\.th-tip\s*\{[^}]*height:\s*(\d+)px/.exec(themeCss)[1]) >= minPx,
+  'a tip header is tall enough to hold the glyph\'s touch target');
+// The glyph never goes inside a child element a renderer rewrites
+// (preservation.js resets .sort-icon textContent on every sort).
+assert.ok(componentSrc.includes('th.insertBefore(tail') && !/last\.parentNode\.insertBefore/.test(componentSrc),
+  'the glyph is inserted as a direct child of the header');
 assert.ok(/table th\s*\{[^}]*vertical-align:\s*bottom/.test(themeCss), 'header cells share a bottom edge');
 assert.ok(/\.th-tip__tail\s*\{[^}]*white-space:\s*nowrap/.test(themeCss) && componentSrc.includes("'th-tip__tail'"),
   'the glyph wraps together with the label\'s last word');
