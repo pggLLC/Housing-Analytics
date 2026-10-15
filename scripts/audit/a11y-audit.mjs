@@ -82,7 +82,7 @@ const AUDIT_PAGES = [
 // the network to go quiet is not proof the data drew: if the map never
 // renders, the page is light, clean and wrong. Missing content = UNAUDITED.
 // Every page whose content its scripts draw has an entry; each selector
-// matches nothing in the static HTML. `min` counts matches, and `notText`
+// matches nothing visible in the static HTML. `min` counts matches, and `notText`
 // skips a match still showing its placeholder ("Loading…"). Pages without an
 // entry must be listed in STATIC_PAGES: static prose, audited as served.
 const STATIC_PAGES = ['lihtc-guide-for-stakeholders.html'];
@@ -109,9 +109,12 @@ const READY = {
   'insights.html':                       { selector: '#researchCatalog article', min: 5 },
 };
 
-// How many READY matches have rendered (placeholders excluded).
+// How many READY matches have rendered: on screen (a hidden template in the
+// static HTML does not count; an <option> counts when its <select> shows),
+// and not still showing a placeholder.
 function countReady(page, { selector, notText }) {
   return page.evaluate(([sel, skip]) => [...document.querySelectorAll(sel)]
+    .filter((e) => (e.closest('select') || e).getClientRects().length > 0)
     .filter((e) => !skip || e.textContent.trim() !== skip).length, [selector, notText || null]);
 }
 
