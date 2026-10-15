@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-15T14:36:10.257638Z",
+  "generated": "2026-10-15T17:34:34.254814Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 848707
+      "bytes": 850251
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -8336,10 +8336,25 @@
       "placeholder": false,
       "bytes": 580886
     },
+    "data/policy/funding-awards/award-rows.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 244242
+    },
+    "data/policy/funding-awards/developer-aliases.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 7533
+    },
     "data/policy/funding-awards/documents.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 40885
+    },
+    "data/policy/funding-awards/dola-awards.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 331297
     },
     "data/policy/funding-awards/land-banking-corrections.json": {
       "featureCount": 0,
