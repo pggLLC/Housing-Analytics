@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T02:21:15.219Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T07:25:59.977Z. Do not edit by hand.
 
 ---
 
@@ -34,11 +34,11 @@
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.9 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 78.9 KB |
-| `developer-brief.html` | Jurisdiction Brief — COHO | 90.2 KB |
-| `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
-| `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
-| `developer-whitepaper.html` | Jurisdiction White Paper — COHO | 8.5 KB |
-| `developer.html` | Developer Home — COHO | 13.6 KB |
+| `developer-brief.html` | Jurisdiction Report — COHO | 45.8 KB |
+| `developer-pipeline.html` | Pipeline — COHO developer tools | 27.6 KB |
+| `developer-where.html` | Where Should I Build? — COHO | 21.3 KB |
+| `developer-whitepaper.html` | Jurisdiction Report — COHO | 898 B |
+| `developer.html` | Developer Home — COHO | 18.4 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 93.2 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 18.8 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 6.0 KB |
@@ -1779,12 +1779,12 @@
 
 ## Test Files
 
-607 test files found.
+608 test files found.
 
 | File | Size |
 |------|------|
 | `test/a11y-audit-never-silently-skips.test.mjs` | 13.2 KB |
-| `test/a11y-contrast-labels.test.js` | 3.6 KB |
+| `test/a11y-contrast-labels.test.js` | 3.9 KB |
 | `test/absence-confident-value-static-guard.test.mjs` | 8.6 KB |
 | `test/acs-etl.test.js` | 26.1 KB |
 | `test/acs-fetch-retries.test.py` | 4.0 KB |
@@ -1905,7 +1905,7 @@
 | `test/dependency-overrides-hold.test.mjs` | 4.6 KB |
 | `test/derived-commit-rebase.test.mjs` | 6.8 KB |
 | `test/developable-land-context.test.js` | 6.5 KB |
-| `test/developer-brief-hna.test.js` | 1.7 KB |
+| `test/developer-brief-hna.test.js` | 2.3 KB |
 | `test/developer-geoids.test.js` | 6.6 KB |
 | `test/discover-local-resources-cdp.test.js` | 5.1 KB |
 | `test/document-guide.test.mjs` | 4.2 KB |
@@ -2068,7 +2068,7 @@
 | `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
 | `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
 | `test/jurisdiction-select-search.test.js` | 8.9 KB |
-| `test/jurisdiction-whitepaper.test.mjs` | 17.3 KB |
+| `test/jurisdiction-whitepaper.test.mjs` | 30.5 KB |
 | `test/kalshi-signing-and-write.test.js` | 6.4 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
@@ -2106,7 +2106,7 @@
 | `test/mobile-overflow-css-rules-present.test.js` | 5.6 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/navigation-pill-label.test.js` | 2.7 KB |
-| `test/navigation-reaches-every-page.test.mjs` | 4.8 KB |
+| `test/navigation-reaches-every-page.test.mjs` | 5.2 KB |
 | `test/need-severity-is-place-level.test.mjs` | 15.8 KB |
 | `test/nhpd-coverage.test.js` | 14.8 KB |
 | `test/no-synthesized-chfa-awards.test.js` | 3.9 KB |
@@ -2115,7 +2115,7 @@
 | `test/one-canonical-step-sequence.test.mjs` | 6.2 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
-| `test/orphan-nav-cleanup.test.js` | 3.9 KB |
+| `test/orphan-nav-cleanup.test.js` | 4.1 KB |
 | `test/osm-amenities-count-by-type.test.js` | 1.9 KB |
 | `test/osm-amenities-transit-basis.test.js` | 7.8 KB |
 | `test/ownership-answer-leads.test.js` | 6.4 KB |
@@ -2182,6 +2182,7 @@
 | `test/predictor-policy-browser.test.js` | 8.4 KB |
 | `test/predictor-policy.test.js` | 4.1 KB |
 | `test/preservation.test.js` | 17.4 KB |
+| `test/private-workspace.test.mjs` | 9.6 KB |
 | `test/pro-forma.test.js` | 2.8 KB |
 | `test/production-figure-names-its-reading.test.js` | 8.5 KB |
 | `test/production-need-counts-the-workforce.test.mjs` | 8.7 KB |
