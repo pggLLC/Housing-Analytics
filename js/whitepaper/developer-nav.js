@@ -25,7 +25,7 @@
     '.ib-section-nav a{color:var(--muted);text-decoration:none;font-weight:600;padding:.35rem .7rem;border-radius:var(--radius-sm,6px)}' +
     '.ib-section-nav a[aria-current="page"]{color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,transparent 90%)}' +
     '.ib-section-nav a:hover{color:var(--accent)}.ib-section-nav .spacer{flex:1}' +
-    '.ib-section-nav .badge{background:var(--warn);color:var(--card);font-size:.7rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em}';
+    '.ib-section-nav .dev-nav-badge{background:var(--warn);color:var(--card);font-size:.7rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em}';
 
   function current(path) {
     var file = String(path || '').split('/').pop() || 'developer.html';
@@ -39,7 +39,7 @@
     var here = current(path);
     return PAGES.map(function (p) {
       return '<a href="' + p.href + '"' + (p.href === here ? ' aria-current="page" class="active"' : '') + '>' + p.label + '</a>';
-    }).join('') + '<a href="' + BACK.href + '">' + BACK.label + '</a><span class="spacer"></span><span class="badge">INTERNAL</span>';
+    }).join('') + '<a href="' + BACK.href + '">' + BACK.label + '</a><span class="spacer"></span><span class="dev-nav-badge">INTERNAL</span>';
   }
 
   function mount(doc) {
