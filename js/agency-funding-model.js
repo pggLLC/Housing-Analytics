@@ -158,13 +158,14 @@
         town: r.town || null,
         countyFips: r.county_fips || null,
         dollars: num(r.amount),
-        dollarsBasis: num(r.amount) !== null ? 'awarded' : null,
+        dollarsBasis: num(r.amount) !== null ? (r.amount_basis === 'requested' ? 'requested' : 'awarded') : null,
         credits: null,
         homes: num(r.homes),
         homesEstimated: false,
         sourceTitle: r.source_title || 'DOLA announcement',
         sourceUrl: r.source_url || null,
         sourceChecked: r.announced || null,
+        sourceDated: true,
         quote: r.quote || null,
         confirmed: r.confirmed === true,
       }, counties, aliases));
@@ -254,7 +255,7 @@
   }
 
   var GROUPS = {
-    county: function (a) { return a.countyFips ? { key: a.countyFips, label: a.county } : { key: '_none', label: 'No county printed' }; },
+    county: function (a) { return a.countyFips ? { key: a.countyFips, label: a.county } : { key: '_none', label: 'Statewide, several counties, or no place printed' }; },
     town: function (a) { return a.town ? { key: a.town.toLowerCase(), label: a.town } : { key: '_none', label: 'No town printed' }; },
     developer: function (a) { return a.developerKey ? { key: a.developerKey, label: a.developer } : { key: '_none', label: 'Not named on the award list' }; },
     agency: function (a) { return { key: a.agency, label: AGENCIES[a.agency].label }; },

@@ -152,6 +152,7 @@
   // ── formatting ────────────────────────────────────────────────────────────
   function money(v) {
     if (v === null || v === undefined) return 'Value unavailable';
+    if (Math.abs(v) >= 1e9) return '$' + (v / 1e9).toFixed(2) + 'B';
     if (Math.abs(v) >= 1e6) return '$' + (v / 1e6).toFixed(v >= 1e8 ? 0 : 1) + 'M';
     return '$' + Math.round(v).toLocaleString('en-US');
   }
@@ -448,7 +449,7 @@
         return '<tr class="hm-award"><td colspan="3"><div class="hm-award-top"><strong>' + esc(a.name || 'Project name not printed') + '</strong>' +
           '<span class="hm-award-amt">' + esc(awardMoneyText(a)) + (a.homes !== null ? ' · ' + esc(count(a.homes)) + ' homes' : '') + '</span></div>' +
           '<div class="hm-muted">' + esc(line2) + tags + '</div>' +
-          '<div class="hm-muted">Source: ' + src + (a.sourceChecked ? ' (read ' + esc(String(a.sourceChecked).slice(0, 10)) + ')' : '') + '</div>' + quote + '</td></tr>';
+          '<div class="hm-muted">Source: ' + src + (a.sourceChecked ? (a.sourceDated ? ' (dated ' : ' (read ') + esc(String(a.sourceChecked).slice(0, 10)) + ')' : '') + '</div>' + quote + '</td></tr>';
       }).join('');
       return row + '<tbody id="' + rowId + '">' + items + '</tbody>';
     }).join('');
