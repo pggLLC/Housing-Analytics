@@ -180,6 +180,9 @@ async function auditPage(browser, origin, pagePath, axeScript) {
     await page.waitForLoadState('networkidle', { timeout: 20_000 }).catch(() => {});
     await page.waitForTimeout(1_500);
     const ready = READY[pagePath];
+    if (!ready && AUDIT_PAGES.includes(pagePath) && !STATIC_PAGES.includes(pagePath)) {
+      throw new Error('no readiness check: add the page to READY, or to STATIC_PAGES if nothing on it is drawn by script');
+    }
     if (ready) {
       const min = ready.min || 1;
       await page.waitForSelector(ready.selector, { timeout: 20_000 }).catch(() => {});
