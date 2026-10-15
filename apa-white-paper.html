@@ -107,6 +107,7 @@
               <li><a href="#what-the-evidence-can-and-cannot-establish">What the evidence can and cannot establish</a></li>
               <li><a href="#current-policy-as-of-28-september-2026">Current policy, as of 28 September 2026</a></li>
               <li><a href="#using-the-work-in-practice">Using the work in practice</a></li>
+              <li><a href="#how-the-site-is-built-and-run">How the site is built and run</a></li>
               <li><a href="#relationship-to-the-technical-working-paper">Relationship to the technical working paper</a></li>
             </ol>
           </nav>
@@ -272,15 +273,20 @@
 <p><strong>What to verify locally before relying on any figure:</strong></p>
 <ul><li>current rents from local property managers;</li><li>recent building permits and projects under construction;</li><li>whether municipal boundaries have changed since the Census geography was drawn;</li><li>the current status of any law or program named.</li></ul>
 </section>
+<section id="how-the-site-is-built-and-run" aria-labelledby="how-the-site-is-built-and-run-h">
+<h2 id="how-the-site-is-built-and-run-h"><span class="num">09</span>How the site is built and run</h2>
+<p>The public site is a set of static web pages hosted on GitHub Pages at cohoanalytics.com. Its data comes from the public sources listed at the end of this paper. Most of it is refreshed by scheduled scripts; a few sources that block automated downloads, such as HUD's CHAS tables, are updated by hand.</p>
+<p>Visits are counted with Cloudflare Web Analytics. It sets no cookies, does not fingerprint a browser and does not track visitors across sites; it records only anonymous page views, the referring site, and coarse browser, device and country information. The <a href="privacy-policy.html">privacy policy</a> gives the details.</p>
+</section>
 <section id="relationship-to-the-technical-working-paper" aria-labelledby="relationship-to-the-technical-working-paper-h">
-<h2 id="relationship-to-the-technical-working-paper-h"><span class="num">09</span>Relationship to the technical working paper</h2>
+<h2 id="relationship-to-the-technical-working-paper-h"><span class="num">10</span>Relationship to the technical working paper</h2>
 <p>The COHO working paper, <a href="working-paper.html"><em>Instrumenting Housing Need</em></a>, and the <a href="methods.html">computational methods page</a> are written for developers, researchers and reviewers of the software. They document how each figure is computed, the weights in each score, the tests that check the calculations, and the known weaknesses in the methods. A planner who needs to defend a figure in a public hearing can find its full derivation there.</p>
 <p>This paper describes the same system from the other side: what it is for and how to use it. Where the two differ in emphasis, the technical paper governs questions of method.</p>
 </section>
 <section id="sources" aria-labelledby="sources-h">
 <h2 id="sources-h">Sources</h2>
 <p>Figures in this paper were published on the COHO Analytics site on 27 September 2026.</p>
-<ul><li>U.S. Department of Housing and Urban Development, Comprehensive Housing Affordability Strategy (CHAS) data, 2018–2022. huduser.gov/portal/datasets/cp.html</li><li>U.S. Census Bureau, American Community Survey 5-year estimates, 2020–2024: tables DP02, DP04 and B25118, and gross rent as a percentage of household income. data.census.gov</li><li>U.S. Department of Housing and Urban Development, FY2026 Income Limits. huduser.gov/portal/datasets/il.html</li><li>Colorado Housing and Finance Authority, LIHTC property inventory (retrieved 27 September 2026) and the draft 2027–28 Qualified Allocation Plan. chfainfo.com</li><li>Colorado Department of Local Affairs, State Demography Office, 2024 population estimates and projections; Proposition 123 commitment filings. dola.colorado.gov</li><li>Colorado Office of Economic Development and International Trade, Transit and Housing Investment Zone map status (checked 26 September 2026). oedit.colorado.gov</li><li>Zillow Home Value Index, May 2026.</li><li>Colorado General Assembly, bill records for HB24-1313, HB26-1065 and HB26-1313. leg.colorado.gov</li><li>Congress.gov, H.R. 6644 (119th Congress); H.R. 2725 and S. 1515 (119th Congress).</li><li>COHO Analytics, <em>Instrumenting Housing Need</em> (working paper) and <em>What the Numbers Actually Do</em> (methods), cohoanalytics.com.</li></ul>
+<ul><li>U.S. Department of Housing and Urban Development, Comprehensive Housing Affordability Strategy (CHAS) data, 2018–2022. huduser.gov/portal/datasets/cp.html</li><li>U.S. Census Bureau, American Community Survey 5-year estimates, 2020–2024: tables DP02, DP04 and B25118, and gross rent as a percentage of household income. data.census.gov</li><li>U.S. Department of Housing and Urban Development, FY2026 Income Limits. huduser.gov/portal/datasets/il.html</li><li>Colorado Housing and Finance Authority, LIHTC property inventory (retrieved 27 September 2026) and the draft 2027–28 Qualified Allocation Plan. chfainfo.com</li><li>Colorado Department of Local Affairs, State Demography Office, 2024 population estimates and projections; Proposition 123 commitment filings. dola.colorado.gov</li><li>Colorado Office of Economic Development and International Trade, Transit and Housing Investment Zone map status (checked 26 September 2026). oedit.colorado.gov</li><li>Zillow Home Value Index, May 2026.</li><li>Colorado General Assembly, bill records for HB24-1313, HB26-1065 and HB26-1313. leg.colorado.gov</li><li>Congress.gov, H.R. 6644 (119th Congress); H.R. 2725 and S. 1515 (119th Congress).</li><li>Cloudflare, Web Analytics (visit counting) and Privacy Policy. cloudflare.com/privacypolicy</li><li>COHO Analytics, <em>Instrumenting Housing Need</em> (working paper) and <em>What the Numbers Actually Do</em> (methods), cohoanalytics.com.</li></ul>
 </section>
 
       </article>
