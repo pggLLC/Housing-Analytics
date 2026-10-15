@@ -119,6 +119,24 @@
   .ib-page-title { font-size:1.4rem;margin:0 0 var(--sp2); }
   .ib-tools-head { margin:var(--sp4) 0 var(--sp2);font-size:1.05rem; }
   .ib-tools-head + p { color:var(--muted);font-size:var(--small);margin:0 0 var(--sp2); }
+  .ib-private { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3); }
+  .ib-private .ib-tools-head { margin-top:0; }
+  .ib-private h3 { font-size:.95rem;margin:var(--sp3) 0 var(--sp2); }
+  .ib-scroll { overflow-x:auto;-webkit-overflow-scrolling:touch; }
+  .ib-net-table { min-width:720px; }
+  /* On a phone each contact is a card, not a row to scroll sideways through. */
+  @media (max-width: 600px) {
+    .ib-stack { min-width:0 !important; }
+    .ib-stack thead { display:none; }
+    .ib-stack tr { display:block;border-bottom:1px solid var(--border);padding:.5rem 0; }
+    .ib-stack td { display:block;position:relative;border:0 !important;padding:.15rem 0 .15rem 7rem !important; }
+    .ib-stack td::before { content:attr(data-label);position:absolute;left:0;top:.15rem;width:6.5rem;color:var(--muted);font-weight:600; }
+    .ib-stack td:empty { display:none; }
+  }
+  .ib-muted { color:var(--muted); }
+  .ib-pipe-line { font-size:var(--small);line-height:1.55;margin:0 0 var(--sp2); }
+  .ib-anti-flag { border-left:3px solid var(--warn);padding:.35rem .6rem;font-size:var(--small); }
+  .ib-sig-list { margin:0;padding-left:1.1rem;font-size:var(--small);line-height:1.55; }
   .ib-report-actions { display:flex;gap:.5rem;flex-wrap:wrap; }
   .ib-report-actions button { padding:.55rem .9rem;border-radius:var(--radius-sm);border:1px solid var(--accent);background:transparent;color:var(--accent);font-weight:700;font-size:var(--small);cursor:pointer; }
   .ib-report-actions button:disabled { opacity:.5;cursor:not-allowed; }
@@ -132,6 +150,7 @@
   /* Print from the page: only the report frame's own Print prints the report. */
   @media print {
     #devNav, .ib-picker, .ib-action-row, .ib-tools { display:none !important; }
+    .ib-private { display:none !important; }
     .ib-card { break-inside:avoid; }
   }
 </style>
@@ -174,6 +193,7 @@
 <script src="js/data-connectors/regrid-parcels.js"></script>
 <!-- F161 — Pipeline CRUD (in-browser draft + canonical edit overlay) -->
 <script src="js/components/pipeline-store.js"></script>
+<script src="js/components/private-workspace.js"></script>
 <script src="js/components/pipeline-add-button.js"></script>
 <!-- News since the curated brief (jurisdiction-brief.js renders the panel). -->
 <script src="js/components/jurisdiction-brief.js"></script>
@@ -194,7 +214,8 @@
   // checklist. None of those print.
   const WP = window.JurisdictionWhitepaper;
   const $ = (id) => document.getElementById(id);
-  let SOURCES = null, CENTROIDS = {}, LOCAL_RES = null, NEWS = null, PIPE = {};
+  const PW = window.PrivateWorkspace;
+  let SOURCES = null, CENTROIDS = {}, LOCAL_RES = null, NEWS = null, PIPE = {}, WS = null, PIPE_ROWS = [];
   let html = null, current = null, isSensitive = null;
 
   // The same guard the CLI and the public build use. Without it the page builds
@@ -215,16 +236,13 @@
   }
 
   function pipelineRows() {
-    // The canonical pipeline lives in a private workspace; the in-app draft/edit
-    // layer (PipelineStore, synced through /api/pipeline on the gated site) is what
-    // this page can read.
+    // The private pipeline file (gated site only) merged with the in-app drafts and
+    // edits (PipelineStore, synced through /api/pipeline), keyed by GEOID.
     const out = {};
-    if (!window.PipelineStore) return out;
     try {
-      const edits = window.PipelineStore.getCanonicalEdits() || {};
-      Object.keys(edits).forEach(g => { out[g] = Object.assign({}, out[g] || {}, edits[g]); });
-      window.PipelineStore.getDrafts().forEach(d => { if (d && d.geoid) out[d.geoid] = Object.assign({}, out[d.geoid] || {}, d); });
-    } catch (e) { console.warn('[report] pipeline draft merge failed', e); }
+      PIPE_ROWS = PW ? PW.mergedPipeline(WS, window.PipelineStore) : [];
+      PIPE_ROWS.forEach(r => { out[r.geoid] = Object.assign({}, out[r.geoid] || {}, r); });
+    } catch (e) { console.warn('[report] pipeline merge failed', e); }
     return out;
   }
 
@@ -238,9 +256,11 @@
     softJson('data/hna/local-resources.json'),
     softJson('data/alerts/brief-news-queue.json'),
     (window.PipelineStore && window.PipelineStore.ready) || Promise.resolve(),
-    guardReady
-  ]).then(([s, centroids, localRes, news]) => {
+    guardReady,
+    PW ? PW.load(PW.browserFetchText) : Promise.resolve(null)
+  ]).then(([s, centroids, localRes, news, _ready, _guard, ws]) => {
     SOURCES = s;
+    WS = ws;
     CENTROIDS = (centroids && centroids.byGeoid) || {};
     LOCAL_RES = localRes || {};
     NEWS = news;
@@ -316,12 +336,13 @@
       }
       current = model.error ? null : model;
       const pipe = PIPE[geoid] || {};
-      // The report comes first; the working tools follow it.
-      let page = '<iframe id="reportFrame" title="Jurisdiction report for ' + esc(name) + '"></iframe>' +
+      // Your own notes on the place come first, then the report, then the working tools.
+      let page = privateSection(name, geoid, related) +
+        '<iframe id="reportFrame" title="Jurisdiction report for ' + esc(name) + '"></iframe>' +
         '<section class="ib-tools" aria-labelledby="toolsHead"><h2 class="ib-tools-head" id="toolsHead">Working tools</h2>' +
         '<p>For your own work on ' + esc(name) + '. Kept in this browser or the gated site, never in the report or the PDF.</p>' +
         headerSection(name, geoid, pipe) + quickActions(geoid, isCounty) +
-        pipelineSection(pipe) + '<div id="newsMount"></div>' +
+        '<div id="newsMount"></div>' +
         landBankSection(geoid, name, CENTROIDS[geoid] || null) + checklistSection(geoid) + '</section>';
       $('briefContent').innerHTML = page;
       const frame = $('reportFrame');
@@ -367,6 +388,53 @@
         try { localStorage.setItem(checklistKey, JSON.stringify(state)); } catch (e) { /* private window */ }
       });
     });
+  }
+
+  // Your private files for this place: network contacts, pipeline record, signals,
+  // anti-target status. Read at run time on the gated site; outside the report frame,
+  // so it never reaches the report, the PDF or the downloaded file, and hidden in print.
+  const TIER = { '1': 'Strong / recurring', '2': 'Warm / introduced', '3': 'Cold / research only', never: 'Never contacted' };
+  function networkTable(rows) {
+    const td = (label, v) => '<td data-label="' + label + '">' + v + '</td>';
+    return '<div class="ib-scroll"><table class="ib-rent-table ib-net-table ib-stack"><thead><tr><th>Name</th><th title="Role and organisation">Role</th><th title="Email on file">Email</th><th title="Phone on file">Phone</th><th title="Date of the last conversation">Last talked</th><th title="1 strong, 2 warm, 3 cold, from your network file">Relationship</th><th>Notes</th></tr></thead><tbody>' +
+      rows.map(c => '<tr>' + td('Name', '<strong>' + esc(c.name) + '</strong>') + td('Role', esc(c.role) + (c.org ? '<br><span class="ib-muted">' + esc(c.org) + '</span>' : '')) +
+        td('Email', c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>' : '<span class="ib-muted">none on file</span>') +
+        td('Phone', c.phone ? '<a href="tel:' + esc(c.phone.replace(/[^0-9+]/g, '')) + '">' + esc(c.phone) + '</a>' : '<span class="ib-muted">none on file</span>') +
+        td('Last talked', esc(c.last_talked || 'never')) + td('Relationship', esc(TIER[c.relationship_tier] || c.relationship_tier || 'not set')) + td('Notes', esc(c.notes)) + '</tr>').join('') +
+      '</tbody></table></div>';
+  }
+  function signalList(rows) {
+    return '<ul class="ib-sig-list">' + rows.map(s => '<li><strong>' + esc(s.date) + '</strong> <span class="ib-chip ib-chip-' + esc(s.strength) + '">' + esc(s.strength || 'unrated') + '</span> ' +
+      esc(s.signal_type) + ': ' + esc(s.summary) +
+      (s.follow_up_action ? '<br><span class="ib-muted">Next: ' + esc(s.follow_up_action) + (s.next_review_date ? ' (review ' + esc(s.next_review_date) + ')' : '') + '</span>' : '') +
+      (/^https?:\/\//.test(s.source_url || '') ? ' <a href="' + esc(s.source_url) + '" target="_blank" rel="noopener">source</a>' : '') + '</li>').join('') + '</ul>';
+  }
+  function pipelineLine(p) {
+    return '<p class="ib-pipe-line"><strong>Pipeline:</strong> ' + esc(p.stage || 'no stage') +
+      (p.ioi_score ? ' · IOI ' + esc(p.ioi_score) : '') + (p.classification ? ' · class ' + esc(p.classification) : '') +
+      (p.next_action ? '<br><strong>Next:</strong> ' + esc(p.next_action) + (p.next_action_due ? ' (due ' + esc(p.next_action_due) + ')' : '') : '') +
+      (p.notes ? '<br><span class="ib-muted">' + esc(p.notes) + '</span>' : '') + '</p>';
+  }
+  function privateSection(name, geoid, related) {
+    let h = '<section class="ib-tools ib-private" aria-labelledby="privHead"><h2 class="ib-tools-head" id="privHead">Your notes on ' + esc(name) + '</h2>';
+    if (!WS || !WS.reachable) {
+      return h + '<p>Your private files (network contacts, pipeline, signal log) did not load here. They load only on the gated developer site, which copies them from your private folder; they are never in the public repository.</p>' + draftNote(geoid) + '</section>';
+    }
+    const mine = PW.forPlace(WS, PIPE_ROWS, geoid, related);
+    h += '<p>From your private files on the gated site. Not in the report, the PDF or the downloaded file. <a href="developer-pipeline.html#network">All contacts and the pipeline →</a></p>';
+    if (mine.own.anti) h += '<p class="ib-anti-flag"><strong>Set aside</strong> ' + esc(mine.own.anti.date_dropped) + ': ' + esc(mine.own.anti.reason) + (mine.own.anti.revisit_date ? ' Revisit ' + esc(mine.own.anti.revisit_date) + '.' : '') + '</p>';
+    h += mine.own.pipeline ? pipelineLine(mine.own.pipeline) : '<p class="ib-muted">Not in your pipeline. Add it from Working tools below.</p>';
+    h += '<h3>Your contacts here</h3>' + (mine.own.network.length ? networkTable(mine.own.network) : '<p class="ib-muted">No one in your network file for ' + esc(name) + ' yet. The report\'s “Who to contact” section lists researched public contacts and offices.</p>');
+    if (mine.own.signals.length) h += '<h3>Signals you logged</h3>' + signalList(mine.own.signals);
+    mine.related.forEach(r => {
+      h += '<h3>Nearby: ' + esc(r.name) + '</h3>' + (r.pipeline ? pipelineLine(r.pipeline) : '') +
+        (r.network.length ? networkTable(r.network) : '') + (r.signals.length ? signalList(r.signals) : '');
+    });
+    return h + '</section>';
+  }
+  function draftNote(geoid) {
+    const p = PIPE[geoid];
+    return p ? pipelineLine(p) : '';
   }
 
   function headerSection(name, geoid, pipe) {
@@ -678,42 +746,6 @@
         btn.textContent = '🏞 Re-scan';
       }
     });
-  }
-
-  function pipelineSection(p) {
-    if (!p.jurisdiction) return '';
-    return `
-      <div class="ib-card">
-        <h2>Pipeline state</h2>
-        <div class="ib-card-source">
-          <strong>Source:</strong> Internal pipeline — local drafts/edits saved in
-          this browser. The canonical pipeline is maintained in a private workspace.
-        </div>
-        <p style="font-size:var(--small);"><strong>Next action:</strong> ${esc(p.next_action || '—')}${p.next_action_due ? ` <span style="color:var(--warn);font-size:.78rem;">· due ${esc(p.next_action_due)}</span>` : ''}</p>
-        ${p.notes ? `<p style="font-size:.82rem;color:var(--muted);margin:0;">${esc(p.notes)}</p>` : ''}
-      </div>
-    `;
-  }
-
-  function signalsSection(sigs) {
-    if (!sigs.length) return '';
-    return `
-      <div class="ib-card">
-        <h2>Signal history <span class="meta">${sigs.length} signals</span></h2>
-        <div class="ib-card-source">
-          <strong>Source:</strong> Signal Log — maintained in a private workspace.
-          Each row's source URL is shown inline ↗.
-        </div>
-        ${sigs.map(s => `
-          <div class="ib-signal-row">
-            <div class="ib-signal-meta">${esc(s.date)} · ${esc(s.signal_type)} · ${esc(s.source)} ${s.source_url && s.source_url !== '#' ? '<a href="' + esc(s.source_url) + '" target="_blank" rel="noopener" aria-label="Open source in new tab">↗</a>' : ''}<span class="ib-chip ib-chip-${esc(s.strength)}">${esc(s.strength)}</span></div>
-            <div><strong>${esc(s.summary)}</strong></div>
-            ${s.opportunity_implication ? '<div style="color:var(--muted);font-size:.78rem;margin-top:.15rem;">↳ ' + esc(s.opportunity_implication) + '</div>' : ''}
-            ${s.follow_up_action ? '<div style="font-size:.78rem;margin-top:.15rem;"><strong>Follow-up:</strong> ' + esc(s.follow_up_action) + ' · ' + esc(s.status) + '</div>' : ''}
-          </div>
-        `).join('')}
-      </div>
-    `;
   }
 
   function checklistSection(geoid) {

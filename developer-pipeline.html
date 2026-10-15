@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Affordable Housing Pipeline — Methodology — COHO</title>
+<title>Pipeline — COHO developer tools</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/site-theme.css">
 <script src="js/developer-gate.js"></script>
@@ -28,6 +28,36 @@
   /* display:flex must not defeat the hidden attribute (UA display:none
      loses to inline styles), so the flex layout lives here instead. */
   #draftsActions:not([hidden]) { display: flex; }
+
+  /* The working pipeline, read from the private files on the gated site. */
+  .ws-status { font-size: var(--small); color: var(--muted); margin: 0 0 var(--sp3); }
+  .ws-due { list-style: none; padding: 0; margin: 0 0 var(--sp3); }
+  .ws-due li { display: grid; grid-template-columns: 6.5rem 1fr; gap: .6rem; padding: .5rem 0; border-bottom: 1px solid var(--border); font-size: var(--small); line-height: 1.5; }
+  .ws-due .when { font-weight: 700; color: var(--muted); }
+  .ws-due .when.late { color: var(--bad); }
+  .ws-tabs { display: flex; flex-wrap: wrap; gap: .4rem; margin: var(--sp3) 0 var(--sp2); }
+  .ws-tabs button { padding: .45rem .8rem; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg2); color: var(--text); font-weight: 600; font-size: var(--small); cursor: pointer; }
+  .ws-tabs button[aria-selected="true"] { border-color: var(--accent); background: var(--accent); color: var(--on-accent, #fff); }
+  .ws-kanban { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr)); gap: var(--sp2); }
+  .ws-col { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: .6rem; min-width: 0; }
+  .ws-col h3 { font-size: .85rem; margin: 0 0 .5rem; }
+  .ws-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .5rem .6rem; margin-bottom: .5rem; font-size: .82rem; line-height: 1.45; }
+  .ws-card a { font-weight: 700; }
+  .ws-tag { display: inline-block; font-size: .72rem; font-weight: 700; padding: 0 .35rem; border: 1px solid var(--border); border-radius: 4px; margin-left: .25rem; }
+  .ws-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .ws-table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: var(--small); }
+  .ws-table th, .ws-table td { text-align: left; padding: .35rem .5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .ws-filter { width: 100%; max-width: 420px; padding: .5rem .7rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg2); color: var(--text); font-size: 1rem; margin-bottom: var(--sp2); }
+  .ws-template { border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp2) var(--sp3); margin-bottom: var(--sp2); }
+  @media (max-width: 600px) {
+    .ws-table { min-width: 0; }
+    .ws-table thead { display: none; }
+    .ws-table tr { display: block; border-bottom: 1px solid var(--border); padding: .5rem 0; }
+    .ws-table td { display: block; position: relative; border: 0; padding: .15rem 0 .15rem 7rem; }
+    .ws-table td::before { content: attr(data-label); position: absolute; left: 0; top: .15rem; width: 6.5rem; color: var(--muted); font-weight: 600; }
+    .ws-table td:empty { display: none; }
+  }
+  .ws-template pre { white-space: pre-wrap; font-family: inherit; font-size: var(--small); margin: .4rem 0 0; }
 </style>
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
@@ -40,18 +70,33 @@
   <!-- Sub-section nav (matches developer.html + developer-brief.html) -->
   <nav id="devNav" class="ib-section-nav"></nav>
 
-  <h1>Affordable Housing Pipeline — Methodology</h1>
+  <h1>Your pipeline</h1>
 
   <div class="ib-notice">
-    <strong>Where the data lives:</strong> the live pipeline — kanban, signal log,
-    anti-targets, network, and outreach templates — moved to a private workspace in
-    June 2026 and is no longer published in this repository. This page documents the
-    methodology that the pipeline follows, so the ranking tools
-    (<a href="lihtc-opportunity-finder.html">Opportunity Finder</a>,
-    <a href="developer-brief.html">Jurisdiction reports</a>) can be read in context.
-    The only working data kept here is <a href="#localDrafts">your browser-local
-    drafts</a> below.
+    Read from your private files, which only the gated site has. Changes you make on
+    the site stay with the site until you export them back to the files.
+    <a href="#how">How the pipeline works</a>.
   </div>
+
+  <section id="workspace" aria-labelledby="workspaceH">
+    <h2 id="workspaceH" style="margin-top:var(--sp3);">Due in the next 30 days</h2>
+    <p id="wsStatus" class="ws-status" role="status">Loading your private files…</p>
+    <ul id="wsDue" class="ws-due"></ul>
+
+    <div class="ws-tabs" role="tablist" aria-label="Pipeline views">
+      <button type="button" role="tab" id="tab-kanban" aria-controls="panel-kanban" aria-selected="true" data-tab="kanban">Pipeline <span data-count="kanban"></span></button>
+      <button type="button" role="tab" id="tab-signals" aria-controls="panel-signals" aria-selected="false" data-tab="signals">Signal log <span data-count="signals"></span></button>
+      <button type="button" role="tab" id="tab-network" aria-controls="panel-network" aria-selected="false" data-tab="network">Network <span data-count="network"></span></button>
+      <button type="button" role="tab" id="tab-anti" aria-controls="panel-anti" aria-selected="false" data-tab="anti">Set aside <span data-count="anti"></span></button>
+      <button type="button" role="tab" id="tab-templates" aria-controls="panel-templates" aria-selected="false" data-tab="templates">Outreach templates <span data-count="templates"></span></button>
+    </div>
+    <div role="tabpanel" id="panel-kanban" aria-labelledby="tab-kanban"></div>
+    <div role="tabpanel" id="panel-signals" aria-labelledby="tab-signals" hidden></div>
+    <div role="tabpanel" id="panel-network" aria-labelledby="tab-network" hidden></div>
+    <div role="tabpanel" id="panel-anti" aria-labelledby="tab-anti" hidden></div>
+    <div role="tabpanel" id="panel-templates" aria-labelledby="tab-templates" hidden></div>
+    <p style="margin-top:var(--sp2);"><button id="wsExport" class="btn" type="button" hidden>Export pipeline with your site changes (CSV)</button></p>
+  </section>
 
   <section id="localDrafts" aria-labelledby="localDraftsH">
     <h2 id="localDraftsH">Your local drafts</h2>
@@ -86,7 +131,7 @@
     </div>
   </section>
 
-  <h2>What this is</h2>
+  <h2 id="how">What this is</h2>
   <p>
     A weekly-maintained pipeline of Colorado jurisdictions where we are actively
     pursuing housing development opportunities. The pipeline tracks the full
@@ -183,6 +228,154 @@
 </main>
 
 <script src="js/components/pipeline-store.js"></script>
+<script src="js/components/private-workspace.js"></script>
+<script>
+// The working pipeline: the private files merged with the site's drafts and edits.
+(function () {
+  'use strict';
+  var PW = window.PrivateWorkspace;
+  var store = window.PipelineStore;
+  if (!PW) return;
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function report(geoid, name) { return '<a href="developer-brief.html?geoid=' + encodeURIComponent(geoid) + '">' + esc(name || geoid) + '</a>'; }
+  function th(label, tip) { return '<th title="' + esc(tip) + '">' + esc(label) + '</th>'; }
+  function table(head, rows) {
+    // Each cell is labelled with its header, so on a phone a row reads as a card.
+    var labels = head.map(function (h) { return h.replace(/<[^>]*>/g, ''); });
+    rows = rows.map(function (r) { var i = 0; return r.replace(/<td>/g, function () { return '<td data-label="' + labels[i++] + '">'; }); });
+    return '<div class="ws-scroll"><table class="ws-table"><thead><tr>' + head.join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table></div>';
+  }
+  function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+  function empty(msg) { return '<p class="ws-status">' + esc(msg) + '</p>'; }
+  var TIER = { '1': 'Strong / recurring', '2': 'Warm / introduced', '3': 'Cold / research only', never: 'Never contacted' };
+  var WS = null, CANON = [];
+
+  function whenLabel(d) {
+    if (d < 0) return { text: -d + ' day' + (d === -1 ? '' : 's') + ' late', late: true };
+    if (d === 0) return { text: 'Today', late: true };
+    return { text: 'In ' + d + ' day' + (d === 1 ? '' : 's'), late: false };
+  }
+
+  function render() {
+    var today = new Date();
+    var pipeline = PW.mergedPipeline(WS, store);
+    var f = WS.files;
+    var st = PW.stats(WS, pipeline, today);
+    $('wsStatus').textContent = WS.reachable
+      ? 'Read from your private files: ' + [
+          st.pipeline !== null ? plural(st.pipeline, 'place', 'places') + ' in the pipeline, ' + st.inConversation + ' in conversation' : '',
+          st.contacts !== null ? plural(st.contacts, 'network contact', 'network contacts') : '',
+          st.strong30 !== null ? plural(st.strong30, 'strong signal', 'strong signals') + ' in the last 30 days' : ''
+        ].filter(Boolean).join(', ') + '.'
+      : 'Your private files did not load here. They load only on the gated developer site, which copies them from your private folder. The places you added on this site are shown below.';
+
+    var due = PW.dueWithin(WS, pipeline, today, 30);
+    $('wsDue').innerHTML = due.length ? due.map(function (d) {
+      var w = whenLabel(d.days);
+      return '<li><span class="when' + (w.late ? ' late' : '') + '">' + esc(w.text) + '</span><span>' + report(d.geoid, d.jurisdiction) + ' · ' + esc(d.kind) +
+        (d.stage ? ' (' + esc(d.stage) + ')' : '') + '<br>' + esc(d.what) + ' <span style="color:var(--muted);">due ' + esc(d.date) + '</span></span></li>';
+    }).join('') : '<li><span></span><span style="color:var(--muted);">Nothing due or late in the next 30 days.</span></li>';
+
+    // Pipeline kanban.
+    var cols = PW.columns(pipeline);
+    $('panel-kanban').innerHTML = pipeline.length ? '<div class="ws-kanban">' + cols.map(function (c) {
+      return '<div class="ws-col"><h3>' + esc(c.key) + ' (' + c.rows.length + ')</h3>' + c.rows.map(function (r) {
+        return '<div class="ws-card">' + report(r.geoid, r.jurisdiction) + (r._isDraft ? '<span class="ws-tag">added on site</span>' : r._hasLocalEdits ? '<span class="ws-tag">edited on site</span>' : '') +
+          '<br>' + [r.stage !== c.key ? r.stage : '', r.ioi_score ? 'IOI ' + r.ioi_score : '', r.classification ? 'class ' + r.classification : '', r.product_type].filter(Boolean).map(esc).join(' · ') +
+          (r.next_action ? '<br><strong>Next:</strong> ' + esc(r.next_action) + (r.next_action_due ? ' (' + esc(r.next_action_due) + ')' : '') : '') + '</div>';
+      }).join('') + '</div>';
+    }).join('') + '</div>' : empty('No places in the pipeline yet. Add one from a jurisdiction report or the Opportunity Finder.');
+
+    // Signal log.
+    var sig = (f.signals || []).slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
+    $('panel-signals').innerHTML = f.signals === null ? empty('The signal log file did not load.') : sig.length ? table(
+      [th('Date', 'When the signal was seen'), th('Place', 'Open the jurisdiction report'), th('Signal', 'Signal type and what happened'), th('Strength', 'weak, moderate or strong'), th('Follow-up', 'Next step and review date'), th('Source', 'Where the signal was found')],
+      sig.map(function (r) {
+        return '<tr><td>' + esc(r.date) + '</td><td>' + report(r.geoid, r.jurisdiction) + '</td><td><strong>' + esc(r.signal_type) + '</strong><br>' + esc(r.summary) + '</td><td>' + esc(r.strength) +
+          '</td><td>' + esc(r.follow_up_action) + (r.next_review_date ? '<br><span style="color:var(--muted);">review ' + esc(r.next_review_date) + '</span>' : '') +
+          '</td><td>' + (/^https?:\/\//.test(r.source_url || '') ? '<a href="' + esc(r.source_url) + '" target="_blank" rel="noopener">' + esc(r.source || 'source') + '</a>' : esc(r.source)) + '</td></tr>';
+      })) : empty('No signals logged yet.');
+
+    // Network, with a filter.
+    var net = f.network || [];
+    $('panel-network').innerHTML = f.network === null ? empty('The network file did not load.') :
+      '<label for="wsNetFilter" style="display:block;font-weight:700;margin-bottom:.3rem;">Filter by place, name, role or organisation</label>' +
+      '<input id="wsNetFilter" class="ws-filter" type="search" autocomplete="off"><div id="wsNetTable"></div>';
+    function drawNetwork(q) {
+      q = String(q || '').toLowerCase();
+      var rows = net.filter(function (c) { return !q || [c.jurisdiction, c.name, c.role, c.org].join(' ').toLowerCase().indexOf(q) !== -1; });
+      $('wsNetTable').innerHTML = rows.length ? table(
+        [th('Place', 'Open the jurisdiction report'), th('Name', 'Contact name'), th('Role', 'Role and organisation'), th('Email', 'Email on file'), th('Phone', 'Phone on file'), th('Last talked', 'Date of the last conversation'), th('Relationship', '1 strong, 2 warm, 3 cold'), th('Notes', 'Your notes and how the contact was verified')],
+        rows.map(function (c) {
+          return '<tr><td>' + report(c.geoid, c.jurisdiction) + '</td><td>' + esc(c.name) + '</td><td>' + esc(c.role) + (c.org ? '<br><span style="color:var(--muted);">' + esc(c.org) + '</span>' : '') + '</td>' +
+            '<td>' + (c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>' : '') + '</td><td>' + (c.phone ? '<a href="tel:' + esc(c.phone.replace(/[^0-9+]/g, '')) + '">' + esc(c.phone) + '</a>' : '') + '</td>' +
+            '<td>' + esc(c.last_talked) + '</td><td>' + esc(TIER[c.relationship_tier] || c.relationship_tier) + '</td><td>' + esc(c.notes) + '</td></tr>';
+        })) : empty(q ? 'No contact matches “' + q + '”.' : 'No contacts in the network file yet.');
+    }
+    if (f.network !== null) {
+      drawNetwork('');
+      $('wsNetFilter').addEventListener('input', function (e) { drawNetwork(e.target.value); });
+    }
+
+    // Anti-targets.
+    var anti = f.anti || [];
+    $('panel-anti').innerHTML = f.anti === null ? empty('The anti-targets file did not load.') : anti.length ? table(
+      [th('Place', 'Open the jurisdiction report'), th('Set aside', 'Date the place was set aside'), th('Why', 'Reason it was set aside'), th('Revisit', 'Date to decide whether to reopen'), th('Notes', 'Your notes')],
+      anti.map(function (a) { return '<tr><td>' + report(a.geoid, a.jurisdiction) + '</td><td>' + esc(a.date_dropped) + '</td><td>' + esc(a.reason) + '</td><td>' + esc(a.revisit_date) + '</td><td>' + esc(a.notes) + '</td></tr>'; })
+    ) : empty('Nothing set aside.');
+
+    // Outreach templates.
+    var tpl = f.templates || [];
+    $('panel-templates').innerHTML = f.templates === null ? empty('The outreach templates file did not load.') : tpl.length ? tpl.map(function (t) {
+      return '<div class="ws-template"><h3 style="margin:0;">' + esc(t.template_name) + '</h3><p style="margin:.3rem 0 0;color:var(--muted);font-size:var(--small);">' +
+        esc([t.use_case, t.recipient_role ? 'to ' + t.recipient_role : ''].filter(Boolean).join(' · ')) + '</p>' +
+        (t.subject ? '<p style="margin:.4rem 0 0;"><strong>Subject:</strong> ' + esc(t.subject) + '</p>' : '') + '<pre>' + esc(t.body) + '</pre>' +
+        (t.notes_for_personalization ? '<p style="margin:.4rem 0 0;font-size:var(--small);color:var(--muted);">Personalise: ' + esc(t.notes_for_personalization) + '</p>' : '') + '</div>';
+    }).join('') : empty('No outreach templates yet.');
+
+    var counts = { kanban: pipeline.filter(function (r) { return r.stage !== 'Anti'; }).length, signals: f.signals && f.signals.length, network: f.network && f.network.length, anti: f.anti && f.anti.length, templates: f.templates && f.templates.length };
+    Array.prototype.forEach.call(document.querySelectorAll('[data-count]'), function (el) {
+      var n = counts[el.getAttribute('data-count')];
+      el.textContent = typeof n === 'number' ? '(' + n + ')' : '';
+    });
+    $('wsExport').hidden = !(WS.reachable && store);
+  }
+
+  function select(tab) {
+    Array.prototype.forEach.call(document.querySelectorAll('.ws-tabs [role="tab"]'), function (b) {
+      var on = b.getAttribute('data-tab') === tab;
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+      $('panel-' + b.getAttribute('data-tab')).hidden = !on;
+    });
+  }
+  document.querySelector('.ws-tabs').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-tab]');
+    if (b) { select(b.getAttribute('data-tab')); history.replaceState(null, '', '#' + b.getAttribute('data-tab')); }
+  });
+  var initial = (location.hash || '').slice(1);
+  if (['kanban', 'signals', 'network', 'anti', 'templates'].indexOf(initial) !== -1) select(initial);
+
+  $('wsExport').addEventListener('click', function () {
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([store.exportCsv(CANON)], { type: 'text/csv' }));
+    a.download = '02-pipeline.csv';
+    document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+  });
+
+  Promise.all([PW.load(PW.browserFetchText), (store && store.ready) || Promise.resolve()]).then(function (v) {
+    WS = v[0];
+    CANON = WS.files.pipeline || [];
+    render();
+    if (location.hash === '#network' || location.hash === '#signals') $('workspace').scrollIntoView();
+  });
+})();
+</script>
 <script>
 (function () {
   'use strict';

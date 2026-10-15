@@ -26,6 +26,10 @@ for (const gone of ['demographicsSection', 'hnaAnalysisSection', 'marketRentsSec
 assert(!html.includes('cdola.colorado.gov/private-activity-bonds'), 'the report must not link the retired DOLA PAB page');
 // Working tools stay on screen only.
 assert(/@media print \{[^}]*\.ib-tools/.test(html), 'working tools never print');
-assert(html.indexOf("let page = '<iframe id=\"reportFrame\"") > -1 && html.indexOf("let page = '<iframe id=\"reportFrame\"") < html.indexOf('headerSection(name, geoid, pipe) +'), 'the report comes before the working tools');
+// Your private notes on the place sit above the report (test/private-workspace.test.mjs);
+// the working tools follow it.
+const pageAt = html.indexOf('let page = privateSection(');
+const frameAt = html.indexOf("'<iframe id=\"reportFrame\"", pageAt);
+assert(pageAt > -1 && frameAt > pageAt && frameAt < html.indexOf('headerSection(name, geoid, pipe) +', pageAt), 'the report comes before the working tools');
 
 console.log('Developer brief (Jurisdiction Report) wiring: PASS');

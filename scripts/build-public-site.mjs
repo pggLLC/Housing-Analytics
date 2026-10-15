@@ -124,6 +124,7 @@ const BLOCKED_PATHS = [
   'js/components/jurisdiction-brief.js',
   'js/components/pipeline-add-button.js',
   'js/components/pipeline-store.js',
+  'js/components/private-workspace.js',
   'js/whitepaper'
 ];
 

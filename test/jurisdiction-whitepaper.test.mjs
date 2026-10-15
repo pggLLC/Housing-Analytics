@@ -367,4 +367,32 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   ok(own.contacts.researched.length === cityContacts.contacts.length && own.contacts.related.length === 0, 'a place with its own contacts shows them first');
 }
 
+// ---- 12. The old brief's "Local housing leadership" lists reach the report: offices,
+// plans and partners from local-resources.json, the place's and its county's, every one.
+{
+  const res = JSON.parse(read('data/hna/local-resources.json'));
+  let scanned = 0;
+  for (const row of src.rankingIndex.rankings) {
+    const keys = row.type === 'county' ? ['county:' + row.geoid] : ['place:' + row.geoid, 'county:' + row.containingCounty];
+    const want = (k) => [...new Set(keys.flatMap((key) => ((res[key] || {})[k] || []).filter((x) => x && x.name).map((x) => x.name.toLowerCase())))];
+    const plans = want('housingPlans'), partners = want('advocacy'), offices = want('contacts');
+    if (!plans.length && !partners.length && !offices.length) continue;
+    scanned++;
+    const C = WP.buildModel(src, row.geoid, { FundingFit, localResources: res }).contacts;
+    ok(C.plans.length === plans.length && C.partners.length === partners.length && C.offices.length === offices.length,
+      `${row.geoid}: every plan, partner and office in local-resources.json reaches the report`);
+  }
+  ok(scanned > 50, `the scan found places with plans, partners or offices (${scanned})`);
+  // An office known only by a search link prints without a link, and the search link never appears.
+  const mesa = WP.buildModel(src, '08077', { FundingFit, localResources: res });
+  const mh = WP.renderHtml(mesa);
+  const searchOnly = (res['county:08077'].contacts || []).filter((c) => /google\.[a-z.]+\/search/.test(c.url));
+  ok(searchOnly.length > 0 && searchOnly.every((c) => mh.includes(c.name)) && !/google\.[a-z.]+\/search/.test(mh), 'an office with only a search link is named, unlinked');
+  ok(mh.includes('Plans and assessments on file') && res['county:08077'].housingPlans.every((p) => mh.includes(p.name)), 'Mesa County prints its plans');
+  // Sabotage: drop the lists from the data and they vanish from the model.
+  const bare = clone(res); delete bare['county:08077'].housingPlans; delete bare['county:08077'].advocacy;
+  const mb = WP.buildModel(src, '08077', { FundingFit, localResources: bare }).contacts;
+  ok(mb.plans.length < mesa.contacts.plans.length && mb.partners.length < mesa.contacts.partners.length, 'sabotage: the lists come from the data, not the template');
+}
+
 console.log(`jurisdiction-whitepaper: ${checks} checks passed`);

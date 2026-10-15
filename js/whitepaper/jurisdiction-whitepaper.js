@@ -556,7 +556,7 @@
       .map(function (f) { return { geoid: f.geoid, name: f.name || f.geoid, checked: f.checked || null, contacts: usable(f) }; })
       .filter(function (f) { return f.contacts.length; });
     // Organisation links from local-resources.json, without search-engine links.
-    var orgs = [];
+    var orgs = [], plans = [], partners = [], offices = [];
     var keys = row.type === 'county' ? ['county:' + row.geoid] : ['place:' + row.geoid, 'county:' + row.containingCounty];
     keys.forEach(function (k) {
       var r = resources && resources[k];
@@ -572,14 +572,32 @@
         var u = safeHref(r[f]);
         if (u && !isSearchLink(u)) orgs.push({ role: f === 'council_agenda_url' ? 'Council agendas' : 'Planning commission', name: plainName(row.name), url: u });
       });
+      // Plans, partner organisations and the offices to reach, as the old brief's
+      // "Local housing leadership" card listed them. A search link is not a source,
+      // so an office with only a search link prints without one.
+      (Array.isArray(r.housingPlans) ? r.housingPlans : []).forEach(function (pl) {
+        if (pl && pl.name) plans.push({ name: pl.name, type: pl.type || null, year: pl.year || null, url: isSearchLink(pl.url) ? null : safeHref(pl.url) });
+      });
+      (Array.isArray(r.advocacy) ? r.advocacy : []).forEach(function (a) {
+        if (a && a.name) partners.push({ name: a.name, url: isSearchLink(a.url) ? null : safeHref(a.url) });
+      });
+      (Array.isArray(r.contacts) ? r.contacts : []).forEach(function (c) {
+        if (c && c.name) offices.push({ name: c.name, title: c.title || null, jurisdiction: c.jurisdiction || null, url: isSearchLink(c.url) ? null : safeHref(c.url) });
+      });
     });
-    var seen = {};
-    orgs = orgs.filter(function (o) { if (seen[o.url]) return false; seen[o.url] = true; return true; });
+    function dedupe(list, key) {
+      var seen = {};
+      return list.filter(function (o) { var k = key(o); if (seen[k]) return false; seen[k] = true; return true; });
+    }
+    orgs = dedupe(orgs, function (o) { return o.url; });
     return {
       researched: researched,
       checked: contactsFile ? contactsFile.checked || null : null,
       related: related,
       orgs: orgs,
+      plans: dedupe(plans, function (o) { return o.name.toLowerCase(); }),
+      partners: dedupe(partners, function (o) { return o.name.toLowerCase(); }),
+      offices: dedupe(offices, function (o) { return o.name.toLowerCase(); }),
       needsResearch: researched.length === 0 && related.length === 0
     };
   }
@@ -1132,7 +1150,21 @@
     if (C.orgs.length) {
       h += '<h3>Organisations</h3><ul>' + C.orgs.map(function (o) { return '<li>' + esc(o.role) + ': ' + link(o.name, o.url) + '</li>'; }).join('') + '</ul>';
     }
-    return h + srcLine([contactsPath(m.geoid) + ' (researched contacts)'].concat((C.related || []).map(function (f) { return contactsPath(f.geoid); }), ['data/hna/local-resources.json (organisation links; search links omitted)']));
+    if ((C.offices || []).length) {
+      h += '<h3>Offices to reach</h3><ul>' + C.offices.map(function (o) {
+        return '<li>' + link(o.name, o.url) + (o.jurisdiction && o.name.indexOf(o.jurisdiction) === -1 ? ' <span class="wp-meta">(' + esc(o.jurisdiction) + ')</span>' : '') +
+          (o.url ? '' : ' <span class="wp-meta">no direct page on file; find the current holder on the jurisdiction\'s staff directory</span>') + '</li>';
+      }).join('') + '</ul>';
+    }
+    if ((C.plans || []).length) {
+      h += '<h3>Plans and assessments on file</h3><ul>' + C.plans.map(function (p) {
+        return '<li>' + link(p.name, p.url) + (p.type || p.year ? ' <span class="wp-meta">' + esc([p.type, p.year].filter(Boolean).join(', ')) + '</span>' : '') + '</li>';
+      }).join('') + '</ul>';
+    }
+    if ((C.partners || []).length) {
+      h += '<h3>Advocacy and nonprofit partners</h3><ul>' + C.partners.map(function (p) { return '<li>' + link(p.name, p.url) + '</li>'; }).join('') + '</ul>';
+    }
+    return h + srcLine([contactsPath(m.geoid) + ' (researched contacts)'].concat((C.related || []).map(function (f) { return contactsPath(f.geoid); }), ['data/hna/local-resources.json (organisations, offices, plans and partners; search links omitted)']));
   }
 
   function renderDates(m) {
