@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-10-14T09:59:13Z",
-    "as_of": "2026-10-14",
+    "generated": "2026-10-15T11:52:21Z",
+    "as_of": "2026-10-15",
     "horizon_days": 120,
     "categories": {
       "conference": "Conferences",
@@ -21,7 +21,7 @@
       "url": "https://www.chfainfo.com/events",
       "status": "ok",
       "listed": 1331,
-      "upcoming": 29
+      "upcoming": 28
     },
     {
       "id": "housing_colorado",
@@ -41,18 +41,6 @@
     }
   ],
   "events": [
-    {
-      "title": "chfareach: Mental Health First Aid, Online Workshop, October 13-14, 2026",
-      "start": "2026-10-13",
-      "end": "2026-10-14",
-      "time": "08:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-mental-health-first-aid-online-workshop-10-13-2026-to-10-14-2026",
-      "source": "chfa",
-      "category": "compliance"
-    },
     {
       "title": "Housing Colorado Annual Conference",
       "start": "2026-10-14",

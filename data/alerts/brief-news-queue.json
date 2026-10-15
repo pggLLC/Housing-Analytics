@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-10-14T09:59:13Z",
-    "as_of": "2026-10-14",
+    "generated": "2026-10-15T11:52:21Z",
+    "as_of": "2026-10-15",
     "stale_days": 30,
-    "events_as_of": "2026-10-14",
+    "events_as_of": "2026-10-15",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,8 +14,32 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 117,
+      "days_since_review": 118,
       "stories": [
+        {
+          "title": "This Denver house inspired a famous horror film",
+          "source": "Denver Gazette",
+          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOUktUeXRWanpGVnB4cUNUeDdneWdKcUUyMURoTk5keWthVy1lUjBTLXcxUThMbVpDbi0tMUx5SDViTFZ4T3BoT2FJRW16TFJ0aWxNdUdrRks0TENhVTFJcmNzWTNSVDZxX3k2MUVGVzJ5b21iZzNiT2RlNWVMZEIyTUNqN0F3WDdCQnptRk9NYzFaZENQVXpXVm1nalEwYVh1cUVsT3pZZkQzQjRP?oc=5",
+          "date": "2026-10-14",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Denver is solving homelessness. Why aren't the rest of us?",
+          "source": "Planetizen",
+          "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNdUNCZkxiZ0NQbF9kc0dROFFyMExjOHFER1NnNTFDc1lXeFItWmttS3pkNHFZXzdhbDRFQXF5UWk5Vm1DZDYyZGxVbXpNS1l6LUE5aGU5eW4yWDV2SW5XX1YtZXl6ZXRJMEYyQjBTaWRUUG1CT1NMZnAzOGw1OTB4R1h2X1FWWVRQS1pVc1UzaURkUDhkZ0xn?oc=5",
+          "date": "2026-10-14",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Home sales dropping the most in Douglas, Larimer, Denver and Adams counties",
+          "source": "The Denver Post",
+          "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9sVnpIcHVhMUVjVlFMeW8zSWE5Y1pNWTQ5MGh0U2hvWmtXMi1YSEVuakhLV2hETTFrcmNrQnM3ZGVta1ZXVWVpNG9zQTlPOGlHMjJXdHZ3eERwRVliVVVJSlI5dUVpQkJ5M2FXYzE5SC04MUJw?oc=5",
+          "date": "2026-10-14",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "Denver's Javier Mabrey eyes Colorado House leadership",
           "source": "State Affairs Pro",
@@ -225,14 +249,6 @@
           "date": "2026-07-20",
           "match": "place",
           "also": []
-        },
-        {
-          "title": "Vanishing starter home: Buyers find that even at higher prices, Denver area pickings are slim",
-          "source": "Denver Gazette",
-          "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQZklBOWM0R2hMcWowM3JXY0gtRHpqb2FfV2N5MUozQlZTVW10andFUnB0aFNoV3VrTTVZWmY2Q2pDUk5JbmJGYVlmaG5ydXJRanAzZjlBSTU5eGwxNGtGX19IWTJhUE13cmJpZ29MX2FEZ2tibm1takoyX3ZhdzlINFhVNUI0VTJ5Y3VGZ2dUMVRmMUlhV2hjcWVzZ0t4VjlEbEZUZi1XMkFncmRWNjZ4eWVMdTdsbW1RTTVkYTgtVUl0aUhPS3F0RHRRU0Radw?oc=5",
-          "date": "2026-07-17",
-          "match": "place",
-          "also": []
         }
       ],
       "events": [
@@ -270,8 +286,8 @@
         }
       ],
       "reasons": [
-        "27 new stories naming it",
-        "not reviewed in 117 days"
+        "29 new stories naming it",
+        "not reviewed in 118 days"
       ]
     },
     {
@@ -281,7 +297,7 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 117,
+      "days_since_review": 118,
       "stories": [
         {
           "title": "Colorado Springs housing snapshot shows rising costs",
@@ -368,6 +384,22 @@
           "also": []
         },
         {
+          "title": "Colorado Springs unveils new homeless response team",
+          "source": "FOX21 News Colorado",
+          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNSTBOcXZaNk5GRkt1UmJDLWR0aTJ4Mk9iVndIRVFPLURnT1lIV0NlZmxWV2xnZzhKSUQwQjRzUnIyLU5KbWQzWU1FX2lndTRGcFJZZE01YWEwR3Ewb1BvTFZRUjduMm5oRWhfc2dxREg4T2gtUGNNUVRTdXNfTll3akw3VFBkdkdwaVlv0gGQAUFVX3lxTE5RRU5qUlFiVjNHSFI5MFZrNkdMR3dxai02T3gtV25UbHZ2a3FYSTZ5S3FYMjdMbEU3S3k1eE1wMW1GS210QW1waHF1Z1VobW9OemFCQVFHNjAzdXR5Y1Q0S3pieXVwSjdSdUVRTFVRaUZ0azJPcmYtR0NTTGw1U3U5ZDlHUkM5d2FBNWN1WWZTeA?oc=5",
+          "date": "2026-08-12",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Emerald ash borer confirmed in Colorado Springs, ‘pest is here to stay’",
+          "source": "Colorado Politics",
+          "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQdVY3WjYzelh4VU1PQTRJclJtRHNld0FzRmZURWs4eERfbWd2WFBkWGxKVm43WjFIUklJZHlUY0NsUEFmVzFxMXhSNTdsSWZRTXhXb1VYbnlUMUtEN3VWcUVreU8ydWxhdk1VVWM1SXZBY1IyOUozYWZCdG5JalRJN2d0emdiZDR2NExiRnk2NnEwVHBRMzhYLTBHSk0zbHczZHBuZTNDRlFzZDU4RS1uRFVjcw?oc=5",
+          "date": "2026-08-06",
+          "match": "place",
+          "also": []
+        },
+        {
           "title": "Colorado Springs buyers have more options as home sales cool in July",
           "source": "KOAA News 5",
           "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOUVFtb1djM241SW1JSmdwSUx1bkllUkVBNFQ5M3Nic0FEa0UyN0xqdXRTWHdDemdwQ25vd05jOW1ncXY1U1hVVzEwelAtM1BVSE81SHg5a3FPeE56SkY3UVU1MnJhQU5KaGtlVXhtMHVtdU85S3A0dmpGOWRLdU0wV05kendEU09Ra05TSTNlalN5TkNfS1dYOWE0NURlZnkzWjhnQ2Y4eHI?oc=5",
@@ -432,6 +464,14 @@
           "also": []
         },
         {
+          "title": "Crunch Fitness is packing up and bulking up at new Colorado Springs location",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOVXdfLXdrQ0VXRDlTOE1XVUdOSXRTeFZGMGVYSmNLVHV3dFBncFFJNzh3RG5xaThPY05XVVlxWmtJXzlPUnpGR2ZLdHB4enUzYnlfNy12Vk0zUXgwWWhEbU8wYmFDb3FuajRlQS1RVXJTM2lzWXRQWUMwNm4tdEl5eTRRNzgxRW9yd1YyT1ViTHlsXzJmUGtkVFZ1UHlvTW1wRnZMaDRQZUs1RWJQ?oc=5",
+          "date": "2026-07-22",
+          "match": "place",
+          "also": []
+        },
+        {
           "title": "Prop 123 funds new affordable housing development in Colorado Springs",
           "source": "KRDO",
           "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTFB4bWVWWjYweTR3YzBmcjd5bW03VmVFblpIOGVYUjdfOFRtZW95WGUtTy0zekxMSXRKNTBGNHVzUEx1bHVNczVXVk4yWDIwbFF1cU81UGVUejBoaWdGTm5nZG51dUFqTTBzY3V1ajJtcVh4M1lJdmNPNg?oc=5",
@@ -467,8 +507,8 @@
         }
       ],
       "reasons": [
-        "21 new stories naming it",
-        "not reviewed in 117 days"
+        "24 new stories naming it",
+        "not reviewed in 118 days"
       ]
     },
     {
@@ -478,7 +518,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 117,
+      "days_since_review": 118,
       "stories": [
         {
           "title": "The allure and struggle of making Fort Collins home",
@@ -549,7 +589,7 @@
       ],
       "reasons": [
         "7 new stories naming it",
-        "not reviewed in 117 days"
+        "not reviewed in 118 days"
       ]
     },
     {
@@ -559,7 +599,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 117,
+      "days_since_review": 118,
       "stories": [
         {
           "title": "Colorado Dem Running for Congress on Housing Affordability Sells Luxury Aspen Homes for Tens of Millions",
@@ -594,14 +634,6 @@
           "also": []
         },
         {
-          "title": "July 17, 2026: Aspen Acres fire lawsuit, Beulah homeowners return, housing drags down employment, San Luis Valley labyrinth",
-          "source": "Colorado Public Radio",
-          "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNdFhkeFVPMzltRDFvM21xeURoYzRZcjQyY1RHWUZweUQ4V2otRGYzeWVUY3hpdHhFSnMtLXQ4d29xOTBOX1E4azVZRUUtZjBzdGwwUm5YenV3dHFJZnF2WkFucEFYd3ZHNnJzbkhCR1pQSEJxMno0TlhGQnRvUUhJSG1VVWx0WUJrU2RCUzZUTUJ5a2R1VHcxVXpkMzZJUUFKa1B3bXBWTW91WlgyVEpaYi1iWnk4dzhtMXp5VHZTX1lwYURZNmZvX1VRMlo?oc=5",
-          "date": "2026-07-17",
-          "match": "place",
-          "also": []
-        },
-        {
           "title": "Pitkin County short-term rental regulations could see a change",
           "source": "AspenTimes.com",
           "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPTkNIVk9VclBYNUMyNkV1Y2xBS25aZlgzM3htTjRfd2xnV1hBUEQwa0djY2ZMa056M0dfd09nWVhHaEloZGh2emNtTjRGLTltV3JfRHpyRzhfZzVyRkhyZGlmaFl4UnllODRpNi1IT1VpVldrSUhUR1NZZTIyWmNQcFRjRUhTRl8ySndiNGczRkVDUDlnZzlBWjd1OA?oc=5",
@@ -612,9 +644,9 @@
       ],
       "events": [],
       "reasons": [
-        "5 new stories naming it",
+        "4 new stories naming it",
         "1 new story about its county",
-        "not reviewed in 117 days"
+        "not reviewed in 118 days"
       ]
     },
     {
@@ -624,7 +656,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 117,
+      "days_since_review": 118,
       "stories": [
         {
           "title": "Nearly 100 homes proposed west of Glenwood Springs",
@@ -671,7 +703,7 @@
       "reasons": [
         "4 new stories naming it",
         "1 new story about its county",
-        "not reviewed in 117 days"
+        "not reviewed in 118 days"
       ]
     },
     {
@@ -681,7 +713,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 117,
+      "days_since_review": 118,
       "stories": [
         {
           "title": "Salida City Council Seeks Six Housing Credits from Buena Vista to Meet Proposition 123 Commitment",
@@ -728,7 +760,7 @@
       "reasons": [
         "4 new stories naming it",
         "1 new story about its county",
-        "not reviewed in 117 days"
+        "not reviewed in 118 days"
       ]
     },
     {
@@ -738,7 +770,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-07-30",
-      "days_since_review": 76,
+      "days_since_review": 77,
       "stories": [
         {
           "title": "Salida City Council Seeks Six Housing Credits from Buena Vista to Meet Proposition 123 Commitment",
@@ -769,7 +801,7 @@
       "reasons": [
         "2 new stories naming it",
         "1 new story about its county",
-        "not reviewed in 76 days",
+        "not reviewed in 77 days",
         "draft, not shown on the site"
       ]
     },
@@ -780,7 +812,7 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-07-30",
-      "days_since_review": 76,
+      "days_since_review": 77,
       "stories": [
         {
           "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
@@ -802,7 +834,7 @@
       "events": [],
       "reasons": [
         "2 new stories naming it",
-        "not reviewed in 76 days",
+        "not reviewed in 77 days",
         "draft, not shown on the site"
       ]
     },
@@ -813,7 +845,7 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-06-19",
-      "days_since_review": 117,
+      "days_since_review": 118,
       "stories": [
         {
           "title": "Garfield County commissioner candidates debate growth, South Bridge and economic future",
@@ -868,7 +900,7 @@
       "reasons": [
         "1 new story naming it",
         "5 new stories about its towns",
-        "not reviewed in 117 days",
+        "not reviewed in 118 days",
         "draft, not shown on the site"
       ]
     },
@@ -879,7 +911,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 117,
+      "days_since_review": 118,
       "stories": [
         {
           "title": "Pitkin County short-term rental regulations could see a change",
@@ -920,21 +952,13 @@
           "date": "2026-07-23",
           "match": "in_county",
           "also": []
-        },
-        {
-          "title": "July 17, 2026: Aspen Acres fire lawsuit, Beulah homeowners return, housing drags down employment, San Luis Valley labyrinth",
-          "source": "Colorado Public Radio",
-          "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNdFhkeFVPMzltRDFvM21xeURoYzRZcjQyY1RHWUZweUQ4V2otRGYzeWVUY3hpdHhFSnMtLXQ4d29xOTBOX1E4azVZRUUtZjBzdGwwUm5YenV3dHFJZnF2WkFucEFYd3ZHNnJzbkhCR1pQSEJxMno0TlhGQnRvUUhJSG1VVWx0WUJrU2RCUzZUTUJ5a2R1VHcxVXpkMzZJUUFKa1B3bXBWTW91WlgyVEpaYi1iWnk4dzhtMXp5VHZTX1lwYURZNmZvX1VRMlo?oc=5",
-          "date": "2026-07-17",
-          "match": "in_county",
-          "also": []
         }
       ],
       "events": [],
       "reasons": [
         "1 new story naming it",
-        "5 new stories about its towns",
-        "not reviewed in 117 days"
+        "4 new stories about its towns",
+        "not reviewed in 118 days"
       ]
     },
     {
@@ -944,7 +968,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 117,
+      "days_since_review": 118,
       "stories": [
         {
           "title": "Roberts Resorts & Communities Acquires King's Crown in Rifle, Colorado",
@@ -967,7 +991,32 @@
       "reasons": [
         "1 new story naming it",
         "1 new story about its county",
-        "not reviewed in 117 days"
+        "not reviewed in 118 days"
+      ]
+    },
+    {
+      "geoid": "0822035",
+      "jurisdiction": "City of Durango",
+      "scope": "place",
+      "county_fips": "08067",
+      "published": false,
+      "last_curated": "2026-07-30",
+      "days_since_review": 77,
+      "stories": [
+        {
+          "title": "Durango School District expands workforce housing",
+          "source": "Durango Herald",
+          "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQWmxTZnBmWVJYd2h0djBvd2o2TC1ZNk5wWEFmVWZEUkJTOXlicXZ0SnpMcm95WlhRTklIVEpScEEwNUp3bUppMlBza3lzZmVtQzUySGZGWWI2RlYyZ213cFpqSWgxb00tejRPWGlJQzZLVnluUDFEc3U2OTdjV3EyT1FVQ01TTEFyX294RU5NeDNsOHJnanZTaGh3?oc=5",
+          "date": "2026-10-09",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "1 new story naming it",
+        "not reviewed in 77 days",
+        "draft, not shown on the site"
       ]
     },
     {
@@ -977,7 +1026,7 @@
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-07-30",
-      "days_since_review": 76,
+      "days_since_review": 77,
       "stories": [
         {
           "title": "Change Is Afoot in Steamboat Springs, Colorado, a Ski Town Drawing Texans in ‘Fur Coats’ and Brett Favre",
@@ -991,7 +1040,7 @@
       "events": [],
       "reasons": [
         "1 new story naming it",
-        "not reviewed in 76 days",
+        "not reviewed in 77 days",
         "draft, not shown on the site"
       ]
     },
@@ -1002,7 +1051,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-07-30",
-      "days_since_review": 76,
+      "days_since_review": 77,
       "stories": [
         {
           "title": "Council discusses hiring consultants to review Telluride housing policies",
@@ -1016,7 +1065,7 @@
       "events": [],
       "reasons": [
         "1 new story naming it",
-        "not reviewed in 76 days",
+        "not reviewed in 77 days",
         "draft, not shown on the site"
       ]
     },
@@ -1027,7 +1076,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 117,
+      "days_since_review": 118,
       "stories": [
         {
           "title": "Pitkin County short-term rental regulations could see a change",
@@ -1041,7 +1090,7 @@
       "events": [],
       "reasons": [
         "1 new story about its county",
-        "not reviewed in 117 days"
+        "not reviewed in 118 days"
       ]
     },
     {
@@ -1051,7 +1100,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-06-20",
-      "days_since_review": 116,
+      "days_since_review": 117,
       "stories": [
         {
           "title": "Garfield County commissioner candidates debate growth, South Bridge and economic future",
@@ -1065,7 +1114,7 @@
       "events": [],
       "reasons": [
         "1 new story about its county",
-        "not reviewed in 116 days"
+        "not reviewed in 117 days"
       ]
     },
     {
@@ -1075,11 +1124,11 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-06-19",
-      "days_since_review": 117,
+      "days_since_review": 118,
       "stories": [],
       "events": [],
       "reasons": [
-        "not reviewed in 117 days"
+        "not reviewed in 118 days"
       ]
     },
     {
@@ -1089,26 +1138,11 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-07-06",
-      "days_since_review": 100,
+      "days_since_review": 101,
       "stories": [],
       "events": [],
       "reasons": [
-        "not reviewed in 100 days"
-      ]
-    },
-    {
-      "geoid": "0822035",
-      "jurisdiction": "City of Durango",
-      "scope": "place",
-      "county_fips": "08067",
-      "published": false,
-      "last_curated": "2026-07-30",
-      "days_since_review": 76,
-      "stories": [],
-      "events": [],
-      "reasons": [
-        "not reviewed in 76 days",
-        "draft, not shown on the site"
+        "not reviewed in 101 days"
       ]
     }
   ],

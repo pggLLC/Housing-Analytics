@@ -1,11 +1,101 @@
 {
   "meta": {
-    "generated": "2026-10-14T09:58:54Z",
+    "generated": "2026-10-15T11:51:57Z",
     "feed_count": 24,
-    "alert_count": 410,
+    "alert_count": 424,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "Putting the Affordability Toolbox to Work - Affordable Housing Finance",
+      "date": "2026-10-15T11:44:50Z",
+      "source": "Affordable Housing Finance",
+      "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOV0xKV2piMHNoT3RIeG1jTXdYbkZrRHp0aTBRd0hsVE12blZGNE4xMEYycVpHUmRCSlpQVEZCSWppZ2laMFFJYXBUNUZqU2U0aks4c3k3aUtfLWQ5VG1zZkdZeUY3NHY1WlowV0k3MDNPUUpqSUhpaXF5dE13RXRxZA?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Putting the Affordability Toolbox to Work \u00a0\u00a0 Affordable Housing Finance"
+    },
+    {
+      "title": "This Denver house inspired a famous horror film - Denver Gazette",
+      "date": "2026-10-14T21:32:16Z",
+      "source": "Denver Gazette",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOUktUeXRWanpGVnB4cUNUeDdneWdKcUUyMURoTk5keWthVy1lUjBTLXcxUThMbVpDbi0tMUx5SDViTFZ4T3BoT2FJRW16TFJ0aWxNdUdrRks0TENhVTFJcmNzWTNSVDZxX3k2MUVGVzJ5b21iZzNiT2RlNWVMZEIyTUNqN0F3WDdCQnptRk9NYzFaZENQVXpXVm1nalEwYVh1cUVsT3pZZkQzQjRP?oc=5",
+      "topic": "general",
+      "region": "Denver",
+      "summary": "This Denver house inspired a famous horror film \u00a0\u00a0 Denver Gazette"
+    },
+    {
+      "title": "Boston Financial Raises $191M For Affordable Housing Fund - Law360",
+      "date": "2026-10-14T18:21:10Z",
+      "source": "Law360",
+      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQZ0NQSnUyRFB2d2xkeTRfWmlmajNqdXBWRkgyLWVOVmV2MllMWEdPN0pTM0t3SnlqMGpmNVlZb256VkJsUHo3VHRYMkQxS1F2ME13MmRBY0hwckhmOVdHdWk1ejBoTkt4bURwcjlhcFplUzM3OTVUM29EQWZNRWxRRjZLbkVnMEg0aUh3cWJXTnJoUnlrM01ITU0zaXfSAXNBVV95cUxORTZLYVVrTzNGbUZMUEEzZTh5YkFZX1dOcktmVzktRmY2bTFNUmJ4OEZ5Y1VmWkp5MlRnWGtpakFUdEZOM2x1c2JqY0d2LU5NNHZxQ2ZqaFh0emJxcm9qRVFXVGdTRGlnQkJ1SGtTYVFuRXRj?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Boston Financial Raises $191M For Affordable Housing Fund \u00a0\u00a0 Law360"
+    },
+    {
+      "title": "Boston Financial closes $191M affordable housing fund for 1,342 homes - Dealroom",
+      "date": "2026-10-14T15:49:56Z",
+      "source": "Dealroom",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxON3BtczJfeWVobjZ1OF94X1NkUTBxTnQ4OEJiRlpwOEd4d2U2X0d2bWVSTzk5bk5wb1JPYWludWpTaEJodWNEUnFsUjkxNVp5dkJGazZ3TzFuSHZNeGhwTExsTnYzMGRRTzBpd0hDQ2swUlJKemxMUDdQdUx0UktnSnpEdHg4M0JyMk1jbEZuVWcza3BhQURRT01uX01vVGpyLVlPXw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Boston Financial closes $191M affordable housing fund for 1,342 homes \u00a0\u00a0 Dealroom"
+    },
+    {
+      "title": "Affordable Housing Leaders to Reflect on 2026, Plan for 2027 at Novogradac Conference - Yahoo Finance",
+      "date": "2026-10-14T15:00:00Z",
+      "source": "Yahoo Finance",
+      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQamRzc3Ztc2VZcGFDUmxUZ1dUT0kydjBzUTVwa3VqdmZoUnl1QUotdWpRM3Ayc3JsUlMzWjQxeXg4MXhtT29NZEhkRGJwYW1vemVYOHBWOW5vSGVtcDRJODhVaEhIT2d6QlRFQTBGdW5qODduNURIb3FNUk45cWx4UU9BVUk2Q1BIZ2FqQUFsMl84U25TSUJDZXotRHZTSFhaS0Z3?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Affordable Housing Leaders to Reflect on 2026, Plan for 2027 at Novogradac Conference \u00a0\u00a0 Yahoo Finance"
+    },
+    {
+      "title": "Denver is solving homelessness. Why aren't the rest of us? - Planetizen",
+      "date": "2026-10-14T14:00:00Z",
+      "source": "Planetizen",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNdUNCZkxiZ0NQbF9kc0dROFFyMExjOHFER1NnNTFDc1lXeFItWmttS3pkNHFZXzdhbDRFQXF5UWk5Vm1DZDYyZGxVbXpNS1l6LUE5aGU5eW4yWDV2SW5XX1YtZXl6ZXRJMEYyQjBTaWRUUG1CT1NMZnAzOGw1OTB4R1h2X1FWWVRQS1pVc1UzaURkUDhkZ0xn?oc=5",
+      "topic": "homelessness",
+      "region": "Denver",
+      "summary": "Denver is solving homelessness. Why aren't the rest of us? \u00a0\u00a0 Planetizen"
+    },
+    {
+      "title": "MHN Asks: Why Aren\u2019t More 4 Percent LIHTC Deals Closing? - Multifamily Housing News",
+      "date": "2026-10-14T13:52:00Z",
+      "source": "Multifamily Housing News",
+      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQdHJJYkRrTC1pT0pydkpVcEZRRlRPZFFkSnFpSWVvbE9vaXZBdHNMMEZIZGdOUWxoaXpWeVRuQ19acWZhVXR3OFZrRlpWQ2J1VWtwcklFLWZNRHlnWHg2NFVZZ05NbVR4bXlWMlg1M0YtbVR0T0RuX2J3Q2RNWEJTU1pfdURUMGlQQWFvR1Bna2c?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "MHN Asks: Why Aren\u2019t More 4 Percent LIHTC Deals Closing? \u00a0\u00a0 Multifamily Housing News"
+    },
+    {
+      "title": "Boston Financial Closes $191M Affordable Housing Fund to Finance 1,342 Homes Across 12 States - citybiz",
+      "date": "2026-10-14T13:47:55Z",
+      "source": "citybiz",
+      "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQTl9pLTMxakI5YmZ2cWJYdHh1Rk5lSGpfcWdnZFRnWFhSWlFaTk1iY29Sb0prSm9hOXc0R3RQM1dJdTdkV2o4aXZMSW1PZnVTc0dBcnp6RnI0SmlTQ3U1d01rVkZZd0xxWGhGTmJoR19CZHI0dlZFMjk4MlFTN081Y3dJdUFSMkZnYVBobTAyT2JmNXNKbVVSMXNqRVFKNG9zOWFFb1dkTEMxVUZxNURLVEttMnlDVGdEYWZZOV9XMXQ4V1JoZHF2QTFR?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Boston Financial Closes $191M Affordable Housing Fund to Finance 1,342 Homes Across 12 States \u00a0\u00a0 citybiz"
+    },
+    {
+      "title": "Home sales dropping the most in Douglas, Larimer, Denver and Adams counties - The Denver Post",
+      "date": "2026-10-14T10:00:50Z",
+      "source": "The Denver Post",
+      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9sVnpIcHVhMUVjVlFMeW8zSWE5Y1pNWTQ5MGh0U2hvWmtXMi1YSEVuakhLV2hETTFrcmNrQnM3ZGVta1ZXVWVpNG9zQTlPOGlHMjJXdHZ3eERwRVliVVVJSlI5dUVpQkJ5M2FXYzE5SC04MUJw?oc=5",
+      "topic": "general",
+      "region": "Denver",
+      "summary": "Home sales dropping the most in Douglas, Larimer, Denver and Adams counties \u00a0\u00a0 The Denver Post"
+    },
+    {
+      "title": "Housing is slightly more affordable in Colorado, a report shows. You may not have noticed. - The Colorado Sun",
+      "date": "2026-10-14T10:00:00Z",
+      "source": "The Colorado Sun",
+      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPU0RvMXVEVGwtR2E3eThYSi12LTRuTWVVNjZyVXNhVWczZVFPTEQ0bDVtNmtaTTlmNV8yWDJDSTVBZWQ2cF9ueU5RNlpMTmQ0NnFpam5qdDJzQ3BnWjR6Z0ZzVVoxX3BYWm4taUJnS1hPWUEwQ3RVbmRRTldUNm9nUTZFa1lCTDQ?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Housing is slightly more affordable in Colorado, a report shows. You may not have noticed. \u00a0\u00a0 The Colorado Sun"
+    },
     {
       "title": "Building Capacity to Grow Affordable Homeownership - Enterprise Community Partners",
       "date": "2026-10-13T18:51:20Z",
@@ -151,6 +241,15 @@
       "summary": "Beaufort Housing Authority faces ongoing contract delays \u00a0\u00a0 Carolina Coast Online"
     },
     {
+      "title": "Durango School District expands workforce housing - Durango Herald",
+      "date": "2026-10-09T20:00:56Z",
+      "source": "Durango Herald",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQWmxTZnBmWVJYd2h0djBvd2o2TC1ZNk5wWEFmVWZEUkJTOXlicXZ0SnpMcm95WlhRTklIVEpScEEwNUp3bUppMlBza3lzZmVtQzUySGZGWWI2RlYyZ213cFpqSWgxb00tejRPWGlJQzZLVnluUDFEc3U2OTdjV3EyT1FVQ01TTEFyX294RU5NeDNsOHJnanZTaGh3?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Durango School District expands workforce housing \u00a0\u00a0 Durango Herald"
+    },
+    {
       "title": "Governor Kathy Hochul Announces the Completion New Affordable Housing for Seniors in Suffolk County - Yield PRO",
       "date": "2026-10-09T17:50:21Z",
       "source": "Yield PRO",
@@ -239,6 +338,15 @@
       "topic": "general",
       "region": "Fort Collins",
       "summary": "801 E Drake Rd Apt G78, Fort Collins, CO 80525 \u00a0\u00a0 Realtor.com"
+    },
+    {
+      "title": "Q&A: Meet Stephen Hamilton, an American Constitution Party candidate running for Colorado governor - PostIndependent.com",
+      "date": "2026-10-08T16:02:19Z",
+      "source": "PostIndependent.com",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxONDc0cHkxXzd6QnlseTdtT3ZoWDB0UG5UWUpldnBjamNSTGZ5Mk95SWtKUGtBemlRWHBvS29WUVdVRExfbVNrT2YzcWZCWGUzYUV5UUVFY05fSEM3N094bFFnOHBaNXFwUGNnWlpNa3VzOVo5ZG5fNkdGSTB5RmxKdk8wUjRSdGJNVVZZeWxsYXQ0RWgyNHUwUVVpU1Rrd0hpMl9qUGpkYWRuRWtnSTdkWWN3?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Q&A: Meet Stephen Hamilton, an American Constitution Party candidate running for Colorado governor \u00a0\u00a0 PostIndependent.com"
     },
     {
       "title": "Colorado Investor Buys Whisper Hollow in Metro St. Louis - Multifamily & Affordable Housing Business",
@@ -466,6 +574,15 @@
       "summary": "Salida City Council Seeks Six Housing Credits from Buena Vista to Meet Proposition 123 Commitment \u00a0\u00a0 Ark Valley Voice"
     },
     {
+      "title": "3400 Stanford Rd Unit A111, Fort Collins, CO 80525 - Realtor.com",
+      "date": "2026-10-03T17:30:49Z",
+      "source": "Realtor.com",
+      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQRTY1Ty1VS0pVYUlDTlRxb0tiVGo5RHhsdE5fMGVSZ1J5TkpydTgtbFVVTU1GWUk1ckJfOFBLUkNGMTd0d3V6MmdhQW10ZjVVbU9GVnNoZTNTUnJDbFRmMlZSV2ZBVlBMcHN5Rk5mTW1NRUpNd3hDckxDemUtQndPOVlmYUlCNzZqbER4T0hHXzBOMl8xTXE5RHU4NVd2MkZSaVRV?oc=5",
+      "topic": "general",
+      "region": "Fort Collins",
+      "summary": "3400 Stanford Rd Unit A111, Fort Collins, CO 80525 \u00a0\u00a0 Realtor.com"
+    },
+    {
       "title": "Denver realtor says housing market shifting in buyers' favor, but interest rates won't go down - CBS News",
       "date": "2026-10-03T07:00:00Z",
       "source": "CBS News",
@@ -680,6 +797,15 @@
       "topic": "affordable_housing",
       "region": "Statewide",
       "summary": "Colorado governor candidates offer different plans to tackle the state's affordable housing crisis \u00a0\u00a0 Yahoo"
+    },
+    {
+      "title": "2583 S Rifle St, Aurora, CO 80013 - Realtor.com",
+      "date": "2026-09-27T05:46:09Z",
+      "source": "Realtor.com",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPQ1hFOWVWaHdwUjRTT1hPSUc5ako4SmtvOEt2N3h2R1E4aHoweDNQaEZQM0xrMXJyV180aEpHQS1sR3d1aVRNd3ZJWkNqNDVmekdNX0RUaFdXcTYxNnRjNmdBTUdtNEsxZEsxMHZXem5rMWhQVkZLZnM1TjRlU05PMVhrMUk1MnNjSDFxQQ?oc=5",
+      "topic": "general",
+      "region": "Aurora",
+      "summary": "2583 S Rifle St, Aurora, CO 80013 \u00a0\u00a0 Realtor.com"
     },
     {
       "title": "Getting a handle on the region\u2019s housing affordability problem - Colorado Springs Gazette",
@@ -1717,6 +1843,15 @@
       "summary": "Colorado Dem Running for Congress on Housing Affordability Sells Luxury Aspen Homes for Tens of Millions \u00a0\u00a0 freebeacon.com"
     },
     {
+      "title": "522 1/2 N Spruce St, Colorado Springs, CO 80905 - Realtor.com",
+      "date": "2026-08-27T07:00:00Z",
+      "source": "Realtor.com",
+      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPY2pDNHZFdDJ6Y29PUVhBcVJtUEtFQ1h2RFQwUks2TnVrMlQyUU1ZMmVSRk1vTDBWUE5YSng1MjJNdldmSGViNXBJbGUycnU5RHlNWExDX3NBWEVXek9NRUV5Q000T2c5ampvcmNkMmxtY0dBaE5oN1c1c0lMZTQzdGZJUEVFY2FJWlloRWJHTmVDdXBnQng2OThsNVRodw?oc=5",
+      "topic": "general",
+      "region": "Colorado Springs",
+      "summary": "522 1/2 N Spruce St, Colorado Springs, CO 80905 \u00a0\u00a0 Realtor.com"
+    },
+    {
       "title": "Meta Housing plots more affordable apartments in Pasadena - The Real Deal",
       "date": "2026-08-26T23:04:00Z",
       "source": "The Real Deal",
@@ -1796,6 +1931,15 @@
       "topic": "affordable_housing",
       "region": "Statewide",
       "summary": "Affordable housing slated for 2000 E. Colorado Blvd. in Pasadena \u00a0\u00a0 Urbanize LA"
+    },
+    {
+      "title": "Roaring Fork Conservancy acquires employee housing unit at Midland Residences - AspenTimes.com",
+      "date": "2026-08-25T07:00:00Z",
+      "source": "AspenTimes.com",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNVkRRVGtycXFEelpoTGd2Q1NoMHBNaGdGcVBEVk83Y0hxcDlfZnQ0UVY0XzBOOVA3RTZJazh2X0JyZTNna1cyOUwzLVNucXF6TUV0M2h0c29ERVJ2VXRyejU2a3M3VGlzSzJKNnBPVUlHZFdZVm93bEtrc1ZJbTlLNWt6cmxORE9IWV93NlBnLWswSWw4dmhpSlR4RlhzaEdYdkE0UjA0MTBCVkQzbnN3?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Roaring Fork Conservancy acquires employee housing unit at Midland Residences \u00a0\u00a0 AspenTimes.com"
     },
     {
       "title": "Zoned in, funded out: Denver\u2019s ADU dream faces budget wall - Westword",
@@ -2032,6 +2176,15 @@
       "summary": "Western Colorado turns to resident-owned mobile home parks as housing pressures mount \u00a0\u00a0 The Cool Down"
     },
     {
+      "title": "Something Strange is Happening in the Colorado Spring's Housing Market! - YouTube",
+      "date": "2026-08-19T07:00:00Z",
+      "source": "YouTube",
+      "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBpWmIzWFFJVjZkLWg1VXhJSUtIdlhCeWpUWW9ZMmVFSjFXLWZxSFdyX0ZuTEV6bUpKRU9USkNqMVQxa0tmNDl4eEtTdUlFeVJ3QXByMEh2b2lySTk1?oc=5",
+      "topic": "market",
+      "region": "Statewide",
+      "summary": "Something Strange is Happening in the Colorado Spring's Housing Market! \u00a0\u00a0 YouTube"
+    },
+    {
       "title": "Garfield County waives landfill fees for property owners affected by July mudslide - PostIndependent.com",
       "date": "2026-08-19T07:00:00Z",
       "source": "PostIndependent.com",
@@ -2248,6 +2401,15 @@
       "summary": "Colorado\u2019s small towns are matching big city home prices \u00a0\u00a0 The Denver Post"
     },
     {
+      "title": "Colorado Wildfire Relief: Up to $1,000 in Mortgage and Rental Assistance Now Available - SoCo Digest",
+      "date": "2026-08-14T07:00:00Z",
+      "source": "SoCo Digest",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQNDhNaWZTZ3YxLUwyYWdWZ0Z2MXRmelR3RlhTNUdBMzhEXzhpLVA0MTdKbjVpN2EyRXJVSEtDVFp2R29HenpaRlhwSDN2ZlRnbXEzLUxEU2ZQdjEwZHAxSUVkQWM4NE91bVFBenJvRnVqMVp6Y2tLQWE1MEFjd09hUmpGYV9RSEJtbTJZZW5JcnNTejNZd0pLbnRDWTNaS0x4?oc=5",
+      "topic": "rent",
+      "region": "Statewide",
+      "summary": "Colorado Wildfire Relief: Up to $1,000 in Mortgage and Rental Assistance Now Available \u00a0\u00a0 SoCo Digest"
+    },
+    {
       "title": "Chaffee County Needs More Than 1,000 New Homes Over Next Decade, Preliminary Study Finds - Ark Valley Voice",
       "date": "2026-08-14T07:00:00Z",
       "source": "Ark Valley Voice",
@@ -2318,6 +2480,15 @@
       "topic": "affordable_housing",
       "region": "Denver",
       "summary": "Affordable housing, lured bears, bank scams: Scores of new Colorado laws take effect \u00a0\u00a0 The Denver Post"
+    },
+    {
+      "title": "Colorado Springs unveils new homeless response team - FOX21 News Colorado",
+      "date": "2026-08-12T07:00:00Z",
+      "source": "FOX21 News Colorado",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNSTBOcXZaNk5GRkt1UmJDLWR0aTJ4Mk9iVndIRVFPLURnT1lIV0NlZmxWV2xnZzhKSUQwQjRzUnIyLU5KbWQzWU1FX2lndTRGcFJZZE01YWEwR3Ewb1BvTFZRUjduMm5oRWhfc2dxREg4T2gtUGNNUVRTdXNfTll3akw3VFBkdkdwaVlv0gGQAUFVX3lxTE5RRU5qUlFiVjNHSFI5MFZrNkdMR3dxai02T3gtV25UbHZ2a3FYSTZ5S3FYMjdMbEU3S3k1eE1wMW1GS210QW1waHF1Z1VobW9OemFCQVFHNjAzdXR5Y1Q0S3pieXVwSjdSdUVRTFVRaUZ0azJPcmYtR0NTTGw1U3U5ZDlHUkM5d2FBNWN1WWZTeA?oc=5",
+      "topic": "homelessness",
+      "region": "Colorado Springs",
+      "summary": "Colorado Springs unveils new homeless response team \u00a0\u00a0 FOX21 News Colorado"
     },
     {
       "title": "WATCH LIVE: City leaders announce plan to address homelessness - KKTV",
@@ -2671,6 +2842,15 @@
       "summary": "New affordable housing development coming to Lindbergh \u00a0\u00a0 AJC.com"
     },
     {
+      "title": "Emerald ash borer confirmed in Colorado Springs, \u2018pest is here to stay\u2019 - Colorado Politics",
+      "date": "2026-08-06T07:00:00Z",
+      "source": "Colorado Politics",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQdVY3WjYzelh4VU1PQTRJclJtRHNld0FzRmZURWs4eERfbWd2WFBkWGxKVm43WjFIUklJZHlUY0NsUEFmVzFxMXhSNTdsSWZRTXhXb1VYbnlUMUtEN3VWcUVreU8ydWxhdk1VVWM1SXZBY1IyOUozYWZCdG5JalRJN2d0emdiZDR2NExiRnk2NnEwVHBRMzhYLTBHSk0zbHczZHBuZTNDRlFzZDU4RS1uRFVjcw?oc=5",
+      "topic": "general",
+      "region": "Colorado Springs",
+      "summary": "Emerald ash borer confirmed in Colorado Springs, \u2018pest is here to stay\u2019 \u00a0\u00a0 Colorado Politics"
+    },
+    {
       "title": "Colorado Springs buyers have more options as home sales cool in July - KOAA News 5",
       "date": "2026-08-06T07:00:00Z",
       "source": "KOAA News 5",
@@ -2687,6 +2867,15 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "City Council votes down low-income housing developer plan \u00a0\u00a0 Clear Creek Courant"
+    },
+    {
+      "title": "6422 Red Willow Dr, Fort Collins, CO 80528 - Realtor.com",
+      "date": "2026-08-06T01:09:13Z",
+      "source": "Realtor.com",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNekczQnlrcVlwbnMtVTVRUXlqM1RQWEpYc2V2RHVzczFLUmltNXhJZ3RXOXgtc253b1M4S2V5VjZ2M3BTMmhvUFBKR1FVTm5PTVdSNEFmOXVTb05pWWN3anZvOW9jaHhQanJLTkNMU0pzYXVES21UWGc5cW1hTU03SkVjMlJIRFBHTGZmUzRDQjhIY2Zmei1maA?oc=5",
+      "topic": "general",
+      "region": "Fort Collins",
+      "summary": "6422 Red Willow Dr, Fort Collins, CO 80528 \u00a0\u00a0 Realtor.com"
     },
     {
       "title": "Pinnacle Advances Senior Housing Development - Affordable Housing Finance",
@@ -3139,6 +3328,15 @@
       "summary": "Texas Makes Its Largest LIHTC Allocation to Date \u00a0\u00a0 Multifamily Housing News"
     },
     {
+      "title": "Westbound Interstate 70 closes again due to flooding - The Denver Post",
+      "date": "2026-07-24T07:00:00Z",
+      "source": "The Denver Post",
+      "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1xOXRRVXRDc1d6TFlsSlhPVDRCa1pTVmY0bHZTSERkQU5hUnZpMnVZemxqclIxVFhINXFGYWNaaklDMzVDVnZLX0NxOXhVRWxWUFFCMHlwbDZqbUdZUG1oOG83T2pLUEx2b3hLbjNoeE1mdGF2OWJR?oc=5",
+      "topic": "general",
+      "region": "Denver",
+      "summary": "Westbound Interstate 70 closes again due to flooding \u00a0\u00a0 The Denver Post"
+    },
+    {
       "title": "Aging in place: Colorado leaders say resources are needed to help seniors remain in their homes - Denver7",
       "date": "2026-07-24T07:00:00Z",
       "source": "Denver7",
@@ -3308,6 +3506,24 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Whitmer signs bills aimed at expanding housing access in Michigan \u00a0\u00a0 Detroit Free Press"
+    },
+    {
+      "title": "Colorado housing laws take effect, expanding tools for affordable and workforce housing - Colorado Springs Gazette",
+      "date": "2026-07-22T07:00:00Z",
+      "source": "Colorado Springs Gazette",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPYUxOS0M5S2hJaklyOVg3bl9hcVctNm9LYngzc0piRmZoaTJXckxTLVJKRHhDdVRvX2lNbHhnY054ZzNpVnB1VFJ4cHFhTm55b3FhQmp4NTV0LVA4VFdZRnMzZ1FCaWxGN014N3BiQWV4MFFtYXdvaFJSN284UkwxYWhUZzlWcjM4NG9DdTAzMjdDVmYxSjZucG5QOFVGV3J1MkMyY3lTWkExcThRa2FGU181T0pDT1VLQkE?oc=5",
+      "topic": "general",
+      "region": "Colorado Springs",
+      "summary": "Colorado housing laws take effect, expanding tools for affordable and workforce housing \u00a0\u00a0 Colorado Springs Gazette"
+    },
+    {
+      "title": "Crunch Fitness is packing up and bulking up at new Colorado Springs location - Colorado Springs Gazette",
+      "date": "2026-07-22T07:00:00Z",
+      "source": "Colorado Springs Gazette",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOVXdfLXdrQ0VXRDlTOE1XVUdOSXRTeFZGMGVYSmNLVHV3dFBncFFJNzh3RG5xaThPY05XVVlxWmtJXzlPUnpGR2ZLdHB4enUzYnlfNy12Vk0zUXgwWWhEbU8wYmFDb3FuajRlQS1RVXJTM2lzWXRQWUMwNm4tdEl5eTRRNzgxRW9yd1YyT1ViTHlsXzJmUGtkVFZ1UHlvTW1wRnZMaDRQZUs1RWJQ?oc=5",
+      "topic": "general",
+      "region": "Colorado Springs",
+      "summary": "Crunch Fitness is packing up and bulking up at new Colorado Springs location \u00a0\u00a0 Colorado Springs Gazette"
     },
     {
       "title": "Colorado housing laws take effect, expanding tools for affordable and workforce housing - Denver Gazette",
@@ -3605,96 +3821,6 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "Cost of housing, healthcare among Coloradans\u2019 top worries, new survey shows \u00a0\u00a0 Colorado Newsline"
-    },
-    {
-      "title": "Three-quarters of Coloradans are worried they can\u2019t afford to live here, poll finds - The Denver Post",
-      "date": "2026-07-17T10:00:54Z",
-      "source": "The Denver Post",
-      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQY1dUYUhjMDQ4S1JTeTdVbWt5dHdBZlpjdFVIUVYyTXF3OWxyaE9iZ0tPNVkwMDZvZDlNOXR4WGl3NnoxVWtLZENrcmR0MGQ5Uks4TUw4ZGFud2g3RVlfYXhETjdPNTZfZ09jNlFqZ051bkZvcFRoTTJia0FIQnBQT01XdXV4NkpoTjB4MTRJNU1sam1vWUM2d1B2T0c4cEst?oc=5",
-      "topic": "general",
-      "region": "Denver",
-      "summary": "Three-quarters of Coloradans are worried they can\u2019t afford to live here, poll finds \u00a0\u00a0 The Denver Post"
-    },
-    {
-      "title": "July 17, 2026: Aspen Acres fire lawsuit, Beulah homeowners return, housing drags down employment, San Luis Valley labyrinth - Colorado Public Radio",
-      "date": "2026-07-17T07:00:00Z",
-      "source": "Colorado Public Radio",
-      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNdFhkeFVPMzltRDFvM21xeURoYzRZcjQyY1RHWUZweUQ4V2otRGYzeWVUY3hpdHhFSnMtLXQ4d29xOTBOX1E4azVZRUUtZjBzdGwwUm5YenV3dHFJZnF2WkFucEFYd3ZHNnJzbkhCR1pQSEJxMno0TlhGQnRvUUhJSG1VVWx0WUJrU2RCUzZUTUJ5a2R1VHcxVXpkMzZJUUFKa1B3bXBWTW91WlgyVEpaYi1iWnk4dzhtMXp5VHZTX1lwYURZNmZvX1VRMlo?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "July 17, 2026: Aspen Acres fire lawsuit, Beulah homeowners return, housing drags down employment, San Luis Valley labyrinth \u00a0\u00a0 Colorado Public Radio"
-    },
-    {
-      "title": "Vanishing starter home: Buyers find that even at higher prices, Denver area pickings are slim - Denver Gazette",
-      "date": "2026-07-17T07:00:00Z",
-      "source": "Denver Gazette",
-      "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQZklBOWM0R2hMcWowM3JXY0gtRHpqb2FfV2N5MUozQlZTVW10andFUnB0aFNoV3VrTTVZWmY2Q2pDUk5JbmJGYVlmaG5ydXJRanAzZjlBSTU5eGwxNGtGX19IWTJhUE13cmJpZ29MX2FEZ2tibm1takoyX3ZhdzlINFhVNUI0VTJ5Y3VGZ2dUMVRmMUlhV2hjcWVzZ0t4VjlEbEZUZi1XMkFncmRWNjZ4eWVMdTdsbW1RTTVkYTgtVUl0aUhPS3F0RHRRU0Radw?oc=5",
-      "topic": "general",
-      "region": "Denver",
-      "summary": "Vanishing starter home: Buyers find that even at higher prices, Denver area pickings are slim \u00a0\u00a0 Denver Gazette"
-    },
-    {
-      "title": "11 Best Places To Live In The Rockies - WorldAtlas",
-      "date": "2026-07-17T07:00:00Z",
-      "source": "WorldAtlas",
-      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOQlVhUTFKRzZJbmUzTDZITnl2S0dKbzkzZFA1SUljN1pIeUNaWlNFRzlRa3lpZ2xYcGNiVjV6S2Q0bVM1dnBfZ1daT1hfVGROejdobUY5LW1RZk9RRVc0VFd0ZVZfLXZBd2poaTlkeDBtNmpSNXBiS2tfaTNOM1VWa2NJVkJEbkszSWc?oc=5",
-      "topic": "general",
-      "region": "Colorado",
-      "summary": "11 Best Places To Live In The Rockies \u00a0\u00a0 WorldAtlas"
-    },
-    {
-      "title": "Cost of housing, healthcare among Coloradans\u2019 top worries, new survey shows - Colorado Newsline",
-      "date": "2026-07-17T07:00:00Z",
-      "source": "Colorado Newsline",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOMzNCTy0zQVliWXQyVVV1eDVrT0JTSVlEUWxyc0pvcFJqTmN1QUhtYWJodG0xTjhrN0E2NHZ3SlVqd0haQW9RcXh0VjF2RHl5N29HMWJyMDNhUnY5VGlxeTlmNlNGNVphblY5X2E4bDlvbW9jbDZ6eThlQjlMUm1SUVczcjE?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Cost of housing, healthcare among Coloradans\u2019 top worries, new survey shows \u00a0\u00a0 Colorado Newsline"
-    },
-    {
-      "title": "1121 Cooper Ave Unit 201, Colorado Springs, CO 80905 - Realtor.com",
-      "date": "2026-07-16T23:27:08Z",
-      "source": "Realtor.com",
-      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQXzRER3hBcEVJR21qeV9oQjNOSUw0dEpOcTA4RWxJQm9UNkxjZUMzUlJCcEVZUXJiblEtbkxySFQzRWFyek5NZFpLYWtUX0tOdDF1c3pybWZlWnc2VHFMWXdjc3Ezei0xV0I3Z1l0NlJXN3FsZGd3MXYzcW54OVVyX19teHFiWEVpS0FTNDBZZjRaSjk4X0piZzUxbEJDYW82WXZsdEF3?oc=5",
-      "topic": "general",
-      "region": "Colorado Springs",
-      "summary": "1121 Cooper Ave Unit 201, Colorado Springs, CO 80905 \u00a0\u00a0 Realtor.com"
-    },
-    {
-      "title": "Greystone\u2019s new $137M fund lands as LIHTC investment rises - HousingWire",
-      "date": "2026-07-16T21:24:52Z",
-      "source": "HousingWire",
-      "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1fRk42SEZLaDF1SWhWbWJwek5RMDFoUzBNdTc5OEpjNGYxZG1rdXdjX0FrZnRidy0xeG1vekl5Y25CRmNQdXJoT1k5ZjI2Qk1oclNDMXhhMm5nZldIUzlXQXJSS1E0b29BeUZtZzRlRWE3Rjg?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Greystone\u2019s new $137M fund lands as LIHTC investment rises \u00a0\u00a0 HousingWire"
-    },
-    {
-      "title": "Safehold Announces New Affordable Housing Ground Leases in Ventura County and San Diego County California - Yield PRO",
-      "date": "2026-07-16T18:32:22Z",
-      "source": "Yield PRO",
-      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9iWjkxMEZWS0RaTi12elhxaGEtLWtOZkxETEY2MlhPOWJYMFVPSjNqREktS1hkTVcwZU1TM3VrRTZ3MldyQkpoQWo2dGhJOFJhVU85UXVGN2RDekcwcU85Q2lWTGd1VElwLXVyaE82WkQxUQ?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Safehold Announces New Affordable Housing Ground Leases in Ventura County and San Diego County California \u00a0\u00a0 Yield PRO"
-    },
-    {
-      "title": "Greystone Closes $137 Million LIHTC Fund to Finance Nearly 2,000 Affordable Housing Units - citybiz",
-      "date": "2026-07-16T16:14:23Z",
-      "source": "citybiz",
-      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNZWxpXzNRcVlLM0dDREZpRkJpTjg3b3I4Si1OY21kd1dkVXBEZ2VsSUl1QmowaDlsNC1YZE1nMWIxSXpFSWxvRTB3SWVqVk5YVFpIekpLejZqMXQ0d2d5NHF4VFhrNmEzSW14al9ZQzN6UmhTNTFNekVCQU1LWlBNamhwZ3BjVUNHY0tUamY2c0hZbVpWQlRIYTVrb0wtZ0JCOUtnOWplS1I3a0VGREZ3eF84MmVUc3VpZVRWZTAxdTlsYUlG?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Greystone Closes $137 Million LIHTC Fund to Finance Nearly 2,000 Affordable Housing Units \u00a0\u00a0 citybiz"
-    },
-    {
-      "title": "As Colorado invests in modular housing, a new player offers innovation on a shoestring - The Denver Post",
-      "date": "2026-07-16T12:00:42Z",
-      "source": "The Denver Post",
-      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9FRFdJd1pPSDVaazFpczRYV2pHa3UxODc4XzEtdmpQcnlQOUFaSVl4R1JhQkxmSHdnVGtIcDR1Ri02RVJCSDhCVk1ndjJNcl9aRDAwV1c2MmRXOTM2eEpOR0M4RlNkck9ORldxUXRSdFBQS29MamFreXcyUHJaUQ?oc=5",
-      "topic": "general",
-      "region": "Denver",
-      "summary": "As Colorado invests in modular housing, a new player offers innovation on a shoestring \u00a0\u00a0 The Denver Post"
     }
   ]
 }
