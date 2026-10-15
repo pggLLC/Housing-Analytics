@@ -66,3 +66,7 @@ internal/
 data/hna/lodes-raw/
 out/
 dist-whitepapers/
+
+# Private working files (network contacts, pipeline, signal log). The gated deploy copies
+# them in from the private workspace; they must never be committed (private-workspace.js).
+docs/developer-pipeline-prototype/

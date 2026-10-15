@@ -38,8 +38,10 @@ const nav = fs.readFileSync(path.join(ROOT, 'js/navigation.js'), 'utf8');
 const pages = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
 const sources = pages.map((p) => [p, fs.readFileSync(path.join(ROOT, p), 'utf8')]);
 const jsDir = path.join(ROOT, 'js');
+// The gated developer pages share one menu, drawn by js/whitepaper/developer-nav.js.
 const jsBlob = fs.readdirSync(jsDir).filter((f) => f.endsWith('.js'))
-  .map((f) => fs.readFileSync(path.join(jsDir, f), 'utf8')).join('\n');
+  .map((f) => fs.readFileSync(path.join(jsDir, f), 'utf8'))
+  .concat(fs.readFileSync(path.join(jsDir, 'whitepaper/developer-nav.js'), 'utf8')).join('\n');
 
 /** Pages that are deliberately not linked from anywhere. Each needs a reason. */
 const UNLINKED_BY_DESIGN = {
@@ -54,6 +56,9 @@ const UNLINKED_BY_DESIGN = {
   'historical-trends.html':
     'redirect stub to colorado-deep-dive.html#tab-history since Historical Trends '
     + 'became a Deep Dive tab; catches old links and bookmarks',
+  'developer-whitepaper.html':
+    'redirect stub to developer-brief.html since the white paper and the brief became '
+    + 'one Jurisdiction Report; catches old links and bookmarks',
   'indibuild-pipeline-public.html':
     'redirect stub (394 bytes) to pipeline.html, which returns 200 in production; '
     + 'same reason — it catches old links rather than being navigated to',
