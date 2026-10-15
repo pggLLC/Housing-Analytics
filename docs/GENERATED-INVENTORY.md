@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T17:34:05.818Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T18:48:40.886Z. Do not edit by hand.
 
 ---
 
@@ -88,7 +88,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 828.8 KB | ✅ | — |
+| `data/_manifest.json` | 830.3 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1593,7 +1593,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 214.3 KB | ✅ | — |
+| `data/manifest.json` | 214.7 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -2274,7 +2274,7 @@
 | `test/stewardship-providers.test.js` | 3.8 KB |
 | `test/table-export-rendered.test.js` | 16.2 KB |
 | `test/table-export.test.js` | 24.7 KB |
-| `test/table-header-tips.test.js` | 7.2 KB |
+| `test/table-header-tips.test.js` | 8.8 KB |
 | `test/tax-credit-equity-markets.test.js` | 12.8 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
