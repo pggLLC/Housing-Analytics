@@ -617,3 +617,21 @@ def test_a_page_at_the_stored_limit_is_disclosed_every_run(tmp_path):
                "federal_failures": [], "fetch_failures": [], "pages_capped": r["pages_capped"]}
     stdout, _posts = run_issue_script(tmp_path, summary)
     assert f"WARN Page at the watch limit: {EIAF}: {watch.MAX_KEY_LINES} key lines" in stdout
+
+
+def test_a_document_renamed_at_the_same_address_is_reported(tmp_path):
+    """An agency that replaces a file in place often changes only the link text; the
+    rename is stored, so it must be reported on the run that sees it (Codex, 2026-10-15)."""
+    old = QUIET + "<p><a href='/a/guidelines.pdf'>2026 Application Guidelines</a></p>"
+    new = QUIET + "<p><a href='/a/guidelines.pdf'>2027 Application Guidelines</a></p>"
+    base = run(site(eiaf=old))
+    r = run(site(eiaf=new), previous=base, now="2026-10-16T05:34:00Z")
+    [ch] = r["changes"]["changed_pages"]
+    assert [(d["title"], d["previous_title"]) for d in ch["renamed_documents"]] == \
+        [("2027 Application Guidelines", "2026 Application Guidelines")]
+    assert not ch["new_documents"] and not ch["removed_documents"]
+    assert run(site(eiaf=new), previous=r, now="2026-10-17T05:34:00Z")["changes"]["changed_pages"] == []
+    summary = {"changes": {"changed_pages": [ch], "new_federal_notices": [], "newly_unverifiable": []},
+               "federal_failures": [], "fetch_failures": []}
+    _stdout, posts = run_issue_script(tmp_path, summary)
+    assert 'was "2026 Application Guidelines"' in posts[0]["body"]

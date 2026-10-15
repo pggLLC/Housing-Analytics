@@ -352,6 +352,7 @@ jobs:
                 'Removed:', fence(p.key_lines && p.key_lines.removed), '');
               if ((p.new_documents || []).length) parts.push('New documents linked:', ...p.new_documents.map(d => `- [${d.title}](${d.url})`), '');
               if ((p.removed_documents || []).length) parts.push('Documents no longer linked:', ...p.removed_documents.map(d => `- [${d.title}](${d.url})`), '');
+              if ((p.renamed_documents || []).length) parts.push('Documents renamed at the same address (the file may have been replaced):', ...p.renamed_documents.map(d => `- [${d.title}](${d.url}), was "${d.previous_title}"`), '');
               parts.push('## Next steps', '', '- Read the page. Most changes are wording or a new news item, not a new round.',
                 '- If a round opened, closed or changed, update the program record with a quote from the page and today\'s date. This watch never changes a status itself.');
               return { who, text: parts.join('\n') };

@@ -248,7 +248,12 @@ def check_page(target: dict, prev: dict, fetch: Fetcher, now: str) -> tuple[dict
     new_docs = [d for d in docs if d['url'] not in prev_docs]
     cur_docs = {d['url'] for d in docs}
     removed_docs = [d for d in prev.get('documents') or [] if d['url'] not in cur_docs]
-    changed = not baseline and bool(lines['added'] or lines['removed'] or new_docs or removed_docs)
+    # Same address, new link text ("2026 Application Guidelines" becoming "2027 ..."):
+    # the stored title is replaced, so it is reported now or never (Codex, 2026-10-15).
+    prev_titles = {d['url']: d.get('title') for d in prev.get('documents') or []}
+    renamed_docs = [{'url': d['url'], 'title': d['title'], 'previous_title': prev_titles[d['url']]}
+                    for d in docs if d['url'] in prev_titles and prev_titles[d['url']] != d['title']]
+    changed = not baseline and bool(lines['added'] or lines['removed'] or new_docs or removed_docs or renamed_docs)
     entry.update({
         'ok': True, 'http_status': status, 'title': title[:200], 'key_lines': kl, 'documents': docs,
         'unverifiable': False,
@@ -263,6 +268,7 @@ def check_page(target: dict, prev: dict, fetch: Fetcher, now: str) -> tuple[dict
         'programs': target['programs'],
         'shown_on': sorted({SHOWN_ON[p['catalog']] for p in target['programs']}),
         'key_lines': lines, 'new_documents': new_docs, 'removed_documents': removed_docs,
+        'renamed_documents': renamed_docs,
     }, None
 
 
