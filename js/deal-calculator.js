@@ -3985,7 +3985,7 @@
     row('Method One: qualified basis credit', money(basis.calculatedCredit, basis.reasons.acquisitionRate || 'Not available'));
     row('CHFA per-project limit', basis.cap.applied ? fmt(basis.cap.amount) : 'Not applied', basis.cap.reason || basis.cap.citation);
     row('Method Two: gap calculation', basis.gapMethod.applied ? fmt(basis.gapMethod.credit) : 'Not calculated',
-      basis.gapMethod.applied ? (basis.gapMethod.binding ? basis.gapMethod.reason : 'Uses not covered by other sources: ' + fmt(Math.max(0, basis.gapMethod.gap)) + ', divided by the credit price and 10 years (' + basis.gapMethod.citation + ').') : basis.gapMethod.reason);
+      basis.gapMethod.applied ? (basis.gapMethod.binding ? basis.gapMethod.reason : 'Uses not covered by sources other than federal and state credit equity: ' + fmt(Math.max(0, basis.gapMethod.gap)) + ', divided by the credit price and 10 years (' + basis.gapMethod.citation + ').') : basis.gapMethod.reason);
     row('Method Three: cost basis limits', 'Not checked', basis.costLimitMethod.reason);
     row('Credit capacity', money(basis.capacity, 'Not available'), 'CHFA reserves the smallest of the methods it can calculate.');
 

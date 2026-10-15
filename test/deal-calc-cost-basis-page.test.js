@@ -104,6 +104,20 @@ async function test(name, fn) {
     assert.deepEqual(p.errors, []);
   });
 
+  await test('state credit equity is not a source in CHFA\'s gap calculation (Method Two)', async () => {
+    const p = await openPage('');
+    setField(p, 'dc-county-select', '08001');
+    await new Promise((r) => setTimeout(r, 600));
+    p.w.__DealCalc.recalculate();
+    const before = p.w.__DealCalc.getResult().costBasis.basis.gapMethod;
+    assert.equal(before.applied, true);
+    setField(p, 'dc-state-annual', 400000); setField(p, 'dc-state-price', 0.8);
+    const r = p.w.__DealCalc.getResult();
+    assert(r.stateEquity > 0, 'non-vacuous: state credit equity is in the capital stack');
+    assert.equal(r.costBasis.basis.gapMethod.gap, before.gap, 'the gap left for credit equity ignores state credit equity');
+    assert.deepEqual(p.errors, []);
+  });
+
   close();
   console.log(`\n${passed} passed, ${failed} failed`);
   process.exit(failed ? 1 : 0);

@@ -194,6 +194,12 @@
   /** CHFA's base for the developer fee limit, QAP 3.M.3. */
   function developerFeeBase(summary, contractorTest, specialPopulations) {
     if (!summary || summary.tdc === null) return { base: null, reason: (summary && summary.reason) || 'Itemize development costs.' };
+    // Costs nobody itemized could be land, acquisition, fees or reserves, which come
+    // off the base; assuming none of them would raise the limit, so the base is unknown.
+    if (summary.notItemized > 0.5) {
+      return { base: null, reason: 'Itemize the remaining ' + '$' + Math.round(summary.notItemized).toLocaleString('en-US')
+        + ' of Total Development Cost, so CHFA\'s fee base (which leaves out land, half of acquisition, fees and reserves) is known.' };
+    }
     var byId = summary.byId;
     var excess = contractorTest && contractorTest.excess !== null ? contractorTest.excess : 0;
     var note = contractorTest && contractorTest.excess === null

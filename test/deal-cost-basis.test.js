@@ -427,6 +427,18 @@ test('every rule cites a source that exists, with a location and a quote that st
   for (const type of ['federal_grant', 'federal_loan', 'nonfederal_grant']) assert.equal(typeof R.grant_basis_treatment.by_source_type[type].reduces_basis, 'boolean');
 });
 
+test('the developer-fee base is unknown while part of Total Development Cost is not itemized', () => {
+  const lines = cb.exampleLines().map((l) => l.id === 'land' ? Object.assign({}, l, { amount: null }) : l);
+  const summary = cb.summarizeCosts(lines, 20000000);
+  assert(summary.notItemized > 0, 'non-vacuous: $1,000,000 is left unitemized');
+  const base = cb.developerFeeBase(summary, { excess: 0 }, false);
+  assert.equal(base.base, null);
+  assert.match(base.reason, /Itemize the remaining \$1,000,000/);
+  const test = cb.developerFeeTest({ developerFee: 1900000, consultantFee: 0, base: base.base, baseReason: base.reason, units: 60, rules });
+  assert.equal(test.passes, null, 'an unknown base gives no pass or fail');
+  assert.equal(test.reason, base.reason);
+});
+
 test('the invented example budget totals the calculator\'s default Total Development Cost', () => {
   const src = fs.readFileSync(path.join(ROOT, 'js', 'deal-calculator.js'), 'utf8');
   const m = src.match(/id="dc-tdc"[^>]*value="(\d+)"/);
