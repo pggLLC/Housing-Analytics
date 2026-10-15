@@ -886,7 +886,14 @@
     var seniorTerms = loanTerms(seniorInput);
     debtInputsReason = debtInputsReason || seniorTerms.unavailableReason;
     var mc = debtInputsReason ? NaN : mortgageConstant(interestRate / 100, term);
-    var sizingConstant = debtInputsReason ? NaN : Math.max(regularLoanPayment(seniorTerms.loan, 1), regularLoanPayment(seniorTerms.loan, seniorTerms.loan.ioYears + 1));
+    // Annual payment per $1 of senior principal at a given rate, under the
+    // selected repayment type. Sizing and the rate stress both use it, so a
+    // stressed interest-only loan stays interest-only.
+    function seniorPaymentConstant(ratePct) {
+      var unit = Object.assign({}, seniorTerms.loan, { amount: 1, rate: ratePct });
+      return Math.max(regularLoanPayment(unit, 1), regularLoanPayment(unit, unit.ioYears + 1));
+    }
+    var sizingConstant = debtInputsReason ? NaN : seniorPaymentConstant(interestRate);
     var enteredPrincipal = loanNumber(fields['dc-senior-amount']);
     if (seniorMode !== 'sized' && seniorMode !== 'entered') debtInputsReason = 'Choose senior sizing or entered amount.';
     if (seniorMode === 'entered' && (!known(enteredPrincipal) || enteredPrincipal < 0)) debtInputsReason = 'Enter a non-negative senior loan amount.';
@@ -1076,8 +1083,9 @@
         var eqHi  = acr * CREDIT_YEARS * Math.min(1.05, eqP + 0.03);
 
         // Interest rate: ±1% (lower rate = higher mortgage, higher rate = lower)
-        var mcLo  = mortgageConstant(Math.min(0.12, (ir + 1)) / 100, term || 35);
-        var mcHi  = mortgageConstant(Math.max(0.03, (ir - 1)) / 100, term || 35);
+        // Stressed rates stay inside the 3%-12% range the rate input accepts.
+        var mcLo  = seniorPaymentConstant(Math.min(12, ir + 1));
+        var mcHi  = seniorPaymentConstant(Math.max(3, ir - 1));
         var mortLo = seniorMode === 'entered' ? mortgage : (mcLo > 0 && noi > 0) ? Math.max(0, noi / dcr - totalSoftDebtService) / mcLo : 0;
         var mortHi = seniorMode === 'entered' ? mortgage : (mcHi > 0 && noi > 0) ? Math.max(0, noi / dcr - totalSoftDebtService) / mcHi : 0;
 

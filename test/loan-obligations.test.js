@@ -109,6 +109,17 @@ i = inputsFor('A'); i.fields['dc-senior-mode']='entered'; i.fields['dc-senior-am
 r = engine.computeDeal(i);
 assert(r.exit.dfYr > 0, 'cash flow can repay deferred fees even with no senior mortgage');
 assert.equal(r.baseDSCR,null, 'no debt is not a fake zero coverage');
+// Rate sensitivity sizes the stressed senior loan under the selected repayment
+// type, at rates inside the 3%-12% input range.
+i = inputsFor('A'); Object.assign(i.fields, {'dc-rate':'6.5','dc-term':'35','dc-senior-type':'interest_only','dc-senior-maturity':'35'});
+r = engine.computeDeal(i);
+assert(r.mortgage > 0 && r.tornado, 'sized interest-only senior has a sensitivity block');
+assert.equal(round(r.tornado.mortLo), round(r.mortgage * 6.5 / 7.5), 'rate +1%: interest-only loan sized at 7.5% interest-only');
+assert.equal(round(r.tornado.mortHi), round(r.mortgage * 6.5 / 5.5), 'rate -1%: interest-only loan sized at 5.5% interest-only');
+const mcAt = (pct) => require('../js/deal-calculator-math').mortgageConstant(pct / 100, 35);
+i = inputsFor('A'); Object.assign(i.fields, {'dc-rate':'11.5','dc-term':'35'}); r = engine.computeDeal(i);
+assert.equal(round(r.tornado.mortLo), round(r.mortgage * mcAt(11.5) / mcAt(12)), 'rate +1% stops at the 12% input ceiling');
+assert(r.tornado.mortLo < r.mortgage && r.tornado.mortHi > r.mortgage, 'a higher rate never sizes a larger loan');
 const unknownCash = engine.loanObligations([{id:'invented',...f.mustPay}], [null]);
 assert.equal(unknownCash.loans[0].rows[0].paid,null);
 assert(unknownCash.loans[0].rows[0].unavailableReason);
