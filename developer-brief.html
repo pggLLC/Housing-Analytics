@@ -3,17 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jurisdiction Brief — COHO</title>
+<title>Jurisdiction Report — COHO</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/site-theme.css">
 <script src="js/developer-gate.js"></script>
 <style>
-  .ib-section-nav { display:flex;gap:1rem;align-items:center;padding:.6rem 0;margin-bottom:var(--sp3);border-bottom:1px solid var(--border);font-size:var(--small); }
-  .ib-section-nav a { color:var(--muted);text-decoration:none;font-weight:600;padding:.35rem .7rem;border-radius:var(--radius-sm); }
-  .ib-section-nav a.active { color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,transparent 90%); }
-  .ib-section-nav a:hover { color:var(--accent); }
-  .ib-section-nav .spacer { flex:1; }
-  .ib-section-nav .badge { background:var(--warn);color:var(--card);font-size:.65rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em; }
 
   .ib-picker { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3); position:sticky;top:0;z-index:5;backdrop-filter:blur(6px); }
   .ib-picker label { display:block;font-size:var(--tiny);color:var(--muted);margin-bottom:.3rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em; }
@@ -119,17 +113,44 @@
   .ib-loading { padding:1.5rem;text-align:center;color:var(--muted);font-style:italic; }
   .ib-prompt { background:color-mix(in oklab,var(--accent) 6%,var(--card) 94%);border:1px solid color-mix(in oklab,var(--accent) 25%,var(--border) 75%);border-radius:var(--radius);padding:var(--sp3);text-align:center;color:var(--text); }
 
+
+  /* The report itself: a self-contained document in a frame, so it prints alone. */
+  #reportFrame { width:100%;border:1px solid var(--border);border-radius:var(--radius);background:#fff;min-height:60vh;display:block;margin-bottom:var(--sp3); }
+  .ib-page-title { font-size:1.4rem;margin:0 0 var(--sp2); }
+  .ib-tools-head { margin:var(--sp4) 0 var(--sp2);font-size:1.05rem; }
+  .ib-tools-head + p { color:var(--muted);font-size:var(--small);margin:0 0 var(--sp2); }
+  .ib-private { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3); }
+  .ib-private .ib-tools-head { margin-top:0; }
+  .ib-private h3 { font-size:.95rem;margin:var(--sp3) 0 var(--sp2); }
+  .ib-scroll { overflow-x:auto;-webkit-overflow-scrolling:touch; }
+  .ib-net-table { min-width:720px; }
+  /* On a phone each contact is a card, not a row to scroll sideways through. */
   @media (max-width: 600px) {
-    .ib-section-nav { flex-wrap:wrap;gap:.35rem .45rem; }
-    .ib-section-nav .spacer { display:none; }
-    .ib-section-nav .badge { margin-left:auto; }
+    .ib-stack { min-width:0 !important; }
+    .ib-stack thead { display:none; }
+    .ib-stack tr { display:block;border-bottom:1px solid var(--border);padding:.5rem 0; }
+    .ib-stack td { display:block;position:relative;border:0 !important;padding:.15rem 0 .15rem 7rem !important; }
+    .ib-stack td::before { content:attr(data-label);position:absolute;left:0;top:.15rem;width:6.5rem;color:var(--muted);font-weight:600; }
+    .ib-stack td:empty { display:none; }
+  }
+  .ib-muted { color:var(--muted); }
+  .ib-pipe-line { font-size:var(--small);line-height:1.55;margin:0 0 var(--sp2); }
+  .ib-anti-flag { border-left:3px solid var(--warn);padding:.35rem .6rem;font-size:var(--small); }
+  .ib-sig-list { margin:0;padding-left:1.1rem;font-size:var(--small);line-height:1.55; }
+  .ib-report-actions { display:flex;gap:.5rem;flex-wrap:wrap; }
+  .ib-report-actions button { padding:.55rem .9rem;border-radius:var(--radius-sm);border:1px solid var(--accent);background:transparent;color:var(--accent);font-weight:700;font-size:var(--small);cursor:pointer; }
+  .ib-report-actions button:disabled { opacity:.5;cursor:not-allowed; }
+
+  @media (max-width: 600px) {
     .ib-card { min-width:0;overflow-x:auto;-webkit-overflow-scrolling:touch; }
     .ib-rent-table { min-width:520px; }
+    .ib-picker { position:static; }
   }
 
-  /* Print-friendly */
+  /* Print from the page: only the report frame's own Print prints the report. */
   @media print {
-    .ib-section-nav, .ib-picker, .ib-action-row { display:none !important; }
+    #devNav, .ib-picker, .ib-action-row, .ib-tools { display:none !important; }
+    .ib-private { display:none !important; }
     .ib-card { break-inside:avoid; }
   }
 </style>
@@ -138,453 +159,300 @@
 <body>
 <header id="siteHeader"></header>
 
-<main class="page-container" style="max-width:1200px;margin:0 auto;padding:var(--sp3);">
+<main class="page-container" style="max-width:1100px;margin:0 auto;padding:var(--sp3);">
 
-  <nav class="ib-section-nav">
-    <a href="developer.html">Home</a>
-    <a href="developer-pipeline.html">Pipeline</a>
-    <a href="developer-where.html">Where to Build</a>
-    <a href="developer-brief.html" class="active">Jurisdiction Briefs</a>
-    <a href="lihtc-opportunity-finder.html">← Opportunity Finder</a>
-    <span class="spacer"></span>
-    <span class="badge">INTERNAL</span>
-  </nav>
+  <nav id="devNav" class="ib-section-nav"></nav>
 
-  <!-- Picker with typeahead -->
+  <h1 class="ib-page-title">Jurisdiction report</h1>
   <div class="ib-picker">
-    <label for="briefPicker">Search & analyze any CO jurisdiction</label>
+    <label for="briefPicker">Pick a town or county</label>
     <div class="ib-picker-row">
-      <input type="text" id="briefPicker" list="briefPickerList" placeholder="Type a city, town, county… (e.g. Salida, Boulder County, Carbondale)" autocomplete="off">
+      <input type="text" id="briefPicker" list="briefPickerList" placeholder="e.g. Gunnison, Salida, Boulder County" autocomplete="off">
       <datalist id="briefPickerList"></datalist>
-      <button id="briefPrint" class="ib-action-btn secondary" type="button" style="padding:.55rem .8rem;" disabled>Print PDF</button>
+      <div class="ib-report-actions">
+        <button id="reportPdf" type="button" disabled>Save as PDF</button>
+        <button id="reportDownload" type="button" disabled>Download file</button>
+      </div>
     </div>
-    <div id="pickerStatus" style="font-size:.72rem;color:var(--muted);margin-top:.4rem;">Loading jurisdiction list…</div>
+    <div id="pickerStatus" role="status" style="font-size:.78rem;color:var(--muted);margin-top:.4rem;">Loading the jurisdiction list…</div>
   </div>
 
   <div id="briefContent">
     <div class="ib-prompt">
-      Pick a jurisdiction above to run a full analysis.
-      <br><br>
-      Or open one directly: <code>developer-brief.html?geoid=&lt;7-digit-place-geoid&gt;</code>
+      Pick a town or county above. The report covers who lives there, the housing that exists, need, rents, tax-credit history,
+      Prop 123, local funds, who is already working on housing, funding that fits, how a deal comes together and who to contact,
+      with the source of every figure.
     </div>
   </div>
 
 </main>
 
 <script src="js/navigation.js"></script>
-<!-- F165: targeted Google search-URL builder (housing-context, time-bound, OR-grouped vocab) -->
-<script src="js/components/search-links.js"></script>
+<script src="js/whitepaper/developer-nav.js"></script>
 <!-- F120 — Regrid land-bank connector (on-demand only) -->
 <script src="js/data-connectors/regrid-parcels.js"></script>
 <!-- F161 — Pipeline CRUD (in-browser draft + canonical edit overlay) -->
 <script src="js/components/pipeline-store.js"></script>
+<script src="js/components/private-workspace.js"></script>
 <script src="js/components/pipeline-add-button.js"></script>
-<!-- Curated jurisdictional housing-history briefs (data/jurisdiction-briefs/*.json).
-     Page is password-gated by developer-gate.js so no extra auth needed here. -->
+<!-- News since the curated brief (jurisdiction-brief.js renders the panel). -->
 <script src="js/components/jurisdiction-brief.js"></script>
+<script src="js/funding-fit.js"></script>
+<script src="js/whitepaper/jurisdiction-whitepaper.js"></script>
 <script>
 (function () {
   'use strict';
 
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function softJson(url) { return fetch(url, {cache:'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null); }
-  function fmtNum(n, dp) { if (n == null || !isFinite(n)) return '—'; return Number(n).toLocaleString('en-US', {maximumFractionDigits: dp || 0}); }
-  function fmtMoney(n) { if (n == null || !isFinite(n)) return '—'; return '$' + Number(n).toLocaleString('en-US', {maximumFractionDigits: 0}); }
-  function fmtPct(n, dp) { if (n == null || !isFinite(n)) return '—'; return Number(n).toFixed(dp || 1) + '%'; }
 
-  // -------------------------------------------------------------------------
-  // Load every data source once
-  // -------------------------------------------------------------------------
-  // The canonical pipeline + signal-log CSVs moved to a private workspace
-  // (June 2026) and are no longer published in this repo. Pipeline state on
-  // briefs now comes solely from the local PipelineStore draft/edit layer.
-  let DATA = {};
+  // One document per jurisdiction. The report is built by
+  // js/whitepaper/jurisdiction-whitepaper.js, the same module the command line
+  // (scripts/whitepaper/build-whitepaper.mjs) prints from, so the screen, the PDF and
+  // the shared file are one document. This page adds only the working tools a
+  // developer uses beside it: pipeline stage, land-bank scan, news and the outreach
+  // checklist. None of those print.
+  const WP = window.JurisdictionWhitepaper;
+  const $ = (id) => document.getElementById(id);
+  const PW = window.PrivateWorkspace;
+  let SOURCES = null, CENTROIDS = {}, LOCAL_RES = null, NEWS = null, PIPE = {}, WS = null, PIPE_ROWS = [];
+  let html = null, current = null, isSensitive = null;
+
+  // The same guard the CLI and the public build use. Without it the page builds
+  // nothing, rather than risk printing text that must stay private.
+  const guardReady = import('./scripts/lib/public-sensitive-patterns.mjs')
+    .then(mod => { isSensitive = mod.isSensitive; })
+    .catch(() => { isSensitive = null; });
+
+  function loadSources() {
+    const keys = Object.keys(WP.SOURCE_FILES);
+    return Promise.all(keys.map(k => softJson(WP.sourcePath(k)))).then(vals => {
+      const s = {};
+      keys.forEach((k, i) => { s[k] = vals[i]; });
+      const missing = keys.filter(k => !WP.isOptional(k) && !s[k]);
+      if (missing.length) throw new Error('missing ' + missing.map(k => WP.sourcePath(k)).join(', '));
+      return s;
+    });
+  }
+
+  function pipelineRows() {
+    // The private pipeline file (gated site only) merged with the in-app drafts and
+    // edits (PipelineStore, synced through /api/pipeline), keyed by GEOID.
+    const out = {};
+    try {
+      PIPE_ROWS = PW ? PW.mergedPipeline(WS, window.PipelineStore) : [];
+      PIPE_ROWS.forEach(r => { out[r.geoid] = Object.assign({}, out[r.geoid] || {}, r); });
+    } catch (e) { console.warn('[report] pipeline merge failed', e); }
+    return out;
+  }
+
+  function label(r, countyNames) {
+    return r.type === 'county' ? r.name : r.name + ' — ' + (countyNames[r.containingCounty] || 'Colorado');
+  }
 
   Promise.all([
-    Promise.resolve([]),   // pipeline rows (canonical CSV is private now)
-    Promise.resolve([]),   // signal-log rows (canonical CSV is private now)
-    softJson('data/policy/jurisdiction-housing-progress.json'),
-    softJson('data/policy/prop123_jurisdictions.json'),
-    softJson('data/policy/housing-policy-scorecard.json'),
-    softJson('data/policy/pab-allocations.json'),
-    softJson('data/affordable-housing/properties.json'),
-    softJson('data/affordable-housing/chfa-awards/2026-round-one.json'),
+    loadSources(),
     softJson('data/co-place-centroids.json'),
-    softJson('data/market/zori_rents_co.json'),
-    softJson('data/market/apartment_list_co.json'),
-    softJson('data/market/acs_median_rent_co.json'),
-    softJson('data/hud-fmr-income-limits.json'),
     softJson('data/hna/local-resources.json'),
-    softJson('data/hna/geo-config.json'),
-    softJson('data/hna/ranking-index.json'),
-    (window.PipelineStore && window.PipelineStore.ready) || Promise.resolve()   // wait for cross-device draft sync before reading drafts
-  ]).then(([pipeline, signals, progress, prop123, scorecard, pab, properties, chfa2026r1, centroids, zori, al, acsRent, hudIl, localRes, geoCfg, rankingIndex]) => {
+    softJson('data/alerts/brief-news-queue.json'),
+    (window.PipelineStore && window.PipelineStore.ready) || Promise.resolve(),
+    guardReady,
+    PW ? PW.load(PW.browserFetchText) : Promise.resolve(null)
+  ]).then(([s, centroids, localRes, news, _ready, _guard, ws]) => {
+    SOURCES = s;
+    WS = ws;
+    CENTROIDS = (centroids && centroids.byGeoid) || {};
+    LOCAL_RES = localRes || {};
+    NEWS = news;
+    PIPE = pipelineRows();
+    const rows = s.rankingIndex.rankings;
+    const countyNames = {};
+    rows.forEach(r => { if (r.type === 'county') countyNames[r.geoid] = r.name; });
+    const items = rows.map(r => ({ geoid: r.geoid, name: label(r, countyNames), row: r }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    $('briefPickerList').innerHTML = items.map(it => `<option value="${esc(it.name)}"></option>`).join('');
+    $('pickerStatus').textContent = items.length + ' Colorado towns and counties.';
+    const input = $('briefPicker');
+    const pick = () => {
+      const v = input.value.trim();
+      const it = items.find(x => x.name === v) || null;
+      const row = it ? it.row : WP.findByName(s.rankingIndex, v.replace(/\s+—\s+.*$/, ''));
+      if (row) render(row, label(row, countyNames));
+    };
+    input.addEventListener('change', pick);
+    input.addEventListener('input', () => { if (items.some(x => x.name === input.value)) pick(); });
 
-    DATA.pipelineByGeoid = {};
-    pipeline.forEach(p => { if (p.geoid) DATA.pipelineByGeoid[p.geoid] = p; });
-    // Merge the in-app draft/edit layer (PipelineStore — cross-device via /api/pipeline)
-    // so a jurisdiction added as a draft, not yet in the private workspace pipeline, still shows
-    // its stage / IOI / etc. on its brief. Edits overlay canonical rows; drafts add new ones.
-    if (window.PipelineStore) {
-      try {
-        const _edits = window.PipelineStore.getCanonicalEdits() || {};
-        Object.keys(_edits).forEach(gid => {
-          DATA.pipelineByGeoid[gid] = Object.assign({}, DATA.pipelineByGeoid[gid] || {}, _edits[gid]);
-        });
-        window.PipelineStore.getDrafts().forEach(d => {
-          if (d && d.geoid) DATA.pipelineByGeoid[d.geoid] = Object.assign({}, DATA.pipelineByGeoid[d.geoid] || {}, d);
-        });
-      } catch (e) { console.warn('[brief] pipeline draft merge failed', e); }
-    }
-    DATA.signalsByGeoid = {};
-    signals.forEach(s => {
-      if (!s.geoid) return;
-      if (!DATA.signalsByGeoid[s.geoid]) DATA.signalsByGeoid[s.geoid] = [];
-      DATA.signalsByGeoid[s.geoid].push(s);
-    });
-
-    DATA.progressByGeoid = (progress && progress.by_geoid) || {};
-    DATA.prop123List = (prop123 && (prop123.jurisdictions || prop123.list)) || [];
-    DATA.scorecardScores = (scorecard && scorecard.scores) || {};
-    DATA.pabByGeoid = (pab && pab.allocations) || {};
-    DATA.pabMeta = (pab && pab.metadata) || null;
-    DATA.properties = (properties && properties.properties) || [];
-    // F104 — Expose the full property universe so the lihtcSection can
-    // surface statewide CHFA award freshness rather than computing it
-    // per-jurisdiction.
-    window._allChfaProps = DATA.properties;
-    // F105 — CHFA 2026 Round One awards (announced 2026-05-21) that the
-    // ArcGIS service hasn't ingested yet. 14 developments, 634 units,
-    // $219M private equity. Stored in a separate file as a bridge until
-    // the live service catches up — see data/affordable-housing/chfa-
-    // awards/2026-round-one.json metadata note.
-    // F116 — Tag every bridge record with _source/_bridge so a single
-    // line of code (`.filter(a => !a._bridge)`) can drop them once the
-    // ArcGIS feed catches up to 2026 R1. Tags are applied in-memory at
-    // read time; the on-disk JSON is left untouched.
-    if (chfa2026r1 && Array.isArray(chfa2026r1.awards)) {
-      chfa2026r1.awards.forEach(function (a) {
-        a._source = 'chfa-2026-r1-bridge';
-        a._bridge = true;
-      });
-    }
-    window._chfa2026R1 = chfa2026r1 || null;
-    DATA.placeCentroids = (centroids && centroids.byGeoid) || {};
-    // F105 — Build a place-name → county-FIPS lookup so county-level briefs
-    // can surface R1 awards in any place inside that county (the press
-    // release doesn't include geoids). co-place-centroids doesn't carry
-    // county_fips, but every LIHTC property in properties.json does —
-    // city name → county FIPS comes from there.
-    window._cityToCountyFips = {};
-    DATA.properties.forEach(p => {
-      const c = (p.city || '').trim().toLowerCase();
-      const f = p.county_fips;
-      if (c && f && !window._cityToCountyFips[c]) {
-        window._cityToCountyFips[c] = String(f).padStart(5, '0');
-      }
-    });
-    DATA.zori = zori;
-    DATA.al = al;
-    DATA.acsRent = acsRent;
-    DATA.hudIl = hudIl;
-    DATA.localResources = localRes || {};
-    DATA.countyNames = (geoCfg && (geoCfg.countyName || geoCfg.counties)) || {};
-    DATA.hnaRankingByGeoid = {};
-    ((rankingIndex && rankingIndex.rankings) || []).forEach(row => {
-      if (row && row.geoid) DATA.hnaRankingByGeoid[row.geoid] = row;
-    });
-
-    // Build picker list — all places + all counties
-    const items = [];
-    Object.keys(DATA.placeCentroids).forEach(geoid => {
-      const c = DATA.placeCentroids[geoid];
-      items.push({ geoid, name: c.name, type: 'place' });
-    });
-    // Add counties from HUD IL
-    if (DATA.hudIl && DATA.hudIl.counties) {
-      DATA.hudIl.counties.forEach(c => {
-        items.push({ geoid: c.fips, name: c.county_name + ' (county)', type: 'county' });
-      });
-    }
-    items.sort((a, b) => a.name.localeCompare(b.name));
-    DATA.pickerItems = items;
-
-    const dl = document.getElementById('briefPickerList');
-    dl.innerHTML = items.map(it => `<option value="${esc(it.name)}" data-geoid="${esc(it.geoid)}"></option>`).join('');
-
-    document.getElementById('pickerStatus').textContent =
-      items.length + ' jurisdictions loaded (482 places + 64 counties) · search by name';
-
-    // Hook picker input
-    const input = document.getElementById('briefPicker');
-    input.addEventListener('change', () => onPick(input.value));
-    input.addEventListener('input', () => {
-      // If user typed an exact match, auto-trigger
-      const exact = items.find(it => it.name === input.value);
-      if (exact) onPick(input.value);
-    });
-
-    // Print button
-    document.getElementById('briefPrint').addEventListener('click', () => window.print());
-
-    // URL deep-link
     const params = new URLSearchParams(location.search);
-    const startGeoid = params.get('geoid');
-    if (startGeoid) {
-      const match = items.find(it => it.geoid === startGeoid);
-      if (match) {
-        input.value = match.name;
-        renderBrief(startGeoid, match);
-      } else {
-        document.getElementById('briefContent').innerHTML =
-          '<div class="ib-prompt">No jurisdiction in the index matches geoid <code>' + esc(startGeoid) + '</code>.</div>';
-      }
+    const g = params.get('geoid');
+    const q = params.get('q');
+    if (!g && q) {
+      // A name typed on Developer home.
+      input.value = q;
+      const row = WP.findByName(s.rankingIndex, q.replace(/\s+—\s+.*$/, ''));
+      if (row) { input.value = label(row, countyNames); render(row, input.value); }
+      else $('briefContent').innerHTML = '<div class="ib-prompt">No Colorado town or county matches “' + esc(q) + '”. Try the list above.</div>';
     }
+    if (g) {
+      const row = rows.find(r => r.geoid === g);
+      if (row) { input.value = label(row, countyNames); render(row, input.value); }
+      else $('briefContent').innerHTML = '<div class="ib-prompt">No Colorado town or county has the GEOID <code>' + esc(g) + '</code>.</div>';
+    }
+  }).catch(e => { $('pickerStatus').textContent = 'Could not load the data: ' + e.message; });
+
+  $('reportPdf').addEventListener('click', () => { const f = $('reportFrame'); if (f) f.contentWindow.print(); });
+  $('reportDownload').addEventListener('click', () => {
+    if (!html || !current) return;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+    a.download = current.geoid + '-' + current.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-report.html';
+    document.body.appendChild(a); a.click(); a.remove();
   });
 
-  function onPick(value) {
-    const item = DATA.pickerItems.find(it => it.name === value);
-    if (!item) return;
-    history.replaceState({}, '', '?geoid=' + item.geoid);
-    renderBrief(item.geoid, item);
+  function render(row, name) {
+    const geoid = row.geoid;
+    const isCounty = row.type === 'county';
+    $('briefContent').innerHTML = '<div class="ib-loading">Building the report for ' + esc(name) + '…</div>';
+    $('reportPdf').disabled = $('reportDownload').disabled = true;
+    history.replaceState({}, '', '?geoid=' + geoid);
+    // A town without its own research borrows its county's; a county borrows its towns'.
+    const related = WP.relatedGeoids(SOURCES, geoid);
+    Promise.all([
+      softJson(WP.briefPath(geoid)),
+      softJson(WP.contactsPath(geoid)),
+      softJson(WP.landscapePath(geoid)),
+      softJson(WP.summaryPath(geoid)),
+      Promise.all(related.map(g => softJson(WP.contactsPath(g)))),
+      Promise.all(related.map(g => softJson(WP.landscapePath(g))))
+    ]).then(([brief, contacts, landscape, summary, relatedContacts, relatedLandscape]) => {
+      if (typeof isSensitive !== 'function') throw new Error('the private-text check (scripts/lib/public-sensitive-patterns.mjs) did not load, so nothing was built');
+      const model = WP.buildModel(SOURCES, geoid, {
+        FundingFit: window.FundingFit, brief, contacts, landscape, summary, relatedContacts, relatedLandscape, localResources: LOCAL_RES, isSensitive
+      });
+      html = WP.renderHtml(model);
+      if (!model.error && isSensitive(html)) {
+        html = null; current = null;
+        $('briefContent').innerHTML = '<div class="ib-prompt">Not built: the report for ' + esc(name) + ' still contains text that must stay private.</div>';
+        return;
+      }
+      current = model.error ? null : model;
+      const pipe = PIPE[geoid] || {};
+      // Your own notes on the place come first, then the report, then the working tools.
+      let page = privateSection(name, geoid, related) +
+        '<iframe id="reportFrame" title="Jurisdiction report for ' + esc(name) + '"></iframe>' +
+        '<section class="ib-tools" aria-labelledby="toolsHead"><h2 class="ib-tools-head" id="toolsHead">Working tools</h2>' +
+        '<p>For your own work on ' + esc(name) + '. Kept in this browser or the gated site, never in the report or the PDF.</p>' +
+        headerSection(name, geoid, pipe) + quickActions(geoid, isCounty) +
+        '<div id="newsMount"></div>' +
+        landBankSection(geoid, name, CENTROIDS[geoid] || null) + checklistSection(geoid) + '</section>';
+      $('briefContent').innerHTML = page;
+      const frame = $('reportFrame');
+      frame.addEventListener('load', () => {
+        try { frame.style.height = (frame.contentDocument.documentElement.scrollHeight + 24) + 'px'; } catch (e) { /* min-height holds */ }
+      });
+      frame.srcdoc = html;
+      $('reportPdf').disabled = $('reportDownload').disabled = !current;
+      $('pickerStatus').textContent = model.error || ('Report for ' + model.name + ', built ' + model.generated + ' from the current data.');
+      wireTools(geoid, name, pipe, brief);
+    }).catch(e => { $('briefContent').innerHTML = '<div class="ib-prompt">Could not build the report: ' + esc(e.message) + '</div>'; });
   }
 
-  // -------------------------------------------------------------------------
-  // Render a full analysis brief
-  // -------------------------------------------------------------------------
-  function renderBrief(geoid, pickerItem) {
-    document.getElementById('briefContent').innerHTML = '<div class="ib-loading">Loading analysis for ' + esc(pickerItem.name) + '…</div>';
-    document.getElementById('briefPrint').disabled = false;
-    // F105 — Stash the selected jurisdiction name + county FIPS so the
-    // lihtcSection can match CHFA 2026 R1 awards (keyed on city, not
-    // geoid). For county briefs we use the geoid (5-digit) as the
-    // countyFips; for place briefs the lihtcSection will see the place
-    // GEOID and rely on city-name matching.
-    window._briefSelectedName = pickerItem.name;
-    window._briefIsCounty = pickerItem.type === 'county';
-    window._briefCountyFips = pickerItem.type === 'county' ? geoid : null;
-
-    // Look up HNA summary JSON — try both place-level (7-digit) and county (5-digit)
-    softJson('data/hna/summary/' + geoid + '.json').then(hna => {
-      const name      = pickerItem.name;
-      const isCounty  = pickerItem.type === 'county';
-      const countyFips = isCounty ? geoid : (hna && hna.geo && hna.geo.containingCounty) || null;
-
-      // Pull every record this geoid touches
-      const pipe      = DATA.pipelineByGeoid[geoid] || {};
-      const sigs      = (DATA.signalsByGeoid[geoid] || []).slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-      const prog      = DATA.progressByGeoid[geoid] || null;
-      const score     = DATA.scorecardScores[geoid] || (countyFips ? DATA.scorecardScores[countyFips] : null);
-      const pabRec    = DATA.pabByGeoid[geoid] || (countyFips ? DATA.pabByGeoid[countyFips] : null);
-      const prop123   = (DATA.prop123List || []).find(p => {
-        const g = (p.geoid || p.GEOID || '').toString();
-        return g === geoid || (countyFips && g === countyFips);
-      });
-      const lihtc     = filterLihtc(DATA.properties, geoid, countyFips, name);
-      const acsRentRec  = (DATA.acsRent && DATA.acsRent.places && DATA.acsRent.places[geoid])
-                       || (DATA.acsRent && DATA.acsRent.counties && DATA.acsRent.counties[countyFips || geoid])
-                       || null;
-      const zoriRec   = countyFips && DATA.zori && DATA.zori.counties ? DATA.zori.counties[countyFips] : null;
-      const alRec     = DATA.al && DATA.al.cities ? DATA.al.cities[name.toLowerCase().replace(/\s+\(.*$/, '').replace(/ city$/i, '').trim()] : null;
-      const hudCounty = countyFips && DATA.hudIl && DATA.hudIl.counties ? DATA.hudIl.counties.find(c => c.fips === countyFips) : null;
-      const localRes  = DATA.localResources[(isCounty ? 'county:' : 'place:') + geoid]
-                     || (countyFips ? DATA.localResources['county:' + countyFips] : null);
-      const hnaRank   = DATA.hnaRankingByGeoid[geoid] || null;
-
-      // ---- Build the HTML
-      let html = '';
-
-      // Header
-      html += headerSection(name, geoid, pickerItem, hna, pipe, prog);
-
-      // Quick actions
-      html += quickActions(geoid, isCounty);
-
-      // Curated jurisdictional housing-history brief (LIHTC history, local
-      // funding, coalition context). Hides itself when no brief is on file.
-      html += jurisdictionalBriefSection(geoid);
-
-      // Demographics + market overview
-      html += demographicsSection(hna);
-      html += hnaAnalysisSection(hnaRank);
-
-      // Market rent triangulation
-      html += marketRentsSection(name, acsRentRec, zoriRec, alRec, hudCounty);
-
-      // LIHTC capture advantage
-      html += captureSection(hudCounty, zoriRec, acsRentRec);
-
-      // Existing LIHTC inventory
-      html += lihtcSection(lihtc);
-
-      // Prop 123 + PAB
-      html += fundingSection(prop123, pabRec, DATA.pabMeta);
-
-      // Civic capacity
-      html += civicSection(score);
-
-      // F120 — Land-bank scan (internal, on-demand only). Find vacant
-      // private parcels via Regrid; runs only when user clicks.
-      const _lbCentroid = DATA.placeCentroids[geoid] || null;
-      html += landBankSection(geoid, name, _lbCentroid);
-
-      // Curated policy progress
-      html += policyProgressSection(prog);
-
-      // Local resources
-      html += localResourcesSection(localRes);
-
-      // Pipeline + signals + checklist
-      html += pipelineSection(pipe);
-      html += signalsSection(sigs);
-      html += checklistSection(geoid);
-
-      // Footer note
-      html += '<p style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp4);">Analysis as of '
-        + new Date().toISOString().slice(0,10)
-        + '. Educational + screening tool — not a replacement for local due diligence.</p>';
-
-      document.getElementById('briefContent').innerHTML = html;
-
-      // Hydrate the curated jurisdictional housing-history brief. The
-      // component fetches data/jurisdiction-briefs/<geoid>.json (place
-      // first, county fallback). When no brief is on file we want the
-      // curator to be able to draft one without leaving the page, so we
-      // pass `showFallback: true` and a jurisdiction label — the
-      // component renders an in-place "no brief yet, copy this CLI"
-      // affordance.
-      try {
-        if (window.JurisdictionBrief) {
-          const jbMount = document.getElementById('ib-jurisdictional-brief-mount');
-          if (jbMount) {
-            const containingCounty = isCounty ? geoid : (pickerItem && pickerItem.fips) || null;
-            window.JurisdictionBrief.attach(jbMount, {
-              placeGeoid: isCounty ? null : geoid,
-              countyFips: containingCounty,
-              jurisdictionLabel: name,
-              showFallback: true
-            });
-          }
-        }
-      } catch (e) { console.warn('[brief] JurisdictionBrief wiring failed', e); }
-
-      // F120 — Wire land-bank handlers (button click runs Regrid scan)
-      try {
-        const _lbCentroid = DATA.placeCentroids[geoid] || null;
-        if (_lbCentroid) _lbWireHandlers(geoid, name, _lbCentroid);
-      } catch (e) { console.warn('[brief] land-bank handler wiring failed', e); }
-
-      // F161 — Wire "Add to Developer Pipeline" button. Prefills from
-      // current pipeline row (DATA.pipelineByGeoid) when present, else
-      // from scorecard score + classification when known. Stage defaults
-      // to "Signal" for new entries.
-      try {
-        const mount = document.getElementById('ibPipelineAddMount');
-        if (mount && window.PipelineAddButton) {
-          const existingPipe = DATA.pipelineByGeoid[geoid] || {};
-          window.PipelineAddButton.attach(mount, {
-            jurisdiction: name,
-            geoid:        geoid,
-            defaults: {
-              stage:          existingPipe.stage || 'Signal',
-              ioi_score:      existingPipe.ioi_score || (score && score.composite ? Math.round(score.composite) : ''),
-              confidence:     existingPipe.confidence || (score && score.composite >= 70 ? 'high' : score && score.composite >= 50 ? 'medium' : 'low'),
-              classification: existingPipe.classification || '',
-              product_type:   existingPipe.product_type || '',
-              next_action:    existingPipe.next_action || '',
-              next_action_due:existingPipe.next_action_due || '',
-              notes:          existingPipe.notes || ''
-            }
-          });
-        }
-      } catch (e) { console.warn('[brief] pipeline-add button wiring failed', e); }
-
-      // Wire checklist persistence
-      const checklistKey = 'ib-brief-checklist-' + geoid;
-      document.querySelectorAll('#checklist input[type="checkbox"]').forEach(box => {
-        box.addEventListener('change', () => {
-          const state = {};
-          document.querySelectorAll('#checklist input[type="checkbox"]').forEach(b => state[b.id] = b.checked);
-          localStorage.setItem(checklistKey, JSON.stringify(state));
-        });
-      });
-
-      // F102 — Property row expand/collapse. Each <li> is the toggle target;
-      // clicking the summary expands the detail panel (sibling div) and
-      // rotates the caret. Clicks on links inside the panel must not toggle.
-      document.querySelectorAll('.ib-prop-row').forEach(row => {
-        const togglePanel = () => {
-          const idx = row.getAttribute('data-prop-idx');
-          const panel = document.getElementById('ib-prop-detail-' + idx);
-          const caret = row.querySelector('[data-prop-caret="' + idx + '"]');
-          if (!panel) return;
-          const open = !panel.hidden;
-          if (open) {
-            panel.hidden = true;
-            row.setAttribute('aria-expanded', 'false');
-            if (caret) caret.textContent = '▸';
-          } else {
-            panel.hidden = false;
-            row.setAttribute('aria-expanded', 'true');
-            if (caret) caret.textContent = '▾';
-          }
-        };
-        const summary = row.querySelector('.ib-prop-summary');
-        if (summary) summary.addEventListener('click', togglePanel);
-        row.addEventListener('keydown', (ev) => {
-          if (ev.target !== row) return; // ignore key events from links inside the panel
-          if (ev.key === 'Enter' || ev.key === ' ') {
-            ev.preventDefault();
-            togglePanel();
+  function wireTools(geoid, name, pipe, brief) {
+    // News found since the curated brief was written, when there is a brief.
+    try {
+      if (brief && brief.published === true && window.JurisdictionBrief && $('newsMount')) {
+        $('newsMount').innerHTML = window.JurisdictionBrief._renderNews(brief, NEWS, new Date());
+      }
+    } catch (e) { console.warn('[report] news panel failed', e); }
+    try {
+      const c = CENTROIDS[geoid] || null;
+      if (c) _lbWireHandlers(geoid, name, c);
+    } catch (e) { console.warn('[report] land-bank handler wiring failed', e); }
+    try {
+      const mount = $('ibPipelineAddMount');
+      if (mount && window.PipelineAddButton) {
+        window.PipelineAddButton.attach(mount, {
+          jurisdiction: name, geoid,
+          defaults: {
+            stage: pipe.stage || 'Signal', ioi_score: pipe.ioi_score || '', confidence: pipe.confidence || '',
+            classification: pipe.classification || '', product_type: pipe.product_type || '',
+            next_action: pipe.next_action || '', next_action_due: pipe.next_action_due || '', notes: pipe.notes || ''
           }
         });
+      }
+    } catch (e) { console.warn('[report] pipeline-add button wiring failed', e); }
+    const checklistKey = 'ib-brief-checklist-' + geoid;
+    document.querySelectorAll('#checklist input[type="checkbox"]').forEach(box => {
+      box.addEventListener('change', () => {
+        const state = {};
+        document.querySelectorAll('#checklist input[type="checkbox"]').forEach(b => state[b.id] = b.checked);
+        try { localStorage.setItem(checklistKey, JSON.stringify(state)); } catch (e) { /* private window */ }
       });
     });
   }
 
-  // -------------------------------------------------------------------------
-  // Section renderers
-  // -------------------------------------------------------------------------
-
-  function headerSection(name, geoid, pickerItem, hna, pipe, prog) {
-    const stage = pipe.stage || '—';
-    const ioi = pipe.ioi_score || '—';
-    const conf = pipe.confidence || '—';
-    const cls = pipe.classification || '—';
-    const product = pipe.product_type || '—';
-    const countyLine = (hna && hna.geo && hna.geo.containingCounty)
-      ? '· County FIPS ' + esc(hna.geo.containingCounty)
-      : '';
-    const progConf = prog ? ` · curated-progress confidence: ${esc(prog.confidence || 'medium')}` : '';
-    return `
-      <div class="ib-brief-header">
-        <h1>${esc(name)}</h1>
-        <p class="subtitle">GEOID ${esc(geoid)} ${countyLine}${progConf}</p>
-        <div class="ib-brief-meta">
-          <div class="ib-brief-meta-item" title="Pipeline stage — Screen (passed OF filter, no signal yet) → Signal (moderate+ signal in last 90 d) → Outreach (email/call in last 30 d) → IC (feasibility/packet in flight) → Active (LOI/MOU/contract executed). Any stage 90+ days without progress demotes one step. Maintained in the private workspace pipeline."><span class="label">Stage ⓘ</span><span class="value">${esc(stage)}</span></div>
-          <div class="ib-brief-meta-item" title="Opportunity Index (IOI) — 0–100 composite from the LIHTC Opportunity Finder. Blends housing need, funding posture (Prop 123 + PAB), civic capacity, basis-boost eligibility, and market-capture advantage. >60 = worth screening; >75 = strong candidate."><span class="label">IOI ⓘ</span><span class="value">${esc(ioi)}</span></div>
-          <div class="ib-brief-meta-item" title="Data confidence — high: in curated 33 + recent ACS/CHAS + rent data. medium: recent ACS/CHAS but limited policy data. low: sparse data / small CDP / no recent HNA. A 'low' confidence row should not sit in Outreach without an explicit override note."><span class="label">Confidence ⓘ</span><span class="value">${esc(conf)}</span></div>
-          <div class="ib-brief-meta-item" title="Opportunity classification — A: real development (primary developer). B: planning-to-development consulting opportunity (fee work that may convert to A). C: relationship/monitor (long-cycle but worth nurturing). D: not worth current time — move to Anti-Targets."><span class="label">Classification ⓘ</span><span class="value">${esc(cls)}</span></div>
-          <div class="ib-brief-meta-item" title="Product type — 9% LIHTC (competitive, deep affordability), 4% LIHTC (bond-driven, scale), Workforce rental (60–120% AMI), Older adult housing, Mixed-income, Attainable ownership, Preservation. Compound types allowed (e.g. '4% LIHTC + Workforce')."><span class="label">Product ⓘ</span><span class="value">${esc(product)}</span></div>
-        </div>
-      </div>
-    `;
+  // Your private files for this place: network contacts, pipeline record, signals,
+  // anti-target status. Read at run time on the gated site; outside the report frame,
+  // so it never reaches the report, the PDF or the downloaded file, and hidden in print.
+  const TIER = { '1': 'Strong / recurring', '2': 'Warm / introduced', '3': 'Cold / research only', never: 'Never contacted' };
+  function networkTable(rows) {
+    const td = (label, v) => '<td data-label="' + label + '">' + v + '</td>';
+    return '<div class="ib-scroll"><table class="ib-rent-table ib-net-table ib-stack"><thead><tr><th>Name</th><th title="Role and organisation">Role</th><th title="Email on file">Email</th><th title="Phone on file">Phone</th><th title="Date of the last conversation">Last talked</th><th title="1 strong, 2 warm, 3 cold, from your network file">Relationship</th><th>Notes</th></tr></thead><tbody>' +
+      rows.map(c => '<tr>' + td('Name', '<strong>' + esc(c.name) + '</strong>') + td('Role', esc(c.role) + (c.org ? '<br><span class="ib-muted">' + esc(c.org) + '</span>' : '')) +
+        td('Email', c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>' : '<span class="ib-muted">none on file</span>') +
+        td('Phone', c.phone ? '<a href="tel:' + esc(c.phone.replace(/[^0-9+]/g, '')) + '">' + esc(c.phone) + '</a>' : '<span class="ib-muted">none on file</span>') +
+        td('Last talked', esc(c.last_talked || 'never')) + td('Relationship', esc(TIER[c.relationship_tier] || c.relationship_tier || 'not set')) + td('Notes', esc(c.notes)) + '</tr>').join('') +
+      '</tbody></table></div>';
+  }
+  function signalList(rows) {
+    return '<ul class="ib-sig-list">' + rows.map(s => '<li><strong>' + esc(s.date) + '</strong> <span class="ib-chip ib-chip-' + esc(s.strength) + '">' + esc(s.strength || 'unrated') + '</span> ' +
+      esc(s.signal_type) + ': ' + esc(s.summary) +
+      (s.follow_up_action ? '<br><span class="ib-muted">Next: ' + esc(s.follow_up_action) + (s.next_review_date ? ' (review ' + esc(s.next_review_date) + ')' : '') + '</span>' : '') +
+      (/^https?:\/\//.test(s.source_url || '') ? ' <a href="' + esc(s.source_url) + '" target="_blank" rel="noopener">source</a>' : '') + '</li>').join('') + '</ul>';
+  }
+  function pipelineLine(p) {
+    return '<p class="ib-pipe-line"><strong>Pipeline:</strong> ' + esc(p.stage || 'no stage') +
+      (p.ioi_score ? ' · IOI ' + esc(p.ioi_score) : '') + (p.classification ? ' · class ' + esc(p.classification) : '') +
+      (p.next_action ? '<br><strong>Next:</strong> ' + esc(p.next_action) + (p.next_action_due ? ' (due ' + esc(p.next_action_due) + ')' : '') : '') +
+      (p.notes ? '<br><span class="ib-muted">' + esc(p.notes) + '</span>' : '') + '</p>';
+  }
+  function privateSection(name, geoid, related) {
+    let h = '<section class="ib-tools ib-private" aria-labelledby="privHead"><h2 class="ib-tools-head" id="privHead">Your notes on ' + esc(name) + '</h2>';
+    if (!WS || !WS.reachable) {
+      return h + '<p>Your private files (network contacts, pipeline, signal log) did not load here. They load only on the gated developer site, which copies them from your private folder; they are never in the public repository.</p>' + draftNote(geoid) + '</section>';
+    }
+    const mine = PW.forPlace(WS, PIPE_ROWS, geoid, related);
+    h += '<p>From your private files on the gated site. Not in the report, the PDF or the downloaded file. <a href="developer-pipeline.html#network">All contacts and the pipeline →</a></p>';
+    if (mine.own.anti) h += '<p class="ib-anti-flag"><strong>Set aside</strong> ' + esc(mine.own.anti.date_dropped) + ': ' + esc(mine.own.anti.reason) + (mine.own.anti.revisit_date ? ' Revisit ' + esc(mine.own.anti.revisit_date) + '.' : '') + '</p>';
+    h += mine.own.pipeline ? pipelineLine(mine.own.pipeline) : '<p class="ib-muted">Not in your pipeline. Add it from Working tools below.</p>';
+    h += '<h3>Your contacts here</h3>' + (mine.own.network.length ? networkTable(mine.own.network) : '<p class="ib-muted">No one in your network file for ' + esc(name) + ' yet. The report\'s “Who to contact” section lists researched public contacts and offices.</p>');
+    if (mine.own.signals.length) h += '<h3>Signals you logged</h3>' + signalList(mine.own.signals);
+    mine.related.forEach(r => {
+      h += '<h3>Nearby: ' + esc(r.name) + '</h3>' + (r.pipeline ? pipelineLine(r.pipeline) : '') +
+        (r.network.length ? networkTable(r.network) : '') + (r.signals.length ? signalList(r.signals) : '');
+    });
+    return h + '</section>';
+  }
+  function draftNote(geoid) {
+    const p = PIPE[geoid];
+    return p ? pipelineLine(p) : '';
   }
 
-  // Curated jurisdictional housing-history brief: LIHTC awards, local
-  // funding, coalition / regional housing-authority context. Sourced from
-  // data/jurisdiction-briefs/<geoid>.json. The mount is hydrated async
-  // after innerHTML lands (see the hydration block below the assembly).
-  function jurisdictionalBriefSection(geoid) {
+  function headerSection(name, geoid, pipe) {
+    // Pipeline fields are blank until the jurisdiction is added to the pipeline.
+    const stage = pipe.stage || 'Not in pipeline';
+    const ioi = pipe.ioi_score || '—';
+    const cls = pipe.classification || '—';
+    const product = pipe.product_type || '—';
     return `
-      <div class="ib-card" id="ib-jurisdictional-brief-card">
-        <h2>Curated housing-history brief</h2>
-        <div class="ib-card-source">
-          <strong>Source:</strong> hand-curated narrative anchored to verified primary / secondary / press deep links ·
-          loaded from <code>data/jurisdiction-briefs/${esc(geoid)}.json</code> ·
-          falls back to the containing county's brief when no place-level brief exists.
+      <div class="ib-brief-header">
+        <h2 style="margin:0 0 .3rem;">${esc(name)}: your pipeline record</h2>
+        <p class="subtitle">GEOID ${esc(geoid)}</p>
+        <div class="ib-brief-meta">
+          <div class="ib-brief-meta-item" title="Pipeline stage — Screen (passed OF filter, no signal yet) → Signal (moderate+ signal in last 90 d) → Outreach (email/call in last 30 d) → IC (feasibility/packet in flight) → Active (LOI/MOU/contract executed). Any stage 90+ days without progress demotes one step."><span class="label">Stage ⓘ</span><span class="value">${esc(stage)}</span></div>
+          <div class="ib-brief-meta-item" title="Opportunity Index (IOI) — 0–100 composite from the LIHTC Opportunity Finder, as entered on the pipeline record."><span class="label">IOI ⓘ</span><span class="value">${esc(ioi)}</span></div>
+          <div class="ib-brief-meta-item" title="Opportunity classification — A: real development (primary developer). B: planning-to-development consulting opportunity (fee work that may convert to A). C: relationship/monitor (long-cycle but worth nurturing). D: not worth current time."><span class="label">Classification ⓘ</span><span class="value">${esc(cls)}</span></div>
+          <div class="ib-brief-meta-item" title="Product type — 9% LIHTC (competitive, deep affordability), 4% LIHTC (bond-driven, scale), Workforce rental (60–120% AMI), Older adult housing, Mixed-income, Attainable ownership, Preservation."><span class="label">Product ⓘ</span><span class="value">${esc(product)}</span></div>
         </div>
-        <div id="ib-jurisdictional-brief-mount"></div>
       </div>
     `;
   }
@@ -607,609 +475,12 @@
         </div>
         <!-- F161 — One-click add/edit this jurisdiction in the
              Developer Pipeline. Mounted inline by pipeline-add-button.js
-             once the brief renders. -->
+             once the report renders. -->
         <div id="ibPipelineAddMount" style="margin-top:.65rem"></div>
       </div>
     `;
   }
 
-  function demographicsSection(hna) {
-    if (!hna || !hna.acsProfile) {
-      return `<div class="ib-card"><h2>Demographics & housing stock</h2><div class="ib-card-empty">No HNA summary data on file for this jurisdiction.</div></div>`;
-    }
-    const a = hna.acsProfile;
-    const pop = +a.DP05_0001E || null;
-    const medianIncome = +a.DP03_0062E || null;
-    const totalUnits = +a.DP04_0001E || null;
-    const renterPct = +a.DP04_0047PE || null;
-    const ownerPct = +a.DP04_0046PE || null;
-    const vacancyPct = ((+a.DP04_0005E || 0) > 0 && totalUnits) ? (((+a.DP04_0005E) / totalUnits) * 100) : null;
-    const medianRent = +a.DP04_0134E || null;
-    const medianValue = +a.DP04_0089E || null;
-
-    function tile(label, value, sub, cls) {
-      return `<div class="ib-stat-tile ${cls||''}"><div class="label">${esc(label)}</div><div class="value">${value}</div>${sub ? `<div class="sub">${sub}</div>` : ''}</div>`;
-    }
-    var _geoid = (hna && hna.geo && hna.geo.geoid) || '';
-    var _updated = (hna && hna.updated) || 'see file';
-    return `
-      <div class="ib-card">
-        <h2>Demographics & housing stock <span class="meta">ACS 5-yr profile (DP-tables)</span></h2>
-        <div class="ib-card-source">
-          <strong>Source:</strong> US Census Bureau American Community Survey 5-yr Data Profile (tables DP05, DP03, DP04) ·
-          <a href="https://data.census.gov/" target="_blank" rel="noopener">data.census.gov</a> ·
-          loaded from <code>data/hna/summary/${esc(_geoid)}.json</code> ·
-          last refresh ${esc(_updated)}.
-        </div>
-        <div class="ib-stat-grid">
-          ${tile('Population', fmtNum(pop))}
-          ${tile('Median HH income', fmtMoney(medianIncome))}
-          ${tile('Total housing units', fmtNum(totalUnits))}
-          ${tile('Renter share', fmtPct(renterPct), null, renterPct > 40 ? 'good' : '')}
-          ${tile('Owner share', fmtPct(ownerPct))}
-          ${tile('Vacancy', fmtPct(vacancyPct, 1), null, vacancyPct < 5 ? 'warn' : '')}
-          ${tile('Median gross rent (ACS DP)', fmtMoney(medianRent))}
-          ${tile('Median home value', fmtMoney(medianValue))}
-        </div>
-      </div>
-    `;
-  }
-
-  function hnaAnalysisSection(entry) {
-    if (!entry || !entry.metrics) {
-      return `<div class="ib-card"><h2>Housing-needs score & summary</h2><div class="ib-card-empty">No statewide HNA ranking entry is available for this jurisdiction.</div></div>`;
-    }
-    const m = entry.metrics;
-    const score = Number(m.overall_need_score);
-    const rank = Number(entry.rank);
-    const percentile = Number(entry.percentileRank);
-    const gap = Number(m.housing_gap_units);
-    const burden = Number(m.pct_cost_burdened);
-    const commuters = Number(m.in_commuters);
-    const commuteRatio = Number(m.commute_ratio);
-    const renterShare = Number(m.pct_renters);
-    const vacancy = Number(m.vacancy_rate);
-
-    const pressure = score >= 70 ? 'high' : score >= 50 ? 'elevated' : score >= 35 ? 'moderate' : 'lower';
-    const gapText = isFinite(gap)
-      ? `${fmtNum(gap)} additional homes affordable near 30% AMI`
-      : 'an unquantified deeply affordable housing gap';
-    const burdenText = isFinite(burden)
-      ? `${fmtPct(burden)} of renter households are cost-burdened (ACS S2503, 2024 5-yr)`
-      : 'cost-burden data are incomplete';
-    const commuteText = isFinite(commuters)
-      ? `${fmtNum(commuters)} workers commute into the jurisdiction`
-      : 'in-commuter pressure is not available';
-    const qualityNote = entry.dataQuality && Array.isArray(entry.dataQuality.approximated_fields)
-      && entry.dataQuality.approximated_fields.length
-      ? ` Approximation note: ${entry.dataQuality.approximated_fields.map(esc).join(', ')} uses a broader-area value.`
-      : '';
-
-    function tile(label, value, sub, cls) {
-      return `<div class="ib-stat-tile ${cls || ''}"><div class="label">${esc(label)}</div><div class="value">${value}</div>${sub ? `<div class="sub">${sub}</div>` : ''}</div>`;
-    }
-
-    return `
-      <div class="ib-card">
-        <h2>Housing-needs score & summary <span class="meta">statewide screening index</span></h2>
-        <div class="ib-card-source">
-          <strong>How scoring works:</strong> the 0-100 Overall Need Score combines normalized statewide measures:
-          50% deeply affordable unit gap near 30% AMI, 30% renter cost-burden rate (ACS S2503, 2024 5-yr), and 20% in-commuter pressure.
-          It is a comparative screening score, not a funding award score or a substitute for a local HNA.
-          Source: <code>data/hna/ranking-index.json</code>.
-        </div>
-        <div class="ib-stat-grid">
-          ${tile('Overall need score', isFinite(score) ? fmtNum(score, 1) + ' / 100' : '—', pressure + ' relative pressure', score >= 70 ? 'warn' : '')}
-          ${tile('Statewide rank', isFinite(rank) ? '#' + fmtNum(rank) : '—', isFinite(percentile) ? fmtPct(percentile, 1) + ' percentile' : '')}
-          ${tile('30% AMI unit gap', isFinite(gap) ? fmtNum(gap) : '—')}
-          ${tile('Renter cost-burden', isFinite(burden) ? fmtPct(burden, 1) + ' (ACS S2503, 2024 5-yr)' : '—')}
-          ${tile('In-commuters', isFinite(commuters) ? fmtNum(commuters) : '—', isFinite(commuteRatio) ? fmtPct(commuteRatio, 1) + ' commute ratio' : '')}
-          ${tile('Renter share', isFinite(renterShare) ? fmtPct(renterShare, 1) : '—')}
-          ${tile('Vacancy rate', isFinite(vacancy) ? fmtPct(vacancy, 1) : '—', vacancy < 3 ? 'tight reported supply' : '')}
-        </div>
-        <p style="margin:.8rem 0 0;line-height:1.55;">
-          <strong>Summary analysis:</strong> ${esc(entry.name || 'This jurisdiction')} shows ${pressure} housing pressure in the statewide comparison:
-          ${gapText}; ${burdenText}; and ${commuteText}. Read these together as evidence of need and workforce-housing pressure,
-          then confirm project-level demand, achievable rents, and local policy conditions in the linked HNA and PMA workups.${qualityNote}
-        </p>
-      </div>
-    `;
-  }
-
-  function marketRentsSection(name, acsRent, zori, al, hudCounty) {
-    const rows = [];
-    if (acsRent && acsRent.median_gross_rent) {
-      rows.push({
-        source: 'ACS B25064 (5-yr)',
-        scope: acsRent.name || 'jurisdiction',
-        overall: acsRent.median_gross_rent,
-        note: 'Always-available baseline'
-      });
-    }
-    if (zori && zori.rent) {
-      rows.push({
-        source: 'Zillow ZORI',
-        scope: zori.name + ' (county)',
-        overall: zori.rent,
-        yoy: zori.yoy_change_pct,
-        vintage: zori.vintage_month,
-        note: 'Smoothed monthly index, all-bedroom'
-      });
-    }
-    if (al && al.rent_overall) {
-      rows.push({
-        source: 'Apartment List',
-        scope: al.name,
-        overall: al.rent_overall,
-        br1: al.rent_1br,
-        br2: al.rent_2br,
-        yoy: al.yoy_change_pct,
-        note: 'City-level per-BR median'
-      });
-    }
-    if (hudCounty && hudCounty.fmr) {
-      const f = hudCounty.fmr;
-      rows.push({
-        source: 'HUD FMR FY26',
-        scope: hudCounty.fmr_area_name || hudCounty.county_name,
-        studio: f.efficiency, br1: f.one_br, br2: f.two_br, br3: f.three_br,
-        note: '40th-pctile gross rent; CHFA QAP reference'
-      });
-    }
-
-    if (!rows.length) {
-      return `<div class="ib-card"><h2>Market rent triangulation</h2><div class="ib-card-empty">No market-rent data on file for this jurisdiction.</div></div>`;
-    }
-
-    return `
-      <div class="ib-card">
-        <h2>Market rent triangulation <span class="meta">${rows.length} sources</span></h2>
-        <div class="ib-card-source">
-          <strong>Sources:</strong>
-          <a href="https://www.census.gov/programs-surveys/acs/data/data-via-api.html" target="_blank" rel="noopener">ACS B25064</a> (5-yr median gross rent, every CO place + county) ·
-          <a href="https://www.zillow.com/research/data/" target="_blank" rel="noopener">Zillow ZORI</a> (smoothed monthly index, 35–65 pctile) ·
-          <a href="https://www.apartmentlist.com/research/national-rent-data" target="_blank" rel="noopener">Apartment List</a> (city-level monthly, scraped) ·
-          <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY2027</a> (40-pctile floor, CHFA QAP reference). See <code>docs/MARKET-RENT-AND-KALSHI.md</code>.
-        </div>
-        <table class="ib-rent-table">
-          <thead>
-            <tr><th>Source</th><th>Scope</th><th class="num">Studio</th><th class="num">1BR</th><th class="num">2BR</th><th class="num">3BR</th><th class="num">All-BR</th><th class="num">YoY</th></tr>
-          </thead>
-          <tbody>
-            ${rows.map(r => `
-              <tr>
-                <td><strong>${esc(r.source)}</strong>${r.vintage ? `<br><span style="font-size:.7rem;color:var(--muted);">${esc(r.vintage)}</span>` : ''}</td>
-                <td>${esc(r.scope)}<br><span style="font-size:.7rem;color:var(--muted);">${esc(r.note || '')}</span></td>
-                <td class="num">${r.studio ? fmtMoney(r.studio) : '—'}</td>
-                <td class="num">${r.br1 ? fmtMoney(r.br1) : '—'}</td>
-                <td class="num">${r.br2 ? fmtMoney(r.br2) : '—'}</td>
-                <td class="num">${r.br3 ? fmtMoney(r.br3) : '—'}</td>
-                <td class="num">${r.overall ? fmtMoney(r.overall) : '—'}</td>
-                <td class="num">${typeof r.yoy === 'number' ? (r.yoy >= 0 ? '+' : '') + r.yoy.toFixed(1) + '%' : '—'}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
-    `;
-  }
-
-  function captureSection(hudCounty, zori, acsRent) {
-    if (!hudCounty || !hudCounty.fmr || !hudCounty.income_limits) {
-      return '';
-    }
-    const il = hudCounty.income_limits;
-    const il50_3p = +il.il50_3person;
-    if (!isFinite(il50_3p) || il50_3p <= 0) return '';
-    // LIHTC 2BR rent ceiling at 60% AMI = (50% AMI 3-person × 1.2 × 0.30) / 12
-    const ceiling60_2br = Math.round((il50_3p * 1.2 * 0.30) / 12);
-    const ceiling80_2br = Math.round((il50_3p * (80/50) * 0.30) / 12);
-    const fmr2br = hudCounty.fmr.two_br;
-    const captureFmr = fmr2br - ceiling60_2br;
-    const captureZori = (zori && zori.rent) ? (zori.rent - ceiling60_2br) : null;
-    const captureAcs  = (acsRent && acsRent.median_gross_rent) ? (acsRent.median_gross_rent - ceiling60_2br) : null;
-
-    function tile(label, value, sub, cls) {
-      return `<div class="ib-stat-tile ${cls||''}"><div class="label">${esc(label)}</div><div class="value">${value}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ''}</div>`;
-    }
-
-    const captureCls = captureFmr > 100 ? 'good' : captureFmr > 0 ? '' : 'bad';
-    return `
-      <div class="ib-card">
-        <h2>LIHTC capture advantage <span class="meta">60% AMI 2BR ceiling vs market</span></h2>
-        <div class="ib-card-source">
-          <strong>Computed from:</strong>
-          <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD MTSP FY2026 county Income Limits</a> (50% AMI 3-person) ·
-          IRC §42 imputed household size (1.5 × BR) ·
-          CHFA QAP rent methodology. Formula: <code>(IL50_3p × 1.2 × 0.30) / 12</code>.
-        </div>
-        <div class="ib-stat-grid">
-          ${tile('LIHTC 60% AMI 2BR ceiling', fmtMoney(ceiling60_2br), '§42 imputed 3-person × 30% / 12')}
-          ${tile('LIHTC 80% AMI 2BR ceiling', fmtMoney(ceiling80_2br), 'workforce comparison')}
-          ${tile('HUD FMR 2BR', fmtMoney(fmr2br))}
-          ${tile('Capture vs FMR', (captureFmr >= 0 ? '+' : '') + fmtMoney(captureFmr), captureFmr > 100 ? 'Easy lease-up at ceiling' : captureFmr > 0 ? 'Tight; thin buffer' : 'Ceiling above market — needs deeper AMI mix', captureCls)}
-          ${captureZori !== null ? tile('Capture vs ZORI', (captureZori >= 0 ? '+' : '') + fmtMoney(captureZori), 'Zillow smoothed all-BR', captureZori > 0 ? 'good' : 'warn') : ''}
-          ${captureAcs !== null ? tile('Capture vs ACS', (captureAcs >= 0 ? '+' : '') + fmtMoney(captureAcs), 'Census 5-yr baseline', captureAcs > 0 ? 'good' : 'warn') : ''}
-        </div>
-      </div>
-    `;
-  }
-
-  // F102 — Per-property details on click. Each property row in the brief now
-  // expands to show address, ZIP, program(s), credit type, latest year, unit
-  // mix, lat/lng, and the upstream source it came from (CHFA / HUD LIHTC DB /
-  // NHPD / USDA RD / Prop 123). The "Search public records" link runs a Google
-  // query keyed on property name + city so the user can pull up the original
-  // application / news / state portal page without needing a per-source deep
-  // link (those don't exist consistently for LIHTC/NHPD properties).
-  function _propSourceUrl(p) {
-    const src = String(p.source || '').toLowerCase();
-    if (src.includes('chfa'))   return 'https://www.chfainfo.com/rental-housing/housing-credit';
-    if (src.includes('nhpd'))   return 'https://nhpd.preservationdatabase.org/';
-    if (src.includes('usda'))   return 'https://www.rd.usda.gov/data-sets/multi-family-housing-rentals';
-    if (src.includes('huduser') || src.includes('hud lihtc') || src.includes('lihtc.huduser'))
-                                return 'https://lihtc.huduser.gov/';
-    if (src.includes('prop'))   return 'https://cdola.colorado.gov/prop123';
-    return 'https://www.huduser.gov/portal/datasets/lihtc.html';
-  }
-  function _propGoogleSearch(p) {
-    const name = p.property_name || p.project_name || '';
-    const city = p.city || '';
-    // F165: route through SearchLinks so the query gets OR-grouped
-    // housing vocabulary + funding/award/preservation/refinance/closing
-    // /lease-up keywords + last-12-mo time bound. Falls back to the
-    // legacy quoted query if SearchLinks isn't loaded.
-    const SL = (typeof window !== 'undefined' && window.SearchLinks) ? window.SearchLinks : null;
-    if (SL && name) {
-      return SL.build({
-        context:          'property-news',
-        propertyName:     name,
-        jurisdictionName: city
-      }).url;
-    }
-    return 'https://www.google.com/search?q=' +
-      encodeURIComponent(`"${name}" ${city} Colorado affordable housing LIHTC`);
-  }
-  function _propProgramLabel(p) {
-    const pt = p.program_type;
-    if (Array.isArray(pt)) return pt.join(', ');
-    return pt || p.program || '';
-  }
-  function _propLatestYear(p) {
-    return p.year_placed_in_service || p.latest_year || p.year || '—';
-  }
-  function _propUnits(p) {
-    return parseInt(p.total_units || p.li_units || p.assisted_units || 0, 10) || 0;
-  }
-  function _propDetailRow(p, idx) {
-    const fields = [
-      ['Address',         p.address                ? esc(p.address) : '—'],
-      ['City / ZIP',      [esc(p.city || '—'), p.zip ? esc(p.zip) : ''].filter(Boolean).join(' · ')],
-      ['Program(s)',      esc(_propProgramLabel(p)) || '—'],
-      ['Credit type',     esc(p.type_of_credits || p.project_type || '—')],
-      // F103 — Award metadata surfaced when CHFA provides it. Award year +
-      // date reflect when the deal won credits; placed-in-service is when
-      // the building actually opened. For pipeline scouting, award year is
-      // usually the more interesting signal (recency = active developer).
-      ['CHFA award year',  p.award_year  ? esc(p.award_year)  : '—'],
-      ['CHFA award date',  p.award_date  ? esc(p.award_date)  : '—'],
-      ['Reservation year', p.reservation_year ? esc(p.reservation_year) : '—'],
-      ['Award year',      esc(_propLatestYear(p))],
-      ['Total units',     _propUnits(p) ? fmtNum(_propUnits(p)) : '—'],
-      ['Assisted units',  p.assisted_units ? fmtNum(parseInt(p.assisted_units, 10) || 0) : '—'],
-      ['Unit mix',        [
-                            p.senior_units    ? fmtNum(p.senior_units)    + ' senior'    : '',
-                            p.family_units    ? fmtNum(p.family_units)    + ' family'    : '',
-                            p.homeless_units  ? fmtNum(p.homeless_units)  + ' homeless'  : '',
-                            p.veteran_units   ? fmtNum(p.veteran_units)   + ' veteran'   : '',
-                            p.supportive_units? fmtNum(p.supportive_units)+ ' supportive': '',
-                          ].filter(Boolean).join(' · ') || '—'],
-      ['Lat / lng',       (p.lat && p.lng) ? `${(+p.lat).toFixed(4)}, ${(+p.lng).toFixed(4)}` : '—'],
-      ['Source',          esc(p.source || '—') + (p.source_id ? ' · id ' + esc(p.source_id) : '')],
-      ['Property ID',     esc(p.property_id || '—')],
-    ];
-    const mapUrl = (p.lat && p.lng)
-      ? `https://www.google.com/maps?q=${p.lat},${p.lng}`
-      : null;
-    return `
-      <div class="ib-prop-detail" id="ib-prop-detail-${idx}" hidden style="background:var(--bg2);border-radius:var(--radius-sm);padding:.7rem .9rem;margin:.55rem 0 .15rem;font-size:.82rem;line-height:1.55;">
-        <table style="width:100%;border-collapse:collapse;">
-          ${fields.map(([k, v]) => `
-            <tr>
-              <td style="padding:.2rem .6rem .2rem 0;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.03em;vertical-align:top;width:9.5rem;">${k}</td>
-              <td style="padding:.2rem 0;color:var(--text);">${v}</td>
-            </tr>`).join('')}
-        </table>
-        <div style="margin-top:.55rem;display:flex;flex-wrap:wrap;gap:.55rem;font-size:.78rem;">
-          <a href="${esc(_propSourceUrl(p))}" target="_blank" rel="noopener" style="color:var(--accent);">Source portal ↗</a>
-          <a href="${esc(_propGoogleSearch(p))}" target="_blank" rel="noopener" style="color:var(--accent);">Search public records ↗</a>
-          ${mapUrl ? `<a href="${esc(mapUrl)}" target="_blank" rel="noopener" style="color:var(--accent);">Map ↗</a>` : ''}
-        </div>
-      </div>
-    `;
-  }
-
-  function lihtcSection(props) {
-    if (!props || !props.length) {
-      return `<div class="ib-card"><h2>Existing affordable housing inventory</h2><div class="ib-card-empty">No LIHTC / NHPD / Prop 123 properties on file for this jurisdiction.</div></div>`;
-    }
-    const totalUnits = props.reduce((s, p) => s + _propUnits(p), 0);
-    // F103 — Sort by award_year DESC first, then placed-in-service DESC, so
-    // the freshest CHFA activity is always on top. Award year is what
-    // pipeline scouts actually care about — placed-in-service can lag the
-    // award by 2-3 years.
-    const sorted = props.slice().sort((a, b) => {
-      const aya = parseInt(a.award_year || 0, 10) || 0;
-      const ayb = parseInt(b.award_year || 0, 10) || 0;
-      if (ayb !== aya) return ayb - aya;
-      const ya = parseInt(_propLatestYear(a) || 0, 10) || 0;
-      const yb = parseInt(_propLatestYear(b) || 0, 10) || 0;
-      return yb - ya;
-    });
-    const list = sorted.slice(0, 12);
-
-    // F103 — Recent CHFA awards highlight (last 24 months of award activity).
-    // Surfaces a developer-relevant signal: who else just won credits in this
-    // jurisdiction = your live competitive set + a sign that CHFA scoring is
-    // viable for the market right now.
-    //
-    // F104 — Data-freshness footer pulled from max(award_date) statewide.
-    // F105 — Also surface CHFA 2026 R1 awards (announced 2026-05-21, not
-    //   yet ingested into the ArcGIS service). The brief shows them
-    //   prominently because that's the freshest LIHTC data available.
-    const currentYear = new Date().getFullYear();
-    const recentAwards = props.filter(p => {
-      const ay = parseInt(p.award_year || 0, 10) || 0;
-      return ay >= currentYear - 2 && /CHFA/i.test(p.source || '');
-    }).sort((a, b) => (b.award_year || 0) - (a.award_year || 0));
-
-    // Use the global window._allChfaProps cache if available so the
-    // freshness line reflects statewide max-award-date.
-    let maxAwardDate = null, maxAwardYear = null;
-    const universe = window._allChfaProps || props;
-    universe.forEach(p => {
-      if (!/CHFA/i.test(p.source || '')) return;
-      const ad = p.award_date || '';
-      if (ad && (!maxAwardDate || ad > maxAwardDate)) maxAwardDate = ad;
-      const ay = parseInt(p.award_year || 0, 10) || 0;
-      if (ay && (!maxAwardYear || ay > maxAwardYear)) maxAwardYear = ay;
-    });
-
-    // F105 — Match 2026 R1 awards to this jurisdiction by city name.
-    // We don't have geoid in the press-release data, so fall back to a
-    // case-insensitive city compare against the brief's selected place.
-    const r1 = window._chfa2026R1 || {};
-    const r1Meta = r1.metadata || {};
-    const r1Awards = r1.awards || [];
-    // F105 — Normalize selected jurisdiction name for matching: drop any
-    //   "(County)" suffix and strip trailing " city" / " town" / " village" /
-    //   " CDP" tokens (picker labels include them). Match the press-release
-    //   city the same way so "Denver city" → "Denver".
-    function _normCityName(s) {
-      return (s || '')
-        .replace(/\s+\(.+\)$/, '')
-        .replace(/\s+(city|town|village|cdp)$/i, '')
-        .trim()
-        .toLowerCase();
-    }
-    const briefCity = _normCityName(window._briefSelectedName);
-    // County-level fallback: derive a county FIPS for the current brief
-    // (window._briefCountyFips is set in renderBrief). Then resolve each R1
-    // award's city to its place GEOID via DATA.placeCentroids — any award
-    // in a place inside this county counts as a match.
-    const briefCountyFips = window._briefCountyFips || '';
-    const isCountyBrief = window._briefIsCounty === true;
-    const localR1 = r1Awards.filter(a => {
-      if (!a.city) return false;
-      const an = _normCityName(a.city);
-      if (an === briefCity) return true;
-      if (isCountyBrief && briefCountyFips && window._cityToCountyFips) {
-        const c = window._cityToCountyFips[an];
-        if (c && c === briefCountyFips) return true;
-      }
-      return false;
-    });
-
-    const freshnessNote = maxAwardDate
-      ? `Latest CHFA award in ArcGIS feed: <strong>${esc(maxAwardDate)}</strong>.` +
-        (r1Meta.announcement_date
-          ? ` <strong>CHFA 2026 Round One</strong> (${esc(r1Meta.announcement_date)}, ${r1Meta.press_release_total_developments || 14} developments / ${r1Meta.press_release_total_units || 634} units / $${r1Meta.press_release_total_equity_M || 219}M equity) not yet in the live feed — <a href="${esc(r1Meta.source_url || 'https://www.chfainfo.com/rental-housing/housing-credit')}" target="_blank" rel="noopener" style="color:var(--accent);">see CHFA descriptions</a>.`
-          : ` No ${currentYear} awards published yet.`)
-      : '';
-
-    // Per-city 2026 R1 callout, separate from the live-feed inventory list.
-    const r1Block = localR1.length ? `
-      <div style="background:color-mix(in oklab, var(--accent) 9%, var(--card) 91%);border:1px solid color-mix(in oklab, var(--accent) 35%, var(--border) 65%);border-radius:var(--radius-sm);padding:.55rem .75rem;margin:.55rem 0 .65rem;font-size:.82rem;">
-        <strong style="color:var(--accent);">⭐ CHFA 2026 Round One awards in ${esc(window._briefSelectedName || briefCity)}:</strong>
-        ${localR1.length} ${localR1.length === 1 ? 'development' : 'developments'}
-        ${localR1.map(a => {
-          const credits = [];
-          if (a.federal_9pct_credit) credits.push('9%: $' + fmtNum(a.federal_9pct_credit));
-          if (a.federal_4pct_credit) credits.push('4%: $' + fmtNum(a.federal_4pct_credit));
-          if (a.state_credit) credits.push('state: $' + fmtNum(a.state_credit));
-          if (a.toc_credit) credits.push('TOC: $' + fmtNum(a.toc_credit));
-          return `<div style="margin-top:.4rem;padding:.35rem .5rem;background:var(--card);border-radius:var(--radius-sm);">
-            <strong>${esc(a.name)}</strong> — ${a.total_units || '—'} units · ${esc(a.sponsor || 'sponsor TBD')}
-            <div style="font-size:.7rem;color:var(--muted);margin-top:.2rem;">${esc(credits.join(' · '))}</div>
-            ${a.description ? `<div style="font-size:.72rem;color:var(--text);margin-top:.2rem;line-height:1.45;">${esc(a.description)}</div>` : ''}
-          </div>`;
-        }).join('')}
-        <div style="font-size:.7rem;color:var(--muted);margin-top:.45rem;">
-          Announced ${esc(r1Meta.announcement_date || '2026-05-21')} — bridge data until ArcGIS feed catches up.
-          <a href="${esc(r1Meta.press_release_url || '')}" target="_blank" rel="noopener" style="color:var(--accent);">Press release ↗</a> ·
-          <a href="${esc(r1Meta.pdf_report_url || '')}" target="_blank" rel="noopener" style="color:var(--accent);">Full PDF report ↗</a>
-        </div>
-      </div>
-    ` : '';
-
-    const recentAwardsBlock = recentAwards.length ? `
-      <div style="background:color-mix(in oklab, var(--good) 8%, var(--card) 92%);border:1px solid color-mix(in oklab, var(--good) 35%, var(--border) 65%);border-radius:var(--radius-sm);padding:.55rem .75rem;margin:.55rem 0 .65rem;font-size:.82rem;">
-        <strong style="color:var(--good);">🏷 Recent CHFA awards (last 24 months):</strong>
-        ${recentAwards.length} ${recentAwards.length === 1 ? 'project' : 'projects'} ·
-        ${recentAwards.slice(0, 3).map(p =>
-          `<span style="display:inline-block;margin-right:.5rem;">
-            <strong>${esc(p.property_name || 'unnamed')}</strong>
-            (${esc(p.award_year)}, ${fmtNum(_propUnits(p))}u${p.type_of_credits ? ', ' + esc(p.type_of_credits) : ''})
-          </span>`
-        ).join('')}
-        ${recentAwards.length > 3 ? `<span style="color:var(--muted);">+${recentAwards.length - 3} more below</span>` : ''}
-        <div style="font-size:.72rem;color:var(--muted);margin-top:.25rem;">
-          ${freshnessNote}
-          ${freshnessNote ? '<br>' : ''}
-          Source: <a href="https://www.chfainfo.com/chfa-news" target="_blank" rel="noopener" style="color:var(--accent);">CHFA news &amp; press releases</a> ·
-          live feed from CHFA HousingTaxCreditProperties.
-        </div>
-      </div>
-    ` : (freshnessNote ? `
-      <div style="font-size:.72rem;color:var(--muted);margin:.4rem 0 .6rem;">
-        ${freshnessNote}
-      </div>
-    ` : '');
-
-    return `
-      <div class="ib-card">
-        <h2>Existing affordable housing inventory <span class="meta">${props.length} properties · ${fmtNum(totalUnits)} units</span></h2>
-        ${r1Block}
-        ${recentAwardsBlock}
-        <p style="font-size:.78rem;color:var(--muted);margin:.1rem 0 .55rem;">
-          Click any property below to expand for address, unit mix, CHFA award metadata, and a record-search link.
-          Sorted newest-award first.
-        </p>
-        <div class="ib-card-source">
-          <strong>Sources:</strong>
-          <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA LIHTC portfolio</a> ·
-          <a href="https://www.chfainfo.com/chfa-news" target="_blank" rel="noopener">CHFA news &amp; releases</a> ·
-          <a href="https://nhpd.preservationdatabase.org/" target="_blank" rel="noopener">HUD NHPD</a> ·
-          <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC DB</a> ·
-          <a href="https://www.rd.usda.gov/data-sets/multi-family-housing-rentals" target="_blank" rel="noopener">USDA RD MFH</a> ·
-          consolidated in <code>data/affordable-housing/properties.json</code>.
-        </div>
-        <ul class="ib-prop-list">
-          ${list.map((p, idx) => {
-            const programLbl = _propProgramLabel(p);
-            return `
-            <li class="ib-prop-row" data-prop-idx="${idx}" tabindex="0" role="button" aria-expanded="false" aria-controls="ib-prop-detail-${idx}" title="Click to expand">
-              <div class="ib-prop-summary" style="cursor:pointer;">
-                <div>
-                  <span class="ib-prop-name">${esc(p.property_name || p.project_name || 'Unnamed property')}</span>
-                  ${p.award_year && (parseInt(p.award_year, 10) >= new Date().getFullYear() - 2) ? `<span style="display:inline-block;margin-left:.4rem;font-size:.65rem;font-weight:700;color:var(--good);background:color-mix(in oklab,var(--good) 14%,transparent 86%);padding:1px 6px;border-radius:9999px;letter-spacing:.02em;vertical-align:middle;">RECENT AWARD ${esc(p.award_year)}</span>` : ''}
-                  <span style="display:inline-block;margin-left:.4rem;font-size:.7rem;color:var(--accent);vertical-align:middle;" aria-hidden="true" data-prop-caret="${idx}">▸</span>
-                  <div class="ib-prop-meta">${esc(p.address || '')} · ${esc(programLbl)}</div>
-                </div>
-                <div class="ib-prop-meta">${p.award_year ? 'awd ' + esc(p.award_year) : ''}${p.award_year && _propLatestYear(p) !== '—' ? ' · ' : ''}${_propLatestYear(p) !== '—' ? 'pis ' + esc(_propLatestYear(p)) : ''}</div>
-                <div class="ib-prop-meta">${fmtNum(_propUnits(p))} u</div>
-              </div>
-              ${_propDetailRow(p, idx)}
-            </li>
-          `;}).join('')}
-        </ul>
-        ${props.length > 12 ? `<p style="font-size:.78rem;color:var(--muted);margin-top:.5rem;">+${props.length - 12} more properties not shown.</p>` : ''}
-      </div>
-    `;
-  }
-
-  function filterLihtc(all, geoid, countyFips, name) {
-    if (!all || !all.length) return [];
-    const placeName = (name || '').replace(/\s+\(.+\)$/, '').toLowerCase();
-    return all.filter(p => {
-      const c = (p.city || p.City || '').toLowerCase();
-      const cf = (p.county_fips || p.CNTY_FIPS || '').padStart(5, '0');
-      return (c && placeName && c === placeName) || (countyFips && cf === countyFips);
-    });
-  }
-
-  function fundingSection(prop123, pab, pabMeta) {
-    if (!prop123 && !pab) return '';
-    const sw = pabMeta && pabMeta.statewide ? pabMeta.statewide : null;
-    function tile(label, value, sub, cls) {
-      return `<div class="ib-stat-tile ${cls||''}"><div class="label">${esc(label)}</div><div class="value">${value}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ''}</div>`;
-    }
-    let inner = '<div class="ib-stat-grid">';
-    if (prop123) {
-      const status = prop123.commitment_status || prop123.status || (prop123.fast_track ? 'fast-track committed' : 'committed');
-      const units = prop123.target_units || prop123.projected_units || prop123.units_committed;
-      inner += tile('Prop 123 status', esc(status), prop123.filing_date ? 'Filed ' + esc(prop123.filing_date) : '', prop123.fast_track ? 'good' : '');
-      if (units) inner += tile('Prop 123 target units', fmtNum(units), prop123.commitment_period || '');
-    }
-    if (pab && pab.directAllocation) {
-      inner += tile('PAB direct allocation', fmtMoney(pab.directAllocation), pabMeta ? `DOLA ${pabMeta.year}` : '');
-    }
-    if (sw && sw.chfaPool) {
-      inner += tile('CHFA statewide PAB pool', fmtMoney(sw.chfaPool), '4% bond cap source');
-    }
-    inner += '</div>';
-    return `
-      <div class="ib-card">
-        <h2>Funding readiness (Prop 123 + PAB) <span class="meta">${pabMeta ? `DOLA ${pabMeta.year}` : ''}</span></h2>
-        <div class="ib-card-source">
-          <strong>Sources:</strong>
-          <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Prop 123 commitment filings</a> ·
-          ${pabMeta && /^https:\/\/doh\.colorado\.gov\//.test(pabMeta.sourceUrl || '')
-            ? `<a href="${esc(pabMeta.sourceUrl)}" target="_blank" rel="noopener">DOLA PAB direct allocations (${esc(pabMeta.year)})</a>`
-            : `<span data-source-status="inactive">DOLA PAB direct allocations (source unavailable)</span>`} ·
-          <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener">CHFA statewide PAB pool</a>.
-        </div>
-        ${inner}
-      </div>
-    `;
-  }
-
-  function civicSection(score) {
-    if (!score) return `<div class="ib-card"><h2>Civic capacity</h2><div class="ib-card-empty">No scorecard entry for this jurisdiction.</div></div>`;
-    const dims  = score.dimensions || score.components || {};
-    const maxP  = score.maxPossible || 7;
-    const total = score.totalScore != null ? score.totalScore : Object.values(dims).filter(v => v === true).length;
-    const known = score.knownDimensions != null ? score.knownDimensions : Object.values(dims).filter(v => v != null).length;
-
-    // Readable labels + a flag for markers nearly every CO jurisdiction has (so a "Yes" there
-    // doesn't actually distinguish this place). Distinguishing markers are listed first.
-    const META = {
-      prop123_committed:      ['Proposition 123 committed', ''],
-      has_hna:                ['Housing Needs Assessment', ''],
-      has_comp_plan:          ['Housing in comprehensive plan', ''],
-      has_iz_ordinance:       ['Zoning incentives / IZ ordinance', ''],
-      has_local_funding:      ['Local affordable-housing funding', ''],
-      has_housing_authority:  ['Housing authority', 'near-universal'],
-      has_housing_nonprofits: ['Housing nonprofits present', 'near-universal'],
-    };
-    const order = ['prop123_committed','has_hna','has_comp_plan','has_iz_ordinance','has_local_funding','has_housing_authority','has_housing_nonprofits'];
-    const cell = v => v === true  ? '<span style="color:var(--good,#16a34a);font-weight:600">Yes</span>'
-                    : v === false ? '<span style="color:var(--warn,#d97706)">No</span>'
-                    : '<span style="color:var(--muted,#888)">Not assessed</span>';
-
-    const rows = order.filter(k => k in dims).map(k => {
-      const [label, note] = META[k] || [k, ''];
-      return `<tr><td>${esc(label)}${note ? ` <span class="meta">(${note})</span>` : ''}</td><td class="num">${cell(dims[k])}</td></tr>`;
-    }).join('');
-
-    return `
-      <div class="ib-card">
-        <h2>Civic capacity <span class="meta">Housing-policy markers</span></h2>
-        <div class="ib-card-source">
-          <strong>Source:</strong> Housing Policy Scorecard v1.0 — count of 7 housing-policy markers present, across 546 CO jurisdictions ·
-          <code>data/policy/housing-policy-scorecard.json</code>.
-        </div>
-        <div class="ib-stat-grid">
-          <div class="ib-stat-tile ${total >= 5 ? 'good' : total >= 3 ? '' : 'warn'}">
-            <div class="label">Policy markers present</div>
-            <div class="value">${total} of ${maxP}</div>
-            <div class="label" style="margin-top:.25rem;opacity:.85">${known} of ${maxP} assessed${known < maxP ? ` · ${maxP - known} unknown` : ''}</div>
-          </div>
-        </div>
-        ${rows ? `
-          <table class="ib-rent-table" style="margin-top:.6rem;">
-            <thead><tr><th>Policy marker</th><th class="num">Present?</th></tr></thead>
-            <tbody>${rows}</tbody>
-          </table>
-        ` : ''}
-      </div>
-    `;
-  }
-
-  // F120 — Land-bank scan (Regrid). INTERNAL ONLY (sits behind developer-gate),
-  // ON-DEMAND ONLY; each scan is one billable call against the user's own key.
-  // Caches per-geoid in localStorage with 7-day TTL so re-opening a brief
-  // shows prior results without burning another API call.
   const LB_CACHE_PREFIX = 'ib-landbank-v1:';
   const LB_TTL_MS = 7 * 24 * 60 * 60 * 1000;     // 7 days
 
@@ -1475,117 +746,6 @@
         btn.textContent = '🏞 Re-scan';
       }
     });
-  }
-
-  function policyProgressSection(prog) {
-    if (!prog) return `<div class="ib-card"><h2>Housing-policy progress</h2><div class="ib-card-empty">Not in the curated 33-jurisdiction dataset. Add a row to data/policy/jurisdiction-housing-progress.json to track HNA / Land bank / Funding / Tap-fee.</div></div>`;
-    function pill(label, rec) {
-      if (!rec) return '';
-      const status = rec.status || 'unknown';
-      const detailBits = [];
-      if (rec.year) detailBits.push('Year ' + rec.year);
-      if (rec.source) detailBits.push(rec.source);
-      if (rec.name && status !== 'unknown') detailBits.push(rec.name);
-      if (rec.details) detailBits.push(rec.details);
-      if (rec.note) detailBits.push(rec.note);
-      const detail = detailBits.length ? detailBits.join(' · ').slice(0, 220) : '';
-      const tag = rec.url ? 'a' : 'div';
-      const attrs = rec.url ? ` href="${esc(rec.url)}" target="_blank" rel="noopener"` : '';
-      return `
-        <${tag} class="ib-progress-pill" data-status="${esc(status)}"${attrs}>
-          <div class="label">${esc(label)}</div>
-          <div class="status">${esc(status.replace(/_/g, ' '))}</div>
-          ${detail ? `<div class="detail">${esc(detail)}</div>` : ''}
-        </${tag}>
-      `;
-    }
-    return `
-      <div class="ib-card">
-        <h2>Housing-policy progress <span class="meta">${prog.confidence ? 'confidence: ' + esc(prog.confidence) : ''}${prog.as_of ? ' · as of ' + esc(prog.as_of) : ''}</span></h2>
-        <div class="ib-card-source">
-          <strong>Curated from:</strong>
-          <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Prop 123 filings</a> ·
-          <a href="https://dlg.colorado.gov/housing-plans" target="_blank" rel="noopener">DOLA HNA tracker</a> ·
-          <a href="https://www.drcog.org/growth-development/regional-housing-needs-assessment" target="_blank" rel="noopener">DRCOG Regional HNA</a> ·
-          each jurisdiction's own housing/community-development website ·
-          2024-2026 housing news. Click any pill for the primary source URL ·
-          <code>data/policy/jurisdiction-housing-progress.json</code>.
-        </div>
-        <div class="ib-progress-grid">
-          ${pill('Housing Needs Assessment', prog.hna)}
-          ${pill('Land banking',              prog.land_banking)}
-          ${pill('Dedicated funding',         prog.dedicated_income)}
-          ${pill('Tap-fee reduction',         prog.tap_fee_reduction)}
-        </div>
-      </div>
-    `;
-  }
-
-  function localResourcesSection(r) {
-    if (!r) return '';
-    const sections = [];
-    if (r.housingLead && r.housingLead.name) {
-      const lu = r.housingLead.url ? `<a href="${esc(r.housingLead.url)}" target="_blank" rel="noopener">${esc(r.housingLead.name)}</a>` : esc(r.housingLead.name);
-      sections.push(`<div class="ib-res-section"><h3>Housing lead</h3><ul><li>${lu}</li></ul></div>`);
-    }
-    if (Array.isArray(r.housingAuthority) && r.housingAuthority.length) {
-      sections.push(`<div class="ib-res-section"><h3>Housing authorities</h3><ul>${r.housingAuthority.map(h => `<li>${h.url ? `<a href="${esc(h.url)}" target="_blank" rel="noopener">${esc(h.name)}</a>` : esc(h.name)}</li>`).join('')}</ul></div>`);
-    }
-    if (Array.isArray(r.housingPlans) && r.housingPlans.length) {
-      sections.push(`<div class="ib-res-section"><h3>Plans & assessments</h3><ul>${r.housingPlans.map(p => `<li>${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a>` : esc(p.name)} ${p.type ? `<span style="color:var(--muted);font-size:.78rem;">· ${esc(p.type)}</span>` : ''} ${p.year ? `<span style="color:var(--muted);font-size:.78rem;">(${esc(p.year)})</span>` : ''}</li>`).join('')}</ul></div>`);
-    }
-    if (Array.isArray(r.advocacy) && r.advocacy.length) {
-      sections.push(`<div class="ib-res-section"><h3>Advocacy & nonprofits</h3><ul>${r.advocacy.map(a => `<li>${a.url ? `<a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.name)}</a>` : esc(a.name)}</li>`).join('')}</ul></div>`);
-    }
-    if (Array.isArray(r.contacts) && r.contacts.length) {
-      sections.push(`<div class="ib-res-section"><h3>Key contacts</h3><ul>${r.contacts.map(c => `<li>${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)}</a>` : esc(c.name)}${c.title ? ` <span style="color:var(--muted);">· ${esc(c.title)}</span>` : ''}</li>`).join('')}</ul></div>`);
-    }
-    if (!sections.length) return '';
-    return `<div class="ib-card">
-      <h2>Local housing leadership</h2>
-      <div class="ib-card-source">
-        <strong>Source:</strong> COHO curated <code>data/hna/local-resources.json</code>.
-        Names + URLs verified periodically against city websites + CHFA partner directories.
-        Search-style URLs (Google) are used where direct deep-links rot frequently.
-      </div>
-      ${sections.join('')}
-    </div>`;
-  }
-
-  function pipelineSection(p) {
-    if (!p.jurisdiction) return '';
-    return `
-      <div class="ib-card">
-        <h2>Pipeline state</h2>
-        <div class="ib-card-source">
-          <strong>Source:</strong> Internal pipeline — local drafts/edits saved in
-          this browser. The canonical pipeline is maintained in a private workspace.
-        </div>
-        <p style="font-size:var(--small);"><strong>Next action:</strong> ${esc(p.next_action || '—')}${p.next_action_due ? ` <span style="color:var(--warn);font-size:.78rem;">· due ${esc(p.next_action_due)}</span>` : ''}</p>
-        ${p.notes ? `<p style="font-size:.82rem;color:var(--muted);margin:0;">${esc(p.notes)}</p>` : ''}
-      </div>
-    `;
-  }
-
-  function signalsSection(sigs) {
-    if (!sigs.length) return '';
-    return `
-      <div class="ib-card">
-        <h2>Signal history <span class="meta">${sigs.length} signals</span></h2>
-        <div class="ib-card-source">
-          <strong>Source:</strong> Signal Log — maintained in a private workspace.
-          Each row's source URL is shown inline ↗.
-        </div>
-        ${sigs.map(s => `
-          <div class="ib-signal-row">
-            <div class="ib-signal-meta">${esc(s.date)} · ${esc(s.signal_type)} · ${esc(s.source)} ${s.source_url && s.source_url !== '#' ? '<a href="' + esc(s.source_url) + '" target="_blank" rel="noopener" aria-label="Open source in new tab">↗</a>' : ''}<span class="ib-chip ib-chip-${esc(s.strength)}">${esc(s.strength)}</span></div>
-            <div><strong>${esc(s.summary)}</strong></div>
-            ${s.opportunity_implication ? '<div style="color:var(--muted);font-size:.78rem;margin-top:.15rem;">↳ ' + esc(s.opportunity_implication) + '</div>' : ''}
-            ${s.follow_up_action ? '<div style="font-size:.78rem;margin-top:.15rem;"><strong>Follow-up:</strong> ' + esc(s.follow_up_action) + ' · ' + esc(s.status) + '</div>' : ''}
-          </div>
-        `).join('')}
-      </div>
-    `;
   }
 
   function checklistSection(geoid) {
