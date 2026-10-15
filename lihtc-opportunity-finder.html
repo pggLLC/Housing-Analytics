@@ -588,8 +588,8 @@
       box-shadow: inset 0 -1px 0 var(--border);
     }
     .lof-table thead th:hover { color: var(--accent); }
-    .lof-table thead th[aria-sort="ascending"]::after { content: ' ▲'; color: var(--accent); }
-    .lof-table thead th[aria-sort="descending"]::after { content: ' ▼'; color: var(--accent); }
+    .lof-table thead th[aria-sort="ascending"]::after { content: '\00a0▲'; color: var(--accent); }
+    .lof-table thead th[aria-sort="descending"]::after { content: '\00a0▼'; color: var(--accent); }
     .lof-table tbody tr { cursor: pointer; }
     .lof-table tbody tr:hover {
       background: color-mix(in oklab, var(--accent) 8%, var(--card) 92%);
