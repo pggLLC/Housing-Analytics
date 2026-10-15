@@ -103,7 +103,7 @@ const READY = {
   'regional.html':                       { selector: '#states-table-body tr', min: 10 },
   'market-analysis.html':                { selector: '#pmaMap path', min: 64 },
   'deal-calculator.html':                { selector: '#dc-county-select option', min: 64 },
-  'land-value.html':                     { selector: '#lvDataQuality td' },
+  'land-value.html':                     { selector: '#landValueMount label', min: 5 },
   'housing-legislation-2026.html':       { selector: '#bill-status-cards strong', min: 5 },
   'about.html':                          { selector: '#tool-watch-list li', min: 2 },
   'insights.html':                       { selector: '#researchCatalog article', min: 5 },

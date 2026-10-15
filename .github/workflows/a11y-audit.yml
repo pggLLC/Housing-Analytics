@@ -26,6 +26,9 @@ on:
       - 'css/**'
       - '*.html'
       - 'js/**'
+      # Audited pages draw from data files and an unrendered page is now
+      # unaudited, so a data-only PR can break this check.
+      - 'data/**'
       - 'scripts/audit/a11y-audit.mjs'
       - 'scripts/audit/a11y-budget.json'
       - 'scripts/audit/lib/**'
