@@ -1,0 +1,115 @@
+{
+  "description": "Corrections to the Prop 123 Land Banking rows of ledger.json, keyed by fiscal year and the ledger's own (wrong) project name. scripts/funding/build_land_banking_awards.py applies them and stops if any corrected value is missing from the round's PDF text or if a key matches no ledger row. printed_as gives the pieces of a cell that the PDF prints on separate lines, joined by ' | '. An entry with only a note leaves the row as the ledger read it and adds the note.",
+  "checked": "2026-10-15",
+  "corrections": {
+    "FY23-24|Aurora Walden 35 Phase II": {
+      "name": "Walden 35 Phase II",
+      "sponsor": "The Housing Authority of The City of Aurora",
+      "location": "Aurora",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed."
+    },
+    "FY23-24|Five Points Historic Cultural Distrcit Affordable": {
+      "name": "Five Points Historic Cultural Distrcit Affordable Homes",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed."
+    },
+    "FY24-25|Affordable Housing Phase 4, Bonita": {
+      "name": "Affordable Housing Phase 4, Bonita Dr.",
+      "sponsor": "Pagosa Springs Community Development Corporation",
+      "location": "Pagosa Springs",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
+      "printed_as": {
+        "sponsor": "Pagosa Springs Community | Development Corporation"
+      }
+    },
+    "FY24-25|Habitat 15th and Terry Street": {
+      "name": "Habitat 15th and Terry Street Neighborhood",
+      "sponsor": "Habitat for Humanity of the St. Vrain Valley",
+      "location": "Longmont",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
+      "printed_as": {
+        "sponsor": "Habitat for Humanity of the | St. Vrain Valley"
+      }
+    },
+    "FY24-25|Inc. Calvary Flats Affordable Homes": {
+      "name": "Calvary Flats Affordable Homes",
+      "sponsor": "Habitat for Humanity of Metro Denver, Inc.",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed."
+    },
+    "FY25-26|& Childcare Community Mountair Townhomes": {
+      "name": "Mountair Townhomes",
+      "sponsor": "Mile High Ministries",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed."
+    },
+    "FY25-26|Homeownership Project Midland Affordable Homes": {
+      "name": "Midland Affordable Homes",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed."
+    },
+    "FY25-26|Housing Development Gunnison Workforce Housing Project": {
+      "name": "Gunnison Workforce Housing Project",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed."
+    },
+    "FY25-26|Housing Development High Country Haven Phase II": {
+      "name": "High Country Haven Phase II",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed."
+    },
+    "FY25-26|Rio Grande Community Trust Monte Vista Scattered Site": {
+      "name": "Rio Grande Community Trust Monte Vista Scattered Site Homeownership Project",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
+      "printed_as": {
+        "project": "Rio Grande Community Trust | Monte Vista Scattered Site | Homeownership Project"
+      }
+    },
+    "FY25-26|Fort Morgan Mixed-income": {
+      "name": "Fort Morgan Mixed-income Housing Development",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
+      "printed_as": {
+        "project": "Fort Morgan Mixed-income | Housing Development"
+      }
+    },
+    "FY25-26|Rivergate Lot 5 Workforce": {
+      "name": "Rivergate Lot 5 Workforce Housing Development",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
+      "printed_as": {
+        "project": "Rivergate Lot 5 Workforce | Housing Development"
+      }
+    },
+    "FY25-26|Mountain View Apartments": {
+      "sponsor": "Leadville & Lake County Regional Housing Authority",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
+      "printed_as": {
+        "sponsor": "Leadville & Lake County Regional | Housing Authority"
+      }
+    },
+    "FY25-26|MADA Kinikin Affordable Housing": {
+      "name": "MADA Kinikin Affordable Housing & Childcare Community",
+      "sponsor": "Mexican American Development Association",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
+      "printed_as": {
+        "sponsor": "Mexican American | Development Association",
+        "project": "MADA Kinikin Affordable Housing | & Childcare Community"
+      }
+    },
+    "FY25-26|Basecamp Woodland Park": {
+      "sponsor": "Tri-County Housing, Inc. dba Total Concept",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
+      "printed_as": {
+        "sponsor": "Tri-County Housing, Inc. | dba Total Concept"
+      }
+    },
+    "FY25-26|375 Logan": {
+      "sponsor": "Urban Land Conservancy",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed."
+    },
+    "FY24-25|Bradley Ridge Apartments": {
+      "sponsor": "Pikes Peak Real Estate Foundation",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed."
+    },
+    "FY24-25|Metro Caring Affordable Housing": {
+      "sponsor": "Metro Caring",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed."
+    },
+    "FY24-25|Loretto Commons": {
+      "note": "CHFA prints the sponsor as \"Commun Denver\"; the name may be cut short in the award list."
+    }
+  }
+}
