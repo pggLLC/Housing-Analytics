@@ -43,14 +43,19 @@ const INCOME = [1, 5, 9, 13, 17];
 const VACANT = [4, 8, 12, 16];
 const TIERS = { 30: 1, 50: 2, 80: 3 };
 
-function expected(t15, t14) {
+// Renter households by income come from Table 7 (every renter household,
+// including those in homes Table 15C does not split by rent).
+const T7_RENTER_INCOME = [109, 130, 151, 172, 193];
+
+function expected(t15, t14, t7) {
   const occ = RENT_BLOCKS.map((b) => INCOME.map((o) => t15[b + o]));
   const vac = VACANT.map((b) => t14[b]);
+  const households = T7_RENTER_INCOME.map((c) => t7[c]);
   const out = {};
   let worst = 0;
   for (const [tier, k] of Object.entries(TIERS)) {
     let hh = 0; let rented = 0; let v = 0;
-    for (let i = 0; i < k; i++) for (let r = 0; r < 4; r++) hh += occ[r][i];
+    for (let i = 0; i < k; i++) hh += households[i];
     for (let r = 0; r < k; r++) for (let i = 0; i < k; i++) rented += occ[r][i];
     for (let r = 0; r < k; r++) v += vac[r];
     // A wider tier never shows fewer homes short than a tier inside it.
@@ -67,12 +72,16 @@ let checked = 0;
 for (const [level, sum, records] of [['county', '050', data.counties], ['place', '160', data.places]]) {
   const t15 = readCsv(`${level}-${sum}-Table15C.csv`, 'T15C');
   const t14 = readCsv(`${level}-${sum}-Table14B.csv`, 'T14B');
+  const t7 = readCsv(`${level}-${sum}-Table7.csv`, 'T7');
   // A record filed under the site's GEOID names the CHAS GEOID it came from.
   const chasId = (geoid, rec) => rec.chas_geoid || geoid;
   assert.deepEqual(Object.entries(records).map(([g, r]) => chasId(g, r)).sort(), [...t15.keys()].sort(), `${level}: one record per extract row`);
   for (const [geoid, rec] of Object.entries(records)) {
     if (rec.chas_geoid) assert.equal(aliases[rec.chas_geoid], geoid, `${level} ${geoid}: refiled only through place-phantom-aliases.json`);
-    const want = expected(t15.get(chasId(geoid, rec)), t14.get(chasId(geoid, rec)));
+    const id = chasId(geoid, rec);
+    // Table 7's renter total is Table 15C's renter-home total (one household per occupied home).
+    assert(Math.abs(t7.get(id)[108] - t15.get(id)[1]) <= 25, `${level} ${geoid}: Table 7 renters match Table 15C renter homes`);
+    const want = expected(t15.get(id), t14.get(id), t7.get(id));
     for (const tier of Object.keys(TIERS)) {
       const got = rec.tiers[tier];
       for (const k of Object.keys(want[tier])) assert.equal(got[k], want[tier][k], `${level} ${geoid} ≤${tier}% ${k}`);

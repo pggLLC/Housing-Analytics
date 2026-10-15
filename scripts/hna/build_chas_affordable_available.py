@@ -36,7 +36,8 @@ zips) and their Colorado rows are kept under data/hna/source/chas/<vintage>/:
 
     python3 scripts/hna/build_chas_affordable_available.py --extract DIR
         DIR holds county-050-Table15C.csv, county-050-Table14B.csv,
-        place-160-Table15C.csv and place-160-Table14B.csv (national).
+        county-050-Table7.csv, place-160-Table15C.csv,
+        place-160-Table14B.csv and place-160-Table7.csv (national).
     python3 scripts/hna/build_chas_affordable_available.py
         builds data/hna/chas_affordable_available.json from the extracts.
 
@@ -69,12 +70,16 @@ OUT_FILE = os.path.join(REPO_ROOT, 'data', 'hna', 'chas_affordable_available.jso
 GEO_CONFIG = os.path.join(REPO_ROOT, 'data', 'hna', 'geo-config.json')
 PHANTOM_ALIAS = os.path.join(REPO_ROOT, 'data', 'hna', 'place-phantom-aliases.json')
 COLORADO = '08'
-FILES = ('county-050-Table15C.csv', 'county-050-Table14B.csv',
-         'place-160-Table15C.csv', 'place-160-Table14B.csv')
+FILES = ('county-050-Table15C.csv', 'county-050-Table14B.csv', 'county-050-Table7.csv',
+         'place-160-Table15C.csv', 'place-160-Table14B.csv', 'place-160-Table7.csv')
 
 RENT_BLOCKS = (4, 25, 46, 67)
 INCOME_OFFSETS = (1, 5, 9, 13, 17)
 VACANT_RENT = (4, 8, 12, 16)
+# Table 7 (layout documented in scripts/fetch_chas.py): est108 renter total,
+# renter income-tier subtotals at the head of each 21-cell block.
+T7_RENTER_TOTAL = 108
+T7_RENTER_INCOME = (109, 130, 151, 172, 193)
 TIERS = (('30', 1), ('50', 2), ('80', 3))
 ROUNDING_TOLERANCE = 25
 
@@ -116,7 +121,7 @@ def near(a, b):
     return abs(a - b) <= ROUNDING_TOLERANCE
 
 
-def compute(geoid, t15, t14):
+def compute(geoid, t15, t14, t7):
     if not near(t15[2] + t15[3], t15[1]) or not near(sum(t15[b] for b in RENT_BLOCKS), t15[3]):
         raise ValueError(f'{geoid}: Table 15C rent blocks do not add up; layout changed?')
     for b in RENT_BLOCKS:
@@ -124,9 +129,15 @@ def compute(geoid, t15, t14):
             raise ValueError(f'{geoid}: Table 15C income cells in block {b} do not add up')
     if not near(t14[2] + t14[3], t14[1]) or not near(sum(t14[b] for b in VACANT_RENT), t14[3]):
         raise ValueError(f'{geoid}: Table 14B rent cells do not add up; layout changed?')
+    # Every renter household counts on the demand side, including those in
+    # homes Table 15C does not split by rent (no complete kitchen or
+    # plumbing); HUD divides by all households in the income group. Those
+    # homes stay out of the supply side.
+    households = [t7[i] for i in T7_RENTER_INCOME]
+    if not near(sum(households), t7[T7_RENTER_TOTAL]) or not near(t7[T7_RENTER_TOTAL], t15[1]):
+        raise ValueError(f'{geoid}: Table 7 renter households do not match Table 15C renter homes')
     occupied = [[t15[b + o] for o in INCOME_OFFSETS] for b in RENT_BLOCKS]  # [rent][income]
     vacant = [t14[b] for b in VACANT_RENT]
-    households = [sum(occupied[r][i] for r in range(4)) for i in range(5)]
     tiers = {}
     worst = 0
     for tier, k in TIERS:
@@ -189,8 +200,9 @@ def build():
     for level, width in (('county', 5), ('place', 7)):
         t15 = read(f'{level}-{"050" if level == "county" else "160"}-Table15C.csv', 'T15C')
         t14 = read(f'{level}-{"050" if level == "county" else "160"}-Table14B.csv', 'T14B')
-        if set(t15) != set(t14):
-            sys.exit(f'{level}: Tables 15C and 14B cover different geographies')
+        t7 = read(f'{level}-{"050" if level == "county" else "160"}-Table7.csv', 'T7')
+        if not set(t15) == set(t14) == set(t7):
+            sys.exit(f'{level}: Tables 15C, 14B and 7 cover different geographies')
         recs = {}
         for g in sorted(t15):
             if len(g) != width:
@@ -199,7 +211,7 @@ def build():
             key = place_key(g) if level == 'place' else g
             if key != g:
                 rec['chas_geoid'] = g
-            rec.update(compute(g, t15[g][1], t14[g][1]))
+            rec.update(compute(g, t15[g][1], t14[g][1], t7[g][1]))
             if key in recs:
                 sys.exit(f'{level}: two CHAS rows map to {key}')
             recs[key] = rec
@@ -225,8 +237,9 @@ def build():
                        '(HUD). homes_short_nested (this site, not HUD) = the largest households_minus_available at '
                        'the tier or any tier inside it, floored at 0: homes that rent above what lower-income '
                        'households can pay cannot close their shortfall. Statewide is computed from the sum of the '
-                       '64 counties\' households and homes. Homes lacking a complete kitchen or plumbing are not split by rent '
-                       'in CHAS and are left out of both sides. Small places carry wide margins of error.'),
+                       '64 counties\' households and homes. Renter households by income are CHAS Table 7 totals, so '
+                       'households in homes lacking a complete kitchen or plumbing count; those homes are not split by '
+                       'rent in Table 15C and are left out of the supply. Small places carry wide margins of error.'),
             'county_count': len(groups['county']),
             'place_count': len(groups['place']),
         },

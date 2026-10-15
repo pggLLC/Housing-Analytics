@@ -53,7 +53,7 @@
     if (!DS) return;
 
     // Renter homes that are affordable AND available to each income group,
-    // from HUD CHAS Tables 15C and 14B (scripts/hna/build_chas_affordable_available.py).
+    // from HUD CHAS Tables 15C, 14B and 7 (scripts/hna/build_chas_affordable_available.py).
     // A cheap home rented by a higher-income household is not available to
     // anyone in the group, so it does not count. Tiers are cumulative
     // (≤50% includes ≤30%). A missing value stays '—', never a 0.
