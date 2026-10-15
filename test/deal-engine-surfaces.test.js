@@ -77,7 +77,7 @@ async function run() {
       }
       assert.equal(view.projection[8], money(r.annualDebtService + r.totalSoftDebtService), 'projection includes the engine soft debt service');
       assert.equal(view.text['dc-stress-base-noi'], money(r.noi));
-      assert.equal(view.text['dc-stress-base-dscr'], r.baseDSCR.toFixed(2) + 'x');
+      assert.equal(view.text['dc-stress-base-dscr'], r.allMustPayDSCR.toFixed(2) + 'x');
       assert.equal(view.text['dc-stress-base-margin'], (r.stressBase.margin >= 0 ? '+' : '') + r.stressBase.margin.toFixed(2));
       assert.equal(r.waterfall.grossProceeds, r.exit.resale);
       assert.equal(r.waterfall.inputs.mortBal, r.exit.firstMortBal);

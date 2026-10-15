@@ -24,6 +24,13 @@
     'dc-rep-reserve': 'Annual replacement reserve per home.',
     'dc-prop-tax': 'Annual property tax per home before the selected exemption.',
     'dc-tax-exempt': 'Share of property taxes exempted in the scenario.',
+    'dc-senior-mode': 'Size the senior loan from NOI or keep an entered principal amount.',
+    'dc-senior-amount': 'Entered senior loan principal; coverage is measured, not assumed.',
+    'dc-senior-type': 'Selected senior repayment obligation; verify the loan agreement.',
+    'dc-senior-maturity': 'Year principal becomes due, separately from amortization.',
+    'dc-senior-io-years': 'Years of interest-only payments before amortization starts.',
+    'dc-senior-priority': 'Payment priority within must-pay or contingent loans.',
+    'dc-senior-cfpay': 'Percentage of remaining positive cash paid to a contingent senior loan.',
     'dc-dcr': 'Required net operating income divided by annual debt service.',
     'dc-rate': 'Annual interest rate assumed for the permanent mortgage.',
     'dc-term': 'Permanent mortgage amortization period, in years.',
@@ -96,7 +103,9 @@
   var tranche = {
     prog: 'Soft-funding program selected for this tranche.', amount: 'Dollars assigned to this soft-funding tranche.',
     rate: 'Annual interest rate for this tranche.', term: 'Amortization period for this tranche.',
-    cfpay: 'Share of tranche debt service paid from annual operating cash flow.',
+    cfpay: 'Share of remaining positive cash after must-pay debt, for a contingent loan.',
+    type: 'Repayment obligation; forgiveness assumes the agreement conditions are met.',
+    maturity: 'Year principal is due or conditionally forgiven.', io: 'Interest-only years before amortization starts.',
     accrue: 'Whether tranche interest is paid currently or accrued until exit.', priority: 'Payment order in the cash-flow waterfall.'
   };
   Object.keys(tranche).forEach(function (key) { add('tranche-' + key, tranche[key]); });
