@@ -182,7 +182,8 @@ def test_a_failed_federal_source_reports_nothing_new_and_keeps_its_notices():
         return site()(url, data, headers)
     r = run(fails, previous=base, now="2026-10-16T05:34:00Z")
     assert r["federal_failures"] and r["changes"]["new_federal_notices"] == []
-    assert "grants.gov:1" in {n["key"] for n in r["federal_notices"]}
+    # Notice keys are ids, not URLs; compared as a set (CodeQL read a substring check as URL sanitizing).
+    assert {n["key"] for n in r["federal_notices"]} == {"grants.gov:1", "federalregister:2026-1"}
     after = run(site(), previous=r, now="2026-10-17T05:34:00Z")
     assert after["changes"]["new_federal_notices"] == [], "recovering must not re-announce known notices"
 
