@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-15T09:30:48.477137Z",
+  "generated": "2026-10-15T09:46:54.058659Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7474,7 +7474,7 @@
     "data/jurisdiction-briefs/_lihtc-applications.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 418406
+      "bytes": 421547
     },
     "data/jurisdiction-briefs/_liveness.json": {
       "featureCount": 0,
