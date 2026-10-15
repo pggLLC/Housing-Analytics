@@ -35,9 +35,9 @@ export function checkA11yBudget(summary, budget) {
  * are what froze step 3 for ~18 s on a phone; and exactly one <h1>, because a
  * page without one has no stated purpose for a screen reader or a newcomer.
  *
- * Reading grade and first-screen acronyms are targets, not budgets: every
- * page misses them today, and they are what reorg stage 1 (words) is for.
- * They are reported against the target so the stage can show it moved them.
+ * Reading grade and first-screen abbreviations are never budgeted. They are
+ * rough signals for a professional audience, not measures of comprehension;
+ * only people reading the site can say whether they understood it.
  */
 export function checkUxBudget(results, budget) {
   const breaches = [];

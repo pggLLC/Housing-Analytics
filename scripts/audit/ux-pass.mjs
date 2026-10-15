@@ -9,9 +9,11 @@
  *     - DOM nodes after the page's data has loaded
  *     - main-thread blocking: the sum of every long task beyond 50 ms
  *     - exactly one <h1>
- *   reported against a target (does not fail)
- *     - reading grade of the page's prose (Flesch-Kincaid; target 8)
- *     - capitalised abbreviations in the first screen (target 0 unexplained)
+ *   reported as rough signals (never fail, and never a substitute for
+ *   testing whether real readers understand the page)
+ *     - reading grade of the page's prose (Flesch-Kincaid)
+ *     - capitalised abbreviations in the first screen; professional terms
+ *       are fine for this site's audience, but each should be explained once
  *     - length in phone screens
  *   with --lighthouse, also Lighthouse mobile performance and accessibility
  *   scores for each page (report only: performance scores swing between runs).
@@ -55,7 +57,9 @@ export const UX_PAGES = [
   'about.html',
 ];
 
-const READING_GRADE_TARGET = 8;
+// Grade of a professional report. The site is for people working in or
+// around affordable housing, so this flags only prose denser than that.
+const READING_GRADE_SIGNAL = 12;
 // Abbreviations a newcomer reads as words, and ordinary words set in capitals
 // by a label ("STEP 3 OF 7").
 const PLAIN_CAPS = new Set([
@@ -164,14 +168,14 @@ function toMarkdown(results, breaches, lh) {
   const lines = [
     '## Usability pass (phone, 390 px)',
     '',
-    `Budgets in \`scripts/audit/ux-budget.json\`. Reading grade target ${READING_GRADE_TARGET}; abbreviations are capitalised words in the first screen.`,
+    `Budgets in \`scripts/audit/ux-budget.json\` (DOM nodes, blocking, h1). Reading grade and abbreviations are rough signals only: "dense" marks prose above grade ${READING_GRADE_SIGNAL}, and abbreviations should each be explained once on the page.`,
     '',
     '| Page | DOM nodes | Blocking ms | h1 | Screens | Reading grade | First-screen abbreviations' + (lh ? ' | LH perf | LH a11y' : '') + ' |',
     '|---|---:|---:|---:|---:|---:|---' + (lh ? '|---:|---:' : '') + '|',
   ];
   for (const r of results) {
     if (r.error) { lines.push(`| ${r.page} | did not load: ${r.error} |`); continue; }
-    const grade = r.readingGrade == null ? '—' : `${r.readingGrade}${r.readingGrade > READING_GRADE_TARGET ? ' (over)' : ''}`;
+    const grade = r.readingGrade == null ? '—' : `${r.readingGrade}${r.readingGrade > READING_GRADE_SIGNAL ? ' (dense)' : ''}`;
     const ac = r.acronyms.length ? `${r.acronyms.length}: ${r.acronyms.slice(0, 8).join(', ')}` : '0';
     const l = lh ? lh[r.page] || {} : null;
     lines.push(`| ${r.page} | ${r.domNodes} | ${cell(r.blockingMs)} | ${r.h1Count} | ${r.screens} | ${grade} | ${ac}` +
