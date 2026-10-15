@@ -2566,17 +2566,26 @@
           `${totalInView} propert${totalInView === 1 ? 'y' : 'ies'} ${_scopeLabel}, all subsidy programs, hover badge for definition` +
         `</span>` +
       `</p>`;
-    // More rows arrive a page at a time. A single "show all" put every row
-    // back at once (~51,000 DOM nodes statewide), which is the freeze again.
+    // More rows arrive a page at a time, and the total is capped: a single
+    // "show all" put every row back at once (~51,000 DOM nodes statewide),
+    // and 50 at a time would rebuild the same list after enough presses. Past
+    // the cap the reader narrows the map instead.
     const LIHTC_PANEL_MORE_ROWS = 50;
-    const _moreLabel = function (left) {
-      const next = Math.min(LIHTC_PANEL_MORE_ROWS, left);
-      return `Show ${next} more (${left} of ${totalInView} not shown)`;
-    };
-    const _showMoreHtml = _restRows.length
-      ? `<p style="margin:.25rem 0 .75rem"><button type="button" class="btn lihtc-show-more">` +
-          `${_moreLabel(_restRows.length)}</button></p>`
+    const LIHTC_PANEL_MAX_ROWS = 200;
+    const _moreRows = _restRows.slice(0, Math.max(0, LIHTC_PANEL_MAX_ROWS - LIHTC_PANEL_FIRST_ROWS));
+    const _capNoteHtml = _allRows.length > LIHTC_PANEL_MAX_ROWS
+      ? `<p class="lihtc-cap-note" style="margin:.25rem 0 .75rem;color:var(--muted)">` +
+          `The list stops at ${LIHTC_PANEL_MAX_ROWS} of ${totalInView}. Zoom the map in or choose a place to see the others.</p>`
       : '';
+    const _moreLabel = function (shownNow) {
+      const next = Math.min(LIHTC_PANEL_MORE_ROWS, _moreRows.length - (shownNow - LIHTC_PANEL_FIRST_ROWS));
+      return `Show ${next} more (${shownNow} of ${totalInView} shown)`;
+    };
+    const _firstShown = Math.min(LIHTC_PANEL_FIRST_ROWS, _allRows.length);
+    const _showMoreHtml = _moreRows.length
+      ? `<p style="margin:.25rem 0 .75rem"><button type="button" class="btn lihtc-show-more">` +
+          `${_moreLabel(_firstShown)}</button></p>`
+      : _capNoteHtml;
     panelEl.innerHTML =
       headline +
       `<ul class="lihtc-list" style="list-style:none;padding-left:0">${_sortedHtml}</ul>` +
@@ -2584,18 +2593,17 @@
       mfHtml;
     const showMoreBtn = panelEl.querySelector('.lihtc-show-more');
     if (showMoreBtn) {
-      let shown = 0;
+      let added = 0;
       showMoreBtn.addEventListener('click', function () {
         const list = panelEl.querySelector('.lihtc-list');
-        const batch = _restRows.slice(shown, shown + LIHTC_PANEL_MORE_ROWS);
+        const batch = _moreRows.slice(added, added + LIHTC_PANEL_MORE_ROWS);
         if (list) list.insertAdjacentHTML('beforeend', batch.map(function (r) { return r.html; }).join(''));
-        shown += batch.length;
-        const left = _restRows.length - shown;
-        if (left > 0) {
-          showMoreBtn.textContent = _moreLabel(left);
+        added += batch.length;
+        if (added < _moreRows.length) {
+          showMoreBtn.textContent = _moreLabel(_firstShown + added);
         } else {
           const holder = showMoreBtn.parentNode;
-          if (holder) holder.remove();
+          if (holder) holder.outerHTML = _capNoteHtml;
         }
       });
     }

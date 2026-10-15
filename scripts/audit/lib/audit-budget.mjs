@@ -83,8 +83,11 @@ export function checkUxBudget(results, budget) {
     // first screen must not hide a slow click.
     if (b.click) {
       const a = r.afterClick;
-      if (!a || !(a.clicks > 0)) {
-        breaches.push({ page: r.page, measure: `click ${b.click.selector}`, found: a ? a.clicks : 'not run', allowed: 'at least 1 click' });
+      // Every configured press must happen: a control that breaks after the
+      // first press would otherwise be measured in its smaller state and pass.
+      const want = Number.isInteger(b.click.times) && b.click.times > 0 ? b.click.times : 1;
+      if (!a || !(a.clicks >= want)) {
+        breaches.push({ page: r.page, measure: `click ${b.click.selector}`, found: a ? a.clicks : 'not run', allowed: `${want} click(s)` });
       } else {
         limit(r.page, `DOM nodes after ${a.clicks} click(s)`, a.domNodes, b.maxDomNodes);
         limit(r.page, `blocking after ${a.clicks} click(s) (ms)`, a.blockingMs, b.maxBlockingMs);

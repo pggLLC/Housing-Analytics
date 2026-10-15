@@ -109,11 +109,13 @@ test('a page whose data never rendered fails, however light it is', () => {
 
 test('the expanded state is held to the same limits (a single "show all" was 51,044 nodes)', () => {
   const budget = { ...UX, pages: { 'p.html': { click: { selector: '.more', times: 3 } } } };
-  const slow = checkUxBudget([page({ afterClick: { clicks: 1, domNodes: 51044, blockingMs: 300 } })], budget);
+  const slow = checkUxBudget([page({ afterClick: { clicks: 3, domNodes: 51044, blockingMs: 300 } })], budget);
   assert.equal(slow.length, 1);
-  assert.match(slow[0].measure, /DOM nodes after 1 click/);
+  assert.match(slow[0].measure, /DOM nodes after 3 click/);
   assert.equal(checkUxBudget([page({ afterClick: { clicks: 3, domNodes: 9500, blockingMs: 300 } })], budget).length, 0);
   assert.equal(checkUxBudget([page({ afterClick: { clicks: 0 } })], budget).length, 1, 'a control that was never pressed passed');
+  assert.equal(checkUxBudget([page({ afterClick: { clicks: 1, domNodes: 8000, blockingMs: 100 } })], budget).length, 1,
+    'one press of three passed: a control that breaks after the first press is measured small');
 });
 
 test('a per-page budget overrides the default', () => {
