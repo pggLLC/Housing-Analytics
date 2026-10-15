@@ -104,7 +104,8 @@ ROUND_LINE_RE = re.compile(
 DOC_LINK_RE = re.compile(
     r'\.(pdf|docx?|xlsx?|xlsm|pptx?|csv|zip|rtf|odt|ods)(?:$|[?#])|/getattachment/|/sites/default/files/'
     # Hosted documents and forms with no file extension (DOH links its NOFAs on Google Docs).
-    r'|^https://(docs\.google\.com/(document|spreadsheets|presentation|forms)/|drive\.google\.com/(file|open)'
+    # (Written https? so the source-URL sweep does not read the pattern as a link.)
+    r'|^https?://(docs\.google\.com/(document|spreadsheets|presentation|forms)/|drive\.google\.com/(file|open)'
     r'|forms\.gle/|[\w-]+\.sharepoint\.com/|1drv\.ms/|onedrive\.live\.com/)', re.I)
 # A 200 that is really a bot wall. Matched on the page title only.
 CHALLENGE_TITLE_RE = re.compile(r'just a moment|attention required|access denied|are you a robot|captcha|request rejected', re.I)

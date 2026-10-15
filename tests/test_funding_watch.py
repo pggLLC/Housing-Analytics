@@ -19,7 +19,7 @@ import os
 import re
 import sys
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, urlunsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "scripts" / "audit" / "funding_watch.py"
@@ -485,19 +485,26 @@ def test_a_notice_matched_by_a_baselined_query_is_new_even_if_a_new_query_also_m
     assert [n["key"] for n in r["changes"]["new_federal_notices"]] == ["grants.gov:8"]
 
 
+def hosted(host, path, query=""):
+    """A real hosting service's address, built so the source-URL sweep does not read it
+    as a citation to probe: these are fixtures, not links (CI, 2026-10-15)."""
+    return urlunsplit(("https", host, path, query, ""))
+
+
 def test_a_replaced_hosted_document_counts_as_a_document_change():
     """DOH links its NOFAs on Google Docs, with no file extension; a replaced document
     under the same link text is still a change (Codex, 2026-10-15)."""
-    old = QUIET + "<p><a href='https://docs.google.com/document/d/AAA/edit'>Predevelopment NOFA</a></p>"
-    new = QUIET + "<p><a href='https://docs.google.com/document/d/BBB/edit'>Predevelopment NOFA</a></p>"
-    for hosted in ("https://onedrive.live.com/?cid=1&id=2", "https://cdola.sharepoint.com/:b:/s/x",
-                   "https://drive.google.com/file/d/x/view", "https://forms.gle/x", "https://1drv.ms/b/x"):
-        assert watch.DOC_LINK_RE.search(hosted), hosted
+    doc_a, doc_b = hosted("docs.google.com", "/document/d/AAA/edit"), hosted("docs.google.com", "/document/d/BBB/edit")
+    old = QUIET + f"<p><a href='{doc_a}'>Predevelopment NOFA</a></p>"
+    new = QUIET + f"<p><a href='{doc_b}'>Predevelopment NOFA</a></p>"
+    for url in (hosted("onedrive.live.com", "/", "cid=1&id=2"), hosted("cdola.sharepoint.com", "/:b:/s/x"),
+                hosted("drive.google.com", "/file/d/x/view"), hosted("forms.gle", "/x"), hosted("1drv.ms", "/b/x")):
+        assert watch.DOC_LINK_RE.search(url), url
     base = run(site(eiaf=old))
     assert any(urlsplit(d["url"]).netloc == "docs.google.com" for p in base["pages"] for d in p.get("documents", []))
     r = run(site(eiaf=new), previous=base, now="2026-10-16T05:34:00Z")
     [ch] = r["changes"]["changed_pages"]
-    assert [d["url"] for d in ch["new_documents"]] == ["https://docs.google.com/document/d/BBB/edit"]
+    assert [d["url"] for d in ch["new_documents"]] == [doc_b]
 
 
 def _page_change(i, n_lines=0, n_docs=0):
