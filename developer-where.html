@@ -12,12 +12,6 @@
 <script src="js/components/pipeline-store.js"></script>
 <script src="js/components/pipeline-add-button.js"></script>
 <style>
-  .ib-section-nav { display:flex;gap:1rem;align-items:center;padding:.6rem 0;margin-bottom:var(--sp3);border-bottom:1px solid var(--border);font-size:var(--small); }
-  .ib-section-nav a { color:var(--muted);text-decoration:none;font-weight:600;padding:.35rem .7rem;border-radius:var(--radius-sm); }
-  .ib-section-nav a.active { color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,transparent 90%); }
-  .ib-section-nav a:hover { color:var(--accent); }
-  .ib-section-nav .spacer { flex:1; }
-  .ib-section-nav .badge { background:var(--warn);color:var(--card);font-size:.65rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em; }
 
   .ib-hero {
     background:linear-gradient(135deg,color-mix(in oklab,var(--accent) 10%,var(--card) 90%),var(--card));
@@ -134,15 +128,7 @@
 
 <main class="page-container js-glossary-auto" style="max-width:1200px;margin:0 auto;padding:var(--sp3);">
 
-  <nav class="ib-section-nav">
-    <a href="developer.html">Home</a>
-    <a href="developer-where.html" class="active">Where Should I Build?</a>
-    <a href="developer-pipeline.html">Pipeline</a>
-    <a href="developer-brief.html">Jurisdiction Briefs</a>
-    <a href="lihtc-opportunity-finder.html">← Opportunity Finder</a>
-    <span class="spacer"></span>
-    <span class="badge">INTERNAL</span>
-  </nav>
+  <nav id="devNav" class="ib-section-nav"></nav>
 
   <div class="ib-hero">
     <h1>Where Should I Build?</h1>
@@ -225,6 +211,7 @@
 </main>
 
 <script src="js/navigation.js"></script>
+<script src="js/whitepaper/developer-nav.js"></script>
 <script>
 (function () {
   'use strict';
@@ -328,11 +315,16 @@
   Promise.all([
     fetch('data/policy/jurisdiction-housing-progress.json').then(r => r.json()).catch(() => null),
     fetch('data/policy/prop123_jurisdictions.json').then(r => r.json()).catch(() => null),
-    fetch('data/hud-fmr-income-limits.json').then(r => r.json()).catch(() => null)
-  ]).then(([progress, prop123, hudIl]) => {
+    fetch('data/hud-fmr-income-limits.json').then(r => r.json()).catch(() => null),
+    fetch('data/hna/geo-config.json').then(r => r.json()).catch(() => null)
+  ]).then(([progress, prop123, hudIl, geoCfg]) => {
 
+    // Places carry their containing county in geo-config.json. Without it no town
+    // ever matched a region, so every region filter but "All" returned nothing.
+    const placeCounty = {};
+    if (geoCfg) (geoCfg.places || []).concat(geoCfg.cdps || []).forEach(p => { if (p.geoid && p.containingCounty) placeCounty[p.geoid] = p.containingCounty; });
     const progEntries = progress && progress.by_geoid
-      ? Object.entries(progress.by_geoid).map(([geoid, rec]) => ({ geoid, ...rec, _county: countyFor(geoid, hudIl) }))
+      ? Object.entries(progress.by_geoid).map(([geoid, rec]) => ({ geoid, ...rec, _county: countyFor(geoid, placeCounty) }))
       : [];
 
     // Build a normalized prop123 lookup keyed by lowercase name
@@ -381,7 +373,7 @@
       const recText = document.getElementById('recommendedText');
       if (rec) {
         recBox.style.display = 'block';
-        recText.innerHTML = `Open the <a href="developer-brief.html?geoid=${esc(rec.geoid)}"><strong>${esc(rec.name)}</strong> brief</a> first (~10 min). ` +
+        recText.innerHTML = `Open the <a href="developer-brief.html?geoid=${esc(rec.geoid)}"><strong>${esc(rec.name)}</strong> report</a> first (~10 min). ` +
           `${t1Show.length > 1 ? `Then ${esc(t1Show[1].name)} if you have time. ` : ''}` +
           `Spend remaining hours updating the Pipeline + Signal Log.`;
       } else {
@@ -390,8 +382,8 @@
 
       // Render tiers
       document.getElementById('tiers').innerHTML =
-        tierBlock(1, 'Tier 1 — Target', t1Show, 'Highest opportunity. Open the brief, draft outreach this week.') +
-        tierBlock(2, 'Tier 2 — Promising', t2Show, 'Worth a brief. Active or developing capacity. Calendar a deeper look.') +
+        tierBlock(1, 'Tier 1 — Target', t1Show, 'Highest opportunity. Open the report, draft outreach this week.') +
+        tierBlock(2, 'Tier 2 — Promising', t2Show, 'Worth a look. Active or developing capacity. Calendar a deeper look.') +
         tierBlock(3, 'Tier 3 — Monitor', t3Show, 'Long-cycle. Check back quarterly unless a signal upgrades it.');
 
       // F162 — hydrate the per-row "Add to Developer Pipeline" buttons.
@@ -447,7 +439,7 @@
                 <div class="ib-row-score">${esc(r.score)}</div>
                 <div class="ib-row-conf">${esc(r.confidence)}</div>
               </div>
-              <a class="ib-row-action" href="developer-brief.html?geoid=${esc(r.geoid)}">Open brief →</a>
+              <a class="ib-row-action" href="developer-brief.html?geoid=${esc(r.geoid)}">Open report →</a>
               <!-- F162 — per-row pipeline mount. Hydrated by wirePipelineButtons() below.
                    Data attributes carry the row state so the hydrator stays stateless. -->
               <div class="ib-row-pipeline"
@@ -471,13 +463,9 @@
     document.getElementById('tiers').innerHTML = '<div class="ib-empty">Error loading data: ' + esc(err.message) + '</div>';
   });
 
-  function countyFor(geoid, hudIl) {
-    // 7-digit place → containing county is in HNA summary or curated dataset; here we approximate via hudIl county fips lookup
-    // For curated jurisdictions we don't have direct county mapping, but the policy-progress data carries a 'type' hint.
-    // Strategy: assume first 5 chars for 5-digit county FIPS, or look up via hud-fmr structures.
+  function countyFor(geoid, placeCounty) {
     if (geoid.length === 5) return geoid;
-    // For 7-digit place GEOIDs we map by name-match against hud counties. This is approximate but acceptable for the lens.
-    return null;
+    return placeCounty[geoid] || null;
   }
 
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
