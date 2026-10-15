@@ -136,6 +136,10 @@
   .lbm-popup li { margin-bottom:.35rem; }
   .lbm-note { color:var(--muted); }
   .lbm-tag { display:inline-block; padding:0 6px; border-radius:9999px; font-size:.68rem; font-weight:700; background:color-mix(in oklab,var(--warn) 18%,var(--card) 82%); color:var(--warn); }
+  .lbm-list { margin-top:.6rem; font-size:var(--small); }
+  .lbm-list summary { min-height:44px; padding:.7rem 0; box-sizing:border-box; cursor:pointer; font-weight:700; }
+  .lbm-list ul { list-style:none; margin:.3rem 0 0; padding:0; display:flex; flex-wrap:wrap; gap:.4rem; }
+  .lbm-list button { min-height:44px; padding:.3rem .7rem; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg2); color:var(--text); font:inherit; cursor:pointer; }
   @media (max-width:600px) { #lbmMap { height:320px; } }
 </style>
   <link rel="stylesheet" href="js/vendor/leaflet.css">
@@ -223,7 +227,11 @@
     <input id="lbmSearch" type="search" placeholder="e.g. Leadville" autocomplete="off">
     <p class="lbm-count" data-lbm-count aria-live="polite">Loading awards…</p>
     <div id="lbmMap" role="region" aria-label="Map of Prop 123 land banking awards by town"></div>
-    <div class="lbm-detail" data-lbm-detail aria-live="polite" hidden></div>
+    <div class="lbm-detail" data-lbm-detail aria-live="polite" tabindex="-1" hidden></div>
+    <details class="lbm-list">
+      <summary><span>List the <span data-lbm-towns-count></span> towns instead</span></summary>
+      <ul data-lbm-towns></ul>
+    </details>
     <p class="lbm-foot"><span data-lbm-note></span> Contacts printed on CHFA's award lists are quoted from them; the rest come from grantee websites and are marked <span class="lbm-tag">to confirm</span>. Program: <span data-lbm-program></span>.</p>
   </section>
 

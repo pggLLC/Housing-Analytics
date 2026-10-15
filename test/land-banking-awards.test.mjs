@@ -229,12 +229,17 @@ ledgerAgreement(DATA);
     ok(t && t.geoid === p.geoid, `searching "${p.name}" opens ${p.name}`);
   }
   ok(LBM.townForSearch(towns, '') === null && LBM.townForSearch(towns, 'county') === null, 'a broad or empty search opens nothing');
+  // Keyboard path: every pin's town is also a button, with its award count.
+  const list = LBM.townListHtml(towns);
+  ok((list.match(/<button type="button" data-lbm-town=/g) || []).length === towns.length, `every town is also a button (${towns.length})`);
+  ok(towns.every((t) => list.includes(`data-lbm-town="${t.geoid}"`)), 'each button opens its own town');
   const narrowed = LBM.filterAwards(DATA.awards, 'leadville');
   ok(narrowed.length > 0 && narrowed.every((a) => /leadville/i.test([a.project, a.sponsor, a.location, ...a.places.map((p) => p.name)].join(' '))), 'search narrows to the town');
 
   const page = read('developer-where.html');
   ok(page.includes('data-land-banking-map') && page.includes('js/whitepaper/land-banking-map.js') && page.includes('js/vendor/leaflet.js') && page.includes('data-lbm-detail'),
     'Where to build carries the map section');
+  ok(page.includes('data-lbm-towns') && /data-lbm-detail[^>]*tabindex="-1"/.test(page), 'the page carries the town list and a focusable details panel');
   ok(page.indexOf('id="tiers"') < page.indexOf('data-land-banking-map'), 'the shortlist stays above the map');
   // The contacts are gated: the module ships only inside js/whitepaper, which the public build leaves out.
   const pub = read('scripts/build-public-site.mjs');

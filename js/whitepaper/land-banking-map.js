@@ -185,6 +185,17 @@
     el.hidden = !town;
   }
 
+  // The same towns as the pins, as buttons: keyboard and screen-reader users cannot
+  // reach an SVG pin, so this list is how they open a town without knowing its name.
+  function townListHtml(towns) {
+    return (towns || []).slice().sort(function (x, y) { return x.name.localeCompare(y.name); })
+      .map(function (t) {
+        var n = t.awards.length + (t.awards.length === 1 ? ' award' : ' awards');
+        return '<li><button type="button" data-lbm-town="' + esc(t.geoid) + '">' + esc(t.name) +
+          ' <span class="lbm-note">' + esc(n) + '</span></button></li>';
+      }).join('');
+  }
+
   function render(state) {
     var doc = global.document;
     var q = doc.getElementById('lbmSearch').value;
@@ -193,8 +204,13 @@
       ? countText(summarize(shown), summarize(state.data.awards))
       : 'No award matches that search. Try a town, county or grantee name.';
     drawPins(state, shown);
-    // A search that narrows to one town opens it; otherwise the panel waits for a tap.
-    showTown(state, townForSearch(groupByTown(shown), q));
+    state.towns = groupByTown(shown);
+    var list = doc.querySelector('[data-lbm-towns]');
+    if (list) list.innerHTML = townListHtml(state.towns);
+    var listCount = doc.querySelector('[data-lbm-towns-count]');
+    if (listCount) listCount.textContent = String(state.towns.length);
+    // A search that names a town, or narrows to one, opens it; otherwise the panel waits for a tap.
+    showTown(state, townForSearch(state.towns, q));
   }
 
   function boot(data, contacts) {
@@ -209,6 +225,16 @@
     doc.querySelector('[data-lbm-note]').textContent = m.location_note || '';
     state.mapState = initMap(doc.getElementById('lbmMap'));
     doc.getElementById('lbmSearch').addEventListener('input', function () { render(state); });
+    var list = doc.querySelector('[data-lbm-towns]');
+    if (list) list.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-lbm-town]');
+      if (!b) return;
+      var geoid = b.getAttribute('data-lbm-town');
+      var town = (state.towns || []).filter(function (t) { return t.geoid === geoid; })[0];
+      showTown(state, town || null);
+      var panel = doc.querySelector('[data-lbm-detail]');
+      if (town && panel) panel.focus();
+    });
     render(state);
     return state;
   }
@@ -234,5 +260,5 @@
   }
 
   return { contactIndex: contactIndex, filterAwards: filterAwards, summarize: summarize, groupByTown: groupByTown,
-    popupHtml: popupHtml, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, contactHtml: contactHtml, countText: countText, boot: boot, AWARDS: AWARDS, CONTACTS: CONTACTS };
+    popupHtml: popupHtml, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, townListHtml: townListHtml, contactHtml: contactHtml, countText: countText, boot: boot, AWARDS: AWARDS, CONTACTS: CONTACTS };
 }));
