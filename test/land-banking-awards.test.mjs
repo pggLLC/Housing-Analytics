@@ -219,6 +219,16 @@ ledgerAgreement(DATA);
   // Sabotage: a confirmed researched contact loses the tag, and markup in a name is escaped.
   ok(!LBM.contactHtml({ ...C[res.award_id], confirmed: true }, DATA, false).includes('to confirm'), 'sabotage: confirming a contact removes the tag');
   ok(!LBM.contactHtml({ kind: 'chfa', name: '<img src=x>' }, DATA, false).includes('<img'), 'contact names are escaped');
+  // Every town's tap target is at least 44px across, however small its pin.
+  ok(towns.every((t) => 2 * LBM.hitRadius(t) >= 44), 'every pin has a 44px tap target');
+  // An exact town search opens that town, even when a shared award keeps other towns on the map.
+  const shared = DATA.awards.find((a) => a.places.length > 1);
+  ok(shared, 'the file has an award shared by several towns');
+  for (const p of shared.places) {
+    const t = LBM.townForSearch(LBM.groupByTown(LBM.filterAwards(DATA.awards, p.name)), p.name);
+    ok(t && t.geoid === p.geoid, `searching "${p.name}" opens ${p.name}`);
+  }
+  ok(LBM.townForSearch(towns, '') === null && LBM.townForSearch(towns, 'county') === null, 'a broad or empty search opens nothing');
   const narrowed = LBM.filterAwards(DATA.awards, 'leadville');
   ok(narrowed.length > 0 && narrowed.every((a) => /leadville/i.test([a.project, a.sponsor, a.location, ...a.places.map((p) => p.name)].join(' '))), 'search narrows to the town');
 

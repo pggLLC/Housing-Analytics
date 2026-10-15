@@ -140,6 +140,21 @@
     return { map: map, layer: L.layerGroup().addTo(map) };
   }
 
+  var MIN_HIT_RADIUS = 22;
+  function pinRadius(t) { return 6 + 3 * Math.sqrt(t.awards.length - 1); }
+  function hitRadius(t) { return Math.max(MIN_HIT_RADIUS, pinRadius(t)); }
+
+  // The town a search names: one whose name matches the search exactly, or else the
+  // only town left. A shared award (Trinidad, Walsenburg, Fort Garland) keeps its other
+  // towns on the map, so the remaining-town count alone would never open it.
+  function townForSearch(towns, q) {
+    var s = String(q || '').toLowerCase().trim();
+    if (!s) return null;
+    var exact = towns.filter(function (t) { return String(t.name).toLowerCase() === s; });
+    if (exact.length === 1) return exact[0];
+    return towns.length === 1 ? towns[0] : null;
+  }
+
   function drawPins(state, awards) {
     if (!state.mapState) return 0;
     var L = global.L;
@@ -148,9 +163,13 @@
     var towns = groupByTown(awards);
     towns.forEach(function (t) {
       L.circleMarker([t.lat, t.lng], {
-        radius: 6 + 3 * Math.sqrt(t.awards.length - 1),
+        radius: pinRadius(t), interactive: false,
         color: '#ffffff', weight: 1.5, fillColor: colour, fillOpacity: 0.85
-      }).on('click', function () { showTown(state, t); })
+      }).addTo(state.mapState.layer);
+      // The visible pin is as small as 6px; an invisible circle at least 44px across
+      // takes the tap, so every town meets the 44px touch-target rule.
+      L.circleMarker([t.lat, t.lng], { radius: hitRadius(t), stroke: false, fillOpacity: 0, fillColor: colour })
+        .on('click', function () { showTown(state, t); })
         .bindTooltip(t.name + ': ' + t.awards.length + (t.awards.length === 1 ? ' award' : ' awards'))
         .addTo(state.mapState.layer);
     });
@@ -175,8 +194,7 @@
       : 'No award matches that search. Try a town, county or grantee name.';
     drawPins(state, shown);
     // A search that narrows to one town opens it; otherwise the panel waits for a tap.
-    var towns = groupByTown(shown);
-    showTown(state, q.trim() && towns.length === 1 ? towns[0] : null);
+    showTown(state, townForSearch(groupByTown(shown), q));
   }
 
   function boot(data, contacts) {
@@ -216,5 +234,5 @@
   }
 
   return { contactIndex: contactIndex, filterAwards: filterAwards, summarize: summarize, groupByTown: groupByTown,
-    popupHtml: popupHtml, showTown: showTown, contactHtml: contactHtml, countText: countText, boot: boot, AWARDS: AWARDS, CONTACTS: CONTACTS };
+    popupHtml: popupHtml, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, contactHtml: contactHtml, countText: countText, boot: boot, AWARDS: AWARDS, CONTACTS: CONTACTS };
 }));
