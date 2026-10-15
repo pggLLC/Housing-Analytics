@@ -34,7 +34,7 @@ The normal blocked-source refresh is the local browser/cache procedure below.
    **before Phase 7** (ranking index). With a CHAS-only update, use the current
    committed ACS summaries, tract membership, tract metrics and place-LEHD inputs;
    do not launch an unrelated ACS refresh. Check place coverage and tenure anchors.
-5. Refresh the affordable-and-available count on the homepage. From the
+5. Refresh the affordable-and-available count on the homepage and in the Deal Calculator. From the
    **County (050)** and **Place (160)** CSV ZIPs, take `Table15C.csv`,
    `Table14B.csv` and `Table7.csv` and save them in one folder as
    `county-050-Table15C.csv`, `county-050-Table14B.csv`, `county-050-Table7.csv`,
@@ -78,7 +78,7 @@ also cite the files; they are validation/reference uses, not additional feeds.
 | `data/market/chas_tract_co.json` | `scripts/hna/build_place_chas.py` builds `data/hna/place-chas.json` and coverage stats. `scripts/check-place-chas-fresh.py` validates that rebuild. |
 | `data/hna/chas_affordability_gap.json` | `js/hna/hna-utils.js` supplies the HNA path to the loader; `js/hna/hna-renderers.js`, `js/hna/hna-narratives.js` and `js/components/housing-type-need.js` consume loaded records. Direct loaders are `js/ic-summary.js`, `js/compare.js`, `js/lihtc-opportunity-finder.js`, `js/project-market-study/study-geography.js`, `js/colorado-deep-dive.js` and `js/market-analysis.js`. `js/data-source-discovery.js` registers the source; `index.html` links to it. Build readers are `scripts/hna/build_ranking_index.py`, `scripts/hna/build_jurisdiction_metrics_digest.mjs` and `scripts/build_rent_burden_crosscheck.mjs`. Validation/audit readers are `scripts/validate-critical-data.js`, `scripts/audit/data-freshness-check.mjs` and `scripts/audit/verify-opportunity-finder.mjs`. |
 
-| `data/hna/chas_affordable_available.json` (Tables 15C, 14B and 7, not written by `fetch_chas.py`) | `js/index.js` renders the homepage ≤30% and ≤50% shortfall cards from its statewide record; `scripts/hna/build_chas_affordable_available.py` builds it. |
+| `data/hna/chas_affordable_available.json` (Tables 15C, 14B and 7, not written by `fetch_chas.py`) | `js/index.js` renders HUD's ≤30% and ≤50% count under the homepage shortfall cards from its statewide record, and `js/deal-calculator.js` renders the gap line from its county and place records; `scripts/hna/build_chas_affordable_available.py` builds it. |
 
 `js/methodology-explainer.js` also names the county and place files as provenance.
 `fetch-chas-data.yml` validates/stages the three fetch outputs. Workflow outcome

@@ -1,11 +1,11 @@
 'use strict';
-// "Homes short" must be one number wherever a reader sees it. The homepage
-// cards and the Deal Calculator's gap line both show renter homes that are
-// affordable AND available to each income group, from
-// data/hna/chas_affordable_available.json (HUD CHAS Tables 15C and 14B).
-// Until 2026-10-14 the gap line showed a different series from the
-// homepage, so one county could read two shortfalls on two pages. This runs
-// the real renderer against every record and pins both pages to the file.
+// HUD's "homes short" must be one number wherever a reader sees it. The
+// Deal Calculator's gap line shows renter homes that are affordable AND
+// available to each income group, from data/hna/chas_affordable_available.json
+// (HUD CHAS Tables 15C, 14B and 7); the homepage cards show the same file's
+// statewide count under their ACS figure (paul, 2026-10-15: "show both").
+// This runs the real renderer against every record and pins both pages to
+// the file.
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -31,7 +31,7 @@ function extractFunction(src, name) {
 
 // The Deal Calculator loads the file the homepage reads.
 assert(dc.includes(`'${AA_PATH}'`), 'the Deal Calculator loads ' + AA_PATH);
-assert(read('js/index.js').includes("DS.baseData('hna/chas_affordable_available.json')"), 'the homepage cards read ' + AA_PATH);
+assert(read('js/index.js').includes("DS.baseData('hna/chas_affordable_available.json')"), 'the homepage cards show HUD\'s count from ' + AA_PATH);
 
 const dom = new JSDOM('<!doctype html><body><p id="dc-fmr-note"></p><div id="dc-ami-gap-info"></div></body>', { runScripts: 'outside-only' });
 const w = dom.window;
@@ -78,5 +78,5 @@ w._setData({ meta: aa.meta, counties: { '08001': { name: 'Bare' } }, places: {} 
 assert.deepEqual(rendered('08001', null).values, [null, null, null], 'a record without tiers shows —, not 0');
 assert.equal(rendered('08999', null), null, 'no record hides the line instead of showing zeros');
 
-// The homepage cards show the same statewide record (test/homepage-claims.test.js pins the values).
+// The homepage shows the same statewide record under its ACS figure (test/homepage-claims.test.js pins the values).
 console.log(`homes-short-agreement: PASS (${checked} records)`);
