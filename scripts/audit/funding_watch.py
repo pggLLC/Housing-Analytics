@@ -319,7 +319,9 @@ def grants_gov(cfg: dict, fetch: Fetcher, capped: list | None = None) -> tuple[l
                 # Declared more results than it returned, short of our own cap: incomplete.
                 err = f'Grants.gov returned an empty page at record {start} of {total}'
                 break
-            start += rows
+            # Advance by what came back, not what was asked for: a short page must not
+            # skip the records it left out (Codex, 2026-10-15).
+            start += len(page)
             if start >= total:
                 break
         if err:

@@ -729,3 +729,22 @@ def test_a_complete_outage_still_records_its_failure_dates(tmp_path, monkeypatch
     assert eiaf["first_failed_at"] == "2026-10-16T05:34:00Z" and eiaf["unverifiable"] is True
     assert eiaf["key_lines"], "the last good snapshot is kept"
     assert saved["federal_notices"], "known notices are kept"
+
+
+def test_a_short_grants_gov_page_does_not_skip_records():
+    """search2 may return fewer than `rows`; paging resumes from what arrived, so no
+    record is skipped (Codex, 2026-10-15)."""
+    hits = [{"id": str(i), "title": f"Grant {i}"} for i in range(30)]
+    asked = []
+
+    def short_pages(url, data=None, headers=None):
+        start = json.loads(data)["startRecordNum"]
+        asked.append(start)
+        page = hits[start:start + 10]  # at most 10 back, whatever `rows` says
+        return 200, {}, json.dumps({"errorcode": 0, "data": {"hitCount": 30, "oppHits": page}}).encode()
+    cfg = {**SOURCES["federal"]["grants_gov"], "keywords": ["housing"], "rows": 25, "max_records": 100}
+    capped = []
+    notices, failures = watch.grants_gov(cfg, short_pages, capped)
+    assert failures == [] and capped == []
+    assert sorted(int(n["key"].split(":")[1]) for n in notices) == list(range(30))
+    assert asked == [0, 10, 20]
