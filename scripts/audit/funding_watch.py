@@ -351,26 +351,33 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
                              'failing_since': entry['first_failed_at']})
 
     fed = sources.get('federal') or {}
-    notices, fed_failures, fed_queries = [], [], 0
-    for fn, key, per in ((grants_gov, 'grants_gov', 'keywords'), (federal_register, 'federal_register', 'agencies')):
+    notices, fed_failures, fed_queries, answered_queries = [], [], 0, set()
+    for fn, key, per, source in ((grants_gov, 'grants_gov', 'keywords', 'grants.gov'),
+                                 (federal_register, 'federal_register', 'agencies', 'federalregister.gov')):
         if key in fed:
             n, f = fn(fed[key], fetch)
             notices += n
             fed_failures += f
-            fed_queries += len(fed[key].get(per) or [])
+            queries = fed[key].get(per) or []
+            fed_queries += len(queries)
+            failed_q = {x['query'] for x in f}
+            answered_queries |= {f'{source}|{q}' for q in queries if q not in failed_q}
     # A source is "failed" if any of its queries failed; this counts the queries that answered.
     fed_answered = fed_queries - len(fed_failures)
     # One notice can come back under several queries or agencies; keep the first.
     notices = list({n['key']: n for n in reversed(notices)}.values())[::-1]
     prev_notices = {n['key']: n for n in previous.get('federal_notices', [])}
-    first_federal = 'federal_notices' not in previous
+    # Each query's first answer is its own silent baseline: a feed or keyword that never
+    # answered before (down on the first run, or newly added) must not announce its whole
+    # result list as new the day it starts answering.
+    prev_baselined = set(previous.get('federal_baselined_queries') or [])
     merged, new_notices = [], []
     for n in notices:
         if n['key'] in prev_notices:
             continue  # keep the record as first seen; a later status edit is not news
         n['first_seen_at'] = now
         merged.append(n)
-        if not first_federal:
+        if f"{n['source']}|{n['query']}" in prev_baselined:
             new_notices.append(n)
     seen_now = {n['key'] for n in notices}
     for key, p in prev_notices.items():
@@ -430,6 +437,7 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         'pages': pages,
         'federal_notices': notices,
         'federal_sources': federal_sources,
+        'federal_baselined_queries': sorted(prev_baselined | answered_queries),
         'changes': changes,
         'has_changes': bool(changed or new_notices),
         'fetch_failures': failures,

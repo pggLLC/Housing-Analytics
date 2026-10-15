@@ -227,7 +227,9 @@ def test_every_catalog_program_with_a_page_is_watched():
 
 def test_trust_label_names_every_container_of_fetched_strings():
     r = run(site())
-    local = {"schema", "generated_at", "note", "content_trust", "has_changes", "all_fetches_failed", "unverifiable"}
+    # federal_baselined_queries holds only our own configured keywords and agency slugs.
+    local = {"schema", "generated_at", "note", "content_trust", "has_changes", "all_fetches_failed", "unverifiable",
+             "federal_baselined_queries"}
     label = r["content_trust"]
     for key in set(r) - local:
         assert key in label, f"{key} holds fetched strings but content_trust does not name it"
@@ -259,10 +261,14 @@ def test_workflow_runs_the_watch_daily_after_the_qap_job_and_commits_safely():
     assert re.search(r'--summary\s+"?\$RUNNER_TEMP/', job)
     commit = job[job.index("Commit refreshed funding watch"):]
     rel = watch.OUT_FILE.relative_to(ROOT).as_posix()
-    assert commit.index(rel) < commit.index("npm run audit:file-manifest") \
-        < commit.index("python3 scripts/rebuild_manifest.py") < commit.index("node scripts/validate-schemas.js")
-    assert commit.index("node scripts/check-data-file-sizes.mjs") < commit.index("git add")
-    assert f"git add {rel} data/_manifest.json data/manifest.json" in commit
+    # The watch file is committed and rebased onto the branch tip before the manifests are
+    # built, so a push by another job in between cannot leave them conflicting (Codex, 2026-10-15).
+    assert commit.index("node scripts/check-data-file-sizes.mjs") < commit.index(f"git add {rel}") \
+        < commit.index("git rebase") < commit.index("npm run audit:file-manifest") \
+        < commit.index("python3 scripts/rebuild_manifest.py") < commit.index("node scripts/validate-schemas.js") \
+        < commit.index("git add data/_manifest.json data/manifest.json") < commit.index("git push")
+    checkout = job[job.index("- name: Checkout"):job.index("Set up Python")]
+    assert "ref: ${{ github.ref }}" in checkout, "the job starts from the branch tip, after the QAP job's push"
     assert "./.github/actions/dispatch-pages-deploy" in commit
     issues = job[job.index("Open / update funding watch issues"):job.index("Commit refreshed funding watch")]
     assert "newly_unverifiable" in issues and "new_federal_notices" in issues and "changed_pages" in issues
@@ -417,3 +423,19 @@ def test_federal_results_are_kept_when_every_page_fails():
     assert mixed["federal_sources"]["grants.gov"]["ok"] is False, "the source counts as failed"
     assert mixed["all_fetches_failed"] is False, "but one query answered, so the run is written"
     assert [n["key"] for n in mixed["changes"]["new_federal_notices"]] == ["grants.gov:9"]
+
+
+def test_a_federal_feed_down_on_the_first_run_gets_its_own_silent_baseline():
+    """Grants.gov failed when the pages were first recorded; the day it answers, its
+    results are its baseline, not a flood of new notices (Codex, 2026-10-15)."""
+    def gg_down(url, data=None, headers=None):
+        if url == GG:
+            raise HTTPError("HTTP Error 503")
+        return site()(url, data, headers)
+    base = run(gg_down)
+    assert not any(n["source"] == "grants.gov" for n in base["federal_notices"])
+    up = run(site(), previous=base, now="2026-10-16T05:34:00Z")
+    assert up["changes"]["new_federal_notices"] == [], "the feed's first answer is silent"
+    gg = [{"id": "1", "title": "Housing grant"}, {"id": "7", "title": "Later grant"}]
+    later = run(site(gg_hits=gg), previous=up, now="2026-10-17T05:34:00Z")
+    assert [n["key"] for n in later["changes"]["new_federal_notices"]] == ["grants.gov:7"]

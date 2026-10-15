@@ -241,8 +241,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+      # The branch tip, not the triggering SHA: the QAP job may have just pushed to it.
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref }}
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v7
@@ -354,22 +357,21 @@ jobs:
             exit 0
           fi
           node scripts/check-data-file-sizes.mjs
+          # Commit the watch file alone and rebase it onto the current branch tip first,
+          # then build the manifests on top: a manifest built on an older base (another
+          # job pushed meanwhile) would conflict. Rebase, not merge -s ours (F119): a real
+          # conflict must fail the job.
+          git add data/audit/funding-watch.json
+          git commit -m "chore: refresh funding-watch $(date -u +'%Y-%m-%d')"
+          git fetch origin "${GITHUB_REF_NAME}"
+          git rebase "origin/${GITHUB_REF_NAME}"
           # AGENTS.md rule 3, in order: _manifest first (manifest.json records its size).
           npm run audit:file-manifest
           python3 scripts/rebuild_manifest.py
           node scripts/validate-schemas.js
-          git add data/audit/funding-watch.json data/_manifest.json data/manifest.json
-          git commit -m "chore: refresh funding-watch $(date -u +'%Y-%m-%d')"
-          # Rebase rather than merge -s ours (F119): a real conflict must fail the job.
-          git fetch origin main
-          git rebase --autostash origin/main
-          npm run audit:file-manifest
-          python3 scripts/rebuild_manifest.py
-          if ! git diff --quiet -- data/_manifest.json data/manifest.json; then
-            git add data/_manifest.json data/manifest.json
-            git commit --amend --no-edit
-          fi
-          git push
+          git add data/_manifest.json data/manifest.json
+          git commit --amend --no-edit
+          git push origin "HEAD:${GITHUB_REF_NAME}"
 
       - name: Trigger Pages deploy
         uses: ./.github/actions/dispatch-pages-deploy
