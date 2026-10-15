@@ -1,0 +1,53 @@
+/* agency-funding.css: the award view (js/agency-funding.js), on where-housing-money-goes.html
+   or any page that holds a [data-agency-funding] block. */
+.hm-search { display: flex; flex-wrap: wrap; gap: var(--sp2); align-items: center; margin: var(--sp3) 0; }
+.hm-search input { flex: 1 1 220px; min-width: 0; font-size: 1rem; padding: 10px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--card); color: var(--text); }
+.hm-search button, .hm-chip, .hm-seg button { min-height: 44px; }
+.hm-answer { font-size: 1.05rem; line-height: 1.5; margin: var(--sp3) 0; }
+.hm-answer .hm-big { display: block; font-size: 1.6rem; font-weight: 700; line-height: 1.2; color: var(--text-strong); }
+.hm-split { display: flex; flex-wrap: wrap; gap: var(--sp2); margin: var(--sp2) 0 0; padding: 0; list-style: none; }
+.hm-split li { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 10px; font-size: var(--small); background: var(--card); }
+.hm-controls { display: grid; gap: var(--sp2); margin: var(--sp4) 0 var(--sp2); }
+.hm-row { display: flex; flex-wrap: wrap; gap: var(--sp2); align-items: center; }
+.hm-row > .hm-label { font-size: var(--small); color: var(--muted); min-width: 5.5em; }
+.hm-chip { border: 1px solid var(--border-strong); border-radius: 999px; padding: 6px 14px; background: var(--card); color: var(--text); font: inherit; font-size: var(--small); cursor: pointer; }
+.hm-chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.hm-seg { display: inline-flex; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); overflow: hidden; }
+.hm-seg button { border: 0; padding: 6px 14px; background: var(--card); color: var(--text); font: inherit; font-size: var(--small); cursor: pointer; }
+.hm-seg button[aria-pressed="true"] { background: var(--accent-dim); font-weight: 700; }
+.hm-row select { min-height: 44px; font: inherit; padding: 4px 8px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--card); color: var(--text); }
+.hm-def { font-size: var(--small); background: var(--accent-weak); border-radius: var(--radius-sm); padding: var(--sp2) var(--sp3); margin: 0; }
+.hm-map { width: 100%; max-width: 720px; height: auto; display: block; margin: var(--sp3) 0 var(--sp1); }
+.hm-map path { stroke: var(--card); stroke-width: 0.8; cursor: pointer; }
+.hm-map path:focus { outline: none; stroke: var(--text-strong); stroke-width: 2.5; }
+.hm-map path.is-picked { stroke: var(--text-strong); stroke-width: 2.5; }
+.hm-legend { display: flex; align-items: center; gap: 4px; font-size: var(--tiny); color: var(--muted); flex-wrap: wrap; }
+.hm-legend i { display: inline-block; width: 24px; height: 10px; }
+.hm-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.hm-table { border-collapse: collapse; width: 100%; font-size: var(--small); }
+.hm-table th, .hm-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.hm-table td.num, .hm-table th.num { text-align: right; white-space: nowrap; }
+.hm-table thead th { position: sticky; top: 0; background: var(--card); }
+.hm-table th button { all: unset; cursor: pointer; font-weight: 700; display: inline-flex; gap: 4px; align-items: center; min-height: 32px; }
+.hm-table th button:focus-visible { box-shadow: var(--focus-ring); }
+.hm-matrix thead th { white-space: normal; min-width: 4.5em; text-transform: none; }
+.hm-matrix th[scope="row"] { position: sticky; left: 0; background: var(--card); min-width: 9em; }
+.hm-group > th[scope="row"] button { all: unset; cursor: pointer; font-weight: 700; display: inline-flex; gap: 6px; align-items: baseline; min-height: 32px; }
+.hm-group > th[scope="row"] button:focus-visible { box-shadow: var(--focus-ring); }
+.hm-table thead th { text-transform: none; letter-spacing: 0; }
+.hm-table th { text-transform: none; letter-spacing: 0; }
+.hm-count { display: block; font-weight: 400; font-size: var(--tiny); color: var(--muted); }
+.hm-money { white-space: pre-line !important; }
+.hm-award td { padding-left: 1.4em; background: var(--accent-weak); }
+.hm-award-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; }
+.hm-award-amt { font-weight: 700; white-space: nowrap; }
+.hm-tag { margin-left: 6px; }
+.hm-muted { color: var(--muted); }
+.hm-tag { display: inline-block; font-size: var(--tiny); border: 1px solid var(--border-strong); border-radius: 4px; padding: 0 5px; margin-left: 4px; color: var(--muted); }
+.hm-quote { margin: 4px 0 0; padding-left: var(--sp2); border-left: 3px solid var(--border); color: var(--muted); font-size: var(--tiny); }
+.hm-search [hidden], [data-agency-funding] [hidden] { display: none !important; }
+.hm-about { margin: var(--sp5) 0; }
+.hm-about summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
+@media (max-width: 640px) {
+  .hm-table th, .hm-table td { padding: 6px 6px; }
+}
