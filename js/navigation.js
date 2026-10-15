@@ -322,8 +322,8 @@
     header.innerHTML = `
       <div class="nav-wrap">
         <div class="brand">
-          <a href="${normalizeHref('index.html')}">Colorado Housing Data</a>
-          <small>Public-Data Reference</small>
+          <a href="${normalizeHref('index.html')}">COHO Analytics</a>
+          <small>Colorado affordable housing data</small>
         </div>
         <div class="jurisdiction-pill-wrap" id="jurisdictionPillWrap">
           <!-- populated by _updateJurisdictionPill() after DOM is ready -->
@@ -395,7 +395,7 @@
     drawer.setAttribute('aria-label', 'Site navigation');
     drawer.innerHTML = `
       <div class="mobile-nav-header">
-        <div class="mobile-nav-title">Colorado Housing Data</div>
+        <div class="mobile-nav-title">COHO Analytics</div>
         <button type="button" id="mobileNavClose" class="mobile-nav-close" aria-label="Close menu">&#x2715;</button>
       </div>
       <nav class="mobile-nav-links">
@@ -427,7 +427,7 @@
     footer.innerHTML = `
       <div class="footer-wrap">
         <div class="footer-col">
-          <strong>Colorado Housing Data</strong>
+          <strong>COHO Analytics</strong>
           <p>A public-data reference for Colorado affordable housing — HUD, Census, CHFA, and DOLA sources drawn together for reference.</p>
         </div>
         <div class="footer-col">

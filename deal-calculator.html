@@ -205,8 +205,55 @@
       <p class="dc-lead" data-dc-mode="rental">Model your tax credit deal: eligible basis, credit amount, equity, gap financing, and debt service. Choose published CHFA limits, a non-CHFA AMI formula, or unrestricted market rents for your county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
       <p class="dc-lead" data-dc-mode="ownership" hidden>Test whether a for-sale project closes: development cost per home against the price a household at the target income can afford, the subsidy gap between them, and what the public keeps at resale. Uses HUD income limits for your selected county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
       <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;" role="note"><strong>Screening tool only.</strong> Outputs are planning-level estimates based on simplified assumptions. They are not a substitute for lender underwriting, investor pricing, legal advice, or a CHFA-required market analysis.</p>
+      <p data-dc-mode="rental" style="font-size:.82rem;margin-top:.25rem;"><a href="#dcAboutAndContext">What this calculator does not model, rent context and data sources &darr;</a></p>
     </div>
 
+    <!-- ── Calculator mount (deal-calculator.js renders into this div) ── -->
+    <div style="max-width:1400px;margin:0 auto;padding:0 18px;">
+      <!-- F202 — Save / share / export bar. Mirrors the HNA pattern.
+           "Copy link" updates the URL bar with the current scenario state +
+           writes it to clipboard. "Download PDF" screenshots <main>. "Export
+           JSON" downloads the inputs as machine-readable JSON. -->
+      <div id="dcShareBar" role="toolbar" aria-label="Save and share this scenario"
+           style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end;
+                  margin:0 0 12px;padding:8px 10px;background:var(--bg2);
+                  border:1px solid var(--border);border-radius:var(--radius);">
+        <span style="font-size:.78rem;color:var(--muted);align-self:center;margin-right:auto;">
+          <strong>Share this scenario:</strong> URL carries every input + tranche; partners open the link and see the same deal.
+        </span>
+        <button id="dc-share-copy" type="button"
+                style="padding:6px 12px;background:var(--accent);color:var(--on-accent,#fff);border:none;border-radius:var(--radius-sm);font-weight:600;font-size:.84rem;cursor:pointer;min-height:36px;">
+          📋 Copy link
+        </button>
+        <button id="dc-share-pdf" type="button"
+                style="padding:6px 12px;background:var(--card);color:var(--accent);border:1px solid var(--accent);border-radius:var(--radius-sm);font-weight:600;font-size:.84rem;cursor:pointer;min-height:36px;">
+          📄 Download PDF
+        </button>
+        <button id="dc-share-json" type="button"
+                style="padding:6px 12px;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);font-weight:600;font-size:.84rem;cursor:pointer;min-height:36px;">
+          📊 Export JSON
+        </button>
+        <button id="dc-share-csv" type="button"
+                style="padding:6px 12px;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);font-weight:600;font-size:.84rem;cursor:pointer;min-height:44px;">
+          Export CSV
+        </button>
+        <!-- F214 — Open IC Summary with the active jurisdiction's geoid
+             (from WorkflowState) + a deep-link param pointing back to
+             this Deal Calc scenario URL so the reader can drill back in. -->
+        <button id="dc-share-ic" type="button"
+                style="padding:6px 12px;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);font-weight:600;font-size:.84rem;cursor:pointer;min-height:36px;">
+          📑 Open IC Summary →
+        </button>
+      </div>
+      <p data-dc-mode="ownership" hidden><a href="for-sale-market-study.html">For-Sale Market Study (screening)</a> &middot; <a id="dc-shared-equity-brief" href="research-brief.html?id=shared-equity-for-sale-rental-2026">Shared equity brief</a></p>
+      <div id="dealCalcMount"></div>
+    </div>
+
+    <!-- About the calculator, rent context and data sources. Moved below the
+         calculator on 2026-10-15 so the first input is near the top of a
+         phone screen; the short screening note stays in the header above.
+         Nothing removed. -->
+    <section id="dcAboutAndContext" aria-label="About this calculator, rent context and data sources" style="max-width:1400px;margin:0 auto;padding:0 18px;">
     <div data-dc-mode="rental" id="pageContext"></div>
 
     <!-- Rent context compares voucher, existing and asking rents. Published
@@ -312,46 +359,7 @@
     });
     </script>
 
-    <!-- ── Calculator mount (deal-calculator.js renders into this div) ── -->
-    <div style="max-width:1400px;margin:0 auto;padding:0 18px;">
-      <!-- F202 — Save / share / export bar. Mirrors the HNA pattern.
-           "Copy link" updates the URL bar with the current scenario state +
-           writes it to clipboard. "Download PDF" screenshots <main>. "Export
-           JSON" downloads the inputs as machine-readable JSON. -->
-      <div id="dcShareBar" role="toolbar" aria-label="Save and share this scenario"
-           style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end;
-                  margin:0 0 12px;padding:8px 10px;background:var(--bg2);
-                  border:1px solid var(--border);border-radius:var(--radius);">
-        <span style="font-size:.78rem;color:var(--muted);align-self:center;margin-right:auto;">
-          <strong>Share this scenario:</strong> URL carries every input + tranche; partners open the link and see the same deal.
-        </span>
-        <button id="dc-share-copy" type="button"
-                style="padding:6px 12px;background:var(--accent);color:var(--on-accent,#fff);border:none;border-radius:var(--radius-sm);font-weight:600;font-size:.84rem;cursor:pointer;min-height:36px;">
-          📋 Copy link
-        </button>
-        <button id="dc-share-pdf" type="button"
-                style="padding:6px 12px;background:var(--card);color:var(--accent);border:1px solid var(--accent);border-radius:var(--radius-sm);font-weight:600;font-size:.84rem;cursor:pointer;min-height:36px;">
-          📄 Download PDF
-        </button>
-        <button id="dc-share-json" type="button"
-                style="padding:6px 12px;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);font-weight:600;font-size:.84rem;cursor:pointer;min-height:36px;">
-          📊 Export JSON
-        </button>
-        <button id="dc-share-csv" type="button"
-                style="padding:6px 12px;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);font-weight:600;font-size:.84rem;cursor:pointer;min-height:44px;">
-          Export CSV
-        </button>
-        <!-- F214 — Open IC Summary with the active jurisdiction's geoid
-             (from WorkflowState) + a deep-link param pointing back to
-             this Deal Calc scenario URL so the reader can drill back in. -->
-        <button id="dc-share-ic" type="button"
-                style="padding:6px 12px;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);font-weight:600;font-size:.84rem;cursor:pointer;min-height:36px;">
-          📑 Open IC Summary →
-        </button>
-      </div>
-      <p data-dc-mode="ownership" hidden><a href="for-sale-market-study.html">For-Sale Market Study (screening)</a> &middot; <a id="dc-shared-equity-brief" href="research-brief.html?id=shared-equity-for-sale-rental-2026">Shared equity brief</a></p>
-      <div id="dealCalcMount"></div>
-    </div>
+    </section><!-- /#dcAboutAndContext -->
 
     <!-- ── Rent vs Buy Breakeven (Phase 3 / C2) ────────────────────────
          Mini-calculator that complements the LIHTC pro forma by

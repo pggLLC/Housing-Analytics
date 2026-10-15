@@ -26,17 +26,27 @@
     if (!strip) return;
 
     if (jurEl) jurEl.textContent = jur.name;
-    // F57 follow-up: WorkflowState's nextStepNum is 1..totalCount for
-    // trackable steps (jurisdiction…deal). The canonical user-facing
-    // counter adds 1 for the Opportunity Finder, which the progress bar
-    // shows as step 1 but WorkflowState doesn't track (it's a discovery
-    // step). Derive the denominator from progress.totalCount so this
-    // strip stays in sync with STEP_META if the tracked-step list ever
-    // changes — F57 originally hardcoded 6 here, which we missed in the
-    // same sweep that fixed workflow-next-action.js.
-    var totalSteps = (progress.totalCount || 5) + 1;
-    if (stepEl) stepEl.textContent = 'Step ' + (progress.nextStepNum + 1) + ' of ' + totalSteps + ' — ' + progress.nextStepLabel;
-    if (ctaEl) ctaEl.href = progress.nextStepUrl;
+    // The step rail (js/components/workflow-progress.js) is the only place a
+    // step number is written down. WorkflowState tracks five of its seven
+    // steps under its own numbering, and this strip used to add 1 to that and
+    // say "Step 4 of 6" beside a seven-step rail. Map the next unfinished
+    // step's key onto the rail instead; with every tracked step done, the
+    // next step is the rail's last one (the Recommendation).
+    var WP = window.WorkflowProgress;
+    var rail = (WP && (WP.routeSteps ? WP.routeSteps() : WP.STEPS)) || null;
+    var nextKey = progress.nextIncomplete || 'recommendation';
+    var next = null;
+    if (rail) {
+      for (var i = 0; i < rail.length; i++) { if (rail[i].key === nextKey) next = rail[i]; }
+    }
+    if (next) {
+      if (stepEl) stepEl.textContent = 'Step ' + next.num + ' of ' + rail.length + ' — ' + next.label;
+      if (ctaEl) ctaEl.href = next.href;
+    } else {
+      // No rail to read: name the step without inventing a count.
+      if (stepEl) stepEl.textContent = progress.nextStepLabel || '';
+      if (ctaEl && progress.nextStepUrl) ctaEl.href = progress.nextStepUrl;
+    }
     strip.hidden = false;
 
     var newBtn = document.getElementById('homeResumeNewBtn');

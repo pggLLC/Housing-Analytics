@@ -95,6 +95,11 @@
    * discovery, and Recommendation is the output, not a task. */
   var UNTRACKED_STEPS = { opportunity: 1, recommendation: 1 };
 
+  /* Steps the route can skip: the Opportunity Finder is for choosing where to
+   * work, and a reader who has chosen does not need it. Never offered as
+   * "the next step"; pages that want it link to it themselves. */
+  var OPTIONAL_STEPS = { opportunity: 1 };
+
   /* Other pages that ARE a step, beyond the one the rail links to.
    *
    * The rail carries one href per step — the page the guided route sends you
@@ -358,7 +363,17 @@
 
     } else if (!currentDone || UNTRACKED_STEPS[currentStep]) {
       // State 2: Current step incomplete (or untracked), all priors done
-      var nextAfterCurrent = currentIdx < STEP_KEYS.length - 1 ? STEP_KEYS[currentIdx + 1] : null;
+      // The next step to recommend skips optional ones. On Select
+      // Jurisdiction this banner said "Go on to Opportunity Finder" while the
+      // page's own button said "Begin Housing Needs Assessment (step 3)" and
+      // called step 2 optional: two prominent, different answers to "what
+      // next". The optional step is still offered by the page itself.
+      var nextAfterCurrent = null;
+      for (var na = currentIdx + 1; na < STEP_KEYS.length; na++) {
+        if (OPTIONAL_STEPS[STEP_KEYS[na]]) continue;
+        nextAfterCurrent = STEP_KEYS[na];
+        break;
+      }
       icon    = '\uD83D\uDCCB';  // clipboard
       variant = 'current';
       heading = 'Step ' + (currentIdx + 1) + ' of ' + STEP_KEYS.length;
