@@ -245,7 +245,7 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   const wa = WP.buildModel(src, '0833640', { FundingFit }).dynamics.localMoney;
   ok(wa.some((w) => /Land Banking/.test(w.program)), 'the Gunnison land-banking award reaches the landscape (non-vacuity)');
   const page = read('developer-brief.html');
-  ok(/WP\.landscapePath\(geoid\)/.test(page) && /WP\.landscapePath\(row\.containingCounty\)/.test(page) && /\blandscape, summary\b/.test(page), 'the page loads the town file, falls back to the county, and passes it on');
+  ok(/WP\.landscapePath\(geoid\)/.test(page) && /WP\.relatedGeoids\(SOURCES, geoid\)/.test(page) && /related\.map\(g => softJson\(WP\.landscapePath\(g\)\)\)/.test(page) && /relatedContacts, relatedLandscape/.test(page), 'the page loads the place file and its related files, and passes them on');
 }
 
 // ---- 8. The merged report: community profile, market rents, all properties, policy
@@ -341,6 +341,30 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   const hasNullCell = (gm.market || []).some((x) => ['studio', 'br1', 'br2', 'br3', 'all'].some((k) => x[k] === null || x[k] === undefined));
   const gh = WP.renderHtml(gm);
   ok(hasNullCell && !/<td class="n"><\/td>/.test(gh), 'market rents the source does not publish print Not available, not a blank cell');
+}
+
+// ---- 11. Research stands in across levels: a county with none of its own shows its
+// towns' researched contacts and landscape, labelled; a town borrows its county's.
+{
+  const cityContacts = JSON.parse(read(WP.contactsPath('0833640')));
+  const cityLand = JSON.parse(read(WP.landscapePath('0833640')));
+  ok(!existsSync(join(ROOT, WP.contactsPath('08051'))), 'Gunnison County has no contacts file of its own (the case paul hit)');
+  ok(WP.relatedGeoids(src, '08051').includes('0833640') && WP.relatedGeoids(src, '0833640')[0] === '08051', 'related places: county to towns, town to county');
+  const cm = WP.buildModel(src, '08051', { FundingFit, relatedContacts: [cityContacts], relatedLandscape: [cityLand] });
+  const ch = WP.renderHtml(cm);
+  ok(cm.contacts.related.length === 1 && cm.contacts.related[0].contacts.length === cityContacts.contacts.length && !cm.contacts.needsResearch, 'the county report carries every researched City of Gunnison contact');
+  ok(ch.includes('Researched for City of Gunnison</h3>') && cityContacts.contacts.every((c) => ch.includes(c.name)) && !ch.includes('No named contacts have been researched'), 'the county report prints them under their own heading, not the not-researched note');
+  ok(cm.landscape.research && cm.landscape.research.placeLevel && /Researched for Gunnison \(city\), a town in this county/.test(ch), 'the county report uses the town landscape and says whose it is');
+  // A file for a place outside the county never stands in.
+  const denver = clone(cityContacts); denver.geoid = '0820000';
+  ok(WP.buildModel(src, '08051', { FundingFit, relatedContacts: [denver] }).contacts.related.length === 0, 'sabotage: another county\'s town file is ignored');
+  // A town borrows its county's file.
+  const county = clone(cityContacts); county.geoid = '08051'; county.name = 'Gunnison County';
+  const cb = WP.buildModel(src, '0818310', { FundingFit, relatedContacts: [county] });
+  ok(WP.relatedGeoids(src, '0818310')[0] === '08051' && cb.contacts.related.length === 1 && /researched for its county/.test(WP.renderHtml(cb)), 'a town with no file shows its county\'s researched contacts');
+  // The town's own file still wins over related ones.
+  const own = WP.buildModel(src, '0833640', { FundingFit, contacts: cityContacts, relatedContacts: [] });
+  ok(own.contacts.researched.length === cityContacts.contacts.length && own.contacts.related.length === 0, 'a place with its own contacts shows them first');
 }
 
 console.log(`jurisdiction-whitepaper: ${checks} checks passed`);

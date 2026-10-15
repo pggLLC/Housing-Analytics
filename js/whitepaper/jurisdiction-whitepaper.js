@@ -70,6 +70,15 @@
   // Researched local landscape (agencies, plans, task forces, people, land, pipeline).
   // A place without its own file falls back to its county's.
   function landscapePath(geoid) { return 'data/jurisdiction-briefs/_landscape/' + geoid + '.json'; }
+  // Where researched contacts and landscape can stand in when a place has none of its
+  // own: a town falls back to its county, a county to the towns inside it.
+  function relatedGeoids(src, geoid) {
+    var rows = (src && src.rankingIndex && src.rankingIndex.rankings) || [];
+    var row = rows.find(function (r) { return r.geoid === geoid; });
+    if (!row) return [];
+    if (row.type !== 'county') return row.containingCounty ? [row.containingCounty] : [];
+    return rows.filter(function (r) { return r.type !== 'county' && r.containingCounty === geoid; }).map(function (r) { return r.geoid; });
+  }
   // ACS profile for the place or county (demographics and housing stock).
   function summaryPath(geoid) { return 'data/hna/summary/' + geoid + '.json'; }
 
@@ -536,10 +545,16 @@
     return { route: route, mix: mix, rentCheck: rentCheck, boost: boost, medianSize: medianSize, notes: notes };
   }
 
-  function contactsSection(row, src, contactsFile, resources) {
-    var researched = contactsFile && Array.isArray(contactsFile.contacts) ? contactsFile.contacts.filter(function (c) {
-      return c && c.name && safeHref(c.source_url) && c.source_quote;
-    }) : [];
+  function contactsSection(row, src, contactsFile, resources, relatedFiles) {
+    function usable(f) {
+      return f && Array.isArray(f.contacts) ? f.contacts.filter(function (c) { return c && c.name && safeHref(c.source_url) && c.source_quote; }) : [];
+    }
+    var researched = usable(contactsFile);
+    // A town's county, or a county's towns, researched where this place is not.
+    var allowed = relatedGeoids(src, row.geoid);
+    var related = (relatedFiles || []).filter(function (f) { return f && allowed.indexOf(f.geoid) !== -1; })
+      .map(function (f) { return { geoid: f.geoid, name: f.name || f.geoid, checked: f.checked || null, contacts: usable(f) }; })
+      .filter(function (f) { return f.contacts.length; });
     // Organisation links from local-resources.json, without search-engine links.
     var orgs = [];
     var keys = row.type === 'county' ? ['county:' + row.geoid] : ['place:' + row.geoid, 'county:' + row.containingCounty];
@@ -563,8 +578,9 @@
     return {
       researched: researched,
       checked: contactsFile ? contactsFile.checked || null : null,
+      related: related,
       orgs: orgs,
-      needsResearch: researched.length === 0
+      needsResearch: researched.length === 0 && related.length === 0
     };
   }
 
@@ -601,8 +617,8 @@
 
     // From the hand-researched file, when there is one.
     var research = null;
-    if (file && (file.geoid === row.geoid || file.geoid === county)) {
-      research = { geoid: file.geoid, countyLevel: file.geoid !== row.geoid, researched: file.researched || null, groups: [], notFound: (Array.isArray(file.not_found) ? file.not_found : []).filter(function (t) { return typeof t === 'string' && !EXCLUDED_PROJECT.test(t); }) };
+    if (file && (file.geoid === row.geoid || file.geoid === county || (row.type === 'county' && relatedGeoids(src, row.geoid).indexOf(file.geoid) !== -1))) {
+      research = { geoid: file.geoid, countyLevel: row.type !== 'county' && file.geoid !== row.geoid, placeLevel: row.type === 'county' && file.geoid !== row.geoid ? (file.name || (((src.rankingIndex || {}).rankings || []).find(function (r) { return r.geoid === file.geoid; }) || {}).name || file.geoid) : null, researched: file.researched || null, groups: [], notFound: (Array.isArray(file.not_found) ? file.not_found : []).filter(function (t) { return typeof t === 'string' && !EXCLUDED_PROJECT.test(t); }) };
       LANDSCAPE_KINDS.forEach(function (k) {
         var items = (Array.isArray(file[k[0]]) ? file[k[0]] : []).filter(sourced).filter(function (e) { return !EXCLUDED_PROJECT.test(JSON.stringify(e)); });
         research.groups.push({ key: k[0], label: k[1], items: items });
@@ -699,9 +715,9 @@
       policy: policy,
       funding: fundingSection(row, src, opts.FundingFit),
       deal: dealShape(need, rents, lihtc),
-      landscape: landscapeSection(row, src, opts.landscape || null, countyName),
+      landscape: landscapeSection(row, src, opts.landscape || (opts.relatedLandscape || []).filter(Boolean)[0] || null, countyName),
       dynamics: dealDynamics(row, src, need, lihtc, policy),
-      contacts: contactsSection(row, src, opts.contacts || null, opts.localResources || null),
+      contacts: contactsSection(row, src, opts.contacts || null, opts.localResources || null, opts.relatedContacts || []),
       dates: nextDates(src, today),
       brief: brief ? {
         lastCurated: brief.last_curated || null,
@@ -756,7 +772,9 @@
       (m.lihtc.applications ? '; ' + m.lihtc.applications.length + ' application' + (m.lihtc.applications.length === 1 ? '' : 's') + ' in the CHFA applicant reports' : '') + '.</li>');
     items.push('<li><strong>Prop 123:</strong> ' + (p ? esc(p.status) + ' (filed ' + esc(p.filing_date || 'date not recorded') + ', ' + fmtInt(p.proposed_units) + ' units promised' + (p.fast_track ? ', fast-track adopted' : '') + ')' : 'no commitment on file for this jurisdiction') + '.</li>');
     items.push('<li><strong>Deal shape:</strong> ' + esc(d.route) + (d.rentCheck && d.rentCheck.limit60 !== null && d.rentCheck.fmr !== null && d.rentCheck.limit60 > d.rentCheck.fmr ? '; test achievable rent before using 60% AMI units' : '') + '.</li>');
-    items.push('<li><strong>Contacts:</strong> ' + (m.contacts.needsResearch ? 'not yet researched for this jurisdiction (organisation links below)' : m.contacts.researched.length + ' named, each with its source') + '.</li>');
+    items.push('<li><strong>Contacts:</strong> ' + (m.contacts.needsResearch ? 'not yet researched for this jurisdiction (organisation links below)'
+      : m.contacts.researched.length ? m.contacts.researched.length + ' named, each with its source'
+      : 'none researched here yet; ' + m.contacts.related.reduce(function (n, f) { return n + f.contacts.length; }, 0) + ' from ' + m.contacts.related.map(function (f) { return f.name; }).join(', ') + ' shown instead') + '.</li>');
     return '<h2 id="summary">Summary</h2><ul>' + items.join('') + '</ul>';
   }
 
@@ -1033,6 +1051,7 @@
     if (L.research) {
       var R = L.research;
       if (R.countyLevel) h += '<p class="wp-meta">Researched for ' + esc(L.countyName) + ' as a whole; nothing yet specific to ' + esc(m.name) + '.</p>';
+      if (R.placeLevel) h += '<p class="wp-meta">Researched for ' + esc(R.placeLevel) + ', a town in this county; nothing yet for the county as a whole.</p>';
       R.groups.forEach(function (g) {
         if (!g.items.length) return;
         h += '<h3>' + esc(g.label) + '</h3><ul>' + g.items.map(function (e) { return '<li>' + landscapeItem(g.key, e) + '</li>'; }).join('') + '</ul>';
@@ -1089,22 +1108,31 @@
     return h + srcLine(D.sources);
   }
 
+  function contactTable(list, checked) {
+    return '<div class="wp-scroll"><table><thead><tr><th>Name</th><th>Role</th><th>Contact</th><th>Source</th></tr></thead><tbody>' +
+      list.map(function (c) {
+        var how = [c.email ? esc(c.email) : '', c.phone ? esc(c.phone) : ''].filter(Boolean).join('<br>');
+        return '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.role || '') + (c.org ? '<br><span class="wp-meta">' + esc(c.org) + '</span>' : '') + '</td><td>' + (how || NA) + '</td><td>' + link(c.source_label || 'source', c.source_url) + '<br><span class="wp-meta">“' + esc(c.source_quote) + '”</span></td></tr>';
+      }).join('') + '</tbody></table></div><p class="wp-meta">Contacts checked ' + esc(checked || NA) + '. Staff change; confirm before reaching out.</p>';
+  }
+
   function renderContacts(m) {
     var C = m.contacts;
     var h = '<h2 id="contacts">Who to contact</h2>';
     if (C.researched.length) {
-      h += '<div class="wp-scroll"><table><thead><tr><th>Name</th><th>Role</th><th>Contact</th><th>Source</th></tr></thead><tbody>' +
-        C.researched.map(function (c) {
-          var how = [c.email ? esc(c.email) : '', c.phone ? esc(c.phone) : ''].filter(Boolean).join('<br>');
-          return '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.role || '') + (c.org ? '<br><span class="wp-meta">' + esc(c.org) + '</span>' : '') + '</td><td>' + (how || NA) + '</td><td>' + link(c.source_label || 'source', c.source_url) + '<br><span class="wp-meta">“' + esc(c.source_quote) + '”</span></td></tr>';
-        }).join('') + '</tbody></table></div><p class="wp-meta">Contacts checked ' + esc(C.checked || NA) + '. Staff change; confirm before reaching out.</p>';
+      h += contactTable(C.researched, C.checked);
+    } else if (C.related.length) {
+      h += '<p class="wp-note">No contacts have been researched for ' + esc(m.name) + ' itself. These were researched for ' + (m.kind === 'county' ? 'a town in this county' : 'its county') + ' and are the nearest starting points.</p>';
     } else {
       h += '<p class="wp-note">No named contacts have been researched for this jurisdiction yet. The organisations below are the starting points.</p>';
     }
+    (C.related || []).forEach(function (f) {
+      h += '<h3>Researched for ' + esc(f.name) + '</h3>' + contactTable(f.contacts, f.checked);
+    });
     if (C.orgs.length) {
       h += '<h3>Organisations</h3><ul>' + C.orgs.map(function (o) { return '<li>' + esc(o.role) + ': ' + link(o.name, o.url) + '</li>'; }).join('') + '</ul>';
     }
-    return h + srcLine(['data/jurisdiction-briefs/_contacts/' + m.geoid + '.json (researched contacts)', 'data/hna/local-resources.json (organisation links; search links omitted)']);
+    return h + srcLine([contactsPath(m.geoid) + ' (researched contacts)'].concat((C.related || []).map(function (f) { return contactsPath(f.geoid); }), ['data/hna/local-resources.json (organisation links; search links omitted)']));
   }
 
   function renderDates(m) {
@@ -1147,6 +1175,7 @@
     briefPath: briefPath,
     contactsPath: contactsPath,
     landscapePath: landscapePath,
+    relatedGeoids: relatedGeoids,
     summaryPath: summaryPath,
     findByName: findByName,
     buildModel: buildModel,

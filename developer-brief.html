@@ -294,15 +294,19 @@
     $('briefContent').innerHTML = '<div class="ib-loading">Building the report for ' + esc(name) + '…</div>';
     $('reportPdf').disabled = $('reportDownload').disabled = true;
     history.replaceState({}, '', '?geoid=' + geoid);
+    // A town without its own research borrows its county's; a county borrows its towns'.
+    const related = WP.relatedGeoids(SOURCES, geoid);
     Promise.all([
       softJson(WP.briefPath(geoid)),
       softJson(WP.contactsPath(geoid)),
-      softJson(WP.landscapePath(geoid)).then(own => own || (isCounty ? null : softJson(WP.landscapePath(row.containingCounty)))),
-      softJson(WP.summaryPath(geoid))
-    ]).then(([brief, contacts, landscape, summary]) => {
+      softJson(WP.landscapePath(geoid)),
+      softJson(WP.summaryPath(geoid)),
+      Promise.all(related.map(g => softJson(WP.contactsPath(g)))),
+      Promise.all(related.map(g => softJson(WP.landscapePath(g))))
+    ]).then(([brief, contacts, landscape, summary, relatedContacts, relatedLandscape]) => {
       if (typeof isSensitive !== 'function') throw new Error('the private-text check (scripts/lib/public-sensitive-patterns.mjs) did not load, so nothing was built');
       const model = WP.buildModel(SOURCES, geoid, {
-        FundingFit: window.FundingFit, brief, contacts, landscape, summary, localResources: LOCAL_RES, isSensitive
+        FundingFit: window.FundingFit, brief, contacts, landscape, summary, relatedContacts, relatedLandscape, localResources: LOCAL_RES, isSensitive
       });
       html = WP.renderHtml(model);
       if (!model.error && isSensitive(html)) {
