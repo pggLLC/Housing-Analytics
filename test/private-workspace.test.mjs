@@ -70,6 +70,11 @@ ok(someStats.pipeline === 3 && someStats.contacts === 3 && someStats.strong30 ==
 const partial = await PW.load(fromMap({ '02-pipeline.csv': PIPELINE }));
 ok(PW.stats(partial, PW.mergedPipeline(partial, null), TODAY).contacts === null, 'a missing network file counts null while the pipeline still counts');
 
+const onlyNet = await PW.load(fromMap({ '04-network.csv': NETWORK }));
+const draftOnly = { merge: () => [{ jurisdiction: 'Ouray', geoid: '0856145', stage: 'Screen', _isDraft: true }] };
+const dst = PW.stats(onlyNet, PW.mergedPipeline(onlyNet, draftOnly), TODAY);
+ok(dst.pipeline === null && dst.inConversation === null && dst.contacts === 3, 'a site draft does not turn an unreadable pipeline file into a count');
+
 // 3. Per place, related places, due list, columns.
 const pipe = PW.mergedPipeline(ws, null);
 const g = PW.forPlace(ws, pipe, '0833640', ['08051']);

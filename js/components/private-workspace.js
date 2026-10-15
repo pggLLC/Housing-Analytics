@@ -176,9 +176,12 @@
   function stats(ws, pipeline, today) {
     var f = (ws && ws.files) || {};
     var inConversation = (pipeline || []).filter(function (p) { return ['Outreach', 'IC', 'Brief', 'PreApp', 'Active'].indexOf(p.stage) !== -1; }).length;
+    // Without the pipeline file the totals are unknown: the site's own drafts are
+    // only part of the pipeline, so counting them alone would understate it.
+    var noFile = !f.pipeline;
     return {
-      pipeline: f.pipeline === null && !(pipeline || []).length ? null : (pipeline || []).filter(function (p) { return p.stage !== 'Anti'; }).length,
-      inConversation: f.pipeline === null && !(pipeline || []).length ? null : inConversation,
+      pipeline: noFile ? null : (pipeline || []).filter(function (p) { return p.stage !== 'Anti'; }).length,
+      inConversation: noFile ? null : inConversation,
       strong30: f.signals === null ? null : strongSignals(ws, today, 30).length,
       anti: f.anti === null ? null : f.anti.length,
       contacts: f.network === null ? null : f.network.length
