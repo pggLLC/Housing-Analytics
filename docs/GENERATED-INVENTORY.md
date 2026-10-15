@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-14T23:57:03.730Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T02:21:15.219Z. Do not edit by hand.
 
 ---
 
@@ -88,7 +88,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 822.8 KB | ✅ | — |
+| `data/_manifest.json` | 823.4 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1591,7 +1591,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 213.7 KB | ✅ | — |
+| `data/manifest.json` | 213.8 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1779,7 +1779,7 @@
 
 ## Test Files
 
-603 test files found.
+607 test files found.
 
 | File | Size |
 |------|------|
@@ -1870,7 +1870,7 @@
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
 | `test/dc-peer-deals.test.js` | 9.3 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
-| `test/deal-calc-absence-semantics.test.js` | 12.9 KB |
+| `test/deal-calc-absence-semantics.test.js` | 13.6 KB |
 | `test/deal-calc-ami-bands.test.js` | 6.8 KB |
 | `test/deal-calc-correctness.test.js` | 4.0 KB |
 | `test/deal-calc-equity-pricing.test.js` | 8.2 KB |
@@ -1893,9 +1893,9 @@
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
-| `test/deal-engine-golden.test.js` | 7.5 KB |
+| `test/deal-engine-golden.test.js` | 7.6 KB |
 | `test/deal-engine-surfaces.test.js` | 11.5 KB |
-| `test/deal-engine.test.js` | 6.6 KB |
+| `test/deal-engine.test.js` | 6.7 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 6.0 KB |
@@ -1940,6 +1940,7 @@
 | `test/fixtures/deal-engine/golden.json` | 36.1 KB |
 | `test/fixtures/deal-engine/invented-sources.cjs` | 2.1 KB |
 | `test/fixtures/equity-pricing-drivers.json` | 7.8 KB |
+| `test/fixtures/loan-obligations/invented.json` | 1.1 KB |
 | `test/fixtures/pma/barrier-downweight.fixture.json` | 412 B |
 | `test/fixtures/pma/commute-shed-params.fixture.json` | 1.3 KB |
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
@@ -1970,6 +1971,7 @@
 | `test/helpers/ci-wiring.js` | 1.9 KB |
 | `test/helpers/deal-calculator-page.cjs` | 4.5 KB |
 | `test/helpers/deal-engine-inputs.cjs` | 1.1 KB |
+| `test/helpers/deal-engine-l1-expected.cjs` | 1.2 KB |
 | `test/helpers/deal-engine-page.cjs` | 1.6 KB |
 | `test/helpers/jspdf-mock.cjs` | 2.8 KB |
 | `test/historical-trends-real-data.test.js` | 15.8 KB |
@@ -2078,6 +2080,8 @@
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 8.8 KB |
 | `test/lihtc-project-size.test.js` | 6.8 KB |
 | `test/livability-brief.test.mjs` | 10.4 KB |
+| `test/loan-obligations-page.test.js` | 5.8 KB |
+| `test/loan-obligations.test.js` | 8.1 KB |
 | `test/local-incentives.test.mjs` | 11.4 KB |
 | `test/local-resources-discovery.test.js` | 8.0 KB |
 | `test/local-resources-entry-completeness.test.js` | 3.3 KB |
@@ -2178,7 +2182,7 @@
 | `test/predictor-policy-browser.test.js` | 8.4 KB |
 | `test/predictor-policy.test.js` | 4.1 KB |
 | `test/preservation.test.js` | 17.4 KB |
-| `test/pro-forma.test.js` | 2.7 KB |
+| `test/pro-forma.test.js` | 2.8 KB |
 | `test/production-figure-names-its-reading.test.js` | 8.5 KB |
 | `test/production-need-counts-the-workforce.test.mjs` | 8.7 KB |
 | `test/project-scenario.test.js` | 7.8 KB |
