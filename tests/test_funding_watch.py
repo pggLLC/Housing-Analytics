@@ -942,3 +942,31 @@ def test_a_notice_past_a_capped_window_is_not_counted_missing():
     # Non-vacuity: an answered, uncapped query without it starts the clock.
     gone = go([], previous=base, now="2026-10-16T05:34:00Z")
     assert {n["key"]: n for n in gone["federal_notices"]}["grants.gov:1"]["missing_since"]
+
+
+def test_a_run_that_could_not_look_resets_the_missing_clock():
+    """The clock counts unbroken answered days without the notice: a later capped or
+    failed run clears it, so time it could not be looked for never counts (Codex, 2026-10-15)."""
+    sources = json.loads(json.dumps(SOURCES))
+    sources["federal"]["grants_gov"].update({"keywords": ["housing"], "rows": 2, "max_records": 2})
+
+    def go(fetch, previous=None, now="2026-10-15T05:34:00Z"):
+        return watch.run(fetch=fetch, previous=previous, now=now, guide=GUIDE, soft=SOFT, sources=sources)
+    old = [{"id": "1", "title": "Housing grant"}]
+    base = go(site(gg_hits=old))
+    gone = go(site(gg_hits=[]), previous=base, now="2026-10-16T05:34:00Z")
+    assert {n["key"]: n for n in gone["federal_notices"]}["grants.gov:1"]["missing_since"]
+    others = [{"id": str(i), "title": f"Housing grant {i}"} for i in (3, 4, 5)]
+    capped = go(site(gg_hits=others), previous=gone, now="2026-10-17T05:34:00Z")
+    assert capped["federal_capped"]
+    assert "missing_since" not in {n["key"]: n for n in capped["federal_notices"]}["grants.gov:1"]
+
+    def fails(url, data=None, headers=None):
+        if url == GG:
+            raise HTTPError("HTTP Error 503")
+        return site()(url, data, headers)
+    down = go(fails, previous=gone, now="2026-10-17T05:34:00Z")
+    assert "missing_since" not in {n["key"]: n for n in down["federal_notices"]}["grants.gov:1"]
+    # After the cap, an answered run without it starts a fresh clock, not the old one.
+    again = go(site(gg_hits=[]), previous=capped, now="2028-01-01T05:34:00Z")
+    assert {n["key"]: n for n in again["federal_notices"]}["grants.gov:1"]["missing_since"] == "2028-01-01T05:34:00Z"

@@ -515,8 +515,12 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
             p['queries'] = sorted(queries | matched_by.get(key, set()))
             merged.append(p)
         elif queries & failed_queries:
+            # Not looked for: the clock counts only unbroken days of answers without it,
+            # so a run that could not look resets it (Codex, 2026-10-15).
+            p.pop('missing_since', None)
             merged.append(p)
         elif queries & capped_queries:
+            p.pop('missing_since', None)
             if _days_between(p.get('first_seen_at') or now, now) <= CAPPED_NOTICE_MEMORY_DAYS:
                 merged.append(p)
         else:
