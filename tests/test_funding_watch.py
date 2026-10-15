@@ -280,3 +280,32 @@ def test_news_finds_infrastructure_funding_stories():
     assert "EIAF" in feeds and "tap+fees" in feeds and "infrastructure+grant" in feeds
     labels = (ROOT / "scripts" / "generate_policy_briefs.py").read_text()
     assert "'infrastructure': 'Infrastructure & Funding'" in labels
+
+
+def test_a_new_word_or_excel_application_counts_as_a_document_change():
+    """Rounds often post their application as .docx or .xlsx, not PDF (Codex review)."""
+    base = run(site())
+    page = QUIET + "<p><a href='/a/27-01-application.docx'>Application</a></p><p><a href='/a/budget.xlsx'>Budget form</a></p>"
+    r = run(site(eiaf=page), previous=base, now="2026-10-16T05:34:00Z")
+    [ch] = r["changes"]["changed_pages"]
+    assert [d["title"] for d in ch["new_documents"]] == ["Application", "Budget form"]
+    assert ch["key_lines"]["added"] == [], "the change is the documents alone, no round line"
+    assert watch._content(base) != watch._content(r), "so the file is rewritten and the issue opens"
+
+
+def test_a_federal_feed_that_keeps_failing_is_reported_once_as_unverifiable():
+    def fails(url, data=None, headers=None):
+        if url == GG:
+            raise HTTPError("HTTP Error 403: Forbidden")
+        return site()(url, data, headers)
+    base = run(site())
+    days = [base]
+    for d in ("16", "17", "18", "19"):
+        days.append(run(fails, previous=days[-1], now=f"2026-10-{d}T05:34:00Z"))
+    newly = [[u["id"] for u in r["changes"]["newly_unverifiable"]] for r in days[1:]]
+    assert newly == [[], [], ["federal:grants.gov"], []], newly
+    assert days[-1]["federal_sources"]["grants.gov"]["first_failed_at"] == "2026-10-16T05:34:00Z"
+    assert days[-1]["federal_sources"]["federalregister.gov"]["ok"] is True
+    back = run(site(), previous=days[-1], now="2026-10-20T05:34:00Z")
+    assert back["federal_sources"]["grants.gov"] == {"ok": True, "endpoint": GG, "unverifiable": False}
+    assert watch._content(days[2]) == watch._content(days[1]), "a feed that stays down adds no daily commit"

@@ -193,6 +193,12 @@ ok('the daily audit reports a program page blocked for days, never as no change'
   const [f] = fundingWatchFindings({ watch: { pages: [page] } });
   assert.match(f.description, /USDA 515 could not be read since 2026-10-13/);
   assert.deepEqual(fundingWatchFindings({ watch: { pages: [{ ...page, unverifiable: false }] } }), []);
+  // An agency announcement page holds no programs, and a blocked one is still reported (Codex review).
+  const agency = { url: 'https://dlg.localhost/eiaf', agency: 'DOLA Division of Local Government', programs: [],
+    unverifiable: true, first_failed_at: '2026-10-13T05:34:00Z', error: 'HTTP Error 403' };
+  const [a] = fundingWatchFindings({ watch: { pages: [agency] } });
+  assert.match(a.description, /DOLA Division of Local Government \(agency page\) could not be read since 2026-10-13/);
+  assert.deepEqual(fundingWatchFindings({ watch: { pages: [{ ...agency, unverifiable: false }] } }), []);
   const audit = read('test/audit-modules/data-integrity.js');
   assert.match(audit, /fundingWatchFindings\(\{ watch \}\)/, 'the daily audit runs the watch check');
   assert.match(audit, /'audit', 'funding-watch\.json'/, 'and reads the file the watcher writes');

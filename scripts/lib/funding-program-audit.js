@@ -142,8 +142,20 @@ function fundingWatchFindings({ watch }) {
   if (!watch || !Array.isArray(watch.pages)) return findings;
   const FILES = { guide: 'data/policy/co-developer-funding-guide.json', soft: 'data/policy/soft-funding-status.json' };
   for (const page of watch.pages) {
-    const programs = (page && page.programs) || [];
-    if (!programs.length) continue;
+    if (!page) continue;
+    const programs = page.programs || [];
+    // Agency announcement pages carry no programs, but a blocked one still hides
+    // new rounds, so it is reported before the program comparison below.
+    if (page.unverifiable) {
+      const what = programs.length ? programs.map((p) => p.name || p.id).join('; ') : `${page.agency || page.id} (agency page)`;
+      findings.push({
+        severity: 'medium', file: 'data/audit/funding-watch.json',
+        description: `The page for ${what} could not be read since ${String(page.first_failed_at || '').slice(0, 10)}`,
+        expected: 'Every watched funding page is readable, or checked by hand while it is blocked',
+        actual: `${page.url}: ${page.error || 'unreachable'}`,
+        recommendation: 'Open the page in a browser and recheck what it lists. A blocked page is not "no change".',
+      });
+    }
     const changed = String(page.last_changed_at || '').slice(0, 10);
     for (const p of programs) {
       const checked = String(p.last_checked || '').slice(0, 10);
@@ -156,15 +168,6 @@ function fundingWatchFindings({ watch }) {
           recommendation: 'Read the page (the funding-watch issue lists the lines that changed) and update the record with a quote, or update last_checked if nothing material changed.',
         });
       }
-    }
-    if (page.unverifiable) {
-      findings.push({
-        severity: 'medium', file: 'data/audit/funding-watch.json',
-        description: `The page for ${programs.map((p) => p.name || p.id).join('; ')} could not be read since ${String(page.first_failed_at || '').slice(0, 10)}`,
-        expected: 'Every program page is readable, or checked by hand while it is blocked',
-        actual: `${page.url}: ${page.error || 'unreachable'}`,
-        recommendation: 'Open the page in a browser and recheck the program. A blocked page is not "no change".',
-      });
     }
   }
   return findings;
