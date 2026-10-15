@@ -826,7 +826,7 @@
       "project_mentioned": true,
       "checked": "2026-10-15",
       "status": "partial",
-      "note": "Contact details not shown: the page could not be read directly, so nothing was copied from it. UNVERIFIED: cityofsalida.com sits behind a Cloudflare challenge (HTTP 403 to curl and WebFetch), so Could not read the page myself. Name/phone/email come from a search-engine extract of this Sept 2025 city release; check them before use. Project = Salida Senior Housing at 507 Scott St (40-50 units, developer Northpointe; project page /commdev/page/affordable-senior-housing-project-scott-street). Community Development Director is Bill Almquist (per Ark Valley Voice).",
+      "note": "Not confirmed: cityofsalida.com blocks automated reading (HTTP 403), so nothing was copied from this September 2025 city release about the project. The release concerns Salida Senior Housing at 507 Scott St; check the contact on the page before using it.",
       "confirmed": false
     },
     {
@@ -1294,7 +1294,7 @@
       "project": "The Foundry",
       "org": "Commerce City Housing Authority",
       "name": null,
-      "role": "Housing and Resident Services Manager",
+      "role": null,
       "phone": null,
       "email": null,
       "geoids": [
@@ -1304,12 +1304,12 @@
         "08001"
       ],
       "source_label": "Grantee website",
-      "source_url": "https://www.c3gov.com/Residents/Resident-Programs-and-Resources/Housing-Authority/Senior-Housing",
+      "source_url": null,
       "source_quote": null,
       "project_mentioned": false,
       "checked": "2026-10-15",
-      "status": "partial",
-      "note": "Contact details not shown: the page could not be read directly, so nothing was copied from it. UNVERIFIED: c3gov.com sits behind a Cloudflare challenge (HTTP 403 to curl; 404 to WebFetch), so Could not read the page. Details come from a search-engine extract: Housing Authority Office 720-760-5552; Tracy Jones, Housing and Resident Services Manager, 720-760-5548; another city page gives 303-289-3698. No email found. Found nothing online for 'The Foundry'.",
+      "status": "not_found",
+      "note": "Not confirmed: the Commerce City website blocks automated reading, and the senior housing page once linked from it no longer exists (HTTP 404, 2026-10-15). Nothing about 'The Foundry' was found online. Ask CHFA (landbanking@chfainfo.com) or the Commerce City Housing Authority directly.",
       "confirmed": false
     },
     {
