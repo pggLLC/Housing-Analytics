@@ -1,0 +1,131 @@
+{
+  "schema": "funding-watch-sources/1",
+  "meta": {
+    "title": "Funding sources watched for new rounds and notices",
+    "as_of": "2026-10-15",
+    "method": "Read by scripts/audit/funding_watch.py, daily from .github/workflows/chfa-qap-watch.yml. Every program's own page is taken from the two catalogs (data/policy/co-developer-funding-guide.json official_url; data/policy/soft-funding-status.json source_url or contactUrl), so a program added there is watched on the next run without an entry here. This file adds what the catalogs do not hold: each agency's own announcement and funding-opportunity pages, including infrastructure programs that can support housing but are not yet in the guide, and the federal searches. A watched page that changes opens an issue; it never changes a program's status. A person reads the agency's page and updates the record with a quote. Each URL below answered HTTP 200 with the title given on 2026-10-15 unless its note says otherwise.",
+    "related": [
+      "scripts/audit/funding_watch.py",
+      "data/audit/funding-watch.json",
+      "scripts/lib/funding-program-audit.js"
+    ]
+  },
+  "agency_pages": [
+    {
+      "id": "doh-funding-opportunities",
+      "agency": "DOLA Division of Housing",
+      "title": "Funding Opportunities | Division of Housing",
+      "url": "https://doh.colorado.gov/funding-opportunities",
+      "why": "Where DOH posts HOME, HTF, CDBG housing, Housing Development Grant and Prop 123 rounds."
+    },
+    {
+      "id": "dlg-funding-opportunities",
+      "agency": "DOLA Division of Local Government",
+      "title": "Funding Opportunities | Division of Local Government",
+      "url": "https://dlg.colorado.gov/funding-opportunities",
+      "why": "Local-government grants, including infrastructure and planning money that can unlock housing sites."
+    },
+    {
+      "id": "dlg-eiaf",
+      "agency": "DOLA Division of Local Government",
+      "title": "Energy/Mineral Impact Assistance Fund Grant (EIAF)",
+      "url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf",
+      "why": "Energy/Mineral Impact Assistance Fund (EIAF): grants to local governments for public facilities, including water, sewer and roads. On 2026-10-15 the page read \"Future cycles will be announced and are dependent on severance and federal mineral lease revenues.\""
+    },
+    {
+      "id": "dlg-eiaf-awards",
+      "agency": "DOLA Division of Local Government",
+      "title": "Energy/Mineral Impact Assistance Fund Program Awards",
+      "url": "https://dlg.colorado.gov/EIAF-funding-awards",
+      "why": "Final EIAF awards for the last three cycles; a new list means a cycle has been decided."
+    },
+    {
+      "id": "dlg-strong-communities",
+      "agency": "DOLA Division of Local Government",
+      "title": "Strong Communities | Division of Local Government",
+      "url": "https://dlg.colorado.gov/strong-communities",
+      "why": "Infrastructure and Strong Communities grants for infill infrastructure that supports housing."
+    },
+    {
+      "id": "dlg-cdbg-public-facilities",
+      "agency": "DOLA Division of Local Government",
+      "title": "Community Development Block Grant - Public Facilities | Division of Local Government",
+      "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg",
+      "why": "Community Development Block Grant (CDBG) public facilities money for non-entitlement towns and counties, which can pay for water, sewer and street work."
+    },
+    {
+      "id": "ahff-prop123",
+      "agency": "OEDIT, with CHFA as administrator",
+      "title": "Proposition 123 - Colorado Affordable Housing Financing Fund",
+      "url": "https://coloradoaffordablehousingfinancingfund.com/",
+      "why": "Prop 123 Affordable Housing Financing Fund (AHFF) programs: land banking, concessionary debt and equity."
+    },
+    {
+      "id": "oedit-housing",
+      "agency": "OEDIT",
+      "title": "Housing Programs | Colorado Office of Economic Development and International Trade",
+      "url": "https://oedit.colorado.gov/about/oedit-divisions/housing",
+      "why": "OEDIT's housing programs, including the Innovative Housing Incentive Program and Prop 123 announcements."
+    },
+    {
+      "id": "chfa-news",
+      "agency": "Colorado Housing and Finance Authority (CHFA)",
+      "title": "CHFA: CHFA Newsroom",
+      "url": "https://www.chfainfo.com/chfa-news",
+      "why": "CHFA award announcements and new programs (the tax-credit plan itself is watched separately by chfa_qap_watch.py)."
+    },
+    {
+      "id": "cdphe-water-quality-grants-loans",
+      "agency": "Colorado Department of Public Health and Environment (CDPHE)",
+      "title": "Water quality grants and loans | Colorado Department of Public Health and Environment",
+      "url": "https://cdphe.colorado.gov/glu",
+      "why": "State Revolving Fund (SRF) loans and grants for drinking water and wastewater systems, the capacity new housing needs."
+    },
+    {
+      "id": "cwrpda-programs",
+      "agency": "Colorado Water Resources and Power Development Authority (CWRPDA)",
+      "title": "Programs - Colorado Water Resources and Power Development Authority",
+      "url": "https://www.cwrpda.com/programs",
+      "why": "CWRPDA finances the State Revolving Funds and its own water and wastewater loan programs."
+    },
+    {
+      "id": "usda-rd-colorado",
+      "agency": "USDA Rural Development, Colorado",
+      "title": "USDA Rural Development Colorado",
+      "url": "https://www.rd.usda.gov/co",
+      "why": "Rural housing (Section 515, 538) and Water and Waste Disposal loans and grants. Answered HTTP 403 to a scripted request on 2026-10-15; if GitHub's runners are blocked too, the watch reports it unverifiable and asks for a check by hand."
+    }
+  ],
+  "federal": {
+    "grants_gov": {
+      "endpoint": "https://api.grants.gov/v1/api/search2",
+      "why": "Federal notices of funding opportunity (NOFOs), forecasted or posted, that Colorado agencies, local governments or developers could use for housing or the infrastructure it needs.",
+      "statuses": "forecasted|posted",
+      "rows": 25,
+      "keywords": [
+        "affordable housing",
+        "rural housing",
+        "housing infrastructure",
+        "community development block grant",
+        "water and waste disposal",
+        "wastewater infrastructure",
+        "drinking water infrastructure",
+        "broadband infrastructure"
+      ]
+    },
+    "federal_register": {
+      "endpoint": "https://www.federalregister.gov/api/v1/documents.json",
+      "why": "Funding notices published in the Federal Register by the agencies that fund housing and the water, sewer and broadband it needs. A full-text search alone returned mostly information-collection notices on 2026-10-15, so results are kept only when the title names a funding notice.",
+      "per_page": 20,
+      "agencies": [
+        "housing-and-urban-development-department",
+        "rural-housing-service",
+        "rural-utilities-service",
+        "environmental-protection-agency",
+        "community-development-financial-institutions-fund"
+      ],
+      "term": "\"funding opportunity\" | \"notice of funding\" | \"funding availability\"",
+      "title_pattern": "notice of funding|funding opportunit|funding availability|allocation availability|funding round"
+    }
+  }
+}

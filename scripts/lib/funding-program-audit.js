@@ -126,4 +126,48 @@ function fundingProgramFindings({ guide, soft, today }) {
   return findings;
 }
 
-module.exports = { fundingProgramFindings, datesIn, CONFIRMED_SOFT_STATUSES, GUIDE_LIVE_STATUSES };
+/**
+ * What the funding watch (scripts/audit/funding_watch.py, data/audit/funding-watch.json)
+ * saw on the agencies' own pages, against what the catalogs say:
+ *   - a program whose page changed after the program was last checked, and
+ *   - a program whose page has been unreachable or blocked for days.
+ * The watch never edits a status, so these stay open until a person rechecks the
+ * program on its page and updates last_checked. A missing watch file (before its
+ * first run) yields nothing.
+ *
+ * @returns {Array<{severity, file, description, expected, actual, recommendation}>}
+ */
+function fundingWatchFindings({ watch }) {
+  const findings = [];
+  if (!watch || !Array.isArray(watch.pages)) return findings;
+  const FILES = { guide: 'data/policy/co-developer-funding-guide.json', soft: 'data/policy/soft-funding-status.json' };
+  for (const page of watch.pages) {
+    const programs = (page && page.programs) || [];
+    if (!programs.length) continue;
+    const changed = String(page.last_changed_at || '').slice(0, 10);
+    for (const p of programs) {
+      const checked = String(p.last_checked || '').slice(0, 10);
+      if (ISO.test(changed) && (!ISO.test(checked) || changed > checked)) {
+        findings.push({
+          severity: 'medium', file: FILES[p.catalog] || FILES.guide,
+          description: `${p.name || p.id}: its page changed on ${changed}, after the program was last checked (${checked || 'never'})`,
+          expected: 'A program is rechecked after its own page changes',
+          actual: `${page.url} changed ${changed}`,
+          recommendation: 'Read the page (the funding-watch issue lists the lines that changed) and update the record with a quote, or update last_checked if nothing material changed.',
+        });
+      }
+    }
+    if (page.unverifiable) {
+      findings.push({
+        severity: 'medium', file: 'data/audit/funding-watch.json',
+        description: `The page for ${programs.map((p) => p.name || p.id).join('; ')} could not be read since ${String(page.first_failed_at || '').slice(0, 10)}`,
+        expected: 'Every program page is readable, or checked by hand while it is blocked',
+        actual: `${page.url}: ${page.error || 'unreachable'}`,
+        recommendation: 'Open the page in a browser and recheck the program. A blocked page is not "no change".',
+      });
+    }
+  }
+  return findings;
+}
+
+module.exports = { fundingProgramFindings, fundingWatchFindings, datesIn, CONFIRMED_SOFT_STATUSES, GUIDE_LIVE_STATUSES };

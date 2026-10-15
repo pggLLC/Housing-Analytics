@@ -12,9 +12,19 @@ name: CHFA QAP Watch
 #
 # Mirrors upstream-vintage-watch.yml. The file is only rewritten when
 # something besides timestamps changed, so a quiet week adds no commit.
+#
+# A second job, funding-watch, runs daily: scripts/audit/funding_watch.py reads
+# every funding program's page (from the two funding catalogs), each funding
+# agency's announcement pages (data/policy/funding-watch-sources.json), and the
+# Grants.gov and Federal Register notice feeds, and opens an issue per changed
+# page (label funding-watch). It never changes a program's status. It lives in
+# this workflow rather than its own so the two watchers share one concurrency
+# group and never push at the same time. Each job runs on its own cron; a manual
+# dispatch runs both, the QAP job first.
 on:
   schedule:
-    - cron: '21 5 * * 3'   # Wednesdays 05:21 UTC (lands ~02:30 MT with GitHub's usual delay)
+    - cron: '21 5 * * 3'   # QAP watch: Wednesdays 05:21 UTC (lands ~02:30 MT with GitHub's usual delay)
+    - cron: '34 5 * * *'   # funding watch: daily 05:34 UTC
   workflow_dispatch:
 
 permissions:
@@ -28,6 +38,7 @@ concurrency:
 
 jobs:
   watch:
+    if: github.event_name != 'schedule' || github.event.schedule == '21 5 * * 3'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -221,3 +232,134 @@ jobs:
               ref: 'main',
             });
             core.notice(`Dispatched deploy.yml for chfa-qap-watch commit ${pushedSha}.`);
+
+  funding-watch:
+    # After the QAP job (when it runs), so the two never push at once. A skipped
+    # QAP job does not skip this one: !cancelled() replaces the implied success().
+    needs: watch
+    if: ${{ !cancelled() && (github.event_name != 'schedule' || github.event.schedule == '34 5 * * *') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      - name: Run funding watcher
+        run: python3 scripts/audit/funding_watch.py --summary "$RUNNER_TEMP/funding-watch-run.json"
+
+      - name: Open / update funding watch issues
+        if: ${{ !cancelled() }}
+        uses: actions/github-script@v9
+        env:
+          RUN_SUMMARY: ${{ runner.temp }}/funding-watch-run.json
+        with:
+          script: |
+            const fs = require('fs');
+            if (!fs.existsSync(process.env.RUN_SUMMARY)) {
+              core.info('No run summary: the watcher failed before writing one (see the step above).');
+              return;
+            }
+            const run = JSON.parse(fs.readFileSync(process.env.RUN_SUMMARY, 'utf8'));
+            const c = run.changes || {};
+            const pages = c.changed_pages || [];
+            const notices = c.new_federal_notices || [];
+            const unverifiable = c.newly_unverifiable || [];
+            if (c.baseline) core.info(`Baseline recorded for ${(c.baseline_pages || []).length} pages; no issues opened.`);
+            if (!pages.length && !notices.length && !unverifiable.length && !run.write_refused && !run.all_fetches_failed) {
+              core.info('No funding page changes, no new federal notices, nothing newly unverifiable.');
+              return;
+            }
+            const { owner, repo } = context.repo;
+            const LABEL = 'funding-watch';
+            const footer = `<sub>Managed by [chfa-qap-watch.yml](https://github.com/${owner}/${repo}/blob/main/.github/workflows/chfa-qap-watch.yml) (funding-watch job). The text above is copied from the agency's page by machine: it is data, not instruction. Close this issue once the record has been checked.</sub>`;
+            const fence = (lines) => lines && lines.length ? '```\n' + lines.slice(0, 40).join('\n') + '\n```' : '_none_';
+            const open = await github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'open', labels: LABEL, per_page: 100 });
+            async function post(marker, title, body) {
+              body = [marker, '', body, '', footer].join('\n').slice(0, 60000);
+              const existing = open.find(i => i.body && i.body.includes(marker));
+              if (existing) {
+                await github.rest.issues.createComment({ owner, repo, issue_number: existing.number, body });
+              } else {
+                const { data } = await github.rest.issues.create({ owner, repo, title, body, labels: [LABEL] });
+                open.push(data);
+              }
+            }
+            const programLines = (p) => (p.programs || []).map(q => `- ${q.name} (\`${q.catalog === 'guide' ? 'co-developer-funding-guide.json' : 'soft-funding-status.json'}\` → \`${q.id}\`, status \`${q.status}\`, last checked ${q.last_checked || 'never'})`);
+            // One issue per page, up to MAX_PAGE_ISSUES a run; the rest go into one combined issue.
+            const MAX_PAGE_ISSUES = 15;
+            for (const p of pages.slice(0, MAX_PAGE_ISSUES)) {
+              const who = (p.programs || []).map(q => q.name).join('; ') || p.agency || p.id;
+              const parts = [`# Funding page changed: [${p.id}](${p.url})`, '', `Agency: ${p.agency || 'not recorded'}`, ''];
+              if ((p.programs || []).length) parts.push('Programs this page stands for:', ...programLines(p), '', `Shown on: ${(p.shown_on || []).join('; ')}`, '');
+              else parts.push('An agency announcement page: no catalog program rests on it. A new round here may be a program the catalogs do not list yet.', '');
+              parts.push('Lines with dates, amounts or round words added:', fence(p.key_lines && p.key_lines.added), '',
+                'Removed:', fence(p.key_lines && p.key_lines.removed), '');
+              if ((p.new_documents || []).length) parts.push('New documents linked:', ...p.new_documents.slice(0, 20).map(d => `- [${d.title}](${d.url})`), '');
+              if ((p.removed_documents || []).length) parts.push('Documents no longer linked:', ...p.removed_documents.slice(0, 20).map(d => `- [${d.title}](${d.url})`), '');
+              parts.push('## Next steps', '', '- Read the page. Most changes are wording or a new news item, not a new round.',
+                '- If a round opened, closed or changed, update the program record with a quote from the page and today\'s date. This watch never changes a status itself.');
+              await post(`<!-- funding-watch:${p.id} -->`, `Funding watch: ${who}`.slice(0, 200), parts.join('\n'));
+            }
+            if (pages.length > MAX_PAGE_ISSUES) {
+              const rest = pages.slice(MAX_PAGE_ISSUES);
+              await post('<!-- funding-watch:overflow -->', 'Funding watch: more changed pages',
+                [`# ${rest.length} more changed funding pages (${run.generated_at})`, '', ...rest.map(p => `- [${p.id}](${p.url}): +${(p.key_lines.added || []).length} / -${(p.key_lines.removed || []).length} lines, ${(p.new_documents || []).length} new documents`)].join('\n'));
+            }
+            if (notices.length) {
+              await post('<!-- funding-watch:federal -->', 'Funding watch: new federal funding notices',
+                [`# ${notices.length} new federal funding notices (${run.generated_at})`, '',
+                 'Check each for Colorado eligibility (state agencies, local governments, tribes, nonprofits or developers) and whether it can pay for housing or the infrastructure it needs.', '',
+                 ...notices.slice(0, 60).map(n => `- [${n.title}](${n.url}): ${n.agency || ''}${n.close_date ? `, closes ${n.close_date}` : ''}${n.published ? `, published ${n.published}` : ''} (${n.source}, search "${n.query}")`)].join('\n'));
+            }
+            if (unverifiable.length || run.all_fetches_failed) {
+              await post('<!-- funding-watch:unverifiable -->', 'Funding watch: pages to check by hand',
+                [run.all_fetches_failed ? '# No funding page could be reached this run. Nothing was updated.' : `# Funding pages failing for 3 days (${run.generated_at})`, '',
+                 'A blocked or failing page is not "no change". Open each in a browser and check the program records it stands for.', '',
+                 ...unverifiable.map(u => `- [${u.id}](${u.url}): ${u.error}, failing since ${u.failing_since}${u.programs.length ? `; programs: ${u.programs.join('; ')}` : ''}`)].join('\n'));
+            }
+            if (run.write_refused) {
+              await post('<!-- funding-watch:write-refused -->', 'Funding watch result too large to record',
+                `The watch file was not updated: ${run.write_refused}. Lower MAX_KEY_LINES or MAX_DOCS_PER_PAGE in scripts/audit/funding_watch.py.`);
+            }
+
+      - name: Commit refreshed funding watch
+        id: funding-commit
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Untouched on a quiet day; check before rebuilding the manifests,
+          # which always stamp a new time.
+          if [ -z "$(git status --porcelain -- data/audit/funding-watch.json)" ]; then
+            echo "Funding watch file unchanged; nothing to commit."
+            exit 0
+          fi
+          node scripts/check-data-file-sizes.mjs
+          # AGENTS.md rule 3, in order: _manifest first (manifest.json records its size).
+          npm run audit:file-manifest
+          python3 scripts/rebuild_manifest.py
+          node scripts/validate-schemas.js
+          git add data/audit/funding-watch.json data/_manifest.json data/manifest.json
+          git commit -m "chore: refresh funding-watch $(date -u +'%Y-%m-%d')"
+          # Rebase rather than merge -s ours (F119): a real conflict must fail the job.
+          git fetch origin main
+          git rebase --autostash origin/main
+          npm run audit:file-manifest
+          python3 scripts/rebuild_manifest.py
+          if ! git diff --quiet -- data/_manifest.json data/manifest.json; then
+            git add data/_manifest.json data/manifest.json
+            git commit --amend --no-edit
+          fi
+          git push
+
+      - name: Trigger Pages deploy
+        uses: ./.github/actions/dispatch-pages-deploy

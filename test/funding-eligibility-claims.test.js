@@ -33,7 +33,7 @@ const GUIDE = JSON.parse(read('data/policy/co-developer-funding-guide.json'));
 const GEO = JSON.parse(read('data/hna/geo-config.json'));
 const TRACKER_SRC = read('js/soft-funding-tracker.js');
 const F = require('../js/funding-fit.js');
-const { fundingProgramFindings, CONFIRMED_SOFT_STATUSES } = require('../scripts/lib/funding-program-audit.js');
+const { fundingProgramFindings, fundingWatchFindings, CONFIRMED_SOFT_STATUSES } = require('../scripts/lib/funding-program-audit.js');
 
 const COUNTIES = GEO.counties.map((c) => c.geoid);
 const EXECUTIONS = [undefined, '9%', '4%', 'non-LIHTC'];
@@ -173,6 +173,29 @@ ok('sabotage: a confirmed program past its deadline is reported', () => {
   assert.equal(soft.programs[key].deadline, '2026-01-02', 'mutation applied');
   const findings = fundingProgramFindings({ guide: GUIDE, soft, today: '2026-10-14' });
   assert.ok(findings.some((f) => f.description.includes('deadline 2026-01-02 has passed')));
+});
+
+ok('the daily audit reports a program whose own page changed after it was last checked', () => {
+  const prog = { catalog: 'guide', id: 'doh-grant', name: 'DOH Grant', last_checked: '2026-10-10' };
+  const page = { url: 'https://doh.localhost/p', programs: [prog], last_changed_at: '2026-10-12T05:34:00Z' };
+  const findings = fundingWatchFindings({ watch: { pages: [page] } });
+  assert.equal(findings.length, 1);
+  assert.match(findings[0].description, /^DOH Grant: its page changed on 2026-10-12, after the program was last checked \(2026-10-10\)/);
+  // non-vacuity both ways: rechecked after the change, or a page never changed (baseline), says nothing
+  assert.deepEqual(fundingWatchFindings({ watch: { pages: [{ ...page, programs: [{ ...prog, last_checked: '2026-10-12' }] }] } }), []);
+  assert.deepEqual(fundingWatchFindings({ watch: { pages: [{ ...page, last_changed_at: null }] } }), []);
+  assert.deepEqual(fundingWatchFindings({ watch: null }), [], 'no watch file yet: nothing to report');
+});
+
+ok('the daily audit reports a program page blocked for days, never as no change', () => {
+  const page = { url: 'https://usda.localhost/p', programs: [{ catalog: 'guide', id: 'usda-515', name: 'USDA 515', last_checked: '2026-10-10' }],
+    last_changed_at: null, unverifiable: true, first_failed_at: '2026-10-13T05:34:00Z', error: 'HTTP Error 403' };
+  const [f] = fundingWatchFindings({ watch: { pages: [page] } });
+  assert.match(f.description, /USDA 515 could not be read since 2026-10-13/);
+  assert.deepEqual(fundingWatchFindings({ watch: { pages: [{ ...page, unverifiable: false }] } }), []);
+  const audit = read('test/audit-modules/data-integrity.js');
+  assert.match(audit, /fundingWatchFindings\(\{ watch \}\)/, 'the daily audit runs the watch check');
+  assert.match(audit, /'audit', 'funding-watch\.json'/, 'and reads the file the watcher writes');
 });
 
 console.log(`funding-eligibility-claims: ${passed} passed`);
