@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-15T14:36:06.282Z",
+    "generated_at": "2026-10-15T17:34:30.984Z",
     "root": "data/",
-    "file_count": 1732,
-    "total_size_bytes": 183648436,
+    "file_count": 1735,
+    "total_size_bytes": 184231508,
     "kinds": {
-      "json": 1689,
+      "json": 1692,
       "geojson": 33,
       "csv": 10
     }
@@ -502,7 +502,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-15T14:36:01.916Z",
+      "mtime": "2026-10-15T17:34:27.710Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -32398,7 +32398,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15109,
-      "mtime": "2026-10-15T14:36:03.813Z",
+      "mtime": "2026-10-15T17:34:29.300Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32422,7 +32422,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-15T14:36:03.369Z",
+      "mtime": "2026-10-15T17:34:28.936Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34429,6 +34429,45 @@
       ]
     },
     {
+      "path": "policy/funding-awards/award-rows.json",
+      "kind": "json",
+      "size_bytes": 244242,
+      "mtime": "2026-10-15T17:33:42.063Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "rows",
+        "unmatched"
+      ],
+      "key_count": 3,
+      "primary_array_key": "rows",
+      "primary_array_length": 429,
+      "primary_array_first_keys": [
+        "key",
+        "source_file",
+        "name",
+        "sponsor",
+        "sponsor_heading",
+        "location",
+        "quote"
+      ]
+    },
+    {
+      "path": "policy/funding-awards/developer-aliases.json",
+      "kind": "json",
+      "size_bytes": 7533,
+      "mtime": "2026-10-15T17:33:42.063Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "developers"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "policy/funding-awards/documents.json",
       "kind": "json",
       "size_bytes": 40885,
@@ -34454,6 +34493,34 @@
         "rows",
         "status",
         "checks"
+      ]
+    },
+    {
+      "path": "policy/funding-awards/dola-awards.json",
+      "kind": "json",
+      "size_bytes": 331297,
+      "mtime": "2026-10-15T17:33:42.063Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "awards"
+      ],
+      "key_count": 2,
+      "primary_array_key": "awards",
+      "primary_array_length": 283,
+      "primary_array_first_keys": [
+        "name",
+        "grantee",
+        "town",
+        "county_fips",
+        "county_method",
+        "program",
+        "program_as_printed",
+        "amount",
+        "amount_basis",
+        "homes",
+        "year",
+        "announced"
       ]
     },
     {
