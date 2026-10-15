@@ -184,8 +184,25 @@ test('the browser context is released even when the page crashes', () => {
     'the context is not closed in a finally; a crash leaks it');
 });
 
+test('pages are audited as served pages, with their data, not as file:// shells', () => {
+  // Under file:// every fetch() of a data file fails, so the map on
+  // hna-what-housing-exists.html never drew its 926 markers and the report
+  // said 0 violations from April to October 2026 while the live page had 926
+  // serious ones. The audit must open pages over HTTP and wait for data.
+  const at = SRC.indexOf('async function auditPage');
+  const fn = SRC.slice(at, SRC.indexOf('\nfunction summarize', at));
+  assert.ok(!/pathToFileURL\(|['"`]file:\/\//.test(fn), 'auditPage opens pages as file:// again; their data never loads');
+  assert.ok(/origin \+ '\/' \+ pagePath/.test(fn), 'auditPage no longer opens the page from the local server');
+  assert.ok(/waitForLoadState\('networkidle'/.test(fn), 'auditPage no longer waits for the page data to load');
+  assert.ok(/serveRoot\(ROOT\)/.test(SRC), 'the audit no longer starts its own static server');
+});
+
+test('the audit checks WCAG 2.2 AA, the current standard', () => {
+  assert.ok(/WCAG_TAGS = \[[^\]]*'wcag22aa'/.test(SRC), 'the wcag22aa tag was dropped from the audit');
+});
+
 test('a transient crash is retried once, and a real failure still fails', () => {
-  assert.ok(/if \(r\.error\) \{[\s\S]{0,320}auditPage\(browser, p, axeScript\)/.test(SRC),
+  assert.ok(/if \(r\.error\) \{[\s\S]{0,320}auditPage\(browser, server\.origin, p, axeScript\)/.test(SRC),
     'the single retry is gone');
   // The retry must not loop, or a genuinely broken page hangs the run.
   const at = SRC.indexOf('let r = await auditPage');

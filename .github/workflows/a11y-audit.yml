@@ -1,14 +1,19 @@
 name: A11y Audit (axe-core)
 
-# WCAG 2.1 AA audit via axe-core. Complements accessibility.yml
+# WCAG 2.2 AA audit via axe-core. Complements accessibility.yml
 # (CSS contrast-token linting) with runtime DOM inspection — different
 # coverage, same epic (#447 / #658).
 #
-# Design posture: the audit runs, commits any drift to the baseline
-# report, and surfaces summary counts in the job summary. It does NOT
-# hard-fail on finding violations today — the audit is a reporter
-# until the baseline is driven to zero. Regressions show up as diffs
-# on docs/reports/a11y-baseline-2026.md in subsequent PR runs.
+# Pages are served over HTTP so their data loads; until 2026-10-15 they were
+# opened as file:// URLs, the map on hna-what-housing-exists.html never drew,
+# and the report said 0 violations while the live page had 926 serious ones.
+#
+# The run fails when a serious or critical rule fails on more elements than
+# scripts/audit/a11y-budget.json allows (the known findings, which only go
+# down), or when a page could not be audited. Nothing is committed back: the
+# report is in the job summary and the uploaded artifact, and
+# docs/reports/a11y-baseline-2026.md is refreshed by the PR that changes the
+# budget.
 
 on:
   schedule:
@@ -22,6 +27,8 @@ on:
       - '*.html'
       - 'js/**'
       - 'scripts/audit/a11y-audit.mjs'
+      - 'scripts/audit/a11y-budget.json'
+      - 'scripts/audit/lib/**'
       - '.github/workflows/a11y-audit.yml'
   workflow_dispatch:
 

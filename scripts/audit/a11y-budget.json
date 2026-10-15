@@ -1,0 +1,10 @@
+{
+  "_comment": "Most elements each axe rule may fail on across the audited pages, for serious and critical rules. A rule over its number, or a serious/critical rule not listed, fails the a11y audit. These are the counts measured on 2026-10-15, the first run that loaded page data; lower a number when a fix lands, never raise one to make a run pass.",
+  "measuredAt": "2026-10-15",
+  "maxElements": {
+    "target-size": 52,
+    "color-contrast": 20,
+    "aria-required-children": 3,
+    "list": 2
+  }
+}

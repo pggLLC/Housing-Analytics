@@ -2053,7 +2053,12 @@
           iconSize: [12, 12],
           iconAnchor: [6, 6],
         });
-        return L.marker(latlng, { icon });
+        // Leaflet makes every marker a focusable role="button"; without a
+        // title it has no accessible name, so screen readers announce
+        // hundreds of unnamed buttons (axe aria-command-name).
+        const props = feature.properties || {};
+        const name = props.PROJECT || props.project || props.PROJ_NM || 'Tax credit property';
+        return L.marker(latlng, { icon, title: String(name) + ' (tax credit property)' });
       },
       onEachFeature(feature, layer) {
         const p = feature.properties || {};
@@ -2517,7 +2522,13 @@
       if (am.inJuris !== bm.inJuris) return am.inJuris ? -1 : 1;
       return (bm.year || 0) - (am.year || 0);
     });
-    const _sortedHtml = _allRows.map(function (r) { return r.html; }).join('');
+    // With no place chosen the scope is the whole state, so every one of
+    // ~926 properties became a row: about 44,000 DOM nodes, which froze a
+    // phone for ~18 s on load and again on every map move. Draw the first
+    // rows and let the reader ask for the rest.
+    const LIHTC_PANEL_FIRST_ROWS = 25;
+    const _sortedHtml = _allRows.slice(0, LIHTC_PANEL_FIRST_ROWS).map(function (r) { return r.html; }).join('');
+    const _restRows = _allRows.slice(LIHTC_PANEL_FIRST_ROWS);
     const totalInView = chfaRows.length + otherRows.length;
     // F134 — methodology footer: explicit source provenance + confidence
     // so an underwriter doesn't have to dig through docs to verify
@@ -2555,10 +2566,24 @@
           `${totalInView} propert${totalInView === 1 ? 'y' : 'ies'} ${_scopeLabel}, all subsidy programs, hover badge for definition` +
         `</span>` +
       `</p>`;
+    const _showAllHtml = _restRows.length
+      ? `<p style="margin:.25rem 0 .75rem"><button type="button" class="btn lihtc-show-all">` +
+          `Show all ${totalInView} properties</button></p>`
+      : '';
     panelEl.innerHTML =
       headline +
       `<ul class="lihtc-list" style="list-style:none;padding-left:0">${_sortedHtml}</ul>` +
+      _showAllHtml +
       mfHtml;
+    const showAllBtn = panelEl.querySelector('.lihtc-show-all');
+    if (showAllBtn) {
+      showAllBtn.addEventListener('click', function () {
+        const list = panelEl.querySelector('.lihtc-list');
+        if (list) list.insertAdjacentHTML('beforeend', _restRows.map(function (r) { return r.html; }).join(''));
+        const holder = showAllBtn.parentNode;
+        if (holder) holder.remove();
+      });
+    }
   }
 
   /**

@@ -1,16 +1,21 @@
 #!/usr/bin/env node
 /**
- * scripts/audit/a11y-audit.mjs — WCAG 2.1 AA accessibility audit via axe-core.
+ * scripts/audit/a11y-audit.mjs — WCAG 2.2 AA accessibility audit via axe-core.
  *
  * Partial closeout of #658 (WCAG audit + axe-core configured and runnable
  * as `npm run audit:a11y`).
  *
  * Design:
- *   - Uses Playwright to open each configured HTML page via file:// URLs.
- *     file:// is fine for this first pass — axe inspects the rendered DOM,
- *     and dynamic-data issues show up on pages whose static markup is
- *     already WCAG-clean (so file:// is a strict subset of what a live
- *     audit would surface).
+ *   - Serves the repository over a local HTTP server and opens each page
+ *     the way a visitor's browser does, then waits for its data to load.
+ *
+ *     It used to open pages as file:// URLs, on the theory that this was a
+ *     strict subset of a live audit. It was not a subset, it was a different
+ *     page: every fetch() of a data file fails under file://, so maps, tables
+ *     and charts never rendered. hna-what-housing-exists.html came out as
+ *     ~1,200 DOM nodes and zero map markers, while the live page drew 926
+ *     markers with no accessible name (axe aria-command-name, serious). The
+ *     report said 0 violations from April to October 2026 for that reason.
  *   - Loads axe-core via page.addScriptTag from node_modules. axe-core is
  *     already a transitive devDep via lighthouse — no new package needed.
  *   - Emits:
@@ -30,7 +35,9 @@
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
+import { serveRoot } from './lib/serve-root.mjs';
+import { checkA11yBudget } from './lib/audit-budget.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT      = path.resolve(__dirname, '..', '..');
@@ -70,7 +77,9 @@ const AUDIT_PAGES = [
   'insights.html',
 ];
 
-const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
+// WCAG 2.2 AA is the current standard. The 2.2 tag adds e.g. target size.
+const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
+
 
 function parseArgs() {
   const args = process.argv.slice(2);
@@ -110,20 +119,29 @@ async function locateAxeScript() {
  * compete with — which is the likeliest reason the last page in a 21-page run
  * is the one that dies.
  */
-async function auditPage(browser, pagePath, axeScript) {
+async function auditPage(browser, origin, pagePath, axeScript) {
   const context = await browser.newContext();
   const page    = await context.newPage();
 
-  // Silence page console errors during audit — many of our pages fetch data
-  // from relative paths that 404 under file://, which is not an a11y issue.
+  // Console noise is not an accessibility finding; console-error-audit owns it.
   page.on('pageerror', () => {});
   page.on('console',   () => {});
 
   // A '#tab-…' suffix opens that tab of the page; it is not part of the file name.
-  const [file, hash] = pagePath.split('#');
-  const fileUrl = pathToFileURL(path.join(ROOT, file)).href + (hash ? '#' + hash : '');
+  const url = origin + '/' + pagePath;
   try {
-    await page.goto(fileUrl, { waitUntil: 'load', timeout: 15_000 });
+    const response = await page.goto(url, { waitUntil: 'load', timeout: 30_000 });
+    // file:// threw on a missing page; HTTP answers 404 and renders an empty
+    // error body that axe would happily call clean. A page that is not there
+    // was not audited.
+    if (!response || !response.ok()) {
+      throw new Error(`page did not load (HTTP ${response ? response.status() : 'no response'})`);
+    }
+    // Let data fetches finish and render: the content a visitor actually sees
+    // (maps, tables, charts) is drawn after load. A page that keeps polling
+    // never goes idle, so the wait is capped rather than required.
+    await page.waitForLoadState('networkidle', { timeout: 20_000 }).catch(() => {});
+    await page.waitForTimeout(1_500);
 
     // Inject axe-core then run it. Inside the try: a crash here used to take
     // the entire run with it.
@@ -197,11 +215,11 @@ function summarize(results) {
 
 function toMarkdown(results, summary) {
   const lines = [];
-  lines.push('# WCAG 2.1 AA accessibility baseline — 2026');
+  lines.push('# WCAG 2.2 AA accessibility baseline — 2026');
   lines.push('');
   lines.push(`_Generated: ${new Date().toISOString()}_`);
   lines.push('');
-  lines.push(`Audited ${summary.pageCount} page(s) via axe-core. Any regression from this baseline will appear in the diff of this file on the next weekly run.`);
+  lines.push(`Audited ${summary.pageCount} page(s) via axe-core. Pages are served over HTTP and audited after their data loads. Serious and critical counts are held to \`scripts/audit/a11y-budget.json\`, which only goes down.`);
   lines.push('');
   lines.push('## Summary by impact');
   lines.push('');
@@ -266,6 +284,7 @@ async function main() {
 
   if (!quiet) console.log(`[a11y-audit] auditing ${pages.length} page(s) via axe-core`);
 
+  const server  = await serveRoot(ROOT);
   const browser = await playwright.chromium.launch();
   const results = [];
   for (const p of pages) {
@@ -274,10 +293,10 @@ async function main() {
     // transient — the same commit passed and failed within a minute of itself.
     // A retry is not a fix for a real failure: if the second attempt also
     // fails, the page is reported UNAUDITED and the run exits non-zero.
-    let r = await auditPage(browser, p, axeScript);
+    let r = await auditPage(browser, server.origin, p, axeScript);
     if (r.error) {
       if (!quiet) process.stdout.write('retrying ... ');
-      r = await auditPage(browser, p, axeScript);
+      r = await auditPage(browser, server.origin, p, axeScript);
     }
     results.push(r);
     if (!quiet) {
@@ -286,6 +305,7 @@ async function main() {
     }
   }
   await browser.close();
+  await server.close();
 
   const summary = summarize(results);
 
@@ -320,6 +340,21 @@ async function main() {
     if (!jsonOnly) console.log(`Report:     ${path.relative(ROOT, mdOut)}`);
   }
 
+  if (!singlePage) {
+    const budget = JSON.parse(await fs.readFile(path.join(__dirname, 'a11y-budget.json'), 'utf8'));
+    const { over, under } = checkA11yBudget(summary, budget);
+    for (const u of under) {
+      console.log(`a11y-audit: ${u.rule} is down to ${u.found} (budget ${u.allowed}); lower it in scripts/audit/a11y-budget.json`);
+    }
+    if (over.length) {
+      console.error('');
+      console.error('a11y-audit: serious or critical failures went up:');
+      for (const o of over) console.error(`  ${o.rule} (${o.impact}): ${o.found} element(s), budget ${o.allowed}, on ${o.pages.join(', ')}`);
+      console.error('Fix them. scripts/audit/a11y-budget.json records what is already known and only ever goes down.');
+      process.exitCode = 1;
+    }
+  }
+
   // Exit non-zero for pages nobody audited, with a message that says so rather
   // than implying a violation. A red axe should mean one specific thing.
   if (summary.unaudited.length > 0) {
@@ -329,7 +364,7 @@ async function main() {
     console.error('');
     console.error('This is not a clean result and not a violation count. Those pages');
     console.error('were never looked at. Re-run, or reduce the page set if a page');
-    console.error('genuinely cannot be loaded under file://.');
+    console.error('genuinely cannot be loaded.');
     process.exit(1);
   }
 }
