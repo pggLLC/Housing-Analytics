@@ -23,6 +23,12 @@ Sources currently tracked
     A blocked response requires a manual check of the HUD download page.
   - HUD FMR and Census ACS 5-year: calendar-based refresh heuristics,
     not HTTP probes or confirmation that a new release is published.
+  - CHFA Housing Tax Credit rounds: probes CHFA's award-description page for
+    each round of this year and last. A published round must be in the
+    repo, either in CHFA's property feed (data/chfa-lihtc.json) or in a
+    bridge file under data/affordable-housing/chfa-awards/. CHFA's feed has
+    gone most of 2026 without a single 2026 award, so without this check a
+    new round reaches no page until someone notices by hand.
 
 Output
 ------
@@ -45,13 +51,22 @@ Usage
 
 Check the known published archive before probing possible newer vintages.
 
-### `watchHudFmr()`
+### `watchHudFmr(now = new Date()`
 
-HUD FMR — typically published annually in April; we read the
-generated fiscal year out of data/hud-fmr-income-limits.json and
-compare against the current US fiscal year.
+HUD FMR — HUD publishes each fiscal year's FMRs before it takes effect
+on Oct 1. We read the fiscal year out of data/hud-fmr-income-limits.json
+and compare it with the federal fiscal year in effect.
 
 ### `watchAcs5Year()`
 
 Census ACS 5-year — Census Bureau publishes new vintages every December.
 We check what year build_place_ami_gap.py is configured for.
+
+### `CHFA_ROUNDS`
+
+CHFA Housing Tax Credit rounds. CHFA announces Round One (9% credits,
+around May) and Round Two (4% + State credits, around November) on a page
+per round, one "Sponsor:" line per development. A round is in the feed only
+when the feed has at least as many awards from that year with that round's
+credit as the page lists; one 4% and State award made between rounds does
+not cover a whole Round Two. Otherwise it needs a bridge file for the round.

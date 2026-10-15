@@ -132,7 +132,7 @@ automatically apply the 130% boost (IRC §42(d)(5)(B) requires election).
 HB26-1065 Transit Zone (TZ) state credit — a possible source, never
 added to the stack (#1937 Phase 4, #1973). Called by the PMA transit-zone
 gate with a TransitZone.status() result. The line appears only when the
-site passes TransitZone.fundingPath. It states the draft QAP's per-project
+site passes TransitZone.fundingPath. It states the sourced QAP's per-project
 pairing for the selected credit type. The amounts live only in the
 HB26-1065 entry's `tz_credit_pairing` in
 data/policy/tax-credit-legislation.json, pinned to the QAP text in

@@ -182,7 +182,7 @@ Strategy:
 
 ### `fetchHudNhpd(bbox)`
 
-Fetch HUD NHPD subsidized housing data via the HUD eGIS API.
+Read nearby records from the local NHPD snapshot, with coverage metadata.
 @param {{minLat,minLon,maxLat,maxLon}} bbox
 @returns {Promise<{properties: Array, subsidyMetadata: Array}>}
 

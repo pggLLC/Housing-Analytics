@@ -2,8 +2,8 @@
 
 scripts/validate-schemas.js
 
-Validates critical data artifacts against their JSON Schemas using a
-lightweight built-in validator (no npm dependencies required).
+Validates critical data artifacts with dependency-free checks against their
+schema contracts. Safe to run before npm ci in PR and data workflows.
 
 Checks implemented:
   - Required top-level keys are present (sentinel keys per Rule 18)

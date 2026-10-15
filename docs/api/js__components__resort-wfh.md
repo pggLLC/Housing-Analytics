@@ -4,7 +4,7 @@ js/components/resort-wfh.js — F145
 ===================================
 Renders resort workforce-housing program detail when the selected
 jurisdiction is in a known resort housing authority's service area
-(APCHA, Vail InDEED, Eagle County, SCHA, Telluride, YVHA).
+(data/resort-workforce-housing-programs.json; every program quoted).
 
 For non-resort jurisdictions the component renders nothing — no
 "no data" placeholder. The HNA + IC packet already explain general

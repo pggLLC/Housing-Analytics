@@ -39,3 +39,16 @@ length (shorter = more exact) then alphabetically. Case-insensitive.
 Profile URL for a registry entry (relative to site root).
 @param {{geoid:string,type:string}} entry
 @returns {string|null}
+
+### `answerFacts(digest)`
+
+Plain-language facts for one jurisdiction's digest.
+@param {object} digest  data/hna/jurisdiction-metrics-digest/<geoid>.json
+@returns {Array<{key:string,label:string,value:string,note:string,source:string}>}
+
+### `doorLinks(door, entry)`
+
+Next steps for a door, for one jurisdiction. Every href is either a page
+in this repo or an https link; test/home-answer-card.test.js checks both.
+@param {string} door  a DOORS key, or anything else for the default
+@param {{geoid:string,type:string}} entry

@@ -117,9 +117,8 @@ Internal workforce scorer that also returns data-coverage metadata.
 
 Compute LIHTC recency context from nearby features. A market with its
 last allocation in 2018 reads very differently from one last funded
-in 2024 — CHFA geographic-distribution scoring and competitive
-saturation both depend on this temporal signal, which prior PMA
-scoring ignored entirely.
+in 2024. COHO uses this temporal signal to flag recent supply or
+gaps in the record for further market review.
 
 @param {Array} nearbyFeatures - LIHTC GeoJSON features from lihtcInBuffer
 @returns {{mostRecentYear:number|null, yearsSince:number|null, recentAllocations5yr:number, activityLevel:string, note:string|null}}

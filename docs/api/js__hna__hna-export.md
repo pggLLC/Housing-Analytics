@@ -123,14 +123,6 @@ Falls back to window.print() if the required libraries are unavailable.
 @param {string} [filename] - Output filename (default: housing-needs-assessment.pdf)
 @returns {Promise<void>}
 
-### `exportCsv(reportData, filename)`
-
-Exports key housing metrics for the current geography as a CSV file.
-
-@param {object} [reportData] - Pre-built report object (from buildReportData).
-  If omitted the function calls buildReportData() automatically.
-@param {string} [filename]   - Output filename (default: housing-needs-assessment.csv)
-
 ### `exportJson(reportData, filename)`
 
 Exports the full structured report snapshot as a JSON file.

@@ -81,6 +81,13 @@ Fetch markets matching a series ticker or event ticker.
 @param {MetricConfig} cfg
 @returns {Promise<Object[]>} array of Kalshi market objects
 
+### `contractProb(m)`
+
+Probability (0–1, two decimals) of a contract's "yes" side, from the best
+bid, else the last trade. null when the contract has neither.
+@param {Object} m
+@returns {number|null}
+
 ### `normalizeMarket(cfg, markets)`
 
 Convert raw Kalshi market objects into the normalized output schema.

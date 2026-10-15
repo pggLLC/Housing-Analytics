@@ -2,6 +2,10 @@
 
 ## Symbols
 
+### `checkedOf`
+
+The date a record was last checked, and its official source, for any listed file.
+
 ### `dueReviews(docs, todayDenver, existingMarkers = new Set()`
 
 Pure: which review issues are due today. No clock, filesystem or network.
