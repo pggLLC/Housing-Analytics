@@ -12,7 +12,8 @@
     // Late binding preserves the PMA page's existing script order.
     root.DealEngine = factory(root.DealCalculatorMath, {
       maxContractRent: function (input) { return root.ChfaRentLimits.maxContractRent(input); },
-      unavailableMessage: function (reason) { return root.ChfaRentLimits.unavailableMessage(reason); }
+      unavailableMessage: function (reason) { return root.ChfaRentLimits.unavailableMessage(reason); },
+      prop123ProjectAverage: function (input) { return root.ChfaRentLimits.prop123ProjectAverage(input); }
     });
   }
 }(typeof globalThis !== 'undefined' ? globalThis : this, function (math, rentLimits) {
@@ -783,6 +784,16 @@
       });
     }
 
+    // Prop 123 programs that limit the project average set no per-unit cap, so
+    // every tier prices; the restricted mix as a whole must still qualify.
+    var prop123Average = null;
+    if (inputs.regime === 'prop123' && inputs.prop123) {
+      prop123Average = rentLimits.prop123ProjectAverage(Object.assign({}, inputs.prop123, { fips: _countyFips,
+        units: pricedRows.filter(function (r) { return typeof r.tier === 'number'; })
+          .map(function (r) { return { tier: r.tier, units: r.units }; }) }));
+      if (prop123Average.exceeds) { rentInputsMissing = true; annualRents = NaN; }
+    }
+
     var minimumSetAsideResult = evaluateMinimumSetAside(minimumSetAsideElection, units, designatedUnitsByPct);
     var lihtcUnits = minimumSetAsideResult.countedLihtcUnits;
     // Applicable fraction (IRC §42(c)(1)(B)): for mixed-income deals
@@ -915,7 +926,10 @@
     var allMustPayDebtService = firstLoanYear ? firstLoanYear.mustPayDebtService : null;
     // Why NOI or the rent roll is unknown, carried with it so each message
     // names the fix that applies rather than assuming there is no county.
-    var rentDataReason = manualMarket.message || (allowanceRevenueReason ? rentLimits.unavailableMessage(allowanceRevenueReason)
+    var rentDataReason = (prop123Average && prop123Average.exceeds
+      ? 'The income-restricted units average ' + prop123Average.averageAmiPct + '% AMI; ' + prop123Average.programName +
+        ' allows a project average of at most ' + prop123Average.maxAmiPct + '% AMI. Move units to lower tiers to price this mix.'
+      : null) || manualMarket.message || (allowanceRevenueReason ? rentLimits.unavailableMessage(allowanceRevenueReason)
       : !_countyFips ? 'Select a county to load AMI rent limits.'
       : marketRegime ? 'Market rent data is unavailable for the selected bedrooms.'
       : 'Rent limits are unavailable for one or more selected tiers or bedrooms.');
@@ -1182,6 +1196,7 @@
       rentDataReason: rentDataReason,
       noiUnknownReason: noiUnknownReason,
       rentsUnknownReason: rentsUnknownReason,
+      prop123Average: prop123Average,
       capRate: capRate,
       annualDebtService: annualDebtService,
       breakEvenOcc: breakEvenOcc,

@@ -20,6 +20,8 @@
   var _amiLimits = null;       // legacy flat: { 30: $$, 40: $$, ... } (= 2BR ceiling per tier)
   var _amiLimitsByBr = null;   // P7: { 30: { studio, 1br, 2br, 3br, 4br }, ... }
   var _chfaRentTable = null;
+  var _homeRentTable = null;    // data/hud-home-rent-limits-co-2026.json
+  var _prop123Rules = null;     // data/policy/prop123-rental-rules.json
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
   var _creditRate = _cfg.creditRate9Pct || 0.09;
   var _equityPricingDefaults = {
@@ -1109,9 +1111,62 @@
     if (!limits) return { grossRent: null, regime: rentLimitRegime(), unavailableReason: 'rent_module_unavailable' };
     return limits.rentCeiling({ regime: rentLimitRegime(), chfaTable: _chfaRentTable,
       hudTable: hud && hud.isLoaded() ? { meta: hud.getMeta(), counties: hud.getAllCounties() } : null,
+      homeTable: _homeRentTable, prop123Rules: _prop123Rules,
+      program: selectValue('dc-prop123-program'), petitionJurisdiction: selectValue('dc-prop123-petition'),
       fips: _countyFips, tier: tier,
       bedrooms: RENT_BEDROOMS[br],
       rentBurden: _constants.rentBurdenPct, useHera: false });
+  }
+
+  function selectValue(id) {
+    var el = document.getElementById(id);
+    return el && el.value ? el.value : null;
+  }
+
+  // Prop 123 programs whose units this calculator can price on their own.
+  // Tax-credit-paired programs follow the CHFA LIHTC setting; modular
+  // financing restricts no units; supportive housing has no confirmed limit.
+  function prop123PricedPrograms(rules) {
+    return (rules && Array.isArray(rules.programs) ? rules.programs : []).filter(function (p) {
+      var income = p.income_rule || {};
+      return income.type !== 'none' && income.max_ami_pct != null && p.id.indexOf('lihtc') === -1;
+    });
+  }
+
+  function populateProp123Choices() {
+    var program = document.getElementById('dc-prop123-program');
+    var petition = document.getElementById('dc-prop123-petition');
+    if (!program || !petition) return;
+    var keepProgram = program.value;
+    var keepPetition = petition.value;
+    var programs = prop123PricedPrograms(_prop123Rules);
+    program.innerHTML = '<option value="">Choose a program</option>';
+    programs.forEach(function (p) {
+      var opt = document.createElement('option');
+      opt.value = p.id;
+      opt.textContent = p.name;
+      program.appendChild(opt);
+    });
+    var list = _prop123Rules && _prop123Rules.rural_resort_petitions && _prop123Rules.rural_resort_petitions.petitions || [];
+    petition.innerHTML = '<option value="">None</option>';
+    // A petition applies only inside its own jurisdiction: offer those filed
+    // from the selected county, and none until a county is chosen.
+    list.filter(function (x) {
+      return x.status === 'approved' && Array.isArray(x.county_fips) && x.county_fips.indexOf(_countyFips) !== -1;
+    }).forEach(function (x) {
+      var opt = document.createElement('option');
+      opt.value = x.jurisdiction;
+      opt.textContent = x.jurisdiction + ' (' + x.ami_pct_rental + '% AMI rental)';
+      petition.appendChild(opt);
+    });
+    if (programs.some(function (p) { return p.id === keepProgram; })) program.value = keepProgram;
+    if (Array.prototype.some.call(petition.options, function (o) { return o.value === keepPetition; })) petition.value = keepPetition;
+  }
+
+  function setProgramRentTables(home, prop123) {
+    if (home !== undefined) _homeRentTable = home;
+    if (prop123 !== undefined) { _prop123Rules = prop123; populateProp123Choices(); }
+    updateAmiLimitsFromFmr(_countyFips);
   }
 
   function observeSubjectProject() {
@@ -1495,7 +1550,9 @@
   function renderRentLimitContext() {
     var result = rentCeilingFor(60, '2br');
     var regime = result.regime;
-    var labels = { chfa_lihtc: 'CHFA LIHTC', ami_formula: 'Other AMI-restricted rental', market: 'Market-rate' };
+    var labels = { chfa_lihtc: 'CHFA LIHTC', ami_formula: 'Other AMI-restricted rental', market: 'Market-rate',
+      home_high: 'HOME (High HOME rents)', home_low: 'HOME (Low HOME rents)',
+      prop123: 'Prop 123' + (result.program && result.program.name ? ' · ' + result.program.name : '') };
     var caption = document.getElementById('dc-rent-limit-caption');
     if (caption) caption.textContent = (labels[regime] || regime) + ' · ' + (result.source || 'Source unavailable') +
       (result.tableYear == null ? '' : ' · ' + result.tableYear);
@@ -1505,13 +1562,31 @@
     if (explanation) explanation.textContent = regime === 'ami_formula'
       ? 'Applies only to the non-CHFA income-based formula.'
       : regime === 'market' ? 'Market-rate rents have no income-based ceiling.'
+      : regime === 'home_high' || regime === 'home_low' ? 'Published HUD HOME rents are fixed; rent burden does not change them.'
+      : regime === 'prop123' ? 'Prop 123 sets rent at 30% of the unit\u2019s income limit; rent burden does not change it.'
       : 'Published CHFA rents are fixed; rent burden does not change them.';
+    var prop123Box = document.getElementById('dc-prop123-choices');
+    if (prop123Box) prop123Box.hidden = regime !== 'prop123';
+    var caveats = document.getElementById('dc-rent-limit-caveats');
+    if (caveats) {
+      var notes = regime === 'prop123' && result.caveats ? result.caveats.slice() : [];
+      if (regime === 'home_high' || regime === 'home_low') {
+        notes.push(regime === 'home_high' ? 'High HOME units serve households at or below 80% AMI.' : 'Low HOME units serve households at or below 50% AMI.');
+        notes.push('For a LIHTC project with HOME units, the lower of the two limits applies; this setting prices the whole project as HOME.');
+      }
+      caveats.textContent = notes.join(' ');
+      caveats.hidden = !notes.length;
+    }
     var hera = document.getElementById('dc-rent-limit-hera-note');
     if (hera) hera.hidden = regime !== 'chfa_lihtc';
     var formula = document.getElementById('dc-rent-limit-formula');
     if (formula) formula.textContent = regime === 'ami_formula'
       ? 'Non-CHFA formula: household income limit × (AMI tier ÷ 50) × rent burden ÷ 12.'
-      : regime === 'market' ? 'No restricted limit (market-rate)' : 'Published CHFA maximum gross rent by county, tier and bedroom size.';
+      : regime === 'market' ? 'No restricted limit (market-rate)'
+      : regime === 'home_high' ? 'HUD High HOME rent by county and bedroom size: the lesser of the FMR and 30% of income at 65% AMI.'
+      : regime === 'home_low' ? 'HUD Low HOME rent by county and bedroom size: 30% of income at 50% AMI, capped by the High HOME rent.'
+      : regime === 'prop123' ? 'Prop 123: gross rent at 30% of the unit\u2019s income limit, the lower of CHFA\u2019s published cell and that rule.'
+      : 'Published CHFA maximum gross rent by county, tier and bedroom size.';
     var example = '@ 60% AMI (2BR): ' + rentLimitText(result);
     ['dc-formula-ceiling-eg', 'dc-rent-limit-example'].forEach(function (id) {
       var el = document.getElementById(id);
@@ -1545,6 +1620,7 @@
       window.InputProvenance.invalidateGeography(document.getElementById('dealCalcMount') || document, fips || null);
     }
     _countyFips = fips || null;
+    populateProp123Choices();
     _amiLimits = null;
     _amiLimitsByBr = null;
     if (_countyFips || rentLimitRegime() === 'market') {
@@ -1757,10 +1833,27 @@
           <label for="dc-rent-limit-regime" style="display:block;margin-bottom:var(--sp2);">Rent limits
             <select id="dc-rent-limit-regime" style="display:block;width:100%;min-height:44px;background:var(--bg2);color:var(--text);">
               <option value="chfa_lihtc" selected>CHFA LIHTC</option>
+              <option value="home_high">HOME, High HOME rents (HUD)</option>
+              <option value="home_low">HOME, Low HOME rents (HUD)</option>
+              <option value="prop123">Prop 123 (Colorado affordable housing fund)</option>
               <option value="ami_formula">Other AMI-restricted rental (non-CHFA formula)</option>
               <option value="market">Market-rate (unrestricted)</option>
             </select>
           </label>
+          <div id="dc-prop123-choices" hidden>
+            <label for="dc-prop123-program" style="display:block;margin-bottom:var(--sp2);">Prop 123 program
+              <select id="dc-prop123-program" style="display:block;width:100%;min-height:44px;background:var(--bg2);color:var(--text);">
+                <option value="">Choose a program</option>
+              </select>
+            </label>
+            <label for="dc-prop123-petition" style="display:block;margin-bottom:var(--sp2);">Approved rural resort petition
+              <select id="dc-prop123-petition" style="display:block;width:100%;min-height:44px;background:var(--bg2);color:var(--text);">
+                <option value="">None</option>
+              </select>
+            </label>
+            <p style="font-size:var(--tiny);color:var(--muted);">Only petitions filed from the selected county are listed; pick one only if the project is inside that jurisdiction. Prop 123 LIHTC gap and predevelopment loans follow the CHFA LIHTC setting, because those projects carry tax credits.</p>
+          </div>
+          <p id="dc-rent-limit-caveats" hidden style="font-size:var(--tiny);color:var(--muted);" aria-live="polite"></p>
           <p id="dc-rent-limit-hera-note" style="font-size:var(--tiny);color:var(--muted);">Regular CHFA limits — HERA applies only to projects placed in service by 12/31/2008.</p>
           <label style="display:block;margin-bottom:var(--sp2);">
             <span style="font-size:var(--small);color:var(--muted);">Federal minimum set-aside election</span>
@@ -3052,15 +3145,16 @@
     if (taxExemptSel) taxExemptSel.addEventListener('change', recalculate);
     var saleTargetSel = document.getElementById('dc-sale-target-ami');
     if (saleTargetSel) saleTargetSel.addEventListener('change', recalculate);
-    var rentRegime = document.getElementById('dc-rent-limit-regime');
-    if (rentRegime) {
+    ['dc-rent-limit-regime', 'dc-prop123-program', 'dc-prop123-petition'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
       ['input', 'change'].forEach(function (event) {
-        rentRegime.addEventListener(event, function () {
+        el.addEventListener(event, function () {
           updateAmiLimitsFromFmr(_countyFips);
           if (typeof window.__announceUpdate === 'function') window.__announceUpdate('Rent limits updated.');
         });
       });
-    }
+    });
     var minimumSetAsideSel = document.getElementById('dc-minimum-set-aside');
     if (minimumSetAsideSel) minimumSetAsideSel.addEventListener('change', recalculate);
     ['dc-mode-rental', 'dc-mode-ownership'].forEach(function (id) {
@@ -3622,6 +3716,8 @@
       constants: _constants, utilityAllowance: _utilityAllowance,
       equityPriceDefault: EQUITY_PRICE_DEFAULT, minimumSetAsideElection: currentMinimumSetAsideElection(),
       regime: rentLimitRegime(), perBrMarket: _countyFips ? getZoriPerBrRent(_countyFips) : null,
+      prop123: { prop123Rules: _prop123Rules, program: selectValue('dc-prop123-program'),
+        petitionJurisdiction: selectValue('dc-prop123-petition') },
       manualMarket: _resolvedDealMix.available ? null : readManualMarketInputs(),
       hasUnitMixWarning: !!document.getElementById('dc-units-sync-warn'),
       tranches: typeof window.DealCalcSoftTranches === 'function' ? (window.DealCalcSoftTranches() || []) : [],
@@ -4976,6 +5072,11 @@
       return r.ok ? r.json() : null;
     });
     chfaLoad.then(setChfaRentTable).catch(function () { setChfaRentTable(null); });
+    function loadJson(url) {
+      return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+    }
+    loadJson('data/hud-home-rent-limits-co-2026.json').then(function (t) { setProgramRentTables(t, undefined); });
+    loadJson('data/policy/prop123-rental-rules.json').then(function (t) { setProgramRentTables(undefined, t); });
 
     // Phase-4 follow-up — re-scan for <abbr data-glossary> tags now that the
     // output panel HTML has been injected. The inline-glossary boot fires on
@@ -6647,6 +6748,7 @@
     getOutputRecords: getOutputRecords,
     updateAmiLimitsFromFmr: updateAmiLimitsFromFmr,
     setChfaRentTable: setChfaRentTable,
+    setProgramRentTables: setProgramRentTables,
     getRentLimitsMetadata: getRentLimitsMetadata,
     getUtilityAllowanceMetadata: getUtilityAllowanceMetadata,
     getRentScheduleMetadata: getRentScheduleMetadata,
