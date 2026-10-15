@@ -380,7 +380,6 @@
   }
 
   function lihtcSection(row, src, countyName) {
-    var county = row.type === 'county' ? row.geoid : row.containingCounty;
     var inScope = placeMatcher(row, src);
     var props = ((src.chfaLihtc && src.chfaLihtc.features) || []).map(function (f) { return f.properties || f; })
       .filter(function (p) {
