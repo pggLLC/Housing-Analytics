@@ -1837,7 +1837,7 @@
         </label>
         <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Residential floor area (SF)
-            <span style="opacity:.7">&mdash; optional</span></span>
+            <span style="color:var(--muted)">&mdash; optional</span></span>
           <input id="dc-res-sf" type="number" min="0" step="1000" placeholder="not entered" aria-describedby="dc-res-sf-help"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);">
           <span id="dc-res-sf-help" style="display:block;margin-top:.2rem;font-size:var(--small);color:var(--muted);">
@@ -2090,7 +2090,7 @@
         </div>
         <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Floor area of the restricted units (SF)
-            <span style="opacity:.7">&mdash; needed only when some units are unrestricted</span></span>
+            <span style="color:var(--muted)">&mdash; needed only when some units are unrestricted</span></span>
           <input id="dc-restricted-sf" type="number" min="0" step="100" placeholder="not entered"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);">
         </label>
