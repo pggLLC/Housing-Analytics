@@ -112,7 +112,9 @@ test('a designation without evidence, or CHFA boost on a 4% deal, gives no boost
 test('the boost applies once, never to acquisition basis, and never above eligible cost x 130%', () => {
   const lines = clone(cases.basisCase.lines).concat([{ id: 'building_acquisition', label: 'Building', group: 'acquisition', basis: 'eligible', amount: 1000000 }]);
   const { result } = runBasisCase(cases.basisCase, rules, { lines, tdc: 21600000 });
-  assert.equal(round(result.boostedBasis), round((18700000 - 1000000) * 1.3 + 1000000));
+  // The case's $500,000 federal grant is spread over $1,000,000 acquisition and $18,200,000 other basis.
+  const grantOnAcq = 500000 * 1000000 / 19200000;
+  assert.equal(round(result.boostedBasis), round((18200000 - (500000 - grantOnAcq)) * 1.3 + (1000000 - grantOnAcq)));
   for (const designation of ['qct', 'dda', 'sadda', 'chfa']) {
     const r = runBasisCase(cases.basisCase, rules, { designation, tranches: [] }).result;
     assert(r.boostedBasis <= r.eligibleBasis * 1.3 + 0.01, designation + ' stays within 130%');
@@ -254,18 +256,33 @@ test('underwriting thresholds use the rule\'s forecast years', () => {
 });
 
 test('state credits stay a separate source with CHFA\'s limit; pay-in schedules need all three stages', () => {
-  const s = cb.stateCredit({ annual: 600000, years: 6, price: 0.8, creditType: '9', units: 60, rules });
+  const s = cb.stateCredit({ annual: 600000, price: 0.8, creditType: '9', units: 60, rules });
   assert.equal(s.allowedAnnual, 500000);
   assert.equal(s.equity, 500000 * 6 * 0.8);
-  assert.match(s.capReason, /Capped at \$500,000/);
+  assert.match(s.capReason, /capped at \$500,000/);
+  assert.equal(s.years, rules.rules.state_credit_term.years, 'six-year allocation from the rules file');
   // A 4% deal must say which CHFA application it is: each path has its own limit (QAP 3.L).
-  const four = (path, units) => cb.stateCredit({ annual: 2000000, years: 6, price: 0.8, creditType: '4', units, path, rules });
+  const four = (path, units, extra) => cb.stateCredit(Object.assign({ annual: 2000000, price: 0.8, creditType: '4', units, path, rules }, extra));
   assert.equal(four(undefined, 50).equity, null);
   assert.match(four(undefined, 50).reason, /which CHFA state credit application/);
   assert.equal(four('bond_fall', 50).allowedAnnual, 500000, '$10,000 per unit for 50 units');
   assert.equal(four('bond_fall', 90).allowedAnnual, rules.rules.credit_cap_state_with_4pct.annual_cap);
-  assert.equal(four('round_two_accelerated', 50).allowedAnnual, rules.rules.credit_cap_state_round_two_accelerated.annual_cap);
-  assert.equal(four('round_two_standard', 50).allowedAnnual, rules.rules.credit_cap_state_round_two_standard.annual_cap);
+  const acc = rules.rules.credit_cap_state_round_two_accelerated.annual_cap, std = rules.rules.credit_cap_state_round_two_standard.annual_cap;
+  assert.equal(four('round_two', 50).allowedAnnual, acc);
+  // Round Two takes the accelerated credit AND a paired standard credit, each with its own cap.
+  const both = four('round_two', 50, { standardAnnual: 900000 });
+  assert.equal(both.allowedAnnual, acc + std);
+  assert.equal(both.equity, (acc + std) * 6 * 0.8);
+  assert.equal(four('round_two', 50, { annual: null, standardAnnual: 400000 }).allowedAnnual, 400000);
+  assert.match(four('bond_fall', 50, { standardAnnual: 100000 }).reason, /Only Round Two/);
+  // A path belongs to one federal credit type.
+  assert.match(four('with_9pct', 50).reason, /federal 9% credits/);
+  assert.equal(four('with_9pct', 50).equity, null);
+  const nine = cb.stateCredit({ annual: 600000, price: 0.8, creditType: '9', units: 60, path: 'round_two', rules });
+  assert.equal(nine.equity, null);
+  assert.match(nine.reason, /federal 4% credits/);
+  const noTerm = JSON.parse(JSON.stringify(rules)); delete noTerm.rules.state_credit_term;
+  assert.match(cb.stateCredit({ annual: 400000, price: 0.8, creditType: '9', rules: noTerm }).reason, /rule not sourced/);
   // Unknown units are not zero units.
   for (const units of [undefined, null, '', 0]) {
     const s0 = four('bond_fall', units);
@@ -273,7 +290,7 @@ test('state credits stay a separate source with CHFA\'s limit; pay-in schedules 
     assert.equal(s0.allowedAnnual, null);
     assert.match(s0.reason, /number of units/);
   }
-  assert.equal(cb.stateCredit({ annual: 400000, years: '', price: 0.8, creditType: '9', rules }).equity, null);
+  assert.equal(cb.stateCredit({ annual: 400000, price: '', creditType: '9', rules }).equity, null);
   assert.equal(cb.stateCredit({ annual: null, rules }).entered, false);
   const p = cb.payIn(1000000, { closing: 20, completion: 40, stabilization: 40 });
   assert.deepEqual(p.installments.map((i) => i.amount), [200000, 400000, 400000]);
@@ -287,7 +304,9 @@ const base9 = (extra) => cb.basisAndCredit(Object.assign({ eligibleCost: 2000000
 
 test('on a 9% deal, acquisition basis earns the 4% acquisition rate and rehabilitation the 9% rate', () => {
   const r = base9({ acquisitionEligible: 1000000 });
-  assert.equal(r.acquisitionRate, rules.rules.acquisition_credit_rate.rate);
+  assert.equal(r.acquisitionRate, rules.rules.acquisition_credit_rate.floor);
+  assert.equal(base9({ acquisitionEligible: 1000000, acquisitionApr: 0.045 }).acquisitionRate, 0.045, 'a floor, not a fixed rate');
+  assert.equal(base9({ acquisitionEligible: 1000000, acquisitionApr: 0.03 }).acquisitionRate, 0.04);
   assert.equal(Math.round(r.calculatedCredit), 40000 + 90000);
   const four = cb.basisAndCredit({ eligibleCost: 2000000, grantReduction: 0, designation: 'none', creditType: '4', creditRate: 0.04,
     units: 10, lowIncomeUnits: 10, acquisitionEligible: 1000000, rules });
@@ -297,6 +316,10 @@ test('on a 9% deal, acquisition basis earns the 4% acquisition rate and rehabili
   assert.equal(u.calculatedCredit, null);
   assert.match(u.reasons.acquisitionRate, /rule not sourced/);
   assert.equal(Math.round(base9({ rules: unsourced }).calculatedCredit), 180000, 'no acquisition, no acquisition rate needed');
+  // A federal grant is spread over acquisition and other basis, not charged to one first.
+  const g = base9({ acquisitionEligible: 1000000, grantReduction: 1000000 });
+  assert.equal(Math.round(g.grantOnAcquisition), 500000);
+  assert.equal(Math.round(g.calculatedCredit), 500000 * 0.04 + 500000 * 0.09);
 });
 
 test('capacity is the smaller of Method One and the gap calculation, and Method Three says it is not checked', () => {
@@ -369,7 +392,13 @@ test('every rule cites a source that exists, with a location and a quote that st
   assert(R.credit_cap_state_with_4pct.quote.includes('Private Activity Bonds') && R.credit_cap_state_with_4pct.quote.includes('September, October, and November'));
   assert(R.credit_cap_state_round_two_accelerated.quote.includes('$' + fmt(R.credit_cap_state_round_two_accelerated.annual_cap) + ' of accelerated'));
   assert(R.credit_cap_state_round_two_standard.quote.includes('$' + fmt(R.credit_cap_state_round_two_standard.annual_cap) + ' of standard'));
-  assert(R.acquisition_credit_rate.quote.includes(R.acquisition_credit_rate.rate * 100 + ' percent'));
+  assert(R.acquisition_credit_rate.quote.includes('floor is set at ' + R.acquisition_credit_rate.floor * 100 + ' percent'));
+  assert(R.state_credit_term.quote.includes('total six-year allocation') && R.state_credit_term.years === 6);
+  for (const k of ['credit_cap_state_round_two_accelerated', 'credit_cap_state_round_two_standard', 'credit_cap_state_with_4pct']) {
+    assert.equal(R[k].federal_credit_type, '4', k);
+    assert(R[k].quote.includes('4 percent') || R[k].quote.includes('Round Two'), k);
+  }
+  assert.equal(R.credit_cap_state_with_9pct.federal_credit_type, '9');
   assert(R.credit_reservation_methods.quote.includes('smallest'));
   assert(R.credit_reservation_methods.gap_quote.includes(R.credit_reservation_methods.gap_years + ' years'));
   assert(R.developer_fee_limit.acquisition_exception_quote.startsWith('Fifty percent of Acquisition cost (excluding projects serving'));

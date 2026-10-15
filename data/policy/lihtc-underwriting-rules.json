@@ -74,7 +74,8 @@
       "quote": "For competitive acquisition Housing Tax Credits, the APR floor is set at 4 percent.",
       "method_quote": "Qualified acquisition costs multiplied by applicable percentage rate equals annual Housing Tax Credit amount",
       "credit_type": "9",
-      "rate": 0.04
+      "floor": 0.04,
+      "note": "A floor: the calculator has no input for the applicable acquisition percentage, so it applies the floor and labels it as the floor."
     },
     "credit_reservation_methods": {
       "status": "adopted",
@@ -209,7 +210,8 @@
       "quote": "CHFA will pair, if requested, a fixed amount of $500,000 of standard annual state credit with federal 9 percent Housing Tax Credit Applications.",
       "credit_type": "9",
       "credit": "state",
-      "annual_cap": 500000
+      "annual_cap": 500000,
+      "federal_credit_type": "9"
     },
     "credit_cap_state_round_two_accelerated": {
       "status": "adopted",
@@ -218,7 +220,8 @@
       "quote": "CHFA will accept Applications for $1,300,000 of accelerated annual state credit and will pair up to $600,000 of standard annual state credit for any one project or any one Applicant, or Affiliate of such Applicant, or Turn-key Project Developer of such Applicant in Round Two.",
       "credit_type": "4",
       "credit": "state",
-      "annual_cap": 1300000
+      "annual_cap": 1300000,
+      "federal_credit_type": "4"
     },
     "credit_cap_state_round_two_standard": {
       "status": "adopted",
@@ -227,7 +230,8 @@
       "quote": "CHFA will accept Applications for $1,300,000 of accelerated annual state credit and will pair up to $600,000 of standard annual state credit for any one project or any one Applicant, or Affiliate of such Applicant, or Turn-key Project Developer of such Applicant in Round Two.",
       "credit_type": "4",
       "credit": "state",
-      "annual_cap": 600000
+      "annual_cap": 600000,
+      "federal_credit_type": "4"
     },
     "credit_cap_state_with_4pct": {
       "status": "adopted",
@@ -237,7 +241,15 @@
       "credit_type": "4",
       "credit": "state",
       "annual_cap_per_unit": 10000,
-      "annual_cap": 700000
+      "annual_cap": 700000,
+      "federal_credit_type": "4"
+    },
+    "state_credit_term": {
+      "status": "adopted",
+      "source": "S1",
+      "location": "Section 3.P.1, PDF pages 40-41",
+      "quote": "The APR for new construction and rehabilitation with the total six-year allocation of state credits is 30 percent of Qualified Basis.",
+      "years": 6
     },
     "min_debt_coverage": {
       "status": "adopted",

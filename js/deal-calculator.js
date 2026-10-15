@@ -2236,20 +2236,19 @@
           <label style="display:block;font-size:var(--small);color:var(--muted);margin-top:.35rem;">CHFA state credit application (each has its own limit)
             <select id="dc-state-path" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
               <option value="">Not answered (a 9% deal uses the 9% pairing)</option>
-              <option value="with_9pct">Paired with a 9% application: $500,000</option>
-              <option value="round_two_accelerated">Round Two, accelerated: up to $1,300,000</option>
-              <option value="round_two_standard">Round Two, standard: up to $600,000</option>
-              <option value="bond_fall">4% bond deal applying Sept to Nov: $10,000 per unit, up to $700,000</option>
+              <option value="with_9pct">Paired with a 9% application: $500,000 a year</option>
+              <option value="round_two">Round Two with 4%: accelerated up to $1,300,000 plus paired standard up to $600,000 a year</option>
+              <option value="bond_fall">4% bond deal applying Sept to Nov: $10,000 per unit, up to $700,000 a year</option>
             </select></label>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:var(--sp2);margin-top:.35rem;">
             <label style="display:block;font-size:var(--small);color:var(--muted);">Annual state credit ($)
               <input id="dc-state-annual" type="number" min="0" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
-            <label style="display:block;font-size:var(--small);color:var(--muted);">Years claimed
-              <input id="dc-state-years" type="number" min="1" max="20" step="1" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+            <label style="display:block;font-size:var(--small);color:var(--muted);">Round Two only: paired standard state credit, annual ($)
+              <input id="dc-state-standard-annual" type="number" min="0" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
             <label style="display:block;font-size:var(--small);color:var(--muted);">Price per $1 of state credit
               <input id="dc-state-price" type="number" min="0" max="1.5" step="0.01" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
           </div>
-          <p style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0;line-height:1.45;">State credit equity is a separate source from federal equity, limited by CHFA's per-project state credit amount.</p>
+          <p style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0;line-height:1.45;">State credit equity is a separate source from federal equity: each annual amount, within CHFA's limit for the application, over the six-year allocation.</p>
           <div role="group" aria-labelledby="dc-fed-payin-h" style="margin-top:var(--sp2);">
             <p id="dc-fed-payin-h" style="margin:0;font-size:var(--small);font-weight:600;">Federal equity pay-in (% of federal equity)</p>
             <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem;">
@@ -3268,7 +3267,7 @@
     if (gsfField) gsfField.addEventListener('input', clearGrossSfDerivation);
     var gsfEff = document.getElementById('dc-gsf-efficiency');
     if (gsfEff) gsfEff.addEventListener('input', function () { gsfEff.dataset.userSet = '1'; });
-    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-years', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-state-path']
+    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-standard-annual', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-state-path']
       .concat(['fed', 'state'].reduce(function (acc, src) {
         return acc.concat(['closing', 'completion', 'stabilization'].map(function (st) { return 'dc-' + src + '-payin-' + st; }));
       }, [])).forEach(function (id) { ids.push(id); });
@@ -3967,7 +3966,8 @@
     heading('Basis and credit');
     row('Cost in eligible basis', money(basis.eligibleBasis, basis.reasons.eligibleBasis));
     if (basis.feeReduction > 0) row('Less fees above CHFA\'s limits', fmt(basis.feeReduction), 'CHFA limits the fees in calculating credit; a reduction in fees reduces eligible basis (QAP 3.M.3).');
-    row('Less federally funded grants', money(basis.grantReduction, basis.reasons.afterGrant), 'Grants with federal money reduce basis; loans and grants with no federal money do not (26 U.S.C. 42(d)(5)(A)).');
+    row('Less federally funded grants', money(basis.grantReduction, basis.reasons.afterGrant), 'Grants with federal money reduce basis; loans and grants with no federal money do not (26 U.S.C. 42(d)(5)(A)).'
+      + (basis.grantOnAcquisition > 0 ? ' Spread over acquisition and other basis in proportion: ' + fmt(basis.grantOnAcquisition) + ' against acquisition.' : ''));
     row('Basis after grants', money(basis.afterGrant, basis.reasons.afterGrant));
     row('30% basis boost', basis.boost.applied ? 'Applied: ' + basis.boost.designation : 'Not applied', basis.boost.applied ? basis.boost.citation : basis.boost.reason);
     row('Basis after boost', money(basis.boostedBasis, basis.reasons.afterGrant));
@@ -3975,7 +3975,7 @@
       basis.applicableFraction == null ? null : 'Lower of the unit fraction (' + pct(basis.unitFraction) + ') and the floor-space fraction (' + pct(basis.floorFraction) + ').');
     row('Qualified basis', money(basis.qualifiedBasis, basis.reasons.applicableFraction));
     if (basis.acquisitionQualified > 0) row('Acquisition credit rate', basis.acquisitionRate == null ? basis.reasons.acquisitionRate : (basis.acquisitionRate * 100).toFixed(2) + '%',
-      basis.acquisitionCitation ? 'Acquisition basis earns the acquisition rate, not 9% (' + basis.acquisitionCitation + ').' : 'Acquisition basis earns the same rate on a 4% deal.');
+      basis.acquisitionCitation ? 'Acquisition basis earns CHFA\'s 4% acquisition floor, not 9% (' + basis.acquisitionCitation + '). The calculator has no input for a higher applicable percentage.' : 'Acquisition basis earns the same rate on a 4% deal.');
     row('Method One: qualified basis credit', money(basis.calculatedCredit, basis.reasons.acquisitionRate || 'Not available'));
     row('CHFA per-project limit', basis.cap.applied ? fmt(basis.cap.amount) : 'Not applied', basis.cap.reason || basis.cap.citation);
     row('Method Two: gap calculation', basis.gapMethod.applied ? fmt(basis.gapMethod.credit) : 'Not calculated',
@@ -4012,7 +4012,8 @@
       row(p[0], p[1].installments ? p[1].installments.map(function (i) { return fmt(i.amount); }).join(' / ') : p[1].reason,
         p[1].installments ? 'Closing / completion / stabilization' : null);
     });
-    if (cbr.stateCredit.entered) row('State credit allowed (annual)', money(cbr.stateCredit.allowedAnnual, cbr.stateCredit.reason), cbr.stateCredit.capReason);
+    if (cbr.stateCredit.entered) row('State credit allowed (annual)', money(cbr.stateCredit.allowedAnnual, cbr.stateCredit.reason),
+      [cbr.stateCredit.capReason, cbr.stateCredit.years ? 'Claimed over the ' + cbr.stateCredit.years + '-year allocation (' + cbr.stateCredit.termCitation + ').' : null].filter(Boolean).join(' ') || null);
 
     heading('Rules');
     (cbr.rules || []).forEach(function (r) {

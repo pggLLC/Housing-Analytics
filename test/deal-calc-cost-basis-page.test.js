@@ -89,14 +89,18 @@ async function test(name, fn) {
     const p = await openPage('');
     setField(p, 'dc-rate-4', true);
     assert.equal(p.w.__DealCalc.getResult().creditType, '4', 'the 4% scenario is selected');
-    setField(p, 'dc-state-annual', 2000000); setField(p, 'dc-state-years', 6); setField(p, 'dc-state-price', 0.8);
+    setField(p, 'dc-state-annual', 2000000); setField(p, 'dc-state-price', 0.8);
     const r = () => p.w.__DealCalc.getResult().costBasis.stateCredit;
     assert.equal(r().equity, null);
     assert.match(r().reason, /which CHFA state credit application/);
-    setField(p, 'dc-state-path', 'round_two_standard');
-    assert.equal(r().allowedAnnual, rules.rules.credit_cap_state_round_two_standard.annual_cap);
-    setField(p, 'dc-state-path', 'round_two_accelerated');
-    assert.equal(r().allowedAnnual, rules.rules.credit_cap_state_round_two_accelerated.annual_cap);
+    const acc = rules.rules.credit_cap_state_round_two_accelerated.annual_cap, std = rules.rules.credit_cap_state_round_two_standard.annual_cap;
+    setField(p, 'dc-state-path', 'round_two');
+    assert.equal(r().allowedAnnual, acc);
+    setField(p, 'dc-state-standard-annual', 900000);
+    assert.equal(r().allowedAnnual, acc + std, 'both Round Two streams count');
+    assert.equal(r().equity, (acc + std) * rules.rules.state_credit_term.years * 0.8);
+    setField(p, 'dc-state-path', 'with_9pct');
+    assert.match(r().reason, /federal 9% credits/);
     assert.deepEqual(p.errors, []);
   });
 

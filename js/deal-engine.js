@@ -834,7 +834,7 @@
     var eligibleBasis    = basis.qualifiedBasis === null ? NaN : basis.qualifiedBasis;
     var annualCredits    = basis.creditForEquity === null ? NaN : basis.creditForEquity;
     var equity           = annualCredits * CREDIT_YEARS * equityPrice;
-    var stateCredit = cbm.stateCredit({ annual: fields['dc-state-annual'], years: fields['dc-state-years'],
+    var stateCredit = cbm.stateCredit({ annual: fields['dc-state-annual'], standardAnnual: fields['dc-state-standard-annual'],
       price: fields['dc-state-price'], creditType: creditType, path: fields['dc-state-path'] || null, units: units, rules: costRules });
     // No state credit entered is no source; an incomplete one is unknown.
     var stateEquity = !stateCredit.entered ? 0 : stateCredit.equity === null ? NaN : stateCredit.equity;

@@ -274,6 +274,13 @@
     out.grantReduction = args.grantReduction;
     out.feeReduction = Math.max(0, num(args.feeExcess) || 0);
     out.afterGrant = Math.max(0, out.eligibleBasis - out.feeReduction - out.grantReduction);
+    // Fees are never acquisition basis. With no input saying which costs a grant
+    // financed, a federal grant is spread over acquisition and other basis in
+    // proportion, so neither bucket is charged first (Method One prices them apart).
+    var acqCost = Math.min(Math.max(0, args.acquisitionEligible || 0), out.eligibleBasis);
+    var otherCost = Math.max(0, out.eligibleBasis - acqCost - out.feeReduction);
+    var grantOnAcq = acqCost + otherCost > 0 ? out.grantReduction * acqCost / (acqCost + otherCost) : 0;
+    out.grantOnAcquisition = acqCost > 0 && out.grantReduction > 0 ? grantOnAcq : 0;
 
     var boost = ruleStatus(rules, 'basis_boost');
     var designation = args.designation || 'none';
@@ -286,7 +293,7 @@
     else if (!evidence) out.boost.reason = 'Add the evidence for the ' + d.label + ' designation (HUD map or list, or CHFA letter).';
     else { out.boost.applied = true; out.boost.multiplier = boost.rule.multiplier; out.boost.citation = boost.citation; out.boost.designation = d.label; }
     // One boost, never on acquisition basis, and never above eligible cost x 130%.
-    var acquisition = Math.min(out.afterGrant, Math.max(0, args.acquisitionEligible || 0));
+    var acquisition = Math.min(out.afterGrant, Math.max(0, acqCost - grantOnAcq));
     var boostable = out.afterGrant - acquisition;
     out.boostedBasis = boostable * out.boost.multiplier + acquisition;
     var ceiling = out.eligibleBasis * (boost.applied ? boost.rule.multiplier : 1);
@@ -315,7 +322,8 @@
     if (out.acquisitionQualified > 0 && String(args.creditType) === '9') {
       var acqRule = ruleStatus(rules, 'acquisition_credit_rate');
       if (!acqRule.applied) return stop('acquisitionRate', 'Acquisition credit rate: ' + acqRule.reason + '.');
-      out.acquisitionRate = acqRule.rule.rate;
+      // The QAP sets a floor; with no applicable-percentage input, the floor applies.
+      out.acquisitionRate = Math.max(acqRule.rule.floor, num(args.acquisitionApr) || 0);
       out.acquisitionCitation = acqRule.citation;
     }
     out.calculatedCredit = out.acquisitionQualified * out.acquisitionRate
@@ -390,42 +398,60 @@
     return out;
   }
 
+  // Each CHFA state credit application and the capped streams it allows (QAP 3.L).
+  // Round Two accepts accelerated credit and pairs standard credit with it.
   var STATE_CREDIT_PATHS = Object.freeze({
-    with_9pct: 'credit_cap_state_with_9pct',
-    round_two_accelerated: 'credit_cap_state_round_two_accelerated',
-    round_two_standard: 'credit_cap_state_round_two_standard',
-    bond_fall: 'credit_cap_state_with_4pct'
+    with_9pct: { federal: '9', streams: [['annual', 'credit_cap_state_with_9pct', 'Standard state credit']] },
+    round_two: { federal: '4', streams: [['annual', 'credit_cap_state_round_two_accelerated', 'Accelerated state credit'],
+      ['standardAnnual', 'credit_cap_state_round_two_standard', 'Paired standard state credit']] },
+    bond_fall: { federal: '4', streams: [['annual', 'credit_cap_state_with_4pct', 'State credit']] }
   });
 
-  /** State credit equity, kept apart from federal equity, with CHFA's annual limit. */
+  /** State credit equity, kept apart from federal equity, with CHFA's annual limits.
+   * Each stream is an annual amount over the six-year allocation (QAP 3.P.1). */
   function stateCredit(args) {
-    var annual = num(args.annual), years = num(args.years), price = num(args.price);
-    var out = { entered: annual !== null, annual: annual, allowedAnnual: null, years: years, price: price, equity: null,
-      cap: null, capReason: null, reason: null };
-    if (annual === null) { out.reason = 'No state credit entered.'; return out; }
-    if (!Number.isFinite(annual) || annual < 0) { out.reason = 'Enter an annual state credit of $0 or more.'; return out; }
-    if (years === null || !Number.isInteger(years) || years < 1 || years > 20) { out.reason = 'Enter the number of years the state credit is claimed.'; return out; }
+    var annual = num(args.annual), standard = num(args.standardAnnual), price = num(args.price);
+    var out = { entered: annual !== null || standard !== null, annual: annual, standardAnnual: standard, allowedAnnual: null,
+      streams: [], years: null, price: price, equity: null, cap: null, capReason: null, reason: null };
+    if (!out.entered) { out.reason = 'No state credit entered.'; return out; }
+    var term = ruleStatus(args.rules, 'state_credit_term');
+    if (!term.applied) { out.reason = 'State credit term: ' + term.reason + '.'; return out; }
+    out.years = term.rule.years; out.termCitation = term.citation;
     if (price === null || !Number.isFinite(price) || price <= 0 || price > 1.5) { out.reason = 'Enter the state credit price per dollar of credit.'; return out; }
-    // CHFA's limit depends on the application path, not only on 4% or 9% (QAP 3.L).
     var path = args.path || (String(args.creditType) === '9' ? 'with_9pct' : null);
-    var key = STATE_CREDIT_PATHS[path];
-    if (!key) { out.reason = path ? 'Unknown state credit application.' : 'Choose which CHFA state credit application this is; each has its own limit.'; return out; }
-    out.path = path;
-    var cap = ruleStatus(args.rules, key);
-    out.allowedAnnual = annual;
-    if (!cap.applied) out.capReason = 'State credit limit: ' + cap.reason + '.';
-    else {
-      var units = num(args.units);
-      if (cap.rule.annual_cap_per_unit && (units === null || !Number.isFinite(units) || units <= 0)) {
-        out.allowedAnnual = null; out.reason = 'Enter the number of units; this state credit limit is set per unit.'; return out;
-      }
-      out.cap = cap.rule.annual_cap_per_unit ? Math.min(cap.rule.annual_cap, cap.rule.annual_cap_per_unit * units) : cap.rule.annual_cap;
-      if (annual > out.cap) {
-        out.allowedAnnual = out.cap;
-        out.capReason = 'Capped at ' + money(out.cap) + ' a year (' + cap.citation + ').';
-      }
+    var def = STATE_CREDIT_PATHS[path];
+    if (!def) { out.reason = path ? 'Unknown state credit application.' : 'Choose which CHFA state credit application this is; each has its own limit.'; return out; }
+    if (def.federal !== String(args.creditType)) {
+      out.reason = 'This state credit application goes with federal ' + def.federal + '% credits, and this deal uses ' + args.creditType + '%.'; return out;
     }
-    out.equity = out.allowedAnnual * years * price;
+    out.path = path;
+    if (standard !== null && !def.streams.some(function (st) { return st[0] === 'standardAnnual'; })) {
+      out.reason = 'Only Round Two pairs a separate standard state credit; clear the paired amount or choose Round Two.'; return out;
+    }
+    var allowed = 0, notes = [];
+    for (var i = 0; i < def.streams.length; i++) {
+      var st = def.streams[i], amount = num(args[st[0]]);
+      if (amount === null) continue;
+      if (!Number.isFinite(amount) || amount < 0) { out.reason = 'Enter an annual ' + st[2].toLowerCase() + ' of $0 or more.'; return out; }
+      var cap = ruleStatus(args.rules, st[1]);
+      var row = { label: st[2], annual: amount, allowedAnnual: amount, cap: null, capReason: null };
+      if (!cap.applied) row.capReason = st[2] + ' limit: ' + cap.reason + '.';
+      else {
+        var units = num(args.units);
+        if (cap.rule.annual_cap_per_unit && (units === null || !Number.isFinite(units) || units <= 0)) {
+          out.reason = 'Enter the number of units; this state credit limit is set per unit.'; return out;
+        }
+        row.cap = cap.rule.annual_cap_per_unit ? Math.min(cap.rule.annual_cap, cap.rule.annual_cap_per_unit * units) : cap.rule.annual_cap;
+        if (amount > row.cap) { row.allowedAnnual = row.cap; row.capReason = st[2] + ' capped at ' + money(row.cap) + ' a year (' + cap.citation + ').'; }
+      }
+      if (row.capReason) notes.push(row.capReason);
+      out.streams.push(row);
+      allowed += row.allowedAnnual;
+    }
+    out.allowedAnnual = allowed;
+    out.cap = out.streams.length === 1 ? out.streams[0].cap : null;
+    out.capReason = notes.length ? notes.join(' ') : null;
+    out.equity = allowed * out.years * price;
     return out;
   }
 
