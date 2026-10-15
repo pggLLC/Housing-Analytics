@@ -85,6 +85,21 @@ async function test(name, fn) {
     assert.match(text(p, 'dc-r-basis'), /federal money/);
   });
 
+  await test('a 4% deal names its state credit application, and each application has its own limit', async () => {
+    const p = await openPage('');
+    setField(p, 'dc-rate-4', true);
+    assert.equal(p.w.__DealCalc.getResult().creditType, '4', 'the 4% scenario is selected');
+    setField(p, 'dc-state-annual', 2000000); setField(p, 'dc-state-years', 6); setField(p, 'dc-state-price', 0.8);
+    const r = () => p.w.__DealCalc.getResult().costBasis.stateCredit;
+    assert.equal(r().equity, null);
+    assert.match(r().reason, /which CHFA state credit application/);
+    setField(p, 'dc-state-path', 'round_two_standard');
+    assert.equal(r().allowedAnnual, rules.rules.credit_cap_state_round_two_standard.annual_cap);
+    setField(p, 'dc-state-path', 'round_two_accelerated');
+    assert.equal(r().allowedAnnual, rules.rules.credit_cap_state_round_two_accelerated.annual_cap);
+    assert.deepEqual(p.errors, []);
+  });
+
   close();
   console.log(`\n${passed} passed, ${failed} failed`);
   process.exit(failed ? 1 : 0);

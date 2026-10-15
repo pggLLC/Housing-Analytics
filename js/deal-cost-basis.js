@@ -93,7 +93,7 @@
   /** Totals for itemized lines. tdc is the entered total development cost. */
   function summarizeCosts(lines, tdc) {
     var out = { itemized: 0, eligible: 0, ineligible: 0, acquisitionEligible: 0, contract: 0,
-      notItemized: null, tdc: null, groups: {}, contingencies: [], byId: {}, reason: null, lineCount: 0 };
+      notItemized: null, tdc: null, groups: {}, contingencies: [], byId: {}, eligibleById: {}, reason: null, lineCount: 0 };
     GROUPS.forEach(function (g) { out.groups[g.id] = 0; });
     (lines || []).forEach(function (line) {
       if (out.reason) return;
@@ -119,6 +119,7 @@
       out.groups[line.group] += amount;
       if (line.group === 'contract') out.contract += amount;
       out.byId[line.id] = (out.byId[line.id] || 0) + amount;
+      out.eligibleById[line.id] = (out.eligibleById[line.id] || 0) + eligiblePart;
       if (CONTINGENCY_KINDS[line.id]) {
         var used = num(line.used);
         var row = { id: line.id, label: CONTINGENCY_KINDS[line.id], original: amount, used: null, remaining: null, reason: null };
@@ -190,15 +191,18 @@
   }
 
   /** CHFA's base for the developer fee limit, QAP 3.M.3. */
-  function developerFeeBase(summary, contractorTest) {
+  function developerFeeBase(summary, contractorTest, specialPopulations) {
     if (!summary || summary.tdc === null) return { base: null, reason: (summary && summary.reason) || 'Itemize development costs.' };
     var byId = summary.byId;
     var excess = contractorTest && contractorTest.excess !== null ? contractorTest.excess : 0;
     var note = contractorTest && contractorTest.excess === null
       ? 'Contractor fee not tested (' + contractorTest.reason.replace(/\.$/, '') + '), so no excess contractor fee is subtracted.' : null;
-    var base = summary.tdc - excess - (byId.land || 0) - 0.5 * (byId.building_acquisition || 0)
+    // Half of acquisition comes off the base, except for projects serving people
+    // experiencing homelessness or special populations (QAP 3.M.3).
+    var acquisitionOff = specialPopulations ? 0 : 0.5 * (byId.building_acquisition || 0);
+    var base = summary.tdc - excess - (byId.land || 0) - acquisitionOff
       - (byId.developer_fee || 0) - (byId.consultant_fee || 0) - (byId.reserves || 0);
-    return { base: base, reason: null, note: note };
+    return { base: base, reason: null, note: note, acquisitionSubtracted: acquisitionOff };
   }
 
   /** Aggregate developer plus consultant fee, tested before deferral. */
@@ -222,12 +226,44 @@
     return out;
   }
 
+  /** The part of an over-limit fee that sits in basis. CHFA limits the fees in
+   * calculating credit, and a reduction in fees reduces eligible basis (QAP 3.M.3). */
+  function feeExcessInBasis(summary, contractorTest, developerTest) {
+    var e = (summary && summary.eligibleById) || {};
+    var out = { contractor: 0, developer: 0, total: 0 };
+    if (contractorTest && contractorTest.excess > 0) {
+      out.contractor = Math.min(contractorTest.excess, (e.overhead || 0) + (e.profit || 0));
+    }
+    if (developerTest && developerTest.excess > 0) {
+      out.developer = Math.min(developerTest.excess, (e.developer_fee || 0) + (e.consultant_fee || 0));
+    }
+    out.total = out.contractor + out.developer;
+    return out;
+  }
+
+  /** CHFA Method Two: the credit the funding gap needs, QAP 3.M.1. */
+  function gapCredit(args) {
+    var status = ruleStatus(args.rules, 'credit_reservation_methods');
+    var out = { status: status, gap: null, credit: null, reason: null };
+    if (!status.applied) { out.reason = status.reason; return out; }
+    var tdc = num(args.tdc), other = num(args.otherSources), price = num(args.price);
+    if (tdc === null || !Number.isFinite(tdc) || tdc <= 0) { out.reason = 'Enter Total Development Cost.'; return out; }
+    if (other === null || !Number.isFinite(other)) { out.reason = args.otherReason || 'Sources other than credit equity are not available.'; return out; }
+    if (price === null || !Number.isFinite(price) || price <= 0) { out.reason = 'Enter the credit price.'; return out; }
+    out.gap = tdc - other;
+    out.credit = Math.max(0, out.gap) / price / status.rule.gap_years;
+    return out;
+  }
+
   /** Eligible basis to annual credit, with the boost, applicable fraction and CHFA limits. */
   function basisAndCredit(args) {
     var rules = args.rules;
     var out = { eligibleBasis: null, grantReduction: null, afterGrant: null, boost: { applied: false, multiplier: 1, reason: null },
-      boostedBasis: null, unitFraction: null, floorFraction: null, applicableFraction: null, qualifiedBasis: null,
-      calculatedCredit: null, cap: { applied: false, amount: null, reason: null, binding: false },
+      feeReduction: 0, boostedBasis: null, unitFraction: null, floorFraction: null, applicableFraction: null, qualifiedBasis: null,
+      acquisitionQualified: null, acquisitionRate: null, calculatedCredit: null,
+      cap: { applied: false, amount: null, reason: null, binding: false },
+      gapMethod: { applied: false, credit: null, gap: null, reason: null, binding: false },
+      costLimitMethod: { checked: false, reason: null },
       capacity: null, requested: null, awarded: null, creditForEquity: null, creditForEquityBasis: null,
       flags: [], reasons: {} };
     function stop(key, reason) { out.reasons[key] = reason; return out; }
@@ -236,7 +272,8 @@
     out.eligibleBasis = args.eligibleCost;
     if (args.grantReduction === null || !Number.isFinite(args.grantReduction)) return stop('afterGrant', args.grantReason || 'Grant treatment is unknown.');
     out.grantReduction = args.grantReduction;
-    out.afterGrant = Math.max(0, out.eligibleBasis - out.grantReduction);
+    out.feeReduction = Math.max(0, num(args.feeExcess) || 0);
+    out.afterGrant = Math.max(0, out.eligibleBasis - out.feeReduction - out.grantReduction);
 
     var boost = ruleStatus(rules, 'basis_boost');
     var designation = args.designation || 'none';
@@ -271,7 +308,18 @@
     }
     out.applicableFraction = Math.min(out.unitFraction, out.floorFraction);
     out.qualifiedBasis = out.boostedBasis * out.applicableFraction;
-    out.calculatedCredit = out.qualifiedBasis * args.creditRate;
+    // Acquisition basis earns the acquisition rate; on a 9% deal that is CHFA's
+    // 4% floor, not 9% (QAP 3.M.1, Method One).
+    out.acquisitionQualified = acquisition * out.applicableFraction;
+    out.acquisitionRate = args.creditRate;
+    if (out.acquisitionQualified > 0 && String(args.creditType) === '9') {
+      var acqRule = ruleStatus(rules, 'acquisition_credit_rate');
+      if (!acqRule.applied) return stop('acquisitionRate', 'Acquisition credit rate: ' + acqRule.reason + '.');
+      out.acquisitionRate = acqRule.rule.rate;
+      out.acquisitionCitation = acqRule.citation;
+    }
+    out.calculatedCredit = out.acquisitionQualified * out.acquisitionRate
+      + (out.qualifiedBasis - out.acquisitionQualified) * args.creditRate;
 
     var capKey = String(args.creditType) === '9' ? 'credit_cap_federal_9pct' : null;
     out.capacity = out.calculatedCredit;
@@ -288,6 +336,24 @@
           out.cap.binding = true;
           out.cap.reason = 'Capped at ' + money(cap.rule.annual_cap) + ': CHFA accepts no more federal 9% credit a year for one project (' + cap.citation + ').';
         }
+      }
+    }
+    // CHFA reserves the smallest of Method One (above), Method Two (the gap)
+    // and Method Three (cost basis limits, not published outside the Excel application).
+    var methods = ruleStatus(rules, 'credit_reservation_methods');
+    out.costLimitMethod.reason = methods.applied ? methods.rule.cost_basis_limit_reason : 'Credit reservation methods: ' + methods.reason + '.';
+    var gm = args.gapCredit;
+    if (!methods.applied) out.gapMethod.reason = out.costLimitMethod.reason;
+    else if (!gm) out.gapMethod.reason = 'The funding gap is not calculated yet.';
+    else if (gm.credit === null) out.gapMethod.reason = gm.reason;
+    else {
+      out.gapMethod.applied = true; out.gapMethod.credit = gm.credit; out.gapMethod.gap = gm.gap; out.gapMethod.citation = methods.citation;
+      if (gm.credit < out.capacity - 0.5) {
+        out.capacity = gm.credit;
+        out.gapMethod.binding = true;
+        out.cap.binding = false;
+        out.gapMethod.reason = 'Limited to ' + money(gm.credit) + ': CHFA reserves no more than the gap calculation, ' + money(Math.max(0, gm.gap))
+          + ' of uses not covered by other sources, divided by the credit price and 10 years (' + methods.citation + ').';
       }
     }
     var requested = num(args.requested), awarded = num(args.awarded);
@@ -324,6 +390,13 @@
     return out;
   }
 
+  var STATE_CREDIT_PATHS = Object.freeze({
+    with_9pct: 'credit_cap_state_with_9pct',
+    round_two_accelerated: 'credit_cap_state_round_two_accelerated',
+    round_two_standard: 'credit_cap_state_round_two_standard',
+    bond_fall: 'credit_cap_state_with_4pct'
+  });
+
   /** State credit equity, kept apart from federal equity, with CHFA's annual limit. */
   function stateCredit(args) {
     var annual = num(args.annual), years = num(args.years), price = num(args.price);
@@ -333,12 +406,20 @@
     if (!Number.isFinite(annual) || annual < 0) { out.reason = 'Enter an annual state credit of $0 or more.'; return out; }
     if (years === null || !Number.isInteger(years) || years < 1 || years > 20) { out.reason = 'Enter the number of years the state credit is claimed.'; return out; }
     if (price === null || !Number.isFinite(price) || price <= 0 || price > 1.5) { out.reason = 'Enter the state credit price per dollar of credit.'; return out; }
-    var key = String(args.creditType) === '9' ? 'credit_cap_state_with_9pct' : 'credit_cap_state_with_4pct';
+    // CHFA's limit depends on the application path, not only on 4% or 9% (QAP 3.L).
+    var path = args.path || (String(args.creditType) === '9' ? 'with_9pct' : null);
+    var key = STATE_CREDIT_PATHS[path];
+    if (!key) { out.reason = path ? 'Unknown state credit application.' : 'Choose which CHFA state credit application this is; each has its own limit.'; return out; }
+    out.path = path;
     var cap = ruleStatus(args.rules, key);
     out.allowedAnnual = annual;
     if (!cap.applied) out.capReason = 'State credit limit: ' + cap.reason + '.';
     else {
-      out.cap = cap.rule.annual_cap_per_unit ? Math.min(cap.rule.annual_cap, cap.rule.annual_cap_per_unit * (args.units || 0)) : cap.rule.annual_cap;
+      var units = num(args.units);
+      if (cap.rule.annual_cap_per_unit && (units === null || !Number.isFinite(units) || units <= 0)) {
+        out.allowedAnnual = null; out.reason = 'Enter the number of units; this state credit limit is set per unit.'; return out;
+      }
+      out.cap = cap.rule.annual_cap_per_unit ? Math.min(cap.rule.annual_cap, cap.rule.annual_cap_per_unit * units) : cap.rule.annual_cap;
       if (annual > out.cap) {
         out.allowedAnnual = out.cap;
         out.capReason = 'Capped at ' + money(out.cap) + ' a year (' + cap.citation + ').';
@@ -384,6 +465,7 @@
     CONTINGENCY_KINDS: CONTINGENCY_KINDS, exampleLines: exampleLines, ruleStatus: ruleStatus,
     summarizeCosts: summarizeCosts, grantBasisReduction: grantBasisReduction,
     contractorFeeTest: contractorFeeTest, developerFeeBase: developerFeeBase, developerFeeTest: developerFeeTest,
+    feeExcessInBasis: feeExcessInBasis, gapCredit: gapCredit, STATE_CREDIT_PATHS: STATE_CREDIT_PATHS,
     basisAndCredit: basisAndCredit, underwritingCheck: underwritingCheck, stateCredit: stateCredit,
     payIn: payIn, costPerSf: costPerSf
   };

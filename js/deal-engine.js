@@ -809,14 +809,24 @@
     var creditType = _creditRate < 0.05 ? '4' : '9';
     var costSummary = cbm.summarizeCosts(inputs.costLines || [], tdc);
     var grantTreatment = cbm.grantBasisReduction(tranches, costRules);
-    var basis = cbm.basisAndCredit({ eligibleCost: costSummary.eligible, costReason: costSummary.reason,
+    // CHFA's fee limits apply in calculating credit: the part of an over-limit
+    // fee that sits in basis comes out of eligible basis (QAP 3.M.3).
+    var contractorFee = cbm.contractorFeeTest({ byId: costSummary.byId, units: units,
+      identityOfInterest: !!fields['dc-ioi'], rules: costRules });
+    var feeBase = cbm.developerFeeBase(costSummary, contractorFee, !!fields['dc-special-pop']);
+    var developerFee = cbm.developerFeeTest({ developerFee: costSummary.reason ? null : costSummary.byId.developer_fee,
+      consultantFee: costSummary.reason ? null : costSummary.byId.consultant_fee, base: feeBase.base,
+      baseReason: feeBase.reason, units: units, rules: costRules });
+    var feeExcess = cbm.feeExcessInBasis(costSummary, contractorFee, developerFee);
+    var basisArgs = { eligibleCost: costSummary.eligible, costReason: costSummary.reason,
       acquisitionEligible: costSummary.acquisitionEligible, grantReduction: grantTreatment.reduction,
       grantReason: grantTreatment.reason, designation: fields['dc-boost-designation'], evidence: fields['dc-boost-evidence'],
       creditType: creditType, creditRate: _creditRate, units: units, lowIncomeUnits: lihtcUnits,
       residentialSf: fields['dc-res-sf'], lowIncomeSf: fields['dc-restricted-sf'],
-      requested: fields['dc-credit-requested'], awarded: fields['dc-credit-awarded'], rules: costRules });
+      requested: fields['dc-credit-requested'], awarded: fields['dc-credit-awarded'], feeExcess: feeExcess.total, rules: costRules };
+    var basis = cbm.basisAndCredit(basisArgs);
     var basisUnknownReason = null;
-    ['eligibleBasis', 'afterGrant', 'applicableFraction', 'requested', 'awarded'].forEach(function (key) {
+    ['eligibleBasis', 'afterGrant', 'applicableFraction', 'acquisitionRate', 'requested', 'awarded'].forEach(function (key) {
       if (!basisUnknownReason && basis.reasons[key] && (key !== 'requested' && key !== 'awarded' || basis.creditForEquity === null)) basisUnknownReason = basis.reasons[key];
     });
     var applicableFraction = basis.applicableFraction === null ? NaN : basis.applicableFraction;
@@ -825,7 +835,7 @@
     var annualCredits    = basis.creditForEquity === null ? NaN : basis.creditForEquity;
     var equity           = annualCredits * CREDIT_YEARS * equityPrice;
     var stateCredit = cbm.stateCredit({ annual: fields['dc-state-annual'], years: fields['dc-state-years'],
-      price: fields['dc-state-price'], creditType: creditType, units: units, rules: costRules });
+      price: fields['dc-state-price'], creditType: creditType, path: fields['dc-state-path'] || null, units: units, rules: costRules });
     // No state credit entered is no source; an incomplete one is unknown.
     var stateEquity = !stateCredit.entered ? 0 : stateCredit.equity === null ? NaN : stateCredit.equity;
     if (stateCredit.entered && stateCredit.equity === null && !basisUnknownReason) basisUnknownReason = stateCredit.reason;
@@ -848,12 +858,6 @@
     // Developer fee comes from the itemized developer-fee line (#2160).
     var devFeeTotal = costSummary.reason ? NaN : (costSummary.byId.developer_fee || 0);
     var devfeePct = tdc > 0 ? devFeeTotal / tdc : NaN;
-    var contractorFee = cbm.contractorFeeTest({ byId: costSummary.byId, units: units,
-      identityOfInterest: !!fields['dc-ioi'], rules: costRules });
-    var feeBase = cbm.developerFeeBase(costSummary, contractorFee);
-    var developerFee = cbm.developerFeeTest({ developerFee: costSummary.reason ? null : costSummary.byId.developer_fee,
-      consultantFee: costSummary.reason ? null : costSummary.byId.consultant_fee, base: feeBase.base,
-      baseReason: feeBase.reason, units: units, rules: costRules });
     var deferredPctSlider = (safeVal('dc-deferred-pct') || 40) / 100;
 
     // H — Auto-balance deferred developer fee. When the user toggles
@@ -1022,7 +1026,20 @@
     //   • OFF → defer EXACTLY the slider % of total dev fee, regardless of gap
     //           (legacy behavior — manual deferral)
     var deferredCap = devFeeTotal * deferredPctSlider;
+    // CHFA Method Two (QAP 3.M.1): credit is reserved for no more than the gap
+    // left after every source but credit equity. A manual deferral is a source;
+    // an auto-balanced one only fills what credit equity leaves, so it is not.
+    var otherSources = stateEquity + mortgage + impactGrant + totalLoanPrincipal + (autoBalance ? 0 : deferredCap);
+    var gapMethodCredit = cbm.gapCredit({ tdc: tdc, otherSources: otherSources, price: equityPrice, rules: costRules,
+      otherReason: Number.isFinite(mortgage) ? 'Sources other than credit equity are not available.' : 'The first mortgage is not available, so the gap calculation cannot run.' });
+    basis = cbm.basisAndCredit(Object.assign({}, basisArgs, { gapCredit: gapMethodCredit }));
+    if (!unitMixError) {
+      annualCredits = basis.creditForEquity === null ? NaN : basis.creditForEquity;
+      equity = annualCredits * CREDIT_YEARS * equityPrice;
+    }
     var gapBeforeDeferred = tdc - equity - stateEquity - mortgage - impactGrant - totalLoanPrincipal;
+    // Equity sized to the gap closes it to within floating-point error; show $0, not $-0.
+    if (Math.abs(gapBeforeDeferred) < 0.005) gapBeforeDeferred = 0;
     if (autoBalance) {
       // Defer the smaller of (gap, cap) — never more than needed, never above cap.
       deferredDevFee = Math.max(0, Math.min(deferredCap, gapBeforeDeferred));
@@ -1264,11 +1281,12 @@
       result.coverage.weakestAllMustPay = weakestCoverage(result.coverage.years, 'allMustPayCoverage');
     }
     var ruleKeys = ['grant_basis_treatment', 'applicable_fraction', 'basis_boost', 'contractor_fee_limit', 'developer_fee_limit',
-      'credit_cap_federal_9pct', 'credit_cap_state_with_9pct', 'credit_cap_state_with_4pct', 'min_debt_coverage', 'high_coverage_credit_reduction'];
+      'credit_cap_federal_9pct', 'credit_cap_state_with_9pct', 'credit_cap_state_round_two_accelerated', 'credit_cap_state_round_two_standard',
+        'credit_cap_state_with_4pct', 'acquisition_credit_rate', 'credit_reservation_methods', 'min_debt_coverage', 'high_coverage_credit_reduction'];
     var federalEquity = basis.creditForEquity === null ? null : equity;
     result.costBasis = {
       summary: costSummary, grants: grantTreatment, basis: basis, contractorFee: contractorFee,
-      feeBase: feeBase, developerFee: developerFee, stateCredit: stateCredit,
+      feeBase: feeBase, developerFee: developerFee, feeExcess: feeExcess, stateCredit: stateCredit,
       underwriting: cbm.underwritingCheck({ years: result.coverage ? result.coverage.years : [], rules: costRules }),
       payIn: {
         federal: cbm.payIn(federalEquity, { closing: fields['dc-fed-payin-closing'], completion: fields['dc-fed-payin-completion'], stabilization: fields['dc-fed-payin-stabilization'] }),

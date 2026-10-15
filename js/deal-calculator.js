@@ -2233,6 +2233,14 @@
         <p style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0 0;line-height:1.45;">Equity uses the award when you enter one, otherwise the request (up to capacity), otherwise the capacity.</p>
         <details id="dc-state-credit-wrap" style="margin-top:var(--sp2);">
           <summary style="cursor:pointer;min-height:44px;font-weight:600;font-size:var(--small);">State credits and equity pay-in</summary>
+          <label style="display:block;font-size:var(--small);color:var(--muted);margin-top:.35rem;">CHFA state credit application (each has its own limit)
+            <select id="dc-state-path" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+              <option value="">Not answered (a 9% deal uses the 9% pairing)</option>
+              <option value="with_9pct">Paired with a 9% application: $500,000</option>
+              <option value="round_two_accelerated">Round Two, accelerated: up to $1,300,000</option>
+              <option value="round_two_standard">Round Two, standard: up to $600,000</option>
+              <option value="bond_fall">4% bond deal applying Sept to Nov: $10,000 per unit, up to $700,000</option>
+            </select></label>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:var(--sp2);margin-top:.35rem;">
             <label style="display:block;font-size:var(--small);color:var(--muted);">Annual state credit ($)
               <input id="dc-state-annual" type="number" min="0" step="1000" placeholder="none" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
@@ -2336,6 +2344,10 @@
         <label data-dc-mode="rental" style="display:flex;align-items:flex-start;gap:0.55rem;margin-bottom:var(--sp2);font-size:var(--small);cursor:pointer;min-height:44px;">
           <input id="dc-ioi" type="checkbox" style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;">
           <span>The builder has an identity of interest with the developer or owner (lowers CHFA's contractor fee limit)</span>
+        </label>
+        <label data-dc-mode="rental" style="display:flex;align-items:flex-start;gap:0.55rem;margin-bottom:var(--sp2);font-size:var(--small);cursor:pointer;min-height:44px;">
+          <input id="dc-special-pop" type="checkbox" style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;">
+          <span>The project serves people experiencing homelessness or special populations (CHFA then keeps all of an acquisition in the developer fee base)</span>
         </label>
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">
@@ -3256,7 +3268,7 @@
     if (gsfField) gsfField.addEventListener('input', clearGrossSfDerivation);
     var gsfEff = document.getElementById('dc-gsf-efficiency');
     if (gsfEff) gsfEff.addEventListener('input', function () { gsfEff.dataset.userSet = '1'; });
-    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-years', 'dc-state-price', 'dc-ioi']
+    ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-years', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-state-path']
       .concat(['fed', 'state'].reduce(function (acc, src) {
         return acc.concat(['closing', 'completion', 'stabilization'].map(function (st) { return 'dc-' + src + '-payin-' + st; }));
       }, [])).forEach(function (id) { ids.push(id); });
@@ -3264,8 +3276,10 @@
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
     });
-    var iioi = document.getElementById('dc-ioi');
-    if (iioi) iioi.addEventListener('change', recalculate);
+    ['dc-ioi', 'dc-special-pop', 'dc-state-path'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('change', recalculate);
+    });
     // #2160: cost lines. A partly eligible line shows its eligible-part field.
     var costHost = document.getElementById('dc-cost-lines');
     if (costHost) {
@@ -3936,7 +3950,8 @@
     var notes = [];
     if (chfa) {
       if (result.basisUnknownReason) notes.push(result.basisUnknownReason);
-      if (basis.cap.binding) notes.push(basis.cap.reason);
+      if (basis.gapMethod.binding) notes.push(basis.gapMethod.reason);
+      else if (basis.cap.binding) notes.push(basis.cap.reason);
       notes = notes.concat(basis.flags || []);
       if (basis.creditForEquityBasis) notes.push('Equity uses the ' + basis.creditForEquityBasis + ' figure.');
     }
@@ -3951,6 +3966,7 @@
     function heading(text) { rows.push('<h4 style="margin:var(--sp2) 0 .2rem;font-size:var(--small);">' + _escHtml(text) + '</h4>'); }
     heading('Basis and credit');
     row('Cost in eligible basis', money(basis.eligibleBasis, basis.reasons.eligibleBasis));
+    if (basis.feeReduction > 0) row('Less fees above CHFA\'s limits', fmt(basis.feeReduction), 'CHFA limits the fees in calculating credit; a reduction in fees reduces eligible basis (QAP 3.M.3).');
     row('Less federally funded grants', money(basis.grantReduction, basis.reasons.afterGrant), 'Grants with federal money reduce basis; loans and grants with no federal money do not (26 U.S.C. 42(d)(5)(A)).');
     row('Basis after grants', money(basis.afterGrant, basis.reasons.afterGrant));
     row('30% basis boost', basis.boost.applied ? 'Applied: ' + basis.boost.designation : 'Not applied', basis.boost.applied ? basis.boost.citation : basis.boost.reason);
@@ -3958,9 +3974,14 @@
     row('Applicable fraction', basis.applicableFraction == null ? (basis.reasons.applicableFraction || 'Not available') : pct(basis.applicableFraction),
       basis.applicableFraction == null ? null : 'Lower of the unit fraction (' + pct(basis.unitFraction) + ') and the floor-space fraction (' + pct(basis.floorFraction) + ').');
     row('Qualified basis', money(basis.qualifiedBasis, basis.reasons.applicableFraction));
-    row('Calculated annual credit', money(basis.calculatedCredit, 'Not available'));
+    if (basis.acquisitionQualified > 0) row('Acquisition credit rate', basis.acquisitionRate == null ? basis.reasons.acquisitionRate : (basis.acquisitionRate * 100).toFixed(2) + '%',
+      basis.acquisitionCitation ? 'Acquisition basis earns the acquisition rate, not 9% (' + basis.acquisitionCitation + ').' : 'Acquisition basis earns the same rate on a 4% deal.');
+    row('Method One: qualified basis credit', money(basis.calculatedCredit, basis.reasons.acquisitionRate || 'Not available'));
     row('CHFA per-project limit', basis.cap.applied ? fmt(basis.cap.amount) : 'Not applied', basis.cap.reason || basis.cap.citation);
-    row('Credit capacity', money(basis.capacity, 'Not available'));
+    row('Method Two: gap calculation', basis.gapMethod.applied ? fmt(basis.gapMethod.credit) : 'Not calculated',
+      basis.gapMethod.applied ? (basis.gapMethod.binding ? basis.gapMethod.reason : 'Uses not covered by other sources: ' + fmt(Math.max(0, basis.gapMethod.gap)) + ', divided by the credit price and 10 years (' + basis.gapMethod.citation + ').') : basis.gapMethod.reason);
+    row('Method Three: cost basis limits', 'Not checked', basis.costLimitMethod.reason);
+    row('Credit capacity', money(basis.capacity, 'Not available'), 'CHFA reserves the smallest of the methods it can calculate.');
 
     heading('Cost per square foot');
     var psf = cbr.costPerSf;
@@ -4007,9 +4028,10 @@
       var dev = cbr.developerFee, con = cbr.contractorFee;
       var devText = dev.passes == null ? 'Developer fee test: ' + dev.reason
         : 'Developer plus consultant fee ' + fmt(dev.fee) + (dev.passes ? ' is within' : ' is above') + ' CHFA\'s ' + (dev.limitPct * 100).toFixed(0) + '% limit of ' + fmt(dev.limit)
-          + ' (base ' + fmt(dev.base) + ', tested before deferral).' + (dev.passes ? '' : ' CHFA would reduce eligible basis by the ' + fmt(dev.excess) + ' excess.');
+          + ' (base ' + fmt(dev.base) + ', tested before deferral).' + (dev.passes ? '' : ' The ' + fmt(dev.excess) + ' excess' + (cbr.feeExcess && cbr.feeExcess.developer < dev.excess - 0.5 ? ' (' + fmt(cbr.feeExcess.developer) + ' of it in basis)' : '') + ' comes out of eligible basis.');
       var conText = con.passes == null ? 'Contractor fee test: ' + con.reason
-        : 'Contractor overhead and profit ' + fmt(con.fee) + (con.passes ? ' is within' : ' is above') + ' CHFA\'s ' + (con.limitPct * 100).toFixed(0) + '% limit of ' + fmt(con.limit) + '.';
+        : 'Contractor overhead and profit ' + fmt(con.fee) + (con.passes ? ' is within' : ' is above') + ' CHFA\'s ' + (con.limitPct * 100).toFixed(0) + '% limit of ' + fmt(con.limit) + '.'
+          + (con.passes ? '' : ' The ' + fmt(cbr.feeExcess ? cbr.feeExcess.contractor : con.excess) + ' in basis above the limit comes out of eligible basis.');
       fees.innerHTML = '<p style="margin:0 0 .3rem;' + (dev.passes === false ? 'color:var(--bad,#b91c1c);font-weight:600;' : '') + '">' + _escHtml(devText) + '</p>'
         + (cbr.feeBase && cbr.feeBase.note ? '<p style="margin:0 0 .3rem;font-size:var(--tiny);color:var(--muted);">' + _escHtml(cbr.feeBase.note) + '</p>' : '')
         + '<p style="margin:0;' + (con.passes === false ? 'color:var(--bad,#b91c1c);font-weight:600;' : '') + '">' + _escHtml(conText) + '</p>';

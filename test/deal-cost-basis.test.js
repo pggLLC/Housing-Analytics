@@ -258,14 +258,92 @@ test('state credits stay a separate source with CHFA\'s limit; pay-in schedules 
   assert.equal(s.allowedAnnual, 500000);
   assert.equal(s.equity, 500000 * 6 * 0.8);
   assert.match(s.capReason, /Capped at \$500,000/);
-  const four = cb.stateCredit({ annual: 900000, years: 6, price: 0.8, creditType: '4', units: 50, rules });
-  assert.equal(four.allowedAnnual, 500000, '$10,000 per unit for 50 units');
+  // A 4% deal must say which CHFA application it is: each path has its own limit (QAP 3.L).
+  const four = (path, units) => cb.stateCredit({ annual: 2000000, years: 6, price: 0.8, creditType: '4', units, path, rules });
+  assert.equal(four(undefined, 50).equity, null);
+  assert.match(four(undefined, 50).reason, /which CHFA state credit application/);
+  assert.equal(four('bond_fall', 50).allowedAnnual, 500000, '$10,000 per unit for 50 units');
+  assert.equal(four('bond_fall', 90).allowedAnnual, rules.rules.credit_cap_state_with_4pct.annual_cap);
+  assert.equal(four('round_two_accelerated', 50).allowedAnnual, rules.rules.credit_cap_state_round_two_accelerated.annual_cap);
+  assert.equal(four('round_two_standard', 50).allowedAnnual, rules.rules.credit_cap_state_round_two_standard.annual_cap);
+  // Unknown units are not zero units.
+  for (const units of [undefined, null, '', 0]) {
+    const s0 = four('bond_fall', units);
+    assert.equal(s0.equity, null, 'units ' + units);
+    assert.equal(s0.allowedAnnual, null);
+    assert.match(s0.reason, /number of units/);
+  }
   assert.equal(cb.stateCredit({ annual: 400000, years: '', price: 0.8, creditType: '9', rules }).equity, null);
   assert.equal(cb.stateCredit({ annual: null, rules }).entered, false);
   const p = cb.payIn(1000000, { closing: 20, completion: 40, stabilization: 40 });
   assert.deepEqual(p.installments.map((i) => i.amount), [200000, 400000, 400000]);
   assert.match(cb.payIn(1000000, { closing: 20, completion: 40, stabilization: 30 }).reason, /90%/);
   assert.match(cb.payIn(1000000, {}).reason, /not entered/);
+});
+
+// Codex review of #2251: CHFA's reservation rules that Method One alone missed.
+const base9 = (extra) => cb.basisAndCredit(Object.assign({ eligibleCost: 2000000, grantReduction: 0, designation: 'none',
+  creditType: '9', creditRate: 0.09, units: 10, lowIncomeUnits: 10, rules }, extra));
+
+test('on a 9% deal, acquisition basis earns the 4% acquisition rate and rehabilitation the 9% rate', () => {
+  const r = base9({ acquisitionEligible: 1000000 });
+  assert.equal(r.acquisitionRate, rules.rules.acquisition_credit_rate.rate);
+  assert.equal(Math.round(r.calculatedCredit), 40000 + 90000);
+  const four = cb.basisAndCredit({ eligibleCost: 2000000, grantReduction: 0, designation: 'none', creditType: '4', creditRate: 0.04,
+    units: 10, lowIncomeUnits: 10, acquisitionEligible: 1000000, rules });
+  assert.equal(Math.round(four.calculatedCredit), 80000);
+  const unsourced = JSON.parse(JSON.stringify(rules)); delete unsourced.rules.acquisition_credit_rate;
+  const u = base9({ acquisitionEligible: 1000000, rules: unsourced });
+  assert.equal(u.calculatedCredit, null);
+  assert.match(u.reasons.acquisitionRate, /rule not sourced/);
+  assert.equal(Math.round(base9({ rules: unsourced }).calculatedCredit), 180000, 'no acquisition, no acquisition rate needed');
+});
+
+test('capacity is the smaller of Method One and the gap calculation, and Method Three says it is not checked', () => {
+  const gap = cb.gapCredit({ tdc: 2000000, otherSources: 1100000, price: 0.9, rules });
+  assert.equal(gap.gap, 900000);
+  assert.equal(Math.round(gap.credit), 100000, '$900,000 / 0.90 / 10 years');
+  const r = base9({ gapCredit: gap });
+  assert.equal(Math.round(r.calculatedCredit), 180000);
+  assert.equal(Math.round(r.capacity), 100000);
+  assert.equal(r.gapMethod.binding, true);
+  assert.match(r.gapMethod.reason, /gap calculation/);
+  assert.equal(Math.round(r.creditForEquity), 100000, 'equity uses the capacity when nothing is requested');
+  assert.equal(Math.round(base9({ gapCredit: gap, requested: 150000 }).creditForEquity), 100000);
+  assert.equal(base9({ gapCredit: gap, awarded: 150000 }).creditForEquity, 150000, 'an award is the award');
+  assert.equal(base9({ gapCredit: cb.gapCredit({ tdc: 2000000, otherSources: 2500000, price: 0.9, rules }) }).capacity, 0);
+  const big = base9({ gapCredit: cb.gapCredit({ tdc: 2000000, otherSources: 0, price: 0.9, rules }) });
+  assert.equal(Math.round(big.capacity), 180000, 'a gap that needs more than Method One does not raise it');
+  const unknown = cb.gapCredit({ tdc: 2000000, otherSources: NaN, otherReason: 'Mortgage unknown.', price: 0.9, rules });
+  assert.equal(unknown.credit, null);
+  const keep = base9({ gapCredit: unknown });
+  assert.equal(Math.round(keep.capacity), 180000);
+  assert.equal(keep.gapMethod.reason, 'Mortgage unknown.');
+  assert.match(r.costLimitMethod.reason, /Excel application/);
+  assert.equal(r.costLimitMethod.checked, false);
+});
+
+test('a fee above CHFA’s limit comes out of eligible basis, but only the part that was in basis', () => {
+  const summary = cb.summarizeCosts(cb.exampleLines(), 20000000);
+  const dev = cb.developerFeeTest({ developerFee: 2000000, consultantFee: 200000, base: 13000000, units: 40, rules });
+  const ex = cb.feeExcessInBasis(summary, { excess: 0 }, dev);
+  assert.equal(ex.developer, 250000);
+  const r = base9({ feeExcess: ex.total });
+  assert.equal(r.afterGrant, 2000000 - 250000);
+  const contractor = cb.feeExcessInBasis(summary, { excess: 5000000 }, null);
+  assert.equal(contractor.contractor, summary.eligibleById.overhead + summary.eligibleById.profit, 'never more than the fee lines in basis');
+  const lines = cb.exampleLines().map((l) => l.id === 'developer_fee' ? Object.assign({}, l, { basis: 'ineligible' }) : l);
+  assert.equal(cb.feeExcessInBasis(cb.summarizeCosts(lines, 20000000), null, dev).developer, 0, 'a fee kept out of basis reduces nothing');
+});
+
+test('projects serving people experiencing homelessness keep acquisition in the developer-fee base', () => {
+  const lines = cb.exampleLines().map((l) => l.id === 'building_acquisition' ? Object.assign({}, l, { amount: 2000000 }) :
+    l.id === 'structures' ? Object.assign({}, l, { amount: 8400000 }) : l);
+  const summary = cb.summarizeCosts(lines, 20000000);
+  const ordinary = cb.developerFeeBase(summary, { excess: 0 }, false);
+  const special = cb.developerFeeBase(summary, { excess: 0 }, true);
+  assert.equal(special.base - ordinary.base, 1000000);
+  assert.equal(special.acquisitionSubtracted, 0);
 });
 
 // The rules file: every applied value must agree with its own quote.
@@ -288,6 +366,13 @@ test('every rule cites a source that exists, with a location and a quote that st
   assert(R.credit_cap_state_with_9pct.quote.includes('$' + fmt(R.credit_cap_state_with_9pct.annual_cap)));
   assert(R.credit_cap_state_with_4pct.quote.includes('$' + fmt(R.credit_cap_state_with_4pct.annual_cap)));
   assert(R.credit_cap_state_with_4pct.quote.includes('$' + fmt(R.credit_cap_state_with_4pct.annual_cap_per_unit) + ' per unit'));
+  assert(R.credit_cap_state_with_4pct.quote.includes('Private Activity Bonds') && R.credit_cap_state_with_4pct.quote.includes('September, October, and November'));
+  assert(R.credit_cap_state_round_two_accelerated.quote.includes('$' + fmt(R.credit_cap_state_round_two_accelerated.annual_cap) + ' of accelerated'));
+  assert(R.credit_cap_state_round_two_standard.quote.includes('$' + fmt(R.credit_cap_state_round_two_standard.annual_cap) + ' of standard'));
+  assert(R.acquisition_credit_rate.quote.includes(R.acquisition_credit_rate.rate * 100 + ' percent'));
+  assert(R.credit_reservation_methods.quote.includes('smallest'));
+  assert(R.credit_reservation_methods.gap_quote.includes(R.credit_reservation_methods.gap_years + ' years'));
+  assert(R.developer_fee_limit.acquisition_exception_quote.startsWith('Fifty percent of Acquisition cost (excluding projects serving'));
   assert(R.min_debt_coverage.quote.includes(R.min_debt_coverage.min_coverage + ' to 1.0'));
   assert(R.min_debt_coverage.quote.includes(R.min_debt_coverage.forecast_years + '-year'));
   assert(R.high_coverage_credit_reduction.quote.includes(R.high_coverage_credit_reduction.threshold + ' to 1.0'));
