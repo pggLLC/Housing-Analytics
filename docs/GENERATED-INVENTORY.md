@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T07:25:59.977Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T08:51:00.124Z. Do not edit by hand.
 
 ---
 
@@ -13,7 +13,7 @@
 | `404.html` | Page not found | Colorado Affordable Housing Data Reference | 3.5 KB |
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
 | `about.html` | About | COHO Analytics | 17.7 KB |
-| `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 42.6 KB |
+| `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 43.7 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.9 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | Colorado Public Data Reference | 17.9 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 13.2 KB |
@@ -53,7 +53,7 @@
 | `housing-legislation-2026.html` | Policy &amp; Legislation | Colorado Public Data Reference | 22.2 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 239.6 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.7 KB |
-| `index.html` | Colorado Affordable Housing Data Reference | 40.2 KB |
+| `index.html` | Colorado Affordable Housing Data Reference | 41.5 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 584 B |
 | `insights.html` | Research &amp; Analysis | Colorado Public Data Reference | 29.3 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 17.4 KB |
@@ -84,7 +84,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1686 JSON files found.
+1687 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -156,6 +156,7 @@
 | `data/hmda/co-state-trends.json` | 4.1 KB | ✅ | — |
 | `data/hna/benchmarks.json` | 9.1 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 162.7 KB | ✅ | — |
+| `data/hna/chas_affordable_available.json` | 612.9 KB | ✅ | — |
 | `data/hna/combined-regions.json` | 1.4 KB | ✅ | — |
 | `data/hna/cross-county-places.json` | 9.7 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -1779,7 +1780,7 @@
 
 ## Test Files
 
-608 test files found.
+609 test files found.
 
 | File | Size |
 |------|------|
@@ -1824,6 +1825,7 @@
 | `test/car-showingtime-fetcher.test.mjs` | 8.4 KB |
 | `test/census-dashboard-scope.test.js` | 2.3 KB |
 | `test/chart-id-coherence.test.js` | 4.5 KB |
+| `test/chas-affordable-available.test.js` | 6.0 KB |
 | `test/chas-tier-shares.test.js` | 4.9 KB |
 | `test/chfa-award-coverage.test.mjs` | 5.0 KB |
 | `test/chfa-dda-qct-absence.test.js` | 12.5 KB |
@@ -2033,10 +2035,10 @@
 | `test/home-need-map-legend-colors.test.js` | 3.3 KB |
 | `test/home-value-integrity.test.mjs` | 19.1 KB |
 | `test/homeownership-programs.test.js` | 6.6 KB |
-| `test/homepage-claims.test.js` | 9.8 KB |
+| `test/homepage-claims.test.js` | 14.5 KB |
 | `test/homepage-job-routing.test.js` | 8.4 KB |
 | `test/homepage-snapshot.test.js` | 12.3 KB |
-| `test/homes-short-agreement.test.js` | 3.3 KB |
+| `test/homes-short-agreement.test.js` | 4.2 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.2 KB |
 | `test/housing-events-and-brief-news.test.mjs` | 11.7 KB |
 | `test/housing-need-face-validity.test.mjs` | 26.5 KB |
@@ -2099,7 +2101,7 @@
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
 | `test/methods-spec-sources.test.mjs` | 5.1 KB |
-| `test/metric-semantics-wording.test.js` | 4.5 KB |
+| `test/metric-semantics-wording.test.js` | 4.6 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
 | `test/metric-truth-crosssurface.test.js` | 8.1 KB |
 | `test/mi-supply-co-vs-national.test.js` | 3.4 KB |
@@ -2259,7 +2261,7 @@
 | `test/stewardship-providers.test.js` | 3.8 KB |
 | `test/table-export-rendered.test.js` | 16.2 KB |
 | `test/table-export.test.js` | 24.7 KB |
-| `test/table-header-tips.test.js` | 5.6 KB |
+| `test/table-header-tips.test.js` | 7.2 KB |
 | `test/tax-credit-equity-markets.test.js` | 12.8 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |

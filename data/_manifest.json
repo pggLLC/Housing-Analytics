@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-10-15T07:26:29.606Z",
+    "generated_at": "2026-10-15T08:51:27.677Z",
     "root": "data/",
-    "file_count": 1722,
-    "total_size_bytes": 181762985,
+    "file_count": 1729,
+    "total_size_bytes": 183463307,
     "kinds": {
-      "json": 1685,
+      "json": 1686,
       "geojson": 33,
-      "csv": 4
+      "csv": 10
     }
   },
   "files": [
@@ -502,7 +502,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-15T07:26:25.789Z",
+      "mtime": "2026-10-15T08:51:23.360Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1699,6 +1699,23 @@
         "counties"
       ],
       "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "hna/chas_affordable_available.json",
+      "kind": "json",
+      "size_bytes": 627655,
+      "mtime": "2026-10-15T08:50:41.013Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "statewide",
+        "counties",
+        "places"
+      ],
+      "key_count": 4,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -18983,6 +19000,168 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "hna/source/chas/2018thru2022/county-050-Table14B.csv",
+      "kind": "csv",
+      "size_bytes": 11734,
+      "mtime": "2026-10-15T08:50:41.131Z",
+      "shape": "csv",
+      "row_count": 64,
+      "columns": [
+        "source",
+        "sumlevel",
+        "geoid",
+        "name",
+        "st",
+        "cnty",
+        "T14B_est1",
+        "T14B_est2",
+        "T14B_est3",
+        "T14B_est4",
+        "T14B_est5",
+        "T14B_est6",
+        "T14B_est7",
+        "T14B_est8",
+        "T14B_est9",
+        "T14B_est10"
+      ],
+      "column_count": 16
+    },
+    {
+      "path": "hna/source/chas/2018thru2022/county-050-Table15C.csv",
+      "kind": "csv",
+      "size_bytes": 41028,
+      "mtime": "2026-10-15T08:50:41.131Z",
+      "shape": "csv",
+      "row_count": 64,
+      "columns": [
+        "source",
+        "sumlevel",
+        "geoid",
+        "name",
+        "st",
+        "cnty",
+        "T15C_est1",
+        "T15C_est2",
+        "T15C_est3",
+        "T15C_est4",
+        "T15C_est5",
+        "T15C_est6",
+        "T15C_est7",
+        "T15C_est8",
+        "T15C_est9",
+        "T15C_est10"
+      ],
+      "column_count": 16
+    },
+    {
+      "path": "hna/source/chas/2018thru2022/county-050-Table7.csv",
+      "kind": "csv",
+      "size_bytes": 93075,
+      "mtime": "2026-10-15T08:50:41.131Z",
+      "shape": "csv",
+      "row_count": 64,
+      "columns": [
+        "source",
+        "sumlevel",
+        "geoid",
+        "name",
+        "st",
+        "cnty",
+        "T7_est1",
+        "T7_est2",
+        "T7_est3",
+        "T7_est4",
+        "T7_est5",
+        "T7_est6",
+        "T7_est7",
+        "T7_est8",
+        "T7_est9",
+        "T7_est10"
+      ],
+      "column_count": 16
+    },
+    {
+      "path": "hna/source/chas/2018thru2022/place-160-Table14B.csv",
+      "kind": "csv",
+      "size_bytes": 81309,
+      "mtime": "2026-10-15T08:50:41.133Z",
+      "shape": "csv",
+      "row_count": 482,
+      "columns": [
+        "source",
+        "sumlevel",
+        "geoid",
+        "name",
+        "st",
+        "place",
+        "T14B_est1",
+        "T14B_est2",
+        "T14B_est3",
+        "T14B_est4",
+        "T14B_est5",
+        "T14B_est6",
+        "T14B_est7",
+        "T14B_est8",
+        "T14B_est9",
+        "T14B_est10"
+      ],
+      "column_count": 16
+    },
+    {
+      "path": "hna/source/chas/2018thru2022/place-160-Table15C.csv",
+      "kind": "csv",
+      "size_bytes": 259312,
+      "mtime": "2026-10-15T08:50:41.133Z",
+      "shape": "csv",
+      "row_count": 482,
+      "columns": [
+        "source",
+        "sumlevel",
+        "geoid",
+        "name",
+        "st",
+        "place",
+        "T15C_est1",
+        "T15C_est2",
+        "T15C_est3",
+        "T15C_est4",
+        "T15C_est5",
+        "T15C_est6",
+        "T15C_est7",
+        "T15C_est8",
+        "T15C_est9",
+        "T15C_est10"
+      ],
+      "column_count": 16
+    },
+    {
+      "path": "hna/source/chas/2018thru2022/place-160-Table7.csv",
+      "kind": "csv",
+      "size_bytes": 586209,
+      "mtime": "2026-10-15T08:50:41.134Z",
+      "shape": "csv",
+      "row_count": 482,
+      "columns": [
+        "source",
+        "sumlevel",
+        "geoid",
+        "name",
+        "st",
+        "place",
+        "T7_est1",
+        "T7_est2",
+        "T7_est3",
+        "T7_est4",
+        "T7_est5",
+        "T7_est6",
+        "T7_est7",
+        "T7_est8",
+        "T7_est9",
+        "T7_est10"
+      ],
+      "column_count": 16
+    },
+    {
       "path": "hna/source/dola_components_county.csv",
       "kind": "csv",
       "size_bytes": 316471,
@@ -32190,7 +32369,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15109,
-      "mtime": "2026-10-15T07:26:27.682Z",
+      "mtime": "2026-10-15T08:51:25.313Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32214,7 +32393,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-15T07:26:27.237Z",
+      "mtime": "2026-10-15T08:51:24.857Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-15T07:26:33.508415Z",
+  "generated": "2026-10-15T08:51:30.702432Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 843118
+      "bytes": 846990
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -390,6 +390,11 @@
       "featureCount": 64,
       "placeholder": false,
       "bytes": 166598
+    },
+    "data/hna/chas_affordable_available.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 627655
     },
     "data/hna/combined-regions.json": {
       "featureCount": 0,
