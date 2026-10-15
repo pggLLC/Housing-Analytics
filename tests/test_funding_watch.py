@@ -794,9 +794,10 @@ def test_a_notice_is_forgotten_a_year_after_it_was_last_seen_not_first_seen():
         return site()(url, data, headers)
     year_later = "2027-10-20T05:34:00Z"
     down = run(fails, previous=gone, now=year_later)
-    assert "grants.gov:1" in {n["key"] for n in down["federal_notices"]}, "a failed query is no answer"
+    # Keys compared as sets, not with `in` (CodeQL reads that as URL substring sanitizing).
+    assert {n["key"] for n in down["federal_notices"]} >= {"grants.gov:1"}, "a failed query is no answer"
     expired = run(site(gg_hits=[]), previous=gone, now=year_later)
-    assert "grants.gov:1" not in {n["key"] for n in expired["federal_notices"]}
+    assert {n["key"] for n in expired["federal_notices"]}.isdisjoint({"grants.gov:1"})
     back = run(site(), previous=gone, now="2026-11-01T05:34:00Z")
     assert back["changes"]["new_federal_notices"] == []
     assert "missing_since" not in {n["key"]: n for n in back["federal_notices"]}["grants.gov:1"]
