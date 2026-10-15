@@ -181,6 +181,8 @@ async function marketPage() {
     afterPlacedDismissal(p.w, 'dc-su-gap');
     for (const id of ['dc-su-gap','dc-r-rents']) explanation(p.w,'deal-calculator.html',id,number(p.d.getElementById(id).textContent));
     explanation(p.w,'deal-calculator.html','dc-su-gap',number(p.d.getElementById('dc-su-gap').textContent));
+    // Itemize the added cost too: an unitemized remainder leaves CHFA's fee base, and so basis, unknown (#2160).
+    setField(p,'dc-cost-structures',Number(p.d.getElementById('dc-cost-structures').value)+100000);
     setField(p,'dc-tdc',Number(p.d.getElementById('dc-tdc').value)+100000);
     explanation(p.w,'deal-calculator.html','dc-su-gap',number(p.d.getElementById('dc-su-gap').textContent));
     setField(p,'dc-mode-ownership',true);
