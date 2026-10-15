@@ -297,7 +297,8 @@ def grants_gov(cfg: dict, fetch: Fetcher, capped: list | None = None) -> tuple[l
                 # data block or oppHits list is not a search that found nothing (a real
                 # zero-result search returns "oppHits": [], checked live 2026-10-15).
                 if envelope.get('errorcode') not in (None, 0, '0') or envelope.get('errorMsgs') \
-                        or not isinstance(data, dict) or not isinstance(data.get('oppHits'), list):
+                        or not isinstance(data, dict) or not isinstance(data.get('oppHits'), list) \
+                        or not isinstance(data.get('hitCount'), int) or data['hitCount'] < 0:
                     raise ValueError(f"Grants.gov error response: errorcode={envelope.get('errorcode')!r} "
                                      f"msg={str(envelope.get('msg') or envelope.get('errorMsgs'))[:200]!r}")
             except Exception as exc:
@@ -305,7 +306,7 @@ def grants_gov(cfg: dict, fetch: Fetcher, capped: list | None = None) -> tuple[l
                 break
             page = data.get('oppHits') or []
             hits += page
-            total = data.get('hitCount') if isinstance(data.get('hitCount'), int) else len(hits)
+            total = data['hitCount']
             start += rows
             if not page or start >= total:
                 break
@@ -348,8 +349,14 @@ def federal_register(cfg: dict, fetch: Fetcher, capped: list | None = None) -> t
             except Exception as exc:
                 err = f'{exc.__class__.__name__}: {exc}'
                 break
+            # A real empty search omits `results` and says "count": 0 (checked live
+            # 2026-10-15); anything else without a results list is not a completed search.
+            if not isinstance(data, dict) or not isinstance(data.get('count'), int) or data['count'] < 0 \
+                    or not (isinstance(data.get('results'), list) or ('results' not in data and data['count'] == 0)):
+                err = f"Federal Register incomplete response: {str(data)[:200]!r}"
+                break
             results += data.get('results') or []
-            total = data.get('count') if isinstance(data.get('count'), int) else total
+            total = data['count']
             pages_read += 1
             nxt = data.get('next_page_url')
             # Only follow the API's own next page on the same host.

@@ -81,7 +81,7 @@ def site(eiaf=QUIET, grant=GRANT_PAGE, gg_hits=None, fr_results=None, blocked=()
             return 200, {}, json.dumps({"data": {"hitCount": len(gg_hits), "startRecord": start,
                                                  "oppHits": gg_hits[start:start + rows]}}).encode()
         if url.startswith(FR):
-            return 200, {}, json.dumps({"results": fr_results}).encode()
+            return 200, {}, json.dumps({"count": len(fr_results), "results": fr_results}).encode()
         raise HTTPError(f"unexpected url {url}")
     return fetch
 
@@ -657,3 +657,25 @@ def test_a_grants_gov_payload_without_opphits_is_a_failure():
     def zero(url, data=None, headers=None):
         return 200, {}, json.dumps({"errorcode": 0, "data": {"hitCount": 0, "oppHits": []}}).encode()
     assert watch.grants_gov(SOURCES["federal"]["grants_gov"], zero) == ([], []), "a real empty search still passes"
+
+
+def test_incomplete_federal_payloads_are_failures_not_empty_searches():
+    """A reply that cannot say how many results exist is not a completed search; the
+    real empty replies (checked live 2026-10-15) still pass (Codex, 2026-10-15)."""
+    gg = SOURCES["federal"]["grants_gov"]
+    for data in ({"oppHits": [{"id": "1", "title": "x"}]}, {"hitCount": "3", "oppHits": []}, {"hitCount": -1, "oppHits": []}):
+        def f(url, data=None, headers=None, _d=data):
+            return 200, {}, json.dumps({"errorcode": 0, "data": _d}).encode()
+        notices, failures = watch.grants_gov(gg, f)
+        assert notices == [] and len(failures) == len(gg["keywords"]), data
+
+    fr = SOURCES["federal"]["federal_register"]
+    for body in ({}, {"errors": ["bad"]}, {"count": 3}, {"results": []}, {"count": 2, "results": "x"}):
+        def f(url, data=None, headers=None, _b=body):
+            return 200, {}, json.dumps(_b).encode()
+        notices, failures = watch.federal_register(fr, f, [])
+        assert notices == [] and len(failures) == len(fr["agencies"]), body
+
+    def empty(url, data=None, headers=None):
+        return 200, {}, json.dumps({"description": "Documents matching 'x'", "count": 0}).encode()
+    assert watch.federal_register(fr, empty, []) == ([], []), "a real empty search still passes"
