@@ -50,7 +50,11 @@ for (const name of ['stage', 'confidence', 'classification']) {
 assert(/<label[^>]+for="pri-text"[^>]*>/.test(developerHtml), 'developer priorities textarea has a visible label');
 assert(/<textarea[^>]+id="pri-text"/.test(developerHtml), 'developer priorities textarea retains id');
 
-assert(/aria-label="Open source in new tab">↗<\/a>/.test(developerBrief), 'developer brief injected arrow link has an accessible name');
+// Every icon-only link the brief injects carries an aria-label; the signal list's
+// source link now uses the word "source" as its name.
+const iconLinks = developerBrief.match(/<a\b[^>]*>\s*[↗🔗→]\s*<\/a>/g) || [];
+assert(iconLinks.every((a) => /aria-label="[^"]+"/.test(a)), 'developer brief icon-only links have an accessible name');
+assert(/rel="noopener">source<\/a>/.test(developerBrief), 'developer brief signal source links have visible text');
 assert(/aria-label="Open source">🔗<\/a>/.test(dataSourcesUi), 'dashboard data-source link icon has an accessible name');
 
 console.log('a11y-contrast-labels: PASS');

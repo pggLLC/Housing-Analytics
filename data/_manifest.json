@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-14T17:56:38.996Z",
+    "generated_at": "2026-10-15T07:26:29.606Z",
     "root": "data/",
-    "file_count": 1721,
-    "total_size_bytes": 181735097,
+    "file_count": 1722,
+    "total_size_bytes": 181762985,
     "kinds": {
-      "json": 1684,
+      "json": 1685,
       "geojson": 33,
       "csv": 4
     }
@@ -502,7 +502,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-14T17:56:35.877Z",
+      "mtime": "2026-10-15T07:26:25.789Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30136,6 +30136,29 @@
       ]
     },
     {
+      "path": "jurisdiction-briefs/_landscape/0833640.json",
+      "kind": "json",
+      "size_bytes": 27501,
+      "mtime": "2026-10-14T23:56:45.038Z",
+      "shape": "object",
+      "keys": [
+        "geoid",
+        "researched",
+        "plans",
+        "agencies",
+        "state_funds",
+        "task_forces",
+        "people",
+        "land",
+        "lihtc_and_pipeline",
+        "not_found"
+      ],
+      "key_count": 10,
+      "primary_array_key": "not_found",
+      "primary_array_length": 13,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "jurisdiction-briefs/_lihtc-applications-excluded.json",
       "kind": "json",
       "size_bytes": 465,
@@ -30702,8 +30725,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 218538,
-      "mtime": "2026-10-14T17:56:03.056Z",
+      "size_bytes": 218925,
+      "mtime": "2026-10-15T02:21:00.825Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32167,7 +32190,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15109,
-      "mtime": "2026-10-14T17:56:37.286Z",
+      "mtime": "2026-10-15T07:26:27.682Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32191,7 +32214,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-14T17:56:36.935Z",
+      "mtime": "2026-10-15T07:26:27.237Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
