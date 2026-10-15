@@ -52,28 +52,48 @@
     var DS = window.DataService;
     if (!DS) return;
 
+    // Renter homes that are affordable AND available to each income group,
+    // from HUD CHAS Tables 15C, 14B and 7 (scripts/hna/build_chas_affordable_available.py).
+    // A cheap home rented by a higher-income household is not available to
+    // anyone in the group, so it does not count. Tiers are cumulative
+    // (≤50% includes ≤30%). A missing value stays '—', never a 0.
+    DS.getJSON(DS.baseData('hna/chas_affordable_available.json'))
+      .then(function (data) {
+        var tiers = data && data.statewide && data.statewide.tiers;
+        if (!tiers) return;
+        var count = function (v) {
+          return (typeof v === 'number' && isFinite(v) && v >= 0) ? fmtInt(v) : '—';
+        };
+        var vintage = (data.meta && data.meta.vintage) || '—';
+        ['30', '50'].forEach(function (tier) {
+          var t = tiers[tier];
+          if (!t) return;
+          var per100 = t.homes_per_100_households;
+          setText('snapGap' + tier, count(t.homes_short));
+          setText('snapGap' + tier + 'Households', count(t.renter_households));
+          setText('snapGap' + tier + 'Homes', count(t.affordable_available_homes));
+          setText('snapGap' + tier + 'Per100', (typeof per100 === 'number' && isFinite(per100)) ? String(Math.round(per100)) : '—');
+          setText('snapGapVintage' + tier, vintage);
+        });
+        if (data.meta && data.meta.vintage) setText('snapVintage', 'Shortfall: HUD CHAS ' + data.meta.vintage);
+      })
+      .catch(function () {});
+
+    // The ACS 2024 minimum, shown under HUD's count on each card. A home
+    // counts only for households who can afford its rent, so the ≤60%
+    // figure cannot hide the ≤30% shortfall behind homes those households
+    // cannot pay for. A missing tier stays '—', never a 0 shortfall.
     DS.getJSON(DS.baseData('co_ami_gap_by_county.json'))
       .then(function (data) {
-        var statewide = data && data.statewide;
-        // Homes short without pooling: a home counts only for households who
-        // can afford its rent, so the ≤60% figure cannot hide the ≤30%
-        // shortfall behind homes those households cannot pay for. The pooled
-        // gap_units_minus_households_le_ami_pct did exactly that (146,721 at
-        // ≤30% vs 15,577 at ≤60%). Positive = homes short; a missing tier
-        // stays '—' (the placeholder), never a 0 shortfall.
-        var short = statewide && statewide.min_shortfall_matched_le_ami_pct;
+        var short = data && data.statewide && data.statewide.min_shortfall_matched_le_ami_pct;
         if (!short) return;
         var shortfall = function (v) {
           return (typeof v === 'number' && isFinite(v) && v >= 0) ? fmtInt(v) : '—';
         };
-        setText('snapGap30', shortfall(short['30']));
-        setText('snapGap60', shortfall(short['60']));
-
-        var vintage = data && data.meta && (data.meta.generated || data.meta.generated_at || data.meta.updated || '');
-        if (vintage) {
-          var date = String(vintage).slice(0, 10);
-          setText('snapVintage', 'AMI gap data: ' + date);
-        }
+        setText('snapMin30', shortfall(short['30']));
+        setText('snapMin60', shortfall(short['60']));
+        var year = data.meta && data.meta.acs_year;
+        if (year) { setText('snapMinYear30', String(year)); setText('snapMinYear60', String(year)); }
       })
       .catch(function () {});
 

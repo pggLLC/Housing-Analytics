@@ -63,6 +63,35 @@
     return null;
   }
 
+  // Tables sit in scrolling containers that clip anything absolutely
+  // positioned, so the popover is placed in viewport coordinates under its
+  // header and kept on screen: a right-hand column on a phone no longer
+  // opens a definition that runs off the edge.
+  var GAP = 8;
+  function place(th) {
+    var pop = th.querySelector('.th-tip__pop');
+    if (!pop) return;
+    var r = th.getBoundingClientRect();
+    var vw = document.documentElement.clientWidth || window.innerWidth;
+    var vh = window.innerHeight;
+    pop.style.maxWidth = Math.min(352, vw - 2 * GAP) + 'px';
+    pop.classList.add('th-tip__pop--placed');
+    var w = pop.offsetWidth || 224;
+    var h = pop.offsetHeight || 0;
+    var left = Math.max(GAP, Math.min(r.left, vw - w - GAP));
+    var top = r.bottom + 4;
+    if (h && top + h > vh - GAP && r.top - 4 - h >= GAP) top = r.top - 4 - h;
+    pop.style.left = left + 'px';
+    pop.style.top = top + 'px';
+  }
+
+  function lastTextNode(el) {
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    var n, last = null;
+    while ((n = walker.nextNode())) if (/\S/.test(n.nodeValue)) last = n;
+    return last;
+  }
+
   function decorate(th) {
     if (th.querySelector('.th-tip__btn')) return;
     if (th.querySelector('input, select, button, textarea')) return;
@@ -79,7 +108,13 @@
     btn.setAttribute('aria-label', 'What does "' + label + '" mean?');
     btn.setAttribute('aria-expanded', 'false');
     btn.setAttribute('aria-controls', id);
-    btn.textContent = '?';
+    // A small inline "i" glyph, sized to the label text so it sits on the
+    // label's baseline. The 24px hit area comes from CSS (::before), not
+    // from the glyph's layout box, so it never pushes the label around.
+    btn.innerHTML = '<svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false">'
+      + '<circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/>'
+      + '<rect x="7.2" y="7" width="1.6" height="4.6" rx=".8" fill="currentColor"/>'
+      + '<circle cx="8" cy="4.6" r="1" fill="currentColor"/></svg>';
 
     var pop = document.createElement('span');
     pop.className = 'th-tip__pop';
@@ -87,11 +122,15 @@
     pop.setAttribute('role', 'tooltip');
     pop.textContent = tip;
 
-    // Sortable headers sort on click; the "?" must not also sort.
+    th.addEventListener('mouseenter', function () { place(th); });
+    th.addEventListener('focusin', function () { place(th); });
+
+    // Sortable headers sort on click; the glyph must not also sort.
     btn.addEventListener('click', function (e) {
       e.stopPropagation();
       e.preventDefault();
       var open = th.classList.toggle('is-open');
+      if (open) place(th);
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
     btn.addEventListener('keydown', function (e) {
@@ -100,7 +139,21 @@
 
     th.classList.add('th-tip');
     th.setAttribute('aria-describedby', id);
-    th.appendChild(btn);
+    // Keep the glyph glued to the label's last word: if a narrow column
+    // wraps the label, the glyph wraps with that word instead of landing
+    // alone on a line of its own.
+    var tail = document.createElement('span');
+    tail.className = 'th-tip__tail';
+    var last = lastTextNode(th);
+    var m = last && /(\S+)(\s*)$/.exec(last.nodeValue);
+    if (m) {
+      last.nodeValue = last.nodeValue.slice(0, m.index);
+      tail.appendChild(document.createTextNode(m[1]));
+      last.parentNode.insertBefore(tail, last.nextSibling);
+    } else {
+      th.appendChild(tail);
+    }
+    tail.appendChild(btn);
     th.appendChild(pop);
   }
 
@@ -119,6 +172,13 @@
       if (b) b.setAttribute('aria-expanded', 'false');
     }
   });
+
+  // Keep a visible popover attached to its header while the page or the
+  // table's own container scrolls.
+  window.addEventListener('scroll', function () {
+    var shown = document.querySelectorAll('th.th-tip.is-open, th.th-tip:hover, th.th-tip:focus-within');
+    for (var i = 0; i < shown.length; i++) place(shown[i]);
+  }, { capture: true, passive: true });
 
   function observe() {
     if (!window.MutationObserver) return;
