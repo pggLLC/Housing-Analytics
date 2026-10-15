@@ -755,3 +755,23 @@ def test_a_short_grants_gov_page_does_not_skip_records():
     assert failures == [] and capped == []
     assert sorted(int(n["key"].split(":")[1]) for n in notices) == list(range(30))
     assert asked == [0, 10, 20]
+
+
+def test_a_change_past_the_first_300_characters_of_a_line_is_reported():
+    """A long paragraph whose deadline changes near its end still changes its stored
+    line (Codex, 2026-10-15)."""
+    lead = "Applications for the round are accepted from eligible local governments. " * 6
+    base = run(site(eiaf=f"<title>EIAF</title>\n<p>{lead}Due December 1, 2026.</p>"))
+    r = run(site(eiaf=f"<title>EIAF</title>\n<p>{lead}Due March 1, 2027.</p>"), previous=base, now="2026-10-16T05:34:00Z")
+    [ch] = r["changes"]["changed_pages"]
+    assert len(ch["key_lines"]["added"]) == 1 and len(ch["key_lines"]["removed"]) == 1
+    assert all(len(l) <= watch.KEY_LINE_CHARS for l in ch["key_lines"]["added"])
+
+
+def test_iso_and_hyphenated_dates_are_round_lines():
+    """A deadline cell that holds only a date (Codex, 2026-10-15)."""
+    for cell in ("2026-12-01", "12-01-2026", "12-1-26"):
+        assert watch.ROUND_LINE_RE.search(cell), cell
+    base = run(site(eiaf="<title>EIAF</title>\n<table><tr><td>2026-12-01</td></tr></table>"))
+    r = run(site(eiaf="<title>EIAF</title>\n<table><tr><td>2027-03-01</td></tr></table>"), previous=base, now="2026-10-16T05:34:00Z")
+    assert [c["id"] for c in r["changes"]["changed_pages"]] == ["dlg-eiaf"]

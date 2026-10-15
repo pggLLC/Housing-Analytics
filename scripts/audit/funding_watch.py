@@ -54,6 +54,7 @@ Usage
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -64,7 +65,7 @@ from typing import Callable
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from chfa_qap_watch import (  # noqa: E402
-    key_lines, page_text, utc_now,
+    page_text, utc_now,
 )
 import html as html_lib  # noqa: E402
 
@@ -92,7 +93,7 @@ UNREACHABLE_AFTER_DAYS = 3
 NOTICE_MEMORY_DAYS = 365
 
 ROUND_LINE_RE = re.compile(
-    r'\$\s?\d|\b\d{1,2}/\d{1,2}/\d{2,4}\b|'
+    r'\$\s?\d|\b\d{1,2}/\d{1,2}/\d{2,4}\b|\b20\d\d-\d{1,2}-\d{1,2}\b|\b\d{1,2}-\d{1,2}-(20)?\d\d\b|'
     r'\b(jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|june?|july?|aug(ust)?|sep(t(ember)?)?|'
     r'oct(ober)?|nov(ember)?|dec(ember)?)\.?\s+(\d{1,2}|20\d\d)\b|'
     r'\b(rounds?|cycles?|nofas?|nofos?|notice of funding|deadlines?|due|open(s|ed)?|clos(e|ed|es|ing)|'
@@ -107,6 +108,27 @@ DOC_LINK_RE = re.compile(
     # (Written https? so the source-URL sweep does not read the pattern as a link.)
     r'|^https?://(docs\.google\.com/(document|spreadsheets|presentation|forms)/|drive\.google\.com/(file|open)'
     r'|forms\.gle/|[\w-]+\.sharepoint\.com/|1drv\.ms/|onedrive\.live\.com/)', re.I)
+KEY_LINE_CHARS = 300
+
+
+def key_lines(text: str, pattern: re.Pattern) -> list[str]:
+    """Lines matching `pattern`, deduplicated. A line over KEY_LINE_CHARS keeps its
+    first part plus a fingerprint of the whole line, so a date or amount changed past
+    the cut still changes the stored line (Codex, 2026-10-15). The QAP watcher's helper
+    cuts at 300 characters with nothing to show the rest."""
+    out, seen = [], set()
+    for ln in text.split('\n'):
+        ln = re.sub(r'\s+', ' ', ln).strip()
+        if len(ln) < 4 or not pattern.search(ln):
+            continue
+        if len(ln) > KEY_LINE_CHARS:
+            ln = f"{ln[:KEY_LINE_CHARS - 20]} … [{hashlib.sha256(ln.encode('utf-8')).hexdigest()[:12]}]"
+        if ln not in seen:
+            seen.add(ln)
+            out.append(ln)
+    return out
+
+
 def line_diff(old: list, new: list) -> dict:
     """Every added and removed key line. Unlike the QAP watcher's helper, not capped:
     the new snapshot is stored whole, so a line left out here would never be new again
