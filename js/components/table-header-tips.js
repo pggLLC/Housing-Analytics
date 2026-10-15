@@ -21,8 +21,8 @@
  * (MutationObserver), so JS-built tables (ranking index, county comparison,
  * projections, deal calculator) are covered without each renderer knowing
  * this exists. Idempotent: a header that already has its control is left
- * alone. Headers with no text (blank corner cells) or that contain a form
- * control are skipped.
+ * alone. Headers with no text (blank corner cells), or that contain a form
+ * control or a link of their own, are skipped.
  */
 (function () {
   'use strict';
@@ -100,6 +100,19 @@
   function decorate(th) {
     if (th.querySelector('.th-tip__btn')) return;
     if (th.querySelector('input, select, button, textarea')) return;
+    // A header that already links to its own explanation (the footnote
+    // daggers on chfa-portfolio.html) keeps that link as its one control:
+    // a second 44px target beside it would share the same pixels, so a tap
+    // there would reach whichever wins hit testing (Codex on #2239).
+    // Its definition still rides on the header as a native title, which
+    // table-export.js reads for the downloaded data dictionary.
+    if (th.querySelector('a[href]')) {
+      if (!th.getAttribute('title') && !th.getAttribute('data-tip')) {
+        var def = map && Object.prototype.hasOwnProperty.call(map, normalize(th.textContent)) ? map[normalize(th.textContent)] : null;
+        if (def) th.setAttribute('title', def);
+      }
+      return;
+    }
     if (!normalize(th.textContent)) return;
     var tip = tipFor(th);
     if (!tip) return;

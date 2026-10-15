@@ -140,4 +140,10 @@ assert.ok(/table th\s*\{[^}]*vertical-align:\s*bottom/.test(themeCss), 'header c
 assert.ok(/\.th-tip__tail\s*\{[^}]*white-space:\s*nowrap/.test(themeCss) && componentSrc.includes("'th-tip__tail'"),
   'the glyph wraps together with the label\'s last word');
 
+// A header that already carries a link (a footnote reference) gets no
+// glyph, since two 44px targets side by side would overlap; its definition
+// stays on the header as a title for hover and for the export dictionary.
+assert.ok(/th\.querySelector\('a\[href\]'\)\)\s*\{[\s\S]{0,400}?setAttribute\('title'[\s\S]{0,80}?return;/.test(componentSrc),
+  'headers that already link to their explanation are left without a second control');
+
 console.log(`table-header-tips: PASS — ${tablePages.length} table pages wired, ${Object.keys(tips).length} definitions, every static header covered`);
