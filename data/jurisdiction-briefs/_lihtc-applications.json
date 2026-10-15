@@ -1,12 +1,12 @@
 {
  "meta": {
-  "generated_at": "2026-10-14T12:48:17Z",
+  "generated_at": "2026-10-15T09:41:33Z",
   "generator": "scripts/funding/build_lihtc_applications.py",
   "source": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
   "first_year": 2023,
   "method": "Each CHFA Applicant Report (and the rolling federal 4% and MIHTC lists) is read as a table; a report whose rows do not add up to the TOTALS row it prints contributes none. Contact names, emails and phones are not read. Outcomes are derived: a project counts as awarded when the same name and city is on a CHFA award report in data/policy/funding-awards/ledger.json for the same credit within two years; not_awarded only when that round's award report is published and the project is on none. CHFA prints neither 'not awarded' nor 'withdrawn'.",
   "amount_note": "Credit amounts are the ANNUAL amounts requested, as CHFA prints them.",
-  "application_count": 270,
+  "application_count": 272,
   "documents": [
    {
     "file": "2023-HTC-Round-One-Applicant-Report.pdf",
@@ -403,17 +403,17 @@
       "ok": true
      }
     ],
-    "as_of": "2026-09-03"
+    "as_of": "2026-10-13"
    },
    {
     "file": "Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
     "url": "https://www.chfainfo.com/getattachment/3aadf0e5-1030-4cc8-a72c-d963dc28f117/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
     "round_label": "Rolling federal 4% list",
     "credit_type": "4%",
-    "rows": 10,
+    "rows": 12,
     "status": "no_total_line",
     "checks": [],
-    "as_of": "2026-09-18"
+    "as_of": "2026-10-12"
    }
   ]
  },
@@ -449,7 +449,7 @@
    "quote": "Stage: Application*; Type: I/F, A/R; Name: 29 Mile Apartments; Address: 2915 Orchard Avenue; City: Grand Junction; Total Units: 144; LI Units: 144; Federal 4% Credit Requested: $1,781,428; Bond Issuer: CHFA; Bond Cap Amount: $12,085,693; Sponsor: Evergreen Real Estate Group",
    "source_file": "Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/3aadf0e5-1030-4cc8-a72c-d963dc28f117/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
-   "source_as_of": "2026-09-18",
+   "source_as_of": "2026-10-12",
    "outcome": "in_review",
    "outcome_detail": "Application on CHFA's rolling list; no award found yet"
   },
@@ -496,7 +496,7 @@
    "quote": "Stage: LOI*; Type: I/F, N, R; Name: 40th Central Park Apartments (scattered site); Total Units: 128; LI Units: 128; Federal 4% Credit Requested: $1,371,566; Bond Issuer: CHFA; Bond Cap Amount: $12,900,000; Sponsor: Northeast Denver Housing Center | Site: 40th Apartments, 3979 Central Park Blvd, Denver | Site: Central Park at Stapleton, 2507 Wabash Street, Denver",
    "source_file": "Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/3aadf0e5-1030-4cc8-a72c-d963dc28f117/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
-   "source_as_of": "2026-09-18",
+   "source_as_of": "2026-10-12",
    "outcome": "letter_of_intent",
    "outcome_detail": "Letter of intent on CHFA's rolling list; no application yet"
   },
@@ -531,7 +531,7 @@
    "quote": "Stage: Application; Type: I/F A/R; Name: Asbury Park; Address: 10571 East Asbury Park; City: Aurora; Total Units: 44; LI Units: 43; Federal 4% Credit Requested: $746,874; Bond Issuer: Aurora Housing Authority; Bond Cap Amount: $8,400,000; Sponsor: Related Affordable",
    "source_file": "Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/3aadf0e5-1030-4cc8-a72c-d963dc28f117/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
-   "source_as_of": "2026-09-18",
+   "source_as_of": "2026-10-12",
    "outcome": "in_review",
    "outcome_detail": "Application on CHFA's rolling list; no award found yet"
   },
@@ -555,7 +555,7 @@
    "accelerated_state_credit_requested": null,
    "toc_credit_requested": null,
    "mihtc_credit_requested": null,
-   "pab_requested": 32900000,
+   "pab_requested": 33000000,
    "county_fips": "08031",
    "place_geoids": [
     "0820000"
@@ -563,10 +563,10 @@
    "county_fips_all": [
     "08031"
    ],
-   "quote": "Stage: LOI; Type: OA, A/R; Name: Courthouse Square; Address: 901 W 14th Avenue; City: Denver; Total Units: 171; LI Units: 171; Federal 4% Credit Requested: $4,100,000; Bond Issuer: CHFA; Bond Cap Amount: $32,900,000; Sponsor: Related Affordable",
+   "quote": "Stage: LOI; Type: OA, A/R; Name: Courthouse Square; Address: 901 W 14th Avenue; City: Denver; Total Units: 171; LI Units: 171; Federal 4% Credit Requested: $4,100,000; Bond Issuer: CHFA; Bond Cap Amount: $33,000,000; Sponsor: Related Affordable",
    "source_file": "Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/3aadf0e5-1030-4cc8-a72c-d963dc28f117/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
-   "source_as_of": "2026-09-18",
+   "source_as_of": "2026-10-12",
    "outcome": "letter_of_intent",
    "outcome_detail": "Letter of intent on CHFA's rolling list; no application yet"
   },
@@ -727,7 +727,7 @@
    "quote": "Stage: LOI*; Type: I/F, A/R; Name: Greens of Northglenn; Address: 350 W 114th Avenue; City: Northglenn; Total Units: 128; LI Units: 128; Federal 4% Credit Requested: $1,560,000; Bond Issuer: CHFA; Bond Cap Amount: $17,500,000; Sponsor: Security Properties",
    "source_file": "Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/3aadf0e5-1030-4cc8-a72c-d963dc28f117/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
-   "source_as_of": "2026-09-18",
+   "source_as_of": "2026-10-12",
    "outcome": "letter_of_intent",
    "outcome_detail": "Letter of intent on CHFA's rolling list; no application yet"
   },
@@ -804,7 +804,7 @@
    "quote": "Stage: Application; Type: I/F, A/R; Name: Helios Station; Address: 550 N. 111th Street; City: Lafayette; Total Units: 30; LI Units: 30; Federal 4% Credit Requested: $733,933; Bond Issuer: CHFA; Bond Cap Amount: $6,342,500; Sponsor: Related Affordable",
    "source_file": "Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/3aadf0e5-1030-4cc8-a72c-d963dc28f117/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
-   "source_as_of": "2026-09-18",
+   "source_as_of": "2026-10-12",
    "outcome": "in_review",
    "outcome_detail": "Application on CHFA's rolling list; no award found yet"
   },
@@ -854,7 +854,89 @@
    "quote": "Stage: LOI*; Type: I/F A/R; Name: Holy Cross Village & Villa Sierra Madre (scattered site); Total Units: 122; LI Units: 122; Federal 4% Credit Requested: $2,425,000; Bond Issuer: CHFA; Bond Cap Amount: $18,400,000; Sponsor: Catholic Charities Housing | Site: Holly Cross Village, 408 Sunny Avenue, Gypsum | Site: Villa Sierra Madre, 1081 Adams Avenue, Silverthorne",
    "source_file": "Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/3aadf0e5-1030-4cc8-a72c-d963dc28f117/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
-   "source_as_of": "2026-09-18",
+   "source_as_of": "2026-10-12",
+   "outcome": "letter_of_intent",
+   "outcome_detail": "Letter of intent on CHFA's rolling list; no application yet"
+  },
+  {
+   "year": 2026,
+   "round": null,
+   "round_label": "Rolling federal 4% list",
+   "rolling": true,
+   "credit_type": "4%",
+   "stage": "LOI",
+   "type": "OA, A/R",
+   "name": "Island Grove Village & University Plaza (scattered site)",
+   "address": null,
+   "city": "Greeley",
+   "sponsor": "Lincoln Avenue Communities",
+   "pab_issuer": "City of Greeley",
+   "total_units": 142,
+   "restricted_units": 142,
+   "federal_credit_requested": 1784635,
+   "state_credit_requested": null,
+   "accelerated_state_credit_requested": null,
+   "toc_credit_requested": null,
+   "mihtc_credit_requested": null,
+   "pab_requested": 12096457,
+   "county_fips": "08123",
+   "place_geoids": [
+    "0832155"
+   ],
+   "county_fips_all": [
+    "08123"
+   ],
+   "sites": [
+    {
+     "name": "Island Grove Village",
+     "address": "119 14th Avenue",
+     "city": "Greeley"
+    },
+    {
+     "name": "University Plaza",
+     "address": "1534 11th Avenue",
+     "city": "Greeley"
+    }
+   ],
+   "quote": "Stage: LOI; Type: OA, A/R; Name: Island Grove Village & University Plaza (scattered site); Total Units: 142; LI Units: 142; Federal 4% Credit Requested: $1,784,635; Bond Issuer: City of Greeley; Bond Cap Amount: $12,096,457; Sponsor: Lincoln Avenue Communities | Site: Island Grove Village, 119 14th Avenue, Greeley | Site: University Plaza, 1534 11th Avenue, Greeley",
+   "source_file": "Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
+   "source_url": "https://www.chfainfo.com/getattachment/3aadf0e5-1030-4cc8-a72c-d963dc28f117/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
+   "source_as_of": "2026-10-12",
+   "outcome": "letter_of_intent",
+   "outcome_detail": "Letter of intent on CHFA's rolling list; no application yet"
+  },
+  {
+   "year": 2026,
+   "round": null,
+   "round_label": "Rolling federal 4% list",
+   "rolling": true,
+   "credit_type": "4%",
+   "stage": "LOI",
+   "type": "OA, A/R",
+   "name": "Juanita Nolasco Residences",
+   "address": "4550 W 9th Avenue",
+   "city": "Denver",
+   "sponsor": "Rose Community Develooment Company, LLC",
+   "pab_issuer": "HOST",
+   "total_units": 188,
+   "restricted_units": 188,
+   "federal_credit_requested": 2900000,
+   "state_credit_requested": null,
+   "accelerated_state_credit_requested": null,
+   "toc_credit_requested": null,
+   "mihtc_credit_requested": null,
+   "pab_requested": 18400000,
+   "county_fips": "08031",
+   "place_geoids": [
+    "0820000"
+   ],
+   "county_fips_all": [
+    "08031"
+   ],
+   "quote": "Stage: LOI; Type: OA, A/R; Name: Juanita Nolasco Residences; Address: 4550 W 9th Avenue; City: Denver; Total Units: 188; LI Units: 188; Federal 4% Credit Requested: $2,900,000; Bond Issuer: HOST; Bond Cap Amount: $18,400,000; Sponsor: Rose Community Develooment Company, LLC",
+   "source_file": "Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
+   "source_url": "https://www.chfainfo.com/getattachment/3aadf0e5-1030-4cc8-a72c-d963dc28f117/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
+   "source_as_of": "2026-10-12",
    "outcome": "letter_of_intent",
    "outcome_detail": "Letter of intent on CHFA's rolling list; no application yet"
   },
@@ -948,7 +1030,7 @@
    "round_label": "Rolling federal 4% list",
    "rolling": true,
    "credit_type": "4%",
-   "stage": "LOI",
+   "stage": "Application",
    "type": "I/F, N",
    "name": "Reeve at Horizon",
    "address": "E 6th Avenue & Gun Club Road",
@@ -957,7 +1039,7 @@
    "pab_issuer": "CHFA",
    "total_units": 252,
    "restricted_units": 252,
-   "federal_credit_requested": 4493861,
+   "federal_credit_requested": 4885671,
    "state_credit_requested": null,
    "accelerated_state_credit_requested": null,
    "toc_credit_requested": null,
@@ -970,12 +1052,12 @@
    "county_fips_all": [
     "08005"
    ],
-   "quote": "Stage: LOI*; Type: I/F, N; Name: Reeve at Horizon; Address: E 6th Avenue & Gun Club Road; City: Aurora; Total Units: 252; LI Units: 252; Federal 4% Credit Requested: $4,493,861; Bond Issuer: CHFA; Bond Cap Amount: $30,000,000; Sponsor: Reuter Walton Development",
+   "quote": "Stage: Application*; Type: I/F, N; Name: Reeve at Horizon; Address: E 6th Avenue & Gun Club Road; City: Aurora; Total Units: 252; LI Units: 252; Federal 4% Credit Requested: $4,885,671; Bond Issuer: CHFA; Bond Cap Amount: $30,000,000; Sponsor: Reuter Walton Development",
    "source_file": "Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/3aadf0e5-1030-4cc8-a72c-d963dc28f117/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
-   "source_as_of": "2026-09-18",
-   "outcome": "letter_of_intent",
-   "outcome_detail": "Letter of intent on CHFA's rolling list; no application yet"
+   "source_as_of": "2026-10-12",
+   "outcome": "in_review",
+   "outcome_detail": "Application on CHFA's rolling list; no award found yet"
   },
   {
    "year": 2026,
@@ -1050,7 +1132,7 @@
    "quote": "Stage: LOI; Type: I/F, A/R; Name: Rock Crest; Address: 4905 Lucerne Avenue; City: Loveland; Total Units: 56; LI Units: 55; Federal 4% Credit Requested: $575,000; Bond Issuer: Loveland Housing Authority; Bond Cap Amount: $4,400,000; Sponsor: Loveland Housing Authority",
    "source_file": "Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/3aadf0e5-1030-4cc8-a72c-d963dc28f117/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
-   "source_as_of": "2026-09-18",
+   "source_as_of": "2026-10-12",
    "outcome": "letter_of_intent",
    "outcome_detail": "Letter of intent on CHFA's rolling list; no application yet"
   },
@@ -1085,7 +1167,7 @@
    "quote": "Stage: Application*; Type: OA, A/R; Name: Sunset Park Apartments; Address: 1865 Larimer Street; City: Denver; Total Units: 238; LI Units: 238; Federal 4% Credit Requested: $5,554,103; Bond Issuer: CHFA; Bond Cap Amount: $36,110,000; Sponsor: Volunteers of America",
    "source_file": "Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/3aadf0e5-1030-4cc8-a72c-d963dc28f117/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
-   "source_as_of": "2026-09-18",
+   "source_as_of": "2026-10-12",
    "outcome": "in_review",
    "outcome_detail": "Application on CHFA's rolling list; no award found yet"
   },
@@ -1137,8 +1219,8 @@
    "city": "Pueblo",
    "sponsor": "Archway Investment Corporation",
    "pab_issuer": null,
-   "total_units": 60,
-   "restricted_units": 60,
+   "total_units": 53,
+   "restricted_units": 53,
    "federal_credit_requested": null,
    "state_credit_requested": null,
    "accelerated_state_credit_requested": null,
@@ -1152,10 +1234,10 @@
    "county_fips_all": [
     "08101"
    ],
-   "quote": "Stage: LOI; Type: N, I/F; Name: Ingraham Wright Apartments; Address: 1003 Liberty Lane; City: Pueblo; Total Units: 60; MIHTC Units: 60; MIHTC Amount Requested: $1,650,000; Sponsor: Archway Investment Corporation",
+   "quote": "Stage: LOI; Type: N, I/F; Name: Ingraham Wright Apartments; Address: 1003 Liberty Lane; City: Pueblo; Total Units: 53; MIHTC Units: 53; MIHTC Amount Requested: $1,650,000; Sponsor: Archway Investment Corporation",
    "source_file": "CHFA-Rolling-MIHTC-LOI-and-Applicant-Report.pdf",
    "source_url": "https://www.chfainfo.com/getattachment/86a9169d-7951-4ffc-a9aa-b984d7833805/CHFA-Rolling-MIHTC-LOI-and-Applicant-Report.pdf",
-   "source_as_of": "2026-09-03",
+   "source_as_of": "2026-10-13",
    "outcome": "letter_of_intent",
    "outcome_detail": "Letter of intent on CHFA's rolling list; no application yet"
   },
