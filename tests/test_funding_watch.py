@@ -227,9 +227,10 @@ def test_every_catalog_program_with_a_page_is_watched():
 
 def test_trust_label_names_every_container_of_fetched_strings():
     r = run(site())
-    # federal_baselined_queries holds only our own configured keywords and agency slugs.
+    # federal_baselined_queries and federal_capped hold only our own configured keywords,
+    # agency slugs and integer counts.
     local = {"schema", "generated_at", "note", "content_trust", "has_changes", "all_fetches_failed", "unverifiable",
-             "federal_baselined_queries"}
+             "federal_baselined_queries", "federal_capped"}
     label = r["content_trust"]
     for key in set(r) - local:
         assert key in label, f"{key} holds fetched strings but content_trust does not name it"
@@ -497,3 +498,91 @@ def test_a_replaced_hosted_document_counts_as_a_document_change():
     r = run(site(eiaf=new), previous=base, now="2026-10-16T05:34:00Z")
     [ch] = r["changes"]["changed_pages"]
     assert [d["url"] for d in ch["new_documents"]] == ["https://docs.google.com/document/d/BBB/edit"]
+
+
+def _page_change(i, n_lines=0, n_docs=0):
+    return {"id": f"page-{i}", "url": f"https://doh.localhost/p{i}", "agency": "DOH", "programs": [],
+            "key_lines": {"added": [f"page {i} line {k} due December 1, 2026 " + "y" * 450 for k in range(n_lines)],
+                          "removed": []},
+            "new_documents": [{"title": f"page {i} doc {k}", "url": f"https://doh.localhost/p{i}/d{k}.pdf"}
+                              for k in range(n_docs)],
+            "removed_documents": [{"title": f"page {i} gone {k}", "url": f"https://doh.localhost/p{i}/g{k}.pdf"}
+                                  for k in range(n_docs)]}
+
+
+def test_every_page_change_line_and_document_is_reported(tmp_path):
+    """A page change is recorded once, so its issue lists every key line and document,
+    split into parts with balanced code fences rather than cut (Codex, 2026-10-15)."""
+    pages = [_page_change(0, n_lines=200, n_docs=60)]
+    summary = {"changes": {"changed_pages": pages, "new_federal_notices": [], "newly_unverifiable": []},
+               "federal_failures": [], "fetch_failures": []}
+    _stdout, posts = run_issue_script(tmp_path, summary)
+    text = "\n".join(p["body"] for p in posts)
+    assert len(posts) > 1, "the report is long enough to need parts"
+    assert all(f"page 0 line {k} due" in text for k in range(200))
+    assert all(f"[page 0 doc {k}]" in text and f"[page 0 gone {k}]" in text for k in range(60))
+    assert posts[0]["kind"] == "create" and all(p["kind"] == "comment" for p in posts[1:])
+    for p in posts:
+        assert len(p["body"]) < 60000 and "Managed by" in p["body"]
+        assert sum(1 for l in p["body"].split("\n") if l.startswith("```")) % 2 == 0, "every part closes its fences"
+
+
+def test_pages_past_the_issue_limit_are_reported_in_full(tmp_path):
+    """Pages beyond the per-run issue limit go into one combined issue with their
+    lines and documents, not just counts (Codex, 2026-10-15)."""
+    pages = [_page_change(i, n_lines=3, n_docs=2) for i in range(20)]
+    summary = {"changes": {"changed_pages": pages, "new_federal_notices": [], "newly_unverifiable": []},
+               "federal_failures": [], "fetch_failures": []}
+    _stdout, posts = run_issue_script(tmp_path, summary)
+    overflow = "\n".join(p["body"] for p in posts if "funding-watch:overflow" in p["body"])
+    assert overflow
+    for i in range(15, 20):
+        assert all(f"page {i} line {k} due" in overflow for k in range(3))
+        assert f"[page {i} doc 1]" in overflow and f"[page {i} gone 1]" in overflow
+
+
+def _paged_federal_register(n_pages, per_page=2, fail_on=None):
+    calls = []
+
+    def fetch(url, data=None, headers=None):
+        page = int(dict(p.split("=", 1) for p in urlsplit(url).query.split("&") if "=" in p).get("page", "1"))
+        calls.append(page)
+        if page == fail_on:
+            raise HTTPError("HTTP Error 500")
+        results = [{"document_number": f"{page}-{k}", "title": f"Notice of Funding Opportunity {page}-{k}",
+                    "agencies": [{"name": "HUD"}], "publication_date": "2026-10-01",
+                    "html_url": f"https://fr.localhost/d/{page}-{k}"} for k in range(per_page)]
+        body = {"count": n_pages * per_page, "results": results}
+        if page < n_pages:
+            body["next_page_url"] = f"{FR}?page={page + 1}"
+        return 200, {}, json.dumps(body).encode()
+    return fetch, calls
+
+
+def test_federal_register_follows_every_results_page_up_to_a_disclosed_cap():
+    """More matching notices than one page holds are read through next_page_url;
+    past max_pages the stop is recorded, not silent (Codex, 2026-10-15)."""
+    cfg = {**SOURCES["federal"]["federal_register"], "max_pages": 5}
+    fetch, calls = _paged_federal_register(3)
+    capped = []
+    notices, failures = watch.federal_register(cfg, fetch, capped)
+    assert calls == [1, 2, 3] and failures == [] and capped == []
+    assert {n["number"] for n in notices} == {f"{p}-{k}" for p in (1, 2, 3) for k in (0, 1)}
+
+    fetch, calls = _paged_federal_register(8)
+    capped = []
+    notices, _f = watch.federal_register(cfg, fetch, capped)
+    assert calls == [1, 2, 3, 4, 5] and len(notices) == 10
+    assert capped == [{"source": "federalregister.gov", "query": "hud", "read": 10, "total": 16}]
+
+    fetch, _calls = _paged_federal_register(3, fail_on=2)
+    notices, failures = watch.federal_register(cfg, fetch, [])
+    assert notices == [] and failures and failures[0]["query"] == "hud", "a part-read agency keeps nothing"
+
+
+def test_a_capped_federal_search_is_disclosed_in_the_run_log(tmp_path):
+    summary = {"changes": {"changed_pages": [], "new_federal_notices": [], "newly_unverifiable": []},
+               "federal_failures": [], "fetch_failures": [],
+               "federal_capped": [{"source": "federalregister.gov", "query": "hud", "read": 100, "total": 340}]}
+    stdout, _posts = run_issue_script(tmp_path, summary)
+    assert "WARN Federal search capped: federalregister.gov hud: read 100 of 340" in stdout

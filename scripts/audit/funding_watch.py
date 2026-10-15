@@ -202,7 +202,7 @@ def _content(result: dict) -> dict:
             return [clean(v) for v in x]
         return x
     return clean({k: v for k, v in result.items()
-                  if k not in ('changes', 'has_changes', 'fetch_failures', 'federal_failures')})
+                  if k not in ('changes', 'has_changes', 'fetch_failures', 'federal_failures', 'federal_capped')})
 
 
 def _title(markup: str) -> str:
@@ -256,7 +256,7 @@ def check_page(target: dict, prev: dict, fetch: Fetcher, now: str) -> tuple[dict
     }, None
 
 
-def grants_gov(cfg: dict, fetch: Fetcher) -> tuple[list, list]:
+def grants_gov(cfg: dict, fetch: Fetcher, capped: list | None = None) -> tuple[list, list]:
     """(notices, failures) from Grants.gov search2, one query per keyword."""
     notices, failures = [], []
     rows = int(cfg.get('rows', 25))
@@ -292,6 +292,8 @@ def grants_gov(cfg: dict, fetch: Fetcher) -> tuple[list, list]:
             # A page that fails part-way leaves this keyword incomplete; keep nothing from it.
             failures.append({'source': 'grants.gov', 'query': kw, 'error': err})
             continue
+        if capped is not None and total is not None and total > len(hits):
+            capped.append({'source': 'grants.gov', 'query': kw, 'read': len(hits), 'total': total})
         for h in hits:
             # Not deduplicated here: run() keeps one record per notice but needs every
             # query that matched it for the per-query baseline.
@@ -305,22 +307,38 @@ def grants_gov(cfg: dict, fetch: Fetcher) -> tuple[list, list]:
     return notices, failures
 
 
-def federal_register(cfg: dict, fetch: Fetcher) -> tuple[list, list]:
-    """(notices, failures): funding notices from the listed agencies, newest first."""
+def federal_register(cfg: dict, fetch: Fetcher, capped: list | None = None) -> tuple[list, list]:
+    """(notices, failures): funding notices from the listed agencies, newest first.
+    Follows next_page_url up to max_pages per agency; stopping early is recorded in `capped`."""
     notices, failures = [], []
     title_re = re.compile(cfg.get('title_pattern') or '.', re.I)
+    max_pages = int(cfg.get('max_pages', 5))
     for agency in cfg.get('agencies', []):
         q = [('per_page', str(cfg.get('per_page', 20))), ('order', 'newest'),
              ('conditions[type][]', 'NOTICE'), ('conditions[agencies][]', agency),
              ('conditions[term]', cfg.get('term', ''))]
         q += [('fields[]', f) for f in ('document_number', 'title', 'publication_date', 'html_url', 'agencies')]
         url = cfg['endpoint'] + '?' + urllib.parse.urlencode(q)
-        try:
-            _s, _h, body = fetch(url)
-            results = json.loads(body).get('results') or []
-        except Exception as exc:
-            failures.append({'source': 'federalregister.gov', 'query': agency, 'error': f'{exc.__class__.__name__}: {exc}'})
+        results, pages_read, err, total = [], 0, None, None
+        while url and pages_read < max_pages:
+            try:
+                _s, _h, body = fetch(url)
+                data = json.loads(body)
+            except Exception as exc:
+                err = f'{exc.__class__.__name__}: {exc}'
+                break
+            results += data.get('results') or []
+            total = data.get('count') if isinstance(data.get('count'), int) else total
+            pages_read += 1
+            nxt = data.get('next_page_url')
+            # Only follow the API's own next page on the same host.
+            url = nxt if isinstance(nxt, str) and urllib.parse.urlsplit(nxt).netloc == urllib.parse.urlsplit(cfg['endpoint']).netloc else None
+        if err:
+            # A page that fails part-way leaves this agency incomplete; keep nothing from it.
+            failures.append({'source': 'federalregister.gov', 'query': agency, 'error': err})
             continue
+        if url and capped is not None:
+            capped.append({'source': 'federalregister.gov', 'query': agency, 'read': len(results), 'total': total})
         for r in results:
             if not title_re.search(r.get('title') or ''):
                 continue
@@ -353,11 +371,11 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
                              'failing_since': entry['first_failed_at']})
 
     fed = sources.get('federal') or {}
-    notices, fed_failures, fed_queries, answered_queries = [], [], 0, set()
+    notices, fed_failures, fed_queries, answered_queries, fed_capped = [], [], 0, set(), []
     for fn, key, per, source in ((grants_gov, 'grants_gov', 'keywords', 'grants.gov'),
                                  (federal_register, 'federal_register', 'agencies', 'federalregister.gov')):
         if key in fed:
-            n, f = fn(fed[key], fetch)
+            n, f = fn(fed[key], fetch, fed_capped)
             notices += n
             fed_failures += f
             queries = fed[key].get(per) or []
@@ -448,6 +466,9 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         'has_changes': bool(changed or new_notices),
         'fetch_failures': failures,
         'federal_failures': fed_failures,
+        # Searches that matched more than the configured page or record cap: the rest
+        # were not read this run (disclosed in the run log, not a failure).
+        'federal_capped': fed_capped,
         'unverifiable': unverifiable,
         # Nothing at all came back: no page and no single federal query. If any query
         # answered, its notices and state are kept even when every page failed.
@@ -476,6 +497,8 @@ def main(argv: list | None = None) -> int:
         print(f"  ✗ {f['url']}: {f['error']} (failing since {f['failing_since']})")
     for f in result['federal_failures']:
         print(f"  ✗ {f['source']} {f['query']}: {f['error']}")
+    for f in result['federal_capped']:
+        print(f"  … {f['source']} {f['query']}: read {f['read']} of {f['total'] if f['total'] is not None else 'more'} (cap reached)")
 
     if args.dry_run:
         return 0
@@ -504,7 +527,7 @@ def _write_run_summary(path: str | None, result: dict) -> int:
     if not path:
         return 0
     summary = {k: result[k] for k in ('generated_at', 'changes', 'has_changes', 'fetch_failures',
-                                      'federal_failures', 'unverifiable', 'all_fetches_failed')}
+                                      'federal_failures', 'federal_capped', 'unverifiable', 'all_fetches_failed')}
     summary['write_refused'] = result.get('write_refused')
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     Path(path).write_text(json.dumps(summary, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')

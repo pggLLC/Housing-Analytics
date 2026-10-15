@@ -118,6 +118,7 @@
       "endpoint": "https://www.federalregister.gov/api/v1/documents.json",
       "why": "Funding notices published in the Federal Register by the agencies that fund housing and the water, sewer and broadband it needs. A full-text search alone returned mostly information-collection notices on 2026-10-15, so results are kept only when the title names a funding notice.",
       "per_page": 20,
+      "max_pages": 5,
       "agencies": [
         "housing-and-urban-development-department",
         "rural-housing-service",

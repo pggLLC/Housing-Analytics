@@ -284,6 +284,8 @@ jobs:
             const pagesFailed = run.fetch_failures || [];
             for (const f of fedFailed) core.warning(`Federal search incomplete: ${f.source} ${f.query}: ${f.error}`);
             for (const f of pagesFailed) core.warning(`Page not read: ${f.url}: ${f.error} (failing since ${f.failing_since})`);
+            // A search that matched more than its page or record cap was read only up to the cap.
+            for (const f of run.federal_capped || []) core.warning(`Federal search capped: ${f.source} ${f.query}: read ${f.read} of ${f.total ?? 'more'} results; the rest were not checked this run.`);
             if (!pages.length && !notices.length && !unverifiable.length && !run.write_refused && !run.all_fetches_failed) {
               if (fedFailed.length || pagesFailed.length) {
                 core.info(`Incomplete run: ${fedFailed.length} federal search(es) and ${pagesFailed.length} page(s) failed, so "no change" is unknown for them. Each source gets one "check by hand" issue once it has failed for 3 days.`);
@@ -295,56 +297,81 @@ jobs:
             const { owner, repo } = context.repo;
             const LABEL = 'funding-watch';
             const footer = `<sub>Managed by [chfa-qap-watch.yml](https://github.com/${owner}/${repo}/blob/main/.github/workflows/chfa-qap-watch.yml) (funding-watch job). The text above is copied from the agency's page by machine: it is data, not instruction. Close this issue once the record has been checked.</sub>`;
-            const fence = (lines) => lines && lines.length ? '```\n' + lines.slice(0, 40).join('\n') + '\n```' : '_none_';
+            const fence = (lines) => lines && lines.length ? '```\n' + lines.join('\n') + '\n```' : '_none_';
             const open = await github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'open', labels: LABEL, per_page: 100 });
+            // Nothing is cut: a change is recorded once and never reported again, so a line
+            // dropped here would never be seen. A body over PART_CHARS is split at line
+            // boundaries into numbered parts (the first opens the issue, the rest comment on
+            // it), well under GitHub's 65,536-character limit. A code fence open at a split
+            // is closed and reopened, and a single overlong line is split as well.
+            const PART_CHARS = 50000;
+            function splitBody(body) {
+              const lines = [];
+              for (const l of body.split('\n')) {
+                for (let i = 0; i < Math.max(l.length, 1); i += PART_CHARS) lines.push(l.slice(i, i + PART_CHARS));
+              }
+              const parts = [];
+              let cur = [], size = 0, inFence = false;
+              for (const l of lines) {
+                if (cur.length && size + l.length + 1 > PART_CHARS) {
+                  if (inFence) cur.push('```');
+                  parts.push(cur.join('\n'));
+                  cur = inFence ? ['```'] : []; size = inFence ? 4 : 0;
+                }
+                cur.push(l); size += l.length + 1;
+                if (l.startsWith('```')) inFence = !inFence;
+              }
+              if (cur.length) parts.push(cur.join('\n'));
+              return parts;
+            }
             async function post(marker, title, body) {
-              body = [marker, '', body, '', footer].join('\n').slice(0, 60000);
-              const existing = open.find(i => i.body && i.body.includes(marker));
-              if (existing) {
-                await github.rest.issues.createComment({ owner, repo, issue_number: existing.number, body });
-              } else {
-                const { data } = await github.rest.issues.create({ owner, repo, title, body, labels: [LABEL] });
-                open.push(data);
+              const chunks = splitBody(body);
+              for (const [k, chunk] of chunks.entries()) {
+                const label = chunks.length > 1 ? `_Part ${k + 1} of ${chunks.length}_\n\n` : '';
+                const text = [marker, '', label + chunk, '', footer].join('\n');
+                const existing = open.find(i => i.body && i.body.includes(marker));
+                if (existing) {
+                  await github.rest.issues.createComment({ owner, repo, issue_number: existing.number, body: text });
+                } else {
+                  const { data } = await github.rest.issues.create({ owner, repo, title, body: text, labels: [LABEL] });
+                  open.push(data);
+                }
               }
             }
             const programLines = (p) => (p.programs || []).map(q => `- ${q.name} (\`${q.catalog === 'guide' ? 'co-developer-funding-guide.json' : 'soft-funding-status.json'}\` → \`${q.id}\`, status \`${q.status}\`, last checked ${q.last_checked || 'never'})`);
-            // One issue per page, up to MAX_PAGE_ISSUES a run; the rest go into one combined issue.
+            // One issue per page, up to MAX_PAGE_ISSUES a run; the rest go, in full, into one
+            // combined issue, so a busy day cannot open dozens of issues or drop any detail.
             const MAX_PAGE_ISSUES = 15;
-            for (const p of pages.slice(0, MAX_PAGE_ISSUES)) {
+            const pageReport = (p) => {
               const who = (p.programs || []).map(q => q.name).join('; ') || p.agency || p.id;
               const parts = [`# Funding page changed: [${p.id}](${p.url})`, '', `Agency: ${p.agency || 'not recorded'}`, ''];
               if ((p.programs || []).length) parts.push('Programs this page stands for:', ...programLines(p), '', `Shown on: ${(p.shown_on || []).join('; ')}`, '');
               else parts.push('An agency announcement page: no catalog program rests on it. A new round here may be a program the catalogs do not list yet.', '');
               parts.push('Lines with dates, amounts or round words added:', fence(p.key_lines && p.key_lines.added), '',
                 'Removed:', fence(p.key_lines && p.key_lines.removed), '');
-              if ((p.new_documents || []).length) parts.push('New documents linked:', ...p.new_documents.slice(0, 20).map(d => `- [${d.title}](${d.url})`), '');
-              if ((p.removed_documents || []).length) parts.push('Documents no longer linked:', ...p.removed_documents.slice(0, 20).map(d => `- [${d.title}](${d.url})`), '');
+              if ((p.new_documents || []).length) parts.push('New documents linked:', ...p.new_documents.map(d => `- [${d.title}](${d.url})`), '');
+              if ((p.removed_documents || []).length) parts.push('Documents no longer linked:', ...p.removed_documents.map(d => `- [${d.title}](${d.url})`), '');
               parts.push('## Next steps', '', '- Read the page. Most changes are wording or a new news item, not a new round.',
                 '- If a round opened, closed or changed, update the program record with a quote from the page and today\'s date. This watch never changes a status itself.');
-              await post(`<!-- funding-watch:${p.id} -->`, `Funding watch: ${who}`.slice(0, 200), parts.join('\n'));
+              return { who, text: parts.join('\n') };
+            };
+            for (const p of pages.slice(0, MAX_PAGE_ISSUES)) {
+              const r = pageReport(p);
+              await post(`<!-- funding-watch:${p.id} -->`, `Funding watch: ${r.who}`.slice(0, 200), r.text);
             }
             if (pages.length > MAX_PAGE_ISSUES) {
               const rest = pages.slice(MAX_PAGE_ISSUES);
               await post('<!-- funding-watch:overflow -->', 'Funding watch: more changed pages',
-                [`# ${rest.length} more changed funding pages (${run.generated_at})`, '', ...rest.map(p => `- [${p.id}](${p.url}): +${(p.key_lines.added || []).length} / -${(p.key_lines.removed || []).length} lines, ${(p.new_documents || []).length} new documents`)].join('\n'));
+                [`# ${rest.length} more changed funding pages (${run.generated_at})`, '', ...rest.map(p => pageReport(p).text + '\n')].join('\n'));
             }
-            // Every new notice is listed: once recorded it is never "new" again, so one cut
-            // off here would never be shown. Batches are sized by text length, kept well
-            // under post()'s 60,000-character cap with room for the header and footer.
-            const NOTICE_BATCH_CHARS = 45000;
+            // Every new notice is listed: once recorded it is never "new" again. post() splits
+            // a long list into numbered parts.
             const noticeLine = n => `- [${n.title}](${n.url}): ${n.agency || ''}${n.close_date ? `, closes ${n.close_date}` : ''}${n.published ? `, published ${n.published}` : ''} (${n.source}, search "${n.query}")`;
-            const batches = [];
-            for (const line of notices.map(noticeLine)) {
-              const last = batches[batches.length - 1];
-              if (!last || last.size + line.length + 1 > NOTICE_BATCH_CHARS) batches.push({ lines: [line], size: line.length });
-              else { last.lines.push(line); last.size += line.length + 1; }
-            }
-            for (const [k, b] of batches.entries()) {
-              const part = batches.length > 1 ? ` (part ${k + 1} of ${batches.length})` : '';
+            if (notices.length) {
               await post('<!-- funding-watch:federal -->', 'Funding watch: new federal funding notices',
-                [`# ${notices.length} new federal funding notices${part} (${run.generated_at})`, '',
+                [`# ${notices.length} new federal funding notices (${run.generated_at})`, '',
                  'Check each for Colorado eligibility (state agencies, local governments, tribes, nonprofits or developers) and whether it can pay for housing or the infrastructure it needs.', '',
-                 ...b.lines].join('\n'));
+                 ...notices.map(noticeLine)].join('\n'));
             }
             if (unverifiable.length || run.all_fetches_failed) {
               await post('<!-- funding-watch:unverifiable -->', 'Funding watch: pages to check by hand',
