@@ -14,6 +14,8 @@
     'dc-units': 'Total homes in the project.',
     'dc-sale-target-ami': 'Income target for the ownership affordability screen, as a percent of AMI.',
     'dc-rent-limit-regime': 'The rent-limit source used for this scenario.',
+    'dc-prop123-program': 'The Prop 123 program whose income and rent rules apply.',
+    'dc-prop123-petition': 'An approved rural resort petition that replaces the program\u2019s AMI limit.',
     'dc-minimum-set-aside': 'The selected federal LIHTC minimum set-aside test.',
     'dc-county-select': 'County whose income limits and rent benchmarks apply to the site.',
     'dc-coords-lat': 'Latitude of the project site.',
