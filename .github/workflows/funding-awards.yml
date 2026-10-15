@@ -19,6 +19,11 @@ name: Funding award ledger
 # land-banking-awards.html) and the contacts CHFA prints into the gated
 # data/jurisdiction-briefs/_land-banking-contacts.json.
 #
+# scripts/funding/build_award_rows.py then reads the same PDFs as tables
+# into data/policy/funding-awards/award-rows.json: each award's name, sponsor
+# and town as printed, and the printed row as its source quote, for the
+# award view on the Funding vs Need tab of colorado-deep-dive.html.
+#
 # The ledger feeds data/derived/funding-vs-need.json, a step of
 # scripts/rebuild-derived.mjs, so the commit goes through
 # scripts/commit-with-derived-chain.sh: the chain is rebuilt and committed
@@ -75,7 +80,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DRY_RUN: ${{ github.event_name == 'pull_request' || github.ref != 'refs/heads/main' }}
         run: |
-          args=(--open-issues)
+          args=(--open-issues --cache "$RUNNER_TEMP/award-pdfs")
           if [ "$DRY_RUN" = "true" ]; then args+=(--check --dry-run); fi
           python3 scripts/funding/build_funding_awards.py "${args[@]}"
           echo "dry_run=$DRY_RUN" >> "$GITHUB_OUTPUT"
@@ -98,6 +103,16 @@ jobs:
           if [ "$DRY_RUN" = "true" ]; then args+=(--check); fi
           python3 scripts/funding/build_land_banking_awards.py "${args[@]}"
 
+      - name: Read each award as its PDF prints it (names, sponsor, town, quote)
+        env:
+          DRY_RUN: ${{ steps.parse.outputs.dry_run }}
+        # Keyed to the ledger, so it runs after the ledger and the applicant
+        # reports (it fills 4% sponsors from them). Reuses the PDFs above.
+        run: |
+          args=(--cache "$RUNNER_TEMP/award-pdfs")
+          if [ "$DRY_RUN" = "true" ]; then args+=(--check); fi
+          python3 scripts/funding/build_award_rows.py "${args[@]}"
+
       - name: Install dependencies
         if: steps.parse.outputs.dry_run != 'true'
         run: npm ci
@@ -106,7 +121,7 @@ jobs:
         if: steps.parse.outputs.dry_run != 'true'
         id: commit
         run: |
-          scripts/commit-with-derived-chain.sh "chore: refresh funding award ledger [$(date -u '+%Y-%m-%d')]" -- data/policy/funding-awards/ledger.json data/policy/funding-awards/documents.json data/jurisdiction-briefs/_lihtc-applications.json data/policy/prop123-land-banking-awards.json data/jurisdiction-briefs/_land-banking-contacts.json
+          scripts/commit-with-derived-chain.sh "chore: refresh funding award ledger [$(date -u '+%Y-%m-%d')]" -- data/policy/funding-awards/ledger.json data/policy/funding-awards/documents.json data/policy/funding-awards/award-rows.json data/jurisdiction-briefs/_lihtc-applications.json data/policy/prop123-land-banking-awards.json data/jurisdiction-briefs/_land-banking-contacts.json
 
       - name: Dispatch Pages deploy for this run's commit
         if: steps.commit.outputs.pushed == 'true'
