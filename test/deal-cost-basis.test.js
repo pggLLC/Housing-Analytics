@@ -439,6 +439,32 @@ test('the developer-fee base is unknown while part of Total Development Cost is 
   assert.equal(test.reason, base.reason);
 });
 
+test('land is never in eligible basis, whatever its line says', () => {
+  const base = cb.summarizeCosts(cb.exampleLines(), 20000000);
+  const lines = cb.exampleLines().map((l) => l.id === 'land' ? Object.assign({}, l, { basis: 'eligible' }) : l);
+  const summary = cb.summarizeCosts(lines, 20000000);
+  assert(summary.byId.land > 0, 'non-vacuous: the example has land');
+  assert.equal(summary.eligible, base.eligible);
+  assert.equal(summary.eligibleById.land || 0, 0);
+});
+
+test('an untested developer fee in basis leaves the fee reduction, and so basis, unknown', () => {
+  const lines = cb.exampleLines().map((l) => l.id === 'land' ? Object.assign({}, l, { amount: null }) : l);
+  const summary = cb.summarizeCosts(lines, 20000000);
+  const base = cb.developerFeeBase(summary, { excess: 0 }, false);
+  const dev = cb.developerFeeTest({ developerFee: 1900000, consultantFee: 0, base: base.base, baseReason: base.reason, units: 60, rules });
+  const excess = cb.feeExcessInBasis(summary, { excess: 0 }, dev);
+  assert.equal(excess.total, null);
+  assert.match(excess.reason, /could not be tested/);
+  const b = cb.basisAndCredit({ eligibleCost: summary.eligible, grantReduction: 0, feeExcess: excess.total, feeReason: excess.reason,
+    creditType: '9', units: 60, restrictedUnits: 60, rules });
+  assert.equal(b.afterGrant, null);
+  assert.equal(b.reasons.afterGrant, excess.reason);
+  const tested = cb.feeExcessInBasis(cb.summarizeCosts(cb.exampleLines(), 20000000), { excess: 0 },
+    cb.developerFeeTest({ developerFee: 1900000, consultantFee: 0, base: 17500000, units: 60, rules }));
+  assert.equal(tested.total, 0, 'a fee within the limit takes nothing out');
+});
+
 test('the invented example budget totals the calculator\'s default Total Development Cost', () => {
   const src = fs.readFileSync(path.join(ROOT, 'js', 'deal-calculator.js'), 'utf8');
   const m = src.match(/id="dc-tdc"[^>]*value="(\d+)"/);

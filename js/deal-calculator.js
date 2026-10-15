@@ -139,7 +139,8 @@
     return cb.GROUPS.map(function (g) {
       var rows = lines.filter(function (l) { return l.group === g.id; }).map(function (l) {
         var id = 'dc-cost-' + l.id;
-        var opts = COST_BASIS_CHOICES.map(function (c) {
+        var fixed = cb.NEVER_IN_BASIS && cb.NEVER_IN_BASIS[l.id];
+        var opts = fixed ? '<option value="ineligible" selected>Not in basis</option>' : COST_BASIS_CHOICES.map(function (c) {
           return '<option value="' + c[0] + '"' + (c[0] === l.basis ? ' selected' : '') + '>' + c[1] + '</option>';
         }).join('');
         var extra = '<label data-cost-partial="' + l.id + '"' + (l.basis === 'partial' ? '' : ' hidden') + ' style="grid-column:1/-1;font-size:var(--tiny);color:var(--muted);' + (l.basis === 'partial' ? '' : 'display:none;') + '">Part in basis ($)'
@@ -154,7 +155,7 @@
         return '<div class="dc-cost-line" data-cost-line="' + l.id + '" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.25rem .5rem;align-items:start;padding:.4rem 0;border-top:1px solid var(--border);">'
           + '<label for="' + id + '" style="grid-column:1/-1;display:block;justify-self:start;font-size:var(--small);font-weight:600;text-align:left;">' + _escHtml(l.label) + '</label>'
           + '<div style="min-width:0;"><input id="' + id + '" type="number" min="0" step="10000" value="' + (l.amount == null ? '' : l.amount) + '" placeholder="none" aria-label="' + _escHtml(l.label) + ' ($)" style="' + field + '"></div>'
-          + '<div style="min-width:0;"><select id="' + id + '-basis" aria-label="' + _escHtml(l.label) + ': in eligible basis?" style="' + field + '">' + opts + '</select></div>'
+          + '<div style="min-width:0;"><select id="' + id + '-basis" aria-label="' + _escHtml(l.label) + ': in eligible basis?"' + (fixed ? ' disabled title="' + _escHtml(fixed) + '"' : '') + ' style="' + field + '">' + opts + '</select></div>'
           + extra + '</div>';
       }).join('');
       return '<div class="dc-cost-group" style="margin-top:var(--sp2);"><h4 style="margin:0 0 .2rem;font-size:var(--small);">' + g.label
@@ -4038,7 +4039,7 @@
           + ' (base ' + fmt(dev.base) + ', tested before deferral).' + (dev.passes ? '' : ' The ' + fmt(dev.excess) + ' excess' + (cbr.feeExcess && cbr.feeExcess.developer < dev.excess - 0.5 ? ' (' + fmt(cbr.feeExcess.developer) + ' of it in basis)' : '') + ' comes out of eligible basis.');
       var conText = con.passes == null ? 'Contractor fee test: ' + con.reason
         : 'Contractor overhead and profit ' + fmt(con.fee) + (con.passes ? ' is within' : ' is above') + ' CHFA\'s ' + (con.limitPct * 100).toFixed(0) + '% limit of ' + fmt(con.limit) + '.'
-          + (con.passes ? '' : ' The ' + fmt(cbr.feeExcess ? cbr.feeExcess.contractor : con.excess) + ' in basis above the limit comes out of eligible basis.');
+          + (con.passes ? '' : ' The ' + fmt(cbr.feeExcess && cbr.feeExcess.contractor !== null ? cbr.feeExcess.contractor : con.excess) + ' in basis above the limit comes out of eligible basis.');
       fees.innerHTML = '<p style="margin:0 0 .3rem;' + (dev.passes === false ? 'color:var(--bad,#b91c1c);font-weight:600;' : '') + '">' + _escHtml(devText) + '</p>'
         + (cbr.feeBase && cbr.feeBase.note ? '<p style="margin:0 0 .3rem;font-size:var(--tiny);color:var(--muted);">' + _escHtml(cbr.feeBase.note) + '</p>' : '')
         + '<p style="margin:0;' + (con.passes === false ? 'color:var(--bad,#b91c1c);font-weight:600;' : '') + '">' + _escHtml(conText) + '</p>';

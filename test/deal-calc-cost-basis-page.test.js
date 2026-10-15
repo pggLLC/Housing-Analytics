@@ -58,8 +58,10 @@ async function test(name, fn) {
 
   await test('editing cost lines moves basis; itemizing above the total blocks it with a reason', async () => {
     const p = await openPage('');
-    setField(p, 'dc-cost-land-basis', 'eligible');
-    assert.equal(text(p, 'dc-cb-eligible-cost'), money(cb.summarizeCosts(cb.exampleLines(), 20000000).eligible + 1000000));
+    const land = p.d.getElementById('dc-cost-land-basis');
+    assert.equal(land.disabled, true, 'land offers no basis choice');
+    setField(p, 'dc-cost-reserves-basis', 'eligible');
+    assert.equal(text(p, 'dc-cb-eligible-cost'), money(cb.summarizeCosts(cb.exampleLines(), 20000000).eligible + 500000));
     setField(p, 'dc-cost-structures', 11400000);
     assert.match(text(p, 'dc-cb-cost-reason'), /more than Total Development Cost/);
     assert.match(text(p, 'dc-r-basis'), /Unavailable|—/);

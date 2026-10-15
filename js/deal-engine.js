@@ -824,7 +824,7 @@
       awardedBoostPct: fields['dc-boost-pct'],
       creditType: creditType, creditRate: _creditRate, units: units, lowIncomeUnits: lihtcUnits,
       residentialSf: fields['dc-res-sf'], lowIncomeSf: fields['dc-restricted-sf'],
-      requested: fields['dc-credit-requested'], awarded: fields['dc-credit-awarded'], feeExcess: feeExcess.total, rules: costRules };
+      requested: fields['dc-credit-requested'], awarded: fields['dc-credit-awarded'], feeExcess: feeExcess.total, feeReason: feeExcess.reason, rules: costRules };
     var basis = cbm.basisAndCredit(basisArgs);
     var basisUnknownReason = null;
     ['eligibleBasis', 'afterGrant', 'applicableFraction', 'acquisitionRate', 'requested', 'awarded'].forEach(function (key) {

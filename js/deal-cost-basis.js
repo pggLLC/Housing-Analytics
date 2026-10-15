@@ -27,6 +27,8 @@
   // One row per line a practitioner's budget usually carries. "group" places a
   // line in exactly one subtotal, so the contractor contract is a subset of the
   // uses, never added on top of them.
+  // Lines that can never be in eligible basis, so the page offers no choice.
+  var NEVER_IN_BASIS = Object.freeze({ land: 'Land is never in eligible basis: eligible basis is the building\'s adjusted basis (26 U.S.C. 42(d)(1)).' });
   var LINE_TEMPLATE = Object.freeze([
     ['land', 'Land', 'acquisition', 'ineligible'],
     ['building_acquisition', 'Existing building purchase', 'acquisition', 'eligible'],
@@ -101,7 +103,10 @@
       if (amount === null) return; // a blank line carries no cost
       if (!Number.isFinite(amount) || amount < 0) { out.reason = 'Enter a cost of $0 or more for ' + line.label + '.'; return; }
       var eligiblePart;
-      if (line.basis === 'eligible') eligiblePart = amount;
+      // Land is never in eligible basis, whatever the selector says: eligible basis
+      // is the adjusted basis of the building (26 U.S.C. 42(d)(1)).
+      if (NEVER_IN_BASIS[line.id]) eligiblePart = 0;
+      else if (line.basis === 'eligible') eligiblePart = amount;
       else if (line.basis === 'ineligible') eligiblePart = 0;
       else if (line.basis === 'partial') {
         eligiblePart = num(line.eligibleAmount);
@@ -237,7 +242,15 @@
    * calculating credit, and a reduction in fees reduces eligible basis (QAP 3.M.3). */
   function feeExcessInBasis(summary, contractorTest, developerTest) {
     var e = (summary && summary.eligibleById) || {};
-    var out = { contractor: 0, developer: 0, total: 0 };
+    var out = { contractor: 0, developer: 0, total: 0, reason: null };
+    // A fee the limit could not be tested on may still be over it; while any of
+    // it sits in basis, the reduction is unknown, not $0.
+    var feeInBasis = (e.developer_fee || 0) + (e.consultant_fee || 0);
+    if (developerTest && developerTest.status && developerTest.status.applied && developerTest.fee !== null
+      && developerTest.excess === null && feeInBasis > 0) {
+      return { contractor: null, developer: null, total: null,
+        reason: 'The developer fee could not be tested against CHFA\'s limit (' + String(developerTest.reason || '').replace(/\.$/, '') + '), so the fee to take out of basis is unknown.' };
+    }
     if (contractorTest && contractorTest.excess > 0) {
       out.contractor = Math.min(contractorTest.excess, (e.overhead || 0) + (e.profit || 0));
     }
@@ -279,6 +292,7 @@
     out.eligibleBasis = args.eligibleCost;
     if (args.grantReduction === null || !Number.isFinite(args.grantReduction)) return stop('afterGrant', args.grantReason || 'Grant treatment is unknown.');
     out.grantReduction = args.grantReduction;
+    if (args.feeExcess === null) return stop('afterGrant', args.feeReason || 'The fee to take out of basis is unknown.');
     out.feeReduction = Math.max(0, num(args.feeExcess) || 0);
     out.afterGrant = Math.max(0, out.eligibleBasis - out.feeReduction - out.grantReduction);
     // Fees are never acquisition basis. With no input saying which costs a grant
@@ -504,7 +518,7 @@
   }
 
   return {
-    RULE_NOT_SOURCED: RULE_NOT_SOURCED, GROUPS: GROUPS, LINE_TEMPLATE: LINE_TEMPLATE,
+    RULE_NOT_SOURCED: RULE_NOT_SOURCED, GROUPS: GROUPS, LINE_TEMPLATE: LINE_TEMPLATE, NEVER_IN_BASIS: NEVER_IN_BASIS,
     CONTINGENCY_KINDS: CONTINGENCY_KINDS, exampleLines: exampleLines, ruleStatus: ruleStatus,
     summarizeCosts: summarizeCosts, grantBasisReduction: grantBasisReduction,
     contractorFeeTest: contractorFeeTest, developerFeeBase: developerFeeBase, developerFeeTest: developerFeeTest,
