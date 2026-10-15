@@ -29,6 +29,7 @@
   var EQUITY_PRICE_DEFAULT = _equityPricingDefaults.credit_9pct;
   var _amiGapData = null;       // cached co_ami_gap_by_county.json
   var _amiGapPlaceData = null;  // F45: cached co_ami_gap_by_place.json
+  var _chasAaData = null;       // cached hna/chas_affordable_available.json
   var _softFundingStatus = null; // #1236: non-scored jurisdiction funding context
   var _developerOwnershipFunding = null; // #1167 OWN-3: developer-facing ownership funding stack
   var _resaleConventions = null; // #1167 OWN-4: pluggable resale convention screen
@@ -4592,17 +4593,34 @@
     return out;
   }
 
-  // The homes-short figures shown to a reader: the matched shortfall both AMI
-  // gap files carry, the same series the homepage cards render. A home counts
-  // only for households who can afford its rent, so ≤60% is never smaller
-  // than ≤30%. The pooled trio above stays an allocation weight only. A band
-  // the file does not carry is null, never 0.
+  // The homes-short figures shown to a reader: renter homes affordable AND
+  // available to each income group (HUD CHAS Tables 15C and 14B), the same
+  // file the homepage cards render. A cheap home rented by a higher-income
+  // household does not count. Place record first (F45), county otherwise.
+  // The line shows homes_short_nested: never fewer homes short in a wider
+  // band (this site's rule, stated on the line; HUD's own tier figure is
+  // homes_short).
+  function _findChasRecord(fips, placeGeoid) {
+    if (!_chasAaData) return null;
+    var place = placeGeoid && _chasAaData.places && _chasAaData.places[placeGeoid];
+    if (place) return { rec: place, kind: 'place' };
+    var county = fips && _chasAaData.counties && _chasAaData.counties[String(fips).padStart(5, '0')];
+    return county ? { rec: county, kind: 'county' } : null;
+  }
+
+  // A tier the file does not carry, or a value that is not a count, is null,
+  // never 0.
   function _homesShortFromRecord(rec) {
-    var m = (rec && rec.min_shortfall_matched_le_ami_pct) || {};
+    var tiers = (rec && rec.tiers) || {};
     var out = {};
-    ['30', '50', '60'].forEach(function (b) {
-      var v = m[b];
-      out[b] = (typeof v === 'number' && isFinite(v) && v >= 0) ? v : null;
+    ['30', '50', '80'].forEach(function (b) {
+      var t = tiers[b] || {};
+      var v = t.homes_short_nested;
+      var p = t.homes_per_100_households;
+      out[b] = {
+        short: (typeof v === 'number' && isFinite(v) && v >= 0) ? v : null,
+        per100: (typeof p === 'number' && isFinite(p) && p >= 0) ? p : null
+      };
     });
     return out;
   }
@@ -4721,16 +4739,20 @@
       fmrNote.parentNode.insertBefore(container, fmrNote.nextSibling);
     }
     // F45: prefer the place record when the user has a place selection — a
-    // 5k-pop town's gap is dramatically smaller than its county's (e.g. New
-    // Castle ≈ 190 households at ≤30% AMI vs Garfield County ≈ 7,800).
-    var place = placeGeoid ? _findAmiGapPlace(placeGeoid) : null;
-    var rec   = place || _findAmiGapCounty(fips);
-    if (!rec) { container.hidden = true; return; }
-    var kind  = place ? 'place' : 'county';
+    // 5k-pop town's gap is dramatically smaller than its county's.
+    var found = _findChasRecord(fips, placeGeoid);
+    if (!found) { container.hidden = true; return; }
+    var rec   = found.rec;
+    var kind  = found.kind;
     var short = _homesShortFromRecord(rec);
-    var label = place ? (rec.place_name || 'this jurisdiction')
-                      : (rec.county_name || '');
-    function shown(b) { return short[b] == null ? '—' : Math.round(short[b]).toLocaleString(); }
+    var label = rec.name || 'this jurisdiction';
+    var vintage = (_chasAaData && _chasAaData.meta && _chasAaData.meta.vintage) || '';
+    function shown(b) {
+      var t = short[b];
+      if (t.short == null) return '—';
+      return Math.round(t.short).toLocaleString() +
+        (t.per100 == null ? '' : ' (' + Math.round(t.per100) + ' per 100)');
+    }
     // Built from text nodes: the place and county names come from a data file.
     container.textContent = '';
     var head = document.createElement('strong');
@@ -4745,12 +4767,16 @@
     }
     container.appendChild(head);
     container.appendChild(document.createElement('br'));
-    container.appendChild(document.createTextNode('Rental homes short, at least: ≤30% AMI: ' + shown('30') +
-      ' • ≤50% AMI: ' + shown('50') + ' • ≤60% AMI: ' + shown('60')));
+    container.appendChild(document.createTextNode('Rental homes short: ≤30% AMI: ' + shown('30') +
+      ' • ≤50% AMI: ' + shown('50') + ' • ≤80% AMI: ' + shown('80')));
     container.appendChild(document.createElement('br'));
     var note = document.createElement('span');
     note.style.fontSize = '0.95em';
-    note.textContent = 'Each band includes the ones below it, and a home counts only for households who can afford its rent.';
+    note.textContent = 'HUD CHAS' + (vintage ? ' ' + vintage : '') + '. Each band includes the ones below it. ' +
+      'This site, not HUD, never shows a band fewer homes short than a band inside it, because homes renting above what ' +
+      'the lower incomes can pay do not close their shortfall. ' +
+      'A home counts only if its rent is affordable to the group and it is vacant or rented by someone in the group; ' +
+      'per 100 is affordable, available homes for every 100 renter households. HUD\'s tables have no 60% tier.';
     container.appendChild(note);
     container.hidden = false;
   }
@@ -5096,6 +5122,16 @@
       console.warn('[deal-calculator] AMI gap data unavailable');
       if (window.CohoToast) window.CohoToast.show('AMI gap data unavailable — some affordability context may be missing.', 'warn');
     });
+    // Homes short shown on the gap line. Soft-fail: the line stays hidden.
+    fetch(_gapResolver('data/hna/chas_affordable_available.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      if (data && data.counties) {
+        _chasAaData = data;
+        var sel = document.getElementById('dc-county-select');
+        if (sel && sel.value) _renderAmiGapInfo(sel.value, _getActivePlaceGeoid());
+      }
+    }).catch(function () { /* gap line stays hidden */ });
     // F45: place-level AMI gap — soft-fail (county fallback handles missing).
     fetch(_gapResolver('data/co_ami_gap_by_place.json')).then(function (r) {
       return r.ok ? r.json() : null;
