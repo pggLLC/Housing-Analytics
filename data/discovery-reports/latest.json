@@ -1,14 +1,14 @@
 {
-  "scanTimestamp": "2026-10-14T12:50:50.446Z",
-  "totalScanned": 1721,
-  "newSourceCount": 1690,
+  "scanTimestamp": "2026-10-15T12:38:07.738Z",
+  "totalScanned": 1737,
+  "newSourceCount": 1706,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 840155,
+      "sizeBytes": 848706,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -92,13 +92,13 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 282175,
+      "sizeBytes": 291088,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/alerts/brief-news-queue.json",
-      "sizeBytes": 65682,
+      "sizeBytes": 67566,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -140,7 +140,7 @@
     },
     {
       "path": "data/benchmarks/str-license-counts.json",
-      "sizeBytes": 3084,
+      "sizeBytes": 5921,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -242,7 +242,7 @@
     },
     {
       "path": "data/co_ami_gap_by_place.json",
-      "sizeBytes": 642503,
+      "sizeBytes": 746951,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -266,7 +266,7 @@
     },
     {
       "path": "data/derived/funding-vs-need.json",
-      "sizeBytes": 96051,
+      "sizeBytes": 96046,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -296,7 +296,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 260508,
+      "sizeBytes": 261127,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -357,6 +357,12 @@
     {
       "path": "data/hna/benchmarks.json",
       "sizeBytes": 9369,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/chas_affordable_available.json",
+      "sizeBytes": 627655,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -794,13 +800,19 @@
     },
     {
       "path": "data/hna/hna-views.json",
-      "sizeBytes": 12464,
+      "sizeBytes": 12946,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/home-value-cascade.json",
       "sizeBytes": 133973,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/housing-units-b25001.json",
+      "sizeBytes": 37780,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -836,7 +848,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08007.json",
-      "sizeBytes": 40052,
+      "sizeBytes": 40048,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -854,13 +866,13 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08009.json",
-      "sizeBytes": 40021,
+      "sizeBytes": 40026,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0800925.json",
-      "sizeBytes": 41389,
+      "sizeBytes": 41390,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -950,7 +962,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08023.json",
-      "sizeBytes": 40023,
+      "sizeBytes": 40024,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -992,7 +1004,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0802905.json",
-      "sizeBytes": 39891,
+      "sizeBytes": 39887,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1154,13 +1166,13 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08055.json",
-      "sizeBytes": 40020,
+      "sizeBytes": 40019,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08057.json",
-      "sizeBytes": 40005,
+      "sizeBytes": 40000,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1250,7 +1262,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0807190.json",
-      "sizeBytes": 41822,
+      "sizeBytes": 41823,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1322,7 +1334,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08079.json",
-      "sizeBytes": 39722,
+      "sizeBytes": 39723,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1334,7 +1346,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08081.json",
-      "sizeBytes": 40067,
+      "sizeBytes": 40071,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1346,7 +1358,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08083.json",
-      "sizeBytes": 40063,
+      "sizeBytes": 40057,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1406,7 +1418,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08091.json",
-      "sizeBytes": 39743,
+      "sizeBytes": 39747,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1502,7 +1514,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08111.json",
-      "sizeBytes": 39981,
+      "sizeBytes": 39976,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1526,7 +1538,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0811645.json",
-      "sizeBytes": 40857,
+      "sizeBytes": 40862,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1568,7 +1580,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/08121.json",
-      "sizeBytes": 40027,
+      "sizeBytes": 40028,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1688,7 +1700,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0814765.json",
-      "sizeBytes": 41579,
+      "sizeBytes": 41580,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1730,7 +1742,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0815825.json",
-      "sizeBytes": 39849,
+      "sizeBytes": 39853,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1778,7 +1790,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0817100.json",
-      "sizeBytes": 39830,
+      "sizeBytes": 39831,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1790,7 +1802,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0817375.json",
-      "sizeBytes": 41425,
+      "sizeBytes": 41419,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1802,7 +1814,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0817760.json",
-      "sizeBytes": 41454,
+      "sizeBytes": 41458,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1904,7 +1916,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0820495.json",
-      "sizeBytes": 40952,
+      "sizeBytes": 40956,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1916,7 +1928,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0820770.json",
-      "sizeBytes": 41648,
+      "sizeBytes": 41642,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -2144,7 +2156,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0827535.json",
-      "sizeBytes": 39965,
+      "sizeBytes": 39966,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -2234,7 +2246,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0829240.json",
-      "sizeBytes": 39883,
+      "sizeBytes": 39882,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -2738,7 +2750,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0844100.json",
-      "sizeBytes": 41657,
+      "sizeBytes": 41656,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -2768,7 +2780,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0844595.json",
-      "sizeBytes": 39882,
+      "sizeBytes": 39876,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -2804,7 +2816,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0845680.json",
-      "sizeBytes": 39932,
+      "sizeBytes": 39936,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -2882,7 +2894,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0848115.json",
-      "sizeBytes": 41681,
+      "sizeBytes": 41675,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -2918,7 +2930,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0849325.json",
-      "sizeBytes": 39834,
+      "sizeBytes": 39838,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3176,13 +3188,13 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0856365.json",
-      "sizeBytes": 41392,
+      "sizeBytes": 41393,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0856420.json",
-      "sizeBytes": 41324,
+      "sizeBytes": 41328,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3200,7 +3212,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0856860.json",
-      "sizeBytes": 41481,
+      "sizeBytes": 41477,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3350,13 +3362,13 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0860765.json",
-      "sizeBytes": 39876,
+      "sizeBytes": 39880,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0861315.json",
-      "sizeBytes": 40911,
+      "sizeBytes": 40916,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3428,7 +3440,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0864200.json",
-      "sizeBytes": 41523,
+      "sizeBytes": 41527,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3518,7 +3530,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0867500.json",
-      "sizeBytes": 39852,
+      "sizeBytes": 39853,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3530,7 +3542,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0868105.json",
-      "sizeBytes": 41182,
+      "sizeBytes": 41183,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3638,7 +3650,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0870580.json",
-      "sizeBytes": 41406,
+      "sizeBytes": 41401,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3686,7 +3698,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0873330.json",
-      "sizeBytes": 41213,
+      "sizeBytes": 41218,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3824,7 +3836,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0878280.json",
-      "sizeBytes": 40217,
+      "sizeBytes": 40211,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3860,7 +3872,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0879270.json",
-      "sizeBytes": 40903,
+      "sizeBytes": 40908,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3908,7 +3920,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0881030.json",
-      "sizeBytes": 40907,
+      "sizeBytes": 40912,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -3926,19 +3938,19 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0882130.json",
-      "sizeBytes": 41194,
+      "sizeBytes": 41189,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0882350.json",
-      "sizeBytes": 41423,
+      "sizeBytes": 41422,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0882460.json",
-      "sizeBytes": 41275,
+      "sizeBytes": 41280,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5324,7 +5336,7 @@
     },
     {
       "path": "data/hna/ranking-index.json",
-      "sizeBytes": 3285956,
+      "sizeBytes": 3285970,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5375,6 +5387,48 @@
       "sizeBytes": 1282,
       "inDataManifest": false,
       "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/second-homes-str.json",
+      "sizeBytes": 259449,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/source/chas/2018thru2022/county-050-Table14B.csv",
+      "sizeBytes": 11734,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/hna/source/chas/2018thru2022/county-050-Table15C.csv",
+      "sizeBytes": 41028,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/hna/source/chas/2018thru2022/county-050-Table7.csv",
+      "sizeBytes": 93075,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/hna/source/chas/2018thru2022/place-160-Table14B.csv",
+      "sizeBytes": 81309,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/hna/source/chas/2018thru2022/place-160-Table15C.csv",
+      "sizeBytes": 259312,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/hna/source/chas/2018thru2022/place-160-Table7.csv",
+      "sizeBytes": 586209,
+      "inDataManifest": false,
+      "inFilesManifest": false
     },
     {
       "path": "data/hna/source/dola_components_county.csv",
@@ -8827,6 +8881,36 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/jurisdiction-briefs/_contacts/0833640.json",
+      "sizeBytes": 3205,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/jurisdiction-briefs/_land-banking-contacts.json",
+      "sizeBytes": 56594,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/jurisdiction-briefs/_landscape/0833640.json",
+      "sizeBytes": 27501,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/jurisdiction-briefs/_lihtc-applications-excluded.json",
+      "sizeBytes": 465,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/jurisdiction-briefs/_lihtc-applications.json",
+      "sizeBytes": 421547,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/jurisdiction-briefs/_liveness.json",
       "sizeBytes": 279251,
       "inDataManifest": false,
@@ -9356,7 +9440,7 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 15108,
+      "sizeBytes": 15109,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9829,6 +9913,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/policy/funding-awards/land-banking-corrections.json",
+      "sizeBytes": 7289,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/policy/funding-awards/ledger.json",
       "sizeBytes": 356064,
       "inDataManifest": false,
@@ -9848,7 +9938,7 @@
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 15562,
+      "sizeBytes": 15087,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9902,7 +9992,7 @@
     },
     {
       "path": "data/policy/local-housing-funds.json",
-      "sizeBytes": 139958,
+      "sizeBytes": 140369,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9933,6 +10023,12 @@
     {
       "path": "data/policy/policy-watch.json",
       "sizeBytes": 51662,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/prop123-land-banking-awards.json",
+      "sizeBytes": 76010,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9998,13 +10094,13 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 383911,
+      "sizeBytes": 396517,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy_briefs_curated.json",
-      "sizeBytes": 104939,
+      "sizeBytes": 184859,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10016,13 +10112,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 12568,
+      "sizeBytes": 12608,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 162656,
+      "sizeBytes": 164108,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10088,7 +10184,7 @@
     },
     {
       "path": "data/resort-workforce-housing-programs.json",
-      "sizeBytes": 15256,
+      "sizeBytes": 162648,
       "inDataManifest": false,
       "inFilesManifest": true
     },
