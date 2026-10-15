@@ -277,7 +277,7 @@ def test_workflow_runs_the_watch_daily_after_the_qap_job_and_commits_safely():
 
 
 
-def run_issue_script(tmp_path, summary):
+def run_issue_script(tmp_path, summary, label_rejected=False):
     """Run the workflow's issue script under node with a stub GitHub client; returns
     (stdout, posts) where posts lists every issue created or commented on."""
     import shutil
@@ -296,7 +296,12 @@ def run_issue_script(tmp_path, summary):
     driver = ("const f = require('./issue.js'); const posts = []; let n = 0;"
               "const core = {info: m => console.log('INFO ' + m), warning: m => console.log('WARN ' + m)};"
               "const github = {paginate: async () => [], rest: {issues: {listForRepo: () => {},"
-              " create: async a => { posts.push({kind: 'create', title: a.title, body: a.body});"
+              " createLabel: async a => { console.log('LABEL ' + a.name);"
+              + ("   const e = new Error('label service down'); e.status = 500; throw e; },"
+                 if label_rejected else "   const e = new Error('exists'); e.status = 422; throw e; },")
+              + " create: async a => { if (a.labels && " + ("true" if label_rejected else "false") + ")"
+              "   throw new Error('Validation Failed: label');"
+              "   posts.push({kind: 'create', title: a.title, body: a.body, labels: a.labels || []});"
               "   return {data: {number: ++n, body: a.body}}; },"
               " createComment: async a => { posts.push({kind: 'comment', body: a.body}); }}}};"
               "f({core, github, context: {repo: {owner: 'o', repo: 'r'}}, require})"
@@ -815,3 +820,39 @@ def test_the_missing_clock_is_a_change_the_file_saves():
     back = run(site(), previous=gone, now="2026-10-17T05:34:00Z")
     assert gone == snapshot
     assert watch._content(gone) != watch._content(back)
+
+
+def test_a_missing_or_rejected_label_never_stops_the_alert(tmp_path):
+    """The label is created first, and an issue the label step rejects still opens,
+    without the label, so the change is reported and the commit step runs (Codex, 2026-10-15)."""
+    summary = {"changes": {"changed_pages": [], "new_federal_notices": [
+                   {"key": "grants.gov:9", "source": "grants.gov", "title": "Water grant", "url": "x"}],
+                   "newly_unverifiable": []},
+               "federal_failures": [], "fetch_failures": []}
+    stdout, posts = run_issue_script(tmp_path, summary)
+    assert "LABEL funding-watch" in stdout
+    assert [p["labels"] for p in posts if p["kind"] == "create"] == [["funding-watch"]]
+    stdout, posts = run_issue_script(tmp_path, summary, label_rejected=True)
+    assert "WARN Could not create label funding-watch" in stdout
+    assert "opening it without the label" in stdout
+    assert [p["labels"] for p in posts if p["kind"] == "create"] == [[]]
+    assert "Water grant" in posts[0]["body"]
+
+
+def test_a_title_less_error_page_on_first_sighting_is_no_baseline():
+    """A newly watched page whose first answer is "<body>Access Denied</body>" has no
+    earlier snapshot to compare with; it is still a failure, not an empty baseline, and
+    reaches the check-by-hand alert on day 3 (Codex, 2026-10-15)."""
+    denied = "<html><body>Access Denied</body></html>"
+    days = ["2026-10-15T05:34:00Z", "2026-10-16T05:34:00Z", "2026-10-17T05:34:00Z"]
+    prev = None
+    for day in days:
+        prev = run(site(eiaf=denied), previous=prev, now=day)
+        page = next(p for p in prev["pages"] if p["id"] == "dlg-eiaf")
+        assert page["ok"] is False and "no title and nothing to watch" in page["error"]
+        assert "dlg-eiaf" not in prev["changes"]["baseline_pages"]
+    assert [u["id"] for u in prev["changes"]["newly_unverifiable"]] == ["dlg-eiaf"]
+    # Non-vacuity: a real page with a title and nothing to watch yet is a baseline.
+    ok = run(site(eiaf="<title>EIAF</title>\n<p>See our archive for past years.</p>"))
+    assert next(p for p in ok["pages"] if p["id"] == "dlg-eiaf")["ok"] is True
+    assert "dlg-eiaf" in ok["changes"]["baseline_pages"]

@@ -263,14 +263,16 @@ def check_page(target: dict, prev: dict, fetch: Fetcher, now: str) -> tuple[dict
     if not error:
         kl = key_lines(page_text(markup), ROUND_LINE_RE)[:MAX_KEY_LINES]
         docs = document_links(markup, target['url'])[:MAX_DOCS_PER_PAGE]
-        if not kl and not docs and (prev.get('key_lines') or prev.get('documents')) \
-                and (not title or title[:200] != prev.get('title')):
-            # Every watched line and document gone at once, under a different or missing
-            # title, is an error or bot page ("Access Denied" in the body), not an edit.
-            # Keep the snapshot. The same page under its own title that drops every round
-            # line (a round closed) is a real change and is reported (Codex, 2026-10-15).
-            error = (f'page lost every watched line and document (HTTP {status}, title "{title[:80]}"); '
-                     'likely an error page')
+        had_signals = bool(prev.get('key_lines') or prev.get('documents'))
+        if not kl and not docs and (not title or (had_signals and title[:200] != prev.get('title'))):
+            # Nothing to watch and no title ("<body>Access Denied</body>"), or every watched
+            # line and document gone at once under a different title, is an error or bot
+            # page, not an edit. Keep the snapshot; on a first sighting record no baseline,
+            # so it reaches the check-by-hand alert. The same page under its own title that
+            # drops every round line (a round closed) is a real change and is reported
+            # (Codex, 2026-10-15).
+            what = 'lost every watched line and document' if had_signals else 'has no title and nothing to watch'
+            error = f'page {what} (HTTP {status}, title "{title[:80]}"); likely an error page'
     if error:
         first_failed = (prev.get('first_failed_at') if prev.get('ok') is False else None) or now
         entry.update({k: prev.get(k) for k in ('title', 'key_lines', 'documents', 'last_changed_at')})
