@@ -1728,8 +1728,8 @@
     <div>
       <strong style="color:var(--text);">Model class: screening-level</strong> —
       outputs are planning estimates only. Credit pricing, interest rates, equity, and lender terms
-      vary significantly by market, investor, and deal structure. Qualified basis, the applicable fraction
-      and CHFA's credit limits come from your cost lines and a sourced rules file; carryover allocation
+      vary significantly by market, investor, and deal structure. It calculates qualified basis, the applicable fraction
+      and CHFA's credit limits from your cost lines and a sourced rules file; carryover allocation
       and CHFA's cost basis limits are not modeled. Not a substitute for lender underwriting,
       CHFA review, or legal/tax counsel.
       <a href="docs/LIHTC_FEASIBILITY_CALCULATOR.md" style="color:var(--accent);">Methodology →</a>
