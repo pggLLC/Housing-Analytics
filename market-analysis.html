@@ -141,15 +141,6 @@
       </div>
     </div>
 
-    <!-- F63: Jurisdiction-level labor market & commute context.
-         Populated when the page is opened with a place GEOID (?fips=...&geoType=place)
-         from data/hna/place-od-flows.json (block-classified LODES OD) plus the
-         place-LEHD aggregate. Hidden by default; renderer reveals it once flow
-         data is found. Complementary to the PMA buffer-scope workforce score —
-         this card tells you the labor-market character of the JURISDICTION
-         (bedroom community vs self-contained), which the buffer-scope analysis
-         doesn't capture. -->
-    <div id="maJurisdictionLabor" class="ma-labor-card" hidden style="max-width:none;margin:8px auto 0;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card2);"></div>
 
     <div id="siteStateContextBanner" hidden aria-live="polite" style="font-size:.82rem;color:var(--muted);padding:.3rem 0 .1rem;"><span data-state-label></span></div>
     <div id="maLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
@@ -157,6 +148,7 @@
       <span class="kicker">Analysis</span>
 <h1 style="margin-bottom:0.25rem">Market Analysis</h1>
       <p class="pma-intro-text">Pick a spot on the map and this scores how well affordable housing would work there. It looks at how tight the rental market is, how many nearby households would qualify, what already exists, and how easily people could get to work, transit and schools. The area it scores is called the Primary Market Area, or PMA &mdash; the neighbourhood a project would actually draw its renters from.</p>
+      <p class="ma-primary-action" style="margin:.5rem 0 .25rem"><a class="btn btn-primary" href="#maPmaTool">Place your site on the map &darr;</a></p>
       <!-- F256 — CHFA-rule disclosure. The CHFA Market Study Guide
            (Appendix A of the 2025-26 QAP) is explicit: "Radius
            boundaries are not allowed. The market boundary must
@@ -220,54 +212,6 @@
 
     <div id="pageContext"></div>
 
-    <!-- F159 — Rent triangulation: HUD FMR vs ACS B25064 vs Zillow ZORI.
-         Hydrated from WorkflowState/SiteState; updates on jurisdiction
-         change. Same shared component used on HNA. -->
-    <div id="pmaRentTriangulationCard" data-pma-result class="chart-card" style="margin:0 0 var(--sp3);">
-      <h2 style="margin:0 0 .35rem;">Rent triangulation — existing vs. asking</h2>
-      <p style="font-size:.82rem;color:var(--muted);margin:0 0 .4rem">
-        Three rent measurements for the active jurisdiction so you can see which figure applies to which question
-        (underwriting, cost-burden math, or what a new tenant pays).
-      </p>
-      <div id="pmaRentTriangulationMount" aria-live="polite"></div>
-    </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      function _hydratePmaRent() {
-        if (!window.RentTriangulation) return;
-        var mount = document.getElementById('pmaRentTriangulationMount');
-        if (!mount) return;
-        var placeGeoid = null, placeName = null, countyFips = null, countyName = null;
-        try {
-          var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
-                     window.WorkflowState.getActiveProject();
-          var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-          if (jx) {
-            if (jx.type === 'city' && jx.placeGeoid) {
-              placeGeoid = jx.placeGeoid;
-              placeName  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim();
-            }
-            if (jx.fips || jx.containingCounty) {
-              countyFips = String(jx.fips || jx.containingCounty).slice(-3);
-            }
-            if (jx.countyName || jx.name) countyName = jx.countyName || jx.name;
-          }
-        } catch (_) {}
-        if (!countyFips) {
-          try {
-            var sc = window.SiteState && window.SiteState.getCounty && window.SiteState.getCounty();
-            if (sc && sc.fips) countyFips = String(sc.fips).slice(-3);
-            if (sc && sc.name && !countyName) countyName = sc.name;
-          } catch (_) {}
-        }
-        window.RentTriangulation.attach(mount, { placeGeoid: placeGeoid, placeName: placeName, countyFips: countyFips, countyName: countyName });
-      }
-      _hydratePmaRent();
-      document.addEventListener('workflow:step-updated', _hydratePmaRent);
-      document.addEventListener('sitestate:county-changed', _hydratePmaRent);
-      document.addEventListener('jurisdiction-changed', _hydratePmaRent);
-    });
-    </script>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.PageContext) PageContext.render('pageContext', {
@@ -316,6 +260,7 @@
     <nav class="ma-section-nav" aria-label="Report sections">
       <ul class="ma-section-nav-list">
         <li><a href="#maPmaTool" class="ma-section-nav-link">PMA Delineation</a></li>
+        <li><a href="#maJurisdictionContext" class="ma-section-nav-link">Commuting &amp; Rents</a></li>
         <li><a href="#maChfaRequirements" class="ma-section-nav-link">CHFA Requirements</a></li>
         <li><a href="#maSubjectProject" class="ma-section-nav-link">Subject Project</a></li>
         <li><a href="#maExecSummary" class="ma-section-nav-link">Executive Summary</a></li>
@@ -1067,6 +1012,70 @@
       </div><!-- /.pma-panel -->
     </div><!-- /.pma-layout -->
     </section><!-- /#maPmaTool -->
+
+    <!-- Context for the chosen jurisdiction, moved below the site tool on
+         2026-10-15 so the page opens on its purpose and main action. The
+         labor card used to sit above the page heading. Nothing removed. -->
+    <section class="ma-report-section" id="maJurisdictionContext">
+      <h2>Jurisdiction context: commuting and rents</h2>
+    <!-- F63: Jurisdiction-level labor market & commute context.
+         Populated when the page is opened with a place GEOID (?fips=...&geoType=place)
+         from data/hna/place-od-flows.json (block-classified LODES OD) plus the
+         place-LEHD aggregate. Hidden by default; renderer reveals it once flow
+         data is found. Complementary to the PMA buffer-scope workforce score —
+         this card tells you the labor-market character of the JURISDICTION
+         (bedroom community vs self-contained), which the buffer-scope analysis
+         doesn't capture. -->
+    <div id="maJurisdictionLabor" class="ma-labor-card" hidden style="max-width:none;margin:8px auto 0;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card2);"></div>
+    <!-- F159 — Rent triangulation: HUD FMR vs ACS B25064 vs Zillow ZORI.
+         Hydrated from WorkflowState/SiteState; updates on jurisdiction
+         change. Same shared component used on HNA. -->
+    <div id="pmaRentTriangulationCard" data-pma-result class="chart-card" style="margin:0 0 var(--sp3);">
+      <h2 style="margin:0 0 .35rem;">Rent triangulation — existing vs. asking</h2>
+      <p style="font-size:.82rem;color:var(--muted);margin:0 0 .4rem">
+        Three rent measurements for the active jurisdiction so you can see which figure applies to which question
+        (underwriting, cost-burden math, or what a new tenant pays).
+      </p>
+      <div id="pmaRentTriangulationMount" aria-live="polite"></div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function _hydratePmaRent() {
+        if (!window.RentTriangulation) return;
+        var mount = document.getElementById('pmaRentTriangulationMount');
+        if (!mount) return;
+        var placeGeoid = null, placeName = null, countyFips = null, countyName = null;
+        try {
+          var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                     window.WorkflowState.getActiveProject();
+          var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+          if (jx) {
+            if (jx.type === 'city' && jx.placeGeoid) {
+              placeGeoid = jx.placeGeoid;
+              placeName  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim();
+            }
+            if (jx.fips || jx.containingCounty) {
+              countyFips = String(jx.fips || jx.containingCounty).slice(-3);
+            }
+            if (jx.countyName || jx.name) countyName = jx.countyName || jx.name;
+          }
+        } catch (_) {}
+        if (!countyFips) {
+          try {
+            var sc = window.SiteState && window.SiteState.getCounty && window.SiteState.getCounty();
+            if (sc && sc.fips) countyFips = String(sc.fips).slice(-3);
+            if (sc && sc.name && !countyName) countyName = sc.name;
+          } catch (_) {}
+        }
+        window.RentTriangulation.attach(mount, { placeGeoid: placeGeoid, placeName: placeName, countyFips: countyFips, countyName: countyName });
+      }
+      _hydratePmaRent();
+      document.addEventListener('workflow:step-updated', _hydratePmaRent);
+      document.addEventListener('sitestate:county-changed', _hydratePmaRent);
+      document.addEventListener('jurisdiction-changed', _hydratePmaRent);
+    });
+    </script>
+    </section><!-- /#maJurisdictionContext -->
 
     <!-- ── CHFA PMA Requirements & Checklist ── -->
     <section class="ma-report-section" id="maChfaRequirements">
