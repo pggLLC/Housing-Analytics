@@ -1,0 +1,27 @@
+{
+  "_comment": "Most elements each serious or critical axe rule may fail on, per page. A page/rule over its number, or not listed at all, fails the a11y audit; one page's fix cannot pay for another page's new failure. Measured 2026-10-15, the first run that loaded page data. Lower a number (or delete the entry) when a fix lands; never raise one to make a run pass.",
+  "measuredAt": "2026-10-15",
+  "maxElements": {
+    "target-size": {
+      "index.html": 1,
+      "hna-who-lives-here.html": 14,
+      "hna-what-households-can-afford.html": 11,
+      "hna-where-its-heading.html": 10,
+      "hna-what-to-do.html": 16
+    },
+    "aria-required-children": {
+      "housing-needs-assessment.html": 1,
+      "hna-what-to-do.html": 1,
+      "economic-dashboard.html": 1
+    },
+    "color-contrast": {
+      "hna-what-to-do.html": 18,
+      "lihtc-guide-for-stakeholders.html": 1,
+      "deal-calculator.html": 1
+    },
+    "list": {
+      "market-analysis.html": 1,
+      "deal-calculator.html": 1
+    }
+  }
+}
