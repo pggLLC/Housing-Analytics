@@ -508,7 +508,7 @@
     "test:workforce-housing-brief": "node --test test/workforce-housing-brief.test.mjs"
   },
   "dependencies": {
-    "jsdom": "^30.1.1"
+    "jsdom": "^30.1.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
