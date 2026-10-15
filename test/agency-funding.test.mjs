@@ -62,6 +62,25 @@ ledger.awards.forEach((r, i) => {
 });
 ok(quoted > 300, `quotes carrying an amount were checked (${quoted})`);
 
+// Every DOLA amount is printed in its quote ("$3,250,000", "$3.25 million", "$650 thousand").
+function amountsIn(text) {
+  const found = new Set();
+  for (const m of String(text).matchAll(/\$?\s*([\d][\d,]*(?:\.\d+)?)\s*(million|thousand|m\b|k\b)?/gi)) {
+    const n = Number(m[1].replace(/,/g, ''));
+    const unit = (m[2] || '').toLowerCase();
+    found.add(Math.round(unit.startsWith('m') ? n * 1e6 : unit.startsWith('t') || unit === 'k' ? n * 1e3 : n));
+  }
+  return found;
+}
+let dolaChecked = 0;
+dola.awards.forEach((a) => {
+  if (a.amount === null || a.amount === undefined) return;
+  dolaChecked += 1;
+  ok(amountsIn(a.quote).has(Math.round(a.amount)), `DOLA ${a.name}: the quote does not print ${a.amount}`);
+  ok(a.source_url && a.announced, `DOLA ${a.name}: has a source link and a date`);
+});
+ok(dolaChecked > 200, `DOLA amounts were checked against their quotes (${dolaChecked})`);
+
 // ── guard-blocked text and the owner's own project ──────────────────────────
 const patterns = [...read('scripts/lib/public-sensitive-patterns.mjs').matchAll(/regex:\s*\/((?:\\\/|[^/])+)\/([a-z]*)/g)]
   .map((m) => new RegExp(m[1], m[2].includes('i') ? 'i' : ''));
