@@ -395,8 +395,9 @@
       weighted += n * tier;
     });
     if (!count) return out;
+    // Compare before rounding: 90.04% exceeds a 90% limit even though it displays as 90.0.
+    out.exceeds = weighted / count > out.maxAmiPct;
     out.averageAmiPct = Math.round(weighted / count * 10) / 10;
-    out.exceeds = out.averageAmiPct > out.maxAmiPct;
     return out;
   }
 

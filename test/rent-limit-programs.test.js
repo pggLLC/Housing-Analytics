@@ -146,6 +146,8 @@ test('project-average programs flag a mix above the program average', () => {
     assert(avg(p.id, [{ tier: 120, units: 1 }]).exceeds, p.id + ': all 120% units exceed');
     const mixed = avg(p.id, [{ tier: max + 20, units: 1 }, { tier: max - 20, units: 1 }]);
     assert(!mixed.exceeds && mixed.averageAmiPct === max, p.id + ': units above and below may balance');
+    const justOver = avg(p.id, [{ tier: max - 10, units: 249 }, { tier: max + 10, units: 251 }]);
+    assert(justOver.exceeds && justOver.averageAmiPct === max, p.id + ': an average that rounds to the limit but is above it exceeds');
   }
   const land = avg('land_banking', [{ tier: 120, units: 1 }]);
   assert(!land.applies && !land.exceeds, 'Land Banking caps each unit instead');
