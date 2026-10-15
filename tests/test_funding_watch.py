@@ -230,7 +230,7 @@ def test_trust_label_names_every_container_of_fetched_strings():
     # federal_baselined_queries and federal_capped hold only our own configured keywords,
     # agency slugs and integer counts.
     local = {"schema", "generated_at", "note", "content_trust", "has_changes", "all_fetches_failed", "unverifiable",
-             "federal_baselined_queries", "federal_capped"}
+             "federal_baselined_queries", "federal_capped", "pages_capped"}
     label = r["content_trust"]
     for key in set(r) - local:
         assert key in label, f"{key} holds fetched strings but content_trust does not name it"
@@ -593,3 +593,27 @@ def test_a_capped_federal_search_is_disclosed_in_the_run_log(tmp_path):
                "federal_capped": [{"source": "federalregister.gov", "query": "hud", "read": 100, "total": 340}]}
     stdout, _posts = run_issue_script(tmp_path, summary)
     assert "WARN Federal search capped: federalregister.gov hud: read 100 of 340" in stdout
+
+
+def test_a_page_with_more_changed_lines_than_the_qap_diff_cap_reports_all_of_them():
+    """The QAP watcher's diff stops at 80 lines; this watch stores the whole snapshot,
+    so its diff must not stop, or the rest would never be reported (Codex, 2026-10-15)."""
+    many = QUIET + "".join(f"<p>Round {k} applications are due December {k % 28 + 1}, 2027.</p>" for k in range(150))
+    base = run(site())
+    r = run(site(eiaf=many), previous=base, now="2026-10-16T05:34:00Z")
+    [ch] = r["changes"]["changed_pages"]
+    assert len(ch["key_lines"]["added"]) == 150
+    gone = run(site(), previous=r, now="2026-10-17T05:34:00Z")
+    [ch] = gone["changes"]["changed_pages"]
+    assert len(ch["key_lines"]["removed"]) == 150
+
+
+def test_a_page_at_the_stored_limit_is_disclosed_every_run(tmp_path):
+    many = QUIET + "".join(f"<p>Round {k} applications are due December 1, 2027.</p>" for k in range(watch.MAX_KEY_LINES + 5))
+    r = run(site(eiaf=many))
+    assert [p["id"] for p in r["pages_capped"]] == ["dlg-eiaf"]
+    assert run(site())["pages_capped"] == [], "non-vacuity: a normal page is not capped"
+    summary = {"changes": {"changed_pages": [], "new_federal_notices": [], "newly_unverifiable": []},
+               "federal_failures": [], "fetch_failures": [], "pages_capped": r["pages_capped"]}
+    stdout, _posts = run_issue_script(tmp_path, summary)
+    assert f"WARN Page at the watch limit: {EIAF}: {watch.MAX_KEY_LINES} key lines" in stdout

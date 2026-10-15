@@ -285,6 +285,7 @@ jobs:
             for (const f of fedFailed) core.warning(`Federal search incomplete: ${f.source} ${f.query}: ${f.error}`);
             for (const f of pagesFailed) core.warning(`Page not read: ${f.url}: ${f.error} (failing since ${f.failing_since})`);
             // A search that matched more than its page or record cap was read only up to the cap.
+            for (const f of run.pages_capped || []) core.warning(`Page at the watch limit: ${f.url}: ${f.key_lines} key lines, ${f.documents} documents kept; anything past the limit is not watched.`);
             for (const f of run.federal_capped || []) core.warning(`Federal search capped: ${f.source} ${f.query}: read ${f.read} of ${f.total ?? 'more'} results; the rest were not checked this run.`);
             if (!pages.length && !notices.length && !unverifiable.length && !run.write_refused && !run.all_fetches_failed) {
               if (fedFailed.length || pagesFailed.length) {

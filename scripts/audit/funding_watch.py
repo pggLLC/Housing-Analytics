@@ -64,7 +64,7 @@ from typing import Callable
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from chfa_qap_watch import (  # noqa: E402
-    key_lines, line_diff, page_text, utc_now,
+    key_lines, page_text, utc_now,
 )
 import html as html_lib  # noqa: E402
 
@@ -107,6 +107,15 @@ DOC_LINK_RE = re.compile(
     # (Written https? so the source-URL sweep does not read the pattern as a link.)
     r'|^https?://(docs\.google\.com/(document|spreadsheets|presentation|forms)/|drive\.google\.com/(file|open)'
     r'|forms\.gle/|[\w-]+\.sharepoint\.com/|1drv\.ms/|onedrive\.live\.com/)', re.I)
+def line_diff(old: list, new: list) -> dict:
+    """Every added and removed key line. Unlike the QAP watcher's helper, not capped:
+    the new snapshot is stored whole, so a line left out here would never be new again
+    and never reported (Codex, 2026-10-15). The issue step splits long reports."""
+    old_set, new_set = set(old or []), set(new or [])
+    return {'added': [ln for ln in (new or []) if ln not in old_set],
+            'removed': [ln for ln in (old or []) if ln not in new_set]}
+
+
 # A 200 that is really a bot wall. Matched on the page title only.
 CHALLENGE_TITLE_RE = re.compile(r'just a moment|attention required|access denied|are you a robot|captcha|request rejected', re.I)
 
@@ -203,7 +212,7 @@ def _content(result: dict) -> dict:
             return [clean(v) for v in x]
         return x
     return clean({k: v for k, v in result.items()
-                  if k not in ('changes', 'has_changes', 'fetch_failures', 'federal_failures', 'federal_capped')})
+                  if k not in ('changes', 'has_changes', 'fetch_failures', 'federal_failures', 'federal_capped', 'pages_capped')})
 
 
 def _title(markup: str) -> str:
@@ -361,7 +370,7 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
     sources = sources if sources is not None else json.loads(SOURCES_FILE.read_text(encoding='utf-8'))
     prev_pages = {p['url']: p for p in previous.get('pages', [])}
 
-    pages, changed, failures = [], [], []
+    pages, changed, failures, pages_capped = [], [], [], []
     for target in watch_targets(guide, soft, sources):
         entry, change, error = check_page(target, prev_pages.get(target['url'], {}), fetch, now)
         pages.append(entry)
@@ -370,6 +379,10 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         if error:
             failures.append({'id': entry['id'], 'url': entry['url'], 'error': error,
                              'failing_since': entry['first_failed_at']})
+        elif len(entry['key_lines']) >= MAX_KEY_LINES or len(entry['documents']) >= MAX_DOCS_PER_PAGE:
+            # Past the stored limit a line or document is not watched at all; say so every run.
+            pages_capped.append({'id': entry['id'], 'url': entry['url'], 'key_lines': len(entry['key_lines']),
+                                 'documents': len(entry['documents'])})
 
     fed = sources.get('federal') or {}
     notices, fed_failures, fed_queries, answered_queries, fed_capped = [], [], 0, set(), []
@@ -470,6 +483,8 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         # Searches that matched more than the configured page or record cap: the rest
         # were not read this run (disclosed in the run log, not a failure).
         'federal_capped': fed_capped,
+        # Pages at MAX_KEY_LINES or MAX_DOCS_PER_PAGE: anything past the limit is not watched.
+        'pages_capped': pages_capped,
         'unverifiable': unverifiable,
         # Nothing at all came back: no page and no single federal query. If any query
         # answered, its notices and state are kept even when every page failed.
@@ -498,6 +513,8 @@ def main(argv: list | None = None) -> int:
         print(f"  ✗ {f['url']}: {f['error']} (failing since {f['failing_since']})")
     for f in result['federal_failures']:
         print(f"  ✗ {f['source']} {f['query']}: {f['error']}")
+    for f in result['pages_capped']:
+        print(f"  … {f['url']}: {f['key_lines']} key lines, {f['documents']} documents (watch limit reached)")
     for f in result['federal_capped']:
         print(f"  … {f['source']} {f['query']}: read {f['read']} of {f['total'] if f['total'] is not None else 'more'} (cap reached)")
 
@@ -528,7 +545,7 @@ def _write_run_summary(path: str | None, result: dict) -> int:
     if not path:
         return 0
     summary = {k: result[k] for k in ('generated_at', 'changes', 'has_changes', 'fetch_failures',
-                                      'federal_failures', 'federal_capped', 'unverifiable', 'all_fetches_failed')}
+                                      'federal_failures', 'federal_capped', 'pages_capped', 'unverifiable', 'all_fetches_failed')}
     summary['write_refused'] = result.get('write_refused')
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     Path(path).write_text(json.dumps(summary, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
