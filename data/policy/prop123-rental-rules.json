@@ -458,6 +458,10 @@
     "petitions": [
       {
         "jurisdiction": "Town of Basalt",
+        "county_fips": [
+          "08037",
+          "08097"
+        ],
         "submitted": "2026-10-02",
         "programs": [
           "equity",
@@ -470,6 +474,9 @@
       },
       {
         "jurisdiction": "Town of Avon",
+        "county_fips": [
+          "08037"
+        ],
         "submitted": "2026-08-07",
         "programs": [
           "equity",
@@ -482,6 +489,9 @@
       },
       {
         "jurisdiction": "Town of Estes Park",
+        "county_fips": [
+          "08069"
+        ],
         "submitted": "2026-05-26",
         "programs": [
           "land_banking"
@@ -492,6 +502,9 @@
       },
       {
         "jurisdiction": "La Plata County (regional)",
+        "county_fips": [
+          "08067"
+        ],
         "submitted": "2026-03-06",
         "programs": [
           "equity",
@@ -504,6 +517,9 @@
       },
       {
         "jurisdiction": "Pitkin County (regional)",
+        "county_fips": [
+          "08097"
+        ],
         "submitted": "2026-02-11",
         "programs": [
           "equity",
@@ -516,6 +532,9 @@
       },
       {
         "jurisdiction": "Lake County (regional)",
+        "county_fips": [
+          "08065"
+        ],
         "submitted": "2025-07-02",
         "programs": [
           "equity",
@@ -528,6 +547,9 @@
       },
       {
         "jurisdiction": "Summit County",
+        "county_fips": [
+          "08117"
+        ],
         "submitted": "2024-09-05",
         "programs": [
           "equity",
@@ -540,6 +562,9 @@
       },
       {
         "jurisdiction": "Town of Fraser",
+        "county_fips": [
+          "08049"
+        ],
         "submitted": "2024-05-20",
         "programs": [
           "equity"
@@ -550,6 +575,9 @@
       },
       {
         "jurisdiction": "Town of Vail",
+        "county_fips": [
+          "08037"
+        ],
         "submitted": "2024-05-14",
         "programs": [
           "equity",
@@ -562,6 +590,9 @@
       },
       {
         "jurisdiction": "Chaffee County",
+        "county_fips": [
+          "08015"
+        ],
         "submitted": "2024-03-26",
         "programs": [
           "land_banking"
@@ -572,6 +603,9 @@
       },
       {
         "jurisdiction": "Town of Hayden",
+        "county_fips": [
+          "08107"
+        ],
         "submitted": "2024-03-26",
         "programs": [
           "equity"
@@ -582,6 +616,9 @@
       },
       {
         "jurisdiction": "Town of Frisco",
+        "county_fips": [
+          "08117"
+        ],
         "submitted": "2023-12-29",
         "programs": [
           "land_banking"
@@ -592,6 +629,9 @@
       },
       {
         "jurisdiction": "City of Ouray",
+        "county_fips": [
+          "08091"
+        ],
         "submitted": "2023-11-30",
         "programs": [
           "equity"
@@ -600,7 +640,8 @@
         "ami_pct_ownership": 120,
         "status": "withdrawn"
       }
-    ]
+    ],
+    "county_note": "county_fips lists the county or counties the petitioning jurisdiction lies in. A petition applies only inside its jurisdiction, so a project must be in one of these counties, and inside the named town where the petitioner is a town, for the petition to apply."
   },
   "conflicts": [
     {

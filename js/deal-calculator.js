@@ -1148,7 +1148,11 @@
     });
     var list = _prop123Rules && _prop123Rules.rural_resort_petitions && _prop123Rules.rural_resort_petitions.petitions || [];
     petition.innerHTML = '<option value="">None</option>';
-    list.filter(function (x) { return x.status === 'approved'; }).forEach(function (x) {
+    // A petition applies only inside its own jurisdiction: offer those filed
+    // from the selected county, and none until a county is chosen.
+    list.filter(function (x) {
+      return x.status === 'approved' && Array.isArray(x.county_fips) && x.county_fips.indexOf(_countyFips) !== -1;
+    }).forEach(function (x) {
       var opt = document.createElement('option');
       opt.value = x.jurisdiction;
       opt.textContent = x.jurisdiction + ' (' + x.ami_pct_rental + '% AMI rental)';
@@ -1615,6 +1619,7 @@
       window.InputProvenance.invalidateGeography(document.getElementById('dealCalcMount') || document, fips || null);
     }
     _countyFips = fips || null;
+    populateProp123Choices();
     _amiLimits = null;
     _amiLimitsByBr = null;
     if (_countyFips || rentLimitRegime() === 'market') {
@@ -1845,7 +1850,7 @@
                 <option value="">None</option>
               </select>
             </label>
-            <p style="font-size:var(--tiny);color:var(--muted);">Prop 123 LIHTC gap and predevelopment loans follow the CHFA LIHTC setting, because those projects carry tax credits.</p>
+            <p style="font-size:var(--tiny);color:var(--muted);">Only petitions filed from the selected county are listed; pick one only if the project is inside that jurisdiction. Prop 123 LIHTC gap and predevelopment loans follow the CHFA LIHTC setting, because those projects carry tax credits.</p>
           </div>
           <p id="dc-rent-limit-caveats" hidden style="font-size:var(--tiny);color:var(--muted);" aria-live="polite"></p>
           <p id="dc-rent-limit-hera-note" style="font-size:var(--tiny);color:var(--muted);">Regular CHFA limits — HERA applies only to projects placed in service by 12/31/2008.</p>
@@ -3710,6 +3715,8 @@
       constants: _constants, utilityAllowance: _utilityAllowance,
       equityPriceDefault: EQUITY_PRICE_DEFAULT, minimumSetAsideElection: currentMinimumSetAsideElection(),
       regime: rentLimitRegime(), perBrMarket: _countyFips ? getZoriPerBrRent(_countyFips) : null,
+      prop123: { prop123Rules: _prop123Rules, program: selectValue('dc-prop123-program'),
+        petitionJurisdiction: selectValue('dc-prop123-petition') },
       manualMarket: _resolvedDealMix.available ? null : readManualMarketInputs(),
       hasUnitMixWarning: !!document.getElementById('dc-units-sync-warn'),
       tranches: typeof window.DealCalcSoftTranches === 'function' ? (window.DealCalcSoftTranches() || []) : [],

@@ -104,7 +104,7 @@ async function test(name, fn) {
       assert(expected.length >= 2, 'rules file offers too few programs: the scan checked nothing');
       assert.deepEqual(offered, expected);
       const petitions = [...w.document.getElementById('dc-prop123-petition').options].map((o) => o.value).filter(Boolean);
-      assert.deepEqual(petitions, rules.rural_resort_petitions.petitions.filter((x) => x.status === 'approved').map((x) => x.jurisdiction));
+      assert.deepEqual(petitions, rules.rural_resort_petitions.petitions.filter((x) => x.status === 'approved' && x.county_fips.includes(COUNTY)).map((x) => x.jurisdiction));
 
       // No program chosen: nothing is priced, and the page says why.
       assert(Object.values(w.__DealCalc.getAmiLimitsByBr()).every((row) => Object.values(row).every((v) => v === null)));
@@ -142,6 +142,31 @@ async function test(name, fn) {
       assert.equal(w.__DealCalc.getAmiLimitsByBr()[80]['2br'], expected);
       assert.equal(rents(w), money(expected * 12));
       assert(w.document.getElementById('dc-rent-limit-caveats').textContent.includes('Summit County'));
+      const offered = [...w.document.getElementById('dc-prop123-petition').options].map((o) => o.value).filter(Boolean);
+      assert.deepEqual(offered, rules.rural_resort_petitions.petitions.filter((x) => x.status === 'approved' && x.county_fips.includes(SUMMIT)).map((x) => x.jurisdiction));
+      // Moving the project to another county drops the petition and its higher limit.
+      w.__DealCalc.updateAmiLimitsFromFmr(COUNTY);
+      assert.equal(w.document.getElementById('dc-prop123-petition').value, '', 'petition cleared outside its county');
+      assert(![...w.document.getElementById('dc-prop123-petition').options].some((o) => o.value === summit.jurisdiction), 'Summit petition not offered in Denver');
+      assert.equal(w.__DealCalc.getAmiLimitsByBr()[80]['2br'], null, 'above 60% again outside Summit County');
+    } finally { w.close(); }
+  });
+
+  await test('a mix above a project-average program\'s limit leaves revenue unavailable', async () => {
+    const w = await calculator();
+    try {
+      change(w, 'dc-rent-limit-regime', 'prop123');
+      const averaged = rules.programs.filter((p) => p.income_rule.type === 'project_average' && p.income_rule.max_ami_pct != null && !p.id.includes('lihtc'));
+      assert(averaged.length >= 2, 'no project-average programs offered: the scan checked nothing');
+      for (const p of averaged) {
+        change(w, 'dc-prop123-program', p.id);
+        pickOnly(w, 120);
+        assert(!/\$\s*\d/.test(rents(w)), p.id + ': all 120% AMI units leave revenue unavailable');
+        assert(w.__DealCalc.getResult().rentsUnknownReason.includes(`at most ${p.income_rule.max_ami_pct}% AMI`), p.id + ': the reason names the limit');
+        const tier = [...TIERS].reverse().find((t) => t <= p.income_rule.max_ami_pct);
+        pickOnly(w, tier);
+        assert.equal(rents(w), money(w.__DealCalc.getAmiLimitsByBr()[tier]['2br'] * 12), p.id + ': a mix at the limit prices');
+      }
     } finally { w.close(); }
   });
 
