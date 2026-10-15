@@ -275,8 +275,18 @@ jobs:
             const notices = c.new_federal_notices || [];
             const unverifiable = c.newly_unverifiable || [];
             if (c.baseline) core.info(`Baseline recorded for ${(c.baseline_pages || []).length} pages; no issues opened.`);
+            // A failed search or page is never reported as "nothing new". It gets a run warning
+            // every day it fails; the issue comes once, when it has failed for 3 days (newly_unverifiable).
+            const fedFailed = run.federal_failures || [];
+            const pagesFailed = run.fetch_failures || [];
+            for (const f of fedFailed) core.warning(`Federal search incomplete: ${f.source} ${f.query}: ${f.error}`);
+            for (const f of pagesFailed) core.warning(`Page not read: ${f.url}: ${f.error} (failing since ${f.failing_since})`);
             if (!pages.length && !notices.length && !unverifiable.length && !run.write_refused && !run.all_fetches_failed) {
-              core.info('No funding page changes, no new federal notices, nothing newly unverifiable.');
+              if (fedFailed.length || pagesFailed.length) {
+                core.info(`Incomplete run: ${fedFailed.length} federal search(es) and ${pagesFailed.length} page(s) failed, so "no change" is unknown for them. No issue yet; one opens after 3 days of failures.`);
+              } else {
+                core.info('No funding page changes, no new federal notices, nothing newly unverifiable.');
+              }
               return;
             }
             const { owner, repo } = context.repo;

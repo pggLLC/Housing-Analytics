@@ -15,6 +15,7 @@ Run: python3 -m pytest tests/test_funding_watch.py -q
 
 import importlib.util
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -259,6 +260,38 @@ def test_workflow_runs_the_watch_daily_after_the_qap_job_and_commits_safely():
     issues = job[job.index("Open / update funding watch issues"):job.index("Commit refreshed funding watch")]
     assert "newly_unverifiable" in issues and "new_federal_notices" in issues and "changed_pages" in issues
     assert "labels: [LABEL]" in issues and "funding-watch" in issues
+
+
+
+def test_issue_step_never_reports_nothing_new_when_a_search_failed(tmp_path):
+    """Run the workflow's issue script with a failed federal search and nothing else:
+    it must warn and say the run was incomplete, not that there were no new notices."""
+    import shutil
+    import subprocess
+    import textwrap
+    node = shutil.which("node")
+    assert node, "node is needed to run the workflow's issue script"
+    wf = WORKFLOW.read_text()
+    step = wf[wf.index("- name: Open / update funding watch issues"):]
+    step = step[:step.index("\n      - name:")]
+    script = textwrap.dedent(step[step.index("script: |\n") + len("script: |\n"):])
+    assert "core.info" in script, "the issue script was found"
+    (tmp_path / "issue.js").write_text(
+        "module.exports = async ({core, github, context, require}) => {\n" + script + "\n};")
+    summary = {"changes": {"changed_pages": [], "new_federal_notices": [], "newly_unverifiable": []},
+               "federal_failures": [{"source": "grants.gov", "query": "affordable housing", "error": "HTTP 500"}],
+               "fetch_failures": []}
+    (tmp_path / "run.json").write_text(json.dumps(summary))
+    driver = ("const f = require('./issue.js');"
+              "const core = {info: m => console.log('INFO ' + m), warning: m => console.log('WARN ' + m)};"
+              "f({core, github: {}, context: {repo: {owner: 'o', repo: 'r'}}, require})"
+              ".catch(e => { console.error(e); process.exit(1); });")
+    out = subprocess.run([node, "-e", driver], cwd=tmp_path, capture_output=True, text=True,
+                         env={**os.environ, "RUN_SUMMARY": str(tmp_path / "run.json")}, timeout=60)
+    assert out.returncode == 0, out.stderr
+    assert "WARN Federal search incomplete: grants.gov" in out.stdout
+    assert "Incomplete run" in out.stdout
+    assert "no new federal notices" not in out.stdout
 
 
 def test_the_output_ceiling_sits_under_the_data_file_size_guard():
