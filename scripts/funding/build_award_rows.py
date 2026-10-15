@@ -246,6 +246,11 @@ def sponsor_from_applications(r: dict, row: dict, apps: list[dict]) -> dict | No
     return {'sponsor': a['sponsor'], 'sponsor_source': f"CHFA applicant report, {a.get('round_label') or a.get('year')}: {a.get('quote')}"}
 
 
+def read_json(path: str):
+    with open(path, encoding='utf-8') as fh:
+        return json.load(fh)
+
+
 def fetch(url: str, path: str) -> None:
     req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (COHO Analytics award reader)'})
     with urllib.request.urlopen(req, timeout=60) as resp, open(path, 'wb') as fh:
@@ -253,14 +258,14 @@ def fetch(url: str, path: str) -> None:
 
 
 def build(cache: str) -> dict:
-    ledger = json.load(open(LEDGER, encoding='utf-8'))
-    docs = {d['file']: d for d in json.load(open(DOCUMENTS, encoding='utf-8'))['documents']}
+    ledger = read_json(LEDGER)
+    docs = {d['file']: d for d in read_json(DOCUMENTS)['documents']}
     by_file: dict[str, list[dict]] = {}
     keys = {}
     for r, k in zip(ledger['awards'], ledger_keys(ledger['awards'])):
         by_file.setdefault(r['source_file'], []).append(r)
         keys[id(r)] = k
-    apps = json.load(open(APPLICATIONS, encoding='utf-8')).get('applications', []) if os.path.exists(APPLICATIONS) else []
+    apps = read_json(APPLICATIONS).get('applications', []) if os.path.exists(APPLICATIONS) else []
     out, unmatched = [], []
     for file in sorted(by_file):
         path = os.path.join(cache, file)
@@ -311,7 +316,10 @@ def main() -> int:
     result = build(cache)
     text = json.dumps(result, indent=2, ensure_ascii=False) + '\n'
     if args.check:
-        current = open(OUTPUT, encoding='utf-8').read() if os.path.exists(OUTPUT) else ''
+        current = ''
+        if os.path.exists(OUTPUT):
+            with open(OUTPUT, encoding='utf-8') as fh:
+                current = fh.read()
         if current != text:
             print(f'{os.path.relpath(OUTPUT, ROOT)} is stale: run python3 scripts/funding/build_award_rows.py', file=sys.stderr)
             return 1
