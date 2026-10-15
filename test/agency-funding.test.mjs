@@ -166,6 +166,8 @@ ok(/data-agency-funding-defer/.test(holder) && new RegExp(`targetId === '${tabId
 const level = Number((holder.match(/data-agency-funding-level="(\d)"/) || [])[1]);
 const outer = Number((holder.match(/<h(\d)/) || [])[1]);
 ok(level === outer + 1, `the view's headings (h${level}) sit under the section heading (h${outer})`);
+ok(/if \(perOk\) return g\.population \?[^;]*: NO_POP;/.test(js) && /perOk \? \(g\.population \?[^;]*: null\)/.test(js),
+  'per resident without a population is shown as unavailable, never as the total');
 ok(/\.split\('&'\)\[0\]/.test(html), 'the tab switcher reads only the tab name from #tab&county=…');
 const files = [...js.matchAll(/'(data\/[^']+\.(?:json|geojson))'/g)].map((m) => m[1]);
 ok(files.length >= 5, 'found the data files the view reads');

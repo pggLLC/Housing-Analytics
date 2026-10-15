@@ -166,7 +166,6 @@
     if (Math.abs(v) >= 1e6) return '$' + (v / 1e6).toFixed(v >= 1e8 ? 0 : 1) + 'M';
     return '$' + Math.round(v).toLocaleString('en-US');
   }
-  function moneyFull(v) { return v === null || v === undefined ? 'Value unavailable' : '$' + Math.round(v).toLocaleString('en-US'); }
   function count(v) { return v === null || v === undefined ? 'Value unavailable' : Math.round(v).toLocaleString('en-US'); }
 
   function measureName() {
@@ -356,22 +355,24 @@
       cols.map(function (c) { return '<th scope="col" class="num">' + esc(c.head) + '</th>'; }).join('') +
       '<th scope="col" class="num">Homes</th><th scope="col" class="num">Awards</th></tr>';
     var LIMIT = 12;
+    // Per resident needs a population; a row with none (awards in no one county) says so rather than showing its total.
+    var NO_POP = '<td class="num hm-muted" title="No county population to divide by">n/a</td>';
     var shown = state.matrixAll ? groups : groups.slice(0, LIMIT);
     var body = shown.map(function (g) {
       var cells = cols.map(function (c) {
         var v = c.val(g.summary.byAgency[c.k]);
         if (v === null || v === undefined) return '<td class="num hm-muted">—</td>';
-        if (perOk && g.population) return '<td class="num">$' + esc((v / g.population).toFixed(2)) + '</td>';
+        if (perOk) return g.population ? '<td class="num">$' + esc((v / g.population).toFixed(2)) + '</td>' : NO_POP;
         return '<td class="num">' + esc(c.fmt(v)) + '</td>';
       }).join('');
       var homes = g.summary.homes;
-      var homesCell = homes === null ? '—' : (perOk && g.population ? (homes / g.population * 1000).toFixed(1) : count(homes));
+      var homesCell = homes === null ? '—' : (perOk ? (g.population ? (homes / g.population * 1000).toFixed(1) : null) : count(homes));
       var label = g.key === '_none' ? '<span class="hm-muted">' + esc(g.label) + '</span>'
         : '<a href="#" data-hm-pick-' + by + '="' + esc(g.key) + '">' + esc(g.label) + '</a>';
-      return '<tr><th scope="row">' + label + '</th>' + cells + '<td class="num">' + esc(homesCell) + '</td><td class="num">' + g.summary.awards + '</td></tr>';
+      return '<tr><th scope="row">' + label + '</th>' + cells + (homesCell === null ? NO_POP : '<td class="num">' + esc(homesCell) + '</td>') + '<td class="num">' + g.summary.awards + '</td></tr>';
     }).join('');
     var note = '<p class="hm-muted" style="font-size:var(--small);margin:0 0 var(--sp2);">' + (perOk
-      ? 'Per county resident: dollars, or tax credits a year; homes per 1,000 residents.'
+      ? 'Per county resident: dollars, or tax credits a year; homes per 1,000 residents. n/a: no single county, so no population.'
       : 'Totals: tax credits a year, grants and loans in dollars, and homes.') + ' Sorted by homes. All three agencies are shown whatever "Who paid" is set to.</p>';
     var more = groups.length > LIMIT
       ? '<button type="button" class="btn" style="margin-top:var(--sp2);" data-hm-matrix-all>' + (state.matrixAll ? 'Show the top ' + LIMIT : 'Show all ' + groups.length) + '</button>' : '';
