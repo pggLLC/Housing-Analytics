@@ -243,12 +243,14 @@
     });
   }
   function report(geoid, name) { return '<a href="developer-brief.html?geoid=' + encodeURIComponent(geoid) + '">' + esc(name || geoid) + '</a>'; }
-  function th(label, tip) { return '<th title="' + esc(tip) + '">' + esc(label) + '</th>'; }
+  function th(label, tip) { return { label: label, tip: tip }; }
   function table(head, rows) {
     // Each cell is labelled with its header, so on a phone a row reads as a card.
-    var labels = head.map(function (h) { return h.replace(/<[^>]*>/g, ''); });
-    rows = rows.map(function (r) { var i = 0; return r.replace(/<td>/g, function () { return '<td data-label="' + labels[i++] + '">'; }); });
-    return '<div class="ws-scroll"><table class="ws-table"><thead><tr>' + head.join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table></div>';
+    // Cell values are escaped, so a literal <td> in a row is always one of ours.
+    rows = rows.map(function (r) { var i = 0; return r.replace(/<td>/g, function () { return '<td data-label="' + esc(head[i++].label) + '">'; }); });
+    return '<div class="ws-scroll"><table class="ws-table"><thead><tr>' +
+      head.map(function (h) { return '<th title="' + esc(h.tip) + '">' + esc(h.label) + '</th>'; }).join('') +
+      '</tr></thead><tbody>' + rows.join('') + '</tbody></table></div>';
   }
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
   function empty(msg) { return '<p class="ws-status">' + esc(msg) + '</p>'; }
