@@ -328,11 +328,16 @@ jobs:
               await post('<!-- funding-watch:overflow -->', 'Funding watch: more changed pages',
                 [`# ${rest.length} more changed funding pages (${run.generated_at})`, '', ...rest.map(p => `- [${p.id}](${p.url}): +${(p.key_lines.added || []).length} / -${(p.key_lines.removed || []).length} lines, ${(p.new_documents || []).length} new documents`)].join('\n'));
             }
-            if (notices.length) {
+            // Every new notice is listed: once recorded it is never "new" again, so one cut
+            // off here would never be shown. Batches of 100 keep each post under the size cap.
+            const NOTICE_BATCH = 100;
+            for (let i = 0; i < notices.length; i += NOTICE_BATCH) {
+              const batch = notices.slice(i, i + NOTICE_BATCH);
+              const part = notices.length > NOTICE_BATCH ? ` (part ${i / NOTICE_BATCH + 1} of ${Math.ceil(notices.length / NOTICE_BATCH)})` : '';
               await post('<!-- funding-watch:federal -->', 'Funding watch: new federal funding notices',
-                [`# ${notices.length} new federal funding notices (${run.generated_at})`, '',
+                [`# ${notices.length} new federal funding notices${part} (${run.generated_at})`, '',
                  'Check each for Colorado eligibility (state agencies, local governments, tribes, nonprofits or developers) and whether it can pay for housing or the infrastructure it needs.', '',
-                 ...notices.slice(0, 60).map(n => `- [${n.title}](${n.url}): ${n.agency || ''}${n.close_date ? `, closes ${n.close_date}` : ''}${n.published ? `, published ${n.published}` : ''} (${n.source}, search "${n.query}")`)].join('\n'));
+                 ...batch.map(n => `- [${n.title}](${n.url}): ${n.agency || ''}${n.close_date ? `, closes ${n.close_date}` : ''}${n.published ? `, published ${n.published}` : ''} (${n.source}, search "${n.query}")`)].join('\n'));
             }
             if (unverifiable.length || run.all_fetches_failed) {
               await post('<!-- funding-watch:unverifiable -->', 'Funding watch: pages to check by hand',

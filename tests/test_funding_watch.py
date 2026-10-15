@@ -276,9 +276,9 @@ def test_workflow_runs_the_watch_daily_after_the_qap_job_and_commits_safely():
 
 
 
-def test_issue_step_never_reports_nothing_new_when_a_search_failed(tmp_path):
-    """Run the workflow's issue script with a failed federal search and nothing else:
-    it must warn and say the run was incomplete, not that there were no new notices."""
+def run_issue_script(tmp_path, summary):
+    """Run the workflow's issue script under node with a stub GitHub client; returns
+    (stdout, posts) where posts lists every issue created or commented on."""
     import shutil
     import subprocess
     import textwrap
@@ -291,20 +291,47 @@ def test_issue_step_never_reports_nothing_new_when_a_search_failed(tmp_path):
     assert "core.info" in script, "the issue script was found"
     (tmp_path / "issue.js").write_text(
         "module.exports = async ({core, github, context, require}) => {\n" + script + "\n};")
-    summary = {"changes": {"changed_pages": [], "new_federal_notices": [], "newly_unverifiable": []},
-               "federal_failures": [{"source": "grants.gov", "query": "affordable housing", "error": "HTTP 500"}],
-               "fetch_failures": []}
     (tmp_path / "run.json").write_text(json.dumps(summary))
-    driver = ("const f = require('./issue.js');"
+    driver = ("const f = require('./issue.js'); const posts = []; let n = 0;"
               "const core = {info: m => console.log('INFO ' + m), warning: m => console.log('WARN ' + m)};"
-              "f({core, github: {}, context: {repo: {owner: 'o', repo: 'r'}}, require})"
+              "const github = {paginate: async () => [], rest: {issues: {listForRepo: () => {},"
+              " create: async a => { posts.push({kind: 'create', title: a.title, body: a.body});"
+              "   return {data: {number: ++n, body: a.body}}; },"
+              " createComment: async a => { posts.push({kind: 'comment', body: a.body}); }}}};"
+              "f({core, github, context: {repo: {owner: 'o', repo: 'r'}}, require})"
+              ".then(() => console.log('POSTS ' + JSON.stringify(posts)))"
               ".catch(e => { console.error(e); process.exit(1); });")
     out = subprocess.run([node, "-e", driver], cwd=tmp_path, capture_output=True, text=True,
                          env={**os.environ, "RUN_SUMMARY": str(tmp_path / "run.json")}, timeout=60)
     assert out.returncode == 0, out.stderr
-    assert "WARN Federal search incomplete: grants.gov" in out.stdout
-    assert "Incomplete run" in out.stdout
-    assert "no new federal notices" not in out.stdout
+    posts = json.loads(out.stdout.rsplit("POSTS ", 1)[1])
+    return out.stdout, posts
+
+
+def test_issue_step_never_reports_nothing_new_when_a_search_failed(tmp_path):
+    """Run the workflow's issue script with a failed federal search and nothing else:
+    it must warn and say the run was incomplete, not that there were no new notices."""
+    summary = {"changes": {"changed_pages": [], "new_federal_notices": [], "newly_unverifiable": []},
+               "federal_failures": [{"source": "grants.gov", "query": "affordable housing", "error": "HTTP 500"}],
+               "fetch_failures": []}
+    stdout, posts = run_issue_script(tmp_path, summary)
+    assert "WARN Federal search incomplete: grants.gov" in stdout
+    assert "Incomplete run" in stdout
+    assert "no new federal notices" not in stdout
+    assert posts == []
+
+
+def test_every_new_federal_notice_is_listed_in_an_issue(tmp_path):
+    """A notice is new only once, so the issue lists all of them, in batches, never
+    just the first few (Codex, 2026-10-15)."""
+    notices = [{"title": f"Grant {i}", "url": f"https://grants.localhost/{i}", "source": "grants.gov",
+                "query": "housing"} for i in range(250)]
+    summary = {"changes": {"changed_pages": [], "new_federal_notices": notices, "newly_unverifiable": []},
+               "federal_failures": [], "fetch_failures": []}
+    _stdout, posts = run_issue_script(tmp_path, summary)
+    text = "\n".join(p["body"] for p in posts)
+    assert all(f"[Grant {i}](https://grants.localhost/{i})" in text for i in range(250))
+    assert [p["kind"] for p in posts] == ["create", "comment", "comment"], "one issue, then comments"
 
 
 def test_the_output_ceiling_sits_under_the_data_file_size_guard():
@@ -451,3 +478,15 @@ def test_a_notice_matched_by_a_baselined_query_is_new_even_if_a_new_query_also_m
     r = watch.run(fetch=site(gg_hits=gg), previous=base, now="2026-10-16T05:34:00Z",
                   guide=GUIDE, soft=SOFT, sources=sources)
     assert [n["key"] for n in r["changes"]["new_federal_notices"]] == ["grants.gov:8"]
+
+
+def test_a_replaced_hosted_document_counts_as_a_document_change():
+    """DOH links its NOFAs on Google Docs, with no file extension; a replaced document
+    under the same link text is still a change (Codex, 2026-10-15)."""
+    old = QUIET + "<p><a href='https://docs.google.com/document/d/AAA/edit'>Predevelopment NOFA</a></p>"
+    new = QUIET + "<p><a href='https://docs.google.com/document/d/BBB/edit'>Predevelopment NOFA</a></p>"
+    base = run(site(eiaf=old))
+    assert any(urlsplit(d["url"]).netloc == "docs.google.com" for p in base["pages"] for d in p.get("documents", []))
+    r = run(site(eiaf=new), previous=base, now="2026-10-16T05:34:00Z")
+    [ch] = r["changes"]["changed_pages"]
+    assert [d["url"] for d in ch["new_documents"]] == ["https://docs.google.com/document/d/BBB/edit"]

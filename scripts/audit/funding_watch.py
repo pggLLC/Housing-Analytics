@@ -102,7 +102,10 @@ ROUND_LINE_RE = re.compile(
 # Documents a funding page links. Wider than the QAP watcher's (PDFs only): rounds
 # often post their application as a Word or Excel file (Codex review, 2026-10-15).
 DOC_LINK_RE = re.compile(
-    r'\.(pdf|docx?|xlsx?|xlsm|pptx?|csv|zip|rtf|odt|ods)(?:$|[?#])|/getattachment/|/sites/default/files/', re.I)
+    r'\.(pdf|docx?|xlsx?|xlsm|pptx?|csv|zip|rtf|odt|ods)(?:$|[?#])|/getattachment/|/sites/default/files/'
+    # Hosted documents and forms with no file extension (DOH links its NOFAs on Google Docs).
+    r'|^https://(docs\.google\.com/(document|spreadsheets|presentation|forms)/|drive\.google\.com/(file|open)'
+    r'|forms\.gle/|[\w-]+\.sharepoint\.com/|1drv\.ms/)', re.I)
 # A 200 that is really a bot wall. Matched on the page title only.
 CHALLENGE_TITLE_RE = re.compile(r'just a moment|attention required|access denied|are you a robot|captcha|request rejected', re.I)
 
