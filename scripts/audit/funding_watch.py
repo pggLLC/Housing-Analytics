@@ -479,6 +479,9 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
     seen_now = {n['key'] for n in notices}
     failed_queries = {f"{f['source']}|{f['query']}" for f in fed_failures}
     for key, p in prev_notices.items():
+        # A copy: main() compares the result with the loaded previous file, so editing
+        # the stored record in place would hide this change and it would never be saved.
+        p = dict(p)
         # Kept after it leaves the results, so it is not "new" again if it returns. The
         # clock starts the first run it is absent from an answer, not when first seen,
         # and a failed query is no answer: its notices are kept as they were.

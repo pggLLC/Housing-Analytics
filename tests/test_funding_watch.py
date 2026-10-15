@@ -801,3 +801,17 @@ def test_a_notice_is_forgotten_a_year_after_it_was_last_seen_not_first_seen():
     back = run(site(), previous=gone, now="2026-11-01T05:34:00Z")
     assert back["changes"]["new_federal_notices"] == []
     assert "missing_since" not in {n["key"]: n for n in back["federal_notices"]}["grants.gov:1"]
+
+
+def test_the_missing_clock_is_a_change_the_file_saves():
+    """Starting or clearing a notice's missing clock must not edit the previous result in
+    place, or main() compares it with itself and never writes the date (Codex, 2026-10-15)."""
+    base = run(site())
+    snapshot = json.loads(json.dumps(base))
+    gone = run(site(gg_hits=[]), previous=base, now="2026-10-16T05:34:00Z")
+    assert base == snapshot, "the previous result was edited in place"
+    assert watch._content(base) != watch._content(gone)
+    snapshot = json.loads(json.dumps(gone))
+    back = run(site(), previous=gone, now="2026-10-17T05:34:00Z")
+    assert gone == snapshot
+    assert watch._content(gone) != watch._content(back)
