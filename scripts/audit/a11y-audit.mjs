@@ -81,9 +81,39 @@ const AUDIT_PAGES = [
 // Content that must be on screen before a page counts as audited. Waiting for
 // the network to go quiet is not proof the data drew: if the map never
 // renders, the page is light, clean and wrong. Missing content = UNAUDITED.
+// Every page whose content its scripts draw has an entry; each selector
+// matches nothing in the static HTML. `min` counts matches, and `notText`
+// skips a match still showing its placeholder ("Loading…"). Pages without an
+// entry must be listed in STATIC_PAGES: static prose, audited as served.
+const STATIC_PAGES = ['lihtc-guide-for-stakeholders.html'];
 const READY = {
-  'hna-what-housing-exists.html': '.leaflet-marker-icon',
+  'index.html':                          { selector: '#homeNeedMap path', min: 64 },
+  'housing-needs-assessment.html':       { selector: '.leaflet-marker-icon', min: 100 },
+  'hna-what-housing-exists.html':        { selector: '.leaflet-marker-icon', min: 100 },
+  'hna-who-lives-here.html':             { selector: '#hnaGapCoveragePanel div' },
+  'hna-what-households-can-afford.html': { selector: '#hnaGapCoveragePanel div' },
+  'hna-where-its-heading.html':          { selector: '#hnaGapCoveragePanel div' },
+  'hna-what-to-do.html':                 { selector: '#hnaHousingTypeNeed div' },
+  'hna-comparative-analysis.html':       { selector: '#hcaTableBody tr', min: 50 },
+  'economic-dashboard.html':             { selector: '#sec-housing .value', min: 5, notText: 'Loading…' },
+  'lihtc-allocations.html':              { selector: '#states-body tr', min: 20 },
+  'colorado-deep-dive.html':             { selector: '#coMap path', min: 64 },
+  'colorado-deep-dive.html#tab-history': { selector: '#chfaTable td', min: 20 },
+  'dashboard.html':                      { selector: '#states-table-body tr', min: 5 },
+  'regional.html':                       { selector: '#states-table-body tr', min: 10 },
+  'market-analysis.html':                { selector: '#pmaMap path', min: 64 },
+  'deal-calculator.html':                { selector: '#dc-county-select option', min: 64 },
+  'land-value.html':                     { selector: '#lvDataQuality td' },
+  'housing-legislation-2026.html':       { selector: '#bill-status-cards strong', min: 5 },
+  'about.html':                          { selector: '#tool-watch-list li', min: 2 },
+  'insights.html':                       { selector: '#researchCatalog article', min: 5 },
 };
+
+// How many READY matches have rendered (placeholders excluded).
+function countReady(page, { selector, notText }) {
+  return page.evaluate(([sel, skip]) => [...document.querySelectorAll(sel)]
+    .filter((e) => !skip || e.textContent.trim() !== skip).length, [selector, notText || null]);
+}
 
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
@@ -149,11 +179,17 @@ async function auditPage(browser, origin, pagePath, axeScript) {
     // never goes idle, so the wait is capped rather than required.
     await page.waitForLoadState('networkidle', { timeout: 20_000 }).catch(() => {});
     await page.waitForTimeout(1_500);
-    const readySelector = READY[pagePath];
-    if (readySelector) {
-      await page.waitForSelector(readySelector, { timeout: 20_000 }).catch(() => {});
-      if (!(await page.locator(readySelector).count())) {
-        throw new Error(`content did not render (${readySelector} not found)`);
+    const ready = READY[pagePath];
+    if (ready) {
+      const min = ready.min || 1;
+      await page.waitForSelector(ready.selector, { timeout: 20_000 }).catch(() => {});
+      let found = await countReady(page, ready);
+      for (let i = 0; found < min && i < 10; i += 1) {
+        await page.waitForTimeout(1_000);
+        found = await countReady(page, ready);
+      }
+      if (found < min) {
+        throw new Error(`content did not render (${found} of at least ${min} ${ready.selector})`);
       }
     }
 

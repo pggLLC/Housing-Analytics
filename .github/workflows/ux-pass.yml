@@ -16,6 +16,10 @@ on:
       - 'css/**'
       - '*.html'
       - 'js/**'
+      # The measured pages draw from data files (the Scenario Builder from
+      # data/hna/ranking-index.json, About from data/policy/tool-watch.json),
+      # so a data-only PR can leave one unloaded or over budget.
+      - 'data/**'
       - 'scripts/audit/ux-pass.mjs'
       - 'scripts/audit/ux-budget.json'
       - 'scripts/audit/lib/**'

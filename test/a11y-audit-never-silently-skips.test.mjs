@@ -200,8 +200,28 @@ test('pages are audited as served pages, with their data, not as file:// shells'
 test('a page whose data never drew is unaudited, not clean', () => {
   // Network-idle is not proof the map rendered. The HNA map page names the
   // content it must show, and missing content throws inside auditPage.
-  assert.ok(/'hna-what-housing-exists\.html':\s*'[^']+'/.test(SRC), 'the HNA map page no longer names content it must render');
+  assert.ok(/'hna-what-housing-exists\.html':\s*\{\s*selector:/.test(SRC), 'the HNA map page no longer names content it must render');
   assert.ok(/throw new Error\(`content did not render/.test(SRC), 'missing content no longer marks the page unaudited');
+});
+
+test('every audited page says what "loaded" means, or is declared static', () => {
+  // Agreement between three lists in the audit: a page added to AUDIT_PAGES
+  // must get a READY entry or a place in STATIC_PAGES, or this fails.
+  const block = (name) => {
+    const at = SRC.indexOf(`const ${name} = `);
+    assert.ok(at !== -1, `${name} is missing from the audit`);
+    const open = SRC.indexOf(name === 'READY' ? '{' : '[', at);
+    return SRC.slice(open, SRC.indexOf(name === 'READY' ? '\n};' : '];', open));
+  };
+  const names = (text, re) => [...text.matchAll(re)].map((m) => m[1]);
+  const audited = names(block('AUDIT_PAGES'), /^\s*'([^']+\.html[^']*)'/gm);
+  const ready = names(block('READY'), /^\s*'([^']+)':\s*\{/gm);
+  const fixed = names(block('STATIC_PAGES'), /'([^']+)'/g);
+  assert.ok(audited.length >= 15, `found only ${audited.length} audited pages`);
+  const unchecked = audited.filter((p) => !ready.includes(p) && !fixed.includes(p));
+  assert.deepEqual(unchecked, [], `audited pages with no ready check: ${unchecked.join(', ')}`);
+  const strays = ready.filter((p) => !audited.includes(p));
+  assert.deepEqual(strays, [], `READY entries for pages not audited: ${strays.join(', ')}`);
 });
 
 test('the audit checks WCAG 2.2 AA, the current standard', () => {
