@@ -187,4 +187,48 @@ ledgerAgreement(DATA);
   ok(/prop123Map\[prop123Key\(rec\.name\)\]/.test(page) && /prop123Key\(p\.jurisdiction \|\| p\.name\)/.test(page), 'both sides of the lookup use the key');
 }
 
+// ---- 7. The Where to build map agrees with the awards file and keeps contacts honest.
+{
+  const LBM = require(join(ROOT, 'js/whitepaper/land-banking-map.js'));
+  const all = LBM.summarize(DATA.awards);
+  ok(all.awards === DATA.meta.award_count && all.amount === DATA.meta.total_awarded && all.units === DATA.meta.total_estimated_units,
+    'the map summary is the file\'s totals');
+  const towns = LBM.groupByTown(DATA.awards);
+  const geoids = new Set(DATA.awards.flatMap((a) => a.places.map((p) => p.geoid)));
+  ok(towns.length === geoids.size && all.towns === geoids.size, `one pin per town (${towns.length})`);
+  for (const a of DATA.awards) {
+    for (const p of a.places) ok(towns.find((t) => t.geoid === p.geoid).awards.includes(a), `${a.id} is on the ${p.name} pin`);
+  }
+  const C = LBM.contactIndex(CONTACTS);
+  for (const a of DATA.awards) ok(C[a.id], `${a.id} has a contact entry on the map`);
+  for (const t of towns) {
+    const html = LBM.popupHtml(t, DATA, C, false);
+    ok(html.includes(`developer-brief.html?geoid=${t.geoid}`), `${t.name} links to its report`);
+    for (const a of t.awards) ok(html.includes(a.project.replace(/&/g, '&amp;').replace(/'/g, '&#39;')), `${t.name} lists ${a.project}`);
+  }
+  // CHFA-printed contacts show as quoted; researched ones say "to confirm".
+  const chfa = CONTACTS.from_award_lists[0];
+  const chfaHtml = LBM.contactHtml(C[chfa.award_id], DATA, false);
+  ok(chfaHtml.includes(chfa.email) && chfaHtml.includes('named on CHFA') && !chfaHtml.includes('to confirm'), 'a CHFA-printed contact is shown as CHFA\'s');
+  const res = CONTACTS.researched.find((c) => c.status === 'found' && c.confirmed !== true && !CONTACTS.from_award_lists.some((x) => x.award_id === c.award_id));
+  ok(res && LBM.contactHtml(C[res.award_id], DATA, false).includes('to confirm'), 'a researched contact is marked to confirm');
+  const nf = CONTACTS.researched.find((c) => c.status === 'not_found');
+  ok(nf && LBM.contactHtml(C[nf.award_id], DATA, false).includes('No public contact found') && LBM.contactHtml(C[nf.award_id], DATA, false).includes(DATA.meta.program_email),
+    'an award with no contact points to CHFA');
+  ok(LBM.contactHtml(undefined, DATA, true).includes('Contacts are not in this copy'), 'a missing contacts file is said, not hidden');
+  // Sabotage: a confirmed researched contact loses the tag, and markup in a name is escaped.
+  ok(!LBM.contactHtml({ ...C[res.award_id], confirmed: true }, DATA, false).includes('to confirm'), 'sabotage: confirming a contact removes the tag');
+  ok(!LBM.contactHtml({ kind: 'chfa', name: '<img src=x>' }, DATA, false).includes('<img'), 'contact names are escaped');
+  const narrowed = LBM.filterAwards(DATA.awards, 'leadville');
+  ok(narrowed.length > 0 && narrowed.every((a) => /leadville/i.test([a.project, a.sponsor, a.location, ...a.places.map((p) => p.name)].join(' '))), 'search narrows to the town');
+
+  const page = read('developer-where.html');
+  ok(page.includes('data-land-banking-map') && page.includes('js/whitepaper/land-banking-map.js') && page.includes('js/vendor/leaflet.js') && page.includes('data-lbm-detail'),
+    'Where to build carries the map section');
+  ok(page.indexOf('id="tiers"') < page.indexOf('data-land-banking-map'), 'the shortlist stays above the map');
+  // The contacts are gated: the module ships only inside js/whitepaper, which the public build leaves out.
+  const pub = read('scripts/build-public-site.mjs');
+  ok(pub.includes("'js/whitepaper'") && pub.includes("'data/jurisdiction-briefs'") && pub.includes("'developer-where.html'"), 'the public build leaves out the map, its page and the contacts');
+}
+
 console.log(`land-banking-awards: ${checks} checks passed`);
