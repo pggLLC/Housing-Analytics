@@ -252,7 +252,7 @@
     var countyName = p.county && p.kind !== 'county' ? nameOf(model, p.county) : null;
     var inherits = p.inheritsFrom
       ? '<div class="callout callout-info"><p>' + esc(p.name) + ' is an unincorporated community with no local government of its own, so the tools shown are ' + esc(nameOf(model, p.inheritsFrom)) + '\'s.</p></div>' : '';
-    var links = '<p class="li-meta">See also <a href="housing-needs-assessment.html?type=' + (p.inheritsFrom || p.kind === 'county' ? 'county' : p.kind) + '&amp;geoid=' + encodeURIComponent(p.inheritsFrom || p.geoid) + '">the Housing Needs Assessment for this area</a> and <a href="colorado-deep-dive.html">state and federal programs on the Colorado Deep Dive</a>.</p>';
+    var links = '<p class="li-meta">See also <a href="housing-needs-assessment.html?type=' + (p.inheritsFrom || p.kind === 'county' ? 'county' : p.kind) + '&amp;geoid=' + encodeURIComponent(p.inheritsFrom || p.geoid) + '">the Housing Needs Assessment for this area</a> and <a href="colorado-deep-dive.html#tab-funding">state and federal programs in Funding Sources</a>.</p>';
     target.innerHTML = '<h2 id="li-j-name" style="margin-top:0;">' + esc(p.name) + '</h2>' +
       '<p class="li-meta">' + esc(kind) + (countyName ? ' · ' + esc(countyName) : '') + '</p>' + inherits +
       renderProp123(model, p) + renderFees(p) + renderList(p, 'land_use') + renderList(p, 'funds') +
