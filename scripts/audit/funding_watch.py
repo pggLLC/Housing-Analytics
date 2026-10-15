@@ -231,6 +231,10 @@ def check_page(target: dict, prev: dict, fetch: Fetcher, now: str) -> tuple[dict
         title = _title(markup)
         if CHALLENGE_TITLE_RE.search(title):
             error = f'bot challenge page ("{title[:80]}")'
+        elif not page_text(markup).strip():
+            # A 200 with no readable text (an empty body, a broken proxy) is not a page
+            # whose lines and documents were all removed (Codex, 2026-10-15).
+            error = f'empty page (HTTP {status}, {len(body)} bytes, no text)'
     except Exception as exc:
         error = f'{exc.__class__.__name__}: {exc}'
     if error:
@@ -290,9 +294,10 @@ def grants_gov(cfg: dict, fetch: Fetcher, capped: list | None = None) -> tuple[l
                 envelope = json.loads(body)
                 data = envelope.get('data') if isinstance(envelope, dict) else None
                 # search2 answers errors with HTTP 200 and an error envelope; a missing
-                # data block is not a search that found nothing.
+                # data block or oppHits list is not a search that found nothing (a real
+                # zero-result search returns "oppHits": [], checked live 2026-10-15).
                 if envelope.get('errorcode') not in (None, 0, '0') or envelope.get('errorMsgs') \
-                        or not isinstance(data, dict) or not isinstance(data.get('oppHits', []), list):
+                        or not isinstance(data, dict) or not isinstance(data.get('oppHits'), list):
                     raise ValueError(f"Grants.gov error response: errorcode={envelope.get('errorcode')!r} "
                                      f"msg={str(envelope.get('msg') or envelope.get('errorMsgs'))[:200]!r}")
             except Exception as exc:

@@ -635,3 +635,25 @@ def test_a_document_renamed_at_the_same_address_is_reported(tmp_path):
                "federal_failures": [], "fetch_failures": []}
     _stdout, posts = run_issue_script(tmp_path, summary)
     assert 'was "2026 Application Guidelines"' in posts[0]["body"]
+
+
+def test_an_empty_200_page_is_a_failure_not_everything_removed():
+    """An empty or text-less 200 keeps the previous snapshot (Codex, 2026-10-15)."""
+    base = run(site(eiaf=OPEN))
+    for body in ("", "   ", "<html><body></body></html>"):
+        r = run(site(eiaf=body), previous=base, now="2026-10-16T05:34:00Z")
+        assert r["changes"]["changed_pages"] == [], body
+        page = next(p for p in r["pages"] if p["id"] == "dlg-eiaf")
+        assert page["ok"] is False and "empty page" in page["error"]
+        assert page["key_lines"] == next(p for p in base["pages"] if p["id"] == "dlg-eiaf")["key_lines"]
+
+
+def test_a_grants_gov_payload_without_opphits_is_a_failure():
+    def no_hits(url, data=None, headers=None):
+        return 200, {}, json.dumps({"errorcode": 0, "data": {}}).encode()
+    notices, failures = watch.grants_gov(SOURCES["federal"]["grants_gov"], no_hits)
+    assert notices == [] and len(failures) == len(SOURCES["federal"]["grants_gov"]["keywords"])
+
+    def zero(url, data=None, headers=None):
+        return 200, {}, json.dumps({"errorcode": 0, "data": {"hitCount": 0, "oppHits": []}}).encode()
+    assert watch.grants_gov(SOURCES["federal"]["grants_gov"], zero) == ([], []), "a real empty search still passes"
