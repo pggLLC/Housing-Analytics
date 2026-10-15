@@ -2,8 +2,8 @@
 // HUD's "homes short" must be one number wherever a reader sees it. The
 // Deal Calculator's gap line shows renter homes that are affordable AND
 // available to each income group, from data/hna/chas_affordable_available.json
-// (HUD CHAS Tables 15C, 14B and 7); the homepage cards show the same file's
-// statewide count under their ACS figure (paul, 2026-10-15: "show both").
+// (HUD CHAS Tables 15C, 14B and 7); the homepage cards lead with the same
+// file's statewide count, with the ACS 2024 minimum under it (paul, 2026-10-15).
 // This runs the real renderer against every record and pins both pages to
 // the file.
 const assert = require('node:assert/strict');
@@ -78,5 +78,5 @@ w._setData({ meta: aa.meta, counties: { '08001': { name: 'Bare' } }, places: {} 
 assert.deepEqual(rendered('08001', null).values, [null, null, null], 'a record without tiers shows —, not 0');
 assert.equal(rendered('08999', null), null, 'no record hides the line instead of showing zeros');
 
-// The homepage shows the same statewide record under its ACS figure (test/homepage-claims.test.js pins the values).
+// The homepage leads with the same statewide record (test/homepage-claims.test.js pins the values).
 console.log(`homes-short-agreement: PASS (${checked} records)`);
