@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T09:01:35.519Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T09:30:14.181Z. Do not edit by hand.
 
 ---
 
@@ -36,7 +36,7 @@
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 78.9 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO | 45.8 KB |
 | `developer-pipeline.html` | Pipeline — COHO developer tools | 27.6 KB |
-| `developer-where.html` | Where Should I Build? — COHO | 21.3 KB |
+| `developer-where.html` | Where Should I Build? — COHO | 21.6 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO | 898 B |
 | `developer.html` | Developer Home — COHO | 18.4 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 93.2 KB |
@@ -84,7 +84,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1687 JSON files found.
+1690 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1569,6 +1569,7 @@
 | `data/jurisdiction-briefs/0873825.json` | 22.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0876795.json` | 19.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_contacts/0833640.json` | 3.1 KB | ✅ | — |
+| `data/jurisdiction-briefs/_land-banking-contacts.json` | 55.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_landscape/0833640.json` | 26.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications-excluded.json` | 465 B | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications.json` | 408.6 KB | ✅ | — |
@@ -1724,6 +1725,7 @@
 | `data/policy/developer-ownership-funding.json` | 20.3 KB | ✅ | — |
 | `data/policy/fee-reductions.json` | 567.3 KB | ✅ | — |
 | `data/policy/funding-awards/documents.json` | 39.9 KB | ✅ | — |
+| `data/policy/funding-awards/land-banking-corrections.json` | 7.1 KB | ✅ | — |
 | `data/policy/funding-awards/ledger.json` | 347.7 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.8 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 1.7 KB | ✅ | — |
@@ -1742,6 +1744,7 @@
 | `data/policy/pab-allocations.json` | 17.3 KB | ✅ | — |
 | `data/policy/policy-timeline.json` | 6.7 KB | ✅ | — |
 | `data/policy/policy-watch.json` | 50.5 KB | ✅ | — |
+| `data/policy/prop123-land-banking-awards.json` | 74.2 KB | ✅ | — |
 | `data/policy/prop123-rental-rules.json` | 32.2 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 130.0 KB | ✅ | — |
 | `data/policy/resale-conventions.json` | 7.4 KB | ✅ | — |
@@ -1780,7 +1783,7 @@
 
 ## Test Files
 
-609 test files found.
+610 test files found.
 
 | File | Size |
 |------|------|
@@ -2073,6 +2076,7 @@
 | `test/jurisdiction-whitepaper.test.mjs` | 30.5 KB |
 | `test/kalshi-signing-and-write.test.js` | 6.4 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
+| `test/land-banking-awards.test.mjs` | 12.2 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-activity-panel.test.mjs` | 4.8 KB |
@@ -2451,7 +2455,7 @@
 | `.github/workflows/fetch-market-rents.yml` | 8.2 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 20.4 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 9.4 KB |
-| `.github/workflows/funding-awards.yml` | 4.0 KB |
+| `.github/workflows/funding-awards.yml` | 4.9 KB |
 | `.github/workflows/local-incentives-watch.yml` | 1.8 KB |
 | `.github/workflows/market_data_build.yml` | 21.8 KB |
 | `.github/workflows/merge-ref-gate.yml` | 3.6 KB |
