@@ -872,3 +872,48 @@ def test_an_issue_opened_without_the_label_is_found_again_by_its_marker(tmp_path
     listed = json.loads(stdout.split("LIST ", 1)[1].splitlines()[0])
     assert "labels" not in listed and listed["state"] == "open"
     assert [(p["kind"], p["issue"]) for p in posts] == [("comment", 7)], "updated the tracker, not the PR; opened nothing"
+
+
+def test_a_notice_waits_while_any_query_that_found_it_is_failing():
+    """A notice found by two keywords keeps both; absent from one keyword's answer while
+    the other keyword fails, its clock does not start (Codex, 2026-10-15)."""
+    base = run(site())
+    rec = {n["key"]: n for n in base["federal_notices"]}["grants.gov:1"]
+    assert rec["queries"] == ["grants.gov|affordable housing", "grants.gov|water"]
+
+    def water_fails(url, data=None, headers=None):
+        if url == GG and json.loads(data)["keyword"] == "water":
+            raise HTTPError("HTTP Error 503")
+        return site(gg_hits=[])(url, data, headers)
+    r = run(water_fails, previous=base, now="2026-10-16T05:34:00Z")
+    kept = {n["key"]: n for n in r["federal_notices"]}["grants.gov:1"]
+    assert "missing_since" not in kept, "one query failing is no answer for the notice"
+    # Non-vacuity: both queries answered without it, and the clock starts.
+    r2 = run(site(gg_hits=[]), previous=base, now="2026-10-16T05:34:00Z")
+    assert {n["key"]: n for n in r2["federal_notices"]}["grants.gov:1"]["missing_since"]
+
+
+def test_a_run_that_spends_its_time_budget_still_writes_with_failures():
+    """Once the run's time budget is spent, nothing more is fetched: what is left counts
+    as failed (snapshot kept, failure date recorded), so the result is written before
+    the job timeout instead of the job being cancelled (Codex, 2026-10-15)."""
+    base = run(site(eiaf=OPEN))
+    ticks = iter(range(10_000))
+    calls = []
+
+    def counted(url, data=None, headers=None):
+        calls.append(url)
+        return site(eiaf=OPEN)(url, data, headers)
+    r = watch.run(fetch=counted, previous=base, now="2026-10-16T05:34:00Z", guide=GUIDE, soft=SOFT,
+                  sources=SOURCES, budget_s=1, clock=lambda: next(ticks))
+    assert len(calls) == 1, "only the request started inside the budget was made"
+    failed = [p for p in r["pages"] if p["ok"] is False]
+    assert failed and all("budget" in p["error"] for p in failed)
+    eiaf = next(p for p in r["pages"] if p["id"] == "dlg-eiaf")
+    assert eiaf["key_lines"] == next(p for p in base["pages"] if p["id"] == "dlg-eiaf")["key_lines"]
+    assert r["federal_failures"] and all("budget" in f["error"] for f in r["federal_failures"])
+    assert r["changes"]["changed_pages"] == [] and r["changes"]["new_federal_notices"] == []
+    # Non-vacuity: with a budget, the same run reads everything.
+    full = watch.run(fetch=counted, previous=base, now="2026-10-16T05:34:00Z", guide=GUIDE, soft=SOFT,
+                     sources=SOURCES, budget_s=10**9, clock=lambda: next(ticks))
+    assert all(p["ok"] for p in full["pages"]) and not full["federal_failures"]

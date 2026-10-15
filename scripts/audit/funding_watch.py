@@ -58,6 +58,7 @@ import hashlib
 import json
 import re
 import sys
+import time
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -88,6 +89,11 @@ MAX_OUT_BYTES = int(4.5 * 1024 * 1024)
 # check by hand). Days, not runs: the failure is stored as first_failed_at, which
 # changes once, so a page that stays blocked does not rewrite the file every day.
 UNREACHABLE_AFTER_DAYS = 3
+# The whole run stops fetching after this many seconds; anything not yet read counts
+# as a failed fetch (snapshot kept, failure date recorded), so the result is always
+# written well inside the job's 30-minute timeout, even when every host stalls
+# (Codex, 2026-10-15).
+RUN_BUDGET_SECONDS = 20 * 60
 # Federal notices are kept after they leave the search results, so one that drops
 # out and comes back is not reported new again; forgotten this many days after it
 # was last seen (missing_since), never while the query that found it is failing.
@@ -423,8 +429,15 @@ def federal_register(cfg: dict, fetch: Fetcher, capped: list | None = None) -> t
 
 
 def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | None = None,
-        guide: dict | None = None, soft: dict | None = None, sources: dict | None = None) -> dict:
+        guide: dict | None = None, soft: dict | None = None, sources: dict | None = None,
+        budget_s: float = RUN_BUDGET_SECONDS, clock: Callable[[], float] = time.monotonic) -> dict:
     now = now or utc_now()
+    started, raw_fetch = clock(), fetch
+
+    def fetch(url, data=None, headers=None):  # noqa: F811 - the budgeted fetcher
+        if clock() - started > budget_s:
+            raise TimeoutError(f'not fetched: the run spent its {int(budget_s)}-second budget')
+        return raw_fetch(url, data=data, headers=headers)
     previous = previous or {}
     guide = guide if guide is not None else json.loads(GUIDE_FILE.read_text(encoding='utf-8'))
     soft = soft if soft is not None else json.loads(SOFT_FILE.read_text(encoding='utf-8'))
@@ -475,6 +488,7 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         if n['key'] in prev_notices:
             continue  # keep the record as first seen; a later status edit is not news
         n['first_seen_at'] = now
+        n['queries'] = sorted(matched_by.get(n['key'], set()))
         merged.append(n)
         if matched_by.get(n['key'], set()) & prev_baselined:
             new_notices.append(n)
@@ -487,10 +501,14 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         # Kept after it leaves the results, so it is not "new" again if it returns. The
         # clock starts the first run it is absent from an answer, not when first seen,
         # and a failed query is no answer: its notices are kept as they were.
+        # Every query that ever matched it is kept, and any one of them failing defers
+        # the clock: an answer from one query says nothing about another's results.
+        queries = set(p.get('queries') or [f"{p.get('source')}|{p.get('query')}"])
         if key in seen_now:
             p.pop('missing_since', None)
+            p['queries'] = sorted(queries | matched_by.get(key, set()))
             merged.append(p)
-        elif f"{p.get('source')}|{p.get('query')}" in failed_queries:
+        elif queries & failed_queries:
             merged.append(p)
         else:
             p['missing_since'] = p.get('missing_since') or now
