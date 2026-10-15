@@ -21,8 +21,8 @@
  * (MutationObserver), so JS-built tables (ranking index, county comparison,
  * projections, deal calculator) are covered without each renderer knowing
  * this exists. Idempotent: a header that already has its control is left
- * alone. Headers with no text (blank corner cells) or that contain a form
- * control are skipped.
+ * alone. Headers with no text (blank corner cells), or that contain a form
+ * control or a link of their own, are skipped.
  */
 (function () {
   'use strict';
@@ -85,16 +85,34 @@
     pop.style.top = top + 'px';
   }
 
-  function lastTextNode(el) {
-    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
-    var n, last = null;
-    while ((n = walker.nextNode())) if (/\S/.test(n.nodeValue)) last = n;
+  // The header's own last word: a text node that is a direct child of the
+  // <th> and carries more than a sort arrow. Text inside child elements is
+  // left alone, because renderers rewrite those (preservation.js assigns
+  // `.sort-icon.textContent` on every sort) and would delete the glyph.
+  function lastOwnTextNode(th) {
+    var last = null;
+    for (var n = th.firstChild; n; n = n.nextSibling) {
+      if (n.nodeType === 3 && /[^\s▲▼↑↓⇅↕?]/.test(n.nodeValue)) last = n;
+    }
     return last;
   }
 
   function decorate(th) {
     if (th.querySelector('.th-tip__btn')) return;
     if (th.querySelector('input, select, button, textarea')) return;
+    // A header that already links to its own explanation (the footnote
+    // daggers on chfa-portfolio.html) keeps that link as its one control:
+    // a second 44px target beside it would share the same pixels, so a tap
+    // there would reach whichever wins hit testing (Codex on #2239).
+    // Its definition still rides on the header as a native title, which
+    // table-export.js reads for the downloaded data dictionary.
+    if (th.querySelector('a[href]')) {
+      if (!th.getAttribute('title') && !th.getAttribute('data-tip')) {
+        var def = map && Object.prototype.hasOwnProperty.call(map, normalize(th.textContent)) ? map[normalize(th.textContent)] : null;
+        if (def) th.setAttribute('title', def);
+      }
+      return;
+    }
     if (!normalize(th.textContent)) return;
     var tip = tipFor(th);
     if (!tip) return;
@@ -144,12 +162,12 @@
     // alone on a line of its own.
     var tail = document.createElement('span');
     tail.className = 'th-tip__tail';
-    var last = lastTextNode(th);
+    var last = lastOwnTextNode(th);
     var m = last && /(\S+)(\s*)$/.exec(last.nodeValue);
     if (m) {
       last.nodeValue = last.nodeValue.slice(0, m.index);
       tail.appendChild(document.createTextNode(m[1]));
-      last.parentNode.insertBefore(tail, last.nextSibling);
+      th.insertBefore(tail, last.nextSibling);
     } else {
       th.appendChild(tail);
     }
