@@ -96,4 +96,33 @@ assert.ok(componentSrc.includes('MutationObserver'), 'component re-decorates JS-
 assert.ok(componentSrc.includes("th.getAttribute('data-tip')") && componentSrc.includes("th.getAttribute('title')"),
   'component prefers the header\'s own title/data-tip over the map');
 
+// The definition glyphs are inline, text-sized controls. css/responsive.css
+// gives every button and summary a 44px minimum box for touch; applied to a
+// glyph inside a header, that turned a 17px "?" into a 44px circle, wrapped
+// headers and broke their alignment (2026-10-15). Whatever minimum the
+// touch rule sets, each glyph rule must reset it, and the header row must
+// share a bottom edge with the glyph glued to the label's last word.
+const responsiveCss = read('css/responsive.css');
+const themeCss = read('css/site-theme.css');
+const ruleBody = (css, selector) => {
+  const esc = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const m = new RegExp('(?:^|[}\\s])' + esc + '\\s*\\{([^}]*)\\}', 'm').exec(css);
+  return m ? m[1] : null;
+};
+const touchRule = /(^|\n)a,\s*\nbutton,[\s\S]*?summary,[\s\S]*?\{([^}]*)\}/.exec(responsiveCss);
+assert.ok(touchRule, 'found the touch-target rule in css/responsive.css');
+const touchForcesSize = !!(touchRule && /min-(height|width):\s*44px/.test(touchRule[2]));
+const GLYPHS = ['.th-tip__btn', '.info-tooltip > summary'];
+for (const sel of GLYPHS) {
+  const body = ruleBody(themeCss, sel);
+  assert.ok(body, `site-theme.css has a rule for ${sel}`);
+  if (touchForcesSize) {
+    assert.ok(/min-width:\s*0/.test(body) && /min-height:\s*0/.test(body),
+      `${sel} resets the 44px touch minimum from css/responsive.css so the glyph stays text-sized`);
+  }
+}
+assert.ok(/table th\s*\{[^}]*vertical-align:\s*bottom/.test(themeCss), 'header cells share a bottom edge');
+assert.ok(/\.th-tip__tail\s*\{[^}]*white-space:\s*nowrap/.test(themeCss) && componentSrc.includes("'th-tip__tail'"),
+  'the glyph wraps together with the label\'s last word');
+
 console.log(`table-header-tips: PASS — ${tablePages.length} table pages wired, ${Object.keys(tips).length} definitions, every static header covered`);
