@@ -34,21 +34,7 @@ The normal blocked-source refresh is the local browser/cache procedure below.
    **before Phase 7** (ranking index). With a CHAS-only update, use the current
    committed ACS summaries, tract membership, tract metrics and place-LEHD inputs;
    do not launch an unrelated ACS refresh. Check place coverage and tenure anchors.
-5. Run `npm run rebuild:derived` after place CHAS. CHAS feeds ranking and
-   jurisdiction digests, which in turn feed brief sections, the home snapshot,
-   place pages and paper figures. The chain orders ranking/augmentations,
-   scenarios, digests, briefs, snapshot and pages before inventory and manifests.
-   Run `node scripts/build_rent_burden_crosscheck.mjs` as well if refreshing its
-   CHAS comparison output; it is a separate direct consumer.
-6. Before **each** rebuild, inspect and remove actual iCloud duplicates using
-   AGENTS.md's prescribed cleanup (exclude `.git` and `node_modules`, including
-   extensionless duplicate directories). Stage any new intended files before
-   `node scripts/compute-inventory.mjs --write`, which counts tracked files. For the final
-   local checks, run `npm run audit:file-manifest` **before**
-   `python3 scripts/rebuild_manifest.py`, then `node scripts/validate-schemas.js`.
-   The second manifest records the first one's byte count. Run the CHAS Python
-   tests, place-CHAS method/share/tenure/freshness tests and downstream guards.
-7. Refresh the affordable-and-available count on the homepage. From the
+5. Refresh the affordable-and-available count on the homepage. From the
    **County (050)** and **Place (160)** CSV ZIPs, take `Table15C.csv`,
    `Table14B.csv` and `Table7.csv` and save them in one folder as
    `county-050-Table15C.csv`, `county-050-Table14B.csv`, `county-050-Table7.csv`,
@@ -58,7 +44,22 @@ The normal blocked-source refresh is the local browser/cache procedure below.
    It keeps the Colorado rows under `data/hna/source/chas/<vintage>/` (commit
    these; remove the old vintage folder) and writes
    `data/hna/chas_affordable_available.json`. It stops if the table layout no
-   longer adds up. `npm run test:chas-affordable-available` recomputes it.
+   longer adds up. `npm run test:chas-affordable-available` recomputes it. Run it here, before the
+   rebuild, manifests and schema validation below, so those checks see its output.
+6. Run `npm run rebuild:derived` after place CHAS. CHAS feeds ranking and
+   jurisdiction digests, which in turn feed brief sections, the home snapshot,
+   place pages and paper figures. The chain orders ranking/augmentations,
+   scenarios, digests, briefs, snapshot and pages before inventory and manifests.
+   Run `node scripts/build_rent_burden_crosscheck.mjs` as well if refreshing its
+   CHAS comparison output; it is a separate direct consumer.
+7. Before **each** rebuild, inspect and remove actual iCloud duplicates using
+   AGENTS.md's prescribed cleanup (exclude `.git` and `node_modules`, including
+   extensionless duplicate directories). Stage any new intended files before
+   `node scripts/compute-inventory.mjs --write`, which counts tracked files. For the final
+   local checks, run `npm run audit:file-manifest` **before**
+   `python3 scripts/rebuild_manifest.py`, then `node scripts/validate-schemas.js`.
+   The second manifest records the first one's byte count. Run the CHAS Python
+   tests, place-CHAS method/share/tenure/freshness tests and downstream guards.
 8. Review and commit only the intended source and derived data changes. Do not
    commit generated manifests, inventory lines or `data/paper/*`; CI regenerates
    them. Include vintage, coverage and spot-check evidence in the PR, and update

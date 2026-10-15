@@ -1,9 +1,9 @@
 {
   "meta": {
-    "source": "HUD CHAS (Comprehensive Housing Affordability Strategy), Tables 15C and 14B",
+    "source": "HUD CHAS (Comprehensive Housing Affordability Strategy), Tables 15C, 14B and 7",
     "url": "https://www.huduser.gov/portal/datasets/cp.html",
     "vintage": "2018-2022",
-    "generated": "2026-10-14T23:59:36Z",
+    "generated": "2026-10-15T00:35:31Z",
     "builder": "scripts/hna/build_chas_affordable_available.py",
     "source_extracts": "data/hna/source/chas/2018thru2022/",
     "income_basis": "HUD Area Median Family Income (HAMFI) for each area, adjusted for household size",

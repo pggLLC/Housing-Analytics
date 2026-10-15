@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 build_chas_affordable_available.py — renter homes that are affordable AND
-available to each income group, from HUD CHAS Tables 15C and 14B.
+available to each income group, from HUD CHAS Tables 15C and 14B, with
+renter households by income from Table 7.
 
 A home is "affordable and available" to households at or below an income
 limit when its rent is affordable at that limit and it is either vacant for
@@ -222,7 +223,7 @@ def build():
     statewide['name'] = 'Colorado'
     doc = {
         'meta': {
-            'source': 'HUD CHAS (Comprehensive Housing Affordability Strategy), Tables 15C and 14B',
+            'source': 'HUD CHAS (Comprehensive Housing Affordability Strategy), Tables 15C, 14B and 7',
             'url': 'https://www.huduser.gov/portal/datasets/cp.html',
             'vintage': VINTAGE_LABEL,
             'generated': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
