@@ -197,6 +197,13 @@ test('pages are audited as served pages, with their data, not as file:// shells'
   assert.ok(/serveRoot\(ROOT\)/.test(SRC), 'the audit no longer starts its own static server');
 });
 
+test('a page whose data never drew is unaudited, not clean', () => {
+  // Network-idle is not proof the map rendered. The HNA map page names the
+  // content it must show, and missing content throws inside auditPage.
+  assert.ok(/'hna-what-housing-exists\.html':\s*'[^']+'/.test(SRC), 'the HNA map page no longer names content it must render');
+  assert.ok(/throw new Error\(`content did not render/.test(SRC), 'missing content no longer marks the page unaudited');
+});
+
 test('the audit checks WCAG 2.2 AA, the current standard', () => {
   assert.ok(/WCAG_TAGS = \[[^\]]*'wcag22aa'/.test(SRC), 'the wcag22aa tag was dropped from the audit');
 });

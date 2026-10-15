@@ -9,6 +9,8 @@
  *     - DOM nodes after the page's data has loaded
  *     - main-thread blocking: the sum of every long task beyond 50 ms
  *     - exactly one <h1>
+ *     - per page, that its data actually rendered (`ready`), and the same
+ *       limits after pressing a control a reader would press (`click`)
  *   reported as rough signals (never fail, and never a substitute for
  *   testing whether real readers understand the page)
  *     - reading grade of the page's prose (Flesch-Kincaid)
@@ -83,7 +85,7 @@ function installLongTaskObserver() {
   } catch { window.__uxBlockingMs = null; }
 }
 
-function measurePage(plainCaps) {
+function measurePage([plainCaps, readySelector]) {
   const visible = (e) => {
     const r = e.getBoundingClientRect();
     return r.width > 0 && r.height > 0 && r.top < innerHeight && r.bottom > 0;
@@ -103,6 +105,7 @@ function measurePage(plainCaps) {
     title: document.title,
     h1Count: document.querySelectorAll('h1').length,
     domNodes: document.getElementsByTagName('*').length,
+    readyCount: readySelector ? document.querySelectorAll(readySelector).length : null,
     blockingMs: window.__uxBlockingMs == null ? null : Math.round(window.__uxBlockingMs),
     screens: Math.round((document.documentElement.scrollHeight / innerHeight) * 10) / 10,
     prose,
@@ -110,7 +113,7 @@ function measurePage(plainCaps) {
   };
 }
 
-async function measure(browser, origin, page) {
+async function measure(browser, origin, page, pageBudget = {}) {
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2,
   });
@@ -121,14 +124,38 @@ async function measure(browser, origin, page) {
     if (!response || !response.ok()) throw new Error(`HTTP ${response ? response.status() : 'no response'}`);
     await tab.waitForLoadState('networkidle', { timeout: 30_000 }).catch(() => {});
     await tab.waitForTimeout(2_000);
-    const m = await tab.evaluate(measurePage, [...PLAIN_CAPS]);
+    const readySel = pageBudget.ready ? pageBudget.ready.selector : null;
+    const m = await tab.evaluate(measurePage, [[...PLAIN_CAPS], readySel]);
     const { prose, ...rest } = m;
-    return { page, ...rest, readingGrade: fleschKincaidGrade(prose), proseWords: prose.split(/\s+/).filter(Boolean).length };
+    const out = { page, ...rest, readingGrade: fleschKincaidGrade(prose), proseWords: prose.split(/\s+/).filter(Boolean).length };
+    if (pageBudget.click) out.afterClick = await exerciseClick(tab, pageBudget.click);
+    return out;
   } catch (err) {
     return { page, error: String(err.message || err).split('\n')[0].slice(0, 200) };
   } finally {
     await context.close().catch(() => {});
   }
+}
+
+// Press a control the way a reader would, up to `times` times, and measure
+// the page it leaves behind. Blocking is counted from the first press.
+async function exerciseClick(tab, { selector, times = 1 }) {
+  await tab.evaluate(() => { window.__uxBlockingMs = 0; });
+  let clicks = 0;
+  for (let i = 0; i < times; i += 1) {
+    const btn = tab.locator(selector).first();
+    if (!(await btn.count())) break;
+    await btn.scrollIntoViewIfNeeded().catch(() => {});
+    await btn.click();
+    clicks += 1;
+    await tab.waitForTimeout(500);
+  }
+  await tab.waitForTimeout(1_000);
+  const after = await tab.evaluate(() => ({
+    domNodes: document.getElementsByTagName('*').length,
+    blockingMs: window.__uxBlockingMs == null ? null : Math.round(window.__uxBlockingMs),
+  }));
+  return { clicks, ...after };
 }
 
 async function lighthouseScores(origin, pages, chromePath) {
@@ -202,8 +229,9 @@ async function main() {
   try {
     for (const p of pages) {
       process.stderr.write(`[ux-pass] ${p} ... `);
-      let r = await measure(browser, server.origin, p);
-      if (r.error) r = await measure(browser, server.origin, p); // one retry, as in a11y-audit
+      const pageBudget = { ...(budget.defaults || {}), ...((budget.pages || {})[p] || {}) };
+      let r = await measure(browser, server.origin, p, pageBudget);
+      if (r.error) r = await measure(browser, server.origin, p, pageBudget); // one retry, as in a11y-audit
       results.push(r);
       process.stderr.write(r.error ? `error: ${r.error}\n` : `${r.domNodes} nodes, ${r.blockingMs} ms blocking\n`);
     }

@@ -78,6 +78,13 @@ const AUDIT_PAGES = [
 ];
 
 // WCAG 2.2 AA is the current standard. The 2.2 tag adds e.g. target size.
+// Content that must be on screen before a page counts as audited. Waiting for
+// the network to go quiet is not proof the data drew: if the map never
+// renders, the page is light, clean and wrong. Missing content = UNAUDITED.
+const READY = {
+  'hna-what-housing-exists.html': '.leaflet-marker-icon',
+};
+
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
 
@@ -142,6 +149,13 @@ async function auditPage(browser, origin, pagePath, axeScript) {
     // never goes idle, so the wait is capped rather than required.
     await page.waitForLoadState('networkidle', { timeout: 20_000 }).catch(() => {});
     await page.waitForTimeout(1_500);
+    const readySelector = READY[pagePath];
+    if (readySelector) {
+      await page.waitForSelector(readySelector, { timeout: 20_000 }).catch(() => {});
+      if (!(await page.locator(readySelector).count())) {
+        throw new Error(`content did not render (${readySelector} not found)`);
+      }
+    }
 
     // Inject axe-core then run it. Inside the try: a crash here used to take
     // the entire run with it.
@@ -342,14 +356,14 @@ async function main() {
 
   if (!singlePage) {
     const budget = JSON.parse(await fs.readFile(path.join(__dirname, 'a11y-budget.json'), 'utf8'));
-    const { over, under } = checkA11yBudget(summary, budget);
+    const { over, under } = checkA11yBudget(results, budget);
     for (const u of under) {
-      console.log(`a11y-audit: ${u.rule} is down to ${u.found} (budget ${u.allowed}); lower it in scripts/audit/a11y-budget.json`);
+      console.log(`a11y-audit: ${u.rule} on ${u.page} is down to ${u.found} (budget ${u.allowed}); lower it in scripts/audit/a11y-budget.json`);
     }
     if (over.length) {
       console.error('');
       console.error('a11y-audit: serious or critical failures went up:');
-      for (const o of over) console.error(`  ${o.rule} (${o.impact}): ${o.found} element(s), budget ${o.allowed}, on ${o.pages.join(', ')}`);
+      for (const o of over) console.error(`  ${o.page}: ${o.rule} (${o.impact}) ${o.found} element(s), budget ${o.allowed}`);
       console.error('Fix them. scripts/audit/a11y-budget.json records what is already known and only ever goes down.');
       process.exitCode = 1;
     }

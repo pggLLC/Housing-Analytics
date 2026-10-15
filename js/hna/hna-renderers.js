@@ -2566,22 +2566,37 @@
           `${totalInView} propert${totalInView === 1 ? 'y' : 'ies'} ${_scopeLabel}, all subsidy programs, hover badge for definition` +
         `</span>` +
       `</p>`;
-    const _showAllHtml = _restRows.length
-      ? `<p style="margin:.25rem 0 .75rem"><button type="button" class="btn lihtc-show-all">` +
-          `Show all ${totalInView} properties</button></p>`
+    // More rows arrive a page at a time. A single "show all" put every row
+    // back at once (~51,000 DOM nodes statewide), which is the freeze again.
+    const LIHTC_PANEL_MORE_ROWS = 50;
+    const _moreLabel = function (left) {
+      const next = Math.min(LIHTC_PANEL_MORE_ROWS, left);
+      return `Show ${next} more (${left} of ${totalInView} not shown)`;
+    };
+    const _showMoreHtml = _restRows.length
+      ? `<p style="margin:.25rem 0 .75rem"><button type="button" class="btn lihtc-show-more">` +
+          `${_moreLabel(_restRows.length)}</button></p>`
       : '';
     panelEl.innerHTML =
       headline +
       `<ul class="lihtc-list" style="list-style:none;padding-left:0">${_sortedHtml}</ul>` +
-      _showAllHtml +
+      _showMoreHtml +
       mfHtml;
-    const showAllBtn = panelEl.querySelector('.lihtc-show-all');
-    if (showAllBtn) {
-      showAllBtn.addEventListener('click', function () {
+    const showMoreBtn = panelEl.querySelector('.lihtc-show-more');
+    if (showMoreBtn) {
+      let shown = 0;
+      showMoreBtn.addEventListener('click', function () {
         const list = panelEl.querySelector('.lihtc-list');
-        if (list) list.insertAdjacentHTML('beforeend', _restRows.map(function (r) { return r.html; }).join(''));
-        const holder = showAllBtn.parentNode;
-        if (holder) holder.remove();
+        const batch = _restRows.slice(shown, shown + LIHTC_PANEL_MORE_ROWS);
+        if (list) list.insertAdjacentHTML('beforeend', batch.map(function (r) { return r.html; }).join(''));
+        shown += batch.length;
+        const left = _restRows.length - shown;
+        if (left > 0) {
+          showMoreBtn.textContent = _moreLabel(left);
+        } else {
+          const holder = showMoreBtn.parentNode;
+          if (holder) holder.remove();
+        }
       });
     }
   }

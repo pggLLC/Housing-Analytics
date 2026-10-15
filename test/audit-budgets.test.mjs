@@ -24,33 +24,49 @@ const test = (name, fn) => {
 
 console.log('audit-budgets');
 
-const summary = (byRule) => ({ byRule });
+const res = (page, violations) => ({ page, violations });
+const viol = (id, impact, nodeCount) => ({ id, impact, nodeCount });
 
-test('a serious rule over its budget fails, and names the pages', () => {
+test('a serious rule over its budget on a page fails, and names the page', () => {
   const { over } = checkA11yBudget(
-    summary({ 'target-size': { impact: 'serious', nodeCount: 53, pages: ['a.html'] } }),
-    { maxElements: { 'target-size': 52 } });
+    [res('a.html', [viol('target-size', 'serious', 15)])],
+    { maxElements: { 'target-size': { 'a.html': 14 } } });
   assert.equal(over.length, 1);
-  assert.deepEqual(over[0].pages, ['a.html']);
+  assert.equal(over[0].page, 'a.html');
 });
 
 test('a serious rule that is not in the budget at all fails (the 926 unnamed markers)', () => {
   const { over } = checkA11yBudget(
-    summary({ 'aria-command-name': { impact: 'serious', nodeCount: 926, pages: ['hna-what-housing-exists.html'] } }),
+    [res('hna-what-housing-exists.html', [viol('aria-command-name', 'serious', 926)])],
     { maxElements: {} });
   assert.equal(over.length, 1);
   assert.equal(over[0].allowed, 0);
 });
 
+test('a fix on one page cannot pay for a new failure on another', () => {
+  // Site-wide totals are unchanged (10 + 0 = 5 + 5); the new failure on b.html
+  // must still fail. A per-rule allowance across pages let this through.
+  const { over } = checkA11yBudget(
+    [res('a.html', [viol('target-size', 'serious', 5)]), res('b.html', [viol('target-size', 'serious', 5)])],
+    { maxElements: { 'target-size': { 'a.html': 10 } } });
+  assert.deepEqual(over.map((o) => o.page), ['b.html']);
+});
+
 test('moderate and minor findings are reported, not budgeted', () => {
-  const { over } = checkA11yBudget(summary({ region: { impact: 'moderate', nodeCount: 40, pages: ['a.html'] } }), { maxElements: {} });
+  const { over } = checkA11yBudget([res('a.html', [viol('region', 'moderate', 40)])], { maxElements: {} });
   assert.equal(over.length, 0);
 });
 
-test('a rule now below its budget is reported so the budget can come down', () => {
-  const { over, under } = checkA11yBudget(summary({}), { maxElements: { list: 2 } });
+test('a page now below its budget is reported so the budget can come down', () => {
+  const { over, under } = checkA11yBudget([res('a.html', [])], { maxElements: { list: { 'a.html': 2 } } });
   assert.equal(over.length, 0);
-  assert.deepEqual(under, [{ rule: 'list', found: 0, allowed: 2 }]);
+  assert.deepEqual(under, [{ rule: 'list', page: 'a.html', found: 0, allowed: 2 }]);
+});
+
+test('an unaudited page is not reported as fixed', () => {
+  const { under } = checkA11yBudget([{ page: 'a.html', error: 'Target crashed', violations: [] }],
+    { maxElements: { list: { 'a.html': 2 } } });
+  assert.deepEqual(under, []);
 });
 
 const UX = { defaults: { maxDomNodes: 15000, maxBlockingMs: 6000, oneH1: true }, pages: {} };
@@ -78,6 +94,28 @@ test('a page that did not load is a breach, not a pass', () => {
   assert.equal(checkUxBudget([{ page: 'gone.html', error: 'HTTP 404' }], UX).length, 1);
 });
 
+test('a measurement that did not happen fails instead of passing', () => {
+  // null > 6000 and NaN > 6000 are both false.
+  const b = checkUxBudget([page({ blockingMs: null }), page({ domNodes: NaN })], UX);
+  assert.equal(b.length, 2);
+  assert.ok(b.every((x) => x.found === 'not measured'));
+});
+
+test('a page whose data never rendered fails, however light it is', () => {
+  const budget = { ...UX, pages: { 'p.html': { ready: { selector: '.leaflet-marker-icon', min: 100 } } } };
+  assert.equal(checkUxBudget([page({ readyCount: 0 })], budget).length, 1);
+  assert.equal(checkUxBudget([page({ readyCount: 926 })], budget).length, 0);
+});
+
+test('the expanded state is held to the same limits (a single "show all" was 51,044 nodes)', () => {
+  const budget = { ...UX, pages: { 'p.html': { click: { selector: '.more', times: 3 } } } };
+  const slow = checkUxBudget([page({ afterClick: { clicks: 1, domNodes: 51044, blockingMs: 300 } })], budget);
+  assert.equal(slow.length, 1);
+  assert.match(slow[0].measure, /DOM nodes after 1 click/);
+  assert.equal(checkUxBudget([page({ afterClick: { clicks: 3, domNodes: 9500, blockingMs: 300 } })], budget).length, 0);
+  assert.equal(checkUxBudget([page({ afterClick: { clicks: 0 } })], budget).length, 1, 'a control that was never pressed passed');
+});
+
 test('a per-page budget overrides the default', () => {
   const b = { ...UX, pages: { 'p.html': { maxDomNodes: 500 } } };
   assert.equal(checkUxBudget([page({ domNodes: 800 })], b).length, 1);
@@ -93,7 +131,9 @@ test('reading grade separates plain from dense prose', () => {
 
 test('the committed budgets have the shape the audits read', () => {
   const a = JSON.parse(read('scripts/audit/a11y-budget.json'));
-  for (const [k, v] of Object.entries(a.maxElements)) assert.ok(Number.isInteger(v) && v >= 0, `${k}: ${v}`);
+  for (const [rule, pages] of Object.entries(a.maxElements)) {
+    for (const [p, v] of Object.entries(pages)) assert.ok(Number.isInteger(v) && v > 0, `${rule} on ${p}: ${v}`);
+  }
   const u = JSON.parse(read('scripts/audit/ux-budget.json'));
   assert.ok(Number.isFinite(u.defaults.maxDomNodes) && Number.isFinite(u.defaults.maxBlockingMs));
 });
@@ -104,7 +144,7 @@ test('the browser lanes run the audits and this file', () => {
   const ux = read('.github/workflows/ux-pass.yml');
   assert.match(ux, /node scripts\/audit\/ux-pass\.mjs/);
   assert.match(ux, /node test\/audit-budgets\.test\.mjs/);
-  assert.match(read('scripts/audit/a11y-audit.mjs'), /checkA11yBudget\(summary, budget\)/);
+  assert.match(read('scripts/audit/a11y-audit.mjs'), /checkA11yBudget\(results, budget\)/);
   assert.match(read('scripts/audit/ux-pass.mjs'), /checkUxBudget\(results, budget\)/);
 });
 
