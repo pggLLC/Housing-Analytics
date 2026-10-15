@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-15T09:02:05.110Z",
+    "generated_at": "2026-10-15T09:30:44.527Z",
     "root": "data/",
-    "file_count": 1729,
-    "total_size_bytes": 183463437,
+    "file_count": 1732,
+    "total_size_bytes": 183603332,
     "kinds": {
-      "json": 1686,
+      "json": 1689,
       "geojson": 33,
       "csv": 10
     }
@@ -502,7 +502,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-15T09:02:01.062Z",
+      "mtime": "2026-10-15T09:30:40.275Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30315,6 +30315,35 @@
       ]
     },
     {
+      "path": "jurisdiction-briefs/_land-banking-contacts.json",
+      "kind": "json",
+      "size_bytes": 56594,
+      "mtime": "2026-10-15T09:29:47.982Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "from_award_lists",
+        "researched"
+      ],
+      "key_count": 3,
+      "primary_array_key": "researched",
+      "primary_array_length": 37,
+      "primary_array_first_keys": [
+        "award_id",
+        "project",
+        "org",
+        "name",
+        "role",
+        "phone",
+        "email",
+        "geoids",
+        "county_fips",
+        "source_label",
+        "source_url",
+        "source_quote"
+      ]
+    },
+    {
       "path": "jurisdiction-briefs/_landscape/0833640.json",
       "kind": "json",
       "size_bytes": 27501,
@@ -32368,8 +32397,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 15107,
-      "mtime": "2026-10-15T09:02:02.963Z",
+      "size_bytes": 15109,
+      "mtime": "2026-10-15T09:30:42.213Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32393,7 +32422,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-15T09:02:02.515Z",
+      "mtime": "2026-10-15T09:30:41.758Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34428,6 +34457,22 @@
       ]
     },
     {
+      "path": "policy/funding-awards/land-banking-corrections.json",
+      "kind": "json",
+      "size_bytes": 7289,
+      "mtime": "2026-10-15T09:29:48.196Z",
+      "shape": "object",
+      "keys": [
+        "description",
+        "checked",
+        "corrections"
+      ],
+      "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "policy/funding-awards/ledger.json",
       "kind": "json",
       "size_bytes": 356064,
@@ -34837,6 +34882,34 @@
         "verification",
         "review_by",
         "evidence"
+      ]
+    },
+    {
+      "path": "policy/prop123-land-banking-awards.json",
+      "kind": "json",
+      "size_bytes": 76010,
+      "mtime": "2026-10-15T09:29:48.199Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "awards"
+      ],
+      "key_count": 2,
+      "primary_array_key": "awards",
+      "primary_array_length": 63,
+      "primary_array_first_keys": [
+        "id",
+        "round",
+        "fiscal_year",
+        "sponsor",
+        "project",
+        "location",
+        "places",
+        "county_fips",
+        "amount_awarded",
+        "estimated_units",
+        "purpose",
+        "rental"
       ]
     },
     {
