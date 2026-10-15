@@ -329,15 +329,22 @@ jobs:
                 [`# ${rest.length} more changed funding pages (${run.generated_at})`, '', ...rest.map(p => `- [${p.id}](${p.url}): +${(p.key_lines.added || []).length} / -${(p.key_lines.removed || []).length} lines, ${(p.new_documents || []).length} new documents`)].join('\n'));
             }
             // Every new notice is listed: once recorded it is never "new" again, so one cut
-            // off here would never be shown. Batches of 100 keep each post under the size cap.
-            const NOTICE_BATCH = 100;
-            for (let i = 0; i < notices.length; i += NOTICE_BATCH) {
-              const batch = notices.slice(i, i + NOTICE_BATCH);
-              const part = notices.length > NOTICE_BATCH ? ` (part ${i / NOTICE_BATCH + 1} of ${Math.ceil(notices.length / NOTICE_BATCH)})` : '';
+            // off here would never be shown. Batches are sized by text length, kept well
+            // under post()'s 60,000-character cap with room for the header and footer.
+            const NOTICE_BATCH_CHARS = 45000;
+            const noticeLine = n => `- [${n.title}](${n.url}): ${n.agency || ''}${n.close_date ? `, closes ${n.close_date}` : ''}${n.published ? `, published ${n.published}` : ''} (${n.source}, search "${n.query}")`;
+            const batches = [];
+            for (const line of notices.map(noticeLine)) {
+              const last = batches[batches.length - 1];
+              if (!last || last.size + line.length + 1 > NOTICE_BATCH_CHARS) batches.push({ lines: [line], size: line.length });
+              else { last.lines.push(line); last.size += line.length + 1; }
+            }
+            for (const [k, b] of batches.entries()) {
+              const part = batches.length > 1 ? ` (part ${k + 1} of ${batches.length})` : '';
               await post('<!-- funding-watch:federal -->', 'Funding watch: new federal funding notices',
                 [`# ${notices.length} new federal funding notices${part} (${run.generated_at})`, '',
                  'Check each for Colorado eligibility (state agencies, local governments, tribes, nonprofits or developers) and whether it can pay for housing or the infrastructure it needs.', '',
-                 ...batch.map(n => `- [${n.title}](${n.url}): ${n.agency || ''}${n.close_date ? `, closes ${n.close_date}` : ''}${n.published ? `, published ${n.published}` : ''} (${n.source}, search "${n.query}")`)].join('\n'));
+                 ...b.lines].join('\n'));
             }
             if (unverifiable.length || run.all_fetches_failed) {
               await post('<!-- funding-watch:unverifiable -->', 'Funding watch: pages to check by hand',

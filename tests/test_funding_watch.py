@@ -324,14 +324,18 @@ def test_issue_step_never_reports_nothing_new_when_a_search_failed(tmp_path):
 def test_every_new_federal_notice_is_listed_in_an_issue(tmp_path):
     """A notice is new only once, so the issue lists all of them, in batches, never
     just the first few (Codex, 2026-10-15)."""
-    notices = [{"title": f"Grant {i}", "url": f"https://grants.localhost/{i}", "source": "grants.gov",
-                "query": "housing"} for i in range(250)]
+    # Titles and agencies at their stored maximum (300 characters each), so a fixed count
+    # per post would overflow the 60,000-character cap (Codex, 2026-10-15).
+    notices = [{"title": f"Grant {i} " + "x" * 290, "url": f"https://grants.localhost/{i}", "source": "grants.gov",
+                "agency": "A" * 300, "query": "housing"} for i in range(250)]
     summary = {"changes": {"changed_pages": [], "new_federal_notices": notices, "newly_unverifiable": []},
                "federal_failures": [], "fetch_failures": []}
     _stdout, posts = run_issue_script(tmp_path, summary)
     text = "\n".join(p["body"] for p in posts)
-    assert all(f"[Grant {i}](https://grants.localhost/{i})" in text for i in range(250))
-    assert [p["kind"] for p in posts] == ["create", "comment", "comment"], "one issue, then comments"
+    assert all(f"[Grant {i} " in text and f"](https://grants.localhost/{i})" in text for i in range(250))
+    assert posts[0]["kind"] == "create" and all(p["kind"] == "comment" for p in posts[1:])
+    assert all(len(p["body"]) < 60000 for p in posts), "no post reaches the truncation cap"
+    assert all("Managed by" in p["body"] for p in posts), "every post keeps its footer"
 
 
 def test_the_output_ceiling_sits_under_the_data_file_size_guard():
@@ -485,6 +489,9 @@ def test_a_replaced_hosted_document_counts_as_a_document_change():
     under the same link text is still a change (Codex, 2026-10-15)."""
     old = QUIET + "<p><a href='https://docs.google.com/document/d/AAA/edit'>Predevelopment NOFA</a></p>"
     new = QUIET + "<p><a href='https://docs.google.com/document/d/BBB/edit'>Predevelopment NOFA</a></p>"
+    for hosted in ("https://onedrive.live.com/?cid=1&id=2", "https://cdola.sharepoint.com/:b:/s/x",
+                   "https://drive.google.com/file/d/x/view", "https://forms.gle/x", "https://1drv.ms/b/x"):
+        assert watch.DOC_LINK_RE.search(hosted), hosted
     base = run(site(eiaf=old))
     assert any(urlsplit(d["url"]).netloc == "docs.google.com" for p in base["pages"] for d in p.get("documents", []))
     r = run(site(eiaf=new), previous=base, now="2026-10-16T05:34:00Z")
