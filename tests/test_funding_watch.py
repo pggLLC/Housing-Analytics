@@ -405,3 +405,15 @@ def test_federal_results_are_kept_when_every_page_fails():
     assert [n["key"] for n in r["changes"]["new_federal_notices"]] == ["grants.gov:9"]
     nothing = run(site(blocked=(EIAF, GRANT, GG, FR)), previous=base, now="2026-10-16T05:34:00Z")
     assert nothing["all_fetches_failed"] is True
+
+    # Mixed: one Grants.gov keyword fails, the other answers with a new notice; Federal Register down.
+    answered = site(gg_hits=gg, blocked=(EIAF, GRANT, FR))
+
+    def one_keyword_fails(url, data=None, headers=None):
+        if url == GG and json.loads(data)["keyword"] == "water":
+            raise HTTPError("HTTP Error 503")
+        return answered(url, data, headers)
+    mixed = run(one_keyword_fails, previous=base, now="2026-10-16T05:34:00Z")
+    assert mixed["federal_sources"]["grants.gov"]["ok"] is False, "the source counts as failed"
+    assert mixed["all_fetches_failed"] is False, "but one query answered, so the run is written"
+    assert [n["key"] for n in mixed["changes"]["new_federal_notices"]] == ["grants.gov:9"]

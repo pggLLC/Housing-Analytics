@@ -351,12 +351,15 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
                              'failing_since': entry['first_failed_at']})
 
     fed = sources.get('federal') or {}
-    notices, fed_failures = [], []
-    for fn, key in ((grants_gov, 'grants_gov'), (federal_register, 'federal_register')):
+    notices, fed_failures, fed_queries = [], [], 0
+    for fn, key, per in ((grants_gov, 'grants_gov', 'keywords'), (federal_register, 'federal_register', 'agencies')):
         if key in fed:
             n, f = fn(fed[key], fetch)
             notices += n
             fed_failures += f
+            fed_queries += len(fed[key].get(per) or [])
+    # A source is "failed" if any of its queries failed; this counts the queries that answered.
+    fed_answered = fed_queries - len(fed_failures)
     # One notice can come back under several queries or agencies; keep the first.
     notices = list({n['key']: n for n in reversed(notices)}.values())[::-1]
     prev_notices = {n['key']: n for n in previous.get('federal_notices', [])}
@@ -432,10 +435,10 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         'fetch_failures': failures,
         'federal_failures': fed_failures,
         'unverifiable': unverifiable,
-        # Nothing at all came back: no page and no federal search. If a federal search
+        # Nothing at all came back: no page and no single federal query. If any query
         # answered, its notices and state are kept even when every page failed.
         'all_fetches_failed': bool(pages) and not any(p['ok'] for p in pages)
-                              and not any(st['ok'] for st in federal_sources.values()),
+                              and fed_answered <= 0,
     }
 
 
