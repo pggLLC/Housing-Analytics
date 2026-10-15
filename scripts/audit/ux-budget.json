@@ -1,0 +1,87 @@
+{
+  "_comment": "Hard limits for scripts/audit/ux-pass.mjs at phone width. Set on 2026-10-15: the largest page after the step 3 fix drew ~8,800 DOM nodes and blocked ~850 ms on a fast machine; before the fix step 3 drew ~51,000 nodes and blocked ~9 s there (~18 s on a phone). The limits sit well above today's pages, so runner speed does not decide the result, and well below the freeze. Lower them as pages get lighter; never raise one to make a run pass. Per page: `ready` names content that only the page's scripts and data draw, so a page left in its static loading state fails (an unrendered page is light and would otherwise pass). Every measured page has one; the minimums sit below what loads today (`_readyCountsOn20261015`), and `click` presses a control up to N times and holds the result to the same limits. HNA: four presses of Show more reach the panel's 200-row cap (25 + 4 x up to 50).",
+  "measuredAt": "2026-10-15",
+  "defaults": {
+    "maxDomNodes": 15000,
+    "maxBlockingMs": 6000,
+    "oneH1": true
+  },
+  "pages": {
+    "index.html": {
+      "ready": {
+        "selector": "#homeNeedMap path",
+        "min": 64
+      }
+    },
+    "select-jurisdiction.html": {
+      "ready": {
+        "selector": "#sjRouteMap li",
+        "min": 7
+      }
+    },
+    "lihtc-opportunity-finder.html": {
+      "ready": {
+        "selector": "#lofTableBody tr",
+        "min": 10
+      }
+    },
+    "market-analysis.html": {
+      "ready": {
+        "selector": "#pmaMap path",
+        "min": 64
+      }
+    },
+    "hna-scenario-builder.html": {
+      "ready": {
+        "selector": "#sbGeoSelect option",
+        "min": 500
+      }
+    },
+    "deal-calculator.html": {
+      "ready": {
+        "selector": "#dc-county-select option",
+        "min": 64
+      }
+    },
+    "recommendation.html": {
+      "ready": {
+        "selector": "#recommendationMount li",
+        "min": 3
+      }
+    },
+    "colorado-deep-dive.html": {
+      "ready": {
+        "selector": "#prop123TableBody tr",
+        "min": 50
+      }
+    },
+    "about.html": {
+      "ready": {
+        "selector": "#tool-watch-list li",
+        "min": 2
+      }
+    },
+    "hna-what-housing-exists.html": {
+      "ready": {
+        "selector": ".leaflet-marker-icon",
+        "min": 100
+      },
+      "click": {
+        "selector": "#lihtcInfoPanel .lihtc-show-more",
+        "times": 4
+      }
+    }
+  },
+  "_readyCountsOn20261015": {
+    "index.html": "[64 counties]",
+    "select-jurisdiction.html": "[7 steps]",
+    "lihtc-opportunity-finder.html": "[71 rows]",
+    "market-analysis.html": "[3,066]",
+    "hna-scenario-builder.html": "[547 geographies]",
+    "deal-calculator.html": "[65]",
+    "recommendation.html": "[5]",
+    "colorado-deep-dive.html": "[217 rows]",
+    "about.html": "[5]",
+    "hna-what-housing-exists.html": "[926 markers]"
+  }
+}
