@@ -115,11 +115,21 @@ test('the boost applies once, never to acquisition basis, and never above eligib
   // The case's $500,000 federal grant is spread over $1,000,000 acquisition and $18,200,000 other basis.
   const grantOnAcq = 500000 * 1000000 / 19200000;
   assert.equal(round(result.boostedBasis), round((18200000 - (500000 - grantOnAcq)) * 1.3 + (1000000 - grantOnAcq)));
-  for (const designation of ['qct', 'dda', 'sadda', 'chfa']) {
+  for (const designation of ['qct', 'dda', 'sadda']) {
     const r = runBasisCase(cases.basisCase, rules, { designation, tranches: [] }).result;
     assert(r.boostedBasis <= r.eligibleBasis * 1.3 + 0.01, designation + ' stays within 130%');
     assert.equal(r.boost.multiplier, 1.3);
   }
+  // CHFA awards "up to" 30%: its boost is the percentage in CHFA's letter.
+  const chfa = (pct) => cb.basisAndCredit({ eligibleCost: 1000000, grantReduction: 0, designation: 'chfa', evidence: 'Invented CHFA letter',
+    awardedBoostPct: pct, creditType: '9', creditRate: 0.09, units: 10, lowIncomeUnits: 10, rules });
+  assert.equal(chfa(undefined).boost.applied, false);
+  assert.match(chfa(undefined).boost.reason, /percentage in CHFA's letter/);
+  assert.equal(Math.round(chfa(20).boostedBasis), 1200000);
+  assert.equal(chfa(30).boost.multiplier, 1.3);
+  assert.equal(chfa(35).boost.applied, false);
+  assert.match(chfa(35).boost.reason, /up to 30%/);
+  assert(rules.rules.basis_boost.designations.chfa.up_to_quote.includes('up to a 30-percent'));
 });
 
 test('grants are treated by source type; an unknown type is null with a reason', () => {
@@ -133,6 +143,10 @@ test('grants are treated by source type; an unknown type is null with a reason',
   assert.match(unknown.grants.reason, /federal money/);
   assert.equal(unknown.result.afterGrant, null);
   assert.match(unknown.result.reasons.afterGrant, /federal money/);
+  const negative = runBasisCase(base, rules, { tranches: [{ id: 1, mode: 'grant', amount: -500000, fundSource: 'federal' }] });
+  assert.equal(negative.grants.reduction, null, 'a negative grant never raises basis');
+  assert.equal(negative.result.afterGrant, null);
+  assert.match(negative.grants.reason, /\$0 or more/);
 });
 
 test('applicable fraction needs floor space when some units are unrestricted', () => {

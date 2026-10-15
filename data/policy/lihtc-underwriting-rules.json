@@ -121,7 +121,10 @@
           "credit_types": [
             "9"
           ],
-          "quote": "The CHFA basis boost only applies to new construction and rehabilitation eligible basis of federal 9 percent Housing Tax Credit projects."
+          "quote": "The CHFA basis boost only applies to new construction and rehabilitation eligible basis of federal 9 percent Housing Tax Credit projects.",
+          "max_multiplier": 1.3,
+          "up_to_quote": "CHFA is authorized to award up to a 30-percent “basis boost” to buildings that it determines need the boost to be economically feasible.",
+          "needs_awarded_percent": true
         }
       },
       "acquisition_excluded": true,

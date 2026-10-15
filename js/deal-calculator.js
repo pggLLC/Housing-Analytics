@@ -1728,8 +1728,9 @@
     <div>
       <strong style="color:var(--text);">Model class: screening-level</strong> —
       outputs are planning estimates only. Credit pricing, interest rates, equity, and lender terms
-      vary significantly by market, investor, and deal structure. This tool does not model qualified
-      basis, applicable fraction, or carryover allocation. Not a substitute for lender underwriting,
+      vary significantly by market, investor, and deal structure. Qualified basis, the applicable fraction
+      and CHFA's credit limits come from your cost lines and a sourced rules file; carryover allocation
+      and CHFA's cost basis limits are not modeled. Not a substitute for lender underwriting,
       CHFA review, or legal/tax counsel.
       <a href="docs/LIHTC_FEASIBILITY_CALCULATOR.md" style="color:var(--accent);">Methodology →</a>
     </div>
@@ -2083,13 +2084,18 @@
             <input id="dc-boost-evidence" type="text" maxlength="200" placeholder="HUD map or list for the tract, or CHFA letter and date"
               style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
           </label>
+          <label style="display:block;margin-top:0.35rem;">
+            <span style="font-size:var(--small);color:var(--muted);">CHFA basis boost only: percentage in CHFA's letter (up to 30)</span>
+            <input id="dc-boost-pct" type="number" min="0" max="30" step="1" placeholder="not entered"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+          </label>
           <p id="dc-boost-help" style="font-size:var(--tiny);color:var(--muted);margin:0.35rem 0 0;line-height:1.45;">
             The boost raises eligible basis by 30% once. It needs a designation and the evidence for it, never applies to buying an existing building, and the CHFA boost cannot be combined with a QCT, DDA or SADDA.
           </p>
           <p id="dc-qct-dda-note" role="status" style="display:none;font-size:var(--tiny);color:var(--accent);margin:0.3rem 0 0;font-weight:600;"></p>
         </div>
         <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
-          <span style="font-size:var(--small);color:var(--muted);">Floor area of the restricted units (SF)
+          <span style="font-size:var(--small);color:var(--muted);">Floor area of the units counted as LIHTC units (SF)
             <span style="color:var(--muted)">&mdash; needed only when some units are unrestricted</span></span>
           <input id="dc-restricted-sf" type="number" min="0" step="100" placeholder="not entered"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);">
@@ -3239,7 +3245,7 @@
 
     // Attach event listeners
     document.getElementById('dc-edit-unit-mix').addEventListener('click', editMixHere);
-    const ids = ['dc-unit-mix-source', 'dc-unrepresented-schedule-rows', 'dc-tdc', 'dc-gross-sf', 'dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-units', 'dc-sale-target-ami',
+    const ids = ['dc-unit-mix-source', 'dc-unrepresented-schedule-rows', 'dc-tdc', 'dc-gross-sf', 'dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-boost-pct', 'dc-units', 'dc-sale-target-ami',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-senior-mode', 'dc-senior-amount', 'dc-senior-type', 'dc-senior-maturity', 'dc-senior-io-years', 'dc-senior-priority', 'dc-senior-cfpay',
       'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
@@ -3969,7 +3975,7 @@
     row('Less federally funded grants', money(basis.grantReduction, basis.reasons.afterGrant), 'Grants with federal money reduce basis; loans and grants with no federal money do not (26 U.S.C. 42(d)(5)(A)).'
       + (basis.grantOnAcquisition > 0 ? ' Spread over acquisition and other basis in proportion: ' + fmt(basis.grantOnAcquisition) + ' against acquisition.' : ''));
     row('Basis after grants', money(basis.afterGrant, basis.reasons.afterGrant));
-    row('30% basis boost', basis.boost.applied ? 'Applied: ' + basis.boost.designation : 'Not applied', basis.boost.applied ? basis.boost.citation : basis.boost.reason);
+    row('Basis boost', basis.boost.applied ? 'Applied: ' + basis.boost.designation + ', ' + Math.round((basis.boost.multiplier - 1) * 100) + '%' : 'Not applied', basis.boost.applied ? basis.boost.citation : basis.boost.reason);
     row('Basis after boost', money(basis.boostedBasis, basis.reasons.afterGrant));
     row('Applicable fraction', basis.applicableFraction == null ? (basis.reasons.applicableFraction || 'Not available') : pct(basis.applicableFraction),
       basis.applicableFraction == null ? null : 'Lower of the unit fraction (' + pct(basis.unitFraction) + ') and the floor-space fraction (' + pct(basis.floorFraction) + ').');

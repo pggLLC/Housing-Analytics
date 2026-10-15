@@ -72,6 +72,7 @@
     'dc-restricted-sf': 'Floor area of the income-restricted units, for the floor-space fraction.',
     'dc-boost-designation': 'The QCT, DDA, SADDA or CHFA designation claimed for the 30% basis boost.',
     'dc-boost-evidence': 'Evidence supporting the basis-boost designation.',
+    'dc-boost-pct': 'Basis boost percentage in CHFA\'s letter (CHFA state designation only, up to 30%).',
     'dc-credit-requested': 'Annual federal credit requested in the application.',
     'dc-credit-awarded': 'Annual federal credit awarded by CHFA.',
     'dc-ioi': 'Whether the builder has an identity of interest with the developer or owner.',

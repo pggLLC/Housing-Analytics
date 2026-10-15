@@ -150,7 +150,8 @@
     var out = { reduction: 0, rows: [], reason: null, status: status };
     (tranches || []).forEach(function (t) {
       var amount = num(t.amount);
-      if (t.mode !== 'grant' || !amount) return;
+      if (t.mode !== 'grant' || amount === null || amount === 0) return;
+      if (!Number.isFinite(amount) || amount < 0) { out.reason = out.reason || 'Enter each grant as an amount of $0 or more.'; return; }
       var type = t.fundSource === 'federal' ? 'federal_grant' : t.fundSource === 'nonfederal' ? 'nonfederal_grant' : null;
       var row = { id: t.id, program: t.program, amount: amount, sourceType: type, reducesBasis: null };
       if (!type) { out.reason = out.reason || 'Say whether each grant contains federal money; a federally funded grant reduces eligible basis.'; }
@@ -291,12 +292,22 @@
     else if (!d) out.boost.reason = 'Unknown designation.';
     else if (d.credit_types.indexOf(String(args.creditType)) === -1) out.boost.reason = d.label + ' applies only to ' + d.credit_types.join('% and ') + '% credits.';
     else if (!evidence) out.boost.reason = 'Add the evidence for the ' + d.label + ' designation (HUD map or list, or CHFA letter).';
-    else { out.boost.applied = true; out.boost.multiplier = boost.rule.multiplier; out.boost.citation = boost.citation; out.boost.designation = d.label; }
+    else {
+      // CHFA awards "up to" 30%; its boost is the percentage in CHFA's letter (QAP 3.M.2).
+      var multiplier = boost.rule.multiplier;
+      var pct = num(args.awardedBoostPct);
+      if (d.needs_awarded_percent) {
+        if (pct === null || !Number.isFinite(pct) || pct <= 0) out.boost.reason = 'Enter the boost percentage in CHFA\'s letter.';
+        else if (pct / 100 + 1 > d.max_multiplier + 1e-9) out.boost.reason = 'CHFA awards a boost of up to ' + Math.round((d.max_multiplier - 1) * 100) + '%.';
+        else multiplier = 1 + pct / 100;
+      }
+      if (!out.boost.reason) { out.boost.applied = true; out.boost.multiplier = multiplier; out.boost.citation = boost.citation; out.boost.designation = d.label; }
+    }
     // One boost, never on acquisition basis, and never above eligible cost x 130%.
     var acquisition = Math.min(out.afterGrant, Math.max(0, acqCost - grantOnAcq));
     var boostable = out.afterGrant - acquisition;
     out.boostedBasis = boostable * out.boost.multiplier + acquisition;
-    var ceiling = out.eligibleBasis * (boost.applied ? boost.rule.multiplier : 1);
+    var ceiling = out.eligibleBasis * (out.boost.applied ? out.boost.multiplier : 1);
     if (out.boostedBasis > ceiling) out.boostedBasis = ceiling;
 
     var units = args.units, lowIncomeUnits = args.lowIncomeUnits;

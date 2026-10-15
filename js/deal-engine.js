@@ -821,6 +821,7 @@
     var basisArgs = { eligibleCost: costSummary.eligible, costReason: costSummary.reason,
       acquisitionEligible: costSummary.acquisitionEligible, grantReduction: grantTreatment.reduction,
       grantReason: grantTreatment.reason, designation: fields['dc-boost-designation'], evidence: fields['dc-boost-evidence'],
+      awardedBoostPct: fields['dc-boost-pct'],
       creditType: creditType, creditRate: _creditRate, units: units, lowIncomeUnits: lihtcUnits,
       residentialSf: fields['dc-res-sf'], lowIncomeSf: fields['dc-restricted-sf'],
       requested: fields['dc-credit-requested'], awarded: fields['dc-credit-awarded'], feeExcess: feeExcess.total, rules: costRules };
