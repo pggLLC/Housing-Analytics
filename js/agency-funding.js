@@ -235,7 +235,7 @@
       } else if (M.AGENCIES[state.agency].measure === 'credits') {
         big = money(s.credits) + ' a year in tax credits';
         lead = 'went to ' + count(s.awards) + ' projects ' + (state.place && state.place.type === 'developer' ? 'by ' : 'in ') +
-          esc(where) + ' ' + yearsText() + ', for ' + count(s.homes) + ' homes. Developers sell these credits to investors to pay for building.';
+          esc(where) + ' ' + yearsText() + ', for ' + count(s.homes) + ' homes.';
       } else {
         big = money(s.dollars);
         lead = 'in grants and loans from ' + esc(who) + ' went to ' + count(s.awards) + ' projects ' +
@@ -411,7 +411,7 @@
   }
 
   function shortProgram(p) {
-    return String(p || '').replace(/^LIHTC /, 'tax credit ').replace(/ \+ state$/, '').trim();
+    return String(p || '').replace(/ \+ state$/, '').trim();
   }
 
   function renderTable() {
@@ -479,7 +479,7 @@
     $all('[data-hm-norm]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-hm-norm') === state.norm)); });
     $all('[data-hm-mrows]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-hm-mrows') === state.matrixRows)); });
     $('[data-hm-def]').innerHTML = state.agency === 'ALL'
-      ? 'Colorado\'s three state housing funders: <strong>CHFA</strong> (tax credits), <strong>OEDIT</strong> (the Prop 123 fund) and <strong>DOLA</strong> (Division of Housing grants and loans). Credits and dollars are different things, so together they are counted in homes.'
+      ? 'Colorado\'s three state housing funders: <strong>CHFA</strong> (LIHTC, the federal and state Low-Income Housing Tax Credits), <strong>OEDIT</strong> (the Prop 123 fund) and <strong>DOLA</strong> (Division of Housing grants and loans). Credits and dollars are different things, so together they are counted in homes.'
       : '<strong>' + esc(M.AGENCIES[state.agency].label) + '</strong> (' + esc(M.AGENCIES[state.agency].name) + '). ' + esc(M.AGENCIES[state.agency].plain.replace(/^\S+ is /, 'It is '));
     $('[data-hm-clear]').hidden = !state.place;
     $('[data-hm-q]').value = state.place ? state.place.label : '';
