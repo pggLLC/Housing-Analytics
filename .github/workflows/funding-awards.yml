@@ -14,6 +14,11 @@ name: Funding award ledger
 # last four years of rounds, funded or not, with its outcome matched against
 # the ledger. The developer brief shows it per jurisdiction.
 #
+# Then scripts/funding/build_land_banking_awards.py turns the ledger's Prop 123
+# Land Banking rows into data/policy/prop123-land-banking-awards.json (the map on
+# land-banking-awards.html) and the contacts CHFA prints into the gated
+# data/jurisdiction-briefs/_land-banking-contacts.json.
+#
 # scripts/funding/build_award_rows.py then reads the same PDFs as tables
 # into data/policy/funding-awards/award-rows.json: each award's name, sponsor
 # and town as printed, and the printed row as its source quote, for
@@ -36,6 +41,7 @@ on:
       - '.github/workflows/funding-awards.yml'
       - 'scripts/funding/**'
       - 'data/policy/funding-awards/reviewed-documents.json'
+      - 'data/policy/funding-awards/land-banking-corrections.json'
 
 permissions:
   actions: write   # dispatch deploy.yml after the data push
@@ -87,6 +93,16 @@ jobs:
           if [ "$DRY_RUN" = "true" ]; then args+=(--check); fi
           python3 scripts/funding/build_lihtc_applications.py "${args[@]}"
 
+      - name: Place the land banking awards on the map
+        # Fails on a new land banking list until it is labelled in ROUND_LABELS, so the
+        # ledger never lands without the map file that has to agree with it.
+        env:
+          DRY_RUN: ${{ steps.parse.outputs.dry_run }}
+        run: |
+          args=()
+          if [ "$DRY_RUN" = "true" ]; then args+=(--check); fi
+          python3 scripts/funding/build_land_banking_awards.py "${args[@]}"
+
       - name: Read each award as its PDF prints it (names, sponsor, town, quote)
         env:
           DRY_RUN: ${{ steps.parse.outputs.dry_run }}
@@ -105,7 +121,7 @@ jobs:
         if: steps.parse.outputs.dry_run != 'true'
         id: commit
         run: |
-          scripts/commit-with-derived-chain.sh "chore: refresh funding award ledger [$(date -u '+%Y-%m-%d')]" -- data/policy/funding-awards/ledger.json data/policy/funding-awards/documents.json data/policy/funding-awards/award-rows.json data/jurisdiction-briefs/_lihtc-applications.json
+          scripts/commit-with-derived-chain.sh "chore: refresh funding award ledger [$(date -u '+%Y-%m-%d')]" -- data/policy/funding-awards/ledger.json data/policy/funding-awards/documents.json data/policy/funding-awards/award-rows.json data/jurisdiction-briefs/_lihtc-applications.json data/policy/prop123-land-banking-awards.json data/jurisdiction-briefs/_land-banking-contacts.json
 
       - name: Dispatch Pages deploy for this run's commit
         if: steps.commit.outputs.pushed == 'true'

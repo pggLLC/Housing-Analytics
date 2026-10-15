@@ -764,6 +764,14 @@
   color: var(--faint);
 }
 
+/* A second note on one card (the homepage shortfall cards show HUD's
+   affordable-and-available count under the ACS figure). */
+.home-snapshot__note + .home-snapshot__note {
+  margin-top: var(--sp2);
+  padding-top: var(--sp2);
+  border-top: 1px dashed var(--border);
+}
+
 
 /* ----------------------------------------------------------------
    Insights reading list — rows, not cards

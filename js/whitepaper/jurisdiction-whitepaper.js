@@ -36,6 +36,8 @@
     awards: 'data/policy/funding-awards/ledger.json',
     applications: { path: 'data/jurisdiction-briefs/_lihtc-applications.json', optional: true },
     prop123: 'data/policy/prop123_jurisdictions.json',
+    landBanking: { path: 'data/policy/prop123-land-banking-awards.json', optional: true },
+    landBankingContacts: { path: 'data/jurisdiction-briefs/_land-banking-contacts.json', optional: true },
     localFunds: 'data/policy/local-housing-funds.json',
     feeReductions: 'data/policy/fee-reductions.json',
     localSupport: 'data/policy/local-support.json',
@@ -439,7 +441,39 @@
     return {
       record: rec, countyRecord: countyRec,
       updated: (src.prop123 || {}).updated || null,
-      source: sourcePath('prop123') + ' (DOLA commitment filings and fast-track lists)'
+      source: sourcePath('prop123') + ' (DOLA commitment filings and fast-track lists)',
+      landBanking: landBankingHere(row, src)
+    };
+  }
+
+  // Prop 123 Land Banking awards in this place (or, for a county, anywhere in it),
+  // each with the contact CHFA printed for it or one researched for an older round.
+  function landBankingHere(row, src) {
+    if (!src.landBanking || !Array.isArray(src.landBanking.awards)) return null;
+    var awards = src.landBanking.awards.filter(function (a) {
+      if (row.type === 'county') {
+        return (a.county_fips || []).indexOf(row.geoid) !== -1 ||
+          (a.places || []).some(function (p) { return p.county_fips === row.geoid; });
+      }
+      return (a.places || []).some(function (p) { return p.geoid === row.geoid; });
+    }).filter(function (a) { return !excluded({ name: a.project }); });
+    var C = src.landBankingContacts || {};
+    var contacts = {};
+    (C.from_award_lists || []).concat(C.researched || []).forEach(function (c) {
+      if (c && c.award_id && !contacts[c.award_id]) contacts[c.award_id] = c;
+    });
+    var rounds = {};
+    ((src.landBanking.meta || {}).rounds || []).forEach(function (r) { rounds[r.id] = r.label; });
+    return {
+      awards: awards.map(function (a) {
+        return { project: a.project, sponsor: a.sponsor, location: a.location, round: rounds[a.round] || a.round,
+          amount: num(a.amount_awarded), units: num(a.estimated_units), purpose: a.purpose,
+          sourceUrl: a.source_url, quote: a.source_quote, contact: contacts[a.id] || null };
+      }),
+      contactsMissing: !src.landBankingContacts,
+      programContact: (C.meta || {}).program_contact || null,
+      programUrl: (src.landBanking.meta || {}).program_url || null,
+      source: sourcePath('landBanking') + ' (CHFA Prop 123 Land Banking award lists)'
     };
   }
 
@@ -978,7 +1012,34 @@
     }
     return '<h2 id="prop123">Proposition 123 standing</h2>' + one(P.record, m.name) + (m.kind !== 'county' ? one(P.countyRecord, m.countyName) : '') +
       '<p>A jurisdiction that promised units has to show them; a tax-credit project counts toward the promise, which makes it the natural first topic with staff.</p>' +
-      srcLine(P.source + (P.updated ? ', updated ' + P.updated : ''));
+      srcLine(P.source + (P.updated ? ', updated ' + P.updated : '')) + renderLandBanking(P.landBanking, m);
+  }
+
+  function renderLandBanking(LB, m) {
+    if (!LB) return '';
+    var h = '<h3 id="land-banking">Prop 123 land banking awards here</h3>';
+    if (!LB.awards.length) {
+      return h + '<p>No Prop 123 Land Banking award names ' + (m.kind === 'county' ? 'a town in this county' : 'this place') +
+        '.' + (LB.programUrl ? ' ' + link('CHFA\'s land banking program page', LB.programUrl) + ' lists every round.' : '') + '</p>';
+    }
+    function contactCell(c) {
+      if (!c) return LB.contactsMissing ? 'Contacts not in this copy of the data' : 'Not yet researched';
+      var bits = [c.name ? '<strong>' + esc(c.name) + '</strong>' : null, c.role ? esc(c.role) : null,
+        c.phone ? esc(c.phone) : null, c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>' : null].filter(Boolean);
+      var toConfirm = (c.status && c.status !== 'found') || c.confirmed === false ? ' <span class="wp-tag">to confirm</span>' : '';
+      var note = c.note ? '<br><span class="wp-meta">' + esc(c.note) + '</span>' : '';
+      return bits.join('<br>') + toConfirm +
+        (c.source_url ? '<br>' + link('(' + (c.source_label || 'source') + (c.checked ? ', checked ' + c.checked : '') + ')', c.source_url) : '') + note;
+    }
+    h += '<div class="wp-scroll"><table><thead><tr><th>Round</th><th>Project</th><th>Received by</th><th>Homes planned</th><th>Awarded</th><th>Est. homes</th><th>Contact</th></tr></thead><tbody>' +
+      LB.awards.map(function (a) {
+        return '<tr><td>' + esc(a.round) + '</td><td>' + link(a.project, a.sourceUrl) + '</td><td>' + esc(a.sponsor) + '</td><td>' + esc(a.purpose || '') +
+          '</td><td class="n">' + fmtMoney(a.amount) + '</td><td class="n">' + fmtInt(a.units) + '</td><td>' + contactCell(a.contact) + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+    var pc = LB.programContact;
+    h += '<p class="wp-meta">Land banking buys sites for later: each grantee must have the land zoned with a development plan within five years, and the homes permitted and funded within ten, so these are the organisations to ask what comes next.' +
+      (pc && pc.email ? ' Program questions: ' + esc(pc.org || 'CHFA') + ', <a href="mailto:' + esc(pc.email) + '">' + esc(pc.email) + '</a>.' : '') + '</p>';
+    return h + srcLine(LB.source);
   }
 
   function renderPolicy(m) {
