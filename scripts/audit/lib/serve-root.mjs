@@ -30,7 +30,7 @@ export function serveRoot(root) {
   const base = path.resolve(root);
   const server = http.createServer(async (req, res) => {
     try {
-      let rel = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+      let rel = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
       if (rel.endsWith('/')) rel += 'index.html';
       const file = path.resolve(base, '.' + rel);
       if (!file.startsWith(base + path.sep)) { res.writeHead(403).end(); return; }
