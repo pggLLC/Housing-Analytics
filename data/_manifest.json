@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-15T11:52:24.400Z",
+    "generated_at": "2026-10-15T13:20:41.527Z",
     "root": "data/",
     "file_count": 1732,
-    "total_size_bytes": 183631656,
+    "total_size_bytes": 183647432,
     "kinds": {
       "json": 1689,
       "geojson": 33,
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 7711,
-      "mtime": "2026-10-14T13:59:01.699Z",
+      "size_bytes": 7705,
+      "mtime": "2026-10-15T13:19:15.413Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -502,7 +502,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-15T09:30:40.275Z",
+      "mtime": "2026-10-15T13:20:38.508Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1056,7 +1056,7 @@
       "path": "co-demographics.json",
       "kind": "json",
       "size_bytes": 3034,
-      "mtime": "2026-09-25T12:55:18.605Z",
+      "mtime": "2026-10-15T13:19:15.459Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1412,8 +1412,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 261127,
-      "mtime": "2026-10-14T12:56:17.388Z",
+      "size_bytes": 263815,
+      "mtime": "2026-10-15T13:19:15.477Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -1428,7 +1428,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1690,
+      "primary_array_length": 1706,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -30934,7 +30934,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 219481,
-      "mtime": "2026-10-15T11:37:11.112Z",
+      "mtime": "2026-10-15T13:20:16.908Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32398,7 +32398,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15109,
-      "mtime": "2026-10-15T09:44:54.876Z",
+      "mtime": "2026-10-15T13:20:40.006Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32422,7 +32422,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-15T09:44:54.602Z",
+      "mtime": "2026-10-15T13:20:39.651Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -35500,8 +35500,8 @@
     {
       "path": "reports/a11y-baseline.json",
       "kind": "json",
-      "size_bytes": 2670,
-      "mtime": "2026-09-25T12:55:19.126Z",
+      "size_bytes": 15764,
+      "mtime": "2026-10-15T13:19:15.832Z",
       "shape": "object",
       "keys": [
         "generatedAt",
@@ -35510,7 +35510,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "results",
-      "primary_array_length": 16,
+      "primary_array_length": 21,
       "primary_array_first_keys": [
         "page",
         "violations",

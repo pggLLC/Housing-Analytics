@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T09:30:14.181Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T13:20:16.948Z. Do not edit by hand.
 
 ---
 
@@ -88,7 +88,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 827.1 KB | ✅ | — |
+| `data/_manifest.json` | 828.8 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -102,8 +102,8 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 275.6 KB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 64.1 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 284.3 KB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 66.0 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
@@ -144,7 +144,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 4.02 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 255.0 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 257.6 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1572,7 +1572,7 @@
 | `data/jurisdiction-briefs/_land-banking-contacts.json` | 55.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_landscape/0833640.json` | 26.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications-excluded.json` | 465 B | ✅ | — |
-| `data/jurisdiction-briefs/_lihtc-applications.json` | 408.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/_lihtc-applications.json` | 411.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 272.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_news-used.json` | 557 B | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.5 KB | ✅ | — |
@@ -1593,7 +1593,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 213.9 KB | ✅ | — |
+| `data/manifest.json` | 214.3 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1729,7 +1729,7 @@
 | `data/policy/funding-awards/ledger.json` | 347.7 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.8 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 1.7 KB | ✅ | — |
-| `data/policy/housing-events.json` | 15.2 KB | ✅ | — |
+| `data/policy/housing-events.json` | 14.7 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
 | `data/policy/incentive-alternatives.json` | 53.5 KB | ✅ | — |
@@ -1756,18 +1756,18 @@
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
-| `data/policy_briefs.json` | 374.9 KB | ✅ | — |
+| `data/policy_briefs.json` | 387.2 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 180.5 KB | ✅ | — |
 | `data/polymarket-curated.json` | 4.2 KB | ✅ | — |
 | `data/polymarket-data.json` | 12.3 KB | ✅ | — |
-| `data/polymarket-history.json` | 158.8 KB | ✅ | — |
+| `data/polymarket-history.json` | 160.3 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
 | `data/provenance/housing-needs-assessment.json` | 5.8 KB | ✅ | — |
 | `data/provenance/market-analysis.json` | 2.3 KB | ✅ | — |
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
-| `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
+| `data/reports/a11y-baseline.json` | 15.4 KB | ✅ | — |
 | `data/reports/data-source-health.json` | 7.6 KB | ✅ | — |
 | `data/reports/developer-url-health.json` | 24.0 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.96 MB | ✅ | — |
@@ -1783,11 +1783,11 @@
 
 ## Test Files
 
-610 test files found.
+611 test files found.
 
 | File | Size |
 |------|------|
-| `test/a11y-audit-never-silently-skips.test.mjs` | 13.2 KB |
+| `test/a11y-audit-never-silently-skips.test.mjs` | 16.0 KB |
 | `test/a11y-contrast-labels.test.js` | 3.9 KB |
 | `test/absence-confident-value-static-guard.test.mjs` | 8.6 KB |
 | `test/acs-etl.test.js` | 26.1 KB |
@@ -1804,6 +1804,7 @@
 | `test/analytics.test.js` | 18.2 KB |
 | `test/api-config-wrapper-url-sanitization.test.js` | 3.0 KB |
 | `test/attribute-escaping.test.js` | 4.9 KB |
+| `test/audit-budgets.test.mjs` | 9.1 KB |
 | `test/audit-modules/audit-history.js` | 5.5 KB |
 | `test/audit-modules/audit-status.js` | 3.5 KB |
 | `test/audit-modules/data-integrity.js` | 20.2 KB |
@@ -2402,11 +2403,11 @@
 
 ## GitHub Actions Workflows
 
-78 workflow files found.
+79 workflow files found.
 
 | File | Size |
 |------|------|
-| `.github/workflows/a11y-audit.yml` | 3.6 KB |
+| `.github/workflows/a11y-audit.yml` | 4.1 KB |
 | `.github/workflows/accessibility.yml` | 5.3 KB |
 | `.github/workflows/archive-audit-post-merge.yml` | 7.7 KB |
 | `.github/workflows/audit-endpoints.yml` | 14.6 KB |
@@ -2480,6 +2481,7 @@
 | `.github/workflows/update-co-housing-costs.yml` | 5.4 KB |
 | `.github/workflows/upstream-vintage-watch.yml` | 8.8 KB |
 | `.github/workflows/url-health-weekly.yml` | 5.3 KB |
+| `.github/workflows/ux-pass.yml` | 2.2 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 10.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 7.3 KB |
 | `.github/workflows/workflow-outcome-monitor.yml` | 6.8 KB |
