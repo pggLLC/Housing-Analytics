@@ -96,8 +96,9 @@ test('Prop 123 program rules come from the rules file', () => {
 
 // Petitions name jurisdictions and programs; only an approved one changes a limit.
 test('approved rural resort petitions set the limit for the programs they cover', () => {
-  const at = (program, tier, petitionJurisdiction) => limits.rentCeiling({ regime: 'prop123', program, prop123Rules: rules,
-    chfaTable: chfa, fips: '08117', tier, bedrooms: '2BR', petitionJurisdiction });
+  const at = (program, tier, petitionJurisdiction, fips) => limits.rentCeiling({ regime: 'prop123', program, prop123Rules: rules,
+    chfaTable: chfa, fips: fips || (rules.rural_resort_petitions.petitions.find((x) => x.jurisdiction === petitionJurisdiction) || { county_fips: ['08117'] }).county_fips[0],
+    tier, bedrooms: '2BR', petitionJurisdiction });
   const petitions = rules.rural_resort_petitions.petitions;
   const approved = petitions.filter((x) => x.status === 'approved' && x.programs.includes('land_banking'));
   assert(approved.length >= 1, 'no approved Land Banking petition: the scan checked nothing');
@@ -117,6 +118,43 @@ test('approved rural resort petitions set the limit for the programs they cover'
   }
   assert.equal(at('concessionary_debt_lihtc_gap', 60, approved[0].jurisdiction).petition, null, 'LIHTC programs take no petition');
   assert.equal(at('land_banking', 60, 'Nowhere').unavailableReason, 'prop123_petition_unknown');
+  // A petition filed elsewhere cannot lift another county's limit.
+  for (const x of approved) {
+    assert(Array.isArray(x.county_fips) && x.county_fips.every((f) => /^08\d{3}$/.test(f)), `${x.jurisdiction}: county_fips`);
+    assert.equal(at('land_banking', x.ami_pct_rental, x.jurisdiction, '08031').unavailableReason, 'prop123_petition_other_county', `${x.jurisdiction} from Denver`);
+  }
+});
+
+test('every petition names the county it applies in', () => {
+  const counties = new Set(chfa.counties.map((c) => c.fips));
+  for (const x of rules.rural_resort_petitions.petitions) {
+    assert(Array.isArray(x.county_fips) && x.county_fips.length > 0, x.jurisdiction);
+    for (const f of x.county_fips) assert(counties.has(f), `${x.jurisdiction}: ${f} is not a Colorado county in the CHFA table`);
+  }
+});
+
+// Equity and Concessionary Debt limit the project average, not each unit, so
+// every tier prices; the mix as a whole must still qualify.
+test('project-average programs flag a mix above the program average', () => {
+  const avg = (program, units, petitionJurisdiction, fips = '08031') => limits.prop123ProjectAverage({ prop123Rules: rules, program, units, petitionJurisdiction, fips });
+  const averaged = rules.programs.filter((p) => p.income_rule.type === 'project_average' && p.income_rule.max_ami_pct != null);
+  assert(averaged.length >= 2, 'no project-average programs: the scan checked nothing');
+  for (const p of averaged) {
+    const max = p.income_rule.max_ami_pct;
+    const at = avg(p.id, [{ tier: max, units: 10 }]);
+    assert(at.applies && !at.exceeds && at.averageAmiPct === max && at.maxAmiPct === max, p.id + ' at the limit');
+    assert(avg(p.id, [{ tier: 120, units: 1 }]).exceeds, p.id + ': all 120% units exceed');
+    const mixed = avg(p.id, [{ tier: max + 20, units: 1 }, { tier: max - 20, units: 1 }]);
+    assert(!mixed.exceeds && mixed.averageAmiPct === max, p.id + ': units above and below may balance');
+    const justOver = avg(p.id, [{ tier: max - 10, units: 249 }, { tier: max + 10, units: 251 }]);
+    assert(justOver.exceeds && justOver.averageAmiPct === max, p.id + ': an average that rounds to the limit but is above it exceeds');
+  }
+  const land = avg('land_banking', [{ tier: 120, units: 1 }]);
+  assert(!land.applies && !land.exceeds, 'Land Banking caps each unit instead');
+  const summit = rules.rural_resort_petitions.petitions.find((x) => x.jurisdiction === 'Summit County' && x.status === 'approved');
+  const lifted = avg('equity', [{ tier: summit.ami_pct_rental, units: 1 }], summit.jurisdiction, summit.county_fips[0]);
+  assert(lifted.maxAmiPct === summit.ami_pct_rental && !lifted.exceeds, 'approved petition sets the average limit');
+  assert.equal(avg('equity', [{ tier: 60, units: 1 }], summit.jurisdiction, '08031').unavailableReason, 'prop123_petition_other_county');
 });
 
 test('a missing program limit is unavailable, never the CHFA LIHTC rent', () => {

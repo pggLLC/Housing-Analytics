@@ -128,6 +128,7 @@
       tier_above_program: 'AMI tier is above this program\u2019s income limit',
       tier_above_program_without_petition: 'AMI tier is above this program\u2019s limit unless the jurisdiction has an approved rural resort petition',
       prop123_petition_unknown: 'Rural resort petition not found for this jurisdiction',
+      prop123_petition_other_county: 'That rural resort petition is for a jurisdiction outside the selected county',
       prop123_rules_missing: 'Prop 123 rent rules unavailable',
       prop123_program_missing: 'Choose a Prop 123 program',
       prop123_no_unit_limits: 'This Prop 123 program restricts no units',
@@ -353,6 +354,53 @@
 
   function _usd(n) { return '$' + n.toLocaleString('en-US'); }
 
+  // A petition applies only inside the jurisdiction that filed it, so one
+  // filed elsewhere in Colorado cannot change the selected county's limits.
+  function _prop123Petition(rules, program, jurisdiction, fips) {
+    if (jurisdiction == null) return { petition: null, unavailableReason: null };
+    var list = rules.rural_resort_petitions && rules.rural_resort_petitions.petitions || [];
+    var petition = list.find(function (x) { return x.jurisdiction === jurisdiction; }) || null;
+    if (!petition) return { petition: null, unavailableReason: 'prop123_petition_unknown' };
+    if (!Array.isArray(petition.county_fips) || petition.county_fips.indexOf(String(fips)) === -1) {
+      return { petition: null, unavailableReason: 'prop123_petition_other_county' };
+    }
+    var income = program.income_rule || {};
+    var covers = income.rural_resort_petition && petition.status === 'approved' &&
+      (petition.programs || []).some(function (id) { return program.id === id || program.id.indexOf(id + '_') === 0; });
+    return { petition: covers && _allowance(petition.ami_pct_rental) > 0 ? petition : null, unavailableReason: null };
+  }
+
+  // Programs that limit the project average (Equity, Concessionary Debt) set no
+  // per-unit cap, so each cell prices; the mix as a whole must still qualify.
+  // units: [{ tier, units }] for the income-restricted units.
+  function prop123ProjectAverage(args) {
+    args = args || {};
+    var rules = args.prop123Rules;
+    var program = rules && Array.isArray(rules.programs)
+      ? rules.programs.find(function (p) { return p.id === args.program; }) : null;
+    var income = program && program.income_rule || {};
+    var out = { applies: false, programName: program && program.name || null, maxAmiPct: null,
+      averageAmiPct: null, exceeds: false, unavailableReason: null };
+    if (!program || income.type !== 'project_average' || income.max_ami_pct == null) return out;
+    var found = _prop123Petition(rules, program, args.petitionJurisdiction, args.fips);
+    if (found.unavailableReason) { out.unavailableReason = found.unavailableReason; return out; }
+    out.applies = true;
+    out.maxAmiPct = found.petition ? found.petition.ami_pct_rental : income.max_ami_pct;
+    var count = 0, weighted = 0;
+    (args.units || []).forEach(function (row) {
+      var n = _allowance(row && row.units);
+      var tier = _allowance(row && row.tier);
+      if (n == null || n <= 0 || tier == null || tier <= 0) return;
+      count += n;
+      weighted += n * tier;
+    });
+    if (!count) return out;
+    // Compare before rounding: 90.04% exceeds a 90% limit even though it displays as 90.0.
+    out.exceeds = weighted / count > out.maxAmiPct;
+    out.averageAmiPct = Math.round(weighted / count * 10) / 10;
+    return out;
+  }
+
   function _prop123Ceiling(result, args, blocked) {
     var rules = args.prop123Rules;
     var table = args.chfaTable;
@@ -380,15 +428,9 @@
     // An approved rural resort petition (C.R.S. 29-32-105.5(3)) replaces the
     // program's AMI limit for that jurisdiction. Petitions name jurisdictions,
     // not counties, so the caller must say which one applies.
-    var petition = null;
-    if (args.petitionJurisdiction != null) {
-      var list = rules.rural_resort_petitions && rules.rural_resort_petitions.petitions || [];
-      petition = list.find(function (x) { return x.jurisdiction === args.petitionJurisdiction; }) || null;
-      if (!petition) return blocked('prop123_petition_unknown');
-      var covers = income.rural_resort_petition && petition.status === 'approved' &&
-        (petition.programs || []).some(function (id) { return program.id === id || program.id.indexOf(id + '_') === 0; });
-      petition = covers && _allowance(petition.ami_pct_rental) > 0 ? petition : null;
-    }
+    var found = _prop123Petition(rules, program, args.petitionJurisdiction, args.fips);
+    if (found.unavailableReason) return blocked(found.unavailableReason);
+    var petition = found.petition;
     var perUnitMax = petition && income.per_unit_max_ami_pct != null ? petition.ami_pct_rental : income.per_unit_max_ami_pct;
     var averageMax = petition ? petition.ami_pct_rental : income.max_ami_pct;
     if (perUnitMax != null && tier > perUnitMax) {
@@ -583,6 +625,7 @@
     allowanceBasisCaption: allowanceBasisCaption,
     unavailableMessage: unavailableMessage,
     rentCeiling: rentCeiling,
+    prop123ProjectAverage: prop123ProjectAverage,
     heraStatus: heraStatus,
     maxGrossRent: maxGrossRent,
     incomeLimit: incomeLimit,
