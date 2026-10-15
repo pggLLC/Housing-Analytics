@@ -199,6 +199,14 @@ ok('the daily audit reports a program page blocked for days, never as no change'
   const [a] = fundingWatchFindings({ watch: { pages: [agency] } });
   assert.match(a.description, /DOLA Division of Local Government \(agency page\) could not be read since 2026-10-13/);
   assert.deepEqual(fundingWatchFindings({ watch: { pages: [{ ...agency, unverifiable: false }] } }), []);
+  // A federal search failing for days is reported every day, not only in the one tracker issue (Codex review).
+  const fed = { 'grants.gov': { ok: false, unverifiable: true, first_failed_at: '2026-10-13T05:34:00Z',
+    endpoint: 'https://grants.localhost/search2', error: 'HTTP Error 503' },
+  'federalregister.gov': { ok: true, unverifiable: false } };
+  const fedFindings = fundingWatchFindings({ watch: { pages: [], federal_sources: fed } });
+  assert.equal(fedFindings.length, 1);
+  assert.match(fedFindings[0].description, /grants\.gov search for new federal funding notices has failed since 2026-10-13/);
+  assert.deepEqual(fundingWatchFindings({ watch: { pages: [], federal_sources: { 'grants.gov': { ...fed['grants.gov'], unverifiable: false } } } }), []);
   const audit = read('test/audit-modules/data-integrity.js');
   assert.match(audit, /fundingWatchFindings\(\{ watch \}\)/, 'the daily audit runs the watch check');
   assert.match(audit, /'audit', 'funding-watch\.json'/, 'and reads the file the watcher writes');

@@ -130,7 +130,8 @@ function fundingProgramFindings({ guide, soft, today }) {
  * What the funding watch (scripts/audit/funding_watch.py, data/audit/funding-watch.json)
  * saw on the agencies' own pages, against what the catalogs say:
  *   - a program whose page changed after the program was last checked, and
- *   - a program whose page has been unreachable or blocked for days.
+ *   - a program whose page has been unreachable or blocked for days, and
+ *   - a federal notice search that has failed for days.
  * The watch never edits a status, so these stay open until a person rechecks the
  * program on its page and updates last_checked. A missing watch file (before its
  * first run) yields nothing.
@@ -139,9 +140,22 @@ function fundingProgramFindings({ guide, soft, today }) {
  */
 function fundingWatchFindings({ watch }) {
   const findings = [];
-  if (!watch || !Array.isArray(watch.pages)) return findings;
+  if (!watch) return findings;
   const FILES = { guide: 'data/policy/co-developer-funding-guide.json', soft: 'data/policy/soft-funding-status.json' };
-  for (const page of watch.pages) {
+  // A federal search (Grants.gov, the Federal Register) failing for days hides new
+  // notices the same way a blocked page hides a new round. The run's tracker issue
+  // opens once; this keeps reporting it daily until the feed answers (Codex, 2026-10-15).
+  for (const [source, st] of Object.entries(watch.federal_sources || {})) {
+    if (!st || !st.unverifiable) continue;
+    findings.push({
+      severity: 'medium', file: 'data/audit/funding-watch.json',
+      description: `The ${source} search for new federal funding notices has failed since ${String(st.first_failed_at || '').slice(0, 10)}`,
+      expected: 'Every federal funding search answers, or is checked by hand while it fails',
+      actual: `${st.endpoint || source}: ${st.error || 'unreachable'}`,
+      recommendation: `Search ${source} by hand for new housing and infrastructure funding notices. A failed search is not "no new notices".`,
+    });
+  }
+  for (const page of Array.isArray(watch.pages) ? watch.pages : []) {
     if (!page) continue;
     const programs = page.programs || [];
     // Agency announcement pages carry no programs, but a blocked one still hides
