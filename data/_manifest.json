@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-15T11:37:13.609Z",
+    "generated_at": "2026-10-15T11:52:24.400Z",
     "root": "data/",
     "file_count": 1732,
-    "total_size_bytes": 183608728,
+    "total_size_bytes": 183631656,
     "kinds": {
       "json": 1689,
       "geojson": 33,
@@ -276,8 +276,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 282175,
-      "mtime": "2026-10-14T09:58:54.151Z",
+      "size_bytes": 291088,
+      "mtime": "2026-10-15T11:51:57.240Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -285,7 +285,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 410,
+      "primary_array_length": 424,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -299,8 +299,8 @@
     {
       "path": "alerts/brief-news-queue.json",
       "kind": "json",
-      "size_bytes": 65682,
-      "mtime": "2026-10-14T09:59:13.809Z",
+      "size_bytes": 67566,
+      "mtime": "2026-10-15T11:52:21.861Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34556,8 +34556,8 @@
     {
       "path": "policy/housing-events.json",
       "kind": "json",
-      "size_bytes": 15562,
-      "mtime": "2026-10-14T09:59:13.683Z",
+      "size_bytes": 15087,
+      "mtime": "2026-10-15T11:52:21.742Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -34566,7 +34566,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "events",
-      "primary_array_length": 32,
+      "primary_array_length": 31,
       "primary_array_first_keys": [
         "title",
         "start",
@@ -34577,7 +34577,8 @@
         "organizer",
         "url",
         "source",
-        "category"
+        "category",
+        "checked"
       ]
     },
     {
@@ -35224,8 +35225,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 383911,
-      "mtime": "2026-10-14T09:59:12.830Z",
+      "size_bytes": 396517,
+      "mtime": "2026-10-15T11:52:16.929Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -35235,7 +35236,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "stories",
-      "primary_array_length": 218,
+      "primary_array_length": 225,
       "primary_array_first_keys": [
         "title",
         "source",
