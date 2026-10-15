@@ -89,7 +89,8 @@ MAX_OUT_BYTES = int(4.5 * 1024 * 1024)
 # changes once, so a page that stays blocked does not rewrite the file every day.
 UNREACHABLE_AFTER_DAYS = 3
 # Federal notices are kept after they leave the search results, so one that drops
-# out and comes back is not reported new again; forgotten after this many days.
+# out and comes back is not reported new again; forgotten this many days after it
+# was last seen (missing_since), never while the query that found it is failing.
 NOTICE_MEMORY_DAYS = 365
 
 ROUND_LINE_RE = re.compile(
@@ -476,10 +477,20 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         if matched_by.get(n['key'], set()) & prev_baselined:
             new_notices.append(n)
     seen_now = {n['key'] for n in notices}
+    failed_queries = {f"{f['source']}|{f['query']}" for f in fed_failures}
     for key, p in prev_notices.items():
-        # Kept after it leaves the results, so it is not "new" again if it returns.
-        if key in seen_now or _days_between(p.get('first_seen_at') or now, now) <= NOTICE_MEMORY_DAYS:
+        # Kept after it leaves the results, so it is not "new" again if it returns. The
+        # clock starts the first run it is absent from an answer, not when first seen,
+        # and a failed query is no answer: its notices are kept as they were.
+        if key in seen_now:
+            p.pop('missing_since', None)
             merged.append(p)
+        elif f"{p.get('source')}|{p.get('query')}" in failed_queries:
+            merged.append(p)
+        else:
+            p['missing_since'] = p.get('missing_since') or now
+            if _days_between(p['missing_since'], now) <= NOTICE_MEMORY_DAYS:
+                merged.append(p)
     notices = sorted(merged, key=lambda n: n['key'])
 
     unverifiable = [{'id': p['id'], 'url': p['url'], 'error': p.get('error'),

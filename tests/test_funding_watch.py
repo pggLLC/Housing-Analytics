@@ -775,3 +775,28 @@ def test_iso_and_hyphenated_dates_are_round_lines():
     base = run(site(eiaf="<title>EIAF</title>\n<table><tr><td>2026-12-01</td></tr></table>"))
     r = run(site(eiaf="<title>EIAF</title>\n<table><tr><td>2027-03-01</td></tr></table>"), previous=base, now="2026-10-16T05:34:00Z")
     assert [c["id"] for c in r["changes"]["changed_pages"]] == ["dlg-eiaf"]
+
+
+def test_a_notice_is_forgotten_a_year_after_it_was_last_seen_not_first_seen():
+    """A notice first seen over a year ago is not dropped the first day it is absent,
+    nor while its query is failing; the year runs from when it went missing (Codex, 2026-10-15)."""
+    base = run(site())
+    old = json.loads(json.dumps(base))
+    for n in old["federal_notices"]:
+        n["first_seen_at"] = "2025-01-01T05:34:00Z"
+    gone = run(site(gg_hits=[]), previous=old, now="2026-10-16T05:34:00Z")
+    kept = {n["key"]: n for n in gone["federal_notices"]}
+    assert kept["grants.gov:1"]["missing_since"] == "2026-10-16T05:34:00Z"
+
+    def fails(url, data=None, headers=None):
+        if url == GG:
+            raise HTTPError("HTTP Error 503")
+        return site()(url, data, headers)
+    year_later = "2027-10-20T05:34:00Z"
+    down = run(fails, previous=gone, now=year_later)
+    assert "grants.gov:1" in {n["key"] for n in down["federal_notices"]}, "a failed query is no answer"
+    expired = run(site(gg_hits=[]), previous=gone, now=year_later)
+    assert "grants.gov:1" not in {n["key"] for n in expired["federal_notices"]}
+    back = run(site(), previous=gone, now="2026-11-01T05:34:00Z")
+    assert back["changes"]["new_federal_notices"] == []
+    assert "missing_since" not in {n["key"]: n for n in back["federal_notices"]}["grants.gov:1"]
