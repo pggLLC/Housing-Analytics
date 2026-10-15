@@ -239,6 +239,10 @@
     // Other (everything else maps to 'other' by default)
   };
 
+  function prop123Key(name) {
+    return String(name || '').toLowerCase().trim().replace(/^(city and county|city|town) of /, '');
+  }
+
   function regionFor(countyFips) {
     return COUNTY_REGION[countyFips] || 'other';
   }
@@ -277,7 +281,7 @@
     // ---- Prop 123 / fast-track (15 pts max)
     // Look up by name match against prop123 list
     if (prop123Map) {
-      const p123 = prop123Map[rec.name && rec.name.toLowerCase()];
+      const p123 = prop123Map[prop123Key(rec.name)];
       if (p123) {
         if (p123.fast_track) { score += 15; reasons.push({ tag: 'Prop 123 fast-track', cls: 'good' }); }
         else                  { score += 8;  reasons.push({ tag: 'Prop 123 filed', cls: 'good' }); }
@@ -330,8 +334,10 @@
     // Build a normalized prop123 lookup keyed by lowercase name
     const prop123Map = {};
     if (prop123 && (prop123.jurisdictions || prop123.list)) {
+      // DOLA names carry the form ("City of Boulder", "City and County of Denver");
+      // the progress file uses the bare name, so key both by the bare name.
       (prop123.jurisdictions || prop123.list).forEach(p => {
-        const n = (p.jurisdiction || p.name || '').toLowerCase().trim();
+        const n = prop123Key(p.jurisdiction || p.name);
         if (n) prop123Map[n] = p;
       });
     }
