@@ -252,14 +252,31 @@ def check_page(target: dict, prev: dict, fetch: Fetcher, now: str) -> tuple[dict
 def grants_gov(cfg: dict, fetch: Fetcher) -> tuple[list, list]:
     """(notices, failures) from Grants.gov search2, one query per keyword."""
     notices, failures, seen = [], [], set()
+    rows = int(cfg.get('rows', 25))
+    cap = int(cfg.get('max_records', 100))
     for kw in cfg.get('keywords', []):
-        payload = json.dumps({'keyword': kw, 'oppStatuses': cfg.get('statuses', 'forecasted|posted'),
-                              'rows': cfg.get('rows', 25)}).encode('utf-8')
-        try:
-            _s, _h, body = fetch(cfg['endpoint'], data=payload, headers={'Content-Type': 'application/json'})
-            hits = (json.loads(body).get('data') or {}).get('oppHits') or []
-        except Exception as exc:
-            failures.append({'source': 'grants.gov', 'query': kw, 'error': f'{exc.__class__.__name__}: {exc}'})
+        # Results come ranked by relevance. Page through them (startRecordNum) up to `cap`
+        # records per keyword: the unquoted keywords match hundreds of loosely related
+        # opportunities, and a full sweep of every page would add thousands of daily records.
+        hits, start, total, err = [], 0, None, None
+        while start < cap:
+            payload = json.dumps({'keyword': kw, 'oppStatuses': cfg.get('statuses', 'forecasted|posted'),
+                                  'rows': rows, 'startRecordNum': start}).encode('utf-8')
+            try:
+                _s, _h, body = fetch(cfg['endpoint'], data=payload, headers={'Content-Type': 'application/json'})
+                data = json.loads(body).get('data') or {}
+            except Exception as exc:
+                err = f'{exc.__class__.__name__}: {exc}'
+                break
+            page = data.get('oppHits') or []
+            hits += page
+            total = data.get('hitCount') if isinstance(data.get('hitCount'), int) else len(hits)
+            start += rows
+            if not page or start >= total:
+                break
+        if err:
+            # A page that fails part-way leaves this keyword incomplete; keep nothing from it.
+            failures.append({'source': 'grants.gov', 'query': kw, 'error': err})
             continue
         for h in hits:
             key = f"grants.gov:{h.get('id')}"
@@ -268,7 +285,7 @@ def grants_gov(cfg: dict, fetch: Fetcher) -> tuple[list, list]:
             seen.add(key)
             notices.append({
                 'key': key, 'source': 'grants.gov', 'query': kw,
-                'number': h.get('number'), 'title': (h.get('title') or '')[:300], 'agency': h.get('agency'),
+                'number': h.get('number'), 'title': (h.get('title') or '')[:300], 'agency': h.get('agency') or h.get('agencyName'),
                 'status': h.get('oppStatus'), 'open_date': h.get('openDate'), 'close_date': h.get('closeDate'),
                 'url': f"https://www.grants.gov/search-results-detail/{h.get('id')}",
             })

@@ -76,7 +76,10 @@ def site(eiaf=QUIET, grant=GRANT_PAGE, gg_hits=None, fr_results=None, blocked=()
             return 200, {}, grant.encode()
         if url == GG:
             assert data is not None, "Grants.gov search2 answers GET with 403; it must be a POST"
-            return 200, {}, json.dumps({"data": {"oppHits": gg_hits}}).encode()
+            req = json.loads(data)
+            start, rows = req.get("startRecordNum", 0), req["rows"]
+            return 200, {}, json.dumps({"data": {"hitCount": len(gg_hits), "startRecord": start,
+                                                 "oppHits": gg_hits[start:start + rows]}}).encode()
         if url.startswith(FR):
             return 200, {}, json.dumps({"results": fr_results}).encode()
         raise HTTPError(f"unexpected url {url}")
@@ -343,3 +346,24 @@ def test_a_federal_feed_that_keeps_failing_is_reported_once_as_unverifiable():
     back = run(site(), previous=days[-1], now="2026-10-20T05:34:00Z")
     assert back["federal_sources"]["grants.gov"] == {"ok": True, "endpoint": GG, "unverifiable": False}
     assert watch._content(days[2]) == watch._content(days[1]), "a feed that stays down adds no daily commit"
+
+
+def test_grants_gov_is_paged_past_the_first_page_up_to_the_cap():
+    """A keyword with more hits than one page of results: later pages are read too (Codex,
+    2026-10-15), up to max_records, and a page failing part-way marks the keyword failed."""
+    hits = [{"id": str(i), "title": f"Grant {i}", "agencyName": "HUD"} for i in range(60)]
+    cfg = {"endpoint": GG, "keywords": ["housing"], "rows": 25, "max_records": 100}
+    notices, failures = watch.grants_gov(cfg, site(gg_hits=hits))
+    assert not failures and len(notices) == 60, "all three pages were read"
+    assert notices[-1]["agency"] == "HUD", "agencyName is read when agency is absent"
+    capped, _ = watch.grants_gov({**cfg, "max_records": 50}, site(gg_hits=hits))
+    assert len(capped) == 50
+    calls = []
+
+    def fails_on_page_2(url, data=None, headers=None):
+        if url == GG and json.loads(data).get("startRecordNum", 0) >= 25:
+            raise HTTPError("HTTP Error 503")
+        calls.append(url)
+        return site(gg_hits=hits)(url, data, headers)
+    part, failed = watch.grants_gov(cfg, fails_on_page_2)
+    assert part == [] and failed and failed[0]["query"] == "housing"

@@ -102,6 +102,7 @@
       "why": "Federal notices of funding opportunity (NOFOs), forecasted or posted, that Colorado agencies, local governments or developers could use for housing or the infrastructure it needs.",
       "statuses": "forecasted|posted",
       "rows": 25,
+      "max_records": 100,
       "keywords": [
         "affordable housing",
         "rural housing",
