@@ -1,0 +1,73 @@
+name: Usability pass (phone)
+
+# The usability benchmark from the 2026-10-15 site-flow review, as a check.
+# Opens the homepage, the seven guided steps, Colorado Deep Dive and About at
+# phone width, served like GitHub Pages, and fails when a page goes over the
+# DOM-size, main-thread-blocking or one-<h1> budgets in
+# scripts/audit/ux-budget.json. Reading grade and first-screen abbreviations
+# are reported against their targets in the job summary without failing.
+# The weekly and manual runs add Lighthouse mobile scores (report only).
+
+on:
+  schedule:
+    - cron: '9 14 * * 3'   # Wednesdays 14:09 UTC
+  pull_request:
+    paths:
+      - 'css/**'
+      - '*.html'
+      - 'js/**'
+      # The measured pages draw from data files (the Scenario Builder from
+      # data/hna/ranking-index.json, About from data/policy/tool-watch.json),
+      # so a data-only PR can leave one unloaded or over budget.
+      - 'data/**'
+      - 'scripts/audit/ux-pass.mjs'
+      - 'scripts/audit/ux-budget.json'
+      - 'scripts/audit/lib/**'
+      - '.github/workflows/ux-pass.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ux-pass-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ux-pass:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium
+
+      - name: Check audit budgets logic
+        run: node test/audit-budgets.test.mjs
+
+      - name: Run usability pass
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            node scripts/audit/ux-pass.mjs --out ux-pass.json
+          else
+            node scripts/audit/ux-pass.mjs --lighthouse --out ux-pass.json
+          fi
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ux-pass-${{ github.run_id }}
+          path: ux-pass.json
+          if-no-files-found: ignore
+          retention-days: 30

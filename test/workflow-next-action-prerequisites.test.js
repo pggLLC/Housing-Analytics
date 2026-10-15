@@ -72,6 +72,21 @@ run('a step that completes itself on read still asks for the missing jurisdictio
   assert.match(r.html, /href="select-jurisdiction\.html\?next=hna-what-housing-exists\.html"/, 'the prompt must carry the reader back here');
 });
 
+run('Select Jurisdiction gives one next step: the banner agrees with the page button', () => {
+  // Codex review 2026-10-15: the banner said "Go on to Opportunity Finder"
+  // while the page's main button said "Begin Housing Needs Assessment (step 3)"
+  // and called step 2 optional. The optional finder is never the banner's next
+  // step; whatever the page's own button names, the banner must name too.
+  const page = fs.readFileSync(path.join(ROOT, 'select-jurisdiction.html'), 'utf8');
+  const btn = normalize(((page.match(/id="sjContinueBtn"[^>]*>([\s\S]*?)<\/button>/) || [])[1] || ''));
+  assert.ok(btn, 'could not read the Select Jurisdiction continue button');
+  const r = render('select-jurisdiction.html', []);
+  const link = (r.html.match(/<a [^>]*>([\s\S]*?)<\/a>/) || [])[1] || '';
+  assert.ok(!/Opportunity Finder/.test(normalize(link)), 'the banner sends the reader to the optional finder: ' + r.text);
+  const named = normalize(link).replace(/^(Go on to|Continue to)\s+/, '').replace(/\s*\u2192$/, '');
+  assert.ok(named && btn.includes(named), `banner says "${normalize(link)}", page button says "${btn}"`);
+});
+
 run('the statewide Opportunity Finder never asks for a jurisdiction', () => {
   // Step 2 is untracked statewide discovery; "this page reads its numbers
   // from one Colorado community" would be false there.

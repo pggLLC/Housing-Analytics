@@ -2053,7 +2053,12 @@
           iconSize: [12, 12],
           iconAnchor: [6, 6],
         });
-        return L.marker(latlng, { icon });
+        // Leaflet makes every marker a focusable role="button"; without a
+        // title it has no accessible name, so screen readers announce
+        // hundreds of unnamed buttons (axe aria-command-name).
+        const props = feature.properties || {};
+        const name = props.PROJECT || props.project || props.PROJ_NM || 'Tax credit property';
+        return L.marker(latlng, { icon, title: String(name) + ' (tax credit property)' });
       },
       onEachFeature(feature, layer) {
         const p = feature.properties || {};
@@ -2517,7 +2522,13 @@
       if (am.inJuris !== bm.inJuris) return am.inJuris ? -1 : 1;
       return (bm.year || 0) - (am.year || 0);
     });
-    const _sortedHtml = _allRows.map(function (r) { return r.html; }).join('');
+    // With no place chosen the scope is the whole state, so every one of
+    // ~926 properties became a row: about 44,000 DOM nodes, which froze a
+    // phone for ~18 s on load and again on every map move. Draw the first
+    // rows and let the reader ask for the rest.
+    const LIHTC_PANEL_FIRST_ROWS = 25;
+    const _sortedHtml = _allRows.slice(0, LIHTC_PANEL_FIRST_ROWS).map(function (r) { return r.html; }).join('');
+    const _restRows = _allRows.slice(LIHTC_PANEL_FIRST_ROWS);
     const totalInView = chfaRows.length + otherRows.length;
     // F134 — methodology footer: explicit source provenance + confidence
     // so an underwriter doesn't have to dig through docs to verify
@@ -2555,10 +2566,56 @@
           `${totalInView} propert${totalInView === 1 ? 'y' : 'ies'} ${_scopeLabel}, all subsidy programs, hover badge for definition` +
         `</span>` +
       `</p>`;
+    // More rows arrive a page at a time, and the total is capped: a single
+    // "show all" put every row back at once (~51,000 DOM nodes statewide),
+    // and 50 at a time would rebuild the same list after enough presses. Past
+    // the cap the reader narrows the map instead.
+    const LIHTC_PANEL_MORE_ROWS = 50;
+    const LIHTC_PANEL_MAX_ROWS = 200;
+    const _moreRows = _restRows.slice(0, Math.max(0, LIHTC_PANEL_MAX_ROWS - LIHTC_PANEL_FIRST_ROWS));
+    const _capNoteHtml = _allRows.length > LIHTC_PANEL_MAX_ROWS
+      ? `<p class="lihtc-cap-note" role="status" tabindex="-1" style="margin:.25rem 0 .75rem;color:var(--muted)">` +
+          `The list stops at ${LIHTC_PANEL_MAX_ROWS} of ${totalInView}. Zoom the map in or choose a place to see the others.</p>`
+      : '';
+    const _moreLabel = function (shownNow) {
+      const next = Math.min(LIHTC_PANEL_MORE_ROWS, _moreRows.length - (shownNow - LIHTC_PANEL_FIRST_ROWS));
+      return `Show ${next} more (${shownNow} of ${totalInView} shown)`;
+    };
+    const _firstShown = Math.min(LIHTC_PANEL_FIRST_ROWS, _allRows.length);
+    const _showMoreHtml = _moreRows.length
+      ? `<p style="margin:.25rem 0 .75rem"><button type="button" class="btn lihtc-show-more">` +
+          `${_moreLabel(_firstShown)}</button></p>`
+      : _capNoteHtml;
     panelEl.innerHTML =
       headline +
       `<ul class="lihtc-list" style="list-style:none;padding-left:0">${_sortedHtml}</ul>` +
+      _showMoreHtml +
       mfHtml;
+    const showMoreBtn = panelEl.querySelector('.lihtc-show-more');
+    if (showMoreBtn) {
+      let added = 0;
+      showMoreBtn.addEventListener('click', function () {
+        const list = panelEl.querySelector('.lihtc-list');
+        const batch = _moreRows.slice(added, added + LIHTC_PANEL_MORE_ROWS);
+        if (list) list.insertAdjacentHTML('beforeend', batch.map(function (r) { return r.html; }).join(''));
+        added += batch.length;
+        if (added < _moreRows.length) {
+          showMoreBtn.textContent = _moreLabel(_firstShown + added);
+        } else {
+          // The pressed button goes away, so focus moves to the note that
+          // replaces it; otherwise a keyboard or screen-reader user is left
+          // nowhere and never hears that the list stopped.
+          const holder = showMoreBtn.parentNode;
+          if (holder) {
+            holder.outerHTML = _capNoteHtml ||
+              `<p class="lihtc-cap-note" role="status" tabindex="-1" style="margin:.25rem 0 .75rem;color:var(--muted)">` +
+              `All ${totalInView} shown.</p>`;
+            const note = panelEl.querySelector('.lihtc-cap-note');
+            if (note) note.focus();
+          }
+        }
+      });
+    }
   }
 
   /**
