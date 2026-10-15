@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T14:35:36.274Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T17:34:05.818Z. Do not edit by hand.
 
 ---
 
@@ -19,7 +19,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.4 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 40.4 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 206.5 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 207.5 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 17.5 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.4 KB |
@@ -84,7 +84,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1690 JSON files found.
+1693 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1724,7 +1724,10 @@
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 20.3 KB | ✅ | — |
 | `data/policy/fee-reductions.json` | 567.3 KB | ✅ | — |
+| `data/policy/funding-awards/award-rows.json` | 238.5 KB | ✅ | — |
+| `data/policy/funding-awards/developer-aliases.json` | 7.4 KB | ✅ | — |
 | `data/policy/funding-awards/documents.json` | 39.9 KB | ✅ | — |
+| `data/policy/funding-awards/dola-awards.json` | 323.5 KB | ✅ | — |
 | `data/policy/funding-awards/land-banking-corrections.json` | 7.1 KB | ✅ | — |
 | `data/policy/funding-awards/ledger.json` | 347.7 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.8 KB | ✅ | — |
@@ -1783,7 +1786,7 @@
 
 ## Test Files
 
-615 test files found.
+617 test files found.
 
 | File | Size |
 |------|------|
@@ -1797,6 +1800,7 @@
 | `test/acs-vintage-label-integrity.test.js` | 3.9 KB |
 | `test/affordability-defaults-inventory.test.js` | 6.7 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 3.2 KB |
+| `test/agency-funding.test.mjs` | 12.7 KB |
 | `test/ahcia-status.test.mjs` | 5.9 KB |
 | `test/ami-gap-contract.test.js` | 13.5 KB |
 | `test/ami-gap-evidence-language.test.js` | 4.8 KB |
@@ -2353,6 +2357,7 @@
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/policy_schema.py` | 13.8 KB |
 | `tests/test_acs_vintage_var_aliases.py` | 4.2 KB |
+| `tests/test_award_rows.py` | 3.3 KB |
 | `tests/test_brief_news_queue.py` | 4.6 KB |
 | `tests/test_build_hna_data_batch_b.py` | 4.6 KB |
 | `tests/test_build_hna_data_concurrency.py` | 7.9 KB |
@@ -2460,7 +2465,7 @@
 | `.github/workflows/fetch-market-rents.yml` | 8.2 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 20.4 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 9.4 KB |
-| `.github/workflows/funding-awards.yml` | 4.9 KB |
+| `.github/workflows/funding-awards.yml` | 5.7 KB |
 | `.github/workflows/local-incentives-watch.yml` | 1.8 KB |
 | `.github/workflows/market_data_build.yml` | 21.8 KB |
 | `.github/workflows/merge-ref-gate.yml` | 3.6 KB |
