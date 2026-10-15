@@ -228,8 +228,13 @@ ledgerAgreement(DATA);
   const K = 8 / Math.hypot(den.lat - tho.lat, den.lng - tho.lng);
   const proj = ([lat, lng]) => ({ x: lng * K, y: -lat * K });
   const at = (t, dx = 0) => { const p = proj([t.lat, t.lng]); return { x: p.x + dx, y: p.y }; };
-  ok(LBM.nearestTown(towns, at(den), proj) === den, 'a tap on Denver opens Denver, not Thornton');
-  ok(LBM.nearestTown(towns, at(tho), proj) === tho, 'a tap on Thornton opens Thornton');
+  ok(LBM.nearestTown(towns, at(den), proj) === den, 'a tap on Denver points at Denver, not Thornton');
+  // Every town keeps its full 44px area: a tap 21px from Denver, on the far side of Thornton,
+  // still reaches Denver (in a chooser with Thornton), not Thornton alone.
+  const dx = (proj([tho.lat, tho.lng]).x - proj([den.lat, den.lng]).x) >= 0 ? 1 : -1;
+  const near = LBM.townsNear(towns, at(den, 21 * dx), proj);
+  ok(near.includes(den) && near.includes(tho), 'a tap 21px past Denver toward Thornton still reaches Denver');
+  ok(towns.every((t) => LBM.townsNear(towns, at(t, 21), proj).includes(t) && LBM.townsNear(towns, at(t, -21), proj).includes(t)), 'every town is reachable 21px either side of its pin');
   ok(LBM.nearestTown([den], at(den, 21), proj) === den && LBM.nearestTown([den], at(den, 23), proj) === null, 'the tap reaches 22px from a pin and no further');
   // An exact town search opens that town, even when a shared award keeps other towns on the map.
   const shared = DATA.awards.find((a) => a.places.length > 1);
@@ -249,6 +254,7 @@ ledgerAgreement(DATA);
   const page = read('developer-where.html');
   ok(page.includes('data-land-banking-map') && page.includes('js/whitepaper/land-banking-map.js') && page.includes('js/vendor/leaflet.js') && page.includes('data-lbm-detail'),
     'Where to build carries the map section');
+  ok(/#lbmMap \.leaflet-control-zoom a \{[^}]*width:44px;[^}]*height:44px/.test(page), 'the zoom buttons are 44px');
   ok(page.includes('data-lbm-towns') && /data-lbm-detail[^>]*tabindex="-1"/.test(page), 'the page carries the town list and a focusable details panel');
   ok(page.indexOf('id="tiers"') < page.indexOf('data-land-banking-map'), 'the shortlist stays above the map');
   // The contacts are gated: the module ships only inside js/whitepaper, which the public build leaves out.

@@ -140,13 +140,22 @@
     return { map: map, layer: L.layerGroup().addTo(map) };
   }
 
-  // A tap selects the nearest town within 22px of it (a 44px target), measured on screen.
-  // Pins can sit closer than 44px (Denver and Thornton are ~8px apart at state zoom), so
-  // stacked invisible hit circles would let a later pin cover its neighbour; the nearest
-  // pin always wins instead.
+  // Every town answers a tap anywhere within 22px of its pin (a 44px target), measured on
+  // screen. Pins can sit closer than that (Denver and Thornton are ~8px apart at state
+  // zoom), so a tap that reaches more than one town opens a short list of those towns
+  // to choose from instead of guessing; no town's 44px area is cut down by a neighbour.
   var MIN_HIT_RADIUS = 22;
   function pinRadius(t) { return 6 + 3 * Math.sqrt(t.awards.length - 1); }
   function hitRadius(t) { return Math.max(MIN_HIT_RADIUS, pinRadius(t)); }
+
+  function townsNear(towns, point, project) {
+    return (towns || []).map(function (t) {
+      var p = project([t.lat, t.lng]);
+      return { t: t, d: Math.sqrt(Math.pow(p.x - point.x, 2) + Math.pow(p.y - point.y, 2)) };
+    }).filter(function (x) { return x.d <= hitRadius(x.t); })
+      .sort(function (a, b) { return a.d - b.d || a.t.name.localeCompare(b.t.name); })
+      .map(function (x) { return x.t; });
+  }
 
   function nearestTown(towns, point, project) {
     var best = null, bestD = Infinity;
@@ -194,6 +203,25 @@
     el.hidden = !town;
   }
 
+  // A tap that reaches several close pins: list them, nearest first, to pick one.
+  function showChoice(state, towns) {
+    var el = global.document.querySelector('[data-lbm-detail]');
+    if (!el) return;
+    el.innerHTML = '<div class="lbm-popup"><h4>' + towns.length + ' towns are close together here</h4>' +
+      '<p class="lbm-note">Pick one, or zoom in on the map.</p><ul class="lbm-choice">' +
+      towns.map(function (t) {
+        var n = t.awards.length + (t.awards.length === 1 ? ' award' : ' awards');
+        return '<li><button type="button" data-lbm-town="' + esc(t.geoid) + '">' + esc(t.name) +
+          ' <span class="lbm-note">' + esc(n) + '</span></button></li>';
+      }).join('') + '</ul></div>';
+    el.hidden = false;
+  }
+
+  function onTap(state, towns) {
+    if (towns.length === 1) showTown(state, towns[0]);
+    else if (towns.length > 1) showChoice(state, towns);
+  }
+
   // The same towns as the pins, as buttons: keyboard and screen-reader users cannot
   // reach an SVG pin, so this list is how they open a town without knowing its name.
   function townListHtml(towns) {
@@ -237,8 +265,7 @@
       var map = state.mapState.map;
       var project = function (ll) { return map.latLngToContainerPoint(ll); };
       map.on('click', function (e) {
-        var t = nearestTown(state.shownTowns, e.containerPoint, project);
-        if (t) showTown(state, t);
+        onTap(state, townsNear(state.shownTowns, e.containerPoint, project));
       });
       map.on('mousemove', function (e) {
         var t = nearestTown(state.shownTowns, e.containerPoint, project);
@@ -247,8 +274,9 @@
       });
     }
     doc.getElementById('lbmSearch').addEventListener('input', function () { render(state); });
-    var list = doc.querySelector('[data-lbm-towns]');
-    if (list) list.addEventListener('click', function (e) {
+    // Town buttons live in the list under the map and in the close-pins chooser.
+    var section = doc.querySelector('[data-land-banking-map]');
+    if (section) section.addEventListener('click', function (e) {
       var b = e.target.closest && e.target.closest('[data-lbm-town]');
       if (!b) return;
       var geoid = b.getAttribute('data-lbm-town');
@@ -282,5 +310,5 @@
   }
 
   return { contactIndex: contactIndex, filterAwards: filterAwards, summarize: summarize, groupByTown: groupByTown,
-    popupHtml: popupHtml, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, nearestTown: nearestTown, townListHtml: townListHtml, contactHtml: contactHtml, countText: countText, boot: boot, AWARDS: AWARDS, CONTACTS: CONTACTS };
+    popupHtml: popupHtml, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, nearestTown: nearestTown, townsNear: townsNear, onTap: onTap, townListHtml: townListHtml, contactHtml: contactHtml, countText: countText, boot: boot, AWARDS: AWARDS, CONTACTS: CONTACTS };
 }));
