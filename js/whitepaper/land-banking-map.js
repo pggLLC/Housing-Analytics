@@ -140,9 +140,23 @@
     return { map: map, layer: L.layerGroup().addTo(map) };
   }
 
+  // A tap selects the nearest town within 22px of it (a 44px target), measured on screen.
+  // Pins can sit closer than 44px (Denver and Thornton are ~8px apart at state zoom), so
+  // stacked invisible hit circles would let a later pin cover its neighbour; the nearest
+  // pin always wins instead.
   var MIN_HIT_RADIUS = 22;
   function pinRadius(t) { return 6 + 3 * Math.sqrt(t.awards.length - 1); }
   function hitRadius(t) { return Math.max(MIN_HIT_RADIUS, pinRadius(t)); }
+
+  function nearestTown(towns, point, project) {
+    var best = null, bestD = Infinity;
+    (towns || []).forEach(function (t) {
+      var p = project([t.lat, t.lng]);
+      var d = Math.sqrt(Math.pow(p.x - point.x, 2) + Math.pow(p.y - point.y, 2));
+      if (d <= hitRadius(t) && d < bestD) { best = t; bestD = d; }
+    });
+    return best;
+  }
 
   // The town a search names: one whose name matches the search exactly, or else the
   // only town left. A shared award (Trinidad, Walsenburg, Fort Garland) keeps its other
@@ -166,13 +180,8 @@
         radius: pinRadius(t), interactive: false,
         color: '#ffffff', weight: 1.5, fillColor: colour, fillOpacity: 0.85
       }).addTo(state.mapState.layer);
-      // The visible pin is as small as 6px; an invisible circle at least 44px across
-      // takes the tap, so every town meets the 44px touch-target rule.
-      L.circleMarker([t.lat, t.lng], { radius: hitRadius(t), stroke: false, fillOpacity: 0, fillColor: colour })
-        .on('click', function () { showTown(state, t); })
-        .bindTooltip(t.name + ': ' + t.awards.length + (t.awards.length === 1 ? ' award' : ' awards'))
-        .addTo(state.mapState.layer);
     });
+    state.shownTowns = towns;
     return towns.length;
   }
 
@@ -224,6 +233,19 @@
       (email ? ' · <a href="mailto:' + esc(email) + '">' + esc(email) + '</a>' : '');
     doc.querySelector('[data-lbm-note]').textContent = m.location_note || '';
     state.mapState = initMap(doc.getElementById('lbmMap'));
+    if (state.mapState) {
+      var map = state.mapState.map;
+      var project = function (ll) { return map.latLngToContainerPoint(ll); };
+      map.on('click', function (e) {
+        var t = nearestTown(state.shownTowns, e.containerPoint, project);
+        if (t) showTown(state, t);
+      });
+      map.on('mousemove', function (e) {
+        var t = nearestTown(state.shownTowns, e.containerPoint, project);
+        map.getContainer().style.cursor = t ? 'pointer' : '';
+        map.getContainer().title = t ? t.name + ': ' + t.awards.length + (t.awards.length === 1 ? ' award' : ' awards') : '';
+      });
+    }
     doc.getElementById('lbmSearch').addEventListener('input', function () { render(state); });
     var list = doc.querySelector('[data-lbm-towns]');
     if (list) list.addEventListener('click', function (e) {
@@ -260,5 +282,5 @@
   }
 
   return { contactIndex: contactIndex, filterAwards: filterAwards, summarize: summarize, groupByTown: groupByTown,
-    popupHtml: popupHtml, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, townListHtml: townListHtml, contactHtml: contactHtml, countText: countText, boot: boot, AWARDS: AWARDS, CONTACTS: CONTACTS };
+    popupHtml: popupHtml, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, nearestTown: nearestTown, townListHtml: townListHtml, contactHtml: contactHtml, countText: countText, boot: boot, AWARDS: AWARDS, CONTACTS: CONTACTS };
 }));

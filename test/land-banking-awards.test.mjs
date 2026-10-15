@@ -221,6 +221,16 @@ ledgerAgreement(DATA);
   ok(!LBM.contactHtml({ kind: 'chfa', name: '<img src=x>' }, DATA, false).includes('<img'), 'contact names are escaped');
   // Every town's tap target is at least 44px across, however small its pin.
   ok(towns.every((t) => 2 * LBM.hitRadius(t) >= 44), 'every pin has a 44px tap target');
+  // Close pins: a tap goes to the nearest town, not whichever pin was drawn last.
+  // Project so Denver and Thornton sit 8px apart, as they do at state zoom on a phone.
+  const den = towns.find((t) => t.name === 'Denver'), tho = towns.find((t) => t.name === 'Thornton');
+  ok(den && tho, 'Denver and Thornton both have pins');
+  const K = 8 / Math.hypot(den.lat - tho.lat, den.lng - tho.lng);
+  const proj = ([lat, lng]) => ({ x: lng * K, y: -lat * K });
+  const at = (t, dx = 0) => { const p = proj([t.lat, t.lng]); return { x: p.x + dx, y: p.y }; };
+  ok(LBM.nearestTown(towns, at(den), proj) === den, 'a tap on Denver opens Denver, not Thornton');
+  ok(LBM.nearestTown(towns, at(tho), proj) === tho, 'a tap on Thornton opens Thornton');
+  ok(LBM.nearestTown([den], at(den, 21), proj) === den && LBM.nearestTown([den], at(den, 23), proj) === null, 'the tap reaches 22px from a pin and no further');
   // An exact town search opens that town, even when a shared award keeps other towns on the map.
   const shared = DATA.awards.find((a) => a.places.length > 1);
   ok(shared, 'the file has an award shared by several towns');
