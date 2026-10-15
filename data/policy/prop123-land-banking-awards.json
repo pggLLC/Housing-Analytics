@@ -1402,11 +1402,11 @@
       "note": null
     },
     {
-      "id": "fy25-26-rural-rivergate-lot-5-workforce",
+      "id": "fy25-26-rural-rivergate-lot-5-workforce-housing-development",
       "round": "FY25-26-rural",
       "fiscal_year": "FY25-26",
       "sponsor": "City of Durango",
-      "project": "Rivergate Lot 5 Workforce",
+      "project": "Rivergate Lot 5 Workforce Housing Development",
       "location": "Durango",
       "places": [
         {
@@ -1428,8 +1428,8 @@
       "homeownership": true,
       "source_file": "Prop123-AHFF-FY25-26-LandBankingProgramSelections-RRR.pdf",
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/09/Prop123-AHFF-FY25-26-LandBankingProgramSelections-RRR.pdf",
-      "source_quote": "City of Durango | Rivergate Lot 5 Workforce | Durango | $1,550,000 | Homeownership | 27",
-      "corrected_from_ledger": null,
+      "source_quote": "City of Durango | Rivergate Lot 5 Workforce Housing Development | Durango | $1,550,000 | Homeownership | 27",
+      "corrected_from_ledger": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
       "note": null
     },
     {

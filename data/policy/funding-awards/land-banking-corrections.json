@@ -66,6 +66,13 @@
         "project": "Fort Morgan Mixed-income | Housing Development"
       }
     },
+    "FY25-26|Rivergate Lot 5 Workforce": {
+      "name": "Rivergate Lot 5 Workforce Housing Development",
+      "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",
+      "printed_as": {
+        "project": "Rivergate Lot 5 Workforce | Housing Development"
+      }
+    },
     "FY25-26|Mountain View Apartments": {
       "sponsor": "Leadville & Lake County Regional Housing Authority",
       "reason": "The PDF wraps this row's cells onto more than one line, and the ledger parser attached a piece to the wrong cell or row; values here are the cells as printed.",

@@ -226,6 +226,26 @@ def build(pdf_dir: str | None):
                              'county_fips': sorted(set(p['county_fips'] for p in places)),
                              'source_label': 'CHFA ' + ROUND_LABELS[a['source_file']][1] + ' selection list',
                              'source_url': a['source_url'], 'source_quote': c['line']})
+    # In the lists that print contacts, a wrapped cell continues on the lines under its row.
+    # Every such piece must be part of that row's award, or the ledger cut a name short
+    # (Rivergate Lot 5 Workforce | Housing Development) and the check above cannot see it,
+    # because the piece is also in another row's name.
+    for f, text in texts.items():
+        if not EMAIL.search(text):
+            continue
+        rows = [w for w in awards if w['source_file'] == f]
+        current = None
+        for line in text.split('\n'):
+            if '$' in line:
+                current = next((w for w in rows if money(w['amount_awarded']) in line
+                                and w['project'].split()[0] in line), None)
+                continue
+            if not line.strip() or current is None or not line.startswith(' '):
+                current = None if not line.strip() else current
+                continue
+            for piece in re.split(r'\s{3,}', line.strip()):
+                if flat(piece) not in flat(f"{current['sponsor']} {current['project']} {current['purpose']}"):
+                    raise SystemExit(f'{f}: "{piece}" is printed under {current["project"]} but is not part of it')
     stale = sorted(set(corrections) - used)
     if stale:
         raise SystemExit(f'corrections that match no ledger row: {stale}')
