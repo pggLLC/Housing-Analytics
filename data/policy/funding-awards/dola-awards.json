@@ -4,7 +4,7 @@
     "captured": "2026-10-15",
     "method": "Read by hand from State Housing Board vote summaries in the board packets, DOLA and Governor's office releases, the Division of Housing \"Application Schedule and Awards\" tables, its annual reports to the legislature (FY2023-24, FY2024-25), and three news reports standing in for deleted DOLA releases. Each quote was compared with the downloaded source text. A project reported by more than one source is kept once, from the most official source with an amount (vote summary, then release, then DOH table, then annual report, then news). Private Activity Bond allocations are bond cap, not funding, and are left out.",
     "coverage": "Partial. Board packets before 2025 are not online, and several 2024 DOLA releases have been deleted; 2023-2024 rests on releases, news and annual reports. An announcement that names fewer awards than its total is marked complete: false, and its awards are marked unconfirmed.",
-    "county_note": "county_fips is the county as printed, else the county of the printed town when the town lies in one county; otherwise null and the award is listed but not mapped.",
+    "county_note": "county_fips is the county as printed, else the county of the printed town when the town lies wholly in one county (data/hna/cross-county-places.json lists the ones that do not); otherwise null and the award is listed but not mapped.",
     "announcements": [
       {
         "title": "State Housing Board vote summary, meeting of 2025-01-28 (printed in the 2025-02-11 board packet)",
@@ -393,7 +393,24 @@
       }
     ],
     "dropped_as_duplicates": [
-      "Brigit’s Village: news figure 3000000 dropped for the official source"
+      "101 W. Main St: also reported as cdola-2025-11-03-01, doh-2025-08-38-03",
+      "10th and Wolff: also reported as fy2425-026",
+      "Alpine Valley Apartments Phase I: also reported as fy2425-001",
+      "Brigit’s Village: news figure 3000000 dropped for the official source",
+      "Chrysalis Apartments (PSH): also reported as cdola-2025-06-11-10",
+      "City of Boulder (on behalf of the Boulder County Regional Housing Partnership) (Scattered Site Homeownership NOFA): also reported as cdola-2025-11-03-13",
+      "City of Pueblo: also reported as cdola-2025-06-11-18, fy2425-034",
+      "Eagle Villas: also reported as fy2425-008",
+      "Elevation Community Land Trust (Scattered Site Homeownership NOFA): also reported as cdola-2025-11-03-11",
+      "Habitat for Humanity of Colorado, Inc. (Scattered Site Homeownership NOFA): also reported as cdola-2025-11-03-12",
+      "Hughes Station: also reported as fy2425-016",
+      "Paradox Community Trust (Scattered Site Homeownership NOFA): also reported as cdola-2025-11-03-16",
+      "Park Avenue Apartments: also reported as doh-2025-08-38-06",
+      "Royal Pine Apartments: also reported as fy2425-018",
+      "Southeast Colorado Enterprise Development, Inc. (Scattered Site Homeownership NOFA): also reported as cdola-2025-11-03-18",
+      "The Foundry Phase I: also reported as cdola-2025-12-31-10, doh-2025-10-33-01",
+      "The Ives II 4%: also reported as cdola-2025-12-31-06",
+      "WISH Community: also reported as cdola-2025-06-11-13"
     ]
   },
   "awards": [
@@ -500,14 +517,23 @@
       "quote": "WISH Community, International Rescue Committee Denver: Staff Recommendation: Sixteen (16) Project Based State Housing Vouchers and $57,000 in annual Tenancy Support Services via HOME-ARP.",
       "confirmed": true,
       "note": null,
-      "id": "shb-2025-01-28-wish-community"
+      "id": "shb-2025-01-28-wish-community",
+      "also_reported": [
+        {
+          "source_title": "Colorado State Housing Board Invests Over $68.4 Million to Support More Than 2,200 Homes People Can Afford in First Half of 2025",
+          "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-invests-over-684-million-to-support-more-than-2200-homes",
+          "announced": "2025-06-11",
+          "id": "cdola-2025-06-11-13",
+          "quote": "Tenancy support funding included $72,000 for 4995 Washington Street and $57,000 for WISH Community."
+        }
+      ]
     },
     {
       "name": "HousePAD Longmont",
       "grantee": "City of Longmont",
       "town": "Longmont",
-      "county_fips": "08013",
-      "county_method": "town as printed, matched to its Census place",
+      "county_fips": null,
+      "county_method": null,
       "program": "Prop 123 homeownership (AHOP)",
       "program_as_printed": "Proposition 123 - AHOP",
       "amount": 770000,
@@ -737,8 +763,8 @@
       "name": "City of Longmont DPA",
       "grantee": "City of Longmont",
       "town": null,
-      "county_fips": "08013",
-      "county_method": "grantee is the city or town; its Census place lies in one county",
+      "county_fips": null,
+      "county_method": null,
       "program": "Prop 123 homeownership (AHOP)",
       "program_as_printed": "Prop 123 (AHOP)",
       "amount": 750000,
@@ -785,7 +811,7 @@
       "program_as_printed": "Proposition 123 (AHOP)",
       "amount": 100000,
       "amount_basis": "awarded",
-      "homes": null,
+      "homes": 15,
       "year": 2025,
       "announced": "2025-03-11",
       "source_title": "State Housing Board vote summary, meeting of 2025-03-11 (printed in the 2025-04-08 board packet)",
@@ -794,7 +820,24 @@
       "quote": "Funding Amount: $100,000.00 Source: Proposition 123 (AHOP) Type of Award: Grant *Opted In Areas: City of Pueblo, County of Pueblo",
       "confirmed": true,
       "note": null,
-      "id": "shb-2025-03-11-34455"
+      "id": "shb-2025-03-11-34455",
+      "also_reported": [
+        {
+          "source_title": "Colorado State Housing Board Invests Over $68.4 Million to Support More Than 2,200 Homes People Can Afford in First Half of 2025",
+          "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-invests-over-684-million-to-support-more-than-2200-homes",
+          "announced": "2025-06-11",
+          "id": "cdola-2025-06-11-18",
+          "quote": "The City of Pueblo received $100,000 to expand its Minor Repairs Program, helping low-income homeowners make urgent fixes and stay safely housed."
+        },
+        {
+          "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)",
+          "source_url": "https://docs.google.com/document/d/17Mz0-t0E50PwklHHSdIuEC_m2M0LKeBUHs4hfhJlBxo",
+          "announced": "2024-07-01/2025-06-30",
+          "id": "fy2425-034",
+          "quote": "City of Pueblo | City of Pueblo SFOO 2024 | Active Contract |  | $110,000 | $100,000 | Proposition 123"
+        }
+      ],
+      "homes_from": "fy2425-034"
     },
     {
       "name": "Eagle Villas",
@@ -815,7 +858,16 @@
       "quote": "Staff recommends full funding to Eagle Villas Owner LP in the amount of $3,400,000.00 or $28,333 per unit in the form of a HOME Investment Partnerships Program (HOME) cash flow loan.",
       "confirmed": true,
       "note": null,
-      "id": "shb-2025-04-08-34415"
+      "id": "shb-2025-04-08-34415",
+      "also_reported": [
+        {
+          "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)",
+          "source_url": "https://docs.google.com/document/d/17Mz0-t0E50PwklHHSdIuEC_m2M0LKeBUHs4hfhJlBxo",
+          "announced": "2024-07-01/2025-06-30",
+          "id": "fy2425-008",
+          "quote": "Ulysses Development Group LLC | Eagle Villas - HOME | Active Contract | $40,306,920 | $5,000,000 | $3,400,000 | HOME"
+        }
+      ]
     },
     {
       "name": "Resident Ownership Capital, LLC",
@@ -899,7 +951,16 @@
       "quote": "Staff recommends providing the City and County of Denver’s Department of Housing Stability up to $1,518,000, or $66,000 per unit, in the form of a Proposition 123 - AHOP grant.",
       "confirmed": true,
       "note": null,
-      "id": "shb-2025-05-13-34250"
+      "id": "shb-2025-05-13-34250",
+      "also_reported": [
+        {
+          "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)",
+          "source_url": "https://docs.google.com/document/d/17Mz0-t0E50PwklHHSdIuEC_m2M0LKeBUHs4hfhJlBxo",
+          "announced": "2024-07-01/2025-06-30",
+          "id": "fy2425-026",
+          "quote": "The City and County of Denver’s Department of Housing Stability | 10th & Wolff | Active Contract | $10,258,598 | $1,518,000 | $1,518,000 | Proposition 123"
+        }
+      ]
     },
     {
       "name": "Beeler Park Flats",
@@ -983,7 +1044,16 @@
       "quote": "Staff recommends providing up to $4,200,000 or $60,000 per unit to The Empowerment Program through a Prop 123 PEH Grant.",
       "confirmed": true,
       "note": null,
-      "id": "shb-2025-05-13-33908"
+      "id": "shb-2025-05-13-33908",
+      "also_reported": [
+        {
+          "source_title": "Colorado State Housing Board Invests Over $68.4 Million to Support More Than 2,200 Homes People Can Afford in First Half of 2025",
+          "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-invests-over-684-million-to-support-more-than-2200-homes",
+          "announced": "2025-06-11",
+          "id": "cdola-2025-06-11-10",
+          "quote": "The Chrysalis Apartments in Denver was awarded $4.2 million and will provide 70 supportive homes for people exiting the justice system and experiencing housing instability."
+        }
+      ]
     },
     {
       "name": "BV Crossing",
@@ -1172,7 +1242,16 @@
       "quote": "Staff recommends providing up to $1,300,000, or $50,000 per unit, to Epiphron Holdings, LLC through a Housing Development Grant (HDG) amortizing loan.",
       "confirmed": true,
       "note": "Vote summary header reads 'State Housing Board Vote Summary of Votes on May, 2025'; it is the summary printed in the July 8, 2025 packet, i.e. the June 10, 2025 meeting.",
-      "id": "shb-2025-06-10-34476"
+      "id": "shb-2025-06-10-34476",
+      "also_reported": [
+        {
+          "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)",
+          "source_url": "https://docs.google.com/document/d/17Mz0-t0E50PwklHHSdIuEC_m2M0LKeBUHs4hfhJlBxo",
+          "announced": "2024-07-01/2025-06-30",
+          "id": "fy2425-001",
+          "quote": "Epiphron Holdings, LLC | Alpine Valley Apartments Phase 1 | Active Contract | $7,308,002 | $1,300,000 | $1,300,000 | HDG"
+        }
+      ]
     },
     {
       "name": "Montview Flats",
@@ -1325,8 +1404,8 @@
       "name": "City of Aurora",
       "grantee": "City of Aurora",
       "town": null,
-      "county_fips": "08005",
-      "county_method": "grantee is the city or town; its Census place lies in one county",
+      "county_fips": null,
+      "county_method": null,
       "program": "Prop 123 homeownership (AHOP)",
       "program_as_printed": "Prop 123 (AHOP)",
       "amount": 720000,
@@ -1403,7 +1482,23 @@
       "quote": "Staff recommends full funding up to $2,000,000, or $ 38,462 per unit, to the NHP Foundation in the form of a Housing Development Grant (HDG) grant.",
       "confirmed": true,
       "note": "Vote summary text extracted from the packet over-ran into following material; only the vote-summary section was used.",
-      "id": "shb-2025-10-21-33245"
+      "id": "shb-2025-10-21-33245",
+      "also_reported": [
+        {
+          "source_title": "Colorado State Housing Board Approves More Than $46.5 Million in New Investments to Provide Over 700 Housing Opportunities to Coloradans",
+          "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-465-million-in-new-investments-to",
+          "announced": "2025-11-03",
+          "id": "cdola-2025-11-03-01",
+          "quote": "101 W. Main Street (Frisco, Summit County) – $2 million in Housing Development Grant (HDG) funds to the NHP Foundation for the construction of 52 affordable apartments for local workers and families."
+        },
+        {
+          "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+          "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
+          "announced": "2025-08",
+          "id": "doh-2025-08-38-03",
+          "quote": "101 W Main | NHP Foundation | Summit | 52 | $2,000,000 | New Construction"
+        }
+      ]
     },
     {
       "name": "The Crossing Apartments",
@@ -1550,7 +1645,16 @@
       "quote": "Staff recommends providing up to $3,600,000, or $60,000 per unit, to the Colorado Coalition for the Homeless through a Proposition 123 (PEH) grant.",
       "confirmed": true,
       "note": "Vote summary text extracted from the packet over-ran into following material; only the vote-summary section was used.",
-      "id": "shb-2025-10-21-34677"
+      "id": "shb-2025-10-21-34677",
+      "also_reported": [
+        {
+          "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+          "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
+          "announced": "2025-08",
+          "id": "doh-2025-08-38-06",
+          "quote": "Park Ave Apartments Conditionally committed during the Round 1 PSH PBV RFA and Pre-app Process | Colorado Coalition for the Homeless | Denver | 60 | $3,600,000 | New Construction-PSH"
+        }
+      ]
     },
     {
       "name": "Nuche Village",
@@ -1604,7 +1708,7 @@
       "program_as_printed": "Proposition 123 (AHOP)",
       "amount": 3792000,
       "amount_basis": "awarded",
-      "homes": null,
+      "homes": 48,
       "year": 2025,
       "announced": "2025-10-21",
       "source_title": "State Housing Board vote summary, meeting of 2025-10-21 (printed in the 2025-11-04 board packet)",
@@ -1613,7 +1717,17 @@
       "quote": "34697: Elevation Community Land Trust Statewide Various Addresses Funding Recommendation Staff Recommendation: Partial Funding Amount: $3,792,000.00 Source: Proposition 123 (AHOP)",
       "confirmed": true,
       "note": "Vote summary text extracted from the packet over-ran into following material; only the vote-summary section was used.",
-      "id": "shb-2025-10-21-34697"
+      "id": "shb-2025-10-21-34697",
+      "also_reported": [
+        {
+          "source_title": "Colorado State Housing Board Approves More Than $46.5 Million in New Investments to Provide Over 700 Housing Opportunities to Coloradans",
+          "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-465-million-in-new-investments-to",
+          "announced": "2025-11-03",
+          "id": "cdola-2025-11-03-11",
+          "quote": "Elevation Community Land Trust – $3.8 million from the Affordable Housing Opportunity Program (AHOP) to develop 48 homes across the Denver metro area."
+        }
+      ],
+      "homes_from": "cdola-2025-11-03-11"
     },
     {
       "name": "Habitat for Humanity of Colorado, Inc. (Scattered Site Homeownership NOFA)",
@@ -1625,7 +1739,7 @@
       "program_as_printed": "Proposition 123 (AHOP)",
       "amount": 7320000,
       "amount_basis": "awarded",
-      "homes": null,
+      "homes": 97,
       "year": 2025,
       "announced": "2025-10-21",
       "source_title": "State Housing Board vote summary, meeting of 2025-10-21 (printed in the 2025-11-04 board packet)",
@@ -1634,19 +1748,29 @@
       "quote": "34696: Habitat for Humanity of Colorado, Inc. Statewide Various Addresses Funding Recommendation Staff Recommendation: Partial Funding Funding Amount: $7,320,000 Source: Proposition 123 (AHOP)",
       "confirmed": true,
       "note": "Vote summary text extracted from the packet over-ran into following material; only the vote-summary section was used.",
-      "id": "shb-2025-10-21-34696"
+      "id": "shb-2025-10-21-34696",
+      "also_reported": [
+        {
+          "source_title": "Colorado State Housing Board Approves More Than $46.5 Million in New Investments to Provide Over 700 Housing Opportunities to Coloradans",
+          "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-465-million-in-new-investments-to",
+          "announced": "2025-11-03",
+          "id": "cdola-2025-11-03-12",
+          "quote": "Habitat for Humanity of Colorado, Inc. – $7.3 million in AHOP funds in statewide funding to support 97 homes in multiple local affiliates in rural and urban communities."
+        }
+      ],
+      "homes_from": "cdola-2025-11-03-12"
     },
     {
       "name": "City of Boulder (on behalf of the Boulder County Regional Housing Partnership) (Scattered Site Homeownership NOFA)",
       "grantee": "City of Boulder (on behalf of the Boulder County Regional Housing Partnership)",
       "town": null,
-      "county_fips": null,
-      "county_method": null,
+      "county_fips": "08013",
+      "county_method": "county as printed (from cdola-2025-11-03-13)",
       "program": "Prop 123 homeownership (AHOP)",
       "program_as_printed": "Proposition 123 (AHOP)",
       "amount": 2088000,
       "amount_basis": "awarded",
-      "homes": null,
+      "homes": 29,
       "year": 2025,
       "announced": "2025-10-21",
       "source_title": "State Housing Board vote summary, meeting of 2025-10-21 (printed in the 2025-11-04 board packet)",
@@ -1655,7 +1779,17 @@
       "quote": "Regional Housing Partnership) Boulder County Various Addresses Funding Recommendation Staff Recommendation: Partial Funding Funding Amount: $2,088,000 Source: Proposition 123 (AHOP)",
       "confirmed": true,
       "note": "Vote summary text extracted from the packet over-ran into following material; only the vote-summary section was used.",
-      "id": "shb-2025-10-21-34695"
+      "id": "shb-2025-10-21-34695",
+      "also_reported": [
+        {
+          "source_title": "Colorado State Housing Board Approves More Than $46.5 Million in New Investments to Provide Over 700 Housing Opportunities to Coloradans",
+          "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-465-million-in-new-investments-to",
+          "announced": "2025-11-03",
+          "id": "cdola-2025-11-03-13",
+          "quote": "City of Boulder (on behalf of the Boulder County Regional Housing Partnership) – $2.1 million in AHOP funds to create 29 homes throughout Boulder County."
+        }
+      ],
+      "homes_from": "cdola-2025-11-03-13"
     },
     {
       "name": "Impact Development Fund (Scattered Site Homeownership NOFA)",
@@ -1709,7 +1843,7 @@
       "program_as_printed": "Proposition 123 (AHOP)",
       "amount": 5170000,
       "amount_basis": "awarded",
-      "homes": null,
+      "homes": 65,
       "year": 2025,
       "announced": "2025-10-21",
       "source_title": "State Housing Board vote summary, meeting of 2025-10-21 (printed in the 2025-11-04 board packet)",
@@ -1718,7 +1852,17 @@
       "quote": "34704: Paradox Community Trust Mesa, Routt, Boulder, Gunnison County Various Addresses Funding Recommendation Staff Recommendation: Partial Funding Funding Amount: $5,170,000 Source: Proposition 123 (AHOP)",
       "confirmed": true,
       "note": "Vote summary text extracted from the packet over-ran into following material; only the vote-summary section was used.",
-      "id": "shb-2025-10-21-34704"
+      "id": "shb-2025-10-21-34704",
+      "also_reported": [
+        {
+          "source_title": "Colorado State Housing Board Approves More Than $46.5 Million in New Investments to Provide Over 700 Housing Opportunities to Coloradans",
+          "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-465-million-in-new-investments-to",
+          "announced": "2025-11-03",
+          "id": "cdola-2025-11-03-16",
+          "quote": "Paradox Community Trust – $5.2 million in AHOP funds to develop 65 homeownership opportunities in Mesa, Routt, Boulder, and Gunnison* counties."
+        }
+      ],
+      "homes_from": "cdola-2025-11-03-16"
     },
     {
       "name": "Chaffee Housing Trust (Scattered Site Homeownership NOFA)",
@@ -1751,7 +1895,7 @@
       "program_as_printed": "Proposition 123 (AHOP)",
       "amount": 1008000,
       "amount_basis": "awarded",
-      "homes": null,
+      "homes": 14,
       "year": 2025,
       "announced": "2025-10-21",
       "source_title": "State Housing Board vote summary, meeting of 2025-10-21 (printed in the 2025-11-04 board packet)",
@@ -1760,7 +1904,17 @@
       "quote": "34700: Southeast Colorado Enterprise Development, Inc. Baca, Bent, Crowley, Kowa, Otero, Prowers Various Addresses Funding Recommendation Staff Recommendation: Full Funding Funding Amount: $1,008,000.00 Source: Proposition 123 (AHOP)",
       "confirmed": true,
       "note": "Vote summary text extracted from the packet over-ran into following material; only the vote-summary section was used.",
-      "id": "shb-2025-10-21-34700"
+      "id": "shb-2025-10-21-34700",
+      "also_reported": [
+        {
+          "source_title": "Colorado State Housing Board Approves More Than $46.5 Million in New Investments to Provide Over 700 Housing Opportunities to Coloradans",
+          "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-465-million-in-new-investments-to",
+          "announced": "2025-11-03",
+          "id": "cdola-2025-11-03-18",
+          "quote": "Southeast Colorado Enterprise Development, Inc. – $1 million in AHOP funds to execute 14 new homes and rehabilitation projects in rural communities across southeastern Colorado."
+        }
+      ],
+      "homes_from": "cdola-2025-11-03-18"
     },
     {
       "name": "Poplar Commons",
@@ -1856,7 +2010,7 @@
       "program_as_printed": "Prop 123 AHOP",
       "amount": 2000000,
       "amount_basis": "awarded",
-      "homes": null,
+      "homes": 36,
       "year": 2025,
       "announced": "2025-12-09",
       "source_title": "State Housing Board vote summary, meeting of 2025-12-09 (printed in the 2026-01-20 board packet)",
@@ -1865,7 +2019,24 @@
       "quote": "Staff Recommendation: Staff recommends providing Commerce City Housing Authority with an award of up to $2,000,000, or $55,556 per unit, in the form of a Prop 123 AHOP grant.",
       "confirmed": true,
       "note": null,
-      "id": "shb-2025-12-09-34903"
+      "id": "shb-2025-12-09-34903",
+      "also_reported": [
+        {
+          "source_title": "Colorado State Housing Board Approves More Than $23 Million in New Investments to Build 380 Homes For Coloradans, Expands Ownership Opportunities",
+          "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-23-million-in-new-investments-to",
+          "announced": "2025-12-31",
+          "id": "cdola-2025-12-31-10",
+          "quote": "The Foundry Phase 1 (Commerce City, Adams County) - A $2 million grant to Commerce City Housing Authority for 36 condominiums for local workers and families."
+        },
+        {
+          "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
+          "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
+          "announced": "2025-10",
+          "id": "doh-2025-10-33-01",
+          "quote": "The Foundry | Commerce City Housing Authority | Adams | 36 | $2,000,000 | New Construction"
+        }
+      ],
+      "homes_from": "cdola-2025-12-31-10"
     },
     {
       "name": "The Ives II 4%",
@@ -1886,7 +2057,16 @@
       "quote": "Staff Recommendation: Staff recommends providing Jefferson County Housing Authority DBA Foothills Regional Housing up to $1,850,000, or $43,023 per unit, in the form of a Housing Development Grant (HDG) grant.",
       "confirmed": true,
       "note": null,
-      "id": "shb-2025-12-09-34675"
+      "id": "shb-2025-12-09-34675",
+      "also_reported": [
+        {
+          "source_title": "Colorado State Housing Board Approves More Than $23 Million in New Investments to Build 380 Homes For Coloradans, Expands Ownership Opportunities",
+          "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-23-million-in-new-investments-to",
+          "announced": "2025-12-31",
+          "id": "cdola-2025-12-31-06",
+          "quote": "The Ives II (Wheat Ridge, Jefferson County) - $1.85 million in Housing Development Grant funds to Foothills Regional Housing to support the construction of 43 apartments next to the recently completed Ives I building in Wheat Ridge."
+        }
+      ]
     },
     {
       "name": "Blossom Commons",
@@ -2873,7 +3053,16 @@
       "quote": "DBG Properties, LLC was awarded a Housing Development Grant (HDG) cash flow loan of up to $4,500,000 to assist with the new construction of Royal Pine Apartments, located in El Paso County.",
       "confirmed": true,
       "note": null,
-      "id": "cdola-2024-10-09-01"
+      "id": "cdola-2024-10-09-01",
+      "also_reported": [
+        {
+          "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)",
+          "source_url": "https://docs.google.com/document/d/17Mz0-t0E50PwklHHSdIuEC_m2M0LKeBUHs4hfhJlBxo",
+          "announced": "2024-07-01/2025-06-30",
+          "id": "fy2425-018",
+          "quote": "DBG Properties LLC | Royal Pine Apartments THLF Cash Flow Loan | Contract Drafting | $78,920,368 | $4,500,000 | $4,500,000 | SB22-159"
+        }
+      ]
     },
     {
       "name": "King’s Crossing",
@@ -2963,8 +3152,8 @@
       "name": "Hughes Station",
       "grantee": "The Housing Authority of the City of Brighton",
       "town": "Brighton",
-      "county_fips": "08001",
-      "county_method": "town as printed, matched to its Census place",
+      "county_fips": null,
+      "county_method": null,
       "program": "grant",
       "program_as_printed": "grant",
       "amount": 3600000,
@@ -2978,7 +3167,16 @@
       "quote": "The Housing Authority of the City of Brighton was awarded a $3.6 million grant for the acquisition and rehabilitation of Hughes Station Apartments, an existing 120-unit project",
       "confirmed": true,
       "note": null,
-      "id": "cdola-2024-11-18-02"
+      "id": "cdola-2024-11-18-02",
+      "also_reported": [
+        {
+          "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)",
+          "source_url": "https://docs.google.com/document/d/17Mz0-t0E50PwklHHSdIuEC_m2M0LKeBUHs4hfhJlBxo",
+          "announced": "2024-07-01/2025-06-30",
+          "id": "fy2425-016",
+          "quote": "Housing Authority of the City of Brighton | Hughes Station BHA | Active Contract | $31,627,200 | $3,600,000 | $3,600,000 | HDG"
+        }
+      ]
     },
     {
       "name": "3 Mile Mobile Home Park",
@@ -3002,27 +3200,6 @@
       "id": "cdola-2025-06-11-02"
     },
     {
-      "name": "The Chrysalis Apartments",
-      "grantee": null,
-      "town": "Denver",
-      "county_fips": "08031",
-      "county_method": "town as printed, matched to its Census place",
-      "program": "Division of Housing award",
-      "program_as_printed": null,
-      "amount": 4200000,
-      "amount_basis": "awarded",
-      "homes": 70,
-      "year": 2025,
-      "announced": "2025-06-11",
-      "source_title": "Colorado State Housing Board Invests Over $68.4 Million to Support More Than 2,200 Homes People Can Afford in First Half of 2025",
-      "source_type": "DOLA press release",
-      "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-invests-over-684-million-to-support-more-than-2200-homes",
-      "quote": "The Chrysalis Apartments in Denver was awarded $4.2 million and will provide 70 supportive homes for people exiting the justice system and experiencing housing instability.",
-      "confirmed": false,
-      "note": null,
-      "id": "cdola-2025-06-11-10"
-    },
-    {
       "name": "Next Step 2 Generation initiative",
       "grantee": null,
       "town": null,
@@ -3042,27 +3219,6 @@
       "confirmed": false,
       "note": "Amount printed only as 'over $2 million'.",
       "id": "cdola-2025-06-11-11"
-    },
-    {
-      "name": "WISH Community (tenancy support)",
-      "grantee": null,
-      "town": null,
-      "county_fips": null,
-      "county_method": null,
-      "program": "Tenancy support",
-      "program_as_printed": "Tenancy support",
-      "amount": 57000,
-      "amount_basis": "awarded",
-      "homes": null,
-      "year": 2025,
-      "announced": "2025-06-11",
-      "source_title": "Colorado State Housing Board Invests Over $68.4 Million to Support More Than 2,200 Homes People Can Afford in First Half of 2025",
-      "source_type": "DOLA press release",
-      "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-invests-over-684-million-to-support-more-than-2200-homes",
-      "quote": "Tenancy support funding included $72,000 for 4995 Washington Street and $57,000 for WISH Community.",
-      "confirmed": false,
-      "note": null,
-      "id": "cdola-2025-06-11-13"
     },
     {
       "name": "Swiss Village",
@@ -3086,27 +3242,6 @@
       "id": "cdola-2025-06-11-16"
     },
     {
-      "name": "City of Pueblo Minor Repairs Program",
-      "grantee": "City of Pueblo",
-      "town": "Pueblo",
-      "county_fips": "08101",
-      "county_method": "town as printed, matched to its Census place",
-      "program": "Division of Housing award",
-      "program_as_printed": null,
-      "amount": 100000,
-      "amount_basis": "awarded",
-      "homes": null,
-      "year": 2025,
-      "announced": "2025-06-11",
-      "source_title": "Colorado State Housing Board Invests Over $68.4 Million to Support More Than 2,200 Homes People Can Afford in First Half of 2025",
-      "source_type": "DOLA press release",
-      "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-invests-over-684-million-to-support-more-than-2200-homes",
-      "quote": "The City of Pueblo received $100,000 to expand its Minor Repairs Program, helping low-income homeowners make urgent fixes and stay safely housed.",
-      "confirmed": false,
-      "note": null,
-      "id": "cdola-2025-06-11-18"
-    },
-    {
       "name": "Down Payment Assistance programs in Longmont and Routt County",
       "grantee": null,
       "town": null,
@@ -3126,174 +3261,6 @@
       "confirmed": false,
       "note": "No amount printed; units = households expected to be served.",
       "id": "cdola-2025-06-11-19"
-    },
-    {
-      "name": "101 W. Main Street",
-      "grantee": "NHP Foundation",
-      "town": "Frisco",
-      "county_fips": "08117",
-      "county_method": "county as printed",
-      "program": "Housing Development Grant",
-      "program_as_printed": "Housing Development Grant (HDG)",
-      "amount": 2000000,
-      "amount_basis": "awarded",
-      "homes": 52,
-      "year": 2025,
-      "announced": "2025-11-03",
-      "source_title": "Colorado State Housing Board Approves More Than $46.5 Million in New Investments to Provide Over 700 Housing Opportunities to Coloradans",
-      "source_type": "DOLA press release",
-      "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-465-million-in-new-investments-to",
-      "quote": "101 W. Main Street (Frisco, Summit County) – $2 million in Housing Development Grant (HDG) funds to the NHP Foundation for the construction of 52 affordable apartments for local workers and families.",
-      "confirmed": true,
-      "note": null,
-      "id": "cdola-2025-11-03-01"
-    },
-    {
-      "name": "Elevation Community Land Trust scattered-site homeownership",
-      "grantee": "Elevation Community Land Trust",
-      "town": null,
-      "county_fips": null,
-      "county_method": null,
-      "program": "Prop 123 homeownership (AHOP)",
-      "program_as_printed": "Affordable Housing Opportunity Program (AHOP)",
-      "amount": 3800000,
-      "amount_basis": "awarded",
-      "homes": 48,
-      "year": 2025,
-      "announced": "2025-11-03",
-      "source_title": "Colorado State Housing Board Approves More Than $46.5 Million in New Investments to Provide Over 700 Housing Opportunities to Coloradans",
-      "source_type": "DOLA press release",
-      "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-465-million-in-new-investments-to",
-      "quote": "Elevation Community Land Trust – $3.8 million from the Affordable Housing Opportunity Program (AHOP) to develop 48 homes across the Denver metro area.",
-      "confirmed": true,
-      "note": null,
-      "id": "cdola-2025-11-03-11"
-    },
-    {
-      "name": "Habitat for Humanity of Colorado statewide homeownership",
-      "grantee": "Habitat for Humanity of Colorado, Inc.",
-      "town": null,
-      "county_fips": null,
-      "county_method": null,
-      "program": "Prop 123 homeownership (AHOP)",
-      "program_as_printed": "AHOP",
-      "amount": 7300000,
-      "amount_basis": "awarded",
-      "homes": 97,
-      "year": 2025,
-      "announced": "2025-11-03",
-      "source_title": "Colorado State Housing Board Approves More Than $46.5 Million in New Investments to Provide Over 700 Housing Opportunities to Coloradans",
-      "source_type": "DOLA press release",
-      "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-465-million-in-new-investments-to",
-      "quote": "Habitat for Humanity of Colorado, Inc. – $7.3 million in AHOP funds in statewide funding to support 97 homes in multiple local affiliates in rural and urban communities.",
-      "confirmed": true,
-      "note": null,
-      "id": "cdola-2025-11-03-12"
-    },
-    {
-      "name": "Boulder County Regional Housing Partnership homeownership",
-      "grantee": "City of Boulder (on behalf of the Boulder County Regional Housing Partnership)",
-      "town": null,
-      "county_fips": "08013",
-      "county_method": "county as printed",
-      "program": "Prop 123 homeownership (AHOP)",
-      "program_as_printed": "AHOP",
-      "amount": 2100000,
-      "amount_basis": "awarded",
-      "homes": 29,
-      "year": 2025,
-      "announced": "2025-11-03",
-      "source_title": "Colorado State Housing Board Approves More Than $46.5 Million in New Investments to Provide Over 700 Housing Opportunities to Coloradans",
-      "source_type": "DOLA press release",
-      "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-465-million-in-new-investments-to",
-      "quote": "City of Boulder (on behalf of the Boulder County Regional Housing Partnership) – $2.1 million in AHOP funds to create 29 homes throughout Boulder County.",
-      "confirmed": true,
-      "note": null,
-      "id": "cdola-2025-11-03-13"
-    },
-    {
-      "name": "Paradox Community Trust homeownership",
-      "grantee": "Paradox Community Trust",
-      "town": null,
-      "county_fips": null,
-      "county_method": null,
-      "program": "Prop 123 homeownership (AHOP)",
-      "program_as_printed": "AHOP",
-      "amount": 5200000,
-      "amount_basis": "awarded",
-      "homes": 65,
-      "year": 2025,
-      "announced": "2025-11-03",
-      "source_title": "Colorado State Housing Board Approves More Than $46.5 Million in New Investments to Provide Over 700 Housing Opportunities to Coloradans",
-      "source_type": "DOLA press release",
-      "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-465-million-in-new-investments-to",
-      "quote": "Paradox Community Trust – $5.2 million in AHOP funds to develop 65 homeownership opportunities in Mesa, Routt, Boulder, and Gunnison* counties.",
-      "confirmed": true,
-      "note": null,
-      "id": "cdola-2025-11-03-16"
-    },
-    {
-      "name": "Southeast Colorado Enterprise Development homeownership",
-      "grantee": "Southeast Colorado Enterprise Development, Inc.",
-      "town": null,
-      "county_fips": null,
-      "county_method": null,
-      "program": "Prop 123 homeownership (AHOP)",
-      "program_as_printed": "AHOP",
-      "amount": 1000000,
-      "amount_basis": "awarded",
-      "homes": 14,
-      "year": 2025,
-      "announced": "2025-11-03",
-      "source_title": "Colorado State Housing Board Approves More Than $46.5 Million in New Investments to Provide Over 700 Housing Opportunities to Coloradans",
-      "source_type": "DOLA press release",
-      "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-465-million-in-new-investments-to",
-      "quote": "Southeast Colorado Enterprise Development, Inc. – $1 million in AHOP funds to execute 14 new homes and rehabilitation projects in rural communities across southeastern Colorado.",
-      "confirmed": true,
-      "note": null,
-      "id": "cdola-2025-11-03-18"
-    },
-    {
-      "name": "The Ives II",
-      "grantee": "Foothills Regional Housing",
-      "town": "Wheat Ridge",
-      "county_fips": "08059",
-      "county_method": "county as printed",
-      "program": "Housing Development Grant",
-      "program_as_printed": "Housing Development Grant",
-      "amount": 1850000,
-      "amount_basis": "awarded",
-      "homes": 43,
-      "year": 2025,
-      "announced": "2025-12-31",
-      "source_title": "Colorado State Housing Board Approves More Than $23 Million in New Investments to Build 380 Homes For Coloradans, Expands Ownership Opportunities",
-      "source_type": "DOLA press release",
-      "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-23-million-in-new-investments-to",
-      "quote": "The Ives II (Wheat Ridge, Jefferson County) - $1.85 million in Housing Development Grant funds to Foothills Regional Housing to support the construction of 43 apartments next to the recently completed Ives I building in Wheat Ridge.",
-      "confirmed": true,
-      "note": null,
-      "id": "cdola-2025-12-31-06"
-    },
-    {
-      "name": "The Foundry Phase 1",
-      "grantee": "Commerce City Housing Authority",
-      "town": "Commerce City",
-      "county_fips": "08001",
-      "county_method": "county as printed",
-      "program": "Prop 123 homeownership (AHOP)",
-      "program_as_printed": "Proposition 123 Affordable Home Ownership Program (AHOP)",
-      "amount": 2000000,
-      "amount_basis": "awarded",
-      "homes": 36,
-      "year": 2025,
-      "announced": "2025-12-31",
-      "source_title": "Colorado State Housing Board Approves More Than $23 Million in New Investments to Build 380 Homes For Coloradans, Expands Ownership Opportunities",
-      "source_type": "DOLA press release",
-      "source_url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-23-million-in-new-investments-to",
-      "quote": "The Foundry Phase 1 (Commerce City, Adams County) - A $2 million grant to Commerce City Housing Authority for 36 condominiums for local workers and families.",
-      "confirmed": true,
-      "note": null,
-      "id": "cdola-2025-12-31-10"
     },
     {
       "name": "Impact Development Fund down payment assistance",
@@ -4407,69 +4374,6 @@
       "confirmed": true,
       "note": "November 2025 rental awards appear to be conditional pre-application awards.",
       "id": "doh-2025-11-29-12"
-    },
-    {
-      "name": "The Foundry",
-      "grantee": "Commerce City Housing Authority",
-      "town": null,
-      "county_fips": "08001",
-      "county_method": "county as printed",
-      "program": "Prop 123 homeownership (AHOP)",
-      "program_as_printed": "Homeownership",
-      "amount": 2000000,
-      "amount_basis": "requested",
-      "homes": 36,
-      "year": 2025,
-      "announced": "2025-10",
-      "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
-      "source_type": "DOH web page table row",
-      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-      "quote": "The Foundry | Commerce City Housing Authority | Adams | 36 | $2,000,000 | New Construction",
-      "confirmed": true,
-      "note": null,
-      "id": "doh-2025-10-33-01"
-    },
-    {
-      "name": "101 W Main",
-      "grantee": "NHP Foundation",
-      "town": null,
-      "county_fips": "08117",
-      "county_method": "county as printed",
-      "program": "Division of Housing award",
-      "program_as_printed": "Rental",
-      "amount": 2000000,
-      "amount_basis": "requested",
-      "homes": 52,
-      "year": 2025,
-      "announced": "2025-08",
-      "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
-      "source_type": "DOH web page table row",
-      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-      "quote": "101 W Main | NHP Foundation | Summit | 52 | $2,000,000 | New Construction",
-      "confirmed": true,
-      "note": null,
-      "id": "doh-2025-08-38-03"
-    },
-    {
-      "name": "Park Ave Apartments",
-      "grantee": "Colorado Coalition for the Homeless",
-      "town": null,
-      "county_fips": "08031",
-      "county_method": "county as printed",
-      "program": "Division of Housing award",
-      "program_as_printed": "Rental",
-      "amount": 3600000,
-      "amount_basis": "requested",
-      "homes": 60,
-      "year": 2025,
-      "announced": "2025-08",
-      "source_title": "DOH Application Schedule and Awards page: August 2025 Awards - Homeownership NOFA",
-      "source_type": "DOH web page table row",
-      "source_url": "https://doh.colorado.gov/application-schedule-and-awards",
-      "quote": "Park Ave Apartments Conditionally committed during the Round 1 PSH PBV RFA and Pre-app Process | Colorado Coalition for the Homeless | Denver | 60 | $3,600,000 | New Construction-PSH",
-      "confirmed": true,
-      "note": "Printed with footnote text 'Conditionally committed during the Round 1 PSH PBV RFA and Pre-app Process'.",
-      "id": "doh-2025-08-38-06"
     },
     {
       "name": "City of Boulder homeownership NOFA award",
@@ -6257,48 +6161,6 @@
       "id": "fy2324-33200-082"
     },
     {
-      "name": "Alpine Valley Apartments Phase 1",
-      "grantee": "Epiphron Holdings, LLC",
-      "town": "Monte Vista",
-      "county_fips": "08105",
-      "county_method": "town as printed, matched to its Census place",
-      "program": "Housing Development Grant",
-      "program_as_printed": "HDG",
-      "amount": 1300000,
-      "amount_basis": "awarded",
-      "homes": 26,
-      "year": 2024,
-      "announced": "2024-07-01/2025-06-30",
-      "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)",
-      "source_type": "DOH annual report table row",
-      "source_url": "https://docs.google.com/document/d/17Mz0-t0E50PwklHHSdIuEC_m2M0LKeBUHs4hfhJlBxo",
-      "quote": "Epiphron Holdings, LLC | Alpine Valley Apartments Phase 1 | Active Contract | $7,308,002 | $1,300,000 | $1,300,000 | HDG",
-      "confirmed": true,
-      "note": "Appendix 2a (rental/AHIF); application status: Active Contract; awarded during SFY 2024-25 (July 2024-June 2025).",
-      "id": "fy2425-001"
-    },
-    {
-      "name": "Eagle Villas - HOME",
-      "grantee": "Ulysses Development Group LLC",
-      "town": null,
-      "county_fips": null,
-      "county_method": null,
-      "program": "HOME (federal)",
-      "program_as_printed": "HOME",
-      "amount": 3400000,
-      "amount_basis": "awarded",
-      "homes": null,
-      "year": 2024,
-      "announced": "2024-07-01/2025-06-30",
-      "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)",
-      "source_type": "DOH annual report table row",
-      "source_url": "https://docs.google.com/document/d/17Mz0-t0E50PwklHHSdIuEC_m2M0LKeBUHs4hfhJlBxo",
-      "quote": "Ulysses Development Group LLC | Eagle Villas - HOME | Active Contract | $40,306,920 | $5,000,000 | $3,400,000 | HOME",
-      "confirmed": true,
-      "note": "Appendix 2a (rental/AHIF); application status: Active Contract; awarded during SFY 2024-25 (July 2024-June 2025).",
-      "id": "fy2425-008"
-    },
-    {
       "name": "River Village MHP",
       "grantee": "Chaffee Housing Trust",
       "town": "Buena Vista",
@@ -6318,48 +6180,6 @@
       "confirmed": true,
       "note": "Appendix 2a (rental/AHIF); application status: Active Contract; awarded during SFY 2024-25 (July 2024-June 2025).",
       "id": "fy2425-009"
-    },
-    {
-      "name": "Hughes Station BHA",
-      "grantee": "Housing Authority of the City of Brighton",
-      "town": "Brighton",
-      "county_fips": "08001",
-      "county_method": "town as printed, matched to its Census place",
-      "program": "Housing Development Grant",
-      "program_as_printed": "HDG",
-      "amount": 3600000,
-      "amount_basis": "awarded",
-      "homes": 120,
-      "year": 2024,
-      "announced": "2024-07-01/2025-06-30",
-      "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)",
-      "source_type": "DOH annual report table row",
-      "source_url": "https://docs.google.com/document/d/17Mz0-t0E50PwklHHSdIuEC_m2M0LKeBUHs4hfhJlBxo",
-      "quote": "Housing Authority of the City of Brighton | Hughes Station BHA | Active Contract | $31,627,200 | $3,600,000 | $3,600,000 | HDG",
-      "confirmed": true,
-      "note": "Appendix 2a (rental/AHIF); application status: Active Contract; awarded during SFY 2024-25 (July 2024-June 2025).",
-      "id": "fy2425-016"
-    },
-    {
-      "name": "Royal Pine Apartments THLF Cash Flow Loan",
-      "grantee": "DBG Properties LLC",
-      "town": null,
-      "county_fips": null,
-      "county_method": null,
-      "program": "Revolving loan fund (SB22-159)",
-      "program_as_printed": "SB22-159",
-      "amount": 4500000,
-      "amount_basis": "awarded",
-      "homes": null,
-      "year": 2024,
-      "announced": "2024-07-01/2025-06-30",
-      "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)",
-      "source_type": "DOH annual report table row",
-      "source_url": "https://docs.google.com/document/d/17Mz0-t0E50PwklHHSdIuEC_m2M0LKeBUHs4hfhJlBxo",
-      "quote": "DBG Properties LLC | Royal Pine Apartments THLF Cash Flow Loan | Contract Drafting | $78,920,368 | $4,500,000 | $4,500,000 | SB22-159",
-      "confirmed": true,
-      "note": "Appendix 2a (rental/AHIF); application status: Contract Drafting; awarded during SFY 2024-25 (July 2024-June 2025).",
-      "id": "fy2425-018"
     },
     {
       "name": "Zocalo Liora CHIF",
@@ -6446,27 +6266,6 @@
       "id": "fy2425-023"
     },
     {
-      "name": "10th & Wolff",
-      "grantee": "The City and County of Denver’s Department of Housing Stability",
-      "town": "Denver",
-      "county_fips": "08031",
-      "county_method": "town as printed, matched to its Census place",
-      "program": "Prop 123 support fund",
-      "program_as_printed": "Proposition 123",
-      "amount": 1518000,
-      "amount_basis": "awarded",
-      "homes": 23,
-      "year": 2024,
-      "announced": "2024-07-01/2025-06-30",
-      "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)",
-      "source_type": "DOH annual report table row",
-      "source_url": "https://docs.google.com/document/d/17Mz0-t0E50PwklHHSdIuEC_m2M0LKeBUHs4hfhJlBxo",
-      "quote": "The City and County of Denver’s Department of Housing Stability | 10th & Wolff | Active Contract | $10,258,598 | $1,518,000 | $1,518,000 | Proposition 123",
-      "confirmed": true,
-      "note": "Appendix 2b Homeownership; application status: Active Contract; awarded during SFY 2024-25 (July 2024-June 2025).",
-      "id": "fy2425-026"
-    },
-    {
       "name": "Yampa Valley DPA",
       "grantee": "YVHA Down Payment Assistance",
       "town": null,
@@ -6528,27 +6327,6 @@
       "confirmed": true,
       "note": "Appendix 2b Homeownership; application status: Active Contract; awarded during SFY 2024-25 (July 2024-June 2025).",
       "id": "fy2425-033"
-    },
-    {
-      "name": "City of Pueblo SFOO 2024",
-      "grantee": "City of Pueblo",
-      "town": null,
-      "county_fips": "08101",
-      "county_method": "grantee is the city or town; its Census place lies in one county",
-      "program": "Prop 123 support fund",
-      "program_as_printed": "Proposition 123",
-      "amount": 100000,
-      "amount_basis": "awarded",
-      "homes": 15,
-      "year": 2024,
-      "announced": "2024-07-01/2025-06-30",
-      "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2024-25 (Appendix 2a-2d)",
-      "source_type": "DOH annual report table row",
-      "source_url": "https://docs.google.com/document/d/17Mz0-t0E50PwklHHSdIuEC_m2M0LKeBUHs4hfhJlBxo",
-      "quote": "City of Pueblo | City of Pueblo SFOO 2024 | Active Contract |  | $110,000 | $100,000 | Proposition 123",
-      "confirmed": true,
-      "note": "Appendix 2b Homeownership; application status: Active Contract; awarded during SFY 2024-25 (July 2024-June 2025).",
-      "id": "fy2425-034"
     },
     {
       "name": "Mountain Valley MHP",
@@ -6638,8 +6416,8 @@
       "name": "Meadowood Village Park MHP",
       "grantee": "Meadowood Cooperative",
       "town": "LITTLETON",
-      "county_fips": "08005",
-      "county_method": "town as printed, matched to its Census place",
+      "county_fips": null,
+      "county_method": null,
       "program": "Prop 123 support fund",
       "program_as_printed": "Proposition 123",
       "amount": 3475000,

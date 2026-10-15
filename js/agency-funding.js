@@ -128,7 +128,7 @@
     "      <li><strong>Prop 123 preliminary selections</strong> print only the amount requested; those rows say \"requested\".</li>",
     "      <li><strong>Per resident</strong> divides by county population from the Census Bureau\'s American Community Survey, 2020-2024 five-year estimates (<code>data/co-county-demographics.json</code>). Small counties swing hard: one large award in a county of 15,000 people reads as a big number per resident.</li>",
     "      <li><strong>Years:</strong> CHFA awards are by award year; Prop 123 awards by the fiscal year they were made in (FY24-25 counts as 2024).</li>",
-    "      <li><strong>Developers</strong> are the sponsor or grantee each list prints. Spelling variants of one organisation are merged (for example \"Gorman &amp; Company, LLC\" and \"Gorman &amp; Company\"); an award whose list prints no sponsor is grouped as \"Not named on the award list\". Six Prop 123 modular awards print no location and are listed but not mapped.</li>",
+    "      <li><strong>Developers</strong> are the sponsor, developer, borrower or grantee each list prints. Where a CHFA report prints only an owner column (\"Owner Name\" or \"Ownership\", 2016 to 2023), the owner is used and tagged \"owner as printed\": for some projects that is a partnership formed for the one project, not the developer behind it. Spelling variants of one organisation are merged (for example \"Gorman &amp; Company, LLC\" and \"Gorman &amp; Company\"); an award whose list prints no sponsor is grouped as \"Not named on the award list\". Six Prop 123 modular awards print no location and are listed but not mapped.</li>",
     "      <li>This page is a public-data reference, not legal or financial advice. Confirm current awards with the agency.</li>",
     "    </ul>",
     "  </div>",
@@ -451,11 +451,12 @@
         var where = [a.town, a.county].filter(Boolean).join(', ');
         var tags = (a.homesEstimated ? '<span class="hm-tag">est. homes</span>' : '') +
           (a.dollarsBasis === 'requested' ? '<span class="hm-tag">preliminary</span>' : '') +
-          (a.confirmed ? '' : '<span class="hm-tag">not checked against a total</span>');
+          (a.confirmed ? '' : '<span class="hm-tag">not checked against a total</span>') +
+          (a.developerRole === 'owner' && a.developer ? '<span class="hm-tag">owner as printed</span>' : '');
         var src = a.sourceUrl ? '<a href="' + esc(a.sourceUrl) + '" rel="noopener" target="_blank">' + esc(a.sourceTitle) + '</a>' : esc(a.sourceTitle);
         var quote = a.quote ? '<blockquote class="hm-quote">' + esc(a.quote) + '</blockquote>' : '';
         var line2 = [a.agency + ' ' + shortProgram(a.program), a.yearLabel, where,
-          state.groupBy !== 'developer' ? (a.developer || 'developer not printed') : null].filter(Boolean).join(' · ');
+          state.groupBy !== 'developer' ? (a.developer ? (a.developerRole === 'owner' ? 'owner: ' : '') + a.developer : 'developer not printed') : null].filter(Boolean).join(' · ');
         return '<tr class="hm-award"><td colspan="3"><div class="hm-award-top"><strong>' + esc(a.name || 'Project name not printed') + '</strong>' +
           '<span class="hm-award-amt">' + esc(awardMoneyText(a)) + (a.homes !== null ? ' · ' + esc(count(a.homes)) + ' homes' : '') + '</span></div>' +
           '<div class="hm-muted">' + esc(line2) + tags + '</div>' +

@@ -128,6 +128,8 @@
         fiscalYear: r.fiscal_year || null,
         name: name || null,
         developerRaw: clean && clean.name ? clean.sponsor : r.sponsor,
+        // An owner column can print a partnership formed for the one project, so it is shown as an owner.
+        developerRole: clean && clean.name && /owner/i.test(clean.sponsor_heading || '') ? 'owner' : null,
         town: clean && clean.name ? clean.location : r.location,
         countyFips: r.county_fips || null,
         dollars: dollars,

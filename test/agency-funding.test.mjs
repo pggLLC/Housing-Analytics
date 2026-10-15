@@ -81,6 +81,34 @@ dola.awards.forEach((a) => {
 });
 ok(dolaChecked > 200, `DOLA amounts were checked against their quotes (${dolaChecked})`);
 
+// One DOLA award reported by several sources (vote summary, release, table row)
+// is counted once: no two awards share a project, an amount (within release
+// rounding), and a year, from different sources.
+const SUB = { street: 'st', avenue: 'ave', road: 'rd', drive: 'dr', apartments: '', apartment: '', the: '', phase: 'ph', and: '' };
+const toks = (t) => new Set((String(t || '').toLowerCase().match(/[a-z0-9]+/g) || []).map((w) => (w in SUB ? SUB[w] : w)).filter(Boolean));
+const repeats = [];
+dola.awards.forEach((a, i) => dola.awards.slice(i + 1).forEach((b) => {
+  const ta = toks(a.name), tb = toks(b.name);
+  if (!ta.size || !tb.size || a.amount == null || b.amount == null || a.source_url === b.source_url) return;
+  const shared = [...ta].filter((w) => tb.has(w)).length;
+  if (shared / Math.min(ta.size, tb.size) < 0.67) return;
+  if (Math.abs(a.amount - b.amount) > 0.02 * Math.max(a.amount, b.amount)) return;
+  if (a.year && b.year && Math.abs(a.year - b.year) > 1) return;
+  if (a.homes && b.homes && a.homes !== b.homes) return;
+  if (a.grantee && b.grantee && a.grantee !== b.grantee && !(a.homes && a.homes === b.homes) && shared / new Set([...ta, ...tb]).size < 0.6) return;
+  repeats.push(`${a.id} / ${b.id} (${a.name})`);
+}));
+ok(repeats.length === 0, `each DOLA award is counted once; repeated: ${repeats.slice(0, 3).join('; ')}`);
+const merged = dola.awards.filter((a) => (a.also_reported || []).length);
+ok(merged.length > 0 && merged.every((a) => a.also_reported.every((x) => x.source_url && x.quote)), 'a merged award keeps every other source and its quote');
+
+// A county read from the town only when the town lies wholly in one county.
+const crossTowns = new Set(Object.values(json('data/hna/cross-county-places.json').places)
+  .map((p) => p.name.replace(/\s*\((city|town|cdp|city and county)\)\s*$/i, '').toLowerCase()));
+ok(crossTowns.has('longmont'), 'read the towns that straddle counties');
+const straddled = dola.awards.filter((a) => a.county_fips && /^town as printed/.test(a.county_method || '') && crossTowns.has(String(a.town || '').toLowerCase()));
+ok(straddled.length === 0, `no award is mapped to one county from a town in several; found ${straddled.map((a) => a.name).join(', ')}`);
+
 // ── guard-blocked text and the owner's own project ──────────────────────────
 const patterns = [...read('scripts/lib/public-sensitive-patterns.mjs').matchAll(/regex:\s*\/((?:\\\/|[^/])+)\/([a-z]*)/g)]
   .map((m) => new RegExp(m[1], m[2].includes('i') ? 'i' : ''));
@@ -116,6 +144,10 @@ Object.entries(aliases.developers).forEach(([k, v]) => {
   ok(aliases.developers[v.key] && aliases.developers[v.key].key === v.key, `alias ${k} points at a key that is its own entry`);
 });
 ok(!awards.some((a) => a.developer && /^\d+$/.test(a.developer)), 'no developer is a bare number (a split cell)');
+const owners = awards.filter((a) => a.developerRole === 'owner');
+ok(owners.length > 0 && owners.every((a) => /owner/i.test((rows.rows.find((r) => r.quote === a.quote) || {}).sponsor_heading || '')),
+  'a name read from an owner column is marked as an owner, and only then');
+ok(/developerRole === 'owner'[\s\S]{0,80}owner as printed/.test(read('js/agency-funding.js')), 'the table tags an owner as printed');
 
 // ── the page that holds the view ────────────────────────────────────────────
 // Colorado Deep Dive's Funding vs Need tab, until the reorg gives it a page.

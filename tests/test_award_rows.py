@@ -58,3 +58,12 @@ def test_keys_count_awards_that_share_file_amount_and_units():
     a = {'source_file': 'x.pdf', 'federal_credit': 1350000, 'restricted_units': 60}
     assert b.ledger_keys([a, dict(a), dict(a, restricted_units=61)]) == [
         'x.pdf|1350000|60#1', 'x.pdf|1350000|60#2', 'x.pdf|1350000|61#1']
+
+
+def test_the_sponsor_column_heading_is_kept_so_an_owner_is_not_shown_as_a_developer():
+    r = b.table_rows([HEADER, row('Arroyo Village', 'Denver', '$1,000,000', 40, 'Arroyo Village Apartments LLLP')])[0]
+    assert r['sponsor'] == 'Arroyo Village Apartments LLLP'
+    assert r['sponsor_heading'] == 'Owner Name'
+    sponsor = ['Name', 'City', 'Sponsor', 'Credit Amount']
+    r = b.table_rows([sponsor, ['Mill Apartments', 'Fraser', 'Grand Park Homes', '$500,000']])[0]
+    assert r['sponsor_heading'] == 'Sponsor'

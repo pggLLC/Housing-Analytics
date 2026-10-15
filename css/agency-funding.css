@@ -28,11 +28,11 @@
 .hm-table th, .hm-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
 .hm-table td.num, .hm-table th.num { text-align: right; white-space: nowrap; }
 .hm-table thead th { position: sticky; top: 0; background: var(--card); }
-.hm-table th button { all: unset; cursor: pointer; font-weight: 700; display: inline-flex; gap: 4px; align-items: center; min-height: 32px; }
+.hm-table th button { all: unset; cursor: pointer; font-weight: 700; display: inline-flex; gap: 4px; align-items: center; min-height: 44px; }
 .hm-table th button:focus-visible { box-shadow: var(--focus-ring); }
 .hm-matrix thead th { white-space: normal; min-width: 4.5em; text-transform: none; }
 .hm-matrix th[scope="row"] { position: sticky; left: 0; background: var(--card); min-width: 9em; }
-.hm-group > th[scope="row"] button { all: unset; cursor: pointer; font-weight: 700; display: inline-flex; gap: 6px; align-items: baseline; min-height: 32px; }
+.hm-group > th[scope="row"] button { all: unset; cursor: pointer; font-weight: 700; display: inline-flex; gap: 6px; align-items: center; min-height: 44px; }
 .hm-group > th[scope="row"] button:focus-visible { box-shadow: var(--focus-ring); }
 .hm-table thead th { text-transform: none; letter-spacing: 0; }
 .hm-table th { text-transform: none; letter-spacing: 0; }

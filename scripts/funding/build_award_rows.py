@@ -166,6 +166,10 @@ def table_rows(rows: list[list[str]]) -> list[dict]:
                 rec['numbers'].add(n)
             elif f in ('name', 'sponsor', 'location') and f not in rec:
                 rec[f] = c
+                if f == 'sponsor':
+                    # "Owner Name" and "Ownership" name the owning entity, which can be a
+                    # partnership formed for this one project, not the developer behind it.
+                    rec['sponsor_heading'] = clean(h)
         if rec.get('name') and rec['numbers']:
             rec['quote'] = '; '.join(rec['quote'])
             out.append(rec)
@@ -243,7 +247,7 @@ def sponsor_from_applications(r: dict, row: dict, apps: list[dict]) -> dict | No
     if len(sponsors) != 1:
         return None
     a = max(hits, key=lambda x: x.get('year') or 0)
-    return {'sponsor': a['sponsor'], 'sponsor_source': f"CHFA applicant report, {a.get('round_label') or a.get('year')}: {a.get('quote')}"}
+    return {'sponsor': a['sponsor'], 'sponsor_heading': 'Sponsor', 'sponsor_source': f"CHFA applicant report, {a.get('round_label') or a.get('year')}: {a.get('quote')}"}
 
 
 def read_json(path: str):
@@ -285,7 +289,7 @@ def build(cache: str) -> dict:
                 continue
             used.add(next(i for i, x in enumerate(rows) if x is t))
             rec = {'key': keys[id(r)], 'source_file': file, 'name': t.get('name'), 'sponsor': t.get('sponsor'),
-                   'location': t.get('location'), 'quote': t['quote']}
+                   'sponsor_heading': t.get('sponsor_heading'), 'location': t.get('location'), 'quote': t['quote']}
             extra = sponsor_from_applications(r, rec, apps)
             if extra:
                 rec.update(extra)
