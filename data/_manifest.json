@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-15T14:04:30.235Z",
+    "generated_at": "2026-10-15T14:36:06.282Z",
     "root": "data/",
     "file_count": 1732,
-    "total_size_bytes": 183647433,
+    "total_size_bytes": 183648436,
     "kinds": {
       "json": 1689,
       "geojson": 33,
@@ -502,7 +502,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-15T14:04:26.709Z",
+      "mtime": "2026-10-15T14:36:01.916Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -32398,7 +32398,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 15109,
-      "mtime": "2026-10-15T14:04:28.216Z",
+      "mtime": "2026-10-15T14:36:03.813Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32422,7 +32422,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-15T14:04:27.861Z",
+      "mtime": "2026-10-15T14:36:03.369Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -34916,8 +34916,8 @@
     {
       "path": "policy/prop123-rental-rules.json",
       "kind": "json",
-      "size_bytes": 32963,
-      "mtime": "2026-10-14T08:27:25.269Z",
+      "size_bytes": 33966,
+      "mtime": "2026-10-15T14:35:14.367Z",
       "shape": "object",
       "keys": [
         "schema",
