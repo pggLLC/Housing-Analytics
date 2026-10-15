@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T14:04:05.303Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T14:35:36.274Z. Do not edit by hand.
 
 ---
 
@@ -1745,7 +1745,7 @@
 | `data/policy/policy-timeline.json` | 6.7 KB | ✅ | — |
 | `data/policy/policy-watch.json` | 50.5 KB | ✅ | — |
 | `data/policy/prop123-land-banking-awards.json` | 74.2 KB | ✅ | — |
-| `data/policy/prop123-rental-rules.json` | 32.2 KB | ✅ | — |
+| `data/policy/prop123-rental-rules.json` | 33.2 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 130.0 KB | ✅ | — |
 | `data/policy/resale-conventions.json` | 7.4 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.8 KB | ✅ | — |
@@ -1783,7 +1783,7 @@
 
 ## Test Files
 
-614 test files found.
+615 test files found.
 
 | File | Size |
 |------|------|
@@ -1889,10 +1889,11 @@
 | `test/deal-calc-perm-rate-hint.test.js` | 6.1 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
 | `test/deal-calc-provenance.test.js` | 16.7 KB |
+| `test/deal-calc-rent-programs.test.js` | 11.1 KB |
 | `test/deal-calc-report-meta.test.js` | 14.6 KB |
 | `test/deal-calc-schedule.test.js` | 23.1 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
-| `test/deal-calc-share-roundtrip.test.js` | 21.9 KB |
+| `test/deal-calc-share-roundtrip.test.js` | 22.8 KB |
 | `test/deal-calc-soft-funding-links-wrap.test.js` | 2.8 KB |
 | `test/deal-calc-studio-units.test.js` | 3.2 KB |
 | `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |
@@ -2226,7 +2227,7 @@
 | `test/rendered-absence-not-zero.test.js` | 4.2 KB |
 | `test/rent-ceiling-regime.test.js` | 17.9 KB |
 | `test/rent-formula-single-source.test.js` | 7.8 KB |
-| `test/rent-limit-programs.test.js` | 8.2 KB |
+| `test/rent-limit-programs.test.js` | 11.1 KB |
 | `test/rent-schedule.test.js` | 24.5 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
