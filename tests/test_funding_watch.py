@@ -211,10 +211,14 @@ def test_every_catalog_program_with_a_page_is_watched():
     for p in guide["programs"]:
         assert p.get("official_url"), f"{p['id']} has no official_url to watch"
         assert ("guide", p["id"]) in watched, f"guide program {p['id']} is not watched"
+    agency_urls = {a["url"] for a in sources["agency_pages"]}
     for pid, p in soft["programs"].items():
-        url = p.get("source_url") or p.get("contactUrl")
-        if url and not watch._is_bare_homepage(url):
+        urls = [u for u in (p.get("source_url"), p.get("contactUrl")) if u]
+        if any(not watch._is_bare_homepage(u) or u in agency_urls for u in urls):
             assert ("soft", pid) in watched, f"soft-funding program {pid} is not watched"
+    # The Prop 123 fund's own site is its root path; it is still that program's page (Codex, 2026-10-15).
+    ahff = next(t for t in targets if t["id"] == "ahff-prop123")
+    assert ("soft", "PROP123-AHTF") in {(q["catalog"], q["id"]) for q in ahff["programs"]}
     assert len(guide["programs"]) >= 40, "non-vacuity: the guide was read"
     ids = [a["id"] for a in sources["agency_pages"]]
     assert len(ids) == len(set(ids)) and all(urlsplit(a["url"]).scheme == "https" and urlsplit(a["url"]).netloc for a in sources["agency_pages"])
@@ -367,3 +371,37 @@ def test_grants_gov_is_paged_past_the_first_page_up_to_the_cap():
         return site(gg_hits=hits)(url, data, headers)
     part, failed = watch.grants_gov(cfg, fails_on_page_2)
     assert part == [] and failed and failed[0]["query"] == "housing"
+
+
+def test_a_grants_gov_error_envelope_is_a_failure_not_zero_results():
+    """search2 answers some errors with HTTP 200 and an error envelope (Codex, 2026-10-15)."""
+    def envelope(url, data=None, headers=None):
+        if url == GG:
+            return 200, {}, json.dumps({"errorcode": 4, "msg": "Invalid request"}).encode()
+        return site()(url, data, headers)
+    notices, failures = watch.grants_gov(SOURCES["federal"]["grants_gov"], envelope)
+    assert notices == [] and len(failures) == 2 and "errorcode=4" in failures[0]["error"]
+    r = run(envelope)
+    assert r["federal_sources"]["grants.gov"]["ok"] is False
+
+    def error_with_empty_data(url, data=None, headers=None):
+        if url == GG:
+            return 200, {}, json.dumps({"errorcode": 4, "errorMsgs": ["bad keyword"],
+                                        "data": {"hitCount": 0, "oppHits": []}}).encode()
+        return site()(url, data, headers)
+    _n, failed = watch.grants_gov(SOURCES["federal"]["grants_gov"], error_with_empty_data)
+    assert len(failed) == 2, "an error code beside an empty data block is still an error"
+
+
+def test_federal_results_are_kept_when_every_page_fails():
+    """All pages blocked but a federal search answered: the run is not 'nothing fetched',
+    so its notices are written and not re-announced tomorrow (Codex, 2026-10-15)."""
+    base = run(site())
+    gg = [{"id": "1", "title": "Housing grant"}, {"id": "9", "title": "New grant"}]
+    pages_down = site(gg_hits=gg, blocked=(EIAF, GRANT))
+    r = run(pages_down, previous=base, now="2026-10-16T05:34:00Z")
+    assert not any(p["ok"] for p in r["pages"]), "every page failed"
+    assert r["all_fetches_failed"] is False
+    assert [n["key"] for n in r["changes"]["new_federal_notices"]] == ["grants.gov:9"]
+    nothing = run(site(blocked=(EIAF, GRANT, GG, FR)), previous=base, now="2026-10-16T05:34:00Z")
+    assert nothing["all_fetches_failed"] is True

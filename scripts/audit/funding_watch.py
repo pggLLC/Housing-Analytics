@@ -143,6 +143,7 @@ def watch_targets(guide: dict, soft: dict, sources: dict) -> list[dict]:
         if program and program not in t['programs']:
             t['programs'].append(program)
 
+    agency_urls = {a['url'].split('#', 1)[0] for a in sources.get('agency_pages', [])}
     for a in sources.get('agency_pages', []):
         add(a['url'], a['id'], a.get('agency'))
     for p in guide.get('programs', []):
@@ -152,8 +153,11 @@ def watch_targets(guide: dict, soft: dict, sources: dict) -> list[dict]:
     for pid, p in (soft.get('programs') or {}).items():
         if not p:
             continue
-        url = p.get('source_url') or p.get('contactUrl')
-        if url and _is_bare_homepage(url):
+        # A bare home page is skipped as too noisy, unless it is a watched agency page
+        # in its own right (the Prop 123 fund's site is its root); then try contactUrl.
+        url = next((u for u in (p.get('source_url'), p.get('contactUrl'))
+                    if u and (not _is_bare_homepage(u) or u.split('#', 1)[0] in agency_urls)), None)
+        if not url:
             continue
         add(url, f'soft:{pid}', p.get('adminEntity'),
             {'catalog': 'soft', 'id': pid, 'name': p.get('name'), 'status': p.get('status'),
@@ -264,7 +268,14 @@ def grants_gov(cfg: dict, fetch: Fetcher) -> tuple[list, list]:
                                   'rows': rows, 'startRecordNum': start}).encode('utf-8')
             try:
                 _s, _h, body = fetch(cfg['endpoint'], data=payload, headers={'Content-Type': 'application/json'})
-                data = json.loads(body).get('data') or {}
+                envelope = json.loads(body)
+                data = envelope.get('data') if isinstance(envelope, dict) else None
+                # search2 answers errors with HTTP 200 and an error envelope; a missing
+                # data block is not a search that found nothing.
+                if envelope.get('errorcode') not in (None, 0, '0') or envelope.get('errorMsgs') \
+                        or not isinstance(data, dict) or not isinstance(data.get('oppHits', []), list):
+                    raise ValueError(f"Grants.gov error response: errorcode={envelope.get('errorcode')!r} "
+                                     f"msg={str(envelope.get('msg') or envelope.get('errorMsgs'))[:200]!r}")
             except Exception as exc:
                 err = f'{exc.__class__.__name__}: {exc}'
                 break
@@ -421,7 +432,10 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         'fetch_failures': failures,
         'federal_failures': fed_failures,
         'unverifiable': unverifiable,
-        'all_fetches_failed': bool(pages) and not any(p['ok'] for p in pages),
+        # Nothing at all came back: no page and no federal search. If a federal search
+        # answered, its notices and state are kept even when every page failed.
+        'all_fetches_failed': bool(pages) and not any(p['ok'] for p in pages)
+                              and not any(st['ok'] for st in federal_sources.values()),
     }
 
 
