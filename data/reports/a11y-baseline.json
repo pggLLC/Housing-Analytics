@@ -1,128 +1,505 @@
 {
-  "generatedAt": "2026-04-23T14:05:23.473Z",
+  "generatedAt": "2026-10-15T10:56:18.115Z",
   "summary": {
     "byImpact": {
-      "critical": 0,
-      "serious": 0,
+      "critical": 3,
+      "serious": 74,
       "moderate": 0,
       "minor": 0
     },
-    "byRule": {},
-    "totalNodes": 0,
-    "pageCount": 16
+    "byRule": {
+      "target-size": {
+        "impact": "serious",
+        "help": "All touch targets must be 24px large, or leave sufficient space",
+        "nodeCount": 52,
+        "pages": [
+          "index.html",
+          "hna-who-lives-here.html",
+          "hna-what-households-can-afford.html",
+          "hna-where-its-heading.html",
+          "hna-what-to-do.html"
+        ]
+      },
+      "aria-required-children": {
+        "impact": "critical",
+        "help": "Certain ARIA roles must contain particular children",
+        "nodeCount": 3,
+        "pages": [
+          "housing-needs-assessment.html",
+          "hna-what-to-do.html",
+          "economic-dashboard.html"
+        ]
+      },
+      "color-contrast": {
+        "impact": "serious",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodeCount": 20,
+        "pages": [
+          "hna-what-to-do.html",
+          "lihtc-guide-for-stakeholders.html",
+          "deal-calculator.html"
+        ]
+      },
+      "list": {
+        "impact": "serious",
+        "help": "<ul> and <ol> must only directly contain <li>, <script> or <template> elements",
+        "nodeCount": 2,
+        "pages": [
+          "market-analysis.html",
+          "deal-calculator.html"
+        ]
+      }
+    },
+    "totalNodes": 77,
+    "pageCount": 21,
+    "auditedCount": 21,
+    "unaudited": []
   },
   "results": [
     {
       "page": "index.html",
-      "violations": [],
-      "passCount": 26,
+      "violations": [
+        {
+          "id": "target-size",
+          "impact": "serious",
+          "description": "Ensure touch targets have sufficient size and space",
+          "help": "All touch targets must be 24px large, or leave sufficient space",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/target-size?application=axeAPI",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag22aa",
+            "wcag258"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              "a[target=\"_blank\"][rel=\"noopener\"]:nth-child(11)"
+            ],
+            "html": "<a href=\"https://demography.dola.colorado.gov/\" target=\"_blank\" rel=\"noopener\" style=\"color:var(--accent);text-decoration:none;\">"
+          }
+        }
+      ],
+      "passCount": 32,
       "incompleteCount": 2,
-      "inapplicable": 35
+      "inapplicable": 31
     },
     {
       "page": "housing-needs-assessment.html",
-      "violations": [],
-      "passCount": 29,
-      "incompleteCount": 2,
-      "inapplicable": 32
+      "violations": [
+        {
+          "id": "aria-required-children",
+          "impact": "critical",
+          "description": "Ensure elements with an ARIA role that require child roles contain them",
+          "help": "Certain ARIA roles must contain particular children",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-required-children?application=axeAPI",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              "div[role=\"list\"]"
+            ],
+            "html": "<div role=\"list\" aria-label=\"Housing type need ranking\">"
+          }
+        }
+      ],
+      "passCount": 34,
+      "incompleteCount": 3,
+      "inapplicable": 26
     },
     {
-      "page": "hna-comparative-analysis.html",
+      "page": "hna-what-housing-exists.html",
       "violations": [],
       "passCount": 32,
+      "incompleteCount": 3,
+      "inapplicable": 29
+    },
+    {
+      "page": "hna-who-lives-here.html",
+      "violations": [
+        {
+          "id": "target-size",
+          "impact": "serious",
+          "description": "Ensure touch targets have sufficient size and space",
+          "help": "All touch targets must be 24px large, or leave sufficient space",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/target-size?application=axeAPI",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag22aa",
+            "wcag258"
+          ],
+          "nodeCount": 14,
+          "sampleNode": {
+            "target": [
+              "a[href$=\"#hna-rail-0\"]"
+            ],
+            "html": "<a class=\"hna-rail__link\" href=\"#hna-rail-0\" title=\"Executive Snapshot\">Executive Snapshot</a>"
+          }
+        }
+      ],
+      "passCount": 32,
+      "incompleteCount": 2,
+      "inapplicable": 31
+    },
+    {
+      "page": "hna-what-households-can-afford.html",
+      "violations": [
+        {
+          "id": "target-size",
+          "impact": "serious",
+          "description": "Ensure touch targets have sufficient size and space",
+          "help": "All touch targets must be 24px large, or leave sufficient space",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/target-size?application=axeAPI",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag22aa",
+            "wcag258"
+          ],
+          "nodeCount": 11,
+          "sampleNode": {
+            "target": [
+              "a[href$=\"#hna-rail-0\"]"
+            ],
+            "html": "<a class=\"hna-rail__link\" href=\"#hna-rail-0\" title=\"Executive Snapshot\">Executive Snapshot</a>"
+          }
+        }
+      ],
+      "passCount": 32,
+      "incompleteCount": 2,
+      "inapplicable": 31
+    },
+    {
+      "page": "hna-where-its-heading.html",
+      "violations": [
+        {
+          "id": "target-size",
+          "impact": "serious",
+          "description": "Ensure touch targets have sufficient size and space",
+          "help": "All touch targets must be 24px large, or leave sufficient space",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/target-size?application=axeAPI",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag22aa",
+            "wcag258"
+          ],
+          "nodeCount": 10,
+          "sampleNode": {
+            "target": [
+              "a[href$=\"#hna-rail-0\"]"
+            ],
+            "html": "<a class=\"hna-rail__link\" href=\"#hna-rail-0\" title=\"Executive Snapshot\">Executive Snapshot</a>"
+          }
+        }
+      ],
+      "passCount": 34,
       "incompleteCount": 2,
       "inapplicable": 29
     },
     {
-      "page": "economic-dashboard.html",
-      "violations": [],
-      "passCount": 25,
+      "page": "hna-what-to-do.html",
+      "violations": [
+        {
+          "id": "aria-required-children",
+          "impact": "critical",
+          "description": "Ensure elements with an ARIA role that require child roles contain them",
+          "help": "Certain ARIA roles must contain particular children",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-required-children?application=axeAPI",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              "div[role=\"list\"]"
+            ],
+            "html": "<div role=\"list\" aria-label=\"Housing type need ranking\">"
+          }
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodeCount": 18,
+          "sampleNode": {
+            "target": [
+              "div:nth-child(1) > div:nth-child(2) > ul > li:nth-child(1) > span:nth-child(2)"
+            ],
+            "html": "<span style=\"opacity:.7;\">(score 94)</span>"
+          }
+        },
+        {
+          "id": "target-size",
+          "impact": "serious",
+          "description": "Ensure touch targets have sufficient size and space",
+          "help": "All touch targets must be 24px large, or leave sufficient space",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/target-size?application=axeAPI",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag22aa",
+            "wcag258"
+          ],
+          "nodeCount": 16,
+          "sampleNode": {
+            "target": [
+              "a[href$=\"#hna-rail-0\"]"
+            ],
+            "html": "<a class=\"hna-rail__link\" href=\"#hna-rail-0\" title=\"Executive Snapshot\">Executive Snapshot</a>"
+          }
+        }
+      ],
+      "passCount": 33,
       "incompleteCount": 2,
-      "inapplicable": 36
+      "inapplicable": 29
+    },
+    {
+      "page": "hna-comparative-analysis.html",
+      "violations": [],
+      "passCount": 33,
+      "incompleteCount": 2,
+      "inapplicable": 30
+    },
+    {
+      "page": "economic-dashboard.html",
+      "violations": [
+        {
+          "id": "aria-required-children",
+          "impact": "critical",
+          "description": "Ensure elements with an ARIA role that require child roles contain them",
+          "help": "Certain ARIA roles must contain particular children",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-required-children?application=axeAPI",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              "div[role=\"list\"]"
+            ],
+            "html": "<div class=\"hp-binary-grid\" role=\"list\" aria-label=\"Binary housing predictions\">"
+          }
+        }
+      ],
+      "passCount": 31,
+      "incompleteCount": 2,
+      "inapplicable": 31
     },
     {
       "page": "lihtc-allocations.html",
       "violations": [],
-      "passCount": 30,
+      "passCount": 32,
       "incompleteCount": 2,
       "inapplicable": 31
     },
     {
       "page": "colorado-deep-dive.html",
       "violations": [],
-      "passCount": 31,
-      "incompleteCount": 3,
-      "inapplicable": 29
+      "passCount": 35,
+      "incompleteCount": 4,
+      "inapplicable": 26
+    },
+    {
+      "page": "colorado-deep-dive.html#tab-history",
+      "violations": [],
+      "passCount": 36,
+      "incompleteCount": 2,
+      "inapplicable": 27
     },
     {
       "page": "lihtc-guide-for-stakeholders.html",
-      "violations": [],
-      "passCount": 26,
-      "incompleteCount": 1,
-      "inapplicable": 35
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              "p:nth-child(8) > a[target=\"_blank\"][rel=\"noopener\"]"
+            ],
+            "html": "<a href=\"https://www.novoco.com/resource-centers/affordable-housing-tax-credits/rankings\" target=\"_blank\" rel=\"noopener\" style=\"color: var(--mcm-teal);\">Novogradac quarterly pricing survey</a>"
+          }
+        }
+      ],
+      "passCount": 30,
+      "incompleteCount": 2,
+      "inapplicable": 33
     },
     {
       "page": "dashboard.html",
       "violations": [],
-      "passCount": 27,
-      "incompleteCount": 1,
-      "inapplicable": 34
+      "passCount": 30,
+      "incompleteCount": 2,
+      "inapplicable": 33
     },
     {
       "page": "regional.html",
       "violations": [],
-      "passCount": 27,
-      "incompleteCount": 1,
+      "passCount": 29,
+      "incompleteCount": 2,
       "inapplicable": 34
     },
     {
       "page": "market-analysis.html",
-      "violations": [],
-      "passCount": 39,
+      "violations": [
+        {
+          "id": "list",
+          "impact": "serious",
+          "description": "Ensure that lists are structured correctly",
+          "help": "<ul> and <ol> must only directly contain <li>, <script> or <template> elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/list?application=axeAPI",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              "#dc-adjust-guidance-list"
+            ],
+            "html": "<ul id=\"dc-adjust-guidance-list\" style=\"margin:.25rem 0 0;padding-left:1.2rem;\" data-unavailable-reason=\"Select a county to load AMI rent limits.\">Unavailable — Select a county to load AMI rent limits"
+          }
+        }
+      ],
+      "passCount": 40,
       "incompleteCount": 2,
       "inapplicable": 22
     },
     {
       "page": "deal-calculator.html",
-      "violations": [],
-      "passCount": 33,
-      "incompleteCount": 1,
-      "inapplicable": 28
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              "label:nth-child(3) > span:nth-child(1) > span"
+            ],
+            "html": "<span style=\"opacity:.7\">— optional</span>"
+          }
+        },
+        {
+          "id": "list",
+          "impact": "serious",
+          "description": "Ensure that lists are structured correctly",
+          "help": "<ul> and <ol> must only directly contain <li>, <script> or <template> elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/list?application=axeAPI",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodeCount": 1,
+          "sampleNode": {
+            "target": [
+              "#dc-adjust-guidance-list"
+            ],
+            "html": "<ul id=\"dc-adjust-guidance-list\" style=\"margin:.25rem 0 0;padding-left:1.2rem;\" data-unavailable-reason=\"Select a county to load AMI rent limits.\">Unavailable — Select a county to load AMI rent limits"
+          }
+        }
+      ],
+      "passCount": 36,
+      "incompleteCount": 2,
+      "inapplicable": 27
     },
     {
       "page": "land-value.html",
       "violations": [],
-      "passCount": 28,
-      "incompleteCount": 1,
+      "passCount": 30,
+      "incompleteCount": 2,
       "inapplicable": 33
-    },
-    {
-      "page": "historical-trends.html",
-      "violations": [],
-      "passCount": 31,
-      "incompleteCount": 1,
-      "inapplicable": 30
     },
     {
       "page": "housing-legislation-2026.html",
       "violations": [],
-      "passCount": 27,
-      "incompleteCount": 1,
-      "inapplicable": 34
+      "passCount": 30,
+      "incompleteCount": 2,
+      "inapplicable": 33
     },
     {
       "page": "about.html",
       "violations": [],
-      "passCount": 24,
-      "incompleteCount": 1,
-      "inapplicable": 37
+      "passCount": 28,
+      "incompleteCount": 2,
+      "inapplicable": 35
     },
     {
       "page": "insights.html",
       "violations": [],
-      "passCount": 26,
-      "incompleteCount": 1,
-      "inapplicable": 35
+      "passCount": 31,
+      "incompleteCount": 2,
+      "inapplicable": 32
     }
   ]
 }
