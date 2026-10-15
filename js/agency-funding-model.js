@@ -1,5 +1,5 @@
 /**
- * agency-funding-model.js — the numbers behind where-housing-money-goes.html.
+ * agency-funding-model.js — the numbers behind the agency funding view (js/agency-funding.js).
  *
  * Pure functions, no DOM: the page and test/agency-funding.test.mjs both call
  * them. Every award comes from a file that quotes its source:

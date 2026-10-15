@@ -1,5 +1,15 @@
 /**
- * agency-funding.js — where-housing-money-goes.html.
+ * agency-funding.js — the agency funding view, on any page that holds
+ * <div data-agency-funding><div data-agency-funding-view></div></div>.
+ *
+ * Options on the data-agency-funding element, for a page that holds the view
+ * inside a tab:
+ *   data-agency-funding-hash="tab-need"  the tab's own hash stays first in the
+ *                                        URL (#tab-need&county=08049)
+ *   data-agency-funding-level="3"        the view's headings sit under the
+ *                                        page's h2
+ *   data-agency-funding-defer            nothing loads (about 1 MB) until the
+ *                                        page calls AgencyFunding.start()
  *
  * One set of controls (search, who paid, years, total or per resident) drives
  * four views of the same awards: the answer sentence, the county map, the
@@ -531,6 +541,8 @@
     var p = [];
     if (state.place) p.push(state.place.type + '=' + encodeURIComponent(state.place.key));
     if (state.agency !== 'ALL') p.push('agency=' + state.agency);
+    var prefix = root.getAttribute('data-agency-funding-hash');
+    if (prefix) p.unshift(prefix);
     try { history.replaceState(null, '', p.length ? '#' + p.join('&') : location.pathname + location.search); } catch (e) { /* file:// */ }
   }
 
@@ -632,11 +644,14 @@
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 0);
   }
 
+  var started = false;
   function start() {
     root = document.querySelector('[data-agency-funding]');
-    if (!root || !M) return;
+    if (!root || !M || started) return;
+    started = true;
     var view = root.querySelector('[data-agency-funding-view]');
-    if (view) view.innerHTML = MARKUP;
+    var level = root.getAttribute('data-agency-funding-level');
+    if (view) view.innerHTML = /^[3-5]$/.test(level || '') ? MARKUP.replace(/<(\/?)h2\b/g, '<$1h' + level) : MARKUP;
     var keys = Object.keys(FILES);
     Promise.all(keys.map(function (k) { return fetchJson(FILES[k]); })).then(function (docs) {
       var d = {};
@@ -673,6 +688,11 @@
     });
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
-  else start();
+  global.AgencyFunding = { start: start };
+  function auto() {
+    var el = document.querySelector('[data-agency-funding]');
+    if (el && !el.hasAttribute('data-agency-funding-defer')) start();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', auto);
+  else auto();
 })(typeof window !== 'undefined' ? window : this);

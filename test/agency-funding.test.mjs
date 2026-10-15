@@ -117,10 +117,24 @@ Object.entries(aliases.developers).forEach(([k, v]) => {
 });
 ok(!awards.some((a) => a.developer && /^\d+$/.test(a.developer)), 'no developer is a bare number (a split cell)');
 
-// ── the page ────────────────────────────────────────────────────────────────
-const html = read('where-housing-money-goes.html');
+// ── the page that holds the view ────────────────────────────────────────────
+// Colorado Deep Dive's Funding vs Need tab, until the reorg gives it a page.
+const html = read('colorado-deep-dive.html');
 const js = read('js/agency-funding.js');
-ok(/<script[^>]+src="js\/agency-funding-model\.js"/.test(html) && /<script[^>]+src="js\/agency-funding\.js"/.test(html), 'the page loads the model and the view');
+ok(/<script[^>]+src="js\/vendor\/d3\.v7\.min\.js"/.test(html) && /<script[^>]+src="js\/agency-funding-model\.js"/.test(html) && /<script[^>]+src="js\/agency-funding\.js"/.test(html),
+  'the page loads d3, the model and the view');
+ok(/<link[^>]+css\/agency-funding\.css/.test(html), 'the page loads the view stylesheet');
+const holder = (html.match(/<section[^>]*data-agency-funding[\s\S]*?<\/section>/) || [''])[0];
+ok(/data-agency-funding-view/.test(holder), 'the page holds the view');
+const panel = html.slice(html.lastIndexOf('<div role="tabpanel"', html.indexOf(holder)), html.indexOf(holder));
+const tabId = (panel.match(/id="([^"]+)"/) || [])[1];
+ok(tabId && new RegExp(`data-agency-funding-hash="${tabId}"`).test(holder), `the view keeps its tab (${tabId}) first in the URL`);
+ok(/data-agency-funding-defer/.test(holder) && new RegExp(`targetId === '${tabId}' && window\\.AgencyFunding\\)[\\s\\S]{0,80}AgencyFunding\\.start\\(\\)`).test(html),
+  'the view loads when its tab opens, not with the page');
+const level = Number((holder.match(/data-agency-funding-level="(\d)"/) || [])[1]);
+const outer = Number((holder.match(/<h(\d)/) || [])[1]);
+ok(level === outer + 1, `the view's headings (h${level}) sit under the section heading (h${outer})`);
+ok(/\.split\('&'\)\[0\]/.test(html), 'the tab switcher reads only the tab name from #tab&county=…');
 const files = [...js.matchAll(/'(data\/[^']+\.(?:json|geojson))'/g)].map((m) => m[1]);
 ok(files.length >= 5, 'found the data files the view reads');
 const about = (js.match(/<details class=\\"hm-about\\"[\s\S]*?<\/details>/) || [''])[0];
@@ -129,9 +143,8 @@ files.filter((f) => !/boundaries|documents|award-rows|developer-aliases/.test(f)
 files.forEach((f) => ok(fs.existsSync(path.join(ROOT, f)), `${f} exists`));
 ok(about.includes('scripts/funding/build_funding_awards.py'), '"About this data" names the parser behind the ledger');
 ok(about.length > 500, 'found "About this data" in the view');
-const beforeAnswer = html.slice(html.indexOf('<main'), html.indexOf('data-agency-funding-view')) + js.slice(js.indexOf('var MARKUP'), js.indexOf('data-hm-answer'));
+const beforeAnswer = holder.slice(0, holder.indexOf('data-agency-funding-view')) + js.slice(js.indexOf('var MARKUP'), js.indexOf('data-hm-answer'));
 ok(!/Screening tool only|disclaimer|informational only/i.test(beforeAnswer), 'no warning sits above the answer');
-ok(/data-agency-funding-view/.test(html) && /<link[^>]+css\/agency-funding\.css/.test(html), 'the page holds the view and its stylesheet');
 
 if (failures) {
   console.error(`agency-funding: ${failures} failed`);

@@ -14,7 +14,7 @@ ledger carries and its unit count must both be printed on the row.
 For every ledger award it writes the project name, sponsor and town as
 printed, and the row itself as the award's source quote, to
 data/policy/funding-awards/award-rows.json. Contact columns (names, phones,
-emails) are never read. The ledger is not changed: where-housing-money-goes
+emails) are never read. The ledger is not changed: the agency funding view
 reads both and keys one to the other (js/agency-funding-model.js ledgerKey).
 
 A ledger award with no matching row, or with more than one, is listed under

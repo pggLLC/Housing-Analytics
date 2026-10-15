@@ -1,6 +1,6 @@
 {
   "meta": {
-    "purpose": "Merges spellings and legal names of one developer on where-housing-money-goes. Keys are developerKey() of the printed name (js/agency-funding-model.js), which already ignores case, punctuation, a bracketed acronym and legal suffixes such as LLC or Inc. Each entry says why the names are one organisation.",
+    "purpose": "Merges spellings and legal names of one developer in the agency funding view (js/agency-funding.js). Keys are developerKey() of the printed name (js/agency-funding-model.js), which already ignores case, punctuation, a bracketed acronym and legal suffixes such as LLC or Inc. Each entry says why the names are one organisation.",
     "reviewed": "2026-10-15"
   },
   "developers": {
