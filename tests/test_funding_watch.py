@@ -697,6 +697,13 @@ def test_a_title_less_error_page_keeps_the_snapshot():
     # Non-vacuity: a page that drops its round lines but keeps a document is a real change.
     r = run(site(eiaf=QUIET), previous=base, now=days[0])
     assert [c["id"] for c in r["changes"]["changed_pages"]] == ["dlg-eiaf"]
+    # The same page, under its own title, that closes its round and drops every line and
+    # document is a real change, reported in full (Codex, 2026-10-15).
+    closed = run(site(eiaf="<title>EIAF</title>\n<p>See our archive for past years.</p>"),
+                 previous=base, now=days[0])
+    [ch] = closed["changes"]["changed_pages"]
+    assert ch["key_lines"]["removed"] and ch["removed_documents"] and not ch["key_lines"]["added"]
+    assert next(p for p in closed["pages"] if p["id"] == "dlg-eiaf")["key_lines"] == [], "the zero-signal case"
 
 
 def test_federal_result_sets_that_stop_short_are_failures():
