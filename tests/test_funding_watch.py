@@ -439,3 +439,15 @@ def test_a_federal_feed_down_on_the_first_run_gets_its_own_silent_baseline():
     gg = [{"id": "1", "title": "Housing grant"}, {"id": "7", "title": "Later grant"}]
     later = run(site(gg_hits=gg), previous=up, now="2026-10-17T05:34:00Z")
     assert [n["key"] for n in later["changes"]["new_federal_notices"]] == ["grants.gov:7"]
+
+
+def test_a_notice_matched_by_a_baselined_query_is_new_even_if_a_new_query_also_matched():
+    """A keyword added later and an established keyword both return the same new notice:
+    it is still new, whichever query is listed first (Codex, 2026-10-15)."""
+    base = run(site())
+    sources = json.loads(json.dumps(SOURCES))
+    sources["federal"]["grants_gov"]["keywords"] = ["newly added", "affordable housing", "water"]
+    gg = [{"id": "1", "title": "Housing grant"}, {"id": "8", "title": "Shared new grant"}]
+    r = watch.run(fetch=site(gg_hits=gg), previous=base, now="2026-10-16T05:34:00Z",
+                  guide=GUIDE, soft=SOFT, sources=sources)
+    assert [n["key"] for n in r["changes"]["new_federal_notices"]] == ["grants.gov:8"]

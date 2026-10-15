@@ -255,7 +255,7 @@ def check_page(target: dict, prev: dict, fetch: Fetcher, now: str) -> tuple[dict
 
 def grants_gov(cfg: dict, fetch: Fetcher) -> tuple[list, list]:
     """(notices, failures) from Grants.gov search2, one query per keyword."""
-    notices, failures, seen = [], [], set()
+    notices, failures = [], []
     rows = int(cfg.get('rows', 25))
     cap = int(cfg.get('max_records', 100))
     for kw in cfg.get('keywords', []):
@@ -290,10 +290,9 @@ def grants_gov(cfg: dict, fetch: Fetcher) -> tuple[list, list]:
             failures.append({'source': 'grants.gov', 'query': kw, 'error': err})
             continue
         for h in hits:
+            # Not deduplicated here: run() keeps one record per notice but needs every
+            # query that matched it for the per-query baseline.
             key = f"grants.gov:{h.get('id')}"
-            if key in seen:
-                continue
-            seen.add(key)
             notices.append({
                 'key': key, 'source': 'grants.gov', 'query': kw,
                 'number': h.get('number'), 'title': (h.get('title') or '')[:300], 'agency': h.get('agency') or h.get('agencyName'),
@@ -364,7 +363,11 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
             answered_queries |= {f'{source}|{q}' for q in queries if q not in failed_q}
     # A source is "failed" if any of its queries failed; this counts the queries that answered.
     fed_answered = fed_queries - len(fed_failures)
-    # One notice can come back under several queries or agencies; keep the first.
+    # One notice can come back under several queries or agencies; keep the first record,
+    # but remember every query that matched it for the baseline check below.
+    matched_by: dict[str, set] = {}
+    for n in notices:
+        matched_by.setdefault(n['key'], set()).add(f"{n['source']}|{n['query']}")
     notices = list({n['key']: n for n in reversed(notices)}.values())[::-1]
     prev_notices = {n['key']: n for n in previous.get('federal_notices', [])}
     # Each query's first answer is its own silent baseline: a feed or keyword that never
@@ -377,7 +380,7 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
             continue  # keep the record as first seen; a later status edit is not news
         n['first_seen_at'] = now
         merged.append(n)
-        if f"{n['source']}|{n['query']}" in prev_baselined:
+        if matched_by.get(n['key'], set()) & prev_baselined:
             new_notices.append(n)
     seen_now = {n['key'] for n in notices}
     for key, p in prev_notices.items():
