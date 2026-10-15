@@ -339,7 +339,7 @@
       var f = {}; f[state.place.type] = state.place.key;
       awards = M.filter(awards, f);
     }
-    var by = state.matrixRows;
+    var by = state.matrixRows === 'developer' ? 'developer' : 'county';
     var groups = M.group(awards, by);
     var perOk = by === 'county' && state.norm === 'per';
     var cols = [
@@ -410,7 +410,7 @@
   }
 
   function shortProgram(p) {
-    return String(p || '').replace(/^LIHTC /, 'tax credit ').replace(/ \+ state$/, '').replace(/^Prop 123 /, 'Prop 123 ').trim();
+    return String(p || '').replace(/^LIHTC /, 'tax credit ').replace(/ \+ state$/, '').trim();
   }
 
   function renderTable() {
@@ -566,7 +566,7 @@
       if (!t || !root.contains(t)) return;
       if (t.hasAttribute('data-hm-agency')) { state.agency = t.getAttribute('data-hm-agency'); writeHash(); render(); }
       else if (t.hasAttribute('data-hm-norm')) { state.norm = t.getAttribute('data-hm-norm'); render(); }
-      else if (t.hasAttribute('data-hm-mrows')) { state.matrixRows = t.getAttribute('data-hm-mrows'); renderControls(); renderMatrix(); }
+      else if (t.hasAttribute('data-hm-mrows')) { state.matrixRows = t.getAttribute('data-hm-mrows') === 'developer' ? 'developer' : 'county'; renderControls(); renderMatrix(); }
       else if (t.hasAttribute('data-hm-clear')) { pick(null); }
       else if (t.hasAttribute('data-hm-matrix-all')) { state.matrixAll = !state.matrixAll; renderMatrix(); }
       else if (t.hasAttribute('data-hm-sort')) {
@@ -650,8 +650,9 @@
     if (!root || !M || started) return;
     started = true;
     var view = root.querySelector('[data-agency-funding-view]');
-    var level = root.getAttribute('data-agency-funding-level');
-    if (view) view.innerHTML = /^[3-5]$/.test(level || '') ? MARKUP.replace(/<(\/?)h2\b/g, '<$1h' + level) : MARKUP;
+    // A fixed tag per allowed level, so nothing read from the page reaches innerHTML.
+    var tag = { 3: 'h3', 4: 'h4', 5: 'h5' }[root.getAttribute('data-agency-funding-level')];
+    if (view) view.innerHTML = tag ? MARKUP.replace(/<(\/?)h2\b/g, function (m, slash) { return '<' + slash + tag; }) : MARKUP;
     var keys = Object.keys(FILES);
     Promise.all(keys.map(function (k) { return fetchJson(FILES[k]); })).then(function (docs) {
       var d = {};
