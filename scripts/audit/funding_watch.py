@@ -136,7 +136,7 @@ def watch_targets(guide: dict, soft: dict, sources: dict) -> list[dict]:
     by_url: dict[str, dict] = {}
 
     def add(url, page_id, agency, program=None):
-        if not url or not url.startswith('https://'):
+        if not url or urllib.parse.urlsplit(url).scheme != 'https':
             return
         url = url.split('#', 1)[0]
         t = by_url.setdefault(url, {'id': page_id, 'url': url, 'agency': agency, 'programs': []})

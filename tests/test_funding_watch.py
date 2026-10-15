@@ -18,6 +18,7 @@ import json
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "scripts" / "audit" / "funding_watch.py"
@@ -212,7 +213,7 @@ def test_every_catalog_program_with_a_page_is_watched():
             assert ("soft", pid) in watched, f"soft-funding program {pid} is not watched"
     assert len(guide["programs"]) >= 40, "non-vacuity: the guide was read"
     ids = [a["id"] for a in sources["agency_pages"]]
-    assert len(ids) == len(set(ids)) and all(a["url"].startswith("https://") for a in sources["agency_pages"])
+    assert len(ids) == len(set(ids)) and all(urlsplit(a["url"]).scheme == "https" and urlsplit(a["url"]).netloc for a in sources["agency_pages"])
     assert "dlg-eiaf" in ids, "the EIAF page the project asked for is watched"
 
 
