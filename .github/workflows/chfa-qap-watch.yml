@@ -283,7 +283,7 @@ jobs:
             for (const f of pagesFailed) core.warning(`Page not read: ${f.url}: ${f.error} (failing since ${f.failing_since})`);
             if (!pages.length && !notices.length && !unverifiable.length && !run.write_refused && !run.all_fetches_failed) {
               if (fedFailed.length || pagesFailed.length) {
-                core.info(`Incomplete run: ${fedFailed.length} federal search(es) and ${pagesFailed.length} page(s) failed, so "no change" is unknown for them. No issue yet; one opens after 3 days of failures.`);
+                core.info(`Incomplete run: ${fedFailed.length} federal search(es) and ${pagesFailed.length} page(s) failed, so "no change" is unknown for them. Each source gets one "check by hand" issue once it has failed for 3 days.`);
               } else {
                 core.info('No funding page changes, no new federal notices, nothing newly unverifiable.');
               }
