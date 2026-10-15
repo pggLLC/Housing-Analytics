@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // test/navigation-pill-label.test.js
 //
-// The nav's jurisdiction pill is "<county> · <place>" for a place and
+// The nav's jurisdiction pill is "<place> · <county>" for a place and
 // "<county>" for a county. Found on production 2026-09-23: every page showed
 // "Fruita (city) · Fruita" — the pill read `name` as the county, but the
 // selector and the URL context write name = the place and countyName = the
@@ -38,12 +38,12 @@ function run(name, fn) {
 console.log('navigation-pill-label');
 
 run('the shape the selector and URL context write: name = place, countyName = county', () => {
-  assert.equal(pillFor({ name: 'Fruita (city)', type: 'city', fips: '08077', geoid: '0828745', countyName: 'Mesa County', countyFips: '08077' }), 'Mesa County · Fruita');
-  assert.equal(pillFor({ name: 'Nathrop (CDP)', type: 'cdp', countyName: 'Chaffee County' }), 'Chaffee County · Nathrop');
+  assert.equal(pillFor({ name: 'Fruita (city)', type: 'city', fips: '08077', geoid: '0828745', countyName: 'Mesa County', countyFips: '08077' }), 'Fruita · Mesa County');
+  assert.equal(pillFor({ name: 'Nathrop (CDP)', type: 'cdp', countyName: 'Chaffee County' }), 'Nathrop · Chaffee County');
 });
 
 run('the older saved-project shape: name = county, displayName = place', () => {
-  assert.equal(pillFor({ name: 'Mesa County', type: 'city', displayName: 'Grand Junction (city)' }), 'Mesa County · Grand Junction');
+  assert.equal(pillFor({ name: 'Mesa County', type: 'city', displayName: 'Grand Junction (city)' }), 'Grand Junction · Mesa County');
 });
 
 run('a county selection is just the county', () => {

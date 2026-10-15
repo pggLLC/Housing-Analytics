@@ -3144,17 +3144,15 @@
       } catch (_) {}
       if (rwMount) {
         // Hydrate, then reveal section IF the renderer actually produced HTML
-        window.ResortWfh.attach(rwMount, {
+        // Reveal once the renderer has injected content (attach resolves
+        // after the fetch; a fixed timeout raced it on a slow network).
+        Promise.resolve(window.ResortWfh.attach(rwMount, {
           placeGeoid: placeGeoid,
           countyFips: countyFips,
           jurisName:  jurisName
+        })).then(function () {
+          if (rwSection) rwSection.hidden = rwMount.innerHTML.trim().length === 0;
         });
-        // Reveal after a microtask so the renderer has injected content
-        setTimeout(function () {
-          if (rwSection && rwMount.innerHTML.trim().length > 0) {
-            rwSection.hidden = false;
-          }
-        }, 50);
       }
     }
 

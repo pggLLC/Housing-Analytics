@@ -1,7 +1,7 @@
 {
   "meta": {
-    "updated": "2026-10-11T00:00:00Z",
-    "brief_count": 10,
+    "updated": "2026-10-14T00:00:00Z",
+    "brief_count": 11,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
@@ -356,15 +356,15 @@
     },
     {
       "id": "livability-universal-design-2026",
-      "title": "Livability beyond the pro forma: universal and functional design, privacy, shared space and green infrastructure in affordable housing",
+      "title": "Livability beyond the pro forma: design for every resident, from universal access to supportive housing and community",
       "policy_topic": "Design & Livability",
       "is_curated": true,
       "source_reviewed": true,
       "generated": "2026-10-11T00:00:00Z",
-      "verified": "2026-10-11",
-      "takeaway": "Design for everyone who will live in the building over its life: step-free, easy to understand, quiet, private and green. That is where the evidence for livability is strongest, CHFA already requires or scores part of it, and the rest costs least when it is settled before the first drawing.",
-      "summary": "The qualities residents feel every day, such as whether they can get in the door, find their way, close a door for privacy, meet a neighbor or look at a tree, do not appear in a pro forma. The research on them is uneven. Evidence is strongest for green infrastructure: a randomized trial in Philadelphia found that greening vacant lots reduced shootings, and a second analysis of the same trial found that nearby residents reported feeling depressed less often. Following the same people over 17 years, a UK panel study found that people reported higher life satisfaction and less distress in the years they lived in greener urban areas. Evidence on universal design is mostly about need rather than outcomes: under 5% of U.S. homes are livable for someone with moderate mobility difficulties and under 1% are wheelchair accessible, while the people who will need those features are a large and growing share of residents over a building's life. Evidence on shared space and on privacy is real but mostly observational or qualitative. CHFA's 2027-28 QAP Third Draft already requires green building certification, water-wise landscaping and the same unit design for every income tier, and awards two points for universal design or accessible Type A units in at least 5% of units.",
-      "implications": "Treat universal design as the organizing idea rather than an add-on: a building that a wheelchair user, a parent with a stroller, an older resident and a new arrival who does not read English can all use without help is also easier to lease, manage and keep occupied. Most of it is cheap only at the start. Step-free routes, door widths, blocking for grab bars and room sizes are set by the site plan and the first floor plans, and are expensive to change later. Green infrastructure in Colorado should mean shade trees, native and water-wise planting and usable outdoor rooms, because CHFA now limits non-functional turf. Smaller homes can live well when the plan does the work: storage where it is used, a real entry, rooms that fit furniture, one-floor living for older residents and a porch deep enough to sit on. Put shared rooms on the routes residents already walk, such as the entry, mailroom and laundry, rather than behind a locked door at the end of a corridor. Do not put a dollar value on any of this in a deal model. The studies do not support one, and a made-up number is worse than none. Use this brief to decide design priorities and to write the QAP narrative, and use the Deal Calculator for the numbers it can actually support.",
+      "verified": "2026-10-14",
+      "takeaway": "Design for everyone who will live in the building over its life: step-free, easy to understand, calm, private, and connected to the street and to neighbors. That is where the evidence for livability is strongest, CHFA already requires or scores part of it, and the rest costs least when it is settled before the first drawing.",
+      "summary": "The qualities residents feel every day, such as whether they can get in the door, find their way, close a door for privacy, meet a neighbor or look at a tree, do not appear in a pro forma. The research on them is uneven. Evidence is strongest for green infrastructure: a randomized trial in Philadelphia found that greening vacant lots reduced shootings, and a second analysis of the same trial found that nearby residents reported feeling depressed less often. Following the same people over 17 years, a UK panel study found that people reported higher life satisfaction and less distress in the years they lived in greener urban areas. Evidence on universal design is mostly about need rather than outcomes: under 5% of U.S. homes are livable for someone with moderate mobility difficulties and under 1% are wheelchair accessible, while the people who will need those features are a large and growing share of residents over a building's life. Two newer bodies of guidance carry universal design further. Neuro-inclusive design plans for people who process noise, light and crowding differently, and trauma-informed design, developed in Denver, shapes supportive housing around safety and choice. Both are well reasoned and thinly tested. Supportive housing itself is well tested: in Denver's randomized trial, 77% of the people it housed, not counting those who died, were still housed three years later. Evidence on shared space, on how a building meets the street and on privacy is real but mostly observational or qualitative. CHFA's 2027-28 QAP Third Draft already requires green building certification, water-wise landscaping and the same unit design for every income tier, and awards two points for universal design or accessible Type A units in at least 5% of units.",
+      "implications": "Treat universal design as the organizing idea rather than an add-on: a building that a wheelchair user, a parent with a stroller, an older resident and a new arrival who does not read English can all use without help is also easier to lease, manage and keep occupied. Most of it is cheap only at the start. Step-free routes, door widths, blocking for grab bars and room sizes are set by the site plan and the first floor plans, and are expensive to change later. Green infrastructure in Colorado should mean shade trees, native and water-wise planting and usable outdoor rooms, because CHFA now limits non-functional turf. Smaller homes can live well when the plan does the work: storage where it is used, a real entry, rooms that fit furniture, one-floor living for older residents and a porch deep enough to sit on. Plan the steps from street to front door as a gradient from public to private, so residents can choose how much contact they want, and put shared rooms on the routes residents already walk, such as the entry, mailroom and laundry, rather than behind a locked door at the end of a corridor. Zone noisy rooms away from bedrooms and keep routes simple, which helps residents who are easily overloaded and costs little at the start. In supportive housing, settle where residents meet staff, how they control who comes in, and how people with lived experience of homelessness shape the design before the floor plans are drawn. Do not put a dollar value on any of this in a deal model. The studies do not support one, and a made-up number is worse than none. Use this brief to decide design priorities and to write the QAP narrative, and use the Deal Calculator for the numbers it can actually support.",
       "related_data": "data/audit/chfa-qap-watch.json",
       "qap_document": "2027-28 QAP - Third Draft (PDF)",
       "qap_quotes": [
@@ -442,16 +442,37 @@
           "section": "2.B",
           "quote": "community amenity space uses",
           "row": 9
+        },
+        {
+          "section": "5.B.3.g",
+          "quote": "accessible Type A units under technical accessibility standard options of either American National Standards Institute (ANSI) A117.1 or Uniform Federal Accessibility Standards (UFAS)",
+          "row": 5
+        },
+        {
+          "section": "5.B.5",
+          "quote": "Tenant Selection Plans that follow Housing First best practices, such as pet-friendly policies",
+          "row": 11
+        },
+        {
+          "section": "3.B.4",
+          "quote": "locked laundry closets are not allowed",
+          "row": 12
+        },
+        {
+          "section": "3.B.4",
+          "quote": "unless CHFA allows an exception in its sole discretion",
+          "row": 12
         }
       ],
       "sections": [
         {
           "id": "universal-design",
-          "heading": "Universal design: spaces anyone can use without help",
+          "heading": "Universal access: spaces anyone can use without help",
           "paragraphs": [
             "Universal design means designing a place so that as many people as possible can use it, without adaptation and without being singled out. The seven principles written at North Carolina State University's Center for Universal Design in 1997 are still the clearest test: equitable use, flexibility in use, simple and intuitive use, perceptible information, tolerance for error, low physical effort, and size and space for approach and use. Four of the seven are about usability, not access codes. A space can pass an accessibility inspection and still be hard to use.",
             "The need is large and mostly unmet. HUD's analysis of the 2011 American Housing Survey found that about a third of U.S. homes could be modified for a person with a mobility disability, under 5% were livable for someone with moderate mobility difficulties, and under 1% were wheelchair accessible. Smith, Rayer and Smith (2008) projected how aging will raise the number of households with a disabled member and concluded that a home built today will very likely house someone with a disability during its life. An affordable rental building will house many households over its compliance period and after it, so it should be designed for the residents it will have later as well as the first ones.",
-            "Federal rules set a floor, not a goal. The Fair Housing Act requires seven accessibility features in covered multifamily buildings first occupied after March 13, 1991: in every unit of an elevator building, and in ground-floor units otherwise. Projects with HUD funds, such as HOME, must also meet Section 504: at least 5% of units accessible for people with mobility impairments and another 2% for people with hearing or vision impairments. CHFA's draft QAP adds two points for universal design or for Type A accessible units in at least 5% of units. Zero-step entrances and wider doors cost little when planned into new construction and are much harder to add later (Maisel, Smith and Steinfeld, 2008)."
+            "Federal rules set a floor, not a goal. The Fair Housing Act requires seven accessibility features in covered multifamily buildings first occupied after March 13, 1991: in every unit of an elevator building, and in ground-floor units otherwise. Projects with HUD funds, such as HOME, must also meet Section 504: at least 5% of units accessible for people with mobility impairments and another 2% for people with hearing or vision impairments. CHFA's draft QAP adds two points for universal design or for Type A accessible units in at least 5% of units. Zero-step entrances and wider doors cost little when planned into new construction and are much harder to add later (Maisel, Smith and Steinfeld, 2008).",
+            "Access is more than a step-free route. A building is also hard to use if a resident cannot hear the intercom, read the signs, follow the route or tolerate the noise in the lobby. The next two sections take universal design's principles of simple, intuitive use and perceptible information further: neuro-inclusive design for people who process their surroundings differently, and trauma-informed design for people who have been homeless."
           ],
           "items_heading": "What highly usable looks like in practice",
           "items": [
@@ -464,6 +485,88 @@
             "Rooms that flex as a household changes: a bedroom that can serve as an office or a carer's room, and a door that closes on the space where a child does homework."
           ],
           "note": "These practices follow the seven principles and the Fair Housing Act requirements. They were not each tested in a trial, and the brief does not claim they were."
+        },
+        {
+          "id": "neuro-inclusive",
+          "heading": "Neuro-inclusive design: calm spaces that make sense",
+          "paragraphs": [
+            "Neuro-inclusive design plans for how people take in their surroundings: noise, light, smell, crowding and how easy a place is to understand. It matters most for residents who are autistic or have ADHD, dementia or another neurological difference, and it makes a building calmer for everyone else. The UK's PAS 6463:2022, Design for the mind, was the first national guidance on it. It covers homes for independent or supported living as well as public buildings, and addresses lighting, acoustics, décor, flooring, layout, wayfinding, familiarity, thermal comfort and smell. It is guidance, not a code.",
+            "Magda Mostafa's ASPECTSS Design Index, published in 2014, names seven criteria: acoustics, spatial sequencing, escape spaces, compartmentalization, transitions, sensory zoning and safety. For housing, Arizona State University's Advancing Full Spectrum Housing (2010), by Sherry Ahrentzen and Kim Steele and a companion to ULI Arizona's Opening Doors, set ten resident-based design goals for adults with autism, running from neighborhood amenities to assistive technology in the home.",
+            "The evidence for housing is thin. The studies behind ASPECTSS are post-occupancy evaluations of schools, built on staff surveys and classroom observation, and this review found no study that measured resident outcomes in affordable rental housing. Treat neuro-inclusive design as careful guidance that costs little when it is planned early, not as a proven effect."
+          ],
+          "items_heading": "What it looks like in a building",
+          "items": [
+            "Sensory zoning: laundry, trash rooms, elevators and mechanical equipment kept away from bedroom walls, and busy shared rooms kept apart from quiet ones.",
+            "Sound separation between units, and between units and corridors, better than the code minimum.",
+            "Even, glare-free lighting that residents can dim, with daylight, and no flickering or buzzing fixtures.",
+            "A sequence that makes sense: entry, mail, elevator, home in a predictable order, with one obvious route instead of many choices.",
+            "A transition space at the building entry and at each unit door, where a resident can pause before moving from street to building or building to home.",
+            "A small quiet room or alcove off a busy shared space, where someone can step away without leaving.",
+            "Calm, consistent materials, with colors and signs used the same way on every floor."
+          ]
+        },
+        {
+          "id": "supportive-housing",
+          "heading": "Permanent supportive housing: design for safety, choice and recovery",
+          "paragraphs": [
+            "Permanent supportive housing pairs a standard lease with services residents choose to use, for people leaving long-term homelessness who live with a disability. Most follows Housing First, which does not require sobriety or treatment to get or keep the home. The model is well tested. In Denver's Supportive Housing Social Impact Bond, a randomized trial of 724 people, 77% of those it housed, not counting those who died, were still in stable housing three years later, and the supportive housing group had 40% fewer arrests and 27% fewer days in jail than people who received usual services (Urban Institute, 2021). In Canada's At Home/Chez Soi trial in five cities, 62% of Housing First participants were housed all of the time in the study's last six months, against 31% of those who received usual services.",
+            "Design for supportive housing is newer and less proven. The most developed approach comes from Colorado: trauma-informed design, built by Shopworks Architecture, Group14 Engineering and the University of Denver's Center for Housing and Homelessness Research, with research funders that include CHFA. Safety, real and perceived, sits at the center, surrounded by comfort, choice and connection, and the authors say plainly that it is not a checklist. A 2022 scoping review of 13 studies found that the evidence lines up with these principles but is limited, mostly qualitative and from few places (Owen and Crane). The first quasi-experimental test, at five supportive housing sites, three designed this way and two not, found mixed results: some measures of relationships improved at the trauma-informed sites, while measures of psychological safety fell and reported conflict rose over the study. The authors conclude that safety, conflict and relationships change together as residents settle in (Brisson and colleagues, 2025).",
+            "CHFA asks for this design. Points for homelessness and special-population set-asides under QAP 5.B.5 require design suited to the population served, such as trauma-informed design, services residents can choose at no cost, and tenant selection that follows Housing First practices such as pet-friendly policies. The third draft also bars locked laundry closets as a minimum amenity, unless CHFA allows an exception in its sole discretion."
+          ],
+          "items_heading": "Questions to settle before the floor plans",
+          "items": [
+            "Where does a resident first meet staff, and does the entry feel welcoming rather than guarded?",
+            "Can people see who is in a shared room before they go in, and leave it another way?",
+            "Is there a private room for meeting a case manager or a nurse that is not on a corridor everyone uses?",
+            "Can each resident control their own light, heat, noise and who comes to the door?",
+            "Where do pets go, and where can residents store belongings securely?",
+            "Are there places to be near other people without having to talk, such as a porch, a window seat or a bench by the entry?",
+            "How did people with lived experience of homelessness shape the design, and how will the team learn from residents after move-in?"
+          ],
+          "see_also": {
+            "text": "For the services themselves, who pays for them and what they cost, see Services in Affordable Housing.",
+            "href": "resident-services.html#rs-kinds"
+          }
+        },
+        {
+          "id": "community",
+          "heading": "Design for community: public and private spaces that work together",
+          "paragraphs": [
+            "People meet their neighbors in the spaces between the street and the front door, so those spaces need a clear order. Christopher Alexander's A Pattern Language (1977) calls it an intimacy gradient: arrange a building so a person moves from the most public places, through shared ones, to the most private. When each step is clear, residents can choose how much contact they want, which is also what neuro-inclusive and trauma-informed design ask for. Jan Gehl's studies of residential streets found that soft edges, such as front yards, porches and stoops where people can sit and putter, give residents of all ages reasons to stay outside, and make the street livelier for it.",
+            "Shared space helps residents get to know neighbors, and that reduces loneliness, but most of the evidence is interviews and surveys rather than trials. Social-housing tenants in New Zealand, most of them over 55 and living alone, described common areas as where neighbor ties began and grew into mutual help. A survey of multifamily residents found that those with more shared amenities knew more neighbors and felt less lonely, and that everyday spaces such as lobbies and laundry rooms mattered as much as courtyards.",
+            "The size of the room matters less than where it is and what happens in it. A community room on the way to the mailboxes gets used; one behind a locked door at the end of a corridor does not. Resident services are part of the same picture: industry studies of properties with on-site services report lower rent arrears and fewer eviction move-outs, though none of them is a controlled study.",
+            "Some of these spaces can serve the neighborhood as well as residents: a ground-floor clinic, child care center, café or public courtyard. They turn the building's edge toward the street, but they need a clear line where public use ends and residents' space begins, such as a separate entrance or a gate residents control. In supportive housing that line matters more, because control over who comes in is part of safety."
+          ],
+          "steps": {
+            "caption": "From street to home: each step a little more private",
+            "items": [
+              {
+                "label": "Street",
+                "level": "Public",
+                "text": "Sidewalk, street trees, lighting and windows that look out on it."
+              },
+              {
+                "label": "Front edge",
+                "level": "Public, near home",
+                "text": "A porch, stoop, front garden or bench where residents can sit and see the street, and any ground-floor use the neighborhood shares."
+              },
+              {
+                "label": "Shared rooms",
+                "level": "Residents together",
+                "text": "Lobby, mail, laundry, courtyard and community room, on the routes residents already walk."
+              },
+              {
+                "label": "Near the door",
+                "level": "A few neighbors",
+                "text": "A short corridor or shared landing serving a handful of homes, with a spot to pause."
+              },
+              {
+                "label": "Home",
+                "level": "Private",
+                "text": "A real entry, a door that closes, and rooms the household controls."
+              }
+            ]
+          }
         },
         {
           "id": "functional-design",
@@ -560,7 +663,7 @@
                 "3.O"
               ],
               [
-                "Universal design, or Type A accessible units in at least 5% of units",
+                "Universal design, or Type A accessible units (ANSI A117.1 or UFAS) in at least 5% of units",
                 "2 points",
                 "5.B.3.g"
               ],
@@ -588,6 +691,16 @@
                 "Higher energy performance (PHIUS/PHI, DOE Efficient New Homes, EGC+) or all-electric",
                 "More competitive, not scored",
                 "8.A"
+              ],
+              [
+                "Tenant selection that follows Housing First practices, such as pet-friendly policies, for homelessness and special-population set-asides",
+                "Required for those points",
+                "5.B.5"
+              ],
+              [
+                "No locked laundry closets; laundry sized to the project unless a washer and dryer are in each unit. CHFA may allow an exception in its sole discretion",
+                "Required",
+                "3.B.4"
               ]
             ]
           }
@@ -646,14 +759,6 @@
           }
         },
         {
-          "id": "shared-space",
-          "heading": "Shared space that people actually use",
-          "paragraphs": [
-            "Shared space helps residents get to know neighbors, and that reduces loneliness, but most of the evidence is interviews and surveys rather than trials. Social-housing tenants in New Zealand, most of them over 55 and living alone, described common areas as where neighbor ties began and grew into mutual help. A survey of multifamily residents found that those with more shared amenities knew more neighbors and felt less lonely, and that everyday spaces such as lobbies and laundry rooms mattered as much as courtyards.",
-            "The size of the room matters less than where it is and what happens in it. A community room on the way to the mailboxes gets used; one behind a locked door at the end of a corridor does not. Resident services are part of the same picture: industry studies of properties with on-site services report lower rent arrears and fewer eviction move-outs, though none of them is a controlled study."
-          ]
-        },
-        {
           "id": "privacy",
           "heading": "Privacy, crowding and quiet",
           "paragraphs": [
@@ -673,7 +778,7 @@
           "id": "limits",
           "heading": "Limits of this brief",
           "paragraphs": [
-            "Most studies here are observational, small, or both, and several come from one research group. Only the Philadelphia greening trial is randomized. None of the studies measured effects on operating costs in Colorado affordable housing, so the brief gives no dollar figures, and none should be added to a deal model on its strength. The QAP items come from a draft. COHO checks each quoted requirement against the machine-extracted text of the named CHFA document on every build, but the PDF is the authority."
+            "Most studies here are observational, small, or both, and several come from one research group. Only the Philadelphia greening trial and the Denver and Canadian supportive housing trials are randomized, and the housing trials test the model of a lease plus services, not the design of the building. Neuro-inclusive and trauma-informed design rest mostly on expert guidance, interviews and studies of schools or a few sites. None of the studies measured effects on operating costs in Colorado affordable housing, so the brief gives no dollar figures, and none should be added to a deal model on its strength. The QAP items come from a draft. COHO checks each quoted requirement against the machine-extracted text of the named CHFA document on every build, but the PDF is the authority."
           ]
         }
       ],
@@ -681,7 +786,10 @@
         "Colorado Housing and Finance Authority",
         "North Carolina State University Center for Universal Design",
         "U.S. Department of Housing and Urban Development",
-        "Peer-reviewed journals"
+        "Peer-reviewed journals",
+        "Urban Institute",
+        "Shopworks Architecture and University of Denver",
+        "BSI"
       ],
       "articles": [
         {
@@ -862,6 +970,60 @@
           "title": "Defensible Space: Crime Prevention Through Urban Design (review abstract)",
           "source": "National Criminal Justice Reference Service",
           "link": "https://www.ojp.gov/ncjrs/virtual-library/abstracts/defensible-space-crime-prevention-through-urban-design-and"
+        },
+        {
+          "title": "Breaking the Homelessness-Jail Cycle with Housing First: Results from the Denver Supportive Housing Social Impact Bond Initiative (Cunningham et al.)",
+          "source": "Urban Institute",
+          "link": "https://www.urban.org/research/publication/breaking-homelessness-jail-cycle-housing-first-results-denver-supportive-housing-social-impact-bond-initiative",
+          "date": "2021-07-15"
+        },
+        {
+          "title": "National Final Report: Cross-Site At Home/Chez Soi Project, main messages (Goering et al.)",
+          "source": "Mental Health Commission of Canada",
+          "link": "https://mentalhealthcommission.ca/wp-content/uploads/2021/09/At2520Home2520Final2520Report2520-2520Main2520Messages2520-2520ENG_0.pdf",
+          "date": "2014"
+        },
+        {
+          "title": "Trauma-Informed Design: Designing for Healing, Dignity and Joy, and the four-phase TID process",
+          "source": "Shopworks Architecture, Group14 Engineering and University of Denver Center for Housing and Homelessness Research",
+          "link": "https://www.shopworksarc.com/tid",
+          "date": "2023"
+        },
+        {
+          "title": "Trauma-Informed Design of Supported Housing: A Scoping Review through the Lens of Neuroscience (Owen and Crane), International Journal of Environmental Research and Public Health",
+          "source": "IJERPH",
+          "link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9658651/",
+          "date": "2022"
+        },
+        {
+          "title": "Impact of Trauma-Informed Design on Health and Well-Being of People Formerly Experiencing Homelessness in Permanent Supportive Housing (Brisson, Macur, Mann and Wilson), Social Sciences 14(7)",
+          "source": "Social Sciences",
+          "link": "https://doi.org/10.3390/socsci14070417",
+          "date": "2025-07"
+        },
+        {
+          "title": "PAS 6463:2022 Design for the mind: Neurodiversity and the built environment",
+          "source": "BSI",
+          "link": "https://shop-checkout.bsigroup.com/products/design-for-the-mind-neurodiversity-and-the-built-environment-guide",
+          "date": "2022"
+        },
+        {
+          "title": "Supporting autism-friendly design in an existing school: an ASPECTSS post-occupancy study (Archnet-IJAR), with the seven ASPECTSS criteria",
+          "source": "Emerald / Archnet-IJAR",
+          "link": "https://www.emerald.com/insight/content/doi/10.1108/ARCH-11-2022-0258",
+          "date": "2023"
+        },
+        {
+          "title": "Study addresses living options for adults with autism (Opening Doors and Advancing Full Spectrum Housing)",
+          "source": "Arizona State University",
+          "link": "https://news.asu.edu/20100216-study-addresses-living-options-adults-autism-related-disorders",
+          "date": "2010-02-16"
+        },
+        {
+          "title": "A Pattern Language (Alexander, Ishikawa and Silverstein), pattern 127: Intimacy Gradient",
+          "source": "Oxford University Press / PatternLanguage.com",
+          "link": "https://www.patternlanguage.com/",
+          "date": "1977"
         }
       ],
       "alert_count": 0,
@@ -1339,6 +1501,1043 @@
       "regions": [
         "Colorado",
         "Statewide"
+      ]
+    },
+    {
+      "id": "workforce-housing-without-tax-credits-2026",
+      "title": "Local workforce housing without tax credits: how Colorado resort towns house the people who work there",
+      "policy_topic": "Colorado Housing Policy & LIHTC",
+      "is_curated": true,
+      "source_reviewed": true,
+      "generated": "2026-10-14T00:00:00Z",
+      "verified": "2026-10-14",
+      "takeaway": "Where second homes take a large share of the housing, tax-credit housing alone cannot house the people who work there: federal low-income housing tax credits are capped at an average of 60% of area median income, and resort economies need homes for workers above that line. Colorado's resort towns answer with local money, mostly lodging, short-term rental and sales taxes, spent on deed restrictions, town-owned rentals and seasonal beds. These programs reach households tax credits cannot. They cost local money, and in their lightest form they keep a home for a local worker without capping its price.",
+      "summary": "The Census counts a home as seasonal, recreational or occasional-use when it is vacant most of the year; in resort towns that is mostly second homes and short-term rentals. By that count, more than 40% of the homes in the places listed below are held for occasional use. Federal law requires a tax-credit project to rent-restrict at least 20% of its units to households at 50% of area median income or below, or 40% at 60% or below, or keep the average designated limit at no more than 60%. The resort programs on record reach a wider band: the Aspen-Pitkin County Housing Authority's (APCHA) ownership categories run from below 50% AMI to 240% AMI, Breckenridge's Wellington neighborhood has income limits of 80% to 150% AMI, and Steamboat's Cottonwoods condos are open to incomes up to 140% AMI. Some set no income limit at all and require only that the occupant work locally. Since 2022 Colorado law has let county lodging taxes and local marketing district taxes pay for housing and child care for the tourism-related workforce, including seasonal workers.",
+      "implications": "For a developer or a town, the choice is not tax credits or local programs; it is which households each one reaches. A tax-credit project brings federal equity and serves households at or below 60% AMI on average; the resort programs spend local money and reach the workers above that. Buying a deed restriction on an existing home adds a workforce home without construction, which is why Vail, Eagle County, Summit County, Breckenridge, Avon, Crested Butte and Steamboat Springs all run one. Read the restriction before counting the home as affordable: an occupancy-only restriction keeps the home for a local worker at market price, while a price-capped one also keeps it affordable to the next buyer. Payments, fees and income limits change every year, so check each program's current terms with the town before relying on a figure.",
+      "related_data": "data/resort-workforce-housing-programs.json",
+      "sections": [
+        {
+          "id": "second-homes",
+          "heading": "Where second homes are a large share of the housing",
+          "paragraphs": [
+            "These are the Colorado counties and places where the ACS 2020-2024 estimate of seasonal, recreational or occasional-use homes is reliable and is at least 40% of all homes. The count is homes nobody lives in for most of the year, so it includes second homes and many short-term rentals but is not a count of either. The same figures, with their margins of error, appear in the Second homes panel on each jurisdiction's Housing Needs Assessment.",
+            "The last column says whether this site has a lodging or short-term rental tax for housing on record there. None on record is not proof there is none."
+          ],
+          "table": {
+            "caption": "Seasonal or occasional-use homes, ACS 2020-2024 (reliable estimates at 40% or more of all homes)",
+            "columns": [
+              "Jurisdiction",
+              "Seasonal or occasional-use homes",
+              "Share of all homes",
+              "Housing tax on record"
+            ],
+            "rows": [
+              [
+                "Red Feather Lakes (CDP)",
+                "740 (±178)",
+                "79% (±6.2)",
+                "None on record"
+              ],
+              [
+                "Winter Park (town)",
+                "2,034 (±214)",
+                "71% (±4.0)",
+                "None on record"
+              ],
+              [
+                "Copper Mountain (CDP)",
+                "1,036 (±228)",
+                "71% (±11.2)",
+                "County tax"
+              ],
+              [
+                "Grand Lake (town)",
+                "567 (±101)",
+                "70% (±4.9)",
+                "None on record"
+              ],
+              [
+                "Mineral County",
+                "719 (±88)",
+                "61% (±6.1)",
+                "None on record"
+              ],
+              [
+                "Keystone (CDP)",
+                "2,158 (±308)",
+                "60% (±6.8)",
+                "County tax"
+              ],
+              [
+                "Hinsdale County",
+                "774 (±75)",
+                "58% (±4.5)",
+                "None on record"
+              ],
+              [
+                "Dillon (town)",
+                "703 (±115)",
+                "57% (±5.9)",
+                "County tax"
+              ],
+              [
+                "Mount Crested Butte (town)",
+                "918 (±166)",
+                "57% (±5.7)",
+                "None on record"
+              ],
+              [
+                "Breckenridge (town)",
+                "4,406 (±343)",
+                "56% (±3.6)",
+                "County tax"
+              ],
+              [
+                "Frisco (town)",
+                "1,858 (±218)",
+                "52% (±4.7)",
+                "Yes"
+              ],
+              [
+                "Vail (town)",
+                "3,465 (±271)",
+                "51% (±3.5)",
+                "County tax"
+              ],
+              [
+                "Grand County",
+                "8,717 (±494)",
+                "50% (±2.8)",
+                "None on record"
+              ],
+              [
+                "Fraser (town)",
+                "731 (±131)",
+                "50% (±5.0)",
+                "None on record"
+              ],
+              [
+                "Summit County",
+                "15,756 (±642)",
+                "49% (±2.0)",
+                "Yes"
+              ],
+              [
+                "Blue River (town)",
+                "353 (±81)",
+                "42% (±5.9)",
+                "County tax"
+              ],
+              [
+                "Lake City (town)",
+                "208 (±46)",
+                "41% (±4.2)",
+                "None on record"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "law",
+          "heading": "What Colorado law allows",
+          "items": [
+            "HB22-1117, signed March 31, 2022, added housing and child care for the tourism-related workforce, including seasonal workers, and for other workers in the community to the purposes a county lodging tax and a local marketing district tax may fund.",
+            "When a county lodging tax is created or its uses are expanded after January 1, 2022, at least 10% of its revenue must still go to advertising and marketing local tourism; a marketing district must keep at least 10% for its pre-2022 purposes. The law sets no minimum share for housing.",
+            "A county lodging tax is capped at 2% and does not apply inside a municipality that levies its own lodging tax, which is why most of the town taxes below are the town's own excise tax.",
+            "Any new tax or tax rate increase needs voter approval in advance under the Taxpayer's Bill of Rights, so every tax in the next section went to an election.",
+            "The Colorado Department of Revenue does not administer municipal lodging taxes; its DR 1003 table lists the lodging tax rates it does track."
+          ]
+        },
+        {
+          "id": "taxes",
+          "heading": "Lodging and short-term rental taxes for housing on record",
+          "paragraphs": [
+            "Each line is that record's own summary in this site's local housing funds data, with its source listed in this brief's sources. San Juan County, Broomfield and Mount Crested Butte have lodging or short-term rental tax measures on the November 3, 2026 ballot; the elections pages carry their text."
+          ],
+          "table": {
+            "caption": "Lodging and short-term rental taxes for housing on record",
+            "columns": [
+              "Jurisdiction",
+              "Tax",
+              "Status",
+              "What it does"
+            ],
+            "rows": [
+              [
+                "Summit County",
+                "2% lodging tax (unincorporated Summit County, stays under 30 days)",
+                "In effect",
+                "Summit County voters passed Referred Measure 1A in 2022 authorizing a short-term rental lodging tax for local-worker housing and childcare; the county lists a 2% lodging tax in unincorporated Summit County effective January 1, 2023."
+              ],
+              [
+                "Town of Frisco",
+                "5% excise tax on short-term rentals",
+                "In effect",
+                "Frisco voters approved Ballot Question 2A on April 5, 2022 (539 to 301, unofficial), a new 5% excise tax on short-term rentals effective June 1, 2022, spent solely on affordable housing; it does not apply to hotels and motels."
+              ],
+              [
+                "Town of Vail",
+                "6% excise tax on short-term rental income (proposed)",
+                "Failed at the ballot",
+                "Vail Ballot Issue 2A (November 2025), a proposed 6% excise tax on short-term rentals for workforce housing, was defeated 916 to 881."
+              ],
+              [
+                "Eagle County",
+                "2% lodging excise tax (unincorporated county and Gypsum); additional 2% approved 2025",
+                "In effect",
+                "Eagle County Ballot Issue 1A (2022) created a 2% lodging excise tax on stays under 30 days in unincorporated Eagle County and Gypsum, with 90% for local-workforce childcare and affordable housing and 10% for tourism marketing. Voters added another 2% in 2025, for 4% total; the county describes the support that increase funds as childcare and public safety, so it is not counted as housing money."
+              ],
+              [
+                "City of Aspen",
+                "5% (owner-occupied or lodge-exempt) / 10% (investment or second-home 'classic') short-term rental tax",
+                "In effect",
+                "Aspen's voter-approved short-term rental tax (Resolution 106-2022) charges 5% on owner-occupied and lodge-exempt STRs and 10% on investment/second-home STRs for stays from May 1, 2023, with at least 70% of receipts required for community affordable housing."
+              ],
+              [
+                "Town of Telluride",
+                "2.5% short-term rental excise tax",
+                "In effect",
+                "Telluride voters approved Ballot Issue 300 in November 2019, a citizen-initiated 2.5% short-term rental tax for the town's Affordable Housing Fund that excludes hotel rooms; it took effect in January 2020."
+              ],
+              [
+                "City of Steamboat Springs",
+                "9% short-term rental tax",
+                "In effect",
+                "Steamboat Springs voters approved a 9% short-term rental tax in November 2022, effective January 1, 2023, restricted to increasing affordable and attainable housing; the Short-Term Rental Tax Fund is projected to end 2026 with a $52.6M reserve."
+              ],
+              [
+                "Town of Crested Butte",
+                "7.5% excise tax on vacation/short-term rentals",
+                "In effect",
+                "Crested Butte voters passed Ballot Initiative 2D on November 2, 2021, a 7.5% excise tax on vacation and short-term rentals from January 1, 2022, dedicated to the Affordable Housing Fund and barred from general operations."
+              ],
+              [
+                "Town of Avon",
+                "2% short term rental excise tax",
+                "In effect",
+                "Avon dedicates its 2% short-term rental excise tax to the Community Housing Fund."
+              ],
+              [
+                "City of Durango",
+                "3.25% lodgers' tax increment (excess 2021-2022 revenue retained)",
+                "In effect",
+                "Durango 2022 Ballot Question 2A let the city keep 2021-2022 lodgers' tax revenue above estimates from the 3.25% increase and spend it 66% on affordable and workforce housing programs; CHFA lists it as passed."
+              ],
+              [
+                "La Plata County",
+                "",
+                "In effect",
+                "La Plata County voters passed Ballot Issue 1A in November 2024, allowing revenue from the county's existing lodging tax to support workforce housing and other community improvements."
+              ],
+              [
+                "City of Glenwood Springs",
+                "2.5% accommodations excise tax (total lodging excise 5%)",
+                "In effect",
+                "Glenwood Springs voters approved Ballot Measure 2C in 2022, a 2.5% accommodations tax on stays under 30 days (hotels, motels and short-term rentals) deposited in a dedicated Workforce Housing Fund and set to end in fiscal year 2042."
+              ]
+            ]
+          }
+        },
+        {
+          "id": "toolkit",
+          "heading": "What resort towns build and buy instead",
+          "paragraphs": [
+            "Each line is the program's own record in this site's resort workforce housing data, checked against the program's source on October 14, 2026. The last column is the rule that decides who the home serves at resale."
+          ],
+          "table": {
+            "caption": "Workforce housing programs on record",
+            "columns": [
+              "Where",
+              "Program",
+              "How it works",
+              "Resale or occupancy rule"
+            ],
+            "rows": [
+              [
+                "Vail",
+                "Vail InDEED",
+                "The town pays owners and buyers of existing Vail homes a negotiated sum in exchange for recording a permanent deed restriction requiring occupancy by people working at least 30 hours a week in Eagle County, with no appreciation, income or household-size limits. The town's published summary lists 178 restricted units and $13,064,618 funded to date toward a goal of 1,000 net new deed restrictions by 2027.",
+                "Occupancy only: no price cap"
+              ],
+              [
+                "Eagle County",
+                "Eagle County Good Deeds",
+                "Since 2021 the county housing authority has paid buyers of eligible open-market homes 15% of the price in exchange for a perpetual price-capped deed restriction. The restriction requires primary residence and no other residential property, and limits resale appreciation to 0-3% simple interest per year tied to county wage growth.",
+                "Price-capped resale"
+              ],
+              [
+                "Summit County",
+                "Summit County Housing Helps",
+                "The county pays buyers of unrestricted market-rate homes to record a deed restriction requiring a local-worker occupant. A light option carries no appreciation, income or rent caps; a capped option adds a 3% per year appreciation cap, with a larger payment.",
+                "Owner's choice: occupancy only or price-capped"
+              ],
+              [
+                "Breckenridge",
+                "Breckenridge Housing Helps",
+                "The town pays owners, buyers and local businesses in the Upper Blue Basin for a perpetual deed restriction on unrestricted homes. A light restriction requires occupancy by a Summit County worker; a full restriction adds a 3% appreciation cap; neither imposes income caps.",
+                "Owner's choice: occupancy only or price-capped"
+              ],
+              [
+                "Steamboat Springs / Routt County",
+                "Home Base Steamboat (purchase of deed restriction pilot)",
+                "The city pays homebuyers or owners a one-time payment for a deed restriction requiring year-round occupancy by a Routt County worker, with no income limit; YVHA administers it. A resident-occupied option keeps market resale; a price-capped option caps resale appreciation for a larger payment.",
+                "Owner's choice: occupancy only or price-capped"
+              ],
+              [
+                "Avon",
+                "¡Mi Casa Avon!",
+                "The town pays a lump sum at closing to buyers who record a permanent resident-occupied deed restriction that limits ownership and use to full-time Eagle County employees, with no cap on resale appreciation. The 2026 plan describes the payment as a 12% match up to $150,000.",
+                "Occupancy only: no price cap"
+              ],
+              [
+                "Vail",
+                "Residences at Main Vail",
+                "A 72-apartment, fully deed-restricted rental building completed in fall 2023; every adult tenant must be a full-time employee of an Eagle County business, and a third-party property manager handles leasing.",
+                "Occupancy only: no price cap"
+              ],
+              [
+                "Crested Butte",
+                "Town-owned workforce rentals (incl. Paradise Park Workforce Rentals)",
+                "The Town owns 33 rental units, including scattered Town-employee housing, The Ruby, and 14 Paradise Park workforce rental townhomes built on Town parcels. The Paradise Park units are restricted to households at or below 140% AMI but priced at 100% AMI.",
+                "Price-capped resale"
+              ],
+              [
+                "Vail",
+                "Chamonix Vail",
+                "A 32-townhome for-sale community the town developed in West Vail (completed 2018). Its master deed restriction limits resale to the prior price plus 1.5% a year (simple) plus permitted improvements, and requires occupancy by an owner who works an average of 30+ hours a week in Eagle County.",
+                "Price-capped resale"
+              ],
+              [
+                "Aspen / Pitkin County",
+                "APCHA category ownership deed restriction (Categories 1-5)",
+                "Category ownership units are sold mostly through APCHA's bid and lottery to qualified full-time Pitkin County workers who meet category income and asset limits. Unless the deed restriction says otherwise, resale is capped at the purchase price plus 3% simple appreciation per year plus approved capital improvements up to 10% of purchase price.",
+                "Price-capped resale"
+              ],
+              [
+                "Summit County",
+                "The Wellington Neighborhood & Lincoln Park (Breckenridge)",
+                "An owner-occupied neighborhood whose restricted homes require Summit County employment and carry income limits and a resale appreciation cap.",
+                "Price-capped resale"
+              ],
+              [
+                "Summit County",
+                "Smith Ranch (Silverthorne)",
+                "A multi-phase owner-occupied neighborhood of roughly 200 deed-restricted homes with income limits and a 2% per year non-compounding appreciation cap.",
+                "Price-capped resale"
+              ],
+              [
+                "Steamboat Springs / Routt County",
+                "The Cottonwoods at Mid Valley (YVHA for-sale condos)",
+                "YVHA's deed-restricted condo development sells to Routt County workers or retirees earning up to 140% AMI, with resale appreciation limited by formula; city STR-tax funds reduce prices.",
+                "Price-capped resale"
+              ],
+              [
+                "Vail",
+                "Commercial Linkage (Vail Town Code Title 12, Chapter 23)",
+                "New commercial development and redevelopment must mitigate employee-housing impact by providing employee housing units for 20% of the employees it generates, using per-use employee generation rates in Table 23-1 or a nexus study.",
+                "Not a deed restriction"
+              ],
+              [
+                "Telluride",
+                "Housing Mitigation Program (Land Use Code Section 3-720)",
+                "Development subject to the Land Use Code must provide or fund deed-restricted housing scaled to the employees it generates, with the required share varying by type of use; required square footage is assigned income tiers, and mitigation units carry fixed initial sale prices. Original developers cannot take appreciation and must sell at or below the initial sale price.",
+                "Price-capped resale"
+              ],
+              [
+                "Crested Butte",
+                "The Ruby seasonal workforce housing",
+                "The Town bought a six-bedroom former bed and breakfast in 2021 for communal seasonal workforce housing. Town employees get priority from May through October; at other times, rooms go to local-business employees who meet minimum work hours.",
+                "Occupancy only: no price cap"
+              ],
+              [
+                "Aspen / Pitkin County",
+                "APCHA winter seasonal housing",
+                "APCHA offers winter seasonal rentals on a first-come, first-served basis for a September-April term at three locations.",
+                "Restriction terms not confirmed"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "seasonal",
+          "heading": "Housing for seasonal workers",
+          "paragraphs": [
+            "HB22-1117 names seasonal workers among the people lodging tax money can now house. Seasonal beds on record are few and small: Crested Butte's The Ruby is a former bed and breakfast the town bought for communal seasonal housing, APCHA offers winter seasonal rentals at three locations on a first-come, first-served basis, and Summit County has master-leased former hotels for long-term rooms for local workers, though the county's page does not confirm those leases continue."
+          ]
+        },
+        {
+          "id": "compare",
+          "heading": "Compared with tax-credit housing",
+          "items": [
+            "Who it reaches. Tax-credit units are limited to households at 50% or 60% of area median income, or an average of no more than 60%. The resort programs reach up to 240% AMI, and several set no income limit.",
+            "Where the money comes from. Tax credits bring federal equity into a project. These programs spend local tax money: Vail's InDEED had funded $13,064,618 for 178 deed restrictions by the town's November 2025 summary.",
+            "Speed. A buy-down adds a workforce home at closing, without land or construction. Eagle County's Good Deeds pays 15% of the purchase price, up to $187,500.",
+            "Durability. Occupancy-only restrictions such as Vail InDEED, Mi Casa Avon and the light option of Summit County and Breckenridge Housing Helps keep the home for a local worker at market price. Price-capped restrictions keep it affordable to the next buyer as well: APCHA adds 3% simple appreciation a year, Chamonix Vail 1.5% a year and Smith Ranch 2% a year.",
+            "Local rules. Towns write their own requirements, such as Vail's rule that commercial development house 20% of the employees it generates, and Telluride's mitigation requirement of 40% to 90% depending on the use.",
+            "The two combine. APCHA manages 127 tax-credit units alongside its category housing, and Crested Butte's Mineral Point is tax-credit rental housing on land the town dedicated."
+          ]
+        },
+        {
+          "id": "using-it",
+          "heading": "Using it on this site",
+          "items": [
+            "Housing Needs Assessment, What housing exists: the Second homes panel shows the seasonal share, any licensed short-term rental count, and the lodging taxes and workforce programs for the jurisdiction you chose.",
+            "Local Housing Incentives: every local housing fund on record, lodging and short-term rental taxes included.",
+            "Shared equity brief: how price-capped resale formulas work, for sale and for rent.",
+            "Select a Jurisdiction: the middle-income rental and for-sale routes for projects above tax-credit incomes."
+          ]
+        },
+        {
+          "id": "limits",
+          "heading": "Limits of this brief",
+          "items": [
+            "The ACS count of seasonal or occasional-use homes is a sample estimate; in small places its margin of error is large, so the table lists only reliable estimates.",
+            "Licensed short-term rental counts come only from official registries, and only a few places publish one this site could query. A license count is a different universe and date from the ACS figure.",
+            "Several town websites refuse automated reads. Vail's pages were read through a text reader, Telluride's own site could not be reached so its programs come from the regional housing authority's documents, and Breckenridge was read through its housing site and town code.",
+            "Claims that could not be checked, such as APCHA's total inventory and Timber Ridge rents, are listed in the program data as not confirmed and are not stated here."
+          ]
+        }
+      ],
+      "sources": [
+        "Town and county housing programs",
+        "Colorado General Assembly",
+        "Legal Information Institute"
+      ],
+      "articles": [
+        {
+          "title": "26 U.S.C. 42(g): qualified low-income housing project",
+          "source": "Legal Information Institute (Cornell Law School)",
+          "link": "https://www.law.cornell.edu/uscode/text/26/42"
+        },
+        {
+          "title": "HB22-1117 Concerning the use of revenue from a local tax on lodging",
+          "source": "Colorado General Assembly",
+          "link": "https://leg.colorado.gov/sites/default/files/2022a_1117_signed.pdf"
+        },
+        {
+          "title": "Colorado Constitution Art. X, Sec. 20(4)(a) (TABOR): voter approval for new taxes",
+          "source": "Colorado Secretary of State",
+          "link": "https://coloradosos.gov/pubs/elections/Initiatives/titleBoard/filings/2025-2026/137Original.pdf"
+        },
+        {
+          "title": "Colorado Department of Revenue: county lodging and local marketing district tax rates (DR 1003)",
+          "source": "Colorado DOR",
+          "link": "https://tax.colorado.gov/sales-use-tax-topics-rooms-accommodations"
+        },
+        {
+          "title": "Town of Vail, Vail InDEED program page, FAQ, and 'Vail InDEED Acquisition Program Summary to Date' (PDF)",
+          "source": "Town of Vail (Housing Department; Vail Local Housing Authority)",
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program"
+        },
+        {
+          "title": "Housing Eagle County, Eagle County Good Deeds page",
+          "source": "Eagle County Housing and Development Authority (Housing Eagle County) / Eagle County Government",
+          "link": "https://www.housingeaglecounty.com/gooddeeds"
+        },
+        {
+          "title": "Summit County Housing Department - Housing Helps",
+          "source": "Summit County Housing Department / Summit Combined Housing Authority (SCHA)",
+          "link": "https://www.summitcountyco.gov/services/housing/housing_helps.php"
+        },
+        {
+          "title": "Town of Breckenridge Housing - Housing Helps",
+          "source": "Town of Breckenridge Housing Division",
+          "link": "https://www.townofbreckhousing.com/housing-helps"
+        },
+        {
+          "title": "City of Steamboat Springs - Home Base Steamboat FAQ",
+          "source": "Yampa Valley Housing Authority / City of Steamboat Springs",
+          "link": "https://www.steamboatsprings.net/DocumentCenter/View/42496"
+        },
+        {
+          "title": "Town of Avon, Mi Casa Avon page; 2026 Avon Community Housing Plan",
+          "source": "Town of Avon (Community Development - Housing)",
+          "link": "https://www.avon.org/2237/Mi-Casa-Avon"
+        },
+        {
+          "title": "Town of Vail, Residences at Main Vail page",
+          "source": "Town of Vail (Housing Department; Vail Local Housing Authority)",
+          "link": "https://www.vail.gov/government/departments/housing/residences-at-main-vail"
+        },
+        {
+          "title": "Town of Crested Butte 5-Year Housing Strategy; Community Housing page",
+          "source": "Town of Crested Butte Community Housing",
+          "link": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf"
+        },
+        {
+          "title": "Town of Crested Butte 5-Year Housing Strategy; Community Housing page",
+          "source": "Town of Crested Butte Community Housing",
+          "link": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+        },
+        {
+          "title": "Town of Vail, Chamonix Vail Deed Restriction (PDF); Community Housing Developments page",
+          "source": "Town of Vail (Housing Department; Vail Local Housing Authority)",
+          "link": "https://www.vail.gov/home/showpublisheddocument/206/637605674229170000"
+        },
+        {
+          "title": "APCHA Regulations, 2026 Regulations (effective 04/16/2026)",
+          "source": "Aspen/Pitkin County Housing Authority (APCHA)",
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates"
+        },
+        {
+          "title": "SCHA - The Wellington Neighborhood & Lincoln Park",
+          "source": "Summit County Housing Department / Summit Combined Housing Authority (SCHA)",
+          "link": "https://www.summithousing.us/homeownership-3/neighborhoods/upper-blue-basin/the-wellington-neighborhood-and-lincoln-park/"
+        },
+        {
+          "title": "SCHA - Smith Ranch",
+          "source": "Summit County Housing Department / Summit Combined Housing Authority (SCHA)",
+          "link": "https://www.summithousing.us/homeownership-3/neighborhoods/lower-blue-basin/smith-ranch/"
+        },
+        {
+          "title": "YVHA - The Cottonwoods at Mid Valley",
+          "source": "Yampa Valley Housing Authority / City of Steamboat Springs",
+          "link": "https://yvha.org/cottonwoods/"
+        },
+        {
+          "title": "Vail Town Code § 12-23-2 Employee Generation and Mitigation Rates (American Legal Publishing)",
+          "source": "Town of Vail (Housing Department; Vail Local Housing Authority)",
+          "link": "https://codelibrary.amlegal.com/codes/vailco/latest/vail_co/0-0-0-12615"
+        },
+        {
+          "title": "Telluride Affordable Housing Guidelines, amended June 26, 2026 (Part 2); SMRHA 2025 Housing Needs Analysis",
+          "source": "Town of Telluride / Telluride Housing Authority, administered by San Miguel Regional Housing Authority (SMRHA)",
+          "link": "https://smrha.org/wp-content/uploads/2025/07/HNA-Final.pdf"
+        },
+        {
+          "title": "Telluride Affordable Housing Guidelines, amended June 26, 2026 (Part 2); SMRHA 2025 Housing Needs Analysis",
+          "source": "Town of Telluride / Telluride Housing Authority, administered by San Miguel Regional Housing Authority (SMRHA)",
+          "link": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf"
+        },
+        {
+          "title": "Town of Crested Butte Workforce Rentals page; Community Housing page",
+          "source": "Town of Crested Butte Community Housing",
+          "link": "https://townofcrestedbutte.colorado.gov/workforce-rentals"
+        },
+        {
+          "title": "APCHA Rental Guide",
+          "source": "Aspen/Pitkin County Housing Authority (APCHA)",
+          "link": "https://www.apcha.org/379/Rental-Guide"
+        },
+        {
+          "title": "Summit County Finance - Sales Tax",
+          "source": "Summit County",
+          "link": "https://www.summitcountyco.gov/services/finance/sales_tax.php"
+        },
+        {
+          "title": "Town of Frisco: Unofficial Election Results for April 5, 2022 Municipal Election",
+          "source": "Town of Frisco",
+          "link": "https://www.friscogov.com/?p=7471"
+        },
+        {
+          "title": "Colorado Sun: Vail voters reject plan to tax short-term rentals to support housing",
+          "source": "Town of Vail",
+          "link": "https://coloradosun.com/2025/11/17/vail-voters-reject-plan-to-tax-short-term-rentals"
+        },
+        {
+          "title": "Eagle County: soliciting pro and con statements on two ballot measures (2022)",
+          "source": "Eagle County",
+          "link": "https://www.eaglecounty.us/news_detail_T24_R44.php"
+        },
+        {
+          "title": "City of Aspen - Lodging and Short Term Rental Taxes",
+          "source": "City of Aspen",
+          "link": "https://aspen.gov/1427/Lodging-and-Short-Term-Rental-Taxes"
+        },
+        {
+          "title": "Telluride Daily Planet: Short-term rental tax passes (Nov 2019)",
+          "source": "Town of Telluride",
+          "link": "https://www.telluridenews.com/news/article_7879c028-0061-11ea-88f2-77f970e4be57.html"
+        },
+        {
+          "title": "City of Steamboat Springs 2026 Budget Letter",
+          "source": "City of Steamboat Springs",
+          "link": "https://www.steamboatsprings.net/DocumentCenter/View/41217/2026-Budget-Letter-Retreat-Remediated"
+        },
+        {
+          "title": "Town of Crested Butte - Tax Information",
+          "source": "Town of Crested Butte",
+          "link": "https://townofcrestedbutte.colorado.gov/government/tax-information"
+        },
+        {
+          "title": "Town of Avon 2026 Community Housing Plan (Council 9-8, final)",
+          "source": "Town of Avon",
+          "link": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL"
+        },
+        {
+          "title": "City of Durango - 2022 election (ballot language)",
+          "source": "City of Durango",
+          "link": "https://www.durangoco.gov/1630/2022-election"
+        },
+        {
+          "title": "CHFA: December 2024 ballot measures impact housing and economic development",
+          "source": "La Plata County",
+          "link": "https://chfainfo.com/community-partnerships/public-policy/cc-dec2024-election-results"
+        },
+        {
+          "title": "City of Glenwood Springs - Workforce Housing Fund (AKA 2c Budget)",
+          "source": "City of Glenwood Springs",
+          "link": "https://cogs.us/844/Workforce-Housing-Fund-AKA-2c-Budget"
+        }
+      ],
+      "source_quotes": [
+        {
+          "link": "https://www.law.cornell.edu/uscode/text/26/42",
+          "quote": "The project meets the requirements of this subparagraph if 20 percent or more of the residential units in such project are both rent-restricted and occupied by individuals whose income is 50 percent or less of area median gross income."
+        },
+        {
+          "link": "https://www.law.cornell.edu/uscode/text/26/42",
+          "quote": "The project meets the requirements of this subparagraph if 40 percent or more of the residential units in such project are both rent-restricted and occupied by individuals whose income is 60 percent or less of area median gross income."
+        },
+        {
+          "link": "https://www.law.cornell.edu/uscode/text/26/42",
+          "quote": "The average of the imputed income limitations designated under subclause (I) shall not exceed 60 percent of area median gross income."
+        },
+        {
+          "link": "https://leg.colorado.gov/sites/default/files/2022a_1117_signed.pdf",
+          "quote": "A COUNTY BOARD OF COMMISSIONERS MAY LEVY THE TAX SPECIFIED IN SUBSECTION (1) OF THIS SECTION FOR THE PURPOSE OF: (I) ADVERTISING AND MARKETING LOCAL TOURISM; (II) HOUSING AND CHILDCARE FOR THE TOURISM-RELATED WORKFORCE, INCLUDING SEASONAL WORKERS, AND FOR OTHER WORKERS IN THE COMMUNITY; OR (III) FACILITATING AND ENHANCING VISITOR EXPERIENCES."
+        },
+        {
+          "link": "https://leg.colorado.gov/sites/default/files/2022a_1117_signed.pdf",
+          "quote": "IF, AFTER JANUARY 1, 2022, THERE IS A NEW LODGING TAX CREATED OR THE ALLOWABLE USES OF AN EXISTING LODGING TAX ARE EXPANDED IN ACCORDANCE WITH SUBSECTION (3)(a.5) OF THIS SECTION, AT LEAST TEN PERCENT OF THE LODGING TAX REVENUE MUST BE USED FOR THE PURPOSE OF ADVERTISING AND MARKETING LOCAL TOURISM."
+        },
+        {
+          "link": "https://leg.colorado.gov/sites/default/files/2022a_1117_signed.pdf",
+          "quote": "may levy a county lodging tax of not more than two percent on the purchase price paid or charged to persons for rooms or accommodations ... No tax shall apply within any municipality levying a lodging tax."
+        },
+        {
+          "link": "https://leg.colorado.gov/sites/default/files/2022a_1117_signed.pdf",
+          "quote": "(D) HOUSING AND CHILDCARE FOR THE TOURISM-RELATED WORKFORCE, INCLUDING SEASONAL WORKERS, AND FOR OTHER WORKERS IN THE COMMUNITY; OR"
+        },
+        {
+          "link": "https://leg.colorado.gov/sites/default/files/2022a_1117_signed.pdf",
+          "quote": "IF, AFTER JANUARY 1, 2022, THERE IS A NEW TAX CREATED OR THE ALLOWABLE USES OF AN EXISTING TAX ARE EXPANDED, AT LEAST TEN PERCENT OF THE TAX REVENUE MUST BE USED FOR PURPOSES THAT WERE AUTHORIZED UNDER SECTION 29-25-111 (1)(e) PRIOR TO JANUARY 1, 2022."
+        },
+        {
+          "link": "https://leg.colorado.gov/sites/default/files/2022a_1117_signed.pdf",
+          "quote": "03/31/2022 Governor Governor Signed"
+        },
+        {
+          "link": "https://coloradosos.gov/pubs/elections/Initiatives/titleBoard/filings/2025-2026/137Original.pdf",
+          "quote": "(4) Required elections. Starting November 4, 1992, districts must have voter approval in advance for: (a) Unless (1) or (6) applies, any new tax, tax rate increase, ... mill levy above that for the prior year, valuation for assessment ratio increase for a property class, or extension of an expiring tax, or a tax policy change directly causing a net tax revenue gain to any district."
+        },
+        {
+          "link": "https://coloradosos.gov/pubs/elections/Initiatives/titleBoard/filings/2025-2026/137Original.pdf",
+          "quote": "The TABOR Amendment requires voter approval for tax increases."
+        },
+        {
+          "link": "https://coloradosos.gov/pubs/elections/Initiatives/titleBoard/filings/2025-2026/137Original.pdf",
+          "quote": "Elections held pursuant to this section shall be conducted in substantially the same manner as municipal or county elections and in accordance with the provisions of section 20 of article X of the state constitution."
+        },
+        {
+          "link": "https://tax.colorado.gov/sales-use-tax-topics-rooms-accommodations",
+          "quote": "Counties in Colorado may impose a county lodging tax on the rental of rooms and accommodations"
+        },
+        {
+          "link": "https://tax.colorado.gov/sales-use-tax-topics-rooms-accommodations",
+          "quote": "Local marketing districts in Colorado may impose a marketing and promotion tax on the rental of rooms"
+        },
+        {
+          "link": "https://tax.colorado.gov/sales-use-tax-topics-rooms-accommodations",
+          "quote": "The Colorado Department of Revenue does not administer any lodging taxes imposed by any municipality within Colorado."
+        },
+        {
+          "link": "https://tax.colorado.gov/sales-use-tax-topics-rooms-accommodations",
+          "quote": "DR 1003 - Colorado Lodging Tax Rates"
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "purchase deed restrictions on existing homes in Vail to further protect and preserve the Vail community. No appreciation cap. No income cap. No household size requirement."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "From the inception of the program in 2018, the stated goal of the plan is to acquire 1,000 net new deed-restrictions on homes in Vail by the year 2027."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "1) The property must be occupied as a primary residence by individuals who work a minimum of 30 hours per week in Eagle County."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "2) The deed restriction does not impose an appreciation cap."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "The amount awarded will depend on your circumstances, what your request is and how your property meets the review criteria."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "Determined through owner and Board negotiation."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "Sq. Ft. # Units # Bedrooms Funded to Date 149,768 178 286 $13,064,618"
+        },
+        {
+          "link": "https://www.housingeaglecounty.com/gooddeeds",
+          "quote": "Originally launched in 2021, the program has evolved to meet the growing needs of the community"
+        },
+        {
+          "link": "https://www.housingeaglecounty.com/gooddeeds",
+          "quote": "You receive a payment at closing: ECHDA contributes 15% of the purchase price (up to $187,500)."
+        },
+        {
+          "link": "https://www.housingeaglecounty.com/gooddeeds",
+          "quote": "Your home’s resale price is limited to 0–3% simple interest appreciation per year, to keep it affordable for the next buyer."
+        },
+        {
+          "link": "https://www.housingeaglecounty.com/gooddeeds",
+          "quote": "The annual increase is based on Eagle County average wage growth, capped at 3%."
+        },
+        {
+          "link": "https://www.housingeaglecounty.com/gooddeeds",
+          "quote": "The maximum purchase price for Eligible Properties is $1,250,000."
+        },
+        {
+          "link": "https://www.housingeaglecounty.com/gooddeeds",
+          "quote": "You cannot own other residential real estate while you own a Good Deeds home."
+        },
+        {
+          "link": "https://www.housingeaglecounty.com/gooddeeds",
+          "quote": "A 2% brokerage fee applies to resales."
+        },
+        {
+          "link": "https://www.housingeaglecounty.com/gooddeeds",
+          "quote": "In all cases, buyers must contribute a minimum of 3% down payment from their own funds, excluding other assistance programs."
+        },
+        {
+          "link": "https://www.summitcountyco.gov/services/housing/housing_helps.php",
+          "quote": "Typically, the County is looking to purchase deed restrictions on market-rate housing units at a price of 10%-25% of the current value of that property, depending on the type of deed restriction proposed."
+        },
+        {
+          "link": "https://www.summitcountyco.gov/services/housing/housing_helps.php",
+          "quote": "Light deed restriction: The deed restriction requires that a local worker be the owner or a renter, and it does not have an appreciation cap, income caps, or rental caps. The subsidy for this deed restriction is in the 10-15% range of the sales price of the home being purchased."
+        },
+        {
+          "link": "https://www.summitcountyco.gov/services/housing/housing_helps.php",
+          "quote": "Capped deed restriction: The deed restriction requires that a local worker be the owner or renter, and there is an appreciation cap of 3% per year. There are no income or rental caps. The subsidy for this deed restriction is in the 15-25% range of the sales price of the home being purchased."
+        },
+        {
+          "link": "https://www.summitcountyco.gov/services/housing/housing_helps.php",
+          "quote": "This is not a loan; the money does not need to be repaid."
+        },
+        {
+          "link": "https://www.townofbreckhousing.com/housing-helps",
+          "quote": "Under the program the Town will pay owners, buyers, and local businesses 15-25% in return for a deed restriction on homes that are currently unrestricted."
+        },
+        {
+          "link": "https://www.townofbreckhousing.com/housing-helps",
+          "quote": "The key terms of the light deed restriction (15%) include:"
+        },
+        {
+          "link": "https://www.townofbreckhousing.com/housing-helps",
+          "quote": "The key terms of the full deed restriction (20-25%) include:"
+        },
+        {
+          "link": "https://www.townofbreckhousing.com/housing-helps",
+          "quote": "The property will be subject to a 3% appreciation cap."
+        },
+        {
+          "link": "https://www.townofbreckhousing.com/housing-helps",
+          "quote": "Unlike some other deed restricted properties these units will not be subject to income caps."
+        },
+        {
+          "link": "https://www.townofbreckhousing.com/housing-helps",
+          "quote": "The property must be occupied as a primary residence by a person employed a minimum of 30 hours (no remote work) a week in Summit County."
+        },
+        {
+          "link": "https://www.steamboatsprings.net/DocumentCenter/View/42496",
+          "quote": "The deed restriction payment is 15% of the contract sale price up to $150,000 for resident occupied, and 25% of the contract sale price up to $250,000 for price capped."
+        },
+        {
+          "link": "https://www.steamboatsprings.net/DocumentCenter/View/42496",
+          "quote": "Do I have to meet an income limit? No. The Program is workforce-based, not income-banded."
+        },
+        {
+          "link": "https://www.steamboatsprings.net/DocumentCenter/View/42496",
+          "quote": "June 16, 2026 – for a limited duration and capacity, designed to test the model before any broader rollout."
+        },
+        {
+          "link": "https://www.steamboatsprings.net/DocumentCenter/View/42496",
+          "quote": "The maximum sales price is the deed-restriction formula (Purchase Price plus indexed annual appreciation up to 3% per year) plus PCI credits"
+        },
+        {
+          "link": "https://www.steamboatsprings.net/DocumentCenter/View/42496",
+          "quote": "The City of Steamboat Springs in partnership with the Yampa Valley Housing Authority (YVHA)."
+        },
+        {
+          "link": "https://www.avon.org/2237/Mi-Casa-Avon",
+          "quote": "There is no price appreciation cap on a ¡Mi Casa Avon! Deed Restriction."
+        },
+        {
+          "link": "https://www.avon.org/2237/Mi-Casa-Avon",
+          "quote": "the deed restriction limits the ownership and use of the property to full-time Eagle County employees*. In exchange for the deed restriction, the Town of Avon pays you a lump sum"
+        },
+        {
+          "link": "https://www.avon.org/2237/Mi-Casa-Avon",
+          "quote": "¡Mi Casa Avon! provides a 12% match up to a maximum of $150,000 for a Resident Occupied Deed Restriction, which does not have an appreciation cap on the resale price."
+        },
+        {
+          "link": "https://www.avon.org/2237/Mi-Casa-Avon",
+          "quote": "Implementation of the Mi Casa Avon Resident Occupied deed restriction purchase program, with 56 units added between 2020 and 2025."
+        },
+        {
+          "link": "https://www.avon.org/2237/Mi-Casa-Avon",
+          "quote": "There have been 57 Mi Casa Avon deed restrictions recorded on free market units."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/residences-at-main-vail",
+          "quote": "This project has a resident occupied deed restriction, which means that all adult tenants must be full-time employees of a business in Eagle County that serves Eagle County."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/residences-at-main-vail",
+          "quote": "The Residences at Main Vail are designed as a 100% deed-restricted, for rent, residential development with a mix of 72 one- and two-bedroom apartments"
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/residences-at-main-vail",
+          "quote": "was completed in the Fall 2023 and the apartments became fully occupied by December 2023."
+        },
+        {
+          "link": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf",
+          "quote": "Town-owned housing (33 Units): Includes scattered Town-employee housing, The Ruby, and Paradise Park workforce rentals."
+        },
+        {
+          "link": "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
+          "quote": "The Town is currently building 14 additional rental homes targeting households that earn 140% or less of AMI."
+        },
+        {
+          "link": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf",
+          "quote": "*Paradise Park Workforce Rentals are restricted at 140% AMI but priced at 100% AMI"
+        },
+        {
+          "link": "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
+          "quote": "The final phase of the project, which includes one, three-bedroom and two, two-bedroom units located at 8, 10, and 12 Tenth Street, was finished and leased up at the end of 2025."
+        },
+        {
+          "link": "https://www.vail.gov/home/showpublisheddocument/206/637605674229170000",
+          "quote": "A 32-unit community completed in 2018 located in West Vail off Chamonix Road walking distance to West Vail shopping."
+        },
+        {
+          "link": "https://www.vail.gov/home/showpublisheddocument/206/637605674229170000",
+          "quote": "Maximum Resale Price means the Purchase Price paid by the last Qualified Buyer plus: an increase of 1.5% per annum of such Purchase Price"
+        },
+        {
+          "link": "https://www.vail.gov/home/showpublisheddocument/206/637605674229170000",
+          "quote": "works an average of 30 hours or more per week at a business in Eagle County, Colorado"
+        },
+        {
+          "link": "https://www.vail.gov/home/showpublisheddocument/206/637605674229170000",
+          "quote": "the Owner shall pay the Town a nonrefundable listing fee equal to 2% of the Maximum Resale Price."
+        },
+        {
+          "link": "https://www.vail.gov/home/showpublisheddocument/206/637605674229170000",
+          "quote": "Sale prices for these units range from approximately $175,000 to $810,000 depending on the type and location of the unit"
+        },
+        {
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "quote": "Affordable housing is for qualified employees who work in Pitkin County for a Pitkin County employer and are full-time residents in accordance with these Aspen Pitkin County Housing Authority (APCHA) Regulations"
+        },
+        {
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "quote": "Ownership Units are available in Categories 1 through 5 and in the RO Category as provided in the applicable deed restriction. Most ownership units are marketed and sold through APCHA in accordance with the bid and lottery provisions of these Regulations."
+        },
+        {
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "quote": "Plus three percent (3%) simple appreciation for each year owned;"
+        },
+        {
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "quote": "Plus cost, at present value, of approved, permitted capital improvements, not to exceed 10% of purchase price, less depreciation;"
+        },
+        {
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "quote": "Category 1 Low-Income Below 50% AMI"
+        },
+        {
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "quote": "Category 5 and RO Upper Middle Income 205.1 - 240% AMI"
+        },
+        {
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "quote": "4-person $71,050 $120,785 $184,750 $291,350 $341,040 No income limit"
+        },
+        {
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "quote": "2 Bedroom 78,000 173,000 253,000 391,000 658,000 N/A"
+        },
+        {
+          "link": "https://www.summithousing.us/homeownership-3/neighborhoods/upper-blue-basin/the-wellington-neighborhood-and-lincoln-park/",
+          "quote": "# of Units: 226 restricted; 56 market"
+        },
+        {
+          "link": "https://www.summithousing.us/homeownership-3/neighborhoods/upper-blue-basin/the-wellington-neighborhood-and-lincoln-park/",
+          "quote": "AMI Target: 80%-120% AMI"
+        },
+        {
+          "link": "https://www.summithousing.us/homeownership-3/neighborhoods/upper-blue-basin/the-wellington-neighborhood-and-lincoln-park/",
+          "quote": "Income Limits: 80% – 150% AMI"
+        },
+        {
+          "link": "https://www.summithousing.us/homeownership-3/neighborhoods/upper-blue-basin/the-wellington-neighborhood-and-lincoln-park/",
+          "quote": "Appreciation Limit: 3% per year or the change in AMI from year of purchase to sale date"
+        },
+        {
+          "link": "https://www.summithousing.us/homeownership-3/neighborhoods/upper-blue-basin/the-wellington-neighborhood-and-lincoln-park/",
+          "quote": "Employment: 30+ hours per week in Summit County"
+        },
+        {
+          "link": "https://www.summithousing.us/homeownership-3/neighborhoods/lower-blue-basin/smith-ranch/",
+          "quote": "# of Units: +/- 200 deed restricted"
+        },
+        {
+          "link": "https://www.summithousing.us/homeownership-3/neighborhoods/lower-blue-basin/smith-ranch/",
+          "quote": "Income Limits: 80% – 120% AMI"
+        },
+        {
+          "link": "https://www.summithousing.us/homeownership-3/neighborhoods/lower-blue-basin/smith-ranch/",
+          "quote": "Appreciation Limit: 2% per year not compounded annually"
+        },
+        {
+          "link": "https://www.summithousing.us/homeownership-3/neighborhoods/lower-blue-basin/smith-ranch/",
+          "quote": "Employment: 30+ hours per week on an annual average basis in Summit County"
+        },
+        {
+          "link": "https://yvha.org/cottonwoods/",
+          "quote": "Phase One : 86 one-, two-, and three-bedroom condos"
+        },
+        {
+          "link": "https://yvha.org/cottonwoods/",
+          "quote": "With Phase One completed in early 2026"
+        },
+        {
+          "link": "https://yvha.org/cottonwoods/",
+          "quote": "Applicants’ income cannot exceed 140% of the Area Median Income (AMI) for Routt County."
+        },
+        {
+          "link": "https://yvha.org/cottonwoods/",
+          "quote": "backed by $1.84 million from the local mill levy, a generous land donation, and $4 million in state grants."
+        },
+        {
+          "link": "https://yvha.org/cottonwoods/",
+          "quote": "The City of Steamboat Springs’ backing in the amount of $10 million in short-term rental (STR) tax funding will be used dollar-for-dollar to reduce prices"
+        },
+        {
+          "link": "https://codelibrary.amlegal.com/codes/vailco/latest/vail_co/0-0-0-12615",
+          "quote": "Each commercial development or redevelopment shall mitigate its impact on employee housing by providing EHUs for 20% of the employees generated, pursuant to Table 23-1 of this section, or the nexus study, in accordance with the requirements of this chapter."
+        },
+        {
+          "link": "https://codelibrary.amlegal.com/codes/vailco/latest/vail_co/0-0-0-12615",
+          "quote": "Eating and drinking establishment 10.2 employees per 1,000 feet of new net floor area"
+        },
+        {
+          "link": "https://codelibrary.amlegal.com/codes/vailco/latest/vail_co/0-0-0-12615",
+          "quote": "Accommodation unit/ limited service lodge unit 0.6 employee per net new units"
+        },
+        {
+          "link": "https://codelibrary.amlegal.com/codes/vailco/latest/vail_co/0-0-0-12615",
+          "quote": "the Town is encouraging applicants for new development to satisfy Commercial Linkage and/or Inclusionary Zoning housing mitigation requirements through the purchase of Timber Ridge Village employee housing units (EHUs)."
+        },
+        {
+          "link": "https://smrha.org/wp-content/uploads/2025/07/HNA-Final.pdf",
+          "quote": "The amount of required housing mitigation is calculated based on employee generation rate (calculated based on type of use) x 400 sq. ft. (gross floor area per employee) x required percentage mitigation (which ranges from 40%-90% depending on the type of use)."
+        },
+        {
+          "link": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf",
+          "quote": "The Housing Mitigation Program governs Affordable Housing Units as defined in and required by Land Use Code, as may be amended, requiring developers to mitigate the housing impacts of certain types of development by concurrently creating or accommodating Affordable Housing."
+        },
+        {
+          "link": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf",
+          "quote": "Original Developers of Mitigation Unit are not eligible for appreciation or capital improvement increases, and are required to sell Mitigation Unit at or below the Initial Sale Price or Original Purchase Price indicated in the developer's Deed Restriction."
+        },
+        {
+          "link": "https://smrha.org/wp-content/uploads/2026/06/2026-06-26-TAHG-AMI-Update-Only.pdf",
+          "quote": "If 2,000 square feet or greater of Affordable Housing is required, at least fifty percent (50%) of the required square footage shall be designated Tier 1, and the remainder may be Tier 2."
+        },
+        {
+          "link": "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
+          "quote": "In 2021, the Town purchased a 3,300 square foot, six bedroom bed and breakfast to help house seasonal workers with priority given to Town employees."
+        },
+        {
+          "link": "https://townofcrestedbutte.colorado.gov/workforce-rentals",
+          "quote": "Qualified Town employees are given priority for living at the Ruby from May 1 through October 31."
+        },
+        {
+          "link": "https://townofcrestedbutte.colorado.gov/workforce-rentals",
+          "quote": "In the winter, and when there are vacancies with no demand from qualified Town employees, rooms are available to employees of a local business or local employer who lives in Gunnison County and works a minimum of 1,450 hours per calendar year or 112 hours per month for a local business."
+        },
+        {
+          "link": "https://www.apcha.org/379/Rental-Guide",
+          "quote": "Seasonal housing is first come, first served starting in May for units available September 1–April 30."
+        },
+        {
+          "link": "https://www.apcha.org/379/Rental-Guide",
+          "quote": "Winter seasonal housing is offered at Marolt Ranch, Burlingame, and Aspen Highlands Village."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "purchase deed restrictions on existing homes in Vail to further protect and preserve the Vail community. No appreciation cap. No income cap. No household size requirement."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "From the inception of the program in 2018, the stated goal of the plan is to acquire 1,000 net new deed-restrictions on homes in Vail by the year 2027."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "1) The property must be occupied as a primary residence by individuals who work a minimum of 30 hours per week in Eagle County."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "2) The deed restriction does not impose an appreciation cap."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "The amount awarded will depend on your circumstances, what your request is and how your property meets the review criteria."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "Determined through owner and Board negotiation."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "Sq. Ft. # Units # Bedrooms Funded to Date 149,768 178 286 $13,064,618"
+        },
+        {
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "quote": "Rental Units are available in Categories 1 through 5 and in the RO Category."
+        },
+        {
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "quote": "As provided in the applicable deed restriction, rental units are managed and leased by APCHA and by private property owners. Qualification for all rental units must be approved by APCHA."
+        },
+        {
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "quote": "1 Bedroom 766 1,294 1,832 2,397 2,920 3,203"
+        },
+        {
+          "link": "https://www.apcha.org/DocumentCenter/View/2267/APCHA-Housing-Regulations-as-of-8-25-25-with-2026-rental-rates",
+          "quote": "2026 Max. Incomes for ACI"
+        },
+        {
+          "link": "https://www.apcha.org/379/Rental-Guide",
+          "quote": "APCHA directly manages four different affordable housing complexes in Aspen."
+        },
+        {
+          "link": "https://www.apcha.org/379/Rental-Guide",
+          "quote": "APCHA-managed housing inventory consists of 127 Low Income Tax Credit Units (40 units at Aspen Country Inn and 87 at Truscott Phase II)."
+        },
+        {
+          "link": "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
+          "quote": "34-unit Low Income Housing Tax Credit (LIHTC) rental property under construction with lease up sometime in 2026. Units are restricted to households at 30-60% Area Median Income (AMI)."
+        },
+        {
+          "link": "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
+          "quote": "The Town of Crested Butte received nine parcels of land to be developed for various public uses through the Slate River Annexation in 2020. Parcels 5 & 3 were specifically designated for development as affordable housing."
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
+        "Colorado",
+        "Mountain resort communities"
       ]
     }
   ]

@@ -4,7 +4,7 @@
     "hud_income_limits_year": 2026,
     "statewide_ami_year": 2026,
     "acs_year": 2024,
-    "generated_at": "2026-10-14T02:45:29Z",
+    "generated_at": "2026-10-14T13:10:58Z",
     "methodology_version": 2,
     "demand_tenure": "renter",
     "gap_sign": "units_minus_households",
@@ -69,6 +69,16 @@
       "80": 74207,
       "100": 81192
     },
+    "renter_units_no_cash_rent": 26412,
+    "min_shortfall_matched_le_ami_pct": {
+      "30": 120309,
+      "40": 120309,
+      "50": 120309,
+      "60": 120309,
+      "70": 120309,
+      "80": 120309,
+      "100": 120309
+    },
     "coverage_le_ami_pct": {
       "30": 0.3864,
       "40": 0.58,
@@ -131,6 +141,16 @@
         "80": 6408,
         "100": 4054
       },
+      "renter_units_no_cash_rent": 1593,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 12091,
+        "40": 12091,
+        "50": 12091,
+        "60": 12091,
+        "70": 12091,
+        "80": 12091,
+        "100": 12091
+      },
       "coverage_le_ami_pct": {
         "30": 0.3329,
         "40": 0.5718,
@@ -191,6 +211,16 @@
         "70": 523,
         "80": 513,
         "100": 489
+      },
+      "renter_units_no_cash_rent": 119,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 378,
+        "40": 378,
+        "50": 378,
+        "60": 378,
+        "70": 378,
+        "80": 378,
+        "100": 378
       },
       "coverage_le_ami_pct": {
         "30": 0.4639,
@@ -253,6 +283,16 @@
         "80": 10742,
         "100": 8179
       },
+      "renter_units_no_cash_rent": 2219,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 18727,
+        "40": 18727,
+        "50": 18727,
+        "60": 18727,
+        "70": 18727,
+        "80": 18727,
+        "100": 18727
+      },
       "coverage_le_ami_pct": {
         "30": 0.2176,
         "40": 0.4823,
@@ -313,6 +353,16 @@
         "70": 56,
         "80": 81,
         "100": 132
+      },
+      "renter_units_no_cash_rent": 118,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 41,
+        "40": 41,
+        "50": 41,
+        "60": 41,
+        "70": 41,
+        "80": 41,
+        "100": 41
       },
       "coverage_le_ami_pct": {
         "30": 0.3319,
@@ -375,6 +425,16 @@
         "80": 29,
         "100": 21
       },
+      "renter_units_no_cash_rent": 53,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
+      },
       "coverage_le_ami_pct": {
         "30": 0.8303,
         "40": 0.9353,
@@ -435,6 +495,16 @@
         "70": -123,
         "80": -120,
         "100": -98
+      },
+      "renter_units_no_cash_rent": 122,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 1,
+        "80": 1,
+        "100": 1
       },
       "coverage_le_ami_pct": {
         "30": 0.6373,
@@ -497,6 +567,16 @@
         "80": 3981,
         "100": 2435
       },
+      "renter_units_no_cash_rent": 1262,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 13470,
+        "40": 13470,
+        "50": 13470,
+        "60": 13470,
+        "70": 13470,
+        "80": 13470,
+        "100": 13470
+      },
       "coverage_le_ami_pct": {
         "30": 0.2408,
         "40": 0.4552,
@@ -557,6 +637,16 @@
         "70": 1882,
         "80": 2468,
         "100": 2155
+      },
+      "renter_units_no_cash_rent": 248,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 1640,
+        "40": 1923,
+        "50": 1923,
+        "60": 1923,
+        "70": 1923,
+        "80": 1923,
+        "100": 1923
       },
       "coverage_le_ami_pct": {
         "30": 0.2064,
@@ -619,6 +709,16 @@
         "80": 50,
         "100": 175
       },
+      "renter_units_no_cash_rent": 175,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 226,
+        "40": 298,
+        "50": 298,
+        "60": 298,
+        "70": 298,
+        "80": 298,
+        "100": 298
+      },
       "coverage_le_ami_pct": {
         "30": 0.2852,
         "40": 0.4613,
@@ -679,6 +779,16 @@
         "70": 21,
         "80": 14,
         "100": 1
+      },
+      "renter_units_no_cash_rent": 54,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
       },
       "coverage_le_ami_pct": {
         "30": 0.4912,
@@ -741,6 +851,16 @@
         "80": 120,
         "100": 107
       },
+      "renter_units_no_cash_rent": 69,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 77,
+        "40": 77,
+        "50": 77,
+        "60": 77,
+        "70": 77,
+        "80": 77,
+        "100": 77
+      },
       "coverage_le_ami_pct": {
         "30": 0.4767,
         "40": 1.0503,
@@ -801,6 +921,16 @@
         "70": -56,
         "80": -67,
         "100": -130
+      },
+      "renter_units_no_cash_rent": 244,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
       },
       "coverage_le_ami_pct": {
         "30": 0.4836,
@@ -863,6 +993,16 @@
         "80": -74,
         "100": -74
       },
+      "renter_units_no_cash_rent": 143,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
+      },
       "coverage_le_ami_pct": {
         "30": 0.1026,
         "40": 0.1646,
@@ -923,6 +1063,16 @@
         "70": -40,
         "80": -26,
         "100": -32
+      },
+      "renter_units_no_cash_rent": 96,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 1,
+        "40": 37,
+        "50": 37,
+        "60": 37,
+        "70": 37,
+        "80": 37,
+        "100": 37
       },
       "coverage_le_ami_pct": {
         "30": 0.3533,
@@ -985,6 +1135,16 @@
         "80": -30,
         "100": -22
       },
+      "renter_units_no_cash_rent": 71,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 28,
+        "40": 36,
+        "50": 36,
+        "60": 36,
+        "70": 36,
+        "80": 36,
+        "100": 36
+      },
       "coverage_le_ami_pct": {
         "30": 0.25,
         "40": 0.4596,
@@ -1045,6 +1205,16 @@
         "70": -70,
         "80": -37,
         "100": -10
+      },
+      "renter_units_no_cash_rent": 276,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 208,
+        "40": 208,
+        "50": 208,
+        "60": 208,
+        "70": 208,
+        "80": 208,
+        "100": 208
       },
       "coverage_le_ami_pct": {
         "30": 0.455,
@@ -1107,6 +1277,16 @@
         "80": 25781,
         "100": 21445
       },
+      "renter_units_no_cash_rent": 2506,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 26545,
+        "40": 26545,
+        "50": 26545,
+        "60": 26545,
+        "70": 26545,
+        "80": 26545,
+        "100": 26545
+      },
       "coverage_le_ami_pct": {
         "30": 0.4384,
         "40": 0.6829,
@@ -1167,6 +1347,16 @@
         "70": -25,
         "80": -18,
         "100": -6
+      },
+      "renter_units_no_cash_rent": 53,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 1,
+        "50": 1,
+        "60": 1,
+        "70": 1,
+        "80": 1,
+        "100": 1
       },
       "coverage_le_ami_pct": {
         "30": 0.5312,
@@ -1229,6 +1419,16 @@
         "80": 4390,
         "100": 3985
       },
+      "renter_units_no_cash_rent": 817,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 4769,
+        "40": 6175,
+        "50": 6175,
+        "60": 6175,
+        "70": 6175,
+        "80": 6175,
+        "100": 6175
+      },
       "coverage_le_ami_pct": {
         "30": 0.1645,
         "40": 0.2764,
@@ -1289,6 +1489,16 @@
         "70": -865,
         "80": -93,
         "100": 91
+      },
+      "renter_units_no_cash_rent": 438,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 1191,
+        "40": 1407,
+        "50": 1599,
+        "60": 1599,
+        "70": 1599,
+        "80": 1599,
+        "100": 1599
       },
       "coverage_le_ami_pct": {
         "30": 0.1785,
@@ -1351,6 +1561,16 @@
         "80": -50,
         "100": -88
       },
+      "renter_units_no_cash_rent": 144,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
+      },
       "coverage_le_ami_pct": {
         "30": 0.5314,
         "40": 0.7065,
@@ -1411,6 +1631,16 @@
         "70": 2185,
         "80": 7748,
         "100": 10707
+      },
+      "renter_units_no_cash_rent": 2566,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 15249,
+        "40": 15249,
+        "50": 15249,
+        "60": 15249,
+        "70": 15249,
+        "80": 15249,
+        "100": 15249
       },
       "coverage_le_ami_pct": {
         "30": 0.2826,
@@ -1473,6 +1703,16 @@
         "80": 426,
         "100": 282
       },
+      "renter_units_no_cash_rent": 244,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 326,
+        "40": 364,
+        "50": 364,
+        "60": 364,
+        "70": 364,
+        "80": 364,
+        "100": 364
+      },
       "coverage_le_ami_pct": {
         "30": 0.6355,
         "40": 0.7105,
@@ -1533,6 +1773,16 @@
         "70": 501,
         "80": 739,
         "100": 988
+      },
+      "renter_units_no_cash_rent": 184,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 637,
+        "40": 637,
+        "50": 637,
+        "60": 637,
+        "70": 637,
+        "80": 637,
+        "100": 637
       },
       "coverage_le_ami_pct": {
         "30": 0.4606,
@@ -1595,6 +1845,16 @@
         "80": -28,
         "100": -76
       },
+      "renter_units_no_cash_rent": 125,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
+      },
       "coverage_le_ami_pct": {
         "30": 0.6986,
         "40": 0.9485,
@@ -1655,6 +1915,16 @@
         "70": 310,
         "80": 202,
         "100": 218
+      },
+      "renter_units_no_cash_rent": 102,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 234,
+        "40": 234,
+        "50": 234,
+        "60": 234,
+        "70": 234,
+        "80": 234,
+        "100": 234
       },
       "coverage_le_ami_pct": {
         "30": 0.3636,
@@ -1717,6 +1987,16 @@
         "80": 376,
         "100": 273
       },
+      "renter_units_no_cash_rent": 69,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 288,
+        "40": 288,
+        "50": 288,
+        "60": 288,
+        "70": 288,
+        "80": 288,
+        "100": 288
+      },
       "coverage_le_ami_pct": {
         "30": 0.6383,
         "40": 1.0128,
@@ -1777,6 +2057,16 @@
         "70": 52,
         "80": 37,
         "100": 16
+      },
+      "renter_units_no_cash_rent": 9,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
       },
       "coverage_le_ami_pct": {
         "30": 0.2857,
@@ -1839,6 +2129,16 @@
         "80": 73,
         "100": 22
       },
+      "renter_units_no_cash_rent": 128,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
+      },
       "coverage_le_ami_pct": {
         "30": 0.8301,
         "40": 0.8595,
@@ -1899,6 +2199,16 @@
         "70": -75,
         "80": -64,
         "100": -57
+      },
+      "renter_units_no_cash_rent": 95,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
       },
       "coverage_le_ami_pct": {
         "30": 0.1754,
@@ -1961,6 +2271,16 @@
         "80": 9192,
         "100": 7002
       },
+      "renter_units_no_cash_rent": 1892,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 12282,
+        "40": 12282,
+        "50": 12282,
+        "60": 12282,
+        "70": 12282,
+        "80": 12282,
+        "100": 12282
+      },
       "coverage_le_ami_pct": {
         "30": 0.3265,
         "40": 0.5428,
@@ -2021,6 +2341,16 @@
         "70": 28,
         "80": 16,
         "100": -18
+      },
+      "renter_units_no_cash_rent": 55,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
       },
       "coverage_le_ami_pct": {
         "30": 1.3333,
@@ -2083,6 +2413,16 @@
         "80": 67,
         "100": -18
       },
+      "renter_units_no_cash_rent": 157,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
+      },
       "coverage_le_ami_pct": {
         "30": 0.9026,
         "40": 1.1699,
@@ -2143,6 +2483,16 @@
         "70": 94,
         "80": 165,
         "100": 112
+      },
+      "renter_units_no_cash_rent": 44,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 31,
+        "40": 31,
+        "50": 31,
+        "60": 31,
+        "70": 31,
+        "80": 31,
+        "100": 31
       },
       "coverage_le_ami_pct": {
         "30": 0.6964,
@@ -2205,6 +2555,16 @@
         "80": 830,
         "100": 915
       },
+      "renter_units_no_cash_rent": 333,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 1082,
+        "40": 1082,
+        "50": 1082,
+        "60": 1082,
+        "70": 1082,
+        "80": 1082,
+        "100": 1082
+      },
       "coverage_le_ami_pct": {
         "30": 0.4004,
         "40": 0.6512,
@@ -2265,6 +2625,16 @@
         "70": 3198,
         "80": 5197,
         "100": 4801
+      },
+      "renter_units_no_cash_rent": 1676,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 10790,
+        "40": 10790,
+        "50": 10790,
+        "60": 10790,
+        "70": 10790,
+        "80": 10790,
+        "100": 10790
       },
       "coverage_le_ami_pct": {
         "30": 0.316,
@@ -2327,6 +2697,16 @@
         "80": 60,
         "100": -18
       },
+      "renter_units_no_cash_rent": 297,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 12,
+        "40": 12,
+        "50": 12,
+        "60": 12,
+        "70": 12,
+        "80": 12,
+        "100": 12
+      },
       "coverage_le_ami_pct": {
         "30": 0.5813,
         "40": 0.7903,
@@ -2387,6 +2767,16 @@
         "70": 47,
         "80": 42,
         "100": 27
+      },
+      "renter_units_no_cash_rent": 88,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
       },
       "coverage_le_ami_pct": {
         "30": 1.0588,
@@ -2449,6 +2839,16 @@
         "80": 14,
         "100": 10
       },
+      "renter_units_no_cash_rent": 434,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 47,
+        "40": 47,
+        "50": 47,
+        "60": 47,
+        "70": 47,
+        "80": 47,
+        "100": 47
+      },
       "coverage_le_ami_pct": {
         "30": 0.4163,
         "40": 0.6509,
@@ -2509,6 +2909,16 @@
         "70": 496,
         "80": 1174,
         "100": 656
+      },
+      "renter_units_no_cash_rent": 1386,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 1721,
+        "40": 1721,
+        "50": 1721,
+        "60": 1721,
+        "70": 1721,
+        "80": 1721,
+        "100": 1721
       },
       "coverage_le_ami_pct": {
         "30": 0.471,
@@ -2571,6 +2981,16 @@
         "80": -3,
         "100": -7
       },
+      "renter_units_no_cash_rent": 14,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 19,
+        "40": 19,
+        "50": 19,
+        "60": 19,
+        "70": 19,
+        "80": 19,
+        "100": 19
+      },
       "coverage_le_ami_pct": {
         "30": 0.2667,
         "40": 0.5294,
@@ -2631,6 +3051,16 @@
         "70": 432,
         "80": 519,
         "100": 377
+      },
+      "renter_units_no_cash_rent": 58,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 81,
+        "40": 81,
+        "50": 81,
+        "60": 81,
+        "70": 81,
+        "80": 81,
+        "100": 81
       },
       "coverage_le_ami_pct": {
         "30": 0.5351,
@@ -2693,6 +3123,16 @@
         "80": 92,
         "100": 30
       },
+      "renter_units_no_cash_rent": 198,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 334,
+        "40": 334,
+        "50": 334,
+        "60": 334,
+        "70": 334,
+        "80": 334,
+        "100": 334
+      },
       "coverage_le_ami_pct": {
         "30": 0.4412,
         "40": 0.7318,
@@ -2753,6 +3193,16 @@
         "70": 402,
         "80": 453,
         "100": 481
+      },
+      "renter_units_no_cash_rent": 191,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 315,
+        "40": 315,
+        "50": 315,
+        "60": 315,
+        "70": 315,
+        "80": 315,
+        "100": 315
       },
       "coverage_le_ami_pct": {
         "30": 0.5929,
@@ -2815,6 +3265,16 @@
         "80": 248,
         "100": 206
       },
+      "renter_units_no_cash_rent": 409,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 372,
+        "40": 372,
+        "50": 372,
+        "60": 372,
+        "70": 372,
+        "80": 372,
+        "100": 372
+      },
       "coverage_le_ami_pct": {
         "30": 0.4299,
         "40": 0.7677,
@@ -2875,6 +3335,16 @@
         "70": 228,
         "80": 275,
         "100": 217
+      },
+      "renter_units_no_cash_rent": 118,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
       },
       "coverage_le_ami_pct": {
         "30": 0.8614,
@@ -2937,6 +3407,16 @@
         "80": 15,
         "100": 38
       },
+      "renter_units_no_cash_rent": 33,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 26,
+        "40": 35,
+        "50": 35,
+        "60": 35,
+        "70": 35,
+        "80": 35,
+        "100": 35
+      },
       "coverage_le_ami_pct": {
         "30": 0.3723,
         "40": 0.5584,
@@ -2997,6 +3477,16 @@
         "70": 64,
         "80": 97,
         "100": -4
+      },
+      "renter_units_no_cash_rent": 114,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 196,
+        "40": 310,
+        "50": 310,
+        "60": 310,
+        "70": 310,
+        "80": 310,
+        "100": 310
       },
       "coverage_le_ami_pct": {
         "30": 0.2269,
@@ -3059,6 +3549,16 @@
         "80": 82,
         "100": 80
       },
+      "renter_units_no_cash_rent": 30,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
+      },
       "coverage_le_ami_pct": {
         "30": 0.9034,
         "40": 1.1184,
@@ -3119,6 +3619,16 @@
         "70": 327,
         "80": 222,
         "100": -163
+      },
+      "renter_units_no_cash_rent": 344,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 122,
+        "40": 122,
+        "50": 169,
+        "60": 169,
+        "70": 169,
+        "80": 169,
+        "100": 169
       },
       "coverage_le_ami_pct": {
         "30": 0.5705,
@@ -3181,6 +3691,16 @@
         "80": 197,
         "100": 156
       },
+      "renter_units_no_cash_rent": 104,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
+      },
       "coverage_le_ami_pct": {
         "30": 0.8168,
         "40": 1.0062,
@@ -3241,6 +3761,16 @@
         "70": 1335,
         "80": 1248,
         "100": 1361
+      },
+      "renter_units_no_cash_rent": 1162,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 3471,
+        "40": 3471,
+        "50": 3471,
+        "60": 3471,
+        "70": 3471,
+        "80": 3471,
+        "100": 3471
       },
       "coverage_le_ami_pct": {
         "30": 0.3918,
@@ -3303,6 +3833,16 @@
         "80": 22,
         "100": -43
       },
+      "renter_units_no_cash_rent": 166,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
+      },
       "coverage_le_ami_pct": {
         "30": 1.0201,
         "40": 1.1959,
@@ -3363,6 +3903,16 @@
         "70": 293,
         "80": 249,
         "100": 175
+      },
+      "renter_units_no_cash_rent": 198,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
       },
       "coverage_le_ami_pct": {
         "30": 0.7029,
@@ -3425,6 +3975,16 @@
         "80": -53,
         "100": -27
       },
+      "renter_units_no_cash_rent": 232,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 220,
+        "40": 284,
+        "50": 284,
+        "60": 284,
+        "70": 284,
+        "80": 284,
+        "100": 284
+      },
       "coverage_le_ami_pct": {
         "30": 0.3468,
         "40": 0.485,
@@ -3485,6 +4045,16 @@
         "70": -167,
         "80": -178,
         "100": -148
+      },
+      "renter_units_no_cash_rent": 119,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 81,
+        "40": 100,
+        "50": 100,
+        "60": 100,
+        "70": 100,
+        "80": 100,
+        "100": 100
       },
       "coverage_le_ami_pct": {
         "30": 0.3902,
@@ -3547,6 +4117,16 @@
         "80": 37,
         "100": 38
       },
+      "renter_units_no_cash_rent": 10,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 1,
+        "40": 3,
+        "50": 3,
+        "60": 3,
+        "70": 3,
+        "80": 3,
+        "100": 3
+      },
       "coverage_le_ami_pct": {
         "30": 0.8493,
         "40": 0.8354,
@@ -3607,6 +4187,16 @@
         "70": 30,
         "80": 19,
         "100": 60
+      },
+      "renter_units_no_cash_rent": 75,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 209,
+        "40": 209,
+        "50": 209,
+        "60": 209,
+        "70": 209,
+        "80": 209,
+        "100": 209
       },
       "coverage_le_ami_pct": {
         "30": 0.6157,
@@ -3669,6 +4259,16 @@
         "80": -28,
         "100": -43
       },
+      "renter_units_no_cash_rent": 56,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
+      },
       "coverage_le_ami_pct": {
         "30": 0.5738,
         "40": 0.8,
@@ -3729,6 +4329,16 @@
         "70": -42,
         "80": 146,
         "100": 160
+      },
+      "renter_units_no_cash_rent": 123,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 338,
+        "40": 399,
+        "50": 399,
+        "60": 399,
+        "70": 399,
+        "80": 399,
+        "100": 399
       },
       "coverage_le_ami_pct": {
         "30": 0.507,
@@ -3791,6 +4401,16 @@
         "80": -47,
         "100": 251
       },
+      "renter_units_no_cash_rent": 198,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 124,
+        "40": 124,
+        "50": 124,
+        "60": 142,
+        "70": 142,
+        "80": 142,
+        "100": 142
+      },
       "coverage_le_ami_pct": {
         "30": 0.4486,
         "40": 0.5941,
@@ -3851,6 +4471,16 @@
         "70": -4,
         "80": -34,
         "100": -50
+      },
+      "renter_units_no_cash_rent": 184,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 0,
+        "40": 0,
+        "50": 0,
+        "60": 0,
+        "70": 0,
+        "80": 0,
+        "100": 0
       },
       "coverage_le_ami_pct": {
         "30": 0.56,
@@ -3913,6 +4543,16 @@
         "80": 2353,
         "100": 2100
       },
+      "renter_units_no_cash_rent": 1457,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 4495,
+        "40": 4495,
+        "50": 4495,
+        "60": 4495,
+        "70": 4495,
+        "80": 4495,
+        "100": 4495
+      },
       "coverage_le_ami_pct": {
         "30": 0.4347,
         "40": 0.6972,
@@ -3974,6 +4614,16 @@
         "80": 147,
         "100": 28
       },
+      "renter_units_no_cash_rent": 115,
+      "min_shortfall_matched_le_ami_pct": {
+        "30": 44,
+        "40": 44,
+        "50": 44,
+        "60": 44,
+        "70": 44,
+        "80": 44,
+        "100": 44
+      },
       "coverage_le_ami_pct": {
         "30": 0.6954,
         "40": 0.8836,
@@ -3991,6 +4641,7 @@
     "Income thresholds use HUD FY2026 4-person AMI for the geography's county; the statewide record uses HUD's FY2026 Colorado state median family income ($127,800).",
     "Priced-affordable units come from ACS table B25063 (gross rent, renter-occupied with cash rent), counted at or below the rent threshold equal to 30% of monthly threshold income.",
     "Gap = renter households at-or-below threshold minus units priced affordable at-or-below threshold.",
+    "min_shortfall_matched_le_ami_pct counts homes short without pooling: a home is counted only for households who can afford its rent, the cheapest homes going to the lowest incomes first. At each tier it is the largest pooled shortfall at that tier or any tier below it, less the renter homes with no cash rent (B25063_027E, stored as renter_units_no_cash_rent), which house renter households counted in the demand at every tier. So the <=60% figure is never smaller than the <=30% one. It is a minimum: it ignores that many priced-affordable homes are rented by higher-income households, which HUD CHAS 'affordable and available' tables would subtract.",
     "Per-tier renter-household demand is clamped to the corresponding all-household cumulative count from B19001. This prevents small-place ACS cross-table sampling noise from reporting more renter households than total households at the same AMI threshold.",
     "Linear interpolation within income/rent bins; the open-ended top bin uses a 2x-floor heuristic for the upper edge (it never binds at tiers <= 100% AMI). The pre-v2 county file used a lognormal model; both files now share the linear method so place and county figures are directly comparable.",
     "Limitations: (1) AMI thresholds are county-level (HUD); a place spanning two counties uses its dominant containing county. (2) Units are priced-affordable, not guaranteed vacant/available, and some are occupied by higher-income households. (3) B25118 bins are coarser than B19001; within-bin linear interpolation is the main approximation at low tiers."

@@ -3653,7 +3653,8 @@
       return (n * 100).toFixed(1) + '%';
     }
     function vacFrac() { return result.vacancyRate; }
-    function numeric(value) { return value == null ? NaN : value; }
+    // Numbers only: several of these are written into the page as HTML.
+    function numeric(value) { return value == null ? NaN : Number(value); }
     var tdc = numeric(result.tdc);
     var units = numeric(result.units);
     var totalGrant = numeric(result.totalGrant);
@@ -4591,6 +4592,21 @@
     return out;
   }
 
+  // The homes-short figures shown to a reader: the matched shortfall both AMI
+  // gap files carry, the same series the homepage cards render. A home counts
+  // only for households who can afford its rent, so ≤60% is never smaller
+  // than ≤30%. The pooled trio above stays an allocation weight only. A band
+  // the file does not carry is null, never 0.
+  function _homesShortFromRecord(rec) {
+    var m = (rec && rec.min_shortfall_matched_le_ami_pct) || {};
+    var out = {};
+    ['30', '50', '60'].forEach(function (b) {
+      var v = m[b];
+      out[b] = (typeof v === 'number' && isFinite(v) && v >= 0) ? v : null;
+    });
+    return out;
+  }
+
   // F257 — "Pre-fill from local need" handler. Allocates the LIHTC-eligible
   // tier inputs (30/50/60% AMI) proportionally to the documented gap counts
   // for the selected jurisdiction. Prefers place-level gap when available,
@@ -4711,16 +4727,31 @@
     var rec   = place || _findAmiGapCounty(fips);
     if (!rec) { container.hidden = true; return; }
     var kind  = place ? 'place' : 'county';
-    var gaps  = _gapTrioFromRecord(rec, kind);
+    var short = _homesShortFromRecord(rec);
     var label = place ? (rec.place_name || 'this jurisdiction')
                       : (rec.county_name || '');
-    container.innerHTML =
-      '<strong style="color:var(--accent);">Affordability Gap — ' + label +
-      (kind === 'place' ? '<span style="color:var(--muted);font-weight:400"> · place-level</span>' : '') +
-      '</strong><br>' +
-      '30% AMI: ' + Math.round(gaps['30']).toLocaleString() + ' units needed' +
-      ' &bull; 50% AMI: ' + Math.round(gaps['50']).toLocaleString() + ' units needed' +
-      ' &bull; 60% AMI: ' + Math.round(gaps['60']).toLocaleString() + ' units needed';
+    function shown(b) { return short[b] == null ? '—' : Math.round(short[b]).toLocaleString(); }
+    // Built from text nodes: the place and county names come from a data file.
+    container.textContent = '';
+    var head = document.createElement('strong');
+    head.style.color = 'var(--accent)';
+    head.textContent = 'Affordability Gap — ' + label;
+    if (kind === 'place') {
+      var lvl = document.createElement('span');
+      lvl.style.color = 'var(--muted)';
+      lvl.style.fontWeight = '400';
+      lvl.textContent = ' · place-level';
+      head.appendChild(lvl);
+    }
+    container.appendChild(head);
+    container.appendChild(document.createElement('br'));
+    container.appendChild(document.createTextNode('Rental homes short, at least: ≤30% AMI: ' + shown('30') +
+      ' • ≤50% AMI: ' + shown('50') + ' • ≤60% AMI: ' + shown('60')));
+    container.appendChild(document.createElement('br'));
+    var note = document.createElement('span');
+    note.style.fontSize = '0.95em';
+    note.textContent = 'Each band includes the ones below it, and a home counts only for households who can afford its rent.';
+    container.appendChild(note);
     container.hidden = false;
   }
 
@@ -5796,6 +5827,7 @@
   function _initCapitalEventWaterfall() {
     function _fmtMoney(n) {
       if (n == null || !isFinite(n)) return 'Unavailable';
+      n = Number(n);  // a number from here on; the tables are written as HTML
       if (n === 0) return '$0';
       var abs = Math.abs(n);
       var s = abs >= 1e6 ? (n / 1e6).toFixed(2) + 'M' :
@@ -5864,7 +5896,7 @@
         '<td style="padding:3px 6px;text-align:right;color:var(--text);">' + _fmtMoney(cumGp) + '</td>' +
         '</tr>';
       wf.annual.forEach(function (row) {
-        var y = row.year, lpY = row.lp, gpY = row.gp;
+        var y = Number(row.year), lpY = row.lp, gpY = row.gp;
         cumLp = row.cumLp; cumGp = row.cumGp;
         var isExit = (y === n);
         rows += '<tr' + (isExit ? ' style="background:var(--accent-dim);font-weight:600;"' : '') + '>' +

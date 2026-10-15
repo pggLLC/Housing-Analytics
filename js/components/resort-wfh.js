@@ -3,7 +3,7 @@
  * ===================================
  * Renders resort workforce-housing program detail when the selected
  * jurisdiction is in a known resort housing authority's service area
- * (APCHA, Vail InDEED, Eagle County, SCHA, Telluride, YVHA).
+ * (data/resort-workforce-housing-programs.json; every program quoted).
  *
  * For non-resort jurisdictions the component renders nothing — no
  * "no data" placeholder. The HNA + IC packet already explain general
@@ -90,83 +90,115 @@
       '.rw-actions { margin-top:.6rem; padding:.5rem; background: color-mix(in oklab, var(--bg2,#f3f4f6) 50%, transparent); border-radius:6px; }',
       '.rw-actions__head { font-weight:700; font-size:.82rem; margin-bottom:.25rem; }',
       '.rw-actions ul { list-style:disc; padding-left:1.5rem; margin:0; font-size:.82rem; }',
-      '.rw-actions li { margin-bottom:.2rem; line-height:1.4; }'
+      '.rw-actions li { margin-bottom:.2rem; line-height:1.4; }',
+      '.rw-program__restriction { font-size:.8rem; font-weight:600; margin-top:.25rem; }',
+      '.rw-program__src { font-size:.76rem; color:var(--muted); margin-top:.25rem; }'
     ].join('\n');
     document.head.appendChild(st);
   }
 
-  // Match a jurisdiction to its housing authority by place GEOID
-  // (specific) OR county FIPS (regional).
+  // County FIPS arrive as 3 digits from some callers ("037") and 5 from
+  // others ("08037"); the data uses 5. Normalize so a county match works.
+  function _fips5(f) {
+    if (!f) return null;
+    f = String(f);
+    return f.length === 3 ? '08' + f : f;
+  }
+
+  // A town page gets the authorities whose stated service area names it
+  // (serves_place_geoids); nothing is inferred from the county alone, because
+  // some county-based authorities serve one town (YVHA serves Steamboat
+  // Springs, not Hayden). A county page gets every authority in the county.
   function _matchAuthority(authorities, opts) {
-    if (!Array.isArray(authorities)) return null;
-    var matches = [];
-    authorities.forEach(function (a) {
-      var hit = false;
-      if (opts.placeGeoid && Array.isArray(a.place_geoids) && a.place_geoids.indexOf(opts.placeGeoid) !== -1) hit = true;
-      if (!hit && opts.countyFips && a.county_fips && a.county_fips === opts.countyFips) hit = true;
-      if (hit) matches.push(a);
+    if (!Array.isArray(authorities)) return [];
+    var county = _fips5(opts.countyFips);
+    return authorities.filter(function (a) {
+      if (opts.placeGeoid) {
+        return Array.isArray(a.serves_place_geoids) && a.serves_place_geoids.indexOf(opts.placeGeoid) !== -1;
+      }
+      return !!(county && a.county_fips === county);
     });
-    return matches;
+  }
+
+  var RESTRICTION = {
+    'occupancy-only': 'Occupancy only: keeps the home for local workers, does not cap its price',
+    'price-capped': 'Price-capped resale',
+    'either': 'Owner\'s choice: occupancy only (no price cap) or price-capped resale for a larger payment',
+    'unverified': 'Restriction terms not confirmed'
+  };
+
+  function _source(p) {
+    if (!p.source_url) return '';
+    return '<div class="rw-program__src">Source: <a href="' + _esc(p.source_url) + '" target="_blank" rel="noopener">' +
+      _esc(p.source_label || p.source_url) + '</a>' + (p.verified_on ? ', checked ' + _esc(p.verified_on) : '') + '</div>';
   }
 
   function _renderProgram(p) {
+    var r = RESTRICTION[p.restriction_type];
     return '<li class="rw-program">' +
              '<div class="rw-program__head">' +
                '<span class="rw-program__name">' + _esc(p.name) + '</span>' +
                (p.type ? '<span class="rw-program__type">' + _esc(p.type.replace(/-/g, ' ')) + '</span>' : '') +
              '</div>' +
+             (r ? '<div class="rw-program__restriction">' + _esc(r) + '</div>' : '') +
              (p.summary  ? '<div class="rw-program__summary">' + _esc(p.summary) + '</div>' : '') +
              (p.magnitude? '<div class="rw-program__mag">' + _esc(p.magnitude) + '</div>' : '') +
+             _source(p) +
            '</li>';
   }
 
+  // The source's own words, qualifier and noun included ("nearly 1,040",
+  // "over 200 apartments"), never a bare number restated as exact.
+  function _inventory(inv) {
+    if (!inv || !Array.isArray(inv.display) || !inv.display.length) return '';
+    return '<span class="rw-portfolio" title="' + _esc(inv.quote || '') + '">\u201c' +
+      inv.display.map(_esc).join(' \u2026 ') + '\u201d' +
+      (inv.year && /^\d{4}$/.test(String(inv.year)) ? ' (' + inv.year + ')' : '') + '</span>';
+  }
+
   function _renderAuthority(a) {
-    var portfolio = a.portfolio_size_units
-      ? '<span class="rw-portfolio">' + a.portfolio_size_units.toLocaleString() + '+ units' +
-        (a.portfolio_size_units_year ? ' (as of ' + a.portfolio_size_units_year + ')' : '') + '</span>'
+    var programs = (a.key_programs || []).concat(a.funding || []);
+    var programsHtml = programs.length
+      ? '<ul class="rw-programs">' + programs.map(_renderProgram).join('') + '</ul>'
       : '';
-    var programsHtml = (Array.isArray(a.key_programs) && a.key_programs.length)
-      ? '<ul class="rw-programs">' + a.key_programs.map(_renderProgram).join('') + '</ul>'
-      : '';
-    var actionsHtml = (Array.isArray(a.developer_actions) && a.developer_actions.length)
-      ? '<div class="rw-actions">' +
-          '<div class="rw-actions__head">Developer actions to know</div>' +
-          '<ul>' + a.developer_actions.map(function (x) { return '<li>' + _esc(x) + '</li>'; }).join('') + '</ul>' +
-        '</div>'
+    var open = Array.isArray(a.not_verified) && a.not_verified.length
+      ? '<details class="rw-actions"><summary class="rw-actions__head">Not confirmed yet (' + a.not_verified.length + ')</summary><ul>' +
+          a.not_verified.map(function (x) { return '<li>' + _esc(x.claim || x.name || '') + (x.reason ? ': ' + _esc(x.reason) : '') + '</li>'; }).join('') +
+        '</ul></details>'
       : '';
     return '<div style="margin-bottom:1.2rem">' +
              '<h4 style="margin:.5rem 0 .15rem">' +
                (a.url
                  ? '<a href="' + _esc(a.url) + '" target="_blank" rel="noopener">' + _esc(a.name) + '</a>'
                  : _esc(a.name)) +
-               portfolio +
+               _inventory(a.inventory) +
              '</h4>' +
              (a.service_area ? '<div style="font-size:.78rem;color:var(--muted);margin-bottom:.3rem">' + _esc(a.service_area) + '</div>' : '') +
-             (a.headline ? '<div class="rw-headline">' + _esc(a.headline) + '</div>' : '') +
              programsHtml +
-             actionsHtml +
+             open +
            '</div>';
   }
 
   function attach(container, opts) {
-    if (!container) return;
+    if (!container) return Promise.resolve();
     opts = opts || {};
     _ensureStyles();
-    _load().then(function (data) {
+    return _load().then(function (data) {
       var matches = _matchAuthority(data.authorities, opts);
-      if (!matches || !matches.length) {
+      if (!matches.length) {
         container.innerHTML = '';  // No-op for non-resort jurisdictions
         return;
       }
       var caption = '<p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .5rem">' +
-        'Resort markets have their own housing-authority mitigation, buy-down, and linkage programs — ' +
-        'often the most-negotiated piece of any new deal. Engaged early, these can turn from cost into capital.' +
+        'Resort towns and counties run their own workforce housing programs: buy-downs of deed restrictions, ' +
+        'town-owned rentals, seasonal housing and mitigation rules. Each line below is checked against the program\'s own source. ' +
+        '<a href="research-brief.html?id=workforce-housing-without-tax-credits-2026">How these compare with tax-credit housing</a>.' +
         '</p>';
       var mfHtml = window.MethodFooter ? window.MethodFooter.html({
-        source:    'data/resort-workforce-housing-programs.json (curated from each housing authority\'s site)',
+        source:    'data/resort-workforce-housing-programs.json',
         sourceUrl: 'https://github.com/pggLLC/Housing-Analytics/blob/main/data/resort-workforce-housing-programs.json',
         vintage:   data.metadata && data.metadata.generated,
-        method:    'Curated cash-in-lieu rates, mitigation requirements, portfolio sizes from APCHA, Vail InDEED, Eagle County, SCHA, Telluride, YVHA. Rates change annually — verify on each authority\'s site.',
+        method:    'Each program quoted from the housing authority, town or county\'s own pages, code or budget. Fees and limits change annually; check the source before underwriting.',
         confidence:'med'
       }) : '';
       container.innerHTML = caption + matches.map(_renderAuthority).join('') + mfHtml;
@@ -175,5 +207,6 @@
 
   function loadRoster() { return _load(); }
 
-  global.ResortWfh = { attach: attach, loadRoster: loadRoster };
+  global.ResortWfh = { attach: attach, loadRoster: loadRoster, _match: _matchAuthority };
+
 })(typeof window !== 'undefined' ? window : globalThis);

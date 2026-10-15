@@ -1,0 +1,66 @@
+{
+  "geoid": "0833640",
+  "name": "City of Gunnison",
+  "checked": "2026-10-14",
+  "note": "Public-role contacts only, each copied from the official page quoted. Staff change; re-check before outreach.",
+  "contacts": [
+    {
+      "name": "Anton Sinkewich",
+      "role": "Community Development Director",
+      "org": "City of Gunnison",
+      "phone": "970-641-8090 (Community Development)",
+      "source_label": "City Council minutes, 14 April 2026, and Community Development page",
+      "source_url": "https://www.gunnisonco.gov/government/city_council/agendas___minutes/2026.php",
+      "source_quote": "Community Development Director Anton Sinkewich gave a high-level summary and answered questions from Council."
+    },
+    {
+      "name": "Amanda Wilson",
+      "role": "City Manager",
+      "org": "City of Gunnison",
+      "email": "awilson@gunnisonco.gov",
+      "phone": "970-641-8171",
+      "source_label": "City Manager page",
+      "source_url": "https://www.gunnisonco.gov/departments/city_manager.php",
+      "source_quote": "City Manager Amanda Wilson ... office: (970) 641-8171 awilson@gunnisonco.gov"
+    },
+    {
+      "name": "Ricardo Esqueda",
+      "role": "Community and Policy Liaison",
+      "org": "City of Gunnison, City Manager's office",
+      "email": "resqueda@gunnisonco.gov",
+      "phone": "970-901-7628",
+      "source_label": "City Manager page",
+      "source_url": "https://www.gunnisonco.gov/departments/city_manager.php",
+      "source_quote": "Community and Policy Liaison Ricardo Esqueda (970) 901-7628 resqueda@gunnisonco.gov"
+    },
+    {
+      "name": "Jackie Johnson",
+      "role": "Procurement, Contracts, and Grants Administrator",
+      "org": "City of Gunnison",
+      "email": "jjohnson@gunnisonco.gov",
+      "phone": "970-641-8172",
+      "source_label": "City Manager page",
+      "source_url": "https://www.gunnisonco.gov/departments/city_manager.php",
+      "source_quote": "Procurement, Contracts, and Grants Administrator Jackie Johnson (970) 641-8172 jjohnson@gunnisonco.gov"
+    },
+    {
+      "name": "Diego Plata",
+      "role": "Mayor (council: Mayor Pro-Tem Marisela Ballesteros; Councilors Matt Schwartz, Loren Ahonen, Audrey Zahradka)",
+      "org": "Gunnison City Council",
+      "phone": "City Clerk 970-641-8140",
+      "source_label": "City Council page",
+      "source_url": "https://www.gunnisonco.gov/government/city_council/index.php",
+      "source_quote": "Councilor Audrey Zahradka, Mayor Diego Plata, Mayor Pro-Tem Marisela Ballesteros, Councilor Matt Schwartz, Councilor Loren Ahonen."
+    },
+    {
+      "name": "Gunnison County Housing Authority",
+      "role": "County housing authority; Melissa LaMonica, Chief Financial Officer, is the listed contact",
+      "org": "Gunnison County",
+      "email": "housing@gunnisoncounty.org",
+      "phone": "970-641-7900",
+      "source_label": "Gunnison County Housing Authority page",
+      "source_url": "https://www.gunnisoncounty.org/1163/Housing-Authority",
+      "source_quote": "Melissa LaMonica Chief Financial Officer Email GCHA | housing@gunnisoncounty.org Gunnison County Housing Authority 307 N Wisconsin St. Gunnison, CO 81230 Phone: (970) 641-7900"
+    }
+  ]
+}
