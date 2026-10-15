@@ -139,7 +139,9 @@ async function main() {
   dc._setAmiLimitsForTest(rentLimits.flat, rentLimits.byBr, '08031');
   setInput('dc-tdc', 20000000);
   setInput('dc-units', 70);
-  setInput('dc-basis-pct', 80);
+  // #2160: with unrestricted units the floor-space fraction is needed too.
+  setInput('dc-res-sf', 70000);
+  setInput('dc-restricted-sf', 60000);
   setInput('dc-equity-price', 0.86);
   EXPECTED_BANDS.forEach((pct) => {
     if (pct > 60) {

@@ -19,7 +19,7 @@ for (const scenario of ['A', 'B']) {
   const input = inputsFor(scenario);
   const before = clone(input);
   const result = computeDeal(input);
-  const figures = require('./helpers/deal-engine-l1-expected.cjs')(scenario, golden.scenarios[scenario].figures);
+  const figures = require('./helpers/deal-engine-b1-expected.cjs')(scenario, require('./helpers/deal-engine-l1-expected.cjs')(scenario, golden.scenarios[scenario].figures));
   for (const [key, id] of Object.entries(moneyFields)) {
     assert.equal(money(result[key]), figures[id], `${scenario}: ${key} equals the pre-move display`); checked++;
   }

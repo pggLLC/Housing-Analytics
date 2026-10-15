@@ -73,7 +73,13 @@ assert.equal(aitChfaFail.countedLihtcUnits, 0, 'a CHFA-ineligible AIT mix is not
 dc.renderForTest(document.getElementById('dealCalcMount'));
 assert.equal(document.getElementById('dc-minimum-set-aside').value, '40-60', 'rendered default is 40-60');
 assert.equal(document.getElementById('dc-units-20').value, '0', 'new 20% tier defaults to zero units');
-assert.equal(document.getElementById('dc-r-basis').textContent, '$16,000,000', 'default qualified-basis output is byte-identical to current main');
+// #2160: the default qualified basis is the invented example budget's cost in
+// basis (every default unit is restricted, so the applicable fraction is 1).
+{
+  const costBasis = require('../js/deal-cost-basis.js');
+  const eligible = costBasis.summarizeCosts(costBasis.exampleLines(), +document.getElementById('dc-tdc').value).eligible;
+  assert.equal(document.getElementById('dc-r-basis').textContent, '$' + Math.round(eligible).toLocaleString('en-US'), 'default qualified basis is the example budget cost in basis');
+}
 
 const election = document.getElementById('dc-minimum-set-aside');
 election.value = 'average-income';

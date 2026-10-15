@@ -1,0 +1,151 @@
+{
+  "schema": "lihtc-underwriting-rules/v1",
+  "version": "2026-10-15",
+  "meta": {
+    "title": "Housing tax credit basis, fee, credit-limit and underwriting rules",
+    "as_of": "2026-10-15",
+    "last_verified": "2026-10-15",
+    "review_by": "2027-01-15",
+    "review_reason": "CHFA adopts a new Qualified Allocation Plan every two years; the 2027-2028 plan replaces S1 for applications from 2027.",
+    "scope": "Rules the Deal Calculator applies to itemized development costs: grant treatment, the 30% basis boost, the applicable fraction, CHFA's contractor and developer fee limits, CHFA's per-project credit limits, and CHFA's minimum and high debt-coverage thresholds.",
+    "methodology": "Every value is copied from the statute, regulation or CHFA plan it cites, with a verbatim quote and its location. A rule whose status is adopted and whose source exists is applied. A draft value is shown beside the adopted one and never applied. A rule with no source is shown as rule not sourced and is not applied.",
+    "status_values": {
+      "adopted": "In force for the stated period; the calculator applies it.",
+      "draft": "Proposed but not adopted; shown separately and not applied."
+    },
+    "not_included": "CHFA's cost-per-unit and cost-per-square-foot basis limits (published only in the Excel application), the state credit three-test calculation, HUD subsidy layering limits, and CHFA's discretion to award less credit than the calculated amount."
+  },
+  "sources": {
+    "S1": {
+      "title": "CHFA 2025-2026 Qualified Allocation Plan, Second Amendment",
+      "url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "version": "Adopted by the CHFA Board 2025-09-26; approved by the Governor 2025-11-13",
+      "kind": "state allocation plan"
+    },
+    "S2": {
+      "title": "26 U.S.C. 42, Low-income housing credit",
+      "url": "https://www.law.cornell.edu/uscode/text/26/42",
+      "version": "Current U.S. Code",
+      "kind": "statute"
+    },
+    "S3": {
+      "title": "26 CFR 1.42-16, Eligible basis reduced by federal grants",
+      "url": "https://www.law.cornell.edu/cfr/text/26/1.42-16",
+      "version": "Current Code of Federal Regulations",
+      "kind": "regulation"
+    }
+  },
+  "rules": {
+    "grant_basis_treatment": {
+      "status": "adopted",
+      "source": "S2",
+      "location": "26 U.S.C. 42(d)(5)(A); 26 CFR 1.42-16(a)",
+      "quote": "The eligible basis of a building shall not include any costs financed with the proceeds of a federally funded grant.",
+      "also_quote": { "source": "S3", "location": "26 CFR 1.42-16(a)", "quote": "any portion of the grant is funded with federal funds (whether or not includible in gross income)" },
+      "by_source_type": {
+        "federal_grant": { "reduces_basis": true, "note": "A grant funded in whole or in part with federal money, including federal money a state or city passes through as a grant (HOME, CDBG, NHTF, Capital Magnet Fund)." },
+        "federal_loan": { "reduces_basis": false, "note": "The statute reduces basis for grants only; federal money lent to the project is a loan, not a grant." },
+        "nonfederal_grant": { "reduces_basis": false, "note": "A grant with no federal money in it (for example state Proposition 123 or local general funds) is not a federally funded grant." }
+      }
+    },
+    "applicable_fraction": {
+      "status": "adopted",
+      "source": "S2",
+      "location": "26 U.S.C. 42(c)(1)(B)",
+      "quote": "The term \"applicable fraction\" means the smaller of the unit fraction or the floor space fraction"
+    },
+    "basis_boost": {
+      "status": "adopted",
+      "source": "S1",
+      "location": "Section 3.M.2, PDF pages 37-38",
+      "quote": "The Code allows for a 30 percent basis boost for projects located in one of the following areas",
+      "multiplier": 1.3,
+      "designations": {
+        "qct": { "label": "HUD Qualified Census Tract", "credit_types": ["9", "4"] },
+        "dda": { "label": "HUD Difficult Development Area", "credit_types": ["9", "4"] },
+        "sadda": { "label": "HUD Small Area Difficult Development Area", "credit_types": ["9", "4"] },
+        "chfa": {
+          "label": "CHFA basis boost (state designation)",
+          "credit_types": ["9"],
+          "quote": "The CHFA basis boost only applies to new construction and rehabilitation eligible basis of federal 9 percent Housing Tax Credit projects."
+        }
+      },
+      "acquisition_excluded": true,
+      "acquisition_quote": "The basis boost options above do not apply to acquisition basis.",
+      "statute": { "source": "S2", "location": "26 U.S.C. 42(d)(5)(B)(v)", "quote": "Any building which is designated by the State housing credit agency as requiring the increase in credit" }
+    },
+    "contractor_fee_limit": {
+      "status": "adopted",
+      "source": "S1",
+      "location": "Section 3.M.3, PDF page 38",
+      "quote": "Aggregate Builder's Profit, Overhead* as a Percent of Hard Construction Costs",
+      "base": "New structures or rehabilitation, onsite work, contingency and accessory structures",
+      "tiers": [
+        { "min_units": 75, "max_units": null, "with_identity_of_interest": 0.06, "without_identity_of_interest": 0.08 },
+        { "min_units": 31, "max_units": 74, "with_identity_of_interest": 0.08, "without_identity_of_interest": 0.10 },
+        { "min_units": 1, "max_units": 30, "with_identity_of_interest": 0.10, "without_identity_of_interest": 0.12 }
+      ],
+      "tier_quote": "75 units + 6% 8%"
+    },
+    "developer_fee_limit": {
+      "status": "adopted",
+      "source": "S1",
+      "location": "Section 3.M.3, PDF page 39",
+      "quote": "Aggregate Developer Fee and Consultant Fee* Limits as a Percent of Certain Project Costs",
+      "tested_on": "Developer fee plus consultant fee, before any deferral",
+      "base_subtracts": ["contractor fee above the limit", "land", "50% of acquisition", "developer and consultant fees", "project reserves"],
+      "base_quote": "Calculated by subtracting the following costs from the total project costs and applying the allowable percentage rate from the table below",
+      "tiers": [
+        { "min_units": 51, "max_units": null, "pct": 0.12 },
+        { "min_units": 1, "max_units": 50, "pct": 0.15 }
+      ],
+      "tier_quote": "51 units or more 12%",
+      "special_population_increase": { "max_pct": 0.05, "applied": false, "reason": "CHFA must approve the increase; it is prorated by the share of units serving people experiencing homelessness or special populations at or below 30% AMI." }
+    },
+    "credit_cap_federal_9pct": {
+      "status": "adopted",
+      "source": "S1",
+      "location": "Section 3.L, PDF page 34",
+      "quote": "CHFA will accept Applications for no more than $1,800,000 of the annual federal 9 percent Housing Tax Credit for any one project or any one Applicant",
+      "credit_type": "9",
+      "credit": "federal",
+      "annual_cap": 1800000
+    },
+    "credit_cap_state_with_9pct": {
+      "status": "adopted",
+      "source": "S1",
+      "location": "Section 3.L, PDF page 34",
+      "quote": "CHFA will pair, if requested, a fixed amount of $500,000 of standard annual state credit with federal 9 percent Housing Tax Credit Applications.",
+      "credit_type": "9",
+      "credit": "state",
+      "annual_cap": 500000
+    },
+    "credit_cap_state_with_4pct": {
+      "status": "adopted",
+      "source": "S1",
+      "location": "Section 3.L, PDF page 35",
+      "quote": "CHFA will accept Applications for $10,000 per unit of standard or accelerated annual state credit up to $700,000 maximum per Application",
+      "credit_type": "4",
+      "credit": "state",
+      "annual_cap_per_unit": 10000,
+      "annual_cap": 700000
+    },
+    "min_debt_coverage": {
+      "status": "adopted",
+      "source": "S1",
+      "location": "Section 4.C.5, PDF page 43",
+      "quote": "Minimum 1.15 to 1.0 for all amortized debt throughout the initial 15-year pro forma period.",
+      "min_coverage": 1.15,
+      "forecast_years": 15
+    },
+    "high_coverage_credit_reduction": {
+      "status": "adopted",
+      "source": "S1",
+      "location": "Section 4.C.5, PDF page 43",
+      "quote": "At the time of application, projects with debt coverage ratios that exceed 1.3 to 1.0 may be eligible for less Housing Tax Credit than the amount calculated",
+      "threshold": 1.3,
+      "effect": "CHFA may award less credit; the amount is at CHFA's discretion, so the calculator flags it and does not reduce the credit."
+    }
+  },
+  "drafts": {}
+}

@@ -1,0 +1,312 @@
+#!/usr/bin/env node
+'use strict';
+// #2160: itemized costs, eligible basis, fee tests and CHFA credit limits.
+// Every figure here is INVENTED (test/fixtures/deal-cost-basis/invented-cases.json).
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+
+const ROOT = path.resolve(__dirname, '..');
+const cb = require(path.join(ROOT, 'js', 'deal-cost-basis.js'));
+const rules = require(path.join(ROOT, 'data', 'policy', 'lihtc-underwriting-rules.json'));
+const cases = require(path.join(__dirname, 'fixtures', 'deal-cost-basis', 'invented-cases.json'));
+
+let passed = 0, failed = 0;
+function test(name, fn) {
+  try { fn(); passed++; console.log('  PASS ' + name); }
+  catch (err) { failed++; console.error('  FAIL ' + name + ': ' + err.message); }
+}
+const clone = (v) => JSON.parse(JSON.stringify(v));
+const round = (n) => Math.round(n * 100) / 100;
+
+function runBasisCase(c, ruleFile, overrides) {
+  c = Object.assign(clone(c), overrides || {});
+  const summary = cb.summarizeCosts(c.lines, c.tdc);
+  const grants = cb.grantBasisReduction(c.tranches, ruleFile);
+  return { summary, grants, result: cb.basisAndCredit({
+    eligibleCost: summary.eligible, costReason: summary.reason, acquisitionEligible: summary.acquisitionEligible,
+    grantReduction: grants.reduction, grantReason: grants.reason, designation: c.designation, evidence: c.evidence,
+    creditType: c.creditType, creditRate: c.creditRate, units: c.units, lowIncomeUnits: c.lowIncomeUnits,
+    residentialSf: c.residentialSf, lowIncomeSf: c.lowIncomeSf, requested: c.requested, awarded: c.awarded, rules: ruleFile }) };
+}
+
+test('fixtures are marked invented', () => {
+  assert.equal(cases.invented, true);
+  assert.match(cases.note, /INVENTED/);
+});
+
+test('acceptance 1: eligible basis, grant, boost, qualified basis and credit', () => {
+  const { summary, result } = runBasisCase(cases.basisCase, rules);
+  const e = cases.basisCase.expected;
+  assert.equal(summary.reason, null);
+  assert.equal(round(result.eligibleBasis), e.eligibleBasis);
+  assert.equal(round(result.afterGrant), e.afterGrant);
+  assert.equal(round(result.boostedBasis), e.boostedBasis);
+  assert.equal(round(result.qualifiedBasis), e.qualifiedBasis);
+  assert.equal(round(result.calculatedCredit), e.calculatedCredit);
+  assert.equal(result.applicableFraction, 0.88, 'floor fraction (88%) is lower than the unit fraction (90%)');
+  assert.equal(result.unitFraction, 0.9);
+});
+
+test('acceptance 2: the adopted CHFA cap limits capacity and says why', () => {
+  const { result } = runBasisCase(cases.basisCase, rules);
+  assert.equal(result.cap.binding, true);
+  assert.equal(result.capacity, rules.rules.credit_cap_federal_9pct.annual_cap);
+  assert.match(result.cap.reason, /Capped at \$1,800,000/);
+  assert.match(result.cap.reason, /Qualified Allocation Plan/);
+});
+
+test('acceptance 2: a fixture cap below the credit caps it and says why', () => {
+  const r = clone(rules);
+  r.rules.credit_cap_federal_9pct.annual_cap = 1500000;
+  const { result } = runBasisCase(cases.basisCase, r);
+  assert.equal(result.capacity, 1500000);
+  assert.match(result.cap.reason, /Capped at \$1,500,000/);
+});
+
+test('acceptance 2: a fixture rule with no source is not applied and says "rule not sourced"', () => {
+  const r = clone(rules);
+  r.rules.credit_cap_federal_9pct.annual_cap = 1500000;
+  delete r.rules.credit_cap_federal_9pct.source;
+  const { result } = runBasisCase(cases.basisCase, r);
+  assert.equal(result.cap.applied, false);
+  assert.equal(result.cap.reason, 'rule not sourced');
+  assert.equal(round(result.capacity), cases.basisCase.expected.calculatedCredit);
+  const unknownSource = clone(rules);
+  unknownSource.rules.credit_cap_federal_9pct.source = 'S99';
+  assert.equal(cb.ruleStatus(unknownSource, 'credit_cap_federal_9pct').reason, 'rule not sourced');
+});
+
+test('a draft rule is shown separately and not applied', () => {
+  const r = clone(rules);
+  r.drafts.credit_cap_federal_9pct = { status: 'draft', source: 'S1', location: 'invented draft', annual_cap: 100 };
+  const adopted = cb.ruleStatus(r, 'credit_cap_federal_9pct');
+  assert.equal(adopted.applied, true);
+  assert.equal(adopted.draft.annual_cap, 100, 'the draft travels with the rule for display');
+  assert.equal(runBasisCase(cases.basisCase, r).result.capacity, 1800000, 'the draft value is never applied');
+  r.rules.credit_cap_federal_9pct.status = 'draft';
+  const draftOnly = cb.ruleStatus(r, 'credit_cap_federal_9pct');
+  assert.equal(draftOnly.applied, false);
+  assert.match(draftOnly.reason, /Draft rule/);
+});
+
+test('acceptance 3: QCT off means no boost', () => {
+  const { result } = runBasisCase(cases.basisCase, rules, { designation: 'none' });
+  assert.equal(result.boost.applied, false);
+  assert.equal(round(result.boostedBasis), cases.basisCase.expected.afterGrant);
+  assert.equal(round(result.qualifiedBasis), round(17700000 * 0.88));
+});
+
+test('a designation without evidence, or CHFA boost on a 4% deal, gives no boost', () => {
+  const noEvidence = runBasisCase(cases.basisCase, rules, { evidence: '   ' }).result;
+  assert.equal(noEvidence.boost.applied, false);
+  assert.match(noEvidence.boost.reason, /evidence/);
+  const chfa4 = runBasisCase(cases.basisCase, rules, { designation: 'chfa', creditType: '4', creditRate: 0.04 }).result;
+  assert.equal(chfa4.boost.applied, false);
+  assert.match(chfa4.boost.reason, /only to 9% credits/);
+  const unsourced = clone(rules);
+  delete unsourced.rules.basis_boost.source;
+  assert.match(runBasisCase(cases.basisCase, unsourced).result.boost.reason, /rule not sourced/);
+});
+
+test('the boost applies once, never to acquisition basis, and never above eligible cost x 130%', () => {
+  const lines = clone(cases.basisCase.lines).concat([{ id: 'building_acquisition', label: 'Building', group: 'acquisition', basis: 'eligible', amount: 1000000 }]);
+  const { result } = runBasisCase(cases.basisCase, rules, { lines, tdc: 21600000 });
+  assert.equal(round(result.boostedBasis), round((18700000 - 1000000) * 1.3 + 1000000));
+  for (const designation of ['qct', 'dda', 'sadda', 'chfa']) {
+    const r = runBasisCase(cases.basisCase, rules, { designation, tranches: [] }).result;
+    assert(r.boostedBasis <= r.eligibleBasis * 1.3 + 0.01, designation + ' stays within 130%');
+    assert.equal(r.boost.multiplier, 1.3);
+  }
+});
+
+test('grants are treated by source type; an unknown type is null with a reason', () => {
+  const base = cases.basisCase;
+  const loan = runBasisCase(base, rules, { tranches: [{ id: 1, mode: 'loan', amount: 500000, fundSource: 'federal' }] }).result;
+  assert.equal(loan.afterGrant, 18200000, 'federal money lent to the project does not reduce basis');
+  const state = runBasisCase(base, rules, { tranches: [{ id: 1, mode: 'grant', amount: 500000, fundSource: 'nonfederal' }] }).result;
+  assert.equal(state.afterGrant, 18200000, 'a grant with no federal money does not reduce basis');
+  const unknown = runBasisCase(base, rules, { tranches: [{ id: 1, mode: 'grant', amount: 500000 }] });
+  assert.equal(unknown.grants.reduction, null);
+  assert.match(unknown.grants.reason, /federal money/);
+  assert.equal(unknown.result.afterGrant, null);
+  assert.match(unknown.result.reasons.afterGrant, /federal money/);
+});
+
+test('applicable fraction needs floor space when some units are unrestricted', () => {
+  const missing = runBasisCase(cases.basisCase, rules, { residentialSf: null }).result;
+  assert.equal(missing.applicableFraction, null);
+  assert.equal(missing.qualifiedBasis, null);
+  assert.match(missing.reasons.applicableFraction, /floor space/);
+  const allRestricted = runBasisCase(cases.basisCase, rules, { lowIncomeUnits: 60, residentialSf: null }).result;
+  assert.equal(allRestricted.applicableFraction, 1);
+  const unitLower = runBasisCase(cases.basisCase, rules, { lowIncomeSf: 47000 }).result;
+  assert.equal(unitLower.applicableFraction, 0.9, 'the lower fraction wins either way');
+});
+
+test('acceptance 4: aggregate developer plus consultant fee fails a 15% limit, deferral or not', () => {
+  const f = cases.feeCase;
+  const fixture = clone(rules);
+  fixture.rules.developer_fee_limit.tiers = [{ min_units: 1, max_units: null, pct: 0.15 }];
+  const run = (deferred) => cb.developerFeeTest({ developerFee: f.developerFee, consultantFee: f.consultantFee,
+    deferred, base: f.base, units: f.units, rules: fixture });
+  const r = run(0);
+  assert.equal(r.fee, f.expected.fee);
+  assert.equal(round(r.limit), f.expected.limit);
+  assert.equal(r.passes, f.expected.passes);
+  assert.equal(r.testedBeforeDeferral, true);
+  assert.deepEqual(run(f.deferred), r, 'deferring part of the fee does not change the test');
+  const strip = (x) => Object.assign({}, x, { status: undefined });
+  assert.deepEqual(strip(cb.developerFeeTest({ developerFee: f.developerFee, consultantFee: f.consultantFee, base: f.base, units: f.units, rules })), strip(r),
+    'the adopted rule gives 15% for 50 units or fewer too');
+  const unsourced = clone(fixture);
+  delete unsourced.rules.developer_fee_limit.source;
+  const u = cb.developerFeeTest({ developerFee: f.developerFee, consultantFee: f.consultantFee, base: f.base, units: f.units, rules: unsourced });
+  assert.equal(u.passes, null);
+  assert.equal(u.reason, 'rule not sourced');
+});
+
+test('developer fee base follows QAP 3.M.3 and the contractor fee test uses its tier', () => {
+  const lines = cb.exampleLines();
+  const summary = cb.summarizeCosts(lines, 20000000);
+  const contractor = cb.contractorFeeTest({ byId: summary.byId, units: 60, identityOfInterest: false, rules });
+  assert.equal(contractor.limitPct, 0.10);
+  assert.equal(contractor.fee, 750000);
+  assert.equal(contractor.passes, true);
+  const base = cb.developerFeeBase(summary, contractor);
+  assert.equal(base.base, 20000000 - 1000000 - 1900000 - 500000);
+  const ioi = cb.contractorFeeTest({ byId: summary.byId, units: 80, identityOfInterest: true, rules });
+  assert.equal(ioi.limitPct, 0.06);
+  assert.equal(ioi.passes, false);
+  assert.equal(round(ioi.excess), round(750000 - 11900000 * 0.06));
+  const lumped = cb.contractorFeeTest({ byId: { structures: 14000000 }, units: 60, rules });
+  assert.equal(lumped.passes, null);
+  assert.match(cb.developerFeeBase(cb.summarizeCosts(cases.basisCase.lines, 20600000), lumped).note, /not tested/);
+});
+
+test('acceptance 5: cost per gross and residential SF for the contract and the total', () => {
+  const s = cases.sfCase;
+  const r = cb.costPerSf(s);
+  for (const key of Object.keys(s.expected)) assert.equal(r[key].value.toFixed(2), s.expected[key], key);
+  assert.equal(r.contractPerGrossSf.scope, 'contract');
+  assert.equal(r.totalPerResidentialSf.area, 'residential');
+  const blank = cb.costPerSf({ contract: 10000000, total: 16000000, grossSf: 40000, residentialSf: '' });
+  assert.equal(blank.totalPerResidentialSf.value, null);
+  assert.match(blank.totalPerResidentialSf.reason, /residential square feet/);
+});
+
+test('contract lines are a subset of uses, never added twice; unitemized cost is ineligible', () => {
+  const lines = cb.exampleLines();
+  const s = cb.summarizeCosts(lines, 21000000);
+  const sum = lines.reduce((a, l) => a + (l.amount || 0), 0);
+  assert.equal(s.itemized, sum);
+  assert.equal(s.contract, s.groups.contract);
+  assert(s.contract < s.itemized);
+  assert.equal(Object.values(s.groups).reduce((a, b) => a + b, 0), s.itemized, 'groups partition the uses');
+  assert.equal(s.notItemized, 1000000);
+  assert.equal(s.eligible + s.ineligible, 21000000);
+  const over = cb.summarizeCosts(lines, 19000000);
+  assert.equal(over.eligible, null);
+  assert.match(over.reason, /more than Total Development Cost/);
+  assert.match(cb.summarizeCosts([], 20000000).reason, /Itemize/);
+  const partial = clone(lines); partial.find((l) => l.id === 'financing').eligibleAmount = null;
+  assert.match(cb.summarizeCosts(partial, 20000000).reason, /eligible part of Financing/);
+});
+
+test('each contingency keeps its original amount, proposed use and remaining', () => {
+  const lines = cb.exampleLines();
+  lines.find((l) => l.id === 'escalation').used = 50000;
+  lines.find((l) => l.id === 'soft_contingency').used = '';
+  const s = cb.summarizeCosts(lines, 20000000);
+  assert.deepEqual(s.contingencies.map((c) => c.id).sort(), ['contractor_contingency', 'escalation', 'owner_contingency', 'soft_contingency']);
+  const esc = s.contingencies.find((c) => c.id === 'escalation');
+  assert.deepEqual([esc.original, esc.used, esc.remaining], [200000, 50000, 150000]);
+  const soft = s.contingencies.find((c) => c.id === 'soft_contingency');
+  assert.equal(soft.remaining, null);
+  assert.match(soft.reason, /proposed for use/);
+});
+
+test('capacity, request and award are three figures; equity follows award, then request, then capacity', () => {
+  const none = runBasisCase(cases.basisCase, rules).result;
+  assert.equal(none.creditForEquityBasis, 'capacity');
+  assert.equal(none.requested, null);
+  assert.match(none.reasons.requested, /No request/);
+  const req = runBasisCase(cases.basisCase, rules, { requested: 1700000 }).result;
+  assert.deepEqual([req.capacity, req.requested, req.awarded, req.creditForEquity], [1800000, 1700000, null, 1700000]);
+  const over = runBasisCase(cases.basisCase, rules, { requested: 1900000 }).result;
+  assert.equal(over.creditForEquity, 1800000);
+  assert(over.flags.some((f) => /more than the credit capacity/.test(f)));
+  const award = runBasisCase(cases.basisCase, rules, { requested: 1700000, awarded: 1600000 }).result;
+  assert.deepEqual([award.creditForEquity, award.creditForEquityBasis], [1600000, 'awarded']);
+});
+
+test('underwriting thresholds use the rule\'s forecast years', () => {
+  const years = Array.from({ length: 15 }, (_, i) => ({ year: i + 1, allMustPayCoverage: 1.35 - i * 0.01 }));
+  const ok = cb.underwritingCheck({ years, rules });
+  assert.equal(round(ok.minimum.lowest), 1.21);
+  assert.equal(ok.minimum.passes, true);
+  assert.equal(ok.high.exceeds, true, '1.35 at application is above 1.3');
+  const short = cb.underwritingCheck({ years: years.slice(0, 10), rules });
+  assert.equal(short.minimum.passes, null);
+  assert.match(short.minimum.reason, /CHFA tests 15/);
+  const low = cb.underwritingCheck({ years: years.map((y) => ({ year: y.year, allMustPayCoverage: y.year === 12 ? 1.1 : 1.2 })), rules });
+  assert.equal(low.minimum.passes, false);
+});
+
+test('state credits stay a separate source with CHFA\'s limit; pay-in schedules need all three stages', () => {
+  const s = cb.stateCredit({ annual: 600000, years: 6, price: 0.8, creditType: '9', units: 60, rules });
+  assert.equal(s.allowedAnnual, 500000);
+  assert.equal(s.equity, 500000 * 6 * 0.8);
+  assert.match(s.capReason, /Capped at \$500,000/);
+  const four = cb.stateCredit({ annual: 900000, years: 6, price: 0.8, creditType: '4', units: 50, rules });
+  assert.equal(four.allowedAnnual, 500000, '$10,000 per unit for 50 units');
+  assert.equal(cb.stateCredit({ annual: 400000, years: '', price: 0.8, creditType: '9', rules }).equity, null);
+  assert.equal(cb.stateCredit({ annual: null, rules }).entered, false);
+  const p = cb.payIn(1000000, { closing: 20, completion: 40, stabilization: 40 });
+  assert.deepEqual(p.installments.map((i) => i.amount), [200000, 400000, 400000]);
+  assert.match(cb.payIn(1000000, { closing: 20, completion: 40, stabilization: 30 }).reason, /90%/);
+  assert.match(cb.payIn(1000000, {}).reason, /not entered/);
+});
+
+// The rules file: every applied value must agree with its own quote.
+test('every rule cites a source that exists, with a location and a quote that states its value', () => {
+  const HTTPS = 'https:' + '//';
+  for (const [id, s] of Object.entries(rules.sources)) {
+    assert(s.url.startsWith(HTTPS) && s.title && s.version, id);
+  }
+  let checked = 0;
+  for (const [key, r] of Object.entries(rules.rules)) {
+    assert(rules.sources[r.source], key + ' cites an unknown source');
+    assert.equal(r.status, 'adopted', key);
+    assert(r.location && r.quote && r.quote.length >= 20, key + ' needs a location and quote');
+    checked++;
+  }
+  assert(checked >= 9, 'rules scanned');
+  const R = rules.rules;
+  const fmt = (n) => n.toLocaleString('en-US');
+  assert(R.credit_cap_federal_9pct.quote.includes('$' + fmt(R.credit_cap_federal_9pct.annual_cap)));
+  assert(R.credit_cap_state_with_9pct.quote.includes('$' + fmt(R.credit_cap_state_with_9pct.annual_cap)));
+  assert(R.credit_cap_state_with_4pct.quote.includes('$' + fmt(R.credit_cap_state_with_4pct.annual_cap)));
+  assert(R.credit_cap_state_with_4pct.quote.includes('$' + fmt(R.credit_cap_state_with_4pct.annual_cap_per_unit) + ' per unit'));
+  assert(R.min_debt_coverage.quote.includes(R.min_debt_coverage.min_coverage + ' to 1.0'));
+  assert(R.min_debt_coverage.quote.includes(R.min_debt_coverage.forecast_years + '-year'));
+  assert(R.high_coverage_credit_reduction.quote.includes(R.high_coverage_credit_reduction.threshold + ' to 1.0'));
+  assert(R.basis_boost.quote.includes(Math.round((R.basis_boost.multiplier - 1) * 100) + ' percent'));
+  const top = R.contractor_fee_limit.tiers[0];
+  assert.equal(R.contractor_fee_limit.tier_quote, top.min_units + ' units + ' + top.with_identity_of_interest * 100 + '% ' + top.without_identity_of_interest * 100 + '%');
+  const dev = R.developer_fee_limit.tiers[0];
+  assert.equal(R.developer_fee_limit.tier_quote, dev.min_units + ' units or more ' + dev.pct * 100 + '%');
+  for (const type of ['federal_grant', 'federal_loan', 'nonfederal_grant']) assert.equal(typeof R.grant_basis_treatment.by_source_type[type].reduces_basis, 'boolean');
+});
+
+test('the invented example budget totals the calculator\'s default Total Development Cost', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js', 'deal-calculator.js'), 'utf8');
+  const m = src.match(/id="dc-tdc"[^>]*value="(\d+)"/);
+  assert(m, 'found the default Total Development Cost');
+  const total = cb.exampleLines().reduce((a, l) => a + (l.amount || 0), 0);
+  assert.equal(total, Number(m[1]));
+  assert.match(fs.readFileSync(path.join(ROOT, 'js', 'deal-cost-basis.js'), 'utf8'), /INVENTED example budget/);
+});
+
+console.log(`\n${passed} passed, ${failed} failed`);
+if (failed) process.exit(1);

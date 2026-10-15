@@ -54,6 +54,7 @@ async function calculator(saved = subject(), options = {}) {
     if (options.forbidSubjectRead) w.SubjectProject.get = () => { throw new Error('Shared deal read recipient Subject Project'); };
   }
   await w.HudFmr.load();
+  w.eval(read('js/deal-cost-basis.js'));
   w.eval(read('js/deal-engine.js'));
   w.eval(read('js/deal-calculator.js'));
   await settle(); await settle();
@@ -127,7 +128,13 @@ async function test(name, fn) {
     const w = await calculator();
     try {
       const eligible = subject().unit_mix.filter(r => r.ami_tier !== 'market' && w.__DealCalc.isLihtcCreditEligiblePct(r.ami_tier, '40-60')).reduce((n, r) => n + r.count, 0);
-      const expectedBasis = +w.document.getElementById('dc-tdc').value * +w.document.getElementById('dc-basis-pct').value / 100 * eligible / subject().total_units;
+      // #2160: unrestricted units need the floor-space fraction; enter floor
+      // areas whose fraction is above the unit fraction so the unit fraction binds.
+      for (const [id, v] of [['dc-res-sf', '10000'], ['dc-restricted-sf', '9000']]) {
+        const el = w.document.getElementById(id); el.value = v; el.dispatchEvent(new w.Event('input', { bubbles: true }));
+      }
+      const costBasis = require('../js/deal-cost-basis.js');
+      const expectedBasis = costBasis.summarizeCosts(costBasis.exampleLines(), +w.document.getElementById('dc-tdc').value).eligible * eligible / subject().total_units;
       assert.equal(text(w, 'dc-r-basis'), money(expectedBasis));
       assert.equal(text(w, 'dc-r-credits'), money(expectedBasis * 0.09));
       assert(eligible < subject().total_units && eligible === 5);

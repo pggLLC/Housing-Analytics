@@ -67,7 +67,17 @@
     'dc-fmr-note': 'Gross monthly rent ceilings by income tier for two-bedroom homes.',
     'dc-rent-ach-fmr-grid': 'HUD fair market rents by bedroom size.',
     'dc-rent-allowance-status': 'Utility allowance and fees used to convert gross rent to contract rent.',
-    'dc-noi-allowance-status': 'Utility allowance basis used in scheduled rent revenue.'
+    'dc-noi-allowance-status': 'Utility allowance basis used in scheduled rent revenue.',
+    'dc-res-sf': 'Floor area of all residential rental units, excluding common areas.',
+    'dc-restricted-sf': 'Floor area of the income-restricted units, for the floor-space fraction.',
+    'dc-boost-designation': 'The QCT, DDA, SADDA or CHFA designation claimed for the 30% basis boost.',
+    'dc-boost-evidence': 'Evidence supporting the basis-boost designation.',
+    'dc-credit-requested': 'Annual federal credit requested in the application.',
+    'dc-credit-awarded': 'Annual federal credit awarded by CHFA.',
+    'dc-ioi': 'Whether the builder has an identity of interest with the developer or owner.',
+    'dc-state-annual': 'Annual state housing tax credit for the project.',
+    'dc-state-years': 'Years the state credit is claimed.',
+    'dc-state-price': 'Dollars of investor equity per dollar of state credit.'
   };
   Object.keys(definitions).forEach(function (id) { add(id, definitions[id]); });
   ['dc-tdc', 'dc-units', 'dc-noi'].forEach(function (id) {
@@ -110,8 +120,29 @@
     maturity: 'Year principal is due or conditionally forgiven.', io: 'Interest-only years before amortization starts.',
     accrue: 'Whether tranche interest is paid currently or accrued until exit.', priority: 'Payment order in the cash-flow waterfall.'
   };
+  tranche.fed = 'Whether this source contains federal money; a federally funded grant reduces eligible basis.';
   Object.keys(tranche).forEach(function (key) { add('tranche-' + key, tranche[key]); });
-  function get(id) { return fields[id] || fields[id.replace(/^ip-tr-\d+-/, 'tranche-')] || null; }
+  ['fed', 'state'].forEach(function (src) {
+    ['closing', 'completion', 'stabilization'].forEach(function (stage) {
+      add('dc-' + src + '-payin-' + stage, 'Share of ' + (src === 'fed' ? 'federal' : 'state') + ' credit equity paid in at ' + stage + ', in percent.');
+    });
+  });
+  ['dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence'].forEach(function (id) {
+    fields[id].status = 'needs-source'; fields[id].why = 'No project-specific source has been supplied.';
+  });
+  // #2160: itemized cost lines (js/deal-cost-basis.js). The prefilled amounts
+  // are an INVENTED example budget, so they are illustrative.
+  add('cost-amount', 'Dollars on this development budget line.', 'illustrative',
+    'An invented example budget line; replace it with your project budget.');
+  add('cost-basis', 'Whether this cost line is in eligible basis, partly in it, or not in it.');
+  add('cost-eligible', 'The part of this cost line that is in eligible basis.', 'illustrative',
+    'An invented example; replace it with your cost certification or budget.');
+  add('cost-used', 'Contingency proposed for use so far.', 'illustrative', 'An invented example; replace it with your draw records.');
+  function costKey(id) {
+    var m = /^dc-cost-[a-z_]+(-basis|-eligible|-used)?$/.exec(id);
+    return m ? 'cost-' + (m[1] ? m[1].slice(1) : 'amount') : null;
+  }
+  function get(id) { return fields[id] || fields[id.replace(/^ip-tr-\d+-/, 'tranche-')] || fields[costKey(id)] || null; }
   var api = { fields: fields, get: get };
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (root) root.DealCalculatorInputRegistry = api;

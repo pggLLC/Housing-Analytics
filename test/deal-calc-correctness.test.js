@@ -19,7 +19,17 @@ assert.strictEqual(computeApplicableFraction(40, 0), 1, 'zero total units preser
 assert.strictEqual(computeApplicableFraction(60, 60), 1, 'equal LIHTC and total units caps at 100%');
 assert.strictEqual(computeApplicableFraction(70, 60), 1, 'applicable fraction cannot exceed 100%');
 
-assert(engineSrc.includes('math.computeApplicableFraction(lihtcUnits, units)'), 'calculator uses shared applicable-fraction helper with total units');
+// #2160: the applicable fraction is the lower of the unit and floor-space
+// fractions (26 U.S.C. 42(c)(1)(B)), computed in js/deal-cost-basis.js from
+// the counted LIHTC units over total residential units.
+assert(engineSrc.includes('units: units, lowIncomeUnits: lihtcUnits'), 'engine passes counted LIHTC units over total units to the basis module');
+{
+  const cb = require('../js/deal-cost-basis.js');
+  const af = (lowIncomeSf) => cb.basisAndCredit({ eligibleCost: 1000, grantReduction: 0, units: 60, lowIncomeUnits: 40,
+    residentialSf: 60000, lowIncomeSf, creditRate: 0.09, creditType: '9', rules: null }).applicableFraction;
+  assert(Math.abs(af(45000) - 40 / 60) < 1e-9, 'unit fraction wins when it is lower');
+  assert.strictEqual(af(30000), 0.5, 'floor-space fraction wins when it is lower');
+}
 assert(!(dcSrc + engineSrc).includes('lihtcUnits / totalLihtcEligibleAndMarket'), 'old eligible-plus-market denominator removed');
 assert(!(dcSrc + engineSrc).includes('totalLihtcEligibleAndMarket'), 'old applicable-fraction denominator variable removed');
 assert(dcSrc.includes("lihtcUnits + ' LIHTC units / ' + units"), 'applicable-fraction note renders total residential denominator');
