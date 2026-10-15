@@ -109,15 +109,15 @@
   cursor: pointer;
 }
 .table th[aria-sort="ascending"]::after {
-  content: ' ↑';
+  content: '\00a0↑';
   color: var(--accent, #0a7e74);
 }
 .table th[aria-sort="descending"]::after {
-  content: ' ↓';
+  content: '\00a0↓';
   color: var(--accent, #0a7e74);
 }
 .table th[aria-sort="none"]::after {
-  content: ' ↕';
+  content: '\00a0↕';
   /* F76: dropped opacity:.5 — was stacking on already-faint text and
      pushing the sort indicator below 2:1 in dark mode. Faint alone is
      still visually subordinate to th text without the opacity layer. */
