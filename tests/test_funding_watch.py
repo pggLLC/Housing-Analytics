@@ -277,7 +277,7 @@ def test_workflow_runs_the_watch_daily_after_the_qap_job_and_commits_safely():
 
 
 
-def run_issue_script(tmp_path, summary, label_rejected=False):
+def run_issue_script(tmp_path, summary, label_rejected=False, existing=()):
     """Run the workflow's issue script under node with a stub GitHub client; returns
     (stdout, posts) where posts lists every issue created or commented on."""
     import shutil
@@ -295,7 +295,8 @@ def run_issue_script(tmp_path, summary, label_rejected=False):
     (tmp_path / "run.json").write_text(json.dumps(summary))
     driver = ("const f = require('./issue.js'); const posts = []; let n = 0;"
               "const core = {info: m => console.log('INFO ' + m), warning: m => console.log('WARN ' + m)};"
-              "const github = {paginate: async () => [], rest: {issues: {listForRepo: () => {},"
+              "const github = {paginate: async (fn, args) => { console.log('LIST ' + JSON.stringify(args));"
+              "   return " + json.dumps(list(existing)) + "; }, rest: {issues: {listForRepo: () => {},"
               " createLabel: async a => { console.log('LABEL ' + a.name);"
               + ("   const e = new Error('label service down'); e.status = 500; throw e; },"
                  if label_rejected else "   const e = new Error('exists'); e.status = 422; throw e; },")
@@ -303,7 +304,7 @@ def run_issue_script(tmp_path, summary, label_rejected=False):
               "   throw new Error('Validation Failed: label');"
               "   posts.push({kind: 'create', title: a.title, body: a.body, labels: a.labels || []});"
               "   return {data: {number: ++n, body: a.body}}; },"
-              " createComment: async a => { posts.push({kind: 'comment', body: a.body}); }}}};"
+              " createComment: async a => { posts.push({kind: 'comment', issue: a.issue_number, body: a.body}); }}}};"
               "f({core, github, context: {repo: {owner: 'o', repo: 'r'}}, require})"
               ".then(() => console.log('POSTS ' + JSON.stringify(posts)))"
               ".catch(e => { console.error(e); process.exit(1); });")
@@ -856,3 +857,18 @@ def test_a_title_less_error_page_on_first_sighting_is_no_baseline():
     ok = run(site(eiaf="<title>EIAF</title>\n<p>See our archive for past years.</p>"))
     assert next(p for p in ok["pages"] if p["id"] == "dlg-eiaf")["ok"] is True
     assert "dlg-eiaf" in ok["changes"]["baseline_pages"]
+
+
+def test_an_issue_opened_without_the_label_is_found_again_by_its_marker(tmp_path):
+    """The next run lists every open issue, not only labelled ones, so a tracker the
+    label fallback opened is updated rather than duplicated (Codex, 2026-10-15)."""
+    summary = {"changes": {"changed_pages": [], "new_federal_notices": [
+                   {"key": "grants.gov:9", "source": "grants.gov", "title": "Water grant", "url": "x"}],
+                   "newly_unverifiable": []},
+               "federal_failures": [], "fetch_failures": []}
+    unlabeled = {"number": 7, "labels": [], "body": "<!-- funding-watch:federal -->\nearlier notices"}
+    a_pr = {"number": 8, "labels": [], "pull_request": {}, "body": "<!-- funding-watch:federal -->"}
+    stdout, posts = run_issue_script(tmp_path, summary, existing=[a_pr, unlabeled])
+    listed = json.loads(stdout.split("LIST ", 1)[1].splitlines()[0])
+    assert "labels" not in listed and listed["state"] == "open"
+    assert [(p["kind"], p["issue"]) for p in posts] == [("comment", 7)], "updated the tracker, not the PR; opened nothing"

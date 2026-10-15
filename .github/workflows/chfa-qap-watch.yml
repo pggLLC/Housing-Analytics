@@ -307,7 +307,11 @@ jobs:
             } catch (error) {
               if (error.status !== 422) core.warning(`Could not create label ${LABEL}: ${error.message}`);
             }
-            const open = await github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'open', labels: LABEL, per_page: 100 });
+            // Every open issue, not only labelled ones: an issue opened without the label
+            // (the fallback below) must still be found by its marker and updated, not
+            // opened again on each later change (Codex, 2026-10-15).
+            const open = (await github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'open', per_page: 100 }))
+              .filter(i => !i.pull_request);
             // Nothing is cut: a change is recorded once and never reported again, so a line
             // dropped here would never be seen. A body over PART_CHARS is split at line
             // boundaries into numbered parts (the first opens the issue, the rest comment on
