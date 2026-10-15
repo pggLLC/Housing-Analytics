@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T07:25:59.977Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-15T08:05:09.518Z. Do not edit by hand.
 
 ---
 
@@ -13,7 +13,7 @@
 | `404.html` | Page not found | Colorado Affordable Housing Data Reference | 3.5 KB |
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
 | `about.html` | About | COHO Analytics | 17.7 KB |
-| `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 42.6 KB |
+| `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 43.7 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.9 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | Colorado Public Data Reference | 17.9 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 13.2 KB |
