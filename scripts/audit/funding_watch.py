@@ -94,6 +94,10 @@ UNREACHABLE_AFTER_DAYS = 3
 # written well inside the job's 30-minute timeout, even when every host stalls
 # (Codex, 2026-10-15).
 RUN_BUDGET_SECONDS = 20 * 60
+# A notice absent from a query that read only its capped window was not checked, so its
+# clock does not start; it is still forgotten this long after it was first seen, so a
+# feed that is always capped (most Grants.gov keywords are) cannot grow the file forever.
+CAPPED_NOTICE_MEMORY_DAYS = 3 * 365
 # Federal notices are kept after they leave the search results, so one that drops
 # out and comes back is not reported new again; forgotten this many days after it
 # was last seen (missing_since), never while the query that found it is failing.
@@ -494,6 +498,8 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
             new_notices.append(n)
     seen_now = {n['key'] for n in notices}
     failed_queries = {f"{f['source']}|{f['query']}" for f in fed_failures}
+    # Read only up to the cap: a notice past it was not looked for (Codex, 2026-10-15).
+    capped_queries = {f"{c['source']}|{c['query']}" for c in fed_capped}
     for key, p in prev_notices.items():
         # A copy: main() compares the result with the loaded previous file, so editing
         # the stored record in place would hide this change and it would never be saved.
@@ -510,6 +516,9 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
             merged.append(p)
         elif queries & failed_queries:
             merged.append(p)
+        elif queries & capped_queries:
+            if _days_between(p.get('first_seen_at') or now, now) <= CAPPED_NOTICE_MEMORY_DAYS:
+                merged.append(p)
         else:
             p['missing_since'] = p.get('missing_since') or now
             if _days_between(p['missing_since'], now) <= NOTICE_MEMORY_DAYS:

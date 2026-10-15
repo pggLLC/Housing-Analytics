@@ -917,3 +917,28 @@ def test_a_run_that_spends_its_time_budget_still_writes_with_failures():
     full = watch.run(fetch=counted, previous=base, now="2026-10-16T05:34:00Z", guide=GUIDE, soft=SOFT,
                      sources=SOURCES, budget_s=10**9, clock=lambda: next(ticks))
     assert all(p["ok"] for p in full["pages"]) and not full["federal_failures"]
+
+
+def test_a_notice_past_a_capped_window_is_not_counted_missing():
+    """A query that read only its capped window did not look past it: a known notice
+    pushed out of the window keeps no missing clock, and is forgotten only once it is
+    three years old (Codex, 2026-10-15)."""
+    sources = json.loads(json.dumps(SOURCES))
+    sources["federal"]["grants_gov"].update({"keywords": ["housing"], "rows": 2, "max_records": 2})
+
+    def go(hits, previous=None, now="2026-10-15T05:34:00Z"):
+        return watch.run(fetch=site(gg_hits=hits), previous=previous, now=now,
+                         guide=GUIDE, soft=SOFT, sources=sources)
+    old = [{"id": "1", "title": "Housing grant"}, {"id": "2", "title": "Housing loan"}]
+    new = [{"id": "3", "title": "Housing grant 3"}, {"id": "4", "title": "Housing grant 4"}]
+    base = go(old)
+    r = go(new + old, previous=base, now="2026-10-16T05:34:00Z")
+    assert r["federal_capped"], "the window was capped"
+    kept = {n["key"]: n for n in r["federal_notices"]}
+    assert {"grants.gov:1", "grants.gov:2"} <= set(kept)
+    assert "missing_since" not in kept["grants.gov:1"], "not looked for is not missing"
+    late = go(new + old, previous=r, now="2029-10-20T05:34:00Z")
+    assert {n["key"] for n in late["federal_notices"]}.isdisjoint({"grants.gov:1", "grants.gov:2"})
+    # Non-vacuity: an answered, uncapped query without it starts the clock.
+    gone = go([], previous=base, now="2026-10-16T05:34:00Z")
+    assert {n["key"]: n for n in gone["federal_notices"]}["grants.gov:1"]["missing_since"]
