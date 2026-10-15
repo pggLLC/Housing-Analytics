@@ -33,7 +33,7 @@ async function run() {
         await page.locator('.dc-tr-term').fill('30');
         await page.locator('#dc-soft-tranches details').evaluate(el => { el.open = true; });
         await page.locator('.dc-tr-cfpay').fill('0');
-        await page.locator('.dc-tr-accrue').selectOption('accrued');
+        await page.locator('.dc-tr-type').selectOption('accrue_defer');
       }
       if (scenario === 'C') await page.locator('#dc-opex').fill('');
       // Recalculate after asynchronous county hydration has settled.
@@ -54,10 +54,10 @@ async function run() {
       assert(Object.keys(captured.figures).length > 40, 'non-empty figure scan');
       assert(captured.figures.stressTable.length === 4, 'every stress scenario captured');
       assert.equal(captured.figures['dc-r-noi-stab'].includes('Unavailable'), scenario === 'C');
-      if (scenario === 'B') assert(captured.figures['dc-su-impact-note'].includes('$50,592'), 'preserve the existing soft-loan payment even at 0% cash-flow pay');
+      if (scenario === 'B') assert(captured.figures['dc-su-impact-note'].includes('$0/yr'), 'L1 accrued loan has no regular payment');
       if (!record) {
         const expected = JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
-        if (scenario !== 'C') assert.deepEqual(captured.figures, expected.scenarios[scenario].figures, `scenario ${scenario}: every displayed figure is unchanged`);
+        if (scenario !== 'C') assert.deepEqual(captured.figures, require('./helpers/deal-engine-l1-expected.cjs')(scenario, expected.scenarios[scenario].figures), `scenario ${scenario}: every displayed figure is unchanged`);
         else for (const id of ['dc-r-noi-stab', 'dc-r-mortgage', 'dc-su-gap', 'dc-exit-noi', 'dc-exit-resale']) assert(captured.figures[id].includes('Enter operating cost'), id + ': C has the missing-cost reason');
         const contract = await page.evaluate(() => {
           const expected = window.__DealCalc.getResult();
@@ -104,8 +104,8 @@ async function run() {
   if (record) fs.writeFileSync(fixturePath, JSON.stringify(result, null, 2) + '\n');
   else {
     const expected = JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
-    for (const scenario of ['A', 'B']) assert.deepEqual(result.scenarios[scenario].figures, expected.scenarios[scenario].figures, `scenario ${scenario}: every displayed figure is unchanged`);
-    console.log('deal-engine golden: PASS (invented A/B unchanged character-for-character; C blocks missing operating cost)');
+    for (const scenario of ['A', 'B']) assert.deepEqual(result.scenarios[scenario].figures, require('./helpers/deal-engine-l1-expected.cjs')(scenario, expected.scenarios[scenario].figures), `scenario ${scenario}: every displayed figure is unchanged`);
+    console.log('deal-engine golden: PASS (invented A/B pinned with explicit L1 accrue-loan corrections; C blocks missing operating cost)');
   }
 }
 run().catch(error => { console.error(error); process.exitCode = 1; });

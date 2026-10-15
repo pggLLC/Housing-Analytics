@@ -49,7 +49,7 @@ assert(!dcSrc.includes('id="dc-equity-price" type="number" min="0.50" max="1.20"
 assert(html.includes("safeVal('dc-equity-price')"), 'deal-calculator.html still exports the live equity pricing input');
 
 assert(dcSrc.includes('Senior <abbr data-glossary="DSCR">DSCR</abbr> (1st mortgage, stabilized)'), 'DSCR label clarifies senior mortgage coverage');
-assert(dcSrc.includes('reflects senior mortgage coverage only; all-in coverage including soft debt is shown in the pro forma'), 'DSCR note clarifies senior-only coverage');
+assert(dcSrc.includes('id="dc-all-must-pay-dscr"') && dcSrc.includes("_setDscr('dc-all-must-pay-dscr', result.allMustPayDSCR)"), 'separate all-must-pay figure reads its engine ratio');
 assert(!dcSrc.includes('<abbr data-glossary="DSCR">DSCR</abbr> (stabilized)</dt>'), 'ambiguous DSCR stabilized label removed');
 
 console.log('All Deal Calculator correctness guards passed.');

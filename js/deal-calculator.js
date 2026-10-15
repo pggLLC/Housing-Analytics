@@ -1,5 +1,11 @@
 (function () {
   'use strict';
+  function loanTypeOptions(selected) {
+    return Object.keys(dealEngine().LOAN_TYPES).map(function (key) {
+      return '<option value="' + key + '"' + (key === selected ? ' selected' : '') + '>' + dealEngine().LOAN_TYPES[key] + '</option>';
+    }).join('');
+  }
+
   var provenanceLabel = window.ProvenanceLabel || (typeof require === 'function' ? require('./provenance-label.js') : null);
   var MoneyFormatter = window.MoneyFormatter || (typeof require === 'function' ? require('./utils/format-money.js') : null);
 
@@ -79,7 +85,7 @@
   // _gapResolver / inline-IIFE pattern can read it without re-importing.
   if (!window.__cohoPlaceAcsCache) window.__cohoPlaceAcsCache = {};
   (function _warmPlaceAcs() {
-    function _go() {
+      function _go() {
       try {
         var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
                    window.WorkflowState.getActiveProject();
@@ -2154,6 +2160,28 @@
 
       <fieldset data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Debt Sizing</legend>
+        <label style="display:block;">Senior loan amount mode
+          <select id="dc-senior-mode" style="width:100%;min-height:44px;"><option value="sized">Size from NOI and target DCR</option><option value="entered">Enter loan amount</option></select>
+        </label>
+        <label style="display:block;">Entered senior amount ($)
+          <input id="dc-senior-amount" type="number" min="0" step="1000" value="" style="width:100%;min-height:44px;">
+        </label>
+        <label style="display:block;">Senior repayment type
+          <select id="dc-senior-type" style="width:100%;min-height:44px;">${loanTypeOptions('amortizing')}</select>
+        </label>
+        <label style="display:block;">Maturity (years)
+          <input id="dc-senior-maturity" type="number" min="1" max="50" step="1" value="35" style="width:100%;min-height:44px;">
+        </label>
+        <label style="display:block;">Interest-only years (before amortization)
+          <input id="dc-senior-io-years" type="number" min="0" max="49" step="1" value="2" style="width:100%;min-height:44px;">
+        </label>
+        <label style="display:block;">Priority (1 paid first)
+          <input id="dc-senior-priority" type="number" min="1" max="12" step="1" value="1" style="width:100%;min-height:44px;">
+        </label>
+        <label style="display:block;">Residual cash-flow share (%) — contingent loans only
+          <input id="dc-senior-cfpay" type="number" min="0" max="100" step="1" value="100" style="width:100%;min-height:44px;">
+        </label>
+
 
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Debt Coverage Ratio (DCR)</span>
@@ -2172,7 +2200,7 @@
         <div id="dc-freddie-benchmark" style="margin:-0.3rem 0 var(--sp2);font-size:0.7rem;color:var(--muted);line-height:1.4;"></div>
 
         <label style="display:block;margin-bottom:var(--sp2);">
-          <span style="font-size:var(--small);color:var(--muted);">Loan Term (years)</span>
+          <span style="font-size:var(--small);color:var(--muted);">Amortization (years)</span>
           <input id="dc-term" type="number" min="1" max="50" step="1" value="35"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
         </label>
@@ -2189,7 +2217,7 @@
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Soft Funding Stack</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
           Stack up to 5 subordinate sources (CHFA HTF, Prop 123, local PHA, sponsor loan, impact fees, etc.).
-          Loans amortize from cash flow; grants reduce eligible basis under §42(d)(5)(A) and fill the gap at closing.
+          Choose the repayment obligation for each loan; grants reduce eligible basis under §42(d)(5)(A) and fill the gap at closing.
         </p>
         <!-- #1937: HB26-1065 Transit Zone credit. Informational only: it adds
              nothing to the stack, and shows only for an exact site with
@@ -2297,17 +2325,17 @@
           <div style="margin-bottom:var(--sp3);">
             <strong style="display:block;margin-bottom:0.25rem;">4. Supportable first mortgage</strong>
             <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;">
-              mortgage = (NOI ÷ DCR_target) ÷ mortgage_constant
+              sized_mortgage = max(0, NOI ÷ DCR_target − must_pay_soft_service) ÷ senior_payment_constant
             </code>
             <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;">
-              DCR target is an input above (default 1.20×; conservative lenders use 1.25×, aggressive 1.15×). Mortgage constant is derived from the rate and term inputs (annualised debt-service-per-dollar).
+              DCR target is an input above (default 1.20×; conservative lenders use 1.25×, aggressive 1.15×). The senior payment constant uses the stated repayment type (including payments after any interest-only period). Entered-amount mode retains your principal instead of sizing it.
             </p>
           </div>
 
           <div style="margin-bottom:var(--sp3);">
             <strong style="display:block;margin-bottom:0.25rem;">5. DSCR + stress scenarios</strong>
             <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;margin-bottom:0.35rem;">
-              DSCR = NOI ÷ annual_debt_service
+              senior_DSCR = NOI ÷ senior_service; all_must_pay_DSCR = NOI ÷ total_required_service
             </code>
             <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.78rem;background:var(--card);padding:0.4rem 0.5rem;border-radius:3px;line-height:1.7;">
               stress_NOI = (rents × rent_mult) × (1 − (vacancy + vac_delta)) − (opex × opex_mult) − reserve − tax
@@ -2599,7 +2627,7 @@
           <dt style="color:var(--muted);">Mortgage Constant (annual)</dt>
           <dd id="dc-r-mc" style="font-weight:700;text-align:right;">—</dd>
 
-          <dt style="color:var(--muted);">Supportable First Mortgage</dt>
+          <dt id="dc-mortgage-label" style="color:var(--muted);">Supportable First Mortgage</dt>
           <dd id="dc-r-mortgage" style="font-weight:700;text-align:right;color:var(--accent);">—</dd>
 
           <dt style="color:var(--muted);">Cap Rate (NOI / TDC)</dt>
@@ -2638,6 +2666,9 @@
           <dd id="dc-r-dscr-base" style="font-weight:700;text-align:right;">—</dd>
         </dl>
         <p id="dc-dscr-target-note" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp1);margin-bottom:var(--sp2);">—</p>
+        <p>All must-pay coverage: <strong id="dc-all-must-pay-dscr">Unavailable</strong></p>
+        <p id="dc-loan-coverage" role="status" aria-live="polite" aria-atomic="true" style="font-size:var(--small);"></p>
+
         <table id="dc-dscr-stress-table" style="width:100%;border-collapse:collapse;font-size:var(--small);margin-top:var(--sp2);">
           <thead>
             <tr>
@@ -2985,6 +3016,7 @@
     document.getElementById('dc-edit-unit-mix').addEventListener('click', editMixHere);
     const ids = ['dc-unit-mix-source', 'dc-unrepresented-schedule-rows', 'dc-tdc', 'dc-gross-sf', 'dc-units', 'dc-sale-target-ami', 'dc-basis-pct',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
+      'dc-senior-mode', 'dc-senior-amount', 'dc-senior-type', 'dc-senior-maturity', 'dc-senior-io-years', 'dc-senior-priority', 'dc-senior-cfpay',
       'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
       'dc-own-resale-years', 'dc-own-resale-principal', 'dc-own-resale-costs',
       'dc-own-resale-appreciation', 'dc-gsf-standard', 'dc-gsf-efficiency',
@@ -3078,7 +3110,7 @@
       var opts = SOFT_PROGRAMS.map(function (p) {
         return '<option value="' + p.v + '"' + (p.v === t.program ? ' selected' : '') + '>' + p.l + '</option>';
       }).join('');
-      var inputCss = 'padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);width:100%;';
+      var inputCss = 'padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);width:100%;min-height:44px;';
       var labelCss = 'font-size:var(--tiny);color:var(--muted);display:block;margin-bottom:0.15rem;';
       return ''
         + '<div data-tranche-id="' + idSuffix + '" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--bg2);">'
@@ -3087,44 +3119,35 @@
         + '    <button type="button" class="dc-tr-remove" aria-label="Remove this tranche" '
         + '      style="background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:var(--radius);padding:0.2rem 0.5rem;cursor:pointer;font-size:var(--small);">✕</button>'
         + '  </div>'
-        + '  <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:var(--sp2);align-items:end;">'
-        + '    <label><span style="' + labelCss + '">Amount ($)</span>'
-        + '      <input class="dc-tr-amount" type="number" min="0" step="10000" value="' + (t.amount || 0) + '" style="' + inputCss + '">'
+        + '  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:var(--sp2);align-items:end;">'
+        + '    <label style="display:block;"><span style="' + labelCss + '">Amount ($)</span>'
+        + '      <input class="dc-tr-amount" type="number" min="0" step="10000" value="' + (t.amount == null ? '' : t.amount) + '" style="' + inputCss + '">'
         + '    </label>'
-        + '    <label><span style="' + labelCss + '">Rate (%)</span>'
-        + '      <input class="dc-tr-rate" type="number" min="0" max="20" step="0.1" value="' + (t.rate != null ? t.rate : 3.0) + '" style="' + inputCss + '">'
+        + '    <label style="display:block;"><span style="' + labelCss + '">Rate (%)</span>'
+        + '      <input class="dc-tr-rate" type="number" min="0" max="20" step="0.1" value="' + (t.rate == null ? '' : t.rate) + '" style="' + inputCss + '">'
         + '    </label>'
-        + '    <label><span style="' + labelCss + '">Term (yrs)</span>'
-        + '      <input class="dc-tr-term" type="number" min="1" max="50" step="1" value="' + (t.term || 30) + '" style="' + inputCss + '">'
+        + '    <label style="display:block;"><span style="' + labelCss + '">Amortization (yrs)</span>'
+        + '      <input class="dc-tr-term" type="number" min="1" max="50" step="1" value="' + (t.term == null ? '' : t.term) + '" style="' + inputCss + '">'
         + '    </label>'
         + '  </div>'
         + '  <fieldset style="border:none;padding:0;margin:var(--sp2) 0 0;">'
         + '    <label style="display:inline-flex;align-items:center;gap:0.3rem;font-size:var(--tiny);color:var(--muted);margin-right:var(--sp3);">'
-        + '      <input type="radio" class="dc-tr-mode" name="dc-tr-mode-' + idSuffix + '" value="loan"' + (t.mode === 'loan' ? ' checked' : '') + '> Loan — amortized'
+        + '      <input type="radio" class="dc-tr-mode" name="dc-tr-mode-' + idSuffix + '" value="loan"' + (t.mode === 'loan' ? ' checked' : '') + '> Loan'
         + '    </label>'
         + '    <label style="display:inline-flex;align-items:center;gap:0.3rem;font-size:var(--tiny);color:var(--muted);">'
         + '      <input type="radio" class="dc-tr-mode" name="dc-tr-mode-' + idSuffix + '" value="grant"' + (t.mode === 'grant' ? ' checked' : '') + '> Grant — reduces basis (§42(d)(5)(A))'
         + '    </label>'
         + '  </fieldset>'
-        // F194 — Tier 2: cash-flow-pay %, accrue mode, priority order. Mirrors
-        // the Anthracite professional model's per-tranche controls. Default-
-        // collapsed; loan-mode only (grants have no debt service).
+        + '  <label style="display:block;margin-top:0.5rem;">Repayment obligation <select class="dc-tr-type" style="' + inputCss + '">' + loanTypeOptions(dealEngine().loanTerms(t).loan.type) + '</select></label>'
         + '  <details style="margin-top:var(--sp2);">'
-        + '    <summary style="cursor:pointer;font-size:var(--tiny);font-weight:600;color:var(--muted);padding:0.2rem 0;">▸ Cash-flow waterfall position (advanced)</summary>'
-        + '    <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:var(--sp2);margin-top:var(--sp2);padding:var(--sp2);background:var(--card);border:1px solid var(--border);border-radius:var(--radius);">'
-        + '      <label><span style="' + labelCss + '">% Cash-flow-pay <span title="What % of mandatory debt service is paid from operating cash flow each year. Remainder comes from surplus cash only (residual). Soft debt is often 50-100% surplus-only.">ⓘ</span></span>'
-        + '        <input class="dc-tr-cfpay" type="number" min="0" max="100" step="5" value="' + (t.cashflowPayPct != null ? t.cashflowPayPct : 100) + '" style="' + inputCss + '">'
-        + '      </label>'
-        + '      <label><span style="' + labelCss + '">Interest <span title="Current pay = interest accrues + is paid each year. Accrue = interest accrues but is added to principal balance, paid at maturity or refi.">ⓘ</span></span>'
-        + '        <select class="dc-tr-accrue" style="' + inputCss + '">'
-        + '          <option value="current"' + ((t.accrueMode || 'current') === 'current' ? ' selected' : '') + '>Current pay</option>'
-        + '          <option value="accrued"' + (t.accrueMode === 'accrued' ? ' selected' : '') + '>Accrue (pay at exit)</option>'
-        + '        </select>'
-        + '      </label>'
-        + '      <label><span style="' + labelCss + '">Priority <span title="Cash flow waterfall priority. 1 = paid first; 12 = paid last. Hard mortgage is typically 1; soft debt 4-10; deferred dev fee 6-9.">ⓘ</span></span>'
-        + '        <input class="dc-tr-priority" type="number" min="1" max="12" step="1" value="' + (t.priority != null ? t.priority : 5) + '" style="' + inputCss + '">'
-        + '      </label>'
+        + '    <summary style="cursor:pointer;min-height:44px;">Loan terms and cash-flow priority</summary>'
+        + '    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:var(--sp2);">'
+        + '      <label style="display:block;">Maturity (years)<input class="dc-tr-maturity" type="number" min="1" max="50" value="' + (t.maturity === undefined ? t.term : t.maturity == null ? '' : t.maturity) + '" style="' + inputCss + '"></label>'
+        + '      <label style="display:block;">Interest-only years<input class="dc-tr-io" type="number" min="0" max="49" value="' + (t.ioYears === undefined ? 2 : t.ioYears == null ? '' : t.ioYears) + '" style="' + inputCss + '"></label>'
+        + '      <label style="display:block;">Residual cash-flow share (%)<input class="dc-tr-cfpay" type="number" min="0" max="100" value="' + (t.cashflowPayPct === undefined ? 100 : t.cashflowPayPct == null ? '' : t.cashflowPayPct) + '" style="' + inputCss + '"></label>'
+        + '      <label style="display:block;">Priority (1 first)<input class="dc-tr-priority" type="number" min="1" max="12" value="' + (t.priority === undefined ? 5 : t.priority == null ? '' : t.priority) + '" style="' + inputCss + '"></label>'
         + '    </div>'
+        + '    <p style="font-size:var(--tiny);">Screening assumptions: cash-flow loans receive their share of remaining positive cash after must-pay debt, in priority order. Unpaid interest compounds annually. Forgivable loans assume all principal and accrued interest are forgiven at maturity only if the agreement’s conditions are met. Confirm these terms with the lender; public funding is not automatically forgivable.</p>'
         + '  </details>'
         + '</div>';
     }
@@ -3135,7 +3158,7 @@
       if (_softTranches.length === 0) {
         // Seed with a default empty tranche so the UI isn't empty on first load.
         // F194: also seed cashflowPayPct, accrueMode, priority defaults
-        _softTranches.push({ id: ++_trancheCounter, program: 'chfa_htf', amount: 0, mode: 'loan', rate: 3.0, term: 30, cashflowPayPct: 100, accrueMode: 'current', priority: 5 });
+        _softTranches.push({ id: ++_trancheCounter, program: 'chfa_htf', amount: 0, mode: 'loan', rate: 3.0, term: 30, maturity: 30, ioYears: 2, loanType: 'amortizing', cashflowPayPct: 100, priority: 5 });
       }
       var provenance = window.InputProvenance;
       var previousOrigins = {};
@@ -3166,50 +3189,23 @@
           t.program = this.value;
           recalculate();
         });
-        rowEl.querySelector('.dc-tr-amount').addEventListener('input', function () {
-          t.amount = parseFloat(this.value) || 0;
-          recalculate();
+        [['amount', 'amount'], ['rate', 'rate'], ['term', 'term'], ['maturity', 'maturity'],
+          ['io', 'ioYears'], ['cfpay', 'cashflowPayPct'], ['priority', 'priority']].forEach(function (pair) {
+          rowEl.querySelector('.dc-tr-' + pair[0]).addEventListener('input', function () {
+            t[pair[1]] = this.value.trim() === '' ? null : Number(this.value);
+            recalculate();
+          });
         });
-        rowEl.querySelector('.dc-tr-rate').addEventListener('input', function () {
-          t.rate = parseFloat(this.value) || 0;
-          recalculate();
-        });
-        rowEl.querySelector('.dc-tr-term').addEventListener('input', function () {
-          t.term = Math.max(1, parseInt(this.value, 10) || 30);
+        rowEl.querySelector('.dc-tr-type').addEventListener('change', function () {
+          t.loanType = this.value;
+          if (t.ioYears === undefined) t.ioYears = 2;
           recalculate();
         });
         rowEl.querySelectorAll('.dc-tr-mode').forEach(function (modeRadio) {
           modeRadio.addEventListener('change', function () {
-            if (this.checked) {
-              t.mode = this.value;
-              recalculate();
-            }
+            if (this.checked) { t.mode = this.value; recalculate(); }
           });
         });
-        // F194 — Tier 2 per-tranche knobs (cash-flow-pay %, accrue, priority).
-        // Optional chaining because the controls live in a <details> that
-        // may not be in the DOM if a future renderer simplifies the row.
-        var cfPayEl = rowEl.querySelector('.dc-tr-cfpay');
-        if (cfPayEl) {
-          cfPayEl.addEventListener('input', function () {
-            t.cashflowPayPct = Math.max(0, Math.min(100, parseFloat(this.value) || 0));
-            recalculate();
-          });
-        }
-        var accrueEl = rowEl.querySelector('.dc-tr-accrue');
-        if (accrueEl) {
-          accrueEl.addEventListener('change', function () {
-            t.accrueMode = this.value;
-            recalculate();
-          });
-        }
-        var priorityEl = rowEl.querySelector('.dc-tr-priority');
-        if (priorityEl) {
-          priorityEl.addEventListener('input', function () {
-            t.priority = Math.max(1, Math.min(12, parseInt(this.value, 10) || 5));
-            recalculate();
-          });
-        }
         rowEl.querySelector('.dc-tr-remove').addEventListener('click', function () {
           _softTranches = _softTranches.filter(function (x) { return x.id !== trId; });
           renderSoftTranches();
@@ -3224,7 +3220,7 @@
         if (_softTranches.length >= 5) return;  // hard cap — keep UI scannable
         // F194: new tranches default to surplus-only (0% CF-pay), accrue mode,
         // priority 8 (mid-stack) — typical for new soft debt added late in capital stack.
-        _softTranches.push({ id: ++_trancheCounter, program: 'prop123', amount: 0, mode: 'loan', rate: 0, term: 30, cashflowPayPct: 0, accrueMode: 'accrued', priority: 8 });
+        _softTranches.push({ id: ++_trancheCounter, program: 'prop123', amount: 0, mode: 'loan', rate: 0, term: 30, maturity: 30, ioYears: 2, loanType: 'accrue_defer', cashflowPayPct: 0, priority: 8 });
         renderSoftTranches();
         recalculate();
       });
@@ -3579,6 +3575,7 @@
       annualRents: ['annualRents'], developerFee: ['devFeeTotal'], deferredDeveloperFee: ['deferredDevFee'],
       stabilizedNoi: ['noi'], mortgageConstant: ['mc', 'percent4'], firstMortgage: ['mortgage'],
       annualDebtService: ['annualDebtService'], dscr: ['baseDSCR', 'ratio'],
+      allMustPayDebtService: ['allMustPayDebtService'], allMustPayDscr: ['allMustPayDSCR', 'ratio'],
       breakEvenOccupancy: ['breakEvenOcc', 'percent1'], totalDevelopmentCost: ['tdc'], fundingGap: ['gap'],
       annualOperatingExpenses: ['annualOpex'], annualReserves: ['annualRepReserve'], annualPropertyTax: ['netPropTax'],
       annualSoftDebtService: ['impactDebtService'], exitNoi: ['exit.nNoi'], resaleValue: ['exit.resale'],
@@ -3977,16 +3974,32 @@
     if (adsEl) adsEl.textContent = annualDebtService > 0 ? fmt(annualDebtService) : '—';
 
     _setDscr('dc-r-dscr-base', baseDSCR);
+    _setDscr('dc-all-must-pay-dscr', result.allMustPayDSCR);
+    var debtSummary = document.getElementById('dc-loan-coverage');
+    if (debtSummary) {
+      var coverage = result.coverage;
+      var weakest = function (record) { return record ? 'year ' + record.year + ' (' + record.ratio.toFixed(2) + 'x)' : 'unavailable — needs known NOI and positive scheduled debt service'; };
+      debtSummary.textContent = coverage ? coverage.measuredYears + ' of ' + coverage.years.length + ' forecast years have known NOI and loan terms. Weakest measured senior coverage: ' + weakest(coverage.weakestSenior) +
+        ' · Weakest measured all must-pay coverage: ' + weakest(coverage.weakestAllMustPay) +
+        '. Regular operating payments only; maturity balloons below require repayment or refinancing.'
+        : 'Unavailable — ' + (result.unavailable.coverage || 'Enter loan terms and NOI.');
+    }
+    var mortgageLabel = document.getElementById('dc-mortgage-label');
+    if (mortgageLabel) mortgageLabel.textContent = result.seniorMode === 'entered' ? 'Entered senior mortgage' : 'Supportable First Mortgage';
+    var enteredSenior = document.getElementById('dc-senior-amount');
+    if (enteredSenior) enteredSenior.disabled = result.seniorMode !== 'entered';
 
     var targetNote = document.getElementById('dc-dscr-target-note');
     if (targetNote) {
       if (baseDSCR != null && isFinite(baseDSCR)) {
-        targetNote.textContent = 'Sized to target DCR ' + dcr.toFixed(2) + 'x · reflects senior mortgage coverage only; all-in coverage including soft debt is shown in the pro forma. The stress table below shows how DSCR moves if rents, vacancy, or operating costs shift.';
+        targetNote.textContent = (result.seniorMode === 'entered' ? 'Entered senior amount; coverage is measured.' : 'Sized from NOI and target DCR ' + dcr.toFixed(2) + 'x after must-pay soft debt.') + ' Stress tests use all must-pay operating debt; balloons are shown separately.';
       } else {
         targetNote.textContent = 'Enter NOI (or enable auto-compute) and mortgage terms to see DSCR.';
       }
     }
 
+    var allCoverageEl = document.getElementById('dc-all-must-pay-dscr');
+    if (allCoverageEl && result.allMustPayDSCR === null) allCoverageEl.textContent = 'Unavailable — ' + result.unavailable.allMustPayDSCR;
     var manualNote = document.getElementById('dc-dscr-manual-note');
     var stressTableEl = document.getElementById('dc-dscr-stress-table');
     if (manualNote && stressTableEl) {
@@ -4268,10 +4281,10 @@
         trDetailEl.innerHTML = '';
       } else {
         trDetailEl.innerHTML = trancheBreakdown.map(function (t) {
-          var label = (progLabels[t.program] || t.program) +
+          var label = _escHtml(progLabels[t.program] || t.program) +
             ' — ' + (t.mode === 'grant'
               ? '<span style="color:var(--accent)">grant</span>'
-              : (t.rate > 0 ? t.rate + '% · ' + t.term + 'y' : '0% · ' + t.term + 'y straight-line'));
+              : _escHtml(dealEngine().LOAN_TYPES[t.loanType] || 'Repayment type unavailable') + ' · ' + (t.rate == null ? 'rate unavailable' : t.rate + '%') + ' · maturity ' + (t.maturity == null ? 'unavailable' : 'year ' + t.maturity));
           var amtText = fmt(t.amount) + (t.mode === 'loan' && t.debtService > 0
             ? ' <span style="font-size:var(--tiny);color:var(--muted)">(' + fmt(t.debtService) + '/yr)</span>'
             : '');
@@ -4429,7 +4442,7 @@
       'dc-r-deferred': 'deferredDevFee', 'dc-su-deferred': 'deferredDevFee',
       'dc-r-devfee-closing': 'devFeeAtClosing', 'dc-r-cap-rate': 'capRate',
       'dc-r-beo': 'breakEvenOcc', 'dc-r-dscr-base': 'baseDSCR',
-      'dc-stress-base-noi': 'noi', 'dc-stress-base-dscr': 'baseDSCR'
+      'dc-stress-base-noi': 'noi', 'dc-stress-base-dscr': 'allMustPayDSCR', 'dc-all-must-pay-dscr': 'allMustPayDSCR'
     };
     Object.keys(dependent).forEach(function (id) {
       var el = document.getElementById(id), key = dependent[id];
@@ -4441,6 +4454,13 @@
     });
     delete document.getElementById('dc-adjust-guidance-list').dataset.unavailableReason;
     var exitReason = result.exit.nNoi == null ? result.unavailable['exit.nNoi'] : null;
+    if (result.exit.loanUnavailableReason) {
+      ['dc-exit-mortbal', 'dc-exit-softbal', 'dc-exit-net', 'dc-exit-defyr', 'dc-exit-irr'].forEach(function (id) {
+        var el = document.getElementById(id);
+        el.dataset.unavailableReason = result.exit.loanUnavailableReason;
+        el.textContent = 'Unavailable — ' + result.exit.loanUnavailableReason;
+      });
+    }
     if (exitReason) exitOutputs.forEach(function (id) {
       var el = document.getElementById(id);
       if (el) { el.dataset.unavailableReason = manualMarket.unavailableReason || exitReason; el.textContent = 'Unavailable — ' + exitReason; }
