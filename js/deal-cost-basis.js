@@ -196,6 +196,10 @@
     return out;
   }
 
+  function contractorUntested(t) {
+    return !!(t && t.status && t.status.applied && t.fee > 0 && t.excess === null);
+  }
+
   /** CHFA's base for the developer fee limit, QAP 3.M.3. */
   function developerFeeBase(summary, contractorTest, specialPopulations) {
     if (!summary || summary.tdc === null) return { base: null, reason: (summary && summary.reason) || 'Itemize development costs.' };
@@ -204,6 +208,11 @@
     if (summary.notItemized > 0.5) {
       return { base: null, reason: 'Itemize the remaining ' + '$' + Math.round(summary.notItemized).toLocaleString('en-US')
         + ' of Total Development Cost, so CHFA\'s fee base (which leaves out land, half of acquisition, fees and reserves) is known.' };
+    }
+    // An over-limit contractor fee comes off the base; untested, the base is unknown.
+    if (contractorUntested(contractorTest)) {
+      return { base: null, reason: 'The contractor fee could not be tested against CHFA\'s limit (' + String(contractorTest.reason || '').replace(/\.$/, '')
+        + '), so the developer fee base is unknown.' };
     }
     var byId = summary.byId;
     var excess = contractorTest && contractorTest.excess !== null ? contractorTest.excess : 0;
@@ -245,6 +254,10 @@
     var out = { contractor: 0, developer: 0, total: 0, reason: null };
     // A fee the limit could not be tested on may still be over it; while any of
     // it sits in basis, the reduction is unknown, not $0.
+    if (contractorUntested(contractorTest) && (e.overhead || 0) + (e.profit || 0) > 0) {
+      return { contractor: null, developer: null, total: null,
+        reason: 'The contractor fee could not be tested against CHFA\'s limit (' + String(contractorTest.reason || '').replace(/\.$/, '') + '), so the fee to take out of basis is unknown.' };
+    }
     var feeInBasis = (e.developer_fee || 0) + (e.consultant_fee || 0);
     if (developerTest && developerTest.status && developerTest.status.applied && developerTest.fee !== null
       && developerTest.excess === null && feeInBasis > 0) {
@@ -458,6 +471,10 @@
     out.path = path;
     if (standard !== null && !def.streams.some(function (st) { return st[0] === 'standardAnnual'; })) {
       out.reason = 'Only Round Two pairs a separate standard state credit; clear the paired amount or choose Round Two.'; return out;
+    }
+    // CHFA pairs the standard credit with an accelerated award (QAP 3.L), so it never stands alone.
+    if (path === 'round_two' && standard !== null && num(args.annual) === null) {
+      out.reason = 'Round Two pairs the standard state credit with an accelerated award; enter the accelerated amount too.'; return out;
     }
     var allowed = 0, notes = [];
     for (var i = 0; i < def.streams.length; i++) {

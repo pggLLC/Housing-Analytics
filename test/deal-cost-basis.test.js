@@ -287,7 +287,9 @@ test('state credits stay a separate source with CHFA\'s limit; pay-in schedules 
   const both = four('round_two', 50, { standardAnnual: 900000 });
   assert.equal(both.allowedAnnual, acc + std);
   assert.equal(both.equity, (acc + std) * 6 * 0.8);
-  assert.equal(four('round_two', 50, { annual: null, standardAnnual: 400000 }).allowedAnnual, 400000);
+  const alone = four('round_two', 50, { annual: null, standardAnnual: 400000 });
+  assert.equal(alone.equity, null, 'the paired standard credit never stands alone');
+  assert.match(alone.reason, /enter the accelerated amount/);
   assert.match(four('bond_fall', 50, { standardAnnual: 100000 }).reason, /Only Round Two/);
   // A path belongs to one federal credit type.
   assert.match(four('with_9pct', 50).reason, /federal 9% credits/);
@@ -463,6 +465,20 @@ test('an untested developer fee in basis leaves the fee reduction, and so basis,
   const tested = cb.feeExcessInBasis(cb.summarizeCosts(cb.exampleLines(), 20000000), { excess: 0 },
     cb.developerFeeTest({ developerFee: 1900000, consultantFee: 0, base: 17500000, units: 60, rules }));
   assert.equal(tested.total, 0, 'a fee within the limit takes nothing out');
+});
+
+test('an untested contractor fee in basis leaves the developer fee base and the basis reduction unknown', () => {
+  const lines = cb.exampleLines().map((l) => ['structures', 'site_work', 'contractor_contingency'].includes(l.id) ? Object.assign({}, l, { amount: null })
+    : l.id === 'general_requirements' ? Object.assign({}, l, { amount: l.amount + 11900000 }) : l);
+  const summary = cb.summarizeCosts(lines, 20000000);
+  const con = cb.contractorFeeTest({ byId: summary.byId, units: 60, rules });
+  assert(con.fee > 0 && con.excess === null, 'non-vacuous: overhead and profit are entered but untestable');
+  const base = cb.developerFeeBase(summary, con, false);
+  assert.equal(base.base, null);
+  assert.match(base.reason, /contractor fee could not be tested/);
+  const excess = cb.feeExcessInBasis(summary, con, { status: { applied: true }, fee: 0, excess: 0 });
+  assert.equal(excess.total, null);
+  assert.match(excess.reason, /contractor fee could not be tested/);
 });
 
 test('the invented example budget totals the calculator\'s default Total Development Cost', () => {
