@@ -2,9 +2,9 @@
   "meta": {
     "title": "Colorado developer funding resources",
     "as_of": "2026-10-10",
-    "last_checked": "2026-10-10",
-    "review_by": "2027-01-10",
-    "scope": "Programs that finance affordable rental and for-sale housing development in Colorado: federal and state tax credits, CHFA loans, Proposition 123 funds, Division of Housing funds, federal and agency debt and grants, rental assistance, and the largest city funds.",
+    "last_checked": "2026-10-15",
+    "review_by": "2027-01-15",
+    "scope": "Programs that finance affordable rental and for-sale housing development in Colorado: federal and state tax credits, CHFA loans, Proposition 123 funds, Division of Housing funds, federal and agency debt and grants, rental assistance, the largest city funds, and the state and federal programs that pay for public infrastructure serving housing sites.",
     "method": "Every term was read from the administrator's own page, the statute, eCFR, IRS, Federal Register (govinfo) or the CHFA QAP on the date in last_checked, and each one carries a verbatim quote and its URL in evidence. A term the official source does not publish is null and listed in unverified with the reason. Nothing is filled from memory or from third-party summaries.",
     "ami_limits_file": "data/chfa-income-rent-limits-2026.json",
     "related": [
@@ -45,6 +45,11 @@
       "id": "local",
       "label": "Local funds",
       "summary": "City gap financing. Each city sets its own rounds and terms; other cities and counties run their own programs."
+    },
+    {
+      "id": "infrastructure",
+      "label": "Infrastructure for housing sites",
+      "summary": "Grants and loans to towns, counties and utilities for the public infrastructure a housing site needs: water and sewer lines, streets, sidewalks. The local government or utility applies, not the developer, and the money pays for public improvements, not the housing."
     }
   ],
   "stack": [
@@ -6847,6 +6852,977 @@
           "geography": "affordable housing in Boulder"
         }
       }
+    },
+    {
+      "id": "dola-eiaf",
+      "name": "Energy/Mineral Impact Assistance Fund (EIAF)",
+      "category": "infrastructure",
+      "administrator": "DOLA Division of Local Government",
+      "official_url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf",
+      "funding_type": [
+        "grant",
+        "loan"
+      ],
+      "status": "watch",
+      "what_it_funds": "Public facilities and services for local governments affected by energy and mineral development. For housing, it pays only for the public infrastructure tied to an affordable housing project, such as water and sewer mains, streets, sidewalks, curb and gutter, and the planning and engineering for them.",
+      "award_size": "Administrative planning grants up to $25,000 (total project cost up to $100,000). Tier I, II and III limits are announced with each notice of funding availability. Cycle 26-05 awarded $14,986,703 in total.",
+      "rate": "Grants carry no rate. Water and wastewater loans: the AA-rated ten-year municipal bond rate averaged over the previous six months, set on the day each cycle opens.",
+      "term": "Water and wastewater loans up to 20 years with annual payments.",
+      "ami_restriction": null,
+      "affordability_period": null,
+      "eligible_applicants": "Municipalities, counties, school districts, special districts, other political subdivisions, regional councils of governments and state agencies. Private businesses and nonprofits cannot apply, and a local government cannot pass the money through to them.",
+      "eligible_projects": "Publicly owned infrastructure in public rights-of-way or easements that is conveyed to a local government or utility on completion. Service line extensions count as housing construction and are not eligible.",
+      "application_cycle": "No cycle is announced. DOLA says future cycles depend on severance and federal mineral lease revenue; cycles have traditionally closed April 1, August 1 and December 1, and a Regional Manager makes a community eligible about a month before a closing date. Most grants need a dollar-for-dollar match. The latest awarded cycle is 26-05.",
+      "key_considerations": [
+        "A developer does not apply. The town or county applies, and the money pays for public improvements around the site, not the housing.",
+        "Talk with the DOLA Regional Manager before planning on a cycle; closing dates are set cycle by cycle.",
+        "Most grants need a dollar-for-dollar local match.",
+        "The infrastructure must be owned by the local government or housing authority, or carry a deed restriction."
+      ],
+      "fit": {
+        "role": "support",
+        "execution": [],
+        "project_types": [],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "role": "Private businesses and nonprofit organizations are not eligible applicants"
+        }
+      },
+      "sources": [
+        {
+          "label": "dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf",
+          "url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf"
+        },
+        {
+          "label": "dlg.colorado.gov/eiaf-application",
+          "url": "https://dlg.colorado.gov/eiaf-application"
+        },
+        {
+          "label": "dlg.colorado.gov/EIAF-funding-awards",
+          "url": "https://dlg.colorado.gov/EIAF-funding-awards"
+        },
+        {
+          "label": "dlg.colorado.gov/eiaf-discretionary-grant-loan-opportunities",
+          "url": "https://dlg.colorado.gov/eiaf-discretionary-grant-loan-opportunities"
+        },
+        {
+          "label": "dlg.colorado.gov/eiaf-grant-application-eligibility",
+          "url": "https://dlg.colorado.gov/eiaf-grant-application-eligibility"
+        },
+        {
+          "label": "dlg.colorado.gov/eiaf-appendix-a",
+          "url": "https://dlg.colorado.gov/eiaf-appendix-a"
+        },
+        {
+          "label": "dlg.colorado.gov/matching-dollar-requirements",
+          "url": "https://dlg.colorado.gov/matching-dollar-requirements"
+        }
+      ],
+      "evidence": [
+        {
+          "field": "status",
+          "quote": "Future cycles will be announced and are dependent on severance and federal mineral lease revenues.",
+          "url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf"
+        },
+        {
+          "field": "status",
+          "quote": "Traditionally, cycles close on April 1, August 1 and December 1 each calendar year and Regional Managers have the ability to make communities eligible to apply about one month prior to each closing date. Contact your Regional Manager for discretionary grant cycle closing dates as they are subject to change.",
+          "url": "https://dlg.colorado.gov/eiaf-application"
+        },
+        {
+          "field": "status",
+          "quote": "Tier I and Tier II Awards - Cycle 26-05",
+          "url": "https://dlg.colorado.gov/EIAF-funding-awards"
+        },
+        {
+          "field": "what_it_funds",
+          "quote": "The Energy/Mineral Impact Assistance Fund Grant (EIAF) program assists political subdivisions that are socially and/or economically impacted by the development, processing, or energy conversion of minerals and mineral fuels.",
+          "url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf"
+        },
+        {
+          "field": "what_it_funds",
+          "quote": "Eligible applications for Tier I grants may be used for the planning, construction and maintenance of public facilities and for the provision of public services.",
+          "url": "https://dlg.colorado.gov/eiaf-discretionary-grant-loan-opportunities"
+        },
+        {
+          "field": "award_size",
+          "quote": "1. Administrative Planning Grants (up to $25,000; 1:1 minimum match; total project cost not to exceed $100,000)",
+          "url": "https://dlg.colorado.gov/eiaf-discretionary-grant-loan-opportunities"
+        },
+        {
+          "field": "award_size",
+          "quote": "2. Tier I Grants (Application limit announced at notice of funding availability; 1:1 minimum match required)",
+          "url": "https://dlg.colorado.gov/eiaf-discretionary-grant-loan-opportunities"
+        },
+        {
+          "field": "award_size",
+          "quote": "3. Tier II Grants (Application limit announced at notice of funding availability; 1:1 minimum match required)",
+          "url": "https://dlg.colorado.gov/eiaf-discretionary-grant-loan-opportunities"
+        },
+        {
+          "field": "award_size",
+          "quote": "4. Tier III Grants (Application limit announced at notice of funding availability)",
+          "url": "https://dlg.colorado.gov/eiaf-discretionary-grant-loan-opportunities"
+        },
+        {
+          "field": "award_size",
+          "quote": "Total 26-05 Awards - $14,986,703",
+          "url": "https://dlg.colorado.gov/EIAF-funding-awards"
+        },
+        {
+          "field": "rate",
+          "quote": "The interest rate for loans is the AA-rated ten-year municipal bond rate that is averaged over the previous six months. The rate is set for each application cycle on the day the application opens.",
+          "url": "https://dlg.colorado.gov/eiaf-discretionary-grant-loan-opportunities"
+        },
+        {
+          "field": "term",
+          "quote": "DOLA supports efforts by local governments to renovate or construct public water and wastewater systems by providing loans for up to a 20-year term with annual payments.",
+          "url": "https://dlg.colorado.gov/eiaf-discretionary-grant-loan-opportunities"
+        },
+        {
+          "field": "eligible_applicants",
+          "quote": "Eligible entities to receive grants and loans include municipalities, counties, school districts, special districts and other political subdivisions and state agencies.",
+          "url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf"
+        },
+        {
+          "field": "eligible_applicants",
+          "quote": "Political subdivisions of the State of Colorado (local governments) and regional Councils of Governments are eligible to apply for grants or loans through this program.",
+          "url": "https://dlg.colorado.gov/eiaf-grant-application-eligibility"
+        },
+        {
+          "field": "eligible_applicants",
+          "quote": "Private businesses and nonprofit organizations are not eligible applicants. Local Governments may not act as a pass-through entity in order to provide funding to these entities.",
+          "url": "https://dlg.colorado.gov/eiaf-grant-application-eligibility"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "Improvements to treatment facilities may include water treatment plants, treated water storage facilities, water mains, distribution lines, pumps and appurtenances.",
+          "url": "https://dlg.colorado.gov/eiaf-discretionary-grant-loan-opportunities"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "For instance, water and sewer main lines, public roads, sidewalks, curb and gutter are eligible.",
+          "url": "https://dlg.colorado.gov/eiaf-appendix-a"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "Public infrastructure associated with affordable housing projects, including the planning and design engineering of those projects, are the only projects supported through this program.",
+          "url": "https://dlg.colorado.gov/eiaf-appendix-a"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "Public infrastructure associated with affordable housing projects funded must be owned by the local government or housing authority and/or have an appropriate deed restriction.",
+          "url": "https://dlg.colorado.gov/eiaf-appendix-a"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "Traditionally, cycles close on April 1, August 1 and December 1 each calendar year and Regional Managers have the ability to make communities eligible to apply about one month prior to each closing date.",
+          "url": "https://dlg.colorado.gov/eiaf-application"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "Most grant requests require dollar for dollar matching funds from applicants unless an extreme negative financial hardship in the community is demonstrated or another allowance is made by project or initiative type.",
+          "url": "https://dlg.colorado.gov/matching-dollar-requirements"
+        }
+      ],
+      "unverified": [
+        {
+          "field": "ami_restriction",
+          "reason": "The administrator's pages state no AMI limit; the program pays for public infrastructure, not income-restricted units. DOLA requires only that housing-related infrastructure be tied to affordable housing."
+        },
+        {
+          "field": "affordability_period",
+          "reason": "The administrator's pages state no affordability period; they ask for local government or housing authority ownership and/or \"an appropriate deed restriction\" with no term."
+        }
+      ],
+      "last_checked": "2026-10-15"
+    },
+    {
+      "id": "dola-strong-communities-infrastructure",
+      "name": "Strong Communities Infrastructure Grant Program",
+      "category": "infrastructure",
+      "administrator": "DOLA Division of Local Government",
+      "official_url": "https://dlg.colorado.gov/strong-communities-infrastructure-grant-program",
+      "funding_type": [
+        "grant"
+      ],
+      "status": "ended",
+      "what_it_funds": "Grants to local governments for the infrastructure behind infill affordable housing near a downtown, core business district or transit, or with on-site early childhood care.",
+      "award_size": "Suggested maximum $4 million, with most awards expected between $1,000,000 and $3,000,000. About $33,600,000 was available; DOLA reports over $35 million awarded to 16 communities.",
+      "rate": null,
+      "term": "All grant and matching funds had to be spent by September 30, 2026, with no extensions.",
+      "ami_restriction": "Up to 140% AMI for rental and for ownership in most areas; up to 160% AMI for homeownership in rural resort communities.",
+      "affordability_period": "A recorded covenant or deed restriction; typically thirty years, with longer periods scored as more competitive.",
+      "eligible_applicants": "Municipalities, counties and city/counties. Awards could not go directly to housing authorities or regional governments.",
+      "eligible_projects": "Streets, sidewalks, water, wastewater and drainage improvements, transit shelters and accessibility improvements serving the housing site. Housing construction is not eligible. A 20% local cash match was required.",
+      "application_cycle": "One round: letters of intent in August 2023, awards in April 2024. Closed to new applicants.",
+      "key_considerations": [
+        "Closed: funding is no longer available. It is listed so a practitioner who hears of it knows it has ended.",
+        "The model it set (local government applies, infrastructure only, 20% match) is the same one the Transit Oriented Communities grant uses."
+      ],
+      "fit": {
+        "role": "support",
+        "execution": [],
+        "project_types": [],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "role": "Housing construction is not eligible."
+        }
+      },
+      "sources": [
+        {
+          "label": "dlg.colorado.gov/strong-communities-infrastructure-grant-program",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-grant-program"
+        },
+        {
+          "label": "dlg.colorado.gov/strong-communities",
+          "url": "https://dlg.colorado.gov/strong-communities"
+        },
+        {
+          "label": "dlg.colorado.gov/strong-communities-infrastructure-guidelines",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-guidelines"
+        },
+        {
+          "label": "dlg.colorado.gov/strong-communities-infrastructure-faq",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-faq"
+        },
+        {
+          "label": "dlg.colorado.gov/strong-communities-infrastructure-grant-program-awards",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-grant-program-awards"
+        }
+      ],
+      "evidence": [
+        {
+          "field": "status",
+          "quote": "The Strong Communities Infrastructure Grant Program is closed to new applicants. Over $35 million has been awarded to 16 grantee communities, and projects are underway.",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-grant-program"
+        },
+        {
+          "field": "status",
+          "quote": "Funding is no longer available through the Strong Communities Program.",
+          "url": "https://dlg.colorado.gov/strong-communities"
+        },
+        {
+          "field": "status",
+          "quote": "To meet program close out deadlines, all grant and matching funds must be spent by September 30, 2026. No extensions can be granted.",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-guidelines"
+        },
+        {
+          "field": "what_it_funds",
+          "quote": "The Strong Communities Infrastructure Grant Program provides grants to local governments for infrastructure to develop community benefit-driven infill affordable housing that meets critical housing needs as identified by the local government.",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-grant-program"
+        },
+        {
+          "field": "award_size",
+          "quote": "Grant maximum: Suggested maximum award amount is $4 million; however, DOLA expects most awards to fall within the $1,000,000 to $3,000,000 range.",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-guidelines"
+        },
+        {
+          "field": "award_size",
+          "quote": "Available funding: Approximately $33,600,000 in funding is available for infrastructure awards.",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-guidelines"
+        },
+        {
+          "field": "ami_restriction",
+          "quote": "“Affordable housing” for this program is defined in statute as up to 140% AMI for ownership in most areas and up to 160% AMI for homeownership in rural resort communities. The AMI for rental properties is 140%.",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-guidelines"
+        },
+        {
+          "field": "term",
+          "quote": "To meet program close out deadlines, all grant and matching funds must be spent by September 30, 2026. No extensions can be granted.",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-guidelines"
+        },
+        {
+          "field": "affordability_period",
+          "quote": "A Use Covenant, Regulatory Agreement, or other deed restriction must be recorded to ensure long-term affordability of projects and units assisted with Strong Communities Grant Program funds. Typically affordability is protected for thirty years, but more competitive projects will extend the period of protection.",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-faq"
+        },
+        {
+          "field": "eligible_applicants",
+          "quote": "Eligible entities include municipalities, counties, and city/counties. Awards cannot be made directly to housing authorities or regional governments, but partnerships are encouraged where appropriate.",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-guidelines"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "Infrastructure for affordable or mixed-income developments (with affordable units) that supports the project site, such as streets, sidewalks, improvements to existing infrastructure (e.g., water, wastewater, drainage, etc.), bus/transit shelters, accessibility improvements for those with disabilities, and accessibility and age-friendly improvements and amenities.",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-guidelines"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "Housing construction is not eligible.",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-guidelines"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "Local match: A minimum of 20% local cash match of the total project cost is required.",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-guidelines"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "First funding round: Letters of intent (LOIs) from municipalities and counties will be due in August of 2023.",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-guidelines"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "Infrastructure Grant, Awarded April 2024",
+          "url": "https://dlg.colorado.gov/strong-communities-infrastructure-grant-program-awards"
+        }
+      ],
+      "unverified": [
+        {
+          "field": "rate",
+          "reason": "Grant program; the administrator publishes no interest rate because none applies."
+        }
+      ],
+      "last_checked": "2026-10-15"
+    },
+    {
+      "id": "dola-toci",
+      "name": "Transit Oriented Communities Infrastructure Grant (TOCI)",
+      "category": "infrastructure",
+      "administrator": "DOLA Division of Local Government",
+      "official_url": "https://dlg.colorado.gov/toci-grant-program",
+      "funding_type": [
+        "grant"
+      ],
+      "status": "watch",
+      "what_it_funds": "Infrastructure upgrades and support for regulated affordable housing in the Transit Centers and Neighborhood Centers of certified Transit-Oriented Communities.",
+      "award_size": "No suggested minimum or maximum. The pilot round awarded $13,327,830 in February 2026.",
+      "rate": null,
+      "term": null,
+      "ami_restriction": "Regulated affordable housing: units under a recorded use covenant or similar agreement, or income-restricted under a local inclusionary ordinance or other program. No AMI ceiling is stated.",
+      "affordability_period": null,
+      "eligible_applicants": "Municipalities, counties, cities and city-counties certified by DOLA as Transit Oriented Communities. A pre-application meeting with DOLA is required before the portal opens to the applicant.",
+      "eligible_projects": "On-site infrastructure for affordable housing in a Transit or Neighborhood Center, and public infrastructure in or primarily benefiting one. A housing component needs at least 15 dwelling units per acre. A 25% local match is required; administrative costs are not eligible.",
+      "application_cycle": "The pilot round ran October 27 to December 12, 2025. DOLA says a second round will be held in 2027, with an information session tentatively in fall 2026, and that more funding is not guaranteed.",
+      "key_considerations": [
+        "Only a jurisdiction DOLA has certified as a Transit Oriented Community can apply.",
+        "The town or county applies; the grant pays for infrastructure, not the housing itself."
+      ],
+      "fit": {
+        "role": "support",
+        "execution": [],
+        "project_types": [],
+        "geography": {
+          "scope": "designated-areas"
+        },
+        "basis": {
+          "role": "Awards cannot cover administrative expenses",
+          "geography": "certified by DOLA as Transit Oriented Communities"
+        }
+      },
+      "sources": [
+        {
+          "label": "dlg.colorado.gov/toci-grant-program",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        },
+        {
+          "label": "docs.google.com/document/d/1NmIASlRckCkg5sSOziJPOcW_2zeb3H6FqdYVCHGM9cQ/export",
+          "url": "https://docs.google.com/document/d/1NmIASlRckCkg5sSOziJPOcW_2zeb3H6FqdYVCHGM9cQ/export?format=txt"
+        }
+      ],
+      "evidence": [
+        {
+          "field": "status",
+          "quote": "The pilot round of funding opened on October 27, 2025, and closed on December 12, 2025.",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        },
+        {
+          "field": "status",
+          "quote": "A second funding round will be scheduled for 2027.",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        },
+        {
+          "field": "status",
+          "quote": "Informational session for TOCI Round 2 tentatively scheduled for Fall 2026 (date/time tbd).",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        },
+        {
+          "field": "status",
+          "quote": "Additional funding for this program is not guaranteed.",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        },
+        {
+          "field": "what_it_funds",
+          "quote": "offers state assistance to local governments through the Transit Oriented Communities Infrastructure Grant Program (TOCI) for the purpose of upgrading infrastructure and supporting regulated affordable housing in Transit Centers and designated Neighborhood Centers within certified Transit-Oriented Communities.",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        },
+        {
+          "field": "award_size",
+          "quote": "There is no suggested minimum or maximum award for this work; however, there are limited grant funds available.",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        },
+        {
+          "field": "award_size",
+          "quote": "Pilot Round: $13,327,830 Awarded February 2026",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        },
+        {
+          "field": "ami_restriction",
+          "quote": "Regulated affordable housing refers to affordable units that, as a condition of funding, encumbers the property with a restricted use covenant or similar recorded agreement to ensure affordability, or has been income-restricted under a local inclusionary zoning ordinance or other regulation or program (C.R.S. § 29-35-103(16)).",
+          "url": "https://docs.google.com/document/d/1NmIASlRckCkg5sSOziJPOcW_2zeb3H6FqdYVCHGM9cQ/export?format=txt"
+        },
+        {
+          "field": "eligible_applicants",
+          "quote": "Eligible entities include municipalities, counties, cities, and city-counties certified by DOLA as Transit Oriented Communities.",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        },
+        {
+          "field": "eligible_applicants",
+          "quote": "Jurisdictions cannot access the application in the grants portal without this meeting.",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "On-site infrastructure for affordable housing, including regulated affordable housing, within a Transit Center or Neighborhood Center;",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "Public infrastructure projects that are within, or that primarily benefit, a Transit Center or Neighborhood Center;",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "A minimum of 25% local match of the total project cost is required.",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "Awards cannot cover administrative expenses (e.g., existing staff, operating, or indirect costs).",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "Applicants that include a housing component in their proposal should demonstrate a contextually appropriate and proportionate housing component, including no less than 15 dwelling units per acre, and based on the outlined local housing needs.",
+          "url": "https://docs.google.com/document/d/1NmIASlRckCkg5sSOziJPOcW_2zeb3H6FqdYVCHGM9cQ/export?format=txt"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "A second funding round will be held in 2027.",
+          "url": "https://dlg.colorado.gov/toci-grant-program"
+        }
+      ],
+      "unverified": [
+        {
+          "field": "rate",
+          "reason": "Grant program; the administrator publishes no interest rate because none applies."
+        },
+        {
+          "field": "term",
+          "reason": "The TOCI page and guidelines state no grant performance period."
+        },
+        {
+          "field": "affordability_period",
+          "reason": "The administrator's pages state no affordability period."
+        }
+      ],
+      "last_checked": "2026-10-15"
+    },
+    {
+      "id": "dola-cdbg-public-facilities",
+      "name": "CDBG Public Facilities (state non-entitlement program)",
+      "category": "infrastructure",
+      "administrator": "DOLA Division of Local Government",
+      "official_url": "https://dlg.colorado.gov/community-development-block-grant-cdbg",
+      "funding_type": [
+        "grant"
+      ],
+      "status": "annual",
+      "what_it_funds": "Public facilities and infrastructure in smaller communities, such as sewer and water systems, streetscapes, community centers, shelters and health clinics, that mainly benefit low- and moderate-income people. A separate design, engineering and environmental clearance (DEEC) grant prepares projects.",
+      "award_size": "Construction grants up to $600,000; DEEC grants up to $50,000.",
+      "rate": null,
+      "term": null,
+      "ami_restriction": "The project area, or its beneficiaries, must be at least 51% low income. No AMI percentage is stated.",
+      "affordability_period": null,
+      "eligible_applicants": "Cities, counties and other units of general local government in non-entitlement areas: cities under 50,000 people (except principal cities of metro areas) and counties under 200,000. They may apply on behalf of nonprofits.",
+      "eligible_projects": "Acquisition, construction, reconstruction, rehabilitation or installation of public improvements or facilities. Construction applications need a completed environmental review and construction-ready plans.",
+      "application_cycle": "Two windows a year. The 2026 DEEC round ran August 10 to September 15, 2026 and has closed; the next construction round is in late spring or early summer 2027.",
+      "key_considerations": [
+        "Housing itself is funded through the Division of Housing CDBG program, listed under DOLA Division of Housing; this program pays for the public facilities around it.",
+        "Construction applications score highest when the project can finish within one year with funding and match secured."
+      ],
+      "fit": {
+        "role": "support",
+        "execution": [],
+        "project_types": [],
+        "geography": {
+          "scope": "non-entitlement"
+        },
+        "basis": {
+          "role": "public improvements or public facilities",
+          "geography": "Non-entitlement areas are cities with populations of less than 50,000"
+        }
+      },
+      "sources": [
+        {
+          "label": "dlg.colorado.gov/community-development-block-grant-cdbg",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "label": "dlg.colorado.gov/cdbgpf-construction-grant-application-scoring-criteria",
+          "url": "https://dlg.colorado.gov/cdbgpf-construction-grant-application-scoring-criteria"
+        }
+      ],
+      "evidence": [
+        {
+          "field": "status",
+          "quote": "The CDBGPF-DEEC grant application will open August 10, 2026 and close on September 15, 2026.",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "status",
+          "quote": "The CDBGPF Construction application occurs in late spring/early summer 2027.",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "what_it_funds",
+          "quote": "The Division of Local Government (DLG) manages the CDBG Public Facilities program. Examples of projects include sewer and water systems, commercial streetscape improvements, community centers, food banks, shelters, health clinics, non-profit infrastructure, etc.",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "what_it_funds",
+          "quote": "The funds must be used for activities that either benefit primarily low to moderate income persons; assist in prevention or elimination of slums or blight; or meet an urgent need as defined by HUD.",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "award_size",
+          "quote": "The maximum grant award for the CDBGPF Construction program is $600,000.",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "award_size",
+          "quote": "The maximum grant award for the CDBGPF-DEEC program is $50,000.",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "ami_restriction",
+          "quote": "Have a project located in at least a 51% low income community OR the project beneficiaries must be at least 51% low income based on local data",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "eligible_applicants",
+          "quote": "Must be a Unit of General Local Government (City, County, or other municipality)",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "eligible_applicants",
+          "quote": "Non-entitlement areas are cities with populations of less than 50,000 (except cities that are designated principal cities of Metropolitan Statistical Areas), and counties with populations of less than 200,000.",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "eligible_applicants",
+          "quote": "Entities eligible to apply for grants are limited to units of local governments, including counties. These entities may apply on behalf of nonprofits.",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "Eligible activities include acquisition, construction, reconstruction, rehabilitation or installation of public improvements or public facilities.",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "All CDBGPF Construction applications must have a completed environmental review as well as construction ready design and engineering plans.",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "key_considerations",
+          "quote": "For information about funding housing activities with CDBG, please visit the Division of Housing CDBG Program.",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "The CDBGPF-DEEC grant application will open August 10, 2026 and close on September 15, 2026.",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "The CDBGPF Construction application occurs in late spring/early summer 2027.",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "High Score - The project will be completed within one year; funding is secured; local match present; all planning documents are fully completed; applicant can fund the operating expense once construction is completed.",
+          "url": "https://dlg.colorado.gov/cdbgpf-construction-grant-application-scoring-criteria"
+        }
+      ],
+      "unverified": [
+        {
+          "field": "rate",
+          "reason": "Grant program; the administrator publishes no interest rate because none applies."
+        },
+        {
+          "field": "term",
+          "reason": "The program page states no grant term; scoring favors completion within one year."
+        },
+        {
+          "field": "affordability_period",
+          "reason": "The administrator's pages state no affordability period. Housing CDBG is handled by the Division of Housing."
+        }
+      ],
+      "last_checked": "2026-10-15"
+    },
+    {
+      "id": "co-dwrf",
+      "name": "Drinking Water Revolving Fund (DWRF)",
+      "category": "infrastructure",
+      "administrator": "Colorado Water Resources and Power Development Authority, with CDPHE and DOLA",
+      "official_url": "https://www.cwrpda.com/drinking-water-revolving-fund",
+      "funding_type": [
+        "loan",
+        "grant"
+      ],
+      "status": "rolling",
+      "what_it_funds": "Low-interest loans, planning grants and some principal forgiveness for the design and construction of drinking water systems.",
+      "award_size": "Loan limit of $30 million per entity. Upfront principal forgiveness up to $1 million if eligible. Planning grants up to $10,000.",
+      "rate": "For 2025, direct loans under $3,000,000 at 3.25% for 20 years or 3.50% for up to 30 years, lower for disadvantaged communities. Loans over $3,000,000 are leveraged at 85% of market rates. The board usually sets rates by December 31 for the next year.",
+      "term": "Up to 30 years or the project's useful life, whichever is less.",
+      "ami_restriction": null,
+      "affordability_period": null,
+      "eligible_applicants": "Government agencies and private nonprofit public water systems.",
+      "eligible_projects": "Projects identified in the annual eligibility survey of the 20-year capital needs of Colorado water, sewer and stormwater systems.",
+      "application_cycle": "Get on the eligibility list through the annual survey (the 2028 survey opens May 1, 2027), then apply at one of seven deadlines: January 5, February 5, April 5, June 5, August 5, October 5 and November 5. Projects above $3 million have two deadlines, January 5 and June 5.",
+      "key_considerations": [
+        "A project must be on the eligibility list before it can apply; the 2027 survey is closed and the 2028 survey opens May 1, 2027.",
+        "The utility or district applies, not the developer. It matters to housing where a new site needs water or sewer capacity the system has to finance.",
+        "The administrator says loans are extremely competitive and may be prioritized after cuts to the federal capitalization grant."
+      ],
+      "fit": {
+        "role": "support",
+        "execution": [],
+        "project_types": [],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "role": "Entities seeking funding for their water and sewer projects must be included on the applicable list prior to applying for funding."
+        }
+      },
+      "sources": [
+        {
+          "label": "www.cwrpda.com/drinking-water-revolving-fund",
+          "url": "https://www.cwrpda.com/drinking-water-revolving-fund"
+        },
+        {
+          "label": "cdphe.colorado.gov/state-revolving-fund-information",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "label": "www.cwrpda.com/state-revolving-fund",
+          "url": "https://www.cwrpda.com/state-revolving-fund"
+        },
+        {
+          "label": "www.cwrpda.com/loan-caps-and-maxes",
+          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+        },
+        {
+          "label": "drive.google.com/uc",
+          "url": "https://drive.google.com/uc?export=download&id=1MyS_mb-fqJxC0kp6K76UhN2taTnReiIb"
+        },
+        {
+          "label": "www.cwrpda.com/loan-application-deadlines",
+          "url": "https://www.cwrpda.com/loan-application-deadlines"
+        }
+      ],
+      "evidence": [
+        {
+          "field": "status",
+          "quote": "The 2027 eligibility survey is closed.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "status",
+          "quote": "The 2028 eligibility survey will open on May 1, 2027.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "status",
+          "quote": "Due to increased demand as well as reductions in the DWRF Capitalization Grant due to Congressional Directed Spending (CDS) funding DWRF loans are extremely competitive and may be subject to prioritization.",
+          "url": "https://www.cwrpda.com/drinking-water-revolving-fund"
+        },
+        {
+          "field": "what_it_funds",
+          "quote": "The Drinking Water Revolving Fund (DWRF) helps finance safe drinking water projects in Colorado with loans and grants.",
+          "url": "https://www.cwrpda.com/state-revolving-fund"
+        },
+        {
+          "field": "what_it_funds",
+          "quote": "The State Revolving Fund finances the design and construction of Colorado water, wastewater, and stormwater infrastructure.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "award_size",
+          "quote": "Loan limit of $30 million per entity",
+          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+        },
+        {
+          "field": "award_size",
+          "quote": "Upfront PF of up to $1 million if eligible.",
+          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+        },
+        {
+          "field": "award_size",
+          "quote": "There is currently a $30 million dollar cap on funding through the DWRF program.",
+          "url": "https://www.cwrpda.com/drinking-water-revolving-fund"
+        },
+        {
+          "field": "award_size",
+          "quote": "Planning grants can assist with costs up to $10,000 associated with the project needs assessment and/or environmental assessment development.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "rate",
+          "quote": "For 2025, the Authority Board of Directors is offering loans of less than $3,000,000 as direct loans, at an interest rate of 3.25% for 20 years and 3.50% for up to 30 years, or less if your community qualifies as disadvantaged.",
+          "url": "https://www.cwrpda.com/drinking-water-revolving-fund"
+        },
+        {
+          "field": "rate",
+          "quote": "Loans over $3,000,000 are leveraged loans, which will require the issuance of municipal bonds and will have subsidized interest rates at 85% of the market rates.",
+          "url": "https://www.cwrpda.com/drinking-water-revolving-fund"
+        },
+        {
+          "field": "rate",
+          "quote": "*The authority board typically determines interest rates on or before December 31 each year for the upcoming calendar year; however, rates are subject to change throughout the year.",
+          "url": "https://drive.google.com/uc?export=download&id=1MyS_mb-fqJxC0kp6K76UhN2taTnReiIb"
+        },
+        {
+          "field": "term",
+          "quote": "In accordance with federal statutes, states are authorized to provide loans at or below-market interest rates, including interest-free loans, at terms not to exceed the lesser of the following: 30 years or the project useful life (as determined by the state).",
+          "url": "https://drive.google.com/uc?export=download&id=1MyS_mb-fqJxC0kp6K76UhN2taTnReiIb"
+        },
+        {
+          "field": "eligible_applicants",
+          "quote": "Colorado’s Drinking Water Revolving Fund (DWRF) provides financial assistance to government agencies and private, non-profit public water systems.",
+          "url": "https://drive.google.com/uc?export=download&id=1MyS_mb-fqJxC0kp6K76UhN2taTnReiIb"
+        },
+        {
+          "field": "eligible_applicants",
+          "quote": "Proceeds of the bonds are used for loans to governmental agencies for infrastructure development.",
+          "url": "https://www.cwrpda.com/state-revolving-fund"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "The eligibility survey is used to identify the 20-year capital improvement needs of all publicly owned water and sewer systems, private nonprofit water systems, publicly owned stormwater systems, and non-point source projects throughout Colorado.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "The 2027 eligibility survey is closed.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "The 2028 eligibility survey will open on May 1, 2027.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "Entities seeking funding for their water and sewer projects must be included on the applicable list prior to applying for funding.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "Application deadlines are: Jan. 5, Feb. 5, April 5, June 5, Aug. 5, Oct. 5 and Nov. 5.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "Projects above $3 million currently have two loan application deadlines, January 5th and June 5th",
+          "url": "https://www.cwrpda.com/loan-application-deadlines"
+        }
+      ],
+      "unverified": [
+        {
+          "field": "ami_restriction",
+          "reason": "The administrator's pages state no AMI limit; the program pays for public infrastructure, not income-restricted units."
+        },
+        {
+          "field": "affordability_period",
+          "reason": "The administrator's pages state no affordability period."
+        }
+      ],
+      "last_checked": "2026-10-15"
+    },
+    {
+      "id": "co-wpcrf",
+      "name": "Water Pollution Control Revolving Fund (WPCRF)",
+      "category": "infrastructure",
+      "administrator": "Colorado Water Resources and Power Development Authority, with CDPHE and DOLA",
+      "official_url": "https://www.cwrpda.com/water-pollution-control-revolving-fund-wpcrf",
+      "funding_type": [
+        "loan",
+        "grant"
+      ],
+      "status": "rolling",
+      "what_it_funds": "Low-interest loans and planning grants for wastewater, stormwater, nonpoint-source and source water projects.",
+      "award_size": "Loan limit of $25 million per entity on the loan-caps page; the WPCRF page says the current cap is $18 million. Upfront principal forgiveness up to $500,000 if eligible. Planning grants up to $10,000.",
+      "rate": "For 2025, direct loans under $3,000,000 at 3.25% for 20 years or 3.50% for up to 30 years, lower for disadvantaged communities. Loans over $3,000,000 are leveraged at 85% of market rates. The board usually sets rates by December 31 for the next year. Reduced green project rates apply only to the first $3 million of a green project loan.",
+      "term": "Up to 30 years or the project's useful life, whichever is less.",
+      "ami_restriction": null,
+      "affordability_period": null,
+      "eligible_applicants": "Governmental agencies only; private nonprofit systems cannot receive WPCRF funding.",
+      "eligible_projects": "Projects identified in the annual eligibility survey of the 20-year capital needs of Colorado water, sewer and stormwater systems.",
+      "application_cycle": "Get on the eligibility list through the annual survey (the 2028 survey opens May 1, 2027), then apply at one of seven deadlines: January 5, February 5, April 5, June 5, August 5, October 5 and November 5. Projects above $3 million have two deadlines, January 5 and June 5.",
+      "key_considerations": [
+        "A project must be on the eligibility list before it can apply; the 2027 survey is closed and the 2028 survey opens May 1, 2027.",
+        "The utility or district applies, not the developer. It matters to housing where a new site needs water or sewer capacity the system has to finance.",
+        "The administrator says loans are extremely competitive and may be prioritized after cuts to the federal capitalization grant.",
+        "The two pages disagree on the cap ($25 million vs $18 million); confirm with the Authority."
+      ],
+      "fit": {
+        "role": "support",
+        "execution": [],
+        "project_types": [],
+        "geography": {
+          "scope": "statewide"
+        },
+        "basis": {
+          "role": "Entities seeking funding for their water and sewer projects must be included on the applicable list prior to applying for funding."
+        }
+      },
+      "sources": [
+        {
+          "label": "www.cwrpda.com/water-pollution-control-revolving-fund-wpcrf",
+          "url": "https://www.cwrpda.com/water-pollution-control-revolving-fund-wpcrf"
+        },
+        {
+          "label": "cdphe.colorado.gov/state-revolving-fund-information",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "label": "www.cwrpda.com/state-revolving-fund",
+          "url": "https://www.cwrpda.com/state-revolving-fund"
+        },
+        {
+          "label": "drive.google.com/uc",
+          "url": "https://drive.google.com/uc?export=download&id=1Ct-WGr84rNjqYKaxw9u6yIbp76Bye3oM"
+        },
+        {
+          "label": "www.cwrpda.com/loan-caps-and-maxes",
+          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+        },
+        {
+          "label": "www.cwrpda.com/loan-application-deadlines",
+          "url": "https://www.cwrpda.com/loan-application-deadlines"
+        }
+      ],
+      "evidence": [
+        {
+          "field": "status",
+          "quote": "The 2027 eligibility survey is closed.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "status",
+          "quote": "The 2028 eligibility survey will open on May 1, 2027.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "status",
+          "quote": "Due to increased demand as well as reductions in the WPCRF Capitalization Grant due to Congressionally Directed Spending (CDS) funding WPCRF loans are extremely competitive and may be subject to prioritization.",
+          "url": "https://www.cwrpda.com/water-pollution-control-revolving-fund-wpcrf"
+        },
+        {
+          "field": "what_it_funds",
+          "quote": "The Water Pollution Control Revolving Fund (WPCRF) helps finance clean water and wastewater projects with loans and grants.",
+          "url": "https://www.cwrpda.com/state-revolving-fund"
+        },
+        {
+          "field": "what_it_funds",
+          "quote": "The list is intended to capture the 20-year capital improvement needs for anticipated eligible water quality projects including wastewater point source, nonpoint source, stormwater, and source water assessment projects.",
+          "url": "https://drive.google.com/uc?export=download&id=1Ct-WGr84rNjqYKaxw9u6yIbp76Bye3oM"
+        },
+        {
+          "field": "award_size",
+          "quote": "Loan limit of $25 million per entity",
+          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+        },
+        {
+          "field": "award_size",
+          "quote": "Upfront PF of up to $500,000 if eligible.",
+          "url": "https://www.cwrpda.com/loan-caps-and-maxes"
+        },
+        {
+          "field": "award_size",
+          "quote": "There is currently a $18 million dollar cap on funding through the WPCRF program.",
+          "url": "https://www.cwrpda.com/water-pollution-control-revolving-fund-wpcrf"
+        },
+        {
+          "field": "award_size",
+          "quote": "Planning grants can assist with costs up to $10,000 associated with the project needs assessment and/or environmental assessment development.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "rate",
+          "quote": "For 2025, the Authority Board of Directors is offering loans of less than $3,000,000 as direct loans, at an interest rate of 3.25% for 20 years and 3.50% for up to 30 years, or less if your community qualifies as disadvantaged.",
+          "url": "https://www.cwrpda.com/water-pollution-control-revolving-fund-wpcrf"
+        },
+        {
+          "field": "rate",
+          "quote": "Reduced interest rates are only for the first $3 million of your WPCRF GPR loan.",
+          "url": "https://www.cwrpda.com/water-pollution-control-revolving-fund-wpcrf"
+        },
+        {
+          "field": "term",
+          "quote": "In accordance with federal statutes, states are authorized to provide loans at or below-market interest rates, including interest-free loans, at terms not to exceed the lesser of the following: 30 years or the project useful life (as determined by the state).",
+          "url": "https://drive.google.com/uc?export=download&id=1Ct-WGr84rNjqYKaxw9u6yIbp76Bye3oM"
+        },
+        {
+          "field": "eligible_applicants",
+          "quote": "Colorado’s Water Pollution Control Revolving Fund (WPCRF) provides financial assistance to governmental agencies to construct wastewater projects that improve public and environmental health.",
+          "url": "https://drive.google.com/uc?export=download&id=1Ct-WGr84rNjqYKaxw9u6yIbp76Bye3oM"
+        },
+        {
+          "field": "eligible_applicants",
+          "quote": "Private, non-profit public water systems seeking Water Pollution Control Revolving Fund (WPCRF) assistance are ineligible to receive funding through the State Revolving Fund.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "eligible_projects",
+          "quote": "The eligibility survey is used to identify the 20-year capital improvement needs of all publicly owned water and sewer systems, private nonprofit water systems, publicly owned stormwater systems, and non-point source projects throughout Colorado.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "The 2027 eligibility survey is closed.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "The 2028 eligibility survey will open on May 1, 2027.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "Entities seeking funding for their water and sewer projects must be included on the applicable list prior to applying for funding.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "Application deadlines are: Jan. 5, Feb. 5, April 5, June 5, Aug. 5, Oct. 5 and Nov. 5.",
+          "url": "https://cdphe.colorado.gov/state-revolving-fund-information"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "Projects above $3 million currently have two loan application deadlines, January 5th and June 5th",
+          "url": "https://www.cwrpda.com/loan-application-deadlines"
+        }
+      ],
+      "unverified": [
+        {
+          "field": "ami_restriction",
+          "reason": "The administrator's pages state no AMI limit; the program pays for public infrastructure, not income-restricted units."
+        },
+        {
+          "field": "affordability_period",
+          "reason": "The administrator's pages state no affordability period."
+        }
+      ],
+      "last_checked": "2026-10-15"
     }
   ]
 }
