@@ -163,5 +163,18 @@ test('the usability pass covers every step in the step bar', () => {
   assert.deepEqual(missing, [], `step pages not measured: ${missing.join(', ')}`);
 });
 
+test('every measured page names content that must render', () => {
+  // A page left in its static loading state ("Loading geographies…") is light,
+  // has one <h1> and would pass every other limit. Agreement with UX_PAGES,
+  // not a pinned list: a page added to the scan must say what "loaded" means.
+  const src = read('scripts/audit/ux-pass.mjs');
+  const listed = [...src.slice(src.indexOf('UX_PAGES = ['), src.indexOf('];', src.indexOf('UX_PAGES = [')))
+    .matchAll(/'([\w-]+\.html)'/g)].map((m) => m[1]);
+  assert.ok(listed.length >= 7, `found only ${listed.length} pages in UX_PAGES`);
+  const u = JSON.parse(read('scripts/audit/ux-budget.json'));
+  const without = listed.filter((p) => !(u.pages[p] && u.pages[p].ready && u.pages[p].ready.selector));
+  assert.deepEqual(without, [], `pages with no ready check: ${without.join(', ')}`);
+});
+
 if (failures) { console.log(`audit-budgets: FAIL (${failures})`); process.exit(1); }
 console.log('audit-budgets: PASS');

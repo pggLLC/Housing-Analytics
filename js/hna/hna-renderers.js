@@ -2574,7 +2574,7 @@
     const LIHTC_PANEL_MAX_ROWS = 200;
     const _moreRows = _restRows.slice(0, Math.max(0, LIHTC_PANEL_MAX_ROWS - LIHTC_PANEL_FIRST_ROWS));
     const _capNoteHtml = _allRows.length > LIHTC_PANEL_MAX_ROWS
-      ? `<p class="lihtc-cap-note" style="margin:.25rem 0 .75rem;color:var(--muted)">` +
+      ? `<p class="lihtc-cap-note" role="status" tabindex="-1" style="margin:.25rem 0 .75rem;color:var(--muted)">` +
           `The list stops at ${LIHTC_PANEL_MAX_ROWS} of ${totalInView}. Zoom the map in or choose a place to see the others.</p>`
       : '';
     const _moreLabel = function (shownNow) {
@@ -2602,8 +2602,17 @@
         if (added < _moreRows.length) {
           showMoreBtn.textContent = _moreLabel(_firstShown + added);
         } else {
+          // The pressed button goes away, so focus moves to the note that
+          // replaces it; otherwise a keyboard or screen-reader user is left
+          // nowhere and never hears that the list stopped.
           const holder = showMoreBtn.parentNode;
-          if (holder) holder.outerHTML = _capNoteHtml;
+          if (holder) {
+            holder.outerHTML = _capNoteHtml ||
+              `<p class="lihtc-cap-note" role="status" tabindex="-1" style="margin:.25rem 0 .75rem;color:var(--muted)">` +
+              `All ${totalInView} shown.</p>`;
+            const note = panelEl.querySelector('.lihtc-cap-note');
+            if (note) note.focus();
+          }
         }
       });
     }
